@@ -1,249 +1,281 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.71])
- by mx.groups.io with SMTP id smtpd.web11.1228.1591997315741119614
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+ by mx.groups.io with SMTP id smtpd.web10.1346.1591997879217628935
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 14:28:36 -0700
+ Fri, 12 Jun 2020 14:37:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=V3UH7545;
- spf=pass (domain: xevo.com, ip: 40.107.237.71, mailfrom: rrowe@xevo.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KLHeY99xRchUVORcstQZbGD6+0NlmlS+bzDr6y20fqcdmkL7Ky6DSqk0OS4ukSr5s0JsR2rW0BL2+dZf7vh8dy0tjxrvEvUIk4U2gJqOwKXKwwIomufziJM1LCpS868Xxx48fPVAjURnbw5EWZlNIQW37MZPHo7y/Wf/q2fStC970ORrrG3k98KGAZt5kcD+8FHuudwa26np/Gt2ZELJoqY7lgv3aKetTurJe0DeowE2u8/InncHyhdG3ioT4hedO0L/CZnMX6bRRH/Pj0J6SeZKDAmgsfmMCADVSOzfQRrp3u+XHlZCG51yEBuiuTUVMzuY53nSfubratGRQteaMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3RCgLgcvomq7nZoQfCuTePAZ55zfqMz0YPNMhwdv4wk=;
- b=RGoDIe6tNdY9kiCVogx28OVudZgIqmIbvPYk6AtnQuPye395hwH8N8seW2pTObVKVlnomo07qyOF7lKgUENBcrfqLDkTODEdYdm+yTZD1KpHPkVR92eRqIupx9P0/UwIY59MgsE0NoHRad3KQpZwpEo+kFm3nPsMhjFWE7XfSy+5NZFX02V6w2XiahdqzQs+Ju4Gpaih4PskiRWaQuqPaFqoleBda9BoyvMYL7U+q9VDFkVGyxPyITbCwdR02MZ7IOceZwfJpHP+21/52x/c3zlpsCsgVB6Oq2Pbzi4W+49CqMKpZLdOKrGcK29Uv23gyPAYYB6kIa5odbWQtO2JIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
- dkim=pass header.d=xevo.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PSVETXQJ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f48.google.com with SMTP id t26so3692631ual.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3RCgLgcvomq7nZoQfCuTePAZ55zfqMz0YPNMhwdv4wk=;
- b=V3UH7545ewsGge9gALh40dw9+sTHRjfWT9x5pVrC/1uhq/UBGkZDFRxrCs6lSkf3y6MplSUivwc1TRlw94XA54VJnkxC4cTlaWEUnruaYGnaZ4jpBFXSuUovFTFd6detS4N/I/GSiZJuD5QGKN8kB10mkPfCsgtEXfrn9PwI9NY=
-Received: from MW3PR18MB3659.namprd18.prod.outlook.com (2603:10b6:303:53::19)
- by MWHPR1801MB2062.namprd18.prod.outlook.com (2603:10b6:301:67::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.24; Fri, 12 Jun
- 2020 21:28:32 +0000
-Received: from MW3PR18MB3659.namprd18.prod.outlook.com
- ([fe80::3d7f:edb8:f540:5050]) by MW3PR18MB3659.namprd18.prod.outlook.com
- ([fe80::3d7f:edb8:f540:5050%6]) with mapi id 15.20.3088.022; Fri, 12 Jun 2020
- 21:28:32 +0000
-From: "Ryan Rowe" <rrowe@xevo.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, Martin Kelly
-	<mkelly@xevo.com>, Jim Broadus <jbroadus@xevo.com>
-Subject: python3 recipe PGO tests
-Thread-Topic: python3 recipe PGO tests
-Thread-Index: AQHWQQBr9DBCM++iU0S7IAPhJcbp6Q==
-Date: Fri, 12 Jun 2020 21:28:31 +0000
-Message-ID: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=xevo.com;
-x-originating-ip: [73.83.210.194]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ea59d5d0-55fa-40a5-725e-08d80f178e68
-x-ms-traffictypediagnostic: MWHPR1801MB2062:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <MWHPR1801MB206271E9F9FA4FE4EAE42B6FCC810@MWHPR1801MB2062.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0432A04947
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- U/jJVK/yMZFZC8eUCmFHbmtYZXHAkrvDL3CnQkb4kInAvbmlUe6GPk7xR10vH1zhlVqhnkk6gUciXMBLRo5J91ajeWjABJ3bTrFa6D5iVHuBTMUkL3tZrP92FM3NAN19HYlQ0cuNtyJSt2xjWyn3xjV/zElfv61wY187LRMwWZZrCqwcqavxnSQ+xdHsuO9/s0LdX6pH/6TVZ0PVtJjV5hs9HZktnCS1K2G7Czeq8yb9gbDdlAVwGJVW57EpMNCKNRenVSwpNwgCobgNUpkD5HzmiKFMl52qCflpn4GegdoCzmXtyZAAeuWpzjm03dc9EhWugt/khHBpz73tinqBkqHrkr/hHgtk4vgTIsyKrdrBJiMgaPiGQe5+GbdYbMMisokA9u0Z+jBhbHY2oefvBA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR18MB3659.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39840400004)(396003)(136003)(366004)(346002)(376002)(71200400001)(66476007)(66446008)(66556008)(64756008)(36756003)(186003)(5660300002)(6512007)(83380400001)(316002)(6486002)(54906003)(2906002)(8936002)(166002)(107886003)(66946007)(6916009)(9326002)(86362001)(2616005)(33656002)(478600001)(4326008)(6506007)(76116006)(26005)(8676002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- WLLCFZKSfZVYqknugBbWCpY2LlmACTQfVV6mOcPcAY45HKXzcS2mxabGCrcSsTvWypHgZvdkEGK9o1tYTxvUee7vLglyWSkSjhLzVPJ3AKqMLJAUVMM957TGcNDn8yvQHxhXQMvasNjj2TfTdcVMvmbD1a+pycBmt0hljdRMknZZ3kdzsTC55u2WWopKx5at6Iux8Xpkbirov1z79B706FdZ9RNqlhGcGUiLQOhrIe0Ig+PVejSPhonQCdI1zy7WJ0+TKonfVP1YBQ3IH058EtBYpTCGSo89y2rauJ+GVb8OWAxRxyc1gKmm1dPkbgZxkgF1EZStjIoga8TgtMfm+ugogC8IVXx1rc+5h6x/Ezk4MymqlZkip9YZrzAX5taotgR+UJ1Ytivz/xQdrH07a7IOiWUWS6G0S7AQn3k9GfmeSTnu00DhTMrNjJCTxfbMO8EE/PozsXamGGTv92ZVKyt+5Y5Q8Mx9228ZEIzi/sM=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jIGeL98mRbIJkHxhw5E1vbQRYpfiEA4EXrqG9plA4nc=;
+        b=PSVETXQJsvF/9tQ5jw8ddyAQgZ71xLexbkLC7mkW4ueFE9iFCKP0cNti1862M7e2LG
+         nkTLB+RfMMw/aPB3c9AtpzgVetDoKoZJLpOziLaui9JyS7LIzLKp2fQ0Prvq6U44uVeT
+         hm4UgAI+5zWdcIiT4fyn/IROAQk/FJZcLC0TeGwdzVDsQ9ZURbF/bIUQKFUHj1HyznWe
+         9nsbD7/dZVD28ZaxWzHi35FqvjnyLLXm/XB0oBVms6rCzAoH1pwLycMTyuQiU4YYTa5n
+         jc6ks9xVjrxGrWIdRhvHneixiczkWDcXmAh98vZc09lGEAVzh4NrAsoN9JpuUxX53sMh
+         kMzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jIGeL98mRbIJkHxhw5E1vbQRYpfiEA4EXrqG9plA4nc=;
+        b=axTNST1l1GDQxem8QidrGfr/89racPdX/kl1TPFmaZZ1gvi/g40R9NEs4WD/aTfAl/
+         wwYnv3unnSWqA5NodpIQNMBjT+2+pR6Te2caKtN/4tAftMWpiKIC2V4Ckbni1B0oZw3X
+         tI3stKZHY3y5vBy5BndLX+Ro9DibY/87dfDTNRN3Uw0Oou35cBKkANge6ifiN9FU3kZj
+         WOBtS9d3GH8xVbdC9t0bTTBGOHiFFPzM/E+G1txgu4LMGXj7bCnoQmClzlsRjbzCRWUA
+         9bkXvz/TXYOCkPnaF/X0YGynRNppdOxwx8DrK2+xZ8M4EOATaYBt8OY1UHBSU0biDv9J
+         2M+g==
+X-Gm-Message-State: AOAM531LepqiGgZTZ28SAonDAh3AsXvAvnylwTW9RKWIO3pm7jzLgeQt
+	In1K6IiGNiYiLUtVjjMqfvzV+zYUKNvKOiobrgs=
+X-Google-Smtp-Source: ABdhPJyOfib9khLOHoRa1b9k5upIPeivZG3SGfnIMyq4CfGB3Td2qnoDw9rbJ7n2Wa6V3kABSZqRlrAkmxULAY6th9k=
+X-Received: by 2002:ab0:168c:: with SMTP id e12mr11843661uaf.89.1591997878164;
+ Fri, 12 Jun 2020 14:37:58 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea59d5d0-55fa-40a5-725e-08d80f178e68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2020 21:28:31.9037
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PyBxyy/+CS9ypGQLRwLf/B7q8PbRT6Pz2Jxi5J5plc8HQemXXhDsFjSD+e1CILEB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1801MB2062
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_D7692CC334E341FEBBE54D5B09947C92xevocom_"
+References: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com>
+In-Reply-To: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 12 Jun 2020 23:37:46 +0200
+Message-ID: <CANNYZj9AGMx2LLbf4nm7JTvkwi6CV4Bwu9w73xhivF-q6BBZ3g@mail.gmail.com>
+Subject: Re: python3 recipe PGO tests
+To: Ryan Rowe <rrowe@xevo.com>, Anuj Mittal <anuj.mittal@intel.com>, 
+	Ross Burton <ross@burtonini.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Martin Kelly <mkelly@xevo.com>, Jim Broadus <jbroadus@xevo.com>
+Content-Type: multipart/alternative; boundary="00000000000002e67f05a7e9e4c8"
 
---_000_D7692CC334E341FEBBE54D5B09947C92xevocom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--00000000000002e67f05a7e9e4c8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGVsbG8gQWxleCwNCg0KSeKAmW0gaW52ZXN0aWdhdGluZyBQeXRob24gMyBwZXJmb3JtYW5jZSBp
-c3N1ZXMgb24gYSBSYXNwYmVycnkgUGkgWW9jdG8gYnVpbGQ7IEkgYXBwcmVjaWF0ZSBhbnkgaW5z
-aWdodHMgeW91IGNhbiBwcm92aWRlIGludG8gdGhlIHByb2JsZW0uDQoNCkluIG15IGludmVzdGln
-YXRpb24sIEkgbm90aWNlZCB0aGF0IFBHTyB3YXMgZGlzYWJsZWQgaW4gYWxsIGNhc2VzIGR1ZSB0
-byBhIHNtYWxsIGJ1Zy4gSSBmaXhlZCBpdCBpbiBhIHBhdGNoIHN1Ym1pdHRlZCB0byBPRS1Db3Jl
-ICgjMTM5NDU5PGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1j
-b3JlL21lc3NhZ2UvMTM5NDU5PikuIEV2ZW4gd2hlbiBQR08gaXMgaW5kZWVkIGVuYWJsZWQsIFB5
-dGhvbiAzIHJ1bnMgc2lnbmlmaWNhbnRseSBzbG93ZXIgb24gWW9jdG8tY29tcGlsZWQgUHl0aG9u
-IDMuOC4zIHRoYW4gdGhlIHNhbWUgdmVyc2lvbiBjb21waWxlZCBvbiBSYXNwYmlhbi4NCg0KSW4g
-eW91ciBwYXRjaCwgMDAwMS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtd3JhcHBlci13aGVuLWdhdGhl
-cmluZy1wcm9maWxlLnBhdGNoPGh0dHA6Ly9jZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVk
-ZGVkLWNvcmUvdHJlZS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1N
-YWtlZmlsZS5wcmUtdXNlLXFlbXUtd3JhcHBlci13aGVuLWdhdGhlcmluZy1wcm9maWxlLnBhdGNo
-PiwgSSBzZWUgdGhhdCB5b3Ugb3ZlcnJpZGUgdGhlIGRlZmF1bHQgUFJPRklMRV9UQVNLLCB3aGlj
-aCBkaWQgbm90IGV4cGxpY2l0bHkgc3BlY2lmeSB0ZXN0IHN1aXRlcywgdG8gYSBjb21tYW5kIHRo
-YXQgZXhwbGljaXRseSBwcm92aWRlcyB0ZXN0IHN1aXRlcy4gSG93IGRpZCB5b3UgZGVjaWRlIG9u
-IHRoZXNlIHRlc3RzPyBUaGUgc3RhbmRhcmQgUEdPIGNvbW1hbmQgcnVucyA0MyB0ZXN0cywgd2hp
-bGUgeW91IHNwZWNpZnkgNy4gV2hlbiBJIGNvbXBpbGUgUHl0aG9uIDMuOC4zIG9uIFJhc3BiaWFu
-LCBJIHNlZSBubyBpbnRlcnNlY3Rpb24gYmV0d2VlbiB0aGUgNDMgdGVzdHMgcnVuIGJ5IGRlZmF1
-bHQgYW5kIHRoZSA3IHlvdSBzcGVjaWZ5LiBBZGRpdGlvbmFsbHksIHRoZSBkZWZhdWx0IG1vZHVs
-ZSBmb3IgUFJPRklMRSBpcyB0ZXN0IHdoaWxlIHlvdSB1c2UgdGVzdC5yZWdydGVzdC4NCg0KRm9y
-IHJlZmVyZW5jZSwgaGVyZeKAmXMgdGhlIHJlc3VsdHMgb2YgYSBzaW1wbGUgQ1BVLWJvdW5kIHRl
-c3QuIFRoZXNlIHRlc3RzIHdlcmUgcnVuIG9uIHRoZSBzYW1lIFJhc3BiZXJyeSBQaSA0IHdpdGgg
-c2FtZSBTRCBjYXJkLg0KDQpweXRob24zIC1tIHRpbWVpdCAtciAxMCAtLXNldHVwICcNCmRlZiBm
-aWIobik6DQogaWYgbiA8IDI6DQogICByZXR1cm4gbg0KIGlmIG4gPT0gMjoNCiAgIHJldHVybiAx
-DQogcmV0dXJuIGZpYihuIC0gMSkgKyBmaWIobiAtIDIpDQonICdbZmliKG4pIGZvciBuIGluIHJh
-bmdlKDIwKV0nDQoNCiMgWW9jdG8gUHl0aG9uIDMuOC4zDQojIDEwIGxvb3BzLCBiZXN0IG9mIDEw
-OiAyOC45IG1zZWMgcGVyIGxvb3ANCiMgMTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDI5LjMgbXNlYyBw
-ZXIgbG9vcA0KIyAxMCBsb29wcywgYmVzdCBvZiAxMDogMjcuOSBtc2VjIHBlciBsb29wDQojIDEw
-IGxvb3BzLCBiZXN0IG9mIDEwOiAzMC40IG1zZWMgcGVyIGxvb3ANCiMgQXZlcmFnZSByZXN1bHQ6
-IDMxLjYyNSBtc2VjIHBlciBsb29wDQoNCiMgUmFzcGJpYW4gUHl0aG9uIDMuOC4zDQojIDUwIGxv
-b3BzLCBiZXN0IG9mIDEwOiA3LjczIG1zZWMgcGVyIGxvb3ANCiMgNTAgbG9vcHMsIGJlc3Qgb2Yg
-MTA6IDcuNzIgbXNlYyBwZXIgbG9vcA0KIyA1MCBsb29wcywgYmVzdCBvZiAxMDogNy42NyBtc2Vj
-IHBlciBsb29wDQojIDUwIGxvb3BzLCBiZXN0IG9mIDEwOiA3Ljc0IG1zZWMgcGVyIGxvb3ANCiMg
-QXZlcmFnZSByZXN1bHQ6IDcuNzE1IG1zZWMgcGVyIGxvb3ANCg0KIyBSYXNwYmlhbiBzcGVlZHVw
-OiA0LjA5eA0KDQpCZXN0LA0KUnlhbiBSb3dlDQo=
+Hello Ryan,
 
---_000_D7692CC334E341FEBBE54D5B09947C92xevocom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <7261A652DE06D242B42C586D1CACED49@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+I did not write the pgo bits, I only preserved them (without testing) when
+the Python recipe was rewritten from scratch (by me) in order to bring some
+sanity to it, and make it possible again to update it to newer versions.
+The people you want to talk to are Anuj Mittal and Ross Burton (cc).
 
-PGh0bWwgeG1sbnM6bz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4
-bWxuczp3PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJo
-dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJo
-dHRwOi8vd3d3LnczLm9yZy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVp
-dj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1l
-dGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSAoZmlsdGVyZWQg
-bWVkaXVtKSI+DQo8c3R5bGU+PCEtLQ0KLyogRm9udCBEZWZpbml0aW9ucyAqLw0KQGZvbnQtZmFj
-ZQ0KCXtmb250LWZhbWlseTpDb3VyaWVyOw0KCXBhbm9zZS0xOjAgMCAwIDAgMCAwIDAgMCAwIDA7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToy
-IDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsN
-CglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAq
-Lw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGlu
-Ow0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFt
-aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOiMwNTYzQzE7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
-bC1jb21wb3NlOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOndp
-bmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7
-DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9
-DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGlu
-IDEuMGluIDEuMGluIDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlv
-bjE7fQ0KLS0+PC9zdHlsZT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSIjMDU2
-M0MxIiB2bGluaz0iIzk1NEY3MiI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPkhlbGxvIEFsZXgs
-PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij5J4oCZbSBpbnZlc3Rp
-Z2F0aW5nIFB5dGhvbiAzIHBlcmZvcm1hbmNlIGlzc3VlcyBvbiBhIFJhc3BiZXJyeSBQaSBZb2N0
-byBidWlsZDsgSSBhcHByZWNpYXRlIGFueSBpbnNpZ2h0cyB5b3UgY2FuIHByb3ZpZGUgaW50byB0
-aGUgcHJvYmxlbS48L3NwYW4+PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+Jm5ic3A7PC9zcGFuPjxvOnA+PC9vOnA+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPklu
-IG15IGludmVzdGlnYXRpb24sIEkgbm90aWNlZCB0aGF0IFBHTyB3YXMgZGlzYWJsZWQgaW4gYWxs
-IGNhc2VzIGR1ZSB0byBhIHNtYWxsIGJ1Zy4gSSBmaXhlZCBpdCBpbiBhIHBhdGNoIHN1Ym1pdHRl
-ZCB0byBPRS1Db3JlICg8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9v
-cGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzEzOTQ1OSI+IzEzOTQ1OTwvYT4pLg0KIEV2ZW4gd2hl
-biBQR08gaXMgaW5kZWVkIGVuYWJsZWQsIFB5dGhvbiAzIHJ1bnMgc2lnbmlmaWNhbnRseSBzbG93
-ZXIgb24gWW9jdG8tY29tcGlsZWQgUHl0aG9uIDMuOC4zIHRoYW4gdGhlIHNhbWUgdmVyc2lvbiBj
-b21waWxlZCBvbiBSYXNwYmlhbi48L3NwYW4+PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+Jm5ic3A7PC9zcGFuPjxvOnA+
-PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQiPkluIHlvdXIgcGF0Y2gsIDxhIGhyZWY9Imh0dHA6Ly9jZ2l0Lm9wZW5lbWJlZGRlZC5v
-cmcvb3BlbmVtYmVkZGVkLWNvcmUvdHJlZS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMvMDAwMS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtd3JhcHBlci13aGVuLWdhdGhlcmluZy1w
-cm9maWxlLnBhdGNoIj4NCjAwMDEtTWFrZWZpbGUucHJlLXVzZS1xZW11LXdyYXBwZXItd2hlbi1n
-YXRoZXJpbmctcHJvZmlsZS5wYXRjaDwvYT4sIEkgc2VlIHRoYXQgeW91IG92ZXJyaWRlIHRoZSBk
-ZWZhdWx0DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-Q291cmllciI+UFJPRklMRV9UQVNLPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-Ij4sIHdoaWNoIGRpZCBub3QgZXhwbGljaXRseSBzcGVjaWZ5IHRlc3Qgc3VpdGVzLCB0byBhIGNv
-bW1hbmQgdGhhdCBleHBsaWNpdGx5IHByb3ZpZGVzIHRlc3Qgc3VpdGVzLiBIb3cgZGlkIHlvdSBk
-ZWNpZGUgb24gdGhlc2UgdGVzdHM/IFRoZSBzdGFuZGFyZCBQR08NCiBjb21tYW5kIHJ1bnMgNDMg
-dGVzdHMsIHdoaWxlIHlvdSBzcGVjaWZ5IDcuIFdoZW4gSSBjb21waWxlIFB5dGhvbiAzLjguMyBv
-biBSYXNwYmlhbiwgSSBzZWUgbm8gaW50ZXJzZWN0aW9uIGJldHdlZW4gdGhlIDQzIHRlc3RzIHJ1
-biBieSBkZWZhdWx0IGFuZCB0aGUgNyB5b3Ugc3BlY2lmeS4gQWRkaXRpb25hbGx5LCB0aGUgZGVm
-YXVsdCBtb2R1bGUgZm9yDQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6Q291cmllciI+UFJPRklMRTwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdCI+IGlzDQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6Q291cmllciI+dGVzdDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+IHdo
-aWxlIHlvdSB1c2UNCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTpDb3VyaWVyIj50ZXN0LnJlZ3J0ZXN0PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0Ij4uPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij5Gb3Ig
-cmVmZXJlbmNlLCBoZXJl4oCZcyB0aGUgcmVzdWx0cyBvZiBhIHNpbXBsZSBDUFUtYm91bmQgdGVz
-dC4gVGhlc2UgdGVzdHMgd2VyZSBydW4gb24gdGhlIHNhbWUgUmFzcGJlcnJ5IFBpIDQgd2l0aCBz
-YW1lIFNEIGNhcmQuPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpwPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6My4wcHQ7
-bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjMuMHB0O21hcmdpbi1sZWZ0OjBpbiI+DQo8
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjkuMHB0O2ZvbnQtZmFtaWx5OkNvdXJpZXIiPnB5dGhvbjMg
-LW0gdGltZWl0IC1yIDEwIC0tc2V0dXAgJzxicj4NCmRlZiBmaWIobik6PGJyPg0KJm5ic3A7aWYg
-biAmbHQ7IDI6PGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7cmV0dXJuIG48L3NwYW4+PG86cD48L286
-cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OjMu
-MHB0O21hcmdpbi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTozLjBwdDttYXJnaW4tbGVmdDowaW4i
-Pg0KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo5LjBwdDtmb250LWZhbWlseTpDb3VyaWVyIj4mbmJz
-cDtpZiBuID09IDI6PGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7cmV0dXJuIDE8L3NwYW4+PG86cD48
-L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0
-OjMuMHB0O21hcmdpbi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTozLjBwdDttYXJnaW4tbGVmdDow
-aW4iPg0KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo5LjBwdDtmb250LWZhbWlseTpDb3VyaWVyIj4m
-bmJzcDtyZXR1cm4gZmliKG4gLSAxKSAmIzQzOyBmaWIobiAtIDIpPGJyPg0KJyAnW2ZpYihuKSBm
-b3IgbiBpbiByYW5nZSgyMCldJzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6My4wcHQ7bWFyZ2luLXJpZ2h0OjBpbjtt
-YXJnaW4tYm90dG9tOjMuMHB0O21hcmdpbi1sZWZ0OjBpbiI+DQo8c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTpDb3VyaWVyIj4mbmJzcDs8L3NwYW4+PG86cD48L286cD48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OjMuMHB0
-O21hcmdpbi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTozLjBwdDttYXJnaW4tbGVmdDowaW4iPg0K
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q291cmllciI+IyBZb2N0
-byBQeXRob24gMy44LjM8YnI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo5LjBwdDtm
-b250LWZhbWlseTpDb3VyaWVyIj4jIDEwIGxvb3BzLCBiZXN0IG9mIDEwOiAyOC45IG1zZWMgcGVy
-IGxvb3A8YnI+DQojIDEwIGxvb3BzLCBiZXN0IG9mIDEwOiAyOS4zIG1zZWMgcGVyIGxvb3A8YnI+
-DQojIDEwIGxvb3BzLCBiZXN0IG9mIDEwOiAyNy45IG1zZWMgcGVyIGxvb3A8YnI+DQojIDEwIGxv
-b3BzLCBiZXN0IG9mIDEwOiAzMC40IG1zZWMgcGVyIGxvb3A8YnI+DQojIEF2ZXJhZ2UgcmVzdWx0
-OiAzMS42MjUgbXNlYyBwZXIgbG9vcDwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6My4wcHQ7bWFyZ2luLXJpZ2h0OjBp
-bjttYXJnaW4tYm90dG9tOjMuMHB0O21hcmdpbi1sZWZ0OjBpbiI+DQo8c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjkuMHB0O2ZvbnQtZmFtaWx5OkNvdXJpZXIiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpw
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6My4w
-cHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjMuMHB0O21hcmdpbi1sZWZ0OjBpbiI+
-DQo8c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDb3VyaWVyIj4jIFJh
-c3BiaWFuIFB5dGhvbiAzLjguMzwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjkuMHB0O2Zv
-bnQtZmFtaWx5OkNvdXJpZXIiPjxicj4NCiMgNTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDcuNzMgbXNl
-YyBwZXIgbG9vcDxicj4NCiMgNTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDcuNzIgbXNlYyBwZXIgbG9v
-cDxicj4NCiMgNTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDcuNjcgbXNlYyBwZXIgbG9vcDxicj4NCiMg
-NTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDcuNzQgbXNlYyBwZXIgbG9vcDwvc3Bhbj48bzpwPjwvbzpw
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6My4w
-cHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjMuMHB0O21hcmdpbi1sZWZ0OjBpbiI+
-DQo8c3BhbiBzdHlsZT0iZm9udC1zaXplOjkuMHB0O2ZvbnQtZmFtaWx5OkNvdXJpZXIiPiMgQXZl
-cmFnZSByZXN1bHQ6IDcuNzE1IG1zZWMgcGVyIGxvb3A8L3NwYW4+PG86cD48L286cD48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OjMuMHB0O21hcmdp
-bi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTozLjBwdDttYXJnaW4tbGVmdDowaW4iPg0KPHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZTo5LjBwdDtmb250LWZhbWlseTpDb3VyaWVyIj4mbmJzcDs8L3NwYW4+
-PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10
-b3AtYWx0OjMuMHB0O21hcmdpbi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTozLjBwdDttYXJnaW4t
-bGVmdDowaW4iPg0KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo5LjBwdDtmb250LWZhbWlseTpDb3Vy
-aWVyIj4jIFJhc3BiaWFuIHNwZWVkdXA6IDQuMDl4PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDozLjBwdDttYXJnaW4t
-cmlnaHQ6MGluO21hcmdpbi1ib3R0b206My4wcHQ7bWFyZ2luLWxlZnQ6MGluIj4NCjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6OS4wcHQ7Zm9udC1mYW1pbHk6Q291cmllciI+Jm5ic3A7PC9zcGFuPjxv
-OnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMS4wcHQiPkJlc3QsPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPlJ5YW4gUm93ZTwvc3Bhbj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdCI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
+Alex
 
---_000_D7692CC334E341FEBBE54D5B09947C92xevocom_--
+On Fri, 12 Jun 2020 at 23:28, Ryan Rowe <rrowe@xevo.com> wrote:
+
+> Hello Alex,
+>
+>
+>
+> I=E2=80=99m investigating Python 3 performance issues on a Raspberry Pi Y=
+octo
+> build; I appreciate any insights you can provide into the problem.
+>
+>
+>
+> In my investigation, I noticed that PGO was disabled in all cases due to =
+a
+> small bug. I fixed it in a patch submitted to OE-Core (#139459
+> <https://lists.openembedded.org/g/openembedded-core/message/139459>).
+> Even when PGO is indeed enabled, Python 3 runs significantly slower on
+> Yocto-compiled Python 3.8.3 than the same version compiled on Raspbian.
+>
+>
+>
+> In your patch,
+> 0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+> <http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devtool=
+s/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.=
+patch>,
+> I see that you override the default PROFILE_TASK, which did not
+> explicitly specify test suites, to a command that explicitly provides tes=
+t
+> suites. How did you decide on these tests? The standard PGO command runs =
+43
+> tests, while you specify 7. When I compile Python 3.8.3 on Raspbian, I se=
+e
+> no intersection between the 43 tests run by default and the 7 you specify=
+.
+> Additionally, the default module for PROFILE is test while you use
+> test.regrtest.
+>
+>
+>
+> For reference, here=E2=80=99s the results of a simple CPU-bound test. The=
+se tests
+> were run on the same Raspberry Pi 4 with same SD card.
+>
+>
+>
+> python3 -m timeit -r 10 --setup '
+> def fib(n):
+>  if n < 2:
+>    return n
+>
+>  if n =3D=3D 2:
+>    return 1
+>
+>  return fib(n - 1) + fib(n - 2)
+> ' '[fib(n) for n in range(20)]'
+>
+>
+>
+> # Yocto Python 3.8.3
+> # 10 loops, best of 10: 28.9 msec per loop
+> # 10 loops, best of 10: 29.3 msec per loop
+> # 10 loops, best of 10: 27.9 msec per loop
+> # 10 loops, best of 10: 30.4 msec per loop
+> # Average result: 31.625 msec per loop
+>
+>
+>
+> # Raspbian Python 3.8.3
+> # 50 loops, best of 10: 7.73 msec per loop
+> # 50 loops, best of 10: 7.72 msec per loop
+> # 50 loops, best of 10: 7.67 msec per loop
+> # 50 loops, best of 10: 7.74 msec per loop
+>
+> # Average result: 7.715 msec per loop
+>
+>
+>
+> # Raspbian speedup: 4.09x
+>
+>
+>
+> Best,
+>
+> Ryan Rowe
+>
+
+--00000000000002e67f05a7e9e4c8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello Ryan,</div><div><br></div><div>I did not write =
+the pgo bits, I only preserved them (without testing) when the Python recip=
+e was rewritten from scratch (by me) in order to bring some sanity to it, a=
+nd make it possible again to update it to newer versions. The people you wa=
+nt to talk to are Anuj Mittal and Ross Burton (cc).</div><div><br></div><di=
+v>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, 12 Jun 2020 at 23:28, Ryan Rowe &lt;<a href=3D"mail=
+to:rrowe@xevo.com" target=3D"_blank">rrowe@xevo.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Hello Alex,</span><u>=
+</u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0</span><u></u><=
+u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">I=E2=80=99m investiga=
+ting Python 3 performance issues on a Raspberry Pi Yocto build; I appreciat=
+e any insights you can provide into the problem.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0</span><u></u><=
+u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">In my investigation, =
+I noticed that PGO was disabled in all cases due to a small bug. I fixed it=
+ in a patch submitted to OE-Core (<a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/139459" target=3D"_blank">#139459</a>).
+ Even when PGO is indeed enabled, Python 3 runs significantly slower on Yoc=
+to-compiled Python 3.8.3 than the same version compiled on Raspbian.</span>=
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0</span><u></u><=
+u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">In your patch, <a hre=
+f=3D"http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devto=
+ols/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profil=
+e.patch" target=3D"_blank">
+0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch</a>, I see =
+that you override the default
+</span><span style=3D"font-size:11pt;font-family:Courier">PROFILE_TASK</spa=
+n><span style=3D"font-size:11pt">, which did not explicitly specify test su=
+ites, to a command that explicitly provides test suites. How did you decide=
+ on these tests? The standard PGO
+ command runs 43 tests, while you specify 7. When I compile Python 3.8.3 on=
+ Raspbian, I see no intersection between the 43 tests run by default and th=
+e 7 you specify. Additionally, the default module for
+</span><span style=3D"font-size:11pt;font-family:Courier">PROFILE</span><sp=
+an style=3D"font-size:11pt"> is
+</span><span style=3D"font-size:11pt;font-family:Courier">test</span><span =
+style=3D"font-size:11pt"> while you use
+</span><span style=3D"font-size:11pt;font-family:Courier">test.regrtest</sp=
+an><span style=3D"font-size:11pt">.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0</span><u></u><=
+u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">For reference, here=
+=E2=80=99s the results of a simple CPU-bound test. These tests were run on =
+the same Raspberry Pi 4 with same SD card.</span><u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">=C2=A0</span><u></u><=
+u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">python3 -m timeit -r 10 -=
+-setup &#39;<br>
+def fib(n):<br>
+=C2=A0if n &lt; 2:<br>
+=C2=A0=C2=A0=C2=A0return n</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">=C2=A0if n =3D=3D 2:<br>
+=C2=A0=C2=A0=C2=A0return 1</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">=C2=A0return fib(n - 1) +=
+ fib(n - 2)<br>
+&#39; &#39;[fib(n) for n in range(20)]&#39;</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:11pt;font-family:Courier">=C2=A0</span><u></u><u><=
+/u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:11pt;font-family:Courier"># Yocto Python 3.8.3<br>
+</span><span style=3D"font-size:9pt;font-family:Courier"># 10 loops, best o=
+f 10: 28.9 msec per loop<br>
+# 10 loops, best of 10: 29.3 msec per loop<br>
+# 10 loops, best of 10: 27.9 msec per loop<br>
+# 10 loops, best of 10: 30.4 msec per loop<br>
+# Average result: 31.625 msec per loop</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">=C2=A0</span><u></u><u></=
+u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:11pt;font-family:Courier"># Raspbian Python 3.8.3<=
+/span><span style=3D"font-size:9pt;font-family:Courier"><br>
+# 50 loops, best of 10: 7.73 msec per loop<br>
+# 50 loops, best of 10: 7.72 msec per loop<br>
+# 50 loops, best of 10: 7.67 msec per loop<br>
+# 50 loops, best of 10: 7.74 msec per loop</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier"># Average result: 7.715 m=
+sec per loop</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">=C2=A0</span><u></u><u></=
+u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier"># Raspbian speedup: 4.09x=
+</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-right:0in;margin-bottom:3pt;margin-l=
+eft:0in">
+<span style=3D"font-size:9pt;font-family:Courier">=C2=A0</span><u></u><u></=
+u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Best,</span><u></u><u=
+></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Ryan Rowe</span><span=
+ style=3D"font-size:11pt"><u></u><u></u></span></p>
+</div>
+</div>
+
+</blockquote></div>
+
+--00000000000002e67f05a7e9e4c8--
