@@ -1,72 +1,173 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.23058.1591977320926152276
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.24247.1591979158054091894
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 08:55:21 -0700
+ Fri, 12 Jun 2020 09:25:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lDqVgYYF;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f193.google.com with SMTP id b5so3358363pgm.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 08:55:20 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YBAlFjU2;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=mBheUxkDqooTv0jRfSqBzkmtcOubXwkLoswlFyFW4hQ=;
-        b=lDqVgYYF4Ok1wpByf+tyLKVjuJF2YdoZRSyO6Eo1IH2pELf2b0H5yW5FJK8k+wGold
-         EZUAv5mbx3vaKlz3+BgGPGDYZHOttH61EQL1O9MhZ4C6+BaAtH7wPC4oucFBYW5FwKZp
-         Cwqw72e23RuTwdGEPmyaCqq2NBCVOCjBhIWoxsxMcwoP+PALoPhxBz+i0eE4WLtF5XMo
-         sTTBfyCFBqfpoSfdKAVM9lyDnuN9S/JACfJNHYhHWH3xgKAuDRuKbFduM2jJNqz2iEIw
-         HvneTPs9Cq9oigNpsxtF80pIoyjP69lDHdeJdjhK4SnJ/DKCFH8dp+tL8udeUZoKK5HG
-         YbCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=mBheUxkDqooTv0jRfSqBzkmtcOubXwkLoswlFyFW4hQ=;
-        b=AyOB5M0zeYUP8ZJQfGXQBToUH6etjoDzFNoRapnnUEbVhx0MW0n+RsS56gTKpDjHD/
-         89RGhCvMf4Y9VGk9i9DeKu7yLhlLHjmghGrck171LL6TzoiC8OCwnLJ0BZledsb2bAoc
-         huCkfkMHFoR1tuZFyXhaYI51z6pvX2KqdeZifZ9YP5chA8TqBbPaS2z80esmi2l5aTEd
-         xazSQNf4zXa9+KyNEz0u1vqTjgvNF0sDssov1c7rSkiNdgfmXamP6KifCuzsbMB1NX0D
-         kKLYmqlvVjX1Uqd44m0PD7bHYUN5AiA40Y6sxxumdR8RbNuXJ9BNgEMW3xsss9MOmMSj
-         EL+w==
-X-Gm-Message-State: AOAM531qzeJdeMfap5OyDCyjzwlnJrgcD0rHuB79ENy3R4MtM+yKlV42
-	xcOgyLPJLNDNLk0ScYYmfoBnwYFLgRc=
-X-Google-Smtp-Source: ABdhPJwohGPTFshwYHeH38CJMviWYOC50HJ9Ec6/CCWZ889sVLd22ZwKAPG4ysCpDmp00NqOevBGuA==
-X-Received: by 2002:aa7:804a:: with SMTP id y10mr11929294pfm.186.1591977319663;
-        Fri, 12 Jun 2020 08:55:19 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n9sm5815936pjj.23.2020.06.12.08.55.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 08:55:18 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] buildtools-tarball: export OPENSSL_CONF in environment setup
-Date: Fri, 12 Jun 2020 05:55:01 -1000
-Message-Id: <20200612155501.17400-1-steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+  d=axis.com; l=4740; q=dns/txt; s=axis-central1;
+  t=1591979158; x=1623515158;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=3J+wNwxSdHWgFWARBQ/HdJkVYJ/xRtvC9dThorg8PpU=;
+  b=YBAlFjU2TZCpgb0GNLG2r0XK0pGc8m3xJFQkCkff4nytV0+gqjduy0zV
+   JF096tehVi/AqTdsbRrs8ueDuOz0jSj30X/EeaX9QgXPBWEYTn4zHawRp
+   qnMTrhoVjZEaHBiVeS6Kyva57bQlixUii25+DOkQr2uqlaMh3zTldK2jC
+   p6DANhag1AOT6CydKwQN97JennBqai//FHQwgjoPWh6Pc/BL1QJpU7nkC
+   aOMG+cwH0/4Ys87cZ8zQspA0yA+/LIlr2LavBqxMDQjVs9GWpulHi52zX
+   im1FZnjriQwBWK78BfBl4Yapt0SISDd1lhOJKFdVc7je7GfYxTZGdWHcq
+   Q==;
+IronPort-SDR: JN1MF3f5fl8LrWm8qP5VkMn/LlwY6WQgROOk0M2knHKc4CIvbyA4jrDx1FYbrQJZwKclFXxyQS
+ Hp6bs2WvR7UJLcnZMNq4krv9OA+GNkfZEwdIP0Ezso/FN9BPqU1hEc9HpNpnuqktPyMOeQm77o
+ kNmdLhEEOpcbE+wOQGwNQCur3qeOCBnozirxcNxYN+BzFmVFgyMKSsa3SbwUmIURiAyq3FnPQG
+ iOpLMkkZUqltI3UwlLag/GD9ag51d5CGj96ooVDYWshcYAOIMhASFNdrR7xFvO6lUgrPzxmgd9
+ TJE=
+X-IronPort-AV: E=Sophos;i="5.73,504,1583190000"; 
+   d="scan'208";a="9757961"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
+Thread-Topic: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
+ exception if an empty pkgconfig dir exist
+Thread-Index: AQHWCdRlzShdKB7XZ0iWsxM6QnpIZqiJsMGQgDNOC1CAGJjfQA==
+Date: Fri, 12 Jun 2020 16:25:55 +0000
+Message-ID: <7e09b26e9d4043919fe81a1817947213@XBOX03.axis.com>
+References: <20200320180420.32303-1-pkj@axis.com>
+ <16025BE698C394B5.19764@lists.openembedded.org>
+ <16090558444D87E6.18576@lists.openembedded.org>
+ <16130CCABBD4F064.18282@lists.openembedded.org>
+In-Reply-To: <16130CCABBD4F064.18282@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The autobuilder has been experiencing SSL: CERTIFICATE_VERIFY_FAILED
-errors during error report uploads when using buildtools due to looking
-for certs in /opt/poky
+*ping* *ping* *ping* *ping*
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Ok, it was only two weeks since I pinged this the last time, but=20
+since I'm going on vacation in a week I thought I'd give it a shot=20
+before then. I am still waiting for any kind of reaction to this=20
+patch...
 
----
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+//Peter
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index c49802eef8..d0f8dd7d7c 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -74,6 +74,7 @@ create_sdk_files_append () {
- 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
- 
- 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
-+	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
- 	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
- 
- 	if [ "${SDKMACHINE}" = "i686" ]; then
--- 
-2.17.1
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 28 maj 2020 03:26
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
+> an exception if an empty pkgconfig dir exist
+>=20
+> *ping* *ping* *ping*
+>=20
+> I am not sure why this is being ignored. It is two months since I
+> first sent it and the third time I ping it. I have not received any
+> objections, yet it has never made it even to master-next as far as
+> I know.
+>=20
+> This should not be taken as a complaint. I know there has been
+> problems with the autobuilder and that patch integration has been
+> slowed, and during this time all other patches I have sent have
+> been applied on the first try. So it just seems to be this one that
+> has been left out, and I would like to know if there is a reason or
+> if it just has fallen between the cracks.
+>=20
+> //Peter
+>=20
+> PS. The patch of course applies to Dunfell now too in addition to
+> master and Zeus since it has been released in the meantime.
+>=20
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > Sent: den 25 april 2020 11:17
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
+> an exception if an empty pkgconfig dir exist
+> >
+> > *ping again*
+> >
+> > //Peter
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > > Sent: den 3 april 2020 18:24
+> > > To: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass:
+> Avoid an exception if an empty pkgconfig dir exist
+> > >
+> > > *ping*
+> > >
+> > > //Peter
+> > >
+> > > > -----Original Message-----
+> > > > From: openembedded-core-bounces@lists.openembedded.org
+> <openembedded-core-bounces@lists.openembedded.org> On Behalf Of Peter
+> Kjellerstedt
+> > > > Sent: den 20 mars 2020 19:04
+> > > > To: openembedded-core@lists.openembedded.org
+> > > > Subject: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
+> an exception if an empty pkgconfig dir exist
+> > > >
+> > > > Rewrite relocatable_native_pcfiles() so that it can handle that any
+> of
+> > > > the checked pkgconfig directories are empty without causing an
+> > > > exception.
+> > > >
+> > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > > ---
+> > > >  meta/classes/relocatable.bbclass | 20 +++++++++++---------
+> > > >  1 file changed, 11 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/meta/classes/relocatable.bbclass
+> b/meta/classes/relocatable.bbclass
+> > > > index 582812c1cf..af04be5cca 100644
+> > > > --- a/meta/classes/relocatable.bbclass
+> > > > +++ b/meta/classes/relocatable.bbclass
+> > > > @@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
+> > > >      rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
+> > > >  }
+> > > >
+> > > > -relocatable_native_pcfiles () {
+> > > > -	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
+> > > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
+> d.getVar('libdir') + "/pkgconfig")}
+> > > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
+> ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
+> > > > -	fi
+> > > > -	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
+> > > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
+> d.getVar('datadir') + "/pkgconfig")}
+> > > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
+> ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
+> > > > -	fi
+> > > > +relocatable_native_pcfiles() {
+> > > > +	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
+> > > > +		files_template=3D${SYSROOT_DESTDIR}$dir/*.pc
+> > > > +		# Expand to any files matching $files_template
+> > > > +		files=3D$(echo $files_template)
+> > > > +		# $files_template and $files will differ if any
+> files were found
+> > > > +		if [ "$files_template" !=3D "$files" ]; then
+> > > > +			rel=3D$(realpath -m --relative-to=3D$dir
+> ${base_prefix})
+> > > > +			sed -i -e
+> "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
+> > > > +		fi
+> > > > +	done
+> > > >  }
+> > > > --
+> > > > 2.21.1
+> > >
+> > > //Peter
 
