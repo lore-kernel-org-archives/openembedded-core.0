@@ -1,40 +1,40 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web10.25376.1591983226035578194
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web12.25448.1591983229676256109
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 10:33:46 -0700
+ Fri, 12 Jun 2020 10:33:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id k22so7723675qtm.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 10:33:45 -0700 (PDT)
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id 205so9760870qkg.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 10:33:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=TQBKx3rof1sEGYe0wAmy8nLZYXlWHS3050+IS9TY1eM=;
-        b=bD68CczQNV6/Rz5gBAPt+N59pkxL0ZfTQVhU7eFq/nMANjRUPunrOiLJriMMgDlgiB
-         eStsmtnvGFBljyC+un+bQIrgrrlzr2JM3WNUF+er3YvBsJA8F+oa10+u/S/78py0KXLx
-         Sgm794HFmtDt3lhauroQvfwEy4c/N/uag1dBAjaIjCMBRHcmeV0WEYdwNMApN0bOP/GY
-         zhQF5r3uU9ArBCIj9gpf/StyOsOvwvfg9ZzEIj7g38IZw7aRO+gjksRlyAuUmSF36dpH
-         mfjvsVMOcJOy9kRGaOogAE0Rw1hu7YeaFxqbGAhCOMUxMfx6fx2JbhLfCIzI1ZNbD1bl
-         XGOQ==
-X-Gm-Message-State: AOAM5330CuimBLm4lmRrjx2MA67H8F97jG7ZJcCQVmdsckpaV1cSZJyy
-	ovxfKkdWWgW9wvZ4JXPLv23/Bl1QUSY=
-X-Google-Smtp-Source: ABdhPJzhFe+Pq6sOqYvD0RXfXPRNeiTvEMsTCOtG46fSvArTwVwMDIt4zRozT69nQ9Ec705hUAmBVA==
-X-Received: by 2002:ac8:2dea:: with SMTP id q39mr4277025qta.2.1591983224736;
-        Fri, 12 Jun 2020 10:33:44 -0700 (PDT)
+        bh=h6ri5p1p7Z96oIXcjL8kcGiOwAjPNcAm5wJdGPhKmhg=;
+        b=saUxcuVRX2dSlYR9q2ZEofWdRniH7M3vv4TE5Qy1aCkVhfFSz3I5qR0WIVZqN/SOfi
+         RhNA3GM9l/gLesqL66DEhgMQgersEyBvAJpuw2N83RsdCSOVui5R1tdj3Jp6qXx13/md
+         1U16VkAOxCy8qcgaipsCjiOAMnDV3Vg53TFPAaHqHx5pgCcjvkiuRjJ1fHT1dl0D39po
+         yNvSxFfSHpjdbL2+XHcs787qf72Ur5AwPrYvX1eHcsStSQ9tHd3VDMaeW63Gdia3Xrvz
+         lXUNUxqctUq/pjZC8xcOosm37W4Zh0xe+EwpqTNHnCehwMbQ3uEm/mSFQ8ZBJNT2/AR3
+         eDkA==
+X-Gm-Message-State: AOAM533OEvBoPLLI0m2qhz8FApHF4E48nNPaWnS23NWRGoZ4312flpyq
+	4N3mfX6uFc5i0Xdf3MyxoCXap5ZhkQg=
+X-Google-Smtp-Source: ABdhPJzkKQZfCfN7KksmFmvs1dgp+Ij/hiicvmAq1+Ic39pH6hZR8yG4MRd/Uwej3QobQGKcDfisJw==
+X-Received: by 2002:a37:845:: with SMTP id 66mr4097495qki.67.1591983228571;
+        Fri, 12 Jun 2020 10:33:48 -0700 (PDT)
 Return-Path: <otavio.salvador@gmail.com>
 Received: from localhost ([181.220.84.90])
-        by smtp.gmail.com with ESMTPSA id u10sm5427811qth.32.2020.06.12.10.33.43
+        by smtp.gmail.com with ESMTPSA id w10sm5481672qtc.15.2020.06.12.10.33.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 10:33:44 -0700 (PDT)
+        Fri, 12 Jun 2020 10:33:47 -0700 (PDT)
 From: "Otavio Salvador" <otavio.salvador@gmail.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio.salvador@gmail.com>,
 	Otavio Salvador <otavio@ossystems.com.br>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell-backport PATCH 6/9] glide: Avoid use of 'go mod' support
-Date: Fri, 12 Jun 2020 14:33:15 -0300
-Message-Id: <20200612173318.103232-6-otavio@ossystems.com.br>
+Subject: [dunfell-backport PATCH 7/9] go-dep: Avoid use of 'go mod' support
+Date: Fri, 12 Jun 2020 14:33:16 -0300
+Message-Id: <20200612173318.103232-7-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200612173318.103232-1-otavio@ossystems.com.br>
 References: <20200612173318.103232-1-otavio@ossystems.com.br>
@@ -44,22 +44,21 @@ Content-Transfer-Encoding: 8bit
 
 From: Otavio Salvador <otavio.salvador@gmail.com>
 
-Glide utility must not use 'go mod' support, so we explicitly disable
-it.
+dep utility must not use 'go mod' support, so we explicitly disable it.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b5a4369ba606677285b0a89a78c040b38f57767f)
+(cherry picked from commit b34000ae3dd6e0a1d7fc332efb35c5da84cf2275)
 ---
 
- meta/recipes-devtools/glide/glide_0.13.3.bb | 4 ++++
+ meta/recipes-devtools/go/go-dep_0.5.4.bb | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/glide/glide_0.13.3.bb b/meta/recipes-devtools/glide/glide_0.13.3.bb
-index ebad0ec60a..31295edf90 100644
---- a/meta/recipes-devtools/glide/glide_0.13.3.bb
-+++ b/meta/recipes-devtools/glide/glide_0.13.3.bb
-@@ -9,6 +9,10 @@ SRCREV = "8ed5b9292379d86c39592a7e6a58eb9c903877cf"
+diff --git a/meta/recipes-devtools/go/go-dep_0.5.4.bb b/meta/recipes-devtools/go/go-dep_0.5.4.bb
+index 615cb289e5..496224a5cf 100644
+--- a/meta/recipes-devtools/go/go-dep_0.5.4.bb
++++ b/meta/recipes-devtools/go/go-dep_0.5.4.bb
+@@ -13,6 +13,10 @@ SRCREV = "1f7c19e5f52f49ffb9f956f64c010be14683468b"
  
  inherit go
  
@@ -67,9 +66,9 @@ index ebad0ec60a..31295edf90 100644
 +# tool build to fail.
 +export GO111MODULE = "off"
 +
- RDEPENDS_${PN}-dev += "bash"
- RDEPENDS_${PN}-ptest += "bash"
+ GO_INSTALL = "${GO_IMPORT}/cmd/dep"
  
+ RDEPENDS_${PN}-dev += "bash"
 -- 
 2.27.0
 
