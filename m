@@ -1,715 +1,101 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.757.1592009513872056164
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web12.1803.1592014762103565848
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 17:51:53 -0700
+ Fri, 12 Jun 2020 19:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KWz7oMrd;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id ga6so4331795pjb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 17:51:53 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=h3yxT4fQ;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.178, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f178.google.com with SMTP id q14so8612405qtr.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 19:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:organization:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CsSRyAR3w0yGgu59OqicbB2sMvtBBiQ+1jlNtvCSS78=;
-        b=KWz7oMrdasscM6pScv7IP2eazkEOa7WB5EdnVP2EVq3CnXZ4gpchZ0KEi8qGIAa6LO
-         jmCC9Ybq8cxYJESms3DDrKsXqLsdhbITZOOT9DxhfsUPrxYkO+hCtSleNFWR4OFXVH2S
-         0o5Uzr/zjmh8GFT3RrNVXOrnI236LhskDJzrHa5IWADQ25b5lt9zNjkOuvqM7dutLiBZ
-         I8R8mLhZQwpkp4VEnpkYzngabZQZVpb0z2K4UWwQRbmrLHdzjn4kVghKMwf3OG7pacei
-         uTUZGhn5ksGj3VZqCvu0zYzItXw+axX7KxdaVU5ibOF2yAn5ByqRxkY7fKNEYKYyvTBv
-         w/9g==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IASomQHE5vmicMyCbo0loBsF1dQTUgvCfkpCIAlVC/Y=;
+        b=h3yxT4fQIdZ/5rKwOVWfevju4FR7tJ+emv1tExciU4guJ98vCEVTcEwYPXHPbhz4tG
+         PgAnTMQMqzP4w2OqVU96enM8N03rXsBnIPGZOOKtSq5KNHiigWrzraIbqOU43Ssp1OBH
+         WcAA14gps7n2jsLZHoBKc/KRODHs5jQG5bgQRfBwu1zoHXWiiM2hdn74VPd8iw90Szxy
+         blNJy5+JQWZ0Dcn31tuQznDbvazHo/EOh2kiE48QXQNhh/DaVpKPk8S4qmA+C8rLho8P
+         JUshI3iBLnRWsXo8wQjRGgmrne1rvNwe9Pn806dSZqOn54VWu9CgWEbY/ccP1HGWyMBg
+         4Y5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:organization
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=CsSRyAR3w0yGgu59OqicbB2sMvtBBiQ+1jlNtvCSS78=;
-        b=ZBgPKpRqVBXPoHSjeD27YlttCDAD073CBzj+hwljx6BiC+0utiwaUPSeSGeoxjM9wy
-         sQoNiqE6zJ+0a3KX9VHxSL7oF3Lxby8wKMGHI0OtBws+pK+uLoNJKVW0LPckmIhWQacf
-         tZ/rADbUu9MQYKLhMmYqYBQOv3574iA4vDD0q6QnLE48ylH9o68Yu23gxNB63xzT9W83
-         b3/BX54j58Z/r5Gc2sB3ubXKyemPp5MdNxvRq9n9NeI/pYVTWqrgzZrBRSyMmA/md24t
-         E3AGXO/ZJZjMEdkwWaA2yp03IJ+FBjUNNHPdCZRZvFD3DZvdNZEMS2wqcNdRGAYbbHw3
-         pQVA==
-X-Gm-Message-State: AOAM532nbh0FhM+QmTqKqb4yRNXs2pKG0SBqod/HHaEjJRJnvAwPCOak
-	T0RGgFNNj/jKUD/qIFgizdoKOWlPezE=
-X-Google-Smtp-Source: ABdhPJy7quPCxKVabk65tSeJMX/U1UMMpmutUAvawUv8NuUwC/WoT3Y4dpWfmUf2dnuomX5r0wxjGg==
-X-Received: by 2002:a17:90b:fc8:: with SMTP id gd8mr1433778pjb.142.1592009512663;
-        Fri, 12 Jun 2020 17:51:52 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from tyche.localnet ([2601:646:9200:4e0::96b0])
-        by smtp.gmail.com with ESMTPSA id u7sm7419575pfu.162.2020.06.12.17.51.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 17:51:51 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH 39/42] xinetd: 2.3.15 -> 2.3.15.4
-Date: Fri, 12 Jun 2020 17:51:50 -0700
-Message-ID: <1717505.8mhATPH57E@tyche>
-Organization: HIMVIS
-In-Reply-To: <20200608074659.7051-39-alex.kanavin@gmail.com>
-References: <20200608074659.7051-1-alex.kanavin@gmail.com> <20200608074659.7051-39-alex.kanavin@gmail.com>
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IASomQHE5vmicMyCbo0loBsF1dQTUgvCfkpCIAlVC/Y=;
+        b=mxyB1mdGa3uxDk0XQxr2Mcuhk42Nizhd2tnoohRvwX2p+LPsfa6+73h9cQpvjnVdRL
+         LmUlKcL0ZB17vV28wVXeM7aU1scdU3+S8tc8tbIhc1cPpYF50MgXCT+Cq8XHSSZPOEXv
+         +ZX0vpADeilCzqd3JazaPF6kikeWhaJnBjgQrZABHGbfG41sD50kODeyhOTSE2ncor8F
+         qGcCBLQtsTdHUSPpxKXRa4YZK2mLOFPljLqZJ3aXexdN3cAUMui87Yiy5fZYHkp+dEaa
+         mfkoPFlYkggKqIMnIWUMiNn6Z/JRj1KDetOj+nMDW87AOKEE/51nGygPEXl1Xx0iW6ja
+         SsgQ==
+X-Gm-Message-State: AOAM532yMKKu/8Sb9U/O1/KCm693IkQdTcXE8qVrr3RbOmVBEMx9K6Jh
+	FZ8YBtDN+j5WquB8EC6dOtAa9XEug8G6XA==
+X-Google-Smtp-Source: ABdhPJwqunc5fGPnH0j4SncuTvjYXYRhmSDAqYj89JG/ja9qZV4sdpEjVxDtgkRmwUxfl/+uTrXrLA==
+X-Received: by 2002:ac8:1844:: with SMTP id n4mr5852631qtk.142.1592014760970;
+        Fri, 12 Jun 2020 19:19:20 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com. [209.85.219.51])
+        by smtp.gmail.com with ESMTPSA id m53sm6421832qtb.64.2020.06.12.19.19.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2020 19:19:19 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qv1-f51.google.com with SMTP id ec10so5296233qvb.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 19:19:19 -0700 (PDT)
+X-Received: by 2002:ad4:44e3:: with SMTP id p3mr8299927qvt.134.1592014758778;
+ Fri, 12 Jun 2020 19:19:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20200612204531.1119475-1-otavio@ossystems.com.br> <3337028.jk9WjbSPrm@tyche>
+In-Reply-To: <3337028.jk9WjbSPrm@tyche>
+Date: Fri, 12 Jun 2020 23:19:07 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqR_BufWY3ytGpX7RW8U4mq-L=L78bdaH2i1r4NQQC+nA@mail.gmail.com>
+Message-ID: <CAP9ODKqR_BufWY3ytGpX7RW8U4mq-L=L78bdaH2i1r4NQQC+nA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] util-linux: Split out zramctl in a specific package
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Monday, June 8, 2020 12:46:56 AM PDT Alexander Kanavin wrote:
-> This is updating from an old version from abandoned upstream repo to
-> an actively maintained opensuse fork, hence all the changes and cleanups.
-> 
-> License-Update: added suse copyrights
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...VE_SYS_RESOURCE_H-to-guard-sys-resou.patch | 100 ----------------
->  ...-from-inetd.conf-if-a-service-with-t.patch |  86 --------------
->  ...s-fixes-from-the-previous-maintainer.patch |  79 ------------
->  .../xinetd/xinetd/xinetd-CVE-2013-4342.patch  |  34 ------
->  ...e-able-to-listen-on-IPv6-even-in-ine.patch | 112 ------------------
->  .../xinetd/xinetd/xinetd.conf                 |  11 --
->  .../xinetd/xinetd_2.3.15.4.bb                 |  47 ++++++++
->  meta/recipes-extended/xinetd/xinetd_2.3.15.bb |  75 ------------
+Em sex., 12 de jun. de 2020 =C3=A0s 21:26, Khem Raj <raj.khem@gmail.com> es=
+creveu:
+>
+> On Friday, June 12, 2020 1:45:30 PM PDT Otavio Salvador wrote:
+> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > ---
+> >
+> >  meta/recipes-core/util-linux/util-linux.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-core/util-linux/util-linux.inc
+> > b/meta/recipes-core/util-linux/util-linux.inc index 532cceb935..e3ef558=
+d7e
+> > 100644
+> > --- a/meta/recipes-core/util-linux/util-linux.inc
+> > +++ b/meta/recipes-core/util-linux/util-linux.inc
+> > @@ -270,6 +270,7 @@ ALTERNATIVE_LINK_NAME[umount] =3D "${base_bindir}/u=
+mount"
+> >  ALTERNATIVE_LINK_NAME[unshare] =3D "${bindir}/unshare"
+> >  ALTERNATIVE_LINK_NAME[utmpdump] =3D "${bindir}/utmpdump"
+> >  ALTERNATIVE_LINK_NAME[wall] =3D "${bindir}/wall"
+> > +ALTERNATIVE_LINK_NAME[zramctl] =3D "${sbindir}/zramctl"
+> >
+>
+> is this sufficient to create it into an independent package ? or do we ne=
+ed to
+> add it to PACKAGES too ?
+>
+> >  ALTERNATIVE_${PN}-doc =3D "\
+> >  blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logge=
+r.1
+> > mesg.1 \
 
-it will be good to make git detect copies/moves a bit harder when you prepare 
-patches, its harder to otherwise review when old file is deletes and similar 
-new file is added with changes. perhaps adding
+In fact, it is not needed. It was split already. I looked it again and
+it is already in a specific package.
 
-[diff]
-renames = copies
-
-in .gitconfig might help.
-
->  8 files changed, 47 insertions(+), 497 deletions(-)
->  delete mode 100644
-> meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_H-
-> to-guard-sys-resou.patch delete mode 100644
-> meta/recipes-extended/xinetd/xinetd/Disable-services-from-inetd.conf-if-a-s
-> ervice-with-t.patch delete mode 100644
-> meta/recipes-extended/xinetd/xinetd/Various-fixes-from-the-previous-maintai
-> ner.patch delete mode 100644
-> meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch delete mode
-> 100644
-> meta/recipes-extended/xinetd/xinetd/xinetd-should-be-able-to-listen-on-IPv6
-> -even-in-ine.patch delete mode 100644
-> meta/recipes-extended/xinetd/xinetd/xinetd.conf create mode 100644
-> meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb delete mode 100644
-> meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> 
-> diff --git
-> a/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_
-> H-to-guard-sys-resou.patch
-> b/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_
-> H-to-guard-sys-resou.patch deleted file mode 100644
-> index 3c1b2f6f0e..0000000000
-> ---
-> a/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_
-> H-to-guard-sys-resou.patch +++ /dev/null
-> @@ -1,100 +0,0 @@
-> -From e8b0ffc7ea04cc71dba97a38e1a134aaf2285c2d Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Wed, 30 Dec 2015 07:14:50 +0000
-> -Subject: [PATCH] configure: Use HAVE_SYS_RESOURCE_H to guard sys/resource.h
-> - inclusion
-> -
-> -HAVE_RLIM_T check will not let sys/resource.h to be checked and
-> -rlim_t is defined in sys/resource.h so the check would fail.
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> -Upstream-Status: Pending
-> -
-> - aclocal.m4 |  2 +-
-> - configure  | 14 +++++++-------
-> - 2 files changed, 8 insertions(+), 8 deletions(-)
-> -
-> -diff --git a/aclocal.m4 b/aclocal.m4
-> -index 6e6f32c..70e7076 100644
-> ---- a/aclocal.m4
-> -+++ b/aclocal.m4
-> -@@ -11,7 +11,7 @@ AC_CACHE_VAL(xinetd_cv_type_$1,
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -diff --git a/configure b/configure
-> -index b507d38..bec56ea 100755
-> ---- a/configure
-> -+++ b/configure
-> -@@ -7640,7 +7640,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7686,7 +7686,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7732,7 +7732,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7778,7 +7778,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7824,7 +7824,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7870,7 +7870,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> -@@ -7916,7 +7916,7 @@ cat >>conftest.$ac_ext <<_ACEOF
-> - #if HAVE_NETDB_H
-> - #include <netdb.h>
-> - #endif
-> --#if HAVE_RLIM_T
-> -+#if HAVE_SYS_RESOURCE_H
-> - #include <sys/resource.h>
-> - #endif
-> - #if HAVE_STDINT_H
-> ---
-> -2.6.4
-> -
-> diff --git
-> a/meta/recipes-extended/xinetd/xinetd/Disable-services-from-inetd.conf-if-a
-> -service-with-t.patch
-> b/meta/recipes-extended/xinetd/xinetd/Disable-services-from-inetd.conf-if-a
-> -service-with-t.patch deleted file mode 100644
-> index cd6e6c1078..0000000000
-> ---
-> a/meta/recipes-extended/xinetd/xinetd/Disable-services-from-inetd.conf-if-a
-> -service-with-t.patch +++ /dev/null
-> @@ -1,86 +0,0 @@
-> -Upstream-Status: Pending [from other distro Debian]
-> -
-> -From d588b6530e1382a624898b3f4307f636c72c80a9 Mon Sep 17 00:00:00 2001
-> -From: Pierre Habouzit <madcoder@debian.org>
-> -Date: Wed, 28 Nov 2007 10:13:08 +0100
-> -Subject: [PATCH] Disable services from inetd.conf if a service with the
-> same id exists. -
-> -  This way, if a service is enabled in /etc/xinetd* _and_ in
-> -/etc/inetd.conf, the one (even if disabled) from /etc/xinetd* takes
-> -precedence.
-> -
-> -Signed-off-by: Pierre Habouzit <madcoder@debian.org>
-> ----
-> - xinetd/inet.c |   22 +++++++++++++++++++---
-> - 1 files changed, 19 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/xinetd/inet.c b/xinetd/inet.c
-> -index 1cb2ba2..8caab45 100644
-> ---- a/xinetd/inet.c
-> -+++ b/xinetd/inet.c
-> -@@ -23,6 +23,8 @@
-> - #include "parsesup.h"
-> - #include "nvlists.h"
-> -
-> -+static psi_h iter ;
-> -+
-> - static int get_next_inet_entry( int fd, pset_h sconfs,
-> -                           struct service_config *defaults);
-> -
-> -@@ -32,12 +34,15 @@ void parse_inet_conf_file( int fd, struct configuration
-> *confp ) -    struct service_config *default_config = CNF_DEFAULTS( confp
-> ); -
-> -    line_count = 0;
-> -+   iter = psi_create (sconfs);
-> -
-> -    for( ;; )
-> -    {
-> -       if (get_next_inet_entry(fd, sconfs, default_config) == -2)
-> -          break;
-> -    }
-> -+
-> -+   psi_destroy(iter);
-> - }
-> -
-> - static int get_next_inet_entry( int fd, pset_h sconfs,
-> -@@ -46,7 +51,7 @@ static int get_next_inet_entry( int fd, pset_h sconfs,
-> -    char *p;
-> -    str_h strp;
-> -    char *line = next_line(fd);
-> --   struct service_config *scp;
-> -+   struct service_config *scp, *tmp;
-> -    unsigned u, i;
-> -    const char *func = "get_next_inet_entry";
-> -    char *name = NULL, *rpcvers = NULL, *rpcproto = NULL;
-> -@@ -405,7 +410,16 @@ static int get_next_inet_entry( int fd, pset_h sconfs,
-> -    SC_SPECIFY( scp, A_SOCKET_TYPE );
-> -    SC_SPECIFY( scp, A_WAIT );
-> -
-> --   if( ! pset_add(sconfs, scp) )
-> -+   for ( tmp = SCP( psi_start( iter ) ) ; tmp ; tmp = SCP( psi_next(iter))
-> ){ -+      if (EQ(SC_ID(scp), SC_ID(tmp))) {
-> -+         parsemsg(LOG_DEBUG, func, "removing duplicate service %s",
-> SC_NAME(scp)); -+         sc_free(scp);
-> -+         scp = NULL;
-> -+         break;
-> -+      }
-> -+   }
-> -+
-> -+   if( scp && ! pset_add(sconfs, scp) )
-> -    {
-> -       out_of_memory( func );
-> -       pset_destroy(args);
-> -@@ -414,7 +428,9 @@ static int get_next_inet_entry( int fd, pset_h sconfs,
-> -    }
-> -
-> -    pset_destroy(args);
-> --   parsemsg( LOG_DEBUG, func, "added service %s", SC_NAME(scp));
-> -+   if (scp) {
-> -+      parsemsg( LOG_DEBUG, func, "added service %s", SC_NAME(scp));
-> -+   }
-> -    return 0;
-> - }
-> -
-> ---
-> -1.5.3.6.2040.g15e6
-> -
-> diff --git
-> a/meta/recipes-extended/xinetd/xinetd/Various-fixes-from-the-previous-maint
-> ainer.patch
-> b/meta/recipes-extended/xinetd/xinetd/Various-fixes-from-the-previous-maint
-> ainer.patch deleted file mode 100644
-> index 8e59cdcaae..0000000000
-> ---
-> a/meta/recipes-extended/xinetd/xinetd/Various-fixes-from-the-previous-maint
-> ainer.patch +++ /dev/null
-> @@ -1,79 +0,0 @@
-> -Upstream-Status: Pending [from other distro Debian]
-> -
-> -From a3410b0bc81ab03a889d9ffc14e351badf8372f1 Mon Sep 17 00:00:00 2001
-> -From: Pierre Habouzit <madcoder@debian.org>
-> -Date: Mon, 26 Nov 2007 16:02:04 +0100
-> -Subject: [PATCH] Various fixes from the previous maintainer.
-> -
-> ----
-> - xinetd/child.c   |   20 +++++++++++++++++---
-> - xinetd/service.c |    8 ++++----
-> - 2 files changed, 21 insertions(+), 7 deletions(-)
-> -
-> -diff --git a/xinetd/child.c b/xinetd/child.c
-> -index 89ee54c..48e9615 100644
-> ---- a/xinetd/child.c
-> -+++ b/xinetd/child.c
-> -@@ -284,6 +284,7 @@ void child_process( struct server *serp )
-> -    connection_s            *cp  = SERVER_CONNECTION( serp ) ;
-> -    struct service_config   *scp = SVC_CONF( sp ) ;
-> -    const char              *func = "child_process" ;
-> -+   int                     fd, null_fd;
-> -
-> -    signal_default_state();
-> -
-> -@@ -296,9 +297,22 @@ void child_process( struct server *serp )
-> -    signals_pending[0] = -1;
-> -    signals_pending[1] = -1;
-> -
-> --   Sclose(0);
-> --   Sclose(1);
-> --   Sclose(2);
-> -+   if ( ( null_fd = open( "/dev/null", O_RDONLY ) ) == -1 )
-> -+   {
-> -+      msg( LOG_ERR, func, "open('/dev/null') failed: %m") ;
-> -+      _exit( 1 ) ;
-> -+   }
-> -+
-> -+   for ( fd = 0 ; fd <= MAX_PASS_FD ; fd++ )
-> -+   {
-> -+      if ( fd != null_fd && dup2( null_fd, fd ) == -1 )
-> -+      {
-> -+         msg( LOG_ERR, func, "dup2(%d, %d) failed: %m") ;
-> -+         _exit( 1 ) ;
-> -+      }
-> -+   }
-> -+   if ( null_fd > MAX_PASS_FD )
-> -+      (void) Sclose( null_fd ) ;
-> -
-> -
-> - #ifdef DEBUG_SERVER
-> -diff --git a/xinetd/service.c b/xinetd/service.c
-> -index 3d68d78..0132d6c 100644
-> ---- a/xinetd/service.c
-> -+++ b/xinetd/service.c
-> -@@ -745,8 +745,8 @@ static status_e failed_service(struct service *sp,
-> -                return FAILED;
-> -
-> -             if ( last == NULL ) {
-> --               last = SAIN( calloc( 1, sizeof(union xsockaddr) ) );
-> --	       SVC_LAST_DGRAM_ADDR(sp) = (union xsockaddr *)last;
-> -+	    SVC_LAST_DGRAM_ADDR(sp) =  SAIN( calloc( 1, sizeof(union 
-xsockaddr) )
-> ); -+	    last = SAIN( SVC_LAST_DGRAM_ADDR(sp) );
-> -             }
-> -
-> -             (void) time( &current_time ) ;
-> -@@ -772,8 +772,8 @@ static status_e failed_service(struct service *sp,
-> -                return FAILED;
-> -
-> - 	    if( last == NULL ) {
-> --               last = SAIN6(calloc( 1, sizeof(union xsockaddr) ) );
-> --	       SVC_LAST_DGRAM_ADDR( sp ) = (union xsockaddr *)last;
-> -+	    SVC_LAST_DGRAM_ADDR(sp) = SAIN6(calloc( 1, sizeof(union 
-xsockaddr) )
-> ); -+            last = SAIN6(SVC_LAST_DGRAM_ADDR(sp));
-> -             }
-> -
-> -             (void) time( &current_time ) ;
-> ---
-> -1.5.3.6.2040.g15e6
-> -
-> diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
-> b/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch deleted
-> file mode 100644
-> index 852a43f2de..0000000000
-> --- a/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -xinetd: CVE-2013-4342
-> -
-> -xinetd does not enforce the user and group configuration directives
-> -for TCPMUX services, which causes these services to be run as root
-> -and makes it easier for remote attackers to gain privileges by
-> -leveraging another vulnerability in a service.
-> -http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342
-> -
-> -the patch come from:
-> -https://bugzilla.redhat.com/attachment.cgi?id=799732&action=diff
-> -
-> -CVE: CVE-2013-4342
-> -Signed-off-by: Li Wang <li.wang@windriver.com>
-> -Upstream-Status: Backport
-> ----
-> - xinetd/builtins.c |    2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/xinetd/builtins.c b/xinetd/builtins.c
-> -index 3b85579..34a5bac 100644
-> ---- a/xinetd/builtins.c
-> -+++ b/xinetd/builtins.c
-> -@@ -617,7 +617,7 @@ static void tcpmux_handler( const struct server *serp )
-> -    if( SC_IS_INTERNAL( scp ) ) {
-> -       SC_INTERNAL(scp, nserp);
-> -    } else {
-> --      exec_server(nserp);
-> -+      child_process(nserp);
-> -    }
-> - }
-> -
-> ---
-> -1.7.9.5
-> -
-> diff --git
-> a/meta/recipes-extended/xinetd/xinetd/xinetd-should-be-able-to-listen-on-IP
-> v6-even-in-ine.patch
-> b/meta/recipes-extended/xinetd/xinetd/xinetd-should-be-able-to-listen-on-IP
-> v6-even-in-ine.patch deleted file mode 100644
-> index 2365ca123b..0000000000
-> ---
-> a/meta/recipes-extended/xinetd/xinetd/xinetd-should-be-able-to-listen-on-IP
-> v6-even-in-ine.patch +++ /dev/null
-> @@ -1,112 +0,0 @@
-> -Upstream-Status: Pending [from other distro Debian]
-> -
-> -From f44b218ccc779ab3f4aed072390ccf129d94b58d Mon Sep 17 00:00:00 2001
-> -From: David Madore <david@pleiades.stars>
-> -Date: Mon, 24 Mar 2008 12:45:36 +0100
-> -Subject: [PATCH] xinetd should be able to listen on IPv6 even in
-> -inetd_compat mode -
-> -xinetd does not bind to IPv6 addresses (and does not seem to have an
-> -option to do so) when used in -inetd_compat mode.  As current inetd's
-> -are IPv6-aware, this is a problem: this means xinetd cannot be used as
-> -a drop-in inetd replacement.
-> -
-> -The attached patch is a suggestion: it adds a -inetd_ipv6 global
-> -option that, if used, causes inetd-compatibility lines to have an
-> -implicit "IPv6" option.  Perhaps this is not the best solution, but
-> -there should definitely be a way to get inetd.conf to be read in
-> -IPv6-aware mode.
-> ----
-> - xinetd/confparse.c |    1 +
-> - xinetd/inet.c      |   17 +++++++++++++++++
-> - xinetd/options.c   |    3 +++
-> - xinetd/xinetd.man  |    6 ++++++
-> - 4 files changed, 27 insertions(+), 0 deletions(-)
-> -
-> -diff --git a/xinetd/confparse.c b/xinetd/confparse.c
-> -index db9f431..d7b0bcc 100644
-> ---- a/xinetd/confparse.c
-> -+++ b/xinetd/confparse.c
-> -@@ -40,6 +40,7 @@
-> - #include "inet.h"
-> - #include "main.h"
-> -
-> -+extern int inetd_ipv6;
-> - extern int inetd_compat;
-> -
-> - /*
-> -diff --git a/xinetd/inet.c b/xinetd/inet.c
-> -index 8caab45..2e617ae 100644
-> ---- a/xinetd/inet.c
-> -+++ b/xinetd/inet.c
-> -@@ -25,6 +25,8 @@
-> -
-> - static psi_h iter ;
-> -
-> -+extern int inetd_ipv6;
-> -+
-> - static int get_next_inet_entry( int fd, pset_h sconfs,
-> -                           struct service_config *defaults);
-> -
-> -@@ -360,6 +362,21 @@ static int get_next_inet_entry( int fd, pset_h sconfs,
-> -          }
-> -          SC_SERVER_ARGV(scp)[u] = p;
-> -       }
-> -+
-> -+      /* Set the IPv6 flag if we were passed the -inetd_ipv6 option */
-> -+      if ( inetd_ipv6 )
-> -+      {
-> -+         nvp = nv_find_value( service_flags, "IPv6" );
-> -+         if ( nvp == NULL )
-> -+         {
-> -+            parsemsg( LOG_WARNING, func, "inetd.conf - Bad foo %s", name )
-> ; -+            pset_destroy(args);
-> -+            sc_free(scp);
-> -+            return -1;
-> -+         }
-> -+         M_SET(SC_XFLAGS(scp), nvp->value);
-> -+      }
-> -+
-> -       /* Set the reuse flag, as this is the default for inetd */
-> -       nvp = nv_find_value( service_flags, "REUSE" );
-> -       if ( nvp == NULL )
-> -diff --git a/xinetd/options.c b/xinetd/options.c
-> -index b058b6a..dc2f3a0 100644
-> ---- a/xinetd/options.c
-> -+++ b/xinetd/options.c
-> -@@ -30,6 +30,7 @@ int logprocs_option ;
-> - unsigned logprocs_option_arg ;
-> - int stayalive_option=0;
-> - char *program_name ;
-> -+int inetd_ipv6 = 0 ;
-> - int inetd_compat = 0 ;
-> - int dont_fork = 0;
-> -
-> -@@ -128,6 +129,8 @@ int opt_recognize( int argc, char *argv[] )
-> -             fprintf(stderr, "\n");
-> -             exit(0);
-> -          }
-> -+         else if ( strcmp ( &argv[ arg ][ 1 ], "inetd_ipv6" ) == 0 )
-> -+            inetd_ipv6 = 1;
-> -          else if ( strcmp ( &argv[ arg ][ 1 ], "inetd_compat" ) == 0 )
-> -             inetd_compat = 1;
-> -       }
-> -diff --git a/xinetd/xinetd.man b/xinetd/xinetd.man
-> -index c76c3c6..c9dd803 100644
-> ---- a/xinetd/xinetd.man
-> -+++ b/xinetd/xinetd.man
-> -@@ -106,6 +106,12 @@ This option causes xinetd to read /etc/inetd.conf in
-> addition to the - standard xinetd config files.  /etc/inetd.conf is read
-> after the - standard xinetd config files.
-> - .TP
-> -+.BI \-inetd_ipv6
-> -+This option causes xinetd to bind to IPv6 (AF_INET6) addresses for
-> -+inetd compatibility lines (see previous option).  This only affects
-> -+how /etc/inetd.conf is interpreted and thus only has any effect if
-> -+the \-inetd_compat option is also used.
-> -+.TP
-> - .BI \-cc " interval"
-> - This option instructs
-> - .B xinetd
-> ---
-> -1.5.5.rc0.127.gb4337
-> -
-> diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.conf
-> b/meta/recipes-extended/xinetd/xinetd/xinetd.conf deleted file mode 100644
-> index 9e6ea2577e..0000000000
-> --- a/meta/recipes-extended/xinetd/xinetd/xinetd.conf
-> +++ /dev/null
-> @@ -1,11 +0,0 @@
-> -# Simple configuration file for xinetd
-> -#
-> -# Some defaults, and include /etc/xinetd.d/
-> -
-> -defaults
-> -{
-> -
-> -
-> -}
-> -
-> -includedir /etc/xinetd.d
-> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-> b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb new file mode 100644
-> index 0000000000..4f0f9531a1
-> --- /dev/null
-> +++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-> @@ -0,0 +1,47 @@
-> +SUMMARY = "Socket-based service activation daemon"
-> +HOMEPAGE = "https://github.com/xinetd-org/xinetd"
-> +
-> +# xinetd is a BSD-like license
-> +# Apple and Gentoo say BSD here.
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=55c5fdf02cfcca3fc9621b6f2ceae10f"
-> +
-> +UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
-> +
-> +SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https \
-> +           file://xinetd.init \
-> +           file://xinetd.default \
-> +           file://xinetd.service \
-> +           "
-> +
-> +SRCREV = "6a4af7786630ce48747d9687e2f18f45ea6684c4"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools update-rc.d systemd pkgconfig
-> +
-> +SYSTEMD_SERVICE_${PN} = "xinetd.service"
-> +
-> +INITSCRIPT_NAME = "xinetd"
-> +INITSCRIPT_PARAMS = "defaults"
-> +
-> +PACKAGECONFIG ??= "tcp-wrappers"
-> +PACKAGECONFIG[tcp-wrappers] = "--with-libwrap,,tcp-wrappers"
-> +
-> +CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
-> +
-> +do_install_append() {
-> +       install -d "${D}${sysconfdir}/init.d"
-> +       install -d "${D}${sysconfdir}/default"
-> +       install -m 755 "${WORKDIR}/xinetd.init"
-> "${D}${sysconfdir}/init.d/xinetd" +       install -m 644
-> "${WORKDIR}/xinetd.default" "${D}${sysconfdir}/default/xinetd" +
-> +       # Install systemd unit files
-> +       install -d ${D}${systemd_unitdir}/system
-> +       install -m 0644 ${WORKDIR}/xinetd.service
-> ${D}${systemd_unitdir}/system +       sed -i -e
-> 's,@BASE_BINDIR@,${base_bindir},g' \
-> +              -e 's,@SBINDIR@,${sbindir},g' \
-> +              ${D}${systemd_unitdir}/system/xinetd.service
-> +}
-> +
-> +RDEPENDS_${PN} += "perl"
-> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb deleted file mode 100644
-> index 8f8f846bfb..0000000000
-> --- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> +++ /dev/null
-> @@ -1,75 +0,0 @@
-> -SUMMARY = "Socket-based service activation daemon"
-> -HOMEPAGE = "https://github.com/xinetd-org/xinetd"
-> -
-> -# xinetd is a BSD-like license
-> -# Apple and Gentoo say BSD here.
-> -LICENSE = "BSD"
-> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
-> -
-> -DEPENDS += "libtirpc"
-> -PR = "r2"
-> -
-> -UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
-> -
-> -SRC_URI = "git://github.com/openSUSE/xinetd.git;protocol=https \
-> -      file://xinetd.init \
-> -      file://xinetd.conf \
-> -      file://xinetd.default \
-> -      file://Various-fixes-from-the-previous-maintainer.patch \
-> -      file://Disable-services-from-inetd.conf-if-a-service-with-t.patch \
-> -      file://xinetd-should-be-able-to-listen-on-IPv6-even-in-ine.patch \
-> -      file://xinetd-CVE-2013-4342.patch \
-> -     
-> file://0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch \ - 
->     file://xinetd.service \
-> -      "
-> -
-> -SRCREV = "68bb9ab9e9f214ad8a2322f28ac1d6733e70bc24"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -inherit autotools update-rc.d systemd
-> -
-> -SYSTEMD_SERVICE_${PN} = "xinetd.service"
-> -
-> -INITSCRIPT_NAME = "xinetd"
-> -INITSCRIPT_PARAMS = "defaults"
-> -
-> -EXTRA_OECONF="--disable-nls"
-> -
-> -PACKAGECONFIG ??= "tcp-wrappers"
-> -PACKAGECONFIG[tcp-wrappers] = "--with-libwrap,,tcp-wrappers"
-> -
-> -CFLAGS += "-I${STAGING_INCDIR}/tirpc"
-> -LDFLAGS += "-ltirpc"
-> -
-> -do_configure() {
-> -	# Looks like configure.in is broken, so we are skipping
-> -	# rebuilding configure and are just using the shipped one
-> -	( cd ${S}; gnu-configize --force )
-> -	oe_runconf
-> -}
-> -
-> -do_install() {
-> -	# Same here, the Makefile does some really stupid things,
-> -	# but since we only want two files why not override
-> -	# do_install from autotools and doing it ourselfs?
-> -	install -d "${D}${sbindir}"
-> -	install -d "${D}${sysconfdir}/init.d"
-> -	install -d "${D}${sysconfdir}/xinetd.d"
-> -	install -d "${D}${sysconfdir}/default"
-> -	install -m 644 "${WORKDIR}/xinetd.conf" "${D}${sysconfdir}"
-> -	install -m 755 "${WORKDIR}/xinetd.init" "${D}${sysconfdir}/init.d/
-xinetd"
-> -	install -m 644 "${WORKDIR}/xinetd.default"
-> "${D}${sysconfdir}/default/xinetd" -	install -m 755 "${B}/xinetd/xinetd"
-> "${D}${sbindir}"
-> -	install -m 755 "${B}/xinetd/itox" "${D}${sbindir}"
-> -	install -m 664 ${S}/contrib/xinetd.d/* ${D}${sysconfdir}/xinetd.d
-> -
-> -	# Install systemd unit files
-> -	install -d ${D}${systemd_unitdir}/system
-> -	install -m 0644 ${WORKDIR}/xinetd.service ${D}${systemd_unitdir}/
-system
-> -	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> -	       -e 's,@SBINDIR@,${sbindir},g' \
-> -	       ${D}${systemd_unitdir}/system/xinetd.service
-> -}
-> -
-> -CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
-
-
-
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
