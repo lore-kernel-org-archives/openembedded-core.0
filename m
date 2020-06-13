@@ -1,81 +1,164 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web10.5159.1592037076727203981
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 13 Jun 2020 01:31:16 -0700
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com (EUR02-AM5-obe.outbound.protection.outlook.com [40.92.67.101])
+ by mx.groups.io with SMTP id smtpd.web10.6225.1592043605607820726
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 13 Jun 2020 03:20:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QsCFBmkc;
- spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: uvv.mail@gmail.com)
-Received: by mail-qv1-f65.google.com with SMTP id di13so5475990qvb.12
-        for <Openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2020 01:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=1SKsufXd9uoZxVxYtcXCVe+ELadwRBOmZMF2enBJdkk=;
-        b=QsCFBmkceMHiMe+gKWx7BgFIG3itLipHmHSnsurTjQdcaRNz+XG9I16vXZ9TxP2SeG
-         A+CXLhycYXhAPfTzO1QeL7vgv1peZRNKGvk+IteHO14LlRUWLn8VPPyYpnMjf6p8gNoO
-         0SgKcRTvMtg2TeEgty/IN0BV4mAPj1ECyFRsQbc6mE4fEqqiSFUR3Ok+WJRmLOlp9yhL
-         6JbY966FG++iFpq1bPoBgJ9moiyH1dpZpMet6CAMkEDRxLVI0WJwZRhL9eYgMWMsSkWu
-         r0e/ozMLqZgS3PX/QV4nI+DWZYdfJNuj0AeITIlkwnsc190Xgbdb2CO3P41Yj9lLNrve
-         xXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=1SKsufXd9uoZxVxYtcXCVe+ELadwRBOmZMF2enBJdkk=;
-        b=bmfDT6ORmzy+d24a5qR/0pydGyiyDwdOyKahSlDjjZtc98P28tmUquS1kLypnBjZj3
-         RbFGybUAK+74JgTqviG7jtqtiDB/nUX+xw9tyAViAOBHojqes35UfVIUDNASnGMTJFcB
-         dmzdoB/Y8476blgxqSM6Je3yeZ1Q760RduX+fpNs1El5UmTbHSB4OtgCOjRJm3sajAJ1
-         hRg5l7wcU0B+/+M9DSWbmyiXuz8r2YcIwGNbBBzc7//R7IIOpliQGJ7KXfVGtK5gcJ6E
-         m+cJL+uZ480hzgm+9fIKlA70xE82YLJdmbYErie3+NxK7wwREoLsFhPgfMWr5Tgm+dIm
-         k50g==
-X-Gm-Message-State: AOAM532f96WwFX91UO+HRGS7HD7rJUnW4pb0BtUXLcNgIgxBi4ZbyicU
-	mKUVrwENPAx20f3H2WX9+Vw=
-X-Google-Smtp-Source: ABdhPJyB1HahCuKwRNc4dhI/Qk3gAIWGN9jT7q2Sl7zMVGqdcQn4GHdjpPWT8vla10ASdDCTkM05Ew==
-X-Received: by 2002:a0c:e710:: with SMTP id d16mr16426994qvn.158.1592037075868;
-        Sat, 13 Jun 2020 01:31:15 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from Vyacheslavs-MacBook-Pro.local ([37.120.205.162])
-        by smtp.gmail.com with ESMTPSA id r5sm7127334qtc.40.2020.06.13.01.31.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Jun 2020 01:31:15 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
-To: Khem Raj <raj.khem@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: tmark@isc.org, Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-References: <20200610143520.2727827-1-uvv.mail@gmail.com>
- <6dd0de0be72028b355cd759e40fee22c9d24ca7b.camel@linuxfoundation.org>
- <b10c95a7-5d8b-d922-ad40-6d97cceb9c85@gmail.com> <14618585.ZI4Hmrvx6b@tyche>
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-Message-ID: <af72cd9c-2ce8-a2d8-e6d2-89028f576294@gmail.com>
-Date: Sat, 13 Jun 2020 10:31:11 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=Nm3nXh8N;
+ spf=pass (domain: outlook.com, ip: 40.92.67.101, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AR1NFFjnjOZqt/4TEN3VmwNKS4TUpCLagzjeQG2YjdCrjG5tYrkrvE1YcA9lORuxIba6YgKyQMKFRcXcd1Cn+fBsS96c8tBCMoUhFa78vH0FVi7UV2ykR0WDp7+lP8oZI/BQec1C13V+oZL4R/tSe0pT6HYzCgGWA7Yh96zmGURvsHE9iTA5Tu8kr5Kwhhpe8eYZW5vXruXUCMFkKT+WI7yrV+M5UN+q6iRGpTtGraoYnB18u7NW8z7bYcA0SSOZwXJpuamFukxsr/GQ4HCiCm7Oizqt6r4fSonfU4i7NisNMuYJg3spjwy+dy0awhMi3u0Xh2MTZgF27aRUy7uhkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLL/nnDGWsZYT1X3xt+KXd7echqW0s1ANlXVN89XY/g=;
+ b=SYndEcdP9UsYa5DCL4sJjSbJJzOGeNpqGkr0p+thhWXqklpiXUWdwify9tjqJxBxLejcSHzybSbeIApSc205EiRgRiDdX4c/4E9x8UXGMJtCXJlZzZa6g/a4tqqbJ5u+Nzvwr7zKG2ggaaM4C2DaXRsnDQFoIJf9U3udUJQ/q1huivNqTAx7/BK6LEYNDJkU6YYBfDrnZm3Sl7TquxweVZxGpkoTzKHavMk++56Qp+K/SyXz/K3H9EPhfaiEuTkos41CpMM/ddPaBGlzPGpdQlhZ8JXRdSpfe2HAxEYRNhvJq0iOVtv68a44C+U4xJ/nl94LiiAVeNb5oZN0GxgmEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLL/nnDGWsZYT1X3xt+KXd7echqW0s1ANlXVN89XY/g=;
+ b=Nm3nXh8NL/V0SUGkQ/HDKRyx9hCBKjYXk1d0hQc4zLYF96aswsEv4rSE9YslzkcCp4mmvav8DZ7d6B2Lf3QnUOa2PMli7o0LMOI1jCr/Kmb7yPGZ6gB8UBZnxKIrMjLCeLhH4bOCLydFty5Jho7ZqaOEM12pb5FWTCE36/eBGGoV85/vQq+XxGCmR2Q9obC3Zu3TQXnLFvL6PItxsKh2/r4u6ls/PhZJ6sUqPCAabBfwQIimPlnClWlS5gO+v8vp+9P8ysS1j+NcVN7irEWVFpqiQqCwOCiHvzmL+hu7MQFTjn+WhboW5+/alRmGJtEDnx8tStMZGbA0pLGXECaEeA==
+Received: from HE1EUR02FT060.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1d::52) by
+ HE1EUR02HT218.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1d::296)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.22; Sat, 13 Jun
+ 2020 10:20:03 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:7e1d::53) by HE1EUR02FT060.mail.protection.outlook.com
+ (2a01:111:e400:7e1d::464) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.22 via Frontend
+ Transport; Sat, 13 Jun 2020 10:20:02 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:40492EE3F1ACDFC502AD548FE9758F31957E379D152B45A91F0E8170E5FEB307;UpperCasedChecksum:6DB30ED2A5F71643ABCF9C426AA467ACC352C16FABB339B2EDCA10BCF03C8E06;SizeAsReceived:7404;Count:47
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722%7]) with mapi id 15.20.3088.025; Sat, 13 Jun 2020
+ 10:20:02 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] oeqa/runtime: Add OERequirePackage decorator
+Date: Sat, 13 Jun 2020 12:19:41 +0200
+Message-ID: <AM7PR05MB68814488723D88530BBC17E2A89E0@AM7PR05MB6881.eurprd05.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+X-ClientProxiedBy: AM6P191CA0091.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:8a::32) To AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20200613101941.14718-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <14618585.ZI4Hmrvx6b@tyche>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (79.215.11.32) by AM6P191CA0091.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend Transport; Sat, 13 Jun 2020 10:20:02 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200613101941.14718-1-kweihmann@outlook.com>
+X-TMN: [UAfcKE71aadrUoG5fnsykds4zTwO26ZS]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 0de3a555-6f96-4978-d0f8-08d80f8355b1
+X-MS-Exchange-SLBlob-MailProps: 
+	NS9Gj58uCj06SN4ZaKdB+g1xb1mDfH1YBajXkUS4rXnoCec1F7rlpkHK6GNfY5tu0ABLudVVt2gYuFnKB3ckvmAhxf/CPHPlt2siaeO7qul/CofkebakfoIbsKSl/84TzJnX7xjJtUODvQTGAQ2/KLMpU9MDwrtRzotInPtX9nft8rgpz3PMvKurJ8TmPCJmOjkrSXgbMO9KVQ3dg5BZ2TpX2fDdSYp2+IEX8xBPXLu+Ljq5Jgbkw7+vKEV3S9x+mQ/DXhgQdzkPQrP3TorkqcsHcz+eVVnjc2HNBFjo+khRYyiE1HM0BcIFCUbywrATDlJWx8ExRXmzODqpS516se8WF+AfAFaT06OOnBIa9dwQGhMivqJOlgtq+mBzkJFMzoHuFT+nsFSesyvIccpWvrwtMH7rMAiDq1LQ+ohOYXkpIfF5iGjj+gTUUNwnNmuuktXKUdSzFxoMoT8QnWqFvhcVXKOnKADGj587zuLl0/dAvg565oZWGB1TK37849w9owIktQGSdpSpagfHg1mfGdqMwQbIE/YrAD6APfXsGGWFkkx5slZrSZCFbjdmAHiPiU9INQDUqxBBSWfTpFz8lJ3OAIgJ3MYoA27NdbN/K5PxvLuR8F1psuY2CZYSQ2sUSlxTECwc4I/muacDwaTiAwpzu0ax99BZ76tMmQNOffIWB8TMpP69VmZOz6OQ9CI4/D5UX74vaJoPpq4mZqviEw==
+X-MS-TrafficTypeDiagnostic: HE1EUR02HT218:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	cVcUqwIw28ifN5y/cdZEab0KZzftsxmb9lF5pkDEnwDj8jGhbYzYXzisRqLuDm5Yl48HsCwtVDWA+CkxIb8bSkH1/QvJZvOUM+ub5CUDwq1prN1zeEgSB48nt1vY7Tf4HU7O2Alj1GEiMOQSjLSdtA1Ziv1zGokPYyWWfZKpE4lxEo8xsGUWmCufiWFsDtAkhqkYE2cu5LwFLea2veIQhg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	Xoyhv5rkQLB6SiN3Ckv9BpsHTCOJM1CMU3W8Euc60Bl+Wikq+pVa+3xWedCqFSpMXOXzUHgt9jeJMWKwlaGlp7yrpEMd4Tmgt9rWVrcbVd1JnK1XWvDbq2FTHGIdgb/3U5QuzI+1gm5XdXYn9waYkg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0de3a555-6f96-4978-d0f8-08d80f8355b1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2020 10:20:02.9517
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT218
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On 13.06.2020 02:41, Khem Raj wrote:
-> I think it would be good to share if we can. Shipping two versions of bind
-> libraries is less than ideal, have you explored disabling threading in the
-> bind recipe and see if named is happy with that ?
->
-Yes, I have. It partially solves the issue. At least DHCP doesn't 
-crash/fail anymore, but warnings from epoll enabled are still seen in 
-the logs. The other question is do we have to strip down BIND 
-functionality in order to make DHCP work?
+Add new decorator which behaves like OEHasPackage, but
+fails the testcase if a dependency isn't met.
 
-I understand that maintenance effort is at stake and we are looking for 
-the best possible solution here, but IMHO having one set of bind 
-libraries for both BIND and DHCP servers is not one of them.
+This helps to identify missing packages in the image
+under test when using static test suite lists, otherwise
+a missing package won't fail the overall test suite and
+errors might slip through unnoticed
 
-We could also go Ubuntu way here, by having two bind-9.11.x for DHCP and 
-upgrading BIND server to the latest stable (9.16.x if I'm not mistaken). 
-Then security support could be only done for 9.11.x version, the latest 
-stable should have most of security patches included already.
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oeqa/runtime/decorator/package.py | 50 ++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-Vyacheslav
+diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/run=
+time/decorator/package.py
+index 4c5ca198b0..b3d3fdbec2 100644
+--- a/meta/lib/oeqa/runtime/decorator/package.py
++++ b/meta/lib/oeqa/runtime/decorator/package.py
+@@ -54,3 +54,53 @@ class OEHasPackage(OETestDecorator):
+             if self.case.tc.image_packages.isdisjoint(need_pkgs):
+                 msg =3D "Test requires %s to be installed" % ', or'.join(n=
+eed_pkgs)
+                 self.case.skipTest(msg)
++
++@registerDecorator
++class OERequirePackage(OETestDecorator):
++    """
++        Checks if image has packages (un)installed.
++        It is almost the same as OEHasPackage, but if dependencies are mis=
+sing
++        the test case fails.
++
++        The argument must be a string, set, or list of packages that must =
+be
++        installed or not present in the image.
++
++        The way to tell a package must not be in an image is using an
++        exclamation point ('!') before the name of the package.
++
++        If test depends on pkg1 or pkg2 you need to use:
++        @OERequirePackage({'pkg1', 'pkg2'})
++
++        If test depends on pkg1 and pkg2 you need to use:
++        @OERequirePackage('pkg1')
++        @OERequirePackage('pkg2')
++
++        If test depends on pkg1 but pkg2 must not be present use:
++        @OERequirePackage({'pkg1', '!pkg2'})
++    """
++
++    attrs =3D ('need_pkgs',)
++
++    def setUpDecorator(self):
++        need_pkgs =3D set()
++        unneed_pkgs =3D set()
++        pkgs =3D strToSet(self.need_pkgs)
++        for pkg in pkgs:
++            if pkg.startswith('!'):
++                unneed_pkgs.add(pkg[1:])
++            else:
++                need_pkgs.add(pkg)
++
++        if unneed_pkgs:
++            msg =3D 'Checking if %s is not installed' % ', '.join(unneed_p=
+kgs)
++            self.logger.debug(msg)
++            if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
++                msg =3D "Test can't run with %s installed" % ', or'.join(u=
+nneed_pkgs)
++                self.case.fail(msg)
++
++        if need_pkgs:
++            msg =3D 'Checking if at least one of %s is installed' % ', '.j=
+oin(need_pkgs)
++            self.logger.debug(msg)
++            if self.case.tc.image_packages.isdisjoint(need_pkgs):
++                msg =3D "Test requires %s to be installed" % ', or'.join(n=
+eed_pkgs)
++                self.case.fail(msg)
+--=20
+2.20.1
+
