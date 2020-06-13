@@ -1,115 +1,85 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.513.1592008487459292093
- for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 17:34:47 -0700
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+ by mx.groups.io with SMTP id smtpd.web10.610.1592008899451047288
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 12 Jun 2020 17:41:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i/b5ZppP;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id j4so1159251plk.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 17:34:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dHS9nhrO;
+ spf=pass (domain: gmail.com, ip: 209.85.210.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f196.google.com with SMTP id h185so5093986pfg.2;
+        Fri, 12 Jun 2020 17:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:organization:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uRlXII9ndivdD7ps+YtWKvT3UKE8TpScnaAlViyS2ZY=;
-        b=i/b5ZppPyLun4KXVqQndtQBBzFdaBILkX6RZVQO0ynYxk4NMotr1/edNCbHOE68+gH
-         fDdVO39vTmCWZu9ZiLN4tVF9SY7hstnu1Wmw/zYeQWnsMhNF7XMJPcXG3AfynVXu9d9u
-         P0O3s1HMkfDNjyw6Fv+vi+2Es3GCVwlEqfpUrjMJfA8J84NPJEGupYu3VNfh7b2OgFx7
-         AmTpS1gMlxgtgErZ2XImnZCQ7neAwm9trfSFg27ZexP2QTfsjhHFwuxSdpWvl4Jz+pcs
-         Dmr/ukNIVSKOpkigLlDhr2KxAasIZ4VTyia/XgIOe/QmeZhafH6EmIfXfXKrxwObIABa
-         rRAg==
+        bh=ca1HUXp64R1+pMY7Ay/RKiliIoRCIC2CaqSH8X5P2hU=;
+        b=dHS9nhrO13+TJVuvmXtVNwTbTvBQhJliBLEwFWqtOllCO6NWOXD57woc9Ogh1yr6s0
+         eFgTjP8K06XerE9x1Y29pe2AYD5mWSJFMY9wBD95E/5gHbbbYt7FTpb0nr00voThLRmF
+         ZUc0gdvNXyFglWWa0afAjpifFfjDwlsvBbEVD+Ljy6ZDMuZb4acGS1kqT5q0R0LPlXXP
+         7bRBbWD6FqSc0PyKVIO1qqx8PsBj1dMThGPl1l9jCC1luHAVC6lyPD3CqM3v96CXshiW
+         9rNS0d6LWd1Ds/FE2cRa4UKLsUVIZpcmyXXe5Zni4xFqMVDus3v2DM5CsPldZQXW+H9y
+         49Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:organization
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=uRlXII9ndivdD7ps+YtWKvT3UKE8TpScnaAlViyS2ZY=;
-        b=IhKHTpaz+IVhvHSB6pt85pLkgLwHNTw52sM+mIltdII/gEmi5HEZbExUqoQPv0Qiqb
-         CNyT0zlGz4p26eO+V9IOdHV11ZD3AoS9UR+j+azLz+puwzbyQRxeeUGujNgyMb2c70KK
-         lObqgCNkdyZ/MnwwM/shhRHPsmvLBUUE/VMJmcXpkZ1JgQ3DNpn5/3oNfRyL+4ROj+zr
-         a1G29/xjSD3ORaTjFchTYUb7Pn6+B2qZtHSyLGQxmVfSyjFk3iT6qlM0+PVYmp4LXDD7
-         mQKDM1Og4BVQO85Z9HFlVOPk72+9Zqp6kfduZXsq7LQPuWigBCU/jAQ/c/1Wp2eLRLOf
-         au/Q==
-X-Gm-Message-State: AOAM532Dk22C/6iSFnzT/7hchHCKuz6t7yJY5j5lgf2LOMWQ4RT2w2bx
-	BVfH9nsLFFHoo57DLPKOHqzpchxw6PA=
-X-Google-Smtp-Source: ABdhPJy7lyHqQWf6VzikC1Z5LR4zehDyTt01aHXrU9k5detyB1ktN3AU1aDqbRGWlcxGkkv+V2du/g==
-X-Received: by 2002:a17:90a:f414:: with SMTP id ch20mr1294969pjb.97.1592008486474;
-        Fri, 12 Jun 2020 17:34:46 -0700 (PDT)
+        bh=ca1HUXp64R1+pMY7Ay/RKiliIoRCIC2CaqSH8X5P2hU=;
+        b=SofJdTyfAkdJJK8pI6+iuFKXfbDSfcyxjpClI3/HxqbyAqimTfpqOSxLszfQPneftS
+         ETo7wdfWkj6yW99RSGhg8goRyBtyNWpA5BYQ0QaBgHUjHgJvVPFHV8vkNYcIDYwXA84p
+         yA/C4OGK8lNv0D6MZ0VeKO7nt5MLBspD5VRSG2xvh4ECTCUIOTUvC6QCarocLdzmZW/F
+         pwlkqOoDkODZIKQGEsTxaVqzLUplmETFxrVuHrCNlk3MalO/FxP6BK2CMU49hMdk+o9j
+         2tXESTuf3Ge181cCQAjAtQWinA59LzDNZgul1kCFH2x8cRHBo2hdOktUeOHLPtDtLfVm
+         0hug==
+X-Gm-Message-State: AOAM531+Z2I8Gz161G7HsJIKp+i4rO2qA6a1Yd5DB2PMPuZOeMBvMo8F
+	cmUIDTWt3lJHhXmCFn1Etuk=
+X-Google-Smtp-Source: ABdhPJzzqJsoL7jTjgFTRt6pf2KDTEBX8FL8GcR5UQhEHhyJLnSYLsFbCYlH+4idu2gJBr81tQya7A==
+X-Received: by 2002:a63:ec44:: with SMTP id r4mr13062157pgj.11.1592008898401;
+        Fri, 12 Jun 2020 17:41:38 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from tyche.localnet ([2601:646:9200:4e0::96b0])
-        by smtp.gmail.com with ESMTPSA id 77sm7335615pfx.172.2020.06.12.17.34.45
+        by smtp.gmail.com with ESMTPSA id m14sm6176084pgn.83.2020.06.12.17.41.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 17:34:46 -0700 (PDT)
+        Fri, 12 Jun 2020 17:41:37 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
-Subject: Re: [OE-core] Error while building image for 5.4.y on RPI4
-Date: Fri, 12 Jun 2020 17:34:45 -0700
-Message-ID: <3022466.YH7JXIEmOa@tyche>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Openembedded-core@lists.openembedded.org, openembedded-core@lists.openembedded.org
+Cc: tmark@isc.org, Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>, Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
+Date: Fri, 12 Jun 2020 17:41:36 -0700
+Message-ID: <14618585.ZI4Hmrvx6b@tyche>
 Organization: HIMVIS
-In-Reply-To: <Y4nb.1591945376060563369.5YNj@lists.openembedded.org>
-References: <Y4nb.1591945376060563369.5YNj@lists.openembedded.org>
+In-Reply-To: <b10c95a7-5d8b-d922-ad40-6d97cceb9c85@gmail.com>
+References: <20200610143520.2727827-1-uvv.mail@gmail.com> <6dd0de0be72028b355cd759e40fee22c9d24ca7b.camel@linuxfoundation.org> <b10c95a7-5d8b-d922-ad40-6d97cceb9c85@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Friday, June 12, 2020 12:02:56 AM PDT Pankaj  Vinadrao Joshi wrote:
-> Hi,
-> i am trying to build an image for RPI4 for 5.4.y kernel but i am getting
-> following error , i
+On Wednesday, June 10, 2020 9:36:52 AM PDT Vyacheslav Yurkov wrote:
+> On 10.06.2020 17:05, Richard Purdie wrote:
+> > You seem to disable parallel make yet no mention of that in the log?
 > 
-> Initialising tasks: 100%
-> |##########################################################################
-> ############################################################################
-> #############| Time: 0:00:04 Sstate summary: Wanted 1094 Found 0 Missed 1094
-> Current 1154 (0% match, 51% complete) NOTE: Executing Tasks
-> WARNING: libfm-extra-1.3.1-r0 do_fetch: Failed to fetch URL
-> https://downloads.sourceforge.net/pcmanfm/libfm-1.3.1.tar.xz, attempting
-> MIRRORS if available *WARNING:
-> linux-raspberrypi-1_5.4.40+gitAUTOINC+97badb4bae-r0 do_fetch: Failed to
-> fetch URL git://github.com/raspberrypi/linux.git;branch=rpi-5.4.y,
-> attempting MIRRORS if available* *ERROR:
-> linux-raspberrypi-1_5.4.40+gitAUTOINC+97badb4bae-r0 do_fetch: Fetcher
-> failure: Unable to find revision 97badb4baeb8999263a9bc2fa85c3060ffff344b
-> in branch rpi-5.4.y even from upstream* *ERROR:
-> linux-raspberrypi-1_5.4.40+gitAUTOINC+97badb4bae-r0 do_fetch: Fetcher
-> failure for URL: 'git://github.com/raspberrypi/linux.git;branch=rpi-5.4.y'.
-> Unable to fetch URL from any source.* *ERROR: Logfile of failure stored in:
-> /home/pankaj/Oe-Raspberrypi4/tmp-glibc/work/raspberrypi4-oe-linux-gnueabi/l
-> inux-raspberrypi/1_5.4.40+gitAUTOINC+97badb4bae-r0/temp/log.do_fetch.10175*
-> ERROR: Task
-> (/home/pankaj/meta-raspberry/meta-raspberrypi/recipes-kernel/linux/linux-ra
-> spberrypi_5.4.bb:do_fetch) failed with exit code '1' NOTE: Tasks Summary:
-> Attempted 2294 tasks of which 1551 didn't need to be rerun and 1 failed.
+> Right, I forgot to mention that in the commit message. Building bind at
+> 'compile' stage breaks parallel make. I assume that can be addressed,
+> but I'd need to take a look at how to set that dependency with autotools.
 > 
-> This my linux-raspberrypi_5.4.bb file
+> > Why doesn't dhcp build and link against a static libbind by default if
+> > these issues are present the the dhcp authors don't want to work with
+> > such libbinds?
 > 
-> LINUX_VERSION ?= "5.4.40"
-> LINUX_RPI_BRANCH ?= "rpi-5.4.y"
+> That's a good question. I assume the alternative is disable threads in
+> bind recipes then a shared library can be used by both, dhcp and named
+> (DNS). Hopefully Thomas from ISC (in CC) could clarify this better than me.
 > 
-> SRCREV = "97badb4baeb8999263a9bc2fa85c3060ffff344b"
-> 
-> require linux-raspberrypi_5.4.inc
-> 
-> SRC_URI +=
-> "file://0001-perf-Make-perf-able-to-build-with-latest-libbfd.patch \
-> file://0001-Revert-selftests-bpf-Skip-perf-hw-events-test-if-the.patch \
-> file://0002-Revert-selftests-bpf-Fix-perf_buffer-test-on-systems.patch \
-> file://0001-selftest-bpf-Use-CHECK-macro-instead-of-RET_IF.patch \
-> file://powersave.cfg \
-> "
-> 
-> pankaj@exaleap-Inspiron-3584:~/Oe-Raspberrypi4$ bitbake -e | grep
-> ^PREFERRED_VERSION_linux-raspberrypi
-> PREFERRED_VERSION_linux-raspberrypi="5.4.%"
-> 
-> am i missing anything,why i am getting this error can someone help??
 
-upstream has not yet make 5.4 as defualt kernel for rpi until they do so they 
-keep rebasing it unfortunately which means meta-raspberrypi has to keep 
-updating SRCREVs, 
+I think it would be good to share if we can. Shipping two versions of bind 
+libraries is less than ideal, have you explored disabling threading in the 
+bind recipe and see if named is happy with that ?
 
-you can cherrypick https://github.com/agherzan/meta-raspberrypi/pull/654
-until its merged
+> > Cheers,
+> > 
+> > Richard
+> 
+> Regards,
+> Vyacheslav
+
 
 
 
