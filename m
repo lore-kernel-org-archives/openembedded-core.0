@@ -1,244 +1,346 @@
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
- by mx.groups.io with SMTP id smtpd.web12.17704.1592085775500009961
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.3721.1592166845811367240
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jun 2020 15:02:55 -0700
+ Sun, 14 Jun 2020 13:34:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SzgAzxso;
- spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f67.google.com with SMTP id k13so7293239vsm.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2020 15:02:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tzbCj8Mu;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id b5so5729891pgm.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2020 13:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZF+kj6h2OzkqtkNFQAPAEgVNM5kuyZ38whlb7HiDIkk=;
-        b=SzgAzxsoZkQvDoU2EF55bVG9afOatyh4bwIR/XJSLr2M3247vEhYTlMNayHgagDEOV
-         DD71UQcLYcXUDWIApvLQC51cZJaNue1m+ZMGCu/fuX4gCmJ7xOURf8QURL9GC6FBiVfw
-         cwISBdK4ceD7L4627bSiKjPfUbFsSXklA7G5B6yj1n62fUD48vfkWTJdHRtI7dgPz9e2
-         vHj7p9naQABGXoX5UfQK9ACDvOJceyaB0Taab63rS49yC4k6Od2dT5tRdHq5rdogfxYV
-         9HmNYav8BzL/b7u8ofJLpgq7pem9A7UwJ8KHAqZLt5ZqLDdlFgxrBeAHn6i8DpasElAv
-         L9dQ==
+        h=from:to:subject:date:message-id;
+        bh=k/JCRQcHcb0xJHnqoVgZ8+z+pPIfUQU9Cw8TjERYnO8=;
+        b=tzbCj8MuXJSavOoDses+JQObE4jakvZiU7spbOozY2TXpitE2rCVuSHAKpJNLoTq3Y
+         /gQJ5NEIEZiwDt2ju4p8kUU39LblZZHwQLpFhpVHTie8pv8LZcWADrLHSf9ItYVWdLsG
+         R+hWeqpFbNckbA3Jzsxfqwy47WkGl8RqInSz/PMTKE7UN46OdwRn0ceGf0uNq8P1Xgeg
+         Vrowqtu4qDAJGhITJCU2dvZf+PFWQjWyDLTfVidq3x5UrVYI3FTt2dfJE+ANSA12W88/
+         y65HurPfXbbN6tWBnLj/KCiWZocqvrH/4RoW0JZIDTeHuH/4Iu9R9xc0ZF09eH0uKRuw
+         7EgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZF+kj6h2OzkqtkNFQAPAEgVNM5kuyZ38whlb7HiDIkk=;
-        b=QCpFSwl4UoXcLqFmPRR1r0gskhhR9k8prEjBdZ844FR0IeEhBTItnFNbIhBWNlNAri
-         qMGAVrlOvx+MgQcfBMxNfUmHMUrzJeDIJDk2pEXnh9gFD3LsT3Z0r95wzvZMz12SMwbZ
-         OgMqt/ocuSP1FMx9wu+DdTXf4k9Iu0U1wiLbNHKNsGxrsTnD2SYz4RJX3OqoXsfeh2d+
-         aquDVfnLnpJERM4CWysQr3FDkLIrsjBguWPwoB5JB7l96AN3/gawmJwJf/JQrxBqQ75i
-         dp0uL636amEQyyoZDFkgu1Ni05UaNxuLuD9pQzjVWWB/J8aP6zz7Ys6+gu0gYnK/HdFa
-         3xqA==
-X-Gm-Message-State: AOAM53339gNNG2fodK51CZBSyoKyJgFmeEsivZ64xMvejWbkUqFiaBV5
-	PO+Ix85KJk9x8koCyBgBEx891ZViOrM9XOD/Kzc=
-X-Google-Smtp-Source: ABdhPJzwl06wTlTNxwiDK43vG5NhHwpdvBtjdnLHNLKIwBMiQaqkCWw2HGRWchUg13RJk7zrvQg9evxHaUgvjJJhXjg=
-X-Received: by 2002:a67:8c09:: with SMTP id o9mr15720200vsd.23.1592085774639;
- Sat, 13 Jun 2020 15:02:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200608074659.7051-1-alex.kanavin@gmail.com> <20200608074659.7051-15-alex.kanavin@gmail.com>
- <CAHtQpK4zcKXmF0hfDkVmXy_69UkvEbhYhMWAoS3AgLrm6FGhpA@mail.gmail.com>
-In-Reply-To: <CAHtQpK4zcKXmF0hfDkVmXy_69UkvEbhYhMWAoS3AgLrm6FGhpA@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 14 Jun 2020 00:02:43 +0200
-Message-ID: <CANNYZj839s4Fqz+voO-5OrToqPcXVm=W0N68kXu=64nWTFpFtw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/42] cogl-1.0: upgrade 1.22.6 -> 1.22.8
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000ca6a005a7fe5b14"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=k/JCRQcHcb0xJHnqoVgZ8+z+pPIfUQU9Cw8TjERYnO8=;
+        b=Pw70d2+02vfFxQkAyHuLI3OX0seoj9cuEk5HlHL6QpQSJrjIatY+pGUhd2jzNITgQv
+         JlJzatKkxgaGCE/OSeK5I1xzX2gw1ZTO31oMLouCJPOy3J22Xy79YTu97bao1lb8G07l
+         tvdAJLiZaREXs7EPYxCEn0PRXMNNt1JPFKXve8fSWO7SJiRhMC3A0hLHLB8Irot1pGhc
+         jDXJ707R7aT90AcHiWGwGshdJTcAcEN2+I2OmNCop2AnL4l3s0yG1C5r1z/wjBC5g1vn
+         FsATa+jM2WyTUC1drbmSadBS03eY5Z7xZ+fm3UqizDV5gdIaWbE617tbiW2RV5bsipzI
+         h23w==
+X-Gm-Message-State: AOAM533sWjo6KNGi3FgDLwx+RrfpsV3u1smCb5yeTpmHHhOrThxv8FIc
+	MPZFvyof19tpgHVWuWdQ+YwEINWa
+X-Google-Smtp-Source: ABdhPJyERKwVJNYULVzLhFN9bXv8i7oajv4KNx/Ov4afatQbf9oljNcN4dW0hPNDEJEpilYZ+53sGg==
+X-Received: by 2002:a63:b511:: with SMTP id y17mr13692407pge.425.1592166844812;
+        Sun, 14 Jun 2020 13:34:04 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net ([2601:202:4180:a5c0:e920:50fc:4b6a:daf0])
+        by smtp.gmail.com with ESMTPSA id 6sm11840277pfi.170.2020.06.14.13.34.03
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2020 13:34:04 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [Master][dunfell][PATCH] bind: update to 9.11.19
+Date: Sun, 14 Jun 2020 13:34:03 -0700
+Message-Id: <20200614203403.19252-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
---0000000000000ca6a005a7fe5b14
-Content-Type: text/plain; charset="UTF-8"
+Bug fix only updates.
 
-Unfortunately not. These items are tested on the autobuilder in various
-configurations, and it gave green light for all of them.
+suitable for Stable branch updates where applicable.
 
-You should probably check how your mesa is configured, and how that differs
-from poky.
+Drop CVE patches included in update
+LIC_FILES_CHKSUM update copyright year to 2020
 
-Alex
+Full changes found at : https://gitlab.isc.org/isc-projects/bind9/-/blob/v9_11/CHANGES
 
-On Sat, 13 Jun 2020 at 22:44, Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../bind/bind/CVE-2020-8616.patch             | 206 ------------------
+ .../bind/bind/CVE-2020-8617.patch             |  29 ---
+ .../bind/{bind_9.11.13.bb => bind_9.11.19.bb} |   7 +-
+ 3 files changed, 2 insertions(+), 240 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.13.bb => bind_9.11.19.bb} (94%)
 
-> Hello Alex,
->
-> On Mon, Jun 8, 2020 at 9:48 AM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb | 6 ------
-> >  meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb | 5 +++++
-> >  2 files changed, 5 insertions(+), 6 deletions(-)
-> >  delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-> >  create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-> >
-> > diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-> b/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-> > deleted file mode 100644
-> > index 86bbdbff69..0000000000
-> > --- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-> > +++ /dev/null
-> > @@ -1,6 +0,0 @@
-> > -require cogl-1.0.inc
-> > -
-> > -SRC_URI[archive.md5sum] = "7bcc01edb5462d4d08d01bf893feddb0"
-> > -SRC_URI[archive.sha256sum] =
-> "6d134bd3e48c067507167c001200b275997fb9c68b08b48ff038211c8c251b75"
-> > -
-> > -LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
-> > diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-> b/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-> > new file mode 100644
-> > index 0000000000..78f6b0e7a3
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-> > @@ -0,0 +1,5 @@
-> > +require cogl-1.0.inc
-> > +
-> > +SRC_URI[archive.sha256sum] =
-> "a805b2b019184710ff53d0496f9f0ce6dcca420c141a0f4f6fcc02131581d759"
-> > +
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
-> > --
-> > 2.26.2
-> >
->
-> I'm seeing a lot of errors like the one below after this upgrade,
-> reverting back to 1.22.6 seems to fix those...
->
-> In file included from ../../cogl-1.22.8/cogl/cogl-egl-private.h:34,
-> |                  from
-> ../../cogl-1.22.8/cogl/winsys/cogl-winsys-private.h:48,
-> |                  from ../../cogl-1.22.8/cogl/cogl-fence-private.h:36,
-> |                  from ../../cogl-1.22.8/cogl/cogl-journal-private.h:37,
-> |                  from
-> ../../cogl-1.22.8/cogl/cogl-framebuffer-private.h:36,
-> |                  from ../../cogl-1.22.8/cogl/cogl-primitive.c:43:
-> | ./cogl-egl-defines.h:38:10: fatal error: EGL/eglmesaext.h: No such
-> file or directory
-> |    38 | #include <EGL/eglmesaext.h>
-> |       |          ^~~~~~~~~~~~~~~~~~
-> | compilation terminated.
->
-> Do I miss something in my setup? Maybe cogl requires new mesa?
->
-> Have you seen those errors as well?
->
-> > 
->
->
->
-> --
-> Regards,
-> Andrey.
->
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+deleted file mode 100644
+index 8f00231919..0000000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
++++ /dev/null
+@@ -1,206 +0,0 @@
+-Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8616.patch]
+-CVE: CVE-2020-8616
+-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+----
+-diff --git a/lib/dns/adb.c b/lib/dns/adb.c
+-index 058495f6a5..6b8a9537f0 100644
+---- a/lib/dns/adb.c
+-+++ b/lib/dns/adb.c
+-@@ -404,14 +404,13 @@ static void log_quota(dns_adbentry_t *entry, const char *fmt, ...)
+-  */
+- #define FIND_WANTEVENT(fn)      (((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
+- #define FIND_WANTEMPTYEVENT(fn) (((fn)->options & DNS_ADBFIND_EMPTYEVENT) != 0)
+--#define FIND_AVOIDFETCHES(fn)   (((fn)->options & DNS_ADBFIND_AVOIDFETCHES) \
+--				 != 0)
+--#define FIND_STARTATZONE(fn)    (((fn)->options & DNS_ADBFIND_STARTATZONE) \
+--				 != 0)
+--#define FIND_HINTOK(fn)         (((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+--#define FIND_GLUEOK(fn)         (((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+--#define FIND_HAS_ADDRS(fn)      (!ISC_LIST_EMPTY((fn)->list))
+--#define FIND_RETURNLAME(fn)     (((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+-+#define FIND_AVOIDFETCHES(fn)	(((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
+-+#define FIND_STARTATZONE(fn)	(((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
+-+#define FIND_HINTOK(fn)		(((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+-+#define FIND_GLUEOK(fn)		(((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+-+#define FIND_HAS_ADDRS(fn)	(!ISC_LIST_EMPTY((fn)->list))
+-+#define FIND_RETURNLAME(fn)	(((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+-+#define FIND_NOFETCH(fn)	(((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
+- 
+- /*
+-  * These are currently used on simple unsigned ints, so they are
+-@@ -3155,21 +3154,26 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * Listen to negative cache hints, and don't start
+- 		 * another query.
+- 		 */
+--		if (NCACHE_RESULT(result) || AUTH_NX(result))
+-+		if (NCACHE_RESULT(result) || AUTH_NX(result)) {
+- 			goto fetch;
+-+		}
+- 
+--		if (!NAME_FETCH_V6(adbname))
+-+		if (!NAME_FETCH_V6(adbname)) {
+- 			wanted_fetches |= DNS_ADBFIND_INET6;
+-+		}
+- 	}
+- 
+-  fetch:
+- 	if ((WANT_INET(wanted_addresses) && NAME_HAS_V4(adbname)) ||
+- 	    (WANT_INET6(wanted_addresses) && NAME_HAS_V6(adbname)))
+-+	{
+- 		have_address = true;
+--	else
+-+	} else {
+- 		have_address = false;
+--	if (wanted_fetches != 0 &&
+--	    ! (FIND_AVOIDFETCHES(find) && have_address)) {
+-+	}
+-+	if (wanted_fetches != 0 && !(FIND_AVOIDFETCHES(find) && have_address) &&
+-+	    !FIND_NOFETCH(find))
+-+	{
+- 		/*
+- 		 * We're missing at least one address family.  Either the
+- 		 * caller hasn't instructed us to avoid fetches, or we don't
+-@@ -3177,8 +3181,9 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * be acceptable so we have to launch fetches.
+- 		 */
+- 
+--		if (FIND_STARTATZONE(find))
+-+		if (FIND_STARTATZONE(find)) {
+- 			start_at_zone = true;
+-+		}
+- 
+- 		/*
+- 		 * Start V4.
+-diff --git a/lib/dns/include/dns/adb.h b/lib/dns/include/dns/adb.h
+-index 63a13c4e41..edf6e54935 100644
+---- a/lib/dns/include/dns/adb.h
+-+++ b/lib/dns/include/dns/adb.h
+-@@ -207,6 +207,10 @@ struct dns_adbfind {
+-  *      lame for this query.
+-  */
+- #define DNS_ADBFIND_OVERQUOTA		0x00000400
+-+/*%
+-+ *	Don't perform a fetch even if there are no address records available.
+-+ */
+-+#define DNS_ADBFIND_NOFETCH		0x00000800
+- 
+- /*%
+-  * The answers to queries come back as a list of these.
+-diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
+-index 7c44478a26..0a40859d08 100644
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -172,6 +172,14 @@
+- #define DEFAULT_MAX_QUERIES 75
+- #endif
+- 
+-+/*
+-+ * After NS_FAIL_LIMIT attempts to fetch a name server address,
+-+ * if the number of addresses in the NS RRset exceeds NS_RR_LIMIT,
+-+ * stop trying to fetch, in order to avoid wasting resources.
+-+ */
+-+#define NS_FAIL_LIMIT 4
+-+#define NS_RR_LIMIT   5
+-+
+- /* Number of hash buckets for zone counters */
+- #ifndef RES_DOMAIN_BUCKETS
+- #define RES_DOMAIN_BUCKETS	523
+-@@ -3130,8 +3138,7 @@ sort_finds(dns_adbfindlist_t *findlist, unsigned int bias) {
+- static void
+- findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
+- 	 unsigned int options, unsigned int flags, isc_stdtime_t now,
+--	 bool *overquota, bool *need_alternate)
+--{
+-+	 bool *overquota, bool *need_alternate, unsigned int *no_addresses) {
+- 	dns_adbaddrinfo_t *ai;
+- 	dns_adbfind_t *find;
+- 	dns_resolver_t *res;
+-@@ -3219,7 +3226,12 @@ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
+- 			      find->result_v6 != DNS_R_NXDOMAIN) ||
+- 			     (res->dispatches6 == NULL &&
+- 			      find->result_v4 != DNS_R_NXDOMAIN)))
+-+			{
+- 				*need_alternate = true;
+-+			}
+-+			if (no_addresses != NULL) {
+-+				(*no_addresses)++;
+-+			}
+- 		} else {
+- 			if ((find->options & DNS_ADBFIND_OVERQUOTA) != 0) {
+- 				if (overquota != NULL)
+-@@ -3270,6 +3282,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 	dns_rdata_ns_t ns;
+- 	bool need_alternate = false;
+- 	bool all_spilled = true;
+-+	unsigned int no_addresses = 0;
+- 
+- 	FCTXTRACE5("getaddresses", "fctx->depth=", fctx->depth);
+- 
+-@@ -3437,20 +3450,28 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 		 * Extract the name from the NS record.
+- 		 */
+- 		result = dns_rdata_tostruct(&rdata, &ns, NULL);
+--		if (result != ISC_R_SUCCESS)
+-+		if (result != ISC_R_SUCCESS) {
+- 			continue;
+-+		}
+- 
+--		findname(fctx, &ns.name, 0, stdoptions, 0, now,
+--			 &overquota, &need_alternate);
+-+		if (no_addresses > NS_FAIL_LIMIT &&
+-+		    dns_rdataset_count(&fctx->nameservers) > NS_RR_LIMIT)
+-+		{
+-+			stdoptions |= DNS_ADBFIND_NOFETCH;
+-+		}
+-+		findname(fctx, &ns.name, 0, stdoptions, 0, now, &overquota,
+-+			 &need_alternate, &no_addresses);
+- 
+--		if (!overquota)
+-+		if (!overquota) {
+- 			all_spilled = false;
+-+		}
+- 
+- 		dns_rdata_reset(&rdata);
+- 		dns_rdata_freestruct(&ns);
+- 	}
+--	if (result != ISC_R_NOMORE)
+-+	if (result != ISC_R_NOMORE) {
+- 		return (result);
+-+	}
+- 
+- 	/*
+- 	 * Do we need to use 6 to 4?
+-@@ -3465,7 +3486,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 			if (!a->isaddress) {
+- 				findname(fctx, &a->_u._n.name, a->_u._n.port,
+- 					 stdoptions, FCTX_ADDRINFO_FORWARDER,
+--					 now, NULL, NULL);
+-+					 now, NULL, NULL, NULL);
+- 				continue;
+- 			}
+- 			if (isc_sockaddr_pf(&a->_u.addr) != family)
+-@@ -3827,16 +3827,14 @@ fctx_try(fetchctx_t *fctx, bool retrying, bool badcache) {
+- 		}
+- 	}
+- 
+--	if (dns_name_countlabels(&fctx->domain) > 2) {
+--		result = isc_counter_increment(fctx->qc);
+--		if (result != ISC_R_SUCCESS) {
+--			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+--				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+--				      "exceeded max queries resolving '%s'",
+--				      fctx->info);
+--			fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+--			return;
+--		}
+-+	result = isc_counter_increment(fctx->qc);
+-+	if (result != ISC_R_SUCCESS) {
+-+		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+-+			      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+-+			      "exceeded max queries resolving '%s'",
+-+			      fctx->info);
+-+		fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+-+		return;
+- 	}
+- 
+- 	bucketnum = fctx->bucketnum;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+deleted file mode 100644
+index d8769c45cc..0000000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8617.patch]
+-CVE: CVE-2020-8617
+-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+----
+-diff --git a/lib/dns/tsig.c b/lib/dns/tsig.c
+-index b597a18d49..6357a3a486 100644
+---- a/lib/dns/tsig.c
+-+++ b/lib/dns/tsig.c
+-@@ -1427,8 +1424,9 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
+- 			goto cleanup_context;
+- 		}
+- 		msg->verified_sig = 1;
+--	} else if (tsig.error != dns_tsigerror_badsig &&
+--		   tsig.error != dns_tsigerror_badkey) {
+-+	} else if (!response || (tsig.error != dns_tsigerror_badsig &&
+-+				 tsig.error != dns_tsigerror_badkey))
+-+	{
+- 		tsig_log(msg->tsigkey, 2, "signature was empty");
+- 		return (DNS_R_TSIGVERIFYFAILURE);
+- 	}
+-@@ -1484,7 +1482,7 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
+- 		}
+- 	}
+- 
+--	if (tsig.error != dns_rcode_noerror) {
+-+	if (response && tsig.error != dns_rcode_noerror) {
+- 		msg->tsigstatus = tsig.error;
+- 		if (tsig.error == dns_tsigerror_badtime)
+- 			ret = DNS_R_CLOCKSKEW;
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.13.bb b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+similarity index 94%
+rename from meta/recipes-connectivity/bind/bind_9.11.13.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.19.bb
+index 8f2d702dcb..276173e09f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.13.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bf39058a7f64b2a934ce14dc9ec1dd45"
+ 
+ DEPENDS = "openssl libcap zlib"
+ 
+@@ -18,12 +18,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+-           file://CVE-2020-8616.patch \
+-           file://CVE-2020-8617.patch \
+            "
+ 
+-SRC_URI[md5sum] = "17de0d024ab1eac377f1c2854dc25057"
+-SRC_URI[sha256sum] = "fd3f3cc9fcfcdaa752db35eb24598afa1fdcc2509d3227fc90a8631b7b400f7d"
++SRC_URI[sha256sum] = "0dee554a4caa368948b32da9a0c97b516c19103bc13ff5b3762c5d8552f52329"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+-- 
+2.17.1
 
---0000000000000ca6a005a7fe5b14
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Unfortunately not. These items are tested on the auto=
-builder in various configurations, and it gave green light for all of them.=
-</div><div><br></div><div>You should probably check how your mesa is config=
-ured, and how that differs from poky.<br></div><div><br></div><div>Alex<br>=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Sat, 13 Jun 2020 at 22:44, Andrey Zhizhikin &lt;<a href=3D"mailto:=
-andrey.z@gmail.com">andrey.z@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">Hello Alex,<br>
-<br>
-On Mon, Jun 8, 2020 at 9:48 AM Alexander Kanavin &lt;<a href=3D"mailto:ale=
-x.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote=
-:<br>
-&gt;<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.6.bb</a> | 6 ------<br=
->
-&gt;=C2=A0 meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.8.bb=
-" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.8.bb</a> | 5 +++++<br>
-&gt;=C2=A0 2 files changed, 5 insertions(+), 6 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-graphics/cogl/<a href=3D"http:/=
-/cogl-1.0_1.22.6.bb" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.6.b=
-b</a><br>
-&gt;=C2=A0 create mode 100644 meta/recipes-graphics/cogl/<a href=3D"http:/=
-/cogl-1.0_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.8.b=
-b</a><br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.=
-22.6.bb" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.6.bb</a> b/meta=
-/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.6.bb" rel=3D"norefer=
-rer" target=3D"_blank">cogl-1.0_1.22.6.bb</a><br>
-&gt; deleted file mode 100644<br>
-&gt; index 86bbdbff69..0000000000<br>
-&gt; --- a/meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.6.bb</a><br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,6 +0,0 @@<br>
-&gt; -require cogl-1.0.inc<br>
-&gt; -<br>
-&gt; -SRC_URI[archive.md5sum] =3D &quot;7bcc01edb5462d4d08d01bf893feddb0&q=
-uot;<br>
-&gt; -SRC_URI[archive.sha256sum] =3D &quot;6d134bd3e48c067507167c001200b27=
-5997fb9c68b08b48ff038211c8c251b75&quot;<br>
-&gt; -<br>
-&gt; -LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1b1a508d91d25ca607c8=
-3f92f3e31c84&quot;<br>
-&gt; diff --git a/meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.=
-22.8.bb" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.8.bb</a> b/meta=
-/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.8.bb" rel=3D"norefer=
-rer" target=3D"_blank">cogl-1.0_1.22.8.bb</a><br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..78f6b0e7a3<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-graphics/cogl/<a href=3D"http://cogl-1.0_1.22.8.bb=
-" rel=3D"noreferrer" target=3D"_blank">cogl-1.0_1.22.8.bb</a><br>
-&gt; @@ -0,0 +1,5 @@<br>
-&gt; +require cogl-1.0.inc<br>
-&gt; +<br>
-&gt; +SRC_URI[archive.sha256sum] =3D &quot;a805b2b019184710ff53d0496f9f0ce=
-6dcca420c141a0f4f6fcc02131581d759&quot;<br>
-&gt; +<br>
-&gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1b1a508d91d25ca607c8=
-3f92f3e31c84&quot;<br>
-&gt; --<br>
-&gt; 2.26.2<br>
-&gt;<br>
-<br>
-I&#39;m seeing a lot of errors like the one below after this upgrade,<br>
-reverting back to 1.22.6 seems to fix those...<br>
-<br>
-In file included from ../../cogl-1.22.8/cogl/cogl-egl-private.h:34,<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from ../..=
-/cogl-1.22.8/cogl/winsys/cogl-winsys-private.h:48,<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from ../..=
-/cogl-1.22.8/cogl/cogl-fence-private.h:36,<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from ../..=
-/cogl-1.22.8/cogl/cogl-journal-private.h:37,<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from ../..=
-/cogl-1.22.8/cogl/cogl-framebuffer-private.h:36,<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from ../..=
-/cogl-1.22.8/cogl/cogl-primitive.c:43:<br>
-| ./cogl-egl-defines.h:38:10: fatal error: EGL/eglmesaext.h: No such<br>
-file or directory<br>
-|=C2=A0 =C2=A0 38 | #include &lt;EGL/eglmesaext.h&gt;<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~=
-~~~~~~~~<br>
-| compilation terminated.<br>
-<br>
-Do I miss something in my setup? Maybe cogl requires new mesa?<br>
-<br>
-Have you seen those errors as well?<br>
-<br>
-&gt; <br>
-<br>
-<br>
-<br>
---<br>
-Regards,<br>
-Andrey.<br>
-</blockquote></div>
-
---0000000000000ca6a005a7fe5b14--
