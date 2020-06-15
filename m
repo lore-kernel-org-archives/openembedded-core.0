@@ -1,87 +1,103 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.22934.1592240250846515141
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
+ by mx.groups.io with SMTP id smtpd.web12.24558.1592244258041753476
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 09:57:31 -0700
+ Mon, 15 Jun 2020 11:04:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hAlq0lgu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id q25so301564wmj.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 09:57:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ml+YvfCy;
+ spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f65.google.com with SMTP id q2so9885032vsr.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 11:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Xra1LLOYOLMBrZoItnd2rQaejgu3kB8WGb7hYL25m+s=;
-        b=hAlq0lgu2lDXbV8UKVVLRuW/0+ZpAnuslxNFkLxQI7dohIZO8yniiSOmfdSmPyVqbL
-         rNfXU0pxJU7wNtcgQEvrsS+XfZDqVsxc8pAY0USKhvf9P3zA8JVxWf8kQLtbGQJuGq3m
-         1ygKtv4C+VMt/cH/0bxoNWsWZK2QbJRhh7HNM=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dYbig4vLahPSBYhXhv3bJD7l0qJf0IQ7Uvk3q6gal/k=;
+        b=ml+YvfCy9fpdR2gnryw8fnhWY9IFurSCHLHfTaiSDxWezOE3awFG28kGj1gstspoGY
+         K9GdvcyJ5SJLRJPXZbFCb1zM3mzk2ukgobWXCPmaOET9dikWbVDwW0iqwYqjPQq7g4SM
+         tx9UCEH3gybvip55wvAnHtVlMFHD6aH5Zf9RguNqop5Mb/d8oH/7CnJ5992IPCzuBQzn
+         6yfN/5cvPWuJeUGA3421a0zjMVDn7US4DE3CRxpoD5uZpxDX9UHm6/n4P3H1iV/mr7YE
+         3qB6eCqqV86RBt5O0zvbZagUT7NHe5Za4R0tue1Hngbf6MPxktspnMzC3Wr7zP7jdu8+
+         mTvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Xra1LLOYOLMBrZoItnd2rQaejgu3kB8WGb7hYL25m+s=;
-        b=iAb0siTMZu3XgOSnN6VGaYGM6xpjc4El4jbeYpkHuzk1nKspAjBIw7SZTzRiAtDwAA
-         msJWpeT+oDLYlq+rfk9y5wYHZFUdSGk2gd0/wL7KdIaO5j+ae07kjD5rysgHSo+2FQlQ
-         o8boC4kn59MrMQa4P14lYfet1GlGU4JYQ1UFeRSg8AvnfqtZD9v9g1Imm+9XnwhDo+YN
-         oA4Ah+NlwjdmMzavSWcAZe392SViwviT5XQ9QlyKeow5KH4YMO6z2gduwF0gvzQ7HDEE
-         vClB/Z4ojfMHXhmNDLBJFzQrO6cbGIithkNcUU4lrZGRUmXfuZhq+lijmv0TP+yci5Sr
-         QSZQ==
-X-Gm-Message-State: AOAM533u97O9oX86yrQ6QtO+P/quDugyRfScmtedrMwlrWF0M7bDsOlq
-	XgKgGnrz865Dlkj8JwkUTjD4cQ==
-X-Google-Smtp-Source: ABdhPJwq3AvJr7z5wgIVus7oM8jOOglrFD4/Uic5WkZh/IuPUlaAkFZOhNam9UBS3Eo3SicvvRKnmw==
-X-Received: by 2002:a1c:6a13:: with SMTP id f19mr286647wmc.142.1592240249230;
-        Mon, 15 Jun 2020 09:57:29 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id c5sm178568wmb.24.2020.06.15.09.57.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 09:57:28 -0700 (PDT)
-Message-ID: <f44e978a683576e167cc3140b793910c8aac6b4d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/runtime: Add OERequirePackage decorator
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Konrad Weihmann <kweihmann@outlook.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jun 2020 17:57:27 +0100
-In-Reply-To: <CANNYZj_78C2rnc=Q3k=4kuU=bocYd9ipH0-59S3pa36qzsJNrQ@mail.gmail.com>
-References: 
-	<AM7PR05MB68814488723D88530BBC17E2A89E0@AM7PR05MB6881.eurprd05.prod.outlook.com>
-	 <8c4f219514c2d9ca3d29b3f452dfb00df65109aa.camel@linuxfoundation.org>
-	 <CANNYZj_78C2rnc=Q3k=4kuU=bocYd9ipH0-59S3pa36qzsJNrQ@mail.gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dYbig4vLahPSBYhXhv3bJD7l0qJf0IQ7Uvk3q6gal/k=;
+        b=c1cDCJRKCjCtS2GEcsARs4DDlZVSRdcJagXOc5gXTmU+a+Ql+m18XSOc7INnteXXB0
+         wRXh0x/ei9Ndvg6xPEX+Y4vMbkyAfoPvAEVqRXKE1CtSuNKqmCu70zHirGVl44kl+9G3
+         5ZbeaM28zc53HJTdUAaWGahGVttwp9I9/2WI0cgU63zIa8fc1+UyJCKTS8mJKXx0h5gv
+         xvSc8qhimlm6NmdyR92fy+Hi6eKzeBvaVrl/CE1B4Yk9PuqrrynFrWxIwMu9OQLgySqm
+         ihXCO3NVjDbVvnk85btN36e1iP//lRwTUs6RmDvrTd9VemXkYvhEPkVxfZQ9wxukKPT1
+         ucmg==
+X-Gm-Message-State: AOAM5310cFPNH5gis0xNTYamRTTXPcmhtLooiLsVjftTTLec9yByLLH9
+	f9vX5UTXMqkTuzsxlwBxsA1bD94OZr8SlQFQh/w=
+X-Google-Smtp-Source: ABdhPJwCh/fQJAk2p6Oi/PO53XOsUCi9eO8eoqnaNbyVwnvKjFKjUVAF32ILod1ryrpdOmXdz09WojbHv8gsRy2mCu8=
+X-Received: by 2002:a67:6ec4:: with SMTP id j187mr20136024vsc.35.1592244256669;
+ Mon, 15 Jun 2020 11:04:16 -0700 (PDT)
 MIME-Version: 1.0
+References: <AM7PR05MB68814488723D88530BBC17E2A89E0@AM7PR05MB6881.eurprd05.prod.outlook.com>
+ <8c4f219514c2d9ca3d29b3f452dfb00df65109aa.camel@linuxfoundation.org>
+ <1618C532747F3046.29686@lists.openembedded.org> <CANNYZj9Q_cWv4L1ssOFLVDm1TdY20ZSu2B2V0zjLpYnAAJTeVA@mail.gmail.com>
+ <80ddd1d5eece62f64b743fb25db62ef3501a9e5e.camel@linuxfoundation.org>
+In-Reply-To: <80ddd1d5eece62f64b743fb25db62ef3501a9e5e.camel@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 15 Jun 2020 20:04:05 +0200
+Message-ID: <CANNYZj9bBmVP62=j-qU-RTs2wp7Ekywm4W+zq8tyJMtYU217kw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oeqa/runtime: Add OERequirePackage decorator
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Konrad Weihmann <kweihmann@outlook.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000050877e05a8234143"
+
+--00000000000050877e05a8234143
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-06-15 at 18:41 +0200, Alexander Kanavin wrote:
-> On Mon, 15 Jun 2020 at 16:02, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > I can see the use case, I'm a bit torn on whether we should fail in
-> > these cases, or whether we should enourage people to check the
-> > tests
-> > they expected to run really did.
-> > 
-> > With the complexity on the autobuilder we've had to rely on the
-> > latter,
-> > comparing that all tests that ran previously, still run.
-> 
-> Do we have some kind of tooling to check that tests that are expected
-> to run, did run, and were not skipped? 
-> This patch came from our internal situation where due to debian
-> renaming, @OEHasPackage started skipping tests
-> that it should not have. It wasn't immediately noticed - test logs
-> are hidden inside the build logs, and the build logs are not
-> usually looked at if the overall build does not fail.
-> 
-> People were very baffled by that, and it took 'yocto experts' (Konrad
-> :) to sort the issue.
+On Mon, 15 Jun 2020 at 18:56, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-We have "resulttool regression" which is meant to cover this. We're
-struggling a little to get the automated comparisons right (its hard to
-know what to compare against exactly) but if you have a known correct
-set of tests it should work.
+> On Mon, 2020-06-15 at 18:54 +0200, Alexander Kanavin wrote:
+> > Come to think of it, maybe it's okay in this situation to actually
+> > remove OEHasPackage - the test will simply always run, and will still
+> > fail if the package is absent, but the failure would be less specific
+> > than a missing package.
+>
+> Lighting up the autobuilder with failures will just mean people no
+> longer know which failures matter, so no, this isn't an option.
+>
 
-Cheers,
+I didn't mean the AB (which has a universal list of test suites for all
+images, which means the tests have to adapt via OeHasPackage), but rather
+what we have here: several lists of tests that are tightly coupled to their
+respective test images. In this situation OEHasPackage is
+counter-productive.
 
-Richard
+Alex
 
+--00000000000050877e05a8234143
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 15 Jun 2020 at 18:56, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2020-06-15 at 18:54=
+ +0200, Alexander Kanavin wrote:<br>
+&gt; Come to think of it, maybe it&#39;s okay in this situation to actually=
+<br>
+&gt; remove OEHasPackage - the test will simply always run, and will still<=
+br>
+&gt; fail if the package is absent, but the failure would be less specific<=
+br>
+&gt; than a missing package.<br>
+<br>
+Lighting up the autobuilder with failures will just mean people no<br>
+longer know which failures matter, so no, this isn&#39;t an option.<br></bl=
+ockquote><div><br></div><div>I didn&#39;t mean the AB (which has a universa=
+l list of test suites for all images, which means the tests have to adapt v=
+ia OeHasPackage), but rather what we have here: several lists of tests that=
+ are tightly coupled to their respective test images. In this situation OEH=
+asPackage is counter-productive.</div><div><br></div><div>Alex<br></div></d=
+iv></div>
+
+--00000000000050877e05a8234143--
