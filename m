@@ -1,134 +1,84 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.18077.1592227815209664900
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.18359.1592228663523637206
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 06:30:16 -0700
+ Mon, 15 Jun 2020 06:44:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=CzvLq1Xp;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=2LDXbAjy;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.68, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f68.google.com with SMTP id u26so59907wmn.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 06:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=6622; q=dns/txt; s=axis-central1;
-  t=1592227815; x=1623763815;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=ZmrXxVnkgSjyCi0IBRE8mIUhb9ctKKkJPWG+shn4Dwc=;
-  b=CzvLq1XpVdFuYfAWGxhz1VmE47h4BgNGfIHi0Xog6tT1BV1mPcnnzfyq
-   JNY9efxZ18KXGHx5kCafzAwjdNeDXNWGEnnyS3IgFdU12tmVf/L4WL0PG
-   ULQuDljUU+j44B3KhDjzGjCxarHUl3pzamwdlkbMmIlWjPYjRJ7/+7rhD
-   8tqkr8QHo6B+ZM61S6ivjdQ4rNXingdVu0/VD5OVAc191DwcAAKetDA6+
-   k73O8xar4TRK1T2ugpYEFXbD4MTZeBY8Z3EnrV8paCneIDdrO7FnUC83o
-   saXp3tLUefDP3rNiYPrItD23QujZNDJMkiVu1lwC+Sd8ZSdV8bbk+Id+4
-   g==;
-IronPort-SDR: atetz2Nkd41T4Ac/Btuw060QfNo4RzOadcualtaRKNRW1ZEuyhTfKuxD+u0+ExKSJAIN7CMNb2
- Phrnv73/+g7KshaqPKS0ddyrMPKHUbeikxgeXxTdh5ZgtowV0uT0FdOPlj1eR0YJZlZMp/+sBd
- jwF/6cKuccXCRkkn02BBRSm/Oopt0yWhX0zKxmsou/Jp8iJTpFRJ25S+4h678agKH+hz2wAiXw
- vrfoje1eGrVNY9C2iDlO4a5oPtUi9HL6vT5ap6uwkqq5U6b7Y6chxi5OjznwdPas++TYh2nvW/
- fvI=
-X-IronPort-AV: E=Sophos;i="5.73,514,1583190000"; 
-   d="scan'208";a="9828448"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Yi Zhao <yi.zhao@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] iptables: fix invalid symbolic link for ip6tables-apply
-Thread-Topic: [OE-core] [PATCH] iptables: fix invalid symbolic link for
- ip6tables-apply
-Thread-Index: AQHWQrVSdonmmgwkaEutDgYK/NwCSKjZq3Vw
-Date: Mon, 15 Jun 2020 13:30:11 +0000
-Message-ID: <cdb0222a8a424d3f9f6a2e27a9dac270@XBOX03.axis.com>
-References: <20200615013448.16426-1-yi.zhao@windriver.com>
-In-Reply-To: <20200615013448.16426-1-yi.zhao@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Nc2z/LG6uCX2qa9Q/mIkVzsrF8JESceFgzT0tGOfV3s=;
+        b=2LDXbAjyLpibr9TcIwlsqa3lepDTByF78EGo05r0ofaB0UQjRS/VEc8AqWZnAx+ypa
+         S4E1aecbixoZNkk6z6Au4TW1rKusn1suM3/BcJSATRSiazHWLjKm105f6nCAmqFHO3op
+         H/PE4Y/H6wmxaZH6L3DS1o768jOeZF2TyjLeGe+o4oLm6NvNT9BaK2sKre66X2YAUNQq
+         AlNemVGpIgIRPF6XWcysgFImKbHRGqGXa6iPSnIwljjghpISh5x7g6wqkL/MvlsuMDRC
+         tmJybfIQ3d9Dg0QB06YjazZziFnNhTbOPBXfqn4kw3eWtIZbdsOeheObh7Qy+qYhHy+9
+         UK7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Nc2z/LG6uCX2qa9Q/mIkVzsrF8JESceFgzT0tGOfV3s=;
+        b=HjRAkDwzjkRlvnEuf+FxQyNxcC7z7Q2fd5PSOoqCnE/itiwhSq74oOSTKGHW59n21i
+         HEw/E6jg1rTdDynXDrL/ve6/wKrU7nCde0yBXVIZalk1TlMMmrE19GNFGRuesD/7AV2z
+         3HOPjL5pgKl7r/PI9aPiFivH3P5HAWIk0q2pdfmpK3OveHrsZBW0Ut89Q+PMdVaFB36S
+         H8STXFXJjdS1sOTvgSf2dW8qwcRl6pRbpRV6Y4TX2m4IdYhS70T745koDpFauQDljX1P
+         VlM6RCT8MwIv1+m0pT7elzd9XPpJ1aozaLJsT6dszghERBlHfrDJwAvqswnuOP3RzEfH
+         sYQw==
+X-Gm-Message-State: AOAM533qoQlB4STTfR9TzTXS+GGQ5a+UsXkbDbB5cYlPL4nIFRH62r5X
+	gIdRCUTZY+irkE15V76PQsnhJ7X/lGhDlEGN
+X-Google-Smtp-Source: ABdhPJwv+hJIyJ1H/kM8TqhjMWV2sC5SaIGt9d2tFY182EFse8N/ePu5Hj6IIH68WjpqyJY31w7eGw==
+X-Received: by 2002:a1c:544a:: with SMTP id p10mr13833578wmi.183.1592228661619;
+        Mon, 15 Jun 2020 06:44:21 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
+        by smtp.gmail.com with ESMTPSA id y6sm11572038wmy.0.2020.06.15.06.44.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2020 06:44:20 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] install-buildtools: fail if an error occurs
+Date: Mon, 15 Jun 2020 14:44:12 +0100
+Message-Id: <20200615134414.1043782-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFlpIFpoYW8NCj4gU2VudDogZGVuIDE1IGp1bmkgMjAy
-MCAwMzozNQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
-PiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIXSBpcHRhYmxlczogZml4IGludmFsaWQgc3ltYm9s
-aWMgbGluayBmb3INCj4gaXA2dGFibGVzLWFwcGx5DQo+IA0KPiBUaGUgaXB0YWJsZXMtYXBwbHkg
-aXMgbm90IGluc3RhbGxlZCB3aGljaCBtYWtlcyBpcDZ0YWJsZXMtYXBwbHkgYXMgYW4NCj4gaW52
-YWxpZCBzeW1ib2xpYyBsaW5rOg0KPiANCj4gJCBscyAtbCAvdXNyL3NiaW4vaXA2dGFibGVzLWFw
-cGx5DQo+IGxyd3hyd3hyd3ggMSByb290IHJvb3QgMTQgSnVuIDExIDA4OjI3IC91c3Ivc2Jpbi9p
-cDZ0YWJsZXMtYXBwbHkgLT4NCj4gaXB0YWJsZXMtYXBwbHkNCj4gJCBscyAtbCAvdXNyL3NiaW4v
-aXB0YWJsZXMtYXBwbHkNCj4gbHM6IGNhbm5vdCBhY2Nlc3MgJy91c3Ivc2Jpbi9pcHRhYmxlcy1h
-cHBseSc6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCj4gDQo+IEJhY2twb3J0IGEgcGF0Y2gg
-dG8gZml4IHRoZSBpc3N1ZS4NCj4gQWxzbyBhZGQgYmFzaCBhcyBydW50aW1lIGRlcGVuZGVuY3kg
-dG8gZml4IFFBIGVycm9yOg0KPiANCj4gRVJST1I6IGlwdGFibGVzLTEuOC41LXIwIGRvX3BhY2th
-Z2VfcWE6IFFBIElzc3VlOg0KPiAvdXNyL3NiaW4vaXB0YWJsZXMtYXBwbHkgY29udGFpbmVkIGlu
-IHBhY2thZ2UgaXB0YWJsZXMgcmVxdWlyZXMNCj4gL2Jpbi9iYXNoLCBidXQgbm8gcHJvdmlkZXJz
-IGZvdW5kIGluIFJERVBFTkRTX2lwdGFibGVzPyBbZmlsZS1yZGVwc10NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4NCj4gLS0tDQo+ICAuLi5pcHRh
-Ymxlcy1hcHBseS1ub3QtZ2V0dGluZy1pbnN0YWxsZWQucGF0Y2ggfCA0NSArKysrKysrKysrKysr
-KysrKysrDQo+ICAuLi4vaXB0YWJsZXMvaXB0YWJsZXNfMS44LjUuYmIgICAgICAgICAgICAgICAg
-fCAgMyArLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA0NyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2lwdGFibGVz
-L2lwdGFibGVzLzAwMDEtYnVpbGQtDQo+IHJlc29sdmUtaXB0YWJsZXMtYXBwbHktbm90LWdldHRp
-bmctaW5zdGFsbGVkLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2lwdGFibGVzL2lwdGFibGVzLzAwMDEtYnVpbGQtcmVzb2x2ZS0NCj4gaXB0YWJsZXMtYXBw
-bHktbm90LWdldHRpbmctaW5zdGFsbGVkLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBleHRlbmRl
-ZC9pcHRhYmxlcy9pcHRhYmxlcy8wMDAxLWJ1aWxkLXJlc29sdmUtaXB0YWJsZXMtYXBwbHktbm90
-LWdldHRpbmctDQo+IGluc3RhbGxlZC5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBp
-bmRleCAwMDAwMDAwMDAwLi41MWVkNjZlZDI0DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0
-YS9yZWNpcGVzLWV4dGVuZGVkL2lwdGFibGVzL2lwdGFibGVzLzAwMDEtYnVpbGQtcmVzb2x2ZS0N
-Cj4gaXB0YWJsZXMtYXBwbHktbm90LWdldHRpbmctaW5zdGFsbGVkLnBhdGNoDQo+IEBAIC0wLDAg
-KzEsNDUgQEANCj4gK0Zyb20gZDRlZDBjNzQxZmM3ODliYjA5ZDk3N2Q3NGQzMDg3NWZkZDUwZDA4
-YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IEphbiBFbmdlbGhhcmR0IDxqZW5n
-ZWxoQGluYWkuZGU+DQo+ICtEYXRlOiBXZWQsIDMgSnVuIDIwMjAgMTU6Mzg6NDggKzAyMDANCj4g
-K1N1YmplY3Q6IFtQQVRDSF0gYnVpbGQ6IHJlc29sdmUgaXB0YWJsZXMtYXBwbHkgbm90IGdldHRp
-bmcgaW5zdGFsbGVkDQo+ICtNSU1FLVZlcnNpb246IDEuMA0KPiArQ29udGVudC1UeXBlOiB0ZXh0
-L3BsYWluOyBjaGFyc2V0PVVURi04DQo+ICtDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0
-DQo+ICsNCj4gK2lwNnRhYmxlcy1hcHBseSBnZXRzIGluc3RhbGxlZCBidXQgaXB0YWJsZXMtYXBw
-bHkgZG9lcyBub3QuDQo+ICtUaGF0IGlzIHdyb25nLg0KPiArDQo+ICvCuyBtYWtlIGluc3RhbGwg
-REVTVERJUj0kUFdEL3INCj4gK8K7IGZpbmQgciAtbmFtZSAiKmFwcCoiDQo+ICtyL3Vzci9sb2Nh
-bC9zYmluL2lwNnRhYmxlcy1hcHBseQ0KPiArci91c3IvbG9jYWwvc2hhcmUvbWFuL21hbjgvaXB0
-YWJsZXMtYXBwbHkuOA0KPiArci91c3IvbG9jYWwvc2hhcmUvbWFuL21hbjgvaXA2dGFibGVzLWFw
-cGx5LjgNCj4gKw0KPiArRml4ZXM6IHYxLjguNX44Nw0KPiArU2lnbmVkLW9mZi1ieTogSmFuIEVu
-Z2VsaGFyZHQgPGplbmdlbGhAaW5haS5kZT4NCj4gK1NpZ25lZC1vZmYtYnk6IFBhYmxvIE5laXJh
-IEF5dXNvIDxwYWJsb0BuZXRmaWx0ZXIub3JnPg0KPiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJh
-Y2twb3J0DQo+ICtbaHR0cHM6Ly9naXQubmV0ZmlsdGVyLm9yZy9pcHRhYmxlcy9jb21taXQvP2lk
-PWQ0ZWQwYzc0MWZjNzg5YmIwOWQ5NzdkNzRkMzA4NzVmZGQ1MGQwOGJdDQo+ICsNCj4gK1NpZ25l
-ZC1vZmYtYnk6IFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4NCj4gKy0tLQ0KPiArIGlw
-dGFibGVzL01ha2VmaWxlLmFtIHwgMiArLQ0KPiArIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvaXB0YWJsZXMvTWFrZWZp
-bGUuYW0gYi9pcHRhYmxlcy9NYWtlZmlsZS5hbQ0KPiAraW5kZXggZGM2NmIzY2MuLjIwMjRkYmY1
-IDEwMDY0NA0KPiArLS0tIGEvaXB0YWJsZXMvTWFrZWZpbGUuYW0NCj4gKysrKyBiL2lwdGFibGVz
-L01ha2VmaWxlLmFtDQo+ICtAQCAtNTYsNyArNTYsNyBAQCBtYW5fTUFOUyAgICAgICAgID0gaXB0
-YWJsZXMuOCBpcHRhYmxlcy1yZXN0b3JlLjggaXB0YWJsZXMtc2F2ZS44IFwNCj4gKyAgICAgICAg
-ICAgICAgICAgICAgaXA2dGFibGVzLXNhdmUuOCBpcHRhYmxlcy1leHRlbnNpb25zLjggXA0KPiAr
-ICAgICAgICAgICAgICAgICAgICBpcHRhYmxlcy1hcHBseS44IGlwNnRhYmxlcy1hcHBseS44DQo+
-ICsNCj4gKy1zYmluX1NDUklQVCAgICAgID0gaXB0YWJsZXMtYXBwbHkNCj4gKytzYmluX1NDUklQ
-VFMgICAgID0gaXB0YWJsZXMtYXBwbHkNCj4gKw0KPiArIGlmIEVOQUJMRV9ORlRBQkxFUw0KPiAr
-IG1hbl9NQU5TCSs9IHh0YWJsZXMtbmZ0LjggeHRhYmxlcy10cmFuc2xhdGUuOCB4dGFibGVzLWxl
-Z2FjeS44IFwNCj4gKy0tDQo+ICsyLjE3LjENCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2lwdGFibGVzL2lwdGFibGVzXzEuOC41LmJiIGIvbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL2lwdGFibGVzL2lwdGFibGVzXzEuOC41LmJiDQo+IGluZGV4IGZhMWU1YzIyOWQuLjRj
-YjBhY2Y5NjAgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9pcHRhYmxlcy9p
-cHRhYmxlc18xLjguNS5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvaXB0YWJsZXMv
-aXB0YWJsZXNfMS44LjUuYmINCj4gQEAgLTExLDYgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMgXA0K
-PiAgU1JDX1VSSSA9ICJodHRwOi8vbmV0ZmlsdGVyLm9yZy9wcm9qZWN0cy9pcHRhYmxlcy9maWxl
-cy9pcHRhYmxlcy0ke1BWfS50YXIuYnoyIFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDEtY29u
-ZmlndXJlLUFkZC1vcHRpb24tdG8tZW5hYmxlLWRpc2FibGUtbGlibmZuZXRsaW5rLnBhdGNoIFwN
-Cj4gICAgICAgICAgICAgZmlsZTovLzAwMDItY29uZmlndXJlLmFjLW9ubHktY2hlY2stY29ubnRy
-YWNrLXdoZW4tbGlibmZuZXRsaW5rLWVuYWJsZWQucGF0Y2ggXA0KPiArICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1idWlsZC1yZXNvbHZlLWlwdGFibGVzLWFwcGx5LW5vdC1nZXR0aW5nLWluc3RhbGxl
-ZC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly9pcHRhYmxlcy5zZXJ2aWNlIFwNCj4gICAg
-ICAgICAgICAgZmlsZTovL2lwdGFibGVzLnJ1bGVzIFwNCj4gICAgICAgICAgICAgZmlsZTovL2lw
-NnRhYmxlcy5zZXJ2aWNlIFwNCj4gQEAgLTc3LDcgKzc4LDcgQEAgcHl0aG9uIHBvcHVsYXRlX3Bh
-Y2thZ2VzX3ByZXBlbmQoKSB7DQo+ICAgICAgICAgIGQuYXBwZW5kVmFyKCdSREVQRU5EU18nICsg
-bWV0YXBrZywgJyAnICsgJyAnLmpvaW4obW9kdWxlcykpDQo+ICB9DQo+IA0KPiAtUkRFUEVORFNf
-JHtQTn0gPSAiJHtQTn0tbW9kdWxlLXh0LXN0YW5kYXJkIg0KPiArUkRFUEVORFNfJHtQTn0gPSAi
-JHtQTn0tbW9kdWxlLXh0LXN0YW5kYXJkIGJhc2giDQoNCldlIGRvIG5vdCB3YW50IGlwdGFibGVz
-IHRvIGRlcGVuZCBvbiBiYXNoLiBFaXRoZXIgbW9kaWZ5IHRoZSANCmlwdGFibGVzLWFwcGx5IHNj
-cmlwdCBzbyB0aGF0IGl0IGRvZXMgbm90IHJlcXVpcmUgYmFzaCwgb3IgbW92ZSANCml0IChhbmQg
-dGhlIGlwNnRhYmxlcy1hcHBseSBsaW5rKSB0byBhIHNlcGFyYXRlIHBhY2thZ2UgKGUuZy4sIA0K
-aXB0YWJsZXMtYXBwbHkpLCB3aGljaCBjYW4gdGhlbiBkZXBlbmQgb24gYmFzaC4NCg0KPiAgUlJF
-Q09NTUVORFNfJHtQTn0gPSAiIFwNCj4gICAgICAke1BOfS1tb2R1bGVzIFwNCj4gICAgICBrZXJu
-ZWwtbW9kdWxlLXgtdGFibGVzIFwNCj4gLS0NCj4gMi4xNy4xDQoNCi8vUGV0ZXINCg0K
+From: Ross Burton <ross.burton@arm.com>
+
+Several failure paths were displaying an error message but not returning,
+so the install process continued and failed further.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ scripts/install-buildtools | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index c6b3a1eed7..d722519f0f 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -258,6 +258,7 @@ def main():
+             else:
+                 logger.error("Checksum %s expected. Actual checksum is %s." %
+                              (checksum, checksum_value))
++                return 1
+ 
+         # Make installer executable
+         logger.info("Making installer executable")
+@@ -273,6 +274,7 @@ def main():
+             ret = subprocess.call("%s -y" % tmpbuildtools, shell=True)
+         if ret != 0:
+             logger.error("Could not run buildtools installer")
++            return ret
+ 
+         # Setup the environment
+         logger.info("Setting up the environment")
+-- 
+2.26.2
+
