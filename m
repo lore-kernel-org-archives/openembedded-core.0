@@ -1,66 +1,175 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.16500.1592223475751737385
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.16739.1592224298917554805
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 05:17:56 -0700
+ Mon, 15 Jun 2020 05:31:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1jko3k-0006GR-I6; Mon, 15 Jun 2020 14:17:52 +0200
-Received: from localhost ([127.0.0.1])
-	by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <jlu@pengutronix.de>)
-	id 1jko3k-00030P-6q; Mon, 15 Jun 2020 14:17:52 +0200
-Message-ID: <d14c6872c68aef73f26a0afdf90917d7b01665cc.camel@pengutronix.de>
-Subject: Re: [OE-core][PATCH] classes/buildhistory: capture package config
-From: "Jan Luebbe" <jlu@pengutronix.de>
-To: Mikko.Rapeli@bmw.de
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jun 2020 14:17:51 +0200
-In-Reply-To: <20200615112937.GF108868@korppu>
-References: <20200603081237.1959-1-jlu@pengutronix.de>
-	 <20200615112937.GF108868@korppu>
-User-Agent: Evolution 3.36.2-1 
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IemGJX/w;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id gl26so17196165ejb.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 05:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=s9Boz/OO0EFgycQFY9mI5Lgos+eKoX2XCXQ68OzS+4Y=;
+        b=IemGJX/w2fMO1lMGeubADmen37QKNxoHCWJlalLmgAPLuIs4LWim4oASmqzWBbUXyd
+         PzBo1toL+KMqS8bEh18V7C8vHA/BU6jQYd7hP70KKbuSumHPaJV5FdCIWm+tQGBdAZTZ
+         XOB9klurUKW52dWbrMcvVwiSJNNWDyMRt7XqTQ558N4GBYGXiZhCLfgQWc+PthElywRO
+         +bVqMEoJEoWzNyba+IQrron70INdDMFR4LrE4LV9YvXKbLmrt4GKDukGgao6lio6ngCO
+         fcd/RMeUITNdX/PnT9Fhei6mt/uDhhTzRblcWYsF/70iKJ9YWQ23udQLAIGp+qKvnULc
+         K72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=s9Boz/OO0EFgycQFY9mI5Lgos+eKoX2XCXQ68OzS+4Y=;
+        b=kP/JMoBaIfpsKs/YcQPSRmT0noloMUEAM7XgNPBPcdIW2shqCl/RHnpVf9ca2YNfZX
+         CzFJ1UVyfjLCd+2ibE+Rm/99AxEVQ5Ez8CSbWJsrOoBKGqm2u9U0WKJF9+ozGbd1uJf4
+         PoLTgjiAK3m0eD3UZYQdoYc0oVGOs0tE8YmR5a6c0p4wTYqQdCQ19dNxsgLGMneQ9j21
+         Y8+rXul843tQnKn0eGl0AQ+F8klpxiJYpBjw6YxYZ90jZpKef0LnTeWnxuWc03dX8+Dg
+         io4pcE+26tOojhgHZoVpMuzB+4TjuyMGG53MYo1Zr6jTCixTLQeoygFXRH/kQoJyCxCx
+         QnOw==
+X-Gm-Message-State: AOAM530bpjE3R4iNLiuGJSMizW4WGxRQRfsh1P4EYkLx+3gyZx4CQeTe
+	JOxavA5CqS5BT4oMWlit0TIDeaO5VMcl4yPpZAU=
+X-Google-Smtp-Source: ABdhPJwcAzwH0TmBLeGmhE8uIRskZFujKEpdWkgL6B7HrHNj7wJLEHBUXeZhTC/sFBb98YjQ0f2yYwbcXf6OJJO1vck=
+X-Received: by 2002:a17:907:9d8:: with SMTP id bx24mr24877896ejc.517.1592224297313;
+ Mon, 15 Jun 2020 05:31:37 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: jlu@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <1616D997B5533366.13968@lists.openembedded.org>
+ <cbb726f7-954b-bdca-66fa-6ab9996eaa1c@windriver.com> <CADkTA4NX63Fgs-C23z8=uFmxsaR4PQY9WsRFNJk2jLHt6g47ww@mail.gmail.com>
+ <e7f82bd0-9e1c-2e0e-bd81-f820f9bfc975@windriver.com>
+In-Reply-To: <e7f82bd0-9e1c-2e0e-bd81-f820f9bfc975@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 15 Jun 2020 08:31:26 -0400
+Message-ID: <CADkTA4NGmvcPCmh0RZfZkGEjEont+Z5OoeKZ0v-m=8tJoGExtw@mail.gmail.com>
+Subject: Re: [OE-core] kernel: update rpm failed for the vfat
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Cc: He Zhe <zhe.he@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Jun 15, 2020 at 7:44 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+>
+>
+>
+> On 6/12/20 9:27 PM, Bruce Ashfield wrote:
+> > On Fri, Jun 12, 2020 at 3:47 AM Xu, Yanfei <yanfei.xu@windriver.com> w=
+rote:
+> >>
+> >> Ping Bruce.
+> >
+> > Hmm, yes. I did miss the original message.
+> >
+> > gmail isn't as effective at highlighting messages that are to me (and
+> > also to the list) as I would like.
+> >
+> >>
+> >> On 6/9/20 6:32 PM, Xu, Yanfei wrote:
+> >>> Hi Bruce,
+> >>>
+> >>> I encountered an issue that updating kernel rpm package will fail wh=
+en
+> >>> the /boot dir was mount with vfat filesystem. The root cause is vfat
+> >>> don't support symlink.
+> >>> --------cut here----------
+> >>> error: unpacking of archive failed on file /boot/Image;5eda8385: cpi=
+o:
+> >>> symlink failed - Resource temporarily unavailable
+> >>> error:
+> >>> kernel-image-image-5.4.43-yocto-standard-5.4.x+git0+f8c88c4331_9961c=
+c8b79-r0.bcm_2xxx_rpi4:
+> >>> install failed
+> >>> root@bcm-2xxx-rpi4:/boot#
+> >>>
+> >>> Currently I have two ideas to fix it:
+> >>> 1. we use 'install' cmd instead of 'ln -sf' in kernel_do_install to
+> >>> avoid generating symlink in kernel-image-image*.rpm. And then add an
+> >>> postinstall to this rpm. It will check if the /boot dir is vfat, if =
+not,
+> >>> we remove the copy image* and make a softlink for the image.
+> >
+> > Note that for this option, you have to make sure that it really is
+> > done in a post install or you end up with overlapping file errors in
+> > scenarios where multiple kernel packages are installed (i.e. an
+> > upgrade).
+> >
+> >>> 2. we specially add an package type which doesn't contain symlink fo=
+r
+> >>> the vfat filesystem.
+> >>>
+> >>> For the first idea, I met an problem when I try to add
+> >>> pkg_postinst_packagename function in kernel.bbclass file. Due to the=
+re
+> >>> are not package name variables defined for the kernel-image-image.gz
+> >>> kernel-image-image or other type kernel images. So I can not add
+> >>> postinst functions statically why that how many packages and package=
+s'
+> >>> name are not certainly.
+> >
+> > You can still generate the package names in python, i.e.:
+> >
+> >          d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,
+> > typelower), 'ln -sf ' + type + '-${KERNEL_VERSION}
+> > /${KERNEL_IMAGEDEST}/' + type)
+> >
+> This is a piece of very useful code!
+> Thanks for your detailed suggestions, and I have implemented it basicly.=
+ =EF=BC=9A)
 
-On Mon, 2020-06-15 at 11:29 +0000, Mikko.Rapeli@bmw.de wrote:
-> On Wed, Jun 03, 2020 at 10:12:37AM +0200, Jan Luebbe wrote:
-> > As the PACKAGECONFIG variable has a large influence on the
-> > resulting
-> > package sizes and dependencies, it's useful to capture it in the
-> > recipe-level buildhistory. This makes it straightforward to analyze
-> > the
-> > impact of PACKAGECONFIG changes on the resulting image size.
-> 
-> Thanks, this is a good idea! I would print using full PACKAGECONFIG
-> name to avoid any confusion.
+Good to hear!
 
-Note that Richard has already merged this in master.
+If you run into problems with rpm complaining about packages that
+don't exist, let us know, I may have a hint or two for that as well :D
+I just don't know if it is a problem with the latest rpm and
+package.bbclass.
 
-I thought it was pretty clear when looking at if from the package
-context in the buildhistory. I wouldn't mind renaming it to
-PACKAGECONFIG, it there's agreement that it would be clearer.
+Bruce
 
-> And this reminds me that DISTRO_FEATURES isn't logged into
-> buildhistory either afaik...
+>
+> Cheers,
+> Yanfei
+>
+>
+> > that's from a patch that I've had locally for a while, that deals with
+> > kernel upgrade issues.
+> >
+> > Any logic that deals with this really does have to be on target,
+> > otherwise, information about the image (and partitions) is leaking
+> > into the packages, and you'd need to carry specific image package
+> > lists for the filesystem layout.
+> >
+> > My suggestion for the post install is that it simply try and create
+> > the symlink, and if that fails, then do a copy. That way there's no
+> > need to detect filesystem types, etc.
+> >
+> > You also need to ensure that you test the kernel upgrade path, since
+> > with copies, you may end up with more kernel images around boot and
+> > not get some of the implicit cleanup that you get by simply
+> > redirecting a symlink (but if you are always copying the active kernel
+> > to "image", then simply overwriting the target will get you that same
+> > cleanup).
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> >>>
+> >>> Do you have any opinions about these?
+> >>>
+> >>>
+> >>> Regards,
+> >>> Yanfei
+> >>>
+> >>>=20
+> >>>
+> >
+> >
+> >
 
-Might be useful, but DISTRO_FEATURES is relatively high-level so
-there's usually not much details you can optimize.
-
-Jan
-
-> A generic approach for adding more variables to buildhistory would be
-> nice.
 
 
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
