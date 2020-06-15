@@ -1,82 +1,78 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web12.26539.1592249765708150838
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.26483.1592249768244508650
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 12:36:05 -0700
+ Mon, 15 Jun 2020 12:36:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OxacWuA+;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id 10so8245524pfx.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=aDNEkDGF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id d6so295720pjs.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=aHa69ltPK/nFtT4XKHkjW4+6OoYfaeq+NTgLZ8TfECU=;
-        b=OxacWuA+0Ajae0cfF92enPQAmjag4e70hJSiBqZO7UsYKe7WXspNs1FDaSboPsHtum
-         vEzNfiOXqjY/uDh6oXXNQaGHm+Ynk60370PBPts+FIxSsPn4YSE2KQkW0SmwJcouUuC9
-         oSbbA2hwk9s+/Q9FMTsJKPdzs7L60rhvZx/0ZAPqRwWCFmhaQ9gbwDpF6hO6ByC+2cbp
-         cwAA2bAcpV19tZKz5NSk5UgzZFTPhl/tPjw//0axlciKAzaRFs5xs3ZI63p0Uo9zsFTE
-         z1G54RoIB0g3aU2CapVPw8MS+voB5nGQmMzwqfn8Lv5b1H+9yS6Qucpap6TiEDKHJJ8C
-         V0tA==
+        bh=F89hbB680/tFYZcmaROJYch7ggQ+89cYJstDwWMalPU=;
+        b=aDNEkDGFrlgOe6kxbai10YWj525Q33xelfPWNy20zyha0wH8jLYI2jE8ZhbbukSeN8
+         /tyZI6Lnu1sxKwXtv7N+/BJLB5SjTbNRY2bwJoB0SLB+osJ9BiayQgrzxeM7SoNEaz3O
+         vi0pmyK/CMB/vOiRf6ZhYO9+EcK/5FAZ2YtpZQi/4kk647QqYa2XTDl0tePriICOvURs
+         XiuCVZOOIgsCf/+gH2Hu5SIW7rZTBFOgKV0Ml2uAHSJHUBvMEgEnAo+CkSjXEVxFqirs
+         tcArmuyEX/YubTY1r7utC00lSVECj/nTNijyZ0YQiDD9EgJTdH4Gi/w/raQTHSR0c0ht
+         syQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=aHa69ltPK/nFtT4XKHkjW4+6OoYfaeq+NTgLZ8TfECU=;
-        b=iC2Sx4DBD06Bj/DhqmK7ipdZI9PzPqK67xqw42L+Ji2xbxA1Hn+l1zJB1tA+zCt8Nv
-         1nG4YHnpAlqycfI5Zd1AsJo338uRfetJYWJRKWrENCuUVhk6kUMoofVogicSpvcY+E1y
-         diLo2LFnXs4kMvgZGA1bIfWTkDi88FGBN02Ie2dyFZHyBx5gCMAM1kbQ1GpS2YZJutIa
-         +1BfVS30Kcsbug9gbKWMId9TQXMI9bncABX9ZKuoywiRaSXKo+8mz05BRybiP7I0Uu7W
-         c1MLI2/SMKqCe+JJbc80fHTDYMKrwZ9TzbM5LenR24yQovQ+TDoN0zpliptnyQxTpRkB
-         LLLQ==
-X-Gm-Message-State: AOAM530FCNRdoY64n+rJFgnniQiKeKNeCUhqnsqcL6u0Ej3F8bznX9yd
-	1VSubYTP9Pwvwmp9JMU+KayIMc0spXE=
-X-Google-Smtp-Source: ABdhPJxYLsMzR/BeRC017/6VTL23O5GVad1fha+mz9nnM5i4fxussMgDXfSGjIKbMEKm2T/dD4shsA==
-X-Received: by 2002:aa7:9d02:: with SMTP id k2mr24767042pfp.288.1592249764595;
-        Mon, 15 Jun 2020 12:36:04 -0700 (PDT)
+        bh=F89hbB680/tFYZcmaROJYch7ggQ+89cYJstDwWMalPU=;
+        b=po5IjY0ESSDeFx8lrcOB6c1EDijKYCwjFvyeNIc1FYzyecHMQSUFtsT4sNhVbSRag6
+         4w/BPTCYNEqsQdNpwnDpxjEzMTWRuuuKOyuNatMRHXkMCRY5VqqCghztVGuakTBJoa0T
+         vk9YmAWeyq3rYanwWx4Ac6i8yP/x915reoaHDaKjHqwmbdncBP19hTx8Nunw3zk5vkng
+         sMpyeNVn4LeFTyiryMvaUDSEXohpixkxMQaliVtt3Ic42cTEexDSESQ0cudw4g3oBwDc
+         pK2axN6duClVCh4/i1ydzHK4knQe8woaIaojnqk8paVUWqTa2DZC05Yn7lYiToXUuE2W
+         5Fgg==
+X-Gm-Message-State: AOAM5318NkJvy4Qu7rDbvE4nAmMs1Z5cGqugXoOe7IG/K+ToSkIlgD81
+	Zw8NTPldcP+cFFhtyMRgE1g2TxM0T7M=
+X-Google-Smtp-Source: ABdhPJw36NW+lplSC0Tq9rxeqe1cn0bR6SMMt2xlYVPbbcAUJkGcjBumo5+Z4+R3yLi0WAbwEpxl4Q==
+X-Received: by 2002:a17:90a:e08f:: with SMTP id q15mr883214pjy.178.1592249767318;
+        Mon, 15 Jun 2020 12:36:07 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.03
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 12:36:04 -0700 (PDT)
+        Mon, 15 Jun 2020 12:36:06 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/21] ltp: Exclude the memcg_stress tests due to timeout problems
-Date: Mon, 15 Jun 2020 09:35:21 -1000
-Message-Id: <074adb507928310af5b38f82ba3f20d9f55f4433.1592249381.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/21] util-linux: alternatify rtcwake
+Date: Mon, 15 Jun 2020 09:35:22 -1000
+Message-Id: <29ada652108335b4074ed330586f893bba1c5dce.1592249381.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592249381.git.steve@sakoman.com>
 References: <cover.1592249381.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Marco Felsch <m.felsch@pengutronix.de>
 
-This test runs for 900s, we often see tests killed after 300s without
-output which makes the test results unreliable and inconsistent. The
-easiest solution for now is to skip this long running test, patching
-it out wth sed.
+This tool can be turned on in busybox which lead into a error during
+do_rootfs.
 
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0739a8901140c05d037517ffd89382f151ba627c)
+(cherry picked from commit eb22e7a1190a79fd74ae54f23a13ec4932f41b0d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/ltp/ltp_20200120.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index deac3917d7..b25da4030d 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -74,6 +74,10 @@ do_install(){
-          -e 's@[^ ]*-fdebug-prefix-map=[^ "]*@@g' \
-          -e 's@[^ ]*-fmacro-prefix-map=[^ "]*@@g' \
-          -e 's@[^ ]*--sysroot=[^ "]*@@g' 
-+
-+    # The controllers memcg_stree test seems to cause us hangs and takes 900s
-+    # (maybe we expect more regular output?), anyhow, skip it
-+    sed -e '/^memcg_stress/d' -i ${D}${prefix}/runtest/controllers
- }
- 
- RDEPENDS_${PN} = "\
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 0566569a61..532cceb935 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -257,6 +257,7 @@ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
+ ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
+ ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
++ALTERNATIVE_LINK_NAME[rtcwake] = "${sbindir}/rtcwake"
+ ALTERNATIVE_LINK_NAME[setpriv] = "${bindir}/setpriv"
+ ALTERNATIVE_LINK_NAME[setsid] = "${bindir}/setsid"
+ ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
 -- 
 2.17.1
 
