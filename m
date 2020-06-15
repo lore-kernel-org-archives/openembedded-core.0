@@ -1,105 +1,79 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.26523.1592249812958099265
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web12.26569.1592249816867929295
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 12:36:53 -0700
+ Mon, 15 Jun 2020 12:36:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ulBGTPuD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id ne5so263817pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VUyjSF2Z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id u8so266510pje.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=hUR8DNwTU1VjLNFSaDF4q9HQdZHeJ/O2ITVozUZV3CI=;
-        b=ulBGTPuDc7c1VaVvv1+xtF+gR99Ja/HZ/bmvoarmVzGhhG6+dCTMY9hgU6KkBid9JK
-         BDa2ptBFQ+Hql1dIuGhM+6oDLEZmXV/W2toI011NnPQSASY0sv/YES5gmrnvZGGdILdr
-         PG97dllwBgW0QZmlZ3Cp9apy6TG15GVDVkkCV/X4FKVqlQ3YksaBrFCVPU1uH+h5nT5g
-         zhgMWbOs9oSXtltJOsQ78C/EBBwemgO+cIeZmLpsVuieU74/NsnHEeJ+l50u/aT4yhFt
-         Z49634RskoHRBR7xJh/YdCppSL+koWyimVEUwqglGfglF14PChdNkQuZUvr24ITtdk8A
-         Q/6g==
+        bh=3+L6pGtE83vk0/GaRXNmUuV+r4O0pU8h5NlpjUxIB5w=;
+        b=VUyjSF2ZU4EwGLJC69Ec7B/es/SJRsukS83X0VHX00k3QoRCqrWy+SxXYo1h/9g0Lp
+         PHPWBPtcjKdC4qcsKOR/NZuoUVevGyFfGlnt5WSK3z95nTnPcGbJ4476XSiwKjnYXzVu
+         Vqo13EPr9hJH4PTRiaUFXKWBB1Nm50oLmyZRFZ3DGS5EBPzjzVlx2bn+Gmsmrvw2b5Ft
+         I51Q61uCo07Kx7MLvSIbLEpnPwBnUQzTer4MNfxTXMNDoHdA3+zhU7Dbl4jaEnBDqJMP
+         WvuuVS0SBoEklFqMouqS4CXUPgrCqtANeRzHvmBSge/4cs9q2oJXK4F90y6GdZHT8iez
+         k4fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=hUR8DNwTU1VjLNFSaDF4q9HQdZHeJ/O2ITVozUZV3CI=;
-        b=Icl9mLHylR6TvjtVnHlcI4CYW0184DnKYGBlyWla3oKdV6NP/v+xVqtAMYQ2ZcCXgw
-         0W8IbVm+8BX1deeWM7s+g0NY2Hsx/AEx5ElboOnOoCls+es6bwfRtJZCBx/YdZATMMDH
-         l9dqdVKMd5dL3gXYPcnxVI9lh8b9BGyGOenr5k5LI0b8VC4ZGbqtcXvf+9tHKIRtIPM1
-         +DEiYy2Raj7Mug4kR6zIEbeqJGfSgem6jxBsD4vVAdjKulIMi+1eUpPmHkkhCeSYpVYx
-         zcjflQIQPmhtlc/bFxXCDde4IvFxRGNNt7gKGAzL9syA2EVAz6d5Jt1uv2dFcreJn/64
-         rMhw==
-X-Gm-Message-State: AOAM532k8niiw9pK3dpLIaGFQHLLoUTtye/kF0Rp57JeF4s0gbPiz/fG
-	Tmea4JKlVYA4PK3ku8tPiai7MlzyCCI=
-X-Google-Smtp-Source: ABdhPJx3yeAucltoAX03w/VWcbfHibKc/I0NdiHtZWeJ23i9xt5QUAYT6Fi7IMWvB1qGlNDC4I9Fhg==
-X-Received: by 2002:a17:902:7c81:: with SMTP id y1mr24481173pll.236.1592249811898;
-        Mon, 15 Jun 2020 12:36:51 -0700 (PDT)
+        bh=3+L6pGtE83vk0/GaRXNmUuV+r4O0pU8h5NlpjUxIB5w=;
+        b=kyv3dQ0am4I0T9w6XroEmdgyokw4Tlzm3VOES3tc0+9hJQokgdl/P/OjzYtlE+GXYe
+         JLl2bgEijCdEV+6LMM3JHfWdXxqiQB6ih2rYmT/4sy9V1uJ1eg06iBmffZ/x9pzlqQxl
+         7VA8PpXICAP/fHZbB1v/UgKeCKIumzsWFv5TUQFmJaf2+NjBqh6Fa4OIB0S/v7swKpXo
+         soK8FMUu3EYipFE6grx+xMakByasj2p4bJ2z0OdMuwc1ylKji+mywhaKgyPWltXaw4R5
+         CowvxzDanv8AMuiw/WHaEXdNJAFDy9B+fYZu6Yh+yKzb5EwrSlP/c0mM9gh+yW+pdjno
+         WyHw==
+X-Gm-Message-State: AOAM5338TJi7n7BriYFCpMclKDBYLu1Y+QCMhmMwlnGVghXp+BANY/c6
+	IEFOR7TVA0GnYWBAHgL/0Rt57YzjSSk=
+X-Google-Smtp-Source: ABdhPJwtAll0IeCrvcFBcFrrs+xHMonmHG6URyPQyciRbmvhKA8O9W5SmhSOuWzZZBmJYifOQpIQ5g==
+X-Received: by 2002:a17:90b:283:: with SMTP id az3mr827302pjb.232.1592249815910;
+        Mon, 15 Jun 2020 12:36:55 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.49
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 12:36:50 -0700 (PDT)
+        Mon, 15 Jun 2020 12:36:54 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/21] build-sysroots: add sysroot paths with native binaries to PATH
-Date: Mon, 15 Jun 2020 09:35:39 -1000
-Message-Id: <20af231e71bc788b02cf4a5b2e3e2471feea9f17.1592249381.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/21] vim: _FORTIFY_SOURCE=2 be gone
+Date: Mon, 15 Jun 2020 09:35:40 -1000
+Message-Id: <2ae280e5e99c4ee119a587af878994e0fbdcdf3c.1592249381.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592249381.git.steve@sakoman.com>
 References: <cover.1592249381.git.steve@sakoman.com>
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Joe Slater <joe.slater@windriver.com>
 
-staging_populate_sysroot_dir() collects postinsts from the sysroot
-and executes them. These postinsts, in turn, may call binaries that
-are only available from the sysroot. This works fine with recipe-specific
-sysroots, as all necessary paths are already in PATH, but breaks down
-in this recipe which imitates the old global sysroot way but doesn't adjust
-the PATH to include the binary paths from global sysroot.
+vim will abort in many places with this setting.  Replace
+it with the benign _FORTIFY_SOURCE=1.
 
-To reproduce the failure:
-
-$ bitbake docbook-xml-dtd4-native
-$ bitbake -c build_native_sysroot build-sysroots
-
-...
-
-Exception: subprocess.CalledProcessError: Command '/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
-
-Subprocess output:
-/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 5: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
-/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 8: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b5f7bda4204d45cd29670cefcd53dc5da031095)
+(cherry picked from commit 18129cbaeddb3278efe9963718556e3765f06c1e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/build-sysroots.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-support/vim/vim_8.2.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
-index 7a712e2f38..ad22a75eb2 100644
---- a/meta/recipes-core/meta/build-sysroots.bb
-+++ b/meta/recipes-core/meta/build-sysroots.bb
-@@ -20,6 +20,8 @@ deltask populate_sysroot
- python do_build_native_sysroot () {
-     targetsysroot = d.getVar("STANDALONE_SYSROOT")
-     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
-+    import os
-+    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
-     staging_populate_sysroot_dir(targetsysroot, nativesysroot, True, d)
- }
- do_build_native_sysroot[cleandirs] = "${STANDALONE_SYSROOT_NATIVE}"
-@@ -29,6 +31,8 @@ addtask do_build_native_sysroot before do_build
- python do_build_target_sysroot () {
-     targetsysroot = d.getVar("STANDALONE_SYSROOT")
-     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
-+    import os
-+    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
-     staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
- }
- do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
+diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_8.2.bb
+index 60946a181f..709b6ddb55 100644
+--- a/meta/recipes-support/vim/vim_8.2.bb
++++ b/meta/recipes-support/vim/vim_8.2.bb
+@@ -8,3 +8,8 @@ BBCLASSEXTEND = "native"
+ ALTERNATIVE_${PN}_append = " xxd"
+ ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
++
++# We override the default in security_flags.inc because vim (not vim-tiny!) will abort
++# in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
++#
++lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
 -- 
 2.17.1
 
