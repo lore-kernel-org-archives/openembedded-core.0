@@ -1,91 +1,105 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
- by mx.groups.io with SMTP id smtpd.web11.26521.1592249809745741248
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.26523.1592249812958099265
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 12:36:49 -0700
+ Mon, 15 Jun 2020 12:36:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sAepW9W0;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.193, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f193.google.com with SMTP id v24so7209819plo.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ulBGTPuD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id ne5so263817pjb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=7h3ub0k+dW79nfUbhsx/BKf5NvMUXqc9BinG2EPWG7A=;
-        b=sAepW9W01OxByPaj+0KzUDX3HoQhJno6F4/KCjgUhui0lZQiJYSiDKJHqVW0hwRrBP
-         amq7W+xetT3CxDV4kX70Qjnu79puT88Q/RcnTvbxVb3QYt/nTFxbnGjx+nsNZu0ICMEy
-         GllsPkk32wT50iTahvCjNX629hFdLeJ+gCfCS+STjmZZFzJOj96qCYO58Tb1Dm5IOmD+
-         aV51F3JBXIhXRtOkla3xAyVa6syRAznbuzMVeE6SSuizhrpJUX3EJ+H1dFZ6U5kDrp1g
-         L8PeyFWvw5pV6rbDQY6ttqAp6SCKYIyueTyaf0x0v6yXGn84YlL/JXtmCsC561OrDhMi
-         ctsA==
+        bh=hUR8DNwTU1VjLNFSaDF4q9HQdZHeJ/O2ITVozUZV3CI=;
+        b=ulBGTPuDc7c1VaVvv1+xtF+gR99Ja/HZ/bmvoarmVzGhhG6+dCTMY9hgU6KkBid9JK
+         BDa2ptBFQ+Hql1dIuGhM+6oDLEZmXV/W2toI011NnPQSASY0sv/YES5gmrnvZGGdILdr
+         PG97dllwBgW0QZmlZ3Cp9apy6TG15GVDVkkCV/X4FKVqlQ3YksaBrFCVPU1uH+h5nT5g
+         zhgMWbOs9oSXtltJOsQ78C/EBBwemgO+cIeZmLpsVuieU74/NsnHEeJ+l50u/aT4yhFt
+         Z49634RskoHRBR7xJh/YdCppSL+koWyimVEUwqglGfglF14PChdNkQuZUvr24ITtdk8A
+         Q/6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=7h3ub0k+dW79nfUbhsx/BKf5NvMUXqc9BinG2EPWG7A=;
-        b=A8teJINqYP14vtahgLIAleeDaoD1AC9LCu6rCqYHAC0yOBahBm3SFcc9XrM6jR6oWw
-         AkqqG0bXjV5zgn9HMEOZo96GDCAKiNMz15u0QEKn6oOMAjlXOuExKn2+z/AzBcQuxW1E
-         gwfbFnQCcTfkfHYVxAPO1P1dXdZc9fFNc3Pp0k4UEMO+4cn3XbumGEhZCzS7sqKhDAvA
-         XJRnQ/XbEF3COHtOabalxMTkl8LKIoOGQfWj4rpBCir7xihGWEoZqHLq1AC9wFV0oOCR
-         OwObpRHZ+tkQPW19vZjD4NFw+nL8QH7x0sQ1/HqCPd/zRYjyUC5m3/uLDyZRaH3Gdhzf
-         5wSQ==
-X-Gm-Message-State: AOAM5330LUKywbCEpBx+daLg/Ho9byT3hQGiKY6OQTyDAuD4vo1QCNGs
-	45raDNp+70TFxjuOym+VWF6qTK2TCzM=
-X-Google-Smtp-Source: ABdhPJw/NB225nrUD3BhfQ9MRF5GGCb3DtO6x2ZY5/J9xs/ZR6gpZQUefajvMMRt5AM0byi3r8M52w==
-X-Received: by 2002:a17:90a:f993:: with SMTP id cq19mr859522pjb.154.1592249808817;
-        Mon, 15 Jun 2020 12:36:48 -0700 (PDT)
+        bh=hUR8DNwTU1VjLNFSaDF4q9HQdZHeJ/O2ITVozUZV3CI=;
+        b=Icl9mLHylR6TvjtVnHlcI4CYW0184DnKYGBlyWla3oKdV6NP/v+xVqtAMYQ2ZcCXgw
+         0W8IbVm+8BX1deeWM7s+g0NY2Hsx/AEx5ElboOnOoCls+es6bwfRtJZCBx/YdZATMMDH
+         l9dqdVKMd5dL3gXYPcnxVI9lh8b9BGyGOenr5k5LI0b8VC4ZGbqtcXvf+9tHKIRtIPM1
+         +DEiYy2Raj7Mug4kR6zIEbeqJGfSgem6jxBsD4vVAdjKulIMi+1eUpPmHkkhCeSYpVYx
+         zcjflQIQPmhtlc/bFxXCDde4IvFxRGNNt7gKGAzL9syA2EVAz6d5Jt1uv2dFcreJn/64
+         rMhw==
+X-Gm-Message-State: AOAM532k8niiw9pK3dpLIaGFQHLLoUTtye/kF0Rp57JeF4s0gbPiz/fG
+	Tmea4JKlVYA4PK3ku8tPiai7MlzyCCI=
+X-Google-Smtp-Source: ABdhPJx3yeAucltoAX03w/VWcbfHibKc/I0NdiHtZWeJ23i9xt5QUAYT6Fi7IMWvB1qGlNDC4I9Fhg==
+X-Received: by 2002:a17:902:7c81:: with SMTP id y1mr24481173pll.236.1592249811898;
+        Mon, 15 Jun 2020 12:36:51 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.47
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 12:36:48 -0700 (PDT)
+        Mon, 15 Jun 2020 12:36:50 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/21] linux-firmware: upgrade 20200421 -> 20200519
-Date: Mon, 15 Jun 2020 09:35:38 -1000
-Message-Id: <06c4ea1e744c82ca2c1b6aa5796b548234b3878d.1592249381.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 20/21] build-sysroots: add sysroot paths with native binaries to PATH
+Date: Mon, 15 Jun 2020 09:35:39 -1000
+Message-Id: <20af231e71bc788b02cf4a5b2e3e2471feea9f17.1592249381.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592249381.git.steve@sakoman.com>
 References: <cover.1592249381.git.steve@sakoman.com>
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-License-Update: added more entries to WHENCE, all redistributable
+staging_populate_sysroot_dir() collects postinsts from the sysroot
+and executes them. These postinsts, in turn, may call binaries that
+are only available from the sysroot. This works fine with recipe-specific
+sysroots, as all necessary paths are already in PATH, but breaks down
+in this recipe which imitates the old global sysroot way but doesn't adjust
+the PATH to include the binary paths from global sysroot.
+
+To reproduce the failure:
+
+$ bitbake docbook-xml-dtd4-native
+$ bitbake -c build_native_sysroot build-sysroots
+
+...
+
+Exception: subprocess.CalledProcessError: Command '/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
+
+Subprocess output:
+/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 5: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
+/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 8: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f8d47014e453533b98e37c653177e9541e1deeda)
+(cherry picked from commit 6b5f7bda4204d45cd29670cefcd53dc5da031095)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...linux-firmware_20200421.bb => linux-firmware_20200519.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200421.bb => linux-firmware_20200519.bb} (99%)
+ meta/recipes-core/meta/build-sysroots.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-index fa0507a88c..fcad7df629 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-@@ -125,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=cb9a66eff0464b55335d3a7374fbc51c \
-+                    file://WHENCE;md5=c15cee50b1a59d27106a37c2929d5291 \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -196,8 +196,7 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "229a93395f4033da68429f165a62b952"
--SRC_URI[sha256sum] = "6dd7cba25d694c031f65529b9027cc8faaffaddfae70a4e3b58c2e4a0af3bfa8"
-+SRC_URI[sha256sum] = "584c49c58291136b966ceffb0a456a672c23d4d759bab8bf86cbbe28061e415e"
- 
- inherit allarch
- 
+diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
+index 7a712e2f38..ad22a75eb2 100644
+--- a/meta/recipes-core/meta/build-sysroots.bb
++++ b/meta/recipes-core/meta/build-sysroots.bb
+@@ -20,6 +20,8 @@ deltask populate_sysroot
+ python do_build_native_sysroot () {
+     targetsysroot = d.getVar("STANDALONE_SYSROOT")
+     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
++    import os
++    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
+     staging_populate_sysroot_dir(targetsysroot, nativesysroot, True, d)
+ }
+ do_build_native_sysroot[cleandirs] = "${STANDALONE_SYSROOT_NATIVE}"
+@@ -29,6 +31,8 @@ addtask do_build_native_sysroot before do_build
+ python do_build_target_sysroot () {
+     targetsysroot = d.getVar("STANDALONE_SYSROOT")
+     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
++    import os
++    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
+     staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
+ }
+ do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
 -- 
 2.17.1
 
