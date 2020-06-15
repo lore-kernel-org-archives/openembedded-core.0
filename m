@@ -1,151 +1,133 @@
-Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.48])
- by mx.groups.io with SMTP id smtpd.web12.25127.1592245996253557466
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.26694.1592249757222719115
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 11:33:16 -0700
+ Mon, 15 Jun 2020 12:35:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=qGWWRhAk;
- spf=pass (domain: outlook.com, ip: 40.92.51.48, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DLcjBX2iHFAIxcVB/toWOg+scl2rdDYZrXjnp2tCvCJQ+exKbGMx3uG0QXJ6U1xzSBquBxbdjTzrJE2O1ZVdJ274Fa9fcdegulGhRqsUqb89cTXaGbQJQQQ/+3Ygo0WPzeaaAoscKLoxZrUi1VOXsAHH20EVd6pv8vmniAYFPHhixTFn850QAceaKAuaJdfcuWWL29yOx2Z7CQiiFnfpqIO/kwQKL0963fuze6uk3KuXp7KGoQYXbu5ygrEQXWj90tX+qh3ALZDKB+wbnl4r33ZSmjhreolyWtUT2UNL10WpfJtPhy8uFN6m5J6rVewN3xR+PhFUBSmiO73pGWXXzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PpOU8h7zcnAebnJJNAcdh5FsIiRfdYYF3lMcuXTuCjo=;
- b=jYs7wRWGQ5n+2bEEin/R1fE3fr2DO7POghp+Kz0HFZX/0yugTLC5KTqP0ds1bz3p4jzmV3OyrZe9vcx9ag4A6wSuF0p+XcJd9zVjknfBFwAfC9Bq2TlPkQDvv3fvkPCxjSzkGHIy5kYaI4ip/rgrLH1QbkAq9JC6tgIDSTZ3S8KekT/OUaqyO9LXk+H2+YBn6wC9MQAPXPIetRhK+xpEPYTqlos9lEgc8LXNxZAC+FKfFhlsRfZI13kkQVfiKu++RMDwjK3stFSpVbl6JD5BS8aMQ+izk2S+R3ABDeytU5P/oQxI6Ab7OzQdocftd66Ltd//XP9vfxuH7zrlxK7rKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PpOU8h7zcnAebnJJNAcdh5FsIiRfdYYF3lMcuXTuCjo=;
- b=qGWWRhAkuaNyZkLeVsOnfi7fL/qptWKU78yIVnNDWzA9Sri2urD0/5wpCn/bvQUvu7MkJwKKyafZgnB5y3EhTH9l82q8SkdofgPpdHMUnOfKk3fIo5z2Llcb5LxSp0hsTzEvbs9yCf76Oy4J/pdWBcVMZp/QPpp+CBNyKecIb9xtkpVk54rA7yg1Ock9Fl6GFzXH6DV5qFkk9nf2jPiQq30f4vEQNcFRKA5i4KvofSj43GQhVW3pfJA/dN8265FbZT9S259DxTegZyX6jiKQHV/Una+Lh99XKhoTBBRFGvHd2RelJk7gIQ4Y9SmhGG1sZiJlc+XSqxhzoSLJ+KUf1A==
-Received: from DB8EUR06FT036.eop-eur06.prod.protection.outlook.com
- (2a01:111:e400:fc35::49) by
- DB8EUR06HT157.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc35::107)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Mon, 15 Jun
- 2020 18:33:14 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:fc35::4f) by DB8EUR06FT036.mail.protection.outlook.com
- (2a01:111:e400:fc35::152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend
- Transport; Mon, 15 Jun 2020 18:33:14 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:D4EA00665189D182A9A457ECED498D761DA9AAD57A68F8857C8831B255A3762F;UpperCasedChecksum:733952F4181570CF0EDD5F132BF7A2CF3A44A112758893DC0E378A0AC6D55EA6;SizeAsReceived:7378;Count:47
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722%7]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
- 18:33:14 +0000
-From: "Konrad Weihmann" <kweihmann@outlook.com>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wy4E0E8v;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id i4so302878pjd.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=uqZxBK9DCSYPJfJWZTCXUDwOWRnJV/ACzAZ4rvhGaYc=;
+        b=wy4E0E8vVFvUNejCQ20DpsHNAWw+j70O1+qayIpE6DrwYCImwAobM5iIIEB79EiopZ
+         UpePl68QkMK1BsESvQddINpgkYFUV0UNzGLSbcK/ogccDgrGpoWEw15NeGeclkFGpyTP
+         cNbNzaXbxGPmdl5CparF7gFOR6JsK6Qsv88jpB4MnAj78VMT1+B2pGhZQZq17UqMDW/n
+         Uo0lEyPWCf2hKcHNg2QwXuT1vUgWae52FM7VHGUIcCyIaiDfvdMfF/rtabYGUaXlfJn2
+         bWTSlFKq7y15iqWD0Tr4mj3ulsx44H/mStAhlsSS8o1RhpzjHUXobGKQwCYby86JSei+
+         crtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=uqZxBK9DCSYPJfJWZTCXUDwOWRnJV/ACzAZ4rvhGaYc=;
+        b=bycKnxklyX6JGDsa81hnUkCLmyrTYqijlmI7XpHb+jqGvVX53N86wCc+fix1kAjXB5
+         e1lyZmEDeNBf+kTOCDttoKTJRoy3SAmE/t2aBm4Xo2XWLKDdwkKb+4GmrwOjImZS8sVU
+         ge2pf8ILDEHbvC0J2IC/EqakFUbYSlp+kUkhVbJbgtQ5muIrejqlUBEaJNHTvQYy2KeX
+         XZ341QCcNQ0plMqv/2tAVJ+81Uuhh42avM7EvXRfb1zNEI8bbl79qHc425cmXF9jhJDu
+         9DdSE3HNssVK5CgwZY0TxWg594dy0oBPIcCGLXwGK5KR8cMOZIj1r0QxQ/Vzl7WotMrT
+         vqOQ==
+X-Gm-Message-State: AOAM533YqfuRn/cqGCxRcLdssulHM1sEhoSaNVLD2GTAfjpl5s2bOQvx
+	Ncx0bLSUYU4mFt97ST4nIWDh/i6rxJ4=
+X-Google-Smtp-Source: ABdhPJxSiQo2UByxd+g1/TDMHAnDtOdawWYHTLhe+QqHHP6+UrWGO8JRuJV+lF/A7flHPToyZQUN3g==
+X-Received: by 2002:a17:90b:895:: with SMTP id bj21mr828883pjb.148.1592249756009;
+        Mon, 15 Jun 2020 12:35:56 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.35.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2020 12:35:55 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH v2] oeqa/runtime: Add OERequirePackage decorator
-Date: Mon, 15 Jun 2020 20:33:00 +0200
-Message-ID: <AM7PR05MB688182C8A0A3EB1F89A30530A89C0@AM7PR05MB6881.eurprd05.prod.outlook.com>
-X-Mailer: git-send-email 2.20.1
-X-ClientProxiedBy: BEXP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::21)
- To AM7PR05MB6881.eurprd05.prod.outlook.com (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <20200615183300.3025-1-kweihmann@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ICKE-EDGE.fritz.box (79.215.4.148) by BEXP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21 via Frontend Transport; Mon, 15 Jun 2020 18:33:13 +0000
-X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200615183300.3025-1-kweihmann@outlook.com>
-X-TMN: [ntMbrl6DAmTAGmJyj7SASgFGHgUtiaaB]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: fabbdfe5-fb73-464c-1634-08d8115a9037
-X-MS-Exchange-SLBlob-MailProps: 
-	NS9Gj58uCj1eIGNFzfTjd4T5cI/qWxCak3s5h5fVKex+6o2h3BtQcf48SlHGyAjMsenkt/7zpYzbO7KNnZB2IFqBn7FAu7/9oD3ZvSg4dC7EXDykfWGLjkeDh7BYFjKPizWK+wyZ4h1D7lWB+m6y3Auo6oP2z4sCRtMTM6Zb7CjLbuEvz7oNTLV05OrfmvLj03c7g3F/fC/b+zs292xcO8vSDKjaRhLaLvhVKoFZfpQ8gn+8ABqh9ztRIOkj53bRgfyJhv1uyueJ7ExQY99jLUCGtLhWbrjxjPANQ/fYJfLKMi2mKlIjMhw2x6EkEgEJ1oB0vUz4m2aIKe+IK9s66eKH5dM5BxhKjbbierYmqhe34rHy08tHXgwoF+vWeibRtbWqIabVeiBnZBfapDidom5zdolK7Od7DCGl97l1z1flE2HnLSplpgGU5nhchzx2anYdg79V6tm3Zegt7ZtAlrgcZ6cPkGcvCEAppMHT3wYrxWd+GVa3xEn+O6N6Za9cCgGXKZGF3klucZvQIeUZla7WRNeQm1WW4a8IhMu0vQ5nBNjHQYrcAKqbelIKk+hE6MQeshgra8RHH9sbisUAjRNbAwalhLYtysmwRhOS2hshn5eU2/85ejPZFJkvW8SNXC+ho+VWiWQfEk7vD1Gq1VnojORZ9genDuKsZUnFTBwcUKo5TLfMAaJwPufWfsa2ZKkpTx6mXEHTiOrI8LuFRA==
-X-MS-TrafficTypeDiagnostic: DB8EUR06HT157:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	qggXEpC/gxWl2vyCQIHmknMZlnEbds1Wh1yooc3rOYsDcdMfu5ex4sVM20kpuqgGZmvXyO92JajRD0uU4tSobvnyOIV5AzrO4f6hHgqfgW/4mH/8SX8pI+svzeNsZYngZo7/WmsmMQnB7WQKDntFIZNXKT6ULKvUYOCmAB4lZdYgCR+M8wsj5krk5q51bbQrtz9B0D4SX5zz44LCvVzggw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	VQbrDSm/AwMPSxO7OZpAfSMKEgAnFtkkwNwe4qtwKve/tG++2A8Vx4Hrw88vDCvipSg6eZiiCrbUDFnW1qPFDx03uvLJTgk1ALq7EL36wIgRIOQiHFUz4h/1ZsVC3N//HO4pIizH9Qg66tnKe2l4Qw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fabbdfe5-fb73-464c-1634-08d8115a9037
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 18:33:14.1584
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR06HT157
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Subject: [OE-core][dunfell 00/21] Patch review
+Date: Mon, 15 Jun 2020 09:35:19 -1000
+Message-Id: <cover.1592249381.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-Add new decorator which behaves like OEHasPackage, but
-fails the testcase if a dependency isn't met.
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-This helps to identify missing packages in the image
-under test when using static test suite lists, otherwise
-a missing package won't fail the overall test suite and
-errors might slip through unnoticed
+The following changes since commit 6fa967f194edd314c9026c80f8d93360ac6d9efa:
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
- meta/lib/oeqa/runtime/decorator/package.py | 34 ++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+  build-appliance-image: Update to dunfell head revision (2020-06-08 21:45:09 +0100)
 
-diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/run=
-time/decorator/package.py
-index 4c5ca198b0..f96c43d185 100644
---- a/meta/lib/oeqa/runtime/decorator/package.py
-+++ b/meta/lib/oeqa/runtime/decorator/package.py
-@@ -46,11 +46,41 @@ class OEHasPackage(OETestDecorator):
-             self.logger.debug(msg)
-             if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
-                 msg =3D "Test can't run with %s installed" % ', or'.join(u=
-nneed_pkgs)
--                self.case.skipTest(msg)
-+                self.__decorator_fail(msg)
-=20
-         if need_pkgs:
-             msg =3D 'Checking if at least one of %s is installed' % ', '.j=
-oin(need_pkgs)
-             self.logger.debug(msg)
-             if self.case.tc.image_packages.isdisjoint(need_pkgs):
-                 msg =3D "Test requires %s to be installed" % ', or'.join(n=
-eed_pkgs)
--                self.case.skipTest(msg)
-+                self.__decorator_fail(msg)
-+
-+    def __decorator_fail(self, msg):
-+        self.case.skipTest(msg)
-+
-+@registerDecorator
-+class OERequirePackage(OEHasPackage):
-+    """
-+        Checks if image has packages (un)installed.
-+        It is almost the same as OEHasPackage, but if dependencies are mis=
-sing
-+        the test case fails.
-+
-+        The argument must be a string, set, or list of packages that must =
-be
-+        installed or not present in the image.
-+
-+        The way to tell a package must not be in an image is using an
-+        exclamation point ('!') before the name of the package.
-+
-+        If test depends on pkg1 or pkg2 you need to use:
-+        @OERequirePackage({'pkg1', 'pkg2'})
-+
-+        If test depends on pkg1 and pkg2 you need to use:
-+        @OERequirePackage('pkg1')
-+        @OERequirePackage('pkg2')
-+
-+        If test depends on pkg1 but pkg2 must not be present use:
-+        @OERequirePackage({'pkg1', '!pkg2'})
-+    """
-+
-+    def __decorator_fail(self, msg):
-+        self.case.fail(msg)
---=20
-2.20.1
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (3):
+  lz4: disable static library
+  linux-firmware: upgrade 20200421 -> 20200519
+  build-sysroots: add sysroot paths with native binaries to PATH
+
+Chen Qi (1):
+  db: do not install db_verify if 'verify' is not enabled
+
+Joe Slater (2):
+  qemu: force build type to production
+  vim: _FORTIFY_SOURCE=2 be gone
+
+Konrad Weihmann (2):
+  sysfsutils: rem leftover settings for libsysfs-dev
+  cogl: point to correct HOMEPAGE
+
+Marco Felsch (1):
+  util-linux: alternatify rtcwake
+
+Paul Barker (3):
+  archiver: Fix test case for srpm archiver mode
+  oe-selftest: Allow overriding the build directory used for tests
+  oe-selftest: Recursively patch test case paths
+
+Peter Kjellerstedt (1):
+  cairo: Do not try to remove nonexistent directories
+
+Ralph Siemsen (1):
+  cve-check: include epoch in product version output
+
+Richard Purdie (5):
+  ltp: Exclude the memcg_stress tests due to timeout problems
+  maintainers: Update Ross' email address
+  logrotate: Drop obsolete setting/comment
+  oeqa/targetcontrol: Rework exception handling to avoid warnings
+  patchelf: Add patch to address corrupt shared library issue
+
+Wang Mingyu (1):
+  ca-certificates: upgrade 20190110 -> 20200601
+
+hongxu (1):
+  core-image-minimal-initramfs: keep restriction with
+    initramfs-module-install
+
+ meta/classes/cve-check.bbclass                |   2 +-
+ meta/conf/distro/include/maintainers.inc      | 126 +++++++++---------
+ meta/lib/oeqa/selftest/cases/archiver.py      |   1 +
+ meta/lib/oeqa/selftest/context.py             |  24 +++-
+ meta/lib/oeqa/targetcontrol.py                |   5 +-
+ meta/lib/oeqa/utils/commands.py               |   5 +-
+ .../images/core-image-minimal-initramfs.bb    |   4 +-
+ meta/recipes-core/meta/build-sysroots.bb      |   4 +
+ .../sysfsutils/sysfsutils_2.1.0.bb            |   2 -
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../patchelf/patchelf/fix-phdrs.patch         |  37 +++++
+ .../patchelf/patchelf_0.10.bb                 |   1 +
+ meta/recipes-devtools/qemu/qemu_4.2.0.bb      |   5 +
+ .../logrotate/logrotate_3.15.1.bb             |   7 -
+ meta/recipes-extended/ltp/ltp_20200120.bb     |   4 +
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |   6 +-
+ meta/recipes-graphics/cogl/cogl-1.0.inc       |   2 +-
+ ...20200421.bb => linux-firmware_20200519.bb} |   5 +-
+ ...0190110.bb => ca-certificates_20200601.bb} |   4 +-
+ meta/recipes-support/db/db_5.3.28.bb          |   3 +
+ meta/recipes-support/lz4/lz4_1.9.2.bb         |   2 +-
+ meta/recipes-support/vim/vim_8.2.bb           |   5 +
+ 22 files changed, 162 insertions(+), 93 deletions(-)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200421.bb => linux-firmware_20200519.bb} (99%)
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20190110.bb => ca-certificates_20200601.bb} (95%)
+
+-- 
+2.17.1
 
