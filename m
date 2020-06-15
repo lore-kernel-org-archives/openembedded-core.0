@@ -1,300 +1,66 @@
-Received: from mga18.intel.com (mga18.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.16374.1592223336596082246
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.16500.1592223475751737385
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 05:15:37 -0700
+ Mon, 15 Jun 2020 05:17:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: xGTxMyb3V98xwoCBQh0n1SYUe4ycJe126hsFWiaCdyJ+HwMUszKM2dq5uxYT36avJW+c6BgJ+k
- VclUSVj3okgQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 05:15:36 -0700
-IronPort-SDR: ROudXwIaslHLN/bxcGRRVpT+A/s7S9PbyFhTWGS9qpdBvjnY5WdTwrL6HpdeEXVSrzDIQjvdtY
- x1O+6ETRtMuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="476010651"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Jun 2020 05:15:35 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 2/2] perl: fix CVE-2020-10543 & CVE-2020-10878
-Date: Mon, 15 Jun 2020 20:15:33 +0800
-Message-Id: <1592223333-84769-2-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592223333-84769-1-git-send-email-chee.yang.lee@intel.com>
-References: <1592223333-84769-1-git-send-email-chee.yang.lee@intel.com>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jko3k-0006GR-I6; Mon, 15 Jun 2020 14:17:52 +0200
+Received: from localhost ([127.0.0.1])
+	by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jko3k-00030P-6q; Mon, 15 Jun 2020 14:17:52 +0200
+Message-ID: <d14c6872c68aef73f26a0afdf90917d7b01665cc.camel@pengutronix.de>
+Subject: Re: [OE-core][PATCH] classes/buildhistory: capture package config
+From: "Jan Luebbe" <jlu@pengutronix.de>
+To: Mikko.Rapeli@bmw.de
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jun 2020 14:17:51 +0200
+In-Reply-To: <20200615112937.GF108868@korppu>
+References: <20200603081237.1959-1-jlu@pengutronix.de>
+	 <20200615112937.GF108868@korppu>
+User-Agent: Evolution 3.36.2-1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Hi,
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../perl/files/CVE-2020-10543.patch                |  36 +++++
- .../perl/files/CVE-2020-10878_1.patch              | 152 +++++++++++++++++++++
- .../perl/files/CVE-2020-10878_2.patch              |  36 +++++
- meta/recipes-devtools/perl/perl_5.30.1.bb          |   3 +
- 4 files changed, 227 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+On Mon, 2020-06-15 at 11:29 +0000, Mikko.Rapeli@bmw.de wrote:
+> On Wed, Jun 03, 2020 at 10:12:37AM +0200, Jan Luebbe wrote:
+> > As the PACKAGECONFIG variable has a large influence on the
+> > resulting
+> > package sizes and dependencies, it's useful to capture it in the
+> > recipe-level buildhistory. This makes it straightforward to analyze
+> > the
+> > impact of PACKAGECONFIG changes on the resulting image size.
+> 
+> Thanks, this is a good idea! I would print using full PACKAGECONFIG
+> name to avoid any confusion.
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10543.patch b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
-new file mode 100644
-index 0000000..36dff0a
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
-@@ -0,0 +1,36 @@
-+From 897d1f7fd515b828e4b198d8b8bef76c6faf03ed Mon Sep 17 00:00:00 2001
-+From: John Lightsey <jd@cpanel.net>
-+Date: Wed, 20 Nov 2019 20:02:45 -0600
-+Subject: [PATCH] regcomp.c: Prevent integer overflow from nested regex
-+ quantifiers.
-+
-+(CVE-2020-10543) On 32bit systems the size calculations for nested regular
-+expression quantifiers could overflow causing heap memory corruption.
-+
-+Fixes: Perl/perl5-security#125
-+(cherry picked from commit bfd31397db5dc1a5c5d3e0a1f753a4f89a736e71)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/897d1f7fd515b828e4b198d8b8bef76c6faf03ed] 
-+CVE: CVE-2020-10543
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ regcomp.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 93c8d98fbb0..5f86be8086d 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -5489,6 +5489,12 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 				  RExC_precomp)));
-+                 }
-+ 
-++                if ( ( minnext > 0 && mincount >= SSize_t_MAX / minnext )
-++                    || min >= SSize_t_MAX - minnext * mincount )
-++                {
-++                    FAIL("Regexp out of space");
-++                }
-++
-+ 		min += minnext * mincount;
-+ 		is_inf_internal |= deltanext == SSize_t_MAX
-+                          || (maxcount == REG_INFTY && minnext + deltanext > 0);
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-new file mode 100644
-index 0000000..b86085a
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-@@ -0,0 +1,152 @@
-+From 0a320d753fe7fca03df259a4dfd8e641e51edaa8 Mon Sep 17 00:00:00 2001
-+From: Hugo van der Sanden <hv@crypt.org>
-+Date: Tue, 18 Feb 2020 13:51:16 +0000
-+Subject: [PATCH] study_chunk: extract rck_elide_nothing
-+
-+(CVE-2020-10878)
-+
-+(cherry picked from commit 93dee06613d4e1428fb10905ce1c3c96f53113dc)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/0a320d753fe7fca03df259a4dfd8e641e51edaa8] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ embed.fnc |  1 +
-+ embed.h   |  1 +
-+ proto.h   |  3 +++
-+ regcomp.c | 70 ++++++++++++++++++++++++++++++++++---------------------
-+ 4 files changed, 48 insertions(+), 27 deletions(-)
-+
-+diff --git a/embed.fnc b/embed.fnc
-+index aedb4baef19..d7cd04d3fc3 100644
-+--- a/embed.fnc
-++++ b/embed.fnc
-+@@ -2481,6 +2481,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
-+                                 |I32 stopparen|U32 recursed_depth \
-+ 				|NULLOK regnode_ssc *and_withp \
-+ 				|U32 flags|U32 depth
-++Es	|void	|rck_elide_nothing|NN regnode *node
-+ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
-+ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
-+ 				|NN const char* const s|const U32 n
-+diff --git a/embed.h b/embed.h
-+index 75c91f77f45..356a8b98d96 100644
-+--- a/embed.h
-++++ b/embed.h
-+@@ -1208,6 +1208,7 @@
-+ #define parse_lparen_question_flags(a)	S_parse_lparen_question_flags(aTHX_ a)
-+ #define parse_uniprop_string(a,b,c,d,e,f,g,h,i)	Perl_parse_uniprop_string(aTHX_ a,b,c,d,e,f,g,h,i)
-+ #define populate_ANYOF_from_invlist(a,b)	S_populate_ANYOF_from_invlist(aTHX_ a,b)
-++#define rck_elide_nothing(a)	S_rck_elide_nothing(aTHX_ a)
-+ #define reg(a,b,c,d)		S_reg(aTHX_ a,b,c,d)
-+ #define reg2Lanode(a,b,c,d)	S_reg2Lanode(aTHX_ a,b,c,d)
-+ #define reg_node(a,b)		S_reg_node(aTHX_ a,b)
-+diff --git a/proto.h b/proto.h
-+index 141ddbaee6d..f316fe134e1 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -5543,6 +5543,9 @@ PERL_CALLCONV SV *	Perl_parse_uniprop_string(pTHX_ const char * const name, cons
-+ STATIC void	S_populate_ANYOF_from_invlist(pTHX_ regnode *node, SV** invlist_ptr);
-+ #define PERL_ARGS_ASSERT_POPULATE_ANYOF_FROM_INVLIST	\
-+ 	assert(node); assert(invlist_ptr)
-++STATIC void	S_rck_elide_nothing(pTHX_ regnode *node);
-++#define PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING	\
-++	assert(node)
-+ PERL_STATIC_NO_RET void	S_re_croak2(pTHX_ bool utf8, const char* pat1, const char* pat2, ...)
-+ 			__attribute__noreturn__;
-+ #define PERL_ARGS_ASSERT_RE_CROAK2	\
-+diff --git a/regcomp.c b/regcomp.c
-+index 5f86be8086d..4ba2980db66 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -4450,6 +4450,44 @@ S_unwind_scan_frames(pTHX_ const void *p)
-+     } while (f);
-+ }
-+ 
-++/* Follow the next-chain of the current node and optimize away
-++   all the NOTHINGs from it.
-++ */
-++STATIC void
-++S_rck_elide_nothing(pTHX_ regnode *node)
-++{
-++    dVAR;
-++
-++    PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING;
-++
-++    if (OP(node) != CURLYX) {
-++        const int max = (reg_off_by_arg[OP(node)]
-++                        ? I32_MAX
-++                          /* I32 may be smaller than U16 on CRAYs! */
-++                        : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-++        int off = (reg_off_by_arg[OP(node)] ? ARG(node) : NEXT_OFF(node));
-++        int noff;
-++        regnode *n = node;
-++
-++        /* Skip NOTHING and LONGJMP. */
-++        while (
-++            (n = regnext(n))
-++            && (
-++                (PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-++                || ((OP(n) == LONGJMP) && (noff = ARG(n)))
-++            )
-++            && off + noff < max
-++        ) {
-++            off += noff;
-++        }
-++        if (reg_off_by_arg[OP(node)])
-++            ARG(node) = off;
-++        else
-++            NEXT_OFF(node) = off;
-++    }
-++    return;
-++}
-++
-+ /* the return from this sub is the minimum length that could possibly match */
-+ STATIC SSize_t
-+ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+@@ -4550,28 +4588,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+          */
-+         JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-+ 
-+-	/* Follow the next-chain of the current node and optimize
-+-	   away all the NOTHINGs from it.  */
-+-	if (OP(scan) != CURLYX) {
-+-	    const int max = (reg_off_by_arg[OP(scan)]
-+-		       ? I32_MAX
-+-		       /* I32 may be smaller than U16 on CRAYs! */
-+-		       : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-+-	    int off = (reg_off_by_arg[OP(scan)] ? ARG(scan) : NEXT_OFF(scan));
-+-	    int noff;
-+-	    regnode *n = scan;
-+-
-+-	    /* Skip NOTHING and LONGJMP. */
-+-	    while ((n = regnext(n))
-+-		   && ((PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-+-		       || ((OP(n) == LONGJMP) && (noff = ARG(n))))
-+-		   && off + noff < max)
-+-		off += noff;
-+-	    if (reg_off_by_arg[OP(scan)])
-+-		ARG(scan) = off;
-+-	    else
-+-		NEXT_OFF(scan) = off;
-+-	}
-++        /* Follow the next-chain of the current node and optimize
-++           away all the NOTHINGs from it.
-++         */
-++        rck_elide_nothing(scan);
-+ 
-+ 	/* The principal pseudo-switch.  Cannot be a switch, since we
-+ 	   look into several different things.  */
-+@@ -5745,11 +5765,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+ 		if (data && (fl & SF_HAS_EVAL))
-+ 		    data->flags |= SF_HAS_EVAL;
-+ 	      optimize_curly_tail:
-+-		if (OP(oscan) != CURLYX) {
-+-		    while (PL_regkind[OP(next = regnext(oscan))] == NOTHING
-+-			   && NEXT_OFF(next))
-+-			NEXT_OFF(oscan) += NEXT_OFF(next);
-+-		}
-++		rck_elide_nothing(oscan);
-+ 		continue;
-+ 
-+ 	    default:
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-new file mode 100644
-index 0000000..0bacd6b
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-@@ -0,0 +1,36 @@
-+From 3295b48defa0f8570114877b063fe546dd348b3c Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Thu, 20 Feb 2020 17:49:36 +0000
-+Subject: [PATCH] regcomp: use long jumps if there is any possibility of
-+ overflow
-+
-+(CVE-2020-10878) Be conservative for backporting, we'll aim to do
-+something more aggressive for bleadperl.
-+
-+(cherry picked from commit 9d7759db46f3b31b1d3f79c44266b6ba42a47fc6)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/3295b48defa0f8570114877b063fe546dd348b3c] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ regcomp.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 4ba2980db66..73c35a67020 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -7762,6 +7762,13 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+ 
-+         /* We have that number in RExC_npar */
-+         RExC_total_parens = RExC_npar;
-++
-++        /* XXX For backporting, use long jumps if there is any possibility of
-++         * overflow */
-++        if (RExC_size > U16_MAX && ! RExC_use_BRANCHJ) {
-++            RExC_use_BRANCHJ = TRUE;
-++            flags |= RESTART_PARSE;
-++        }
-+     }
-+     else if (! MUST_RESTART(flags)) {
-+ 	ReREFCNT_dec(Rx);
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 9d747aa..e7fd8bc 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -24,6 +24,9 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0001-PATCH-perl-134117-Close-DATA-in-loc_tools.pl.patch \
-            file://determinism.patch  \
-            file://racefix.patch \
-+           file://CVE-2020-10543.patch \
-+           file://CVE-2020-10878_1.patch \
-+           file://CVE-2020-10878_2.patch \
-            "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
--- 
-2.7.4
+Note that Richard has already merged this in master.
+
+I thought it was pretty clear when looking at if from the package
+context in the buildhistory. I wouldn't mind renaming it to
+PACKAGECONFIG, it there's agreement that it would be clearer.
+
+> And this reminds me that DISTRO_FEATURES isn't logged into
+> buildhistory either afaik...
+
+Might be useful, but DISTRO_FEATURES is relatively high-level so
+there's usually not much details you can optimize.
+
+Jan
+
+> A generic approach for adding more variables to buildhistory would be
+> nice.
+
+
 
