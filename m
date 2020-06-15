@@ -1,85 +1,69 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web12.262.1592258526826717320
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web11.609.1592259257623820895
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 15:02:07 -0700
+ Mon, 15 Jun 2020 15:14:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=F3XVDpY3;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: danismostlikely@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id g7so8535047qvx.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 15:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eMSAfBoLQ0nkN0ZKGmGU77y9Z7fvyyyAoaILUeYx9SE=;
-        b=F3XVDpY3gOJeA1dSbgczwXGGx02Arl0PO8i5SqgQkquACdMvxjaU5OZSyA9Jdh+YWk
-         GGeYN4VqZ1f+XRPR4LAyRL4FT/hlYy6yvZfFBbTov1prjDFob0993tBRFDnlX2FrkvAb
-         qvxQh2oYVNEwCfEvzvf7vEmMu2YFH2W7xgmrt+TZXkItDASpAQYeHn/LfbRfpVk/ADjE
-         PbYWpNivGM7ZZynmIY4m3lBMQrRvdelDJAPfHi0n4Ca45dTYdtNO4KcXEroXnjVGeMpo
-         eRBc0+y5WkbJlOWPBYyS0cck3ze69T6HNHIBlLCMoA6padOYlNQ/cthNvCxmx/WBvs3A
-         +e3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eMSAfBoLQ0nkN0ZKGmGU77y9Z7fvyyyAoaILUeYx9SE=;
-        b=Oi+8OTqOCsjfLchVuecsqKAbT6UoICqE24O5gWuHTU2b5uONT07Bgc5X/XKBUdyZxI
-         PElsQ57gPYKFuyPLTuf4RBFRThQ4f5ghV1LC92osug+9Taph88FG5F5R9PGlHkxbV/LF
-         Y/t26oZPMcp9X1JwT2T5cxyFInUOvCmOGnNKfvEd1YeJaChJ+6SJKk4mr8vNE2tlLndb
-         0EWeLSgHMJ0fUeeyVwKhPylITDRRn0efQ5EaGI4heznGuOCAfM5+1HMdwnxgOJkq6lxT
-         T4Jog9SIQi2SDzM8iNvqSQ264ozqDypso9fHjacuJTe80ncDdV/fbMbBx/Cfh4UuZwB+
-         BzPg==
-X-Gm-Message-State: AOAM533PJb5ICgU0cLWusYcRvK65nR9K+da8sf49sf6tvfaYPwUMwl0n
-	qLTkGnWfJ8dFiqP3QYywhwk2mM0rSSE=
-X-Google-Smtp-Source: ABdhPJx5J1zhGW/FdshCcG+nUCiZqTD+P0OZz+9tyxBSvFThDsiSJb2FGgFd324UQ+NsHJHhoKazxg==
-X-Received: by 2002:ad4:4572:: with SMTP id o18mr26704046qvu.204.1592258525786;
-        Mon, 15 Jun 2020 15:02:05 -0700 (PDT)
-Return-Path: <danismostlikely@gmail.com>
-Received: from nebuchadnezzar.local ([2001:470:30f3:1:bafd:2698:c02f:136a])
-        by smtp.gmail.com with ESMTPSA id 79sm12200056qkf.48.2020.06.15.15.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 15:02:05 -0700 (PDT)
-From: "Dan McGregor" <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dan McGregor <danismostlikely@gmail.com>,
-	Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [PATCH 4/4] buildhistory-collect-srcrevs: sort directories
-Date: Mon, 15 Jun 2020 16:01:43 -0600
-Message-Id: <20200615220143.4018104-5-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200615220143.4018104-1-danismostlikely@gmail.com>
-References: <20200615220143.4018104-1-danismostlikely@gmail.com>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:38764 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jkxMt-0038T4-QO
+	for openembedded-core@lists.openembedded.org; Mon, 15 Jun 2020 18:14:16 -0400
+Date: Mon, 15 Jun 2020 18:14:10 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] pypi.bbclass: update HOMEPAGE to point to actual pypi page
+Message-ID: <alpine.LFD.2.21.2006151807020.13592@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-From: Dan McGregor <danismostlikely@gmail.com>
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+The current setting for the HOMEPAGE is a redirection, so might as
+well update it.
 
-In order to allow consistent output of buildhistory-collect-srcrevs sort
-the list of directories returned by os.walk. Otherwise the list of
-SRCREVs is returned in an unspecified order.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-We save the output of this command on build, so it creates smaller diffs
-between builds.
-
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
 ---
- scripts/buildhistory-collect-srcrevs | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/buildhistory-collect-srcrevs b/scripts/buildhistory-collect-srcrevs
-index c4d203ff4d..340bee78bb 100755
---- a/scripts/buildhistory-collect-srcrevs
-+++ b/scripts/buildhistory-collect-srcrevs
-@@ -59,6 +59,7 @@ def main():
- 
-     all_srcrevs = collections.defaultdict(list)
-     for root, dirs, files in os.walk(options.buildhistory_dir):
-+        dirs.sort()
-         if '.git' in dirs:
-             dirs.remove('.git')
-         for fn in files:
+diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+index 87b4c85fc0..73aca77ef6 100644
+--- a/meta/classes/pypi.bbclass
++++ b/meta/classes/pypi.bbclass
+@@ -17,10 +17,10 @@ def pypi_src_uri(d):
+
+ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+
+-HOMEPAGE ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
++HOMEPAGE ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
+ SECTION = "devel/python"
+ SRC_URI += "${PYPI_SRC_URI}"
+ S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+
+-UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
++UPSTREAM_CHECK_URI ?= "${HOMEPAGE}"
+ UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+
+rday
+
 -- 
-2.27.0
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
