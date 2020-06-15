@@ -1,103 +1,151 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web12.24558.1592244258041753476
+Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.48])
+ by mx.groups.io with SMTP id smtpd.web12.25127.1592245996253557466
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 11:04:18 -0700
+ Mon, 15 Jun 2020 11:33:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ml+YvfCy;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id q2so9885032vsr.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 11:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dYbig4vLahPSBYhXhv3bJD7l0qJf0IQ7Uvk3q6gal/k=;
-        b=ml+YvfCy9fpdR2gnryw8fnhWY9IFurSCHLHfTaiSDxWezOE3awFG28kGj1gstspoGY
-         K9GdvcyJ5SJLRJPXZbFCb1zM3mzk2ukgobWXCPmaOET9dikWbVDwW0iqwYqjPQq7g4SM
-         tx9UCEH3gybvip55wvAnHtVlMFHD6aH5Zf9RguNqop5Mb/d8oH/7CnJ5992IPCzuBQzn
-         6yfN/5cvPWuJeUGA3421a0zjMVDn7US4DE3CRxpoD5uZpxDX9UHm6/n4P3H1iV/mr7YE
-         3qB6eCqqV86RBt5O0zvbZagUT7NHe5Za4R0tue1Hngbf6MPxktspnMzC3Wr7zP7jdu8+
-         mTvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dYbig4vLahPSBYhXhv3bJD7l0qJf0IQ7Uvk3q6gal/k=;
-        b=c1cDCJRKCjCtS2GEcsARs4DDlZVSRdcJagXOc5gXTmU+a+Ql+m18XSOc7INnteXXB0
-         wRXh0x/ei9Ndvg6xPEX+Y4vMbkyAfoPvAEVqRXKE1CtSuNKqmCu70zHirGVl44kl+9G3
-         5ZbeaM28zc53HJTdUAaWGahGVttwp9I9/2WI0cgU63zIa8fc1+UyJCKTS8mJKXx0h5gv
-         xvSc8qhimlm6NmdyR92fy+Hi6eKzeBvaVrl/CE1B4Yk9PuqrrynFrWxIwMu9OQLgySqm
-         ihXCO3NVjDbVvnk85btN36e1iP//lRwTUs6RmDvrTd9VemXkYvhEPkVxfZQ9wxukKPT1
-         ucmg==
-X-Gm-Message-State: AOAM5310cFPNH5gis0xNTYamRTTXPcmhtLooiLsVjftTTLec9yByLLH9
-	f9vX5UTXMqkTuzsxlwBxsA1bD94OZr8SlQFQh/w=
-X-Google-Smtp-Source: ABdhPJwCh/fQJAk2p6Oi/PO53XOsUCi9eO8eoqnaNbyVwnvKjFKjUVAF32ILod1ryrpdOmXdz09WojbHv8gsRy2mCu8=
-X-Received: by 2002:a67:6ec4:: with SMTP id j187mr20136024vsc.35.1592244256669;
- Mon, 15 Jun 2020 11:04:16 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=qGWWRhAk;
+ spf=pass (domain: outlook.com, ip: 40.92.51.48, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DLcjBX2iHFAIxcVB/toWOg+scl2rdDYZrXjnp2tCvCJQ+exKbGMx3uG0QXJ6U1xzSBquBxbdjTzrJE2O1ZVdJ274Fa9fcdegulGhRqsUqb89cTXaGbQJQQQ/+3Ygo0WPzeaaAoscKLoxZrUi1VOXsAHH20EVd6pv8vmniAYFPHhixTFn850QAceaKAuaJdfcuWWL29yOx2Z7CQiiFnfpqIO/kwQKL0963fuze6uk3KuXp7KGoQYXbu5ygrEQXWj90tX+qh3ALZDKB+wbnl4r33ZSmjhreolyWtUT2UNL10WpfJtPhy8uFN6m5J6rVewN3xR+PhFUBSmiO73pGWXXzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PpOU8h7zcnAebnJJNAcdh5FsIiRfdYYF3lMcuXTuCjo=;
+ b=jYs7wRWGQ5n+2bEEin/R1fE3fr2DO7POghp+Kz0HFZX/0yugTLC5KTqP0ds1bz3p4jzmV3OyrZe9vcx9ag4A6wSuF0p+XcJd9zVjknfBFwAfC9Bq2TlPkQDvv3fvkPCxjSzkGHIy5kYaI4ip/rgrLH1QbkAq9JC6tgIDSTZ3S8KekT/OUaqyO9LXk+H2+YBn6wC9MQAPXPIetRhK+xpEPYTqlos9lEgc8LXNxZAC+FKfFhlsRfZI13kkQVfiKu++RMDwjK3stFSpVbl6JD5BS8aMQ+izk2S+R3ABDeytU5P/oQxI6Ab7OzQdocftd66Ltd//XP9vfxuH7zrlxK7rKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PpOU8h7zcnAebnJJNAcdh5FsIiRfdYYF3lMcuXTuCjo=;
+ b=qGWWRhAkuaNyZkLeVsOnfi7fL/qptWKU78yIVnNDWzA9Sri2urD0/5wpCn/bvQUvu7MkJwKKyafZgnB5y3EhTH9l82q8SkdofgPpdHMUnOfKk3fIo5z2Llcb5LxSp0hsTzEvbs9yCf76Oy4J/pdWBcVMZp/QPpp+CBNyKecIb9xtkpVk54rA7yg1Ock9Fl6GFzXH6DV5qFkk9nf2jPiQq30f4vEQNcFRKA5i4KvofSj43GQhVW3pfJA/dN8265FbZT9S259DxTegZyX6jiKQHV/Una+Lh99XKhoTBBRFGvHd2RelJk7gIQ4Y9SmhGG1sZiJlc+XSqxhzoSLJ+KUf1A==
+Received: from DB8EUR06FT036.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc35::49) by
+ DB8EUR06HT157.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc35::107)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Mon, 15 Jun
+ 2020 18:33:14 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:fc35::4f) by DB8EUR06FT036.mail.protection.outlook.com
+ (2a01:111:e400:fc35::152) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend
+ Transport; Mon, 15 Jun 2020 18:33:14 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:D4EA00665189D182A9A457ECED498D761DA9AAD57A68F8857C8831B255A3762F;UpperCasedChecksum:733952F4181570CF0EDD5F132BF7A2CF3A44A112758893DC0E378A0AC6D55EA6;SizeAsReceived:7378;Count:47
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722%7]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
+ 18:33:14 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH v2] oeqa/runtime: Add OERequirePackage decorator
+Date: Mon, 15 Jun 2020 20:33:00 +0200
+Message-ID: <AM7PR05MB688182C8A0A3EB1F89A30530A89C0@AM7PR05MB6881.eurprd05.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+X-ClientProxiedBy: BEXP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::21)
+ To AM7PR05MB6881.eurprd05.prod.outlook.com (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20200615183300.3025-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-References: <AM7PR05MB68814488723D88530BBC17E2A89E0@AM7PR05MB6881.eurprd05.prod.outlook.com>
- <8c4f219514c2d9ca3d29b3f452dfb00df65109aa.camel@linuxfoundation.org>
- <1618C532747F3046.29686@lists.openembedded.org> <CANNYZj9Q_cWv4L1ssOFLVDm1TdY20ZSu2B2V0zjLpYnAAJTeVA@mail.gmail.com>
- <80ddd1d5eece62f64b743fb25db62ef3501a9e5e.camel@linuxfoundation.org>
-In-Reply-To: <80ddd1d5eece62f64b743fb25db62ef3501a9e5e.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 15 Jun 2020 20:04:05 +0200
-Message-ID: <CANNYZj9bBmVP62=j-qU-RTs2wp7Ekywm4W+zq8tyJMtYU217kw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/runtime: Add OERequirePackage decorator
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Konrad Weihmann <kweihmann@outlook.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000050877e05a8234143"
-
---00000000000050877e05a8234143
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, 15 Jun 2020 at 18:56, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Mon, 2020-06-15 at 18:54 +0200, Alexander Kanavin wrote:
-> > Come to think of it, maybe it's okay in this situation to actually
-> > remove OEHasPackage - the test will simply always run, and will still
-> > fail if the package is absent, but the failure would be less specific
-> > than a missing package.
->
-> Lighting up the autobuilder with failures will just mean people no
-> longer know which failures matter, so no, this isn't an option.
->
-
-I didn't mean the AB (which has a universal list of test suites for all
-images, which means the tests have to adapt via OeHasPackage), but rather
-what we have here: several lists of tests that are tightly coupled to their
-respective test images. In this situation OEHasPackage is
-counter-productive.
-
-Alex
-
---00000000000050877e05a8234143
-Content-Type: text/html; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (79.215.4.148) by BEXP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21 via Frontend Transport; Mon, 15 Jun 2020 18:33:13 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200615183300.3025-1-kweihmann@outlook.com>
+X-TMN: [ntMbrl6DAmTAGmJyj7SASgFGHgUtiaaB]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: fabbdfe5-fb73-464c-1634-08d8115a9037
+X-MS-Exchange-SLBlob-MailProps: 
+	NS9Gj58uCj1eIGNFzfTjd4T5cI/qWxCak3s5h5fVKex+6o2h3BtQcf48SlHGyAjMsenkt/7zpYzbO7KNnZB2IFqBn7FAu7/9oD3ZvSg4dC7EXDykfWGLjkeDh7BYFjKPizWK+wyZ4h1D7lWB+m6y3Auo6oP2z4sCRtMTM6Zb7CjLbuEvz7oNTLV05OrfmvLj03c7g3F/fC/b+zs292xcO8vSDKjaRhLaLvhVKoFZfpQ8gn+8ABqh9ztRIOkj53bRgfyJhv1uyueJ7ExQY99jLUCGtLhWbrjxjPANQ/fYJfLKMi2mKlIjMhw2x6EkEgEJ1oB0vUz4m2aIKe+IK9s66eKH5dM5BxhKjbbierYmqhe34rHy08tHXgwoF+vWeibRtbWqIabVeiBnZBfapDidom5zdolK7Od7DCGl97l1z1flE2HnLSplpgGU5nhchzx2anYdg79V6tm3Zegt7ZtAlrgcZ6cPkGcvCEAppMHT3wYrxWd+GVa3xEn+O6N6Za9cCgGXKZGF3klucZvQIeUZla7WRNeQm1WW4a8IhMu0vQ5nBNjHQYrcAKqbelIKk+hE6MQeshgra8RHH9sbisUAjRNbAwalhLYtysmwRhOS2hshn5eU2/85ejPZFJkvW8SNXC+ho+VWiWQfEk7vD1Gq1VnojORZ9genDuKsZUnFTBwcUKo5TLfMAaJwPufWfsa2ZKkpTx6mXEHTiOrI8LuFRA==
+X-MS-TrafficTypeDiagnostic: DB8EUR06HT157:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	qggXEpC/gxWl2vyCQIHmknMZlnEbds1Wh1yooc3rOYsDcdMfu5ex4sVM20kpuqgGZmvXyO92JajRD0uU4tSobvnyOIV5AzrO4f6hHgqfgW/4mH/8SX8pI+svzeNsZYngZo7/WmsmMQnB7WQKDntFIZNXKT6ULKvUYOCmAB4lZdYgCR+M8wsj5krk5q51bbQrtz9B0D4SX5zz44LCvVzggw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	VQbrDSm/AwMPSxO7OZpAfSMKEgAnFtkkwNwe4qtwKve/tG++2A8Vx4Hrw88vDCvipSg6eZiiCrbUDFnW1qPFDx03uvLJTgk1ALq7EL36wIgRIOQiHFUz4h/1ZsVC3N//HO4pIizH9Qg66tnKe2l4Qw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fabbdfe5-fb73-464c-1634-08d8115a9037
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 18:33:14.1584
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR06HT157
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 15 Jun 2020 at 18:56, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2020-06-15 at 18:54=
- +0200, Alexander Kanavin wrote:<br>
-&gt; Come to think of it, maybe it&#39;s okay in this situation to actually=
-<br>
-&gt; remove OEHasPackage - the test will simply always run, and will still<=
-br>
-&gt; fail if the package is absent, but the failure would be less specific<=
-br>
-&gt; than a missing package.<br>
-<br>
-Lighting up the autobuilder with failures will just mean people no<br>
-longer know which failures matter, so no, this isn&#39;t an option.<br></bl=
-ockquote><div><br></div><div>I didn&#39;t mean the AB (which has a universa=
-l list of test suites for all images, which means the tests have to adapt v=
-ia OeHasPackage), but rather what we have here: several lists of tests that=
- are tightly coupled to their respective test images. In this situation OEH=
-asPackage is counter-productive.</div><div><br></div><div>Alex<br></div></d=
-iv></div>
+Add new decorator which behaves like OEHasPackage, but
+fails the testcase if a dependency isn't met.
 
---00000000000050877e05a8234143--
+This helps to identify missing packages in the image
+under test when using static test suite lists, otherwise
+a missing package won't fail the overall test suite and
+errors might slip through unnoticed
+
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oeqa/runtime/decorator/package.py | 34 ++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/run=
+time/decorator/package.py
+index 4c5ca198b0..f96c43d185 100644
+--- a/meta/lib/oeqa/runtime/decorator/package.py
++++ b/meta/lib/oeqa/runtime/decorator/package.py
+@@ -46,11 +46,41 @@ class OEHasPackage(OETestDecorator):
+             self.logger.debug(msg)
+             if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
+                 msg =3D "Test can't run with %s installed" % ', or'.join(u=
+nneed_pkgs)
+-                self.case.skipTest(msg)
++                self.__decorator_fail(msg)
+=20
+         if need_pkgs:
+             msg =3D 'Checking if at least one of %s is installed' % ', '.j=
+oin(need_pkgs)
+             self.logger.debug(msg)
+             if self.case.tc.image_packages.isdisjoint(need_pkgs):
+                 msg =3D "Test requires %s to be installed" % ', or'.join(n=
+eed_pkgs)
+-                self.case.skipTest(msg)
++                self.__decorator_fail(msg)
++
++    def __decorator_fail(self, msg):
++        self.case.skipTest(msg)
++
++@registerDecorator
++class OERequirePackage(OEHasPackage):
++    """
++        Checks if image has packages (un)installed.
++        It is almost the same as OEHasPackage, but if dependencies are mis=
+sing
++        the test case fails.
++
++        The argument must be a string, set, or list of packages that must =
+be
++        installed or not present in the image.
++
++        The way to tell a package must not be in an image is using an
++        exclamation point ('!') before the name of the package.
++
++        If test depends on pkg1 or pkg2 you need to use:
++        @OERequirePackage({'pkg1', 'pkg2'})
++
++        If test depends on pkg1 and pkg2 you need to use:
++        @OERequirePackage('pkg1')
++        @OERequirePackage('pkg2')
++
++        If test depends on pkg1 but pkg2 must not be present use:
++        @OERequirePackage({'pkg1', '!pkg2'})
++    """
++
++    def __decorator_fail(self, msg):
++        self.case.fail(msg)
+--=20
+2.20.1
+
