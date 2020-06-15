@@ -1,91 +1,123 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web12.26553.1592249792842100519
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.26506.1592249794930114638
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 12:36:32 -0700
+ Mon, 15 Jun 2020 12:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ILC6T2aF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.65, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f65.google.com with SMTP id u8so266049pje.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FnepQEO1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id b5so8247346pfp.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=PplKEubNRXE5n+xUY0vcFc/iSR1pRndO9ofFG2qEIwE=;
-        b=ILC6T2aFmML+UYb5LoGVSWj4aOtRgWfL1e0mG3DZPnkEmAWmYa7pTXi8+VAag7Ch5E
-         Y6jfqmqufefk6ZKAj9xLgE5BxwkJ0FA4l15e4oc/jMukKC6NqwbqnLxLkwLdsiKyCHsh
-         CotEV0of7y/hkgSv247WozfLjebqmD7fAwCEpz5cx+9WAYm0hD6tRq3rMm58k4uBrmsC
-         ANuNCTAWyalsw7sxeB7YL17Jyh28uJBJ7I9bfKNiWZMh+wd+NdqBQGqD2tSHfDenXn/P
-         fGNzYmXRN590tX6AnApM/Z6Mk1Sbaet2IZiOEWB2KatkQdGJqrGrseGZ7WrwVHRvZE8v
-         Bd4Q==
+        bh=e84afYnSduT6wlb8lA7/QxNdJWBABlNCvWpVh4fgYUc=;
+        b=FnepQEO19dWksMNi/FqS39m9puJYlorWKRexAcQwNqPQCTL1k7zgz7XLOAZ8RftnZb
+         fdLa6fs6p9d20ONpV/opIFoP3yAyM1AE20GanG7srwkgI33xfXrLVTf5dHvuCFATs24I
+         ARLyDtnydKqd9jtAeUN3leeNpkWSDpNfLndRhSLo/p0nNHBnCfJrSym1wRE18XIO50SI
+         +sqqFjs5WiqKOIZLXGtZ6GoELj7pDisAFJ936WecN0NshjYk8Q/SndxyxH5qJ20FYy82
+         LPFA8pIr9E2nyTjA77uiPK7wvVDc9asrxTzsAa+oPj1PSGyE5RvSCFsKNR8gdeBP0IXq
+         6Mlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=PplKEubNRXE5n+xUY0vcFc/iSR1pRndO9ofFG2qEIwE=;
-        b=thT/kklvsCNCrgy3vPCREJ1qxrM2JCVB/IbnD1mllHy0FTaL6q2SCj+NZgQ0IUQCr6
-         4FGXI1KaSKNVih4CsUrPhfKjFHX+9wYAEUMsjjGO9K4b6oZ6JLMv2GtSb5nHHf29RypU
-         1AJheq0hBHaV+YXVLk/RoQZTwP7035NgbHtzwrBCnZmWXsK+63tKQ8XVSDq+0QBqHAI2
-         TLcpgQhPiGkYjtVeNbvviO4FZNJN1J4tTU5Lv0bij3LJXK34+1lCRGI1f5g9jWapX4vG
-         ct6p0fjUILFw7QucRJSYipB9tPafW3eEFYViHVPtt8sHm3ocLdtrm03YLVSti2futoXN
-         9JNA==
-X-Gm-Message-State: AOAM532Sl4jUNXyIhPvNJUD2eHP6iSsYuSosy/76e8sSW3wfw/jVi45G
-	Wyj89pX+BKFV0OTXT2lUcYsHfumZz+Q=
-X-Google-Smtp-Source: ABdhPJxGs+NbedaTSOwcd3PhKgK4hCe9KBbqecq4DWfs/+nln06VDlxrM87oc3+VTFKNKtQVbq/iWQ==
-X-Received: by 2002:a17:90a:c5:: with SMTP id v5mr827262pjd.192.1592249791462;
-        Mon, 15 Jun 2020 12:36:31 -0700 (PDT)
+        bh=e84afYnSduT6wlb8lA7/QxNdJWBABlNCvWpVh4fgYUc=;
+        b=jMZBpCF6/r3MaJPk7PyLE2/sptokTbfWNG/PkoLJMF/MANOwBuLW6g3iGTC+cyqN5r
+         hLLq6mAG4UWuz0jJRmgrfWGlSs32l+LbmO265sNVAkdWVarbJk46hOpbs5VPIeLdbbiq
+         uYhSrwbPukzaQIQeJUymUxBVNUeoYjXY4McI3A63kkt4UoZ+vhcjbcTAd5A8QImoJOtO
+         hpvZTI96U4rz8iIVyEU4eDpUqOu7DGCsEvvlrTjQUrt1mOD8mgQRO9fr9MX+TxC61saH
+         ECeSbUkSXEaVYrlnzqPqm0eIQgmJzrOLDzED0jpx1Vgu4fN/YBJWol/xn0I7uDtMlYjG
+         ROaw==
+X-Gm-Message-State: AOAM533AI2+8djh/sYPcwdg4m78xF7ZLQALDNhaFLVF7EYm7Yq0RLHrN
+	sTGGPnHs3AHGK7tg8V3GVujCbWcpC60=
+X-Google-Smtp-Source: ABdhPJz8jyyEJG/g1wjtJZYufyQsXzVGvyxx+JVnc98bZs7xpRjvpni/Cyw/zEPiSiKv9rvX0GSs2w==
+X-Received: by 2002:a63:3c16:: with SMTP id j22mr8884583pga.335.1592249793811;
+        Mon, 15 Jun 2020 12:36:33 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.29
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 12:36:29 -0700 (PDT)
+        Mon, 15 Jun 2020 12:36:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/21] ca-certificates: upgrade 20190110 -> 20200601
-Date: Mon, 15 Jun 2020 09:35:31 -1000
-Message-Id: <8f71ed4ff9743433abc16f84a4c21ad506d18bd9.1592249381.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/21] patchelf: Add patch to address corrupt shared library issue
+Date: Mon, 15 Jun 2020 09:35:32 -1000
+Message-Id: <28e079d74c99f66428844176f640747d3e5353ed.1592249381.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592249381.git.steve@sakoman.com>
 References: <cover.1592249381.git.steve@sakoman.com>
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--License-Update: format changed
+patchelf can corrupt shared libraries if the program headers don't
+immediately follow the elf header. Add a patch submitted upstream
+to address this.
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0007f38b03bcb0bd561bd9181fbffc7dec47fe9a)
+(cherry picked from commit e7811c787bbe2f5d49b3506309499acc27189988)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...a-certificates_20190110.bb => ca-certificates_20200601.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20190110.bb => ca-certificates_20200601.bb} (95%)
+ .../patchelf/patchelf/fix-phdrs.patch         | 37 +++++++++++++++++++
+ .../patchelf/patchelf_0.10.bb                 |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-similarity index 95%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-index ce3cb217a1..37ba51ce6a 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-@@ -5,7 +5,7 @@ This derived from Debian's CA Certificates."
- HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
- SECTION = "misc"
- LICENSE = "GPL-2.0+ & MPL-2.0"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308"
-+LIC_FILES_CHKSUM = "file://debian/copyright;md5=ae5b36b514e3f12ce1aa8e2ee67f3d7e"
+diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch b/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
+new file mode 100644
+index 0000000000..d087bd7855
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
+@@ -0,0 +1,37 @@
++When running patchelf on some existing patchelf'd binaries to change to longer 
++RPATHS, ldd would report the binaries as invalid. The output of objdump -x on 
++those libraryies should show the top of the .dynamic section is getting trashed,
++something like:
++
++0x600000001 0x0000000000429000
++0x335000 0x0000000000335000
++0xc740 0x000000000000c740
++0x1000 0x0000000000009098
++SONAME libglib-2.0.so.0
++
++(which should be RPATH and DT_NEEDED entries)
++
++This was tracked down to the code which injects the PT_LOAD section.
++
++The issue is that if the program headers were previously relocated to the end 
++of the file which was how patchelf operated previously, the relocation code 
++wouldn't work properly on a second run as it now assumes they're located after 
++the elf header. This change forces them back to immediately follow the elf
++header which is where the code has made space for them.
++
++Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/202]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++RP 2020/6/2
++
++Index: git/src/patchelf.cc
++===================================================================
++--- git.orig/src/patchelf.cc
+++++ git/src/patchelf.cc
++@@ -762,6 +762,7 @@ void ElfFile<ElfFileParamNames>::rewrite
++     }
++ 
++     /* Add a segment that maps the replaced sections into memory. */
+++    wri(hdr->e_phoff, sizeof(Elf_Ehdr));
++     phdrs.resize(rdi(hdr->e_phnum) + 1);
++     wri(hdr->e_phnum, rdi(hdr->e_phnum) + 1);
++     Elf_Phdr & phdr = phdrs[rdi(hdr->e_phnum) - 1];
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.10.bb b/meta/recipes-devtools/patchelf/patchelf_0.10.bb
+index cc983e033a..e4a604ec70 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.10.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.10.bb
+@@ -1,6 +1,7 @@
+ SRC_URI = "https://nixos.org/releases/${BPN}/${BPN}-${PV}/${BPN}-${PV}.tar.bz2 \
+            file://handle-read-only-files.patch \
+            file://fix-adjusting-startPage.patch \
++           file://fix-phdrs.patch \
+            "
  
- # This is needed to ensure we can run the postinst at image creation time
- DEPENDS = ""
-@@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
--SRCREV = "c28799b138b044c963d24c4a69659b6e5486e3be"
-+SRCREV = "b3a8980b781bc9a370e42714a605cd4191bb6c0b"
- 
- SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
+ LICENSE = "GPLv3"
 -- 
 2.17.1
 
