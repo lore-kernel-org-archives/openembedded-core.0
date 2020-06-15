@@ -1,111 +1,107 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web12.26560.1592249800044593051
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.26708.1592249802501077207
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 12:36:40 -0700
+ Mon, 15 Jun 2020 12:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=l4VeyDE9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id ga6so272928pjb.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ZDRcK87r;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id v24so7209705plo.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 12:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=v3wgLnHd5qIMv5Wll+d7qjpJEWNiESpieTLHlPoGJUA=;
-        b=l4VeyDE9KSyeCo2ILU/c6zlRWnn99cmGRVi+VkHmZRjy+5+4blyoy9DRdSuOh9dE9M
-         djytozW8Lswfg68QAuwMK3akjJTzj0dsKlv9jM+zex/135H1p7kVjoE94/FmRCsVlXhC
-         8NubWjHBJv/aVKJ9mxOOcY1geUSIiZptKC+tSKOHbQ9WljDaAZc/gl8oVWkOprO5KNS9
-         0EZyPICvtaspzqlPi/pmubmRrnwziPcLEQ1owFVlxejZFHzl+Uuct3y2Pz82KzrwMvDI
-         GbX937PX10G8ZnWGrmyAVy4YM/hHxZ5ajmzipVV1Uqqeg4b8YGaa8xx0LBP2hTJoeNwv
-         O4YQ==
+        bh=zyJUlbzbQ1iYD4M1DsUQ9eyyEQqaaZ2oYwtvAJ233Uc=;
+        b=ZDRcK87r4Y3nHXYzWLPw1vxCnC0hwcI/uhstKPhs5QESb/dnWrmVX4VvVnL6/eyWml
+         H6x5lxFhkMhJ5cAg6AMfRZK0fnw0H7lVrK+S3Db1yUACilFcGj3C5n6DAItOk1vTtIN6
+         XrGB7fbWxUf7CaSOq8G1SjLvhFl5WQNLoNtP7iM+TRqkVEwJUzSEoV6aQGVj9FVud0dD
+         JX4YyXalc8Ge7RYbS5/fDupcPDKdEocqIMU8vQdAm9dldOPa18xKyaoscSWd5fbnzXne
+         bN4tAznSh+piV/tiQewGd7R3v0DudIfbQWXCA5zako2ZeW5imyNxCgbrICAc1lLAFzQj
+         3f3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=v3wgLnHd5qIMv5Wll+d7qjpJEWNiESpieTLHlPoGJUA=;
-        b=FzU5EHXS7N0IsVb2OlBJr75AP75BuBe5Ay6Ubjz8MzYxsRsRJFlbg4pWdVg/qbS6OW
-         3o2+Lnu6ZM9pRqb/R/Yoq0TKCLeSMqc4anb8jF+PVQdrCT9LcgyGOZp8/oYHIWF1p4KO
-         a/OmYEYftwZ9jxSbQAcZKuqt8Qc50ldIhtUM5ioSICNRJMd3CNYqSGV8Mwi7QcPuDgwF
-         PeCu5l1jUvFiRnFOkAdKUIW6wG0T3Wv6WTsxUUlFpsuIOA4mCvVHtyFrCkffwnDS5Il1
-         bu0n/S+FLCvLd1lOQdGHnKRlaOd5BCG/2VQgRpnl6gd0vcfeeI1jiaTXuciw19j6rpEi
-         qsWg==
-X-Gm-Message-State: AOAM533YXJbHvRlHjgWoexU6HGio0S8EiOYCfxnpkZE32ixbGsSNlFZq
-	ZaXhgREtpgc8DyKIJPEO+7KvRz41Wis=
-X-Google-Smtp-Source: ABdhPJwlwbD1wsw8Brr7TGVgOsNYtNeibAA9G0I5+Ck7RVOwnCpWQHkS1+wH3/EhRNn7r216VbPnUQ==
-X-Received: by 2002:a17:902:9b97:: with SMTP id y23mr21902248plp.54.1592249798962;
-        Mon, 15 Jun 2020 12:36:38 -0700 (PDT)
+        bh=zyJUlbzbQ1iYD4M1DsUQ9eyyEQqaaZ2oYwtvAJ233Uc=;
+        b=oAOmhfzg/5iU+aplS+lvy8By6h/sHoEeUgjRCaBqvIPYaR25hTBQnbPu/bYxECYbDV
+         PK44vlbsM9jeLrmr072M+qI7XQP6cjKrfYC8bxjoGOwP/wDM+3H3jyi20e1usbxpv/vT
+         weDeFY9WWMNkrydF7YZXUINE1rhpJTfpr10PIXd3yLCybt1iscNpI9ysm6Rc7igyImM2
+         v5vnG8XQCjfDmWHW8qX3vQUYOS+7Q+sD8vH177CQZJ0QHg9FJKuVivaABQAA4JXOfLXJ
+         YqmTmfqOHFtfp+ZgxIzkdXlFq22pHHkEAFnGbiZowyDXgGdYtf7KUOXpQgKyZCekkcbt
+         U0wg==
+X-Gm-Message-State: AOAM533b8SKfzTTGdXcp7YWbl8FnVbdgFZH3K9zHdv15OTolLxEihq2G
+	8FF72cj1lWqiRBWL+O04px3LjYctlyI=
+X-Google-Smtp-Source: ABdhPJzg2Fqac49BmquEkWRSvFTrTul0yNH6Mbd5TJ8aJ9pe9LTHSjCVW5QTKk3guV7w2py4fN0vAQ==
+X-Received: by 2002:a17:90a:888:: with SMTP id v8mr756305pjc.95.1592249801517;
+        Mon, 15 Jun 2020 12:36:41 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.37
+        by smtp.gmail.com with ESMTPSA id u1sm12405492pgf.28.2020.06.15.12.36.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 12:36:38 -0700 (PDT)
+        Mon, 15 Jun 2020 12:36:40 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/21] oe-selftest: Allow overriding the build directory used for tests
-Date: Mon, 15 Jun 2020 09:35:34 -1000
-Message-Id: <27b2d4634756511d8385ab9bf98ff5c9fcbbcba5.1592249381.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/21] oe-selftest: Recursively patch test case paths
+Date: Mon, 15 Jun 2020 09:35:35 -1000
+Message-Id: <a28f369ce0a04939cf9d98d6002b5351c0b9ea51.1592249381.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592249381.git.steve@sakoman.com>
 References: <cover.1592249381.git.steve@sakoman.com>
 
 From: Paul Barker <pbarker@konsulko.com>
 
-This may be useful if the parent directory of the original builddir is
-not writable, on a lower performance drive, etc.
+This ensures that builddir is updated correctly to point to the new
+selftest build directory when we're given a list of test suites instead
+of a list of test cases.
 
 Signed-off-by: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dab719e5f1964fd48e9a35e6b9db1508b5414540)
+(cherry picked from commit 56e211d0f3c6cb84f5982e5de00faeeed69c1912)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/context.py | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/context.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 48ec5d419c..17f2a0cf6b 100644
+index 17f2a0cf6b..ba13732253 100644
 --- a/meta/lib/oeqa/selftest/context.py
 +++ b/meta/lib/oeqa/selftest/context.py
-@@ -22,18 +22,22 @@ from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
- from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+@@ -10,6 +10,7 @@ import glob
+ import sys
+ import importlib
+ import subprocess
++import unittest
+ from random import choice
  
- class OESelftestTestContext(OETestContext):
--    def __init__(self, td=None, logger=None, machines=None, config_paths=None):
-+    def __init__(self, td=None, logger=None, machines=None, config_paths=None, newbuilddir=None):
-         super(OESelftestTestContext, self).__init__(td, logger)
+ import oeqa
+@@ -60,9 +61,9 @@ class OESelftestTestContext(OETestContext):
  
-         self.machines = machines
-         self.custommachine = None
-         self.config_paths = config_paths
-+        self.newbuilddir = newbuilddir
+         os.chdir(newbuilddir)
  
-     def setup_builddir(self, suffix, selftestdir, suite):
-         builddir = os.environ['BUILDDIR']
-         if not selftestdir:
-             selftestdir = get_test_layer()
--        newbuilddir = builddir + suffix
-+        if self.newbuilddir:
-+            newbuilddir = os.path.join(self.newbuilddir, 'build' + suffix)
-+        else:
-+            newbuilddir = builddir + suffix
-         newselftestdir = newbuilddir + "/meta-selftest"
+-        for t in suite:
++        def patch_test(t):
+             if not hasattr(t, "tc"):
+-                continue
++                return
+             cp = t.tc.config_paths
+             for p in cp:
+                 if selftestdir in cp[p] and newselftestdir not in cp[p]:
+@@ -70,6 +71,15 @@ class OESelftestTestContext(OETestContext):
+                 if builddir in cp[p] and newbuilddir not in cp[p]:
+                     cp[p] = cp[p].replace(builddir, newbuilddir)
  
-         if os.path.exists(newbuilddir):
-@@ -133,6 +137,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                 action='append', default=None,
-                 help='Exclude all (unhidden) tests that match any of the specified tag(s). (exclude applies before select)')
++        def patch_suite(s):
++            for x in s:
++                if isinstance(x, unittest.TestSuite):
++                    patch_suite(x)
++                else:
++                    patch_test(x)
++
++        patch_suite(suite)
++
+         return (builddir, newbuilddir)
  
-+        parser.add_argument('-B', '--newbuilddir', help='New build directory to use for tests.')
-         parser.set_defaults(func=self.run)
- 
-     def _get_available_machines(self):
-@@ -187,6 +192,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         self.tc_kwargs['init']['config_paths']['builddir'] = builddir
-         self.tc_kwargs['init']['config_paths']['localconf'] = os.path.join(builddir, "conf/local.conf")
-         self.tc_kwargs['init']['config_paths']['bblayers'] = os.path.join(builddir, "conf/bblayers.conf")
-+        self.tc_kwargs['init']['newbuilddir'] = args.newbuilddir
- 
-         def tag_filter(tags):
-             if args.exclude_tags:
+     def prepareSuite(self, suites, processes):
 -- 
 2.17.1
 
