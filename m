@@ -1,50 +1,50 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.18431.1592228664294802913
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.18432.1592228664660520477
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 06:44:24 -0700
+ Mon, 15 Jun 2020 06:44:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=kV8KdmjN;
- spf=pass (domain: burtonini.com, ip: 209.85.221.67, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f67.google.com with SMTP id p5so17170862wrw.9
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=rkpJ6w66;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.65, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f65.google.com with SMTP id y17so17158397wrn.11
         for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 06:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WJpvLrvLby6Jf8zRBGUp4lqDfwU7ivLWAhxH7XZozIM=;
-        b=kV8KdmjNRfa8WbNTE23bpIhtNZrnRUMj8SfUENM7TXiMx/sGohNae+oMQc8DX430o1
-         W3RS4ytjg+J7Jh+6GucpJGXUU9eUQ5F5WKbH+NL50Gn9SQA4GwVnT0wlfzemm2x6T8BQ
-         rcciFxk7vfg7r0Oi/lIUtYaWibzR4h+B8jgwHEvZDVkZyzXxi43pYzqf0fcwsbIOYs3x
-         khbBzOzmkQwH8Ln+pa/8HxhsMkVSipUD8yn5i5eR56czjC0uSL5k8NUg70+37WAH0pmR
-         kcxJqdo3I9Cje42AGqjg1Tof1i3OjyaR7ay7GW8xHQeQ+mW50qTsjEK0oheKfPeoElUN
-         jcOQ==
+        bh=n7tF1YrDToaCeEfxxfkKG8orkhUrz3nxMPZPY3pllSo=;
+        b=rkpJ6w66VZNecKdZp9MHdvisdLSqjcHJdcMtRDHGUAbakmRh9cBJNeXuv+D4ZLvhdw
+         R6Zt17pFbsQ23KKpklulJ2OYkHoYXFk1sfifG4xDe694sWjo+Oj5L2Obj15bp5n9cRYx
+         Ty42rkarSgdfrs0WSGqSDZ+6A3XUpWsA+2OtUXqKnyYNy26p7goXWv37BpamxitAo08y
+         rJs6RNdUlUpZqlILblu44sstVfaroBM+tDFtRF4cuu20ZddAcfq07zsP0EUJ5aXFnwqD
+         vBnYy3GYUtVaeFWyiM5E43PGo4nnOrUVWtXUJ9BO4Io0SPy0uTed6HLoCDvOPXqOEwvr
+         jSfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WJpvLrvLby6Jf8zRBGUp4lqDfwU7ivLWAhxH7XZozIM=;
-        b=IS+Tg3AUZMBvTj3mx7VHKpIKpj/FB4D9ueDIOfQau34RYGjXiL8kzhMR6lVmdb6UKt
-         lnEIznsP00nv5dUNl7LjoOJO9BXKkwRp/1htzkIIjY1jZcr+mNYJoebXx4CghK5DgIiz
-         pMTAc7q9sirOptlT9WG6dzn7tJAIjmn0IUrE5dTH1XoZl2+rW/iJayyYOP/1F64BbLDv
-         OfkFTjOPFDh+0d2dPM9PVR8HxLU00R9CyhoZCr49OhafV/++YDiWmBrRD9a7/qXjEiZN
-         dwSod6QS5sFOpgmSm1H6pyqqdAAuWwinuzKkWPMt6tgoE0ItLJ8L9FNOiQVeH3ahs+Zh
-         H/Lg==
-X-Gm-Message-State: AOAM532c6chJdBg/CmvfyKUP/4hw9EQjxWzx7kJD/6VvV5CNAdMK0wr0
-	tkOMWrzmH/FmbcvdP1SgBYbMvzgAnF2SvLwe
-X-Google-Smtp-Source: ABdhPJxoq2O0VRnfTsEUM2cKVGLpvXjWNH5VaQcc/u5DJ3AIZawBf+RGhviw1bthDcmmygkw9Pis6A==
-X-Received: by 2002:adf:f183:: with SMTP id h3mr31141808wro.403.1592228662296;
+        bh=n7tF1YrDToaCeEfxxfkKG8orkhUrz3nxMPZPY3pllSo=;
+        b=L8dqhOU25dhJIOtE+VU9mNW6G1TuSgNRzRAV8c08KeEga3zqdHdguhIDKKuLlLDPqs
+         oSGLCXzEFY+RlorjdeW1LaFq9VY//puWWcEZoPpJrg0x1UeIveQ+D0h0YW3byhsL0Wur
+         P/vy5cAf7wYjhWfUFqn6l5hDQV/p01rE+iN3VmWCUHKuUMjnA/Fm8/vIv0OhKWpf188K
+         fKoyHAGIZtdsMTKDYBHb6Grvl2PrTvLDEZ9qFb849F9/2rLylZl2GQrS15BaYxa1b3Nq
+         C+UxvjnrJpJplFXRtRGYm2pbjNYHgPIzWWBbuOHctlOfZ8LpF8ivn80OynkcnlUdPaSQ
+         EQiQ==
+X-Gm-Message-State: AOAM530ljTHN9b1W6D/Ki0/bjq7sNtNv5BhLMkItdf/0daopvMeAoHcH
+	SUw+j2xHciK2blm6eT1rQ3ZXJTT6Zs2HMVIS
+X-Google-Smtp-Source: ABdhPJynk/mbK48C1KhnyITf7MUFLkJ2jF6q5JfvIWak7XlfAjwJ7yrotDyMVb1sPNJeNn4AseWenA==
+X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr30972361wrt.363.1592228662999;
         Mon, 15 Jun 2020 06:44:22 -0700 (PDT)
 Return-Path: <ross@burtonini.com>
 Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id y6sm11572038wmy.0.2020.06.15.06.44.21
+        by smtp.gmail.com with ESMTPSA id y6sm11572038wmy.0.2020.06.15.06.44.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 06:44:21 -0700 (PDT)
+        Mon, 15 Jun 2020 06:44:22 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] install-buildtools: remove hardcoded x86-64 architecture
-Date: Mon, 15 Jun 2020 14:44:13 +0100
-Message-Id: <20200615134414.1043782-2-ross@burtonini.com>
+Subject: [PATCH 3/3] install-buildtools: add option to disable checksum validation
+Date: Mon, 15 Jun 2020 14:44:14 +0100
+Message-Id: <20200615134414.1043782-3-ross@burtonini.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200615134414.1043782-1-ross@burtonini.com>
 References: <20200615134414.1043782-1-ross@burtonini.com>
@@ -53,71 +53,34 @@ Content-Transfer-Encoding: 8bit
 
 From: Ross Burton <ross.burton@arm.com>
 
-Remove all instances of the hardcoded 'x86_64' and replace with the current
-host platform.
+The --check option turns on checksum validation, but it defaults to 'on'
+so is pointless.  Add a corresponding --no-check option to turn off
+validation.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- scripts/install-buildtools | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ scripts/install-buildtools | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index d722519f0f..a9173fa096 100755
+index a9173fa096..69ce9a1f05 100755
 --- a/scripts/install-buildtools
 +++ b/scripts/install-buildtools
-@@ -35,6 +35,7 @@
- import argparse
- import logging
- import os
-+import platform
- import re
- import shutil
- import shlex
-@@ -112,6 +113,7 @@ def main():
-     release = ""
-     buildtools_url = ""
-     install_dir = ""
-+    arch = platform.machine()
- 
-     parser = argparse.ArgumentParser(
-         description="Buildtools installation helper",
-@@ -194,19 +196,19 @@ def main():
-                     logger.error("Milestone installers require --build-date")
-                 else:
-                     if args.with_extended_buildtools:
--                        filename = "x86_64-buildtools-extended-nativesdk-standalone-%s-%s.sh" % (
--                            args.installer_version, args.build_date)
-+                        filename = "%s-buildtools-extended-nativesdk-standalone-%s-%s.sh" % (
-+                            arch, args.installer_version, args.build_date)
-                     else:
--                        filename = "x86_64-buildtools-nativesdk-standalone-%s-%s.sh" % (
--                            args.installer_version, args.build_date)
-+                        filename = "%s-buildtools-nativesdk-standalone-%s-%s.sh" % (
-+                            arch, args.installer_version, args.build_date)
-                     safe_filename = quote(filename)
-                     buildtools_url = "%s/milestones/%s/buildtools/%s" % (base_url, args.release, safe_filename)
-             # regular release SDK
-             else:
-                 if args.with_extended_buildtools:
--                    filename = "x86_64-buildtools-extended-nativesdk-standalone-%s.sh" % args.installer_version
-+                    filename = "%s-buildtools-extended-nativesdk-standalone-%s.sh" % (arch, args.installer_version)
-                 else:
--                    filename = "x86_64-buildtools-nativesdk-standalone-%s.sh" % args.installer_version
-+                    filename = "%s-buildtools-nativesdk-standalone-%s.sh" % (arch, args.installer_version)
-                 safe_filename = quote(filename)
-                 buildtools_url = "%s/%s/buildtools/%s" % (base_url, args.release, safe_filename)
- 
-@@ -279,8 +281,8 @@ def main():
-         # Setup the environment
-         logger.info("Setting up the environment")
-         regex = re.compile(r'^(?P<export>export )?(?P<env_var>[A-Z_]+)=(?P<env_val>.+)$')
--        with open("%s/environment-setup-x86_64-pokysdk-linux" %
--                  install_dir, 'rb') as f:
-+        with open("%s/environment-setup-%s-pokysdk-linux" %
-+                  (install_dir, arch), 'rb') as f:
-             for line in f:
-                 match = regex.search(line.decode('utf-8'))
-                 logger.debug("export regex: %s" % match)
+@@ -154,9 +154,11 @@ def main():
+     group.add_argument('--without-extended-buildtools', action='store_false',
+                        dest='with_extended_buildtools',
+                        help='disable extended buildtools (traditional buildtools tarball)')
+-    parser.add_argument('-c', '--check', help='enable md5 checksum checking',
+-                        default=True,
+-                        action='store_true')
++    group = parser.add_mutually_exclusive_group()
++    group.add_argument('-c', '--check', help='enable checksum validation',
++                        default=True, action='store_true')
++    group.add_argument('-n', '--no-check', help='disable checksum validation',
++                        dest="check", action='store_false')
+     parser.add_argument('-D', '--debug', help='enable debug output',
+                         action='store_true')
+     parser.add_argument('-q', '--quiet', help='print only errors',
 -- 
 2.26.2
 
