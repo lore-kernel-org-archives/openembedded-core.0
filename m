@@ -1,86 +1,102 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.18432.1592228664660520477
+Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com [68.232.133.150])
+ by mx.groups.io with SMTP id smtpd.web11.18588.1592229319787211187
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 06:44:25 -0700
+ Mon, 15 Jun 2020 06:55:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=rkpJ6w66;
- spf=pass (domain: burtonini.com, ip: 209.85.221.65, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f65.google.com with SMTP id y17so17158397wrn.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 06:44:24 -0700 (PDT)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=NBg7Z7an;
+ spf=pass (domain: bmw.de, ip: 68.232.133.150, mailfrom: prvs=428658508=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=n7tF1YrDToaCeEfxxfkKG8orkhUrz3nxMPZPY3pllSo=;
-        b=rkpJ6w66VZNecKdZp9MHdvisdLSqjcHJdcMtRDHGUAbakmRh9cBJNeXuv+D4ZLvhdw
-         R6Zt17pFbsQ23KKpklulJ2OYkHoYXFk1sfifG4xDe694sWjo+Oj5L2Obj15bp5n9cRYx
-         Ty42rkarSgdfrs0WSGqSDZ+6A3XUpWsA+2OtUXqKnyYNy26p7goXWv37BpamxitAo08y
-         rJs6RNdUlUpZqlILblu44sstVfaroBM+tDFtRF4cuu20ZddAcfq07zsP0EUJ5aXFnwqD
-         vBnYy3GYUtVaeFWyiM5E43PGo4nnOrUVWtXUJ9BO4Io0SPy0uTed6HLoCDvOPXqOEwvr
-         jSfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n7tF1YrDToaCeEfxxfkKG8orkhUrz3nxMPZPY3pllSo=;
-        b=L8dqhOU25dhJIOtE+VU9mNW6G1TuSgNRzRAV8c08KeEga3zqdHdguhIDKKuLlLDPqs
-         oSGLCXzEFY+RlorjdeW1LaFq9VY//puWWcEZoPpJrg0x1UeIveQ+D0h0YW3byhsL0Wur
-         P/vy5cAf7wYjhWfUFqn6l5hDQV/p01rE+iN3VmWCUHKuUMjnA/Fm8/vIv0OhKWpf188K
-         fKoyHAGIZtdsMTKDYBHb6Grvl2PrTvLDEZ9qFb849F9/2rLylZl2GQrS15BaYxa1b3Nq
-         C+UxvjnrJpJplFXRtRGYm2pbjNYHgPIzWWBbuOHctlOfZ8LpF8ivn80OynkcnlUdPaSQ
-         EQiQ==
-X-Gm-Message-State: AOAM530ljTHN9b1W6D/Ki0/bjq7sNtNv5BhLMkItdf/0daopvMeAoHcH
-	SUw+j2xHciK2blm6eT1rQ3ZXJTT6Zs2HMVIS
-X-Google-Smtp-Source: ABdhPJynk/mbK48C1KhnyITf7MUFLkJ2jF6q5JfvIWak7XlfAjwJ7yrotDyMVb1sPNJeNn4AseWenA==
-X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr30972361wrt.363.1592228662999;
-        Mon, 15 Jun 2020 06:44:22 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id y6sm11572038wmy.0.2020.06.15.06.44.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 06:44:22 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] install-buildtools: add option to disable checksum validation
-Date: Mon, 15 Jun 2020 14:44:14 +0100
-Message-Id: <20200615134414.1043782-3-ross@burtonini.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200615134414.1043782-1-ross@burtonini.com>
-References: <20200615134414.1043782-1-ross@burtonini.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1592229320; x=1623765320;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=Yz78w67KbAv6HaicE+FXVmbc39J9asDMStV352Lzpf8=;
+  b=NBg7Z7anwZO6nE8I6i/ONhpzTNFm4af1HddXoST1/1eTMqV4UJ94koi3
+   r+uo6jJ0tyC+jXEnMaA9KcakANKml9J0dDRsJGL+AfdZiYFTGf+ocU1oC
+   7Chkn+2owvd6hifqQRrzokNWxl+hNNXLRrm6ez1BgG6deuNeLsdMdWf1A
+   8=;
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 15 Jun 2020 15:55:17 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw1.muc with ESMTP/TLS;
+ 15 Jun 2020 15:55:16 +0200
+Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp) ([160.48.96.49])
+ by esabb4.muc with ESMTP/TLS; 15 Jun 2020 15:55:12 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10m.europe.bmw.corp
+ (160.48.96.49) with Microsoft SMTP Server (TLS;
+ Mon, 15 Jun 2020 15:55:11 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.006; Mon,
+ 15 Jun 2020 15:55:11 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <jlu@pengutronix.de>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] classes/buildhistory: capture package config
+Thread-Topic: [OE-core][PATCH] classes/buildhistory: capture package config
+Thread-Index: AQHWOX7XvTzy7i/qeUK+cOOLjswCgajZe/uAgAANeoCAABsxAA==
+Date: Mon, 15 Jun 2020 13:55:11 +0000
+Message-ID: <20200615135510.GJ108868@korppu>
+References: <20200603081237.1959-1-jlu@pengutronix.de>
+ <20200615112937.GF108868@korppu>
+ <d14c6872c68aef73f26a0afdf90917d7b01665cc.camel@pengutronix.de>
+In-Reply-To: <d14c6872c68aef73f26a0afdf90917d7b01665cc.camel@pengutronix.de>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <DFE02B4275AE7B429105CCECDABC1134@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Ross Burton <ross.burton@arm.com>
+Hi,
 
-The --check option turns on checksum validation, but it defaults to 'on'
-so is pointless.  Add a corresponding --no-check option to turn off
-validation.
+On Mon, Jun 15, 2020 at 02:17:51PM +0200, Jan L=FCbbe wrote:
+> On Mon, 2020-06-15 at 11:29 +0000, Mikko.Rapeli@bmw.de wrote:
+> > On Wed, Jun 03, 2020 at 10:12:37AM +0200, Jan Luebbe wrote:
+> > > As the PACKAGECONFIG variable has a large influence on the
+> > > resulting
+> > > package sizes and dependencies, it's useful to capture it in the
+> > > recipe-level buildhistory. This makes it straightforward to analyze
+> > > the
+> > > impact of PACKAGECONFIG changes on the resulting image size.
+> >=20
+> > Thanks, this is a good idea! I would print using full PACKAGECONFIG
+> > name to avoid any confusion.
+>=20
+> Note that Richard has already merged this in master.
+>=20
+> I thought it was pretty clear when looking at if from the package
+> context in the buildhistory. I wouldn't mind renaming it to
+> PACKAGECONFIG, it there's agreement that it would be clearer.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- scripts/install-buildtools | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Yes, to me it is also clear, but I find it better to be explicit and to avo=
+id
+duplication. Now someone needs to write to some manual that CONFIG in build=
+history
+recipe metadata means PACKAGECONFIG :) But I'm happy this in mastes as is t=
+oo.
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index a9173fa096..69ce9a1f05 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -154,9 +154,11 @@ def main():
-     group.add_argument('--without-extended-buildtools', action='store_false',
-                        dest='with_extended_buildtools',
-                        help='disable extended buildtools (traditional buildtools tarball)')
--    parser.add_argument('-c', '--check', help='enable md5 checksum checking',
--                        default=True,
--                        action='store_true')
-+    group = parser.add_mutually_exclusive_group()
-+    group.add_argument('-c', '--check', help='enable checksum validation',
-+                        default=True, action='store_true')
-+    group.add_argument('-n', '--no-check', help='disable checksum validation',
-+                        dest="check", action='store_false')
-     parser.add_argument('-D', '--debug', help='enable debug output',
-                         action='store_true')
-     parser.add_argument('-q', '--quiet', help='print only errors',
--- 
-2.26.2
+> > And this reminds me that DISTRO_FEATURES isn't logged into
+> > buildhistory either afaik...
+>=20
+> Might be useful, but DISTRO_FEATURES is relatively high-level so
+> there's usually not much details you can optimize.
 
+Yes, but in most cases it directly influences PACKAGECONFIG in various reci=
+pes.
+At least I modify PACKAGECONFIG of many recipes, sometimes through DISTRO_F=
+EATURES
+and sometimes directly using bbappends. End results is not always clear and
+I have to use 'bitbake -e' and manual inspection of installed files and fea=
+tures
+to verify results. Recording things to buildhistory would be nice.
+
+Buildhistory is so usefull that I feel like it should contain all data pars=
+ed by
+bitbake...
+
+Cheers,
+
+-Mikko=
