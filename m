@@ -1,188 +1,204 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web12.3873.1592282704080117995
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+ by mx.groups.io with SMTP id smtpd.web12.5296.1592291084965715006
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 21:45:04 -0700
+ Tue, 16 Jun 2020 00:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=YUx6tr71;
- spf=pass (domain: linaro.org, ip: 209.85.166.66, mailfrom: arthur.she@linaro.org)
-Received: by mail-io1-f66.google.com with SMTP id i25so164321iog.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 21:45:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QmAuIwFC;
+ spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f195.google.com with SMTP id s192so4556125vkh.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 00:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RUbWF3xTeaAYQJf1QJRcXe2PbQ97WJt0BZTzBNOlqnk=;
-        b=YUx6tr71ezJ+MVXUkDJj7wrFUfOdrUCHo94lM8RREKQHnAB1u23oOXINsxAiej1Hgo
-         ut1WYPk8yZReaNOBZ7POQB1v+8XTBCMAU79WALbPl4e6tbMbel/8e9X7wZsf/w6pINIh
-         QPZnwmPIALY8hC4IQWRgNCz/SZDZmyGPy9gZHLDxHXrgZL9ZJmZagXnhvY3OYx8A41/v
-         ir5E30h06VrXUSMNOHek6xRXUhKMbmtFXwqGilbJhCyXVeIWX/6YycfxPPUrSSMC71qK
-         CDWK3b02bhdMjIuqj1Cvgve/S5ZCUi3N6ygjReUD5HLjLyenKCAb47v9aAZViNxAc7h+
-         btxw==
+        bh=ZJ3m5A8l22r87KiwoojVJ2tzY3x7UXJ8Z4k8hVCBnQk=;
+        b=QmAuIwFCeKToesw1teCaYXDZzGLqiqlZB5OMwxnjwzsHbNjpSrWjVMd+/mGwNVY3Fo
+         B8HKfuCKtkRLCPalHUlGcmCzLhK6qJwAYutaEeEaoDujvrsR0oX7pV1gA85G7P6bWaYm
+         eaNeWfc8Y/GJgI0BSzcKVXaMxSZjLQq4GdkEoO7uLn3TT6N+wV8SHmqphWpl97TvIWr7
+         bPACqtcoNqQaAkXs9w/nF9u8V6yiD/Kd40A4zcYIbEky60v4NFnng7x3S8ihFH/8IztC
+         dORZYYJPTThR3Aj3n9MobFLyEfiqQ1Nay5VmX9a3yt0+xUo4QZMI5b/HyWox/LgOOioy
+         5bSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RUbWF3xTeaAYQJf1QJRcXe2PbQ97WJt0BZTzBNOlqnk=;
-        b=VHIHqWRXg15SCEGl38DQs6HdvqyZQADKigjWusShi/Rx4B8cGNLIlxooLPjmwRtgXk
-         LPwHGlQQWySZfp3/jyEzsKCkUPMPgP3lpMAB/faTfiZmEbA3IBSwlfqbTAuiXF1i17WO
-         S5DQAVVaF4xjgbNcQ2rGXhK40qvIb6Bgy7zz9DcxD+eHs6N/hmsvXH0Yk4pZQXlgCF6w
-         ApWDGKYNYTEUvRcIw3nAcB8VdDtal77qF9BVCsRWZH/mrsteBKgGLgE2P2tQ+L5qXS6C
-         15dLUUeFr69cwXFxOgRMfuLKrhB1gyxv1tzXSCJmFrZVx8lqrlCOhH/cz9gfqZuyoENv
-         pAgg==
-X-Gm-Message-State: AOAM532qwT3XxIm12mwnsA4nx/iexP6FD/AEshIxWIQaVcAg10oExsgf
-	QCFBBe7ckBLOEG/SQFhIcT5AdyJPR4asbqm57kncoQ==
-X-Google-Smtp-Source: ABdhPJyuSzJYK8Vzw5csPn3IcbyfEBE8uwMbGdeOcQYE3da2jS2OkaZFW1tRKB3TB1O3zOs5aythRhktVNqzo+gLHmI=
-X-Received: by 2002:a02:654a:: with SMTP id u71mr25442626jab.7.1592282703419;
- Mon, 15 Jun 2020 21:45:03 -0700 (PDT)
+        bh=ZJ3m5A8l22r87KiwoojVJ2tzY3x7UXJ8Z4k8hVCBnQk=;
+        b=fsK6BN3V5o2rhegoNebzX6NfWZYyuCE8KbKgt7pw9+oFiRZdGnHULeLXbn2cIu+xTS
+         nkm8AffuGWnQi/Z43mKJZo9HpydEciFbM7SihEAHTQt6DirB0mvFn4Ac2G77NwGy6WCj
+         DBk4pqUMWGbCTnC8CnoVRXCcDDFTjGH3GRjxMg0mcseCU/f9Gq+xew2F0ePDbGjEgACi
+         KZ1wFqdXGBYoJ4ufN3GEofgDlnUz92RjrH1hD3gIwLq8VUV9KZDkYbc+b22ShU4/c9R9
+         6ANM1mHEIHBLCe/yXmcm73neVRuZmqYijWsMzqiCqqCZ+Wk8Nz4lmCMja4gsULblfdd+
+         QN+g==
+X-Gm-Message-State: AOAM531j+DBOzFiDb5MddfqX9C/OtxFM4raOZgbnvDHwS3XyFGyIdBmr
+	Z4C9HS+raE3Qz6Cq9pF3eAC9xDW8mNnFPLjA+Ug=
+X-Google-Smtp-Source: ABdhPJwRhi64w2ULPimMcYUb3rGWftIlEytVe3ZWvOgl3ujXd8HDYq/Kty5SGFVZ/9pnzq78rKnOoxfECmBXOVdFAPQ=
+X-Received: by 2002:a1f:2c0d:: with SMTP id s13mr543178vks.9.1592291083896;
+ Tue, 16 Jun 2020 00:04:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200615060025.171354-1-arthur.she@linaro.org>
- <CANNYZj9RLRjTgB-Qy4Rzx9iWN4PMGzay-XxgZGEei_HC8gEq=w@mail.gmail.com> <20200615075646.GU17660@denix.org>
-In-Reply-To: <20200615075646.GU17660@denix.org>
-From: "Arthur She" <arthur.she@linaro.org>
-Date: Mon, 15 Jun 2020 21:44:52 -0700
-Message-ID: <CAJ8hLzH2JMoJ7QspxnjAZ1ZwKshj+REUu=HrE7A2tspu_pH=Zw@mail.gmail.com>
+ <CANNYZj9RLRjTgB-Qy4Rzx9iWN4PMGzay-XxgZGEei_HC8gEq=w@mail.gmail.com>
+ <20200615075646.GU17660@denix.org> <CAJ8hLzH2JMoJ7QspxnjAZ1ZwKshj+REUu=HrE7A2tspu_pH=Zw@mail.gmail.com>
+In-Reply-To: <CAJ8hLzH2JMoJ7QspxnjAZ1ZwKshj+REUu=HrE7A2tspu_pH=Zw@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 16 Jun 2020 09:04:32 +0200
+Message-ID: <CANNYZj8n5b46zVCL1Kt4NdweQb0tvZh3SmCype4p6BxzD7_T7Q@mail.gmail.com>
 Subject: Re: [OE-core][PATCH] igt-gpu-tools: add new package
-To: Denys Dmytriyenko <denis@denix.org>, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
+To: Arthur She <arthur.she@linaro.org>
+Cc: Denys Dmytriyenko <denis@denix.org>, OE-core <openembedded-core@lists.openembedded.org>, 
 	"Mittal, Anuj" <anuj.mittal@intel.com>
-Content-Type: multipart/alternative; boundary="000000000000eb7ca905a82c34b4"
+Content-Type: multipart/alternative; boundary="0000000000006f4c9705a82e286d"
 
---000000000000eb7ca905a82c34b4
+--0000000000006f4c9705a82e286d
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Alexander and Denys,
-Thanks for your feedback.
-I have no problem submitting it to meta-oe.
-Since the meta-intel maintainer requested to submit it to oe-core, do you
-mind sharing some thought about the reason?
+Usually it's the other way around - what is the reason to have this recipe
+in core?
 
-Thank you so much,
-Arthur
+Alex
 
-On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko <denis@denix.org> wrote:
+On Tue, 16 Jun 2020 at 06:45, Arthur She <arthur.she@linaro.org> wrote:
 
-> https://lists.openembedded.org/g/openembedded-devel/topic/74775294
+> Hi Alexander and Denys,
+> Thanks for your feedback.
+> I have no problem submitting it to meta-oe.
+> Since the meta-intel maintainer requested to submit it to oe-core, do you
+> mind sharing some thought about the reason?
 >
-> But I tend to agree.
+> Thank you so much,
+> Arthur
 >
-> --
-> Denys
+> On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko <denis@denix.org>
+> wrote:
 >
->
-> On Mon, Jun 15, 2020 at 09:45:25AM +0200, Alexander Kanavin wrote:
-> > This should go to meta-oe, rather than core?
-> >
-> > Alex
-> >
-> > On Mon 15. Jun 2020 at 8.00, Arthur She <arthur.she@linaro.org> wrote:
-> >
-> > > igt-gpu-tools is a collection of tools for development and testing of
-> the
-> > > DRM
-> > > drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
-> > > This recipe is originally copied from meta-intel and added the
-> following
-> > > modifications
-> > > 1. Enable ARM architecture
-> > > 2. Enable igt-runner and Chamelium
-> > > 3. Build git HEAD code instead of a specific version
-> > > The original recipe in the meta-intel will be removed and replaced by
-> > > this one once it get merged.
-> > >
-> > > Signed-off-by: Arthur She <arthur.she@linaro.org>
-> > > ---
-> > >  .../igt-gpu-tools/igt-gpu-tools_git.bb        | 47
-> +++++++++++++++++++
-> > >  1 file changed, 47 insertions(+)
-> > >  create mode 100644 meta/recipes-graphics/igt-gpu-tools/
-> > > igt-gpu-tools_git.bb
-> > >
-> > > diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > new file mode 100644
-> > > index 0000000000..dc9537c9e3
-> > > --- /dev/null
-> > > +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > @@ -0,0 +1,47 @@
-> > > +SUMMARY = "IGT GPU Tools"
-> > > +DESCRIPTION = "IGT GPU Tools is a collection of tools for development
-> and
-> > > testing of the DRM drivers"
-> > > +
-> > > +LIC_FILES_CHKSUM =
-> "file://COPYING;md5=67bfee4df38fa6ecbe3a675c552d4c08"
-> > > +
-> > > +LICENSE = "MIT"
-> > > +
-> > > +inherit meson
-> > > +
-> > > +SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
-> > > +PV = "1.25+git${SRCPV}"
-> > > +
-> > > +SRC_URI = "git://
-> > > gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
-> > > +
-> > > +S = "${WORKDIR}/git"
-> > > +
-> > > +DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind
-> kmod
-> > > openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native"
-> > > +RDEPENDS_${PN} += "bash"
-> > > +RDEPENDS_${PN}-tests += "bash"
-> > > +
-> > > +PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
-> > > +
-> > > +EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dchamelium=enabled"
-> > > +COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
-> > > +COMPATIBLE_HOST_libc-musl_class-target = "null"
-> > > +SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
-> > > +
-> > > +gputools_sysroot_preprocess() {
-> > > +       rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/intel-gen4asm.pc
-> > > +}
-> > > +SYSROOT_PREPROCESS_FUNCS += "gputools_sysroot_preprocess"
-> > > +
-> > > +do_install_append() {
-> > > +    install -d ${D}/usr/share/${BPN}/scripts
-> > > +    install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scripts
-> > > +    install -d ${D}/usr/share/${BPN}/runner
-> > > +    install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/runner
-> > > +    install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/runner
-> > > +}
-> > > +
-> > > +FILES_${PN}-benchmarks += "${libexecdir}/${BPN}/benchmarks"
-> > > +FILES_${PN}-tests += "\
-> > > +        ${libexecdir}/${BPN}/*\
-> > > +        ${datadir}/${BPN}/1080p-right.png\
-> > > +        ${datadir}/${BPN}/1080p-left.png\
-> > > +        ${datadir}/${BPN}/pass.png\
-> > > +        ${datadir}/${BPN}/test-list.txt"
-> > > --
-> > > 2.25.1
-> > >
-> > >
-> > >
->
-> > 
->
->
+>> https://lists.openembedded.org/g/openembedded-devel/topic/74775294
+>>
+>> But I tend to agree.
+>>
+>> --
+>> Denys
+>>
+>>
+>> On Mon, Jun 15, 2020 at 09:45:25AM +0200, Alexander Kanavin wrote:
+>> > This should go to meta-oe, rather than core?
+>> >
+>> > Alex
+>> >
+>> > On Mon 15. Jun 2020 at 8.00, Arthur She <arthur.she@linaro.org> wrote:
+>> >
+>> > > igt-gpu-tools is a collection of tools for development and testing of
+>> the
+>> > > DRM
+>> > > drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
+>> > > This recipe is originally copied from meta-intel and added the
+>> following
+>> > > modifications
+>> > > 1. Enable ARM architecture
+>> > > 2. Enable igt-runner and Chamelium
+>> > > 3. Build git HEAD code instead of a specific version
+>> > > The original recipe in the meta-intel will be removed and replaced by
+>> > > this one once it get merged.
+>> > >
+>> > > Signed-off-by: Arthur She <arthur.she@linaro.org>
+>> > > ---
+>> > >  .../igt-gpu-tools/igt-gpu-tools_git.bb        | 47
+>> +++++++++++++++++++
+>> > >  1 file changed, 47 insertions(+)
+>> > >  create mode 100644 meta/recipes-graphics/igt-gpu-tools/
+>> > > igt-gpu-tools_git.bb
+>> > >
+>> > > diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+>> > > b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+>> > > new file mode 100644
+>> > > index 0000000000..dc9537c9e3
+>> > > --- /dev/null
+>> > > +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+>> > > @@ -0,0 +1,47 @@
+>> > > +SUMMARY = "IGT GPU Tools"
+>> > > +DESCRIPTION = "IGT GPU Tools is a collection of tools for
+>> development and
+>> > > testing of the DRM drivers"
+>> > > +
+>> > > +LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=67bfee4df38fa6ecbe3a675c552d4c08"
+>> > > +
+>> > > +LICENSE = "MIT"
+>> > > +
+>> > > +inherit meson
+>> > > +
+>> > > +SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
+>> > > +PV = "1.25+git${SRCPV}"
+>> > > +
+>> > > +SRC_URI = "git://
+>> > > gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
+>> > > +
+>> > > +S = "${WORKDIR}/git"
+>> > > +
+>> > > +DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind
+>> kmod
+>> > > openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native"
+>> > > +RDEPENDS_${PN} += "bash"
+>> > > +RDEPENDS_${PN}-tests += "bash"
+>> > > +
+>> > > +PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+>> > > +
+>> > > +EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled
+>> -Dchamelium=enabled"
+>> > > +COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
+>> > > +COMPATIBLE_HOST_libc-musl_class-target = "null"
+>> > > +SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
+>> > > +
+>> > > +gputools_sysroot_preprocess() {
+>> > > +       rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/intel-gen4asm.pc
+>> > > +}
+>> > > +SYSROOT_PREPROCESS_FUNCS += "gputools_sysroot_preprocess"
+>> > > +
+>> > > +do_install_append() {
+>> > > +    install -d ${D}/usr/share/${BPN}/scripts
+>> > > +    install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scripts
+>> > > +    install -d ${D}/usr/share/${BPN}/runner
+>> > > +    install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/runner
+>> > > +    install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/runner
+>> > > +}
+>> > > +
+>> > > +FILES_${PN}-benchmarks += "${libexecdir}/${BPN}/benchmarks"
+>> > > +FILES_${PN}-tests += "\
+>> > > +        ${libexecdir}/${BPN}/*\
+>> > > +        ${datadir}/${BPN}/1080p-right.png\
+>> > > +        ${datadir}/${BPN}/1080p-left.png\
+>> > > +        ${datadir}/${BPN}/pass.png\
+>> > > +        ${datadir}/${BPN}/test-list.txt"
+>> > > --
+>> > > 2.25.1
+>> > >
+>> > >
+>> > >
+>>
+>> > 
+>>
+>>
 
---000000000000eb7ca905a82c34b4
+--0000000000006f4c9705a82e286d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Alexander and Denys,<div>Thanks for your feedback.</div=
-><div>I have no problem submitting it to meta-oe.</div><div>Since the meta-=
-intel maintainer requested to submit it to oe-core, do you mind sharing som=
-e thought about the reason?</div><div><br></div><div>Thank you so much,</di=
-v><div>Arthur</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko &lt;<=
-a href=3D"mailto:denis@denix.org">denis@denix.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex"><a href=3D"https://lists.o=
-penembedded.org/g/openembedded-devel/topic/74775294" rel=3D"noreferrer" tar=
-get=3D"_blank">https://lists.openembedded.org/g/openembedded-devel/topic/74=
-775294</a><br>
+<div dir=3D"ltr"><div>Usually it&#39;s the other way around - what is the r=
+eason to have this recipe in core?</div><div><br></div><div>Alex<br></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
+ 16 Jun 2020 at 06:45, Arthur She &lt;<a href=3D"mailto:arthur.she@linaro.o=
+rg">arthur.she@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><div dir=3D"ltr">Hi Alexander and Denys,<div>Thank=
+s for your feedback.</div><div>I have no problem submitting it to meta-oe.<=
+/div><div>Since the meta-intel maintainer requested to submit it to oe-core=
+, do you mind sharing some thought about the reason?</div><div><br></div><d=
+iv>Thank you so much,</div><div>Arthur</div></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 15, 2020 at 12:56 A=
+M Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.org" target=3D"_blank=
+">denis@denix.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><a href=3D"https://lists.openembedded.org/g/openembedded-d=
+evel/topic/74775294" rel=3D"noreferrer" target=3D"_blank">https://lists.ope=
+nembedded.org/g/openembedded-devel/topic/74775294</a><br>
 <br>
 But I tend to agree.<br>
 <br>
@@ -318,5 +334,6 @@ t;<br>
 &gt; <br>
 <br>
 </blockquote></div>
+</blockquote></div></div>
 
---000000000000eb7ca905a82c34b4--
+--0000000000006f4c9705a82e286d--
