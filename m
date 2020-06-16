@@ -1,40 +1,40 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.1336.1592340461731602503
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web12.1391.1592340465134716038
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 13:47:41 -0700
+ Tue, 16 Jun 2020 13:47:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id e16so16693627qtg.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 13:47:41 -0700 (PDT)
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id c185so20631154qke.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 13:47:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=6RpM/D0wa5eV8mprbXrjCkmcj4BYK+331ftfWZsrUXk=;
-        b=kELBzh7Bd2g6O0jqa72TuJNDtjNJyFc8SgvRC+o84vuMls8XTIeu1zoByqA4QU38Of
-         2fYqRqCvBVxCTFdQg8QrpQA3vGPG74KmBWRUsUjFZZXJHYiLZNHa3WFTB2PMKfLA3nPt
-         WXs+6b0ehOiur9bgZk9BLTpd0mh950R0clGLKpydWrVYz9qgnw410MIW6IQGue2TqYz2
-         RjWRmNU6rzzR6X+LK8YIl/OTSWpeKclw7j+goZ6xWYvPtyM9ykzcke6nKUgV+894F5XQ
-         5YdtepLeP8gNC4jYLoVU/1v9RJ5IRhPyecYVQ0JGnMZ/Y44BdCVFQd7l83UKPy8XkhVB
-         6PGA==
-X-Gm-Message-State: AOAM530n9W4aVMJLKL93jJ8Pizv4vFW5gYKOuUShqLjXXKsBq032nec5
-	0oCp0mP8DhlmI46/e+kxQGSm8Wi5bjs=
-X-Google-Smtp-Source: ABdhPJyYu3ZKIOdTuEJPeHFS1pRz6p1ZhP+xpl/FZ9un0zWWs1xfHhT9TUDkR+DmwvEyJxy0teZc+g==
-X-Received: by 2002:ac8:4143:: with SMTP id e3mr22369146qtm.28.1592340460621;
-        Tue, 16 Jun 2020 13:47:40 -0700 (PDT)
+        bh=C0jINEUtPVYnj4C/FxQIYWc/KLpfSgI2zNn8AUIQgXI=;
+        b=ouLnjn2e4bhpk41+DOC/f7OFRXWPAJNuGFuHMt01/UrgXdNPmcoSLC4wFOcWCGWz5T
+         muB4zvjKnJ3TWr7rYVGrOTsMCkWpVv5GL+YiQnA1WVyuS0s8luFSF+F4l9xFZdvAO+jc
+         qBYk9wBhF2Q3oCOAlTS5tI6RbCVxZZ89tF4Harz+9axiqHVO3gir7O9lQxOvfbWLu80B
+         zEkYQriN9P9kpOyuvaeQ+OjT42UDOC+Ot1FsVra7LdCk/TSnBBn+DJVXcqCeVqIs4iH9
+         hnbH8zwH0oaZsjFLdMOTsRFAzJHl7AH1FE+5VBxDHoM/RW3rxstB810Fe6CruEXLXLkx
+         p8Yw==
+X-Gm-Message-State: AOAM533w9La1HFVO6NYMxBJK07zZ3g49uBXIMOzeXKOJsC3p3n2erILl
+	FoR1ouQbf5NZEzD0zNsaa1iU/xSXnE0=
+X-Google-Smtp-Source: ABdhPJy6f5pddT484Mm7ddlUKJA1goci7MZDxi5nVMpxMU98CDGH3miCmAV0xBR4EpV/QaB5818byQ==
+X-Received: by 2002:a05:620a:14b8:: with SMTP id x24mr1674131qkj.284.1592340464096;
+        Tue, 16 Jun 2020 13:47:44 -0700 (PDT)
 Return-Path: <otavio.salvador@gmail.com>
 Received: from localhost ([181.220.84.90])
-        by smtp.gmail.com with ESMTPSA id n130sm14742773qke.77.2020.06.16.13.47.39
+        by smtp.gmail.com with ESMTPSA id k34sm15129115qtf.35.2020.06.16.13.47.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 13:47:39 -0700 (PDT)
+        Tue, 16 Jun 2020 13:47:43 -0700 (PDT)
 From: "Otavio Salvador" <otavio.salvador@gmail.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio.salvador@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell-backport PATCH 2/3] systemd: Sync systemd-serialgetty@.service with upstream
-Date: Tue, 16 Jun 2020 17:47:24 -0300
-Message-Id: <20200616204726.2332101-2-otavio@ossystems.com.br>
+Cc: Steve Sakoman <steve@sakoman.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [dunfell-backport PATCH 3/3] buildtools-tarball: export OPENSSL_CONF in environment setup
+Date: Tue, 16 Jun 2020 17:47:25 -0300
+Message-Id: <20200616204726.2332101-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200616204726.2332101-1-otavio@ossystems.com.br>
 References: <20200616204726.2332101-1-otavio@ossystems.com.br>
@@ -42,68 +42,33 @@ MIME-Version: 1.0
 Organization: O.S. Systems Software LTDA.
 Content-Transfer-Encoding: 8bit
 
-From: Otavio Salvador <otavio.salvador@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
 
-The systemd upstream has been doing some improvements in the service
-which were not in sync, with the forked file. Mainly:
+The autobuilder has been experiencing SSL: CERTIFICATE_VERIFY_FAILED
+errors during error report uploads when using buildtools due to looking
+for certs in /opt/poky
 
- - Use BindsTo to bind the service with the required serial device
- - Add of getty-pre.target as dependency so we can run things before
-   getty@.service and serial-getty@.service
- - Add conflicts to rescue to avoid issues with sulogin
-
-We did not change the ExecStart and Environment fields so we don't have
-side effects of this change.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63bbff61b78c651339c4b18d8376187379ec3b3c)
+(cherry picked from commit 197f1d5d14b8e57295f5a81c03c86abba5328614)
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- .../systemd-serialgetty/serial-getty@.service      | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-index 15af16a9f8..542b905795 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-+++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-@@ -1,3 +1,5 @@
-+#  SPDX-License-Identifier: LGPL-2.1+
-+#
- #  This file is part of systemd.
- #
- #  systemd is free software; you can redistribute it and/or modify it
-@@ -9,9 +11,8 @@
- Description=Serial Getty on %I
- Documentation=man:agetty(8) man:systemd-getty-generator(8)
- Documentation=http://0pointer.de/blog/projects/serial-console.html
--PartOf=dev-%i.device
--ConditionPathExists=/dev/%i
--After=dev-%i.device systemd-user-sessions.service plymouth-quit-wait.service
-+BindsTo=dev-%i.device
-+After=dev-%i.device systemd-user-sessions.service plymouth-quit-wait.service getty-pre.target
- After=rc-local.service
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 977b6a5e1d..edf67ce2ad 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -74,6 +74,7 @@ create_sdk_files_append () {
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
  
- # If additional gettys are spawned during boot then we should make
-@@ -20,12 +21,17 @@ After=rc-local.service
- Before=getty.target
- IgnoreOnIsolate=yes
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
  
-+# IgnoreOnIsolate causes issues with sulogin, if someone isolates
-+# rescue.target or starts rescue.service from multi-user.target or
-+# graphical.target.
-+Conflicts=rescue.service
-+Before=rescue.service
-+
- [Service]
- Environment="TERM=xterm"
- ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
- Type=idle
- Restart=always
--RestartSec=0
- UtmpIdentifier=%I
- TTYPath=/dev/%I
- TTYReset=yes
+ 	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
 -- 
 2.27.0
 
