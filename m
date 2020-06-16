@@ -1,213 +1,165 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.5734.1592293433022337949
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.6098.1592295705596875026
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 00:43:53 -0700
+ Tue, 16 Jun 2020 01:21:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05G7hVUd023641
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 00:43:41 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 16 Jun 2020 00:43:08 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [V2][PATCH] bitbake.conf: support persistent /var/tmp
-Date: Tue, 16 Jun 2020 15:41:24 +0800
-Message-ID: <20200616074124.3321017-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: EbUE1D8HXvZ2w0VBHWPjD5mCkf5QJ7k29NZ5kN4u9RRDwPWwPzMJMY4/vgHGbhzmdfY6FoSh9r
+ iIcbxwnG6pMQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 01:21:44 -0700
+IronPort-SDR: ODRFe2zSwMWMaKa1O8GySFg0A+MAN4Q2TeiErhfcyoj7FVnNmoiZrV6j8Nie3ilpFYiqzwc/lT
+ mZ4vs6R81VYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
+   d="scan'208";a="298820918"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2020 01:21:43 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][zeus] qemu: fix CVE-2020-10702 & CVE-2020-13765
+Date: Tue, 16 Jun 2020 16:21:42 +0800
+Message-Id: <1592295702-50292-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Steps:
-1. build out rootfs core-image-minimal-qemux86-64-20200514073622.rootfs.tar.bz2
-2. docker import
-./core-image-minimal-qemux86-64-20200514073622.rootfs.tar.bz2 poky:1.0
-3. docker run -it --rm poky:1.0 /bin/sh
-4. cd /var; ls -al
-   there is link: tmp -> volatile/tmp
-5. cd ./volatile; ls -al
-   empty dir, this make link in step 4 is dad link.
-
-in step3, since we don't launch container with init system,
-volatile/tmp is not created, and the dad link may cause
-error. support persistent /var/tmp can resolve this problem
-
-And we can also resolve the problem by run with init system:
-docker run -it --rm poky:1.0 /sbin/init
-but maybe provide a selection to use persistent storeage is better.
-
-To support persistent /var/tmp, rename VOLATILE_LOG_DIR
-to VOLATILE_DIR
-
-Don't use VOLATILE_LOG_DIR/VOLATILE_TMP_DIR
-to control it separately since it will make things complicated,
-we need to make kinds of fs-perms*.txt for kinds of combination
-of the two variables.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/conf/bitbake.conf                                 | 10 ++++++----
- ...erms-persistent-log.txt => fs-perms-persistent.txt} |  2 --
- meta/recipes-core/base-files/base-files_3.0.14.bb      |  7 ++++---
- .../recipes-core/initscripts/initscripts-1.0/volatiles |  3 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb       |  8 +++++++-
- meta/recipes-core/systemd/systemd_245.6.bb             |  4 +++-
- meta/recipes-core/udev/eudev_3.2.9.bb                  |  3 +++
- 7 files changed, 23 insertions(+), 14 deletions(-)
- rename meta/files/{fs-perms-persistent-log.txt => fs-perms-persistent.txt} (95%)
+ meta/recipes-devtools/qemu/qemu.inc                |  2 +
+ .../qemu/qemu/CVE-2020-10702.patch                 | 52 ++++++++++++++++++++++
+ .../qemu/qemu/CVE-2020-13765.patch                 | 48 ++++++++++++++++++++
+ 3 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f7700f1191..fad3b4e998 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -86,9 +86,11 @@ USRBINPATH_class-nativesdk = "/usr/bin"
- # Root home directory
- ROOT_HOME ??= "/home/root"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4e5ea17..5cdba1f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -37,6 +37,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-3.patch \
+ 	   file://CVE-2020-7211.patch \
+ 	   file://CVE-2020-11869.patch \
++           file://CVE-2020-13765.patch \
++           file://CVE-2020-10702.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to /var/volatile/log.
--# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
--VOLATILE_LOG_DIR ?= "yes"
-+# If set to boolean true ('yes', 'y', 'true', 't', '1'), /var/log links to
-+# /var/volatile/log, /var/tmp links to /var/volatile/tmp
-+# If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log and /var/tmp
-+# is on persistent storage.
-+VOLATILE_DIR ?= "yes"
- 
- ##################################################################
- # Architecture-dependent build variables.
-@@ -350,7 +352,7 @@ FILESEXTRAPATHS ?= "__default:"
- #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
- #  mandir, docdir, bindir, sbindir, libexecdir, libdir, includedir and
- #  oldincludedir
--FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'files/fs-perms-persistent-log.txt'}"
-+FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_DIR')) else 'files/fs-perms-persistent.txt'}"
- 
- ##################################################################
- # General work and output directories for the build system.
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent.txt
-similarity index 95%
-rename from meta/files/fs-perms-persistent-log.txt
-rename to meta/files/fs-perms-persistent.txt
-index 3a7cf3ab94..9ca9571e6e 100644
---- a/meta/files/fs-perms-persistent-log.txt
-+++ b/meta/files/fs-perms-persistent.txt
-@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
- # Links
- ${localstatedir}/run	link	/run
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
- 
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
- 
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 94299431f6..0e06629bbd 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -29,7 +29,7 @@ S = "${WORKDIR}"
- INHIBIT_DEFAULT_DEPS = "1"
- 
- docdir_append = "/${P}"
--dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
-+dirs1777 = "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}tmp"
- dirs2775 = ""
- dirs555 = "/sys /proc"
- dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-@@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-            ${localstatedir}/backups ${localstatedir}/lib \
-            ${localstatedir}/lib/misc ${localstatedir}/spool \
-            ${localstatedir}/volatile \
--           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-+           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}log \
-            /home ${prefix}/src ${localstatedir}/local \
-            /media"
- 
-@@ -53,7 +53,8 @@ dirs755-lsb = "/srv  \
-                ${prefix}/lib/locale"
- dirs2775-lsb = "/var/mail"
- 
--volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
-+volatiles = "${@'log' if oe.types.boolean('${VOLATILE_DIR}') else ''} \
-+             ${@'tmp' if oe.types.boolean('${VOLATILE_DIR}') else ''}"
- conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
-              ${sysconfdir}/issue /${sysconfdir}/issue.net \
-              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index cd8a4be05f..eeeb8905da 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -24,11 +24,8 @@
- # a link will be created at /var/test pointing to /tmp/testfile and due to this
- # link the file defined as /var/test will actually be created as /tmp/testfile.
- d root root 1777 /run/lock none
--d root root 0755 /var/volatile/log none
--d root root 1777 /var/volatile/tmp none
- l root root 1777 /var/lock /run/lock
- l root root 0755 /var/run /run
--l root root 1777 /var/tmp /var/volatile/tmp
- l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 4080c4a495..70bce0cf71 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -105,8 +105,14 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
--	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
-+		echo "d root root 0755 /var/volatile/log none" >> ${D}${sysconfdir}/default/volatiles/00_core
-+		echo "d root root 1777 /var/volatile/tmp none" >> ${D}${sysconfdir}/default/volatiles/00_core
- 		echo "l root root 0755 /var/log /var/volatile/log" >> ${D}${sysconfdir}/default/volatiles/00_core
-+		echo "l root root 0755 /var/tmp /var/volatile/tmp" >> ${D}${sysconfdir}/default/volatiles/00_core
-+	else
-+		sed -i -e 's;TMPROOT="${ROOT_DIR}/var/volatile/tmp";TMPROOT="${ROOT_DIR}/var/tmp";g' \
-+                    ${D}${sysconfdir}/init.d/populate-volatile.sh
- 	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
-diff --git a/meta/recipes-core/systemd/systemd_245.6.bb b/meta/recipes-core/systemd/systemd_245.6.bb
-index b6681b2069..01c8866f08 100644
---- a/meta/recipes-core/systemd/systemd_245.6.bb
-+++ b/meta/recipes-core/systemd/systemd_245.6.bb
-@@ -231,7 +231,9 @@ do_install() {
- 	install -d ${D}${sysconfdir}/tmpfiles.d
- 	install -m 0644 ${WORKDIR}/*.rules ${D}${sysconfdir}/udev/rules.d/
- 
--	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
-+		install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
-+	fi
- 
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
- 		install -d ${D}${sysconfdir}/init.d
-diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-core/udev/eudev_3.2.9.bb
-index f96f8cbe78..d88bce0780 100644
---- a/meta/recipes-core/udev/eudev_3.2.9.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.9.bb
-@@ -41,6 +41,9 @@ do_install_append() {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
- 	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = False ]; then
-+		sed -i -e 's%mkdir -m 1777 -p /var/volatile/tmp%mkdir -m 1777 -p /var/tmp%g' ${D}${sysconfdir}/init.d/udev
-+	fi
- 
- 	install -d ${D}${sysconfdir}/udev/rules.d
- 	install -m 0644 ${WORKDIR}/local.rules ${D}${sysconfdir}/udev/rules.d/local.rules
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+new file mode 100644
+index 0000000..21a3ceb
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+@@ -0,0 +1,52 @@
++From de0b1bae6461f67243282555475f88b2384a1eb9 Mon Sep 17 00:00:00 2001
++From: Vincent Dehors <vincent.dehors@smile.fr>
++Date: Thu, 23 Jan 2020 15:22:38 +0000
++Subject: [PATCH] target/arm: Fix PAuth sbox functions
++
++In the PAC computation, sbox was applied over wrong bits.
++As this is a 4-bit sbox, bit index should be incremented by 4 instead of 16.
++
++Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf) was
++used to verify one computation of the pauth_computepac() function which
++uses sbox2.
++
++Launchpad: https://bugs.launchpad.net/bugs/1859713
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Signed-off-by: Vincent DEHORS <vincent.dehors@smile.fr>
++Signed-off-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
++Message-id: 20200116230809.19078-2-richard.henderson@linaro.org
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=de0b1bae6461f67243282555475f88b2384a1eb9] 
++CVE: CVE-2020-10702
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ target/arm/pauth_helper.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
++index d3194f2..0a5f41e 100644
++--- a/target/arm/pauth_helper.c
+++++ b/target/arm/pauth_helper.c
++@@ -89,7 +89,7 @@ static uint64_t pac_sub(uint64_t i)
++     uint64_t o = 0;
++     int b;
++ 
++-    for (b = 0; b < 64; b += 16) {
+++    for (b = 0; b < 64; b += 4) {
++         o |= (uint64_t)sub[(i >> b) & 0xf] << b;
++     }
++     return o;
++@@ -104,7 +104,7 @@ static uint64_t pac_inv_sub(uint64_t i)
++     uint64_t o = 0;
++     int b;
++ 
++-    for (b = 0; b < 64; b += 16) {
+++    for (b = 0; b < 64; b += 4) {
++         o |= (uint64_t)inv_sub[(i >> b) & 0xf] << b;
++     }
++     return o;
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+new file mode 100644
+index 0000000..9014ba0
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+@@ -0,0 +1,48 @@
++From e423455c4f23a1a828901c78fe6d03b7dde79319 Mon Sep 17 00:00:00 2001
++From: Thomas Huth <thuth@redhat.com>
++Date: Wed, 25 Sep 2019 14:16:43 +0200
++Subject: [PATCH] hw/core/loader: Fix possible crash in rom_copy()
++
++Both, "rom->addr" and "addr" are derived from the binary image
++that can be loaded with the "-kernel" paramer. The code in
++rom_copy() then calculates:
++
++    d = dest + (rom->addr - addr);
++
++and uses "d" as destination in a memcpy() some lines later. Now with
++bad kernel images, it is possible that rom->addr is smaller than addr,
++thus "rom->addr - addr" gets negative and the memcpy() then tries to
++copy contents from the image to a bad memory location. This could
++maybe be used to inject code from a kernel image into the QEMU binary,
++so we better fix it with an additional sanity check here.
++
++Cc: qemu-stable@nongnu.org
++Reported-by: Guangming Liu
++Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
++Message-Id: <20190925130331.27825-1-thuth@redhat.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Thomas Huth <thuth@redhat.com>
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=e423455c4f23a1a828901c78fe6d03b7dde79319] 
++CVE: CVE-2020-13765
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ hw/core/loader.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/core/loader.c b/hw/core/loader.c
++index 0d60219..5099f27 100644
++--- a/hw/core/loader.c
+++++ b/hw/core/loader.c
++@@ -1281,7 +1281,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
++         if (rom->addr + rom->romsize < addr) {
++             continue;
++         }
++-        if (rom->addr > end) {
+++        if (rom->addr > end || rom->addr < addr) {
++             break;
++         }
++ 
++-- 
++1.8.3.1
++
 -- 
-2.17.1
+2.7.4
 
