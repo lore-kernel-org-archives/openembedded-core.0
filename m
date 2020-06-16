@@ -1,122 +1,322 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.1809.1592272351905682871
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
+ by mx.groups.io with SMTP id smtpd.web12.3873.1592282704080117995
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 18:52:32 -0700
+ Mon, 15 Jun 2020 21:45:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05G1pSdK012169
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Mon, 15 Jun 2020 18:51:59 -0700
-Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 15 Jun
- 2020 18:51:23 -0700
-From: "Yi Zhao" <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <peter.kjellerstedt@axis.com>
-Subject: [PATCH 1/2 V2] iptables: fix invalid symbolic link for ip6tables-apply
-Date: Tue, 16 Jun 2020 09:51:05 +0800
-Message-ID: <20200616015106.11022-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=YUx6tr71;
+ spf=pass (domain: linaro.org, ip: 209.85.166.66, mailfrom: arthur.she@linaro.org)
+Received: by mail-io1-f66.google.com with SMTP id i25so164321iog.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 21:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RUbWF3xTeaAYQJf1QJRcXe2PbQ97WJt0BZTzBNOlqnk=;
+        b=YUx6tr71ezJ+MVXUkDJj7wrFUfOdrUCHo94lM8RREKQHnAB1u23oOXINsxAiej1Hgo
+         ut1WYPk8yZReaNOBZ7POQB1v+8XTBCMAU79WALbPl4e6tbMbel/8e9X7wZsf/w6pINIh
+         QPZnwmPIALY8hC4IQWRgNCz/SZDZmyGPy9gZHLDxHXrgZL9ZJmZagXnhvY3OYx8A41/v
+         ir5E30h06VrXUSMNOHek6xRXUhKMbmtFXwqGilbJhCyXVeIWX/6YycfxPPUrSSMC71qK
+         CDWK3b02bhdMjIuqj1Cvgve/S5ZCUi3N6ygjReUD5HLjLyenKCAb47v9aAZViNxAc7h+
+         btxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RUbWF3xTeaAYQJf1QJRcXe2PbQ97WJt0BZTzBNOlqnk=;
+        b=VHIHqWRXg15SCEGl38DQs6HdvqyZQADKigjWusShi/Rx4B8cGNLIlxooLPjmwRtgXk
+         LPwHGlQQWySZfp3/jyEzsKCkUPMPgP3lpMAB/faTfiZmEbA3IBSwlfqbTAuiXF1i17WO
+         S5DQAVVaF4xjgbNcQ2rGXhK40qvIb6Bgy7zz9DcxD+eHs6N/hmsvXH0Yk4pZQXlgCF6w
+         ApWDGKYNYTEUvRcIw3nAcB8VdDtal77qF9BVCsRWZH/mrsteBKgGLgE2P2tQ+L5qXS6C
+         15dLUUeFr69cwXFxOgRMfuLKrhB1gyxv1tzXSCJmFrZVx8lqrlCOhH/cz9gfqZuyoENv
+         pAgg==
+X-Gm-Message-State: AOAM532qwT3XxIm12mwnsA4nx/iexP6FD/AEshIxWIQaVcAg10oExsgf
+	QCFBBe7ckBLOEG/SQFhIcT5AdyJPR4asbqm57kncoQ==
+X-Google-Smtp-Source: ABdhPJyuSzJYK8Vzw5csPn3IcbyfEBE8uwMbGdeOcQYE3da2jS2OkaZFW1tRKB3TB1O3zOs5aythRhktVNqzo+gLHmI=
+X-Received: by 2002:a02:654a:: with SMTP id u71mr25442626jab.7.1592282703419;
+ Mon, 15 Jun 2020 21:45:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.174]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 05G1pSdK012169
+References: <20200615060025.171354-1-arthur.she@linaro.org>
+ <CANNYZj9RLRjTgB-Qy4Rzx9iWN4PMGzay-XxgZGEei_HC8gEq=w@mail.gmail.com> <20200615075646.GU17660@denix.org>
+In-Reply-To: <20200615075646.GU17660@denix.org>
+From: "Arthur She" <arthur.she@linaro.org>
+Date: Mon, 15 Jun 2020 21:44:52 -0700
+Message-ID: <CAJ8hLzH2JMoJ7QspxnjAZ1ZwKshj+REUu=HrE7A2tspu_pH=Zw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] igt-gpu-tools: add new package
+To: Denys Dmytriyenko <denis@denix.org>, Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	"Mittal, Anuj" <anuj.mittal@intel.com>
+Content-Type: multipart/alternative; boundary="000000000000eb7ca905a82c34b4"
+
+--000000000000eb7ca905a82c34b4
 Content-Type: text/plain; charset="UTF-8"
+
+Hi Alexander and Denys,
+Thanks for your feedback.
+I have no problem submitting it to meta-oe.
+Since the meta-intel maintainer requested to submit it to oe-core, do you
+mind sharing some thought about the reason?
+
+Thank you so much,
+Arthur
+
+On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko <denis@denix.org> wrote:
+
+> https://lists.openembedded.org/g/openembedded-devel/topic/74775294
+>
+> But I tend to agree.
+>
+> --
+> Denys
+>
+>
+> On Mon, Jun 15, 2020 at 09:45:25AM +0200, Alexander Kanavin wrote:
+> > This should go to meta-oe, rather than core?
+> >
+> > Alex
+> >
+> > On Mon 15. Jun 2020 at 8.00, Arthur She <arthur.she@linaro.org> wrote:
+> >
+> > > igt-gpu-tools is a collection of tools for development and testing of
+> the
+> > > DRM
+> > > drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
+> > > This recipe is originally copied from meta-intel and added the
+> following
+> > > modifications
+> > > 1. Enable ARM architecture
+> > > 2. Enable igt-runner and Chamelium
+> > > 3. Build git HEAD code instead of a specific version
+> > > The original recipe in the meta-intel will be removed and replaced by
+> > > this one once it get merged.
+> > >
+> > > Signed-off-by: Arthur She <arthur.she@linaro.org>
+> > > ---
+> > >  .../igt-gpu-tools/igt-gpu-tools_git.bb        | 47
+> +++++++++++++++++++
+> > >  1 file changed, 47 insertions(+)
+> > >  create mode 100644 meta/recipes-graphics/igt-gpu-tools/
+> > > igt-gpu-tools_git.bb
+> > >
+> > > diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> > > b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> > > new file mode 100644
+> > > index 0000000000..dc9537c9e3
+> > > --- /dev/null
+> > > +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> > > @@ -0,0 +1,47 @@
+> > > +SUMMARY = "IGT GPU Tools"
+> > > +DESCRIPTION = "IGT GPU Tools is a collection of tools for development
+> and
+> > > testing of the DRM drivers"
+> > > +
+> > > +LIC_FILES_CHKSUM =
+> "file://COPYING;md5=67bfee4df38fa6ecbe3a675c552d4c08"
+> > > +
+> > > +LICENSE = "MIT"
+> > > +
+> > > +inherit meson
+> > > +
+> > > +SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
+> > > +PV = "1.25+git${SRCPV}"
+> > > +
+> > > +SRC_URI = "git://
+> > > gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
+> > > +
+> > > +S = "${WORKDIR}/git"
+> > > +
+> > > +DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind
+> kmod
+> > > openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native"
+> > > +RDEPENDS_${PN} += "bash"
+> > > +RDEPENDS_${PN}-tests += "bash"
+> > > +
+> > > +PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+> > > +
+> > > +EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dchamelium=enabled"
+> > > +COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
+> > > +COMPATIBLE_HOST_libc-musl_class-target = "null"
+> > > +SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
+> > > +
+> > > +gputools_sysroot_preprocess() {
+> > > +       rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/intel-gen4asm.pc
+> > > +}
+> > > +SYSROOT_PREPROCESS_FUNCS += "gputools_sysroot_preprocess"
+> > > +
+> > > +do_install_append() {
+> > > +    install -d ${D}/usr/share/${BPN}/scripts
+> > > +    install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scripts
+> > > +    install -d ${D}/usr/share/${BPN}/runner
+> > > +    install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/runner
+> > > +    install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/runner
+> > > +}
+> > > +
+> > > +FILES_${PN}-benchmarks += "${libexecdir}/${BPN}/benchmarks"
+> > > +FILES_${PN}-tests += "\
+> > > +        ${libexecdir}/${BPN}/*\
+> > > +        ${datadir}/${BPN}/1080p-right.png\
+> > > +        ${datadir}/${BPN}/1080p-left.png\
+> > > +        ${datadir}/${BPN}/pass.png\
+> > > +        ${datadir}/${BPN}/test-list.txt"
+> > > --
+> > > 2.25.1
+> > >
+> > >
+> > >
+>
+> > 
+>
+>
+
+--000000000000eb7ca905a82c34b4
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The iptables-apply is not installed which makes ip6tables-apply as an
-invalid symbolic link:
+<div dir=3D"ltr">Hi Alexander and Denys,<div>Thanks for your feedback.</div=
+><div>I have no problem submitting it to meta-oe.</div><div>Since the meta-=
+intel maintainer requested to submit it to oe-core, do you mind sharing som=
+e thought about the reason?</div><div><br></div><div>Thank you so much,</di=
+v><div>Arthur</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko &lt;<=
+a href=3D"mailto:denis@denix.org">denis@denix.org</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><a href=3D"https://lists.o=
+penembedded.org/g/openembedded-devel/topic/74775294" rel=3D"noreferrer" tar=
+get=3D"_blank">https://lists.openembedded.org/g/openembedded-devel/topic/74=
+775294</a><br>
+<br>
+But I tend to agree.<br>
+<br>
+-- <br>
+Denys<br>
+<br>
+<br>
+On Mon, Jun 15, 2020 at 09:45:25AM +0200, Alexander Kanavin wrote:<br>
+&gt; This should go to meta-oe, rather than core?<br>
+&gt; <br>
+&gt; Alex<br>
+&gt; <br>
+&gt; On Mon 15. Jun 2020 at 8.00, Arthur She &lt;<a href=3D"mailto:arthur.=
+she@linaro.org" target=3D"_blank">arthur.she@linaro.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; igt-gpu-tools is a collection of tools for development and testi=
+ng of the<br>
+&gt; &gt; DRM<br>
+&gt; &gt; drivers. (<a href=3D"https://gitlab.freedesktop.org/drm/igt-gpu-=
+tools" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/=
+drm/igt-gpu-tools</a>)<br>
+&gt; &gt; This recipe is originally copied from meta-intel and added the f=
+ollowing<br>
+&gt; &gt; modifications<br>
+&gt; &gt; 1. Enable ARM architecture<br>
+&gt; &gt; 2. Enable igt-runner and Chamelium<br>
+&gt; &gt; 3. Build git HEAD code instead of a specific version<br>
+&gt; &gt; The original recipe in the meta-intel will be removed and replac=
+ed by<br>
+&gt; &gt; this one once it get merged.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Arthur She &lt;<a href=3D"mailto:arthur.she@linar=
+o.org" target=3D"_blank">arthur.she@linaro.org</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 .../igt-gpu-tools/<a href=3D"http://igt-gpu-tools_git.bb" =
+rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb</a>=C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 | 47 +++++++++++++++++++<br>
+&gt; &gt;=C2=A0 1 file changed, 47 insertions(+)<br>
+&gt; &gt;=C2=A0 create mode 100644 meta/recipes-graphics/igt-gpu-tools/<br=
+>
+&gt; &gt; <a href=3D"http://igt-gpu-tools_git.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">igt-gpu-tools_git.bb</a><br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http=
+://igt-gpu-tools_git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools=
+_git.bb</a><br>
+&gt; &gt; b/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http://igt-gpu-=
+tools_git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb</a>=
+<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..dc9537c9e3<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http://igt-=
+gpu-tools_git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb=
+</a><br>
+&gt; &gt; @@ -0,0 +1,47 @@<br>
+&gt; &gt; +SUMMARY =3D &quot;IGT GPU Tools&quot;<br>
+&gt; &gt; +DESCRIPTION =3D &quot;IGT GPU Tools is a collection of tools fo=
+r development and<br>
+&gt; &gt; testing of the DRM drivers&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D67bfee4df38fa6e=
+cbe3a675c552d4c08&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +LICENSE =3D &quot;MIT&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +inherit meson<br>
+&gt; &gt; +<br>
+&gt; &gt; +SRCREV =3D &quot;d16ad07e7f2a028e14d61f570931c87fa5ce404c&quot;=
+<br>
+&gt; &gt; +PV =3D &quot;1.25+git${SRCPV}&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +SRC_URI =3D &quot;git://<br>
+&gt; &gt; <a href=3D"http://gitlab.freedesktop.org/drm/igt-gpu-tools.git;p=
+rotocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">gitlab.freedesktop.or=
+g/drm/igt-gpu-tools.git;protocol=3Dhttps</a>&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +DEPENDS +=3D &quot;libdrm libpciaccess cairo udev glib-2.0 proc=
+ps libunwind kmod<br>
+&gt; &gt; openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native&quot;=
+<br>
+&gt; &gt; +RDEPENDS_${PN} +=3D &quot;bash&quot;<br>
+&gt; &gt; +RDEPENDS_${PN}-tests +=3D &quot;bash&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +PACKAGE_BEFORE_PN =3D &quot;${PN}-benchmarks ${PN}-tests&quot;<=
+br>
+&gt; &gt; +<br>
+&gt; &gt; +EXTRA_OEMESON =3D &quot;-Ddocs=3Ddisabled -Drunner=3Denabled -D=
+chamelium=3Denabled&quot;<br>
+&gt; &gt; +COMPATIBLE_HOST =3D &quot;(x86_64.*|i.86.*|arm.*|aarch64).*-lin=
+ux&quot;<br>
+&gt; &gt; +COMPATIBLE_HOST_libc-musl_class-target =3D &quot;null&quot;<br>
+&gt; &gt; +SECURITY_LDFLAGS =3D &quot;${SECURITY_X_LDFLAGS}&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +gputools_sysroot_preprocess() {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${SYSROOT_DESTDIR}${libdir}/pk=
+gconfig/intel-gen4asm.pc<br>
+&gt; &gt; +}<br>
+&gt; &gt; +SYSROOT_PREPROCESS_FUNCS +=3D &quot;gputools_sysroot_preprocess=
+&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +do_install_append() {<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -d ${D}/usr/share/${BPN}/scripts<br>
+&gt; &gt; +=C2=A0 =C2=A0 install ${S}/scripts/run-tests.sh ${D}/usr/share/=
+${BPN}/scripts<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -d ${D}/usr/share/${BPN}/runner<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -D ${B}/runner/igt_runner ${D}/usr/share/=
+${BPN}/runner<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -D ${B}/runner/igt_resume ${D}/usr/share/=
+${BPN}/runner<br>
+&gt; &gt; +}<br>
+&gt; &gt; +<br>
+&gt; &gt; +FILES_${PN}-benchmarks +=3D &quot;${libexecdir}/${BPN}/benchmar=
+ks&quot;<br>
+&gt; &gt; +FILES_${PN}-tests +=3D &quot;\<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${libexecdir}/${BPN}/*\<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/1080p-right.png\<=
+br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/1080p-left.png\<b=
+r>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/pass.png\<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/test-list.txt&quo=
+t;<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.25.1<br>
+&gt; &gt;<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+<br>
+&gt; <br>
+<br>
+</blockquote></div>
 
-$ ls -l /usr/sbin/ip6tables-apply
-lrwxrwxrwx 1 root root 14 Jun 11 08:27 /usr/sbin/ip6tables-apply -> iptab=
-les-apply
-$ ls -l /usr/sbin/iptables-apply
-ls: cannot access '/usr/sbin/iptables-apply': No such file or directory
-
-Backport a patch to fix the issue.
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...iptables-apply-not-getting-installed.patch | 45 +++++++++++++++++++
- .../iptables/iptables_1.8.5.bb                |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-extended/iptables/iptables/0001-build-re=
-solve-iptables-apply-not-getting-installed.patch
-
-diff --git a/meta/recipes-extended/iptables/iptables/0001-build-resolve-i=
-ptables-apply-not-getting-installed.patch b/meta/recipes-extended/iptable=
-s/iptables/0001-build-resolve-iptables-apply-not-getting-installed.patch
-new file mode 100644
-index 0000000000..51ed66ed24
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/0001-build-resolve-iptables=
--apply-not-getting-installed.patch
-@@ -0,0 +1,45 @@
-+From d4ed0c741fc789bb09d977d74d30875fdd50d08b Mon Sep 17 00:00:00 2001
-+From: Jan Engelhardt <jengelh@inai.de>
-+Date: Wed, 3 Jun 2020 15:38:48 +0200
-+Subject: [PATCH] build: resolve iptables-apply not getting installed
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+ip6tables-apply gets installed but iptables-apply does not.
-+That is wrong.
-+
-+=C2=BB make install DESTDIR=3D$PWD/r
-+=C2=BB find r -name "*app*"
-+r/usr/local/sbin/ip6tables-apply
-+r/usr/local/share/man/man8/iptables-apply.8
-+r/usr/local/share/man/man8/ip6tables-apply.8
-+
-+Fixes: v1.8.5~87
-+Signed-off-by: Jan Engelhardt <jengelh@inai.de>
-+Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
-+
-+Upstream-Status: Backport
-+[https://git.netfilter.org/iptables/commit/?id=3Dd4ed0c741fc789bb09d977d=
-74d30875fdd50d08b]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ iptables/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/iptables/Makefile.am b/iptables/Makefile.am
-+index dc66b3cc..2024dbf5 100644
-+--- a/iptables/Makefile.am
-++++ b/iptables/Makefile.am
-+@@ -56,7 +56,7 @@ man_MANS         =3D iptables.8 iptables-restore.8 ipt=
-ables-save.8 \
-+                    ip6tables-save.8 iptables-extensions.8 \
-+                    iptables-apply.8 ip6tables-apply.8
-+=20
-+-sbin_SCRIPT      =3D iptables-apply
-++sbin_SCRIPTS     =3D iptables-apply
-+=20
-+ if ENABLE_NFTABLES
-+ man_MANS	+=3D xtables-nft.8 xtables-translate.8 xtables-legacy.8 \
-+--=20
-+2.17.1
-+
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.5.bb b/meta/reci=
-pes-extended/iptables/iptables_1.8.5.bb
-index fa1e5c229d..8664a9751a 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.5.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.5.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5=
-fce4486a80fdaf4a4263 \
- SRC_URI =3D "http://netfilter.org/projects/iptables/files/iptables-${PV}=
-.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetli=
-nk.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetli=
-nk-enabled.patch \
-+           file://0001-build-resolve-iptables-apply-not-getting-installe=
-d.patch \
-            file://iptables.service \
-            file://iptables.rules \
-            file://ip6tables.service \
---=20
-2.17.1
-
+--000000000000eb7ca905a82c34b4--
