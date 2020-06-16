@@ -1,113 +1,81 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.690.1592327145101955087
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.749.1592327145551971214
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Jun 2020 10:05:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=WpzpAdAn;
- spf=pass (domain: burtonini.com, ip: 209.85.128.46, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f46.google.com with SMTP id c71so3567486wmd.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 10:05:44 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=hiiNYkRb;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.66, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f66.google.com with SMTP id l10so21522495wrr.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 10:05:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6mPmkkHyZleX1JRIxwiGryzeCHbzsGAwcA30Za/TU18=;
-        b=WpzpAdAnz+wOJyGIN3C4LjYDDojw67iI6ZH7yXSwbFhP/SafUWF/9isFcleVovHtiE
-         GjWkl7W22c0w3bDgzlOIinueDHD6TqHRWWRy3A0CMB5B7cf8il593ApAXSXLX6hRMMuL
-         Us6nfBirXl7SWJjAAUbJXzpnV2q4ZdjX20juaxP1S7szRadjEnP9NdWU6511kZ0NVkBC
-         ZouMGkcIcFuhNN62HUZQaDbInJBFY+gO1YQBw+ll69kW2Mu5M3pMFvqH7U0VfenyAtN3
-         1stEZO57awgUjksiy37a0b2BCxYRtxsoC6E5tDeCmgnOgcsCCph3PdMisdMMiC/zUv0W
-         87UQ==
+        bh=cDRr5dBoxL1KiZhkh9c6D329UtRVaDhUACRuibybGaY=;
+        b=hiiNYkRbEtWDjGjAdeJMs+rjrtZZq49myPI8QdILXWu8MqZBh2f7uEHlXdh+daLAaM
+         wzLrjJ1eHoT5BfmTnisv1lUINijZ31fQYSMGf/+3gs0XeWBjct+/nwK/L6PhfKM2jHjQ
+         yDEKoBQv20+NgSgMyUPruITjGZI80t+ilRxR4AVdlFLSjdVqWdc5fcrB8n/ufi+fEc9n
+         OrGswXMIKiOy/NGMGqL6olV9WUGYuIUmNB5OOEFr8k3YncI286Rgy9/2dkO7BetpgXx3
+         37BFW+tm0aEYSNrD26E4BT0VfesYPwE9iW87sklvOKBh29NdpcM1VULzc/yHX1texSy8
+         fBow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6mPmkkHyZleX1JRIxwiGryzeCHbzsGAwcA30Za/TU18=;
-        b=gGZiouwIsKbUWY9QqYaEIyJebwJSw6RKi48LXHHPLpfMdBiDlF6mdAu0n+80ZP+1xs
-         OYb8TtQ1gI/0+lYpJklLHKVLIFgBsFQmE92/D5k4tEwhgWl6kZ/NLYL83w6LD4j3KjIl
-         pxmuf0pSeJ25FauM+SVEJvyr7Wns7TPdAeXOjCIhMl/Ru6fT6kp+rbUUi73k+1Muo+od
-         HPBiwIFCA1aY+qB6SNW4nIPajiasB8q8MHvqRjj5HlaSQpThGudqJgLaghwiHkh2y2iW
-         DLrQAdO9zyI4pTDt7MHLjeLIBksj5te7aPXPqhd9F9nitjdzVlbtGS/8xOHLQMnk3w+g
-         J1Jw==
-X-Gm-Message-State: AOAM530ND8PWmgv83NMTAH70AHb9Vge6K8+vVEsZ0nHAQY760uSIaejg
-	tJF01CuApm+lVV0YEyeB+eL5205Ds0ig0Q==
-X-Google-Smtp-Source: ABdhPJzCLhEAav2HjuBO9hR2ylWrpD8YLGdzx6DBgHeeCoIwWVazHdoRgPw6rpijWHK6PtFac9BweQ==
-X-Received: by 2002:a7b:cf2c:: with SMTP id m12mr4212050wmg.70.1592327143145;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cDRr5dBoxL1KiZhkh9c6D329UtRVaDhUACRuibybGaY=;
+        b=iISBlEYV6IetBOBoGc9V4vgSHGfy9sKwOTURy2x/OQ0TLEkYfjqP/AINufKLe7j6jM
+         pfLbWbhvmpXxRezwo3FBiw/9Q+kKKodDFDfGy7U28JugtaknzCZgXwmtRHSuUF6fnShp
+         VUV6R8lnzK2qxr8larIUZ6omKCwiX9xGT65m6Ao0hh0AiBJntBuvRjE6CGiog6u0Hgex
+         IDQ5bgmUPQElro2qy+B/DDIYrTcshdCF72H5OEYTfiStkNC1E76dgRt1WxKleVGMZjnm
+         DXxJaGjWTXIBb/QqRpqEF+hj7SbfbFJ08ty6tCe7blS7zuxVPbesGeMd3AI+R/ni9dD+
+         tugg==
+X-Gm-Message-State: AOAM530r8lWoKxeyJovOit+k2BNVh7dusfYmXl0r9v9HBP/ZDrzvshHs
+	GF7GHfxpoGKSfSdh3PlTfUiuEhszbi9huQ==
+X-Google-Smtp-Source: ABdhPJx62u7Ou9bmM9Is1WbAtRGFfV9dbvlMHV9920y/LKne9TlI56jppYZyqoj5mBPEF/oYxmlFJw==
+X-Received: by 2002:adf:f74e:: with SMTP id z14mr4191435wrp.338.1592327143805;
         Tue, 16 Jun 2020 10:05:43 -0700 (PDT)
 Return-Path: <ross@burtonini.com>
 Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id 40sm31820668wrc.15.2020.06.16.10.05.42
+        by smtp.gmail.com with ESMTPSA id 40sm31820668wrc.15.2020.06.16.10.05.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 10:05:42 -0700 (PDT)
+        Tue, 16 Jun 2020 10:05:43 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 1/3] go-binary-native: add binary Go to bootstrap
-Date: Tue, 16 Jun 2020 18:05:36 +0100
-Message-Id: <20200616170538.1049884-1-ross@burtonini.com>
+Subject: [RFC PATCH 2/3] tcmode-default: use go-binary-native by default
+Date: Tue, 16 Jun 2020 18:05:37 +0100
+Message-Id: <20200616170538.1049884-2-ross@burtonini.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200616170538.1049884-1-ross@burtonini.com>
+References: <20200616170538.1049884-1-ross@burtonini.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ross Burton <ross.burton@arm.com>
 
-Use PREFERRED_PROVIDER_go-native = "go-binary-native"
+go-binary-native is faster and more portable than go-native, so use it
+by default.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../go/go-binary-native_1.14.4.bb             | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-binary-native_1.14.4.bb
+ meta/conf/distro/include/tcmode-default.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.14.4.bb b/meta/recipes-devtools/go/go-binary-native_1.14.4.bb
-new file mode 100644
-index 0000000000..3c535e14ce
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-binary-native_1.14.4.bb
-@@ -0,0 +1,43 @@
-+# This recipe is for bootstrapping our go-cross from a prebuilt binary of Go from golang.org.
-+
-+SUMMARY = "Go programming language compiler (upstream binary for bootstrap)"
-+HOMEPAGE = " http://golang.org/"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-+
-+PROVIDES = "go-native"
-+
-+SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
-+SRC_URI[go_linux_amd64.sha256sum] = "aed845e4185a0b2a3c3d5e1d0a35491702c55889192bb9c30e67a3de6849c067"
-+SRC_URI[go_linux_arm64.sha256sum] = "05dc46ada4e23a1f58e72349f7c366aae2e9c7a7f1e7653095538bc5bba5e077"
-+
-+S = "${WORKDIR}/go"
-+
-+inherit goarch native
-+
-+do_compile() {
-+    :
-+}
-+
-+make_wrapper() {
-+	rm -f ${D}${bindir}/$1
-+	cat <<END >${D}${bindir}/$1
-+#!/bin/bash
-+here=\`dirname \$0\`
-+export GOROOT="${GOROOT:-\`readlink -f \$here/../lib/go\`}"
-+\$here/../lib/go/bin/$1 "\$@"
-+END
-+	chmod +x ${D}${bindir}/$1
-+}
-+
-+do_install() {
-+    find ${S} -depth -type d -name testdata -exec rm -rf {} +
-+
-+	install -d ${D}${bindir} ${D}${libdir}/go
-+	cp --preserve=mode,timestamps -R ${S}/ ${D}${libdir}/
-+
-+	for f in ${S}/bin/*
-+	do
-+	  	make_wrapper `basename $f`
-+	done
-+}
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index ab4333144b..7103e10d3b 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -66,6 +66,10 @@ PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
+ PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+ PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
+ 
++# Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
++# from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
++# go-native.
++PREFERRED_PROVIDER_go-native ?= "go-binary-native"
+ PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+ PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
+ PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
 -- 
 2.26.2
 
