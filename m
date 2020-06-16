@@ -1,270 +1,173 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.1110.1592260770115063925
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.278.1592266567394574780
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2020 15:39:30 -0700
+ Mon, 15 Jun 2020 17:16:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=njmx4Ho6;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id ne5so494675pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2020 15:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=EBKM9eRPEoZz95uqeXtfm52f45vCQ2LNSnPhmfjvkZM=;
-        b=njmx4Ho6zyovzS3/+c5De2XO11AfIZfRvX9DsnqCP8yWxS+n9D+FgwrDznzou6UdXB
-         m/PFMV2ca1oFrJT0vgmCCpYts/XhZFq33kuwucupC177yX5qDp2rD4l9nzFvSB3DOVdB
-         xdhqxHhBQzqhns45aGiKqKRvoJO70zSoxdP1bmrY/8UB/O0mFsVrvfa89nItf7bNK3GI
-         i6GtOqN0jnLSjq6IoT4ML83doSGVlI2L3miGoZSl9pTmYbUSNbEZJxkJErzoTZ22aYYk
-         jHK8kUHbdNg1ElJqyhKhAj57S89JVABqWCFeuai3aJHuxz0csaGlqVPSOXlPUXkPAnME
-         vnbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=EBKM9eRPEoZz95uqeXtfm52f45vCQ2LNSnPhmfjvkZM=;
-        b=qlX5HawDXikT0XXMYV/rXkCHu7bTVAChyM10DjJHCrvAlJ5cUIpgoWAD5LPTKQwYbU
-         2OQ4NRbK1EOyuzBmNF0XJin1bAB1dwDJ9uY0GMDDZ01gO9AVpvewTS2NlEdOKQD2cMS/
-         NNsrIDz28XXjuzQw6/7nzR3ppQLtD8A2bj9MOtSWzj9mIBuYyzYQiOY0xcdWd7nNl25b
-         FNoM5JRiXccC+JvROfn0uBqeC9MQ6y+ZTb/Od7QCaYdHfqOs50AC31gNZZVyiJpkPI3f
-         6BQczCRS5D8Vf3FnxJqD1bg4Qyolj3MPdhVh9Ro74e/Li4yLrixPGEjzC5md+K/y8AYv
-         lctA==
-X-Gm-Message-State: AOAM531EgOXsqiWvfXTVjJdMFnxfuW5myQBgFpaJPxfu+/PxkRnffMHz
-	32bIWJYeuPTI24XkJKmF2ELEh/qKcTg=
-X-Google-Smtp-Source: ABdhPJy+JWEPtBRWNF18rqzT22Y6P2W3Kk6QxOfi0zXdsEVDIg1k5M6O92S+YDGr7mlAEos+mC2GPA==
-X-Received: by 2002:a17:90a:fb49:: with SMTP id iq9mr154115pjb.58.1592260769479;
-        Mon, 15 Jun 2020 15:39:29 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id d23sm455223pjv.45.2020.06.15.15.39.28
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jun 2020 15:39:29 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05G0FCiX009077
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Mon, 15 Jun 2020 17:15:34 -0700
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 15 Jun
+ 2020 17:15:04 -0700
+Subject: Re: [OE-core] [PATCH] iptables: fix invalid symbolic link for ip6tables-apply
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+        "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 15 Jun 2020 15:39:29 -0700
-Message-ID: <172701d64365$d501ef40$7f05cdc0$@gmail.com>
+References: <20200615013448.16426-1-yi.zhao@windriver.com>
+ <cdb0222a8a424d3f9f6a2e27a9dac270@XBOX03.axis.com>
+From: "Yi Zhao" <yi.zhao@windriver.com>
+Message-ID: <8d883061-1aec-221e-9db8-b91e9e413745@windriver.com>
+Date: Tue, 16 Jun 2020 08:14:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIRVi1i3JrgtiLeSsE+WTZekNDDiw==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_1728_01D6432B.28A58840"
-Content-Language: en-us
-
-------=_NextPart_000_1728_01D6432B.28A58840
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
- 
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 375
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_1728_01D6432B.28A58840
-Content-Type: text/html;
-	boundary="----=_NextPart_000_10DD_01D63E33.BEF156F0";
-	charset="us-ascii"
+In-Reply-To: <cdb0222a8a424d3f9f6a2e27a9dac270@XBOX03.axis.com>
+X-Originating-IP: [128.224.162.174]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 05G0FCiX009077
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 375 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-------=_NextPart_000_1728_01D6432B.28A58840--
+On 6/15/20 9:30 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Yi Zhao
+>> Sent: den 15 juni 2020 03:35
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH] iptables: fix invalid symbolic link for
+>> ip6tables-apply
+>>
+>> The iptables-apply is not installed which makes ip6tables-apply as an
+>> invalid symbolic link:
+>>
+>> $ ls -l /usr/sbin/ip6tables-apply
+>> lrwxrwxrwx 1 root root 14 Jun 11 08:27 /usr/sbin/ip6tables-apply ->
+>> iptables-apply
+>> $ ls -l /usr/sbin/iptables-apply
+>> ls: cannot access '/usr/sbin/iptables-apply': No such file or director=
+y
+>>
+>> Backport a patch to fix the issue.
+>> Also add bash as runtime dependency to fix QA error:
+>>
+>> ERROR: iptables-1.8.5-r0 do_package_qa: QA Issue:
+>> /usr/sbin/iptables-apply contained in package iptables requires
+>> /bin/bash, but no providers found in RDEPENDS_iptables? [file-rdeps]
+>>
+>> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+>> ---
+>>   ...iptables-apply-not-getting-installed.patch | 45 +++++++++++++++++=
+++
+>>   .../iptables/iptables_1.8.5.bb                |  3 +-
+>>   2 files changed, 47 insertions(+), 1 deletion(-)
+>>   create mode 100644 meta/recipes-extended/iptables/iptables/0001-buil=
+d-
+>> resolve-iptables-apply-not-getting-installed.patch
+>>
+>> diff --git a/meta/recipes-extended/iptables/iptables/0001-build-resolv=
+e-
+>> iptables-apply-not-getting-installed.patch b/meta/recipes-
+>> extended/iptables/iptables/0001-build-resolve-iptables-apply-not-getti=
+ng-
+>> installed.patch
+>> new file mode 100644
+>> index 0000000000..51ed66ed24
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/iptables/iptables/0001-build-resolve-
+>> iptables-apply-not-getting-installed.patch
+>> @@ -0,0 +1,45 @@
+>> +From d4ed0c741fc789bb09d977d74d30875fdd50d08b Mon Sep 17 00:00:00 200=
+1
+>> +From: Jan Engelhardt <jengelh@inai.de>
+>> +Date: Wed, 3 Jun 2020 15:38:48 +0200
+>> +Subject: [PATCH] build: resolve iptables-apply not getting installed
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=3DUTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>> +ip6tables-apply gets installed but iptables-apply does not.
+>> +That is wrong.
+>> +
+>> +=C2=BB make install DESTDIR=3D$PWD/r
+>> +=C2=BB find r -name "*app*"
+>> +r/usr/local/sbin/ip6tables-apply
+>> +r/usr/local/share/man/man8/iptables-apply.8
+>> +r/usr/local/share/man/man8/ip6tables-apply.8
+>> +
+>> +Fixes: v1.8.5~87
+>> +Signed-off-by: Jan Engelhardt <jengelh@inai.de>
+>> +Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
+>> +
+>> +Upstream-Status: Backport
+>> +[https://git.netfilter.org/iptables/commit/?id=3Dd4ed0c741fc789bb09d9=
+77d74d30875fdd50d08b]
+>> +
+>> +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+>> +---
+>> + iptables/Makefile.am | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/iptables/Makefile.am b/iptables/Makefile.am
+>> +index dc66b3cc..2024dbf5 100644
+>> +--- a/iptables/Makefile.am
+>> ++++ b/iptables/Makefile.am
+>> +@@ -56,7 +56,7 @@ man_MANS         =3D iptables.8 iptables-restore.8 =
+iptables-save.8 \
+>> +                    ip6tables-save.8 iptables-extensions.8 \
+>> +                    iptables-apply.8 ip6tables-apply.8
+>> +
+>> +-sbin_SCRIPT      =3D iptables-apply
+>> ++sbin_SCRIPTS     =3D iptables-apply
+>> +
+>> + if ENABLE_NFTABLES
+>> + man_MANS	+=3D xtables-nft.8 xtables-translate.8 xtables-legacy.8 \
+>> +--
+>> +2.17.1
+>> +
+>> diff --git a/meta/recipes-extended/iptables/iptables_1.8.5.bb b/meta/r=
+ecipes-extended/iptables/iptables_1.8.5.bb
+>> index fa1e5c229d..4cb0acf960 100644
+>> --- a/meta/recipes-extended/iptables/iptables_1.8.5.bb
+>> +++ b/meta/recipes-extended/iptables/iptables_1.8.5.bb
+>> @@ -11,6 +11,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d6=
+9f5fce4486a80fdaf4a4263 \
+>>   SRC_URI =3D "http://netfilter.org/projects/iptables/files/iptables-$=
+{PV}.tar.bz2 \
+>>              file://0001-configure-Add-option-to-enable-disable-libnfn=
+etlink.patch \
+>>              file://0002-configure.ac-only-check-conntrack-when-libnfn=
+etlink-enabled.patch \
+>> +           file://0001-build-resolve-iptables-apply-not-getting-insta=
+lled.patch \
+>>              file://iptables.service \
+>>              file://iptables.rules \
+>>              file://ip6tables.service \
+>> @@ -77,7 +78,7 @@ python populate_packages_prepend() {
+>>           d.appendVar('RDEPENDS_' + metapkg, ' ' + ' '.join(modules))
+>>   }
+>>
+>> -RDEPENDS_${PN} =3D "${PN}-module-xt-standard"
+>> +RDEPENDS_${PN} =3D "${PN}-module-xt-standard bash"
+> We do not want iptables to depend on bash. Either modify the
+> iptables-apply script so that it does not require bash, or move
+> it (and the ip6tables-apply link) to a separate package (e.g.,
+> iptables-apply), which can then depend on bash.
+
+
+Thanks, Peter. I will send V2.
+
+
+//Yi
+
+
+>
+>>   RRECOMMENDS_${PN} =3D " \
+>>       ${PN}-modules \
+>>       kernel-module-x-tables \
+>> --
+>> 2.17.1
+> //Peter
+>
