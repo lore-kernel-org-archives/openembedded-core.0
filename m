@@ -1,102 +1,92 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.128])
- by mx.groups.io with SMTP id smtpd.web11.11470.1592316490717567683
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.11851.1592317619442475525
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 07:08:11 -0700
+ Tue, 16 Jun 2020 07:26:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@qt.io header.s=selector2 header.b=KqBasdXY;
- spf=pass (domain: qt.io, ip: 40.107.22.128, mailfrom: samuli.piippo@qt.io)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MnioqVe7kbBeEXB5O4K2lynSVEADVxhZYi8bBoYUTQkd2tdE3AbjH2yi5VFCzP20ONjtKMq40St9K5clfmkWwr6sPvMhLLPOUMJIbW+KTFk5R9jizxgXwfW3b5MtjjdmmXRkFabbRt+vOc2BC4HHIS5WZxoM5MQNKbidLyXdXvqchcAMzC5cUTIdLtXq6382A31bP07nZKs3JwszpT2O8AEmtH09F2VUV6mKPhCMD5Wr69a+qEiVegqL04eZ+YAuncwy1izZrLVZ4uDYNGpu72Jh4SlTEgBaxGPXLn4xTGaaGocd624QYETMtKCupGWPWwyX098v75XEP4IPSr8k8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fDAKIj+eGXEzUszIJB2IVSW7e1TOJ83ivaCigw+4NS4=;
- b=Kgv6LLgqyaoBEaOwiqtr6mqjPKX4cK4IwUceziGkDszAKn4f7UzJpf7IAyZLb8EnIijXWHiNyOZrk3d3JBrtlBEZSj5a8MoL1MD/GqiQ+ABSREyHfCIc8aarD4lu9NZHUgkgstEEZnhtQ7Ibk+Iq3aPvBxcTyePV6I0oZXJsfAVEL0zuZIt8Y379JLQks5cFdVJcUD26zLhOwtfdiuw6lACDWF4KRIloHa/fx6lXzYTGbzH87NdqO84RjS9gxbcY4hJ8tmvn9B+5fe+iiLEWo3WGBA1JT3CiCgn9ZdLrDbWqWRHHu52yx9oixx7aPIlZ80xfIyfkW4JSiH7SbHU0Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qt.io; dmarc=pass action=none header.from=qt.io; dkim=pass
- header.d=qt.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qt.io; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fDAKIj+eGXEzUszIJB2IVSW7e1TOJ83ivaCigw+4NS4=;
- b=KqBasdXYdlIoOlTxVpT+R9QIl8AvdI7rlAjO8gb6NN9iT7Z0COf5y4P042Yi6S2lp5twVWlrQkS+A7v4Sqm/3geLCwnqVXwk5kHFm4OvYE3JzYNIIEMbFaUpi0zBKNpz2GO5Jzw6732P/pZz1OYb242Y7JRaEFBRA4WFEagiG0g=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=qt.io;
-Received: from DB3PR0202MB3449.eurprd02.prod.outlook.com (2603:10a6:8:d::29)
- by DB3PR0202MB3466.eurprd02.prod.outlook.com (2603:10a6:8:10::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Tue, 16 Jun
- 2020 14:08:08 +0000
-Received: from DB3PR0202MB3449.eurprd02.prod.outlook.com
- ([fe80::39bb:b87c:c0db:568a]) by DB3PR0202MB3449.eurprd02.prod.outlook.com
- ([fe80::39bb:b87c:c0db:568a%6]) with mapi id 15.20.3088.028; Tue, 16 Jun 2020
- 14:08:08 +0000
-From: "Samuli Piippo" <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cmake: allow chainloading of the toolchain file
-Date: Tue, 16 Jun 2020 17:07:25 +0300
-Message-ID: <20200616140725.126328-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.25.1
-X-ClientProxiedBy: HE1PR05CA0233.eurprd05.prod.outlook.com
- (2603:10a6:3:fa::33) To DB3PR0202MB3449.eurprd02.prod.outlook.com
- (2603:10a6:8:d::29)
-Return-Path: samuli.piippo@qt.io
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rr23PyAh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f185so3295364wmf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 07:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=qiU8eDHTyLuanLYEmLk1d0noXJHtfEX9plLgCr7ayFA=;
+        b=Rr23PyAhSjY6GJsslbanJFUmoCsegET0orezPMSUrD/D2wuhs/xhzDRlk5v671Gt1r
+         oEGO7BkCkNJqykG2jSXn74rn+gAW8ziodR2lnaui3R0ez1MEazRFWhFvOxoQ5l9PGfxv
+         sSs/y8D09+HsH7GEosIDAvhGYUu/q/ybBWBcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=qiU8eDHTyLuanLYEmLk1d0noXJHtfEX9plLgCr7ayFA=;
+        b=klkYX85Hkv22ZcctmJIO3f90h7/S+ZY3vHfGXZj4Mj3nEpJlTyOfrrkgHIU0C/3Lm6
+         EAOogOMsBSLBfxvdnWl7PC9OgKwJPMxxIK6f0qZkUvVZLczX1jz79z5NsO6l+DgK3owc
+         X5fSVP0laTTzg2OZ9WmIRfv9UXjWBaod/fUKB/O2IuEVsQuBZVUwIVAFvLRWAGWd5OJt
+         LraoF6Y4RzCrLF9kjB9bVLYOEse5BIMQUa07KJYuZnMe494D6TLQJaCxrA7eRy00jDNZ
+         vxlDEmtrN8NaIZ52aS7JgZa/rWFJXK5sEW2Z/xmsqr/4rQMRjxemz0ffuPydCnXT0DmZ
+         L4Mw==
+X-Gm-Message-State: AOAM532lB3Nun/T/MkN8b1QMFw558j5I71L/dcgWOwGWBf1sTrPkKHxY
+	XD38J3hgonVjAHpZ8GoSU+6DJg==
+X-Google-Smtp-Source: ABdhPJw6ubGRJpwe9doiP2ZHlLR+PG/hBowT5jtkn3u1Zr5WckzrZjwJpZGJH+p5FeD2Dav4hTJukw==
+X-Received: by 2002:a05:600c:21d7:: with SMTP id x23mr3712862wmj.95.1592317617737;
+        Tue, 16 Jun 2020 07:26:57 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id o20sm30829008wra.29.2020.06.16.07.26.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 07:26:56 -0700 (PDT)
+Message-ID: <c5e3e0caa02d882eb4d6e54846b4bfd4e8e78158.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/4] devtool-source.bbclass: Do not export _PYTHON_SYSCONFIGDATA_NAME
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Dan McGregor <danismostlikely@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
+Date: Tue, 16 Jun 2020 15:26:55 +0100
+In-Reply-To: <20200615220143.4018104-2-danismostlikely@gmail.com>
+References: <20200615220143.4018104-1-danismostlikely@gmail.com>
+	 <20200615220143.4018104-2-danismostlikely@gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from munCarbon.lan (84.250.25.20) by HE1PR05CA0233.eurprd05.prod.outlook.com (2603:10a6:3:fa::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21 via Frontend Transport; Tue, 16 Jun 2020 14:08:07 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [84.250.25.20]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76e57fad-b495-4d67-4831-08d811feb206
-X-MS-TrafficTypeDiagnostic: DB3PR0202MB3466:
-X-Microsoft-Antispam-PRVS: 
-	<DB3PR0202MB3466B21F36C67D15D4E31398E99D0@DB3PR0202MB3466.eurprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-Forefront-PRVS: 04362AC73B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	LHSAHurVZMQYSpFjs3wWhW6G1s6JPBiWEr1NS5ikvymU5sqkanP9NvLfZHsDb9CTZOAOIMmvvy8iH3JylbSKTLmSu3vWvZufxZDQTy21p1EjONHzEbmAfELOAQ2QN6uIAj9ub1zcaaVkMZ6hHpOymVx7XqRzAuC+OXjGqrfAamUCMqpDO//Hoz6xe3oFz4LvKhJEhDVhrFEC6m36GE4feSnpLMfQV15xI4m/eLQwKN9SPVAmU/SXeP2bL/EDNVTz3zZwAJncLv258Ma5PCmB7Qo7qkfumGF6SHFXg8tgtXt+uhqmzg425SS+VJdSIxZ+1R8Te3tkZH7Q1hpAm7zJ8g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB3PR0202MB3449.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39850400004)(366004)(136003)(376002)(346002)(66476007)(44832011)(66946007)(6666004)(66556008)(5660300002)(86362001)(52116002)(16526019)(2616005)(8676002)(956004)(6512007)(6916009)(4744005)(36756003)(186003)(8886007)(2906002)(6486002)(1076003)(6506007)(26005)(83380400001)(316002)(478600001)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	+I53vSpj7Tv62Vi6/kbGxL2S7DR0MMsl5B6blX82KLNw/YCo70L/8P3fHB9qrVw17YtlRUO0ZqgH1Xu4r4wwi/OJhL1qBiaCPNKn2WyFPprQHu/oMck3aYo+1QkthP5BpeFchDFQ655/MIGcyldBY7ulSmfLeI8E4AbZgrsKYMoKhh7Iip8G5esP4c+vH5jpTuiC0dSW+y5sW26N9J//1ZzVkC9UeG41Vc5/sRZ0bKDrWXeSdI6kkhee1nc0XayOeTqRl/LWdv52SumpRtmjiE4O1jbKNcmUJjKAkquSWMJLThuJQrapMfJJY0KDHe5jtGfxN//pPOfMsu2bdjbaxGQdxC73TRVc2QQRJTjzor+NJII9NOx/gFFK8uP37TrjCfihHbeNHrJ3iGVnmXysSukwVOBMhAtoL776vcKTH8RY3QNBAde8gufAlttWqj2NcTWbr7RUsge8cMnOSztB+YxAhHRCEz/JfxHHbw8WKMA=
-X-OriginatorOrg: qt.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76e57fad-b495-4d67-4831-08d811feb206
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 14:08:08.1155
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 20d0b167-794d-448a-9d01-aaeccc1124ac
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MJHJFg+eqk2O+sQwOp4Fwar6CaxumMoz2ETdbe6FiE1kOFOvcqfaefT3hRYjT5sUGBQ38+agZ5jYVFwGUXO8QA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3466
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use path from CMAKE_CURRENT_LIST_FILE to load the cmake subscripts.
-This allows the toolchain file to be chainloaded from another toolchain fil=
-e.
+On Mon, 2020-06-15 at 16:01 -0600, Dan McGregor wrote:
+> From: Dan McGregor <danismostlikely@gmail.com>
+> 
+> From: Daniel McGregor <daniel.mcgregor@vecima.com>
+> 
+> This varialbe is set to help python3 running inside the build
+> environment. Unset it so that devtool can fetch recipes that inherit
+> python3native.
+> 
+> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> ---
+>  meta/classes/devtool-source.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/classes/devtool-source.bbclass
+> b/meta/classes/devtool-source.bbclass
+> index 280d6009f3..4032e59b0c 100644
+> --- a/meta/classes/devtool-source.bbclass
+> +++ b/meta/classes/devtool-source.bbclass
+> @@ -46,6 +46,9 @@ python() {
+>      d.setVar('STAMPS_DIR', os.path.join(tempdir, 'stamps'))
+>      d.setVar('T', os.path.join(tempdir, 'temp'))
+>  
+> +    if bb.data.inherits_class('python3native', d):
+> +        d.setVarFlag('_PYTHON_SYSCONFIGDATA_NAME', 'export', 0)
+> +
+>      # Hook in pre/postfuncs
+>      is_kernel_yocto = bb.data.inherits_class('kernel-yocto', d)
+>      if is_kernel_yocto:
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+No. We're seeing requests to add code like this all over the place in
+the system and its not the right thing to do. We need to fix devtool so
+that its setting PATH correctly when executing bitbake. This just works
+around the problem.
 
-diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/me=
-ta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-index 398069eef2..8f6f3a272d 100644
---- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-+++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-@@ -19,7 +19,7 @@ if ($ENV{SDKTARGETSYSROOT} MATCHES "/sysroots/([a-zA-Z0-9=
-_-]+)-.+-.+")
- endif()
-=20
- # Include the toolchain configuration subscripts
--file( GLOB toolchain_config_files "${CMAKE_TOOLCHAIN_FILE}.d/*.cmake" )
-+file( GLOB toolchain_config_files "${CMAKE_CURRENT_LIST_FILE}.d/*.cmake" )
- foreach(config ${toolchain_config_files})
-     include(${config})
- endforeach()
---=20
-2.25.1
+Cheers,
+
+Richard
 
