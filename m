@@ -1,74 +1,148 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.622.1592338333269861022
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web12.1390.1592340458400304811
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 13:12:13 -0700
+ Tue, 16 Jun 2020 13:47:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=POHYAqzW;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: sakoman@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id f185so4382672wmf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 13:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WOJcto3WXMew0UbDeC63zgXcliDXiGiwiK84TXXBx7Y=;
-        b=POHYAqzWxhqJ6yGqcnP/C405Y743QbYJ938c7cIR4NZTeGSOgOYJd8Debznj1eqbcQ
-         opClrLqiG0muzCYvQwbjQOxZ+Zn7xStOalTWVqbRocBQG2h8bhuwiuHU5fcoqpmcrew0
-         Akc6bDlhD4C1ZX1ENlb3/DC3hJY62uwAtE6ZtWoP5HKWQZli90ml+1aEt1hp5r03ue9k
-         /bDlBdh6FTWFAugNLZCygmAWIiHRtsddVFqSwa+mItZUGYBCVKOnz5Q63OVPAcUbURNH
-         fpnWf84HYK5QkewG9Z+cicZDcoQ/gfQ0Dp7AG6XG/6B34wLqZhhq2+2eQ5ijgMRVnnZ1
-         jE7g==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id n11so20639997qkn.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 13:47:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WOJcto3WXMew0UbDeC63zgXcliDXiGiwiK84TXXBx7Y=;
-        b=FCkL1hDnr1Z6EsFeudcLiCY8YbYLnhaGgiHIpyTvA1OlozCwtQtG25BZvtnknUq52v
-         eQ4tC0CGnYz7GTljIfS8KJM5eQQ/07La4ZuSM2Wv+Z++KzMxyZzK1YOdXENidVm7m2dk
-         rtSsRwXjPHP2WD96lZDqRWknUe+/JH9QXeJNobToD2ad6v8beXUAIUAklyEkANd9tCSm
-         hsr9b6+SFxdaYt+DJYDxaQ9xDRWtbOA+q58SZm+gGlPmLsbRtvgtYo8MhlevOVzyR4/y
-         tMlXd2cVTMr3/+mBJqm4+9yhBPbhRd7zywob1yd0oyCekVITblmSNiQoPjHMfoASJuKG
-         BA8g==
-X-Gm-Message-State: AOAM532llJGWY5qvbHfG4tZzwiJwAmADiQRWHT5iurZLFoYLF9BuZped
-	jJKwY/73cA1EHjP/5CPXgKgf+pr5QNW8bmEQGoQ=
-X-Google-Smtp-Source: ABdhPJwokqwzFbgkAm9jkq2yBnvUStDPDgEEyAC3HNrsRDa6Fg3arYUxZOMU4/RzMcOxM8J/+YAoImYZlU8g+0YRYEw=
-X-Received: by 2002:a7b:c0cc:: with SMTP id s12mr5051701wmh.111.1592338331576;
- Tue, 16 Jun 2020 13:12:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :organization:content-transfer-encoding;
+        bh=Bh6LJLI+IRanyE2VGk48Apvru6RQSPDSy3xKOZYB15g=;
+        b=DJcJXFjEcvFCTRJ1jo3sOKmwaaWCKSxYwTWOYt986LB4G+AEq7U2BhYwhIDhEDglr6
+         nc+JfuVqp0HNeeMNvHafqH2HkSj6MWYqkGZLyJW4vpd2N36eqm/3sCkdywLNZ71ak/Bp
+         iiTiYf31kWR81HeAmPypopP2JSIflsk5MPkaSZAV2V04xASrPr/ERXlMwsEjAauoQf89
+         WmmnWWCIPy0OlzAKYsJISkxVxyTktjCT2BPqYCfio4YO3ojtzPBKqoL+KL2VQIAuPyIn
+         KXLX5Tol9J3yq6pjul4y+X/N2b+7XTVTmiBkWz0i+pauXOefl2nVVvezvUTPiowf5Eti
+         CbAQ==
+X-Gm-Message-State: AOAM530jK2eI8HmpzHHpjGszNCObD5ZcfbR3hHO+17VO4J1BP0ejKhsM
+	roHm3KGgP5yPMmioifpoT7PJPvvAH9c=
+X-Google-Smtp-Source: ABdhPJx7fTCitcvS0tK1jY7DlVYdN5UTM90gD78qHiuLFp8cv9qitNC0z/J7waxH77yRKpFMWaL6Kg==
+X-Received: by 2002:a05:620a:526:: with SMTP id h6mr21816132qkh.338.1592340457273;
+        Tue, 16 Jun 2020 13:47:37 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([181.220.84.90])
+        by smtp.gmail.com with ESMTPSA id s201sm15757354qka.8.2020.06.16.13.47.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 13:47:36 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio.salvador@gmail.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell-backport PATCH 1/3] mtd-utils: Fix return value of ubiformat
+Date: Tue, 16 Jun 2020 17:47:23 -0300
+Message-Id: <20200616204726.2332101-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <cover.1592249381.git.steve@sakoman.com> <5e33d1d1d655c50a817acda85f2df67c67196daf.1592249381.git.steve@sakoman.com>
- <20200616194912.GH14969@localhost>
-In-Reply-To: <20200616194912.GH14969@localhost>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Tue, 16 Jun 2020 10:11:57 -1000
-Message-ID: <CAGDS+nkDyBwYqbjJtedLRx43wL8yU7ZNStpn1uvvKm-hr1VwRw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 08/21] cairo: Do not try to remove nonexistent directories
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: O.S. Systems Software LTDA.
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 16, 2020 at 9:49 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Mon, Jun 15, 2020 at 09:35:27AM -1000, Steve Sakoman wrote:
-> > From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> >
-> > Commit 0e1f8fa0 (bitbake.conf: propagate 'opengl' DISTRO_FEATURE to
-> > native/nativesdk from target) changed the default PACKAGECONFIG for
-> > native and nativesdk so that it becomes empty unless "x11" is in
-> > DISTRO_FEATURES since "trace" was also removed (propbably
-> > unintentionally). This highlighted than an empty PACKAGECONFIG would
-> > lead to a build failure since /usr/bin is never created under these
-> > conditions, but the recipe still tried to remove it.
-> >...
->
-> Isn't this a fix for a bug that is not in dunfell?
+From: Otavio Salvador <otavio.salvador@gmail.com>
 
-My impression was that while the bitbake.conf change that highlighted
-the issue with an empty PACKAGECONFIG isn't in dunfell, the underlying
-bug that this change uncovered does exist in dunfell.
+This changeset fixes a feature regression in ubiformat.  Older versions
+of ubiformat, when invoked with a flash-image, would return 0 in the
+case no error was encountered.  Upon upgrading to latest, it was
+discovered that ubiformat returned 255 even without encountering an
+error condition.
 
-I realize it's not too likely that another layer would set an empty
-PACKAGECONFIG.  But people often cut and paste from oe-core recipes so
-it's nice not to have known bugs ;-)
+This changeset corrects the above issue and causes ubiformat, when given an
+image file, to return 0 when no errors are detected.
 
-Steve
+Backport fix from 2.1.2
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7ebacd9cbaec98fbc406e8ae99c9805a24fdadc6)
+---
+
+ ...-utils-Fix-return-value-of-ubiformat.patch | 62 +++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb    |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+new file mode 100644
+index 0000000000..d43f7e1a7a
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+@@ -0,0 +1,62 @@
++From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
++From: Barry Grussling <barry@grussling.com>
++Date: Sun, 12 Jan 2020 12:33:32 -0800
++Subject: [PATCH] mtd-utils: Fix return value of ubiformat
++Organization: O.S. Systems Software LTDA.
++
++This changeset fixes a feature regression in ubiformat.  Older versions of
++ubiformat, when invoked with a flash-image, would return 0 in the case no error
++was encountered.  Upon upgrading to latest, it was discovered that ubiformat
++returned 255 even without encountering an error condition.
++
++This changeset corrects the above issue and causes ubiformat, when given an
++image file, to return 0 when no errors are detected.
++
++Tested by running through my loading scripts and verifying ubiformat returned
++0.
++
++Upstream-Status: Backport [2.1.2]
++
++Signed-off-by: Barry Grussling <barry@grussling.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ ubi-utils/ubiformat.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
++index a90627c..5377b12 100644
++--- a/ubi-utils/ubiformat.c
+++++ b/ubi-utils/ubiformat.c
++@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	struct ubi_vtbl_record *vtbl;
++ 	int eb1 = -1, eb2 = -1;
++ 	long long ec1 = -1, ec2 = -1;
+++	int ret = -1;
++ 
++ 	write_size = UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
++ 	write_size /= mtd->subpage_size;
++@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	if (!args.quiet && !args.verbose)
++ 		printf("\n");
++ 
++-	if (novtbl)
+++	if (novtbl) {
+++		ret = 0;
++ 		goto out_free;
+++	}
++ 
++ 	if (eb1 == -1 || eb2 == -1) {
++ 		errmsg("no eraseblocks for volume table");
++@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 
++ out_free:
++ 	free(hdr);
++-	return -1;
+++	return ret;
++ }
++ 
++ int main(int argc, char * const argv[])
++-- 
++2.27.0
++
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 810fe40f4e..d1658a739b 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -15,6 +15,7 @@ PV = "2.1.1"
+ SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
++           file://0001-mtd-utils-Fix-return-value-of-ubiformat.patch \
+ "
+ 
+ S = "${WORKDIR}/git/"
+-- 
+2.27.0
+
