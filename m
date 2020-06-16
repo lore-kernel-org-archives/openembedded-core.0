@@ -1,165 +1,115 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web10.6098.1592295705596875026
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.6930.1592300159224365587
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 01:21:45 -0700
+ Tue, 16 Jun 2020 02:35:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: EbUE1D8HXvZ2w0VBHWPjD5mCkf5QJ7k29NZ5kN4u9RRDwPWwPzMJMY4/vgHGbhzmdfY6FoSh9r
- iIcbxwnG6pMQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 01:21:44 -0700
-IronPort-SDR: ODRFe2zSwMWMaKa1O8GySFg0A+MAN4Q2TeiErhfcyoj7FVnNmoiZrV6j8Nie3ilpFYiqzwc/lT
- mZ4vs6R81VYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
-   d="scan'208";a="298820918"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2020 01:21:43 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=UVMNkytx;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.65, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f65.google.com with SMTP id c3so19970340wru.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 02:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mcgIRC/HNEe7lsJz7pmd0y1EIPpQzDpH6gefT3g5c7Q=;
+        b=UVMNkytxMIZ410EErfMmUFKHJcLJ4Ygs36G1XgmWRzmTBZ1R+vaOnR64WJcOWVpCgI
+         LkoJfqNr6ScrMsuozQlZR3mmb4OK7+GlXSoCsd7i8ZtReEW4rcoeciavMWavCZnFuP+M
+         Ni7gGvs3fiu1LWMPMduf7NezLqoO2vhd+Q3/FJ02GlnPuF7zoAqr7jDyhuDIvCzlFfm6
+         WgY1r4WyPoCKeItqXU2RJeOpepAXP32XA/9NoR42BCCm08f7Vpymv8GpY+PtwoG6dLOL
+         fXeQpeCOjC5bAWirR+7z/TrBZKSXeJzKxEjbkHC1Zmw8Y8pz3MxWCVH2WDfclaX/dNmX
+         SA+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mcgIRC/HNEe7lsJz7pmd0y1EIPpQzDpH6gefT3g5c7Q=;
+        b=SxAkzUaLpC+uRLe9u7MBOcnBQ78v+HgISXKc1bitww6W/UDaqxjKd9QhipEzqbbb9G
+         FxtVE97L1t6jp/E5J+wM2loQ9V2bFaxZ/P6g2HmdOW3507/atyyzoKVRAnq5hsCOaglS
+         6okCMaghEOUNz4/Q52uqUvJn7R184gQeWud1g46nEWoFsMVkhu+1Ms3viBLuO5TVKdln
+         fJpMnb1tfSK+jde+aJCVUZF8GmV1HLYwkLKZlcJVCfaMxqyGFJFhRKbXtyfdpaHpLW5V
+         HW4MgCMDr9RAyM7ClQI2InHMPf72TGX4oBzUZxwWemdWl55Msu+217yB/lMhLWd/XfsG
+         n4Pg==
+X-Gm-Message-State: AOAM531XWPWiktPSlCPbeZh+ok0WQdg99mOPDFo50GIqSx/nN1HyuFIM
+	+JT4EFXmaTr3Ov6OcS9jTimlQMCYdTzPcqVq
+X-Google-Smtp-Source: ABdhPJxYJADP+RENmVtfWhy/RUF6UyOA1sTS+zsKA2W4cT2xDH3DFswqnC4wMvLhwpwJ207KqhmL3Q==
+X-Received: by 2002:adf:a51a:: with SMTP id i26mr2045786wrb.406.1592300157151;
+        Tue, 16 Jun 2020 02:35:57 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
+        by smtp.gmail.com with ESMTPSA id s8sm28086771wrm.96.2020.06.16.02.35.56
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jun 2020 02:35:56 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus] qemu: fix CVE-2020-10702 & CVE-2020-13765
-Date: Tue, 16 Jun 2020 16:21:42 +0800
-Message-Id: <1592295702-50292-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] common-licenses: add BSD-2-Clause-Patent
+Date: Tue, 16 Jun 2020 10:35:54 +0100
+Message-Id: <20200616093554.20162-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |  2 +
- .../qemu/qemu/CVE-2020-10702.patch                 | 52 ++++++++++++++++++++++
- .../qemu/qemu/CVE-2020-13765.patch                 | 48 ++++++++++++++++++++
- 3 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+ .../common-licenses/BSD-2-Clause-Patent.txt   | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 meta/files/common-licenses/BSD-2-Clause-Patent.txt
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 4e5ea17..5cdba1f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -37,6 +37,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-7039-3.patch \
- 	   file://CVE-2020-7211.patch \
- 	   file://CVE-2020-11869.patch \
-+           file://CVE-2020-13765.patch \
-+           file://CVE-2020-10702.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent.txt
 new file mode 100644
-index 0000000..21a3ceb
+index 0000000000..1184c02957
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
-@@ -0,0 +1,52 @@
-+From de0b1bae6461f67243282555475f88b2384a1eb9 Mon Sep 17 00:00:00 2001
-+From: Vincent Dehors <vincent.dehors@smile.fr>
-+Date: Thu, 23 Jan 2020 15:22:38 +0000
-+Subject: [PATCH] target/arm: Fix PAuth sbox functions
++++ b/meta/files/common-licenses/BSD-2-Clause-Patent.txt
+@@ -0,0 +1,47 @@
++Copyright (c) <YEAR> <COPYRIGHT HOLDERS>
 +
-+In the PAC computation, sbox was applied over wrong bits.
-+As this is a 4-bit sbox, bit index should be incremented by 4 instead of 16.
++Redistribution and use in source and binary forms, with or without modification,
++are permitted provided that the following conditions are met:
 +
-+Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf) was
-+used to verify one computation of the pauth_computepac() function which
-+uses sbox2.
++1. Redistributions of source code must retain the above copyright notice,
++this list of conditions and the following disclaimer.
 +
-+Launchpad: https://bugs.launchpad.net/bugs/1859713
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-+Signed-off-by: Vincent DEHORS <vincent.dehors@smile.fr>
-+Signed-off-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
-+Message-id: 20200116230809.19078-2-richard.henderson@linaro.org
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++2. Redistributions in binary form must reproduce the above copyright notice,
++this list of conditions and the following disclaimer in the documentation
++and/or other materials provided with the distribution.
 +
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=de0b1bae6461f67243282555475f88b2384a1eb9] 
-+CVE: CVE-2020-10702
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ target/arm/pauth_helper.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++Subject to the terms and conditions of this license, each copyright holder
++and contributor hereby grants to those receiving rights under this license
++a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++(except for failure to satisfy the conditions of this license) patent license
++to make, have made, use, offer to sell, sell, import, and otherwise transfer
++this software, where such license applies only to those patent claims, already
++acquired or hereafter acquired, licensable by such copyright holder or contributor
++that are necessarily infringed by:
 +
-+diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-+index d3194f2..0a5f41e 100644
-+--- a/target/arm/pauth_helper.c
-++++ b/target/arm/pauth_helper.c
-+@@ -89,7 +89,7 @@ static uint64_t pac_sub(uint64_t i)
-+     uint64_t o = 0;
-+     int b;
-+ 
-+-    for (b = 0; b < 64; b += 16) {
-++    for (b = 0; b < 64; b += 4) {
-+         o |= (uint64_t)sub[(i >> b) & 0xf] << b;
-+     }
-+     return o;
-+@@ -104,7 +104,7 @@ static uint64_t pac_inv_sub(uint64_t i)
-+     uint64_t o = 0;
-+     int b;
-+ 
-+-    for (b = 0; b < 64; b += 16) {
-++    for (b = 0; b < 64; b += 4) {
-+         o |= (uint64_t)inv_sub[(i >> b) & 0xf] << b;
-+     }
-+     return o;
-+-- 
-+1.8.3.1
++(a) their Contribution(s) (the licensed copyrights of copyright holders and
++non-copyrightable additions of contributors, in source or binary form) alone;
++or
 +
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
-new file mode 100644
-index 0000000..9014ba0
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
-@@ -0,0 +1,48 @@
-+From e423455c4f23a1a828901c78fe6d03b7dde79319 Mon Sep 17 00:00:00 2001
-+From: Thomas Huth <thuth@redhat.com>
-+Date: Wed, 25 Sep 2019 14:16:43 +0200
-+Subject: [PATCH] hw/core/loader: Fix possible crash in rom_copy()
++(b) combination of their Contribution(s) with the work of authorship to which
++such Contribution(s) was added by such copyright holder or contributor, if,
++at the time the Contribution is added, such addition causes such combination
++to be necessarily infringed. The patent license shall not apply to any other
++combinations which include the Contribution.
 +
-+Both, "rom->addr" and "addr" are derived from the binary image
-+that can be loaded with the "-kernel" paramer. The code in
-+rom_copy() then calculates:
++Except as expressly stated above, no rights or licenses from any copyright
++holder or contributor is granted under this license, whether expressly, by
++implication, estoppel or otherwise.
 +
-+    d = dest + (rom->addr - addr);
++DISCLAIMER
 +
-+and uses "d" as destination in a memcpy() some lines later. Now with
-+bad kernel images, it is possible that rom->addr is smaller than addr,
-+thus "rom->addr - addr" gets negative and the memcpy() then tries to
-+copy contents from the image to a bad memory location. This could
-+maybe be used to inject code from a kernel image into the QEMU binary,
-+so we better fix it with an additional sanity check here.
-+
-+Cc: qemu-stable@nongnu.org
-+Reported-by: Guangming Liu
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
-+Message-Id: <20190925130331.27825-1-thuth@redhat.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Thomas Huth <thuth@redhat.com>
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=e423455c4f23a1a828901c78fe6d03b7dde79319] 
-+CVE: CVE-2020-13765
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ hw/core/loader.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/core/loader.c b/hw/core/loader.c
-+index 0d60219..5099f27 100644
-+--- a/hw/core/loader.c
-++++ b/hw/core/loader.c
-+@@ -1281,7 +1281,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
-+         if (rom->addr + rom->romsize < addr) {
-+             continue;
-+         }
-+-        if (rom->addr > end) {
-++        if (rom->addr > end || rom->addr < addr) {
-+             break;
-+         }
-+ 
-+-- 
-+1.8.3.1
-+
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
++LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
++SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
++CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- 
-2.7.4
+2.24.3 (Apple Git-128)
 
