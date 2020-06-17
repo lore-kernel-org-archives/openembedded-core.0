@@ -1,71 +1,77 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.3390.1592384311048737571
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+ by mx.groups.io with SMTP id smtpd.web11.3543.1592385174675822494
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 01:58:31 -0700
+ Wed, 17 Jun 2020 02:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: yongxin.liu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05H8wTjR006847
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 01:58:29 -0700 (PDT)
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Wed, 17 Jun 2020
- 01:58:09 -0700
-From: "Yongxin Liu" <yongxin.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] linux-firmware: add ice for Intel E800 series driver
-Date: Wed, 17 Jun 2020 16:55:03 +0800
-Message-ID: <20200617085503.3132-1-yongxin.liu@windriver.com>
-X-Mailer: git-send-email 2.14.4
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=Hascp/eP;
+ spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id F061C5C0298;
+	Wed, 17 Jun 2020 11:12:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1592385171;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+hkUNICTtbWkU15oN7uiLO5Mu2rf2KAGFM77fER5FA=;
+	b=Hascp/ePZo8fzLAEQzzsutwA/Inic9lPwg9DEHwkgbHqc1cFyG0dCPyVwIH7Z0fU1NvTAQ
+	rDTShjOAU8FY3xuGyO3eU4KJ9gXXglWrJebTXOBUD4wRCW8JmYzNsjmEcTLCl4T6TXJxFG
+	cCQZ9b5F+9xUhYU/OckA8aYb/6c895g=
 MIME-Version: 1.0
-Content-Type: text/plain
+Date: Wed, 17 Jun 2020 11:12:50 +0200
+From: "Stefan Agner" <stefan@agner.ch>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Stefan Agner <stefan.agner@toradex.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] busybox: udhcpc: fix IPv6 support when using udhcpc
+In-Reply-To: <20200616095048.im6minhd7qsjc65d@qschulz>
+References: <20180514144415.40730-1-stefan@agner.ch>
+ <20200113145729.amwegnpvnp2kb3ut@qschulz>
+ <20200120123246.o5abx73ehcoqbbim@qschulz>
+ <4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
+ <059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
+ <20200121092341.bgb2elaqey75egjp@qschulz>
+ <CAMKF1spxORPSqDJuD2RWLFNXs8pHZSDQtVgzp+xcb3w2tC3htQ@mail.gmail.com>
+ <20200122100655.eenl3tcnhj4kkcda@qschulz>
+ <20200616095048.im6minhd7qsjc65d@qschulz>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <ff482778962fb62fe8e1612b632e0e67@agner.ch>
+X-Sender: stefan@agner.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On 2020-06-16 11:50, Quentin Schulz wrote:
+> Hi all,
+> 
+> On Wed, Jan 22, 2020 at 11:06:55AM +0100, Quentin Schulz wrote:
+>> > > The reason why I didn't bother to send a patch to busybox before pinging
+>> > > on this patch was that we're already different from the upstream simple.script
+>> > > so it didn't make sense to me to add the Upstream-Status: pending or
+>> > > something on the patch (in some ways, since it's patching the file
+>> > > directly and not adding a patch in SRC_URI). Anyway, digressing. Do you
+>> > > want a patch to be sent to busybox ML (or PR or whatever they use)
+>> > > before taking this patch?
+>> > >
+>> >
+>> > I think the problem this patch fixes is generic and somewhere the
+>> > script OE has is also derived from
+>> > that example, so while the patch in itself is enough for OE, it would
+>> > be better if it was in upstream too
+>> > perhaps one less thing to worry about when we cherry pick changes from
+>> > upstream script in future.
+>> >
+>>
+>> Agreed, I'll put it on my TODO-list. If I do not send an answer on this
+>> mail with the link to the PR or patch in the next week, anyone, please ping me.
+>>
+> 
+> *cough* Took a bit more *cough* than a week *cough*
+> 
+> http://lists.busybox.net/pipermail/busybox/2020-June/088028.html
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-index fcad7df629..18f44bccae 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200519.bb
-@@ -26,6 +26,7 @@ LICENSE = "\
-     & Firmware-i2400m \
-     & Firmware-i915 \
-     & Firmware-ibt_firmware \
-+    & Firmware-ice \
-     & Firmware-it913x \
-     & Firmware-iwlwifi_firmware \
-     & Firmware-IntcSST2 \
-@@ -155,6 +156,7 @@ NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
- NO_GENERIC_LICENSE[Firmware-i2400m] = "LICENCE.i2400m"
- NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
- NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
-+NO_GENERIC_LICENSE[Firmware-ice] = "LICENSE.ice"
- NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
- NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
-@@ -280,6 +282,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
-              ${PN}-ibt-17 \
-              ${PN}-i915-license ${PN}-i915 \
-+             ${PN}-ice-license ${PN}-ice \
-              ${PN}-adsp-sst-license ${PN}-adsp-sst \
-              ${PN}-bnx2-mips \
-              ${PN}-liquidio \
-@@ -828,6 +831,12 @@ FILES_${PN}-i915-license = "${nonarch_base_libdir}/firmware/LICENSE.i915"
- FILES_${PN}-i915         = "${nonarch_base_libdir}/firmware/i915"
- RDEPENDS_${PN}-i915      = "${PN}-i915-license"
- 
-+LICENSE_${PN}-ice       = "Firmware-ice"
-+LICENSE_${PN}-ice-license = "Firmware-ice"
-+FILES_${PN}-ice-license = "${nonarch_base_libdir}/firmware/LICENSE.ice"
-+FILES_${PN}-ice         = "${nonarch_base_libdir}/firmware/intel/ice"
-+RDEPENDS_${PN}-ice      = "${PN}-ice-license"
-+
- FILES_${PN}-adsp-sst-license      = "${nonarch_base_libdir}/firmware/LICENCE.adsp_sst"
- LICENSE_${PN}-adsp-sst            = "Firmware-adsp_sst"
- LICENSE_${PN}-adsp-sst-license    = "Firmware-adsp_sst"
--- 
-2.14.4
+Cool, thx for upstreaming!
 
+--
+Stefan
