@@ -1,59 +1,62 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.960.1592422633046369468
+Received: from esa1.mentor.iphmx.com (esa1.mentor.iphmx.com [68.232.129.153])
+ by mx.groups.io with SMTP id smtpd.web11.2383.1592426889410233174
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 12:37:13 -0700
+ Wed, 17 Jun 2020 13:48:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05HJb9MR018269
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Wed, 17 Jun 2020 12:37:10 -0700 (PDT)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 17 Jun
- 2020 12:37:09 -0700
-Subject: Re: [OE-core] Yocto Project Status WW23'20
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <10c601d63e6c$61797c30$246c7490$@gmail.com>
- <8a0a5043-564f-a64f-a672-e0f78c3a2ad5@windriver.com>
-CC: Sakib Sajal <sakib.sajal@windriver.com>,
-        "Slater, Joseph"
-	<joe.slater@windriver.com>
-Message-ID: <00d45790-b2d1-dcd3-a935-878572f569fa@windriver.com>
-Date: Wed, 17 Jun 2020 15:37:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.129.153, mailfrom: awais_belal@mentor.com)
+IronPort-SDR: Vs2uLIQyl0YWE2BSBYiVPEvKWh0qToggN/47yhAxiuLATJM8aU+fAAP2ml3hL4DCyEebY43inQ
+ TQJKrtfqte9LrSXfkAEPhuES3IkGP+OIt1IHqu6vzIVwel+QL28o0Akn6PgALSZkBadNl1DXNA
+ JDzELGP8ErMYTewlgTAe66ZAAXETRH+pD3X/W641biCreLtjEsXQKrJ02dGEZGAeljiEzeosSp
+ oaKlVOw2RbC2l03Q7thfCwIRLxMIGeI5BAnVtmOBZ9OGrKAZDX34KIL7t6ycN+HiFS6oQML0c4
+ /LU=
+X-IronPort-AV: E=Sophos;i="5.73,523,1583222400"; 
+   d="scan'208";a="52065606"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa1.mentor.iphmx.com with ESMTP; 17 Jun 2020 12:48:08 -0800
+IronPort-SDR: oALvDfwbTsQCnPSwbbyZJcOZTrZR1nGJt5w4e8DbY+b1hQYkUqjvZ1v+Jz6X2grvbp7VC1rtmO
+ P+RviiZG3dRPzW5c+H3HNN+2rFfLfr/zeeMev7wbhEAO6Latqg0I0uHnTrLB80ADDtTZJtmUkP
+ 2NBunS0ah42qJf+cngQuFbAdDQ8J8lfOXDTdxodp2VZ2oWSXAD5gEbND94B3I9sDrhzJWcbAV3
+ kZPFskBGENBp7Ps2ZB7jMUO27mlGtPOWzXtIjUvrJv4KQGPVsUQmxkdX77ToNtTN6ku2YOMNyU
+ fyc=
+From: "Awais Belal" <Awais_Belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] toolchain-shar-relocate.sh: check for environment-setup beforehand
+Date: Thu, 18 Jun 2020 01:47:39 +0500
+Message-ID: <20200617204739.22441-1-awais_belal@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <8a0a5043-564f-a64f-a672-e0f78c3a2ad5@windriver.com>
-X-Originating-IP: [172.25.44.3]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 05HJb9MR018269
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: quoted-printable
+Return-Path: awais_belal@mentor.com
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) To
+ SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
+Content-Type: text/plain
 
-On 2020-06-14 8:32 p.m., Randy MacLeod wrote:
-> On 2020-06-09 10:43 a.m., Stephen Jolley wrote:
->> One which isn=92t and is looking slightly more problematic is the qemu=
-=20
->> upgrade to 5.0.0, help would be welcome there.
->=20
-> Sakib and Joe have worked on upreving qemu.
-> If things go well they'll send the uprev this week.
->=20
-> I wouldn't hold M1 for it.
->=20
+The script runs a 'cat' on the script and if it isn't present in the
+sdk the cat command waits on the std input and hence the installation
+process simply sits there.
 
-We could send the update now since all the oe-core workflows
-that we have run work fine but we did find a WR specific
-test that is failing so we're going to resolve that first.
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/files/toolchain-shar-relocate.sh | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Richard,
-Let us know if the YP AB is bored and you really want to
-test the qemu update today rather than later this week
-or early next week.
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index e3c10018ef..02a05664c6 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -3,6 +3,12 @@ if ! xargs --version > /dev/null 2>&1; then
+ 	exit 1
+ fi
+ 
++# check if we have a valid env-setup script
++if [ ! -f "$env_setup_script" ]; then
++	echo "Main environment-setup file not found. Abort!"
++	exit 1
++fi
++
+ # fix dynamic loader paths in all ELF SDK binaries
+ native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
+ dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+-- 
+2.17.1
 
---=20
-# Randy MacLeod
-# Wind River Linux
