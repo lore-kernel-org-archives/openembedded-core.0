@@ -1,225 +1,95 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.4360.1592388969721558726
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web10.4386.1592388991932813653
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 03:16:10 -0700
+ Wed, 17 Jun 2020 03:16:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K8VVze3A;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id h5so1707626wrc.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 03:16:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WFKKURmY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id s28so1457914edw.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 03:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0Frn4SRNcsrUbXzeJnlCaxOhLrkRf34WtGzl+AhOnww=;
-        b=K8VVze3A1WkraDNhxyPLdnvp9ya5g2Q7MrE0i6sOnUm6p8gE2cXOrjQTVX62tZwRZS
-         TqT59M19HM1ydrgqu/a2Pgoq/ZI+dwNJ4d6wmgxeQVr+9V+n2JrZejIGYmiw3K3nS/Gg
-         yidQGa8wWSA54AcePxyv1CHAWhcao2l+o8jUI=
+        bh=9dW6AHSSfFQre5YryxFn+ru7/jbt1cd/h6Xchz6GrQY=;
+        b=WFKKURmYFbwLi/EjZhOvVtNBveUPgRx1CKnnOB5BzS706kISM8wSDZpFOSzMHAgaia
+         3EdTth63kj3/vu8I3gxfW4ErIHQ6vvmrDZ3NQlm5PpM3QnuErTTeD65GYKEws6V2M3zw
+         7fl8iJVy0IIkZW3dJTOsOMZgvki7Shho6ICZ4kM+mfK83Irovwa5lhNeb3V7Uo6aNJnA
+         0Y7tHTL7Ux7fPKnmq0rsuTi4xRknLTj9dPM/1/dSetNm1To/X6jfKFEnJ3MLXUVypn+3
+         QIoeHwTFMO41EXCa2ZpVGfl/B8iZg32mETnFrw84suzGUrfXQpaF8n2IpxK/e478RUe/
+         14Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0Frn4SRNcsrUbXzeJnlCaxOhLrkRf34WtGzl+AhOnww=;
-        b=I1vwKiYjee7wh7NhMcRQZEZ/86au0cPb6ZoapKGsVFXZYBxlEBYNa7OdCYS9MeKRp3
-         8m7sb4OmUu1U/2t0W+8otCpbJm3oiWKi27sqR3mpZAYAyV0lsWrQm/fIB7MHiv4nNzlp
-         mxm4NyV21H7NDQlPCOYj6T0yxk46daFXTTSLYTyY1nSSlyV3PyR/QaIwshlvIWbEyA9P
-         sAmSUUvQ6+R0gSfc4i7jz3CztaNSUk8SciFvUusX0TPz/44LotverVGgFAB6FnkVJRq8
-         vxgR3UoakbRg/nqawjuRH/xX1jTZMEiP4Q/IjeFqQM92WNHMH8N60o7bcneLAlDELYYx
-         i0bw==
-X-Gm-Message-State: AOAM533KehNzwLhW/xmp6NrQImwL++10f3ZsyvipoZXp1FWsLx2lR8c6
-	iWKDVeFrVcBCOy8dQ/t0m3bnAcP2PR96fA==
-X-Google-Smtp-Source: ABdhPJwwkoXCIoqoOGmYJorlaQxJ/dLhlWSck4i44KjiRXSRHRsnYcWZrznP6d7Q0OjYzDPXLLx1+Q==
-X-Received: by 2002:a5d:4488:: with SMTP id j8mr7491526wrq.242.1592388967428;
-        Wed, 17 Jun 2020 03:16:07 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id o10sm32340300wrj.37.2020.06.17.03.16.06
-        for <openembedded-core@lists.openembedded.org>
+        bh=9dW6AHSSfFQre5YryxFn+ru7/jbt1cd/h6Xchz6GrQY=;
+        b=sD7lcqONMZwChJCb4BgnfEv2BIlLdiaKuH14WZ/4T/Dc+iNGIILm1WaUkhL/GiX9n2
+         n9tIWBHMLwvbzmbupT0WBgJE2ri/8APGf/fNrP3dmCthj7nqydNTA2ML2I01ST3/wvpf
+         jkfBLj5HtzAzCKVqSfSgGEioHGHDqEW5v/tX2uEqxqnLsCwynRuVGisdHTUMCtuJ2pMR
+         INFjs6rw0m4HzfiSU2XoBaY/EGgrWJjX08BNI5X+ndD+TZCUPd0PDG1E47KCdE+/uBNz
+         z8knRi5eIRCPG3fOJSxHcS2AyUGUeBMMx2mlv4sPFk8VyMjUzWBmzjuEePtajEh3LyQq
+         RRMQ==
+X-Gm-Message-State: AOAM5334wt1sq5+ITAoAds1P+OAq9W3tH0O2QswIi8thrhiTo8wVvIre
+	bDfqGnD3BnD0YRQ9C/0j10Y6UNhIVqE=
+X-Google-Smtp-Source: ABdhPJxWcIJRb6hM1dK3NeIgVltzq8+w6yXTdXL9AYu93dvgczK8f+IxhjVqaBhbusSP8+KjPDLu+g==
+X-Received: by 2002:a50:e1c5:: with SMTP id m5mr6596505edl.47.1592388990108;
+        Wed, 17 Jun 2020 03:16:30 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
+        by smtp.gmail.com with ESMTPSA id q12sm13031985ejn.23.2020.06.17.03.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 03:16:06 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Wed, 17 Jun 2020 03:16:29 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] patchelf: Upgrade 0.10 -> 0.11
-Date: Wed, 17 Jun 2020 11:16:05 +0100
-Message-Id: <20200617101605.406388-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] apr-util: make gdbm optional
+Date: Wed, 17 Jun 2020 12:15:51 +0200
+Message-Id: <20200617101552.23867-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two patches were merged upstream, the other needed refreshing.
+This helps with gpl3-free builds.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../patchelf/fix-adjusting-startPage.patch    | 45 -------------------
- .../patchelf/patchelf/fix-phdrs.patch         | 37 ---------------
- .../patchelf/handle-read-only-files.patch     | 18 ++++----
- .../{patchelf_0.10.bb => patchelf_0.11.bb}    |  4 +-
- 4 files changed, 11 insertions(+), 93 deletions(-)
- delete mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
- delete mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
- rename meta/recipes-devtools/patchelf/{patchelf_0.10.bb => patchelf_0.11.bb} (73%)
+ meta/recipes-support/apr/apr-util_1.6.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch b/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
-deleted file mode 100644
-index a0988423fee..00000000000
---- a/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 1630d3f846c7721b1e7cd3b005bb2b34816e1d0f Mon Sep 17 00:00:00 2001
--From: Ed Bartosh <ed.bartosh@linux.intel.com>
--Date: Fri, 21 Jul 2017 12:33:53 +0300
--Subject: [PATCH] patchelf: fix segfault for binaries linked by gold
--
--commit 1cc234fea5600190d872329aca60e2365cefc39e
--
--fix adjusting startPage
--
--startPage is adjusted unconditionally for all executables.
--This results in incorrect addresses assigned to INTERP and LOAD
--program headers, which breaks patched executable.
--
--Adjusting startPage variable only when startOffset > startPage
--should fix this.
--
--This change is related to the issue NixOS#10
--
--Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
--
--Github PR: https://github.com/NixOS/patchelf/pull/127
--
--Upstream-Status: Submitted
--
-----
-- src/patchelf.cc | 6 ++----
-- 1 file changed, 2 insertions(+), 4 deletions(-)
--
--diff --git a/src/patchelf.cc b/src/patchelf.cc
--index a63e3a11c61f..2483d25d78f1 100644
----- a/src/patchelf.cc
--+++ b/src/patchelf.cc
--@@ -756,10 +756,8 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsLibrary()
--        since DYN executables tend to start at virtual address 0, so
--        rewriteSectionsExecutable() won't work because it doesn't have
--        any virtual address space to grow downwards into. */
---    if (isExecutable) {
---        if (startOffset >= startPage) {
---            debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
---        }
--+    if (isExecutable && startOffset > startPage) {
--+        debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
--         startPage = startOffset;
--     }
-- 
-diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch b/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
-deleted file mode 100644
-index d087bd7855c..00000000000
---- a/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--When running patchelf on some existing patchelf'd binaries to change to longer 
--RPATHS, ldd would report the binaries as invalid. The output of objdump -x on 
--those libraryies should show the top of the .dynamic section is getting trashed,
--something like:
--
--0x600000001 0x0000000000429000
--0x335000 0x0000000000335000
--0xc740 0x000000000000c740
--0x1000 0x0000000000009098
--SONAME libglib-2.0.so.0
--
--(which should be RPATH and DT_NEEDED entries)
--
--This was tracked down to the code which injects the PT_LOAD section.
--
--The issue is that if the program headers were previously relocated to the end 
--of the file which was how patchelf operated previously, the relocation code 
--wouldn't work properly on a second run as it now assumes they're located after 
--the elf header. This change forces them back to immediately follow the elf
--header which is where the code has made space for them.
--
--Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/202]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--RP 2020/6/2
--
--Index: git/src/patchelf.cc
--===================================================================
----- git.orig/src/patchelf.cc
--+++ git/src/patchelf.cc
--@@ -762,6 +762,7 @@ void ElfFile<ElfFileParamNames>::rewrite
--     }
-- 
--     /* Add a segment that maps the replaced sections into memory. */
--+    wri(hdr->e_phoff, sizeof(Elf_Ehdr));
--     phdrs.resize(rdi(hdr->e_phnum) + 1);
--     wri(hdr->e_phnum, rdi(hdr->e_phnum) + 1);
--     Elf_Phdr & phdr = phdrs[rdi(hdr->e_phnum) - 1];
-diff --git a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch b/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
-index 03b0d18a89f..bf721c1af86 100644
---- a/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
-+++ b/meta/recipes-devtools/patchelf/patchelf/handle-read-only-files.patch
-@@ -14,30 +14,32 @@ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-  src/patchelf.cc | 16 +++++++++++++++-
-  1 file changed, 15 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 3896c924f0..0dd8f025e8 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Apache Portable Runtime (APR) companion library"
+ HOMEPAGE = "http://apr.apache.org/"
+ SECTION = "libs"
+-DEPENDS = "apr expat gdbm"
++DEPENDS = "apr expat"
  
--diff --git a/src/patchelf.cc b/src/patchelf.cc
--index 0b4965adff83..b5db2aef0e8a 100644
----- a/src/patchelf.cc
--+++ b/src/patchelf.cc
--@@ -497,7 +497,17 @@ void ElfFile<ElfFileParamNames>::sortShdrs()
-+Index: git/src/patchelf.cc
-+===================================================================
-+--- git.orig/src/patchelf.cc
-++++ git/src/patchelf.cc
-+@@ -499,9 +499,19 @@ void ElfFile<ElfFileParamNames>::sortShd
-  
-  static void writeFile(std::string fileName, FileContents contents)
-  {
---    int fd = open(fileName.c_str(), O_TRUNC | O_WRONLY);
- +    struct stat st;
- +    int fd;
- +
-+     debug("writing %s\n", fileName.c_str());
-+ 
-+-    int fd = open(fileName.c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0777);
- +    if (stat(fileName.c_str(), &st) != 0)
- +        error("stat");
- +
- +    if (chmod(fileName.c_str(), 0600) != 0)
- +        error("chmod");
- +
--+    fd = open(fileName.c_str(), O_TRUNC | O_WRONLY);
-++    fd = open(fileName.c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0777);
- +
-      if (fd == -1)
-          error("open");
-  
--@@ -511,6 +521,10 @@ static void writeFile(std::string fileName, FileContents contents)
-+@@ -515,6 +525,10 @@ static void writeFile(std::string fileNa
-  
-      if (close(fd) != 0)
-          error("close");
-diff --git a/meta/recipes-devtools/patchelf/patchelf_0.10.bb b/meta/recipes-devtools/patchelf/patchelf_0.11.bb
-similarity index 73%
-rename from meta/recipes-devtools/patchelf/patchelf_0.10.bb
-rename to meta/recipes-devtools/patchelf/patchelf_0.11.bb
-index 84e640773b2..ba7ad404e93 100644
---- a/meta/recipes-devtools/patchelf/patchelf_0.10.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_0.11.bb
-@@ -1,13 +1,11 @@
- SRC_URI = "git://github.com/NixOS/patchelf;protocol=https \
-            file://handle-read-only-files.patch \
--           file://fix-adjusting-startPage.patch \
--           file://fix-phdrs.patch \
-            "
+ BBCLASSEXTEND = "native nativesdk"
  
- LICENSE = "GPLv3"
- SUMMARY = "Tool to allow editing of RPATH and interpreter fields in ELF binaries"
+@@ -23,7 +23,6 @@ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--without-odbc \
+ 		--without-pgsql \
+ 		--with-dbm=gdbm \
+-		--with-gdbm=${STAGING_DIR_HOST}${prefix} \
+ 		--without-sqlite2 \
+ 		--with-expat=${STAGING_DIR_HOST}${prefix}"
  
--SRCREV = "e1e39f3639e39360ceebb2f7ed533cede4623070"
-+SRCREV = "d6b2a72d9ec3bdfde4b1aacdada823ce388968bb"
+@@ -66,10 +65,11 @@ do_install_append_class-target() {
+ 	       -e 's,APU_BUILD_DIR=.*,APR_BUILD_DIR=,g' ${D}${bindir}/apu-1-config
+ }
  
- S = "${WORKDIR}/git"
+-PACKAGECONFIG ??= "crypto"
++PACKAGECONFIG ??= "crypto gdbm"
+ PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
+ PACKAGECONFIG[crypto] = "--with-openssl=${STAGING_DIR_HOST}${prefix} --with-crypto,--without-crypto,openssl"
+ PACKAGECONFIG[sqlite3] = "--with-sqlite3=${STAGING_DIR_HOST}${prefix},--without-sqlite3,sqlite3"
++PACKAGECONFIG[gdbm] = "--with-gdbm=${STAGING_DIR_HOST}${prefix},--without-gdbm,gdbm"
  
+ #files ${libdir}/apr-util-1/*.so are not symlinks but loadable modules thus they are packaged in ${PN}
+ FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS} ${libdir}/apr-util-1/apr*${SOLIBSDEV}"
 -- 
-2.25.1
+2.27.0
 
