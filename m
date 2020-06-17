@@ -1,114 +1,127 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web12.4325.1592388992578592671
- for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 03:16:32 -0700
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
+ by mx.groups.io with SMTP id smtpd.web10.4649.1592390132000780217
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 17 Jun 2020 03:35:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QHP0vxFu;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id l27so1733296ejc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 03:16:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fnJjuzTZ;
+ spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f67.google.com with SMTP id k13so1055049vsm.13
+        for <Openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 03:35:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+lFNRB1ncq3KPyUmNNFUiJ6KzVfV0I2F6LBLmINpHDU=;
-        b=QHP0vxFunObICv74SrVpLnuIFtuPsJLdjl3gvNOdi/3JLNG2YAGku2xPdOhUXlheca
-         EsQVPKITwUVgB4jmmDPr8haZ145LvTrtOTsQeO03264WqVPjC393RZpOOootxOxy7QUd
-         19XqnWPzhOl93KoQFU+DziC6/I2eLmalUBHiCfvqw0AzG+JzF+dzofus2WC3FwQRhOnf
-         5sBeL9RZsK9fukHBi4ldjnJOXiXavd5ubt35/yejfy2tJ1smu3a65/9EsgJdADrQa+vb
-         9CKUin7r/IK5P4+I5xePsp7QpqHlJZ5LYER7WATCRPJN0vJBnXwAFcpWqEtD1lvycvY0
-         U18A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FhKCcfMvoHtt6/RIepuOgBb0kRjsWYku++F8Ok/gdDE=;
+        b=fnJjuzTZ8QGTBTHj/4bNfsyOx2+5MGNSXMgJTbFXwwj/qZgCe6OJcaKV+T1jqvOgqp
+         lCEfhbasZUOwBE7YgE9JpeFmBVBIc0F5LFX42+mqOT2WGkUg1fNddyvpIGMNe3vA/uE/
+         hHdRorBVChTKcHuIsSdg011McHtCvY7uJCxws9MQD3yT801yCz0u5zRA/cKvsGS7U0fh
+         sCy6QYmRVq7Ixl4dtaGKUv8/hOBxG7J3AhlSh49k/VzVWkAem2KZbxXBmAv9kvgN4g48
+         yirxrlMPdlsvy53cvCyisU/PcXFIe2+c04DGFj9Hq0M60qhyrBVxins3Wak9DBEcOzp2
+         2h1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+lFNRB1ncq3KPyUmNNFUiJ6KzVfV0I2F6LBLmINpHDU=;
-        b=hjS92CupHmsv8LGZuhwrkBcQtnuM+j7Ad6Fhdd86xTJctbA5mP05w4MUVspOVKwGhw
-         TwnKdKCd27SiEB/MYgVKkO2vDoS5HoGrhceEvhBy/oyOPi70Il8f/tjm0/hpjulIvMr0
-         rB/heTkafRiro4okt/1lWCx1HaufvtbdfdadiLAnLm+5k+MHQYsTxWPurvcunY73fBcR
-         yUnkuQ4q88/uYCTgKY/7J74GKeDMiWd3LcwD68RZvjYZMyp8OP4c0laQDREIMDO2O7Zj
-         Xrn61Mfhmc3MQnG5aZQ5/woFGEwLC5CpP2XU80cC/rn/QZvBC+rCvaqbZZI5/0XIsMAY
-         V2qw==
-X-Gm-Message-State: AOAM532ssRxq5/YOwIXIR+NljVFqC372XBC/zdeun87lfNUr2pee5RkU
-	m6HW08NxoTGiPexX/UFLjMChxY7jkPk=
-X-Google-Smtp-Source: ABdhPJyvMFmpiQWzFEqXHHZPSjUdjwq04vvxpJkD8XE1SSjD4E19Z9f4zHqv6kWfjZUkXm03Gi0nww==
-X-Received: by 2002:a17:907:7014:: with SMTP id wr20mr4974778ejb.251.1592388990906;
-        Wed, 17 Jun 2020 03:16:30 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id q12sm13031985ejn.23.2020.06.17.03.16.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 03:16:30 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] gobject-introspection: add a patch to fix a build race
-Date: Wed, 17 Jun 2020 12:15:52 +0200
-Message-Id: <20200617101552.23867-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200617101552.23867-1-alex.kanavin@gmail.com>
-References: <20200617101552.23867-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FhKCcfMvoHtt6/RIepuOgBb0kRjsWYku++F8Ok/gdDE=;
+        b=L7+oKWIOcEZbNvEwUZRY80W/iE68AGlFDZjvCxocDelMet7NdGanUMyb/J7GqCMhg2
+         oHjylYIKO3OZxUcJ2OKiX2dQ9YxF4J82izCe+3rhDL/SAgPPXPBX016ELDW9f1mopP0t
+         Ztpx8KSI57JQdpppXWUuUUWVEoIFhjqftf6UcbDKAZdN3SqlpDhd4DxHupqE1oKwArmo
+         BvR6hnphmPsQAxQ7zszgkiG0B0b8BkgjJxpufMRKMWNj7gAYeqSalUNyUyzczMbvFLNF
+         5KCgOi/aMLu5Wce3TNm1MxUCDO+/7Se5Vi2gu1IivHv4ZAGg9O8yxZeOXSBxFt2ChPBu
+         M1wA==
+X-Gm-Message-State: AOAM530uKPwCbrpseh8eS++tq0MOfLrcRruCwRUH8wJ/fUcICKoVcCN3
+	le4h1BqZWw37bA684o4Ru10MPmMRgOn26DxnPfY=
+X-Google-Smtp-Source: ABdhPJyD0nALmCuwGAxUCJGjeNVt25r452poJ+6U7QJhE/Vk0ss1Lf0llEypU62wwGS0wJAOn8FRYkXDxJiFVZz3ih8=
+X-Received: by 2002:a67:8c09:: with SMTP id o9mr5447476vsd.23.1592390131213;
+ Wed, 17 Jun 2020 03:35:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200610143520.2727827-1-uvv.mail@gmail.com> <6dd0de0be72028b355cd759e40fee22c9d24ca7b.camel@linuxfoundation.org>
+ <b10c95a7-5d8b-d922-ad40-6d97cceb9c85@gmail.com> <14618585.ZI4Hmrvx6b@tyche> <af72cd9c-2ce8-a2d8-e6d2-89028f576294@gmail.com>
+In-Reply-To: <af72cd9c-2ce8-a2d8-e6d2-89028f576294@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 17 Jun 2020 12:35:19 +0200
+Message-ID: <CANNYZj_i8WN1hto1ncZVPu0Ef1Gy7O+=TmzCU3BcFdOeRn4wMQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <Openembedded-core@lists.openembedded.org>, tmark@isc.org, 
+	Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Content-Type: multipart/alternative; boundary="0000000000001d692005a84538a7"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...ency-for-g-ir-compiler-for-building-.patch | 33 +++++++++++++++++++
- .../gobject-introspection_1.64.1.bb           |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
+--0000000000001d692005a84538a7
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
-new file mode 100644
-index 0000000000..adb357b5ec
---- /dev/null
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
-@@ -0,0 +1,33 @@
-+From 56ba5656258b82dbc069ab3a61e597c931a16a83 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 17 Jun 2020 11:43:16 +0200
-+Subject: [PATCH] gir: add a dependency for g-ir-compiler for building .girs
-+
-+meson inserts the dependency if the compiler is used directly, but
-+fails to do so if the compiler is run through a wrapper. This leads
-+to build race errors between building the compiler and using it.
-+
-+Fix provided by Quentin Schulz <quentin.schulz@streamunlimited.com>
-+
-+Upstream-Status: Accepted [https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/228]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gir/meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gir/meson.build b/gir/meson.build
-+index b37fdb81..557e5517 100644
-+--- a/gir/meson.build
-++++ b/gir/meson.build
-+@@ -448,7 +448,7 @@ foreach gir : gir_files
-+   typelibs += custom_target('generate-typelib-@0@'.format(gir).underscorify(),
-+     input: gir,
-+     output: '@BASENAME@.typelib',
-+-    depends: [gobject_gir, ],
-++    depends: [gobject_gir, gircompiler, ],
-+     command: gircompiler_command,
-+     install: true,
-+     install_dir: typelibdir,
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
-index 9dfb55e055..7eefdd3e27 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
-            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
-+           file://0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch \
-            "
- 
- SRC_URI[md5sum] = "3419dfd086efcf83768e0579ab6abd2b"
--- 
-2.27.0
+This brings me to a question. Should we replace dhcp with kea?
 
+https://www.isc.org/kea/
+
+Alex
+
+On Sat, 13 Jun 2020 at 10:31, Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+
+> On 13.06.2020 02:41, Khem Raj wrote:
+> > I think it would be good to share if we can. Shipping two versions of
+> bind
+> > libraries is less than ideal, have you explored disabling threading in
+> the
+> > bind recipe and see if named is happy with that ?
+> >
+> Yes, I have. It partially solves the issue. At least DHCP doesn't
+> crash/fail anymore, but warnings from epoll enabled are still seen in
+> the logs. The other question is do we have to strip down BIND
+> functionality in order to make DHCP work?
+>
+> I understand that maintenance effort is at stake and we are looking for
+> the best possible solution here, but IMHO having one set of bind
+> libraries for both BIND and DHCP servers is not one of them.
+>
+> We could also go Ubuntu way here, by having two bind-9.11.x for DHCP and
+> upgrading BIND server to the latest stable (9.16.x if I'm not mistaken).
+> Then security support could be only done for 9.11.x version, the latest
+> stable should have most of security patches included already.
+>
+> Vyacheslav
+> 
+>
+
+--0000000000001d692005a84538a7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>This brings me to a question. Should we replace dhcp =
+with kea?</div><div><br></div><div><a href=3D"https://www.isc.org/kea/">htt=
+ps://www.isc.org/kea/</a></div><div><br></div><div>Alex<br></div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, 13=
+ Jun 2020 at 10:31, Vyacheslav Yurkov &lt;<a href=3D"mailto:uvv.mail@gmail.=
+com">uvv.mail@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">On 13.06.2020 02:41, Khem Raj wrote:<br>
+&gt; I think it would be good to share if we can. Shipping two versions of=
+ bind<br>
+&gt; libraries is less than ideal, have you explored disabling threading i=
+n the<br>
+&gt; bind recipe and see if named is happy with that ?<br>
+&gt;<br>
+Yes, I have. It partially solves the issue. At least DHCP doesn&#39;t <br>
+crash/fail anymore, but warnings from epoll enabled are still seen in <br>
+the logs. The other question is do we have to strip down BIND <br>
+functionality in order to make DHCP work?<br>
+<br>
+I understand that maintenance effort is at stake and we are looking for <b=
+r>
+the best possible solution here, but IMHO having one set of bind <br>
+libraries for both BIND and DHCP servers is not one of them.<br>
+<br>
+We could also go Ubuntu way here, by having two bind-9.11.x for DHCP and <=
+br>
+upgrading BIND server to the latest stable (9.16.x if I&#39;m not mistaken=
+). <br>
+Then security support could be only done for 9.11.x version, the latest <b=
+r>
+stable should have most of security patches included already.<br>
+<br>
+Vyacheslav<br>
+<br>
+</blockquote></div>
+
+--0000000000001d692005a84538a7--
