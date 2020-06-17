@@ -1,191 +1,132 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.3279.1592358613781737661
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web10.3838.1592360908734426885
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2020 18:50:15 -0700
+ Tue, 16 Jun 2020 19:28:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DYZ7Fu82;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GdpkZG/t;
+ spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f175.google.com with SMTP id b8so451705oic.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2020 19:28:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=5455; q=dns/txt; s=axis-central1;
-  t=1592358614; x=1623894614;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=O8FTHkhK8waIQHmbHmWkVgbftGXZm/LkPI6BAHCW4p8=;
-  b=DYZ7Fu82tny5sGu2FD1MQydRVvW61yhgWGmflT3xSR9ZibRzwcG6APf3
-   ExuVyUVPzdR3x6oz0Bd91cbrO+fvd4EEYezTSy90foG78FFNbawXEuzkC
-   CGS1lkCE517F3IemMRI69yxjg1SB+z/hiaVq62Ko79ENRXIgph9ZB+LOa
-   Bg3p84Ti4fJhE2pZ4rDnYmipNw0Ma5gedCz2yxoP9MYTCHtEJvV4uImCL
-   VJKqEBN4TB3YB55/fB1TLj+Xac2sl8FpMBdSI5FYI5yFZcvd1gUxo5vVs
-   YqSJfKDJvK+o6E55J9RpTFjSzdAHVbO3UhqtmJYCWY0LTl5dwfYUXhGu/
-   w==;
-IronPort-SDR: CYNBhFokqXRqaV0ZWbNQj4xP0m69zACH5AxGdDebNPphYUdCDSE7g6yJR/abVjmKMzsfCtwbln
- +HCwUzwE+TivRMQnThhmBN+SVXHAc8YtLZHJ1yMIwJzHhUhgX+NRIejuRjKZJWeZbkqe3ko6Dp
- h01fQ4ZbZYYkB7gCxIOizPFzPI8X+2qMWIjKBGuP0Ae3H4MswKYC9amBKCjYu7P/Urq+oa0jfu
- 158HD1wC7IlyYHLYZq0jM39rvv8fSt9bryKgLExScjxj97TKq7KDViEHtX1JLhcV8A1MLWs0qW
- vsE=
-X-IronPort-AV: E=Sophos;i="5.73,520,1583190000"; 
-   d="scan'208";a="9612621"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Steve Sakoman <steve@sakoman.com>, akuster <akuster808@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
-Thread-Topic: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
- exception if an empty pkgconfig dir exist
-Thread-Index: AQHWCdRlzShdKB7XZ0iWsxM6QnpIZqiJsMGQgDNOC1CAGJjfQIAG5S5Q
-Date: Wed, 17 Jun 2020 01:50:09 +0000
-Message-ID: <737d657e7eb7486fa2d0f1dbbbbad07f@XBOX03.axis.com>
-References: <20200320180420.32303-1-pkj@axis.com>
- <16025BE698C394B5.19764@lists.openembedded.org>
- <16090558444D87E6.18576@lists.openembedded.org>
- <16130CCABBD4F064.18282@lists.openembedded.org>
- <1617D89C6070B90C.14082@lists.openembedded.org>
-In-Reply-To: <1617D89C6070B90C.14082@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FH0n4aQl+fC2WAXSrBk6t0E5nHgClSpdhpOwHd21B9A=;
+        b=GdpkZG/tXR5EyZI2QyrP0FG9d24ethTi1YYvx7EEfFUMV4uH59GdobNeHGSd6iG68R
+         TJoF5pZYX/5VsXEtdiKBAI5mkudUQchBsUCtbgLC7R2HyOD30mN+hjsbSGDFwASwHC2L
+         Bfmb5eEnCyeldsHcfzcTP0lWKE7GLUPCtmIL4HqUBC182kPZnqk0B4kzyXE80FPSY7c6
+         IG4E6L0WRaKDcdOLJ5yNKLbWgN8Te7OPXniuPOviw2IAUvrN507a0h/y20+bwFCIU9NF
+         EDwJrGnhUY57PG2bzeiNHh51o/ZY2hNiUz6gQnntk3k/b8/M/GTDm6SBw5ijjnzlMUtD
+         Ofdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FH0n4aQl+fC2WAXSrBk6t0E5nHgClSpdhpOwHd21B9A=;
+        b=fTp4lvdffCadQH0anoUw5BEljtwnWi3JojYgXAiglNEnhx6wJW7E0XcD+lpLf0LCAx
+         R6MuQhZy4FJ7H98czoCJPCb4lDLQjIbPaLGYz4oNZw0BCC/itVHJgeZwTakSsBACb+cF
+         8MUn839F6KBxt+tQ7djjK5W1Qg59RvnqhUpME0+9d/ciO/rmALnGHPMauIiCddGrpGQt
+         2Vya/BluW10nXFBjydFMt6CvFAUL66EBjCKchk+oQ0IsU/S+k8+FdG5zgW/P98p8Uzj+
+         Bwg01NKkVVEtkkU70S85+rD91TSF5JxDvK2MYgk7c3yYRA5C3yc0/zoinDHjEFANzHPn
+         yitQ==
+X-Gm-Message-State: AOAM530DWks5Kt61tvg188XL1jFbBWyZ5pc+ZERyxilwVgtWo0jflpd7
+	m0sOT6Eoeo+g4CU+w+ffEFQECWLCEWGXlOSykD8=
+X-Google-Smtp-Source: ABdhPJzVcjMCS4r0G2xU8xXJjnSBExHbi+xsF3th2Ff4IgbiMj3cj7MfI+xdbKrJDbjKEFO46iGwItsIdD666iwaX7c=
+X-Received: by 2002:a54:4015:: with SMTP id x21mr5519382oie.161.1592360908079;
+ Tue, 16 Jun 2020 19:28:28 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+References: <20190413144853.3765-1-jacob.kroon@gmail.com>
+In-Reply-To: <20190413144853.3765-1-jacob.kroon@gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Tue, 16 Jun 2020 19:28:16 -0700
+Message-ID: <CACMJ4GaTed_mZsxhP2A_60AN1pmg-OfJDk=Zf-hTqZoC4YorjQ@mail.gmail.com>
+Subject: grub-efi-native: use RDEPENDS on grub-native instead of duplicating tools?
+To: Jacob Kroon <jacob.kroon@gmail.com>, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This has been integrated to master now (commit f9c5df6d).=20
-Please cherry-pick it to Dunfell and Zeus.
+was: Re: [OE-core] [PATCH] grub-efi-native: Install grub-editenv
 
-//Peter
+On Sat, Apr 13, 2019 at 7:49 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+>
+> Having a native version of grub-editenv around can be useful for
+> setting the targets grub environment.
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 12 juni 2020 18:26
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
-> an exception if an empty pkgconfig dir exist
->=20
-> *ping* *ping* *ping* *ping*
->=20
-> Ok, it was only two weeks since I pinged this the last time, but
-> since I'm going on vacation in a week I thought I'd give it a shot
-> before then. I am still waiting for any kind of reaction to this
-> patch...
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 28 maj 2020 03:26
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
-> > an exception if an empty pkgconfig dir exist
-> >
-> > *ping* *ping* *ping*
-> >
-> > I am not sure why this is being ignored. It is two months since I
-> > first sent it and the third time I ping it. I have not received any
-> > objections, yet it has never made it even to master-next as far as
-> > I know.
-> >
-> > This should not be taken as a complaint. I know there has been
-> > problems with the autobuilder and that patch integration has been
-> > slowed, and during this time all other patches I have sent have
-> > been applied on the first try. So it just seems to be this one that
-> > has been left out, and I would like to know if there is a reason or
-> > if it just has fallen between the cracks.
-> >
-> > //Peter
-> >
-> > PS. The patch of course applies to Dunfell now too in addition to
-> > master and Zeus since it has been released in the meantime.
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > > Sent: den 25 april 2020 11:17
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass:
-> Avoid
-> > an exception if an empty pkgconfig dir exist
-> > >
-> > > *ping again*
-> > >
-> > > //Peter
-> > >
-> > > > -----Original Message-----
-> > > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > > > Sent: den 3 april 2020 18:24
-> > > > To: openembedded-core@lists.openembedded.org
-> > > > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass:
-> > Avoid an exception if an empty pkgconfig dir exist
-> > > >
-> > > > *ping*
-> > > >
-> > > > //Peter
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: openembedded-core-bounces@lists.openembedded.org
-> > <openembedded-core-bounces@lists.openembedded.org> On Behalf Of Peter
-> > Kjellerstedt
-> > > > > Sent: den 20 mars 2020 19:04
-> > > > > To: openembedded-core@lists.openembedded.org
-> > > > > Subject: [OE-core] [master][zeus][PATCH] relocatable.bbclass:
-> Avoid
-> > an exception if an empty pkgconfig dir exist
-> > > > >
-> > > > > Rewrite relocatable_native_pcfiles() so that it can handle that
-> any
-> > of
-> > > > > the checked pkgconfig directories are empty without causing an
-> > > > > exception.
-> > > > >
-> > > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > > > ---
-> > > > >  meta/classes/relocatable.bbclass | 20 +++++++++++---------
-> > > > >  1 file changed, 11 insertions(+), 9 deletions(-)
-> > > > >
-> > > > > diff --git a/meta/classes/relocatable.bbclass
-> > b/meta/classes/relocatable.bbclass
-> > > > > index 582812c1cf..af04be5cca 100644
-> > > > > --- a/meta/classes/relocatable.bbclass
-> > > > > +++ b/meta/classes/relocatable.bbclass
-> > > > > @@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
-> > > > >      rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
-> > > > >  }
-> > > > >
-> > > > > -relocatable_native_pcfiles () {
-> > > > > -	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
-> > > > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
-> > d.getVar('libdir') + "/pkgconfig")}
-> > > > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
-> > ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
-> > > > > -	fi
-> > > > > -	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
-> > > > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
-> > d.getVar('datadir') + "/pkgconfig")}
-> > > > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
-> > ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
-> > > > > -	fi
-> > > > > +relocatable_native_pcfiles() {
-> > > > > +	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
-> > > > > +		files_template=3D${SYSROOT_DESTDIR}$dir/*.pc
-> > > > > +		# Expand to any files matching $files_template
-> > > > > +		files=3D$(echo $files_template)
-> > > > > +		# $files_template and $files will differ if any
-> > files were found
-> > > > > +		if [ "$files_template" !=3D "$files" ]; then
-> > > > > +			rel=3D$(realpath -m --relative-to=3D$dir
-> > ${base_prefix})
-> > > > > +			sed -i -e
-> > "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
-> > > > > +		fi
-> > > > > +	done
-> > > > >  }
-> > > > > --
-> > > > > 2.21.1
-> > > >
-> > > > //Peter
+Would it be acceptable to replace the tools being packaged in
+grub-efi-native with a RDEPENDS from grub-efi-native to grub-native,
+and so use the grub-mkimage and grub-editenv tools from the grub
+recipe instead?
 
+The problem I'm encountering with the current dual packaging of
+grub-mkimage and grub-editenv tools, in both grub and grub-efi
+recipes, is that it prevents grub-native and grub-efi-native from
+being installed concurrently, and breaks my image build:
+
+ERROR: xen-image-minimal-1.0-r0 do_image_wic: The file
+/usr/bin/grub-mkimage is installed by both grub-efi-native and
+grub-native, aborting
+
+There's a wic script here:
+openembedded-core/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
+that may also be affected since it creates a boot partition with both
+legacy and EFI content.
+
+The patch below resolves the error that I encountered. Does this change look OK?
+
+Christopher
+
+
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb
+b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+index b9d6225d27..5dd3398540 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+@@ -6,6 +6,7 @@ GRUBPLATFORM = "efi"
+
+ DEPENDS_append_class-target = " grub-efi-native"
+ RDEPENDS_${PN}_class-target = "grub-common virtual/grub-bootconf"
++RDEPENDS_${PN}_class-native = "grub-native"
+
+ SRC_URI += " \
+            file://cfg \
+@@ -61,9 +62,7 @@ do_install_append_class-target() {
+ }
+
+ do_install_class-native() {
+-       install -d ${D}${bindir}
+-       install -m 755 grub-mkimage ${D}${bindir}
+-       install -m 755 grub-editenv ${D}${bindir}
++        :
+ }
+
+ do_install_class-target() {
+
+
+
+>
+> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> ---
+>  meta/recipes-bsp/grub/grub-efi_2.02.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> index 14fce97ff0..6dbd23a3c7 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+> @@ -70,6 +70,7 @@ do_install_append_class-target() {
+>  do_install_class-native() {
+>         install -d ${D}${bindir}
+>         install -m 755 grub-mkimage ${D}${bindir}
+> +       install -m 755 grub-editenv ${D}${bindir}
+>  }
+>
+>  do_install_class-target() {
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
