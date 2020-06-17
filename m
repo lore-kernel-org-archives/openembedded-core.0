@@ -1,108 +1,86 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.75.1592433258286922272
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.662.1592435250396557824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 15:34:18 -0700
+ Wed, 17 Jun 2020 16:07:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@e-labworks-com.20150623.gappssmtp.com header.s=20150623 header.b=QsCloL+Y;
- spf=none, err=SPF record not found (domain: e-labworks.com, ip: 209.85.222.196, mailfrom: sergio.prado@e-labworks.com)
-Received: by mail-qk1-f196.google.com with SMTP id f18so3747565qkh.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 15:34:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EXeZTZ/8;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id k22so2988263qtm.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 16:07:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=e-labworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uMR79MKIFSbeeFEEzQjhzKuk/Yc8VfANryuq+9Q4AXU=;
-        b=QsCloL+YYs2ybFf5CYxj3gwtKhnjHlgO1LEIRywi4R33fW5lhfwjy6iOubefSzfmaF
-         KUVT0E2tocdW5REfAvqv+3i+H6EAx95eHBcTudUIEmYFYffbGkvS5ibD4mOtXvoR2hX+
-         DvAEi6SdTAEOJSrSxHJ3QaRV/PpwrMUKgzdDSmGHYk+ahR8d4YPA4V+w7zfif9tWO856
-         ZvFdmc1BmaN/b1PRheHz1mpS3cc6EDGerYK6JnPKgF+wI3PZN5hodcZEMgIocN2eIN6k
-         ZdlTc6LQsMBXhSuMIQq1vMc07mvYPEOZAOdIhe4BZh+ZmBcFIIzi8OxMhicmj+mwziSZ
-         BTEw==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=74GcGCWmMpQCQpyT6cRcH3U944hvvTMmO86hblVEDK4=;
+        b=EXeZTZ/8BW4iFKY70rEEcHvaPcUXefCcKiuJmBE+mcFnLWor8dfuMGMyYx8oVBcrZw
+         O9PgsP1jc/KHpiALB2pt+2KXvy7mScKnaM0bZRIU3J6sJUV3ZiQq/jcf25L5lMYlhp3m
+         YlqRzZizzJTY6teypIwk+7slcIDiWeUbz7/6+18xJHF8U/856D/kPgWyfnDZRv1dZklb
+         s0hEEUKpfunadmelMUy+IbHnIZg98xXIIsCBS4P/2hUUEQICmh+K7GyxQmL+ar3LaAUx
+         QKkmjF7JOdg5GbijP/vHnkwoBnFIf7ElxDDLbjkjdS1nTk6+mfDMsxVCJC9iTj+tosUT
+         32UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uMR79MKIFSbeeFEEzQjhzKuk/Yc8VfANryuq+9Q4AXU=;
-        b=n5L0528k+t1d2xeJAnquk12VHWOTLVWP3sMgLuSPDTJiGzRwyAz8nQZvEqfHI93Lww
-         Ul7eVyw47i8uJ/vtReStVIfn332qgqtGOl14Cirxl+gbcxFBGMV6FuFi7x1sugUeGT6n
-         6Rl/UsJdsS4boFa0Y4tPpskhDonp58bxpXbKglYZ/0guRHZt9o3SPHYPPQrlV8HQUsAS
-         prK8OzqW0lDJgDkjka+Q+MhYkcsSElXRUEtqOrNSi6Z6vr6xJx4wmXKQVbGjPEa/TH2R
-         Bx2LOi5EhEO74CQ2KgzYNoFl+ciU84UpKy4Bt+QG1cZQSQGy2Ot0FqO/m5T4ZvmWdAhD
-         4xrQ==
-X-Gm-Message-State: AOAM5307dSiZlb+WdBvKSWiMdM9i6jUluRhamMm3GKQqF4FGahMFfyfn
-	JHe2//fjN8UHFbghgFJTzVWHy7RwRQPNVuCJb2wZmg==
-X-Google-Smtp-Source: ABdhPJwUMu2IAFyBFygycy5Jkuz16RlCC1UV421QclZ/xcol5Ae7AUSnTrwjMjb9WFSVcobw4G7cArw306Gt1hLsDkU=
-X-Received: by 2002:a37:845:: with SMTP id 66mr898427qki.67.1592433257328;
- Wed, 17 Jun 2020 15:34:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200612204520.7818-1-sergio.prado@e-labworks.com> <1a10f4ab0edc44730a6e20bb7fe522787177e142.camel@linuxfoundation.org>
-In-Reply-To: <1a10f4ab0edc44730a6e20bb7fe522787177e142.camel@linuxfoundation.org>
-From: "Sergio Prado" <sergio.prado@e-labworks.com>
-Date: Wed, 17 Jun 2020 19:34:06 -0300
-Message-ID: <CANu7NGu1isAKtQWSOBX0-rOXfW3NeHANcoZ4fOq5yuRZUCvdZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] zlib: build and package minigzip
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a1c78405a84f4244"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=74GcGCWmMpQCQpyT6cRcH3U944hvvTMmO86hblVEDK4=;
+        b=jJ5IXhoTG7bb4bffjgqTSqq3hRcWc5NVnyTcdPB/ewcQ7V7faAbvfXTeS4UufXrzcx
+         W1MyRwQEpLKNcoxsuBCcrs1hxbsb0DKgb4jI4uaehXrVnvt/c3fWou3yl/k94BifrNIA
+         FKWMJH8Jcn3FCiuOmSwa51X8o7KwrshgohE+R2WxRFjHF/08Tip2mjGgeq/pYy56xrUl
+         oAgSLFT220VGDUTm5Y/0aYWcvpliz9s8lEe0rWQnRGQgijuEoCPjZs4DMBEERRHTjxUJ
+         SoHmARkTIE81HPFNF3SGcSLSAs10KO8cM8uWgIufpSYB5VIX3SSoetrdHu2id/m0lsS/
+         JMlg==
+X-Gm-Message-State: AOAM533XWF8xI/Ez57ulDp3oDepM43gUkiN5B9DpY7mZKMIbkBtX6axj
+	ACPYEvMhp9Fa1WQzICCUKSimE5zf
+X-Google-Smtp-Source: ABdhPJyHuM2rae2Ci61Qal6qYOdBydX8hPIgtDNrVAoFZA1qGohNTkrrKD2KXBFQCq4BiFLyo2eHFA==
+X-Received: by 2002:ac8:6b53:: with SMTP id x19mr1640868qts.106.1592435249279;
+        Wed, 17 Jun 2020 16:07:29 -0700 (PDT)
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from localhost.localdomain (mobile-166-176-187-11.mycingular.net. [166.176.187.11])
+        by smtp.gmail.com with ESMTPSA id z19sm1497655qtz.81.2020.06.17.16.07.26
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 16:07:28 -0700 (PDT)
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] grub-efi-native: use RDEPENDS on grub-native instead of duplicating tools
+Date: Wed, 17 Jun 2020 16:07:10 -0700
+Message-Id: <20200617230710.9163-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
---000000000000a1c78405a84f4244
-Content-Type: text/plain; charset="UTF-8"
+Both grub-native and grub-efi-native included packaging for the
+grub-mkimage and grub-editenv tools, which prevented concurrent
+installation of both the grub-native and grub-efi-native packages.
+This caused errors on image generation with wic when populating
+partitions with both legacy and efi boot support, so resolve this by
+removing the duplicated tools from grub-efi-native and add a
+runtime dependency from it to grub-native.
 
-Hi Richard,
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+---
+ meta/recipes-bsp/grub/grub-efi_2.04.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> >  do_install() {
-> >       oe_runmake DESTDIR=${D} install
-> > +
-> > +     install -d ${D}${sbindir}
-> > +     install -m 0755 ${B}/minigzip ${D}${sbindir}
-> > +     install -m 0755 ${B}/minigzipsh ${D}${sbindir}
-> > +     install -m 0755 ${B}/minigzip64 ${D}${sbindir}
-> >  }
-> >
-> >  do_install_ptest() {
->
-> Breaks oe-selftest:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1039
->
-> Reproducer:
-> oe-selftest -r pkgdata.OePkgdataUtilTests.test_list_pkgs
->
-> Also breaks meta-mingw:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/2031
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+index b9d6225d27..ed43dee152 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+@@ -6,6 +6,7 @@ GRUBPLATFORM = "efi"
+ 
+ DEPENDS_append_class-target = " grub-efi-native"
+ RDEPENDS_${PN}_class-target = "grub-common virtual/grub-bootconf"
++RDEPENDS_${PN}_class-native = "grub-native"
+ 
+ SRC_URI += " \
+            file://cfg \
+@@ -61,9 +62,7 @@ do_install_append_class-target() {
+ }
+ 
+ do_install_class-native() {
+-	install -d ${D}${bindir}
+-	install -m 755 grub-mkimage ${D}${bindir}
+-	install -m 755 grub-editenv ${D}${bindir}
++	:
+ }
+ 
+ do_install_class-target() {
+-- 
+2.17.1
 
-Thanks for the report. The problem is that minigzip64 is not generated with
-toolchains without large file support.
-
-I'll fix and send V2.
-
-Thanks,
-
-Sergio Prado
-Embedded Labworks
-
---000000000000a1c78405a84f4244
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Richard,<div><br>&gt; &gt; =C2=A0do_install() {<br>&gt;=
- &gt; =C2=A0 =C2=A0 =C2=A0 oe_runmake DESTDIR=3D${D} install<br>&gt; &gt; +=
-<br>&gt; &gt; + =C2=A0 =C2=A0 install -d ${D}${sbindir}<br>&gt; &gt; + =C2=
-=A0 =C2=A0 install -m 0755 ${B}/minigzip ${D}${sbindir}<br>&gt; &gt; + =C2=
-=A0 =C2=A0 install -m 0755 ${B}/minigzipsh ${D}${sbindir}<br>&gt; &gt; + =
-=C2=A0 =C2=A0 install -m 0755 ${B}/minigzip64 ${D}${sbindir}<br>&gt; &gt; =
-=C2=A0}<br>&gt; &gt; <br>&gt; &gt; =C2=A0do_install_ptest() {<br>&gt;<br>&g=
-t; Breaks oe-selftest:<br>&gt;<br>&gt; <a href=3D"https://autobuilder.yocto=
-project.org/typhoon/#/builders/79/builds/1039">https://autobuilder.yoctopro=
-ject.org/typhoon/#/builders/79/builds/1039</a><br>&gt;<br>&gt; Reproducer:<=
-br>&gt; oe-selftest -r pkgdata.OePkgdataUtilTests.test_list_pkgs<br>&gt;<br=
->&gt; Also breaks meta-mingw:<br>&gt;<br>&gt; <a href=3D"https://autobuilde=
-r.yoctoproject.org/typhoon/#/builders/89/builds/2031">https://autobuilder.y=
-octoproject.org/typhoon/#/builders/89/builds/2031</a><br><br></div><div>Tha=
-nks for the report. The problem is that=C2=A0minigzip64 is not generated wi=
-th toolchains without large file support.</div><div><br></div><div>I&#39;ll=
- fix and send V2.</div><div><br></div><div>Thanks,</div><div><br></div><div=
->Sergio Prado</div><div>Embedded Labworks</div></div>
-
---000000000000a1c78405a84f4244--
