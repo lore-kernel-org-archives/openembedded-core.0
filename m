@@ -1,151 +1,57 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web11.8041.1592401726119205825
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.8316.1592402550403189144
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 06:48:46 -0700
+ Wed, 17 Jun 2020 07:02:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KLLxer8R;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id l27so2422847ejc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 06:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZB0fCR507EW5E9wQ9CYltVsupTFPh7vR9U7jZC+GQ+A=;
-        b=KLLxer8R/AB4XsOWseplH16j+Ik2FCKC8tu3eiIRrTsngEXKu9sruCmtSq4iEF8ETJ
-         qkDlp4BZuZyCmth7i69KPIxkt1GTeSkU0wQlMP4/QprqLobLsPKoFcuDDa7K0ek1VgrY
-         58mKbqDuCr7Fez0dPlSk8jiKbfZXLAHP0uV9PJBkrtBKn77CruLygm18DYwcGThOfsSJ
-         XbtFuMQTCn8WEaCAUhWM/SaTV61l7kkMX9tNwHGNFHqV8osA1mwmvsK/AIo3qOkqAoBS
-         zICx+IF8vb8JHUNJcuL0u0+X4uLiKw+9QGWkJ71oZrvO2Y8T8nOanqih7LlO9+T4jvRR
-         S8KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZB0fCR507EW5E9wQ9CYltVsupTFPh7vR9U7jZC+GQ+A=;
-        b=nSalU8I8EcYZwyHnjFG+vltCeCirJrzboShfAwA1gLRDJKkejKLE1KJtZ7d9Ewc858
-         DlNqjD4W0RgTB0R9mIKdOL9swt+4KjDWmxS2HmWBn0HPy6w9aNVDBeE5GjP5zMZ9VkD5
-         jmSVm65nZCqB/uc1P95FF68e4HI13Q+W4cbVwN/76chZNwoXL+xR056i+QpObpL/dOGp
-         WnLmxWnDFPgZAEU8/OC7GYsmqS/4c51l2Bs7twWvsJChb6LxS+IJ6+G/qB0xpGAcMpgb
-         +FmxmihuFYVpGTRPkw4nfxFt9bR28C8V6PlF33tU3HzUGOpn/cjL0FCag8/oUo+zVynl
-         bPKQ==
-X-Gm-Message-State: AOAM531XQoOHB5E0+StdVZGuhOflE2JEukbghwKC9Mg+20fB+SqPWdwQ
-	iye1KGizFc4k6+TGkKV2o6sqpCPGxXpe84mTQyo=
-X-Google-Smtp-Source: ABdhPJwDZoGukiNq+uQ1+4KB9QxtTRr3Ac7hMruIceV1jlX7JGZC21A9ciz6ZKu/wPJz3gWFMoHxktS50OLFbitBOSo=
-X-Received: by 2002:a17:907:4030:: with SMTP id nr24mr7365774ejb.247.1592401724474;
- Wed, 17 Jun 2020 06:48:44 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D52760B70;
+	Wed, 17 Jun 2020 14:02:28 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200617062028.5542-1-yanfei.xu@windriver.com> <20200617062028.5542-2-yanfei.xu@windriver.com>
-In-Reply-To: <20200617062028.5542-2-yanfei.xu@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 17 Jun 2020 09:48:33 -0400
-Message-ID: <CADkTA4PiqVvnmZFEoBSTX1g7JxpqAkRQbAozScYtOWJ_6omQBg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] classes/kernel: Use a copy for kernel*.rpm when fs don't support symlink
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, He Zhe <zhe.he@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcG93ZXJ0b3A6IHVwZ3JhZGUgMi4xMiAtPiAyLjEz?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jun 2020 14:02:29 -0000
+Message-ID: <20200617140229.20810.94932@do>
+References: <1592401139618.63424@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1592401139618.63424@cn.fujitsu.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 17, 2020 at 2:20 AM <yanfei.xu@windriver.com> wrote:
->
-> From: Yanfei Xu <yanfei.xu@windriver.com>
->
-> Some filesystems don't support symlink, then you will get failed when
-> you install or update the kernel rpm package. Now we use a copy for
-> these filesystems instead of symlink.
->
-> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> ---
->  meta/classes/kernel.bbclass | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 41101a64a0..e9b5a84de7 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -94,6 +94,14 @@ python __anonymous () {
->          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
->          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,typelower), """
-> +set +e
-> +ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
-> +if [ $? -ne 0 ]; then
-> +    echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlink, then use a copy."
+== Series Details ==
 
-This could say "... doesn't support symlinks, falling back to copied
-image (%s)" (and fill in the image file we are actually using).
+Series: powertop: upgrade 2.12 -> 2.13
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24716/
+State : failure
 
-> +fi
-
-I expected to see the fallback copy here in the postinstall, but this
-looks ok to me .. I'm going to just type in my process of reading the
-patch so you can correct me if I'm wrong.
-
-The logic is split between the two places. Below during the build
-(do_install), and here in the postinstall.
-
-In do_install(), we no longer symlink, but instead copy the versioned
-image into the non versioned 'image' file. And then in the
-postinstall, we try and make a symlink (which may fail) to the same
-thing (the versioned image to a non versioned one), and that's a force
-symlink so it will clobber the previously copied one if possible, or
-implicitly fall back if the symlink fails.
-
-So yes, that logic seems fine to me.
-
-The reason I went through all that, is that for on-target upgrades.
-You won't have the do_install() to place the versioned image, have you
-confirmed that the versioned image file is packaged and will be
-present on an on-target install ? So the logic is the same with the
-symlink ? It should be, otherwise this would never work, but I just
-wanted to be sure.
-
-> +set -e
-> +""" % (type, type))
->
->      image = d.getVar('INITRAMFS_IMAGE')
->      # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
-> @@ -386,7 +394,7 @@ kernel_do_install() {
->         for imageType in ${KERNEL_IMAGETYPES} ; do
->                 install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
->                 if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-> -                       ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-> +                       install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-
-Looking at this, can the existing line:
-
- install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
-${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
-
-be combined with the one you added ?
-
-We are copying the non-versioned image into a versioned image file,
-and then in the new logic, coping that versioned image into a
-non-versioned one. Couldn't we just have one copy of the non-versioned
-image, into the non-versioned image in KERNEL_IMAGEDEST ?
-
-Cheers,
-
-Bruce
-
->                 fi
->         done
->         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
-> @@ -602,6 +610,7 @@ pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
->         fi
->  }
->
-> +
->  PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
->
->  python split_kernel_packages () {
-> --
-> 2.18.2
->
+== Summary ==
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at cb02137218)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
