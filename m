@@ -1,90 +1,122 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.7693.1592400715371275267
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
+ by mx.groups.io with SMTP id smtpd.web11.7854.1592401137831466111
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 06:31:55 -0700
+ Wed, 17 Jun 2020 06:39:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tZUvn6xa;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: jpewhacker@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id r18so1272574pgk.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 06:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:references:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=KBD9sI8XNRnoacwEIHqqeepewv886NHvx2vUIC6Do+c=;
-        b=tZUvn6xabxV9ll6xI+u8wb2+Cv48heZ/FlbrWtJsiOYw95uTTrWslsk331yyDOYvaO
-         TIoq4nUXHIikm3PxykL4ACIWEYO7U2YULkhfh3aAoidMlEN+ugPw3luPdx3ovVpafwMA
-         R7oo/UfvLbd3l9BzeHU33mkUftIkLbzPHVTcLB9IWvjVTWNdhm+dLrixnVgD49rEV1ib
-         21w+biQ/jEvx/l/iCagTSG61PoZXf78C0ojhnciJRrmhK1QYfXppCrrvFigxrWjpOxYW
-         CFwnuWxOnOrrZBu8YRDM3gjJvizI1VBqyWrmqrxL22EniGTWnFOkEYnNW0M3uQV7EY2I
-         1GKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=KBD9sI8XNRnoacwEIHqqeepewv886NHvx2vUIC6Do+c=;
-        b=nw6c2MD8710qvDGZKH0CDtGKVVLaEAXdfdAnNghQoaLafgvGb59DPi3/kfGQPVAoPU
-         3007NrwPqhWmbjqcIXIUVu44gdb86zvkEuiaLlTYApxwp8I/ZkgAVPHE4Ri52nnfZ/vf
-         5nOnF+OQ9W8liQreKya3bgt2XY2sOQBg42w5KUAhTotqx6w0W70GNlrRMD4EzpXdQpDS
-         59w2LFSbJu3ZILhPxX7Yh4JNO7aZJBDjJUL9/4EP6AmxZ0lslzWyAMI3G2AjWEXqPw70
-         jXXJuIhMV293veKcOCXLE430z6Rf1wWhtKvhkPKLD90v2PEkYg4b2VajUiWm7DWN/EtU
-         n3vQ==
-X-Gm-Message-State: AOAM532k42k3UygVZWja8T1hiYtr3L0lZ/90DQ+/GKG2b4AxXuhmzDmN
-	gQCqY73fgg+8ixpgFFQhQg4=
-X-Google-Smtp-Source: ABdhPJyBII0YUditNFvoiiHN8BKJV4A6M0BWZrb2kbOqFFixd0r3/cQGnb48n6v3TRwQ2N2iXgezJQ==
-X-Received: by 2002:a63:c64c:: with SMTP id x12mr6504611pgg.362.1592400714723;
-        Wed, 17 Jun 2020 06:31:54 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:65f3:9208:f078:7d0d? ([2605:a601:ac3d:c100:65f3:9208:f078:7d0d])
-        by smtp.gmail.com with ESMTPSA id nv9sm395338pjb.6.2020.06.17.06.31.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 06:31:54 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core][PATCH] classes/archiver: Create patched archive before configuring
-To: openembedded-core@lists.openembedded.org
-References: <20200616143917.34003-1-JPEWhacker@gmail.com>
-Cc: steve@sakoman.com
-Message-ID: <d670246f-50c9-c4fa-fc52-eee977dd72eb@gmail.com>
-Date: Wed, 17 Jun 2020 08:31:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,522,1583164800"; 
+   d="scan'208,217";a="94744016"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 17 Jun 2020 21:39:00 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 808E94CE30F6
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 21:39:00 +0800 (CST)
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 17 Jun 2020 21:39:01 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([::1]) by
+ G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::4086:9520:5ef9:407d%14]) with mapi
+ id 15.00.1497.006; Wed, 17 Jun 2020 21:39:00 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] powertop: upgrade 2.12 -> 2.13
+Thread-Topic: [OE-core] [PATCH] powertop: upgrade 2.12 -> 2.13
+Thread-Index: AQHWRKujJEd4mO/cXki1NUWAKfNfTA==
+Date: Wed, 17 Jun 2020 13:39:00 +0000
+Message-ID: <1592401139618.63424@cn.fujitsu.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.167.33.78]
 MIME-Version: 1.0
-In-Reply-To: <20200616143917.34003-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-yoursite-MailScanner-ID: 808E94CE30F6.A235C
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_159240113961863424cnfujitsucom_"
 
-Steve,
+--_000_159240113961863424cnfujitsucom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-I believe this patch should be backported to dunfell.
+P1NpZ25lZC1vZmYtYnk6IFdhbmcgTWluZ3l1IDx3YW5nbXlAY24uZnVqaXRz
+dS5jb20+DQotLS0NCiAuLi4vcG93ZXJ0b3Ave3Bvd2VydG9wXzIuMTIuYmIg
+PT4gcG93ZXJ0b3BfMi4xMy5iYn0gICAgICAgICAgICAgfCAyICstDQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3Ave3Bvd2VydG9w
+XzIuMTIuYmIgPT4gcG93ZXJ0b3BfMi4xMy5iYn0gKDk1JSkNCg0KZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3Bf
+Mi4xMi5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0
+b3BfMi4xMy5iYg0Kc2ltaWxhcml0eSBpbmRleCA5NSUNCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93ZXJ0b3BfMi4xMi5i
+Yg0KcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93
+ZXJ0b3BfMi4xMy5iYg0KaW5kZXggZjA4NWQ5YjQ4Mi4uOGM3ZTc4ZmQ5NCAx
+MDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvcG93ZXJ0b3AvcG93
+ZXJ0b3BfMi4xMi5iYg0KKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9wb3dl
+cnRvcC9wb3dlcnRvcF8yLjEzLmJiDQpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTJmODg0ZDJhZTFm
+Zjg3YzA5ZTViN2NjYzJjNGNhN2UiDQogU1JDX1VSSSA9ICJnaXQ6Ly9naXRo
+dWIuY29tL2ZlbnJ1czc1L3Bvd2VydG9wO3Byb3RvY29sPWh0dHBzIFwNCiAg
+ICAgZmlsZTovLzAwMDEtd2FrZXVwX3h4eC5oLWluY2x1ZGUtbGltaXRzLmgu
+cGF0Y2ggXA0KICINCi1TUkNSRVYgPSAiNjk4OGVhYWE1YmJjZmZmMWRkODZm
+NzU3MDA2YzZjNDhjZWM5NjVjNSINCitTUkNSRVYgPSAiMTg0Y2VlMDZiMmQ2
+NDY3OWJhZTVmODA2ZmUwYTIxODgyN2ZkZGU5OSINCg0KIFMgPSAiJHtXT1JL
+RElSfS9naXQiDQoNCi0tDQoyLjE3LjE/DQoNCgoK
 
-Thanks
+--_000_159240113961863424cnfujitsucom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/16/20 9:39 AM, Joshua Watt wrote:
-> do_configure and do_preconfigure can modify source files, which causes
-> race conditions if these tasks run in parallel with do_ar_patched. Add
-> explicit task dependencies to ensure that do_ar_patched finishes before
-> these tasks start. Specifically, this fixes a race condition with
-> gcc-source where do_ar_patched races with do_preconfigure deleting
-> gcc/gengtype-lex.c
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   meta/classes/archiver.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index c2c049c343..e221fff695 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -583,7 +583,7 @@ addtask do_deploy_archives_setscene
->   
->   addtask do_ar_original after do_unpack
->   addtask do_unpack_and_patch after do_patch
-> -addtask do_ar_patched after do_unpack_and_patch
-> +addtask do_ar_patched after do_unpack_and_patch before do_preconfigure do_configure
->   addtask do_ar_configured after do_unpack_and_patch
->   addtask do_ar_mirror after do_fetch
->   addtask do_dumpdata
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none"><!-- p { margin-top: 0px; m=
+argin-bottom: 0px; }--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<div>&#8203;Signed-off-by: Wang Mingyu &lt;wangmy@cn.fujitsu.com&gt;</div>
+<div>---</div>
+<div>&nbsp;.../powertop/{powertop_2.12.bb =3D&gt; powertop_2.13.bb}&nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| 2 &#43;-</div>
+<div>&nbsp;1 file changed, 1 insertion(&#43;), 1 deletion(-)</div>
+<div>&nbsp;rename meta/recipes-kernel/powertop/{powertop_2.12.bb =3D&gt; po=
+wertop_2.13.bb} (95%)</div>
+<div><br>
+</div>
+<div>diff --git a/meta/recipes-kernel/powertop/powertop_2.12.bb b/meta/reci=
+pes-kernel/powertop/powertop_2.13.bb</div>
+<div>similarity index 95%</div>
+<div>rename from meta/recipes-kernel/powertop/powertop_2.12.bb</div>
+<div>rename to meta/recipes-kernel/powertop/powertop_2.13.bb</div>
+<div>index f085d9b482..8c7e78fd94 100644</div>
+<div>--- a/meta/recipes-kernel/powertop/powertop_2.12.bb</div>
+<div>&#43;&#43;&#43; b/meta/recipes-kernel/powertop/powertop_2.13.bb</div>
+<div>@@ -9,7 &#43;9,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D12=
+f884d2ae1ff87c09e5b7ccc2c4ca7e&quot;</div>
+<div>&nbsp;SRC_URI =3D &quot;git://github.com/fenrus75/powertop;protocol=3D=
+https \</div>
+<div>&nbsp; &nbsp; &nbsp;file://0001-wakeup_xxx.h-include-limits.h.patch \<=
+/div>
+<div>&nbsp;&quot;</div>
+<div>-SRCREV =3D &quot;6988eaaa5bbcfff1dd86f757006c6c48cec965c5&quot;</div>
+<div>&#43;SRCREV =3D &quot;184cee06b2d64679bae5f806fe0a218827fdde99&quot;</=
+div>
+<div><br>
+</div>
+<div>&nbsp;S =3D &quot;${WORKDIR}/git&quot;</div>
+<div><br>
+</div>
+<div>--</div>
+<div>2.17.1&#8203;<br>
+</div>
+<p><br>
+</p>
+</body>
+</html>
+
+--_000_159240113961863424cnfujitsucom_--
