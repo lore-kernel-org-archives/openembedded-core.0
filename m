@@ -1,240 +1,215 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web12.6098.1592521470190176268
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.6388.1592522703037177628
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 16:04:30 -0700
+ Thu, 18 Jun 2020 16:25:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lbXpLde5;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id n9so3135793plk.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 16:04:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lZ/U+fzx;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id i12so3281173pju.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 16:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:references:to:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=LH322OaFWlHgEVnBFi9nhPstLNPQ0V7nlhJ07apDufA=;
-        b=lbXpLde5WK2t/Vs5VkiJhZl9soVnHAMWRY7DgbPBn/Duh99Ihuzup9/VDWTe9W9YGl
-         fry+4bF8mS+vlbHUJjGgxJy7XfKz9rDVP8mPbm4xkBTcnR88hdsx57mnB+04PPdbJ8Tv
-         +7s4FYsY/alBFe8Bu/uN1f7F0pEMZIHl7axwG4t22Maf1bhKVpgp+iLyqmzQH8zg2OGV
-         vKKIfmZN86/FoLLjThFpNWDxEhoJ1VVj/UuGVwJ+G4LVSUk0todto6+OD5pXTZW5G/ML
-         IDbQGqZUQHwxcCYIp0C2W0v6YhENjzJtohNZq3ONsTxa/g8UZrcRJjmeQQ/83xDr36FT
-         yJdg==
+        h=from:to:cc:subject:date:message-id:organization:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VfU73xUbqjpVCeQEBRpzQ1x6WRAP/CF8ndZbxbItHFc=;
+        b=lZ/U+fzxbPXq20sLqhp3oeJxhdaGE4A5xpxdVSb98AbitDzmeQv9jVZapGk5HLkQrH
+         2/XuHk/GCHbCs28HJi2mM6+k5p8tB8QH+SgokwY/O/krfYg7rz3DlQxeeX7goZX3BvdB
+         Pf8lJKpY5DFdp8CD9dysvC+vEkpJLp6kNXtjaS3oU9TDZSwttEm5N9Oih2PDrduJrIWh
+         IAkbA8qFNUXqgxDxh7FgQTpawez/FA32Hn5cYsgCdMl6l9Vr3SVxutcma1+WHHPjz3Gx
+         JSaZxPpnfPHKDsEu6Gv51ND5ufZodlQKG++ONg3h9TGupEvy0cLYWNL2o+y7HcAzurXy
+         N1Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:references:to:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=LH322OaFWlHgEVnBFi9nhPstLNPQ0V7nlhJ07apDufA=;
-        b=j/BEL3KH2389QesyEboe4QLiy8K7E36JLQ1sOWlLcfJ/7B0ii4isgTrAmy3dUXUXxM
-         SQFiBNmFgUa75W6Gp7K1IvW8plpJuU/kPvgRuseH51T+6pkE35qBzD4IJwzNBdWnJau+
-         y/zn/cmDInCd7UUmEA07FJBv1b5B6yLy792tFEq7Yx02OGjwwk1Z7ruFdiMhTQVoNF8Q
-         ho9CQPGF4/Kdlidlxq59mHmVpfGiq1kP/HVZ+fjWtd0OBDAq2Oe4lpx3kbpf1E2A9Iho
-         sTuofveQTdGPNmoB1CD9y5x/TUm0p2F03iHWREpVCpMUUU4+GgDstJw6cXfRPJCG+9IS
-         WL2g==
-X-Gm-Message-State: AOAM531PdSse+MDmEPoVbPVEc3Rlyi+EfzMy9Muq6NBCvDcrd1XUOhOi
-	fsSP1Lpoe4FDbFtaWHFmR2CXafG8
-X-Google-Smtp-Source: ABdhPJwyFNuBoLixPlIzUjh9ZgDCCPPmcxHEqw81qTJ0Mjb2PR2h7BaUiqkBh3p0LDnlbc6DJ1kt8A==
-X-Received: by 2002:a17:90b:1b06:: with SMTP id nu6mr643693pjb.106.1592521469323;
-        Thu, 18 Jun 2020 16:04:29 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:dcab:46d6:88c3:a9ce? ([2601:202:4180:a5c0:dcab:46d6:88c3:a9ce])
-        by smtp.gmail.com with ESMTPSA id a63sm2462709pfd.111.2020.06.18.16.04.28
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2020 16:04:28 -0700 (PDT)
-Subject: Re: [AUH] bind: upgrading to 9.16.3 FAILED
-References: <20200617082230.09F25E01D1A@yocto-www.yoctoproject.org>
-To: openembedded-core@lists.openembedded.org
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <496f5668-a08b-b24e-4632-ad0cffa606cd@gmail.com>
-Date: Thu, 18 Jun 2020 16:04:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:organization
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=VfU73xUbqjpVCeQEBRpzQ1x6WRAP/CF8ndZbxbItHFc=;
+        b=lmbqMuokKwI788bjitFG5i7phHxIYcJalJcXfm/0o5eMUxX0StOG3T1xZDeHuW8X4P
+         uEEhOjYX0o8q6hDnWMJOYCWanjL32rEiA4ICl5gQjZKHA0wMS7mk08xPaRLIzbExyGz+
+         hxRNCOYrvcZGBBV12gPVdtjNyyTU2I8QYp1xqIJn22UXwy2KIo8+YAD6Cbw//pK/a83q
+         fBgqoRlE7T5hxfdRKVovK5/ehB1EXMevd+zeSYZ0a7ZFLO660rmj7t9vA6L8MWUj8CqD
+         YA/IuykRUEms745DNtji4d2dCTPSC93PWzYkqOpv2c3y1YyFNBN5yPUmZhGzKkvw4MFa
+         wGEQ==
+X-Gm-Message-State: AOAM533ruL+Geq1SU8p9Sp9mwzkKwW+zJtrmFmf8OBPmNncc9FnCIGS4
+	KlNaqDW6VaBWiDncNNCDkAM=
+X-Google-Smtp-Source: ABdhPJxM/bQXbkMcLp7qUHhRA95VsCczug4qvU31bUpa/wM0kSccziifHZq+y4Oz21ZpIZKDqPkGsw==
+X-Received: by 2002:a17:90a:284b:: with SMTP id p11mr735751pjf.22.1592522702273;
+        Thu, 18 Jun 2020 16:25:02 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from tyche.localnet ([2601:646:9200:4e0::804d])
+        by smtp.gmail.com with ESMTPSA id s194sm3409956pgs.24.2020.06.18.16.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 16:25:01 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Cc: Martin Kelly <mkelly@xevo.com>, Jim Broadus <jbroadus@xevo.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, Ryan Rowe <rrowe@xevo.com>
+Subject: Re: [OE-core] python3 recipe PGO tests
+Date: Thu, 18 Jun 2020 16:24:59 -0700
+Message-ID: <11814952.jqib13ICcW@tyche>
+Organization: HIMVIS
+In-Reply-To: <D171668B-2DD3-4650-B4F2-B17DA15F9271@xevo.com>
+References: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com> <bc728c163c639ffd5c0e6d8fb4c10b94417a2a8a.camel@intel.com> <D171668B-2DD3-4650-B4F2-B17DA15F9271@xevo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200617082230.09F25E01D1A@yocto-www.yoctoproject.org>
-Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
+
+On Monday, June 15, 2020 1:33:26 PM PDT Ryan Rowe wrote:
+> On 14/6/20, 18:05, "Mittal, Anuj" <anuj.mittal@intel.com> wrote:
+>=20
+> > On Fri, 2020-06-12 at 21:28 +0000, Ryan Rowe wrote:
+> >=20
+> > > Hello Alex,
+> > >
+> > >
+> > >
+> > > I=E2=80=99m investigating Python 3 performance issues on a Raspberry =
+Pi Yocto
+> > > build; I appreciate any insights you can provide into the problem.
+> > >
+> > >
+> > >
+> > > In my investigation, I noticed that PGO was disabled in all cases due
+> > > to a small bug. I fixed it in a patch submitted to OE-Core (#139459).
+> > > Even when PGO is indeed enabled, Python 3 runs significantly slower
+> > > on Yocto-compiled Python 3.8.3 than the same version compiled on
+> > > Raspbian.
+> > >
+> > >
+> > >
+> > > In your patch, 0001-Makefile.pre-use-qemu-wrapper-when-gathering-
+> > > profile.patch, I see that you override the default PROFILE_TASK,
+> > > which did not explicitly specify test suites, to a command that
+> > > explicitly provides test suites. How did you decide on these tests?
+> > > The standard PGO command runs 43 tests, while you specify 7. When I
+> > > compile Python 3.8.3 on Raspbian, I see no intersection between the
+> > > 43 tests run by default and the 7 you specify. Additionally, the
+> > > default module for PROFILE is test while you use test.regrtest.
+> >
+> >
+> >
+> > We used to run pybench and then switched to regrtest:
+> >
+> >
+> >
+> > https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dd9f7b9d3ad=
+44195
+> > e68b2c1b09e3eb42e623c9a20
+>
+> >
+> >
+> > The PROFILE_TASK value it looks like was changed recently:
+> >
+> >
+> >
+> > https://github.com/python/cpython/commit/2406672984e4c1b18629e615edad52=
+928
+> > a72ffcc#diff-45e8b91057f0c5b60efcb5944125b585
+>
+> >
+> >
+> > If the performance is actually degrading, may be we should change it to
+> > something more useful. Do you know much time does the default set of
+> > tasks take to run in qemu?
+> >
+> >
+> >
+> > Thanks,
+> >
+> >
+> >
+> > Anuj
+>=20
+>=20
+> Thanks for looking into this. It took me about 20 minutes to run the PGO
+> tests and I did notice a significant improvement in Python runtime.
+> However, that is compared against a non-PGO build. I have not compared
+> the existing PGO arguments against the new upstream arguments.
+>=20
+> We've come to realize that our performance issues are not due to Python,
+> but in fact a much deeper rooted issue. Simple C code takes 2-3 times
+> longer to run on our image based on meta-raspberrypi's raspberrypi4
+> machine than stock Raspbian.
+>=20
+> On a side node, it seems that cPython now exposes PROFILE_TASK as a
+> configuration option, so we can override that variable with our
+> desired profiling arguments rather than modifying the Makefile
+> directly with a patch.
+>=20
+
+The patch 0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch=20
+seems to hardcode what tests to run, perhaps it will be better to use=20
+PROFILE_TASK
+
+When 3.5 -> 3.7 upgrade was done in=20
+
+https://git.openembedded.org/openembedded-core/commit/?
+id=3D02714c105426b0d687620913c1a7401b386428b6
+
+it dropped using PYTHON3_PROFILE_TASK silently, among large swath of changes
+this patch carried. I guess we have not checked the py3 runtime performance=
+ to=20
+detect this regression.
+
+so it will be good to reinstate the variable to choose what tests one wants=
+ to=20
+run with defaults being whatever is optimal for autobuilder.=20
+
+> Thanks,
+> Ryan
+>=20
+>=20
+> > >
+> > >
+> > > For reference, here=E2=80=99s the results of a simple CPU-bound test.=
+ These
+> > > tests were run on the same Raspberry Pi 4 with same SD card.
+> > >
+> > >
+> > >
+> > > python3 -m timeit -r 10 --setup '
+> > > def fib(n):
+> > >=20
+> > >  if n < 2:
+> > > =20
+> > >    return n
+> > > =20
+> > >  if n =3D=3D 2:
+> > > =20
+> > >    return 1
+> > > =20
+> > >  return fib(n - 1) + fib(n - 2)
+> > >=20
+> > > ' '[fib(n) for n in range(20)]'
+> > >
+> > >
+> > >
+> > > # Yocto Python 3.8.3
+> > > # 10 loops, best of 10: 28.9 msec per loop
+> > > # 10 loops, best of 10: 29.3 msec per loop
+> > > # 10 loops, best of 10: 27.9 msec per loop
+> > > # 10 loops, best of 10: 30.4 msec per loop
+> > > # Average result: 31.625 msec per loop
+> > >
+> > >
+> > >
+> > > # Raspbian Python 3.8.3
+> > > # 50 loops, best of 10: 7.73 msec per loop
+> > > # 50 loops, best of 10: 7.72 msec per loop
+> > > # 50 loops, best of 10: 7.67 msec per loop
+> > > # 50 loops, best of 10: 7.74 msec per loop
+> > > # Average result: 7.715 msec per loop
+> > >
+> > >
+> > >
+> > > # Raspbian speedup: 4.09x
+> > >
+> > >
+> > >
+> > > Best,
+> > > Ryan Rowe
+> > >=20
+>=20
+>=20
 
 
-
-On 6/17/20 1:22 AM, auh@auh.yoctoproject.org wrote:
-> Hello,
->
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe *bind* to *9.16.3* has=
- Failed (devtool error).
-
-Its on my list to update the work i did awhile back.
-
--armin
->
-> Detailed error information:
->
-> The following devtool command failed:  upgrade bind -V 9.16.3
-> NOTE: Starting bitbake server...
-> INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/buil=
-d/build/build/workspace
-> Loading cache...done.
-> Loaded 0 entries from dependency cache.
-> Parsing recipes...done.
-> Parsing of 775 .bb files complete (0 cached, 775 parsed). 1330 targets,=
- 33 skipped, 0 masked, 0 errors.
-> INFO: Extracting current version source...
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           =3D "1.46.0"
-> BUILD_SYS            =3D "x86_64-linux"
-> NATIVELSBSTRING      =3D "universal"
-> TARGET_SYS           =3D "x86_64-poky-linux"
-> MACHINE              =3D "qemux86-64"
-> DISTRO               =3D "poky"
-> DISTRO_VERSION       =3D "3.1+snapshot-20200616"
-> TUNE_FEATURES        =3D "m64 core2"
-> TARGET_FPU           =3D ""
-> meta                =20
-> meta-poky           =20
-> meta-yocto-bsp       =3D "tmp-auh-upgrades:816a12758bfcb5409accbf636ec5=
-8d9fa917cdb6"
-> workspace            =3D "master:816a12758bfcb5409accbf636ec58d9fa917cd=
-b6"
->
-> Initialising tasks...done.
-> Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% co=
-mplete)
-> NOTE: Executing Tasks
-> NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be r=
-erun and all succeeded.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 8 seconds
-> INFO: Adding local source files to srctree...
-> INFO: Extracting upgraded version source...
-> INFO: Fetching https://ftp.isc.org/isc/bind9/9.16.3/bind-9.16.3.tar.gz.=
-=2E.
-> Loading cache...done.
-> Loaded 1330 entries from dependency cache.
-> Parsing recipes...done.
-> Parsing of 776 .bb files complete (774 cached, 2 parsed). 1331 targets,=
- 33 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           =3D "1.46.0"
-> BUILD_SYS            =3D "x86_64-linux"
-> NATIVELSBSTRING      =3D "universal"
-> TARGET_SYS           =3D "x86_64-poky-linux"
-> MACHINE              =3D "qemux86-64"
-> DISTRO               =3D "poky"
-> DISTRO_VERSION       =3D "3.1+snapshot-20200616"
-> TUNE_FEATURES        =3D "m64 core2"
-> TARGET_FPU           =3D ""
-> meta                =20
-> meta-poky           =20
-> meta-yocto-bsp       =3D "tmp-auh-upgrades:816a12758bfcb5409accbf636ec5=
-8d9fa917cdb6"
-> workspace            =3D "master:816a12758bfcb5409accbf636ec58d9fa917cd=
-b6"
->
-> Initialising tasks...done.
-> Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% compl=
-ete)
-> NOTE: No setscene tasks
-> NOTE: Executing Tasks
-> WARNING: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.3/bind-=
-9.16.3.tar.gz, attempting MIRRORS if available
-> ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=3D1; unset=
- _PYTHON_SYSCONFIGDATA_NAME; export ftp_proxy=3D"http://proxy.yocto.io:51=
-87/"; export FTP_PROXY=3D"http://proxy.yocto.io:5187/"; export PATH=3D"/h=
-ome/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x=
-86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scr=
-ipts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipeto=
-ol-jyvexl6r/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/po=
-kybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-jyvexl6r/w=
-ork/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/=
-build/build/build/tmp/work/recipetool-jyvexl6r/work/recipe-sysroot-native=
-/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/rec=
-ipetool-jyvexl6r/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto=
--worker/auh/build/build/build/tmp/work/recipetool-jyvexl6r/work/recipe-sy=
-sroot-native/sbin:/home/pokybuild/yocto-worker/auh/
->  build/build/build/tmp/work/recipetool-jyvexl6r/work/recipe-sysroot-nat=
-ive/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/ho=
-me/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HO=
-ME=3D"/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp --no-c=
-heck-certificate -P /home/pokybuild/yocto-worker/auh/build/build/build/do=
-wnloads 'https://ftp.isc.org/isc/bind9/9.16.3/bind-9.16.3.tar.gz' --progr=
-ess=3Ddot -v failed with exit code 8, output:
-> --2020-06-16 20:06:17--  https://ftp.isc.org/isc/bind9/9.16.3/bind-9.16=
-=2E3.tar.gz
-> Resolving ftp.isc.org (ftp.isc.org)... 2001:4f8:1:f::49, 149.20.1.49
-> Connecting to ftp.isc.org (ftp.isc.org)|2001:4f8:1:f::49|:443... connec=
-ted.
-> HTTP request sent, awaiting response... 404 Not Found
-> 2020-06-16 20:06:18 ERROR 404: Not Found.
->
->
-> ERROR: Fetcher failure for URL: 'https://ftp.isc.org/isc/bind9/9.16.3/b=
-ind-9.16.3.tar.gz'. Unable to fetch URL from any source.
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/b=
-uild/build/build/tmp/work/recipetool-jyvexl6r/work/temp/log.do_fetch.4078=
-8
-> NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rer=
-un and 1 failed.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 1 seconds
-> ERROR: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.3/bind-9.=
-16.3.tar.gz
->
->
->
-> Please review the attached files for further information and build/upda=
-te failures.
-> Any problem please file a bug at https://bugzilla.yoctoproject.org/ente=
-r_bug.cgi?product=3DAutomated%20Update%20Handler
->
-> Regards,
-> The Upgrade Helper
 
 
