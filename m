@@ -1,75 +1,78 @@
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
- by mx.groups.io with SMTP id smtpd.web12.10551.1592494931767505821
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web10.10564.1592494937099541658
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 08:42:11 -0700
+ Thu, 18 Jun 2020 08:42:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EYhTsKM8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.68, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f68.google.com with SMTP id n5so4898245otj.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:42:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f/wb0MYx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f44.google.com with SMTP id u23so4864791otq.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=e/BqXb2IlDajCGxPFC8Ji/LN6GQaPqH1UkaMehE3aq0=;
-        b=EYhTsKM88fDibdN7lEfIc9wbDxGsydOsx2JmYvZFJSmHcRIi8OrAR853lxs2ZSF3R0
-         0vLEw2Y8MASROO7wkHvIWRO0s9PgBq2/+mDsxayRIwqhFCLRoB6kFtSMjsA+JSHtu5PF
-         6GirxA+i24BM27u8AkhpBY9P+l/IjBck9xhCNaSApKSHk4D8x7yLhgl2xi8eGiTrdmCb
-         P3+Ff0sPmKwvxcNtp/8Gwgbqu2rZmDLCyEGvmFpGt0HNy6B4y90MmQuxTdQs25FO1WUC
-         elr9UDL9DOq30LcpOGzMq4mIn4LtXKyY9DEj1HuYMJ6b6SAilJS6Zuw0tmuooHZwcLwa
-         GqBg==
+        bh=0iVgXZ9ZCxKHsasFFworQb3497cg65LGSB25+KkwZCw=;
+        b=f/wb0MYxqEKI9sRjqbTAEqeqb1JNudvXyDdNTGnxkXDdgnLi26ymzHf7EHQSH9gvbu
+         BjcXbBPQyGepfuh5JtpRFRnDwUgZwQ28Xb9P34jY6bJPVhxjFBAZGj3wNTPj5PluQeIW
+         cumeWCZkAsG9GbxBXeGX0buhBChc6HpV39WSWMR+oBMDjr9OyE5SxQP9wU/FZ97rE+XT
+         DW6qg8qFt7K+c8PtgQwFtxNR5wuc8G3ml/rnUZ7BE/QELjnbEExenINRrITlAVYYJSub
+         uBf0hmj/F+rh+J3h9G60SF9iypPxEE141v9krYImB29VCcEtz0Pz9gBeRFyJW2+W/VK5
+         3Fbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=e/BqXb2IlDajCGxPFC8Ji/LN6GQaPqH1UkaMehE3aq0=;
-        b=oI5kxPBdnxLhXqNqAx8TDp3l52mgI4yVjTDRQr6dLEJM8OgQUEW2K08QTGZJLzBnZv
-         rEiU/QotG/e0JHDG6h1Xn0u6HmvXnzY6dKXm1jpSI3w0Pz6UASYevtKZBvReV+JRrrFZ
-         sGqOKCS30M/8CrjVsJtxFbMTC+tl4xys3NcERk6C1SU7+8TanIU4IY1Vd2siwjEY/78r
-         rPmT8lUAn2gDrshJ813HnxotejbJrdC6wtV7Ya7i6pzqrRqqErcj+/djG91Lym1PXzTU
-         7h+BUqETSYSmzWNE+2qdMoF2Q7inzxd5Iz6kkUkia2kFzktmIJ+XXaS/RuzgOUfSzRQV
-         6YnA==
-X-Gm-Message-State: AOAM532+RKOJQ1ix43n/3NpE3xBGzSYmdTp281ajWNdbtdORbojTRN07
-	Y/nRdmcvlIUxw3SUB3TaKIV3qPWrPt6Gjg==
-X-Google-Smtp-Source: ABdhPJxTxAXVGSGsZqdMOf8G19yQJDRE1U3J/AjeSXdlokjsjP1UT2SFORBfNgQCauFxc/SQ5kWDEw==
-X-Received: by 2002:a9d:456:: with SMTP id 80mr3908324otc.2.1592494930576;
-        Thu, 18 Jun 2020 08:42:10 -0700 (PDT)
+        bh=0iVgXZ9ZCxKHsasFFworQb3497cg65LGSB25+KkwZCw=;
+        b=g/DEphNZSV2MI1MDISY9tBv9+/9XIT1SOoTXUTxmdfLLtUV/94E1F7+J3tkk4IlhaY
+         4kxiQNpoS9j5LJDos7KyWg1FfPJyX0TBNbCq4Ord5UbR0F9omMU3ikEHctHiMqVtRX90
+         weuhZeTBOX3x3ydpCfbbGTuSkYD/Pk01nafJOidUZfZws0OPzWQReURjG/c7R482eNQR
+         1VjWZ65OYOBl1VLbSL3sEHr5+smdT5/ljSSczzGUZr95LkRH0t17uh1GKK7bdwxB4ohE
+         pV8wFTPQA7O/DC9dwT5cuTRmB2F6XjWf+rQqKSWti0Qos3BSAxFBZ+YfQtCVce/glS0F
+         D5Xw==
+X-Gm-Message-State: AOAM532ro+9yxYftXr9mPwCdxc9WYfDDBMkEIGngZoYGGc7K1WbltyUD
+	HqCJ5jdbH5XMqQaBdXM0YSgBoARxTOJ4NA==
+X-Google-Smtp-Source: ABdhPJwGJOfexfhBpxLZapV3gmXB1OD0oYw6hxLEp9ef0z1Qn55JwM6FcuSxAQVf8yI5IW7F9zn7XQ==
+X-Received: by 2002:a05:6830:1e02:: with SMTP id s2mr3908568otr.263.1592494936011;
+        Thu, 18 Jun 2020 08:42:16 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id r7sm768843oor.9.2020.06.18.08.42.07
+        by smtp.gmail.com with ESMTPSA id r7sm768843oor.9.2020.06.18.08.42.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 08:42:10 -0700 (PDT)
+        Thu, 18 Jun 2020 08:42:14 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/21] iproute2: Remove -fcommon
-Date: Thu, 18 Jun 2020 05:40:38 -1000
-Message-Id: <433d3856151e095afb640a567241bebaf2e84b87.1592492076.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/21] libxcrypt2: Remove -fcommon
+Date: Thu, 18 Jun 2020 05:40:39 -1000
+Message-Id: <06a841e22853e571e07998079529839c96a23b21.1592492076.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592492076.git.steve@sakoman.com>
 References: <cover.1592492076.git.steve@sakoman.com>
 
 From: Adrian Bunk <bunk@stusta.de>
 
-This was fixed in upstream version 5.5.0.
+This was fixed in upstream version 4.4.12.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9a9f67b7c50a8c28a75fc48c8abcb8a7bb35f0e6)
+(cherry picked from commit 281d53ebab4c4c1b6c880ab14761d715196fb8d7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/libxcrypt/libxcrypt.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
-index ad0ab13c9a..7ad4b8eee6 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
-@@ -9,4 +9,4 @@ SRC_URI[sha256sum] = "bac543435cac208a11db44c9cc8e35aa902befef8750594654ee71941c
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index bee1367c99..2d2a0b03e3 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -27,8 +27,6 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error"
+ CPPFLAGS_append_class-nativesdk = " -Wno-error"
  
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
--EXTRA_OEMAKE_append = " CCOPTS='${CFLAGS} -fcommon'"
-+EXTRA_OEMAKE_append = " CCOPTS='${CFLAGS}'"
+-CFLAGS += "-fcommon"
+-
+ API = "--disable-obsolete-api"
+ EXTRA_OECONF += "${API}"
+ 
 -- 
 2.17.1
 
