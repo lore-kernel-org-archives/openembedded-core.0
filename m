@@ -1,107 +1,105 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.4043.1592473971015546639
+Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
+ by mx.groups.io with SMTP id smtpd.web11.4295.1592474967636699411
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 02:52:51 -0700
+ Thu, 18 Jun 2020 03:09:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cI/kyBMW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id p5so5338561wrw.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 02:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=uSfwEjByOsYORxLttSwLlgWgCOuC8rOkaZpeKIuhqF4=;
-        b=cI/kyBMWOuB2bSHg6R7cDY0OV9oF8Y5fmvJ4myvjyxfhxfDFyap2Urgwh3c/QS50vk
-         Gfj3UK/yNxfe+8Ddm+XzBEPpdnhe/VlO/7e93EZqe4IepRR4JR9buw0N1rodOQyWktu/
-         Ak+ehqKW03cvtCOXkN5Hi2g/8kDWkgwe7o+GY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=uSfwEjByOsYORxLttSwLlgWgCOuC8rOkaZpeKIuhqF4=;
-        b=muqv4jSEPBkUWS3JvwisDMuGIb07NBlMyQKI+dafQ5ZO5y7U3AclFd/kksS26G6fAF
-         CejxU8oLkleNmIUKLt7hDEhdgJmpRBvdagF+jBBPb+wEC7f80vvPs/oC7BSzImzNhbZW
-         X2RV/abcJqU0sXwNKx+6vtDRT3L/loI23XDFt0wyaOnct++A+lPkzjl0JVUqgxiTfz3A
-         FACbvoVufYR9tjsVCD6n7QL6otKnZcdGnvNh/xcbQjjF1QNL+DV4Ph6PN020/A8eLEBy
-         GCyYsBrNr3zDcDk9wsCq5HyBZ89EEdtCGbpxsnIgLvueObd2neNB05q0OvH1ysY15rs1
-         j7Jg==
-X-Gm-Message-State: AOAM533TsuO20O51lj8JRdT9qvBw9GKDjCLRJko8gWCLAyYbOGLhn2cz
-	AcnFYL+q5T8Ksk2vUkEjNvrz4Q==
-X-Google-Smtp-Source: ABdhPJz2tIqKMEzqtql83+CWJofVIY9aiQ2j3jUaOW45mvF0ZVNOllNXhl2YkC0j7qZWoR8bx0xhYg==
-X-Received: by 2002:adf:f083:: with SMTP id n3mr998299wro.297.1592473969471;
-        Thu, 18 Jun 2020 02:52:49 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id w13sm2876646wrr.67.2020.06.18.02.52.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 02:52:48 -0700 (PDT)
-Message-ID: <5e93588e648dfac9263dfc9520ba9b205d933703.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] classes/kernel: Use a copied image for kernel*.rpm if fs don't support symlinks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>, 
-	openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
-Cc: zhe.he@windriver.com
-Date: Thu, 18 Jun 2020 10:52:47 +0100
-In-Reply-To: <20200618075725.39434-1-yanfei.xu@windriver.com>
-References: <20200618075725.39434-1-yanfei.xu@windriver.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.137.252, mailfrom: awais_belal@mentor.com)
+IronPort-SDR: WP9x0sRjHQgCxD0PvNv+7onSWpWc2QEDqyV0K2HvV828+ztQaq5xeEP79FT2nnHzRNNn5LZ1da
+ /i7HTcrVMmZ1LcmYfE9kHha6A/3siJXPCalmTjY5G2mrKZC/120pFFN3HUh52v7+ntEOXesHl5
+ cFmt+d20sWkpAQxl63BiRaw3ESUBIGGo2JpgOm0Q7yu9on+gPeLRXlY5nbbSiyCFRNMdLdZpVN
+ du9IG6NPT/ikD7mwt17ZwGY45cQyFh4b0fQdkyhuP3K4ngdcrV008pCxPFWLL/Ss/+MdQw2jNY
+ ky4=
+X-IronPort-AV: E=Sophos;i="5.73,526,1583222400"; 
+   d="scan'208";a="50069442"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa4.mentor.iphmx.com with ESMTP; 18 Jun 2020 02:09:26 -0800
+IronPort-SDR: fI/YSxv/gdPxJ2susRnA2tIL6DQo8N1yP/FPraIbjFdgjOgfiFHRwyFKYFgy/C6Uiqdh5Er0+x
+ xcKxkpbgy9tKMsOzSH/u8/XUmfM/77SEQ4gfxR0eSaNnYm2wnpC3XjUcR9WyJqtxoyS4zdEaq3
+ YB1e/sriBwETfpbHf9xFo8ibXz7FPb3uJSPzKcr8qB4/gA6IyCwVoY/POLtKVfSqi6EZDn/w5p
+ kUkGrowu3+0hs5p/NNer2WDlK+v8cUOYvnfK1Y/Fo4SgquRsZgK6gli+FzqINogAqQ+pd9WP7F
+ Hrk=
+From: "Awais Belal" <Awais_Belal@mentor.com>
+To: Paul Barker <pbarker@konsulko.com>
+CC: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for environment-setup beforehand
+Thread-Topic: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for
+ environment-setup beforehand
+Thread-Index: AQHWRUUddxOCLY7HF0GrveLW59pfn6jeJjrU
+Date: Thu, 18 Jun 2020 10:09:22 +0000
+Message-ID: <1592474961770.16010@mentor.com>
+References: <20200617204739.22441-1-awais_belal@mentor.com>,<CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
+In-Reply-To: <CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-06-18 at 15:57 +0800, Xu, Yanfei wrote:
-> From: Yanfei Xu <yanfei.xu@windriver.com>
-> 
-> Some filesystems don't support symlink, then you will get failure when
-> you install or update the kernel rpm package. Now we use a copied iamge
-> for these filesystems instead of symlink.
-> 
-> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> ---
->  meta/classes/kernel.bbclass | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 41101a64a0..749d1a0f29 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -94,6 +94,14 @@ python __anonymous () {
->          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
->          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,typelower), """
-> +set +e
-> +ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
-> +if [ $? -ne 0 ]; then
-> +    echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlinks, falling back to copied image (%s)."
-> +fi
-> +set -e
-> +""" % (type, type, type))
->  
->      image = d.getVar('INITRAMFS_IMAGE')
->      # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
-> @@ -386,7 +394,7 @@ kernel_do_install() {
->  	for imageType in ${KERNEL_IMAGETYPES} ; do
->  		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
->  		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-> -			ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-> +			install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
->  		fi
->  	done
->  	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
-
-I am a bit concerned about this since whilst it solves one problem,
-doesn't having two copies of the same file around significantly
-increase the size of the packages and the update payloads updating such
-systems would need? Are these two copies of the file in the same
-package or not?
-
-Perhaps the symlink creation should fall back to a copy on device
-rather than having the copy at build time (as I understand it)?
-
-Cheers,
-
-Richard
-
+> That sort of error would typically be caused by the variable being=0A=
+> unset rather than the variable being set to the path of a nonexistent=0A=
+> file. I don't know much about the context this script runs in though=0A=
+> so I may be missing something obvious.=0A=
+=0A=
+You're right but a "! -f" takes care of both the cases where the var is uns=
+et of the file isn't present.=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Paul Barker <pbarker@konsulko.com>=0A=
+Sent: Thursday, June 18, 2020 12:50 PM=0A=
+To: Belal, Awais=0A=
+Cc: openembedded-core=0A=
+Subject: Re: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for enviro=
+nment-setup beforehand=0A=
+=0A=
+On Wed, 17 Jun 2020 at 21:48, Awais Belal <Awais_Belal@mentor.com> wrote:=
+=0A=
+>=0A=
+> The script runs a 'cat' on the script and if it isn't present in the=0A=
+> sdk the cat command waits on the std input and hence the installation=0A=
+> process simply sits there.=0A=
+=0A=
+That sort of error would typically be caused by the variable being=0A=
+unset rather than the variable being set to the path of a nonexistent=0A=
+file. I don't know much about the context this script runs in though=0A=
+so I may be missing something obvious.=0A=
+=0A=
+>=0A=
+> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+> ---=0A=
+>  meta/files/toolchain-shar-relocate.sh | 6 ++++++=0A=
+>  1 file changed, 6 insertions(+)=0A=
+>=0A=
+> diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain=
+-shar-relocate.sh=0A=
+> index e3c10018ef..02a05664c6 100644=0A=
+> --- a/meta/files/toolchain-shar-relocate.sh=0A=
+> +++ b/meta/files/toolchain-shar-relocate.sh=0A=
+> @@ -3,6 +3,12 @@ if ! xargs --version > /dev/null 2>&1; then=0A=
+>         exit 1=0A=
+>  fi=0A=
+>=0A=
+> +# check if we have a valid env-setup script=0A=
+> +if [ ! -f "$env_setup_script" ]; then=0A=
+> +       echo "Main environment-setup file not found. Abort!"=0A=
+> +       exit 1=0A=
+> +fi=0A=
+> +=0A=
+>  # fix dynamic loader paths in all ELF SDK binaries=0A=
+>  native_sysroot=3D$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE=
+_SYSROOT=3D'|cut -d'=3D' -f2|tr -d '"')=0A=
+>  dl_path=3D$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")=0A=
+> --=0A=
+> 2.17.1=0A=
+=0A=
+=0A=
+=0A=
+--=0A=
+Paul Barker=0A=
+Konsulko Group=0A=
