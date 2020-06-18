@@ -1,112 +1,141 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web11.3011.1592468858080998022
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.3072.1592469122008526832
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 01:27:38 -0700
+ Thu, 18 Jun 2020 01:32:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RGtB2BuF;
- spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f67.google.com with SMTP id d7so2940305lfi.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 01:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=WahDETyUwb38ADo/HgTjdpZZA9sfyFzwXGEUkWSh7j4=;
-        b=RGtB2BuFyMmHOB3QkmmdoU/qmVCyDHANXQD6dEuOyq5X+bcFqreMCDSEVJDuoI32CR
-         M4Drp9kwEp8CJZpIACU3wU9IpeQFHMKueMD7FyfgyedlHn3kAy7q1CE/yUSPCHXjf+NK
-         zbCyATgJcITgtVJrPN6Ez9eTccKHmzq0ADCf/8l0fVurM0EPBL1eFufSDVRza0fFj0zM
-         CFbjcfc/qt7jihTPltvI/0nE8IrR5souhvCmmH8Ga64UVZZQCgZNrI2zfKaS0lU8VI4H
-         e22kxkM57LFaEiycp/TCtJYmzI9mbElOxGAT1qrb3YGJTOr2F6hwJailOh0TDhi6gCNq
-         haVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WahDETyUwb38ADo/HgTjdpZZA9sfyFzwXGEUkWSh7j4=;
-        b=BWN792WUXLJIoboWfEU5aatAtFU9sz/X+Ur7dx2F7Ao5ZRdghjXJofY80RF61zxOmv
-         K0CCznq2yjBQ/DO0b8IJUTCEFjfrfO5xbO4Chwg4tmnRUnknBFAV1n5J5DsQ7AFrgHHv
-         6LibuBUDDnaLqi4T7/XnxIBhcxXfLLAqt4HnyqerUpAPgMYEyW9SWa1JragqcZCJ/Ubp
-         ee4zJXYCfGG4oNLj/gEOqAkamuJ0/NGxwiy1sK0UDGPmNu9W0gPZB4nZr7kZwise0GBu
-         h+jNDKmoGWS9pXD0xzXfHQ4jAdgqUzibTjpdSxqGiwek1QGb/zpY4o8MCFp8gEBxhTgs
-         5ePw==
-X-Gm-Message-State: AOAM531pQtYmZy/zShDfAVQhVJQvGCdkrtiF0+VJgISRDarElKXc5DM+
-	b83czCp1+5l9u+UOVJHQaKrVJtOF
-X-Google-Smtp-Source: ABdhPJwJZRqo14Y/N8defx9Z+nPJwnAmYEhY7ypI7k8QKAz8Y8FtA8skM+fFY6oqQ/8da3eHoGoUWw==
-X-Received: by 2002:a19:8b8a:: with SMTP id n132mr1710378lfd.45.1592468855703;
-        Thu, 18 Jun 2020 01:27:35 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id h16sm484056lja.87.2020.06.18.01.27.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2020 01:27:34 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] grub-efi-native: use RDEPENDS on grub-native instead of duplicating tools
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Christopher Clark <christopher.w.clark@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20200617230710.9163-1-christopher.w.clark@gmail.com>
- <afb6222235af73893eb979a1f486108e902d4eaf.camel@linuxfoundation.org>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <a2dcab79-dd9f-168a-c391-07897ad1b556@gmail.com>
-Date: Thu, 18 Jun 2020 10:27:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: haitao.liu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05I8W1qR028356
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 01:32:01 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 18 Jun
+ 2020 01:32:00 -0700
+From: "jason.lau" <Haitao.Liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <haitao.liu@windriver.com>
+Subject: [OE-core][master][PATCH] libjpeg-turbo: Fix CVE-2020-13790
+Date: Thu, 18 Jun 2020 16:31:21 +0800
+Message-ID: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <afb6222235af73893eb979a1f486108e902d4eaf.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [128.224.153.75]
+Content-Type: text/plain
 
-On 6/18/20 1:12 AM, Richard Purdie wrote:
-> On Wed, 2020-06-17 at 16:07 -0700, Christopher Clark wrote:
->> Both grub-native and grub-efi-native included packaging for the
->> grub-mkimage and grub-editenv tools, which prevented concurrent
->> installation of both the grub-native and grub-efi-native packages.
->> This caused errors on image generation with wic when populating
->> partitions with both legacy and efi boot support, so resolve this by
->> removing the duplicated tools from grub-efi-native and add a
->> runtime dependency from it to grub-native.
->>
->> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
->> ---
->>   meta/recipes-bsp/grub/grub-efi_2.04.bb | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-
->> bsp/grub/grub-efi_2.04.bb
->> index b9d6225d27..ed43dee152 100644
->> --- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
->> @@ -6,6 +6,7 @@ GRUBPLATFORM = "efi"
->>   
->>   DEPENDS_append_class-target = " grub-efi-native"
->>   RDEPENDS_${PN}_class-target = "grub-common virtual/grub-bootconf"
->> +RDEPENDS_${PN}_class-native = "grub-native"
->>   
->>   SRC_URI += " \
->>              file://cfg \
->> @@ -61,9 +62,7 @@ do_install_append_class-target() {
->>   }
->>   
->>   do_install_class-native() {
->> -	install -d ${D}${bindir}
->> -	install -m 755 grub-mkimage ${D}${bindir}
->> -	install -m 755 grub-editenv ${D}${bindir}
->> +	:
->>   }
->>   
->>   do_install_class-target() {
-> 
-> I think we want to PROVIDES_append_class-native = " grub-efi-native" in
-> grub and then drop the BBCLASSEXTEND from grub-efi?
-> 
+libjpeg-turbo 2.0.4 has a heap-based buffer over-read
+in get_rgb_row() in rdppm.c via a malformed PPM input file.
 
-Just for the record, I tested building grub-native (x86-64) both with 
-platform "pc" and "efi", and in the same build directory, and all tools 
-in ${bindir} were binary identical. Asking in #grub on freenode also 
-confirmed this, apparently Debian packaging also assumes this.
+CVE: CVE-2020-13790
 
-So no grub-efi-native required, and we can remove that 
-_class_target/_class_native special handling as well.
+Upstream-Status: Backport
+[https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a]
 
-Jacob
+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+---
+ ...buf-overrun-caused-by-bad-binary-PPM.patch | 81 +++++++++++++++++++
+ .../jpeg/libjpeg-turbo_2.0.4.bb               |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+
+diff --git a/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+new file mode 100644
+index 0000000000..518df2d28e
+--- /dev/null
++++ b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+@@ -0,0 +1,81 @@
++From ae2fc496c622bdf0c409b93006bbb69d2cabd41f Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Tue, 2 Jun 2020 14:15:37 -0500
++Subject: [PATCH] rdppm.c: Fix buf overrun caused by bad binary PPM
++
++This extends the fix in 1e81b0c3ea26f4ea8f56de05367469333de64a9f to
++include binary PPM files with maximum values < 255, thus preventing a
++malformed binary PPM input file with those specifications from
++triggering an overrun of the rescale array and potentially crashing
++cjpeg, TJBench, or any program that uses the tjLoadImage() function.
++
++Fixes #433
++
++CVE: CVE-2020-13790
++
++Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
++---
++ ChangeLog.md | 20 ++++++++++++++++----
++ rdppm.c      |  4 ++--
++ 2 files changed, 18 insertions(+), 6 deletions(-)
++
++diff --git a/ChangeLog.md b/ChangeLog.md
++index 4d1219e..250bcaa 100644
++--- a/ChangeLog.md
+++++ b/ChangeLog.md
++@@ -1,3 +1,15 @@
+++2.0.5
+++=====
+++
+++### Significant changes relative to 2.0.4:
+++
+++1. Fixed an issue in the PPM reader that caused a buffer overrun in cjpeg,
+++TJBench, or the `tjLoadImage()` function if one of the values in a binary
+++PPM/PGM input file exceeded the maximum value defined in the file's header and
+++that maximum value was less than 255.  libjpeg-turbo 1.5.0 already included a
+++similar fix for binary PPM/PGM files with maximum values greater than 255.
+++
+++
++ 2.0.4
++ =====
++ 
++@@ -562,10 +574,10 @@ application was linked against.
++ 
++ 3. Fixed a couple of issues in the PPM reader that would cause buffer overruns
++ in cjpeg if one of the values in a binary PPM/PGM input file exceeded the
++-maximum value defined in the file's header.  libjpeg-turbo 1.4.2 already
++-included a similar fix for ASCII PPM/PGM files.  Note that these issues were
++-not security bugs, since they were confined to the cjpeg program and did not
++-affect any of the libjpeg-turbo libraries.
+++maximum value defined in the file's header and that maximum value was greater
+++than 255.  libjpeg-turbo 1.4.2 already included a similar fix for ASCII PPM/PGM
+++files.  Note that these issues were not security bugs, since they were confined
+++to the cjpeg program and did not affect any of the libjpeg-turbo libraries.
++ 
++ 4. Fixed an issue whereby attempting to decompress a JPEG file with a corrupt
++ header using the `tjDecompressToYUV2()` function would cause the function to
++diff --git a/rdppm.c b/rdppm.c
++index 87bc330..a8507b9 100644
++--- a/rdppm.c
+++++ b/rdppm.c
++@@ -5,7 +5,7 @@
++  * Copyright (C) 1991-1997, Thomas G. Lane.
++  * Modified 2009 by Bill Allombert, Guido Vollbeding.
++  * libjpeg-turbo Modifications:
++- * Copyright (C) 2015-2017, D. R. Commander.
+++ * Copyright (C) 2015-2017, 2020, D. R. Commander.
++  * For conditions of distribution and use, see the accompanying README.ijg
++  * file.
++  *
++@@ -720,7 +720,7 @@ start_input_ppm(j_compress_ptr cinfo, cjpeg_source_ptr sinfo)
++     /* On 16-bit-int machines we have to be careful of maxval = 65535 */
++     source->rescale = (JSAMPLE *)
++       (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
++-                                  (size_t)(((long)maxval + 1L) *
+++                                  (size_t)(((long)MAX(maxval, 255) + 1L) *
++                                            sizeof(JSAMPLE)));
++     half_maxval = maxval / 2;
++     for (val = 0; val <= (long)maxval; val++) {
++-- 
++2.17.0
++
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
+index 1f49fd3d3b..e210635c4f 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
+@@ -12,6 +12,7 @@ DEPENDS_append_x86_class-target    = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
++           file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch \
+            "
+ 
+ SRC_URI[md5sum] = "d01d9e0c28c27bc0de9f4e2e8ff49855"
+-- 
+2.17.0
+
