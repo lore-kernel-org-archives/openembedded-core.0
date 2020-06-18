@@ -1,78 +1,78 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web10.10564.1592494937099541658
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web11.10543.1592494942107875042
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 08:42:17 -0700
+ Thu, 18 Jun 2020 08:42:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f/wb0MYx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f44.google.com with SMTP id u23so4864791otq.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:42:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TwiKfpP4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.41, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f41.google.com with SMTP id k15so4870746otp.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=0iVgXZ9ZCxKHsasFFworQb3497cg65LGSB25+KkwZCw=;
-        b=f/wb0MYxqEKI9sRjqbTAEqeqb1JNudvXyDdNTGnxkXDdgnLi26ymzHf7EHQSH9gvbu
-         BjcXbBPQyGepfuh5JtpRFRnDwUgZwQ28Xb9P34jY6bJPVhxjFBAZGj3wNTPj5PluQeIW
-         cumeWCZkAsG9GbxBXeGX0buhBChc6HpV39WSWMR+oBMDjr9OyE5SxQP9wU/FZ97rE+XT
-         DW6qg8qFt7K+c8PtgQwFtxNR5wuc8G3ml/rnUZ7BE/QELjnbEExenINRrITlAVYYJSub
-         uBf0hmj/F+rh+J3h9G60SF9iypPxEE141v9krYImB29VCcEtz0Pz9gBeRFyJW2+W/VK5
-         3Fbw==
+        bh=gvEdz+G9v6fXh0C1By55W9oKaftnoGElYk3/8QVDWo8=;
+        b=TwiKfpP4IcU6yUVz4kWsBN0NpdvzBazD0xYUs+pm/vlZhqDWPXWBJnG06LPbkWECd2
+         A1NMu0BG5WjGrRcMKfMgX18VILGAXm566WSiHEFlTQaMjs/PeCFl0WMlohQMHeATPNJ8
+         6ES+jMTqm8SHMOhWklh/cRObI/7Mz6LewR+dMMSmsC/8PxW/RQFuG06ax8/b4t9TL+3E
+         67CdEj5qVeoyZ4Rzu3y7W65oZbcvRaw7IGCl9erHvAIKDEDx0MOdlv3pa2VVcRCIcTs6
+         Sm/q+8tiqBWQaSgyOT6KK8qpsUTzORmW6F7hZFC1U6EDbvKk/FzAhFe+kmHB67JjczuI
+         5lBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=0iVgXZ9ZCxKHsasFFworQb3497cg65LGSB25+KkwZCw=;
-        b=g/DEphNZSV2MI1MDISY9tBv9+/9XIT1SOoTXUTxmdfLLtUV/94E1F7+J3tkk4IlhaY
-         4kxiQNpoS9j5LJDos7KyWg1FfPJyX0TBNbCq4Ord5UbR0F9omMU3ikEHctHiMqVtRX90
-         weuhZeTBOX3x3ydpCfbbGTuSkYD/Pk01nafJOidUZfZws0OPzWQReURjG/c7R482eNQR
-         1VjWZ65OYOBl1VLbSL3sEHr5+smdT5/ljSSczzGUZr95LkRH0t17uh1GKK7bdwxB4ohE
-         pV8wFTPQA7O/DC9dwT5cuTRmB2F6XjWf+rQqKSWti0Qos3BSAxFBZ+YfQtCVce/glS0F
-         D5Xw==
-X-Gm-Message-State: AOAM532ro+9yxYftXr9mPwCdxc9WYfDDBMkEIGngZoYGGc7K1WbltyUD
-	HqCJ5jdbH5XMqQaBdXM0YSgBoARxTOJ4NA==
-X-Google-Smtp-Source: ABdhPJwGJOfexfhBpxLZapV3gmXB1OD0oYw6hxLEp9ef0z1Qn55JwM6FcuSxAQVf8yI5IW7F9zn7XQ==
-X-Received: by 2002:a05:6830:1e02:: with SMTP id s2mr3908568otr.263.1592494936011;
-        Thu, 18 Jun 2020 08:42:16 -0700 (PDT)
+        bh=gvEdz+G9v6fXh0C1By55W9oKaftnoGElYk3/8QVDWo8=;
+        b=Y1V8vfy93AWrghjTul2D57qe6q+ppd/4c3fwtuuYEZIw2rCTrxDUEm7+iKiwwX6QQ8
+         7GX8wQnR2bBatdMVvpBv8AEwwafLomFq38aY3HTb8BL5zcXRVUmbWR3wVLCO2MmzOFGk
+         Sb2GsZzjVs3p6H1CJmgkl53UJ2dWvzjCP3FOvTi5ml0BBPTfgzV30iEhplqfKkujP6P5
+         J7SU9rCxNl5Ryy8LFcoPCV/vNvisOQcgig2DXz2HP/x4RPMCSwvZ/bOMBDksaIFLZom4
+         tKhU1vaXDfhKZHc6PXUPG2hhYhpbyn6ogiE+iqoQ5+/NWXS03JugYOpYvIFp1x9rmY6b
+         ZCJg==
+X-Gm-Message-State: AOAM533N8vJ19P9tQOpSAS5RBqK+CktlC72oH1RYmL/wxmvYI5NOjxCS
+	XsDEIEnlqvIkMbkY4IFFhrQK0tu4kp6nBQ==
+X-Google-Smtp-Source: ABdhPJzgHGQpJAHlC+DyYnnJaQdckn1GBXTR5m65+7FZK6kOGOMpwQJ/Hy0VX20D8iZgxfebXvG2rA==
+X-Received: by 2002:a9d:2f47:: with SMTP id h65mr3780191otb.173.1592494940842;
+        Thu, 18 Jun 2020 08:42:20 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id r7sm768843oor.9.2020.06.18.08.42.12
+        by smtp.gmail.com with ESMTPSA id r7sm768843oor.9.2020.06.18.08.42.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 08:42:14 -0700 (PDT)
+        Thu, 18 Jun 2020 08:42:20 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/21] libxcrypt2: Remove -fcommon
-Date: Thu, 18 Jun 2020 05:40:39 -1000
-Message-Id: <06a841e22853e571e07998079529839c96a23b21.1592492076.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/21] mesa: Remove -fcommon
+Date: Thu, 18 Jun 2020 05:40:40 -1000
+Message-Id: <eb47eaa3f06e49f635bd774808ddb4f28fa3d718.1592492076.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592492076.git.steve@sakoman.com>
 References: <cover.1592492076.git.steve@sakoman.com>
 
 From: Adrian Bunk <bunk@stusta.de>
 
-This was fixed in upstream version 4.4.12.
+This was fixed in upstream version 20.0.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 281d53ebab4c4c1b6c880ab14761d715196fb8d7)
+(cherry picked from commit 1d269a3f3a84cae92e611e02082150cfd97f8258)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/libxcrypt/libxcrypt.inc | 2 --
+ meta/recipes-graphics/mesa/mesa_20.0.2.bb | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index bee1367c99..2d2a0b03e3 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -27,8 +27,6 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
- TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error"
- CPPFLAGS_append_class-nativesdk = " -Wno-error"
+diff --git a/meta/recipes-graphics/mesa/mesa_20.0.2.bb b/meta/recipes-graphics/mesa/mesa_20.0.2.bb
+index 56ee28c870..ee0260e073 100644
+--- a/meta/recipes-graphics/mesa/mesa_20.0.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_20.0.2.bb
+@@ -14,8 +14,6 @@ SRC_URI[sha256sum] = "aa54f1cb669550606aab8ceb475105d15aeb814fca5a778ce70d0fd10e
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
 -CFLAGS += "-fcommon"
 -
- API = "--disable-obsolete-api"
- EXTRA_OECONF += "${API}"
- 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
 -- 
 2.17.1
 
