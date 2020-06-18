@@ -1,72 +1,69 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.1818.1592439117894984684
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.367.1592442996325655808
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 17:11:59 -0700
+ Wed, 17 Jun 2020 18:16:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=if+/u26G;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=tghz=77=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49nMn41Kk1z2f;
-	Thu, 18 Jun 2020 02:11:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1592439114;
-	bh=jV3KU+3RVR3JvJY15qM2dPzz5qUSL6VjvWEjzziskVc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=if+/u26GUqMku5R2l4pyJWqYG7K//VvSqVr+NuDUZX6BjYF9rZuSgaK2qhjQr3utT
-	 KECBxpUr8UeNessgc7OsYR0xjMNg1DHJSKfRITZeQjISha+go0LzKge7o+NFqXUQdV
-	 EdRszoY5t3ytSvyYDRtpwT6ZU4NTni3luWwQ0DqysBjs/lQsJNcCOFv9262N1Z54XX
-	 UgOlq90MexsC9bbjnrLWM1O0j+M0X4+8+fZk7zJdRwqQDjDI4a6SFszuxFoPdjdAJ/
-	 Oaine/QmVS9Ok6Z54EIorVaJFRcaNL3rlfqGpmp92fHK4SUex4nlFKgzdIocE0Xjvj
-	 UA09wB1XnXZNK+BojJD4BhkTH9hjTuun66NjtAX+T8DkHwARqJDZjjZtzXHb0MBCCr
-	 fwN7h+RiSW4LHvhJ167vhhZ35PLjjLlnUALExFmIb6vg4AyD8a/Ysq1Z6kRUdNS9Em
-	 JR5jKHWAhGLEYY8viGhA1I0ZQSxLkaDQ4mcSL1q/Mv9RbLccWTQima3vEDtv3kVP0p
-	 FfDIKvAverMM54Lxs576mZilf2pGlBnbTEdOi6QZpg2O5rBaH+GO7E5mc1vzZiQOnJ
-	 Ke/k9molA8Frs3Q54tBLk2vDUW2jsv37Vw0I6gYmq5S9/E4qE92Ek5n31ulmj1e1ni
-	 wjSFL0FijGarV+RZ243dQxqY=
-Date: Thu, 18 Jun 2020 03:11:50 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Steve Sakoman <sakoman@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][dunfell 08/21] cairo: Do not try to remove nonexistent directories
-Message-ID: <20200618001150.GB12922@localhost>
-References: <cover.1592249381.git.steve@sakoman.com>
- <5e33d1d1d655c50a817acda85f2df67c67196daf.1592249381.git.steve@sakoman.com>
- <20200616194912.GH14969@localhost>
- <CAGDS+nkDyBwYqbjJtedLRx43wL8yU7ZNStpn1uvvKm-hr1VwRw@mail.gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05I1GZ9X023305
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2020 18:16:35 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 17 Jun 2020 18:16:16 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [V2][PATCH] mime.bbclass: fix post install scriptlet error
+Date: Thu, 18 Jun 2020 09:14:27 +0800
+Message-ID: <20200618011427.1861691-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAGDS+nkDyBwYqbjJtedLRx43wL8yU7ZNStpn1uvvKm-hr1VwRw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain
 
-On Tue, Jun 16, 2020 at 10:11:57AM -1000, Steve Sakoman wrote:
-> On Tue, Jun 16, 2020 at 9:49 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Mon, Jun 15, 2020 at 09:35:27AM -1000, Steve Sakoman wrote:
-> > > From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > >
-> > > Commit 0e1f8fa0 (bitbake.conf: propagate 'opengl' DISTRO_FEATURE to
-> > > native/nativesdk from target) changed the default PACKAGECONFIG for
-> > > native and nativesdk so that it becomes empty unless "x11" is in
-> > > DISTRO_FEATURES since "trace" was also removed (propbably
-> > > unintentionally). This highlighted than an empty PACKAGECONFIG would
-> > > lead to a build failure since /usr/bin is never created under these
-> > > conditions, but the recipe still tried to remove it.
-> > >...
-> >
-> > Isn't this a fix for a bug that is not in dunfell?
-> 
-> My impression was that while the bitbake.conf change that highlighted
-> the issue with an empty PACKAGECONFIG isn't in dunfell, the underlying
-> bug that this change uncovered does exist in dunfell.
->...
+From: Changqing Li <changqing.li@windriver.com>
 
-I failed to reproduce the problem in dunfell, but the change looks 
-harmless enough that adding it to dunfell it is unlikely to cause 
-problems.
+fix error during post uninstall:
+%postun(shared-mime-info-data-2.0-r0.4.corei7_64): execv(/bin/sh) pid 78
++ '[' 0 = 0 ']'
++ set -e
++ '[' x '!=' x ']'
++ echo 'Updating MIME database... this may take a while.'
+Updating MIME database... this may take a while.
++ update-mime-database /usr/share/mime
+Directory '/usr/share/mime/packages' does not exist!
+%postun(shared-mime-info-data-2.0-r0.4.corei7_64): waitpid(78) rc 78 status 100
+warning: %postun(shared-mime-info-data-2.0-r0.4.corei7_64) scriptlet failed, exit status 1
 
-> Steve
+when run post uninstall scriptlet, /usr/share/mime/packages has been
+removed during unintall, while update-mime-database will check xml under
+/usr/share/mime/packages.
 
-cu
-Adrian
+workaround by create this dir before update, then remove it
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/classes/mime.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
+index c9072adf3b..728fba1d94 100644
+--- a/meta/classes/mime.bbclass
++++ b/meta/classes/mime.bbclass
+@@ -24,7 +24,13 @@ if [ "x$D" != "x" ]; then
+ 		mimedir=${MIMEDIR}
+ else
+ 	echo "Updating MIME database... this may take a while."
+-	update-mime-database $D${MIMEDIR}
++       if [ ! -d $D${MIMEDIR}/packages ]; then
++               mkdir $D${MIMEDIR}/packages
++               update-mime-database $D${MIMEDIR}
++               rmdir $D${MIMEDIR}/packages
++       else
++               update-mime-database $D${MIMEDIR}
++       fi
+ fi
+ }
+ 
+-- 
+2.17.1
+
