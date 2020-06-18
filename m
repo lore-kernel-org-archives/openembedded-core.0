@@ -1,376 +1,195 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.9897.1592493427348240237
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web11.9945.1592493543795822066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 08:17:07 -0700
+ Thu, 18 Jun 2020 08:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qMESblxu;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id u8so2678454pje.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:17:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I/b9SmNP;
+ spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-wm1-f65.google.com with SMTP id b82so5573203wmb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language;
-        bh=kNMts1y2x4WTDEj4sQduHb+QReJEyeJqcAiKHWZUiSY=;
-        b=qMESblxuW5uZlWRm8xfQeq/yIsgHvCNNe7U8ZmTgPV4qgxhCybeEDgCsN6kecAqU6a
-         tluOI4vIcR6Odv4bRak+eHyrcRfpwn77HD9KwScKz0jgZXTUBt93CTCMg7iaJrQ1zlAN
-         O6tnydaUo5SKMzK+V3PcoWmuSZEFtfEPRJ3Cpp75+hjdVzPLqg1/1EDlhRc7tyvIFfV/
-         phH2/5zvUjxCkvSGUlsfvumhzdfm7n8ErpL8pv3WaXA944JZeY6AmoN83hfappok/ivi
-         ORunKTROuugezm8Esc6KUdhxdOcX1M8C6o6hCQQVmt4lDeo6fsnJudv/vnqThf7EuDj8
-         vX1Q==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mQhiYQcoXYJoOZwn7pGXG83IB47CfC3XF5/282v/YiU=;
+        b=I/b9SmNPa+/zD9GaKmRdx57IM67ELDZUO2+fhK8jWju/HgkArXPLDIcUgUIndOWfwj
+         pJFkJSIdibmNGzE3JzzDiPKwJMq3rGIHbc1lXfTA2HLjeFB7tP2hHQEvLokpEfYXVwzH
+         50uzR4M1J4cjzH+a36AvGRKMQCP9HAmnFKa2Q7phpeU1+Z3B8PBFyyCEw348xFxvZGCv
+         glTPRMzqdnJ5f6ijd9+6Lln1mBqk5tW+LcQ1k1wQISaO5xPtzlSsmhFsaebF3CdgpmoV
+         DiFtMQXoQkIbC/SYZTEHe7EnvuTa2iVbb9kqccaB6b9zwKWmKUOGW7hGVdGXbCtWWauO
+         dMFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language;
-        bh=kNMts1y2x4WTDEj4sQduHb+QReJEyeJqcAiKHWZUiSY=;
-        b=X9Xtc7dN9uMQm1DrHAfJF6AAVIr72Pc3fr7VvNOEDGtxLjMfAF2woj7bXBqec3W0Bq
-         2pC+rrXIClm0DTdXGZPTpx2GgqJVu0kThP68gJsVgZ/8UTn3jIjpx6NoBNaygt1jidqz
-         f5sIolYL7CIYgY6c++l+X9/vO3G8BpuNUjbUiXjU+tR/o7tydvn8FWGvqLSS9AK0ofZp
-         /+hpiUJawH6t+2Uwn6ct7subSGOABYnvt+pD26J8RjX2Y5QmKy2qeI1YMJfnTs+tOEIR
-         Hsxy25+09ybmD5twre2Nwyn6u+RtLPOnRdAFtC+KOg1Vw38Ees6rjkgAwfi6OxCJG30C
-         LWVA==
-X-Gm-Message-State: AOAM531MNiFtQT0XzFxQ3IW4xLjpr+ij97qUv+81BoJAXAAGWayU4gJm
-	lCcH/xGpe5tUJ6mmrwxDJf6kACA1
-X-Google-Smtp-Source: ABdhPJwDg8pzum41UZ8h6B1Dv5Fhpv1HgIDhe3HabowAvxTf7mttEIGze5So55Uc0Nr3WMfPfp542w==
-X-Received: by 2002:a17:90b:e8f:: with SMTP id fv15mr5023747pjb.47.1592493426572;
-        Thu, 18 Jun 2020 08:17:06 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:88de:dadb:4f45:bd2e? ([2601:202:4180:a5c0:88de:dadb:4f45:bd2e])
-        by smtp.gmail.com with ESMTPSA id 125sm3116186pff.130.2020.06.18.08.17.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2020 08:17:05 -0700 (PDT)
-Subject: Re: [OE-core][master][PATCH] libjpeg-turbo: Fix CVE-2020-13790
-To: "jason.lau" <Haitao.Liu@windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <ec710973-8b2e-9c19-4d02-1c44d09797b7@gmail.com>
-Date: Thu, 18 Jun 2020 08:17:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mQhiYQcoXYJoOZwn7pGXG83IB47CfC3XF5/282v/YiU=;
+        b=tZcFCUuj/UsnRiThMZQMUHAhIR5fqMfP9v4anuRELhDckJMu+27fZckL2Tb0KslgcA
+         O3ZDbUytDIPYQHc7d5Qdw8MEU0LkvR1gSCbVYOb0JozxT3CF4IPXEdi3Zem0yPVgzYO3
+         1RwuDk2A2wzxRH2cbsGKs+xqgpIOBRrcTMzstAMDdQnM0/saj5YydGN4a7RklMtk/oi+
+         5PBztoAR8cPzZfrHZKJWtOqVqO5YFXJZSJA2lEtOUfiZAbvbEGQwyTNbyuRj5BdbjpW6
+         Mc9tPR0elBUYREpGSfzidyznuenGMeWHGJPYwPPCeOmKaqM5GD2jgBsQaqtcy+njvj2K
+         dKKQ==
+X-Gm-Message-State: AOAM530Aomp1XBFaiG40B5gDxUVoQD+WpiyIRiKHTwQ/BXnHyq1lk3X6
+	/W8mZ8TvkhvQ2XJLChyn+sG2QbedK9A=
+X-Google-Smtp-Source: ABdhPJxOo/6xutEQ9irDuSr9qpVq2oHsqkjsnxNsMAfEjKtrNXAER0xl31sB6nKN8PWT7io+PxCylg==
+X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr4632895wmh.150.1592493541661;
+        Thu, 18 Jun 2020 08:19:01 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300f07f07a084c552045c88545425.dip0.t-ipconnect.de. [2003:f0:7f07:a084:c552:45c:8854:5425])
+        by smtp.gmail.com with ESMTPSA id o15sm3958458wrv.48.2020.06.18.08.19.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 08:19:01 -0700 (PDT)
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] u-boot: introduce UBOOT_INITIAL_ENV
+Date: Thu, 18 Jun 2020 17:18:52 +0200
+Message-Id: <20200618151852.3777657-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
-Content-Type: multipart/alternative;
- boundary="------------9DC137CF69694299ACFCA5F5"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---------------9DC137CF69694299ACFCA5F5
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Ming Liu <ming.liu@toradex.com>
 
+It defaults to ${PN}-initial-env, no functional changes with current
+implementation, but this allows it to be changed in individual u-boot
+recipes.
 
+If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
+installed/deployed, set ALLOW_EMPTY_${PN}-env = "1".
 
-On 6/18/20 1:31 AM, jason.lau wrote:
-> libjpeg-turbo 2.0.4 has a heap-based buffer over-read
-> in get_rgb_row() in rdppm.c via a malformed PPM input file.
->
-> CVE: CVE-2020-13790
+The major purpose for introducing this, is that the users might have
+some scripts on targets like:
+```
+/sbin/fw_setenv -f /etc/u-boot-initial-env
+```
 
-What about dunfell?
+and it should be able to run against a identical path generated by
+different u-boot recipes.
 
--armin
->
-> Upstream-Status: Backport
-> [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a]
->
-> Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
-> ---
->  ...buf-overrun-caused-by-bad-binary-PPM.patch | 81 +++++++++++++++++++
->  .../jpeg/libjpeg-turbo_2.0.4.bb               |  1 +
->  2 files changed, 82 insertions(+)
->  create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
->
-> diff --git a/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
-> new file mode 100644
-> index 0000000000..518df2d28e
-> --- /dev/null
-> +++ b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
-> @@ -0,0 +1,81 @@
-> +From ae2fc496c622bdf0c409b93006bbb69d2cabd41f Mon Sep 17 00:00:00 2001
-> +From: DRC <information@libjpeg-turbo.org>
-> +Date: Tue, 2 Jun 2020 14:15:37 -0500
-> +Subject: [PATCH] rdppm.c: Fix buf overrun caused by bad binary PPM
-> +
-> +This extends the fix in 1e81b0c3ea26f4ea8f56de05367469333de64a9f to
-> +include binary PPM files with maximum values < 255, thus preventing a
-> +malformed binary PPM input file with those specifications from
-> +triggering an overrun of the rescale array and potentially crashing
-> +cjpeg, TJBench, or any program that uses the tjLoadImage() function.
-> +
-> +Fixes #433
-> +
-> +CVE: CVE-2020-13790
-> +
-> +Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
-> +---
-> + ChangeLog.md | 20 ++++++++++++++++----
-> + rdppm.c      |  4 ++--
-> + 2 files changed, 18 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/ChangeLog.md b/ChangeLog.md
-> +index 4d1219e..250bcaa 100644
-> +--- a/ChangeLog.md
-> ++++ b/ChangeLog.md
-> +@@ -1,3 +1,15 @@
-> ++2.0.5
-> ++=====
-> ++
-> ++### Significant changes relative to 2.0.4:
-> ++
-> ++1. Fixed an issue in the PPM reader that caused a buffer overrun in cjpeg,
-> ++TJBench, or the `tjLoadImage()` function if one of the values in a binary
-> ++PPM/PGM input file exceeded the maximum value defined in the file's header and
-> ++that maximum value was less than 255.  libjpeg-turbo 1.5.0 already included a
-> ++similar fix for binary PPM/PGM files with maximum values greater than 255.
-> ++
-> ++
-> + 2.0.4
-> + =====
-> + 
-> +@@ -562,10 +574,10 @@ application was linked against.
-> + 
-> + 3. Fixed a couple of issues in the PPM reader that would cause buffer overruns
-> + in cjpeg if one of the values in a binary PPM/PGM input file exceeded the
-> +-maximum value defined in the file's header.  libjpeg-turbo 1.4.2 already
-> +-included a similar fix for ASCII PPM/PGM files.  Note that these issues were
-> +-not security bugs, since they were confined to the cjpeg program and did not
-> +-affect any of the libjpeg-turbo libraries.
-> ++maximum value defined in the file's header and that maximum value was greater
-> ++than 255.  libjpeg-turbo 1.4.2 already included a similar fix for ASCII PPM/PGM
-> ++files.  Note that these issues were not security bugs, since they were confined
-> ++to the cjpeg program and did not affect any of the libjpeg-turbo libraries.
-> + 
-> + 4. Fixed an issue whereby attempting to decompress a JPEG file with a corrupt
-> + header using the `tjDecompressToYUV2()` function would cause the function to
-> +diff --git a/rdppm.c b/rdppm.c
-> +index 87bc330..a8507b9 100644
-> +--- a/rdppm.c
-> ++++ b/rdppm.c
-> +@@ -5,7 +5,7 @@
-> +  * Copyright (C) 1991-1997, Thomas G. Lane.
-> +  * Modified 2009 by Bill Allombert, Guido Vollbeding.
-> +  * libjpeg-turbo Modifications:
-> +- * Copyright (C) 2015-2017, D. R. Commander.
-> ++ * Copyright (C) 2015-2017, 2020, D. R. Commander.
-> +  * For conditions of distribution and use, see the accompanying README.ijg
-> +  * file.
-> +  *
-> +@@ -720,7 +720,7 @@ start_input_ppm(j_compress_ptr cinfo, cjpeg_source_ptr sinfo)
-> +     /* On 16-bit-int machines we have to be careful of maxval = 65535 */
-> +     source->rescale = (JSAMPLE *)
-> +       (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
-> +-                                  (size_t)(((long)maxval + 1L) *
-> ++                                  (size_t)(((long)MAX(maxval, 255) + 1L) *
-> +                                            sizeof(JSAMPLE)));
-> +     half_maxval = maxval / 2;
-> +     for (val = 0; val <= (long)maxval; val++) {
-> +-- 
-> +2.17.0
-> +
-> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-> index 1f49fd3d3b..e210635c4f 100644
-> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-> @@ -12,6 +12,7 @@ DEPENDS_append_x86_class-target    = " nasm-native"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
->             file://0001-libjpeg-turbo-fix-package_qa-error.patch \
-> +           file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch \
->             "
->  
->  SRC_URI[md5sum] = "d01d9e0c28c27bc0de9f4e2e8ff49855"
->
-> 
-
-
---------------9DC137CF69694299ACFCA5F5
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 6/18/20 1:31 AM, jason.lau wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:1592469081-109960-1-git-send-email-haitao.liu@windriver.com">
-      <pre class="moz-quote-pre" wrap="">libjpeg-turbo 2.0.4 has a heap-based buffer over-read
-in get_rgb_row() in rdppm.c via a malformed PPM input file.
-
-CVE: CVE-2020-13790</pre>
-    </blockquote>
-    <br>
-    What about dunfell?<br>
-    <br>
-    -armin<br>
-    <blockquote type="cite"
-      cite="mid:1592469081-109960-1-git-send-email-haitao.liu@windriver.com">
-      <pre class="moz-quote-pre" wrap="">
-
-Upstream-Status: Backport
-[<a class="moz-txt-link-freetext" href="https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a">https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a</a>]
-
-Signed-off-by: Liu Haitao <a class="moz-txt-link-rfc2396E" href="mailto:haitao.liu@windriver.com">&lt;haitao.liu@windriver.com&gt;</a>
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fb7e8b6b88855f3f523b2176ea2c85a330bfe00b)
 ---
- ...buf-overrun-caused-by-bad-binary-PPM.patch | 81 +++++++++++++++++++
- .../jpeg/libjpeg-turbo_2.0.4.bb               |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+ meta/recipes-bsp/u-boot/u-boot.inc | 55 +++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
-new file mode 100644
-index 0000000000..518df2d28e
---- /dev/null
-+++ b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
-@@ -0,0 +1,81 @@
-+From ae2fc496c622bdf0c409b93006bbb69d2cabd41f Mon Sep 17 00:00:00 2001
-+From: DRC <a class="moz-txt-link-rfc2396E" href="mailto:information@libjpeg-turbo.org">&lt;information@libjpeg-turbo.org&gt;</a>
-+Date: Tue, 2 Jun 2020 14:15:37 -0500
-+Subject: [PATCH] rdppm.c: Fix buf overrun caused by bad binary PPM
-+
-+This extends the fix in 1e81b0c3ea26f4ea8f56de05367469333de64a9f to
-+include binary PPM files with maximum values &lt; 255, thus preventing a
-+malformed binary PPM input file with those specifications from
-+triggering an overrun of the rescale array and potentially crashing
-+cjpeg, TJBench, or any program that uses the tjLoadImage() function.
-+
-+Fixes #433
-+
-+CVE: CVE-2020-13790
-+
-+Signed-off-by: Liu Haitao <a class="moz-txt-link-rfc2396E" href="mailto:haitao.liu@windriver.com">&lt;haitao.liu@windriver.com&gt;</a>
-+---
-+ ChangeLog.md | 20 ++++++++++++++++----
-+ rdppm.c      |  4 ++--
-+ 2 files changed, 18 insertions(+), 6 deletions(-)
-+
-+diff --git a/ChangeLog.md b/ChangeLog.md
-+index 4d1219e..250bcaa 100644
-+--- a/ChangeLog.md
-++++ b/ChangeLog.md
-+@@ -1,3 +1,15 @@
-++2.0.5
-++=====
-++
-++### Significant changes relative to 2.0.4:
-++
-++1. Fixed an issue in the PPM reader that caused a buffer overrun in cjpeg,
-++TJBench, or the `tjLoadImage()` function if one of the values in a binary
-++PPM/PGM input file exceeded the maximum value defined in the file's header and
-++that maximum value was less than 255.  libjpeg-turbo 1.5.0 already included a
-++similar fix for binary PPM/PGM files with maximum values greater than 255.
-++
-++
-+ 2.0.4
-+ =====
-+ 
-+@@ -562,10 +574,10 @@ application was linked against.
-+ 
-+ 3. Fixed a couple of issues in the PPM reader that would cause buffer overruns
-+ in cjpeg if one of the values in a binary PPM/PGM input file exceeded the
-+-maximum value defined in the file's header.  libjpeg-turbo 1.4.2 already
-+-included a similar fix for ASCII PPM/PGM files.  Note that these issues were
-+-not security bugs, since they were confined to the cjpeg program and did not
-+-affect any of the libjpeg-turbo libraries.
-++maximum value defined in the file's header and that maximum value was greater
-++than 255.  libjpeg-turbo 1.4.2 already included a similar fix for ASCII PPM/PGM
-++files.  Note that these issues were not security bugs, since they were confined
-++to the cjpeg program and did not affect any of the libjpeg-turbo libraries.
-+ 
-+ 4. Fixed an issue whereby attempting to decompress a JPEG file with a corrupt
-+ header using the `tjDecompressToYUV2()` function would cause the function to
-+diff --git a/rdppm.c b/rdppm.c
-+index 87bc330..a8507b9 100644
-+--- a/rdppm.c
-++++ b/rdppm.c
-+@@ -5,7 +5,7 @@
-+  * Copyright (C) 1991-1997, Thomas G. Lane.
-+  * Modified 2009 by Bill Allombert, Guido Vollbeding.
-+  * libjpeg-turbo Modifications:
-+- * Copyright (C) 2015-2017, D. R. Commander.
-++ * Copyright (C) 2015-2017, 2020, D. R. Commander.
-+  * For conditions of distribution and use, see the accompanying README.ijg
-+  * file.
-+  *
-+@@ -720,7 +720,7 @@ start_input_ppm(j_compress_ptr cinfo, cjpeg_source_ptr sinfo)
-+     /* On 16-bit-int machines we have to be careful of maxval = 65535 */
-+     source-&gt;rescale = (JSAMPLE *)
-+       (*cinfo-&gt;mem-&gt;alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
-+-                                  (size_t)(((long)maxval + 1L) *
-++                                  (size_t)(((long)MAX(maxval, 255) + 1L) *
-+                                            sizeof(JSAMPLE)));
-+     half_maxval = maxval / 2;
-+     for (val = 0; val &lt;= (long)maxval; val++) {
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-index 1f49fd3d3b..e210635c4f 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-@@ -12,6 +12,7 @@ DEPENDS_append_x86_class-target    = " nasm-native"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 80f828df52..cbe15cb3c8 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -60,6 +60,10 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            <a class="moz-txt-link-freetext" href="file://0001-libjpeg-turbo-fix-package_qa-error.patch">file://0001-libjpeg-turbo-fix-package_qa-error.patch</a> \
-+           <a class="moz-txt-link-freetext" href="file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch">file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch</a> \
-            "
++# Default name of u-boot initial env, but enable individual recipes to change
++# this value.
++UBOOT_INITIAL_ENV ?= "${PN}-initial-env"
++
+ # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
+ # to find EXTLINUX conf file.
+ UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
+@@ -124,8 +128,10 @@ do_compile () {
+                     done
  
- SRC_URI[md5sum] = "d01d9e0c28c27bc0de9f4e2e8ff49855"
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+                     # Generate the uboot-initial-env
+-                    oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
+-                    cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
++                        cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
++                    fi
+ 
+                     unset k
+                 fi
+@@ -137,7 +143,9 @@ do_compile () {
+         oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
+ 
+         # Generate the uboot-initial-env
+-        oe_runmake -C ${S} O=${B} u-boot-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            oe_runmake -C ${S} O=${B} u-boot-initial-env
++        fi
+     fi
+ 
+ }
+@@ -156,10 +164,12 @@ do_install () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+ 
+                     # Install the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
++                    fi
+                 fi
+             done
+             unset  j
+@@ -170,9 +180,11 @@ do_install () {
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+ 
+         # Install the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
++        fi
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+@@ -244,8 +256,9 @@ do_install () {
+ PACKAGE_BEFORE_PN += "${PN}-env"
+ 
+ RPROVIDES_${PN}-env += "u-boot-default-env"
++ALLOW_EMPTY_${PN}-env = "1"
+ FILES_${PN}-env = " \
+-    ${sysconfdir}/${PN}-initial-env* \
++    ${@ '${sysconfdir}/${UBOOT_INITIAL_ENV}*' if d.getVar('UBOOT_INITIAL_ENV') else ''} \
+     ${sysconfdir}/fw_env.config \
+ "
+ 
+@@ -269,10 +282,12 @@ do_deploy () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+ 
+                     # Deploy the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    cd ${DEPLOYDIR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
++                        cd ${DEPLOYDIR}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
++                    fi
+                 fi
+             done
+             unset  j
+@@ -287,10 +302,12 @@ do_deploy () {
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+ 
+         # Deploy the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+-        cd ${DEPLOYDIR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
++            cd ${DEPLOYDIR}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
++        fi
+     fi
+ 
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
+-- 
+2.26.2
 
---------------9DC137CF69694299ACFCA5F5--
