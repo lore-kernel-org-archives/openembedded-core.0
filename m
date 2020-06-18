@@ -1,105 +1,112 @@
-Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com [68.232.139.62])
- by mx.groups.io with SMTP id smtpd.web12.2784.1592467455543373164
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.3011.1592468858080998022
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 01:04:16 -0700
+ Thu, 18 Jun 2020 01:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=Sop7aUbD;
- spf=pass (domain: bmw.de, ip: 68.232.139.62, mailfrom: prvs=431bfba97=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RGtB2BuF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id d7so2940305lfi.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 01:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1592467455; x=1624003455;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=81zyAlA4H9xCHgpPpRnwgYQQg6cmpEA+RRL6SEYxlJI=;
-  b=Sop7aUbDR1UShVhJALRX6+csgUjZO+T+qIgWv3MqlwKK6XmnhWXopTWY
-   sgWneZjRNgurQwb8ayBQbbiVkRvSqf2TtDXHLn9Wj1Qm9nVrdEqKNkMB2
-   +8q2SUU8dZtfd6lBasHxYjPiJYom5h2yrNngSoysA0pzOVj8wR6cBnk0j
-   0=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 18 Jun 2020 10:04:11 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
- 18 Jun 2020 10:04:08 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp) ([160.48.96.48])
- by esabb3.muc with ESMTP/TLS; 18 Jun 2020 10:04:02 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10l.europe.bmw.corp
- (160.48.96.48) with Microsoft SMTP Server (TLS;
- Thu, 18 Jun 2020 10:04:02 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
- smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.006; Thu,
- 18 Jun 2020 10:04:02 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <pbarker@konsulko.com>
-CC: <Awais_Belal@mentor.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for environment-setup beforehand
-Thread-Topic: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for
- environment-setup beforehand
-Thread-Index: AQHWROifRftvJyOgsEGsvY4gFx2ae6jd3uOAgAAD0YA=
-Date: Thu, 18 Jun 2020 08:04:01 +0000
-Message-ID: <20200618080401.GS108868@korppu>
-References: <20200617204739.22441-1-awais_belal@mentor.com>
- <CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
-In-Reply-To: <CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=WahDETyUwb38ADo/HgTjdpZZA9sfyFzwXGEUkWSh7j4=;
+        b=RGtB2BuFyMmHOB3QkmmdoU/qmVCyDHANXQD6dEuOyq5X+bcFqreMCDSEVJDuoI32CR
+         M4Drp9kwEp8CJZpIACU3wU9IpeQFHMKueMD7FyfgyedlHn3kAy7q1CE/yUSPCHXjf+NK
+         zbCyATgJcITgtVJrPN6Ez9eTccKHmzq0ADCf/8l0fVurM0EPBL1eFufSDVRza0fFj0zM
+         CFbjcfc/qt7jihTPltvI/0nE8IrR5souhvCmmH8Ga64UVZZQCgZNrI2zfKaS0lU8VI4H
+         e22kxkM57LFaEiycp/TCtJYmzI9mbElOxGAT1qrb3YGJTOr2F6hwJailOh0TDhi6gCNq
+         haVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WahDETyUwb38ADo/HgTjdpZZA9sfyFzwXGEUkWSh7j4=;
+        b=BWN792WUXLJIoboWfEU5aatAtFU9sz/X+Ur7dx2F7Ao5ZRdghjXJofY80RF61zxOmv
+         K0CCznq2yjBQ/DO0b8IJUTCEFjfrfO5xbO4Chwg4tmnRUnknBFAV1n5J5DsQ7AFrgHHv
+         6LibuBUDDnaLqi4T7/XnxIBhcxXfLLAqt4HnyqerUpAPgMYEyW9SWa1JragqcZCJ/Ubp
+         ee4zJXYCfGG4oNLj/gEOqAkamuJ0/NGxwiy1sK0UDGPmNu9W0gPZB4nZr7kZwise0GBu
+         h+jNDKmoGWS9pXD0xzXfHQ4jAdgqUzibTjpdSxqGiwek1QGb/zpY4o8MCFp8gEBxhTgs
+         5ePw==
+X-Gm-Message-State: AOAM531pQtYmZy/zShDfAVQhVJQvGCdkrtiF0+VJgISRDarElKXc5DM+
+	b83czCp1+5l9u+UOVJHQaKrVJtOF
+X-Google-Smtp-Source: ABdhPJwJZRqo14Y/N8defx9Z+nPJwnAmYEhY7ypI7k8QKAz8Y8FtA8skM+fFY6oqQ/8da3eHoGoUWw==
+X-Received: by 2002:a19:8b8a:: with SMTP id n132mr1710378lfd.45.1592468855703;
+        Thu, 18 Jun 2020 01:27:35 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id h16sm484056lja.87.2020.06.18.01.27.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2020 01:27:34 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] grub-efi-native: use RDEPENDS on grub-native instead of duplicating tools
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Christopher Clark <christopher.w.clark@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200617230710.9163-1-christopher.w.clark@gmail.com>
+ <afb6222235af73893eb979a1f486108e902d4eaf.camel@linuxfoundation.org>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <a2dcab79-dd9f-168a-c391-07897ad1b556@gmail.com>
+Date: Thu, 18 Jun 2020 10:27:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <afb6222235af73893eb979a1f486108e902d4eaf.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <EEA267F8860FCA4D943E6CA0C18C4092@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 18, 2020 at 08:50:21AM +0100, Paul Barker wrote:
-> On Wed, 17 Jun 2020 at 21:48, Awais Belal <Awais_Belal@mentor.com> wrote=
-:
-> >
-> > The script runs a 'cat' on the script and if it isn't present in the
-> > sdk the cat command waits on the std input and hence the installation
-> > process simply sits there.
->=20
-> That sort of error would typically be caused by the variable being
-> unset rather than the variable being set to the path of a nonexistent
-> file. I don't know much about the context this script runs in though
-> so I may be missing something obvious.
+On 6/18/20 1:12 AM, Richard Purdie wrote:
+> On Wed, 2020-06-17 at 16:07 -0700, Christopher Clark wrote:
+>> Both grub-native and grub-efi-native included packaging for the
+>> grub-mkimage and grub-editenv tools, which prevented concurrent
+>> installation of both the grub-native and grub-efi-native packages.
+>> This caused errors on image generation with wic when populating
+>> partitions with both legacy and efi boot support, so resolve this by
+>> removing the duplicated tools from grub-efi-native and add a
+>> runtime dependency from it to grub-native.
+>>
+>> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+>> ---
+>>   meta/recipes-bsp/grub/grub-efi_2.04.bb | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-
+>> bsp/grub/grub-efi_2.04.bb
+>> index b9d6225d27..ed43dee152 100644
+>> --- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
+>> +++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+>> @@ -6,6 +6,7 @@ GRUBPLATFORM = "efi"
+>>   
+>>   DEPENDS_append_class-target = " grub-efi-native"
+>>   RDEPENDS_${PN}_class-target = "grub-common virtual/grub-bootconf"
+>> +RDEPENDS_${PN}_class-native = "grub-native"
+>>   
+>>   SRC_URI += " \
+>>              file://cfg \
+>> @@ -61,9 +62,7 @@ do_install_append_class-target() {
+>>   }
+>>   
+>>   do_install_class-native() {
+>> -	install -d ${D}${bindir}
+>> -	install -m 755 grub-mkimage ${D}${bindir}
+>> -	install -m 755 grub-editenv ${D}${bindir}
+>> +	:
+>>   }
+>>   
+>>   do_install_class-target() {
+> 
+> I think we want to PROVIDES_append_class-native = " grub-efi-native" in
+> grub and then drop the BBCLASSEXTEND from grub-efi?
+> 
 
-I'd change the script to run with bash and "set -euo pipefail" to capture
-errors like this early.
+Just for the record, I tested building grub-native (x86-64) both with 
+platform "pc" and "efi", and in the same build directory, and all tools 
+in ${bindir} were binary identical. Asking in #grub on freenode also 
+confirmed this, apparently Debian packaging also assumes this.
 
--Mikko
+So no grub-efi-native required, and we can remove that 
+_class_target/_class_native special handling as well.
 
-> >
-> > Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> > ---
-> >  meta/files/toolchain-shar-relocate.sh | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolch=
-ain-shar-relocate.sh
-> > index e3c10018ef..02a05664c6 100644
-> > --- a/meta/files/toolchain-shar-relocate.sh
-> > +++ b/meta/files/toolchain-shar-relocate.sh
-> > @@ -3,6 +3,12 @@ if ! xargs --version > /dev/null 2>&1; then
-> >         exit 1
-> >  fi
-> >
-> > +# check if we have a valid env-setup script
-> > +if [ ! -f "$env_setup_script" ]; then
-> > +       echo "Main environment-setup file not found. Abort!"
-> > +       exit 1
-> > +fi
-> > +
-> >  # fix dynamic loader paths in all ELF SDK binaries
-> >  native_sysroot=3D$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NAT=
-IVE_SYSROOT=3D'|cut -d'=3D' -f2|tr -d '"')
-> >  dl_path=3D$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
-> > --
-> > 2.17.1
->=20
->=20
->=20
-> --=20
-> Paul Barker
-> Konsulko Group
-
->=20
+Jacob
