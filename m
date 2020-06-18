@@ -1,182 +1,198 @@
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [40.107.70.45])
- by mx.groups.io with SMTP id smtpd.web10.6422.1592484013184786283
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web11.6478.1592484274778064834
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 05:40:13 -0700
+ Thu, 18 Jun 2020 05:44:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mMRkgbZn;
- spf=pass (domain: windriver.com, ip: 40.107.70.45, mailfrom: yanfei.xu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UZ5MUobN4hWlGEH5iPTvxEzLLTyXJ8LcyAVBomN/jtGSdOIMiAngonU0Jv0WYGNk8KEN1j5I6x71yN/wUwf5xZSF8mO19G0esIwFkHHN1h70wNDSitTu0EzVqUjzcofRI6snH1zO9Tt9dEgtvAmJDxlZaIGWiv+6MQMUfnVuVmtkiJUfwfQt8f+JcoLQLvkvDb/Kfvuk3F9Ocqq8Bu++JNNyZIB92IQsJTw+LNBcWc0nug3HzE72SHKA8uKtRXCYEebQ8+vqovR4VugS34t7MB2oAyk9nmImzMbhiI8r0bO3AIc6PLhhO46JQ1WrFBU7xc/0Ng8JhRHWOrEG+GLAsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iDgAh2sAwp1DWgQ9soHGhER82qApmnKBret3rPylKpA=;
- b=h+qlg8wyGEiml4HGGLP/fVGPLS/fAWDWBZnmk5PusW3KmT9+aHTdVgiQ6F3DpZR02wSwC8tmYUEXtURKeV96MyCZUrTSRw7UX8N+T+72EU7qIwnQRh9dGllqPYJlXB8ZY24Nct4SK2+QpD32RsPc3eL89ql/JZEfIfHGSC42WhCfgaml0BHfv9Z+62scA+K5Hxdevwq7gDz9QRPfQ7s8cK7LI0LKUwl5sNFuI7LeIlmF1Ktz5gr/4lOA+TickposVmj1le/8PXaxH+AQ095KTGTbvhrKwqRp3poYnC4G5bXYgaNJhHqk2sMigumsKbj4GevBe5J2CC2WlOFPizrugw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DOBfpywF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id dr13so6266944ejc.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 05:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iDgAh2sAwp1DWgQ9soHGhER82qApmnKBret3rPylKpA=;
- b=mMRkgbZneugzs3ETJQCHMxg1mx00+irSsBeNpInz0ns2m6dE0AWTZwhY0tzqutCuobXvMpxezr7iDX5aV546FneUAsZlc9kPKsyX/B6DeUW/G99sq7iDaNSn/hSl9q7NLABwL19mTnthXIEdTw73pxA34com4gsROPZXfk4YHzA=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
- by BY5PR11MB4184.namprd11.prod.outlook.com (2603:10b6:a03:192::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Thu, 18 Jun
- 2020 12:40:11 +0000
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::6892:dd68:8b6b:c702]) by BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::6892:dd68:8b6b:c702%4]) with mapi id 15.20.3109.021; Thu, 18 Jun 2020
- 12:40:11 +0000
-Subject: Re: [OE-core] [PATCH v2] classes/kernel: Use a copied image for kernel*.rpm if fs don't support symlinks
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
-CC: zhe.he@windriver.com
-References: <20200618075725.39434-1-yanfei.xu@windriver.com>
- <5e93588e648dfac9263dfc9520ba9b205d933703.camel@linuxfoundation.org>
- <1619A34BFE3B323C.29792@lists.openembedded.org>
-Message-ID: <518d51d8-8f64-684c-1e53-2c52334e6e74@windriver.com>
-Date: Thu, 18 Jun 2020 20:40:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <1619A34BFE3B323C.29792@lists.openembedded.org>
-X-ClientProxiedBy: HK2PR04CA0062.apcprd04.prod.outlook.com
- (2603:1096:202:14::30) To BY5PR11MB4241.namprd11.prod.outlook.com
- (2603:10b6:a03:1ca::13)
-Return-Path: yanfei.xu@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8J/t+chWrJ5uFUZHJDb1DePmG+Ax2MsUg7pfCBmVI6A=;
+        b=DOBfpywFuVjdJQAHb3knLky8fbNRN4hICrKbqXuagPv3u3d+6xdNlOIfQSPlLrhzb8
+         vYA2ekCWWPokeOA4mIqF5Kt8E8jNhhy91BlBrUoS8tjz28cSBj9nTA/Q9LAgjEqbLMJA
+         tnY07sy5m4Nmg5tvJWOcpeU+bsKWAP6Nw3pw+0k71LEh5Rbr9d3W3K1kNxsUAOLsrD4U
+         Vm9suexKk+CZt65+NEcoxp+2NnuBEhXWgNb3+gQrxBX/1XzhPxlB5pZ0NpSZbTik6Ogv
+         u+bhCXJ3+xUC1fPZ+SKSZrbXtUWURaumGtLbWPU9D+axGG5vkNhp/ZVuC5008zmrKbWX
+         d0Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8J/t+chWrJ5uFUZHJDb1DePmG+Ax2MsUg7pfCBmVI6A=;
+        b=hFmqXRpw5DZGwsHYtt/iZ4o9/rw6LHAijiul6vhifLku9dOptuhlMDerER+zR1f+OY
+         D42Ic4udcIWzyXFMCjmViIGNKw+6L0yank6S+DOAwOfnRPQx1vdduD7Ym7nNpqeGJsBB
+         nRs8ndz41Di8QokAF9ZNlsYETcLWswRiLhilIUmFoOHE3yTVY2qvttsOjwBsxCbyRxC6
+         u6rhJxQYYH6UgnE+SkMYm3QTGiegAdQz1i9NtlNEU+jFvKMED5139QsRTD/ZIB8UpyQI
+         y1wQ1MkolTUxW15EkJb4mw/x6XjLlH9mOH9+hTfuZ90LwZfz08ZWMUJGKDOw/Wt+OE1B
+         7djQ==
+X-Gm-Message-State: AOAM531vKXoKAQuUGfw31SDaktLH3aK6SmzErA8h9lkYSiKxZ+GXlRG4
+	cQmh/QJxxI9FD3R068cuXo66yZkF3RRFAFKm3Vk=
+X-Google-Smtp-Source: ABdhPJzNBruq2GWQnYzECOuikdzQhBRKo9O0zoChsmwEuUjozd8sndb5pjgkHduwmvJ9ds9Zj+MOI+NqGkTVSoauc5k=
+X-Received: by 2002:a17:907:4030:: with SMTP id nr24mr3628545ejb.247.1592484273128;
+ Thu, 18 Jun 2020 05:44:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.160] (60.247.85.82) by HK2PR04CA0062.apcprd04.prod.outlook.com (2603:1096:202:14::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21 via Frontend Transport; Thu, 18 Jun 2020 12:40:09 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88980876-b194-44dc-c806-08d81384bd67
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4184:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB418423752B7A8F95D9E82454E49B0@BY5PR11MB4184.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 0438F90F17
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	apxgOMgM0QvkXjb4SjYDgrZFEeNWf2Tg9kXvZpvZepno707YQb9kuTY7ziII0oyapnSD8GJfqCZSx8wor+wv9Wn5sLjvtw2wPfADISzatPaomitp6QPd1JNP1fWNR1ajtzR/Ua+dAvGLwSzWLsEkRJlF6+yuh6UIe3dZY44F67i7f7FwGs2hTA1lR3OQayURVvsdB+EA0rdfKMqY547JLlwEAwUrjl+uqDULeolK31nxysZVz3QqLNOEyQtS/jHEa5BahozNzsHvnNzbLo1r5kaSQHAQupmFL1zLNOo0nM/TUUxLVD9TP1qIPnFEqVm3dU6J5SNVgBKzBAQls47vTMG+MoBiKrMfS4++LvQjO5FxUWRIHM1SBsaCn2NgvS97wT0GGLstIXNKLZz29OZTSPMqq2vkn/7v4XsXdu+4TyysZiFkox2bzenL14J/cKtTGZa//azYcF7njNoiMRM2hnM6FKF6xGoR7eyDND32YJFNEDTDl0GQuwttGhQiNuuYU5dhhnfG66bSe1orNVFMIg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(376002)(136003)(396003)(39850400004)(366004)(346002)(5660300002)(186003)(8936002)(86362001)(2906002)(4326008)(966005)(53546011)(31686004)(16526019)(8676002)(52116002)(31696002)(107886003)(83380400001)(26005)(956004)(316002)(2616005)(6706004)(16576012)(66476007)(66556008)(66946007)(36756003)(6486002)(6666004)(478600001)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	58bKCrM/iPt4XSu/jMMmEBKZiUvbS8+/R4ZAlSX7EoRza41b2RXZiyPA4yh4pibtfxhyLbMYfoDY40HJDZqbwwTD7lbQq3XiNKxuh6kM9EFhP6Z+u9JiAWf3nfPbLp6uRbigB9lhWafhlM0WSv2Al/dCB/rspRqIaNq+QcSfzcG3jN2YOp7AaPxTS3fvqq8KmV+u/ku4uRB8gLnA6HSio5LJAf16agphJ7J59VyjnYlaNy74j+f+Ege3Nb5KpjW1p45Jp27yyBu33Z/VPtOEaAee7EG5JWA74x9BhPYQqiFkJleq38WDH72dGLWV9yPFoCg5TwWgDNR4hIyOKlXsPv3zbeXYrdC7vGAXlsYjeGJfIFMCAVOWAE+f9m6fAsPtmxRWNYZCwQoMiR4QZXS4i0sy/CHg1on5s4xBEpm8RRnCtrwdwxvfxU+BGZPsd77nu+mr1AWAUw9S9uHZn48lboKoi1EaKHpkWw+eVdw7Zs8=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88980876-b194-44dc-c806-08d81384bd67
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2020 12:40:10.9330
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T87pZ8t10SljhnhfwfgW3dbtV7q+9An7rI7SMSBHh17zVXQl7f3tP/9jiKhWRdPrJq3E+bAnRScwwdr+GPLQhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4184
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+References: <20200617062028.5542-1-yanfei.xu@windriver.com>
+ <20200617062028.5542-2-yanfei.xu@windriver.com> <CADkTA4PiqVvnmZFEoBSTX1g7JxpqAkRQbAozScYtOWJ_6omQBg@mail.gmail.com>
+ <c80a8d8c-1f18-198d-4d27-8c75fc113608@windriver.com>
+In-Reply-To: <c80a8d8c-1f18-198d-4d27-8c75fc113608@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 18 Jun 2020 08:44:21 -0400
+Message-ID: <CADkTA4OkB3BTijGA_9n+OENi5LazUjUMAZ2HcwdHQujF=xffuQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] classes/kernel: Use a copy for kernel*.rpm when fs don't support symlink
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, He Zhe <zhe.he@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, Jun 18, 2020 at 2:49 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+>
+>
+>
+> On 6/17/20 9:48 PM, Bruce Ashfield wrote:
+> > On Wed, Jun 17, 2020 at 2:20 AM <yanfei.xu@windriver.com> wrote:
+> >>
+> >> From: Yanfei Xu <yanfei.xu@windriver.com>
+> >>
+> >> Some filesystems don't support symlink, then you will get failed when
+> >> you install or update the kernel rpm package. Now we use a copy for
+> >> these filesystems instead of symlink.
+> >>
+> >> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> >> ---
+> >>   meta/classes/kernel.bbclass | 11 ++++++++++-
+> >>   1 file changed, 10 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> >> index 41101a64a0..e9b5a84de7 100644
+> >> --- a/meta/classes/kernel.bbclass
+> >> +++ b/meta/classes/kernel.bbclass
+> >> @@ -94,6 +94,14 @@ python __anonymous () {
+> >>           d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
+> >>           d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+> >>           d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+> >> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,typelower), """
+> >> +set +e
+> >> +ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
+> >> +if [ $? -ne 0 ]; then
+> >> +    echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlink, then use a copy."
+> >
+> > This could say "... doesn't support symlinks, falling back to copied
+> > image (%s)" (and fill in the image file we are actually using).
+> >
+> This discription is more clear. I will rewrite the message.
+> >> +fi
+> >
+> > I expected to see the fallback copy here in the postinstall, but this
+> > looks ok to me .. I'm going to just type in my process of reading the
+> At the beginning, I was going to only place versioned-image in rpm
+> package, then make symlink or copy in postinstall on target. But it will
+> cause rpm package don't contain no-versioned image. However, ARM device
+> may use the no-versioned image for booting in boot partation. So I
+> didn't implement it like that.
+> > patch so you can correct me if I'm wrong.
+> >
+> > The logic is split between the two places. Below during the build
+> > (do_install), and here in the postinstall.
+> >
+> > In do_install(), we no longer symlink, but instead copy the versioned
+> > image into the non versioned 'image' file. And then in the
+> > postinstall, we try and make a symlink (which may fail) to the same
+> > thing (the versioned image to a non versioned one), and that's a force
+> > symlink so it will clobber the previously copied one if possible, or
+> > implicitly fall back if the symlink fails.
+> Your understanding is right.
+> >
+> > So yes, that logic seems fine to me.
+> >
+> > The reason I went through all that, is that for on-target upgrades.
+> > You won't have the do_install() to place the versioned image, have you
+> > confirmed that the versioned image file is packaged and will be
+> I have confirmed that both non versioned image and versioned image are
+> packaged in rpm package.
+> [bcm_2xxx_rpi4]$ rpm -qpl
+> kernel-image-image-5.4.46-yocto-standard-5.4.x+git0+f8c88c4331_87b52c3030-r0.bcm_2xxx_rpi4.rpm
+>
+> /boot
+> /boot/Image
+> /boot/Image-5.4.46-yocto-standard
+>
+> Besides, I have tested "dnf install" on target, it did place files of
+> package and then run postinstall script.
+> > present on an on-target install ? So the logic is the same with the
+> > symlink ? It should be, otherwise this would never work, but I just
+> > wanted to be sure.
+> > Yes, the logic is the same with the original symlink, hence I also think
+> there is no new bug introduced to on-target upgrades.
+>
+>
+> >> +set -e
+> >> +""" % (type, type))
+> >>
+> >>       image = d.getVar('INITRAMFS_IMAGE')
+> >>       # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
+> >> @@ -386,7 +394,7 @@ kernel_do_install() {
+> >>          for imageType in ${KERNEL_IMAGETYPES} ; do
+> >>                  install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
+> >>                  if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
+> >> -                       ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
+> >> +                       install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
+> >
+> > Looking at this, can the existing line:
+> >
+> >   install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
+> > ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
+> >
+> > be combined with the one you added ?
+> >
+> > We are copying the non-versioned image into a versioned image file,
+> > and then in the new logic, coping that versioned image into a
+> > non-versioned one. Couldn't we just have one copy of the non-versioned
+> > image, into the non-versioned image in KERNEL_IMAGEDEST ?
+> I don't think it could be. Cause the existing line :
+> "if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then"
+> can't be ingnored.
+>
 
+Ah yes, I suppose so. I never change KERNEL_PACKAGE_NAME, so I haven't
+run into that use case.
 
-On 6/18/20 8:31 PM, Xu, Yanfei wrote:
->=20
->=20
-> On 6/18/20 5:52 PM, Richard Purdie wrote:
->> On Thu, 2020-06-18 at 15:57 +0800, Xu, Yanfei wrote:
->>> From: Yanfei Xu <yanfei.xu@windriver.com>
->>>
->>> Some filesystems don't support symlink, then you will get failure when
->>> you install or update the kernel rpm package. Now we use a copied iamg=
-e
->>> for these filesystems instead of symlink.
->>>
->>> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
->>> ---
->>> =C2=A0 meta/classes/kernel.bbclass | 10 +++++++++-
->>> =C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index 41101a64a0..749d1a0f29 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -94,6 +94,14 @@ python __anonymous () {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.appendVar('RD=
-EPENDS_%s-image' % kname, ' %s-image-%s' %=20
->>> (kname, typelower))
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar('PKG_%=
-s-image-%s' % (kname,typelower),=20
->>> '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar('ALLOW=
-_EMPTY_%s-image-%s' % (kname, typelower), '1')
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar('pkg_postinst_ont=
-arget_%s-image-%s' %=20
->>> (kname,typelower), """
->>> +set +e
->>> +ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
->>> +if [ $? -ne 0 ]; then
->>> +=C2=A0=C2=A0=C2=A0 echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't s=
-upport=20
->>> symlinks, falling back to copied image (%s)."
->>> +fi
->>> +set -e
->>> +""" % (type, type, type))
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 image =3D d.getVar('INITRAMFS_IMAGE')
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # If the INTIRAMFS_IMAGE is set but the=
- INITRAMFS_IMAGE_BUNDLE=20
->>> is set to 0,
->>> @@ -386,7 +394,7 @@ kernel_do_install() {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for imageType in ${KERNEL_IMAGETYPES} ;=
- do
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -m 0644=
- ${KERNEL_OUTPUT_DIR}/${imageType}=20
->>> ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ "${KERNEL_=
-PACKAGE_NAME}" =3D "kernel" ]; then
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ln=
- -sf ${imageType}-${KERNEL_VERSION}=20
->>> ${D}/${KERNEL_IMAGEDEST}/${imageType}
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in=
-stall -m 0644=20
->>> ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}=20
->>> ${D}/${KERNEL_IMAGEDEST}/${imageType}
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 done
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -m 0644 System.map ${D}/boot/Sy=
-stem.map-${KERNEL_VERSION}
->>
->> I am a bit concerned about this since whilst it solves one problem,
->> doesn't having two copies of the same file around significantly
->> increase the size of the packages and the update payloads updating such
->> systems would need? Are these two copies of the file in the same
->> package or not?
->>
->> Perhaps the symlink creation should fall back to a copy on device
->> rather than having the copy at build time (as I understand it)?
->>
-> I had a wrong understanding about the no-versioned Image in /boot
-> partation from wic. And I just verified that the no-versioned Image in
-> /boot partation seems doesn't from kernel image package. So you are
-> right, we don't need to have the other no-versioned image in packages.
->=20
-> I'll change the logic to having the copy at build time in v3.
-sorry, at the postinstall thread.
->=20
-> Cheers,
->=20
+The change looks fine to me.
+
+Reviewed-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+> Thanks for reviewing,
+>
 > Yanfei
->=20
->> Cheers,
->>
->> Richard
->>
->=20
->=20
->=20
+>
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> >>                  fi
+> >>          done
+> >>          install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+> >> @@ -602,6 +610,7 @@ pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
+> >>          fi
+> >>   }
+> >>
+> >> +
+> >>   PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+> >>
+> >>   python split_kernel_packages () {
+> >> --
+> >> 2.18.2
+> >>
+> >
+> >
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
