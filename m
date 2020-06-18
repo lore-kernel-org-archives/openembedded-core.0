@@ -1,22 +1,22 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.3072.1592469122008526832
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.3075.1592469166696105590
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 01:32:02 -0700
+ Thu, 18 Jun 2020 01:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: haitao.liu@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: haitao.liu@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05I8W1qR028356
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05I8WB9R024143
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 01:32:01 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 01:32:35 -0700
 Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 18 Jun
- 2020 01:32:00 -0700
+ 2020 01:32:13 -0700
 From: "jason.lau" <Haitao.Liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <haitao.liu@windriver.com>
-Subject: [OE-core][master][PATCH] libjpeg-turbo: Fix CVE-2020-13790
-Date: Thu, 18 Jun 2020 16:31:21 +0800
-Message-ID: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
+Subject: [OE-core][zeus][PATCH] libjpeg-turbo: Fix CVE-2020-13790
+Date: Thu, 18 Jun 2020 16:31:36 +0800
+Message-ID: <1592469096-110049-1-git-send-email-haitao.liu@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.75]
@@ -25,25 +25,25 @@ Content-Type: text/plain
 libjpeg-turbo 2.0.4 has a heap-based buffer over-read
 in get_rgb_row() in rdppm.c via a malformed PPM input file.
 
-CVE: CVE-2020-13790
-
 Upstream-Status: Backport
 [https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a]
+
+CVE:CVE-2020-13790
 
 Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
 ---
  ...buf-overrun-caused-by-bad-binary-PPM.patch | 81 +++++++++++++++++++
- .../jpeg/libjpeg-turbo_2.0.4.bb               |  1 +
+ .../jpeg/libjpeg-turbo_2.0.3.bb               |  1 +
  2 files changed, 82 insertions(+)
  create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
 
 diff --git a/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
 new file mode 100644
-index 0000000000..518df2d28e
+index 0000000000..03b6dba153
 --- /dev/null
 +++ b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
 @@ -0,0 +1,81 @@
-+From ae2fc496c622bdf0c409b93006bbb69d2cabd41f Mon Sep 17 00:00:00 2001
++From ade1818b7542ef9e11ece5ce98df91fab45d674c Mon Sep 17 00:00:00 2001
 +From: DRC <information@libjpeg-turbo.org>
 +Date: Tue, 2 Jun 2020 14:15:37 -0500
 +Subject: [PATCH] rdppm.c: Fix buf overrun caused by bad binary PPM
@@ -65,14 +65,14 @@ index 0000000000..518df2d28e
 + 2 files changed, 18 insertions(+), 6 deletions(-)
 +
 +diff --git a/ChangeLog.md b/ChangeLog.md
-+index 4d1219e..250bcaa 100644
++index 3667d12..198c7b8 100644
 +--- a/ChangeLog.md
 ++++ b/ChangeLog.md
 +@@ -1,3 +1,15 @@
-++2.0.5
+++2.0.4
 ++=====
 ++
-++### Significant changes relative to 2.0.4:
+++### Significant changes relative to 2.0.3:
 ++
 ++1. Fixed an issue in the PPM reader that caused a buffer overrun in cjpeg,
 ++TJBench, or the `tjLoadImage()` function if one of the values in a binary
@@ -81,10 +81,10 @@ index 0000000000..518df2d28e
 ++similar fix for binary PPM/PGM files with maximum values greater than 255.
 ++
 ++
-+ 2.0.4
++ 2.0.3
 + =====
 + 
-+@@ -562,10 +574,10 @@ application was linked against.
++@@ -520,10 +532,10 @@ application was linked against.
 + 
 + 3. Fixed a couple of issues in the PPM reader that would cause buffer overruns
 + in cjpeg if one of the values in a binary PPM/PGM input file exceeded the
@@ -124,10 +124,10 @@ index 0000000000..518df2d28e
 +-- 
 +2.17.0
 +
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-index 1f49fd3d3b..e210635c4f 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.4.bb
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
+index 1cf854de62..8ea81f386f 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
 @@ -12,6 +12,7 @@ DEPENDS_append_x86_class-target    = " nasm-native"
  
  SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
@@ -135,7 +135,7 @@ index 1f49fd3d3b..e210635c4f 100644
 +           file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch \
             "
  
- SRC_URI[md5sum] = "d01d9e0c28c27bc0de9f4e2e8ff49855"
+ SRC_URI[md5sum] = "bd07fddf26f9def7bab02739eb655116"
 -- 
 2.17.0
 
