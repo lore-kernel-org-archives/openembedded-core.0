@@ -1,101 +1,578 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web12.10606.1592495003354583214
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web10.10861.1592495638022844360
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 08:43:23 -0700
+ Thu, 18 Jun 2020 08:53:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sB+UifLm;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id d67so5470115oig.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:43:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=INvxN4KI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id c35so5262641edf.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 08:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=JcbHZNEGRCcBRmlqPBoye5qrdJ0WN/bFiw9GkB2257A=;
-        b=sB+UifLmHzrCN2d70GsjnhnFuc1ubLnfEnLmGw2NQVJklBT9wOgKBUjWdIdYq8ahcc
-         PyBc6f+JO1V7z2sdfVdF8WF+SGIW6X90ueuCiGD6QNOIYd/lIt5MiImMq6CncGiqa+N4
-         RSTlclpvuOJ392Zz0Wa2oRJzDV01oaox0c9IR+XAx8SnUeDE2NWpQaIKeo/DVISZS4u0
-         1IkneZ5iQXrl/rSjqzanGNik690txQbU9hJ/id/FB+RhjP7lTi3fbHZb80gQ0lwprHDn
-         qhY9WZJPXIQkCq1qaXwRGWfolEXydrbFKANEPg1e5ZZu8T3TlcIM+7D/SUBNY0aau+vo
-         AyDA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zcple18DxriOfx0oQuh4K8/nkvAyd9kcpONftIMHS/s=;
+        b=INvxN4KI15vWUWc9K1+m+wQjQYJovffMeD+32S/nZxF25xYH1Dc2Yey+3gBcxc7EV/
+         fPZOel6xzaeNW0x5fsC/eFhr3FsN3Z/hZ+3hBEsYXfhcPXY8DcJn71VOyZG31DIx17GV
+         q1TxOPvpUebR+dTfrVa5xdDJaosF/QimsBNCmN0sL6+VUf0CatI5I/RJ9lIsbvL3U3fJ
+         IRxmVcf3T9/QjRu74qexrPFfpucc2+wl7EG88z9Gf3ZE4GF3kFokXtPWS/CT8YpHALLx
+         Ixyw0vDJ9HCn8numCM7Ny6zJUOWMgrX1A3b8vjLCuG2EA70+m8oh03ogTdtCQ15UEbnY
+         0byQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=JcbHZNEGRCcBRmlqPBoye5qrdJ0WN/bFiw9GkB2257A=;
-        b=Ndg/hxTetz+jS9jJs6p2Vv2FjOWtNv8+4mAk3UGzjTRkgdM97Y0ta1lMv0CpkPNYh8
-         IN/2udazWtsPt6qsfZmTN7D0I/E4kQsua52BYn6jwFCH43tMUOnbxdtwXSYHLXLIzJGg
-         PgeLXSSqL0E//2gk+R38TYbzBdSzNR+SsPDmj3RWtIeyWTCVmoMDDrE833fD4qX5vGdJ
-         6CsXJgRaoyhi+GhncUfIxkTh2NTtc+6HXxqboqZQuMajwelJAlSXuI6R2WkJ/6q0IyzL
-         FOMeotS8N9beLBB6DE/vRfd/NbEd7XubamYkidkq5iLKqRLY2hmca12ifviZzdaXuWHu
-         8+iw==
-X-Gm-Message-State: AOAM533ADDBkLwhaR4Jvi+eE4V9x6mSF9D6Q584Oe/yMiOWoSji2zIhu
-	SKb5lM3kSilL3diPWcEu293N73Y17FY+bg==
-X-Google-Smtp-Source: ABdhPJx6NzvcedzKqEc8yJLsZLEDJ715ortI+FN6xZMvUFOtQwzteRugAjkXXAcJqmuMVOAkbHn6uQ==
-X-Received: by 2002:aca:aa4b:: with SMTP id t72mr3244539oie.99.1592495002107;
-        Thu, 18 Jun 2020 08:43:22 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id r7sm768843oor.9.2020.06.18.08.43.18
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zcple18DxriOfx0oQuh4K8/nkvAyd9kcpONftIMHS/s=;
+        b=KG5ncwFbxqy9nqI5OP0VHO209q37NzuyCTONIl1e0xcIxb6e+O98id3aulrFuGtyfF
+         MNB/z8B3tjZ2uLohAH+2Xiyr/dDsSD1y8h7FqYcZaFqZSG3jvfrpZqEvqcuvNlCFll4I
+         r8OhtYSgc6YbIzbw66hfCBI9nT5hpZlPJRfTa214zga40WCOVHLvjcJ4yiilA+xPLx1g
+         LGIhKDj72KGHEPD1E9tvLhmUklOj/sxpS5HlpDLqIlxwtLJ9vC1t7t4kaGtsm6L35cGg
+         uBePTiygLhDlBc2WM+v2umaChVM5nYzSD1/gw+yw5Wx92T0Mx9WawnYL//yRSN8VI2oM
+         b0yw==
+X-Gm-Message-State: AOAM5337/lmYIDQRJ2uDPzl6Aw98jemeM12jh4rz22NVLkbXbtOcPT1+
+	bKk2vuEmf/2XVKBxLCQ7LD+4P6++
+X-Google-Smtp-Source: ABdhPJw3VXwKt53V36Xfm87QG4QOuR7//aBPtIDmlpDKfyZIXA5X6xnu1iwf1bMxuPGoMZOtTlNGqA==
+X-Received: by 2002:a50:d785:: with SMTP id w5mr4548251edi.212.1592495635893;
+        Thu, 18 Jun 2020 08:53:55 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id j2sm2413387edn.30.2020.06.18.08.53.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 08:43:21 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Thu, 18 Jun 2020 08:53:55 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 21/21] u-boot-tools: backport patch from upstream to fix gcc 10 builds
-Date: Thu, 18 Jun 2020 05:40:51 -1000
-Message-Id: <6372f78c2456a9b57ef5f8ff9b975426bd1a46be.1592492076.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1592492076.git.steve@sakoman.com>
-References: <cover.1592492076.git.steve@sakoman.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] net-tools: backport a patch from upstream to use the same ifconfig format as debian/ubuntu
+Date: Thu, 18 Jun 2020 17:53:53 +0200
+Message-Id: <20200618155353.30661-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+* this is needed for python3-ifcfg to parse it correctly
+  https://github.com/ftao/python-ifcfg/issues/43
+* backport this single patch, so it can be backported to dunfell
+  then for master we should upgrade to new snapshot from debian
+  which includes other fixes and improvements as well
+* this is already part of net-tools_1.60-26.diff from debian we're using
+  but it's first added there and then removed
+  $ grep 'sprintf(flags' net-tools_1.60-26.diff
+  ++    sprintf(flags, "flags=%d<", ptr->flags);
+  +-    sprintf(flags, "flags=%d<", ptr->flags);
+
+* before:
+root@qemux86-64:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:02
+          inet addr:192.168.7.2  Bcast:192.168.7.255  Mask:255.255.255.0
+          inet6 addr: fe80::5054:ff:fe12:3402/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:106 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:496 (496.0 B)  TX bytes:42832 (41.8 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:846 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:846 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:53364 (52.1 KiB)  TX bytes:53364 (52.1 KiB)
+
+* after:
+
+root@qemux86-64:~# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500  metric 1
+        inet 192.168.7.2  netmask 255.255.255.0  broadcast 192.168.7.255
+        inet6 fe80::5054:ff:fe12:3402  prefixlen 64  scopeid 0x20<link>
+        ether 52:54:00:12:34:02  txqueuelen 1000  (Ethernet)
+        RX packets 6  bytes 496 (496.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 14  bytes 2140 (2.0 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536  metric 1
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 80  bytes 6080 (5.9 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 80  bytes 6080 (5.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+* for comparison ubuntu-20.04 in docker:
+
+root@dafcbbf25ff2:/# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.2  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:02  txqueuelen 0  (Ethernet)
+        RX packets 39299  bytes 89614740 (89.6 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 33767  bytes 3807354 (3.8 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 5658  bytes 1294220 (1.2 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 5658  bytes 1294220 (1.2 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+* python3-ifcfg now parses flags correctly:
+root@qemux86-64:~# python3 -m ifcfg.cli | python3 -m json.tool
+{
+    "eth0": {
+        "inet": "192.168.7.2",
+        "inet4": [
+            "192.168.7.2"
+        ],
+        "ether": "52:54:00:12:34:02",
+        "inet6": [
+            "fe80::5054:ff:fe12:3402"
+        ],
+        "netmask": "255.255.255.0",
+        "device": "eth0",
+        "flags": "4163<UP,BROADCAST,RUNNING,MULTICAST> ",
+        "mtu": "1500",
+        "broadcast": "192.168.7.255"
+    },
+    "lo": {
+        "inet": "127.0.0.1",
+        "inet4": [
+            "127.0.0.1"
+        ],
+        "ether": null,
+        "inet6": [
+            "::1"
+        ],
+        "netmask": "255.0.0.0",
+        "device": "lo",
+        "flags": "73<UP,LOOPBACK,RUNNING> ",
+        "mtu": "65536"
+    },
+    "sit0": {
+        "inet": null,
+        "inet4": [],
+        "ether": null,
+        "inet6": [],
+        "netmask": null,
+        "device": "sit0",
+        "flags": "128<NOARP> ",
+        "mtu": "1480"
+    }
+}
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../remove-redundant-yyloc-global.patch       | 27 +++++++++++++++++++
- .../u-boot/u-boot-tools_2020.01.bb            |  2 ++
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools/remove-redundant-yyloc-global.patch
+ ...-to-unsigned-long-long-constants-to-.patch | 381 ++++++++++++++++++
+ .../net-tools/net-tools_1.60-26.bb            |   1 +
+ 2 files changed, 382 insertions(+)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools/remove-redundant-yyloc-global.patch b/meta/recipes-bsp/u-boot/u-boot-tools/remove-redundant-yyloc-global.patch
+diff --git a/meta/recipes-extended/net-tools/net-tools/0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch b/meta/recipes-extended/net-tools/net-tools/0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch
 new file mode 100644
-index 0000000000..2a184e57e2
+index 0000000000..523d434b7c
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools/remove-redundant-yyloc-global.patch
-@@ -0,0 +1,27 @@
-+From 018921ee79d3f30893614b3b2b63b588d8544f73 Mon Sep 17 00:00:00 2001
-+From: Peter Robinson <pbrobinson@gmail.com>
-+Date: Thu, 30 Jan 2020 09:37:15 +0000
-+Subject: [PATCH] Remove redundant YYLOC global declaration
++++ b/meta/recipes-extended/net-tools/net-tools/0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch
+@@ -0,0 +1,381 @@
++From eb04ef31571f6c707eacaba6846feeebfab518e6 Mon Sep 17 00:00:00 2001
++From: Bernd Eckenfels <net-tools@lina.inka.de>
++Date: Thu, 29 May 2003 02:09:14 +0000
++Subject: [PATCH] added 'ull' prefix to unsigned long long constants to make
++ gcc 3.3 happy
 +
-+Same as the upstream fix for building dtc with gcc 10.
-+
-+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Upstream-Status: Backport [https://sourceforge.net/p/net-tools/code/ci/eb04ef31571f6c707eacaba6846feeebfab518e6]
 +---
-+ scripts/dtc/dtc-lexer.l | 1 -
-+ 1 file changed, 1 deletion(-)
++ lib/interface.c | 299 ++++++++++++++++++++++++++----------------------
++ 1 file changed, 161 insertions(+), 138 deletions(-)
 +
-+diff --git a/scripts/dtc/dtc-lexer.l b/scripts/dtc/dtc-lexer.l
-+index fd825ebba6..24af549977 100644
-+--- a/scripts/dtc/dtc-lexer.l
-++++ b/scripts/dtc/dtc-lexer.l
-+@@ -38,7 +38,6 @@ LINECOMMENT	"//".*\n
-+ #include "srcpos.h"
-+ #include "dtc-parser.tab.h"
++diff -uNr net-tools-1.60.orig/lib/interface.c net-tools-1.60/lib/interface.c
++--- net-tools-1.60.orig/lib/interface.c	2020-06-16 10:04:16.308411879 +0000
+++++ net-tools-1.60/lib/interface.c	2020-06-16 10:05:15.697264291 +0000
++@@ -23,7 +23,6 @@
++ #include <string.h>
++ #include <unistd.h>
++ #include <ctype.h>
++-#include <string.h>
 + 
-+-YYLTYPE yylloc;
-+ extern bool treesource_error;
++ #if HAVE_AFIPX
++ #if (__GLIBC__ > 2) || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1)
++@@ -654,6 +653,8 @@
++     const char *Rext = "B";
++     const char *Text = "B";
 + 
-+ /* CAUTION: this will stop working if we ever use yyless() or yyunput() */
-+-- 
-+2.26.2
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-index 7eaf721ca8..ca8876ff98 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-@@ -1,2 +1,4 @@
- require u-boot-common.inc
- require u-boot-tools.inc
-+
-+SRC_URI += "file://remove-redundant-yyloc-global.patch"
+++    static char flags[200];
+++
++ #if HAVE_AFIPX
++     static struct aftype *ipxtype = NULL;
++ #endif
++@@ -685,32 +686,68 @@
++     if (hw == NULL)
++ 	hw = get_hwntype(-1);
++ 
++-    printf(_("%-9s Link encap:%s  "), ptr->name, hw->title);
++-    /* For some hardware types (eg Ash, ATM) we don't print the 
++-       hardware address if it's null.  */
++-    if (hw->print != NULL && (! (hw_null_address(hw, ptr->hwaddr) &&
++-				  hw->suppress_null_addr)))
++-	printf(_("HWaddr %s  "), hw->print(ptr->hwaddr));
++-#ifdef IFF_PORTSEL
++-    if (ptr->flags & IFF_PORTSEL) {
++-	printf(_("Media:%s"), if_port_text[ptr->map.port][0]);
++-	if (ptr->flags & IFF_AUTOMEDIA)
++-	    printf(_("(auto)"));
++-    }
+++    sprintf(flags, "flags=%d<", ptr->flags);
+++    /* DONT FORGET TO ADD THE FLAGS IN ife_print_short, too */
+++    if (ptr->flags == 0)
+++       strcat(flags,">");
+++    if (ptr->flags & IFF_UP)
+++       strcat(flags,_("UP,"));
+++    if (ptr->flags & IFF_BROADCAST)
+++       strcat(flags,_("BROADCAST,"));
+++    if (ptr->flags & IFF_DEBUG)
+++       strcat(flags,_("DEBUG,"));
+++    if (ptr->flags & IFF_LOOPBACK)
+++       strcat(flags,_("LOOPBACK,"));
+++    if (ptr->flags & IFF_POINTOPOINT)
+++       strcat(flags,_("POINTOPOINT,"));
+++    if (ptr->flags & IFF_NOTRAILERS)
+++       strcat(flags,_("NOTRAILERS,"));
+++    if (ptr->flags & IFF_RUNNING)
+++       strcat(flags,_("RUNNING,"));
+++    if (ptr->flags & IFF_NOARP)
+++       strcat(flags,_("NOARP,"));
+++    if (ptr->flags & IFF_PROMISC)
+++       strcat(flags,_("PROMISC,"));
+++    if (ptr->flags & IFF_ALLMULTI)
+++       strcat(flags,_("ALLMULTI,"));
+++    if (ptr->flags & IFF_SLAVE)
+++       strcat(flags,_("SLAVE,"));
+++    if (ptr->flags & IFF_MASTER)
+++       strcat(flags,_("MASTER,"));
+++    if (ptr->flags & IFF_MULTICAST)
+++       strcat(flags,_("MULTICAST,"));
+++#ifdef HAVE_DYNAMIC
+++    if (ptr->flags & IFF_DYNAMIC)
+++       strcat(flags,_("DYNAMIC,"));
+++#endif
+++    /* DONT FORGET TO ADD THE FLAGS IN ife_print_short */
+++    if (flags[strlen(flags)-1] == ',')
+++      flags[strlen(flags)-1] = '>';
+++    else
+++      flags[strlen(flags)-1] = 0;
+++      
+++
+++    printf(_("%s: %s  mtu %d  metric %d"),
+++          ptr->name, flags, ptr->mtu, ptr->metric ? ptr->metric : 1);
+++#ifdef SIOCSKEEPALIVE
+++    if (ptr->outfill || ptr->keepalive)
+++       printf(_("  outfill %d  keepalive %d"),
+++              ptr->outfill, ptr->keepalive);
++ #endif
++     printf("\n");
++ 
++ #if HAVE_AFINET
++     if (ptr->has_ip) {
++-	printf(_("          %s addr:%s "), ap->name,
+++        printf(_("        %s %s"), ap->name,
++ 	       ap->sprint(&ptr->addr, 1));
++-	if (ptr->flags & IFF_POINTOPOINT) {
++-	    printf(_(" P-t-P:%s "), ap->sprint(&ptr->dstaddr, 1));
++-	}
+++        printf(_("  netmask %s"), ap->sprint(&ptr->netmask, 1));
++ 	if (ptr->flags & IFF_BROADCAST) {
++-	    printf(_(" Bcast:%s "), ap->sprint(&ptr->broadaddr, 1));
+++            printf(_("  broadcast %s"), ap->sprint(&ptr->broadaddr, 1));
++ 	}
++-	printf(_(" Mask:%s\n"), ap->sprint(&ptr->netmask, 1));
+++       if (ptr->flags & IFF_POINTOPOINT) {
+++           printf(_("  destination %s"), ap->sprint(&ptr->dstaddr, 1));
+++       }
+++       printf("\n");
++     }
++ #endif
++ 
++@@ -727,29 +764,30 @@
++ 			addr6p[0], addr6p[1], addr6p[2], addr6p[3],
++ 			addr6p[4], addr6p[5], addr6p[6], addr6p[7]);
++ 		inet6_aftype.input(1, addr6, (struct sockaddr *) &sap);
++-		printf(_("          inet6 addr: %s/%d"),
++-		 inet6_aftype.sprint((struct sockaddr *) &sap, 1), plen);
++-		printf(_(" Scope:"));
++-		switch (scope) {
++-		case 0:
++-		    printf(_("Global"));
++-		    break;
++-		case IPV6_ADDR_LINKLOCAL:
++-		    printf(_("Link"));
++-		    break;
++-		case IPV6_ADDR_SITELOCAL:
++-		    printf(_("Site"));
++-		    break;
++-		case IPV6_ADDR_COMPATv4:
++-		    printf(_("Compat"));
++-		    break;
++-		case IPV6_ADDR_LOOPBACK:
++-		    printf(_("Host"));
++-		    break;
++-		default:
++-		    printf(_("Unknown"));
+++		printf(_("        %s %s  prefixlen %d"),
+++			inet6_aftype.name, 
+++			inet6_aftype.sprint((struct sockaddr *) &sap, 1), 
+++			plen);
+++		printf(_("  scopeid 0x%x"), scope);
+++
+++		flags[0] = '<'; flags[1] = 0;
+++		if (scope & IPV6_ADDR_COMPATv4) {
+++		    	strcat(flags, _("compat,"));
+++		    	scope -= IPV6_ADDR_COMPATv4;
++ 		}
++-		printf("\n");
+++		if (scope == 0)
+++			strcat(flags, _("global,"));
+++		if (scope & IPV6_ADDR_LINKLOCAL)
+++			strcat(flags, _("link,"));
+++		if (scope & IPV6_ADDR_SITELOCAL)
+++			strcat(flags, _("site,"));
+++		if (scope & IPV6_ADDR_LOOPBACK)
+++			strcat(flags, _("host,"));
+++		if (flags[strlen(flags)-1] == ',')
+++			flags[strlen(flags)-1] = '>';
+++		else
+++			flags[strlen(flags)-1] = 0;
+++		printf("%s\n", flags);
++ 	    }
++ 	}
++ 	fclose(f);
++@@ -762,17 +800,17 @@
++ 
++     if (ipxtype != NULL) {
++ 	if (ptr->has_ipx_bb)
++-	    printf(_("          IPX/Ethernet II addr:%s\n"),
++-		   ipxtype->sprint(&ptr->ipxaddr_bb, 1));
+++	    printf(_("        %s Ethernet-II   %s\n"),
+++		   ipxtype->name, ipxtype->sprint(&ptr->ipxaddr_bb, 1));
++ 	if (ptr->has_ipx_sn)
++-	    printf(_("          IPX/Ethernet SNAP addr:%s\n"),
++-		   ipxtype->sprint(&ptr->ipxaddr_sn, 1));
+++	    printf(_("        %s Ethernet-SNAP %s\n"),
+++		   ipxtype->name, ipxtype->sprint(&ptr->ipxaddr_sn, 1));
++ 	if (ptr->has_ipx_e2)
++-	    printf(_("          IPX/Ethernet 802.2 addr:%s\n"),
++-		   ipxtype->sprint(&ptr->ipxaddr_e2, 1));
+++	    printf(_("        %s Ethernet802.2 %s\n"),
+++		   ipxtype->name, ipxtype->sprint(&ptr->ipxaddr_e2, 1));
++ 	if (ptr->has_ipx_e3)
++-	    printf(_("          IPX/Ethernet 802.3 addr:%s\n"),
++-		   ipxtype->sprint(&ptr->ipxaddr_e3, 1));
+++	    printf(_("        %s Ethernet802.3 %s\n"),
+++		   ipxtype->name, ipxtype->sprint(&ptr->ipxaddr_e3, 1));
++     }
++ #endif
++ 
++@@ -781,7 +819,7 @@
++ 	ddptype = get_afntype(AF_APPLETALK);
++     if (ddptype != NULL) {
++ 	if (ptr->has_ddp)
++-	    printf(_("          EtherTalk Phase 2 addr:%s\n"), ddptype->sprint(&ptr->ddpaddr, 1));
+++	    printf(_("        %s %s\n"), ddptype->name, ddptype->sprint(&ptr->ddpaddr, 1));
++     }
++ #endif
++ 
++@@ -790,53 +828,30 @@
++ 	ectype = get_afntype(AF_ECONET);
++     if (ectype != NULL) {
++ 	if (ptr->has_econet)
++-	    printf(_("          econet addr:%s\n"), ectype->sprint(&ptr->ecaddr, 1));
+++	    printf(_("        %s %s\n"), ectype->name, ectype->sprint(&ptr->ecaddr, 1));
++     }
++ #endif
++ 
++-    printf("          ");
++-    /* DONT FORGET TO ADD THE FLAGS IN ife_print_short, too */
++-    if (ptr->flags == 0)
++-	printf(_("[NO FLAGS] "));
++-    if (ptr->flags & IFF_UP)
++-	printf(_("UP "));
++-    if (ptr->flags & IFF_BROADCAST)
++-	printf(_("BROADCAST "));
++-    if (ptr->flags & IFF_DEBUG)
++-	printf(_("DEBUG "));
++-    if (ptr->flags & IFF_LOOPBACK)
++-	printf(_("LOOPBACK "));
++-    if (ptr->flags & IFF_POINTOPOINT)
++-	printf(_("POINTOPOINT "));
++-    if (ptr->flags & IFF_NOTRAILERS)
++-	printf(_("NOTRAILERS "));
++-    if (ptr->flags & IFF_RUNNING)
++-	printf(_("RUNNING "));
++-    if (ptr->flags & IFF_NOARP)
++-	printf(_("NOARP "));
++-    if (ptr->flags & IFF_PROMISC)
++-	printf(_("PROMISC "));
++-    if (ptr->flags & IFF_ALLMULTI)
++-	printf(_("ALLMULTI "));
++-    if (ptr->flags & IFF_SLAVE)
++-	printf(_("SLAVE "));
++-    if (ptr->flags & IFF_MASTER)
++-	printf(_("MASTER "));
++-    if (ptr->flags & IFF_MULTICAST)
++-	printf(_("MULTICAST "));
++-#ifdef HAVE_DYNAMIC
++-    if (ptr->flags & IFF_DYNAMIC)
++-	printf(_("DYNAMIC "));
++-#endif
++-    /* DONT FORGET TO ADD THE FLAGS IN ife_print_short */
++-    printf(_(" MTU:%d  Metric:%d"),
++-	   ptr->mtu, ptr->metric ? ptr->metric : 1);
++-#ifdef SIOCSKEEPALIVE
++-    if (ptr->outfill || ptr->keepalive)
++-	printf(_("  Outfill:%d  Keepalive:%d"),
++-	       ptr->outfill, ptr->keepalive);
+++    /* For some hardware types (eg Ash, ATM) we don't print the 
+++       hardware address if it's null.  */
+++    if (hw->print != NULL && (! (hw_null_address(hw, ptr->hwaddr) &&
+++				  hw->suppress_null_addr)))
+++	printf(_("        %s %s"), hw->name, hw->print(ptr->hwaddr));
+++    else
+++	printf(_("        %s"), hw->name);
+++    if (ptr->tx_queue_len != -1)
+++    	printf(_("  txqueuelen %d"), ptr->tx_queue_len);
+++    printf("  (%s)\n", hw->title);
+++
+++#ifdef IFF_PORTSEL
+++    if (ptr->flags & IFF_PORTSEL) {
+++	printf(_("        media %s"), if_port_text[ptr->map.port][0]);
+++	if (ptr->flags & IFF_AUTOMEDIA)
+++	    printf(_("autoselect"));
+++    	printf("\n");
+++    }
++ #endif
++-    printf("\n");
+++
++ 
++     /* If needed, display the interface statistics. */
++ 
++@@ -845,19 +860,9 @@
++ 	 *      not for the aliases, although strictly speaking they're shared
++ 	 *      by all addresses.
++ 	 */
++-	printf("          ");
++-
++-	printf(_("RX packets:%llu errors:%lu dropped:%lu overruns:%lu frame:%lu\n"),
++-	       ptr->stats.rx_packets, ptr->stats.rx_errors,
++-	       ptr->stats.rx_dropped, ptr->stats.rx_fifo_errors,
++-	       ptr->stats.rx_frame_errors);
++-	if (can_compress)
++-	    printf(_("             compressed:%lu\n"), ptr->stats.rx_compressed);
++ 
++ 	rx = ptr->stats.rx_bytes;  
++-	tx = ptr->stats.tx_bytes;
++ 	short_rx = rx * 10;  
++-	short_tx = tx * 10;
++ 	if (rx > 1125899906842624ull) {
++ 	    short_rx /= 1125899906842624ull;
++ 	    Rext = "PiB";
++@@ -874,6 +879,8 @@
++ 	    short_rx /= 1024;
++ 	    Rext = "KiB";
++ 	}
+++        tx = ptr->stats.tx_bytes;
+++        short_tx = tx * 10;
++ 	if (tx > 1125899906842624ull) {
++ 	    short_tx /= 1125899906842624ull;
++ 	    Text = "PiB";
++@@ -891,37 +898,50 @@
++ 	    Text = "KiB";
++ 	}
++ 
++-	printf("          ");
++-	printf(_("TX packets:%llu errors:%lu dropped:%lu overruns:%lu carrier:%lu\n"),
++-	       ptr->stats.tx_packets, ptr->stats.tx_errors,
++-	       ptr->stats.tx_dropped, ptr->stats.tx_fifo_errors,
++-	       ptr->stats.tx_carrier_errors);
++-	printf(_("          collisions:%lu "), ptr->stats.collisions);
++-	if (can_compress)
++-	    printf(_("compressed:%lu "), ptr->stats.tx_compressed);
++-	if (ptr->tx_queue_len != -1)
++-	    printf(_("txqueuelen:%d "), ptr->tx_queue_len);
++-	printf("\n          ");
++-	printf(_("RX bytes:%llu (%lu.%lu %s)  TX bytes:%llu (%lu.%lu %s)\n"),
+++	printf("        ");
+++	printf(_("RX packets %llu  bytes %llu (%lu.%lu %s)\n"), 
+++		ptr->stats.rx_packets, 
++ 	       rx, (unsigned long)(short_rx / 10), 
++-	       (unsigned long)(short_rx % 10), Rext, 
++-	       tx, (unsigned long)(short_tx / 10), 
++-	       (unsigned long)(short_tx % 10), Text);
+++	       (unsigned long)(short_rx % 10), Rext);
+++	if (can_compress) {
+++  	    printf("        ");
+++	    printf(_("RX compressed:%lu\n"), ptr->stats.rx_compressed);
+++	}
+++	printf("        ");
+++	printf(_("RX errors %lu  dropped %lu  overruns %lu  frame %lu\n"),
+++	       ptr->stats.rx_errors, ptr->stats.rx_dropped, 
+++	       ptr->stats.rx_fifo_errors, ptr->stats.rx_frame_errors);
+++
+++
+++	printf("        ");
+++	printf(_("TX packets %llu  bytes %llu (%lu.%lu %s)\n"),
+++		ptr->stats.tx_packets, 
+++	        tx, (unsigned long)(short_tx / 10), 
+++	        (unsigned long)(short_tx % 10), Text);
+++	if (can_compress) {
+++  	    printf("        ");
+++	    printf(_("TX compressed %lu\n"), ptr->stats.tx_compressed);
+++	}
+++	printf("        ");
+++	printf(_("TX errors %lu  dropped %lu overruns %lu  carrier %lu  collisions %lu\n"),
+++	       ptr->stats.tx_errors,
+++	       ptr->stats.tx_dropped, ptr->stats.tx_fifo_errors,
+++	       ptr->stats.tx_carrier_errors, ptr->stats.collisions);
++     }
++ 
++     if ((ptr->map.irq || ptr->map.mem_start || ptr->map.dma ||
++ 	 ptr->map.base_addr >= 0x100)) {
++-	printf("          ");
+++	printf("        device ");
++ 	if (ptr->map.irq)
++-	    printf(_("Interrupt:%d "), ptr->map.irq);
+++	    printf(_("interrupt %d  "), ptr->map.irq);
++ 	if (ptr->map.base_addr >= 0x100)	/* Only print devices using it for 
++ 						   I/O maps */
++-	    printf(_("Base address:0x%x "), ptr->map.base_addr);
+++	    printf(_("base 0x%x  "), ptr->map.base_addr);
++ 	if (ptr->map.mem_start) {
++-	    printf(_("Memory:%lx-%lx "), ptr->map.mem_start, ptr->map.mem_end);
+++	    printf(_("memory 0x%lx-%lx  "), ptr->map.mem_start, ptr->map.mem_end);
++ 	}
++ 	if (ptr->map.dma)
++-	    printf(_("DMA chan:%x "), ptr->map.dma);
+++	    printf(_("  dma 0x%x"), ptr->map.dma);
++ 	printf("\n");
++     }
++     printf("\n");
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 5a376e72f0..8bd30fc6d9 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
+            file://net-tools-1.60-sctp3-addrs.patch \
+            file://0001-lib-inet6.c-INET6_rresolve-various-fixes.patch \
+            file://net-tools-fix-building-with-linux-4.8.patch \
++           file://0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch \
+           "
+ 
+ # for this package we're mostly interested in tracking debian patches,
 -- 
-2.17.1
+2.25.1
 
