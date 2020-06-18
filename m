@@ -1,58 +1,33 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.338.1592452946598976009
+Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
+ by mx.groups.io with SMTP id smtpd.web12.431.1592453522260284870
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2020 21:02:26 -0700
+ Wed, 17 Jun 2020 21:12:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4630460C23;
-	Thu, 18 Jun 2020 04:02:24 +0000 (UTC)
+ dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
+Received: from linc.localnet (unknown [165.84.12.158])
+	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 47DF1A2590
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 16:11:58 +1200 (NZST)
+Authentication-Results: linuxplesk15.openhost.net.nz;
+        spf=pass (sender IP is 165.84.12.158) smtp.mailfrom=bluelightning@bluelightning.org smtp.helo=linc.localnet
+Received-SPF: pass (linuxplesk15.openhost.net.nz: connection is authenticated)
+From: "Paul Eggleton" <bluelightning@bluelightning.org>
+To: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IFtPRS1jb3JlXSDinJcgcGF0Y2h0ZXN0OiBmYWlsdXJlIGZvciBNaXNjIGZpeGVz?=
+Date: Thu, 18 Jun 2020 16:11:57 +1200
+Message-ID: <1750233.tdWV9SEqCh@linc>
+In-Reply-To: <20200618040225.20804.60319@do>
+References: <cover.1592452323.git.paul.eggleton@linux.microsoft.com> <20200618040225.20804.60319@do>
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWlzYyBmaXhlcw==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Paul Eggleton <paul.eggleton@linux.microsoft.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2020 04:02:25 -0000
-Message-ID: <20200618040225.20804.60319@do>
-References: <cover.1592452323.git.paul.eggleton@linux.microsoft.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1592452323.git.paul.eggleton@linux.microsoft.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-== Series Details ==
+On Thursday, 18 June 2020 16:02:25 NZST Patchwork wrote:
+> * Issue             Added patch file is missing Upstream-Status in the
+> header [test_upstream_status_presence_format]
 
-Series: Misc fixes
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24727/
-State : failure
+Oops, typo - I have fixed the patch header and pushed the branch again.
 
-== Summary ==
+Paul
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
