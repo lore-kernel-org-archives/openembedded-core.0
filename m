@@ -1,66 +1,105 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.2659.1592467050673120648
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com [68.232.139.62])
+ by mx.groups.io with SMTP id smtpd.web12.2784.1592467455543373164
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 00:57:30 -0700
+ Thu, 18 Jun 2020 01:04:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: yanfei.xu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05I7vRZB005374
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Thu, 18 Jun 2020 00:57:28 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Thu, 18 Jun 2020
- 00:57:27 -0700
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>
-CC: <zhe.he@windriver.com>
-Subject: [OE-core] [PATCH v2] classes/kernel: Use a copied image for kernel*.rpm if fs don't support symlinks
-Date: Thu, 18 Jun 2020 15:57:25 +0800
-Message-ID: <20200618075725.39434-1-yanfei.xu@windriver.com>
-X-Mailer: git-send-email 2.18.2
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=Sop7aUbD;
+ spf=pass (domain: bmw.de, ip: 68.232.139.62, mailfrom: prvs=431bfba97=mikko.rapeli@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1592467455; x=1624003455;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=81zyAlA4H9xCHgpPpRnwgYQQg6cmpEA+RRL6SEYxlJI=;
+  b=Sop7aUbDR1UShVhJALRX6+csgUjZO+T+qIgWv3MqlwKK6XmnhWXopTWY
+   sgWneZjRNgurQwb8ayBQbbiVkRvSqf2TtDXHLn9Wj1Qm9nVrdEqKNkMB2
+   +8q2SUU8dZtfd6lBasHxYjPiJYom5h2yrNngSoysA0pzOVj8wR6cBnk0j
+   0=;
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 18 Jun 2020 10:04:11 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
+ 18 Jun 2020 10:04:08 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp) ([160.48.96.48])
+ by esabb3.muc with ESMTP/TLS; 18 Jun 2020 10:04:02 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10l.europe.bmw.corp
+ (160.48.96.48) with Microsoft SMTP Server (TLS;
+ Thu, 18 Jun 2020 10:04:02 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.006; Thu,
+ 18 Jun 2020 10:04:02 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <pbarker@konsulko.com>
+CC: <Awais_Belal@mentor.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for environment-setup beforehand
+Thread-Topic: [OE-core] [PATCH] toolchain-shar-relocate.sh: check for
+ environment-setup beforehand
+Thread-Index: AQHWROifRftvJyOgsEGsvY4gFx2ae6jd3uOAgAAD0YA=
+Date: Thu, 18 Jun 2020 08:04:01 +0000
+Message-ID: <20200618080401.GS108868@korppu>
+References: <20200617204739.22441-1-awais_belal@mentor.com>
+ <CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
+In-Reply-To: <CAM9ZRVvciD5BRLYnimK1AN9_BGZ8J8oK=keywSv2EGbOkwjK+Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EEA267F8860FCA4D943E6CA0C18C4092@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Yanfei Xu <yanfei.xu@windriver.com>
+On Thu, Jun 18, 2020 at 08:50:21AM +0100, Paul Barker wrote:
+> On Wed, 17 Jun 2020 at 21:48, Awais Belal <Awais_Belal@mentor.com> wrote=
+:
+> >
+> > The script runs a 'cat' on the script and if it isn't present in the
+> > sdk the cat command waits on the std input and hence the installation
+> > process simply sits there.
+>=20
+> That sort of error would typically be caused by the variable being
+> unset rather than the variable being set to the path of a nonexistent
+> file. I don't know much about the context this script runs in though
+> so I may be missing something obvious.
 
-Some filesystems don't support symlink, then you will get failure when
-you install or update the kernel rpm package. Now we use a copied iamge
-for these filesystems instead of symlink.
+I'd change the script to run with bash and "set -euo pipefail" to capture
+errors like this early.
 
-Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
----
- meta/classes/kernel.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+-Mikko
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 41101a64a0..749d1a0f29 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -94,6 +94,14 @@ python __anonymous () {
-         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
-         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
-         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-+        d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,typelower), """
-+set +e
-+ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
-+if [ $? -ne 0 ]; then
-+    echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlinks, falling back to copied image (%s)."
-+fi
-+set -e
-+""" % (type, type, type))
- 
-     image = d.getVar('INITRAMFS_IMAGE')
-     # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
-@@ -386,7 +394,7 @@ kernel_do_install() {
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
- 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
- 		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
--			ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-+			install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
- 		fi
- 	done
- 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
--- 
-2.18.2
+> >
+> > Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> > ---
+> >  meta/files/toolchain-shar-relocate.sh | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolch=
+ain-shar-relocate.sh
+> > index e3c10018ef..02a05664c6 100644
+> > --- a/meta/files/toolchain-shar-relocate.sh
+> > +++ b/meta/files/toolchain-shar-relocate.sh
+> > @@ -3,6 +3,12 @@ if ! xargs --version > /dev/null 2>&1; then
+> >         exit 1
+> >  fi
+> >
+> > +# check if we have a valid env-setup script
+> > +if [ ! -f "$env_setup_script" ]; then
+> > +       echo "Main environment-setup file not found. Abort!"
+> > +       exit 1
+> > +fi
+> > +
+> >  # fix dynamic loader paths in all ELF SDK binaries
+> >  native_sysroot=3D$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NAT=
+IVE_SYSROOT=3D'|cut -d'=3D' -f2|tr -d '"')
+> >  dl_path=3D$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+> > --
+> > 2.17.1
+>=20
+>=20
+>=20
+> --=20
+> Paul Barker
+> Konsulko Group
 
+>=20
