@@ -1,30 +1,30 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.3425.1592470953711737067
+ by mx.groups.io with SMTP id smtpd.web12.3426.1592470954387249722
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 02:02:33 -0700
+ Thu, 18 Jun 2020 02:02:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A504A60C23;
-	Thu, 18 Jun 2020 09:02:31 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id A1DE560C24;
+	Thu, 18 Jun 2020 09:02:32 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlianBlZy10dXJibzogRml4IENWRS0yMDIwLTEzNzkw?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlianBlZy10dXJibzogRml4IENWRS0yMDIwLTEzNzkwIChyZXYyKQ==?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
 To: Liu Haitao <haitao.liu@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2020 09:02:33 -0000
-Message-ID: <20200618090233.20810.25732@do>
-References: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
+Date: Thu, 18 Jun 2020 09:02:34 -0000
+Message-ID: <20200618090234.20804.14752@do>
+References: <1592469096-110049-1-git-send-email-haitao.liu@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1592469081-109960-1-git-send-email-haitao.liu@windriver.com>
+In-Reply-To: <1592469096-110049-1-git-send-email-haitao.liu@windriver.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: libjpeg-turbo: Fix CVE-2020-13790
-Revision: 1
+Series: libjpeg-turbo: Fix CVE-2020-13790 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/24734/
 State : failure
 
