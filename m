@@ -1,81 +1,82 @@
-Received: from mailout06.rmx.de (mailout06.rmx.de [94.199.90.92])
- by mx.groups.io with SMTP id smtpd.web10.2581.1592595936617122250
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.147.1592602062050140097
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2020 12:45:37 -0700
+ Fri, 19 Jun 2020 14:27:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.90.92, mailfrom: ceggers@arri.de)
-Received: from kdin01.retarus.com (kdin01.dmz1.retloc [172.19.17.48])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout06.rmx.de (Postfix) with ESMTPS id 49pTmr5BJlz9wP0
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 21:45:32 +0200 (CEST)
-Received: from ppmail.arri.de (unknown [217.111.95.7])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by kdin01.retarus.com (Postfix) with ESMTPS id 49pTmj6D45z2xCX
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 21:45:25 +0200 (CEST)
-Received: from mta.arri.de ([192.168.100.141]) by ppmail.arri.de over TLS secured channel with Microsoft SMTPSVC(7.0.6002.18264);
-	 Fri, 19 Jun 2020 21:44:47 +0200
-Received: from N95HX1G2.wgnetz.xx (192.168.54.14) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 19 Jun
- 2020 21:44:47 +0200
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Christian Eggers <ceggers@arri.de>
-Subject: [PATCH 4/4] consolekit: Extend for native/nativesdk
-Date: Fri, 19 Jun 2020 21:43:52 +0200
-Message-ID: <20200619194351.30053-5-ceggers@arri.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200619194351.30053-1-ceggers@arri.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IO8JzdIS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id d128so10328123wmc.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 14:27:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=xF4snhkUslo6Vm6dL7VCCjeA02NhKUJNoFJE2HwJkYA=;
+        b=IO8JzdISJy17KeqW0XR7X9rR+dB1QX+qDRUSi7AoLgl9bVMmr+MS5x6bQ6o3fmam5L
+         IrmNxVlUw+lL3elFcoXlGT5LU8jdp6XSLFlj9BgICfiYaue1/ozqLNl967DIlzim9nLd
+         mYjsZrm0x3p8lelu9jFHv6ukP4looketX/J0E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=xF4snhkUslo6Vm6dL7VCCjeA02NhKUJNoFJE2HwJkYA=;
+        b=rkA19lI97T9tV8CrAmoXopbyZPoc0oMFX47mIYzPgTdP/dbpI9Mtc4Oudpvc/G1XJx
+         w66wG9FfTw10cvi9OzWcpUyrZ6JWiYqgLC90muktTWPM9w26ZLV69XEP1FFL1QiaLOia
+         SNPRr6Y7Rvd0C8kq5kd/wJoZ104mIv3Ahwe1tCR/TJhQLly8Y9PWFdkUbT4ZyJIsBwgl
+         aiHDYHrSuNApeDGYpsi6lXyKOXlU/tfjIF/EfsFHYFCzjADcnMPXTRLyHfMpMM7WJBmQ
+         jwnitQ9UJMI+E59Lxxm8s3qhBaLMGOe5FV+EHqLZCI0tioGonZ0Ut9jszgPltTXRooSL
+         Y/6w==
+X-Gm-Message-State: AOAM532SU4sQ+sAgL+N9Juo1npyTsFdJKwBjJti5zT+cPrUMy7kah00G
+	wmzuBiVRX9NOq+1kpTg6H2W+Kw==
+X-Google-Smtp-Source: ABdhPJzE6LWTqC5Ztvp+FtaohHg8rTNonXi4MRsThwj1dBQ5s9v0dnn9BA64Xs+ahXhCZ9LgvO7f/Q==
+X-Received: by 2002:a7b:cb4c:: with SMTP id v12mr5527015wmj.43.1592602060530;
+        Fri, 19 Jun 2020 14:27:40 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id i15sm8430451wre.93.2020.06.19.14.27.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2020 14:27:39 -0700 (PDT)
+Message-ID: <f8cae5c1a6395d260bd8e5aaa29d5b49d8051d17.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/4] eudev: Extend for native/nativesdk
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Christian Eggers <ceggers@arri.de>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jun 2020 22:27:38 +0100
+In-Reply-To: <20200619194351.30053-3-ceggers@arri.de>
 References: <20200619194351.30053-1-ceggers@arri.de>
+	 <20200619194351.30053-3-ceggers@arri.de>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.14]
-X-OriginalArrivalTime: 19 Jun 2020 19:44:47.0408 (UTC) FILETIME=[16A42300:01D64672]
-X-RMX-ID: 20200619-214531-49pTmj6D45z2xCX-0@kdin01
-X-RMX-SOURCE: 217.111.95.7
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-consolekit is required by networkmanager.
+On Fri, 2020-06-19 at 21:43 +0200, Christian Eggers wrote:
+> eudev is required by networkmanager.
+> 
+> Signed-off-by: Christian Eggers <ceggers@arri.de>
+> ---
+>  meta/recipes-core/udev/eudev_3.2.9.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-
+> core/udev/eudev_3.2.9.bb
+> index f96f8cbe78..a4cec456d9 100644
+> --- a/meta/recipes-core/udev/eudev_3.2.9.bb
+> +++ b/meta/recipes-core/udev/eudev_3.2.9.bb
+> @@ -94,3 +94,5 @@ pkg_postinst_eudev-hwdb () {
+>  pkg_prerm_eudev-hwdb () {
+>          rm -f $D${sysconfdir}/udev/hwdb.bin
+>  }
+> +
+> +BBCLASSEXTEND = "native nativesdk"
 
-Signed-off-by: Christian Eggers <ceggers@arri.de>
----
- meta/recipes-support/consolekit/consolekit_0.4.6.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+A native eudev is a really bad idea, a nativesdk one isn't much better.
+If there are libs we need from here, then the recipe should only be
+generating those but a "native eudev" makes no sense to be needed by a
+build system. In case I'm not being clear enough, is bitbake going to
+replace the udev/systemd from your host system at run time?
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/r=
-ecipes-support/consolekit/consolekit_0.4.6.bb
-index 89f2d77b66..ad35e8c6d6 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659b=
-29e73d4adb9f9f6552 \
-                     file://src/main.c;endline=3D21;md5=3D0a994e097697802=
-20163255d8f9071c3"
-=20
- DEPENDS =3D "glib-2.0 glib-2.0-native dbus dbus-glib virtual/libx11"
--RDEPENDS_${PN} +=3D "base-files"
-+# base-files is only available for target
-+RDEPENDS_${PN}_class-target +=3D "base-files"
-=20
- inherit autotools pkgconfig features_check
- # depends on virtual/libx11
-@@ -47,3 +48,5 @@ do_install_append() {
- 	# Remove /var/ directories as the daemon creates them as required
- 	rm -rf ${D}${localstatedir}
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-Christian Eggers
-Embedded software developer
+Cheers,
 
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
-ummer: HRA 57918
-Persoenlich haftender Gesellschafter: Arnold & Richter Cine Technik GmbH
-Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
-ummer: HRB 54477
-Geschaeftsfuehrer: Dr. Michael Neuhaeuser; Stephan Schenk; Walter Traunin=
-ger; Markus Zeiler
+Richard
 
