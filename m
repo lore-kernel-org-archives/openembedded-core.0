@@ -1,141 +1,259 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.83])
- by mx.groups.io with SMTP id smtpd.web11.1998.1592553563353563268
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+ by mx.groups.io with SMTP id smtpd.web10.2144.1592554547509244263
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2020 00:59:23 -0700
+ Fri, 19 Jun 2020 01:15:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=dMYY2TuG;
- spf=pass (domain: windriver.com, ip: 40.107.243.83, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CTMhHjB0SJYo9vW6UKaOVQQR2NxtaUPGL/Ef/2uuV6tsob+aAsl8FMZu6ntBYoe48zf92c4Uuh+jZXmZEI+wE0p35MUlwq/oupr2b3EEHQ1A3TTh1hZfbx3AHIDBg+HJ1VYMJhmq134Ppyowq2ifA9+3VGRUJ51WgVbscmQjnOZM8htYKnIn+fRDUVYmaFdP9DSe93FUUUPWw03Gap978hAUuliP4pmW9PhXG6r9KnIOHusn5J72O85NMNvKytk9pICI+psPDgL+juQRkByrWugMGjXo4dXyKVIMZduFoiUE5NaDzHO5y95BjW0H0ijL3zWLzSVExah1O3WQ6bpfmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3OpIp1wz/ku55t8wAOifyGogXqSWGY4ZtLT6UBrH8b4=;
- b=XOS/URdTDsaHa/lmnkZCIHt3yVPU1h7DEWfZnp0I3FnfXtsTk+B8VkPDG6UV/t4pvnLg03uc1pgTbQT3f5PE1mYoniN2eEzGO7juQ/NYabdwb0zGfb5JnUslrvVfasuwU8WAZqDuOyDRoBIGnso5mcca83JlWdEyFN1MFW8u0khCIWBg09akpx2AwKkRu7hCW+7yDCtrbs9nQZ0mGkmkhpBZB0PulctLw/b554Lum0RMV/7loSucg77JrSM8CTI3oK5+3PMzMrWIywJQ/YasmwE9AkCwywsmIDZbbFqMEtgIgFl8jvTQG/KUvs7vZRDWf4Om/sYDzMzoEweSXPNyiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GST8YqKZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f65.google.com with SMTP id w20so2899119uaa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 01:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3OpIp1wz/ku55t8wAOifyGogXqSWGY4ZtLT6UBrH8b4=;
- b=dMYY2TuGyR460T/MamYv/l9qUSXDA93pnSfTRgF65g9SRt28NHXgZNGPZGzkIhQjcUpECiPDIq1CkK7ftmJ4rMlukIX6K+dEAD74X+gs2livkcFxi2AWgR2SRwvXX+TjohuzsH4CZFQSB35rOmqdiq5E4ozUBXRWhhE0IjQyEFY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BY5PR11MB4387.namprd11.prod.outlook.com (2603:10b6:a03:1cb::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Fri, 19 Jun
- 2020 07:59:20 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::19f6:49b4:700d:c360]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::19f6:49b4:700d:c360%3]) with mapi id 15.20.3109.021; Fri, 19 Jun 2020
- 07:59:20 +0000
-Subject: Re: [OE-core] [PATCH] netbase: use git fetcher
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
- <796ecb1469a1944bb7386c5c6ba9bfe580795057.camel@linuxfoundation.org>
- <16189495E5DBCB85.29686@lists.openembedded.org>
-Message-ID: <3089b5fa-4998-7a83-52c8-d6a535c60c14@windriver.com>
-Date: Fri, 19 Jun 2020 15:57:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <16189495E5DBCB85.29686@lists.openembedded.org>
-X-ClientProxiedBy: SG2PR0401CA0016.apcprd04.prod.outlook.com
- (2603:1096:3:1::26) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=URta4lsmzmyeER9N+1uJbeFQbBVy+wGG0ZnSz00D3B0=;
+        b=GST8YqKZOXPjMz4jEHTVKLZtawFAuUklm8VouNU6yYQvVpHa3NyyolWU8hlJLcbvWe
+         taVXmmZhiYqmpajFwJ94KVTF0NCd8oXFHk3140EwYeW2sfXLrlTBNh0sAy4aCsOht8Uw
+         +qPVNXQKJTyvGx2iDk5y7i/COHXK/y4Cy56qccNHrChDWkXr+UR6ORRMbA09njSYvZ9/
+         7RVahI7+FfR7GUvdbruEe+/dDIULxq/BdK1OcJ2fj1sEg0S4CfEeQ+HWHwS6zqnmDFEF
+         fTYZgeT7+ACGSwcwFAMIEYsJaNuLYXRWTS6i8stMjNgsWXBcPLvIJaU+k5uKyHic2utc
+         aF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=URta4lsmzmyeER9N+1uJbeFQbBVy+wGG0ZnSz00D3B0=;
+        b=GQRRTzG9+PsOgL1sfRAA4lB8vjRG3ULqGbiDKY0YAjjfzWIgCQ7HORBToq3z2/5eiO
+         0SwLyBgmFhFd31M5zsT8qsWyrz3uYJe7AbgiLIlvNmInbdXBDaubvaea9OG5ImiSihSc
+         gmWokaI0cysTo05FSzto+wbzmsja04XffMK32h+3GqfvpcC+acYIV+OBQ0i1vzLI5fmg
+         Q+PsiLTBEaNpafSBKcjdR8opFK100iP9n2HAwU96uOkwCaa3z/rG7HVOruRHBXXdWLXX
+         7Cq83xb3SyZcs4Fr7450VDe7Md/Ij7b7nA87PuUo+L+Y8aK83rLf/pbB9NU7QqWoPltn
+         Iq9w==
+X-Gm-Message-State: AOAM530Qg3Pe8eNypsbR5PPIv/V5LZ0AZbmlnryGrXSAT0OBrMXZNfSw
+	nH7nBxUwVi6X4eOhaJ+G/uDajoE0bxjYE9xInvI=
+X-Google-Smtp-Source: ABdhPJwHXfDX3IM4P/HyUHazy/Kn84d0Hm0ufqIOvSf7c2GgQuiWHm9BMPAZ001xO6yXDhGlhDZXaWOd+tCUYTH73pM=
+X-Received: by 2002:ab0:3f0:: with SMTP id 103mr1577181uau.71.1592554546615;
+ Fri, 19 Jun 2020 01:15:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.138] (60.247.85.82) by SG2PR0401CA0016.apcprd04.prod.outlook.com (2603:1096:3:1::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21 via Frontend Transport; Fri, 19 Jun 2020 07:59:18 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f992b4f-577a-4f6b-1651-08d81426abe7
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4387:
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB4387C4DCCC6D08F394E03565F1980@BY5PR11MB4387.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:376;
-X-Forefront-PRVS: 0439571D1D
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9FGzEDGWNUz6K7Q2AppZ+Xu0V0KirEZ/Ys81G668T4eOTZRmjePImmmw8hVF4MT8mcy1c7MPEpTHFSOgQ8K6+upvrwxQjgyWkQQydiFNYFZotamojfZbUGy4KG4gOucpdbqh9OcEDnCA6nuZ26yBUjgH1gA4GA12wgxhqx/fGoFAwhKyGsSlqNLF+7jQtuZ5nH8MX6VLiO2f7s4O9gUK9VtTFqOr4r8ZRyGEn52JV8237G1Tf0JCgoNPQzvaMJoq8DdjWn52G0eMj3gyDrd5XlLZn36QvFc5W13ehjpMA46NrOzaw4k4bTp1rh4YqM0t0xkSrwmzlEe4T3qnqSaG4iu2lUzF9CzpmwQe6BGJFSJe44M83lI/IcixgomZLKc0xSUbpkRiKEbBl7khiUiH+vPYDpS4vJRR71YQ1vSNDmnLV4gJTCt+TaIHWxssgjLWStQ9ueHefCG4ZZjZmeLSf2AfybNms7rvZwl1uDNB57cLBk44XxhNgsQupuGRyY7CgU8dGezgju5s/HEB/OMgfQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(376002)(136003)(396003)(366004)(346002)(39850400004)(8936002)(5660300002)(186003)(86362001)(2906002)(966005)(31696002)(53546011)(16526019)(26005)(8676002)(52116002)(31686004)(83380400001)(956004)(478600001)(2616005)(6706004)(316002)(16576012)(66476007)(66556008)(66946007)(36756003)(6666004)(6486002)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	0WW6m1n0jgqEaE6021SkfWCTiR+Mh5FCM2A5Jq1TSieohBva0LiyjveMKBb4TMnwb8pbhh3eu70DWDienNrxZ8RV60WIpSE9Jjh6lRlGI+OFfaVbI3G27yFLJg1e5/ClAjZW4gidj0pNUgYx6YPUeQvl66p5/hhQU7g/Vkk6/K07Ucqeai3BVoAiyu6qMgNDTj6q7eGcAc2E+0VGzxmP804YJ884hLRmj1C6XIh18Cdc3bgwXGYvfHY/ewajnexH8SN0Al16U40mYTHLnfbenA0H5kghrst2ra6ufRNxIAab5TvDfPE6YQjuhxv2aOpKwqjaxRbNaip2H5dIIbW/5SG7KsZyLY2wZ7dRhLdB6rfmtBdqvHxFy98mNnCu7RGuFdlN1yEWdzVps4PxglbCb+4z+mhEdjTPoq8oQFpIsbDzw0fIOqKyjWxoFut4Mp7irSefvkbvC9dZPhwybiaHEDNoQsZkYHHT4hxnXWqASAo=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f992b4f-577a-4f6b-1651-08d81426abe7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2020 07:59:20.2424
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AEGiaIrK4E+MF5VYHF4NfTScJD5Kdwzk9YiGjwsNfsNO1muH5+iUkC9x1oKr0CAijrpgLvGmbxnkCAq3b462GQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4387
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <20200619021057.18734-1-arthur.she@linaro.org>
+In-Reply-To: <20200619021057.18734-1-arthur.she@linaro.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 19 Jun 2020 10:15:35 +0200
+Message-ID: <CANNYZj_o_GC9B-hJ9XJ=0rG5+iUE-6E79Bahrv9A5ipfHVSrjw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2] igt-gpu-tools: add new package
+To: Arthur She <arthur.she@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000009586705a86b8031"
+
+--00000000000009586705a86b8031
+Content-Type: text/plain; charset="UTF-8"
+
+You also need to add a maintainers.inc entry (this will be used by auto
+upgrade helper to send version upgrade patches or reminders to upgrade).
+
+Alex
+
+On Fri, 19 Jun 2020 at 04:11, Arthur She <arthur.she@linaro.org> wrote:
+
+> igt-gpu-tools is a collection of tools for development and testing of the
+> DRM
+> drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
+> This recipe is originally copied from meta-intel and added the following
+> modifications
+> 1. Enable ARM architecture
+> 2. Enable igt-runner and Chamelium
+> 3. Build git HEAD code instead of a specific version
+> The original recipe in the meta-intel will be removed and replaced by
+> this one to avoid having a duplicate recipe.
+> It is applicable to be submitted to oe-core, because it provides
+> a core validation functionality that is needed by all providing DRM
+> drivers and not just to a single arch.
+>
+> Signed-off-by: Arthur She <arthur.she@linaro.org>
+> ---
+>  .../igt-gpu-tools/igt-gpu-tools_git.bb        | 47 +++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>  create mode 100644 meta/recipes-graphics/igt-gpu-tools/
+> igt-gpu-tools_git.bb
+>
+> diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> new file mode 100644
+> index 0000000000..dc9537c9e3
+> --- /dev/null
+> +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+> @@ -0,0 +1,47 @@
+> +SUMMARY = "IGT GPU Tools"
+> +DESCRIPTION = "IGT GPU Tools is a collection of tools for development and
+> testing of the DRM drivers"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=67bfee4df38fa6ecbe3a675c552d4c08"
+> +
+> +LICENSE = "MIT"
+> +
+> +inherit meson
+> +
+> +SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
+> +PV = "1.25+git${SRCPV}"
+> +
+> +SRC_URI = "git://
+> gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod
+> openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native"
+> +RDEPENDS_${PN} += "bash"
+> +RDEPENDS_${PN}-tests += "bash"
+> +
+> +PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+> +
+> +EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dchamelium=enabled"
+> +COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
+> +COMPATIBLE_HOST_libc-musl_class-target = "null"
+> +SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
+> +
+> +gputools_sysroot_preprocess() {
+> +       rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/intel-gen4asm.pc
+> +}
+> +SYSROOT_PREPROCESS_FUNCS += "gputools_sysroot_preprocess"
+> +
+> +do_install_append() {
+> +    install -d ${D}/usr/share/${BPN}/scripts
+> +    install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scripts
+> +    install -d ${D}/usr/share/${BPN}/runner
+> +    install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/runner
+> +    install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/runner
+> +}
+> +
+> +FILES_${PN}-benchmarks += "${libexecdir}/${BPN}/benchmarks"
+> +FILES_${PN}-tests += "\
+> +        ${libexecdir}/${BPN}/*\
+> +        ${datadir}/${BPN}/1080p-right.png\
+> +        ${datadir}/${BPN}/1080p-left.png\
+> +        ${datadir}/${BPN}/pass.png\
+> +        ${datadir}/${BPN}/test-list.txt"
+> --
+> 2.25.1
+>
+> 
+>
+
+--00000000000009586705a86b8031
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Ping.
-
-Thanks,
-
-On 6/15/20 9:49 AM, Yu, Mingli wrote:
-> Hi RP,
->=20
-> On 4/1/20 5:20 PM, Richard Purdie wrote:
->> On Mon, 2020-03-16 at 17:24 +0800, mingli.yu@windriver.com wrote:
->>> From: Mingli Yu <mingli.yu@windriver.com>
->>>
->>> Use git repo as the the previous URL only stores
->>> the latest source file and fails to locate the
->>> source tar file if we don't upgrade timely.
->>>
->>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->>> ---
->>> =C2=A0 meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
->>> =C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> Breaks reproducible builds:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/825
->=20
-> I run reproducible build locally with "oe-selftest -r=20
-> reproducible.ReproducibleTests.test_reproducible_builds" and It succeeds=
+<div dir=3D"ltr"><div>You also need to add a maintainers.inc entry (this wi=
+ll be used by auto upgrade helper to send version upgrade patches or remind=
+ers to upgrade).</div><div><br></div><div>Alex<br></div></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 19 Jun 2020=
+ at 04:11, Arthur She &lt;<a href=3D"mailto:arthur.she@linaro.org">arthur.s=
+he@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">igt-gpu-tools is a collection of tools for development and tes=
+ting of the DRM<br>
+drivers. (<a href=3D"https://gitlab.freedesktop.org/drm/igt-gpu-tools" rel=
 =
-=20
-> with this commit.
->=20
-> BTW, the netbase only introduces 3 files as below:
-> # rpm -ql netbase
->=20
-> /etc
->=20
-> /etc/protocols
->=20
-> /etc/rpc
->=20
-> /etc/services
->=20
-> And I did the three files' checksum and the checksum turns out to be the=
+=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/drm/igt-g=
+pu-tools</a>)<br>
+This recipe is originally copied from meta-intel and added the following<b=
+r>
+modifications<br>
+1. Enable ARM architecture<br>
+2. Enable igt-runner and Chamelium<br>
+3. Build git HEAD code instead of a specific version<br>
+The original recipe in the meta-intel will be removed and replaced by<br>
+this one to avoid having a duplicate recipe.<br>
+It is applicable to be submitted to oe-core, because it provides<br>
+a core validation functionality that is needed by all providing DRM<br>
+drivers and not just to a single arch.<br>
+<br>
+Signed-off-by: Arthur She &lt;<a href=3D"mailto:arthur.she@linaro.org" tar=
+get=3D"_blank">arthur.she@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0.../igt-gpu-tools/<a href=3D"http://igt-gpu-tools_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">igt-gpu-tools_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
 =
-=20
-> same when with the commit and without the commit.
->=20
-> Thanks,
-> Grace
->=20
->>
->> Cheers,
->>
->> Richard
->>
->>
->=20
->=20
->=20
+=A0 | 47 +++++++++++++++++++<br>
+=C2=A01 file changed, 47 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-graphics/igt-gpu-tools/<a href=3D"ht=
+tp://igt-gpu-tools_git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-too=
+ls_git.bb</a><br>
+<br>
+diff --git a/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http://igt-gpu=
+-tools_git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb</a=
+> b/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http://igt-gpu-tools_git=
+.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb</a><br>
+new file mode 100644<br>
+index 0000000000..dc9537c9e3<br>
+--- /dev/null<br>
++++ b/meta/recipes-graphics/igt-gpu-tools/<a href=3D"http://igt-gpu-tools_=
+git.bb" rel=3D"noreferrer" target=3D"_blank">igt-gpu-tools_git.bb</a><br>
+@@ -0,0 +1,47 @@<br>
++SUMMARY =3D &quot;IGT GPU Tools&quot;<br>
++DESCRIPTION =3D &quot;IGT GPU Tools is a collection of tools for developm=
+ent and testing of the DRM drivers&quot;<br>
++<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D67bfee4df38fa6ecbe3a675c5=
+52d4c08&quot;<br>
++<br>
++LICENSE =3D &quot;MIT&quot;<br>
++<br>
++inherit meson<br>
++<br>
++SRCREV =3D &quot;d16ad07e7f2a028e14d61f570931c87fa5ce404c&quot;<br>
++PV =3D &quot;1.25+git${SRCPV}&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://gitlab.freedesktop.org/drm/igt-=
+gpu-tools.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">gitlab=
+.freedesktop.org/drm/igt-gpu-tools.git;protocol=3Dhttps</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++DEPENDS +=3D &quot;libdrm libpciaccess cairo udev glib-2.0 procps libunwi=
+nd kmod openssl xmlrpc-c gsl elfutils alsa-lib json-c bison-native&quot;<br=
+>
++RDEPENDS_${PN} +=3D &quot;bash&quot;<br>
++RDEPENDS_${PN}-tests +=3D &quot;bash&quot;<br>
++<br>
++PACKAGE_BEFORE_PN =3D &quot;${PN}-benchmarks ${PN}-tests&quot;<br>
++<br>
++EXTRA_OEMESON =3D &quot;-Ddocs=3Ddisabled -Drunner=3Denabled -Dchamelium=
+=3Denabled&quot;<br>
++COMPATIBLE_HOST =3D &quot;(x86_64.*|i.86.*|arm.*|aarch64).*-linux&quot;<b=
+r>
++COMPATIBLE_HOST_libc-musl_class-target =3D &quot;null&quot;<br>
++SECURITY_LDFLAGS =3D &quot;${SECURITY_X_LDFLAGS}&quot;<br>
++<br>
++gputools_sysroot_preprocess() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/in=
+tel-gen4asm.pc<br>
++}<br>
++SYSROOT_PREPROCESS_FUNCS +=3D &quot;gputools_sysroot_preprocess&quot;<br>
++<br>
++do_install_append() {<br>
++=C2=A0 =C2=A0 install -d ${D}/usr/share/${BPN}/scripts<br>
++=C2=A0 =C2=A0 install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scr=
+ipts<br>
++=C2=A0 =C2=A0 install -d ${D}/usr/share/${BPN}/runner<br>
++=C2=A0 =C2=A0 install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/run=
+ner<br>
++=C2=A0 =C2=A0 install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/run=
+ner<br>
++}<br>
++<br>
++FILES_${PN}-benchmarks +=3D &quot;${libexecdir}/${BPN}/benchmarks&quot;<b=
+r>
++FILES_${PN}-tests +=3D &quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${libexecdir}/${BPN}/*\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/1080p-right.png\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/1080p-left.png\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/pass.png\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${datadir}/${BPN}/test-list.txt&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000009586705a86b8031--
