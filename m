@@ -1,214 +1,199 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.40])
- by mx.groups.io with SMTP id smtpd.web12.1568.1592530214929862519
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web11.2074.1592532476736365081
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 18:30:15 -0700
+ Thu, 18 Jun 2020 19:07:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=P/QNPiFi;
- spf=pass (domain: xevo.com, ip: 40.107.93.40, mailfrom: rrowe@xevo.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dNNNUWqOY89HRwnZ2AvSYmytSOEMrQysIreQRtxtxP72oqJbkBa+UvZRfvBNaHmoRBkPcaqjxLvT0B2dJUXi8L1QPc948fPDCmMwkvX7HhVeV6LRZ7gY7pR8qFwujijg9/oMJPX/DBk7akgorzP4/YrlS/7OPfs9Qs9m8uHzfwbXm3YyA3DmBhAHkAl6D1Yt60s9zyZXcY0ssFT9IiYYzGGJRrIMW8g6yKjmOfk+FG4P7f/HafnhDj2DGzfztLkDGre5kF5IHIFzQh4TYqBiRG9XO0I0YYtfYDJqYNv+zJA1dyECDgHi0lOj+kuLZYF9RP/X4urlPaSSyYx0/MpqHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HAuzRtN2asNW/HeWMxyJ0I8zk8sTzNPiSjobKGiOl+0=;
- b=Xeti858m4Q7JYdGPADr6wXY1HrPn6i6+O/Jnvrs8si6DnnpnBgIADoBSGMwWT4TFhAYagurcBHXCNaKNnplP1yte5Q9monXDQSZPCioEcIwQX7xomRjzkuUp9lMBfu6QwSl7DTuRHxk+bFqtLZAPdWl+KaNXyDhwoFwxwAekSRrPnrx7dQevSEyBtjnCMdNYkUV2675aPp/bqUN4gRSX+jGtdfA1httU9tDBEp9ZhR5WDRzx8jk3x3W8waqvNd/5prq6/NWQfa4rxypXRiKARtkGS8lhFneLiLJNYb383BGNNvKbFpvK97Utd5lRUrXj1kUphecqF19KnANZMAfuvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
- dkim=pass header.d=xevo.com; arc=none
+ dkim=pass header.i=@linaro.org header.s=google header.b=ZimX55VT;
+ spf=pass (domain: linaro.org, ip: 209.85.166.173, mailfrom: arthur.she@linaro.org)
+Received: by mail-il1-f173.google.com with SMTP id b5so7930322iln.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 19:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HAuzRtN2asNW/HeWMxyJ0I8zk8sTzNPiSjobKGiOl+0=;
- b=P/QNPiFif2H5CeussCjpHXMGNmJpNje+qbcloDU+d6weanZ1Of2B5YWG0w7YxeNv8Wh97rR6TkSlHXk8Qf3v6+QM0uGJuTLkJbUjaA4EypgwQG4UU6IrLgDC5w0ffHhUbj9GIEO1hi1fmeajpa9L6lITQkKNfyfl2frtzIquLyc=
-Received: from MW3PR18MB3659.namprd18.prod.outlook.com (2603:10b6:303:53::19)
- by MW3PR18MB3498.namprd18.prod.outlook.com (2603:10b6:303:5f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Fri, 19 Jun
- 2020 01:30:12 +0000
-Received: from MW3PR18MB3659.namprd18.prod.outlook.com
- ([fe80::3d7f:edb8:f540:5050]) by MW3PR18MB3659.namprd18.prod.outlook.com
- ([fe80::3d7f:edb8:f540:5050%5]) with mapi id 15.20.3109.021; Fri, 19 Jun 2020
- 01:30:12 +0000
-From: "Ryan Rowe" <rrowe@xevo.com>
-To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Mittal, Anuj"
-	<anuj.mittal@intel.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
-	Jim Broadus <jbroadus@xevo.com>, Martin Kelly <mkelly@xevo.com>
-Subject: Re: [OE-core] python3 recipe PGO tests
-Thread-Topic: [OE-core] python3 recipe PGO tests
-Thread-Index: 
- AQHWQQBr9DBCM++iU0S7IAPhJcbp6ajYWg4AgAFXCQCABVxGgIAABmQAgAACiID//6S2gA==
-Date: Fri, 19 Jun 2020 01:30:12 +0000
-Message-ID: <1E89FC3F-7FFB-4643-9A4B-42F79F0076CD@xevo.com>
-References: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com>
- <bc728c163c639ffd5c0e6d8fb4c10b94417a2a8a.camel@intel.com>
- <D171668B-2DD3-4650-B4F2-B17DA15F9271@xevo.com> <11814952.jqib13ICcW@tyche>
- <CAJ86T=WzTgA55KRsztpAjfNbM2udzdxmayNXqkMo-OabzAJj2Q@mail.gmail.com>
- <CAMKF1srfRUXg=zcThoW_Jus0j1t5wdkpRq4O2V-BdbPXxHHahQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srfRUXg=zcThoW_Jus0j1t5wdkpRq4O2V-BdbPXxHHahQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=xevo.com;
-x-originating-ip: [73.83.210.194]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a629b461-15ec-4329-4a20-08d813f04fe6
-x-ms-traffictypediagnostic: MW3PR18MB3498:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <MW3PR18MB34987DE14BFD290A44E9B9ADCC980@MW3PR18MB3498.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0439571D1D
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- lbADVHVixvmtKf5GKZQbL6Xo9htH5AxI6nIghkmhUdcDNpu5Dkm4LXZzpZiGw6M3ZHzpiknZB5n1G6PwNoEoCuhAGRzFqDsp+zpQOHQujC8qm7lK4R4jwjkVlsSLzmIZITO7T+CEIvQkbmKuxFZnUITC7eDcov+1E6fE4eZ2FMBJEVPHxK6t4vVoeSdCZOYzrYKwXqoBpR6Dwut47JYayUCF2tUpKrcJXq04cbbkfTLb3asThGTzNNZ+IhfaMn3wYCowlOAFCtLcXCqotLkAdgVy90BCrte2H+F1D90aEGzlv0I7Gr3acxPTm9W3ua3urMIiPA6VT4wDShQkeaaglqL8uZLkcaw3qwmz5Dwdh4usiCbr6aXlm0qm2vO/QlIwWxP625Kq3rgPYCf5BvX31w==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR18MB3659.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(136003)(396003)(346002)(39840400004)(376002)(2906002)(110136005)(54906003)(83380400001)(316002)(478600001)(186003)(4326008)(86362001)(26005)(5660300002)(107886003)(6486002)(76116006)(8676002)(33656002)(36756003)(2616005)(64756008)(66946007)(66556008)(66446008)(66476007)(6512007)(8936002)(966005)(71200400001)(6506007)(53546011);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- duOC7SU74gmpdhE4p8ctmlYAKNk1PMgmaHmHrz7Puqh1jnf+7dhd54SrbfF2Ru9ouPJ7MNSf66BUnh0OUO7SEHgNI1Dfzg+UwT+tTkIlyhdBX/k/TMtZJ99rfsteeADmrEa0W3C4qHm3GOZLZijnDzKKk4peoKOvhvvPq7326Hv0udHM6/HxsgupNOR667pgKD3y9DYEUsyIy2hve9u1VyxIQD4slkP8UfDkT0KANwvWilJavBaTrt9dhXLoWAMj7Nc+dklp9QdFcthfCG1VebAIU5IkmS2Ps6Z1ukrs1lthcGPMG/k4VSFjPOkz3i97vUT21tjBy19PlZ1dSNuCp62PTdSLzFbO78qqugt7R03M/55K68YoQ2RZxBAoBmgXtQS0y5Qxqs2vZwFqO6tkuof+s4ZMYmtnR0xAhEk8zryOsECxhxxyD5dcf6mH5F7XA/OgcHZUlHdIuhFSMx6vv4gc23SBs/yfoZSuVqHhXQM=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=01N55pkryUEyQsQ1stzyMb8Fbdz+fb4hfiIogIgGpyg=;
+        b=ZimX55VTyo2M1enduD00lEJivX0xQhxtV5LAjjeEqWyqHaBlLCFxQOcyVjweBVPlVz
+         qEgy8b9WHJasV1pPnyii1JJyYsqNyjql1U+UGOe7zRqtAMGm7w7EbU83EaQ7vnIUId8D
+         wcenI+eG/FJFtKJYbmCgpiqgXKmiDQ+FrbAmlMevk+fm40D5bdB4Ntfzra0JmFsZYEvi
+         ZUW/5k4EB4vTFdAl9hqhnz3hFmNMqUoAIw4XaQ71DJd+YjKn+j+UyjfUh8O8bqnCAjcM
+         4n7bN+JAKYamPa1f8GIMS6c/07s0vLamHJjEkn63+yVPSFHMbvhfrSPyhbHmraKVh2Re
+         ArPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=01N55pkryUEyQsQ1stzyMb8Fbdz+fb4hfiIogIgGpyg=;
+        b=ckmUGcN6EeloOmxcFCuapMqQlP0tY+OoO0b745b9Fu88xKKQBt/P3VJ8sWQST3TojL
+         YwJuPctFygLs9fZ6ejKcmcHu6GN2fMtA/qbG7+Ok0ULlnNAoPyuZn4yBAuvVdNtOKezF
+         0iaph1D5Lo0MZALQGRWFOWRf9vqM2j50UmYI79DCKEFmBwKFUUTbo/13WoJ1zgs2r/LQ
+         3zOYu1DPzOc6uUioVl/9rmeSA/cYdqAOAcBSUwFCYjyxXUjkyWex2ga0AHDP0GJlEjfM
+         MRY21gzMIc5CP6tjN25bnGm3OokyJ/698F39tjaTFBPA55BDYmw/BGdKeXTTmmmNsdFx
+         umcg==
+X-Gm-Message-State: AOAM533+hFDDZ+ml5pCdxF/BsLEnhQOS6G+aa+YruQOABuMlHR03POP1
+	odxpATlsafhF07SYaHy6GN9nwdsYgRFf8AX6SxRhVA==
+X-Google-Smtp-Source: ABdhPJwwgPaUnlRdKTs20DKINVJYRIuGQnDmVcPwBcvWsFrNMKrqoEhdQWMZZ9Uud/kLgbAXQZzZuYDfFHiL5KCcCLg=
+X-Received: by 2002:a92:290c:: with SMTP id l12mr1414573ilg.279.1592532476178;
+ Thu, 18 Jun 2020 19:07:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a629b461-15ec-4329-4a20-08d813f04fe6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2020 01:30:12.5142
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oWDwbV2l/IwfbCQA+givVTflmZDoaHiii/WmOagp81jXeHsK6TdLz3pUvfJGAXu7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR18MB3498
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <27FA41F2FDECFC4DAA3809DFCE1D81D0@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+References: <20200615060025.171354-1-arthur.she@linaro.org>
+ <CANNYZj9RLRjTgB-Qy4Rzx9iWN4PMGzay-XxgZGEei_HC8gEq=w@mail.gmail.com>
+ <20200615075646.GU17660@denix.org> <CAJ8hLzH2JMoJ7QspxnjAZ1ZwKshj+REUu=HrE7A2tspu_pH=Zw@mail.gmail.com>
+ <CANNYZj8n5b46zVCL1Kt4NdweQb0tvZh3SmCype4p6BxzD7_T7Q@mail.gmail.com>
+ <9f5397898511c51c6a388fa602e8bdba1a702560.camel@intel.com>
+ <CAJ8hLzHB45R_g=OrGTEMLqnUkhg64OSPJvAr+P-3LGF355mpnw@mail.gmail.com> <CANNYZj_hoDQ_XnGitKWu8MqJi33e3KEH2A9tzpY8r=NeU_Nh-A@mail.gmail.com>
+In-Reply-To: <CANNYZj_hoDQ_XnGitKWu8MqJi33e3KEH2A9tzpY8r=NeU_Nh-A@mail.gmail.com>
+From: "Arthur She" <arthur.she@linaro.org>
+Date: Thu, 18 Jun 2020 19:07:45 -0700
+Message-ID: <CAJ8hLzGrm1YtEQ3LPnjvmoL7Hqgziq6eybSyo++o1ZoJut+=yw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] igt-gpu-tools: add new package
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, "denis@denix.org" <denis@denix.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000894fe305a8665c57"
 
-T24gMTgvNi8yMCwgMTY6NTcsICJLaGVtIFJhaiIgPHJhai5raGVtQGdtYWlsLmNvbT4gd3JvdGU6
-DQo+DQo+IE9uIFRodSwgSnVuIDE4LCAyMDIwIGF0IDQ6NDcgUE0gQW5kcmUgTWNDdXJkeSA8YXJt
-Y2N1cmR5QGdtYWlsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBPbiBUaHUsIEp1biAxOCwgMjAyMCBh
-dCA0OjI1IFBNIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+ID4NCj4g
-PiA+IE9uIE1vbmRheSwgSnVuZSAxNSwgMjAyMCAxOjMzOjI2IFBNIFBEVCBSeWFuIFJvd2Ugd3Jv
-dGU6DQo+ID4gPg0KPiA+ID4gPiBPbiAxNC82LzIwLCAxODowNSwgIk1pdHRhbCwgQW51aiIgPGFu
-dWoubWl0dGFsQGludGVsLmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+ID4gT24gRnJpLCAy
-MDIwLTA2LTEyIGF0IDIxOjI4ICswMDAwLCBSeWFuIFJvd2Ugd3JvdGU6DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+IEhlbGxvIEFsZXgsDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4g
-PiA+DQo+ID4gPiA+ID4gPiBJ4oCZbSBpbnZlc3RpZ2F0aW5nIFB5dGhvbiAzIHBlcmZvcm1hbmNl
-IGlzc3VlcyBvbiBhIFJhc3BiZXJyeSBQaSBZb2N0bw0KPiA+ID4gPiA+ID4gYnVpbGQ7IEkgYXBw
-cmVjaWF0ZSBhbnkgaW5zaWdodHMgeW91IGNhbiBwcm92aWRlIGludG8gdGhlIHByb2JsZW0uDQo+
-ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJbiBteSBp
-bnZlc3RpZ2F0aW9uLCBJIG5vdGljZWQgdGhhdCBQR08gd2FzIGRpc2FibGVkIGluIGFsbCBjYXNl
-cyBkdWUNCj4gPiA+ID4gPiA+IHRvIGEgc21hbGwgYnVnLiBJIGZpeGVkIGl0IGluIGEgcGF0Y2gg
-c3VibWl0dGVkIHRvIE9FLUNvcmUgKCMxMzk0NTkpLg0KPiA+ID4gPiA+ID4gRXZlbiB3aGVuIFBH
-TyBpcyBpbmRlZWQgZW5hYmxlZCwgUHl0aG9uIDMgcnVucyBzaWduaWZpY2FudGx5IHNsb3dlcg0K
-PiA+ID4gPiA+ID4gb24gWW9jdG8tY29tcGlsZWQgUHl0aG9uIDMuOC4zIHRoYW4gdGhlIHNhbWUg
-dmVyc2lvbiBjb21waWxlZCBvbg0KPiA+ID4gPiA+ID4gUmFzcGJpYW4uDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJbiB5b3VyIHBhdGNoLCAwMDAx
-LU1ha2VmaWxlLnByZS11c2UtcWVtdS13cmFwcGVyLXdoZW4tZ2F0aGVyaW5nLQ0KPiA+ID4gPiA+
-ID4gcHJvZmlsZS5wYXRjaCwgSSBzZWUgdGhhdCB5b3Ugb3ZlcnJpZGUgdGhlIGRlZmF1bHQgUFJP
-RklMRV9UQVNLLA0KPiA+ID4gPiA+ID4gd2hpY2ggZGlkIG5vdCBleHBsaWNpdGx5IHNwZWNpZnkg
-dGVzdCBzdWl0ZXMsIHRvIGEgY29tbWFuZCB0aGF0DQo+ID4gPiA+ID4gPiBleHBsaWNpdGx5IHBy
-b3ZpZGVzIHRlc3Qgc3VpdGVzLiBIb3cgZGlkIHlvdSBkZWNpZGUgb24gdGhlc2UgdGVzdHM/DQo+
-ID4gPiA+ID4gPiBUaGUgc3RhbmRhcmQgUEdPIGNvbW1hbmQgcnVucyA0MyB0ZXN0cywgd2hpbGUg
-eW91IHNwZWNpZnkgNy4gV2hlbiBJDQo+ID4gPiA+ID4gPiBjb21waWxlIFB5dGhvbiAzLjguMyBv
-biBSYXNwYmlhbiwgSSBzZWUgbm8gaW50ZXJzZWN0aW9uIGJldHdlZW4gdGhlDQo+ID4gPiA+ID4g
-PiA0MyB0ZXN0cyBydW4gYnkgZGVmYXVsdCBhbmQgdGhlIDcgeW91IHNwZWNpZnkuIEFkZGl0aW9u
-YWxseSwgdGhlDQo+ID4gPiA+ID4gPiBkZWZhdWx0IG1vZHVsZSBmb3IgUFJPRklMRSBpcyB0ZXN0
-IHdoaWxlIHlvdSB1c2UgdGVzdC5yZWdydGVzdC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiBXZSB1c2VkIHRvIHJ1biBweWJlbmNoIGFuZCB0aGVuIHN3aXRjaGVk
-IHRvIHJlZ3J0ZXN0Og0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-IGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/
-aWQ9ZDlmN2I5ZDNhZDQ0MTk1DQo+ID4gPiA+ID4gZTY4YjJjMWIwOWUzZWI0MmU2MjNjOWEyMA0K
-PiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGUgUFJPRklMRV9UQVNL
-IHZhbHVlIGl0IGxvb2tzIGxpa2Ugd2FzIGNoYW5nZWQgcmVjZW50bHk6DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gaHR0cHM6Ly9naXRodWIuY29tL3B5dGhvbi9j
-cHl0aG9uL2NvbW1pdC8yNDA2NjcyOTg0ZTRjMWIxODYyOWU2MTVlZGFkNTI5MjgNCj4gPiA+ID4g
-PiBhNzJmZmNjI2RpZmYtNDVlOGI5MTA1N2YwYzViNjBlZmNiNTk0NDEyNWI1ODUNCj4gPiA+ID4N
-Cj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gSWYgdGhlIHBlcmZvcm1hbmNlIGlzIGFj
-dHVhbGx5IGRlZ3JhZGluZywgbWF5IGJlIHdlIHNob3VsZCBjaGFuZ2UgaXQgdG8NCj4gPiA+ID4g
-PiBzb21ldGhpbmcgbW9yZSB1c2VmdWwuIERvIHlvdSBrbm93IG11Y2ggdGltZSBkb2VzIHRoZSBk
-ZWZhdWx0IHNldCBvZg0KPiA+ID4gPiA+IHRhc2tzIHRha2UgdG8gcnVuIGluIHFlbXU/DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhhbmtzLA0KPiA+ID4gPiA+
-DQo+ID4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEFudWoNCj4gPiA+ID4NCj4gPiA+ID4N
-Cj4gPiA+ID4gVGhhbmtzIGZvciBsb29raW5nIGludG8gdGhpcy4gSXQgdG9vayBtZSBhYm91dCAy
-MCBtaW51dGVzIHRvIHJ1biB0aGUgUEdPDQo+ID4gPiA+IHRlc3RzIGFuZCBJIGRpZCBub3RpY2Ug
-YSBzaWduaWZpY2FudCBpbXByb3ZlbWVudCBpbiBQeXRob24gcnVudGltZS4NCj4gPiA+ID4gSG93
-ZXZlciwgdGhhdCBpcyBjb21wYXJlZCBhZ2FpbnN0IGEgbm9uLVBHTyBidWlsZC4gSSBoYXZlIG5v
-dCBjb21wYXJlZA0KPiA+ID4gPiB0aGUgZXhpc3RpbmcgUEdPIGFyZ3VtZW50cyBhZ2FpbnN0IHRo
-ZSBuZXcgdXBzdHJlYW0gYXJndW1lbnRzLg0KPiA+ID4gPg0KPiA+ID4gPiBXZSd2ZSBjb21lIHRv
-IHJlYWxpemUgdGhhdCBvdXIgcGVyZm9ybWFuY2UgaXNzdWVzIGFyZSBub3QgZHVlIHRvIFB5dGhv
-biwNCj4gPiA+ID4gYnV0IGluIGZhY3QgYSBtdWNoIGRlZXBlciByb290ZWQgaXNzdWUuIFNpbXBs
-ZSBDIGNvZGUgdGFrZXMgMi0zIHRpbWVzDQo+ID4gPiA+IGxvbmdlciB0byBydW4gb24gb3VyIGlt
-YWdlIGJhc2VkIG9uIG1ldGEtcmFzcGJlcnJ5cGkncyByYXNwYmVycnlwaTQNCj4gPiA+ID4gbWFj
-aGluZSB0aGFuIHN0b2NrIFJhc3BiaWFuLg0KPiA+ID4gPg0KPiA+ID4gPiBPbiBhIHNpZGUgbm9k
-ZSwgaXQgc2VlbXMgdGhhdCBjUHl0aG9uIG5vdyBleHBvc2VzIFBST0ZJTEVfVEFTSyBhcyBhDQo+
-ID4gPiA+IGNvbmZpZ3VyYXRpb24gb3B0aW9uLCBzbyB3ZSBjYW4gb3ZlcnJpZGUgdGhhdCB2YXJp
-YWJsZSB3aXRoIG91cg0KPiA+ID4gPiBkZXNpcmVkIHByb2ZpbGluZyBhcmd1bWVudHMgcmF0aGVy
-IHRoYW4gbW9kaWZ5aW5nIHRoZSBNYWtlZmlsZQ0KPiA+ID4gPiBkaXJlY3RseSB3aXRoIGEgcGF0
-Y2guDQo+ID4gPiA+DQo+ID4gPg0KPiA+ID4gVGhlIHBhdGNoIDAwMDEtTWFrZWZpbGUucHJlLXVz
-ZS1xZW11LXdyYXBwZXItd2hlbi1nYXRoZXJpbmctcHJvZmlsZS5wYXRjaA0KPiA+ID4gc2VlbXMg
-dG8gaGFyZGNvZGUgd2hhdCB0ZXN0cyB0byBydW4sIHBlcmhhcHMgaXQgd2lsbCBiZSBiZXR0ZXIg
-dG8gdXNlDQo+ID4gPiBQUk9GSUxFX1RBU0sNCg0KV2UgY2FuIHVzZSB0aGUgZGVmYXVsdCBQUk9G
-SUxFX1RBU0ssIGhvd2V2ZXIgaXQgc291bmRzIGxpa2UgUm9zcyBoYWQgcmVhc29uIHRvDQpzd2l0
-Y2ggZnJvbSBQeWJlbmNoIHRvIHJlZ3J0ZXN0LCBtYWlubHkgZXhlY3V0aW9uIHRpbWUuIEluIGhp
-cyBjb21taXQsIGhlIG5vdGVzDQoiYWxzbyB1cHN0cmVhbSBoYXZlIHJlbW92ZWQgaXQgZnJvbSBQ
-eXRob24gYW5kIGluc3RlYWQgdXNlIHRlc3QucmVncnRlc3Qg4oCUcGdvDQp0byBwcm9maWxlIHRo
-ZSBpbnRlcnByZXRlci4iIFRoaXMgZG9lcyBub3Qgc2VlbSB0byBiZSB0cnVlIGFueW1vcmUgYXMg
-dXBzdHJlYW0NCnVzZXMgdGVzdCByYXRoZXIgdGhhbiB0ZXN0LnJlZ3J0ZXN0LiBIb3dldmVyLCB0
-aGUgZGVmYXVsdCB0ZXN0cyBkbyB0YWtlIDIwIG1pbnV0ZXMNCnRvIHJ1biB3aGljaCBpcyBjb25z
-aWRlcmFibHkgbG9uZ2VyIHRoYW4gdGhlIGN1cnJlbnQgZXhwbGljaXQgdGVzdHMuDQoNCj4gPiA+
-DQo+ID4gPiBXaGVuIDMuNSAtPiAzLjcgdXBncmFkZSB3YXMgZG9uZSBpbg0KPiA+ID4NCj4gPiA+
-IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz8N
-Cj4gPiA+IGlkPTAyNzE0YzEwNTQyNmIwZDY4NzYyMDkxM2MxYTc0MDFiMzg2NDI4YjYNCj4gPiA+
-DQo+ID4gPiBpdCBkcm9wcGVkIHVzaW5nIFBZVEhPTjNfUFJPRklMRV9UQVNLIHNpbGVudGx5LCBh
-bW9uZyBsYXJnZSBzd2F0aCBvZiBjaGFuZ2VzDQo+ID4gPiB0aGlzIHBhdGNoIGNhcnJpZWQuIEkg
-Z3Vlc3Mgd2UgaGF2ZSBub3QgY2hlY2tlZCB0aGUgcHkzIHJ1bnRpbWUgcGVyZm9ybWFuY2UgdG8N
-Cj4gPiA+IGRldGVjdCB0aGlzIHJlZ3Jlc3Npb24uDQo+ID4NCj4gPiBBcmUgd2Ugc3VyZSB0aGVy
-ZSBpcyBhIHJlZ3Jlc3Npb24/IFJ5YW4gcG9zdGVkIGEgZm9sbG93IHVwIHNheWluZw0KPiA+IGV2
-ZXJ5dGhpbmcgd2FzIHNsb3dlciBpbiBoaXMgdGVzdHMsIG5vdCBqdXN0IHB5dGhvbi4NCg0KSW4g
-Y2FzZSBhbnlvbmUgaXMgY3VyaW91cywgSSBkaWQgZmluZCBvdXQgdGhlIGlzc3VlLiBUaGUgQ1BV
-IGdvdmVybm9yIHdhcyBwb3dlcnNhdmUNCnJhdGhlciB0aGFuIG9uZGVtYW5kLiBTaWxseSBtZSwg
-SSBvbmx5IGNoZWNrZWQgdGhlIG1pbiBhbmQgbWF4IGZyZXEsIG5vdCB0aGF0IHRoZXkNCndlcmUg
-YmVpbmcgdXNlZC4gQW5kIGEgcXVpcmsgb2YgdGhlIE9TIHByZXZlbnRlZCBhbnkgb2YgbXkgYmVu
-Y2htYXJrcyBmcm9tDQpwcmludGluZyB0aGUgb2JzZXJ2ZWQgY2xvY2sgc3BlZWQgZHVyaW5nIHRl
-c3QsIGp1c3QgZW1wdHkgc3RyaW5ncy4NCg0KV2l0aCB0aGlzIGZpeGVkIGFuZCB3aGVuIGNvbXBp
-bGluZyB3aXRoIHVwc3RyZWFtIFBHTyBpbiBZb2N0bywgSSBkbyBvYnNlcnZlDQpjb21wYXJhYmxl
-IHBlcmZvcm1hbmNlIHRvIHJlZ3VsYXIgdXBzdHJlYW0gUHl0aG9uIDMuOCBjb21waWxlZCB3aXRo
-IFBHTyBvbg0KUmFzcGJpYW4uDQoNCj4NCj4gcmVncmVzc2lvbiBpcyBkaXNhYmxpbmcgaXQgd2l0
-aCBlNTNlYmYyOQ0KDQpZZXMsIHRoYXQncyBjb3JyZWN0LiBUaGlzIGluYWR2ZXJ0ZW50bHkgZGlz
-YWJsZWQgUEdPIGVudGlyZWx5LiBJIGNhbiBkbyBzb21lIHRlc3RzDQp0b21vcnJvdyB0byBkZXRl
-cm1pbmUgdGhlIHBlcmZvcm1hbmNlIGxvc3MgZHVlIHRvIFBHTyB3aXRoIHRoZXNlIGV4cGxpY2l0
-IHRlc3QNCnN1aXRlcyByYXRoZXIgdGhhbiB0aGUgZGVmYXVsdHMgZnJvbSB0aGUgdXBzdHJlYW0u
-IEkgZGlkIG5vdGljZSBwZXJmb3JtYW5jZSBnYWluDQp3aGVuIHVzaW5nIFBHTywgYnV0IHRoYXQg
-d2FzIGFnYWluc3Qgbm9uLVBHTy4NCg0KPg0KPiA+DQo+ID4gPiBzbyBpdCB3aWxsIGJlIGdvb2Qg
-dG8gcmVpbnN0YXRlIHRoZSB2YXJpYWJsZSB0byBjaG9vc2Ugd2hhdCB0ZXN0cyBvbmUgd2FudHMg
-dG8NCj4gPiA+IHJ1biB3aXRoIGRlZmF1bHRzIGJlaW5nIHdoYXRldmVyIGlzIG9wdGltYWwgZm9y
-IGF1dG9idWlsZGVyLg0KPiA+ID4NCj4gPiA+ID4gVGhhbmtzLA0KPiA+ID4gPiBSeWFuDQo+ID4g
-PiA+DQo+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IEZvciBy
-ZWZlcmVuY2UsIGhlcmXigJlzIHRoZSByZXN1bHRzIG9mIGEgc2ltcGxlIENQVS1ib3VuZCB0ZXN0
-LiBUaGVzZQ0KPiA+ID4gPiA+ID4gdGVzdHMgd2VyZSBydW4gb24gdGhlIHNhbWUgUmFzcGJlcnJ5
-IFBpIDQgd2l0aCBzYW1lIFNEIGNhcmQuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiBweXRob24zIC1tIHRpbWVpdCAtciAxMCAtLXNldHVwICcNCj4g
-PiA+ID4gPiA+IGRlZiBmaWIobik6DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gIGlmIG4gPCAy
-Og0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICAgIHJldHVybiBuDQo+ID4gPiA+ID4gPg0KPiA+
-ID4gPiA+ID4gIGlmIG4gPT0gMjoNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAgICByZXR1cm4g
-MQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICByZXR1cm4gZmliKG4gLSAxKSArIGZpYihuIC0g
-MikNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAnICdbZmliKG4pIGZvciBuIGluIHJhbmdlKDIw
-KV0nDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAj
-IFlvY3RvIFB5dGhvbiAzLjguMw0KPiA+ID4gPiA+ID4gIyAxMCBsb29wcywgYmVzdCBvZiAxMDog
-MjguOSBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIDEwIGxvb3BzLCBiZXN0IG9mIDEwOiAy
-OS4zIG1zZWMgcGVyIGxvb3ANCj4gPiA+ID4gPiA+ICMgMTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDI3
-LjkgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyAxMCBsb29wcywgYmVzdCBvZiAxMDogMzAu
-NCBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIEF2ZXJhZ2UgcmVzdWx0OiAzMS42MjUgbXNl
-YyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4g
-PiA+ID4gIyBSYXNwYmlhbiBQeXRob24gMy44LjMNCj4gPiA+ID4gPiA+ICMgNTAgbG9vcHMsIGJl
-c3Qgb2YgMTA6IDcuNzMgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyA1MCBsb29wcywgYmVz
-dCBvZiAxMDogNy43MiBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIDUwIGxvb3BzLCBiZXN0
-IG9mIDEwOiA3LjY3IG1zZWMgcGVyIGxvb3ANCj4gPiA+ID4gPiA+ICMgNTAgbG9vcHMsIGJlc3Qg
-b2YgMTA6IDcuNzQgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyBBdmVyYWdlIHJlc3VsdDog
-Ny43MTUgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4g
-Pg0KPiA+ID4gPiA+ID4gIyBSYXNwYmlhbiBzcGVlZHVwOiA0LjA5eA0KPiA+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gQmVzdCwNCj4gPiA+ID4gPiA+IFJ5
-YW4gUm93ZQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+
-ID4NCj4gPiA+DQo+ID4gPiANCg0K
+--000000000000894fe305a8665c57
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Alex,
+Thank you so much. I will update the commit message and send the patch v2
+out.
+
+Thanks,
+Arthur
+
+On Thu, Jun 18, 2020 at 8:25 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> I am fine with that, please resend with Anuj's rationale included into the
+> commit message.
+>
+> Alex
+>
+> On Thu, 18 Jun 2020 at 07:27, Arthur She <arthur.she@linaro.org> wrote:
+>
+>> Hi Alex,
+>> Would it be a sufficient reason for doing that?
+>> Or any thought could be shared from you?
+>>
+>> Thank you so much,
+>> Arthur
+>>
+>> On Tue, Jun 16, 2020 at 12:16 AM Mittal, Anuj <anuj.mittal@intel.com>
+>> wrote:
+>>
+>>> Hi Alex
+>>>
+>>> On Tue, 2020-06-16 at 09:04 +0200, Alexander Kanavin wrote:
+>>> > Usually it's the other way around - what is the reason to have this
+>>> > recipe in core?
+>>> >
+>>>
+>>> I had requested Arthur to send this to oe-core since this provides
+>>> a core validation functionality that is needed by all providing DRM
+>>> drivers and is applicable not just to a single arch.
+>>>
+>>> It's a well maintained project and I can keep the recipe updated and
+>>> working. If it can be in oe-core, I can remove it from meta-intel layer
+>>> and avoid having a duplicate recipe.
+>>>
+>>> Thanks,
+>>>
+>>> Anuj
+>>>
+>>> > Alex
+>>> >
+>>> > On Tue, 16 Jun 2020 at 06:45, Arthur She <arthur.she@linaro.org>
+>>> > wrote:
+>>> > > Hi Alexander and Denys,
+>>> > > Thanks for your feedback.
+>>> > > I have no problem submitting it to meta-oe.
+>>> > > Since the meta-intel maintainer requested to submit it to oe-core,
+>>> > > do you mind sharing some thought about the reason?
+>>> > >
+>>> > > Thank you so much,
+>>> > > Arthur
+>>> > >
+>>> > > On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko <denis@denix.org
+>>> > > > wrote:
+>>> > > > https://lists.openembedded.org/g/openembedded-devel/topic/74775294
+>>> > > >
+>>> > > > But I tend to agree.
+>>> > > >
+>>>
+>>
+
+--000000000000894fe305a8665c57
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Alex,<div>Thank you so much. I will update the commit m=
+essage and send the patch v2 out.</div><div><br></div><div>Thanks,</div><di=
+v>Arthur</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jun 18, 2020 at 8:25 AM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
+><div>I am fine with that, please resend with Anuj&#39;s rationale included=
+ into the commit message.</div><div><br></div><div>Alex<br></div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 18=
+ Jun 2020 at 07:27, Arthur She &lt;<a href=3D"mailto:arthur.she@linaro.org"=
+ target=3D"_blank">arthur.she@linaro.org</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Alex,<div>Would=
+ it be a sufficient reason for doing that?</div><div>Or any thought could b=
+e shared from you?</div><div><br></div><div>Thank you so much,</div><div>Ar=
+thur</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Tue, Jun 16, 2020 at 12:16 AM Mittal, Anuj &lt;<a href=3D"mail=
+to:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Alex<br=
+>
+<br>
+On Tue, 2020-06-16 at 09:04 +0200, Alexander Kanavin wrote:<br>
+&gt; Usually it&#39;s the other way around - what is the reason to have thi=
+s<br>
+&gt; recipe in core?<br>
+&gt; <br>
+<br>
+I had requested Arthur to send this to oe-core since this provides<br>
+a core validation functionality that is needed by all providing DRM<br>
+drivers and is applicable not just to a single arch.<br>
+<br>
+It&#39;s a well maintained project and I can keep the recipe updated and<br=
+>
+working. If it can be in oe-core, I can remove it from meta-intel layer<br>
+and avoid having a duplicate recipe.<br>
+<br>
+Thanks,<br>
+<br>
+Anuj<br>
+<br>
+&gt; Alex<br>
+&gt; <br>
+&gt; On Tue, 16 Jun 2020 at 06:45, Arthur She &lt;<a href=3D"mailto:arthur.=
+she@linaro.org" target=3D"_blank">arthur.she@linaro.org</a>&gt;<br>
+&gt; wrote:<br>
+&gt; &gt; Hi Alexander and Denys,<br>
+&gt; &gt; Thanks for your feedback.<br>
+&gt; &gt; I have no problem submitting it to meta-oe.<br>
+&gt; &gt; Since the meta-intel maintainer requested to submit it to oe-core=
+,<br>
+&gt; &gt; do you mind sharing some thought about the reason?<br>
+&gt; &gt; <br>
+&gt; &gt; Thank you so much,<br>
+&gt; &gt; Arthur<br>
+&gt; &gt; <br>
+&gt; &gt; On Mon, Jun 15, 2020 at 12:56 AM Denys Dmytriyenko &lt;<a href=3D=
+"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a><br>
+&gt; &gt; &gt; wrote:<br>
+&gt; &gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-dev=
+el/topic/74775294" rel=3D"noreferrer" target=3D"_blank">https://lists.opene=
+mbedded.org/g/openembedded-devel/topic/74775294</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; But I tend to agree.<br>
+&gt; &gt; &gt; <br>
+</blockquote></div>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000894fe305a8665c57--
