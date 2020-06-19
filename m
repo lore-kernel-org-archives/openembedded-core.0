@@ -1,240 +1,214 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.61.1592524644509968658
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.40])
+ by mx.groups.io with SMTP id smtpd.web12.1568.1592530214929862519
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2020 16:57:24 -0700
+ Thu, 18 Jun 2020 18:30:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=olyVKOhe;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id n11so7407214qkn.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2020 16:57:24 -0700 (PDT)
+ dkim=pass header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=P/QNPiFi;
+ spf=pass (domain: xevo.com, ip: 40.107.93.40, mailfrom: rrowe@xevo.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dNNNUWqOY89HRwnZ2AvSYmytSOEMrQysIreQRtxtxP72oqJbkBa+UvZRfvBNaHmoRBkPcaqjxLvT0B2dJUXi8L1QPc948fPDCmMwkvX7HhVeV6LRZ7gY7pR8qFwujijg9/oMJPX/DBk7akgorzP4/YrlS/7OPfs9Qs9m8uHzfwbXm3YyA3DmBhAHkAl6D1Yt60s9zyZXcY0ssFT9IiYYzGGJRrIMW8g6yKjmOfk+FG4P7f/HafnhDj2DGzfztLkDGre5kF5IHIFzQh4TYqBiRG9XO0I0YYtfYDJqYNv+zJA1dyECDgHi0lOj+kuLZYF9RP/X4urlPaSSyYx0/MpqHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HAuzRtN2asNW/HeWMxyJ0I8zk8sTzNPiSjobKGiOl+0=;
+ b=Xeti858m4Q7JYdGPADr6wXY1HrPn6i6+O/Jnvrs8si6DnnpnBgIADoBSGMwWT4TFhAYagurcBHXCNaKNnplP1yte5Q9monXDQSZPCioEcIwQX7xomRjzkuUp9lMBfu6QwSl7DTuRHxk+bFqtLZAPdWl+KaNXyDhwoFwxwAekSRrPnrx7dQevSEyBtjnCMdNYkUV2675aPp/bqUN4gRSX+jGtdfA1httU9tDBEp9ZhR5WDRzx8jk3x3W8waqvNd/5prq6/NWQfa4rxypXRiKARtkGS8lhFneLiLJNYb383BGNNvKbFpvK97Utd5lRUrXj1kUphecqF19KnANZMAfuvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
+ dkim=pass header.d=xevo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hPycY9hEEfoKffW7C/CkyBPxF/aErTaDOLloen+jdl0=;
-        b=olyVKOheNb6kdce5bLGFI+PBkDzF1WyBhb8hN7XQEG5C0zDBY7MNLPK00nfhhJHn7F
-         6pJ2yqbz62dfMbllBc8IBeuerq7SvpeAM1ePiv3HSF3ZinaIE+SXTEsVthJNdzxzcMa+
-         3E0b+zleO2DOqHRBUCnqikG+UeoDSAMAofhpCyRhuHwV+xVJzoL0l6vbGMZOrf4o3gpw
-         mojgdLjVT4PCB+yMRax59QE5rgB1FFKXycfbuUKIJDQ0Ri/SrkVGMQla55+MfC7ppFgU
-         m11RI0Iz7AHRamkp6IVjIJedkDDzw0Tfr3pVDvn82m54SmXfueFTbANhbodvnwfX8zB5
-         7h2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hPycY9hEEfoKffW7C/CkyBPxF/aErTaDOLloen+jdl0=;
-        b=a/86p8Xv9NSWklZR9QefRIfnbK0FWIPzbfLOAhpeMIXhrIbokrwW5vo1XwM/BiSaWK
-         T6BrFTpHXtTIlVXgewbYPEDLNViz2aknI6o+XJxwJnm60zjG3UEr5STSGx/39VGD5BdG
-         xRUcttER9cUeauRVOMEzVv/MQDYpOekNIIrjXS88r672BHb/L5XVFfM+AsCD0GjjZrwF
-         b7eVT4Y9JMbS+QTa9yF3hioAWN5BGn1UI1bzoobPbfEE7ZV/RUefTL2yZ+8UWoXkkpDC
-         UV6ZzPIguSSaF01cncpS8vK9HT/jUj7UUFuZkg8wvt4FhhDay8KvfH/rLbaLzK2GQdDA
-         7+qg==
-X-Gm-Message-State: AOAM533yKnKhMh01UTC0/Qws5MbBX7bmCCpyUG3BJtA5Pkhbe+0jhBN+
-	OgtwQzsKWgozkRfRDYpQl1nDncNWhflUOYdQG+k=
-X-Google-Smtp-Source: ABdhPJxMMaU9qWveTzxbBCJOs/d8tPUBivV0WCtgtoO7nx78zS/mi6UZDCIEFpKZUX/4bP+vExyycO8vBC4/5L9E0os=
-X-Received: by 2002:a05:620a:8c1:: with SMTP id z1mr964061qkz.431.1592524643361;
- Thu, 18 Jun 2020 16:57:23 -0700 (PDT)
-MIME-Version: 1.0
+ d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HAuzRtN2asNW/HeWMxyJ0I8zk8sTzNPiSjobKGiOl+0=;
+ b=P/QNPiFif2H5CeussCjpHXMGNmJpNje+qbcloDU+d6weanZ1Of2B5YWG0w7YxeNv8Wh97rR6TkSlHXk8Qf3v6+QM0uGJuTLkJbUjaA4EypgwQG4UU6IrLgDC5w0ffHhUbj9GIEO1hi1fmeajpa9L6lITQkKNfyfl2frtzIquLyc=
+Received: from MW3PR18MB3659.namprd18.prod.outlook.com (2603:10b6:303:53::19)
+ by MW3PR18MB3498.namprd18.prod.outlook.com (2603:10b6:303:5f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Fri, 19 Jun
+ 2020 01:30:12 +0000
+Received: from MW3PR18MB3659.namprd18.prod.outlook.com
+ ([fe80::3d7f:edb8:f540:5050]) by MW3PR18MB3659.namprd18.prod.outlook.com
+ ([fe80::3d7f:edb8:f540:5050%5]) with mapi id 15.20.3109.021; Fri, 19 Jun 2020
+ 01:30:12 +0000
+From: "Ryan Rowe" <rrowe@xevo.com>
+To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Mittal, Anuj"
+	<anuj.mittal@intel.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
+	Jim Broadus <jbroadus@xevo.com>, Martin Kelly <mkelly@xevo.com>
+Subject: Re: [OE-core] python3 recipe PGO tests
+Thread-Topic: [OE-core] python3 recipe PGO tests
+Thread-Index: 
+ AQHWQQBr9DBCM++iU0S7IAPhJcbp6ajYWg4AgAFXCQCABVxGgIAABmQAgAACiID//6S2gA==
+Date: Fri, 19 Jun 2020 01:30:12 +0000
+Message-ID: <1E89FC3F-7FFB-4643-9A4B-42F79F0076CD@xevo.com>
 References: <D7692CC3-34E3-41FE-BBE5-4D5B09947C92@xevo.com>
  <bc728c163c639ffd5c0e6d8fb4c10b94417a2a8a.camel@intel.com>
- <D171668B-2DD3-4650-B4F2-B17DA15F9271@xevo.com> <11814952.jqib13ICcW@tyche> <CAJ86T=WzTgA55KRsztpAjfNbM2udzdxmayNXqkMo-OabzAJj2Q@mail.gmail.com>
-In-Reply-To: <CAJ86T=WzTgA55KRsztpAjfNbM2udzdxmayNXqkMo-OabzAJj2Q@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 18 Jun 2020 16:56:55 -0700
-Message-ID: <CAMKF1srfRUXg=zcThoW_Jus0j1t5wdkpRq4O2V-BdbPXxHHahQ@mail.gmail.com>
-Subject: Re: [OE-core] python3 recipe PGO tests
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Martin Kelly <mkelly@xevo.com>, 
-	Jim Broadus <jbroadus@xevo.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, Ryan Rowe <rrowe@xevo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <D171668B-2DD3-4650-B4F2-B17DA15F9271@xevo.com> <11814952.jqib13ICcW@tyche>
+ <CAJ86T=WzTgA55KRsztpAjfNbM2udzdxmayNXqkMo-OabzAJj2Q@mail.gmail.com>
+ <CAMKF1srfRUXg=zcThoW_Jus0j1t5wdkpRq4O2V-BdbPXxHHahQ@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1srfRUXg=zcThoW_Jus0j1t5wdkpRq4O2V-BdbPXxHHahQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=xevo.com;
+x-originating-ip: [73.83.210.194]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a629b461-15ec-4329-4a20-08d813f04fe6
+x-ms-traffictypediagnostic: MW3PR18MB3498:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <MW3PR18MB34987DE14BFD290A44E9B9ADCC980@MW3PR18MB3498.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0439571D1D
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ lbADVHVixvmtKf5GKZQbL6Xo9htH5AxI6nIghkmhUdcDNpu5Dkm4LXZzpZiGw6M3ZHzpiknZB5n1G6PwNoEoCuhAGRzFqDsp+zpQOHQujC8qm7lK4R4jwjkVlsSLzmIZITO7T+CEIvQkbmKuxFZnUITC7eDcov+1E6fE4eZ2FMBJEVPHxK6t4vVoeSdCZOYzrYKwXqoBpR6Dwut47JYayUCF2tUpKrcJXq04cbbkfTLb3asThGTzNNZ+IhfaMn3wYCowlOAFCtLcXCqotLkAdgVy90BCrte2H+F1D90aEGzlv0I7Gr3acxPTm9W3ua3urMIiPA6VT4wDShQkeaaglqL8uZLkcaw3qwmz5Dwdh4usiCbr6aXlm0qm2vO/QlIwWxP625Kq3rgPYCf5BvX31w==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR18MB3659.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(136003)(396003)(346002)(39840400004)(376002)(2906002)(110136005)(54906003)(83380400001)(316002)(478600001)(186003)(4326008)(86362001)(26005)(5660300002)(107886003)(6486002)(76116006)(8676002)(33656002)(36756003)(2616005)(64756008)(66946007)(66556008)(66446008)(66476007)(6512007)(8936002)(966005)(71200400001)(6506007)(53546011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ duOC7SU74gmpdhE4p8ctmlYAKNk1PMgmaHmHrz7Puqh1jnf+7dhd54SrbfF2Ru9ouPJ7MNSf66BUnh0OUO7SEHgNI1Dfzg+UwT+tTkIlyhdBX/k/TMtZJ99rfsteeADmrEa0W3C4qHm3GOZLZijnDzKKk4peoKOvhvvPq7326Hv0udHM6/HxsgupNOR667pgKD3y9DYEUsyIy2hve9u1VyxIQD4slkP8UfDkT0KANwvWilJavBaTrt9dhXLoWAMj7Nc+dklp9QdFcthfCG1VebAIU5IkmS2Ps6Z1ukrs1lthcGPMG/k4VSFjPOkz3i97vUT21tjBy19PlZ1dSNuCp62PTdSLzFbO78qqugt7R03M/55K68YoQ2RZxBAoBmgXtQS0y5Qxqs2vZwFqO6tkuof+s4ZMYmtnR0xAhEk8zryOsECxhxxyD5dcf6mH5F7XA/OgcHZUlHdIuhFSMx6vv4gc23SBs/yfoZSuVqHhXQM=
+MIME-Version: 1.0
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a629b461-15ec-4329-4a20-08d813f04fe6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2020 01:30:12.5142
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oWDwbV2l/IwfbCQA+givVTflmZDoaHiii/WmOagp81jXeHsK6TdLz3pUvfJGAXu7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR18MB3498
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <27FA41F2FDECFC4DAA3809DFCE1D81D0@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-On Thu, Jun 18, 2020 at 4:47 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Thu, Jun 18, 2020 at 4:25 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Monday, June 15, 2020 1:33:26 PM PDT Ryan Rowe wrote:
-> > > On 14/6/20, 18:05, "Mittal, Anuj" <anuj.mittal@intel.com> wrote:
-> > >
-> > > > On Fri, 2020-06-12 at 21:28 +0000, Ryan Rowe wrote:
-> > > >
-> > > > > Hello Alex,
-> > > > >
-> > > > >
-> > > > >
-> > > > > I=E2=80=99m investigating Python 3 performance issues on a Raspb=
-erry Pi Yocto
-> > > > > build; I appreciate any insights you can provide into the proble=
-m.
-> > > > >
-> > > > >
-> > > > >
-> > > > > In my investigation, I noticed that PGO was disabled in all case=
-s due
-> > > > > to a small bug. I fixed it in a patch submitted to OE-Core (#139=
-459).
-> > > > > Even when PGO is indeed enabled, Python 3 runs significantly slo=
-wer
-> > > > > on Yocto-compiled Python 3.8.3 than the same version compiled on
-> > > > > Raspbian.
-> > > > >
-> > > > >
-> > > > >
-> > > > > In your patch, 0001-Makefile.pre-use-qemu-wrapper-when-gathering=
--
-> > > > > profile.patch, I see that you override the default PROFILE_TASK,
-> > > > > which did not explicitly specify test suites, to a command that
-> > > > > explicitly provides test suites. How did you decide on these tes=
-ts?
-> > > > > The standard PGO command runs 43 tests, while you specify 7. Whe=
-n I
-> > > > > compile Python 3.8.3 on Raspbian, I see no intersection between =
-the
-> > > > > 43 tests run by default and the 7 you specify. Additionally, the
-> > > > > default module for PROFILE is test while you use test.regrtest.
-> > > >
-> > > >
-> > > >
-> > > > We used to run pybench and then switched to regrtest:
-> > > >
-> > > >
-> > > >
-> > > > https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dd9f7b=
-9d3ad44195
-> > > > e68b2c1b09e3eb42e623c9a20
-> > >
-> > > >
-> > > >
-> > > > The PROFILE_TASK value it looks like was changed recently:
-> > > >
-> > > >
-> > > >
-> > > > https://github.com/python/cpython/commit/2406672984e4c1b18629e615e=
-dad52928
-> > > > a72ffcc#diff-45e8b91057f0c5b60efcb5944125b585
-> > >
-> > > >
-> > > >
-> > > > If the performance is actually degrading, may be we should change =
-it to
-> > > > something more useful. Do you know much time does the default set =
-of
-> > > > tasks take to run in qemu?
-> > > >
-> > > >
-> > > >
-> > > > Thanks,
-> > > >
-> > > >
-> > > >
-> > > > Anuj
-> > >
-> > >
-> > > Thanks for looking into this. It took me about 20 minutes to run the=
- PGO
-> > > tests and I did notice a significant improvement in Python runtime.
-> > > However, that is compared against a non-PGO build. I have not compar=
-ed
-> > > the existing PGO arguments against the new upstream arguments.
-> > >
-> > > We've come to realize that our performance issues are not due to Pyt=
-hon,
-> > > but in fact a much deeper rooted issue. Simple C code takes 2-3 time=
-s
-> > > longer to run on our image based on meta-raspberrypi's raspberrypi4
-> > > machine than stock Raspbian.
-> > >
-> > > On a side node, it seems that cPython now exposes PROFILE_TASK as a
-> > > configuration option, so we can override that variable with our
-> > > desired profiling arguments rather than modifying the Makefile
-> > > directly with a patch.
-> > >
-> >
-> > The patch 0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.pa=
-tch
-> > seems to hardcode what tests to run, perhaps it will be better to use
-> > PROFILE_TASK
-> >
-> > When 3.5 -> 3.7 upgrade was done in
-> >
-> > https://git.openembedded.org/openembedded-core/commit/?
-> > id=3D02714c105426b0d687620913c1a7401b386428b6
-> >
-> > it dropped using PYTHON3_PROFILE_TASK silently, among large swath of c=
-hanges
-> > this patch carried. I guess we have not checked the py3 runtime perfor=
-mance to
-> > detect this regression.
->
-> Are we sure there is a regression? Ryan posted a follow up saying
-> everything was slower in his tests, not just python.
-
-regression is disabling it with e53ebf29
-
->
-> > so it will be good to reinstate the variable to choose what tests one =
-wants to
-> > run with defaults being whatever is optimal for autobuilder.
-> >
-> > > Thanks,
-> > > Ryan
-> > >
-> > >
-> > > > >
-> > > > >
-> > > > > For reference, here=E2=80=99s the results of a simple CPU-bound =
-test. These
-> > > > > tests were run on the same Raspberry Pi 4 with same SD card.
-> > > > >
-> > > > >
-> > > > >
-> > > > > python3 -m timeit -r 10 --setup '
-> > > > > def fib(n):
-> > > > >
-> > > > >  if n < 2:
-> > > > >
-> > > > >    return n
-> > > > >
-> > > > >  if n =3D=3D 2:
-> > > > >
-> > > > >    return 1
-> > > > >
-> > > > >  return fib(n - 1) + fib(n - 2)
-> > > > >
-> > > > > ' '[fib(n) for n in range(20)]'
-> > > > >
-> > > > >
-> > > > >
-> > > > > # Yocto Python 3.8.3
-> > > > > # 10 loops, best of 10: 28.9 msec per loop
-> > > > > # 10 loops, best of 10: 29.3 msec per loop
-> > > > > # 10 loops, best of 10: 27.9 msec per loop
-> > > > > # 10 loops, best of 10: 30.4 msec per loop
-> > > > > # Average result: 31.625 msec per loop
-> > > > >
-> > > > >
-> > > > >
-> > > > > # Raspbian Python 3.8.3
-> > > > > # 50 loops, best of 10: 7.73 msec per loop
-> > > > > # 50 loops, best of 10: 7.72 msec per loop
-> > > > > # 50 loops, best of 10: 7.67 msec per loop
-> > > > > # 50 loops, best of 10: 7.74 msec per loop
-> > > > > # Average result: 7.715 msec per loop
-> > > > >
-> > > > >
-> > > > >
-> > > > > # Raspbian speedup: 4.09x
-> > > > >
-> > > > >
-> > > > >
-> > > > > Best,
-> > > > > Ryan Rowe
-> > > > >
-> > >
-> > >
-> >
-> >
-> >
-> >
-> >=20
+T24gMTgvNi8yMCwgMTY6NTcsICJLaGVtIFJhaiIgPHJhai5raGVtQGdtYWlsLmNvbT4gd3JvdGU6
+DQo+DQo+IE9uIFRodSwgSnVuIDE4LCAyMDIwIGF0IDQ6NDcgUE0gQW5kcmUgTWNDdXJkeSA8YXJt
+Y2N1cmR5QGdtYWlsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBPbiBUaHUsIEp1biAxOCwgMjAyMCBh
+dCA0OjI1IFBNIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+ID4NCj4g
+PiA+IE9uIE1vbmRheSwgSnVuZSAxNSwgMjAyMCAxOjMzOjI2IFBNIFBEVCBSeWFuIFJvd2Ugd3Jv
+dGU6DQo+ID4gPg0KPiA+ID4gPiBPbiAxNC82LzIwLCAxODowNSwgIk1pdHRhbCwgQW51aiIgPGFu
+dWoubWl0dGFsQGludGVsLmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+ID4gT24gRnJpLCAy
+MDIwLTA2LTEyIGF0IDIxOjI4ICswMDAwLCBSeWFuIFJvd2Ugd3JvdGU6DQo+ID4gPiA+ID4NCj4g
+PiA+ID4gPiA+IEhlbGxvIEFsZXgsDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4g
+PiA+DQo+ID4gPiA+ID4gPiBJ4oCZbSBpbnZlc3RpZ2F0aW5nIFB5dGhvbiAzIHBlcmZvcm1hbmNl
+IGlzc3VlcyBvbiBhIFJhc3BiZXJyeSBQaSBZb2N0bw0KPiA+ID4gPiA+ID4gYnVpbGQ7IEkgYXBw
+cmVjaWF0ZSBhbnkgaW5zaWdodHMgeW91IGNhbiBwcm92aWRlIGludG8gdGhlIHByb2JsZW0uDQo+
+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJbiBteSBp
+bnZlc3RpZ2F0aW9uLCBJIG5vdGljZWQgdGhhdCBQR08gd2FzIGRpc2FibGVkIGluIGFsbCBjYXNl
+cyBkdWUNCj4gPiA+ID4gPiA+IHRvIGEgc21hbGwgYnVnLiBJIGZpeGVkIGl0IGluIGEgcGF0Y2gg
+c3VibWl0dGVkIHRvIE9FLUNvcmUgKCMxMzk0NTkpLg0KPiA+ID4gPiA+ID4gRXZlbiB3aGVuIFBH
+TyBpcyBpbmRlZWQgZW5hYmxlZCwgUHl0aG9uIDMgcnVucyBzaWduaWZpY2FudGx5IHNsb3dlcg0K
+PiA+ID4gPiA+ID4gb24gWW9jdG8tY29tcGlsZWQgUHl0aG9uIDMuOC4zIHRoYW4gdGhlIHNhbWUg
+dmVyc2lvbiBjb21waWxlZCBvbg0KPiA+ID4gPiA+ID4gUmFzcGJpYW4uDQo+ID4gPiA+ID4gPg0K
+PiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJbiB5b3VyIHBhdGNoLCAwMDAx
+LU1ha2VmaWxlLnByZS11c2UtcWVtdS13cmFwcGVyLXdoZW4tZ2F0aGVyaW5nLQ0KPiA+ID4gPiA+
+ID4gcHJvZmlsZS5wYXRjaCwgSSBzZWUgdGhhdCB5b3Ugb3ZlcnJpZGUgdGhlIGRlZmF1bHQgUFJP
+RklMRV9UQVNLLA0KPiA+ID4gPiA+ID4gd2hpY2ggZGlkIG5vdCBleHBsaWNpdGx5IHNwZWNpZnkg
+dGVzdCBzdWl0ZXMsIHRvIGEgY29tbWFuZCB0aGF0DQo+ID4gPiA+ID4gPiBleHBsaWNpdGx5IHBy
+b3ZpZGVzIHRlc3Qgc3VpdGVzLiBIb3cgZGlkIHlvdSBkZWNpZGUgb24gdGhlc2UgdGVzdHM/DQo+
+ID4gPiA+ID4gPiBUaGUgc3RhbmRhcmQgUEdPIGNvbW1hbmQgcnVucyA0MyB0ZXN0cywgd2hpbGUg
+eW91IHNwZWNpZnkgNy4gV2hlbiBJDQo+ID4gPiA+ID4gPiBjb21waWxlIFB5dGhvbiAzLjguMyBv
+biBSYXNwYmlhbiwgSSBzZWUgbm8gaW50ZXJzZWN0aW9uIGJldHdlZW4gdGhlDQo+ID4gPiA+ID4g
+PiA0MyB0ZXN0cyBydW4gYnkgZGVmYXVsdCBhbmQgdGhlIDcgeW91IHNwZWNpZnkuIEFkZGl0aW9u
+YWxseSwgdGhlDQo+ID4gPiA+ID4gPiBkZWZhdWx0IG1vZHVsZSBmb3IgUFJPRklMRSBpcyB0ZXN0
+IHdoaWxlIHlvdSB1c2UgdGVzdC5yZWdydGVzdC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPiBXZSB1c2VkIHRvIHJ1biBweWJlbmNoIGFuZCB0aGVuIHN3aXRjaGVk
+IHRvIHJlZ3J0ZXN0Og0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
+IGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/
+aWQ9ZDlmN2I5ZDNhZDQ0MTk1DQo+ID4gPiA+ID4gZTY4YjJjMWIwOWUzZWI0MmU2MjNjOWEyMA0K
+PiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGUgUFJPRklMRV9UQVNL
+IHZhbHVlIGl0IGxvb2tzIGxpa2Ugd2FzIGNoYW5nZWQgcmVjZW50bHk6DQo+ID4gPiA+ID4NCj4g
+PiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gaHR0cHM6Ly9naXRodWIuY29tL3B5dGhvbi9j
+cHl0aG9uL2NvbW1pdC8yNDA2NjcyOTg0ZTRjMWIxODYyOWU2MTVlZGFkNTI5MjgNCj4gPiA+ID4g
+PiBhNzJmZmNjI2RpZmYtNDVlOGI5MTA1N2YwYzViNjBlZmNiNTk0NDEyNWI1ODUNCj4gPiA+ID4N
+Cj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gSWYgdGhlIHBlcmZvcm1hbmNlIGlzIGFj
+dHVhbGx5IGRlZ3JhZGluZywgbWF5IGJlIHdlIHNob3VsZCBjaGFuZ2UgaXQgdG8NCj4gPiA+ID4g
+PiBzb21ldGhpbmcgbW9yZSB1c2VmdWwuIERvIHlvdSBrbm93IG11Y2ggdGltZSBkb2VzIHRoZSBk
+ZWZhdWx0IHNldCBvZg0KPiA+ID4gPiA+IHRhc2tzIHRha2UgdG8gcnVuIGluIHFlbXU/DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhhbmtzLA0KPiA+ID4gPiA+
+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEFudWoNCj4gPiA+ID4NCj4gPiA+ID4N
+Cj4gPiA+ID4gVGhhbmtzIGZvciBsb29raW5nIGludG8gdGhpcy4gSXQgdG9vayBtZSBhYm91dCAy
+MCBtaW51dGVzIHRvIHJ1biB0aGUgUEdPDQo+ID4gPiA+IHRlc3RzIGFuZCBJIGRpZCBub3RpY2Ug
+YSBzaWduaWZpY2FudCBpbXByb3ZlbWVudCBpbiBQeXRob24gcnVudGltZS4NCj4gPiA+ID4gSG93
+ZXZlciwgdGhhdCBpcyBjb21wYXJlZCBhZ2FpbnN0IGEgbm9uLVBHTyBidWlsZC4gSSBoYXZlIG5v
+dCBjb21wYXJlZA0KPiA+ID4gPiB0aGUgZXhpc3RpbmcgUEdPIGFyZ3VtZW50cyBhZ2FpbnN0IHRo
+ZSBuZXcgdXBzdHJlYW0gYXJndW1lbnRzLg0KPiA+ID4gPg0KPiA+ID4gPiBXZSd2ZSBjb21lIHRv
+IHJlYWxpemUgdGhhdCBvdXIgcGVyZm9ybWFuY2UgaXNzdWVzIGFyZSBub3QgZHVlIHRvIFB5dGhv
+biwNCj4gPiA+ID4gYnV0IGluIGZhY3QgYSBtdWNoIGRlZXBlciByb290ZWQgaXNzdWUuIFNpbXBs
+ZSBDIGNvZGUgdGFrZXMgMi0zIHRpbWVzDQo+ID4gPiA+IGxvbmdlciB0byBydW4gb24gb3VyIGlt
+YWdlIGJhc2VkIG9uIG1ldGEtcmFzcGJlcnJ5cGkncyByYXNwYmVycnlwaTQNCj4gPiA+ID4gbWFj
+aGluZSB0aGFuIHN0b2NrIFJhc3BiaWFuLg0KPiA+ID4gPg0KPiA+ID4gPiBPbiBhIHNpZGUgbm9k
+ZSwgaXQgc2VlbXMgdGhhdCBjUHl0aG9uIG5vdyBleHBvc2VzIFBST0ZJTEVfVEFTSyBhcyBhDQo+
+ID4gPiA+IGNvbmZpZ3VyYXRpb24gb3B0aW9uLCBzbyB3ZSBjYW4gb3ZlcnJpZGUgdGhhdCB2YXJp
+YWJsZSB3aXRoIG91cg0KPiA+ID4gPiBkZXNpcmVkIHByb2ZpbGluZyBhcmd1bWVudHMgcmF0aGVy
+IHRoYW4gbW9kaWZ5aW5nIHRoZSBNYWtlZmlsZQ0KPiA+ID4gPiBkaXJlY3RseSB3aXRoIGEgcGF0
+Y2guDQo+ID4gPiA+DQo+ID4gPg0KPiA+ID4gVGhlIHBhdGNoIDAwMDEtTWFrZWZpbGUucHJlLXVz
+ZS1xZW11LXdyYXBwZXItd2hlbi1nYXRoZXJpbmctcHJvZmlsZS5wYXRjaA0KPiA+ID4gc2VlbXMg
+dG8gaGFyZGNvZGUgd2hhdCB0ZXN0cyB0byBydW4sIHBlcmhhcHMgaXQgd2lsbCBiZSBiZXR0ZXIg
+dG8gdXNlDQo+ID4gPiBQUk9GSUxFX1RBU0sNCg0KV2UgY2FuIHVzZSB0aGUgZGVmYXVsdCBQUk9G
+SUxFX1RBU0ssIGhvd2V2ZXIgaXQgc291bmRzIGxpa2UgUm9zcyBoYWQgcmVhc29uIHRvDQpzd2l0
+Y2ggZnJvbSBQeWJlbmNoIHRvIHJlZ3J0ZXN0LCBtYWlubHkgZXhlY3V0aW9uIHRpbWUuIEluIGhp
+cyBjb21taXQsIGhlIG5vdGVzDQoiYWxzbyB1cHN0cmVhbSBoYXZlIHJlbW92ZWQgaXQgZnJvbSBQ
+eXRob24gYW5kIGluc3RlYWQgdXNlIHRlc3QucmVncnRlc3Qg4oCUcGdvDQp0byBwcm9maWxlIHRo
+ZSBpbnRlcnByZXRlci4iIFRoaXMgZG9lcyBub3Qgc2VlbSB0byBiZSB0cnVlIGFueW1vcmUgYXMg
+dXBzdHJlYW0NCnVzZXMgdGVzdCByYXRoZXIgdGhhbiB0ZXN0LnJlZ3J0ZXN0LiBIb3dldmVyLCB0
+aGUgZGVmYXVsdCB0ZXN0cyBkbyB0YWtlIDIwIG1pbnV0ZXMNCnRvIHJ1biB3aGljaCBpcyBjb25z
+aWRlcmFibHkgbG9uZ2VyIHRoYW4gdGhlIGN1cnJlbnQgZXhwbGljaXQgdGVzdHMuDQoNCj4gPiA+
+DQo+ID4gPiBXaGVuIDMuNSAtPiAzLjcgdXBncmFkZSB3YXMgZG9uZSBpbg0KPiA+ID4NCj4gPiA+
+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz8N
+Cj4gPiA+IGlkPTAyNzE0YzEwNTQyNmIwZDY4NzYyMDkxM2MxYTc0MDFiMzg2NDI4YjYNCj4gPiA+
+DQo+ID4gPiBpdCBkcm9wcGVkIHVzaW5nIFBZVEhPTjNfUFJPRklMRV9UQVNLIHNpbGVudGx5LCBh
+bW9uZyBsYXJnZSBzd2F0aCBvZiBjaGFuZ2VzDQo+ID4gPiB0aGlzIHBhdGNoIGNhcnJpZWQuIEkg
+Z3Vlc3Mgd2UgaGF2ZSBub3QgY2hlY2tlZCB0aGUgcHkzIHJ1bnRpbWUgcGVyZm9ybWFuY2UgdG8N
+Cj4gPiA+IGRldGVjdCB0aGlzIHJlZ3Jlc3Npb24uDQo+ID4NCj4gPiBBcmUgd2Ugc3VyZSB0aGVy
+ZSBpcyBhIHJlZ3Jlc3Npb24/IFJ5YW4gcG9zdGVkIGEgZm9sbG93IHVwIHNheWluZw0KPiA+IGV2
+ZXJ5dGhpbmcgd2FzIHNsb3dlciBpbiBoaXMgdGVzdHMsIG5vdCBqdXN0IHB5dGhvbi4NCg0KSW4g
+Y2FzZSBhbnlvbmUgaXMgY3VyaW91cywgSSBkaWQgZmluZCBvdXQgdGhlIGlzc3VlLiBUaGUgQ1BV
+IGdvdmVybm9yIHdhcyBwb3dlcnNhdmUNCnJhdGhlciB0aGFuIG9uZGVtYW5kLiBTaWxseSBtZSwg
+SSBvbmx5IGNoZWNrZWQgdGhlIG1pbiBhbmQgbWF4IGZyZXEsIG5vdCB0aGF0IHRoZXkNCndlcmUg
+YmVpbmcgdXNlZC4gQW5kIGEgcXVpcmsgb2YgdGhlIE9TIHByZXZlbnRlZCBhbnkgb2YgbXkgYmVu
+Y2htYXJrcyBmcm9tDQpwcmludGluZyB0aGUgb2JzZXJ2ZWQgY2xvY2sgc3BlZWQgZHVyaW5nIHRl
+c3QsIGp1c3QgZW1wdHkgc3RyaW5ncy4NCg0KV2l0aCB0aGlzIGZpeGVkIGFuZCB3aGVuIGNvbXBp
+bGluZyB3aXRoIHVwc3RyZWFtIFBHTyBpbiBZb2N0bywgSSBkbyBvYnNlcnZlDQpjb21wYXJhYmxl
+IHBlcmZvcm1hbmNlIHRvIHJlZ3VsYXIgdXBzdHJlYW0gUHl0aG9uIDMuOCBjb21waWxlZCB3aXRo
+IFBHTyBvbg0KUmFzcGJpYW4uDQoNCj4NCj4gcmVncmVzc2lvbiBpcyBkaXNhYmxpbmcgaXQgd2l0
+aCBlNTNlYmYyOQ0KDQpZZXMsIHRoYXQncyBjb3JyZWN0LiBUaGlzIGluYWR2ZXJ0ZW50bHkgZGlz
+YWJsZWQgUEdPIGVudGlyZWx5LiBJIGNhbiBkbyBzb21lIHRlc3RzDQp0b21vcnJvdyB0byBkZXRl
+cm1pbmUgdGhlIHBlcmZvcm1hbmNlIGxvc3MgZHVlIHRvIFBHTyB3aXRoIHRoZXNlIGV4cGxpY2l0
+IHRlc3QNCnN1aXRlcyByYXRoZXIgdGhhbiB0aGUgZGVmYXVsdHMgZnJvbSB0aGUgdXBzdHJlYW0u
+IEkgZGlkIG5vdGljZSBwZXJmb3JtYW5jZSBnYWluDQp3aGVuIHVzaW5nIFBHTywgYnV0IHRoYXQg
+d2FzIGFnYWluc3Qgbm9uLVBHTy4NCg0KPg0KPiA+DQo+ID4gPiBzbyBpdCB3aWxsIGJlIGdvb2Qg
+dG8gcmVpbnN0YXRlIHRoZSB2YXJpYWJsZSB0byBjaG9vc2Ugd2hhdCB0ZXN0cyBvbmUgd2FudHMg
+dG8NCj4gPiA+IHJ1biB3aXRoIGRlZmF1bHRzIGJlaW5nIHdoYXRldmVyIGlzIG9wdGltYWwgZm9y
+IGF1dG9idWlsZGVyLg0KPiA+ID4NCj4gPiA+ID4gVGhhbmtzLA0KPiA+ID4gPiBSeWFuDQo+ID4g
+PiA+DQo+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IEZvciBy
+ZWZlcmVuY2UsIGhlcmXigJlzIHRoZSByZXN1bHRzIG9mIGEgc2ltcGxlIENQVS1ib3VuZCB0ZXN0
+LiBUaGVzZQ0KPiA+ID4gPiA+ID4gdGVzdHMgd2VyZSBydW4gb24gdGhlIHNhbWUgUmFzcGJlcnJ5
+IFBpIDQgd2l0aCBzYW1lIFNEIGNhcmQuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+
+ID4gPiA+DQo+ID4gPiA+ID4gPiBweXRob24zIC1tIHRpbWVpdCAtciAxMCAtLXNldHVwICcNCj4g
+PiA+ID4gPiA+IGRlZiBmaWIobik6DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gIGlmIG4gPCAy
+Og0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICAgIHJldHVybiBuDQo+ID4gPiA+ID4gPg0KPiA+
+ID4gPiA+ID4gIGlmIG4gPT0gMjoNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAgICByZXR1cm4g
+MQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ICByZXR1cm4gZmliKG4gLSAxKSArIGZpYihuIC0g
+MikNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAnICdbZmliKG4pIGZvciBuIGluIHJhbmdlKDIw
+KV0nDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAj
+IFlvY3RvIFB5dGhvbiAzLjguMw0KPiA+ID4gPiA+ID4gIyAxMCBsb29wcywgYmVzdCBvZiAxMDog
+MjguOSBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIDEwIGxvb3BzLCBiZXN0IG9mIDEwOiAy
+OS4zIG1zZWMgcGVyIGxvb3ANCj4gPiA+ID4gPiA+ICMgMTAgbG9vcHMsIGJlc3Qgb2YgMTA6IDI3
+LjkgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyAxMCBsb29wcywgYmVzdCBvZiAxMDogMzAu
+NCBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIEF2ZXJhZ2UgcmVzdWx0OiAzMS42MjUgbXNl
+YyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4g
+PiA+ID4gIyBSYXNwYmlhbiBQeXRob24gMy44LjMNCj4gPiA+ID4gPiA+ICMgNTAgbG9vcHMsIGJl
+c3Qgb2YgMTA6IDcuNzMgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyA1MCBsb29wcywgYmVz
+dCBvZiAxMDogNy43MiBtc2VjIHBlciBsb29wDQo+ID4gPiA+ID4gPiAjIDUwIGxvb3BzLCBiZXN0
+IG9mIDEwOiA3LjY3IG1zZWMgcGVyIGxvb3ANCj4gPiA+ID4gPiA+ICMgNTAgbG9vcHMsIGJlc3Qg
+b2YgMTA6IDcuNzQgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4gIyBBdmVyYWdlIHJlc3VsdDog
+Ny43MTUgbXNlYyBwZXIgbG9vcA0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4g
+Pg0KPiA+ID4gPiA+ID4gIyBSYXNwYmlhbiBzcGVlZHVwOiA0LjA5eA0KPiA+ID4gPiA+ID4NCj4g
+PiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gQmVzdCwNCj4gPiA+ID4gPiA+IFJ5
+YW4gUm93ZQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+
+ID4NCj4gPiA+DQo+ID4gPiANCg0K
