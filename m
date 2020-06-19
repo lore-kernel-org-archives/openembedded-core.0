@@ -1,76 +1,67 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.446.1592604860486750182
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.490.1592605023047820005
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2020 15:14:20 -0700
+ Fri, 19 Jun 2020 15:17:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O2h+xy6Y;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id r9so9773132wmh.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 15:14:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P+6qsak4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id l17so9793071wmj.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2020 15:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Qyxr/uBeNmU5yJr8D4UUyiWrkaM1Y9pABHQqzc108Go=;
-        b=O2h+xy6YFuegASdDnaFveuQU2QAzOBy22YEDrHNmQ76nIKZLJ1hS3GyvrSVuRNerPb
-         jc36KnRK0Xq17VeHDn8z1lVjvkKdEO1TPcZlrlyfss1rpVLHto0P2SzF2ahrbQCYbLrH
-         0Xd0nb1+I5WqZln6tGZrxV/Lc2zhu8lqtpRg8=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=gYiZH2Y6IBFNUc+SBCSy2aU4CPKuYCKoyXD5sP7ra64=;
+        b=P+6qsak4B7z5EswwAzDuaZW9EZXl44PozsJMo41rBsPmRS6dLpu/rJPCrgVytQj9XY
+         CSXXLtjMXzuGWWX2bjpvEo2eKyZi39h2acLPylWfzIHxCeKbygYb05Y6eldgOVEvDp5c
+         dD5epg/A2BaxFLM1UfrDCDRolsKArGlXGkNAE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Qyxr/uBeNmU5yJr8D4UUyiWrkaM1Y9pABHQqzc108Go=;
-        b=kkxrzEbsinc3mYzY5ZqdpcqbKdz5DOI4zyfTdrnxR1Dx88rzjOpn9Huagxd7w7DKPz
-         0NqUuMEZPcufwnsdD3DQf4xrwaqNfMhlp8mOe0wRHNQ9g74iY1Pp/RRZ0LcDo4rgiLeu
-         M8o217mQmJZylaudKdD7GRYezMRgeRldjY9MAo9G9bcVclof+CHoSna/0YbDMQEQyiQ2
-         +meQzy0iRwwC6Xy7+O9QIljO59Y6u2NQJTciwqL1C1IBmUqtjHQwxxvGY35ynQAXX7rT
-         6APJ/AXYrMgqjsSeEI/6UsX6mt/p0A6NFeRWxixFueshh5hvdKOPTtdatcC7pcVQw+PI
-         0uLg==
-X-Gm-Message-State: AOAM532I5Mc7Bu+rT6QfUQ/Q1dBEnNuD/dJt+PJqfM5iALxr1ldrQXfK
-	KU/rhkjWQPll8AL10EcQAL7w8Q==
-X-Google-Smtp-Source: ABdhPJx/rgLxJOohPFXfWDmZeCZGUnTn5pJkIfWssJUQhAkKqdsmU8i5Nt+2LD3XW0Uvn68KFLh6cg==
-X-Received: by 2002:a7b:cb4c:: with SMTP id v12mr5672368wmj.43.1592604858889;
-        Fri, 19 Jun 2020 15:14:18 -0700 (PDT)
+        bh=gYiZH2Y6IBFNUc+SBCSy2aU4CPKuYCKoyXD5sP7ra64=;
+        b=cAgP+IY7JHSvQRi4+NpHGxYwtDM8g9QmhUElMKp/1qt/ziIbN92A06H3/T0xgT4sSn
+         xZsfyCinCyOEzpEOOsBdugZ4sxiiapy0nTky/FofIQ096xjP9lYrFErVUyWJPMN9k70i
+         hyhqFEnDte9ueVX5rAv6SizpJ9EQVblCgmCzp3SbhGCyWXyzgl6J/UWGNTLfNYu7ddvz
+         tWHGIwWOZbkd0XNSX3t/PPo3mPlzCQjGjRffQlQ/m0OqpO+19X/flxE7Ll0aGIpsyil3
+         YK8xsfTYwTcVLxJWFL3s0qUC16eqhUVIbtA0X3CgmG633x+TOOkWQ1Vi84+cXcoua1RQ
+         Cxuw==
+X-Gm-Message-State: AOAM533xdY65gfYkVh93rvRTjuUOqLDO3H8bthjtLE+7Q1Ps7YdIR1XE
+	CNO14fQ/TKMWcs4UTQF9GJm2rw==
+X-Google-Smtp-Source: ABdhPJyOxqahYEE5j6mSCQvOejJnwLD+pzLkOGkDcHL967DWNoIHPTvbiFEzbS2RGPpfPJsX5sZZsA==
+X-Received: by 2002:a1c:49c1:: with SMTP id w184mr5592768wma.46.1592605021473;
+        Fri, 19 Jun 2020 15:17:01 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j14sm8644138wrs.75.2020.06.19.15.14.17
+        by smtp.gmail.com with ESMTPSA id s18sm9632557wra.85.2020.06.19.15.17.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 15:14:18 -0700 (PDT)
-Message-ID: <386362e4937341d265b2e10d87dc472eb2e4f7fa.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v3] igt-gpu-tools: add new package
+        Fri, 19 Jun 2020 15:17:00 -0700 (PDT)
+Message-ID: <852221ed55f737787c622ce2eda98389b343b7e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] dbus,dbus-test: Move common parts to dbus.inc
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Arthur She <arthur.she@linaro.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jun 2020 23:14:17 +0100
-In-Reply-To: <20200619180922.57663-1-arthur.she@linaro.org>
-References: <20200619180922.57663-1-arthur.she@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Ovidiu Panait
+	 <ovidiu.panait@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jun 2020 23:16:59 +0100
+In-Reply-To: <CANNYZj_d+HcPS5Stp0-Mg8j7HKUrUiU28KamH8ouxX7wfW782A@mail.gmail.com>
+References: <20200619192550.12379-1-ovidiu.panait@windriver.com>
+	 <20200619192550.12379-2-ovidiu.panait@windriver.com>
+	 <CANNYZj_d+HcPS5Stp0-Mg8j7HKUrUiU28KamH8ouxX7wfW782A@mail.gmail.com>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-06-19 at 11:09 -0700, Arthur She wrote:
-> igt-gpu-tools is a collection of tools for development and testing of
-> the DRM
-> drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
-> This recipe is originally copied from meta-intel and added the
-> following
-> modifications
-> 1. Enable ARM architecture
-> 2. Enable igt-runner and Chamelium
-> 3. Build git HEAD code instead of a specific version
-> The original recipe in the meta-intel will be removed and replaced by
-> this one to avoid having a duplicate recipe.
-> It is applicable to be submitted to oe-core, because it provides
-> a core validation functionality that is needed by all providing DRM
-> drivers and not just to a single arch.
-> 
-> Signed-off-by: Arthur She <arthur.she@linaro.org>
+On Fri, 2020-06-19 at 23:32 +0200, Alexander Kanavin wrote:
+> Is it possible to merge the two recipes completely, simply putting
+> the testing bits into a package called dbus-test?
 
-Looks like it has a number of dependencies not in OE-Core?
+This feels like a discussion we've gone around in circles with before.
 
-WARNING: Nothing PROVIDES 'xmlrpc-c' (but /home/pokybuild/yocto-worker/a-full/build/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb DEPENDS on or otherwise requires it)
-WARNING: Nothing PROVIDES 'gsl' (but /home/pokybuild/yocto-worker/a-full/build/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb DEPENDS on or otherwise requires it)
+I think (but the archives would know for sure) that its a circular
+dependency problem, where dbus-tests needs glib-2.0 and glib-2.0 needs
+dbus or something like that. Its a bit of a pain having them separate
+but there was a good reason for it.
 
 Cheers,
 
