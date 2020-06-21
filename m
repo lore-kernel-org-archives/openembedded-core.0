@@ -1,114 +1,77 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.2476.1592679781692102184
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
+ by mx.groups.io with SMTP id smtpd.web12.9222.1592707006430008539
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2020 12:03:02 -0700
+ Sat, 20 Jun 2020 19:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ngc1TdtO;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id cy7so3905587edb.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2020 12:03:01 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=U7xhFe8I;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.65, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f65.google.com with SMTP id t74so7717558lff.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2020 19:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qv4N63R1MEluJlW4Hw4Gnk0ll0VGPSNOpQAmPUpZmpg=;
-        b=Ngc1TdtO3cmjyTE7L/aSrjGxhYZa1Y3VFthVnfKwJirHz3iwNPstopoBoNOyAuS4MF
-         /cLX5Ff2GwVwFqJ7gxWJxJvdYip5oXjxe3tZKN4MKKkdd3jbtqLlRBXm+nJnmA0vfOTy
-         LidK5g48vedCbADwBZSJcWnxCkjyoucF8GXzMPeaSujRd3bXPsoXDGRhMEBblRGcvdBz
-         Euy/mXzYKAnedsi8WTVDEbSOpKvaRtKcgVF2Vlg+i3a4eB/me/w5S7j2+BdRrTzm1WIz
-         rKsmIIIiRxltiiE2LvftPrcP8DQ0NeQC7bfRxDWIEf+DVNyYg3/ChY6tONBHDIbJRULb
-         2Kxg==
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=CxTuuxRPg4ElEcFSJ4nNUW5myBSEy9rvAdkmNNCF5qs=;
+        b=U7xhFe8I4+kIoGKUDIB4npekqqGwKjm9W+X+dtp0F312fByYG1uYPbnGn7UaqbyGV6
+         1pmsN1sILU5RjTIrgjdo3f76pEemqmwVL1q5dF0FhfVbrY6yzdfykARcdu0oYcdl8Cui
+         HlYAFWa1NTXdECvJFPDxJB0UQcz9kVFa0wzzMQLCsSuGYSNn5/4bfsvK3KRRiqVEwd2U
+         14iu1Y1ZWV9XQtHXO3GNFwkej0qC1QWGxtWYRKf9emQ/vWhgbkwwADqQMpdhjdoK96PO
+         mGDflWkptDt9KNGHtTdNzs3M8WtixshXnElpFTGwtjgvTk4gYx0NouKE9IwywLJwm52j
+         06aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qv4N63R1MEluJlW4Hw4Gnk0ll0VGPSNOpQAmPUpZmpg=;
-        b=ER6Qj104ivxYm5WIlcmMl5JAjL7qxvNSmdbwdJR6sqb7MlcH4eDwi+3RaUrbM2C7lK
-         IO6ljpILz8bVwBR6wLVUxTCJ4xAUTY7GtKY6+VT9SzbAS+WaPE10TnuQFbfGPnrIWNT8
-         NBikFop6D8UKPBB90a8DjlBW7YuiQS5Zmz918kJIFRdcuhDdaBBai4YFFrbUAKJvKE3R
-         SLZGuuv9P9q+YkGC1OKxrY2+JQTiKtnsxjxLkEemY0ggV7e3eifZDMZYb5s22akKDM+f
-         53F2htNU/G+jIOSsAPBRRPzx/pm94YJ+VxdQw3E+RSEa3wKJLv3zKVIuSrr+Kwo5tL3J
-         Qq7A==
-X-Gm-Message-State: AOAM533Va1Tuthv6SGyLSeuEiccEPE1FdrPUrXA87ipDmhpzKKG4kgxA
-	lAUjuKZFqHfnpO2JCxm8++bskc+5Odmgww==
-X-Google-Smtp-Source: ABdhPJxUQayCavDTJgHeOil6bBQ+chw8O12tCB2afVk2V0cP4PLUGRHRpXp8gP7W39XMuV5b3gJERQ==
-X-Received: by 2002:a50:d753:: with SMTP id i19mr4742109edj.9.1592679779810;
-        Sat, 20 Jun 2020 12:02:59 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from superandy.speedport.ip (p200300f07f07a073c7ed84e0f8e2ef6e.dip0.t-ipconnect.de. [2003:f0:7f07:a073:c7ed:84e0:f8e2:ef6e])
-        by smtp.gmail.com with ESMTPSA id cb6sm8103624edb.18.2020.06.20.12.02.58
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=CxTuuxRPg4ElEcFSJ4nNUW5myBSEy9rvAdkmNNCF5qs=;
+        b=qETIxOJl3USaGAk5PiEmn7vEjcirDhKF1nDREGSNGvTZPFGTg25+Ec+c+kd8PCX+kX
+         Gey0f8zRU8g7VpK9gSd6QGgDN+uugrF+WQe85pcCyX5RSVCBZrUl/4e76QpKOqy/dTAF
+         9elM+cakjS1+qaGJp4tqmLGFKnnzazd5/GBEAUipSk/wwW03GuGK6FG7ha0AP5B0pwaR
+         HN6F7q892v6eyx/vzCBrqkaATMi6mmTzSqGazZsQVlsmveLNh6tOV0ZxsirGo++9RBF4
+         aCJ70yNrXq5GT8TcNoM6UvwmLaBlIFiEvgSOweHbr3YTOo1V1uX8Pi49dsnwozOYwzfd
+         HDzA==
+X-Gm-Message-State: AOAM531e/tNzMSMl8ukObWX7vrJuvX/XDpaSZtA3ZQ7fPy+btFQxMzbg
+	m/2IN1USEgQXpUgyDNZBgH35Sahpv6s=
+X-Google-Smtp-Source: ABdhPJzi6hj9eVj8R2hgxsyc6oYB4mcGUo10sCPMSgytlpLz7KHAc7HJz1n3C/o9C2yKnUMivg155g==
+X-Received: by 2002:a19:7d84:: with SMTP id y126mr6017682lfc.149.1592707003584;
+        Sat, 20 Jun 2020 19:36:43 -0700 (PDT)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
+        by smtp.gmail.com with ESMTPSA id 144sm2415370lfm.87.2020.06.20.19.36.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2020 12:02:59 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+        Sat, 20 Jun 2020 19:36:42 -0700 (PDT)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH V2] boost: Add upstream patch to fix build on depending projects
-Date: Sat, 20 Jun 2020 21:02:51 +0200
-Message-Id: <20200620190251.4060642-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ell: update to 0.32
+Date: Sun, 21 Jun 2020 04:36:40 +0200
+Message-Id: <20200621023640.30843-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
 
-KDE's krita failed with:
-| error: 'typedef void boost::static_visitor<void>::result_type' is inaccessible within this context
+Changelog:
+- Fix issue with handling D-Bus watch removal.
 
-Note that only boost 0.173 is affected. 0.172 (dunfell) does not have this
-problem and the patch will be included in upcoming 0.174.
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...l-rtree-visitors-insert-base-class-p.patch | 30 +++++++++++++++++++
- meta/recipes-support/boost/boost_1.73.0.bb    |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
+ meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
 
-diff --git a/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch b/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
-new file mode 100644
-index 0000000000..fb31823dd4
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
-@@ -0,0 +1,30 @@
-+From aafbceccc76dccb75963dd4f596fd1f10ee34b03 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <boost@kayari.org>
-+Date: Fri, 5 Jun 2020 19:29:27 +0100
-+Subject: [PATCH] Make index::detail::rtree::visitors::insert base class public
-+
-+Fixes #721
-+
-+Upstream-Status: Accepted [https://github.com/boostorg/geometry/commit/aafbceccc76dccb75963dd4f596fd1f10ee34b03]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ boost/geometry/index/detail/rtree/visitors/insert.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/boost/geometry/index/detail/rtree/visitors/insert.hpp b/boost/geometry/index/detail/rtree/visitors/insert.hpp
-+index 2d324cb7f..5709a930c 100644
-+--- a/boost/geometry/index/detail/rtree/visitors/insert.hpp
-++++ b/boost/geometry/index/detail/rtree/visitors/insert.hpp
-+@@ -265,7 +265,7 @@ struct insert_traverse_data
-+ // Default insert visitor
-+ template <typename Element, typename MembersHolder>
-+ class insert
-+-    : MembersHolder::visitor
-++    : public MembersHolder::visitor
-+ {
-+ protected:
-+     typedef typename MembersHolder::box_type box_type;
-+-- 
-+2.26.2
-+
-diff --git a/meta/recipes-support/boost/boost_1.73.0.bb b/meta/recipes-support/boost/boost_1.73.0.bb
-index 5e9e0d87d7..995c14e8cc 100644
---- a/meta/recipes-support/boost/boost_1.73.0.bb
-+++ b/meta/recipes-support/boost/boost_1.73.0.bb
-@@ -7,4 +7,5 @@ SRC_URI += "file://arm-intrinsics.patch \
-            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
-            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
-            file://0001-dont-setup-compiler-flags-m32-m64.patch \
-+           file://0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch \
-            "
+diff --git a/meta/recipes-core/ell/ell_0.31.bb b/meta/recipes-core/ell/ell_0.32.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.31.bb
+rename to meta/recipes-core/ell/ell_0.32.bb
+index 1db7131ab0..7772dcddf3 100644
+--- a/meta/recipes-core/ell/ell_0.31.bb
++++ b/meta/recipes-core/ell/ell_0.32.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
+-SRC_URI[sha256sum] = "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
++SRC_URI[md5sum] = "dde539c9a8d3cce08fd439347a82cce7"
++SRC_URI[sha256sum] = "42fdb9e24ff561a101389d51445cab1ff7d55f5385dc22a05b0493088cf99e30"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-2.26.2
+2.17.1
 
