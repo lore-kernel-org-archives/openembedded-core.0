@@ -1,77 +1,160 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web12.9222.1592707006430008539
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+ by mx.groups.io with SMTP id smtpd.web11.11392.1592723131372546370
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2020 19:36:47 -0700
+ Sun, 21 Jun 2020 00:05:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=U7xhFe8I;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.65, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f65.google.com with SMTP id t74so7717558lff.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2020 19:36:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dg8JJl49;
+ spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f195.google.com with SMTP id s6so3246386vkb.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Jun 2020 00:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=CxTuuxRPg4ElEcFSJ4nNUW5myBSEy9rvAdkmNNCF5qs=;
-        b=U7xhFe8I4+kIoGKUDIB4npekqqGwKjm9W+X+dtp0F312fByYG1uYPbnGn7UaqbyGV6
-         1pmsN1sILU5RjTIrgjdo3f76pEemqmwVL1q5dF0FhfVbrY6yzdfykARcdu0oYcdl8Cui
-         HlYAFWa1NTXdECvJFPDxJB0UQcz9kVFa0wzzMQLCsSuGYSNn5/4bfsvK3KRRiqVEwd2U
-         14iu1Y1ZWV9XQtHXO3GNFwkej0qC1QWGxtWYRKf9emQ/vWhgbkwwADqQMpdhjdoK96PO
-         mGDflWkptDt9KNGHtTdNzs3M8WtixshXnElpFTGwtjgvTk4gYx0NouKE9IwywLJwm52j
-         06aw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N2wGuxmv8fCWAIjf4tN2w+bcUD0WVlyWJCaHaPNrwRk=;
+        b=dg8JJl49NLHh9Gx8IypgofHMi0pEtzn6mbYnEUBMijCU7sGuYkLlKw17PwgSPXcB2z
+         QEEnci7SPIuWeKZE7Tk9PDFODGdK+p1zV2MJ+VhQRppFK1liZeoqNhcbtsCljl+agrcs
+         u+E7GYpUFKkX+kolwEe9iJAs0ypSf4UVnnoW3iut4J1+pUUAYQticGQZmGA6a6BqsCIW
+         ArsL6twNirguTCu4wIHFYu8IXLOgJLEvMtYJIpPAV1oAZXS0lthGi3VjoNYbu7y5saX2
+         nEaXvS3NEy3cm1IUeJCOSKHTLgquKZLPYdqSWhKCLnzV1mSC9ScPolgOMKyCsPLKEed4
+         Ju7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=CxTuuxRPg4ElEcFSJ4nNUW5myBSEy9rvAdkmNNCF5qs=;
-        b=qETIxOJl3USaGAk5PiEmn7vEjcirDhKF1nDREGSNGvTZPFGTg25+Ec+c+kd8PCX+kX
-         Gey0f8zRU8g7VpK9gSd6QGgDN+uugrF+WQe85pcCyX5RSVCBZrUl/4e76QpKOqy/dTAF
-         9elM+cakjS1+qaGJp4tqmLGFKnnzazd5/GBEAUipSk/wwW03GuGK6FG7ha0AP5B0pwaR
-         HN6F7q892v6eyx/vzCBrqkaATMi6mmTzSqGazZsQVlsmveLNh6tOV0ZxsirGo++9RBF4
-         aCJ70yNrXq5GT8TcNoM6UvwmLaBlIFiEvgSOweHbr3YTOo1V1uX8Pi49dsnwozOYwzfd
-         HDzA==
-X-Gm-Message-State: AOAM531e/tNzMSMl8ukObWX7vrJuvX/XDpaSZtA3ZQ7fPy+btFQxMzbg
-	m/2IN1USEgQXpUgyDNZBgH35Sahpv6s=
-X-Google-Smtp-Source: ABdhPJzi6hj9eVj8R2hgxsyc6oYB4mcGUo10sCPMSgytlpLz7KHAc7HJz1n3C/o9C2yKnUMivg155g==
-X-Received: by 2002:a19:7d84:: with SMTP id y126mr6017682lfc.149.1592707003584;
-        Sat, 20 Jun 2020 19:36:43 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id 144sm2415370lfm.87.2020.06.20.19.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2020 19:36:42 -0700 (PDT)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ell: update to 0.32
-Date: Sun, 21 Jun 2020 04:36:40 +0200
-Message-Id: <20200621023640.30843-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N2wGuxmv8fCWAIjf4tN2w+bcUD0WVlyWJCaHaPNrwRk=;
+        b=YSpsuFTG+304GjFPLaPs5suiyBJ5zxJWDOVh8vxwKv3bQCoHzoG64485mqstINuS9v
+         VWHQQhARUiT+nSbq044jhH6G5YMEjEidcqSn7sBzh40O45IkeVuXHp1Zl0C3aEqroqWB
+         kvHZNh1NDX20z6DDDv34quM9Tsg/bZwbwNzn23ds/Pz7v1XOdbKnmadc5cRlU3n62f+r
+         l3Deb66ippAV6cIjngPQnyZuucn3bJtHy+WiBY/Ti1ONOXUNVrdtlbT7qU+xZ1GwFrlx
+         hBbqxRf0YXglzhZkkvw/HiJPGTFK66yZEYQg6LRfvr//hdef6mgKWamezQ/F98RlhH8B
+         PUlQ==
+X-Gm-Message-State: AOAM531vcSG8DSIlkFvC/Kp/zxO214FZTm7k4lnWyyXrG/kyWmG6x7G9
+	ON1Zuy6taRpVM5EtHTWnDAgY+Jy8P0vyOax2m1Ad8SHz
+X-Google-Smtp-Source: ABdhPJwGa67VN8AIclOTD5bNVQTTc4KS5rx41Hk6KK2+oiUX130UkkkbcrhX1Cwmb1/AsZd1WVZIlTJy811Jax/s01o=
+X-Received: by 2002:a1f:5f0d:: with SMTP id t13mr598299vkb.29.1592723130064;
+ Sun, 21 Jun 2020 00:05:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200621023640.30843-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20200621023640.30843-1-open.source@oleksandr-kravchuk.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sun, 21 Jun 2020 09:05:18 +0200
+Message-ID: <CANNYZj_q3qcX8KFQsXrhgYZ6dnVwVNgF_CWfmOywd2znw-HKAg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ell: update to 0.32
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000064a3e005a892c096"
 
-Changelog:
-- Fix issue with handling D-Bus watch removal.
+--00000000000064a3e005a892c096
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
+Hello  Oleksandr,
 
-diff --git a/meta/recipes-core/ell/ell_0.31.bb b/meta/recipes-core/ell/ell_0.32.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.31.bb
-rename to meta/recipes-core/ell/ell_0.32.bb
-index 1db7131ab0..7772dcddf3 100644
---- a/meta/recipes-core/ell/ell_0.31.bb
-+++ b/meta/recipes-core/ell/ell_0.32.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
- 
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
--SRC_URI[sha256sum] = "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
-+SRC_URI[md5sum] = "dde539c9a8d3cce08fd439347a82cce7"
-+SRC_URI[sha256sum] = "42fdb9e24ff561a101389d51445cab1ff7d55f5385dc22a05b0493088cf99e30"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
--- 
-2.17.1
+have you received the python-setuptools/cythin upgrade patches from AUH?
+Will you send them?
 
+Alex
+
+On Sun, 21 Jun 2020 at 04:36, Oleksandr Kravchuk <
+open.source@oleksandr-kravchuk.com> wrote:
+
+> Changelog:
+> - Fix issue with handling D-Bus watch removal.
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
+>
+> diff --git a/meta/recipes-core/ell/ell_0.31.bb b/meta/recipes-core/ell/
+> ell_0.32.bb
+> similarity index 83%
+> rename from meta/recipes-core/ell/ell_0.31.bb
+> rename to meta/recipes-core/ell/ell_0.32.bb
+> index 1db7131ab0..7772dcddf3 100644
+> --- a/meta/recipes-core/ell/ell_0.31.bb
+> +++ b/meta/recipes-core/ell/ell_0.32.bb
+> @@ -14,8 +14,8 @@ DEPENDS = "dbus"
+>  inherit autotools pkgconfig
+>
+>  SRC_URI = "
+> https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+> -SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
+> -SRC_URI[sha256sum] =
+> "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
+> +SRC_URI[md5sum] = "dde539c9a8d3cce08fd439347a82cce7"
+> +SRC_URI[sha256sum] =
+> "42fdb9e24ff561a101389d51445cab1ff7d55f5385dc22a05b0493088cf99e30"
+>
+>  do_configure_prepend () {
+>      mkdir -p ${S}/build-aux
+> --
+> 2.17.1
+>
+> 
+>
+
+--00000000000064a3e005a892c096
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello=C2=A0 Oleksandr,</div><div><br></div><div>have =
+you received the python-setuptools/cythin upgrade patches from AUH? Will yo=
+u send them?</div><div><br></div><div>Alex<br></div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 21 Jun 2020 at =
+04:36, Oleksandr Kravchuk &lt;<a href=3D"mailto:open.source@oleksandr-kravc=
+huk.com">open.source@oleksandr-kravchuk.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Changelog:<br>
+- Fix issue with handling D-Bus watch removal.<br>
+<br>
+Signed-off-by: Oleksandr Kravchuk &lt;<a href=3D"mailto:open.source@oleksa=
+ndr-kravchuk.com" target=3D"_blank">open.source@oleksandr-kravchuk.com</a>&=
+gt;<br>
+---<br>
+=C2=A0meta/recipes-core/ell/{<a href=3D"http://ell_0.31.bb" rel=3D"norefer=
+rer" target=3D"_blank">ell_0.31.bb</a> =3D&gt; <a href=3D"http://ell_0.32.b=
+b" rel=3D"noreferrer" target=3D"_blank">ell_0.32.bb</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-core/ell/{<a href=3D"http://ell_0.31.bb" rel=3D"=
+noreferrer" target=3D"_blank">ell_0.31.bb</a> =3D&gt; <a href=3D"http://ell=
+_0.32.bb" rel=3D"noreferrer" target=3D"_blank">ell_0.32.bb</a>} (83%)<br>
+<br>
+diff --git a/meta/recipes-core/ell/<a href=3D"http://ell_0.31.bb" rel=3D"n=
+oreferrer" target=3D"_blank">ell_0.31.bb</a> b/meta/recipes-core/ell/<a hre=
+f=3D"http://ell_0.32.bb" rel=3D"noreferrer" target=3D"_blank">ell_0.32.bb</=
+a><br>
+similarity index 83%<br>
+rename from meta/recipes-core/ell/<a href=3D"http://ell_0.31.bb" rel=3D"no=
+referrer" target=3D"_blank">ell_0.31.bb</a><br>
+rename to meta/recipes-core/ell/<a href=3D"http://ell_0.32.bb" rel=3D"nore=
+ferrer" target=3D"_blank">ell_0.32.bb</a><br>
+index 1db7131ab0..7772dcddf3 100644<br>
+--- a/meta/recipes-core/ell/<a href=3D"http://ell_0.31.bb" rel=3D"noreferr=
+er" target=3D"_blank">ell_0.31.bb</a><br>
++++ b/meta/recipes-core/ell/<a href=3D"http://ell_0.32.bb" rel=3D"noreferr=
+er" target=3D"_blank">ell_0.32.bb</a><br>
+@@ -14,8 +14,8 @@ DEPENDS =3D &quot;dbus&quot;<br>
+=C2=A0inherit autotools pkgconfig<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"https://mirrors.edge.kernel.org/pub/lin=
+ux/libs/$%7BBPN%7D/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=
+=3D"_blank">https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-$=
+{PV}.tar.xz</a>&quot;<br>
+-SRC_URI[md5sum] =3D &quot;3f670230be4d89d621b0508c70b1d36b&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;ae88617275452f9f5840b2365e33e6c7fb6fa3405d42=
+cbf9367de642ee8b6701&quot;<br>
++SRC_URI[md5sum] =3D &quot;dde539c9a8d3cce08fd439347a82cce7&quot;<br>
++SRC_URI[sha256sum] =3D &quot;42fdb9e24ff561a101389d51445cab1ff7d55f5385dc=
+22a05b0493088cf99e30&quot;<br>
+<br>
+=C2=A0do_configure_prepend () {<br>
+=C2=A0 =C2=A0 =C2=A0mkdir -p ${S}/build-aux<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000064a3e005a892c096--
