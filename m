@@ -1,87 +1,77 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web12.401.1592848812639588001
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
+ by mx.groups.io with SMTP id smtpd.web10.377.1592848817460081083
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 11:00:12 -0700
+ Mon, 22 Jun 2020 11:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RsyAf6zH;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.170, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f170.google.com with SMTP id p70so16390385oic.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:00:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BQLlL4gq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.67, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f67.google.com with SMTP id 72so257543otc.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=rsQTA373EIqeZKdwnZWYhwz566elJl4ijW834f7ZATo=;
-        b=RsyAf6zHkHGhrGvW49htwgAk8EVUk/yxB4N0EICvo54r++isrn9QhrHtD0NxDU/PVL
-         Sjs+qm9h5F52tfTcMrEpJNvaPLqSZUcL11BwMO9Cw6zN7ds/LjpWJ04CgHH6d3jTJ6jL
-         DHKFR/HdINGqlUD1oJCW3fOxGcZRgGx5WQ7eju71nUcI3aHyFl9ETGtsh8vm8ay8UYnO
-         5qAccISuyHDnwkleIhSQ15unW72UkYzACD7cjxIWNaSel89vzyQnIKtazysA6HJigOtt
-         S/x8Wm8DB0u+gzCJ5YEC6QLZBosa6Hebr6TcY3mkl6tzqC9Zbw1Ek2n3STY0g/1+yMAI
-         +Qgw==
+        bh=ep2z3KekPlP0YAY3eZm42PC66AO4Kz/19FKwc0y/yIw=;
+        b=BQLlL4gquboofy42RallKQN0A7bu8rjF3oi9V5+NV81eszkTPwm0UDyGYFdmdRt6N+
+         NlarHx90d4ERNfaaVoVIPDXNakUakzxaG1wzNkC+/MLCUQiYxjFr7d2AgvHi/FT80v8S
+         IsWNJgtm6ivtemc0c08/hPZ7FmgeRaM4PFB+XGvBluUbWF/rkGNvH8GlNY0xX9DZ20dF
+         lr6gyDA0ln/ZwAfJVkxEC4Tnm/aEpOP8SpidIO9kt8E+vwU6AsqxaiuqkBPNK999dBYj
+         i5VMC/MnJA13YyG/xFloZ0HrF+Q2bnUTkkVDEDUMxzM2LP1iOQChYxzwwdxt1SI8tQoB
+         Eyng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=rsQTA373EIqeZKdwnZWYhwz566elJl4ijW834f7ZATo=;
-        b=qb83Mz1zeREMwyy8OtRLu8PMXPahIzon2ahYopKwahcNV0Es8M+IT2ULFM4cX17ZAp
-         2miRVjBNelqwGDr6sl4CHbdoyrkR5BC6MAx908nR5eyAD9co42ahr5q/vzmENcZ9atz+
-         WKe7pXXl/lBPogBbqSiTbYNf1GDRcHcXnQ/TdVOv/KRLh3tE4Sa6f07C3CqcBRYIZfqr
-         eYyAfv4Nqw8Ugy0IRNp/sY/iLMGEuuQsK/c1Ti9rACKQJcFsqTRMq6W91loKnyc76LDo
-         lGVMvhog8aNGXrGtuFk62VKvSpIXrW44d56jJJ9pMI+0xTZDohcuepVOcXnCOhM2GiGu
-         bN3Q==
-X-Gm-Message-State: AOAM532XqcFX3KLZQDNzWgbK827JcUNY8Vy/otrYbJk5DDj6HmDTyOqf
-	v7H5NFAnMGKXvYHlXY5gyNjPTSJuer+Zqw==
-X-Google-Smtp-Source: ABdhPJygIVPR3qIhbKUrRpZxKAiPjNrK5tCFOB/hNOx2alBvwU3CcbmvtG+GP/VLHGx+T+wYLLb8fA==
-X-Received: by 2002:a05:6808:299:: with SMTP id z25mr13486313oic.26.1592848811570;
-        Mon, 22 Jun 2020 11:00:11 -0700 (PDT)
+        bh=ep2z3KekPlP0YAY3eZm42PC66AO4Kz/19FKwc0y/yIw=;
+        b=bZ1K6zx22BU14C8Rz/8SPOZJoOxEU+kVdBP/DRAdM8nghVoa2nE8dgoMcjsAIxZDgj
+         oGd5bvHOHtQk9orRKJWXg5VZIeME0DxqOLjt2C76HKz9N9IYjcPVwNxjYRaGr7Ap/D2J
+         vb31H9ZzSOF8YPQ3oEveaij7rBDLtuxGdKOcVDIrosvGond306fLPViC7fMRPqwfLON3
+         udNQJiQ2jBQQHjit3NIsIZZ1VMmJbgKQRoOZGMSmy29yHtltUi2zURol9MhrXnvKTW5y
+         054IPKgXDninu8g1/djFnZXmwwzOohQR3GYfepWLWTMy9909jsLUlFwwTyYN+VNDlE50
+         3hqA==
+X-Gm-Message-State: AOAM533N9lKse7GZLGUpuE2paWvXpQjXcDEguoRhbDCYonHW7f8opQRk
+	p5JCTLm1duSIm1TfrGoiBXEhYEf/HZyG0w==
+X-Google-Smtp-Source: ABdhPJxOu3KWoxLwUv3utWYVF9H6t4GhcKEe0Btj3rHcDDUP7q7I4+eB8CjaUs6/WK6AQGxpWPDy6A==
+X-Received: by 2002:a9d:7f17:: with SMTP id j23mr15901708otq.144.1592848816378;
+        Mon, 22 Jun 2020 11:00:16 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.00.07
+        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.00.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 11:00:11 -0700 (PDT)
+        Mon, 22 Jun 2020 11:00:15 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/33] recipetool: Fix list concatenation when using edit
-Date: Mon, 22 Jun 2020 07:58:04 -1000
-Message-Id: <9a45c7fb2d4491d2d34500acef8ea6dcd4f5d9d4.1592848337.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/33] buildtools-tarball: export OPENSSL_CONF in environment setup
+Date: Mon, 22 Jun 2020 07:58:05 -1000
+Message-Id: <f47fe24317d2fd19112c7e38858b21b3457835d9.1592848337.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592848337.git.steve@sakoman.com>
 References: <cover.1592848337.git.steve@sakoman.com>
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+The autobuilder has been experiencing SSL: CERTIFICATE_VERIFY_FAILED
+errors during error report uploads when using buildtools due to looking
+for certs in /opt/poky
 
-If there are multiple appends, ensure we concatenate compatible things:
-
-Traceback (most recent call last):
-  File "/home/akiernan/poky/scripts/recipetool", line 111, in <module>
-    ret = main()
-  File "/home/akiernan/poky/scripts/recipetool", line 100, in main
-    ret = args.func(args)
-  File "/home/akiernan/poky/scripts/lib/recipetool/edit.py", line 38, in edit
-    return scriptutils.run_editor([recipe_path] + appends, logger)
-TypeError: can only concatenate list (not "tuple") to list
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4c1e74bdf4922519d168434afd69c9bebcb9bd82)
+(cherry picked from commit 197f1d5d14b8e57295f5a81c03c86abba5328614)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/recipetool/edit.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/recipetool/edit.py b/scripts/lib/recipetool/edit.py
-index 94bdf7bca4..d5b980a1c0 100644
---- a/scripts/lib/recipetool/edit.py
-+++ b/scripts/lib/recipetool/edit.py
-@@ -34,7 +34,7 @@ def edit(args):
-     recipe_path = tinfoil.get_recipe_file(args.target)
-     appends = tinfoil.get_file_appends(recipe_path)
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 977b6a5e1d..edf67ce2ad 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -74,6 +74,7 @@ create_sdk_files_append () {
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
  
--    return scriptutils.run_editor([recipe_path] + appends, logger)
-+    return scriptutils.run_editor([recipe_path] + list(appends), logger)
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
  
- 
- def register_commands(subparsers):
+ 	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
 -- 
 2.17.1
 
