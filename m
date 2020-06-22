@@ -1,88 +1,98 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web11.439.1592848932586126899
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web10.435.1592848938925582181
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 11:02:12 -0700
+ Mon, 22 Jun 2020 11:02:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Mrf4504p;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f51.google.com with SMTP id 72so264835otc.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:02:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BGXVqpzO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f174.google.com with SMTP id k4so16455769oik.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Rp8bJHBb84geleakNK/Jb1h+qOi8oh7w1pdluvNZrEM=;
-        b=Mrf4504p0XhmQFBz7NNNY2br8GOGI5XjJUxU+ZBWmIfufVFiE/6yGHlQKGOog3YVwE
-         OtEqtZ5RQTrCy0BzPkQf9bX9uCmnv+lH/b9LCkHogkrNOJ+ySSEN3CYmSLGk9wE+3jcy
-         YadBUnoi7cXTd54j35kl7wXd4QtV1Zcw9URNLdHRd3xWATlEYhL/QxeZKWjS9xKTHxN9
-         uL6O9nJUdVHlRxefG9+nyo2FOBo/7q9GJ5TEN7gJDROp9b4aQUOAJkUCp74eELx/2cqW
-         aM7YQ/N2osy6gXa6rLTP3j7jTwqyh6wshuIgVHCTOgQN7Z7oTEIjgPlpqRSDmYfDD7In
-         TYpQ==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=gyHvQAv335iMLb6PUsWQJgcyF6t8wuyZZgf18+mu40s=;
+        b=BGXVqpzO6yEguAUZBeFxpg/ePsC3nbap83WHCqBiXaam7jPAkl0riP/R9dHaMYsp6U
+         jH5JkcOgNc80VIQySq0FjPiGrIQTMdhRgCV4ZK6C8b1/Fn60KD9DgGQ1pME7j8TOwTzi
+         vjQ7heYRWQQlPFg7CcNsbhLM8HcA6VWRjPug1daI+rreTOQk2Ry70d7CfZ2CbA7/tk+2
+         VNMxNpoROxBEzIofaJ/OxNidsMO0BwZXBKe80h4dS14PPCVjO9Q+xZEdGLE0m0PHbiTD
+         fJ4Sg6exdXkgZu7uG+axlPDITvx3Byp7TrVLgBwO1nNDINGvI6rXBEZ0u1ib1Y2BjgMS
+         PyvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Rp8bJHBb84geleakNK/Jb1h+qOi8oh7w1pdluvNZrEM=;
-        b=mMF6tyYmrxjymgk5RxurUFQUQGE5SCccjDte8W7BiFmYdQjC7YJpJxZLiS1+gwF08W
-         4zAzkSdwgyZQU0v7EGD37kPNF9pZQ11GrZBFkvofqrk1/IVrry8e8cIEHllFxT3a/ZkT
-         eYSphfkoOTX6F6JuxF5+Z3TZGIoY0N7kcj3t4fnvYSmYbXqcsoTYT/8814Qab0bFVFdz
-         y3jkkKDvcpRxb2AOhST2J4a4Iki4y9ImpYwoQw1xqqqgO/66MgHn8FpzBgzv0Yq9+1Gi
-         9srJUt4k4qMNyoF0TR3TN7CbGty3GlbUJLo+vpboJYZMjDZPAwRqVZaCtOsG/cWZFnF4
-         SBGg==
-X-Gm-Message-State: AOAM5325L1a2r41iAT3Qb9Hj3PWEuWs/g+9eTXhxZ6VUOJEXqu53aqfC
-	Tm0mE5eFaCfGDVUGBAXZ4AusX3vW/AVj2Q==
-X-Google-Smtp-Source: ABdhPJySv1817yJqin2LMSW3Gc6sYD7T7CwkRtSCBfBbsdCXizBJLWgN4uqfvLhAG3lmoe56KSiNVA==
-X-Received: by 2002:a05:6830:1059:: with SMTP id b25mr15897568otp.128.1592848931518;
-        Mon, 22 Jun 2020 11:02:11 -0700 (PDT)
+         :references;
+        bh=gyHvQAv335iMLb6PUsWQJgcyF6t8wuyZZgf18+mu40s=;
+        b=kSYrT/16jlNS/UVOsxyQPe3/ajHigC7NVra1kELMGWTGDzoEkT6P5v0k5g/qFPB3au
+         xTw82bPFU4gPsTL7zvZdE6OjazRuEemtja3eboIwodqA/4CGC68NmoW0Dr2jF4nj5alh
+         zVBXwjFnJrx1d7oO4RfTCCgt89k4zT8vTXQZLYg7eRi/rRZAARwkC4501do+WBnWNJhp
+         eGOVBuMvTSlOfEB9PPN5lUjHTNWgQAGv9xjyt2WP67gmwqL6LXyJJQLQVuOYFOsD5BIi
+         KgDcraKogtFM5ST1bkw3rnXO9xe0wgQlmP9+w0iSX37sak8wrshoOAr5SNATkm1WZymn
+         o0xA==
+X-Gm-Message-State: AOAM531mVdsCFDneUpdkrs67hZMnBZHVPQGOO2tj4y30ATyRPABbs7mK
+	/lkbZrtasp3ga1cmOR++LVtofh2Jjp7L4g==
+X-Google-Smtp-Source: ABdhPJz8dVln9cgg1+TrR4hLl6ZPFUVc9kuEoj+C9DcIeavKn/OYuaCBElJSoPbBH/BZ+7/fECqslw==
+X-Received: by 2002:aca:fc49:: with SMTP id a70mr12958040oii.114.1592848937821;
+        Mon, 22 Jun 2020 11:02:17 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.02.07
+        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.02.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 11:02:11 -0700 (PDT)
+        Mon, 22 Jun 2020 11:02:17 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 32/33] meson.bbclass: avoid unexpected operating-system names
-Date: Mon, 22 Jun 2020 07:58:26 -1000
-Message-Id: <da4c8d7524747b2af6425f3e1547cccdb4d33604.1592848337.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 33/33] gstreamer1.0-plugins-bad: add support for vdpau
+Date: Mon, 22 Jun 2020 07:58:27 -1000
+Message-Id: <e603d67f8219c09c0640242af5c26a4f46f65f1a.1592848337.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592848337.git.steve@sakoman.com>
 References: <cover.1592848337.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Andreas M?ller <schnitzeltony@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-For example 'linux-gnueabi' is not what meson consumers expect: See canonical
-table of OS names for Meson (thanks Ross). Surprisingly this did not pop up
-earlier but wrong system-name can break building as described in [1]
+libvdpau support was added to meta-oe by commit bf1de4db2 ("libvdpau:
+Add recipe") in 2016. Therefore add a packageconfig for the
+corresponding gstreamer plugin.
 
-[1] https://lists.openembedded.org/g/openembedded-core/topic/meson_host_machine_system/73023862
+Based on a patch by Richard Leitner <richard.leitner@skidata.com>
 
-Signed-off-by: Andreas MÃ¼ller <schnitzeltony@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 010202076760329829fbde8dab4f535d6f755873)
+(cherry picked from commit 878a8561e10017bb91ea42bbbe6d4acfc0985482)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/meson.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ .../gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index e9628033c6..ff52d20e56 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -68,6 +68,9 @@ def meson_operating_system(var, d):
-     os = d.getVar(var)
-     if "mingw" in os:
-         return "windows"
-+    # avoid e.g 'linux-gnueabi'
-+    elif "linux" in os:
-+        return "linux"
-     else:
-         return os
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
+index 7a227fed51..99176b2571 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
+@@ -75,6 +75,7 @@ PACKAGECONFIG[srtp]            = "-Dsrtp=enabled,-Dsrtp=disabled,libsrtp"
+ PACKAGECONFIG[tinyalsa]        = "-Dtinyalsa=enabled,-Dtinyalsa=disabled,tinyalsa"
+ PACKAGECONFIG[ttml]            = "-Dttml=enabled,-Dttml=disabled,libxml2 pango cairo"
+ PACKAGECONFIG[uvch264]         = "-Duvch264=enabled,-Duvch264=disabled,libusb1 libgudev"
++PACKAGECONFIG[vdpau]           = "-Dvdpau=enabled,-Dvdpau=disabled,libvdpau"
+ PACKAGECONFIG[voaacenc]        = "-Dvoaacenc=enabled,-Dvoaacenc=disabled,vo-aacenc"
+ PACKAGECONFIG[voamrwbenc]      = "-Dvoamrwbenc=enabled,-Dvoamrwbenc=disabled,vo-amrwbenc"
+ PACKAGECONFIG[vulkan]          = "-Dvulkan=enabled,-Dvulkan=disabled,vulkan-loader"
+@@ -88,7 +89,7 @@ PACKAGECONFIG[zbar]            = "-Dzbar=enabled,-Dzbar=disabled,zbar"
+ #   aom androidmedia applemedia bs2b chromaprint d3dvideosink
+ #   directsound dts fdkaac gme gsm iq kate ladspa lv2 mpeg2enc
+ #   mplex musepack nvdec nvenc ofa openexr openni2 opensles
+-#   soundtouch spandsp srt teletext vdpau wasapi wildmidi winks
++#   soundtouch spandsp srt teletext wasapi wildmidi winks
+ #   winscreencap wpe x265
  
+ EXTRA_OEMESON += " \
+@@ -127,7 +128,6 @@ EXTRA_OEMESON += " \
+     -Dspandsp=disabled \
+     -Dsrt=disabled \
+     -Dteletext=disabled \
+-    -Dvdpau=disabled \
+     -Dwasapi=disabled \
+     -Dwildmidi=disabled \
+     -Dwinks=disabled \
 -- 
 2.17.1
 
