@@ -1,89 +1,138 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.15014.1592823509756762638
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
+ by mx.groups.io with SMTP id smtpd.web12.14877.1592823551033490119
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 03:58:30 -0700
+ Mon, 22 Jun 2020 03:59:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J+lDe82d;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id q2so13755090wrv.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 03:58:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iYJCREue;
+ spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f66.google.com with SMTP id i25so19029286iog.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 03:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=rQocP8QK0GYP2VNj/tTae6DLfR1ipqbsouSExmyrKc4=;
-        b=J+lDe82dVuwOj9Fzwutq20hQvT5RIoSVll/2OLN1Ago7DZNdz+tx9UhiDoyk2iL08e
-         YwSPqTQCcPp3+9zVyObQIGm8SNak8bBX/MXtexJqH/XdIfChmjjucwJROZIemF0ECwU5
-         h0jvX4tq4xeRG1KN7n+PO6r+wm0+hcoVsqRwKieSiCzPxAJRiNrQvYvb16Aj1J9aZFug
-         b5PdMW6nMRxRR34c4juW0/gA+P67WjahIaT4pNF/WhAZX0DjZ9rfe9+hU/y+xSUL0y/u
-         6ZqW8SlVKMrJbhSWOKutgB+nZlaDiIT9N613tgDt0WC5hYwtOElKiOBa7iKKlogZ/moP
-         n5ig==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NEcTxfDsbu3gPhGqE0j0g6MW2fxOPjkC08vKOi60QL4=;
+        b=iYJCREue7WWcg5yqk1cbTkyteuY7jptzLJcSKTp2TynqhIXS0V5zf/GBOIGSA1Zu/9
+         +I7i1Tzo7YSUlJFPFK/bPfNsiwKV9yFUADw1qZOL+Yykz0ZriN74/yLhHhOUg8J42/Ho
+         gtRmNPTAaZ5uY0euI6/ssgLHfmnVQlvUWgO2JCQbytsV57plbn9FA/qNouHCmY+ktJkP
+         lSH4aS4YRiKlY0Y1AlsmGuX8YbG2pmjJxSAg2nVyZSiNLAJ/4GiXCm3vbF1kdcl+75PP
+         RgAOIBakfKgtBtnwC4uj45Dti1wKVava5iYxYITVpyJ2SF2hijeWuWcBzI7uBd6XbNji
+         NAng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=rQocP8QK0GYP2VNj/tTae6DLfR1ipqbsouSExmyrKc4=;
-        b=NeDv46wHa69zC1CMBq4NU2wuGfVmmlUOIg+64ZGawV2qz9X0XXVvOWndMggEMuC2Yk
-         ZF0VwZbSzIpYLz7kp3HfGE4sJgwkXLltI/zrSesAdmdV1Lre+ic2vHR4lQemg/ylWPo/
-         zn5v2RiIwbDY0Yzlvz/O2K8n0h/uZOn+Barj/RxwmQDdNG0wa7yG08lKZ0mCNnO8xFlO
-         5A3OpmR4vAua0dH8aG2JdMUKabzTLPj1NdYAqe9bOHdfZha1XsLaD0uqt8cumFvDm7VT
-         YQXhYtcGVhKS//5DwnU6goQDfLO7ebKJ7IAdzk6ucGUByybk+TVNCEvU104ah+xrDVne
-         Ithg==
-X-Gm-Message-State: AOAM531xXIqKaEktdWVvdnxBW4I/H8MCf2g/QIk7Benn8Lv8t9Qrwrf8
-	MTnkA9mvh3LUgjBRC+PnF8aOBzaO
-X-Google-Smtp-Source: ABdhPJxYae06V4OZuvyIaUHnKKrtiOLA+cIC1KOx4+/xsH9W163bEMs+oqcQ8nHO2/2jVlzKm8KtlQ==
-X-Received: by 2002:adf:f7c6:: with SMTP id a6mr11334831wrq.355.1592823507761;
-        Mon, 22 Jun 2020 03:58:27 -0700 (PDT)
-Return-Path: <alex.kiernan@gmail.com>
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id c2sm17977172wrv.47.2020.06.22.03.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 03:58:26 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NEcTxfDsbu3gPhGqE0j0g6MW2fxOPjkC08vKOi60QL4=;
+        b=JyFApZmFCCqaFVnSpjkibaXaXSXnWQndOhXVIxU1qr8oDRGZ7raQZ1MbUl17c9JHqO
+         YfAtpB9lq9PMIdyYieT51Cr/fE9AZIMVzZDdyaCA9ut78dn2wTrU8eZEYomF1NOR5NaC
+         ryGHI0sCR+Qt/IUGKr0Q7trbzNcIAt2W7z7e2dHmvmMBvIyc+A2JG87NzQ4ZlVJOSOkE
+         vi82RZfoDDVcU0YUGjB7jCQ79oJEg4Sdi7U7+hJEoAdKg9XV53rqyy5feGMNQKPM2zrc
+         21MNepBB8/VTOmZGY7FQjYL8ytItIRkhxXn8ty3Y1uzfaRWyMDRBv+O+s0oAceCBbaeo
+         ZUIw==
+X-Gm-Message-State: AOAM532Au3JGUA18v66KE3YThVpsvMWu+41I27mEY3XCv48nCDGD0Gsd
+	KfL3S+4e73IEQM1/DAq0lKoulFx7gbv91S+daEA=
+X-Google-Smtp-Source: ABdhPJwaCxXC3t7FMMv/U0wIU+xgAATxOXZ6aRI6Uhk1npBd+u+FvIYC+3iknqpK1RisFcs8HABfEqPNtKmn6x0op7k=
+X-Received: by 2002:a6b:1449:: with SMTP id 70mr12421284iou.153.1592823550387;
+ Mon, 22 Jun 2020 03:59:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191219221748.27079-1-alex.kiernan@gmail.com>
+ <20191219221748.27079-2-alex.kiernan@gmail.com> <902865ec-101f-0e0b-e17c-03c2fa555921@intel.com>
+ <161110ADA6F0224D.21901@lists.openembedded.org> <CAO5Uq5Q1VwSVeVA7gRkjKda1upvD1iAi=Zgj5e1GGFXEHtntrg@mail.gmail.com>
+ <ce0383b221fbe65e28f940b04443cb7c4d93bce9.camel@linuxfoundation.org>
+ <CAO5Uq5Sb37G8zRNPv=Ue3pxYnVPBgkR=XgHRoWCNs0C9iKuRXA@mail.gmail.com> <964e63ac0bfa723afd2f280b840edcc0340bb442.camel@linuxfoundation.org>
+In-Reply-To: <964e63ac0bfa723afd2f280b840edcc0340bb442.camel@linuxfoundation.org>
 From: "Alex Kiernan" <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-Date: Mon, 22 Jun 2020 11:57:17 +0100
-Message-Id: <20200622105717.108062-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Date: Mon, 22 Jun 2020 11:58:58 +0100
+Message-ID: <CAO5Uq5Q56a8nnPs_DD8i9=vVALkBqmrV4edR5_QmL1y99MbNLA@mail.gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 2/2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross@burtonini.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Generate output for each contaminated path so it's visible in the main
-log file, then enable rootfs_check_host_user_contaminated by default.
+On Sun, Jun 21, 2020 at 5:00 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2020-06-21 at 16:24 +0100, Alex Kiernan wrote:
+> > Hi Richard
+> >
+> > On Sat, Jun 20, 2020 at 1:45 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Tue, 2020-06-09 at 16:08 +0100, Alex Kiernan wrote:
+> > > > On Thu, May 21, 2020 at 3:14 PM Alex Kiernan via
+> > > > lists.openembedded.org <
+> > > > alex.kiernan=gmail.com@lists.openembedded.org
+> > > > wrote:
+> > > > > Hi Ross
+> > > > >
+> > > > > On Thu, Jan 2, 2020 at 11:20 PM Ross Burton <
+> > > > > ross.burton@intel.com>
+> > > > > wrote:
+> > > > > > On 19/12/2019 22:17, Alex Kiernan wrote:
+> > > > > > > Enable rootfs_check_host_user_contaminated by default
+> > > > > >
+> > > > > > Useful check!
+> > > > > >
+> > > > > > WARNING: Paths in the rootfs are owned by the same user or
+> > > > > > group
+> > > > > > as the
+> > > > > > user running bitbake. See the logfile for the specific paths.
+> > > > > >
+> > > > > > /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-
+> > > > > > image-
+> > > > > > sato/1.0-r0/rootfs/usr/share/fonts/.uuid
+> > > > > >
+> > > > > > /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-
+> > > > > > image-
+> > > > > > sato/1.0-r0/rootfs/usr/share/fonts/ttf/.uuid
+> > > > > >
+> > > > > > (patch incoming)
+> > > > > >
+> > > > >
+> > > > > Did you manage to get a patch for this out? I've had a couple
+> > > > > of
+> > > > > goes
+> > > > > at reproducing it and failed, but I suspect I'm not including
+> > > > > the
+> > > > > right things. It would be good to get this check enabled early
+> > > > > in
+> > > > > the
+> > > > > release cycle, if we can?
+> > > > >
+> > > >
+> > > > Ping?
+> > >
+> > > I'm trying to enable this but its triggering warnings on the
+> > > autobuilder:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/2037
+> > >
+> > > Unfortunately the logs are totally useless. I think we'll have to
+> > > improve the logging before this can be debugged and fixed which
+> > > blocks
+> > > this merging.
+> > >
+> >
+> > I've had a couple of goes at reproducing this locally, based on the
+> > configuration I think it's building and can't get it to fail...
+> >
+> > Presumably we need to expose the failure lines from the supplementary
+> > log file so that they make it into the autobuilder output?
+>
+> Yes, we need the output to show which files are affected to have some
+> chance of figuring out how to fix this. The fact its happening
+> intermittently is somewhat worrying :/.
+>
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Just sent a v2 which includes changes to push the failure paths into
+the main log
 
-Changes in v2:
-- expose each contaminated path in the main log
+> Cheers,
+>
+> Richard
+>
 
- meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 2f171836fa0c..8dde15fc3407 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -37,7 +37,7 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
- 
--ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
-+ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile; rootfs_check_host_user_contaminated;'
- 
- # Sort the user and group entries in /etc by ID in order to make the content
- # deterministic. Package installs are not deterministic, causing the ordering
-@@ -311,10 +311,9 @@ rootfs_check_host_user_contaminated () {
- 	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
- 	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
- 
--	if [ -s "$contaminated" ]; then
--		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
--		cat "$contaminated" | sed "s,^,  ,"
--	fi
-+	sed -e "s,${IMAGE_ROOTFS},," $contaminated | while read line; do
-+		bbwarn "Path in the rootfs is owned by the same user or group as the user running bitbake:" $line
-+	done
- }
- 
- # Make any absolute links in a sysroot relative
--- 
-2.17.1
 
+--
+Alex Kiernan
