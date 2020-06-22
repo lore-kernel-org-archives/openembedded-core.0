@@ -1,93 +1,96 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web10.10673.1592800842599078210
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.12334.1592810893524990593
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jun 2020 21:40:43 -0700
+ Mon, 22 Jun 2020 00:28:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lrBogZF9;
- spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f67.google.com with SMTP id d27so8782552lfq.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Jun 2020 21:40:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D5N+NwFx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id q2so13086576wrv.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 00:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=idIyNSSQXoglc2YJjRax+SpappHv0cQsZO5oUTeW8/w=;
-        b=lrBogZF9GykLiO641AuXH/hMvt/EfZ4Mknv0mZpTc1arKF0hnRMfXaJrCkt1+EV4qE
-         Ry/Z/qCtl5Ld6pR6R0Q1bvF7leu85JBXZPTYKdeTJDoaC5jz8JRQeFsq6wqfmZxpZn+N
-         Pg5jTiDa5Pc+t9yrwPjPG3qHQ9p+/QAs/BUJuFj19EwoOUaRdvoZNqitkUsS+Cm4sps3
-         5YA7i7UfJ/9fCx+F/CcAlX6Q726kT+JHy40b7PljZVFq6rw3BextzQPKCeIdvvnp3djz
-         +M/oEpFZhhIDrSKNVc/pTMwgIAloOnzJkwjxlpVk0ZOc0BNoxkYCUyr5Aeq8/ZbnHssY
-         1ZaA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=1vO19ET0azUn4CeNPj1596zhg4SOGr47KumkecFQaWY=;
+        b=D5N+NwFxw3fS6NHi9bxVlpam+NhGCC/2wDcZhb3Ei6ImmUyfl/sFaej0WBKpOzsVH8
+         DVIlK6R16qz9DG7Q8RBbp9PnXEr3QqD95TbKkmd84gPw8StrkydO3e8BvhoBQ2g7A855
+         hBjf4oN8t0ZUsvPdJy5xggTD9ouUjugTk+AwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=idIyNSSQXoglc2YJjRax+SpappHv0cQsZO5oUTeW8/w=;
-        b=b7Zk+eHUvkLrD3S4D/66cQqxkeI0+5Rt/g04wu9P449V5SjRA9Hs8iP9oW6lBGtduk
-         /GO2zdFb2AreQv3SmXJWZ79hYQ3JYvUfPl1HwauUtDjbJmg5+GBIjlzpzxuhtUI/aYmM
-         sKxsPeyVa0OcOi99QI4kEu35nk14Vq9koaDkZnHvA3LL8DXUP8mXAdcbbGsFATZ6HvFN
-         g/i2o2PBFVHYniq2yBgtduJDsGexAa9Vp202BDvO13K8z36akjDm0rNb8ZA3agzkvdAR
-         adlZcE0Rbmweq2+yVEkMw31tFuc55negol1tHdom0lMSlcUwui7jElMUQl5cHP8z92Jj
-         Mwcw==
-X-Gm-Message-State: AOAM5307G+zvL6ODle7pj2aufflBsiqZrzfIns2+FicGpTIgSCyUdnFp
-	n+M3WiynxKFnbgbBEef/nBLhjnJz
-X-Google-Smtp-Source: ABdhPJwtN9yPiLUf64iOwe3yjnGKZYl1+MQosw/8bACvLvWIdOLD4TJXx2yENrCSkTGsWP/wH/G3Og==
-X-Received: by 2002:a19:7f02:: with SMTP id a2mr8480987lfd.193.1592800840436;
-        Sun, 21 Jun 2020 21:40:40 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id m15sm3177273lfk.65.2020.06.21.21.40.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Jun 2020 21:40:39 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=1vO19ET0azUn4CeNPj1596zhg4SOGr47KumkecFQaWY=;
+        b=RXuQaogqRh5/uTKXmQ11iOlnjM8XZlolo/Ybx7sz5t4dWUr2AQ+r+NNqTRqgLvbcGp
+         kwYWSUdYNhgcOVCHX5M0ohfoyThVAreFZ7aUKChfHsFDXavO8G/3e1dFENDWIHsJ6uQn
+         wT71MqnHLamtME7/SfAktZ/eUUP4s5IupkJzBnJ3+2nuMcm3h+HLlBKvQXU2cpXjaqeT
+         o/xTpty7nN9vOsw1RtvCKk9LxSPYuOAH9z0IihDqJNHwi+qvxe5ANjXePF9dL8s9iGAQ
+         15gZrEQPoseDTzbFRjxd00OudRYu5buFeWVeJsN4Ufjw+ZZQ2hqbcLJXMQfkmWmtKGN3
+         yeHw==
+X-Gm-Message-State: AOAM531z3MCfHU01chhofSzYxdTQUyAVu9WD3IzqCSmLD/oh3MJzT7LI
+	Xim0aZD0K0SILDIO9Xz0OY9cpw==
+X-Google-Smtp-Source: ABdhPJz5rPg2NEUe8T8Y2XY/TjJRkScZPJ0Tlygcmz7WYTr5b1h4uMuhwgk0NlABTXA+p+iv9RvR8A==
+X-Received: by 2002:adf:e74e:: with SMTP id c14mr4686139wrn.143.1592810892043;
+        Mon, 22 Jun 2020 00:28:12 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id r8sm2491723wrp.40.2020.06.22.00.28.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 00:28:11 -0700 (PDT)
+Message-ID: <0e5d1212520efb2be866d21a7bad59531ed29108.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] xinit: add rxvt in RDEPENDS
-To: Changqing Li <changqing.li@windriver.com>,
- openembedded-core@lists.openembedded.org
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jacob Kroon <jacob.kroon@gmail.com>, Changqing Li
+	 <changqing.li@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jun 2020 08:28:10 +0100
+In-Reply-To: <5c541bf2-f2ee-f792-3371-99d577d3f8cb@gmail.com>
 References: <20200622015153.3877288-1-changqing.li@windriver.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <5c541bf2-f2ee-f792-3371-99d577d3f8cb@gmail.com>
-Date: Mon, 22 Jun 2020 06:40:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	 <5c541bf2-f2ee-f792-3371-99d577d3f8cb@gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20200622015153.3877288-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 6/22/20 3:51 AM, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Mon, 2020-06-22 at 06:40 +0200, Jacob Kroon wrote:
+> On 6/22/20 3:51 AM, Changqing Li wrote:
+> > From: Changqing Li <changqing.li@windriver.com>
+> > 
+> > fix below error:
+> > /etc/X11/xinit/xinitrc: line 55: exec: xterm: not found
+> > 
+> > by default, xinit will generate /etc/X11/xinit/xinitrc,
+> > and have below config in it:
+> > XTERM -geometry 80x50+494+51 &
+> > XTERM -geometry 80x20+494-0 &
+> > exec XTERM -geometry 80x66+0+0 -name login
+> > 
+> > the default XTERM is xterm, but xterm is in meta-oe,
+> > use rxvt instead
+> > 
+> > Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > ---
+> >   meta/recipes-graphics/xorg-app/xinit_1.4.1.bb | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> > b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> > index c9e28d9bba..2f2ba3af71 100644
+> > --- a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> > +++ b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> > @@ -19,4 +19,7 @@ SRC_URI[sha256sum] =
+> > "de9b8f617b68a70f6caf87da01fcf0ebd2b75690cdcba9c921d0ef54fa
+> >   
+> >   EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+> >   
+> > -RDEPENDS_${PN} += "util-linux-mcookie"
+> > +PACKAGECONFIG ??= "xterm"
+> > +PACKAGECONFIG[xterm] = "--with-xterm=rxvt,,,"
+> > +
 > 
-> fix below error:
-> /etc/X11/xinit/xinitrc: line 55: exec: xterm: not found
-> 
-> by default, xinit will generate /etc/X11/xinit/xinitrc,
-> and have below config in it:
-> XTERM -geometry 80x50+494+51 &
-> XTERM -geometry 80x20+494-0 &
-> exec XTERM -geometry 80x66+0+0 -name login
-> 
-> the default XTERM is xterm, but xterm is in meta-oe,
-> use rxvt instead
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/recipes-graphics/xorg-app/xinit_1.4.1.bb | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> index c9e28d9bba..2f2ba3af71 100644
-> --- a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> +++ b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> @@ -19,4 +19,7 @@ SRC_URI[sha256sum] = "de9b8f617b68a70f6caf87da01fcf0ebd2b75690cdcba9c921d0ef54fa
->   
->   EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
->   
-> -RDEPENDS_${PN} += "util-linux-mcookie"
-> +PACKAGECONFIG ??= "xterm"
-> +PACKAGECONFIG[xterm] = "--with-xterm=rxvt,,,"
-> +
+> Maybe "rxvt" would be a more suitable name for the PACKAGECONFIG ?
 
-Maybe "rxvt" would be a more suitable name for the PACKAGECONFIG ?
+Also, the RDEPENDS should be in the PACKAGECONFIG entry itself.
 
-Jacob
+Cheers,
+
+Richard
+
