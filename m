@@ -1,88 +1,79 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.5708.1592863616305412742
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.6075.1592864165141837636
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 15:06:56 -0700
+ Mon, 22 Jun 2020 15:16:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H3bPqkHb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id o11so10649879wrv.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 15:06:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RUCnRO3u;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id b15so110275edy.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 15:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=N43JPvjALsh2xLm6G1xts1lgXT261ZHd3P8qRWfzNnc=;
-        b=H3bPqkHbsWlPqUsIxCtF2x1/8OU7yneZ1Z1qYmW4/7FWY8XTyWHbJmQ/ud1PAbKkNL
-         GFgJfpCyUc7MqHTqfQzgfU5nifHSJ+a0HHMKTDHuewk2HAGPDMs3ynTWN5i0pAFGdD50
-         y9Bp9lRvE1MTfpbGzYL8e/e3Nhz7nHE8Pt7Oc=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LDIVJPKZs9h6mkrVGDwvuSK+Ek/8muG5zwGQSZhktY4=;
+        b=RUCnRO3uqD+eLQqQojVphyHC3pgGFN/G8tfDR9n2wcL2TW2EVPCh6iKC6DzaqeEG1L
+         4RSDaVEiKbLc7gPE8qgg3XIW4TzXw3Ecvf//zUid96xL0LRTAmTCFO/rTTARivqqQefJ
+         lNQlhTaJd5v9wljdrqbvPqo7wWMf2keO0r6qZNRz8VRfZhR5RW/2BGpBxX1c7r4gqQ5g
+         3mEX2stkxcP6I/xcMcchDcAZhj2nD4he6kRIH0HAY8tUBHezW78P7lMBJjARoY6/mS/I
+         eFvkXK5Hk3xAy0cY9j9jsxq/RzjKgccY1dLPt1uVKw+Zkb78YWk7R3xsKhs7uzQLYbep
+         /5aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=N43JPvjALsh2xLm6G1xts1lgXT261ZHd3P8qRWfzNnc=;
-        b=lq8F+qCU0dYCHndLMukf2Jnk1knDxlKe+mHsJ/HQ8Tx7aK4FMlLYECQD/FIRnkEFBu
-         xAhl1yuA1PtqO5rkpr4rBIA8hXB+16hMYGsQavYXUXRP7oWYwFolDBXx9CwinFoWfFdO
-         nHjDUa4BmctGOhpAyoWZRKfOIwS4I9ppkZRgvNPj+TBo8zyMeTMpG2GCpRszLpsomjat
-         85dv/gtQfLQHm4XBujDfzhbbemeVGIUl2oM9qjhvYl87yLftvM9obnpSpY2PmV2Oc6cF
-         OwecMpnPV5Dljjhe41pcilykGBUIkxMBH5k1mkWsu1ffkkfWeQbzylK/7RdrOtCU7m7n
-         VpuQ==
-X-Gm-Message-State: AOAM531fuqiTuod17OJrRMciixgAqZVQy/5b8ep8qjTta8L5A6DiBhZM
-	iPV71LYVTJWtNoVEDLDgfNHv2w==
-X-Google-Smtp-Source: ABdhPJzEOQgO1s0LVoXii/gJT72rCzbyD+mosj+qEZnqrnlI69LidAdT8tbWl4KpBxdRKw6FUNkNSg==
-X-Received: by 2002:a5d:40ca:: with SMTP id b10mr14252972wrq.56.1592863614762;
-        Mon, 22 Jun 2020 15:06:54 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d24sm986887wmb.45.2020.06.22.15.06.53
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LDIVJPKZs9h6mkrVGDwvuSK+Ek/8muG5zwGQSZhktY4=;
+        b=FqBl0Rct9/xdssyL8RebOCRmfoTLrMLs3YMQAFQ+9FRmCsASSiE9rPmkPBPuhJuJwH
+         3iANQgI/opnJeVM6xN9hBsbx69S1/qpi8NiusdNCKSzuM7Jdbn2umDrAsHsc8gX0Bygk
+         Ojjsumc3QasbBbYemBZae0OxhnVh9ijs7PAe4jFrQMGaiJb9fF9rAiWf4jJJ/d3M5wXa
+         5NCmugrBnodS3tdrGTZZwQL0yxPrTUfXes7ILVHaZIdYF8XPdLIxg2/g+k2cVBo7XZ3Y
+         Jj84z5vhz1fuWc9xmjUm65lUeFW1H7z1/EDDGU3fNm83gyGpfBdgPhf/02oW//JZEOPl
+         S9HQ==
+X-Gm-Message-State: AOAM533dsdYGAHr4EEkqGZfBeFJ3kuX36NNAKS6dWSGDudK8BdiAYo4G
+	DSbDXIPW5P0yXNdlq87Yt0vyGQb6
+X-Google-Smtp-Source: ABdhPJxbS7GkRzSsuhtlG/CnafKCHlDl+g3ZMOn4rnuV2cn991+d27LZ3NP3DsMUMt4MLBPNcY7hMA==
+X-Received: by 2002:aa7:c5c7:: with SMTP id h7mr18583093eds.177.1592864163031;
+        Mon, 22 Jun 2020 15:16:03 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300f07f481d60137a2e45bfed0e33.dip0.t-ipconnect.de. [2003:f0:7f48:1d60:137a:2e45:bfed:e33])
+        by smtp.gmail.com with ESMTPSA id n16sm3703803ejo.54.2020.06.22.15.16.02
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 15:06:54 -0700 (PDT)
-Message-ID: <ccbfaaf49b7c20b3b9dfef021d726f1ddf54b2f2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel-fitimage.bbclass: allow passing UBOOT_SIGN_EXTRA_OPTS to uboot-mkimage
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Torben Hohn <torbenh@linutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2020 23:06:53 +0100
-In-Reply-To: <20200622135025.16141-1-torben.hohn@linutronix.de>
-References: <20200622135025.16141-1-torben.hohn@linutronix.de>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        Mon, 22 Jun 2020 15:16:02 -0700 (PDT)
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/5] libinput: upgrade 1.15.5 -> 1.15.6
+Date: Tue, 23 Jun 2020 00:15:47 +0200
+Message-Id: <20200622221551.1530869-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-06-22 at 15:50 +0200, Torben Hohn wrote:
-> To use pkcs11, it is necessary to pass "-N pkcs11".
-> And there are also a few more options, that are useful.
-> 
-> Pass UBOOT_SIGN_EXTRA_OPTS to uboot-mkimage, when signing the
-> fitImage.
-> 
-> Signed-off-by: Torben Hohn <torben.hohn@linutronix.de>
-> ---
->  meta/classes/kernel-fitimage.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/kernel-fitimage.bbclass
-> b/meta/classes/kernel-fitimage.bbclass
-> index 72b05ff8d1..afb62f1071 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -474,6 +474,7 @@ fitimage_assemble() {
->  			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if
-> len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
->  			-F -k "${UBOOT_SIGN_KEYDIR}" \
->  			$add_key_to_u_boot \
-> +                        ${UBOOT_SIGN_EXTRA_OPTS} \
->  			-r arch/${ARCH}/boot/${2}
->  	fi
->  }
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ .../wayland/{libinput_1.15.5.bb => libinput_1.15.6.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.15.5.bb => libinput_1.15.6.bb} (92%)
 
-Does this new option need documenting in the class headers? or at least
-somewhere? I don't think it currently exists?
-
-At the very least there should be a ??= assignment to "" as a default
-somewhere?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/wayland/libinput_1.15.5.bb b/meta/recipes-graphics/wayland/libinput_1.15.6.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/libinput_1.15.5.bb
+rename to meta/recipes-graphics/wayland/libinput_1.15.6.bb
+index e56f181bf5..f81cf7f031 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.15.5.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.15.6.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[md5sum] = "c9a1b15bb932eaf22f840efe4c3f84eb"
+-SRC_URI[sha256sum] = "a90efc8f423c3094f2f9f372fb92381b2f3aad62e8b5882a8abe333aa8249c97"
++SRC_URI[md5sum] = "b2388a1d6f0dcc944b49bc7239a53be8"
++SRC_URI[sha256sum] = "aeedea216a6317ddc6e27c3d54f26b987078780db6a8320cc09e19c25b307f1c"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+-- 
+2.26.2
 
