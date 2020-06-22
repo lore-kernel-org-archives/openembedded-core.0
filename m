@@ -1,84 +1,105 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web11.3267.1592856156871761220
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.3486.1592856794038705544
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 13:02:36 -0700
+ Mon, 22 Jun 2020 13:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u97t6yVq;
- spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f195.google.com with SMTP id e8so3474477pgc.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 13:02:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nrpBD6aK;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: sakoman@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id j18so775253wmi.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 13:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YEfrG6houq3Zq3fcKb2eWx0Xvwyv8EuGUPgV9cBXdZw=;
-        b=u97t6yVqkXK8q8gTVTDTxBqeRTWsRK3i5vEDQ6kAN8ItmHoaButBBkHWticY+HBpAM
-         wS3jpfjoNtNCIANLIUmlLtZsdIVtAEgWbJcblNKkNFAkJfXITfd4OtPsLi+Hcf9Ls8UN
-         JOAZL0xDkfv0/6lnatZRFDcoqboBekC+iBGQrbETL5Pj4LcmXQ+wvs7B56GGlB5hzsZX
-         A9xCHi+J7YRIBmLnuxbRHZaEod97OE3RxgzvIAj5MlTsP/mq7TFtl26C3W20IKhbfL7S
-         CIyssqEF0CTcDjYMwYCfxYXV3hwZKNDBIvbpJGC2SboRwyuFoo4X+dBxoTBON2UT9b8O
-         rmIg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nSB0Tn0JHf40Tzlfd0V+Z8pHB8aikAMRHsFUF5Ju2w0=;
+        b=nrpBD6aKzAdXPRZAiAlq3a9nWr/CHzRyxuj5SefV9F3AFdRNjTLdhrVhrseUU66xK/
+         6ecE2VLsvelOo2F8YTT/yH08QgzlMBbYfEcirn49i8PFAsQwyZtn4ZstzWLEw2c34R2f
+         MVyaJShvJIlKcIhb20c/5h/py8WUfJaKUbILuo+4Te9iV14fw9nSGGEngo9cAh2eKZzs
+         WNerGmsPW0w++Ub4Wg+goOcCF4VuK+7bxJu7BMOwZj6E7/FPq9Fzzpq0XhH/y4CDK1Bk
+         JWmXA++4rf4l/aiE6zgpugXn0o6UbTbfIi1RlCmX0tOIzhM6rKgklImnE8sBtQFTvzSK
+         WR5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YEfrG6houq3Zq3fcKb2eWx0Xvwyv8EuGUPgV9cBXdZw=;
-        b=Yd3Zrxh7b2rait3Zqv9PyahWe5tGdXShCvoVHJ24aikci32rzQzkYALHXJ1SPSX8gs
-         kfTyW8C3N/FHPt8lwpvxTMYgnQr8mUJZKND5gJO0TncHpIpwvmbRpX6FEvDJoyzfqoeS
-         huVpZhX7Vx/ExScJtyBMv6KcLSckxWHv8xKIhjbFFgPpEEjSZg2y9UKueIBuZ5Hf+teB
-         wINsDaJzX3IwwKVzwxAFz0rMCFwQInJQ2h0xUP0Jd75EkK44ew+CZbYVGtjfeFipsA89
-         x/Mlrm3q228j3h+6VKnkqfum85h7MQFYUwVutyEIPN3SYuM3r8hk0NA+/4/2Y0/K/EPr
-         cSnQ==
-X-Gm-Message-State: AOAM5323/RDkQPXwkFEwama8wePhmI+7dysOruISudNPK5VzNcOnqc+Y
-	XLWryomcKIS16P76WS3djo5NcCHFMME=
-X-Google-Smtp-Source: ABdhPJwG1nYk6spL8aiY8hP35qEbLtCB5DckF1qqjbV/b2pm44Kw3L8nwh/IGxvJH5Lca1yk95cyAA==
-X-Received: by 2002:aa7:85c6:: with SMTP id z6mr22525175pfn.8.1592856156123;
-        Mon, 22 Jun 2020 13:02:36 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::dedc])
-        by smtp.gmail.com with ESMTPSA id 71sm15007937pfb.20.2020.06.22.13.02.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 13:02:35 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio.salvador@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 4/4] glide: Avoid use of 'go mod' support
-Date: Mon, 22 Jun 2020 13:02:30 -0700
-Message-Id: <20200622200230.54899-4-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200622200230.54899-1-raj.khem@gmail.com>
-References: <20200622200230.54899-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nSB0Tn0JHf40Tzlfd0V+Z8pHB8aikAMRHsFUF5Ju2w0=;
+        b=C6wijqrN+o8lYGMAnBtuDZuOzKiYHbS8N+Sgip4QsDgvBklVld5hXwJWSiRYqm4DWh
+         XvAttdI5CvgutEQyPaw25yoxxLRSdanxCp7uw8D+ynj706CcKAvGT3BqVHvGNIH1n5kF
+         h3dz5z2BZgjcuc1EIeO9xumvHFWYRpr6qzevTx1EKQSMEtpWRD+ItF5tc7AngsaqwWns
+         gMYK2Jpc6S/24sq2noaNC7Q8oQG+fNE/4kwy8aIRM4aDwiT7wKIj3Pgeu3TRPFp/i6UH
+         zH3uahCaFsBoW1mciUs9R5lElv1r1EoZpkzQC18zLPC23lp/etcTnp7MAHSXQvf3NNb8
+         mlHw==
+X-Gm-Message-State: AOAM531d/tY4UW5qMcEa7dpgDfeAgdruk/ZRfJufbIApjP8rBGtFiETL
+	aEGgzfm0H1xR1Lw9bcxPXM1T25avgZdPGNF3VsI=
+X-Google-Smtp-Source: ABdhPJxVdNW0oSfr2OJU6B8NSjxB6uaV3BBI8heYz/4QwnuTVnvY1AUT5JyfAmq7ANNTqDDnagNxJvUKVZVzQyP9l2w=
+X-Received: by 2002:a7b:c0cc:: with SMTP id s12mr20799795wmh.111.1592856792542;
+ Mon, 22 Jun 2020 13:13:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200622200230.54899-1-raj.khem@gmail.com>
+In-Reply-To: <20200622200230.54899-1-raj.khem@gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Mon, 22 Jun 2020 10:12:59 -1000
+Message-ID: <CAGDS+nk=0yWsYZW3RTbBQXPYVpFE-tCVjWQcgRH2NwNQbiWK4g@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 1/4] go-mod.bbclass: Add class for `go mod` support
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio.salvador@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Otavio Salvador <otavio.salvador@gmail.com>
+This set of patches is contained in the series I sent out for review
+this morning :-)
 
-Glide utility must not use 'go mod' support, so we explicitly disable
-it.
+Steve
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/glide/glide_0.13.3.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-devtools/glide/glide_0.13.3.bb b/meta/recipes-devtools/glide/glide_0.13.3.bb
-index ebad0ec60a..31295edf90 100644
---- a/meta/recipes-devtools/glide/glide_0.13.3.bb
-+++ b/meta/recipes-devtools/glide/glide_0.13.3.bb
-@@ -9,6 +9,10 @@ SRCREV = "8ed5b9292379d86c39592a7e6a58eb9c903877cf"
- 
- inherit go
- 
-+# New Go versions has Go modules support enabled by default and cause the Glide
-+# tool build to fail.
-+export GO111MODULE = "off"
-+
- RDEPENDS_${PN}-dev += "bash"
- RDEPENDS_${PN}-ptest += "bash"
- 
--- 
-2.27.0
-
+On Mon, Jun 22, 2020 at 10:02 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> From: Otavio Salvador <otavio.salvador@gmail.com>
+>
+> When using Go Modules, the the current working directory MUST be at or
+> below the location of the 'go.mod' file when the go tool is used, and
+> there is no way to tell it to look elsewhere.  It will automatically
+> look upwards for the file, but not downwards.
+>
+> To support this use case, we provide the `GO_WORKDIR` variable, which
+> defaults to `GO_IMPORT` but allows for easy override.
+>
+> [YOCTO #13883]
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/go-mod.bbclass | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>  create mode 100644 meta/classes/go-mod.bbclass
+>
+> diff --git a/meta/classes/go-mod.bbclass b/meta/classes/go-mod.bbclass
+> new file mode 100644
+> index 0000000000..5871d02506
+> --- /dev/null
+> +++ b/meta/classes/go-mod.bbclass
+> @@ -0,0 +1,20 @@
+> +# Handle Go Modules support
+> +#
+> +# When using Go Modules, the the current working directory MUST be at or below
+> +# the location of the 'go.mod' file when the go tool is used, and there is no
+> +# way to tell it to look elsewhere.  It will automatically look upwards for the
+> +# file, but not downwards.
+> +#
+> +# To support this use case, we provide the `GO_WORKDIR` variable, which defaults
+> +# to `GO_IMPORT` but allows for easy override.
+> +#
+> +# Copyright 2020 (C) O.S. Systems Software LTDA.
+> +
+> +# The '-modcacherw' option ensures we have write access to the cached objects so
+> +# we avoid errors during clean task as well as when removing the TMPDIR.
+> +export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -modcacherw"
+> +
+> +inherit go
+> +
+> +GO_WORKDIR ?= "${GO_IMPORT}"
+> +do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
+> --
+> 2.27.0
+>
+> 
