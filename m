@@ -1,66 +1,110 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.5992.1592864221593298686
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web10.7006.1592867363138980520
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 15:17:01 -0700
+ Mon, 22 Jun 2020 16:09:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CQZXuIaX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id g75so1110786wme.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 15:17:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HrN0P0YZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f68.google.com with SMTP id g7so8800535qvx.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 16:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=VCm8jEoUDTo7xO3w48s9xQZs9tga67FWw2aTmw0FSvw=;
-        b=CQZXuIaXVWhVSJk2zj3GViKAeJaTo1tHxiuJxtkxrbb+59j/FoYUJ6OWuyvfO1RCoI
-         p3lWj0s891rAzhYUb/dGsedek+ZMfprB1/KC31FDZYa02y8IHtTluZnbTSZP9TbdfyzF
-         C4DTXfR1nOMFgqw3AM2czbvvideBGAl04Vltg=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G02WKMh4Fg5r0k0UT/u01uK2UssST7LXZ4M2YyzOcBY=;
+        b=HrN0P0YZN04gIqJLIeP2xF57ebh61OfcEfSior8a365PdGz/nOfAI14NX/mJ0i0Lod
+         M6xENIsiB4oxrxY9ULjQvNqLkEf+VCzw2M8hGhan5b6gdg6lVrHO40GWaG6zUFJX3xPd
+         /nNZZgbDYvO30qFtEJSqeRPLn6okmtYwaYhKXJZWxU8lL7uI9eF51tXX+FBHppOlmhVZ
+         BOiawO8eJvUJVj3fl+EmvyNhpokffkKzwz8wobJcKscGahNG8tQai2YPlvRey9ZFE96I
+         U+i1CDtEtAFbb1LkFjcBtgQ/nui4BU0pNC1jZ5qFJqYoPUTKjTs7rhrQz/ea7lphkdY9
+         Vkig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=VCm8jEoUDTo7xO3w48s9xQZs9tga67FWw2aTmw0FSvw=;
-        b=Yi1AX6QHDQRCUYCaffkqfXQ2JxGqGtVePUeIWuU6FE1jch8ShQvfpkSIUpz9Q6VYdf
-         wRYll6hpC/YEHnddD5kD2cw1we28dpz95MqEzwEKky38r1dDB9HO0S/P5fbi+XpL7l5H
-         NeE7HKZfD7YxZ86GWJ/pNsToMt9WbJTmPamEZWLrOPGArXmi1okNYz2zpbubCWddheGO
-         XMeg8BLUDY77MbQ5gst0S1jHrOrRwEIPMl5KtcoJebee+/06vuWGp6+zIi7UakhVnC7R
-         9fgavDW0vc+uILvwODZhBfwaO4hRa+M+fzE1S8m4hurnMx81d9gLI07mTRrWoeNbXWrM
-         3ibw==
-X-Gm-Message-State: AOAM531VVO6QtMLmlQB1eztYoLFC5UC5JkTRkqdtqBAr6JEdfK7104VD
-	LZ5ek6SkJj9P66jNdxh+UZB8Ig==
-X-Google-Smtp-Source: ABdhPJyhWpxcu/4id9WefmFStphSs35QvnqQ3/J8/MOlyqYPkyLrYCz4yIRpSXK5/RnhNFXvaXAbbQ==
-X-Received: by 2002:a1c:4d05:: with SMTP id o5mr222357wmh.130.1592864220154;
-        Mon, 22 Jun 2020 15:17:00 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id a22sm1075579wmb.4.2020.06.22.15.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 15:16:59 -0700 (PDT)
-Message-ID: <41da1ae0040e0444e80ad544c5cf064061b195c0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/6] Update bind and replace dhcp
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2020 23:16:58 +0100
-In-Reply-To: <20200622141915.31932-1-akuster808@gmail.com>
-References: <20200622141915.31932-1-akuster808@gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G02WKMh4Fg5r0k0UT/u01uK2UssST7LXZ4M2YyzOcBY=;
+        b=iNF1XTGp3mkqHJdo5AKo+RfNLfhu48svjqMT5RCis+xkGGoln0uxOQM0czw2cUNh3N
+         hJRj4dQWLiBUCsI6RQtRmd/cFf8WQWCXRvKufvEoATmA8SftnYeWLGsuh/RgQYVd9pIc
+         pTelvJNWOf1vwYKz4ndlg5U/Tr+z+wOrBqrYaeHL9O166HC8LPcB6OHqMubqWexnJtoj
+         m4G9P+2Uj5oq0Di8B5/hD5OtbilWvjAzAsjNm94eIwh1GVQvpB6pDBBAb7kqIWVnFH1e
+         aEdqj/rd3e8ZgMvUoTF3Mq2cf7CXiBNh4PPLj9hqjoVMpPW/7wNVwDIg4Ii88oMzc7uA
+         6OmQ==
+X-Gm-Message-State: AOAM530zQRm/D3RIVZu/OFn647xyKhgfK2Rd7/zzjmVoZkoFZMrG97hm
+	YtYbsndWQJyCUzR+Z8aI8SSYBHXv+EA38SEF3zU=
+X-Google-Smtp-Source: ABdhPJzC+7E01rdvb8w2XMrgGXl7uWM4SHujbo3Kh177roFUjFnGDh53IgBCaqqbtcrN1rBae97yHY4y4IUDLqKSvwg=
+X-Received: by 2002:ad4:482c:: with SMTP id h12mr3994698qvy.146.1592867362095;
+ Mon, 22 Jun 2020 16:09:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200622200230.54899-1-raj.khem@gmail.com> <CAGDS+nk=0yWsYZW3RTbBQXPYVpFE-tCVjWQcgRH2NwNQbiWK4g@mail.gmail.com>
+In-Reply-To: <CAGDS+nk=0yWsYZW3RTbBQXPYVpFE-tCVjWQcgRH2NwNQbiWK4g@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 22 Jun 2020 16:08:55 -0700
+Message-ID: <CAMKF1soDpeNOhcbx0Q2C2nYxWB_x_VN9mCGdCCooKWMdGWuRww@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 1/4] go-mod.bbclass: Add class for `go mod` support
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio.salvador@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-06-22 at 07:19 -0700, akuster wrote:
-> Move to the latest Bind ESV and replace the depricated dhcp with kea.
-> Three packages need to move from meta-oe to core.
-> 
-> The new bind is not compatable with the dhcp
+On Mon, Jun 22, 2020 at 1:13 PM Steve Sakoman <sakoman@gmail.com> wrote:
+>
+> This set of patches is contained in the series I sent out for review
+> this morning :-)
 
-Thanks, I'm keen to see this happen. check-layer threw errors:
+ah even better, Feel free to ignore this series then
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/2057
-
-so my build with this in may be doomed :/.
-
-Cheers,
-
-Richard
-
+>
+> Steve
+>
+> On Mon, Jun 22, 2020 at 10:02 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > From: Otavio Salvador <otavio.salvador@gmail.com>
+> >
+> > When using Go Modules, the the current working directory MUST be at or
+> > below the location of the 'go.mod' file when the go tool is used, and
+> > there is no way to tell it to look elsewhere.  It will automatically
+> > look upwards for the file, but not downwards.
+> >
+> > To support this use case, we provide the `GO_WORKDIR` variable, which
+> > defaults to `GO_IMPORT` but allows for easy override.
+> >
+> > [YOCTO #13883]
+> >
+> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/classes/go-mod.bbclass | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >  create mode 100644 meta/classes/go-mod.bbclass
+> >
+> > diff --git a/meta/classes/go-mod.bbclass b/meta/classes/go-mod.bbclass
+> > new file mode 100644
+> > index 0000000000..5871d02506
+> > --- /dev/null
+> > +++ b/meta/classes/go-mod.bbclass
+> > @@ -0,0 +1,20 @@
+> > +# Handle Go Modules support
+> > +#
+> > +# When using Go Modules, the the current working directory MUST be at or below
+> > +# the location of the 'go.mod' file when the go tool is used, and there is no
+> > +# way to tell it to look elsewhere.  It will automatically look upwards for the
+> > +# file, but not downwards.
+> > +#
+> > +# To support this use case, we provide the `GO_WORKDIR` variable, which defaults
+> > +# to `GO_IMPORT` but allows for easy override.
+> > +#
+> > +# Copyright 2020 (C) O.S. Systems Software LTDA.
+> > +
+> > +# The '-modcacherw' option ensures we have write access to the cached objects so
+> > +# we avoid errors during clean task as well as when removing the TMPDIR.
+> > +export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -modcacherw"
+> > +
+> > +inherit go
+> > +
+> > +GO_WORKDIR ?= "${GO_IMPORT}"
+> > +do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
+> > --
+> > 2.27.0
+> >
+> > 
