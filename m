@@ -1,86 +1,96 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.2271.1592847270636871636
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web12.2251.1592847384118763326
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 10:34:30 -0700
+ Mon, 22 Jun 2020 10:36:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xg3w2Dwn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id l17so375524wmj.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:34:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=owh12APO;
+ spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f65.google.com with SMTP id cm23so98501pjb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=1M52ge/Rwz6HLki3GO5ojyeKLY3SW09OU+mWKmIJ+p8=;
-        b=Xg3w2Dwnz7nAva1g6diLZ9J2fVu6ncYM00mtNoVzjSKekGlCP8YOjn+GpoglTP+2Yr
-         X7Sd2Xu4U5u4zSmQPBdakD8ZCHoGMqfYpPB2K6LZx3LK704xUiGwjD69A0DcXnVf2MI0
-         h0jYlmRlNyttbjXQ6UjMZ0ntk4Kd1uUvVJaz4=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QKk/Z85aG3NpvYEE5OGHJA3tt/C0RBML8le2O+gEWpg=;
+        b=owh12APOIz1LMCj9yNaxJKt27dRqs8ozICRm5H4Q2MkW8usehq/B2yR5LgRpVx2Riu
+         sbSMRt4UbBqu+LhVu3995BWul5jgzw2Foj0hdftXJkH6h7igJMtA27c60GggYXDemJlK
+         jPSBs/RiUxnVgZirbqIxE8GaIroy9azDEQHmsfrqX10gtg7MtcX/zaPAK5Ro8/OVdZvi
+         tHngAyQnF7OU3lxjgweyQxrzabYL446aPoJzcgcexIVuc1LeFoSsXHQ63c8ScjjkTlHL
+         E8Zc4E8x/LwoA3hDg/VGAzyYgS3wplJp4XUG/xEkCrEKk4DgVFdanvdcNvD5e3IO6skL
+         VzKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=1M52ge/Rwz6HLki3GO5ojyeKLY3SW09OU+mWKmIJ+p8=;
-        b=XTHrtvdUAEf8P34aII9cHgQdJWqhFQU/34mn+xTZ/71mfjxtkAg89mMaue9yitekCg
-         uL7gNEpBzErAqIHC1qCNgA/gjXr0OKvkJ1+DN8wqSf8yBZ9BjNG/TA6x6a70DYqBg8/y
-         c/1ZQdTmYnpuWZaT2a1TDoOMClNr6QNLkaRHg8O8Xub0Jm7FvyomDIiCCuWgNpxlv7tZ
-         3pk96CYb1VABp2jphvGpjdiM+o1MQ2q6qqSHb5UmNoV+us7LLZKpTCij5Od3TdVG5jip
-         07nyguD195Qd7p38LVyG6IybYgwuaFu7qDaDDtR1ohxNi2nTOcXq/iN0rrnY3AJkGjUm
-         LQsw==
-X-Gm-Message-State: AOAM531rmKJxZAUP4BDjcxm4CtTDib2HfEu3UYGzm304HwhUJeTnWZIw
-	YspxZjRUWR2GjpPo2y+6va0gJQ==
-X-Google-Smtp-Source: ABdhPJzs10JeiY6b8fKcISYPfxPnPvTP9stbGJkxxQx9IFghG2T0g6augI/yfp2Fiunx7qXZYt2fYQ==
-X-Received: by 2002:a05:600c:2202:: with SMTP id z2mr20555891wml.13.1592847269126;
-        Mon, 22 Jun 2020 10:34:29 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id 2sm250425wmo.44.2020.06.22.10.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 10:34:28 -0700 (PDT)
-Message-ID: <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2020 18:34:27 +0100
-In-Reply-To: <20200622105717.108062-1-alex.kiernan@gmail.com>
-References: <20200622105717.108062-1-alex.kiernan@gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QKk/Z85aG3NpvYEE5OGHJA3tt/C0RBML8le2O+gEWpg=;
+        b=M6S80bE+lrzplW+Zx5tJDjF47cfFc9epxgGOoz9QqosLrkGGZOTtgH1NHLeXM5G9Sm
+         Z+kQTxTv5iE9CUaAktvYyOb+RYs1CLyxtkTnpTpouLsGIfyQHD8aRKHxv26FXW7uoTr1
+         0tjK+L0TAnj5o3aEcZqAQyc0aoLHpB2FRtlwYdXbwnb+td5PM0cleOxQvcam5k0NYJ+K
+         AavxcUS6Ymdj7fJJaMQ+hL4YWGvOqGCZtJw/Sl0i9fY/GnAQfXzBFtbxJrJAelU/Uns7
+         g0mWPI2k0ET0/cuRBtWFZNiAwopPA9RQVw/Eqsmh0YVf72JbcPLKIOfq/MELP4rE6Bx1
+         AOeQ==
+X-Gm-Message-State: AOAM533OXoWXip3E9NzdSmo2J0dAWLh/wBOwd0NfEH/jh2iKKTRS0NtZ
+	VfGZMEb4eJWiN6Mzgan9/NE=
+X-Google-Smtp-Source: ABdhPJwPQ5uOLKbnj3hr0bR4yscuTXG3pkG3cLacVaRiLG4mFm9qRK3MYI6Rfhn80fgu9HxOKgX/CA==
+X-Received: by 2002:a17:90b:4d08:: with SMTP id mw8mr19428464pjb.119.1592847383615;
+        Mon, 22 Jun 2020 10:36:23 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a? ([2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a])
+        by smtp.gmail.com with ESMTPSA id n1sm142996pjn.24.2020.06.22.10.36.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2020 10:36:23 -0700 (PDT)
+Subject: Re: [OE-core][PATCH 1/1] oeqa/runtime/cases/ptest: Make output content path absolute
+To: Andrej Valek <andrej.valek@siemens.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+References: <20200622173307.29538-1-andrej.valek@siemens.com>
+ <20200622173307.29538-2-andrej.valek@siemens.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <84aa3636-44b2-4bec-1e57-912a7a25dcbe@gmail.com>
+Date: Mon, 22 Jun 2020 10:36:22 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200622173307.29538-2-andrej.valek@siemens.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-06-22 at 11:57 +0100, Alex Kiernan wrote:
-> Generate output for each contaminated path so it's visible in the main
-> log file, then enable rootfs_check_host_user_contaminated by default.
+
+
+On 6/22/20 10:33 AM, Andrej Valek wrote:
+> The output content is created in current directory, because json content
+> has no defined absolute path to WORKDIR as in bitbake.
 > 
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > ---
+>   meta/lib/oeqa/runtime/cases/ptest.py | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> Changes in v2:
-> - expose each contaminated path in the main log
+> diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+> index 1b1474adcf..919901d465 100644
+> --- a/meta/lib/oeqa/runtime/cases/ptest.py
+> +++ b/meta/lib/oeqa/runtime/cases/ptest.py
+> @@ -42,6 +42,10 @@ class PtestRunnerTest(OERuntimeTestCase):
+>           # testdata.json is generated.
+>           if not test_log_dir:
+>               test_log_dir = os.path.join(self.td.get('WORKDIR', ''), 'testimage')
+> +        # Make the test output path absolute, otherwise the output content will be
+> +        # is created relative to current directory
+
+'is' is not needed in above comment.
+
+> +        if not os.path.isabs(test_log_dir):
+> +            test_log_dir = os.path.join(self.td.get('TOPDIR', ''), test_log_dir)
+
+will it expose full paths in final logs ? that may be shared publically ?
+
+>           # Don't use self.td.get('DATETIME'), it's from testdata.json, not
+>           # up-to-date, and may cause "File exists" when re-reun.
+>           timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 > 
->  meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-
-Thanks, this is definitely more helpful. Some warnings in the test
-build:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/2046
-
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm.bak
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/state
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2073
-
-step3b: WARNING: core-image-sato-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/cache/fontconfig/CACHEDIR.TAG
-
-which does raise more questions.
-
-Its conceivable its even related to the pseudo issue I just sent a patch for...
-
-Cheers,
-
-Richard
-
+> 
+> 
+> 
