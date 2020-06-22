@@ -1,139 +1,146 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web11.19231.1592837400251516968
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.1892.1592846361205732782
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 07:50:00 -0700
+ Mon, 22 Jun 2020 10:19:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=F1noRtRL;
- spf=pass (domain: linaro.org, ip: 209.85.215.193, mailfrom: arthur.she@linaro.org)
-Received: by mail-pg1-f193.google.com with SMTP id h10so8235512pgq.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 07:50:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QK6T7CjO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id q2so15042818wrv.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WfnUDLD7SL7uLMpzAbhVQYnHqESS/9/AEhtzxeO6l80=;
-        b=F1noRtRL/uty0fcr7uTXSTd9f6I/FkoHLyXNRlt30CzyZxFTwLH7b5ngDk0JlMckua
-         koTVQbS5ivf0fcJwTACvgDPR/hZv9WrddW9ZjnSPo131mYZTg92s171+pzMthQFNw/sC
-         aWzgec2f0o+xXGy9L/Gqcn6ED/H4gWebOch+3dkcTuFvJaXoR0OmDu+2wnTjy5zqxc1g
-         rGV+WGh+rNBWELGG8FzeJOtyZBjjtFghrunjzbYGJqJ6//BDOAobqbPzpX3tz92UZMZ/
-         QNET0nEixvuDmh4aVRbZB8l59IPzscw9QmungKD5wB1WEu5RqKUd34mPzl+b4ojIX5dy
-         3EYQ==
+        bh=F+hg+FlIrmBypq9kQsHmgnuZ60p0a4N0CFM1QXcpeCY=;
+        b=QK6T7CjOWmyx0xFLs5FrGcJx7HOU+75WqEDBbYQr8yIktLctd/YTFYYOTjeAYEaNrr
+         aO1oopDn48y4cJDe1fFoWQcHL8xE020KvNgHB02BW+wRi0b3mu5N0gyrtk4mCs1hyJgq
+         E3lAMqnms5vdYsLoTOsJTpSOnzn2pygGxrCYE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WfnUDLD7SL7uLMpzAbhVQYnHqESS/9/AEhtzxeO6l80=;
-        b=hiUQM3AEY6+uZze1SPno7ur0H/5QNmOTMd8vfRGnLv1ZmnTHQoM/7R0E+Irrt1AQoC
-         O37ozQxfKK/dXpoTAmCu0iBYBw+WQhyCx4Z0xhkHxQIzeFj0Hkg9mDs6JGHp+/NIhWfp
-         sCILfJtVxlz8f+Q/RSU2v9C4Zc1dYLowxbpiMkJ9gOBdT9AWbUOmUh2tjM3Ymd91FBaO
-         +0a+ek5wy8lpxPgw/n7ZXS7jfofP8BTU03ufSGDkRrJ2oxVHUtwSxGOjiRTwuTtKagt5
-         ZKWjN3M1ICnHfdlVPJs795UHgHnLyidzuD5CbjtN51FluflQme/RoqYCNsHoB3EzLaZ1
-         YRig==
-X-Gm-Message-State: AOAM532dhdqHP79nPamXQGwVJENheR21Xns73TXXec1oy52EtUrW0b2N
-	xuCAgufrKn/OZrx2TrZ1Vgls2fK3bajjlA==
-X-Google-Smtp-Source: ABdhPJyg6A4LTovWe5UgBG9k+0AFUNw+Bhc8vSspXwuhZsyzJuShcBYOu8txleOHJexdE7p8yTaa/w==
-X-Received: by 2002:a63:181f:: with SMTP id y31mr13305530pgl.47.1592837399520;
-        Mon, 22 Jun 2020 07:49:59 -0700 (PDT)
-Return-Path: <arthur.she@linaro.org>
-Received: from arthur-X1E.hitronhub.home (S0106a84e3f840fe3.vn.shawcable.net. [50.68.230.12])
-        by smtp.gmail.com with ESMTPSA id cm13sm13690485pjb.5.2020.06.22.07.49.58
+        bh=F+hg+FlIrmBypq9kQsHmgnuZ60p0a4N0CFM1QXcpeCY=;
+        b=F0ekGaG68yDqk1OSWAm076cIOEeH9nsUVFJHA5Hm9CnI0qIAnGZlLvS6AV/VnurLqx
+         jpayypKpnWaaSxWMLvH53GhA1tkq0wGOyjod0e1SqtYcza5pi/JqACdj5ziyuhoENhGG
+         KYZcNXMJYs1PcKDyq1GgYl/3/mCsfdPbOGG7xZfA9brW1BAnII5BWvmubu/v1a6CXY7z
+         kUEeqU/rTFdauDWxrky6Djo7K3zAa6U8psYoRrIKhi4DhhBeS8KLoi+j3T3ExMxrb/do
+         CdmBj9x6FUsvhV9JxKPGzs7a/16OUgDD3YlTMocC5X05cjpJRKPZzSiQAJw7tKkxkjse
+         RgPw==
+X-Gm-Message-State: AOAM532pFh9pa+V+gBuWeH5ADBCf/nDLAVZbPSpkFSXisbZdhyv/lOCP
+	JMCqbNFOzGOVBCX9uffeLXBxfV3ndduDiw==
+X-Google-Smtp-Source: ABdhPJzpGseEoLtn2k7XKtU6b+pX4YTW1t1Eccbhxzn6uad5XZv/3TbSvEo6IpPIlxWI2qnePkfj4Q==
+X-Received: by 2002:a5d:6291:: with SMTP id k17mr19913517wru.78.1592846358951;
+        Mon, 22 Jun 2020 10:19:18 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id y17sm19571024wrd.58.2020.06.22.10.19.17
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 07:49:58 -0700 (PDT)
-From: "Arthur She" <arthur.she@linaro.org>
+        Mon, 22 Jun 2020 10:19:18 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Arthur She <arthur.she@linaro.org>
-Subject: [OE-core][PATCH v4] igt-gpu-tools: add new package
-Date: Mon, 22 Jun 2020 07:49:55 -0700
-Message-Id: <20200622144955.4122143-1-arthur.she@linaro.org>
+Subject: [PATCH] pseudo: Fix attr errors due to incorrect library resolution issues
+Date: Mon, 22 Jun 2020 18:19:16 +0100
+Message-Id: <20200622171916.550378-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-igt-gpu-tools is a collection of tools for development and testing of the DRM
-drivers. (https://gitlab.freedesktop.org/drm/igt-gpu-tools)
-This recipe is originally copied from meta-intel and added the following
-modifications
-1. Enable ARM architecture
-2. Enable igt-runner
-3. Build git HEAD code instead of a specific version
-The original recipe in the meta-intel will be removed and replaced by
-this one to avoid having a duplicate recipe.
-It is applicable to be submitted to oe-core, because it provides
-a core validation functionality that is needed by all providing DRM
-drivers and not just to a single arch.
+On a tumbleweed system, "install X Y" was showing the error:
 
-Signed-off-by: Arthur She <arthur.she@linaro.org>
+pseudo: ENOSYS for 'fsetxattr'.
+
+which was being caused by dlsym() for that function returning NULL. This
+appears to be due to it finding an unresolved symbol in libacl for this
+symbol in libattr. It hasn't been resolved so its NULL. dlerror() returns
+nothing since this is a valid symbol entry, its just not the one we want.
+
+We can add the glibc version string for the symbol we actually want so we get
+that version rather than the libattr/libacl one. The calls in libattr are just
+wrappers around the libc version so our attaching to the libc versions should
+intercept any accesses via these too.
+
+[YOCTO #13952]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../igt-gpu-tools/igt-gpu-tools_git.bb        | 47 +++++++++++++++++++
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+ .../pseudo/files/xattr_version.patch          | 54 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 6496a48e40..2751375acc 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -262,6 +262,7 @@ RECIPE_MAINTAINER_pn-i2c-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-icecc-create-env = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-icu = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
-+RECIPE_MAINTAINER_pn-igt-gpu-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-inetutils = "Tom Rini <trini@konsulko.com>"
- RECIPE_MAINTAINER_pn-init-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-init-system-helpers = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+diff --git a/meta/recipes-devtools/pseudo/files/xattr_version.patch b/meta/recipes-devtools/pseudo/files/xattr_version.patch
 new file mode 100644
-index 0000000000..f60880c292
+index 00000000000..a8b14bdd699
 --- /dev/null
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -0,0 +1,47 @@
-+SUMMARY = "IGT GPU Tools"
-+DESCRIPTION = "IGT GPU Tools is a collection of tools for development and testing of the DRM drivers"
++++ b/meta/recipes-devtools/pseudo/files/xattr_version.patch
+@@ -0,0 +1,54 @@
++On a tumbleweed system, "install X Y" was showing the error:
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=67bfee4df38fa6ecbe3a675c552d4c08"
++pseudo: ENOSYS for 'fsetxattr'.
 +
-+LICENSE = "MIT"
++which was being caused by dlsym() for that function returning NULL. This
++appears to be due to it finding an unresolved symbol in libacl for this 
++symbol in libattr. It hasn't been resolved so its NULL. dlerror() returns
++nothing since this is a valid symbol entry, its just not the one we want.
 +
-+inherit meson
++We can add the glibc version string for the symbol we actually want so we get
++that version rather than the libattr/libacl one.
 +
-+SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
-+PV = "1.25+git${SRCPV}"
++To quote libattr:
++"""
++ These dumb wrappers are for backwards compatibility only.
++ Actual syscall wrappers are long gone to libc.
++"""
++and they are simply wrappers around the libc version so our attaching
++to the libc versions should intercept any accesses via these too.
 +
-+SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
++RP 2020/06/22
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
++Upstream-Status: Pending [discussed with seebs on irc and appears the correct fix]
 +
-+S = "${WORKDIR}/git"
 +
-+DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native"
-+RDEPENDS_${PN} += "bash"
-+RDEPENDS_${PN}-tests += "bash"
-+
-+PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
-+
-+EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled"
-+COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
-+COMPATIBLE_HOST_libc-musl_class-target = "null"
-+SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
-+
-+gputools_sysroot_preprocess() {
-+	rm -f ${SYSROOT_DESTDIR}${libdir}/pkgconfig/intel-gen4asm.pc
-+}
-+SYSROOT_PREPROCESS_FUNCS += "gputools_sysroot_preprocess"
-+
-+do_install_append() {
-+    install -d ${D}/usr/share/${BPN}/scripts
-+    install ${S}/scripts/run-tests.sh ${D}/usr/share/${BPN}/scripts
-+    install -d ${D}/usr/share/${BPN}/runner
-+    install -D ${B}/runner/igt_runner ${D}/usr/share/${BPN}/runner
-+    install -D ${B}/runner/igt_resume ${D}/usr/share/${BPN}/runner
-+}
-+
-+FILES_${PN}-benchmarks += "${libexecdir}/${BPN}/benchmarks"
-+FILES_${PN}-tests += "\
-+        ${libexecdir}/${BPN}/*\
-+        ${datadir}/${BPN}/1080p-right.png\
-+        ${datadir}/${BPN}/1080p-left.png\
-+        ${datadir}/${BPN}/pass.png\
-+        ${datadir}/${BPN}/test-list.txt"
++Index: git/ports/linux/xattr/wrapfuncs.in
++===================================================================
++--- git.orig/ports/linux/xattr/wrapfuncs.in
+++++ git/ports/linux/xattr/wrapfuncs.in
++@@ -1,12 +1,12 @@
++-ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0 */
++-ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
++-ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size);
++-int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0 */
++-int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW */
++-int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags);
++-ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0 */
++-ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
++-ssize_t flistxattr(int filedes, char *list, size_t size);
++-int removexattr(const char *path, const char *name); /* flags=0 */
++-int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW */
++-int fremovexattr(int filedes, const char *name);
+++ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0, version="GLIBC_2.3" */ 
+++ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size); /* version="GLIBC_2.3" */
+++int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0, version="GLIBC_2.3" */
+++int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags); /* version="GLIBC_2.3" */
+++ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0, version="GLIBC_2.3" */
+++ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++ssize_t flistxattr(int filedes, char *list, size_t size); /* version="GLIBC_2.3" */
+++int removexattr(const char *path, const char *name); /* flags=0, version="GLIBC_2.3" */
+++int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++int fremovexattr(int filedes, const char *name); /* version="GLIBC_2.3" */
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 324ae9071fe..419bac19fec 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://seccomp.patch \
+            file://0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch \
+            file://0001-pseudo_ipc.h-Fix-enum-typedef.patch \
++           file://xattr_version.patch \
+            "
+ 
+ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
 -- 
 2.25.1
 
