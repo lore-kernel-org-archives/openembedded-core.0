@@ -1,105 +1,105 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.3486.1592856794038705544
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.4392.1592859613228713724
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 13:13:14 -0700
+ Mon, 22 Jun 2020 14:00:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nrpBD6aK;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: sakoman@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id j18so775253wmi.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 13:13:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZUSHgfBv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id a6so16195928wrm.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 14:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nSB0Tn0JHf40Tzlfd0V+Z8pHB8aikAMRHsFUF5Ju2w0=;
-        b=nrpBD6aKzAdXPRZAiAlq3a9nWr/CHzRyxuj5SefV9F3AFdRNjTLdhrVhrseUU66xK/
-         6ecE2VLsvelOo2F8YTT/yH08QgzlMBbYfEcirn49i8PFAsQwyZtn4ZstzWLEw2c34R2f
-         MVyaJShvJIlKcIhb20c/5h/py8WUfJaKUbILuo+4Te9iV14fw9nSGGEngo9cAh2eKZzs
-         WNerGmsPW0w++Ub4Wg+goOcCF4VuK+7bxJu7BMOwZj6E7/FPq9Fzzpq0XhH/y4CDK1Bk
-         JWmXA++4rf4l/aiE6zgpugXn0o6UbTbfIi1RlCmX0tOIzhM6rKgklImnE8sBtQFTvzSK
-         WR5A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=HmGZhpxX0yYy6CbFIzJdOuZ7hp3+Yh37F9ZnpzUuLEA=;
+        b=ZUSHgfBvt96ox5+8GO7HcKncsgfA1bLD6wRXLHmvEoiLyIWMp0EFIaBiE10fExS0Ut
+         bScXDbyHA3cKtH5DlqrwjjgTjgF0ZsF5jsnBaSD0/DosHxg3/GCHrw72Ft1NljfX+jcw
+         etQ0pIiQGlr5h1IS+D/hCCJYi/yOyPOGMy+sI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nSB0Tn0JHf40Tzlfd0V+Z8pHB8aikAMRHsFUF5Ju2w0=;
-        b=C6wijqrN+o8lYGMAnBtuDZuOzKiYHbS8N+Sgip4QsDgvBklVld5hXwJWSiRYqm4DWh
-         XvAttdI5CvgutEQyPaw25yoxxLRSdanxCp7uw8D+ynj706CcKAvGT3BqVHvGNIH1n5kF
-         h3dz5z2BZgjcuc1EIeO9xumvHFWYRpr6qzevTx1EKQSMEtpWRD+ItF5tc7AngsaqwWns
-         gMYK2Jpc6S/24sq2noaNC7Q8oQG+fNE/4kwy8aIRM4aDwiT7wKIj3Pgeu3TRPFp/i6UH
-         zH3uahCaFsBoW1mciUs9R5lElv1r1EoZpkzQC18zLPC23lp/etcTnp7MAHSXQvf3NNb8
-         mlHw==
-X-Gm-Message-State: AOAM531d/tY4UW5qMcEa7dpgDfeAgdruk/ZRfJufbIApjP8rBGtFiETL
-	aEGgzfm0H1xR1Lw9bcxPXM1T25avgZdPGNF3VsI=
-X-Google-Smtp-Source: ABdhPJxVdNW0oSfr2OJU6B8NSjxB6uaV3BBI8heYz/4QwnuTVnvY1AUT5JyfAmq7ANNTqDDnagNxJvUKVZVzQyP9l2w=
-X-Received: by 2002:a7b:c0cc:: with SMTP id s12mr20799795wmh.111.1592856792542;
- Mon, 22 Jun 2020 13:13:12 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HmGZhpxX0yYy6CbFIzJdOuZ7hp3+Yh37F9ZnpzUuLEA=;
+        b=q4HycgZfCwAFeqIrTxG7r2Pm+Gub0HqaRN7guMqZNzUJkjmw0INc/EBHRDn1SAFraU
+         cnVwfpitaOX8XnlPclGaQEBgpbrpEwvKhiyvJ5NFNkjkPq+jy1oQYsTpe7llMCNPtqRf
+         QCG5A/frIDdYJQSOpito4DS2To6Tdsywgs7starnQEypff7AeS1EfjcTQonpygGV5uHZ
+         bZqc44JNx/2BdhHPDxgdFfsgQjwW3c0kIkglMDG1eJeeQeVSkIdkfvWuJ8GWqreZkjH9
+         h0F8jyIR0e59U59MjuW8q/W9zGZDYshWHd3bKXzTE84v5YhroGmuBHQ8kctLlzkf7ogn
+         29yA==
+X-Gm-Message-State: AOAM532XCjF3XR6KUFI58qnFAWRqL1xeXYE+vz07z1dM/r76QBcokLeR
+	yJAawWzh3Kub1t8yRftYFzpN7g==
+X-Google-Smtp-Source: ABdhPJzpUIoPVMF8ziDsIzb56v1jd3pZWCnFkUZu7EW1TNc0BfBVl7XUiw2uqfD8XtUkB3msTfr7EQ==
+X-Received: by 2002:adf:ce8d:: with SMTP id r13mr18965154wrn.392.1592859611654;
+        Mon, 22 Jun 2020 14:00:11 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id b10sm838987wmj.30.2020.06.22.14.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 14:00:10 -0700 (PDT)
+Message-ID: <c954295945368b13368ea14ff92a025a21d207a2.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH V2] qemu: uprev v4.2.0 -> v5.0.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Joe Slater <joe.slater@windriver.com>
+Date: Mon, 22 Jun 2020 22:00:09 +0100
+In-Reply-To: <161AEE4AD64EFA55.6387@lists.openembedded.org>
+References: <20200619181259.39059-1-sakib.sajal@windriver.com>
+	 <161AEE4AD64EFA55.6387@lists.openembedded.org>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-References: <20200622200230.54899-1-raj.khem@gmail.com>
-In-Reply-To: <20200622200230.54899-1-raj.khem@gmail.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Mon, 22 Jun 2020 10:12:59 -1000
-Message-ID: <CAGDS+nk=0yWsYZW3RTbBQXPYVpFE-tCVjWQcgRH2NwNQbiWK4g@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH 1/4] go-mod.bbclass: Add class for `go mod` support
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio.salvador@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This set of patches is contained in the series I sent out for review
-this morning :-)
-
-Steve
-
-On Mon, Jun 22, 2020 at 10:02 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> From: Otavio Salvador <otavio.salvador@gmail.com>
->
-> When using Go Modules, the the current working directory MUST be at or
-> below the location of the 'go.mod' file when the go tool is used, and
-> there is no way to tell it to look elsewhere.  It will automatically
-> look upwards for the file, but not downwards.
->
-> To support this use case, we provide the `GO_WORKDIR` variable, which
-> defaults to `GO_IMPORT` but allows for easy override.
->
-> [YOCTO #13883]
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/go-mod.bbclass | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->  create mode 100644 meta/classes/go-mod.bbclass
->
-> diff --git a/meta/classes/go-mod.bbclass b/meta/classes/go-mod.bbclass
-> new file mode 100644
-> index 0000000000..5871d02506
-> --- /dev/null
-> +++ b/meta/classes/go-mod.bbclass
-> @@ -0,0 +1,20 @@
-> +# Handle Go Modules support
-> +#
-> +# When using Go Modules, the the current working directory MUST be at or below
-> +# the location of the 'go.mod' file when the go tool is used, and there is no
-> +# way to tell it to look elsewhere.  It will automatically look upwards for the
-> +# file, but not downwards.
-> +#
-> +# To support this use case, we provide the `GO_WORKDIR` variable, which defaults
-> +# to `GO_IMPORT` but allows for easy override.
-> +#
-> +# Copyright 2020 (C) O.S. Systems Software LTDA.
-> +
-> +# The '-modcacherw' option ensures we have write access to the cached objects so
-> +# we avoid errors during clean task as well as when removing the TMPDIR.
-> +export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -modcacherw"
-> +
-> +inherit go
-> +
-> +GO_WORKDIR ?= "${GO_IMPORT}"
-> +do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
-> --
-> 2.27.0
->
+On Mon, 2020-06-22 at 18:36 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Fri, 2020-06-19 at 14:12 -0400, Sakib Sajal wrote:
+> > Major update after v4.2.
+> > 
+> > Changes:
+> >   - os_find_datadir() was changed after the v4.2 release
+> >     causing v5.0 to not find the bios and not boot the
+> >     image. Fix is sent to upstream qemu.
+> >     See: qemu/find_datadir.patch
+> >   - v5.0 binary had host contamination for dynamically linked
+> >     libraries, "--extra-ldflags='${LDFLAGS}'" in EXTRA_OECONF
+> >     resolved the issue
+> >   - bluetooth code was removed: qemu.git$ git show 1d4ffe8dc7
+> >     hence removed PACKAGECONFIG[bluez]
+> >   - -show-cursor qemu option is now deprecated, updated
+> >     scripts/runqemu to use updated option instead
+> >   - added PACKAGECONFIG definitions
+> >   - added qemu-ptest to conf/distro/include/ptest-packagelists.inc
+> >   - increased support for ARM architecture, cpu and board
+> >   - removed patches merged upstream and refreshed
+> >     existing ones
+> > 
+> > Testing:
+> > Build core-image-minimal against the machines in
+> > openembedded-core/meta/conf/machine and succesfully
+> > booted with qemu v5.0
+> > 
+> > Ran qemu-ptest on x86-64 and arm64 with identical results:
+> > PASS: 1166
+> > SKIP:    0
+> > FAIL:    0
+> > 
+> > Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> > Signed-off-by: Joe Slater <joe.slater@windriver.com>
 > 
+> This is in general looking good but we did see one error:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/2050
+> 
+> which is strange as its only on the edgerouter.
+
+Its because qemu can't run on mips machines. We therefore need:
+
+PTESTS_FAST_remove_mips64 = "qemu-ptest"
+
+I can add this as a fixup to the patch.
+
+Cheers,
+
+Richard
+
