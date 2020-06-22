@@ -1,121 +1,88 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.658.1592849538082352285
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
+ by mx.groups.io with SMTP id smtpd.web12.1633.1592852014422259421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 11:12:18 -0700
+ Mon, 22 Jun 2020 11:53:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WkZCavN9;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id p7so1081734qvl.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:12:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uZ1QvHlC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f195.google.com with SMTP id t85so7561737ili.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vW5kuTyHBfzDMryl4gDbbsteGWj+pJ6styXJwrRdiw8=;
-        b=WkZCavN92q496clA1OPeyZIs0FbsSV4nmDMsAfuCRyKY5HMCDBAVshSS7lCKSTzSyF
-         fpFxLpgjO2XySQVD75bN22E6PySV1q4V7z8LTFC8XmS4UUWgzNy6o8/geyvcSY66YDcs
-         2CPwOw52C3ZBaJm/bebEhvdO4/PtQoj6YNlKjzRQj3Pxoa6rt1wN38qlfswucV4ZQ9bP
-         HHRQb1cO3/yB4G9s4hk2pilA1motc7UE5HA7AsLoeHYv97M9X1g3ZOP8MlK1v+Nxfyi8
-         x9r3n1Dm3ZFYXjk2XNdPm708FN2ccMv4VeJTojkCoo05ST/qvtkjnCjFMmGH/RzYF0/4
-         DdHg==
+        bh=/byTIXJW7aPICZT+/DVfFas/YcdXYOVQTd4MCz1Ia9E=;
+        b=uZ1QvHlCusQWUT/GQ50McQ7DxSUqEqBjGRxFaUX9HT0s2Iq7q1oJc7/tH7NIRUK6BW
+         bXeFrhEcYORJRIaSdSq+/9bKGkLNmPN/3pAGBy0HKST+F/18mcC0SA9qLijf0AmgRtto
+         yt1S6ATnHOZxZJnGG0057fXVK5uCvoKzUoxMce00KCyhoPtrrRH6VQkqatIim5AJYRbv
+         rFxGK1zFA2rT6s8wuiWeDML2PWUJn6YVpWHIaW47XoQq84U3TjDjbIPNtnXLPpoUpaNe
+         pb70UwiI0to4jGWL7wB+BNNkM0zqCahLkj7sjBLUgQNtAh0m0yy6UN2dLQBDEog7i4mx
+         sfCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vW5kuTyHBfzDMryl4gDbbsteGWj+pJ6styXJwrRdiw8=;
-        b=CC2mk8dmFac2BJOD/xU5J+sOykJiHdMVxskGA7gmZNzSJ5uX+XSSchGGvBpbSo3jt+
-         KcRm13aOPLxVyz2paC9QaXfBHWULpI9LOUJ2U+RJu0gopW3HaIboJGO4ce2rHvw+NROt
-         W/CnKHwSpBqJjyScHGXH7xoAeob68Xn2nV9QzgaL0eihUYLjEpqKiQ8FrP8XiZ3l2BRS
-         WJczlspm+8mMgq67ob0CG0MF4BmmzuyeXcPT0oAI1snZt1oGTgRvm1JrRZAdr71Cbs8E
-         94jWOFLAfioeIvzfoA9Xzbhxm9wgWADwws/dhjccIc8Zr7aUATcZTw5OyNp/pb4Cx076
-         lOoA==
-X-Gm-Message-State: AOAM533qmTy9hMwof98kTZQ1xRGykO28DtnRtQ9fZhDpjT851kYUMvD6
-	4lkjG9/f2CeyH4O7s+3FWdsCkw7JO/Zwea2SEIImaXD5
-X-Google-Smtp-Source: ABdhPJyS41EZTlhAAz2yNeiw6oYj9Hh+ysDVc5wSRIQcbrvK9fcBfekzw4MAaQr+40++SIC7KdZdrchyUlVNU7loLTI=
-X-Received: by 2002:ad4:482c:: with SMTP id h12mr2930944qvy.146.1592849537072;
- Mon, 22 Jun 2020 11:12:17 -0700 (PDT)
+        bh=/byTIXJW7aPICZT+/DVfFas/YcdXYOVQTd4MCz1Ia9E=;
+        b=sDEqeUPjW/mLFK2FnDuR91w+5NigF9xTQmW8IzhuKsU7PoaYKPcy7e6B28TUpuEfeN
+         it8qx5U/EQVk4c+AtM16624ttRAvYXolLVSoyb7KVCmxf/xRxy0Js7qFQQ7BNVDZxZ7A
+         2w6oelvwsB09g15Htiu4aVPm66UWw0jiV06X1o6Jo6FCGnVSLe9ylmB6/JGUqtjAKKZB
+         ibVl8/Pfb/ZChTj7JHzeQ5gKWseA92WfDzXoDu/DwM6JUjtZGruDs+7WDgEk5/HdP3qJ
+         0Wn7u3sWPabE+A+H+cJ4Kt0kg4QtWBrN0JEhyI5sPiYbVVHqMfKfmyN51AlQYYZilhQ+
+         3f2Q==
+X-Gm-Message-State: AOAM533++P17A0gGX8ylGBJxFu+MAixVa0de3SizdgxpneVOg4zXZVfq
+	6/lIKFKO7LqBbx+mxq7B4hPOXfbCxiw6solgdls=
+X-Google-Smtp-Source: ABdhPJxBHxWga1ad58pUiIIceg7G65VKcHHnULGMPxZ5IF/3ULb3/ft62Q6BOp/RhpJRvMTaNHY/RwdoxV1g4jFofTE=
+X-Received: by 2002:a92:d84d:: with SMTP id h13mr7634097ilq.102.1592852013831;
+ Mon, 22 Jun 2020 11:53:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <HwH9.1592848739113991729.4KYH@lists.openembedded.org>
-In-Reply-To: <HwH9.1592848739113991729.4KYH@lists.openembedded.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 22 Jun 2020 11:12:06 -0700
-Message-ID: <CAMKF1srh_irBczqSkJo8jcqFc6aLWJZp1zEChz=0F8djZ=ecYA@mail.gmail.com>
-Subject: Re: [OE-core] package bzip2-ptest requires /usr/bin/sh, but no providers found in RDEPENDS_bzip2-ptest
-To: Rahul Kumar <rahulk@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d682d405a8b02efb"
-
---000000000000d682d405a8b02efb
+References: <20200622105717.108062-1-alex.kiernan@gmail.com> <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
+In-Reply-To: <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Mon, 22 Jun 2020 19:53:22 +0100
+Message-ID: <CAO5Uq5R-oXNuqoVPpoC288smwDH459tjik6aB=B1+aOsT+dayA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 22, 2020 at 10:59 AM Rahul Kumar <rahulk@mvista.com> wrote:
+On Mon, Jun 22, 2020 at 6:34 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-06-22 at 11:57 +0100, Alex Kiernan wrote:
+> > Generate output for each contaminated path so it's visible in the main
+> > log file, then enable rootfs_check_host_user_contaminated by default.
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> > Changes in v2:
+> > - expose each contaminated path in the main log
+> >
+> >  meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
+> >  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> Thanks, this is definitely more helpful. Some warnings in the test
+> build:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/2046
+>
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm.bak
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/state
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2073
+>
+> step3b: WARNING: core-image-sato-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/cache/fontconfig/CACHEDIR.TAG
+>
+> which does raise more questions.
+>
 
-> Hi community members,
->
-> I am working on Yocto Newcommer Bug 13444 - Add test suite for bzip2
-> Patch link
-> https://patchwork.openembedded.org/patch/173009/
->
-> but upstream build, reported below error .
-> step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA Issue:
-> /usr/lib/bzip2/ptest/bzip2-tests/.git/hooks/update.sample contained in
-> package bzip2-ptest requires /usr/bin/sh, but no providers found in
-> RDEPENDS_bzip2-ptest? [file-rdeps]
+I'm having no luck reproducing either of these locally :|
+
+> Its conceivable its even related to the pseudo issue I just sent a patch for...
 >
 
-Create a patch to update.sample where it asks for /bin/sh instead
 
-
-step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA run found fatal errors.
-> Please consider fixing them.
->
-> I am already using below line to my patch.
-> RDEPENDS_${PN}-ptest += "make bash perl"
->
-> can anyone please help me on this.
->
->
-> 
->
-
---000000000000d682d405a8b02efb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Jun 22, 2020 at 10:59 AM Rahul Kumar &lt;<a href=
-=3D"mailto:rahulk@mvista.com">rahulk@mvista.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><div>
-<div>Hi community members,</div>
-<div><br>I am working on Yocto Newcommer Bug 13444 - Add test suite for bz=
-ip2</div>
-<div>Patch link</div>
-<div><a href=3D"https://patchwork.openembedded.org/patch/173009/" target=
-=3D"_blank">https://patchwork.openembedded.org/patch/173009/</a></div>
-<div>=C2=A0</div>
-<div>but upstream build, reported below error .</div>
-<div>step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA Issue: /usr/lib/bzip2=
-/ptest/bzip2-tests/.git/hooks/update.sample contained in package bzip2-ptes=
-t requires /usr/bin/sh, but no providers found in RDEPENDS_bzip2-ptest? [fi=
-le-rdeps]</div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Create a patch to update.sample where it asks for /bin/sh instead=C2=
-=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><div><div></div>
-<div>step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA run found fatal error=
-s. Please consider fixing them.</div>
-<div>=C2=A0</div>
-<div>I am already using below line to my patch.=C2=A0</div>
-<div>RDEPENDS_${PN}-ptest +=3D &quot;make bash perl&quot;</div>
-<div>=C2=A0</div>
-<div>can anyone please help me on this.</div>
-</div>
-<div>
-<div>=C2=A0</div>
-<div>=C2=A0</div>
-</div>
-<br>
-</blockquote></div></div>
-
---000000000000d682d405a8b02efb--
+-- 
+Alex Kiernan
