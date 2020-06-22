@@ -1,79 +1,66 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web12.5973.1592864168450416127
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web12.5992.1592864221593298686
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 15:16:08 -0700
+ Mon, 22 Jun 2020 15:17:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eGJy6E5Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id e22so4207346edq.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 15:16:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CQZXuIaX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id g75so1110786wme.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 15:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=cf8b7awidPLKgfxHcH9fqfwqbqeZoYZABXnS3ogZ8UQ=;
-        b=eGJy6E5Q/0+ntgHqP/iV+G2m3mPoNSN5vzHpX+HgKn6O2FeM5tUi0XFHNvDiWWO4iG
-         UT4I7iZlSoqZE1Osqi5Ne+qxmHRmhhTWuxhw3ih3pN6ddT05KMxn34ug/ljOqzkA3AXT
-         Wgrf4zq50xtaC03/CJGB/ytEI3VYbPePYQ/5Jzt7aoV+3uP0Ai2BY92Rr4f7cQeTxaE4
-         nQT5m0yAXA6sHiyTUtIgpz2PI4IfYM1sLTh/ID9OpA7t5mv+87ARxPU4Y5GPNwwP8LVg
-         +3ol/ZZQHzwamifK2m4yqXUWYwAmRRdfaTCGnRLSE+yIBUQNEzBcC93biBj4y4VEivnM
-         bBag==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=VCm8jEoUDTo7xO3w48s9xQZs9tga67FWw2aTmw0FSvw=;
+        b=CQZXuIaXVWhVSJk2zj3GViKAeJaTo1tHxiuJxtkxrbb+59j/FoYUJ6OWuyvfO1RCoI
+         p3lWj0s891rAzhYUb/dGsedek+ZMfprB1/KC31FDZYa02y8IHtTluZnbTSZP9TbdfyzF
+         C4DTXfR1nOMFgqw3AM2czbvvideBGAl04Vltg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cf8b7awidPLKgfxHcH9fqfwqbqeZoYZABXnS3ogZ8UQ=;
-        b=tWHkRW5k4sERdTQ1h0HLq9Vz+dvq4b1c3SGRxlXDrC/xUMM/L21LtzMKy/NUkvjtcf
-         ezAjZr41J9X6uey+vYGWe740fpa5y8YCkRox11UimNN7xFxKmBSnG9dtLpSJ+eWuLeaw
-         zDO4TGZY8FtvDsnHHYL661EiB7hQihA0LIKW5AgokIK13UEJdanup1m8qQ50MmKuEMks
-         9oMqyReE1YMvbgbRG2MRlwcxNO33jWcpf/O/iEOTn50VqroJxoCBN0Ph+2u0UFIqqpgM
-         j57tf7c/a35SGJzS/RmhA0VSI/MRs0/fSkBI/x+GNQoEc2qqoVZ8T6q2466hJ6n2tzGt
-         oSEQ==
-X-Gm-Message-State: AOAM532/R4b5FQBTDvJGHizwoCrR6ZpR4RsXxGzgfeRUh8MnVhBH6/dW
-	7vSSGs1IGvyT1hhJRvXN1Rk+iBzS
-X-Google-Smtp-Source: ABdhPJytNDonkaQhbHQrhmhAnMXPE6Rq0njVkSCgcIISOJ7Z4W0pAWV+UxnGb7czRwUdJy8YbiBvmg==
-X-Received: by 2002:a05:6402:22ca:: with SMTP id dm10mr18764424edb.115.1592864166451;
-        Mon, 22 Jun 2020 15:16:06 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from superandy.speedport.ip (p200300f07f481d60137a2e45bfed0e33.dip0.t-ipconnect.de. [2003:f0:7f48:1d60:137a:2e45:bfed:e33])
-        by smtp.gmail.com with ESMTPSA id n16sm3703803ejo.54.2020.06.22.15.16.05
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VCm8jEoUDTo7xO3w48s9xQZs9tga67FWw2aTmw0FSvw=;
+        b=Yi1AX6QHDQRCUYCaffkqfXQ2JxGqGtVePUeIWuU6FE1jch8ShQvfpkSIUpz9Q6VYdf
+         wRYll6hpC/YEHnddD5kD2cw1we28dpz95MqEzwEKky38r1dDB9HO0S/P5fbi+XpL7l5H
+         NeE7HKZfD7YxZ86GWJ/pNsToMt9WbJTmPamEZWLrOPGArXmi1okNYz2zpbubCWddheGO
+         XMeg8BLUDY77MbQ5gst0S1jHrOrRwEIPMl5KtcoJebee+/06vuWGp6+zIi7UakhVnC7R
+         9fgavDW0vc+uILvwODZhBfwaO4hRa+M+fzE1S8m4hurnMx81d9gLI07mTRrWoeNbXWrM
+         3ibw==
+X-Gm-Message-State: AOAM531VVO6QtMLmlQB1eztYoLFC5UC5JkTRkqdtqBAr6JEdfK7104VD
+	LZ5ek6SkJj9P66jNdxh+UZB8Ig==
+X-Google-Smtp-Source: ABdhPJyhWpxcu/4id9WefmFStphSs35QvnqQ3/J8/MOlyqYPkyLrYCz4yIRpSXK5/RnhNFXvaXAbbQ==
+X-Received: by 2002:a1c:4d05:: with SMTP id o5mr222357wmh.130.1592864220154;
+        Mon, 22 Jun 2020 15:17:00 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id a22sm1075579wmb.4.2020.06.22.15.16.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 15:16:05 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] ffmpeg: upgrade 4.2.3 -> 4.3
-Date: Tue, 23 Jun 2020 00:15:51 +0200
-Message-Id: <20200622221551.1530869-5-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200622221551.1530869-1-schnitzeltony@gmail.com>
-References: <20200622221551.1530869-1-schnitzeltony@gmail.com>
+        Mon, 22 Jun 2020 15:16:59 -0700 (PDT)
+Message-ID: <41da1ae0040e0444e80ad544c5cf064061b195c0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/6] Update bind and replace dhcp
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jun 2020 23:16:58 +0100
+In-Reply-To: <20200622141915.31932-1-akuster808@gmail.com>
+References: <20200622141915.31932-1-akuster808@gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- .../ffmpeg/{ffmpeg_4.2.3.bb => ffmpeg_4.3.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.2.3.bb => ffmpeg_4.3.bb} (98%)
+On Mon, 2020-06-22 at 07:19 -0700, akuster wrote:
+> Move to the latest Bind ESV and replace the depricated dhcp with kea.
+> Three packages need to move from meta-oe to core.
+> 
+> The new bind is not compatable with the dhcp
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.3.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.bb
-index e837a05d47..2b0c38d782 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.bb
-@@ -26,7 +26,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-            "
--SRC_URI[sha256sum] = "9df6c90aed1337634c1fb026fb01c154c29c82a64ea71291ff2da9aacb9aad31"
-+SRC_URI[sha256sum] = "1d0ad06484f44bcb97eba5e93c40bcb893890f9f64aeb43e46cd9bb4cbd6795d"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET_armv4 = "arm"
--- 
-2.26.2
+Thanks, I'm keen to see this happen. check-layer threw errors:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/2057
+
+so my build with this in may be doomed :/.
+
+Cheers,
+
+Richard
 
