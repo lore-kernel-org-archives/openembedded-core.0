@@ -1,96 +1,96 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web12.2251.1592847384118763326
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.2265.1592847422926703319
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 10:36:24 -0700
+ Mon, 22 Jun 2020 10:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=owh12APO;
- spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f65.google.com with SMTP id cm23so98501pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:36:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Knx5r83a;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f18so374655wml.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QKk/Z85aG3NpvYEE5OGHJA3tt/C0RBML8le2O+gEWpg=;
-        b=owh12APOIz1LMCj9yNaxJKt27dRqs8ozICRm5H4Q2MkW8usehq/B2yR5LgRpVx2Riu
-         sbSMRt4UbBqu+LhVu3995BWul5jgzw2Foj0hdftXJkH6h7igJMtA27c60GggYXDemJlK
-         jPSBs/RiUxnVgZirbqIxE8GaIroy9azDEQHmsfrqX10gtg7MtcX/zaPAK5Ro8/OVdZvi
-         tHngAyQnF7OU3lxjgweyQxrzabYL446aPoJzcgcexIVuc1LeFoSsXHQ63c8ScjjkTlHL
-         E8Zc4E8x/LwoA3hDg/VGAzyYgS3wplJp4XUG/xEkCrEKk4DgVFdanvdcNvD5e3IO6skL
-         VzKw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LROUktLHY6lt5bvB/kNu990exvOZHCnKmTkz/AxEM2E=;
+        b=Knx5r83aQpxSPwaSjadJjA0YPzTice7tlWJGihNlZYcLrGRyJeYAhfzHinGOhlPDTa
+         RpwkVsPRCzDNKZ0ru8VqHmSoILSvSl54pi3bn7d5OsNHVLY46KsqPq1qdp7xxuKsPXH7
+         y2Rf1EtDncQE4dQjxYVvUgN6DG1dMr0pOcOMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QKk/Z85aG3NpvYEE5OGHJA3tt/C0RBML8le2O+gEWpg=;
-        b=M6S80bE+lrzplW+Zx5tJDjF47cfFc9epxgGOoz9QqosLrkGGZOTtgH1NHLeXM5G9Sm
-         Z+kQTxTv5iE9CUaAktvYyOb+RYs1CLyxtkTnpTpouLsGIfyQHD8aRKHxv26FXW7uoTr1
-         0tjK+L0TAnj5o3aEcZqAQyc0aoLHpB2FRtlwYdXbwnb+td5PM0cleOxQvcam5k0NYJ+K
-         AavxcUS6Ymdj7fJJaMQ+hL4YWGvOqGCZtJw/Sl0i9fY/GnAQfXzBFtbxJrJAelU/Uns7
-         g0mWPI2k0ET0/cuRBtWFZNiAwopPA9RQVw/Eqsmh0YVf72JbcPLKIOfq/MELP4rE6Bx1
-         AOeQ==
-X-Gm-Message-State: AOAM533OXoWXip3E9NzdSmo2J0dAWLh/wBOwd0NfEH/jh2iKKTRS0NtZ
-	VfGZMEb4eJWiN6Mzgan9/NE=
-X-Google-Smtp-Source: ABdhPJwPQ5uOLKbnj3hr0bR4yscuTXG3pkG3cLacVaRiLG4mFm9qRK3MYI6Rfhn80fgu9HxOKgX/CA==
-X-Received: by 2002:a17:90b:4d08:: with SMTP id mw8mr19428464pjb.119.1592847383615;
-        Mon, 22 Jun 2020 10:36:23 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a? ([2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a])
-        by smtp.gmail.com with ESMTPSA id n1sm142996pjn.24.2020.06.22.10.36.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 10:36:23 -0700 (PDT)
-Subject: Re: [OE-core][PATCH 1/1] oeqa/runtime/cases/ptest: Make output content path absolute
-To: Andrej Valek <andrej.valek@siemens.com>,
- openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-References: <20200622173307.29538-1-andrej.valek@siemens.com>
- <20200622173307.29538-2-andrej.valek@siemens.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <84aa3636-44b2-4bec-1e57-912a7a25dcbe@gmail.com>
-Date: Mon, 22 Jun 2020 10:36:22 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LROUktLHY6lt5bvB/kNu990exvOZHCnKmTkz/AxEM2E=;
+        b=mlruv4JDYJL4CVvF9JNMJ2Z7yqg9JgW6o5kghT0UHNNAXuYE9bhsWLS0//fxE8RZjX
+         oD5EIfwlEHuIUlnjqNk/br9cCNc5m+DtZW3ySMS5RXjtb1Lpz/m+WJEdVS50kHOaSs88
+         JW+G5K2+yen9N9shTv7/8XUNMLwMbo39mgT4F3IWwHsiwSo8w+Sw0LWxhmXuIa8RWEvQ
+         9EQuYDnxqmDnrqiphsi3sHXH565ngWxoI8TyRnA/G2l4thD2UJGRTq5SKcazg63/XV3X
+         e/OJSFNKMRHlIyQ56w3Xq2/P36zxNY36gSjf08CQ15Dd5LAxDTQuVWX0HaN2xYfCSgDe
+         gfGA==
+X-Gm-Message-State: AOAM530LC88C6rzTwO9G5yrdMNMLBbIDNyzxaAEEZV2Hnu3GJe94vpVT
+	XRWhTiTM/kidJO0WvS3bqns4WA==
+X-Google-Smtp-Source: ABdhPJxZH6naFY/UG1PtQjo7yjx8l+Fkifc0LtWGz4X/PMYl389VuGddtuFNHfQoJWSDnU2dSDSg+g==
+X-Received: by 2002:a1c:a7c4:: with SMTP id q187mr1998159wme.0.1592847421487;
+        Mon, 22 Jun 2020 10:37:01 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id t5sm7395486wrp.84.2020.06.22.10.37.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 10:37:00 -0700 (PDT)
+Message-ID: <2c5679d5c03b85eb57f47422220cbc50d1d55e7a.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH V2] qemu: uprev v4.2.0 -> v5.0.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Joe Slater <joe.slater@windriver.com>
+Date: Mon, 22 Jun 2020 18:36:59 +0100
+In-Reply-To: <20200619181259.39059-1-sakib.sajal@windriver.com>
+References: <20200619181259.39059-1-sakib.sajal@windriver.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20200622173307.29538-2-andrej.valek@siemens.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 6/22/20 10:33 AM, Andrej Valek wrote:
-> The output content is created in current directory, because json content
-> has no defined absolute path to WORKDIR as in bitbake.
+On Fri, 2020-06-19 at 14:12 -0400, Sakib Sajal wrote:
+> Major update after v4.2.
 > 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->   meta/lib/oeqa/runtime/cases/ptest.py | 4 ++++
->   1 file changed, 4 insertions(+)
+> Changes:
+>   - os_find_datadir() was changed after the v4.2 release
+>     causing v5.0 to not find the bios and not boot the
+>     image. Fix is sent to upstream qemu.
+>     See: qemu/find_datadir.patch
+>   - v5.0 binary had host contamination for dynamically linked
+>     libraries, "--extra-ldflags='${LDFLAGS}'" in EXTRA_OECONF
+>     resolved the issue
+>   - bluetooth code was removed: qemu.git$ git show 1d4ffe8dc7
+>     hence removed PACKAGECONFIG[bluez]
+>   - -show-cursor qemu option is now deprecated, updated
+>     scripts/runqemu to use updated option instead
+>   - added PACKAGECONFIG definitions
+>   - added qemu-ptest to conf/distro/include/ptest-packagelists.inc
+>   - increased support for ARM architecture, cpu and board
+>   - removed patches merged upstream and refreshed
+>     existing ones
 > 
-> diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-> index 1b1474adcf..919901d465 100644
-> --- a/meta/lib/oeqa/runtime/cases/ptest.py
-> +++ b/meta/lib/oeqa/runtime/cases/ptest.py
-> @@ -42,6 +42,10 @@ class PtestRunnerTest(OERuntimeTestCase):
->           # testdata.json is generated.
->           if not test_log_dir:
->               test_log_dir = os.path.join(self.td.get('WORKDIR', ''), 'testimage')
-> +        # Make the test output path absolute, otherwise the output content will be
-> +        # is created relative to current directory
+> Testing:
+> Build core-image-minimal against the machines in
+> openembedded-core/meta/conf/machine and succesfully
+> booted with qemu v5.0
+> 
+> Ran qemu-ptest on x86-64 and arm64 with identical results:
+> PASS: 1166
+> SKIP:    0
+> FAIL:    0
+> 
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
 
-'is' is not needed in above comment.
+This is in general looking good but we did see one error:
 
-> +        if not os.path.isabs(test_log_dir):
-> +            test_log_dir = os.path.join(self.td.get('TOPDIR', ''), test_log_dir)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/2050
 
-will it expose full paths in final logs ? that may be shared publically ?
+which is strange as its only on the edgerouter.
 
->           # Don't use self.td.get('DATETIME'), it's from testdata.json, not
->           # up-to-date, and may cause "File exists" when re-reun.
->           timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-> 
-> 
-> 
-> 
+Cheers,
+
+Richard
+
