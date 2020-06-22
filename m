@@ -1,96 +1,78 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web12.390.1592848790222709843
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+ by mx.groups.io with SMTP id smtpd.web12.392.1592848795305034220
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 10:59:50 -0700
+ Mon, 22 Jun 2020 10:59:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vEtoAdgv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.43, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f43.google.com with SMTP id n5so13832450otj.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:59:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ikHZ2tFQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.68, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f68.google.com with SMTP id k15so13804169otp.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 10:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=z5Qw3leROYmV84qg8bOgjy/jQ3WPnnBjNjdG7VjgPrQ=;
-        b=vEtoAdgvRX7MlyM3kMiEXPLOgd2bIFpJVo1Uwseb9fYGFiz5y6DYa4Pv1VsOKom1He
-         HxexrE6vQd2c3MtA/KE7sjjfVfkdmLTc7k63zQZGTz4cjOOJYC1MhLladFMICi56Ogth
-         MBbjvM9SLycgppzs3BNIZ71V9/xopiZr/FkMs04gUXz6z6YNWLWa9jwxSkZ0rjtBhnA5
-         LjpaRC8rgH6enAh5BtbRQkibQBj144eWOu/5jujli+C3bz9rIwI3cHNVwjV+jtRvQHkP
-         5FHJgz9F023agYIKOAF8NdVhmSHFKQwJB5VCArrXvtb2BPBWKF7Ch7iumob7Y4zzVcvr
-         ghww==
+        bh=FeW6lf7agT2HJtd5tw0sJgqjZAkZZ9l581QtLGpOxJs=;
+        b=ikHZ2tFQ3jdeOp8x+CZGZrggGyXvxWaWZ8LXU6GiWan6Nj9tW/5PN+4hDCFDu0CrtO
+         JHV3sSR9MlSzqYtTldUXKz8GR9OgMP0qo9Rzhj68LnRE7RKrDzSQikscQ+ThqHYe+KrP
+         AFt8SjlEFunPm7kCbGPEkk84JQ+TqnQ1yDTnB5BQmMy3URZ7nAH1PNiWUjRfiuiwDRO4
+         UtncbqX9tBppYy7l+KZbP/wU/1qPIoEyavcVO4oJ9y7rrPfnB458flJDI8xaYrPa3Li+
+         QDyTCr47i9E6qGsn9CgWDkwOg6MXp7+I7GTbl7r5m+p+H8Ff2xSv8NcEtn+TPGiZ8fSr
+         /zpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=z5Qw3leROYmV84qg8bOgjy/jQ3WPnnBjNjdG7VjgPrQ=;
-        b=SDZhT7ye/0g7U+yhR+FfirhncogDtiKfIq3gn524zvZ+Aoc00R/pmRMz1IA2a4UHQ/
-         5Fi6+luZtVNJm8Wb3vV3bVGosW5CJcdSyUOhHUfhZVvIkSMxhT1Cet4xghD5b3cPYzgJ
-         yKFkhkiVfKKbXzltV0ns6On63TmaEgsprL7CL4ZzVV54JDJI+DZt7n3TO0Wvjm33Kocd
-         pAcWPj8Qc6ypG5vav7nDmGzZVQUjq8RS3GRfcT43Wb/IRMJUwb1lotz5rG/Qqx4F+Xki
-         w+eikz7xWo57TdpvhoVJj1pi1enntAN1xWFjJ216Or2VlBgtrU65HHvFVFKVIRStJ/x7
-         c16A==
-X-Gm-Message-State: AOAM531u/NMyX4+bgEkQYm3lup1z1/G1VZZ5afKH9a5djA7f4Sp8yH4Q
-	JHjxf8S90jAJjuZDZU7uAPCBbmhHe/y0KQ==
-X-Google-Smtp-Source: ABdhPJzrPIrJ+azaTfot3QY7cbyxezTrimqOXyOlv3a6Nf3dLMI68RcnrhO+4cvFe01vkGkAQQrHdw==
-X-Received: by 2002:a9d:dc6:: with SMTP id 64mr12584369ots.319.1592848789109;
-        Mon, 22 Jun 2020 10:59:49 -0700 (PDT)
+        bh=FeW6lf7agT2HJtd5tw0sJgqjZAkZZ9l581QtLGpOxJs=;
+        b=V/d6Z4KsqXyLRST9RhX/v1zNA+RavnXavuj4qW+0/y9NV739Q+MW9kh5NfwbU9WZaj
+         bqwVVpxthA60RtWDD90GTDpWQY7dS3FBFQhPFraCKSzO7vAHJ0mmClgadDu8pa1GefVz
+         ebQNXG+kUb29Tx5l1ragY+hidzUNIFLxt2EN9USizXlce/Q7e/QcVR42zurLMTpY6WHc
+         mF9PPk6jsVkg9FsTughS/h6uHRezEBoSAJFBn+g9yofOeqQ/xFhA3d8xUXrhSdM4Ybq1
+         CIsasGiPt9YAsnXUv9U4q96a+xkEAJnfdHAHcZX51ua37yB7HW8WRN17piGCoUxuKDSP
+         ap6A==
+X-Gm-Message-State: AOAM532/hRl0Ig3oXTJaDj3H+tVFFp4P7QsanKeCry3B5BzlbXVZDpwr
+	qKzCKjAbvEui6/hX0v0yY7cEzS51UXNYtg==
+X-Google-Smtp-Source: ABdhPJx4onc40U2rft9AMRV/nEatqna3pCvnbSWjeswHf7MBLs1/MJnPw6LZdaecwuWcW09vcVUI/Q==
+X-Received: by 2002:a05:6830:1059:: with SMTP id b25mr15886809otp.128.1592848794223;
+        Mon, 22 Jun 2020 10:59:54 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.10.59.45
+        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.10.59.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 10:59:48 -0700 (PDT)
+        Mon, 22 Jun 2020 10:59:53 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/33] wpa-supplicant: remove service templates from SYSTEMD_SERVICE
-Date: Mon, 22 Jun 2020 07:58:00 -1000
-Message-Id: <7910a0d6f332253608767a9576a0d521dd87efd7.1592848337.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/33] encodings: clear postinst script
+Date: Mon, 22 Jun 2020 07:58:01 -1000
+Message-Id: <ba94c908b99713ce115e9240df525c6442a60c7a.1592848337.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592848337.git.steve@sakoman.com>
 References: <cover.1592848337.git.steve@sakoman.com>
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Remove service templates wpa_supplicant-nl80211@.service and
-wpa_supplicant-wired@.service from SYSTEMD_SERVICE that they should NOT
-be started/stopped by calling 'systemctl' in postinst and prerm scripts.
+Postinst script from xorg-font-common.inc doesn't apply to this recipe.
+So clear the postinst script of encodings.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe9b8e50461ab00ab3ad8b065ebd32f0eea2a255)
+(cherry picked from commit 99ae6dbb7278dfd264453af852c108fa56a0d4e3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../wpa-supplicant/wpa-supplicant_2.9.bb                    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-font/encodings_1.0.5.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index 3e92427bb0..2936e89eed 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -15,7 +15,7 @@ PACKAGECONFIG[openssl] = ",,openssl"
+diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
+index a39609b5da..74014ff91b 100644
+--- a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
++++ b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
+@@ -19,3 +19,7 @@ SRC_URI[sha256sum] = "bd96e16143a044b19e87f217cf6a3763a70c561d1076aad6f6d862ec41
+ inherit allarch
  
- inherit pkgconfig systemd
- 
--SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
-+SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service"
- SYSTEMD_AUTO_ENABLE = "disable"
- 
- SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-@@ -37,13 +37,13 @@ S = "${WORKDIR}/wpa_supplicant-${PV}"
- PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
- FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
- FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
--FILES_${PN} += "${datadir}/dbus-1/system-services/*"
-+FILES_${PN} += "${datadir}/dbus-1/system-services/* ${systemd_system_unitdir}/*"
- CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
- 
- do_configure () {
- 	${MAKE} -C wpa_supplicant clean
- 	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
--	
+ EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
 +
- 	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
-         	ssl=openssl
- 	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
++# postinst from .inc doesn't apply to this recipe
++pkg_postinst_${PN} () {
++}
 -- 
 2.17.1
 
