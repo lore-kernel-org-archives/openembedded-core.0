@@ -1,138 +1,225 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web12.14877.1592823551033490119
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.15724.1592826240028382023
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 03:59:11 -0700
+ Mon, 22 Jun 2020 04:44:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iYJCREue;
- spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f66.google.com with SMTP id i25so19029286iog.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 03:59:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GynjzSA5;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id y13so9409523lfe.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 04:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NEcTxfDsbu3gPhGqE0j0g6MW2fxOPjkC08vKOi60QL4=;
-        b=iYJCREue7WWcg5yqk1cbTkyteuY7jptzLJcSKTp2TynqhIXS0V5zf/GBOIGSA1Zu/9
-         +I7i1Tzo7YSUlJFPFK/bPfNsiwKV9yFUADw1qZOL+Yykz0ZriN74/yLhHhOUg8J42/Ho
-         gtRmNPTAaZ5uY0euI6/ssgLHfmnVQlvUWgO2JCQbytsV57plbn9FA/qNouHCmY+ktJkP
-         lSH4aS4YRiKlY0Y1AlsmGuX8YbG2pmjJxSAg2nVyZSiNLAJ/4GiXCm3vbF1kdcl+75PP
-         RgAOIBakfKgtBtnwC4uj45Dti1wKVava5iYxYITVpyJ2SF2hijeWuWcBzI7uBd6XbNji
-         NAng==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rMurh3TUHEQDmJh0NMjYVK2Y0RFyMu+fFsJcynB7OWE=;
+        b=GynjzSA5ifc5FSzSqU3s0VqDtNTgujtYdXZrEW4xaSI+aLr6r1fO1Wd3A3ZIGQknXq
+         wfx9eRhiYoRqgz5aemKghN+VtRY4/zTuoh+uAbL2Pu3OWZPw3uJ/xKPfpl+9H6cb7YwF
+         3rBVvXWIqMJcEhXpK85OaV/8CuA0paen4xVntTEAVkmW3mauS8NHS3UnzSnUalHI43OR
+         tyrzEXMg6EREuDhmwlYHKrfv4TzrafRtZ9fYsfDUlYvbLzLJfGwCKcNCo8oSKr67m9jH
+         VoFEngXcMGcf08hco9HKY8EyS/ALEv2pq6Qe+DPS+SVMSTilWRX18Yd6ovyiE91aBpdd
+         Vw8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NEcTxfDsbu3gPhGqE0j0g6MW2fxOPjkC08vKOi60QL4=;
-        b=JyFApZmFCCqaFVnSpjkibaXaXSXnWQndOhXVIxU1qr8oDRGZ7raQZ1MbUl17c9JHqO
-         YfAtpB9lq9PMIdyYieT51Cr/fE9AZIMVzZDdyaCA9ut78dn2wTrU8eZEYomF1NOR5NaC
-         ryGHI0sCR+Qt/IUGKr0Q7trbzNcIAt2W7z7e2dHmvmMBvIyc+A2JG87NzQ4ZlVJOSOkE
-         vi82RZfoDDVcU0YUGjB7jCQ79oJEg4Sdi7U7+hJEoAdKg9XV53rqyy5feGMNQKPM2zrc
-         21MNepBB8/VTOmZGY7FQjYL8ytItIRkhxXn8ty3Y1uzfaRWyMDRBv+O+s0oAceCBbaeo
-         ZUIw==
-X-Gm-Message-State: AOAM532Au3JGUA18v66KE3YThVpsvMWu+41I27mEY3XCv48nCDGD0Gsd
-	KfL3S+4e73IEQM1/DAq0lKoulFx7gbv91S+daEA=
-X-Google-Smtp-Source: ABdhPJwaCxXC3t7FMMv/U0wIU+xgAATxOXZ6aRI6Uhk1npBd+u+FvIYC+3iknqpK1RisFcs8HABfEqPNtKmn6x0op7k=
-X-Received: by 2002:a6b:1449:: with SMTP id 70mr12421284iou.153.1592823550387;
- Mon, 22 Jun 2020 03:59:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rMurh3TUHEQDmJh0NMjYVK2Y0RFyMu+fFsJcynB7OWE=;
+        b=gGqOq/JC9pW7hOwVq+3R+PjvQLGTkXN73ZH1JdctykM2BeROi6GVtfvdEvuvlnDEa+
+         12KqkQVr/8QCTFhIujma+Gt39tDdI1tUo0EOD6kjKCoxZ49QOkZtIw8CsmS4G4v4Q1pT
+         mimn5PHJJsu4Mo+6KFlqDffEIDfWNamKo605jYJHLScIIQIXnfL3otHvQuHdx2DuQCuE
+         S6gOGbtCIgh4jXj9Ez8GBtZ2318RyvVhGQO8eDPx9N/YVk0ZOpzhknxetIahTIsoXneU
+         ykBT4itG0ylAfBC1o0Kvz5LysyLO4y2I5ERvKHNn97UoVZIof/iTKYDFkayFiMISHvCZ
+         IJog==
+X-Gm-Message-State: AOAM533mwQD3tHk5aA8yC+bXHjExLgWo6g+ErG7QbKKbBReiauoto2i5
+	ULLCtJkqlpHBlzXNTZd0lWMS87hC
+X-Google-Smtp-Source: ABdhPJxL6/k8LxUksgUWvdZq+g7HT0Sx6eZIrexy2l+k/8a1LRWVzInAgBqjUCzwPSlXSOoVXHMMFw==
+X-Received: by 2002:ac2:5a5e:: with SMTP id r30mr9558977lfn.30.1592826237551;
+        Mon, 22 Jun 2020 04:43:57 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id s62sm2338932lja.100.2020.06.22.04.43.56
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 04:43:56 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH] grub: Remove native version of grub-efi
+Date: Mon, 22 Jun 2020 13:43:43 +0200
+Message-Id: <20200622114343.481513-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20191219221748.27079-1-alex.kiernan@gmail.com>
- <20191219221748.27079-2-alex.kiernan@gmail.com> <902865ec-101f-0e0b-e17c-03c2fa555921@intel.com>
- <161110ADA6F0224D.21901@lists.openembedded.org> <CAO5Uq5Q1VwSVeVA7gRkjKda1upvD1iAi=Zgj5e1GGFXEHtntrg@mail.gmail.com>
- <ce0383b221fbe65e28f940b04443cb7c4d93bce9.camel@linuxfoundation.org>
- <CAO5Uq5Sb37G8zRNPv=Ue3pxYnVPBgkR=XgHRoWCNs0C9iKuRXA@mail.gmail.com> <964e63ac0bfa723afd2f280b840edcc0340bb442.camel@linuxfoundation.org>
-In-Reply-To: <964e63ac0bfa723afd2f280b840edcc0340bb442.camel@linuxfoundation.org>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Mon, 22 Jun 2020 11:58:58 +0100
-Message-ID: <CAO5Uq5Q56a8nnPs_DD8i9=vVALkBqmrV4edR5_QmL1y99MbNLA@mail.gmail.com>
-Subject: Re: [OE-core] [OE-Core][PATCH 2/2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross@burtonini.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 21, 2020 at 5:00 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2020-06-21 at 16:24 +0100, Alex Kiernan wrote:
-> > Hi Richard
-> >
-> > On Sat, Jun 20, 2020 at 1:45 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Tue, 2020-06-09 at 16:08 +0100, Alex Kiernan wrote:
-> > > > On Thu, May 21, 2020 at 3:14 PM Alex Kiernan via
-> > > > lists.openembedded.org <
-> > > > alex.kiernan=gmail.com@lists.openembedded.org
-> > > > wrote:
-> > > > > Hi Ross
-> > > > >
-> > > > > On Thu, Jan 2, 2020 at 11:20 PM Ross Burton <
-> > > > > ross.burton@intel.com>
-> > > > > wrote:
-> > > > > > On 19/12/2019 22:17, Alex Kiernan wrote:
-> > > > > > > Enable rootfs_check_host_user_contaminated by default
-> > > > > >
-> > > > > > Useful check!
-> > > > > >
-> > > > > > WARNING: Paths in the rootfs are owned by the same user or
-> > > > > > group
-> > > > > > as the
-> > > > > > user running bitbake. See the logfile for the specific paths.
-> > > > > >
-> > > > > > /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-
-> > > > > > image-
-> > > > > > sato/1.0-r0/rootfs/usr/share/fonts/.uuid
-> > > > > >
-> > > > > > /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-
-> > > > > > image-
-> > > > > > sato/1.0-r0/rootfs/usr/share/fonts/ttf/.uuid
-> > > > > >
-> > > > > > (patch incoming)
-> > > > > >
-> > > > >
-> > > > > Did you manage to get a patch for this out? I've had a couple
-> > > > > of
-> > > > > goes
-> > > > > at reproducing it and failed, but I suspect I'm not including
-> > > > > the
-> > > > > right things. It would be good to get this check enabled early
-> > > > > in
-> > > > > the
-> > > > > release cycle, if we can?
-> > > > >
-> > > >
-> > > > Ping?
-> > >
-> > > I'm trying to enable this but its triggering warnings on the
-> > > autobuilder:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/2037
-> > >
-> > > Unfortunately the logs are totally useless. I think we'll have to
-> > > improve the logging before this can be debugged and fixed which
-> > > blocks
-> > > this merging.
-> > >
-> >
-> > I've had a couple of goes at reproducing this locally, based on the
-> > configuration I think it's building and can't get it to fail...
-> >
-> > Presumably we need to expose the failure lines from the supplementary
-> > log file so that they make it into the autobuilder output?
->
-> Yes, we need the output to show which files are affected to have some
-> chance of figuring out how to fix this. The fact its happening
-> intermittently is somewhat worrying :/.
->
+The native version of grub-efi only installs the tools
 
-Just sent a v2 which includes changes to push the failure paths into
-the main log
+  /usr/bin/grub-editenv
+  /usr/bin/grub-mkimage
 
-> Cheers,
->
-> Richard
->
+to sysroots-components/, but equivalent tools are already provided by
+grub-native, the difference on x86_64 being 4 hardwired paths in grub-mkimage
+(values taken from grub-native):
 
+  LOCALEDIR       = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/share/locale
+  GRUB_DATADIR    = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/share
+  GRUB_LIBDIR     = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/lib
+  GRUB_SYSCONFDIR = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/etc
 
+If grub-native and grub-efi-native are built with the following patch
 
---
-Alex Kiernan
+--- grub-2.04.orig/configure.ac
++++ grub-2.04/configure.ac
+@@ -1980,10 +1980,10 @@ grub_libdir="$(eval echo "$libdir")"
+ grub_localedir="$(eval echo "$localedir")"
+ grub_datadir="$(eval echo "$datadir")"
+ grub_sysconfdir="$(eval echo "$sysconfdir")"
+-AC_DEFINE_UNQUOTED(LOCALEDIR, "$grub_localedir", [Locale dir])
+-AC_DEFINE_UNQUOTED(GRUB_LIBDIR, "$grub_libdir", [Library dir])
+-AC_DEFINE_UNQUOTED(GRUB_DATADIR, "$grub_datadir", [Data dir])
+-AC_DEFINE_UNQUOTED(GRUB_SYSCONFDIR, "$grub_sysconfdir", [Configuration dir])
++AC_DEFINE_UNQUOTED(LOCALEDIR, "/non-existent", [Locale dir])
++AC_DEFINE_UNQUOTED(GRUB_LIBDIR, "/non-existent", [Library dir])
++AC_DEFINE_UNQUOTED(GRUB_DATADIR, "/non-existent", [Data dir])
++AC_DEFINE_UNQUOTED(GRUB_SYSCONFDIR, "/non-existent", [Configuration dir])
+
+the produced grub-editenv/grub-mkimage binaries become binary equivalent,
+assuming reproducible builds is active. Since the unpatched values of
+LOCALEDIR/GRUB_DATADIR/GRUB_LIBDIR/GRUB_SYSCONFDIR point to directories that
+are not expected to exist at runtime, they can be ignored.
+
+Therefore:
+ * remove grub-efi-native and instead rely on the same tools from
+   grub-native
+ * replace references to grub-efi-native with grub-native
+ * remove unused grub-efi-native security flags overrides
+
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ meta/conf/distro/include/security_flags.inc |  4 ---
+ meta/recipes-bsp/grub/grub-efi_2.04.bb      | 28 +++++----------------
+ meta/recipes-bsp/grub/grub2.inc             |  4 ---
+ meta/recipes-bsp/grub/grub_2.04.bb          |  5 ++++
+ meta/recipes-core/meta/wic-tools.bb         |  2 +-
+ 5 files changed, 12 insertions(+), 31 deletions(-)
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index a9e5b311af..4e64eb99f9 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -40,10 +40,6 @@ SECURITY_CFLAGS_pn-glibc-testsuite = ""
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+ SECURITY_CFLAGS_pn-grub = ""
+ SECURITY_CFLAGS_pn-grub-efi = ""
+-SECURITY_CFLAGS_pn-grub-efi-native = ""
+-SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
+-SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
+-SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
+ SECURITY_CFLAGS_pn-mkelfimage_x86 = ""
+ 
+ SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NOPIE_CFLAGS}"
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+index b9d6225d27..30d95f95e0 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
+@@ -4,8 +4,8 @@ require conf/image-uefi.conf
+ 
+ GRUBPLATFORM = "efi"
+ 
+-DEPENDS_append_class-target = " grub-efi-native"
+-RDEPENDS_${PN}_class-target = "grub-common virtual/grub-bootconf"
++DEPENDS_append = " grub-native"
++RDEPENDS_${PN} = "grub-common virtual/grub-bootconf"
+ 
+ SRC_URI += " \
+            file://cfg \
+@@ -51,22 +51,7 @@ do_mkimage() {
+ 
+ addtask mkimage before do_install after do_compile
+ 
+-do_mkimage_class-native() {
+-	:
+-}
+-
+-do_install_append_class-target() {
+-	install -d ${D}${EFI_FILES_PATH}
+-	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}${EFI_FILES_PATH}/${GRUB_IMAGE}
+-}
+-
+-do_install_class-native() {
+-	install -d ${D}${bindir}
+-	install -m 755 grub-mkimage ${D}${bindir}
+-	install -m 755 grub-editenv ${D}${bindir}
+-}
+-
+-do_install_class-target() {
++do_install() {
+     oe_runmake 'DESTDIR=${D}' -C grub-core install
+ 
+     # Remove build host references...
+@@ -76,6 +61,9 @@ do_install_class-target() {
+         -e 's|${DEBUG_PREFIX_MAP}||g' \
+         -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+         {} +
++
++    install -d ${D}${EFI_FILES_PATH}
++    install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}${EFI_FILES_PATH}/${GRUB_IMAGE}
+ }
+ 
+ do_install_append_aarch64() {
+@@ -89,10 +77,6 @@ do_deploy() {
+ 	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
+ }
+ 
+-do_deploy_class-native() {
+-	:
+-}
+-
+ addtask deploy after do_install before do_build
+ 
+ FILES_${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index b3291cb4b8..2024e13782 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -64,7 +64,3 @@ do_configure_prepend() {
+ 	FROM_BOOTSTRAP=1 ${S}/autogen.sh
+ 	cd ${B}
+ }
+-
+-RDEPENDS_${PN}_class-native = ""
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-bsp/grub/grub_2.04.bb b/meta/recipes-bsp/grub/grub_2.04.bb
+index 9232ea8120..df607cae14 100644
+--- a/meta/recipes-bsp/grub/grub_2.04.bb
++++ b/meta/recipes-bsp/grub/grub_2.04.bb
+@@ -2,9 +2,12 @@ require grub2.inc
+ 
+ RDEPENDS_${PN}-common += "${PN}-editenv"
+ RDEPENDS_${PN} += "${PN}-common"
++RDEPENDS_${PN}_class-native = ""
+ 
+ RPROVIDES_${PN}-editenv += "${PN}-efi-editenv"
+ 
++PROVIDES_append_class-native = " grub-efi-native"
++
+ PACKAGES =+ "${PN}-editenv ${PN}-common"
+ FILES_${PN}-editenv = "${bindir}/grub-editenv"
+ FILES_${PN}-common = " \
+@@ -31,3 +34,5 @@ do_install_append () {
+ 
+ INSANE_SKIP_${PN} = "arch"
+ INSANE_SKIP_${PN}-dbg = "arch"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 8aeb942ed2..3e7d0ed48d 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ 
+ DEPENDS = "\
+            parted-native syslinux-native gptfdisk-native dosfstools-native \
+-           mtools-native bmap-tools-native grub-efi-native cdrtools-native \
++           mtools-native bmap-tools-native grub-native cdrtools-native \
+            btrfs-tools-native squashfs-tools-native pseudo-native \
+            e2fsprogs-native util-linux-native tar-native\
+            "
