@@ -1,103 +1,85 @@
-Received: from mailout09.rmx.de (mailout09.rmx.de [94.199.88.74])
- by mx.groups.io with SMTP id smtpd.web10.16509.1592830468864629954
+Received: from Galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by mx.groups.io with SMTP id smtpd.web10.17592.1592833730791667302
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 05:54:29 -0700
+ Mon, 22 Jun 2020 06:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.74, mailfrom: ceggers@arri.de)
-Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout09.rmx.de (Postfix) with ESMTPS id 49r8W46Plzzbg6f
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 14:54:24 +0200 (CEST)
-Received: from ppmail.arri.de (unknown [217.111.95.7])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by kdin02.retarus.com (Postfix) with ESMTPS id 49r8Vy0rfzz2TSDs
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 14:54:18 +0200 (CEST)
-Received: from mta.arri.de ([192.168.100.141]) by ppmail.arri.de over TLS secured channel with Microsoft SMTPSVC(7.0.6002.18264);
-	 Mon, 22 Jun 2020 14:54:16 +0200
-Received: from N95HX1G2.wgnetz.xx (192.168.54.60) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 22 Jun
- 2020 14:54:16 +0200
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Christian Eggers <ceggers@arri.de>
-Subject: [PATCH v2 2/2] eudev: Extend for native/nativesdk
-Date: Mon, 22 Jun 2020 14:53:59 +0200
-Message-ID: <20200622125359.11587-3-ceggers@arri.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200622125359.11587-1-ceggers@arri.de>
-References: <20200622125359.11587-1-ceggers@arri.de>
+ dkim=missing; spf=none, err=permanent DNS error (domain: linutronix.de, ip: 193.142.43.55, mailfrom: torbenh@linutronix.de)
+Received: from torbenh by Galois.linutronix.de with local (Exim 4.80)
+	(envelope-from <torbenh@linutronix.de>)
+	id 1jnMoZ-0001au-LO
+	for openembedded-core@lists.openembedded.org; Mon, 22 Jun 2020 15:48:47 +0200
+From: torbenh@linutronix.de
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] boost: Add upstream patch to fix build on depending projects
+Date: Mon, 22 Jun 2020 15:48:47 +0200
+Message-Id: <20200622134847.15986-1-torben.hohn@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.60]
-X-OriginalArrivalTime: 22 Jun 2020 12:54:16.0707 (UTC) FILETIME=[3CD6AD30:01D64894]
-X-RMX-ID: 20200622-145420-49r8Vy0rfzz2TSDs-0@kdin02
-X-RMX-SOURCE: 217.111.95.7
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-libudev is required by networkmanager.
+From: Andreas Müller <schnitzeltony@gmail.com>
 
-Signed-off-by: Christian Eggers <ceggers@arri.de>
+KDE's krita failed with:
+| error: 'typedef void boost::static_visitor<void>::result_type' is inaccessible within this context
+
+Note that only boost 0.173 is affected. 0.172 (dunfell) does not have this
+problem and the patch will be included in upcoming 0.174.
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/udev/eudev_3.2.9.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ ...l-rtree-visitors-insert-base-class-p.patch | 30 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.73.0.bb    |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-core/ud=
-ev/eudev_3.2.9.bb
-index f96f8cbe78..0009896ab9 100644
---- a/meta/recipes-core/udev/eudev_3.2.9.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.9.bb
-@@ -61,12 +61,22 @@ do_install_prepend_class-target () {
- 	sed -i -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
- 		${B}/src/udev/keyboard-keys-from-name.h
- }
-+do_install_append_class-native() {
-+	# for -native, we only want to install libudev
-+	rm -r ${D}${sysconfdir} ${D}${nonarch_base_libdir}/udev ${D}${base_sbin=
-dir} ${D}${bindir} ${D}${libexecdir}
-+}
-+do_install_append_class-nativesdk() {
-+	# for -nativesdk, we only want to install libudev
-+	rm -r ${D}${sysconfdir} ${D}${nonarch_base_libdir}/udev ${D}${base_sbin=
-dir} ${D}${bindir} ${D}${libexecdir}
-+}
-=20
- INITSCRIPT_NAME =3D "udev"
- INITSCRIPT_PARAMS =3D "start 04 S ."
-=20
- PACKAGES =3D+ "libudev"
- PACKAGES =3D+ "eudev-hwdb"
-+# For nativesdk, we only want to package libudev
-+PACKAGES_remove_class-nativesdk =3D "${PN} eudev-hwdb"
-=20
-=20
- FILES_${PN} +=3D "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/ud=
-evadm"
-@@ -81,6 +91,7 @@ RDEPENDS_eudev-hwdb +=3D "eudev"
-=20
- RPROVIDES_${PN} =3D "hotplug udev"
- RPROVIDES_eudev-hwdb +=3D "udev-hwdb"
-+RPROVIDES_libudev_class-nativesdk =3D "${PN}"
-=20
- PACKAGE_WRITE_DEPS +=3D "qemu-native"
- pkg_postinst_eudev-hwdb () {
-@@ -94,3 +105,5 @@ pkg_postinst_eudev-hwdb () {
- pkg_prerm_eudev-hwdb () {
-         rm -f $D${sysconfdir}/udev/hwdb.bin
- }
+diff --git a/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch b/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
+new file mode 100644
+index 0000000000..fb31823dd4
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
+@@ -0,0 +1,30 @@
++From aafbceccc76dccb75963dd4f596fd1f10ee34b03 Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <boost@kayari.org>
++Date: Fri, 5 Jun 2020 19:29:27 +0100
++Subject: [PATCH] Make index::detail::rtree::visitors::insert base class public
 +
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-Christian Eggers
-Embedded software developer
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
-ummer: HRA 57918
-Persoenlich haftender Gesellschafter: Arnold & Richter Cine Technik GmbH
-Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
-ummer: HRB 54477
-Geschaeftsfuehrer: Dr. Michael Neuhaeuser; Stephan Schenk; Walter Traunin=
-ger; Markus Zeiler
++Fixes #721
++
++Upstream-Status: Accepted [https://github.com/boostorg/geometry/commit/aafbceccc76dccb75963dd4f596fd1f10ee34b03]
++
++Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
++---
++ boost/geometry/index/detail/rtree/visitors/insert.hpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/boost/geometry/index/detail/rtree/visitors/insert.hpp b/boost/geometry/index/detail/rtree/visitors/insert.hpp
++index 2d324cb7f..5709a930c 100644
++--- a/boost/geometry/index/detail/rtree/visitors/insert.hpp
+++++ b/boost/geometry/index/detail/rtree/visitors/insert.hpp
++@@ -265,7 +265,7 @@ struct insert_traverse_data
++ // Default insert visitor
++ template <typename Element, typename MembersHolder>
++ class insert
++-    : MembersHolder::visitor
+++    : public MembersHolder::visitor
++ {
++ protected:
++     typedef typename MembersHolder::box_type box_type;
++-- 
++2.26.2
++
+diff --git a/meta/recipes-support/boost/boost_1.73.0.bb b/meta/recipes-support/boost/boost_1.73.0.bb
+index 5e9e0d87d7..995c14e8cc 100644
+--- a/meta/recipes-support/boost/boost_1.73.0.bb
++++ b/meta/recipes-support/boost/boost_1.73.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += "file://arm-intrinsics.patch \
+            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch \
+            "
+-- 
+2.20.1
 
