@@ -1,84 +1,117 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web11.397.1592848862251721808
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web11.399.1592848867449345850
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 11:01:02 -0700
+ Mon, 22 Jun 2020 11:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rOFATFKp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f45.google.com with SMTP id k15so13808365otp.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:01:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=L4CUzopx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f169.google.com with SMTP id p82so5686863oif.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 11:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=UPfbBLdGwnLS4C1cgKZET0qf6KmhNJXNhyPYv9iY4e4=;
-        b=rOFATFKpbYaKzjfQB/gvwBhKU8UAV8pokwsv1xSG+OIuePkODvj1oxA3l0gvi6bmcO
-         RWbClRvMyoMmnU8OM1qQFx3Eiz6thnwEWrHl16hhfRJNKueG/XVSO9w0mHF2RwSXOad3
-         gViRoxfWfRruYG7WPYmiS2BJ95WBPncyvyP//C9RvTQ2LIEcaZX6DHL9l3nK+4jSOyo/
-         0DgVu6nBgn735nHu+tbm/NmaYmkKp1Xe/trSGlFnDs7QjHIRl+JCXOjUgiQ6qgkCvMRF
-         4oOa7hN4Nu5ArnFbSK9XnC9kfJ4heIB7yMeY9gExC2+rqmvd+nRnigFfLuTFt825TwH+
-         77oA==
+        bh=KmIkBDH6MV25fDXVEWnAsqK33Q9gNDoqE5C560aWb/s=;
+        b=L4CUzopxIHCU4fZHk9P8x4s99y8By97MRavWIv0CYUb6rkBrEymnQsA0bFRHBMmTmZ
+         eIcLstctcVH8jLp5PrTe8MmhFyFz1i/TUks8RmlE526aPBri8wO6dvw1aPHIcJ7+7X+R
+         U5LVFAPKrilN0H3BKoCQ03PH403h0JuArF+jG/Kz1bG1QONIk27Iayvlh/9HZ0aq7ZRR
+         KGvPrhPPscmgTIIUtOiJjWgNkiA5JBfnKh3pUGuxjuqfmO4n86Pq3Yiz0bZNlDc4H4u1
+         gI0yKxfUYMSSThY2zs39JwIUll4Gw3VsPxlPRWOPJ2X0R7/zYjXj29NMmSNG9iRjce9t
+         6ysQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=UPfbBLdGwnLS4C1cgKZET0qf6KmhNJXNhyPYv9iY4e4=;
-        b=t99w7Pssx+wuvLlJIANV5B6JV7yM/YdpjU59IxVtRsNBZabJZtHHMH8OjkvG539ey8
-         /j1mF3GY5/IsRhKgvYTGqwvMEEuctcsXZso8xmX90OuJAZFAFRqNk9Rk3RVrc2hxYU4K
-         zVa7BOgJa08xzeABQxw9L4Q9BcRAL5ppvHHW9Jya3FKGyBSWzII1qRnFjk511v0LYkbA
-         6kHxLD9uw6bE9ql8OPt4fZAWRWGR5zwMZxDcekoNRt09ZkqY5HNMeSeivpGKuvvE2r/A
-         YsOlbaiJYb1uJuh4bFg2ytOaTlcswGSuovofllN4XCizSRpRbZvDjr+pf3KRE6/Z1Lje
-         oD9A==
-X-Gm-Message-State: AOAM533GdISoRF66Hz3sXxQ/WGLJaKdn9hIk+oJs+bm0t+ALGVq+Um1X
-	nZE4Cqn1yE+y86XtH+Lyq2fXpXhNbPF80A==
-X-Google-Smtp-Source: ABdhPJyFx9oWFc1G3CIzc5sjNJZTZZujkmNx3kbd+7Wy0dzPKjlINaszC/wtLwMJqMQUgmwwQNtN8Q==
-X-Received: by 2002:a05:6830:20cf:: with SMTP id z15mr15735008otq.248.1592848860753;
-        Mon, 22 Jun 2020 11:01:00 -0700 (PDT)
+        bh=KmIkBDH6MV25fDXVEWnAsqK33Q9gNDoqE5C560aWb/s=;
+        b=E4/g9UuF9GP/4LdGFdH2O6VHdPGHH1zmBDcsNmo6oBORfcvz2Xbflxl7PIHau2Q8g0
+         T9R8Z655NAaPitaHCN5N1foyW71CmmfB54u+Jal/azgDqycySOGgJfZrVFyoGiHIQcIB
+         gW1BFb1cU1y0V8POLKfGZvqvDRdT3YCiMPiMxfvOYYYKH+rN9UkrzXaQlq9NcGOCHGt+
+         4GzkY+fsSY4cMDDpK2vsP1eL9xG2a3Zo3QCxOjW2wYKRIKoBOH47rMmaCU9xIIMUrNfo
+         ySRTqVwMnk76JPML8HUEdPBjRmAw1fOtwf7YKTtbdW3Nn3H3bCGCaw9z4hR989js7vTa
+         eRFQ==
+X-Gm-Message-State: AOAM530X7zCbikcpClev6I3rjE2LYOJ7UgQxABH85AE9ubfuZ9pfsdhT
+	Ecg9hKt6QbosN15uuCrRRwoRq02jp87Qdg==
+X-Google-Smtp-Source: ABdhPJxfLxllxF5z250zRW4iHwqMDiSI3pV9Pq1JG2y8XTIl7hlgwtxkoVUTgyAmsNl/wuQ3Qs4UOg==
+X-Received: by 2002:aca:c501:: with SMTP id v1mr13597491oif.40.1592848866171;
+        Mon, 22 Jun 2020 11:01:06 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.00.57
+        by smtp.gmail.com with ESMTPSA id n60sm3422659otn.75.2020.06.22.11.01.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 11:01:00 -0700 (PDT)
+        Mon, 22 Jun 2020 11:01:05 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/33] buildhistory-collect-srcrevs: sort directories
-Date: Mon, 22 Jun 2020 07:58:14 -1000
-Message-Id: <9ca9c0fa320caeb2a1e7a60161c4db66dc0f2030.1592848337.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/33] common-licenses: add BSD-2-Clause-Patent
+Date: Mon, 22 Jun 2020 07:58:15 -1000
+Message-Id: <f5b7bb5f34ad45400712d6190f1f836056c4bc18.1592848337.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1592848337.git.steve@sakoman.com>
 References: <cover.1592848337.git.steve@sakoman.com>
 
-From: Dan McGregor <danismostlikely@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
-
-In order to allow consistent output of buildhistory-collect-srcrevs sort
-the list of directories returned by os.walk. Otherwise the list of
-SRCREVs is returned in an unspecified order.
-
-We save the output of this command on build, so it creates smaller diffs
-between builds.
-
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3d7cb207ad4ec3cd5a3064147d3c9b5a1730d0fb)
+(cherry picked from commit d6e8c4a63caefdf36dfbc9d230c9e8db4b43dc5a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/buildhistory-collect-srcrevs | 1 +
- 1 file changed, 1 insertion(+)
+ .../common-licenses/BSD-2-Clause-Patent.txt   | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 meta/files/common-licenses/BSD-2-Clause-Patent.txt
 
-diff --git a/scripts/buildhistory-collect-srcrevs b/scripts/buildhistory-collect-srcrevs
-index c4d203ff4d..340bee78bb 100755
---- a/scripts/buildhistory-collect-srcrevs
-+++ b/scripts/buildhistory-collect-srcrevs
-@@ -59,6 +59,7 @@ def main():
- 
-     all_srcrevs = collections.defaultdict(list)
-     for root, dirs, files in os.walk(options.buildhistory_dir):
-+        dirs.sort()
-         if '.git' in dirs:
-             dirs.remove('.git')
-         for fn in files:
+diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent.txt
+new file mode 100644
+index 0000000000..1184c02957
+--- /dev/null
++++ b/meta/files/common-licenses/BSD-2-Clause-Patent.txt
+@@ -0,0 +1,47 @@
++Copyright (c) <YEAR> <COPYRIGHT HOLDERS>
++
++Redistribution and use in source and binary forms, with or without modification,
++are permitted provided that the following conditions are met:
++
++1. Redistributions of source code must retain the above copyright notice,
++this list of conditions and the following disclaimer.
++
++2. Redistributions in binary form must reproduce the above copyright notice,
++this list of conditions and the following disclaimer in the documentation
++and/or other materials provided with the distribution.
++
++Subject to the terms and conditions of this license, each copyright holder
++and contributor hereby grants to those receiving rights under this license
++a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++(except for failure to satisfy the conditions of this license) patent license
++to make, have made, use, offer to sell, sell, import, and otherwise transfer
++this software, where such license applies only to those patent claims, already
++acquired or hereafter acquired, licensable by such copyright holder or contributor
++that are necessarily infringed by:
++
++(a) their Contribution(s) (the licensed copyrights of copyright holders and
++non-copyrightable additions of contributors, in source or binary form) alone;
++or
++
++(b) combination of their Contribution(s) with the work of authorship to which
++such Contribution(s) was added by such copyright holder or contributor, if,
++at the time the Contribution is added, such addition causes such combination
++to be necessarily infringed. The patent license shall not apply to any other
++combinations which include the Contribution.
++
++Except as expressly stated above, no rights or licenses from any copyright
++holder or contributor is granted under this license, whether expressly, by
++implication, estoppel or otherwise.
++
++DISCLAIMER
++
++THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
++AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
++LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
++SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
++CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- 
 2.17.1
 
