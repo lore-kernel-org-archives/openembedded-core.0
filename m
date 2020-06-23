@@ -1,112 +1,114 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.2771.1592901069357946248
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
+ by mx.groups.io with SMTP id smtpd.web12.3157.1592902877219417941
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 01:31:09 -0700
+ Tue, 23 Jun 2020 02:01:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: zhe.he@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05N8V7xb008420
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 01:31:08 -0700 (PDT)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 23 Jun 2020 01:30:48 -0700
-From: "He Zhe" <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] ltp: Fix copy_file_rang02 for 32-bit arches
-Date: Tue, 23 Jun 2020 16:30:47 +0800
-Message-ID: <20200623083047.38969-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TB3xPO+0;
+ spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f66.google.com with SMTP id c16so7572903ioi.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 02:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CAzSbyLNpvkcOwcCCR3DKhNY3BaVtDgRBOaFefr9+Lo=;
+        b=TB3xPO+0CJuMNga6E0StxJlj2TNygIuKuWnSkYx8ee0mZMpluNlLYvyJaW74ESyZWh
+         x+Dx6xkhGtgFkxPdC6Rz65OD9e8f+j/j72FnIHy9XCXsi5WgOWP3cS73SwolWEv5p78v
+         1/7+AFzVIHxoopbh932VOPs2+obfgikkN/pO/N+degNO5qazviCKwA5/1RgzVpu9ly+O
+         3B3XjN0VsQbabKv/o8EmRcnHcFhIPs56lNy2CR+0Y6S6CvXK0bd4BDJnzrr8opBaNM5z
+         NPBCPNvslj6F3SCrfRF96+LOYtauyiWvI1VxJUopBM6wlAfvzIiaeRSBlBX09GMGGQvN
+         Zbqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CAzSbyLNpvkcOwcCCR3DKhNY3BaVtDgRBOaFefr9+Lo=;
+        b=PSEvvPtzOz7ejbTOrt9AhvnjWfq8PlM7WLnZfyaNedArQJfpUI66LuHdozDUDan2cX
+         vCMU7Qu+cbkhEOWqAaYYytkKUO4TnEeGzUqNpXWgiWfBJObBvQRZZ7OOjMQDkokTwk/w
+         bzAxv6wuYr9ixsORdpTiUGAhzpxKabX56PRJty1IPzLNy3etKOrH4qaxptnuaa8o/qTD
+         ZxM9Y5cqWbxnbiMsP1WgSlITmpI+t1sdaZNoau0HsvIT3SHRvbWlFE3Hn0/It7kl9vNQ
+         zuxZOTLikEhF2WEdFnTzCXy8CMt2fuw1XP28k6oyb+fb9HQuL4RBWfQkNgQR56sAa8jf
+         giHQ==
+X-Gm-Message-State: AOAM530i+AfmQiClqq9bbVq3aUQX90G1I0SNTvYpjktyJGoj3NvrAnvB
+	jlFfRT6uqfNZH7fCf34FblUf9xLTy+PJ9hZEi8o=
+X-Google-Smtp-Source: ABdhPJxo2IKOXzYQo+y2jJcnv/qsWINKYhYgVRfQkoWSc06nVNWK8zvkrv9MpY6fzqwNW+ei/vefew8w3Vf3hhrbRE0=
+X-Received: by 2002:a6b:197:: with SMTP id 145mr24094711iob.77.1592902876550;
+ Tue, 23 Jun 2020 02:01:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200622105717.108062-1-alex.kiernan@gmail.com>
+ <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
+ <CAO5Uq5R-oXNuqoVPpoC288smwDH459tjik6aB=B1+aOsT+dayA@mail.gmail.com>
+ <161AF559DCEBF3F0.4124@lists.openembedded.org> <68c8ab0777b1b8e43d4d9cd7a0032a84efd39ea8.camel@linuxfoundation.org>
+In-Reply-To: <68c8ab0777b1b8e43d4d9cd7a0032a84efd39ea8.camel@linuxfoundation.org>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Tue, 23 Jun 2020 10:01:05 +0100
+Message-ID: <CAO5Uq5ShcQMYSYT5YFOa7i3sbAGP_dVWKrcPTiK3zPKFZZfvGw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: He Zhe <zhe.he@windriver.com>
+On Tue, Jun 23, 2020 at 9:20 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-06-22 at 20:46 +0100, Richard Purdie via lists.openembedded.org wrote:
+> > On Mon, 2020-06-22 at 19:53 +0100, Alex Kiernan wrote:
+> > > On Mon, Jun 22, 2020 at 6:34 PM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > On Mon, 2020-06-22 at 11:57 +0100, Alex Kiernan wrote:
+> > > > > Generate output for each contaminated path so it's visible in the main
+> > > > > log file, then enable rootfs_check_host_user_contaminated by default.
+> > > > >
+> > > > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > > > > ---
+> > > > >
+> > > > > Changes in v2:
+> > > > > - expose each contaminated path in the main log
+> > > > >
+> > > > >  meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
+> > > > >  1 file changed, 4 insertions(+), 5 deletions(-)
+> > > >
+> > > > Thanks, this is definitely more helpful. Some warnings in the test
+> > > > build:
+> > > >
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/2046
+> > > >
+> > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd
+> > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm.bak
+> > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/state
+> > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm
+> > > >
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2073
+> > > >
+> > > > step3b: WARNING: core-image-sato-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/cache/fontconfig/CACHEDIR.TAG
+> > > >
+> > > > which does raise more questions.
+> > > >
+> > >
+> > > I'm having no luck reproducing either of these locally :|
+> >
+> > They don't reproduce on the autobuilder either. We're probably going to
+> > need to open a bug in bugzilla and enter these there listing the target
+> > that caused it and the host it was on.
+> >
+> > Hopefully we'll see a pattern emerge.
+> >
+> > Or maybe the pseudo fix I posted will make it all go away. I can live
+> > in hope right?!
+> >
+> > Either way, I think this patch is going to be a longer journey until we
+> > figure out what is happening.
+>
+> Last nights build also gave warnings:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2055
+>
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /usr/bin/crontab
+> step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/spool/cron
+>
 
-Fix the following error.
-copy_file_range02.c:139: FAIL: copy_file_range failed unexpectedly; expected EOVERFLOW, but got: EFBIG (27)
+Interestingly both of those have file permissions which aren't simple
+ugo-rwx type things.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...le_range02-Expect-EFBIG-in-subcase-m.patch | 57 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20200515.bb     |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-copy_file_range02-Expect-EFBIG-in-subcase-m.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-copy_file_range02-Expect-EFBIG-in-subcase-m.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-copy_file_range02-Expect-EFBIG-in-subcase-m.patch
-new file mode 100644
-index 0000000000..0c082f04a5
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-copy_file_range02-Expect-EFBIG-in-subcase-m.patch
-@@ -0,0 +1,57 @@
-+From 99687ab002f9f750f6f18fa1d70a91f0aa4f8ba2 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Thu, 18 Jun 2020 17:18:27 +0800
-+Subject: [PATCH] syscalls/copy_file_range02: Expect EFBIG in subcase max
-+ length on 32-bit architectures
-+
-+For syscall
-+ssize_t copy_file_range(int fd_in, loff_t *off_in,
-+                               int fd_out, loff_t *off_out,
-+                               size_t len, unsigned int flags);
-+off_out is loff_t* that is long long, 64 bits on 32-bit architectures,
-+while len is size_t that unsigned int, 32 bits on 32-bit architectures.
-+
-+In subcase "max length", simplified as below,
-+
-+dst = tst_max_lfs_filesize();
-+TEST(sys_copy_file_range(fd_src, 0, *tc->copy_to_fd, &dst, tc->len, tc->flags));
-+
-+where dst is 4K*4G and len is 4G, so (4K+1)*4G is always smaller than 4G*4G,
-+it can never match the following kernel condition on 32-bit architectures.
-+
-+if (pos_in + count < pos_in || pos_out + count < pos_out)
-+	return -EOVERFLOW;
-+
-+And thus we would get error like
-+copy_file_range02.c:139: FAIL: copy_file_range failed unexpectedly; expected EOVERFLOW, but got: EFBIG (27)
-+
-+Also correct a typo.
-+
-+Upstream-Status: Accepted [http://lists.linux.it/pipermail/ltp/2020-June/017716.html]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+Acked-by: Li Wang <liwang@redhat.com>
-+---
-+ .../kernel/syscalls/copy_file_range/copy_file_range02.c     | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/testcases/kernel/syscalls/copy_file_range/copy_file_range02.c b/testcases/kernel/syscalls/copy_file_range/copy_file_range02.c
-+index fa679c4d3..bc27fbe57 100644
-+--- a/testcases/kernel/syscalls/copy_file_range/copy_file_range02.c
-++++ b/testcases/kernel/syscalls/copy_file_range/copy_file_range02.c
-+@@ -78,7 +78,11 @@ static struct tcase {
-+ 	{&fd_chrdev,	0,	EINVAL,		CONTSIZE,	"char device",	0},
-+ 	{&fd_fifo,	0,	EINVAL,		CONTSIZE,	"fifo", 	0},
-+ 	{&fd_pipe[0],	0,	EINVAL,		CONTSIZE,	"pipe", 	0},
-+-	{&fd_copy,	0,	EOVERFLOW,	ULLONG_MAX,	"max length lenght", 	1},
-++#ifdef TST_ABI64
-++	{&fd_copy,	0,	EOVERFLOW,	ULLONG_MAX,	"max length", 	1},
-++#else
-++	{&fd_copy,	0,	EFBIG,		ULLONG_MAX,	"max length", 	1},
-++#endif
-+ 	{&fd_copy,	0,	EFBIG,		MIN_OFF,	"max file size", 	1},
-+ };
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20200515.bb b/meta/recipes-extended/ltp/ltp_20200515.bb
-index f2510baa68..b283add12f 100644
---- a/meta/recipes-extended/ltp/ltp_20200515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200515.bb
-@@ -36,6 +36,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-ptrace01-Fix-missing-format-string.patch \
-            file://0001-sigwaitinfo-Do-not-run-invalid-undefined-test-cases.patch \
-+           file://0001-syscalls-copy_file_range02-Expect-EFBIG-in-subcase-m.patch \
-            "
- 
- S = "${WORKDIR}/git"
 -- 
-2.17.1
-
+Alex Kiernan
