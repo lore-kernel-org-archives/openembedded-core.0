@@ -1,79 +1,46 @@
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
- by mx.groups.io with SMTP id smtpd.web11.8005.1592870562450507431
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.9367.1592875577397980723
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2020 17:02:43 -0700
+ Mon, 22 Jun 2020 18:26:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=f2Twv3kN;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.210.67, mailfrom: jpuhlman@mvista.com)
-Received: by mail-ot1-f67.google.com with SMTP id m2so14741877otr.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2020 17:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=COKit8Xl4b/fxLr4NtKSZsLWBZVd0EkgxkvzmmNCqYg=;
-        b=f2Twv3kNJLszTPr9yXrFJS2L5nbj1pcTey50l4WDx9jPOsBBcWd2Mc3RxXeYQ1vXUI
-         P1jZZ0rAbMmR68f2PfLYioKuCQ3xH4Namt/eBU8fNdOhoK3dAwjdIrxS0Aq5IYlCItuV
-         nnoQY6OA0xU/02ey0IlniK9cf/2TWU0vJnY5Bnkjikf3AfzI/YDzgtMD6SMThCtAtmRG
-         MM9R81GOauwbwc7Uaa72j040R4j1u1vfdJZMZ7c9vfKOBT80Xwfpu6wvpitPAKayMnWb
-         bAo3odHLG+++xR0EBe+FpfZvi9jJrKbxEK+1WcrIas32iYwJTOl3xkwKDChLt0WZkVr1
-         5k5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=COKit8Xl4b/fxLr4NtKSZsLWBZVd0EkgxkvzmmNCqYg=;
-        b=IUxp/fqzuHvpJvst7lynUbzxDfe+khPa1SJx+8VRZFRBpwQTBfBER8sLEtOffuOoXZ
-         CIcK6cQ92j7dJ/xAE+Mbbuf04MKEnOaeE5AQhufFJRzUoqSytrJQ1DPNfmn87ARfQk/C
-         1FJCWsmJTeASp8MMdYpbZqReKWJIj24fvukxJFVxHPqiDkkPvWhdIy96PJlg75KMSeoq
-         9sA4uEf9cM6WgUCxutC1n+wPOtpGqSzvm2e3gkFFezv3fdvCHBHAhf1GQPBSjaWSuhqC
-         y1jiGCcNiqxBchMb34st76C5B2DVyxhA6dGUPHn4iB+HYK44fq+4ugp39LKh69EVrgHK
-         t0wg==
-X-Gm-Message-State: AOAM531nCgHVfPbUXw6Ljnspd1GSOZOLdXc4A+qdHWh7f7pCCzSMJUyb
-	xJ4Cy+yHC19OxhIPCSw+zE59XAS9P/4=
-X-Google-Smtp-Source: ABdhPJzN3O19HnB2RRUeUNCoX9pRGqiowrzQHB226e35UFTnKAc/h0SCuowZJgEDUmBPIMwjZrsjSg==
-X-Received: by 2002:a9d:456:: with SMTP id 80mr15531248otc.2.1592870561494;
-        Mon, 22 Jun 2020 17:02:41 -0700 (PDT)
-Return-Path: <jpuhlman@mvista.com>
-Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-        by smtp.gmail.com with ESMTPSA id k8sm3600177oik.31.2020.06.22.17.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 17:02:40 -0700 (PDT)
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id A0E722A0B30; Mon, 22 Jun 2020 17:02:39 -0700 (PDT)
-From: "Jeremy Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Subject: [PATCH] xmlcatalog: add exit 0
-Date: Mon, 22 Jun 2020 17:02:37 -0700
-Message-Id: <20200623000237.28031-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05N1QD1Y001103
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Mon, 22 Jun 2020 18:26:13 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Mon, 22 Jun 2020
+ 18:25:50 -0700
+From: "hongxu" <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] libmodulemd: switch branch master -> main
+Date: Tue, 23 Jun 2020 09:25:49 +0800
+Message-ID: <20200623012549.36428-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In most sysroot creation steps, the sysroots components are installed in
-depenancy order. However, in the case of build-sysroots, since it is
-not using standard dependacies, post installs that use xmlcatalog fail
-because xmlcatalog is not installed. Since the last execution in the
-script is xmlcatalog, the script returns 127.
+Upstream delete branch master, and convert it to main
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/xmlcatalog.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
-index ae4811fdeb..e8d73abcf5 100644
---- a/meta/classes/xmlcatalog.bbclass
-+++ b/meta/classes/xmlcatalog.bbclass
-@@ -15,6 +15,7 @@ xmlcatalog_complete() {
- 	for CATALOG in ${XMLCATALOGS}; do
- 		xmlcatalog --noout --add nextCatalog unused file://$CATALOG $ROOTCATALOG
- 	done
-+	exit 0
- }
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index fda01b8ad8..10204acf23 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -2,7 +2,7 @@ SUMMARY = "C Library for manipulating module metadata files"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
  
- xmlcatalog_sstate_postinst() {
+-SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https \
++SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main \
+            file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
+            "
+ 
 -- 
-2.20.1
+2.18.2
 
