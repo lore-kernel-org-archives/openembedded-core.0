@@ -1,431 +1,199 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.2256.1592954632412910958
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.2584.1592955768464845865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 16:23:52 -0700
+ Tue, 23 Jun 2020 16:42:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SdZBK1sz;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: ticotimo@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id h4so143618ior.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 16:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5BxAwxJX14aKqKFO36W8kwNvxp+BkibunViptjkvM+s=;
-        b=SdZBK1szy0mPn4ZUHRYLfijOa1oyKyWst8WrlbdehvwFItrnfWKwOkU/s/dK7BPQ9Y
-         rpkmWC0gt68ddfxFCZXPWaX5aOl4xz5AHhvJqmmghBZ/Eigwg4bddh50stKT+Hw6+y0n
-         LBlhfe3oClo/YvAS84mHGOlVJVMcRBTCBxsnL9+9nXpwsi6dxZ5JP6ol7P6VN0S8QzyZ
-         FD7qIW1x+EIRyV+wAQH1PigRvcgStVuoQ8HK7w8hSIVsy9AZxwcGXp9AfO1jmwXouhrd
-         AUAs276154ecfYaKc7AMWz8XyMnlNj+dlUZyFip1l3NFuEEbHQ+4/TNr4/s7XyUFoLSt
-         5UMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5BxAwxJX14aKqKFO36W8kwNvxp+BkibunViptjkvM+s=;
-        b=t0dd5c6cKYOo8i4zp/3JzOYM8Rs752cFBnPft/QiwvYm1t7I+YVMOyFGCMYBqbgg5D
-         nU+uJlnLWx+Z5cCpWsYfTJhw7FdfogACodiQU8lKaMmE0IvUqtlAOiqj6NJu/+eDcdlr
-         QsiT4s/cQoDbWzZOguyGTnFt7ok8bh1kcTIVC5q5itPCc8Y2iKM761TX7a2XfFg5/dVn
-         2noi9w1jIe0a55s9eJ1ECKrf8qfBtkSVCpq6+pa3sCMI0ikcv3LdocB5xVuXDNiC9tkx
-         B6FCeNBBH96TwG5F4tc8PjMqo5m0VR4bg2EGScww7J4pYofYB6CpRuGzqv32i1GrePVm
-         YDLg==
-X-Gm-Message-State: AOAM530r3xS6d51MmqNPmdGyjS1XudWT0CC4xFtCuugeppdYg0vHgURr
-	5846ZMnKYr2eYG5hCNENwb4U0c1Sr/C2PceX8EQ=
-X-Google-Smtp-Source: ABdhPJxo9NQnelgD6S2V25aWjtw3JQahHtVs2HCnvG/0bA6rlnxEHdSchL03N5WMnw35qg7rx+ksplK1HntPPazTTUo=
-X-Received: by 2002:a6b:740b:: with SMTP id s11mr28349107iog.10.1592954631664;
- Tue, 23 Jun 2020 16:23:51 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: trevor.gamblin@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05NNgl53019607
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 16:42:47 -0700 (PDT)
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 23 Jun 2020 16:42:47 -0700
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1 v3] Improving setuptools performance in Python
+Date: Tue, 23 Jun 2020 19:42:45 -0400
+Message-ID: <20200623234246.7355-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200623232051.6294-1-trevor.gamblin@windriver.com> <20200623232051.6294-2-trevor.gamblin@windriver.com>
-In-Reply-To: <20200623232051.6294-2-trevor.gamblin@windriver.com>
-From: "Tim Orling" <ticotimo@gmail.com>
-Date: Tue, 23 Jun 2020 16:23:40 -0700
-Message-ID: <CANx9H-DLRxzzKePeQCNgH8zJSu0Dn4ofVra55ngc+XZhan-rqA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] python3-setuptools: patch entrypoints for faster initialization
-To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f6b8c905a8c8a6aa"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000f6b8c905a8c8a6aa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2: Forgot the Upstream-Status for the setuptools patch file in v1.
+v3: Correct subject line numbering and patch revision details in v2.
 
-On Tue, Jun 23, 2020 at 4:20 PM Trevor Gamblin <trevor.gamblin@windriver.co=
-m>
-wrote:
+As explained in https://github.com/pypa/setuptools/issues/510, the 
+pkg_resources module in setuptools is very slow to initialize scripts 
+due to how it scans the Python path for each module that would import 
+pkg_resources. My understanding of upstream Python's response is that 
+as of 3.7 and later, importlib.resources is available for replacing 
+this functionality in new scripts, but existing code that uses 
+pkg_resources will still have to be re-written to use it (or something 
+like python3-fastentrypoints. 
 
-> v2 adds the missing Upstream-Status notice in the patch file.
->
+I've done some performance testing with this patch using the following,
+very simple steps:
 
-This belongs below the triple-dash line, as it doesn=E2=80=99t make sense =
-in
-permanent git history out of context
+1) Add "IMAGE_INSTALL_append = " python3-setuptools" to local.conf;
 
+2) bitbake core-image-full-cmdline
 
-> setuptools' pkg_resources module has major performance issues with how
-> it loads entry points (e.g. the console_script entry point, which sets
-> up a module as a command-line executable), leading even the simplest
-> "hello world" scripts to take on the order of 150ms to run if
-> pkg_resources is incorporated. This is prohibitive for code that needs
-> to run quickly, and so we patch setuptools to reduce this time. As of
-> Python 3.7, importlib.resources is available and intended to replace
-> much of the functionality that causes this sluggishness, but since
-> many projects still utilize the legacy setuptools modules, a patch is
-> still required. Note that python3-fastentrypoints (which is available
-> in the meta-virtualization layer) is also intended to help alleviate
-> the problem, but since it must be added to existing projects it has
-> the same disadvantage as resorting to importlib.resources, requiring
-> manual additions to existing code to see the performance gains.
->
-> The intent here is to patch easy_install to load module entry points
-> directly with the installed setuptools, rather than importing
-> pkg_resources and having it search out the entry points itself. This
-> leads to a drastic performance improvement - the changes in this patch
-> have been shown to result in load time ~6-8x lower, depending on the
-> complexity of the code it is tested with. A simple "hello world"
-> example on core-image-full-cmdline gave these results with and without
-> the patch:
->
-> core-image-full-cmdline, without setuptools ScriptWriter patch:
->
-> root@qemux86-64:~# time /usr/bin/minimal
-> hello world
->
-> real    0m0.198s
-> user    0m0.174s
-> sys     0m0.023s
->
-> core-image-full-cmdline, with setuptools ScriptWriter patch:
->
-> root@qemux86-64:~# time /usr/bin/minimal
-> hello world
->
-> real    0m0.034s
-> user    0m0.024s
-> sys     0m0.010s
->
-> More details on the pkg_resources issue are available at:
-> https://github.com/pypa/setuptools/issues/510
->
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
+3) mkdir -p test/minimal;
 
+4) In test/minimal/__init__.py, add:
 
-Put v2 changes here. It allows for review, but keeps it out of permanent
-git history
+def main():
+    print('hello world')
 
->
->  .../python/python-setuptools.inc              |  4 +-
->  ...nt-usr-bin-wrappers-signoff-included.patch | 62 +++++++++++++++++++
->  2 files changed, 65 insertions(+), 1 deletion(-)
->  create mode 100644
-> meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create=
--more-efficient-usr-bin-wrappers-signoff-included.patch
->
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc
-> b/meta/recipes-devtools/python/python-setuptools.inc
-> index 9322ca9a05..3222de7079 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -10,7 +10,9 @@ inherit pypi
->
->  SRC_URI_append_class-native =3D "
-> file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
->
-> -SRC_URI +=3D "file://0001-change-shebang-to-python3.patch"
-> +SRC_URI +=3D "file://0001-change-shebang-to-python3.patch \
-> +
-> file://0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-=
-included.patch
-> \
-> +            "
->
->  SRC_URI[md5sum] =3D "6e9de90b242fdd60ef59f497424ce13a"
->  SRC_URI[sha256sum] =3D
-> "145fa62b9d7bb544fce16e9b5a9bf4ab2032d2f758b7cd674af09a92736aff74"
-> diff --git
-> a/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-crea=
-te-more-efficient-usr-bin-wrappers-signoff-included.patch
-> b/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-crea=
-te-more-efficient-usr-bin-wrappers-signoff-included.patch
-> new file mode 100644
-> index 0000000000..7e931c845c
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-crea=
-te-more-efficient-usr-bin-wrappers-signoff-included.patch
-> @@ -0,0 +1,62 @@
-> +From aae8cd3de3f289cea3db01212579913c925191e8 Mon Sep 17 00:00:00 2001
-> +From: Lauri Tirkkonen <lauri.tirkkonen.ext@nokia.com>
-> +Date: Thu, 26 Mar 2020 14:24:25 +0000
-> +Subject: [PATCH] ScriptWriter: create more efficient /usr/bin wrappers
-> +
-> +Upstream setuptools writes scripts to /usr/bin that do insanely much
-> +stuff at runtime. https://github.com/pypa/setuptools/issues/510
-> +
-> +Since the script entry points are already known at build time, we can
-> +just write those directly into the /usr/bin wrapper, avoiding the
-> +expensive 'pkg_resources' import at runtime. The idea is from
-> +https://github.com/ninjaaron/fast-entry_points but patched directly int=
-o
-> +the native build of setuptools here, so that all Python modules under
-> +bitbake automatically use it without needing additional build time
-> +dependencies.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Lauri Tirkkonen <lauri.tirkkonen.ext@nokia.com>
-> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> +---
-> + setuptools/command/easy_install.py | 14 ++++++--------
-> + 1 file changed, 6 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/setuptools/command/easy_install.py
-> b/setuptools/command/easy_install.py
-> +index 8fba7b41..03a72714 100755
-> +--- a/setuptools/command/easy_install.py
-> ++++ b/setuptools/command/easy_install.py
-> +@@ -2023,17 +2023,12 @@ class ScriptWriter(object):
-> +     """
-> +
-> +     template =3D textwrap.dedent(r"""
-> +-        # EASY-INSTALL-ENTRY-SCRIPT: %(spec)r,%(group)r,%(name)r
-> +-        __requires__ =3D %(spec)r
-> +-        import re
-> +         import sys
-> +-        from pkg_resources import load_entry_point
-> ++
-> ++        from %(module)s import %(ep0)s
-> +
-> +         if __name__ =3D=3D '__main__':
-> +-            sys.argv[0] =3D re.sub(r'(-script\.pyw?|\.exe)?$', '',
-> sys.argv[0])
-> +-            sys.exit(
-> +-                load_entry_point(%(spec)r, %(group)r, %(name)r)()
-> +-            )
-> ++            sys.exit(%(entrypoint)s())
-> +     """).lstrip()
-> +
-> +     command_spec_class =3D CommandSpec
-> +@@ -2068,6 +2063,9 @@ class ScriptWriter(object):
-> +         for type_ in 'console', 'gui':
-> +             group =3D type_ + '_scripts'
-> +             for name, ep in dist.get_entry_map(group).items():
-> ++                module =3D ep.module_name
-> ++                ep0 =3D ep.attrs[0]
-> ++                entrypoint =3D '.'.join(ep.attrs)
-> +                 cls._ensure_safe_name(name)
-> +                 script_text =3D cls.template % locals()
-> +                 args =3D cls._get_script_args(type_, name, header,
-> script_text)
-> +--
-> +2.24.1
-> +
-> --
-> 2.26.2
->
->=20
->
+if __name__ == '__main__':
+    main()
 
---000000000000f6b8c905a8c8a6aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+5) In test/setup.py:
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jun 23, 2020 at 4:20 PM Trevor Gamblin &lt;<a href=
-=
-=3D"mailto:trevor.gamblin@windriver.com">trevor.gamblin@windriver.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">v2 adds the missing Upst=
-ream-Status notice in the patch file.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This belongs be=
-low the triple-dash line, as it doesn=E2=80=99t make sense in permanent git=
- history out of context</div><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><br>
-setuptools&#39; pkg_resources module has major performance issues with how=
-<br>
-it loads entry points (e.g. the console_script entry point, which sets<br>
-up a module as a command-line executable), leading even the simplest<br>
-&quot;hello world&quot; scripts to take on the order of 150ms to run if<br=
->
-pkg_resources is incorporated. This is prohibitive for code that needs<br>
-to run quickly, and so we patch setuptools to reduce this time. As of<br>
-Python 3.7, importlib.resources is available and intended to replace<br>
-much of the functionality that causes this sluggishness, but since<br>
-many projects still utilize the legacy setuptools modules, a patch is<br>
-still required. Note that python3-fastentrypoints (which is available<br>
-in the meta-virtualization layer) is also intended to help alleviate<br>
-the problem, but since it must be added to existing projects it has<br>
-the same disadvantage as resorting to importlib.resources, requiring<br>
-manual additions to existing code to see the performance gains.<br>
-<br>
-The intent here is to patch easy_install to load module entry points<br>
-directly with the installed setuptools, rather than importing<br>
-pkg_resources and having it search out the entry points itself. This<br>
-leads to a drastic performance improvement - the changes in this patch<br>
-have been shown to result in load time ~6-8x lower, depending on the<br>
-complexity of the code it is tested with. A simple &quot;hello world&quot;=
-<br>
-example on core-image-full-cmdline gave these results with and without<br>
-the patch:<br>
-<br>
-core-image-full-cmdline, without setuptools ScriptWriter patch:<br>
-<br>
-root@qemux86-64:~# time /usr/bin/minimal<br>
-hello world<br>
-<br>
-real=C2=A0 =C2=A0 0m0.198s<br>
-user=C2=A0 =C2=A0 0m0.174s<br>
-sys=C2=A0 =C2=A0 =C2=A00m0.023s<br>
-<br>
-core-image-full-cmdline, with setuptools ScriptWriter patch:<br>
-<br>
-root@qemux86-64:~# time /usr/bin/minimal<br>
-hello world<br>
-<br>
-real=C2=A0 =C2=A0 0m0.034s<br>
-user=C2=A0 =C2=A0 0m0.024s<br>
-sys=C2=A0 =C2=A0 =C2=A00m0.010s<br>
-<br>
-More details on the pkg_resources issue are available at:<br>
-<a href=3D"https://github.com/pypa/setuptools/issues/510" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/pypa/setuptools/issues/510</a><br>
-<br>
-Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windriv=
-er.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
----</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Put v2 chang=
-es here. It allows for review, but keeps it out of permanent git history=C2=
-=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><br>
-=C2=A0.../python/python-setuptools.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 4 +-<br>
-=C2=A0...nt-usr-bin-wrappers-signoff-included.patch | 62 +++++++++++++++++=
-++<br>
-=C2=A02 files changed, 65 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/python/python3-setuptools/0=
-001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.pa=
-tch<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/rec=
-ipes-devtools/python/python-setuptools.inc<br>
-index 9322ca9a05..3222de7079 100644<br>
---- a/meta/recipes-devtools/python/python-setuptools.inc<br>
-+++ b/meta/recipes-devtools/python/python-setuptools.inc<br>
-@@ -10,7 +10,9 @@ inherit pypi<br>
-<br>
-=C2=A0SRC_URI_append_class-native =3D &quot; file://0001-conditionally-do-=
-not-fetch-code-by-easy_install.patch&quot;<br>
-<br>
--SRC_URI +=3D &quot;file://0001-change-shebang-to-python3.patch&quot;<br>
-+SRC_URI +=3D &quot;file://0001-change-shebang-to-python3.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-ScriptWriter-create=
--more-efficient-usr-bin-wrappers-signoff-included.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;6e9de90b242fdd60ef59f497424ce13a&quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;145fa62b9d7bb544fce16e9b5a9bf4ab2032d2f=
-758b7cd674af09a92736aff74&quot;<br>
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWr=
-iter-create-more-efficient-usr-bin-wrappers-signoff-included.patch b/meta/r=
-ecipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-eff=
-icient-usr-bin-wrappers-signoff-included.patch<br>
-new file mode 100644<br>
-index 0000000000..7e931c845c<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-cr=
-eate-more-efficient-usr-bin-wrappers-signoff-included.patch<br>
-@@ -0,0 +1,62 @@<br>
-+From aae8cd3de3f289cea3db01212579913c925191e8 Mon Sep 17 00:00:00 2001<br=
->
-+From: Lauri Tirkkonen &lt;<a href=3D"mailto:lauri.tirkkonen.ext@nokia.com=
-" target=3D"_blank">lauri.tirkkonen.ext@nokia.com</a>&gt;<br>
-+Date: Thu, 26 Mar 2020 14:24:25 +0000<br>
-+Subject: [PATCH] ScriptWriter: create more efficient /usr/bin wrappers<br=
->
-+<br>
-+Upstream setuptools writes scripts to /usr/bin that do insanely much<br>
-+stuff at runtime. <a href=3D"https://github.com/pypa/setuptools/issues/51=
-0" rel=3D"noreferrer" target=3D"_blank">https://github.com/pypa/setuptools/=
-issues/510</a><br>
-+<br>
-+Since the script entry points are already known at build time, we can<br>
-+just write those directly into the /usr/bin wrapper, avoiding the<br>
-+expensive &#39;pkg_resources&#39; import at runtime. The idea is from<br>
-+<a href=3D"https://github.com/ninjaaron/fast-entry_points" rel=3D"norefer=
-rer" target=3D"_blank">https://github.com/ninjaaron/fast-entry_points</a> b=
-ut patched directly into<br>
-+the native build of setuptools here, so that all Python modules under<br>
-+bitbake automatically use it without needing additional build time<br>
-+dependencies.<br>
-+<br>
-+Upstream-Status: Pending<br>
-+<br>
-+Signed-off-by: Lauri Tirkkonen &lt;<a href=3D"mailto:lauri.tirkkonen.ext@=
-nokia.com" target=3D"_blank">lauri.tirkkonen.ext@nokia.com</a>&gt;<br>
-+Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windri=
-ver.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
-+---<br>
-+ setuptools/command/easy_install.py | 14 ++++++--------<br>
-+ 1 file changed, 6 insertions(+), 8 deletions(-)<br>
-+<br>
-+diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy=
-_install.py<br>
-+index 8fba7b41..03a72714 100755<br>
-+--- a/setuptools/command/easy_install.py<br>
-++++ b/setuptools/command/easy_install.py<br>
-+@@ -2023,17 +2023,12 @@ class ScriptWriter(object):<br>
-+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0template =3D textwrap.dedent(r&quot;&quot;&quot;<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # EASY-INSTALL-ENTRY-SCRIPT: %(spec)r,%(grou=
-p)r,%(name)r<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 __requires__ =3D %(spec)r<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 import re<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import sys<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 from pkg_resources import load_entry_point<b=
-r>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 from %(module)s import %(ep0)s<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if __name__ =3D=3D &#39;__main__&#39;:<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.argv[0] =3D re.sub(r&#39;(=
--script\.pyw?|\.exe)?$&#39;, &#39;&#39;, sys.argv[0])<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 load_entry_point=
-(%(spec)r, %(group)r, %(name)r)()<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(%(entrypoint)s())<br>
-+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;).lstrip()<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0command_spec_class =3D CommandSpec<br>
-+@@ -2068,6 +2063,9 @@ class ScriptWriter(object):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type_ in &#39;console&#39;, &#39;gu=
-i&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0group =3D type_ + &#39;_s=
-cripts&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for name, ep in dist.get_=
-entry_map(group).items():<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module =3D ep.mo=
-dule_name<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ep0 =3D ep.attrs=
-[0]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entrypoint =3D &=
-#39;.&#39;.join(ep.attrs)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cls._ensure=
-_safe_name(name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0script_text=
- =3D cls.template % locals()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args =3D cl=
-s._get_script_args(type_, name, header, script_text)<br>
-+-- <br>
-+2.24.1<br>
-+<br>
--- <br>
-2.26.2<br>
-<br>
-<br>
-</blockquote></div></div>
+from setuptools import setup, find_packages
 
---000000000000f6b8c905a8c8a6aa--
+setup(
+name='minimal',
+version='0.1',
+python_requires='>=3.4',
+packages=['minimal'],
+entry_points={ 'console_scripts': [ 'minimal = minimal:main' ] },
+)
+
+6) Run "python3 setup.py install"
+
+7) Run "time /usr/bin/minimal"
+
+8) Note the drastic differences in run time, e.g. with
+core-image-full-cmdline:
+
+core-image-full-cmdline, WITHOUT setuptools ScriptWriter patch:
+
+root@qemux86-64:~# time /usr/bin/minimal
+hello world
+
+real    0m0.198s
+user    0m0.174s
+sys     0m0.023s
+
+core-image-full-cmdline, WITH setuptools ScriptWriter patch:
+
+root@qemux86-64:~# time /usr/bin/minimal
+hello world
+
+real    0m0.034s
+user    0m0.024s
+sys     0m0.010s
+
+I've also tried to ensure that this has no adverse effects on the larger
+python ecosystem in Yocto, by running ptests on all modules in
+meta-python that have ptests available and use setuptools, with this
+patch installed. I saw no failures related to setuptools, although it is
+still possible that this could have unforeseen consequences on other
+modules.
+
+Finally, some (truncated) profiling comparisons to emphasize the gains
+in performance, using the same example module before and after the patch. 
+There are three orders of magnitude difference in the number of calls 
+required, including much more recursion. What is most apparent from 
+these profiling results is how much more time the unpatched version 
+spends parsing entry points when that effort isn't required to achieve
+the same end. As can be seen from the simple example used here, the 
+time savings at initialization are significant enough even for tiny
+scripts that this fix should be incorporated in the project at the 
+setuptools level, rather than requiring manual application, or 
+modification of existing scripts on the user's end.
+
+WITHOUT PATCH:
+
+         134641 function calls (130543 primitive calls) in 0.723 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     88/1    0.002    0.000    0.723    0.723 {built-in method builtins.exec}
+        1    0.000    0.000    0.723    0.723 minimal:3(<module>)
+    100/2    0.002    0.000    0.704    0.352 <frozen importlib._bootstrap>:986(_find_and_load)
+    100/2    0.002    0.000    0.703    0.352 <frozen importlib._bootstrap>:956(_find_and_load_unlocked)
+     93/2    0.002    0.000    0.700    0.350 <frozen importlib._bootstrap>:650(_load_unlocked)
+     67/1    0.001    0.000    0.699    0.699 <frozen importlib._bootstrap_external>:777(exec_module)
+    115/1    0.000    0.000    0.698    0.698 <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+        1    0.000    0.000    0.698    0.698 __init__.py:2(<module>)
+    30/19    0.000    0.000    0.445    0.023 {built-in method builtins.__import__}
+       82    0.002    0.000    0.372    0.005 re.py:289(_compile)
+       75    0.000    0.000    0.369    0.005 re.py:250(compile)
+       73    0.002    0.000    0.367    0.005 sre_compile.py:759(compile)
+        1    0.000    0.000    0.262    0.262 requirements.py:4(<module>)
+       73    0.001    0.000    0.259    0.004 sre_parse.py:937(parse)
+   308/73    0.007    0.000    0.255    0.003 sre_parse.py:435(_parse_sub)
+   457/77    0.072    0.000    0.253    0.003 sre_parse.py:493(_parse)
+  283/280    0.009    0.000    0.222    0.001 {built-in method builtins.__build_class__}
+      9/7    0.000    0.000    0.159    0.023 <frozen importlib._bootstrap>:613(_load_backward_compatible)
+        6    0.000    0.000    0.159    0.026 __init__.py:35(load_module)
+        1    0.001    0.001    0.145    0.145 pyparsing.py:26(<module>)
+       26    0.001    0.000    0.137    0.005 pyparsing.py:2779(__init__)
+       73    0.001    0.000    0.104    0.001 sre_compile.py:598(_code)
+        1    0.000    0.000    0.097    0.097 parser.py:5(<module>)
+        1    0.000    0.000    0.095    0.095 feedparser.py:5(<module>)
+        1    0.000    0.000    0.095    0.095 specifiers.py:4(<module>)
+   770/73    0.032    0.000    0.091    0.001 sre_compile.py:71(_compile)
+        1    0.000    0.000    0.086    0.086 _policybase.py:1(<module>)
+    11488    0.049    0.000    0.086    0.000 sre_parse.py:254(get)
+        1    0.000    0.000    0.083    0.083 specifiers.py:275(Specifier)
+        1    0.000    0.000    0.073    0.073 pyparsing.py:5399(pyparsing_common)
+       98    0.003    0.000    0.063    0.001 <frozen importlib._bootstrap>:890(_find_spec)
+        1    0.000    0.000    0.058    0.058 utils.py:5(<module>)
+
+WITH PATCH:
+
+         300 function calls (299 primitive calls) in 0.003 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      2/1    0.000    0.000    0.003    0.003 {built-in method builtins.exec}
+        1    0.000    0.000    0.003    0.003 minimal:2(<module>)
+        1    0.000    0.000    0.003    0.003 <frozen importlib._bootstrap>:986(_find_and_load)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap>:956(_find_and_load_unlocked)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap>:890(_find_spec)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:1334(find_spec)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:1302(_get_spec)
+        2    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:1431(find_spec)
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap>:650(_load_unlocked)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1479(_fill_cache)
+       18    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:62(_path_join)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.listdir}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:777(exec_module)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:849(get_code)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:90(_path_is_mode_type)
+        9    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:99(_path_isfile)
+       15    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:80(_path_stat)
+       18    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:64(<listcomp>)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:549(module_from_spec)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:477(_init_module_attrs)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1265(_path_importer_cache)
+       15    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:294(cache_from_source)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1252(_path_hooks)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:376(cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:424(_get_cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1520(path_hook_for_FileFinder)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:969(get_data)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:147(__enter__)
+       38    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1394(__init__)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:104(_path_isdir)
+
+Trevor Gamblin (1):
+  python3-setuptools: patch entrypoints for performance boost
+
+ .../python/python-setuptools.inc              |  4 +-
+ ...nt-usr-bin-wrappers-signoff-included.patch | 60 +++++++++++++++++++
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
+
+-- 
+2.24.1
+
