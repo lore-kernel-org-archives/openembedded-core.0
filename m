@@ -1,100 +1,155 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.439.1592949080275321331
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web11.655.1592949773887677617
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 14:51:20 -0700
+ Tue, 23 Jun 2020 15:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K1RB17hw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id g18so160832wrm.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 14:51:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FzJLQ8Z/;
+ spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f193.google.com with SMTP id u5so45979pfn.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 15:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0eHVyFpEMXALiZxf+0huF8Nn7gJ0z6DVXw9qB+KMLrk=;
-        b=K1RB17hwESgDorM5jDgrKPQCtz+UfJqTI7pdPybCe3tLebmC2ytsjVCvbumBgyrw8K
-         XrMg7l69au6gO6rJVFOysuyroxlaDId5tDtw4BK0G1GwMl/3nD8jsywrtZflhVBO0OQo
-         w+PY3jdsd3lOsZ1VnDrjlfGV+QUsv4YDZ8mHo=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PERi/P3fZvFn9Mu8O2JrWhCehuFOm7t5TymbyZ9EZWA=;
+        b=FzJLQ8Z/PhKm2L0yaGhVjNN/wAwZyl8NNrxekuVyfDqSEUf/A+qezvR4djA1UjJizt
+         P8IYD2QhrtnKLhxgKIUL6GWsFwDHf2E9ON/fn4JPN6wbQxFKNb8H4YT78ndvTRt/Kdq8
+         sa4GBconW3Tib5/m1SKGm4sNMagqBlZ1c5s6xxYlbHQ7Z2t5AFiTbZTJzjk9srIV09fA
+         qx6f/tmD0FNmA7SdRgD9hKAF9OXNPssFzV4KW/Zt1V6Fzcp/6bNLgw1GektxWtqKXImN
+         ZYU13GB0c2NqhmNPWZyMNl6ZmibnzLqioJT0kCP68TzhDUZgqRrJzMd6sN9TYyFaI6kc
+         3qFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0eHVyFpEMXALiZxf+0huF8Nn7gJ0z6DVXw9qB+KMLrk=;
-        b=Ibv+3dnphsqhTR1yylT7mCwxPguCzKDKNayqfb+X28gd1li/tigP9P7e5Xe+z4FNhM
-         va0J+NFzTTUplrPL+hlVusFV11EDQHzIdiFuDRxuYYuTLFgh4HxdOxIjohnHeZzjuib4
-         8oBrtSZTZEJeQqn5Jg4IVXQzbshS2P9fBlLY7PC9DwRkVaQWiwaebpDSKTmB0y6mAaIX
-         sGKwJwqpa8llb4LYmfCeBaAVclFZJE8ZHkHN0GAYfDK0qBx0YcDKWWlEHUoZ+BXiXvas
-         wdwFz8LFDsqMKLLNUzq3qS7DWUPfwrOadlVzYWFD+TqvTl47LHYkp3FRzskty3bfOwtu
-         0GIg==
-X-Gm-Message-State: AOAM532fhrQ2tSMWaNkSK9R/Kaaf7TYVKZkpO8qUnn46510TFHjy4BDl
-	QsP2GbAhkre65qovwiEZWdWLpw==
-X-Google-Smtp-Source: ABdhPJysQTiczrH5GRWERwDJcuUflRaJRxNd0grBp17qr3FNL+tKoCKpmhHfaaW5JIocPt5TAD3YpQ==
-X-Received: by 2002:adf:80e6:: with SMTP id 93mr26629396wrl.17.1592949078776;
-        Tue, 23 Jun 2020 14:51:18 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id z1sm10542979wrh.14.2020.06.23.14.51.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2020 14:51:17 -0700 (PDT)
-Message-ID: <144b99d5a5b327d660925ff5ee18139d7dc088c3.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Xu, Yanfei"
-	 <yanfei.xu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Jun 2020 22:51:16 +0100
-In-Reply-To: <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
-References: <20200619114727.40142-1-yanfei.xu@windriver.com>
-	 <20200619114727.40142-2-yanfei.xu@windriver.com>
-	 <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PERi/P3fZvFn9Mu8O2JrWhCehuFOm7t5TymbyZ9EZWA=;
+        b=qomKnrkAD8LIeW3Spz2Zdt7R4PRfScbS2ROs6FbACBiguZtESWWu7qbWhwwNaPxpgp
+         lJDZllPs5Zc4/BSCpMS5LacQCed8D8RxTxzVzQft4gRq57NjKTYiMNekOqxY5Iyw3T7M
+         XcjimipNEzMXvPadj4yLZH6Rf0Cq1iyv+xB3hwwrW/qrLWm6DhSazZQUd+IhIokG1i7r
+         3AaR6QAK6nN8zPOZIreHrpa/dQUaqoE4NXbc1Z8mx6cRt+WP3KQVqYx8I47c0yw9AfdS
+         nZ19/WVweKlzzXd4WJo27+RBsdd6Y22P9h1JWAqaDtkrst7FRPeBL2F3ysKy0/xzb5Ev
+         PvZw==
+X-Gm-Message-State: AOAM530iKvx4YvU8f3O/u7TgftK+1/omR/93k9YF//JJIv5NYmoaNnBX
+	JSasFAUO5P5ijTtmbUawaR5QNnwwaw4=
+X-Google-Smtp-Source: ABdhPJyNRCVtBzzEa2CvGGm4/aogRVoBDL8pPYLygltCCZOsygG0y4lP7h5mSMEuRnduLUINh80RcQ==
+X-Received: by 2002:a63:564e:: with SMTP id g14mr2968548pgm.326.1592949772731;
+        Tue, 23 Jun 2020 15:02:52 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::dedc? ([2601:646:9200:4e0::dedc])
+        by smtp.gmail.com with ESMTPSA id p16sm14706190pgj.53.2020.06.23.15.02.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2020 15:02:52 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 2/2] icu: make filtered data generation optional, serial and off by default
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200623210837.26222-1-alex.kanavin@gmail.com>
+ <20200623210837.26222-2-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+Message-ID: <19e46f60-469e-d74d-aebc-d56e34da1c4d@gmail.com>
+Date: Tue, 23 Jun 2020 15:02:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200623210837.26222-2-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-06-23 at 10:31 -0400, Bruce Ashfield wrote:
-> On Fri, Jun 19, 2020 at 7:47 AM <yanfei.xu@windriver.com> wrote:
-> > From: Yanfei Xu <yanfei.xu@windriver.com>
-> > 
-> > Some filesystems don't support symlink, then you will get failure
-> > when
-> > you install or update the kernel rpm package. Now we use a copy of
-> > image for these filesystems instead of symlink.
-> > 
-> > Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> > ---
-> >  meta/classes/kernel.bbclass | 19 ++++++++++++++++---
-> >  1 file changed, 16 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/meta/classes/kernel.bbclass
-> > b/meta/classes/kernel.bbclass
-> > index 20a0135fc9..1269b54343 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -94,6 +94,22 @@ python __anonymous () {
-> >          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' %
-> > (kname, typelower))
-> >          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-
-> > %s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
-> >          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower),
-> > '1')
-> > +        d.setVar('pkg_postinst_ontarget_%s-image-%s' %
-> > (kname,typelower), """
+
+
+On 6/23/20 2:08 PM, Alexander Kanavin wrote:
+> icu data generation was found to be racy, and causig AB failures;
+> making it serial and leaving it on is not an option as it regresses
+> to several minutes.
 > 
-> You were previously concerned about boot issues if the unversioned
-> image link/copy was deferred until boot. I don't see a summary of why
-> that's no longer a concern in the v3 of the patch. Can you confirm
-> that it isn't an issue ? Is it simply because the booted image isn't
-> installed via this package, and hence we are fine ?
+> The specific bug is that rules.mk has:
+> 
+> LD_LIBRARY_PATH=../lib:../stubdata:../tools/ctestfw:$LD_LIBRARY_PATH  ../bin/gencnval -s . -d ./out/build/icudt66l mappings/convrtrs.txt
+> 
+> which creates a file and numerous rules like
+> 
+> LD_LIBRARY_PATH=../lib:../stubdata:../tools/ctestfw:$LD_LIBRARY_PATH  ../bin/genrb -s ./misc -d ./out/build/icudt67l -i ./out/build/icudt67l -k -q numberingSystems.txt
+> 
+> which quietly read it. There is no prerequisite for the former to complete first.
+> 
+> The race is extra complicated to fix as rules.mk is itself
+> generated through a custom in-tree python tool.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-support/icu/icu_67.1.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/icu/icu_67.1.bb b/meta/recipes-support/icu/icu_67.1.bb
+> index 5814fa41bd..9e8091ba01 100644
+> --- a/meta/recipes-support/icu/icu_67.1.bb
+> +++ b/meta/recipes-support/icu/icu_67.1.bb
+> @@ -120,7 +120,11 @@ UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
+>  
+>  EXTRA_OECONF_append_libc-musl = " ac_cv_func_strtod_l=no"
+>  
+> +PACKAGECONFIG ?= ""
+> +PACKAGECONFIG[make-icudata] = ",,,"
 
-I'm suspecting this patch is why we're seeing selftest failures:
+maybe calling it custom-icudata is appropriate. This option perhaps
+should be enabled by default with a minimum filter, which is to enable
+en_US perhaps, it helps integrate the external build processes that is
+in place where systems depend on icudata and don't want all 20M of it in
+image. It would be good for us to offer a tested way to custom build
+this data.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1055
+but I am ok to live with this workaround until perhaps this issue is
+fixed upstream amicably.
 
-Cheers,
-
-Richard
-
+> +
+>  do_make_icudata_class-target () {
+> +    ${@bb.utils.contains('PACKAGECONFIG', 'make-icudata', '', 'exit 0', d)}
+>      cd ${S}
+>      rm -rf data
+>      cp -a ${WORKDIR}/data .
+> @@ -135,7 +139,7 @@ do_make_icudata_class-target () {
+>      LDFLAGS='${BUILD_LDFLAGS}' \
+>      ICU_DATA_FILTER_FILE=${WORKDIR}/filter.json \
+>      ./runConfigureICU Linux --with-data-packaging=archive
+> -    oe_runmake ${PARALLEL_MAKE}
+> +    oe_runmake
+>      install -Dm644 ${S}/data/out/icudt${ICU_MAJOR_VER}l.dat ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat
+>  }
+>  
+> 
+> 
+> 
+> 
