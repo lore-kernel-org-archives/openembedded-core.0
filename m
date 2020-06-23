@@ -1,161 +1,58 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.1788.1592953128851912366
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.1765.1592953348742203982
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 15:58:48 -0700
+ Tue, 23 Jun 2020 16:02:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: trevor.gamblin@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05NMwmfd018905
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 15:58:48 -0700 (PDT)
-Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 23 Jun 2020 15:58:48 -0700
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] python3-setuptools: patch entrypoints for faster initialization
-Date: Tue, 23 Jun 2020 18:58:46 -0400
-Message-ID: <20200623225846.5534-2-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200623225846.5534-1-trevor.gamblin@windriver.com>
-References: <20200623225846.5534-1-trevor.gamblin@windriver.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AF3FF60B2E;
+	Tue, 23 Jun 2020 23:02:26 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMy1zZXR1cHRvb2xzOiBwYXRjaCBlbnRyeXBvaW50cyBmb3IgZmFzdGVyIGluaXRpYWxpemF0aW9u?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jun 2020 23:02:28 -0000
+Message-ID: <20200623230228.20810.63231@do>
+References: <20200623225846.5534-1-trevor.gamblin@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200623225846.5534-1-trevor.gamblin@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-setuptools' pkg_resources module has major performance issues with how
-it loads entry points (e.g. the console_script entry point, which sets
-up a module as a command-line executable), leading even the simplest
-"hello world" scripts to take on the order of 150ms to run if
-pkg_resources is incorporated. This is prohibitive for code that needs
-to run quickly, and so we patch setuptools to reduce this time. As of
-Python 3.7, importlib.resources is available and intended to replace
-much of the functionality that causes this sluggishness, but since
-many projects still utilize the legacy setuptools modules, a patch is
-still required. Note that python3-fastentrypoints (which is available
-in the meta-virtualization layer) is also intended to help alleviate
-the problem, but since it must be added to existing projects it has
-the same disadvantage as resorting to importlib.resources, requiring
-manual additions to existing code to see the performance gains.
+== Series Details ==
 
-The intent here is to patch easy_install to load module entry points
-directly with the installed setuptools, rather than importing
-pkg_resources and having it search out the entry points itself. This
-leads to a drastic performance improvement - the changes in this patch
-have been shown to result in load time ~6-8x lower, depending on the
-complexity of the code it is tested with. A simple "hello world"
-example on core-image-full-cmdline gave these results with and without
-the patch:
+Series: python3-setuptools: patch entrypoints for faster initialization
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24809/
+State : failure
 
-core-image-full-cmdline, without setuptools ScriptWriter patch:
+== Summary ==
 
-root@qemux86-64:~# time /usr/bin/minimal
-hello world
 
-real    0m0.198s
-user    0m0.174s
-sys     0m0.023s
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-core-image-full-cmdline, with setuptools ScriptWriter patch:
 
-root@qemux86-64:~# time /usr/bin/minimal
-hello world
 
-real    0m0.034s
-user    0m0.024s
-sys     0m0.010s
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
-More details on the pkg_resources issue are available at:
-https://github.com/pypa/setuptools/issues/510
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../python/python-setuptools.inc              |  4 +-
- ...nt-usr-bin-wrappers-signoff-included.patch | 60 +++++++++++++++++++
- 2 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
-
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 9322ca9a05..3222de7079 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -10,7 +10,9 @@ inherit pypi
- 
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
- 
--SRC_URI += "file://0001-change-shebang-to-python3.patch"
-+SRC_URI += "file://0001-change-shebang-to-python3.patch \
-+            file://0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch \
-+            "
- 
- SRC_URI[md5sum] = "6e9de90b242fdd60ef59f497424ce13a"
- SRC_URI[sha256sum] = "145fa62b9d7bb544fce16e9b5a9bf4ab2032d2f758b7cd674af09a92736aff74"
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch b/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
-new file mode 100644
-index 0000000000..81b98a749a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
-@@ -0,0 +1,60 @@
-+From aae8cd3de3f289cea3db01212579913c925191e8 Mon Sep 17 00:00:00 2001
-+From: Lauri Tirkkonen <lauri.tirkkonen.ext@nokia.com>
-+Date: Thu, 26 Mar 2020 14:24:25 +0000
-+Subject: [PATCH] ScriptWriter: create more efficient /usr/bin wrappers
-+
-+Upstream setuptools writes scripts to /usr/bin that do insanely much
-+stuff at runtime. https://github.com/pypa/setuptools/issues/510
-+
-+Since the script entry points are already known at build time, we can
-+just write those directly into the /usr/bin wrapper, avoiding the
-+expensive 'pkg_resources' import at runtime. The idea is from
-+https://github.com/ninjaaron/fast-entry_points but patched directly into
-+the native build of setuptools here, so that all Python modules under
-+bitbake automatically use it without needing additional build time
-+dependencies.
-+
-+Signed-off-by: Lauri Tirkkonen <lauri.tirkkonen.ext@nokia.com>
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+---
-+ setuptools/command/easy_install.py | 14 ++++++--------
-+ 1 file changed, 6 insertions(+), 8 deletions(-)
-+
-+diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
-+index 8fba7b41..03a72714 100755
-+--- a/setuptools/command/easy_install.py
-++++ b/setuptools/command/easy_install.py
-+@@ -2023,17 +2023,12 @@ class ScriptWriter(object):
-+     """
-+ 
-+     template = textwrap.dedent(r"""
-+-        # EASY-INSTALL-ENTRY-SCRIPT: %(spec)r,%(group)r,%(name)r
-+-        __requires__ = %(spec)r
-+-        import re
-+         import sys
-+-        from pkg_resources import load_entry_point
-++
-++        from %(module)s import %(ep0)s
-+ 
-+         if __name__ == '__main__':
-+-            sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
-+-            sys.exit(
-+-                load_entry_point(%(spec)r, %(group)r, %(name)r)()
-+-            )
-++            sys.exit(%(entrypoint)s())
-+     """).lstrip()
-+ 
-+     command_spec_class = CommandSpec
-+@@ -2068,6 +2063,9 @@ class ScriptWriter(object):
-+         for type_ in 'console', 'gui':
-+             group = type_ + '_scripts'
-+             for name, ep in dist.get_entry_map(group).items():
-++                module = ep.module_name
-++                ep0 = ep.attrs[0]
-++                entrypoint = '.'.join(ep.attrs)
-+                 cls._ensure_safe_name(name)
-+                 script_text = cls.template % locals()
-+                 args = cls._get_script_args(type_, name, header, script_text)
-+-- 
-+2.24.1
-+
--- 
-2.26.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
