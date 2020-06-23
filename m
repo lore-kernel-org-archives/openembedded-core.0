@@ -1,88 +1,90 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web12.13988.1592938225219029118
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+ by mx.groups.io with SMTP id smtpd.web10.15434.1592941612594260835
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 11:50:25 -0700
+ Tue, 23 Jun 2020 12:46:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 6358D40BB1;
-	Tue, 23 Jun 2020 18:50:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n3wc-IfhbAZx; Tue, 23 Jun 2020 18:50:24 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2B21940B92;
-	Tue, 23 Jun 2020 18:50:20 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4DC7B17320F; Tue, 23 Jun 2020 14:50:20 -0400 (EDT)
-Date: Tue, 23 Jun 2020 14:50:20 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>
-Cc: openembedded-core@lists.openembedded.org,
-	tools-cfpbuild-internal@axis.com, hugo.cedervall@axis.com
-Subject: Re: [OE-core] Add package managers as a plugin
-Message-ID: <20200623185020.GL17660@denix.org>
-References: <20200623111328.5838-1-fredrigu@axis.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7/v9ewR;
+ spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f66.google.com with SMTP id u14so1926689pjj.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 12:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=kSDqQq8b6Q2QvbR6OnIZaO6PH5SMRqXVELniICb0l48=;
+        b=J7/v9ewR+gTHJASVwQ8eS6WiErvHgUn2Qmy1sHSbO+8CD0W44+pjKYbztR2CkUc6L0
+         EnmfvWJ3vKCMDjMwwwIAgHqOozRS/MoSmPrtV8ps1e2Tuja2lultSyuGG8L2wThe8Tjk
+         giAxL7QNN+hV1mtRmWtzybSUZ7163zNdWful7TSR82mf6k5enE3MPh7l6XWLD3UISlV0
+         jOv9dxcmV3esy2OP+6Ejvo9AVC+GFPCo6atpBhmvdqfweb25GIoxdjewNg921I4QgUp7
+         G476C/SNg0xWxisYxNJAGP+sQtQw8Cyvwhx9eZXh4pRw0BdWeDCXyu8Cgs+6IObsoaUs
+         xegg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kSDqQq8b6Q2QvbR6OnIZaO6PH5SMRqXVELniICb0l48=;
+        b=QYrfqbt078Wf60wL9sjdqRQvICFrZejtJruU1E7wIIZ10lLBHb/oikNN66/3t5d4p6
+         5RIrFMWmdcWobxKsHlGTi32hXZZYNUaEWKeI5PP26irKyGEB0wOkahBYKYn5dcctdrOc
+         S95dZsP9KggKae7Egdm9egbG7VLmBscpT+HoP9EinVN9SbU4iKZtAP6BO6lOINZyYtLd
+         Rtg9KTXXqXH3RWgfke/48u31YyV17dfaQv/LJ1Rr/s51EJmWuUcwECZAMyHghBmS6g44
+         wzs4sm50BC42lBr0ZRfzFxOWOt4QPYOIXS1cM44NI3SnLFnCazidpSsOIxCzdoXATCye
+         cwMw==
+X-Gm-Message-State: AOAM530Zu6qlFfafx0HhUloHoGxTxkOfgmqkQPAoYxDFtmcAv2cr1VeD
+	Xm4upW9nFvGPv8rXXr2O3BxQcucq7z4=
+X-Google-Smtp-Source: ABdhPJyQRYPemca05LxodOyn4jadbS+MWzSSOKuAJbgG4yObwdNUAHuzIHQhzkcApiUGXqKFouxI3A==
+X-Received: by 2002:a17:902:ea92:: with SMTP id x18mr25486006plb.157.1592941611139;
+        Tue, 23 Jun 2020 12:46:51 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a? ([2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a])
+        by smtp.gmail.com with ESMTPSA id i184sm17102294pfc.73.2020.06.23.12.46.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2020 12:46:50 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] vulkan-headers: Fix upstream branch deletion issue
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200623134150.603584-1-richard.purdie@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <a9fe68d2-b2d0-4ba8-dca8-78dca19ebb6d@gmail.com>
+Date: Tue, 23 Jun 2020 12:46:49 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200623111328.5838-1-fredrigu@axis.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-You mentioned Poky few times below - why is it Poky-specific? Since you are 
-not submitting this change to Poky, but to OE-Core instead, can this be used 
-by other OE distros?
-
--- 
-Denys
+In-Reply-To: <20200623134150.603584-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
 
-On Tue, Jun 23, 2020 at 01:13:26PM +0200, Fredrik Gustafsson wrote:
-> Poky today has three different package managers, the well-known formats deb
-> and rpm is supported as well as ipkg that is good for embedded devices.
-> 
-> When building and having a good cache hit, a significant amount of time is
-> spent in the phase of generating a rootfs, which is really about the
-> performance of the package manager. ipkg is way slower than deb or rpm. To
-> save build time and also get a package manager that is suitanle for use on
-> targets where flash memory is a concern, support for apk is suggested.
-> 
-> However, it might or might not be what's wanted for Poky since it increases
-> the test matrix. Therefore this patch series refactors the package
-> management code so that it's possible to add more package managers in other
-> own layer. I will send another patch serie that will add apk.
-> 
-> Perfomance metrics below, (note that this includes build times).
-> 
-> APK
-> ===
-> bitbake core-image-minimal
-> 15.84s user 2.60s system 0% cpu 1:26:19.21 total
-> 16.01s user 2.58s system 0% cpu 1:26:03.72 total
-> 15.69s user 2.61s system 0% cpu 1:26:45.45 total
-> 
-> bitbake core-image-minimal -c cleansstate
-> bitbake core-image-minimal -c clean
-> bitbake core-image-minimal -f -c do_rootfs
-> 0.55s user 0.06s system 4% cpu 14.236 total
-> 0.54s user 0.08s system 4% cpu 15.247 total
-> 0.52s user 0.15s system 4% cpu 15.143 total
-> 
-> RPM
-> ===
-> bitbake core-image-minimal
-> 18.57s user 3.09s system 0% cpu 1:31:29.09 total
-> 18.58s user 3.08s system 0% cpu 1:30:53.80 total
-> 18.20s user 3.31s system 0% cpu 1:31:06.69 total
-> 
-> bitbake core-image-minimal -c cleansstate
-> bitbake core-image-minimal -c clean
-> bitbake core-image-minimal -c do_rootfs -f
-> 0.58s user 0.10s system 3% cpu 19.470 total
-> 0.57s user 0.09s system 3% cpu 19.480 total
-> 0.60s user 0.07s system 3% cpu 20.381 total
 
+On 6/23/20 6:41 AM, Richard Purdie wrote:
+> The upstream branch was deleted but the commit is in master so reference
+> that instead.
 > 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
+> index 54cee96cce0..d21c3d62b90 100644
+> --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
+> +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
+> @@ -5,7 +5,8 @@ SECTION = "libs"
+>   
+>   LICENSE = "Apache-2.0"
+>   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> -SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-1.2.135"
+> +# was sdk-1.2.135 branch but it was removed upstream, commit is in master branch though
+> +SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master"
+>   
 
+perhaps better to update to SHA of latest tag ?
+https://github.com/KhronosGroup/Vulkan-Headers/releases/tag/v1.2.145
+
+>   SRCREV = "fb7f9c9bcd1d1544ea203a1f3d4253d0e90c5a90"
+>   
+> 
+> 
+> 
+> 
