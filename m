@@ -1,81 +1,159 @@
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
- by mx.groups.io with SMTP id smtpd.web10.3702.1592906069569399948
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.3797.1592906479590991996
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 02:54:29 -0700
+ Tue, 23 Jun 2020 03:01:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=idDDOWE7;
- spf=pass (domain: gmail.com, ip: 209.85.208.194, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f194.google.com with SMTP id 9so22685799ljv.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 02:54:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YduRGWCX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id l11so19878002wru.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 03:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=x2SLmch+yuveeDsvss7szyx54u2fH/AryAM6DZ6PTh8=;
-        b=idDDOWE7STHgtcgtPlIalmCxjHLOW4SU/s4Z3VdSCtvyQIS/QJ2Utt6dt82DtG/LFO
-         aevsfIX3BelO7lMkdc2CU32smSuaXfL2VzZ7CPaHLo1s9ppyog0QA0JbGTgmFkN1f4wm
-         N5qmE9iZplBNxj0i7TU/xRFQMkht9eFtT8pW8tFrmIe/9bQVhMjsge0BlLF5CfQqkB2I
-         W/CfhhmpPWeA0GTDZnEat/jb8DNeS8i+liwbSHDnl5HYSvktTOvVZkK0zXHggdfB3NoX
-         ZnFLvLcF0Mkr2Y9eZj9iN47mrHkfrxdNA+gCRT3Ltyr+O00AyBGzs6vdaymuaaaAJkLc
-         r7Rg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=1MXE45hT3drdTBc89GqhhTAqCsJdsHq6lKfGOUvUx7M=;
+        b=YduRGWCXbKSb3Vb9qrja4DGy0+hT5b0o3NSLYhmwTJ7jaD7e/98WiL2jkRqv58wikO
+         LIe1al299loRi7CKB4XUVc+YQm4gf7A7dAmQ8kItr1XdfbXKq5hkmzP62Lu/E7G/qsvl
+         56ATIwj2Z0IrngljYapAZq2P92QLCSBqWU84A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x2SLmch+yuveeDsvss7szyx54u2fH/AryAM6DZ6PTh8=;
-        b=AGNANHSfrIfCijm75JzCpoI0CabqS9ro7TYqRG1qP3IV6ZRPOtiUexJoF8507Vt91y
-         KjUWc39/UatQB/fpvUCo10HUBJlvz4KWMg+yNP+mJdJYWuAOwt+YDVSFEE/8sb8fYfUv
-         OPx4jA2km9GH6hkh8dhEvwHvs/8p/wW2zXRMWnkL5BsJNF2I5wLcKf1f3oQu7Pb1GTsr
-         ALtpERThkRh33kBrVQoxQIZu0Zmn9TdDOfIqRx0QxnqMlcP8u+hLGDzUGkcefvjf1Jzv
-         2fd9i3YTvIs6N8ZlqVCK/imH8IWQvFAz/zN239GW+EQ51FtGcTcp+ltfvY++dOgoutnp
-         Mt3Q==
-X-Gm-Message-State: AOAM532/va9pUnVBuk+4H5lAgChgUqLYCZENbCb4ENTTsHRAi/ShNtL2
-	PwLtS33s7uhJL4TB9zst5veQX8PB
-X-Google-Smtp-Source: ABdhPJyPwtxnZ6vwPzZnXBI2Ld7j6qErfwURRt3uBEY3DypSN60vEvk+ApS0cEiNMNM4YbhjBHsFNg==
-X-Received: by 2002:a05:651c:1028:: with SMTP id w8mr10276023ljm.136.1592906067253;
-        Tue, 23 Jun 2020 02:54:27 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id x10sm3185830ljx.67.2020.06.23.02.54.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 02:54:26 -0700 (PDT)
-Subject: Re: [RFC PATCH] grub: Remove native version of grub-efi
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-References: <20200622114343.481513-1-jacob.kroon@gmail.com>
-Message-ID: <d1d3a67b-5eaf-312a-aa8d-09f49137a53b@gmail.com>
-Date: Tue, 23 Jun 2020 11:54:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=1MXE45hT3drdTBc89GqhhTAqCsJdsHq6lKfGOUvUx7M=;
+        b=lQldWgGmVbE5KDbh+sBPvwywTjobyMHv4oAemgUItc9M3dkhW0XgWSFIO/AklEaCmH
+         VCew3FJRbSM7o2SyFM4FJs5ZveL7Zmi/4YNbWkwhnpGyGMemQJOeiUngAX3ysh7TT1eh
+         QheR26fDM/RCx4cMcj4D24q3ptnuspmlzAWn9bYb9NEgzCDwFEPtwL31CTSIfbDPrvKj
+         7Uj0vToIVP8m8ayYT9PtCGqkAlZU6ppQqrqNJ16dYnkYHy4g/MdBUcpxXr4rjPPg/kAV
+         bx+/p66zRr+J2GkYI59ewO05iqxvw03IgDQWQfnSihAyuX4y6I0Faz6Elss4WvfkPJ3m
+         XrbA==
+X-Gm-Message-State: AOAM532y/MLukgJo+VD7Snk4W60vYSPbDlH/1MY1ztyEZF4n2E+NIMTL
+	E1134uJup+rAjJ5fwKd1PoKhtg==
+X-Google-Smtp-Source: ABdhPJxQPmqXGcJginSB8LT+U2UKIPUq4uK0qBQAaLJROUt1djVsMjgw2K9HfwtLMcFZKLzKP7Nneg==
+X-Received: by 2002:adf:f209:: with SMTP id p9mr23281161wro.86.1592906477912;
+        Tue, 23 Jun 2020 03:01:17 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id a16sm20978744wrx.8.2020.06.23.03.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2020 03:01:16 -0700 (PDT)
+Message-ID: <c8d6a6fa55052aecc157642169039f4c7cdccef1.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Jun 2020 11:01:15 +0100
+In-Reply-To: <CAO5Uq5ShcQMYSYT5YFOa7i3sbAGP_dVWKrcPTiK3zPKFZZfvGw@mail.gmail.com>
+References: <20200622105717.108062-1-alex.kiernan@gmail.com>
+	 <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
+	 <CAO5Uq5R-oXNuqoVPpoC288smwDH459tjik6aB=B1+aOsT+dayA@mail.gmail.com>
+	 <161AF559DCEBF3F0.4124@lists.openembedded.org>
+	 <68c8ab0777b1b8e43d4d9cd7a0032a84efd39ea8.camel@linuxfoundation.org>
+	 <CAO5Uq5ShcQMYSYT5YFOa7i3sbAGP_dVWKrcPTiK3zPKFZZfvGw@mail.gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20200622114343.481513-1-jacob.kroon@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 6/22/20 1:43 PM, Jacob Kroon wrote:
-> The native version of grub-efi only installs the tools
+On Tue, 2020-06-23 at 10:01 +0100, Alex Kiernan wrote:
+> On Tue, Jun 23, 2020 at 9:20 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2020-06-22 at 20:46 +0100, Richard Purdie via
+> > lists.openembedded.org wrote:
+> > > On Mon, 2020-06-22 at 19:53 +0100, Alex Kiernan wrote:
+> > > > On Mon, Jun 22, 2020 at 6:34 PM Richard Purdie
+> > > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > > On Mon, 2020-06-22 at 11:57 +0100, Alex Kiernan wrote:
+> > > > > > Generate output for each contaminated path so it's visible
+> > > > > > in the main
+> > > > > > log file, then enable rootfs_check_host_user_contaminated
+> > > > > > by default.
+> > > > > > 
+> > > > > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > > > > > ---
+> > > > > > 
+> > > > > > Changes in v2:
+> > > > > > - expose each contaminated path in the main log
+> > > > > > 
+> > > > > >  meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
+> > > > > >  1 file changed, 4 insertions(+), 5 deletions(-)
+> > > > > 
+> > > > > Thanks, this is definitely more helpful. Some warnings in the
+> > > > > test
+> > > > > build:
+> > > > > 
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/2046
+> > > > > 
+> > > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path
+> > > > > in the rootfs is owned by the same user or group as the user
+> > > > > running bitbake: /var/lib/nfs/statd
+> > > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path
+> > > > > in the rootfs is owned by the same user or group as the user
+> > > > > running bitbake: /var/lib/nfs/statd/sm.bak
+> > > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path
+> > > > > in the rootfs is owned by the same user or group as the user
+> > > > > running bitbake: /var/lib/nfs/statd/state
+> > > > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path
+> > > > > in the rootfs is owned by the same user or group as the user
+> > > > > running bitbake: /var/lib/nfs/statd/sm
+> > > > > 
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2073
+> > > > > 
+> > > > > step3b: WARNING: core-image-sato-1.0-r0 do_rootfs: Path in
+> > > > > the rootfs is owned by the same user or group as the user
+> > > > > running bitbake: /var/cache/fontconfig/CACHEDIR.TAG
+> > > > > 
+> > > > > which does raise more questions.
+> > > > > 
+> > > > 
+> > > > I'm having no luck reproducing either of these locally :|
+> > > 
+> > > They don't reproduce on the autobuilder either. We're probably
+> > > going to
+> > > need to open a bug in bugzilla and enter these there listing the
+> > > target
+> > > that caused it and the host it was on.
+> > > 
+> > > Hopefully we'll see a pattern emerge.
+> > > 
+> > > Or maybe the pseudo fix I posted will make it all go away. I can
+> > > live
+> > > in hope right?!
+> > > 
+> > > Either way, I think this patch is going to be a longer journey
+> > > until we
+> > > figure out what is happening.
+> > 
+> > Last nights build also gave warnings:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2055
+> > 
+> > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the
+> > rootfs is owned by the same user or group as the user running
+> > bitbake: /usr/bin/crontab
+> > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the
+> > rootfs is owned by the same user or group as the user running
+> > bitbake: /var/spool/cron
+> > 
 > 
->    /usr/bin/grub-editenv
->    /usr/bin/grub-mkimage
-> 
-> to sysroots-components/, but equivalent tools are already provided by
-> grub-native, the difference on x86_64 being 4 hardwired paths in grub-mkimage
-> (values taken from grub-native):
-> 
->    LOCALEDIR       = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/share/locale
->    GRUB_DATADIR    = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/share
->    GRUB_LIBDIR     = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/usr/lib
->    GRUB_SYSCONFDIR = $TMPDIR/work/x86_64-linux/grub-native/2.04-r0/recipe-sysroot-native/etc
-> 
-> If grub-native and grub-efi-native are built with the following patch
-> 
-> --- grub-2.04.orig/configure.ac
-> +++ grub-2.04/configure.ac
+> Interestingly both of those have file permissions which aren't simple
+> ugo-rwx type things.
 
-For the record, embedding the two lines above in the commit message was 
-probably a bad idea since it seems to confuse "git am".
+Looking at the pattern, I did have a thought which I've not researched
+yet.
 
-Jacob
+Is it possible these are dynamically generated group/users in the
+rootfs which happen to collide with the host user/group?
+
+You'd think the adduser/addgroup calls would happen in a deterministic
+order as the rootfs is build but perhaps it doesn't work out like that.
+
+Are each of the above groups of files, specifically created users at
+rootfs time?
+
+Cheers,
+
+Richard
+
+
+
