@@ -1,409 +1,198 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.43])
- by mx.groups.io with SMTP id smtpd.web12.2129.1592954101217058700
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web11.2080.1592954453077297709
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 16:15:01 -0700
+ Tue, 23 Jun 2020 16:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=OjY1dHld;
- spf=pass (domain: windriver.com, ip: 40.107.220.43, mailfrom: joe.slater@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TSurNheHo0fFqkSiNOFMAKjndsAVFJFL7MN00FUd673iSuxEnT9C0HIbJo1DwhKrFB2kpFFkr0rUvzP/yv0lxLoEfkNefGydlY2q1sWZexfrxI7I5TS23qSK4F2CTkE2cMyIj3T+95DlK+FXdnO8eRJQyoeCi6hnjNIZ5qCx7nM2Un6rGh7vz3Rnzf0OhoP2/877YuKlkkOryY8hDlqgyU/reK2FfvB/AiOIFneSoFBYW5DbxEiyryknfJBxm0/Nl3yTtIYkSwWOa/ljochIbz7Fyc5+cz9GQ89dYXRT9Owgc/QV7nln2EfTJRlF4TUw3PPrZ0vOg/3yKAwmhbkt+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NU/hXYrkH8x8ER8XrvHLfzpNYKBuqC7xtFPIu397g70=;
- b=H8zOBngafurXSBBWe/kuQHQNIq4nwQr2kqMajRF+yYax21DcIBav1OQnKVnSzy9zNymrCUIS41AxLiAv5A3Q74CQeXhzJ+kVMZJOJ5xLCWeHuFQcme0ykGPdHLZgPTvD4yJticWLJIDVutny80Xv88tRXBbkCLWWK8SGwERTR5YslnHze3DY76nLPZpGvwQsLSythCX7ZYInrAAqrm3IUNlZ4Y+begvdKD4Tt5qayg2gi/PhV+yKyG9qm1uMf/GhvYzLzjfn56zOyDHexnPbcCzhEbD/w/iTD8lvEjn1yCn0KOQTpLrYzGTnOuRkXoCqSbxZZSYn/4MHXiVPrl4fzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NU/hXYrkH8x8ER8XrvHLfzpNYKBuqC7xtFPIu397g70=;
- b=OjY1dHld5bLzp2sjyRmvaQLp5uo6SKUmohn/632EQwd0uL4A/DKO6zPYkyooGJOjJzy1xiYorZw1ix5w+EHOyQklsyWi0evRf9sYCneTAeUJWJq+F+7y2t/QJYJW+roASxSR+/QvObhmHWoHpptXhPycXxCvlLXZn6pb7JN7qqo=
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by BY5PR11MB3942.namprd11.prod.outlook.com (2603:10b6:a03:188::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.24; Tue, 23 Jun
- 2020 23:14:58 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d%4]) with mapi id 15.20.3109.027; Tue, 23 Jun 2020
- 23:14:58 +0000
-From: "Joe Slater" <joe.slater@windriver.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: Patch
-Thread-Topic: Patch
-Thread-Index: AdZJs1UvMEyGZbsQR2+uw/nd1VrdHg==
-Date: Tue, 23 Jun 2020 23:14:58 +0000
-Message-ID: 
- <BY5PR11MB3992C3A972F49A21BC3F52B188940@BY5PR11MB3992.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-x-originating-ip: [24.4.218.114]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cbc2902f-8075-4329-b120-08d817cb3faa
-x-ms-traffictypediagnostic: BY5PR11MB3942:
-x-microsoft-antispam-prvs: 
- <BY5PR11MB394267AAB0E556DBF9E836A088940@BY5PR11MB3942.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:115;
-x-forefront-prvs: 04433051BF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- YljoLphKtEAzLcWFhpuRrE6el5wc2BURtZ01R460SBhukpGA3Ly6FIXxW9c09cy27lbgQyoZnxIoI2TZYP2xQMnAso43Cd2yOZhHKl2PxNOL+5uTGABK2+U2rET5FKMhSuEesCpIReLif5VZF3SayUDALgowJs+wJgPRaUzxJkvnzDhGFqFzlxremEXy3iPLUJp7OmfRuNQwshtnFxSqSLZHu78DoFkECaTfBOYkkaDBKrBQ23kLrWQFg9MgAmxIk6x/QydGf9e40ppwkzv+T03svAOnYRWsgmD2JndqDcLcf4uOobeU7d1/jMMEBme37B/vDZLAkE/8b32l6EkF+g6fKI7Xia3/jvbEpfKRqiYBiClerUnEqmvszhJI1mdE
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(376002)(346002)(396003)(39850400004)(366004)(136003)(76116006)(186003)(7116003)(8676002)(7696005)(99936003)(3480700007)(6916009)(26005)(52536014)(9686003)(5660300002)(316002)(66446008)(86362001)(66946007)(66556008)(66476007)(71200400001)(64756008)(8936002)(2906002)(6506007)(33656002)(558084003)(55016002)(66616009)(478600001)(491001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- cSGfOdw6TyPGXiJPqzjZVnQYeyih+0JUDpXjZ8AXI4PMr8gK3p8nGvLWNyL5+tAtSWU4QkezQtI+STprYVzG/1nqT/TwiaSzLzc5qNikof1ZND2z6fbM6QEuLnY7W0XmwqcEGXbSOqXGH9SWAvDZKcx6lcENYCyMr3fHwKk0qLlAUmIz7hNEaJRNkP7bLinkTPO27VYwiZ7tN8UmsUo9kB17orT/JQWP3UJPUCgvqmUJXLIeqTfvWsetnSS1wnza/166qxNTp4JcAlGSp59B9UWfAsau8tIpX5p1uwOiJKy4nhqc4OpFoU6zC3fp74Ujl9V6CjIK9V47T83Y7vE+etplib6LP/INmCAl1A+c6wYu1aYLNc82zmGPsDhSORCetyoygw7QDfg25Vi1viAopUzDYEs53XAG2sCAU31Ug7kjMlEZCmvLkZRe/A83yO0Ayj1g2xq6yM4+uesIA3LddRyKcOVp3V7jTbvnlR+FIJ8=
-x-ms-exchange-transport-forked: True
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: trevor.gamblin@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05NNKqqQ012977
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 16:20:52 -0700 (PDT)
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 23 Jun 2020 16:20:52 -0700
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1 v2] Improving setuptools performance in Python
+Date: Tue, 23 Jun 2020 19:20:50 -0400
+Message-ID: <20200623232051.6294-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbc2902f-8075-4329-b120-08d817cb3faa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2020 23:14:58.5187
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /d0p9FvAvAAHNtueGQ1j/c0I4djG5yuLGMiou6Nhp0X9rES3pQEQmkr68tu1AdQc5HJTb0sfpjvcP4ac0iTjnOLLhbwdB/VmhiuB8etuy9c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3942
-X-Groupsio-MsgNum: 139864
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_004_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---_004_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_
-Content-Type: multipart/alternative;
-	boundary="_000_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_"
+Forgot the Upstream-Status in v1.
 
---_000_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+As explained in https://github.com/pypa/setuptools/issues/510, the 
+pkg_resources module in setuptools is very slow to initialize scripts 
+due to how it scans the Python path for each module that would import 
+pkg_resources. My understanding of upstream Python's response is that 
+as of 3.7 and later, importlib.resources is available for replacing 
+this functionality in new scripts, but existing code that uses 
+pkg_resources will still have to be re-written to use it (or something 
+like python3-fastentrypoints. 
 
-I have attached a patch which I could not send using git send-email which c=
-omplained about lines that are too long for its taste.  I generated it usin=
-g format-patch, so...
+I've done some performance testing with this patch using the following,
+very simple steps:
 
-Joe
+1) Add "IMAGE_INSTALL_append = " python3-setuptools" to local.conf;
 
---_000_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+2) bitbake core-image-full-cmdline
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">I have attached a patch which I could not send using=
- git send-email which complained about lines that are too long for its tast=
-e.&nbsp; I generated it using format-patch, so&#8230;<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Joe<o:p></o:p></p>
-</div>
-</body>
-</html>
+3) mkdir -p test/minimal;
 
---_000_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_--
+4) In test/minimal/__init__.py, add:
 
---_004_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_
-Content-Type: application/octet-stream;
-	name="0001-json-c-Fix-CVE-2020-12762.patch"
-Content-Description: 0001-json-c-Fix-CVE-2020-12762.patch
-Content-Disposition: attachment;
-	filename="0001-json-c-Fix-CVE-2020-12762.patch"; size=13522;
-	creation-date="Tue, 23 Jun 2020 22:49:01 GMT";
-	modification-date="Tue, 23 Jun 2020 22:49:01 GMT"
-Content-Transfer-Encoding: base64
+def main():
+    print('hello world')
 
-RnJvbSAwYWQ1MzQ5NDI0YmU5N2YyZThkYzNjMzM3MzY3ZTM3MTZiZDI3MzRmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBKb2UgU2xhdGVyIDxqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+
-CkRhdGU6IFR1ZSwgMjMgSnVuIDIwMjAgMTU6NDI6MjAgLTA3MDAKU3ViamVjdDogW29lLWNvcmVd
-W1BBVENIIDEvMV0ganNvbi1jOiAgRml4IENWRS0yMDIwLTEyNzYyCgpJbXBvcnQgZml4IGZyb20g
-anNvbi1jLmdpdCBjcmVhdGVkIGFmdGVyIHRoZSAwLjE0IHJlbGVhc2UuCgpTaWduZWQtb2ZmLWJ5
-OiBKb2UgU2xhdGVyIDxqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+Ci0tLQogLi4uL2pzb24tYy9q
-c29uLWMvRml4LUNWRS0yMDIwLTEyNzYyLnBhdGNoICAgICAgICAgfCAyMDQgKysrKysrKysrKysr
-KysrKysrKysrCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tY18wLjE0LmJiICAg
-ICAgICB8ICAgMiArCiAyIGZpbGVzIGNoYW5nZWQsIDIwNiBpbnNlcnRpb25zKCspCiBjcmVhdGUg
-bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWMvRml4LUNWRS0y
-MDIwLTEyNzYyLnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24t
-Yy9qc29uLWMvRml4LUNWRS0yMDIwLTEyNzYyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2pzb24tYy9qc29uLWMvRml4LUNWRS0yMDIwLTEyNzYyLnBhdGNoCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0CmluZGV4IDAwMDAwMDAuLmNiYmNmY2IKLS0tIC9kZXYvbnVsbAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tYy9GaXgtQ1ZFLTIwMjAtMTI3NjIucGF0Y2gKQEAgLTAs
-MCArMSwyMDQgQEAKK0Zyb20gNWQ2ZmEzMzE0MThkNDlmMWJkNDg4NTUzZmQxY2ZhOWFiMDIzZmFi
-YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206ID0/VVRGLTg/cT9Caj1DMz1CNnJuPTIw
-RXNzZXI/PSA8YmVzc2VyODJAZmVkb3JhcHJvamVjdC5vcmc+CitEYXRlOiBUaHUsIDE0IE1heSAy
-MDIwIDEyOjMyOjMwICswMjAwCitTdWJqZWN0OiBbUEFUQ0ggMS8xXSBGaXggQ1ZFLTIwMjAtMTI3
-NjIuCisKK1RoaXMgY29tbWl0IGlzIGEgc3F1YXNoZWQgYmFja3BvcnQgb2YgdGhlIGZvbGxvd2lu
-ZyBjb21taXRzCitvbiB0aGUgbWFzdGVyIGJyYW5jaDoKKworICAqIDA5OTAxNmI3ZThkNzBhNmQ1
-ZGQ4MTRlNzg4YmJhMDhkMzNkNDg0MjYKKyAgKiA3N2Q5MzViN2FlNzg3MWExOTQwY2Q4MjdlODUw
-ZTYwNjMwNDRlYzQ1CisgICogZDA3YjkxMDE0OTg2OTAwYTNhNzVmMzA2ZDMwMmUxM2UwMDVlOWQ2
-NworICAqIDUxOWRmZTE1OTFkODU0MzI5ODZmOTc2MmQ0MWQxYTg4MzE5OGMxNTcKKyAgKiBhNTlk
-NWFjZmFiNDQ4NWQ1MTMzMTE0ZGY2MTc4NWIxZmM2MzNlMGM2CisgICogMjZmMDgwOTk3ZDQxY2Zk
-YjE3YmVhYjY1ZTkwYzgyMjE3ZDBhYzQzYgorLS0tCisgYXJyYXlsaXN0LmMgICAgICAgICAgfCAg
-MyArKysKKyBsaW5raGFzaC5jICAgICAgICAgICB8ICA5ICsrKysrKysrLQorIHByaW50YnVmLmMg
-ICAgICAgICAgIHwgMTggKysrKysrKysrKysrKysrKy0tCisgdGVzdHMvdGVzdDQuYyAgICAgICAg
-fCAyOSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKworIHRlc3RzL3Rlc3Q0LmV4cGVjdGVk
-IHwgIDEgKworIDUgZmlsZXMgY2hhbmdlZCwgNTcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
-LSkKKworLS0tIGVuZCBvZiBvcmlnaW5hbCBwYXRjaCBoZWFkZXIgLS0tCisKK0FwcGxpZWQgZnJv
-bSBicmFuY2gganNvbi1jLTAuMTQgdW5tb2RpZmllZCB0byByZWxlYXNlIDAuMTQuCisKK0NWRTog
-Q1ZFLTIwMjAtMTI3NjIKKworVXBzdHJlYW0tU3RhdHVzOiAgYmFja3BvcnQgW2h0dHBzOi8vZ2l0
-aHViLmNvbS9qc29uLWMvanNvbi1jLmdpdF0KKworU2lnbmVkLW9mZi1ieTogIEpvZSBTbGF0ZXIg
-PGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT4KKworCitkaWZmIC0tZ2l0IGEvYXJyYXlsaXN0LmMg
-Yi9hcnJheWxpc3QuYworaW5kZXggMTJhZDhhZi4uZTU1MjRhYyAxMDA2NDQKKy0tLSBhL2FycmF5
-bGlzdC5jCisrKysgYi9hcnJheWxpc3QuYworQEAgLTEzNiw2ICsxMzYsOSBAQCBpbnQgYXJyYXlf
-bGlzdF9kZWxfaWR4KHN0cnVjdCBhcnJheV9saXN0ICphcnIsIHNpemVfdCBpZHgsIHNpemVfdCBj
-b3VudCkKKyB7CisgCXNpemVfdCBpLCBzdG9wOworIAorKwkvKiBBdm9pZCBvdmVyZmxvdyBpbiBj
-YWxjdWxhdGlvbiB3aXRoIGxhcmdlIGluZGljZXMuICovCisrCWlmIChpZHggPiBTSVpFX1RfTUFY
-IC0gY291bnQpCisrCQlyZXR1cm4gLTE7CisgCXN0b3AgPSBpZHggKyBjb3VudDsKKyAJaWYgKGlk
-eCA+PSBhcnItPmxlbmd0aCB8fCBzdG9wID4gYXJyLT5sZW5ndGgpCisgCQlyZXR1cm4gLTE7Citk
-aWZmIC0tZ2l0IGEvbGlua2hhc2guYyBiL2xpbmtoYXNoLmMKK2luZGV4IDdlYTU4YzAuLmIwMjFl
-ZjEgMTAwNjQ0CistLS0gYS9saW5raGFzaC5jCisrKysgYi9saW5raGFzaC5jCitAQCAtMTIsNiAr
-MTIsNyBAQAorIAorICNpbmNsdWRlICJjb25maWcuaCIKKyAKKysjaW5jbHVkZSA8YXNzZXJ0Lmg+
-CisgI2luY2x1ZGUgPGxpbWl0cy5oPgorICNpbmNsdWRlIDxzdGRhcmcuaD4KKyAjaW5jbHVkZSA8
-c3RkZGVmLmg+CitAQCAtNDk5LDYgKzUwMCw4IEBAIHN0cnVjdCBsaF90YWJsZSAqbGhfdGFibGVf
-bmV3KGludCBzaXplLCBsaF9lbnRyeV9mcmVlX2ZuICpmcmVlX2ZuLCBsaF9oYXNoX2ZuICpoCisg
-CWludCBpOworIAlzdHJ1Y3QgbGhfdGFibGUgKnQ7CisgCisrCS8qIEFsbG9jYXRlIHNwYWNlIGZv
-ciBlbGVtZW50cyB0byBhdm9pZCBkaXZpc2lvbnMgYnkgemVyby4gKi8KKysJYXNzZXJ0KHNpemUg
-PiAwKTsKKyAJdCA9IChzdHJ1Y3QgbGhfdGFibGUgKiljYWxsb2MoMSwgc2l6ZW9mKHN0cnVjdCBs
-aF90YWJsZSkpOworIAlpZiAoIXQpCisgCQlyZXR1cm4gTlVMTDsKK0BAIC01NzgsOCArNTgxLDEy
-IEBAIGludCBsaF90YWJsZV9pbnNlcnRfd19oYXNoKHN0cnVjdCBsaF90YWJsZSAqdCwgY29uc3Qg
-dm9pZCAqaywgY29uc3Qgdm9pZCAqdiwgY29uCisgCXVuc2lnbmVkIGxvbmcgbjsKKyAKKyAJaWYg
-KHQtPmNvdW50ID49IHQtPnNpemUgKiBMSF9MT0FEX0ZBQ1RPUikKKy0JCWlmIChsaF90YWJsZV9y
-ZXNpemUodCwgdC0+c2l6ZSAqIDIpICE9IDApCisrCXsKKysJCS8qIEF2b2lkIHNpZ25lZCBpbnRl
-Z2VyIG92ZXJmbG93IHdpdGggbGFyZ2UgdGFibGVzLiAqLworKwkJaW50IG5ld19zaXplID0gKHQt
-PnNpemUgPiBJTlRfTUFYIC8gMikgPyBJTlRfTUFYIDogKHQtPnNpemUgKiAyKTsKKysJCWlmICh0
-LT5zaXplID09IElOVF9NQVggfHwgbGhfdGFibGVfcmVzaXplKHQsIG5ld19zaXplKSAhPSAwKQor
-IAkJCXJldHVybiAtMTsKKysJfQorIAorIAluID0gaCAlIHQtPnNpemU7CisgCitkaWZmIC0tZ2l0
-IGEvcHJpbnRidWYuYyBiL3ByaW50YnVmLmMKK2luZGV4IDk3NmMxMmQuLmY5YjE1YjEgMTAwNjQ0
-CistLS0gYS9wcmludGJ1Zi5jCisrKysgYi9wcmludGJ1Zi5jCitAQCAtMTUsNiArMTUsNyBAQAor
-IAorICNpbmNsdWRlICJjb25maWcuaCIKKyAKKysjaW5jbHVkZSA8bGltaXRzLmg+CisgI2luY2x1
-ZGUgPHN0ZGlvLmg+CisgI2luY2x1ZGUgPHN0ZGxpYi5oPgorICNpbmNsdWRlIDxzdHJpbmcuaD4K
-K0BAIC02Niw5ICs2NywxNiBAQCBzdGF0aWMgaW50IHByaW50YnVmX2V4dGVuZChzdHJ1Y3QgcHJp
-bnRidWYgKnAsIGludCBtaW5fc2l6ZSkKKyAJaWYgKHAtPnNpemUgPj0gbWluX3NpemUpCisgCQly
-ZXR1cm4gMDsKKyAKKy0JbmV3X3NpemUgPSBwLT5zaXplICogMjsKKy0JaWYgKG5ld19zaXplIDwg
-bWluX3NpemUgKyA4KQorKwkvKiBQcmV2ZW50IHNpZ25lZCBpbnRlZ2VyIG92ZXJmbG93cyB3aXRo
-IGxhcmdlIGJ1ZmZlcnMuICovCisrCWlmIChtaW5fc2l6ZSA+IElOVF9NQVggLSA4KQorKwkJcmV0
-dXJuIC0xOworKwlpZiAocC0+c2l6ZSA+IElOVF9NQVggLyAyKQorIAkJbmV3X3NpemUgPSBtaW5f
-c2l6ZSArIDg7CisrCWVsc2UgeworKwkJbmV3X3NpemUgPSBwLT5zaXplICogMjsKKysJCWlmIChu
-ZXdfc2l6ZSA8IG1pbl9zaXplICsgOCkKKysJCQluZXdfc2l6ZSA9IG1pbl9zaXplICsgODsKKysJ
-fQorICNpZmRlZiBQUklOVEJVRl9ERUJVRworIAlNQ19ERUJVRygicHJpbnRidWZfbWVtYXBwZW5k
-OiByZWFsbG9jICIKKyAJICAgICAgICAgImJwb3M9JWQgbWluX3NpemU9JWQgb2xkX3NpemU9JWQg
-bmV3X3NpemU9JWRcbiIsCitAQCAtODMsNiArOTEsOSBAQCBzdGF0aWMgaW50IHByaW50YnVmX2V4
-dGVuZChzdHJ1Y3QgcHJpbnRidWYgKnAsIGludCBtaW5fc2l6ZSkKKyAKKyBpbnQgcHJpbnRidWZf
-bWVtYXBwZW5kKHN0cnVjdCBwcmludGJ1ZiAqcCwgY29uc3QgY2hhciAqYnVmLCBpbnQgc2l6ZSkK
-KyB7CisrCS8qIFByZXZlbnQgc2lnbmVkIGludGVnZXIgb3ZlcmZsb3dzIHdpdGggbGFyZ2UgYnVm
-ZmVycy4gKi8KKysJaWYgKHNpemUgPiBJTlRfTUFYIC0gcC0+YnBvcyAtIDEpCisrCQlyZXR1cm4g
-LTE7CisgCWlmIChwLT5zaXplIDw9IHAtPmJwb3MgKyBzaXplICsgMSkKKyAJeworIAkJaWYgKHBy
-aW50YnVmX2V4dGVuZChwLCBwLT5icG9zICsgc2l6ZSArIDEpIDwgMCkKK0BAIC0xMDAsNiArMTEx
-LDkgQEAgaW50IHByaW50YnVmX21lbXNldChzdHJ1Y3QgcHJpbnRidWYgKnBiLCBpbnQgb2Zmc2V0
-LCBpbnQgY2hhcnZhbHVlLCBpbnQgbGVuKQorIAorIAlpZiAob2Zmc2V0ID09IC0xKQorIAkJb2Zm
-c2V0ID0gcGItPmJwb3M7CisrCS8qIFByZXZlbnQgc2lnbmVkIGludGVnZXIgb3ZlcmZsb3dzIHdp
-dGggbGFyZ2UgYnVmZmVycy4gKi8KKysJaWYgKGxlbiA+IElOVF9NQVggLSBvZmZzZXQpCisrCQly
-ZXR1cm4gLTE7CisgCXNpemVfbmVlZGVkID0gb2Zmc2V0ICsgbGVuOworIAlpZiAocGItPnNpemUg
-PCBzaXplX25lZWRlZCkKKyAJeworZGlmZiAtLWdpdCBhL3Rlc3RzL3Rlc3Q0LmMgYi90ZXN0cy90
-ZXN0NC5jCitpbmRleCBiZDk2NGVjLi4yODhjZWMxIDEwMDY0NAorLS0tIGEvdGVzdHMvdGVzdDQu
-YworKysrIGIvdGVzdHMvdGVzdDQuYworQEAgLTMsMTIgKzMsMTUgQEAKKyAgKi8KKyAKKyAjaW5j
-bHVkZSAiY29uZmlnLmgiCisrI2luY2x1ZGUgPGFzc2VydC5oPgorICNpbmNsdWRlIDxzdGRpby5o
-PgorKyNpbmNsdWRlIDxzdGRsaWIuaD4KKyAjaW5jbHVkZSA8c3RyaW5nLmg+CisgCisgI2luY2x1
-ZGUgImpzb25faW50dHlwZXMuaCIKKyAjaW5jbHVkZSAianNvbl9vYmplY3QuaCIKKyAjaW5jbHVk
-ZSAianNvbl90b2tlbmVyLmgiCisrI2luY2x1ZGUgInNucHJpbnRmX2NvbXBhdC5oIgorIAorIHZv
-aWQgcHJpbnRfaGV4KGNvbnN0IGNoYXIgKnMpCisgeworQEAgLTI0LDYgKzI3LDI5IEBAIHZvaWQg
-cHJpbnRfaGV4KGNvbnN0IGNoYXIgKnMpCisgCXB1dGNoYXIoJ1xuJyk7CisgfQorIAorK3N0YXRp
-YyB2b2lkIHRlc3RfbG90X29mX2FkZHModm9pZCk7Cisrc3RhdGljIHZvaWQgdGVzdF9sb3Rfb2Zf
-YWRkcygpCisreworKwlpbnQgaWk7CisrCWNoYXIga2V5WzUwXTsKKysJanNvbl9vYmplY3QgKmpv
-YmogPSBqc29uX29iamVjdF9uZXdfb2JqZWN0KCk7CisrCWFzc2VydChqb2JqICE9IE5VTEwpOwor
-Kwlmb3IgKGlpID0gMDsgaWkgPCA1MDA7IGlpKyspCisrCXsKKysJCXNucHJpbnRmKGtleSwgc2l6
-ZW9mKGtleSksICJrJWQiLCBpaSk7CisrCQlqc29uX29iamVjdCAqaW9iaiA9IGpzb25fb2JqZWN0
-X25ld19pbnQoaWkpOworKwkJYXNzZXJ0KGlvYmogIT0gTlVMTCk7CisrCQlpZiAoanNvbl9vYmpl
-Y3Rfb2JqZWN0X2FkZChqb2JqLCBrZXksIGlvYmopKQorKwkJeworKwkJCWZwcmludGYoc3RkZXJy
-LCAiRkFJTEVEIHRvIGFkZCBvYmplY3QgIyVkXG4iLCBpaSk7CisrCQkJYWJvcnQoKTsKKysJCX0K
-KysJfQorKwlwcmludGYoIiVzXG4iLCBqc29uX29iamVjdF90b19qc29uX3N0cmluZyhqb2JqKSk7
-CisrCWFzc2VydChqc29uX29iamVjdF9vYmplY3RfbGVuZ3RoKGpvYmopID09IDUwMCk7CisrCWpz
-b25fb2JqZWN0X3B1dChqb2JqKTsKKyt9CisrCisgaW50IG1haW4odm9pZCkKKyB7CisgCWNvbnN0
-IGNoYXIgKmlucHV0ID0gIlwiXFx1ZDg0MFxcdWRkMjYsXFx1ZDg0MFxcdWRkMjcsXFx1ZDgwMFxc
-dWRkMjYsXFx1ZDgwMFxcdWRkMjdcIiI7CitAQCAtNTIsNSArNzgsOCBAQCBpbnQgbWFpbih2b2lk
-KQorIAkJcmV0dmFsID0gMTsKKyAJfQorIAlqc29uX29iamVjdF9wdXQocGFyc2VfcmVzdWx0KTsK
-KysKKysJdGVzdF9sb3Rfb2ZfYWRkcygpOworKworIAlyZXR1cm4gcmV0dmFsOworIH0KK2RpZmYg
-LS1naXQgYS90ZXN0cy90ZXN0NC5leHBlY3RlZCBiL3Rlc3RzL3Rlc3Q0LmV4cGVjdGVkCitpbmRl
-eCA2OGQ0MzM2Li5jYjI3NDQwIDEwMDY0NAorLS0tIGEvdGVzdHMvdGVzdDQuZXhwZWN0ZWQKKysr
-KyBiL3Rlc3RzL3Rlc3Q0LmV4cGVjdGVkCitAQCAtMSwzICsxLDQgQEAKKyBpbnB1dDogIlx1ZDg0
-MFx1ZGQyNixcdWQ4NDBcdWRkMjcsXHVkODAwXHVkZDI2LFx1ZDgwMFx1ZGQyNyIKKyBKU09OIHBh
-cnNlIHJlc3VsdCBpcyBjb3JyZWN0OiDwoISmLPCghKcs8JCEpizwkISnCisgUEFTUworK3sgImsw
-IjogMCwgImsxIjogMSwgImsyIjogMiwgImszIjogMywgIms0IjogNCwgIms1IjogNSwgIms2Ijog
-NiwgIms3IjogNywgIms4IjogOCwgIms5IjogOSwgImsxMCI6IDEwLCAiazExIjogMTEsICJrMTIi
-OiAxMiwgImsxMyI6IDEzLCAiazE0IjogMTQsICJrMTUiOiAxNSwgImsxNiI6IDE2LCAiazE3Ijog
-MTcsICJrMTgiOiAxOCwgImsxOSI6IDE5LCAiazIwIjogMjAsICJrMjEiOiAyMSwgImsyMiI6IDIy
-LCAiazIzIjogMjMsICJrMjQiOiAyNCwgImsyNSI6IDI1LCAiazI2IjogMjYsICJrMjciOiAyNywg
-ImsyOCI6IDI4LCAiazI5IjogMjksICJrMzAiOiAzMCwgImszMSI6IDMxLCAiazMyIjogMzIsICJr
-MzMiOiAzMywgImszNCI6IDM0LCAiazM1IjogMzUsICJrMzYiOiAzNiwgImszNyI6IDM3LCAiazM4
-IjogMzgsICJrMzkiOiAzOSwgIms0MCI6IDQwLCAiazQxIjogNDEsICJrNDIiOiA0MiwgIms0MyI6
-IDQzLCAiazQ0IjogNDQsICJrNDUiOiA0NSwgIms0NiI6IDQ2LCAiazQ3IjogNDcsICJrNDgiOiA0
-OCwgIms0OSI6IDQ5LCAiazUwIjogNTAsICJrNTEiOiA1MSwgIms1MiI6IDUyLCAiazUzIjogNTMs
-ICJrNTQiOiA1NCwgIms1NSI6IDU1LCAiazU2IjogNTYsICJrNTciOiA1NywgIms1OCI6IDU4LCAi
-azU5IjogNTksICJrNjAiOiA2MCwgIms2MSI6IDYxLCAiazYyIjogNjIsICJrNjMiOiA2MywgIms2
-NCI6IDY0LCAiazY1IjogNjUsICJrNjYiOiA2NiwgIms2NyI6IDY3LCAiazY4IjogNjgsICJrNjki
-OiA2OSwgIms3MCI6IDcwLCAiazcxIjogNzEsICJrNzIiOiA3MiwgIms3MyI6IDczLCAiazc0Ijog
-NzQsICJrNzUiOiA3NSwgIms3NiI6IDc2LCAiazc3IjogNzcsICJrNzgiOiA3OCwgIms3OSI6IDc5
-LCAiazgwIjogODAsICJrODEiOiA4MSwgIms4MiI6IDgyLCAiazgzIjogODMsICJrODQiOiA4NCwg
-Ims4NSI6IDg1LCAiazg2IjogODYsICJrODciOiA4NywgIms4OCI6IDg4LCAiazg5IjogODksICJr
-OTAiOiA5MCwgIms5MSI6IDkxLCAiazkyIjogOTIsICJrOTMiOiA5MywgIms5NCI6IDk0LCAiazk1
-IjogOTUsICJrOTYiOiA5NiwgIms5NyI6IDk3LCAiazk4IjogOTgsICJrOTkiOiA5OSwgImsxMDAi
-OiAxMDAsICJrMTAxIjogMTAxLCAiazEwMiI6IDEwMiwgImsxMDMiOiAxMDMsICJrMTA0IjogMTA0
-LCAiazEwNSI6IDEwNSwgImsxMDYiOiAxMDYsICJrMTA3IjogMTA3LCAiazEwOCI6IDEwOCwgImsx
-MDkiOiAxMDksICJrMTEwIjogMTEwLCAiazExMSI6IDExMSwgImsxMTIiOiAxMTIsICJrMTEzIjog
-MTEzLCAiazExNCI6IDExNCwgImsxMTUiOiAxMTUsICJrMTE2IjogMTE2LCAiazExNyI6IDExNywg
-ImsxMTgiOiAxMTgsICJrMTE5IjogMTE5LCAiazEyMCI6IDEyMCwgImsxMjEiOiAxMjEsICJrMTIy
-IjogMTIyLCAiazEyMyI6IDEyMywgImsxMjQiOiAxMjQsICJrMTI1IjogMTI1LCAiazEyNiI6IDEy
-NiwgImsxMjciOiAxMjcsICJrMTI4IjogMTI4LCAiazEyOSI6IDEyOSwgImsxMzAiOiAxMzAsICJr
-MTMxIjogMTMxLCAiazEzMiI6IDEzMiwgImsxMzMiOiAxMzMsICJrMTM0IjogMTM0LCAiazEzNSI6
-IDEzNSwgImsxMzYiOiAxMzYsICJrMTM3IjogMTM3LCAiazEzOCI6IDEzOCwgImsxMzkiOiAxMzks
-ICJrMTQwIjogMTQwLCAiazE0MSI6IDE0MSwgImsxNDIiOiAxNDIsICJrMTQzIjogMTQzLCAiazE0
-NCI6IDE0NCwgImsxNDUiOiAxNDUsICJrMTQ2IjogMTQ2LCAiazE0NyI6IDE0NywgImsxNDgiOiAx
-NDgsICJrMTQ5IjogMTQ5LCAiazE1MCI6IDE1MCwgImsxNTEiOiAxNTEsICJrMTUyIjogMTUyLCAi
-azE1MyI6IDE1MywgImsxNTQiOiAxNTQsICJrMTU1IjogMTU1LCAiazE1NiI6IDE1NiwgImsxNTci
-OiAxNTcsICJrMTU4IjogMTU4LCAiazE1OSI6IDE1OSwgImsxNjAiOiAxNjAsICJrMTYxIjogMTYx
-LCAiazE2MiI6IDE2MiwgImsxNjMiOiAxNjMsICJrMTY0IjogMTY0LCAiazE2NSI6IDE2NSwgImsx
-NjYiOiAxNjYsICJrMTY3IjogMTY3LCAiazE2OCI6IDE2OCwgImsxNjkiOiAxNjksICJrMTcwIjog
-MTcwLCAiazE3MSI6IDE3MSwgImsxNzIiOiAxNzIsICJrMTczIjogMTczLCAiazE3NCI6IDE3NCwg
-ImsxNzUiOiAxNzUsICJrMTc2IjogMTc2LCAiazE3NyI6IDE3NywgImsxNzgiOiAxNzgsICJrMTc5
-IjogMTc5LCAiazE4MCI6IDE4MCwgImsxODEiOiAxODEsICJrMTgyIjogMTgyLCAiazE4MyI6IDE4
-MywgImsxODQiOiAxODQsICJrMTg1IjogMTg1LCAiazE4NiI6IDE4NiwgImsxODciOiAxODcsICJr
-MTg4IjogMTg4LCAiazE4OSI6IDE4OSwgImsxOTAiOiAxOTAsICJrMTkxIjogMTkxLCAiazE5MiI6
-IDE5MiwgImsxOTMiOiAxOTMsICJrMTk0IjogMTk0LCAiazE5NSI6IDE5NSwgImsxOTYiOiAxOTYs
-ICJrMTk3IjogMTk3LCAiazE5OCI6IDE5OCwgImsxOTkiOiAxOTksICJrMjAwIjogMjAwLCAiazIw
-MSI6IDIwMSwgImsyMDIiOiAyMDIsICJrMjAzIjogMjAzLCAiazIwNCI6IDIwNCwgImsyMDUiOiAy
-MDUsICJrMjA2IjogMjA2LCAiazIwNyI6IDIwNywgImsyMDgiOiAyMDgsICJrMjA5IjogMjA5LCAi
-azIxMCI6IDIxMCwgImsyMTEiOiAyMTEsICJrMjEyIjogMjEyLCAiazIxMyI6IDIxMywgImsyMTQi
-OiAyMTQsICJrMjE1IjogMjE1LCAiazIxNiI6IDIxNiwgImsyMTciOiAyMTcsICJrMjE4IjogMjE4
-LCAiazIxOSI6IDIxOSwgImsyMjAiOiAyMjAsICJrMjIxIjogMjIxLCAiazIyMiI6IDIyMiwgImsy
-MjMiOiAyMjMsICJrMjI0IjogMjI0LCAiazIyNSI6IDIyNSwgImsyMjYiOiAyMjYsICJrMjI3Ijog
-MjI3LCAiazIyOCI6IDIyOCwgImsyMjkiOiAyMjksICJrMjMwIjogMjMwLCAiazIzMSI6IDIzMSwg
-ImsyMzIiOiAyMzIsICJrMjMzIjogMjMzLCAiazIzNCI6IDIzNCwgImsyMzUiOiAyMzUsICJrMjM2
-IjogMjM2LCAiazIzNyI6IDIzNywgImsyMzgiOiAyMzgsICJrMjM5IjogMjM5LCAiazI0MCI6IDI0
-MCwgImsyNDEiOiAyNDEsICJrMjQyIjogMjQyLCAiazI0MyI6IDI0MywgImsyNDQiOiAyNDQsICJr
-MjQ1IjogMjQ1LCAiazI0NiI6IDI0NiwgImsyNDciOiAyNDcsICJrMjQ4IjogMjQ4LCAiazI0OSI6
-IDI0OSwgImsyNTAiOiAyNTAsICJrMjUxIjogMjUxLCAiazI1MiI6IDI1MiwgImsyNTMiOiAyNTMs
-ICJrMjU0IjogMjU0LCAiazI1NSI6IDI1NSwgImsyNTYiOiAyNTYsICJrMjU3IjogMjU3LCAiazI1
-OCI6IDI1OCwgImsyNTkiOiAyNTksICJrMjYwIjogMjYwLCAiazI2MSI6IDI2MSwgImsyNjIiOiAy
-NjIsICJrMjYzIjogMjYzLCAiazI2NCI6IDI2NCwgImsyNjUiOiAyNjUsICJrMjY2IjogMjY2LCAi
-azI2NyI6IDI2NywgImsyNjgiOiAyNjgsICJrMjY5IjogMjY5LCAiazI3MCI6IDI3MCwgImsyNzEi
-OiAyNzEsICJrMjcyIjogMjcyLCAiazI3MyI6IDI3MywgImsyNzQiOiAyNzQsICJrMjc1IjogMjc1
-LCAiazI3NiI6IDI3NiwgImsyNzciOiAyNzcsICJrMjc4IjogMjc4LCAiazI3OSI6IDI3OSwgImsy
-ODAiOiAyODAsICJrMjgxIjogMjgxLCAiazI4MiI6IDI4MiwgImsyODMiOiAyODMsICJrMjg0Ijog
-Mjg0LCAiazI4NSI6IDI4NSwgImsyODYiOiAyODYsICJrMjg3IjogMjg3LCAiazI4OCI6IDI4OCwg
-ImsyODkiOiAyODksICJrMjkwIjogMjkwLCAiazI5MSI6IDI5MSwgImsyOTIiOiAyOTIsICJrMjkz
-IjogMjkzLCAiazI5NCI6IDI5NCwgImsyOTUiOiAyOTUsICJrMjk2IjogMjk2LCAiazI5NyI6IDI5
-NywgImsyOTgiOiAyOTgsICJrMjk5IjogMjk5LCAiazMwMCI6IDMwMCwgImszMDEiOiAzMDEsICJr
-MzAyIjogMzAyLCAiazMwMyI6IDMwMywgImszMDQiOiAzMDQsICJrMzA1IjogMzA1LCAiazMwNiI6
-IDMwNiwgImszMDciOiAzMDcsICJrMzA4IjogMzA4LCAiazMwOSI6IDMwOSwgImszMTAiOiAzMTAs
-ICJrMzExIjogMzExLCAiazMxMiI6IDMxMiwgImszMTMiOiAzMTMsICJrMzE0IjogMzE0LCAiazMx
-NSI6IDMxNSwgImszMTYiOiAzMTYsICJrMzE3IjogMzE3LCAiazMxOCI6IDMxOCwgImszMTkiOiAz
-MTksICJrMzIwIjogMzIwLCAiazMyMSI6IDMyMSwgImszMjIiOiAzMjIsICJrMzIzIjogMzIzLCAi
-azMyNCI6IDMyNCwgImszMjUiOiAzMjUsICJrMzI2IjogMzI2LCAiazMyNyI6IDMyNywgImszMjgi
-OiAzMjgsICJrMzI5IjogMzI5LCAiazMzMCI6IDMzMCwgImszMzEiOiAzMzEsICJrMzMyIjogMzMy
-LCAiazMzMyI6IDMzMywgImszMzQiOiAzMzQsICJrMzM1IjogMzM1LCAiazMzNiI6IDMzNiwgImsz
-MzciOiAzMzcsICJrMzM4IjogMzM4LCAiazMzOSI6IDMzOSwgImszNDAiOiAzNDAsICJrMzQxIjog
-MzQxLCAiazM0MiI6IDM0MiwgImszNDMiOiAzNDMsICJrMzQ0IjogMzQ0LCAiazM0NSI6IDM0NSwg
-ImszNDYiOiAzNDYsICJrMzQ3IjogMzQ3LCAiazM0OCI6IDM0OCwgImszNDkiOiAzNDksICJrMzUw
-IjogMzUwLCAiazM1MSI6IDM1MSwgImszNTIiOiAzNTIsICJrMzUzIjogMzUzLCAiazM1NCI6IDM1
-NCwgImszNTUiOiAzNTUsICJrMzU2IjogMzU2LCAiazM1NyI6IDM1NywgImszNTgiOiAzNTgsICJr
-MzU5IjogMzU5LCAiazM2MCI6IDM2MCwgImszNjEiOiAzNjEsICJrMzYyIjogMzYyLCAiazM2MyI6
-IDM2MywgImszNjQiOiAzNjQsICJrMzY1IjogMzY1LCAiazM2NiI6IDM2NiwgImszNjciOiAzNjcs
-ICJrMzY4IjogMzY4LCAiazM2OSI6IDM2OSwgImszNzAiOiAzNzAsICJrMzcxIjogMzcxLCAiazM3
-MiI6IDM3MiwgImszNzMiOiAzNzMsICJrMzc0IjogMzc0LCAiazM3NSI6IDM3NSwgImszNzYiOiAz
-NzYsICJrMzc3IjogMzc3LCAiazM3OCI6IDM3OCwgImszNzkiOiAzNzksICJrMzgwIjogMzgwLCAi
-azM4MSI6IDM4MSwgImszODIiOiAzODIsICJrMzgzIjogMzgzLCAiazM4NCI6IDM4NCwgImszODUi
-OiAzODUsICJrMzg2IjogMzg2LCAiazM4NyI6IDM4NywgImszODgiOiAzODgsICJrMzg5IjogMzg5
-LCAiazM5MCI6IDM5MCwgImszOTEiOiAzOTEsICJrMzkyIjogMzkyLCAiazM5MyI6IDM5MywgImsz
-OTQiOiAzOTQsICJrMzk1IjogMzk1LCAiazM5NiI6IDM5NiwgImszOTciOiAzOTcsICJrMzk4Ijog
-Mzk4LCAiazM5OSI6IDM5OSwgIms0MDAiOiA0MDAsICJrNDAxIjogNDAxLCAiazQwMiI6IDQwMiwg
-Ims0MDMiOiA0MDMsICJrNDA0IjogNDA0LCAiazQwNSI6IDQwNSwgIms0MDYiOiA0MDYsICJrNDA3
-IjogNDA3LCAiazQwOCI6IDQwOCwgIms0MDkiOiA0MDksICJrNDEwIjogNDEwLCAiazQxMSI6IDQx
-MSwgIms0MTIiOiA0MTIsICJrNDEzIjogNDEzLCAiazQxNCI6IDQxNCwgIms0MTUiOiA0MTUsICJr
-NDE2IjogNDE2LCAiazQxNyI6IDQxNywgIms0MTgiOiA0MTgsICJrNDE5IjogNDE5LCAiazQyMCI6
-IDQyMCwgIms0MjEiOiA0MjEsICJrNDIyIjogNDIyLCAiazQyMyI6IDQyMywgIms0MjQiOiA0MjQs
-ICJrNDI1IjogNDI1LCAiazQyNiI6IDQyNiwgIms0MjciOiA0MjcsICJrNDI4IjogNDI4LCAiazQy
-OSI6IDQyOSwgIms0MzAiOiA0MzAsICJrNDMxIjogNDMxLCAiazQzMiI6IDQzMiwgIms0MzMiOiA0
-MzMsICJrNDM0IjogNDM0LCAiazQzNSI6IDQzNSwgIms0MzYiOiA0MzYsICJrNDM3IjogNDM3LCAi
-azQzOCI6IDQzOCwgIms0MzkiOiA0MzksICJrNDQwIjogNDQwLCAiazQ0MSI6IDQ0MSwgIms0NDIi
-OiA0NDIsICJrNDQzIjogNDQzLCAiazQ0NCI6IDQ0NCwgIms0NDUiOiA0NDUsICJrNDQ2IjogNDQ2
-LCAiazQ0NyI6IDQ0NywgIms0NDgiOiA0NDgsICJrNDQ5IjogNDQ5LCAiazQ1MCI6IDQ1MCwgIms0
-NTEiOiA0NTEsICJrNDUyIjogNDUyLCAiazQ1MyI6IDQ1MywgIms0NTQiOiA0NTQsICJrNDU1Ijog
-NDU1LCAiazQ1NiI6IDQ1NiwgIms0NTciOiA0NTcsICJrNDU4IjogNDU4LCAiazQ1OSI6IDQ1OSwg
-Ims0NjAiOiA0NjAsICJrNDYxIjogNDYxLCAiazQ2MiI6IDQ2MiwgIms0NjMiOiA0NjMsICJrNDY0
-IjogNDY0LCAiazQ2NSI6IDQ2NSwgIms0NjYiOiA0NjYsICJrNDY3IjogNDY3LCAiazQ2OCI6IDQ2
-OCwgIms0NjkiOiA0NjksICJrNDcwIjogNDcwLCAiazQ3MSI6IDQ3MSwgIms0NzIiOiA0NzIsICJr
-NDczIjogNDczLCAiazQ3NCI6IDQ3NCwgIms0NzUiOiA0NzUsICJrNDc2IjogNDc2LCAiazQ3NyI6
-IDQ3NywgIms0NzgiOiA0NzgsICJrNDc5IjogNDc5LCAiazQ4MCI6IDQ4MCwgIms0ODEiOiA0ODEs
-ICJrNDgyIjogNDgyLCAiazQ4MyI6IDQ4MywgIms0ODQiOiA0ODQsICJrNDg1IjogNDg1LCAiazQ4
-NiI6IDQ4NiwgIms0ODciOiA0ODcsICJrNDg4IjogNDg4LCAiazQ4OSI6IDQ4OSwgIms0OTAiOiA0
-OTAsICJrNDkxIjogNDkxLCAiazQ5MiI6IDQ5MiwgIms0OTMiOiA0OTMsICJrNDk0IjogNDk0LCAi
-azQ5NSI6IDQ5NSwgIms0OTYiOiA0OTYsICJrNDk3IjogNDk3LCAiazQ5OCI6IDQ5OCwgIms0OTki
-OiA0OTkgfQorLS0gCisyLjcuNAorCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-anNvbi1jL2pzb24tY18wLjE0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29u
-LWNfMC4xNC5iYgppbmRleCA5OWZkZTg3Li4xZWU3MzA1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tY18wLjE0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9qc29uLWMvanNvbi1jXzAuMTQuYmIKQEAgLTcsNiArNyw4IEBAIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWRlNTRiNjBmYmJjMzUxMjNiYTE5M2ZlYThlZTIxNmYy
-IgogU1JDX1VSSSA9ICJodHRwczovL3MzLmFtYXpvbmF3cy5jb20vanNvbi1jX3JlbGVhc2VzL3Jl
-bGVhc2VzLyR7QlB9LnRhci5neiIKIFNSQ19VUklbc2hhMjU2c3VtXSA9ICJiMzc3ZGUwOGM5YjIz
-Y2EzYjM3ZDlhOTgyODEwN2RmZjFkZTVjZTIwOGZmNGViYjM1MDA1YTc5NGYzMGM2ODcwIgogCitT
-UkNfVVJJICs9ICJmaWxlOi8vRml4LUNWRS0yMDIwLTEyNzYyLnBhdGNoIgorCiBVUFNUUkVBTV9D
-SEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tLyR7QlBOfS8ke0JQTn0vcmVsZWFzZXMiCiBV
-UFNUUkVBTV9DSEVDS19SRUdFWCA9ICJqc29uLWMtKD9QPHB2ZXI+XGQrKFwuXGQrKSspLVxkKyIK
-IAotLSAKMi43LjQKCg==
+if __name__ == '__main__':
+    main()
 
---_004_BY5PR11MB3992C3A972F49A21BC3F52B188940BY5PR11MB3992namp_--
+5) In test/setup.py:
+
+from setuptools import setup, find_packages
+
+setup(
+name='minimal',
+version='0.1',
+python_requires='>=3.4',
+packages=['minimal'],
+entry_points={ 'console_scripts': [ 'minimal = minimal:main' ] },
+)
+
+6) Run "python3 setup.py install"
+
+7) Run "time /usr/bin/minimal"
+
+8) Note the drastic differences in run time, e.g. with
+core-image-full-cmdline:
+
+core-image-full-cmdline, WITHOUT setuptools ScriptWriter patch:
+
+root@qemux86-64:~# time /usr/bin/minimal
+hello world
+
+real    0m0.198s
+user    0m0.174s
+sys     0m0.023s
+
+core-image-full-cmdline, WITH setuptools ScriptWriter patch:
+
+root@qemux86-64:~# time /usr/bin/minimal
+hello world
+
+real    0m0.034s
+user    0m0.024s
+sys     0m0.010s
+
+I've also tried to ensure that this has no adverse effects on the larger
+python ecosystem in Yocto, by running ptests on all modules in
+meta-python that have ptests available and use setuptools, with this
+patch installed. I saw no failures related to setuptools, although it is
+still possible that this could have unforeseen consequences on other
+modules.
+
+Finally, some (truncated) profiling comparisons to emphasize the gains
+in performance, using the same example module before and after the patch. 
+There are three orders of magnitude difference in the number of calls 
+required, including much more recursion. What is most apparent from 
+these profiling results is how much more time the unpatched version 
+spends parsing entry points when that effort isn't required to achieve
+the same end. As can be seen from the simple example used here, the 
+time savings at initialization are significant enough even for tiny
+scripts that this fix should be incorporated in the project at the 
+setuptools level, rather than requiring manual application, or 
+modification of existing scripts on the user's end.
+
+WITHOUT PATCH:
+
+         134641 function calls (130543 primitive calls) in 0.723 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     88/1    0.002    0.000    0.723    0.723 {built-in method builtins.exec}
+        1    0.000    0.000    0.723    0.723 minimal:3(<module>)
+    100/2    0.002    0.000    0.704    0.352 <frozen importlib._bootstrap>:986(_find_and_load)
+    100/2    0.002    0.000    0.703    0.352 <frozen importlib._bootstrap>:956(_find_and_load_unlocked)
+     93/2    0.002    0.000    0.700    0.350 <frozen importlib._bootstrap>:650(_load_unlocked)
+     67/1    0.001    0.000    0.699    0.699 <frozen importlib._bootstrap_external>:777(exec_module)
+    115/1    0.000    0.000    0.698    0.698 <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+        1    0.000    0.000    0.698    0.698 __init__.py:2(<module>)
+    30/19    0.000    0.000    0.445    0.023 {built-in method builtins.__import__}
+       82    0.002    0.000    0.372    0.005 re.py:289(_compile)
+       75    0.000    0.000    0.369    0.005 re.py:250(compile)
+       73    0.002    0.000    0.367    0.005 sre_compile.py:759(compile)
+        1    0.000    0.000    0.262    0.262 requirements.py:4(<module>)
+       73    0.001    0.000    0.259    0.004 sre_parse.py:937(parse)
+   308/73    0.007    0.000    0.255    0.003 sre_parse.py:435(_parse_sub)
+   457/77    0.072    0.000    0.253    0.003 sre_parse.py:493(_parse)
+  283/280    0.009    0.000    0.222    0.001 {built-in method builtins.__build_class__}
+      9/7    0.000    0.000    0.159    0.023 <frozen importlib._bootstrap>:613(_load_backward_compatible)
+        6    0.000    0.000    0.159    0.026 __init__.py:35(load_module)
+        1    0.001    0.001    0.145    0.145 pyparsing.py:26(<module>)
+       26    0.001    0.000    0.137    0.005 pyparsing.py:2779(__init__)
+       73    0.001    0.000    0.104    0.001 sre_compile.py:598(_code)
+        1    0.000    0.000    0.097    0.097 parser.py:5(<module>)
+        1    0.000    0.000    0.095    0.095 feedparser.py:5(<module>)
+        1    0.000    0.000    0.095    0.095 specifiers.py:4(<module>)
+   770/73    0.032    0.000    0.091    0.001 sre_compile.py:71(_compile)
+        1    0.000    0.000    0.086    0.086 _policybase.py:1(<module>)
+    11488    0.049    0.000    0.086    0.000 sre_parse.py:254(get)
+        1    0.000    0.000    0.083    0.083 specifiers.py:275(Specifier)
+        1    0.000    0.000    0.073    0.073 pyparsing.py:5399(pyparsing_common)
+       98    0.003    0.000    0.063    0.001 <frozen importlib._bootstrap>:890(_find_spec)
+        1    0.000    0.000    0.058    0.058 utils.py:5(<module>)
+
+WITH PATCH:
+
+         300 function calls (299 primitive calls) in 0.003 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      2/1    0.000    0.000    0.003    0.003 {built-in method builtins.exec}
+        1    0.000    0.000    0.003    0.003 minimal:2(<module>)
+        1    0.000    0.000    0.003    0.003 <frozen importlib._bootstrap>:986(_find_and_load)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap>:956(_find_and_load_unlocked)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap>:890(_find_spec)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:1334(find_spec)
+        1    0.000    0.000    0.002    0.002 <frozen importlib._bootstrap_external>:1302(_get_spec)
+        2    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:1431(find_spec)
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap>:650(_load_unlocked)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1479(_fill_cache)
+       18    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:62(_path_join)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.listdir}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:777(exec_module)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:849(get_code)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:90(_path_is_mode_type)
+        9    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:99(_path_isfile)
+       15    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:80(_path_stat)
+       18    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:64(<listcomp>)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:549(module_from_spec)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:477(_init_module_attrs)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1265(_path_importer_cache)
+       15    0.000    0.000    0.000    0.000 {built-in method posix.stat}
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:294(cache_from_source)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1252(_path_hooks)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:376(cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:424(_get_cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1520(path_hook_for_FileFinder)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:969(get_data)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:147(__enter__)
+       38    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1394(__init__)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:104(_path_isdir)
+
+Trevor Gamblin (1):
+  python3-setuptools: patch entrypoints for performance boost
+
+ .../python/python-setuptools.inc              |  4 +-
+ ...nt-usr-bin-wrappers-signoff-included.patch | 60 +++++++++++++++++++
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-ScriptWriter-create-more-efficient-usr-bin-wrappers-signoff-included.patch
+
+-- 
+2.24.1
+
