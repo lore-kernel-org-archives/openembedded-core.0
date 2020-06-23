@@ -1,84 +1,142 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web10.5618.1592914730493943880
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
+ by mx.groups.io with SMTP id smtpd.web11.5654.1592915022448382478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 05:18:50 -0700
+ Tue, 23 Jun 2020 05:23:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RsRGX/Ul;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id d15so16164928edm.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 05:18:50 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=tpjqLqE7;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.193, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f193.google.com with SMTP id x202so18676844oix.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 05:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kpptg+Pf4bey/A57g4gOg8vPgDJCVNGR9iVn40DxiJM=;
-        b=RsRGX/Ulv8hGUYW5E/oJv/MyhxTNkkXSOcUFVKJrSbmGdq9vOGhsrSpTBontvtN7BC
-         0PlxEx8hGhiUf6cRd7op7UlBoYpKzDpk81+NuFNELcYdVu9jbY0eyb055pi8JAZK53xW
-         DZnKvxCGDNynGdcQ7oaMdb6B0ZGWY6YfVnRZFx8bHWcjkrsqauvqFlwlmUvCC9HjRkhf
-         mJnKBvv3ylQ4E8v3puTUMrEC7cdPwz6YKDSp9GwnMfdlFCToOsfDjlfpXlCpH4dN8CIx
-         zzAT+L90SfrLlPfpwNS/S6P0xyCdSRx6sGtS7D7jiwO9F8C5mo1zvmcc4AuF4GTGlA3b
-         IinQ==
+         :cc:content-transfer-encoding;
+        bh=xzlnPYVFQG163ue2nphLNym9l00cmwvG7Sw/wIHQ2jE=;
+        b=tpjqLqE7MT4sbbH7dKzU2+DICCQ4ZDhJkseqeFtZUEeOiIqU3sti4/ODm6WqXJo2Pa
+         BP6KAz+jXB5xhJ3eQp/q6ltXBZaYhGbiw2onsnVyVXWjls9PVUFjYldx1cOpolGvbTOH
+         w6nqTai3p7WGZezFhe9dnMwah892qKmHr6CcY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kpptg+Pf4bey/A57g4gOg8vPgDJCVNGR9iVn40DxiJM=;
-        b=ckJIExEVPkm+FfuvO7ba3uDFn7qsIDxuLAkI5ZVk+JZIvUF9BmnziCpFbzfGfS0DOj
-         auA4hzCrwI4mhmjqAAEdwoVjFY5MNjtyp4KiUOtQuLiZZm9/e30pyntTOgEgk/zZSOCf
-         jQZIxg0+wIZvhIbKDz2la7hUTAJ63FU3yyJ2ifqyWhIBOduif78Rkmb4L0Skd3QmeLxO
-         EL7saFwh9cxupxdXO3L8J9guiIF4Zw6Ag3uCGx1Rl5izf94SpZtaWY64ho0/l22BITrL
-         tU79KyjB9iDpZyeQg32ADDJe7g0V9hLFrKhZH1XJ3uIjue+LmCYz5hA5Ymwi1pPuAuLD
-         JP7Q==
-X-Gm-Message-State: AOAM530DA5YEa3h9Hq7C2qBKdIdtmZnpCxSG070Qge4UvaOSrvDrLver
-	yOKZ+hKFb4wWEkcWu/EV5B6Y7ppC3HMwI/YU9ys=
-X-Google-Smtp-Source: ABdhPJxdnJLEcdE4gO8UhDp5B9AiB9uL16wHpihyh7L0lPEYYx6kUZ40jAIw3FHuOy7C2SHN+MSppAugS4oiGUcpFVA=
-X-Received: by 2002:aa7:de08:: with SMTP id h8mr20973379edv.164.1592914728629;
- Tue, 23 Jun 2020 05:18:48 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xzlnPYVFQG163ue2nphLNym9l00cmwvG7Sw/wIHQ2jE=;
+        b=iqGDZ9uqGkbxT5smOxxIDLRzGFh8h2/FB7Mly7HaHorlawzUyyWGrLjHncOV3/IqwY
+         eIO1piKwsATTYBaU54xFbx/jXmpZtWZEuxpO1qMeFZlwJ3F3F4mHjri5SDvHdJstte0c
+         lTTZYKnIhxo6P6unHOXufxBDbMr6+q6lyFSe83d8AAkRCxV1wsCT/S45qvlT6el+L5gu
+         ZiGO4PK/zsjkoc7XOQK9tGNoOa8jJGdCCHuFobeGIBQvEOFVjn0AaEtmCNP0B2+beT5g
+         bFySPCVJZ+medhTu3D1i3Sp3cHQMZrUum6apXo0kdj/1WlSpm8vGYdifMYU+XNYPL/zH
+         mJsg==
+X-Gm-Message-State: AOAM530k/3hIdLshbJi79EvwYpOdGFXHgl1zluGWbPC7V5rjNJoXlxn/
+	LWS7ImSa13+KjepRXqyOLHHulVp8ZzGQ1nfjjZXXrGuGw/g=
+X-Google-Smtp-Source: ABdhPJzwvz1z9Uzx6OxfdlqMszIURhmmQv0jmPqi1oI2GCy14mr18jB4TgJNAXpny8UgZ5WGq+/o+Jcged7aY1o/Ohk=
+X-Received: by 2002:aca:df04:: with SMTP id w4mr15840772oig.27.1592915021685;
+ Tue, 23 Jun 2020 05:23:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <1619EF7B69C83A3C.10370@lists.openembedded.org> <9de30c55-f97d-59f7-11a3-0366349102b6@windriver.com>
-In-Reply-To: <9de30c55-f97d-59f7-11a3-0366349102b6@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 23 Jun 2020 08:18:37 -0400
-Message-ID: <CADkTA4NPL0jU-edpy2r-H0=1v=ugvKr7NQ3ELyKO11i1rDG2vg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+References: <20200623111328.5838-1-fredrigu@axis.com> <20200623111328.5838-3-fredrigu@axis.com>
+ <b42a94227a052cb6344788925c7e26566e2a191c.camel@linuxfoundation.org> <1592914337760.75731@axis.com>
+In-Reply-To: <1592914337760.75731@axis.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 23 Jun 2020 13:23:31 +0100
+Message-ID: <CAM9ZRVvaB2VaQjVNQByYpXiZQ9vMtS7Fd4V1=TVJgD=qHY6+iA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] lib/oe: Split package manager code to multiple files
+To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>, Hugo Cedervall <Hugo.Cedervall@axis.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 23, 2020 at 4:26 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+On Tue, 23 Jun 2020 at 13:12, Fredrik Gustafsson
+<fredrik.gustafsson@axis.com> wrote:
 >
-> ping Bruce
-
-heh. I was waiting to see what Richard thought, since he noticed
-something in v2 that I missed :D
-
-I'll have a look at this later today.
-
-Bruce
-
 >
-> On 6/19/20 7:47 PM, Xu, Yanfei wrote:
-> > From: Yanfei Xu <yanfei.xu@windriver.com>
+> ________________________________________
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Sent: Tuesday, June 23, 2020 2:02 PM
+> To: Fredrik Gustafsson; openembedded-core@lists.openembedded.org
+> Cc: tools-cfpbuild-internal; Hugo Cedervall; Fredrik Gustafsson
+> Subject: Re: [OE-core] [PATCH 2/2] lib/oe: Split package manager code to =
+multiple files
+>
+> On Tue, 2020-06-23 at 13:13 +0200, Fredrik Gustafsson wrote:
+> > Today OE-Core has support for three package managers, even if there
+> > are many more package managers that could be interesting to use.
+> > Adding a new package manager to OE-Core would increase the test matrix
+> > significantly. In order to let users use their favorite package manager
+> > without need for it to have support from upstream, this patch refactors
+> > the package manager code so that it's easy to add a new package
+> > manager in another layer.
 > >
-> > v1->v2->v3:
-> > 1.Put the symlink creation at postinstall script instead of build time.
-> > 2.Add a postremove script for removing image created in postinstall.
+> > This patch is mostly moving code and duplicating some code (because of
+> > the hard coupling between deb and ipk).
 > >
-> > Yanfei Xu (1):
-> >    classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't
-> >      support symlinks
-> >
-> >   meta/classes/kernel.bbclass | 19 ++++++++++++++++---
-> >   1 file changed, 16 insertions(+), 3 deletions(-)
-> >
-> >
-> > 
-> >
+> > Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
+> > ---
+> >  meta/classes/populate_sdk_base.bbclass        |   11 +-
+> >  meta/lib/oe/manifest.py                       |  149 +-
+> >  meta/lib/oe/package_manager.py                | 1402 +----------------
+> >  meta/lib/oe/package_managers/deb/manifest.py  |   31 +
+> >  .../package_managers/deb/package_manager.py   |  719 +++++++++
+> >  meta/lib/oe/package_managers/deb/rootfs.py    |  213 +++
+> >  meta/lib/oe/package_managers/deb/sdk.py       |   97 ++
+> >  .../ipk/.package_manager.py.swo               |  Bin 0 -> 45056 bytes
+> >  meta/lib/oe/package_managers/ipk/manifest.py  |   79 +
+> >  .../package_managers/ipk/package_manager.py   |  588 +++++++
+> >  meta/lib/oe/package_managers/ipk/rootfs.py    |  395 +++++
+> >  meta/lib/oe/package_managers/ipk/sdk.py       |  104 ++
+> >  meta/lib/oe/package_managers/rpm/manifest.py  |   62 +
+> >  .../package_managers/rpm/package_manager.py   |  423 +++++
+> >  meta/lib/oe/package_managers/rpm/rootfs.py    |  154 ++
+> >  meta/lib/oe/package_managers/rpm/sdk.py       |  104 ++
+> >  meta/lib/oe/rootfs.py                         |  631 +-------
+> >  meta/lib/oe/sdk.py                            |  311 +---
+> >  meta/lib/oeqa/utils/package_manager.py        |   29 +-
+> >  meta/recipes-core/meta/package-index.bb       |    2 +-
+> >  20 files changed, 3014 insertions(+), 2490 deletions(-)
+>
+> I'm afraid this patch is basically impossible to review. There are
+> warning signs like the inclusion of the binary swo file. The hint that
+> code gets duplicated also worries me, even if you abstract this, there
+> shouldn't be reason to do that.
+>
+> If we do this its going to have to be a more granular series where the
+> patches *just* move code to new locations so we can see/understand what
+> other changes are being made as I simply don't trust this patch, sorry
+> :(.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> Hi,
+> sorry about the swo file that's a mistake on my side. The duplicated code=
+ is simply so that deb and ipk shares a class. So my choice was to either d=
+uplicate that class (and let them diverge which is fine) or in the core pac=
+kage_manager.py file have a class that is not used by all package managers =
+(rpm doesn't use it).
+>
+> This patch is only code moves and class renames. I know it's very hard to=
+ review, that's a real problem. Let me see if I can split it up some more.
 
+I really like the idea here but agree with Richard that the patch is
+impossible to review as is. I'd recommend moving things over in stages
+and keeping the package_manager.py file around until we're completely
+finished. Recipes like package-index.bb should not need to change at
+all - leave a shim layer in place with the old import path.
 
+I see you split the code into package_manager.py, rootfs.py, sdk.py
+and manifest.py for each package manager. That suggests you could
+start by just splitting out the rootfs code from each package manager,
+leaving the rest in package_manager.py. Then on the next commit move
+the sdk handling, etc. That would make each commit easier to reason
+about.
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+I'd also recommend adding a __init__.py file in the ipk, rpm and deb
+directories so it's easier to import things when needed.
+
+Thanks,
+
+--=20
+Paul Barker
+Konsulko Group
