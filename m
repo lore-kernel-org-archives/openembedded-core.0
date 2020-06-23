@@ -1,116 +1,100 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.2684.1592900407284847010
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.88])
+ by mx.groups.io with SMTP id smtpd.web10.2722.1592900800305422389
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 01:20:07 -0700
+ Tue, 23 Jun 2020 01:26:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z/mO5tcb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id o8so359267wmh.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 01:20:07 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=NLD+I3Vz;
+ spf=pass (domain: windriver.com, ip: 40.107.237.88, mailfrom: yanfei.xu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AN7YzzXo0vtGNSYvykdrLYUW3ibZ26jcH+H2e7YO9kPujoz1QM70VrFQjqWSd2ayDyLLomPtSbLGOBNEkchZkeS7NyaXwjhf+68Ate6tPwFCM3/K06raNoDoTpCBMiV9KAa7WiUNL5vN4ZFxV0w3R0xkXcKJeM3+dGS9E0GgVgCT4x24PL5DcTu29BiV166VnPjyyZvxP/sON6C/DBTjWInqdVMSQtFXLta1hZhy9VxlzybYzarBk9EfDptI/Yzm5948mnLOlvwex2QYC5nEeLn98u9EWlw17tPj4FvL7Djpp21L3arbVh6N5Dp6kA2tl/WXrHwnbYKbpcTgXuMBPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H2DKH2E2uFg9iG++O8R5kQGZwzw2syMM31qcvc/94fk=;
+ b=iQ2wHI5kONdxXipAW0OmoJJJcwYQsd2DI7NjUkGzcvUuiRCucV5z/2OArSpLxJSYhU6IiS6WZ6AogYevEcxkTTCE2ifZAiVUKVXQ7umfWm6Fyp3Wzutvgl6lB0AeqYbrzU6KKxT6gcg9Gu6+mwbeJA9WfOI4IVTeOUCKGwQdY7MOKpQ/eEfHCueO7fWeoxN7Le3jLKxWfUNAc8V9pW6/HtEN00vPfsAJFA8jSBNZQ1LkhcQ9lUWSqW/2ingx+xCOqSMc7r2Zle5Z3ZUg3PgUgEpK/fSoRj0+DH6TFtC8fvKZLK2VAzjbRTMqcTB6Tw9NzflWj3n4NCFXQ9d6pgie7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=j0Ig5u7ATg/Rm7MmIZhD07a0maM6FCyb/IHUerJxFgo=;
-        b=Z/mO5tcb2M/LjTF+j15u7T+Ex8iHPWoTPn0l7YJRVdqZV6NKfUvVnloXhFd7TXRf6X
-         XXDoC58lNMjsc181+WvIhmmfmtoK8FZ1uEUOP1RX0ICZzE/NV2FvKDVWTIhhgqvwgvaL
-         AOBXuGU64SiW0C/3OTiw0YeVtxW6BTZa55mxM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=j0Ig5u7ATg/Rm7MmIZhD07a0maM6FCyb/IHUerJxFgo=;
-        b=o2WA9ov74HD6j79OgL30tJXP9FwkBsbhajyb3QeXOHcshxz1VNNNaAwK5YdWOeYRDY
-         KpmF5fAi5mGz8cRnG+Jt1p25bwl7ARTksbOTWbWuhnMrcklUfVu9ag7q2N8a0KTDA+T0
-         6tbwKXUNBW+TFInsWbGtu4CVR+AIwPK5RR1xtwiMh4OeOn35WmgPwj6YCKvX1I7JbMAY
-         d6TXuAnFpA6GTy99EVCr+5WK1LFs/cDP6GlqzmAOq43yer+p0y1yLo1mxM4duQyWtAni
-         vBSDYYsYoxzOt7KcWN30nit7lH/yQ81n5J0RCjPbeganNEy1N7PQ3IHDJ7k2t7ITy66+
-         GYgA==
-X-Gm-Message-State: AOAM532BkOYk3cYhVns2UmtjgiLNiYhtWsjvGYsbjZPsMtw8lPBfK9kz
-	NXV4FLm+X+3tEIViuDja1bWedw==
-X-Google-Smtp-Source: ABdhPJzrlXCR0QcAxsCwRygTnMvLOqtxrpT6tXYs7beztVyZ7+U55Hm5gXPQ3dNXablf1qjuGHvuuA==
-X-Received: by 2002:a7b:cb4c:: with SMTP id v12mr22544084wmj.43.1592900405801;
-        Tue, 23 Jun 2020 01:20:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j24sm19260948wrd.43.2020.06.23.01.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2020 01:20:05 -0700 (PDT)
-Message-ID: <68c8ab0777b1b8e43d4d9cd7a0032a84efd39ea8.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Jun 2020 09:20:03 +0100
-In-Reply-To: <161AF559DCEBF3F0.4124@lists.openembedded.org>
-References: <20200622105717.108062-1-alex.kiernan@gmail.com>
-	 <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
-	 <CAO5Uq5R-oXNuqoVPpoC288smwDH459tjik6aB=B1+aOsT+dayA@mail.gmail.com>
-	 <161AF559DCEBF3F0.4124@lists.openembedded.org>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H2DKH2E2uFg9iG++O8R5kQGZwzw2syMM31qcvc/94fk=;
+ b=NLD+I3VzQqZcA7bjlmfbP0WQL16RHJT9bUSBncq15fPGbVC6CVnOfd8tl2vvcePYQpgjkCR7Yr095p41cRcc2tdGLTAJL+ak+CtDqe7URfIAtpSv8i663Gs2yR5auyi83uUnvXGPyJW60c+0QsyP8bncohVpHftqkav0ayueC1I=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by BYAPR11MB2599.namprd11.prod.outlook.com (2603:10b6:a02:c6::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Tue, 23 Jun
+ 2020 08:26:38 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702%4]) with mapi id 15.20.3109.027; Tue, 23 Jun 2020
+ 08:26:38 +0000
+Subject: Re: [OE-core][PATCH 0/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: bruce.ashfield@gmail.com, richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org
+References: <1619EF7B69C83A3C.10370@lists.openembedded.org>
+Message-ID: <9de30c55-f97d-59f7-11a3-0366349102b6@windriver.com>
+Date: Tue, 23 Jun 2020 16:26:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <1619EF7B69C83A3C.10370@lists.openembedded.org>
+X-ClientProxiedBy: HK2PR02CA0215.apcprd02.prod.outlook.com
+ (2603:1096:201:20::27) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
+Return-Path: yanfei.xu@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.160] (60.247.85.82) by HK2PR02CA0215.apcprd02.prod.outlook.com (2603:1096:201:20::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend Transport; Tue, 23 Jun 2020 08:26:36 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8bb2ae17-31f9-4158-1d75-08d8174f25d0
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2599:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB259929C20736633029833440E4940@BYAPR11MB2599.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Forefront-PRVS: 04433051BF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	j3HPgb5wGb92/DjFVrCyHHH9epp9Bo200fKk17hXgVF7r+04wXgW5ydDA2gQ7ao8ZUtiXLDbCFJT3dvPhU/PfQvTdQS8TlefLMm0DbaRzKefv84Gc/tgDAxlSjgxMOTEcUhnj5XA29x//4U2MvaqzURyPEBHNM85Pidw9OakoVt/1kkvOSEj88tPqS0/+JG8XZb8L7KYJqifLu5Kww0CBoPiGPtjdbTjjPP6+k9LgQCENJVgrm9YmarZJxJkYw8/fFVKAJcRmKhMXFSObvaiTgQgGFa7ZWR2z5Bk3JVYXZg/3zb555WsCUg9G8H5QumtFu1gkU8i6pXkE0ZBzPtVARpa+o350TpO/hfrRNCT7QFtaIMDdPkKeN5Sjk5u3K7e69MxhGZdnlTaBtwmp3PyNqRKDngWStr328I0ic6mWBhejLqFKJbRGw8zJIu6VzvCDC5P7GSkJ1JE5ztpIdFnootFBBnNi1TrQZ38s5pDCk2jZfCvBGn5hZeZmTsh4uMuPczfMm7tVPuZamClYVy7Sg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(39850400004)(396003)(346002)(366004)(376002)(6666004)(956004)(53546011)(2616005)(4744005)(186003)(16526019)(31696002)(83380400001)(86362001)(6706004)(5660300002)(26005)(966005)(66946007)(31686004)(478600001)(2906002)(66476007)(66556008)(16576012)(52116002)(8676002)(8936002)(316002)(36756003)(6486002)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	lWdOKGOEHhNH/KE2GMfxvkNKRmVF5yTWH0MWh4IQN1BMA3/0ghsj/LMuFEXfhYUoaTupMd0RbGFJK1t6P+zWzPeewiAE3Zyp9jS/CtNiqWKK9IERaklspKRQzUhiEItVkCjZ4rJ60+FWANBQdxZnhLuuZuIbB7yF4mROAxSNfMcNFfKWa3sPyZtvLBuBIrfMwR+6HOh+dYQY0PoZsiNC8+HXBV09hrUkXPxSi9WNHnEYH94P3uZ8G6CdVxVVNj1zsZvqRDLfRtwkRdq5DoQJ00+WTq1LSALM7/gpx522o9KcbrNocCLUJDyqjhEm8jO3sIHXJI23fmuYtaPVlsuLI7vcBn4CXwJmVMGTzfb4gTbLdJ/1GbyZhgCx0kZmBJI92V8bULyUmlpR/2UwBJYnPl5RM8ocb8YbZD93CaNDRkCXXi/yWvLffR42wUHJZjwVNlC6/0GXLF1MB1GaqrS0TbSXYUJCKmFepHiOoCECRmQ=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb2ae17-31f9-4158-1d75-08d8174f25d0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2020 08:26:38.1923
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GhQzKZEIkaf4GbJVFHIEkwxOeozrCWfiu6M6Udh7bYjswi975FHXqgJTG+/v3mq9u3eQ+PP49nQnSPk2gutW9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2599
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-06-22 at 20:46 +0100, Richard Purdie via lists.openembedded.org wrote:
-> On Mon, 2020-06-22 at 19:53 +0100, Alex Kiernan wrote:
-> > On Mon, Jun 22, 2020 at 6:34 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Mon, 2020-06-22 at 11:57 +0100, Alex Kiernan wrote:
-> > > > Generate output for each contaminated path so it's visible in the main
-> > > > log file, then enable rootfs_check_host_user_contaminated by default.
-> > > > 
-> > > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > > ---
-> > > > 
-> > > > Changes in v2:
-> > > > - expose each contaminated path in the main log
-> > > > 
-> > > >  meta/classes/rootfs-postcommands.bbclass | 9 ++++-----
-> > > >  1 file changed, 4 insertions(+), 5 deletions(-)
-> > > 
-> > > Thanks, this is definitely more helpful. Some warnings in the test
-> > > build:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/2046
-> > > 
-> > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd
-> > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm.bak
-> > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/state
-> > > step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/lib/nfs/statd/sm
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2073
-> > > 
-> > > step3b: WARNING: core-image-sato-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/cache/fontconfig/CACHEDIR.TAG
-> > > 
-> > > which does raise more questions.
-> > > 
-> > 
-> > I'm having no luck reproducing either of these locally :|
+ping Bruce
+
+On 6/19/20 7:47 PM, Xu, Yanfei wrote:
+> From: Yanfei Xu <yanfei.xu@windriver.com>
 > 
-> They don't reproduce on the autobuilder either. We're probably going to
-> need to open a bug in bugzilla and enter these there listing the target
-> that caused it and the host it was on.
+> v1->v2->v3:
+> 1.Put the symlink creation at postinstall script instead of build time.
+> 2.Add a postremove script for removing image created in postinstall.
 > 
-> Hopefully we'll see a pattern emerge.
+> Yanfei Xu (1):
+>    classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't
+>      support symlinks
 > 
-> Or maybe the pseudo fix I posted will make it all go away. I can live
-> in hope right?!
+>   meta/classes/kernel.bbclass | 19 ++++++++++++++++---
+>   1 file changed, 16 insertions(+), 3 deletions(-)
 > 
-> Either way, I think this patch is going to be a longer journey until we
-> figure out what is happening.
-
-Last nights build also gave warnings:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2055
-
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /usr/bin/crontab
-step1b: WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned by the same user or group as the user running bitbake: /var/spool/cron
-
-which means the pseudo patch doesn't fix it.
-
-Cheers,
-
-Richard
-
+> 
+> 
+> 
