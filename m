@@ -1,89 +1,79 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web10.15434.1592941612594260835
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.15543.1592941952763986019
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 12:46:52 -0700
+ Tue, 23 Jun 2020 12:52:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7/v9ewR;
- spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f66.google.com with SMTP id u14so1926689pjj.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 12:46:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HPSo6LkH;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id u14so1935111pjj.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 12:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:message-id:date:user-agent:mime-version
          :in-reply-to:content-language:content-transfer-encoding;
-        bh=kSDqQq8b6Q2QvbR6OnIZaO6PH5SMRqXVELniICb0l48=;
-        b=J7/v9ewR+gTHJASVwQ8eS6WiErvHgUn2Qmy1sHSbO+8CD0W44+pjKYbztR2CkUc6L0
-         EnmfvWJ3vKCMDjMwwwIAgHqOozRS/MoSmPrtV8ps1e2Tuja2lultSyuGG8L2wThe8Tjk
-         giAxL7QNN+hV1mtRmWtzybSUZ7163zNdWful7TSR82mf6k5enE3MPh7l6XWLD3UISlV0
-         jOv9dxcmV3esy2OP+6Ejvo9AVC+GFPCo6atpBhmvdqfweb25GIoxdjewNg921I4QgUp7
-         G476C/SNg0xWxisYxNJAGP+sQtQw8Cyvwhx9eZXh4pRw0BdWeDCXyu8Cgs+6IObsoaUs
-         xegg==
+        bh=SxP4cVc/PH+NMwZ0H0NE71oEP5DHqwGGgF4RQRvfGBI=;
+        b=HPSo6LkHRnr5giHhCRrYDZd6ZUru7q+45khorUnyuQVvCT1tCOdblgntRUy8Tu4Y4p
+         7WP43bAOyr0pkFWKRs4oXYxZ+RO0M9nuMwXL+4ikEQ1ea0rrxvSDHLOwYUYujoBBrz1d
+         6l+FPFCMHoNSGOv9QCaB9pVC/9Jyr/LRmP1BuqOZocLTH6hetftBZjpZgh0B0mVpF60G
+         LKveDEWNnf126MAFWPd6YtcfUZGn3psHjq0PVSGxoSM/pk+g6CxoWaMey5RNcYfuD9Uo
+         6d83UTy5BhAz7W0Rjz34A7HY72Dj92pzUngNvxORjxvcT7z+QowxuShDizLhZLNbB0E4
+         C0+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kSDqQq8b6Q2QvbR6OnIZaO6PH5SMRqXVELniICb0l48=;
-        b=QYrfqbt078Wf60wL9sjdqRQvICFrZejtJruU1E7wIIZ10lLBHb/oikNN66/3t5d4p6
-         5RIrFMWmdcWobxKsHlGTi32hXZZYNUaEWKeI5PP26irKyGEB0wOkahBYKYn5dcctdrOc
-         S95dZsP9KggKae7Egdm9egbG7VLmBscpT+HoP9EinVN9SbU4iKZtAP6BO6lOINZyYtLd
-         Rtg9KTXXqXH3RWgfke/48u31YyV17dfaQv/LJ1Rr/s51EJmWuUcwECZAMyHghBmS6g44
-         wzs4sm50BC42lBr0ZRfzFxOWOt4QPYOIXS1cM44NI3SnLFnCazidpSsOIxCzdoXATCye
-         cwMw==
-X-Gm-Message-State: AOAM530Zu6qlFfafx0HhUloHoGxTxkOfgmqkQPAoYxDFtmcAv2cr1VeD
-	Xm4upW9nFvGPv8rXXr2O3BxQcucq7z4=
-X-Google-Smtp-Source: ABdhPJyQRYPemca05LxodOyn4jadbS+MWzSSOKuAJbgG4yObwdNUAHuzIHQhzkcApiUGXqKFouxI3A==
-X-Received: by 2002:a17:902:ea92:: with SMTP id x18mr25486006plb.157.1592941611139;
-        Tue, 23 Jun 2020 12:46:51 -0700 (PDT)
+        bh=SxP4cVc/PH+NMwZ0H0NE71oEP5DHqwGGgF4RQRvfGBI=;
+        b=NZoO+rJIaDr3A0yC+WKbIljh4MiXZX7Y41xj0MQ4GCZVw0XTGsVuymbk5jWHL6bUwK
+         /EfHTI/1toF0xvrs02RSkqL2lwxKqMZUFnHwxHwT+M/wd4RGlXpNtKLKc4x7PiebdqMN
+         6POA6Fq9/bFF2qoZpF1LKyr9QxU+WYF4cbJvXnxUKB+2guGKaWM5v4msHcxZJM+tiVB5
+         GxDL8m/Xx5J2IJg/Ziydza0EZwYT2CQF00h2z8GBGqn5PSQwHTsnv8YalnTD9OTaiFhm
+         SQ9Lcg74waUdweBXrlXuQnwsVNmuyngVD28hhUFuIZ8vhb5hgxUdo2LV/Rm1aQOJOLUN
+         NWhA==
+X-Gm-Message-State: AOAM531hpPrwxHU+/D9wU7NbI9k9B/CyP1BPozoYCg6HGRngyEiSt9i7
+	mzUe04ThFv1Dj8EUJahrU/7MAWMtH88=
+X-Google-Smtp-Source: ABdhPJwjnoxrL+cFu4bgBnWdMF5dBiPs+Rvq06/uWkg1Snrn0uSfyA/7R/7IT0vD8V2/EYweYi35FQ==
+X-Received: by 2002:a17:90b:1081:: with SMTP id gj1mr25738013pjb.77.1592941951724;
+        Tue, 23 Jun 2020 12:52:31 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a? ([2601:646:9200:4e0:3ce8:8e51:3e8d:ab7a])
-        by smtp.gmail.com with ESMTPSA id i184sm17102294pfc.73.2020.06.23.12.46.50
+        by smtp.gmail.com with ESMTPSA id t22sm3030594pjy.32.2020.06.23.12.52.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 12:46:50 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] vulkan-headers: Fix upstream branch deletion issue
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200623134150.603584-1-richard.purdie@linuxfoundation.org>
+        Tue, 23 Jun 2020 12:52:31 -0700 (PDT)
+Subject: Re: [OE-core] Yocto Project Status WW25'20
+To: chris.laplante@agilent.com,
+ "sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>,
+ "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <067a01d6496d$5f46d9b0$1dd48d10$@gmail.com>
+ <MW2PR12MB247418580E300A77C479C1698B940@MW2PR12MB2474.namprd12.prod.outlook.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <a9fe68d2-b2d0-4ba8-dca8-78dca19ebb6d@gmail.com>
-Date: Tue, 23 Jun 2020 12:46:49 -0700
+Message-ID: <5267904d-6871-40aa-af46-6cc7f5249d09@gmail.com>
+Date: Tue, 23 Jun 2020 12:52:30 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200623134150.603584-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <MW2PR12MB247418580E300A77C479C1698B940@MW2PR12MB2474.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/23/20 6:41 AM, Richard Purdie wrote:
-> The upstream branch was deleted but the commit is in master so reference
-> that instead.
+On 6/23/20 8:58 AM, Chris Laplante via lists.openembedded.org wrote:
+>> * Next week is ELC which is taking place virtually this year and Yocto Project
+>> has a presence there. There is also a virtual Yocto Project Developer Day:
+>> https://events.linuxfoundation.org/yocto-dev-day-north-america/
 > 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> index 54cee96cce0..d21c3d62b90 100644
-> --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> @@ -5,7 +5,8 @@ SECTION = "libs"
->   
->   LICENSE = "Apache-2.0"
->   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> -SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-1.2.135"
-> +# was sdk-1.2.135 branch but it was removed upstream, commit is in master branch though
-> +SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master"
+> Does anyone know what the intended audience is for the Developer Day presentations? E.g. would someone who uses bitbake day-to-day but perhaps doesn't edit recipes benefit?
 >   
 
-perhaps better to update to SHA of latest tag ?
-https://github.com/KhronosGroup/Vulkan-Headers/releases/tag/v1.2.145
+I would say look at the schedule and see if there are talks of interest 
+to you.
 
->   SRCREV = "fb7f9c9bcd1d1544ea203a1f3d4253d0e90c5a90"
->   
+> Thanks,
+> Chris
 > 
 > 
 > 
