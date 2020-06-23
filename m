@@ -1,82 +1,104 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+Received: from smtp2.axis.com (smtp2.axis.com [])
  by mx.groups.io with SMTP id smtpd.web10.4699.1592910811064946914
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 04:13:31 -0700
+ Tue, 23 Jun 2020 04:13:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=cFElqwaZ;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=AppTBQw+;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1779; q=dns/txt; s=axis-central1;
-  t=1592910811; x=1624446811;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lrQL31uvHkH5i7SNUg1NZb1w99UsbX1GGQE6QalQ/HA=;
-  b=cFElqwaZyQz1X4fqPFS0xOdgUlsSCCblht7qmxAhFxXuhTgKGpQA4pQq
-   V7ljSFsW6z6mvgmOpOux8UN4E7X7I09hEN6age9jDTzUX1B5Rtcm7cdDm
-   h3JWJQ3YutWVJKSftZhHm1ilEuFbgBemQRLoAyjT8H4ZfcF5sq4rQNXSh
-   SN+hoePrsULJoUyT0MmwvpDEz/AQfRnAWVxq0IXoqhjaBxdAncVR3+oFL
-   5sfExU8wW6mpYojJIy2S5WlWkW7bmwjTRgIXpuza+6K9OlL/WdeVxLdIg
-   jII2atRUe+28VpBEqM4qXek9uhkOWEUQ1LCrBWhZ8/YSTNcd3EmHXyYdL
-   g==;
-IronPort-SDR: XUPAsMlzogaLXf5RyEYUQ+viuYmh8gQaQ/dSAB7qv/35jYn7Pc/ixZCQXVWuWHC3Xi0BpJF5U1
- MwyP2KeQ+nyMaLkPBoUXNMUAQrCgQlDN+MgWhg2cF9Qj/PP/LMQ+uTs+ykZo1qpsa2fSY++HQI
- qb8/J7aj0mIF2V6Tv2N4Qj405SnEFDpRJDDnl/jydN8myC934Oox2wQNAiCdNkeM+ErxL6eGqE
- Sh9H4Q5HDCPhi5EChL8S1evLr6SKeaEp++zCIz7bJXmQjv1a8HDks3G8+KQo2md4PnWOlZmymn
- oLg=
+  d=axis.com; l=2260; q=dns/txt; s=axis-central1;
+  t=1592910812; x=1624446812;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+S9+h3ipwqdKZCqGJieHoQ5ILQzdopIDX8eDGfnlRq4=;
+  b=AppTBQw+Hxa8XXERSpa82y0os28J/rn2EyVh18v7QOHcM2hIlw15sIhL
+   j24uu6aCp69/FO4ne/CBt3ji7ZgZ9c7XszT8TpPNU+tDr46Q0dhdp93QT
+   nmMlu7Q7+VnjgC2fRAqT/rdkUHxEOaTFQgOtsGAo4GDd5aLuX7x/JrO8E
+   eVDSz6e9NbIcAxQ06VCS9NrqjFmqDs1z5Q51scraNTjtqmpuaBjkRB+cD
+   TFJa1TDhrWItfOVke7dDc5+W2/8vkwuJZ+wJJZkNz4QkTvB88JJENMFYy
+   teUl1LVc0R7fzErFJHOVYJ4U0OEpRraWo9MNuhWz6BCu9qlYrHqGSriA0
+   Q==;
+IronPort-SDR: /nlVpOtnXukFs7E/DBqWPVoio/j2sIY2dPOzNQtnFh1BjEkDS2VLIIAXqWu/vnwf0AICwWMTsD
+ +8W80bHas73NGpW0Jp5M4kHo74rk6Hf50NvFd5ydzSN8hCbYc1NX7RoA9TprjA+0Uoc95AdGOd
+ 8+wiu5ao9SGOhLvVDx9tZ3cCb+gwHzarGui5BhGZDoY/KJQNjdG1EkzcWNSSJRbCe9DD8Ihjyu
+ abfIxj7TNurlJ1J8p44vwvqxnV7eIQfAd3WtNUi5AGLk2PECWi3xBFkFMWtMUd3rIj0dDirKSJ
+ DdI=
 X-IronPort-AV: E=Sophos;i="5.75,271,1589234400"; 
-   d="scan'208";a="9815766"
+   d="scan'208";a="9815768"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>
-Subject: Add package managers as a plugin
-Date: Tue, 23 Jun 2020 13:13:26 +0200
-Message-ID: <20200623111328.5838-1-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
+ Gustafsson <fredrigu@axis.com>
+Subject: [PATCH 1/2] nopackages.bbclass: Move to nopackages_base.bbclass
+Date: Tue, 23 Jun 2020 13:13:27 +0200
+Message-ID: <20200623111328.5838-2-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200623111328.5838-1-fredrigu@axis.com>
+References: <20200623111328.5838-1-fredrigu@axis.com>
 MIME-Version: 1.0
 Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Poky today has three different package managers, the well-known formats deb
-and rpm is supported as well as ipkg that is good for embedded devices.
+When for example adding an other package mananger a two rows
+deltask do_package_write_PKGMGR
+deltask do_package_write_PKGMGR_setscene
+is needed to be added to nopackages.bbclass. When adding the new package
+manager in a new layer in order to extend poky (rather than forking it)
+the whole nopackages.bbclass needs to be copied which is a maintenance
+problem. Moving nopackages.bbclass to nopackages.bbclass would make the
+new layer just adding an image.bbclass containing:
+inherit nopackages_base.bbclass
+deltask do_package_write_PKGMGR
+deltask do_package_write_PKGMGR_setscene
 
-When building and having a good cache hit, a significant amount of time is
-spent in the phase of generating a rootfs, which is really about the
-performance of the package manager. ipkg is way slower than deb or rpm. To
-save build time and also get a package manager that is suitanle for use on
-targets where flash memory is a concern, support for apk is suggested.
+Which is much easier to maintain.
 
-However, it might or might not be what's wanted for Poky since it increases
-the test matrix. Therefore this patch series refactors the package
-management code so that it's possible to add more package managers in other
-own layer. I will send another patch serie that will add apk.
+Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
+---
+ meta/classes/nopackages.bbclass      | 15 +++------------
+ meta/classes/nopackages_base.bbclass | 12 ++++++++++++
+ 2 files changed, 15 insertions(+), 12 deletions(-)
+ create mode 100644 meta/classes/nopackages_base.bbclass
 
-Perfomance metrics below, (note that this includes build times).
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f5078bd..78bbd8c85c 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -1,12 +1,3 @@
+-deltask do_package
+-deltask do_package_write_rpm
+-deltask do_package_write_ipk
+-deltask do_package_write_deb
+-deltask do_package_qa
+-deltask do_packagedata
+-deltask do_package_setscene
+-deltask do_package_write_rpm_setscene
+-deltask do_package_write_ipk_setscene
+-deltask do_package_write_deb_setscene
+-deltask do_package_qa_setscene
+-deltask do_packagedata_setscene
++# This file should only inherit nopackages_base. This is to make
++# this file easy to extend from an other layer.
++inherit nopackages_base
+diff --git a/meta/classes/nopackages_base.bbclass b/meta/classes/nopackages_base.bbclass
+new file mode 100644
+index 0000000000..e898cef00f
+--- /dev/null
++++ b/meta/classes/nopackages_base.bbclass
+@@ -0,0 +1,12 @@
++deltask do_package
++deltask do_package_qa
++deltask do_packagedata
++deltask do_package_setscene
++deltask do_package_qa_setscene
++deltask do_packagedata_setscene
++deltask do_package_write_rpm
++deltask do_package_write_deb
++deltask do_package_write_ipk
++deltask do_package_write_rpm_setscene
++deltask do_package_write_deb_setscene
++deltask do_package_write_ipk_setscene
+-- 
+2.20.1
 
-APK
-===
-bitbake core-image-minimal
-15.84s user 2.60s system 0% cpu 1:26:19.21 total
-16.01s user 2.58s system 0% cpu 1:26:03.72 total
-15.69s user 2.61s system 0% cpu 1:26:45.45 total
-
-bitbake core-image-minimal -c cleansstate
-bitbake core-image-minimal -c clean
-bitbake core-image-minimal -f -c do_rootfs
-0.55s user 0.06s system 4% cpu 14.236 total
-0.54s user 0.08s system 4% cpu 15.247 total
-0.52s user 0.15s system 4% cpu 15.143 total
-
-RPM
-===
-bitbake core-image-minimal
-18.57s user 3.09s system 0% cpu 1:31:29.09 total
-18.58s user 3.08s system 0% cpu 1:30:53.80 total
-18.20s user 3.31s system 0% cpu 1:31:06.69 total
-
-bitbake core-image-minimal -c cleansstate
-bitbake core-image-minimal -c clean
-bitbake core-image-minimal -c do_rootfs -f
-0.58s user 0.10s system 3% cpu 19.470 total
-0.57s user 0.09s system 3% cpu 19.480 total
-0.60s user 0.07s system 3% cpu 20.381 total
