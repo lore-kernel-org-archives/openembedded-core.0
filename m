@@ -1,252 +1,246 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web12.16122.1592944356468900372
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web12.16880.1592946542950437786
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 13:32:36 -0700
+ Tue, 23 Jun 2020 14:09:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eckAQVEM;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id r5so97885vso.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 13:32:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TgChxssX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id i14so178467ejr.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 14:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aYiaUhykWmsTFGLLUDsfFW0zpjuZMUbbzRwBgk5WsQk=;
-        b=eckAQVEMp7TfJ0pnEygJqjP2kygLECOJyLT7tBzSl4hZjfthUUirgZPSIkrw6ncaDm
-         itUyvYlf05G9JwIwDYo+7JoESE8P/ALxU9xDGfIK1TSyN98tLO/15AulgvTeycWuCvnv
-         35LjWg0pvOoWOz0h4c8sBsH5krUG0Ygu1F95iudg8gcMVwKKd+Bg/WSXtYU28gx4cjSm
-         PVobhmCTsky6yUv6WSDvNgp5t+uudQUv9dQrHUj8jjB4JVPftlcrKTnoorWEdytWpwi2
-         3n+WTZJ7742HY1wb2PorVa6tvsdkrDMO87l//mAph5OJgcFXsPCiI9anbknc96INH0xH
-         8iJQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u1gys1ODiu9ShUy0TRhCfV7KNYzjj2NH5po8qo7rh+M=;
+        b=TgChxssXvkLs3yV297EBbIGnnx9uv+PJx2IFg47adjx142nDrjLZ3ssLh7Tzy4vc7T
+         Zdl8NdJ+rkWGplB9sXzBeaRyf/xwIfSW6VDh997edPRytGF6a/0w6nQJoST2frKxYgUm
+         /QPbjLX+xzFZCqIDEGHCJYtmaVg+BkiM3WnrznzV3c75pF5spqo8Dw8LIpYBUCEDZHXx
+         goOElJ3oL9l2OYREYCssQL2AyvZsuHIYcIk1pOFHWoxbcEMXMTFg8Ol9ATt4aITTXdXz
+         USGpumMx2eT7OfLj4Xe/48baj/8fossD4cldn3TljJwuevlzBkOYaXRX335aFDtPA3LH
+         RIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aYiaUhykWmsTFGLLUDsfFW0zpjuZMUbbzRwBgk5WsQk=;
-        b=O+Yx9MeMfAl0IcjuA9Yyc7igE4uJurZA/ZIZgQWiFh3MQ5Nmeugh/GPfwVDzRy92Wv
-         2sL+wjuGHQbEtCXW9WJrXQyJE/pKdkPQzulSddLy0phuiSpjLs81I5uQ1pGCkk1knLQ8
-         OaU+FssNKzeJ0jvJydx/zWjwFgCLzTbBgVGnvfXf0TIMsswTIztzob8sW7m72pXwODkJ
-         gv3QcI1vyd40m57dK36KOQvVuBmBGWsK5YppB1lCgQB1HSiETr7BMC/xLGSunw6ZdTQo
-         wWWje5dAYNAyf8B3+ZgBZbkymUbtz6y7dr8m3xtoxrKInI6nEoHp7JP/Of0u6i0W3toq
-         Izbw==
-X-Gm-Message-State: AOAM533oU4IoM39lHzM7K93JsGPObfQo5pVnQrpFNXuLUe5QrJCQrR2y
-	dvURhOPo0RDE27CEXJYcX53/aW5vn0eQP/F0+UY=
-X-Google-Smtp-Source: ABdhPJzMQuN1HlExaBjjYQKzoNVT40RCg7iKcuf+VYUG1i0oeP1gXX1/1Mt+VXWoGwjB7kcieRbKxP6kpDRnBvUdGhE=
-X-Received: by 2002:a05:6102:2438:: with SMTP id l24mr10262053vsi.83.1592944355565;
- Tue, 23 Jun 2020 13:32:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200623134150.603584-1-richard.purdie@linuxfoundation.org>
- <a9fe68d2-b2d0-4ba8-dca8-78dca19ebb6d@gmail.com> <CANNYZj834SO=HUDqHw+0JAY4VApZGUa8gXgEX6S0Po5SUNvqqg@mail.gmail.com>
- <826b33b3-268d-edfe-080e-8e02f5b344d1@gmail.com>
-In-Reply-To: <826b33b3-268d-edfe-080e-8e02f5b344d1@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u1gys1ODiu9ShUy0TRhCfV7KNYzjj2NH5po8qo7rh+M=;
+        b=ttlAR/04yBQRQ6SVby0udYO5JEcTSkkZHeWT56venP91eZvcRnZZ0u6g8JkleU6+Wd
+         Dog7qiQ9Fgpa5y9CuaMtxX8m0QAs9Y5K/MnVgY1uqdia8/1WYVl2G9qsWdl6r0KCzd2f
+         B+nslCsTsVL9bvBOwi4UqYOhoIM0bPsqxXneeWEk63P5LEqie8kNfvBW4PHoqfSfSGkM
+         PgNUvCB6It+f6dHXvKs/Gc6nvEOt9Xf9qju22ku+/FFoK3ImlxSyfU6YDHa9EIqBElmE
+         0FCxziW/v5dzwahJlPFQOJRez+G729Ieg9eVcu2nhmgAySHawur+WXZTI68pKeFsYpKo
+         KlLw==
+X-Gm-Message-State: AOAM530/XfsQyF8/ncYM5ElXbDPO05iR5l5HbAT4KtyMJ60YMXM4p/Gb
+	19+ygv+GykftdcooHsF0/KVDHT1nt1U=
+X-Google-Smtp-Source: ABdhPJzZR0j2+9OY/S3cUweHPs1LXZv1lh1N8FMT516HvdqG8+qlcxrDrJHLzHdoaGYWtfI/nBXBtw==
+X-Received: by 2002:a17:906:dce:: with SMTP id p14mr7814326eji.442.1592946540978;
+        Tue, 23 Jun 2020 14:09:00 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
+        by smtp.gmail.com with ESMTPSA id q3sm136435ejb.118.2020.06.23.14.08.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2020 14:09:00 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 23 Jun 2020 22:32:23 +0200
-Message-ID: <CANNYZj8QONxyGGUBvxjWY0w3kM5UMOJYJUYEj_OeQKJUQjAd=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vulkan-headers: Fix upstream branch deletion issue
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000075ea2e05a8c642c0"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] icu: merge .inc into main recipe
+Date: Tue, 23 Jun 2020 23:08:36 +0200
+Message-Id: <20200623210837.26222-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---00000000000075ea2e05a8c642c0
-Content-Type: text/plain; charset="UTF-8"
+Both parts are rather convoluted, so it is better to have them in a single file.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/2062/steps/8/logs/step1b
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-support/icu/icu.inc     | 84 ---------------------------
+ meta/recipes-support/icu/icu_67.1.bb | 85 +++++++++++++++++++++++++++-
+ 2 files changed, 84 insertions(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-support/icu/icu.inc
 
-Alex
+diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
+deleted file mode 100644
+index 6d9728903d..0000000000
+--- a/meta/recipes-support/icu/icu.inc
++++ /dev/null
+@@ -1,84 +0,0 @@
+-SUMMARY = "International Component for Unicode libraries"
+-DESCRIPTION = "The International Component for Unicode (ICU) is a mature, \
+-portable set of C/C++ and Java libraries for Unicode support, software \
+-internationalization (I18N) and globalization (G11N), giving applications the \
+-same results on all platforms."
+-HOMEPAGE = "http://site.icu-project.org/"
+-
+-LICENSE = "ICU"
+-DEPENDS = "icu-native"
+-DEPENDS_class-native = ""
+-
+-CVE_PRODUCT = "international_components_for_unicode"
+-
+-S = "${WORKDIR}/icu/source"
+-SPDX_S = "${WORKDIR}/icu"
+-STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
+-
+-BINCONFIG = "${bindir}/icu-config"
+-
+-ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
+-
+-inherit autotools pkgconfig binconfig multilib_script
+-
+-MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
+-
+-# ICU needs the native build directory as an argument to its --with-cross-build option when
+-# cross-compiling. Taken the situation that different builds may share a common sstate-cache
+-# into consideration, the native build directory needs to be staged.
+-EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+-EXTRA_OECONF_class-native = ""
+-EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+-
+-EXTRA_OECONF_append_class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+-TARGET_CXXFLAGS_append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
+-
+-ASNEEDED = ""
+-
+-do_compile_prepend_class-target () {
+-	# Make sure certain build host references do not end up being compiled
+-	# in the image. This only affects libicutu and icu-dbg
+-	sed  \
+-	    -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
+-	    -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
+-	    -i ${B}/tools/toolutil/Makefile
+-}
+-
+-PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
+-do_install_append_class-native() {
+-	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+-	cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
+-	cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
+-	cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
+-	cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
+-	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+-}
+-
+-do_install_append_class-target() {
+-    # The native pkgdata can not generate the correct data file.
+-    # Use icupkg to re-generate it.
+-    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
+-        rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+-        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+-    fi
+-	
+-	# Remove build host references...
+-	sed -i  \
+-	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+-	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+-	    -e 's:${HOSTTOOLS_DIR}/::g' \
+-	    ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
+-	    ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
+-}
+-
+-PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+-
+-FILES_${PN}-dev += "${libdir}/${BPN}/"
+-
+-FILES_libicudata = "${libdir}/libicudata.so.*"
+-FILES_libicuuc = "${libdir}/libicuuc.so.*"
+-FILES_libicui18n = "${libdir}/libicui18n.so.*"
+-FILES_libicutu = "${libdir}/libicutu.so.*"
+-FILES_libicuio = "${libdir}/libicuio.so.*"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/icu/icu_67.1.bb b/meta/recipes-support/icu/icu_67.1.bb
+index 58638507c9..5814fa41bd 100644
+--- a/meta/recipes-support/icu/icu_67.1.bb
++++ b/meta/recipes-support/icu/icu_67.1.bb
+@@ -1,4 +1,87 @@
+-require icu.inc
++SUMMARY = "International Component for Unicode libraries"
++DESCRIPTION = "The International Component for Unicode (ICU) is a mature, \
++portable set of C/C++ and Java libraries for Unicode support, software \
++internationalization (I18N) and globalization (G11N), giving applications the \
++same results on all platforms."
++HOMEPAGE = "http://site.icu-project.org/"
++
++LICENSE = "ICU"
++DEPENDS = "icu-native"
++DEPENDS_class-native = ""
++
++CVE_PRODUCT = "international_components_for_unicode"
++
++S = "${WORKDIR}/icu/source"
++SPDX_S = "${WORKDIR}/icu"
++STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
++
++BINCONFIG = "${bindir}/icu-config"
++
++ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
++
++inherit autotools pkgconfig binconfig multilib_script
++
++MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
++
++# ICU needs the native build directory as an argument to its --with-cross-build option when
++# cross-compiling. Taken the situation that different builds may share a common sstate-cache
++# into consideration, the native build directory needs to be staged.
++EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
++EXTRA_OECONF_class-native = ""
++EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
++
++EXTRA_OECONF_append_class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
++TARGET_CXXFLAGS_append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
++
++ASNEEDED = ""
++
++do_compile_prepend_class-target () {
++	# Make sure certain build host references do not end up being compiled
++	# in the image. This only affects libicutu and icu-dbg
++	sed  \
++	    -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
++	    -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
++	    -i ${B}/tools/toolutil/Makefile
++}
++
++PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
++do_install_append_class-native() {
++	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
++	cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
++	cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
++	cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
++	cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
++	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
++}
++
++do_install_append_class-target() {
++    # The native pkgdata can not generate the correct data file.
++    # Use icupkg to re-generate it.
++    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
++        rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
++        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
++    fi
++	
++	# Remove build host references...
++	sed -i  \
++	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
++	    -e 's|${DEBUG_PREFIX_MAP}||g' \
++	    -e 's:${HOSTTOOLS_DIR}/::g' \
++	    ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
++	    ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
++}
++
++PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
++
++FILES_${PN}-dev += "${libdir}/${BPN}/"
++
++FILES_libicudata = "${libdir}/libicudata.so.*"
++FILES_libicuuc = "${libdir}/libicuuc.so.*"
++FILES_libicui18n = "${libdir}/libicui18n.so.*"
++FILES_libicutu = "${libdir}/libicutu.so.*"
++FILES_libicuio = "${libdir}/libicuio.so.*"
++
++BBCLASSEXTEND = "native nativesdk"
+ 
+ LIC_FILES_CHKSUM = "file://../LICENSE;md5=a3808a5b70071b07f87ff2205e4d75a0"
+ 
+-- 
+2.27.0
 
-On Tue, 23 Jun 2020 at 22:17, Khem Raj <raj.khem@gmail.com> wrote:
-
->
->
-> On 6/23/20 1:13 PM, Alexander Kanavin wrote:
-> > Latest released gstreamer will fail to build with the latest vulkan, so
-> > we have to defer that.
->
-> I see, what errors do we get ?
->
-> >
-> > Alex
-> >
-> > On Tue, 23 Jun 2020 at 21:46, Khem Raj <raj.khem@gmail.com
-> > <mailto:raj.khem@gmail.com>> wrote:
-> >
-> >
-> >
-> >     On 6/23/20 6:41 AM, Richard Purdie wrote:
-> >      > The upstream branch was deleted but the commit is in master so
-> >     reference
-> >      > that instead.
-> >      >
-> >      > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
-> >     <mailto:richard.purdie@linuxfoundation.org>>
-> >      > ---
-> >      >   meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> >     <http://vulkan-headers_1.2.135.0.bb> | 3 ++-
-> >      >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >      >
-> >      > diff --git
-> >     a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> >     <http://vulkan-headers_1.2.135.0.bb>
-> >     b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> >     <http://vulkan-headers_1.2.135.0.bb>
-> >      > index 54cee96cce0..d21c3d62b90 100644
-> >      > --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> >     <http://vulkan-headers_1.2.135.0.bb>
-> >      > +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.135.0.bb
-> >     <http://vulkan-headers_1.2.135.0.bb>
-> >      > @@ -5,7 +5,8 @@ SECTION = "libs"
-> >      >
-> >      >   LICENSE = "Apache-2.0"
-> >      >   LIC_FILES_CHKSUM =
-> >     "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> >      > -SRC_URI =
-> >     "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-1.2.135
-> >     <
-> http://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-1.2.135>"
-> >      > +# was sdk-1.2.135 branch but it was removed upstream, commit is
-> >     in master branch though
-> >      > +SRC_URI =
-> >     "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master
-> >     <http://github.com/KhronosGroup/Vulkan-Headers.git;branch=master>"
-> >      >
-> >
-> >     perhaps better to update to SHA of latest tag ?
-> >     https://github.com/KhronosGroup/Vulkan-Headers/releases/tag/v1.2.145
-> >
-> >      >   SRCREV = "fb7f9c9bcd1d1544ea203a1f3d4253d0e90c5a90"
-> >      >
-> >      >
-> >      >
-> >      >
-> >      >
-> >     
-> >
->
-
---00000000000075ea2e05a8c642c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><a href=3D"https://autobuilder.yoctoproject.org/typho=
-on/#/builders/37/builds/2062/steps/8/logs/step1b">https://autobuilder.yocto=
-project.org/typhoon/#/builders/37/builds/2062/steps/8/logs/step1b</a></div>=
-<div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Tue, 23 Jun 2020 at 22:17, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-On 6/23/20 1:13 PM, Alexander Kanavin wrote:<br>
-&gt; Latest released gstreamer will fail to build with the latest vulkan, =
-so <br>
-&gt; we have to defer that.<br>
-<br>
-I see, what errors do we get ?<br>
-<br>
-&gt; <br>
-&gt; Alex<br>
-&gt; <br>
-&gt; On Tue, 23 Jun 2020 at 21:46, Khem Raj &lt;<a href=3D"mailto:raj.khem=
-@gmail.com" target=3D"_blank">raj.khem@gmail.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">ra=
-j.khem@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On 6/23/20 6:41 AM, Richard Purdie wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; The upstream branch was deleted but the comm=
-it is in master so<br>
-&gt;=C2=A0 =C2=A0 =C2=A0reference<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; that instead.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Signed-off-by: Richard Purdie &lt;<a href=3D=
-"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdi=
-e@linuxfoundation.org</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:richard.purdie@linuxf=
-oundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;=
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; ---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0meta/recipes-graphics/vulkan/<a =
-href=3D"http://vulkan-headers_1.2.135.0.bb" rel=3D"noreferrer" target=3D"_b=
-lank">vulkan-headers_1.2.135.0.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://vulkan-headers_1.2.135.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">http://vulkan-headers_1.2.135.0.bb</a=
->&gt; | 3 ++-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A01 file changed, 2 insertions(+),=
- 1 deletion(-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; diff --git<br>
-&gt;=C2=A0 =C2=A0 =C2=A0a/meta/recipes-graphics/vulkan/<a href=3D"http://v=
-ulkan-headers_1.2.135.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-hea=
-ders_1.2.135.0.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://vulkan-headers_1.2.135.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">http://vulkan-headers_1.2.135.0.bb</a=
->&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0b/meta/recipes-graphics/vulkan/<a href=3D"http://v=
-ulkan-headers_1.2.135.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-hea=
-ders_1.2.135.0.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://vulkan-headers_1.2.135.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">http://vulkan-headers_1.2.135.0.bb</a=
->&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; index 54cee96cce0..d21c3d62b90 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; --- a/meta/recipes-graphics/vulkan/<a href=
-=3D"http://vulkan-headers_1.2.135.0.bb" rel=3D"noreferrer" target=3D"_blan=
-k">vulkan-headers_1.2.135.0.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://vulkan-headers_1.2.135.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">http://vulkan-headers_1.2.135.0.bb</a=
->&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; +++ b/meta/recipes-graphics/vulkan/<a href=
-=3D"http://vulkan-headers_1.2.135.0.bb" rel=3D"noreferrer" target=3D"_blan=
-k">vulkan-headers_1.2.135.0.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://vulkan-headers_1.2.135.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">http://vulkan-headers_1.2.135.0.bb</a=
->&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; @@ -5,7 +5,8 @@ SECTION =3D &quot;libs&quot;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0LICENSE =3D &quot;Apache-2.0&quo=
-t;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;file://LICENSE.txt;md5=3D3b83ef96387f14655fc=
-854ddc3c6bd57&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; -SRC_URI =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;git://<a href=3D"http://github.com/KhronosGr=
-oup/Vulkan-Headers.git;branch=3Dsdk-1.2.135" rel=3D"noreferrer" target=3D"_=
-blank">github.com/KhronosGroup/Vulkan-Headers.git;branch=3Dsdk-1.2.135</a><=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://github.com/KhronosGroup/Vulk=
-an-Headers.git;branch=3Dsdk-1.2.135" rel=3D"noreferrer" target=3D"_blank">h=
-ttp://github.com/KhronosGroup/Vulkan-Headers.git;branch=3Dsdk-1.2.135</a>&g=
-t;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; +# was sdk-1.2.135 branch but it was removed=
- upstream, commit is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0in master branch though<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; +SRC_URI =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;git://<a href=3D"http://github.com/KhronosGr=
-oup/Vulkan-Headers.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank=
-">github.com/KhronosGroup/Vulkan-Headers.git;branch=3Dmaster</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://github.com/KhronosGroup/Vulk=
-an-Headers.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">http:/=
-/github.com/KhronosGroup/Vulkan-Headers.git;branch=3Dmaster</a>&gt;&quot;<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0perhaps better to update to SHA of latest tag ?<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/KhronosGroup/Vulkan-=
-Headers/releases/tag/v1.2.145" rel=3D"noreferrer" target=3D"_blank">https:/=
-/github.com/KhronosGroup/Vulkan-Headers/releases/tag/v1.2.145</a><br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0SRCREV =3D &quot;fb7f9c9bcd1d154=
-4ea203a1f3d4253d0e90c5a90&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<br>
-&gt; <br>
-</blockquote></div>
-
---00000000000075ea2e05a8c642c0--
