@@ -1,125 +1,121 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web12.8174.1592922719529448800
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web12.8186.1592922765448452623
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 07:31:59 -0700
+ Tue, 23 Jun 2020 07:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DdpOhpaa;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id b15so1764724edy.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 07:31:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TuBQGGqq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.53, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f53.google.com with SMTP id a1so7824588ejg.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2020 07:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WSN93q17tSMHIv+roseJG4stIp2tFL+N8dI/oCPwfi8=;
-        b=DdpOhpaaE8pwB8xDCDpBvZ40vY5mQ5SydSyvsPZYUf6AMox1CEJGhDT4QH3L1QHjy4
-         2SVcVGmHH5paeNIxsYzQNgdNGwGKxGAaW9G8JklTgoVYZdzy0qhMzdRzNs3Mj5PEEZio
-         rBatwejggLmyoYgMxkI4PKZY8/FHnrpyFs1OQr5fkh8LiTj4dOnn/x9u5SJJuRdBVCg9
-         sDwuMqbRVSVPtNTFXhoJHS2kZ4/CPvXhw1dRJNbbyWWA7Kv6I/ESduHjh4LVCWOIzder
-         7uJgObDwBH0Tt7qvFTiTvk+dWiUNdinoY1ZL3mmmUk1lbm4BSwj1nr6QqITlYoM0pqed
-         2taw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=ch2UgwFXVanoFaJdJpP8r/qZbo1LDOFMydm+QZHfU1M=;
+        b=TuBQGGqqikPzjHJF9ueStwwvjo6IVEgScEIObMFfbWYJlliZ3KM1tEM5qbWF0EKNS6
+         sWpP7xg8PMiPfxiZYz5LyOfups57mQA9kSdnoJkaPUJwgu5Oi1JScoruUYTgqNK3G0t2
+         7q59K3mVkBpLRlMHIve4o0FbF+Auh0sGDkNnZyTggLi+8Ri8Q0Fhoh3xEKzVZwQrGAgA
+         uh0OZNfEWLLcvIB9AmpsQqeg5CW3kFHDyfRuahXzlcuLHu5nu9Nnxd9fzAXcu+9H13Q8
+         GMoSJuI0+dVdJIR94wZzs6F04j57wwsiWRqOCVgzJvgUMTPphuaO26110RJweHWRyTRV
+         IHGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WSN93q17tSMHIv+roseJG4stIp2tFL+N8dI/oCPwfi8=;
-        b=GjsH662e+jPwM1KJa7tIuUYrWljI1tUuSbG/lEZWPYK5lhyM1SapZt+C4RF4eWN5YW
-         uWHhrNoqvY7s8mizP+2NWtdez0Ncvi7UFm/Gs8ZuUBRZg4y6nAtjD59gD2AQOZuiMXsW
-         8SaxCoNqiNpL5NGB6FrTUlPxLgSCrEUYtBjJ82etiR9I5hJvpleLaLm1+xHB1s4wQaal
-         +jzDz8Nw1jK2sMnTfk0CW65R5qy1qhDGJiCeWyaxJkzgc7p63GOG+JCpuHpfW6PlfJii
-         3i+5QreBQ+rbxwrO2m9oBMXVp6rvUelio13ftxe2qpWaDVL/zWZZHBUeGEfdsxj6S9a7
-         +6SQ==
-X-Gm-Message-State: AOAM531Zk2WsMIewH2ERYFDXZOFcsNJcaIINdTrLM3KSh1naNn45qhgB
-	OXKigtv6aSgKy/burMB4tOzoPz3R2pZidvTJXHo=
-X-Google-Smtp-Source: ABdhPJyDtsKIxIQAq2JYxFYU7a32ReHXMENu1ZqknmMttMaLklEtCyClJ9y3eM27l2QVrsC9z21i/p/0soLvBNjyOBU=
-X-Received: by 2002:a50:f385:: with SMTP id g5mr14763175edm.347.1592922718005;
- Tue, 23 Jun 2020 07:31:58 -0700 (PDT)
+         :message-id:subject:to;
+        bh=ch2UgwFXVanoFaJdJpP8r/qZbo1LDOFMydm+QZHfU1M=;
+        b=QdzanQpElIwrLCURI/aeEKMEQGp37jG6D3HnSuUfNegMu0c4H+RRglZwqjcg0FGNw/
+         sh+97FTKkubI/Uvv/rtlMXsvpzhoTtlFSscpySJyPL+AyIorL9p0qGB1oCeGaNZ6fFsa
+         gDmgXCE1oCKmzyGJb9bEnIviHd/BjkaX7D1HRSRTybU7mjziABgORK9yvgVImHocmIPZ
+         DhlUi/gtu+FZQfVP/L6xV92Dv2Uya9DUpRVUJybD0ce+KU/rJD+ThrKoIs2RdzQLujFu
+         IzMBR/QzO8cbgc8oC03B7ARdoCP/1vFa1ZTc9Bhs/ZIi9wmj7/nImywmaSFgyiLcr914
+         V1Fg==
+X-Gm-Message-State: AOAM532AjmH6aYlu45BjkC5JyUk/c8AsnDnT4oXfRu/SewaW7NjZ5Itc
+	fIwNJB8qLBMd0lTPEGWWZq2coqsgTIB4cywO2JYz1WQzkuQ=
+X-Google-Smtp-Source: ABdhPJx4yu7SOm5FLW+voSLF326efpaJEBTW6JyqQKo7j8aUVWaT6OOj/dODNmzO66kzK1pONv3PeFbsnBoRuGrdMGE=
+X-Received: by 2002:a17:906:c443:: with SMTP id ck3mr10978455ejb.153.1592922763424;
+ Tue, 23 Jun 2020 07:32:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200619114727.40142-1-yanfei.xu@windriver.com> <20200619114727.40142-2-yanfei.xu@windriver.com>
-In-Reply-To: <20200619114727.40142-2-yanfei.xu@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 23 Jun 2020 10:31:46 -0400
-Message-ID: <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <cover.1592848337.git.steve@sakoman.com> <2c54047118e813311581f9dc567bd12f9f211aa6.1592848337.git.steve@sakoman.com>
+In-Reply-To: <2c54047118e813311581f9dc567bd12f9f211aa6.1592848337.git.steve@sakoman.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 23 Jun 2020 04:32:30 -1000
+Message-ID: <CAOSpxdaCtGHg0zp6PZ5nSkmXtDZfXC193FPYcBhD7kPQo9ODsA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 22/33] oeqa/runtime: Add OERequirePackage decorator
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jun 19, 2020 at 7:47 AM <yanfei.xu@windriver.com> wrote:
+Dropping this from the final pull request since, while useful, it is a
+feature addition.
+
+Steve
+
+On Mon, Jun 22, 2020 at 8:01 AM Steve Sakoman <steve@sakoman.com> wrote:
 >
-> From: Yanfei Xu <yanfei.xu@windriver.com>
+> From: Konrad Weihmann <kweihmann@outlook.com>
 >
-> Some filesystems don't support symlink, then you will get failure when
-> you install or update the kernel rpm package. Now we use a copy of
-> image for these filesystems instead of symlink.
+> Add new decorator which behaves like OEHasPackage, but
+> fails the testcase if a dependency isn't met.
 >
-> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> This helps to identify missing packages in the image
+> under test when using static test suite lists, otherwise
+> a missing package won't fail the overall test suite and
+> errors might slip through unnoticed
+>
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit c5be39df1494f33e2cae116e4930f2a0f3dd2000)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > ---
->  meta/classes/kernel.bbclass | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
+>  meta/lib/oeqa/runtime/decorator/package.py | 34 ++++++++++++++++++++--
+>  1 file changed, 32 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 20a0135fc9..1269b54343 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -94,6 +94,22 @@ python __anonymous () {
->          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
->          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' % (kname,typelower), """
-
-You were previously concerned about boot issues if the unversioned
-image link/copy was deferred until boot. I don't see a summary of why
-that's no longer a concern in the v3 of the patch. Can you confirm
-that it isn't an issue ? Is it simply because the booted image isn't
-installed via this package, and hence we are fine ?
-
-> +set +e
-> +ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
-> +if [ $? -ne 0 ]; then
-> +    echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlinks, falling back to copied image (%s)."
-> +    install -m 0644 ${KERNEL_IMAGEDEST}/%s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s
-> +fi
-> +set -e
-> +""" % (type, type, type, type, type))
-> +        d.setVar('pkg_postrm_%s-image-%s' % (kname,typelower), """
-> +set +e
-> +if [ -f "${KERNEL_IMAGEDEST}/%s" -o -L "${KERNEL_IMAGEDEST}/%s" ]; then
-> +    rm -f ${KERNEL_IMAGEDEST}/%s  > /dev/null 2>&1
-> +fi
-> +set -e
-> +""" % (type, type, type))
+> diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/runtime/decorator/package.py
+> index 4c5ca198b0..57178655cc 100644
+> --- a/meta/lib/oeqa/runtime/decorator/package.py
+> +++ b/meta/lib/oeqa/runtime/decorator/package.py
+> @@ -46,11 +46,41 @@ class OEHasPackage(OETestDecorator):
+>              self.logger.debug(msg)
+>              if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
+>                  msg = "Test can't run with %s installed" % ', or'.join(unneed_pkgs)
+> -                self.case.skipTest(msg)
+> +                self._decorator_fail(msg)
 >
->      image = d.getVar('INITRAMFS_IMAGE')
->      # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
-> @@ -385,9 +401,6 @@ kernel_do_install() {
->         install -d ${D}/boot
->         for imageType in ${KERNEL_IMAGETYPES} ; do
->                 install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
-> -               if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-> -                       ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-> -               fi
-
-For on-target installs, this is what I was doing in the past as well.
-Make the symlink during package install, that way we are encapsulated
-in that unit.
-
-That just leaves my boot question as the last remaining thing for the change.
-
-Bruce
-
->         done
->         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
->         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+>          if need_pkgs:
+>              msg = 'Checking if at least one of %s is installed' % ', '.join(need_pkgs)
+>              self.logger.debug(msg)
+>              if self.case.tc.image_packages.isdisjoint(need_pkgs):
+>                  msg = "Test requires %s to be installed" % ', or'.join(need_pkgs)
+> -                self.case.skipTest(msg)
+> +                self._decorator_fail(msg)
+> +
+> +    def _decorator_fail(self, msg):
+> +        self.case.skipTest(msg)
+> +
+> +@registerDecorator
+> +class OERequirePackage(OEHasPackage):
+> +    """
+> +        Checks if image has packages (un)installed.
+> +        It is almost the same as OEHasPackage, but if dependencies are missing
+> +        the test case fails.
+> +
+> +        The argument must be a string, set, or list of packages that must be
+> +        installed or not present in the image.
+> +
+> +        The way to tell a package must not be in an image is using an
+> +        exclamation point ('!') before the name of the package.
+> +
+> +        If test depends on pkg1 or pkg2 you need to use:
+> +        @OERequirePackage({'pkg1', 'pkg2'})
+> +
+> +        If test depends on pkg1 and pkg2 you need to use:
+> +        @OERequirePackage('pkg1')
+> +        @OERequirePackage('pkg2')
+> +
+> +        If test depends on pkg1 but pkg2 must not be present use:
+> +        @OERequirePackage({'pkg1', '!pkg2'})
+> +    """
+> +
+> +    def _decorator_fail(self, msg):
+> +        self.case.fail(msg)
 > --
-> 2.18.2
+> 2.17.1
 >
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
