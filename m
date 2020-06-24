@@ -1,132 +1,96 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.80])
- by mx.groups.io with SMTP id smtpd.web12.7160.1592974757427809691
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web12.8372.1592982402226353103
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2020 21:59:17 -0700
+ Wed, 24 Jun 2020 00:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=NYTJoAl6;
- spf=pass (domain: windriver.com, ip: 40.107.223.80, mailfrom: david.reyna@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TvTLB0726kiyCjZMzt1Ui9i0zzSh/Coti8ykb7oTNQyyct2JrvilcD1go9LarELUa7wKLrdoSCtO7j3D2zImuJMPL/8aMKvhu3La4SDc316eY4bjP2bt4pjt42+ZY/rLjyxBasiE/SnPbrqDdJulmmYeq+Ka/wchwHC25IGc+cdPOZfEyzKCW0pJ3Zp67lsOYMDyIDs5UUHQAGv9d5hWAru47CtBV5/Spsn8BCXQsplDsVpBX30zZ9rc+zqrnT83p83K1ESjUM8+v6d2hc79afnR6R9GuS6P52m4ZKu91tvEz8vwbkZYR1qTbW8Tk8G1T9FJyTtueUV2SjfUW4/yFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j9HBVDzQnR7vx3gxm561sf5FfHDvaBREDvonO71Or0M=;
- b=eaNiNCd/V0pF2Vse+sOk0gSnWpxSMtinMD24UINCBdzLM0f/PE/PXGGulZ0t22JaWgMhjcRrnStrUHUsfnxMcMQvHidEuAnGoYnWohIiCCKcq9hMlF9XMYckxaUznVPMmKH0AyXvKIgk6Inp2S1iabh+saE88607U0EQYWYyDvS6lFwguBvU5ExCERKvEkVolFZ/kbatBoY9i2kbNDDUyDdR8+Z1FGd3lcZBL0KsTM+2ADG7yPjxcZE+vEoshX8hg6SN1uAUb5FUvDIEJKV3FS+OkFuXmQ6N/VZAjDIqzExe3yEVO2shY6/cRrB9UxnKEKSWs9zjQv5okTx6rmBkew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TLe5filq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f68.google.com with SMTP id d7so700841lfi.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 00:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j9HBVDzQnR7vx3gxm561sf5FfHDvaBREDvonO71Or0M=;
- b=NYTJoAl6FArtOMbekE7hTS8/yzE8OifOOeGUf2z94B6koc6Lq5LHQ+ClGFlbn6QxS38s9gJOOGsMd3OFyY8eSiEhkjqzj4e28WBqfzBPtPebvWEx3yC6N8PqA+3Mq8jqd/1wXO0CLwLmvLR+g4raptRZa3l+NSBK8hxmJlJy+xM=
-Received: from BY5PR11MB4167.namprd11.prod.outlook.com (2603:10b6:a03:185::28)
- by BY5PR11MB4497.namprd11.prod.outlook.com (2603:10b6:a03:1cc::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 24 Jun
- 2020 04:59:15 +0000
-Received: from BY5PR11MB4167.namprd11.prod.outlook.com
- ([fe80::c54b:4815:9a86:533a]) by BY5PR11MB4167.namprd11.prod.outlook.com
- ([fe80::c54b:4815:9a86:533a%3]) with mapi id 15.20.3109.027; Wed, 24 Jun 2020
- 04:59:15 +0000
-From: "Reyna, David" <david.reyna@windriver.com>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>,
-	"sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>, "yocto@yoctoproject.org"
-	<yocto@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Yocto Project Status WW25'20
-Thread-Topic: [OE-core] Yocto Project Status WW25'20
-Thread-Index: AdZJbUdP+FsSdrtKSByBV3SeDZdVTwACStUQABrs1tA=
-Date: Wed, 24 Jun 2020 04:59:14 +0000
-Message-ID: 
- <BY5PR11MB4167B414192233E0A5F8F241EA950@BY5PR11MB4167.namprd11.prod.outlook.com>
-References: <067a01d6496d$5f46d9b0$1dd48d10$@gmail.com>
- <MW2PR12MB247418580E300A77C479C1698B940@MW2PR12MB2474.namprd12.prod.outlook.com>
-In-Reply-To: 
- <MW2PR12MB247418580E300A77C479C1698B940@MW2PR12MB2474.namprd12.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: agilent.com; dkim=none (message not signed)
- header.d=none;agilent.com; dmarc=none action=none header.from=windriver.com;
-x-originating-ip: [24.5.28.247]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8f15bd3e-d72c-4a85-ee3a-08d817fb57f0
-x-ms-traffictypediagnostic: BY5PR11MB4497:
-x-microsoft-antispam-prvs: 
- <BY5PR11MB4497322F18DE1ED6D4751A60EA950@BY5PR11MB4497.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0444EB1997
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- fxRsCZNSHUEkfV5x6sq3Ig8I+1atWzjFo+bhXzQJZcSL5TC5fK2ZR5yfjdLMgW1wiIOQORUw8jX/gClCD1+CNSATXiYpRkJ5axRWOZz3KJf4yfXw34o72l96JVQJeRxa/WDRyBYOrKuVs+kh1ERlH8fglVROEeshCB6xay/bFIvkSA6VOjbSj+iAR8V7zWZHZFGe0McqPK9XneHrhahMHJ84PaGl2urZZBx7/RwctupXb/U771weaKyK++FLDzs9fvkqjTP3q3JXClpgqOeu20mEgy+mlYq2MeqWg+/14g7eoYguBp65fcSCQDa3s1kre7uI3PEWDOWQQsz3rH7ctKGyJCSxLZuJpA6wP7wiPafriqWzzqvlGpUfn/HMp8VjgovnmCJGiwOJTC8LixuJPQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4167.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(376002)(136003)(39850400004)(396003)(366004)(33656002)(186003)(76116006)(86362001)(478600001)(966005)(316002)(6506007)(71200400001)(66446008)(52536014)(7696005)(26005)(53546011)(110136005)(8936002)(5660300002)(8676002)(66946007)(9686003)(66556008)(55016002)(64756008)(2906002)(83380400001)(66476007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- DMVLBjTst1c+WfhSlrgC/jS7yzSUgbj9YX8pvZUFfI82Pxv4qxIAt5FBp6H0oYDiPFV1ol8ZBz3u2kwLipBLUIXZ140J4TpQ0wqJ6tFi9tGASRuS0118y7jg/UBuuoBYK4pRHwoa+kQw5w5kwmlYEri6N4DftUDXsLw/TnonTTNWPyfkdlfmZGm3r+dtj7XJn74zPbikkDHGDOkaG+xtPgtF31/AgsCenEGgKxUt+Ri6LkjYRjoc0nKeLUWyYXF2+C4GyFxjtf+R93/PKMLBuC9IsG8W6TPXTZ5ebWErl0wKJiTtkEulcNTDo8hVHE3brS5zlkZ+2BAia+8Uisxblqg6gnboE8RjsY0teu2Ye6hjNY6sXLaLTagXVf/f2WbfBEj0T269xyCivAHZHCKWihlZlWCf/caVMmdbjehGYK3wl4VMV7m1hrAv5O1zbBroZprww45PLIpO/C2/ZzVfiETcyHAvvlkedTKeMvN06qM=
-x-ms-exchange-transport-forked: True
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=G1vEYXOG73AwSU9mMVNUizPlNBruSAr5aEd63IAhNgQ=;
+        b=TLe5filqwedScxnOLYkWcXoqnn22LMBRhOXsJXtP2uzQ7XMAzjK1va11NwUFDyLB/s
+         n1C8vZ9SySXNYQ86i6TRkoTpkHyGtmhczHzOwXmntGwiJMCvExVhzt/Jxq2+HkHZp6lX
+         ObM4i92UEv3o/7QNpvreyEN3ugjzT7tyjkjmmfxlpPClp0Ss0ycYfZGDjwLq2ilgVVWL
+         ae8Uxaw3QwDVSpMAxu+/34LS2ndJXz89HMK5vppbArqb0IRdz8bfcnlmFNBYQA/Kc/3B
+         JiOUZz1GWZfQAyMVDi2tOVJCnEG0uqjhFHpvIqovUh+kU2bbgS/YcSUsYeWzjuCDt2Rw
+         huFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=G1vEYXOG73AwSU9mMVNUizPlNBruSAr5aEd63IAhNgQ=;
+        b=Bh8ZkmGmZpFK7XMOFc+Gn3xdwai4MSitcfPijl5LZAju395IwHKsdzNr+iBDMd7FkG
+         mper6TmNtNK0VTSJW4SfA8ohlq7RJ2vt3KfCZVD4wKDMMworP/BIsYIjqdisCnfkNyqU
+         ynz0n7kGX5ZAWt7wFke1RQU2kAgHXNJbDrRpzSAecl13Ki17mN2IKEuQlbOkhenENOoA
+         QWlDiKSluDHCcKwDMbcYpaYxwSJLDByK3Mqx1de8zxllhGaXpSzKhGzzMUR9bZhZt50y
+         gkqtSY46TM24op4NynYRlH5r9wjdz3r9wy2j2o3M9rKdiGiFWSYyvdYQqadbj3gIekud
+         cDJA==
+X-Gm-Message-State: AOAM530PnIbmYVJcpUOFn7TOxMM2kpA5lMzAOL/GaQuYUS2OLPZK8Ys2
+	b6AGhA+FCNQ0HaJvpZgP3h7UaO8u
+X-Google-Smtp-Source: ABdhPJz+VAtkoHGN/o4rotbC2pXK1V38MgC7UrbsM1aKRiuAG0XGb4/VPVZdMJIy6IeFHB1GlN6K3w==
+X-Received: by 2002:a19:848e:: with SMTP id g136mr14578034lfd.151.1592982399924;
+        Wed, 24 Jun 2020 00:06:39 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id 2sm4459694lfr.48.2020.06.24.00.06.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jun 2020 00:06:35 -0700 (PDT)
+Subject: Re: [OE-core] [V2][PATCH] xinit: add rxvt-unicode in RDEPENDS
+To: Changqing Li <changqing.li@windriver.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200624011700.1451586-1-changqing.li@windriver.com>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <e14115aa-3b6b-1c20-4483-b5d57ba82997@gmail.com>
+Date: Wed, 24 Jun 2020 09:06:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f15bd3e-d72c-4a85-ee3a-08d817fb57f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2020 04:59:15.0334
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JGo8wJ6J3iJawamw6m/4Wrd+UbfUfShBx4UUzkQUQ6cdDsRmLFjLS328nHB9Xudszp7Cca2JZwkDd0LHS/kHGpMXc4ebBVXglnu1Eb/lU90=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4497
+In-Reply-To: <20200624011700.1451586-1-changqing.li@windriver.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi Chris,
+On 6/24/20 3:17 AM, Changqing Li wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> fix below error:
+> /etc/X11/xinit/xinitrc: line 55: exec: xterm: not found
+> 
+> by default, xinit will generate /etc/X11/xinit/xinitrc,
+> and have below config in it:
+> XTERM -geometry 80x50+494+51 &
+> XTERM -geometry 80x20+494-0 &
+> exec XTERM -geometry 80x66+0+0 -name login
+> 
+> the default XTERM is xterm, but xterm is in meta-oe,
+> use rxvt instead
+> 
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>   meta/recipes-graphics/xorg-app/xinit_1.4.1.bb | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> index c9e28d9bba..ed11830cf2 100644
+> --- a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> +++ b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
+> @@ -19,4 +19,7 @@ SRC_URI[sha256sum] = "de9b8f617b68a70f6caf87da01fcf0ebd2b75690cdcba9c921d0ef54fa
+>   
+>   EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+>   
+> -RDEPENDS_${PN} += "util-linux-mcookie"
+> +PACKAGECONFIG ??= "rxvt"
+> +PACKAGECONFIG[rxvt] = "--with-xterm=rxvt,,,rxvt-unicode,"
+> +
+> +RDEPENDS_${PN} += "util-linux-mcookie rxvt-unicode"
 
-> "Does anyone know what the intended audience is for the Developer Day pre=
-sentations?"
+As Richard has already pointed out, the fourth argument to PACKAGECONFIG 
+is the additional RDEPENDS the config introduces, so no need to list it 
+here again.
 
-The official description for the intended audience can be found here: https=
-://www.yoctoproject.org/yocto-project-dev-day-virtual-north-america-2020/
-
-We will be covering a lot of topics that can give you ideas on how to use O=
-E/YP in perhaps new ways, for example in containers, virtualization, micro =
-services, and CI/CD frameworks.=20
-
-There will be practical instruction in such topics as image size reduction.=
-=20
-
-There will also be hands-on exercises in the kernel development tools and u=
-ser space management.
-
-There will be many ways to expand your horizons with Yocto Project at DevDa=
-y, to meet and hear the community experts behind all the magic, and even br=
-ing them your questions directly.
-
-All of this plus being with people passionate about OE/YP and having fun at=
- the same time! A bargain at any price!
-
-- David
-
-
------Original Message-----
-From: openembedded-core@lists.openembedded.org [mailto:openembedded-core@li=
-sts.openembedded.org] On Behalf Of Chris Laplante via lists.openembedded.or=
-g
-Sent: Tuesday, June 23, 2020 8:58 AM
-To: sjolley.yp.pm@gmail.com; yocto@yoctoproject.org; openembedded-core@list=
-s.openembedded.org
-Subject: Re: [OE-core] Yocto Project Status WW25'20
-
-> * Next week is ELC which is taking place virtually this year and Yocto Pr=
-oject
-> has a presence there. There is also a virtual Yocto Project Developer Day=
-:
-> https://events.linuxfoundation.org/yocto-dev-day-north-america/
-
-Does anyone know what the intended audience is for the Developer Day presen=
-tations? E.g. would someone who uses bitbake day-to-day but perhaps doesn't=
- edit recipes benefit?
-=20
-Thanks,
-Chris
+Jacob
