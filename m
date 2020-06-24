@@ -1,81 +1,79 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web10.9765.1592990529802341234
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.9758.1592990535071902623
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2020 02:22:21 -0700
+ Wed, 24 Jun 2020 02:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
 X-IronPort-AV: E=Sophos;i="5.75,274,1589212800"; 
-   d="scan'208,217";a="95222719"
+   d="scan'208,217";a="95222737"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 24 Jun 2020 17:22:01 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id ED80C4CE49B9
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 17:11:37 +0800 (CST)
+  by heian.cn.fujitsu.com with ESMTP; 24 Jun 2020 17:22:06 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 494994CE3F1A
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 17:11:39 +0800 (CST)
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 24 Jun 2020 17:22:00 +0800
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 24 Jun 2020 17:22:02 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([::1]) by
  G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::4086:9520:5ef9:407d%14]) with mapi
- id 15.00.1497.006; Wed, 24 Jun 2020 17:22:00 +0800
+ id 15.00.1497.006; Wed, 24 Jun 2020 17:22:02 +0800
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] man-pages: upgrade 5.06 -> 5.07
-Thread-Topic: [OE-core] [PATCH] man-pages: upgrade 5.06 -> 5.07
-Thread-Index: AQHWSgI1iSjvFPdjUkqtfMkf3bxHKA==
-Date: Wed, 24 Jun 2020 09:22:00 +0000
-Message-ID: <1592990520040.51768@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] harfbuzz: upgrade 2.6.7 -> 2.6.8
+Thread-Topic: [OE-core] [PATCH] harfbuzz: upgrade 2.6.7 -> 2.6.8
+Thread-Index: AQHWSgH5AWkHddBRlEuSskFRKakTAA==
+Date: Wed, 24 Jun 2020 09:22:02 +0000
+Message-ID: <1592990521388.45790@cn.fujitsu.com>
 Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.167.33.78]
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: ED80C4CE49B9.A9B9C
+X-yoursite-MailScanner-ID: 494994CE3F1A.A706C
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
 Content-Language: zh-CN
 Content-Type: multipart/alternative;
-	boundary="_000_159299052004051768cnfujitsucom_"
+	boundary="_000_159299052138845790cnfujitsucom_"
 
---_000_159299052004051768cnfujitsucom_
+--_000_159299052138845790cnfujitsucom_
 Content-Type: text/plain; charset="gb2312"
 Content-Transfer-Encoding: base64
 
-Pz9maWxlIFJFQURNRSB1cGRhdGUuDQoNClNpZ25lZC1vZmYtYnk6IFdhbmcg
-TWluZ3l1IDx3YW5nbXlAY24uZnVqaXRzdS5jb20+DQotLS0NCiAuLi4vbWFu
-LXBhZ2VzL3ttYW4tcGFnZXNfNS4wNi5iYiA9PiBtYW4tcGFnZXNfNS4wNy5i
-Yn0gICAgICB8IDYgKysrLS0tDQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0
-aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCiByZW5hbWUgbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL21hbi1wYWdlcy97bWFuLXBhZ2VzXzUuMDYuYmIgPT4gbWFu
-LXBhZ2VzXzUuMDcuYmJ9ICg4MSUpDQoNCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvbWFuLXBhZ2VzL21hbi1wYWdlc181LjA2LmJiIGIv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL21hbi1wYWdlcy9tYW4tcGFnZXNfNS4w
-Ny5iYg0Kc2ltaWxhcml0eSBpbmRleCA4MSUNCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9tYW4tcGFnZXMvbWFuLXBhZ2VzXzUuMDYuYmIN
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWFuLXBhZ2VzL21h
-bi1wYWdlc181LjA3LmJiDQppbmRleCAwZDYzMmU2MTcwLi4wNGQwNTk3YjNk
-IDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21hbi1wYWdl
-cy9tYW4tcGFnZXNfNS4wNi5iYg0KKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL21hbi1wYWdlcy9tYW4tcGFnZXNfNS4wNy5iYg0KQEAgLTQsMTEgKzQs
-MTEgQEAgU0VDVElPTiA9ICJjb25zb2xlL3V0aWxzIg0KIEhPTUVQQUdFID0g
-Imh0dHA6Ly93d3cua2VybmVsLm9yZy9wdWIvbGludXgvZG9jcy9tYW4tcGFn
-ZXMiDQogTElDRU5TRSA9ICJHUEx2MisiDQoNCi1MSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9SRUFETUU7bWQ1PTc5NGY3MDE2MTdjYzAzZmU1MGM1MzI1
-NzY2MGQ4ZWM0Ig0KK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL1JFQURN
-RTttZDU9MjA3ZjcwZjU2NTI2NDE3NTE0YWM0NmI2NjgwZTMxNGYiDQogU1JD
-X1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L2RvY3MvJHtCUE59
-LyR7QlB9LnRhci5neiINCg0KLVNSQ19VUklbbWQ1c3VtXSA9ICJlYmRkYjUy
-ZWEwMTNjMTYwZjA3ZmQwYTRhN2U5MjY2ZCINCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiZGE0ZTkzOWM2MjRiZWM0YmFiOGNhMTcwMmU1ZjU0YmJjNzA1MDUw
-OTBkOTA5NjdmZDVlMTJiYzE0NTNmMTliMCINCitTUkNfVVJJW21kNXN1bV0g
-PSAiMTkzZDkyMjNlOWM2ZGJlMWQ5MjhlYWFlY2MxZjY4ZGIiDQorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjViYTU4ZDdiMmI5YTg5Mjk5MDNiMWNmNzkxZWQ0
-ZWRmNzJhYjIyNTY3OGQ1ZWEwYTZiODBkYzA5MDA4MGFjMzMiDQoNCiBpbmhl
-cml0IG1hbnBhZ2VzDQoNCi0tDQoyLjE3LjENCg0KPw0KDQoKCg==
+Pz9TaWduZWQtb2ZmLWJ5OiBXYW5nIE1pbmd5dSA8d2FuZ215QGNuLmZ1aml0
+c3UuY29tPg0KLS0tDQogLi4uL2hhcmZidXp6L3toYXJmYnV6el8yLjYuNy5i
+YiA9PiBoYXJmYnV6el8yLjYuOC5iYn0gICAgICAgICB8IDQgKystLQ0KIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+DQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFy
+ZmJ1enpfMi42LjcuYmIgPT4gaGFyZmJ1enpfMi42LjguYmJ9ICg5MiUpDQoN
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
+aGFyZmJ1enpfMi42LjcuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFy
+ZmJ1enovaGFyZmJ1enpfMi42LjguYmINCnNpbWlsYXJpdHkgaW5kZXggOTIl
+DQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
+aGFyZmJ1enpfMi42LjcuYmINCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMi42LjguYmINCmluZGV4IDRmNzlk
+YTQxNzAuLjNjNGE1YjVhMmIgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMi42LjcuYmINCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8yLjYuOC5i
+Yg0KQEAgLTExLDggKzExLDggQEAgVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0
+dHBzOi8vZ2l0aHViLmNvbS8ke0JQTn0vJHtCUE59L3JlbGVhc2VzIg0KIFVQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gImhhcmZidXp6LSg/UDxwdmVyPlxkKyhc
+LlxkKykrKS50YXIiDQoNCiBTUkNfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNv
+bS8ke0JQTn0vJHtCUE59L3JlbGVhc2VzL2Rvd25sb2FkLyR7UFZ9LyR7QlBO
+fS0ke1BWfS50YXIueHoiDQotU1JDX1VSSVttZDVzdW1dID0gIjNiODg0NTg2
+YTA5MzI4YzVmYWU3NmQ4YzIwMGIwZTFjIg0KLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI0OWU0ODFkMDZjZGZmOTdiZjY4ZDk5ZmEyNmJkZjc4NTMzMWY0MTE2
+MTQ0ODVkODkyZWE0Yzc4ZWI0NzliMjE4Ig0KK1NSQ19VUklbbWQ1c3VtXSA9
+ICJjOGQ0ZjJhZWVkNmU1NzZiZDQyZjlkYzZkZWYxYjFhZSINCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNjY0OGE1NzFhMjdmMTg2ZTQ3MDk0MTIxZjAwOTVl
+MWI4MDllOTE4YjMwMzdjNjMwYzdmMzhmZmFkODZlMzAzNSINCg0KIGluaGVy
+aXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBsaWJfcGFja2FnZSBndGstZG9jDQoN
+Ci0tDQoyLjE3LjENCg0KPw0KDQoKCg==
 
---_000_159299052004051768cnfujitsucom_
+--_000_159299052138845790cnfujitsucom_
 Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
 
@@ -87,51 +85,43 @@ argin-bottom: 0px; }--></style>
 </head>
 <body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
 FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
-<div>&#8203;&#8203;file README update.</div>
-<div><br>
+<div>&#8203;&#8203;Signed-off-by: Wang Mingyu &lt;wangmy@cn.fujitsu.com&gt;=
 </div>
-<div>Signed-off-by: Wang Mingyu &lt;wangmy@cn.fujitsu.com&gt;</div>
 <div>---</div>
-<div>&nbsp;.../man-pages/{man-pages_5.06.bb =3D&gt; man-pages_5.07.bb}&nbsp=
-; &nbsp; &nbsp; | 6 &#43;&#43;&#43;---</div>
-<div>&nbsp;1 file changed, 3 insertions(&#43;), 3 deletions(-)</div>
-<div>&nbsp;rename meta/recipes-extended/man-pages/{man-pages_5.06.bb =3D&gt=
-; man-pages_5.07.bb} (81%)</div>
+<div>&nbsp;.../harfbuzz/{harfbuzz_2.6.7.bb =3D&gt; harfbuzz_2.6.8.bb}&nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp;| 4 &#43;&#43;--</div>
+<div>&nbsp;1 file changed, 2 insertions(&#43;), 2 deletions(-)</div>
+<div>&nbsp;rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.6.7.bb =3D&gt;=
+ harfbuzz_2.6.8.bb} (92%)</div>
 <div><br>
 </div>
-<div>diff --git a/meta/recipes-extended/man-pages/man-pages_5.06.bb b/meta/=
-recipes-extended/man-pages/man-pages_5.07.bb</div>
-<div>similarity index 81%</div>
-<div>rename from meta/recipes-extended/man-pages/man-pages_5.06.bb</div>
-<div>rename to meta/recipes-extended/man-pages/man-pages_5.07.bb</div>
-<div>index 0d632e6170..04d0597b3d 100644</div>
-<div>--- a/meta/recipes-extended/man-pages/man-pages_5.06.bb</div>
-<div>&#43;&#43;&#43; b/meta/recipes-extended/man-pages/man-pages_5.07.bb</d=
-iv>
-<div>@@ -4,11 &#43;4,11 @@ SECTION =3D &quot;console/utils&quot;</div>
-<div>&nbsp;HOMEPAGE =3D &quot;http://www.kernel.org/pub/linux/docs/man-page=
-s&quot;</div>
-<div>&nbsp;LICENSE =3D &quot;GPLv2&#43;&quot;</div>
+<div>diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.7.bb b/meta/r=
+ecipes-graphics/harfbuzz/harfbuzz_2.6.8.bb</div>
+<div>similarity index 92%</div>
+<div>rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.6.7.bb</div>
+<div>rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb</div>
+<div>index 4f79da4170..3c4a5b5a2b 100644</div>
+<div>--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.7.bb</div>
+<div>&#43;&#43;&#43; b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb</di=
+v>
+<div>@@ -11,8 &#43;11,8 @@ UPSTREAM_CHECK_URI =3D &quot;https://github.com/=
+${BPN}/${BPN}/releases&quot;</div>
+<div>&nbsp;UPSTREAM_CHECK_REGEX =3D &quot;harfbuzz-(?P&lt;pver&gt;\d&#43;(\=
+.\d&#43;)&#43;).tar&quot;</div>
 <div><br>
 </div>
-<div>-LIC_FILES_CHKSUM =3D &quot;file://README;md5=3D794f701617cc03fe50c532=
-57660d8ec4&quot;</div>
-<div>&#43;LIC_FILES_CHKSUM =3D &quot;file://README;md5=3D207f70f56526417514=
-ac46b6680e314f&quot;</div>
-<div>&nbsp;SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.ta=
-r.gz&quot;</div>
-<div><br>
-</div>
-<div>-SRC_URI[md5sum] =3D &quot;ebddb52ea013c160f07fd0a4a7e9266d&quot;</div>
-<div>-SRC_URI[sha256sum] =3D &quot;da4e939c624bec4bab8ca1702e5f54bbc7050509=
-0d90967fd5e12bc1453f19b0&quot;</div>
-<div>&#43;SRC_URI[md5sum] =3D &quot;193d9223e9c6dbe1d928eaaecc1f68db&quot;<=
+<div>&nbsp;SRC_URI =3D &quot;https://github.com/${BPN}/${BPN}/releases/down=
+load/${PV}/${BPN}-${PV}.tar.xz&quot;</div>
+<div>-SRC_URI[md5sum] =3D &quot;3b884586a09328c5fae76d8c200b0e1c&quot;</div>
+<div>-SRC_URI[sha256sum] =3D &quot;49e481d06cdff97bf68d99fa26bdf785331f4116=
+14485d892ea4c78eb479b218&quot;</div>
+<div>&#43;SRC_URI[md5sum] =3D &quot;c8d4f2aeed6e576bd42f9dc6def1b1ae&quot;<=
 /div>
-<div>&#43;SRC_URI[sha256sum] =3D &quot;5ba58d7b2b9a8929903b1cf791ed4edf72ab=
-225678d5ea0a6b80dc090080ac33&quot;</div>
+<div>&#43;SRC_URI[sha256sum] =3D &quot;6648a571a27f186e47094121f0095e1b809e=
+918b3037c630c7f38ffad86e3035&quot;</div>
 <div><br>
 </div>
-<div>&nbsp;inherit manpages</div>
+<div>&nbsp;inherit autotools pkgconfig lib_package gtk-doc</div>
 <div><br>
 </div>
 <div>--</div>
@@ -144,4 +134,4 @@ r.gz&quot;</div>
 </body>
 </html>
 
---_000_159299052004051768cnfujitsucom_--
+--_000_159299052138845790cnfujitsucom_--
