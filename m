@@ -1,65 +1,80 @@
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
- by mx.groups.io with SMTP id smtpd.web11.9203.1592987657401981609
+Received: from mailout10.rmx.de (mailout10.rmx.de [94.199.88.75])
+ by mx.groups.io with SMTP id smtpd.web10.9293.1592987897964593117
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2020 01:34:18 -0700
+ Wed, 24 Jun 2020 01:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 49sGdx3FG1z5tlM;
-	Wed, 24 Jun 2020 10:34:12 +0200 (CEST)
-Date: Wed, 24 Jun 2020 10:34:11 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Changqing Li <changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [V2][PATCH] xinit: add rxvt-unicode in RDEPENDS
-Message-ID: <20200624083411.vkpks4x6eprheb2d@qschulz>
-References: <20200624011700.1451586-1-changqing.li@windriver.com>
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.75, mailfrom: ceggers@arri.de)
+Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout10.rmx.de (Postfix) with ESMTPS id 49sGkY1KZVz31Kn
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 10:38:13 +0200 (CEST)
+Received: from ppmail.arri.de (unknown [217.111.95.7])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by kdin02.retarus.com (Postfix) with ESMTPS id 49sGkX2pgJz2TTPy
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 10:38:12 +0200 (CEST)
+Received: from mta.arri.de ([192.168.100.141]) by ppmail.arri.de over TLS secured channel with Microsoft SMTPSVC(7.0.6002.18264);
+	 Wed, 24 Jun 2020 10:36:43 +0200
+Received: from n95hx1g2.localnet (192.168.54.60) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 24 Jun
+ 2020 10:36:43 +0200
+From: "Christian Eggers" <ceggers@arri.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/4] eudev: Extend for native/nativesdk
+Date: Wed, 24 Jun 2020 10:36:41 +0200
+Message-ID: <113805642.bAF7KyEKsx@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <f8cae5c1a6395d260bd8e5aaa29d5b49d8051d17.camel@linuxfoundation.org>
+References: <20200619194351.30053-1-ceggers@arri.de> <20200619194351.30053-3-ceggers@arri.de> <f8cae5c1a6395d260bd8e5aaa29d5b49d8051d17.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20200624011700.1451586-1-changqing.li@windriver.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Originating-IP: [192.168.54.60]
+X-OriginalArrivalTime: 24 Jun 2020 08:36:43.0147 (UTC) FILETIME=[96A00DB0:01D64A02]
+X-RMX-ID: 20200624-103812-49sGkX2pgJz2TTPy-0@kdin02
+X-RMX-SOURCE: 217.111.95.7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Dear Richard,
 
-On Wed, Jun 24, 2020 at 09:17:00AM +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> fix below error:
-> /etc/X11/xinit/xinitrc: line 55: exec: xterm: not found
-> 
-> by default, xinit will generate /etc/X11/xinit/xinitrc,
-> and have below config in it:
-> XTERM -geometry 80x50+494+51 &
-> XTERM -geometry 80x20+494-0 &
-> exec XTERM -geometry 80x66+0+0 -name login
-> 
-> the default XTERM is xterm, but xterm is in meta-oe,
-> use rxvt instead
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-graphics/xorg-app/xinit_1.4.1.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> index c9e28d9bba..ed11830cf2 100644
-> --- a/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> +++ b/meta/recipes-graphics/xorg-app/xinit_1.4.1.bb
-> @@ -19,4 +19,7 @@ SRC_URI[sha256sum] = "de9b8f617b68a70f6caf87da01fcf0ebd2b75690cdcba9c921d0ef54fa
->  
->  EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
->  
-> -RDEPENDS_${PN} += "util-linux-mcookie"
-> +PACKAGECONFIG ??= "rxvt"
-> +PACKAGECONFIG[rxvt] = "--with-xterm=rxvt,,,rxvt-unicode,"
+Am Freitag, 19. Juni 2020, 23:27:38 CEST schrieb Richard Purdie:
+> A native eudev is a really bad idea, a nativesdk one isn't much better.
+> If there are libs we need from here, then the recipe should only be
+> generating those but a "native eudev" makes no sense to be needed by a
+> build system.
+Does v2 of my patch meet your requirements? In order to keep the recipe
+simple, the full eudev is built, but only libudev is packaged at the end.
 
-IIRC, no need for the last comma.
+> In case I'm not being clear enough, is bitbake going to
+> replace the udev/systemd from your host system at run time?
+- libraries (libudev, libnm): yes
+- tools (e.g. udevadm or nmcli): maybe
+- daemons (udevd, networkmanager): no
 
-> +
-> +RDEPENDS_${PN} += "util-linux-mcookie rxvt-unicode"
+"Replace" due to PATH / PKG_CONFIG_PATH variables, not really overwriting
+them.
 
-No need for that last line. If rxvt PACKAGECONFIG is picked, then rxvt-unicode
-will be added to RDEPENDS automagically.
+regards
+Christian
 
-Quentin
+
+
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
