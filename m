@@ -1,37 +1,37 @@
-Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web10.7634.1593080526167583199
+Received: from smtp1.axis.com (smtp1.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web11.7471.1593080525989600401
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2020 03:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YXOqOHGE;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Sh2K6vx8;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=4450; q=dns/txt; s=axis-central1;
+  d=axis.com; l=7295; q=dns/txt; s=axis-central1;
   t=1593080533; x=1624616533;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2SpJys+GPO5Ve8EUchVphKQfwkdovsa0SNS27A+y17g=;
-  b=YXOqOHGE27xda5Hittm7VCydsrWihiVtOmsQX+/OKHIiWuQ85kc28/jR
-   h9368ahnuDKdjj7EuD/ntL55GQs3vPZ9Y4kyWCyKuaRSYUaLDYaDcQ07U
-   kFDzagFqJVsjI8FYxohYRl1J6k2kyWyynY1FjW4VGf+v7vOKmPczfuLMv
-   NeioCDk4L5H86nrqmPlLg/Ob+LzlvtfOrPwVx451WkbP04FRNqSYZvRl/
-   dd+EKz0ysSD/3h3CRhk1PLB8oB+A8f6wyygy2EM4cj6dcrAzF9gesxS4B
-   ShP3kdoOxyAh4M2R3G6QAGM6eWDH9lE7k28ieCCiBvH2vfnWeNYNATBPI
-   w==;
-IronPort-SDR: iFv4FWIhYP/+2BVQqRGn50A5DeeKTZTs4n1ZxoEyuADE5p2u5Q3IJM4s41XFPPHYZeiKI52C2d
- v/6KbcaZoVgpkpZEzk+eCzKFCvSY1k1eP3hN3Jsrzc6MTczXN5D0AHQxQrYLQmqnowNL715SZN
- svBdjZk2FhouCUSXA3VKgUdEjrUMEYOkayrMvFlIyUiOzZzY0lGDnTRfoDcNwzFIlYA4LLNUUL
- k4akcjWaeLBgmBWtXTluyfD+0RSxemXBu2an5bz//4B1xc19dSfvhiFbgstiwaA/Dqy0O1F2UL
- k7Y=
+  bh=vMzbJSA3DV0B0DBFa0dsRqu8h8iFaUddat1fGI7Fts0=;
+  b=Sh2K6vx8g8ZuKW1wcZ/z9xHRmG+UJwln1GpiRsgAAnChEM1KCQBY4XtH
+   SOS5XJdmm4OpxTk6ibweWF1cUn0bK50Fnsk5WhsLzYk7F6nPAzIPml4Qp
+   LQyUgltB/hhzKd9ITrPd4ONqvvFpELSIPVqdMqjFBFYUZMy+kEpCkkZoK
+   vWLvkmkohy0nkQznbafGXYTqP8QwUOmJjDIB5NGnLS5U6mSOKysNvH41U
+   hUW3Mw4Ir5X9LJXJGLkD2V62tXCeFoOXBaN5DRZLKojPVRRU97vQp3EHS
+   +CbWv1dQrQohG2l5ocIJJPAfivBV9EqvhfpUouqE5IDIkTTZT1hdMsKYq
+   g==;
+IronPort-SDR: rIPoSPnpqFsdaFk2+QGKsoXmc0MNnWEmuKd6yizdjdlJGskcYbzUGvHw+4dMZPWRrYzux4Ylj2
+ CAvpU2BwjwU+45PvDMv1FHXF+LAN9lZq27GRwmSps7z3L9fYUlpye/YUG+oxdfqsx9cSgJIMbQ
+ pt4THltrM2NAbRs9Dd0go9eh8xefaPNb11QtCGX1GoxJvlgGrBpPQs4oVOGTqIDNuXDgFTdBTT
+ 7Mmafsf6egdb4gauuM9xXq+M88YlssaUkn0+M0bHSk7aZ89cpQCRIjYbxlGTqJsy1xvstBsJEJ
+ 37o=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="9893892"
+   d="scan'208";a="10185337"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
- Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 22/26] package_manager: Rename Indexer classes
-Date: Thu, 25 Jun 2020 12:21:41 +0200
-Message-ID: <20200625102145.7139-23-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, "Fredrik
+ Gustafsson" <fredrigu@axis.com>
+Subject: [PATCH v2 14/26] rootfs.py: Dynamic load of rootfs
+Date: Thu, 25 Jun 2020 12:21:33 +0200
+Message-ID: <20200625102145.7139-15-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,133 +40,216 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Rename all *Indexer classeds to PkgIndexer to enable dynamic calling.
+Decide which rootfs we should load in run time without any hard coded
+values but look at which package type that is used.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_manager.py                | 22 +++++--------------
- .../package_managers/deb/package_manager.py   |  8 +++++--
- .../package_managers/ipk/package_manager.py   |  7 ++++--
- .../package_managers/rpm/package_manager.py   |  5 ++++-
- 4 files changed, 20 insertions(+), 22 deletions(-)
+ meta/lib/oe/package_managers/deb/rootfs.py |   4 +-
+ meta/lib/oe/package_managers/ipk/rootfs.py |   4 +-
+ meta/lib/oe/package_managers/rpm/rootfs.py |   4 +-
+ meta/lib/oe/rootfs.py                      | 135 +--------------------
+ 4 files changed, 10 insertions(+), 137 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 111845d903..bfddbce93c 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -149,8 +149,6 @@ class Indexer(object, metaclass=ABCMeta):
-     def write_index(self):
-         pass
+diff --git a/meta/lib/oe/package_managers/deb/rootfs.py b/meta/lib/oe/package_managers/deb/rootfs.py
+index 321f9c1fa7..ec9821e455 100644
+--- a/meta/lib/oe/package_managers/deb/rootfs.py
++++ b/meta/lib/oe/package_managers/deb/rootfs.py
+@@ -114,9 +114,9 @@ class DpkgOpkgRootfs(Rootfs):
  
+             num += 1
+ 
+-class DpkgRootfs(DpkgOpkgRootfs):
++class PkgRootfs(DpkgOpkgRootfs):
+     def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
++        super(PkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+         self.log_check_regex = '^E:'
+         self.log_check_expected_regexes = \
+         [
+diff --git a/meta/lib/oe/package_managers/ipk/rootfs.py b/meta/lib/oe/package_managers/ipk/rootfs.py
+index 3e7387467a..caa2920e9a 100644
+--- a/meta/lib/oe/package_managers/ipk/rootfs.py
++++ b/meta/lib/oe/package_managers/ipk/rootfs.py
+@@ -114,9 +114,9 @@ class DpkgOpkgRootfs(Rootfs):
+ 
+             num += 1
+ 
+-class OpkgRootfs(DpkgOpkgRootfs):
++class PkgRootfs(DpkgOpkgRootfs):
+     def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(OpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
++        super(PkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+         self.log_check_regex = '(exit 1|Collected errors)'
+ 
+         import importlib
+diff --git a/meta/lib/oe/package_managers/rpm/rootfs.py b/meta/lib/oe/package_managers/rpm/rootfs.py
+index d3b615d03a..7b9e176bcb 100644
+--- a/meta/lib/oe/package_managers/rpm/rootfs.py
++++ b/meta/lib/oe/package_managers/rpm/rootfs.py
+@@ -4,9 +4,9 @@
+ 
+ from oe.rootfs import *
+ 
+-class RpmRootfs(Rootfs):
++class PkgRootfs(Rootfs):
+     def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(RpmRootfs, self).__init__(d, progress_reporter, logcatcher)
++        super(PkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+         self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
+                                r'|exit 1|ERROR: |Error: |Error |ERROR '\
+                                r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index b3d28c256f..fdfb8efafc 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -352,142 +352,15 @@ class Rootfs(object, metaclass=ABCMeta):
+                                   self.image_rootfs, "-D", devtable])
+ 
+ 
+-class DpkgOpkgRootfs(Rootfs):
+-    def __init__(self, d, progress_reporter=None, logcatcher=None):
+-        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
 -
+-    def _get_pkgs_postinsts(self, status_file):
+-        def _get_pkg_depends_list(pkg_depends):
+-            pkg_depends_list = []
+-            # filter version requirements like libc (>= 1.1)
+-            for dep in pkg_depends.split(', '):
+-                m_dep = re.match(r"^(.*) \(.*\)$", dep)
+-                if m_dep:
+-                    dep = m_dep.group(1)
+-                pkg_depends_list.append(dep)
 -
- class PkgsList(object, metaclass=ABCMeta):
-     def __init__(self, d, rootfs_dir):
-         self.d = d
-@@ -576,22 +574,12 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
-                         raise
- 
- def generate_index_files(d):
--    classes = d.getVar('PACKAGE_CLASSES').replace("package_", "").split()
+-            return pkg_depends_list
 -
--    indexer_map = {
--        "rpm": (RpmSubdirIndexer, d.getVar('DEPLOY_DIR_RPM')),
--        "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK')),
--        "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB'))
--    }
+-        pkgs = {}
+-        pkg_name = ""
+-        pkg_status_match = False
+-        pkg_depends = ""
 -
-+    classes = d.getVar('PACKAGE_CLASSES').split()
-     result = None
- 
-     for pkg_class in classes:
--        if not pkg_class in indexer_map:
--            continue
+-        with open(status_file) as status:
+-            data = status.read()
+-            status.close()
+-            for line in data.split('\n'):
+-                m_pkg = re.match(r"^Package: (.*)", line)
+-                m_status = re.match(r"^Status:.*unpacked", line)
+-                m_depends = re.match(r"^Depends: (.*)", line)
 -
--        if os.path.exists(indexer_map[pkg_class][1]):
--            result = indexer_map[pkg_class][0](d, indexer_map[pkg_class][1]).write_index()
-+        import importlib
-+        result = importlib.import_module('oe.package_managers.' + classes + '.manifest').PkgIndexer(d).write_index()
+-                #Only one of m_pkg, m_status or m_depends is not None at time
+-                #If m_pkg is not None, we started a new package
+-                if m_pkg is not None:
+-                    #Get Package name
+-                    pkg_name = m_pkg.group(1)
+-                    #Make sure we reset other variables
+-                    pkg_status_match = False
+-                    pkg_depends = ""
+-                elif m_status is not None:
+-                    #New status matched
+-                    pkg_status_match = True
+-                elif m_depends is not None:
+-                    #New depends macthed
+-                    pkg_depends = m_depends.group(1)
+-                else:
+-                    pass
+-
+-                #Now check if we can process package depends and postinst
+-                if "" != pkg_name and pkg_status_match:
+-                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
+-                else:
+-                    #Not enough information
+-                    pass
+-
+-        # remove package dependencies not in postinsts
+-        pkg_names = list(pkgs.keys())
+-        for pkg_name in pkg_names:
+-            deps = pkgs[pkg_name][:]
+-
+-            for d in deps:
+-                if d not in pkg_names:
+-                    pkgs[pkg_name].remove(d)
+-
+-        return pkgs
+-
+-    def _get_delayed_postinsts_common(self, status_file):
+-        def _dep_resolve(graph, node, resolved, seen):
+-            seen.append(node)
+-
+-            for edge in graph[node]:
+-                if edge not in resolved:
+-                    if edge in seen:
+-                        raise RuntimeError("Packages %s and %s have " \
+-                                "a circular dependency in postinsts scripts." \
+-                                % (node, edge))
+-                    _dep_resolve(graph, edge, resolved, seen)
+-
+-            resolved.append(node)
+-
+-        pkg_list = []
+-
+-        pkgs = None
+-        if not self.d.getVar('PACKAGE_INSTALL').strip():
+-            bb.note("Building empty image")
+-        else:
+-            pkgs = self._get_pkgs_postinsts(status_file)
+-        if pkgs:
+-            root = "__packagegroup_postinst__"
+-            pkgs[root] = list(pkgs.keys())
+-            _dep_resolve(pkgs, root, pkg_list, [])
+-            pkg_list.remove(root)
+-
+-        if len(pkg_list) == 0:
+-            return None
+-
+-        return pkg_list
+-
+-    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
+-        if bb.utils.contains("IMAGE_FEATURES", "package-management",
+-                         True, False, self.d):
+-            return
+-        num = 0
+-        for p in self._get_delayed_postinsts():
+-            bb.utils.mkdirhier(dst_postinst_dir)
+-
+-            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
+-                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
+-                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
+-
+-            num += 1
+-
+-def get_class_for_type(imgtype):
+-    from oe.package_managers.rpm.rootfs import RpmRootfs
+-    from oe.package_managers.ipk.rootfs import OpkgRootfs
+-    from oe.package_managers.deb.rootfs import DpkgRootfs
+-    return {"rpm": RpmRootfs,
+-            "ipk": OpkgRootfs,
+-            "deb": DpkgRootfs}[imgtype]
+-
+ def variable_depends(d, manifest_dir=None):
+-    img_type = d.getVar('IMAGE_PKGTYPE')
+-    cls = get_class_for_type(img_type)
+-    return cls._depends_list()
++    import importlib
++    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.rootfs').PkgRootfs._depends_list()
  
--            if result is not None:
--                bb.fatal(result)
-+        if result is not None:
-+            bb.fatal(result)
-diff --git a/meta/lib/oe/package_managers/deb/package_manager.py b/meta/lib/oe/package_managers/deb/package_manager.py
-index 5d3c300700..0dc4004f66 100644
---- a/meta/lib/oe/package_managers/deb/package_manager.py
-+++ b/meta/lib/oe/package_managers/deb/package_manager.py
-@@ -94,7 +94,7 @@ class PkgPM(OpkgDpkgPM):
+ def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None):
+     env_bkp = os.environ.copy()
  
-         self._create_configs(archs, base_archs)
+-    img_type = d.getVar('IMAGE_PKGTYPE')
+-    from oe.package_managers.rpm.rootfs import RpmRootfs
+-    from oe.package_managers.ipk.rootfs import OpkgRootfs
+-    from oe.package_managers.deb.rootfs import DpkgRootfs
+-    if img_type == "rpm":
+-        RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
+-    elif img_type == "ipk":
+-        OpkgRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
+-    elif img_type == "deb":
+-        DpkgRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
++    import importlib
++    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.rootfs').PkgRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
  
--        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
-+        self.indexer = PkgIndexer(self.d, self.deploy_dir)
- 
-     def mark_packages(self, status_tag, packages=None):
-         """
-@@ -400,7 +400,7 @@ class PkgPM(OpkgDpkgPM):
-         return tmp_dir
- 
- 
--class DpkgIndexer(Indexer):
-+class PkgIndexer(Indexer):
-     def _create_configs(self):
-         bb.utils.mkdirhier(self.apt_conf_dir)
-         bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "lists", "partial"))
-@@ -423,6 +423,10 @@ class DpkgIndexer(Indexer):
-                     apt_conf.write(line + "\n")
- 
-     def write_index(self):
-+        if self.deploy_dir == "":
-+            self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB')
-+
-+
-         self.apt_conf_dir = os.path.join(self.d.expand("${APTCONF_TARGET}"),
-                 "apt-ftparchive")
-         self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
-diff --git a/meta/lib/oe/package_managers/ipk/package_manager.py b/meta/lib/oe/package_managers/ipk/package_manager.py
-index 8abc6c1c98..133af27182 100644
---- a/meta/lib/oe/package_managers/ipk/package_manager.py
-+++ b/meta/lib/oe/package_managers/ipk/package_manager.py
-@@ -106,7 +106,7 @@ class PkgPM(OpkgDpkgPM):
-         else:
-             self._create_config()
- 
--        self.indexer = OpkgIndexer(self.d, self.deploy_dir)
-+        self.indexer = PkgIndexer(self.d, self.deploy_dir)
- 
-     def mark_packages(self, status_tag, packages=None):
-         """
-@@ -423,8 +423,11 @@ class PkgPM(OpkgDpkgPM):
- 
-         return tmp_dir
- 
--class OpkgIndexer(Indexer):
-+class PkgIndexer(Indexer):
-     def write_index(self):
-+        if self.deploy_dir == "":
-+            self.deploy_dir = self.d.getVar('DEPLOY_DIR_IPK')
-+
-         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
-                      "SDK_PACKAGE_ARCHS",
-                      ]
-diff --git a/meta/lib/oe/package_managers/rpm/package_manager.py b/meta/lib/oe/package_managers/rpm/package_manager.py
-index 025e8cdfd2..e781676183 100644
---- a/meta/lib/oe/package_managers/rpm/package_manager.py
-+++ b/meta/lib/oe/package_managers/rpm/package_manager.py
-@@ -384,8 +384,11 @@ class RpmIndexer(Indexer):
-                                self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
-                                armor=is_ascii_sig)
- 
--class RpmSubdirIndexer(RpmIndexer):
-+class PkgIndexer(RpmIndexer):
-     def write_index(self):
-+        if self.deploy_dir == "":
-+            self.deploy_dir = self.d.getVar('DEPLOY_DIR_RPM')
-+
-         bb.note("Generating package index for %s" %(self.deploy_dir))
-         self.do_write_index(self.deploy_dir)
-         for entry in os.walk(self.deploy_dir):
+     os.environ.clear()
+     os.environ.update(env_bkp)
 -- 
 2.20.1
 
