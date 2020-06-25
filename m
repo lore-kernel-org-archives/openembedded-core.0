@@ -1,37 +1,37 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.7376.1593080528376404276
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web10.7634.1593080526167583199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:22:08 -0700
+ Thu, 25 Jun 2020 03:22:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=cT/Q6teA;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Sa0XfIBD;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=4980; q=dns/txt; s=axis-central1;
+  d=axis.com; l=6112; q=dns/txt; s=axis-central1;
   t=1593080528; x=1624616528;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xEKdtwnEL7mGEkQAIL52LT4obH5xeNW71wY2kb7sORM=;
-  b=cT/Q6teA8HHzC0I2Z4qOgJYUp3QDeXgSIbEm59IAgbR5WeR2sDNLkZqC
-   0w4l5Iwdys4KpQ4+qqrOW+F37tF+yY63PzlwSklRzJDbZwTktp1Gqcj5x
-   MFjMCGGG+KAkKstk6VpK1gPZhApJH7IcN7ycWDgPErvPEdAOeXS3WFwDH
-   kK5R3PbpUzgcpPwqOVEhvHXBmgWFnsPyvVsgWGwGy0GU6k8upqBIjZnxl
-   ZYum/cEukRYbksrI0nOVkPBTe6lR1Y/7+/cQd32LqZnsoRqIxkwFyM73n
-   mT4SmH6xWXto1xP3ao9qSjlcSVICiupdFVVI25NBCYG/YB7OcrdKaOImw
+  bh=ho2poMVUqe1MZdkG2zpvpsQPNu3zJJor0bSpOVyWVvs=;
+  b=Sa0XfIBD77XNPXal90VmT7ZRSGcE+UQHusaXX+5/UDlCL6Q8jlul0HBr
+   6bSh0mNPCRLImp6v/3xFepIKKqowSus2JY6zIr2X5eKC2lo1Mhl99fkDA
+   TrsRKRKg2PkrCsbhbHvn5y93Ec3dFfvtDjllVdp/aaRDysdMr2wv3UVza
+   M+tET5THFazXMwEHEyVdSnDeetzrc5jJpA+AI2O5zSiRhX5Vd59XTd7wn
+   VlgqWvvXsTYk8FXpitHJD+FSN3MXFTGyZkiOuJonZLAM+1+1XGjObkiJg
+   5GCzsd7PsPrBZQdI+jnO1k+nvHecZaSPdKf3UJGQ0qAEQEgfebvTkmjy7
    Q==;
-IronPort-SDR: yLYdUjD3fAx6/ztosR9Yjm9jvYkDySDVfjjudDjBFy4ED0FzF6kNSCfjMfkhV4hB4/1dk2+dm2
- aF5CZOJeA/Z8ofYlSxqBSCNotteVqqboSY+2qzwDQKssiiJ7w7pCkir3Rvffe4hoQGlVKVxKQR
- cDNr684b373uRinALxAsNOHhc37o+RhiubPBKSJ25FdwZ0S0AqySO17hSczwbOrIJcigF8Hssn
- ZwqIzFMWGugHgLTVM8kMGUqVmE4YuxSAZ3NNCT72pzU7DJP6BtpprV+V7zJKtJsBvLWAdX2pLK
- zIM=
+IronPort-SDR: O13JiX6WMp4MXogJi9o9PCKCtfZSQhm6u+WlIba7q6nO/7Wvka/mYlDaC4eXOGFD4fdon8umlK
+ s34igVDMxlRgASQjIMKF6fRuc4/NIWJsdJ+KMu7YOIIUa71ogiDvA7mbRjpevoBrdSdVJBANDF
+ n2cbJ0oygsYMhOXpA8szEx/MnkQISFinFHLFCmLqGe2nUc+KmsO8TR6k/wDGwNWfk7cj+grDQI
+ pgPn7CKYLIr5ZF2lmf0c8eXoZoLh6Ip+rBG3Suu0funFpaubWzlDOGtCxw4Kx2EGAUClRyA1Fs
+ Wo0=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="9893881"
+   d="scan'208";a="9893882"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 03/26] manifest: Move RpmManifest
-Date: Thu, 25 Jun 2020 12:21:22 +0200
-Message-ID: <20200625102145.7139-4-fredrigu@axis.com>
+Subject: [PATCH v2 05/26] manifest: Move OpkgManifest
+Date: Thu, 25 Jun 2020 12:21:24 +0200
+Message-ID: <20200625102145.7139-6-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,27 +40,28 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the manifest only used by the rpm package manager live in the rpm
+Let the manifest only used by the ipk package manager live in the ipk
 directory.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/manifest.py                      | 51 +-----------------
- meta/lib/oe/package_managers/rpm/manifest.py | 57 ++++++++++++++++++++
+ meta/lib/oe/manifest.py                      | 71 +-----------------
+ meta/lib/oe/package_managers/ipk/manifest.py | 76 ++++++++++++++++++++
  meta/lib/oe/rootfs.py                        |  1 +
  meta/lib/oe/sdk.py                           |  1 +
- 4 files changed, 60 insertions(+), 50 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/rpm/manifest.py
+ 4 files changed, 79 insertions(+), 70 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/ipk/manifest.py
 
 diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index f7c88f9a09..cf2cbe22eb 100644
+index db71766bb6..d93edfcac5 100644
 --- a/meta/lib/oe/manifest.py
 +++ b/meta/lib/oe/manifest.py
-@@ -189,56 +189,6 @@ class Manifest(object, metaclass=ABCMeta):
+@@ -188,79 +188,10 @@ class Manifest(object, metaclass=ABCMeta):
+ 
          return installed_pkgs
  
- 
--class RpmManifest(Manifest):
+-
+-class OpkgManifest(Manifest):
 -    """
 -    Returns a dictionary object with mip and mlp packages.
 -    """
@@ -99,41 +100,56 @@ index f7c88f9a09..cf2cbe22eb 100644
 -                    if pkg_list is not None:
 -                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
 -
--            for pkg_type in pkgs:
--                for pkg in pkgs[pkg_type].split():
+-            for pkg_type in sorted(pkgs):
+-                for pkg in sorted(pkgs[pkg_type].split()):
 -                    manifest.write("%s,%s\n" % (pkg_type, pkg))
 -
 -    def create_final(self):
 -        pass
 -
 -    def create_full(self, pm):
--        pass
+-        if not os.path.exists(self.initial_manifest):
+-            self.create_initial()
+-
+-        initial_manifest = self.parse_initial_manifest()
+-        pkgs_to_install = list()
+-        for pkg_type in initial_manifest:
+-            pkgs_to_install += initial_manifest[pkg_type]
+-        if len(pkgs_to_install) == 0:
+-            return
+-
+-        output = pm.dummy_install(pkgs_to_install)
+-
+-        with open(self.full_manifest, 'w+') as manifest:
+-            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
+-            for line in set(output.split('\n')):
+-                m = pkg_re.match(line)
+-                if m:
+-                    manifest.write(m.group(1) + '\n')
+-
+-        return
 -
 -
- class OpkgManifest(Manifest):
-     """
-     Returns a dictionary object with mip and mlp packages.
-@@ -332,6 +282,7 @@ class DpkgManifest(Manifest):
- 
  def create_manifest(d, final_manifest=False, manifest_dir=None,
                      manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
-+    from oe.package_managers.rpm.manifest import RpmManifest
+     from oe.package_managers.rpm.manifest import RpmManifest
++    from oe.package_managers.ipk.manifest import OpkgManifest
+     from oe.package_managers.deb.manifest import DpkgManifest
      manifest_map = {'rpm': RpmManifest,
                      'ipk': OpkgManifest,
-                     'deb': DpkgManifest}
-diff --git a/meta/lib/oe/package_managers/rpm/manifest.py b/meta/lib/oe/package_managers/rpm/manifest.py
+diff --git a/meta/lib/oe/package_managers/ipk/manifest.py b/meta/lib/oe/package_managers/ipk/manifest.py
 new file mode 100644
-index 0000000000..a225ee7a23
+index 0000000000..be87f3d1b7
 --- /dev/null
-+++ b/meta/lib/oe/package_managers/rpm/manifest.py
-@@ -0,0 +1,57 @@
++++ b/meta/lib/oe/package_managers/ipk/manifest.py
+@@ -0,0 +1,76 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
 +from oe.manifest import *
 +
-+class RpmManifest(Manifest):
++class OpkgManifest(Manifest):
 +    """
 +    Returns a dictionary object with mip and mlp packages.
 +    """
@@ -172,42 +188,61 @@ index 0000000000..a225ee7a23
 +                    if pkg_list is not None:
 +                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
 +
-+            for pkg_type in pkgs:
-+                for pkg in pkgs[pkg_type].split():
++            for pkg_type in sorted(pkgs):
++                for pkg in sorted(pkgs[pkg_type].split()):
 +                    manifest.write("%s,%s\n" % (pkg_type, pkg))
 +
 +    def create_final(self):
 +        pass
 +
 +    def create_full(self, pm):
-+        pass
++        if not os.path.exists(self.initial_manifest):
++            self.create_initial()
++
++        initial_manifest = self.parse_initial_manifest()
++        pkgs_to_install = list()
++        for pkg_type in initial_manifest:
++            pkgs_to_install += initial_manifest[pkg_type]
++        if len(pkgs_to_install) == 0:
++            return
++
++        output = pm.dummy_install(pkgs_to_install)
++
++        with open(self.full_manifest, 'w+') as manifest:
++            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
++            for line in set(output.split('\n')):
++                m = pkg_re.match(line)
++                if m:
++                    manifest.write(m.group(1) + '\n')
++
++        return
 +
 +
 +
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index a0ac33ada6..e920f944c4 100644
+index 7ff9b4e171..ab10edfec0 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -359,6 +359,7 @@ class RpmRootfs(Rootfs):
-         self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
-                                r'|exit 1|ERROR: |Error: |Error |ERROR '\
-                                r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
-+        from oe.package_managers.rpm.manifest import RpmManifest
-         self.manifest = RpmManifest(d, manifest_dir)
+@@ -699,6 +699,7 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         super(OpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+         self.log_check_regex = '(exit 1|Collected errors)'
  
-         self.pm = RpmPM(d,
++        from oe.package_managers.ipk.manifest import OpkgManifest
+         self.manifest = OpkgManifest(d, manifest_dir)
+         self.opkg_conf = self.d.getVar("IPKGCONF_TARGET")
+         self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS")
 diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index d02a274812..d543a2a92d 100644
+index 2ee46fe9cc..70451a0b3a 100644
 --- a/meta/lib/oe/sdk.py
 +++ b/meta/lib/oe/sdk.py
-@@ -114,6 +114,7 @@ class RpmSdk(Sdk):
-     def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
-         super(RpmSdk, self).__init__(d, manifest_dir)
+@@ -232,6 +232,7 @@ class OpkgSdk(Sdk):
+         if "sdk_ext" in d.getVar("BB_RUNTASK"):
+             ipk_repo_workdir = "oe-sdk-ext-repo"
  
-+        from oe.package_managers.rpm.manifest import RpmManifest
-         self.target_manifest = RpmManifest(d, self.manifest_dir,
-                                            Manifest.MANIFEST_TYPE_SDK_TARGET)
-         self.host_manifest = RpmManifest(d, self.manifest_dir,
++        from oe.package_managers.ipk.manifest import OpkgManifest
+         self.target_pm = OpkgPM(d, self.sdk_target_sysroot, self.target_conf,
+                                 self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"), 
+                                 ipk_repo_workdir=ipk_repo_workdir)
 -- 
 2.20.1
 
