@@ -1,82 +1,151 @@
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.7369.1593080507932135272
+ by mx.groups.io with SMTP id smtpd.web11.7471.1593080525989600401
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:21:49 -0700
+ Thu, 25 Jun 2020 03:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Y/4fQRoc;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=M5FWirLv;
  spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1779; q=dns/txt; s=axis-central1;
-  t=1593080508; x=1624616508;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lrQL31uvHkH5i7SNUg1NZb1w99UsbX1GGQE6QalQ/HA=;
-  b=Y/4fQRochjiKgymX5rpF/iCwQHi5y4mKmpnkJ6s+bcUaWONwjcs0cyBI
-   9IgCB5ofTSgamQcVLAdQnzx67TJtJ+/3WmTer5TGmgO6je9dsIvEKJbne
-   nMEk5y6i1vyqpZAnGM+iB/Dl57990NvBCOgbRPXwKCFEL+yJvSmaTx54u
-   WWGSViaDV0HnfMG2I6xbq0DMNdwke/zzv2VrOtQuTkwwj9X9dmatkAKIy
-   NHon8hU4Ln0ZdR3DqAPOsnH8mMjRY22mFHm0KRH12WOKIEZ4D4xgHiYlK
-   NdFBF1+TGnRoCXuYZ3f2WdgLSrnXqA46mV+CHAg2X2KQQBicu+pE8RWxP
-   Q==;
-IronPort-SDR: ogHROao26r5eiTjBbHviEzTeG8otcPGVjQYeeW2YvwNOumI/HCH0oeSaZvZvx3KSLu9SqYxMR0
- Hnjp0N9HH6sgGXvHHm3Yz5S4I7NgSMbp9IIWTOZ6Tm3QLUhRmybVCKVqUERgWoYf4qrfWpA2XE
- 7ww6XhGKKJOVVoVOOU0qliP5P7E1R00jPZqijwAuFYqqHgckDFkHwj9APpf1WOChZLYEYtAW9D
- 2MpmnbqgmfBqAPKeG2pqoy9k3eE0LmZP/vfUI6KolLmhqbku7r8hirLb7MBB+wffHSKno3gjT2
- ohU=
+  d=axis.com; l=3379; q=dns/txt; s=axis-central1;
+  t=1593080526; x=1624616526;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3qVa+jvWRPz6RIvLGOLyi+Lemg+lq47PdGjK1bA5XwQ=;
+  b=M5FWirLvq7NFvaAoGezb4TQBwIVQI0rOxHOT2kb+GWX4AaU4EEte6VRH
+   gEL9bvJHTvUvJgcInAbPHduV0/M4flhUcnsUhQMhydOkTlafDQ/ihulf2
+   MIw/eksYNeEKEv8/I16M3p7xddXcP8K95aerzmr06uu46Ca7Rt+fcHXFS
+   mpBNSg4vZ/UZp9KtrMyO6Whb9icj5vBIxKuj1oh4eFY4zrBsKJJJ3xzft
+   B8/9LNlxl2VmtdV071aTc0WkkvQ1RhDKspqgLdC5CSRj771z2h19XjzRj
+   O9ZMS+boTlXL2UNX+iuwXeEptN2CQ9Yhh4PcT2oRNs8b+LpTIeJf0VgsD
+   A==;
+IronPort-SDR: Wk0Mf771oJy/TvasVNIuOw0lqymX2QlLIfMCpnN3/v65wRktk0+xwf+Rbl0dXlEHIJ9Q7guLDB
+ yqOp6z8hK+EjpWRS6LeUrEJrpt2andG6/SfoXVY1fJrtSHv0c5WEFiWDHy61Bmb/0Y2ZGNFJh6
+ QypjpZp1MyDweqJemVecB+DYAYeiaMQW6cgDvgCWL27rZTqJ7KJDdaFIHklE9NOI3U7AOyGDrd
+ Gcf8/sgXxCE1fTFGjPH/dDFG84YaMPUeh81weBJQhOxts2UW1KCjcG9iKi4p1AzCIW0h3jPssC
+ kFk=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185320"
+   d="scan'208";a="10185330"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>
-Subject: Add package managers as a plugin
-Date: Thu, 25 Jun 2020 12:21:19 +0200
-Message-ID: <20200625102145.7139-1-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
+ Gustafsson <fredrigu@axis.com>
+Subject: [PATCH v2 04/26] manifest: Move DpkgManifest
+Date: Thu, 25 Jun 2020 12:21:23 +0200
+Message-ID: <20200625102145.7139-5-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
+References: <20200625102145.7139-1-fredrigu@axis.com>
 MIME-Version: 1.0
 Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Poky today has three different package managers, the well-known formats deb
-and rpm is supported as well as ipkg that is good for embedded devices.
+Let the manifest only used by the dpkg package manager live in the dpkg
+directory.
 
-When building and having a good cache hit, a significant amount of time is
-spent in the phase of generating a rootfs, which is really about the
-performance of the package manager. ipkg is way slower than deb or rpm. To
-save build time and also get a package manager that is suitanle for use on
-targets where flash memory is a concern, support for apk is suggested.
+Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
+---
+ meta/lib/oe/manifest.py                      | 23 +----------------
+ meta/lib/oe/package_managers/deb/manifest.py | 27 ++++++++++++++++++++
+ meta/lib/oe/rootfs.py                        |  1 +
+ meta/lib/oe/sdk.py                           |  1 +
+ 4 files changed, 30 insertions(+), 22 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/deb/manifest.py
 
-However, it might or might not be what's wanted for Poky since it increases
-the test matrix. Therefore this patch series refactors the package
-management code so that it's possible to add more package managers in other
-own layer. I will send another patch serie that will add apk.
+diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
+index cf2cbe22eb..db71766bb6 100644
+--- a/meta/lib/oe/manifest.py
++++ b/meta/lib/oe/manifest.py
+@@ -258,31 +258,10 @@ class OpkgManifest(Manifest):
+         return
+ 
+ 
+-class DpkgManifest(Manifest):
+-    def create_initial(self):
+-        with open(self.initial_manifest, "w+") as manifest:
+-            manifest.write(self.initial_manifest_file_header)
+-
+-            for var in self.var_maps[self.manifest_type]:
+-                pkg_list = self.d.getVar(var)
+-
+-                if pkg_list is None:
+-                    continue
+-
+-                for pkg in pkg_list.split():
+-                    manifest.write("%s,%s\n" %
+-                                   (self.var_maps[self.manifest_type][var], pkg))
+-
+-    def create_final(self):
+-        pass
+-
+-    def create_full(self, pm):
+-        pass
+-
+-
+ def create_manifest(d, final_manifest=False, manifest_dir=None,
+                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
+     from oe.package_managers.rpm.manifest import RpmManifest
++    from oe.package_managers.deb.manifest import DpkgManifest
+     manifest_map = {'rpm': RpmManifest,
+                     'ipk': OpkgManifest,
+                     'deb': DpkgManifest}
+diff --git a/meta/lib/oe/package_managers/deb/manifest.py b/meta/lib/oe/package_managers/deb/manifest.py
+new file mode 100644
+index 0000000000..9b186555dc
+--- /dev/null
++++ b/meta/lib/oe/package_managers/deb/manifest.py
+@@ -0,0 +1,27 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++from oe.manifest import *
++
++class DpkgManifest(Manifest):
++    def create_initial(self):
++        with open(self.initial_manifest, "w+") as manifest:
++            manifest.write(self.initial_manifest_file_header)
++
++            for var in self.var_maps[self.manifest_type]:
++                pkg_list = self.d.getVar(var)
++
++                if pkg_list is None:
++                    continue
++
++                for pkg in pkg_list.split():
++                    manifest.write("%s,%s\n" %
++                                   (self.var_maps[self.manifest_type][var], pkg))
++
++    def create_final(self):
++        pass
++
++    def create_full(self, pm):
++        pass
++
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index e920f944c4..7ff9b4e171 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -614,6 +614,7 @@ class DpkgRootfs(DpkgOpkgRootfs):
+ 
+         bb.utils.remove(self.image_rootfs, True)
+         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
++        from oe.package_managers.deb.manifest import DpkgManifest
+         self.manifest = DpkgManifest(d, manifest_dir)
+         self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
+                          d.getVar('PACKAGE_ARCHS'),
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index d543a2a92d..2ee46fe9cc 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -309,6 +309,7 @@ class DpkgSdk(Sdk):
+         self.target_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt")
+         self.host_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt-sdk")
+ 
++        from oe.package_managers.deb.manifest import DpkgManifest
+         self.target_manifest = DpkgManifest(d, self.manifest_dir,
+                                             Manifest.MANIFEST_TYPE_SDK_TARGET)
+         self.host_manifest = DpkgManifest(d, self.manifest_dir,
+-- 
+2.20.1
 
-Perfomance metrics below, (note that this includes build times).
-
-APK
-===
-bitbake core-image-minimal
-15.84s user 2.60s system 0% cpu 1:26:19.21 total
-16.01s user 2.58s system 0% cpu 1:26:03.72 total
-15.69s user 2.61s system 0% cpu 1:26:45.45 total
-
-bitbake core-image-minimal -c cleansstate
-bitbake core-image-minimal -c clean
-bitbake core-image-minimal -f -c do_rootfs
-0.55s user 0.06s system 4% cpu 14.236 total
-0.54s user 0.08s system 4% cpu 15.247 total
-0.52s user 0.15s system 4% cpu 15.143 total
-
-RPM
-===
-bitbake core-image-minimal
-18.57s user 3.09s system 0% cpu 1:31:29.09 total
-18.58s user 3.08s system 0% cpu 1:30:53.80 total
-18.20s user 3.31s system 0% cpu 1:31:06.69 total
-
-bitbake core-image-minimal -c cleansstate
-bitbake core-image-minimal -c clean
-bitbake core-image-minimal -c do_rootfs -f
-0.58s user 0.10s system 3% cpu 19.470 total
-0.57s user 0.09s system 3% cpu 19.480 total
-0.60s user 0.07s system 3% cpu 20.381 total
