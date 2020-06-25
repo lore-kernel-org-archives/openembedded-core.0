@@ -1,60 +1,80 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.1101.1593105463923509713
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+ by mx.groups.io with SMTP id smtpd.web11.1171.1593110119123158654
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 10:17:49 -0700
+ Thu, 25 Jun 2020 11:35:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: jwessel@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05PHHNJF016997
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 10:17:33 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 25 Jun 2020
- 10:17:12 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 5002)	id 98F8D900DBE;
- Thu, 25 Jun 2020 10:17:12 -0700 (PDT)
-From: "Jason Wessel" <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] runqemu: If using a vmtype image do not add the -no-reboot flag
-Date: Thu, 25 Jun 2020 10:17:10 -0700
-Message-ID: <20200625171710.86653-1-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: herbrechtsmeier.net, ip: 85.13.157.12, mailfrom: stefan@herbrechtsmeier.net)
+Received: from [192.168.178.42] (i5E866743.versanet.de [94.134.103.67])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id A733811A03F6;
+	Thu, 25 Jun 2020 20:35:16 +0200 (CEST)
+Subject: Re: [OE-core] Status of Go support
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
+ <CAP9ODKoR_JOt6UQFTMNJYv_fh4d-vuVyy-5k_cd6ZgjsiLcA0Q@mail.gmail.com>
+ <CAMKF1srKPeNpoX0uRPSHQM3VDuqe+C=adNsDFZ85L+irrs6xDQ@mail.gmail.com>
+ <2f176c09-1647-6d46-548c-e58fff7559b6@herbrechtsmeier.net>
+ <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com>
+ <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
+ <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com>
+ <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+ <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
+From: "Stefan Herbrechtsmeier" <stefan@herbrechtsmeier.net>
+Message-ID: <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
+Date: Thu, 25 Jun 2020 20:35:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-There is no way to use runqemu and turn off the no-reboot flag with a
-command line argument.  If someone really wants it back it can be
-added with the qemuparams="" argument.
+Am 25.06.20 um 18:43 schrieb Otavio Salvador:
+> Em qui., 25 de jun. de 2020 =C3=A0s 12:36, Stefan Herbrechtsmeier
+> <stefan@herbrechtsmeier.net> escreveu:
+>> Am 24.06.20 um 22:24 schrieb Otavio Salvador:
+>>> Em qua., 24 de jun. de 2020 =C3=A0s 17:17, Stefan Herbrechtsmeier
+>>> <stefan@herbrechtsmeier.net> escreveu:
+>>>> The go-mod.bbclass download data from the internet during do_compile=
+. If
+>>>> you cut the internet connection after a do_fetch the do_compile fail=
+ed:
+>>>
+>>> Yes, this was the better we could get without hacking go mod tool
+>>> itself. It would be nice if you can provide an alternative way to
+>>> improve it.
+>>>
+>>
+>> What are the alternative?
+>>
+>> a) Add a fetcher to bitbake to create a vendor directory via `go mod
+>> vendor`?
+>> b) Add a `create_go.py` to recipetool and create a recipe per module?
+>>
+>> The solutions are related to the npm (a) and python (b) solution.
+>>
+>> I don't like a) because it breaks the best practices of OE (for exampl=
+e
+>> one major version per project and avoid embedded dependencies). On the
+>> other side b) isn't so simple because of the circular dependency betwe=
+en
+>> go projects. This means we need a package (recipe) for the source and
+>> the binary.
+>=20
+> Honestly, it is hard. It kinda conflicts with the way go mod, cargo,
+> and similar tools work.
 
-Also if you use the "halt -p" from user space, the qemu will exit when
-it is complete.  It is impossible to test self deploying image with
-runqemu if you cannot reboot the device.  One might argue that you can
-run runqemu in a loop, but that defeats the purpose of having a
-wrapper around a tool that already does what is needed in the first
-place.
+Both tools support a vendor command to download all dependencies. The=20
+fetcher need to call this command and archive the vendor folder.=20
+Alternative both tools support a replace / patch instruction to override=20
+dependencies with local directories.
 
-For the vmtype images, the -no-reboot flag should not be added.
+> Offline build, using go mod, I can only envision if we somehow provide
+> a local server which uses the bitbake cache as source. This by itself
+> is not a small project.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- scripts/runqemu | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 21680b4..5ae3e5e 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1241,7 +1241,9 @@ class BaseConfig(object):
-                         vm_drive = '-drive if=virtio,file=%s,format=%s' % (self.rootfs, rootfs_format)
- 
-                 # All branches above set vm_drive.
--                self.rootfs_options = '%s -no-reboot' % vm_drive
-+                self.rootfs_options = vm_drive
-+                if not self.fstype in self.vmtypes:
-+                    self.rootfs_options += ' -no-reboot'
-             self.kernel_cmdline = 'root=%s rw' % (self.get('QB_KERNEL_ROOT'))
- 
-         if self.fstype == 'nfs':
--- 
-2.17.1
-
+What do you mean by 'provide a local server'? Do you mean a registry=20
+server for go-mod and cargo?
