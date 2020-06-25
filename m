@@ -1,37 +1,37 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.7474.1593080529844279544
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web12.7376.1593080528376404276
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:22:10 -0700
+ Thu, 25 Jun 2020 03:22:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=COldXMbS;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=o289S3Ej;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=7904; q=dns/txt; s=axis-central1;
+  d=axis.com; l=10029; q=dns/txt; s=axis-central1;
   t=1593080530; x=1624616530;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=G/duVX0E8lFIts7de3un0nbVctnpqoecEkPSAq23zHs=;
-  b=COldXMbS8ueM3fOEUiaug06sHcWc1MXv8OcFO+fWN9M8saCcYngzY68b
-   U4hbn0jCR1HFrSvXtzzXMdZ6x11RfW19ijkGpLczY7A262Tk4/arOb8KI
-   jVJjgiwAAFOdsch50Ww2TrOxf0IMuk6OXcndP8uFpUt1Co3G2j93GegOM
-   vT+V+AFAjRRJe1+3T72R749T+YJL3gSYVe4Jk5sv9S2bnnPj0H8tAtzj6
-   IzIvqIEHiq4dGwYSvQ/gImQlYy6xTQmq11rXfkIW2lev1M4Hz1fwQRe29
-   kmjNePQsmCHEnyRzYtp/dnwHmhrHLo/AlYk7QnYrWNN7mwfeRRPuyJZvk
+  bh=JH9g3NENRUByuF07Eynz5R/AfV4v43+JyxMzsLLed+4=;
+  b=o289S3Ej94kIvZkvmyvyuIR/volcMyuz9ANY6KJuanczh7aIBeM36ZoY
+   N9evNvYu57GKN5KDtkgpYQSP6Vim0Lbb1VYIFnuUKM6YxmBI7mwbPlCf/
+   kGZFmjDSl3Tkw3xBAuS6alwnwahZavSjiRfqATDnD/Zav99GZqFMJTYkV
+   PX7KmenwaL1NDHYHMqU8YmpiVHeuho0Ipm+1AWlLEvL7lh+tuZIXpNeua
+   nALslxPUw1haKay/gZRFRz4mNV7ZhfQeh+Gn/R7BGQIIMZUjCcm0xmnpx
+   B+jiPgWi2rv1X8I/okenrvEkWTWHsVn2rnx9G0Nc2qrv0N/EdwrK7tdSb
    Q==;
-IronPort-SDR: EwtCyUM0HDH27i2/Jgf3rsn6HE1vX+EOgiGErRXPKSS2omyf7wbCAS9rLV2zZJ8OvshZUE7UlZ
- fVBiOJxlV6djnaEhbMlfDyCB+Dr9//yFyIjEXXsn8GRoy0Aq6A46BduWwhteaVH6deMoppu4ec
- fRkjppSNA8fvW5jr8Xnc9HcaDc2noEa0TF+mRS+bpk3ggbEcOAY7PrWyEwlYeNRPZGXyXpKfi+
- T8CRc2lsLMjaqcQ2VuIx2mhpbjgBdbk8AD+c61s0fiXsbCvRrDPYYRIo4aYFmXEAjW8kpQ2MI2
- 3zs=
+IronPort-SDR: RGVhJrbC8tmHGf6e1cORxfi8DDMSte78GWUf9CtCDv6Z4pge8YJHM2yP0yr8pK0HSQM1IXrNEX
+ +FSgtExCHIZEyMIjzTaIJz6s6bUYxLFh1z0yL3hON5AVFb931tSw+JYHsWfI9SvBtpoOW93ELq
+ Us0QPhNIQeKG61Cs1H8Zdnhs7fAVi6KxqbSBCF+KQqCj2n84x1mwlNEwYi0x4jlj+WDni518mb
+ r9/tFdH90F68nDKrt3GTt6guH1o4IFdaNF0emrAl6I3tsSTdF0NQR5md1MXgz6cdQyVjtN6Wss
+ M6A=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185332"
+   d="scan'208";a="9893886"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
- Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 09/26] sdk.py: Move OpkgSdk
-Date: Thu, 25 Jun 2020 12:21:28 +0200
-Message-ID: <20200625102145.7139-10-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, "Fredrik
+ Gustafsson" <fredrigu@axis.com>
+Subject: [PATCH v2 11/26] rootfs.py: Move RpmRootfs
+Date: Thu, 25 Jun 2020 12:21:30 +0200
+Message-ID: <20200625102145.7139-12-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,217 +40,336 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the sdk only used by the ipk package manager live in the ipk
+Let the rootfs only used by the rpm package manager live in the rpm
 directory.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_managers/ipk/sdk.py | 93 +++++++++++++++++++++++++
- meta/lib/oe/sdk.py                      | 84 +---------------------
- 2 files changed, 94 insertions(+), 83 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/ipk/sdk.py
+ meta/lib/oe/package_managers/rpm/rootfs.py | 147 +++++++++++++++++++++
+ meta/lib/oe/rootfs.py                      | 142 +-------------------
+ 2 files changed, 149 insertions(+), 140 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/rpm/rootfs.py
 
-diff --git a/meta/lib/oe/package_managers/ipk/sdk.py b/meta/lib/oe/package_managers/ipk/sdk.py
+diff --git a/meta/lib/oe/package_managers/rpm/rootfs.py b/meta/lib/oe/package_managers/rpm/rootfs.py
 new file mode 100644
-index 0000000000..4862616c08
+index 0000000000..d3b615d03a
 --- /dev/null
-+++ b/meta/lib/oe/package_managers/ipk/sdk.py
-@@ -0,0 +1,93 @@
++++ b/meta/lib/oe/package_managers/rpm/rootfs.py
+@@ -0,0 +1,147 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+from oe.sdk import *
-+from oe.package_managers.ipk.manifest import *
++from oe.rootfs import *
 +
-+class OpkgSdk(Sdk):
-+    def __init__(self, d, manifest_dir=None):
-+        super(OpkgSdk, self).__init__(d, manifest_dir)
++class RpmRootfs(Rootfs):
++    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
++        super(RpmRootfs, self).__init__(d, progress_reporter, logcatcher)
++        self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
++                               r'|exit 1|ERROR: |Error: |Error |ERROR '\
++                               r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
 +
-+        self.target_conf = self.d.getVar("IPKGCONF_TARGET")
-+        self.host_conf = self.d.getVar("IPKGCONF_SDK")
++        import importlib
++        self.manifest = importlib.import_module('oe.package_managers.rpm.manifest').PkgManifest(d, manifest_dir)
 +
-+        self.target_manifest = PkgManifest(d, self.manifest_dir,
-+                                            Manifest.MANIFEST_TYPE_SDK_TARGET)
-+        self.host_manifest = PkgManifest(d, self.manifest_dir,
-+                                          Manifest.MANIFEST_TYPE_SDK_HOST)
++        self.pm = RpmPM(d,
++                        d.getVar('IMAGE_ROOTFS'),
++                        self.d.getVar('TARGET_VENDOR')
++                        )
 +
-+        ipk_repo_workdir = "oe-sdk-repo"
-+        if "sdk_ext" in d.getVar("BB_RUNTASK"):
-+            ipk_repo_workdir = "oe-sdk-ext-repo"
++        self.inc_rpm_image_gen = self.d.getVar('INC_RPM_IMAGE_GEN')
++        if self.inc_rpm_image_gen != "1":
++            bb.utils.remove(self.image_rootfs, True)
++        else:
++            self.pm.recovery_packaging_data()
++        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
 +
-+        self.target_pm = OpkgPM(d, self.sdk_target_sysroot, self.target_conf,
-+                                self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"), 
-+                                ipk_repo_workdir=ipk_repo_workdir)
++        self.pm.create_configs()
 +
-+        self.host_pm = OpkgPM(d, self.sdk_host_sysroot, self.host_conf,
-+                              self.d.getVar("SDK_PACKAGE_ARCHS"),
-+                                ipk_repo_workdir=ipk_repo_workdir)
++    '''
++    While rpm incremental image generation is enabled, it will remove the
++    unneeded pkgs by comparing the new install solution manifest and the
++    old installed manifest.
++    '''
++    def _create_incremental(self, pkgs_initial_install):
++        if self.inc_rpm_image_gen == "1":
 +
-+    def _populate_sysroot(self, pm, manifest):
-+        pkgs_to_install = manifest.parse_initial_manifest()
++            pkgs_to_install = list()
++            for pkg_type in pkgs_initial_install:
++                pkgs_to_install += pkgs_initial_install[pkg_type]
 +
-+        if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") != "1":
-+            pm.write_index()
++            installed_manifest = self.pm.load_old_install_solution()
++            solution_manifest = self.pm.dump_install_solution(pkgs_to_install)
 +
-+        pm.update()
++            pkg_to_remove = list()
++            for pkg in installed_manifest:
++                if pkg not in solution_manifest:
++                    pkg_to_remove.append(pkg)
 +
-+        for pkg_type in self.install_order:
-+            if pkg_type in pkgs_to_install:
-+                pm.install(pkgs_to_install[pkg_type],
-+                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++            self.pm.update()
 +
-+    def _populate(self):
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
++            bb.note('incremental update -- upgrade packages in place ')
++            self.pm.upgrade()
++            if pkg_to_remove != []:
++                bb.note('incremental removed: %s' % ' '.join(pkg_to_remove))
++                self.pm.remove(pkg_to_remove)
 +
-+        bb.note("Installing TARGET packages")
-+        self._populate_sysroot(self.target_pm, self.target_manifest)
++            self.pm.autoremove()
 +
-+        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
++    def _create(self):
++        pkgs_to_install = self.manifest.parse_initial_manifest()
++        rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS')
++        rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS')
 +
-+        self.target_pm.run_intercepts(populate_sdk='target')
++        # update PM index files
++        self.pm.write_index()
 +
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
++        execute_pre_post_process(self.d, rpm_pre_process_cmds)
 +
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.target_pm.remove_packaging_data()
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
-+        bb.note("Installing NATIVESDK packages")
-+        self._populate_sysroot(self.host_pm, self.host_manifest)
-+        self.install_locales(self.host_pm)
++        if self.inc_rpm_image_gen == "1":
++            self._create_incremental(pkgs_to_install)
 +
-+        self.host_pm.run_intercepts(populate_sdk='host')
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
++        self.pm.update()
 +
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.host_pm.remove_packaging_data()
++        pkgs = []
++        pkgs_attempt = []
++        for pkg_type in pkgs_to_install:
++            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
++                pkgs_attempt += pkgs_to_install[pkg_type]
++            else:
++                pkgs += pkgs_to_install[pkg_type]
 +
-+        target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
-+        host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
-+        self.mkdirhier(target_sysconfdir)
-+        shutil.copy(self.target_conf, target_sysconfdir)
-+        os.chmod(os.path.join(target_sysconfdir,
-+                              os.path.basename(self.target_conf)), 0o644)
++        self.pm.install(pkgs)
 +
-+        self.mkdirhier(host_sysconfdir)
-+        shutil.copy(self.host_conf, host_sysconfdir)
-+        os.chmod(os.path.join(host_sysconfdir,
-+                              os.path.basename(self.host_conf)), 0o644)
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
-+        native_opkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
-+                                             self.d.getVar('localstatedir_nativesdk').strip('/'),
-+                                             "lib", "opkg")
-+        self.mkdirhier(native_opkg_state_dir)
-+        for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "opkg", "*")):
-+            self.movefile(f, native_opkg_state_dir)
++        self.pm.install(pkgs_attempt, True)
 +
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        self.pm.install_complementary()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        self._setup_dbg_rootfs(['/etc', '/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
++
++        execute_pre_post_process(self.d, rpm_post_process_cmds)
++
++        if self.inc_rpm_image_gen == "1":
++            self.pm.backup_packaging_data()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
 +
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index a52055a505..d8a00c04d1 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -109,89 +109,6 @@ class Sdk(object, metaclass=ABCMeta):
-             # No linguas so do nothing
-             pass
++    @staticmethod
++    def _depends_list():
++        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS',
++                'RPM_POSTPROCESS_COMMANDS', 'RPM_PREFER_ELF_ARCH']
++
++    def _get_delayed_postinsts(self):
++        postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/rpm-postinsts")
++        if os.path.isdir(postinst_dir):
++            files = os.listdir(postinst_dir)
++            for f in files:
++                bb.note('Delayed package scriptlet: %s' % f)
++            return files
++
++        return None
++
++    def _save_postinsts(self):
++        # this is just a stub. For RPM, the failed postinstalls are
++        # already saved in /etc/rpm-postinsts
++        pass
++
++    def _log_check(self):
++        self._log_check_warn()
++        self._log_check_error()
++
++    def _cleanup(self):
++        if bb.utils.contains("IMAGE_FEATURES", "package-management", True, False, self.d):
++            self.pm._invoke_dnf(["clean", "all"])
++
++
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index c3cfb58493..234be4a066 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -352,146 +352,6 @@ class Rootfs(object, metaclass=ABCMeta):
+                                   self.image_rootfs, "-D", devtable])
  
--
--class OpkgSdk(Sdk):
--    def __init__(self, d, manifest_dir=None):
--        super(OpkgSdk, self).__init__(d, manifest_dir)
--
--        self.target_conf = self.d.getVar("IPKGCONF_TARGET")
--        self.host_conf = self.d.getVar("IPKGCONF_SDK")
--
--        self.target_manifest = OpkgManifest(d, self.manifest_dir,
--                                            Manifest.MANIFEST_TYPE_SDK_TARGET)
--        self.host_manifest = OpkgManifest(d, self.manifest_dir,
--                                          Manifest.MANIFEST_TYPE_SDK_HOST)
--
--        ipk_repo_workdir = "oe-sdk-repo"
--        if "sdk_ext" in d.getVar("BB_RUNTASK"):
--            ipk_repo_workdir = "oe-sdk-ext-repo"
--
+ 
+-class RpmRootfs(Rootfs):
+-    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(RpmRootfs, self).__init__(d, progress_reporter, logcatcher)
+-        self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
+-                               r'|exit 1|ERROR: |Error: |Error |ERROR '\
+-                               r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
 -        import importlib
--        self.target_manifest = importlib.import_module('oe.package_managers.ipk.manifest').PkgManifest(d, self.sdk_target_sysroot, self.target_conf, self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"), ipk_repo_workdir=ipk_repo_workdir)
--        self.host_manifest = importlib.import_module('oe.package_managers.ipk.manifest').PkgManifest(d, self.sdk_host_sysroot, self.host_conf, self.d.getVar("SDK_PACKAGE_ARCHS"), ipk_repo_workdir=ipk_repo_workdir)
+-        self.manifest = importlib.import_module('oe.package_managers.rpm.manifest').PkgManifest(d, manifest_dir)
 -
--    def _populate_sysroot(self, pm, manifest):
--        pkgs_to_install = manifest.parse_initial_manifest()
+-        self.pm = RpmPM(d,
+-                        d.getVar('IMAGE_ROOTFS'),
+-                        self.d.getVar('TARGET_VENDOR')
+-                        )
 -
--        if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") != "1":
--            pm.write_index()
+-        self.inc_rpm_image_gen = self.d.getVar('INC_RPM_IMAGE_GEN')
+-        if self.inc_rpm_image_gen != "1":
+-            bb.utils.remove(self.image_rootfs, True)
+-        else:
+-            self.pm.recovery_packaging_data()
+-        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
 -
--        pm.update()
+-        self.pm.create_configs()
 -
--        for pkg_type in self.install_order:
--            if pkg_type in pkgs_to_install:
--                pm.install(pkgs_to_install[pkg_type],
--                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+-    '''
+-    While rpm incremental image generation is enabled, it will remove the
+-    unneeded pkgs by comparing the new install solution manifest and the
+-    old installed manifest.
+-    '''
+-    def _create_incremental(self, pkgs_initial_install):
+-        if self.inc_rpm_image_gen == "1":
 -
--    def _populate(self):
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
+-            pkgs_to_install = list()
+-            for pkg_type in pkgs_initial_install:
+-                pkgs_to_install += pkgs_initial_install[pkg_type]
 -
--        bb.note("Installing TARGET packages")
--        self._populate_sysroot(self.target_pm, self.target_manifest)
+-            installed_manifest = self.pm.load_old_install_solution()
+-            solution_manifest = self.pm.dump_install_solution(pkgs_to_install)
 -
--        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+-            pkg_to_remove = list()
+-            for pkg in installed_manifest:
+-                if pkg not in solution_manifest:
+-                    pkg_to_remove.append(pkg)
 -
--        self.target_pm.run_intercepts(populate_sdk='target')
+-            self.pm.update()
 -
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+-            bb.note('incremental update -- upgrade packages in place ')
+-            self.pm.upgrade()
+-            if pkg_to_remove != []:
+-                bb.note('incremental removed: %s' % ' '.join(pkg_to_remove))
+-                self.pm.remove(pkg_to_remove)
 -
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.target_pm.remove_packaging_data()
+-            self.pm.autoremove()
 -
--        bb.note("Installing NATIVESDK packages")
--        self._populate_sysroot(self.host_pm, self.host_manifest)
--        self.install_locales(self.host_pm)
+-    def _create(self):
+-        pkgs_to_install = self.manifest.parse_initial_manifest()
+-        rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS')
+-        rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS')
 -
--        self.host_pm.run_intercepts(populate_sdk='host')
+-        # update PM index files
+-        self.pm.write_index()
 -
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+-        execute_pre_post_process(self.d, rpm_pre_process_cmds)
 -
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.host_pm.remove_packaging_data()
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
 -
--        target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
--        host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
+-        if self.inc_rpm_image_gen == "1":
+-            self._create_incremental(pkgs_to_install)
 -
--        self.mkdirhier(target_sysconfdir)
--        shutil.copy(self.target_conf, target_sysconfdir)
--        os.chmod(os.path.join(target_sysconfdir,
--                              os.path.basename(self.target_conf)), 0o644)
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
 -
--        self.mkdirhier(host_sysconfdir)
--        shutil.copy(self.host_conf, host_sysconfdir)
--        os.chmod(os.path.join(host_sysconfdir,
--                              os.path.basename(self.host_conf)), 0o644)
+-        self.pm.update()
 -
--        native_opkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
--                                             self.d.getVar('localstatedir_nativesdk').strip('/'),
--                                             "lib", "opkg")
--        self.mkdirhier(native_opkg_state_dir)
--        for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "opkg", "*")):
--            self.movefile(f, native_opkg_state_dir)
+-        pkgs = []
+-        pkgs_attempt = []
+-        for pkg_type in pkgs_to_install:
+-            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+-                pkgs_attempt += pkgs_to_install[pkg_type]
+-            else:
+-                pkgs += pkgs_to_install[pkg_type]
 -
--        self.remove(os.path.join(self.sdk_output, "var"), True)
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.install(pkgs)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.install(pkgs_attempt, True)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.install_complementary()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self._setup_dbg_rootfs(['/etc', '/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
+-
+-        execute_pre_post_process(self.d, rpm_post_process_cmds)
+-
+-        if self.inc_rpm_image_gen == "1":
+-            self.pm.backup_packaging_data()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
 -
 -
- def sdk_list_installed_packages(d, target, rootfs_dir=None):
-     if rootfs_dir is None:
-         sdk_output = d.getVar('SDK_OUTPUT')
-@@ -216,6 +133,7 @@ def populate_sdk(d, manifest_dir=None):
-     img_type = d.getVar('IMAGE_PKGTYPE')
+-    @staticmethod
+-    def _depends_list():
+-        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS',
+-                'RPM_POSTPROCESS_COMMANDS', 'RPM_PREFER_ELF_ARCH']
+-
+-    def _get_delayed_postinsts(self):
+-        postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/rpm-postinsts")
+-        if os.path.isdir(postinst_dir):
+-            files = os.listdir(postinst_dir)
+-            for f in files:
+-                bb.note('Delayed package scriptlet: %s' % f)
+-            return files
+-
+-        return None
+-
+-    def _save_postinsts(self):
+-        # this is just a stub. For RPM, the failed postinstalls are
+-        # already saved in /etc/rpm-postinsts
+-        pass
+-
+-    def _log_check(self):
+-        self._log_check_warn()
+-        self._log_check_error()
+-
+-    def _cleanup(self):
+-        if bb.utils.contains("IMAGE_FEATURES", "package-management", True, False, self.d):
+-            self.pm._invoke_dnf(["clean", "all"])
+-
+-
+ class DpkgOpkgRootfs(Rootfs):
+     def __init__(self, d, progress_reporter=None, logcatcher=None):
+         super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+@@ -960,6 +820,7 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         self.pm.remove_lists()
  
-     from oe.package_managers.rpm.sdk import RpmSdk
-+    from oe.package_managers.ipk.sdk import OpkgSdk
-     from oe.package_managers.deb.sdk import DpkgSdk
+ def get_class_for_type(imgtype):
++    from oe.package_managers.rpm.rootfs import RpmRootfs
+     return {"rpm": RpmRootfs,
+             "ipk": OpkgRootfs,
+             "deb": DpkgRootfs}[imgtype]
+@@ -973,6 +834,7 @@ def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None)
+     env_bkp = os.environ.copy()
+ 
+     img_type = d.getVar('IMAGE_PKGTYPE')
++    from oe.package_managers.rpm.rootfs import RpmRootfs
      if img_type == "rpm":
-         RpmSdk(d, manifest_dir).populate()
+         RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
+     elif img_type == "ipk":
 -- 
 2.20.1
 
