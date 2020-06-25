@@ -1,82 +1,205 @@
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
- by mx.groups.io with SMTP id smtpd.web12.5035.1593067468852274423
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.5232.1593068669994582160
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2020 23:44:28 -0700
+ Thu, 25 Jun 2020 00:04:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hV3kN+aZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-il1-f194.google.com with SMTP id x18so4365139ilp.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 23:44:28 -0700 (PDT)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=CBwi87Gs;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.221.54, mailfrom: rahulk@mvista.com)
+Received: by mail-wr1-f54.google.com with SMTP id q5so4643044wru.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 00:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=TE/F1jDqYZGX3/fUMPjM3+9KozTJcpaoIiWrCeeC/2E=;
-        b=hV3kN+aZxR+KRHnAohgiQz78FqWTuKm8G5M/ON9IMAcpHE+puga8kSQwtV3eroq7Us
-         2SBO/dm9xR9hQfNgySzyWK1JopIkpe1cNUiPuByrVqEUfDJCwcGDz2bQijX0FFm+eGSd
-         nG9nxKkyyYHPEmrqwo6Vvv6f8flgRdrJuRCfFqnA/HGL5jXUaWpp87E8gjAyR9pfb3jl
-         ERTl8kpQxb+L0okr9ytxugnLZ5ji6oEI8Xm23hUTOjbWrGVttfYoQxkdmuEr7i1+Sy3A
-         V5gwVZaP0K1wsDmtjERZcad8MlNR1XyMrUNsQsGJMteSUZj8gZnQpbLSmCtbes9SVO6q
-         Bzsg==
+         :cc;
+        bh=3+h5l8+peTONCpXHbP6g8RqCMduiNn+oUC65nma0tVU=;
+        b=CBwi87Gs6zy4RWtHnwPay3DavHV56/2pLUvu6JB4YtL3x9J0FOY/A61XEkAdHq3Pn+
+         +VNDA7NZHiHdYbIqaKZ6C2MFi7I93As0I2GHyNJYs03+ZdyeF41Kf04o7NotZUdAZKzm
+         x5hfc3WFXXrRaPwS1qFLmS7Uxp5j81LmYgsNsyfawNoO9HlY/UGaLwKyddvNh+dMil/r
+         grUBjJeFCnX4Cigj/NgiHjpMQZOxa09ZJtPYpvQfoJm9mV5LRS6ayP6in8SZDkQemonK
+         N6/iqaB8i5WaIW4GP1SHUcNl0qKeqeu8gqurMKbX5WGFelL9kI/t3+K4jXvYaHXr+6AW
+         MMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=TE/F1jDqYZGX3/fUMPjM3+9KozTJcpaoIiWrCeeC/2E=;
-        b=H4924P4dCEiRl5sJFeed5wvNQnrF8zlPR9VfZ1vlnkSp4yKrhnvBLoYps0byIqN0rN
-         f+H8iSas8b422MidmW1wmat/gjLKLsJHuaIFJdSizK0bIIW+Srz4Nv031fnxUpS6Uuea
-         9eEL2uQG9tk/ni7oH77LNbxUQhBhzv1dduz973eH6n/o0qeWQzKxwaXHPzE5YNzGEZBM
-         afh6XAePoUDa9ZFIkgFiqCCrim/0pEDaRHsEU8quFKgHB2aCfa/Q1ckoP+Q/LVrFY5vk
-         z4qr970GMnZ/Dlje1/BAAk8W4k4BlpUpv2IUeB1kHlhRUKTqWs8y+dQ9BwGKDg0NOseS
-         XQTA==
-X-Gm-Message-State: AOAM5321wCyMo28PysHNc5ieUvhySjQ0CHD9zLmbV64LiTnHRwAOG6js
-	ADnjXfgaX2WO9iKTgSyf2n++iqZ8UX6+tDMLQF/BET4+YDU=
-X-Google-Smtp-Source: ABdhPJxya8BGnx4Iu7dBfpyxP04XgXYUbDYLEBmZEyF3tQR03Rsr+edOOFjfSODhHmiz1bledbxne6MzJCTnqQGP87E=
-X-Received: by 2002:a92:d647:: with SMTP id x7mr33207023ilp.267.1593067467994;
- Wed, 24 Jun 2020 23:44:27 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=3+h5l8+peTONCpXHbP6g8RqCMduiNn+oUC65nma0tVU=;
+        b=ru8eP0mSYlmKxh59ciyUB2hO8pOjNF+22IO4/ZDDvcPOy1AFUosDay2ksIQMeoBLUF
+         bxYAEcBvoJ4KsJhYc+HcJwSj4AWivKlI/TIHn8SZKQBw/VfoZy+eNwE2MBTNZIxca4YE
+         Ys6/mdHf+IB3yZCQt20WYbQ/neb1+WWw/msQ5DR15Q5LwiSaqW3c98DGCF6tdPB0QtaJ
+         Uzz/bBUjRnIXNgFyHMDjCYQxQ+fyopddTF+OPXCB7iDLGqkyoGUL/YQ9YuJgfd5R/raQ
+         rA3hxiatFUesdt8+3YZ0ZUhWUZRjFQn7haR3EB8Urj0uGWmfRBwJezNTH9DGscZDqCvv
+         y/4A==
+X-Gm-Message-State: AOAM5333FCXFZK7WtHgvIZlXr8FX4QXqIn+VMrhGSYxx3dHDWpkJniDb
+	ZKysOWw5Yra/nUucRIJAB0O0jx/RtCv3efuNE552jQ==
+X-Google-Smtp-Source: ABdhPJxR/QmDNsLPiVO3SQJ3ALAtM0qOlXgkSrnJNdqMhuwzdEZCdHkvbO13K9VPKfv7MkoQmVlptbqgpG2UdA8V0lk=
+X-Received: by 2002:a5d:6b8c:: with SMTP id n12mr20713795wrx.352.1593068668434;
+ Thu, 25 Jun 2020 00:04:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200618151852.3777657-1-schnitzeltony@gmail.com>
-In-Reply-To: <20200618151852.3777657-1-schnitzeltony@gmail.com>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Thu, 25 Jun 2020 08:44:16 +0200
-Message-ID: <CALbNGRR2edy1vMDH1e+kGW8WryjvJ7fHOAF-3-XGQKKXZndw-w@mail.gmail.com>
-Subject: Re: [PATCH][dunfell] u-boot: introduce UBOOT_INITIAL_ENV
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <HwH9.1592848739113991729.4KYH@lists.openembedded.org> <CAMKF1srh_irBczqSkJo8jcqFc6aLWJZp1zEChz=0F8djZ=ecYA@mail.gmail.com>
+In-Reply-To: <CAMKF1srh_irBczqSkJo8jcqFc6aLWJZp1zEChz=0F8djZ=ecYA@mail.gmail.com>
+From: "Rahul Kumar" <rahulk@mvista.com>
+Date: Thu, 25 Jun 2020 12:34:17 +0530
+Message-ID: <CANv91vM2A94cH8HQ0275gfzCB1OtARxt0hTVrBNB5a1ZuYXNzA@mail.gmail.com>
+Subject: Re: [OE-core] package bzip2-ptest requires /usr/bin/sh, but no providers found in RDEPENDS_bzip2-ptest
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000015d34a05a8e3341b"
+
+--00000000000015d34a05a8e3341b
 Content-Type: text/plain; charset="UTF-8"
+
+Hi khem Raj,
+
+Create a patch to update.sample where it asks for /bin/sh instead
+
+I don't think we can create a patch to update.sample file because this is
+git hidden file.
+
+.git/hooks/update.sample
+
+In my Patch fetching bzip2-tests.git repository as mentioned below Is there
+any issue with below line.
+SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+           git://sourceware.org/git/bzip2-tests.git;name=bzip2-tests \
+
+At my local system i am not able to face this issue but when this patch
+built with open source auto-builder then reporting below error
+do_package_qa: QA Issue:
+/usr/lib/bzip2/ptest/bzip2-tests/.git/hooks/update.sample contained in
+package bzip2-ptest requires /usr/bin/sh, but no providers found in
+RDEPENDS_bzip2-ptest? [file-rdeps]
+step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA run found fatal errors.
+Please consider fixing them.
+
+I have stuck here. I am not aware why do_package_qa is reporting errors
+with git hidden files.
+
+*Thanks & Regards,*
+Rahul Kumar
+Software Engineer,Linux Solutions Engineering
+Group,Montavista Software LLC
+Email Id: rahulk@mvista.com
+<https://plus.google.com/+CodeTwoSoftware>
+
+
+On Mon, Jun 22, 2020 at 11:42 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+>
+>
+> On Mon, Jun 22, 2020 at 10:59 AM Rahul Kumar <rahulk@mvista.com> wrote:
+>
+>> Hi community members,
+>>
+>> I am working on Yocto Newcommer Bug 13444 - Add test suite for bzip2
+>> Patch link
+>> https://patchwork.openembedded.org/patch/173009/
+>>
+>> but upstream build, reported below error .
+>> step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA Issue:
+>> /usr/lib/bzip2/ptest/bzip2-tests/.git/hooks/update.sample contained in
+>> package bzip2-ptest requires /usr/bin/sh, but no providers found in
+>> RDEPENDS_bzip2-ptest? [file-rdeps]
+>>
+>
+> Create a patch to update.sample where it asks for /bin/sh instead
+>
+>
+> step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA run found fatal errors.
+>> Please consider fixing them.
+>>
+>> I am already using below line to my patch.
+>> RDEPENDS_${PN}-ptest += "make bash perl"
+>>
+>> can anyone please help me on this.
+>>
+>>
+>> 
+>>
+>
+
+--00000000000015d34a05a8e3341b
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2020 at 5:19 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
->
-> From: Ming Liu <ming.liu@toradex.com>
->
-> It defaults to ${PN}-initial-env, no functional changes with current
-> implementation, but this allows it to be changed in individual u-boot
-> recipes.
->
-> If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
-> installed/deployed, set ALLOW_EMPTY_${PN}-env =3D "1".
->
-> The major purpose for introducing this, is that the users might have
-> some scripts on targets like:
-> ```
-> /sbin/fw_setenv -f /etc/u-boot-initial-env
-> ```
->
-> and it should be able to run against a identical path generated by
-> different u-boot recipes.
->
-> Signed-off-by: Ming Liu <ming.liu@toradex.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit fb7e8b6b88855f3f523b2176ea2c85a330bfe00b)
-I'd like to do a little advertisement for this. This patch:
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif;color:#0b5394">Hi khem Raj,<br><br>Create a patch to update.samp=
+le where it asks for /bin/sh instead <br><br>I don&#39;t think we can creat=
+e a patch to update.sample file because this is git hidden file.<br><br>.gi=
+t/hooks/update.sample<br><br>In my Patch fetching bzip2-tests.git repositor=
+y as mentioned below Is there any issue with below line.<br>SRC_URI =3D &qu=
+ot;<a href=3D"https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz">https:=
+//sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz</a> \<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://sourceware.org/git/bzip2-t=
+ests.git;name=3Dbzip2-tests">sourceware.org/git/bzip2-tests.git;name=3Dbzip=
+2-tests</a> \<br><br>At my local system i am not able to face this issue bu=
+t when this patch built with open source auto-builder then reporting below =
+error<br>do_package_qa: QA Issue: /usr/lib/bzip2/ptest/bzip2-tests/.git/hoo=
+ks/update.sample contained in package bzip2-ptest requires /usr/bin/sh, but=
+ no providers found in RDEPENDS_bzip2-ptest? [file-rdeps]<br>step1b: ERROR:=
+ bzip2-1.0.8-r0 do_package_qa: QA run found fatal errors. Please consider f=
+ixing them. <br><br>I have stuck here. I am not aware why do_package_qa is =
+reporting errors with git hidden files.<br clear=3D"all"></div><div class=
+=3D"gmail_default" style=3D"font-family:verdana,sans-serif;color:#0b5394">=
+<br></div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D=
+"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"l=
+tr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
+<span style=3D"color:rgb(111,168,220)">	=09
+  =09
+  
+   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b=
+></span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"co=
+lor:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><s=
+pan style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"=
+color:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</s=
+pan></span></div><div><span style=3D"color:rgb(11,83,148)">Software Enginee=
+r,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,=
+83,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"col=
+or:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mail=
+to:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span>=
+<span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener"=
+ target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:=
+10pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></d=
+iv></div></div></div></div></div></div></div></div></div><br></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 22=
+, 2020 at 11:42 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.k=
+hem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Mon, Jun 22, 2020 at 10:59 AM Rahul Kumar &lt=
+;<a href=3D"mailto:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
+iv>
+<div>Hi community members,</div>
+<div><br>I am working on Yocto Newcommer Bug 13444 - Add test suite for bz=
+ip2</div>
+<div>Patch link</div>
+<div><a href=3D"https://patchwork.openembedded.org/patch/173009/" target=
+=3D"_blank">https://patchwork.openembedded.org/patch/173009/</a></div>
+<div>=C2=A0</div>
+<div>but upstream build, reported below error .</div>
+<div>step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA Issue: /usr/lib/bzip2=
+/ptest/bzip2-tests/.git/hooks/update.sample contained in package bzip2-ptes=
+t requires /usr/bin/sh, but no providers found in RDEPENDS_bzip2-ptest? [fi=
+le-rdeps]</div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Create a patch to update.sample where it asks for /bin/sh instead=C2=
+=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div><div></div>
+<div>step1b: ERROR: bzip2-1.0.8-r0 do_package_qa: QA run found fatal error=
+s. Please consider fixing them.</div>
+<div>=C2=A0</div>
+<div>I am already using below line to my patch.=C2=A0</div>
+<div>RDEPENDS_${PN}-ptest +=3D &quot;make bash perl&quot;</div>
+<div>=C2=A0</div>
+<div>can anyone please help me on this.</div>
+</div>
+<div>
+<div>=C2=A0</div>
+<div>=C2=A0</div>
+</div>
+<br>
+</blockquote></div></div>
+</blockquote></div>
 
-* is mandatory to build older versions of u-boot. They do not support
-make target u-boot-initial-env and are buildable only by setting
-UBOOT_INITIAL_ENV=3D"" introduced by this patch.
-* does not introduce functional change when keeping UBOOT_INITIAL_ENV untou=
-ched.
-
-Regards
-
-Andreas
+--00000000000015d34a05a8e3341b--
