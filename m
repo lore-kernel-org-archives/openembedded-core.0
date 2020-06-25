@@ -1,42 +1,58 @@
-Subject: Re: Distro name
-To: openembedded-core@lists.openembedded.org
-From: "Pankaj  Vinadrao Joshi" <pankaj.vj@exaleapsemi.com>
-X-Originating-Location: Pune, Maharashtra, IN (49.35.113.156)
-X-Originating-Platform: Windows Chrome 83
-User-Agent: GROUPS.IO Web Poster
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+ by mx.groups.io with SMTP id smtpd.web11.13394.1593099359082945356
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 25 Jun 2020 08:35:59 -0700
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=none, err=permanent DNS error (domain: herbrechtsmeier.net, ip: 85.13.157.12, mailfrom: stefan@herbrechtsmeier.net)
+Received: from [192.168.178.42] (i5E866743.versanet.de [94.134.103.67])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id 71FFB11A03F6;
+	Thu, 25 Jun 2020 17:35:56 +0200 (CEST)
+Subject: Re: [OE-core] Status of Go support
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
+ <CAP9ODKoR_JOt6UQFTMNJYv_fh4d-vuVyy-5k_cd6ZgjsiLcA0Q@mail.gmail.com>
+ <CAMKF1srKPeNpoX0uRPSHQM3VDuqe+C=adNsDFZ85L+irrs6xDQ@mail.gmail.com>
+ <2f176c09-1647-6d46-548c-e58fff7559b6@herbrechtsmeier.net>
+ <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com>
+ <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
+ <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com>
+From: "Stefan Herbrechtsmeier" <stefan@herbrechtsmeier.net>
+Message-ID: <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+Date: Thu, 25 Jun 2020 17:35:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Date: Thu, 25 Jun 2020 07:10:26 -0700
-References: <CAM9ZRVuwQ3xAS4wmL-wtMBjOnUoHY3xFWx_StA-V9GvajW4TKQ@mail.gmail.com>
-In-Reply-To: <CAM9ZRVuwQ3xAS4wmL-wtMBjOnUoHY3xFWx_StA-V9GvajW4TKQ@mail.gmail.com>
-Message-ID: <11940.1593094226279309184@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="eJ4tKN7ByOvbGsNJyoB4"
-
---eJ4tKN7ByOvbGsNJyoB4
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Thanks paul,thanks for suggestion sure i will definitely go through online =
-tutorial but what i read from openemdedded document is , https://www.openem=
-bedded.org/wiki/OpenEmbedded-Core
-Distro-less (DISTRO =3D "nodistro" and default values are used) what why i=
- am bit confused about distro.In Yocto i found the distro as poky but in op=
-enembedded-core i am able to see distro name as nodistro.0,which is distro =
-less a/c to doc.May be i=C2=A0 was not able post my query properly.
+Am 24.06.20 um 22:24 schrieb Otavio Salvador:
+> Em qua., 24 de jun. de 2020 =C3=A0s 17:17, Stefan Herbrechtsmeier
+> <stefan@herbrechtsmeier.net> escreveu:
+>> The go-mod.bbclass download data from the internet during do_compile. =
+If
+>> you cut the internet connection after a do_fetch the do_compile failed=
+:
+>=20
+> Yes, this was the better we could get without hacking go mod tool
+> itself. It would be nice if you can provide an alternative way to
+> improve it.
+>=20
 
-Thanks!
+What are the alternative?
 
---eJ4tKN7ByOvbGsNJyoB4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+a) Add a fetcher to bitbake to create a vendor directory via `go mod=20
+vendor`?
+b) Add a `create_go.py` to recipetool and create a recipe per module?
 
-Thanks paul,thanks for suggestion sure i will definitely go through online =
-tutorial but what i read from openemdedded document is ,<a href=3D"https://=
-www.openembedded.org/wiki/OpenEmbedded-Core">https://www.openembedded.org/w=
-iki/OpenEmbedded-Core</a><br /><span style=3D"color: #222222; font-family: =
-sans-serif;">Distro-less (DISTRO =3D "nodistro" and default values are used=
-) what why i am bit confused about distro.In Yocto i found the distro as po=
-ky but in openembedded-core i am able to see distro name as nodistro.0,whic=
-h is distro less a/c to doc.May be i&nbsp; was not able post my query prope=
-rly.<br /><br />Thanks!<br /></span>
+The solutions are related to the npm (a) and python (b) solution.
 
---eJ4tKN7ByOvbGsNJyoB4--
+I don't like a) because it breaks the best practices of OE (for example=20
+one major version per project and avoid embedded dependencies). On the=20
+other side b) isn't so simple because of the circular dependency between=20
+go projects. This means we need a package (recipe) for the source and=20
+the binary.
