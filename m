@@ -1,86 +1,99 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web10.1331.1593110448428043153
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web10.1384.1593110593803911191
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 11:40:49 -0700
+ Thu, 25 Jun 2020 11:43:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=tCYdi06N;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.45, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f45.google.com with SMTP id p7so3311421qvl.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 11:40:48 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=R2FcdetM;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.44, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f44.google.com with SMTP id k4so3066797otr.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 11:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=/C7OKMoc/A0P7rmVru+r5EHGrj3sVVkdHK1jEXNhOb8=;
-        b=tCYdi06NFloigVK0hzW5TdwjP/VQwACmAIc3WODAAdQyi5B4lh9vrmXMeUSxsk3qif
-         jSroZhnHPJgIKLnnoPffF3DqrlE9ToSLfWtjGy3gdJPnoEf5ADfxaprE2/CwBbu+Z2Z0
-         Bf7F+SBDErOi7XvDuNr+/zktgLRb2NBgLQCDnpb9B1rDKukvpC9VsY8d6XJL9o9MVuI5
-         qefaJ46oVYS1cOizyLOmhWiRD35emjKk82srSxkd0l9Gr+4lij/T0SQFLgUcDAPrTCx8
-         0vr4DPh2d8XCuy5KFiB4kq8MDWXlq2vfnk1aIkvemCto1aH4kluLOdmf1sm534HjDXun
-         Iw6A==
+        bh=UmIRFA9izaCxEs6TOeXEKhi4sDZoqUtMKXLRGOAob5c=;
+        b=R2FcdetM0TPymTLEDDXR9mIQ+zRlFUAKX+V1JGNZloLEDLnzjsIqYupniLaFFpvS42
+         gwfARIF726YEW3MVRT1C/W5C75cKLczvRlwtClvKzZo7hRpzEsaC2UYGxmukHH8JzjAx
+         q/kEfZI5Ty53+y2WxyvU2htRdZmx3To/PFMRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=/C7OKMoc/A0P7rmVru+r5EHGrj3sVVkdHK1jEXNhOb8=;
-        b=MS9SeUHdABdzmzmDYxqhlcTSZK+NwjLCybrcb7kpVJvU/gfBzVuFQsYd1J8MBP86WM
-         4mUk33w6+WrBLhzULNhTh+/AtPnwuUsxLmhWkiIXb1AZlcjrw4cVeaiPlT4BUOQRGdcd
-         5628OJDlbamrj59I5NWwrchA0VO7uvTgaRHq4jjPWmpAgS1f2/sSjGTiRhqBBi5IWxfR
-         nmOr3s2S2MF5nUx1DK+uxUGzaQ/yU/K9R1B8j9EZ0LKO8Glzdpjd5h3+TWkKSWSmyBh1
-         yOG1lgnpBaX0WIEAfz29w66GNxvlZgZ45dvpdDlGqLubCTaYCOYwOAiJp7e1NDbbJaVx
-         WnXw==
-X-Gm-Message-State: AOAM5319Z6hlDAcLn9k+uYanz9hw08FIJj4GmI5QwwujUq1zIwNE2lsY
-	laq1OOUh399MNJe8HfCpyjOshbZa36fDAA==
-X-Google-Smtp-Source: ABdhPJyVdLtv0A5Acl4lb0NohszUAVV0oJfqTl2CRi+49i4KhNzqCnl850zsA9SdiSxZsjo6XZywWQ==
-X-Received: by 2002:ad4:55e8:: with SMTP id bu8mr8132925qvb.97.1593110447266;
-        Thu, 25 Jun 2020 11:40:47 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
-        by smtp.gmail.com with ESMTPSA id z4sm6105081qkj.131.2020.06.25.11.40.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2020 11:40:46 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f174.google.com with SMTP id c139so6359353qkg.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 11:40:46 -0700 (PDT)
-X-Received: by 2002:a37:64cd:: with SMTP id y196mr7056518qkb.26.1593110445925;
- Thu, 25 Jun 2020 11:40:45 -0700 (PDT)
+        bh=UmIRFA9izaCxEs6TOeXEKhi4sDZoqUtMKXLRGOAob5c=;
+        b=siRkuoiMt5OSrizKDz7ruCRjIGRNqzFAShCJN23xDSimXFY0Xny9iM7fopUSA94Q5A
+         Y/X4PuFwbuKeqFcWF1yQaKTzjMvKlSDmLTZ5FPnEzMSFptEjGLVFPG5AdetkgOSHyWwg
+         lmfQtNRb+K6U1bxvWNrLHM8RGgPNul5TqKPHN7wJXe8G8Hb83vlzW7WfgShxzDAwNdTB
+         QYPNX23GlZ57XIYE0CPTh0dDEo7sVooxz7IkoGAX7KoqWIJZaJTmeP17yJDWr4tcjZCy
+         deDg7mEg/Ro0HzxXetVLCMNBKnB5VcYTgR5dTDuNgbjRmsu6f34O/VKdmnzHhiTs51fs
+         OOcw==
+X-Gm-Message-State: AOAM53316mccH2wbnXwkMT66zMvGFvsMyQ4pfhpuMmgXBOgP9VAt5Dh0
+	NIf3Tjhgua+jsPHnaLyooXsbvfcUlpwMlcj6LDrkgw==
+X-Google-Smtp-Source: ABdhPJw+eb1vRFi/mfBKz4M87zFRGIVjoGhEiQCFN4PFxQ4s7Ly0z4A6CSE6SEw4TjwdDVcHuMK5PhhG4/tA6SCfG1I=
+X-Received: by 2002:a9d:6c02:: with SMTP id f2mr13414126otq.258.1593110593106;
+ Thu, 25 Jun 2020 11:43:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
  <CAP9ODKoR_JOt6UQFTMNJYv_fh4d-vuVyy-5k_cd6ZgjsiLcA0Q@mail.gmail.com>
  <CAMKF1srKPeNpoX0uRPSHQM3VDuqe+C=adNsDFZ85L+irrs6xDQ@mail.gmail.com>
  <2f176c09-1647-6d46-548c-e58fff7559b6@herbrechtsmeier.net>
  <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com> <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
- <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com>
- <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
- <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com> <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
-In-Reply-To: <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
-Date: Thu, 25 Jun 2020 15:40:34 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo16+MpqyDMwidkLaRS2vO5GKiN=UbA43yU9o0m3pFzqw@mail.gmail.com>
-Message-ID: <CAP9ODKo16+MpqyDMwidkLaRS2vO5GKiN=UbA43yU9o0m3pFzqw@mail.gmail.com>
+ <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com> <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+In-Reply-To: <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Thu, 25 Jun 2020 19:43:02 +0100
+Message-ID: <CAM9ZRVss31=qStjgLFh4ZOGcMiYHs1Z7CMxo7TWXH-xF_9YVow@mail.gmail.com>
 Subject: Re: [OE-core] Status of Go support
 To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Em qui., 25 de jun. de 2020 =C3=A0s 15:35, Stefan Herbrechtsmeier
-<stefan@herbrechtsmeier.net> escreveu:
+On Thu, 25 Jun 2020 at 16:36, Stefan Herbrechtsmeier
+<stefan@herbrechtsmeier.net> wrote:
 >
-> Am 25.06.20 um 18:43 schrieb Otavio Salvador:
-> > Offline build, using go mod, I can only envision if we somehow provide
-> > a local server which uses the bitbake cache as source. This by itself
-> > is not a small project.
+> Am 24.06.20 um 22:24 schrieb Otavio Salvador:
+> > Em qua., 24 de jun. de 2020 =C3=A0s 17:17, Stefan Herbrechtsmeier
+> > <stefan@herbrechtsmeier.net> escreveu:
+> >> The go-mod.bbclass download data from the internet during do_compile. =
+If
+> >> you cut the internet connection after a do_fetch the do_compile failed=
+:
+> >
+> > Yes, this was the better we could get without hacking go mod tool
+> > itself. It would be nice if you can provide an alternative way to
+> > improve it.
+> >
 >
-> What do you mean by 'provide a local server'? Do you mean a registry
-> server for go-mod and cargo?
+> What are the alternative?
+>
+> a) Add a fetcher to bitbake to create a vendor directory via `go mod
+> vendor`?
+> b) Add a `create_go.py` to recipetool and create a recipe per module?
+>
+> The solutions are related to the npm (a) and python (b) solution.
+>
+> I don't like a) because it breaks the best practices of OE (for example
+> one major version per project and avoid embedded dependencies). On the
+> other side b) isn't so simple because of the circular dependency between
+> go projects. This means we need a package (recipe) for the source and
+> the binary.
 
-Yes, this is how imagine it'd work for long term and with a more
-maintainable way. That said, it is not a small project, for sure.
+(a) may not be in line with past best practices but I think it's
+better than no change. It at least gives the archiver and licensing
+classes a chance to capture the relevant artifacts (if configured
+correctly) and so do proper license compliance and/or maintain a
+source mirror.
+
+I think the Python method of one recipe per dependency works well for
+Python since it's not common to distribute a built artifact which
+statically links all those dependencies together. That's often not the
+case with rust and golang projects though. I still think one recipe
+per upstream project with dependencies fully expressed in the bitbake
+recipes would be ideal but as others have said that's fighting a
+losing battle.
 
 --=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Paul Barker
+Konsulko Group
