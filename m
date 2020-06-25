@@ -1,76 +1,96 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web11.5871.1593072117759479805
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com [209.85.219.194])
+ by mx.groups.io with SMTP id smtpd.web12.5844.1593072149386960654
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 01:01:58 -0700
+ Thu, 25 Jun 2020 01:02:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=uljcsHQ3;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.68, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f68.google.com with SMTP id y18so2684697lfh.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 01:01:57 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=qOUOxtle;
+ spf=pass (domain: linaro.org, ip: 209.85.219.194, mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-yb1-f194.google.com with SMTP id h39so2334519ybj.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 01:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=9U9ZhzP3bHOi4BOHtJc/O3HXlKol5QZ9OPEXM5uDC50=;
-        b=uljcsHQ3bziTfvl7Az3i47+xeuBz59/fADdfhqviXBGQHkhK/Y1yOcVFA2XnlEyAZI
-         NVmx2wVoR5JPjbR6o3cwfCPnKpacNSgQT0NXgsqC9Ps2YHULwOlIcL1seERGcONXaPxD
-         6t2MUFo7b4lCyXF4G44XzBiMOKw+4FFNEGO2zjaEs5qpzRcMm3xEtHcbwQBrQF/ZlfgA
-         8eWSxtS1x0ZCugPVwbT8iZBiivLXvAdV5nZTU/SjhsKKz5HtQ+v4eGksBIF7yCaPr8cn
-         zSWtSBePjUEvhl7aOYIHuNTk57w7dh6mfn45GX6KTdW1Iy89bUT5eToB+gxEJp/Cd4VH
-         RFrw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=5ZPr6PjV8HBTvQXDUkQz6+m1byirlf/ENojf9cGgo1M=;
+        b=qOUOxtleO4BqyU8iYsLp1jnFv7kwhvyMo4KLFj4OH/B5+SFntSNXPgv4vbKZWf5X2R
+         76OpxAMEMo/WQtxWtcCLpRzosAUxpSDRcwzdsiGCUpgPX8y6IZVC268i7IHWqffhSZMI
+         AtIKFm1NNonKnQ+JfrhBPjr7bGlUvDLmPxm5s2d2bJ4IbRcvE+7Y7oCjmdis0jQ3Lhrw
+         PU1bxzmAmsDe6+tzrpyqD8K7xZ+I+4hUqU5yn7rw1oPsjJ88jCGUg+T4wghYeGo8EO7y
+         YpSfcz9HktcqMfsZ5Ag4XzCmlrfwEY3taMzWob9Fbopzvsjv86P8JVZXjtELse6CY5Qh
+         OrUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=9U9ZhzP3bHOi4BOHtJc/O3HXlKol5QZ9OPEXM5uDC50=;
-        b=I1W+sRChJCPT7vwGogU6DOQInG7hrZR2tKhHX6kjzw5hEfeNTGACoiEQPUCTdHb96J
-         77rTKCKaoBWHqly3dkI9d6wxDOZWnoohqIBdy5CCzw3A0WWbiE5cOxtZjr+JC2KwlOIq
-         5/S5yyYLDB8FT6Rffonsz7jvftF/cs4nJcBbnkqzqsmoJBfPhQUuI3MhpTx3NfkF0coK
-         jghil2fZdLlZ4qQIJ2x2Mjw5kdACxS2d+4VdzCICAT0AKtbF1gGUg8i0cYlzhkNS3U50
-         VCovOFT4SG95siW5yxIa0wJBYtYPfUN3BFlMbXBwfSQTgM0KCw4PF5oeQiyNJsVilP29
-         Lr2Q==
-X-Gm-Message-State: AOAM532vfh3a4RaTH257yYT/S7IFuNQKXRroo4ecknZts/X/lM7g0LtV
-	OUD5F0Oj8pIBm9Wd0tqMXS8RapAiDmg=
-X-Google-Smtp-Source: ABdhPJzlERyvOiy4HkrqZ4Dyhwy1HBqHIyxsaGRHhESDLUCfs03mTgYSU4zi2qOA1S3F56u2+MpAdA==
-X-Received: by 2002:a05:6512:3089:: with SMTP id z9mr17569955lfd.83.1593072115486;
-        Thu, 25 Jun 2020 01:01:55 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id l16sm4648957lji.138.2020.06.25.01.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2020 01:01:54 -0700 (PDT)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-setuptools: update to 47.3.0
-Date: Thu, 25 Jun 2020 10:01:51 +0200
-Message-Id: <20200625080151.27885-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=5ZPr6PjV8HBTvQXDUkQz6+m1byirlf/ENojf9cGgo1M=;
+        b=d1DligBhL/EIGINu9+4koCJOSC0vtra51fptqhg6nM8UWJ9RwTG+Ci9UQhfbcnWcJO
+         Fh5IQ0Qg2rZDX5X3dm1rRL19WaxLkF2dVxDVJ073JMi6e52Q9VuBUkSqjBSEbysffIEn
+         3WsqHsHq30z20zBxKtrDBwIuS2T0IVPH3AWfFkrJuUXdsvyRBBHEqBxmRRkn4p04tsu7
+         PyJUS9S5miXMa617QNG4SzIIWb1tyHuNiHFlOP4tmg0r+1rde8gdgnY9NV7cyKMQuXik
+         XH2Uf/wcvUcDI2xkm7FX9R6iDRYEEzxMzH2g5DnX9foVqU6Y21r9Ybpmcr4hBndtUraE
+         7RVg==
+X-Gm-Message-State: AOAM5302zAfYBiP2ZCxU1a0upgP7x162GzlB94w5hLCLJt6UwrX6oBfl
+	4/Hzfmx5Rl5m/I6ZpzEJIHUVqxv3kA+zTWtahuXG4JRYqFyUgFz/
+X-Google-Smtp-Source: ABdhPJzpxlKbamZt0+IN23caw/wHzqifAq2ttTcBXqKs7jPlqQnt1kjzhaKHSW2DjtC11JpF6VtePSVHXNrITaKrqfY=
+X-Received: by 2002:a25:53c5:: with SMTP id h188mr35721095ybb.133.1593072148307;
+ Thu, 25 Jun 2020 01:02:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200625075927.21983-1-nicolas.dechesne@linaro.org>
+In-Reply-To: <20200625075927.21983-1-nicolas.dechesne@linaro.org>
+From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
+Date: Thu, 25 Jun 2020 10:02:16 +0200
+Message-ID: <CAP71WjyJW6i121FQU6OxL4HWLKP7Hm0SMY2eE233PYQLZ7xYRw@mail.gmail.com>
+Subject: Re: [PATCH] checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Christophe PRIOUZEAU <christophe.priouzeau@st.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
- ...hon3-setuptools_47.1.1.bb => python3-setuptools_47.3.0.bb} | 0
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_47.1.1.bb => python3-setuptools_47.3.0.bb} (100%)
+On Thu, Jun 25, 2020 at 9:59 AM Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+>
+> LAYERDEPENDS is a string of this format:
+> "DEPEND1 (optional version) DEPEND2 (optional version) ..."
+>
+> However when we parse LAYERDEPENDS in _get_layer_collections() we
+> parse it as a simple string, and if any optional versions are there the
+> 'depends' field is wrong. For example, running yocto-check-layer
+> might result in such errors:
+>
+> ERROR: Layer meta-python depends on (>= and isn't found.
+> ERROR: Layer meta-python depends on 12) and isn't found.
+>
+> Let's use bb.utils.explode_dep_versions2() to parse LAYERDEPENDS, and
+> create a string that contains all dependencies, effectively
+> skipping/ignoring any optional versions.
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 9322ca9a05..9eea54d5ce 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -12,8 +12,8 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- 
- SRC_URI += "file://0001-change-shebang-to-python3.patch"
- 
--SRC_URI[md5sum] = "6e9de90b242fdd60ef59f497424ce13a"
--SRC_URI[sha256sum] = "145fa62b9d7bb544fce16e9b5a9bf4ab2032d2f758b7cd674af09a92736aff74"
-+SRC_URI[md5sum] = "03918daa0284c622731d9be84762124a"
-+SRC_URI[sha256sum] = "a9acc877163d829a561c7c379ac76451154a32a361369593c91a2d33cf1295ed"
- 
- DEPENDS += "${PYTHON_PN}"
- 
-diff --git a/meta/recipes-devtools/python/python3-setuptools_47.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_47.3.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_47.1.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_47.3.0.bb
--- 
-2.17.1
+ouch. I forgot
+Fixes [YOCTO #13957]
 
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> ---
+>  scripts/lib/checklayer/__init__.py | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+> index 1138000275..0e5234808e 100644
+> --- a/scripts/lib/checklayer/__init__.py
+> +++ b/scripts/lib/checklayer/__init__.py
+> @@ -59,9 +59,14 @@ def _get_layer_collections(layer_path, lconf=None, data=None):
+>          pattern = ldata.getVar('BBFILE_PATTERN_%s' % name)
+>          depends = ldata.getVar('LAYERDEPENDS_%s' % name)
+>          compat = ldata.getVar('LAYERSERIES_COMPAT_%s' % name)
+> +        try:
+> +            depDict = bb.utils.explode_dep_versions2(depends)
+> +        except bb.utils.VersionStringException as vse:
+> +            bb.fatal('Error parsing LAYERDEPENDS_%s: %s' % (name, str(vse)))
+> +
+>          collections[name]['priority'] = priority
+>          collections[name]['pattern'] = pattern
+> -        collections[name]['depends'] = depends
+> +        collections[name]['depends'] = ' '.join(depDict.keys())
+>          collections[name]['compat'] = compat
+>
+>      return collections
+> --
+> 2.20.1
+>
