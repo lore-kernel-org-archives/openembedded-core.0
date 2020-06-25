@@ -1,80 +1,86 @@
-Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
- by mx.groups.io with SMTP id smtpd.web11.1171.1593110119123158654
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web10.1331.1593110448428043153
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 11:35:19 -0700
+ Thu, 25 Jun 2020 11:40:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: herbrechtsmeier.net, ip: 85.13.157.12, mailfrom: stefan@herbrechtsmeier.net)
-Received: from [192.168.178.42] (i5E866743.versanet.de [94.134.103.67])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id A733811A03F6;
-	Thu, 25 Jun 2020 20:35:16 +0200 (CEST)
-Subject: Re: [OE-core] Status of Go support
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=tCYdi06N;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.45, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f45.google.com with SMTP id p7so3311421qvl.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 11:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/C7OKMoc/A0P7rmVru+r5EHGrj3sVVkdHK1jEXNhOb8=;
+        b=tCYdi06NFloigVK0hzW5TdwjP/VQwACmAIc3WODAAdQyi5B4lh9vrmXMeUSxsk3qif
+         jSroZhnHPJgIKLnnoPffF3DqrlE9ToSLfWtjGy3gdJPnoEf5ADfxaprE2/CwBbu+Z2Z0
+         Bf7F+SBDErOi7XvDuNr+/zktgLRb2NBgLQCDnpb9B1rDKukvpC9VsY8d6XJL9o9MVuI5
+         qefaJ46oVYS1cOizyLOmhWiRD35emjKk82srSxkd0l9Gr+4lij/T0SQFLgUcDAPrTCx8
+         0vr4DPh2d8XCuy5KFiB4kq8MDWXlq2vfnk1aIkvemCto1aH4kluLOdmf1sm534HjDXun
+         Iw6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/C7OKMoc/A0P7rmVru+r5EHGrj3sVVkdHK1jEXNhOb8=;
+        b=MS9SeUHdABdzmzmDYxqhlcTSZK+NwjLCybrcb7kpVJvU/gfBzVuFQsYd1J8MBP86WM
+         4mUk33w6+WrBLhzULNhTh+/AtPnwuUsxLmhWkiIXb1AZlcjrw4cVeaiPlT4BUOQRGdcd
+         5628OJDlbamrj59I5NWwrchA0VO7uvTgaRHq4jjPWmpAgS1f2/sSjGTiRhqBBi5IWxfR
+         nmOr3s2S2MF5nUx1DK+uxUGzaQ/yU/K9R1B8j9EZ0LKO8Glzdpjd5h3+TWkKSWSmyBh1
+         yOG1lgnpBaX0WIEAfz29w66GNxvlZgZ45dvpdDlGqLubCTaYCOYwOAiJp7e1NDbbJaVx
+         WnXw==
+X-Gm-Message-State: AOAM5319Z6hlDAcLn9k+uYanz9hw08FIJj4GmI5QwwujUq1zIwNE2lsY
+	laq1OOUh399MNJe8HfCpyjOshbZa36fDAA==
+X-Google-Smtp-Source: ABdhPJyVdLtv0A5Acl4lb0NohszUAVV0oJfqTl2CRi+49i4KhNzqCnl850zsA9SdiSxZsjo6XZywWQ==
+X-Received: by 2002:ad4:55e8:: with SMTP id bu8mr8132925qvb.97.1593110447266;
+        Thu, 25 Jun 2020 11:40:47 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
+        by smtp.gmail.com with ESMTPSA id z4sm6105081qkj.131.2020.06.25.11.40.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 11:40:46 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f174.google.com with SMTP id c139so6359353qkg.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 11:40:46 -0700 (PDT)
+X-Received: by 2002:a37:64cd:: with SMTP id y196mr7056518qkb.26.1593110445925;
+ Thu, 25 Jun 2020 11:40:45 -0700 (PDT)
+MIME-Version: 1.0
 References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
  <CAP9ODKoR_JOt6UQFTMNJYv_fh4d-vuVyy-5k_cd6ZgjsiLcA0Q@mail.gmail.com>
  <CAMKF1srKPeNpoX0uRPSHQM3VDuqe+C=adNsDFZ85L+irrs6xDQ@mail.gmail.com>
  <2f176c09-1647-6d46-548c-e58fff7559b6@herbrechtsmeier.net>
- <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com>
- <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
+ <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com> <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
  <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com>
  <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
- <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
-From: "Stefan Herbrechtsmeier" <stefan@herbrechtsmeier.net>
-Message-ID: <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
-Date: Thu, 25 Jun 2020 20:35:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com> <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
+In-Reply-To: <6a604026-37d1-eeef-3a2a-99471640409a@herbrechtsmeier.net>
+Date: Thu, 25 Jun 2020 15:40:34 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo16+MpqyDMwidkLaRS2vO5GKiN=UbA43yU9o0m3pFzqw@mail.gmail.com>
+Message-ID: <CAP9ODKo16+MpqyDMwidkLaRS2vO5GKiN=UbA43yU9o0m3pFzqw@mail.gmail.com>
+Subject: Re: [OE-core] Status of Go support
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Am 25.06.20 um 18:43 schrieb Otavio Salvador:
-> Em qui., 25 de jun. de 2020 =C3=A0s 12:36, Stefan Herbrechtsmeier
-> <stefan@herbrechtsmeier.net> escreveu:
->> Am 24.06.20 um 22:24 schrieb Otavio Salvador:
->>> Em qua., 24 de jun. de 2020 =C3=A0s 17:17, Stefan Herbrechtsmeier
->>> <stefan@herbrechtsmeier.net> escreveu:
->>>> The go-mod.bbclass download data from the internet during do_compile=
-. If
->>>> you cut the internet connection after a do_fetch the do_compile fail=
-ed:
->>>
->>> Yes, this was the better we could get without hacking go mod tool
->>> itself. It would be nice if you can provide an alternative way to
->>> improve it.
->>>
->>
->> What are the alternative?
->>
->> a) Add a fetcher to bitbake to create a vendor directory via `go mod
->> vendor`?
->> b) Add a `create_go.py` to recipetool and create a recipe per module?
->>
->> The solutions are related to the npm (a) and python (b) solution.
->>
->> I don't like a) because it breaks the best practices of OE (for exampl=
-e
->> one major version per project and avoid embedded dependencies). On the
->> other side b) isn't so simple because of the circular dependency betwe=
-en
->> go projects. This means we need a package (recipe) for the source and
->> the binary.
->=20
-> Honestly, it is hard. It kinda conflicts with the way go mod, cargo,
-> and similar tools work.
+Em qui., 25 de jun. de 2020 =C3=A0s 15:35, Stefan Herbrechtsmeier
+<stefan@herbrechtsmeier.net> escreveu:
+>
+> Am 25.06.20 um 18:43 schrieb Otavio Salvador:
+> > Offline build, using go mod, I can only envision if we somehow provide
+> > a local server which uses the bitbake cache as source. This by itself
+> > is not a small project.
+>
+> What do you mean by 'provide a local server'? Do you mean a registry
+> server for go-mod and cargo?
 
-Both tools support a vendor command to download all dependencies. The=20
-fetcher need to call this command and archive the vendor folder.=20
-Alternative both tools support a replace / patch instruction to override=20
-dependencies with local directories.
+Yes, this is how imagine it'd work for long term and with a more
+maintainable way. That said, it is not a small project, for sure.
 
-> Offline build, using go mod, I can only envision if we somehow provide
-> a local server which uses the bitbake cache as source. This by itself
-> is not a small project.
-
-What do you mean by 'provide a local server'? Do you mean a registry=20
-server for go-mod and cargo?
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
