@@ -1,80 +1,86 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web12.8686.1593085936339644949
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web11.9258.1593087752329279207
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 04:52:16 -0700
+ Thu, 25 Jun 2020 05:22:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=ICOz9mmq;
- spf=pass (domain: konsulko.com, ip: 209.85.210.51, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f51.google.com with SMTP id n24so2707496otr.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 04:52:16 -0700 (PDT)
+ dkim=pass header.i=@qtec.com header.s=google header.b=I3Pe0njM;
+ spf=neutral (domain: qtec.com, ip: 209.85.208.194, mailfrom: daniel@qtec.com)
+Received: by mail-lj1-f194.google.com with SMTP id n24so6246460lji.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 05:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KfFGWU/9+2J29udiQXUc+C9CQsv1nPhH0AnyTDZDP9o=;
-        b=ICOz9mmqV4lQrZOrElM/iWL7Wo0+IDWUOcvyk/E6JNOwp2vhVVNsC8hEMdbXH1zM6B
-         5doD0twBe0rjRuwTC0QxXLO8yGAXY7oNOfgGeKAoCZqjOVwvv+V3zUN441w0tUs7ZVWg
-         wHQMRE6g44hM310mRWvNcDDePT5eQF4kbEnF0=
+        d=qtec.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Y72kfAuZlDqRVfc6wnZ4eUYqcXsVJ52/a0JxdY2jz0=;
+        b=I3Pe0njMA7OfDStL1Uu/UP2JnT5sCtwOK5SPfTB5UnfKPg/Oyu093OQqROUzvF7mwN
+         Z8bdn0LkeR8PlewPBt6oiRf6jNPDVKV/JyVMF2j5ifNcAsxk1sRTps0oz/oCGfE/Beb+
+         9m99qV0tEW8B7eYNbYaFY+gA6Hulpblj6DoSE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KfFGWU/9+2J29udiQXUc+C9CQsv1nPhH0AnyTDZDP9o=;
-        b=MWAxnc8xckb0Xj6DI9xuMUFiOC+GcZsQxwGTB7N7G+eeWo5RRucnSumiYycr7PWtIr
-         lhGp7geVpAMcgVo8V7joLm8FjrpGnLB1TSlyY/P0oXNUWnN/iFLtmMGfFm+bdyXQpGDM
-         CjSH5QdMuCeW9j8K2Je5cDTfNAkXO+zsRoIOQPfk/CjoA4IUp1xvzvU4OAKSPn3ryF3Z
-         VFFuKJWRly7Ry5j6u7GcTLv++gK24qTT1x6Lc7S8VytKdZBPPsOGjyPtddCMJycXDeyr
-         NgAj/NXokkvybenUWC1mM1LQl0xQOjO8LllqzBjSKtlSwVMOAXoLUGczNI8bYJSgUNrd
-         +CLw==
-X-Gm-Message-State: AOAM531WLVfwB6r84zId6ehnEydMDzRJl2xVEJsP4/pDtWp5BWPvZGnv
-	gM7mh0/hPFZPvTYY+FPnzVRqS+HIoJZS7xRUEss54A==
-X-Google-Smtp-Source: ABdhPJw4e5a74+OFOXlUoqqVcnj/WhY2p+GWDkLDf7Cie+03Qi6ZPVHVjixqeYMKx0oLV/6zrNECh9acvDh/me+zohs=
-X-Received: by 2002:a9d:6c02:: with SMTP id f2mr11696638otq.258.1593085935608;
- Thu, 25 Jun 2020 04:52:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Y72kfAuZlDqRVfc6wnZ4eUYqcXsVJ52/a0JxdY2jz0=;
+        b=SW1XiwARFJB9Zk/9S/0rvuqT++35Td5qGKvOMUNv4zL7xbAzOfaSUm6Pjekcw4knLr
+         Z79lqNdFx4oJNWquz2RaMaDPUp8tVtJZZ+5OefUTbF55dagifPEPEtHlXScbzJO22ipx
+         abyOkMitCc6ShGRSkjHDri+FYYdBgIDB02zOnUEukBHG1nqjM4fpeHdt0Hgiws7kmk1U
+         YtmApd4JmOzCQylj3vczsDkMmEWTbAM6dbAv/Pmpe/DOB8Lwf9JGRHCqyms8QUO4fRv8
+         N1j2uHbWxromp/+exv34D1LdW4pYHhftYCd0E+rG0kAEqwIprffE5Kw+5Jp7mYAxn9HB
+         Q2hA==
+X-Gm-Message-State: AOAM532yy0U2tM0HIR5r1RlUNbn/OBW7/mbXnYCWIbKSpDSyB6LkUgtc
+	FUOy0urOynskKo2kCNCKQeLs1i5QQmEsnyfLW4dlge9N9vwDo1ajPPTdaFH6Yw5+BGFtOfMXcSV
+	gGOmRdZhwhfxhX++DXtWAKZraxKH9Tnl3XR87k+7gNXkbYQYecIZQ+mYT66ndeS9TEbAvqaLOw8
+	c0D2ku5ufVqg==
+X-Google-Smtp-Source: ABdhPJw4UgAVTtR44xxNrjQC4LAw8p6mh5Lb8W5byTLcuTpBF3VdMTjkbWHWK3WHYh3a/dZgBfUFWA==
+X-Received: by 2002:a2e:81c8:: with SMTP id s8mr6662872ljg.281.1593087750218;
+        Thu, 25 Jun 2020 05:22:30 -0700 (PDT)
+Return-Path: <daniel@qtec.com>
+Received: from turia.fritz.box (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id j26sm4656721lfm.11.2020.06.25.05.22.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 05:22:29 -0700 (PDT)
+From: "Daniel Gomez" <daniel@qtec.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel Gomez <daniel@qtec.com>
+Subject: [OE-core][PATCH] ttf-fonts: Update ttf-ubuntu-font-family recipe
+Date: Thu, 25 Jun 2020 14:22:22 +0200
+Message-Id: <20200625122222.38961-1-daniel@qtec.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <Groupsio.1.QkZO.1593082325223977941.NSzh@lists.openembedded.org>
-In-Reply-To: <Groupsio.1.QkZO.1593082325223977941.NSzh@lists.openembedded.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Thu, 25 Jun 2020 12:52:05 +0100
-Message-ID: <CAM9ZRVuwQ3xAS4wmL-wtMBjOnUoHY3xFWx_StA-V9GvajW4TKQ@mail.gmail.com>
-Subject: Re: [OE-core] Distro name
-To: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 25 Jun 2020 at 11:52, Pankaj Vinadrao Joshi
-<pankaj.vj@exaleapsemi.com> wrote:
->
-> [Edited Message Follows]
->
-> Hi,
-> i have built image for raspberrypi4-64 using openembedded-core and i am trying to run some test specific to lkp but i am getting issue with the distro
-> which is nodistro.0 but the test needs distro for it
->
-> i am attaching the output of  os-realease
-> ID=nodistro
-> NAME="OpenEmbedded"
-> VERSION="nodistro.0"
-> VERSION_ID=nodistro.0
-> PRETTY_NAME="OpenEmbedded nodistro.0"
->
-> i am getting following error with respect to lkp
->
-> ERROR: "Not a supported system, cannot install packages."
->
-> detect_system distro=$_system_name_lowercase
-> DISTRO=$distro export DISTRO
-> [ -x $LKP_SRC/distro/installer/$distro ] || {     echo "Not a supported system, cannot install packages."     exit 1 }
->
->
-> can somebody help me how i can add distro for raspberrypi??
+Current version 0.80 is no longer available with the link in the recipe.
+Update it to use 0.83 version.
 
-If you're unsure what a distro is in the context of Yocto Project /
-OpenEmbedded then I recommend you find one of the many tutorials
-online and work through it. Also, his question is not specific to
-openembedded-core, please use a more appropriate list like
-https://lists.yoctoproject.org/g/yocto for questions like this.
+Signed-off-by: Daniel Gomez <daniel@qtec.com>
+---
+ ...ont-family_0.80.bb => ttf-ubuntu-font-family_0.83.bb} | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta-oe/recipes-graphics/ttf-fonts/{ttf-ubuntu-font-family_0.80.bb => ttf-ubuntu-font-family_0.83.bb} (65%)
 
--- 
-Paul Barker
-Konsulko Group
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.80.bb b/meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.83.bb
+similarity index 65%
+rename from meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.80.bb
+rename to meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.83.bb
+index d5d1b9a17..b8aa4c01c 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.80.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.83.bb
+@@ -6,10 +6,13 @@ LICENSE = "UFL"
+ LIC_FILES_CHKSUM = "file://LICENCE.txt;md5=325a1a9029112a2405e743c7f816427b"
+ PR = "r1"
+
+-SRC_URI = "http://font.ubuntu.com/download/ubuntu-font-family-${PV}.zip"
++SHA1SUM = "0cef8205"
+
+-SRC_URI[md5sum] = "a1fc70f5a5b1d096ab8310886cddaa1c"
+-SRC_URI[sha256sum] = "107170099bbc3beae8602b97a5c423525d363106c3c24f787d43e09811298e4c"
++SRC_URI = "https://assets.ubuntu.com/v1/${SHA1SUM}-ubuntu-font-family-${PV}.zip"
++
++
++SRC_URI[md5sum] = "c5a5059d6856b4ddf79d824dcaf5ad32"
++SRC_URI[sha256sum] = "61a2b342526fd552f19fef438bb9211a8212de19ad96e32a1209c039f1d68ecf"
+
+ S = "${WORKDIR}/ubuntu-font-family-${PV}"
+
+--
+2.27.0
+
