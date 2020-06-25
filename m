@@ -1,36 +1,36 @@
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.7286.1593080056634946542
+ by mx.groups.io with SMTP id smtpd.web12.7369.1593080507932135272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:14:17 -0700
+ Thu, 25 Jun 2020 03:21:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Zuh4suHC;
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Y/4fQRoc;
  spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=axis.com; l=1779; q=dns/txt; s=axis-central1;
-  t=1593080056; x=1624616056;
+  t=1593080508; x=1624616508;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=lrQL31uvHkH5i7SNUg1NZb1w99UsbX1GGQE6QalQ/HA=;
-  b=Zuh4suHCj6OqFluH3C3pwxvpPdzNW+qyKDW8tE2zWWXfF4pr1HEFl9tq
-   XAzJTsj0PLg6eWDS644HuMlg+yDs959jRxhHCO2/7/Hzmaq9jrwXZxsLP
-   A7RXXOQefT0061QVBW3isT7EoLWydUnBFqGerdE+PKHbOo9KL/ItbZnxb
-   ewp+x01pQ4tNIPS3a3oCXpXiIOdAk1MF9+DQuflYJiWQ/GowPCYZo+QKY
-   zmpLzFLa+JAVbPAQP1d+2FlXJXyTBq0RB630AX0QS2nKMRExzRW34jDYB
-   fq4XwHfwVrg5kpuTE/5PjMhrHsbvdkUSbPNhw241+d+4wUOBNVh7YROk6
+  b=Y/4fQRochjiKgymX5rpF/iCwQHi5y4mKmpnkJ6s+bcUaWONwjcs0cyBI
+   9IgCB5ofTSgamQcVLAdQnzx67TJtJ+/3WmTer5TGmgO6je9dsIvEKJbne
+   nMEk5y6i1vyqpZAnGM+iB/Dl57990NvBCOgbRPXwKCFEL+yJvSmaTx54u
+   WWGSViaDV0HnfMG2I6xbq0DMNdwke/zzv2VrOtQuTkwwj9X9dmatkAKIy
+   NHon8hU4Ln0ZdR3DqAPOsnH8mMjRY22mFHm0KRH12WOKIEZ4D4xgHiYlK
+   NdFBF1+TGnRoCXuYZ3f2WdgLSrnXqA46mV+CHAg2X2KQQBicu+pE8RWxP
    Q==;
-IronPort-SDR: GWY/KtPD7GF6b1MKhjswqgdYbAmrvj06P+qrcLSDR6/bPbXETCBTExa/I+cz1zFRKmUiwRpvTr
- jrIU08EkcAtJp9QYraRiQqNBVpTYdQw6cmUwXFIcBCZxMSo8Ke4dODbTXaxFJpsrs+Ov67QPKT
- RlGp7yCynYknFgqEOp+5T9747nCenv8AWcTIgIojUvoUNlTTv08uIUfjTJL7SUoM4ZpixDjPAN
- QeIViY50JovliOen3V0g/SwcdF/G0s+aV31tCbmx/irirB6aqlitjRHyEkNyVQEzY/ALSJrpgp
- xoQ=
+IronPort-SDR: ogHROao26r5eiTjBbHviEzTeG8otcPGVjQYeeW2YvwNOumI/HCH0oeSaZvZvx3KSLu9SqYxMR0
+ Hnjp0N9HH6sgGXvHHm3Yz5S4I7NgSMbp9IIWTOZ6Tm3QLUhRmybVCKVqUERgWoYf4qrfWpA2XE
+ 7ww6XhGKKJOVVoVOOU0qliP5P7E1R00jPZqijwAuFYqqHgckDFkHwj9APpf1WOChZLYEYtAW9D
+ 2MpmnbqgmfBqAPKeG2pqoy9k3eE0LmZP/vfUI6KolLmhqbku7r8hirLb7MBB+wffHSKno3gjT2
+ ohU=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185124"
+   d="scan'208";a="10185320"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>
 Subject: Add package managers as a plugin
-Date: Thu, 25 Jun 2020 12:13:47 +0200
-Message-ID: <20200625101413.2783-1-fredrigu@axis.com>
+Date: Thu, 25 Jun 2020 12:21:19 +0200
+Message-ID: <20200625102145.7139-1-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Return-Path: fredrigu@axis.com
