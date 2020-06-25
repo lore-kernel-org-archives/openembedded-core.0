@@ -1,37 +1,37 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.7474.1593080529844279544
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web10.7634.1593080526167583199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:22:12 -0700
+ Thu, 25 Jun 2020 03:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YXP2mW+2;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YXOqOHGE;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=2541; q=dns/txt; s=axis-central1;
-  t=1593080532; x=1624616532;
+  d=axis.com; l=4450; q=dns/txt; s=axis-central1;
+  t=1593080533; x=1624616533;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zYNULEih51ntHP+iBIEl8MfaRhTEZfeYahrL385No1w=;
-  b=YXP2mW+2oa3HsW9CCj2kxDGgbe9MPN8pUcdGGJrNBGxcSpy0l7z3mFAf
-   o4uxAXhXPEWcLXfkAGAWaTYmFbCDtcWBG9aZY3ltbXw31562/BsFPvWea
-   dr1x9gxmFTTXid/BFv13MAInwHrg4ADK+qPVHRfCErDI8BFiL66oOiSnB
-   4MNLxhms/aW9yylmDgmWHyGOKL+7lsLNnHbtlYnq95+UhnfjyT5YD2rBO
-   tci/YZXvrUTMc44Q9xfjBJ7C7KFpe9mHimOJZQ/5Ykib0vxUOl4uDCxmL
-   OxWwfffbVMZdPfNz7eqi3DJAEuiieQZOUMVXkFX0O2TcBfoGohjJv6kJ3
-   A==;
-IronPort-SDR: MUdgDsS3+J440Vazzy6jlvXHURmBMFp8UJqbB2ZBqE+XabNH6bs3Hd9cYybW/3Chl+96QnHZ/K
- ZG/Yl5L8kmRoO0D7p8RR7pLWI6t9OJ+/keIkCpAmFPabaWdBe91qJJ7D07URWjwrHPhY7dHvM+
- 5/6j9ofB8BzcXk8h9ptX856rInvgKIU9QucUr66DPj1IM/SrlVREFoLl5HVVSzJOCj9q+Cvqrz
- CXTHyWN6a5Gh+Pm96+nHw+CzUYwFAlH6zheY0rL7NN1KZnaU84nVCy/AbdwoB+UapFurVR3rJC
- C5U=
+  bh=2SpJys+GPO5Ve8EUchVphKQfwkdovsa0SNS27A+y17g=;
+  b=YXOqOHGE27xda5Hittm7VCydsrWihiVtOmsQX+/OKHIiWuQ85kc28/jR
+   h9368ahnuDKdjj7EuD/ntL55GQs3vPZ9Y4kyWCyKuaRSYUaLDYaDcQ07U
+   kFDzagFqJVsjI8FYxohYRl1J6k2kyWyynY1FjW4VGf+v7vOKmPczfuLMv
+   NeioCDk4L5H86nrqmPlLg/Ob+LzlvtfOrPwVx451WkbP04FRNqSYZvRl/
+   dd+EKz0ysSD/3h3CRhk1PLB8oB+A8f6wyygy2EM4cj6dcrAzF9gesxS4B
+   ShP3kdoOxyAh4M2R3G6QAGM6eWDH9lE7k28ieCCiBvH2vfnWeNYNATBPI
+   w==;
+IronPort-SDR: iFv4FWIhYP/+2BVQqRGn50A5DeeKTZTs4n1ZxoEyuADE5p2u5Q3IJM4s41XFPPHYZeiKI52C2d
+ v/6KbcaZoVgpkpZEzk+eCzKFCvSY1k1eP3hN3Jsrzc6MTczXN5D0AHQxQrYLQmqnowNL715SZN
+ svBdjZk2FhouCUSXA3VKgUdEjrUMEYOkayrMvFlIyUiOzZzY0lGDnTRfoDcNwzFIlYA4LLNUUL
+ k4akcjWaeLBgmBWtXTluyfD+0RSxemXBu2an5bz//4B1xc19dSfvhiFbgstiwaA/Dqy0O1F2UL
+ k7Y=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185338"
+   d="scan'208";a="9893892"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 23/26] package_manager.py: Move RpmPkgsList
-Date: Thu, 25 Jun 2020 12:21:42 +0200
-Message-ID: <20200625102145.7139-24-fredrigu@axis.com>
+Subject: [PATCH v2 22/26] package_manager: Rename Indexer classes
+Date: Thu, 25 Jun 2020 12:21:41 +0200
+Message-ID: <20200625102145.7139-23-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,69 +40,133 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the code that is only used by rpm package manager live in that
-package manager owned directory.
+Rename all *Indexer classeds to PkgIndexer to enable dynamic calling.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_manager.py                      | 5 -----
- meta/lib/oe/package_managers/rpm/package_manager.py | 4 ++++
- meta/lib/oe/rootfs.py                               | 1 +
- meta/lib/oe/sdk.py                                  | 1 +
- 4 files changed, 6 insertions(+), 5 deletions(-)
+ meta/lib/oe/package_manager.py                | 22 +++++--------------
+ .../package_managers/deb/package_manager.py   |  8 +++++--
+ .../package_managers/ipk/package_manager.py   |  7 ++++--
+ .../package_managers/rpm/package_manager.py   |  5 ++++-
+ 4 files changed, 20 insertions(+), 22 deletions(-)
 
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index bfddbce93c..20c3400def 100644
+index 111845d903..bfddbce93c 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -158,11 +158,6 @@ class PkgsList(object, metaclass=ABCMeta):
-     def list_pkgs(self):
+@@ -149,8 +149,6 @@ class Indexer(object, metaclass=ABCMeta):
+     def write_index(self):
          pass
  
--class RpmPkgsList(PkgsList):
--    def list_pkgs(self):
--        from oe.package_managers.rpm.package_manager import PkgPM
--        return PkgPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
 -
- class OpkgPkgsList(PkgsList):
-     def __init__(self, d, rootfs_dir, config_file):
-         super(OpkgPkgsList, self).__init__(d, rootfs_dir)
+-
+ class PkgsList(object, metaclass=ABCMeta):
+     def __init__(self, d, rootfs_dir):
+         self.d = d
+@@ -576,22 +574,12 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+                         raise
+ 
+ def generate_index_files(d):
+-    classes = d.getVar('PACKAGE_CLASSES').replace("package_", "").split()
+-
+-    indexer_map = {
+-        "rpm": (RpmSubdirIndexer, d.getVar('DEPLOY_DIR_RPM')),
+-        "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK')),
+-        "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB'))
+-    }
+-
++    classes = d.getVar('PACKAGE_CLASSES').split()
+     result = None
+ 
+     for pkg_class in classes:
+-        if not pkg_class in indexer_map:
+-            continue
+-
+-        if os.path.exists(indexer_map[pkg_class][1]):
+-            result = indexer_map[pkg_class][0](d, indexer_map[pkg_class][1]).write_index()
++        import importlib
++        result = importlib.import_module('oe.package_managers.' + classes + '.manifest').PkgIndexer(d).write_index()
+ 
+-            if result is not None:
+-                bb.fatal(result)
++        if result is not None:
++            bb.fatal(result)
+diff --git a/meta/lib/oe/package_managers/deb/package_manager.py b/meta/lib/oe/package_managers/deb/package_manager.py
+index 5d3c300700..0dc4004f66 100644
+--- a/meta/lib/oe/package_managers/deb/package_manager.py
++++ b/meta/lib/oe/package_managers/deb/package_manager.py
+@@ -94,7 +94,7 @@ class PkgPM(OpkgDpkgPM):
+ 
+         self._create_configs(archs, base_archs)
+ 
+-        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
++        self.indexer = PkgIndexer(self.d, self.deploy_dir)
+ 
+     def mark_packages(self, status_tag, packages=None):
+         """
+@@ -400,7 +400,7 @@ class PkgPM(OpkgDpkgPM):
+         return tmp_dir
+ 
+ 
+-class DpkgIndexer(Indexer):
++class PkgIndexer(Indexer):
+     def _create_configs(self):
+         bb.utils.mkdirhier(self.apt_conf_dir)
+         bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "lists", "partial"))
+@@ -423,6 +423,10 @@ class DpkgIndexer(Indexer):
+                     apt_conf.write(line + "\n")
+ 
+     def write_index(self):
++        if self.deploy_dir == "":
++            self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB')
++
++
+         self.apt_conf_dir = os.path.join(self.d.expand("${APTCONF_TARGET}"),
+                 "apt-ftparchive")
+         self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
+diff --git a/meta/lib/oe/package_managers/ipk/package_manager.py b/meta/lib/oe/package_managers/ipk/package_manager.py
+index 8abc6c1c98..133af27182 100644
+--- a/meta/lib/oe/package_managers/ipk/package_manager.py
++++ b/meta/lib/oe/package_managers/ipk/package_manager.py
+@@ -106,7 +106,7 @@ class PkgPM(OpkgDpkgPM):
+         else:
+             self._create_config()
+ 
+-        self.indexer = OpkgIndexer(self.d, self.deploy_dir)
++        self.indexer = PkgIndexer(self.d, self.deploy_dir)
+ 
+     def mark_packages(self, status_tag, packages=None):
+         """
+@@ -423,8 +423,11 @@ class PkgPM(OpkgDpkgPM):
+ 
+         return tmp_dir
+ 
+-class OpkgIndexer(Indexer):
++class PkgIndexer(Indexer):
+     def write_index(self):
++        if self.deploy_dir == "":
++            self.deploy_dir = self.d.getVar('DEPLOY_DIR_IPK')
++
+         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
+                      "SDK_PACKAGE_ARCHS",
+                      ]
 diff --git a/meta/lib/oe/package_managers/rpm/package_manager.py b/meta/lib/oe/package_managers/rpm/package_manager.py
-index e781676183..57a5c9ec38 100644
+index 025e8cdfd2..e781676183 100644
 --- a/meta/lib/oe/package_managers/rpm/package_manager.py
 +++ b/meta/lib/oe/package_managers/rpm/package_manager.py
-@@ -400,3 +400,7 @@ class PkgIndexer(RpmIndexer):
-                         self.do_write_index(dir_path)
+@@ -384,8 +384,11 @@ class RpmIndexer(Indexer):
+                                self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
+                                armor=is_ascii_sig)
  
- 
-+class RpmPkgsList(PkgsList):
-+    def list_pkgs(self):
-+        return PkgPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
+-class RpmSubdirIndexer(RpmIndexer):
++class PkgIndexer(RpmIndexer):
+     def write_index(self):
++        if self.deploy_dir == "":
++            self.deploy_dir = self.d.getVar('DEPLOY_DIR_RPM')
 +
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index fdfb8efafc..b9891455fb 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -371,6 +371,7 @@ def image_list_installed_packages(d, rootfs_dir=None):
-         rootfs_dir = d.getVar('IMAGE_ROOTFS')
- 
-     img_type = d.getVar('IMAGE_PKGTYPE')
-+    from oe.package_managers.rpm.package_manager import RpmPkgsList
-     if img_type == "rpm":
-         return RpmPkgsList(d, rootfs_dir).list_pkgs()
-     elif img_type == "ipk":
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 3b7869f071..619ab57caf 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -116,6 +116,7 @@ def sdk_list_installed_packages(d, target, rootfs_dir=None):
- 
-         rootfs_dir = [sdk_output, os.path.join(sdk_output, target_path)][target is True]
- 
-+    from oe.package_managers.rpm.package_manager import RpmPkgsList
-     img_type = d.getVar('IMAGE_PKGTYPE')
-     if img_type == "rpm":
-         arch_var = ["SDK_PACKAGE_ARCHS", None][target is True]
+         bb.note("Generating package index for %s" %(self.deploy_dir))
+         self.do_write_index(self.deploy_dir)
+         for entry in os.walk(self.deploy_dir):
 -- 
 2.20.1
 
