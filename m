@@ -1,37 +1,37 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.7471.1593080525989600401
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web11.7473.1593080529610313350
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2020 03:22:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=pqKswIC9;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=h84KQ+qv;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=27283; q=dns/txt; s=axis-central1;
-  t=1593080531; x=1624616531;
+  d=axis.com; l=5226; q=dns/txt; s=axis-central1;
+  t=1593080532; x=1624616532;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=b5uFu1rAm4apm/6S/eJCmk9ICS0MeaO70jADrVaLyaU=;
-  b=pqKswIC90Wcewy3CSnxFOwOKlcFnBNu/18PFB6zuGB7cs3+TynQ5nC7A
-   K3tQToa1WGqdJMMaCCO0NFmhf/ZN69QFBFgOkK7NKen0V+N8KzfconVdL
-   kpdcMhzDhZmoiWfdX/llo51dAfY1nun7FRBodBF1SCJB5o9MOnwyiRrvi
-   9LlREZsbiZp1ZxsuMQSYfk0dAzkXJVOCsrf8PK+7lPwJylWYsl2NTxksj
-   s5oc6/31r37rbyXzluFs38v93Aga4rpjkncmZcebC2WLW8EVPDGcfXTZG
-   guJ4lthdEy2RU0eDjEXc6wxQ8otE1CUD98uRHp3HO83HCO+RVOEGu5aYj
+  bh=YSBiJ7Fv02Cl7OAtpycnhyp9Z4jwcmFTkVTMzW2m1rE=;
+  b=h84KQ+qvDuUkJJVLLzQ//vrSq0nimiA1Yvxmmg8UxVdhZO726dWdkO6O
+   ixMT4/83Gu2VwUPdRPKlOHFZpVrhTx+5QNLIjgR8Ad90BgVGCOFtA60wN
+   FuFfVYTex9y+U6AHCKs68uLDnDD6YZ5WKvfKI5IvQXC1tw6cSJAkuxHyI
+   3UEcFCo6texDfi95WpC6QHPpsjs3taKlL2pNbGxq3BjPWoGcJYzv9TNjo
+   NPnMqx11C3nwgHozUobyjeMXG4Lkj1Bp7oSWSehT2lWdYuVGHZhy3/DR9
+   r2nvNW/UFVvFCfUVO9O6ywqn7hcV60lX9KtSwHWwxao8RT635rOruEW1u
    w==;
-IronPort-SDR: 8Qb9cIzAbjo3B/nWaQQeJuW+NV5at9SpQEEeLp9Fi+yHSWdCUfEH9dklZF2wPhO326rLgME8/4
- 38cohad8hhQgLEjg/gS/5xxwUwTonY3A2fqUB2V8dryvEl/zW+eTEFJT6vmRnHFty+lKRxLGzf
- 0h7m0StA+E4KXulVa8dAz639ON5Qx93Od6hE2Y9HHgfUQ+X5KbnO5eafjEl44gRpX50hN+fW0G
- rpgCHG8uH93hW6+07O+Asudl9juB4bjbJS7zD3B/fBiHrn+3cOhE156bOCetYEnRRVlEnLps56
- P3U=
+IronPort-SDR: VnVJD/RWPGcrtwvRC69p6SolipuPhS3XMkjUzSqM2e5t52y6O9jiRY45qfSbLyxqptauZx3/pO
+ u010XtKHcqSjRNMS1X87gpFtIM67OWtALNrXUg60EZblm98Xvn1d7DgCEERN/1pZEi6qrkmIma
+ i7QAWZcgkekKZ0ZmgeFiy3kM5ALYg1EJsSSkoPUeaUUAZwIyLVLti4vrsDawT8Pa3PaQKaq+Ab
+ mXlAD3KUMi8n+mfBt+vTpqPkcqwcEfMVDhqmF+MSguDLikScheHPDY41l6gVvxWQBA08vFQrOD
+ fdY=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185336"
+   d="scan'208";a="9893891"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 16/26] package_manager.py: Move DpkgPM
-Date: Thu, 25 Jun 2020 12:21:35 +0200
-Message-ID: <20200625102145.7139-17-fredrigu@axis.com>
+Subject: [PATCH v2 26/26] package_manager: Rename PkgsList classes
+Date: Thu, 25 Jun 2020 12:21:45 +0200
+Message-ID: <20200625102145.7139-27-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,776 +40,131 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the package_manager only used by the dpkg package manager live in the dpkg
-directory.
+Rename all *PkgsList classeds to PkgsList to enable dynamic calling.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_manager.py                | 328 --------------
- .../package_managers/deb/package_manager.py   | 402 ++++++++++++++++++
- meta/lib/oe/package_managers/deb/rootfs.py    |   1 +
- 3 files changed, 403 insertions(+), 328 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/deb/package_manager.py
+ .../oe/package_managers/deb/package_manager.py    |  4 ++--
+ .../oe/package_managers/ipk/package_manager.py    | 12 +++++++-----
+ .../oe/package_managers/rpm/package_manager.py    |  2 +-
+ meta/lib/oe/rootfs.py                             | 12 ++----------
+ meta/lib/oe/sdk.py                                | 15 ++-------------
+ 5 files changed, 14 insertions(+), 31 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 91e06c1fe3..a62d2d549d 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1157,334 +1157,6 @@ class OpkgPM(OpkgDpkgPM):
- 
-         return tmp_dir
- 
--class DpkgPM(OpkgDpkgPM):
--    def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None, deb_repo_workdir="oe-rootfs-repo", filterbydependencies=True):
--        super(DpkgPM, self).__init__(d, target_rootfs)
--        self.deploy_dir = oe.path.join(self.d.getVar('WORKDIR'), deb_repo_workdir)
--
--        create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_DEB"), "package_write_deb", filterbydependencies)
--
--        if apt_conf_dir is None:
--            self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
--        else:
--            self.apt_conf_dir = apt_conf_dir
--        self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
--        self.apt_get_cmd = bb.utils.which(os.getenv('PATH'), "apt-get")
--        self.apt_cache_cmd = bb.utils.which(os.getenv('PATH'), "apt-cache")
--
--        self.apt_args = d.getVar("APT_ARGS")
--
--        self.all_arch_list = archs.split()
--        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS') or "").split()
--        self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
--
--        self._create_configs(archs, base_archs)
--
--        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
--
--    def mark_packages(self, status_tag, packages=None):
--        """
--        This function will change a package's status in /var/lib/dpkg/status file.
--        If 'packages' is None then the new_status will be applied to all
--        packages
--        """
--        status_file = self.target_rootfs + "/var/lib/dpkg/status"
--
--        with open(status_file, "r") as sf:
--            with open(status_file + ".tmp", "w+") as tmp_sf:
--                if packages is None:
--                    tmp_sf.write(re.sub(r"Package: (.*?)\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)",
--                                        r"Package: \1\n\2Status: \3%s" % status_tag,
--                                        sf.read()))
--                else:
--                    if type(packages).__name__ != "list":
--                        raise TypeError("'packages' should be a list object")
--
--                    status = sf.read()
--                    for pkg in packages:
--                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
--                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
--                                        status)
--
--                    tmp_sf.write(status)
--
--        os.rename(status_file + ".tmp", status_file)
--
--    def run_pre_post_installs(self, package_name=None):
--        """
--        Run the pre/post installs for package "package_name". If package_name is
--        None, then run all pre/post install scriptlets.
--        """
--        info_dir = self.target_rootfs + "/var/lib/dpkg/info"
--        ControlScript = collections.namedtuple("ControlScript", ["suffix", "name", "argument"])
--        control_scripts = [
--                ControlScript(".preinst", "Preinstall", "install"),
--                ControlScript(".postinst", "Postinstall", "configure")]
--        status_file = self.target_rootfs + "/var/lib/dpkg/status"
--        installed_pkgs = []
--
--        with open(status_file, "r") as status:
--            for line in status.read().split('\n'):
--                m = re.match(r"^Package: (.*)", line)
--                if m is not None:
--                    installed_pkgs.append(m.group(1))
--
--        if package_name is not None and not package_name in installed_pkgs:
--            return
--
--        os.environ['D'] = self.target_rootfs
--        os.environ['OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
--        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
--
--        for pkg_name in installed_pkgs:
--            for control_script in control_scripts:
--                p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
--                if os.path.exists(p_full):
--                    try:
--                        bb.note("Executing %s for package: %s ..." %
--                                 (control_script.name.lower(), pkg_name))
--                        output = subprocess.check_output([p_full, control_script.argument],
--                                stderr=subprocess.STDOUT).decode("utf-8")
--                        bb.note(output)
--                    except subprocess.CalledProcessError as e:
--                        bb.warn("%s for package %s failed with %d:\n%s" %
--                                (control_script.name, pkg_name, e.returncode,
--                                    e.output.decode("utf-8")))
--                        failed_postinsts_abort([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
--
--    def update(self):
--        os.environ['APT_CONFIG'] = self.apt_conf_file
--
--        self.deploy_dir_lock()
--
--        cmd = "%s update" % self.apt_get_cmd
--
--        try:
--            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Unable to update the package index files. Command '%s' "
--                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
--
--        self.deploy_dir_unlock()
--
--    def install(self, pkgs, attempt_only=False):
--        if attempt_only and len(pkgs) == 0:
--            return
--
--        os.environ['APT_CONFIG'] = self.apt_conf_file
--
--        cmd = "%s %s install --force-yes --allow-unauthenticated --no-remove %s" % \
--              (self.apt_get_cmd, self.apt_args, ' '.join(pkgs))
--
--        try:
--            bb.note("Installing the following packages: %s" % ' '.join(pkgs))
--            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError as e:
--            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
--                                              "Command '%s' returned %d:\n%s" %
--                                              (cmd, e.returncode, e.output.decode("utf-8")))
--
--        # rename *.dpkg-new files/dirs
--        for root, dirs, files in os.walk(self.target_rootfs):
--            for dir in dirs:
--                new_dir = re.sub(r"\.dpkg-new", "", dir)
--                if dir != new_dir:
--                    os.rename(os.path.join(root, dir),
--                              os.path.join(root, new_dir))
--
--            for file in files:
--                new_file = re.sub(r"\.dpkg-new", "", file)
--                if file != new_file:
--                    os.rename(os.path.join(root, file),
--                              os.path.join(root, new_file))
--
--
--    def remove(self, pkgs, with_dependencies=True):
--        if not pkgs:
--            return
--
--        if with_dependencies:
--            os.environ['APT_CONFIG'] = self.apt_conf_file
--            cmd = "%s purge %s" % (self.apt_get_cmd, ' '.join(pkgs))
--        else:
--            cmd = "%s --admindir=%s/var/lib/dpkg --instdir=%s" \
--                  " -P --force-depends %s" % \
--                  (bb.utils.which(os.getenv('PATH'), "dpkg"),
--                   self.target_rootfs, self.target_rootfs, ' '.join(pkgs))
--
--        try:
--            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Unable to remove packages. Command '%s' "
--                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
--
--    def write_index(self):
--        self.deploy_dir_lock()
--
--        result = self.indexer.write_index()
--
--        self.deploy_dir_unlock()
--
--        if result is not None:
--            bb.fatal(result)
--
--    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
--        if feed_uris == "":
--            return
--
--        sources_conf = os.path.join("%s/etc/apt/sources.list"
--                                    % self.target_rootfs)
--        arch_list = []
--
--        if feed_archs is None:
--            for arch in self.all_arch_list:
--                if not os.path.exists(os.path.join(self.deploy_dir, arch)):
--                    continue
--                arch_list.append(arch)
--        else:
--            arch_list = feed_archs.split()
--
--        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
--
--        with open(sources_conf, "w+") as sources_file:
--            for uri in feed_uris:
--                if arch_list:
--                    for arch in arch_list:
--                        bb.note('Adding dpkg channel at (%s)' % uri)
--                        sources_file.write("deb %s/%s ./\n" %
--                                           (uri, arch))
--                else:
--                    bb.note('Adding dpkg channel at (%s)' % uri)
--                    sources_file.write("deb %s ./\n" % uri)
--
--    def _create_configs(self, archs, base_archs):
--        base_archs = re.sub(r"_", r"-", base_archs)
--
--        if os.path.exists(self.apt_conf_dir):
--            bb.utils.remove(self.apt_conf_dir, True)
--
--        bb.utils.mkdirhier(self.apt_conf_dir)
--        bb.utils.mkdirhier(self.apt_conf_dir + "/lists/partial/")
--        bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
--        bb.utils.mkdirhier(self.apt_conf_dir + "/preferences.d/")
--
--        arch_list = []
--        for arch in self.all_arch_list:
--            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
--                continue
--            arch_list.append(arch)
--
--        with open(os.path.join(self.apt_conf_dir, "preferences"), "w+") as prefs_file:
--            priority = 801
--            for arch in arch_list:
--                prefs_file.write(
--                    "Package: *\n"
--                    "Pin: release l=%s\n"
--                    "Pin-Priority: %d\n\n" % (arch, priority))
--
--                priority += 5
--
--            pkg_exclude = self.d.getVar('PACKAGE_EXCLUDE') or ""
--            for pkg in pkg_exclude.split():
--                prefs_file.write(
--                    "Package: %s\n"
--                    "Pin: release *\n"
--                    "Pin-Priority: -1\n\n" % pkg)
--
--        arch_list.reverse()
--
--        with open(os.path.join(self.apt_conf_dir, "sources.list"), "w+") as sources_file:
--            for arch in arch_list:
--                sources_file.write("deb file:%s/ ./\n" %
--                                   os.path.join(self.deploy_dir, arch))
--
--        base_arch_list = base_archs.split()
--        multilib_variants = self.d.getVar("MULTILIB_VARIANTS");
--        for variant in multilib_variants.split():
--            localdata = bb.data.createCopy(self.d)
--            variant_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, False)
--            orig_arch = localdata.getVar("DPKG_ARCH")
--            localdata.setVar("DEFAULTTUNE", variant_tune)
--            variant_arch = localdata.getVar("DPKG_ARCH")
--            if variant_arch not in base_arch_list:
--                base_arch_list.append(variant_arch)
--
--        with open(self.apt_conf_file, "w+") as apt_conf:
--            with open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) as apt_conf_sample:
--                for line in apt_conf_sample.read().split("\n"):
--                    match_arch = re.match(r"  Architecture \".*\";$", line)
--                    architectures = ""
--                    if match_arch:
--                        for base_arch in base_arch_list:
--                            architectures += "\"%s\";" % base_arch
--                        apt_conf.write("  Architectures {%s};\n" % architectures);
--                        apt_conf.write("  Architecture \"%s\";\n" % base_archs)
--                    else:
--                        line = re.sub(r"#ROOTFS#", self.target_rootfs, line)
--                        line = re.sub(r"#APTCONF#", self.apt_conf_dir, line)
--                        apt_conf.write(line + "\n")
--
--        target_dpkg_dir = "%s/var/lib/dpkg" % self.target_rootfs
--        bb.utils.mkdirhier(os.path.join(target_dpkg_dir, "info"))
--
--        bb.utils.mkdirhier(os.path.join(target_dpkg_dir, "updates"))
--
--        if not os.path.exists(os.path.join(target_dpkg_dir, "status")):
--            open(os.path.join(target_dpkg_dir, "status"), "w+").close()
--        if not os.path.exists(os.path.join(target_dpkg_dir, "available")):
--            open(os.path.join(target_dpkg_dir, "available"), "w+").close()
--
--    def remove_packaging_data(self):
--        bb.utils.remove(self.target_rootfs + self.d.getVar('opkglibdir'), True)
--        bb.utils.remove(self.target_rootfs + "/var/lib/dpkg/", True)
--
--    def fix_broken_dependencies(self):
--        os.environ['APT_CONFIG'] = self.apt_conf_file
--
--        cmd = "%s %s --allow-unauthenticated -f install" % (self.apt_get_cmd, self.apt_args)
--
--        try:
--            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot fix broken dependencies. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
--
--    def list_installed(self):
--        return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
--
--    def package_info(self, pkg):
--        """
--        Returns a dictionary with the package info.
--        """
--        cmd = "%s show %s" % (self.apt_cache_cmd, pkg)
--        pkg_info = super(DpkgPM, self).package_info(pkg, cmd)
--
--        pkg_arch = pkg_info[pkg]["pkgarch"]
--        pkg_filename = pkg_info[pkg]["filename"]
--        pkg_info[pkg]["filepath"] = \
--                os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
--
--        return pkg_info
--
--    def extract(self, pkg):
--        """
--        Returns the path to a tmpdir where resides the contents of a package.
--
--        Deleting the tmpdir is responsability of the caller.
--        """
--        pkg_info = self.package_info(pkg)
--        if not pkg_info:
--            bb.fatal("Unable to get information for package '%s' while "
--                     "trying to extract the package."  % pkg)
--
--        tmp_dir = super(DpkgPM, self).extract(pkg, pkg_info)
--        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
--
--        return tmp_dir
--
- def generate_index_files(d):
-     classes = d.getVar('PACKAGE_CLASSES').replace("package_", "").split()
- 
 diff --git a/meta/lib/oe/package_managers/deb/package_manager.py b/meta/lib/oe/package_managers/deb/package_manager.py
-new file mode 100644
-index 0000000000..d3e384a757
---- /dev/null
+index 0ef8e91eea..f33390d1cb 100644
+--- a/meta/lib/oe/package_managers/deb/package_manager.py
 +++ b/meta/lib/oe/package_managers/deb/package_manager.py
-@@ -0,0 +1,402 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+from oe.package_manager import *
-+
-+class OpkgDpkgPM(PackageManager):
-+    def __init__(self, d, target_rootfs):
-+        """
-+        This is an abstract class. Do not instantiate this directly.
-+        """
-+        super(OpkgDpkgPM, self).__init__(d, target_rootfs)
-+
-+    def package_info(self, pkg, cmd):
-+        """
-+        Returns a dictionary with the package info.
-+
-+        This method extracts the common parts for Opkg and Dpkg
-+        """
-+
-+        try:
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to list available packages. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+        return opkg_query(output)
-+
-+    def extract(self, pkg, pkg_info):
-+        """
-+        Returns the path to a tmpdir where resides the contents of a package.
-+
-+        Deleting the tmpdir is responsability of the caller.
-+
-+        This method extracts the common parts for Opkg and Dpkg
-+        """
-+
-+        ar_cmd = bb.utils.which(os.getenv("PATH"), "ar")
-+        tar_cmd = bb.utils.which(os.getenv("PATH"), "tar")
-+        pkg_path = pkg_info[pkg]["filepath"]
-+
-+        if not os.path.isfile(pkg_path):
-+            bb.fatal("Unable to extract package for '%s'."
-+                     "File %s doesn't exists" % (pkg, pkg_path))
-+
-+        tmp_dir = tempfile.mkdtemp()
-+        current_dir = os.getcwd()
-+        os.chdir(tmp_dir)
-+        data_tar = 'data.tar.xz'
-+
-+        try:
-+            cmd = [ar_cmd, 'x', pkg_path]
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-+            cmd = [tar_cmd, 'xf', data_tar]
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s" % (pkg_path, ' '.join(cmd), e.returncode, e.output.decode("utf-8")))
-+        except OSError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s at %s" % (pkg_path, ' '.join(cmd), e.errno, e.strerror, e.filename))
-+
-+        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
-+        bb.utils.remove(os.path.join(tmp_dir, "debian-binary"))
-+        bb.utils.remove(os.path.join(tmp_dir, "control.tar.gz"))
-+        os.chdir(current_dir)
-+
-+        return tmp_dir
-+
-+    def _handle_intercept_failure(self, registered_pkgs):
-+        self.mark_packages("unpacked", registered_pkgs.split())
-+
-+class DpkgPM(OpkgDpkgPM):
-+    def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None, deb_repo_workdir="oe-rootfs-repo", filterbydependencies=True):
-+        super(DpkgPM, self).__init__(d, target_rootfs)
-+        self.deploy_dir = oe.path.join(self.d.getVar('WORKDIR'), deb_repo_workdir)
-+
-+        create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_DEB"), "package_write_deb", filterbydependencies)
-+
-+        if apt_conf_dir is None:
-+            self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
-+        else:
-+            self.apt_conf_dir = apt_conf_dir
-+        self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
-+        self.apt_get_cmd = bb.utils.which(os.getenv('PATH'), "apt-get")
-+        self.apt_cache_cmd = bb.utils.which(os.getenv('PATH'), "apt-cache")
-+
-+        self.apt_args = d.getVar("APT_ARGS")
-+
-+        self.all_arch_list = archs.split()
-+        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS') or "").split()
-+        self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
-+
-+        self._create_configs(archs, base_archs)
-+
-+        self.indexer = DpkgIndexer(self.d, self.deploy_dir)
-+
-+    def mark_packages(self, status_tag, packages=None):
-+        """
-+        This function will change a package's status in /var/lib/dpkg/status file.
-+        If 'packages' is None then the new_status will be applied to all
-+        packages
-+        """
-+        status_file = self.target_rootfs + "/var/lib/dpkg/status"
-+
-+        with open(status_file, "r") as sf:
-+            with open(status_file + ".tmp", "w+") as tmp_sf:
-+                if packages is None:
-+                    tmp_sf.write(re.sub(r"Package: (.*?)\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)",
-+                                        r"Package: \1\n\2Status: \3%s" % status_tag,
-+                                        sf.read()))
-+                else:
-+                    if type(packages).__name__ != "list":
-+                        raise TypeError("'packages' should be a list object")
-+
-+                    status = sf.read()
-+                    for pkg in packages:
-+                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
-+                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
-+                                        status)
-+
-+                    tmp_sf.write(status)
-+
-+        os.rename(status_file + ".tmp", status_file)
-+
-+    def run_pre_post_installs(self, package_name=None):
-+        """
-+        Run the pre/post installs for package "package_name". If package_name is
-+        None, then run all pre/post install scriptlets.
-+        """
-+        info_dir = self.target_rootfs + "/var/lib/dpkg/info"
-+        ControlScript = collections.namedtuple("ControlScript", ["suffix", "name", "argument"])
-+        control_scripts = [
-+                ControlScript(".preinst", "Preinstall", "install"),
-+                ControlScript(".postinst", "Postinstall", "configure")]
-+        status_file = self.target_rootfs + "/var/lib/dpkg/status"
-+        installed_pkgs = []
-+
-+        with open(status_file, "r") as status:
-+            for line in status.read().split('\n'):
-+                m = re.match(r"^Package: (.*)", line)
-+                if m is not None:
-+                    installed_pkgs.append(m.group(1))
-+
-+        if package_name is not None and not package_name in installed_pkgs:
-+            return
-+
-+        os.environ['D'] = self.target_rootfs
-+        os.environ['OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-+        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
-+
-+        for pkg_name in installed_pkgs:
-+            for control_script in control_scripts:
-+                p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
-+                if os.path.exists(p_full):
-+                    try:
-+                        bb.note("Executing %s for package: %s ..." %
-+                                 (control_script.name.lower(), pkg_name))
-+                        output = subprocess.check_output([p_full, control_script.argument],
-+                                stderr=subprocess.STDOUT).decode("utf-8")
-+                        bb.note(output)
-+                    except subprocess.CalledProcessError as e:
-+                        bb.warn("%s for package %s failed with %d:\n%s" %
-+                                (control_script.name, pkg_name, e.returncode,
-+                                    e.output.decode("utf-8")))
-+                        failed_postinsts_abort([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
-+
-+    def update(self):
-+        os.environ['APT_CONFIG'] = self.apt_conf_file
-+
-+        self.deploy_dir_lock()
-+
-+        cmd = "%s update" % self.apt_get_cmd
-+
-+        try:
-+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to update the package index files. Command '%s' "
-+                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
-+
-+        self.deploy_dir_unlock()
-+
-+    def install(self, pkgs, attempt_only=False):
-+        if attempt_only and len(pkgs) == 0:
-+            return
-+
-+        os.environ['APT_CONFIG'] = self.apt_conf_file
-+
-+        cmd = "%s %s install --force-yes --allow-unauthenticated --no-remove %s" % \
-+              (self.apt_get_cmd, self.apt_args, ' '.join(pkgs))
-+
-+        try:
-+            bb.note("Installing the following packages: %s" % ' '.join(pkgs))
-+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
-+                                              "Command '%s' returned %d:\n%s" %
-+                                              (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+        # rename *.dpkg-new files/dirs
-+        for root, dirs, files in os.walk(self.target_rootfs):
-+            for dir in dirs:
-+                new_dir = re.sub(r"\.dpkg-new", "", dir)
-+                if dir != new_dir:
-+                    os.rename(os.path.join(root, dir),
-+                              os.path.join(root, new_dir))
-+
-+            for file in files:
-+                new_file = re.sub(r"\.dpkg-new", "", file)
-+                if file != new_file:
-+                    os.rename(os.path.join(root, file),
-+                              os.path.join(root, new_file))
-+
-+
-+    def remove(self, pkgs, with_dependencies=True):
-+        if not pkgs:
-+            return
-+
-+        if with_dependencies:
-+            os.environ['APT_CONFIG'] = self.apt_conf_file
-+            cmd = "%s purge %s" % (self.apt_get_cmd, ' '.join(pkgs))
-+        else:
-+            cmd = "%s --admindir=%s/var/lib/dpkg --instdir=%s" \
-+                  " -P --force-depends %s" % \
-+                  (bb.utils.which(os.getenv('PATH'), "dpkg"),
-+                   self.target_rootfs, self.target_rootfs, ' '.join(pkgs))
-+
-+        try:
-+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to remove packages. Command '%s' "
-+                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
-+
-+    def write_index(self):
-+        self.deploy_dir_lock()
-+
-+        result = self.indexer.write_index()
-+
-+        self.deploy_dir_unlock()
-+
-+        if result is not None:
-+            bb.fatal(result)
-+
-+    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
-+        if feed_uris == "":
-+            return
-+
-+        sources_conf = os.path.join("%s/etc/apt/sources.list"
-+                                    % self.target_rootfs)
-+        arch_list = []
-+
-+        if feed_archs is None:
-+            for arch in self.all_arch_list:
-+                if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-+                    continue
-+                arch_list.append(arch)
-+        else:
-+            arch_list = feed_archs.split()
-+
-+        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
-+
-+        with open(sources_conf, "w+") as sources_file:
-+            for uri in feed_uris:
-+                if arch_list:
-+                    for arch in arch_list:
-+                        bb.note('Adding dpkg channel at (%s)' % uri)
-+                        sources_file.write("deb %s/%s ./\n" %
-+                                           (uri, arch))
-+                else:
-+                    bb.note('Adding dpkg channel at (%s)' % uri)
-+                    sources_file.write("deb %s ./\n" % uri)
-+
-+    def _create_configs(self, archs, base_archs):
-+        base_archs = re.sub(r"_", r"-", base_archs)
-+
-+        if os.path.exists(self.apt_conf_dir):
-+            bb.utils.remove(self.apt_conf_dir, True)
-+
-+        bb.utils.mkdirhier(self.apt_conf_dir)
-+        bb.utils.mkdirhier(self.apt_conf_dir + "/lists/partial/")
-+        bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
-+        bb.utils.mkdirhier(self.apt_conf_dir + "/preferences.d/")
-+
-+        arch_list = []
-+        for arch in self.all_arch_list:
-+            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-+                continue
-+            arch_list.append(arch)
-+
-+        with open(os.path.join(self.apt_conf_dir, "preferences"), "w+") as prefs_file:
-+            priority = 801
-+            for arch in arch_list:
-+                prefs_file.write(
-+                    "Package: *\n"
-+                    "Pin: release l=%s\n"
-+                    "Pin-Priority: %d\n\n" % (arch, priority))
-+
-+                priority += 5
-+
-+            pkg_exclude = self.d.getVar('PACKAGE_EXCLUDE') or ""
-+            for pkg in pkg_exclude.split():
-+                prefs_file.write(
-+                    "Package: %s\n"
-+                    "Pin: release *\n"
-+                    "Pin-Priority: -1\n\n" % pkg)
-+
-+        arch_list.reverse()
-+
-+        with open(os.path.join(self.apt_conf_dir, "sources.list"), "w+") as sources_file:
-+            for arch in arch_list:
-+                sources_file.write("deb file:%s/ ./\n" %
-+                                   os.path.join(self.deploy_dir, arch))
-+
-+        base_arch_list = base_archs.split()
-+        multilib_variants = self.d.getVar("MULTILIB_VARIANTS");
-+        for variant in multilib_variants.split():
-+            localdata = bb.data.createCopy(self.d)
-+            variant_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, False)
-+            orig_arch = localdata.getVar("DPKG_ARCH")
-+            localdata.setVar("DEFAULTTUNE", variant_tune)
-+            variant_arch = localdata.getVar("DPKG_ARCH")
-+            if variant_arch not in base_arch_list:
-+                base_arch_list.append(variant_arch)
-+
-+        with open(self.apt_conf_file, "w+") as apt_conf:
-+            with open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) as apt_conf_sample:
-+                for line in apt_conf_sample.read().split("\n"):
-+                    match_arch = re.match(r"  Architecture \".*\";$", line)
-+                    architectures = ""
-+                    if match_arch:
-+                        for base_arch in base_arch_list:
-+                            architectures += "\"%s\";" % base_arch
-+                        apt_conf.write("  Architectures {%s};\n" % architectures);
-+                        apt_conf.write("  Architecture \"%s\";\n" % base_archs)
-+                    else:
-+                        line = re.sub(r"#ROOTFS#", self.target_rootfs, line)
-+                        line = re.sub(r"#APTCONF#", self.apt_conf_dir, line)
-+                        apt_conf.write(line + "\n")
-+
-+        target_dpkg_dir = "%s/var/lib/dpkg" % self.target_rootfs
-+        bb.utils.mkdirhier(os.path.join(target_dpkg_dir, "info"))
-+
-+        bb.utils.mkdirhier(os.path.join(target_dpkg_dir, "updates"))
-+
-+        if not os.path.exists(os.path.join(target_dpkg_dir, "status")):
-+            open(os.path.join(target_dpkg_dir, "status"), "w+").close()
-+        if not os.path.exists(os.path.join(target_dpkg_dir, "available")):
-+            open(os.path.join(target_dpkg_dir, "available"), "w+").close()
-+
-+    def remove_packaging_data(self):
-+        bb.utils.remove(self.target_rootfs + self.d.getVar('opkglibdir'), True)
-+        bb.utils.remove(self.target_rootfs + "/var/lib/dpkg/", True)
-+
-+    def fix_broken_dependencies(self):
-+        os.environ['APT_CONFIG'] = self.apt_conf_file
-+
-+        cmd = "%s %s --allow-unauthenticated -f install" % (self.apt_get_cmd, self.apt_args)
-+
-+        try:
-+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Cannot fix broken dependencies. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+    def list_installed(self):
-+        return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
-+
-+    def package_info(self, pkg):
-+        """
-+        Returns a dictionary with the package info.
-+        """
-+        cmd = "%s show %s" % (self.apt_cache_cmd, pkg)
-+        pkg_info = super(DpkgPM, self).package_info(pkg, cmd)
-+
-+        pkg_arch = pkg_info[pkg]["pkgarch"]
-+        pkg_filename = pkg_info[pkg]["filename"]
-+        pkg_info[pkg]["filepath"] = \
-+                os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
-+
-+        return pkg_info
-+
-+    def extract(self, pkg):
-+        """
-+        Returns the path to a tmpdir where resides the contents of a package.
-+
-+        Deleting the tmpdir is responsability of the caller.
-+        """
-+        pkg_info = self.package_info(pkg)
-+        if not pkg_info:
-+            bb.fatal("Unable to get information for package '%s' while "
-+                     "trying to extract the package."  % pkg)
-+
-+        tmp_dir = super(DpkgPM, self).extract(pkg, pkg_info)
-+        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
-+
-+        return tmp_dir
-+
-+
-diff --git a/meta/lib/oe/package_managers/deb/rootfs.py b/meta/lib/oe/package_managers/deb/rootfs.py
-index ec9821e455..30872aa25e 100644
---- a/meta/lib/oe/package_managers/deb/rootfs.py
-+++ b/meta/lib/oe/package_managers/deb/rootfs.py
-@@ -127,6 +127,7 @@ class PkgRootfs(DpkgOpkgRootfs):
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
-         import importlib
-         self.manifest = importlib.import_module('oe.package_managers.deb.manifest').PkgManifest(d, manifest_dir)
-+        from oe.package_managers.deb.package_manager import DpkgPM
-         self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
-                          d.getVar('PACKAGE_ARCHS'),
-                          d.getVar('DPKG_ARCH'))
+@@ -367,7 +367,7 @@ class PkgPM(OpkgDpkgPM):
+                      "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
+ 
+     def list_installed(self):
+-        return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
++        return PkgsList(self.d, self.target_rootfs).list_pkgs()
+ 
+     def package_info(self, pkg):
+         """
+@@ -538,7 +538,7 @@ def opkg_query(cmd_output):
+ 
+     return output
+ 
+-class DpkgPkgsList(PkgsList):
++class PkgsList(PkgsList):
+ 
+     def list_pkgs(self):
+         cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
+diff --git a/meta/lib/oe/package_managers/ipk/package_manager.py b/meta/lib/oe/package_managers/ipk/package_manager.py
+index 8e47003c93..e46b14ab31 100644
+--- a/meta/lib/oe/package_managers/ipk/package_manager.py
++++ b/meta/lib/oe/package_managers/ipk/package_manager.py
+@@ -333,7 +333,7 @@ class PkgPM(OpkgDpkgPM):
+             bb.utils.remove(os.path.join(self.opkg_dir, "lists"), True)
+ 
+     def list_installed(self):
+-        return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
++        return PkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
+ 
+     def dummy_install(self, pkgs):
+         """
+@@ -539,10 +539,12 @@ def opkg_query(cmd_output):
+ 
+     return output
+ 
+-class OpkgPkgsList(PkgsList):
+-    def __init__(self, d, rootfs_dir, config_file):
+-        super(OpkgPkgsList, self).__init__(d, rootfs_dir)
+-
++class PkgsList(PkgsList):
++    def __init__(self, d, rootfs_dir, config_file = ""):
++        super(PkgsList, self).__init__(d, rootfs_dir)
++        
++        if config_file == "":
++            config_file = self.d.getVar('IPKGCONF_TARGET')
+         self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
+         self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
+         self.opkg_args += self.d.getVar("OPKG_ARGS")
+diff --git a/meta/lib/oe/package_managers/rpm/package_manager.py b/meta/lib/oe/package_managers/rpm/package_manager.py
+index 57a5c9ec38..06b1921676 100644
+--- a/meta/lib/oe/package_managers/rpm/package_manager.py
++++ b/meta/lib/oe/package_managers/rpm/package_manager.py
+@@ -400,7 +400,7 @@ class PkgIndexer(RpmIndexer):
+                         self.do_write_index(dir_path)
+ 
+ 
+-class RpmPkgsList(PkgsList):
++class PkgsList(PkgsList):
+     def list_pkgs(self):
+         return PkgPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index b71c93cf54..1f56225a18 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -370,16 +370,8 @@ def image_list_installed_packages(d, rootfs_dir=None):
+     if not rootfs_dir:
+         rootfs_dir = d.getVar('IMAGE_ROOTFS')
+ 
+-    img_type = d.getVar('IMAGE_PKGTYPE')
+-    from oe.package_managers.rpm.package_manager import RpmPkgsList
+-    from oe.package_managers.ipk.package_manager import OpkgPkgsList
+-    from oe.package_managers.deb.package_manager import DpkgPkgsList
+-    if img_type == "rpm":
+-        return RpmPkgsList(d, rootfs_dir).list_pkgs()
+-    elif img_type == "ipk":
+-        return OpkgPkgsList(d, rootfs_dir, d.getVar("IPKGCONF_TARGET")).list_pkgs()
+-    elif img_type == "deb":
+-        return DpkgPkgsList(d, rootfs_dir).list_pkgs()
++    import importlib
++    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.package_manager').PkgsList(d, rootfs_dir).list_pkgs()
+ 
+ if __name__ == "__main__":
+     """
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index 1fac0bed5b..7b17afde78 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -116,19 +116,8 @@ def sdk_list_installed_packages(d, target, rootfs_dir=None):
+ 
+         rootfs_dir = [sdk_output, os.path.join(sdk_output, target_path)][target is True]
+ 
+-    from oe.package_managers.rpm.package_manager import RpmPkgsList
+-    from oe.package_managers.ipk.package_manager import OpkgPkgsList
+-    from oe.package_managers.deb.package_manager import DpkgPkgsList
+-    img_type = d.getVar('IMAGE_PKGTYPE')
+-    if img_type == "rpm":
+-        arch_var = ["SDK_PACKAGE_ARCHS", None][target is True]
+-        os_var = ["SDK_OS", None][target is True]
+-        return RpmPkgsList(d, rootfs_dir).list_pkgs()
+-    elif img_type == "ipk":
+-        conf_file_var = ["IPKGCONF_SDK", "IPKGCONF_TARGET"][target is True]
+-        return OpkgPkgsList(d, rootfs_dir, d.getVar(conf_file_var)).list_pkgs()
+-    elif img_type == "deb":
+-        return DpkgPkgsList(d, rootfs_dir).list_pkgs()
++    import importlib
++    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.package_manager').PkgsList(d, rootfs_dir).list_pkgs()
+ 
+ def populate_sdk(d, manifest_dir=None):
+     env_bkp = os.environ.copy()
 -- 
 2.20.1
 
