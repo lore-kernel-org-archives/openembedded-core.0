@@ -1,37 +1,37 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.7471.1593080525989600401
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.7634.1593080526167583199
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2020 03:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=M5FWirLv;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ft1Fk6he;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=3379; q=dns/txt; s=axis-central1;
+  d=axis.com; l=1325; q=dns/txt; s=axis-central1;
   t=1593080526; x=1624616526;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3qVa+jvWRPz6RIvLGOLyi+Lemg+lq47PdGjK1bA5XwQ=;
-  b=M5FWirLvq7NFvaAoGezb4TQBwIVQI0rOxHOT2kb+GWX4AaU4EEte6VRH
-   gEL9bvJHTvUvJgcInAbPHduV0/M4flhUcnsUhQMhydOkTlafDQ/ihulf2
-   MIw/eksYNeEKEv8/I16M3p7xddXcP8K95aerzmr06uu46Ca7Rt+fcHXFS
-   mpBNSg4vZ/UZp9KtrMyO6Whb9icj5vBIxKuj1oh4eFY4zrBsKJJJ3xzft
-   B8/9LNlxl2VmtdV071aTc0WkkvQ1RhDKspqgLdC5CSRj771z2h19XjzRj
-   O9ZMS+boTlXL2UNX+iuwXeEptN2CQ9Yhh4PcT2oRNs8b+LpTIeJf0VgsD
-   A==;
-IronPort-SDR: Wk0Mf771oJy/TvasVNIuOw0lqymX2QlLIfMCpnN3/v65wRktk0+xwf+Rbl0dXlEHIJ9Q7guLDB
- yqOp6z8hK+EjpWRS6LeUrEJrpt2andG6/SfoXVY1fJrtSHv0c5WEFiWDHy61Bmb/0Y2ZGNFJh6
- QypjpZp1MyDweqJemVecB+DYAYeiaMQW6cgDvgCWL27rZTqJ7KJDdaFIHklE9NOI3U7AOyGDrd
- Gcf8/sgXxCE1fTFGjPH/dDFG84YaMPUeh81weBJQhOxts2UW1KCjcG9iKi4p1AzCIW0h3jPssC
- kFk=
+  bh=EpYVmKIwRkqe9/GtLeZRPanOfkU9AWfxlK1ni/FVaws=;
+  b=ft1Fk6hePdwq9J047cC7QAuwOA/cW/G7jHe77nTEL4uDBamJ+nhQSjsG
+   pfqx/2oZBGvQ7HsxbVJe5xCSaWf2//watEWep42CEtJpr9dxSVbiIe+z/
+   YUq17yikHdmSS/zz9q6NukSoOHcOqj5SKcujNiTrozxXKBvWRAfWkx+DA
+   xByO2OkxSYJbuC9AENFY157YqsYvE/BfKOJCRZPGHxyypIWoYt01IUlPN
+   hPmRA2WD6YyF2fhnfNWDarq8IQvU+EH2cjnu48wMDqoJ6GdDLzV0A45Qw
+   yDwhBiApHEKkGEz4wjI6F2gyD8DtsHtUFUcIdftwdKgFIB/ZQsJGIIwzs
+   w==;
+IronPort-SDR: OWF/YGHGWDacM3l+MGcRpEt2wJdUiZr4qvGN/FJQ2C12Vf0yv1IvzdrKfIlLYjJ8aJSziYoZrO
+ jl8VyoP+Op3p5HqYjdQQPll7Kqr/Ak6eIaAWpban/CnvG9MjF/fAgWbqPt/jfIwixzVru0ahpK
+ o+UeSiFxw+e8B4+2D/U0MSjLtYhr7kiOlyNfMJzX9jaz0ylsBRJjTcTzguu+14uNx9PTOBzce8
+ R9Svd6XFbyI1o/0b4BcXMJ3IQHa+cvLrCWPJEoHlXfCw/IJn5VBdSaNs4MsWZxDJVn3Js4F77R
+ 3II=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185330"
+   d="scan'208";a="9893879"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 04/26] manifest: Move DpkgManifest
-Date: Thu, 25 Jun 2020 12:21:23 +0200
-Message-ID: <20200625102145.7139-5-fredrigu@axis.com>
+Subject: [PATCH v2 01/26] nopackages.bbclass: Get tasks from variable
+Date: Thu, 25 Jun 2020 12:21:20 +0200
+Message-ID: <20200625102145.7139-2-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,112 +40,39 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the manifest only used by the dpkg package manager live in the dpkg
-directory.
+Get tasks from a variable instead of having them hardcoded. This will
+enable other layers to add tasks that should be deleted when nopackages
+is used.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/manifest.py                      | 23 +----------------
- meta/lib/oe/package_managers/deb/manifest.py | 27 ++++++++++++++++++++
- meta/lib/oe/rootfs.py                        |  1 +
- meta/lib/oe/sdk.py                           |  1 +
- 4 files changed, 30 insertions(+), 22 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/deb/manifest.py
+ meta/classes/nopackages.bbclass | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index cf2cbe22eb..db71766bb6 100644
---- a/meta/lib/oe/manifest.py
-+++ b/meta/lib/oe/manifest.py
-@@ -258,31 +258,10 @@ class OpkgManifest(Manifest):
-         return
- 
- 
--class DpkgManifest(Manifest):
--    def create_initial(self):
--        with open(self.initial_manifest, "w+") as manifest:
--            manifest.write(self.initial_manifest_file_header)
--
--            for var in self.var_maps[self.manifest_type]:
--                pkg_list = self.d.getVar(var)
--
--                if pkg_list is None:
--                    continue
--
--                for pkg in pkg_list.split():
--                    manifest.write("%s,%s\n" %
--                                   (self.var_maps[self.manifest_type][var], pkg))
--
--    def create_final(self):
--        pass
--
--    def create_full(self, pm):
--        pass
--
--
- def create_manifest(d, final_manifest=False, manifest_dir=None,
-                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
-     from oe.package_managers.rpm.manifest import RpmManifest
-+    from oe.package_managers.deb.manifest import DpkgManifest
-     manifest_map = {'rpm': RpmManifest,
-                     'ipk': OpkgManifest,
-                     'deb': DpkgManifest}
-diff --git a/meta/lib/oe/package_managers/deb/manifest.py b/meta/lib/oe/package_managers/deb/manifest.py
-new file mode 100644
-index 0000000000..9b186555dc
---- /dev/null
-+++ b/meta/lib/oe/package_managers/deb/manifest.py
-@@ -0,0 +1,27 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f5078bd..f36666ef5f 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -1,12 +1,7 @@
+-deltask do_package
+-deltask do_package_write_rpm
+-deltask do_package_write_ipk
+-deltask do_package_write_deb
+-deltask do_package_qa
+-deltask do_packagedata
+-deltask do_package_setscene
+-deltask do_package_write_rpm_setscene
+-deltask do_package_write_ipk_setscene
+-deltask do_package_write_deb_setscene
+-deltask do_package_qa_setscene
+-deltask do_packagedata_setscene
++NO_PACKAGES += "do_package do_package_write_rpm do_package_write_ipk do_package_write_deb do_package_qa do_packagedata do_package_setscene do_package_write_rpm_setscene do_package_write_ipk_setscene do_package_write_deb_setscene do_package_qa_setscene do_packagedata_setscene"
 +
-+from oe.manifest import *
-+
-+class DpkgManifest(Manifest):
-+    def create_initial(self):
-+        with open(self.initial_manifest, "w+") as manifest:
-+            manifest.write(self.initial_manifest_file_header)
-+
-+            for var in self.var_maps[self.manifest_type]:
-+                pkg_list = self.d.getVar(var)
-+
-+                if pkg_list is None:
-+                    continue
-+
-+                for pkg in pkg_list.split():
-+                    manifest.write("%s,%s\n" %
-+                                   (self.var_maps[self.manifest_type][var], pkg))
-+
-+    def create_final(self):
-+        pass
-+
-+    def create_full(self, pm):
-+        pass
-+
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index e920f944c4..7ff9b4e171 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -614,6 +614,7 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
-         bb.utils.remove(self.image_rootfs, True)
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
-+        from oe.package_managers.deb.manifest import DpkgManifest
-         self.manifest = DpkgManifest(d, manifest_dir)
-         self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
-                          d.getVar('PACKAGE_ARCHS'),
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index d543a2a92d..2ee46fe9cc 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -309,6 +309,7 @@ class DpkgSdk(Sdk):
-         self.target_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt")
-         self.host_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt-sdk")
- 
-+        from oe.package_managers.deb.manifest import DpkgManifest
-         self.target_manifest = DpkgManifest(d, self.manifest_dir,
-                                             Manifest.MANIFEST_TYPE_SDK_TARGET)
-         self.host_manifest = DpkgManifest(d, self.manifest_dir,
++python () {
++    list = d.getVar("NO_PACKAGES").split()
++    for task in list:
++        bb.build.deltask(task, d)
++}
 -- 
 2.20.1
 
