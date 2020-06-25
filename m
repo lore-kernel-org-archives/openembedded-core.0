@@ -1,37 +1,37 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+Received: from smtp2.axis.com (smtp2.axis.com [])
  by mx.groups.io with SMTP id smtpd.web10.7634.1593080526167583199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 03:22:06 -0700
+ Thu, 25 Jun 2020 03:22:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ft1Fk6he;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=pFFiHaLE;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1325; q=dns/txt; s=axis-central1;
-  t=1593080526; x=1624616526;
+  d=axis.com; l=1504; q=dns/txt; s=axis-central1;
+  t=1593080527; x=1624616527;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=EpYVmKIwRkqe9/GtLeZRPanOfkU9AWfxlK1ni/FVaws=;
-  b=ft1Fk6hePdwq9J047cC7QAuwOA/cW/G7jHe77nTEL4uDBamJ+nhQSjsG
-   pfqx/2oZBGvQ7HsxbVJe5xCSaWf2//watEWep42CEtJpr9dxSVbiIe+z/
-   YUq17yikHdmSS/zz9q6NukSoOHcOqj5SKcujNiTrozxXKBvWRAfWkx+DA
-   xByO2OkxSYJbuC9AENFY157YqsYvE/BfKOJCRZPGHxyypIWoYt01IUlPN
-   hPmRA2WD6YyF2fhnfNWDarq8IQvU+EH2cjnu48wMDqoJ6GdDLzV0A45Qw
-   yDwhBiApHEKkGEz4wjI6F2gyD8DtsHtUFUcIdftwdKgFIB/ZQsJGIIwzs
-   w==;
-IronPort-SDR: OWF/YGHGWDacM3l+MGcRpEt2wJdUiZr4qvGN/FJQ2C12Vf0yv1IvzdrKfIlLYjJ8aJSziYoZrO
- jl8VyoP+Op3p5HqYjdQQPll7Kqr/Ak6eIaAWpban/CnvG9MjF/fAgWbqPt/jfIwixzVru0ahpK
- o+UeSiFxw+e8B4+2D/U0MSjLtYhr7kiOlyNfMJzX9jaz0ylsBRJjTcTzguu+14uNx9PTOBzce8
- R9Svd6XFbyI1o/0b4BcXMJ3IQHa+cvLrCWPJEoHlXfCw/IJn5VBdSaNs4MsWZxDJVn3Js4F77R
- 3II=
+  bh=JbRa2CRc83KeHuV7sbmaMNyguhagWKG9W6INagzJRtc=;
+  b=pFFiHaLEDpKUycRBezTQ/8PVNtWh/pPeyA4DFhG37A2VSJydVRn43EX9
+   nQtHr6ZInwfNHk05d9ELw7rOeIuNCQS7u4itlroF5EY4ZhbumlLiqAANG
+   7z8HMO/beRL56lNDLATD87/WTGy3qjwp86entFnHyVwbmrp9dUPD/6ySb
+   8Vy354htuVUTCCD7xFtDKtF0ztiU6bCmcvtwxCoEoNlTqea49C9FpTy+T
+   zzd4Aeje8I0GpNH2/gwm/IDh5C/NRNFLIjyPR0R60k/Ut1OQcwHsjZLQY
+   V91BFZq0Rr/4AGM3ENgrvkC7IQIUA6Y6U/hpxzbqoQ7HnQQDE+G9dCR/J
+   Q==;
+IronPort-SDR: uOOuJuAaFkXrpbASTSwToN0ecpxNP+JgHM9GRNuRQAQJ38ESVEO8oBiaIMyfV7mOgyzmHJ+IbB
+ X4/7hI2YxuLrLjQvMrs741vosVQBnJ90oPuvLevs15LdDD/hfgjk6yse9cii5lb5wsNicRDrb1
+ 7DwUqZhWJlaR6qznAfcJJQ49FcbBP6l7V8d2p61UwBoifpvvqpyRVHCfWbuKMVhWphSt/WwLdT
+ WK3bgKb7/Tp0k6ZtSrCe/C6eahQ26tV6Z3sE30bMsqp4fie50yNxASTEvTEwsMr4rclWU6F791
+ 4vU=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="9893879"
+   d="scan'208";a="9893880"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 01/26] nopackages.bbclass: Get tasks from variable
-Date: Thu, 25 Jun 2020 12:21:20 +0200
-Message-ID: <20200625102145.7139-2-fredrigu@axis.com>
+Subject: [PATCH v2 02/26] package_managers: Add directory structure
+Date: Thu, 25 Jun 2020 12:21:21 +0200
+Message-ID: <20200625102145.7139-3-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,39 +40,47 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Get tasks from a variable instead of having them hardcoded. This will
-enable other layers to add tasks that should be deleted when nopackages
-is used.
+This is first part of a refactoring to split up the package managers to
+different files making it easier to extend OE-Core with more package
+managers.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/classes/nopackages.bbclass | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ meta/lib/oe/package_managers/deb/__init__.py | 3 +++
+ meta/lib/oe/package_managers/ipk/__init__.py | 3 +++
+ meta/lib/oe/package_managers/rpm/__init__.py | 3 +++
+ 3 files changed, 9 insertions(+)
+ create mode 100644 meta/lib/oe/package_managers/deb/__init__.py
+ create mode 100644 meta/lib/oe/package_managers/ipk/__init__.py
+ create mode 100644 meta/lib/oe/package_managers/rpm/__init__.py
 
-diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
-index 559f5078bd..f36666ef5f 100644
---- a/meta/classes/nopackages.bbclass
-+++ b/meta/classes/nopackages.bbclass
-@@ -1,12 +1,7 @@
--deltask do_package
--deltask do_package_write_rpm
--deltask do_package_write_ipk
--deltask do_package_write_deb
--deltask do_package_qa
--deltask do_packagedata
--deltask do_package_setscene
--deltask do_package_write_rpm_setscene
--deltask do_package_write_ipk_setscene
--deltask do_package_write_deb_setscene
--deltask do_package_qa_setscene
--deltask do_packagedata_setscene
-+NO_PACKAGES += "do_package do_package_write_rpm do_package_write_ipk do_package_write_deb do_package_qa do_packagedata do_package_setscene do_package_write_rpm_setscene do_package_write_ipk_setscene do_package_write_deb_setscene do_package_qa_setscene do_packagedata_setscene"
-+
-+python () {
-+    list = d.getVar("NO_PACKAGES").split()
-+    for task in list:
-+        bb.build.deltask(task, d)
-+}
+diff --git a/meta/lib/oe/package_managers/deb/__init__.py b/meta/lib/oe/package_managers/deb/__init__.py
+new file mode 100644
+index 0000000000..a2094304c9
+--- /dev/null
++++ b/meta/lib/oe/package_managers/deb/__init__.py
+@@ -0,0 +1,3 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
+diff --git a/meta/lib/oe/package_managers/ipk/__init__.py b/meta/lib/oe/package_managers/ipk/__init__.py
+new file mode 100644
+index 0000000000..a2094304c9
+--- /dev/null
++++ b/meta/lib/oe/package_managers/ipk/__init__.py
+@@ -0,0 +1,3 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
+diff --git a/meta/lib/oe/package_managers/rpm/__init__.py b/meta/lib/oe/package_managers/rpm/__init__.py
+new file mode 100644
+index 0000000000..a2094304c9
+--- /dev/null
++++ b/meta/lib/oe/package_managers/rpm/__init__.py
+@@ -0,0 +1,3 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
 -- 
 2.20.1
 
