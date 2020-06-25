@@ -1,269 +1,106 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web10.127.1593102229827835888
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web12.277.1593103416464814745
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 09:23:50 -0700
+ Thu, 25 Jun 2020 09:43:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LeEd9e1a;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.65, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f65.google.com with SMTP id ga4so6510723ejb.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 09:23:49 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=IzRgjwNN;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.45, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f45.google.com with SMTP id t11so1040821qvk.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 09:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YSYUhdDOouIq4kJZQL+1/j4WSAv5VU9jcjlBrfvm+rQ=;
-        b=LeEd9e1aKaWbmOaNARW0RqKHb3vdb4Dfp6GUVUynOatuXMGnS5syigDclMa8wKgxkv
-         m5kIarSF5TfweTR9QF8eucrZbyCFtRnSvTaTGwzDXr1nPzwy6QqvIvlORHoo4fFJ1IgS
-         PGfbRfg0xJitcrcOZkLHTiqKtDWWT6o/aSyiC7UPjFakWUh5002eDlPPrEdTGvHrOq3k
-         dcp84wLS+mmjR5kltd0JfmQbo7K6wrS6ZcSAOkPnsh53m/YzW/1/w77i39/hlDZbUsYs
-         YXLU1ult+nc9kIqc7qcrEZZUBA1AIgvHnC/A6fjKQDHuhIgh+j0Ms1hI8H4JSbdYI8gI
-         X/Dw==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zhJ4Lw5Oegc42LYQY22B9LaZbyjkS+s8OMVpau+Q/Uo=;
+        b=IzRgjwNNUA+zMaMLGno0PYME9EGwnR1UJMs41Vjg03gi+IqK8QtXatWItHGvd/q453
+         XaUaw6Myxum958pnAw653eEf32efxucqlNZgsg8BOPkXs7mzrO6ghEEzw7RPhDQrSLZ5
+         9+c+sc2r6MMuR3I+RzqNtNQV54saVHpQ/ejbs2T42LvDwkzr5ldCnhxnDMuOR/9+Fhzl
+         wX7t6m1lbWiM/y0dN2Ndh97oktkzQZXKVXn9S3NUuxNbTtcGObLG/cWPmieCoUAYzAZZ
+         mpXqzPuh1nLaU/qWKNqE2NJNPVgrxYwnhdWbP0LE1UnmxQBHdL3WrHgsRVk4wa9sPAcH
+         IZyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YSYUhdDOouIq4kJZQL+1/j4WSAv5VU9jcjlBrfvm+rQ=;
-        b=R3bdNeS9uEDWRaBTkIjNC2evmbkTYyuDlUzyvZ182NRzqeenCT0tuXksMvEeLDK43R
-         /kafvdMxH21kYOqyQTGPEe1Ps0BfoeZJsTzCyOMqPU+6IXc1FEEG2bun18EuEB8Ekwjo
-         FZlerJ8WnbcccnyhzsGOQ4Y4n9uwg+MgTubo846VxfSgjqdev/9ubAl4Gcz1DydcWP7S
-         KciyfVsh00M1srGYhb4pbSghxoaknOxpW6RyaoECAAS1oFrHTkeC9L0ZzwaurYO334yw
-         BeJsWqLYZyBjKP6M8mcmXSkgl0/+dCMik4VDEVj2LVHAhH37NJFgx9EA0y43Ol9IM/sO
-         Zi0Q==
-X-Gm-Message-State: AOAM533zET5lUOWoKGJIfPEpqvA+0Kon+hC9mEHHDhbjUvGgPdBIutAG
-	oXV/luqObr11srylDCRlxLfTB3yp4XSk7YxldcNPfA==
-X-Google-Smtp-Source: ABdhPJyqK4zo4Skv6QTWPhgPLGJShc98Z7VQ+eGtuKTeab2GjFzU1dU49ydDk85TFmBvc3xe6lVGRQeQ0mm72tR6nFw=
-X-Received: by 2002:a17:906:488b:: with SMTP id v11mr21751243ejq.173.1593102228011;
- Thu, 25 Jun 2020 09:23:48 -0700 (PDT)
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zhJ4Lw5Oegc42LYQY22B9LaZbyjkS+s8OMVpau+Q/Uo=;
+        b=YpSJLFuaAPwVRtLp3OLpxBONLGJTK627F8Ur85DA2LtQyja2avj3+JORWKHBbnI6yo
+         4WbGSu+fQrSS9T9AO4nFZtQAHxRhwIQfOoRjq2V8oVgJ4JQe3UHYqSKpQKvBq2lIrk/s
+         CN0adduqfSS4BC8MSVsFDjknT3/b8afh5qLQWps6+kGElcuYA4ql8E3YTg+BTTWMRoq3
+         37dVMQkH+Z6fnUTs0AxKgk075g0/ez4RDp2neKV1EnBIm7Q0iOMj0CUeeAfcDBwCPeKg
+         KTYSmF/d0a0N3Urkv2aoh16vuKHVIF4VXSoPZQ1+xqeJ5TfR1hHzo7bXicQLQ0UDZOw/
+         hzvA==
+X-Gm-Message-State: AOAM532iV7KDNT+AKQ68MwHA4AxPfc/VCAfG/CFmhDUA8in7nNNP+3no
+	QwlI50451WgMWkWvEz/gM5olvuqxVeUV1Q==
+X-Google-Smtp-Source: ABdhPJzsNUCTW3f3xZTxVaUBwCOKrDX/H1yaNZDkFxdJ1K0Vj4W6NqCJdFHedYM5Gtggtela682fRw==
+X-Received: by 2002:a0c:bece:: with SMTP id f14mr37319248qvj.19.1593103414967;
+        Thu, 25 Jun 2020 09:43:34 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
+        by smtp.gmail.com with ESMTPSA id v59sm6514069qte.96.2020.06.25.09.43.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 09:43:34 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f177.google.com with SMTP id z63so5935398qkb.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 09:43:34 -0700 (PDT)
+X-Received: by 2002:a37:490f:: with SMTP id w15mr8776215qka.71.1593103413699;
+ Thu, 25 Jun 2020 09:43:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200623210837.26222-1-alex.kanavin@gmail.com>
- <CAOSpxdYUPQwNmZNP8FF7M=M2a95Wfvth0xpcO+C3G7bGKiJXCw@mail.gmail.com> <CANNYZj_U=WVHNrZLZK8_pNdgHf9YyKvfpFdcSrCTrq+8X-njKA@mail.gmail.com>
-In-Reply-To: <CANNYZj_U=WVHNrZLZK8_pNdgHf9YyKvfpFdcSrCTrq+8X-njKA@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 25 Jun 2020 06:23:36 -1000
-Message-ID: <CAOSpxdbUVhvu_0sYvEWxiq=c8UAt1k-o4=9AXWJaMCPo5xQUsg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] icu: merge .inc into main recipe
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
+ <CAP9ODKoR_JOt6UQFTMNJYv_fh4d-vuVyy-5k_cd6ZgjsiLcA0Q@mail.gmail.com>
+ <CAMKF1srKPeNpoX0uRPSHQM3VDuqe+C=adNsDFZ85L+irrs6xDQ@mail.gmail.com>
+ <2f176c09-1647-6d46-548c-e58fff7559b6@herbrechtsmeier.net>
+ <c0aee660-78e1-d6b0-00d1-687853b89578@gmail.com> <9f3cf7b6-7240-f1ea-6c4f-27dde0dbdc6a@herbrechtsmeier.net>
+ <CAP9ODKpQ+ZgNqoZvWtHRF_RyrvpXan4v-ZM=U9fiHXj8o8Daww@mail.gmail.com> <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+In-Reply-To: <6c1c02b9-842a-1d33-2727-932d7a46f702@herbrechtsmeier.net>
+Date: Thu, 25 Jun 2020 13:43:21 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
+Message-ID: <CAP9ODKo=41yAPeMvLU4uX=0fj+x3rv5DiAHMCFu_BwYWWm3uQQ@mail.gmail.com>
+Subject: Re: [OE-core] Status of Go support
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador <otavio@ossystems.com.br>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2020 at 6:09 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+Em qui., 25 de jun. de 2020 =C3=A0s 12:36, Stefan Herbrechtsmeier
+<stefan@herbrechtsmeier.net> escreveu:
+> Am 24.06.20 um 22:24 schrieb Otavio Salvador:
+> > Em qua., 24 de jun. de 2020 =C3=A0s 17:17, Stefan Herbrechtsmeier
+> > <stefan@herbrechtsmeier.net> escreveu:
+> >> The go-mod.bbclass download data from the internet during do_compile. =
+If
+> >> you cut the internet connection after a do_fetch the do_compile failed=
+:
+> >
+> > Yes, this was the better we could get without hacking go mod tool
+> > itself. It would be nice if you can provide an alternative way to
+> > improve it.
+> >
 >
-> I think you may have to recreate them by hand.
+> What are the alternative?
+>
+> a) Add a fetcher to bitbake to create a vendor directory via `go mod
+> vendor`?
+> b) Add a `create_go.py` to recipetool and create a recipe per module?
+>
+> The solutions are related to the npm (a) and python (b) solution.
+>
+> I don't like a) because it breaks the best practices of OE (for example
+> one major version per project and avoid embedded dependencies). On the
+> other side b) isn't so simple because of the circular dependency between
+> go projects. This means we need a package (recipe) for the source and
+> the binary.
 
-OK, I'll put together a patch for the 66.1 recipe in dunfell that
-implements the changes you have in the second patch of the series.  In
-the interest of minimizing changes I'll keep the .inc file separate as
-is.
+Honestly, it is hard. It kinda conflicts with the way go mod, cargo,
+and similar tools work.
 
-Thanks for the quick response.
+Offline build, using go mod, I can only envision if we somehow provide
+a local server which uses the bitbake cache as source. This by itself
+is not a small project.
 
-Steve
-
-> On Thu, 25 Jun 2020 at 18:04, Steve Sakoman <steve@sakoman.com> wrote:
->>
->> Is this patch series suitable for dunfell as-is (the concern being the
->> contents of the version bump) or would a backport to 66.1 be
->> necessary?
->>
->> Steve
->>
->> On Tue, Jun 23, 2020 at 11:09 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > Both parts are rather convoluted, so it is better to have them in a single file.
->> >
->> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > ---
->> >  meta/recipes-support/icu/icu.inc     | 84 ---------------------------
->> >  meta/recipes-support/icu/icu_67.1.bb | 85 +++++++++++++++++++++++++++-
->> >  2 files changed, 84 insertions(+), 85 deletions(-)
->> >  delete mode 100644 meta/recipes-support/icu/icu.inc
->> >
->> > diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
->> > deleted file mode 100644
->> > index 6d9728903d..0000000000
->> > --- a/meta/recipes-support/icu/icu.inc
->> > +++ /dev/null
->> > @@ -1,84 +0,0 @@
->> > -SUMMARY = "International Component for Unicode libraries"
->> > -DESCRIPTION = "The International Component for Unicode (ICU) is a mature, \
->> > -portable set of C/C++ and Java libraries for Unicode support, software \
->> > -internationalization (I18N) and globalization (G11N), giving applications the \
->> > -same results on all platforms."
->> > -HOMEPAGE = "http://site.icu-project.org/"
->> > -
->> > -LICENSE = "ICU"
->> > -DEPENDS = "icu-native"
->> > -DEPENDS_class-native = ""
->> > -
->> > -CVE_PRODUCT = "international_components_for_unicode"
->> > -
->> > -S = "${WORKDIR}/icu/source"
->> > -SPDX_S = "${WORKDIR}/icu"
->> > -STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
->> > -
->> > -BINCONFIG = "${bindir}/icu-config"
->> > -
->> > -ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
->> > -
->> > -inherit autotools pkgconfig binconfig multilib_script
->> > -
->> > -MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
->> > -
->> > -# ICU needs the native build directory as an argument to its --with-cross-build option when
->> > -# cross-compiling. Taken the situation that different builds may share a common sstate-cache
->> > -# into consideration, the native build directory needs to be staged.
->> > -EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
->> > -EXTRA_OECONF_class-native = ""
->> > -EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
->> > -
->> > -EXTRA_OECONF_append_class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
->> > -TARGET_CXXFLAGS_append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
->> > -
->> > -ASNEEDED = ""
->> > -
->> > -do_compile_prepend_class-target () {
->> > -       # Make sure certain build host references do not end up being compiled
->> > -       # in the image. This only affects libicutu and icu-dbg
->> > -       sed  \
->> > -           -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
->> > -           -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
->> > -           -i ${B}/tools/toolutil/Makefile
->> > -}
->> > -
->> > -PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
->> > -do_install_append_class-native() {
->> > -       mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > -       cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > -       cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > -       cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
->> > -       cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
->> > -       cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
->> > -}
->> > -
->> > -do_install_append_class-target() {
->> > -    # The native pkgdata can not generate the correct data file.
->> > -    # Use icupkg to re-generate it.
->> > -    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
->> > -        rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->> > -        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->> > -    fi
->> > -
->> > -       # Remove build host references...
->> > -       sed -i  \
->> > -           -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
->> > -           -e 's|${DEBUG_PREFIX_MAP}||g' \
->> > -           -e 's:${HOSTTOOLS_DIR}/::g' \
->> > -           ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
->> > -           ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
->> > -}
->> > -
->> > -PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
->> > -
->> > -FILES_${PN}-dev += "${libdir}/${BPN}/"
->> > -
->> > -FILES_libicudata = "${libdir}/libicudata.so.*"
->> > -FILES_libicuuc = "${libdir}/libicuuc.so.*"
->> > -FILES_libicui18n = "${libdir}/libicui18n.so.*"
->> > -FILES_libicutu = "${libdir}/libicutu.so.*"
->> > -FILES_libicuio = "${libdir}/libicuio.so.*"
->> > -
->> > -BBCLASSEXTEND = "native nativesdk"
->> > diff --git a/meta/recipes-support/icu/icu_67.1.bb b/meta/recipes-support/icu/icu_67.1.bb
->> > index 58638507c9..5814fa41bd 100644
->> > --- a/meta/recipes-support/icu/icu_67.1.bb
->> > +++ b/meta/recipes-support/icu/icu_67.1.bb
->> > @@ -1,4 +1,87 @@
->> > -require icu.inc
->> > +SUMMARY = "International Component for Unicode libraries"
->> > +DESCRIPTION = "The International Component for Unicode (ICU) is a mature, \
->> > +portable set of C/C++ and Java libraries for Unicode support, software \
->> > +internationalization (I18N) and globalization (G11N), giving applications the \
->> > +same results on all platforms."
->> > +HOMEPAGE = "http://site.icu-project.org/"
->> > +
->> > +LICENSE = "ICU"
->> > +DEPENDS = "icu-native"
->> > +DEPENDS_class-native = ""
->> > +
->> > +CVE_PRODUCT = "international_components_for_unicode"
->> > +
->> > +S = "${WORKDIR}/icu/source"
->> > +SPDX_S = "${WORKDIR}/icu"
->> > +STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
->> > +
->> > +BINCONFIG = "${bindir}/icu-config"
->> > +
->> > +ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
->> > +
->> > +inherit autotools pkgconfig binconfig multilib_script
->> > +
->> > +MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
->> > +
->> > +# ICU needs the native build directory as an argument to its --with-cross-build option when
->> > +# cross-compiling. Taken the situation that different builds may share a common sstate-cache
->> > +# into consideration, the native build directory needs to be staged.
->> > +EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
->> > +EXTRA_OECONF_class-native = ""
->> > +EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
->> > +
->> > +EXTRA_OECONF_append_class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
->> > +TARGET_CXXFLAGS_append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
->> > +
->> > +ASNEEDED = ""
->> > +
->> > +do_compile_prepend_class-target () {
->> > +       # Make sure certain build host references do not end up being compiled
->> > +       # in the image. This only affects libicutu and icu-dbg
->> > +       sed  \
->> > +           -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
->> > +           -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
->> > +           -i ${B}/tools/toolutil/Makefile
->> > +}
->> > +
->> > +PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
->> > +do_install_append_class-native() {
->> > +       mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > +       cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > +       cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
->> > +       cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
->> > +       cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
->> > +       cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
->> > +}
->> > +
->> > +do_install_append_class-target() {
->> > +    # The native pkgdata can not generate the correct data file.
->> > +    # Use icupkg to re-generate it.
->> > +    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
->> > +        rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->> > +        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
->> > +    fi
->> > +
->> > +       # Remove build host references...
->> > +       sed -i  \
->> > +           -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
->> > +           -e 's|${DEBUG_PREFIX_MAP}||g' \
->> > +           -e 's:${HOSTTOOLS_DIR}/::g' \
->> > +           ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
->> > +           ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
->> > +}
->> > +
->> > +PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
->> > +
->> > +FILES_${PN}-dev += "${libdir}/${BPN}/"
->> > +
->> > +FILES_libicudata = "${libdir}/libicudata.so.*"
->> > +FILES_libicuuc = "${libdir}/libicuuc.so.*"
->> > +FILES_libicui18n = "${libdir}/libicui18n.so.*"
->> > +FILES_libicutu = "${libdir}/libicutu.so.*"
->> > +FILES_libicuio = "${libdir}/libicuio.so.*"
->> > +
->> > +BBCLASSEXTEND = "native nativesdk"
->> >
->> >  LIC_FILES_CHKSUM = "file://../LICENSE;md5=a3808a5b70071b07f87ff2205e4d75a0"
->> >
->> > --
->> > 2.27.0
->> >
->> > 
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
