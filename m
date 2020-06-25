@@ -1,182 +1,82 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web12.811.1593046647343951295
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
+ by mx.groups.io with SMTP id smtpd.web12.5035.1593067468852274423
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2020 17:57:27 -0700
+ Wed, 24 Jun 2020 23:44:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LElPvLHR;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id h22so2230432pjf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 17:57:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hV3kN+aZ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-il1-f194.google.com with SMTP id x18so4365139ilp.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2020 23:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=L9AX2R3sz1dqJuQPwG7OoyXO/F8rfJNwwpOf1ilLjP8=;
-        b=LElPvLHRLoWR2eVfWTqJG4FU6f8GpmgW2zdNDPN/ro8yrMQ2nXYDHsy6PReLNoYT6t
-         LMw2EwDgB8xGuNMePT0z4BTGVUKPp7RIrwo3Tw9zgtGRZQU5m2KIYVhIteuhpMTW3mK7
-         PnU07s7ZiXe6B1SWIYScnC8IwmcJQ+QNOEeJRlWvBnk3HRN/+lD2Q3wwnrQ3LhVqiLU1
-         ztLkA+YLfVD6AqPmi112+yPdBPInutLSIkNZnVM6GCfyM4eIkoWoM8bVxp7Wc9+Ep7kJ
-         zt4xVy/xF2X2+ctoQXNNPbOulnVK6FeVYLDzFSYHLUn/OuZfN/bffjEkkiIgO0PSwrx7
-         Qp5A==
+        bh=TE/F1jDqYZGX3/fUMPjM3+9KozTJcpaoIiWrCeeC/2E=;
+        b=hV3kN+aZxR+KRHnAohgiQz78FqWTuKm8G5M/ON9IMAcpHE+puga8kSQwtV3eroq7Us
+         2SBO/dm9xR9hQfNgySzyWK1JopIkpe1cNUiPuByrVqEUfDJCwcGDz2bQijX0FFm+eGSd
+         nG9nxKkyyYHPEmrqwo6Vvv6f8flgRdrJuRCfFqnA/HGL5jXUaWpp87E8gjAyR9pfb3jl
+         ERTl8kpQxb+L0okr9ytxugnLZ5ji6oEI8Xm23hUTOjbWrGVttfYoQxkdmuEr7i1+Sy3A
+         V5gwVZaP0K1wsDmtjERZcad8MlNR1XyMrUNsQsGJMteSUZj8gZnQpbLSmCtbes9SVO6q
+         Bzsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=L9AX2R3sz1dqJuQPwG7OoyXO/F8rfJNwwpOf1ilLjP8=;
-        b=la2hRP+HoogSw+A1H3NnWw+Btuj1r71XBoNWOL4Qhadnm83/Civb0IxWN7UmoUPdII
-         I5k0ERucUJzRqntOPX0UMKN4A1k1yMiRZZQ+Cr5L1eq1Kg36QK3bEaQnBHfc/gY+rD8n
-         roHxCM4hzixogJqhvgjuVsmFebCqQF+DA2eEODI0f6E9LQdyoZRlkCy3utxf95v0LdWT
-         erWTKt4Ve8SDRrU/TDAr47eRWiId7WREIFMi9Amd2+XhoGYpnTMVRUbi4DnwbZe/PLN/
-         LwcTa/9COrWHc5mv+NrdjLDguRUPhWh3vSwW02xg3HxIfkA+onwggNOzRttiM3XEHp3J
-         p+jA==
-X-Gm-Message-State: AOAM531W5A3Esh9a5MsPOiYVRWtn5B8Ia5QWev+yo8BBmTgWvH5kydY2
-	ySmY3BI3GP3YS/mIAdfwkXs0GaVVe1+A3w==
-X-Google-Smtp-Source: ABdhPJx3+Foa0ttFodA8fhiIV+ijK/8opiwj4l5tLGWZ69Sp1mC8XrFhDcPLiCwcXAiX3ZuYqktZDw==
-X-Received: by 2002:a17:90a:8c8a:: with SMTP id b10mr517612pjo.117.1593046645986;
-        Wed, 24 Jun 2020 17:57:25 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id r9sm22106456pfq.31.2020.06.24.17.57.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 17:57:25 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/32] Pull request (cover letter only)
-Date: Wed, 24 Jun 2020 14:57:02 -1000
-Message-Id: <cover.1593046554.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=TE/F1jDqYZGX3/fUMPjM3+9KozTJcpaoIiWrCeeC/2E=;
+        b=H4924P4dCEiRl5sJFeed5wvNQnrF8zlPR9VfZ1vlnkSp4yKrhnvBLoYps0byIqN0rN
+         f+H8iSas8b422MidmW1wmat/gjLKLsJHuaIFJdSizK0bIIW+Srz4Nv031fnxUpS6Uuea
+         9eEL2uQG9tk/ni7oH77LNbxUQhBhzv1dduz973eH6n/o0qeWQzKxwaXHPzE5YNzGEZBM
+         afh6XAePoUDa9ZFIkgFiqCCrim/0pEDaRHsEU8quFKgHB2aCfa/Q1ckoP+Q/LVrFY5vk
+         z4qr970GMnZ/Dlje1/BAAk8W4k4BlpUpv2IUeB1kHlhRUKTqWs8y+dQ9BwGKDg0NOseS
+         XQTA==
+X-Gm-Message-State: AOAM5321wCyMo28PysHNc5ieUvhySjQ0CHD9zLmbV64LiTnHRwAOG6js
+	ADnjXfgaX2WO9iKTgSyf2n++iqZ8UX6+tDMLQF/BET4+YDU=
+X-Google-Smtp-Source: ABdhPJxya8BGnx4Iu7dBfpyxP04XgXYUbDYLEBmZEyF3tQR03Rsr+edOOFjfSODhHmiz1bledbxne6MzJCTnqQGP87E=
+X-Received: by 2002:a92:d647:: with SMTP id x7mr33207023ilp.267.1593067467994;
+ Wed, 24 Jun 2020 23:44:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200618151852.3777657-1-schnitzeltony@gmail.com>
+In-Reply-To: <20200618151852.3777657-1-schnitzeltony@gmail.com>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Thu, 25 Jun 2020 08:44:16 +0200
+Message-ID: <CALbNGRR2edy1vMDH1e+kGW8WryjvJ7fHOAF-3-XGQKKXZndw-w@mail.gmail.com>
+Subject: Re: [PATCH][dunfell] u-boot: introduce UBOOT_INITIAL_ENV
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 6372f78c2456a9b57ef5f8ff9b975426bd1a46be:
+On Thu, Jun 18, 2020 at 5:19 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> From: Ming Liu <ming.liu@toradex.com>
+>
+> It defaults to ${PN}-initial-env, no functional changes with current
+> implementation, but this allows it to be changed in individual u-boot
+> recipes.
+>
+> If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
+> installed/deployed, set ALLOW_EMPTY_${PN}-env =3D "1".
+>
+> The major purpose for introducing this, is that the users might have
+> some scripts on targets like:
+> ```
+> /sbin/fw_setenv -f /etc/u-boot-initial-env
+> ```
+>
+> and it should be able to run against a identical path generated by
+> different u-boot recipes.
+>
+> Signed-off-by: Ming Liu <ming.liu@toradex.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit fb7e8b6b88855f3f523b2176ea2c85a330bfe00b)
+I'd like to do a little advertisement for this. This patch:
 
-  u-boot-tools: backport patch from upstream to fix gcc 10 builds (2020-06-18 04:34:55 -1000)
+* is mandatory to build older versions of u-boot. They do not support
+make target u-boot-initial-env and are buildable only by setting
+UBOOT_INITIAL_ENV=3D"" introduced by this patch.
+* does not introduce functional change when keeping UBOOT_INITIAL_ENV untou=
+ched.
 
-are available in the Git repository at:
+Regards
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alex Kiernan (1):
-  recipetool: Fix list concatenation when using edit
-
-Alexander Kanavin (3):
-  patchelf: switch to git
-  powertop: switch to Arjan's git
-  apr-util: make gdbm optional
-
-Andreas M?ller (1):
-  meson.bbclass: avoid unexpected operating-system names
-
-Chen Qi (1):
-  vim: restore the 'chmod -x' workaround in do_install
-
-Dan McGregor (1):
-  buildhistory-collect-srcrevs: sort directories
-
-Joshua Watt (1):
-  classes/archiver: Create patched archive before configuring
-
-Kai Kang (3):
-  mdadm: remove service template from SYSTEMD_SERVICE
-  wpa-supplicant: remove service templates from SYSTEMD_SERVICE
-  encodings: clear postinst script
-
-Lee Chee Yang (1):
-  qemu: fix CVE-2020-13361
-
-Martin Jansa (1):
-  net-tools: backport a patch from upstream to use the same ifconfig
-    format as debian/ubuntu
-
-Otavio Salvador (6):
-  systemd: Sync systemd-serialgetty@.service with upstream
-  mtd-utils: Fix return value of ubiformat
-  go-mod.bbclass: Add class for `go mod` support
-  glide: Avoid use of 'go mod' support
-  go-dep: Avoid use of 'go mod' support
-  go.bbclass: Add `-trimpath` to default build flags
-
-Peter Kjellerstedt (1):
-  relocatable.bbclass: Avoid an exception if an empty pkgconfig dir
-    exist
-
-Richard Purdie (2):
-  ltp: Add missing dependencies on coreutils, bc, e2fsprogs and gdb
-  perl: Fix host specific modules problems
-
-Ross Burton (4):
-  install-buildtools: fail if an error occurs
-  install-buildtools: remove hardcoded x86-64 architecture
-  common-licenses: add BSD-2-Clause-Patent
-  gstreamer1.0-plugins-bad: add support for vdpau
-
-Steve Sakoman (1):
-  buildtools-tarball: export OPENSSL_CONF in environment setup
-
-Tuomas Salokanto (1):
-  recipetool: create: fix SRCBRANCH not being passed to params
-
-Yongxin Liu (1):
-  linux-firmware: add ice for Intel E800 series driver
-
-akuster (1):
-  bind: update to 9.11.19
-
-haiqing (1):
-  libpam: Remove option 'obscure' from common-password
-
-wenlin.kang@windriver.com (1):
-  populate_sdk_base.bbclass: fix warning: name not matched
-
- meta/classes/archiver.bbclass                 |   2 +-
- meta/classes/go-mod.bbclass                   |  20 +
- meta/classes/go.bbclass                       |   2 +-
- meta/classes/meson.bbclass                    |   3 +
- meta/classes/populate_sdk_base.bbclass        |   2 +-
- meta/classes/relocatable.bbclass              |  20 +-
- .../common-licenses/BSD-2-Clause-Patent.txt   |  47 +++
- .../bind/bind/CVE-2020-8616.patch             | 206 ----------
- .../bind/bind/CVE-2020-8617.patch             |  29 --
- .../bind/{bind_9.11.13.bb => bind_9.11.19.bb} |   7 +-
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |   6 +-
- meta/recipes-core/meta/buildtools-tarball.bb  |   1 +
- .../systemd-serialgetty/serial-getty@.service |  14 +-
- meta/recipes-devtools/glide/glide_0.13.3.bb   |   4 +
- meta/recipes-devtools/go/go-dep_0.5.4.bb      |   4 +
- ...-utils-Fix-return-value-of-ubiformat.patch |  62 +++
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |   1 +
- .../patchelf/patchelf_0.10.bb                 |   7 +-
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   2 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-13361.patch            |  61 +++
- meta/recipes-extended/ltp/ltp_20200120.bb     |   4 +
- meta/recipes-extended/mdadm/mdadm_4.1.bb      |   6 +-
- ...-to-unsigned-long-long-constants-to-.patch | 381 ++++++++++++++++++
- .../net-tools/net-tools_1.60-26.bb            |   1 +
- .../pam/libpam/pam.d/common-password          |   5 +-
- .../xorg-font/encodings_1.0.5.bb              |   4 +
- .../linux-firmware/linux-firmware_20200519.bb |   9 +
- meta/recipes-kernel/powertop/powertop_2.10.bb |  13 +-
- .../gstreamer1.0-plugins-bad_1.16.2.bb        |   4 +-
- meta/recipes-support/apr/apr-util_1.6.1.bb    |   6 +-
- meta/recipes-support/vim/vim.inc              |   6 +
- scripts/buildhistory-collect-srcrevs          |   1 +
- scripts/install-buildtools                    |  20 +-
- scripts/lib/recipetool/create.py              |   1 +
- scripts/lib/recipetool/edit.py                |   2 +-
- 36 files changed, 672 insertions(+), 292 deletions(-)
- create mode 100644 meta/classes/go-mod.bbclass
- create mode 100644 meta/files/common-licenses/BSD-2-Clause-Patent.txt
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.13.bb => bind_9.11.19.bb} (94%)
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13361.patch
- create mode 100644 meta/recipes-extended/net-tools/net-tools/0001-added-ull-prefix-to-unsigned-long-long-constants-to-.patch
-
--- 
-2.17.1
-
+Andreas
