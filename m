@@ -1,37 +1,37 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.7471.1593080525989600401
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.7376.1593080528376404276
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2020 03:22:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=XozqsqSi;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=cT/Q6teA;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=7655; q=dns/txt; s=axis-central1;
-  t=1593080527; x=1624616527;
+  d=axis.com; l=4980; q=dns/txt; s=axis-central1;
+  t=1593080528; x=1624616528;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3lB5kYAcmdHwgv6RwyUT9h/SYszm5ouVR2l4DuoJ37w=;
-  b=XozqsqSiL6Fu5vfmyyJd2A3TsVtdBf1rg6KxCVzDTRRV7DVc+RwMqZ/Y
-   W5KuOmvuTE/YATCJbKs3EnWf+Fb2qxUnU1I5cPSwEX4/uk711I93Qq2m6
-   n04UwPB4J8fc3TCeyqup6bMUNbaLvC+vDyUh1rZaaOqo9OfrpKnQoDUGu
-   l8ZXb8DG44k99qT/d77zc+8o0ZzF05CB5hCYTjBay5GHVWSiITn97Op5J
-   Fsi0FSDOWN274Apmezov7+uq/nUKDrovPSUQMfqKcw6BCM5AAuLfG1zt5
-   d62/BCCn5E8fdQVkGWq3tzRVyqaeqZ/UTzWI1T/hZ6vo7ebu5Tdp35zG1
+  bh=xEKdtwnEL7mGEkQAIL52LT4obH5xeNW71wY2kb7sORM=;
+  b=cT/Q6teA8HHzC0I2Z4qOgJYUp3QDeXgSIbEm59IAgbR5WeR2sDNLkZqC
+   0w4l5Iwdys4KpQ4+qqrOW+F37tF+yY63PzlwSklRzJDbZwTktp1Gqcj5x
+   MFjMCGGG+KAkKstk6VpK1gPZhApJH7IcN7ycWDgPErvPEdAOeXS3WFwDH
+   kK5R3PbpUzgcpPwqOVEhvHXBmgWFnsPyvVsgWGwGy0GU6k8upqBIjZnxl
+   ZYum/cEukRYbksrI0nOVkPBTe6lR1Y/7+/cQd32LqZnsoRqIxkwFyM73n
+   mT4SmH6xWXto1xP3ao9qSjlcSVICiupdFVVI25NBCYG/YB7OcrdKaOImw
    Q==;
-IronPort-SDR: f7//Kbs8l0xj206Rm4yB5G6dy+gcP1bfL0FmIULDcpMGSW4uBKxcvxHMMipfBwbxnSs4/uTRQT
- UpLFwNA/YcH/oCklR1y3Tv/3Sm/Xpnmg859zAoyeJdfwij4XItjO3XrzpxlGROLsaaTRhoCGJF
- Q1LV6IikpbIaI0XOpR60NS2IauJBNMsr0uCSUmYyg+3+g9F4vL5ZONMSjCxNFsGcrYR9eYrhKn
- IcHZLYyIj0YgOrImObxHAc7iZiDQoQgdCM6QaVyc2tkDpjKfSP9nEsBEWInw59j1dmN9z73s2C
- ZFM=
+IronPort-SDR: yLYdUjD3fAx6/ztosR9Yjm9jvYkDySDVfjjudDjBFy4ED0FzF6kNSCfjMfkhV4hB4/1dk2+dm2
+ aF5CZOJeA/Z8ofYlSxqBSCNotteVqqboSY+2qzwDQKssiiJ7w7pCkir3Rvffe4hoQGlVKVxKQR
+ cDNr684b373uRinALxAsNOHhc37o+RhiubPBKSJ25FdwZ0S0AqySO17hSczwbOrIJcigF8Hssn
+ ZwqIzFMWGugHgLTVM8kMGUqVmE4YuxSAZ3NNCT72pzU7DJP6BtpprV+V7zJKtJsBvLWAdX2pLK
+ zIM=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="10185331"
+   d="scan'208";a="9893881"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 08/26] sdk.py: Move DpkgSdk
-Date: Thu, 25 Jun 2020 12:21:27 +0200
-Message-ID: <20200625102145.7139-9-fredrigu@axis.com>
+Subject: [PATCH v2 03/26] manifest: Move RpmManifest
+Date: Thu, 25 Jun 2020 12:21:22 +0200
+Message-ID: <20200625102145.7139-4-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,220 +40,174 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Let the sdk only used by the dpkg package manager live in the dpkg
+Let the manifest only used by the rpm package manager live in the rpm
 directory.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_managers/deb/sdk.py | 94 +++++++++++++++++++++++++
- meta/lib/oe/sdk.py                      | 86 +---------------------
- 2 files changed, 95 insertions(+), 85 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/deb/sdk.py
+ meta/lib/oe/manifest.py                      | 51 +-----------------
+ meta/lib/oe/package_managers/rpm/manifest.py | 57 ++++++++++++++++++++
+ meta/lib/oe/rootfs.py                        |  1 +
+ meta/lib/oe/sdk.py                           |  1 +
+ 4 files changed, 60 insertions(+), 50 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/rpm/manifest.py
 
-diff --git a/meta/lib/oe/package_managers/deb/sdk.py b/meta/lib/oe/package_managers/deb/sdk.py
+diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
+index f7c88f9a09..cf2cbe22eb 100644
+--- a/meta/lib/oe/manifest.py
++++ b/meta/lib/oe/manifest.py
+@@ -189,56 +189,6 @@ class Manifest(object, metaclass=ABCMeta):
+         return installed_pkgs
+ 
+ 
+-class RpmManifest(Manifest):
+-    """
+-    Returns a dictionary object with mip and mlp packages.
+-    """
+-    def _split_multilib(self, pkg_list):
+-        pkgs = dict()
+-
+-        for pkg in pkg_list.split():
+-            pkg_type = self.PKG_TYPE_MUST_INSTALL
+-
+-            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
+-
+-            for ml_variant in ml_variants:
+-                if pkg.startswith(ml_variant + '-'):
+-                    pkg_type = self.PKG_TYPE_MULTILIB
+-
+-            if not pkg_type in pkgs:
+-                pkgs[pkg_type] = pkg
+-            else:
+-                pkgs[pkg_type] += " " + pkg
+-
+-        return pkgs
+-
+-    def create_initial(self):
+-        pkgs = dict()
+-
+-        with open(self.initial_manifest, "w+") as manifest:
+-            manifest.write(self.initial_manifest_file_header)
+-
+-            for var in self.var_maps[self.manifest_type]:
+-                if var in self.vars_to_split:
+-                    split_pkgs = self._split_multilib(self.d.getVar(var))
+-                    if split_pkgs is not None:
+-                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
+-                else:
+-                    pkg_list = self.d.getVar(var)
+-                    if pkg_list is not None:
+-                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
+-
+-            for pkg_type in pkgs:
+-                for pkg in pkgs[pkg_type].split():
+-                    manifest.write("%s,%s\n" % (pkg_type, pkg))
+-
+-    def create_final(self):
+-        pass
+-
+-    def create_full(self, pm):
+-        pass
+-
+-
+ class OpkgManifest(Manifest):
+     """
+     Returns a dictionary object with mip and mlp packages.
+@@ -332,6 +282,7 @@ class DpkgManifest(Manifest):
+ 
+ def create_manifest(d, final_manifest=False, manifest_dir=None,
+                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
++    from oe.package_managers.rpm.manifest import RpmManifest
+     manifest_map = {'rpm': RpmManifest,
+                     'ipk': OpkgManifest,
+                     'deb': DpkgManifest}
+diff --git a/meta/lib/oe/package_managers/rpm/manifest.py b/meta/lib/oe/package_managers/rpm/manifest.py
 new file mode 100644
-index 0000000000..154ec5ab17
+index 0000000000..a225ee7a23
 --- /dev/null
-+++ b/meta/lib/oe/package_managers/deb/sdk.py
-@@ -0,0 +1,94 @@
++++ b/meta/lib/oe/package_managers/rpm/manifest.py
+@@ -0,0 +1,57 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+from oe.sdk import *
-+from oe.package_managers.deb.manifest import *
++from oe.manifest import *
 +
-+class DpkgSdk(Sdk):
-+    def __init__(self, d, manifest_dir=None):
-+        super(DpkgSdk, self).__init__(d, manifest_dir)
++class RpmManifest(Manifest):
++    """
++    Returns a dictionary object with mip and mlp packages.
++    """
++    def _split_multilib(self, pkg_list):
++        pkgs = dict()
 +
-+        self.target_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt")
-+        self.host_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt-sdk")
++        for pkg in pkg_list.split():
++            pkg_type = self.PKG_TYPE_MUST_INSTALL
 +
-+        self.target_manifest = PkgManifest(d, self.manifest_dir,
-+                                            Manifest.MANIFEST_TYPE_SDK_TARGET)
-+        self.host_manifest = PkgManifest(d, self.manifest_dir,
-+                                          Manifest.MANIFEST_TYPE_SDK_HOST)
++            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
 +
-+        deb_repo_workdir = "oe-sdk-repo"
-+        if "sdk_ext" in d.getVar("BB_RUNTASK"):
-+            deb_repo_workdir = "oe-sdk-ext-repo"
++            for ml_variant in ml_variants:
++                if pkg.startswith(ml_variant + '-'):
++                    pkg_type = self.PKG_TYPE_MULTILIB
 +
-+        self.target_pm = DpkgPM(d, self.sdk_target_sysroot,
-+                                self.d.getVar("PACKAGE_ARCHS"),
-+                                self.d.getVar("DPKG_ARCH"),
-+                                self.target_conf_dir,
-+                                deb_repo_workdir=deb_repo_workdir)
++            if not pkg_type in pkgs:
++                pkgs[pkg_type] = pkg
++            else:
++                pkgs[pkg_type] += " " + pkg
 +
-+        self.host_pm = DpkgPM(d, self.sdk_host_sysroot,
-+                              self.d.getVar("SDK_PACKAGE_ARCHS"),
-+                              self.d.getVar("DEB_SDK_ARCH"),
-+                              self.host_conf_dir,
-+                              deb_repo_workdir=deb_repo_workdir)
++        return pkgs
 +
-+    def _copy_apt_dir_to(self, dst_dir):
-+        staging_etcdir_native = self.d.getVar("STAGING_ETCDIR_NATIVE")
++    def create_initial(self):
++        pkgs = dict()
 +
-+        self.remove(dst_dir, True)
++        with open(self.initial_manifest, "w+") as manifest:
++            manifest.write(self.initial_manifest_file_header)
 +
-+        shutil.copytree(os.path.join(staging_etcdir_native, "apt"), dst_dir)
++            for var in self.var_maps[self.manifest_type]:
++                if var in self.vars_to_split:
++                    split_pkgs = self._split_multilib(self.d.getVar(var))
++                    if split_pkgs is not None:
++                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
++                else:
++                    pkg_list = self.d.getVar(var)
++                    if pkg_list is not None:
++                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
 +
-+    def _populate_sysroot(self, pm, manifest):
-+        pkgs_to_install = manifest.parse_initial_manifest()
++            for pkg_type in pkgs:
++                for pkg in pkgs[pkg_type].split():
++                    manifest.write("%s,%s\n" % (pkg_type, pkg))
 +
-+        pm.write_index()
-+        pm.update()
++    def create_final(self):
++        pass
 +
-+        for pkg_type in self.install_order:
-+            if pkg_type in pkgs_to_install:
-+                pm.install(pkgs_to_install[pkg_type],
-+                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+
-+    def _populate(self):
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
-+
-+        bb.note("Installing TARGET packages")
-+        self._populate_sysroot(self.target_pm, self.target_manifest)
-+
-+        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
-+
-+        self.target_pm.run_intercepts(populate_sdk='target')
-+
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
-+
-+        self._copy_apt_dir_to(os.path.join(self.sdk_target_sysroot, "etc", "apt"))
-+
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.target_pm.remove_packaging_data()
-+
-+        bb.note("Installing NATIVESDK packages")
-+        self._populate_sysroot(self.host_pm, self.host_manifest)
-+        self.install_locales(self.host_pm)
-+
-+        self.host_pm.run_intercepts(populate_sdk='host')
-+
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
-+
-+        self._copy_apt_dir_to(os.path.join(self.sdk_output, self.sdk_native_path,
-+                                           "etc", "apt"))
-+
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.host_pm.remove_packaging_data()
-+
-+        native_dpkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
-+                                             "var", "lib", "dpkg")
-+        self.mkdirhier(native_dpkg_state_dir)
-+        for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "dpkg", "*")):
-+            self.movefile(f, native_dpkg_state_dir)
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
++    def create_full(self, pm):
++        pass
 +
 +
 +
-+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a0ac33ada6..e920f944c4 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -359,6 +359,7 @@ class RpmRootfs(Rootfs):
+         self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
+                                r'|exit 1|ERROR: |Error: |Error |ERROR '\
+                                r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
++        from oe.package_managers.rpm.manifest import RpmManifest
+         self.manifest = RpmManifest(d, manifest_dir)
+ 
+         self.pm = RpmPM(d,
 diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 3df0d2f091..a52055a505 100644
+index d02a274812..d543a2a92d 100644
 --- a/meta/lib/oe/sdk.py
 +++ b/meta/lib/oe/sdk.py
-@@ -192,91 +192,6 @@ class OpkgSdk(Sdk):
-         self.remove(os.path.join(self.sdk_output, "var"), True)
+@@ -114,6 +114,7 @@ class RpmSdk(Sdk):
+     def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
+         super(RpmSdk, self).__init__(d, manifest_dir)
  
- 
--class DpkgSdk(Sdk):
--    def __init__(self, d, manifest_dir=None):
--        super(DpkgSdk, self).__init__(d, manifest_dir)
--
--        self.target_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt")
--        self.host_conf_dir = os.path.join(self.d.getVar("APTCONF_TARGET"), "apt-sdk")
--
--        import importlib
--        self.target_manifest = importlib.import_module('oe.package_managers.deb.manifest').PkgManifest(d, self.manifest_dir, Manifest.MANIFEST_TYPE_SDK_TARGET)
--        self.host_manifest = importlib.import_module('oe.package_managers.deb.manifest').PkgManifest(d, self.manifest_dir, Manifest.MANIFEST_TYPE_SDK_HOST)
--
--        deb_repo_workdir = "oe-sdk-repo"
--        if "sdk_ext" in d.getVar("BB_RUNTASK"):
--            deb_repo_workdir = "oe-sdk-ext-repo"
--
--        self.target_pm = DpkgPM(d, self.sdk_target_sysroot,
--                                self.d.getVar("PACKAGE_ARCHS"),
--                                self.d.getVar("DPKG_ARCH"),
--                                self.target_conf_dir,
--                                deb_repo_workdir=deb_repo_workdir)
--
--        self.host_pm = DpkgPM(d, self.sdk_host_sysroot,
--                              self.d.getVar("SDK_PACKAGE_ARCHS"),
--                              self.d.getVar("DEB_SDK_ARCH"),
--                              self.host_conf_dir,
--                              deb_repo_workdir=deb_repo_workdir)
--
--    def _copy_apt_dir_to(self, dst_dir):
--        staging_etcdir_native = self.d.getVar("STAGING_ETCDIR_NATIVE")
--
--        self.remove(dst_dir, True)
--
--        shutil.copytree(os.path.join(staging_etcdir_native, "apt"), dst_dir)
--
--    def _populate_sysroot(self, pm, manifest):
--        pkgs_to_install = manifest.parse_initial_manifest()
--
--        pm.write_index()
--        pm.update()
--
--        for pkg_type in self.install_order:
--            if pkg_type in pkgs_to_install:
--                pm.install(pkgs_to_install[pkg_type],
--                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
--
--    def _populate(self):
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
--
--        bb.note("Installing TARGET packages")
--        self._populate_sysroot(self.target_pm, self.target_manifest)
--
--        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
--
--        self.target_pm.run_intercepts(populate_sdk='target')
--
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
--
--        self._copy_apt_dir_to(os.path.join(self.sdk_target_sysroot, "etc", "apt"))
--
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.target_pm.remove_packaging_data()
--
--        bb.note("Installing NATIVESDK packages")
--        self._populate_sysroot(self.host_pm, self.host_manifest)
--        self.install_locales(self.host_pm)
--
--        self.host_pm.run_intercepts(populate_sdk='host')
--
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
--
--        self._copy_apt_dir_to(os.path.join(self.sdk_output, self.sdk_native_path,
--                                           "etc", "apt"))
--
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.host_pm.remove_packaging_data()
--
--        native_dpkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
--                                             "var", "lib", "dpkg")
--        self.mkdirhier(native_dpkg_state_dir)
--        for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "dpkg", "*")):
--            self.movefile(f, native_dpkg_state_dir)
--        self.remove(os.path.join(self.sdk_output, "var"), True)
--
--
--
- def sdk_list_installed_packages(d, target, rootfs_dir=None):
-     if rootfs_dir is None:
-         sdk_output = d.getVar('SDK_OUTPUT')
-@@ -301,6 +216,7 @@ def populate_sdk(d, manifest_dir=None):
-     img_type = d.getVar('IMAGE_PKGTYPE')
- 
-     from oe.package_managers.rpm.sdk import RpmSdk
-+    from oe.package_managers.deb.sdk import DpkgSdk
-     if img_type == "rpm":
-         RpmSdk(d, manifest_dir).populate()
-     elif img_type == "ipk":
++        from oe.package_managers.rpm.manifest import RpmManifest
+         self.target_manifest = RpmManifest(d, self.manifest_dir,
+                                            Manifest.MANIFEST_TYPE_SDK_TARGET)
+         self.host_manifest = RpmManifest(d, self.manifest_dir,
 -- 
 2.20.1
 
