@@ -1,37 +1,37 @@
-Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.7473.1593080529610313350
+Received: from smtp1.axis.com (smtp1.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web10.7635.1593080531229462406
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2020 03:22:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=h84KQ+qv;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NbP+2I23;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=5226; q=dns/txt; s=axis-central1;
+  d=axis.com; l=6202; q=dns/txt; s=axis-central1;
   t=1593080532; x=1624616532;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YSBiJ7Fv02Cl7OAtpycnhyp9Z4jwcmFTkVTMzW2m1rE=;
-  b=h84KQ+qvDuUkJJVLLzQ//vrSq0nimiA1Yvxmmg8UxVdhZO726dWdkO6O
-   ixMT4/83Gu2VwUPdRPKlOHFZpVrhTx+5QNLIjgR8Ad90BgVGCOFtA60wN
-   FuFfVYTex9y+U6AHCKs68uLDnDD6YZ5WKvfKI5IvQXC1tw6cSJAkuxHyI
-   3UEcFCo6texDfi95WpC6QHPpsjs3taKlL2pNbGxq3BjPWoGcJYzv9TNjo
-   NPnMqx11C3nwgHozUobyjeMXG4Lkj1Bp7oSWSehT2lWdYuVGHZhy3/DR9
-   r2nvNW/UFVvFCfUVO9O6ywqn7hcV60lX9KtSwHWwxao8RT635rOruEW1u
-   w==;
-IronPort-SDR: VnVJD/RWPGcrtwvRC69p6SolipuPhS3XMkjUzSqM2e5t52y6O9jiRY45qfSbLyxqptauZx3/pO
- u010XtKHcqSjRNMS1X87gpFtIM67OWtALNrXUg60EZblm98Xvn1d7DgCEERN/1pZEi6qrkmIma
- i7QAWZcgkekKZ0ZmgeFiy3kM5ALYg1EJsSSkoPUeaUUAZwIyLVLti4vrsDawT8Pa3PaQKaq+Ab
- mXlAD3KUMi8n+mfBt+vTpqPkcqwcEfMVDhqmF+MSguDLikScheHPDY41l6gVvxWQBA08vFQrOD
- fdY=
+  bh=AAqNxVrRP9hw7EEt3XnN99lYJ9GvxGKDXcRF4RWrvKA=;
+  b=NbP+2I23e51eY7EwQTkU6JMlHQKbDbbJijkWAkWoG5/fDXW4Bg6xu6PR
+   QHC4ZrMrVP7LLC3rabtPuK7jQhHPqh/i6eSp9IkeUH7Q9r48pLkUF2vl9
+   SjxkeV4PusQVrWddvtuVAMo5Xxyqm3y5qrEamjGcPXEZSMTMvieGU8tjk
+   4b9GG0Mi+qJWJEY4yMVoi7+ONxkP+IFZpvb/mTapxOnO07z9pd1R8j0a8
+   p320mholwaVPnoLssrnfVI4BUYe0QpKLVrP9kPY9wUTiZpj7OoaIB8I4b
+   v2E2CTYjr6wO+uSpoXzB8CXcNqZ8GWQoo+XZ8VQO5X1ybW77OtU3EM/sa
+   Q==;
+IronPort-SDR: L+HpjgQg4V5GauZDWF38Mk1OnQmjSF8kiuQq3gd5/S75MeZgALsIBIljIAbfM7PwEe3N4aHGv+
+ 6kXzFecrQVTw9GxwG9AxXcQZMXfBhg2ByLXb0MtOhB3N07VUaejbwYmTTngU6ri1CrKr6MOZVx
+ uXtGr30T9wyJrFEBGR948Sjt6QEs1Yn8iKxR8/Oloj5u0LxC9cn4heKZM0Umnwe39j/58KL+CW
+ U7mOXsz9VggmdYr8v4gI1BGfRDQx9jZzt2OziVzQIWE/cvtsAJIOh6LY2JmujLHrV8ejRxg7C5
+ v4c=
 X-IronPort-AV: E=Sophos;i="5.75,278,1589234400"; 
-   d="scan'208";a="9893891"
+   d="scan'208";a="10185339"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, <hugo.cedervall@axis.com>, Fredrik
  Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v2 26/26] package_manager: Rename PkgsList classes
-Date: Thu, 25 Jun 2020 12:21:45 +0200
-Message-ID: <20200625102145.7139-27-fredrigu@axis.com>
+Subject: [PATCH v2 21/26] package_manager.py: Move DpkgIndexer
+Date: Thu, 25 Jun 2020 12:21:40 +0200
+Message-ID: <20200625102145.7139-22-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200625102145.7139-1-fredrigu@axis.com>
 References: <20200625102145.7139-1-fredrigu@axis.com>
@@ -40,131 +40,182 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Rename all *PkgsList classeds to PkgsList to enable dynamic calling.
+Let the code that is only used by opkg package manager live in that
+package manager owned directory.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- .../oe/package_managers/deb/package_manager.py    |  4 ++--
- .../oe/package_managers/ipk/package_manager.py    | 12 +++++++-----
- .../oe/package_managers/rpm/package_manager.py    |  2 +-
- meta/lib/oe/rootfs.py                             | 12 ++----------
- meta/lib/oe/sdk.py                                | 15 ++-------------
- 5 files changed, 14 insertions(+), 31 deletions(-)
+ meta/lib/oe/package_manager.py                | 74 -------------------
+ .../package_managers/deb/package_manager.py   | 74 +++++++++++++++++++
+ 2 files changed, 74 insertions(+), 74 deletions(-)
 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 83b881fb8c..111845d903 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -150,80 +150,6 @@ class Indexer(object, metaclass=ABCMeta):
+         pass
+ 
+ 
+-class DpkgIndexer(Indexer):
+-    def _create_configs(self):
+-        bb.utils.mkdirhier(self.apt_conf_dir)
+-        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "lists", "partial"))
+-        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "apt.conf.d"))
+-        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "preferences.d"))
+-
+-        with open(os.path.join(self.apt_conf_dir, "preferences"),
+-                "w") as prefs_file:
+-            pass
+-        with open(os.path.join(self.apt_conf_dir, "sources.list"),
+-                "w+") as sources_file:
+-            pass
+-
+-        with open(self.apt_conf_file, "w") as apt_conf:
+-            with open(os.path.join(self.d.expand("${STAGING_ETCDIR_NATIVE}"),
+-                "apt", "apt.conf.sample")) as apt_conf_sample:
+-                for line in apt_conf_sample.read().split("\n"):
+-                    line = re.sub(r"#ROOTFS#", "/dev/null", line)
+-                    line = re.sub(r"#APTCONF#", self.apt_conf_dir, line)
+-                    apt_conf.write(line + "\n")
+-
+-    def write_index(self):
+-        self.apt_conf_dir = os.path.join(self.d.expand("${APTCONF_TARGET}"),
+-                "apt-ftparchive")
+-        self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
+-        self._create_configs()
+-
+-        os.environ['APT_CONFIG'] = self.apt_conf_file
+-
+-        pkg_archs = self.d.getVar('PACKAGE_ARCHS')
+-        if pkg_archs is not None:
+-            arch_list = pkg_archs.split()
+-        sdk_pkg_archs = self.d.getVar('SDK_PACKAGE_ARCHS')
+-        if sdk_pkg_archs is not None:
+-            for a in sdk_pkg_archs.split():
+-                if a not in pkg_archs:
+-                    arch_list.append(a)
+-
+-        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS') or "").split()
+-        arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in arch_list)
+-
+-        apt_ftparchive = bb.utils.which(os.getenv('PATH'), "apt-ftparchive")
+-        gzip = bb.utils.which(os.getenv('PATH'), "gzip")
+-
+-        index_cmds = []
+-        deb_dirs_found = False
+-        for arch in arch_list:
+-            arch_dir = os.path.join(self.deploy_dir, arch)
+-            if not os.path.isdir(arch_dir):
+-                continue
+-
+-            cmd = "cd %s; PSEUDO_UNLOAD=1 %s packages . > Packages;" % (arch_dir, apt_ftparchive)
+-
+-            cmd += "%s -fcn Packages > Packages.gz;" % gzip
+-
+-            with open(os.path.join(arch_dir, "Release"), "w+") as release:
+-                release.write("Label: %s\n" % arch)
+-
+-            cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
+-
+-            index_cmds.append(cmd)
+-
+-            deb_dirs_found = True
+-
+-        if not deb_dirs_found:
+-            bb.note("There are no packages in %s" % self.deploy_dir)
+-            return
+-
+-        oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
+-        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            raise NotImplementedError('Package feed signing not implementd for dpkg')
+-
+-
+ 
+ class PkgsList(object, metaclass=ABCMeta):
+     def __init__(self, d, rootfs_dir):
 diff --git a/meta/lib/oe/package_managers/deb/package_manager.py b/meta/lib/oe/package_managers/deb/package_manager.py
-index 0ef8e91eea..f33390d1cb 100644
+index c38821587b..5d3c300700 100644
 --- a/meta/lib/oe/package_managers/deb/package_manager.py
 +++ b/meta/lib/oe/package_managers/deb/package_manager.py
-@@ -367,7 +367,7 @@ class PkgPM(OpkgDpkgPM):
-                      "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
- 
-     def list_installed(self):
--        return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
-+        return PkgsList(self.d, self.target_rootfs).list_pkgs()
- 
-     def package_info(self, pkg):
-         """
-@@ -538,7 +538,7 @@ def opkg_query(cmd_output):
- 
-     return output
- 
--class DpkgPkgsList(PkgsList):
-+class PkgsList(PkgsList):
- 
-     def list_pkgs(self):
-         cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
-diff --git a/meta/lib/oe/package_managers/ipk/package_manager.py b/meta/lib/oe/package_managers/ipk/package_manager.py
-index 8e47003c93..e46b14ab31 100644
---- a/meta/lib/oe/package_managers/ipk/package_manager.py
-+++ b/meta/lib/oe/package_managers/ipk/package_manager.py
-@@ -333,7 +333,7 @@ class PkgPM(OpkgDpkgPM):
-             bb.utils.remove(os.path.join(self.opkg_dir, "lists"), True)
- 
-     def list_installed(self):
--        return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
-+        return PkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
- 
-     def dummy_install(self, pkgs):
-         """
-@@ -539,10 +539,12 @@ def opkg_query(cmd_output):
- 
-     return output
- 
--class OpkgPkgsList(PkgsList):
--    def __init__(self, d, rootfs_dir, config_file):
--        super(OpkgPkgsList, self).__init__(d, rootfs_dir)
--
-+class PkgsList(PkgsList):
-+    def __init__(self, d, rootfs_dir, config_file = ""):
-+        super(PkgsList, self).__init__(d, rootfs_dir)
-+        
-+        if config_file == "":
-+            config_file = self.d.getVar('IPKGCONF_TARGET')
-         self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
-         self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
-         self.opkg_args += self.d.getVar("OPKG_ARGS")
-diff --git a/meta/lib/oe/package_managers/rpm/package_manager.py b/meta/lib/oe/package_managers/rpm/package_manager.py
-index 57a5c9ec38..06b1921676 100644
---- a/meta/lib/oe/package_managers/rpm/package_manager.py
-+++ b/meta/lib/oe/package_managers/rpm/package_manager.py
-@@ -400,7 +400,7 @@ class PkgIndexer(RpmIndexer):
-                         self.do_write_index(dir_path)
+@@ -400,3 +400,77 @@ class PkgPM(OpkgDpkgPM):
+         return tmp_dir
  
  
--class RpmPkgsList(PkgsList):
-+class PkgsList(PkgsList):
-     def list_pkgs(self):
-         return PkgPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index b71c93cf54..1f56225a18 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -370,16 +370,8 @@ def image_list_installed_packages(d, rootfs_dir=None):
-     if not rootfs_dir:
-         rootfs_dir = d.getVar('IMAGE_ROOTFS')
- 
--    img_type = d.getVar('IMAGE_PKGTYPE')
--    from oe.package_managers.rpm.package_manager import RpmPkgsList
--    from oe.package_managers.ipk.package_manager import OpkgPkgsList
--    from oe.package_managers.deb.package_manager import DpkgPkgsList
--    if img_type == "rpm":
--        return RpmPkgsList(d, rootfs_dir).list_pkgs()
--    elif img_type == "ipk":
--        return OpkgPkgsList(d, rootfs_dir, d.getVar("IPKGCONF_TARGET")).list_pkgs()
--    elif img_type == "deb":
--        return DpkgPkgsList(d, rootfs_dir).list_pkgs()
-+    import importlib
-+    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.package_manager').PkgsList(d, rootfs_dir).list_pkgs()
- 
- if __name__ == "__main__":
-     """
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 1fac0bed5b..7b17afde78 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -116,19 +116,8 @@ def sdk_list_installed_packages(d, target, rootfs_dir=None):
- 
-         rootfs_dir = [sdk_output, os.path.join(sdk_output, target_path)][target is True]
- 
--    from oe.package_managers.rpm.package_manager import RpmPkgsList
--    from oe.package_managers.ipk.package_manager import OpkgPkgsList
--    from oe.package_managers.deb.package_manager import DpkgPkgsList
--    img_type = d.getVar('IMAGE_PKGTYPE')
--    if img_type == "rpm":
--        arch_var = ["SDK_PACKAGE_ARCHS", None][target is True]
--        os_var = ["SDK_OS", None][target is True]
--        return RpmPkgsList(d, rootfs_dir).list_pkgs()
--    elif img_type == "ipk":
--        conf_file_var = ["IPKGCONF_SDK", "IPKGCONF_TARGET"][target is True]
--        return OpkgPkgsList(d, rootfs_dir, d.getVar(conf_file_var)).list_pkgs()
--    elif img_type == "deb":
--        return DpkgPkgsList(d, rootfs_dir).list_pkgs()
-+    import importlib
-+    return importlib.import_module('oe.package_managers.' + d.getVar('IMAGE_PKGTYPE') + '.package_manager').PkgsList(d, rootfs_dir).list_pkgs()
- 
- def populate_sdk(d, manifest_dir=None):
-     env_bkp = os.environ.copy()
++class DpkgIndexer(Indexer):
++    def _create_configs(self):
++        bb.utils.mkdirhier(self.apt_conf_dir)
++        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "lists", "partial"))
++        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "apt.conf.d"))
++        bb.utils.mkdirhier(os.path.join(self.apt_conf_dir, "preferences.d"))
++
++        with open(os.path.join(self.apt_conf_dir, "preferences"),
++                "w") as prefs_file:
++            pass
++        with open(os.path.join(self.apt_conf_dir, "sources.list"),
++                "w+") as sources_file:
++            pass
++
++        with open(self.apt_conf_file, "w") as apt_conf:
++            with open(os.path.join(self.d.expand("${STAGING_ETCDIR_NATIVE}"),
++                "apt", "apt.conf.sample")) as apt_conf_sample:
++                for line in apt_conf_sample.read().split("\n"):
++                    line = re.sub(r"#ROOTFS#", "/dev/null", line)
++                    line = re.sub(r"#APTCONF#", self.apt_conf_dir, line)
++                    apt_conf.write(line + "\n")
++
++    def write_index(self):
++        self.apt_conf_dir = os.path.join(self.d.expand("${APTCONF_TARGET}"),
++                "apt-ftparchive")
++        self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
++        self._create_configs()
++
++        os.environ['APT_CONFIG'] = self.apt_conf_file
++
++        pkg_archs = self.d.getVar('PACKAGE_ARCHS')
++        if pkg_archs is not None:
++            arch_list = pkg_archs.split()
++        sdk_pkg_archs = self.d.getVar('SDK_PACKAGE_ARCHS')
++        if sdk_pkg_archs is not None:
++            for a in sdk_pkg_archs.split():
++                if a not in pkg_archs:
++                    arch_list.append(a)
++
++        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS') or "").split()
++        arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in arch_list)
++
++        apt_ftparchive = bb.utils.which(os.getenv('PATH'), "apt-ftparchive")
++        gzip = bb.utils.which(os.getenv('PATH'), "gzip")
++
++        index_cmds = []
++        deb_dirs_found = False
++        for arch in arch_list:
++            arch_dir = os.path.join(self.deploy_dir, arch)
++            if not os.path.isdir(arch_dir):
++                continue
++
++            cmd = "cd %s; PSEUDO_UNLOAD=1 %s packages . > Packages;" % (arch_dir, apt_ftparchive)
++
++            cmd += "%s -fcn Packages > Packages.gz;" % gzip
++
++            with open(os.path.join(arch_dir, "Release"), "w+") as release:
++                release.write("Label: %s\n" % arch)
++
++            cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
++
++            index_cmds.append(cmd)
++
++            deb_dirs_found = True
++
++        if not deb_dirs_found:
++            bb.note("There are no packages in %s" % self.deploy_dir)
++            return
++
++        oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
++        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
++            raise NotImplementedError('Package feed signing not implementd for dpkg')
++
++
 -- 
 2.20.1
 
