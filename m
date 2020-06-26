@@ -1,50 +1,50 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web12.2888.1593155961221423303
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web12.2890.1593155962603136859
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 00:19:21 -0700
+ Fri, 26 Jun 2020 00:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PzFH6pN2;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id cy7so6125444edb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=T7KwnDrE;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id dp18so8355812ejc.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RhrL4E6fzQbdcTqLOlbKS0wQaDK2HydkkS93mr+rbLY=;
-        b=PzFH6pN2dGqDQG/aqU3PNZrVhePWdKTc7+/ZFfH6zr3aVFGk73FUi2yDvsiwNHqhkc
-         Y5uGrSvoH/728nRUPf944y/JTpDwCMrGBnka+jgCdpw3ouEtfXWzNF3tncNaPHhLjFgU
-         v53XhJ1n4ivNo5ROCTWMqwjPU1tOWG3pmqL3XHRm7M/RrKTqj1ugJ2wUNmzCEVM5W5Fp
-         JX2Pi6MSHgBrq6X3R4zMwViTqetvTEZN4fG70BoMwu3ZtLq3vcn+IMulheKE74XNMMCS
-         O3xZg+YuDSheyH0n0kaZxl4kX4j1zARkpf0qu6lOmtjGP4CAGrLozHpNbOSI83H5xEYD
-         4lxA==
+        bh=HxK58c+Vh+H3Z35Pagjv1PRtmpi3n/bBdKZD2kuRMT0=;
+        b=T7KwnDrEadpdygTqTPpQIofXXsUitLTafIIwWToTf0R6F+Kipb78BsdzHMEd2D8YwM
+         BW1PVAcpFL7AuIHuEojggnybdMP+Cuj5vG2py75ZXCKvC0dTA+f35RSmFayEDSxjqikS
+         7Lu75RGo6daw3oUc365DrAVSWcsa4JNWN/yG9FQGm4Ob7vXS5cNrqu4RYrfnU2l+3Zyr
+         DBMq7it/iTWf7WlDVMhw48JCVdFGu+4FHoUd1k2STdmIggj+gfcUsxyyWbXH4l05F/iq
+         W3mMqEk2GSw3lebZHRxVLphzRMyCd8fBpZlFNx1OLwMe/oSvzWspXMvHSEeocvn/p7M2
+         HWMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RhrL4E6fzQbdcTqLOlbKS0wQaDK2HydkkS93mr+rbLY=;
-        b=WUSexDgiq5Jmov0YOJqzPpkz5ywG8RIW3dFIyTREVngFFdxXiBrj5AvBEKJRjUd1hC
-         Kj+v/55Hl+NfIqYLBe7EIckXCGPFEJ5/5EsnaYiGbLmg4a4YGNuUd23HLIiEv0Nb0D5g
-         7Iylc7ft4iYcllNz4ymQ17bRczBzSSazHBpwnfXkJQ31iZaYpurZX4GfDaODA6ucUm9j
-         Q1oBecJgNRM8vFOeOcmPRr02a/n2zw2+CDdo1aqvKbN5o1IQq3JAkqOKiwZZWluTunPx
-         mRqIScdCRoeuMoMW59YPEDTU0ri1ro3xusCi9FaNOxHQ8z4AVSYQbvdOBhDQGBZVVzXT
-         BNuA==
-X-Gm-Message-State: AOAM532xz1BBao1gwml8PE5XtZR19dH/qa6PhJO7ZgTxTxuVVWF5gy+0
-	TUp+UMWDHMjWk6OnC/O41WiKtzqbsD8=
-X-Google-Smtp-Source: ABdhPJzL3hTl8oj/8kvxGbZKS2fGk8B1+ubpwkqBDhL913+QyyAirFTYunY945SgVeHus4F0p/K9uQ==
-X-Received: by 2002:a05:6402:1244:: with SMTP id l4mr2021652edw.71.1593155959509;
-        Fri, 26 Jun 2020 00:19:19 -0700 (PDT)
+        bh=HxK58c+Vh+H3Z35Pagjv1PRtmpi3n/bBdKZD2kuRMT0=;
+        b=tk105MFIN0yTA4CmZCJqgI+YLgnkREfVjfKRRjUl3dHo9cKYThSh9Ttpozyow0G8j8
+         UoyfrfVqSIAOaRM7GoLyS+dFS1K4pvCbyE9Q4wvqirXZeMtqdawS/y4BEKp80wFljxbS
+         Q6o14NKYZoB7wGLN3r7RbIxcLEuK/LnLF+y9shHTlpfSBG/QIaNTeBLzIsIqweddlXDk
+         0yRFU+VRoB52RXvfVRw/V4K3zMsqYr5wanHAscxQYr3j3r/vESK0fPf9/P9qE0//zO8a
+         N5mM2BWSvtuTiPkd2Er1KBGVZdA4J+ZxF4F+GLt2dFckdeY62UGsmMvA471x+0pOsc3w
+         /g9w==
+X-Gm-Message-State: AOAM5324mcNoCn6e6Ld7EWPUnowPaWKabCjDabZ3zpxQHQnPBdru4jzP
+	6D2YxCkLNgWCMd85Hdet0lip+RpgyO0=
+X-Google-Smtp-Source: ABdhPJzSvcACEOX6WkK15MxWZXqOh15C8R+v2/XzOsz+asaAtgcbzADqeN3KpDavAcwXDkQUF9KL+A==
+X-Received: by 2002:a17:906:ccd3:: with SMTP id ot19mr1508509ejb.468.1593155960893;
+        Fri, 26 Jun 2020 00:19:20 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.18
+        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 00:19:18 -0700 (PDT)
+        Fri, 26 Jun 2020 00:19:20 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 18/30] alsa-topology-conf: upgrade 1.2.2 -> 1.2.3
-Date: Fri, 26 Jun 2020 09:18:32 +0200
-Message-Id: <20200626071844.29134-18-alex.kanavin@gmail.com>
+Subject: [PATCH 19/30] alsa-ucm-conf: upgrade 1.2.2 -> 1.2.3
+Date: Fri, 26 Jun 2020 09:18:33 +0200
+Message-Id: <20200626071844.29134-19-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626071844.29134-1-alex.kanavin@gmail.com>
 References: <20200626071844.29134-1-alex.kanavin@gmail.com>
@@ -53,23 +53,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...{alsa-topology-conf_1.2.2.bb => alsa-topology-conf_1.2.3.bb} | 2 +-
+ .../alsa/{alsa-ucm-conf_1.2.2.bb => alsa-ucm-conf_1.2.3.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-topology-conf_1.2.2.bb => alsa-topology-conf_1.2.3.bb} (84%)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.2.bb => alsa-ucm-conf_1.2.3.bb} (85%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.2.bb b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
-similarity index 84%
-rename from meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
-index 2901794cb9..fd949be8a0 100644
---- a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.2.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.3.bb
+similarity index 85%
+rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.2.bb
+rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.3.bb
+index 1a524d49b2..19eeabff78 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.3.bb
 @@ -5,7 +5,7 @@ LICENSE = "BSD-3-Clause"
  LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
  
  SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "b472d6b567c78173bd69543d9cffc9e379c80eb763c3afc8d5b24d5610d19425"
-+SRC_URI[sha256sum] = "833f99b2cbda34e0cfef867ef1d2e6a74fe276bb7fc525a573be32077f629dff"
+-SRC_URI[sha256sum] = "7ebfd929bc85a51f16fa3c8c4db13faa2ea6ff2b2266fc36d6198bdafe73c40c"
++SRC_URI[sha256sum] = "1bc24da04bb27a75e323c9f0fb03e44705b6bb8a8baf255b94b41d457d590d00"
  
  inherit allarch
  
