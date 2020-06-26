@@ -1,115 +1,86 @@
-Received: from mailout06.rmx.de (mailout06.rmx.de [94.199.90.92])
- by mx.groups.io with SMTP id smtpd.web12.9316.1593182365541579919
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by mx.groups.io with SMTP id smtpd.web12.9708.1593183397594791490
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 07:39:27 -0700
+ Fri, 26 Jun 2020 07:56:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.90.92, mailfrom: ceggers@arri.de)
-Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout06.rmx.de (Postfix) with ESMTPS id 49tffJ6Crjz9srS
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 16:39:20 +0200 (CEST)
-Received: from ppmail.arri.de (unknown [217.111.95.7])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by kdin02.retarus.com (Postfix) with ESMTPS id 49tffJ0Wf7z2TTLm
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 16:39:20 +0200 (CEST)
-Received: from mta.arri.de ([192.168.100.141]) by ppmail.arri.de over TLS secured channel with Microsoft SMTPSVC(7.0.6002.18264);
-	 Fri, 26 Jun 2020 16:39:19 +0200
-Received: from n95hx1g2.localnet (192.168.54.27) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 26 Jun
- 2020 16:39:19 +0200
-From: "Christian Eggers" <ceggers@arri.de>
-To: Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [Patch v2 0/2] Extend dependencies of networkmanager for native/nativesdk
-Date: Fri, 26 Jun 2020 16:39:13 +0200
-Message-ID: <2259940.Q60ZqerjEb@n95hx1g2>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-In-Reply-To: <CAAnfSTtcUvrt1dVYXi+2qfo_kQOKGn6PSCucaq3x5WH4Dgr-vQ@mail.gmail.com>
-References: <20200622125359.11587-1-ceggers@arri.de> <CAAnfSTtcUvrt1dVYXi+2qfo_kQOKGn6PSCucaq3x5WH4Dgr-vQ@mail.gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: cetitec.com, ip: 212.227.17.24, mailfrom: johannes.beisswenger@cetitec.com)
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Md6AP-1jFVA01iaZ-00aAfk; Fri, 26 Jun 2020 16:56:35 +0200
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+	by mail.cetitecgmbh.com (Postfix) with ESMTP id C01D6651A6F;
+	Fri, 26 Jun 2020 14:56:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+	by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Qmj_vUezcd4M; Fri, 26 Jun 2020 16:56:34 +0200 (CEST)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+	by mail.cetitecgmbh.com (Postfix) with ESMTPS id 5C5B7651A3B;
+	Fri, 26 Jun 2020 16:56:34 +0200 (CEST)
+Received: from [10.10.5.239] (10.10.5.239) by PFWSEXCHANGE.corp.cetitec.com
+ (10.10.1.99) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Jun
+ 2020 16:56:34 +0200
+Subject: Re: [OE-core] [pseudo][PATCH 1/2] xattr: Fixed corrupting UID&GID when running setfacl -m on a directory
+To: Seebs <seebs@seebs.net>
+CC: <openembedded-core@lists.openembedded.org>
+References: <20200626094031.9975-1-johannes.beisswenger@cetitec.com>
+ <20200626090553.6853a571@seebsdell>
+From: "Johannes Beisswenger" <johannes.beisswenger@cetitec.com>
+Message-ID: <49dc076b-16fd-cd82-5793-bbf2c2fc9adf@cetitec.com>
+Date: Fri, 26 Jun 2020 16:56:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.27]
-X-OriginalArrivalTime: 26 Jun 2020 14:39:19.0486 (UTC) FILETIME=[933D6DE0:01D64BC7]
-X-RMX-ID: 20200626-163920-49tffJ0Wf7z2TTLm-0@kdin02
-X-RMX-SOURCE: 217.111.95.7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200626090553.6853a571@seebsdell>
+X-Originating-IP: [10.10.5.239]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536B6C7463
+X-Provags-ID: V03:K1:Cx/UKbfC2ZpbA0jPrFEXtBMoMRdwgAolwaP4h2ktkb+YnTfN5j7
+ F+R47SPYuxX3qy0HryaUiYJxCc8MzvemCWEQ4zAhnxqBb4++6lnoptZa/IjkbJZHQS9JvN0
+ riJaTG0LiEMLAsPW2LI9Tx75he1pdAowKVtLNXASPDg+XUQnQl8hib8rkyImjB2OhcfwAKM
+ oehhyOyrsGDQBoK8zX2Yw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BcFGgIPEHV0=:srdqAD3D3nvQ0d6szZ9M1p
+ WQf6cFjr6m8ITlEJToCGoErSyB1Z8mwIiDfBCucmciEnmVmng2aBxvWpdpZopQ36VDjEFt9Vj
+ Bej94oJmEbrBb/KAMnI3y7P89xKcWYOUeXeExQCT9ewaa//88T0YrHdhJqkbzolrMelpxSv+M
+ MZIwwF5sQ0UCLPhvmeALC067xIFE8GGytFn9CoJwYPExWYFYMvmuNT2Z4Mr8cz22/WpUu0HTT
+ MbMaZi1TjLpRIy039R3ZPfQXtag0NZ8lGxKu+I3o4TdptSD0Mldq4/scJuXvQY8uHJKFEgIDy
+ PETS0CSRZxKRnWlOwsdgvcW2PsTVqjgBkAY6gkwFivIcgp4Fc79RWqAzRJ9Dj1B/fkBMoYupl
+ UJP6hgLp8J06nbXy9ANDdSNWWfRgGpJGxB0xZTZuJnizdG/dvGxyCUUAolm2j8WzHvd6+tTTe
+ MapAUp2O+cuYC0w5lDZlIUICQZrMlZ8MmzsHt0kjCLbMIaWTCzc3zw/63t8fUbB2HAe8YUGc0
+ 6/CGS0IdRfM8g3AXubYNkDOAecI7uNZqti351XS4d+a86cuy+5//h5NyQ4CflOnG8k0W+iCGh
+ AiH73cwqTkib1cIBcLdU2drOXbjI3VU6RL3vPEkMq9cii3X0LurXmgJk2M1s04s1Ud70i9XoH
+ +Z4DZrnibGaMpqysmzJLMuN1oFbYEy48UiMMteV0sI7DTQ5m+ZblQ8WWrWcakM6PuQ6u42suO
+ Txmj8j5XzkESgBR5FMfUT9t/mYHq/KBCcpJCW4PiARGPkV5xgpZrjmEZ50I9XUuWsmXwYY5FD
+ Az2lt52tF2S/Eu0jKK9IOexNjgN+FSY1VRPsd4VcarAUQlfljKz8PntD3XU6HP6ZzOowVGDp1
+ 5c86gbO1IAdssAFWIqMA==
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Am Freitag, 26. Juni 2020, 14:06:02 CEST schrieb Ross Burton:
-> I'm curious what you're actually building for native here? (ie what
-> bit of network manager is meaningful as a native build).
->
-> Ross
->
-Our own application (embedded product) links against libnm.
-This application can either be built for the embedded system
-or for PC platform.
+Thanks for the fast reply!
 
-I plan to perform unit tests of this application on the build machine
-(native). This tests can also include testing the interfaces to
-NetworkManager.
+> Good catch, but we should still be masking in the permissions bits, we
+> just shouldn't be overwriting the non-permissions bits, I think?
 
-I'm still unsure whether I will built and run my own application
-tests within the Yocto build environment (native Yocto package)
-or doing this "externally" under the (native part of the) SDK. The
-compiler/libraries from the build machine itself are not suitable
-as they are usually too old.
+The OP_CREATE/REPLACE/SET_XATTR operations in pseudo_op() don't use 
+msg_header.mode at all, it is only used for DB sanity checks, which in 
+turn only use the non-permission bits.
+So it certainly does not hurt to add them back in, and thus might be the 
+proper thing to do.
+Not knowing the code base I simply was being conservative and left the 
+original mode unaltered.
+I can send an updated patch on Monday.
 
-From your question it sounds like not every type of software
-may be suitable for -native/-nativesdk? Shall these packages be
-limited to software required for "building" (compiler, code generators,
-documentation, ...)?
+On a different note, the shared_setxattr() code for the darwin port is 
+very similar and also overwrites buf.st_mode and thus is also affected 
+by this buf. In addition to that it is also missing the changes 
+introduced by this commit 
+http://git.yoctoproject.org/cgit/cgit.cgi/pseudo/commit/?id=cc6b2008646318c01153d39fef191da3e35a5fc8, 
+since I don't have access to a darwin system to test any changes I left 
+the port alone, but someone should look into this.
 
-Sure, I could create separate SDKs for both machines, but having
-the "target" SDK and the "PC" SDK together works very fine for us.
-
-regards
-Christian
-
-> On Mon, 22 Jun 2020 at 13:54, Christian Eggers <ceggers@arri.de> wrote:
-> > On Friday, 2020-06-19, Richard Pudie wrote:
-> > > A native eudev is a really bad idea, a nativesdk one isn't much bette=
-r.
-> > > If there are libs we need from here, then the recipe should only be
-> > > generating those but a "native eudev" makes no sense to be needed by =
-a
-> > > build system.
-> >
-> > Ack. I already expected that there might be a (hidden?) rule, what type=
- of
-> > software is (NOT) allowed for -native/-nativesdk.
-> >
-> > > A native or nativesdk consolekit does not make sense.
-> > >
-> > > If you need libs from networkmanager, you'll probably have to patch i=
-t
-> > > just to generate the libs you need. We don't want builds polluted wit=
-h
-> > > confusing and potentially quite problematic binaries.
-> >
-> > Networkmanager can be built fine without consolekit. Probably this will
-> > not make any difference for libnm.
-> >
-> >
-
-
-
-________________________________
- [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
-.jpg] <https://microsites.arri.com/stellar/>
-
-Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
-cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
-Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
-tube.com/user/ARRIChannel>.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
+--
+Johannes Beisswenger
