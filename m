@@ -1,305 +1,169 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web12.2012.1593138365688867259
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web12.557.1593143132114104727
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 19:26:05 -0700
+ Thu, 25 Jun 2020 20:45:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rJbbRBKg;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id j4so3705795plk.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 19:26:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DatY7bO8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f67.google.com with SMTP id m2so4376014pjv.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 20:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=G6U61ysmkwwODio6AUK320vDjOBiUmgvfljY+9S77W4=;
-        b=rJbbRBKg1tdkcYA9aGoZ4O2utwoPdd54wg/VR+QYWidKK7VD5Tk5i0EtiCQ9FcnuKb
-         LUTqv9pnvw/CLjaSVe9xjYArMFeWu57IJ4mY9Sto4IUOtYxpLckv8gD7uoShY2d9lgVI
-         t7xuby+Wl05YPiJknKzAae5LxbvtmSv/ckAYOhISLvLM/cH3845PA0eezwKNR2Sha3Pc
-         CrYKlN4ietvIvzCUVj367sNiulnws21/OvRpznd9pK8WKi2AsLJQy2AIN2nxujs65/JF
-         cr3XtxBkPEuTQJkUdFYPXV2WmZcFxUDmdQYt+/gDSHD/iScy7EbVUvv/0ALVF5S9/Pb0
-         eSNg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CQeh65HRvmNcgqhhalcEU3fMTbfxYMXi5C1hl3F76Ag=;
+        b=DatY7bO84VeQHXYMyvpgEQtGJm2P6vlUk9W/uxfoVoqsjA/ZpnVOgZeg+dWlQhJOAf
+         slORc9rjZe37ADBCU2csTjcAwsMI8TYvVGqPdheJu/vIXQdx8kmxs6Ogb2Uf3RMrCzWF
+         7damyiOJKMyJN/xC4N3+YtiBhFQFrOaj4WQ3+H+AkRgrKMbfStPThau9mJOjIvYN9MQj
+         Cru0Wvs1QBrVkTvXn14zNHIMaLzlkdyTCD7FueZhuFyhbfckL4ZQJfGwtXVpXUYhQgiK
+         uJudx3WN+2b6DsMgv0wy1xr5SrLGnkhg+BZYYQVxBSPaEgWur5yt+c8j0TuEo3riLXlP
+         pcsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=G6U61ysmkwwODio6AUK320vDjOBiUmgvfljY+9S77W4=;
-        b=A1PN5VAEiOBOTRBSHRZagt6RE3Ov91+T9QCTvqO417MiTPYaZDhCdehCnyQf/RYCqD
-         BwMNtb+F23jI7q9K/VkgB6dHs1G/TsD7uWR+Er9ESCuByZ7r1umNIFPXzXXagoUb01E5
-         tRshUpcjHxQRKI/ONB3OCFW34CWMMyj4FiSJrHsVH44W78jIqb5sLzfeQXhXouu2V/vR
-         4xYzTcC0iN28JL4NIQkJCglPERnJQpimVNCEd5DqCpWu0BRJdawNVhWgMqowKRA06wgO
-         vpYxlY5O/84AF/lyfz+it9Jq8oX3e7dt6+8pR8bf2iJkOrZx5+vsdA42Gd9YAqnrGlQo
-         EtrQ==
-X-Gm-Message-State: AOAM5333vWlIWcOWT54+p5+1H6v8rON+QcspcB4ZvTo7dWq+xfYTcH/5
-	sSvmvxKHm+nEfOD7CIg97ysJysRM
-X-Google-Smtp-Source: ABdhPJwdnsGBBYz/F37zxGOarPSelOdpEJtIpWQIIiQj257LH/0El0jdVEuszMkKySGoVBlWUxq+Cw==
-X-Received: by 2002:a17:902:8204:: with SMTP id x4mr667327pln.153.1593138364716;
-        Thu, 25 Jun 2020 19:26:04 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:acbe:8216:8a55:1b44])
-        by smtp.gmail.com with ESMTPSA id y12sm6726276pfo.182.2020.06.25.19.26.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CQeh65HRvmNcgqhhalcEU3fMTbfxYMXi5C1hl3F76Ag=;
+        b=kKVwz7U5GUSgDJrNE7qIEx3wLth8QhRibnsOZUtcNfPBmPgeRDKuUYzOo2m45zhzas
+         avCMVBX/NOTsEAt2eRvkjE7QaKhMZWefveGsR4Fb9L91/rxxOauAAAgyA5B/5lPVXqDY
+         DAZPhq7hbJadx+X0fDX2cZFCjB/kXjFXKbx/mdmtl5VwmUv1TSU6FgI2PIi5YxQR2OYf
+         vcOGbnqwPhi2PR4V9VhLXWUuju7kUGOJYrjSuSfsMCB4L/sNXFFAQGELvRPcG2zmdUfV
+         qKDLTR4D12+9WhCO3M7//p58K7iOGm4bRYmaaHHKL7znsjORiKaUYIVvgN7Q2B177dVT
+         lWzQ==
+X-Gm-Message-State: AOAM533ErlmPzLpG5mnJWlHlzmd+U9cGgP2XiIL89QyqVs6vaanRVrh8
+	XQuk0wFUbRsaxuC0ruYnYwdKvV+spls=
+X-Google-Smtp-Source: ABdhPJxgHFmYEUQX3d+57ltVRZARidWhKvL4CwOATTCmHsuWHtNGL8G++rmPoEOda27swJ2qNvK2gw==
+X-Received: by 2002:a17:90a:e02:: with SMTP id v2mr1245860pje.90.1593143131189;
+        Thu, 25 Jun 2020 20:45:31 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::dedc])
+        by smtp.gmail.com with ESMTPSA id y10sm25565863pfq.34.2020.06.25.20.45.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2020 19:26:04 -0700 (PDT)
-From: "akuster" <akuster808@gmail.com>
+        Thu, 25 Jun 2020 20:45:30 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [dunfell][PATCH] curl: Security fixes for CVE-2020-{8169/8177}
-Date: Thu, 25 Jun 2020 19:26:01 -0700
-Message-Id: <20200626022601.27734-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] musl: Update to tip of master
+Date: Thu, 25 Jun 2020 20:45:24 -0700
+Message-Id: <20200626034525.3955716-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+Detailed changelog [1]
+Refresh patches
 
-Source: https://curl.haxx.se/
-MR: 104472, 104458
-Type: Security Fix
-Disposition: Backport from https://github.com/curl/curl/commit/{600a8cded447cd/8236aba58542c5f}
-ChangeID: 1300924f7a64b22375b4326daeef0b686481e30c
-Description:
+[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=1b4e84c56df0f8ca30f6bc05962a860f869e71df..fca7428c096066482d8c3f52450810288e27515c
 
-- Affected versions: curl 7.20.0 to and including 7.70.0
-- Not affected versions: curl < 7.20.0 and curl >= 7.71.0
-
-Fixes both CVE-2020-8169 and CVE-2020-8177
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++++
- .../curl/curl/CVE-2020-8177.patch             |  67 +++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
- 3 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
+ ...ynamic-linker-a-relative-symlink-to-libc.patch | 11 ++---------
+ ...libdir-and-libdir-as-default-pathes-to-l.patch | 15 ++++-----------
+ meta/recipes-core/musl/musl_git.bb                |  2 +-
+ 3 files changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2020-8169.patch b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
-new file mode 100644
-index 0000000000..5f0b47cfe3
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
-@@ -0,0 +1,140 @@
-+From 600a8cded447cd7118ed50142c576567c0cf5158 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 14 May 2020 14:37:12 +0200
-+Subject: [PATCH] url: make the updated credentials URL-encoded in the URL
-+
-+Found-by: Gregory Jefferis
-+Reported-by: Jeroen Ooms
-+Added test 1168 to verify. Bug spotted when doing a redirect.
-+Bug: https://github.com/jeroen/curl/issues/224
-+Closes #5400
-+
-+Upstream-Status: Backport
-+https://github.com/curl/curl/commit/600a8cded447cd
-+
-+CVE: CVE-2020-8169
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ lib/url.c               |  6 ++--
-+ tests/data/Makefile.inc |  1 +
-+ tests/data/test1168     | 78 +++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 83 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/data/test1168
-+
-+Index: curl-7.69.1/lib/url.c
-+===================================================================
-+--- curl-7.69.1.orig/lib/url.c
-++++ curl-7.69.1/lib/url.c
-+@@ -2776,12 +2776,14 @@ static CURLcode override_login(struct Cu
-+ 
-+   /* for updated strings, we update them in the URL */
-+   if(user_changed) {
-+-    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp, 0);
-++    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp,
-++                      CURLU_URLENCODE);
-+     if(uc)
-+       return Curl_uc_to_curlcode(uc);
-+   }
-+   if(passwd_changed) {
-+-    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp, 0);
-++    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp,
-++                      CURLU_URLENCODE);
-+     if(uc)
-+       return Curl_uc_to_curlcode(uc);
-+   }
-+Index: curl-7.69.1/tests/data/Makefile.inc
-+===================================================================
-+--- curl-7.69.1.orig/tests/data/Makefile.inc
-++++ curl-7.69.1/tests/data/Makefile.inc
-+@@ -133,6 +133,7 @@ test1136 test1137 test1138 test1139 test
-+ test1144 test1145 test1146 test1147 test1148 test1149 test1150 test1151 \
-+ test1152 test1153 test1154 test1155 test1156 test1157 test1158 test1159 \
-+ test1160 test1161 test1162 test1163 test1164 test1165 test1166 test1167 \
-++test1168 \
-+ \
-+ test1170 test1171 test1172 test1173 test1174 test1175 test1176 \
-+ \
-+Index: curl-7.69.1/tests/data/test1168
-+===================================================================
-+--- /dev/null
-++++ curl-7.69.1/tests/data/test1168
-+@@ -0,0 +1,78 @@
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++followlocation
-++</keywords>
-++</info>
-++# Server-side
-++<reply>
-++<data>
-++HTTP/1.1 301 This is a weirdo text message swsclose
-++Date: Thu, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Location: /data/11680002.txt
-++Connection: close
-++
-++This server reply is for testing a simple Location: following
-++
-++</data>
-++<data2>
-++HTTP/1.1 200 Followed here fine swsclose
-++Date: Thu, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Content-Length: 52
-++
-++If this is received, the location following worked
-++
-++</data2>
-++<datacheck>
-++HTTP/1.1 301 This is a weirdo text message swsclose
-++Date: Thu, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Location: /data/11680002.txt
-++Connection: close
-++
-++HTTP/1.1 200 Followed here fine swsclose
-++Date: Thu, 09 Nov 2010 14:49:00 GMT
-++Server: test-server/fake
-++Content-Length: 52
-++
-++If this is received, the location following worked
-++
-++</datacheck>
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++ <name>
-++HTTP redirect with credentials using # in user and password
-++ </name>
-++ <command>
-++http://%HOSTIP:%HTTPPORT/want/1168 -L -u "catmai#d:#DZaRJYrixKE*gFY"
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<strip>
-++^User-Agent:.*
-++</strip>
-++<protocol>
-++GET /want/1168 HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
-++Accept: */*
-++
-++GET /data/11680002.txt HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
-++Accept: */*
-++
-++</protocol>
-++</verify>
-++</testcase>
-diff --git a/meta/recipes-support/curl/curl/CVE-2020-8177.patch b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
-new file mode 100644
-index 0000000000..4f14fa2306
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
-@@ -0,0 +1,67 @@
-+From 8236aba58542c5f89f1d41ca09d84579efb05e22 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 31 May 2020 23:09:59 +0200
-+Subject: [PATCH] tool_getparam: -i is not OK if -J is used
-+
-+Reported-by: sn on hackerone
-+Bug: https://curl.haxx.se/docs/CVE-2020-8177.html
-+
-+Upstream-Status: Backport
-+CVE:CVE-2020-8177
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ src/tool_cb_hdr.c   | 22 ++++------------------
-+ src/tool_getparam.c |  5 +++++
-+ 2 files changed, 9 insertions(+), 18 deletions(-)
-+
-+Index: curl-7.69.1/src/tool_cb_hdr.c
-+===================================================================
-+--- curl-7.69.1.orig/src/tool_cb_hdr.c
-++++ curl-7.69.1/src/tool_cb_hdr.c
-+@@ -186,25 +186,11 @@ size_t tool_header_cb(char *ptr, size_t
-+       filename = parse_filename(p, len);
-+       if(filename) {
-+         if(outs->stream) {
-+-          int rc;
-+-          /* already opened and possibly written to */
-+-          if(outs->fopened)
-+-            fclose(outs->stream);
-+-          outs->stream = NULL;
-+-
-+-          /* rename the initial file name to the new file name */
-+-          rc = rename(outs->filename, filename);
-+-          if(rc != 0) {
-+-            warnf(per->config->global, "Failed to rename %s -> %s: %s\n",
-+-                  outs->filename, filename, strerror(errno));
-+-          }
-+-          if(outs->alloc_filename)
-+-            Curl_safefree(outs->filename);
-+-          if(rc != 0) {
-+-            free(filename);
-+-            return failure;
-+-          }
-++          /* indication of problem, get out! */
-++          free(filename);
-++          return failure;
-+         }
-++
-+         outs->is_cd_filename = TRUE;
-+         outs->s_isreg = TRUE;
-+         outs->fopened = FALSE;
-+Index: curl-7.69.1/src/tool_getparam.c
-+===================================================================
-+--- curl-7.69.1.orig/src/tool_getparam.c
-++++ curl-7.69.1/src/tool_getparam.c
-+@@ -1807,6 +1807,11 @@ ParameterError getparameter(const char *
-+       }
-+       break;
-+     case 'i':
-++      if(config->content_disposition) {
-++        warnf(global,
-++              "--include and --remote-header-name cannot be combined.\n");
-++        return PARAM_BAD_USE;
-++      }
-+       config->show_headers = toggle; /* show the headers as well in the
-+                                         general output stream */
-+       break;
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index e854e8d4bd..8b5170f021 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e9fb35867314fe31c6a4977ef7dd531"
+diff --git a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
+index 462d338b96..ba00efe7b3 100644
+--- a/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
++++ b/meta/recipes-core/musl/musl/0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch
+@@ -22,11 +22,9 @@ Upstream-Status: Pending
+  tools/install.sh | 8 +++++---
+  2 files changed, 6 insertions(+), 4 deletions(-)
  
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-+           file://CVE-2020-8169.patch \
-+           file://CVE-2020-8177.patch \
- "
+-diff --git a/Makefile b/Makefile
+-index 8246b78..d1dbe39 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -215,7 +215,7 @@ $(DESTDIR)$(includedir)/%: $(srcdir)/include/%
++@@ -210,7 +210,7 @@ $(DESTDIR)$(includedir)/%: $(srcdir)/inc
+  	$(INSTALL) -D -m 644 $< $@
+  
+  $(DESTDIR)$(LDSO_PATHNAME): $(DESTDIR)$(libdir)/libc.so
+@@ -35,8 +33,6 @@ index 8246b78..d1dbe39 100644
+  
+  install-libs: $(ALL_LIBS:lib/%=$(DESTDIR)$(libdir)/%) $(if $(SHARED_LIBS),$(DESTDIR)$(LDSO_PATHNAME),)
+  
+-diff --git a/tools/install.sh b/tools/install.sh
+-index d913b60..b6a7f79 100755
+ --- a/tools/install.sh
+ +++ b/tools/install.sh
+ @@ -6,18 +6,20 @@
+@@ -62,7 +58,7 @@ index d913b60..b6a7f79 100755
+  m) mode=$OPTARG ;;
+  ?) usage ;;
+  esac
+-@@ -48,7 +50,7 @@ trap 'rm -f "$tmp"' EXIT INT QUIT TERM HUP
++@@ -48,7 +50,7 @@ trap 'rm -f "$tmp"' EXIT INT QUIT TERM H
+  umask 077
+  
+  if test "$symlink" ; then
+@@ -71,6 +67,3 @@ index d913b60..b6a7f79 100755
+  else
+  cat < "$1" > "$tmp"
+  chmod "$mode" "$tmp"
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
+index 6a875a717e..f57aae5f3c 100644
+--- a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
++++ b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
+@@ -20,11 +20,9 @@ Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
+  ldso/dynlink.c | 4 +++-
+  2 files changed, 5 insertions(+), 2 deletions(-)
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-diff --git a/Makefile b/Makefile
+-index b46f8ca4..c07e4ae8 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -46,7 +46,8 @@ CFLAGS_AUTO = -Os -pipe
++@@ -47,7 +47,8 @@ CFLAGS_AUTO = -Os -pipe
+  CFLAGS_C99FSE = -std=c99 -ffreestanding -nostdinc 
+  
+  CFLAGS_ALL = $(CFLAGS_C99FSE)
+@@ -34,20 +32,18 @@ index b46f8ca4..c07e4ae8 100644
+  CFLAGS_ALL += $(CPPFLAGS) $(CFLAGS_AUTO) $(CFLAGS)
+  
+  LDFLAGS_ALL = $(LDFLAGS_AUTO) $(LDFLAGS)
+-diff --git a/ldso/dynlink.c b/ldso/dynlink.c
+-index ec921dfd..7c119c55 100644
+ --- a/ldso/dynlink.c
+ +++ b/ldso/dynlink.c
+-@@ -22,6 +22,8 @@
++@@ -24,6 +24,8 @@
++ #include "libc.h"
+  #include "dynlink.h"
+- #include "malloc_impl.h"
+  
+ +#define SYS_PATH_DFLT SYSLIBDIR ":" LIBDIR
+ +
+  static void error(const char *, ...);
+  
+  #define MAXP2(a,b) (-(-(a)&-(b)))
+-@@ -1038,7 +1040,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
++@@ -1071,7 +1073,7 @@ static struct dso *load_library(const ch
+  					sys_path = "";
+  				}
+  			}
+@@ -56,6 +52,3 @@ index ec921dfd..7c119c55 100644
+  			fd = path_open(name, sys_path, buf, sizeof buf);
+  		}
+  		pathname = buf;
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 6aa69985d7..0913b09aaf 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "1b4e84c56df0f8ca30f6bc05962a860f869e71df"
++SRCREV = "fca7428c096066482d8c3f52450810288e27515c"
+ 
+ BASEVER = "1.2.0"
+ 
 -- 
-2.17.1
+2.27.0
 
