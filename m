@@ -1,101 +1,49 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.6575.1593174586993809252
+Received: from good-out-12.clustermail.de (good-out-12.clustermail.de [212.223.35.74])
+ by mx.groups.io with SMTP id smtpd.web12.6952.1593175137341283804
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 05:29:47 -0700
+ Fri, 26 Jun 2020 05:38:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=ZMURQrkk;
- spf=pass (domain: linaro.org, ip: 209.85.221.67, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-wr1-f67.google.com with SMTP id h15so9317839wrq.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 05:29:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hLDRcNzLz0RDFTNpOIeSdNlOP5DQK0uV+lLWENiJ1TQ=;
-        b=ZMURQrkk+Lruh/Z2NKlcKDKOxIN1nvB47uT2CFSX24FcL8qcKn9644Qd22bRpicr6d
-         sjL4y96HVHkyL0puL3iw8K2pvDrGbhem8VH18brn+XG5oLSxfmId8YsfrSBbF1C0ou6E
-         wmCZemIa04m1+CP41lA6x/zZ70VuBb0ybXLGegcfHQPgsZ5kmmHrLkJXavSXBygxNvUN
-         c2CbY039tkAqodg9y3QwbQ0Oo7eb8fBe+RoKDlIM640uKlf3PyjmI4vCrDWJbonoWTpQ
-         c0zaeFbPNP1iUwzc3V/pDcr52SJKEZ6EkeW+kS7lGHjsECFScuT26mKdg5R6IugHcx3h
-         aAEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hLDRcNzLz0RDFTNpOIeSdNlOP5DQK0uV+lLWENiJ1TQ=;
-        b=Q6Cep5ZS7+O8f9NWSczakXUxw/7dSuq/FZmbp+VLWUK3TVqve2c+ncjjHPuaVs/tso
-         ehabuZys+FrQj4pxJ4c6ftwnvbVIH2nZaCtdOJf++i536tUxpMfMBLFQddhEbF8qg3hy
-         /O63RkTJwcEY5I+hzxJVVW2F+sQsm53eteyfwrRZFtkwM8kinVAX+8VlzN3Bu8E5mK5H
-         pcwhkQphBDuhCvt676z3SueYlHi4tEBduHMICKxoV6xdB8DWCvbI03praqjYPl4EjHHx
-         tcxjE8d1oUNBefudruRz/3J1XgtEdro1662UNmcvsfT1kQotbzf/2xPN3brrlljYOVMq
-         hKkw==
-X-Gm-Message-State: AOAM531ltq9++nVrMFIJu1cYwGL1mPCOnK3QCZVI/lJdbOf12teTIWwh
-	hqBute8Qt+YAVlUnxOldoi1ReaF3Xe0=
-X-Google-Smtp-Source: ABdhPJxbhZOALw6/5ArHBuv8kMj6YulsHZuLA9IeMqIy6bjlLWM6rGX2ZtXQMU+AoPPzFTDooACP1A==
-X-Received: by 2002:a5d:69c5:: with SMTP id s5mr3529760wrw.197.1593174585142;
-        Fri, 26 Jun 2020 05:29:45 -0700 (PDT)
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from qcom-hackbox.linaro.org (static.8.26.4.46.clients.your-server.de. [46.4.26.8])
-        by smtp.gmail.com with ESMTPSA id h18sm36236454wru.7.2020.06.26.05.29.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jun 2020 05:29:44 -0700 (PDT)
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org,
-	christophe.priouzeau@st.com
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH v2] checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
-Date: Fri, 26 Jun 2020 14:29:30 +0200
-Message-Id: <20200626122930.21192-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing; spf=pass (domain: gin.de, ip: 212.223.35.74, mailfrom: daniel.klauer@gin.de)
+Received: from [10.0.0.6] (helo=frontend.clustermail.de)
+	by smtpout-03.clustermail.de with esmtp (Exim 4.92.3)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1jond2-0002Ai-Jg
+	for openembedded-core@lists.openembedded.org; Fri, 26 Jun 2020 14:38:54 +0200
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.92.3)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1jond2-0001vh-Cs
+	for openembedded-core@lists.openembedded.org; Fri, 26 Jun 2020 14:38:48 +0200
+Received: from [10.176.8.42] (10.176.8.42) by Win2012-02.gin-domain.local
+ (10.160.128.12) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 26 Jun
+ 2020 14:38:47 +0200
+From: "Daniel Klauer" <daniel.klauer@gin.de>
+Subject: Re: [PATCH 2/2] deploy.bbclass: Clean DEPLOYDIR before do_deploy
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20190828114131.10340-1-daniel.klauer@gin.de>
+ <20190828114131.10340-2-daniel.klauer@gin.de>
+Message-ID: <a7b4cfab-eec4-2ddd-a48b-f1846bbd3ee5@gin.de>
+Date: Fri, 26 Jun 2020 14:38:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190828114131.10340-2-daniel.klauer@gin.de>
+X-Originating-IP: [10.176.8.42]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (10.160.128.12) To
+ Win2012-02.gin-domain.local (10.160.128.12)
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-LAYERDEPENDS is a string of this format:
-"DEPEND1 (optional version) DEPEND2 (optional version) ..."
+Ping - any chance of getting this merged? (refering to
+https://patchwork.openembedded.org/series/19533/)
 
-However when we parse LAYERDEPENDS in _get_layer_collections() we
-parse it as a simple string, and if any optional versions are there the
-'depends' field is wrong. For example, running yocto-check-layer
-might result in such errors:
+I think it would still be useful, especially for meta-freescale, which
+uses do_deploy() in many recipes.
 
-ERROR: Layer meta-python depends on (>= and isn't found.
-ERROR: Layer meta-python depends on 12) and isn't found.
+If not, then I can update the meta-freescale pull request that triggered
+this patch (https://github.com/Freescale/meta-freescale/pull/139).
 
-Let's use bb.utils.explode_dep_versions2() to parse LAYERDEPENDS, and
-create a string that contains all dependencies, effectively
-skipping/ignoring any optional versions.
-
-[YOCTO #13957]
-
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
-v2: 
-check if depends is None before calling explode_dep_versions2()
-add Yocto BZ number
-
- scripts/lib/checklayer/__init__.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 1138000275..f625d59896 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -59,9 +59,14 @@ def _get_layer_collections(layer_path, lconf=None, data=None):
-         pattern = ldata.getVar('BBFILE_PATTERN_%s' % name)
-         depends = ldata.getVar('LAYERDEPENDS_%s' % name)
-         compat = ldata.getVar('LAYERSERIES_COMPAT_%s' % name)
-+        try:
-+            depDict = bb.utils.explode_dep_versions2(depends or "")
-+        except bb.utils.VersionStringException as vse:
-+            bb.fatal('Error parsing LAYERDEPENDS_%s: %s' % (name, str(vse)))
-+
-         collections[name]['priority'] = priority
-         collections[name]['pattern'] = pattern
--        collections[name]['depends'] = depends
-+        collections[name]['depends'] = ' '.join(depDict.keys())
-         collections[name]['compat'] = compat
- 
-     return collections
--- 
-2.20.1
-
+Thanks.
