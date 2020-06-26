@@ -1,777 +1,766 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.139.1593192867837810084
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+ by mx.groups.io with SMTP id smtpd.web11.1336.1593197326944576209
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 10:34:28 -0700
+ Fri, 26 Jun 2020 11:48:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K1QKH+eX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id t194so10112448wmt.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 10:34:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rGX2uvQ0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f174.google.com with SMTP id m21so1139792vkp.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 11:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XOQUOvt69xUBeyzxVxuLPsMuNw+PGeiyTahEHV8qVhk=;
-        b=K1QKH+eXBRbdqMUntgv4S8Qy9tdCO3KmpBCzg5NlL5cNT0akUYnLjq1KOsxMwSJTXC
-         RR9B4rAt+LSRdnqyu9F9Og0vjLrj0NFrtzPypZdqYiAA1vEjRUJg6XadUI+sifb3ua/I
-         o2SeA/TBT5mWPEolqL9bRGpdHNykEj37X+v6M=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=odutk+JBRzgl/36N6cKMHtRnVp3QydYriVgamI1s21A=;
+        b=rGX2uvQ0HCgOeuVSZVl34SLV6zDT03CI7Vw4Z1rWN/0g2T9DPDFvRuM9e3ixpyHQEI
+         CK4329csZrdb8hBpZEjU1wPzLLVoRCmuHwNwoc4VKamKmQ2A/7tnRHqAmcWomewhejyk
+         NbGBkW5jjgGdgMClwYrYx/d93QpqkjX3oEVjeH9fuPMXhuT3kqamz4DrWBXL+eqvIIjC
+         9PoEITtSa+jdAUGzG+uaEinN25Et+kQHMP3/rCzcechecncy6Ld9CAIMzZUTPscxswoI
+         YAq5cD2loZigN6D1iDdPjQdCCawILb98XM7DG30Rli/kDjYTatHJkQTBl0gJWq7xX7pi
+         rEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XOQUOvt69xUBeyzxVxuLPsMuNw+PGeiyTahEHV8qVhk=;
-        b=d0R2OYLx0MevEO1xFtv40TC3Zr/lxpxGtJzh1srNTRSX4GPwuVVDaMU0vwxehDl344
-         bLKLwHk+gzZ4VjgY0io3GJXbARxOt1pqGVhkqS9ZcUvyUoErM7zoooeLAe2DibZfJR55
-         Z41AfwMO6DXdobjL/DBaGj5kMn1bRsuiZGX02Wbf/N+Olnq76hAyGkkjfU9K6LtPL0Gy
-         GCMi+EjvIXL6A7gAg/91w5dqFa5LGWEr0s5p71um1CAd52Bxr4fGRx1XFNjo+ZQZ1Cq1
-         VJWfNuunEZGZ9ehw8EXK99bIvBMa1ER5Sh3xkeS/bGycjtL5NJnYuQP5wX+/IHBWqJkH
-         2YHA==
-X-Gm-Message-State: AOAM531aTcsfqiSiXo6pt0RVmc/nndXbQ3jpuLSFZVSwlUX7pZhLb1eM
-	ZBWXVDdzjL84nTkdYLn/0psZoKjpbmp5Uw==
-X-Google-Smtp-Source: ABdhPJywthohYgDNlpX864Mh06Yx3z4TeDW3e4IiSks/6TAOxpdrtDeCSAB5UDTTV1SmXbFULrEnww==
-X-Received: by 2002:a1c:9acf:: with SMTP id c198mr4497246wme.172.1593192865032;
-        Fri, 26 Jun 2020 10:34:25 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id 22sm1662411wmb.11.2020.06.26.10.34.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 10:34:24 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] pseudo: Switch to oe-core branch in git repo
-Date: Fri, 26 Jun 2020 18:34:21 +0100
-Message-Id: <20200626173422.688384-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=odutk+JBRzgl/36N6cKMHtRnVp3QydYriVgamI1s21A=;
+        b=OP7Jpc83+KLgGCnqOid3f1tA8hz4hq3wrTltRCxJQ05GmbmIMjh+cPm0kVgrXYgiVK
+         wdY0H7/zhKX0Jv4q7ivM+QyEpoOgEOU/wh0Z36ypV6REqnKYddq5Qur6+7Vpko1N+DaR
+         KTJBX+j1Wnh3VNIYUpb7ijsCleY6sz7wVDwxcGH4KwAuh9WAqnh5sXmgix3IFY6zdFMu
+         uYdJO/WOWSFSvw+rkL1pJpYIZbJUrTDS1VfwA4kVHx7R74gEjmIyJrbr0w9+Y1ix0UCU
+         p7pWn5ou8McfMCDwhN9QdFo6fWtl22w8gaZb6IG6pgGj+8KpUqoYwgUdk6obp2YDyAyN
+         J84Q==
+X-Gm-Message-State: AOAM530s2ucVxWaPvuNTpeIRvgEg78JSIiEcI1ktAoA+WLROvp5u0g9p
+	DH/pnMu2UnCHiZJ4ssAXfQ9dSeG+CdHqBXFVws8=
+X-Google-Smtp-Source: ABdhPJxpWtKhYBa7qXWjfMlqNLmME2iQKwCZkMGA92Uf3XotwyFz/LxtfBlc5bvxLWX+uTvRKnewbEhjde1mNrvTtfw=
+X-Received: by 2002:a1f:ae51:: with SMTP id x78mr3129912vke.49.1593197325901;
+ Fri, 26 Jun 2020 11:48:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200623210837.26222-1-alex.kanavin@gmail.com>
+ <CAOSpxdYUPQwNmZNP8FF7M=M2a95Wfvth0xpcO+C3G7bGKiJXCw@mail.gmail.com>
+ <CANNYZj_U=WVHNrZLZK8_pNdgHf9YyKvfpFdcSrCTrq+8X-njKA@mail.gmail.com>
+ <CAOSpxdbUVhvu_0sYvEWxiq=c8UAt1k-o4=9AXWJaMCPo5xQUsg@mail.gmail.com>
+ <CAOSpxdYOgf7Jj3O1ebFUOZo1ccZs0K=K1L6vd7rcO0d8s0vtjQ@mail.gmail.com>
+ <CAAnfSTtZOqXVz0==hgM0h3WP9igfuE1u2BU48iJWsh=rsFOwPQ@mail.gmail.com> <CAOSpxdZP-aN-rWgNDpW+7nS4g-1_j5wQJ_dgxACgNo6EvonF=Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdZP-aN-rWgNDpW+7nS4g-1_j5wQJ_dgxACgNo6EvonF=Q@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 26 Jun 2020 20:48:34 +0200
+Message-ID: <CANNYZj_ahPyrDVL0qoPakECCVQicdMNWm_Y3wi8oB4GJuSZwoA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] icu: merge .inc into main recipe
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Ross Burton <ross@burtonini.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000aae69405a9012868"
 
-We have a significant number of outstanding patches to pseudo. Rather than
-queue these up as patches, create a branch in the upstream repo and use that
-until such times as we have someone with the time/skills to properly review
-these for master in the pseudo repo.
+--000000000000aae69405a9012868
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../pseudo/files/0001-Add-statx.patch         | 106 --------------
- ...001-maketables-wrappers-use-Python-3.patch |  34 -----
- ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
- .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
- ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
- ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
- .../pseudo/files/moreretries.patch            |  19 ---
- .../pseudo/files/seccomp.patch                | 137 ------------------
- .../pseudo/files/toomanyfiles.patch           |  71 ---------
- .../pseudo/files/xattr_version.patch          |  54 -------
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
- 11 files changed, 2 insertions(+), 618 deletions(-)
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
- delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+Can you, for the sake of testing, upgrade icu to the same version as
+master? Those failures do not seem to be happening there.
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch b/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
-deleted file mode 100644
-index f01e699de7b..00000000000
---- a/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
-+++ /dev/null
-@@ -1,106 +0,0 @@
--From 4e41a05de1f34ba00a68ca4f20fb49c4d1cbd2d0 Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Wed, 6 Nov 2019 12:17:46 +0000
--Subject: [PATCH] Add statx glibc/syscall support
--
--Modern distros (e.g. fedora30) are starting to use the new statx() syscall through
--the newly exposed glibc wrapper function in software like coreutils (e.g. the ls
--command). Add support to intercept this to pseudo.
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Upstream-Status: Submitted [Emailed to seebs]
-----
-- ports/linux/guts/statx.c | 48 ++++++++++++++++++++++++++++++++++++++++
-- ports/linux/portdefs.h   |  1 +
-- ports/linux/wrapfuncs.in |  1 +
-- 3 files changed, 50 insertions(+)
-- create mode 100644 ports/linux/guts/statx.c
--
--diff --git a/ports/linux/statx/guts/statx.c b/ports/linux/statx/guts/statx.c
--new file mode 100644
--index 0000000..a3259c4
----- /dev/null
--+++ b/ports/linux/statx/guts/statx.c
--@@ -0,0 +1,42 @@
--+/*
--+ * Copyright (c) 2019 Linux Foundation
--+ * Author: Richard Purdie
--+ *
--+ * SPDX-License-Identifier: LGPL-2.1-only
--+ *
--+ * int
--+ * statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf) {
--+ *	int rc = -1;
--+ */
--+	pseudo_msg_t *msg;
--+	PSEUDO_STATBUF buf;
--+	int save_errno;
--+
--+	rc = real_statx(dirfd, pathname, flags, mask, statxbuf);
--+	save_errno = errno;
--+	if (rc == -1) {
--+		return rc;
--+	}
--+
--+	buf.st_uid = statxbuf->stx_uid;
--+	buf.st_gid = statxbuf->stx_gid;
--+	buf.st_dev = makedev(statxbuf->stx_dev_major, statxbuf->stx_dev_minor);
--+	buf.st_ino = statxbuf->stx_ino;
--+	buf.st_mode = statxbuf->stx_mode;
--+	buf.st_rdev = makedev(statxbuf->stx_rdev_major, statxbuf->stx_rdev_minor);
--+	buf.st_nlink = statxbuf->stx_nlink;
--+	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, pathname, &buf);
--+	if (msg && msg->result == RESULT_SUCCEED) {
--+		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
--+		statxbuf->stx_uid = msg->uid;
--+		statxbuf->stx_gid = msg->gid;
--+		statxbuf->stx_mode = msg->mode;
--+		statxbuf->stx_rdev_major = major(msg->rdev);
--+		statxbuf->stx_rdev_minor = minor(msg->rdev);
--+	} else {
--+		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
--+	}
--+	errno = save_errno;
--+/*	return rc;
--+ * }
--+ */
--diff --git a/ports/linux/statx/portdefs.h b/ports/linux/statx/portdefs.h
--new file mode 100644
--index 0000000..bf934dc
----- /dev/null
--+++ b/ports/linux/statx/portdefs.h
--@@ -0,0 +1,6 @@
--+/*
--+ * SPDX-License-Identifier: LGPL-2.1-only
--+ *
--+ */
--+#include <sys/stat.h>
--+#include <sys/sysmacros.h>
--diff --git a/ports/linux/statx/wrapfuncs.in b/ports/linux/statx/wrapfuncs.in
--new file mode 100644
--index 0000000..c9cd4c3
----- /dev/null
--+++ b/ports/linux/statx/wrapfuncs.in
--@@ -0,0 +1 @@
--+int statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf);
--diff --git a/ports/linux/subports b/ports/linux/subports
--index a29044a..49081bf 100755
----- a/ports/linux/subports
--+++ b/ports/linux/subports
--@@ -54,3 +54,13 @@ else
-- fi
-- rm -f dummy.c dummy.o
-- 
--+cat > dummy.c <<EOF
--+#define _GNU_SOURCE
--+#include <sys/stat.h>
--+struct statx x;
--+EOF
--+if ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
--+	echo "linux/statx"
--+fi
--+rm -f dummy.c dummy.o
--+
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch b/meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
-deleted file mode 100644
-index b2dbdad2780..00000000000
---- a/meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From dbd34b1b2af8fbf44a0d5c37abe3448405819823 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 28 Aug 2019 19:20:29 +0200
--Subject: [PATCH] maketables/wrappers: use Python 3
--
--Changelog indicates they should be compatible.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- maketables   | 2 +-
-- makewrappers | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/maketables b/maketables
--index a211772..52285e2 100755
----- a/maketables
--+++ b/maketables
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- #
-- # Copyright (c) 2008-2010, 2013 Wind River Systems, Inc.
-- #
--diff --git a/makewrappers b/makewrappers
--index e84607d..b34f7eb 100755
----- a/makewrappers
--+++ b/makewrappers
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- #
-- # Copyright (c) 2008-2011,2013 Wind River Systems, Inc.
-- #
-diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
-deleted file mode 100644
-index 9c49e33b021..00000000000
---- a/meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From b0902e36108b49e6bc88d6b251cc2f8cffcd5a13 Mon Sep 17 00:00:00 2001
--From: Ricardo Ribalda <ricardo@ribalda.com>
--Date: Sun, 5 Apr 2020 11:40:30 +0000
--Subject: [PATCH] pseudo: On a DB fixup remove files that do not exist anymore
--
--If the user decides to fix a database, remove the files that do not
--exist anymore.
--If only DB test is selected do not change the behaviour (return error).
--
--Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
--Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/137045]
-----
-- pseudo.c | 13 ++++++++++---
-- 1 file changed, 10 insertions(+), 3 deletions(-)
--
--diff --git a/pseudo.c b/pseudo.c
--index 0f5850e..98e5b0c 100644
----- a/pseudo.c
--+++ b/pseudo.c
--@@ -1087,9 +1087,15 @@ pseudo_db_check(int fix) {
-- 			int fixup_needed = 0;
-- 			pseudo_debug(PDBGF_DB, "Checking <%s>\n", m->path);
-- 			if (lstat(m->path, &buf)) {
---				errors = EXIT_FAILURE;
---				pseudo_diag("can't stat <%s>\n", m->path);
---				continue;
--+				if (!fix) {
--+					pseudo_diag("can't stat <%s>\n", m->path);
--+					errors = EXIT_FAILURE;
--+					continue;
--+				} else {
--+					pseudo_debug(PDBGF_DB, "can't stat <%s>\n", m->path);
--+					fixup_needed = 2;
--+					goto do_fixup;
--+				}
-- 			}
-- 			/* can't check for device type mismatches, uid/gid, or
-- 			 * permissions, because those are the very things we
--@@ -1125,6 +1131,7 @@ pseudo_db_check(int fix) {
-- 					S_ISDIR(m->mode));
-- 				fixup_needed = 2;
-- 			}
--+			do_fixup:
-- 			if (fixup_needed) {
-- 				/* in fixup mode, either delete (mismatches) or
-- 				 * correct (dev/ino).
---- 
--2.21.1
--
-diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
-deleted file mode 100644
-index 33d4ef3b2fa..00000000000
---- a/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From a491aececfedf7313d29b80d626e0964fb533548 Mon Sep 17 00:00:00 2001
--From: Jacob Kroon <jacob.kroon@gmail.com>
--Date: Sun, 3 May 2020 06:24:03 +0200
--Subject: [PATCH] pseudo_ipc.h: Fix enum typedef
--
--'pseudo_access_t' is a type, so use typedef.
--
--Fixes building pseudo with gcc 10 where -fno-common is the default.
--
--Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
--Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/137758]
-----
-- pseudo_ipc.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/pseudo_ipc.h b/pseudo_ipc.h
--index caeae5c..d945257 100644
----- a/pseudo_ipc.h
--+++ b/pseudo_ipc.h
--@@ -29,7 +29,7 @@ typedef struct {
-- 	char path[];
-- } pseudo_msg_t;
-- 
---enum {
--+typedef enum {
-- 	PSA_EXEC = 1,
-- 	PSA_WRITE = (PSA_EXEC << 1),
-- 	PSA_READ = (PSA_WRITE << 1),
---- 
--2.26.2
--
-diff --git a/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-deleted file mode 100644
-index 17829ef3ac8..00000000000
---- a/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 86c9a5610e3333ad6aaadb1ac1e8b5a2c948d119 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Mon, 25 Nov 2019 18:46:45 +0800
--Subject: [PATCH] realpath.c: Remove trailing slashes
--
--Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
--make them identical.
--
--E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
--pseudo's realpath prints '/tmp/':
--
--    #include <stdio.h>
--    #include <limits.h>
--    #include <stdlib.h>
--
--    int main() {
--        char out[PATH_MAX];
--        printf("%s\n", realpath("/tmp/", out));
--        return 0;
--    }
--
--$ bitbake base-passwd -cdevshell # For pseudo env
--$ gcc rel.c
--$ ./a.out
--/tmp/ (but should be /tmp)
--
--This patch fixes the problem.
--
--Upstream-Status: Submitted [https://lists.yoctoproject.org/g/poky/message/11879]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- ports/unix/guts/realpath.c |    9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/ports/unix/guts/realpath.c b/ports/unix/guts/realpath.c
----- a/ports/unix/guts/realpath.c
--+++ b/ports/unix/guts/realpath.c
--@@ -14,7 +14,14 @@
-- 		errno = ENAMETOOLONG;
-- 		return NULL;
-- 	}
---	if ((len = strlen(rname)) >= pseudo_sys_path_max()) {
--+		len = strlen(rname);
--+		char *ep = rname + len - 1;
--+		while (ep > rname && *ep == '/') {
--+			--len;
--+			*(ep--) = '\0';
--+		}
--+
--+		if (len >= pseudo_sys_path_max()) {
-- 		errno = ENAMETOOLONG;
-- 		return NULL;
-- 	}
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch b/meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
-deleted file mode 100644
-index 161357d5530..00000000000
---- a/meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 93d95ed2eaedcca110c214e1fe3f8896b1f6f853 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 17 Dec 2019 20:24:27 +0100
--Subject: [PATCH] xattr: adjust for attr 2.4.48 release
--
--Latest versions of attr have removed the xattr.h header,
--with the rationale that libc is providing the same wrappers.
--
--attr/attributes.h is providing the ENOATTR definition.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- ports/linux/subports         | 5 +++--
-- ports/linux/xattr/portdefs.h | 3 ++-
-- 2 files changed, 5 insertions(+), 3 deletions(-)
--
--diff --git a/ports/linux/subports b/ports/linux/subports
--index 2c43ac9..740ec83 100755
----- a/ports/linux/subports
--+++ b/ports/linux/subports
--@@ -29,11 +29,12 @@ fi
-- if	$port_xattr; then
-- 	cat > dummy.c <<EOF
-- #include <sys/types.h>
---#include <attr/xattr.h>
--+#include <sys/xattr.h>
--+#include <attr/attributes.h>
-- int i;
-- EOF
-- 	if ! ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
---		echo >&2 "Warning: Can't compile trivial program using <attr/xattr.h>".
--+		echo >&2 "Warning: Can't compile trivial program using <attr/attributes.h>".
-- 		echo >&2 "         xattr support will require that header."
-- 	fi
-- 	echo "linux/xattr"
--diff --git a/ports/linux/xattr/portdefs.h b/ports/linux/xattr/portdefs.h
--index 56cd3ca..068d39a 100644
----- a/ports/linux/xattr/portdefs.h
--+++ b/ports/linux/xattr/portdefs.h
--@@ -2,5 +2,6 @@
--  * SPDX-License-Identifier: LGPL-2.1-only
--  *
--  */
---#include <attr/xattr.h>
--+#include <sys/xattr.h>
--+#include <attr/attributes.h>
-- #include <stdint.h>
-diff --git a/meta/recipes-devtools/pseudo/files/moreretries.patch b/meta/recipes-devtools/pseudo/files/moreretries.patch
-deleted file mode 100644
-index adea2665b0d..00000000000
---- a/meta/recipes-devtools/pseudo/files/moreretries.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Increase the number of retries in pseudo due to occasional slow
--server shutdowns.
--
--Upstream-Status: Pending
--RP 2016/2/28
--
--Index: git/pseudo_client.c
--===================================================================
----- git.orig/pseudo_client.c
--+++ git/pseudo_client.c
--@@ -1282,7 +1282,7 @@ pseudo_client_setup(void) {
-- 	}
-- }
-- 
---#define PSEUDO_RETRIES 20
--+#define PSEUDO_RETRIES 250
-- static pseudo_msg_t *
-- pseudo_client_request(pseudo_msg_t *msg, size_t len, const char *path) {
-- 	pseudo_msg_t *response = 0;
-diff --git a/meta/recipes-devtools/pseudo/files/seccomp.patch b/meta/recipes-devtools/pseudo/files/seccomp.patch
-deleted file mode 100644
-index 283f997941e..00000000000
---- a/meta/recipes-devtools/pseudo/files/seccomp.patch
-+++ /dev/null
-@@ -1,137 +0,0 @@
--Pseudo changes the syscall access patterns which makes it incompatible with
--seccomp. Therefore intercept the seccomp syscall and alter it, pretending that
--seccomp was setup when in fact we do nothing. If we error as unsupported, 
--utilities like file will exit with errors so we can't just disable it.
--
--Upstream-Status: Pending
--RP 2020/4/3
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--It fails to compile pseudo-native on centos 7:
--
--| ports/linux/pseudo_wrappers.c: In function ‘prctl’:
--| ports/linux/pseudo_wrappers.c:129:14: error: ‘SECCOMP_SET_MODE_FILTER’ undeclared (first use in this function)
--|    if (cmd == SECCOMP_SET_MODE_FILTER) {
--|               ^
--
--Add macro guard for seccomp to avoid the failure.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--Index: git/ports/linux/pseudo_wrappers.c
--===================================================================
----- git.orig/ports/linux/pseudo_wrappers.c
--+++ git/ports/linux/pseudo_wrappers.c
--@@ -57,6 +57,7 @@ int pseudo_capset(cap_user_header_t hdrp
-- long
-- syscall(long number, ...) {
-- 	long rc = -1;
--+	va_list ap;
-- 
-- 	if (!pseudo_check_wrappers() || !real_syscall) {
-- 		/* rc was initialized to the "failure" value */
--@@ -77,6 +78,20 @@ syscall(long number, ...) {
-- 	(void) number;
-- #endif
-- 
--+#ifdef SYS_seccomp
--+	/* pseudo and seccomp are incompatible as pseudo uses different syscalls
--+	 * so pretend to enable seccomp but really do nothing */
--+	if (number == SYS_seccomp) {
--+		unsigned long cmd;
--+		va_start(ap, number);
--+		cmd = va_arg(ap, unsigned long);
--+		va_end(ap);
--+		if (cmd == SECCOMP_SET_MODE_FILTER) {
--+		    return 0;
--+		}
--+	}
--+#endif
--+
-- 	/* gcc magic to attempt to just pass these args to syscall. we have to
-- 	 * guess about the number of args; the docs discuss calling conventions
-- 	 * up to 7, so let's try that?
--@@ -92,3 +108,44 @@ static long wrap_syscall(long nr, va_lis
-- 	(void) ap;
-- 	return -1;
-- }
--+
--+int
--+prctl(int option, ...) {
--+	int rc = -1;
--+	va_list ap;
--+
--+	if (!pseudo_check_wrappers() || !real_prctl) {
--+		/* rc was initialized to the "failure" value */
--+		pseudo_enosys("prctl");
--+		return rc;
--+	}
--+
--+#ifdef SECCOMP_SET_MODE_FILTER
--+	/* pseudo and seccomp are incompatible as pseudo uses different syscalls
--+	 * so pretend to enable seccomp but really do nothing */
--+	if (option == PR_SET_SECCOMP) {
--+		unsigned long cmd;
--+		va_start(ap, option);
--+		cmd = va_arg(ap, unsigned long);
--+		va_end(ap);
--+		if (cmd == SECCOMP_SET_MODE_FILTER) {
--+		    return 0;
--+		}
--+	}
--+#endif
--+
--+	/* gcc magic to attempt to just pass these args to prctl. we have to
--+	 * guess about the number of args; the docs discuss calling conventions
--+	 * up to 5, so let's try that?
--+	 */
--+	void *res = __builtin_apply((void (*)()) real_prctl, __builtin_apply_args(), sizeof(long) * 5);
--+	__builtin_return(res);
--+}
--+
--+/* unused.
--+ */
--+static int wrap_prctl(int option, va_list ap) {
--+	(void) option;
--+	(void) ap;
--+	return -1;
--+}
--Index: git/ports/linux/guts/prctl.c
--===================================================================
----- /dev/null
--+++ git/ports/linux/guts/prctl.c
--@@ -0,0 +1,15 @@
--+/*
--+ * Copyright (c) 2020 Richard Purdie
--+ *
--+ * SPDX-License-Identifier: LGPL-2.1-only
--+ *
--+ * int prctl(int option, ...)
--+ *	int rc = -1;
--+ */
--+
--+	/* we should never get here, prctl is hand-wrapped */
--+	rc = -1;
--+
--+/*	return rc;
--+ * }
--+ */
--Index: git/ports/linux/portdefs.h
--===================================================================
----- git.orig/ports/linux/portdefs.h
--+++ git/ports/linux/portdefs.h
--@@ -32,3 +32,5 @@ GLIBC_COMPAT_SYMBOL(memcpy,2.0);
-- 
-- #include <linux/capability.h>
-- #include <sys/syscall.h>
--+#include <sys/prctl.h>
--+#include <linux/seccomp.h>
--Index: git/ports/linux/wrapfuncs.in
--===================================================================
----- git.orig/ports/linux/wrapfuncs.in
--+++ git/ports/linux/wrapfuncs.in
--@@ -56,3 +56,4 @@ int getgrent_r(struct group *gbuf, char
-- int capset(cap_user_header_t hdrp, const cap_user_data_t datap); /* real_func=pseudo_capset */
-- long syscall(long nr, ...); /* hand_wrapped=1 */
-- int renameat2(int olddirfd, const char *oldpath, int newdirfd, const char *newpath, unsigned int flags); /* flags=AT_SYMLINK_NOFOLLOW */
--+int prctl(int option, ...); /* hand_wrapped=1 */
-diff --git a/meta/recipes-devtools/pseudo/files/toomanyfiles.patch b/meta/recipes-devtools/pseudo/files/toomanyfiles.patch
-deleted file mode 100644
-index bda7e4b2026..00000000000
---- a/meta/recipes-devtools/pseudo/files/toomanyfiles.patch
-+++ /dev/null
-@@ -1,71 +0,0 @@
--From b0b25fbc041a148d1de09f5a6503cd95973ec77c Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Tue, 25 Apr 2017 15:25:54 +0100
--Subject: [PATCH 3/3] pseudo: Handle too many files deadlock
--
--Currently if we max out the maximum number of files, pseudo can deadlock, unable to
--accept new connections yet unable to move forward and unblock the other processes
--waiting either.
--
--Rather than hang, when this happens, close out inactive connections, allowing us
--to accept the new ones. The disconnected clients will simply reconnect. There is
--a small risk of data loss here sadly but its better than hanging.
--
--RP
--2017/4/25
--
--Upstream-Status: Submitted [Peter is aware of the issue]
--
-----
-- pseudo_server.c | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
--
--diff --git a/pseudo_server.c b/pseudo_server.c
--index dac3258..15a3e8f 100644
----- a/pseudo_server.c
--+++ b/pseudo_server.c
--@@ -802,6 +802,7 @@ pseudo_server_loop(void) {
-- 	struct sigaction eat_usr2 = {
-- 		.sa_handler = set_do_list_clients
-- 	};
--+	int hitmaxfiles;
-- 
-- 	clients = malloc(16 * sizeof(*clients));
-- 
--@@ -820,6 +821,7 @@ pseudo_server_loop(void) {
-- 	active_clients = 1;
-- 	max_clients = 16;
-- 	highest_client = 0;
--+	hitmaxfiles = 0;
-- 
-- 	pseudo_debug(PDBGF_SERVER, "server loop started.\n");
-- 	if (listen_fd < 0) {
--@@ -878,10 +880,15 @@ pseudo_server_loop(void) {
-- 					} else {
-- 						serve_client(i);
-- 					}
--+				} else if (hitmaxfiles) {
--+					/* Only close one per loop iteration in the interests of caution */
--+					close_client(i);
--+					hitmaxfiles = 0;
-- 				}
-- 				if (die_forcefully)
-- 					break;
-- 			}
--+			hitmaxfiles = 0;
-- 			if (!die_forcefully && 
-- 			    (FD_ISSET(clients[0].fd, &events) ||
-- 			     FD_ISSET(clients[0].fd, &reads))) {
--@@ -903,6 +910,9 @@ pseudo_server_loop(void) {
-- 					 */
-- 					pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
-- 					die_peacefully = 0;
--+				} else if (errno == EMFILE) {
--+					hitmaxfiles = 1;
--+					pseudo_debug(PDBGF_SERVER, "Hit max open files, dropping a client.\n");
-- 				}
-- 			}
-- 			pseudo_debug(PDBGF_SERVER, "server loop complete [%d clients left]\n", active_clients);
---- 
--2.15.1
--
-diff --git a/meta/recipes-devtools/pseudo/files/xattr_version.patch b/meta/recipes-devtools/pseudo/files/xattr_version.patch
-deleted file mode 100644
-index a8b14bdd699..00000000000
---- a/meta/recipes-devtools/pseudo/files/xattr_version.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--On a tumbleweed system, "install X Y" was showing the error:
--
--pseudo: ENOSYS for 'fsetxattr'.
--
--which was being caused by dlsym() for that function returning NULL. This
--appears to be due to it finding an unresolved symbol in libacl for this 
--symbol in libattr. It hasn't been resolved so its NULL. dlerror() returns
--nothing since this is a valid symbol entry, its just not the one we want.
--
--We can add the glibc version string for the symbol we actually want so we get
--that version rather than the libattr/libacl one.
--
--To quote libattr:
--"""
-- These dumb wrappers are for backwards compatibility only.
-- Actual syscall wrappers are long gone to libc.
--"""
--and they are simply wrappers around the libc version so our attaching
--to the libc versions should intercept any accesses via these too.
--
--RP 2020/06/22
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
--Upstream-Status: Pending [discussed with seebs on irc and appears the correct fix]
--
--
--Index: git/ports/linux/xattr/wrapfuncs.in
--===================================================================
----- git.orig/ports/linux/xattr/wrapfuncs.in
--+++ git/ports/linux/xattr/wrapfuncs.in
--@@ -1,12 +1,12 @@
---ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0 */
---ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
---ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size);
---int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0 */
---int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW */
---int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags);
---ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0 */
---ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
---ssize_t flistxattr(int filedes, char *list, size_t size);
---int removexattr(const char *path, const char *name); /* flags=0 */
---int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW */
---int fremovexattr(int filedes, const char *name);
--+ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0, version="GLIBC_2.3" */ 
--+ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
--+ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size); /* version="GLIBC_2.3" */
--+int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0, version="GLIBC_2.3" */
--+int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
--+int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags); /* version="GLIBC_2.3" */
--+ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0, version="GLIBC_2.3" */
--+ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
--+ssize_t flistxattr(int filedes, char *list, size_t size); /* version="GLIBC_2.3" */
--+int removexattr(const char *path, const char *name); /* flags=0, version="GLIBC_2.3" */
--+int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
--+int fremovexattr(int filedes, const char *name); /* version="GLIBC_2.3" */
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 419bac19fec..ead5dcfb144 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,22 +1,12 @@
- require pseudo.inc
- 
--SRC_URI = "git://git.yoctoproject.org/pseudo \
-+SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://0001-configure-Prune-PIE-flags.patch \
-            file://fallback-passwd \
-            file://fallback-group \
--           file://moreretries.patch \
--           file://toomanyfiles.patch \
--           file://0001-maketables-wrappers-use-Python-3.patch \
--           file://0001-Add-statx.patch \
--           file://0001-realpath.c-Remove-trailing-slashes.patch \
--           file://0006-xattr-adjust-for-attr-2.4.48-release.patch \
--           file://seccomp.patch \
--           file://0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch \
--           file://0001-pseudo_ipc.h-Fix-enum-typedef.patch \
--           file://xattr_version.patch \
-            "
- 
--SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
-+SRCREV = "b94fa2fc81cde25865ee223ca437d07377229a53"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
--- 
-2.25.1
+Alex
 
+On Fri, 26 Jun 2020 at 17:59, Steve Sakoman <steve@sakoman.com> wrote:
+
+> On Fri, Jun 26, 2020 at 5:49 AM Ross Burton <ross@burtonini.com> wrote:
+> >
+> > Failures in edgerouter and MIPS screams the big-endian thing again.
+> > ICU is a disaster here, be warned.
+>
+> Good theory -- ppc failed too.
+>
+> Steve
+>
+> > On Fri, 26 Jun 2020 at 16:27, Steve Sakoman <steve@sakoman.com> wrote:
+> > >
+> > > On Thu, Jun 25, 2020 at 6:23 AM Steve Sakoman <steve@sakoman.com>
+> wrote:
+> > > >
+> > > > On Thu, Jun 25, 2020 at 6:09 AM Alexander Kanavin
+> > > > <alex.kanavin@gmail.com> wrote:
+> > > > >
+> > > > > I think you may have to recreate them by hand.
+> > > >
+> > > > OK, I'll put together a patch for the 66.1 recipe in dunfell that
+> > > > implements the changes you have in the second patch of the series.
+> In
+> > > > the interest of minimizing changes I'll keep the .inc file separate
+> as
+> > > > is.
+> > >
+> > > I recreated the patch for 66.1 and did a couple of quick local builds
+> > > and things looked fine.
+> > >
+> > > On the autobuilder I get failures for edgerouter and mips.  I seem to
+> > > recall some discussion about this (perhaps on irc?) but can only find
+> > > one thread here on the list back when Khem's original patch went in.
+> > >
+> > > Did you recall any issues like this?
+> > >
+> > > Steve
+> > >
+> > >
+> > > > > On Thu, 25 Jun 2020 at 18:04, Steve Sakoman <steve@sakoman.com>
+> wrote:
+> > > > >>
+> > > > >> Is this patch series suitable for dunfell as-is (the concern
+> being the
+> > > > >> contents of the version bump) or would a backport to 66.1 be
+> > > > >> necessary?
+> > > > >>
+> > > > >> Steve
+> > > > >>
+> > > > >> On Tue, Jun 23, 2020 at 11:09 AM Alexander Kanavin
+> > > > >> <alex.kanavin@gmail.com> wrote:
+> > > > >> >
+> > > > >> > Both parts are rather convoluted, so it is better to have them
+> in a single file.
+> > > > >> >
+> > > > >> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > > > >> > ---
+> > > > >> >  meta/recipes-support/icu/icu.inc     | 84
+> ---------------------------
+> > > > >> >  meta/recipes-support/icu/icu_67.1.bb | 85
+> +++++++++++++++++++++++++++-
+> > > > >> >  2 files changed, 84 insertions(+), 85 deletions(-)
+> > > > >> >  delete mode 100644 meta/recipes-support/icu/icu.inc
+> > > > >> >
+> > > > >> > diff --git a/meta/recipes-support/icu/icu.inc
+> b/meta/recipes-support/icu/icu.inc
+> > > > >> > deleted file mode 100644
+> > > > >> > index 6d9728903d..0000000000
+> > > > >> > --- a/meta/recipes-support/icu/icu.inc
+> > > > >> > +++ /dev/null
+> > > > >> > @@ -1,84 +0,0 @@
+> > > > >> > -SUMMARY = "International Component for Unicode libraries"
+> > > > >> > -DESCRIPTION = "The International Component for Unicode (ICU)
+> is a mature, \
+> > > > >> > -portable set of C/C++ and Java libraries for Unicode support,
+> software \
+> > > > >> > -internationalization (I18N) and globalization (G11N), giving
+> applications the \
+> > > > >> > -same results on all platforms."
+> > > > >> > -HOMEPAGE = "http://site.icu-project.org/"
+> > > > >> > -
+> > > > >> > -LICENSE = "ICU"
+> > > > >> > -DEPENDS = "icu-native"
+> > > > >> > -DEPENDS_class-native = ""
+> > > > >> > -
+> > > > >> > -CVE_PRODUCT = "international_components_for_unicode"
+> > > > >> > -
+> > > > >> > -S = "${WORKDIR}/icu/source"
+> > > > >> > -SPDX_S = "${WORKDIR}/icu"
+> > > > >> > -STAGING_ICU_DIR_NATIVE =
+> "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
+> > > > >> > -
+> > > > >> > -BINCONFIG = "${bindir}/icu-config"
+> > > > >> > -
+> > > > >> > -ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
+> > > > >> > -
+> > > > >> > -inherit autotools pkgconfig binconfig multilib_script
+> > > > >> > -
+> > > > >> > -MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
+> > > > >> > -
+> > > > >> > -# ICU needs the native build directory as an argument to its
+> --with-cross-build option when
+> > > > >> > -# cross-compiling. Taken the situation that different builds
+> may share a common sstate-cache
+> > > > >> > -# into consideration, the native build directory needs to be
+> staged.
+> > > > >> > -EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+> > > > >> > -EXTRA_OECONF_class-native = ""
+> > > > >> > -EXTRA_OECONF_class-nativesdk =
+> "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+> > > > >> > -
+> > > > >> > -EXTRA_OECONF_append_class-target =
+> "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
+> --with-data-packaging=archive', '', d)}"
+> > > > >> > -TARGET_CXXFLAGS_append =
+> "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
+> -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
+> > > > >> > -
+> > > > >> > -ASNEEDED = ""
+> > > > >> > -
+> > > > >> > -do_compile_prepend_class-target () {
+> > > > >> > -       # Make sure certain build host references do not end up
+> being compiled
+> > > > >> > -       # in the image. This only affects libicutu and icu-dbg
+> > > > >> > -       sed  \
+> > > > >> > -           -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
+> > > > >> > -           -e '/^CPPFLAGS.*/
+> s,--sysroot=${STAGING_DIR_TARGET},,g' \
+> > > > >> > -           -i ${B}/tools/toolutil/Makefile
+> > > > >> > -}
+> > > > >> > -
+> > > > >> > -PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
+> > > > >> > -do_install_append_class-native() {
+> > > > >> > -       mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > -       cp -r ${B}/config/icucross.mk
+> ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > -       cp -r ${B}/config/icucross.inc
+> ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > -       cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > -       cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > -       cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > -}
+> > > > >> > -
+> > > > >> > -do_install_append_class-target() {
+> > > > >> > -    # The native pkgdata can not generate the correct data
+> file.
+> > > > >> > -    # Use icupkg to re-generate it.
+> > > > >> > -    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
+> > > > >> > -        rm -f
+> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+> > > > >> > -        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat
+> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+> > > > >> > -    fi
+> > > > >> > -
+> > > > >> > -       # Remove build host references...
+> > > > >> > -       sed -i  \
+> > > > >> > -           -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+> > > > >> > -           -e 's|${DEBUG_PREFIX_MAP}||g' \
+> > > > >> > -           -e 's:${HOSTTOOLS_DIR}/::g' \
+> > > > >> > -           ${D}/${bindir}/icu-config
+> ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
+> > > > >> > -           ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
+> > > > >> > -}
+> > > > >> > -
+> > > > >> > -PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+> > > > >> > -
+> > > > >> > -FILES_${PN}-dev += "${libdir}/${BPN}/"
+> > > > >> > -
+> > > > >> > -FILES_libicudata = "${libdir}/libicudata.so.*"
+> > > > >> > -FILES_libicuuc = "${libdir}/libicuuc.so.*"
+> > > > >> > -FILES_libicui18n = "${libdir}/libicui18n.so.*"
+> > > > >> > -FILES_libicutu = "${libdir}/libicutu.so.*"
+> > > > >> > -FILES_libicuio = "${libdir}/libicuio.so.*"
+> > > > >> > -
+> > > > >> > -BBCLASSEXTEND = "native nativesdk"
+> > > > >> > diff --git a/meta/recipes-support/icu/icu_67.1.bb
+> b/meta/recipes-support/icu/icu_67.1.bb
+> > > > >> > index 58638507c9..5814fa41bd 100644
+> > > > >> > --- a/meta/recipes-support/icu/icu_67.1.bb
+> > > > >> > +++ b/meta/recipes-support/icu/icu_67.1.bb
+> > > > >> > @@ -1,4 +1,87 @@
+> > > > >> > -require icu.inc
+> > > > >> > +SUMMARY = "International Component for Unicode libraries"
+> > > > >> > +DESCRIPTION = "The International Component for Unicode (ICU)
+> is a mature, \
+> > > > >> > +portable set of C/C++ and Java libraries for Unicode support,
+> software \
+> > > > >> > +internationalization (I18N) and globalization (G11N), giving
+> applications the \
+> > > > >> > +same results on all platforms."
+> > > > >> > +HOMEPAGE = "http://site.icu-project.org/"
+> > > > >> > +
+> > > > >> > +LICENSE = "ICU"
+> > > > >> > +DEPENDS = "icu-native"
+> > > > >> > +DEPENDS_class-native = ""
+> > > > >> > +
+> > > > >> > +CVE_PRODUCT = "international_components_for_unicode"
+> > > > >> > +
+> > > > >> > +S = "${WORKDIR}/icu/source"
+> > > > >> > +SPDX_S = "${WORKDIR}/icu"
+> > > > >> > +STAGING_ICU_DIR_NATIVE =
+> "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
+> > > > >> > +
+> > > > >> > +BINCONFIG = "${bindir}/icu-config"
+> > > > >> > +
+> > > > >> > +ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
+> > > > >> > +
+> > > > >> > +inherit autotools pkgconfig binconfig multilib_script
+> > > > >> > +
+> > > > >> > +MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/icu-config"
+> > > > >> > +
+> > > > >> > +# ICU needs the native build directory as an argument to its
+> --with-cross-build option when
+> > > > >> > +# cross-compiling. Taken the situation that different builds
+> may share a common sstate-cache
+> > > > >> > +# into consideration, the native build directory needs to be
+> staged.
+> > > > >> > +EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+> > > > >> > +EXTRA_OECONF_class-native = ""
+> > > > >> > +EXTRA_OECONF_class-nativesdk =
+> "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+> > > > >> > +
+> > > > >> > +EXTRA_OECONF_append_class-target =
+> "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
+> --with-data-packaging=archive', '', d)}"
+> > > > >> > +TARGET_CXXFLAGS_append =
+> "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', '
+> -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
+> > > > >> > +
+> > > > >> > +ASNEEDED = ""
+> > > > >> > +
+> > > > >> > +do_compile_prepend_class-target () {
+> > > > >> > +       # Make sure certain build host references do not end up
+> being compiled
+> > > > >> > +       # in the image. This only affects libicutu and icu-dbg
+> > > > >> > +       sed  \
+> > > > >> > +           -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
+> > > > >> > +           -e '/^CPPFLAGS.*/
+> s,--sysroot=${STAGING_DIR_TARGET},,g' \
+> > > > >> > +           -i ${B}/tools/toolutil/Makefile
+> > > > >> > +}
+> > > > >> > +
+> > > > >> > +PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
+> > > > >> > +do_install_append_class-native() {
+> > > > >> > +       mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > +       cp -r ${B}/config/icucross.mk
+> ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > +       cp -r ${B}/config/icucross.inc
+> ${D}/${STAGING_ICU_DIR_NATIVE}/config
+> > > > >> > +       cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > +       cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > +       cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+> > > > >> > +}
+> > > > >> > +
+> > > > >> > +do_install_append_class-target() {
+> > > > >> > +    # The native pkgdata can not generate the correct data
+> file.
+> > > > >> > +    # Use icupkg to re-generate it.
+> > > > >> > +    if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
+> > > > >> > +        rm -f
+> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+> > > > >> > +        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat
+> ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
+> > > > >> > +    fi
+> > > > >> > +
+> > > > >> > +       # Remove build host references...
+> > > > >> > +       sed -i  \
+> > > > >> > +           -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+> > > > >> > +           -e 's|${DEBUG_PREFIX_MAP}||g' \
+> > > > >> > +           -e 's:${HOSTTOOLS_DIR}/::g' \
+> > > > >> > +           ${D}/${bindir}/icu-config
+> ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
+> > > > >> > +           ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
+> > > > >> > +}
+> > > > >> > +
+> > > > >> > +PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
+> > > > >> > +
+> > > > >> > +FILES_${PN}-dev += "${libdir}/${BPN}/"
+> > > > >> > +
+> > > > >> > +FILES_libicudata = "${libdir}/libicudata.so.*"
+> > > > >> > +FILES_libicuuc = "${libdir}/libicuuc.so.*"
+> > > > >> > +FILES_libicui18n = "${libdir}/libicui18n.so.*"
+> > > > >> > +FILES_libicutu = "${libdir}/libicutu.so.*"
+> > > > >> > +FILES_libicuio = "${libdir}/libicuio.so.*"
+> > > > >> > +
+> > > > >> > +BBCLASSEXTEND = "native nativesdk"
+> > > > >> >
+> > > > >> >  LIC_FILES_CHKSUM =
+> "file://../LICENSE;md5=a3808a5b70071b07f87ff2205e4d75a0"
+> > > > >> >
+> > > > >> > --
+> > > > >> > 2.27.0
+> > > > >> >
+> > > > >> >
+> > > 
+>
+
+--000000000000aae69405a9012868
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Can you, for the sake of testing, upgrade icu to the =
+same version as master? Those failures do not seem to be happening there.</=
+div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, 26 Jun 2020 at 17:59, Steve S=
+akoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Ju=
+n 26, 2020 at 5:49 AM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com"=
+ target=3D"_blank">ross@burtonini.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Failures in edgerouter and MIPS screams the big-endian thing again.<b=
+r>
+&gt; ICU is a disaster here, be warned.<br>
+<br>
+Good theory -- ppc failed too.<br>
+<br>
+Steve<br>
+<br>
+&gt; On Fri, 26 Jun 2020 at 16:27, Steve Sakoman &lt;<a href=3D"mailto:ste=
+ve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Thu, Jun 25, 2020 at 6:23 AM Steve Sakoman &lt;<a href=3D"mai=
+lto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<b=
+r>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Thu, Jun 25, 2020 at 6:09 AM Alexander Kanavin<br>
+&gt; &gt; &gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_bl=
+ank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; I think you may have to recreate them by hand.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; OK, I&#39;ll put together a patch for the 66.1 recipe in du=
+nfell that<br>
+&gt; &gt; &gt; implements the changes you have in the second patch of the =
+series.=C2=A0 In<br>
+&gt; &gt; &gt; the interest of minimizing changes I&#39;ll keep the .inc f=
+ile separate as<br>
+&gt; &gt; &gt; is.<br>
+&gt; &gt;<br>
+&gt; &gt; I recreated the patch for 66.1 and did a couple of quick local b=
+uilds<br>
+&gt; &gt; and things looked fine.<br>
+&gt; &gt;<br>
+&gt; &gt; On the autobuilder I get failures for edgerouter and mips.=C2=A0=
+ I seem to<br>
+&gt; &gt; recall some discussion about this (perhaps on irc?) but can only=
+ find<br>
+&gt; &gt; one thread here on the list back when Khem&#39;s original patch =
+went in.<br>
+&gt; &gt;<br>
+&gt; &gt; Did you recall any issues like this?<br>
+&gt; &gt;<br>
+&gt; &gt; Steve<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; &gt; On Thu, 25 Jun 2020 at 18:04, Steve Sakoman &lt;<a hre=
+f=3D"mailto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; =
+wrote:<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Is this patch series suitable for dunfell as-is (t=
+he concern being the<br>
+&gt; &gt; &gt; &gt;&gt; contents of the version bump) or would a backport =
+to 66.1 be<br>
+&gt; &gt; &gt; &gt;&gt; necessary?<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; Steve<br>
+&gt; &gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt; &gt;&gt; On Tue, Jun 23, 2020 at 11:09 AM Alexander Kanavin=
+<br>
+&gt; &gt; &gt; &gt;&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" targ=
+et=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Both parts are rather convoluted, so it is be=
+tter to have them in a single file.<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; Signed-off-by: Alexander Kanavin &lt;<a href=
+=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.co=
+m</a>&gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; ---<br>
+&gt; &gt; &gt; &gt;&gt; &gt;=C2=A0 meta/recipes-support/icu/icu.inc=C2=A0 =
+=
+=C2=A0 =C2=A0| 84 ---------------------------<br>
+&gt; &gt; &gt; &gt;&gt; &gt;=C2=A0 meta/recipes-support/icu/<a href=3D"htt=
+p://icu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a> | 85 =
++++++++++++++++++++++++++++-<br>
+&gt; &gt; &gt; &gt;&gt; &gt;=C2=A0 2 files changed, 84 insertions(+), 85 d=
+eletions(-)<br>
+&gt; &gt; &gt; &gt;&gt; &gt;=C2=A0 delete mode 100644 meta/recipes-support=
+/icu/icu.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; diff --git a/meta/recipes-support/icu/icu.inc=
+ b/meta/recipes-support/icu/icu.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt; deleted file mode 100644<br>
+&gt; &gt; &gt; &gt;&gt; &gt; index 6d9728903d..0000000000<br>
+&gt; &gt; &gt; &gt;&gt; &gt; --- a/meta/recipes-support/icu/icu.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +++ /dev/null<br>
+&gt; &gt; &gt; &gt;&gt; &gt; @@ -1,84 +0,0 @@<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -SUMMARY =3D &quot;International Component fo=
+r Unicode libraries&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -DESCRIPTION =3D &quot;The International Comp=
+onent for Unicode (ICU) is a mature, \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -portable set of C/C++ and Java libraries for=
+ Unicode support, software \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -internationalization (I18N) and globalizatio=
+n (G11N), giving applications the \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -same results on all platforms.&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -HOMEPAGE =3D &quot;<a href=3D"http://site.ic=
+u-project.org/" rel=3D"noreferrer" target=3D"_blank">http://site.icu-projec=
+t.org/</a>&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -LICENSE =3D &quot;ICU&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -DEPENDS =3D &quot;icu-native&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -DEPENDS_class-native =3D &quot;&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -CVE_PRODUCT =3D &quot;international_componen=
+ts_for_unicode&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -S =3D &quot;${WORKDIR}/icu/source&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -SPDX_S =3D &quot;${WORKDIR}/icu&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -STAGING_ICU_DIR_NATIVE =3D &quot;${STAGING_D=
+ATADIR_NATIVE}/${BPN}/${PV}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -BINCONFIG =3D &quot;${bindir}/icu-config&quo=
+t;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -ICU_MAJOR_VER =3D &quot;${@d.getVar(&#39;PV&=
+#39;).split(&#39;.&#39;)[0]}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -inherit autotools pkgconfig binconfig multil=
+ib_script<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -MULTILIB_SCRIPTS =3D &quot;${PN}-dev:${bindi=
+r}/icu-config&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -# ICU needs the native build directory as an=
+ argument to its --with-cross-build option when<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -# cross-compiling. Taken the situation that =
+different builds may share a common sstate-cache<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -# into consideration, the native build direc=
+tory needs to be staged.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -EXTRA_OECONF =3D &quot;--with-cross-build=3D=
+${STAGING_ICU_DIR_NATIVE}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -EXTRA_OECONF_class-native =3D &quot;&quot;<b=
+r>
+&gt; &gt; &gt; &gt;&gt; &gt; -EXTRA_OECONF_class-nativesdk =3D &quot;--wit=
+h-cross-build=3D${STAGING_ICU_DIR_NATIVE}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -EXTRA_OECONF_append_class-target =3D &quot;$=
+{@oe.utils.conditional(&#39;SITEINFO_ENDIANNESS&#39;, &#39;be&#39;, &#39; -=
+-with-data-packaging=3Darchive&#39;, &#39;&#39;, d)}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -TARGET_CXXFLAGS_append =3D &quot;${@oe.utils=
+.conditional(&#39;SITEINFO_ENDIANNESS&#39;, &#39;be&#39;, &#39; -DICU_DATA_=
+DIR=3D\\&quot;&quot;${datadir}/${BPN}/${PV}\\&quot;&quot;&#39;, &#39;&#39;,=
+ d)}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -ASNEEDED =3D &quot;&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -do_compile_prepend_class-target () {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# Make sure certa=
+in build host references do not end up being compiled<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# in the image. T=
+his only affects libicutu and icu-dbg<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0sed=C2=A0 \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s,DU_BUILD=3D,DU_BUILD_unused=3D,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;/^CPPFLAGS.*/ s,--sysroot=3D${STAGING_DIR_TARGET},,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i =
+${B}/tools/toolutil/Makefile<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -PREPROCESS_RELOCATE_DIRS =3D &quot;${datadir=
+}/${BPN}/${PV}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -do_install_append_class-native() {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${S=
+TAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/config=
+/<a href=3D"http://icucross.mk" rel=3D"noreferrer" target=3D"_blank">icucro=
+ss.mk</a> ${D}/${STAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/config=
+/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/lib ${=
+D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/bin ${=
+D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/tools =
+${D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -do_install_append_class-target() {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 # The native pkgdata can not g=
+enerate the correct data file.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 # Use icupkg to re-generate it=
+.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 if [ &quot;${SITEINFO_ENDIANNE=
+SS}&quot; =3D &quot;be&quot; ] ; then<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${D}/${dat=
+adir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 icupkg -tb ${S}/=
+data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_=
+MAJOR_VER}b.dat<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 fi<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove build ho=
+st references...<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i=C2=A0 \<br=
+>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s,--sysroot=3D${STAGING_DIR_TARGET},,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s|${DEBUG_PREFIX_MAP}||g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s:${HOSTTOOLS_DIR}/::g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D=
+}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D=
+}/${libdir}/${BPN}/${PV}/pkgdata.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -PACKAGES =3D+ &quot;libicudata libicuuc libi=
+cui18n libicutu libicuio&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_${PN}-dev +=3D &quot;${libdir}/${BPN}/=
+&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_libicudata =3D &quot;${libdir}/libicud=
+ata.so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_libicuuc =3D &quot;${libdir}/libicuuc.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_libicui18n =3D &quot;${libdir}/libicui=
+18n.so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_libicutu =3D &quot;${libdir}/libicutu.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -FILES_libicuio =3D &quot;${libdir}/libicuio.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -BBCLASSEXTEND =3D &quot;native nativesdk&quo=
+t;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; diff --git a/meta/recipes-support/icu/<a href=
+=
+=3D"http://icu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</=
+a> b/meta/recipes-support/icu/<a href=3D"http://icu_67.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt; &gt; &gt;&gt; &gt; index 58638507c9..5814fa41bd 100644<br>
+&gt; &gt; &gt; &gt;&gt; &gt; --- a/meta/recipes-support/icu/<a href=3D"htt=
+p://icu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt; &gt; &gt;&gt; &gt; +++ b/meta/recipes-support/icu/<a href=3D"htt=
+p://icu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt; &gt; &gt;&gt; &gt; @@ -1,4 +1,87 @@<br>
+&gt; &gt; &gt; &gt;&gt; &gt; -require icu.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +SUMMARY =3D &quot;International Component fo=
+r Unicode libraries&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +DESCRIPTION =3D &quot;The International Comp=
+onent for Unicode (ICU) is a mature, \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +portable set of C/C++ and Java libraries for=
+ Unicode support, software \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +internationalization (I18N) and globalizatio=
+n (G11N), giving applications the \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +same results on all platforms.&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"http://site.ic=
+u-project.org/" rel=3D"noreferrer" target=3D"_blank">http://site.icu-projec=
+t.org/</a>&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +LICENSE =3D &quot;ICU&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +DEPENDS =3D &quot;icu-native&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +DEPENDS_class-native =3D &quot;&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +CVE_PRODUCT =3D &quot;international_componen=
+ts_for_unicode&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +S =3D &quot;${WORKDIR}/icu/source&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +SPDX_S =3D &quot;${WORKDIR}/icu&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +STAGING_ICU_DIR_NATIVE =3D &quot;${STAGING_D=
+ATADIR_NATIVE}/${BPN}/${PV}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +BINCONFIG =3D &quot;${bindir}/icu-config&quo=
+t;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +ICU_MAJOR_VER =3D &quot;${@d.getVar(&#39;PV&=
+#39;).split(&#39;.&#39;)[0]}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +inherit autotools pkgconfig binconfig multil=
+ib_script<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +MULTILIB_SCRIPTS =3D &quot;${PN}-dev:${bindi=
+r}/icu-config&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +# ICU needs the native build directory as an=
+ argument to its --with-cross-build option when<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +# cross-compiling. Taken the situation that =
+different builds may share a common sstate-cache<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +# into consideration, the native build direc=
+tory needs to be staged.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +EXTRA_OECONF =3D &quot;--with-cross-build=3D=
+${STAGING_ICU_DIR_NATIVE}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +EXTRA_OECONF_class-native =3D &quot;&quot;<b=
+r>
+&gt; &gt; &gt; &gt;&gt; &gt; +EXTRA_OECONF_class-nativesdk =3D &quot;--wit=
+h-cross-build=3D${STAGING_ICU_DIR_NATIVE}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +EXTRA_OECONF_append_class-target =3D &quot;$=
+{@oe.utils.conditional(&#39;SITEINFO_ENDIANNESS&#39;, &#39;be&#39;, &#39; -=
+-with-data-packaging=3Darchive&#39;, &#39;&#39;, d)}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +TARGET_CXXFLAGS_append =3D &quot;${@oe.utils=
+.conditional(&#39;SITEINFO_ENDIANNESS&#39;, &#39;be&#39;, &#39; -DICU_DATA_=
+DIR=3D\\&quot;&quot;${datadir}/${BPN}/${PV}\\&quot;&quot;&#39;, &#39;&#39;,=
+ d)}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +ASNEEDED =3D &quot;&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +do_compile_prepend_class-target () {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Make sure certa=
+in build host references do not end up being compiled<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0# in the image. T=
+his only affects libicutu and icu-dbg<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed=C2=A0 \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s,DU_BUILD=3D,DU_BUILD_unused=3D,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;/^CPPFLAGS.*/ s,--sysroot=3D${STAGING_DIR_TARGET},,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i =
+${B}/tools/toolutil/Makefile<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +PREPROCESS_RELOCATE_DIRS =3D &quot;${datadir=
+}/${BPN}/${PV}&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +do_install_append_class-native() {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${S=
+TAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/config=
+/<a href=3D"http://icucross.mk" rel=3D"noreferrer" target=3D"_blank">icucro=
+ss.mk</a> ${D}/${STAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/config=
+/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/lib ${=
+D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/bin ${=
+D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${B}/tools =
+${D}/${STAGING_ICU_DIR_NATIVE}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +do_install_append_class-target() {<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 # The native pkgdata can not g=
+enerate the correct data file.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 # Use icupkg to re-generate it=
+.<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 if [ &quot;${SITEINFO_ENDIANNE=
+SS}&quot; =3D &quot;be&quot; ] ; then<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${D}/${dat=
+adir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 icupkg -tb ${S}/=
+data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_=
+MAJOR_VER}b.dat<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 fi<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove build ho=
+st references...<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i=C2=A0 \<br=
+>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s,--sysroot=3D${STAGING_DIR_TARGET},,g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s|${DEBUG_PREFIX_MAP}||g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e =
+&#39;s:${HOSTTOOLS_DIR}/::g&#39; \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D=
+}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D=
+}/${libdir}/${BPN}/${PV}/pkgdata.inc<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +}<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +PACKAGES =3D+ &quot;libicudata libicuuc libi=
+cui18n libicutu libicuio&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_${PN}-dev +=3D &quot;${libdir}/${BPN}/=
+&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_libicudata =3D &quot;${libdir}/libicud=
+ata.so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_libicuuc =3D &quot;${libdir}/libicuuc.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_libicui18n =3D &quot;${libdir}/libicui=
+18n.so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_libicutu =3D &quot;${libdir}/libicutu.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +FILES_libicuio =3D &quot;${libdir}/libicuio.=
+so.*&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +<br>
+&gt; &gt; &gt; &gt;&gt; &gt; +BBCLASSEXTEND =3D &quot;native nativesdk&quo=
+t;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://../LI=
+CENSE;md5=3Da3808a5b70071b07f87ff2205e4d75a0&quot;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt; --<br>
+&gt; &gt; &gt; &gt;&gt; &gt; 2.27.0<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; <br>
+</blockquote></div>
+
+--000000000000aae69405a9012868--
