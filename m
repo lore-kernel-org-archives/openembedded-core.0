@@ -1,50 +1,50 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web12.2892.1593155963786640639
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.2826.1593155964939555639
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 00:19:24 -0700
+ Fri, 26 Jun 2020 00:19:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BPhSQqsz;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id p20so8324718ejd.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h0brafXL;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id g20so5908716edm.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1BDsF5plZCqvD/BUPsGu065bUjIbTMGExMKD1NrV/04=;
-        b=BPhSQqszv+/vpOLbEmfZ6lKtIg4cGuqfRnoJB/kzROq4XN7EEBN+oIkiutsCfxNHqR
-         OrxNmYCkA6f0cI4u576TmwegvWwanWIqdt8IFdG+FSB/aUmbzgKpNuImqzKZtJmB1yDv
-         IkaQuYnCjW9Ft2hOwQEllInwSMlWiTDfZzhqDKZEzmm+1Ut2wVwE+V/1F+4aqpH1/wrX
-         znNlEXhaUaVOjafVfMI6wmO7vTfA3HdtGuhNnnoHbGYjoHJe14wZyoIYDI9RI1yTON/X
-         PdU71jLZPtHmdWTn/kjb4EpbWn1j6ieq2bduFOoMFLtQWaXjsTAwauhDDVWygEBZV+CP
-         OBeQ==
+        bh=d5i440k8GRov468lLKojfLDtCyIFHsvSSJ6LarPFRNU=;
+        b=h0brafXL8C4Aa1irGZiVK9kDEehMqvRDZHI4UVkXQzN2U1lRSamNStyw4XwUDXGKL1
+         wD+sYhEQ8qVjtFJ69/Q4liWAhQ5mvlyO/BdvMTUucTIfm5KriXhjVmKfp+7A2dXr85q0
+         8gSzITnmlfq4o5wo9Mp1EOaIZwO7HP/5TSJK5t2IFgWLwZpCA2w2KRd+SsGxNHUF2+WP
+         WBMS27gvCDV/s66H2yOOnk5rlRH3xcBwaYm0//PywbUObJLBEIiAvH6+s0RjZJ39NWFb
+         ZyOnsxN34eV30wfDkaHuvhbJoFkZ1IV56d9C4RonAXGoG77W4Wl/P1VNVa4xEm9mqyd8
+         fB1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1BDsF5plZCqvD/BUPsGu065bUjIbTMGExMKD1NrV/04=;
-        b=R99xkc6UF+I3UOZrfCFi1TOFQi/RPGtiVrvMdWXXgUi/YzeDlLwMPAMRdm95+71hzd
-         Vc4KwlFL98paDGd74P+lkys9vC7H3BHLMbkuHByNSK8psI0pDGDIm5bu9sBDorstJaO6
-         kS8ac3vaQm/q8zKVcLFOr4BAucuq1TCgkfxo5QtJ/G4Ao7bM5aqi6RAdAknbSLd0lezB
-         CpviQWrmDTTXVA9aKepRm4hTMsjCYim+Hy8JVBFTUC1N/nTVV/ARMUPt6iCLjcSSDCv3
-         BmHJ3d4R0zB54vI849E0difB0xBm9ZvE80eKTXxqqmAiqEDQGNAhevG2JjV9/rvYlxRz
-         KZ8g==
-X-Gm-Message-State: AOAM530Iic6Ps7y2bcOTge2jwLy/2l8gM5vDJotjwP+4Lh10sw8q/NV3
-	dKSVQwhkHZqeLyxqj9s7XF5ZeCl8VGQ=
-X-Google-Smtp-Source: ABdhPJyu1l2nr1swizSBuJ+Vq2DV1WcbT2zlN3Ve9RIqQ9lpX9WzmDkAn8JJapr+LBhKvuJjqnhFhw==
-X-Received: by 2002:a17:906:9243:: with SMTP id c3mr1392753ejx.400.1593155962037;
-        Fri, 26 Jun 2020 00:19:22 -0700 (PDT)
+        bh=d5i440k8GRov468lLKojfLDtCyIFHsvSSJ6LarPFRNU=;
+        b=E4nI3lgyLQDeyBTkzgXPwX0pU0JkGeW7z0ZJppddGAfEQyowJ67MtPDtKs88jghiyK
+         WtSmXApNDW3a78aPQTIlSki4KhZPVCP2thCfsuMbAurYfDsx0I4Zfc741csYXChtwDkl
+         IMh75+46ozo+nTSJ/RE+QodrmfQwbxrMi1LJPfDqHrydRylwdYdE1XpJbK9Ut3OCoh37
+         DQhbN6jjxrZw4kDR+V/e59jlULNztc2UVUyp1sUMTM9/Jpzn4joGX2ft8yHJ7kC5HLBu
+         vN+LPaRgzyTuplfgYAVr9aW05MWp8QmjUuFiCYAGUuuE+BHvIBGwOa+HXDK9DyBFVe6m
+         Vg+Q==
+X-Gm-Message-State: AOAM531ED/W0dIWUgZYJlEFXXkpAJ22i6WgezP4NpSjwKt6TXFtN8snq
+	Aaz5YAgmziCTqZBj0Nhc9lfAl7/qVBE=
+X-Google-Smtp-Source: ABdhPJyemGBANR0u2t49BIvvmkDIYrePlqljkgKMb9uKFIHb/ydn2gxAZ2kAuHLgL/jhuIYVd2xDPA==
+X-Received: by 2002:aa7:d492:: with SMTP id b18mr1968753edr.339.1593155963222;
+        Fri, 26 Jun 2020 00:19:23 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.20
+        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 00:19:21 -0700 (PDT)
+        Fri, 26 Jun 2020 00:19:22 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 20/30] alsa-utils: upgrade 1.2.2 -> 1.2.3
-Date: Fri, 26 Jun 2020 09:18:34 +0200
-Message-Id: <20200626071844.29134-20-alex.kanavin@gmail.com>
+Subject: [PATCH 21/30] puzzles: upgrade to latest revision
+Date: Fri, 26 Jun 2020 09:18:35 +0200
+Message-Id: <20200626071844.29134-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626071844.29134-1-alex.kanavin@gmail.com>
 References: <20200626071844.29134-1-alex.kanavin@gmail.com>
@@ -53,41 +53,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...alsa-utils-scripts_1.2.2.bb => alsa-utils-scripts_1.2.3.bb} | 0
- meta/recipes-multimedia/alsa/alsa-utils.inc                    | 3 +--
- .../alsa/{alsa-utils_1.2.2.bb => alsa-utils_1.2.3.bb}          | 1 +
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.2.2.bb => alsa-utils-scripts_1.2.3.bb} (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.2.bb => alsa-utils_1.2.3.bb} (95%)
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.2.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.3.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.3.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils.inc b/meta/recipes-multimedia/alsa/alsa-utils.inc
-index 8bbc5d3ef3..b523a5a832 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils.inc
-+++ b/meta/recipes-multimedia/alsa/alsa-utils.inc
-@@ -21,8 +21,7 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 1e530519f3..a0f3b5d9cd 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            "
  
- # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
- SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
--SRC_URI[md5sum] = "00612234ff4722c8f7f8f7a83ff9bc63"
--SRC_URI[sha256sum] = "44807bd578c5f6df6e91a11b8d37e546424a5a1ea8d8e659ee359fe01730e4f3"
-+SRC_URI[sha256sum] = "ff19ae48c22938de7a491bdb39db74a2eee2546013f39bf1a86185e426f921aa"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "66b9e8c7de0eecb3d85d9a1766fab1082848448b"
++SRCREV = "9aa7b7cdfb2bcd200f45941a58d6ae698882a2d4"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
  
- # On build machines with python-docutils (not python3-docutils !!) installed
- # rst2man (not rst2man.py) is detected and compile fails with
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.3.bb
-similarity index 95%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.3.bb
-index ff8945e5c7..3430288da4 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.3.bb
-@@ -1 +1,2 @@
- require alsa-utils.inc
-+
 -- 
 2.27.0
 
