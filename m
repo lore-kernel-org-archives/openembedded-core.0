@@ -1,695 +1,196 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.2896.1593155970552865882
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web12.2897.1593155971489066529
  for <openembedded-core@lists.openembedded.org>;
  Fri, 26 Jun 2020 00:19:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LM4wtDmA;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id w16so8371910ejj.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZhWvPTdJ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id l12so8328728ejn.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8wMZD75BIt1Z4Z6VixNZIk57+4gVXLIn2P/f4Lo7dNQ=;
-        b=LM4wtDmANLoQrQ53m4NKW14sTfkA4zjsU3apZy4uHE0/rRCgnYn3FO+ZKf92F0inji
-         vRPUkzuUHOm3dEADqKl2nWkvap/RZxnAvqkvQ8xpYnbWmOBF4hYAaWRhHyUM4kKF9Qev
-         5JWIBbXX6gprptjB+xJZqV8XMQBX5UIV9NFkn568RqdNA5o0oiC7eseoPCuTnNOHx6NI
-         nfkV2ZkWx5LA9ugzz4ohjv0xFfhMEcD+dDCocUAJPSMD5QuM4WNId8itOApcAJNpimLb
-         dnm9CFDO+fdX0jKhWnsVXkS56JUDxO4qvqALg16vwtBjyfChVsdbpncN6DiCmls+JSRe
-         6rPg==
+        bh=JIce/QuQxSGqZ0yaxIMLLezO1SFo+AErGmQWrblJvoY=;
+        b=ZhWvPTdJdgSsUvOT7GzobtbOXnuhEPe52qT1yJ5cCbuCE/mYGcFbOjJuW8IUhvkoJw
+         khhVX8Xh5TWRvLu3ofkLfX6+E0TzaiGQItppEsqHy+uRoxvt/g5AWS+I/VIBSp8MKTiz
+         RIkr0jM3LxHR9uHeGKNzrd8qh86NXqUtVFOHhv3R8O6ylnAApXVbs24HG2ZodUv/3Yzx
+         fmwt6Il7dS2n3raSsnSnxt7/S/TeMZsDjMC5iqF6gfDAtiX9b5+gW8FnP+gWuni2Bza9
+         trqWQfVbW3x0TuIZm1MCSL92XdZpW3F2TeJGTmrp+XkD+K/d+Zsf4udtu3+Mf0btHhQ7
+         /sEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8wMZD75BIt1Z4Z6VixNZIk57+4gVXLIn2P/f4Lo7dNQ=;
-        b=fLRohHHeRSTsgyAmJUzmgh3AFJx48wnFrBWgIrKWv8EgV4z9HmNHkJ7TRzHYkk0ooK
-         YIp3HfEFt2F4I99wHL6weJ6Pbsb4XkvwIiLVc7OkQJzfjkV0jlMUFuhyFAgr2MXSVSlz
-         kH7WCn2AMclve60DNj0hG9G94pX/Ui4rFH8Yt2UBqvgkjzlJmiCqYeiqxXc44MeWZN5t
-         qcJFFWG4EHmnGVJdQh09mGvWFLDJmwGmKbuJiY+oaGyGnvtKtv7QSEeZwUclitFrbbyO
-         bpr6DydGxz6eP9qqvLaUnVoM9RG2bwN/gUwiHBadUSEBZfDEUxLlfnKhx6Ynktksk8VN
-         u7FQ==
-X-Gm-Message-State: AOAM532GDP/nORnSduPtynZgOVGBpOZIZTDSBEijOLz82uUP4tHd1Fh0
-	A60UL5YuDXSUrwu22F3UquIAyRGPw7I=
-X-Google-Smtp-Source: ABdhPJxGm29fUs6CtqZ3MVp84AckwGxT7v0lA8HaY28WncHzgHMSw0LUJ351KB8pcsXL2WtGwVPyrg==
-X-Received: by 2002:a17:906:40d6:: with SMTP id a22mr1418366ejk.133.1593155968516;
-        Fri, 26 Jun 2020 00:19:28 -0700 (PDT)
+        bh=JIce/QuQxSGqZ0yaxIMLLezO1SFo+AErGmQWrblJvoY=;
+        b=BmJq1Kt1QOqPYYNmZ5Aykl4xa1xc6yJ0vibkMCufzzFBbzKRTTLndt+RSjiUqb6cpj
+         0YLqH8NPTjays6ji7LUFbPnb0zjHp+iwm92x+voIXeimJ5Ws4rZCRWADh5CnTal3MFPs
+         xkLK7P1XuEDe+hPj07q3EOqviYXEVLjOXyrpnSXmGl3LtjQnOlrQHewmzvU/d9BsNOVf
+         LvGazSaqgg83dC3SYsErwQQS95M/HsNss4VY3IqMhAqVC53VB+FRkKIm9tdYPBex6q1T
+         Y8UUpBa/iFDqmq4FsjHH3uDlfzQdvgG+dISrMujNPHFjtHlqE06qtbb0R2c27byVdvpz
+         UyFQ==
+X-Gm-Message-State: AOAM531SUVWLQgVHPUBK29FPZhFHv0o+xu63iktsCGh9a6elTrsXidDj
+	iNXhgkKDdC9iabSqp8Hs5+4nzsCXnRA=
+X-Google-Smtp-Source: ABdhPJxtlUUcLZdhqvzk0AP7o/B1l9x+O1HRy0YBVMqFrSrmXIw05Lo+cPfEZPOIjn7Buo+WbQB9pA==
+X-Received: by 2002:a17:907:20ee:: with SMTP id rh14mr1388021ejb.395.1593155969768;
+        Fri, 26 Jun 2020 00:19:29 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.27
+        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 00:19:27 -0700 (PDT)
+        Fri, 26 Jun 2020 00:19:28 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 26/30] python3-numpy: update 1.18.5 -> 1.19.0
-Date: Fri, 26 Jun 2020 09:18:40 +0200
-Message-Id: <20200626071844.29134-26-alex.kanavin@gmail.com>
+Subject: [PATCH 27/30] mesa: update 20.0.7 -> 20.1.2
+Date: Fri, 26 Jun 2020 09:18:41 +0200
+Message-Id: <20200626071844.29134-27-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626071844.29134-1-alex.kanavin@gmail.com>
 References: <20200626071844.29134-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-and-so-on-for-libraries-by-default-.patch |  11 +-
- ...nvert-shebang-from-python-to-python3.patch | 555 ------------------
- .../python-numpy/python-numpy.inc             |   7 +-
- ...umpy_1.18.5.bb => python3-numpy_1.19.0.bb} |   0
- 4 files changed, 10 insertions(+), 563 deletions(-)
- delete mode 100644 meta/recipes-devtools/python-numpy/files/0001-convert-shebang-from-python-to-python3.patch
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.18.5.bb => python3-numpy_1.19.0.bb} (100%)
+ .../0002-meson.build-make-TLS-ELF-optional.patch | 12 ++++++------
+ ...x_t-for-formatted-output-of-timespec-me.patch | 16 +++++++---------
+ .../{mesa-gl_20.0.7.bb => mesa-gl_20.1.2.bb}     |  0
+ meta/recipes-graphics/mesa/mesa.inc              |  3 +--
+ .../mesa/{mesa_20.0.7.bb => mesa_20.1.2.bb}      |  1 +
+ 5 files changed, 15 insertions(+), 17 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_20.0.7.bb => mesa-gl_20.1.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_20.0.7.bb => mesa_20.1.2.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-index 98a9705831..cdb6a473d2 100644
---- a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-+++ b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+index cd35a1f850..91e59d14ed 100644
+--- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
++++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
 @@ -1,4 +1,4 @@
--From 672a75c8417ce08db9e31fc415ec445479231d5a Mon Sep 17 00:00:00 2001
-+From 27f6687e49bf555fc494d2f14bae6ecd0fa30f14 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 10 Dec 2015 13:20:30 +0200
- Subject: [PATCH] Don't search /usr and so on for libraries by default to
-@@ -14,11 +14,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 5 insertions(+), 37 deletions(-)
+-From df835389699b32bb6610b39972502e323f8e09e5 Mon Sep 17 00:00:00 2001
++From dd1d15c75f6ff8ee96cf1e7b74e582bff3183ef6 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:08:31 -0800
+ Subject: [PATCH] meson.build: make TLS ELF optional
+@@ -15,10 +15,10 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+  2 files changed, 7 insertions(+), 1 deletion(-)
  
- diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
--index ba2b1f4..f94dce1 100644
-+index 3a6a7b2..6c2c3da 100644
- --- a/numpy/distutils/system_info.py
- +++ b/numpy/distutils/system_info.py
--@@ -278,45 +278,13 @@ if sys.platform == 'win32':
--             add_system_root(os.path.join(conda_dir, 'Library'))
-+@@ -309,45 +309,13 @@ if sys.platform == 'win32':
-+         add_system_root(os.path.join(conda_dir, 'Library'))
+ diff --git a/meson.build b/meson.build
+-index 09e3759..a954118 100644
++index 261b588..311436e 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -387,7 +387,7 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
++@@ -392,7 +392,7 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+  endif
   
-  else:
- -    default_lib_dirs = libpaths(['/usr/local/lib', '/opt/lib', '/usr/lib',
-@@ -68,3 +68,6 @@ index ba2b1f4..f94dce1 100644
+  # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need ELF TLS.
+@@ -28,10 +28,10 @@ index 09e3759..a954118 100644
+  endif
   
-  if os.path.join(sys.prefix, 'lib') not in default_lib_dirs:
-      default_lib_dirs.insert(0, os.path.join(sys.prefix, 'lib'))
-+-- 
-+2.17.1
+ diff --git a/meson_options.txt b/meson_options.txt
+-index 626baf3..637ff14 100644
++index ab43150..d7b1555 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+-@@ -341,6 +341,12 @@ option(
++@@ -355,6 +355,12 @@ option(
+    value : true,
+    description : 'Enable direct rendering in GLX and EGL for DRI',
+  )
+@@ -42,5 +42,5 @@ index 626baf3..637ff14 100644
+ +  description : 'Enable TLS support in ELF',
+ +)
+  option(
+-   'I-love-half-baked-turnips',
++   'prefer-iris',
+    type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+index 901feca556..dacb1ea1c8 100644
+--- a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
++++ b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+@@ -1,4 +1,4 @@
+-From 38a313474e127d61e749866423e708fc86ed9ec5 Mon Sep 17 00:00:00 2001
++From 281a636353666bfdd373c62591e744087e750e89 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 4 Dec 2019 14:15:28 -0800
+ Subject: [PATCH] vc4: use intmax_t for formatted output of timespec members
+@@ -13,13 +13,14 @@ error: format specifies type 'long' but the argument has type 'time_t' (aka 'lon
+ 
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2966]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-diff --git a/meta/recipes-devtools/python-numpy/files/0001-convert-shebang-from-python-to-python3.patch b/meta/recipes-devtools/python-numpy/files/0001-convert-shebang-from-python-to-python3.patch
-deleted file mode 100644
-index a416244420..0000000000
---- a/meta/recipes-devtools/python-numpy/files/0001-convert-shebang-from-python-to-python3.patch
-+++ /dev/null
-@@ -1,555 +0,0 @@
--From 00848d760fa3999e2bed759b585452b35d65d6ec Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Thu, 5 Mar 2020 12:02:35 +0800
--Subject: [PATCH] convert shebang from python to python3
+ ---
+  src/gallium/drivers/v3d/v3d_bufmgr.c | 4 ++--
+  src/gallium/drivers/vc4/vc4_bufmgr.c | 4 ++--
+  2 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/src/gallium/drivers/v3d/v3d_bufmgr.c b/src/gallium/drivers/v3d/v3d_bufmgr.c
+-index b3e4d053cc0..c514bf00bf0 100644
++index 31a0803..cc2e2af 100644
+ --- a/src/gallium/drivers/v3d/v3d_bufmgr.c
+ +++ b/src/gallium/drivers/v3d/v3d_bufmgr.c
+ @@ -80,8 +80,8 @@ v3d_bo_dump_stats(struct v3d_screen *screen)
+@@ -27,27 +28,24 @@ index b3e4d053cc0..c514bf00bf0 100644
+                  struct timespec time;
+                  clock_gettime(CLOCK_MONOTONIC, &time);
+ -                fprintf(stderr, "  now:               %ld\n",
+--                        time.tv_sec);
++-                        (long)time.tv_sec);
+ +                fprintf(stderr, "  now:               %jd\n",
+ +                        (intmax_t)time.tv_sec);
+          }
+  }
+  
+ diff --git a/src/gallium/drivers/vc4/vc4_bufmgr.c b/src/gallium/drivers/vc4/vc4_bufmgr.c
+-index 5ec360934c0..bf05f6cadd6 100644
++index a786e8e..975d49e 100644
+ --- a/src/gallium/drivers/vc4/vc4_bufmgr.c
+ +++ b/src/gallium/drivers/vc4/vc4_bufmgr.c
+-@@ -107,8 +107,8 @@ vc4_bo_dump_stats(struct vc4_screen *screen)
++@@ -99,8 +99,8 @@ vc4_bo_dump_stats(struct vc4_screen *screen)
+  
+                  struct timespec time;
+                  clock_gettime(CLOCK_MONOTONIC, &time);
+ -                fprintf(stderr, "  now:               %ld\n",
+--                        time.tv_sec);
++-                        (long)time.tv_sec);
+ +                fprintf(stderr, "  now:               %jd\n",
+ +                        (intmax_t)time.tv_sec);
+          }
+  }
+  
+--- 
+-2.24.0
 -
--Upstream-Status: Backport
--[https://github.com/numpy/numpy/commit/583901a074dc65145d3d6136ba7dcd02634d680b]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
--
-----
-- doc/DISTUTILS.rst.txt                                     | 2 +-
-- doc/cdoc/numpyfilter.py                                   | 2 +-
-- doc/postprocess.py                                        | 2 +-
-- doc/summarize.py                                          | 2 +-
-- numpy/distutils/conv_template.py                          | 2 +-
-- numpy/distutils/cpuinfo.py                                | 2 +-
-- numpy/distutils/from_template.py                          | 2 +-
-- numpy/distutils/setup.py                                  | 2 +-
-- numpy/distutils/system_info.py                            | 2 +-
-- numpy/f2py/__init__.py                                    | 2 +-
-- numpy/f2py/auxfuncs.py                                    | 2 +-
-- numpy/f2py/capi_maps.py                                   | 2 +-
-- numpy/f2py/cb_rules.py                                    | 2 +-
-- numpy/f2py/cfuncs.py                                      | 2 +-
-- numpy/f2py/common_rules.py                                | 2 +-
-- numpy/f2py/crackfortran.py                                | 2 +-
-- numpy/f2py/diagnose.py                                    | 2 +-
-- numpy/f2py/f2py2e.py                                      | 2 +-
-- numpy/f2py/f90mod_rules.py                                | 2 +-
-- numpy/f2py/func2subr.py                                   | 2 +-
-- numpy/f2py/rules.py                                       | 2 +-
-- numpy/f2py/setup.py                                       | 2 +-
-- numpy/f2py/use_rules.py                                   | 2 +-
-- numpy/linalg/lapack_lite/clapack_scrub.py                 | 2 +-
-- numpy/linalg/lapack_lite/make_lite.py                     | 2 +-
-- numpy/ma/bench.py                                         | 2 +-
-- numpy/ma/setup.py                                         | 2 +-
-- numpy/matrixlib/setup.py                                  | 2 +-
-- numpy/random/_examples/cython/extending.pyx               | 2 +-
-- numpy/random/_examples/cython/extending_distributions.pyx | 2 +-
-- numpy/setup.py                                            | 2 +-
-- numpy/testing/print_coercion_tables.py                    | 2 +-
-- numpy/testing/setup.py                                    | 2 +-
-- runtests.py                                               | 2 +-
-- setup.py                                                  | 2 +-
-- tools/c_coverage/c_coverage_report.py                     | 2 +-
-- tools/changelog.py                                        | 2 +-
-- tools/ci/push_docs_to_repo.py                             | 2 +-
-- tools/find_deprecated_escaped_characters.py               | 2 +-
-- tools/refguide_check.py                                   | 2 +-
-- tools/swig/test/setup.py                                  | 2 +-
-- tools/swig/test/testArray.py                              | 2 +-
-- tools/swig/test/testFarray.py                             | 2 +-
-- tools/swig/test/testFlat.py                               | 2 +-
-- tools/swig/test/testFortran.py                            | 2 +-
-- tools/swig/test/testMatrix.py                             | 2 +-
-- tools/swig/test/testSuperTensor.py                        | 2 +-
-- tools/swig/test/testTensor.py                             | 2 +-
-- tools/swig/test/testVector.py                             | 2 +-
-- 49 files changed, 49 insertions(+), 49 deletions(-)
--
--diff --git a/doc/DISTUTILS.rst.txt b/doc/DISTUTILS.rst.txt
--index bcef825..bc1700f 100644
----- a/doc/DISTUTILS.rst.txt
--+++ b/doc/DISTUTILS.rst.txt
--@@ -59,7 +59,7 @@ SciPy pure Python package example
-- 
-- Below is an example of a minimal ``setup.py`` file for a pure SciPy package::
-- 
---  #!/usr/bin/env python
--+  #!/usr/bin/env python3
--   def configuration(parent_package='',top_path=None):
--       from numpy.distutils.misc_util import Configuration
--       config = Configuration('mypackage',parent_package,top_path)
--diff --git a/doc/cdoc/numpyfilter.py b/doc/cdoc/numpyfilter.py
--index 0ec5069..067bd36 100755
----- a/doc/cdoc/numpyfilter.py
--+++ b/doc/cdoc/numpyfilter.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- numpyfilter.py INPUTFILE
-- 
--diff --git a/doc/postprocess.py b/doc/postprocess.py
--index 2e50c11..1be6f39 100755
----- a/doc/postprocess.py
--+++ b/doc/postprocess.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- %prog MODE FILES...
-- 
--diff --git a/doc/summarize.py b/doc/summarize.py
--index cfce271..563af02 100755
----- a/doc/summarize.py
--+++ b/doc/summarize.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- summarize.py
-- 
--diff --git a/numpy/distutils/conv_template.py b/numpy/distutils/conv_template.py
--index 3bcb7b8..88432c8 100644
----- a/numpy/distutils/conv_template.py
--+++ b/numpy/distutils/conv_template.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- takes templated file .xxx.src and produces .xxx file  where .xxx is
-- .i or .c or .h, using the following template rules
--diff --git a/numpy/distutils/cpuinfo.py b/numpy/distutils/cpuinfo.py
--index bc97283..87502a9 100644
----- a/numpy/distutils/cpuinfo.py
--+++ b/numpy/distutils/cpuinfo.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- cpuinfo
-- 
--diff --git a/numpy/distutils/from_template.py b/numpy/distutils/from_template.py
--index c5c1163..af75971 100644
----- a/numpy/distutils/from_template.py
--+++ b/numpy/distutils/from_template.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- process_file(filename)
--diff --git a/numpy/distutils/setup.py b/numpy/distutils/setup.py
--index 82a53bd..646921b 100644
----- a/numpy/distutils/setup.py
--+++ b/numpy/distutils/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- def configuration(parent_package='',top_path=None):
--diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
--index 4f340b6..189081d 100644
----- a/numpy/distutils/system_info.py
--+++ b/numpy/distutils/system_info.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- This file defines a set of system_info classes for getting
-- information about various resources (libraries, library directories,
--diff --git a/numpy/f2py/__init__.py b/numpy/f2py/__init__.py
--index 42e3632..09a3657 100644
----- a/numpy/f2py/__init__.py
--+++ b/numpy/f2py/__init__.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """Fortran to Python Interface Generator.
-- 
-- """
--diff --git a/numpy/f2py/auxfuncs.py b/numpy/f2py/auxfuncs.py
--index 404bdbd..d23d959 100644
----- a/numpy/f2py/auxfuncs.py
--+++ b/numpy/f2py/auxfuncs.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Auxiliary functions for f2py2e.
--diff --git a/numpy/f2py/capi_maps.py b/numpy/f2py/capi_maps.py
--index ce79f68..e5d3fd2 100644
----- a/numpy/f2py/capi_maps.py
--+++ b/numpy/f2py/capi_maps.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Copyright 1999,2000 Pearu Peterson all rights reserved,
--diff --git a/numpy/f2py/cb_rules.py b/numpy/f2py/cb_rules.py
--index 183d7c2..93e93fe 100644
----- a/numpy/f2py/cb_rules.py
--+++ b/numpy/f2py/cb_rules.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Build call-back mechanism for f2py2e.
--diff --git a/numpy/f2py/cfuncs.py b/numpy/f2py/cfuncs.py
--index ccb7b3a..cdb783d 100644
----- a/numpy/f2py/cfuncs.py
--+++ b/numpy/f2py/cfuncs.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- C declarations, CPP macros, and C functions for f2py2e.
--diff --git a/numpy/f2py/common_rules.py b/numpy/f2py/common_rules.py
--index f61d881..fe510bf 100644
----- a/numpy/f2py/common_rules.py
--+++ b/numpy/f2py/common_rules.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Build common block mechanism for f2py2e.
--diff --git a/numpy/f2py/crackfortran.py b/numpy/f2py/crackfortran.py
--index 2aaf5d7..fb5ef2f 100755
----- a/numpy/f2py/crackfortran.py
--+++ b/numpy/f2py/crackfortran.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- crackfortran --- read fortran (77,90) code and extract declaration information.
-- 
--diff --git a/numpy/f2py/diagnose.py b/numpy/f2py/diagnose.py
--index 0241fed..6c0304c 100644
----- a/numpy/f2py/diagnose.py
--+++ b/numpy/f2py/diagnose.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- import os
--diff --git a/numpy/f2py/f2py2e.py b/numpy/f2py/f2py2e.py
--index d03eff9..c17bfd9 100755
----- a/numpy/f2py/f2py2e.py
--+++ b/numpy/f2py/f2py2e.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- f2py2e - Fortran to Python C/API generator. 2nd Edition.
--diff --git a/numpy/f2py/f90mod_rules.py b/numpy/f2py/f90mod_rules.py
--index 85eae80..70be128 100644
----- a/numpy/f2py/f90mod_rules.py
--+++ b/numpy/f2py/f90mod_rules.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Build F90 module support for f2py2e.
--diff --git a/numpy/f2py/func2subr.py b/numpy/f2py/func2subr.py
--index 6010d5a..fdea0c2 100644
----- a/numpy/f2py/func2subr.py
--+++ b/numpy/f2py/func2subr.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Rules for building C/API module with f2py2e.
--diff --git a/numpy/f2py/rules.py b/numpy/f2py/rules.py
--index f2f713b..f87b03c 100755
----- a/numpy/f2py/rules.py
--+++ b/numpy/f2py/rules.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Rules for building C/API module with f2py2e.
--diff --git a/numpy/f2py/setup.py b/numpy/f2py/setup.py
--index a8c1401..2e7a517 100644
----- a/numpy/f2py/setup.py
--+++ b/numpy/f2py/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- setup.py for installing F2PY
-- 
--diff --git a/numpy/f2py/use_rules.py b/numpy/f2py/use_rules.py
--index 6f44f16..8214f42 100644
----- a/numpy/f2py/use_rules.py
--+++ b/numpy/f2py/use_rules.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- 
-- Build 'use others module data' mechanism for f2py2e.
--diff --git a/numpy/linalg/lapack_lite/clapack_scrub.py b/numpy/linalg/lapack_lite/clapack_scrub.py
--index 4345861..91e66e7 100644
----- a/numpy/linalg/lapack_lite/clapack_scrub.py
--+++ b/numpy/linalg/lapack_lite/clapack_scrub.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- import sys, os
--diff --git a/numpy/linalg/lapack_lite/make_lite.py b/numpy/linalg/lapack_lite/make_lite.py
--index 61102d6..0211f4e 100755
----- a/numpy/linalg/lapack_lite/make_lite.py
--+++ b/numpy/linalg/lapack_lite/make_lite.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- Usage: make_lite.py <wrapped_routines_file> <lapack_dir> <output_dir>
-- 
--diff --git a/numpy/ma/bench.py b/numpy/ma/bench.py
--index a9ba42d..a377436 100644
----- a/numpy/ma/bench.py
--+++ b/numpy/ma/bench.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- # -*- coding: utf-8 -*-
-- 
-- from __future__ import division, print_function
--diff --git a/numpy/ma/setup.py b/numpy/ma/setup.py
--index d1d6c89..a04b79b 100644
----- a/numpy/ma/setup.py
--+++ b/numpy/ma/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- def configuration(parent_package='',top_path=None):
--diff --git a/numpy/matrixlib/setup.py b/numpy/matrixlib/setup.py
--index d0981d6..57534d1 100644
----- a/numpy/matrixlib/setup.py
--+++ b/numpy/matrixlib/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- def configuration(parent_package='', top_path=None):
--diff --git a/numpy/random/_examples/cython/extending.pyx b/numpy/random/_examples/cython/extending.pyx
--index 7a0dfe0..3a7f81a 100644
----- a/numpy/random/_examples/cython/extending.pyx
--+++ b/numpy/random/_examples/cython/extending.pyx
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- #cython: language_level=3
-- 
-- from libc.stdint cimport uint32_t
--diff --git a/numpy/random/_examples/cython/extending_distributions.pyx b/numpy/random/_examples/cython/extending_distributions.pyx
--index 1bef506..4da6a4b 100644
----- a/numpy/random/_examples/cython/extending_distributions.pyx
--+++ b/numpy/random/_examples/cython/extending_distributions.pyx
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- #cython: language_level=3
-- """
-- This file shows how the to use a BitGenerator to create a distribution.
--diff --git a/numpy/setup.py b/numpy/setup.py
--index 4ccdaee..db06c82 100644
----- a/numpy/setup.py
--+++ b/numpy/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- 
--diff --git a/numpy/testing/print_coercion_tables.py b/numpy/testing/print_coercion_tables.py
--index 72b22ce..1e9a301 100755
----- a/numpy/testing/print_coercion_tables.py
--+++ b/numpy/testing/print_coercion_tables.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """Prints type-coercion tables for the built-in NumPy types
-- 
-- """
--diff --git a/numpy/testing/setup.py b/numpy/testing/setup.py
--index 7c3f2fb..bd315ee 100755
----- a/numpy/testing/setup.py
--+++ b/numpy/testing/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- 
--diff --git a/runtests.py b/runtests.py
--index a38054f..383ddaa 100755
----- a/runtests.py
--+++ b/runtests.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- runtests.py [OPTIONS] [-- ARGS]
-- 
--diff --git a/setup.py b/setup.py
--index d7f807b..705ea5d 100755
----- a/setup.py
--+++ b/setup.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """ NumPy is the fundamental package for array computing with Python.
-- 
-- It provides:
--diff --git a/tools/c_coverage/c_coverage_report.py b/tools/c_coverage/c_coverage_report.py
--index 327f6dc..8837684 100755
----- a/tools/c_coverage/c_coverage_report.py
--+++ b/tools/c_coverage/c_coverage_report.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- A script to create C code-coverage reports based on the output of
-- valgrind's callgrind tool.
--diff --git a/tools/changelog.py b/tools/changelog.py
--index b135b14..5d8b33c 100755
----- a/tools/changelog.py
--+++ b/tools/changelog.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- # -*- encoding:utf-8 -*-
-- """
-- Script to generate contributor and pull request lists
--diff --git a/tools/ci/push_docs_to_repo.py b/tools/ci/push_docs_to_repo.py
--index a989668..ae53054 100755
----- a/tools/ci/push_docs_to_repo.py
--+++ b/tools/ci/push_docs_to_repo.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- 
-- import argparse
-- import subprocess
--diff --git a/tools/find_deprecated_escaped_characters.py b/tools/find_deprecated_escaped_characters.py
--index 6f90001..10e0378 100644
----- a/tools/find_deprecated_escaped_characters.py
--+++ b/tools/find_deprecated_escaped_characters.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- r"""
-- Look for escape sequences deprecated in Python 3.6.
-- 
--diff --git a/tools/refguide_check.py b/tools/refguide_check.py
--index 2c62809..a19a29e 100644
----- a/tools/refguide_check.py
--+++ b/tools/refguide_check.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- """
-- refguide_check.py [OPTIONS] [-- ARGS]
-- 
--diff --git a/tools/swig/test/setup.py b/tools/swig/test/setup.py
--index 4ff870e..f8f05e6 100755
----- a/tools/swig/test/setup.py
--+++ b/tools/swig/test/setup.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testArray.py b/tools/swig/test/testArray.py
--index 8d9c797..54ffe71 100755
----- a/tools/swig/test/testArray.py
--+++ b/tools/swig/test/testArray.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testFarray.py b/tools/swig/test/testFarray.py
--index e8bf711..b377f7c 100755
----- a/tools/swig/test/testFarray.py
--+++ b/tools/swig/test/testFarray.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testFlat.py b/tools/swig/test/testFlat.py
--index 71be277..55034bf 100755
----- a/tools/swig/test/testFlat.py
--+++ b/tools/swig/test/testFlat.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testFortran.py b/tools/swig/test/testFortran.py
--index 426e894..0f7d0e6 100644
----- a/tools/swig/test/testFortran.py
--+++ b/tools/swig/test/testFortran.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testMatrix.py b/tools/swig/test/testMatrix.py
--index 065be0d..854a23c 100755
----- a/tools/swig/test/testMatrix.py
--+++ b/tools/swig/test/testMatrix.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testSuperTensor.py b/tools/swig/test/testSuperTensor.py
--index 97fe80c..31b63d0 100644
----- a/tools/swig/test/testSuperTensor.py
--+++ b/tools/swig/test/testSuperTensor.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testTensor.py b/tools/swig/test/testTensor.py
--index ac1b749..f47d9e8 100755
----- a/tools/swig/test/testTensor.py
--+++ b/tools/swig/test/testTensor.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
--diff --git a/tools/swig/test/testVector.py b/tools/swig/test/testVector.py
--index 45e763b..067b922 100755
----- a/tools/swig/test/testVector.py
--+++ b/tools/swig/test/testVector.py
--@@ -1,4 +1,4 @@
---#! /usr/bin/env python
--+#!/usr/bin/env python3
-- from __future__ import division, absolute_import, print_function
-- 
-- # System imports
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-index 75309e3080..e37ab399ed 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-@@ -1,15 +1,14 @@
- SUMMARY = "A sophisticated Numeric Processing Package for Python"
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a32aba007a415aa8a1c708a0e2b86a1"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=643d4e90100b7abe468c4db88127b895"
- 
- SRCNAME = "numpy"
- 
- SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
--           file://0001-convert-shebang-from-python-to-python3.patch \
-            "
--SRC_URI[sha256sum] = "2c095bd1c5290966cceee8b6ef5cd66f13cd0e9d6d0e8d6fc8961abd64a8e51f"
-+SRC_URI[sha256sum] = "153cf8b0176e57a611931981acfe093d2f7fef623b48f91176efa199798a6b90"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-@@ -20,7 +19,7 @@ S = "${WORKDIR}/numpy-${PV}"
- 
- CLEANBROKEN = "1"
- 
--FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
-+FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
- 
- # install what is needed for numpy.test()
- RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.18.5.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.0.bb
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.0.7.bb b/meta/recipes-graphics/mesa/mesa-gl_20.1.2.bb
 similarity index 100%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.18.5.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.19.0.bb
+rename from meta/recipes-graphics/mesa/mesa-gl_20.0.7.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_20.1.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 965e12d17e..4fe5f025eb 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -23,8 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            "
+ 
+-SRC_URI[md5sum] = "609cb7664204e031d4c65c602c652a28"
+-SRC_URI[sha256sum] = "fe6e258fe772c3cd2ac01741bf7408058c3ac02d66acff9a6e669bd72e3ea178"
++SRC_URI[sha256sum] = "283dff72814c8a80ce1ff8271e3f055895d26f4da3f4362acc49193e635780cb"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_20.0.7.bb b/meta/recipes-graphics/mesa/mesa_20.1.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/mesa/mesa_20.0.7.bb
+rename to meta/recipes-graphics/mesa/mesa_20.1.2.bb
+index d17d9eb04b..96e8aa38d6 100644
+--- a/meta/recipes-graphics/mesa/mesa_20.0.7.bb
++++ b/meta/recipes-graphics/mesa/mesa_20.1.2.bb
+@@ -1 +1,2 @@
+ require ${BPN}.inc
++
 -- 
 2.27.0
 
