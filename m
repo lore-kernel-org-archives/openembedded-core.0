@@ -1,50 +1,50 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web10.2820.1593155954223037463
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.2798.1593155955034129810
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 00:19:14 -0700
+ Fri, 26 Jun 2020 00:19:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lPTdZdcv;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id i14so8354683ejr.9
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Oi4kyRIj;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id e15so6137508edr.2
         for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 00:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6VwviXmk03nlWwGv/p1sCmOcqzsCYbjl4R1OgZ6AqLc=;
-        b=lPTdZdcvZ8Rt8ZT2Dl06dWGJMCR/+73xqDs67UQpXe2i7X1KjlesnksKbzia+HsEoR
-         Co7NwncrLwf+Fb3Oh/Av3M8Un+4q2pOISIcEP3jzB8O7RInRDzugWWGAIcphNcwAYM/T
-         HA+VbyrruUiDSVngCx0TRKUxBPr4U76UDFj3xngZowOcfQcKhz9vS+7Rc6J3R70+8qNN
-         9OfixLF9KcL4Mf0SZE4hvAs9eRbYrH+MCRc6FRjDQ863r9q7ttN6NpPfJR1iof6uZEgf
-         TTKA1rxLPOhz9s5zRx5EC9qCnKuiy7Dr38Ib+zbr3pMy0GzRcJw3bNby45t1x6RqDM3n
-         VM5g==
+        bh=37N83w78kgFZPjL7tNmwJRn37NVL5qGBPLHG5612aLw=;
+        b=Oi4kyRIj0br2eQ2nqAOy4jKD9zgn/Dkcv3twH6vujm45luoVKJGnwlyMD6OGfb557C
+         /lj7CjCvfrb/b/6N+MxA+B6gahRDITdKMVF8LW3bdnAp63ruT49iGDIzn9a1xFJ6b+eo
+         6GMvQw6YRZP1fwXb/xtWduPGU0SPhJuup+ElD/0knyW1nSxaa76DiW+4qVShCPyRROZ+
+         M8LZ8JpmjVlA+9li3Rx69degNbGTTlqCxHJQ3EyN4R17TjsnsLyhebnYqTjhlC1Xjylm
+         noTH7c1Gq5rLHjLIw0LSmX7K+1GcVUcc6IYX7PVzysbc0ZVQCs1Ujac7ZTV6A8RduRma
+         n61Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6VwviXmk03nlWwGv/p1sCmOcqzsCYbjl4R1OgZ6AqLc=;
-        b=iDnCuSvDDUQsBHOUusbvHcxVyscCMDY6Q9mZtN0cY86IvCQ+Gdxi0nY+lHoo1IaVEZ
-         oe8Zlk3t8kZaCSeOuMrbMYhe5FJbC+Q46DE8S1YBRg4hbim1TPNQuSUm2P0z3PmhSTUf
-         q5BFoQsjVbaC3o9KHjMP3hXEk/FBGTfvB3JZopGcLQ6aOyXFds1OcQyaSVDGXtqpexUY
-         oBa9MSDI88bkZTJR44QWceVVvXM9nl56F9s+L5xTdM89qU6T0txKNU2ifb+F896REIAy
-         e92Za+Y93L6Y0GX3iNHubJvKth0YLRf47KHtZdy6suP7OUuhz3iNdJNuQNGB5dE7FysS
-         yhqw==
-X-Gm-Message-State: AOAM530aWbZ4mdoBSsOSvPdvbo5F9HTg1tH+XGPW29pJWCMBGTzeLxyg
-	NHCG/8HrAsl5qyPm9HgsM2VTGArgnEk=
-X-Google-Smtp-Source: ABdhPJx6Q9PiRwIAD1RrzYYu6Mu9LtgD0XBykji9Z+JEBUKix7Ai0c2DR60c0p4pbeczs+x/z0pahQ==
-X-Received: by 2002:a17:906:1d5b:: with SMTP id o27mr1376958ejh.344.1593155952606;
-        Fri, 26 Jun 2020 00:19:12 -0700 (PDT)
+        bh=37N83w78kgFZPjL7tNmwJRn37NVL5qGBPLHG5612aLw=;
+        b=Br4+8kqlafBwr2g9iXk9NOLQ7gmuZaRt3xb+uHvx9uH38Q+MqPQgtDaCzBx5K8r6ez
+         LzbacAZKzS4STnElNv3sR9hbtQ45JesBohEMQMQ2/SfMYMX2hZFX7ieYilQtdoteIQ0U
+         2XViZZ53bVi/Khjs1n67q2dhSFpDdlenysVRBL1WLKCRFBzJShhtpXGBvSlz3WIRM8wD
+         FQL9Y/yUcQOIk/nZvRUgvPPC6lZ1ATR2dY6BqjK7x/1+v1T6KwT5lpn0GaELYD+k3JlD
+         NKig0yrzxthEkma+r7Fho8qWPcW9obcBgzC+2F0tTZGTdzlXRW7PCe0U2IhbEve2EX6j
+         S7wA==
+X-Gm-Message-State: AOAM533X6sxAB2FRCymxQSwuitO2UE4Znd7xAm5+bPHxjVsjDr++9ACp
+	En6WHLr3dR1DJ0L7aCdaD2iXV6Dn6fs=
+X-Google-Smtp-Source: ABdhPJyqKbCdQ0ykvbKFeDQcCOTZdVJtqMNwhJoAvJdUhHkqZ503dWtdEocRkac8kTT1Op9HXbp4dw==
+X-Received: by 2002:a50:a68f:: with SMTP id e15mr2006847edc.285.1593155953367;
+        Fri, 26 Jun 2020 00:19:13 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.11
+        by smtp.gmail.com with ESMTPSA id p4sm20826194edj.64.2020.06.26.00.19.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 00:19:11 -0700 (PDT)
+        Fri, 26 Jun 2020 00:19:12 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/30] bison: upgrade 3.6.3 -> 3.6.4
-Date: Fri, 26 Jun 2020 09:18:25 +0200
-Message-Id: <20200626071844.29134-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/30] python3-cython: upgrade 0.29.19 -> 0.29.20
+Date: Fri, 26 Jun 2020 09:18:26 +0200
+Message-Id: <20200626071844.29134-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626071844.29134-1-alex.kanavin@gmail.com>
 References: <20200626071844.29134-1-alex.kanavin@gmail.com>
@@ -53,26 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/bison/{bison_3.6.3.bb => bison_3.6.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/bison/{bison_3.6.3.bb => bison_3.6.4.bb} (94%)
+ meta/recipes-devtools/python/python-cython.inc                  | 2 +-
+ .../{python3-cython_0.29.19.bb => python3-cython_0.29.20.bb}    | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.19.bb => python3-cython_0.29.20.bb} (100%)
 
-diff --git a/meta/recipes-devtools/bison/bison_3.6.3.bb b/meta/recipes-devtools/bison/bison_3.6.4.bb
-similarity index 94%
-rename from meta/recipes-devtools/bison/bison_3.6.3.bb
-rename to meta/recipes-devtools/bison/bison_3.6.4.bb
-index 1d0f5995c1..0c877c3c58 100644
---- a/meta/recipes-devtools/bison/bison_3.6.3.bb
-+++ b/meta/recipes-devtools/bison/bison_3.6.4.bb
-@@ -13,7 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://add-with-bisonlocaledir.patch \
-            file://0001-bison-fix-the-parallel-build.patch \
-            "
--SRC_URI[sha256sum] = "06db793651de9dd5f0a85a6fe4bdbca413c0806bf2432377523da96ca0b4b73d"
-+SRC_URI[sha256sum] = "8b13473b31ca7fcf65e5e8a74224368ffd5df19275602a9c9567ba393f18577d"
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index eee567ed2c..a0cd2a5fb4 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
+ PYPI_PACKAGE = "Cython"
+ BBCLASSEXTEND = "native nativesdk"
  
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
+-SRC_URI[sha256sum] = "97f98a7dc0d58ea833dc1f8f8b3ce07adf4c0f030d1886c5399a2135ed415258"
++SRC_URI[sha256sum] = "22d91af5fc2253f717a1b80b8bb45acb655f643611983fd6f782b9423f8171c7"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.19.bb b/meta/recipes-devtools/python/python3-cython_0.29.20.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-cython_0.29.19.bb
+rename to meta/recipes-devtools/python/python3-cython_0.29.20.bb
 -- 
 2.27.0
 
