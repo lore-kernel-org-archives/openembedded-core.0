@@ -1,187 +1,305 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.58])
- by mx.groups.io with SMTP id smtpd.web12.3260.1593116228217007073
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web12.2012.1593138365688867259
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2020 13:17:08 -0700
+ Thu, 25 Jun 2020 19:26:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=PuiKK0Tb;
- spf=pass (domain: outlook.com, ip: 40.92.89.58, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NW4QJmGF0iNw6ws1j8vRAdDIXvVzaUc9E17oXDECJFCdzrFQPS0iyhsMBghngqlNHgJlTyIxYVM49BH5zS+ggGtegq9YovKN7VWuakECeA4GxCSnqyTfp/jIEiWVfhA/hiMXSl/98z2yhGluyj+scxMWIGNATArne9D9teeOxtO4eBEIYwqMHTyPRMVVs92TYfH6zBIREaOZlPoVvW1ALvGBooPIDkCPSwo3fSyXhXjCLPF3BdXvGQq0lMLYsxPi6cQDKqiLGW9Ib7HULwJwguxhrGM/OtAys/P6jklxXE3+jdWOrIw8om2YhncPY8n/ECcZuWbXZiS2JjhgizX1Ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9NZucabaMvBsv1XlEeoYgzW6wQrBX85q20tSfJ3I4lU=;
- b=AsgypTlR2rAq1B/xkZkouu+KsdPoR5bbBhnLhS7WC3MYhb+6e8j3sZIUT/85uLMple77OC5T2IyXLpFED52GlkFZM7npK/tK9tNx/+ij3L+gs3DCKh5vpHHRAsY3wcO+vRJxnwtYj13P90DGJwHoH5WhSKMfhNSF3yhZBM5KzMQaHvsaATaPOH6LeR3iEfw8PDnUindhyY4JuuCx2AXOxbqsfoSIFhHcC/iMJggbaprfDoDxFo4fYVuXvVBasT7HcO9vCHWm+HNK2FfPwLFZ2z6cJczSqO4WaR+2mSsTYL9rfQsb3bXR2qHW/Lm+WdwS+zcyiVozlsCuHYgjga+pXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9NZucabaMvBsv1XlEeoYgzW6wQrBX85q20tSfJ3I4lU=;
- b=PuiKK0Tb2URfJtQOwWaGF6MSK3f72bWuYk37ch9TfX+LgDajBogwnHjRxxDse1N7p1iHzScE3zJHoUgzkCivGOi/vSIY4YaToA/94qR0mj/berpgdXXHzdn4L000FiLuRtDf0egpWb9Y1wI3V8t18uOWzfUMdYrBszo+jeXslISDJBQL8aSeHoiHI8PxZj4hVPe20uBE8J+3xugeA823VVf4Bnjf23uRnUGnwXrYlaE615ahhO2sqKkZexjySupX2H6w1lsj59AmZSBeshoA80jZue2IEK133FkC0IBeTdeVbPBwkzSGWu+Y66MxJuL9VdTxbmaYLERcLR4IORVJkQ==
-Received: from AM6EUR05FT004.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::43) by
- AM6EUR05HT169.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::203)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Thu, 25 Jun
- 2020 20:17:06 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:fc11::52) by AM6EUR05FT004.mail.protection.outlook.com
- (2a01:111:e400:fc11::227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
- Transport; Thu, 25 Jun 2020 20:17:06 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:598F18DEEA5079EF55387EF43BD7D49B14CA5F4BDD9D78A9479E973533998128;UpperCasedChecksum:E45FD58E4FCF61494279B554599CC3CCE8C0C6370694FCFB13FC14ADDF064095;SizeAsReceived:8802;Count:48
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722%5]) with mapi id 15.20.3109.027; Thu, 25 Jun 2020
- 20:17:06 +0000
-Subject: Re: [OE-core] [dunfell][PATCH 2/2] runqemu: add QB_ROOTFS_EXTRA_OPT parameter
-To: openembedded-core@lists.openembedded.org, steve@sakoman.com
-References: <20200625201309.11441-1-kweihmann@outlook.com>
- <161BE290B27F77BD.5977@lists.openembedded.org>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM7PR05MB68813E32630EEFD1767D0AF3A8920@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Date: Thu, 25 Jun 2020 22:17:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <161BE290B27F77BD.5977@lists.openembedded.org>
-X-ClientProxiedBy: AM6PR10CA0016.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:89::29) To AM7PR05MB6881.eurprd05.prod.outlook.com
- (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <109dbd8c-daf7-04b7-c95e-a45c900089b3@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.20] (87.150.47.161) by AM6PR10CA0016.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23 via Frontend Transport; Thu, 25 Jun 2020 20:17:05 +0000
-X-Microsoft-Original-Message-ID: 
- <109dbd8c-daf7-04b7-c95e-a45c900089b3@outlook.com>
-X-TMN: [ODGFSpyGLHpFlWs4Wv4F1GP/8CMncnT2]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 446db4b4-b3b2-407e-969a-08d81944bb04
-X-MS-TrafficTypeDiagnostic: AM6EUR05HT169:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	++OSI9Q4h7c82CKicv0PHYybr4Tx1gWE43anLfcrbgTMJOe9Ry9/mK4Id0Rsyj2/5V1ny45Gk6Q88PxUv8cf78lfM+78FAITuRl4XflMvpaaq9UjKY7AIRuS86kFe28VWToG2oxJY3XVhJx0DwwBpYTyRpgQuVjOyPpRgYxoTV9J0kOMBPj7RD84xGRypEE2Qn6rbPMrJeAAIo0XjR7zDQyPctLo8Y67kUb4RRkUTIKJm87vYhUUNtMkKF9UOBbz
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	kxorps1pJeJ2Z0jhu0RyQyczIZRlRZ1r4ZT9YM7HI15Uev9QWUwxG99ZO1FsSg6mxmSCy5j+Bi4UV+9AUre7JnkMlp7yYudhQAc5j9xhcc+HL8yRqFiROJ8iatwXOasMInng9hxjawn0voC+raVqdQ==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 446db4b4-b3b2-407e-969a-08d81944bb04
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 20:17:06.0847
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM6EUR05FT004.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT169
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rJbbRBKg;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id j4so3705795plk.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2020 19:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=G6U61ysmkwwODio6AUK320vDjOBiUmgvfljY+9S77W4=;
+        b=rJbbRBKg1tdkcYA9aGoZ4O2utwoPdd54wg/VR+QYWidKK7VD5Tk5i0EtiCQ9FcnuKb
+         LUTqv9pnvw/CLjaSVe9xjYArMFeWu57IJ4mY9Sto4IUOtYxpLckv8gD7uoShY2d9lgVI
+         t7xuby+Wl05YPiJknKzAae5LxbvtmSv/ckAYOhISLvLM/cH3845PA0eezwKNR2Sha3Pc
+         CrYKlN4ietvIvzCUVj367sNiulnws21/OvRpznd9pK8WKi2AsLJQy2AIN2nxujs65/JF
+         cr3XtxBkPEuTQJkUdFYPXV2WmZcFxUDmdQYt+/gDSHD/iScy7EbVUvv/0ALVF5S9/Pb0
+         eSNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=G6U61ysmkwwODio6AUK320vDjOBiUmgvfljY+9S77W4=;
+        b=A1PN5VAEiOBOTRBSHRZagt6RE3Ov91+T9QCTvqO417MiTPYaZDhCdehCnyQf/RYCqD
+         BwMNtb+F23jI7q9K/VkgB6dHs1G/TsD7uWR+Er9ESCuByZ7r1umNIFPXzXXagoUb01E5
+         tRshUpcjHxQRKI/ONB3OCFW34CWMMyj4FiSJrHsVH44W78jIqb5sLzfeQXhXouu2V/vR
+         4xYzTcC0iN28JL4NIQkJCglPERnJQpimVNCEd5DqCpWu0BRJdawNVhWgMqowKRA06wgO
+         vpYxlY5O/84AF/lyfz+it9Jq8oX3e7dt6+8pR8bf2iJkOrZx5+vsdA42Gd9YAqnrGlQo
+         EtrQ==
+X-Gm-Message-State: AOAM5333vWlIWcOWT54+p5+1H6v8rON+QcspcB4ZvTo7dWq+xfYTcH/5
+	sSvmvxKHm+nEfOD7CIg97ysJysRM
+X-Google-Smtp-Source: ABdhPJwdnsGBBYz/F37zxGOarPSelOdpEJtIpWQIIiQj257LH/0El0jdVEuszMkKySGoVBlWUxq+Cw==
+X-Received: by 2002:a17:902:8204:: with SMTP id x4mr667327pln.153.1593138364716;
+        Thu, 25 Jun 2020 19:26:04 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:acbe:8216:8a55:1b44])
+        by smtp.gmail.com with ESMTPSA id y12sm6726276pfo.182.2020.06.25.19.26.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 19:26:04 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [dunfell][PATCH] curl: Security fixes for CVE-2020-{8169/8177}
+Date: Thu, 25 Jun 2020 19:26:01 -0700
+Message-Id: <20200626022601.27734-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Hi all,
+From: Armin Kuster <akuster@mvista.com>
 
-I'd like this to be backported to dunfell, although it's something in 
-between a bugfix and a feature addition.
-These both patches will unblock the usage of wic images in combination 
-with testimage class, which I otherwise would consider broken for this 
-use case.
-So I really would appreciate if they could be merged to dunfell.
+Source: https://curl.haxx.se/
+MR: 104472, 104458
+Type: Security Fix
+Disposition: Backport from https://github.com/curl/curl/commit/{600a8cded447cd/8236aba58542c5f}
+ChangeID: 1300924f7a64b22375b4326daeef0b686481e30c
+Description:
 
-Thanks and regards
-Konrad
+- Affected versions: curl 7.20.0 to and including 7.70.0
+- Not affected versions: curl < 7.20.0 and curl >= 7.71.0
 
-On 25.06.20 22:13, Konrad Weihmann wrote:
-> Content of the optional parameter will be appended to the rootfs-device
-> in the qemu configuration, in case QB_ROOTFS_OPT is not specified.
-> By default this is empty.
-> 
-> Example use cases are:
-> 
-> Defining 'readonly' when using squashfs, so multiple instances of qemu
-> can share the same base image, something that cannot be done by just
-> specifying 'snapshot'.
-> 
-> Defining 'bootindex=0' which helps to get past the EFI shell in
-> ovmf-binary. This also enables the use case of running WIC images with
-> EFI bootloader through the testimage.bbclass.
-> 
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 8361b47d7ff190f84e8bd81507cde01d74ca7c1c)
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
->   meta/classes/qemuboot.bbclass |  5 +++++
->   scripts/runqemu               | 11 ++++++++---
->   2 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-> index 54044c38da..99da543f9a 100644
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -65,6 +65,10 @@
->   #                   " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
->   #                   Note, runqemu will replace "@PORT@" with the port number which is used.
->   #
-> +# QB_ROOTFS_EXTRA_OPT: extra options to be appended to the rootfs device in case there is none specified by QB_ROOTFS_OPT.
-> +#                      Can be used to automatically determine the image from the other variables
-> +#                      but define things link 'bootindex' when booting from EFI or 'readonly' when using squashfs
-> +#                      without the need to specify a dedicated qemu configuration
->   # Usage:
->   # IMAGE_CLASSES += "qemuboot"
->   # See "runqemu help" for more info
-> @@ -77,6 +81,7 @@ QB_OPT_APPEND ?= "-show-cursor"
->   QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
->   QB_CMDLINE_IP_SLIRP ?= "ip=dhcp"
->   QB_CMDLINE_IP_TAP ?= "ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0"
-> +QB_ROOTFS_EXTRA_OPT ?= ""
->   
->   # This should be kept align with ROOT_VM
->   QB_DRIVE_TYPE ?= "/dev/sd"
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 6a77e3db9a..310d79fdc5 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -1196,6 +1196,10 @@ class BaseConfig(object):
->           else:
->               self.rootfs_options = '-drive file=%s,if=virtio,format=%s' % (self.rootfs, rootfs_format)
->   
-> +        qb_rootfs_extra_opt = self.get("QB_ROOTFS_EXTRA_OPT")
-> +        if qb_rootfs_extra_opt and not qb_rootfs_extra_opt.startswith(","):
-> +            qb_rootfs_extra_opt = "," + qb_rootfs_extra_opt
-> +
->           if self.fstype in ('cpio.gz', 'cpio'):
->               self.kernel_cmdline = 'root=/dev/ram0 rw debugshell'
->               self.rootfs_options = '-initrd %s' % self.rootfs
-> @@ -1208,14 +1212,15 @@ class BaseConfig(object):
->                       drive_type = self.get('QB_DRIVE_TYPE')
->                       if drive_type.startswith("/dev/sd"):
->                           logger.info('Using scsi drive')
-> -                        vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd' \
-> -                                       % (self.rootfs, rootfs_format)
-> +                        vm_drive = '-drive if=none,id=hd,file=%s,format=%s -device virtio-scsi-pci,id=scsi -device scsi-hd,drive=hd%s' \
-> +                                       % (self.rootfs, rootfs_format, qb_rootfs_extra_opt)
->                       elif drive_type.startswith("/dev/hd"):
->                           logger.info('Using ide drive')
->                           vm_drive = "-drive file=%s,format=%s" % (self.rootfs, rootfs_format)
->                       elif drive_type.startswith("/dev/vdb"):
->                           logger.info('Using block virtio drive');
-> -                        vm_drive = '-drive id=disk0,file=%s,if=none,format=%s -device virtio-blk-device,drive=disk0' % (self.rootfs, rootfs_format)
-> +                        vm_drive = '-drive id=disk0,file=%s,if=none,format=%s -device virtio-blk-device,drive=disk0%s' \
-> +                                    % (self.rootfs, rootfs_format,qb_rootfs_extra_opt)
->                       else:
->                           # virtio might have been selected explicitly (just use it), or
->                           # is used as fallback (then warn about that).
-> 
-> 
-> 
-> 
+Fixes both CVE-2020-8169 and CVE-2020-8177
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++++
+ .../curl/curl/CVE-2020-8177.patch             |  67 +++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+ 3 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2020-8169.patch b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
+new file mode 100644
+index 0000000000..5f0b47cfe3
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
+@@ -0,0 +1,140 @@
++From 600a8cded447cd7118ed50142c576567c0cf5158 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 14 May 2020 14:37:12 +0200
++Subject: [PATCH] url: make the updated credentials URL-encoded in the URL
++
++Found-by: Gregory Jefferis
++Reported-by: Jeroen Ooms
++Added test 1168 to verify. Bug spotted when doing a redirect.
++Bug: https://github.com/jeroen/curl/issues/224
++Closes #5400
++
++Upstream-Status: Backport
++https://github.com/curl/curl/commit/600a8cded447cd
++
++CVE: CVE-2020-8169
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ lib/url.c               |  6 ++--
++ tests/data/Makefile.inc |  1 +
++ tests/data/test1168     | 78 +++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 83 insertions(+), 2 deletions(-)
++ create mode 100644 tests/data/test1168
++
++Index: curl-7.69.1/lib/url.c
++===================================================================
++--- curl-7.69.1.orig/lib/url.c
+++++ curl-7.69.1/lib/url.c
++@@ -2776,12 +2776,14 @@ static CURLcode override_login(struct Cu
++ 
++   /* for updated strings, we update them in the URL */
++   if(user_changed) {
++-    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp, 0);
+++    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp,
+++                      CURLU_URLENCODE);
++     if(uc)
++       return Curl_uc_to_curlcode(uc);
++   }
++   if(passwd_changed) {
++-    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp, 0);
+++    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp,
+++                      CURLU_URLENCODE);
++     if(uc)
++       return Curl_uc_to_curlcode(uc);
++   }
++Index: curl-7.69.1/tests/data/Makefile.inc
++===================================================================
++--- curl-7.69.1.orig/tests/data/Makefile.inc
+++++ curl-7.69.1/tests/data/Makefile.inc
++@@ -133,6 +133,7 @@ test1136 test1137 test1138 test1139 test
++ test1144 test1145 test1146 test1147 test1148 test1149 test1150 test1151 \
++ test1152 test1153 test1154 test1155 test1156 test1157 test1158 test1159 \
++ test1160 test1161 test1162 test1163 test1164 test1165 test1166 test1167 \
+++test1168 \
++ \
++ test1170 test1171 test1172 test1173 test1174 test1175 test1176 \
++ \
++Index: curl-7.69.1/tests/data/test1168
++===================================================================
++--- /dev/null
+++++ curl-7.69.1/tests/data/test1168
++@@ -0,0 +1,78 @@
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP GET
+++followlocation
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<data>
+++HTTP/1.1 301 This is a weirdo text message swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Location: /data/11680002.txt
+++Connection: close
+++
+++This server reply is for testing a simple Location: following
+++
+++</data>
+++<data2>
+++HTTP/1.1 200 Followed here fine swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 52
+++
+++If this is received, the location following worked
+++
+++</data2>
+++<datacheck>
+++HTTP/1.1 301 This is a weirdo text message swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Location: /data/11680002.txt
+++Connection: close
+++
+++HTTP/1.1 200 Followed here fine swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 52
+++
+++If this is received, the location following worked
+++
+++</datacheck>
+++</reply>
+++
+++# Client-side
+++<client>
+++<server>
+++http
+++</server>
+++ <name>
+++HTTP redirect with credentials using # in user and password
+++ </name>
+++ <command>
+++http://%HOSTIP:%HTTPPORT/want/1168 -L -u "catmai#d:#DZaRJYrixKE*gFY"
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<strip>
+++^User-Agent:.*
+++</strip>
+++<protocol>
+++GET /want/1168 HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
+++Accept: */*
+++
+++GET /data/11680002.txt HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
+++Accept: */*
+++
+++</protocol>
+++</verify>
+++</testcase>
+diff --git a/meta/recipes-support/curl/curl/CVE-2020-8177.patch b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
+new file mode 100644
+index 0000000000..4f14fa2306
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
+@@ -0,0 +1,67 @@
++From 8236aba58542c5f89f1d41ca09d84579efb05e22 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 31 May 2020 23:09:59 +0200
++Subject: [PATCH] tool_getparam: -i is not OK if -J is used
++
++Reported-by: sn on hackerone
++Bug: https://curl.haxx.se/docs/CVE-2020-8177.html
++
++Upstream-Status: Backport
++CVE:CVE-2020-8177
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/tool_cb_hdr.c   | 22 ++++------------------
++ src/tool_getparam.c |  5 +++++
++ 2 files changed, 9 insertions(+), 18 deletions(-)
++
++Index: curl-7.69.1/src/tool_cb_hdr.c
++===================================================================
++--- curl-7.69.1.orig/src/tool_cb_hdr.c
+++++ curl-7.69.1/src/tool_cb_hdr.c
++@@ -186,25 +186,11 @@ size_t tool_header_cb(char *ptr, size_t
++       filename = parse_filename(p, len);
++       if(filename) {
++         if(outs->stream) {
++-          int rc;
++-          /* already opened and possibly written to */
++-          if(outs->fopened)
++-            fclose(outs->stream);
++-          outs->stream = NULL;
++-
++-          /* rename the initial file name to the new file name */
++-          rc = rename(outs->filename, filename);
++-          if(rc != 0) {
++-            warnf(per->config->global, "Failed to rename %s -> %s: %s\n",
++-                  outs->filename, filename, strerror(errno));
++-          }
++-          if(outs->alloc_filename)
++-            Curl_safefree(outs->filename);
++-          if(rc != 0) {
++-            free(filename);
++-            return failure;
++-          }
+++          /* indication of problem, get out! */
+++          free(filename);
+++          return failure;
++         }
+++
++         outs->is_cd_filename = TRUE;
++         outs->s_isreg = TRUE;
++         outs->fopened = FALSE;
++Index: curl-7.69.1/src/tool_getparam.c
++===================================================================
++--- curl-7.69.1.orig/src/tool_getparam.c
+++++ curl-7.69.1/src/tool_getparam.c
++@@ -1807,6 +1807,11 @@ ParameterError getparameter(const char *
++       }
++       break;
++     case 'i':
+++      if(config->content_disposition) {
+++        warnf(global,
+++              "--include and --remote-header-name cannot be combined.\n");
+++        return PARAM_BAD_USE;
+++      }
++       config->show_headers = toggle; /* show the headers as well in the
++                                         general output stream */
++       break;
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index e854e8d4bd..8b5170f021 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e9fb35867314fe31c6a4977ef7dd531"
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
++           file://CVE-2020-8169.patch \
++           file://CVE-2020-8177.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
+2.17.1
+
