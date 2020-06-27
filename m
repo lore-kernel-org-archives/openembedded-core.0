@@ -1,93 +1,79 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web12.1176.1593209846188863573
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.2498.1593229289410496665
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 15:17:26 -0700
+ Fri, 26 Jun 2020 20:41:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dlPEdXjg;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.67, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f67.google.com with SMTP id e22so8048865edq.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 15:17:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NnFxpxNP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id 207so5307447pfu.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 20:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8cOhCIFboVDZ6pE3Nuy9te+wVFJI4G+mIdjYOef+/ks=;
-        b=dlPEdXjgj/ms3rO/MLB6NL2seEoV78fl0hMHsbvnd704Inh+1aJOFBBGVTmlgCtQ6o
-         wvTAZfCeU1mUndqbk9SyZDXQyCFP31Z+lsbDLGC5op7qWAYeIvOuJK3YRRn94PseCbWm
-         Gm+snTUbp4gRQG24sNu2m42HHg5ZHxgS30x+H+bhIeeclrYhn1HMLBsq69HwJ+8zoc+8
-         6lhe0H8VYGVkj3lFdRPqQ1t7aGzsqQh8RU110Mfs/WsuogMUTxl6fHEqWx4fLhnE1106
-         VOkIm6FD2zZg5OUjhaWXtOAv70k0wm0u3cX+JriRBY4RKgns2x6CXlvIU/S7vTjmC5X3
-         3kqA==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=/+JcYrtoPwSrUU5eBL4u99f33cYzAzGYYfZ0HihSxhA=;
+        b=NnFxpxNP3R0eBhZrmm4RNgrIXoHr8cNZcIWkZ1/WwFCtkwtmcOGOGM2GD71ZdXGS5q
+         gh5QimANuFdztOpEprTQZHw8+6uHgvzo3sdzciOJIkQEHLLwgse4wn34z2kv1+KvpELG
+         L8FrCjLgUW2dVMAwzxdevWUusxI2+fBiX/1GhKe6oz8t5Rx809/hOGX4SjK0i8nPcRWS
+         PX+3f8oidITf5VXzrbAFTGC75TEz9fgwbOKtrDfO1yd9lA38vkjEc4CM+K0eJYTipLnR
+         NAwGAHGCrTdGmUdnbCJUMsUdL/qMRB9tkqao5DgN3eSZVBxVH6/Yx7aG1DpKJTqLzgfb
+         Ij+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8cOhCIFboVDZ6pE3Nuy9te+wVFJI4G+mIdjYOef+/ks=;
-        b=kYMMCS/ulLGIQTwrmtY/s6rVcwOPhio9d4LObXPnN/o8S/TBFS/5i5WG5A0AXzlTMn
-         bHEzM7uAWCSW81gjtbTivtOj6qjm2MqYm8+5fe7KEDY31kjk5P+iwd6FSUAQhzPDK9xf
-         UngjlRvkCwyacz2X2zg8NFG5GA5tjpQGQapNzNgRgM5R/yiCGYz2SnNPFCJy5plAcabY
-         fPzqPAq1oCs4lbbIFt9t8L4flrVz0nJhjxWNub0/nTBTZ1PdSeY0Du+Xn7FZfIuqMX7v
-         uuN7Vw6Xf6Twk3guV6X7J6AtIp4xmA9VDHMMQBnn1UygvkMIphSckUOXyP3LbHeMKIfO
-         +tQw==
-X-Gm-Message-State: AOAM533DrcK22nnJvxEO52+Svy6B/guXBB1OP1yqg4jvUF/bgoyFDeCa
-	l4tF0TnHEPAaRGL+RPC9fOQW4LmwXxO6Sv7EFR9edA==
-X-Google-Smtp-Source: ABdhPJw1YUxkeL4uGgePavjmaixkDvbi0Q8s2AfoUqVQot4QXL7PMBC1E7GBzsnCw3H2/6iBKPuN/uFxn42XAFiTt8I=
-X-Received: by 2002:a50:bb48:: with SMTP id y66mr3157059ede.147.1593209844402;
- Fri, 26 Jun 2020 15:17:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200623210837.26222-1-alex.kanavin@gmail.com>
- <CAOSpxdYUPQwNmZNP8FF7M=M2a95Wfvth0xpcO+C3G7bGKiJXCw@mail.gmail.com>
- <CANNYZj_U=WVHNrZLZK8_pNdgHf9YyKvfpFdcSrCTrq+8X-njKA@mail.gmail.com>
- <CAOSpxdbUVhvu_0sYvEWxiq=c8UAt1k-o4=9AXWJaMCPo5xQUsg@mail.gmail.com>
- <CAOSpxdYOgf7Jj3O1ebFUOZo1ccZs0K=K1L6vd7rcO0d8s0vtjQ@mail.gmail.com>
- <CAAnfSTtZOqXVz0==hgM0h3WP9igfuE1u2BU48iJWsh=rsFOwPQ@mail.gmail.com>
- <CAOSpxdZP-aN-rWgNDpW+7nS4g-1_j5wQJ_dgxACgNo6EvonF=Q@mail.gmail.com>
- <CANNYZj_ahPyrDVL0qoPakECCVQicdMNWm_Y3wi8oB4GJuSZwoA@mail.gmail.com>
- <161C2CF3A1F68DB5.16301@lists.openembedded.org> <CAOSpxdaNLcvvL=1g5n3Sod2HoD=Umg_sSHSiNizVL4ogyf1+ew@mail.gmail.com>
- <CANNYZj927by5Pic50F-fe0nJk+XLwH=q65NisFObeXczSCg9rQ@mail.gmail.com>
- <CAGDS+nmpht35NGDn3937ZrqQ4NsPfYnqo-eYiSba25yVd7HXiQ@mail.gmail.com> <f7f696a4bc9a039bd24668162d4ffd641dd85289.camel@linuxfoundation.org>
-In-Reply-To: <f7f696a4bc9a039bd24668162d4ffd641dd85289.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Fri, 26 Jun 2020 12:17:12 -1000
-Message-ID: <CAOSpxdbnUCVsCsvcEL1-8cw4+u7UOCjk7gm2TQvPfW916OsfkQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] icu: merge .inc into main recipe
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton <ross@burtonini.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=/+JcYrtoPwSrUU5eBL4u99f33cYzAzGYYfZ0HihSxhA=;
+        b=szhxaR2BSp0y4L9tItiQEip7Y3IL/CfNOxdfv/QmMUrKJxKtUsV4E3TyXF+r43fnsV
+         w3O0G2Q3EnuJjszohlWdcxcKrZzlbs/V0/8P0pdtsTOkpMS4iUrYM+MrxEMuVaNAb/+t
+         c186nz0QEOu98x+FxM+GvJ4sWLzP+pUeGIsZKsqkKEqBaDksC/k62nCchXPUgGK+GGfL
+         +WVxAW3gSiHyh23bdmVurU5VTNOLzPKrhrnzvLhefEnGsG9pCsMA/gNguI7iEQlX/lI1
+         T+Wu71Scerf8uiXzdGf+K96e2l+AZ+aY3JNa8n0V1WDRf7kHuX0s+b5cNI4iPpiL/894
+         xSPg==
+X-Gm-Message-State: AOAM5327SkpUR6q+pgEoZZ9RHVJn25Eg1D4kobfrw2U0oRaJlzu81cjC
+	oyV3xseKgmdegRcaXw0h1QusfCCf
+X-Google-Smtp-Source: ABdhPJxelXCWiEzkEoyZLW5bzcbzdKRcswuXgelU3L4VtnpZNLPPa2izOC5odbC4ZF5lWdZTU599zg==
+X-Received: by 2002:a63:ca11:: with SMTP id n17mr1648587pgi.439.1593229288506;
+        Fri, 26 Jun 2020 20:41:28 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:5dd6:9daa:53f4:d130])
+        by smtp.gmail.com with ESMTPSA id g17sm12565772pju.11.2020.06.26.20.41.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2020 20:41:27 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libuv: update to the last version in meta-oe
+Date: Fri, 26 Jun 2020 20:41:26 -0700
+Message-Id: <20200627034126.1162-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, Jun 26, 2020 at 12:05 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-06-26 at 11:46 -1000, Steve Sakoman wrote:
-> > On Fri, Jun 26, 2020 at 10:26 AM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> > > Technically, there are. I am not qualified to comment on how
-> > > destabilizing they could be:
-> > > http://site.icu-project.org/download/67
-> > >
-> > > Perhaps it is possible to bisect the code to identify the fix that
-> > > can be cherry picked:
-> > > https://github.com/unicode-org/icu/releases/tag/release-67-1
-> >
-> > Agreed, too many changes to take for LTS.
-> >
-> > I think I'm just going to live with the occasional autobuilder
-> > failure.  This seems like way more work that it is worth :-)
->
-> I think its simpler. Look at the original implementation patch:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=72a56c2bd02d32382260d4f4fd14ab4c8d4cb8f4
->
-> specifically this bit:
->
->             file://fix-install-manx.patch \
-> -           file://0001-Fix-big-endian-build.patch \
-> +           file://0001-Fix-big-endian-build.patch;apply=no \
->             file://0001-icu-Added-armeb-support.patch \
->
-> I think the apply=no needs to be toggled depending on the PACKAGECONFIG?
+Looks like I forgot to update the contrib branch.
 
-I'll give this a try on Monday.  Thanks for pointing that out!
+This is a squished set of these changes:
+https://git.openembedded.org/meta-openembedded/commit/?id=e03b48481438c747322f07ac1e1f04add541ffac
+https://git.openembedded.org/meta-openembedded/commit/?id=9b61f412d36b390f8d71ad1fb5875f5f6e32fd8a
+https://git.openembedded.org/meta-openembedded/commit/?id=644ea1ee145902b00e4e66856ebe8d8800dfc1f0
 
-Steve
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../libuv/{libuv_1.34.2.bb => libuv_1.38.0.bb}                  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.34.2.bb => libuv_1.38.0.bb} (90%)
+
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb b/meta/recipes-connectivity/libuv/libuv_1.38.0.bb
+similarity index 90%
+rename from meta/recipes-connectivity/libuv/libuv_1.34.2.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.38.0.bb
+index 234cec37bb..afc9b2f2ea 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.38.0.bb
+@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
+ 
+-SRCREV = "f868c9ab0c307525a16fff99fd21e32a6ebc3837"
++SRCREV = "1ab9ea3790378f9f25c4e78e9e2b511c75f9c9ed"
+ SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.17.1
+
