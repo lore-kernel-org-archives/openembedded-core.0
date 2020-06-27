@@ -1,182 +1,122 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.12463.1593276627132679958
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.13561.1593279616710191141
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2020 09:50:27 -0700
+ Sat, 27 Jun 2020 10:40:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G7l3FcHm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id a6so12415047wrm.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2020 09:50:26 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SFs1EGGx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id o11so12466371wrv.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2020 10:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vz0Sa4A98L9RGHabHa7Eh3CZ8VcFQMSogBYGGCy1yIM=;
-        b=G7l3FcHma9l05lejxNqlUNH943qfZhENZClWtf3mTP8zJH1YJA5JevY6Dn4vcwLQyF
-         PMKaHMCad144sEqQ6pGA3reNXWrS3Jr3MSYFt/wDATzRR+rU8DUFN4M74+BVXz37oXsj
-         QOqvH1Q4enHz78vUOADGmkPrcsZ9rNzLqFGLQ=
+        bh=4+JJwjk6naSLJalORR5wQETXgDeLMAV1yPa3U9xThgo=;
+        b=SFs1EGGxxsGgKcpSbImN16xAyyfsmQuwaxSliQcMGJO8OLDK/Gt/SY5q14KTPMO9TE
+         t+D/OjnSZCsg7o00HoojddhUJV/lYPjzmvPXw1/vbXeOC7btXXzCY8hfhDulD9YO4/xF
+         fx/rK5qGd4UQ2uGehQ/kY1ejMov2xYaXvVWEo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vz0Sa4A98L9RGHabHa7Eh3CZ8VcFQMSogBYGGCy1yIM=;
-        b=NF5q4k42hJ3Bl83FB9s670BP90yuWl78ZZe09jnQOS3/j0j/0HFSh+uHlXB7MTeXj0
-         fdiC1vvCIQnjhUWa2m18qd8eIAGwzV/Rg9IBNu32kdLieGXqGM+G2goPwrmYKLuoqSja
-         4G17tCn+ijM4tj/3jzEGpl786/zNxkc+W/X2WoxGRenBH7fFjY8991vp/3bQyeOXIOgr
-         dvYhtos8DRiKHGKy1EmZeWWcWE0vzFy+TrG/eq0SIoKspl7AxK5B652BxxBCvtUC2tw2
-         ozDZptLNt6NU2Q7uPiusnd10mSPEAIOP1wb3hR0VcDxA86MZJrP5ae4IEOonV0d55T0E
-         kANA==
-X-Gm-Message-State: AOAM533wCQ71AJobo/jkRAaZJQldvaix+8q6YJ6bw+c9LMjnqQqh6Idn
-	3sW7156IicjRKKGtJeWOqz6TeuqAi4WkNg==
-X-Google-Smtp-Source: ABdhPJyw8CwxeV7y8HuAcKXQcEm53tpP6THpxtBj11SATnCfP9AHIERE8D2TqtmE5HgPaFuUo6Or4w==
-X-Received: by 2002:adf:e9c4:: with SMTP id l4mr9665824wrn.9.1593276624972;
-        Sat, 27 Jun 2020 09:50:24 -0700 (PDT)
+        bh=4+JJwjk6naSLJalORR5wQETXgDeLMAV1yPa3U9xThgo=;
+        b=Rwvhh0OWkKgeoL1WzYxabTceIHC8d4Ud+vXST55JC6CIDVmmZhNm5LK/tRY4r7uuk4
+         YQYAMfJhfHo80VWREwLRX/Zb6Xy62coFUlPj2hOqHvYhSMqSjGWNGbMwZ/NOe41HZeD8
+         f4MvT0vyxHTlP7PpvZM2qfY00oeTCqNhNSR0clXCEDiywZt/bxNqxfxVT+gMhxp9uGIW
+         zB4sFiThvIEp+oTrFngtsl4a0PWecM0Mu2L1OuTzl2nNjAo4cXtt+8GMm6D9tHXUBbTQ
+         meMJrhoOXhtV1V/nm3c5Y04VwR7RgN1WduF2zcKf99CAr3uD3IQWh3MJxHP3ft2C4Bkr
+         L4XA==
+X-Gm-Message-State: AOAM530L/Gg5bpQVCw58N0K2iiomnZQKCWOsP6kzqcBCVGQ1of/BpDBR
+	KDpYwb/DLTMKf/4HPQkXLKBAEYvG7exNvg==
+X-Google-Smtp-Source: ABdhPJxPykvsEOANpk8fVsSMyOtCe5J+EdHukkwpCLLHZU16NvJVfvweodSIYlPKPmkgUwcxFb2OTw==
+X-Received: by 2002:adf:9307:: with SMTP id 7mr9258739wro.414.1593279614739;
+        Sat, 27 Jun 2020 10:40:14 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e4sm15327367wrt.97.2020.06.27.09.50.23
+        by smtp.gmail.com with ESMTPSA id b18sm12522323wmb.18.2020.06.27.10.40.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2020 09:50:24 -0700 (PDT)
+        Sat, 27 Jun 2020 10:40:14 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest: Clean up separate builddir in success case when non-threaded
-Date: Sat, 27 Jun 2020 17:50:22 +0100
-Message-Id: <20200627165022.711136-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] opkg-utils: Upgrade 0.4.2 -> 0.4.3
+Date: Sat, 27 Jun 2020 18:40:12 +0100
+Message-Id: <20200627174012.715329-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If oe-selftest is run without -j, the separate build directory "build-st"
-isn't cleaned up afterwards. Mirror the behaviour of the -j option to
-handle this the same way, only preserve upon failure.
-
-To do this, the remove function needs to be moved to the selftest
-context module so that it can be accessed without requiring the
-testtools and subunit modules the -j option requires.
-
-A dummy wrapper class is used to wrap the tests and clean up afterwards.
-
-[YOCTO #13953]
+Drop one patch that was submitted and merged upstream.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/utils/concurrencytest.py | 23 +++----------
- meta/lib/oeqa/selftest/context.py           | 36 +++++++++++++++++++--
- 2 files changed, 37 insertions(+), 22 deletions(-)
+ .../opkg-utils/fix-reproducibility.patch      | 32 -------------------
+ ...pkg-utils_0.4.2.bb => opkg-utils_0.4.3.bb} |  7 ++--
+ 2 files changed, 2 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
+ rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.4.2.bb => opkg-utils_0.4.3.bb} (91%)
 
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 01c39830f92..b2eb68fb024 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -183,10 +183,11 @@ class dummybuf(object):
- #
- class ConcurrentTestSuite(unittest.TestSuite):
- 
--    def __init__(self, suite, processes, setupfunc):
-+    def __init__(self, suite, processes, setupfunc, removefunc):
-         super(ConcurrentTestSuite, self).__init__([suite])
-         self.processes = processes
-         self.setupfunc = setupfunc
-+        self.removefunc = removefunc
- 
-     def run(self, result):
-         tests, totaltests = fork_for_tests(self.processes, self)
-@@ -237,22 +238,6 @@ class ConcurrentTestSuite(unittest.TestSuite):
-         finally:
-             queue.put(test)
- 
--def removebuilddir(d):
--    delay = 5
--    while delay and os.path.exists(d + "/bitbake.lock"):
--        time.sleep(1)
--        delay = delay - 1
--    # Deleting these directories takes a lot of time, use autobuilder
--    # clobberdir if its available
--    clobberdir = os.path.expanduser("~/yocto-autobuilder-helper/janitor/clobberdir")
--    if os.path.exists(clobberdir):
--        try:
--            subprocess.check_call([clobberdir, d])
--            return
--        except subprocess.CalledProcessError:
--            pass
--    bb.utils.prunedir(d, ionice=True)
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
+deleted file mode 100644
+index 945979bc8a7..00000000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Fix reproducibility issues in opkg-build
 -
- def fork_for_tests(concurrency_num, suite):
-     result = []
-     if 'BUILDDIR' in os.environ:
-@@ -297,7 +282,7 @@ def fork_for_tests(concurrency_num, suite):
-                 if ourpid != os.getpid():
-                     os._exit(0)
-                 if newbuilddir and unittest_result.wasSuccessful():
--                    removebuilddir(newbuilddir)
-+                    suite.removefunc(newbuilddir)
-             except:
-                 # Don't do anything with process children
-                 if ourpid != os.getpid():
-@@ -313,7 +298,7 @@ def fork_for_tests(concurrency_num, suite):
-                     sys.stderr.write(traceback.format_exc())
-                 finally:
-                     if newbuilddir:
--                        removebuilddir(newbuilddir)
-+                        suite.removefunc(newbuilddir)
-                     stream.flush()
-                     os._exit(1)
-             stream.flush()
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 494e9dbd1ec..23f7d71bdbc 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -22,6 +22,37 @@ from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
+-There is a sorting problem with opkg-build where the ipk generated is depending
+-upon the order of files on disk. The reason is the --sort option to tar only
+-influences the orders of files tar reads, not those passed by the -T option.
+-
+-Add in a sort call to resolve this issue. To ensure consistent sorting we
+-also need to force to a specific locale (C) else the results are still not
+-deterministic.
+-
+-RP 2020/2/5
+-
+-Upstream-Status: Submitted [https://groups.google.com/forum/#!topic/opkg-devel/YttZ73NLrYQ]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: opkg-utils-0.4.2/opkg-build
+-===================================================================
+---- opkg-utils-0.4.2.orig/opkg-build
+-+++ opkg-utils-0.4.2/opkg-build
+-@@ -305,8 +305,10 @@ if [ ! -z "$SOURCE_DATE_EPOCH"  ]; then
+-     mtime_args="--mtime=@$build_date --clamp-mtime"
+- fi
+- 
+--( cd $pkg_dir/$CONTROL && find . -type f > $tmp_dir/control_list )
+--( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  > $tmp_dir/file_list )
+-+export LANG=C
+-+export LC_ALL=C
+-+( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
+-+( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
+- ( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
+- ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
+- rm $tmp_dir/file_list
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb
+similarity index 91%
+rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
+rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb
+index 9315240190f..68d069ebd1d 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb
+@@ -7,13 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://opkg.py;beginline=2;endline=18;md5=ffa11ff3c15eb31c6a7ceaa00cc9f986"
+ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
  
- from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+-SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \ 
+-           file://fix-reproducibility.patch \
+-"
++SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
  
-+class NonConcurrentTestSuite(unittest.TestSuite):
-+    def __init__(self, suite, processes, setupfunc, removefunc):
-+        super().__init__([suite])
-+        self.processes = processes
-+        self.suite = suite
-+        self.setupfunc = setupfunc
-+        self.removefunc = removefunc
-+
-+    def run(self, result):
-+        (builddir, newbuilddir) = self.setupfunc("-st", None, self.suite)
-+        ret = super().run(result)
-+        os.chdir(builddir)
-+        if newbuilddir and ret.wasSuccessful():
-+            self.removefunc(newbuilddir)
-+
-+def removebuilddir(d):
-+    delay = 5
-+    while delay and os.path.exists(d + "/bitbake.lock"):
-+        time.sleep(1)
-+        delay = delay - 1
-+    # Deleting these directories takes a lot of time, use autobuilder
-+    # clobberdir if its available
-+    clobberdir = os.path.expanduser("~/yocto-autobuilder-helper/janitor/clobberdir")
-+    if os.path.exists(clobberdir):
-+        try:
-+            subprocess.check_call([clobberdir, d])
-+            return
-+        except subprocess.CalledProcessError:
-+            pass
-+    bb.utils.prunedir(d, ionice=True)
-+
- class OESelftestTestContext(OETestContext):
-     def __init__(self, td=None, logger=None, machines=None, config_paths=None, newbuilddir=None):
-         super(OESelftestTestContext, self).__init__(td, logger)
-@@ -86,10 +117,9 @@ class OESelftestTestContext(OETestContext):
-         if processes:
-             from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
+-SRC_URI[md5sum] = "cc210650644fcb9bba06ad5ec95a63ec"
+-SRC_URI[sha256sum] = "5929ad87d541789e0b82d626db01a1201ac48df6f49f2262fcfb86cf815e5d6c"
++SRC_URI[sha256sum] = "046517600fb0aed6c4645edefe02281f4fa2f1c02f71596152d93172452c0b01"
  
--            return ConcurrentTestSuite(suites, processes, self.setup_builddir)
-+            return ConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
-         else:
--            self.setup_builddir("-st", None, suites)
--            return suites
-+            return NonConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
+ TARGET_CC_ARCH += "${LDFLAGS}"
  
-     def runTests(self, processes=None, machine=None, skips=[]):
-         if machine:
 -- 
 2.25.1
 
