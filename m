@@ -1,79 +1,164 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.2498.1593229289410496665
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web12.3174.1593233963053166282
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2020 20:41:29 -0700
+ Fri, 26 Jun 2020 21:59:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NnFxpxNP;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id 207so5307447pfu.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 20:41:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SfkXvgMC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: ticotimo@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id h4so11965746ior.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2020 21:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id;
-        bh=/+JcYrtoPwSrUU5eBL4u99f33cYzAzGYYfZ0HihSxhA=;
-        b=NnFxpxNP3R0eBhZrmm4RNgrIXoHr8cNZcIWkZ1/WwFCtkwtmcOGOGM2GD71ZdXGS5q
-         gh5QimANuFdztOpEprTQZHw8+6uHgvzo3sdzciOJIkQEHLLwgse4wn34z2kv1+KvpELG
-         L8FrCjLgUW2dVMAwzxdevWUusxI2+fBiX/1GhKe6oz8t5Rx809/hOGX4SjK0i8nPcRWS
-         PX+3f8oidITf5VXzrbAFTGC75TEz9fgwbOKtrDfO1yd9lA38vkjEc4CM+K0eJYTipLnR
-         NAwGAHGCrTdGmUdnbCJUMsUdL/qMRB9tkqao5DgN3eSZVBxVH6/Yx7aG1DpKJTqLzgfb
-         Ij+Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ha8wmsTOchBxOlY4oJxM/MiUKKG81elQ5Rn6dEBIbMg=;
+        b=SfkXvgMCKudKOnxtynR6ljJE/h8W8ZZ+ih0BVpfrG4wnWuWwjzdzCc/VYfTUjiK3Y2
+         KJkx9hMVdYa2qdpR59mqOxdga6Txt5aLri+syusQkh7d29qQFz+5pMiy7MJAiwfvu4dw
+         iiTKRbVDqUJmH2AorzTspfJ6G2Y4WcnmezJO3u3RIlbSOK+bD3ts87YQO//Sd/fGB9kv
+         DppGJjh+Xo3etb4ApMStvkJ58sooCOUPkckCDiMzN6fmbI8iWsSNh2vJ/vjKILkNBtf+
+         +/MZvwD5n2TT0LF1bKrEFIzjVpVQNrEVL7gR3ouQCV0ja2Dc9+ygRM1l9CnGaje59pDR
+         qKmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=/+JcYrtoPwSrUU5eBL4u99f33cYzAzGYYfZ0HihSxhA=;
-        b=szhxaR2BSp0y4L9tItiQEip7Y3IL/CfNOxdfv/QmMUrKJxKtUsV4E3TyXF+r43fnsV
-         w3O0G2Q3EnuJjszohlWdcxcKrZzlbs/V0/8P0pdtsTOkpMS4iUrYM+MrxEMuVaNAb/+t
-         c186nz0QEOu98x+FxM+GvJ4sWLzP+pUeGIsZKsqkKEqBaDksC/k62nCchXPUgGK+GGfL
-         +WVxAW3gSiHyh23bdmVurU5VTNOLzPKrhrnzvLhefEnGsG9pCsMA/gNguI7iEQlX/lI1
-         T+Wu71Scerf8uiXzdGf+K96e2l+AZ+aY3JNa8n0V1WDRf7kHuX0s+b5cNI4iPpiL/894
-         xSPg==
-X-Gm-Message-State: AOAM5327SkpUR6q+pgEoZZ9RHVJn25Eg1D4kobfrw2U0oRaJlzu81cjC
-	oyV3xseKgmdegRcaXw0h1QusfCCf
-X-Google-Smtp-Source: ABdhPJxelXCWiEzkEoyZLW5bzcbzdKRcswuXgelU3L4VtnpZNLPPa2izOC5odbC4ZF5lWdZTU599zg==
-X-Received: by 2002:a63:ca11:: with SMTP id n17mr1648587pgi.439.1593229288506;
-        Fri, 26 Jun 2020 20:41:28 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:5dd6:9daa:53f4:d130])
-        by smtp.gmail.com with ESMTPSA id g17sm12565772pju.11.2020.06.26.20.41.27
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 20:41:27 -0700 (PDT)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libuv: update to the last version in meta-oe
-Date: Fri, 26 Jun 2020 20:41:26 -0700
-Message-Id: <20200627034126.1162-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ha8wmsTOchBxOlY4oJxM/MiUKKG81elQ5Rn6dEBIbMg=;
+        b=CeVOS7Z/bTRRHOcq3ATU1xtSOI8zl1xMQVoYwY742sv23cXsK9PhX0OXB+RmpSERZ8
+         uQNEIFSdoUAFD2o3xj3g85nfMKbcGhBZhzdj4dNuLzWV2jlvzqhG4g3cEYo0XDmg4RK4
+         52xRftoMP+8IdYCKnmbxv9+OacSDW4oKCJ/r1O50fI41T2OWCzxnBCVI29oiCl59Nw/2
+         6jnEM2iHE7vULksCRO0aKIksfgAHK01DSR7iwNnyZgLG84xW9OUm97fgBJCsfrNsBXsl
+         B4rs26clwMUxXRt7/MBx5yfyqzXUHQOq748cwd5y7rj/8JqiG25jOBOFP9oRiKJwM9jB
+         x5pg==
+X-Gm-Message-State: AOAM533mEcRuuLLCSk9aDrcUOmSlnIf/kLbqZXxM3zX0eiAzs1LQPwNL
+	yUolIzmlnJYv00xD7ZHjW4B9QmH3GYB0d3c+Hw4=
+X-Google-Smtp-Source: ABdhPJzruaBFZaeW68m6Z9KTq/TSwEqQslcIr7CbdBYguPcZvLuf/+grmgA3iGDElIT4a/VPWDLNDUBtSJPWqyDARe4=
+X-Received: by 2002:a05:6602:164f:: with SMTP id y15mr6988468iow.210.1593233962249;
+ Fri, 26 Jun 2020 21:59:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200625101413.2783-1-fredrigu@axis.com> <CAAnfSTuK-ucvmFTK9+oexvPyaXgTg4Tn3nhKSMwjhRxe=NUXrw@mail.gmail.com>
+In-Reply-To: <CAAnfSTuK-ucvmFTK9+oexvPyaXgTg4Tn3nhKSMwjhRxe=NUXrw@mail.gmail.com>
+From: "Tim Orling" <ticotimo@gmail.com>
+Date: Fri, 26 Jun 2020 21:59:11 -0700
+Message-ID: <CANx9H-DtOwG74TJhPeakMpQz-gSQkFtUcpOL5HQD+G_hCxYJJA@mail.gmail.com>
+Subject: Re: [OE-core] Add package managers as a plugin
+To: Ross Burton <ross@burtonini.com>
+Cc: Fredrik Gustafsson <fredrik.gustafsson@axis.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, hugo.cedervall@axis.com, 
+	tools-cfpbuild-internal@axis.com
+Content-Type: multipart/alternative; boundary="0000000000005d33b205a909b0a9"
 
-Looks like I forgot to update the contrib branch.
+--0000000000005d33b205a909b0a9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is a squished set of these changes:
-https://git.openembedded.org/meta-openembedded/commit/?id=e03b48481438c747322f07ac1e1f04add541ffac
-https://git.openembedded.org/meta-openembedded/commit/?id=9b61f412d36b390f8d71ad1fb5875f5f6e32fd8a
-https://git.openembedded.org/meta-openembedded/commit/?id=644ea1ee145902b00e4e66856ebe8d8800dfc1f0
+On Fri, Jun 26, 2020 at 3:53 AM Ross Burton <ross@burtonini.com> wrote:
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../libuv/{libuv_1.34.2.bb => libuv_1.38.0.bb}                  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.34.2.bb => libuv_1.38.0.bb} (90%)
+> On Thu, 25 Jun 2020 at 11:14, Fredrik Gustafsson
+> <fredrik.gustafsson@axis.com> wrote:
+> > Poky today has three different package managers, the well-known format=
+s
+> deb
+> > and rpm is supported as well as ipkg that is good for embedded devices=
+.
+> >
+> > When building and having a good cache hit, a significant amount of tim=
+e
+> is
+> > spent in the phase of generating a rootfs, which is really about the
+> > performance of the package manager. ipkg is way slower than deb or rpm=
+.
+> To
+> > save build time and also get a package manager that is suitanle for us=
+e
+> on
+> > targets where flash memory is a concern, support for apk is suggested.
+> >
+> > However, it might or might not be what's wanted for Poky since it
+> increases
+> > the test matrix. Therefore this patch series refactors the package
+> > management code so that it's possible to add more package managers in
+> other
+> > own layer. I will send another patch serie that will add apk.
+>
+> As to the code review I mostly second what Paul said.
+>
+> However, obviously you actually have strong feelings on this as the
+> series represents a fair amount of work.  What are the compelling
+> reasons to use apk?  Five seconds on core-image-minimal doesn't really
+> sell it to me, I don't think anyone ever claimed that opkg has been
+> performance optimised, dpkg isn't really used that much: maybe we
+> should re-evaluate what package managers are supported if apk has
+> feature parity but is significantly faster or has other advantages.
+>
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb b/meta/recipes-connectivity/libuv/libuv_1.38.0.bb
-similarity index 90%
-rename from meta/recipes-connectivity/libuv/libuv_1.34.2.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.38.0.bb
-index 234cec37bb..afc9b2f2ea 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.38.0.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
- 
--SRCREV = "f868c9ab0c307525a16fff99fd21e32a6ebc3837"
-+SRCREV = "1ab9ea3790378f9f25c4e78e9e2b511c75f9c9ed"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
+FWIW, I was contemplating apk packaging because of heavy usage in Docker
+containers based on Alpine Linux.
 
+I haven=E2=80=99t reviewed the patch series, but the theme of adding apk a=
+s another
+viable package type is welcome.
+
+
+> Ross
+>=20
+>
+
+--0000000000005d33b205a909b0a9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
+n Fri, Jun 26, 2020 at 3:53 AM Ross Burton &lt;<a href=3D"mailto:ross@burto=
+nini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">On Thu, 25 Jun 2020 at 11:14, Fredrik Gustafsson<br>
+&lt;<a href=3D"mailto:fredrik.gustafsson@axis.com" target=3D"_blank">fredr=
+ik.gustafsson@axis.com</a>&gt; wrote:<br>
+&gt; Poky today has three different package managers, the well-known forma=
+ts deb<br>
+&gt; and rpm is supported as well as ipkg that is good for embedded device=
+s.<br>
+&gt;<br>
+&gt; When building and having a good cache hit, a significant amount of ti=
+me is<br>
+&gt; spent in the phase of generating a rootfs, which is really about the<=
+br>
+&gt; performance of the package manager. ipkg is way slower than deb or rp=
+m. To<br>
+&gt; save build time and also get a package manager that is suitanle for u=
+se on<br>
+&gt; targets where flash memory is a concern, support for apk is suggested=
+.<br>
+&gt;<br>
+&gt; However, it might or might not be what&#39;s wanted for Poky since it=
+ increases<br>
+&gt; the test matrix. Therefore this patch series refactors the package<br=
+>
+&gt; management code so that it&#39;s possible to add more package manager=
+s in other<br>
+&gt; own layer. I will send another patch serie that will add apk.<br>
+<br>
+As to the code review I mostly second what Paul said.<br>
+<br>
+However, obviously you actually have strong feelings on this as the<br>
+series represents a fair amount of work.=C2=A0 What are the compelling<br>
+reasons to use apk?=C2=A0 Five seconds on core-image-minimal doesn&#39;t r=
+eally<br>
+sell it to me, I don&#39;t think anyone ever claimed that opkg has been<br=
+>
+performance optimised, dpkg isn&#39;t really used that much: maybe we<br>
+should re-evaluate what package managers are supported if apk has<br>
+feature parity but is significantly faster or has other advantages.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">FWIW, I was con=
+templating apk packaging because of heavy usage in Docker containers based =
+on Alpine Linux.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I haven=
+=
+=E2=80=99t reviewed the patch series, but the theme of adding apk as anoth=
+er viable package type is welcome.</div><div dir=3D"auto"><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><br>
+Ross<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005d33b205a909b0a9--
