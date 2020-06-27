@@ -1,160 +1,182 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.7060.1593257698674307313
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.12463.1593276627132679958
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2020 04:34:59 -0700
+ Sat, 27 Jun 2020 09:50:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PsMaED/c;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id a6so11936849wrm.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2020 04:34:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G7l3FcHm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id a6so12415047wrm.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2020 09:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Cg09yP63RODU0nvu0VtlnRsfh/cfhH6EXq7HzSyM568=;
-        b=PsMaED/c3k5n+e6z8FuGvRzyWNr+HCNBIXu0/R39jp6sV1Bjqj4NsdsiyOW/ud9hTi
-         Y+Ccm1vswod8oDKXD7Mx8jUU4LG/wwf3gB3CGhPf74NY9tZL1LBWOqQxeOO1AYpdvpW7
-         yOs6PNXpFkASW9oXfrw3U14zq4j6AqLNGhExKlyUYAKixrJJuaW15BV9uYYbC+MJLccZ
-         jfOF7YehNFqIiLSKhJyTPxkCPirjt5Z4c9aPFCH0CjbeNWvKnHpu8HcK8SwJOfuqZXfk
-         YSBdMq3Z+BCYTVXbwqUvN2nUYGBc2wPMiQ2S+C400bu6SKPBDDuu+3duP3UnmjppZCuK
-         7Xyw==
+        bh=vz0Sa4A98L9RGHabHa7Eh3CZ8VcFQMSogBYGGCy1yIM=;
+        b=G7l3FcHma9l05lejxNqlUNH943qfZhENZClWtf3mTP8zJH1YJA5JevY6Dn4vcwLQyF
+         PMKaHMCad144sEqQ6pGA3reNXWrS3Jr3MSYFt/wDATzRR+rU8DUFN4M74+BVXz37oXsj
+         QOqvH1Q4enHz78vUOADGmkPrcsZ9rNzLqFGLQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Cg09yP63RODU0nvu0VtlnRsfh/cfhH6EXq7HzSyM568=;
-        b=oTXsBAt4+smkAPRG9pBP0o62CEXnEfsNsZ/91s3Amx9p4dD9wILyl4gZnSAKh6j9Y9
-         BtV7bDlB7PWspkOw9y+sxQp2dl+ezYk/ZE4WjA/hq4DQcdW1hzlP3KYL/om2O5eZiq4t
-         g3/GsVGfihJG9ocykfPknP0BAxyYcJQy4eHNmmwBQt1Swrbo+YQGQDE1qG8hD8EBG9xP
-         Nv+1AiYxCM6zXiJvic6pH9B4CPXOlDwtJdUABI5sbBCGiG5LXtNYssRTEO3k6/RPEsDe
-         kH5ZkY6lo0ydurAPkGarAautrR81EDweApMOp+hfWgJJ7ESb70evXfVFeJsEc+n5hC6D
-         0zRA==
-X-Gm-Message-State: AOAM531HnJRLAdOJKCdb7WSa96g6tyeq03oLjl76hIcG4lArXig61Q8B
-	H6b6E7RvFnhz4BuIrFyEHwK4fAeu
-X-Google-Smtp-Source: ABdhPJwHK/dktB1BuZA5jlIYReW4NPssyXAHbJF64KMrCXZiiS12rffMXLCZ2l6mzCyUmW1Sjvy8qw==
-X-Received: by 2002:adf:f608:: with SMTP id t8mr8362748wrp.308.1593257696768;
-        Sat, 27 Jun 2020 04:34:56 -0700 (PDT)
-Return-Path: <max.oss.09@gmail.com>
-Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch. [31.10.206.124])
-        by smtp.gmail.com with ESMTPSA id n14sm19369678wro.81.2020.06.27.04.34.55
+        bh=vz0Sa4A98L9RGHabHa7Eh3CZ8VcFQMSogBYGGCy1yIM=;
+        b=NF5q4k42hJ3Bl83FB9s670BP90yuWl78ZZe09jnQOS3/j0j/0HFSh+uHlXB7MTeXj0
+         fdiC1vvCIQnjhUWa2m18qd8eIAGwzV/Rg9IBNu32kdLieGXqGM+G2goPwrmYKLuoqSja
+         4G17tCn+ijM4tj/3jzEGpl786/zNxkc+W/X2WoxGRenBH7fFjY8991vp/3bQyeOXIOgr
+         dvYhtos8DRiKHGKy1EmZeWWcWE0vzFy+TrG/eq0SIoKspl7AxK5B652BxxBCvtUC2tw2
+         ozDZptLNt6NU2Q7uPiusnd10mSPEAIOP1wb3hR0VcDxA86MZJrP5ae4IEOonV0d55T0E
+         kANA==
+X-Gm-Message-State: AOAM533wCQ71AJobo/jkRAaZJQldvaix+8q6YJ6bw+c9LMjnqQqh6Idn
+	3sW7156IicjRKKGtJeWOqz6TeuqAi4WkNg==
+X-Google-Smtp-Source: ABdhPJyw8CwxeV7y8HuAcKXQcEm53tpP6THpxtBj11SATnCfP9AHIERE8D2TqtmE5HgPaFuUo6Or4w==
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr9665824wrn.9.1593276624972;
+        Sat, 27 Jun 2020 09:50:24 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id e4sm15327367wrt.97.2020.06.27.09.50.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2020 04:34:56 -0700 (PDT)
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+        Sat, 27 Jun 2020 09:50:24 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [[OE-core][Patch] cogl-1.0: : don't require eglmesaext.h
-Date: Sat, 27 Jun 2020 13:34:17 +0200
-Message-Id: <20200627113417.25595-1-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH] oeqa/selftest: Clean up separate builddir in success case when non-threaded
+Date: Sat, 27 Jun 2020 17:50:22 +0100
+Message-Id: <20200627165022.711136-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Starting with 1.22.8 cogl code unconditionally includes eglmesaext.h.
-Change configure.ac so that eglmesaext.h is only included if it actually
-exists.
+If oe-selftest is run without -j, the separate build directory "build-st"
+isn't cleaned up afterwards. Mirror the behaviour of the -j option to
+handle this the same way, only preserve upon failure.
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+To do this, the remove function needs to be moved to the selftest
+context module so that it can be accessed without requiring the
+testtools and subunit modules the -j option requires.
+
+A dummy wrapper class is used to wrap the tests and clean up afterwards.
+
+[YOCTO #13953]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...figure.ac-don-t-require-eglmesaext.h.patch | 77 +++++++++++++++++++
- meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
+ meta/lib/oeqa/core/utils/concurrencytest.py | 23 +++----------
+ meta/lib/oeqa/selftest/context.py           | 36 +++++++++++++++++++--
+ 2 files changed, 37 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
-new file mode 100644
-index 0000000000..16ab2d7797
---- /dev/null
-+++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
-@@ -0,0 +1,77 @@
-+From ca94946110f4aaeeb0cbc75e11a619b21f295056 Mon Sep 17 00:00:00 2001
-+From: Max Krummenacher <max.krummenacher@toradex.com>
-+Date: Thu, 25 Jun 2020 11:27:40 +0000
-+Subject: [PATCH] configure.ac: don't require eglmesaext.h
-+
-+E.g. the Vivante EGL implementation does not provide eglmesaext.h.
-+
-+The commit moves the check for header file existence outside of the
-+check for existence of a egl packageconfig and makes the existence
-+of eglmesaext.h optional.
-+
-+fixes commit fb1acfec ("Fix building against libglvnd-provided EGL headers")
-+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/cogl/-/merge_requests/28]
-+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-+---
-+ configure.ac | 36 +++++++++++++++++-------------------
-+ 1 file changed, 17 insertions(+), 19 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 12798e9f..f7fa40e2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1212,22 +1212,6 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
-+         PKG_CHECK_EXISTS([egl],
-+           [COGL_PKG_REQUIRES="$COGL_PKG_REQUIRES egl"],
-+           [
-+-            AC_CHECK_HEADERS(
-+-              [EGL/egl.h],
-+-              [],
-+-              [AC_MSG_ERROR([Unable to locate required EGL headers])])
-+-            AC_CHECK_HEADERS(
-+-              [EGL/eglext.h],
-+-              [],
-+-              [AC_MSG_ERROR([Unable to locate required EGL headers])],
-+-              [#include <EGL/egl.h>])
-+-            AC_CHECK_HEADERS(
-+-              [EGL/eglmesaext.h],
-+-              [],
-+-              [AC_MSG_ERROR([Unable to locate required EGL headers])],
-+-              [#include <EGL/egl.h>
-+-#include <EGL/eglext.h>])
-+-
-+             AC_CHECK_LIB(EGL, [eglInitialize],
-+               [COGL_EXTRA_LDFLAGS="$COGL_EXTRA_LDFLAGS -lEGL"],
-+               [AC_MSG_ERROR([Unable to locate required EGL library])])
-+@@ -1236,9 +1220,23 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
-+           ]
-+           )
-+ 
-+-        COGL_EGL_INCLUDES="#include <EGL/egl.h>
-+-#include <EGL/eglext.h>
-+-#include <EGL/eglmesaext.h>"
-++        AC_CHECK_HEADERS(
-++          [EGL/egl.h],
-++          [COGL_EGL_INCLUDES="#include <EGL/egl.h>"],
-++          [AC_MSG_ERROR([Unable to locate required EGL headers])])
-++        AC_CHECK_HEADERS(
-++          [EGL/eglext.h],
-++          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
-++#include <EGL/eglext.h>"],
-++          [AC_MSG_ERROR([Unable to locate required EGL headers])],
-++          [$COGL_EGL_INCLUDES])
-++        AC_CHECK_HEADERS(
-++          [EGL/eglmesaext.h],
-++          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
-++#include <EGL/eglmesaext.h>"],
-++          [],
-++          [$COGL_EGL_INCLUDES])
-++
-+         AC_SUBST([COGL_EGL_INCLUDES])
-+       ])
-+ 
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-index 78f6b0e7a3..b9446fab38 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-+++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.8.bb
-@@ -1,5 +1,6 @@
- require cogl-1.0.inc
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index 01c39830f92..b2eb68fb024 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -183,10 +183,11 @@ class dummybuf(object):
+ #
+ class ConcurrentTestSuite(unittest.TestSuite):
  
-+SRC_URI += "file://0001-configure.ac-don-t-require-eglmesaext.h.patch"
- SRC_URI[archive.sha256sum] = "a805b2b019184710ff53d0496f9f0ce6dcca420c141a0f4f6fcc02131581d759"
+-    def __init__(self, suite, processes, setupfunc):
++    def __init__(self, suite, processes, setupfunc, removefunc):
+         super(ConcurrentTestSuite, self).__init__([suite])
+         self.processes = processes
+         self.setupfunc = setupfunc
++        self.removefunc = removefunc
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
+     def run(self, result):
+         tests, totaltests = fork_for_tests(self.processes, self)
+@@ -237,22 +238,6 @@ class ConcurrentTestSuite(unittest.TestSuite):
+         finally:
+             queue.put(test)
+ 
+-def removebuilddir(d):
+-    delay = 5
+-    while delay and os.path.exists(d + "/bitbake.lock"):
+-        time.sleep(1)
+-        delay = delay - 1
+-    # Deleting these directories takes a lot of time, use autobuilder
+-    # clobberdir if its available
+-    clobberdir = os.path.expanduser("~/yocto-autobuilder-helper/janitor/clobberdir")
+-    if os.path.exists(clobberdir):
+-        try:
+-            subprocess.check_call([clobberdir, d])
+-            return
+-        except subprocess.CalledProcessError:
+-            pass
+-    bb.utils.prunedir(d, ionice=True)
+-
+ def fork_for_tests(concurrency_num, suite):
+     result = []
+     if 'BUILDDIR' in os.environ:
+@@ -297,7 +282,7 @@ def fork_for_tests(concurrency_num, suite):
+                 if ourpid != os.getpid():
+                     os._exit(0)
+                 if newbuilddir and unittest_result.wasSuccessful():
+-                    removebuilddir(newbuilddir)
++                    suite.removefunc(newbuilddir)
+             except:
+                 # Don't do anything with process children
+                 if ourpid != os.getpid():
+@@ -313,7 +298,7 @@ def fork_for_tests(concurrency_num, suite):
+                     sys.stderr.write(traceback.format_exc())
+                 finally:
+                     if newbuilddir:
+-                        removebuilddir(newbuilddir)
++                        suite.removefunc(newbuilddir)
+                     stream.flush()
+                     os._exit(1)
+             stream.flush()
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 494e9dbd1ec..23f7d71bdbc 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -22,6 +22,37 @@ from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
+ 
+ from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+ 
++class NonConcurrentTestSuite(unittest.TestSuite):
++    def __init__(self, suite, processes, setupfunc, removefunc):
++        super().__init__([suite])
++        self.processes = processes
++        self.suite = suite
++        self.setupfunc = setupfunc
++        self.removefunc = removefunc
++
++    def run(self, result):
++        (builddir, newbuilddir) = self.setupfunc("-st", None, self.suite)
++        ret = super().run(result)
++        os.chdir(builddir)
++        if newbuilddir and ret.wasSuccessful():
++            self.removefunc(newbuilddir)
++
++def removebuilddir(d):
++    delay = 5
++    while delay and os.path.exists(d + "/bitbake.lock"):
++        time.sleep(1)
++        delay = delay - 1
++    # Deleting these directories takes a lot of time, use autobuilder
++    # clobberdir if its available
++    clobberdir = os.path.expanduser("~/yocto-autobuilder-helper/janitor/clobberdir")
++    if os.path.exists(clobberdir):
++        try:
++            subprocess.check_call([clobberdir, d])
++            return
++        except subprocess.CalledProcessError:
++            pass
++    bb.utils.prunedir(d, ionice=True)
++
+ class OESelftestTestContext(OETestContext):
+     def __init__(self, td=None, logger=None, machines=None, config_paths=None, newbuilddir=None):
+         super(OESelftestTestContext, self).__init__(td, logger)
+@@ -86,10 +117,9 @@ class OESelftestTestContext(OETestContext):
+         if processes:
+             from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
+ 
+-            return ConcurrentTestSuite(suites, processes, self.setup_builddir)
++            return ConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
+         else:
+-            self.setup_builddir("-st", None, suites)
+-            return suites
++            return NonConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
+ 
+     def runTests(self, processes=None, machine=None, skips=[]):
+         if machine:
 -- 
-2.20.1
+2.25.1
 
