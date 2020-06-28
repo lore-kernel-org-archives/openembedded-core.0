@@ -1,154 +1,202 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.25738.1593339274424650106
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.58])
+ by mx.groups.io with SMTP id smtpd.web10.27235.1593346905460810245
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 03:14:34 -0700
+ Sun, 28 Jun 2020 05:21:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: wenlin.kang@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05SAE12f015241
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 03:14:22 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Sun, 28 Jun 2020
- 03:14:06 -0700
-From: "wenlin.kang@windriver.com" <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][zeus][PATCH v2] nfs-utils: fix CVE-2019-3689
-Date: Sun, 28 Jun 2020 03:14:06 -0700
-Message-ID: <20200628101406.61094-1-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=csykZHFs;
+ spf=pass (domain: windriver.com, ip: 40.107.77.58, mailfrom: yanfei.xu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WmPFZVakbvNuzTzN53ObRhIGb54tu9aBAZ5CLhSaIYnxoc05YXRvRg2XkcJhGmKdYX6CN4JM/+cxo+jOidT/noCBSsj3IQw6/DJsEa1mmTtZpCn1Gmy778g4JmCvF0SgSy8lMj5UzXiStpC5Dat97lGxWJoFE95a94v4NZXi6xTObtEelgiI79XwyQQ0+KIjDLSwharTle0hzRduN0kILlZgFnFfWVCmarKfyva9gADo3eZhZUB2cac8oiXWXrwgmb+YlJEzm+Go3d6NJs5n73cXIvex7OegLwrk/OELj3999uzDA6AqHIhGj4mMDYaaMZoT3PU2q3RWbzqJzSWDcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1HiyxflAEz+Xv8xfMH2RjxgwtE8FBAA2f0Ct5r4iaP4=;
+ b=F9CCZP46sgB+EQIX0loc44OraJ5GuvWcTJCV36u/GgoGtOOtnNpmslwRBr1zE26gYUi+XlxvMU7kReZGqIpS0MkVZl7dCoWF15iBrIPhHuZJQORYzUHAguzcWF7+WtlsDUdBDj97TrlZdXQnGaT4AIyyf2RuaJx+K2xmhRmQGfBH8s/3O+zaLqVfdgGdiVEGM4T0oq3ireMbvknKvIZrXjxCbb3UVd7YT9MYeZJEpCDLXjt1j8i9f1OcGMVy8RsGnGmN3EbF8auaPCi63t1Mzscmcd9UvvYNlDX344NXliHLXu6cSxgqkf6BYxTWhg8w+VvRxp6hsrlTR1wDtZfUOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1HiyxflAEz+Xv8xfMH2RjxgwtE8FBAA2f0Ct5r4iaP4=;
+ b=csykZHFsAWnR3zNqIwjN9eQUfrHt7xVAD2patmGTNgWG884xZ/LWZBI4dUJoWqOIY5q01b5CJoZkNoVWfyQjRXnQCR/PDESMvAAHqGsxTULoq5/QaQAEM6YbmpqPUwwZLs1VJiARNEwH2gyJh4tTpNzwAWlcMDWnKGw9ZP+7M9g=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by BY5PR11MB3973.namprd11.prod.outlook.com (2603:10b6:a03:185::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Sun, 28 Jun
+ 2020 12:21:43 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702%4]) with mapi id 15.20.3131.026; Sun, 28 Jun 2020
+ 12:21:43 +0000
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20200619114727.40142-1-yanfei.xu@windriver.com>
+ <20200619114727.40142-2-yanfei.xu@windriver.com>
+ <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
+ <144b99d5a5b327d660925ff5ee18139d7dc088c3.camel@linuxfoundation.org>
+ <7d7b57ca-5419-971d-6701-4cd2e8958960@windriver.com>
+ <b456775facefdc593552db94bf2de51f5725aa97.camel@linuxfoundation.org>
+ <77c7e877-527a-3e39-ad58-2b34c4cffa05@windriver.com>
+ <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
+Message-ID: <777044a4-8a9b-ea9b-fc05-636caa004c3d@windriver.com>
+Date: Sun, 28 Jun 2020 20:21:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
+X-ClientProxiedBy: HK2P15301CA0020.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::30) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
+Return-Path: yanfei.xu@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.160] (60.247.85.82) by HK2P15301CA0020.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.1 via Frontend Transport; Sun, 28 Jun 2020 12:21:42 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 20fb4fa2-7645-47f9-5c4f-08d81b5dd14a
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3973:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB39730AA893D9EB57BA6CDE1EE4910@BY5PR11MB3973.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-Forefront-PRVS: 0448A97BF2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	iGQB6G8UJJBeGhxl/VsNmvS4yVKFtz1siHFTeHJdxR3pBIlYQB/TYxaInxtf++iBy4U2fJEBhVeLwlDF3ne8rCG0Qp+V+hNqKP1vEXPmuUgU/yrA3QUJbVc+FQzaniJ8ZCb0ZImuocGxVEIYaA1wuG4Sdd1hDmNyBUvm6zj1uVQq7LFuQkh2O8ru2lpqHfgRgPBxZ/X/w3W6jz37yBSb6YjQfjDoZvsUST/lTn7pUXJRUw1vQlY89l4ap5ffyBqJEmS93iH1J7aRlpFAnB7UT+rpPFekblpCCuDO4HIhggNLsZuVa3is1DnMrjoPbetxT1M3jvxftn/YI/77i2zO12093SV0Eyk/rauzC+rIoN33CXsLik8HtwenhP77GrbOTH84LOunZk5j6rvBPKOOQTlWlQ50cPF0SYG/hV35nEALEh9zbV7QadWDJ0EROtNnpUE9l1puAn2767BMHGzYr0ijGMJOh+yX5iiyHSYWJIk8Umc7LG6uJk5igDbWgu7t8/PlYv7FM+u4fKRWpy/S0w==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(376002)(39840400004)(396003)(366004)(66556008)(6666004)(2616005)(26005)(956004)(53546011)(4326008)(52116002)(83380400001)(16526019)(186003)(5660300002)(6706004)(86362001)(316002)(36756003)(2906002)(16576012)(66476007)(66946007)(31686004)(110136005)(478600001)(8936002)(6486002)(31696002)(966005)(8676002)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	jwnEiozrzf8SvNGrac33tzIGYMQgaXWxxW1ROawT0gYGX0zg+yZU8gIzXPUh7vqoN7Pjw3+nIw/1ojqZ3xofY0ITHfVe38UpdhLUj6UntvdCjWkDKCwxRz9JFOZnYzs5TzfUcFqSdzyVuVNm/GzM1pw8PNsJNztCWSB8daOnft8R4FpeynjYIQWya5mJE7jhWkGa1Q926HrYN5YPzdQ2ae89X3K4BqMuxZIIA1s+JRIF0O5BAYcAxqN3nApQpXI210CDYh0CaB7hsJKXIuuSWalYmOV3QBFwFgvRePJnuxuEi+LQRcF4aXL53hytWOtM0AGMDQmD1ex7DS6O56p/4JlvFyHHCEAorPlVfU8Divut65jIOQj5G9lW/qwBDLWPDLBBQzuf2TknsJ9Qi65tMfd9OG27r3qmFGuolfJKRNNiD0ePa5YaCTdTLnlBVwzW/Anhduv8k0QC1Rq1XHBmjixbEtNuGMiwqW7D8kcSJr4=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20fb4fa2-7645-47f9-5c4f-08d81b5dd14a
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2020 12:21:43.2243
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0D+zbOwt9WIrrej2Nltd9xZSopOq3zHn5nW7sajWm7WTrEazczFk7AdYM+H90xBzHWDa4bOgGgZ9DMtfqc0z+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3973
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Fix CVE-2019-3689
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- ...atd-take-user-id-from-var-lib-nfs-sm.patch | 102 ++++++++++++++++++
- .../nfs-utils/nfs-utils_2.4.1.bb              |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
-new file mode 100644
-index 0000000000..87f4f098e0
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
-@@ -0,0 +1,102 @@
-+From 12ee0ff1120a6e42b67cc90ad7d5006555e866c3 Mon Sep 17 00:00:00 2001
-+From: NeilBrown <neilb@suse.de>
-+Date: Tue, 23 Jun 2020 09:22:22 +0000
-+Subject: [PATCH] statd: take user-id from /var/lib/nfs/sm
-+
-+Having /var/lib/nfs writeable by statd is not ideal
-+as there are files in there that statd doesn't need
-+to access.
-+After dropping privs, statd and sm-notify only need to
-+access files in the directories sm and sm.bak.
-+So take the uid for these deamons from 'sm'.
-+
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commitdiff;h=fee2cc29e888f2ced6a76990923aef19d326dc0e]
-+CVE: CVE-2019-3689
-+
-+Signed-off-by: NeilBrown <neilb@suse.de>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ support/nsm/file.c        | 16 +++++-----------
-+ utils/statd/sm-notify.man | 10 +++++++++-
-+ utils/statd/statd.man     | 10 +++++++++-
-+ 3 files changed, 23 insertions(+), 13 deletions(-)
-+
-+diff --git a/support/nsm/file.c b/support/nsm/file.c
-+index 0b66f12..f5b4480 100644
-+--- a/support/nsm/file.c
-++++ b/support/nsm/file.c
-+@@ -388,23 +388,17 @@ nsm_drop_privileges(const int pidfd)
-+ 
-+ 	(void)umask(S_IRWXO);
-+ 
-+-	/*
-+-	 * XXX: If we can't stat dirname, or if dirname is owned by
-+-	 *      root, we should use "statduser" instead, which is set up
-+-	 *      by configure.ac.  Nothing in nfs-utils seems to use
-+-	 *      "statduser," though.
-+-	 */
-+-	if (lstat(nsm_base_dirname, &st) == -1) {
-+-		xlog(L_ERROR, "Failed to stat %s: %m", nsm_base_dirname);
-+-		return false;
-+-	}
-+-
-+ 	if (chdir(nsm_base_dirname) == -1) {
-+ 		xlog(L_ERROR, "Failed to change working directory to %s: %m",
-+ 				nsm_base_dirname);
-+ 		return false;
-+ 	}
-+ 
-++	if (lstat(NSM_MONITOR_DIR, &st) == -1) {
-++		xlog(L_ERROR, "Failed to stat %s/%s: %m", nsm_base_dirname, NSM_MONITOR_DIR);
-++		return false;
-++	}
-++
-+ 	if (!prune_bounding_set())
-+ 		return false;
-+ 
-+diff --git a/utils/statd/sm-notify.man b/utils/statd/sm-notify.man
-+index cfe1e4b..addf5d3 100644
-+--- a/utils/statd/sm-notify.man
-++++ b/utils/statd/sm-notify.man
-+@@ -190,7 +190,15 @@ by default.
-+ After starting,
-+ .B sm-notify
-+ attempts to set its effective UID and GID to the owner
-+-and group of this directory.
-++and group of the subdirectory
-++.B sm
-++of this directory.  After changing the effective ids,
-++.B sm-notify
-++only needs to access files in
-++.B sm
-++and
-++.B sm.bak
-++within the state-directory-path.
-+ .TP
-+ .BI -v " ipaddr " | " hostname
-+ Specifies the network address from which to send reboot notifications,
-+diff --git a/utils/statd/statd.man b/utils/statd/statd.man
-+index 71d5846..6222701 100644
-+--- a/utils/statd/statd.man
-++++ b/utils/statd/statd.man
-+@@ -259,7 +259,15 @@ by default.
-+ After starting,
-+ .B rpc.statd
-+ attempts to set its effective UID and GID to the owner
-+-and group of this directory.
-++and group of the subdirectory
-++.B sm
-++of this directory.  After changing the effective ids,
-++.B rpc.statd
-++only needs to access files in
-++.B sm
-++and
-++.B sm.bak
-++within the state-directory-path.
-+ .TP
-+ .BR -v ", " -V ", " --version
-+ Causes
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-index 3ae8f965c8..458e534864 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-@@ -34,6 +34,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-            file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
-            file://0001-Disable-statx-if-using-glibc-emulation.patch \
-+           file://0001-statd-take-user-id-from-var-lib-nfs-sm.patch \
- "
- SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
--- 
-2.17.1
+On 6/25/20 12:18 AM, Richard Purdie wrote:
+> On Wed, 2020-06-24 at 23:57 +0800, Xu, Yanfei wrote:
+>>
+>> On 6/24/20 9:08 PM, Richard Purdie wrote:
+>>> On Wed, 2020-06-24 at 09:47 +0800, Xu, Yanfei wrote:
+>>>> On 6/24/20 5:51 AM, Richard Purdie wrote:
+>>>>> On Tue, 2020-06-23 at 10:31 -0400, Bruce Ashfield wrote:
+>>>>>> On Fri, Jun 19, 2020 at 7:47 AM <yanfei.xu@windriver.com>
+>>>>>> wrote:
+>>>>>>> From: Yanfei Xu <yanfei.xu@windriver.com>
+>>>>>>>
+>>>>>>> Some filesystems don't support symlink, then you will get
+>>>>>>> failure
+>>>>>>> when
+>>>>>>> you install or update the kernel rpm package. Now we use a
+>>>>>>> copy
+>>>>>>> of
+>>>>>>> image for these filesystems instead of symlink.
+>>>>>>>
+>>>>>>> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>>>>>> Suggested-by: Richard Purdie <
+>>>>>>> richard.purdie@linuxfoundation.org>
+>>>>>>> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+>>>>>>> ---
+>>>>>>>     meta/classes/kernel.bbclass | 19 ++++++++++++++++---
+>>>>>>>     1 file changed, 16 insertions(+), 3 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/meta/classes/kernel.bbclass
+>>>>>>> b/meta/classes/kernel.bbclass
+>>>>>>> index 20a0135fc9..1269b54343 100644
+>>>>>>> --- a/meta/classes/kernel.bbclass
+>>>>>>> +++ b/meta/classes/kernel.bbclass
+>>>>>>> @@ -94,6 +94,22 @@ python __anonymous () {
+>>>>>>>             d.appendVar('RDEPENDS_%s-image' % kname, ' %s-
+>>>>>>> image-
+>>>>>>> %s' %
+>>>>>>> (kname, typelower))
+>>>>>>>             d.setVar('PKG_%s-image-%s' % (kname,typelower),
+>>>>>>> '%s-
+>>>>>>> image-
+>>>>>>> %s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+>>>>>>>             d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname,
+>>>>>>> typelower),
+>>>>>>> '1')
+>>>>>>> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' %
+>>>>>>> (kname,typelower), """
+>>>>>>
+>>>>>> You were previously concerned about boot issues if the
+>>>>>> unversioned
+>>>>>> image link/copy was deferred until boot. I don't see a
+>>>>>> summary of
+>>>>>> why
+>>>>>> that's no longer a concern in the v3 of the patch. Can you
+>>>>>> confirm
+>>>>>> that it isn't an issue ? Is it simply because the booted
+>>>>>> image
+>>>>>> isn't
+>>>>>> installed via this package, and hence we are fine ?
+>>>>>
+>>>>> I'm suspecting this patch is why we're seeing selftest
+>>>>> failures:
+>>>>>
+>>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/105=
+5
+>>>>>
+>>>> Do you mean this patch has been applied? and introduce new
+>>>> issues?
+>>>
+>>> Yes, I reverted it and retested and confirmed this patch causes the
+>>> selftest failure in the link to the build above.
+>>>
+>> OK, I am trying to analyse the log. But I haven't figured out what
+>> cause
+>> it fialed=EF=BC=8C and how to reproduce it on my mechine. I'd apprecate =
+any
+>> information.
+>=20
+> The command to reproduce should be:
+>=20
+> oe-selftest -r efibootpartition.GenericEFITest.test_boot_efi
+>=20
+I've addressed this failure why due to boot partation in wic doesn't
+contain no-versioned image. This result is different from the previous
+I verified, because of the different configuraions in wks.
 
+"--source" field in wks decides where the files in boot partation come
+from. So no-versioned image may come from ${IMAGE_ROOTFS}/boot which is
+installed by rpm package. Blow is the wks used by 'oe-selftest -r=20
+efibootpartition.GenericEFITest.test_boot_efi'
+
+bootloader --ptable gpt
+part /boot --source rootfs --rootfs-dir=3D${IMAGE_ROOTFS}/boot=20
+--fstype=3Dvfat --label boot --active --align 1024 --use-uuid=20
+--overhead-factor 1.0
+part / --source rootfs --fstype=3Dext4 --label root --align 1024=20
+--exclude-path boot/
+
+Hence we still should keep the no-versioned iamge in kernel-image*.rpm
+which is like the previous v2 patch.
+
+Cheers=EF=BC=8C
+
+Yanfei
+
+> Cheers,
+>=20
+> Richard
+>=20
