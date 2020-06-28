@@ -1,109 +1,143 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web10.3457.1593372642437955002
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.5119.1593377524875886234
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 12:30:42 -0700
+ Sun, 28 Jun 2020 13:52:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JxR/bc/t;
- spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id z9so3540295uai.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 12:30:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ejy22+32;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id p20so14552302ejd.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 13:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8KNffrsLzlRPBGJpQ/ikxrWvySnInmZ7QetJ+GtBDZs=;
-        b=JxR/bc/tUNFBvf1S77D/tCh6d4HFBU82za3UUxLRfsGGqsr7KImWx3ITKnarJoBbkf
-         LyBpO/BBThToR4r59IsYI/0guo1VRnDL6Vn6tvExiLoaF1AHkjgvalJs97giAB0eGgXb
-         wRJ8LKBgQzU2KMQRS9ruk6n4icMQ7RK01Jl5Vpq0cc+0hV1hcl0/yv3Ba1MV7t5MLVlw
-         Hjm3BTPNsHsWa51Wf5NEIOa6ibayKuw+YXBy4eS4kFS/mQlal9/JNQG14K5AfW7/9QAk
-         q1jd2AJZj/zYHd7JFM7qakBufxCocXpcLuJlXpBDnSfjz/axRlTXPT0mHdVHrRLlTWAc
-         7bmA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QRSJ/k9IaZWDUq1A6qfKFG10ZdrmM4CqQz/Mbf0kYyo=;
+        b=ejy22+32dyp68WPAIYKUVboZSXsXlESp7HP8kTGYRJRXSiix1KlV9uaK3OayMBMLL+
+         D1IbDsiPrtOyi6rSteDARKOyRozdBZ2OLr7iBqMFx2FNcyvbhD4ZBLDP+qqBoXhritv3
+         iAi5J3xf98YEq/H7ThwgGo/L4LAolPbm0W2e93UsVj75uq9PF082OAL65IxCJUVmpSJ2
+         sNaS0KEhviVox11oigyeBapgAW0g1DBBycwOvV13ieD8OnBvyFauG6AGo5k+l6Won02f
+         uYj26kPfUVnY0PokJYw/VHz+3nXIzt77rtX8S6JzNshAg0JiisXtmliWisd4p0v4H6v4
+         FNWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8KNffrsLzlRPBGJpQ/ikxrWvySnInmZ7QetJ+GtBDZs=;
-        b=eZzigxa6gIzxEGYQ8a7Berm3ctlhrhCp1j5oI4+TndXcpbYsb5t6GWpBHYB5aPjezT
-         aIzMl2agkSiuYjsJ366D8l2zlLv4zSLxhhgdL0HL3w/i+7hwR7jFy8ERkpFNLPNkw453
-         Zwp/4s/EHuLW8mcPQpotcJgkFVWSL0Wd+tUmaCcmHbpUIP5A8J5CLyfLFLxKC6qnQ1yb
-         MB9eGUFE6Ly2WCbQVaEtS22KGWYNB/crXJGnXzBgXobfYVb0WPhGFzpS7mxSKSf4z3DX
-         ixbP4OKvja+aL4J6XVtJJYVl+5r3moUt7DvMpXUyyFzdbxmCwJ64n+8nix64g/PoBajO
-         ZDjg==
-X-Gm-Message-State: AOAM530HjBmyheuNxbtOPj9y0HUuSM8dL+Muguj56Yd1RkcABFyjqGlU
-	c3zSiNvpgvwravKpafVVX7Kb4GKrGMwyjXRmjWw=
-X-Google-Smtp-Source: ABdhPJy2i5OAaJLB/TOXy1Vn33TzwTaRvBfm1c144n+5DspS9HqgIQ0ut/5wQMHJ6H7HLipibSaJEqxl4tLArgobOy4=
-X-Received: by 2002:ab0:15ca:: with SMTP id j10mr8352796uae.71.1593372641583;
- Sun, 28 Jun 2020 12:30:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QRSJ/k9IaZWDUq1A6qfKFG10ZdrmM4CqQz/Mbf0kYyo=;
+        b=CSk248M8k1gbRGhBR/ALrB20E8dHv5FRD38pi8NPSRAkGwjFEU3bih8zJpcp7dadOH
+         CrjKNYyKmcvjbsCt9nG2ZiDMEqtgtYDC8xhPFLq2UgO4c6Hw1+OnlzwAuciYLDhSEkDN
+         peE8TczIKrd0+V+DW7OmOkFnq5LLvFG37cEhWE0xd4esvy0ja1T4kYlZZJvIorVMwuOy
+         yt01WjOdKcQztB+ByCb/1nKOZ5p0gI3B4EcVQMwQEW7cLqJ6Esb0hXZ2gsc+FNnLcH/0
+         aONAsU0h0Pv+ULalYI/5fJ4P6/IxPiJem09dRB45c+byBuvzXe7auLwgdJXK5mxP7Bxg
+         ux+w==
+X-Gm-Message-State: AOAM532z/zxQVPWwY0bKYAtZG4FIB2qyvuNbSESY1PDg+NjHxQiCUopJ
+	cDJuYRUorLOyP/q1RxpiXudo9VFX
+X-Google-Smtp-Source: ABdhPJzWCHP+MIeNmNML/DcUTGL97rDCPQsbb7gaVK5y8TcXgC8PJ4YFB/qigD2VHKzsIGLN8iuugA==
+X-Received: by 2002:a17:906:40d7:: with SMTP id a23mr10395513ejk.421.1593377523145;
+        Sun, 28 Jun 2020 13:52:03 -0700 (PDT)
+Return-Path: <max.oss.09@gmail.com>
+Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch. [31.10.206.124])
+        by smtp.gmail.com with ESMTPSA id q3sm9024062ejb.118.2020.06.28.13.52.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2020 13:52:02 -0700 (PDT)
+From: "Max Krummenacher" <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	Andrey Zhizhikin <andrey.z@gmail.com>
+Subject: [[OE-core][Patch] cogl-1.0: cope with missing x11 headers
+Date: Sun, 28 Jun 2020 22:51:22 +0200
+Message-Id: <20200628205122.9970-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <e5Dw.1593365236614554114.mV8j@lists.openembedded.org>
-In-Reply-To: <e5Dw.1593365236614554114.mV8j@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 28 Jun 2020 21:30:30 +0200
-Message-ID: <CANNYZj8ondQew3MqtyLr1k-EyBLG52KfT_wu3mRabZRpjecQEg@mail.gmail.com>
-Subject: Re: [OE-core] git do_unpack
-To: John Klug <john.klug@multitech.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004be4e005a929fa6d"
+Content-Transfer-Encoding: 8bit
 
---0000000000004be4e005a929fa6d
-Content-Type: text/plain; charset="UTF-8"
+Fix commit 3e96efc4dd87 ("cogl-1.0: : don't require eglmesaext.h") if
+x11 headers are missing.
 
-It would help if you can:
+In that case AC_CHECK_HEADERS will report the egl headers missing, as
+by default on unix it builds for X11 as the platform but the compiler
+will fail to find the X11 headers.
 
-a) provide log.do_unpack that shows that network access is indeed happening;
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+Tested-by: Andrey Zhizhikin <andrey.z@gmail.com>
+---
+ ...figure.ac-don-t-require-eglmesaext.h.patch | 31 ++++++++++++++-----
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
-b) demonstrate the behavior with oe-core master, as morty is soon eligible
-for retro computing museum, and hardly anyone wants to look into that :)
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
+index 16ab2d7797..328984a63f 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
++++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
+@@ -1,4 +1,4 @@
+-From ca94946110f4aaeeb0cbc75e11a619b21f295056 Mon Sep 17 00:00:00 2001
++From bb9765a926588ebfe1eb324fbbe8fc22d419eebe Mon Sep 17 00:00:00 2001
+ From: Max Krummenacher <max.krummenacher@toradex.com>
+ Date: Thu, 25 Jun 2020 11:27:40 +0000
+ Subject: [PATCH] configure.ac: don't require eglmesaext.h
+@@ -15,11 +15,11 @@ Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+ Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/cogl/-/merge_requests/28]
+ Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+ ---
+- configure.ac | 36 +++++++++++++++++-------------------
+- 1 file changed, 17 insertions(+), 19 deletions(-)
++ configure.ac | 51 ++++++++++++++++++++++++++++++++-------------------
++ 1 file changed, 32 insertions(+), 19 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 12798e9f..f7fa40e2 100644
++index b7ba95d..0d1d8de 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -1212,22 +1212,6 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
+@@ -45,29 +45,44 @@ index 12798e9f..f7fa40e2 100644
+              AC_CHECK_LIB(EGL, [eglInitialize],
+                [COGL_EXTRA_LDFLAGS="$COGL_EXTRA_LDFLAGS -lEGL"],
+                [AC_MSG_ERROR([Unable to locate required EGL library])])
+-@@ -1236,9 +1220,23 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
++@@ -1236,9 +1220,38 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
+            ]
+            )
+  
+ -        COGL_EGL_INCLUDES="#include <EGL/egl.h>
+ -#include <EGL/eglext.h>
+ -#include <EGL/eglmesaext.h>"
+++dnl Test for the existence of egl headers.
+++dnl egl*.h includes eglplatform.h which on __unix__ defaults to a X11 platform.
+++dnl In that case AC_CHECK_HEADERS failes if X11 headers are not available.
+++dnl Set the usual include guard define and, if the EGL implementation doesn't
+++dnl use that guard fall back to USE_OZONE and EGL_NO_X11 platforms which don't
+++dnl require additional headers.
+ +        AC_CHECK_HEADERS(
+ +          [EGL/egl.h],
+ +          [COGL_EGL_INCLUDES="#include <EGL/egl.h>"],
+-+          [AC_MSG_ERROR([Unable to locate required EGL headers])])
+++          [AC_MSG_ERROR([Unable to locate required EGL headers])],
+++          [#define __egl_h_
+++ #define USE_OZONE
+++ #define EGL_NO_X11])
+ +        AC_CHECK_HEADERS(
+ +          [EGL/eglext.h],
+ +          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
+ +#include <EGL/eglext.h>"],
+ +          [AC_MSG_ERROR([Unable to locate required EGL headers])],
+-+          [$COGL_EGL_INCLUDES])
+++          [#define __eglext_h_
+++ #define USE_OZONE
+++ #define EGL_NO_X11
+++$COGL_EGL_INCLUDES])
+ +        AC_CHECK_HEADERS(
+ +          [EGL/eglmesaext.h],
+ +          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
+ +#include <EGL/eglmesaext.h>"],
+ +          [],
+-+          [$COGL_EGL_INCLUDES])
+++          [#define __eglmesaext_h_
+++#define USE_OZONE
+++#define EGL_NO_X11
+++$COGL_EGL_INCLUDES])
+ +
+          AC_SUBST([COGL_EGL_INCLUDES])
+        ])
+-- 
+2.20.1
 
-Alex
-
-On Sun, 28 Jun 2020 at 19:27, John Klug <john.klug@multitech.com> wrote:
-
-> Recently it has come to my attention that in morty, and maybe later,
-> do_unpack for git does not use the downloads directory, and attempts to
-> contact the git server.
->
-> This is unfortunate, as we often do bitbake -c fetchall and give tarballs
-> of our workspace to customers, thinking it would save something, but it
-> appears the savings are limited, and now I have a customer complaint about
-> this, since I have one recipe that uses a private repository.
->
-> What is the logic of not using the downloads directory for the source of
-> the unpack?
->
-> I recently fixed a recipe by writing an unpack that does not use
-> networking and does a clone of the downloads directory to get around this.
-> Why is this not done by openembedded-core?
->
-> Thanks.
-> 
->
-
---0000000000004be4e005a929fa6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>It would help if you can:</div><div><br></div><div>a)=
- provide log.do_unpack that shows that network access is indeed happening;<=
-/div><div><br></div><div>b) demonstrate the behavior with oe-core master, a=
-s morty is soon eligible for retro computing museum, and hardly anyone want=
-s to look into that :)</div><div><br></div><div>Alex<br></div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 28 Ju=
-n 2020 at 19:27, John Klug &lt;<a href=3D"mailto:john.klug@multitech.com">j=
-ohn.klug@multitech.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Recently it has come to my attention that in morty, a=
-nd maybe later, do_unpack for git does not use the downloads directory, and=
- attempts to contact the git server.<br><br>This is unfortunate, as we ofte=
-n do bitbake -c fetchall and give tarballs of our workspace to customers, t=
-hinking it would save something, but it appears the savings are limited, an=
-d now I have a customer complaint about this, since I have one recipe that =
-uses a private repository.<br><br>What is the logic of not using the downlo=
-ads directory for the source of the unpack?<br><br>I recently fixed a recip=
-e by writing an unpack that does not use networking and does a clone of the=
- downloads directory to get around this.=C2=A0 Why is this not done by open=
-embedded-core?<br><br>Thanks.<br>
-<br>
-</blockquote></div>
-
---0000000000004be4e005a929fa6d--
