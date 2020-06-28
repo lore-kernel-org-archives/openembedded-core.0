@@ -1,202 +1,177 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.58])
- by mx.groups.io with SMTP id smtpd.web10.27235.1593346905460810245
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web12.28288.1593351268081491670
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 05:21:45 -0700
+ Sun, 28 Jun 2020 06:34:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=csykZHFs;
- spf=pass (domain: windriver.com, ip: 40.107.77.58, mailfrom: yanfei.xu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WmPFZVakbvNuzTzN53ObRhIGb54tu9aBAZ5CLhSaIYnxoc05YXRvRg2XkcJhGmKdYX6CN4JM/+cxo+jOidT/noCBSsj3IQw6/DJsEa1mmTtZpCn1Gmy778g4JmCvF0SgSy8lMj5UzXiStpC5Dat97lGxWJoFE95a94v4NZXi6xTObtEelgiI79XwyQQ0+KIjDLSwharTle0hzRduN0kILlZgFnFfWVCmarKfyva9gADo3eZhZUB2cac8oiXWXrwgmb+YlJEzm+Go3d6NJs5n73cXIvex7OegLwrk/OELj3999uzDA6AqHIhGj4mMDYaaMZoT3PU2q3RWbzqJzSWDcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HiyxflAEz+Xv8xfMH2RjxgwtE8FBAA2f0Ct5r4iaP4=;
- b=F9CCZP46sgB+EQIX0loc44OraJ5GuvWcTJCV36u/GgoGtOOtnNpmslwRBr1zE26gYUi+XlxvMU7kReZGqIpS0MkVZl7dCoWF15iBrIPhHuZJQORYzUHAguzcWF7+WtlsDUdBDj97TrlZdXQnGaT4AIyyf2RuaJx+K2xmhRmQGfBH8s/3O+zaLqVfdgGdiVEGM4T0oq3ireMbvknKvIZrXjxCbb3UVd7YT9MYeZJEpCDLXjt1j8i9f1OcGMVy8RsGnGmN3EbF8auaPCi63t1Mzscmcd9UvvYNlDX344NXliHLXu6cSxgqkf6BYxTWhg8w+VvRxp6hsrlTR1wDtZfUOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z2fYpMOx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id z17so10634220edr.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 06:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HiyxflAEz+Xv8xfMH2RjxgwtE8FBAA2f0Ct5r4iaP4=;
- b=csykZHFsAWnR3zNqIwjN9eQUfrHt7xVAD2patmGTNgWG884xZ/LWZBI4dUJoWqOIY5q01b5CJoZkNoVWfyQjRXnQCR/PDESMvAAHqGsxTULoq5/QaQAEM6YbmpqPUwwZLs1VJiARNEwH2gyJh4tTpNzwAWlcMDWnKGw9ZP+7M9g=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
- by BY5PR11MB3973.namprd11.prod.outlook.com (2603:10b6:a03:185::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Sun, 28 Jun
- 2020 12:21:43 +0000
-Received: from BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::6892:dd68:8b6b:c702]) by BY5PR11MB4241.namprd11.prod.outlook.com
- ([fe80::6892:dd68:8b6b:c702%4]) with mapi id 15.20.3131.026; Sun, 28 Jun 2020
- 12:21:43 +0000
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20200619114727.40142-1-yanfei.xu@windriver.com>
- <20200619114727.40142-2-yanfei.xu@windriver.com>
- <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
- <144b99d5a5b327d660925ff5ee18139d7dc088c3.camel@linuxfoundation.org>
- <7d7b57ca-5419-971d-6701-4cd2e8958960@windriver.com>
- <b456775facefdc593552db94bf2de51f5725aa97.camel@linuxfoundation.org>
- <77c7e877-527a-3e39-ad58-2b34c4cffa05@windriver.com>
- <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
-Message-ID: <777044a4-8a9b-ea9b-fc05-636caa004c3d@windriver.com>
-Date: Sun, 28 Jun 2020 20:21:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
-X-ClientProxiedBy: HK2P15301CA0020.APCP153.PROD.OUTLOOK.COM
- (2603:1096:202:1::30) To BY5PR11MB4241.namprd11.prod.outlook.com
- (2603:10b6:a03:1ca::13)
-Return-Path: yanfei.xu@windriver.com
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vWlE/xnFvFxWq7mGIAHYB3gTH3dH6LZc1mAdGiRlnus=;
+        b=Z2fYpMOxx8E4cPw4t86p4iaRZ6srZpjtMaZ/jcU1yaRB7VVZNGAUv4Qoq90hgpAcsl
+         7FN89x+e4F8eEzjWhbw6Z6Hw5S4ootQsd2vnnr3boo5LIMlITjg/r2AFXRQfMG+s3Dl9
+         e64OQczp2sGIqGzNbSJKICVsI8JEKfWOaWI3/NJEZMB15TA+I3Fn/VTc/91yTwkEPJC0
+         CnH62fuvlPysfe78DdFa2wHQE6W21ffLldtYL42OQVObEeeYS9yoXLSvf7iiq4zTjAMG
+         i7U6hbxYZppcjPaLrTm+kM94TkRmSzebTJD6Vcj/9P5TdjFI7ukbA9gHnWoJnEVkk5EA
+         Ii3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vWlE/xnFvFxWq7mGIAHYB3gTH3dH6LZc1mAdGiRlnus=;
+        b=fLmc0qabXmAkzlmTt5S70+LJXHrG9NnY0jHOjbCN/Vx6ILQXe59daLS2RKYNa9fOWB
+         YG1pFPLYwvER7oh4mJ2Q7E+NqgnjnzSPZb6GcRhqaEY9+hGaFX+aqgrpBJhOQd5E9adB
+         hG7w84/dFoIVB6ByOskIbxP5Z+eeOQcnvbSlnUUXwSgkbFlpii/yBUYXzJ/VuXPUmCpw
+         ykqZAo07qDW8yfmtqOVmtoVAI7gDz4Ss+HcRTx28sFwCY0VadFWTvD8CF+/L7qfsh2G7
+         mEnpcMgObfo1uywh1TM1Hyg+wQ+jvte5n0yvi6SbdW2hjSvEx3zhsEV6h71wfppeFNca
+         pcHA==
+X-Gm-Message-State: AOAM530NyQTtwD0vuUoWmcHBaI0KOzO5V85qxKQxReU+rKMLYE7pzkxq
+	6we44+5fqoEH9vjIpg1HAKMzNTB9
+X-Google-Smtp-Source: ABdhPJzx15YNyC7R2dG5CL/Za200GCUCTCY+Ua7Ml/IR0mIs0uHCaFUIMvOsz3JThSUAXGUl5PRLIw==
+X-Received: by 2002:aa7:c592:: with SMTP id g18mr12926482edq.85.1593351266074;
+        Sun, 28 Jun 2020 06:34:26 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300f07f4b8e33cbb401a015e6742d.dip0.t-ipconnect.de. [2003:f0:7f4b:8e33:cbb4:1a0:15e6:742d])
+        by smtp.gmail.com with ESMTPSA id u19sm18192024edd.62.2020.06.28.06.34.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2020 06:34:25 -0700 (PDT)
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] nfs-utils: upgrade 2.4.3 -> 2.5.1
+Date: Sun, 28 Jun 2020 15:34:12 +0200
+Message-Id: <20200628133414.3246339-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.160] (60.247.85.82) by HK2P15301CA0020.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.1 via Frontend Transport; Sun, 28 Jun 2020 12:21:42 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 20fb4fa2-7645-47f9-5c4f-08d81b5dd14a
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3973:
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB39730AA893D9EB57BA6CDE1EE4910@BY5PR11MB3973.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
-X-Forefront-PRVS: 0448A97BF2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	iGQB6G8UJJBeGhxl/VsNmvS4yVKFtz1siHFTeHJdxR3pBIlYQB/TYxaInxtf++iBy4U2fJEBhVeLwlDF3ne8rCG0Qp+V+hNqKP1vEXPmuUgU/yrA3QUJbVc+FQzaniJ8ZCb0ZImuocGxVEIYaA1wuG4Sdd1hDmNyBUvm6zj1uVQq7LFuQkh2O8ru2lpqHfgRgPBxZ/X/w3W6jz37yBSb6YjQfjDoZvsUST/lTn7pUXJRUw1vQlY89l4ap5ffyBqJEmS93iH1J7aRlpFAnB7UT+rpPFekblpCCuDO4HIhggNLsZuVa3is1DnMrjoPbetxT1M3jvxftn/YI/77i2zO12093SV0Eyk/rauzC+rIoN33CXsLik8HtwenhP77GrbOTH84LOunZk5j6rvBPKOOQTlWlQ50cPF0SYG/hV35nEALEh9zbV7QadWDJ0EROtNnpUE9l1puAn2767BMHGzYr0ijGMJOh+yX5iiyHSYWJIk8Umc7LG6uJk5igDbWgu7t8/PlYv7FM+u4fKRWpy/S0w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(376002)(39840400004)(396003)(366004)(66556008)(6666004)(2616005)(26005)(956004)(53546011)(4326008)(52116002)(83380400001)(16526019)(186003)(5660300002)(6706004)(86362001)(316002)(36756003)(2906002)(16576012)(66476007)(66946007)(31686004)(110136005)(478600001)(8936002)(6486002)(31696002)(966005)(8676002)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	jwnEiozrzf8SvNGrac33tzIGYMQgaXWxxW1ROawT0gYGX0zg+yZU8gIzXPUh7vqoN7Pjw3+nIw/1ojqZ3xofY0ITHfVe38UpdhLUj6UntvdCjWkDKCwxRz9JFOZnYzs5TzfUcFqSdzyVuVNm/GzM1pw8PNsJNztCWSB8daOnft8R4FpeynjYIQWya5mJE7jhWkGa1Q926HrYN5YPzdQ2ae89X3K4BqMuxZIIA1s+JRIF0O5BAYcAxqN3nApQpXI210CDYh0CaB7hsJKXIuuSWalYmOV3QBFwFgvRePJnuxuEi+LQRcF4aXL53hytWOtM0AGMDQmD1ex7DS6O56p/4JlvFyHHCEAorPlVfU8Divut65jIOQj5G9lW/qwBDLWPDLBBQzuf2TknsJ9Qi65tMfd9OG27r3qmFGuolfJKRNNiD0ePa5YaCTdTLnlBVwzW/Anhduv8k0QC1Rq1XHBmjixbEtNuGMiwqW7D8kcSJr4=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20fb4fa2-7645-47f9-5c4f-08d81b5dd14a
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2020 12:21:43.2243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0D+zbOwt9WIrrej2Nltd9xZSopOq3zHn5nW7sajWm7WTrEazczFk7AdYM+H90xBzHWDa4bOgGgZ9DMtfqc0z+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3973
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+* cacheio was fixed upstream slightly different
+* nfsdclnts is a python3 script for printing various nfs client information
+  pack it in ${PN}-stats
+* replace leading spaces by tabs in shell tasks
+* remove SRC_URI[md5sum]
 
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ ...acheio-use-intmax_t-for-formatted-IO.patch | 38 -------------------
+ ...{nfs-utils_2.4.3.bb => nfs-utils_2.5.1.bb} | 21 +++++-----
+ 2 files changed, 9 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-cacheio-use-intmax_t-for-formatted-IO.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.4.3.bb => nfs-utils_2.5.1.bb} (86%)
 
-On 6/25/20 12:18 AM, Richard Purdie wrote:
-> On Wed, 2020-06-24 at 23:57 +0800, Xu, Yanfei wrote:
->>
->> On 6/24/20 9:08 PM, Richard Purdie wrote:
->>> On Wed, 2020-06-24 at 09:47 +0800, Xu, Yanfei wrote:
->>>> On 6/24/20 5:51 AM, Richard Purdie wrote:
->>>>> On Tue, 2020-06-23 at 10:31 -0400, Bruce Ashfield wrote:
->>>>>> On Fri, Jun 19, 2020 at 7:47 AM <yanfei.xu@windriver.com>
->>>>>> wrote:
->>>>>>> From: Yanfei Xu <yanfei.xu@windriver.com>
->>>>>>>
->>>>>>> Some filesystems don't support symlink, then you will get
->>>>>>> failure
->>>>>>> when
->>>>>>> you install or update the kernel rpm package. Now we use a
->>>>>>> copy
->>>>>>> of
->>>>>>> image for these filesystems instead of symlink.
->>>>>>>
->>>>>>> Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>>>>> Suggested-by: Richard Purdie <
->>>>>>> richard.purdie@linuxfoundation.org>
->>>>>>> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
->>>>>>> ---
->>>>>>>     meta/classes/kernel.bbclass | 19 ++++++++++++++++---
->>>>>>>     1 file changed, 16 insertions(+), 3 deletions(-)
->>>>>>>
->>>>>>> diff --git a/meta/classes/kernel.bbclass
->>>>>>> b/meta/classes/kernel.bbclass
->>>>>>> index 20a0135fc9..1269b54343 100644
->>>>>>> --- a/meta/classes/kernel.bbclass
->>>>>>> +++ b/meta/classes/kernel.bbclass
->>>>>>> @@ -94,6 +94,22 @@ python __anonymous () {
->>>>>>>             d.appendVar('RDEPENDS_%s-image' % kname, ' %s-
->>>>>>> image-
->>>>>>> %s' %
->>>>>>> (kname, typelower))
->>>>>>>             d.setVar('PKG_%s-image-%s' % (kname,typelower),
->>>>>>> '%s-
->>>>>>> image-
->>>>>>> %s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->>>>>>>             d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname,
->>>>>>> typelower),
->>>>>>> '1')
->>>>>>> +        d.setVar('pkg_postinst_ontarget_%s-image-%s' %
->>>>>>> (kname,typelower), """
->>>>>>
->>>>>> You were previously concerned about boot issues if the
->>>>>> unversioned
->>>>>> image link/copy was deferred until boot. I don't see a
->>>>>> summary of
->>>>>> why
->>>>>> that's no longer a concern in the v3 of the patch. Can you
->>>>>> confirm
->>>>>> that it isn't an issue ? Is it simply because the booted
->>>>>> image
->>>>>> isn't
->>>>>> installed via this package, and hence we are fine ?
->>>>>
->>>>> I'm suspecting this patch is why we're seeing selftest
->>>>> failures:
->>>>>
->>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/105=
-5
->>>>>
->>>> Do you mean this patch has been applied? and introduce new
->>>> issues?
->>>
->>> Yes, I reverted it and retested and confirmed this patch causes the
->>> selftest failure in the link to the build above.
->>>
->> OK, I am trying to analyse the log. But I haven't figured out what
->> cause
->> it fialed=EF=BC=8C and how to reproduce it on my mechine. I'd apprecate =
-any
->> information.
->=20
-> The command to reproduce should be:
->=20
-> oe-selftest -r efibootpartition.GenericEFITest.test_boot_efi
->=20
-I've addressed this failure why due to boot partation in wic doesn't
-contain no-versioned image. This result is different from the previous
-I verified, because of the different configuraions in wks.
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-cacheio-use-intmax_t-for-formatted-IO.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-cacheio-use-intmax_t-for-formatted-IO.patch
+deleted file mode 100644
+index bafff5b9c0..0000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-cacheio-use-intmax_t-for-formatted-IO.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From ac32b813f5d6f9a2de944015cf9bb98d68e0203a Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 1 Dec 2018 10:02:12 -0800
+-Subject: [PATCH] cacheio: use intmax_t for formatted IO
+-
+-time_t is not same size on x32 ABI (ILP32)
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- support/nfs/cacheio.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/support/nfs/cacheio.c b/support/nfs/cacheio.c
+-index 9dc4cf1..2086a95 100644
+---- a/support/nfs/cacheio.c
+-+++ b/support/nfs/cacheio.c
+-@@ -17,6 +17,7 @@
+- 
+- #include <nfslib.h>
+- #include <stdio.h>
+-+#include <inttypes.h>
+- #include <stdio_ext.h>
+- #include <string.h>
+- #include <ctype.h>
+-@@ -234,7 +235,7 @@ cache_flush(int force)
+- 	    stb.st_mtime > now)
+- 		stb.st_mtime = time(0);
+- 	
+--	sprintf(stime, "%ld\n", stb.st_mtime);
+-+	sprintf(stime, "%jd\n", (intmax_t)stb.st_mtime);
+- 	for (c=0; cachelist[c]; c++) {
+- 		int fd;
+- 		sprintf(path, "/proc/net/rpc/%s/flush", cachelist[c]);
+--- 
+-2.19.2
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
+similarity index 86%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
+index 9bdb6f4ae4..188a8893b4 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
+@@ -28,12 +28,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://proc-fs-nfsd.mount \
+            file://nfs-utils-debianize-start-statd.patch \
+            file://bugfix-adjust-statd-service-name.patch \
+-           file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://clang-warnings.patch \
+            "
+-SRC_URI[md5sum] = "06020c76f531ed97f3145514901e0e7c"
+-SRC_URI[sha256sum] = "af65fce5dd8370cff9ead67baac5a6cd69c376dcadfef264dc2c78c904f26599"
++SRC_URI[sha256sum] = "0f1c8170e16a07d9836bbf0836d48d0c842b6f0e0e8b18748f099751851d30c4"
+ 
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
+@@ -91,7 +89,7 @@ RDEPENDS_${PN}-client = "${PN}-mount rpcbind"
+ 
+ FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
+ 
+-FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
++FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat ${sbindir}/nfsdclnts"
+ RDEPENDS_${PN}-stats = "python3-core"
+ 
+ FILES_${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
+@@ -99,8 +97,8 @@ FILES_${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
+ FILES_${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
+ 
+ do_configure_prepend() {
+-        sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+-            ${S}/utils/mount/Makefile.am
++	sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
++		${S}/utils/mount/Makefile.am
+ }
+ 
+ # Make clean needed because the package comes with
+@@ -129,9 +127,9 @@ do_install_append () {
+ 		-e 's,@HIGH_RLIMIT_NOFILE@,${HIGH_RLIMIT_NOFILE},g' \
+ 		${D}${systemd_unitdir}/system/*.service
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
+-	    install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
+-	    ln -sf ../proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/sysinit.target.wants/proc-fs-nfsd.mount
++		install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
++		install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
++		ln -sf ../proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/sysinit.target.wants/proc-fs-nfsd.mount
+ 	fi
+ 
+ 	# kernel code as of 3.8 hard-codes this path as a default
+@@ -141,7 +139,6 @@ do_install_append () {
+ 	chown -R rpcuser:rpcuser ${D}${localstatedir}/lib/nfs/statd
+ 	chmod 0644 ${D}${localstatedir}/lib/nfs/statd/state
+ 
+-        # Make python tools use python 3
+-        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${sbindir}/mountstats ${D}${sbindir}/nfsiostat
+-
++	# Make python tools use python 3
++	sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${sbindir}/mountstats ${D}${sbindir}/nfsiostat
+ }
+-- 
+2.26.2
 
-"--source" field in wks decides where the files in boot partation come
-from. So no-versioned image may come from ${IMAGE_ROOTFS}/boot which is
-installed by rpm package. Blow is the wks used by 'oe-selftest -r=20
-efibootpartition.GenericEFITest.test_boot_efi'
-
-bootloader --ptable gpt
-part /boot --source rootfs --rootfs-dir=3D${IMAGE_ROOTFS}/boot=20
---fstype=3Dvfat --label boot --active --align 1024 --use-uuid=20
---overhead-factor 1.0
-part / --source rootfs --fstype=3Dext4 --label root --align 1024=20
---exclude-path boot/
-
-Hence we still should keep the no-versioned iamge in kernel-image*.rpm
-which is like the previous v2 patch.
-
-Cheers=EF=BC=8C
-
-Yanfei
-
-> Cheers,
->=20
-> Richard
->=20
