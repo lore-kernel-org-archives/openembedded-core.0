@@ -1,144 +1,196 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.29840.1593356690090674347
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+ by mx.groups.io with SMTP id smtpd.web12.29884.1593356812375165402
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 08:04:50 -0700
+ Sun, 28 Jun 2020 08:06:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tOMUXaX0;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id l12so14059200ejn.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 08:04:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y9P1Hb1u;
+ spf=pass (domain: gmail.com, ip: 209.85.221.173, mailfrom: andrey.z@gmail.com)
+Received: by mail-vk1-f173.google.com with SMTP id b205so2918283vkb.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 08:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q/vNftdR9HCB5vXdEkFJQ+nejXXrFc46Hpf6jCS9gkE=;
-        b=tOMUXaX0XOhhw9h1NF4831VwAiQh7yF90dORwlpqwr+trjrsQ/O62+Yy7h+9W96bFB
-         TuciXBehe0JPIEy3HkBDvm8Fh8JbricP4wHgNLcUlSPQJci6/F2diuCAyuUzTmdb5InU
-         05HgWWZySitNsz4BTI9BWv4Ex0S2mxORUF4rUfhwYm/dbi/hJqxcw3B9+BNffa/b5A6U
-         ghUlvn2A5SCUN+JDOnB0IhmyfQISIHgwozJ8Wt+0jeC7fDiUenftSBV9roS1xkwW5b/T
-         VPQssneWCzve2RkuWgHXGcXhar7YfWYHpU7HAL/X7MeOCdgfpO/2QuTsQpFTmjaNmS8R
-         6MWA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=26FmjNepy5k1pYHdF7XymSJMCazLHvB48ZwekC+zQuM=;
+        b=Y9P1Hb1u96Suiqm2b2VTv4Rag4mdQFhxY153pVeN57hYPqoZ7u08a1LSwbEsOtjFOs
+         sPRTl85zE69bDrdVPg2AYFYOZqhFPNNB7MsqZcyEfK4gFt/MH8L8Py0hUThQFyPkVGx7
+         SDo8o9GsI9P4B6ahwPd2p8azdQW0QsQinHsZZ81eyl0y2lKa7+VKYsesIoGmGyK+HYwZ
+         RS+/PdfzIrbGq42fmy7MukShr2gP7rDpCG5cUOM1nAp8KAwio44FnqUE3Q7/KCQJcjO2
+         dW4v0Fd1b3krbV3zredjGmRtQ139ZmGazWf6kKkWKRw2s2y+VJtU8dPwiSHjJNbxFCpQ
+         6x0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q/vNftdR9HCB5vXdEkFJQ+nejXXrFc46Hpf6jCS9gkE=;
-        b=IWDCyKNvGDGa2UoWnX8v1jgTHMwRaDUcsDDUruaxLf9ufinF1Sa/moZn9F+dpXFaz6
-         ska3/juBVYpAyACQxPYtSIOhiQ3zEoa7xle3kRT8XK9uOIg07ngC5EuUVgT94rX/LLyL
-         J2TawSll2Awcx9jM8xaKAg1ficZ57t1dx4ebus21e2P/wQHqplEq+361Pvactf0z3rrc
-         ORA5VTpaY5IvdmNhuNsQJ1IfzYHaOJNdSDA+DqNghrJHIoJ+nhgAY5jBgFJyaKjA4upI
-         ilT4ZV6DA3NEEbQP5EpQPyPJUgdMKmdLiFG9SywIlcC5Y9/I9Hy2hvSm6dshs/ztHbmQ
-         b+aQ==
-X-Gm-Message-State: AOAM531BhxAWp0IcZQh3JVqQmA9oOmbynTu/A6X4FV9IPnaMnWlrDpNf
-	I/6Z8HzeF48rWuFl0ErphFntBxAm+VU=
-X-Google-Smtp-Source: ABdhPJxYWwhYlWM9uWZaFDeLEEeQF7OdN6MbdzDAl5I2GK3O6gK+XJ6jS8YpgCnrbQt4XKIFDPg4SQ==
-X-Received: by 2002:a17:906:3282:: with SMTP id 2mr10065345ejw.93.1593356687747;
-        Sun, 28 Jun 2020 08:04:47 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id f17sm10508672ejr.71.2020.06.28.08.04.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 08:04:47 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] xserver-xorg: add a patch to aid debugging an intermittent AB failure
-Date: Sun, 28 Jun 2020 17:04:35 +0200
-Message-Id: <20200628150435.13322-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=26FmjNepy5k1pYHdF7XymSJMCazLHvB48ZwekC+zQuM=;
+        b=WdqDNJWiICBusW0OP75VrovcrNiD34RDDUabt94mGrsR+uqzeKe5Lpqiv8A/vmCpQZ
+         OQdrYug7EkU1aBnFaS+R//MqtuVFXWfhZVi73bRPgtz5CvHZjQenbx9VXEv8a6ONpo1D
+         Ax6386ShS0J6xVwuoVaPjrQ+DqG05721o8gXAAkCXXCmTesnd4UaBDp3VClwTQghxHi3
+         DXKV+OADght2FNMj7ghoelHn9h6J5ZSqC6Mid9jxWdBV4xdiismGCza3HcWU30MdVHda
+         TzmoxSTDTo90v24+YEHrdv7H0nERJ5B9ZR+fA70rEN4gRGXrJatf0tDE+M+/pOxs6/t+
+         j+rQ==
+X-Gm-Message-State: AOAM533Svwm7KkG8LcmVfPzL2/jC5OLyJYjd1c3o+himFG2d6Lhs0hsB
+	PjnPpB74+kRboiKXaVJpOaDv33tpw4ciLa6Jz4Q=
+X-Google-Smtp-Source: ABdhPJzyzMUzUF4CfNaoIfmYpuCr1aUpWF68bFFM5aT5wdV4BN8bKTZZNGA99YNek94IY3G4WXksPqlsYRaCaYZQcWM=
+X-Received: by 2002:a1f:280c:: with SMTP id o12mr7130674vko.92.1593356811401;
+ Sun, 28 Jun 2020 08:06:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200627113417.25595-1-max.krummenacher@toradex.com>
+ <CAHtQpK7RAB30qS=kRbsqEc48-_rvUCCHEMRgPJCdcpTY-A5C5g@mail.gmail.com>
+ <1593298313.4316.22.camel@gmail.com> <CAHtQpK7Gsn6rHsMa=tuqATACLAS87E8H5cqZDycWF2woQch8zw@mail.gmail.com>
+ <1593356278.3117.10.camel@gmail.com>
+In-Reply-To: <1593356278.3117.10.camel@gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Sun, 28 Jun 2020 17:06:40 +0200
+Message-ID: <CAHtQpK7xf4iSgoofRpLEnS19HQBFGSZLhNSNrJqQcD5GSHEBvA@mail.gmail.com>
+Subject: Re: [[OE-core][Patch] cogl-1.0: : don't require eglmesaext.h
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...xserver-crash-out-if-memory-cannot-b.patch | 65 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.8.bb       |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch
+On Sun, Jun 28, 2020 at 4:58 PM Max Krummenacher <max.oss.09@gmail.com> wrote:
+>
+> Am Sonntag, den 28.06.2020, 11:04 +0200 schrieb Andrey Zhizhikin:
+> > Hello Max
+> >
+> > On Sun, Jun 28, 2020 at 12:51 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
+> > >
+> > > Resent from correct email address. Sorry for the noise.
+> > >
+> > > Hello Andrey
+> > >
+> > >
+> > > Am Samstag, den 27.06.2020, 21:31 +0200 schrieb Andrey Zhizhikin:
+> > > > Hello Max,
+> > > >
+> > > > On Sat, Jun 27, 2020 at 1:35 PM Max Krummenacher <max.oss.09@gmail.com> wrote:
+> > > > >
+> > > > > Starting with 1.22.8 cogl code unconditionally includes eglmesaext.h.
+> > > > > Change configure.ac so that eglmesaext.h is only included if it actually
+> > > > > exists.
+> > > > >
+> > > > > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> > > > >
+> > > >
+> > > > This patch fails to build with following errors in do_configure:
+> > > >
+> > > > > checking for wayland-egl >= 1.0.0 wayland-client >= 1.0.0... yes
+> > > > > checking EGL/egl.h usability... no
+> > > > > checking EGL/egl.h presence... no
+> > > > > checking for EGL/egl.h... no
+> > > > > configure: error: Unable to locate required EGL headers
+> > > > > WARNING: exit code 1 from a shell command.
+> > >
+> > > I tested with a (relatively) clean meta-freescale installation, master branch.
+> > > I built an i.MX 6 based machine with use-mainline-bsp and an i.MX6 and i.MX8MM based machine
+> > > with
+> > > use-nxp-bsp.
+> >
+> > Exactly the combination of imx8mmevk and use-nxp-bsp is failing for
+> > me. I tried to perform the clean build with the same failed results...
+> >
+> > > For me the use-mainline-bsp build unsurprisingly succeeded without and with the patch. The two
+> > > builds with use-nxp-bsp failed before the patch in do_compile because eglmesaext.h is missing,
+> > > but
+> > > succeeded with the patch applied.
+> >
+> > I've opened the issue regarding this failure in meta-freescale
+> > (https://github.com/Freescale/meta-freescale/issues/438) where I tried
+> > to sum up the details regarding this failure, and looks like the fix
+> > you proposed should've address it. I do not have a `use-mainline-bsp`
+> > build, and imx8mmevk build fails because of the missing non-upstreamed
+> > `mesa` header installation. Current `mesa` configuration in Freescale
+> > layer disables EGL, therefore `EGL/eglmesaext.h` is not installed into
+> > sysroot.
+> >
+> > >
+> > > What was your exact configuration and build target?
+> >
+> > Build Configuration:
+> > BB_VERSION           = "1.47.0"
+> > BUILD_SYS            = "x86_64-linux"
+> > NATIVELSBSTRING      = "universal"
+> > TARGET_SYS           = "aarch64-fsl-linux"
+> > MACHINE              = "imx8mmevk"
+> > DISTRO               = "krill-wayland"
+> > DISTRO_VERSION       = "2020.04"
+> > TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
+> > TARGET_FPU           = ""
+> > meta
+> > meta-poky            = "master:70f14da0c558a54439fca245b73e054b8deba75d"
+> > meta-oe
+> > meta-multimedia
+> > meta-python
+> > meta-networking
+> > meta-filesystems     = "master:e9e823d1a03eec5874346ed0c87e29c376195476"
+> > meta-freescale       = "master:be4bd4650170a5e9c38875809be440daa65aa0aa"
+> > meta-freescale-3rdparty = "master:13c782bfe40c921034944d6680bd27517a580598"
+> > meta-freescale-distro = "master:c1da36a693c1d9b50d4d318cb4a960e8daaddbd5"
+> >
+> > DISTRO is a pure derivative of fsl-wayland, there are no graphics
+> > amendments inside.
+>
+> Looks like that distro does not have xwayland and thus the X11 headers are
+> not installed. That now makes the test for egl.h fail as by default X11 headers
+> are included through eglplatform.h.
+> That wasn't catched by my tests as I used a distro which builds xwayland.
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch
-new file mode 100644
-index 0000000000..e7f04af4ff
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch
-@@ -0,0 +1,65 @@
-+From 4ee9a5d88f0703f5a1ff53668f7bb38d06c9f3ad Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Sun, 28 Jun 2020 11:57:08 +0000
-+Subject: [PATCH] dix/atom.c: make xserver crash out if memory cannot be
-+ allocated
-+
-+This patch is made strictly for debugging an intermittent autobuilder failure.
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13908
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ dix/atom.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/dix/atom.c b/dix/atom.c
-+index da0adfe..32d57f8 100644
-+--- a/dix/atom.c
-++++ b/dix/atom.c
-+@@ -70,6 +70,12 @@ static NodePtr atomRoot = NULL;
-+ static unsigned long tableLength;
-+ static NodePtr *nodeTable;
-+ 
-++void kaboom(char* msg)
-++{
-++    LogMessage(X_ERROR,"%s\n", msg);
-++}
-++
-++
-+ Atom
-+ MakeAtom(const char *string, unsigned len, Bool makeit)
-+ {
-+@@ -98,12 +104,15 @@ MakeAtom(const char *string, unsigned len, Bool makeit)
-+                 return (*np)->a;
-+         }
-+     }
-++    //kaboom("error: makeatom failure 0");
-+     if (makeit) {
-+         NodePtr nd;
-+ 
-+         nd = malloc(sizeof(NodeRec));
-+-        if (!nd)
-++        if (!nd) {
-++            kaboom("error: makeatom failure 1");
-+             return BAD_RESOURCE;
-++        }
-+         if (lastAtom < XA_LAST_PREDEFINED) {
-+             nd->string = string;
-+         }
-+@@ -111,6 +120,7 @@ MakeAtom(const char *string, unsigned len, Bool makeit)
-+             nd->string = strndup(string, len);
-+             if (!nd->string) {
-+                 free(nd);
-++                kaboom("error: makeatom failure 2");
-+                 return BAD_RESOURCE;
-+             }
-+         }
-+@@ -124,6 +134,7 @@ MakeAtom(const char *string, unsigned len, Bool makeit)
-+                     free((char *) nd->string);
-+                 }
-+                 free(nd);
-++                kaboom("error: makeatom failure 3");
-+                 return BAD_RESOURCE;
-+             }
-+             tableLength <<= 1;
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-index 26815feb33..72d0d582eb 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-@@ -5,6 +5,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://0001-test-xtest-Initialize-array-with-braces.patch \
-            file://sdksyms-no-build-path.patch \
-            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
-+           file://0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch \
-            "
- SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
- SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
+Correct, I'm using Wayland-only distro, no X11 is enabled.
+
+>
+> >
+> >
+> > > Do the headers exist in your build?
+> > >   .../work/<pkg-arch>/cogl-1.0/1.22.8-r0/recipe-sysroot/usr/include/
+> >
+> > Nope, the header is not installed into recipe-sysroot. Surprisingly
+> > however, it is present in
+> > cogl-1.0/1.22.8-r0/recipe-sysroot-native/usr/include/
+>
+> Are you sure? Your config.log tells otherwise:
+>
+>     In file included from ...recipe-sysroot/usr/include/EGL/egl.h:39,
+>                      from conftest.c:63:
+>     ...recipe-sysroot/usr/include/EGL/eglplatform.h:144:10: fatal error: X11/Xlib.h: No such file or
+> directory
+
+I guess my comment was confusing, sorry for that. I do not have Mesa
+non-upstreamed headers (eglmesaext.h and eglextchromium.h) installed
+in recipe-sysroot, all other headers are present. I thought you've
+been asking for those headers only.
+
+
+>
+> Does replacing the initial patch with this one help in your setup?
+> The test should not only check for existence of the headers themselves.
+> https://gitlab.gnome.org/GNOME/cogl/-/commit/d9f38c5864e577edb7e9f55c9f1d06248f85429b.patch
+
+I'll give it a try now, thanks for pointing it out! ;)
+
+>
+> Max
+> >
+> > > Any hint in the configure log output?
+> > >   .../work/<pkg-arch>/cogl-1.0/1.22.8-r0/build/config.log
+> > >
+> >
+> > Other than missing `EGL/egl.h` file, which reports the error:
+> > configure:25431: result: no
+> > configure:25431: checking for EGL/egl.h
+> > configure:25431: result: no
+> > configure:25438: error: Unable to locate required EGL headers
+> >
+> > there are some additional errors regarding missing X11 support and
+> > needed optimization warning for _FORTIFY_SOURCE
+> >
+> > I've uploaded the config.log to GitHub
+> > (https://gist.github.com/zandrey/65b15322c9561847f499648a2a46f173) so
+> > you can take a look at it.
+>
+>
+>
+
 -- 
-2.27.0
-
+Regards,
+Andrey.
