@@ -1,113 +1,109 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.1733.1593367117676517350
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web10.3457.1593372642437955002
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 10:58:38 -0700
+ Sun, 28 Jun 2020 12:30:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LKN4izbS;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id z15so3109838wrl.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 10:58:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JxR/bc/t;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id z9so3540295uai.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 12:30:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i/QUPsf58pnCyIrNGj+fch50jIpepLxa9XCPIh/nvfo=;
-        b=LKN4izbSME2YSGsquRtid9FYdbE7kabqBYevGjPeKBjeP1CPDckg7r2DRC0Ff4tJUM
-         6whRmTDIHspWf2bVUM8ahwSHw6QtOKnuoBRSJkqJWLdKlUWp2q+RmucthKzSZBoo9jeB
-         FluWPrUh7rKYlly4jQGftCb+CwXtTI3RDHFv8uDH+dNUXQfR3Yzl8PNzHBwA9piUU8oK
-         fVI+ToyCkEFWCDGPsfp+ZrQFdAwepfflUBfLCFwO/h/R8uFA/gZvhLzEvqZlARIKWDkQ
-         IKWOfi+3Rr9M+H9niP/lulI3r2Vub22jw5f+SzthrIIMDX1suIeBDczkqZu3xw1gklOc
-         KtPw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8KNffrsLzlRPBGJpQ/ikxrWvySnInmZ7QetJ+GtBDZs=;
+        b=JxR/bc/tUNFBvf1S77D/tCh6d4HFBU82za3UUxLRfsGGqsr7KImWx3ITKnarJoBbkf
+         LyBpO/BBThToR4r59IsYI/0guo1VRnDL6Vn6tvExiLoaF1AHkjgvalJs97giAB0eGgXb
+         wRJ8LKBgQzU2KMQRS9ruk6n4icMQ7RK01Jl5Vpq0cc+0hV1hcl0/yv3Ba1MV7t5MLVlw
+         Hjm3BTPNsHsWa51Wf5NEIOa6ibayKuw+YXBy4eS4kFS/mQlal9/JNQG14K5AfW7/9QAk
+         q1jd2AJZj/zYHd7JFM7qakBufxCocXpcLuJlXpBDnSfjz/axRlTXPT0mHdVHrRLlTWAc
+         7bmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=i/QUPsf58pnCyIrNGj+fch50jIpepLxa9XCPIh/nvfo=;
-        b=tb1TMz4IhOpc79qJ2MzYiSHRTa73io2rPCFH3icZ+vb6wzHxqVB30kHjwN7y7CGIOZ
-         EYfFdMZ0h1vsPZkEW50G3x65bn4QvKMgiQ18oWQ090MD4d6oC91ts4X1PdBS+l9rRrXg
-         FmXG8HtsLbMBw8HIjRVKj2wkWBBJVnDxtbcsZRB5ckLrp/6XfL5Yzq8I41r2ddT5iahu
-         zS2/Bv8N/HKiU/UadNzPQHu4BGSNGZEW/cOH1RQofOni2XtK2aGssyi/QvUPX9V4cgjP
-         wekLVg65LZ9vK/gEii5otFcVSqDSW+NVEgo4wrEmoRXm0M+7+YHLKQyBQ1SD1YB1BCHX
-         cXLw==
-X-Gm-Message-State: AOAM531VMu5rSOqCr4Mtfi8LLK2UAJgeVGiKXRZ69P39tCIN/L7ipAZm
-	4/UZ3ngggYxtdkuhJLcW1tI=
-X-Google-Smtp-Source: ABdhPJy5sV6DRhuRFk/tEx43xrY4NO3iaCwYEym6iWZug+d02d0mj9yQIp+dQGNm/W/DkB+W3gusnQ==
-X-Received: by 2002:a5d:60d1:: with SMTP id x17mr13563137wrt.293.1593367116091;
-        Sun, 28 Jun 2020 10:58:36 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-138-91.home.otenet.gr. [2.86.138.91])
-        by smtp.gmail.com with ESMTPSA id x18sm34389264wrq.13.2020.06.28.10.58.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jun 2020 10:58:35 -0700 (PDT)
-Subject: Re: [OE-core] Status of Go support
-To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>,
- openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
-References: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <f4b1f830-237a-e4e6-a917-6932b88b5a46@gmail.com>
-Date: Sun, 28 Jun 2020 20:58:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8KNffrsLzlRPBGJpQ/ikxrWvySnInmZ7QetJ+GtBDZs=;
+        b=eZzigxa6gIzxEGYQ8a7Berm3ctlhrhCp1j5oI4+TndXcpbYsb5t6GWpBHYB5aPjezT
+         aIzMl2agkSiuYjsJ366D8l2zlLv4zSLxhhgdL0HL3w/i+7hwR7jFy8ERkpFNLPNkw453
+         Zwp/4s/EHuLW8mcPQpotcJgkFVWSL0Wd+tUmaCcmHbpUIP5A8J5CLyfLFLxKC6qnQ1yb
+         MB9eGUFE6Ly2WCbQVaEtS22KGWYNB/crXJGnXzBgXobfYVb0WPhGFzpS7mxSKSf4z3DX
+         ixbP4OKvja+aL4J6XVtJJYVl+5r3moUt7DvMpXUyyFzdbxmCwJ64n+8nix64g/PoBajO
+         ZDjg==
+X-Gm-Message-State: AOAM530HjBmyheuNxbtOPj9y0HUuSM8dL+Muguj56Yd1RkcABFyjqGlU
+	c3zSiNvpgvwravKpafVVX7Kb4GKrGMwyjXRmjWw=
+X-Google-Smtp-Source: ABdhPJy2i5OAaJLB/TOXy1Vn33TzwTaRvBfm1c144n+5DspS9HqgIQ0ut/5wQMHJ6H7HLipibSaJEqxl4tLArgobOy4=
+X-Received: by 2002:ab0:15ca:: with SMTP id j10mr8352796uae.71.1593372641583;
+ Sun, 28 Jun 2020 12:30:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c207ad43-fba6-d5ff-085a-f6be1231e230@herbrechtsmeier.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <e5Dw.1593365236614554114.mV8j@lists.openembedded.org>
+In-Reply-To: <e5Dw.1593365236614554114.mV8j@lists.openembedded.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sun, 28 Jun 2020 21:30:30 +0200
+Message-ID: <CANNYZj8ondQew3MqtyLr1k-EyBLG52KfT_wu3mRabZRpjecQEg@mail.gmail.com>
+Subject: Re: [OE-core] git do_unpack
+To: John Klug <john.klug@multitech.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004be4e005a929fa6d"
 
-Hi,
+--0000000000004be4e005a929fa6d
+Content-Type: text/plain; charset="UTF-8"
 
-My comments are in-line.
+It would help if you can:
 
-On 23/06/2020 19:37, Stefan Herbrechtsmeier wrote:
-> Hi,
+a) provide log.do_unpack that shows that network access is indeed happening;
+
+b) demonstrate the behavior with oe-core master, as morty is soon eligible
+for retro computing museum, and hardly anyone wants to look into that :)
+
+Alex
+
+On Sun, 28 Jun 2020 at 19:27, John Klug <john.klug@multitech.com> wrote:
+
+> Recently it has come to my attention that in morty, and maybe later,
+> do_unpack for git does not use the downloads directory, and attempts to
+> contact the git server.
+>
+> This is unfortunate, as we often do bitbake -c fetchall and give tarballs
+> of our workspace to customers, thinking it would save something, but it
+> appears the savings are limited, and now I have a customer complaint about
+> this, since I have one recipe that uses a private repository.
+>
+> What is the logic of not using the downloads directory for the source of
+> the unpack?
+>
+> I recently fixed a recipe by writing an unpack that does not use
+> networking and does a clone of the downloads directory to get around this.
+> Why is this not done by openembedded-core?
+>
+> Thanks.
 > 
-> because of the changes to the 'GO111MODULE' variable in go-dep and 
-> glide, I wonder if Go is ready for use. I would have expected the 
-> variable GO111MODULE to be set to 'off' within the go.bbclass because go 
-> could bypass the fetch task unobserved otherwise.
+>
 
-Well I guess it depends with what you mean by "ready to use".
+--0000000000004be4e005a929fa6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I tried it a couple of years ago and now again.
+<div dir=3D"ltr"><div>It would help if you can:</div><div><br></div><div>a)=
+ provide log.do_unpack that shows that network access is indeed happening;<=
+/div><div><br></div><div>b) demonstrate the behavior with oe-core master, a=
+s morty is soon eligible for retro computing museum, and hardly anyone want=
+s to look into that :)</div><div><br></div><div>Alex<br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 28 Ju=
+n 2020 at 19:27, John Klug &lt;<a href=3D"mailto:john.klug@multitech.com">j=
+ohn.klug@multitech.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">Recently it has come to my attention that in morty, a=
+nd maybe later, do_unpack for git does not use the downloads directory, and=
+ attempts to contact the git server.<br><br>This is unfortunate, as we ofte=
+n do bitbake -c fetchall and give tarballs of our workspace to customers, t=
+hinking it would save something, but it appears the savings are limited, an=
+d now I have a customer complaint about this, since I have one recipe that =
+uses a private repository.<br><br>What is the logic of not using the downlo=
+ads directory for the source of the unpack?<br><br>I recently fixed a recip=
+e by writing an unpack that does not use networking and does a clone of the=
+ downloads directory to get around this.=C2=A0 Why is this not done by open=
+embedded-core?<br><br>Thanks.<br>
+<br>
+</blockquote></div>
 
-Do you want to build an SDK with the YP and include Golang support?
-As far as I saw this kind of works.
-
-Do you want to write a recipe for a non trivial project?
-
-That's fun!
-
-I tried to build from sources telegraf, influxdb and grafana and it's 
-great fun for various reasons, among others things depenencies to rust 
-and yarn.
-
-I somewhat managed to get influxdb 1.8.0 to compile from sources, but 
-only with some hacks and by including some dependencies explicitly, 
-which should not need to be included explicitly.
-
-Having said that - I am not a Golang person, so correct me if I'm wrong[1].
-
-[1] 
-https://gitlab.com/meta-layers/meta-tig/-/blob/master/recipes-from-source/github.com-influxdata-influxdb/github.com-influxdata-influxdb_1.8.0.bb
-
-... most recipes you find out there in the wild just include prebuilt 
-binaries...
-
-There are also quite a few problems with reproduce ability and licensing 
-depending on how you write your recipe.
-
-In my recipe I only use the top level license, which is apparently 
-wrong. In prebuilt packages it's not much better with licensing.
-
-> 
-> Regards
->    Stefan
-
-Regards,
-
-Robert
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+--0000000000004be4e005a929fa6d--
