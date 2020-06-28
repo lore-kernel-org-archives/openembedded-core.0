@@ -1,57 +1,46 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.22552.1593316979312257917
+Received: from out28-2.mail.aliyun.com (out28-2.mail.aliyun.com [115.124.28.2])
+ by mx.groups.io with SMTP id smtpd.web10.23366.1593322799245576510
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2020 21:02:59 -0700
+ Sat, 27 Jun 2020 22:40:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F1E160F2E;
-	Sun, 28 Jun 2020 04:02:57 +0000 (UTC)
+ dkim=missing; spf=pass (domain: eswin.com, ip: 115.124.28.2, mailfrom: maochenxi@eswin.com)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.3093469|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00420236-0.000684784-0.995113;FP=10263198659810516259|6|1|2|0|-1|-1|-1;HT=e02c03298;MF=maochenxi@eswin.com;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.Htma-a9_1593322790;
+Received: from localhost.localdomain(mailfrom:maochenxi@eswin.com fp:SMTPD_---.Htma-a9_1593322790)
+          by smtp.aliyun-inc.com(10.194.97.171);
+          Sun, 28 Jun 2020 13:39:55 +0800
+From: "Chenxi Mao" <maochenxi@eswin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: chenxi.mao2013@gmail.com,
+	Chenxi Mao <maochenxi@eswin.com>
+Subject: [PATCH 1/1] gstreamer1.0-plugins-bad: don't select vulkan if directfb enabled.
+Date: Sun, 28 Jun 2020 13:39:42 +0800
+Message-Id: <20200628053943.906548-1-maochenxi@eswin.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgWzEvMSxkdW5mZWxsLG1hc3Rlcl0gOiBkb24ndCBzZWxlY3QgdnVsa2FuIGlmIGRpcmVjdGZiIGVuYWJsZWQuIChyZXYyKQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Chenxi Mao <maochenxi@eswin.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sun, 28 Jun 2020 04:02:59 -0000
-Message-ID: <20200628040259.20779.99420@do>
-References: <20200628033328.653958-1-maochenxi@eswin.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200628033328.653958-1-maochenxi@eswin.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+vulkan didn't support directfb at all.
+So remove this configuration if directfb enabled.
 
-Series: [1/1,dunfell,master] : don't select vulkan if directfb enabled. (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/24873/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [dunfell,master] : don't select vulkan if directfb enabled.
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Change-Id: Ia0af5d944e858fbb99a07fcd5f10ab831a93b2d0
+Signed-off-by: Chenxi Mao <maochenxi@eswin.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
+index 7a227fed51..aee001e641 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
+@@ -24,7 +24,7 @@ inherit gobject-introspection
+ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+     bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
+-- 
+2.25.1
 
