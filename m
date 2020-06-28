@@ -1,50 +1,50 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.28339.1593351268894287656
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.28342.1593351269244990887
  for <openembedded-core@lists.openembedded.org>;
  Sun, 28 Jun 2020 06:34:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lozr1tPz;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id dp18so13945095ejc.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 06:34:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Tflg4knc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id h28so10664485edz.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 06:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=39YpE8cazE7L5BDcrzZiwBeck3LrBK0Au9eCLl8Py9M=;
-        b=lozr1tPzupBp9yX1FjHtb0T/UZug9+F3gZZ4mQzuxkwd5XAZhCfx52NsXYyIaK2HI1
-         9h1lAS6ks14NT/Y2APtQelbtgL0XXILzYCIF3NBDaM2Mlu4Bz9cBfWG77oD8VwcubIPK
-         PWnYMlyAb/pgpjmOuhu7uehoVy2yr5uRvJ4JgU9kEF/D+YTpfsgwbB1ihGCqu+U8iW50
-         nmr5pkC7qdSKj2OLxFQR4OZGlhV9b+F8VKMG+UeB1ENS2YEjO2N+JoIIFcNNABfS5Pya
-         2sUAIMRfSPB2Jq8qQ/5XeyO4GkBN9zKn54o3lPyio788hiApSkpov4sRsyhf6G//et60
-         wa+A==
+        bh=jInr2Z7MhCSfJYGXJImcHvgzA/7vmbfSBcVtYO+2UoY=;
+        b=Tflg4kncm8i8w02CW917f/mnQiOl4U30DnDvC2Tg8j/D6vWJsDJEX8SIQfXJ6DlQcR
+         tTMJxgt5XsCZZkQr72xh7Jq/iJsD7s1do89uR24XQ+5WH9xbdr0YCUgdrCq7H5HiMFAg
+         1Bwu9Z5/kM9PepsiEKCMhIxEqJscnFJPwb9n1mlJrK4nTjjBiLBXewXMi1lFbwNSML+K
+         mQzrztqSkDMpvPs2Dwh3Tf6Kh1d8MTD7VLOulqtMQFogHUpcuu/Av8JBpsClhAKnvLNQ
+         ADEevBWcmmUC1O+Ppc6HpAIrOQrpfRSa6j6zcADafIXgNOuuLYs5b73SCTa4WVio8/RA
+         w59A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=39YpE8cazE7L5BDcrzZiwBeck3LrBK0Au9eCLl8Py9M=;
-        b=gDQE0+AyGU1iMu0AhX8UZRm+6q3Hnb2YuzZ3wnMqvJLHqmvuJ62YOSq8GWS+BDFdyb
-         koTTkVIxD0fh8f+0EnYbW8wkkT88Bw/ncn53bR6l7n9KhBO9bZHo1BYZHfCZwsExbbyo
-         xg3CO3QBVAiKRlKCr+lPuV2my0zEgEC1z6AKLAQ25F6xsQsYUgQhfxasoPcf7oReferg
-         H9ujA1cMwgbQGHqkAVctb5mClG9RLMFaFD2n4WDFOH+NUcWqhB2nnYgqgepayp5PcHe/
-         1N40zHy3epeVCNEbEG+L9rt8iX+rLpBpismJMn4Ussne5xnTwlT16vpyj/2DmseEshoD
-         LjAQ==
-X-Gm-Message-State: AOAM531KqFrcqQKICYG2bZdt011P2AhUqdhY1HL/2QVFfhZVxl620DQu
-	E6AXUqDgmfriE9pYM1rOc5O0UNnC
-X-Google-Smtp-Source: ABdhPJw6Vmcsd7ke/FrDZqvRV+B1ODZq6+/DXFNAleTPs5AaODZbKRQBiAS5P+0IuYPuCmDNC1qXDA==
-X-Received: by 2002:a17:906:aac1:: with SMTP id kt1mr10690118ejb.408.1593351266834;
-        Sun, 28 Jun 2020 06:34:26 -0700 (PDT)
+        bh=jInr2Z7MhCSfJYGXJImcHvgzA/7vmbfSBcVtYO+2UoY=;
+        b=DKhoJuxtiW2Q4c571KxpGyZCYrUkrCGW6s7caDz5v75uEarijww06KB8E5EGqUIOhw
+         1zZlepw1nqtTAyKnhaw7HHbrNYps5XTdVpaPsEHRSK+9LcZAzGsHFi0pMKAZQ3Jt0GOf
+         1UKT4zwjVFB0RizWpBpvmm8Gs4HLHeoK4W8p0zTIbAkyXVKc3HV8T6KbF+PBjBV/J9yb
+         te6vA9V7qQwcvtlk6mgAn1jk/ywQ+rRTENfFmB9n+H9RTlCxspopOZSWvwajsf9+dciu
+         nKZm+cEXjmGapgMF+iZd5/vmNOq9c7mUhG8OoV2tp3PDHTDHrpsxfR7lQgitDO+8kXuP
+         YO+A==
+X-Gm-Message-State: AOAM530gvnI93L7QXRM2HEEGor3DRU9yapdiC/ClQ3SkD7mqBUGDKFZK
+	aE6xgm0Vgv+MANJha9uYYqNVkE3c
+X-Google-Smtp-Source: ABdhPJyhXyVb5G7ZYq2SJrO12B34L8nW7CiwMlSNryC2nsRFIIl4kE2zHoAgf3vHnrAUWdJXtKibyg==
+X-Received: by 2002:a05:6402:377:: with SMTP id s23mr13147251edw.200.1593351267617;
+        Sun, 28 Jun 2020 06:34:27 -0700 (PDT)
 Return-Path: <schnitzeltony@gmail.com>
 Received: from superandy.speedport.ip (p200300f07f4b8e33cbb401a015e6742d.dip0.t-ipconnect.de. [2003:f0:7f4b:8e33:cbb4:1a0:15e6:742d])
         by smtp.gmail.com with ESMTPSA id u19sm18192024edd.62.2020.06.28.06.34.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 06:34:26 -0700 (PDT)
+        Sun, 28 Jun 2020 06:34:27 -0700 (PDT)
 From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] ccache: merge ccache.inc into recipe
-Date: Sun, 28 Jun 2020 15:34:13 +0200
-Message-Id: <20200628133414.3246339-2-schnitzeltony@gmail.com>
+Subject: [PATCH 3/3] ccache: upgrade 3.7.9 -> 3.7.10
+Date: Sun, 28 Jun 2020 15:34:14 +0200
+Message-Id: <20200628133414.3246339-3-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200628133414.3246339-1-schnitzeltony@gmail.com>
 References: <20200628133414.3246339-1-schnitzeltony@gmail.com>
@@ -52,86 +52,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+remove SRC_URI[md5sum]
+
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/recipes-devtools/ccache/ccache.inc      | 28 --------------------
- meta/recipes-devtools/ccache/ccache_3.7.9.bb | 28 +++++++++++++++++++-
- 2 files changed, 27 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/ccache/ccache.inc
+ .../ccache/{ccache_3.7.9.bb => ccache_3.7.10.bb}               | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_3.7.9.bb => ccache_3.7.10.bb} (86%)
 
-diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
-deleted file mode 100644
-index dcbbf0ca7a..0000000000
---- a/meta/recipes-devtools/ccache/ccache.inc
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "a fast C/C++ compiler cache"
--DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
--by caching the result of previous compilations and detecting when the \
--same compilation is being done again. Supported languages are C, C\+\+, \
--Objective-C and Objective-C++."
--HOMEPAGE = "http://ccache.samba.org"
--SECTION = "devel"
--LICENSE = "GPLv3+"
--
--DEPENDS = "zlib"
--
--SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
--UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
--
--inherit autotools
--
--# Remove ccache-native's dependencies, so that it can be used widely by
--# other native recipes.
--DEPENDS_class-native = ""
--EXTRA_OECONF_class-native = "--with-bundled-zlib"
--INHIBIT_AUTOTOOLS_DEPS_class-native = "1"
--PATCHTOOL = "patch"
--
--BBCLASSEXTEND = "native"
--
--do_configure_class-native() {
--    oe_runconf
--}
-diff --git a/meta/recipes-devtools/ccache/ccache_3.7.9.bb b/meta/recipes-devtools/ccache/ccache_3.7.9.bb
-index a4de6c9fe1..e55854bfa8 100644
+diff --git a/meta/recipes-devtools/ccache/ccache_3.7.9.bb b/meta/recipes-devtools/ccache/ccache_3.7.10.bb
+similarity index 86%
+rename from meta/recipes-devtools/ccache/ccache_3.7.9.bb
+rename to meta/recipes-devtools/ccache/ccache_3.7.10.bb
+index e55854bfa8..852583dfd2 100644
 --- a/meta/recipes-devtools/ccache/ccache_3.7.9.bb
-+++ b/meta/recipes-devtools/ccache/ccache_3.7.9.bb
-@@ -1,7 +1,33 @@
--require ccache.inc
-+SUMMARY = "a fast C/C++ compiler cache"
-+DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
-+by caching the result of previous compilations and detecting when the \
-+same compilation is being done again. Supported languages are C, C\+\+, \
-+Objective-C and Objective-C++."
-+HOMEPAGE = "http://ccache.samba.org"
-+SECTION = "devel"
++++ b/meta/recipes-devtools/ccache/ccache_3.7.10.bb
+@@ -12,8 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=22d514dbc01fdf9a9784334b6b59417a"
+ DEPENDS = "zlib"
  
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=22d514dbc01fdf9a9784334b6b59417a"
+ SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
+-SRC_URI[md5sum] = "a4a38afc62ed189904357739fd8f3fb8"
+-SRC_URI[sha256sum] = "92838e2133c9e704fdab9ee2608dad86c99021278b9ac47d065aa8ff2ea8ce36"
++SRC_URI[sha256sum] = "447ddf21a5f0ffa6b6d26839ae876a6d17d0d7e3533926cdf78ecd11dad793f8"
  
-+DEPENDS = "zlib"
-+
-+SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
- SRC_URI[md5sum] = "a4a38afc62ed189904357739fd8f3fb8"
- SRC_URI[sha256sum] = "92838e2133c9e704fdab9ee2608dad86c99021278b9ac47d065aa8ff2ea8ce36"
-+
-+UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
-+
-+inherit autotools
-+
-+# Remove ccache-native's dependencies, so that it can be used widely by
-+# other native recipes.
-+DEPENDS_class-native = ""
-+EXTRA_OECONF_class-native = "--with-bundled-zlib"
-+INHIBIT_AUTOTOOLS_DEPS_class-native = "1"
-+PATCHTOOL = "patch"
-+
-+BBCLASSEXTEND = "native"
-+
-+do_configure_class-native() {
-+    oe_runconf
-+}
+ UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
+ 
 -- 
 2.26.2
 
