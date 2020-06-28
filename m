@@ -1,21 +1,23 @@
-Received: from out28-169.mail.aliyun.com (out28-169.mail.aliyun.com [115.124.28.169])
- by mx.groups.io with SMTP id smtpd.web12.22274.1593315217119675240
+Received: from out28-4.mail.aliyun.com (out28-4.mail.aliyun.com [115.124.28.4])
+ by mx.groups.io with SMTP id smtpd.web11.22305.1593315217141995098
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2020 20:33:37 -0700
+ Sat, 27 Jun 2020 20:33:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: eswin.com, ip: 115.124.28.169, mailfrom: maochenxi@eswin.com)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.3069555|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00420236-0.000684784-0.995113;FP=10263199896761130275|4|1|2|0|-1|-1|-1;HT=e02c03307;MF=maochenxi@eswin.com;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.HtjKPsg_1593315209;
+ dkim=missing; spf=pass (domain: eswin.com, ip: 115.124.28.4, mailfrom: maochenxi@eswin.com)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.3069555|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00420236-0.000684784-0.995113;FP=10263199896761130275|5|1|2|0|-1|-1|-1;HT=e01l07381;MF=maochenxi@eswin.com;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.HtjKPsg_1593315209;
 Received: from localhost.localdomain(mailfrom:maochenxi@eswin.com fp:SMTPD_---.HtjKPsg_1593315209)
           by smtp.aliyun-inc.com(10.194.99.21);
-          Sun, 28 Jun 2020 11:33:32 +0800
-From: maochenxi@eswin.com
+          Sun, 28 Jun 2020 11:33:34 +0800
+From: "Chenxi Mao" <maochenxi@eswin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: chenxi.mao2013@gmail.com,
 	Chenxi Mao <maochenxi@eswin.com>
-Subject: [PATCH 1/1] [dunfell][master]: don't select vulkan if directfb enabled.
-Date: Sun, 28 Jun 2020 11:33:27 +0800
-Message-Id: <20200628033328.653958-1-maochenxi@eswin.com>
+Subject: [PATCH] [dunfell][master]: don't select vulkan if directfb enabled.
+Date: Sun, 28 Jun 2020 11:33:28 +0800
+Message-Id: <20200628033328.653958-2-maochenxi@eswin.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200628033328.653958-1-maochenxi@eswin.com>
+References: <20200628033328.653958-1-maochenxi@eswin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
