@@ -1,62 +1,69 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.9849.1593394337980167137
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.11097.1593399884441016497
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 18:32:18 -0700
+ Sun, 28 Jun 2020 20:04:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A848A60AF7;
-	Mon, 29 Jun 2020 01:32:15 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: jun.miao@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05T345N7016042
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Sun, 28 Jun 2020 20:04:16 -0700
+Received: from pek-jmiao1-u16.wrs.com (128.224.162.214) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Sun, 28 Jun 2020 20:03:42 -0700
+From: "jmiao1" <jun.miao@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][PATCH] linux-firmware: add iwlwifi FWs Qu for IceLake-Y/U
+Date: Mon, 29 Jun 2020 11:03:41 +0800
+Message-ID: <1593399821-19454-1-git-send-email-jun.miao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251dGxzOiBNb2RpZWQgdGhlIGxpY2Vuc2UgdG8gR1BMdjIuMSsgdG8ga2VlcCB3aXRoIExJQ0VOU0UgZmlsZS4=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2020 01:32:17 -0000
-Message-ID: <20200629013217.20810.50240@do>
-References: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-== Series Details ==
+Add wifi Qu firmware required by intel AX201NGW chipset on Icelake-Y/U.
 
-Series: gnutls: Modied the license to GPLv2.1+ to keep with LICENSE file.
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24884/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 9694fcffd9)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Jun Miao <jun.miao@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
+index 392e03a10a..726055738f 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
+@@ -277,6 +277,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-iwlwifi-7265 \
+              ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
+              ${PN}-iwlwifi-9000 \
++             ${PN}-iwlwifi-Qu-c0-hr \
+              ${PN}-iwlwifi-misc \
+              ${PN}-ibt-license ${PN}-ibt ${PN}-ibt-misc \
+              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
+@@ -728,6 +729,7 @@ LICENSE_${PN}-iwlwifi-7265d     = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-8000c     = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-8265      = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-9000      = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-Qu-c0-hr  = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-misc      = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-license   = "Firmware-iwlwifi_firmware"
+ 
+@@ -755,6 +757,7 @@ FILES_${PN}-iwlwifi-7265d   = "${nonarch_base_libdir}/firmware/iwlwifi-7265D-*.u
+ FILES_${PN}-iwlwifi-8000c   = "${nonarch_base_libdir}/firmware/iwlwifi-8000C-*.ucode"
+ FILES_${PN}-iwlwifi-8265   = "${nonarch_base_libdir}/firmware/iwlwifi-8265-*.ucode"
+ FILES_${PN}-iwlwifi-9000   = "${nonarch_base_libdir}/firmware/iwlwifi-9000-*.ucode"
++FILES_${PN}-iwlwifi-Qu-c0-hr = "${nonarch_base_libdir}/firmware/iwlwifi-Qu-c0-hr-*.ucode"
+ FILES_${PN}-iwlwifi-misc   = "${nonarch_base_libdir}/firmware/iwlwifi-*.ucode"
+ 
+ RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
+@@ -779,6 +782,7 @@ RDEPENDS_${PN}-iwlwifi-7265d     = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-8000c     = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-8265      = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-9000      = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-Qu-c0-hr  = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-misc      = "${PN}-iwlwifi-license"
+ 
+ # -iwlwifi-misc is a "catch all" package that includes all the iwlwifi
+-- 
+2.25.1
 
