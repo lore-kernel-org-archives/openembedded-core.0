@@ -1,155 +1,62 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.9719.1593393356121238346
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.9849.1593394337980167137
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 18:15:58 -0700
+ Sun, 28 Jun 2020 18:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.75,293,1589212800"; 
-   d="scan'208";a="95451997"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Jun 2020 09:15:22 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0049B49B10FE
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 09:04:52 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 29 Jun 2020 09:15:18 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH v2] gnutls: Modied the license to GPLv2.1+ to keep with LICENSE file.
-Date: Mon, 29 Jun 2020 09:15:06 +0800
-Message-ID: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A848A60AF7;
+	Mon, 29 Jun 2020 01:32:15 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 0049B49B10FE.A6163
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251dGxzOiBNb2RpZWQgdGhlIGxpY2Vuc2UgdG8gR1BMdjIuMSsgdG8ga2VlcCB3aXRoIExJQ0VOU0UgZmlsZS4=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2020 01:32:17 -0000
+Message-ID: <20200629013217.20810.50240@do>
+References: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Please reference to https://gitlab.com/gnutls/gnutls/-/issues/1018.
+== Series Details ==
 
-Upstream-Status: Backport
-[https://gitlab.com/gnutls/gnutls/-/merge_requests/1285].
+Series: gnutls: Modied the license to GPLv2.1+ to keep with LICENSE file.
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24884/
+State : failure
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 9694fcffd9)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...license-to-GPLv2.1-to-keep-with-LICENSE-f.patch | 88 ++++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.6.13.bb       |  1 +
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
-
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
-new file mode 100644
-index 0000000..89682b7
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
-@@ -0,0 +1,88 @@
-+From a5f05cd4bc2bae3803e7cf8d7ae3dfa9abb34110 Mon Sep 17 00:00:00 2001
-+From: Lei Maohui <leimaohui@cn.fujitsu.com>
-+Date: Mon, 8 Jun 2020 16:15:07 +0900
-+Subject: [PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
-+
-+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-+---
-+ lib/x509/krb5.c | 20 +++++++++++---------
-+ lib/x509/krb5.h | 20 +++++++++++---------
-+ 2 files changed, 22 insertions(+), 18 deletions(-)
-+
-+diff --git a/lib/x509/krb5.c b/lib/x509/krb5.c
-+index 7fe84e651..d68c73757 100644
-+--- a/lib/x509/krb5.c
-++++ b/lib/x509/krb5.c
-+@@ -1,21 +1,23 @@
-+ /*
-+  * Copyright (C) 2015 Red Hat, Inc.
-+  *
-++ * Author: Nikos Mavrogiannopoulos
-++ *
-+  * This file is part of GnuTLS.
-+  *
-+- * GnuTLS is free software: you can redistribute it and/or modify it
-+- * under the terms of the GNU General Public License as published by
-+- * the Free Software Foundation, either version 3 of the License, or
-+- * (at your option) any later version.
-++ * The GnuTLS is free software; you can redistribute it and/or
-++ * modify it under the terms of the GNU Lesser General Public License
-++ * as published by the Free Software Foundation; either version 2.1 of
-++ * the License, or (at your option) any later version.
-+  *
-+- * GnuTLS is distributed in the hope that it will be useful, but
-++ * This library is distributed in the hope that it will be useful, but
-+  * WITHOUT ANY WARRANTY; without even the implied warranty of
-+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+- * General Public License for more details.
-++ * Lesser General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-+  *
-+- * You should have received a copy of the GNU General Public License
-+- * along with this program.  If not, see
-+- * <https://www.gnu.org/licenses/>.
-+  */
-+ 
-+ #include <config.h>
-+diff --git a/lib/x509/krb5.h b/lib/x509/krb5.h
-+index d8926af67..815bb28f7 100644
-+--- a/lib/x509/krb5.h
-++++ b/lib/x509/krb5.h
-+@@ -1,21 +1,23 @@
-+ /*
-+  * Copyright (C) 2015 Red Hat, Inc.
-+  *
-++ * Author: Nikos Mavrogiannopoulos
-++ *
-+  * This file is part of GnuTLS.
-+  *
-+- * GnuTLS is free software: you can redistribute it and/or modify it
-+- * under the terms of the GNU General Public License as published by
-+- * the Free Software Foundation, either version 3 of the License, or
-+- * (at your option) any later version.
-++ * The GnuTLS is free software; you can redistribute it and/or
-++ * modify it under the terms of the GNU Lesser General Public License
-++ * as published by the Free Software Foundation; either version 2.1 of
-++ * the License, or (at your option) any later version.
-+  *
-+- * GnuTLS is distributed in the hope that it will be useful, but
-++ * This library is distributed in the hope that it will be useful, but
-+  * WITHOUT ANY WARRANTY; without even the implied warranty of
-+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+- * General Public License for more details.
-++ * Lesser General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-+  *
-+- * You should have received a copy of the GNU General Public License
-+- * along with this program.  If not, see
-+- * <https://www.gnu.org/licenses/>.
-+  */
-+ 
-+ #ifndef GNUTLS_LIB_X509_KRB5_H
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.13.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
-index f56d42a..594cb0f 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.13.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
-@@ -19,6 +19,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
-            file://arm_eabi.patch \
-+           file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch \
- "
- 
- SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
--- 
-1.8.3.1
-
-
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
