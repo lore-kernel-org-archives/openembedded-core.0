@@ -1,69 +1,55 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.11097.1593399884441016497
+ by mx.groups.io with SMTP id smtpd.web12.12017.1593405260021247459
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 20:04:44 -0700
+ Sun, 28 Jun 2020 21:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: jun.miao@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05T345N7016042
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Sun, 28 Jun 2020 20:04:16 -0700
-Received: from pek-jmiao1-u16.wrs.com (128.224.162.214) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 28 Jun 2020 20:03:42 -0700
-From: "jmiao1" <jun.miao@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][PATCH] linux-firmware: add iwlwifi FWs Qu for IceLake-Y/U
-Date: Mon, 29 Jun 2020 11:03:41 +0800
-Message-ID: <1593399821-19454-1-git-send-email-jun.miao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05T4Xm3q018391
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 21:34:09 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Sun, 28 Jun 2020 21:33:44 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] netbase: use git fetcher
+Date: Mon, 29 Jun 2020 12:31:19 +0800
+Message-ID: <20200629043119.1798934-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Add wifi Qu firmware required by intel AX201NGW chipset on Icelake-Y/U.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Signed-off-by: Jun Miao <jun.miao@windriver.com>
+Use git repo as the the previous URL only stores
+the latest source file and fails to locate the
+source tar file if we don't upgrade timely.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-index 392e03a10a..726055738f 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-@@ -277,6 +277,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-iwlwifi-7265 \
-              ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
-              ${PN}-iwlwifi-9000 \
-+             ${PN}-iwlwifi-Qu-c0-hr \
-              ${PN}-iwlwifi-misc \
-              ${PN}-ibt-license ${PN}-ibt ${PN}-ibt-misc \
-              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
-@@ -728,6 +729,7 @@ LICENSE_${PN}-iwlwifi-7265d     = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-8000c     = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-8265      = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-9000      = "Firmware-iwlwifi_firmware"
-+LICENSE_${PN}-iwlwifi-Qu-c0-hr  = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-misc      = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-license   = "Firmware-iwlwifi_firmware"
+diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+index bc0049c020..c13685e8ad 100644
+--- a/meta/recipes-core/netbase/netbase_6.1.bb
++++ b/meta/recipes-core/netbase/netbase_6.1.bb
+@@ -6,10 +6,10 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+ PE = "1"
  
-@@ -755,6 +757,7 @@ FILES_${PN}-iwlwifi-7265d   = "${nonarch_base_libdir}/firmware/iwlwifi-7265D-*.u
- FILES_${PN}-iwlwifi-8000c   = "${nonarch_base_libdir}/firmware/iwlwifi-8000C-*.ucode"
- FILES_${PN}-iwlwifi-8265   = "${nonarch_base_libdir}/firmware/iwlwifi-8265-*.ucode"
- FILES_${PN}-iwlwifi-9000   = "${nonarch_base_libdir}/firmware/iwlwifi-9000-*.ucode"
-+FILES_${PN}-iwlwifi-Qu-c0-hr = "${nonarch_base_libdir}/firmware/iwlwifi-Qu-c0-hr-*.ucode"
- FILES_${PN}-iwlwifi-misc   = "${nonarch_base_libdir}/firmware/iwlwifi-*.ucode"
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "git://salsa.debian.org/md/netbase.git;protocol=https"
++SRCREV = "0fc1e4ce39328f7388badace0aaf7b7294d5ed61"
  
- RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
-@@ -779,6 +782,7 @@ RDEPENDS_${PN}-iwlwifi-7265d     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-8000c     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-8265      = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-9000      = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-Qu-c0-hr  = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-misc      = "${PN}-iwlwifi-license"
+-SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+-SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
++S = "${WORKDIR}/git"
  
- # -iwlwifi-misc is a "catch all" package that includes all the iwlwifi
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+ do_install () {
 -- 
-2.25.1
+2.26.2
 
