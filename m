@@ -1,28 +1,28 @@
-Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
- by mx.groups.io with SMTP id smtpd.web12.14749.1593422206725392482
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+ by mx.groups.io with SMTP id smtpd.web11.14983.1593422213524415184
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 02:16:46 -0700
+ Mon, 29 Jun 2020 02:16:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.137.180, mailfrom: ahsan_hussain@mentor.com)
-IronPort-SDR: ZrcLBiygcxLq+jUK5gGY/tNi+NTb+c4XdCzRVVk72TDvbwKvYNrzimkb9oQcMb1sx/qCHugcOF
- e77q8Xpb9kBDF9NP4t8G+sFJLC601yX3S6j3cR/d8n2BLOX5FPGrHzN3tKqJSaiJk/q2y5uO7H
- ahsHAUzyrk+OT+CY/3V52uJS5alkVc2GhFVexOOgcfjmMZAZ5vxqBCAE+iUjwMipC7iEoO06so
- 2pBuWjg/WyPKRZpCeGl/7upq03hrqBPNXCMERwgrISEgebXpLK2oj082zkQsA1nOIHZnTNnYpA
- ECM=
+ dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.141.98, mailfrom: ahsan_hussain@mentor.com)
+IronPort-SDR: 9xTGuePgFsmldX8pfA2B7qOm7v47FZq9IewzpmAFy/p/VLWCTVf4ItyoGbgiZuyQblQUH7QDl8
+ nDh490jLPpb3ONM6EF8m2dcprS+TjwcfTm4NX49QuQV6/ZfxPQv07/7HDPY1eEeLRECKdOuzcj
+ FAt96X72m7wWguVoVsdx4ZMkMCV7aRNagBmAy0GMExmrK2VBc2zscdgojJfxOsztIhN0F91qEi
+ clo/s3jVweKwqXjUhy+3YB1f2B4uegNBYeALOn85WckSQHn1xd2EbvkiMKN0kSCxIx9p8QUowi
+ 4qA=
 X-IronPort-AV: E=Sophos;i="5.75,294,1589270400"; 
-   d="scan'208";a="50285557"
+   d="scan'208";a="50280484"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 29 Jun 2020 01:16:45 -0800
-IronPort-SDR: aWWZh4yn/agQ7H1KWYpUOoWM781vJcRQ04EOkUtsc+ny6m078LcX7bcSc5FfiDcNMEI4PSYv4y
- ILHv06mRe7Q3bKiX3PcmAHHrdXbsXy0Gcn6KM0AORRk5VnuIeW9z7RKq6/GwJ5OyjF06BgGhEV
- TRWIUEFThVH57PKeNIv8P33Tc98czkXNqv3qRWiEsvilYiVFVzK4jYOA3Zh3TE1DCi3ezaDU/N
- jL+hKLio2BvvUR7IEnCQTfPiefx1xgpta2o8h1V6c63cJX+0KoJ+R64S3dF9trC1uOoH3ubzDX
- yt0=
+  by esa2.mentor.iphmx.com with ESMTP; 29 Jun 2020 01:16:53 -0800
+IronPort-SDR: sPGMvx6ZQ15GZ4FST0YtFuPsZ2tskOj7is0Tn+q+D1PS7N/OOQuMiIwBMW+5jtlQcklo3E3HVZ
+ 00yRz/7iDe3jy08VAn3m0b/BC0TSCDQmh2wEGyig80mQIG/c9frUghThClKMU7bGFyew1h9jBY
+ +aEwMQsyCDjK015XnDCHx09vpvxAe2ypPABuvWr92tsohaHoWe0/lwePQ7DPyk0miT8rtTgUnx
+ Pu9r6UJ/gpX3Xv4SmpyLQAJm6rC5IziJQNbyPOO7FJwoXhIQVwMtB79EluPL7gOJk3FF3/akfv
+ Tag=
 From: "ahussain" <ahsan_hussain@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [dunfell][PATCH 1/2] u-boot: support merging .cfg files for UBOOT_CONFIG
-Date: Mon, 29 Jun 2020 14:16:18 +0500
-Message-ID: <63967d5c25d4235fe0d80ec0399463e26d087faf.1593420599.git.ahsan_hussain@mentor.com>
+Subject: [dunfell][PATCH 2/2] u-boot: avoid blind merging all *.cfg
+Date: Mon, 29 Jun 2020 14:16:19 +0500
+Message-ID: <b240c5b9856a3ea0f1b7612622d8fdbef38ccd9e.1593420599.git.ahsan_hussain@mentor.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1593420599.git.ahsan_hussain@mentor.com>
 References: <cover.1593420599.git.ahsan_hussain@mentor.com>
@@ -34,65 +34,56 @@ X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Ming Liu <ming.liu@toradex.com>
+From: Jens Rehsack <rehsack@gmail.com>
 
-U-boot recipe supports .cfg files in SRC_URI, but they would be merged
-to .config during do_configure only when UBOOT_MACHINE is set, we
-should also support merging .cfg files for UBOOT_CONFIG.
+This fixes u-boot-qoriq breakage of:
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-Signed-off-by: Ming Liu <ming.liu@toradex.com>
+    commit 4fde8c8f479f5acd24fb6e0d0b9b4dc94d6f560b
+    Author: Ming Liu <ming.liu@toradex.com>
+    Date:   Wed Jun 3 13:56:01 2020 +0200
+
+	u-boot: support merging .cfg files for UBOOT_CONFIG
+
+	U-boot recipe supports .cfg files in SRC_URI, but they would be merged
+	to .config during do_configure only when UBOOT_MACHINE is set, we
+	should also support merging .cfg files for UBOOT_CONFIG.
+
+The intension of 4fde8c8 looks more than append delta-config snippets to
+u-boot config and should probably be rewritten to express that much better
+than implicitely assume all "*.cfg" are for merging into .config.
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 80f828df52..8cfd25020c 100644
+index 8cfd25020c..7d241916eb 100644
 --- a/meta/recipes-bsp/u-boot/u-boot.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -77,7 +77,23 @@ def find_cfgs(d):
-     return sources_list
- 
- do_configure () {
--    if [ -z "${UBOOT_CONFIG}" ]; then
-+    if [ -n "${UBOOT_CONFIG}" ]; then
-+        unset i j
-+        for config in ${UBOOT_MACHINE}; do
-+            i=$(expr $i + 1);
-+            for type in ${UBOOT_CONFIG}; do
-+                j=$(expr $j + 1);
-+                if [ $j -eq $i ]; then
-+                    oe_runmake -C ${S} O=${B}/${config} ${config}
-+                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-+                    oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                fi
-+            done
-+            unset j
-+        done
-+        unset i
-+        DEVTOOL_DISABLE_MENUCONFIG=true
-+    else
-         if [ -n "${UBOOT_MACHINE}" ]; then
-             oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
-         else
-@@ -85,8 +101,6 @@ do_configure () {
-         fi
-         merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
-         cml1_do_configure
--    else
--        DEVTOOL_DISABLE_MENUCONFIG=true
-     fi
- }
- 
-@@ -114,7 +128,6 @@ do_compile () {
+@@ -85,8 +85,10 @@ do_configure () {
                  j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    oe_runmake -C ${S} O=${B}/${config} ${config}
-                     oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
-                     for binary in ${UBOOT_BINARIES}; do
-                         k=$(expr $k + 1);
+                 if [ $j -eq $i ]; then
+                     oe_runmake -C ${S} O=${B}/${config} ${config}
+-                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
+-                    oe_runmake -C ${S} O=${B}/${config} oldconfig
++                    if [ test -n "${@' '.join(find_cfgs(d))}" ]; then
++                        merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
++                        oe_runmake -C ${S} O=${B}/${config} oldconfig
++                    fi
+                 fi
+             done
+             unset j
+@@ -119,7 +121,7 @@ do_compile () {
+ 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
+ 	fi
+ 
+-    if [ -n "${UBOOT_CONFIG}" ]
++    if [ -n "${UBOOT_CONFIG}" -o -n "${UBOOT_DELTA_CONFIG}" ]
+     then
+         unset i j k
+         for config in ${UBOOT_MACHINE}; do
 -- 
 2.25.1
 
