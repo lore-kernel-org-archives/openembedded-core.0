@@ -1,81 +1,50 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web12.18857.1593438518510957590
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web11.19189.1593438600747941363
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 06:48:38 -0700
+ Mon, 29 Jun 2020 06:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=joBbLnjW;
- spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f54.google.com with SMTP id f18so8567790wrs.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 06:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=FJ7dgzkNe6mfb1zq5CU3SAnSqwoKOqph3wzAF1/DyC0=;
-        b=joBbLnjWfJH1yjuUN+ph5jSvB/Uqfy9kizjKtFTWNfox6smjUvWhBoLJdyB9f9k8dN
-         7eIURdkS5JMMYQhCFaI/A2CzBRWtYWTomMyPBB/kqoD/XUrz6SMtR0IoSLLExTvErI9u
-         bXDQ2m9882PtGTpLWejN9w0vvK1We/PtQREFiLVIyIIFVewFJTeV61PvtzQsDEVwsPU2
-         bkMFa1NuESJuieW6jpLMtSA8hfv1vGDWBFlGZw1CaYROXiA83pJm8rtu3yUGL7MzGSo0
-         ALmnxJDcaQL+G+4ymHYzZjIQntWMPU/NSiToVeXXhTloh1vI/8A/PIQNrV7t80R4rKS9
-         XvqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FJ7dgzkNe6mfb1zq5CU3SAnSqwoKOqph3wzAF1/DyC0=;
-        b=BkNtRzUOHyasOX6wgP1bM2x0lIsf927cE5HluDlUzg68in75sCh1HReBU8McSkUVqf
-         K72sekgaC0s5M3apka08abonYzJ2ziOOoCEG0ZlhQ2viWtCscQNkDoLnADD9+ZLGm85A
-         RD/SZbFRWh42aYu6M2dsAmqFiPiFFeYuygIZZqZ7AczQYwAx8486XC9MNjOs8fC0Hh9L
-         nlHudD0Hc8aF9HXh5Ix7kJMvTepMHhkPA7RLCFX826xugyqMgoL8IJsQMD/p+pUWDMLa
-         TBcOI1xwgMMCBhSj0Spwu9dM4RTWVK0fqlJZ4SDg4K5X2Tknkf/9gIqtb2vEVYo6Avpt
-         /68g==
-X-Gm-Message-State: AOAM531A70C2veFMUEH2Mg1x2FCc5HtVHPIkFdcPfuSNzWAqfR8eWXsi
-	Kg/GNMmgaE5s311waf6ocNhWHlDp9qz90PBd
-X-Google-Smtp-Source: ABdhPJxoSiv1mKKi/xsVml/kvY3FfuTF7f2ixSiyGRv5VXZnP9SuboxE5ND7MRDlqJ2u4ku+hXCXjQ==
-X-Received: by 2002:a5d:698e:: with SMTP id g14mr18362610wru.301.1593438516820;
-        Mon, 29 Jun 2020 06:48:36 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
-        by smtp.gmail.com with ESMTPSA id z2sm30549400wmc.2.2020.06.29.06.48.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jun 2020 06:48:36 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 2/2] scripts/install-buildtools: Handle new format checksum files
-Date: Mon, 29 Jun 2020 14:48:33 +0100
-Message-Id: <20200629134833.83684-2-ross@burtonini.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20200629134833.83684-1-ross@burtonini.com>
-References: <20200629134833.83684-1-ross@burtonini.com>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 49wTPw6Tm6z5tlV;
+	Mon, 29 Jun 2020 15:49:56 +0200 (CEST)
+Date: Mon, 29 Jun 2020 15:49:55 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Error while building image for core-image-sato for raspberrypi4
+Message-ID: <20200629134955.vg322agnlm7jqbdw@qschulz>
+References: <DzEc.1593438289211123367.xTUF@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <DzEc.1593438289211123367.xTUF@lists.openembedded.org>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Vinadrao,
 
-Autobuilder generated checksum files only have a single space between the sum and the
-filename, tweak it to account for this.
+On Mon, Jun 29, 2020 at 06:44:49AM -0700, Pankaj  Vinadrao Joshi wrote:
+> Hi,
+> i am trying build an image for RPI4 using openembedded-core i have added all the necessary layers into buit when i am trying to build an image i am getting following error
+> 
+> pankaj@exaleap-Inspiron-3584:~/Oe-Raspberrypi4$ bitbake core-image-sato
+> NOTE: Bitbake server didn't start within 5 seconds, waiting for 90
+> Parsing recipes: 100% |######################################################################################################################################################################| Time: 0:06:47
+> Parsing of 2279 .bb files complete (0 cached, 2279 parsed). 3439 targets, 213 skipped, 0 masked, 0 errors.
+> ERROR: Nothing PROVIDES 'core-image-sato'
+> core-image-sato was skipped: 'hwcodecstools-debug' in IMAGE_FEATURES is not a valid image feature. Valid features: allow-empty-password allow-root-login bash-completion-pkgs dbg-pkgs debug-tweaks dev-pkgs doc doc-pkgs eclipse-debug empty-root-password hwcodecs nfs-client nfs-server package-management post-install-logging ptest-pkgs read-only-rootfs splash src-pkgs ssh-server-dropbear ssh-server-openssh stateless-rootfs staticdev-pkgs tools-debug tools-profile tools-sdk tools-testapps x11 x11-base x11-sato
+> 
 
-(From OE-Core rev: d1e71bf5b399372166eb40bb0d99c8fb52231600)
+You probably have a IMAGE_FEATURES_append = "hwcodecs" or _prepend
+somewhere. Basically bitbake is concatenating hwcodecs and tools-debug
+wrongly (a missing space, for _append a leading space, for _prepend a
+trailing one).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/install-buildtools | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So you need to find where this _append or _prepend is and fix it. To
+help you with that, use:
+bitbake core-image-sato -e
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 1a458a2cc7..fbf6a4bc38 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -239,7 +239,7 @@ def main():
-                 if ret != 0:
-                     logger.error("Could not download file from %s" % check_url)
-                     return ret
--            regex = re.compile(r"^(?P<checksum>[0-9a-f]+)\s\s(?P<path>.*/)?(?P<filename>.*)$")
-+            regex = re.compile(r"^(?P<checksum>[0-9a-f]+)\s+(?P<path>.*/)?(?P<filename>.*)$")
-             with open(tmpbuildtools_checksum, 'rb') as f:
-                 original = f.read()
-                 m = re.search(regex, original.decode("utf-8"))
--- 
-2.24.3 (Apple Git-128)
+and search for the line starting with IMAGE_FEATURES and read the lines
+above, that'll tell you what's being done for this variable and in which
+file.
 
+Quentin
