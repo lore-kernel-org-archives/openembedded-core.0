@@ -1,143 +1,155 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.5119.1593377524875886234
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.9719.1593393356121238346
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 13:52:05 -0700
+ Sun, 28 Jun 2020 18:15:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ejy22+32;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id p20so14552302ejd.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 13:52:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QRSJ/k9IaZWDUq1A6qfKFG10ZdrmM4CqQz/Mbf0kYyo=;
-        b=ejy22+32dyp68WPAIYKUVboZSXsXlESp7HP8kTGYRJRXSiix1KlV9uaK3OayMBMLL+
-         D1IbDsiPrtOyi6rSteDARKOyRozdBZ2OLr7iBqMFx2FNcyvbhD4ZBLDP+qqBoXhritv3
-         iAi5J3xf98YEq/H7ThwgGo/L4LAolPbm0W2e93UsVj75uq9PF082OAL65IxCJUVmpSJ2
-         sNaS0KEhviVox11oigyeBapgAW0g1DBBycwOvV13ieD8OnBvyFauG6AGo5k+l6Won02f
-         uYj26kPfUVnY0PokJYw/VHz+3nXIzt77rtX8S6JzNshAg0JiisXtmliWisd4p0v4H6v4
-         FNWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QRSJ/k9IaZWDUq1A6qfKFG10ZdrmM4CqQz/Mbf0kYyo=;
-        b=CSk248M8k1gbRGhBR/ALrB20E8dHv5FRD38pi8NPSRAkGwjFEU3bih8zJpcp7dadOH
-         CrjKNYyKmcvjbsCt9nG2ZiDMEqtgtYDC8xhPFLq2UgO4c6Hw1+OnlzwAuciYLDhSEkDN
-         peE8TczIKrd0+V+DW7OmOkFnq5LLvFG37cEhWE0xd4esvy0ja1T4kYlZZJvIorVMwuOy
-         yt01WjOdKcQztB+ByCb/1nKOZ5p0gI3B4EcVQMwQEW7cLqJ6Esb0hXZ2gsc+FNnLcH/0
-         aONAsU0h0Pv+ULalYI/5fJ4P6/IxPiJem09dRB45c+byBuvzXe7auLwgdJXK5mxP7Bxg
-         ux+w==
-X-Gm-Message-State: AOAM532z/zxQVPWwY0bKYAtZG4FIB2qyvuNbSESY1PDg+NjHxQiCUopJ
-	cDJuYRUorLOyP/q1RxpiXudo9VFX
-X-Google-Smtp-Source: ABdhPJzWCHP+MIeNmNML/DcUTGL97rDCPQsbb7gaVK5y8TcXgC8PJ4YFB/qigD2VHKzsIGLN8iuugA==
-X-Received: by 2002:a17:906:40d7:: with SMTP id a23mr10395513ejk.421.1593377523145;
-        Sun, 28 Jun 2020 13:52:03 -0700 (PDT)
-Return-Path: <max.oss.09@gmail.com>
-Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch. [31.10.206.124])
-        by smtp.gmail.com with ESMTPSA id q3sm9024062ejb.118.2020.06.28.13.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 13:52:02 -0700 (PDT)
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Andrey Zhizhikin <andrey.z@gmail.com>
-Subject: [[OE-core][Patch] cogl-1.0: cope with missing x11 headers
-Date: Sun, 28 Jun 2020 22:51:22 +0200
-Message-Id: <20200628205122.9970-1-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.75,293,1589212800"; 
+   d="scan'208";a="95451997"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 29 Jun 2020 09:15:22 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 0049B49B10FE
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 09:04:52 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 29 Jun 2020 09:15:18 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH v2] gnutls: Modied the license to GPLv2.1+ to keep with LICENSE file.
+Date: Mon, 29 Jun 2020 09:15:06 +0800
+Message-ID: <1593393306-49972-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 0049B49B10FE.A6163
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Fix commit 3e96efc4dd87 ("cogl-1.0: : don't require eglmesaext.h") if
-x11 headers are missing.
+Please reference to https://gitlab.com/gnutls/gnutls/-/issues/1018.
 
-In that case AC_CHECK_HEADERS will report the egl headers missing, as
-by default on unix it builds for X11 as the platform but the compiler
-will fail to find the X11 headers.
+Upstream-Status: Backport
+[https://gitlab.com/gnutls/gnutls/-/merge_requests/1285].
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-Tested-by: Andrey Zhizhikin <andrey.z@gmail.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- ...figure.ac-don-t-require-eglmesaext.h.patch | 31 ++++++++++++++-----
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ ...license-to-GPLv2.1-to-keep-with-LICENSE-f.patch | 88 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.6.13.bb       |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
-index 16ab2d7797..328984a63f 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
-+++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-configure.ac-don-t-require-eglmesaext.h.patch
-@@ -1,4 +1,4 @@
--From ca94946110f4aaeeb0cbc75e11a619b21f295056 Mon Sep 17 00:00:00 2001
-+From bb9765a926588ebfe1eb324fbbe8fc22d419eebe Mon Sep 17 00:00:00 2001
- From: Max Krummenacher <max.krummenacher@toradex.com>
- Date: Thu, 25 Jun 2020 11:27:40 +0000
- Subject: [PATCH] configure.ac: don't require eglmesaext.h
-@@ -15,11 +15,11 @@ Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
- Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/cogl/-/merge_requests/28]
- Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
- ---
-- configure.ac | 36 +++++++++++++++++-------------------
-- 1 file changed, 17 insertions(+), 19 deletions(-)
-+ configure.ac | 51 ++++++++++++++++++++++++++++++++-------------------
-+ 1 file changed, 32 insertions(+), 19 deletions(-)
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+new file mode 100644
+index 0000000..89682b7
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+@@ -0,0 +1,88 @@
++From a5f05cd4bc2bae3803e7cf8d7ae3dfa9abb34110 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Mon, 8 Jun 2020 16:15:07 +0900
++Subject: [PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ lib/x509/krb5.c | 20 +++++++++++---------
++ lib/x509/krb5.h | 20 +++++++++++---------
++ 2 files changed, 22 insertions(+), 18 deletions(-)
++
++diff --git a/lib/x509/krb5.c b/lib/x509/krb5.c
++index 7fe84e651..d68c73757 100644
++--- a/lib/x509/krb5.c
+++++ b/lib/x509/krb5.c
++@@ -1,21 +1,23 @@
++ /*
++  * Copyright (C) 2015 Red Hat, Inc.
++  *
+++ * Author: Nikos Mavrogiannopoulos
+++ *
++  * This file is part of GnuTLS.
++  *
++- * GnuTLS is free software: you can redistribute it and/or modify it
++- * under the terms of the GNU General Public License as published by
++- * the Free Software Foundation, either version 3 of the License, or
++- * (at your option) any later version.
+++ * The GnuTLS is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public License
+++ * as published by the Free Software Foundation; either version 2.1 of
+++ * the License, or (at your option) any later version.
++  *
++- * GnuTLS is distributed in the hope that it will be useful, but
+++ * This library is distributed in the hope that it will be useful, but
++  * WITHOUT ANY WARRANTY; without even the implied warranty of
++  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * General Public License for more details.
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
++  *
++- * You should have received a copy of the GNU General Public License
++- * along with this program.  If not, see
++- * <https://www.gnu.org/licenses/>.
++  */
++ 
++ #include <config.h>
++diff --git a/lib/x509/krb5.h b/lib/x509/krb5.h
++index d8926af67..815bb28f7 100644
++--- a/lib/x509/krb5.h
+++++ b/lib/x509/krb5.h
++@@ -1,21 +1,23 @@
++ /*
++  * Copyright (C) 2015 Red Hat, Inc.
++  *
+++ * Author: Nikos Mavrogiannopoulos
+++ *
++  * This file is part of GnuTLS.
++  *
++- * GnuTLS is free software: you can redistribute it and/or modify it
++- * under the terms of the GNU General Public License as published by
++- * the Free Software Foundation, either version 3 of the License, or
++- * (at your option) any later version.
+++ * The GnuTLS is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public License
+++ * as published by the Free Software Foundation; either version 2.1 of
+++ * the License, or (at your option) any later version.
++  *
++- * GnuTLS is distributed in the hope that it will be useful, but
+++ * This library is distributed in the hope that it will be useful, but
++  * WITHOUT ANY WARRANTY; without even the implied warranty of
++  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * General Public License for more details.
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
++  *
++- * You should have received a copy of the GNU General Public License
++- * along with this program.  If not, see
++- * <https://www.gnu.org/licenses/>.
++  */
++ 
++ #ifndef GNUTLS_LIB_X509_KRB5_H
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.13.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+index f56d42a..594cb0f 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+@@ -19,6 +19,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- diff --git a/configure.ac b/configure.ac
--index 12798e9f..f7fa40e2 100644
-+index b7ba95d..0d1d8de 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1212,22 +1212,6 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
-@@ -45,29 +45,44 @@ index 12798e9f..f7fa40e2 100644
-              AC_CHECK_LIB(EGL, [eglInitialize],
-                [COGL_EXTRA_LDFLAGS="$COGL_EXTRA_LDFLAGS -lEGL"],
-                [AC_MSG_ERROR([Unable to locate required EGL library])])
--@@ -1236,9 +1220,23 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
-+@@ -1236,9 +1220,38 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
-            ]
-            )
-  
- -        COGL_EGL_INCLUDES="#include <EGL/egl.h>
- -#include <EGL/eglext.h>
- -#include <EGL/eglmesaext.h>"
-++dnl Test for the existence of egl headers.
-++dnl egl*.h includes eglplatform.h which on __unix__ defaults to a X11 platform.
-++dnl In that case AC_CHECK_HEADERS failes if X11 headers are not available.
-++dnl Set the usual include guard define and, if the EGL implementation doesn't
-++dnl use that guard fall back to USE_OZONE and EGL_NO_X11 platforms which don't
-++dnl require additional headers.
- +        AC_CHECK_HEADERS(
- +          [EGL/egl.h],
- +          [COGL_EGL_INCLUDES="#include <EGL/egl.h>"],
--+          [AC_MSG_ERROR([Unable to locate required EGL headers])])
-++          [AC_MSG_ERROR([Unable to locate required EGL headers])],
-++          [#define __egl_h_
-++ #define USE_OZONE
-++ #define EGL_NO_X11])
- +        AC_CHECK_HEADERS(
- +          [EGL/eglext.h],
- +          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
- +#include <EGL/eglext.h>"],
- +          [AC_MSG_ERROR([Unable to locate required EGL headers])],
--+          [$COGL_EGL_INCLUDES])
-++          [#define __eglext_h_
-++ #define USE_OZONE
-++ #define EGL_NO_X11
-++$COGL_EGL_INCLUDES])
- +        AC_CHECK_HEADERS(
- +          [EGL/eglmesaext.h],
- +          [COGL_EGL_INCLUDES="$COGL_EGL_INCLUDES
- +#include <EGL/eglmesaext.h>"],
- +          [],
--+          [$COGL_EGL_INCLUDES])
-++          [#define __eglmesaext_h_
-++#define USE_OZONE
-++#define EGL_NO_X11
-++$COGL_EGL_INCLUDES])
- +
-          AC_SUBST([COGL_EGL_INCLUDES])
-        ])
+ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
+            file://arm_eabi.patch \
++           file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch \
+ "
+ 
+ SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
 -- 
-2.20.1
+1.8.3.1
+
+
 
