@@ -1,101 +1,112 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.13059.1593410883421100372
+Received: from out28-219.mail.aliyun.com (out28-219.mail.aliyun.com [115.124.28.219])
+ by mx.groups.io with SMTP id smtpd.web11.13951.1593416053705721793
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2020 23:08:03 -0700
+ Mon, 29 Jun 2020 00:34:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=GisloqkK;
- spf=pass (domain: linaro.org, ip: 209.85.221.67, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-wr1-f67.google.com with SMTP id j4so12780167wrp.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2020 23:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9ERZK7j3YpQlisKqhZeF+sAGeIesIr0hllh1u0xvAeo=;
-        b=GisloqkKLsXVHyR80uKGf89BW3DRAuXOIa/+j3gzxB7+0V/zBHtzWFcBOJo4S3DypX
-         /PMRLFeSHmCzHM6m4xaJJhbIL6WLfiSCfvm0H4N3nLi9HGKGLW0lM6nXmoHtWBWY5Yav
-         Joho30AlBcZ898RVN+Agdb0SC9vbIdDl+G3eLcpvKkk1FzgSV2Cn8loFw6tbnHqab+f5
-         KxihfVHZLW104gPoI92F13/jGgiv0/iH5tc15EUaDHTnGV7HSssE/gOpnCuNCvPARTkD
-         KG5D4IDniISLtdA3g6kbL5CZ3gNpe2VO8AJCR8F/8cpNJRdd9QTXfibUCZjw3NmGUBKX
-         wMQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9ERZK7j3YpQlisKqhZeF+sAGeIesIr0hllh1u0xvAeo=;
-        b=LZrURlS1ohzGj5d7uPjnE9ic6pHEEdQX9LPt8yCunZ8xjS6JkBJQfGgUpZS3qKYgjH
-         1nqHtK8p0Br2FD3J9qiKq9KFNT5YdueN3igoVfiAD60nrhSo2TpRhJZ8wcOOm+tuqrx4
-         Y02dm5G2b3pZEjj8DPbdohyXzQU3GjuBoxkkjd8gDO4a1s9vcQEOQnCRuMDMFZJ73YsW
-         n12NQBlmWRJ0j8Z4T9VkGM3qxLNHT7sN5mkChr7/7aMdhnD2Xfg8nKgS2pc7wr1pU4Qo
-         DhfwOw7IxEuKE6DKQxp0C/WBzCGdNjylTNXvSNMmpNpG24jF/6e59FIauRP1lIqctjgc
-         WIow==
-X-Gm-Message-State: AOAM531EcoQ6fLvq1NAsflGbT457WHfho/O04oS2t/xHoNX1L83/Yh0/
-	vGpsejCUJrqHPmPt0PxvM/O9xw==
-X-Google-Smtp-Source: ABdhPJwNIC7OHjQZzb2cBkxrO790o7WfLWgfvfgp6MJCslTLAKTE76XfV0upxdLROYK/yZpG++L4EQ==
-X-Received: by 2002:a05:6000:111:: with SMTP id o17mr16296167wrx.178.1593410881735;
-        Sun, 28 Jun 2020 23:08:01 -0700 (PDT)
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from nikaia.localdomain ([2a01:e0a:1b9:3e10:d6af:c5d9:8b6e:b994])
-        by smtp.gmail.com with ESMTPSA id f17sm29146080wrq.3.2020.06.28.23.08.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 23:08:01 -0700 (PDT)
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-To: steve@sakoman.com,
-	openembedded-core@lists.openembedded.org
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH] checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
-Date: Mon, 29 Jun 2020 08:07:54 +0200
-Message-Id: <20200629060754.167539-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=pass (domain: eswin.com, ip: 115.124.28.219, mailfrom: maochenxi@eswin.com)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.04468779|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0170444-0.00895224-0.974003;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16367;MF=maochenxi@eswin.com;NM=1;PH=DS;RN=4;RT=4;SR=0;TI=SMTPD_---.HuQcJ.u_1593416048;
+Received: from 10.1.56.17(mailfrom:maochenxi@eswin.com fp:SMTPD_---.HuQcJ.u_1593416048)
+          by smtp.aliyun-inc.com(10.194.97.171);
+          Mon, 29 Jun 2020 15:34:09 +0800
+Subject: Re: [OE-core] [PATCH v2] gstreamer1.0-plugins-bad: don't select vulkan if directfb enabled.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ OE-core <openembedded-core@lists.openembedded.org>, chenxi.mao2013@gmail.com
+References: <20200628053943.906548-1-maochenxi@eswin.com>
+ <20200628053943.906548-2-maochenxi@eswin.com>
+ <27f412b9914cfc57e36f34fd6e4e7d3119db4b76.camel@linuxfoundation.org>
+ <79dd22e5-fd7b-c878-8598-a4064b818eaf@eswin.com>
+ <CANNYZj8Vq0ZcDtufrGyjrY6cRfsMb1HbuFWJYqhWHtRrGtiACQ@mail.gmail.com>
+From: "Chenxi Mao" <maochenxi@eswin.com>
+Message-ID: <b9880d6a-4f72-b64d-7165-018637c34616@eswin.com>
+Date: Mon, 29 Jun 2020 15:34:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <CANNYZj8Vq0ZcDtufrGyjrY6cRfsMb1HbuFWJYqhWHtRrGtiACQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-LAYERDEPENDS is a string of this format:
-"DEPEND1 (optional version) DEPEND2 (optional version) ..."
+Hi Alex, Richard:
 
-However when we parse LAYERDEPENDS in _get_layer_collections() we
-parse it as a simple string, and if any optional versions are there the
-'depends' field is wrong. For example, running yocto-check-layer
-might result in such errors:
+Thanks for your information, hints and suggestion.
 
-ERROR: Layer meta-python depends on (>= and isn't found.
-ERROR: Layer meta-python depends on 12) and isn't found.
+After remove vulkan in DISTRO_FEATURES configuration,  it works fine.
 
-Let's use bb.utils.explode_dep_versions2() to parse LAYERDEPENDS, and
-create a string that contains all dependencies, effectively
-skipping/ignoring any optional versions.
+We don't need this commit any more. Please abandon this commit.
 
-[YOCTO #13957]
+Thanks.
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f81f07afc200fe06c5c06ea81a4f8a3a43436faf)
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- scripts/lib/checklayer/__init__.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 1138000275..f625d59896 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -59,9 +59,14 @@ def _get_layer_collections(layer_path, lconf=None, data=None):
-         pattern = ldata.getVar('BBFILE_PATTERN_%s' % name)
-         depends = ldata.getVar('LAYERDEPENDS_%s' % name)
-         compat = ldata.getVar('LAYERSERIES_COMPAT_%s' % name)
-+        try:
-+            depDict = bb.utils.explode_dep_versions2(depends or "")
-+        except bb.utils.VersionStringException as vse:
-+            bb.fatal('Error parsing LAYERDEPENDS_%s: %s' % (name, str(vse)))
-+
-         collections[name]['priority'] = priority
-         collections[name]['pattern'] = pattern
--        collections[name]['depends'] = depends
-+        collections[name]['depends'] = ' '.join(depDict.keys())
-         collections[name]['compat'] = compat
- 
-     return collections
--- 
-2.27.0
+Chenxi
 
+
+On 2020/6/28 下午5:40, Alexander Kanavin wrote:
+> bb.utils.filter() makes sets out of DISTRO_FEATURES and the second
+> argument, and returns an intersection of the two. So the line shouldn't
+> need any fixing.
+>
+> Are you sure you do not have vulkan in your DISTRO_FEATURES? How are you
+> setting it? What does 'bitbake -e gstreamer1.0-plugins-bad' say?
+>
+> Alex
+>
+> On Sun, 28 Jun 2020 at 10:39, Chenxi Mao <maochenxi@eswin.com> wrote:
+>
+>> Hi Richard:
+>>
+>> If I set directfb only in DISTRO_FEATURES, the vulkan will be enabled
+>> in gstreamer, that will cause the build break.
+>> The root cause is the vulkan didn't support directfb.
+>> So I remove this vulkan if directfb enabled.
+>>
+>> Another solution is separate the directfb with directfb. Like below:
+>> +    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+>> +    ${@bb.utils.filter('DISTRO_FEATURES', 'vulkan', d)} \
+>>
+>> Chenxi
+>>
+>> On 2020/6/28 下午3:54, Richard Purdie wrote:
+>>> On Sun, 2020-06-28 at 13:39 +0800, Chenxi Mao wrote:
+>>>> vulkan didn't support directfb at all.
+>>>> So remove this configuration if directfb enabled.
+>>>>
+>>>> Change-Id: Ia0af5d944e858fbb99a07fcd5f10ab831a93b2d0
+>>>> Signed-off-by: Chenxi Mao <maochenxi@eswin.com>
+>>>> ---
+>>>>  .../gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb                | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-multimedia/gstreamer/
+>> gstreamer1.0-plugins-bad_1.16.2.bb b/meta/recipes-multimedia/gstreamer/
+>> gstreamer1.0-plugins-bad_1.16.2.bb
+>>>> index 7a227fed51..aee001e641 100644
+>>>> --- a/meta/recipes-multimedia/gstreamer/
+>> gstreamer1.0-plugins-bad_1.16.2.bb
+>>>> +++ b/meta/recipes-multimedia/gstreamer/
+>> gstreamer1.0-plugins-bad_1.16.2.bb
+>>>> @@ -24,7 +24,7 @@ inherit gobject-introspection
+>>>>  PACKAGECONFIG ??= " \
+>>>>      ${GSTREAMER_ORC} \
+>>>>      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '',
+>> d)} \
+>>>> -    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
+>>>> +    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+>>>>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '',
+>> d)} \
+>>>>      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+>>>>      bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming
+>> sndfile \
+>>> This doesn't look right since what if DISTRO_FEATURES contains just
+>>> vulkan? This patch would stop vulkan being enabled when directfb isn't
+>>> enabled if I read it correctly?
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>>
+>> 
+>>
