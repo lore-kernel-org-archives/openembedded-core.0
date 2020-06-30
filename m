@@ -1,105 +1,152 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web12.7483.1593486263660418928
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.7486.1593486268477607315
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 20:04:23 -0700
+ Mon, 29 Jun 2020 20:04:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kOefBEWx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id w2so8448625pgg.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 20:04:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=z9O2Q0OZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id w2so8448706pgg.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 20:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=cxAZl7KjTypRg9McyXBBFh3EvMFESKpnC2p0zAztkQI=;
-        b=kOefBEWxjydVJ4zo2FmDEEyZiFBpyn9C6qG2OyGX1qKQ+jJ7+5+iedabbe1+NUjj1i
-         XtceUboySZZT8oPyAeo6kN00JZbo8IIvmoj1hx3K48WKuXYXVGYM0efmxHJX010Cb23t
-         mSS5WnpU4wWSOoJKvE5i0vTaw4SIdIY7aTaIovmr39RIKx4wpLFgf43Nl6UXUqhZ2Rro
-         ddNvBz32P4GahMQ8yTerGUQRtn6A27hAaigjcbXLHwqiksRhtH0nYI5U8kcdtbQdOwNd
-         beeEbFLWNA+7ITsMi8C5wlmeLMZOlej+6D3SsHSRJlcN4KdWM86d7hVVoJ0kENDpcm82
-         kRNg==
+        bh=CcLF+5358Y8WfvyGgG7KeMcrsGt5r8raK0ZKpztp6kA=;
+        b=z9O2Q0OZeQGVYTZt2tFSoOKLJOYaslFz++Ed61ko+I2cbNIUgfdft2hWCH+g02pS2Q
+         L/++H+DuXL+bow9ag/qrcBohSnEeGt5BbXdQm1Syf7HittwFAwJd/CxrhUTk8QFQJKBl
+         Hzqq17gcsqETVS7nC5yLClhd7m3KfZ94t/eJsKzZTbLGFOKD51xUfIKTHMR/mGs/t8e1
+         JW6UQDtpnK8pXhi2TrHd/P6MY9yDB/LvJM8ODPga3+JO3RKasUfjbSniAeBwsYRIFygV
+         gAzSorW3VzICsRQkqvGymvPKJIotOc1GQ3rO7iO9qrIwWDxFTgNrQFHTxucJSl2grqms
+         rhFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=cxAZl7KjTypRg9McyXBBFh3EvMFESKpnC2p0zAztkQI=;
-        b=TIytkcy1VAFcIiMSj77zNyLIgvXUJzEtrzNjd8WEBmrzW2hlIaLA+587SVpEpv0UtI
-         +Zlg77ABWsMK5kJRnbEnNP+vtmRxnD4/2+peXDsuKyi48kLar+afotm+e9O2ZAYJxfkZ
-         dFjIsVz8qyns16J1AsCroCWwygUewLKPcPtV+2hrNYidRLcGoTrZFfzVMTKs6nFd5MEH
-         6I1p2CAA0tptiRXoaNMAwDTgDhGOLMF0MgSTekqmwXngLX0dHJSFEaEMoDIIOg5nXnKD
-         TTWYEJomhwTgGMmOiH8DMZCKisyKW7z7AMLO3Z81hdSkPrl8QPvacu/BvgqKlFZ5poOM
-         ApYQ==
-X-Gm-Message-State: AOAM533SX6swJ+8bSXt/Rjz8ov2mMXnQ5ZKbMeBZVtpc7/B2vdC1A6Uc
-	nEGxcnvQZDMCpQhOzq9AijvqKunwHNurSQ==
-X-Google-Smtp-Source: ABdhPJzdG7VPxHyA39d77B566yIgBT0fWSU9DSOm5NzTYPKoO+JQ2pC0XXl4tFMCbu0oKBIGi5xcgQ==
-X-Received: by 2002:a63:f804:: with SMTP id n4mr11660129pgh.302.1593486262765;
-        Mon, 29 Jun 2020 20:04:22 -0700 (PDT)
+        bh=CcLF+5358Y8WfvyGgG7KeMcrsGt5r8raK0ZKpztp6kA=;
+        b=N+Q3Os6ZZMZ+z45bFteod3EnyXRJ+1NUkN4szSJk/w89W2RpHgWWE1+NNWKW5Op+vp
+         yl/oTnjqBsRrPqjbqlH3+WdLwlmh4M9aFDhiyF7naaA3pch1EdQRvTzrM3j6QVkd3+i8
+         iIZAzHjlPMd3qnSvzREzTseiUXl9JGFSUesKiAJCvmf81H0mdNzLTwNWBRFMDQoNI7ni
+         IdMTfsj9wr7/fZWW6KA/OkaQiwWlU9kirwK0sIzwDYgBZcGAVj78+3r9kyQx5E4G40QA
+         NM9grH2oK+OBmHJUnlNNi902RbTt9kkFuWBjzBJjWF4N7SOu9pGDkq5gjdeMf3dd0LIL
+         +wBw==
+X-Gm-Message-State: AOAM530epgRPxtGeFJGxmNg4FRN71kU3RjLB1owTypl9aisLxCbr064X
+	rDIDC47DYiJiwoncE67kDvKtWQJ5twfNQQ==
+X-Google-Smtp-Source: ABdhPJyNYkVtsBVFwfctJeovqqVQEZ6Bh5OBpjH1vmgbpBEQ/HJdIIFPD+ROQxYG5V6xejfMOwG8BA==
+X-Received: by 2002:a63:778c:: with SMTP id s134mr12578630pgc.273.1593486267510;
+        Mon, 29 Jun 2020 20:04:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id 6sm875627pfi.170.2020.06.29.20.04.19
+        by smtp.gmail.com with ESMTPSA id 6sm875627pfi.170.2020.06.29.20.04.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 20:04:22 -0700 (PDT)
+        Mon, 29 Jun 2020 20:04:26 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/22] mime.bbclass: fix post install scriptlet error
-Date: Mon, 29 Jun 2020 17:03:05 -1000
-Message-Id: <24f4f4551d220030c0f847c648a49a15bf1fe6eb.1593485896.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/22] pseudo: Fix attr errors due to incorrect library resolution issues
+Date: Mon, 29 Jun 2020 17:03:06 -1000
+Message-Id: <60ae9e6d31dcfc06961fedf7622a204162d3f464.1593485896.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1593485896.git.steve@sakoman.com>
 References: <cover.1593485896.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-fix error during post uninstall:
-%postun(shared-mime-info-data-2.0-r0.4.corei7_64): execv(/bin/sh) pid 78
-+ '[' 0 = 0 ']'
-+ set -e
-+ '[' x '!=' x ']'
-+ echo 'Updating MIME database... this may take a while.'
-Updating MIME database... this may take a while.
-+ update-mime-database /usr/share/mime
-Directory '/usr/share/mime/packages' does not exist!
-%postun(shared-mime-info-data-2.0-r0.4.corei7_64): waitpid(78) rc 78 status 100
-warning: %postun(shared-mime-info-data-2.0-r0.4.corei7_64) scriptlet failed, exit status 1
+On a tumbleweed system, "install X Y" was showing the error:
 
-when run post uninstall scriptlet, /usr/share/mime/packages has been
-removed during unintall, while update-mime-database will check xml under
-/usr/share/mime/packages.
+pseudo: ENOSYS for 'fsetxattr'.
 
-workaround by create this dir before update, then remove it
+which was being caused by dlsym() for that function returning NULL. This
+appears to be due to it finding an unresolved symbol in libacl for this
+symbol in libattr. It hasn't been resolved so its NULL. dlerror() returns
+nothing since this is a valid symbol entry, its just not the one we want.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+We can add the glibc version string for the symbol we actually want so we get
+that version rather than the libattr/libacl one. The calls in libattr are just
+wrappers around the libc version so our attaching to the libc versions should
+intercept any accesses via these too.
+
+[YOCTO #13952]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6f262a316d6c32ff9ce96ab4bd95726772b5f20f)
+(cherry picked from commit 82655cb26ad01de9587ef41eaef155c61c361f67)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/mime.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ .../pseudo/files/xattr_version.patch          | 54 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
 
-diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
-index c9072adf3b..bb99bc35cb 100644
---- a/meta/classes/mime.bbclass
-+++ b/meta/classes/mime.bbclass
-@@ -24,7 +24,18 @@ if [ "x$D" != "x" ]; then
- 		mimedir=${MIMEDIR}
- else
- 	echo "Updating MIME database... this may take a while."
--	update-mime-database $D${MIMEDIR}
-+	# $D${MIMEDIR}/packages belong to package shared-mime-info-data,
-+	# packages like libfm-mime depend on shared-mime-info-data.
-+	# after shared-mime-info-data uninstalled, $D${MIMEDIR}/packages
-+	# is removed, but update-mime-database need this dir to update
-+	# database, workaround to create one and remove it later
-+	if [ ! -d $D${MIMEDIR}/packages ]; then
-+		mkdir -p $D${MIMEDIR}/packages
-+		update-mime-database $D${MIMEDIR}
-+		rmdir --ignore-fail-on-non-empty $D${MIMEDIR}/packages
-+	else
-+		update-mime-database $D${MIMEDIR}
-+fi
- fi
- }
+diff --git a/meta/recipes-devtools/pseudo/files/xattr_version.patch b/meta/recipes-devtools/pseudo/files/xattr_version.patch
+new file mode 100644
+index 0000000000..a8b14bdd69
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/xattr_version.patch
+@@ -0,0 +1,54 @@
++On a tumbleweed system, "install X Y" was showing the error:
++
++pseudo: ENOSYS for 'fsetxattr'.
++
++which was being caused by dlsym() for that function returning NULL. This
++appears to be due to it finding an unresolved symbol in libacl for this 
++symbol in libattr. It hasn't been resolved so its NULL. dlerror() returns
++nothing since this is a valid symbol entry, its just not the one we want.
++
++We can add the glibc version string for the symbol we actually want so we get
++that version rather than the libattr/libacl one.
++
++To quote libattr:
++"""
++ These dumb wrappers are for backwards compatibility only.
++ Actual syscall wrappers are long gone to libc.
++"""
++and they are simply wrappers around the libc version so our attaching
++to the libc versions should intercept any accesses via these too.
++
++RP 2020/06/22
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
++Upstream-Status: Pending [discussed with seebs on irc and appears the correct fix]
++
++
++Index: git/ports/linux/xattr/wrapfuncs.in
++===================================================================
++--- git.orig/ports/linux/xattr/wrapfuncs.in
+++++ git/ports/linux/xattr/wrapfuncs.in
++@@ -1,12 +1,12 @@
++-ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0 */
++-ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
++-ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size);
++-int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0 */
++-int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW */
++-int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags);
++-ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0 */
++-ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW */
++-ssize_t flistxattr(int filedes, char *list, size_t size);
++-int removexattr(const char *path, const char *name); /* flags=0 */
++-int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW */
++-int fremovexattr(int filedes, const char *name);
+++ssize_t getxattr(const char *path, const char *name, void *value, size_t size); /* flags=0, version="GLIBC_2.3" */ 
+++ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++ssize_t fgetxattr(int filedes, const char *name, void *value, size_t size); /* version="GLIBC_2.3" */
+++int setxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=0, version="GLIBC_2.3" */
+++int lsetxattr(const char *path, const char *name, const void *value, size_t size, int xflags); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++int fsetxattr(int filedes, const char *name, const void *value, size_t size, int xflags); /* version="GLIBC_2.3" */
+++ssize_t listxattr(const char *path, char *list, size_t size); /* flags=0, version="GLIBC_2.3" */
+++ssize_t llistxattr(const char *path, char *list, size_t size); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++ssize_t flistxattr(int filedes, char *list, size_t size); /* version="GLIBC_2.3" */
+++int removexattr(const char *path, const char *name); /* flags=0, version="GLIBC_2.3" */
+++int lremovexattr(const char *path, const char *name); /* flags=AT_SYMLINK_NOFOLLOW, version="GLIBC_2.3" */
+++int fremovexattr(int filedes, const char *name); /* version="GLIBC_2.3" */
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 324ae9071f..419bac19fe 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://seccomp.patch \
+            file://0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch \
+            file://0001-pseudo_ipc.h-Fix-enum-typedef.patch \
++           file://xattr_version.patch \
+            "
  
+ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
 -- 
 2.17.1
 
