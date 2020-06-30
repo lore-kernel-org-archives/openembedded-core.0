@@ -1,103 +1,66 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web12.12041.1593511319124189636
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.12883.1593514122786051553
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 03:01:59 -0700
+ Tue, 30 Jun 2020 03:48:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MOlEIRN2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id z13so19487382wrw.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 03:01:58 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=lU8ycmEO;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.66, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f66.google.com with SMTP id g10so4257050wmc.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 03:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=iesW9xWG85QA1K2bBV7PaUlHrbcv5Kki6fKvsrhYJdo=;
-        b=MOlEIRN2Rt8RaDET8D+1VJ5stl/mtlBL93pI8I3b9EF9iz5nnVuraqNLdJWtmPaJ8m
-         lDHiDRPY7X3fSmF+b2/QFJtO8+NhG+MYtFuS5v9uqvhqPRX2C9lGjEhXbptIaGI16pS9
-         Glb7AXA4A8iOptqkbpvi6QDEWKuXwqP9ZchPE=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BgWMaJhBrnUVQV9DdpsRCiSoMKxo+bwPZ18U/lKDSJM=;
+        b=lU8ycmEOrEf3ATAn/ZYrtS/5CnGrVotqPbberydt2LVitb0pBHkq8NDG60B/MOOxyb
+         LXLEiTPl9C/9SfG4NQ1STzkdxwYdFtjGQK+xLuV4xLmkwkjS9ebf3yQMBfIE8f8atn8q
+         UbeciwvvOJ/1RPLs3jKui7ZwYDyEKUKPsu3RCVlvzYyXaLJwuZSjoygINXfuRwcGX1FD
+         AzousKE5D/M4E3CqvNo5rNWEfZkPmE/nRknho7eUgtxbG955snHDU9wZ9lqAdnkZu/xz
+         i+20VOB5D2fBadsw5L++TppaCWVRtCiNBI6R5wNHg9Nlyrq81+I1BM6xmAxE81JFUXCl
+         8//Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=iesW9xWG85QA1K2bBV7PaUlHrbcv5Kki6fKvsrhYJdo=;
-        b=SgBPNjxXmnMAAvYmou7wwrLo35iRMrdksuecAqy1ayNQuvTSUYOWteQa+LGG5ChEVt
-         EQD8VMd/HeQeJJqxq+3xvLlRtEFzmM7RGZhZ6RoF2SzGXbKiQ6n1cU7QSRygae7dpaO7
-         DKkhovUe5HsTrz8FsplZttrK60adBvHUbS9obxEeYowCQwxgcLpxf+Y4EzPTP0kjdEA1
-         6ekx6puDACrgcmw1CA+DN2vIgerwVHrDNmLBjaAx7rt7i7HrFaxv+GVwvOQQ5VGFSliE
-         zT1+UyKtATp2WpxohiPNetjyNdbYVJFwiCq1KqMZSIQcFKyGufGtWVx52JO7BAxjTPOF
-         oShQ==
-X-Gm-Message-State: AOAM5337SLTCUjAzI3Gts6L3FdXayT/99c9Szj5mHRuqcFObrP2cujrK
-	sdO5s3AdbLaP+YL0zcbBIbD1mg==
-X-Google-Smtp-Source: ABdhPJzyWRG3d6tMIAEVAc4urJqV6IYbXkO1BoezAPrtNMV3z0a0iraOMBu2Yu1WenpGVYqUAdk8zA==
-X-Received: by 2002:adf:8067:: with SMTP id 94mr20163867wrk.427.1593511317359;
-        Tue, 30 Jun 2020 03:01:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id g195sm3087812wme.38.2020.06.30.03.01.56
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BgWMaJhBrnUVQV9DdpsRCiSoMKxo+bwPZ18U/lKDSJM=;
+        b=ZwLyxz/akl3o2dQ1exr1Y3uCJVvKiQSWVBoCgxFSZufTLuVLyhTeer2OMKWWFoccc/
+         fgtLwE3Na5pcyoSHRLRFCacw2ArSVKTcimwjMO/Ig9K0SsNXyeNJBOs4FdYJG6qpgZWZ
+         4XBmux2JUABu0i2yjUvYS23kUbHvCm+U91AknXp6bvR/x+1xGOQRYXf4JErD31A4lUuE
+         rGFp2XP5emGwHxGyXdXh+BfuzsmdSlYgYWehYVCALROR23yTj5vsABsgQptKX4/ejGfz
+         vD9E2n0g9ai+82qpkXZfeG88lIZSuvq3jA7rR7kGdQYULTP4ChW9Z+96wJpd9pYkNDDZ
+         AFvw==
+X-Gm-Message-State: AOAM5339dj5uHsImOOSE8JdbOt/u1i8KmSPsch4TO+NdIuS+nfZk1a6B
+	7Rr5X2ougmMSfQ60+CDZX6zzVGI/8x0=
+X-Google-Smtp-Source: ABdhPJza+LYZaQWAh+SZbK0vqHxlQlf5oai6kKjCCRNHNGpYtvDU/HoP42XRTJ2O923fsyNU2EFaUA==
+X-Received: by 2002:a7b:c7c2:: with SMTP id z2mr20767989wmk.39.1593514120860;
+        Tue, 30 Jun 2020 03:48:40 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
+        by smtp.gmail.com with ESMTPSA id m4sm3086398wmi.48.2020.06.30.03.48.40
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 03:01:56 -0700 (PDT)
-Message-ID: <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gtk-icon-cache.bbclass: update RDEPENDS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2020 11:01:55 +0100
-In-Reply-To: <20200630094907.1396284-1-changqing.li@windriver.com>
-References: <20200630094907.1396284-1-changqing.li@windriver.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        Tue, 30 Jun 2020 03:48:40 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] common-licenses: fix filename of BSD-2-Clause-Patent
+Date: Tue, 30 Jun 2020 11:48:33 +0100
+Message-Id: <20200630104833.1782789-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-06-30 at 17:49 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> fix error:
-> + /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
-> /var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-
-> query-loaders: No such file or directory
-> %post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961
-> status 7f00
-> warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet
-> failed, exit status 127
-> 
-> when install adwaita-icon-theme, which inherit gtk-icon-cache
-> on target, above error reported,  fix by add needeed packages
-> in RDEPENDS
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/classes/gtk-icon-cache.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-
-> icon-cache.bbclass
-> index 91cb4ad409..7f218ce7ae 100644
-> --- a/meta/classes/gtk-icon-cache.bbclass
-> +++ b/meta/classes/gtk-icon-cache.bbclass
-> @@ -4,6 +4,8 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' ==
-> 'hicolor-icon-theme']} gtk
->  
->  PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
->  
-> +RDEPENDS_${PN} += "gdk-pixbuf gtk+3"
-> +
->  gtk_icon_cache_postinst() {
->  if [ "x$D" != "x" ]; then
->  	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG}
-> \
+From: Ross Burton <ross.burton@arm.com>
 
-This isn't quite right since the postinst may be added to a package
-other than ${PN}.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent}              | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/files/common-licenses/{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent} (100%)
 
-You need to add the RDEPENDS to the code:
-
-        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
-        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-
-later in that class.
-
-Cheers,
-
-Richard
+diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent
+similarity index 100%
+rename from meta/files/common-licenses/BSD-2-Clause-Patent.txt
+rename to meta/files/common-licenses/BSD-2-Clause-Patent
+-- 
+2.26.2
 
