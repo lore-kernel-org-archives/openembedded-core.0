@@ -1,55 +1,55 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.12082.1593510697804371466
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.12086.1593510724125758436
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 02:51:37 -0700
+ Tue, 30 Jun 2020 02:52:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05U9pa0v028196
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05U9q2Yv025528
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 02:51:36 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 02:52:03 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 30 Jun 2020 02:51:36 -0700
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 30 Jun 2020 02:51:44 -0700
 From: "Changqing Li" <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gtk-icon-cache.bbclass: update RDEPENDS
-Date: Tue, 30 Jun 2020 17:49:07 +0800
-Message-ID: <20200630094907.1396284-1-changqing.li@windriver.com>
+Subject: [PATCH] modutils-initscripts: update postinst
+Date: Tue, 30 Jun 2020 17:49:16 +0800
+Message-ID: <20200630094916.1396344-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
 
-fix error:
-+ /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
-/var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders: No such file or directory
-%post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961 status 7f00
-warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet failed, exit status 127
+in container image, it don't have init system,
+install package modutils-initscripts will report error:
 
-when install adwaita-icon-theme, which inherit gtk-icon-cache
-on target, above error reported,  fix by add needeed packages
-in RDEPENDS
++ systemctl mask modutils.service
+/var/tmp/rpm-tmp.DYK3Pm: line 8: systemctl: command not found
+%post(modutils-initscripts-1.0-r7.3.cortexa72): waitpid(823) rc 823 status 7f00
+warning: %post(modutils-initscripts-1.0-r7.3.cortexa72) scriptlet failed, exit status 127
+
+fix by use same way as systemd.bbclass to decide if systemctl mask will run
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/gtk-icon-cache.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../recipes-kernel/modutils-initscripts/modutils-initscripts.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 91cb4ad409..7f218ce7ae 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -4,6 +4,8 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
+diff --git a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+index 0f3df5577b..881b7db92e 100644
+--- a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
++++ b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+@@ -24,7 +24,7 @@ do_install () {
  
- PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
- 
-+RDEPENDS_${PN} += "gdk-pixbuf gtk+3"
-+
- gtk_icon_cache_postinst() {
- if [ "x$D" != "x" ]; then
- 	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG} \
+ PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
+ pkg_postinst_${PN} () {
+-	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++	if type systemctl >/dev/null 2>/dev/null; then
+ 		if [ -n "$D" ]; then
+ 			OPTS="--root=$D"
+ 		fi
 -- 
 2.17.1
 
