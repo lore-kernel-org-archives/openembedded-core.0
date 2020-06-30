@@ -1,131 +1,98 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.4732.1593543685307355036
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.6050.1593547739359225941
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 12:01:26 -0700
+ Tue, 30 Jun 2020 13:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=FrRZ71Il;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HhPwcwO0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id l17so20006956wmj.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 13:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=3152; q=dns/txt; s=axis-central1;
-  t=1593543685; x=1625079685;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=q+cpWWywzdtTb6ZpG1Eq7CN0cTQlGxztx64RX5+Ak4o=;
-  b=FrRZ71IlGs2ipIxcH3D7mOCgCeiAUbptXSXtwhVffN98Ap5uM5/IVa/e
-   5mwYYttj7GiInTNNcSoXlWWFiA+CxCOPd4MJSV6PA0YVOpPA8i91vaLXS
-   SArxTNciOMfIGi00S2jcTRCalrQa+KG0nCqf3FlFL3YeXmRyWcMcsOe51
-   8+ceMghqOU9JPln0xPGxLLejjJDAXdF4JKMdU+HewfYlSRE7c2CBncKkZ
-   t+lWHHjdoWKjkZoRXdvovMEaCXZ3obqiQJeW02cW5u+Z3qfmJOJlqiX25
-   JTfk4cFA+gcYFRW+gzLDIZsMvs7VyxQtpBhA7PmzoAC/qtyQGlI5BI32y
-   Q==;
-IronPort-SDR: OisaqswZtt3iEMwu8o/ncc3+parxF4nAyC1rUP5LlxDQos8DYCv3ixRUpzCTuTMmuswK7QviMM
- E8FC2rmnm4MwH6cH8kh46pnIgpcdHsRHS57e/92hZ4JmKsIQHPi62zunoaKzL0GcuGlmIbSD+v
- +CNvWc3Sh+XazraUuX2OYFAgotsZpGSfSGoU70aa0/MeXw9UtJ5tNkXxyuiYxAFSziki4heBxn
- /UO4K59U9uW3tdu9L1fUK4uw3dt6wBf9kDDBnMSoq07dVjx8zfD0FfWRgGP7Qal4spSXlJIGhj
- RNI=
-X-IronPort-AV: E=Sophos;i="5.75,298,1589234400"; 
-   d="scan'208";a="10061044"
-From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
-To: Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>,
-	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
-Subject: Re: [OE-core] Add package managers as a plugin
-Thread-Topic: [OE-core] Add package managers as a plugin
-Thread-Index: AQHWStlhmROMe50x8EKtBnMpvXTtHajqmKGAgAbxVuw=
-Date: Tue, 30 Jun 2020 19:01:23 +0000
-Message-ID: <1593543683295.70380@axis.com>
-References: <20200625101413.2783-1-fredrigu@axis.com>,<CAAnfSTuK-ucvmFTK9+oexvPyaXgTg4Tn3nhKSMwjhRxe=NUXrw@mail.gmail.com>
-In-Reply-To: <CAAnfSTuK-ucvmFTK9+oexvPyaXgTg4Tn3nhKSMwjhRxe=NUXrw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.20.13.13]
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Kfi63Q6n4EGnkfAPzvfcwliAdWLQoE1M15uYTgStzxs=;
+        b=HhPwcwO0nvTYEI398Y5os15ygODYM1GJqdBjC2AlDJ5owG6PoZKZexMKw6pOxkTiLq
+         BVUtALLoWBXNOkOdwQU4XpIfaMOWFP6217K9ullSZvitzEOCzkP5JHnxRWDn4xks8Am3
+         JqN1NTpA6oPxSIg+8Bxfh4FDVXhG+XOvlQH3A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Kfi63Q6n4EGnkfAPzvfcwliAdWLQoE1M15uYTgStzxs=;
+        b=uRP199W0+V109TpE5od8JRBJb39R38SR2qjIf7Mp/Ud8kU4dJioBNiYtoWAjmvTIJY
+         kP5r/rEqMPpruSr8cPLPJz+Ixzyk267olxWwMripEe2PVJSDya1emRpB93thZDaEUTRY
+         TOnhK40ymFPkrBTt2sCHnIkISDYY08jTgP9UrJk1N0ZfmlJKmBphl6Tg+39RxfJGI1nA
+         mBYTvS/2uIkczrxfMrYmq1EJz5t1f8t8Bq+y88Ipy7CBon39hWrJvj5VfaMO42YWLpJ8
+         BIY6cTZuo7ujjretlT8kHar8KuTCotTRHBjadGu2fkRN1G64bqQYrfEmaM4+eTJWrPm7
+         2OqQ==
+X-Gm-Message-State: AOAM533DTKUSb24J69cjYw0MTy2ikU9sITsJr58tinr+Jk1wsG/z5ibm
+	KEHzVrw0YEKMqMAsZMcR+2wU1g==
+X-Google-Smtp-Source: ABdhPJx3AJyL1htN1JPANfHnaGunaXApoED2TOR/8gl3A71PcapqEmYTGp3FCgG/rF2vh77sU4hMTw==
+X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr15338253wmf.38.1593547735950;
+        Tue, 30 Jun 2020 13:08:55 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id s18sm5359588wra.85.2020.06.30.13.08.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 13:08:55 -0700 (PDT)
+Message-ID: <c3e569088010a8242703f559f99de658e427f32b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] netbase: use git fetcher
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Yu, Mingli" <mingli.yu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jun 2020 21:08:53 +0100
+In-Reply-To: <20200629043119.1798934-1-mingli.yu@windriver.com>
+References: <20200629043119.1798934-1-mingli.yu@windriver.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Ross,=0A=
-those 5 seconds will increase to minutes for my use case and we build a lot=
-=0A=
-hence I hope this will save us a lot of computer power and engineering time=
-.=0A=
-For example I've sent numbers on building a bigger image (core-image-sato-s=
-dk-ptest)=0A=
-to Alex and Alex:=0A=
-out.apk.1: 1:13.35=0A=
-out.apk.2: 1:13.51=0A=
-out.apk.3: 1:13.23=0A=
-out.apk.4: 1:14.07=0A=
-out.apk.5: 1:13.00=0A=
-out.deb.1: 3:49.37=0A=
-out.deb.2: 3:50.77=0A=
-out.deb.3: 3:51.39=0A=
-out.deb.4: 3:53.40=0A=
-out.deb.5: 3:53.99=0A=
-out.ipk.1: 2:38.99=0A=
-out.ipk.2: 2:39.07=0A=
-out.ipk.3: 2:35.34=0A=
-out.ipk.4: 2:36.15=0A=
-out.ipk.5: 2:34.55=0A=
-out.rpm.1: 1:58.61=0A=
-out.rpm.2: 1:59.42=0A=
-out.rpm.3: 1:59.70=0A=
-out.rpm.4: 1:58.96=0A=
-out.rpm.5: 1:58.11=0A=
-=0A=
-Also consider that if we've a target without python with limited space, rpm=
- is out=0A=
-of the question. So the real comparison would be between ipk and apk. Let's=
-=0A=
-say we can save 80 seconds in each build. Now multiply that with the number=
- of=0A=
-builds, and we do a lot (I guess we might approach 100 000 builds/week in t=
-he=0A=
-next year). Then this will save 92.5 days build time each week.=0A=
-=0A=
-That's why I'm passionated about this.=0A=
-=0A=
-/Fredrik=0A=
-________________________________________=0A=
-From: Ross Burton <ross@burtonini.com>=0A=
-Sent: Friday, June 26, 2020 12:52 PM=0A=
-To: Fredrik Gustafsson=0A=
-Cc: OE-core; tools-cfpbuild-internal; Hugo Cedervall=0A=
-Subject: Re: [OE-core] Add package managers as a plugin=0A=
-=0A=
-On Thu, 25 Jun 2020 at 11:14, Fredrik Gustafsson=0A=
-<fredrik.gustafsson@axis.com> wrote:=0A=
-> Poky today has three different package managers, the well-known formats d=
-eb=0A=
-> and rpm is supported as well as ipkg that is good for embedded devices.=
-=0A=
->=0A=
-> When building and having a good cache hit, a significant amount of time i=
-s=0A=
-> spent in the phase of generating a rootfs, which is really about the=0A=
-> performance of the package manager. ipkg is way slower than deb or rpm. T=
-o=0A=
-> save build time and also get a package manager that is suitanle for use o=
-n=0A=
-> targets where flash memory is a concern, support for apk is suggested.=0A=
->=0A=
-> However, it might or might not be what's wanted for Poky since it increas=
-es=0A=
-> the test matrix. Therefore this patch series refactors the package=0A=
-> management code so that it's possible to add more package managers in oth=
-er=0A=
-> own layer. I will send another patch serie that will add apk.=0A=
-=0A=
-As to the code review I mostly second what Paul said.=0A=
-=0A=
-However, obviously you actually have strong feelings on this as the=0A=
-series represents a fair amount of work.  What are the compelling=0A=
-reasons to use apk?  Five seconds on core-image-minimal doesn't really=0A=
-sell it to me, I don't think anyone ever claimed that opkg has been=0A=
-performance optimised, dpkg isn't really used that much: maybe we=0A=
-should re-evaluate what package managers are supported if apk has=0A=
-feature parity but is significantly faster or has other advantages.=0A=
-=0A=
-Ross=0A=
+On Mon, 2020-06-29 at 12:31 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Use git repo as the the previous URL only stores
+> the latest source file and fails to locate the
+> source tar file if we don't upgrade timely.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+> index bc0049c020..c13685e8ad 100644
+> --- a/meta/recipes-core/netbase/netbase_6.1.bb
+> +++ b/meta/recipes-core/netbase/netbase_6.1.bb
+> @@ -6,10 +6,10 @@ LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+>  PE = "1"
+>  
+> -SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
+> +SRC_URI = "git://salsa.debian.org/md/netbase.git;protocol=https"
+> +SRCREV = "0fc1e4ce39328f7388badace0aaf7b7294d5ed61"
+>  
+> -SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+> -SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
+> +S = "${WORKDIR}/git"
+>  
+>  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+>  do_install () {
+
+This still breaks all oe-selftest:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1095
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1087
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1083
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1098
+
+oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds
+
+should reproduce but regardless, this *must* be fixed before this can
+merge.
+
+Cheers,
+
+Richard
+
