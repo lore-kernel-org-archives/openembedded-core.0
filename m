@@ -1,75 +1,168 @@
-Received: from out28-76.mail.aliyun.com (out28-76.mail.aliyun.com [115.124.28.76])
- by mx.groups.io with SMTP id smtpd.web12.6089.1593480866140621309
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.7631.1593486225095947032
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 18:34:26 -0700
+ Mon, 29 Jun 2020 20:03:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: eswin.com, ip: 115.124.28.76, mailfrom: maochenxi@eswin.com)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.05621811|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0127686-0.00690651-0.980325;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=maochenxi@eswin.com;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.HurpNdl_1593480861;
-Received: from 10.1.56.17(mailfrom:maochenxi@eswin.com fp:SMTPD_---.HurpNdl_1593480861)
-          by smtp.aliyun-inc.com(10.194.97.246);
-          Tue, 30 Jun 2020 09:34:21 +0800
-Subject: Re: [OE-core] [PATCH] [dunfell][master]: don't select vulkan if directfb enabled.
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
- chenxi.mao2013@gmail.com
-References: <20200628033328.653958-1-maochenxi@eswin.com>
- <20200628033328.653958-2-maochenxi@eswin.com>
- <CAJ86T=Ur51tgYNgjn94feaXcVxeT1uA2t8aSXkPgD5x0DuZaLg@mail.gmail.com>
-From: "Chenxi Mao" <maochenxi@eswin.com>
-Message-ID: <29344369-e841-f8aa-278f-4332889d0d8e@eswin.com>
-Date: Tue, 30 Jun 2020 09:34:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Ur51tgYNgjn94feaXcVxeT1uA2t8aSXkPgD5x0DuZaLg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=roSPYxeB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id g17so7876130plq.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 20:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=iZdSR3Uw+1MrQ9E+hISWYngzrEycx16XaxnJBhAXIKw=;
+        b=roSPYxeBNvAM1XbCgsgdqLWRV1BqWAFrjOGjNPbolRobHph8q8JuF0mg9gyqsPQW3E
+         1PuFOGdBns+2dFBHpxvon5kBCQDZGAHUA8Ti0Ddok8enlmGwhhX0TBECgPZXHpLrR9rK
+         NTWIuYImytLPiBa+9+h42jq82lD6DhfkJZsqdvup5tD7F8CLkXtSlVQXKUZSdG1qfgM9
+         j8nVpfU+m3uYeYVEi9apjTwKjNqE84Alm8B+lrOryXPE1COLOCGXi3hHesKi1nvoSQ3Y
+         zhUX+zGFgoXQLO9ES73RRVdBHD605RkKI+mclUY3DvQzw3jnXjR/TIjs7kuXNWmkUyIh
+         VUUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=iZdSR3Uw+1MrQ9E+hISWYngzrEycx16XaxnJBhAXIKw=;
+        b=Id7G96mA3PKNwMibxm44ELSGN9D0elvIAChghmTNleKPZxUoLyp9hZb7XKDsvaDD0a
+         VWxK19zJn/HPl3OHVo7RNvvTRmNE3u3VCQ7Xck8AT2rMr/MtN5VPR8oJSqWQW4hR8Zgm
+         pJvgZRHzP5ejgESJ2Zlh74A2IwB6I+pTUkdPZkzWXm2onWCun/qeQUN+STnWGCO0iyx8
+         Rw0RUCuhs7mV3ej3bouVp5psSY3adeWlugDn/eX5A5nZu6AjG7Cm3xt32+wUZk4wB0wE
+         PcpIDrn3yNPdtK4iGecklIOeXuCWnqNRfB8/ppK7Yqm65iXTY5wbDqjtSbnLBFOMcKN+
+         Mytg==
+X-Gm-Message-State: AOAM533ujhN9G4fYlhkdcwLtkcwgTVH2SzKPFM03P+L1RM1ler+s2/C0
+	krMkGYREtbQUqb358tCXCYA1QYrRoCWEww==
+X-Google-Smtp-Source: ABdhPJzPX0UUnzDL/pluaDs/KtbAHxqwpsPXWOJIDnkcrkQXehr4Qaa7tsBWLUEss7eW13LBlgT7JQ==
+X-Received: by 2002:a17:90a:ed87:: with SMTP id k7mr9988605pjy.31.1593486223685;
+        Mon, 29 Jun 2020 20:03:43 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com ([99.197.43.113])
+        by smtp.gmail.com with ESMTPSA id 6sm875627pfi.170.2020.06.29.20.03.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 20:03:42 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/22] Patch review
+Date: Mon, 29 Jun 2020 17:02:58 -1000
+Message-Id: <cover.1593485896.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-Hi Andre:
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-My reproduce step as below:
+Passed a-full test on autobuilder:
 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1104
 
-I enable directfb and vulkan id DISTRO_FEATURES with QT5.15
+The following changes since commit 1a98936830ba468d63e2e49d766add9e9cb75998:
 
-Then during vulkan build, it has error message show that the vulkan didn't support directfb.
+  gstreamer1.0-plugins-bad: add support for vdpau (2020-06-23 04:33:47 -1000)
 
-If I remove vulkan in DISTRO_FEATURES, the build will be passed.
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-Chenxi
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20200519 -> 20200619
 
+Andrej Valek (1):
+  oeqa/runtime/cases/ptest: Make output content path absolute
 
-On 2020/6/30 上午12:47, Andre McCurdy wrote:
-> On Sat, Jun 27, 2020 at 8:33 PM Chenxi Mao <maochenxi@eswin.com> wrote:
->> vulkan didn't support directfb at all.
->> So remove this configuration if directfb enabled.
-> This change doesn't look right. Passing two values to
-> bb.utils.filter() doesn't imply any dependency between them.
->
-> Can you explain what problem you have seen and how to reproduce it?
->
->> Change-Id: Ia0af5d944e858fbb99a07fcd5f10ab831a93b2d0
->> Signed-off-by: Chenxi Mao <maochenxi@eswin.com>
->> ---
->>  .../gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb                | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
->> index 7a227fed51..aee001e641 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.2.bb
->> @@ -24,7 +24,7 @@ inherit gobject-introspection
->>  PACKAGECONFIG ??= " \
->>      ${GSTREAMER_ORC} \
->>      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
->> -    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
->> +    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
->>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
->>      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
->>      bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
->> --
->> 2.25.1
->>
->> 
+Armin Kuster (2):
+  curl: Security fixes for CVE-2020-{8169/8177}
+  wpa-supplicant: Security fix CVE-2020-12695
+
+Changqing Li (1):
+  mime.bbclass: fix post install scriptlet error
+
+Chen Qi (1):
+  systemd-serialgetty: do not use BindsTo
+
+Konrad Weihmann (2):
+  runqemu: add QB_ROOTFS_EXTRA_OPT parameter
+  testimage: enable ovmf support
+
+Lee Chee Yang (2):
+  dbus: fix CVE-2020-12049
+  perl: fix CVE-2020-10543 & CVE-2020-10878
+
+Lili Li (1):
+  kernel.bbclass: Fix Module.symvers support
+
+Ming Liu (1):
+  u-boot: introduce UBOOT_INITIAL_ENV
+
+Nicolas Dechesne (1):
+  checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
+
+Pierre-Jean Texier (1):
+  ell: upgrade 0.31 -> 0.32
+
+Richard Purdie (7):
+  pseudo: Fix attr errors due to incorrect library resolution issues
+  oeqa/selftest/runcmd: Add better debug for thread count mismatch
+    failures
+  oeqa/utils/command: Improve stdin handling in runCmd
+  scripts/install-buildtools: Update to 3.2 M1 buildtools
+  scripts/install-buildtools: Handle new format checksum files
+  oeqa/selftest: Clean up separate builddir in success case when
+    non-threaded
+  populate_sdk_ext: Fix to use python3, not python
+
+Steve Sakoman (1):
+  u-boot: move redundant-yyloc-global patch to u-boot-common.inc
+
+ meta/classes/kernel.bbclass                   |   2 +-
+ meta/classes/mime.bbclass                     |  13 +-
+ meta/classes/populate_sdk_ext.bbclass         |   2 +-
+ meta/classes/qemuboot.bbclass                 |   5 +
+ meta/classes/testimage.bbclass                |   6 +-
+ meta/lib/oeqa/core/target/qemu.py             |   6 +-
+ meta/lib/oeqa/core/utils/concurrencytest.py   |  23 +--
+ meta/lib/oeqa/runtime/cases/ptest.py          |   4 +
+ meta/lib/oeqa/selftest/cases/runcmd.py        |   9 +-
+ meta/lib/oeqa/selftest/context.py             |  36 ++++-
+ meta/lib/oeqa/utils/commands.py               |   4 +-
+ meta/lib/oeqa/utils/qemurunner.py             |   5 +-
+ .../remove-redundant-yyloc-global.patch       |   0
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   1 +
+ .../u-boot/u-boot-tools_2020.01.bb            |   2 -
+ meta/recipes-bsp/u-boot/u-boot.inc            |  55 ++++---
+ ...allow-event-subscriptions-with-URLs-.patch | 151 +++++++++++++++++
+ ...nt-message-generation-using-a-long-U.patch |  62 +++++++
+ ...HTTP-initiation-failures-for-events-.patch |  50 ++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |   5 +-
+ .../dbus/dbus/CVE-2020-12049.patch            |  78 +++++++++
+ meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
+ .../ell/{ell_0.31.bb => ell_0.32.bb}          |   3 +-
+ .../systemd-serialgetty/serial-getty@.service |   3 +-
+ .../perl/files/CVE-2020-10543.patch           |  36 +++++
+ .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
+ .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
+ meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
+ .../pseudo/files/xattr_version.patch          |  54 +++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
+ ...20200519.bb => linux-firmware_20200619.bb} |   4 +-
+ .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++
+ .../curl/curl/CVE-2020-8177.patch             |  67 ++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+ scripts/install-buildtools                    |  10 +-
+ scripts/lib/checklayer/__init__.py            |   7 +-
+ scripts/runqemu                               |  11 +-
+ 37 files changed, 979 insertions(+), 70 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools => files}/remove-redundant-yyloc-global.patch (100%)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
+ create mode 100644 meta/recipes-core/dbus/dbus/CVE-2020-12049.patch
+ rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200519.bb => linux-firmware_20200619.bb} (99%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
+
+-- 
+2.17.1
+
