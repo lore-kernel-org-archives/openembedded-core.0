@@ -1,323 +1,309 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.7627.1593486237150758283
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.7472.1593486243037845064
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 20:03:57 -0700
+ Mon, 29 Jun 2020 20:04:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cNm/4jTr;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id b184so2362845pfa.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 20:03:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zHIDXelV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id f6so4807637pjq.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 20:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=gtPN8CIhyWwmogpDfftTvrPFT4nNwp7tBd3ciFgk4zs=;
-        b=cNm/4jTrvQQVL01SRIhYzEA+/Rixm3KIvquercPQe/Gr6eKu8fmHAmpofami3pC5n8
-         tTbNr9NNgEyYUTY/7uBFJ2r/0es7mJ2TAbKECrO84xRLO1VyTb8WGC1WbHo0XoebdawJ
-         ONPN9CEYKCzjAQjOhpWesbOBtm7+w9YzzxaMk/MhBHdRDisLgi1NpP+t5gS3cfkwO/pI
-         lyC8M1+aw9D5kSFTYRnlCKxHu6TxL/5Kjiy5VQFpKEBKoQYNqmgbt1/IHyqfNWSdS0ex
-         NlSfbySMC6K5spI2qk97CiTnMQBTL6r3bkHeMJ7564igDfqE1XlDYn5Fkx6ezL5/wbnx
-         vC6g==
+        bh=+mTfFXD0VrnQDtzjOZGhcYU4oK7g347PEkw8Q5hCMU4=;
+        b=zHIDXelVlw9O6MZnLJ9naPYwtuPR4DWb9jOqfJYiS6uijvNcT7uXOX8+mpPNx0EhGs
+         7Hu0xEtSu9vv3BeMpMZ0cF8XbHjlCCEd1TRQWPO7Aj2uUvKyqWsci4Vuft4mggGgysMu
+         CPdYHw2TUf2PmvXF5iUlzRk+MQ9OztHwzI92cgnx0KZOmZyJR3+3iM3UAej8wX6nixTt
+         vZQjCQjC+yrWUVGmXqZ/gHERLBJxL1yLt0udKEjhW1PDH2cYpgR+N11Ta2YSelocki7E
+         Ssp3a9duu1/aBbvawnu8qqibyBeCH/uIBxRI0REdn+ll2LMtBDrUdsGiP5QvN3j1rCIu
+         bjpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=gtPN8CIhyWwmogpDfftTvrPFT4nNwp7tBd3ciFgk4zs=;
-        b=MxssgwhaCqv+m/r1QL0sqBTOCsag8JpvRwOb3USU8FUTUGqKHRiFHfkDEJvI8EmaRR
-         8r+9qHKwf2PrPlCZWDHQFl8cECePB1ufAvznohyslovJBY6uQJ7M3B3gSEids2iEo/Jg
-         RqMOk/XOwupn2dVMnnkjGvwDv4o0ld7x23LnOJlT6PFyx5CPhdL69aMQ0cBh4Df8EVbw
-         /dWDtDQNwq2F+ro/gVznMO+mUz5TW4WspMRyxlyFd1X63p10YfpLk2utuzo0v0XiP0LS
-         sBmFBUGn8xWk/2snm2UAcqtGLOMAGT2etoCe4PtUcohfa2g1VKKhD2J1tEJX0ZNB0gqm
-         4ZFg==
-X-Gm-Message-State: AOAM531zKSnOrWv/ka9f3T3VX4AZinlH1Ob6sMcqrCg/rnV19rda0j2/
-	dYRuUeFyvo3DrOXf3cLHKhVuF4dKQBtH/A==
-X-Google-Smtp-Source: ABdhPJyZT/H6C+DdKKoRRTPcXN5wAlCCjMRugy09dIE+jpcgk9hDSVK/4MG+NcjTpZzBF809p7spBA==
-X-Received: by 2002:a63:3d42:: with SMTP id k63mr13031038pga.330.1593486235854;
-        Mon, 29 Jun 2020 20:03:55 -0700 (PDT)
+        bh=+mTfFXD0VrnQDtzjOZGhcYU4oK7g347PEkw8Q5hCMU4=;
+        b=ARlaoImi4haBU4l39PR6G9mHc+sR21UH3dQw823XaoQQPIHkp/E208FZphQe8u+GgJ
+         RrvrYa4/bmPV54Db8sIBSY18gdlG7IWZ8pVrNWeIt0vwOpXCHlta1Q9un68HqWSrS0sg
+         eaUeuupwxNHauXE29z4jV5FwxFCf9W6+Ud7SoeqDWTVqSeuNbXK/eu2790pEMWlPlvbT
+         slrmoQpG3VXVgE4V41vS/MhpsQkSNUMkUtVI4KGD7qcSxq0ZAN8zTH6DZm/jRKk6V7SA
+         LH9cep2XVUjybnHMs4Tj2EZ0GKr4XcJ6HBcfgyjlsy5FO7dUMmMNFRfYK5Fkz2Rv+clJ
+         pWxw==
+X-Gm-Message-State: AOAM531wC2woReFFLq6BYI2+Ni4bFUsLJtmEi9/BeGiNuGOEH4Wo6xD/
+	YXXcwF/n3BzDwziLGEPu6Utj0f0pK/dJFw==
+X-Google-Smtp-Source: ABdhPJwB8gyWsdr+APL00/SUzg5f99pL2Cd8wHqSwVteiR+yRNeqgZ+BZMxVrDeztGce96E60GxLNg==
+X-Received: by 2002:a17:902:a50e:: with SMTP id s14mr16166674plq.334.1593486241788;
+        Mon, 29 Jun 2020 20:04:01 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id 6sm875627pfi.170.2020.06.29.20.03.52
+        by smtp.gmail.com with ESMTPSA id 6sm875627pfi.170.2020.06.29.20.03.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 20:03:55 -0700 (PDT)
+        Mon, 29 Jun 2020 20:04:00 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/22] perl: fix CVE-2020-10543 & CVE-2020-10878
-Date: Mon, 29 Jun 2020 17:03:00 -1000
-Message-Id: <d9c5d9c52eb1f03ff9c907a76dda31042fb26edb.1593485896.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/22] curl: Security fixes for CVE-2020-{8169/8177}
+Date: Mon, 29 Jun 2020 17:03:01 -1000
+Message-Id: <f42702baee57ab3d1b7ab7833e72c7d56ad4ee94.1593485896.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1593485896.git.steve@sakoman.com>
 References: <cover.1593485896.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Source: https://curl.haxx.se/
+MR: 104472, 104458
+Type: Security Fix
+Disposition: Backport from https://github.com/curl/curl/commit/{600a8cded447cd/8236aba58542c5f}
+ChangeID: 1300924f7a64b22375b4326daeef0b686481e30c
+Description:
+
+- Affected versions: curl 7.20.0 to and including 7.70.0
+- Not affected versions: curl < 7.20.0 and curl >= 7.71.0
+
+Fixes both CVE-2020-8169 and CVE-2020-8177
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../perl/files/CVE-2020-10543.patch           |  36 +++++
- .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
- .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
- 4 files changed, 227 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+ .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++++
+ .../curl/curl/CVE-2020-8177.patch             |  67 +++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+ 3 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10543.patch b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2020-8169.patch b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
 new file mode 100644
-index 0000000000..36dff0aac9
+index 0000000000..7d1be24a0a
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
-@@ -0,0 +1,36 @@
-+From 897d1f7fd515b828e4b198d8b8bef76c6faf03ed Mon Sep 17 00:00:00 2001
-+From: John Lightsey <jd@cpanel.net>
-+Date: Wed, 20 Nov 2019 20:02:45 -0600
-+Subject: [PATCH] regcomp.c: Prevent integer overflow from nested regex
-+ quantifiers.
++++ b/meta/recipes-support/curl/curl/CVE-2020-8169.patch
+@@ -0,0 +1,140 @@
++From 600a8cded447cd7118ed50142c576567c0cf5158 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 14 May 2020 14:37:12 +0200
++Subject: [PATCH] url: make the updated credentials URL-encoded in the URL
 +
-+(CVE-2020-10543) On 32bit systems the size calculations for nested regular
-+expression quantifiers could overflow causing heap memory corruption.
++Found-by: Gregory Jefferis
++Reported-by: Jeroen Ooms
++Added test 1168 to verify. Bug spotted when doing a redirect.
++Bug: https://github.com/jeroen/curl/issues/224
++Closes #5400
 +
-+Fixes: Perl/perl5-security#125
-+(cherry picked from commit bfd31397db5dc1a5c5d3e0a1f753a4f89a736e71)
++Upstream-Status: Backport
++https://github.com/curl/curl/commit/600a8cded447cd
 +
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/897d1f7fd515b828e4b198d8b8bef76c6faf03ed] 
-+CVE: CVE-2020-10543
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++CVE: CVE-2020-8169
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
 +---
-+ regcomp.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ lib/url.c               |  6 ++--
++ tests/data/Makefile.inc |  1 +
++ tests/data/test1168     | 78 +++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 83 insertions(+), 2 deletions(-)
++ create mode 100644 tests/data/test1168
 +
-+diff --git a/regcomp.c b/regcomp.c
-+index 93c8d98fbb0..5f86be8086d 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -5489,6 +5489,12 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 				  RExC_precomp)));
-+                 }
++Index: curl-7.69.1/lib/url.c
++===================================================================
++--- curl-7.69.1.orig/lib/url.c
+++++ curl-7.69.1/lib/url.c
++@@ -2776,12 +2776,14 @@ static CURLcode override_login(struct Cu
 + 
-++                if ( ( minnext > 0 && mincount >= SSize_t_MAX / minnext )
-++                    || min >= SSize_t_MAX - minnext * mincount )
-++                {
-++                    FAIL("Regexp out of space");
-++                }
++   /* for updated strings, we update them in the URL */
++   if(user_changed) {
++-    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp, 0);
+++    uc = curl_url_set(data->state.uh, CURLUPART_USER, *userp,
+++                      CURLU_URLENCODE);
++     if(uc)
++       return Curl_uc_to_curlcode(uc);
++   }
++   if(passwd_changed) {
++-    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp, 0);
+++    uc = curl_url_set(data->state.uh, CURLUPART_PASSWORD, *passwdp,
+++                      CURLU_URLENCODE);
++     if(uc)
++       return Curl_uc_to_curlcode(uc);
++   }
++Index: curl-7.69.1/tests/data/Makefile.inc
++===================================================================
++--- curl-7.69.1.orig/tests/data/Makefile.inc
+++++ curl-7.69.1/tests/data/Makefile.inc
++@@ -133,6 +133,7 @@ test1136 test1137 test1138 test1139 test
++ test1144 test1145 test1146 test1147 test1148 test1149 test1150 test1151 \
++ test1152 test1153 test1154 test1155 test1156 test1157 test1158 test1159 \
++ test1160 test1161 test1162 test1163 test1164 test1165 test1166 test1167 \
+++test1168 \
++ \
++ test1170 test1171 test1172 test1173 test1174 test1175 test1176 \
++ \
++Index: curl-7.69.1/tests/data/test1168
++===================================================================
++--- /dev/null
+++++ curl-7.69.1/tests/data/test1168
++@@ -0,0 +1,78 @@
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP GET
+++followlocation
+++</keywords>
+++</info>
+++# Server-side
+++<reply>
+++<data>
+++HTTP/1.1 301 This is a weirdo text message swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Location: /data/11680002.txt
+++Connection: close
 ++
-+ 		min += minnext * mincount;
-+ 		is_inf_internal |= deltanext == SSize_t_MAX
-+                          || (maxcount == REG_INFTY && minnext + deltanext > 0);
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+++This server reply is for testing a simple Location: following
+++
+++</data>
+++<data2>
+++HTTP/1.1 200 Followed here fine swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 52
+++
+++If this is received, the location following worked
+++
+++</data2>
+++<datacheck>
+++HTTP/1.1 301 This is a weirdo text message swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Location: /data/11680002.txt
+++Connection: close
+++
+++HTTP/1.1 200 Followed here fine swsclose
+++Date: Thu, 09 Nov 2010 14:49:00 GMT
+++Server: test-server/fake
+++Content-Length: 52
+++
+++If this is received, the location following worked
+++
+++</datacheck>
+++</reply>
+++
+++# Client-side
+++<client>
+++<server>
+++http
+++</server>
+++ <name>
+++HTTP redirect with credentials using # in user and password
+++ </name>
+++ <command>
+++http://%HOSTIP:%HTTPPORT/want/1168 -L -u "catmai#d:#DZaRJYrixKE*gFY"
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<strip>
+++^User-Agent:.*
+++</strip>
+++<protocol>
+++GET /want/1168 HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
+++Accept: */*
+++
+++GET /data/11680002.txt HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic Y2F0bWFpI2Q6I0RaYVJKWXJpeEtFKmdGWQ==
+++Accept: */*
+++
+++</protocol>
+++</verify>
+++</testcase>
+diff --git a/meta/recipes-support/curl/curl/CVE-2020-8177.patch b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
 new file mode 100644
-index 0000000000..b86085a551
+index 0000000000..4f14fa2306
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-@@ -0,0 +1,152 @@
-+From 0a320d753fe7fca03df259a4dfd8e641e51edaa8 Mon Sep 17 00:00:00 2001
-+From: Hugo van der Sanden <hv@crypt.org>
-+Date: Tue, 18 Feb 2020 13:51:16 +0000
-+Subject: [PATCH] study_chunk: extract rck_elide_nothing
++++ b/meta/recipes-support/curl/curl/CVE-2020-8177.patch
+@@ -0,0 +1,67 @@
++From 8236aba58542c5f89f1d41ca09d84579efb05e22 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 31 May 2020 23:09:59 +0200
++Subject: [PATCH] tool_getparam: -i is not OK if -J is used
 +
-+(CVE-2020-10878)
++Reported-by: sn on hackerone
++Bug: https://curl.haxx.se/docs/CVE-2020-8177.html
 +
-+(cherry picked from commit 93dee06613d4e1428fb10905ce1c3c96f53113dc)
++Upstream-Status: Backport
++CVE:CVE-2020-8177
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/0a320d753fe7fca03df259a4dfd8e641e51edaa8] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ embed.fnc |  1 +
-+ embed.h   |  1 +
-+ proto.h   |  3 +++
-+ regcomp.c | 70 ++++++++++++++++++++++++++++++++++---------------------
-+ 4 files changed, 48 insertions(+), 27 deletions(-)
++ src/tool_cb_hdr.c   | 22 ++++------------------
++ src/tool_getparam.c |  5 +++++
++ 2 files changed, 9 insertions(+), 18 deletions(-)
 +
-+diff --git a/embed.fnc b/embed.fnc
-+index aedb4baef19..d7cd04d3fc3 100644
-+--- a/embed.fnc
-++++ b/embed.fnc
-+@@ -2481,6 +2481,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
-+                                 |I32 stopparen|U32 recursed_depth \
-+ 				|NULLOK regnode_ssc *and_withp \
-+ 				|U32 flags|U32 depth
-++Es	|void	|rck_elide_nothing|NN regnode *node
-+ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
-+ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
-+ 				|NN const char* const s|const U32 n
-+diff --git a/embed.h b/embed.h
-+index 75c91f77f45..356a8b98d96 100644
-+--- a/embed.h
-++++ b/embed.h
-+@@ -1208,6 +1208,7 @@
-+ #define parse_lparen_question_flags(a)	S_parse_lparen_question_flags(aTHX_ a)
-+ #define parse_uniprop_string(a,b,c,d,e,f,g,h,i)	Perl_parse_uniprop_string(aTHX_ a,b,c,d,e,f,g,h,i)
-+ #define populate_ANYOF_from_invlist(a,b)	S_populate_ANYOF_from_invlist(aTHX_ a,b)
-++#define rck_elide_nothing(a)	S_rck_elide_nothing(aTHX_ a)
-+ #define reg(a,b,c,d)		S_reg(aTHX_ a,b,c,d)
-+ #define reg2Lanode(a,b,c,d)	S_reg2Lanode(aTHX_ a,b,c,d)
-+ #define reg_node(a,b)		S_reg_node(aTHX_ a,b)
-+diff --git a/proto.h b/proto.h
-+index 141ddbaee6d..f316fe134e1 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -5543,6 +5543,9 @@ PERL_CALLCONV SV *	Perl_parse_uniprop_string(pTHX_ const char * const name, cons
-+ STATIC void	S_populate_ANYOF_from_invlist(pTHX_ regnode *node, SV** invlist_ptr);
-+ #define PERL_ARGS_ASSERT_POPULATE_ANYOF_FROM_INVLIST	\
-+ 	assert(node); assert(invlist_ptr)
-++STATIC void	S_rck_elide_nothing(pTHX_ regnode *node);
-++#define PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING	\
-++	assert(node)
-+ PERL_STATIC_NO_RET void	S_re_croak2(pTHX_ bool utf8, const char* pat1, const char* pat2, ...)
-+ 			__attribute__noreturn__;
-+ #define PERL_ARGS_ASSERT_RE_CROAK2	\
-+diff --git a/regcomp.c b/regcomp.c
-+index 5f86be8086d..4ba2980db66 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -4450,6 +4450,44 @@ S_unwind_scan_frames(pTHX_ const void *p)
-+     } while (f);
-+ }
-+ 
-++/* Follow the next-chain of the current node and optimize away
-++   all the NOTHINGs from it.
-++ */
-++STATIC void
-++S_rck_elide_nothing(pTHX_ regnode *node)
-++{
-++    dVAR;
-++
-++    PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING;
-++
-++    if (OP(node) != CURLYX) {
-++        const int max = (reg_off_by_arg[OP(node)]
-++                        ? I32_MAX
-++                          /* I32 may be smaller than U16 on CRAYs! */
-++                        : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-++        int off = (reg_off_by_arg[OP(node)] ? ARG(node) : NEXT_OFF(node));
-++        int noff;
-++        regnode *n = node;
-++
-++        /* Skip NOTHING and LONGJMP. */
-++        while (
-++            (n = regnext(n))
-++            && (
-++                (PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-++                || ((OP(n) == LONGJMP) && (noff = ARG(n)))
-++            )
-++            && off + noff < max
-++        ) {
-++            off += noff;
-++        }
-++        if (reg_off_by_arg[OP(node)])
-++            ARG(node) = off;
-++        else
-++            NEXT_OFF(node) = off;
-++    }
-++    return;
-++}
-++
-+ /* the return from this sub is the minimum length that could possibly match */
-+ STATIC SSize_t
-+ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+@@ -4550,28 +4588,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+          */
-+         JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-+ 
-+-	/* Follow the next-chain of the current node and optimize
-+-	   away all the NOTHINGs from it.  */
-+-	if (OP(scan) != CURLYX) {
-+-	    const int max = (reg_off_by_arg[OP(scan)]
-+-		       ? I32_MAX
-+-		       /* I32 may be smaller than U16 on CRAYs! */
-+-		       : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-+-	    int off = (reg_off_by_arg[OP(scan)] ? ARG(scan) : NEXT_OFF(scan));
-+-	    int noff;
-+-	    regnode *n = scan;
++Index: curl-7.69.1/src/tool_cb_hdr.c
++===================================================================
++--- curl-7.69.1.orig/src/tool_cb_hdr.c
+++++ curl-7.69.1/src/tool_cb_hdr.c
++@@ -186,25 +186,11 @@ size_t tool_header_cb(char *ptr, size_t
++       filename = parse_filename(p, len);
++       if(filename) {
++         if(outs->stream) {
++-          int rc;
++-          /* already opened and possibly written to */
++-          if(outs->fopened)
++-            fclose(outs->stream);
++-          outs->stream = NULL;
 +-
-+-	    /* Skip NOTHING and LONGJMP. */
-+-	    while ((n = regnext(n))
-+-		   && ((PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-+-		       || ((OP(n) == LONGJMP) && (noff = ARG(n))))
-+-		   && off + noff < max)
-+-		off += noff;
-+-	    if (reg_off_by_arg[OP(scan)])
-+-		ARG(scan) = off;
-+-	    else
-+-		NEXT_OFF(scan) = off;
-+-	}
-++        /* Follow the next-chain of the current node and optimize
-++           away all the NOTHINGs from it.
-++         */
-++        rck_elide_nothing(scan);
-+ 
-+ 	/* The principal pseudo-switch.  Cannot be a switch, since we
-+ 	   look into several different things.  */
-+@@ -5745,11 +5765,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+ 		if (data && (fl & SF_HAS_EVAL))
-+ 		    data->flags |= SF_HAS_EVAL;
-+ 	      optimize_curly_tail:
-+-		if (OP(oscan) != CURLYX) {
-+-		    while (PL_regkind[OP(next = regnext(oscan))] == NOTHING
-+-			   && NEXT_OFF(next))
-+-			NEXT_OFF(oscan) += NEXT_OFF(next);
-+-		}
-++		rck_elide_nothing(oscan);
-+ 		continue;
-+ 
-+ 	    default:
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-new file mode 100644
-index 0000000000..0bacd6b192
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-@@ -0,0 +1,36 @@
-+From 3295b48defa0f8570114877b063fe546dd348b3c Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Thu, 20 Feb 2020 17:49:36 +0000
-+Subject: [PATCH] regcomp: use long jumps if there is any possibility of
-+ overflow
-+
-+(CVE-2020-10878) Be conservative for backporting, we'll aim to do
-+something more aggressive for bleadperl.
-+
-+(cherry picked from commit 9d7759db46f3b31b1d3f79c44266b6ba42a47fc6)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/3295b48defa0f8570114877b063fe546dd348b3c] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ regcomp.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 4ba2980db66..73c35a67020 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -7762,6 +7762,13 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+ 
-+         /* We have that number in RExC_npar */
-+         RExC_total_parens = RExC_npar;
++-          /* rename the initial file name to the new file name */
++-          rc = rename(outs->filename, filename);
++-          if(rc != 0) {
++-            warnf(per->config->global, "Failed to rename %s -> %s: %s\n",
++-                  outs->filename, filename, strerror(errno));
++-          }
++-          if(outs->alloc_filename)
++-            Curl_safefree(outs->filename);
++-          if(rc != 0) {
++-            free(filename);
++-            return failure;
++-          }
+++          /* indication of problem, get out! */
+++          free(filename);
+++          return failure;
++         }
 ++
-++        /* XXX For backporting, use long jumps if there is any possibility of
-++         * overflow */
-++        if (RExC_size > U16_MAX && ! RExC_use_BRANCHJ) {
-++            RExC_use_BRANCHJ = TRUE;
-++            flags |= RESTART_PARSE;
-++        }
-+     }
-+     else if (! MUST_RESTART(flags)) {
-+ 	ReREFCNT_dec(Rx);
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 5f3a9eeeb3..47b2f9ca65 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -24,6 +24,9 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0001-PATCH-perl-134117-Close-DATA-in-loc_tools.pl.patch \
-            file://determinism.patch  \
-            file://racefix.patch \
-+           file://CVE-2020-10543.patch \
-+           file://CVE-2020-10878_1.patch \
-+           file://CVE-2020-10878_2.patch \
-            "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
++         outs->is_cd_filename = TRUE;
++         outs->s_isreg = TRUE;
++         outs->fopened = FALSE;
++Index: curl-7.69.1/src/tool_getparam.c
++===================================================================
++--- curl-7.69.1.orig/src/tool_getparam.c
+++++ curl-7.69.1/src/tool_getparam.c
++@@ -1807,6 +1807,11 @@ ParameterError getparameter(const char *
++       }
++       break;
++     case 'i':
+++      if(config->content_disposition) {
+++        warnf(global,
+++              "--include and --remote-header-name cannot be combined.\n");
+++        return PARAM_BAD_USE;
+++      }
++       config->show_headers = toggle; /* show the headers as well in the
++                                         general output stream */
++       break;
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index e854e8d4bd..8b5170f021 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e9fb35867314fe31c6a4977ef7dd531"
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
++           file://CVE-2020-8169.patch \
++           file://CVE-2020-8177.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
 -- 
 2.17.1
 
