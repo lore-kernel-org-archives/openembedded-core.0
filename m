@@ -1,109 +1,101 @@
-Received: from mail2.multitech.com (mail2.multitech.com [65.126.90.11])
- by mx.groups.io with SMTP id smtpd.web10.8828.1593492336805947937
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web10.9154.1593494329903706081
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2020 21:45:37 -0700
+ Mon, 29 Jun 2020 22:18:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: multitech.com, ip: 65.126.90.11, mailfrom: prvs=14431d34bc=john.klug@multitech.com)
-Received: from mail2.multitech.com (localhost.localdomain [127.0.0.1])
-	by localhost (Email Security Appliance) with SMTP id D62AF584CCC_EFAC36FB;
-	Tue, 30 Jun 2020 04:45:35 +0000 (GMT)
-Received: from EXCHDBPM2.dc.multitech.prv (unknown [192.168.11.7])
-	(using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "", Issuer "MultiTech Systems Intermediate CA 01" (verified OK))
-	by mail2.multitech.com (Sophos Email Appliance) with ESMTPS id 1AD1D583499_EFAC36DF;
-	Tue, 30 Jun 2020 04:45:33 +0000 (GMT)
-Received: from EXCHDBPM1.dc.multitech.prv (192.168.11.6) by
- EXCHDBPM2.dc.multitech.prv (192.168.11.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1847.3; Mon, 29 Jun 2020 23:45:32 -0500
-Received: from EXCHDBPM1.dc.multitech.prv ([192.168.11.6]) by
- EXCHDBPM1.dc.multitech.prv ([192.168.11.6]) with mapi id 15.01.1847.009; Mon,
- 29 Jun 2020 23:45:32 -0500
-From: "John Klug" <john.klug@multitech.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] git do_unpack
-Thread-Topic: [OE-core] git do_unpack
-Thread-Index: AQHWTXFgQdNOqBKAikyDTZHWQuTCS6juvhkAgAHRjWM=
-Date: Tue, 30 Jun 2020 04:45:32 +0000
-Message-ID: <f0fc34bfb15642bdab4a1def06639238@multitech.com>
-References: <e5Dw.1593365236614554114.mV8j@lists.openembedded.org>,<CANNYZj8ondQew3MqtyLr1k-EyBLG52KfT_wu3mRabZRpjecQEg@mail.gmail.com>
-In-Reply-To: <CANNYZj8ondQew3MqtyLr1k-EyBLG52KfT_wu3mRabZRpjecQEg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.20.93]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aBxTAcN3;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id x62so14700230qtd.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2020 22:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qbe22MhXsLG2HHHOVCFMd2uuPlrZjwW9804iiXcu4lE=;
+        b=aBxTAcN3Y0mgWRUARuav0vXTZYM5Vq/TgwmEngT+YbZOSec1ChK6AjDchbu6GBqn5G
+         EciOv2d6ZvpcxrpNnHFtzIqm/qdlRI707Zeh1S1Eoxr54/KXVfZSVMq+jidyx6kzoqpA
+         lgwvEudroojwv3rS/qDeFgCWfkpFgm9wuxt845HoLbZ0QKJvdbKZ+BrgVa52j9RqVWhf
+         9lboqdMg+j/V4nn8Hp0JOaFl0FhxBZygQGDTtEQtxd0NzDg1hKY/C8YjdRiYDUFtMGDG
+         Llssc8IVEi+35aogIJuDp6Kf1/fPm+l7RXstCKqtDsO0opSodwok5XmFi2ZAI5hn7NCY
+         ALcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qbe22MhXsLG2HHHOVCFMd2uuPlrZjwW9804iiXcu4lE=;
+        b=Ge7AVQTe/FE1a/AHa+JhRbByfz5VOPo3rKrixrQE63TQZIX3/hhGF9aKD+A0Ecrrz9
+         l1jW+IUT+JRvov6LwK5JVKNAUfc+XIwSSfhsDjOYyxTBpyN5pDGHR9vjLw4hffNjRVGQ
+         R0CeloR3G62FdkzhoumLX8MEWjwt5EwCDvcIRZeeTWqfq3RD/tOa0YWIkTqzUAUzuFb6
+         I6za2Zc5c73QIFVxbfbBo+5UzymG7tD5KRmToruS5KjcUU9c8+ULd/ZsfUVPh7sYMtqP
+         BoGOSrp/zPceKC/d8Mc+RZIEKMQjxktpsg7ra85cL8ZREYgeD/yA1W1wvsyj9t9A/rBj
+         H5TQ==
+X-Gm-Message-State: AOAM5330TJLd0k3Jje/bIJv8yIS3f2bhdodOtCZV+AcxR/fhfRHp5t2K
+	GeuN2CPTXwc4FTmDpIFIAJg=
+X-Google-Smtp-Source: ABdhPJwDXZy3JMwyMOG1tN8JCCI8cEShXgC4uVNb30LEm5dZRDCci3MU0jz2WkGi3bED/eNY4MFayw==
+X-Received: by 2002:ac8:22e5:: with SMTP id g34mr19654296qta.227.1593494328987;
+        Mon, 29 Jun 2020 22:18:48 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id o10sm2163403qtq.71.2020.06.29.22.18.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 22:18:48 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/6] linux-yocto: conslidated pull request
+Date: Tue, 30 Jun 2020 01:18:40 -0400
+Message-Id: <cover.1593494109.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-SASI-RCODE: 200
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-a:
+Hi Richard,
 
-(fetch was already run successfully while connected with a VPN).
+As discussed, here are the linux-yocto -stable bumps that I've been
+testing locally while we try and track down some of the intermittent
+AB issues.
 
-VPN then shut down.
+The -stable updates cover the gcc10 updates that should fix some of
+the host side build issues.
 
-  $  bitbake -c unpack dhq-client
+This passed a AB quick run for me (well the last target is still building,
+but it's late, so I'm sending this assuming it will complete).
 
-     ...
-  NOTE: Executing RunQueue Tasks
-  ERROR: dhq-client-0.32-r11 do_unpack: Fetcher failure: Fetch command expo=
-rt  DBUS_SESSION_BUS_ADDRESS=3D"unix:abstract=3D/tmp/dbus-CbyhEfsmW1"; expo=
-rt SSH_AGENT_PID=3D"2444"; export SSH_AUTH_SOCK=3D"/tmp/ssh-gHgQLFqq7E5R/ag=
-ent.2443"; export PATH=3D"/home/klugja/mlinux-up-14/build/tmp/sysroots/x86_=
-64-linux/usr/bin/python-native:/home/klugja/mlinux-up-14/layers/openembedde=
-d-core/scripts:/home/klugja/mlinux-up-14/build/tmp/sysroots/x86_64-linux/us=
-r/bin/arm-mlinux-linux-gnueabi:/home/klugja/mlinux-up-14/build/tmp/sysroots=
-/mt100eocg/usr/bin/crossscripts:/home/klugja/mlinux-up-14/build/tmp/sysroot=
-s/x86_64-linux/usr/sbin:/home/klugja/mlinux-up-14/build/tmp/sysroots/x86_64=
--linux/usr/bin:/home/klugja/mlinux-up-14/build/tmp/sysroots/x86_64-linux/sb=
-in:/home/klugja/mlinux-up-14/build/tmp/sysroots/x86_64-linux/bin:/home/klug=
-ja/mlinux-up-14/scripts:/home/klugja/mlinux-up-14/bitbake/bin:/home/klugja/=
-bin:/home/klugja/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbi=
-n:/bin:/usr/games:/usr/local/games:/snap/bin"; export HOME=3D"/home/klugja"=
-; git -c core.fsyncobjectfiles=3D0 ls-remote ssh://git@gitlab.multitech.net=
-/devicehq/mAPI-dhq-client.git  failed with exit code 128, output:
-  ssh: connect to host gitlab.multitech.net port 22: Connection timed out
-  fatal: Could not read from remote repository.
+I'll send a yocto-bsp bump that goes along with this.
 
-  Please make sure you have the correct access rights
-  and the repository exists.
+If this still doesn't fix the intermittent build issue, I have a gcc10
+debug patch that we can try. Which should show us if its a race, or
+really just a gcc10 host issue.
 
-  ERROR: dhq-client-0.32-r11 do_unpack: Function failed: base_do_unpack
-  ERROR: Logfile of failure stored in: /home/klugja/mlinux-up-14/build/tmp/=
-work/mt100eocg-mlinux-linux-gnueabi/dhq-client/0.32-r11/temp/log.do_unpack.=
-10175
-  ERROR: Task (/home/klugja/mlinux-up-14/build/../layers/meta-mlinux/recipe=
-s-core/dhq-client/dhq-client_0.32.bb:do_unpack) failed with exit code '1'
-  NOTE: Tasks Summary: Attempted 2 tasks of which 1 didn't need to be rerun=
- and 1 failed.
+Cheers,
 
-  Summary: 1 task failed:
-    /home/klugja/mlinux-up-14/build/../layers/meta-mlinux/recipes-core/dhq-=
-client/dhq-client_0.32.bb:do_unpack
-  Summary: There was 1 WARNING message shown.
-  Summary: There were 2 ERROR messages shown, returning a non-zero exit cod=
-e.
+Bruce
 
+The following changes since commit 5951cbcabe29e8520876c7646b578c12d6c20950:
 
-Line 3 of the do_unpack.log:
+  python3-setuptools: patch entrypoints for faster initialization (2020-06-25 10:26:00 +0100)
 
-  DEBUG: Fetcher accessed the network with the command git -c core.fsyncobj=
-ectfiles=3D0 ls-remote ssh://git@gitlab.multitech.net/devicehq/mAPI-dhq-cli=
-ent.git
+are available in the Git repository at:
 
-Testing the download of the git (download is verifiable):
-  klugja@peru:~/mlinux-up-14/build/downloads/git2/gitlab.multitech.net.devi=
-cehq.mAPI-dhq-client.git$ git fsck
-  Checking object directories: 100% (256/256), done.
-  Checking objects: 100% (485/485), done.
-  klugja@peru:~/mlinux-up-14/build/downloads/git2/gitlab.multitech.net.devi=
-cehq.mAPI-dhq-client.git$
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 
+Bruce Ashfield (6):
+  kernel/yocto: ensure that defconfigs are processed first
+  linux-yocto/5.4: update to v5.4.45
+  linux-yocto-rt/5.4: update to rt25
+  linux-yocto/5.4: update to v5.4.46
+  linux-yocto/5.4: update to v5.4.47
+  linux-yocto/5.4: update to v5.4.49 and -rt28
 
+ meta/classes/kernel-yocto.bbclass             | 33 ++++++++++++-------
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++-------
+ 4 files changed, 39 insertions(+), 30 deletions(-)
 
-b.  Too busy writing my own git commands in my own do_unpack to fix this.  =
-Maybe someday.
+-- 
+2.19.1
+
