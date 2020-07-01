@@ -1,17 +1,17 @@
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [40.107.70.57])
- by mx.groups.io with SMTP id smtpd.web11.12233.1593567578955894095
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.67])
+ by mx.groups.io with SMTP id smtpd.web12.12397.1593569238437235987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 18:39:39 -0700
+ Tue, 30 Jun 2020 19:07:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=kXb25Yil;
- spf=pass (domain: windriver.com, ip: 40.107.70.57, mailfrom: changqing.li@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=VatFCiyK;
+ spf=pass (domain: windriver.com, ip: 40.107.94.67, mailfrom: mingli.yu@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KaUxQSm/Vpt27w6LegwrE8/8apGideasqncz425KPvLaLeXHaD2S46R35MPf1tGv1kM5TcocR0MnYH84WXLTFS7nSimxIyNnL8AuW8vuslZLeluwtXb4OvFI87pT9SjFXG0CXsVDNiKNf987pO5fDSR/Jg2JxLnANOALDi/+D7bmD3IyoAWOPgrryt+ug7joxX7BY6CzcmEtXPUr7B8xmlGSrnqiHNXGWPRqD+XGWZfNEpKrCDnZ+VYyCGav73Rc3aj4LCXPLCT3P5nNLajBwWHMNKfOD+or+c7WspJJL92Ckc07X25Cgyo/VeaUgECUUNtFVWXw4J5Ncr4mEXes/A==
+ b=ISttpfrf7pd+GRGfJUCoL+oKNvxvJ13MeUlQ/pCyabtnZ+kWxZZUbbH/Q9LTCouck4pe0j7UvtPR48EGpxuD5rmmOkCR5G3K7NPfpc/Wjz7pbNjrqfmLIbeipI69HnUJ/V9tiO9c9kT/038hQTPOZP9k8L6PESJaOyLMBu2XJy2Cc6/Kyqx+5YTJAPtz/OKmSy3Itu8lrVNSHY6EG7rUe4egVB/lTBjY8Z6jtWr3+dCWJs83fqGZU8vAKAW12p52lKxBsBIDRB5vbartt+DZX+x1JXiw4vFOrZ0ez6b3ePp13Ugk5Yv+qTthrb60eCShZmLVbHMqOzsT9VqkRo7CSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfy6M/ciWrnihRnVj3HpGbLGcQHLpzts2RLdk8Ddo9Y=;
- b=hE80isx/rvQAe9z084a5BY0j+0DOWy+vxEwHTGg92R1ovs3kTHv7ukPk08xjkdGo+3+oXeTtciKllwGqbnXMB1R8z3/qIb4C0JFS7MdScvt9MaUT/mFFdennZiv9Q3bm+JtzoL0SMIVntbWvSr0CWR0jFbjUqcqoIJYdIXGfwc3SQ4UH0aTjUHVs6lfT0Nhral96X/5n+S9cQDcKJi/TmtSAGZ7fPd2xi5EWxPFxT0rTqyQnyWQqHdSaAdlJdvP0EOZ04vziRIxlePG1BKfsSQ0JMuaakD/Yty58QOiEDPsIZCfjoJOiOHuNNZsOzbjfdgmdcLDxkxhW70Y1/OQoAQ==
+ bh=X4y9BbCes2jiNJrMAyryLy2esMP+8or9qX3fmMDkuv8=;
+ b=jV5JdFXfzjRHRQFeMnVPpszolMjke/sVSlacPq60VfYD72HWuUSyvIhDjqE/IWEy2xN4kGP49eg0RLXKXz4VsCCYnmtI5NTkTOR4ltWCBIbvE+wX99uZSSuyGikykNSBPe8icBa/k08eTt8KxIbm3rXfZHujNs97qGI8Lu0vX3VjVjHM4Mef+4JdtnWeUJWWxY2GDrXlwzpxixL8cVs4TYQil1mAzenqvca3jyj9kIfzzg5DbcsuDQmSkszPOYhWWMjZIDZzGWx6nXQe6ETRZCk5c4sbjKRnxe6njqXVRk6qDaN9zTI1eyMd6tzkhtEXycuPRyiISwsSI75JcVtVjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,120 +19,140 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfy6M/ciWrnihRnVj3HpGbLGcQHLpzts2RLdk8Ddo9Y=;
- b=kXb25Yilxy/ZPNcbWMooz3ZRL6SMH2PVAPI5UeeFa3GBjtedQKV3+NRPio21ggS/qgKD+/i3Rxu2O8N57eFRnhK//5URIVnTRAeJNyBFI3GrxGsLBvP9uIBTbL35UO/ThVbmymBFhZq+YElBQyOPlzr57pSBQ37Ytw4BPNDOzPs=
+ bh=X4y9BbCes2jiNJrMAyryLy2esMP+8or9qX3fmMDkuv8=;
+ b=VatFCiyKefOGGINjZ71ZqiMQmf1YUNXHFvqEvH5WdjI8+gmjpd7w8DVoWz9QXTLQRa+r9msysjxBpZ49slK0dwpQVEjndTdZ073fAWskSpGRsC8fSS9+Bz8pMUPzhRDjmwVVrIkZFi4lTWVCqCNeJf5gquOar/btJcQ2+8Bm+HQ=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SA0PR11MB4574.namprd11.prod.outlook.com (2603:10b6:806:71::11) with
+Received: from BN7PR11MB2596.namprd11.prod.outlook.com (2603:10b6:406:b2::20)
+ by BN6PR11MB1268.namprd11.prod.outlook.com (2603:10b6:404:47::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23; Wed, 1 Jul
- 2020 01:39:36 +0000
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::cdd9:281d:f264:70b4]) by SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::cdd9:281d:f264:70b4%7]) with mapi id 15.20.3131.028; Wed, 1 Jul 2020
- 01:39:36 +0000
-Subject: Re: [OE-core] [PATCH] gtk-icon-cache.bbclass: update RDEPENDS
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.24; Wed, 1 Jul
+ 2020 02:07:15 +0000
+Received: from BN7PR11MB2596.namprd11.prod.outlook.com
+ ([fe80::e18b:a052:267c:beb8]) by BN7PR11MB2596.namprd11.prod.outlook.com
+ ([fe80::e18b:a052:267c:beb8%6]) with mapi id 15.20.3131.028; Wed, 1 Jul 2020
+ 02:07:15 +0000
+Subject: Re: [OE-core] [PATCH v2] netbase: use git fetcher
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
  openembedded-core@lists.openembedded.org
-References: <20200630094907.1396284-1-changqing.li@windriver.com>
- <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
-From: "Changqing Li" <changqing.li@windriver.com>
-Message-ID: <61ba6f0c-0bb3-42fa-408e-c2396d5a2773@windriver.com>
-Date: Wed, 1 Jul 2020 09:39:31 +0800
+References: <20200629043119.1798934-1-mingli.yu@windriver.com>
+ <c3e569088010a8242703f559f99de658e427f32b.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <3c5fff8d-aa64-5f36-7db1-2570bbbbf520@windriver.com>
+Date: Wed, 1 Jul 2020 10:05:11 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
-X-ClientProxiedBy: BY5PR17CA0071.namprd17.prod.outlook.com
- (2603:10b6:a03:167::48) To SN6PR11MB2557.namprd11.prod.outlook.com
- (2603:10b6:805:56::33)
-Return-Path: changqing.li@windriver.com
+ Thunderbird/68.8.0
+In-Reply-To: <c3e569088010a8242703f559f99de658e427f32b.camel@linuxfoundation.org>
+X-ClientProxiedBy: HK2PR0401CA0021.apcprd04.prod.outlook.com
+ (2603:1096:202:2::31) To BN7PR11MB2596.namprd11.prod.outlook.com
+ (2603:10b6:406:b2::20)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.189] (60.247.85.82) by BY5PR17CA0071.namprd17.prod.outlook.com (2603:10b6:a03:167::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23 via Frontend Transport; Wed, 1 Jul 2020 01:39:35 +0000
+Received: from [128.224.162.138] (60.247.85.82) by HK2PR0401CA0021.apcprd04.prod.outlook.com (2603:1096:202:2::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20 via Frontend Transport; Wed, 1 Jul 2020 02:07:13 +0000
 X-Originating-IP: [60.247.85.82]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa1510d0-aa32-49ea-23a9-08d81d5f9ccf
-X-MS-TrafficTypeDiagnostic: SA0PR11MB4574:
+X-MS-Office365-Filtering-Correlation-Id: ebd146db-662b-42e8-9ad5-08d81d637948
+X-MS-TrafficTypeDiagnostic: BN6PR11MB1268:
 X-Microsoft-Antispam-PRVS: 
-	<SA0PR11MB45742358ED04A920D7EF1F16826C0@SA0PR11MB4574.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+	<BN6PR11MB12681862E69C1A7B5ADB4734F16C0@BN6PR11MB1268.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:451;
 X-Forefront-PRVS: 04519BA941
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	u49gZwwJWJ7Bl7NYwPId/E+zQxXOf37E6L4Z1ueUYDilepJfsEqzJxcQkBja62pmtaoaJbMrcCfpEgixlg6xF8BzbKs6cCNMSjof3DAJicDOwk6XO4mPPrk/ZF3edA5uZ3pTMMqTYUfifS8rLGJt3D1oni0q5Ke+fU52/XoAsYMhfTEqUl9RfKwKyRDBHfUGDUKyzpJ0NXD+9gAU7edKCDi19wqsme8yL3f+G3U3zIKXm47HQOCHgAJKtNUCnvHorplaBI0CKnSLUfoxyaabCp3Vb7krS8WyrZ5kcEup3KoWLZl5UkI5spUulVTyxSyWZkIfSNDkhw2GdNu7UYFjts3YyQ68QRUc9uy+RecF3Qa2h8xsu2d/9edzdxY4FU0lGfOc7a3zN74d9BtatqDSxdXhaJyjphQ1p4mgfUH+qTcvyPMNLcFVJaiLnWbVgN71
+	oVYjOeThFeJNfU3S0Mmmm0Z9pYKngFTJ9stRhpIC0pVziBJVV4seOO72Fu1DC+yqYhkEYhCCNThsRq+M/uS84SE7yZL1LUJKzLF7pEs16LS5G2u8tt3c57jFfoYkaP3ssKCKzuJ6LUUjhfoh51qVM4DX1YVAOUgvs9coqoJPOyPEUU/45Mb8qF4ebUXzzEoiYSbifIdUXG9I3z5CKPmJcJYlKMdsits2P738j0hSLc9YsnvQSojotWA9/XAtrVETMoy2KQAS9JLDXumO43NUu2CNnVWIKsVngF4zhh21/oDCuzajYfIvYW9bR1cTFi0oDBd9FQI32Fea1zbJmRy7UssLZ81BxYsXrs5IKf8bHzyhbBXusaYOQLnXebTUINJUETgDYJ2ciuTGrzc5OIX/jHiMOlj23KsAZdw79o05nLMz+NEHaJZY7lCiDUB0VqFBl2lRW77cSJF5HOi1KHwbAwbN46/WYG5OBgfhgSmMxkFGk/brmfSxXTCjS68WbDjKPda/Zv34oMOOfDTAFRiUjg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(346002)(136003)(39850400004)(396003)(376002)(66946007)(2906002)(478600001)(6666004)(16576012)(316002)(31696002)(5660300002)(66556008)(66476007)(86362001)(8676002)(36756003)(956004)(2616005)(15650500001)(26005)(44832011)(186003)(31686004)(16526019)(6706004)(6486002)(83380400001)(52116002)(53546011)(8936002)(78286006)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR11MB2596.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(396003)(366004)(39850400004)(136003)(376002)(966005)(83380400001)(66476007)(66946007)(186003)(6486002)(31696002)(26005)(16526019)(86362001)(66556008)(5660300002)(8676002)(2616005)(16576012)(316002)(53546011)(52116002)(6706004)(478600001)(2906002)(31686004)(956004)(36756003)(8936002)(78286006)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	o01pWQMao7doReXK+vnFsZ+ERXMvZAw8tDh/ZgkGLaOC/yymUrEOG8lxELQVkNCxzAOTGaIYLRYNbe1H8r8KGANbFlQSKOPDG7ipXlI8g7ZnCrk+6WWFd97e6lxkzVyyXrn388jcKPWqRmkn1L74THPMHBsw+Oxj4tfszNaCYK7g/g2xCEkIlAveJP6KOb3E8clxly/Q419Zq8X5s2CjpmeJAMEqbfDmLFDFUMYimyLxxTYLN/iEHi0nH8hX4h9G4uPwPyfddRxPoe9NpOvjQKJCDuUgwGzUx1fEsYGJuGIctsiWplB/4oFFpvwmHalZeotOsqB65XHNIbIaj0grmCp38e/1li7a5eQIyLeuy7aglrKTF2b+xj/ZfBnE9IGKGHiLYo9jZUFsg1c80Y6oAFrtUWKnkkaZ16QB4vuGVhGD/Eq+H6neOoUeqolIF4LRGDMxrTtXpNaZ66tlVco8HdHPQfae+7uGiIOIGSc8X6E=
+	gxJ7lj7iBsETZ+TzGxLc5ntMlycsCj4wpnWQP8h3yPMU7OeSKmXEWy4+y4gfqaQInxPTfrpkbzA1A/PMh4HJR7m9GO9JIf7wgMMOQQVJxelefGsLBcFTNTYiRgigwd8QSKisxvtX791bTSJgWSHo57ObCsvytxnTPu9zW3DtqLTJA4QmeLoXbdzcdOEqgoTrfsiU+E7ulbf7X0QdmkgDvuzWxVqsKlQPev5cl4M21Ir5PY40reeslxj72Nni2g9F57XCj9zvlxT0s3/kAkXcLk1VzRBinyyXlf/rRq3oQQSztMytzIYdrfTvyIa1OmYdj66oZnu1PfjQZl8b3SlQsr5aoNvu0RuQ39LEzHazjSYCleMYBxeqcil3HSNBsFwVV1cskEjfywAscxPXyDXEZ6oQ+3BAS9qdeNdL57qAFdUsPPRz1Ul3r/jB7mDlTMKqvSWJl5Aox9QU9K/4vCSKIoo9EMChGpurYYogy9eBWgs=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa1510d0-aa32-49ea-23a9-08d81d5f9ccf
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebd146db-662b-42e8-9ad5-08d81d637948
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR11MB2596.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 01:39:36.5013
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 02:07:15.0092
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZfNckUtIE72jCVr8OX1wSjOb1wvrO/S6Pkn0W2U1XFVbMaBIZs6Gi2og97+nICGI0hBo3fNF4jF/jPX1wUdNCaLaMm7n2IsQLN/G7wbULKc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4574
+X-MS-Exchange-CrossTenant-UserPrincipalName: WTftw4j7MbxiHCvvuWUKkZs68D2835hqpdGLgukLmKtluw8JSY2a8B2MLPsU5FafRcKjADXXBE+nGD92EtkJUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1268
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
-On 6/30/20 6:01 PM, Richard Purdie wrote:
-> On Tue, 2020-06-30 at 17:49 +0800, Changqing Li wrote:
->> From: Changqing Li <changqing.li@windriver.com>
+
+On 7/1/20 4:08 AM, Richard Purdie wrote:
+> On Mon, 2020-06-29 at 12:31 +0800, Yu, Mingli wrote:
+>> From: Mingli Yu <mingli.yu@windriver.com>
 >>
->> fix error:
->> + /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
->> /var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-
->> query-loaders: No such file or directory
->> %post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961
->> status 7f00
->> warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet
->> failed, exit status 127
+>> Use git repo as the the previous URL only stores
+>> the latest source file and fails to locate the
+>> source tar file if we don't upgrade timely.
 >>
->> when install adwaita-icon-theme, which inherit gtk-icon-cache
->> on target, above error reported,  fix by add needeed packages
->> in RDEPENDS
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 >> ---
->>   meta/classes/gtk-icon-cache.bbclass | 2 ++
->>   1 file changed, 2 insertions(+)
+>>   meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
 >>
->> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-
->> icon-cache.bbclass
->> index 91cb4ad409..7f218ce7ae 100644
->> --- a/meta/classes/gtk-icon-cache.bbclass
->> +++ b/meta/classes/gtk-icon-cache.bbclass
->> @@ -4,6 +4,8 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' ==
->> 'hicolor-icon-theme']} gtk
+>> diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+>> index bc0049c020..c13685e8ad 100644
+>> --- a/meta/recipes-core/netbase/netbase_6.1.bb
+>> +++ b/meta/recipes-core/netbase/netbase_6.1.bb
+>> @@ -6,10 +6,10 @@ LICENSE = "GPLv2"
+>>   LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+>>   PE = "1"
 >>   
->>   PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+>> -SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
+>> +SRC_URI = "git://salsa.debian.org/md/netbase.git;protocol=https"
+>> +SRCREV = "0fc1e4ce39328f7388badace0aaf7b7294d5ed61"
 >>   
->> +RDEPENDS_${PN} += "gdk-pixbuf gtk+3"
->> +
->>   gtk_icon_cache_postinst() {
->>   if [ "x$D" != "x" ]; then
->>   	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG}
->> \
-> This isn't quite right since the postinst may be added to a package
-> other than ${PN}.
->
-> You need to add the RDEPENDS to the code:
->
->          rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
->          d.appendVar('RDEPENDS_%s' % pkg, rdepends)
->
-> later in that class.
->
+>> -SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+>> -SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
+>> +S = "${WORKDIR}/git"
+>>   
+>>   UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+>>   do_install () {
+> 
+> This still breaks all oe-selftest:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1095
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1087
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1083
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1098
+> 
+> oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds
+
+It's weird, I did run reproducible build locally with "oe-selftest -r 
+reproducible.ReproducibleTests.test_reproducible_builds" and It succeeds 
+at my side.
+
+BTW, the netbase only introduces 3 files as below:
+# rpm -ql netbase
+
+/etc
+
+/etc/protocols
+
+/etc/rpc
+
+/etc/services
+
+And I did the three files' checksum and the checksum turns out to be the 
+same when with the commit and without the commit.
+
+Anyway, I will investigate the issue again.
+
+Thanks,
+
+
+> 
+> should reproduce but regardless, this *must* be fixed before this can
+> merge.
+> 
 > Cheers,
->
+> 
 > Richard
-Thanks, I will correct it.
->
+> 
