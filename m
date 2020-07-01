@@ -1,175 +1,101 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.18654.1593600686445785286
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web11.20716.1593608292929833433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 03:51:27 -0700
+ Wed, 01 Jul 2020 05:58:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=OQFljQsK;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EfmCmdTg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f67.google.com with SMTP id by13so9730022edb.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2020 05:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=4867; q=dns/txt; s=axis-central1;
-  t=1593600686; x=1625136686;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=fZZmz6m4YqlrWGnKaOPABO2SJHv7X6NCsUDTaAZEYoQ=;
-  b=OQFljQsKF5OoLN43+vE7UfGcPwcHoPvuTl52C/x8f+nIh5N1V9RspJBr
-   0FKgS46vCLjM52l/k8Xv9756fuN5zaWOFJwNIiTQW+93MCYgzYmHt2JgP
-   4iruT8091oUO8ADWpE0vnTLpqKRqCFnN0ryFu5cP/2/pwI9gOp/IyK/gN
-   M77LsB/Nj+AmGlTZOSxQWx/0wltoyLcJUHWiLz8kaCi6C9ij9dFGVjPub
-   v8bd1J518a1wucWTFB60JAq5aq+VospbJJplsCd/SSyyFG8DkvGRR636o
-   OtOXaXt17jNc/GcM0IWsC+Fluxev0cs6Jwi8BdqcFsU2m6mBwGxUAqEML
-   A==;
-IronPort-SDR: ceqXe6bZq0hDoMPACN9njvI3JVHxjz2FrI86rrfiLPt4r7VHGchZX+3crNs+c2GVLCKcRCaEEg
- K3nf3+8D71/WApZjYifD8Qsk+gT0fU74TcZ4Aa1GrrNNUZDUI8zzTvnK9cluB68+TVoc6W9GV4
- CaI0/S2+/67XgMYtvgWSipciY+6G8CZ77iOQksm4/39E9wzPA4thoCr50QvqcFohvebcUeH616
- CiWBul9kROnmMjjuQXpXFktanGwscNpbUIQJFYPiwSEHC8f+Sj6ao3kyassUhH05SWAgIVFjkO
- 1Mk=
-X-IronPort-AV: E=Sophos;i="5.75,299,1589234400"; 
-   d="scan'208";a="10384410"
-From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
-To: Paul Barker <pbarker@konsulko.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-CC: openembedded-core <openembedded-core@lists.openembedded.org>,
-	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
-Subject: Re: [OE-core] [PATCH v3] nopackages.bbclass: Get tasks from variable
-Thread-Topic: [OE-core] [PATCH v3] nopackages.bbclass: Get tasks from variable
-Thread-Index: AQHWT5Ap/qyL/nKnXEmUjFPVItn4majyYngAgAAosZ0=
-Date: Wed, 1 Jul 2020 10:51:24 +0000
-Message-ID: <1593600684100.43870@axis.com>
-References: <20200701084634.11428-1-fredrigu@axis.com>
- <20200701084634.11428-2-fredrigu@axis.com>
- <CAM9ZRVvdaVSghGzoFwy6vhHLhzHE-HatJpRwC6LxpuepO_pTxw@mail.gmail.com>
- <161D98456D41D2FE.27211@lists.openembedded.org>
- <161D992D91B5C0EE.29179@lists.openembedded.org>
- <9fb318a8e5cada4d7671af73bd5dd08e63b244a3.camel@linuxfoundation.org>,<CAM9ZRVvkcyYMxXEjZqjVBd=X-s7v_2YrY+GeJHgh3XhML0_Wng@mail.gmail.com>
-In-Reply-To: <CAM9ZRVvkcyYMxXEjZqjVBd=X-s7v_2YrY+GeJHgh3XhML0_Wng@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hdI5y7ui2g+CzbzRtsxcRrBZebFwXOQeNRzP0WsoYEI=;
+        b=EfmCmdTgsCxRdWrGCgNArsJ3fcxRPEBGK5A7qTyEspiuQ6PRhRPqcT2M125v/zoPYX
+         u6wwHbP4R4Utgr1XfuieYOujtI5zdawoCxbwHsg0XdrnnS3yfWz6eRsoFNmyWF5r/rII
+         reQ11TQDamwVHD3lGQ+5nHLy+/1t5wh/BzGMNQ5UHUbJpIrrIaFW+Nnl8CWKsuvZXRla
+         ZtfupHxukXyre5uEQqoC3JDJrUuSvWuwXKP1Z7sd+IBj14pHEq5gWZ5zyxXaR5e07Eak
+         Fd3hl11toq8aOj3q116C9uuWhtOoCH2rSSbEFXsl99gbzX8vobULvhyoEXHVaNKPzdas
+         71LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hdI5y7ui2g+CzbzRtsxcRrBZebFwXOQeNRzP0WsoYEI=;
+        b=UNa6HCUIli1ei/ht3jefD+WM7EenXH+nDl5JVEWQKQ2te/1hFhD557VOy/XrYLPENN
+         +kf95fjaWscLMZ8hTDg3k1nb+KevJEG+ZtaNefU8oILH7UCj+ZHbMMSNNbvDDVvn52Ue
+         AyiBqvfKyeJbJN8nXNBjekO3BbeTZK1FPvy5oni6NpR1BiDo2VYeYsCEvo+6adZqayCh
+         xbny2dqVTfUuknHHh//Oh2ej2XVo9L6EE1rPxJD2lW45vEbAMotiBmk2YkDQuqSvbf7j
+         ZvrdRKwcL1RZzUowNVxgAKoLZKAhs6PcV4o+9e9U7Dt6uZ7jn/p/xhh44bESJXtaZMQn
+         /v7w==
+X-Gm-Message-State: AOAM531YuJ76TbUz9FHuX65WOBn24SXE+9itAzsXxUykYY4Ulf0mf8PJ
+	+jA3RoBWS/1s+vqyXcLhuvmkuAAJi8HBJqL0FnE=
+X-Google-Smtp-Source: ABdhPJwR60CIju9x09NfIqYCe4UPiuR/alGGExjTRYzVNXdkFOerCIbQU1RWgF5pihXhAjOfzE6pWoq1d/pKBRatMsU=
+X-Received: by 2002:aa7:db11:: with SMTP id t17mr27929292eds.365.1593608291223;
+ Wed, 01 Jul 2020 05:58:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+References: <20200701104628.32696-1-andrey.z@gmail.com>
+In-Reply-To: <20200701104628.32696-1-andrey.z@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 1 Jul 2020 08:58:00 -0400
+Message-ID: <CADkTA4N68p6gK-nO3mPJ0z+MtBDFJDjsvn0RpF=ou1+Wj-5UFQ@mail.gmail.com>
+Subject: Re: [PATCH] kernel/yocto: fix search for defconfig from src_uri
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Paul, it's only for adding tasks to do deltask on. Not preventing current d=
-eltasks to be done.=0A=
-=0A=
-Richard, I tried your suggestion but couldn't understand/judge the implicat=
-ions of changing=0A=
--__deltask_regexp__       =3D re.compile(r"deltask\s+(?P<func>\w+)(?P<ignor=
-es>.*)")=0A=
-+__deltask_regexp__       =3D re.compile(r"deltask\s+(.+)")=0A=
-=0A=
-If you're fine with that change. Your solution works fine for my usecase, E=
-XCEPT that=0A=
-+EXTRA_NOPACKAGE_DELTASKS =3D ""=0A=
-needs to be=0A=
-+EXTRA_NOPACKAGE_DELTASKS ?=3D ""=0A=
-right? Otherwise that variable would always be empty. Or would something li=
-ke=0A=
-EXTRA_NOPACKAGE_DELTASKS_append(....) be used?=0A=
-=0A=
-/Fredrik=0A=
-________________________________________=0A=
-From: Paul Barker <pbarker@konsulko.com>=0A=
-Sent: Wednesday, July 1, 2020 12:22 PM=0A=
-To: Richard Purdie=0A=
-Cc: Fredrik Gustafsson; openembedded-core; tools-cfpbuild-internal; Fredrik=
- Gustafsson=0A=
-Subject: Re: [OE-core] [PATCH v3] nopackages.bbclass: Get tasks from variab=
-le=0A=
-=0A=
-On Wed, 1 Jul 2020 at 11:12, Richard Purdie=0A=
-<richard.purdie@linuxfoundation.org> wrote:=0A=
->=0A=
-> On Wed, 2020-07-01 at 11:11 +0100, Richard Purdie via=0A=
-> lists.openembedded.org wrote:=0A=
-> > On Wed, 2020-07-01 at 10:54 +0100, Richard Purdie via=0A=
-> > lists.openembedded.org wrote:=0A=
-> > > On Wed, 2020-07-01 at 10:48 +0100, Paul Barker wrote:=0A=
-> > > > On Wed, 1 Jul 2020 at 09:46, Fredrik Gustafsson=0A=
-> > > > <fredrik.gustafsson@axis.com> wrote:=0A=
-> > > > > Get tasks from a variable instead of having them hardcoded.=0A=
-> > > > > This=0A=
-> > > > > will=0A=
-> > > > > enable other layers to add tasks that should be deleted when=0A=
-> > > > > nopackages=0A=
-> > > > > is used.=0A=
-> > > > >=0A=
-> > > > > Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>=0A=
-> > > > > ---=0A=
-> > > > >  meta/classes/nopackages.bbclass | 19 +++++++------------=0A=
-> > > > >  1 file changed, 7 insertions(+), 12 deletions(-)=0A=
-> > > > >=0A=
-> > > > > diff --git a/meta/classes/nopackages.bbclass=0A=
-> > > > > b/meta/classes/nopackages.bbclass=0A=
-> > > > > index 559f5078bd..4c9fe510c5 100644=0A=
-> > > > > --- a/meta/classes/nopackages.bbclass=0A=
-> > > > > +++ b/meta/classes/nopackages.bbclass=0A=
-> > > > > @@ -1,12 +1,7 @@=0A=
-> > > > > -deltask do_package=0A=
-> > > > > -deltask do_package_write_rpm=0A=
-> > > > > -deltask do_package_write_ipk=0A=
-> > > > > -deltask do_package_write_deb=0A=
-> > > > > -deltask do_package_qa=0A=
-> > > > > -deltask do_packagedata=0A=
-> > > > > -deltask do_package_setscene=0A=
-> > > > > -deltask do_package_write_rpm_setscene=0A=
-> > > > > -deltask do_package_write_ipk_setscene=0A=
-> > > > > -deltask do_package_write_deb_setscene=0A=
-> > > > > -deltask do_package_qa_setscene=0A=
-> > > > > -deltask do_packagedata_setscene=0A=
-> > > > > +NO_PACKAGES_DELTASKS +=3D "do_package do_package_write_rpm=0A=
-> > > > > do_package_write_ipk do_package_write_deb do_package_qa=0A=
-> > > > > do_packagedata do_package_setscene=0A=
-> > > > > do_package_write_rpm_setscene=0A=
-> > > > > do_package_write_ipk_setscene do_package_write_deb_setscene=0A=
-> > > > > do_package_qa_setscene do_packagedata_setscene"=0A=
-> > > >=0A=
-> > > > Not sure if `+=3D` was present in the previous versions, I only=0A=
-> > > > just=0A=
-> > > > noticed it now. I think `?=3D` is a better choice so it can be=0A=
-> > > > overridden easily. Other than that, this looks good.=0A=
-> > > >=0A=
-> > > > > +=0A=
-> > > > > +python () {=0A=
-> > > > > +    list =3D d.getVar("NO_PACKAGES_DELTASKS").split()=0A=
-> > > > > +    for task in list:=0A=
-> > > > > +        bb.build.deltask(task, d)=0A=
-> > > > > +}=0A=
-> > >=0A=
-> > > I'm just sad this is having to use anonymous python. Its slow and=0A=
-> > > I'd=0A=
-> > > like to see less of it, not more, given people's complaints about=0A=
-> > > parsing speed.=0A=
-> > >=0A=
-> > > I did make a suggestion about how this could be done but that isn't=
-=0A=
-> > > an option. I might sort out such a patch.=0A=
-> >=0A=
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t=
-222&id=3D46a01aef15b19431bd9f2924537723481e0151e5=0A=
-> >=0A=
-> > is a patch which lets deltask become a bit more flexible. I've not=0A=
-> > tested it much but see it if works/helps.=0A=
->=0A=
-> Sorry:=0A=
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t22=
-2&id=3Dfd24e59fc886e6642bc3c8fb2941a37a1cc4042a=0A=
->=0A=
-> Cheers,=0A=
->=0A=
-> Richard (in need of caffeine)=0A=
-=0A=
-I like this approach.=0A=
-=0A=
-Fredrik, what's the reason for using a variable here again? Is it just=0A=
-to be able to add tasks to the list or do you also need the ability to=0A=
-remove tasks from the list?=0A=
-=0A=
-Thanks,=0A=
-=0A=
---=0A=
-Paul Barker=0A=
-Konsulko Group=0A=
+On Wed, Jul 1, 2020 at 6:46 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+>
+> Fetcher provides full paths to defconfig and scc files, which awk
+> comparison operator does not catch during construction of
+> src_uri_defconfig and sccs_from_src_uri lists. This causes the
+> src_uri_defconfig variable to come out empty, and fails further
+> validation if defconfig is only supplied via SRC_URI.
+>
+> Replace comparison operator with awk index function which searches for
+> sub-string during filtering, effectively placing defconfig from SRC_URI
+> into src_uri_defconfig and scc files in sccs_from_src_uri respectively.
+>
+
+Hmm. This passed all of my testing (defconfigs were picked up
+properly), can you share your test configuration ? I'd like to test
+this across my kernels, since I have even more corner cases than most.
+
+What issues did it cause in your build ? Was the defconfig skipped completely ?
+
+Bruce
+
+> Fixes: 23dcff0d396c (kernel/yocto: ensure that defconfigs are processed first)
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 41d8620e67..059d78b7dc 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -156,9 +156,10 @@ do_kernel_metadata() {
+>         # a quick check to make sure we don't have duplicate defconfigs If
+>         # there's a defconfig in the SRC_URI, did we also have one from the
+>         # KBUILD_DEFCONFIG processing above ?
+> -       src_uri_defconfig=$(echo $sccs_from_src_uri | awk '{ if ($0=="defconfig") { print $0 } }' RS=' ')
+> +       src_uri_defconfig=$(echo $sccs_from_src_uri | awk '(index($0, "defconfig") != 0) { print $0 }' RS=' ')
+>         # drop and defconfig's from the src_uri variable, we captured it just above here if it existed
+> -       sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
+> +       sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '(index($0, "defconfig") == 0) { print $0 }' RS=' ')
+> +
+>         if [ -n "$in_tree_defconfig" ]; then
+>                 sccs_defconfig=$in_tree_defconfig
+>                 if [ -n "$src_uri_defconfig" ]; then
+> --
+> 2.17.1
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
