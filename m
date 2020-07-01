@@ -1,64 +1,56 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.13041.1593570984404396973
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.13045.1593570992901659321
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 19:36:24 -0700
+ Tue, 30 Jun 2020 19:36:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0612aNmn017038
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0612aBZ8014420
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 19:36:23 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 19:36:21 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 30 Jun 2020 19:36:22 -0700
+ 14.3.487.0; Tue, 30 Jun 2020 19:35:48 -0700
 From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] python3: add ldconfig rdepends for python3-ctypes
-Date: Wed, 1 Jul 2020 10:33:18 +0800
-Message-ID: <20200701023318.3887430-2-mingli.yu@windriver.com>
+Subject: [PATCH 1/2] python3-libarchive-c: add the missing rdepends
+Date: Wed, 1 Jul 2020 10:33:17 +0800
+Message-ID: <20200701023318.3887430-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200701023318.3887430-1-mingli.yu@windriver.com>
-References: <20200701023318.3887430-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 
 From: Mingli Yu <mingli.yu@windriver.com>
 
-The ctypes module needs to use "ldconfig -p" to find the
-library path and it simply has below logic if no ldconfig
-installed.
-  except OSError:
-      pass
-
-Before the patch:
-  >>> from ctypes.util import find_library
-  >>> lib_path = find_library('archive')
-  >>> print(lib_path)
-  None
-
-After the patch:
-  >>> from ctypes.util import find_library
-  >>> lib_path = find_library('archive')
-  >>> print(lib_path)
-  libarchive.so.13
+Add the missing rdepends to fix below error:
+ # python3
+ [snip]
+ >>> import libarchive
+ [snip]
+ ModuleNotFoundError: No module named 'ctypes'
+ ModuleNotFoundError: No module named 'mmap'
 
 Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-devtools/python/python3_3.8.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/python/python3-libarchive-c_2.9.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
-index 2eb2a422e6..abcd16e63d 100644
---- a/meta/recipes-devtools/python/python3_3.8.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.3.bb
-@@ -350,6 +350,7 @@ FILES_${PN}-man = "${datadir}/man"
+diff --git a/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb b/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
+index 4983ae527a..3a2d8733e9 100644
+--- a/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
++++ b/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
+@@ -12,6 +12,10 @@ inherit pypi setuptools3
+ SRC_URI[md5sum] = "083bd2cb0043c1e22a52cb9a05e31532"
+ SRC_URI[sha256sum] = "9919344cec203f5db6596a29b5bc26b07ba9662925a05e24980b84709232ef60"
  
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
- RDEPENDS_libpython3_append_libc-glibc = " libgcc"
-+RDEPENDS_${PN}-ctypes_append_libc-glibc = " ldconfig"
- RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+-RDEPENDS_${PN} += "libarchive"
++RDEPENDS_${PN} += "\
++  libarchive \
++  ${PYTHON_PN}-ctypes \
++  ${PYTHON_PN}-mmap \
++"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.17.1
 
