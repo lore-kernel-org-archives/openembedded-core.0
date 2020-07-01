@@ -1,85 +1,97 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.22873.1593613054589389580
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.22953.1593613217899318749
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 07:17:34 -0700
+ Wed, 01 Jul 2020 07:20:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TGpSLaxA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id s10so24014895wrw.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2020 07:17:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FFmbcWMH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id o8so22621692wmh.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2020 07:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=SxNEJyuylQhuGCoMxlDcg2WRW/8N975ne55wlSbW3Uo=;
-        b=TGpSLaxATsRtFzif+l8zLWaNhcfkwwF12QIMv81BfBpTocnlwHlWtKAEMx2E2g2apo
-         iytxkdNuXTGuPitrOrPW+LQmZepgnjQqaxdtKKFIX3BT90OsW4dUCC/dhe/ZRirdaCYE
-         w5GzRdfD3Hv5sz5lbwabO2sjRMC0TwAxzqHGY=
+        bh=4R0w9EhOjZNW93j3X1ctiCon9cYO18Nu6sZfcBqm8l8=;
+        b=FFmbcWMHMD+P8V1yoU7iqTyydlECw1R0jpfaHBLCMAh0OobFO3EprQDUjiEe9A9XWo
+         eLFJlDONCe5qE5v43tnJ8Y+xj9Z11mSVFT8sjostas8U9iWqdIiMcKd0AxvSaslNfK/5
+         ZlYFC5eX1j7bL1JMntaWUa7x8sumKkV9EZauA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=SxNEJyuylQhuGCoMxlDcg2WRW/8N975ne55wlSbW3Uo=;
-        b=iW/7eJCglrA1nxOputZdbhvOPg+0EGvSojX90QeAlaF33CbGRyAbC4g8AvsXMsOuxW
-         2PyRoX3ENfWl/K3h6v4fPyvVme3L/+gDW/MhUCavj3J4lysJsnVrmDT+RoqSWtD3O95M
-         D644VQ8dijpuXjjSXopgznrS6jU6IvZk7LG+9ok78WykelVDlCyIyGZb5VWJx2iPm+QR
-         px4bVpbv2StmtMVXhvidjtVqGIySRt8myTTqRha+XLLejd8zyGPk4kIRKb9xO0GB5kBe
-         WB8bNj/rcDWCXZevldXOD55wBzgnhL6u1IptggAYFGf/7Wq9Xs4juf+Zyi0OA20NtVLF
-         ei4g==
-X-Gm-Message-State: AOAM532ByPjMZR1YoHpgZUg287qZUOGq2mb1fmjru1AlSq60dp1zW/Oh
-	ovFHAPyPIgMOGYDx/MtsFQu6TDMroxM2bA==
-X-Google-Smtp-Source: ABdhPJw/UTTV2nS/rEQrn9KlIWcC8G5cH+jCo+kGQIIsZALsbyrYbmFc6kqioyInDejOdbzK76qTRQ==
-X-Received: by 2002:a5d:4bc4:: with SMTP id l4mr25676730wrt.97.1593613053168;
-        Wed, 01 Jul 2020 07:17:33 -0700 (PDT)
+        bh=4R0w9EhOjZNW93j3X1ctiCon9cYO18Nu6sZfcBqm8l8=;
+        b=TtYvsSlVbKEqJxICGdxuPAHdJ0fwDuqbL41/UyqYhqbrd2dvIMwVQpSGqBRlxQCzF7
+         epql1js7bq/5DLdzm54fG7DW6eyZWNZuKJXcZZqzz0FaUG3xjxylmwoV3apyIY6ksess
+         aVVEJLxLx5l1vhtbQgCN9byx3SNtSnzQZnT09NPDLgiDvZtgWLPJV8TC203VMeTNRk5B
+         l3E9SGoMRsKIbke5IV3t/z92OMKa4dvkOqPjfr5LxXHVMTXBjX5xLFJAas7lqGuAJOoZ
+         LB/oTKC/yTvbWmENffAFgT6iAhWxBF2GnAfIBNVdWPiZVxEDVDB3+LR09Pf8p8jZIJl2
+         8eVA==
+X-Gm-Message-State: AOAM53367/18bkQk7u483dRx3RlG5EuKRMJPXNykKjeaJjstTLZgn/aY
+	4SYRvLi0oKmxn99Ckgq/ue40DQ==
+X-Google-Smtp-Source: ABdhPJznzhPfwwnsAMcJQ0RqSWUfi2w7FU4NTKg3tHpWCethcPwqxPtH+vLOIHnbiqMx38kYi4nHbA==
+X-Received: by 2002:a7b:cf10:: with SMTP id l16mr27140411wmg.93.1593613216335;
+        Wed, 01 Jul 2020 07:20:16 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e17sm7177474wrr.88.2020.07.01.07.17.32
+        by smtp.gmail.com with ESMTPSA id l14sm7388191wrn.18.2020.07.01.07.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 07:17:32 -0700 (PDT)
-Message-ID: <bf681918eddcf553adc749ceb184fe3583f9acc9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gtk+3: upgrade 3.24.20 -> 3.24.21
+        Wed, 01 Jul 2020 07:20:15 -0700 (PDT)
+Message-ID: <77a85da756bb3519f495da8d1653f98ae439c771.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] python3: add ldconfig rdepends for python3-ctypes
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+To: "Yu, Mingli" <mingli.yu@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Jul 2020 15:17:31 +0100
-In-Reply-To: <1593586907-23161-2-git-send-email-wangmy@cn.fujitsu.com>
-References: <1593586907-23161-1-git-send-email-wangmy@cn.fujitsu.com>
-	 <1593586907-23161-2-git-send-email-wangmy@cn.fujitsu.com>
+Date: Wed, 01 Jul 2020 15:20:14 +0100
+In-Reply-To: <20200701023318.3887430-2-mingli.yu@windriver.com>
+References: <20200701023318.3887430-1-mingli.yu@windriver.com>
+	 <20200701023318.3887430-2-mingli.yu@windriver.com>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-07-01 at 15:01 +0800, Wang Mingyu wrote:
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../recipes-gnome/gtk+/{gtk+3_3.24.20.bb => gtk+3_3.24.21.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-gnome/gtk+/{gtk+3_3.24.20.bb => gtk+3_3.24.21.bb} (84%)
+On Wed, 2020-07-01 at 10:33 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
 > 
-> diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb
-> similarity index 84%
-> rename from meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
-> rename to meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb
-> index e5744a4b05..70c0e66db7 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb
-> @@ -8,8 +8,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
->             file://0003-Add-disable-opengl-configure-option.patch \
->             file://link_fribidi.patch \
->             "
-> -SRC_URI[md5sum] = "b302acc0a4b42e2980ef18628f9ce951"
-> -SRC_URI[sha256sum] = "2dac69f716e8d04ba7a95091589e2baaec95dcace932cb15839163db479b1df3"
-> +SRC_URI[md5sum] = "95afed6c860d27de827db66434d681da"
-> +SRC_URI[sha256sum] = "aeea6ae7cd35e83dfc7699be716519faefca346c62e784dd1a37d9df94c08f52"
+> The ctypes module needs to use "ldconfig -p" to find the
+> library path and it simply has below logic if no ldconfig
+> installed.
+>   except OSError:
+>       pass
+> 
+> Before the patch:
+>   >>> from ctypes.util import find_library
+>   >>> lib_path = find_library('archive')
+>   >>> print(lib_path)
+>   None
+> 
+> After the patch:
+>   >>> from ctypes.util import find_library
+>   >>> lib_path = find_library('archive')
+>   >>> print(lib_path)
+>   libarchive.so.13
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.8.3.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
+> index 2eb2a422e6..abcd16e63d 100644
+> --- a/meta/recipes-devtools/python/python3_3.8.3.bb
+> +++ b/meta/recipes-devtools/python/python3_3.8.3.bb
+> @@ -350,6 +350,7 @@ FILES_${PN}-man = "${datadir}/man"
+>  
+>  # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+>  RDEPENDS_libpython3_append_libc-glibc = " libgcc"
+> +RDEPENDS_${PN}-ctypes_append_libc-glibc = " ldconfig"
+>  RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+>  RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+>  RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
 
-This fails the reproducible builds test:
+Throws warnings in test builds:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1098
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1085
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1102
-
-oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2123
 
 Cheers,
 
