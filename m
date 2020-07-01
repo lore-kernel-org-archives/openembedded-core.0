@@ -1,135 +1,214 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.53])
- by mx.groups.io with SMTP id smtpd.web10.23556.1593614764576851795
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
+ by mx.groups.io with SMTP id smtpd.web12.23252.1593614848842120250
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 07:46:04 -0700
+ Wed, 01 Jul 2020 07:47:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=TlJkTZ6z;
- spf=pass (domain: windriver.com, ip: 40.107.223.53, mailfrom: hongxu.jia@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jnf49W1scXhDwNKlCr7sIvUQQbGdSKxwxJ4jlrmHqsoOIKuMr7HdBoDJCcxX5jpHBqR/Kk9At7YrA9ikNupG9awaX/9yqC9uTMK2/P9TfqmifK7euY4WGq52BI/4OvBrs+NJ2i+cJ5AxHXfJVZgZE4oq7MIR/ibyKphkiFGXKra7dGlTNq18yKtTjq45nsP3pTEotkIaTHMn/VtzYA3LQTUzw9SmG8lbDkM4zP156qUhNSsDc2EdvT4kN34IJh/8NxznyCFwPutWLm/smKQo8rnEq0LxdgZoUPrHWgcPHMZ18aes1i/uyOICCgKzCby65y8FAYw7CJ8RK+Mq1T/yPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d5XA5gszufodOY5ZUunfdP3GXzLdyjBLuePIwfj+kvc=;
- b=TWgFfuGw0ssSKT5KXBl71rKrbsYI4qBDN3Vz79Zu2Qz1wb93g5iSLpf5tbJj+/D/POs/7jnFn65c7DlD+3Xu+Hoq6E/2BCLH783mJes3HFXa+odFv+WyNxetgFw8KeqRF+vz40hhZiVhaPj2xhEJ6m7qZPCmjcstojA7RmfAdvGww7Cabuen7wAFHOWW9DiOWsOwuPrFnOr5Ju3OOy6ZXBbPE2S+tGETgwRu2Ka3qm7U+e4HGwavDOKnKkeRbutwBXV9GxyIpAoDi0Mr2WDA+y4Iv2ipl1PPGyE76zN1Le3jVwKIN6OlrEiY97IrPDY85g6EUmlTA5lf/OIJmfGjcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WV4tOZfz;
+ spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: andrey.z@gmail.com)
+Received: by mail-ua1-f67.google.com with SMTP id l12so3074642uak.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2020 07:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d5XA5gszufodOY5ZUunfdP3GXzLdyjBLuePIwfj+kvc=;
- b=TlJkTZ6zr0HyJLydrsQd7k4q1+82GXbjutcowr2GNWvwWMRtFpORrhbApE/h8rXOb+R4k7wAG+xpp3msIidb+8SIl3XZjmTwxAE6bADwG4N8ui1DnDYG/jM832U2OqMTMpPyhHkO1z+3q8NkE4PRuq9iQoG9cuEEGPCLmAe3hzE=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB4380.namprd11.prod.outlook.com (2603:10b6:5:14e::20)
- by DM5PR11MB1259.namprd11.prod.outlook.com (2603:10b6:3:15::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.22; Wed, 1 Jul 2020 14:46:03 +0000
-Received: from DM6PR11MB4380.namprd11.prod.outlook.com
- ([fe80::a402:5c0a:9c87:dd5d]) by DM6PR11MB4380.namprd11.prod.outlook.com
- ([fe80::a402:5c0a:9c87:dd5d%6]) with mapi id 15.20.3153.021; Wed, 1 Jul 2020
- 14:46:03 +0000
-Subject: Re: [OE-core] [PATCH] cpio: add nativesdk support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200701134341.2894-1-hongxu.jia@windriver.com>
- <e54cb280ad6ef4c7fca308919769da26f115017d.camel@linuxfoundation.org>
-From: "hongxu" <hongxu.jia@windriver.com>
-Message-ID: <bf8b63c9-0207-d525-6b73-579d237a120e@windriver.com>
-Date: Wed, 1 Jul 2020 22:45:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <e54cb280ad6ef4c7fca308919769da26f115017d.camel@linuxfoundation.org>
-X-ClientProxiedBy: HK2PR02CA0147.apcprd02.prod.outlook.com
- (2603:1096:202:16::31) To DM6PR11MB4380.namprd11.prod.outlook.com
- (2603:10b6:5:14e::20)
-Return-Path: hongxu.jia@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2cxH6hVfEKypFqm60nXLkg0k9wkQSfUsnvISpzqLgf8=;
+        b=WV4tOZfzWWtjeS7p9HvWEt8uidm0xtTp2rOZ43yY96r+y/AzILizTLyJmcFIaEx2qG
+         yKkmRnfA16HdTiNmooDW0/GOhYs3UavrOlcr+PLsonodBDxeS7M3Cg0HWP8deluR6M/G
+         YIQLBBSIo3FaHfRgkKVdoPJlbJXi8+pbO21Fwxj739GtO0qhi0omyGQQOa1mRB2Ycvr5
+         KjpVsTgPT3XxKIR2na/r+fr7etX+Wk0GnTL3OH4i/4kxMM/ZFBtlxjWGMRmmWMaOz19o
+         +1SxSlmWMBokd+EVKlkuVHr1Eb8Pkfax6soeXECkTFZVl3VIw/0SgArpN0IPx7x4Wdeb
+         n0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2cxH6hVfEKypFqm60nXLkg0k9wkQSfUsnvISpzqLgf8=;
+        b=dNQom47hNTDa+RIBfnYxRSiGlMIcoWVHMMOx13Yy9mYpvBtBHaRNTP4JtvlKzg7r6/
+         JX7RnK7YOnjIJxvebP8K+JNHVLTjw3AcCU3i8+K3G9MdGbHN6AyqQxh/bSokyUOImj9n
+         jTacvGP2i+D6FhiYxIAcr8k/hXK1cK7TkDYLECdmRecTiM+JzVQwqwFqHA3VEoS2hjbH
+         Mu8UsBORecJsIKW3LIDULmuIeGQ7SEc6FQB/fo+X6uqqvffSDm2xn+QSlOgz5FkCznRl
+         MrdGAYiiU8+NTmVsJptc3i937513+PgH0ImlscHw8PDSj2hMbonZ8rjt8Rnmm7jk3pCE
+         0iuA==
+X-Gm-Message-State: AOAM530w6zrVz9i9mbTEyjKkq/aLRPrMGIW64z0mrOvTRmSIKaXrUCL1
+	LVcfrtg4ykezEfxB4BS7z94oT85hce4S/+Pz4TQ=
+X-Google-Smtp-Source: ABdhPJza6oFbVeIXkU6LlxaHTdZZ6S40Rfs0a0G6Xg6gUN5MOx9MEzbgkxIGmSRcWdt0zVDLk/iR8f9zGIJl85bL0WU=
+X-Received: by 2002:ab0:5b91:: with SMTP id y17mr19265355uae.95.1593614847905;
+ Wed, 01 Jul 2020 07:47:27 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.148] (60.247.85.82) by HK2PR02CA0147.apcprd02.prod.outlook.com (2603:1096:202:16::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20 via Frontend Transport; Wed, 1 Jul 2020 14:46:02 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aca49246-4bd2-4b33-3103-08d81dcd7a6d
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1259:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR11MB12594D77DB5755B4B31B442D946C0@DM5PR11MB1259.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 04519BA941
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DLGr4DQwEKYYHf63FypBYXgIdnuetc8Jcjw8FHQqzq6fP/pPrABzWRL3smp3lGiiElLc8nxJA3rtTCfHZmRvtSpg67VT2AbRCECg5pIHJJHlpOH8ZqkVNorT0Y1ieEtpnJvyNJzS5d9zrp90MwmOwxyuIm1+NRTn0gwQy2b2pNuW35dMcliJtg56X8uLi36CS/Q8arb7CMI0rki6jbn8dR7c/yz/iOHTczceKlxrVxy4LS2SgJGANMny3M8Av4ulAinDVeC2ianJus4307DJ5iLQaHY+jxtE3Teryf+o90wHRQr7BrdIMNnx5rkom1/yAppfRV2SGcHqF52IRYPMhosPJXY4essPOaCExvYysJqyy50WQj7qCDNFrzdvi3GrDrxnRsOjy4Xbn/wu7l5w/b4/MjUjRNVQcwUlyR2YMQ6PDJ5qVKsyCFSbpV8uBbjJ
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4380.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(39850400004)(346002)(376002)(396003)(136003)(36756003)(478600001)(52116002)(6706004)(44832011)(8936002)(956004)(2906002)(2616005)(8676002)(31696002)(316002)(86362001)(83380400001)(16576012)(5660300002)(66556008)(6486002)(53546011)(66476007)(26005)(31686004)(186003)(66946007)(6666004)(16526019)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	pon1Kx7UE+N5VnqhULNxOfdNpDZ1j7M4LbXEbXZja9yMe9sd2qc4RufuDhp9aOiruMcAjct1dQDNqiZAEciRDFdZw6RexZGVvIUbmVTTthf+eMX8MwVN3Yq5c6UyZm8eRQoAMYb0cLRg7jafi1ocyihJAfzzK67ZqmQcXCR4JWLtnIixl3EDFJAxh8mS2xZsPsja2/MI8y4tn/1VZJ27L0qsSUYGNuDq4Rxrep1cugfoKbHB1JyfPUAskjoVrxsbt7P/YXTAQWn8j1LqEMxTljOXGO4Y75x5GtazRUxwWajZsKQG95Kbx5E22s0soVuZHKpzpXb3VeH9qju2CklOy3ngF0Ghh0gNgIHz69KL1R/g8YScswGGIsYau0UFsNUKlBjS6IKaGCEHS3kqrTkv8RoTCopH9cHeQrZ54Q9YjmO1yqMN7cDCmyCBvYR5cXRBAvvD95mXnXJYvpyJYml4JynJbeqvglzQyoRF6rd7m9I=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aca49246-4bd2-4b33-3103-08d81dcd7a6d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4380.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 14:46:03.4641
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ZQ+o/uH8roptDmhFyZ3pwfHtAH10E9509epMl+ccUB/huPRJ40cXVWebW5m+EbIV1D55wFTTwEXA+Lx89eZiB5r7TPqgk/fmEmeCbuziyw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1259
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20200701104628.32696-1-andrey.z@gmail.com> <CADkTA4N68p6gK-nO3mPJ0z+MtBDFJDjsvn0RpF=ou1+Wj-5UFQ@mail.gmail.com>
+ <161DA278CF8B94DF.27211@lists.openembedded.org> <CADkTA4NuQZ+iVnwOwZeTwBipLWaSb19=PQoSweDE7SN+O2Am4w@mail.gmail.com>
+ <CADkTA4NXDjKXhWaS6AxDu1MB4f+WkQG+=dj-49pxDQYDkOiGgQ@mail.gmail.com>
+In-Reply-To: <CADkTA4NXDjKXhWaS6AxDu1MB4f+WkQG+=dj-49pxDQYDkOiGgQ@mail.gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Wed, 1 Jul 2020 16:47:17 +0200
+Message-ID: <CAHtQpK4KvA5nVQ2LDJeGD4oV1yKZXs1rYA8Dc_GWokxzsFK=rw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel/yocto: fix search for defconfig from src_uri
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/1/20 10:29 PM, Richard Purdie wrote:
-> On Wed, 2020-07-01 at 21:43 +0800, hongxu wrote:
->> Since commit [24b80d211f nativesdk.bbclass: set sbindir to bindir]
->> applied, sbindir = bindir in nativesdk, then routine `rmt' is
->> installed to bindir which break `rmdir ${D}${bindir}/' failed with
->> `Directory not empty'
->>
->> Don't rmdir while nativesdk
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-extended/cpio/cpio_2.13.bb | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-
->> extended/cpio/cpio_2.13.bb
->> index 9e35a80f8b..44036f07f9 100644
->> --- a/meta/recipes-extended/cpio/cpio_2.13.bb
->> +++ b/meta/recipes-extended/cpio/cpio_2.13.bb
->> @@ -23,7 +23,9 @@ do_install () {
->>       if [ "${base_bindir}" != "${bindir}" ]; then
->>           install -d ${D}${base_bindir}/
->>           mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
->> -        rmdir ${D}${bindir}/
->> +        if [ "${PN}" != "nativesdk-cpio" ]; then
->> +            rmdir ${D}${bindir}/
->> +        fi
->>       fi
-> Please make the check "bindir != sbindir".
-Got it, V2 incoming
->>   
->>       # Avoid conflicts with the version from tar
->> @@ -46,4 +48,4 @@ ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
->>   ALTERNATIVE_PRIORITY[rmt] = "50"
->>   ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
->>   
->> -BBCLASSEXTEND = "native"
->> +BBCLASSEXTEND = "native nativesdk"
-> So something which was never enabled broke? I guess this was hiding in
-> some other layer?
-
-With a simple search, there is a low version cpio 2.8 in meta-gplv2
-
-without nativesdk support
-
-//Hongxu
-
-> Cheers,
+On Wed, Jul 1, 2020 at 3:32 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 >
-> Richard
->
+> On Wed, Jul 1, 2020 at 9:26 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Wed, Jul 1, 2020 at 9:01 AM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > >
+> > > On Wed, Jul 1, 2020 at 8:58 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > > >
+> > > > On Wed, Jul 1, 2020 at 6:46 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+> > > > >
+> > > > > Fetcher provides full paths to defconfig and scc files, which awk
+> > > > > comparison operator does not catch during construction of
+> > > > > src_uri_defconfig and sccs_from_src_uri lists. This causes the
+> > > > > src_uri_defconfig variable to come out empty, and fails further
+> > > > > validation if defconfig is only supplied via SRC_URI.
+> > > > >
+> > > > > Replace comparison operator with awk index function which searches for
+> > > > > sub-string during filtering, effectively placing defconfig from SRC_URI
+> > > > > into src_uri_defconfig and scc files in sccs_from_src_uri respectively.
+> > > > >
+> > > >
+> > > > Hmm. This passed all of my testing (defconfigs were picked up
+> > > > properly), can you share your test configuration ? I'd like to test
+> > > > this across my kernels, since I have even more corner cases than most.
+> > > >
+> > > > What issues did it cause in your build ? Was the defconfig skipped completely ?
+> > >
+> > > Ooops. I see you did mention this in the log.
+> > >
+> > > I do have an additional question though .. we only want to match
+> > > on"defconfig", not a substring of something else that contains
+> > > defconfig. Won't the replacement awk expression match more than just a
+> > > single 'deconfig' word ?
+> > >
+> > > Which is again why I'd like to see your test config, because I was
+> > > testing against cases like that, and they all worked here.
+> >
+> > I re-ran my tests, and I can see why my defconfig was being chopped
+> > off, it was supplied through some KMETA variables and wasn't actually
+> > an absolute path.
 
+Yeap, that is correct. I use a meta-freescale layer, and defconfig is
+supplied along with a recipe on a per-machine basis. This is picked up
+by the fetcher with an absolute path, hence causing sccs_from_src_uri
+to be filled in with fully-qualified name for defconfig which gets
+filtered out. If the defconfig would come up via "side-channel" (say
+KMETA) then the implementation would work perfectly though.
+
+> >
+> > I also mocked up a subtring test, and I can see that it is yanking out
+> > something like "i_am_not_defconfig.scc" as well.
+
+True, I missed this out with the awk index() function. However, this
+case is rather unusual to get, and you might not even accept such scc
+in kernel-yocto-cache... On the other hand: people go mysterious ways
+and you never know if someone would come up with such a name in it's
+own repo.
+
+> >
+> > This doesn't have to use awk, I'll poke around and see if I can come
+> > up with something that handles both cases
+>
+> Sorry for all the email, I was trying to get something out before
+> anyone else started working on this, so we wouldn't duplicate efforts,
+> and it just ends up being more email.
+
+No problem! I was offline for a bit now, and it just took me some time
+to catch up with the thread. :)
+
+>
+> This solves the problem here:
+>
+> src_uri_defconfig=$(echo $sccs_from_src_uri | awk '(match($0,
+> "defconfig$") != 0) { print $0 }' RS=' ')
+
+This would be better IMHO, I missed this one out since normally I tend
+to use index() :)
+
+>
+> And my first boot/configuration looked fine.
+>
+> Did you want to update and send a v2, or did you want me to do the update ?
+
+I'll take your suggestion in, test the build and come up with v2 of this patch.
+
+>
+> Bruce
+>
+> >
+> > .. and then run some boot tests with the patch in my queue to ensure
+> > what I ran before, continues to boot.
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> > >
+> > > Bruce
+> > >
+> > > >
+> > > > Bruce
+> > > >
+> > > > > Fixes: 23dcff0d396c (kernel/yocto: ensure that defconfigs are processed first)
+> > > > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > > > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> > > > > ---
+> > > > >  meta/classes/kernel-yocto.bbclass | 5 +++--
+> > > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> > > > > index 41d8620e67..059d78b7dc 100644
+> > > > > --- a/meta/classes/kernel-yocto.bbclass
+> > > > > +++ b/meta/classes/kernel-yocto.bbclass
+> > > > > @@ -156,9 +156,10 @@ do_kernel_metadata() {
+> > > > >         # a quick check to make sure we don't have duplicate defconfigs If
+> > > > >         # there's a defconfig in the SRC_URI, did we also have one from the
+> > > > >         # KBUILD_DEFCONFIG processing above ?
+> > > > > -       src_uri_defconfig=$(echo $sccs_from_src_uri | awk '{ if ($0=="defconfig") { print $0 } }' RS=' ')
+> > > > > +       src_uri_defconfig=$(echo $sccs_from_src_uri | awk '(index($0, "defconfig") != 0) { print $0 }' RS=' ')
+> > > > >         # drop and defconfig's from the src_uri variable, we captured it just above here if it existed
+> > > > > -       sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
+> > > > > +       sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '(index($0, "defconfig") == 0) { print $0 }' RS=' ')
+> > > > > +
+> > > > >         if [ -n "$in_tree_defconfig" ]; then
+> > > > >                 sccs_defconfig=$in_tree_defconfig
+> > > > >                 if [ -n "$src_uri_defconfig" ]; then
+> > > > > --
+> > > > > 2.17.1
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > > thee at its end
+> > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > 
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+-- 
+Regards,
+Andrey.
