@@ -1,200 +1,138 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.10938.1593562623635886126
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [40.107.70.57])
+ by mx.groups.io with SMTP id smtpd.web11.12233.1593567578955894095
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2020 17:17:03 -0700
+ Tue, 30 Jun 2020 18:39:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AujtPnPf;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id w6so22576697ejq.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2020 17:17:03 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=kXb25Yil;
+ spf=pass (domain: windriver.com, ip: 40.107.70.57, mailfrom: changqing.li@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KaUxQSm/Vpt27w6LegwrE8/8apGideasqncz425KPvLaLeXHaD2S46R35MPf1tGv1kM5TcocR0MnYH84WXLTFS7nSimxIyNnL8AuW8vuslZLeluwtXb4OvFI87pT9SjFXG0CXsVDNiKNf987pO5fDSR/Jg2JxLnANOALDi/+D7bmD3IyoAWOPgrryt+ug7joxX7BY6CzcmEtXPUr7B8xmlGSrnqiHNXGWPRqD+XGWZfNEpKrCDnZ+VYyCGav73Rc3aj4LCXPLCT3P5nNLajBwWHMNKfOD+or+c7WspJJL92Ckc07X25Cgyo/VeaUgECUUNtFVWXw4J5Ncr4mEXes/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vfy6M/ciWrnihRnVj3HpGbLGcQHLpzts2RLdk8Ddo9Y=;
+ b=hE80isx/rvQAe9z084a5BY0j+0DOWy+vxEwHTGg92R1ovs3kTHv7ukPk08xjkdGo+3+oXeTtciKllwGqbnXMB1R8z3/qIb4C0JFS7MdScvt9MaUT/mFFdennZiv9Q3bm+JtzoL0SMIVntbWvSr0CWR0jFbjUqcqoIJYdIXGfwc3SQ4UH0aTjUHVs6lfT0Nhral96X/5n+S9cQDcKJi/TmtSAGZ7fPd2xi5EWxPFxT0rTqyQnyWQqHdSaAdlJdvP0EOZ04vziRIxlePG1BKfsSQ0JMuaakD/Yty58QOiEDPsIZCfjoJOiOHuNNZsOzbjfdgmdcLDxkxhW70Y1/OQoAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bZtf3Q73ACkSC6kJbGQekoudkSmw7Hy+AcPlxVFu0rY=;
-        b=AujtPnPfaYxGEEKwkT38ocn8+hqkGSyQecWUSjaLkK4XBjz+XPisXI0N3eXqYIx1SO
-         xUJpsCK974wqh1ePPruVVw42nNUNvawbvTJZ0ObncHkoZdmJmex9sfbH7P6D9QWi4byF
-         TK9IBDDCIu7Z2pUhwEAEGbju/bFLsl+QTef1V3poWLHXTTnUs+lA9WJT8THqQLJ0xRQ5
-         U6EHInNh0aGH8RLas0rAphJzkJTuwwC6AbAx7mHqhRhgXAJ9x5CL4QszFC1vBDOw3Bwo
-         Xscrft+kt2CwIhFAXcUl2n0+ywOe1XKfX9xQCOrNeS0EEmR8iaPvJTEkIU6DMTL8Taex
-         gBvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bZtf3Q73ACkSC6kJbGQekoudkSmw7Hy+AcPlxVFu0rY=;
-        b=JrB9bvURTK6jB/u479+fUF1zhR7kXx7wPdqdAHZRwq5fRZ1J/LTcZlBVhKSVA4YuqV
-         S0Lb+qnyb6w+gDMFT7Bnv0fwD7w3p3d5gW93OqICWvVy332c+bXW6lDiHPhXEZGCV9Uz
-         XGMvN8ADrHMUpNNBDn9i/+adqWMUqIPPQSTDOIx5YQdSAtQfXvdHdiIgVpbJ8QaFPCgJ
-         lYgnJg67DitxH3CLPlNznRsV67rdZEj5c8rlExUFgeUa8Bv/U+k9qyOeURJ7qNHaqWyP
-         +vuJ86Xmafx+7EEiHCw3hocfL7FgZTXZMLThhcVPlxxJdUzRPoNEH+vYXZMSe4xws1Co
-         IuHg==
-X-Gm-Message-State: AOAM532HVsb1bNH1ZicbEzCRfC6DdGVFF6z0s0vL+m8rsZ/nq452ReCQ
-	vzzATD4xCg/bvMXTWJp25XF40KoZdJBmw8zHzcQ=
-X-Google-Smtp-Source: ABdhPJxyzGg9RmvY0XS8qlXYGIIaj7ejcpAHQYm5/aM4O17aiBzuUoeyVF762jovEUtRnObWu6Z1NVcwvjEoz5cZkec=
-X-Received: by 2002:a17:906:940f:: with SMTP id q15mr21130780ejx.470.1593562622152;
- Tue, 30 Jun 2020 17:17:02 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vfy6M/ciWrnihRnVj3HpGbLGcQHLpzts2RLdk8Ddo9Y=;
+ b=kXb25Yilxy/ZPNcbWMooz3ZRL6SMH2PVAPI5UeeFa3GBjtedQKV3+NRPio21ggS/qgKD+/i3Rxu2O8N57eFRnhK//5URIVnTRAeJNyBFI3GrxGsLBvP9uIBTbL35UO/ThVbmymBFhZq+YElBQyOPlzr57pSBQ37Ytw4BPNDOzPs=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SA0PR11MB4574.namprd11.prod.outlook.com (2603:10b6:806:71::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23; Wed, 1 Jul
+ 2020 01:39:36 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::cdd9:281d:f264:70b4]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::cdd9:281d:f264:70b4%7]) with mapi id 15.20.3131.028; Wed, 1 Jul 2020
+ 01:39:36 +0000
+Subject: Re: [OE-core] [PATCH] gtk-icon-cache.bbclass: update RDEPENDS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200630094907.1396284-1-changqing.li@windriver.com>
+ <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
+From: "Changqing Li" <changqing.li@windriver.com>
+Message-ID: <61ba6f0c-0bb3-42fa-408e-c2396d5a2773@windriver.com>
+Date: Wed, 1 Jul 2020 09:39:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
+X-ClientProxiedBy: BY5PR17CA0071.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::48) To SN6PR11MB2557.namprd11.prod.outlook.com
+ (2603:10b6:805:56::33)
+Return-Path: changqing.li@windriver.com
 MIME-Version: 1.0
-References: <20200625101413.2783-1-fredrigu@axis.com> <CAAnfSTuK-ucvmFTK9+oexvPyaXgTg4Tn3nhKSMwjhRxe=NUXrw@mail.gmail.com>
- <1593543683295.70380@axis.com> <20200630215424.u77jq5frrnpwztfc@jama> <CAJ86T=VTNDHK0OCdWiSTwyv97rvkGTa9euc+OhtMd07dxwbaSw@mail.gmail.com>
-In-Reply-To: <CAJ86T=VTNDHK0OCdWiSTwyv97rvkGTa9euc+OhtMd07dxwbaSw@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 1 Jul 2020 02:16:50 +0200
-Message-ID: <CA+chaQdND07kh8mooQD7E9_+CaeWoePSRWVjpTw7mweCOJu=rg@mail.gmail.com>
-Subject: Re: [OE-core] Add package managers as a plugin
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Fredrik Gustafsson <fredrik.gustafsson@axis.com>, Ross Burton <ross@burtonini.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
-Content-Type: multipart/alternative; boundary="00000000000005529205a95636ac"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.189] (60.247.85.82) by BY5PR17CA0071.namprd17.prod.outlook.com (2603:10b6:a03:167::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23 via Frontend Transport; Wed, 1 Jul 2020 01:39:35 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fa1510d0-aa32-49ea-23a9-08d81d5f9ccf
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4574:
+X-Microsoft-Antispam-PRVS: 
+	<SA0PR11MB45742358ED04A920D7EF1F16826C0@SA0PR11MB4574.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 04519BA941
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	u49gZwwJWJ7Bl7NYwPId/E+zQxXOf37E6L4Z1ueUYDilepJfsEqzJxcQkBja62pmtaoaJbMrcCfpEgixlg6xF8BzbKs6cCNMSjof3DAJicDOwk6XO4mPPrk/ZF3edA5uZ3pTMMqTYUfifS8rLGJt3D1oni0q5Ke+fU52/XoAsYMhfTEqUl9RfKwKyRDBHfUGDUKyzpJ0NXD+9gAU7edKCDi19wqsme8yL3f+G3U3zIKXm47HQOCHgAJKtNUCnvHorplaBI0CKnSLUfoxyaabCp3Vb7krS8WyrZ5kcEup3KoWLZl5UkI5spUulVTyxSyWZkIfSNDkhw2GdNu7UYFjts3YyQ68QRUc9uy+RecF3Qa2h8xsu2d/9edzdxY4FU0lGfOc7a3zN74d9BtatqDSxdXhaJyjphQ1p4mgfUH+qTcvyPMNLcFVJaiLnWbVgN71
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(346002)(136003)(39850400004)(396003)(376002)(66946007)(2906002)(478600001)(6666004)(16576012)(316002)(31696002)(5660300002)(66556008)(66476007)(86362001)(8676002)(36756003)(956004)(2616005)(15650500001)(26005)(44832011)(186003)(31686004)(16526019)(6706004)(6486002)(83380400001)(52116002)(53546011)(8936002)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	o01pWQMao7doReXK+vnFsZ+ERXMvZAw8tDh/ZgkGLaOC/yymUrEOG8lxELQVkNCxzAOTGaIYLRYNbe1H8r8KGANbFlQSKOPDG7ipXlI8g7ZnCrk+6WWFd97e6lxkzVyyXrn388jcKPWqRmkn1L74THPMHBsw+Oxj4tfszNaCYK7g/g2xCEkIlAveJP6KOb3E8clxly/Q419Zq8X5s2CjpmeJAMEqbfDmLFDFUMYimyLxxTYLN/iEHi0nH8hX4h9G4uPwPyfddRxPoe9NpOvjQKJCDuUgwGzUx1fEsYGJuGIctsiWplB/4oFFpvwmHalZeotOsqB65XHNIbIaj0grmCp38e/1li7a5eQIyLeuy7aglrKTF2b+xj/ZfBnE9IGKGHiLYo9jZUFsg1c80Y6oAFrtUWKnkkaZ16QB4vuGVhGD/Eq+H6neOoUeqolIF4LRGDMxrTtXpNaZ66tlVco8HdHPQfae+7uGiIOIGSc8X6E=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa1510d0-aa32-49ea-23a9-08d81d5f9ccf
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 01:39:36.5013
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZfNckUtIE72jCVr8OX1wSjOb1wvrO/S6Pkn0W2U1XFVbMaBIZs6Gi2og97+nICGI0hBo3fNF4jF/jPX1wUdNCaLaMm7n2IsQLN/G7wbULKc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4574
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---00000000000005529205a95636ac
-Content-Type: text/plain; charset="UTF-8"
 
-Yes, I thought we at @lge do a lot of builds, but after checking our
-statistics we average "only" around 30,000 builds per week in last 5 years.
-
-But on the other hand, our typical image is quite big (between 300MB and
-1GB for enduser image and between 700MG and 1.5GB for developer images
-depending on the target MACHINE for tar.bz2 IMAGE_FSTYPE), but each build
-is producing at least 2 images (enduser and devel), but e.g. TVs are
-building 15 different rootfs for each MACHINE, so the number of do_rootfs
-tasks is easily over 100,000 per week and I'm seeing average do_rootfs
-times around 10-14 minutes for bigger images and 4 minutes for "small"
-images.
-
-I should definitely try apk to prevent global warming :).
-
-On Wed, Jul 1, 2020 at 1:15 AM Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> On Tue, Jun 30, 2020 at 2:54 PM Martin Jansa <Martin.Jansa@gmail.com>
-> wrote:
-> > On Tue, Jun 30, 2020 at 07:01:23PM +0000, Fredrik Gustafsson wrote:
-> > > Hi Ross,
-> > > those 5 seconds will increase to minutes for my use case and we build
-> a lot
-> > > hence I hope this will save us a lot of computer power and engineering
-> time.
-> > > For example I've sent numbers on building a bigger image
-> (core-image-sato-sdk-ptest)
-> > > to Alex and Alex:
-> > > out.apk.1: 1:13.35
-> > > out.apk.2: 1:13.51
-> > > out.apk.3: 1:13.23
-> > > out.apk.4: 1:14.07
-> > > out.apk.5: 1:13.00
-> > > out.deb.1: 3:49.37
-> > > out.deb.2: 3:50.77
-> > > out.deb.3: 3:51.39
-> > > out.deb.4: 3:53.40
-> > > out.deb.5: 3:53.99
-> > > out.ipk.1: 2:38.99
-> > > out.ipk.2: 2:39.07
-> > > out.ipk.3: 2:35.34
-> > > out.ipk.4: 2:36.15
-> > > out.ipk.5: 2:34.55
-> > > out.rpm.1: 1:58.61
-> > > out.rpm.2: 1:59.42
-> > > out.rpm.3: 1:59.70
-> > > out.rpm.4: 1:58.96
-> > > out.rpm.5: 1:58.11
-> > >
-> > > Also consider that if we've a target without python with limited
-> space, rpm is out
-> > > of the question. So the real comparison would be between ipk and apk.
-> Let's
-> > > say we can save 80 seconds in each build. Now multiply that with the
-> number of
-> > > builds, and we do a lot (I guess we might approach 100 000 builds/week
-> in the
-> > > next year). Then this will save 92.5 days build time each week.
-> >
-> > This is impressive.
+On 6/30/20 6:01 PM, Richard Purdie wrote:
+> On Tue, 2020-06-30 at 17:49 +0800, Changqing Li wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> fix error:
+>> + /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+>> /var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-
+>> query-loaders: No such file or directory
+>> %post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961
+>> status 7f00
+>> warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet
+>> failed, exit status 127
+>>
+>> when install adwaita-icon-theme, which inherit gtk-icon-cache
+>> on target, above error reported,  fix by add needeed packages
+>> in RDEPENDS
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/classes/gtk-icon-cache.bbclass | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-
+>> icon-cache.bbclass
+>> index 91cb4ad409..7f218ce7ae 100644
+>> --- a/meta/classes/gtk-icon-cache.bbclass
+>> +++ b/meta/classes/gtk-icon-cache.bbclass
+>> @@ -4,6 +4,8 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' ==
+>> 'hicolor-icon-theme']} gtk
+>>   
+>>   PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+>>   
+>> +RDEPENDS_${PN} += "gdk-pixbuf gtk+3"
+>> +
+>>   gtk_icon_cache_postinst() {
+>>   if [ "x$D" != "x" ]; then
+>>   	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG}
+>> \
+> This isn't quite right since the postinst may be added to a package
+> other than ${PN}.
 >
-> Indeed. 10 builds per minute, 24hrs a day. But not as impressive as
-> the scale of the development team able to create enough changes to
-> trigger so many builds and the scale of the test infrastructure able
-> to consume them!
+> You need to add the RDEPENDS to the code:
 >
-> Assume one developer makes 10 changes a day and each change gets built
-> for 10 different targets... 100,000 builds per week implies a team of
-> over 140 developers.
+>          rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
+>          d.appendVar('RDEPENDS_%s' % pkg, rdepends)
 >
-
---00000000000005529205a95636ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yes, I thought we at=C2=A0@lge do a lot of builds, but aft=
-er checking our statistics=C2=A0we average &quot;only&quot; around 30,000 b=
-uilds per week in last 5 years.<div><br></div><div>But on the other hand, o=
-ur typical image is quite big (between 300MB and 1GB for enduser image and =
-between 700MG and 1.5GB for developer images depending on the target MACHIN=
-E for tar.bz2 IMAGE_FSTYPE), but each build is producing at least 2 images =
-(enduser and devel), but e.g. TVs are building 15 different rootfs for each=
- MACHINE, so the number of do_rootfs tasks is easily over 100,000 per week =
-and I&#39;m seeing average do_rootfs times around 10-14 minutes for bigger =
-images and 4 minutes for &quot;small&quot; images.<br></div><div><br></div>=
-<div>I should definitely try apk to prevent global warming :).</div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed,=
- Jul 1, 2020 at 1:15 AM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail=
-.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Tue, Jun 30, 2020 at 2:54 PM Martin Jansa &lt;<=
-a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gma=
-il.com</a>&gt; wrote:<br>
-&gt; On Tue, Jun 30, 2020 at 07:01:23PM +0000, Fredrik Gustafsson wrote:<br=
+> later in that class.
 >
-&gt; &gt; Hi Ross,<br>
-&gt; &gt; those 5 seconds will increase to minutes for my use case and we b=
-uild a lot<br>
-&gt; &gt; hence I hope this will save us a lot of computer power and engine=
-ering time.<br>
-&gt; &gt; For example I&#39;ve sent numbers on building a bigger image (cor=
-e-image-sato-sdk-ptest)<br>
-&gt; &gt; to Alex and Alex:<br>
-&gt; &gt; out.apk.1: 1:13.35<br>
-&gt; &gt; out.apk.2: 1:13.51<br>
-&gt; &gt; out.apk.3: 1:13.23<br>
-&gt; &gt; out.apk.4: 1:14.07<br>
-&gt; &gt; out.apk.5: 1:13.00<br>
-&gt; &gt; out.deb.1: 3:49.37<br>
-&gt; &gt; out.deb.2: 3:50.77<br>
-&gt; &gt; out.deb.3: 3:51.39<br>
-&gt; &gt; out.deb.4: 3:53.40<br>
-&gt; &gt; out.deb.5: 3:53.99<br>
-&gt; &gt; out.ipk.1: 2:38.99<br>
-&gt; &gt; out.ipk.2: 2:39.07<br>
-&gt; &gt; out.ipk.3: 2:35.34<br>
-&gt; &gt; out.ipk.4: 2:36.15<br>
-&gt; &gt; out.ipk.5: 2:34.55<br>
-&gt; &gt; out.rpm.1: 1:58.61<br>
-&gt; &gt; out.rpm.2: 1:59.42<br>
-&gt; &gt; out.rpm.3: 1:59.70<br>
-&gt; &gt; out.rpm.4: 1:58.96<br>
-&gt; &gt; out.rpm.5: 1:58.11<br>
-&gt; &gt;<br>
-&gt; &gt; Also consider that if we&#39;ve a target without python with limi=
-ted space, rpm is out<br>
-&gt; &gt; of the question. So the real comparison would be between ipk and =
-apk. Let&#39;s<br>
-&gt; &gt; say we can save 80 seconds in each build. Now multiply that with =
-the number of<br>
-&gt; &gt; builds, and we do a lot (I guess we might approach 100 000 builds=
-/week in the<br>
-&gt; &gt; next year). Then this will save 92.5 days build time each week.<b=
-r>
-&gt;<br>
-&gt; This is impressive.<br>
-<br>
-Indeed. 10 builds per minute, 24hrs a day. But not as impressive as<br>
-the scale of the development team able to create enough changes to<br>
-trigger so many builds and the scale of the test infrastructure able<br>
-to consume them!<br>
-<br>
-Assume one developer makes 10 changes a day and each change gets built<br>
-for 10 different targets... 100,000 builds per week implies a team of<br>
-over 140 developers.<br>
-</blockquote></div>
-
---00000000000005529205a95636ac--
+> Cheers,
+>
+> Richard
+Thanks, I will correct it.
+>
