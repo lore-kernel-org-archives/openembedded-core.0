@@ -1,54 +1,77 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+Received: from smtp1.axis.com (smtp1.axis.com [])
  by mx.groups.io with SMTP id smtpd.web11.17126.1593593197065006014
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 01:46:38 -0700
+ Wed, 01 Jul 2020 01:46:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=fft/5R85;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=EPwl7CMX;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=843; q=dns/txt; s=axis-central1;
-  t=1593593197; x=1625129197;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wXzuwz9E89h1hLY21p6dggaB7CDvPtMGzZUSaUff2lA=;
-  b=fft/5R85Vv9l0m0HbAdvcylHJFv0yl1tzzxCakWqV7telSTCCyO4w4+Y
-   L3lsmzcsj4RJ1X6W81e38B+86qUY/QMmjcfkTmB5WmtukYzzqBqRCmB4l
-   p3Kx+9Y5R4IrwDUHr9L5ahKSgxtMJ4XhLaOtldEh/twkaISSKXYVoAobU
-   dSSl+7YLxtnrSQDwfZZtR3C9LBsIaKCTjc9lVpElZe7mxdT0VP+A+/AbZ
-   hakpgcTw3pWISsK7rPDOYGlXP38d4YvKYZQvXx4IYMS56vmRLrHQV5fMu
-   ggk+0lN1o83AF5j4W2lcaJigqN/oSYkgxf9iOkpPdz5uG4wnAH9y+hpj5
-   Q==;
-IronPort-SDR: 47udUSpxg5+dynNvPlDQsCnWshdBHm8S0rDWI5+7ORMEe9geS7CP/4GdEbx2e2v/q7AJdSgEJZ
- rBePhN2i1l9HV6GBLeTbpEDutWrzYKHpxPRDhmjICw/In235CebtuPNoPaCe0429K0kbFLQO8d
- 3T2tTUZVr9IIl2RKvcZPp3bZF5jIoJJtr/qqBinB6mf6+lXkzhsRga5mPwzVIJzDrkqOdZg/fT
- GFo0TjHdoMPX3uxZi5NkoDBMl/20TPeT9OqqgYdiFcEfxofdhYVdpGEzILF5LdhB9+ROJePCrA
- HXA=
+  d=axis.com; l=1343; q=dns/txt; s=axis-central1;
+  t=1593593199; x=1625129199;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=uBW07nXevP5wzrvfbc5pSUvHSYjXwrFCcz8C5X9zz6M=;
+  b=EPwl7CMXRRwK8LPbLcW8rwTWlE1GZjQjFnHZHGPVrKesUeMRTBvneNmN
+   Iwp1WP7EPl1IPVj6ab8JrIQX2aWfg3X3UrPAPSA0jKPPRkcTXbTeAfX4f
+   GmH85xFpSkP2vjXMSYLzbtvV3zx0pFMtIWp+csu0zkvFLNY6bwyGZGUzn
+   w6/MqVYGy1QOkppOZ7eamAnwanYq4sOYHsJSHfRhZbAgM3Bq7gL9+Jgot
+   Y0zkzDQIJLeE2vTLhlM/rsU27EPxpB2WR1y6VFE+R2RrKLO4UxMsHtrg2
+   DtX6iJ64DmV+NjarSAupNBA47VK9LVz5CklHqgFkxjWkNfLvlX4d8Qa/T
+   w==;
+IronPort-SDR: saVUHK3+PCTH2ZfdFFi8NJcPaI61cwdCUms7YBs6xINsUFIcz1NLWkj5j3F5jMBE9JvqcWNdhv
+ ELFUx4MVQbxUoqlv9c9ks+A89lBw7iikWcRsPU2s7vIITL/6Qk4IFgNfOgMRwNY/cbT1l5nvn/
+ XB+nqOMAYmKVk239C1Y9t/hfe2Ff9JhUxK9wW7DM+ukkozAoL0yeVzbeXHSqsGXi+1Qd2K+atX
+ P9mHeP9DI0D+qU1Xn1sLCSVJw2N6PB0HFe2EoaaKoB/VEuv6PERd1BXNp57tp33zFh8tk5JDCu
+ S1Y=
 X-IronPort-AV: E=Sophos;i="5.75,299,1589234400"; 
-   d="scan'208";a="10379496"
+   d="scan'208";a="10379498"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>
-Subject: Add package managers as a plugin
-Date: Wed, 1 Jul 2020 10:46:33 +0200
-Message-ID: <20200701084634.11428-1-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
+Subject: [PATCH v3] nopackages.bbclass: Get tasks from variable
+Date: Wed, 1 Jul 2020 10:46:34 +0200
+Message-ID: <20200701084634.11428-2-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200701084634.11428-1-fredrigu@axis.com>
+References: <20200701084634.11428-1-fredrigu@axis.com>
 MIME-Version: 1.0
 Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-OE-core today has three different package managers, the well-known formats deb
-and rpm is supported as well as ipkg that is good for embedded devices.
+Get tasks from a variable instead of having them hardcoded. This will
+enable other layers to add tasks that should be deleted when nopackages
+is used.
 
-When building and having a good cache hit, a significant amount of time is
-spent in the phase of generating a rootfs, which is really about the
-performance of the package manager. To save build time and also get a
-package manager that is suitanle for use on targets where flash memory is a
-concern, support for apk is suggested.
+Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
+---
+ meta/classes/nopackages.bbclass | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-However, it might or might not be what's wanted for OE-core since it increases
-the test matrix. Therefore I will refactor the package management code to
-allow a layer to add a new package manager without editing the meta layer.
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f5078bd..4c9fe510c5 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -1,12 +1,7 @@
+-deltask do_package
+-deltask do_package_write_rpm
+-deltask do_package_write_ipk
+-deltask do_package_write_deb
+-deltask do_package_qa
+-deltask do_packagedata
+-deltask do_package_setscene
+-deltask do_package_write_rpm_setscene
+-deltask do_package_write_ipk_setscene
+-deltask do_package_write_deb_setscene
+-deltask do_package_qa_setscene
+-deltask do_packagedata_setscene
++NO_PACKAGES_DELTASKS += "do_package do_package_write_rpm do_package_write_ipk do_package_write_deb do_package_qa do_packagedata do_package_setscene do_package_write_rpm_setscene do_package_write_ipk_setscene do_package_write_deb_setscene do_package_qa_setscene do_packagedata_setscene"
++
++python () {
++    list = d.getVar("NO_PACKAGES_DELTASKS").split()
++    for task in list:
++        bb.build.deltask(task, d)
++}
+-- 
+2.20.1
 
-This refactor will be divided into multiple patch series to be easier to review,
-this first one with a single patch.
