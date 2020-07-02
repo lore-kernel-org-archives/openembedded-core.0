@@ -1,167 +1,144 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2077.1593651261154006625
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 17:54:21 -0700
+ Wed, 01 Jul 2020 17:54:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /wh9LlO81IEgviyK8oe1LDG7gqHQ2Ig5xjhqJKnTacHHPQjDOPr5Cl/MUVW2zTlGPdumwINCp5
- p23uyI68swWA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628768"
+IronPort-SDR: e2iA9xBPlnK44659fXqv9mIY04RO/qk8Kd6QCghsCGn+N/MZA0YwTHwMEkUb9Z8ZXY8I6pqEZa
+ sL3Zb5RuV11g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628777"
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="231628768"
+   d="scan'208";a="231628777"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:21 -0700
-IronPort-SDR: 7Y9UUdL4MVNQtQNZJyd2zoO4Y7kO5rJnlxB/vH/tUEl4C++1Nszy0A9NHn0SKWHy9PiEhwZKlQ
- aylHSDiPkSqA==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:22 -0700
+IronPort-SDR: GvWVJYlwBJq49J/Uoo7/im8hsEmdffZWTe7WYcvDcIXxMPIhIA08H7Rk3zVtB8Jt4qWj0Bq2e2
+ t/WPA7+vRqrQ==
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="481801493"
+   d="scan'208";a="481801516"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.69.56])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:20 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:21 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 01/10] nfs-utils: fix CVE-2019-3689
-Date: Thu,  2 Jul 2020 08:54:03 +0800
-Message-Id: <15186556c7e6ccdb3a308c90563f61b0bbd57407.1593474787.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 02/10] python3: make gdbm optional
+Date: Thu,  2 Jul 2020 08:54:04 +0800
+Message-Id: <033a63507d1ccd423b8023575729ff089614303b.1593474787.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1593474787.git.anuj.mittal@intel.com>
 References: <cover.1593474787.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "wenlin.kang@windriver.com" <wenlin.kang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Fix CVE-2019-3689
+The use case is building a gpl3-free image, without having
+to rely on outdated recipes from meta-gplv2 layer.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...atd-take-user-id-from-var-lib-nfs-sm.patch | 102 ++++++++++++++++++
- .../nfs-utils/nfs-utils_2.4.1.bb              |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
+ ...report-missing-dependencies-for-disa.patch | 31 +++++++++++++++++++
+ ...tutils-prefix-is-inside-staging-area.patch |  2 +-
+ meta/recipes-devtools/python/python3_3.7.7.bb | 18 ++++++++---
+ 3 files changed, 46 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
+diff --git a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
 new file mode 100644
-index 0000000000..87f4f098e0
+index 0000000000..c15295c034
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
-@@ -0,0 +1,102 @@
-+From 12ee0ff1120a6e42b67cc90ad7d5006555e866c3 Mon Sep 17 00:00:00 2001
-+From: NeilBrown <neilb@suse.de>
-+Date: Tue, 23 Jun 2020 09:22:22 +0000
-+Subject: [PATCH] statd: take user-id from /var/lib/nfs/sm
++++ b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
+@@ -0,0 +1,31 @@
++From e3b59cb9658e1d3efa3535840939a0fa92a70a5a Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 7 Oct 2019 13:22:14 +0200
++Subject: [PATCH] setup.py: do not report missing dependencies for disabled
++ modules
 +
-+Having /var/lib/nfs writeable by statd is not ideal
-+as there are files in there that statd doesn't need
-+to access.
-+After dropping privs, statd and sm-notify only need to
-+access files in the directories sm and sm.bak.
-+So take the uid for these deamons from 'sm'.
++Reporting those missing dependencies is misleading as the modules would not
++have been built anyway. This particularly matters in oe-core's automated
++build completeness checker which relies on the report.
 +
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commitdiff;h=fee2cc29e888f2ced6a76990923aef19d326dc0e]
-+CVE: CVE-2019-3689
-+
-+Signed-off-by: NeilBrown <neilb@suse.de>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ support/nsm/file.c        | 16 +++++-----------
-+ utils/statd/sm-notify.man | 10 +++++++++-
-+ utils/statd/statd.man     | 10 +++++++++-
-+ 3 files changed, 23 insertions(+), 13 deletions(-)
++ setup.py | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/support/nsm/file.c b/support/nsm/file.c
-+index 0b66f12..f5b4480 100644
-+--- a/support/nsm/file.c
-++++ b/support/nsm/file.c
-+@@ -388,23 +388,17 @@ nsm_drop_privileges(const int pidfd)
++diff --git a/setup.py b/setup.py
++index 4b53668..0097643 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -365,6 +365,10 @@ class PyBuildExt(build_ext):
++                 print("%-*s   %-*s   %-*s" % (longest, e, longest, f,
++                                               longest, g))
 + 
-+ 	(void)umask(S_IRWXO);
-+ 
-+-	/*
-+-	 * XXX: If we can't stat dirname, or if dirname is owned by
-+-	 *      root, we should use "statduser" instead, which is set up
-+-	 *      by configure.ac.  Nothing in nfs-utils seems to use
-+-	 *      "statduser," though.
-+-	 */
-+-	if (lstat(nsm_base_dirname, &st) == -1) {
-+-		xlog(L_ERROR, "Failed to stat %s: %m", nsm_base_dirname);
-+-		return false;
-+-	}
-+-
-+ 	if (chdir(nsm_base_dirname) == -1) {
-+ 		xlog(L_ERROR, "Failed to change working directory to %s: %m",
-+ 				nsm_base_dirname);
-+ 		return false;
-+ 	}
-+ 
-++	if (lstat(NSM_MONITOR_DIR, &st) == -1) {
-++		xlog(L_ERROR, "Failed to stat %s/%s: %m", nsm_base_dirname, NSM_MONITOR_DIR);
-++		return false;
-++	}
+++        # There is no need to report missing module dependencies,
+++        # if the modules have been disabled in the first place.
+++        missing = list(set(missing) - set(sysconf_dis))
 ++
-+ 	if (!prune_bounding_set())
-+ 		return false;
-+ 
-+diff --git a/utils/statd/sm-notify.man b/utils/statd/sm-notify.man
-+index cfe1e4b..addf5d3 100644
-+--- a/utils/statd/sm-notify.man
-++++ b/utils/statd/sm-notify.man
-+@@ -190,7 +190,15 @@ by default.
-+ After starting,
-+ .B sm-notify
-+ attempts to set its effective UID and GID to the owner
-+-and group of this directory.
-++and group of the subdirectory
-++.B sm
-++of this directory.  After changing the effective ids,
-++.B sm-notify
-++only needs to access files in
-++.B sm
-++and
-++.B sm.bak
-++within the state-directory-path.
-+ .TP
-+ .BI -v " ipaddr " | " hostname
-+ Specifies the network address from which to send reboot notifications,
-+diff --git a/utils/statd/statd.man b/utils/statd/statd.man
-+index 71d5846..6222701 100644
-+--- a/utils/statd/statd.man
-++++ b/utils/statd/statd.man
-+@@ -259,7 +259,15 @@ by default.
-+ After starting,
-+ .B rpc.statd
-+ attempts to set its effective UID and GID to the owner
-+-and group of this directory.
-++and group of the subdirectory
-++.B sm
-++of this directory.  After changing the effective ids,
-++.B rpc.statd
-++only needs to access files in
-++.B sm
-++and
-++.B sm.bak
-++within the state-directory-path.
-+ .TP
-+ .BR -v ", " -V ", " --version
-+ Causes
-+-- 
-+2.23.0
++         if missing:
++             print()
++             print("Python build finished successfully!")
+diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
+index 0bafec73c0..d49604ba4d 100644
+--- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
+@@ -1,4 +1,4 @@
+-From 6229502e5ae6cbb22240594f002638e9ef78f831 Mon Sep 17 00:00:00 2001
++From a274ba778838824efcacaba57c415b7262f779ec Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 14 May 2013 15:00:26 -0700
+ Subject: [PATCH] python3: Add target and native recipes
+diff --git a/meta/recipes-devtools/python/python3_3.7.7.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
+index bff84f640b..be67c81d7c 100644
+--- a/meta/recipes-devtools/python/python3_3.7.7.bb
++++ b/meta/recipes-devtools/python/python3_3.7.7.bb
+@@ -28,6 +28,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://reformat_sysconfig.py \
+            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
++           file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
+            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
+            "
+ 
+@@ -67,7 +68,7 @@ ALTERNATIVE_LINK_NAME[python-config] = "${bindir}/python${PYTHON_BINABI}-config"
+ ALTERNATIVE_TARGET[python-config] = "${bindir}/python${PYTHON_BINABI}-config-${MULTILIB_SUFFIX}"
+ 
+ 
+-DEPENDS = "bzip2-replacement-native libffi bzip2 gdbm openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
++DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
+ DEPENDS_append_class-target = " python3-native"
+ DEPENDS_append_class-nativesdk = " python3-native"
+ 
+@@ -92,13 +93,22 @@ python() {
+         d.setVar('PACKAGECONFIG_PGO', '')
+ }
+ 
+-PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO}"
+-PACKAGECONFIG_class-native ??= "readline"
+-PACKAGECONFIG_class-nativesdk ??= "readline"
++PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO} gdbm"
++PACKAGECONFIG_class-native ??= "readline gdbm"
++PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
+ PACKAGECONFIG[readline] = ",,readline"
+ # Use profile guided optimisation by running PyBench inside qemu-user
+ PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
+ PACKAGECONFIG[tk] = ",,tk"
++PACKAGECONFIG[gdbm] = ",,gdbm"
 +
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-index 3ae8f965c8..458e534864 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-@@ -34,6 +34,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-            file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
-            file://0001-Disable-statx-if-using-glibc-emulation.patch \
-+           file://0001-statd-take-user-id-from-var-lib-nfs-sm.patch \
- "
- SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
++do_configure_prepend () {
++    mkdir -p ${B}/Modules
++    cat > ${B}/Modules/Setup.local << EOF
++*disabled*
++${@bb.utils.contains('PACKAGECONFIG', 'gdbm', '', '_gdbm _dbm', d)}
++EOF
++}
+ 
+ CPPFLAGS_append = " -I${STAGING_INCDIR}/ncursesw -I${STAGING_INCDIR}/uuid"
+ 
 -- 
 2.25.4
 
