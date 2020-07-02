@@ -1,73 +1,102 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.729.1593641491927709413
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.2077.1593651261154006625
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 15:11:32 -0700
+ Wed, 01 Jul 2020 17:54:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: joe.slater@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 061MBUW6029009
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 1 Jul 2020 15:11:30 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Wed, 1 Jul 2020
- 15:11:30 -0700
-From: "Joe Slater" <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] systemd-conf: unpack to $S
-Date: Wed, 1 Jul 2020 15:11:29 -0700
-Message-ID: <20200701221129.99170-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: QbQK4RM7RF62i8Jd8W7IwCv3nD5BUiCngaAjP2J2BhuMP350cNBoFYD7lYr9ZzyU3Je9zJp/cd
+ 2/8HtSrkdRmg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628763"
+X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
+   d="scan'208";a="231628763"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:20 -0700
+IronPort-SDR: Zz+1UgcKGXCZ9oVq3mT9ccXY/wtxvaXm6xb4F0LP5O2EeVaOe8bdoW4b0uRRNnNs2p5xtxh4W1
+ oBSc7GIA4sNg==
+X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
+   d="scan'208";a="481801477"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.69.56])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:19 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [zeus][PATCH 00/10] zeus review request
+Date: Thu,  2 Jul 2020 08:54:02 +0800
+Message-Id: <cover.1593474787.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-systemd-conf copies some files to the target but they
-are in WORKDIR and not visible to the archiver.  Unpack
-them to S.
+Please review these next set of changes for zeus.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../systemd/systemd-conf_245.6.bb             | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Thanks,
 
-diff --git a/meta/recipes-core/systemd/systemd-conf_245.6.bb b/meta/recipes-core/systemd/systemd-conf_245.6.bb
-index d9ec023bfd..d205a60859 100644
---- a/meta/recipes-core/systemd/systemd-conf_245.6.bb
-+++ b/meta/recipes-core/systemd/systemd-conf_245.6.bb
-@@ -6,23 +6,23 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- SRC_URI = "\
--    file://journald.conf \
--    file://logind.conf \
--    file://system.conf \
--    file://system.conf-qemuall \
--    file://wired.network \
-+    file://journald.conf;subdir=${BP} \
-+    file://logind.conf;subdir=${BP} \
-+    file://system.conf;subdir=${BP} \
-+    file://system.conf-qemuall;subdir=${BP} \
-+    file://wired.network;subdir=${BP} \
- "
- 
- do_install() {
--	install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
--	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
--	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
--	install -D -m0644 ${WORKDIR}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
-+	install -D -m0644 ${S}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
-+	install -D -m0644 ${S}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
-+	install -D -m0644 ${S}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
-+	install -D -m0644 ${S}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
- }
- 
- # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
- do_install_append_qemuall() {
--	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
-+	install -D -m0644 ${S}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
- 
- 	# Do not install wired.network for qemu bsps
- 	rm -rf ${D}${systemd_unitdir}/network
+Anuj
+
+The following changes since commit ee95a399285abbde84e0148ca957b59d65bcad0a:
+
+  mesa: fix meson configure fix when 'dri' is excluded from PACKAGECONFIG (2020-05-29 08:32:44 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
+
+Alexander Kanavin (2):
+  python3: make gdbm optional
+  python3: un-break disabling the readline PACKAGECONFIG
+
+Lee Chee Yang (1):
+  qemu: fix CVE-2020-10702 & CVE-2020-13765
+
+Lili Li (1):
+  kernel.bbclass: Fix Module.symvers support
+
+Peter Kjellerstedt (1):
+  relocatable.bbclass: Avoid an exception if an empty pkgconfig dir
+    exist
+
+Richard Leitner (1):
+  kernel-fitimage: introduce FIT_SIGN_ALG
+
+haiqing (2):
+  gnutls: fixed CVE-2020-13777
+  libpam: Remove option 'obscure' from common-password
+
+jason.lau (1):
+  libjpeg-turbo: Fix CVE-2020-13790
+
+wenlin.kang@windriver.com (1):
+  nfs-utils: fix CVE-2019-3689
+
+ meta/classes/kernel-fitimage.bbclass          |   6 +-
+ meta/classes/kernel.bbclass                   |   2 +-
+ meta/classes/relocatable.bbclass              |  20 +--
+ ...atd-take-user-id-from-var-lib-nfs-sm.patch | 102 +++++++++++++
+ .../nfs-utils/nfs-utils_2.4.1.bb              |   1 +
+ ...report-missing-dependencies-for-disa.patch |  31 ++++
+ ...tutils-prefix-is-inside-staging-area.patch |   2 +-
+ meta/recipes-devtools/python/python3_3.7.7.bb |  19 ++-
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-10702.patch            |  52 +++++++
+ .../qemu/qemu/CVE-2020-13765.patch            |  48 ++++++
+ .../pam/libpam/pam.d/common-password          |   5 +-
+ ...buf-overrun-caused-by-bad-binary-PPM.patch |  81 +++++++++++
+ .../jpeg/libjpeg-turbo_2.0.3.bb               |   1 +
+ .../gnutls/gnutls/CVE-2020-13777-a.patch      |  90 ++++++++++++
+ .../gnutls/gnutls/CVE-2020-13777-b.patch      | 137 ++++++++++++++++++
+ .../gnutls/gnutls/CVE-2020-13777-c.patch      |  68 +++++++++
+ meta/recipes-support/gnutls/gnutls_3.6.13.bb  |   3 +
+ 18 files changed, 650 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+ create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-a.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-b.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-c.patch
+
 -- 
-2.17.1
+2.25.4
 
