@@ -1,69 +1,177 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.41.1593706779606786522
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.2525.1593713292432042573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 09:19:40 -0700
+ Thu, 02 Jul 2020 11:08:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=0oN7bhDE;
- spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f54.google.com with SMTP id f7so26225078wrw.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 09:19:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bs4gG6/k;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id dm19so18660049edb.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 11:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hPtbbIOAPdVURW0RykNS7KQs18dtijgpjKqUhp8VRaw=;
-        b=0oN7bhDEJBsN6Mhc+einLYtJaqtRi9wjS3J95nd36nUniO3rz0tmexi1ldk3cMEgpY
-         hFiJNd7lVfr4Ig6/feLJPlHZwOikBay1xDI5ATaxUoZoPnnwakFYf3yVMqtkF4d/fzJw
-         cF016IDTZvFF/WOMhC2RS540WaYgVwQzUs+5WoQoZPY/VPUk1JcqYvnlthFI+LhrZkJG
-         G5ZcN1mGbxHLy6UlMlWy6k0hz3C5V2xxn+JN9CwHKtry+cVIWsYaePRndVTq4z+oziGA
-         jTMlcmppXrCPAKQ0pnwErGTRW9HjaoFTfWUSB4QFk/P9PuDDajggc9i5aS4eG40KY7YN
-         2Ptw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=roJxAaZ+ny2Uw8uHbtxL06pmWSU6B+9/8KiWVroCOQI=;
+        b=Bs4gG6/kwp1LvRfJ0JsBT2H4q+102XZIkfsshiAo53In30d6vhKIJbVsehlEQVA783
+         Jso3GrbUby3TBKl49TekVSESqpiPu0s9A3z9j+Jq2pN1CwISYSm+Bumxz36Jr1wLRBXe
+         sZqDixr2EKjT2FVEg4YvCDJnx2FAyxH2R2PkAZM59vzlpYldK8yq8bCzNKHOR0hRclFK
+         PrD90995tMnaVziK53QDvzDdiHpWaMNSIGuW+Ie3eu5lftUJxXkB0ljAxO6n/SP2mjsg
+         pQGw1TU7D8dEqQXHnI/xYYIB7dwd5fGrUsHAvAC9EqjwBsS7LTOckmxFcWex595pVRRK
+         +xhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hPtbbIOAPdVURW0RykNS7KQs18dtijgpjKqUhp8VRaw=;
-        b=J9Q0/D3O2Luna7jEEV1Clx1bEI87MLcrc5nyFYXj7No6KFOnMFVTzBmoxtt4SKVxx3
-         ZxaiTN3/AU6opy3wMPCM6rBv3fytK+Et+LAYWdiv1y0HFqvcKmUOd+ub/rPdM6yAWSp5
-         UKT6uwtNXz1jBMBG3ICepVPzGWdA7SXsAKj8HTkZHHabCGjV8DFc2QAEffl3n3i/CrsD
-         FeF0EqJNkkBayU/2rIxu0G+FqfRTxccmZQAavuspWl5OxIMK6h9mF889OkiUu4NvhSr2
-         z6eYwftAsw1zl89LpHcJJydils2tU3d5W2JqIcU/+PZPzwR/j+US/ljALIC0gt0KdpO7
-         s7Jw==
-X-Gm-Message-State: AOAM531nTUe+jUM1VEnPLsYf28xTdJZvGMqvZ0hrf0GI/0FIXgDDBgFc
-	D77ZP7wD7JKei75SoMuKp035+FlnMEEIKg==
-X-Google-Smtp-Source: ABdhPJxqsVIKvQl/hNe4oijENt1L2Sd9IgUndItnIi6wRnftzcfoG2SJKXABVCm/HC23+SZILwu2uw==
-X-Received: by 2002:a5d:6045:: with SMTP id j5mr31702003wrt.209.1593706777715;
-        Thu, 02 Jul 2020 09:19:37 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id m4sm11091227wmi.48.2020.07.02.09.19.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 09:19:36 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell] common-licenses: fix filename of BSD-2-Clause-Patent
-Date: Thu,  2 Jul 2020 17:19:33 +0100
-Message-Id: <20200702161933.1997450-1-ross@burtonini.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=roJxAaZ+ny2Uw8uHbtxL06pmWSU6B+9/8KiWVroCOQI=;
+        b=ZWy4scxB2uJF1Z+m1EDeZbwvxvyuVVDh8RZafmsPwAd+4J4Wq+xK8F8URLPyW/QIoh
+         HV70hxagSlNnjAYUQfuwtVGG18bgM3+EA/R1cau44p1JfwUKccOvzbqPvuTUKOye456Z
+         eJM4n0H8N46bOVnjPlMK1ugJzk5oP+qckMX+KqgDXQ8R3X70rEQNBbUyFMRC+ixj+jdG
+         KqOqqAIylKV7+I6z2Tr1r3APljA+IKpoLy1nfE7+Cy7q9YU95RXFfS2Nx7ZUW0/53Tum
+         ZFoQFwHj7ozS03XAWdjLGEswoWpYa1jr/us33azXaxn/NcqjRZfo0sxJBF3ooXSK49zZ
+         2/bQ==
+X-Gm-Message-State: AOAM533EBTvSPLAgrH/2AQCuWw4OcDX7mWKO1MIALjVl72LrgRfUyuvx
+	yzLZS1zcoM71R3EU9wrB+U3lQ23Qfq+B0e+IxuYFen9INGk=
+X-Google-Smtp-Source: ABdhPJzxPAIOjGJKn0Lbzj9ED6/j6bDT2FEJ7mX5cnkqdCBjv8SAOwbyY6+UYfMecSVBx/AGuAYvQoy/q5k9y20EdBg=
+X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr35320695edr.164.1593713290887;
+ Thu, 02 Jul 2020 11:08:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1593653993.git.steve@sakoman.com>
+In-Reply-To: <cover.1593653993.git.steve@sakoman.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 2 Jul 2020 14:07:59 -0400
+Message-ID: <CADkTA4PsN1t8pi=qtGNcZDcSvhCx0RO55cV87YWwUufwCXqLOQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/22] Pull request (cover letter only)
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ross Burton <ross.burton@arm.com>
+On Wed, Jul 1, 2020 at 9:41 PM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> The following changes since commit 1a98936830ba468d63e2e49d766add9e9cb75998:
+>
+>   gstreamer1.0-plugins-bad: add support for vdpau (2020-06-23 04:33:47 -1000)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+>
+> Alexander Kanavin (1):
+>   linux-firmware: upgrade 20200519 -> 20200619
+>
+> Andrej Valek (1):
+>   oeqa/runtime/cases/ptest: Make output content path absolute
+>
+> Armin Kuster (2):
+>   curl: Security fixes for CVE-2020-{8169/8177}
+>   wpa-supplicant: Security fix CVE-2020-12695
+>
+> Changqing Li (1):
+>   mime.bbclass: fix post install scriptlet error
+>
+> Chen Qi (1):
+>   systemd-serialgetty: do not use BindsTo
+>
+> Konrad Weihmann (2):
+>   runqemu: add QB_ROOTFS_EXTRA_OPT parameter
+>   testimage: enable ovmf support
+>
+> Lee Chee Yang (2):
+>   dbus: fix CVE-2020-12049
+>   perl: fix CVE-2020-10543 & CVE-2020-10878
+>
+> Lili Li (1):
+>   kernel.bbclass: Fix Module.symvers support
 
-(From OE-Core rev: 4a9c62d49940b154177d817a845188d827370607)
+I wouldn't recommend this going back to dunfell. It is papering over
+an issue, and is for a new kernel than we ever used in dunfell.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent}              | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/files/common-licenses/{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent} (100%)
+Bruce
 
-diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent
-similarity index 100%
-rename from meta/files/common-licenses/BSD-2-Clause-Patent.txt
-rename to meta/files/common-licenses/BSD-2-Clause-Patent
+>
+> Ming Liu (1):
+>   u-boot: introduce UBOOT_INITIAL_ENV
+>
+> Nicolas Dechesne (1):
+>   checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
+>
+> Pierre-Jean Texier (1):
+>   ell: upgrade 0.31 -> 0.32
+>
+> Richard Purdie (7):
+>   pseudo: Fix attr errors due to incorrect library resolution issues
+>   oeqa/selftest/runcmd: Add better debug for thread count mismatch
+>     failures
+>   oeqa/utils/command: Improve stdin handling in runCmd
+>   scripts/install-buildtools: Update to 3.2 M1 buildtools
+>   scripts/install-buildtools: Handle new format checksum files
+>   oeqa/selftest: Clean up separate builddir in success case when
+>     non-threaded
+>   populate_sdk_ext: Fix to use python3, not python
+>
+> Steve Sakoman (1):
+>   u-boot: move redundant-yyloc-global patch to u-boot-common.inc
+>
+>  meta/classes/kernel.bbclass                   |   2 +-
+>  meta/classes/mime.bbclass                     |  13 +-
+>  meta/classes/populate_sdk_ext.bbclass         |   2 +-
+>  meta/classes/qemuboot.bbclass                 |   5 +
+>  meta/classes/testimage.bbclass                |   6 +-
+>  meta/lib/oeqa/core/target/qemu.py             |   6 +-
+>  meta/lib/oeqa/core/utils/concurrencytest.py   |  23 +--
+>  meta/lib/oeqa/runtime/cases/ptest.py          |   4 +
+>  meta/lib/oeqa/selftest/cases/runcmd.py        |   9 +-
+>  meta/lib/oeqa/selftest/context.py             |  36 ++++-
+>  meta/lib/oeqa/utils/commands.py               |   4 +-
+>  meta/lib/oeqa/utils/qemurunner.py             |   5 +-
+>  .../remove-redundant-yyloc-global.patch       |   0
+>  meta/recipes-bsp/u-boot/u-boot-common.inc     |   1 +
+>  .../u-boot/u-boot-tools_2020.01.bb            |   2 -
+>  meta/recipes-bsp/u-boot/u-boot.inc            |  55 ++++---
+>  ...allow-event-subscriptions-with-URLs-.patch | 151 +++++++++++++++++
+>  ...nt-message-generation-using-a-long-U.patch |  62 +++++++
+>  ...HTTP-initiation-failures-for-events-.patch |  50 ++++++
+>  .../wpa-supplicant/wpa-supplicant_2.9.bb      |   5 +-
+>  .../dbus/dbus/CVE-2020-12049.patch            |  78 +++++++++
+>  meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
+>  .../ell/{ell_0.31.bb => ell_0.32.bb}          |   3 +-
+>  .../systemd-serialgetty/serial-getty@.service |   3 +-
+>  .../perl/files/CVE-2020-10543.patch           |  36 +++++
+>  .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
+>  .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
+>  meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
+>  .../pseudo/files/xattr_version.patch          |  54 +++++++
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
+>  ...20200519.bb => linux-firmware_20200619.bb} |   4 +-
+>  .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++
+>  .../curl/curl/CVE-2020-8177.patch             |  67 ++++++++
+>  meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+>  scripts/install-buildtools                    |  10 +-
+>  scripts/lib/checklayer/__init__.py            |   7 +-
+>  scripts/runqemu                               |  11 +-
+>  37 files changed, 979 insertions(+), 70 deletions(-)
+>  rename meta/recipes-bsp/u-boot/{u-boot-tools => files}/remove-redundant-yyloc-global.patch (100%)
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
+>  create mode 100644 meta/recipes-core/dbus/dbus/CVE-2020-12049.patch
+>  rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+>  create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200519.bb => linux-firmware_20200619.bb} (99%)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
+>
+> --
+> 2.17.1
+>
+> 
+
+
+
 -- 
-2.26.2
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
