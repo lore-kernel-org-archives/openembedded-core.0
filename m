@@ -1,161 +1,140 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.2817.1593654088910792307
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.51])
+ by mx.groups.io with SMTP id smtpd.web12.2895.1593654882699337060
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 18:41:29 -0700
+ Wed, 01 Jul 2020 18:54:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PLZuzRXx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id g67so11749230pgc.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2020 18:41:28 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=jhpYMx6c;
+ spf=pass (domain: windriver.com, ip: 40.107.236.51, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jEPmugawhQa36tsTUKNWhjdvAms554nXQOROYT0lwF09U84J6SoOeewETWA/PkXMEyIA3IBrCHzPR2cdYoVTl6qtYmyh1gs6nzMauD49/TA2f2CNhTmbHzV9dbbV0+mzSUqzxdXEonsus8kOPQFh8I5axHZu8AR+DmysvX6NWq2XU+ziY5CF5TemTsnjJwvhQ/ZVZoGeb63rxMCURmjzYFFFYrSPaG5g593oLvrFic0tn7LbJzu/noSlNg4uOv47ANpUiuJMenh89eIswDuQ6NFvK4q+SGgNuAV+4Xi2psuyT0fcAfNR6kEOMk0B8sPKJLjxZdRDr2CiGapItsaNMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JNb6UyQLeUoolnRuBNHx99koZMHA4Q37qYaa0i3DaoA=;
+ b=I9Ey284ifBvfxTNEf2DsbcqzSwmp9ENb45YdNPuzlU62uLVfuRpYZr73biTJYPGhL8DVPzQnJHe70auY/Jf1Hjo47mPgYyMLOP2cmDGbQr+iDxV/WvQ/YGUOyCjHw+N9gUUD+eLlKtFyqBa9xg5wJHS+HzSSiBsfJx37usMJmi5av0WRUQVCHTir0gcRabtfQP2mAn1PoBy1/12Nnf8DkWfD9WK8TB0NyKwnnIi8yGzTdtZpCM/vWV7LgCBYIDNhiV7+l4Np6P4HEh5WUV1t5koTTvkN5HHnQdKUlUOaRyRT/gC7I9NWAXlxLnxGqvYPll0XsfXrm7MrYT9TCai9TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=l40nCyN72Qky1Hu3PQcXDoScfaOeruAFqQTaS+JWvGU=;
-        b=PLZuzRXxyT8c1IXwCmy7Xfv1uYAxyr7+JXg9V2ZIEooanaN2sinkz0p0HkXd7cy5JN
-         yfLA4jI66BVscH8l4VSjNNZKULcKOvOgMpaki/Bm3Fo4aHA1WJuS2b1LJYfiLj//F8PX
-         z/bd3nQF0jZwynN0F9rU4bieDQotYOmro8M+7PP7DFxne8ZUKaoAAFiC1ESCgSwU5N0y
-         l7FyJU/KfekAgbQSKfWUdBPX3l7m0pUxM5LWl4s2F3DLeOwZ4QEdl1LUrMxxwnIo9Bsa
-         E9sLMpQJJ3kVJ0PwuQVVXA2XQgSAjdVxVRBgN7xOJm0wEGExU1yGlspwSa1IaYQ6iBMm
-         QyiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=l40nCyN72Qky1Hu3PQcXDoScfaOeruAFqQTaS+JWvGU=;
-        b=WhYbXkcPzEz5tv7m6Sw/ZhLUiZq36fOnBETwdgupuxc5N5tgDHH5diQNhCANtUsO7u
-         QLB0rrOdpmCaoJKJetao9B6LTL7F2zeAmQZmJEd2oHOvxlgNX9C16kw4y0dXaET+iu/U
-         Gk6kAHcZjWSc+UAC/uF9PlxCV9diAAxkO253fdXm5Tg4Q3wYxo6OIDcplIfJF/RWDSAp
-         PLQtQY/oP232VzOeSdRl1wAGSeMTC+rjvwA77iW+xRlr512jI2P0v26FF0zt0G22QtCt
-         SCRD8RG2UVakCjyLDFaU2mlEeO5iDXktUIDJMDFPm1iUJ0Dn4Ga/HfQHUj1d246RzO7c
-         UqRQ==
-X-Gm-Message-State: AOAM531fJfjfxl1PTV8RrO1eP4PNZ/BPHByQGs87G4mbfKXzh9KG8Ucv
-	BKUojnQVXE734hjZ6WDAk71wF15bIy5naA==
-X-Google-Smtp-Source: ABdhPJzGHiq4U/se0wTXX2w0HAKAEPBGDXOnEkhx+HLcHSo1n/VhzoUyIpRbQhJOc9eGtrT156Kg9A==
-X-Received: by 2002:aa7:8141:: with SMTP id d1mr27599753pfn.209.1593654087595;
-        Wed, 01 Jul 2020 18:41:27 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e16sm7067278pff.180.2020.07.01.18.41.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2020 18:41:26 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/22] Pull request (cover letter only)
-Date: Wed,  1 Jul 2020 15:41:15 -1000
-Message-Id: <cover.1593653993.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JNb6UyQLeUoolnRuBNHx99koZMHA4Q37qYaa0i3DaoA=;
+ b=jhpYMx6cOapkQ1LaoTPkhikMHfIqP6Tei0JvaVIGFLucIZaWEqDb1/z0RdZoq5Chsh0fyuMrX1TuLQ6bIziRkspb9d8w0AouoZkjzduStV/dkwtxuHCNyY+LT+jz/uLBd9wYUnLTljCXQQI7DKEWSifiFp4+uCP2BLvsRbYJ7Hc=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
+ by BY5PR11MB4226.namprd11.prod.outlook.com (2603:10b6:a03:1bf::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Thu, 2 Jul
+ 2020 01:54:40 +0000
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::19f6:49b4:700d:c360]) by BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::19f6:49b4:700d:c360%3]) with mapi id 15.20.3131.030; Thu, 2 Jul 2020
+ 01:54:40 +0000
+Subject: Re: [OE-core] [PATCH 2/2] python3: add ldconfig rdepends for python3-ctypes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200701023318.3887430-1-mingli.yu@windriver.com>
+ <20200701023318.3887430-2-mingli.yu@windriver.com>
+ <77a85da756bb3519f495da8d1653f98ae439c771.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <37b8eb15-2f6e-e4cc-12f9-a2e99ac5dc61@windriver.com>
+Date: Thu, 2 Jul 2020 09:52:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <77a85da756bb3519f495da8d1653f98ae439c771.camel@linuxfoundation.org>
+X-ClientProxiedBy: HK0PR01CA0057.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::21) To BYAPR11MB2598.namprd11.prod.outlook.com
+ (2603:10b6:a02:cb::17)
+Return-Path: mingli.yu@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.138] (60.247.85.82) by HK0PR01CA0057.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20 via Frontend Transport; Thu, 2 Jul 2020 01:54:39 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ceb2c9f0-2182-4890-39c4-08d81e2ae215
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4226:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB4226799DC39857FEF4BA907BF16D0@BY5PR11MB4226.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0452022BE1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uAadwcZShWM/Qg6UzwX6rWn8iymzfNFNUTnxgPsAAwBiztCgkOVJsZcArYzz7aZHeIQoh362CpSkVloBDUush9fcNalsxhVpWMW8eW8y23wk5ZygNTK7Teqk6RZeIEk0ayRCp19bETvygM9k2uPxr2HQ6X0YCZB40jIRHQWESWKvci2Maw6Lx7+OXHqwTdv9+2yEQy5CxjTQMWc29GdZomdndrHlgX3iiorHBnjM3DfnY19NIsoyZfzl/sajTaX/I2cxo0r49KhyBXbNJIS0cilnDOZBhm6zUh+SOLStDdGHMpxWWmt6TYMucZkrfcjGUltIX3EXTQ+jUavPEDxtcstaVrK/dAZRv9WX3ebZbgBYVePz8Rs0HSvRYx86FP1NHHLTuv25BUttALZubbKbAeAkdg9UQOCsOCf/wu8eMgQc54Ag8E7bGcUS4JarVjFZzGqasfj/2uS0bhFdjZHsHsHaGQTxuXEz1PmeOAEK3SxMfG3s5Jkby5PYMwpp0BIgOtqtKjXq76M9VntT27W/lg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39850400004)(366004)(136003)(376002)(346002)(396003)(186003)(16526019)(6666004)(36756003)(316002)(8936002)(53546011)(26005)(16576012)(8676002)(31686004)(6706004)(66556008)(66946007)(66476007)(5660300002)(83380400001)(966005)(478600001)(31696002)(6486002)(2906002)(86362001)(956004)(52116002)(2616005)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	a/B37stFHbkybYOibWLScf+EFS2VYzwjlE0Xpq4z6HppNVzKaQLz6zP8XTrpzAWcOhmPCu+RLiFRhrozqfSYufPA8HzZmUKcDnEy7Fx8ttfR9PJQGwJ2+9zvqZkJaUITSwfT7cg0oybQdUpNrc4ZYfJuCC5iaEBYOtG/OfZgyyw9c+DNDIvUZDlRcelxyV+44jfXNQMWIutY+D5E25Ror19NyZkf8JEoA+UYxKm4VNl8zDMruaCpX5sbBThyZWAo3BUYzSlmDDCHBJBCpBwtQfO9gYOB7wh+xz3FBAELWh+ARVOTJOZI/6cYz7oKaewrqLAJLJ9/lwBMjEAkI8lx6steQFOd2K9+2fQOJj3Qlii7exz0gLaaEhRi1aMvW9zswayDeXHvRvqZUUQbuNDyytchl6Zyjl1/Et48RVYMadwX1mtjXJfp4M7JEAdI7mCZeRz0V+Qgpa+CHZLsE0mIvSefgRWslGsEVFL55qNSs6w=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ceb2c9f0-2182-4890-39c4-08d81e2ae215
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2598.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 01:54:40.5445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LjI6npdSkwLH+ZnIcox+MVT0D4bU03GSAGSrQTOoHgw0CnzZWpIbDM/IrtB81ifN33Fam9Hs0vL0IOhbVYsa4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4226
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 1a98936830ba468d63e2e49d766add9e9cb75998:
 
-  gstreamer1.0-plugins-bad: add support for vdpau (2020-06-23 04:33:47 -1000)
 
-are available in the Git repository at:
+On 7/1/20 10:20 PM, Richard Purdie wrote:
+> On Wed, 2020-07-01 at 10:33 +0800, Yu, Mingli wrote:
+>> From: Mingli Yu <mingli.yu@windriver.com>
+>>
+>> The ctypes module needs to use "ldconfig -p" to find the
+>> library path and it simply has below logic if no ldconfig
+>> installed.
+>>    except OSError:
+>>        pass
+>>
+>> Before the patch:
+>>    >>> from ctypes.util import find_library
+>>    >>> lib_path = find_library('archive')
+>>    >>> print(lib_path)
+>>    None
+>>
+>> After the patch:
+>>    >>> from ctypes.util import find_library
+>>    >>> lib_path = find_library('archive')
+>>    >>> print(lib_path)
+>>    libarchive.so.13
+>>
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/python/python3_3.8.3.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
+>> index 2eb2a422e6..abcd16e63d 100644
+>> --- a/meta/recipes-devtools/python/python3_3.8.3.bb
+>> +++ b/meta/recipes-devtools/python/python3_3.8.3.bb
+>> @@ -350,6 +350,7 @@ FILES_${PN}-man = "${datadir}/man"
+>>   
+>>   # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+>>   RDEPENDS_libpython3_append_libc-glibc = " libgcc"
+>> +RDEPENDS_${PN}-ctypes_append_libc-glibc = " ldconfig"
+>>   RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+>>   RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+>>   RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+> 
+> Throws warnings in test builds:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/2123
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+Will send V2 to fix the warning.
 
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20200519 -> 20200619
+Thanks,
 
-Andrej Valek (1):
-  oeqa/runtime/cases/ptest: Make output content path absolute
-
-Armin Kuster (2):
-  curl: Security fixes for CVE-2020-{8169/8177}
-  wpa-supplicant: Security fix CVE-2020-12695
-
-Changqing Li (1):
-  mime.bbclass: fix post install scriptlet error
-
-Chen Qi (1):
-  systemd-serialgetty: do not use BindsTo
-
-Konrad Weihmann (2):
-  runqemu: add QB_ROOTFS_EXTRA_OPT parameter
-  testimage: enable ovmf support
-
-Lee Chee Yang (2):
-  dbus: fix CVE-2020-12049
-  perl: fix CVE-2020-10543 & CVE-2020-10878
-
-Lili Li (1):
-  kernel.bbclass: Fix Module.symvers support
-
-Ming Liu (1):
-  u-boot: introduce UBOOT_INITIAL_ENV
-
-Nicolas Dechesne (1):
-  checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
-
-Pierre-Jean Texier (1):
-  ell: upgrade 0.31 -> 0.32
-
-Richard Purdie (7):
-  pseudo: Fix attr errors due to incorrect library resolution issues
-  oeqa/selftest/runcmd: Add better debug for thread count mismatch
-    failures
-  oeqa/utils/command: Improve stdin handling in runCmd
-  scripts/install-buildtools: Update to 3.2 M1 buildtools
-  scripts/install-buildtools: Handle new format checksum files
-  oeqa/selftest: Clean up separate builddir in success case when
-    non-threaded
-  populate_sdk_ext: Fix to use python3, not python
-
-Steve Sakoman (1):
-  u-boot: move redundant-yyloc-global patch to u-boot-common.inc
-
- meta/classes/kernel.bbclass                   |   2 +-
- meta/classes/mime.bbclass                     |  13 +-
- meta/classes/populate_sdk_ext.bbclass         |   2 +-
- meta/classes/qemuboot.bbclass                 |   5 +
- meta/classes/testimage.bbclass                |   6 +-
- meta/lib/oeqa/core/target/qemu.py             |   6 +-
- meta/lib/oeqa/core/utils/concurrencytest.py   |  23 +--
- meta/lib/oeqa/runtime/cases/ptest.py          |   4 +
- meta/lib/oeqa/selftest/cases/runcmd.py        |   9 +-
- meta/lib/oeqa/selftest/context.py             |  36 ++++-
- meta/lib/oeqa/utils/commands.py               |   4 +-
- meta/lib/oeqa/utils/qemurunner.py             |   5 +-
- .../remove-redundant-yyloc-global.patch       |   0
- meta/recipes-bsp/u-boot/u-boot-common.inc     |   1 +
- .../u-boot/u-boot-tools_2020.01.bb            |   2 -
- meta/recipes-bsp/u-boot/u-boot.inc            |  55 ++++---
- ...allow-event-subscriptions-with-URLs-.patch | 151 +++++++++++++++++
- ...nt-message-generation-using-a-long-U.patch |  62 +++++++
- ...HTTP-initiation-failures-for-events-.patch |  50 ++++++
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |   5 +-
- .../dbus/dbus/CVE-2020-12049.patch            |  78 +++++++++
- meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
- .../ell/{ell_0.31.bb => ell_0.32.bb}          |   3 +-
- .../systemd-serialgetty/serial-getty@.service |   3 +-
- .../perl/files/CVE-2020-10543.patch           |  36 +++++
- .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
- .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
- .../pseudo/files/xattr_version.patch          |  54 +++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
- ...20200519.bb => linux-firmware_20200619.bb} |   4 +-
- .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++
- .../curl/curl/CVE-2020-8177.patch             |  67 ++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
- scripts/install-buildtools                    |  10 +-
- scripts/lib/checklayer/__init__.py            |   7 +-
- scripts/runqemu                               |  11 +-
- 37 files changed, 979 insertions(+), 70 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools => files}/remove-redundant-yyloc-global.patch (100%)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
- create mode 100644 meta/recipes-core/dbus/dbus/CVE-2020-12049.patch
- rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200519.bb => linux-firmware_20200619.bb} (99%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
-
--- 
-2.17.1
-
+> 
+> Cheers,
+> 
+> Richard
+> 
