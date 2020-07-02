@@ -1,212 +1,80 @@
-Received: from mga06.intel.com (mga06.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.2468.1593679910997554599
+Received: from sender4-op-o16.zoho.com (sender4-op-o16.zoho.com [136.143.188.16])
+ by mx.groups.io with SMTP id smtpd.web11.2843.1593681788149207819
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 01:51:51 -0700
+ Thu, 02 Jul 2020 02:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: V1pUzx9hu+TwViN/y8bc0pcPqvK16YLqnAmJMwzaczOHWUEOtP7LqdnN61bDI6q/WINc2iWPrD
- 5YF8XA0/n0OA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="208351086"
-X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
-   d="scan'208";a="208351086"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 01:51:46 -0700
-IronPort-SDR: ukNf3AnsFL5013aofw4ybfGgZrpTtmNHKgay8XK+E6xmiesgSVCyeEN0Jn1ijxIEsGmcDu8YjD
- QHbYRo/ufXJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
-   d="scan'208";a="356391932"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2020 01:51:45 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] qemu: fix CVE-2020-10761
-Date: Thu,  2 Jul 2020 16:51:44 +0800
-Message-Id: <1593679904-49603-2-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
-References: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
+ dkim=pass header.i=dwrobel@ertelnet.rybnik.pl header.s=ertelnet header.b=H+7k3H3O;
+ spf=pass (domain: ertelnet.rybnik.pl, ip: 136.143.188.16, mailfrom: dwrobel@ertelnet.rybnik.pl)
+ARC-Seal: i=1; a=rsa-sha256; t=1593681785; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TRGorNWoiTHdBP1GYjiiHZ+SQRrxH8KfddFTJzE+k1cXwUGyYYZrx9VSle2AdhtIKYXc5RvIXRVsiNtl/tOEmOyKC6RxXcixV3juEv+O1JOaUxJQvw2mJP8vS1yplvekXnwyOOfxA9rh+ZJFRLGkvZ1VVbHKDliT7wJceetQAy8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1593681785; h=Content-Type:Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=EhxOCE6Q9J4ip94mCuXAs8yRwWnywJo5Q5YAslYrcB4=; 
+	b=UYub0cgm+dfdLV4CYrqpUEmbDTTgrnXNB+Cb2/5p+gXYiymgpO9eNtMrayTuAmeRWEcoaOuekNnvP3kDRedLsYvaEYR+zlEnTCT8T8AYCc9MJlgkscX+ApbBEUXbkbt+fYyA/OqHgBsmq2pmG5Y12ezHjeIpIm410+mUmIDB4y4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ertelnet.rybnik.pl;
+	spf=pass  smtp.mailfrom=dwrobel@ertelnet.rybnik.pl;
+	dmarc=pass header.from=<dwrobel@ertelnet.rybnik.pl> header.from=<dwrobel@ertelnet.rybnik.pl>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1593681785;
+	s=ertelnet; d=ertelnet.rybnik.pl; i=dwrobel@ertelnet.rybnik.pl;
+	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=EhxOCE6Q9J4ip94mCuXAs8yRwWnywJo5Q5YAslYrcB4=;
+	b=H+7k3H3OHaqqkIbTxvLMwm0hAqnYWmrbFfRidS4Gfqd+YSYpr8qr2c/C6lNpAyab
+	Wl+dprOakWCFWTapMaJV0B8UVMiC6qho/I4pBQbArSsBtqI1XgBKrVU1/VsEJvpxqhj
+	6puKhiHxEGY4C8mpVmzUSj+Mg6sfwor91OwxPbxM=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1593681784964270.14483366371655; Thu, 2 Jul 2020 02:23:04 -0700 (PDT)
+Date: Thu, 02 Jul 2020 11:23:04 +0200
+From: "Damian Wrobel" <dwrobel@ertelnet.rybnik.pl>
+To: "openembedded-core" <openembedded-core@lists.openembedded.org>
+Message-ID: <1730ed63083.c34975ae810908.118444735701489935@ertelnet.rybnik.pl>
+In-Reply-To: 
+Subject: [PATCH] rootfs: do not let ldconfig to create symlinks
+MIME-Version: 1.0
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Adds -X option to ldconfig to not create symlinks
+as part of the ldconfig cache creation process.
+
+It is much better to keep all needed symlinks as part of
+of the package then let ldconfig do the job.
+
+In the case symlink was created by ldconfig and later on the
+package got removed the dangling link will remain on the
+filesystem. Not to mention that such a symlink is orphaned
+(e.g. rpm -qf <file-path> will not show the package the symlink
+is part of).
+
+It also align the behaviour with libc-musl where the ldconfig
+is not invoked by default.
+
+Signed-off-by: Damian Wrobel <dwrobel@ertelnet.rybnik.pl>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |   1 +
- .../qemu/qemu/CVE-2020-10761.patch                 | 151 +++++++++++++++++++++
- 2 files changed, 152 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
+ meta/lib/oe/rootfs.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 6b9dd99..d41cc8f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
- 	   file://CVE-2020-13361.patch \
- 	   file://find_datadir.patch \
-+	   file://CVE-2020-10761.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
-new file mode 100644
-index 0000000..19f26ae
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
-@@ -0,0 +1,151 @@
-+From 5c4fe018c025740fef4a0a4421e8162db0c3eefd Mon Sep 17 00:00:00 2001
-+From: Eric Blake <eblake@redhat.com>
-+Date: Mon, 8 Jun 2020 13:26:37 -0500
-+Subject: [PATCH] nbd/server: Avoid long error message assertions
-+ CVE-2020-10761
-+
-+Ever since commit 36683283 (v2.8), the server code asserts that error
-+strings sent to the client are well-formed per the protocol by not
-+exceeding the maximum string length of 4096.  At the time the server
-+first started sending error messages, the assertion could not be
-+triggered, because messages were completely under our control.
-+However, over the years, we have added latent scenarios where a client
-+could trigger the server to attempt an error message that would
-+include the client's information if it passed other checks first:
-+
-+- requesting NBD_OPT_INFO/GO on an export name that is not present
-+  (commit 0cfae925 in v2.12 echoes the name)
-+
-+- requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
-+  not present (commit e7b1948d in v2.12 echoes the name)
-+
-+At the time, those were still safe because we flagged names larger
-+than 256 bytes with a different message; but that changed in commit
-+93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
-+string limit.  (That commit also failed to change the magic number
-+4096 in nbd_negotiate_send_rep_err to the just-introduced named
-+constant.)  So with that commit, long client names appended to server
-+text can now trigger the assertion, and thus be used as a denial of
-+service attack against a server.  As a mitigating factor, if the
-+server requires TLS, the client cannot trigger the problematic paths
-+unless it first supplies TLS credentials, and such trusted clients are
-+less likely to try to intentionally crash the server.
-+
-+We may later want to further sanitize the user-supplied strings we
-+place into our error messages, such as scrubbing out control
-+characters, but that is less important to the CVE fix, so it can be a
-+later patch to the new nbd_sanitize_name.
-+
-+Consideration was given to changing the assertion in
-+nbd_negotiate_send_rep_verr to instead merely log a server error and
-+truncate the message, to avoid leaving a latent path that could
-+trigger a future CVE DoS on any new error message.  However, this
-+merely complicates the code for something that is already (correctly)
-+flagging coding errors, and now that we are aware of the long message
-+pitfall, we are less likely to introduce such errors in the future,
-+which would make such error handling dead code.
-+
-+Reported-by: Xueqiang Wei <xuwei@redhat.com>
-+CC: qemu-stable@nongnu.org
-+Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
-+Fixes: 93676c88d7
-+Signed-off-by: Eric Blake <eblake@redhat.com>
-+Message-Id: <20200610163741.3745251-2-eblake@redhat.com>
-+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+
-+Upstream-Status: Backport  [https://github.com/qemu/qemu/commit/5c4fe018c025740fef4a0a4421e8162db0c3eefd]
-+CVE: CVE-2020-10761
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ nbd/server.c               | 23 ++++++++++++++++++++---
-+ tests/qemu-iotests/143     |  4 ++++
-+ tests/qemu-iotests/143.out |  2 ++
-+ 3 files changed, 26 insertions(+), 3 deletions(-)
-+
-+diff --git a/nbd/server.c b/nbd/server.c
-+index 02b1ed08014..20754e9ebc3 100644
-+--- a/nbd/server.c
-++++ b/nbd/server.c
-+@@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
-+ 
-+     msg = g_strdup_vprintf(fmt, va);
-+     len = strlen(msg);
-+-    assert(len < 4096);
-++    assert(len < NBD_MAX_STRING_SIZE);
-+     trace_nbd_negotiate_send_rep_err(msg);
-+     ret = nbd_negotiate_send_rep_len(client, type, len, errp);
-+     if (ret < 0) {
-+@@ -231,6 +231,19 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
-+     return 0;
-+ }
-+ 
-++/*
-++ * Return a malloc'd copy of @name suitable for use in an error reply.
-++ */
-++static char *
-++nbd_sanitize_name(const char *name)
-++{
-++    if (strnlen(name, 80) < 80) {
-++        return g_strdup(name);
-++    }
-++    /* XXX Should we also try to sanitize any control characters? */
-++    return g_strdup_printf("%.80s...", name);
-++}
-++
-+ /* Send an error reply.
-+  * Return -errno on error, 0 on success. */
-+ static int GCC_FMT_ATTR(4, 5)
-+@@ -595,9 +608,11 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-+ 
-+     exp = nbd_export_find(name);
-+     if (!exp) {
-++        g_autofree char *sane_name = nbd_sanitize_name(name);
-++
-+         return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
-+                                           errp, "export '%s' not present",
-+-                                          name);
-++                                          sane_name);
-+     }
-+ 
-+     /* Don't bother sending NBD_INFO_NAME unless client requested it */
-+@@ -995,8 +1010,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-+ 
-+     meta->exp = nbd_export_find(export_name);
-+     if (meta->exp == NULL) {
-++        g_autofree char *sane_name = nbd_sanitize_name(export_name);
-++
-+         return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
-+-                            "export '%s' not present", export_name);
-++                            "export '%s' not present", sane_name);
-+     }
-+ 
-+     ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
-+diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
-+index f649b361950..d2349903b1b 100755
-+--- a/tests/qemu-iotests/143
-++++ b/tests/qemu-iotests/143
-+@@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
-+ $QEMU_IO_PROG -f raw -c quit \
-+     "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
-+     | _filter_qemu_io | _filter_nbd
-++# Likewise, with longest possible name permitted in NBD protocol
-++$QEMU_IO_PROG -f raw -c quit \
-++    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
-++    | _filter_qemu_io | _filter_nbd | sed 's/aaaa*aa/aa--aa/'
-+ 
-+ _send_qemu_cmd $QEMU_HANDLE \
-+     "{ 'execute': 'quit' }" \
-+diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
-+index 1f4001c6013..fc9c0a761fa 100644
-+--- a/tests/qemu-iotests/143.out
-++++ b/tests/qemu-iotests/143.out
-+@@ -5,6 +5,8 @@ QA output created by 143
-+ {"return": {}}
-+ qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
-+ server reported: export 'no_such_export' not present
-++qemu-io: can't open device nbd+unix:///aa--aa1?socket=SOCK_DIR/nbd: Requested export not available
-++server reported: export 'aa--aa...' not present
-+ { 'execute': 'quit' }
-+ {"return": {}}
-+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
--- 
-2.7.4
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a0ac33ada6..0e05f1f75e 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -297,9 +297,9 @@ class Rootfs(object, metaclass=ABCMeta):
+
+     def _run_ldconfig(self):
+         if self.d.getVar('LDCONFIGDEPEND'):
+-            bb.note("Executing: ldconfig -r " + self.image_rootfs + " -c new -v")
++            bb.note("Executing: ldconfig -r " + self.image_rootfs + " -c new -v -X")
+             self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs, '-c',
+-                                  'new', '-v'])
++                                  'new', '-v', '-X'])
+
+     def _check_for_kernel_modules(self, modules_dir):
+         for root, dirs, files in os.walk(modules_dir, topdown=True):
+--
+2.25.4
 
