@@ -1,152 +1,172 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2077.1593651261154006625
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 17:54:25 -0700
+ Wed, 01 Jul 2020 17:54:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: dXqzaaH+GZk8B2q+1Zu4fCL7TJg/xpwqHocg/sNdhmrPfvqFlZ00m32vOs5ncJkg49Gh8V9vIP
- mDgmceacjmSQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628801"
+IronPort-SDR: bam1fNIu9YA7D18TGKpVa8bP73hm/jPI29It17N+EsKK41nEvu/nummiPyEWkUY54I+cNgwZi3
+ 6B5QBbK1UJWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628810"
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="231628801"
+   d="scan'208";a="231628810"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:25 -0700
-IronPort-SDR: 3QP1wVra/fd2Y8GwiH/bIuxu7c14Whb7WmlVHAazvcvn0TlN5Y5GtdHaJ/+rkyKEbHESNF+krK
- K27aEOq5KfNQ==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:26 -0700
+IronPort-SDR: 8F3xyDa8ISEvM5N88FeS9l6tzndjWFxeGhEW0JKabTR/rbhnosj9DJWWsY8eqIc/zCVCkmHlGf
+ 2WDVKfMYIAcQ==
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="481801566"
+   d="scan'208";a="481801598"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.69.56])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:24 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:25 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 04/10] libjpeg-turbo: Fix CVE-2020-13790
-Date: Thu,  2 Jul 2020 08:54:06 +0800
-Message-Id: <90f4e2f299d8cd6c839b73307dc7b0ec3d389294.1593474787.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 05/10] qemu: fix CVE-2020-10702 & CVE-2020-13765
+Date: Thu,  2 Jul 2020 08:54:07 +0800
+Message-Id: <684307688eb0c1a98be8885164ecc8f578a36cf8.1593474787.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1593474787.git.anuj.mittal@intel.com>
 References: <cover.1593474787.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "jason.lau" <Haitao.Liu@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-libjpeg-turbo 2.0.4 has a heap-based buffer over-read
-in get_rgb_row() in rdppm.c via a malformed PPM input file.
-
-Upstream-Status: Backport
-[https://github.com/libjpeg-turbo/libjpeg-turbo/commit/3de15e0c344d11d4b90f4a47136467053eb2d09a]
-
-CVE:CVE-2020-13790
-
-Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...buf-overrun-caused-by-bad-binary-PPM.patch | 81 +++++++++++++++++++
- .../jpeg/libjpeg-turbo_2.0.3.bb               |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2020-10702.patch            | 52 +++++++++++++++++++
+ .../qemu/qemu/CVE-2020-13765.patch            | 48 +++++++++++++++++
+ 3 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
 
-diff --git a/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4e5ea174a9..5cdba1f02c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -37,6 +37,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-3.patch \
+ 	   file://CVE-2020-7211.patch \
+ 	   file://CVE-2020-11869.patch \
++           file://CVE-2020-13765.patch \
++           file://CVE-2020-10702.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
 new file mode 100644
-index 0000000000..03b6dba153
+index 0000000000..21a3ceb30d
 --- /dev/null
-+++ b/meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
-@@ -0,0 +1,81 @@
-+From ade1818b7542ef9e11ece5ce98df91fab45d674c Mon Sep 17 00:00:00 2001
-+From: DRC <information@libjpeg-turbo.org>
-+Date: Tue, 2 Jun 2020 14:15:37 -0500
-+Subject: [PATCH] rdppm.c: Fix buf overrun caused by bad binary PPM
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
+@@ -0,0 +1,52 @@
++From de0b1bae6461f67243282555475f88b2384a1eb9 Mon Sep 17 00:00:00 2001
++From: Vincent Dehors <vincent.dehors@smile.fr>
++Date: Thu, 23 Jan 2020 15:22:38 +0000
++Subject: [PATCH] target/arm: Fix PAuth sbox functions
 +
-+This extends the fix in 1e81b0c3ea26f4ea8f56de05367469333de64a9f to
-+include binary PPM files with maximum values < 255, thus preventing a
-+malformed binary PPM input file with those specifications from
-+triggering an overrun of the rescale array and potentially crashing
-+cjpeg, TJBench, or any program that uses the tjLoadImage() function.
++In the PAC computation, sbox was applied over wrong bits.
++As this is a 4-bit sbox, bit index should be incremented by 4 instead of 16.
 +
-+Fixes #433
++Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf) was
++used to verify one computation of the pauth_computepac() function which
++uses sbox2.
 +
-+CVE: CVE-2020-13790
++Launchpad: https://bugs.launchpad.net/bugs/1859713
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Signed-off-by: Vincent DEHORS <vincent.dehors@smile.fr>
++Signed-off-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
++Message-id: 20200116230809.19078-2-richard.henderson@linaro.org
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 +
-+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=de0b1bae6461f67243282555475f88b2384a1eb9] 
++CVE: CVE-2020-10702
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ ChangeLog.md | 20 ++++++++++++++++----
-+ rdppm.c      |  4 ++--
-+ 2 files changed, 18 insertions(+), 6 deletions(-)
++ target/arm/pauth_helper.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/ChangeLog.md b/ChangeLog.md
-+index 3667d12..198c7b8 100644
-+--- a/ChangeLog.md
-++++ b/ChangeLog.md
-+@@ -1,3 +1,15 @@
-++2.0.4
-++=====
-++
-++### Significant changes relative to 2.0.3:
-++
-++1. Fixed an issue in the PPM reader that caused a buffer overrun in cjpeg,
-++TJBench, or the `tjLoadImage()` function if one of the values in a binary
-++PPM/PGM input file exceeded the maximum value defined in the file's header and
-++that maximum value was less than 255.  libjpeg-turbo 1.5.0 already included a
-++similar fix for binary PPM/PGM files with maximum values greater than 255.
-++
-++
-+ 2.0.3
-+ =====
++diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
++index d3194f2..0a5f41e 100644
++--- a/target/arm/pauth_helper.c
+++++ b/target/arm/pauth_helper.c
++@@ -89,7 +89,7 @@ static uint64_t pac_sub(uint64_t i)
++     uint64_t o = 0;
++     int b;
 + 
-+@@ -520,10 +532,10 @@ application was linked against.
++-    for (b = 0; b < 64; b += 16) {
+++    for (b = 0; b < 64; b += 4) {
++         o |= (uint64_t)sub[(i >> b) & 0xf] << b;
++     }
++     return o;
++@@ -104,7 +104,7 @@ static uint64_t pac_inv_sub(uint64_t i)
++     uint64_t o = 0;
++     int b;
 + 
-+ 3. Fixed a couple of issues in the PPM reader that would cause buffer overruns
-+ in cjpeg if one of the values in a binary PPM/PGM input file exceeded the
-+-maximum value defined in the file's header.  libjpeg-turbo 1.4.2 already
-+-included a similar fix for ASCII PPM/PGM files.  Note that these issues were
-+-not security bugs, since they were confined to the cjpeg program and did not
-+-affect any of the libjpeg-turbo libraries.
-++maximum value defined in the file's header and that maximum value was greater
-++than 255.  libjpeg-turbo 1.4.2 already included a similar fix for ASCII PPM/PGM
-++files.  Note that these issues were not security bugs, since they were confined
-++to the cjpeg program and did not affect any of the libjpeg-turbo libraries.
-+ 
-+ 4. Fixed an issue whereby attempting to decompress a JPEG file with a corrupt
-+ header using the `tjDecompressToYUV2()` function would cause the function to
-+diff --git a/rdppm.c b/rdppm.c
-+index 87bc330..a8507b9 100644
-+--- a/rdppm.c
-++++ b/rdppm.c
-+@@ -5,7 +5,7 @@
-+  * Copyright (C) 1991-1997, Thomas G. Lane.
-+  * Modified 2009 by Bill Allombert, Guido Vollbeding.
-+  * libjpeg-turbo Modifications:
-+- * Copyright (C) 2015-2017, D. R. Commander.
-++ * Copyright (C) 2015-2017, 2020, D. R. Commander.
-+  * For conditions of distribution and use, see the accompanying README.ijg
-+  * file.
-+  *
-+@@ -720,7 +720,7 @@ start_input_ppm(j_compress_ptr cinfo, cjpeg_source_ptr sinfo)
-+     /* On 16-bit-int machines we have to be careful of maxval = 65535 */
-+     source->rescale = (JSAMPLE *)
-+       (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
-+-                                  (size_t)(((long)maxval + 1L) *
-++                                  (size_t)(((long)MAX(maxval, 255) + 1L) *
-+                                            sizeof(JSAMPLE)));
-+     half_maxval = maxval / 2;
-+     for (val = 0; val <= (long)maxval; val++) {
++-    for (b = 0; b < 64; b += 16) {
+++    for (b = 0; b < 64; b += 4) {
++         o |= (uint64_t)inv_sub[(i >> b) & 0xf] << b;
++     }
++     return o;
 +-- 
-+2.17.0
++1.8.3.1
 +
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-index 1cf854de62..8ea81f386f 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-@@ -12,6 +12,7 @@ DEPENDS_append_x86_class-target    = " nasm-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
-+           file://0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch \
-            "
- 
- SRC_URI[md5sum] = "bd07fddf26f9def7bab02739eb655116"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+new file mode 100644
+index 0000000000..9014ba0f13
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
+@@ -0,0 +1,48 @@
++From e423455c4f23a1a828901c78fe6d03b7dde79319 Mon Sep 17 00:00:00 2001
++From: Thomas Huth <thuth@redhat.com>
++Date: Wed, 25 Sep 2019 14:16:43 +0200
++Subject: [PATCH] hw/core/loader: Fix possible crash in rom_copy()
++
++Both, "rom->addr" and "addr" are derived from the binary image
++that can be loaded with the "-kernel" paramer. The code in
++rom_copy() then calculates:
++
++    d = dest + (rom->addr - addr);
++
++and uses "d" as destination in a memcpy() some lines later. Now with
++bad kernel images, it is possible that rom->addr is smaller than addr,
++thus "rom->addr - addr" gets negative and the memcpy() then tries to
++copy contents from the image to a bad memory location. This could
++maybe be used to inject code from a kernel image into the QEMU binary,
++so we better fix it with an additional sanity check here.
++
++Cc: qemu-stable@nongnu.org
++Reported-by: Guangming Liu
++Buglink: https://bugs.launchpad.net/qemu/+bug/1844635
++Message-Id: <20190925130331.27825-1-thuth@redhat.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Thomas Huth <thuth@redhat.com>
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=e423455c4f23a1a828901c78fe6d03b7dde79319] 
++CVE: CVE-2020-13765
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ hw/core/loader.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/core/loader.c b/hw/core/loader.c
++index 0d60219..5099f27 100644
++--- a/hw/core/loader.c
+++++ b/hw/core/loader.c
++@@ -1281,7 +1281,7 @@ int rom_copy(uint8_t *dest, hwaddr addr, size_t size)
++         if (rom->addr + rom->romsize < addr) {
++             continue;
++         }
++-        if (rom->addr > end) {
+++        if (rom->addr > end || rom->addr < addr) {
++             break;
++         }
++ 
++-- 
++1.8.3.1
++
 -- 
 2.25.4
 
