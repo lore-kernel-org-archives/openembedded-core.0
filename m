@@ -1,268 +1,223 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.1758.1593676014897950829
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.1912.1593677196136421013
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 00:46:55 -0700
+ Thu, 02 Jul 2020 01:06:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SLjHjltd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id f18so18876606wrs.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 00:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=fiVxpRref7EXbm5Ndg7nTtcQoxZZ/LLmaOXqg7aWruc=;
-        b=SLjHjltdt/cOqU4hDVA/dWL4ys7B/Q2hKJlub0uKjKC+4OZ0HnvJXTN2fBYRvbdTjl
-         Bmw1d2G+oHIWy+Ke0soouQspIIn6vfxX7Wn3BplfM8NGxLmZYCvQMGVKd9KeF+3nXWH2
-         o2zLQBjo29nRMxsx25ZS83uoJXZmu9deYHYLU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fiVxpRref7EXbm5Ndg7nTtcQoxZZ/LLmaOXqg7aWruc=;
-        b=Rq1D4Nr+4FPt8Sqa/N1f13vN/Uj1yXY3dQCaTPp7ePhrWPqGFqo0E5qrFaIweQV0k1
-         k/iWFIQ/idXDvEqo6q6NsbkiYELcZixBcjQO8Vr3t0TLwWOMfKAO6F1WguHtkq5r9W6/
-         SeUEQbEh+l2cTj3sAl6mmnf0Xdc/wHP2cgsQSMtRBBa27ReWT1/JdvXNqMxi26a22KNM
-         R9xdTw+yiA0lJVpVaaqJ2Sb8JA0ljhuLuGFtK8VLVhayX+hd0ed830aDtJzxux7zvlvB
-         YMBSeZ6R6NDLhvdJlwf7nUmGTWRx2y7wkCZkz6XB6f4jKwXDf/Ci2J/bUPG+JnmUXxVx
-         9xSQ==
-X-Gm-Message-State: AOAM531nbwkBiSBl1L0XCOK6fmbGhiVo/v5JCa/whq4UgG3nqfXc1Fpl
-	uOwBYfaYcGNKGqysxgkSWYwzvw==
-X-Google-Smtp-Source: ABdhPJxWCsvpc0/H0thYARyxzDbM6mUlZ1WgVIU/DyUn0xQERKeP2AQAQ1YReeTTMWrpt3hqpp0+HQ==
-X-Received: by 2002:adf:fa8f:: with SMTP id h15mr30133230wrr.211.1593676013162;
-        Thu, 02 Jul 2020 00:46:53 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d63sm10209108wmc.22.2020.07.02.00.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 00:46:52 -0700 (PDT)
-Message-ID: <992d7721671aa464f6a59209d0346a55dc569db6.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 02 Jul 2020 08:46:51 +0100
-In-Reply-To: <ec894ebd-6116-4e68-04b3-6be656108405@windriver.com>
-References: <20200619114727.40142-1-yanfei.xu@windriver.com>
-	 <20200619114727.40142-2-yanfei.xu@windriver.com>
-	 <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
-	 <144b99d5a5b327d660925ff5ee18139d7dc088c3.camel@linuxfoundation.org>
-	 <7d7b57ca-5419-971d-6701-4cd2e8958960@windriver.com>
-	 <b456775facefdc593552db94bf2de51f5725aa97.camel@linuxfoundation.org>
-	 <77c7e877-527a-3e39-ad58-2b34c4cffa05@windriver.com>
-	 <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
-	 <777044a4-8a9b-ea9b-fc05-636caa004c3d@windriver.com>
-	 <d2119fa2-2d1f-27c6-bf73-055422e6819b@windriver.com>
-	 <CADkTA4NHXAF3Hfm9ryw5OvrM+pFM3FTjQNpvhpGfTyiiYEDb8g@mail.gmail.com>
-	 <ec894ebd-6116-4e68-04b3-6be656108405@windriver.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: cliAPK+9u41j6d6e7IKqSJd1roeH/WtYW7wCG8k/SEuIH1wVBxi6FIZ72f0yuQihMKdr24wFfD
+ ou0K+Uzf6VBw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="208346477"
+X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
+   d="scan'208";a="208346477"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 01:06:34 -0700
+IronPort-SDR: yZ9gsbICNUxVpaEYIqkAuHI6935qG8Ol8v0iRw3i5HZQuEwn44D5Gfqs/WDUIUNLyZXeqcCOYQ
+ A2opV2a1wdZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
+   d="scan'208";a="387261465"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Jul 2020 01:06:33 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] json-c: fix CVE-2020-12762
+Date: Thu,  2 Jul 2020 16:06:31 +0800
+Message-Id: <1593677192-37266-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-On Thu, 2020-07-02 at 10:43 +0800, Xu, Yanfei wrote:
-> 
-> On 7/1/20 9:42 PM, Bruce Ashfield wrote:
-> > On Wed, Jul 1, 2020 at 4:22 AM Xu, Yanfei <yanfei.xu@windriver.com>
-> > wrote:
-> > > 
-> > > 
-> > > On 6/28/20 8:21 PM, Xu, Yanfei wrote:
-> > > > 
-> > > > On 6/25/20 12:18 AM, Richard Purdie wrote:
-> > > > > On Wed, 2020-06-24 at 23:57 +0800, Xu, Yanfei wrote:
-> > > > > > On 6/24/20 9:08 PM, Richard Purdie wrote:
-> > > > > > > On Wed, 2020-06-24 at 09:47 +0800, Xu, Yanfei wrote:
-> > > > > > > > On 6/24/20 5:51 AM, Richard Purdie wrote:
-> > > > > > > > > On Tue, 2020-06-23 at 10:31 -0400, Bruce Ashfield
-> > > > > > > > > wrote:
-> > > > > > > > > > On Fri, Jun 19, 2020 at 7:47 AM <
-> > > > > > > > > > yanfei.xu@windriver.com>
-> > > > > > > > > > wrote:
-> > > > > > > > > > > From: Yanfei Xu <yanfei.xu@windriver.com>
-> > > > > > > > > > > 
-> > > > > > > > > > > Some filesystems don't support symlink, then you
-> > > > > > > > > > > will get
-> > > > > > > > > > > failure
-> > > > > > > > > > > when
-> > > > > > > > > > > you install or update the kernel rpm package. Now
-> > > > > > > > > > > we use a
-> > > > > > > > > > > copy
-> > > > > > > > > > > of
-> > > > > > > > > > > image for these filesystems instead of symlink.
-> > > > > > > > > > > 
-> > > > > > > > > > > Suggested-by: Bruce Ashfield <
-> > > > > > > > > > > bruce.ashfield@gmail.com>
-> > > > > > > > > > > Suggested-by: Richard Purdie <
-> > > > > > > > > > > richard.purdie@linuxfoundation.org>
-> > > > > > > > > > > Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com
-> > > > > > > > > > > >
-> > > > > > > > > > > ---
-> > > > > > > > > > >      meta/classes/kernel.bbclass | 19
-> > > > > > > > > > > ++++++++++++++++---
-> > > > > > > > > > >      1 file changed, 16 insertions(+), 3
-> > > > > > > > > > > deletions(-)
-> > > > > > > > > > > 
-> > > > > > > > > > > diff --git a/meta/classes/kernel.bbclass
-> > > > > > > > > > > b/meta/classes/kernel.bbclass
-> > > > > > > > > > > index 20a0135fc9..1269b54343 100644
-> > > > > > > > > > > --- a/meta/classes/kernel.bbclass
-> > > > > > > > > > > +++ b/meta/classes/kernel.bbclass
-> > > > > > > > > > > @@ -94,6 +94,22 @@ python __anonymous () {
-> > > > > > > > > > >              d.appendVar('RDEPENDS_%s-image' %
-> > > > > > > > > > > kname, ' %s-
-> > > > > > > > > > > image-
-> > > > > > > > > > > %s' %
-> > > > > > > > > > > (kname, typelower))
-> > > > > > > > > > >              d.setVar('PKG_%s-image-%s' %
-> > > > > > > > > > > (kname,typelower),
-> > > > > > > > > > > '%s-
-> > > > > > > > > > > image-
-> > > > > > > > > > > %s-${KERNEL_VERSION_PKG_NAME}' % (kname,
-> > > > > > > > > > > typelower))
-> > > > > > > > > > >              d.setVar('ALLOW_EMPTY_%s-image-%s' %
-> > > > > > > > > > > (kname,
-> > > > > > > > > > > typelower),
-> > > > > > > > > > > '1')
-> > > > > > > > > > > +        d.setVar('pkg_postinst_ontarget_%s-
-> > > > > > > > > > > image-%s' %
-> > > > > > > > > > > (kname,typelower), """
-> > > > > > > > > > 
-> > > > > > > > > > You were previously concerned about boot issues if
-> > > > > > > > > > the
-> > > > > > > > > > unversioned
-> > > > > > > > > > image link/copy was deferred until boot. I don't
-> > > > > > > > > > see a
-> > > > > > > > > > summary of
-> > > > > > > > > > why
-> > > > > > > > > > that's no longer a concern in the v3 of the patch.
-> > > > > > > > > > Can you
-> > > > > > > > > > confirm
-> > > > > > > > > > that it isn't an issue ? Is it simply because the
-> > > > > > > > > > booted
-> > > > > > > > > > image
-> > > > > > > > > > isn't
-> > > > > > > > > > installed via this package, and hence we are fine ?
-> > > > > > > > > 
-> > > > > > > > > I'm suspecting this patch is why we're seeing
-> > > > > > > > > selftest
-> > > > > > > > > failures:
-> > > > > > > > > 
-> > > > > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1055
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > Do you mean this patch has been applied? and introduce
-> > > > > > > > new
-> > > > > > > > issues?
-> > > > > > > 
-> > > > > > > Yes, I reverted it and retested and confirmed this patch
-> > > > > > > causes the
-> > > > > > > selftest failure in the link to the build above.
-> > > > > > > 
-> > > > > > OK, I am trying to analyse the log. But I haven't figured
-> > > > > > out what
-> > > > > > cause
-> > > > > > it fialed， and how to reproduce it on my mechine. I'd
-> > > > > > apprecate any
-> > > > > > information.
-> > > > > 
-> > > > > The command to reproduce should be:
-> > > > > 
-> > > > > oe-selftest -r efibootpartition.GenericEFITest.test_boot_efi
-> > > > > 
-> > > > I've addressed this failure why due to boot partation in wic
-> > > > doesn't
-> > > > contain no-versioned image. This result is different from the
-> > > > previous
-> > > > I verified, because of the different configuraions in wks.
-> > > > 
-> > > > "--source" field in wks decides where the files in boot
-> > > > partation come
-> > > > from. So no-versioned image may come from ${IMAGE_ROOTFS}/boot
-> > > > which is
-> > > > installed by rpm package. Blow is the wks used by 'oe-selftest
-> > > > -r
-> > > > efibootpartition.GenericEFITest.test_boot_efi'
-> > > > 
-> > > > bootloader --ptable gpt
-> > > > part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot
-> > > > --fstype=vfat --label boot --active --align 1024 --use-uuid
-> > > > --overhead-factor 1.0
-> > > > part / --source rootfs --fstype=ext4 --label root --align 1024
-> > > > --exclude-path boot/
-> > > > 
-> > > > Hence we still should keep the no-versioned iamge in kernel-
-> > > > image*.rpm
-> > > > which is like the previous v2 patch.
-> > > > 
-> > > Any opinions? It does cause the kernel rpm larger. However, the
-> > > kernel
-> > > image is not always large, only a few MB. And it will be changed
-> > > to
-> > > symlink when installed on targe. So this patch's only negative
-> > > effect
-> > > is the little increasement about update payloads.
-> > 
-> > I'm trying to follow the description that you had about the
-> > oe-selftest and I'm missing something.
-> > 
-> > Can you describe it again ? In a way that someone not familiar with
-> > that the selftest is seeing as a failure can grok ?
-> > 
-> > i.e. in the selftest configuration are we not getting the
-> > (un)versioned kernel image because the symlink (or copy fallback)
-> > is
-> > in an on-boot post install hook ? And the test is looking for the
-> > versioned/unversioned kernel image at image construction time ?
-> > 
-> > So that leaves us at either installing both the versioned and
-> > unversioned, or some sort of package install time testing of the
-> > target filesystem ? Does that partition exist at package install
-> > time
-> > ? Is that the approach we tried in v1 of the patch (I know v2 was
-> > keeping both as copies in the package, and converting it to a
-> > symlink
-> > on boot).
-> 
-> Sorry for the uncleared discription.
-> 
-> For the os-selftest failure: The failure happened at qemu booting
-> with
-> its wic image. Qemu could not find the unversioned kernel image in
-> wic
-> image for booting itself ,then caused the test failed.
-> 
-> Why the booted partition in wic image doesn't contain the unversioned
-> kernel image? Cause the wks can decide where the unversioned kernel
-> images in wic image comes from. For this test, it comes from
-> ${IMAGE_ROOTFS}/boot which is installed by kernel rpm package.
-> Actually
-> it didn't get unversioned kernel image because the symlink（or copy
-> fallback） is in an on-boot post install hook.
-> 
-> Hence we should keep a unversioned kernel image in kernel rpm
-> package.
-> And patch v2 did it.（ v1 and v2 are similar, but v2 improves print
-> messages.）
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-This does bring us to a bit of an impasse as I don't really like the
-idea of duplicating the kernel binaries twice in the packages just to
-work around fat filesystem limitations.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../json-c/json-c/CVE-2020-12762.patch             | 160 +++++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.14.bb        |   5 +-
+ 2 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
 
-Today its this file, you could argue we have to replace a load more
-files with duplicate copies and postinstalls which would seem to be the
-wrong direction to go in.
-
-Which tools does the extraction of the files onto this fat system?
-Could we ignore the symlink errors there and rely on a postinstall to
-create if not already created?
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+new file mode 100644
+index 0000000..a45cfb6
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+@@ -0,0 +1,160 @@
++From 099016b7e8d70a6d5dd814e788bba08d33d48426 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:41:16 +0200
++Subject: [PATCH 1/3] Protect array_list_del_idx against size_t overflow.
++
++If the assignment of stop overflows due to idx and count being
++larger than SIZE_T_MAX in sum, out of boundary access could happen.
++
++It takes invalid usage of this function for this to happen, but
++I decided to add this check so array_list_del_idx is as safe against
++bad usage as the other arraylist functions.
++
++Upstream-Status: Backport [https://github.com/json-c/json-c/commit/31243e4d1204ef78be34b0fcae73221eee6b83be]
++CVE: CVE-2020-12762
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ arraylist.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/arraylist.c b/arraylist.c
++index 12ad8af6d3..e5524aca75 100644
++--- a/arraylist.c
+++++ b/arraylist.c
++@@ -136,6 +136,9 @@ int array_list_del_idx(struct array_list *arr, size_t idx, size_t count)
++ {
++ 	size_t i, stop;
++ 
+++	/* Avoid overflow in calculation with large indices. */
+++	if (idx > SIZE_T_MAX - count)
+++		return -1;
++ 	stop = idx + count;
++ 	if (idx >= arr->length || stop > arr->length)
++ 		return -1;
++
++From 77d935b7ae7871a1940cd827e850e6063044ec45 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:46:45 +0200
++Subject: [PATCH 2/3] Prevent division by zero in linkhash.
++
++If a linkhash with a size of zero is created, then modulo operations
++are prone to division by zero operations.
++
++Purely protective measure against bad usage.
++---
++ linkhash.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/linkhash.c b/linkhash.c
++index 7ea58c0abf..f05cc38030 100644
++--- a/linkhash.c
+++++ b/linkhash.c
++@@ -12,6 +12,7 @@
++ 
++ #include "config.h"
++ 
+++#include <assert.h>
++ #include <limits.h>
++ #include <stdarg.h>
++ #include <stddef.h>
++@@ -499,6 +500,8 @@ struct lh_table *lh_table_new(int size, lh_entry_free_fn *free_fn, lh_hash_fn *h
++ 	int i;
++ 	struct lh_table *t;
++ 
+++	/* Allocate space for elements to avoid divisions by zero. */
+++	assert(size > 0);
++ 	t = (struct lh_table *)calloc(1, sizeof(struct lh_table));
++ 	if (!t)
++ 		return NULL;
++
++From d07b91014986900a3a75f306d302e13e005e9d67 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:47:25 +0200
++Subject: [PATCH 3/3] Fix integer overflows.
++
++The data structures linkhash and printbuf are limited to 2 GB in size
++due to a signed integer being used to track their current size.
++
++If too much data is added, then size variable can overflow, which is
++an undefined behaviour in C programming language.
++
++Assuming that a signed int overflow just leads to a negative value,
++like it happens on many sytems (Linux i686/amd64 with gcc), then
++printbuf is vulnerable to an out of boundary write on 64 bit systems.
++---
++ linkhash.c |  7 +++++--
++ printbuf.c | 19 ++++++++++++++++---
++ 2 files changed, 21 insertions(+), 5 deletions(-)
++
++diff --git a/linkhash.c b/linkhash.c
++index f05cc38030..51e90b13a2 100644
++--- a/linkhash.c
+++++ b/linkhash.c
++@@ -580,9 +580,12 @@ int lh_table_insert_w_hash(struct lh_table *t, const void *k, const void *v, con
++ {
++ 	unsigned long n;
++ 
++-	if (t->count >= t->size * LH_LOAD_FACTOR)
++-		if (lh_table_resize(t, t->size * 2) != 0)
+++	if (t->count >= t->size * LH_LOAD_FACTOR) {
+++		/* Avoid signed integer overflow with large tables. */
+++		int new_size = INT_MAX / 2 < t->size ? t->size * 2 : INT_MAX;
+++		if (t->size == INT_MAX || lh_table_resize(t, new_size) != 0)
++ 			return -1;
+++	}
++ 
++ 	n = h % t->size;
++ 
++diff --git a/printbuf.c b/printbuf.c
++index 976c12dde5..00822fac4f 100644
++--- a/printbuf.c
+++++ b/printbuf.c
++@@ -15,6 +15,7 @@
++ 
++ #include "config.h"
++ 
+++#include <limits.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++@@ -65,10 +66,16 @@ static int printbuf_extend(struct printbuf *p, int min_size)
++ 
++ 	if (p->size >= min_size)
++ 		return 0;
++-
++-	new_size = p->size * 2;
++-	if (new_size < min_size + 8)
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (min_size > INT_MAX - 8)
+++		return -1;
+++	if (p->size > INT_MAX / 2)
++ 		new_size = min_size + 8;
+++	else {
+++		new_size = p->size * 2;
+++		if (new_size < min_size + 8)
+++			new_size = min_size + 8;
+++	}
++ #ifdef PRINTBUF_DEBUG
++ 	MC_DEBUG("printbuf_memappend: realloc "
++ 	         "bpos=%d min_size=%d old_size=%d new_size=%d\n",
++@@ -83,6 +90,9 @@ static int printbuf_extend(struct printbuf *p, int min_size)
++ 
++ int printbuf_memappend(struct printbuf *p, const char *buf, int size)
++ {
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (size > INT_MAX - p->bpos - 1)
+++		return -1;
++ 	if (p->size <= p->bpos + size + 1)
++ 	{
++ 		if (printbuf_extend(p, p->bpos + size + 1) < 0)
++@@ -100,6 +110,9 @@ int printbuf_memset(struct printbuf *pb, int offset, int charvalue, int len)
++ 
++ 	if (offset == -1)
++ 		offset = pb->bpos;
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (len > INT_MAX - offset)
+++		return -1;
++ 	size_needed = offset + len;
++ 	if (pb->size < size_needed)
++ 	{
+diff --git a/meta/recipes-devtools/json-c/json-c_0.14.bb b/meta/recipes-devtools/json-c/json-c_0.14.bb
+index 99fde87..1d501d1 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.14.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.14.bb
+@@ -4,7 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ 
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://CVE-2020-12762.patch \
++"
++
+ SRC_URI[sha256sum] = "b377de08c9b23ca3b37d9a9828107dff1de5ce208ff4ebb35005a794f30c6870"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+-- 
+2.7.4
 
