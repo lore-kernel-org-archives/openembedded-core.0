@@ -1,69 +1,78 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2077.1593651261154006625
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 17:54:32 -0700
+ Wed, 01 Jul 2020 17:54:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: xZfkPNR3jYYBsOeNP6cjqMkCWeEr0B81HKy5HXro08PMeorhiLoop0E8A/zAuxMLcfR8WC2VqY
- tqJLwwR+U89g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628850"
+IronPort-SDR: w+spKBX+xwfFGDJYdhEv8ut26Y7KZ6L9sicrgaddjOx6cPiwl8h6jLv3qWKqv5qniczvVY2dJu
+ oVHtBR0kbxQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="231628860"
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="231628850"
+   d="scan'208";a="231628860"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:32 -0700
-IronPort-SDR: GIGo8IsJszrbmZ36qbobk0EjqqbJXV9WqNKikfqDScM/6K1Ty4jYgndtOR1YIDd+sf86P4T/i+
- 17exJxL8YIfA==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:33 -0700
+IronPort-SDR: YKmu9VtPLjF3ELuArUSiZolAu5Dz4ApcuwDhJqTI2nNIJWlLJt9z7iB9wIZCnAWS91J+RKtKlq
+ aj4CpZamNw+Q==
 X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="481801697"
+   d="scan'208";a="481801730"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.69.56])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:30 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 17:54:32 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 08/10] kernel.bbclass: Fix Module.symvers support
-Date: Thu,  2 Jul 2020 08:54:10 +0800
-Message-Id: <03248953d1eacede00971289dc9fff8d97d00464.1593474787.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 09/10] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
+Date: Thu,  2 Jul 2020 08:54:11 +0800
+Message-Id: <d449e6b536c197b6723dab1d61e989706c14f19c.1593474787.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1593474787.git.anuj.mittal@intel.com>
 References: <cover.1593474787.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lili Li <lili.li@intel.com>
+From: Peter Kjellerstedt <pkj@axis.com>
 
-Starting from v5.8-rc1 commit 269a535ca931 (modpost: generate
-vmlinux.symvers and reuse it for the second modpost"), kernel will
-generate new vmlinux.symvers instead of dumping all the vmlinux symbols
-into Module.symvers in the first pass.
+Rewrite relocatable_native_pcfiles() so that it can handle that any of
+the checked pkgconfig directories are empty without causing an
+exception.
 
-Error log:
-    'run.do_shared_workdir.16614' failed with exit code 1:
-    DEBUG: cp: cannot stat 'Module.symvers': No such file or directory
-
-This change will check the file Module.symvers existence before copying it.
-
-Signed-off-by: Lili Li <lili.li@intel.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cd2d62a08a1dfcd890a03ee55132b6d6c65f5ab7)
+(cherry picked from commit f9c5df6dc1c13e9b05ff1b47ad84ad339f6779a4)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/relocatable.bbclass | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 750988f4e5..9ace74564c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -452,7 +452,7 @@ do_shared_workdir () {
+diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocatable.bbclass
+index 582812c1cf..af04be5cca 100644
+--- a/meta/classes/relocatable.bbclass
++++ b/meta/classes/relocatable.bbclass
+@@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
+     rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
+ }
  
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
--	cp Module.symvers $kerneldir/
-+	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+-relocatable_native_pcfiles () {
+-	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
+-		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir') + "/pkgconfig")}
+-		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
+-	fi
+-	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
+-		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadir') + "/pkgconfig")}
+-		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
+-	fi
++relocatable_native_pcfiles() {
++	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
++		files_template=${SYSROOT_DESTDIR}$dir/*.pc
++		# Expand to any files matching $files_template
++		files=$(echo $files_template)
++		# $files_template and $files will differ if any files were found
++		if [ "$files_template" != "$files" ]; then
++			rel=$(realpath -m --relative-to=$dir ${base_prefix})
++			sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
++		fi
++	done
+ }
 -- 
 2.25.4
 
