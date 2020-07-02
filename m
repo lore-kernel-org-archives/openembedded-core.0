@@ -1,199 +1,122 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.2791.1593713997833546755
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web10.2930.1593714235212941423
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 11:19:58 -0700
+ Thu, 02 Jul 2020 11:23:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rk4eoCX2;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id e22so24941092edq.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 11:19:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VH4LnDO6;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id dp18so30879274ejc.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 11:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c4xlzGXrzryXQhEbxngED7kYlR6TcwxFIrfdPCCORsE=;
-        b=Rk4eoCX2KpYL1lxLncTUOPGc1EhR8IV03tU8G4Ff6PkHhEx4d1mdhEewxFS61UFyHK
-         COP1y82aTO9f9V6PXRBZfuTMad5k5V17eOgomyCzuJwkJpBGxWKuvQgDKPSwmMZGEDu/
-         VdpcggO7KyOfoeiRUAzUDnSyoUaBqZOuFNox8e1kYkxCicsa0z+vkN/BMcSZRqgvOKt5
-         NNqPPJmDwgb1IB+/P+VRHEYq3ERl1SZi0i9XKdK1kK9pYN9HaUAUOWLYpXKIlQ0Nbhub
-         UWgG5rdtBno3TZSOZXG7tORayH1C9KDdUkuKLTKoLzDycKCLagW9f9AiX7xRXuFfrnBq
-         7ASQ==
+        bh=mtl8JngaUYmdg2FyjuIbcQyZTWtgFGCL90mSee4pO4s=;
+        b=VH4LnDO60+9+vG20CQj/qzsr9s6B3KQZkiOKpR0PHTd6SUtoBqc+WkdrTyATKkx2oN
+         ozns8nmLJMvFs/XLHfzIjSMZ7PTq6CIoux+3K65TyBUhQySKx7dXw9NcVoIfSxPbty+T
+         iF8C2xHtXH5uYRxeEO33JrfVQPuWJhX6E3ejYnimtuk6OKv3Pb2tKRB7sgS583NdLxOw
+         cULZqboEOiK1zvVbCyqkk9pg64lTEoijGrX76GFRr5EMPI31xVIhPvDeZkncFUlHMVCw
+         n0e4b9EePa2W4x8jxRaxQBuDMr8FUfTVivyHW3uxKVaoSG3Nyq6bUQNy6cTr/FuWfUMh
+         UBtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c4xlzGXrzryXQhEbxngED7kYlR6TcwxFIrfdPCCORsE=;
-        b=D+Zhdj98RWZhW5XFS+eOwEpaomrVb+TiBBcVn5QMUkVjCWFj9kHu69dCDTXi7pMHMk
-         /klRSkiDKaNmIoMrwRpEClOSL9B7cFXKTJrggyPcPAqf1pxhAF2/EigjqHLKfVZr3jJC
-         8gkWNbH9Tow3OfgGHWVCNZRYG8ytP4IjR7CYMcsNYWj1kzTvW84tlchnw8068TEf0gsH
-         521rXmh7DOeRzZfSDg2WJLH7oZ/RhiY2vByhRVo0wN9X4KLDQVjzq9ID2aLO0CGdy7iS
-         QjbPDdrOIYxBSZJRPXV4QgF9p4ZAxKCtGvZpo2/6BWmugUwbR+wtdJWayVw61m7DA8Gy
-         Q5IQ==
-X-Gm-Message-State: AOAM5311jIDEUhI9zYUSmVg91xt5fiYu+x3JH10NMt8hsPwhyfWqogwe
-	URh71Q3j1JQdg44evUlqOw2F1/lFiBPA6bAni6o=
-X-Google-Smtp-Source: ABdhPJzI4tpSSUIaYN3V4XPiyfqVZou+l1V1xj+xSxiOs13aGXc2T/Gml5/wNMGQdVfiIIYxuek5iuBCfmJPH0lrGkY=
-X-Received: by 2002:a05:6402:1614:: with SMTP id f20mr34833587edv.129.1593713996381;
- Thu, 02 Jul 2020 11:19:56 -0700 (PDT)
+        bh=mtl8JngaUYmdg2FyjuIbcQyZTWtgFGCL90mSee4pO4s=;
+        b=TJKXJMlXIZYen8Uu5JiX0l/YXqBIIUyoZAald7vKXm1VtyQaBhgtkWQK7egN5R6fmZ
+         UpvEZJ60vvb87iuTq7IZWGTCIHn1ZebuKpaU1RAuCnls7swfkXqmhhu/QY1s7R/pZ4F1
+         SI+SfX3+hMtdN41TdA1uEn9p7DgdX3ZmEJodLm1rK9Hqt10/KW7SOUs+6j7eaAcVvp9j
+         VWiAuPtqowzkqVPb2oQTlud4OA+rN3YbpFLVNrLRmAcJjRce7khAancRCfbg7fR5qZgb
+         NH3kYhU8EllQejj6XmG1gKrDYYTO5wa0OzMWKpLMSqgBIZo+IwUU6N9ih7u+b7Ndgx/E
+         DwVw==
+X-Gm-Message-State: AOAM532Nx6goELwTGxefi07+GnD1m2Z9gUEkooRNwU3u23FQDJZKb1ht
+	kk9LSQXvaqQw1uTUtRYHcnwg0JNgHv10l41FThU=
+X-Google-Smtp-Source: ABdhPJx25z0KUhDqyn+aIAnrOD9YrrASnQ7qmWRP8pb2iMt02i1gv0ga7YJ6Cr4QILkIojp3tkwRDNTiPaLJKu5DY+I=
+X-Received: by 2002:a17:906:8542:: with SMTP id h2mr28172471ejy.517.1593714233700;
+ Thu, 02 Jul 2020 11:23:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1593653993.git.steve@sakoman.com> <CADkTA4PsN1t8pi=qtGNcZDcSvhCx0RO55cV87YWwUufwCXqLOQ@mail.gmail.com>
- <CAOSpxdaHZpvfLwVy=-g9E3+VLFbEQcQ9ZbJC7kKTpPwFnNr1Bw@mail.gmail.com>
-In-Reply-To: <CAOSpxdaHZpvfLwVy=-g9E3+VLFbEQcQ9ZbJC7kKTpPwFnNr1Bw@mail.gmail.com>
+References: <20200626054556.32056-1-lili.li@intel.com> <161E0225303E6367.9271@lists.openembedded.org>
+In-Reply-To: <161E0225303E6367.9271@lists.openembedded.org>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 2 Jul 2020 14:19:45 -0400
-Message-ID: <CADkTA4NtP_jPiLZ0_CpF=Fu1nRrrrOvTtVTiPdHskMTXw76Erw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/22] Pull request (cover letter only)
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Jul 2020 14:23:42 -0400
+Message-ID: <CADkTA4O0A3nM3xqzbe0+SX0jRy3aaXhRxPxwQ+ouk3csUVdp0g@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][master][PATCH] kernel.bbclass: Fix Module.symvers support
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: lili.li@intel.com, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anuj Mittal <Anuj.Mittal@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 2, 2020 at 2:16 PM Steve Sakoman <steve@sakoman.com> wrote:
+On Thu, Jul 2, 2020 at 2:14 PM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
 >
-> On Thu, Jul 2, 2020 at 8:08 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> On Fri, Jun 26, 2020 at 1:47 AM <lili.li@intel.com> wrote:
 > >
-> > On Wed, Jul 1, 2020 at 9:41 PM Steve Sakoman <steve@sakoman.com> wrote:
-> > >
-> > > The following changes since commit 1a98936830ba468d63e2e49d766add9e9cb75998:
-> > >
-> > >   gstreamer1.0-plugins-bad: add support for vdpau (2020-06-23 04:33:47 -1000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-> > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-> > >
-> > > Alexander Kanavin (1):
-> > >   linux-firmware: upgrade 20200519 -> 20200619
-> > >
-> > > Andrej Valek (1):
-> > >   oeqa/runtime/cases/ptest: Make output content path absolute
-> > >
-> > > Armin Kuster (2):
-> > >   curl: Security fixes for CVE-2020-{8169/8177}
-> > >   wpa-supplicant: Security fix CVE-2020-12695
-> > >
-> > > Changqing Li (1):
-> > >   mime.bbclass: fix post install scriptlet error
-> > >
-> > > Chen Qi (1):
-> > >   systemd-serialgetty: do not use BindsTo
-> > >
-> > > Konrad Weihmann (2):
-> > >   runqemu: add QB_ROOTFS_EXTRA_OPT parameter
-> > >   testimage: enable ovmf support
-> > >
-> > > Lee Chee Yang (2):
-> > >   dbus: fix CVE-2020-12049
-> > >   perl: fix CVE-2020-10543 & CVE-2020-10878
-> > >
-> > > Lili Li (1):
-> > >   kernel.bbclass: Fix Module.symvers support
+> > From: Lili Li <lili.li@intel.com>
 > >
-> > I wouldn't recommend this going back to dunfell. It is papering over
-> > an issue, and is for a new kernel than we ever used in dunfell.
+> > Starting from v5.8-rc1 commit 269a535ca931 (modpost: generate
+> > vmlinux.symvers and reuse it for the second modpost"), kernel will
+> > generate new vmlinux.symvers instead of dumping all the vmlinux symbols
+> > into Module.symvers in the first pass.
+> >
+> > Error log:
+> >     'run.do_shared_workdir.16614' failed with exit code 1:
+> >     DEBUG: cp: cannot stat 'Module.symvers': No such file or directory
+> >
+> > This change will check the file Module.symvers existence before copying it.
 >
-> Your comment is a few hours too late!  Richard did the pull earlier today.
+> This doesn't actually fix the problem where we still want
+> Module.symvers, it just ignores copying it to the shared directory.
+> But it will be created ones modules are built.
 >
-> Do you recommend that I revert this patch?
+> We either need a 2nd copy task, or we need to move the
+> do_shared_workdir until after modules are built. I'm looking into
+> which makes more sense.
 
-It can stay for now. I'm looking at the best approach, we should
-either do a 2nd copy task or move the copy until after the modules
-build ..  in the former solution the test is ok, since we'll pickup
-the file later. In the latter, it needs to be reverted.
+As it turns out (and as you probably already knew), we do that 2nd
+copy already so it will make it to the shared workdir.
 
-I just have to confirm that nothing in the module build step actually
-needs the parts of the shared workdir.
+So I retract my comment, and we are good.
+
+Cheers,
 
 Bruce
 
 >
-> Steve
+> Bruce
 >
-> > > Ming Liu (1):
-> > >   u-boot: introduce UBOOT_INITIAL_ENV
-> > >
-> > > Nicolas Dechesne (1):
-> > >   checklayer: parse LAYERDEPENDS with bb.utils.explode_dep_versions2()
-> > >
-> > > Pierre-Jean Texier (1):
-> > >   ell: upgrade 0.31 -> 0.32
-> > >
-> > > Richard Purdie (7):
-> > >   pseudo: Fix attr errors due to incorrect library resolution issues
-> > >   oeqa/selftest/runcmd: Add better debug for thread count mismatch
-> > >     failures
-> > >   oeqa/utils/command: Improve stdin handling in runCmd
-> > >   scripts/install-buildtools: Update to 3.2 M1 buildtools
-> > >   scripts/install-buildtools: Handle new format checksum files
-> > >   oeqa/selftest: Clean up separate builddir in success case when
-> > >     non-threaded
-> > >   populate_sdk_ext: Fix to use python3, not python
-> > >
-> > > Steve Sakoman (1):
-> > >   u-boot: move redundant-yyloc-global patch to u-boot-common.inc
-> > >
-> > >  meta/classes/kernel.bbclass                   |   2 +-
-> > >  meta/classes/mime.bbclass                     |  13 +-
-> > >  meta/classes/populate_sdk_ext.bbclass         |   2 +-
-> > >  meta/classes/qemuboot.bbclass                 |   5 +
-> > >  meta/classes/testimage.bbclass                |   6 +-
-> > >  meta/lib/oeqa/core/target/qemu.py             |   6 +-
-> > >  meta/lib/oeqa/core/utils/concurrencytest.py   |  23 +--
-> > >  meta/lib/oeqa/runtime/cases/ptest.py          |   4 +
-> > >  meta/lib/oeqa/selftest/cases/runcmd.py        |   9 +-
-> > >  meta/lib/oeqa/selftest/context.py             |  36 ++++-
-> > >  meta/lib/oeqa/utils/commands.py               |   4 +-
-> > >  meta/lib/oeqa/utils/qemurunner.py             |   5 +-
-> > >  .../remove-redundant-yyloc-global.patch       |   0
-> > >  meta/recipes-bsp/u-boot/u-boot-common.inc     |   1 +
-> > >  .../u-boot/u-boot-tools_2020.01.bb            |   2 -
-> > >  meta/recipes-bsp/u-boot/u-boot.inc            |  55 ++++---
-> > >  ...allow-event-subscriptions-with-URLs-.patch | 151 +++++++++++++++++
-> > >  ...nt-message-generation-using-a-long-U.patch |  62 +++++++
-> > >  ...HTTP-initiation-failures-for-events-.patch |  50 ++++++
-> > >  .../wpa-supplicant/wpa-supplicant_2.9.bb      |   5 +-
-> > >  .../dbus/dbus/CVE-2020-12049.patch            |  78 +++++++++
-> > >  meta/recipes-core/dbus/dbus_1.12.16.bb        |   1 +
-> > >  .../ell/{ell_0.31.bb => ell_0.32.bb}          |   3 +-
-> > >  .../systemd-serialgetty/serial-getty@.service |   3 +-
-> > >  .../perl/files/CVE-2020-10543.patch           |  36 +++++
-> > >  .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
-> > >  .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
-> > >  meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
-> > >  .../pseudo/files/xattr_version.patch          |  54 +++++++
-> > >  meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
-> > >  ...20200519.bb => linux-firmware_20200619.bb} |   4 +-
-> > >  .../curl/curl/CVE-2020-8169.patch             | 140 ++++++++++++++++
-> > >  .../curl/curl/CVE-2020-8177.patch             |  67 ++++++++
-> > >  meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
-> > >  scripts/install-buildtools                    |  10 +-
-> > >  scripts/lib/checklayer/__init__.py            |   7 +-
-> > >  scripts/runqemu                               |  11 +-
-> > >  37 files changed, 979 insertions(+), 70 deletions(-)
-> > >  rename meta/recipes-bsp/u-boot/{u-boot-tools => files}/remove-redundant-yyloc-global.patch (100%)
-> > >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
-> > >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
-> > >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
-> > >  create mode 100644 meta/recipes-core/dbus/dbus/CVE-2020-12049.patch
-> > >  rename meta/recipes-core/ell/{ell_0.31.bb => ell_0.32.bb} (83%)
-> > >  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
-> > >  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-> > >  create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-> > >  create mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
-> > >  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200519.bb => linux-firmware_20200619.bb} (99%)
-> > >  create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8169.patch
-> > >  create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8177.patch
-> > >
-> > > --
-> > > 2.17.1
-> > >
-> > > 
 > >
+> > Signed-off-by: Lili Li <lili.li@intel.com>
+> > ---
+> >  meta/classes/kernel.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index 20a0135fc979..a1219f315620 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -463,7 +463,7 @@ do_shared_workdir () {
 > >
+> >         # Copy files required for module builds
+> >         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+> > -       cp Module.symvers $kerneldir/
+> > +       [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> >         cp .config $kerneldir/
+> >         mkdir -p $kerneldir/include/config
+> >         cp include/config/kernel.release $kerneldir/include/config/kernel.release
 > > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
+> > 2.26.2
+> >
+> >
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+> 
 
 
 
