@@ -1,78 +1,74 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.4471.1593718470923289671
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web12.5543.1593721745340894897
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 12:34:31 -0700
+ Thu, 02 Jul 2020 13:29:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DI+oWbMO;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=od34Qy00;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.42, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f42.google.com with SMTP id c25so7499327otf.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 13:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=2246; q=dns/txt; s=axis-central1;
-  t=1593718471; x=1625254471;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=laCCZEfhUaQU4LAIdxrJWI0gFE4rkQkGhpPILpeLtd8=;
-  b=DI+oWbMO0UdO5Z7wGq5v2haxAiuY1v0zOEaKpgRKa3veBFcO9dWfrUxN
-   qG7HIrZuYAZ3GZwltlIAxAsFcKg8w6zPTxY1mu7CYLrKxEwB3i9Zd+MAf
-   ey6baZmMAuSCde/4z05ViO+fyNOdGlbhAbpw1wMtulHY9jxZpU8d1CSz2
-   UEhDGr2dfZbL+EuYCT9WVcod5YySV2HmV6LjW3JlM8up3gFDjg0vgOyMA
-   WI5+YmYgKooI2Z0OH98XkAEsfw2plof5JFjGOldAmAh4oCp8rqRd2AbBT
-   TCMsNvpBAP6at1gT1nI8pIxvJ3MGye9Agng5hIET4s+yHWnkx8NuXvxKK
-   A==;
-IronPort-SDR: fGmPcJYKnAGM4CzxM97RQlhtTj6JNPHZr0iXvy5UpCef/pSKrbTQTr/PDEAZ9YF4Q9mBy0w9Vd
- xqskolZi537CERqSQ821SIWKt/mYRidhVVhZwA/pnJBUpjH09Iw4D/vY1Rwz4zRvWsaByd3C99
- 9auQbk9/aBQ1Fp++4iOqaqGFDXxyWpW1DkWiJNO6SR7sjmRMPpjGAaRK955g773PaECIxMAbkD
- RbACySqJWjmYQSoSGSPUcNnJvYAc3+oqAvuUZ5VqzRw1gLxTcChB2lfply9tLaskzgDcgZHbHv
- VW8=
-X-IronPort-AV: E=Sophos;i="5.75,305,1589234400"; 
-   d="scan'208";a="10441285"
-From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJbdjNdIE1vdmUgcnBtIG1hbmlmZXN0IHRvIGl0cyAuLi4iIGFuZCAyIG1vcmU=?=
-Thread-Topic: =?utf-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2M10gTW92ZSBycG0gbWFu?=
- =?utf-8?Q?ifest_to_its_..."_and_2_more?=
-Thread-Index: AQHWUKeUUMEeH49VmkuCOYiQhslZfqj0rjDr
-Date: Thu, 2 Jul 2020 19:34:29 +0000
-Message-ID: <1593718468896.73516@axis.com>
-References: <20200702192906.6301-1-fredrigu@axis.com>,<20200702193249.20801.25821@do>
-In-Reply-To: <20200702193249.20801.25821@do>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VifspVUnXk/gDaseYi62gEGpIFwyhJ0pwL8D90E0xfY=;
+        b=od34Qy00Mj1SxLd4jjXD0/Lqe0Rg86F6DoVuyuIYfwBpuy8UboQKn+8GcL08wPng1/
+         s54vrGmUKYBm5Du3A2u78Z7PhWYp2WV/mNNhjwUGLE5mX7QiyL2ZRCNMm9j7Nmx0q2pX
+         cy88aJw3yDia44VLZkXi4stKO4/XYYEgCQ2EQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VifspVUnXk/gDaseYi62gEGpIFwyhJ0pwL8D90E0xfY=;
+        b=TUxEYPrjLNm64oGZGRfg3u1N1y8D6oloWNnU111XpY43uvb2j5C5gX5sh3jUzeO34q
+         JL6Pvrpor7iZpW8V6wcxxz8MZ4h48JxbXv3fJ0uDUKQjGWy7SA0SpzdfcsrelNHQM2jr
+         E4NBMT3be+RffQwkYtsjwGb3ldVgY2vOEDsa+ed8gYdjhO7QC4984f/mm/8EcVbOtuX7
+         WTpt+/JNlySK0k5urDBiHUI1ZhMKfmRNsEwbjLGiiv7LN6SIDoiQN4MvL4EwFUjBm4RO
+         eIuDmcU0tS4JZFUznFC9qdSclZ/Jf+PccTbgTKRkgmGBc76yYO7aPgtn4DFh4298DCyM
+         UksA==
+X-Gm-Message-State: AOAM531rweD5as3WoWqFK6hhgBcAIXn9ZUAxaaLxeMKH4sl6gPUlG4hG
+	hPh+BXWOEvc8Ai0vuZX4wihgzmPjJd9sH9eyQmSqxMub
+X-Google-Smtp-Source: ABdhPJyoEj8Fa+lPn7TSdWHmjrKqvMbyLTGwpmqtiv9gNGZUet9jflO0UxhzeYoZqZStCyhPo8uK/qXZ8Nk8lrUi8bU=
+X-Received: by 2002:a9d:674a:: with SMTP id w10mr25163618otm.305.1593721744665;
+ Thu, 02 Jul 2020 13:29:04 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: Fredrik.Gustafsson@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20200702192906.6301-1-fredrigu@axis.com>
+In-Reply-To: <20200702192906.6301-1-fredrigu@axis.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Thu, 2 Jul 2020 21:28:53 +0100
+Message-ID: <CAM9ZRVtfoy12++04DPYrOk_89n8FsmwRuGWkWFa2O6q4a9Zjnw@mail.gmail.com>
+Subject: Re: [OE-core] Add package managers as a plugin
+To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
+Content-Type: text/plain; charset="UTF-8"
 
-U2luY2UgSSd2ZSBlZGl0ZWQgZm91ciBmaWxlcywgd2hpY2ggb25lIHNob3VsZCBiZSB1c2VkIGFz
-IDx0YXJnZXQ+PwoKL0ZyZWRyaWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpGcm9tOiBQYXRjaHdvcmsgPHBhdGNod29ya0BwYXRjaHdvcmsub3BlbmVtYmVkZGVkLm9y
-Zz4KU2VudDogVGh1cnNkYXksIEp1bHkgMiwgMjAyMCA5OjMyIFBNClRvOiBGcmVkcmlrIEd1c3Rh
-ZnNzb24KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKU3ViamVj
-dDog4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2M10gTW92ZSBycG0gbWFuaWZlc3QgdG8g
-aXRzIC4uLiIgYW5kIDIgbW9yZQoKPT0gU2VyaWVzIERldGFpbHMgPT0KClNlcmllczogIlt2M10g
-TW92ZSBycG0gbWFuaWZlc3QgdG8gaXRzIC4uLiIgYW5kIDIgbW9yZQpSZXZpc2lvbjogMQpVUkwg
-ICA6IGh0dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJlZGRlZC5vcmcvc2VyaWVzLzI0OTcwLwpTdGF0
-ZSA6IGZhaWx1cmUKCj09IFN1bW1hcnkgPT0KCgpUaGFuayB5b3UgZm9yIHN1Ym1pdHRpbmcgdGhp
-cyBwYXRjaCBzZXJpZXMgdG8gT3BlbkVtYmVkZGVkIENvcmUuIFRoaXMgaXMKYW4gYXV0b21hdGVk
-IHJlc3BvbnNlLiBTZXZlcmFsIHRlc3RzIGhhdmUgYmVlbiBleGVjdXRlZCBvbiB0aGUgcHJvcG9z
-ZWQKc2VyaWVzIGJ5IHBhdGNodGVzdCByZXN1bHRpbmcgaW4gdGhlIGZvbGxvd2luZyBmYWlsdXJl
-czoKCgoKKiBQYXRjaCAgICAgICAgICAgIFt2MywxLzNdIE1vdmUgcnBtIG1hbmlmZXN0IHRvIGl0
-cyBvd24gc3ViZGlyCiBJc3N1ZSAgICAgICAgICAgICBTaG9ydGxvZyBkb2VzIG5vdCBmb2xsb3cg
-ZXhwZWN0ZWQgZm9ybWF0IFt0ZXN0X3Nob3J0bG9nX2Zvcm1hdF0KICBTdWdnZXN0ZWQgZml4ICAg
-IENvbW1pdCBzaG9ydGxvZyAoZmlyc3QgbGluZSBvZiBjb21taXQgbWVzc2FnZSkgc2hvdWxkIGZv
-bGxvdyB0aGUgZm9ybWF0ICI8dGFyZ2V0PjogPHN1bW1hcnk+IgoKCgpJZiB5b3UgYmVsaWV2ZSBh
-bnkgb2YgdGhlc2UgdGVzdCByZXN1bHRzIGFyZSBpbmNvcnJlY3QsIHBsZWFzZSByZXBseSB0byB0
-aGUKbWFpbGluZyBsaXN0IChvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-KSByYWlzaW5nIHlvdXIgY29uY2VybnMuCk90aGVyd2lzZSB3ZSB3b3VsZCBhcHByZWNpYXRlIHlv
-dSBjb3JyZWN0aW5nIHRoZSBpc3N1ZXMgYW5kIHN1Ym1pdHRpbmcgYSBuZXcKdmVyc2lvbiBvZiB0
-aGUgcGF0Y2hzZXQgaWYgYXBwbGljYWJsZS4gUGxlYXNlIGVuc3VyZSB5b3UgYWRkL2luY3JlbWVu
-dCB0aGUKdmVyc2lvbiBudW1iZXIgd2hlbiBzZW5kaW5nIHRoZSBuZXcgdmVyc2lvbiAoaS5lLiBb
-UEFUQ0hdIC0+IFtQQVRDSCB2Ml0gLT4KW1BBVENIIHYzXSAtPiAuLi4pLgoKLS0tCkd1aWRlbGlu
-ZXM6ICAgICBodHRwczovL3d3dy5vcGVuZW1iZWRkZWQub3JnL3dpa2kvQ29tbWl0X1BhdGNoX01l
-c3NhZ2VfR3VpZGVsaW5lcwpUZXN0IGZyYW1ld29yazogaHR0cDovL2dpdC55b2N0b3Byb2plY3Qu
-b3JnL2NnaXQvY2dpdC5jZ2kvcGF0Y2h0ZXN0ClRlc3Qgc3VpdGU6ICAgICBodHRwOi8vZ2l0Lnlv
-Y3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wYXRjaHRlc3Qtb2UKCg==
+On Thu, 2 Jul 2020 at 20:29, Fredrik Gustafsson
+<fredrik.gustafsson@axis.com> wrote:
+>
+> OE-core today has three different package managers, the well-known formats deb
+> and rpm is supported as well as ipkg that is good for embedded devices.
+>
+> When building and having a good cache hit, a significant amount of time is
+> spent in the phase of generating a rootfs, which is really about the
+> performance of the package manager. To save build time and also get a
+> package manager that is suitanle for use on targets where flash memory is a
+> concern, support for apk is suggested.
+>
+> However, it might or might not be what's wanted for OE-core since it increases
+> the test matrix. Therefore I will refactor the package management code to
+> allow a layer to add a new package manager without editing the meta layer.
+>
+> This refactor will be divided into multiple patch series to be easier to review,
+> this is the second patch series.
+
+Sorry to be a pain but I think this series suffers from the opposite
+problem to the previous version - it's only a partial move of some of
+the code. I'd much rather review a series which does the complete
+refactor of the existing code into separate modules without making any
+functional changes. I'll let others give their opinions as well, I'm
+happy to review this one if we do want to look at this piecemeal.
+
+-- 
+Paul Barker
+Konsulko Group
