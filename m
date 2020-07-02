@@ -1,76 +1,69 @@
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
- by mx.groups.io with SMTP id smtpd.web12.5637.1593694045148165491
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.41.1593706779606786522
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 05:47:25 -0700
+ Thu, 02 Jul 2020 09:19:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QWrZ9dUs;
- spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-il1-f195.google.com with SMTP id h16so735056ilj.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 05:47:25 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=0oN7bhDE;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.54, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f54.google.com with SMTP id f7so26225078wrw.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 09:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=KXpk0mDYjzTwmixDZ6F+7TPUczL2UJRhtU1w3I539UE=;
-        b=QWrZ9dUsnFEbw+7FhmHStjIAuj8iem464oTUL0por3t5PrlYCkSb2Lm61bgJip/Y+d
-         SZi+H5b2zymMuIpbjIQ4JJZzjTxYDpgaW7Vi3JllTdweRzahj883dBZBnYRgF00tdwQ0
-         AACOPHDiixOcbqb8wrEefpvKCcGE/KYLlRY/VwgMnZXRJx1iDLZgqZYp0/9XlpQcYoRr
-         5M6YGIgBE+/n1p2ZSYVjPvJyCW+ikRC9LmJdOxkZy0sNdLyLssUF9kcdZqV8/BhAK3se
-         yFnhvN+0H6aEw5nxlSqqAScpjNZhh1Ig6YblURAV0qgHskMMRf6wAGVW4MfvYHhLzEic
-         o+Jg==
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hPtbbIOAPdVURW0RykNS7KQs18dtijgpjKqUhp8VRaw=;
+        b=0oN7bhDEJBsN6Mhc+einLYtJaqtRi9wjS3J95nd36nUniO3rz0tmexi1ldk3cMEgpY
+         hFiJNd7lVfr4Ig6/feLJPlHZwOikBay1xDI5ATaxUoZoPnnwakFYf3yVMqtkF4d/fzJw
+         cF016IDTZvFF/WOMhC2RS540WaYgVwQzUs+5WoQoZPY/VPUk1JcqYvnlthFI+LhrZkJG
+         G5ZcN1mGbxHLy6UlMlWy6k0hz3C5V2xxn+JN9CwHKtry+cVIWsYaePRndVTq4z+oziGA
+         jTMlcmppXrCPAKQ0pnwErGTRW9HjaoFTfWUSB4QFk/P9PuDDajggc9i5aS4eG40KY7YN
+         2Ptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KXpk0mDYjzTwmixDZ6F+7TPUczL2UJRhtU1w3I539UE=;
-        b=houmyyA1RMcYKpLMEI0dhhdjhUG8TcTVEz1Yv12S28icumzQW6Kcpt5RDnljqlIv+C
-         mJiYMM/wyvO98h1UcLjkKDMx1pYvjosX92ypubhZdpB2PqOLCSthhl2Ikuy736SYv5RA
-         AQ6r/7zK1no9rWsB+gAvO0CYKwrKT5kkKMz8blEwt2+jwpZBSi/ube3yBuPpZa4y+Wze
-         7a73yGBAvVL0RyuU34eKDP3E75lElUY1f/dGmfO2+JO4SSEAhVi6V/9BFlrDipHf3ChE
-         VgD5A7rg/oa2nV0c7JI80DBF2WpvFHXlBFFARMBoJdWzFZ71ChXl6ThcBxFCn9i10Sz6
-         tcsw==
-X-Gm-Message-State: AOAM5334GWyBdLwD99PWrot4cn2tHTcRv2NAAbawbcJjjdoBDVHSM6oe
-	Wzx0/UGtHmQggyXk4WPvZx0h+veVsiV0VTRBL6Y=
-X-Google-Smtp-Source: ABdhPJydDHzVKK/MUUjoN0a/9TCF8/phNw+XXJDvkVUfXf1vXP/pZu5fUXy40L+dmugnMF3rPmKZ/fo3huGyU9wCz10=
-X-Received: by 2002:a92:c989:: with SMTP id y9mr2367485iln.108.1593694044609;
- Thu, 02 Jul 2020 05:47:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hPtbbIOAPdVURW0RykNS7KQs18dtijgpjKqUhp8VRaw=;
+        b=J9Q0/D3O2Luna7jEEV1Clx1bEI87MLcrc5nyFYXj7No6KFOnMFVTzBmoxtt4SKVxx3
+         ZxaiTN3/AU6opy3wMPCM6rBv3fytK+Et+LAYWdiv1y0HFqvcKmUOd+ub/rPdM6yAWSp5
+         UKT6uwtNXz1jBMBG3ICepVPzGWdA7SXsAKj8HTkZHHabCGjV8DFc2QAEffl3n3i/CrsD
+         FeF0EqJNkkBayU/2rIxu0G+FqfRTxccmZQAavuspWl5OxIMK6h9mF889OkiUu4NvhSr2
+         z6eYwftAsw1zl89LpHcJJydils2tU3d5W2JqIcU/+PZPzwR/j+US/ljALIC0gt0KdpO7
+         s7Jw==
+X-Gm-Message-State: AOAM531nTUe+jUM1VEnPLsYf28xTdJZvGMqvZ0hrf0GI/0FIXgDDBgFc
+	D77ZP7wD7JKei75SoMuKp035+FlnMEEIKg==
+X-Google-Smtp-Source: ABdhPJxqsVIKvQl/hNe4oijENt1L2Sd9IgUndItnIi6wRnftzcfoG2SJKXABVCm/HC23+SZILwu2uw==
+X-Received: by 2002:a5d:6045:: with SMTP id j5mr31702003wrt.209.1593706777715;
+        Thu, 02 Jul 2020 09:19:37 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
+        by smtp.gmail.com with ESMTPSA id m4sm11091227wmi.48.2020.07.02.09.19.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 09:19:36 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] common-licenses: fix filename of BSD-2-Clause-Patent
+Date: Thu,  2 Jul 2020 17:19:33 +0100
+Message-Id: <20200702161933.1997450-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200628133414.3246339-1-schnitzeltony@gmail.com>
- <20200628133414.3246339-3-schnitzeltony@gmail.com> <CALT56yNmLt7b3NcguRAiwxqU-sfh+J9diD7OgMEy8+k8jLhwbQ@mail.gmail.com>
-In-Reply-To: <CALT56yNmLt7b3NcguRAiwxqU-sfh+J9diD7OgMEy8+k8jLhwbQ@mail.gmail.com>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Thu, 2 Jul 2020 14:47:13 +0200
-Message-ID: <CALbNGRSS6jdAYoj-9w7gyjjECyaeb4Z2vGkxp2UgEjtbC6YJvw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] ccache: upgrade 3.7.9 -> 3.7.10
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 2, 2020 at 2:00 PM Dmitry Baryshkov <dbaryshkov@gmail.com> wrot=
-e:
->
-> Hello,
->
-> =D0=B2=D1=81, 28 =D0=B8=D1=8E=D0=BD. 2020 =D0=B3. =D0=B2 16:34, Andreas M=
-=C3=BCller <schnitzeltony@gmail.com>:
-> >
-> > remove SRC_URI[md5sum]
-> >
-> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > ---
-> >  .../ccache/{ccache_3.7.9.bb =3D> ccache_3.7.10.bb}               | 3 +=
---
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >  rename meta/recipes-devtools/ccache/{ccache_3.7.9.bb =3D> ccache_3.7.1=
-0.bb} (86%)
->
-> This update broke python3 here (see the attached do_compile log).
-> Reverting this patch fixes python compilation.
->
-> --
-> With best wishes
-> Dmitry
-Will try to reproduce and hope to come up with something helpful
+From: Ross Burton <ross.burton@arm.com>
 
-Andreas
+(From OE-Core rev: 4a9c62d49940b154177d817a845188d827370607)
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent}              | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/files/common-licenses/{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent} (100%)
+
+diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent
+similarity index 100%
+rename from meta/files/common-licenses/BSD-2-Clause-Patent.txt
+rename to meta/files/common-licenses/BSD-2-Clause-Patent
+-- 
+2.26.2
+
