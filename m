@@ -1,223 +1,212 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.2468.1593679910997554599
  for <openembedded-core@lists.openembedded.org>;
  Thu, 02 Jul 2020 01:51:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: YJX4JHH+0p3KlzHCBlKbzvGWGycwY/YHRhBOiHiv/Ch4DxrJTxLC1UtIrAHYOVvKCIhGZ4O12B
- ZOKmY56SebbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="208351083"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: V1pUzx9hu+TwViN/y8bc0pcPqvK16YLqnAmJMwzaczOHWUEOtP7LqdnN61bDI6q/WINc2iWPrD
+ 5YF8XA0/n0OA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="208351086"
 X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
-   d="scan'208";a="208351083"
+   d="scan'208";a="208351086"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 01:51:45 -0700
-IronPort-SDR: Up3dblnu4FpgnVofvr23nuNSzIOF8GJFNMGv7fXiFwdClQ9N2upVJqjoA4k3QjfpM4KNIVeVOp
- CFc9pG6A7Ecg==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 01:51:46 -0700
+IronPort-SDR: ukNf3AnsFL5013aofw4ybfGgZrpTtmNHKgay8XK+E6xmiesgSVCyeEN0Jn1ijxIEsGmcDu8YjD
+ QHbYRo/ufXJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
-   d="scan'208";a="356391930"
+   d="scan'208";a="356391932"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2020 01:51:44 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2020 01:51:45 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] json-c: fix CVE-2020-12762
-Date: Thu,  2 Jul 2020 16:51:43 +0800
-Message-Id: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
+Subject: [PATCH v2 2/2] qemu: fix CVE-2020-10761
+Date: Thu,  2 Jul 2020 16:51:44 +0800
+Message-Id: <1593679904-49603-2-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
+References: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../json-c/json-c/CVE-2020-12762.patch             | 160 +++++++++++++++++++++
- meta/recipes-devtools/json-c/json-c_0.14.bb        |   5 +-
- 2 files changed, 164 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+ meta/recipes-devtools/qemu/qemu.inc                |   1 +
+ .../qemu/qemu/CVE-2020-10761.patch                 | 151 +++++++++++++++++++++
+ 2 files changed, 152 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
 
-diff --git a/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6b9dd99..d41cc8f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
+ 	   file://CVE-2020-13361.patch \
+ 	   file://find_datadir.patch \
++	   file://CVE-2020-10761.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
 new file mode 100644
-index 0000000..a45cfb6
+index 0000000..19f26ae
 --- /dev/null
-+++ b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
-@@ -0,0 +1,160 @@
-+From 099016b7e8d70a6d5dd814e788bba08d33d48426 Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Mon, 4 May 2020 19:41:16 +0200
-+Subject: [PATCH 1/3] Protect array_list_del_idx against size_t overflow.
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-10761.patch
+@@ -0,0 +1,151 @@
++From 5c4fe018c025740fef4a0a4421e8162db0c3eefd Mon Sep 17 00:00:00 2001
++From: Eric Blake <eblake@redhat.com>
++Date: Mon, 8 Jun 2020 13:26:37 -0500
++Subject: [PATCH] nbd/server: Avoid long error message assertions
++ CVE-2020-10761
 +
-+If the assignment of stop overflows due to idx and count being
-+larger than SIZE_T_MAX in sum, out of boundary access could happen.
++Ever since commit 36683283 (v2.8), the server code asserts that error
++strings sent to the client are well-formed per the protocol by not
++exceeding the maximum string length of 4096.  At the time the server
++first started sending error messages, the assertion could not be
++triggered, because messages were completely under our control.
++However, over the years, we have added latent scenarios where a client
++could trigger the server to attempt an error message that would
++include the client's information if it passed other checks first:
 +
-+It takes invalid usage of this function for this to happen, but
-+I decided to add this check so array_list_del_idx is as safe against
-+bad usage as the other arraylist functions.
++- requesting NBD_OPT_INFO/GO on an export name that is not present
++  (commit 0cfae925 in v2.12 echoes the name)
 +
-+Upstream-Status: Backport [https://github.com/json-c/json-c/commit/31243e4d1204ef78be34b0fcae73221eee6b83be]
-+CVE: CVE-2020-12762
++- requesting NBD_OPT_LIST/SET_META_CONTEXT on an export name that is
++  not present (commit e7b1948d in v2.12 echoes the name)
++
++At the time, those were still safe because we flagged names larger
++than 256 bytes with a different message; but that changed in commit
++93676c88 (v4.2) when we raised the name limit to 4096 to match the NBD
++string limit.  (That commit also failed to change the magic number
++4096 in nbd_negotiate_send_rep_err to the just-introduced named
++constant.)  So with that commit, long client names appended to server
++text can now trigger the assertion, and thus be used as a denial of
++service attack against a server.  As a mitigating factor, if the
++server requires TLS, the client cannot trigger the problematic paths
++unless it first supplies TLS credentials, and such trusted clients are
++less likely to try to intentionally crash the server.
++
++We may later want to further sanitize the user-supplied strings we
++place into our error messages, such as scrubbing out control
++characters, but that is less important to the CVE fix, so it can be a
++later patch to the new nbd_sanitize_name.
++
++Consideration was given to changing the assertion in
++nbd_negotiate_send_rep_verr to instead merely log a server error and
++truncate the message, to avoid leaving a latent path that could
++trigger a future CVE DoS on any new error message.  However, this
++merely complicates the code for something that is already (correctly)
++flagging coding errors, and now that we are aware of the long message
++pitfall, we are less likely to introduce such errors in the future,
++which would make such error handling dead code.
++
++Reported-by: Xueqiang Wei <xuwei@redhat.com>
++CC: qemu-stable@nongnu.org
++Fixes: https://bugzilla.redhat.com/1843684 CVE-2020-10761
++Fixes: 93676c88d7
++Signed-off-by: Eric Blake <eblake@redhat.com>
++Message-Id: <20200610163741.3745251-2-eblake@redhat.com>
++Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++
++Upstream-Status: Backport  [https://github.com/qemu/qemu/commit/5c4fe018c025740fef4a0a4421e8162db0c3eefd]
++CVE: CVE-2020-10761
 +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +
 +---
-+ arraylist.c | 3 +++
-+ 1 file changed, 3 insertions(+)
++ nbd/server.c               | 23 ++++++++++++++++++++---
++ tests/qemu-iotests/143     |  4 ++++
++ tests/qemu-iotests/143.out |  2 ++
++ 3 files changed, 26 insertions(+), 3 deletions(-)
 +
-+diff --git a/arraylist.c b/arraylist.c
-+index 12ad8af6d3..e5524aca75 100644
-+--- a/arraylist.c
-++++ b/arraylist.c
-+@@ -136,6 +136,9 @@ int array_list_del_idx(struct array_list *arr, size_t idx, size_t count)
-+ {
-+ 	size_t i, stop;
++diff --git a/nbd/server.c b/nbd/server.c
++index 02b1ed08014..20754e9ebc3 100644
++--- a/nbd/server.c
+++++ b/nbd/server.c
++@@ -217,7 +217,7 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
 + 
-++	/* Avoid overflow in calculation with large indices. */
-++	if (idx > SIZE_T_MAX - count)
-++		return -1;
-+ 	stop = idx + count;
-+ 	if (idx >= arr->length || stop > arr->length)
-+ 		return -1;
-+
-+From 77d935b7ae7871a1940cd827e850e6063044ec45 Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Mon, 4 May 2020 19:46:45 +0200
-+Subject: [PATCH 2/3] Prevent division by zero in linkhash.
-+
-+If a linkhash with a size of zero is created, then modulo operations
-+are prone to division by zero operations.
-+
-+Purely protective measure against bad usage.
-+---
-+ linkhash.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/linkhash.c b/linkhash.c
-+index 7ea58c0abf..f05cc38030 100644
-+--- a/linkhash.c
-++++ b/linkhash.c
-+@@ -12,6 +12,7 @@
++     msg = g_strdup_vprintf(fmt, va);
++     len = strlen(msg);
++-    assert(len < 4096);
+++    assert(len < NBD_MAX_STRING_SIZE);
++     trace_nbd_negotiate_send_rep_err(msg);
++     ret = nbd_negotiate_send_rep_len(client, type, len, errp);
++     if (ret < 0) {
++@@ -231,6 +231,19 @@ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
++     return 0;
++ }
 + 
-+ #include "config.h"
+++/*
+++ * Return a malloc'd copy of @name suitable for use in an error reply.
+++ */
+++static char *
+++nbd_sanitize_name(const char *name)
+++{
+++    if (strnlen(name, 80) < 80) {
+++        return g_strdup(name);
+++    }
+++    /* XXX Should we also try to sanitize any control characters? */
+++    return g_strdup_printf("%.80s...", name);
+++}
+++
++ /* Send an error reply.
++  * Return -errno on error, 0 on success. */
++ static int GCC_FMT_ATTR(4, 5)
++@@ -595,9 +608,11 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
 + 
-++#include <assert.h>
-+ #include <limits.h>
-+ #include <stdarg.h>
-+ #include <stddef.h>
-+@@ -499,6 +500,8 @@ struct lh_table *lh_table_new(int size, lh_entry_free_fn *free_fn, lh_hash_fn *h
-+ 	int i;
-+ 	struct lh_table *t;
++     exp = nbd_export_find(name);
++     if (!exp) {
+++        g_autofree char *sane_name = nbd_sanitize_name(name);
+++
++         return nbd_negotiate_send_rep_err(client, NBD_REP_ERR_UNKNOWN,
++                                           errp, "export '%s' not present",
++-                                          name);
+++                                          sane_name);
++     }
 + 
-++	/* Allocate space for elements to avoid divisions by zero. */
-++	assert(size > 0);
-+ 	t = (struct lh_table *)calloc(1, sizeof(struct lh_table));
-+ 	if (!t)
-+ 		return NULL;
-+
-+From d07b91014986900a3a75f306d302e13e005e9d67 Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Mon, 4 May 2020 19:47:25 +0200
-+Subject: [PATCH 3/3] Fix integer overflows.
-+
-+The data structures linkhash and printbuf are limited to 2 GB in size
-+due to a signed integer being used to track their current size.
-+
-+If too much data is added, then size variable can overflow, which is
-+an undefined behaviour in C programming language.
-+
-+Assuming that a signed int overflow just leads to a negative value,
-+like it happens on many sytems (Linux i686/amd64 with gcc), then
-+printbuf is vulnerable to an out of boundary write on 64 bit systems.
-+---
-+ linkhash.c |  7 +++++--
-+ printbuf.c | 19 ++++++++++++++++---
-+ 2 files changed, 21 insertions(+), 5 deletions(-)
-+
-+diff --git a/linkhash.c b/linkhash.c
-+index f05cc38030..51e90b13a2 100644
-+--- a/linkhash.c
-++++ b/linkhash.c
-+@@ -580,9 +580,12 @@ int lh_table_insert_w_hash(struct lh_table *t, const void *k, const void *v, con
-+ {
-+ 	unsigned long n;
++     /* Don't bother sending NBD_INFO_NAME unless client requested it */
++@@ -995,8 +1010,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
 + 
-+-	if (t->count >= t->size * LH_LOAD_FACTOR)
-+-		if (lh_table_resize(t, t->size * 2) != 0)
-++	if (t->count >= t->size * LH_LOAD_FACTOR) {
-++		/* Avoid signed integer overflow with large tables. */
-++		int new_size = INT_MAX / 2 < t->size ? t->size * 2 : INT_MAX;
-++		if (t->size == INT_MAX || lh_table_resize(t, new_size) != 0)
-+ 			return -1;
-++	}
++     meta->exp = nbd_export_find(export_name);
++     if (meta->exp == NULL) {
+++        g_autofree char *sane_name = nbd_sanitize_name(export_name);
+++
++         return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
++-                            "export '%s' not present", export_name);
+++                            "export '%s' not present", sane_name);
++     }
 + 
-+ 	n = h % t->size;
++     ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), errp);
++diff --git a/tests/qemu-iotests/143 b/tests/qemu-iotests/143
++index f649b361950..d2349903b1b 100755
++--- a/tests/qemu-iotests/143
+++++ b/tests/qemu-iotests/143
++@@ -58,6 +58,10 @@ _send_qemu_cmd $QEMU_HANDLE \
++ $QEMU_IO_PROG -f raw -c quit \
++     "nbd+unix:///no_such_export?socket=$SOCK_DIR/nbd" 2>&1 \
++     | _filter_qemu_io | _filter_nbd
+++# Likewise, with longest possible name permitted in NBD protocol
+++$QEMU_IO_PROG -f raw -c quit \
+++    "nbd+unix:///$(printf %4096d 1 | tr ' ' a)?socket=$SOCK_DIR/nbd" 2>&1 \
+++    | _filter_qemu_io | _filter_nbd | sed 's/aaaa*aa/aa--aa/'
 + 
-+diff --git a/printbuf.c b/printbuf.c
-+index 976c12dde5..00822fac4f 100644
-+--- a/printbuf.c
-++++ b/printbuf.c
-+@@ -15,6 +15,7 @@
-+ 
-+ #include "config.h"
-+ 
-++#include <limits.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+@@ -65,10 +66,16 @@ static int printbuf_extend(struct printbuf *p, int min_size)
-+ 
-+ 	if (p->size >= min_size)
-+ 		return 0;
-+-
-+-	new_size = p->size * 2;
-+-	if (new_size < min_size + 8)
-++	/* Prevent signed integer overflows with large buffers. */
-++	if (min_size > INT_MAX - 8)
-++		return -1;
-++	if (p->size > INT_MAX / 2)
-+ 		new_size = min_size + 8;
-++	else {
-++		new_size = p->size * 2;
-++		if (new_size < min_size + 8)
-++			new_size = min_size + 8;
-++	}
-+ #ifdef PRINTBUF_DEBUG
-+ 	MC_DEBUG("printbuf_memappend: realloc "
-+ 	         "bpos=%d min_size=%d old_size=%d new_size=%d\n",
-+@@ -83,6 +90,9 @@ static int printbuf_extend(struct printbuf *p, int min_size)
-+ 
-+ int printbuf_memappend(struct printbuf *p, const char *buf, int size)
-+ {
-++	/* Prevent signed integer overflows with large buffers. */
-++	if (size > INT_MAX - p->bpos - 1)
-++		return -1;
-+ 	if (p->size <= p->bpos + size + 1)
-+ 	{
-+ 		if (printbuf_extend(p, p->bpos + size + 1) < 0)
-+@@ -100,6 +110,9 @@ int printbuf_memset(struct printbuf *pb, int offset, int charvalue, int len)
-+ 
-+ 	if (offset == -1)
-+ 		offset = pb->bpos;
-++	/* Prevent signed integer overflows with large buffers. */
-++	if (len > INT_MAX - offset)
-++		return -1;
-+ 	size_needed = offset + len;
-+ 	if (pb->size < size_needed)
-+ 	{
-diff --git a/meta/recipes-devtools/json-c/json-c_0.14.bb b/meta/recipes-devtools/json-c/json-c_0.14.bb
-index 99fde87..1d501d1 100644
---- a/meta/recipes-devtools/json-c/json-c_0.14.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.14.bb
-@@ -4,7 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- 
--SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-+           file://CVE-2020-12762.patch \
-+"
-+
- SRC_URI[sha256sum] = "b377de08c9b23ca3b37d9a9828107dff1de5ce208ff4ebb35005a794f30c6870"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
++ _send_qemu_cmd $QEMU_HANDLE \
++     "{ 'execute': 'quit' }" \
++diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
++index 1f4001c6013..fc9c0a761fa 100644
++--- a/tests/qemu-iotests/143.out
+++++ b/tests/qemu-iotests/143.out
++@@ -5,6 +5,8 @@ QA output created by 143
++ {"return": {}}
++ qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
++ server reported: export 'no_such_export' not present
+++qemu-io: can't open device nbd+unix:///aa--aa1?socket=SOCK_DIR/nbd: Requested export not available
+++server reported: export 'aa--aa...' not present
++ { 'execute': 'quit' }
++ {"return": {}}
++ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
 -- 
 2.7.4
 
