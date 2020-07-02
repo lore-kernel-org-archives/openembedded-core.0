@@ -1,129 +1,268 @@
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.125])
- by mx.groups.io with SMTP id smtpd.web11.1209.1593672125816631162
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.1758.1593676014897950829
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2020 23:42:07 -0700
+ Thu, 02 Jul 2020 00:46:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=DmqrEpQz;
- spf=pass (domain: prevas.dk, ip: 40.107.2.125, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bhnIb39OFJ2CyVn3LacdH8ahFuBz7UriReG74YinXuE7vM36vS4RiSjnEEDIBx9hmPmSTEoEBIKkpUneLhxq/AKWZm6WkrKZ3GKWDQDSwIDY7JmfwG1gtmZeFB0kMD3JdKOANYbvkWP3j/dU5nR6RlxE+22RygO3GTlhdTCOn4fNMauWm0opJcIVcuC4pWL/zzSalsrN1/R4Ee9CXhYluGwCZjtahYauo8+krZlm6nTR+LFraIABKvq48VTAD3zzcsLh6EyiYylToNmuJTBlxr0T4rDBRA2zam3mx5/h0WPWpjdeuaVRGR7Ao2csaYKFAcrTffbbQWWNvZEETpczkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cqQyuD/d+jyg2gBFJsIQmQZ2XY/t38fL1ejh1iUJclU=;
- b=HZ6PWOuEOxGkU0/8CwLMjm9hNWvX8FZXEIOaCAZ/8wl6SOMFrMUqfN1BdkZJY9ZKBPnzZOL8n3H7QuDrPl7TULLjm0EOBO/16tQB0bZjMywgizoJj7PEwykfoVQTvZBidpozc5VlAN5dxh/ef3MbqTorDhxnBsWQrYomvK6M5fM/wCIgbN0csE9oCe1iYffMllwE3La8fZZmplaiNx9eVbKUHH/quUHKJKEkGyeeIDR7iwhivI+dipZwCMFaftScBKptrQ+k9/siY7E5IOIWMLNmrAGP1ZTdqLEl52V6vrP0OAGLJ7lMzyfR5WVFFxHyNsevc5n8iGHwoJIMmvULeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cqQyuD/d+jyg2gBFJsIQmQZ2XY/t38fL1ejh1iUJclU=;
- b=DmqrEpQzOYHQdQcEnRdwYB11dnP9cHiozbcOWvAzS/gVmPFxEYtoTTqB8RUzQwxYXemjEi5YFTUEZX29jMaJPw/UyHo+ad3/iC7JY72btwieLGSFVMqJMfqmRZaJM9Zjhjqn/Je5Q46zf1R6K8VDnmYfWfKkHSPSuIzhtHWz53c=
-Authentication-Results: deif.com; dkim=none (message not signed)
- header.d=none;deif.com; dmarc=none action=none header.from=prevas.dk;
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
- by AM0PR10MB3603.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:156::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Thu, 2 Jul
- 2020 06:42:03 +0000
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::91fd:aebc:e8cb:a663]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::91fd:aebc:e8cb:a663%7]) with mapi id 15.20.3153.023; Thu, 2 Jul 2020
- 06:42:02 +0000
-Subject: Re: [OE-core] file checksums versus SRC_URI globs
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Kjeld Flarup <kfa@deif.com>,
- =?UTF-8?Q?Per_N=c3=b8rgaard_Christensen?= <per.christensen@prevas.dk>,
- Paul Eggleton <paul.eggleton@linux.intel.com>,
- =?UTF-8?Q?Kurt_=c3=98stergaard_Frandsen?= <kof@deif.com>
-References: <aaad9ac7-be6a-1ffb-6990-ab371ed40015@prevas.dk>
- <20200701140321.wueczs4qd34rbhwh@qschulz>
-From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-Message-ID: <c16556f1-5f7f-4562-77e2-7da33e5c345f@prevas.dk>
-Date: Thu, 2 Jul 2020 08:42:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <20200701140321.wueczs4qd34rbhwh@qschulz>
-X-ClientProxiedBy: AM0PR10CA0013.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::23) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:3f::10)
-Return-Path: rasmus.villemoes@prevas.dk
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SLjHjltd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id f18so18876606wrs.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 00:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=fiVxpRref7EXbm5Ndg7nTtcQoxZZ/LLmaOXqg7aWruc=;
+        b=SLjHjltdt/cOqU4hDVA/dWL4ys7B/Q2hKJlub0uKjKC+4OZ0HnvJXTN2fBYRvbdTjl
+         Bmw1d2G+oHIWy+Ke0soouQspIIn6vfxX7Wn3BplfM8NGxLmZYCvQMGVKd9KeF+3nXWH2
+         o2zLQBjo29nRMxsx25ZS83uoJXZmu9deYHYLU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=fiVxpRref7EXbm5Ndg7nTtcQoxZZ/LLmaOXqg7aWruc=;
+        b=Rq1D4Nr+4FPt8Sqa/N1f13vN/Uj1yXY3dQCaTPp7ePhrWPqGFqo0E5qrFaIweQV0k1
+         k/iWFIQ/idXDvEqo6q6NsbkiYELcZixBcjQO8Vr3t0TLwWOMfKAO6F1WguHtkq5r9W6/
+         SeUEQbEh+l2cTj3sAl6mmnf0Xdc/wHP2cgsQSMtRBBa27ReWT1/JdvXNqMxi26a22KNM
+         R9xdTw+yiA0lJVpVaaqJ2Sb8JA0ljhuLuGFtK8VLVhayX+hd0ed830aDtJzxux7zvlvB
+         YMBSeZ6R6NDLhvdJlwf7nUmGTWRx2y7wkCZkz6XB6f4jKwXDf/Ci2J/bUPG+JnmUXxVx
+         9xSQ==
+X-Gm-Message-State: AOAM531nbwkBiSBl1L0XCOK6fmbGhiVo/v5JCa/whq4UgG3nqfXc1Fpl
+	uOwBYfaYcGNKGqysxgkSWYwzvw==
+X-Google-Smtp-Source: ABdhPJxWCsvpc0/H0thYARyxzDbM6mUlZ1WgVIU/DyUn0xQERKeP2AQAQ1YReeTTMWrpt3hqpp0+HQ==
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr30133230wrr.211.1593676013162;
+        Thu, 02 Jul 2020 00:46:53 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id d63sm10209108wmc.22.2020.07.02.00.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 00:46:52 -0700 (PDT)
+Message-ID: <992d7721671aa464f6a59209d0346a55dc569db6.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 1/1 v3] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>, Bruce Ashfield
+	 <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 02 Jul 2020 08:46:51 +0100
+In-Reply-To: <ec894ebd-6116-4e68-04b3-6be656108405@windriver.com>
+References: <20200619114727.40142-1-yanfei.xu@windriver.com>
+	 <20200619114727.40142-2-yanfei.xu@windriver.com>
+	 <CADkTA4NApB19MmwAWP3Mgtf+zNEtsPuSxL7h19S8c3FNoC2o4Q@mail.gmail.com>
+	 <144b99d5a5b327d660925ff5ee18139d7dc088c3.camel@linuxfoundation.org>
+	 <7d7b57ca-5419-971d-6701-4cd2e8958960@windriver.com>
+	 <b456775facefdc593552db94bf2de51f5725aa97.camel@linuxfoundation.org>
+	 <77c7e877-527a-3e39-ad58-2b34c4cffa05@windriver.com>
+	 <764ae03515c1e73c6eaa394a68b4b98877b38577.camel@linuxfoundation.org>
+	 <777044a4-8a9b-ea9b-fc05-636caa004c3d@windriver.com>
+	 <d2119fa2-2d1f-27c6-bf73-055422e6819b@windriver.com>
+	 <CADkTA4NHXAF3Hfm9ryw5OvrM+pFM3FTjQNpvhpGfTyiiYEDb8g@mail.gmail.com>
+	 <ec894ebd-6116-4e68-04b3-6be656108405@windriver.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.11.153] (81.216.59.226) by AM0PR10CA0013.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21 via Frontend Transport; Thu, 2 Jul 2020 06:42:01 +0000
-X-Originating-IP: [81.216.59.226]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eba17557-13ba-4486-d28a-08d81e5306d3
-X-MS-TrafficTypeDiagnostic: AM0PR10MB3603:
-X-LD-Processed: d350cf71-778d-4780-88f5-071a4cb1ed61,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
- <AM0PR10MB36039C9A4C32D533B9B3D2B3936D0@AM0PR10MB3603.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
-X-Forefront-PRVS: 0452022BE1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
- Js/9jlwB3UPxpWDnNGuXdUle1f8qdpAuSemcAyFYzTbs0TwlmsEEtKVfR13ZD+w8WDucYBmSUXgZtwrBk46j3nE7d2jp0ZAIipAmKnyTyOG2n1Rp7xsEqEzXYCoTvpzMw7BDQK4V6vozpdXYoRof0bNjYFyKFDULjAD4D2u9rmPYGUEB3M8T8EYy+mvO+tGPlTlLV37HACAu0NodFmyJ6p/Kphm7967WIpCs4avw6j654tEnXg6XWStwmq8NIzxckxnhQzak4gNs4W96CjdtqXX2VUe3sOQHuTPKE7w0wplEoQ0H6KgJWqTyRQuxpo3NJoleBDp+pyN1x1cdVEKYsTiqoxII/h30vGumYDgT24EJom8+MsDxCvFGY6FpLpBT
-X-Forefront-Antispam-Report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(396003)(366004)(346002)(376002)(136003)(39850400004)(44832011)(52116002)(83380400001)(8676002)(2906002)(31696002)(66946007)(66476007)(66556008)(478600001)(86362001)(6916009)(2616005)(8976002)(4326008)(16526019)(186003)(956004)(26005)(8936002)(5660300002)(31686004)(36756003)(316002)(6486002)(16576012)(54906003)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
- wiU9aoWKrJ5Md7FjWAWzfDzUtM91JemPO62lCzzkHvBYNWA4R8Xq6lvhdxPFVmE/BnnKeIhFs6boNdvz3PGEHWl590E8aZTYAa8pysvTqHTTVPcldpEc21NhJTrLyX+NmnzOLVpF5pNWb+Rt6k8AB8iEmiBgrKtXiIzQzzdlcz/jKbZdjWq1f04tDfWtim1N+ccBcbRHpcqsvnGuMwEJQ42inGrmu2MQAbZbdhl3UJXtBnx/C244zrjARrxuKg2BJzSrdll3IU6/8p8MRpP/xR8LTj3EsiiG47ZeAyYERe2/zlALUANjMVqXBjSZGLcR+oTyr9LDvu3AGh1B1nPAhUXIekb7dj3Kw2LDsgtRT25PtNG+NDbvKu2+4If7ro1rVnKb6Ke8PCnCdOW1RNs24y6x9I0G2RBhJ50P7YZvDtfL5oYBnyD2lY0WZ7F9zKEnk395Vns1cBsRoGt2hwFZTFaiqZDya/7+EwzIhbP9UIM=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: eba17557-13ba-4486-d28a-08d81e5306d3
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 06:42:02.7114
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ac6mydm2r+h28LNcSJElUsvNbLGoqq1sDwo0n9KXlfLX3YtwqtaYB3e/S1UDOWt86OsIzsC+aG17StR9Gh+c5PfHFU8eVCV9h/sVf+N5lbY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3603
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 01/07/2020 16.03, Quentin Schulz wrote:
-> Hi Rasmus,
+On Thu, 2020-07-02 at 10:43 +0800, Xu, Yanfei wrote:
 > 
-> On Wed, Jul 01, 2020 at 03:51:19PM +0200, Rasmus Villemoes wrote:
->> Hi,
->>
->> We have a recipe that uses
->>
->>   SRC_URI += "file://somedir/*"
->>
+> On 7/1/20 9:42 PM, Bruce Ashfield wrote:
+> > On Wed, Jul 1, 2020 at 4:22 AM Xu, Yanfei <yanfei.xu@windriver.com>
+> > wrote:
+> > > 
+> > > 
+> > > On 6/28/20 8:21 PM, Xu, Yanfei wrote:
+> > > > 
+> > > > On 6/25/20 12:18 AM, Richard Purdie wrote:
+> > > > > On Wed, 2020-06-24 at 23:57 +0800, Xu, Yanfei wrote:
+> > > > > > On 6/24/20 9:08 PM, Richard Purdie wrote:
+> > > > > > > On Wed, 2020-06-24 at 09:47 +0800, Xu, Yanfei wrote:
+> > > > > > > > On 6/24/20 5:51 AM, Richard Purdie wrote:
+> > > > > > > > > On Tue, 2020-06-23 at 10:31 -0400, Bruce Ashfield
+> > > > > > > > > wrote:
+> > > > > > > > > > On Fri, Jun 19, 2020 at 7:47 AM <
+> > > > > > > > > > yanfei.xu@windriver.com>
+> > > > > > > > > > wrote:
+> > > > > > > > > > > From: Yanfei Xu <yanfei.xu@windriver.com>
+> > > > > > > > > > > 
+> > > > > > > > > > > Some filesystems don't support symlink, then you
+> > > > > > > > > > > will get
+> > > > > > > > > > > failure
+> > > > > > > > > > > when
+> > > > > > > > > > > you install or update the kernel rpm package. Now
+> > > > > > > > > > > we use a
+> > > > > > > > > > > copy
+> > > > > > > > > > > of
+> > > > > > > > > > > image for these filesystems instead of symlink.
+> > > > > > > > > > > 
+> > > > > > > > > > > Suggested-by: Bruce Ashfield <
+> > > > > > > > > > > bruce.ashfield@gmail.com>
+> > > > > > > > > > > Suggested-by: Richard Purdie <
+> > > > > > > > > > > richard.purdie@linuxfoundation.org>
+> > > > > > > > > > > Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com
+> > > > > > > > > > > >
+> > > > > > > > > > > ---
+> > > > > > > > > > >      meta/classes/kernel.bbclass | 19
+> > > > > > > > > > > ++++++++++++++++---
+> > > > > > > > > > >      1 file changed, 16 insertions(+), 3
+> > > > > > > > > > > deletions(-)
+> > > > > > > > > > > 
+> > > > > > > > > > > diff --git a/meta/classes/kernel.bbclass
+> > > > > > > > > > > b/meta/classes/kernel.bbclass
+> > > > > > > > > > > index 20a0135fc9..1269b54343 100644
+> > > > > > > > > > > --- a/meta/classes/kernel.bbclass
+> > > > > > > > > > > +++ b/meta/classes/kernel.bbclass
+> > > > > > > > > > > @@ -94,6 +94,22 @@ python __anonymous () {
+> > > > > > > > > > >              d.appendVar('RDEPENDS_%s-image' %
+> > > > > > > > > > > kname, ' %s-
+> > > > > > > > > > > image-
+> > > > > > > > > > > %s' %
+> > > > > > > > > > > (kname, typelower))
+> > > > > > > > > > >              d.setVar('PKG_%s-image-%s' %
+> > > > > > > > > > > (kname,typelower),
+> > > > > > > > > > > '%s-
+> > > > > > > > > > > image-
+> > > > > > > > > > > %s-${KERNEL_VERSION_PKG_NAME}' % (kname,
+> > > > > > > > > > > typelower))
+> > > > > > > > > > >              d.setVar('ALLOW_EMPTY_%s-image-%s' %
+> > > > > > > > > > > (kname,
+> > > > > > > > > > > typelower),
+> > > > > > > > > > > '1')
+> > > > > > > > > > > +        d.setVar('pkg_postinst_ontarget_%s-
+> > > > > > > > > > > image-%s' %
+> > > > > > > > > > > (kname,typelower), """
+> > > > > > > > > > 
+> > > > > > > > > > You were previously concerned about boot issues if
+> > > > > > > > > > the
+> > > > > > > > > > unversioned
+> > > > > > > > > > image link/copy was deferred until boot. I don't
+> > > > > > > > > > see a
+> > > > > > > > > > summary of
+> > > > > > > > > > why
+> > > > > > > > > > that's no longer a concern in the v3 of the patch.
+> > > > > > > > > > Can you
+> > > > > > > > > > confirm
+> > > > > > > > > > that it isn't an issue ? Is it simply because the
+> > > > > > > > > > booted
+> > > > > > > > > > image
+> > > > > > > > > > isn't
+> > > > > > > > > > installed via this package, and hence we are fine ?
+> > > > > > > > > 
+> > > > > > > > > I'm suspecting this patch is why we're seeing
+> > > > > > > > > selftest
+> > > > > > > > > failures:
+> > > > > > > > > 
+> > > > > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1055
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > Do you mean this patch has been applied? and introduce
+> > > > > > > > new
+> > > > > > > > issues?
+> > > > > > > 
+> > > > > > > Yes, I reverted it and retested and confirmed this patch
+> > > > > > > causes the
+> > > > > > > selftest failure in the link to the build above.
+> > > > > > > 
+> > > > > > OK, I am trying to analyse the log. But I haven't figured
+> > > > > > out what
+> > > > > > cause
+> > > > > > it fialed， and how to reproduce it on my mechine. I'd
+> > > > > > apprecate any
+> > > > > > information.
+> > > > > 
+> > > > > The command to reproduce should be:
+> > > > > 
+> > > > > oe-selftest -r efibootpartition.GenericEFITest.test_boot_efi
+> > > > > 
+> > > > I've addressed this failure why due to boot partation in wic
+> > > > doesn't
+> > > > contain no-versioned image. This result is different from the
+> > > > previous
+> > > > I verified, because of the different configuraions in wks.
+> > > > 
+> > > > "--source" field in wks decides where the files in boot
+> > > > partation come
+> > > > from. So no-versioned image may come from ${IMAGE_ROOTFS}/boot
+> > > > which is
+> > > > installed by rpm package. Blow is the wks used by 'oe-selftest
+> > > > -r
+> > > > efibootpartition.GenericEFITest.test_boot_efi'
+> > > > 
+> > > > bootloader --ptable gpt
+> > > > part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot
+> > > > --fstype=vfat --label boot --active --align 1024 --use-uuid
+> > > > --overhead-factor 1.0
+> > > > part / --source rootfs --fstype=ext4 --label root --align 1024
+> > > > --exclude-path boot/
+> > > > 
+> > > > Hence we still should keep the no-versioned iamge in kernel-
+> > > > image*.rpm
+> > > > which is like the previous v2 patch.
+> > > > 
+> > > Any opinions? It does cause the kernel rpm larger. However, the
+> > > kernel
+> > > image is not always large, only a few MB. And it will be changed
+> > > to
+> > > symlink when installed on targe. So this patch's only negative
+> > > effect
+> > > is the little increasement about update payloads.
+> > 
+> > I'm trying to follow the description that you had about the
+> > oe-selftest and I'm missing something.
+> > 
+> > Can you describe it again ? In a way that someone not familiar with
+> > that the selftest is seeing as a failure can grok ?
+> > 
+> > i.e. in the selftest configuration are we not getting the
+> > (un)versioned kernel image because the symlink (or copy fallback)
+> > is
+> > in an on-boot post install hook ? And the test is looking for the
+> > versioned/unversioned kernel image at image construction time ?
+> > 
+> > So that leaves us at either installing both the versioned and
+> > unversioned, or some sort of package install time testing of the
+> > target filesystem ? Does that partition exist at package install
+> > time
+> > ? Is that the approach we tried in v1 of the patch (I know v2 was
+> > keeping both as copies in the package, and converting it to a
+> > symlink
+> > on boot).
 > 
-> Glob aren't supported. Use "file://somedir/" instead.
+> Sorry for the uncleared discription.
+> 
+> For the os-selftest failure: The failure happened at qemu booting
+> with
+> its wic image. Qemu could not find the unversioned kernel image in
+> wic
+> image for booting itself ,then caused the test failed.
+> 
+> Why the booted partition in wic image doesn't contain the unversioned
+> kernel image? Cause the wks can decide where the unversioned kernel
+> images in wic image comes from. For this test, it comes from
+> ${IMAGE_ROOTFS}/boot which is installed by kernel rpm package.
+> Actually
+> it didn't get unversioned kernel image because the symlink（or copy
+> fallback） is in an on-boot post install hook.
+> 
+> Hence we should keep a unversioned kernel image in kernel rpm
+> package.
+> And patch v2 did it.（ v1 and v2 are similar, but v2 improves print
+> messages.）
 
-Thanks, that actually works for one of the cases we have (there are
-others that use globs which cannot be solved quite that simply, but for
-now I'm just listing files explicitly instead).
+This does bring us to a bit of an impasse as I don't really like the
+idea of duplicating the kernel binaries twice in the packages just to
+work around fat filesystem limitations.
 
-However, I'm not sure that "globs aren't supported". The commit I
-referenced clearly tried to make that work (better), it also "works" in
-the sense of unpacking the expected things when building from scratch -
-there's even
+Today its this file, you could argue we have to replace a load more
+files with duplicate copies and postinstalls which would seem to be the
+wrong direction to go in.
 
-    def test_local_wildcard(self):
-        tree = self.fetchUnpack(['file://a', 'file://dir/*'])
-        self.assertEqual(tree, ['a',  'dir/c', 'dir/d', 'dir/subdir/e'])
+Which tools does the extraction of the files onto this fat system?
+Could we ignore the symlink errors there and rely on a postinstall to
+create if not already created?
 
-in bitbake/lib/bb/tests/fetch.py. And the two upstream recipes
-connman-gnome_0.7.bb and matchbox-desktop_2.2.bb both use that exact
-pattern.
+Cheers,
 
-So either
+Richard
 
-- this is a plain bug in the signature computation,
-- documentation lacks a big fat warning that using globs in file://
-should be avoided unless one has a fetish for tracking down bugs due to
-confused sstate, or
-- all code that makes glob patterns work should be ripped out so that it
-is indeed not supported, thus eliminating this footgun.
 
-Rasmus
+
+
