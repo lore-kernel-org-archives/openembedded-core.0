@@ -1,86 +1,223 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.2235.1593678976600788947
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web11.2468.1593679910997554599
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 01:36:16 -0700
+ Thu, 02 Jul 2020 01:51:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0628Zimb009239
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 2 Jul 2020 01:36:05 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 2 Jul 2020 01:35:46 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gtk-icon-cache.bbclass: add runtime dependency
-Date: Thu, 2 Jul 2020 16:33:13 +0800
-Message-ID: <20200702083313.1348201-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <161D7D453D89CA61.29179@lists.openembedded.org>
-References: <161D7D453D89CA61.29179@lists.openembedded.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: YJX4JHH+0p3KlzHCBlKbzvGWGycwY/YHRhBOiHiv/Ch4DxrJTxLC1UtIrAHYOVvKCIhGZ4O12B
+ ZOKmY56SebbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="208351083"
+X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
+   d="scan'208";a="208351083"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 01:51:45 -0700
+IronPort-SDR: Up3dblnu4FpgnVofvr23nuNSzIOF8GJFNMGv7fXiFwdClQ9N2upVJqjoA4k3QjfpM4KNIVeVOp
+ CFc9pG6A7Ecg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,303,1589266800"; 
+   d="scan'208";a="356391930"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2020 01:51:44 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] json-c: fix CVE-2020-12762
+Date: Thu,  2 Jul 2020 16:51:43 +0800
+Message-Id: <1593679904-49603-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-fix error:
-+ /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
-/var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders: No such file or directory
-%post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961 status 7f00
-warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet failed, exit status 127
-
-when install adwaita-icon-theme on target, which inherit gtk-icon-cache
-above error reported,  fix by add runtime dependency to pkgs
-
-we don't use explicit RDEPENDS, so fix do_rootfs breaking by adding it into DEPENDS.
-Error:
- Problem: conflicting requests
-  - nothing provides gdk-pixbuf needed by adwaita-icon-theme-3.36.1-r0.noarch
-  - nothing provides gtk+3 needed by adwaita-icon-theme-3.36.1-r0.noarch
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/classes/gtk-icon-cache.bbclass | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ .../json-c/json-c/CVE-2020-12762.patch             | 160 +++++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.14.bb        |   5 +-
+ 2 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 91cb4ad409..dd394af27c 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -1,6 +1,10 @@
- FILES_${PN} += "${datadir}/icons/hicolor"
+diff --git a/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+new file mode 100644
+index 0000000..a45cfb6
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+@@ -0,0 +1,160 @@
++From 099016b7e8d70a6d5dd814e788bba08d33d48426 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:41:16 +0200
++Subject: [PATCH 1/3] Protect array_list_del_idx against size_t overflow.
++
++If the assignment of stop overflows due to idx and count being
++larger than SIZE_T_MAX in sum, out of boundary access could happen.
++
++It takes invalid usage of this function for this to happen, but
++I decided to add this check so array_list_del_idx is as safe against
++bad usage as the other arraylist functions.
++
++Upstream-Status: Backport [https://github.com/json-c/json-c/commit/31243e4d1204ef78be34b0fcae73221eee6b83be]
++CVE: CVE-2020-12762
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ arraylist.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/arraylist.c b/arraylist.c
++index 12ad8af6d3..e5524aca75 100644
++--- a/arraylist.c
+++++ b/arraylist.c
++@@ -136,6 +136,9 @@ int array_list_del_idx(struct array_list *arr, size_t idx, size_t count)
++ {
++ 	size_t i, stop;
++ 
+++	/* Avoid overflow in calculation with large indices. */
+++	if (idx > SIZE_T_MAX - count)
+++		return -1;
++ 	stop = idx + count;
++ 	if (idx >= arr->length || stop > arr->length)
++ 		return -1;
++
++From 77d935b7ae7871a1940cd827e850e6063044ec45 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:46:45 +0200
++Subject: [PATCH 2/3] Prevent division by zero in linkhash.
++
++If a linkhash with a size of zero is created, then modulo operations
++are prone to division by zero operations.
++
++Purely protective measure against bad usage.
++---
++ linkhash.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/linkhash.c b/linkhash.c
++index 7ea58c0abf..f05cc38030 100644
++--- a/linkhash.c
+++++ b/linkhash.c
++@@ -12,6 +12,7 @@
++ 
++ #include "config.h"
++ 
+++#include <assert.h>
++ #include <limits.h>
++ #include <stdarg.h>
++ #include <stddef.h>
++@@ -499,6 +500,8 @@ struct lh_table *lh_table_new(int size, lh_entry_free_fn *free_fn, lh_hash_fn *h
++ 	int i;
++ 	struct lh_table *t;
++ 
+++	/* Allocate space for elements to avoid divisions by zero. */
+++	assert(size > 0);
++ 	t = (struct lh_table *)calloc(1, sizeof(struct lh_table));
++ 	if (!t)
++ 		return NULL;
++
++From d07b91014986900a3a75f306d302e13e005e9d67 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 4 May 2020 19:47:25 +0200
++Subject: [PATCH 3/3] Fix integer overflows.
++
++The data structures linkhash and printbuf are limited to 2 GB in size
++due to a signed integer being used to track their current size.
++
++If too much data is added, then size variable can overflow, which is
++an undefined behaviour in C programming language.
++
++Assuming that a signed int overflow just leads to a negative value,
++like it happens on many sytems (Linux i686/amd64 with gcc), then
++printbuf is vulnerable to an out of boundary write on 64 bit systems.
++---
++ linkhash.c |  7 +++++--
++ printbuf.c | 19 ++++++++++++++++---
++ 2 files changed, 21 insertions(+), 5 deletions(-)
++
++diff --git a/linkhash.c b/linkhash.c
++index f05cc38030..51e90b13a2 100644
++--- a/linkhash.c
+++++ b/linkhash.c
++@@ -580,9 +580,12 @@ int lh_table_insert_w_hash(struct lh_table *t, const void *k, const void *v, con
++ {
++ 	unsigned long n;
++ 
++-	if (t->count >= t->size * LH_LOAD_FACTOR)
++-		if (lh_table_resize(t, t->size * 2) != 0)
+++	if (t->count >= t->size * LH_LOAD_FACTOR) {
+++		/* Avoid signed integer overflow with large tables. */
+++		int new_size = INT_MAX / 2 < t->size ? t->size * 2 : INT_MAX;
+++		if (t->size == INT_MAX || lh_table_resize(t, new_size) != 0)
++ 			return -1;
+++	}
++ 
++ 	n = h % t->size;
++ 
++diff --git a/printbuf.c b/printbuf.c
++index 976c12dde5..00822fac4f 100644
++--- a/printbuf.c
+++++ b/printbuf.c
++@@ -15,6 +15,7 @@
++ 
++ #include "config.h"
++ 
+++#include <limits.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++@@ -65,10 +66,16 @@ static int printbuf_extend(struct printbuf *p, int min_size)
++ 
++ 	if (p->size >= min_size)
++ 		return 0;
++-
++-	new_size = p->size * 2;
++-	if (new_size < min_size + 8)
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (min_size > INT_MAX - 8)
+++		return -1;
+++	if (p->size > INT_MAX / 2)
++ 		new_size = min_size + 8;
+++	else {
+++		new_size = p->size * 2;
+++		if (new_size < min_size + 8)
+++			new_size = min_size + 8;
+++	}
++ #ifdef PRINTBUF_DEBUG
++ 	MC_DEBUG("printbuf_memappend: realloc "
++ 	         "bpos=%d min_size=%d old_size=%d new_size=%d\n",
++@@ -83,6 +90,9 @@ static int printbuf_extend(struct printbuf *p, int min_size)
++ 
++ int printbuf_memappend(struct printbuf *p, const char *buf, int size)
++ {
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (size > INT_MAX - p->bpos - 1)
+++		return -1;
++ 	if (p->size <= p->bpos + size + 1)
++ 	{
++ 		if (printbuf_extend(p, p->bpos + size + 1) < 0)
++@@ -100,6 +110,9 @@ int printbuf_memset(struct printbuf *pb, int offset, int charvalue, int len)
++ 
++ 	if (offset == -1)
++ 		offset = pb->bpos;
+++	/* Prevent signed integer overflows with large buffers. */
+++	if (len > INT_MAX - offset)
+++		return -1;
++ 	size_needed = offset + len;
++ 	if (pb->size < size_needed)
++ 	{
+diff --git a/meta/recipes-devtools/json-c/json-c_0.14.bb b/meta/recipes-devtools/json-c/json-c_0.14.bb
+index 99fde87..1d501d1 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.14.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.14.bb
+@@ -4,7 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
  
--DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+3-native"
-+DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} \
-+            ${@['gdk-pixbuf', '']['${BPN}' == 'gdk-pixbuf']} \
-+            ${@['gtk+3', '']['${BPN}' == 'gtk+3']} \
-+            gtk+3-native \
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://CVE-2020-12762.patch \
 +"
++
+ SRC_URI[sha256sum] = "b377de08c9b23ca3b37d9a9828107dff1de5ce208ff4ebb35005a794f30c6870"
  
- PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
- 
-@@ -48,9 +52,18 @@ python populate_packages_append () {
-         bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
-         rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
-         d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--    
-+
-+        #gtk_icon_cache_postinst depend on gdk-pixbuf and gtk+3
-+        bb.note("adding gdk-pixbuf dependency to %s" % pkg)
-+        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gdk-pixbuf"
-+        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-+
-+        bb.note("adding gtk+3 dependency to %s" % pkg)
-+        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gtk+3"
-+        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-+
-         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
--        
-+
-         postinst = d.getVar('pkg_postinst_%s' % pkg)
-         if not postinst:
-             postinst = '#!/bin/sh\n'
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
 -- 
-2.17.1
+2.7.4
 
