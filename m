@@ -1,99 +1,101 @@
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
- by mx.groups.io with SMTP id smtpd.web10.9992.1593782339209417418
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.10224.1593783073370844424
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 06:18:59 -0700
+ Fri, 03 Jul 2020 06:31:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UQiveGVW;
- spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-il1-f195.google.com with SMTP id r12so20050471ilh.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:18:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QckiTfZS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f18so34109412wml.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8Nw7h22sFT7BKR3LsLblvFB7ds+lSQmz80LlU5Qq3M0=;
-        b=UQiveGVW1pnoA8j1bEbR2mPMDcG1VmCe1f47y/Z+TbwBOAcL5hmK+7WLh4LITlIp9J
-         bcnDU1oy4bwTxEGX3Ub5QXCMVDWIsgag+MLhxxShqd/DO5uRhcOzRXJqnAiwZXr4fApW
-         9dMUwQvLtk5TcLirGZWS7J3jZK7jf1V9snXinYw/84Sy7+r1wY1McGCoTmslYH+/ElRC
-         9CHydzhikHIAImfj4tofoy4CjE6qT0rjfAf47kp5AnENLFfXcm+B4fXeR682KmO/ECvh
-         KjJXIAR+Zz1hUwyevzWENSKUC15LL9RQb1SrzzwLUNL4AuaALeylieir5oBUxmoO6bM0
-         G4bg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=j+JtvdzbEYsGXZKaYSYWlR1UzLWPjhF4s7Q3gv/eiKc=;
+        b=QckiTfZSRroZNxyQqQWF0M/SLa/M5Q2Xy1XdSdQzaHEAbqwzyYkNJSyqtnbfJPdXOS
+         a9flew8BDyegZivOQEGmYctD6Diovw40wkOOdCMTvZKiDvwyh4XsEFJGhZ9rOiSztsJe
+         0TW/VDq9meKZGL7Oattz30lrg9z3iNve3hDiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8Nw7h22sFT7BKR3LsLblvFB7ds+lSQmz80LlU5Qq3M0=;
-        b=TSiWBRvZJ/1HFBVDT/rfNvBHxP5FSDno8cDrSJqryExIs8D109LRB1jv99nGaBKleD
-         rRaRSbNdtocdbadnbHUdyjFUIvI0EMaP0ude02JOC74T9ZIaL5zJmDhiDk5kFRhxrFGB
-         PG8V/fM576D92TA9ialWFMmVRhSx6T3ZXAHsT5eU71ZSYDiaWabhbJKOJ4Zy8EJf6RmM
-         U4xzeYFAti99QAxjWwX2azVPXL0KsvwwjIvMJS5j5b9thwTIArZsovwCrjQR1Dwk2WI0
-         7NMWAgbCrtW1zLJIJ/S1k/aQuxKfBJlrQRdQ4EzmMCnNzxhnTI3QGyuwtps1UxGMpf9R
-         QaTg==
-X-Gm-Message-State: AOAM532HP1nlE3PmkPYauPrTcnRc4yUKairxS+Dg0wiphrtFxhe/UZi4
-	4vD/UR4tdsdNkq+hjhKZ88Ntn6TF6tkHYKhl7hdJig==
-X-Google-Smtp-Source: ABdhPJwS71Z1ym/SbmbabQmIa36phKm4L9i7DTYfVq/Lf2h0Nfu6eYD3ka3F7bo0tDNyDyFEDjogBCtj8LRUICA8nQ8=
-X-Received: by 2002:a92:5f12:: with SMTP id t18mr17934764ilb.267.1593782338704;
- Fri, 03 Jul 2020 06:18:58 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=j+JtvdzbEYsGXZKaYSYWlR1UzLWPjhF4s7Q3gv/eiKc=;
+        b=hx805o+R18QtftaHT7ITSHaC9zq2MU7/ewIndvDufr1EnWNBiJygQDeL0f8UAFsISM
+         Di013SxlajZVMnW4BLe8P6J3mtXctBii96N9bTKz94QlPb1tvA2waJP7LzNG/kmkH7em
+         8Us9/sZcS7sPACX40o6bJ444yRPtZwe0wtQ8L9Y8FZmI/dfj0PskvkgTdjtsx+VCm6kM
+         P0mGQCG2i6PPSrfmQKHw4LGdzbgfGjYvy3MMlQHii4ZpEt+6iYfVuOf7JDLOnJinWm33
+         NGaEF6mKRsHvuPqB69l/YA/V4Nf2DILEUPeDobMYO0OpqRk/wK9pZtAMzUj7UXtLKC9g
+         rRTQ==
+X-Gm-Message-State: AOAM530n+u/9n4V8uzu0+r2qv68C0H0tkpSz+VVFlhz8fbI3ZYOKrLNO
+	GKv0aGdEFDnSWYqr+82WQHOGQQ==
+X-Google-Smtp-Source: ABdhPJwkTbq9vLn4aZdmtQJvwyCaj81bnkdT5Z5lx3nlgo/G/l4WoiIiOFrPAd+j2M8vxfAd93dNAA==
+X-Received: by 2002:a7b:c14a:: with SMTP id z10mr35507624wmi.19.1593783071658;
+        Fri, 03 Jul 2020 06:31:11 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id u84sm13269145wmg.7.2020.07.03.06.31.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2020 06:31:10 -0700 (PDT)
+Message-ID: <5495a287c87c02af4ac4114c8fe69e63a7f9bc6b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: add lz4 dependency and fix the call to lz4
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jacob Kroon <jacob.kroon@gmail.com>, "T. Ulrich"
+ <timon.ulrich@kabelmail.de>,  openembedded-core@lists.openembedded.org
+Date: Fri, 03 Jul 2020 14:31:09 +0100
+In-Reply-To: <d457e91e-8345-b9ea-49c0-e4654b64398a@gmail.com>
+References: <140262> <20200703123940.24779-1-timon.ulrich@kabelmail.de>
+	 <ba256db6-8174-c98d-e145-0ee358afef63@gmail.com>
+	 <d457e91e-8345-b9ea-49c0-e4654b64398a@gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-References: <20200628133414.3246339-1-schnitzeltony@gmail.com>
- <20200628133414.3246339-3-schnitzeltony@gmail.com> <CALT56yNmLt7b3NcguRAiwxqU-sfh+J9diD7OgMEy8+k8jLhwbQ@mail.gmail.com>
- <161DF04A63288914.12013@lists.openembedded.org>
-In-Reply-To: <161DF04A63288914.12013@lists.openembedded.org>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Fri, 3 Jul 2020 15:18:47 +0200
-Message-ID: <CALbNGRR0vujrxXNH=57RJso3_SErGohqVXUsYt7U6xFc5ZZC_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] ccache: upgrade 3.7.9 -> 3.7.10
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 2, 2020 at 2:47 PM Andreas M=C3=BCller via
-lists.openembedded.org
-<schnitzeltony=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Thu, Jul 2, 2020 at 2:00 PM Dmitry Baryshkov <dbaryshkov@gmail.com> wr=
-ote:
-> >
-> > Hello,
-> >
-> > =D0=B2=D1=81, 28 =D0=B8=D1=8E=D0=BD. 2020 =D0=B3. =D0=B2 16:34, Andreas=
- M=C3=BCller <schnitzeltony@gmail.com>:
-> > >
-> > > remove SRC_URI[md5sum]
-> > >
-> > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+On Fri, 2020-07-03 at 15:10 +0200, Jacob Kroon wrote:
+> On 7/3/20 2:46 PM, Jacob Kroon wrote:
+> > On 7/3/20 2:39 PM, T. Ulrich wrote:
+> > > From: Timon Ulrich <t.ulrich@anapur.de>
+> > > 
+> > > If the initramfs image is type lz4, then a native lz4 is needed.
+> > > 
+> > > Additionally an output filename needs to be specified when calling lz4,
+> > > otherwise STDOUT will be used implicitly.
+> > > 
+> > > Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
 > > > ---
-> > >  .../ccache/{ccache_3.7.9.bb =3D> ccache_3.7.10.bb}               | 3=
- +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >  rename meta/recipes-devtools/ccache/{ccache_3.7.9.bb =3D> ccache_3.7=
-.10.bb} (86%)
-> >
-> > This update broke python3 here (see the attached do_compile log).
-> > Reverting this patch fixes python compilation.
-> >
-> > --
-> > With best wishes
-> > Dmitry
-> Will try to reproduce and hope to come up with something helpful
->
-> Andreas
-Did not understand why it did not fail during my tests. Looking into
-some more I found out that I set INHERIT +=3D "ccache" in a build
-environment that was not active. So in fact this patch went out
-untested and yes now that ccache is active (not only) python3 fails to
-build also here.
+> > >   meta/classes/kernel.bbclass | 3 ++-
+> > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > > index 6d07b29e2d..9e3c34ad48 100644
+> > > --- a/meta/classes/kernel.bbclass
+> > > +++ b/meta/classes/kernel.bbclass
+> > > @@ -5,6 +5,7 @@ KERNEL_DEPLOYSUBDIR ??= "${@ "" if 
+> > > (d.getVar("KERNEL_PACKAGE_NAME") == "kernel")
+> > >   PROVIDES += "${@ "virtual/kernel" if 
+> > > (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+> > >   DEPENDS += "virtual/${TARGET_PREFIX}binutils 
+> > > virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native 
+> > > bison-native"
+> > > +DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", 
+> > > "lz4-native", "", d)}"
+> > 
+> > Should/Could we do a similar thing for "lzop-native" above ? To me it 
+> > looks like that would be possible, assuming I interpreted my taskexp 
+> > correctly.
+> > 
+> 
+> I took the liberty of doing some more history digging, lzop-native 
+> dependency was added in OE-Core commit
+> 
+> ee0640cb0c32b959ffaaac6752d582ed1d76e313
+> kernel.bbclass: add lzop dependency
+> 
+> and it looks to me it'd be worth doing the same fix.
 
-To make things even worse: From tomorrow on I will be out of reach
-from all communication services for two weeks - need some outage
+Agreed, I was hoping that would be possible for this too.
 
-Have opened an issue at [1] - maybe there is support.
+Cheers,
 
-The only workaround I can offer currently is a revert of this patch -
-what do others think?
+Richard
 
-Sorry for inconvenience
-
-Andreas
