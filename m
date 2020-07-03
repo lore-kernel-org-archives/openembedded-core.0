@@ -1,37 +1,79 @@
-Received: from smtp-out01.xworks.net (smtp-out01.xworks.net [31.25.48.218])
- by mx.groups.io with SMTP id smtpd.web10.10594.1593784224209829809
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.10589.1593784582180563329
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 06:50:25 -0700
+ Fri, 03 Jul 2020 06:56:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kabelmail.de header.s=mail header.b=Ev7HQoMc;
- spf=pass (domain: kabelmail.de, ip: 31.25.48.218, mailfrom: timon.ulrich@kabelmail.de)
-Received: from mailbackend4 (cluster06.xworks.net [10.100.1.80])
-	by smtp-out01.xworks.net (Postfix) with ESMTP id 901CE61EFE;
-	Fri,  3 Jul 2020 15:50:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kabelmail.de;
-	s=mail; t=1593784220;
-	bh=T9xRcnTPUUrpMNrcPBIZeiz/2rmxKnjzaUsbzz/k9Z0=;
-	h=In-Reply-To:From:To:Date:Subject:MIME-Version:Content-type;
-	b=Ev7HQoMc3yCvbsFlcwDQzkAzR/5lGGE90E9T7vYVZetImceZWmntmM9e6jxDZbAMi
-	 otVZFORvdwN2Yg2X3ONW1AYQJbDmzUaxrSAg+ybbHPRr+AnceUFiU7/PL5aq0NluFh
-	 5XdyspvB05anI5z5GYngV4jsX4R9ELL9MQhqBUx0=
-In-Reply-To: <5495a287c87c02af4ac4114c8fe69e63a7f9bc6b.camel@linuxfoundation.org>
-From: "T. Ulrich" <timon.ulrich@kabelmail.de>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>,	
-   "Jacob Kroon" <jacob.kroon@gmail.com>,	
-   openembedded-core@lists.openembedded.org
-Message-ID: <02ae4ea5ea404b44bc838f840c1ab9f2@kabelmail.de>
-Date: Fri, 03 Jul 2020 15:50:19 +0200
-X-Priority: 3
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: add lz4 dependency and fixthe call to lz4
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yanfei.xu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 063DtRcC003757
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Fri, 3 Jul 2020 06:55:38 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Fri, 3 Jul 2020
+ 06:55:17 -0700
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>,
+        <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][PATCH v4] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
+Date: Fri, 3 Jul 2020 21:55:15 +0800
+Message-ID: <20200703135515.6934-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-Content-type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-<html><head></head><body><div style=3D"font-family: arial,helvetica,san=
-s-serif; font-size: 12px;"><title></title>I thought so, too=2E<br><br>D=
-idn't swoop it up in the patch i've sent in though to keep things organ=
-ized=2E<br>I'll look into it next week and supply another patch if the =
-same principle applies=2E<br><br>Greetings,<br>Timon</div></body></html=
->
+From: Yanfei Xu <yanfei.xu@windriver.com>
+
+Some filesystems don't support symlink, then you will get failure when
+you install or update the kernel rpm package. Now we use a copy of
+image for these filesystems instead of symlink.
+
+Suggested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ meta/classes/kernel.bbclass | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 20a0135fc9..b01c1699ae 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -94,6 +94,25 @@ python __anonymous () {
+         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
+         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
++        d.setVar('pkg_postinst_%s-image-%s' % (kname,typelower), """set +e
++if [ -n "$D" ]; then
++    ln -sf %s-${KERNEL_VERSION} $D/${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
++else
++    ln -sf %s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
++    if [ $? -ne 0 ]; then
++        echo "Filesystem on ${KERNEL_IMAGEDEST}/ doesn't support symlinks, falling back to copied image (%s)."
++        install -m 0644 ${KERNEL_IMAGEDEST}/%s-${KERNEL_VERSION} ${KERNEL_IMAGEDEST}/%s
++    fi
++fi
++set -e
++""" % (type, type, type, type, type, type, type))
++        d.setVar('pkg_postrm_%s-image-%s' % (kname,typelower), """set +e
++if [ -f "${KERNEL_IMAGEDEST}/%s" -o -L "${KERNEL_IMAGEDEST}/%s" ]; then
++    rm -f ${KERNEL_IMAGEDEST}/%s  > /dev/null 2>&1
++fi
++set -e
++""" % (type, type, type))
++
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+     # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
+@@ -385,9 +404,6 @@ kernel_do_install() {
+ 	install -d ${D}/boot
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+ 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
+-		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
+-			ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
+-		fi
+ 	done
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+-- 
+2.18.2
 
