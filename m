@@ -1,207 +1,551 @@
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
- by mx.groups.io with SMTP id smtpd.web12.6173.1593764290011092691
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+ by mx.groups.io with SMTP id smtpd.web12.6419.1593765799914960520
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 01:18:10 -0700
+ Fri, 03 Jul 2020 01:43:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oiIFVUdZ;
- spf=pass (domain: gmail.com, ip: 209.85.217.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f43.google.com with SMTP id f24so16704421vsg.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 01:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/Zi3NtqWnul3Yofq6z6sogjKj1KRgO0yuB9jqm5HqsM=;
-        b=oiIFVUdZBwylpa0BVRvFbr1dxvAoVYlgWNFUIDpUjpukCcEsfmzvvBVdf0QFGyh6r2
-         l/ncNAxR5rj0/qob3/yZod+fabKfspTMfEoXVrH8YRLb/E5s+b9AQhadlPm3a+gzBjR0
-         257wFnV5pxNYj+RcFMArQjTatmzZDdH3HuA3JR2CXOecfgc2fiQW+jrvq4v3Mk7NlR5H
-         VE2r6aBUnsAruljv8dm4Vd2KvDEUC6Gdj4yuvhZ3KMMY8wyg5ivRwTo9SmBOOJ84vncc
-         +TRu/QB0aJXAstlfQfEu2kwuj2+ZhL8E/MGgE0u4x/1GdWEHQdVBBvWPkUzQEYmjQTnm
-         CczA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Zi3NtqWnul3Yofq6z6sogjKj1KRgO0yuB9jqm5HqsM=;
-        b=KEZVjquM8nO5ntjJiAKAm+kH6eZP5ZVDgy88MZV7up8z89SjP5CM2Jnou7CHVBapcr
-         uo4jsjvQyO0okhjxkurgxCSccnOwfm6I9UyTMdW8mp7QHjG71soAusXo5B3RZh8QcrcM
-         epDZh3X/frP+lbpuDC8daBkQaajMSXpcrAjxk0Rgw3fWnD3mREJgEB2Cd1UqQl9faNlc
-         UkeceM0CahfKAnzUcv+lmH6aanAw2pAZME51fho6/LizLZ8Tl29mpH1ZEg20eXpffEMj
-         V+60ubMSyX3/f8fqZoPVmSi//FDeSl7BC+cVkYLGj7aBqpTReD3Ux262KwhZ9nxOPUSe
-         1ymA==
-X-Gm-Message-State: AOAM532giCXrnhOQVrinInnKEQ0s9I/oMrrdgw5WDJphGUSJrqm4en6f
-	vaNmqG2ISQBg3x/JU8rcMAZH2mNqTtyCh13eY5w=
-X-Google-Smtp-Source: ABdhPJwSIEaqbJeSvBD5t31BrUf7eLaND03wpIY5XPZvvwydw7SobwYLDm8iKrKNRnG4IwpPAiO6cxmIiawZh0HR/3M=
-X-Received: by 2002:a67:2d8d:: with SMTP id t135mr4935466vst.23.1593764289059;
- Fri, 03 Jul 2020 01:18:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703073631.16530-1-rasmus.villemoes@prevas.dk>
-In-Reply-To: <20200703073631.16530-1-rasmus.villemoes@prevas.dk>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 3 Jul 2020 10:17:57 +0200
-Message-ID: <CANNYZj85DJ9zgUvqtdKgYnst+WnwrwFsbmxYiv-t9kRFwUCA=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] coreutils: don't split stdbuf to own package with single-binary
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000004e1fc405a9852a32"
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.14, mailfrom: andrej.valek@siemens.com)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 0638hCFP028824
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 3 Jul 2020 10:43:13 +0200
+Received: from dev.vm6.ccp.siemens.com ([144.145.220.59])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 0638hCxq017209;
+	Fri, 3 Jul 2020 10:43:12 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 8B81098021E;
+	Fri,  3 Jul 2020 10:43:11 +0200 (CEST)
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Valek <andrej.valek@siemens.com>, wangmy@cn.fujitsu.com
+Subject: [OE-core][PATCH v2] busybox: 1.31.1 -> 1.32.0
+Date: Fri,  3 Jul 2020 10:42:15 +0200
+Message-Id: <20200703084216.17911-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <1593586907-23161-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1593586907-23161-1-git-send-email-wangmy@cn.fujitsu.com>
 
---0000000000004e1fc405a9852a32
-Content-Type: text/plain; charset="UTF-8"
+- update to last stable version 1.32.0
+- remove and refresh already merged patches
 
-Then this needs to be submitted for master first, we have a strict policy
-for that.
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ ...inittab_1.31.0.bb => busybox-inittab_1.32.0.bb} |   0
+ .../busybox/0001-Remove-stime-function-calls.patch |  85 ---------------
+ ...all-wrappers-around-clock_gettime-closes-.patch | 120 ---------------------
+ ...-date-Use-64-prefix-syscall-if-we-have-to.patch |  53 ---------
+ ...-time-Use-64-prefix-syscall-if-we-have-to.patch |  43 --------
+ ...runsv-Use-64-prefix-syscall-if-we-have-to.patch |  46 --------
+ .../busybox/busybox-udhcpc-no_deconfig.patch       |  26 ++---
+ .../{busybox_1.31.1.bb => busybox_1.32.0.bb}       |   9 +-
+ 8 files changed, 15 insertions(+), 367 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-inittab_1.31.0.bb => busybox-inittab_1.32.0.bb} (100%)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-Remove-stime-function-calls.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-date-Use-64-prefix-syscall-if-we-have-to.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-time-Use-64-prefix-syscall-if-we-have-to.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0003-runsv-Use-64-prefix-syscall-if-we-have-to.patch
+ rename meta/recipes-core/busybox/{busybox_1.31.1.bb => busybox_1.32.0.bb} (79%)
 
-Alex
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+diff --git a/meta/recipes-core/busybox/busybox/0001-Remove-stime-function-calls.patch b/meta/recipes-core/busybox/busybox/0001-Remove-stime-function-calls.patch
+deleted file mode 100644
+index 9b9432844c..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-Remove-stime-function-calls.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-From d3539be8f27b8cbfdfee460fe08299158f08bcd9 Mon Sep 17 00:00:00 2001
+-From: Alistair Francis <alistair.francis@wdc.com>
+-Date: Tue, 19 Nov 2019 13:06:40 +0100
+-Subject: [PATCH] Remove stime() function calls
+-
+-stime() has been deprecated in glibc 2.31 and replaced with
+-clock_settime(). Let's replace the stime() function calls with
+-clock_settime() in preperation.
+-
+-function                                             old     new   delta
+-rdate_main                                           197     224     +27
+-clock_settime                                          -      27     +27
+-date_main                                            926     941     +15
+-stime                                                 37       -     -37
+-------------------------------------------------------------------------------
+-(add/remove: 2/2 grow/shrink: 2/0 up/down: 69/-37)             Total: 32 bytes
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=d3539be8f27b8cbfdfee460fe08299158f08bcd9] 
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+----
+- coreutils/date.c         | 6 +++++-
+- libbb/missing_syscalls.c | 8 --------
+- util-linux/rdate.c       | 8 ++++++--
+- 3 files changed, 11 insertions(+), 11 deletions(-)
+-
+---- a/coreutils/date.c
+-+++ b/coreutils/date.c
+-@@ -279,6 +279,9 @@ int date_main(int argc UNUSED_PARAM, cha
+- 		time(&ts.tv_sec);
+- #endif
+- 	}
+-+#if !ENABLE_FEATURE_DATE_NANO
+-+	ts.tv_nsec = 0;
+-+#endif
+- 	localtime_r(&ts.tv_sec, &tm_time);
+- 
+- 	/* If date string is given, update tm_time, and maybe set date */
+-@@ -301,9 +304,10 @@ int date_main(int argc UNUSED_PARAM, cha
+- 		if (date_str[0] != '@')
+- 			tm_time.tm_isdst = -1;
+- 		ts.tv_sec = validate_tm_time(date_str, &tm_time);
+-+		ts.tv_nsec = 0;
+- 
+- 		/* if setting time, set it */
+--		if ((opt & OPT_SET) && stime(&ts.tv_sec) < 0) {
+-+		if ((opt & OPT_SET) && clock_settime(CLOCK_REALTIME, &ts) < 0) {
+- 			bb_perror_msg("can't set date");
+- 		}
+- 	}
+---- a/libbb/missing_syscalls.c
+-+++ b/libbb/missing_syscalls.c
+-@@ -15,14 +15,6 @@ pid_t getsid(pid_t pid)
+- 	return syscall(__NR_getsid, pid);
+- }
+- 
+--int stime(const time_t *t)
+--{
+--	struct timeval tv;
+--	tv.tv_sec = *t;
+--	tv.tv_usec = 0;
+--	return settimeofday(&tv, NULL);
+--}
+--
+- int sethostname(const char *name, size_t len)
+- {
+- 	return syscall(__NR_sethostname, name, len);
+---- a/util-linux/rdate.c
+-+++ b/util-linux/rdate.c
+-@@ -95,9 +95,13 @@ int rdate_main(int argc UNUSED_PARAM, ch
+- 	if (!(flags & 2)) { /* no -p (-s may be present) */
+- 		if (time(NULL) == remote_time)
+- 			bb_error_msg("current time matches remote time");
+--		else
+--			if (stime(&remote_time) < 0)
+-+		else {
+-+			struct timespec ts;
+-+			ts.tv_sec = remote_time;
+-+			ts.tv_nsec = 0;
+-+			if (clock_settime(CLOCK_REALTIME, &ts) < 0)
+- 				bb_perror_msg_and_die("can't set time of day");
+-+		}
+- 	}
+- 
+- 	if (flags != 1) /* not lone -s */
+diff --git a/meta/recipes-core/busybox/busybox/0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch b/meta/recipes-core/busybox/busybox/0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch
+deleted file mode 100644
+index 0c7f9b8132..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch
++++ /dev/null
+@@ -1,120 +0,0 @@
+-From be5a505d771a77c640acc35ceaa470c80e62f954 Mon Sep 17 00:00:00 2001
+-From: Denys Vlasenko <vda.linux@googlemail.com>
+-Date: Thu, 24 Oct 2019 16:26:55 +0200
+-Subject: [PATCH] Remove syscall wrappers around clock_gettime, closes 12091
+-
+-12091 "Direct use of __NR_clock_gettime is not time64-safe".
+-
+-function                                             old     new   delta
+-runsv_main                                          1698    1712     +14
+-startservice                                         378     383      +5
+-get_mono                                              31      25      -6
+-date_main                                            932     926      -6
+-gettimeofday_ns                                       17       -     -17
+-------------------------------------------------------------------------------
+-(add/remove: 0/1 grow/shrink: 2/2 up/down: 19/-29)            Total: -10 bytes
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=be5a505d771a77c640acc35ceaa470c80e62f954]
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+----
+- Makefile.flags   |  6 ++++--
+- coreutils/date.c | 16 +++-------------
+- libbb/time.c     | 11 +----------
+- runit/runsv.c    | 11 +----------
+- 4 files changed, 9 insertions(+), 35 deletions(-)
+-
+---- a/Makefile.flags
+-+++ b/Makefile.flags
+-@@ -129,10 +129,12 @@ endif
+- # fall back to using a temp file:
+- CRYPT_AVAILABLE := $(shell echo 'int main(void){return 0;}' >crypttest.c; $(CC) $(CFLAGS) -lcrypt -o /dev/null crypttest.c >/dev/null 2>&1 && echo "y"; rm crypttest.c)
+- ifeq ($(CRYPT_AVAILABLE),y)
+--LDLIBS += m crypt
+-+LDLIBS += m rt crypt
+- else
+--LDLIBS += m
+-+LDLIBS += m rt
+- endif
+-+# libm may be needed for dc, awk, ntpd
+-+# librt may be needed for clock_gettime()
+- 
+- # libpam may use libpthread, libdl and/or libaudit.
+- # On some platforms that requires an explicit -lpthread, -ldl, -laudit.
+---- a/coreutils/date.c
+-+++ b/coreutils/date.c
+-@@ -33,10 +33,9 @@
+- //config:	Enable option (-I) to output an ISO-8601 compliant
+- //config:	date/time string.
+- //config:
+--//config:# defaults to "no": stat's nanosecond field is a bit non-portable
+- //config:config FEATURE_DATE_NANO
+- //config:	bool "Support %[num]N nanosecond format specifier"
+--//config:	default n  # syscall(__NR_clock_gettime) or syscall(__NR_clock_gettime64)
+-+//config:	default n # stat's nanosecond field is a bit non-portable
+- //config:	depends on DATE
+- //config:	select PLATFORM_LINUX
+- //config:	help
+-@@ -271,17 +270,8 @@ int date_main(int argc UNUSED_PARAM, cha
+- 		 */
+- #endif
+- 	} else {
+--#if ENABLE_FEATURE_DATE_NANO && defined(__NR_clock_gettime)
+--		/* libc has incredibly messy way of doing this,
+--		 * typically requiring -lrt. We just skip all this mess */
+--		syscall(__NR_clock_gettime, CLOCK_REALTIME, &ts);
+--#elif ENABLE_FEATURE_DATE_NANO && __TIMESIZE == 64
+--		/* Let's only support the 64 suffix syscalls for 64-bit time_t.
+--		 * This simplifies the code for us as we don't need to convert
+--		 * between 64-bit and 32-bit. We also don't have a way to
+--		 * report overflow errors here.
+--		 */
+--		syscall(__NR_clock_gettime64, CLOCK_REALTIME, &ts);
+-+#if ENABLE_FEATURE_DATE_NANO
+-+		clock_gettime(CLOCK_REALTIME, &ts);
+- #else
+- 		time(&ts.tv_sec);
+- #endif
+---- a/libbb/time.c
+-+++ b/libbb/time.c
+-@@ -253,18 +253,9 @@ char* FAST_FUNC strftime_YYYYMMDDHHMMSS(
+- #define CLOCK_MONOTONIC 1
+- #endif
+- 
+--/* libc has incredibly messy way of doing this,
+-- * typically requiring -lrt. We just skip all this mess */
+- static void get_mono(struct timespec *ts)
+- {
+--#if defined(__NR_clock_gettime)
+-- 	if (syscall(__NR_clock_gettime, CLOCK_MONOTONIC, ts))
+--#elif __TIMESIZE == 64
+--	if (syscall(__NR_clock_gettime64, CLOCK_MONOTONIC, ts))
+--#else
+--# error "We currently don't support architectures without " \
+--	"the __NR_clock_gettime syscall and 32-bit time_t"
+--#endif
+-+	if (clock_gettime(CLOCK_MONOTONIC, ts))
+- 		bb_error_msg_and_die("clock_gettime(MONOTONIC) failed");
+- }
+- unsigned long long FAST_FUNC monotonic_ns(void)
+---- a/runit/runsv.c
+-+++ b/runit/runsv.c
+-@@ -51,18 +51,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAG
+- #if ENABLE_MONOTONIC_SYSCALL
+- #include <sys/syscall.h>
+- 
+--/* libc has incredibly messy way of doing this,
+-- * typically requiring -lrt. We just skip all this mess */
+- static void gettimeofday_ns(struct timespec *ts)
+- {
+--#if defined(__NR_clock_gettime)
+--	syscall(__NR_clock_gettime, CLOCK_REALTIME, ts);
+--#elif __TIMESIZE == 64
+--	syscall(__NR_clock_gettime64, CLOCK_REALTIME, ts);
+--#else
+--# error "We currently don't support architectures without " \
+--	"the __NR_clock_gettime syscall and 32-bit time_t"
+--#endif
+-+	clock_gettime(CLOCK_REALTIME, ts);
+- }
+- #else
+- static void gettimeofday_ns(struct timespec *ts)
+diff --git a/meta/recipes-core/busybox/busybox/0001-date-Use-64-prefix-syscall-if-we-have-to.patch b/meta/recipes-core/busybox/busybox/0001-date-Use-64-prefix-syscall-if-we-have-to.patch
+deleted file mode 100644
+index 944526b7ca..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-date-Use-64-prefix-syscall-if-we-have-to.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From b7b7452f292f03eefafa6fd1da9bcfc933dee15a Mon Sep 17 00:00:00 2001
+-From: Alistair Francis <alistair.francis@wdc.com>
+-Date: Wed, 18 Sep 2019 09:28:49 -0700
+-Subject: [PATCH] date: Use 64 prefix syscall if we have to
+-
+-Some 32-bit architectures no longer have the 32-bit time_t syscalls.
+-Instead they have suffixed syscalls that returns a 64-bit time_t. If
+-the architecture doesn't have the non-suffixed syscall and is using a
+-64-bit time_t let's use the suffixed syscall instead.
+-
+-This fixes build issues when building for RISC-V 32-bit with 5.1+ kernel
+-headers.
+-
+-If an architecture only supports the suffixed syscalls, but is still
+-using a 32-bit time_t fall back to the libc call.
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=b7b7452f292f03eefafa6fd1da9bcfc933dee15a]
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+----
+- coreutils/date.c | 11 +++++++++--
+- 1 file changed, 9 insertions(+), 2 deletions(-)
+-
+---- a/coreutils/date.c
+-+++ b/coreutils/date.c
+-@@ -36,7 +36,7 @@
+- //config:# defaults to "no": stat's nanosecond field is a bit non-portable
+- //config:config FEATURE_DATE_NANO
+- //config:	bool "Support %[num]N nanosecond format specifier"
+--//config:	default n  # syscall(__NR_clock_gettime)
+-+//config:	default n  # syscall(__NR_clock_gettime) or syscall(__NR_clock_gettime64)
+- //config:	depends on DATE
+- //config:	select PLATFORM_LINUX
+- //config:	help
+-@@ -271,10 +271,17 @@ int date_main(int argc UNUSED_PARAM, cha
+- 		 */
+- #endif
+- 	} else {
+--#if ENABLE_FEATURE_DATE_NANO
+-+#if ENABLE_FEATURE_DATE_NANO && defined(__NR_clock_gettime)
+- 		/* libc has incredibly messy way of doing this,
+- 		 * typically requiring -lrt. We just skip all this mess */
+- 		syscall(__NR_clock_gettime, CLOCK_REALTIME, &ts);
+-+#elif ENABLE_FEATURE_DATE_NANO && __TIMESIZE == 64
+-+		/* Let's only support the 64 suffix syscalls for 64-bit time_t.
+-+		 * This simplifies the code for us as we don't need to convert
+-+		 * between 64-bit and 32-bit. We also don't have a way to
+-+		 * report overflow errors here.
+-+		 */
+-+		syscall(__NR_clock_gettime64, CLOCK_REALTIME, &ts);
+- #else
+- 		time(&ts.tv_sec);
+- #endif
+diff --git a/meta/recipes-core/busybox/busybox/0001-time-Use-64-prefix-syscall-if-we-have-to.patch b/meta/recipes-core/busybox/busybox/0001-time-Use-64-prefix-syscall-if-we-have-to.patch
+deleted file mode 100644
+index 58a6c0d8a0..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-time-Use-64-prefix-syscall-if-we-have-to.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 902d3992922fc8db8495d5fb30a4581711b60c62 Mon Sep 17 00:00:00 2001
+-From: Alistair Francis <alistair.francis@wdc.com>
+-Date: Wed, 18 Sep 2019 09:28:50 -0700
+-Subject: [PATCH] time: Use 64 prefix syscall if we have to
+-
+-Some 32-bit architectures no longer have the 32-bit time_t syscalls.
+-Instead they have suffixed syscalls that returns a 64-bit time_t. If
+-the architecture doesn't have the non-suffixed syscall and is using a
+-64-bit time_t let's use the suffixed syscall instead.
+-
+-This fixes build issues when building for RISC-V 32-bit with 5.1+ kernel
+-headers.
+-
+-If an architecture only supports the suffixed syscalls, but is still
+-using a 32-bit time_t report a compilation error. This avoids us have to
+-deal with converting between 64-bit and 32-bit values. There are
+-currently no architectures where this is the case.
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=902d3992922fc8db8495d5fb30a4581711b60c62]
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+----
+- libbb/time.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+---- a/libbb/time.c
+-+++ b/libbb/time.c
+-@@ -257,7 +257,14 @@ char* FAST_FUNC strftime_YYYYMMDDHHMMSS(
+-  * typically requiring -lrt. We just skip all this mess */
+- static void get_mono(struct timespec *ts)
+- {
+--	if (syscall(__NR_clock_gettime, CLOCK_MONOTONIC, ts))
+-+#if defined(__NR_clock_gettime)
+-+ 	if (syscall(__NR_clock_gettime, CLOCK_MONOTONIC, ts))
+-+#elif __TIMESIZE == 64
+-+	if (syscall(__NR_clock_gettime64, CLOCK_MONOTONIC, ts))
+-+#else
+-+# error "We currently don't support architectures without " \
+-+	"the __NR_clock_gettime syscall and 32-bit time_t"
+-+#endif
+- 		bb_error_msg_and_die("clock_gettime(MONOTONIC) failed");
+- }
+- unsigned long long FAST_FUNC monotonic_ns(void)
+diff --git a/meta/recipes-core/busybox/busybox/0003-runsv-Use-64-prefix-syscall-if-we-have-to.patch b/meta/recipes-core/busybox/busybox/0003-runsv-Use-64-prefix-syscall-if-we-have-to.patch
+deleted file mode 100644
+index 4760570441..0000000000
+--- a/meta/recipes-core/busybox/busybox/0003-runsv-Use-64-prefix-syscall-if-we-have-to.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 8c7419649d6e6fda8fa7d0e863084c78ac728628 Mon Sep 17 00:00:00 2001
+-From: Alistair Francis <alistair.francis@wdc.com>
+-Date: Wed, 28 Aug 2019 10:54:15 -0700
+-Subject: [PATCH 3/3] runsv: Use 64 prefix syscall if we have to
+-
+-Some 32-bit architectures no longer have the 32-bit time_t syscalls.
+-Instead they have suffixed syscalls that returns a 64-bit time_t. If
+-the architecture doesn't have the non-suffixed syscall and is using a
+-64-bit time_t let's use the suffixed syscall instead.
+-
+-This fixes build issues when building for RISC-V 32-bit with 5.1+ kernel
+-headers.
+-
+-If an architecture only supports the suffixed syscalls, but is still
+-using a 32-bit time_t report a compilation error. This avoids us have to
+-deal with converting between 64-bit and 32-bit values. There are
+-currently no architectures where this is the case.
+-
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=ad27d44ebe950335616f37e36863469dc181b455]
+----
+- runit/runsv.c | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/runit/runsv.c b/runit/runsv.c
+-index ccc762d78..737909b0e 100644
+---- a/runit/runsv.c
+-+++ b/runit/runsv.c
+-@@ -55,7 +55,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-  * typically requiring -lrt. We just skip all this mess */
+- static void gettimeofday_ns(struct timespec *ts)
+- {
+-+#if defined(__NR_clock_gettime)
+- 	syscall(__NR_clock_gettime, CLOCK_REALTIME, ts);
+-+#elif __TIMESIZE == 64
+-+	syscall(__NR_clock_gettime64, CLOCK_REALTIME, ts);
+-+#else
+-+# error "We currently don't support architectures without " \
+-+	"the __NR_clock_gettime syscall and 32-bit time_t"
+-+#endif
+- }
+- #else
+- static void gettimeofday_ns(struct timespec *ts)
+--- 
+-2.22.0
+-
+diff --git a/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
+index 2a0a40c512..35e981d6a2 100644
+--- a/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
++++ b/meta/recipes-core/busybox/busybox/busybox-udhcpc-no_deconfig.patch
+@@ -31,11 +31,11 @@ Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+  networking/udhcp/dhcpc.c                       | 29 ++++++++++++++++------
+  1 file changed, 21 insertions(+), 8 deletions(-)
+ 
+-Index: busybox-1.31.0/networking/udhcp/dhcpc.c
++Index: busybox-1.32.0/networking/udhcp/dhcpc.c
+ ===================================================================
+---- busybox-1.31.0.orig/networking/udhcp/dhcpc.c
+-+++ busybox-1.31.0/networking/udhcp/dhcpc.c
+-@@ -48,6 +48,8 @@
++--- busybox-1.32.0.orig/networking/udhcp/dhcpc.c
+++++ busybox-1.32.0/networking/udhcp/dhcpc.c
++@@ -48,6 +48,8 @@ struct tpacket_auxdata {
+  };
+  #endif
+  
+@@ -55,7 +55,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  	USE_FOR_MMU(             OPTBIT_b,)
+  	IF_FEATURE_UDHCPC_ARPING(OPTBIT_a,)
+  	IF_FEATURE_UDHCP_PORT(   OPTBIT_P,)
+-@@ -1124,7 +1128,8 @@
++@@ -1084,7 +1088,8 @@
+  		client_data.state = RENEW_REQUESTED;
+  		break;
+  	case RENEW_REQUESTED: /* impatient are we? fine, square 1 */
+@@ -65,7 +65,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  	case REQUESTING:
+  	case RELEASED:
+  		change_listen_mode(LISTEN_RAW);
+-@@ -1160,7 +1165,8 @@
++@@ -1120,7 +1125,8 @@ static void perform_release(uint32_t server_addr, uint32_t requested_ip)
+   * Users requested to be notified in all cases, even if not in one
+   * of the states above.
+   */
+@@ -75,7 +75,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  
+  	change_listen_mode(LISTEN_NONE);
+  	client_data.state = RELEASED;
+-@@ -1278,7 +1284,7 @@
++@@ -1238,7 +1244,7 @@
+  	/* Parse command line */
+  	opt = getopt32long(argv, "^"
+  		/* O,x: list; -T,-t,-A take numeric param */
+@@ -84,7 +84,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  		USE_FOR_MMU("b")
+  		IF_FEATURE_UDHCPC_ARPING("a::")
+  		IF_FEATURE_UDHCP_PORT("P:")
+-@@ -1389,6 +1395,10 @@
++@@ -1349,6 +1355,10 @@
+  		logmode |= LOGMODE_SYSLOG;
+  	}
+  
+@@ -95,7 +95,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  	/* Create pidfile */
+  	write_pidfile(client_data.pidfile);
+  	/* Goes to stdout (unless NOMMU) and possibly syslog */
+-@@ -1397,7 +1407,8 @@
++@@ -1357,7 +1367,8 @@
+  	srand(monotonic_us());
+  
+  	client_data.state = INIT_SELECTING;
+@@ -105,17 +105,17 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  	change_listen_mode(LISTEN_RAW);
+  	packet_num = 0;
+  	timeout = 0;
+-@@ -1570,7 +1581,8 @@
++@@ -1530,7 +1541,8 @@
+  				}
+  				/* Timed out, enter init state */
+- 				bb_info_msg("lease lost, entering init state");
++ 				bb_simple_info_msg("lease lost, entering init state");
+ -				udhcp_run_script(NULL, "deconfig");
+ +				if (allow_deconfig)
+ +					udhcp_run_script(NULL, "deconfig");
+  				client_data.state = INIT_SELECTING;
+  				client_data.first_secs = 0; /* make secs field count from 0 */
+  				/*timeout = 0; - already is */
+-@@ -1762,8 +1774,10 @@
++@@ -1722,8 +1734,10 @@
+  							"(got ARP reply), declining");
+  						send_decline(/*xid,*/ server_addr, packet.yiaddr);
+  
+@@ -128,7 +128,7 @@ Index: busybox-1.31.0/networking/udhcp/dhcpc.c
+  						change_listen_mode(LISTEN_RAW);
+  						client_data.state = INIT_SELECTING;
+  						client_data.first_secs = 0; /* make secs field count from 0 */
+-@@ -1832,8 +1846,10 @@
++@@ -1792,8 +1806,10 @@
+  				/* return to init state */
+  				bb_info_msg("received %s", "DHCP NAK");
+  				udhcp_run_script(&packet, "nak");
+diff --git a/meta/recipes-core/busybox/busybox_1.31.1.bb b/meta/recipes-core/busybox/busybox_1.32.0.bb
+similarity index 79%
+rename from meta/recipes-core/busybox/busybox_1.31.1.bb
+rename to meta/recipes-core/busybox/busybox_1.32.0.bb
+index 2bb1d59ba7..0dfdfdb549 100644
+--- a/meta/recipes-core/busybox/busybox_1.31.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.32.0.bb
+@@ -42,14 +42,9 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-testsuite-check-uudecode-before-using-it.patch \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+-           file://0001-date-Use-64-prefix-syscall-if-we-have-to.patch \
+-           file://0001-time-Use-64-prefix-syscall-if-we-have-to.patch \
+-           file://0003-runsv-Use-64-prefix-syscall-if-we-have-to.patch \
+-           file://0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch \
+-           file://0001-Remove-stime-function-calls.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-SRC_URI[tarball.md5sum] = "70913edaf2263a157393af07565c17f0"
+-SRC_URI[tarball.sha256sum] = "d0f940a72f648943c1f2211e0e3117387c31d765137d92bd8284a3fb9752a998"
++SRC_URI[tarball.md5sum] = "9576986f1a960da471d03b72a62f13c7"
++SRC_URI[tarball.sha256sum] = "c35d87f1d04b2b153d33c275c2632e40d388a88f19a9e71727e0bbbff51fe689"
+-- 
+2.11.0
 
-On Fri, 3 Jul 2020 at 09:36, Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-wrote:
-
-> Commit 992cec44 (coreutils: Move stdbuf into an own package
-> coreutils-stdbuf) breaks package-qa when the single-binary
-> PACKAGECONFIG is used:
->
-> ERROR: coreutils-8.31-r0 do_package_qa: QA Issue: /usr/bin/stdbuf
-> contained in package coreutils-stdbuf requires /usr/bin/coreutils, but no
-> providers found in RDEPENDS_coreutils-stdbuf? [file-rdeps]
-> ERROR: coreutils-8.31-r0 do_package_qa: QA run found fatal errors. Please
-> consider fixing them.
-> ERROR: Logfile of failure stored in:
-> /mnt/ext4/projects/deif/pdsystems/yocto/tmp-glibc/work/ppce300c3-oe-linux/coreutils/8.31-r0/temp/log.do_package_qa.5594
-> ERROR: Task
-> (/mnt/ext4/projects/deif/pdsystems/yocto/meta-poky/meta/recipes-core/coreutils/coreutils_8.31.bb:do_package_qa)
-> failed with exit code '1'
->
-> With that PACKAGECONFIG, /usr/bin/stdbuf is just a simple "script"
-> containing the single line
->
->   #!/usr/bin/coreutils --coreutils-prog-shebang=stdbuf
->
-> Since there's no point splitting stdbuf to its own package when all
-> the functionality is in the single big coreutils binary anyway, fix
-> this by not creating the separate stdbuf package for the single-binary
-> case.
->
-> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> ---
-> The same issue exists in master, which has been bumped to 8.32, but
-> other than that the patch should apply cleanly there as well.
->
->  meta/recipes-core/coreutils/coreutils_8.31.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> index 57b2c1bdba..80e8161367 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> @@ -58,9 +58,9 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd
-> echo false hostname kill l
->
->  sbindir_progs= "chroot"
->
-> -PACKAGE_BEFORE_PN_class-target += "coreutils-stdbuf"
-> +PACKAGE_BEFORE_PN_class-target += "${@bb.utils.contains('PACKAGECONFIG',
-> 'single-binary', '', 'coreutils-stdbuf', d)}"
->  FILES_coreutils-stdbuf = "${bindir}/stdbuf
-> ${libdir}/coreutils/libstdbuf.so"
-> -RDEPENDS_coreutils_class-target += "coreutils-stdbuf"
-> +RDEPENDS_coreutils_class-target += "${@bb.utils.contains('PACKAGECONFIG',
-> 'single-binary', '', 'coreutils-stdbuf', d)}"
->
->  # Let aclocal use the relative path for the m4 file rather than the
->  # absolute since coreutils has a lot of m4 files, otherwise there might
-> --
-> 2.23.0
->
-> 
->
-
---0000000000004e1fc405a9852a32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Then this needs to be submitted for master first, we =
-have a strict policy for that.</div><div><br></div><div>Alex<br></div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fr=
-i, 3 Jul 2020 at 09:36, Rasmus Villemoes &lt;<a href=3D"mailto:rasmus.ville=
-moes@prevas.dk">rasmus.villemoes@prevas.dk</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">Commit 992cec44 (coreutils: Move =
-stdbuf into an own package<br>
-coreutils-stdbuf) breaks package-qa when the single-binary<br>
-PACKAGECONFIG is used:<br>
-<br>
-ERROR: coreutils-8.31-r0 do_package_qa: QA Issue: /usr/bin/stdbuf containe=
-d in package coreutils-stdbuf requires /usr/bin/coreutils, but no providers=
- found in RDEPENDS_coreutils-stdbuf? [file-rdeps]<br>
-ERROR: coreutils-8.31-r0 do_package_qa: QA run found fatal errors. Please =
-consider fixing them.<br>
-ERROR: Logfile of failure stored in: /mnt/ext4/projects/deif/pdsystems/yoc=
-to/tmp-glibc/work/ppce300c3-oe-linux/coreutils/8.31-r0/temp/log.do_package_=
-qa.5594<br>
-ERROR: Task (/mnt/ext4/projects/deif/pdsystems/yocto/meta-poky/meta/recipe=
-s-core/coreutils/coreutils_8.31.bb:do_package_qa) failed with exit code &#3=
-9;1&#39;<br>
-<br>
-With that PACKAGECONFIG, /usr/bin/stdbuf is just a simple &quot;script&quo=
-t;<br>
-containing the single line<br>
-<br>
-=C2=A0 #!/usr/bin/coreutils --coreutils-prog-shebang=3Dstdbuf<br>
-<br>
-Since there&#39;s no point splitting stdbuf to its own package when all<br=
->
-the functionality is in the single big coreutils binary anyway, fix<br>
-this by not creating the separate stdbuf package for the single-binary<br>
-case.<br>
-<br>
-Signed-off-by: Rasmus Villemoes &lt;<a href=3D"mailto:rasmus.villemoes@pre=
-vas.dk" target=3D"_blank">rasmus.villemoes@prevas.dk</a>&gt;<br>
----<br>
-The same issue exists in master, which has been bumped to 8.32, but<br>
-other than that the patch should apply cleanly there as well.<br>
-<br>
-=C2=A0meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.31.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">coreutils_8.31.bb</a> | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.31.=
-bb" rel=3D"noreferrer" target=3D"_blank">coreutils_8.31.bb</a> b/meta/recip=
-es-core/coreutils/<a href=3D"http://coreutils_8.31.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">coreutils_8.31.bb</a><br>
-index 57b2c1bdba..80e8161367 100644<br>
---- a/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.31.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">coreutils_8.31.bb</a><br>
-+++ b/meta/recipes-core/coreutils/<a href=3D"http://coreutils_8.31.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">coreutils_8.31.bb</a><br>
-@@ -58,9 +58,9 @@ base_bindir_progs =3D &quot;cat chgrp chmod chown cp dat=
-e dd echo false hostname kill l<br>
-<br>
-=C2=A0sbindir_progs=3D &quot;chroot&quot;<br>
-<br>
--PACKAGE_BEFORE_PN_class-target +=3D &quot;coreutils-stdbuf&quot;<br>
-+PACKAGE_BEFORE_PN_class-target +=3D &quot;${@bb.utils.contains(&#39;PACKA=
-GECONFIG&#39;, &#39;single-binary&#39;, &#39;&#39;, &#39;coreutils-stdbuf&#=
-39;, d)}&quot;<br>
-=C2=A0FILES_coreutils-stdbuf =3D &quot;${bindir}/stdbuf ${libdir}/coreutil=
-s/libstdbuf.so&quot;<br>
--RDEPENDS_coreutils_class-target +=3D &quot;coreutils-stdbuf&quot;<br>
-+RDEPENDS_coreutils_class-target +=3D &quot;${@bb.utils.contains(&#39;PACK=
-AGECONFIG&#39;, &#39;single-binary&#39;, &#39;&#39;, &#39;coreutils-stdbuf&=
-#39;, d)}&quot;<br>
-<br>
-=C2=A0# Let aclocal use the relative path for the m4 file rather than the<=
-br>
-=C2=A0# absolute since coreutils has a lot of m4 files, otherwise there mi=
-ght<br>
--- <br>
-2.23.0<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000004e1fc405a9852a32--
