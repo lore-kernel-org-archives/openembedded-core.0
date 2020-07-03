@@ -1,145 +1,303 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.964.1593789641925537179
  for <openembedded-core@lists.openembedded.org>;
  Fri, 03 Jul 2020 08:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: lQoEacbhtet1M3mMUyljswlmmw3WpVRM4Rv4HBF15V2mVmNyZSSlxvTT5a9xuMa1y7cKTJWilg
- pBfZzgd2ZY9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="148680735"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: UwgdLa9aFhbXVQfgEnikVxPWOFdswrQ7QUMZRr3uZwOryJgTIjYcOBIA4Q6R+IdATa/H64x8Mm
+ v4mlng3TYdpw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="148680736"
 X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; 
-   d="scan'208";a="148680735"
+   d="scan'208";a="148680736"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 08:20:40 -0700
-IronPort-SDR: gR6FsW5NnTbmlCm2MFiUPkDAzEacA3JDa43k6RZy77BSXn6rPYt7uMBro9q7Ouy/8JlHQXSTbT
- jX1UyB+oZefg==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 08:20:42 -0700
+IronPort-SDR: abkIu62I6f/YxGMgw8C/21A9fPOQxSjZvkuKeRv+gSfCK1wmcgoKGX59NLDuwbCiMujgjhjuTf
+ IRq9YDaM8WoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; 
-   d="scan'208";a="426318411"
+   d="scan'208";a="426318419"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga004.jf.intel.com with ESMTP; 03 Jul 2020 08:20:39 -0700
+  by orsmga004.jf.intel.com with ESMTP; 03 Jul 2020 08:20:41 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus 1/2] python3: fix CVE-2020-14422
-Date: Fri,  3 Jul 2020 23:20:37 +0800
-Message-Id: <1593789638-86069-1-git-send-email-chee.yang.lee@intel.com>
+Subject: [PATCH][zeus 2/2] perl: fix CVE-2020-10543 & CVE-2020-10878
+Date: Fri,  3 Jul 2020 23:20:38 +0800
+Message-Id: <1593789638-86069-2-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1593789638-86069-1-git-send-email-chee.yang.lee@intel.com>
+References: <1593789638-86069-1-git-send-email-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../python/python3/CVE-2020-14422.patch            | 79 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.7.bb      |  3 +-
- 2 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-14422.patch
+ .../perl/files/CVE-2020-10543.patch                |  36 +++++
+ .../perl/files/CVE-2020-10878_1.patch              | 152 +++++++++++++++++++++
+ .../perl/files/CVE-2020-10878_2.patch              |  36 +++++
+ meta/recipes-devtools/perl/perl_5.30.1.bb          |   3 +
+ 4 files changed, 227 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2020-14422.patch b/meta/recipes-devtools/python/python3/CVE-2020-14422.patch
+diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10543.patch b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
 new file mode 100644
-index 0000000..31ad82d
+index 0000000..36dff0a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2020-14422.patch
-@@ -0,0 +1,79 @@
-+From b98e7790c77a4378ec4b1c71b84138cb930b69b7 Mon Sep 17 00:00:00 2001
-+From: Tapas Kundu <39723251+tapakund@users.noreply.github.com>
-+Date: Wed, 1 Jul 2020 00:50:21 +0530
-+Subject: [PATCH] [3.7] bpo-41004: Resolve hash collisions for IPv4Interface
-+ and IPv6Interface (GH-21033) (GH-21231)
++++ b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+@@ -0,0 +1,36 @@
++From 897d1f7fd515b828e4b198d8b8bef76c6faf03ed Mon Sep 17 00:00:00 2001
++From: John Lightsey <jd@cpanel.net>
++Date: Wed, 20 Nov 2019 20:02:45 -0600
++Subject: [PATCH] regcomp.c: Prevent integer overflow from nested regex
++ quantifiers.
 +
-+CVE-2020-14422
-+The __hash__() methods of classes IPv4Interface and IPv6Interface had issue
-+of generating constant hash values of 32 and 128 respectively causing hash collisions.
-+The fix uses the hash() function to generate hash values for the objects
-+instead of XOR operation
-+(cherry picked from commit b30ee26e366bf509b7538d79bfec6c6d38d53f28)
++(CVE-2020-10543) On 32bit systems the size calculations for nested regular
++expression quantifiers could overflow causing heap memory corruption.
 +
-+Co-authored-by: Ravi Teja P <rvteja92@gmail.com>
++Fixes: Perl/perl5-security#125
++(cherry picked from commit bfd31397db5dc1a5c5d3e0a1f753a4f89a736e71)
 +
-+Signed-off-by: Tapas Kundu <tkundu@vmware.com>
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/b98e7790c77a4378ec4b1c71b84138cb930b69b7]
-+CVE: CVE-2020-14422
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
++Upstream-Status: Backport [https://github.com/perl/perl5/commit/897d1f7fd515b828e4b198d8b8bef76c6faf03ed] 
++CVE: CVE-2020-10543
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ Lib/ipaddress.py                                      |  4 ++--
-+ Lib/test/test_ipaddress.py                            | 11 +++++++++++
-+ .../Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst |  1 +
-+ 3 files changed, 14 insertions(+), 2 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
++ regcomp.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/Lib/ipaddress.py b/Lib/ipaddress.py
-+index 80249288d73ab..54882934c3dc1 100644
-+--- a/Lib/ipaddress.py
-++++ b/Lib/ipaddress.py
-+@@ -1442,7 +1442,7 @@ def __lt__(self, other):
-+             return False
++diff --git a/regcomp.c b/regcomp.c
++index 93c8d98fbb0..5f86be8086d 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -5489,6 +5489,12 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 				  RExC_precomp)));
++                 }
 + 
-+     def __hash__(self):
-+-        return self._ip ^ self._prefixlen ^ int(self.network.network_address)
-++        return hash((self._ip, self._prefixlen, int(self.network.network_address)))
-+ 
-+     __reduce__ = _IPAddressBase.__reduce__
-+ 
-+@@ -2088,7 +2088,7 @@ def __lt__(self, other):
-+             return False
-+ 
-+     def __hash__(self):
-+-        return self._ip ^ self._prefixlen ^ int(self.network.network_address)
-++        return hash((self._ip, self._prefixlen, int(self.network.network_address)))
-+ 
-+     __reduce__ = _IPAddressBase.__reduce__
-+ 
-+diff --git a/Lib/test/test_ipaddress.py b/Lib/test/test_ipaddress.py
-+index 455b893fb126f..1fb6a929dc2d9 100644
-+--- a/Lib/test/test_ipaddress.py
-++++ b/Lib/test/test_ipaddress.py
-+@@ -2091,6 +2091,17 @@ def testsixtofour(self):
-+                          sixtofouraddr.sixtofour)
-+         self.assertFalse(bad_addr.sixtofour)
-+ 
-++    # issue41004 Hash collisions in IPv4Interface and IPv6Interface
-++    def testV4HashIsNotConstant(self):
-++        ipv4_address1 = ipaddress.IPv4Interface("1.2.3.4")
-++        ipv4_address2 = ipaddress.IPv4Interface("2.3.4.5")
-++        self.assertNotEqual(ipv4_address1.__hash__(), ipv4_address2.__hash__())
+++                if ( ( minnext > 0 && mincount >= SSize_t_MAX / minnext )
+++                    || min >= SSize_t_MAX - minnext * mincount )
+++                {
+++                    FAIL("Regexp out of space");
+++                }
 ++
-++    # issue41004 Hash collisions in IPv4Interface and IPv6Interface
-++    def testV6HashIsNotConstant(self):
-++        ipv6_address1 = ipaddress.IPv6Interface("2001:658:22a:cafe:200:0:0:1")
-++        ipv6_address2 = ipaddress.IPv6Interface("2001:658:22a:cafe:200:0:0:2")
-++        self.assertNotEqual(ipv6_address1.__hash__(), ipv6_address2.__hash__())
++ 		min += minnext * mincount;
++ 		is_inf_internal |= deltanext == SSize_t_MAX
++                          || (maxcount == REG_INFTY && minnext + deltanext > 0);
+diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+new file mode 100644
+index 0000000..b86085a
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
+@@ -0,0 +1,152 @@
++From 0a320d753fe7fca03df259a4dfd8e641e51edaa8 Mon Sep 17 00:00:00 2001
++From: Hugo van der Sanden <hv@crypt.org>
++Date: Tue, 18 Feb 2020 13:51:16 +0000
++Subject: [PATCH] study_chunk: extract rck_elide_nothing
++
++(CVE-2020-10878)
++
++(cherry picked from commit 93dee06613d4e1428fb10905ce1c3c96f53113dc)
++
++Upstream-Status: Backport [https://github.com/perl/perl5/commit/0a320d753fe7fca03df259a4dfd8e641e51edaa8] 
++CVE: CVE-2020-10878
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ embed.fnc |  1 +
++ embed.h   |  1 +
++ proto.h   |  3 +++
++ regcomp.c | 70 ++++++++++++++++++++++++++++++++++---------------------
++ 4 files changed, 48 insertions(+), 27 deletions(-)
++
++diff --git a/embed.fnc b/embed.fnc
++index aedb4baef19..d7cd04d3fc3 100644
++--- a/embed.fnc
+++++ b/embed.fnc
++@@ -2481,6 +2481,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
++                                 |I32 stopparen|U32 recursed_depth \
++ 				|NULLOK regnode_ssc *and_withp \
++ 				|U32 flags|U32 depth
+++Es	|void	|rck_elide_nothing|NN regnode *node
++ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
++ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
++ 				|NN const char* const s|const U32 n
++diff --git a/embed.h b/embed.h
++index 75c91f77f45..356a8b98d96 100644
++--- a/embed.h
+++++ b/embed.h
++@@ -1208,6 +1208,7 @@
++ #define parse_lparen_question_flags(a)	S_parse_lparen_question_flags(aTHX_ a)
++ #define parse_uniprop_string(a,b,c,d,e,f,g,h,i)	Perl_parse_uniprop_string(aTHX_ a,b,c,d,e,f,g,h,i)
++ #define populate_ANYOF_from_invlist(a,b)	S_populate_ANYOF_from_invlist(aTHX_ a,b)
+++#define rck_elide_nothing(a)	S_rck_elide_nothing(aTHX_ a)
++ #define reg(a,b,c,d)		S_reg(aTHX_ a,b,c,d)
++ #define reg2Lanode(a,b,c,d)	S_reg2Lanode(aTHX_ a,b,c,d)
++ #define reg_node(a,b)		S_reg_node(aTHX_ a,b)
++diff --git a/proto.h b/proto.h
++index 141ddbaee6d..f316fe134e1 100644
++--- a/proto.h
+++++ b/proto.h
++@@ -5543,6 +5543,9 @@ PERL_CALLCONV SV *	Perl_parse_uniprop_string(pTHX_ const char * const name, cons
++ STATIC void	S_populate_ANYOF_from_invlist(pTHX_ regnode *node, SV** invlist_ptr);
++ #define PERL_ARGS_ASSERT_POPULATE_ANYOF_FROM_INVLIST	\
++ 	assert(node); assert(invlist_ptr)
+++STATIC void	S_rck_elide_nothing(pTHX_ regnode *node);
+++#define PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING	\
+++	assert(node)
++ PERL_STATIC_NO_RET void	S_re_croak2(pTHX_ bool utf8, const char* pat1, const char* pat2, ...)
++ 			__attribute__noreturn__;
++ #define PERL_ARGS_ASSERT_RE_CROAK2	\
++diff --git a/regcomp.c b/regcomp.c
++index 5f86be8086d..4ba2980db66 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -4450,6 +4450,44 @@ S_unwind_scan_frames(pTHX_ const void *p)
++     } while (f);
++ }
 + 
-+ if __name__ == '__main__':
-+     unittest.main()
-+diff --git a/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst b/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
-+new file mode 100644
-+index 0000000000000..f5a9db52fff52
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
-+@@ -0,0 +1 @@
-++CVE-2020-14422: The __hash__() methods of  ipaddress.IPv4Interface and ipaddress.IPv6Interface incorrectly generated constant hash values of 32 and 128 respectively. This resulted in always causing hash collisions. The fix uses hash() to generate hash values for the tuple of (address, mask length, network address).
-diff --git a/meta/recipes-devtools/python/python3_3.7.7.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
-index bff84f6..946a604 100644
---- a/meta/recipes-devtools/python/python3_3.7.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.7.bb
-@@ -23,12 +23,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-            file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
--	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
-+    	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
- 	   file://crosspythonpath.patch \
-            file://reformat_sysconfig.py \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
-            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-+           file://CVE-2020-14422.patch \ 
+++/* Follow the next-chain of the current node and optimize away
+++   all the NOTHINGs from it.
+++ */
+++STATIC void
+++S_rck_elide_nothing(pTHX_ regnode *node)
+++{
+++    dVAR;
+++
+++    PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING;
+++
+++    if (OP(node) != CURLYX) {
+++        const int max = (reg_off_by_arg[OP(node)]
+++                        ? I32_MAX
+++                          /* I32 may be smaller than U16 on CRAYs! */
+++                        : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
+++        int off = (reg_off_by_arg[OP(node)] ? ARG(node) : NEXT_OFF(node));
+++        int noff;
+++        regnode *n = node;
+++
+++        /* Skip NOTHING and LONGJMP. */
+++        while (
+++            (n = regnext(n))
+++            && (
+++                (PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
+++                || ((OP(n) == LONGJMP) && (noff = ARG(n)))
+++            )
+++            && off + noff < max
+++        ) {
+++            off += noff;
+++        }
+++        if (reg_off_by_arg[OP(node)])
+++            ARG(node) = off;
+++        else
+++            NEXT_OFF(node) = off;
+++    }
+++    return;
+++}
+++
++ /* the return from this sub is the minimum length that could possibly match */
++ STATIC SSize_t
++ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++@@ -4550,28 +4588,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++          */
++         JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
++ 
++-	/* Follow the next-chain of the current node and optimize
++-	   away all the NOTHINGs from it.  */
++-	if (OP(scan) != CURLYX) {
++-	    const int max = (reg_off_by_arg[OP(scan)]
++-		       ? I32_MAX
++-		       /* I32 may be smaller than U16 on CRAYs! */
++-		       : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
++-	    int off = (reg_off_by_arg[OP(scan)] ? ARG(scan) : NEXT_OFF(scan));
++-	    int noff;
++-	    regnode *n = scan;
++-
++-	    /* Skip NOTHING and LONGJMP. */
++-	    while ((n = regnext(n))
++-		   && ((PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
++-		       || ((OP(n) == LONGJMP) && (noff = ARG(n))))
++-		   && off + noff < max)
++-		off += noff;
++-	    if (reg_off_by_arg[OP(scan)])
++-		ARG(scan) = off;
++-	    else
++-		NEXT_OFF(scan) = off;
++-	}
+++        /* Follow the next-chain of the current node and optimize
+++           away all the NOTHINGs from it.
+++         */
+++        rck_elide_nothing(scan);
++ 
++ 	/* The principal pseudo-switch.  Cannot be a switch, since we
++ 	   look into several different things.  */
++@@ -5745,11 +5765,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
++ 		if (data && (fl & SF_HAS_EVAL))
++ 		    data->flags |= SF_HAS_EVAL;
++ 	      optimize_curly_tail:
++-		if (OP(oscan) != CURLYX) {
++-		    while (PL_regkind[OP(next = regnext(oscan))] == NOTHING
++-			   && NEXT_OFF(next))
++-			NEXT_OFF(oscan) += NEXT_OFF(next);
++-		}
+++		rck_elide_nothing(oscan);
++ 		continue;
++ 
++ 	    default:
+diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+new file mode 100644
+index 0000000..0bacd6b
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+@@ -0,0 +1,36 @@
++From 3295b48defa0f8570114877b063fe546dd348b3c Mon Sep 17 00:00:00 2001
++From: Karl Williamson <khw@cpan.org>
++Date: Thu, 20 Feb 2020 17:49:36 +0000
++Subject: [PATCH] regcomp: use long jumps if there is any possibility of
++ overflow
++
++(CVE-2020-10878) Be conservative for backporting, we'll aim to do
++something more aggressive for bleadperl.
++
++(cherry picked from commit 9d7759db46f3b31b1d3f79c44266b6ba42a47fc6)
++
++Upstream-Status: Backport [https://github.com/perl/perl5/commit/3295b48defa0f8570114877b063fe546dd348b3c] 
++CVE: CVE-2020-10878
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ regcomp.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/regcomp.c b/regcomp.c
++index 4ba2980db66..73c35a67020 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -7762,6 +7762,13 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
++ 
++         /* We have that number in RExC_npar */
++         RExC_total_parens = RExC_npar;
+++
+++        /* XXX For backporting, use long jumps if there is any possibility of
+++         * overflow */
+++        if (RExC_size > U16_MAX && ! RExC_use_BRANCHJ) {
+++            RExC_use_BRANCHJ = TRUE;
+++            flags |= RESTART_PARSE;
+++        }
++     }
++     else if (! MUST_RESTART(flags)) {
++ 	ReREFCNT_dec(Rx);
+diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
+index 32746c7..ba686c4 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
+@@ -23,6 +23,9 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0001-tests-adjust-to-correctly-exclude-unbuilt-extensions.patch \
+            file://determinism.patch  \
+            file://racefix.patch \
++           file://CVE-2020-10543.patch \
++           file://CVE-2020-10878_1.patch \
++           file://CVE-2020-10878_2.patch \
             "
- 
  SRC_URI_append_class-native = " \
+            file://perl-configpm-switch.patch \
 -- 
 2.7.4
 
