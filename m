@@ -1,100 +1,138 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web12.9856.1593781827405628093
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web12.9940.1593782043056620278
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 06:10:27 -0700
+ Fri, 03 Jul 2020 06:14:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GUWfIIfN;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id o4so18455048lfi.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:10:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gt+QN9nP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id j4so30187725wrp.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=iV6HQbTnqc88jlGf6WPJvx88U4HXyaWmkN7NwKBEBEU=;
-        b=GUWfIIfNtFLSYgR57cTaNbEQkcrMcocb0wxXOQESuKicIa2Iimuul/v4oJ1DbIoHeS
-         /sO88Wy1HR76G5ULrjoNPJ8MBdX0nlpAcWaR7yYGrMn9XB+EggqLVKB/Rvudx69q3RLQ
-         h9lyWeIgxe0mEhtC3Vm0UF68+QOS3DJnmsRtw+plXNbQTu8OvMkqPrhQr69omBU/cVpx
-         qza97EbPXelMIdFjXE85v4MjFFoqQJjgWHLdJQKkRhktwjyoOX21sdKO0syPemt+G1RN
-         12wVP1HnegWPSlGF+Up+foQTVchHSfISC5eAzYCZXVJCRftzwk0ClnfVER8m7IX8ge4G
-         hVXg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=wbFnTLy0FN4wvLRvcpowFoKKJtD5QiVSTNJGMAFsYic=;
+        b=gt+QN9nPC4Byl42hT1evDqwjCzRiOS0+tbJAeKKjeF7DURgGzBXZfDQL1E3/mJdwGx
+         FKFMGpUEcBTZ3q+mN1b0S5Qedys3oytOyW37F94q5mmTkqLJ/N0ofGIKD5r8p6/QQtT+
+         gxkV5s4VHGUH22CzC3VKDH0mNzP7KdDmRlBMc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iV6HQbTnqc88jlGf6WPJvx88U4HXyaWmkN7NwKBEBEU=;
-        b=hUi/acEAFYDwM/fIzZ+11Ny8xIq5HC7e48+Ln2sB0IbSGZhflp85ZiNJBCIRCW+N46
-         bD3ckL+iiwJ+ErQjz62YE2e0aOpzflJIezjKpEZB33O76bGEVmcnJoRbNFWf+JXfc/eV
-         +1x+O1Sy/OmFQZcuyrDRCQM669Ozq2Qx8VlIj6QdADjLi49ND7sUCsRE4b3X2bBq8UMV
-         batdMX/IkXAEZhw4fpVRYGVSZhOZOemb9F0TvZGJ66c3hYRuhz4xCeNk14j6KOl+hq8L
-         Jq2ykdqSSlDQN1/O6sVjs1duIVrsdliJB9eAbzklC8eONMAKaFyHO6eHv+AY5Qpvv5aB
-         bVBA==
-X-Gm-Message-State: AOAM531AaI6LMMiBSzMZDa5uSz7P/yx86RsIp+7p3YnQA6TqqrEULrP/
-	aDFc6ln8h2IZcG00E5QQXfqZ54QZ
-X-Google-Smtp-Source: ABdhPJzjuJY/Pa2yMrVSyOfx0Z5zmB5WVTtSNeG6cTgU+zHc+9qWJGsdesphGKixI5BKuTMRJQWVmg==
-X-Received: by 2002:ac2:558f:: with SMTP id v15mr21958421lfg.187.1593781825099;
-        Fri, 03 Jul 2020 06:10:25 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id d23sm4623668lfm.85.2020.07.03.06.10.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 06:10:24 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: add lz4 dependency and fix the call to lz4
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: "T. Ulrich" <timon.ulrich@kabelmail.de>,
- openembedded-core@lists.openembedded.org
-References: <140262> <20200703123940.24779-1-timon.ulrich@kabelmail.de>
- <ba256db6-8174-c98d-e145-0ee358afef63@gmail.com>
-Message-ID: <d457e91e-8345-b9ea-49c0-e4654b64398a@gmail.com>
-Date: Fri, 3 Jul 2020 15:10:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=wbFnTLy0FN4wvLRvcpowFoKKJtD5QiVSTNJGMAFsYic=;
+        b=TML4mEgZ7Qe3mPP3GZ7WZpaRxk7AKFJj9jJta+GModjSEXJZDepDtvkpKOPITWOwAU
+         Rj8hLAZ02RXn61hEKq3kgdaGJXPZ8rFTh72OM8Um43rDNkCL6kEgZMNw0T1nvA3h9cWn
+         Z7TqjNWgXdlz4ZZ7IkgY54IgABE2+sIX2Ljps7V917N5arbnqdCYIwI6QU2OJXsX7QhY
+         yesJuEt6Xx/bSzTFX19xY0jFnWLpS+sKv3ZfEJCZxNC/IHrOARYsc6/rlqG2VwhgteMc
+         q7ll3vcqzhmXc42mWcsBbY6GpT5sRGLJXIsZv62ThZOr3OqLRoazxfp+AwMxf7E3tdU5
+         /5ew==
+X-Gm-Message-State: AOAM5325uCOpRsq2DnkZyfAnBz1XYkd6wW7Y0ZsE9H0iB0CbSSKPVlbp
+	qnjElVE7yuXqxjYGho5P0C48qA==
+X-Google-Smtp-Source: ABdhPJxkZic/+gOCogYSX3XiAqXZ1xVdtwPHVTo9lPGWeGvBcITIKj1J+2BX2VhTiS0MBQsVUVXQDg==
+X-Received: by 2002:adf:f452:: with SMTP id f18mr36458734wrp.78.1593782041358;
+        Fri, 03 Jul 2020 06:14:01 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id w12sm14724381wrm.79.2020.07.03.06.14.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2020 06:14:00 -0700 (PDT)
+Message-ID: <807b2c9d9bff71490e99029793e754e0e1e38ba3.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 03 Jul 2020 14:13:59 +0100
+In-Reply-To: <c8d6a6fa55052aecc157642169039f4c7cdccef1.camel@linuxfoundation.org>
+References: <20200622105717.108062-1-alex.kiernan@gmail.com>
+	 <2fd43b04ea22019411e3e01669e879a838781e8f.camel@linuxfoundation.org>
+	 <CAO5Uq5R-oXNuqoVPpoC288smwDH459tjik6aB=B1+aOsT+dayA@mail.gmail.com>
+	 <161AF559DCEBF3F0.4124@lists.openembedded.org>
+	 <68c8ab0777b1b8e43d4d9cd7a0032a84efd39ea8.camel@linuxfoundation.org>
+	 <CAO5Uq5ShcQMYSYT5YFOa7i3sbAGP_dVWKrcPTiK3zPKFZZfvGw@mail.gmail.com>
+	 <c8d6a6fa55052aecc157642169039f4c7cdccef1.camel@linuxfoundation.org>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <ba256db6-8174-c98d-e145-0ee358afef63@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/3/20 2:46 PM, Jacob Kroon wrote:
-> On 7/3/20 2:39 PM, T. Ulrich wrote:
->> From: Timon Ulrich <t.ulrich@anapur.de>
->>
->> If the initramfs image is type lz4, then a native lz4 is needed.
->>
->> Additionally an output filename needs to be specified when calling lz4,
->> otherwise STDOUT will be used implicitly.
->>
->> Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
->> ---
->>   meta/classes/kernel.bbclass | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 6d07b29e2d..9e3c34ad48 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -5,6 +5,7 @@ KERNEL_DEPLOYSUBDIR ??= "${@ "" if 
->> (d.getVar("KERNEL_PACKAGE_NAME") == "kernel")
->>   PROVIDES += "${@ "virtual/kernel" if 
->> (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
->>   DEPENDS += "virtual/${TARGET_PREFIX}binutils 
->> virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native 
->> bison-native"
->> +DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", 
->> "lz4-native", "", d)}"
-> 
-> Should/Could we do a similar thing for "lzop-native" above ? To me it 
-> looks like that would be possible, assuming I interpreted my taskexp 
-> correctly.
-> 
+On Tue, 2020-06-23 at 11:01 +0100, Richard Purdie wrote:
+> Looking at the pattern, I did have a thought which I've not
+> researched
+> yet.
+>=20
+> Is it possible these are dynamically generated group/users in the
+> rootfs which happen to collide with the host user/group?
+>=20
+> You'd think the adduser/addgroup calls would happen in a
+> deterministic
+> order as the rootfs is build but perhaps it doesn't work out like
+> that.
+>=20
+> Are each of the above groups of files, specifically created users at
+> rootfs time?
 
-I took the liberty of doing some more history digging, lzop-native 
-dependency was added in OE-Core commit
+At this point this patchset is driving me a bit crazy. I've had it in
+master-next, we keep seeing warnings and its hard to know whether the
+warnings are real ones or ones from this patch.
 
-ee0640cb0c32b959ffaaac6752d582ed1d76e313
-kernel.bbclass: add lzop dependency
+I'm worried that things are not deterministic and this meant I really
+needed to investigate.
 
-and it looks to me it'd be worth doing the same fix.
+I added some fixes and more debug to the patch, then ran it on the
+autobuilder again. An example failure is:
 
-Jacob
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/2113
+
+WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned =
+by the same user or group as the user running bitbake: /var/spool/cron tota=
+l 8 drwxrwx--- 2 0 995 4096 Oct 31 2019 . drwxr-xr-x 4 0 0 4096 Jul 3 12:27=
+ ..
+WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: Path in the rootfs is owned =
+by the same user or group as the user running bitbake: /usr/bin/crontab -rw=
+xr-sr-x 1 0 995 51544 Oct 31 2019 /home/pokybuild/yocto-worker/musl-qemux86=
+-64/build/build/tmp/work/qemux86_64-poky-linux-musl/core-image-sato-sdk/1.0=
+-r0/rootfs//usr/bin/crontab
+WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: /etc/passwd: root:x:0:0:root=
+:/home/root:/bin/sh daemon:x:1:1:daemon:/usr/sbin:/bin/sh bin:x:2:2:bin:/bi=
+n:/bin/sh sys:x:3:3:sys:/dev:/bin/sh sync:x:4:65534:sync:/bin:/bin/sync gam=
+es:x:5:60:games:/usr/games:/bin/sh man:x:6:12:man:/var/cache/man:/bin/sh lp=
+:x:7:7:lp:/var/spool/lpd:/bin/sh mail:x:8:8:mail:/var/mail:/bin/sh news:x:9=
+:9:news:/var/spool/news:/bin/sh uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh p=
+roxy:x:13:13:proxy:/bin:/bin/sh www-data:x:33:33:www-data:/var/www:/bin/sh =
+backup:x:34:34:backup:/var/backups:/bin/sh list:x:38:38:Mailing List Manage=
+r:/var/list:/bin/sh irc:x:39:39:ircd:/var/run/ircd:/bin/sh gnats:x:41:41:Gn=
+ats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh nobody:x:65534:6553=
+4:nobody:/nonexistent:/bin/sh messagebus:x:999:999::/var/lib/dbus:/bin/fals=
+e rpc:x:998:998::/:/bin/false rpcuser:x:997:997::/var/lib/nfs:/bin/false av=
+ahi:x:996:996::/run/avahi-daemon:/bin/false sshd:x:995:994::/var/run/sshd:/=
+bin/false pulse:x:994:993::/var/run/pulse:/bin/false
+WARNING: core-image-sato-sdk-1.0-r0 do_rootfs: /etc/group: root:x:0: daemon=
+:x:1: bin:x:2: sys:x:3: adm:x:4: tty:x:5: disk:x:6: lp:x:7: mail:x:8: news:=
+x:9: uucp:x:10: man:x:12: proxy:x:13: kmem:x:15: input:x:19: dialout:x:20: =
+fax:x:21: voice:x:22: cdrom:x:24: floppy:x:25: tape:x:26: sudo:x:27: audio:=
+x:29:pulse dip:x:30: www-data:x:33: backup:x:34: operator:x:37: list:x:38: =
+irc:x:39: src:x:40: gnats:x:41: shadow:x:42: utmp:x:43: video:x:44: sasl:x:=
+45: plugdev:x:46: kvm:x:47: staff:x:50: games:x:60: shutdown:x:70: users:x:=
+100: nogroup:x:65534: messagebus:x:999: rpc:x:998: rpcuser:x:997: avahi:x:9=
+96: crontab:x:995: tracing:x:1000: sshd:x:994: pulse:x:993:pulse
+
+On that centos7 worker, the build UID is 6000, the GID is 995.
+
+As we can see from the dump of /etc/group, crontab is GID 995 and
+crontab files owned by that group are fine. So the warning is a false
+one and my theory about the cause is confirmed.
+
+We'd only see the issue where the dynamicly assigned UIDs/GIDs conflict
+with the host running the build which explains the intermittent nature.
+
+I don't know how to fix this. I'm going to batch together the fixes we
+have and send those, then drop this patch from master-next until we can
+figure out something better to use in testing.
+
+Cheers,
+
+Richard
+
+
+
