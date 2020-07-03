@@ -1,95 +1,57 @@
-Received: from koncepto.io (koncepto.io [195.154.119.111])
- by mx.groups.io with SMTP id smtpd.web12.8764.1593777615451848085
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.8782.1593777806948237499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 05:00:16 -0700
+ Fri, 03 Jul 2020 05:03:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@koncepto.io header.s=default header.b=BANlZcx7;
- spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
-Received: from menoah.home (lfbn-bor-1-1339-171.w193-250.abo.wanadoo.fr [193.250.150.171])
-	by koncepto.io (Postfix) with ESMTPSA id C9E116014E;
-	Fri,  3 Jul 2020 14:00:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1593777610;
-	bh=vDCbFPOkhtJCbofUCRYXXHWCpjHNv+L72bKtG6sS2vo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BANlZcx7QR9yS8auTiqGkrJCnuZkoXXTwE/52RwocMyosTYj15EFhm3TQd+WOZGlh
-	 jaXZS9CKI0a8SYvsb2RXLbqye/cfsx9S4SxC19125Rd/6b5dwLv6twANeyO5z7tURF
-	 7WmIrfucBCTlk6mxy53swwE5vf9ucD7q4n32XlT+OT4diMHpHnqPhSUTsakq9l6Zdz
-	 c5OsEdkQq4UV88uJPCyHsaJrhxVpEtpBp+4bohAlm6/fbIYmZg3EOmXmeKC8TvLtgh
-	 XDNiy6LmrzMHT5nkV6Dybwdxa+/DV/n5DkxE1FRwDs7KD/GpE2H32b0cZraO/M8Oq+
-	 luHEmVXcm81bw==
-From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
-Subject: [PATCH] diffoscope: upgrade 148 -> 150
-Date: Fri,  3 Jul 2020 14:00:07 +0200
-Message-Id: <1593777607-9647-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DB5EC617CA;
+	Fri,  3 Jul 2020 12:03:24 +0000 (UTC)
+MIME-Version: 1.0
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2NF0gTW92ZSBycG0gbWFuaWZlc3QgdG8gaXRzIC4uLiIgYW5kIDExIG1vcmU=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 03 Jul 2020 12:03:26 -0000
+Message-ID: <20200703120326.20804.65720@do>
+References: <20200703114402.8850-1-fredrigu@axis.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200703114402.8850-1-fredrigu@axis.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-This includes the following changes:
+== Series Details ==
 
-Version 149:
+Series: "[v4] Move rpm manifest to its ..." and 11 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24981/
+State : failure
 
-* Update tests for file 5.39. (Closes: reproducible-builds/diffoscope#179)
-* Downgrade the tlsh warning message to an "info" level warning.
-  (Closes: #888237, reproducible-builds/diffoscope#29)
-* Use the CSS "word-break" property over manually adding U+200B zero-width
-  spaces that make copy-pasting cumbersome.
-  (Closes: reproducible-builds/diffoscope!53)
-* Codebase improvements:
-  - Drop some unused imports from the previous commit.
-  - Prevent an unnecessary .format() when rendering difference comments.
-  - Use a semantic "AbstractMissingType" type instead of remembering to check
-    for both "missing" files and missing containers.
-* Allow user to mask/filter reader output via --diff-mask=REGEX.
-  (MR: reproducible-builds/diffoscope!51)
-* Make --html-dir child pages open in new window to accommodate new web
-  browser content security policies.
-* Fix the --new-file option when comparing directories by merging
-  DirectoryContainer.compare and Container.compare.
-  (Closes: reproducible-builds/diffoscope#180)
-* Fix zsh completion for --max-page-diff-block-lines.
-* Do not warn about missing tlsh during tests.
+== Summary ==
 
-Version 150:
 
-* Don't crash when listing entries in archives if they don't have a listed
-  size (such as hardlinks in .ISO files).
-  (Closes: reproducible-builds/diffoscope#188)
-* Dump PE32+ executables (including EFI applications) using objdump.
-  (Closes: reproducible-builds/diffoscope#181)
-* Tidy detection of JSON files due to missing call to File.recognizes that
-  checks against the output of file(1) which was also causing us to attempt
-  to parse almost every file using json.loads. (Whoops.)
-* Drop accidentally-duplicated copy of the new --diff-mask tests.
-* Logging improvements:
-  - Split out formatting of class names into a common method.
-  - Clarify that we are generating presenter formats in the opening logs.
-* Remove objdjump(1) offsets before instructions to reduce diff noise.
-  (Closes: reproducible-builds/diffoscope!57)
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+
+
+* Patch            [v4,01/12] Move rpm manifest to its own subdir
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../recipes-support/diffoscope/{diffoscope_148.bb => diffoscope_150.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_148.bb => diffoscope_150.bb} (83%)
-
-diff --git a/meta/recipes-support/diffoscope/diffoscope_148.bb b/meta/recipes-support/diffoscope/diffoscope_150.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_148.bb
-rename to meta/recipes-support/diffoscope/diffoscope_150.bb
-index 8b81ce1..58bd60a 100644
---- a/meta/recipes-support/diffoscope/diffoscope_148.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_150.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "54e39043226045419ba37f9b7aae4b96939f5ec16f37c44cc102e3d3f8e9ab1b"
-+SRC_URI[sha256sum] = "0b9e4ae401fe4cbb8ce89b0bcabe608581d0ed53b91a28f18337179c7494af57"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
