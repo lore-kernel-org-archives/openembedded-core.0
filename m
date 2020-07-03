@@ -1,90 +1,99 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.9873.1593782271350797956
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
+ by mx.groups.io with SMTP id smtpd.web10.9992.1593782339209417418
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 06:17:51 -0700
+ Fri, 03 Jul 2020 06:18:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fDVGeUjw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id z15so21359300wrl.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:17:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UQiveGVW;
+ spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-il1-f195.google.com with SMTP id r12so20050471ilh.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TN1YL0Puuh8QxDCgzYLUyo1UiL3tQ54SP5v7S2JQfNQ=;
-        b=fDVGeUjwqfYRqxBZh1iXAWXm+nHjyX3yDoLMdw0IDF44k5eLr+/K9vTbXiemkJVUTQ
-         PSMJ+JI9ZMIlSik267MPLIJs6gDWdtoYQEPKzZUrShFOm5nUuSsg7Chbp8WJ4IQgSF4M
-         yXByRMoAoRfIt8UJ2bc9WaEYFpHr0O0hV7ZXk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8Nw7h22sFT7BKR3LsLblvFB7ds+lSQmz80LlU5Qq3M0=;
+        b=UQiveGVW1pnoA8j1bEbR2mPMDcG1VmCe1f47y/Z+TbwBOAcL5hmK+7WLh4LITlIp9J
+         bcnDU1oy4bwTxEGX3Ub5QXCMVDWIsgag+MLhxxShqd/DO5uRhcOzRXJqnAiwZXr4fApW
+         9dMUwQvLtk5TcLirGZWS7J3jZK7jf1V9snXinYw/84Sy7+r1wY1McGCoTmslYH+/ElRC
+         9CHydzhikHIAImfj4tofoy4CjE6qT0rjfAf47kp5AnENLFfXcm+B4fXeR682KmO/ECvh
+         KjJXIAR+Zz1hUwyevzWENSKUC15LL9RQb1SrzzwLUNL4AuaALeylieir5oBUxmoO6bM0
+         G4bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TN1YL0Puuh8QxDCgzYLUyo1UiL3tQ54SP5v7S2JQfNQ=;
-        b=ZxFTj87WJIeeSiAzCk9lL1Hh0Ad8c40npVhe7mOe7FPCZxFT1Xp+ZE9UxkX/14caT1
-         psw2c3AMhpCfV6Z89MDisEBqRSUSToVBX+OLMmJ+dnmIhBEgebB5X+mPODiKlEJdAsdN
-         ClMx03uxqY1ItMfCDhEf7LX7eV3TvEiGtDgoq52QkPwyAUxXw/h2GMBpw1YJG5G1XIOD
-         ltw8b65RZkOKtliPBWTWpkMKHfZXFSk1LY3jojUymk5wkTfzTCS7G0pQKfGgAA5G/UV1
-         LfQW9Z8pJtCeeEjTQg97a6hBRDfYLAZweY7UC0PSDwcpC1cpy2bbloa+jgeeon4POFyM
-         ssGw==
-X-Gm-Message-State: AOAM531a9Q56nuXiyFyekTEY8X/SJbEUeBLRif2hKrB9LdR7jTNI0E2H
-	bZ2i4vxW4nf11NtfaDwGASiXasnoli0L8A==
-X-Google-Smtp-Source: ABdhPJz9DTG3XqVIxiYoNxqqgfZv+DDVdX3kt6krYw0TEO2K8Qc/8wrsiQsDhFMxTVwsdG5HR7TFEQ==
-X-Received: by 2002:a5d:6846:: with SMTP id o6mr37030627wrw.370.1593782269666;
-        Fri, 03 Jul 2020 06:17:49 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id g14sm10231027wrw.83.2020.07.03.06.17.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 06:17:49 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rootfs-postcommands: Improve/fix rootfs_check_host_user_contaminated
-Date: Fri,  3 Jul 2020 14:17:48 +0100
-Message-Id: <20200703131748.216892-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8Nw7h22sFT7BKR3LsLblvFB7ds+lSQmz80LlU5Qq3M0=;
+        b=TSiWBRvZJ/1HFBVDT/rfNvBHxP5FSDno8cDrSJqryExIs8D109LRB1jv99nGaBKleD
+         rRaRSbNdtocdbadnbHUdyjFUIvI0EMaP0ude02JOC74T9ZIaL5zJmDhiDk5kFRhxrFGB
+         PG8V/fM576D92TA9ialWFMmVRhSx6T3ZXAHsT5eU71ZSYDiaWabhbJKOJ4Zy8EJf6RmM
+         U4xzeYFAti99QAxjWwX2azVPXL0KsvwwjIvMJS5j5b9thwTIArZsovwCrjQR1Dwk2WI0
+         7NMWAgbCrtW1zLJIJ/S1k/aQuxKfBJlrQRdQ4EzmMCnNzxhnTI3QGyuwtps1UxGMpf9R
+         QaTg==
+X-Gm-Message-State: AOAM532HP1nlE3PmkPYauPrTcnRc4yUKairxS+Dg0wiphrtFxhe/UZi4
+	4vD/UR4tdsdNkq+hjhKZ88Ntn6TF6tkHYKhl7hdJig==
+X-Google-Smtp-Source: ABdhPJwS71Z1ym/SbmbabQmIa36phKm4L9i7DTYfVq/Lf2h0Nfu6eYD3ka3F7bo0tDNyDyFEDjogBCtj8LRUICA8nQ8=
+X-Received: by 2002:a92:5f12:: with SMTP id t18mr17934764ilb.267.1593782338704;
+ Fri, 03 Jul 2020 06:18:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200628133414.3246339-1-schnitzeltony@gmail.com>
+ <20200628133414.3246339-3-schnitzeltony@gmail.com> <CALT56yNmLt7b3NcguRAiwxqU-sfh+J9diD7OgMEy8+k8jLhwbQ@mail.gmail.com>
+ <161DF04A63288914.12013@lists.openembedded.org>
+In-Reply-To: <161DF04A63288914.12013@lists.openembedded.org>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Fri, 3 Jul 2020 15:18:47 +0200
+Message-ID: <CALbNGRR0vujrxXNH=57RJso3_SErGohqVXUsYt7U6xFc5ZZC_A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] ccache: upgrade 3.7.9 -> 3.7.10
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently if the find command finds /home it stops checking the other
-files. Tweak the find expression to fix this.
+On Thu, Jul 2, 2020 at 2:47 PM Andreas M=C3=BCller via
+lists.openembedded.org
+<schnitzeltony=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> On Thu, Jul 2, 2020 at 2:00 PM Dmitry Baryshkov <dbaryshkov@gmail.com> wr=
+ote:
+> >
+> > Hello,
+> >
+> > =D0=B2=D1=81, 28 =D0=B8=D1=8E=D0=BD. 2020 =D0=B3. =D0=B2 16:34, Andreas=
+ M=C3=BCller <schnitzeltony@gmail.com>:
+> > >
+> > > remove SRC_URI[md5sum]
+> > >
+> > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > > ---
+> > >  .../ccache/{ccache_3.7.9.bb =3D> ccache_3.7.10.bb}               | 3=
+ +--
+> > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > >  rename meta/recipes-devtools/ccache/{ccache_3.7.9.bb =3D> ccache_3.7=
+.10.bb} (86%)
+> >
+> > This update broke python3 here (see the attached do_compile log).
+> > Reverting this patch fixes python compilation.
+> >
+> > --
+> > With best wishes
+> > Dmitry
+> Will try to reproduce and hope to come up with something helpful
+>
+> Andreas
+Did not understand why it did not fail during my tests. Looking into
+some more I found out that I set INHERIT +=3D "ccache" in a build
+environment that was not active. So in fact this patch went out
+untested and yes now that ccache is active (not only) python3 fails to
+build also here.
 
-Also, from Alex Kiernan <alex.kiernan@gmail.com>, generate output for
-each contaminated path so it's visible in the main log file.
+To make things even worse: From tomorrow on I will be out of reach
+from all communication services for two weeks - need some outage
 
-When matches are found, dump the data from the group and passwd files
-so useful debugging can be done based on the results.
+Have opened an issue at [1] - maybe there is support.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/rootfs-postcommands.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+The only workaround I can offer currently is a revert of this patch -
+what do others think?
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 2f171836fa0..c43b9a98230 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -308,12 +308,16 @@ rootfs_check_host_user_contaminated () {
- 	HOST_USER_UID="$(PSEUDO_UNLOAD=1 id -u)"
- 	HOST_USER_GID="$(PSEUDO_UNLOAD=1 id -g)"
- 
--	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
--	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
-+	find "${IMAGE_ROOTFS}" -path "${IMAGE_ROOTFS}/home" -prune -o \
-+	    -user "$HOST_USER_UID" -print -o -group "$HOST_USER_GID" -print >"$contaminated"
-+
-+	sed -e "s,${IMAGE_ROOTFS},," $contaminated | while read line; do
-+		bbwarn "Path in the rootfs is owned by the same user or group as the user running bitbake:" $line `ls -lan ${IMAGE_ROOTFS}/$line`
-+	done
- 
- 	if [ -s "$contaminated" ]; then
--		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
--		cat "$contaminated" | sed "s,^,  ,"
-+		bbwarn "/etc/passwd:" `cat ${IMAGE_ROOTFS}/etc/passwd`
-+		bbwarn "/etc/group:" `cat ${IMAGE_ROOTFS}/etc/group`
- 	fi
- }
- 
--- 
-2.25.1
+Sorry for inconvenience
 
+Andreas
