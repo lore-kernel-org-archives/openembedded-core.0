@@ -1,127 +1,145 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.11338.1593786323766316296
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web12.964.1593789641925537179
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 07:25:24 -0700
+ Fri, 03 Jul 2020 08:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Dep80cq8;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f66.google.com with SMTP id e15so27916652edr.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 07:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=32Rw9ndkCibrWUAl7kM326D3R2TZbclq1iOq8AAqbhU=;
-        b=Dep80cq8kHFFPbt+xyaCrobEhLPyhNbE+tcv4ewOLRglqib/PLngjWg0iheorPZq1V
-         CsKU1T5/l5Mdd4F4teI8fab56bk67zAMAJQimFQE/ugRBWoxXZ+/g9B3scUG0wDzexQ2
-         vo6w3O1ZyjLZ357Nqz35VkCUA/5YTm7ZmipBB7l/HERWKPI4m9wHaiTxT11BscY8ACNT
-         TZbKuiWWjZ7X003w6H1UNGFT2cafzIejcbPImOh4q+j1hLyaxZAV+VtoF3Q2YSpqhJGc
-         D/w+z60IOVUQVwyAVpOuN0mmT/4m4mpqyOokHPgJgN4qQAGVmL3/ch75H8NsJ8Jntqim
-         fALg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=32Rw9ndkCibrWUAl7kM326D3R2TZbclq1iOq8AAqbhU=;
-        b=lHOv28da2HMW3/bnwcq6Nn9QY2cgXVdGhHUH/cADvP16QqF2AaIKZVRxVtZHmEUVnN
-         xEsiCiXChZjTwR0r09PnhgNLYz66egQalM8f+dFTHePYqMHh2jbA3A259P7uu6oqr1kK
-         W9+Uax7p/QHzMPhthIfFFmwEMh6sVUFPmHMGyl5fHTPg3B1ju0ZdaEylHFrqfFx3H34G
-         uRYkfHyM5BbKmD1Sk0pLARTofRSIw8R1wQpOvcc7A1/gt621qb2VQOR1O677FJh0d9e/
-         1Y4o2lmb107gTx0NSVLRBxgeXyrnBGePaGUtdQKQ2pD5E3amVWAbvPVEOtUMfwS/E6Eu
-         uR6Q==
-X-Gm-Message-State: AOAM530lAcafUrDnrdQKPxgrQhzwwNNxXpXgGCoSbpC+zXgd50KygBKd
-	P8G/22/yunOmMgmxk+KuucFe9+8jS6GcYb53ld/fhw==
-X-Google-Smtp-Source: ABdhPJyjoymIZC/daa2n+kdMjgDl4raBYYnkgoor+Bh1wo0KbHNTQKs3luw+cW8bHQr+FtCbyavdV20+SIR6VJTfh14=
-X-Received: by 2002:aa7:c341:: with SMTP id j1mr42685692edr.197.1593786322277;
- Fri, 03 Jul 2020 07:25:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1593420599.git.ahsan_hussain@mentor.com>
- <63967d5c25d4235fe0d80ec0399463e26d087faf.1593420599.git.ahsan_hussain@mentor.com>
- <43478b9e0d2e46da87bb23e97c124cbb@svr-ies-mbx-02.mgc.mentorg.com>
-In-Reply-To: <43478b9e0d2e46da87bb23e97c124cbb@svr-ies-mbx-02.mgc.mentorg.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Fri, 3 Jul 2020 04:25:11 -1000
-Message-ID: <CAOSpxdbGHn+hWwBbYhYSLKzs+OTXow4HH4rnEnmw4K5yWVqAFw@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH 1/2] u-boot: support merging .cfg files for UBOOT_CONFIG
-To: Noor Ahsan <noor_ahsan@mentor.com>
-Cc: "Hussain, Ahsan" <Ahsan_Hussain@mentor.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: lQoEacbhtet1M3mMUyljswlmmw3WpVRM4Rv4HBF15V2mVmNyZSSlxvTT5a9xuMa1y7cKTJWilg
+ pBfZzgd2ZY9A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="148680735"
+X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; 
+   d="scan'208";a="148680735"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 08:20:40 -0700
+IronPort-SDR: gR6FsW5NnTbmlCm2MFiUPkDAzEacA3JDa43k6RZy77BSXn6rPYt7uMBro9q7Ouy/8JlHQXSTbT
+ jX1UyB+oZefg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; 
+   d="scan'208";a="426318411"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga004.jf.intel.com with ESMTP; 03 Jul 2020 08:20:39 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][zeus 1/2] python3: fix CVE-2020-14422
+Date: Fri,  3 Jul 2020 23:20:37 +0800
+Message-Id: <1593789638-86069-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-On Fri, Jul 3, 2020 at 3:39 AM Noor Ahsan <noor_ahsan@mentor.com> wrote:
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-> Can you merge this on Dunfell,
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../python/python3/CVE-2020-14422.patch            | 79 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.7.bb      |  3 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-14422.patch
 
-These two patches are in a group currently under test.  If all goes
-well they should be in next week's pull request.
+diff --git a/meta/recipes-devtools/python/python3/CVE-2020-14422.patch b/meta/recipes-devtools/python/python3/CVE-2020-14422.patch
+new file mode 100644
+index 0000000..31ad82d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2020-14422.patch
+@@ -0,0 +1,79 @@
++From b98e7790c77a4378ec4b1c71b84138cb930b69b7 Mon Sep 17 00:00:00 2001
++From: Tapas Kundu <39723251+tapakund@users.noreply.github.com>
++Date: Wed, 1 Jul 2020 00:50:21 +0530
++Subject: [PATCH] [3.7] bpo-41004: Resolve hash collisions for IPv4Interface
++ and IPv6Interface (GH-21033) (GH-21231)
++
++CVE-2020-14422
++The __hash__() methods of classes IPv4Interface and IPv6Interface had issue
++of generating constant hash values of 32 and 128 respectively causing hash collisions.
++The fix uses the hash() function to generate hash values for the objects
++instead of XOR operation
++(cherry picked from commit b30ee26e366bf509b7538d79bfec6c6d38d53f28)
++
++Co-authored-by: Ravi Teja P <rvteja92@gmail.com>
++
++Signed-off-by: Tapas Kundu <tkundu@vmware.com>
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/b98e7790c77a4378ec4b1c71b84138cb930b69b7]
++CVE: CVE-2020-14422
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ Lib/ipaddress.py                                      |  4 ++--
++ Lib/test/test_ipaddress.py                            | 11 +++++++++++
++ .../Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst |  1 +
++ 3 files changed, 14 insertions(+), 2 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
++
++diff --git a/Lib/ipaddress.py b/Lib/ipaddress.py
++index 80249288d73ab..54882934c3dc1 100644
++--- a/Lib/ipaddress.py
+++++ b/Lib/ipaddress.py
++@@ -1442,7 +1442,7 @@ def __lt__(self, other):
++             return False
++ 
++     def __hash__(self):
++-        return self._ip ^ self._prefixlen ^ int(self.network.network_address)
+++        return hash((self._ip, self._prefixlen, int(self.network.network_address)))
++ 
++     __reduce__ = _IPAddressBase.__reduce__
++ 
++@@ -2088,7 +2088,7 @@ def __lt__(self, other):
++             return False
++ 
++     def __hash__(self):
++-        return self._ip ^ self._prefixlen ^ int(self.network.network_address)
+++        return hash((self._ip, self._prefixlen, int(self.network.network_address)))
++ 
++     __reduce__ = _IPAddressBase.__reduce__
++ 
++diff --git a/Lib/test/test_ipaddress.py b/Lib/test/test_ipaddress.py
++index 455b893fb126f..1fb6a929dc2d9 100644
++--- a/Lib/test/test_ipaddress.py
+++++ b/Lib/test/test_ipaddress.py
++@@ -2091,6 +2091,17 @@ def testsixtofour(self):
++                          sixtofouraddr.sixtofour)
++         self.assertFalse(bad_addr.sixtofour)
++ 
+++    # issue41004 Hash collisions in IPv4Interface and IPv6Interface
+++    def testV4HashIsNotConstant(self):
+++        ipv4_address1 = ipaddress.IPv4Interface("1.2.3.4")
+++        ipv4_address2 = ipaddress.IPv4Interface("2.3.4.5")
+++        self.assertNotEqual(ipv4_address1.__hash__(), ipv4_address2.__hash__())
+++
+++    # issue41004 Hash collisions in IPv4Interface and IPv6Interface
+++    def testV6HashIsNotConstant(self):
+++        ipv6_address1 = ipaddress.IPv6Interface("2001:658:22a:cafe:200:0:0:1")
+++        ipv6_address2 = ipaddress.IPv6Interface("2001:658:22a:cafe:200:0:0:2")
+++        self.assertNotEqual(ipv6_address1.__hash__(), ipv6_address2.__hash__())
++ 
++ if __name__ == '__main__':
++     unittest.main()
++diff --git a/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst b/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
++new file mode 100644
++index 0000000000000..f5a9db52fff52
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2020-06-29-16-02-29.bpo-41004.ovF0KZ.rst
++@@ -0,0 +1 @@
+++CVE-2020-14422: The __hash__() methods of  ipaddress.IPv4Interface and ipaddress.IPv6Interface incorrectly generated constant hash values of 32 and 128 respectively. This resulted in always causing hash collisions. The fix uses hash() to generate hash values for the tuple of (address, mask length, network address).
+diff --git a/meta/recipes-devtools/python/python3_3.7.7.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
+index bff84f6..946a604 100644
+--- a/meta/recipes-devtools/python/python3_3.7.7.bb
++++ b/meta/recipes-devtools/python/python3_3.7.7.bb
+@@ -23,12 +23,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
+            file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
+-	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
++    	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
+ 	   file://crosspythonpath.patch \
+            file://reformat_sysconfig.py \
+            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
+            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
++           file://CVE-2020-14422.patch \ 
+            "
+ 
+ SRC_URI_append_class-native = " \
+-- 
+2.7.4
 
-Steve
-
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org [mailto:openembedded-core@lists.openembedded.org] On Behalf Of Hussain, Ahsan
-> Sent: Monday, June 29, 2020 2:16 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [dunfell][PATCH 1/2] u-boot: support merging .cfg files for UBOOT_CONFIG
->
-> From: Ming Liu <ming.liu@toradex.com>
->
-> U-boot recipe supports .cfg files in SRC_URI, but they would be merged to .config during do_configure only when UBOOT_MACHINE is set, we should also support merging .cfg files for UBOOT_CONFIG.
->
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> Signed-off-by: Ming Liu <ming.liu@toradex.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc | 21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index 80f828df52..8cfd25020c 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -77,7 +77,23 @@ def find_cfgs(d):
->      return sources_list
->
->  do_configure () {
-> -    if [ -z "${UBOOT_CONFIG}" ]; then
-> +    if [ -n "${UBOOT_CONFIG}" ]; then
-> +        unset i j
-> +        for config in ${UBOOT_MACHINE}; do
-> +            i=$(expr $i + 1);
-> +            for type in ${UBOOT_CONFIG}; do
-> +                j=$(expr $j + 1);
-> +                if [ $j -eq $i ]; then
-> +                    oe_runmake -C ${S} O=${B}/${config} ${config}
-> +                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-> +                    oe_runmake -C ${S} O=${B}/${config} oldconfig
-> +                fi
-> +            done
-> +            unset j
-> +        done
-> +        unset i
-> +        DEVTOOL_DISABLE_MENUCONFIG=true
-> +    else
->          if [ -n "${UBOOT_MACHINE}" ]; then
->              oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
->          else
-> @@ -85,8 +101,6 @@ do_configure () {
->          fi
->          merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
->          cml1_do_configure
-> -    else
-> -        DEVTOOL_DISABLE_MENUCONFIG=true
->      fi
->  }
->
-> @@ -114,7 +128,6 @@ do_compile () {
->                  j=$(expr $j + 1);
->                  if [ $j -eq $i ]
->                  then
-> -                    oe_runmake -C ${S} O=${B}/${config} ${config}
->                      oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
->                      for binary in ${UBOOT_BINARIES}; do
->                          k=$(expr $k + 1);
-> --
-> 2.25.1
->
-> 
