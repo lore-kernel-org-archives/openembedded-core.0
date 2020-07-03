@@ -1,149 +1,99 @@
-Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.8471.1593776656492055066
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.8557.1593776715054361688
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 04:44:20 -0700
+ Fri, 03 Jul 2020 04:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=iZcvlhQg;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=BgSnJkYh;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=3351; q=dns/txt; s=axis-central1;
-  t=1593776660; x=1625312660;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=l4ehc/dfIoNssLHKrEraXa9iNWxWREyMF7kAzjsJnhA=;
-  b=iZcvlhQgGI1hqMn4BPh25X4+F1oJBdnLq0AiTZFja8Igdna7Q/VxREei
-   uQ2k+FGlTwA5GsV/20gbdCqgfGBTiVRw0dUiSk83Ak8fQP9jVAqjAQP1S
-   Yvib6K4fcF5Fxrht0uu7vbSr9YrqfGLdJ7TE54UrgnPAZiS//x0OArqlQ
-   /Oa7Td0eMI554d5+1plMkQVhCCZVCnEejsbvayCCMUsXYu5gY7kivEp5U
-   4AlO9krqSu73qt0+c6al/6Le0qLth4bqYzudbT+U20yK4NuTQqaUU1pkB
-   pWbBW4UqX2UT0PtnYTb82RarRnkSLcRNA9kqtORExElCbBFvGFYaRTJKX
+  d=axis.com; l=1982; q=dns/txt; s=axis-central1;
+  t=1593776715; x=1625312715;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=gBCmyGuvItvI84QpGRjhANv7JkInmcQF7GAgB+NRUHA=;
+  b=BgSnJkYhxH2gqzGsJvBPdXZkJ/Fqi+gkvUJSLUSyfjdg3LszV1SP2vjM
+   YU4kAHwmc9NA5krg/w7ZZBQs4VaRZVTKuFzhdg5RyWq+HiyMeRgauiuq2
+   zEnWAQts/WH2ip5rCqMet62q/WElYKuoXbdtlJRf2AzlDgoCu+WO6oz1j
+   8oBNBP5k1oFoGc4EX54zPIG1I7U62pdo/JSilRA1xbL2AXpBjEWTvsbQ4
+   4iCYbFMB4v3sbQuaN+6izmKXzGc4ig4/UKTzL7x3+i1YAb6tlkvfGmI55
+   46jgczvNhKen2xi03CfaDjdPG+vKHJ5Dfk0rgO/DoYCs3KHkdYZwsm7cX
    Q==;
-IronPort-SDR: ZHTjbBeJGyJ4M7mdCEx8opbHXVTRLSJyVbgGPUXeuPcgfa2F3ZXojyp+RaOxMpZTO03/1x6S/N
- jhxMb2mFYr8FzKsETnJ6PgvSI1dIOoXwXuRSjvHyzweYlWfhGqlDpixriNdfCp8V8CHdaFdcyU
- Dw2dv1eDVmcB7lCCimvtPfulvItnOJdtOeoGDmUrxzPu7DZCrRy20S2dj5BBLd0An9+emSqK0R
- F60mR99Hw2aXHDYQgKv14ULKssfiGJIunXlDsTfP1912UwmYZIPmI+ICtCk79u1FoHgjOLxuny
- VlQ=
+IronPort-SDR: ORjrZumZzOizkL05SLRoYza53LdQbq73XnK+oxaHDKCSXbKyP1ISx8ub0JBpPiN48AKtBxqgD3
+ Zj8dMEpbn2Wnb2zxrABzgmIJgYndIp25XZcFnjCCpUogKCHfQhAl256jwG18xmV6z1voBN4/5K
+ G9heWbzzy/eKPCIBsDz7o05MUbfNvo+imL+SVnTx/eQzjmfhd/H225Ssa2HbAv3kvJExkvtiml
+ k2UyUmmNYPRZChw6RRV2nvegTD/xkVL6lbKnF7o6y4tMGe6vBWiXo+ijE9I5JO2ElkSjpoWxW8
+ nEI=
 X-IronPort-AV: E=Sophos;i="5.75,308,1589234400"; 
-   d="scan'208";a="10163736"
+   d="scan'208";a="10463206"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v4 03/12] Move deb manifest to its own subdir
-Date: Fri, 3 Jul 2020 13:43:53 +0200
-Message-ID: <20200703114402.8850-4-fredrigu@axis.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200703114402.8850-1-fredrigu@axis.com>
-References: <20200703114402.8850-1-fredrigu@axis.com>
+To: Paul Barker <pbarker@konsulko.com>
+CC: openembedded-core <openembedded-core@lists.openembedded.org>,
+	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
+Subject: Re: [OE-core] Add package managers as a plugin
+Thread-Topic: [OE-core] Add package managers as a plugin
+Thread-Index: AQHWUKcOqzGy9MdUcUaPmbF7vBgXvqj0m/iAgAEhY28=
+Date: Fri, 3 Jul 2020 11:45:13 +0000
+Message-ID: <1593776713224.44705@axis.com>
+References: <20200702192906.6301-1-fredrigu@axis.com>,<CAM9ZRVtfoy12++04DPYrOk_89n8FsmwRuGWkWFa2O6q4a9Zjnw@mail.gmail.com>
+In-Reply-To: <CAM9ZRVtfoy12++04DPYrOk_89n8FsmwRuGWkWFa2O6q4a9Zjnw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Return-Path: fredrigu@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This is a part of a refactor that will split the package manager
-code so that it's possible to use other package managers in other
-layers.
-
-Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
----
- meta/lib/oe/manifest.py                      | 21 +---------------
- meta/lib/oe/package_managers/deb/__init__.py |  3 +++
- meta/lib/oe/package_managers/deb/manifest.py | 26 ++++++++++++++++++++
- meta/lib/oe/rootfs.py                        |  1 +
- 4 files changed, 31 insertions(+), 20 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/deb/__init__.py
- create mode 100644 meta/lib/oe/package_managers/deb/manifest.py
-
-diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index 2678e12413..33d8c25aa9 100644
---- a/meta/lib/oe/manifest.py
-+++ b/meta/lib/oe/manifest.py
-@@ -188,32 +188,13 @@ class Manifest(object, metaclass=ABCMeta):
- 
-         return installed_pkgs
- 
--class DpkgManifest(Manifest):
--    def create_initial(self):
--        with open(self.initial_manifest, "w+") as manifest:
--            manifest.write(self.initial_manifest_file_header)
--
--            for var in self.var_maps[self.manifest_type]:
--                pkg_list = self.d.getVar(var)
--
--                if pkg_list is None:
--                    continue
--
--                for pkg in pkg_list.split():
--                    manifest.write("%s,%s\n" %
--                                   (self.var_maps[self.manifest_type][var], pkg))
--
--    def create_final(self):
--        pass
--
--    def create_full(self, pm):
--        pass
- 
- 
- def create_manifest(d, final_manifest=False, manifest_dir=None,
-                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
-     from oe.package_managers.rpm.manifest import RpmManifest
-     from oe.package_managers.ipk.manifest import OpkgManifest
-+    from oe.package_managers.deb.manifest import DpkgManifest
-     manifest_map = {'rpm': RpmManifest,
-                     'ipk': OpkgManifest,
-                     'deb': DpkgManifest}
-diff --git a/meta/lib/oe/package_managers/deb/__init__.py b/meta/lib/oe/package_managers/deb/__init__.py
-new file mode 100644
-index 0000000000..a2094304c9
---- /dev/null
-+++ b/meta/lib/oe/package_managers/deb/__init__.py
-@@ -0,0 +1,3 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-diff --git a/meta/lib/oe/package_managers/deb/manifest.py b/meta/lib/oe/package_managers/deb/manifest.py
-new file mode 100644
-index 0000000000..0b12036644
---- /dev/null
-+++ b/meta/lib/oe/package_managers/deb/manifest.py
-@@ -0,0 +1,26 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+from oe.manifest import Manifest
-+
-+class DpkgManifest(Manifest):
-+    def create_initial(self):
-+        with open(self.initial_manifest, "w+") as manifest:
-+            manifest.write(self.initial_manifest_file_header)
-+
-+            for var in self.var_maps[self.manifest_type]:
-+                pkg_list = self.d.getVar(var)
-+
-+                if pkg_list is None:
-+                    continue
-+
-+                for pkg in pkg_list.split():
-+                    manifest.write("%s,%s\n" %
-+                                   (self.var_maps[self.manifest_type][var], pkg))
-+
-+    def create_final(self):
-+        pass
-+
-+    def create_full(self, pm):
-+        pass
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 283f52d068..675deac905 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -615,6 +615,7 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
-         bb.utils.remove(self.image_rootfs, True)
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
-+        from oe.package_managers.deb.manifest import DpkgManifest
-         self.manifest = DpkgManifest(d, manifest_dir)
-         self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
-                          d.getVar('PACKAGE_ARCHS'),
--- 
-2.20.1
-
+=0A=
+________________________________________=0A=
+From: Paul Barker <pbarker@konsulko.com>=0A=
+Sent: Thursday, July 2, 2020 10:28 PM=0A=
+To: Fredrik Gustafsson=0A=
+Cc: openembedded-core; tools-cfpbuild-internal=0A=
+Subject: Re: [OE-core] Add package managers as a plugin=0A=
+=0A=
+On Thu, 2 Jul 2020 at 20:29, Fredrik Gustafsson=0A=
+<fredrik.gustafsson@axis.com> wrote:=0A=
+>=0A=
+> OE-core today has three different package managers, the well-known format=
+s deb=0A=
+> and rpm is supported as well as ipkg that is good for embedded devices.=
+=0A=
+>=0A=
+> When building and having a good cache hit, a significant amount of time i=
+s=0A=
+> spent in the phase of generating a rootfs, which is really about the=0A=
+> performance of the package manager. To save build time and also get a=0A=
+> package manager that is suitanle for use on targets where flash memory is=
+ a=0A=
+> concern, support for apk is suggested.=0A=
+>=0A=
+> However, it might or might not be what's wanted for OE-core since it incr=
+eases=0A=
+> the test matrix. Therefore I will refactor the package management code to=
+=0A=
+> allow a layer to add a new package manager without editing the meta layer=
+.=0A=
+>=0A=
+> This refactor will be divided into multiple patch series to be easier to =
+review,=0A=
+> this is the second patch series.=0A=
+=0A=
+Sorry to be a pain but I think this series suffers from the opposite=0A=
+problem to the previous version - it's only a partial move of some of=0A=
+the code. I'd much rather review a series which does the complete=0A=
+refactor of the existing code into separate modules without making any=0A=
+functional changes. I'll let others give their opinions as well, I'm=0A=
+happy to review this one if we do want to look at this piecemeal.=0A=
+=0A=
+--=0A=
+Paul Barker=0A=
+Konsulko Group=0A=
+=0A=
+No problems, as said before I will do my best to make this easier to review=
+.=0A=
+I've sent a new patch series.=0A=
+=0A=
+/Fredrik=
