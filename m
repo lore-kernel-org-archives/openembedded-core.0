@@ -1,36 +1,36 @@
 Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.8468.1593776648023218877
+ by mx.groups.io with SMTP id smtpd.web11.8471.1593776656492055066
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 04:44:19 -0700
+ Fri, 03 Jul 2020 04:44:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=pg2XeUKs;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=iZcvlhQg;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=4914; q=dns/txt; s=axis-central1;
-  t=1593776659; x=1625312659;
+  d=axis.com; l=3351; q=dns/txt; s=axis-central1;
+  t=1593776660; x=1625312660;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=pO6/wYBJoJY625h6EIzjwg3khx5h0yJHL1iTNFYcQic=;
-  b=pg2XeUKszUuZjpOr1Zmm2zg5PY67V3o1uLljI/6AIl2OejxL4AwweJLd
-   fzxIXABk13akYPnXnImN2cpoaN8j5B71j97d9hZelj5X/B/qmEr6UkSQL
-   Tgc+JX8ANCqxpETCTQP02FpaUI31VNWOtnEE9+iNfdA45q1bA46kA/P0M
-   BwUr3XI5UhxzHerxs+GoU74Hv8sFJ6euxt33bnSWaUtO+81tFrG3cPXZu
-   WFq9Wr1D0Oy1kv38SLUMzF8rY/26qK59akqg+ll2NlUXK19l1hBMZRLD3
-   A557PCPhwouWr53iMJmNfvCvVQUcJFk9Q/yH0Ean/BYY6rnUzglvykdTn
-   g==;
-IronPort-SDR: 5aaKOyxQRmhuNZe9rG7cKqlT4NH2ubwelxs8eqn8sMS89zVXr7qxWIQXLfkFema4LDuaQRDON5
- b+JwnB1k6uIEmc8vrFJS/nieqMxKjXpPYAINoZZ1qlao8CoGw4GTHst+kPauGzkDg3/0FlQnmo
- x7SkANNoPJ4zLmkxYq2rHxfir2BILgGD4XbTB07Gdx7Ws4lXAxBNkcVCqnGm6e4GMllbQNmbP6
- giEbvX2wL1mNzo6Pu5yfKZ9rmk4wKgl4EikhQXYfLdYL7dv/il71GVTDzgKv5o1xnRcoQFEUFs
- /Bo=
+  bh=l4ehc/dfIoNssLHKrEraXa9iNWxWREyMF7kAzjsJnhA=;
+  b=iZcvlhQgGI1hqMn4BPh25X4+F1oJBdnLq0AiTZFja8Igdna7Q/VxREei
+   uQ2k+FGlTwA5GsV/20gbdCqgfGBTiVRw0dUiSk83Ak8fQP9jVAqjAQP1S
+   Yvib6K4fcF5Fxrht0uu7vbSr9YrqfGLdJ7TE54UrgnPAZiS//x0OArqlQ
+   /Oa7Td0eMI554d5+1plMkQVhCCZVCnEejsbvayCCMUsXYu5gY7kivEp5U
+   4AlO9krqSu73qt0+c6al/6Le0qLth4bqYzudbT+U20yK4NuTQqaUU1pkB
+   pWbBW4UqX2UT0PtnYTb82RarRnkSLcRNA9kqtORExElCbBFvGFYaRTJKX
+   Q==;
+IronPort-SDR: ZHTjbBeJGyJ4M7mdCEx8opbHXVTRLSJyVbgGPUXeuPcgfa2F3ZXojyp+RaOxMpZTO03/1x6S/N
+ jhxMb2mFYr8FzKsETnJ6PgvSI1dIOoXwXuRSjvHyzweYlWfhGqlDpixriNdfCp8V8CHdaFdcyU
+ Dw2dv1eDVmcB7lCCimvtPfulvItnOJdtOeoGDmUrxzPu7DZCrRy20S2dj5BBLd0An9+emSqK0R
+ F60mR99Hw2aXHDYQgKv14ULKssfiGJIunXlDsTfP1912UwmYZIPmI+ICtCk79u1FoHgjOLxuny
+ VlQ=
 X-IronPort-AV: E=Sophos;i="5.75,308,1589234400"; 
-   d="scan'208";a="10163735"
+   d="scan'208";a="10163736"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v4 01/12] Move rpm manifest to its own subdir
-Date: Fri, 3 Jul 2020 13:43:51 +0200
-Message-ID: <20200703114402.8850-2-fredrigu@axis.com>
+Subject: [PATCH v4 03/12] Move deb manifest to its own subdir
+Date: Fri, 3 Jul 2020 13:43:53 +0200
+Message-ID: <20200703114402.8850-4-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703114402.8850-1-fredrigu@axis.com>
 References: <20200703114402.8850-1-fredrigu@axis.com>
@@ -45,167 +45,105 @@ layers.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/manifest.py                      | 51 +-----------------
- meta/lib/oe/package_managers/rpm/__init__.py |  3 ++
- meta/lib/oe/package_managers/rpm/manifest.py | 56 ++++++++++++++++++++
- meta/lib/oe/rootfs.py                        |  2 +
- 4 files changed, 62 insertions(+), 50 deletions(-)
- create mode 100644 meta/lib/oe/package_managers/rpm/__init__.py
- create mode 100644 meta/lib/oe/package_managers/rpm/manifest.py
+ meta/lib/oe/manifest.py                      | 21 +---------------
+ meta/lib/oe/package_managers/deb/__init__.py |  3 +++
+ meta/lib/oe/package_managers/deb/manifest.py | 26 ++++++++++++++++++++
+ meta/lib/oe/rootfs.py                        |  1 +
+ 4 files changed, 31 insertions(+), 20 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/deb/__init__.py
+ create mode 100644 meta/lib/oe/package_managers/deb/manifest.py
 
 diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index f7c88f9a09..cf2cbe22eb 100644
+index 2678e12413..33d8c25aa9 100644
 --- a/meta/lib/oe/manifest.py
 +++ b/meta/lib/oe/manifest.py
-@@ -189,56 +189,6 @@ class Manifest(object, metaclass=ABCMeta):
+@@ -188,32 +188,13 @@ class Manifest(object, metaclass=ABCMeta):
+ 
          return installed_pkgs
  
- 
--class RpmManifest(Manifest):
--    """
--    Returns a dictionary object with mip and mlp packages.
--    """
--    def _split_multilib(self, pkg_list):
--        pkgs = dict()
--
--        for pkg in pkg_list.split():
--            pkg_type = self.PKG_TYPE_MUST_INSTALL
--
--            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
--
--            for ml_variant in ml_variants:
--                if pkg.startswith(ml_variant + '-'):
--                    pkg_type = self.PKG_TYPE_MULTILIB
--
--            if not pkg_type in pkgs:
--                pkgs[pkg_type] = pkg
--            else:
--                pkgs[pkg_type] += " " + pkg
--
--        return pkgs
--
+-class DpkgManifest(Manifest):
 -    def create_initial(self):
--        pkgs = dict()
--
 -        with open(self.initial_manifest, "w+") as manifest:
 -            manifest.write(self.initial_manifest_file_header)
 -
 -            for var in self.var_maps[self.manifest_type]:
--                if var in self.vars_to_split:
--                    split_pkgs = self._split_multilib(self.d.getVar(var))
--                    if split_pkgs is not None:
--                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
--                else:
--                    pkg_list = self.d.getVar(var)
--                    if pkg_list is not None:
--                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
+-                pkg_list = self.d.getVar(var)
 -
--            for pkg_type in pkgs:
--                for pkg in pkgs[pkg_type].split():
--                    manifest.write("%s,%s\n" % (pkg_type, pkg))
+-                if pkg_list is None:
+-                    continue
+-
+-                for pkg in pkg_list.split():
+-                    manifest.write("%s,%s\n" %
+-                                   (self.var_maps[self.manifest_type][var], pkg))
 -
 -    def create_final(self):
 -        pass
 -
 -    def create_full(self, pm):
 -        pass
--
--
- class OpkgManifest(Manifest):
-     """
-     Returns a dictionary object with mip and mlp packages.
-@@ -332,6 +282,7 @@ class DpkgManifest(Manifest):
+ 
  
  def create_manifest(d, final_manifest=False, manifest_dir=None,
                      manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
-+    from oe.package_managers.rpm.manifest import RpmManifest
+     from oe.package_managers.rpm.manifest import RpmManifest
+     from oe.package_managers.ipk.manifest import OpkgManifest
++    from oe.package_managers.deb.manifest import DpkgManifest
      manifest_map = {'rpm': RpmManifest,
                      'ipk': OpkgManifest,
                      'deb': DpkgManifest}
-diff --git a/meta/lib/oe/package_managers/rpm/__init__.py b/meta/lib/oe/package_managers/rpm/__init__.py
+diff --git a/meta/lib/oe/package_managers/deb/__init__.py b/meta/lib/oe/package_managers/deb/__init__.py
 new file mode 100644
 index 0000000000..a2094304c9
 --- /dev/null
-+++ b/meta/lib/oe/package_managers/rpm/__init__.py
++++ b/meta/lib/oe/package_managers/deb/__init__.py
 @@ -0,0 +1,3 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
-diff --git a/meta/lib/oe/package_managers/rpm/manifest.py b/meta/lib/oe/package_managers/rpm/manifest.py
+diff --git a/meta/lib/oe/package_managers/deb/manifest.py b/meta/lib/oe/package_managers/deb/manifest.py
 new file mode 100644
-index 0000000000..9047462951
+index 0000000000..0b12036644
 --- /dev/null
-+++ b/meta/lib/oe/package_managers/rpm/manifest.py
-@@ -0,0 +1,56 @@
++++ b/meta/lib/oe/package_managers/deb/manifest.py
+@@ -0,0 +1,26 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
 +from oe.manifest import Manifest
 +
-+class RpmManifest(Manifest):
-+    """
-+    Returns a dictionary object with mip and mlp packages.
-+    """
-+    def _split_multilib(self, pkg_list):
-+        pkgs = dict()
-+
-+        for pkg in pkg_list.split():
-+            pkg_type = self.PKG_TYPE_MUST_INSTALL
-+
-+            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
-+
-+            for ml_variant in ml_variants:
-+                if pkg.startswith(ml_variant + '-'):
-+                    pkg_type = self.PKG_TYPE_MULTILIB
-+
-+            if not pkg_type in pkgs:
-+                pkgs[pkg_type] = pkg
-+            else:
-+                pkgs[pkg_type] += " " + pkg
-+
-+        return pkgs
-+
++class DpkgManifest(Manifest):
 +    def create_initial(self):
-+        pkgs = dict()
-+
 +        with open(self.initial_manifest, "w+") as manifest:
 +            manifest.write(self.initial_manifest_file_header)
 +
 +            for var in self.var_maps[self.manifest_type]:
-+                if var in self.vars_to_split:
-+                    split_pkgs = self._split_multilib(self.d.getVar(var))
-+                    if split_pkgs is not None:
-+                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
-+                else:
-+                    pkg_list = self.d.getVar(var)
-+                    if pkg_list is not None:
-+                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
++                pkg_list = self.d.getVar(var)
 +
-+            for pkg_type in pkgs:
-+                for pkg in pkgs[pkg_type].split():
-+                    manifest.write("%s,%s\n" % (pkg_type, pkg))
++                if pkg_list is None:
++                    continue
++
++                for pkg in pkg_list.split():
++                    manifest.write("%s,%s\n" %
++                                   (self.var_maps[self.manifest_type][var], pkg))
 +
 +    def create_final(self):
 +        pass
 +
 +    def create_full(self, pm):
 +        pass
-+
-+
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index a0ac33ada6..b6d2028e9b 100644
+index 283f52d068..675deac905 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -359,6 +359,8 @@ class RpmRootfs(Rootfs):
-         self.log_check_regex = r'(unpacking of archive failed|Cannot find package'\
-                                r'|exit 1|ERROR: |Error: |Error |ERROR '\
-                                r'|Failed |Failed: |Failed$|Failed\(\d+\):)'
-+
-+        from oe.package_managers.rpm.manifest import RpmManifest
-         self.manifest = RpmManifest(d, manifest_dir)
+@@ -615,6 +615,7 @@ class DpkgRootfs(DpkgOpkgRootfs):
  
-         self.pm = RpmPM(d,
+         bb.utils.remove(self.image_rootfs, True)
+         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
++        from oe.package_managers.deb.manifest import DpkgManifest
+         self.manifest = DpkgManifest(d, manifest_dir)
+         self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
+                          d.getVar('PACKAGE_ARCHS'),
 -- 
 2.20.1
 
