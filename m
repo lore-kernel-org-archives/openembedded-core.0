@@ -1,104 +1,90 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web10.9948.1593782203823908981
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.9873.1593782271350797956
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 06:16:43 -0700
+ Fri, 03 Jul 2020 06:17:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HdTq/1FR;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id k6so27235163ili.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:16:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fDVGeUjw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id z15so21359300wrl.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 06:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WcXnS1GI3tj5deISti0q7zP/yMqxnQ7Hc8OYdJHeVAo=;
-        b=HdTq/1FRmhjr8M5IYTBc1m5Vl3Jty4gdB8QYyCcsw7wb6yfNC6vnaVjNpiqzaLrBcC
-         Y6T0ihfRMWjYzVvzxgjlWonCna20xR8AQpu1yOU0T6RBRfi0d1V69LazYo+Elqf+wJLL
-         R2AqKq0gNyWuLgAr7dI1qKC7Dz4phxghWwW1hXfgH3UXLRv4xM/cMdigfWF54/DnOnnM
-         W2rVQbT7q/e93MjBpepB0QxoPLf8NqOo3Cu3j3gtgw03AAQj7ySpv+3HZlzZl3yoziNL
-         cKXo/94+p/yecuc+YfLB3nHTYlBa16U5/zdA3SAfNuTInW1GnSsT6Kkjkc5NeNDqHeJg
-         QkFw==
+        bh=TN1YL0Puuh8QxDCgzYLUyo1UiL3tQ54SP5v7S2JQfNQ=;
+        b=fDVGeUjwqfYRqxBZh1iXAWXm+nHjyX3yDoLMdw0IDF44k5eLr+/K9vTbXiemkJVUTQ
+         PSMJ+JI9ZMIlSik267MPLIJs6gDWdtoYQEPKzZUrShFOm5nUuSsg7Chbp8WJ4IQgSF4M
+         yXByRMoAoRfIt8UJ2bc9WaEYFpHr0O0hV7ZXk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WcXnS1GI3tj5deISti0q7zP/yMqxnQ7Hc8OYdJHeVAo=;
-        b=QV+dfmkNoU8gz60b8aMGwh8KI0M/DoFeSfPPV4urwfmeiLf9kqK3Is78CJrDdTq1LB
-         A90/PKMdNs3p2W7hTB0mpxC1WAITY+i7MV+wvg2x1Bpm2Al8Se+cFlnjwtXU+aR6K6LJ
-         OjKAi7WhPsP82jzRo5zJy58Xiq74wdXSKlku2yTiLvc8aAkGaeUWTkLwF2UxtvWkyu+7
-         vUeckwVUjcOt+e9zSpBngT82uGeYtFVkEdItfZsoJYKi2/x2SWrVxoCqqsMfy9R4huZk
-         hvtbw/KW/q0S5jth9HBVUkQnR30aq6QkNhyW9nslVMaTGjeJtiJG2MpDq42hM3gAUogD
-         p+fw==
-X-Gm-Message-State: AOAM533OS+nGEaGsme5iNY3witt4yiBurwif20LB7lxf3158zaAmZ8GB
-	Kf/kwwBn683ez1hpytoBhhrPLNROAtY=
-X-Google-Smtp-Source: ABdhPJwR8dR73ubDFi3toNN7M/ZA/vtBXxvls1Kv+theuCFDXZmGmk9hr2Z8GVPlEPAL4fQ0fkMrLA==
-X-Received: by 2002:a05:6e02:dc4:: with SMTP id l4mr17269274ilj.134.1593782202954;
-        Fri, 03 Jul 2020 06:16:42 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:b47e:ad7e:5c16:f8b7])
-        by smtp.gmail.com with ESMTPSA id g8sm6529619ilq.49.2020.07.03.06.16.42
+        bh=TN1YL0Puuh8QxDCgzYLUyo1UiL3tQ54SP5v7S2JQfNQ=;
+        b=ZxFTj87WJIeeSiAzCk9lL1Hh0Ad8c40npVhe7mOe7FPCZxFT1Xp+ZE9UxkX/14caT1
+         psw2c3AMhpCfV6Z89MDisEBqRSUSToVBX+OLMmJ+dnmIhBEgebB5X+mPODiKlEJdAsdN
+         ClMx03uxqY1ItMfCDhEf7LX7eV3TvEiGtDgoq52QkPwyAUxXw/h2GMBpw1YJG5G1XIOD
+         ltw8b65RZkOKtliPBWTWpkMKHfZXFSk1LY3jojUymk5wkTfzTCS7G0pQKfGgAA5G/UV1
+         LfQW9Z8pJtCeeEjTQg97a6hBRDfYLAZweY7UC0PSDwcpC1cpy2bbloa+jgeeon4POFyM
+         ssGw==
+X-Gm-Message-State: AOAM531a9Q56nuXiyFyekTEY8X/SJbEUeBLRif2hKrB9LdR7jTNI0E2H
+	bZ2i4vxW4nf11NtfaDwGASiXasnoli0L8A==
+X-Google-Smtp-Source: ABdhPJz9DTG3XqVIxiYoNxqqgfZv+DDVdX3kt6krYw0TEO2K8Qc/8wrsiQsDhFMxTVwsdG5HR7TFEQ==
+X-Received: by 2002:a5d:6846:: with SMTP id o6mr37030627wrw.370.1593782269666;
+        Fri, 03 Jul 2020 06:17:49 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id g14sm10231027wrw.83.2020.07.03.06.17.48
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 06:16:42 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Fri, 03 Jul 2020 06:17:49 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>,
-	mabnhdev@gmail.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/archive: do_configure should not depend on do_ar_patched
-Date: Fri,  3 Jul 2020 08:16:37 -0500
-Message-Id: <20200703131637.17377-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.27.0
+Subject: [PATCH] rootfs-postcommands: Improve/fix rootfs_check_host_user_contaminated
+Date: Fri,  3 Jul 2020 14:17:48 +0100
+Message-Id: <20200703131748.216892-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The commit d4be264061 ("classes/archiver: run do_unpack_and_patch after
-do_preconfigure") correctly moved do_unpack_and_patch to depend on
-do_preconfigure, but left do_ar_patched as a dependency of do_configure
-introduced from 8a7c779487 ("classes/archiver: Create patched archive
-before configuring"). Having do_configure depend on do_ar_patched is
-blatantly wrong. Firstly, doing so causes the taskhash of do_configure
-to change which is undesirable. Secondly, the anon python that sets up
-the tasks carefully skips GCC recipes that depend on gcc-source to
-provide their source code since running do_unpack_and_patch in them
-would delete the source code. Adding in the dependency effectively
-bypasses this and makes these recipes delete the shared gcc-source
+Currently if the find command finds /home it stops checking the other
+files. Tweak the find expression to fix this.
 
-This fixes errors (for real this time) like:
+Also, from Alex Kiernan <alex.kiernan@gmail.com>, generate output for
+each contaminated path so it's visible in the main log file.
 
- cat: .../gcc/defaults.h: No such file or directory
+When matches are found, dump the data from the group and passwd files
+so useful debugging can be done based on the results.
 
-when making certain configuration changes.
-
-For posterity, you could easily reproduce gcc-source being erased by
-running the commands (replacing aarch64 with your correct target arch):
-
- bitbake -c cleanall gcc-source gcc-cross-aarch64
- bitbake -c do_deploy_archives gcc-source
-
- # The following would fail because
- # gcc-cross-aarch64:do_unpack_and_patch erases shared source, so
- # do_configure after that fails.
- bitbake gcc-cross-aarch64
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/archiver.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/rootfs-postcommands.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 0744089f74..aff1f9dbb0 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -583,7 +583,7 @@ addtask do_deploy_archives_setscene
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 2f171836fa0..c43b9a98230 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -308,12 +308,16 @@ rootfs_check_host_user_contaminated () {
+ 	HOST_USER_UID="$(PSEUDO_UNLOAD=1 id -u)"
+ 	HOST_USER_GID="$(PSEUDO_UNLOAD=1 id -g)"
  
- addtask do_ar_original after do_unpack
- addtask do_unpack_and_patch after do_patch do_preconfigure
--addtask do_ar_patched after do_unpack_and_patch before do_configure
-+addtask do_ar_patched after do_unpack_and_patch
- addtask do_ar_configured after do_unpack_and_patch
- addtask do_ar_mirror after do_fetch
- addtask do_dumpdata
+-	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
+-	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
++	find "${IMAGE_ROOTFS}" -path "${IMAGE_ROOTFS}/home" -prune -o \
++	    -user "$HOST_USER_UID" -print -o -group "$HOST_USER_GID" -print >"$contaminated"
++
++	sed -e "s,${IMAGE_ROOTFS},," $contaminated | while read line; do
++		bbwarn "Path in the rootfs is owned by the same user or group as the user running bitbake:" $line `ls -lan ${IMAGE_ROOTFS}/$line`
++	done
+ 
+ 	if [ -s "$contaminated" ]; then
+-		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
+-		cat "$contaminated" | sed "s,^,  ,"
++		bbwarn "/etc/passwd:" `cat ${IMAGE_ROOTFS}/etc/passwd`
++		bbwarn "/etc/group:" `cat ${IMAGE_ROOTFS}/etc/group`
+ 	fi
+ }
+ 
 -- 
-2.27.0
+2.25.1
 
