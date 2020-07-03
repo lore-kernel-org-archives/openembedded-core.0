@@ -1,54 +1,302 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+Received: from smtp2.axis.com (smtp2.axis.com [])
  by mx.groups.io with SMTP id smtpd.web11.8468.1593776648023218877
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 04:44:14 -0700
+ Fri, 03 Jul 2020 04:44:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=eKfniPci;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=PWTx8MvD;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=872; q=dns/txt; s=axis-central1;
-  t=1593776648; x=1625312648;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2xaj6xkV+MJTZM+4vtYdjYDSE/1P9idX/xB2qcEbwWY=;
-  b=eKfniPciZywJynqtHeTznQBwiyjTR2YRgX7Hhb1x0nd6fo/ukv5udLw4
-   FhrqU0L4kbbVvGDi6iXRo0413JzTf1+L5bVi4D0jqZ4nYuyK4hr8d9Q4+
-   FzEjirNE8iFHxosOsKMf3FYg6eNlhnpQKhfHdYGuJ6zGqb6pJIWA+klfL
-   JqVvXluZGYVTVX4GY6uBJaTT9NBwK1eI3TCYlP65n0yinBIPDh2z/o865
-   DxpUnIFttplZ7L2jqNofiztaK7pYjOKEOkaqtxJx8y4gVfmunX0E8wn85
-   JvYFRDt1ZS2GGPp61bLqrda3vAMLvnrFesi6CMklg+y6x7+SL0ByyaZpb
-   w==;
-IronPort-SDR: jmrIy/H2KVka0lTZ/XgCXmG+Xud10/ocTRe39/lWp+qdaCyCy5xhDGEtEKGE5IcDmH1ERgW/SF
- bpLbNGYIG/8vtISABtwbTZIxiw/k3nvVVbjS6fWn0hUzjnFR8uQFuGVWenpFF92MVQA7b9/gQj
- yxokjhiGrAhHLt8EklVLOOcp1LwGaqHYXmuUAtsomAARlgNFFrXny+WfKs5xEgDd3ixn6g6lt3
- HBPnQrDY5UajI9p/wOuQOSt1dXxj6htcc1F/1uiag7jPg9lGdeJOQ2Mff75hxl7fe1Hty+wIar
- SiI=
+  d=axis.com; l=7916; q=dns/txt; s=axis-central1;
+  t=1593776655; x=1625312655;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=nkkTV3o8MH7MO/xJNUyKPBvcKIY1Dq2keolC1M8Hb00=;
+  b=PWTx8MvDoD400ZJPLEe3VTU11LpcK/jcHQA2v/YfkfugtBM7FxNFEODx
+   hC3fQrnuUKd6KeRMtg/hAgqWyHmVw1ZoMU9iDU+WcK7E+P/2+Qf+9d2xk
+   KJm3lM6wRddZd7o1BPJ/SYsdv9McAdQhRUxk6Ngg7hcqQFlCMrXaQxTNf
+   fe3kO9vXJ60tN2y41OmeG5IdKPPNL7BVpxw0lZnzhEf6WlqYKuGLQdKW1
+   97cYSalZpTp/MwNr1wpwtyaOZwXO5gB3BCjLTBRoBdVkw8vAsa+xsDq9h
+   QGv63mIFq3cGRYvMGEEWVMZsEd6gqzBak+b01gMH0VBDVghk8TGkYJTIf
+   A==;
+IronPort-SDR: /EjrE/TgYqjeYf8ifWurn9FK3A4F+KE56bOvuUs7QWvJM9EdaY9AuGQJAA6Rw3RIjhotAA+ya2
+ hAfHv16saKqWYlvKu+UqSBOWZ2xSJ6SKwOfHHGG+YfmfY0RreTd74DLRa00YXtEPkr+OzRFwF/
+ qUyMtPCfaBZcYMmpu6WI5Eobye1rXkjCCLJaynvR0qhBnmBMc6qeOzHd1H/iQaI3K3eTlxlVZ/
+ hNlYS5b2dMm+v0EqZ15dOeQV7JFwpLq1tzaC1XhOqy9hNq0Re6kNy3Uug5kTBIkR0p3O5Y+ACW
+ Wsc=
 X-IronPort-AV: E=Sophos;i="5.75,308,1589234400"; 
-   d="scan'208";a="10163718"
+   d="scan'208";a="10163726"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>
-Subject: [PATCH v4] Add package managers as a plugin
-Date: Fri, 3 Jul 2020 13:43:50 +0200
-Message-ID: <20200703114402.8850-1-fredrigu@axis.com>
+CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
+Subject: [PATCH v4 07/12] Move rpm sdk to its own dir
+Date: Fri, 3 Jul 2020 13:43:57 +0200
+Message-ID: <20200703114402.8850-8-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200703114402.8850-1-fredrigu@axis.com>
+References: <20200703114402.8850-1-fredrigu@axis.com>
 MIME-Version: 1.0
 Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-OE-core today has three different package managers, the well-known formats deb
-and rpm is supported as well as ipkg that is good for embedded devices.
+This is a part of a refactor that will split the package manager
+code so that it's possible to use other package managers in other
+layers.
 
-When building and having a good cache hit, a significant amount of time is
-spent in the phase of generating a rootfs, which is really about the
-performance of the package manager. To save build time and also get a
-package manager that is suitanle for use on targets where flash memory is a
-concern, support for apk is suggested.
+Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
+---
+ meta/lib/oe/package_managers/rpm/sdk.py | 117 ++++++++++++++++++++++++
+ meta/lib/oe/sdk.py                      | 106 +--------------------
+ 2 files changed, 118 insertions(+), 105 deletions(-)
+ create mode 100644 meta/lib/oe/package_managers/rpm/sdk.py
 
-However, it might or might not be what's wanted for OE-core since it increases
-the test matrix. Therefore I will refactor the package management code to
-allow a layer to add a new package manager without editing the meta layer.
+diff --git a/meta/lib/oe/package_managers/rpm/sdk.py b/meta/lib/oe/package_managers/rpm/sdk.py
+new file mode 100644
+index 0000000000..19043be9a6
+--- /dev/null
++++ b/meta/lib/oe/package_managers/rpm/sdk.py
+@@ -0,0 +1,117 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++from oe.utils import execute_pre_post_process
++from oe.sdk import Sdk
++from oe.manifest import Manifest
++from oe.package_manager import RpmPM
++import glob
++
++class RpmSdk(Sdk):
++    def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
++        super(RpmSdk, self).__init__(d, manifest_dir)
++
++        from oe.package_managers.rpm.manifest import RpmManifest
++        self.target_manifest = RpmManifest(d, self.manifest_dir,
++                                           Manifest.MANIFEST_TYPE_SDK_TARGET)
++        self.host_manifest = RpmManifest(d, self.manifest_dir,
++                                         Manifest.MANIFEST_TYPE_SDK_HOST)
++
++        rpm_repo_workdir = "oe-sdk-repo"
++        if "sdk_ext" in d.getVar("BB_RUNTASK"):
++            rpm_repo_workdir = "oe-sdk-ext-repo"
++
++        self.target_pm = RpmPM(d,
++                               self.sdk_target_sysroot,
++                               self.d.getVar('TARGET_VENDOR'),
++                               'target',
++                               rpm_repo_workdir=rpm_repo_workdir
++                               )
++
++        self.host_pm = RpmPM(d,
++                             self.sdk_host_sysroot,
++                             self.d.getVar('SDK_VENDOR'),
++                             'host',
++                             "SDK_PACKAGE_ARCHS",
++                             "SDK_OS",
++                             rpm_repo_workdir=rpm_repo_workdir
++                             )
++
++    def _populate_sysroot(self, pm, manifest):
++        pkgs_to_install = manifest.parse_initial_manifest()
++
++        pm.create_configs()
++        pm.write_index()
++        pm.update()
++
++        pkgs = []
++        pkgs_attempt = []
++        for pkg_type in pkgs_to_install:
++            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
++                pkgs_attempt += pkgs_to_install[pkg_type]
++            else:
++                pkgs += pkgs_to_install[pkg_type]
++
++        pm.install(pkgs)
++
++        pm.install(pkgs_attempt, True)
++
++    def _populate(self):
++        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
++
++        bb.note("Installing TARGET packages")
++        self._populate_sysroot(self.target_pm, self.target_manifest)
++
++        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
++
++        self.target_pm.run_intercepts(populate_sdk='target')
++
++        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
++
++        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
++            self.target_pm.remove_packaging_data()
++
++        bb.note("Installing NATIVESDK packages")
++        self._populate_sysroot(self.host_pm, self.host_manifest)
++        self.install_locales(self.host_pm)
++
++        self.host_pm.run_intercepts(populate_sdk='host')
++
++        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
++
++        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
++            self.host_pm.remove_packaging_data()
++
++        # Move host RPM library data
++        native_rpm_state_dir = os.path.join(self.sdk_output,
++                                            self.sdk_native_path,
++                                            self.d.getVar('localstatedir_nativesdk').strip('/'),
++                                            "lib",
++                                            "rpm"
++                                            )
++        self.mkdirhier(native_rpm_state_dir)
++        for f in glob.glob(os.path.join(self.sdk_output,
++                                        "var",
++                                        "lib",
++                                        "rpm",
++                                        "*")):
++            self.movefile(f, native_rpm_state_dir)
++
++        self.remove(os.path.join(self.sdk_output, "var"), True)
++
++        # Move host sysconfig data
++        native_sysconf_dir = os.path.join(self.sdk_output,
++                                          self.sdk_native_path,
++                                          self.d.getVar('sysconfdir',
++                                                        True).strip('/'),
++                                          )
++        self.mkdirhier(native_sysconf_dir)
++        for f in glob.glob(os.path.join(self.sdk_output, "etc", "rpm*")):
++            self.movefile(f, native_sysconf_dir)
++        for f in glob.glob(os.path.join(self.sdk_output, "etc", "dnf", "*")):
++            self.movefile(f, native_sysconf_dir)
++        self.remove(os.path.join(self.sdk_output, "etc"), True)
++
++
++
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index d02a274812..29053e69ee 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -110,111 +110,6 @@ class Sdk(object, metaclass=ABCMeta):
+             pass
+ 
+ 
+-class RpmSdk(Sdk):
+-    def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
+-        super(RpmSdk, self).__init__(d, manifest_dir)
+-
+-        self.target_manifest = RpmManifest(d, self.manifest_dir,
+-                                           Manifest.MANIFEST_TYPE_SDK_TARGET)
+-        self.host_manifest = RpmManifest(d, self.manifest_dir,
+-                                         Manifest.MANIFEST_TYPE_SDK_HOST)
+-
+-        rpm_repo_workdir = "oe-sdk-repo"
+-        if "sdk_ext" in d.getVar("BB_RUNTASK"):
+-            rpm_repo_workdir = "oe-sdk-ext-repo"
+-
+-        self.target_pm = RpmPM(d,
+-                               self.sdk_target_sysroot,
+-                               self.d.getVar('TARGET_VENDOR'),
+-                               'target',
+-                               rpm_repo_workdir=rpm_repo_workdir
+-                               )
+-
+-        self.host_pm = RpmPM(d,
+-                             self.sdk_host_sysroot,
+-                             self.d.getVar('SDK_VENDOR'),
+-                             'host',
+-                             "SDK_PACKAGE_ARCHS",
+-                             "SDK_OS",
+-                             rpm_repo_workdir=rpm_repo_workdir
+-                             )
+-
+-    def _populate_sysroot(self, pm, manifest):
+-        pkgs_to_install = manifest.parse_initial_manifest()
+-
+-        pm.create_configs()
+-        pm.write_index()
+-        pm.update()
+-
+-        pkgs = []
+-        pkgs_attempt = []
+-        for pkg_type in pkgs_to_install:
+-            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+-                pkgs_attempt += pkgs_to_install[pkg_type]
+-            else:
+-                pkgs += pkgs_to_install[pkg_type]
+-
+-        pm.install(pkgs)
+-
+-        pm.install(pkgs_attempt, True)
+-
+-    def _populate(self):
+-        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
+-
+-        bb.note("Installing TARGET packages")
+-        self._populate_sysroot(self.target_pm, self.target_manifest)
+-
+-        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+-
+-        self.target_pm.run_intercepts(populate_sdk='target')
+-
+-        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+-
+-        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
+-            self.target_pm.remove_packaging_data()
+-
+-        bb.note("Installing NATIVESDK packages")
+-        self._populate_sysroot(self.host_pm, self.host_manifest)
+-        self.install_locales(self.host_pm)
+-
+-        self.host_pm.run_intercepts(populate_sdk='host')
+-
+-        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+-
+-        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
+-            self.host_pm.remove_packaging_data()
+-
+-        # Move host RPM library data
+-        native_rpm_state_dir = os.path.join(self.sdk_output,
+-                                            self.sdk_native_path,
+-                                            self.d.getVar('localstatedir_nativesdk').strip('/'),
+-                                            "lib",
+-                                            "rpm"
+-                                            )
+-        self.mkdirhier(native_rpm_state_dir)
+-        for f in glob.glob(os.path.join(self.sdk_output,
+-                                        "var",
+-                                        "lib",
+-                                        "rpm",
+-                                        "*")):
+-            self.movefile(f, native_rpm_state_dir)
+-
+-        self.remove(os.path.join(self.sdk_output, "var"), True)
+-
+-        # Move host sysconfig data
+-        native_sysconf_dir = os.path.join(self.sdk_output,
+-                                          self.sdk_native_path,
+-                                          self.d.getVar('sysconfdir',
+-                                                        True).strip('/'),
+-                                          )
+-        self.mkdirhier(native_sysconf_dir)
+-        for f in glob.glob(os.path.join(self.sdk_output, "etc", "rpm*")):
+-            self.movefile(f, native_sysconf_dir)
+-        for f in glob.glob(os.path.join(self.sdk_output, "etc", "dnf", "*")):
+-            self.movefile(f, native_sysconf_dir)
+-        self.remove(os.path.join(self.sdk_output, "etc"), True)
+-
+-
+ class OpkgSdk(Sdk):
+     def __init__(self, d, manifest_dir=None):
+         super(OpkgSdk, self).__init__(d, manifest_dir)
+@@ -409,6 +304,7 @@ def populate_sdk(d, manifest_dir=None):
+     env_bkp = os.environ.copy()
+ 
+     img_type = d.getVar('IMAGE_PKGTYPE')
++    from oe.package_managers.rpm.sdk import RpmSdk
+     if img_type == "rpm":
+         RpmSdk(d, manifest_dir).populate()
+     elif img_type == "ipk":
+-- 
+2.20.1
 
-This refactor will be divided into multiple patch series to be easier to review,
-this series will only move code but keep existing functionality.
