@@ -1,74 +1,90 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web12.5543.1593721745340894897
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.1967.1593740721396596187
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 13:29:05 -0700
+ Thu, 02 Jul 2020 18:45:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=od34Qy00;
- spf=pass (domain: konsulko.com, ip: 209.85.210.42, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f42.google.com with SMTP id c25so7499327otf.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2020 13:29:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VifspVUnXk/gDaseYi62gEGpIFwyhJ0pwL8D90E0xfY=;
-        b=od34Qy00Mj1SxLd4jjXD0/Lqe0Rg86F6DoVuyuIYfwBpuy8UboQKn+8GcL08wPng1/
-         s54vrGmUKYBm5Du3A2u78Z7PhWYp2WV/mNNhjwUGLE5mX7QiyL2ZRCNMm9j7Nmx0q2pX
-         cy88aJw3yDia44VLZkXi4stKO4/XYYEgCQ2EQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VifspVUnXk/gDaseYi62gEGpIFwyhJ0pwL8D90E0xfY=;
-        b=TUxEYPrjLNm64oGZGRfg3u1N1y8D6oloWNnU111XpY43uvb2j5C5gX5sh3jUzeO34q
-         JL6Pvrpor7iZpW8V6wcxxz8MZ4h48JxbXv3fJ0uDUKQjGWy7SA0SpzdfcsrelNHQM2jr
-         E4NBMT3be+RffQwkYtsjwGb3ldVgY2vOEDsa+ed8gYdjhO7QC4984f/mm/8EcVbOtuX7
-         WTpt+/JNlySK0k5urDBiHUI1ZhMKfmRNsEwbjLGiiv7LN6SIDoiQN4MvL4EwFUjBm4RO
-         eIuDmcU0tS4JZFUznFC9qdSclZ/Jf+PccTbgTKRkgmGBc76yYO7aPgtn4DFh4298DCyM
-         UksA==
-X-Gm-Message-State: AOAM531rweD5as3WoWqFK6hhgBcAIXn9ZUAxaaLxeMKH4sl6gPUlG4hG
-	hPh+BXWOEvc8Ai0vuZX4wihgzmPjJd9sH9eyQmSqxMub
-X-Google-Smtp-Source: ABdhPJyoEj8Fa+lPn7TSdWHmjrKqvMbyLTGwpmqtiv9gNGZUet9jflO0UxhzeYoZqZStCyhPo8uK/qXZ8Nk8lrUi8bU=
-X-Received: by 2002:a9d:674a:: with SMTP id w10mr25163618otm.305.1593721744665;
- Thu, 02 Jul 2020 13:29:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200702192906.6301-1-fredrigu@axis.com>
-In-Reply-To: <20200702192906.6301-1-fredrigu@axis.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Thu, 2 Jul 2020 21:28:53 +0100
-Message-ID: <CAM9ZRVtfoy12++04DPYrOk_89n8FsmwRuGWkWFa2O6q4a9Zjnw@mail.gmail.com>
-Subject: Re: [OE-core] Add package managers as a plugin
-To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
+Received: from ALSAMON-X.corp.microsoft.com (unknown [131.107.159.250])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4AD5620B717A
+	for <openembedded-core@lists.openembedded.org>; Thu,  2 Jul 2020 18:45:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4AD5620B717A
+From: "Alejandro Hernandez" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] baremetal-helloworld: Use do_image_complete instead of do_deploy
+Date: Thu,  2 Jul 2020 18:45:16 -0700
+Message-Id: <20200703014516.29370-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, 2 Jul 2020 at 20:29, Fredrik Gustafsson
-<fredrik.gustafsson@axis.com> wrote:
->
-> OE-core today has three different package managers, the well-known formats deb
-> and rpm is supported as well as ipkg that is good for embedded devices.
->
-> When building and having a good cache hit, a significant amount of time is
-> spent in the phase of generating a rootfs, which is really about the
-> performance of the package manager. To save build time and also get a
-> package manager that is suitanle for use on targets where flash memory is a
-> concern, support for apk is suggested.
->
-> However, it might or might not be what's wanted for OE-core since it increases
-> the test matrix. Therefore I will refactor the package management code to
-> allow a layer to add a new package manager without editing the meta layer.
->
-> This refactor will be divided into multiple patch series to be easier to review,
-> this is the second patch series.
+To better align with upstream and mimic how images
+are built, use do_image and do_image_complete instead
+of do_deploy to populate artifacts on DEPLOY_DIR_IMAGE.
 
-Sorry to be a pain but I think this series suffers from the opposite
-problem to the previous version - it's only a partial move of some of
-the code. I'd much rather review a series which does the complete
-refactor of the existing code into separate modules without making any
-functional changes. I'll let others give their opinions as well, I'm
-happy to review this one if we do want to look at this piecemeal.
+Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+---
+ .../baremetal-helloworld_git.bb               | 31 ++++++++++++++-----
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+index e84a90f28c..a5789e27d3 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+@@ -36,21 +36,19 @@ do_install(){
+ 
+ # Borrowed from meta-freertos
+ inherit rootfs-postcommands
+-inherit deploy
+ IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
+-do_deploy[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
+ do_rootfs[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
+ DEPLOYDIR = "${IMGDEPLOYDIR}"
+ IMAGE_LINK_NAME ?= "baremetal-helloworld-image-${MACHINE}"
+ IMAGE_NAME_SUFFIX ?= ""
+ 
+-do_deploy(){
+-    install ${D}/${datadir}/hello_baremetal_${MACHINE}.bin ${DEPLOYDIR}/${IMAGE_LINK_NAME}.bin
+-    install ${D}/${datadir}/hello_baremetal_${MACHINE}.elf ${DEPLOYDIR}/${IMAGE_LINK_NAME}.elf
++do_image_complete(){
++    :
+ }
+ 
+ do_image(){
+-    :
++    install ${D}/${datadir}/hello_baremetal_${MACHINE}.bin ${DEPLOYDIR}/${IMAGE_LINK_NAME}.bin
++    install ${D}/${datadir}/hello_baremetal_${MACHINE}.elf ${DEPLOYDIR}/${IMAGE_LINK_NAME}.elf
+ }
+ 
+ FILES_${PN} += " \
+@@ -83,11 +81,28 @@ QB_OPT_APPEND = "-nographic"
+ QB_DEFAULT_FSTYPE = "bin"
+ QB_DTB = ""
+ 
++
++# Assure binaries, manifest and qemubootconf are populated on DEPLOY_DIR_IMAGE
++do_image_complete[dirs] = "${TOPDIR}"
++do_image_complete[umask] = "022"
++SSTATETASKS += "do_image_complete"
++SSTATE_SKIP_CREATION_task-image-complete = '1'
++do_image_complete[sstate-inputdirs] = "${IMGDEPLOYDIR}"
++do_image_complete[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
++do_image_complete[stamp-extra-info] = "${MACHINE_ARCH}"
++addtask do_image_complete after do_image before do_build
++
++python do_image_complete_setscene () {
++    sstate_setscene(d)
++}
++addtask do_image_complete_setscene
++
+ # This next part is necessary to trick the build system into thinking
+ # its building an image recipe so it generates the qemuboot.conf
+-addtask do_deploy after do_write_qemuboot_conf before do_build
+-addtask do_rootfs before do_deploy after do_install
++# addtask do_deploy after do_write_qemuboot_conf before do_build
++addtask do_rootfs before do_image after do_install
+ addtask do_image after do_rootfs before do_build
++addtask do_image_complete after do_image before do_build
+ inherit qemuboot
+ 
+ # Based on image.bbclass to make sure we build qemu
 -- 
-Paul Barker
-Konsulko Group
+2.17.1
+
