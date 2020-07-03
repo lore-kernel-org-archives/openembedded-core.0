@@ -1,74 +1,118 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.7686.1593772941769128412
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.7775.1593773319384872334
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 03:42:22 -0700
+ Fri, 03 Jul 2020 03:48:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QzP7Qw+6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id 22so31591481wmg.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 03:42:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fh9rX1QS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id b6so32136665wrs.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 03:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=jGbv+WAmO7J8oQiRj9vw+Fu6U8YObb6DvJmKLMRc9IY=;
-        b=QzP7Qw+6JoJkva/c0/PSF9QjKXeDICXYSh34iRVXEFHHpi64w2+DUHl1DJCiKM+6CJ
-         c2/gvLxrCg+jnLTS+zDY0oAR6wpsqR26i73HMXqIWPBB2y3sUlydU4RKVHntn7KDK8bh
-         zpvuKDypB15zn7kzssS4gQeDPonJTxNaXnLEo=
+        bh=rpez8Mi3o5k39xktJ50Qc0pnXakGe8SWASpKZuVjChs=;
+        b=Fh9rX1QSOxAFXCer/AxGAqo1x2LYc6f0omhiVz9dLwgbpZ0lCVmj6N71XRcvLbflAA
+         0Bk2qoXC3DJLdLgntyN1WIh4yRtE9JCV43rn6Go2Krm4gzs1muMtqVsqCijwpTIn/h/A
+         3kWhFt/eDWNYgEtIHAnbrWstl/zrrV+h3J7w0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jGbv+WAmO7J8oQiRj9vw+Fu6U8YObb6DvJmKLMRc9IY=;
-        b=Pf4yL8mkifrqnccp0w4/sd+r4fFnycPXvk6ermXT8aXQUEAp5v6uEsMNc+L1/QXEB/
-         HOfKKykA+hQdWBid+12/N+d7Rp0IGQPWkoWQTu31b8tNJoJFbu+DGijaTTAgI8824f02
-         ZtjQd2b9cB3x2UyWdiUhEJEyp9/S++CzlUC2jVhFkYnlvLwBS5FyWfsuUe4WonqWbSnh
-         nR5H2RErKrh4uQuQQxJPgdcm6pmMoSHKOrFCE5ftgRWnRamyPdRmp4cE4nbzZiXlrCRP
-         kRZNFbNwgFXyWkvm3jfYPOIWnoby55mO0J6XFNEp5pWqX+MHJEcKXQYttRbFcuPBI1O1
-         uL7g==
-X-Gm-Message-State: AOAM533edfDkKW44Pya6t9Clgs1nbPS7k2El0+AiuoWsvR/aXIH8d72E
-	/wGkvwSNo8GsEyJoy/vQcw9O8w==
-X-Google-Smtp-Source: ABdhPJwUrwmDytl2hnRs5M4NLsC0HJxX2B/pD9ebrIgxYbz+La2QnVlhGXi2m8BeykYu2ELDG2fhyg==
-X-Received: by 2002:a1c:3546:: with SMTP id c67mr36410285wma.102.1593772940262;
-        Fri, 03 Jul 2020 03:42:20 -0700 (PDT)
+        bh=rpez8Mi3o5k39xktJ50Qc0pnXakGe8SWASpKZuVjChs=;
+        b=o3AbshP+oBVyRq0metGBgcHgVPKMzn/gT+NjEAIYRHIzoOQlaQbi91EOSP7fPCtDQf
+         01yOdKF9nzlBDhc8TGs6/BZOS2hYBjhH3NNAvSQmpXfivreQIeM4LlTwzoxgDQcMi5z1
+         f8rIb479j6j4z8z8t2aFJ3xfiETGSm326oMCbBU89zUZTaCe3YI5vR+kQhYF6y/xPy1V
+         D/jrpWCQKREOXhLAmxQ5ZVk9DBpY6ZcZMWZCRVkyDbgqjCU4CQzwnUFtkEouu4EJbQM4
+         7O9dn0xNuoJAfaX9i0res+Qtoli07o8MQZ1TrL/Ncj8UxsRfW8yiD+PTdhQw6Nzsuv85
+         X+7A==
+X-Gm-Message-State: AOAM530YzfEMIz7pmN7YgDhjin6dbax2+kgBLMV1PqcRfv2mlSzEMYBZ
+	9TvUD0mygb6MTJIAz7fSuaHPBA==
+X-Google-Smtp-Source: ABdhPJxDgpRQayxjk6ugonGts6u0TnQ1jo7MMnjpmv9ranZTrXLkl+cLO26gXmz5q1Rv8wNlKCYIpA==
+X-Received: by 2002:adf:fd8e:: with SMTP id d14mr36140798wrr.202.1593773317823;
+        Fri, 03 Jul 2020 03:48:37 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id w7sm13528057wmc.32.2020.07.03.03.42.19
+        by smtp.gmail.com with ESMTPSA id v6sm1251441wrr.85.2020.07.03.03.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2020 03:42:19 -0700 (PDT)
-Message-ID: <ae711e47aeeba494162c6fe7538d589c312c7ad0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: add lz4 dependency and fix the call to lz4
+        Fri, 03 Jul 2020 03:48:37 -0700 (PDT)
+Message-ID: <5c9d33386f921a0b7fe06bfc480b6d52bfa26708.camel@linuxfoundation.org>
+Subject: Re: [PATCH][dunfell] coreutils: don't split stdbuf to own package with single-binary
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "T. Ulrich" <timon.ulrich@kabelmail.de>, 
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
 	openembedded-core@lists.openembedded.org
-Cc: Timon Ulrich <t.ulrich@anapur.de>
-Date: Fri, 03 Jul 2020 11:42:18 +0100
-In-Reply-To: <20200703062210.9471-1-timon.ulrich@kabelmail.de>
-References: <20200703062210.9471-1-timon.ulrich@kabelmail.de>
+Cc: Adrian Bunk <bunk@stusta.de>
+Date: Fri, 03 Jul 2020 11:48:36 +0100
+In-Reply-To: <ee34bd95-2dcf-cbea-2b3f-e5c11f95e5e2@prevas.dk>
+References: <20200703073631.16530-1-rasmus.villemoes@prevas.dk>
+	 <64b8f2c4fbc20ea866a83844d117816de59082dc.camel@linuxfoundation.org>
+	 <ee34bd95-2dcf-cbea-2b3f-e5c11f95e5e2@prevas.dk>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-07-03 at 08:22 +0200, T. Ulrich wrote:
-> From: Timon Ulrich <t.ulrich@anapur.de>
+On Fri, 2020-07-03 at 11:29 +0200, Rasmus Villemoes wrote:
+> On 03/07/2020 11.19, Richard Purdie wrote:
+> > On Fri, 2020-07-03 at 09:36 +0200, Rasmus Villemoes wrote:
+> > > Commit 992cec44 (coreutils: Move stdbuf into an own package
+> > > coreutils-stdbuf) breaks package-qa when the single-binary
+> > > PACKAGECONFIG is used:
+> > > 
+> > > ERROR: coreutils-8.31-r0 do_package_qa: QA Issue: /usr/bin/stdbuf
+> > > contained in package coreutils-stdbuf requires /usr/bin/coreutils,
+> > > but no providers found in RDEPENDS_coreutils-stdbuf? [file-rdeps]
+> > > ERROR: coreutils-8.31-r0 do_package_qa: QA run found fatal errors.
+> > > Please consider fixing them.
+> > 
+> > Does this problem exist for other packages in coreutils?
 > 
-> If the initramfs image is type lz4, then a native lz4 is needed.
+> What other packages? stdbuf is the only one being split to its own package:
 > 
-> Additionally an output filename needs to be specified when calling
-> lz4, otherwise STDOUT will be used implicitly.
+> coreutils/8.31-r0$ ls -l packages-split/
+> total 32
+> drwxr-xr-x 4 ravi abcdef 4096 Jul  3 09:49 coreutils
+> drwxr-xr-x 3 ravi abcdef 4096 Jul  3 09:50 coreutils-dbg
+> drwxr-xr-x 2 ravi abcdef 4096 Jul  3 09:49 coreutils-dev
+> drwxr-xr-x 3 ravi abcdef 4096 Jul  3 09:49 coreutils-doc
+> drwxr-xr-x 2 ravi abcdef 4096 Jul  3 09:49 coreutils-locale
+> -rw-r--r-- 1 ravi abcdef   48 Jul  3 09:49 coreutils.shlibdeps
+> drwxr-xr-x 3 ravi abcdef 4096 Jul  3 09:50 coreutils-src
+> drwxr-xr-x 2 ravi abcdef 4096 Jul  3 09:49 coreutils-staticdev
 > 
-> Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
-> ---
->  meta/classes/kernel.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> > I'd suspect it
+> > does in which case why is stdbuf special?
+> 
+> Because it's the only util that gets special packaging treatment. Unless
+> there's some magic 'please auto-split all utils to their own packages'
+> that I don't know about and which we don't happen to set.
 
-I really don't like building tools just because we might need them. Is
-there a way we can tell which compression format is being used for the
-initramfs and make the dependencies conditional?
+Sorry, I think I was confusing this with util-linux for some reason!
+Just having one package here definitely helps.
+
+> > Whilst I realise there is a problem here is the correct fix not:
+> > 
+> > RDEPENDS_coreutils-stdbuf_class-target += "${@bb.utils.contains('PACKAGECONFIG', 'single-binary', '', 'coreutils', d)}"
+> > 
+> > ?
+> 
+> [Well, the coreutils should be in the true branch of that.] I dunno, it
+> creates a cyclic rdepends between coreutils and coreutils-stdbuf. Is
+> that ok? Seems a bit ugly to me, even if it would work.
+
+I hadn't realised there was already the reverse dependency. I think we
+need to let the package exist in both cases so the two dependencies
+need to reverse direction depending on whether single-binary is set.
+
+So something like:
+
+RDEPENDS_coreutils_class-target += "${@bb.utils.contains('PACKAGECONFIG', 'single-binary', '', 'coreutils-stdbuf', d)}"
+RDEPENDS_coreutils-stdbuf_class-target += "${@bb.utils.contains('PACKAGECONFIG', 'single-binary', 'coreutils', '', d)}"
+
+?
 
 Cheers,
 
 Richard
-
 
