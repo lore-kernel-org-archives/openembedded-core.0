@@ -1,81 +1,71 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web12.7033.1593769454537241580
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+ by mx.groups.io with SMTP id smtpd.web10.7343.1593770816325469749
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2020 02:44:14 -0700
+ Fri, 03 Jul 2020 03:06:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PpT0WXis;
- spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id e15so16808416vsc.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2020 02:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nJ2eLTMTP/SAr74SsVTcsdEaeRxGOi39gfqJgjIt/t0=;
-        b=PpT0WXisHlOa41tTaLfFLLUEl2W0/RvAXGR2vEIiPEPREkerTt2tgniv7gqay3uAJ9
-         ZWYr1ZmnT20hyrgHAU2TQvQH040AFmolt1YFg/664AqB797GXQy8oVQ4HN1jESX61Dyy
-         Nk6t+UOjLEFuANRuuzl/SAhtpS8t1QA+Hwlq3rmLFwOGomlgdnN3r/l8B91bnpVQC33R
-         0PdoUvO2kaAw73CQnZd5R02gHwRv3WcUDuReWHQd94CPZd2OFc0xh4/dhBijQQkYYzRp
-         7Hzzt43p7ZbxNYvJhYKzLaWp4q9mci3KEXOSQuNWONB8uuvH/kuRWswKPGxqfbWxGMVc
-         X7Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nJ2eLTMTP/SAr74SsVTcsdEaeRxGOi39gfqJgjIt/t0=;
-        b=Lw/K6WJNTt0qi7cPhXsVutq3uQ1l6DpkMp0eqlRWUBzbVmz3t9pNiyywCIFbw+SCYQ
-         XrKZHMbis8CA5EOemUB1b332hR87PNE9s1o+ho22dqIMWD9YR0iJFcvVvGH+pyCVoqAX
-         oDyFAhUT051Cm00ovNhFWWwZVbfzzeFOjkN7rg9BeDZ/TKExLS1EfirZc4DaEetOXpZm
-         n26Qq9UCOCk/7SvdBJSPWrAMAWn6iaaGaBFTXdHfm2O7q+S1m+XSWBFEuw6mFpd2Sljy
-         NkTMcCsFEEtQ9bjr2UG+2Bnu4v2N6PRhWEzSZzQcgRH9glV9ee58TtgxRKOBC1/Lolr9
-         k/qw==
-X-Gm-Message-State: AOAM531IVdQG9nUkkSzGo3NadweeViz8frD4y+HWDIWf0Q+vPkDuuvqM
-	deDH0Mdwmq+YBwaDGLO5nCAXaP7NvB2dviIjpJ4=
-X-Google-Smtp-Source: ABdhPJwvi2K06RRbfadPqsnjraz3A1ODpz0mfpHU2WEIJMTWCdqcpq2NciM+Q3ER01abdNHFYbu1xUS2a5A7XW8Qx4c=
-X-Received: by 2002:a67:330e:: with SMTP id z14mr18583288vsz.94.1593769453685;
- Fri, 03 Jul 2020 02:44:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703084216.17911-1-andrej.valek@siemens.com> <20200703084216.17911-2-andrej.valek@siemens.com>
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.14, mailfrom: andrej.valek@siemens.com)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 063A6q2m012397
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Fri, 3 Jul 2020 12:06:53 +0200
+Received: from dev.vm6.ccp.siemens.com ([144.145.220.57])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 063A6qe3030676;
+	Fri, 3 Jul 2020 12:06:52 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id B9BAB98021E;
+	Fri,  3 Jul 2020 12:06:51 +0200 (CEST)
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v2] dropbear: update to 2020.80
+Date: Fri,  3 Jul 2020 12:06:01 +0200
+Message-Id: <20200703100601.22887-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20200703084216.17911-2-andrej.valek@siemens.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 3 Jul 2020 11:44:02 +0200
-Message-ID: <CANNYZj_vzJ0OBmZYH7A_emhodo-K9cAS=FhmQ1rrq17AUgbQ1g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] dropbear: update to 2020.80
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002414a905a9865edf"
+References: <20200703084216.17911-2-andrej.valek@siemens.com>
 
---0000000000002414a905a9865edf
-Content-Type: text/plain; charset="UTF-8"
+License-Update: changed date and added info about existence LICENSE files
+ in libtomcrypt and libtommath folders
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/recipes-core/dropbear/dropbear.inc        | 2 +-
+ meta/recipes-core/dropbear/dropbear_2020.79.bb | 3 ---
+ meta/recipes-core/dropbear/dropbear_2020.80.bb | 3 +++
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2020.79.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2020.80.bb
 
-On Fri, 3 Jul 2020 at 10:43, Andrej Valek <andrej.valek@siemens.com> wrote:
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 240e328ed2..080ee26b2e 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -5,7 +5,7 @@ SECTION = "console/network"
+ # some files are from other projects and have others license terms:
+ #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+ LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=da58928b5d844c6667963cb5a109272d"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=25cf44512b7bc8966a48b6b1a9b7605f"
+ 
+ DEPENDS = "zlib virtual/crypt"
+ RPROVIDES_${PN} = "ssh sshd"
+diff --git a/meta/recipes-core/dropbear/dropbear_2020.79.bb b/meta/recipes-core/dropbear/dropbear_2020.79.bb
+deleted file mode 100644
+index 43a17bf1e5..0000000000
+--- a/meta/recipes-core/dropbear/dropbear_2020.79.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[sha256sum] = "084f00546b1610a3422a0773e2c04cbe1a220d984209e033b548b49f379cc441"
+diff --git a/meta/recipes-core/dropbear/dropbear_2020.80.bb b/meta/recipes-core/dropbear/dropbear_2020.80.bb
+new file mode 100644
+index 0000000000..088c71cb99
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2020.80.bb
+@@ -0,0 +1,3 @@
++require dropbear.inc
++
++SRC_URI[sha256sum] = "d927941b91f2da150b2033f1a88b6a47999bf0afb1493a73e9216cffdb5d7949"
+-- 
+2.11.0
 
-> -SRC_URI[sha256sum] =
-> "084f00546b1610a3422a0773e2c04cbe1a220d984209e033b548b49f379cc441"
-> +SRC_URI[md5sum] = "63527580ca47706b70046f87bb9d14fe"
-> +SRC_URI[sha256sum] =
-> "d927941b91f2da150b2033f1a88b6a47999bf0afb1493a73e9216cffdb5d7949"
->
-
-No need to reintroduce md5sum. How was it added? Both devtool upgrade and
-bitbake no longer suggest it.
-
-Alex
-
---0000000000002414a905a9865edf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 3 Jul 2020 at 10:43, Andrej Valek=
- &lt;<a href=3D"mailto:andrej.valek@siemens.com">andrej.valek@siemens.com</=
-a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">-SRC_URI[sha256sum] =3D &quot;084f00546b1610a3422a=
-0773e2c04cbe1a220d984209e033b548b49f379cc441&quot;<br>+SRC_URI[md5sum] =3D =
-&quot;63527580ca47706b70046f87bb9d14fe&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;d927941b91f2da150b2033f1a88b6a47999bf0afb1493=
-a73e9216cffdb5d7949&quot;<br></blockquote><div><br></div><div>No need to re=
-introduce md5sum. How was it added? Both devtool upgrade and bitbake no lon=
-ger suggest it.<br></div><div><br></div><div>Alex<br></div></div></div>
-
---0000000000002414a905a9865edf--
