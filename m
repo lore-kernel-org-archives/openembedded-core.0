@@ -1,63 +1,72 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.4712.1593755440155433982
+Received: from smtp-out01.xworks.net (smtp-out01.xworks.net [31.25.48.218])
+ by mx.groups.io with SMTP id smtpd.web11.5050.1593757342415438395
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2020 22:50:40 -0700
+ Thu, 02 Jul 2020 23:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0635oc3i007583
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 2 Jul 2020 22:50:39 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 2 Jul 2020 22:50:37 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <trevor.gamblin@windriver.com>
-Subject: [PATCH] logrotate.py: fix testimage occasionally failure
-Date: Fri, 3 Jul 2020 13:47:59 +0800
-Message-ID: <20200703054759.1165899-1-changqing.li@windriver.com>
+ dkim=pass header.i=@kabelmail.de header.s=mail header.b=nAMOWvXP;
+ spf=pass (domain: kabelmail.de, ip: 31.25.48.218, mailfrom: timon.ulrich@kabelmail.de)
+Received: from mailbackend3 (cluster06.xworks.net [10.100.1.80])
+	by smtp-out01.xworks.net (Postfix) with ESMTP id C44AC61227;
+	Fri,  3 Jul 2020 08:22:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kabelmail.de;
+	s=mail; t=1593757338;
+	bh=o/hvk5l5VFzCmHnrWmVZBoM5pKCZ6Nq1BHCC5ibrl10=;
+	h=From:To:Subject:Date;
+	b=nAMOWvXPnL08FVTG7rYhNhV3o349pYIhve13aPbC141y6FcVYs5z/N4K2Bbex3/cf
+	 vQfmOXIHjd/ie7L/rfZwzDE9TBalxZEH+rOy7s0L4Cesf1+Z4w8amaE+12JNuAQ3Br
+	 Q+iLvVQfeplNIhUXCxbO1jk3oJUk4vxRwiFP25QQ=
+Received: from AN1049-Latitude-5590.anapur.local (pd95bd745.dip0.t-ipconnect.de [217.91.215.69])
+	(authenticated bits=0)
+	by smtp.kabelmail.de  with ESMTP id 0636MBMX007771
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Fri, 3 Jul 2020 08:22:17 +0200
+X-mediaBEAM-Originating-IP: [217.91.215.69]
+X-mediaBEAM-AUTHID: [timon.ulrich@kabelmail.de]
+From: "T. Ulrich" <timon.ulrich@kabelmail.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Timon Ulrich <t.ulrich@anapur.de>
+Subject: [PATCH] kernel.bbclass: add lz4 dependency and fix the call to lz4
+Date: Fri,  3 Jul 2020 08:22:10 +0200
+Message-Id: <20200703062210.9471-1-timon.ulrich@kabelmail.de>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain
+X-mediaBEAM-AuthCheck: route13
+X-mediaBEAM-AuthScore: 0.0/5.0, scanned in 1.202sec
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Timon Ulrich <t.ulrich@anapur.de>
 
-testcase test_systemd_failed occasionally failed with below error:
-Failed to start Rotate log files.
-logrotate.service: Failed with result 'exit-code'.
-logrotate.service: Main process exited, code=exited, status=1/FAILURE
-error: stat of /var/log/logrotate_test failed: No such file or directory
-error: logrotate_test:1 lines must begin with a keyword or a filename (possibly in double quotes)
+If the initramfs image is type lz4, then a native lz4 is needed.
 
-above failure caused since testcase test_logrotate_wtmp
-add /etc/logrotate.d/logrotate_test, which need /var/log/logrotate_test,
-but there is no such file. so when logrotate.service is triggerd
-by logrotate.timer after testcase test_logrotate_wtmp is runned,
-the testcase test_systemd_failed will fail.
+Additionally an output filename needs to be specified when calling lz4,
+otherwise STDOUT will be used implicitly.
 
-these 3 lines are useless, so remove them to fix above problem.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
 ---
- meta/lib/oeqa/runtime/cases/logrotate.py | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/classes/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
-index 3938e91993..a4efcd07c0 100644
---- a/meta/lib/oeqa/runtime/cases/logrotate.py
-+++ b/meta/lib/oeqa/runtime/cases/logrotate.py
-@@ -37,10 +37,6 @@ class LogrotateTest(OERuntimeTestCase):
-         msg = ('Could not write to /tmp/logrotate-test.conf')
-         self.assertEqual(status, 0, msg = msg)
-         
--        status, output = self.target.run('echo "/var/log/logrotate_test {\\n missingok \\n monthly \\n rotate 1" > /etc/logrotate.d/logrotate_test')
--        msg = ('Could not write to /etc/logrotate.d/logrotate_test')
--        self.assertEqual(status, 0, msg = msg)
--        
-         # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
-         _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
-         status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep wtmp.1')
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6d07b29e2d..add0b13bcb 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -4,7 +4,7 @@ KERNEL_PACKAGE_NAME ??= "kernel"
+ KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+ 
+ PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+-DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
++DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native lz4-native bison-native"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+ do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+@@ -210,7 +210,7 @@ copy_initramfs() {
+ 				;;
+ 			*lz4)
+ 				echo "lz4 decompressing image"
+-				lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
++				lz4 -df ${B}/usr/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 				break
+ 				;;
+ 			*lzo)
 -- 
 2.17.1
+
 
