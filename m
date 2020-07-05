@@ -1,63 +1,71 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.37464.1593958193746618975
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.37492.1593958307009311554
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2020 07:09:54 -0700
+ Sun, 05 Jul 2020 07:11:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CBvbMn1f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id 17so38838485wmo.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 07:09:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b+GmA94S;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id o11so37962543wrv.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 07:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=I0qM130BzYI91cNVLGYcNttuquAv5o5FEobjjriGuwM=;
-        b=CBvbMn1f5yJUiCrljpB5EvFeI6M0x+ZSSvyNywTEZopPIJzZeBZVv2qb+F0v14OnUX
-         AFBf/yTVBmCK19RJDgsGNU46u3/DKvSI4NvGVMoy9+QkeXKj4VcxGggCKAmy39LaWRPn
-         Z650wU4rkP8NSciqGpAxgV7FAgclgncVjhYdY=
+        bh=qPmO43b4mzsGNY7rNYKU0au7hKOVIchL57S1/0VSULg=;
+        b=b+GmA94SgPigoBvwGfxS1dHtxkFCwLxv6AVFlFPtIB1y/fjAeix3/zs83nLA83ybS0
+         tj+yxyUjAUNJgxGpMrfSnlNeV8n82Y/3LsEBDtmxeO+Lds2OEFiolER3mjwGvrcVW4Sg
+         O80tawwAIng1Lqq6j/IC+tmWiWY0Rt2DwPQnY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=I0qM130BzYI91cNVLGYcNttuquAv5o5FEobjjriGuwM=;
-        b=h+o+3QTTCQDk5eZt992g7m4j09Q5UKqtqsCjHxUgMN68aeWnak0hI80fLrhLt2Pptr
-         aAFznaix3NEE326RngeytOn655ZGakDU1onyncBretgeOLvuxzOcyyYjGpZ1j2iDqauj
-         9HDEeFM3yyYk4TKa2MvlBW3YdEqa9Ts6jddvTnTKAFIFO+QNQ3SknGp967dV+a9GEKuv
-         NRSwGLZzUxIIh62IgllwG0VWJsxYuQHSBUVqwIShFiizP0MKpkfp/M5jhpUED1tsQkQT
-         vSNXqALsfhM71h1V2gSBi7sVVumLS2pJwLse4Q3t4+CbcdkIvubT3lOXHMwmfVSj2Nby
-         ZiNw==
-X-Gm-Message-State: AOAM531CcJEPumVuXiujjBMghkBv1yTWK6CQy1LEyx3+4wddWXloxF0U
-	4FT0TqQxnsMc8/3q4OtLLfH9Zg==
-X-Google-Smtp-Source: ABdhPJzd0LNV22OkWjFcag+nsRO8EEM6TMMz4V9pVbVVXqPU7QEHJDcnK1Wztf6lWAEpajdKqVqKkA==
-X-Received: by 2002:a1c:9650:: with SMTP id y77mr40907347wmd.101.1593958192397;
-        Sun, 05 Jul 2020 07:09:52 -0700 (PDT)
+        bh=qPmO43b4mzsGNY7rNYKU0au7hKOVIchL57S1/0VSULg=;
+        b=bdd3MD8itN6HPC76UlTmUY2OMyNFsA+VsifC7z5ShYQGWA3dXHFIKU1uNiSHe7lrIm
+         a0iKIpqVlRGu6yZ8FXcyMpQMyoDVROiw3OxnMtZ2ce1/u8gXMNP25ZGwEwuMJs+/RIvp
+         fUdezbOj7geLbsikmkukLeey7V4n6hV6sv02r36Ym/yyJhqHLmsebAdDIvBjnTeQyQ0P
+         r4QnRJhjyD6DrRlC+rcKujwO952NoZp31/N6TW7YVG95c57r1iXlA2HruD3f+cMFJ7hD
+         YathxKjdIREaf8lTCr3qV+lktX24Q0tfyhvv/dqqAiCH236pdl4fX4UaV7gLz+r2LTzS
+         BFqg==
+X-Gm-Message-State: AOAM531V7IaZDAABcI389TDu3ZqAXTt7LzWqblbIPSQn7VLLHyEKTTXe
+	2pqvb8CW+buVGAs1oOyA9NSIbg==
+X-Google-Smtp-Source: ABdhPJybldBciOIeZofiXN2HoMfsEECmP204czyQBE2DGabYjYWFSbGeLPfC0v/6pQSB/sYhFaKatA==
+X-Received: by 2002:a5d:688d:: with SMTP id h13mr9726612wru.303.1593958305573;
+        Sun, 05 Jul 2020 07:11:45 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id t15sm20185483wmj.14.2020.07.05.07.09.50
+        by smtp.gmail.com with ESMTPSA id z6sm19249464wmf.33.2020.07.05.07.11.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2020 07:09:51 -0700 (PDT)
-Message-ID: <01db6de24a109ce450dc2ba428ac5694bf67b442.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [zeus][PATCH 08/10] kernel.bbclass: Fix Module.symvers support
+        Sun, 05 Jul 2020 07:11:44 -0700 (PDT)
+Message-ID: <dbad95cc2ebfaded94d951dda86b2bfbd52d4ad1.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v4] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>
-Date: Sun, 05 Jul 2020 15:09:49 +0100
-In-Reply-To: <20200704211322.GB24166@localhost>
-References: <cover.1593474787.git.anuj.mittal@intel.com>
-	 <03248953d1eacede00971289dc9fff8d97d00464.1593474787.git.anuj.mittal@intel.com>
-	 <20200704211322.GB24166@localhost>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Xu, Yanfei"
+	 <yanfei.xu@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Sun, 05 Jul 2020 15:11:43 +0100
+In-Reply-To: <CADkTA4OQYAg9zZ4HyxJdUN0VywTgQu4vmbdkJqov0vmkJg8NAQ@mail.gmail.com>
+References: <20200703135515.6934-1-yanfei.xu@windriver.com>
+	 <CADkTA4OQYAg9zZ4HyxJdUN0VywTgQu4vmbdkJqov0vmkJg8NAQ@mail.gmail.com>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-07-05 at 00:13 +0300, Adrian Bunk wrote:
-> Please drop this patch:
-> https://lists.openembedded.org/g/openembedded-core/message/140233
+On Fri, 2020-07-03 at 22:26 -0400, Bruce Ashfield wrote:
+> On Fri, Jul 3, 2020 at 9:56 AM <yanfei.xu@windriver.com> wrote:
+> > From: Yanfei Xu <yanfei.xu@windriver.com>
+> > 
+> > Some filesystems don't support symlink, then you will get failure
+> > when
+> > you install or update the kernel rpm package. Now we use a copy of
+> > image for these filesystems instead of symlink.
+> 
+> This version looks fine to me ... let's see what RP and the
+> autobuilder can find :D
 
-Later in that thread Bruce did change his opinion although this is a
-tricky one...
+I'm ok with the patch and so is the autobuilder. Thanks for the
+patience on this one, I think we ended up with a good patch.
 
 Cheers,
 
