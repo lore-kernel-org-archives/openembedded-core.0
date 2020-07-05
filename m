@@ -1,80 +1,96 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web11.37299.1593956678219311908
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.37669.1593958102552281995
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2020 06:44:38 -0700
+ Sun, 05 Jul 2020 07:08:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@madison-systems.20150623.gappssmtp.com header.s=20150623 header.b=f3Ivq/Z0;
- spf=none, err=SPF record not found (domain: madison.systems, ip: 209.85.216.65, mailfrom: matt@madison.systems)
-Received: by mail-pj1-f65.google.com with SMTP id f16so5488181pjt.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 06:44:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P9uHmXW4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id a6so37938391wrm.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 07:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=madison-systems.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LHpj+e92lqLWeKV/QpPsbT7l0Imlg2dOm70Yvi4dHjY=;
-        b=f3Ivq/Z0eEqEbJlShmX+F7kX1fHK9ayUgeiosVXFBmARnx8/6Z7I1jqjgnTgCGJjKB
-         iIbv3COrOF6ri9dpjGW54CCY8OSP8jS1KZc1AxbjOhwvSmWV0dTnfEiblEN4mXm2Vp0r
-         A5rd8yH7BejvacapjZwO+hLoJjU0MfK2UZDAPa6iIzMcwcVEpkvltsBNPXbOL5PdsuSG
-         vm89J1MscBFM4fc44d4weHD1pHgnYHjT0e34H75B3eU+/ECGR1B1aoEKYh62gdkkSPDg
-         JI8SfWXArOD2JfJVBxgzA64/l1dFWLa4g58o8jNDSZgjOj4BwegNSXl9+SkMKmagmcTP
-         X7tA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Usmi2exRRs4Ja9eWlwd7H+PZChtIGVaNrY8q/dg6ckE=;
+        b=P9uHmXW4BM+e2mUhPXTcLbT+hMGKrhZsTee9rKMMaeAtxZIgZIV6rrl6liqd9rHT4Q
+         EA/wx43ouY2k7dfejCopPsA3dxC4VTkKWzK0dk2tV7pudj5W6sFwty/mhQsiOItd7vCD
+         1eH2mLovtKWY2uzansHECIoEdj6Ty2wmWCIxY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LHpj+e92lqLWeKV/QpPsbT7l0Imlg2dOm70Yvi4dHjY=;
-        b=BvFv2wPpHRGRdQLGh3vLUT1Aiwf67xOxslmNZzrvDhzCZ81rZUx3N/4RTsL7vrJfSv
-         GZvUVZR9xG7Bob6T6Px6HfKzTM3YyAcTXDAlJwbFB92O3Cr9qQOlQb/dC8lOPIHSHV0q
-         tRvtc+Vg1yWRYjzfdC29tIN1VJi3ILsCBcs3MfdHyWmx8xiiwyf1VfBh1DXVFG7GFNws
-         USE3+H6oRj++IHH2S/Jkhb3RfbHZKbZaiEe3lqT+lYYQIJSxRxCf/8/EyP4gNr1+jcnr
-         RJfvVHqtAUZzc6C2Wx58iRWIwVichrjCh67CybZQxpC+FMEiA0gJqtvqOALFwLyU/ErJ
-         2NtQ==
-X-Gm-Message-State: AOAM530LJ6xqKfZEuH49ytek+4KwrqCXQa5+5/gBkA7f1crWF0KSqHga
-	MCg2XXX7Woo7vRxZHtoRpun3+qFYdS7laQ==
-X-Google-Smtp-Source: ABdhPJx7+okLyEeXx9ZzalvTeHjOONfeoKdpqIoxjSKMxaQDhM5diSqGJtwGYR87ihXCsevNg9Ncow==
-X-Received: by 2002:a17:90a:de0c:: with SMTP id m12mr34336590pjv.228.1593956677354;
-        Sun, 05 Jul 2020 06:44:37 -0700 (PDT)
-Return-Path: <matt@madison.systems>
-Received: from legion.athrat.org ([2600:1700:87f0:9cff:2414:db63:c42a:e448])
-        by smtp.gmail.com with ESMTPSA id b21sm16802972pfp.172.2020.07.05.06.44.36
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Usmi2exRRs4Ja9eWlwd7H+PZChtIGVaNrY8q/dg6ckE=;
+        b=VYePqHLCsMKHEPvinK9GPOqc1ui1c0Wm5ucEJ01umOfIPqwls0MafKo1n26w8C/FXF
+         dW6nc8zQeiKXUyI7u4j05ArIZdIH/J0E2jfxJChdsHsgvgzd2xOTWveX1gaK26lTDSlA
+         R3jo5VxP7ZOVLbnR8ipE6iB8/pF2rlduKqAqTp4d2TqD6uMYp/Sj3cFoBHJ3MP2g/Jab
+         bOeeWB4doixfQLvm2kwoq1HhTgB9tsqmsCZXMsGQQFYW53zQPYndw0SQrBaNKzu1JsPj
+         c37FhI1FytjdQFBLfJywnUA2InNsw+QMHT9j1PiRcDqFxRc7s4diXHzdmRxQWay5EM//
+         /Bcg==
+X-Gm-Message-State: AOAM531I2Vn56e4nth6EE7UOvD7/ujr7wjie8FOZYEU1Qrg1AiFl2mAQ
+	DChRtjc9xEwYmyeTrrEoizH8Fw==
+X-Google-Smtp-Source: ABdhPJyKu7plRbsi65YHEvbrtnBHeutZOu7EZ9JPz2UQpvEDTp9ExNrsVsdbj2KDvm8FcCWycz/9zQ==
+X-Received: by 2002:a05:6000:1143:: with SMTP id d3mr33300137wrx.235.1593958100905;
+        Sun, 05 Jul 2020 07:08:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id r8sm20031810wrp.40.2020.07.05.07.08.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2020 06:44:36 -0700 (PDT)
-From: "Matt Madison" <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Cc: Matt Madison <matt@madison.systems>
-Subject: [PATCH] kernel.bbclass: add gzip-native to do_deploy dependencies
-Date: Sun,  5 Jul 2020 06:44:32 -0700
-Message-Id: <20200705134432.2044867-1-matt@madison.systems>
-X-Mailer: git-send-email 2.25.1
+        Sun, 05 Jul 2020 07:08:20 -0700 (PDT)
+Message-ID: <d4a663fb040f6461ff6c75d09f5aa26e888b0c94.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] kernel/yocto: fix search for defconfig from src_uri
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Sun, 05 Jul 2020 15:08:19 +0100
+In-Reply-To: <CADkTA4Nkdw+4bUx1L35eabSMCF7OmmZt4S7HAqvsYOdfSc1oug@mail.gmail.com>
+References: <20200701145825.3743-1-andrey.z@gmail.com>
+	 <161DAA31FCE43A8C.29179@lists.openembedded.org>
+	 <CADkTA4Nkdw+4bUx1L35eabSMCF7OmmZt4S7HAqvsYOdfSc1oug@mail.gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When a modules tarball is created during kernel_do_deploy,
-the tarball is compressed using gzip, but gzip-native is not
-a dependency so the build host's gzip is being used for this.
+On Fri, 2020-07-03 at 22:51 -0400, Bruce Ashfield wrote:
+> On Wed, Jul 1, 2020 at 11:22 AM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > On Wed, Jul 1, 2020 at 10:58 AM Andrey Zhizhikin <
+> > andrey.z@gmail.com> wrote:
+> > > Fetcher provides full paths to defconfig and scc files, which awk
+> > > comparison operator does not catch during construction of
+> > > src_uri_defconfig and sccs_from_src_uri lists. This causes the
+> > > src_uri_defconfig variable to come out empty, and fails further
+> > > validation if defconfig is only supplied via SRC_URI.
+> > > 
+> > > Replace comparison operator with awk match function which
+> > > searches for
+> > > sub-string during filtering, effectively placing defconfig from
+> > > SRC_URI
+> > > into src_uri_defconfig and scc files in sccs_from_src_uri
+> > > respectively.
+> > > 
+> > > Fixes: 23dcff0d396c (kernel/yocto: ensure that defconfigs are
+> > > processed first)
+> > 
+> > v2 passes my testing as well.  The autobuilder gets the final say,
+> > but
+> > I can't see this causing any issues.
+> > 
+> 
+> Richard,
+> 
+> I didn't see this on master-next, and we got a different patch for
+> this on the list .. this is the preferred fix for readabilty.
+> 
+> I just wanted to make sure you weren't waiting for me to send it in
+> my
+> next pull request. I can absolutely do that if you want.
 
-Using gzip-native will, by default, use pigz instead of
-single-threaded gzip, making this task less of a bottleneck
-for builds with a large modules package.
+I was waiting for some indication on your thoughts, I'll queue it :)
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 301e3b86b2..aef5e97892 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -7,7 +7,7 @@ PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
- PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
- 
--do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
-+do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot gzip-native:do_populate_sysroot"
- do_clean[depends] += "make-mod-scripts:do_clean"
- 
- CVE_PRODUCT ?= "linux_kernel"
--- 
-2.25.1
+Richard
 
