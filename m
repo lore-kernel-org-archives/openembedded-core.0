@@ -1,73 +1,109 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.37492.1593958307009311554
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web11.38773.1593961899107242842
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2020 07:11:47 -0700
+ Sun, 05 Jul 2020 08:11:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b+GmA94S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id o11so37962543wrv.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 07:11:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BD4cTPsX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id f12so13549910eja.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2020 08:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=qPmO43b4mzsGNY7rNYKU0au7hKOVIchL57S1/0VSULg=;
-        b=b+GmA94SgPigoBvwGfxS1dHtxkFCwLxv6AVFlFPtIB1y/fjAeix3/zs83nLA83ybS0
-         tj+yxyUjAUNJgxGpMrfSnlNeV8n82Y/3LsEBDtmxeO+Lds2OEFiolER3mjwGvrcVW4Sg
-         O80tawwAIng1Lqq6j/IC+tmWiWY0Rt2DwPQnY=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5QGUzV0sSIVWkk0czxGzJbpOzFIuBeUqjLcPuOIGqe0=;
+        b=BD4cTPsXq1+Ai3b2nZbizjLzs4IgOAVxQ3aazYQr8uHWe81CLRlKIzDdu6YYa8G5wk
+         AkFgPAGMSwvQ45vTaAt+d/x6WkR86DZHQ+CUadxkG3gKe4z+Ow3v9/1X5HUZ2T1q0qCH
+         nMaSHMaRu5CX8A1yXqYwCJhYAVWG1llkj3TJm2h3eQyB0LuHRhSxLKTu4SuCjBHW1UqE
+         pQZLo+ORdkWl4aUnNiUHeuy8gv42fs/4a24vePvxIma8IB+qanrdw3wG4OmBmiEXi0zo
+         Kal2NW31118k5EVPGPNxVJ6iR5Gxvhvqy61FoNPGvlt6c0dMDBNaHUITov5ZbuRc6ZOe
+         WIew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qPmO43b4mzsGNY7rNYKU0au7hKOVIchL57S1/0VSULg=;
-        b=bdd3MD8itN6HPC76UlTmUY2OMyNFsA+VsifC7z5ShYQGWA3dXHFIKU1uNiSHe7lrIm
-         a0iKIpqVlRGu6yZ8FXcyMpQMyoDVROiw3OxnMtZ2ce1/u8gXMNP25ZGwEwuMJs+/RIvp
-         fUdezbOj7geLbsikmkukLeey7V4n6hV6sv02r36Ym/yyJhqHLmsebAdDIvBjnTeQyQ0P
-         r4QnRJhjyD6DrRlC+rcKujwO952NoZp31/N6TW7YVG95c57r1iXlA2HruD3f+cMFJ7hD
-         YathxKjdIREaf8lTCr3qV+lktX24Q0tfyhvv/dqqAiCH236pdl4fX4UaV7gLz+r2LTzS
-         BFqg==
-X-Gm-Message-State: AOAM531V7IaZDAABcI389TDu3ZqAXTt7LzWqblbIPSQn7VLLHyEKTTXe
-	2pqvb8CW+buVGAs1oOyA9NSIbg==
-X-Google-Smtp-Source: ABdhPJybldBciOIeZofiXN2HoMfsEECmP204czyQBE2DGabYjYWFSbGeLPfC0v/6pQSB/sYhFaKatA==
-X-Received: by 2002:a5d:688d:: with SMTP id h13mr9726612wru.303.1593958305573;
-        Sun, 05 Jul 2020 07:11:45 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id z6sm19249464wmf.33.2020.07.05.07.11.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2020 07:11:44 -0700 (PDT)
-Message-ID: <dbad95cc2ebfaded94d951dda86b2bfbd52d4ad1.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v4] classes/kernel: Use a copy of image for kernel*.rpm if fs doesn't support symlinks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, "Xu, Yanfei"
-	 <yanfei.xu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 05 Jul 2020 15:11:43 +0100
-In-Reply-To: <CADkTA4OQYAg9zZ4HyxJdUN0VywTgQu4vmbdkJqov0vmkJg8NAQ@mail.gmail.com>
-References: <20200703135515.6934-1-yanfei.xu@windriver.com>
-	 <CADkTA4OQYAg9zZ4HyxJdUN0VywTgQu4vmbdkJqov0vmkJg8NAQ@mail.gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5QGUzV0sSIVWkk0czxGzJbpOzFIuBeUqjLcPuOIGqe0=;
+        b=ukrEzMCfHPvxyiyzbaVxpsZiUROia2o/5bpelQzj0HopowX41Um/sAipzC0d92bHEJ
+         9W1m3PG6K87FKRCQeVLJthJgHxN1AJrY7CQLH31N4Zib5tMeRnQ8rNS3BAElUx/SeA4g
+         akJV5chD/i7KbfcCETepaD1eipoC+xpHG6XIryf57DB9A31BaTSHeo2zAzXvKo6Woa/E
+         Trg2S90aYjBHvLZrTMvTzxgy4+ktu/5u0k+GRADEjUWI95w0dl/tuWDvLO17AEUIcelO
+         UX8/qvsJADn6K0oS+7iXHK1GETLf3U+llhZjjS/a6oArpgkduAlehH1gjKxShpfmLNxg
+         0b4g==
+X-Gm-Message-State: AOAM532ktActFtyNUJoU0EAmxA1NoXeCQF5P9qEyw09JM4kJYmnIKOHx
+	nnm9oWb0cZd108RoILlE8J3KLE54EfBSHFW8gTQ=
+X-Google-Smtp-Source: ABdhPJwD4CXGMtEWSAi+0Ejhx5qqMW7Ku7HkQFE7Q7yy8+0ATjoCtOazpW75zqauLZe5ZNczCuifPoEpMyywghkqXeE=
+X-Received: by 2002:a17:906:5283:: with SMTP id c3mr37820931ejm.22.1593961897528;
+ Sun, 05 Jul 2020 08:11:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200701145825.3743-1-andrey.z@gmail.com> <161DAA31FCE43A8C.29179@lists.openembedded.org>
+ <CADkTA4Nkdw+4bUx1L35eabSMCF7OmmZt4S7HAqvsYOdfSc1oug@mail.gmail.com> <d4a663fb040f6461ff6c75d09f5aa26e888b0c94.camel@linuxfoundation.org>
+In-Reply-To: <d4a663fb040f6461ff6c75d09f5aa26e888b0c94.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Sun, 5 Jul 2020 11:11:26 -0400
+Message-ID: <CADkTA4Na1Ywvve9ABMBaPzaZiehySQ1ew9KUJXB4OSJ9Z3iLxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] kernel/yocto: fix search for defconfig from src_uri
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-07-03 at 22:26 -0400, Bruce Ashfield wrote:
-> On Fri, Jul 3, 2020 at 9:56 AM <yanfei.xu@windriver.com> wrote:
-> > From: Yanfei Xu <yanfei.xu@windriver.com>
-> > 
-> > Some filesystems don't support symlink, then you will get failure
-> > when
-> > you install or update the kernel rpm package. Now we use a copy of
-> > image for these filesystems instead of symlink.
-> 
-> This version looks fine to me ... let's see what RP and the
-> autobuilder can find :D
+On Sun, Jul 5, 2020 at 10:08 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2020-07-03 at 22:51 -0400, Bruce Ashfield wrote:
+> > On Wed, Jul 1, 2020 at 11:22 AM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > > On Wed, Jul 1, 2020 at 10:58 AM Andrey Zhizhikin <
+> > > andrey.z@gmail.com> wrote:
+> > > > Fetcher provides full paths to defconfig and scc files, which awk
+> > > > comparison operator does not catch during construction of
+> > > > src_uri_defconfig and sccs_from_src_uri lists. This causes the
+> > > > src_uri_defconfig variable to come out empty, and fails further
+> > > > validation if defconfig is only supplied via SRC_URI.
+> > > >
+> > > > Replace comparison operator with awk match function which
+> > > > searches for
+> > > > sub-string during filtering, effectively placing defconfig from
+> > > > SRC_URI
+> > > > into src_uri_defconfig and scc files in sccs_from_src_uri
+> > > > respectively.
+> > > >
+> > > > Fixes: 23dcff0d396c (kernel/yocto: ensure that defconfigs are
+> > > > processed first)
+> > >
+> > > v2 passes my testing as well.  The autobuilder gets the final say,
+> > > but
+> > > I can't see this causing any issues.
+> > >
+> >
+> > Richard,
+> >
+> > I didn't see this on master-next, and we got a different patch for
+> > this on the list .. this is the preferred fix for readabilty.
+> >
+> > I just wanted to make sure you weren't waiting for me to send it in
+> > my
+> > next pull request. I can absolutely do that if you want.
+>
+> I was waiting for some indication on your thoughts, I'll queue it :)
 
-I'm ok with the patch and so is the autobuilder. Thanks for the
-patience on this one, I think we ended up with a good patch.
+cool. I do appreciate that .. I realized you probably were waiting
+when I wasn't super clear on my last reply.
 
-Cheers,
+It isn't that it was urgent, I just wanted to make sure I hadn't
+dropped the ball on it.
 
-Richard
+Bruce
 
+>
+> Cheers,
+>
+> Richard
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
