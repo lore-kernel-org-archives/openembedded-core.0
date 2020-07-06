@@ -1,103 +1,55 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web12.48042.1593994429821880076
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web11.48164.1593994464677516049
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2020 17:13:49 -0700
+ Sun, 05 Jul 2020 17:14:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: cbfpv5i30JtBOenF7SdUM9xCFKx992o6Y3w1LaW+s0r9x1ZdzE5PWW/VfUOONVR8Rz9FnsO/cM
- SaZZ9nLzUTwA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="208850009"
-X-IronPort-AV: E=Sophos;i="5.75,318,1589266800"; 
-   d="scan'208";a="208850009"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: QSw50ptA48YdSgpV4dhizvXJW0Lw+PaCXyCG4+BWGMDr3QzGAV6/sUNkS0OB2is3/QvAVVGFzr
+ m0xhLvXhS+xw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9673"; a="165403297"
+X-IronPort-AV: E=Sophos;i="5.75,317,1589266800"; 
+   d="scan'208";a="165403297"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2020 17:13:48 -0700
-IronPort-SDR: 2RLAVc3RXMwehwXfbchVANEyXnsxDicDdBW+bTjPkrskzWbm02k+kuO8clGV+qLc9MnRiTn9wc
- L9NWc0mwrr/g==
-X-IronPort-AV: E=Sophos;i="5.75,317,1589266800"; 
-   d="scan'208";a="456510743"
-Received: from mlee18-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.71.35])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2020 17:13:47 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2020 17:14:24 -0700
+IronPort-SDR: XJQL7445a0CuZYyoYLD8xPOBdQ5+nmeH8KgYRTGtaS/OJYLRUsANaeO+jDqefG1ztB/yYUBHOP
+ Gp9ceM6BzIvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,318,1589266800"; 
+   d="scan'208";a="282877996"
+Received: from pgsmsx114.gar.corp.intel.com ([10.108.55.203])
+  by orsmga006.jf.intel.com with ESMTP; 05 Jul 2020 17:14:23 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.140]) by
+ pgsmsx114.gar.corp.intel.com ([169.254.4.230]) with mapi id 14.03.0439.000;
+ Mon, 6 Jul 2020 08:14:22 +0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 00/10] zeus pull request - cover letter only
-Date: Mon,  6 Jul 2020 08:13:42 +0800
-Message-Id: <cover.1593994030.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.4
+To: "bunk@stusta.de" <bunk@stusta.de>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [zeus][PATCH 08/10] kernel.bbclass: Fix Module.symvers support
+Thread-Topic: [OE-core] [zeus][PATCH 08/10] kernel.bbclass: Fix
+ Module.symvers support
+Thread-Index: AQHWUkfyXx8q4IuNuEeBAWNOPLjVOKj5KhyA
+Date: Mon, 6 Jul 2020 00:14:21 +0000
+Message-ID: <ac1998377f6c78f868b5a34cf2d9b5f37973a7eb.camel@intel.com>
+References: <cover.1593474787.git.anuj.mittal@intel.com>
+	 <03248953d1eacede00971289dc9fff8d97d00464.1593474787.git.anuj.mittal@intel.com>
+	 <20200704211322.GB24166@localhost>
+In-Reply-To: <20200704211322.GB24166@localhost>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.249.71.35]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <013C7643883AFD41850F798602C0DD9D@intel.com>
+Content-Transfer-Encoding: base64
 
-Please merge these changes in zeus. Clean a-full on autobuilder except a
-bitbake-selftest failure fix for which has been merged.
-
-Thanks,
-
-Anuj
-
-The following changes since commit ee95a399285abbde84e0148ca957b59d65bcad0a:
-
-  mesa: fix meson configure fix when 'dri' is excluded from PACKAGECONFIG (2020-05-29 08:32:44 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
-
-Alexander Kanavin (2):
-  python3: make gdbm optional
-  python3: un-break disabling the readline PACKAGECONFIG
-
-Lee Chee Yang (1):
-  qemu: fix CVE-2020-10702 & CVE-2020-13765
-
-Lili Li (1):
-  kernel.bbclass: Fix Module.symvers support
-
-Peter Kjellerstedt (1):
-  relocatable.bbclass: Avoid an exception if an empty pkgconfig dir
-    exist
-
-Richard Leitner (1):
-  kernel-fitimage: introduce FIT_SIGN_ALG
-
-haiqing (2):
-  gnutls: fixed CVE-2020-13777
-  libpam: Remove option 'obscure' from common-password
-
-jason.lau (1):
-  libjpeg-turbo: Fix CVE-2020-13790
-
-wenlin.kang@windriver.com (1):
-  nfs-utils: fix CVE-2019-3689
-
- meta/classes/kernel-fitimage.bbclass          |   6 +-
- meta/classes/kernel.bbclass                   |   2 +-
- meta/classes/relocatable.bbclass              |  20 +--
- ...atd-take-user-id-from-var-lib-nfs-sm.patch | 102 +++++++++++++
- .../nfs-utils/nfs-utils_2.4.1.bb              |   1 +
- ...report-missing-dependencies-for-disa.patch |  31 ++++
- ...tutils-prefix-is-inside-staging-area.patch |   2 +-
- meta/recipes-devtools/python/python3_3.7.7.bb |  19 ++-
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- .../qemu/qemu/CVE-2020-10702.patch            |  52 +++++++
- .../qemu/qemu/CVE-2020-13765.patch            |  48 ++++++
- .../pam/libpam/pam.d/common-password          |   5 +-
- ...buf-overrun-caused-by-bad-binary-PPM.patch |  81 +++++++++++
- .../jpeg/libjpeg-turbo_2.0.3.bb               |   1 +
- .../gnutls/gnutls/CVE-2020-13777-a.patch      |  90 ++++++++++++
- .../gnutls/gnutls/CVE-2020-13777-b.patch      | 137 ++++++++++++++++++
- .../gnutls/gnutls/CVE-2020-13777-c.patch      |  68 +++++++++
- meta/recipes-support/gnutls/gnutls_3.6.13.bb  |   3 +
- 18 files changed, 650 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-take-user-id-from-var-lib-nfs-sm.patch
- create mode 100644 meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-10702.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13765.patch
- create mode 100644 meta/recipes-graphics/jpeg/files/0001-rdppm.c-Fix-buf-overrun-caused-by-bad-binary-PPM.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-a.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-b.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-13777-c.patch
-
--- 
-2.25.4
-
+SGkgQWRyaWFuLA0KDQpPbiBTdW4sIDIwMjAtMDctMDUgYXQgMDA6MTMgKzAzMDAsIEFkcmlhbiBC
+dW5rIHdyb3RlOg0KPiBQbGVhc2UgZHJvcCB0aGlzIHBhdGNoOg0KPiBodHRwczovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE0MDIzMw0KPiANCg0K
+VGhhbmsgZm9yIHJldmlld2luZyB0aGUgc2VyaWVzLiBJIGJlbGlldmUgdGhpcyB3YXMgcmVzb2x2
+ZWQgYnkNCg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNv
+cmUvbWVzc2FnZS8xNDAyMzcNCg0KPw0KDQpUaGFua3MsDQoNCkFudWoNCg==
