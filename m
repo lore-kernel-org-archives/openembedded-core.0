@@ -1,76 +1,88 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web12.61267.1594051902453378766
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.61437.1594051904726500479
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:42 -0700
+ Mon, 06 Jul 2020 09:11:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QG3AFGdg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d10so3481262pll.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BILev5zx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id s14so15510489plq.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=WjBu7YeoQ9Sj8xwZG40jVPuslYhdr5KSQcAdHFT6qbM=;
-        b=QG3AFGdgJZLPchefCtEFEZxIz+D3jKD1o55/0q2e2BhtB125P9Oe2MrzUkhxr8kS4d
-         PvLP27EjeZXNBzZ84LKDggsEDhRU61jPKZETUHwtUo4jJxfexZZHC3cxJtgfKr/0OFgl
-         cFgVpgdhRKbjtifflmnd8m0BFS73YzgKCByvU6NfLkI6LZR1AeVlipGNN/G6niKFRxob
-         9EJnqDfgF+4knmTvI7awUaK7NI4MX8QWEDZ9wlcUA3ITH3u+12ccWO697QWVT6WUg/hN
-         QVdZj9KK+zGerGqginnv+ph6H5KTlzMHT5xLgN65g2fkpWIuJSvCGlmNch+WqdeoSqIG
-         7SMw==
+        bh=ORMV81O3czUIFwW3acp12shk8AyCXH1SXzuEkqXDnaw=;
+        b=BILev5zxgIHl6BmrQk2sGuUOi05O5vn//TynCdy/DFplT3PYFyNseY39rKyX8Fs8fO
+         7auow7Zb2x/YW4ghp/c3v09h/jv2UrkUJuQG/zjvvk05onHDEwzc7idYG+LnS+4Z4UXY
+         Y/1fd9RvvRxhYqkMfcChAciS1FxyaXjQZTLfjlY8DetatiM0IHbv8dNqcH3thX8XZiKL
+         Xf4a4DFf2zsRmVEGyEGubC3SX0sGzpbhbMiegT7i4pLPrEa6rz/GJgIa1G7yxiBBJf+X
+         BB4MrfZNLFhTJUMzgkhl+aRbhnTkHm8yUzUnGHPc5K+El4R3ZvMoif4n289u3HTIakyN
+         6HCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=WjBu7YeoQ9Sj8xwZG40jVPuslYhdr5KSQcAdHFT6qbM=;
-        b=XxcBpOj4QbZzm4H5qsJQGCPkOv3xsU5WQ7smXIQEY6uF7wbvnQnjYL6b4xS+QgImra
-         57L1xhwHUX1hYgeKBPiEmyv85kw1vZ6I7+8IPxVzOqDQ4l4W427UcZaMFe+EkAaLDY2s
-         SNGfxyKISIEvFY6Bz4abp/Z7GoAMYjuv6pn+gv0zu5RYHYZCQJdhAeX75GrFvnS0be8F
-         68q6P6I+2HShMSB/t8nbdQQSHw68Y/nVgpCo+MOw+CE/ySVvVpSn2/FG/sgS8boye5Eg
-         PsYfMFhDpmRzGdn8k+khZ08k6+ae9deWtMfWfrKuxsbHcvsZSyKMwz4/+orQGYWAgxyw
-         sDHw==
-X-Gm-Message-State: AOAM531vU9y6gaf97gJkYknn9OrOc1U4aZn1BxExHY41Rl8cTinqYBui
-	DCem0hegbAxqFvbc3z3y/wvUQ8neIwAFpA==
-X-Google-Smtp-Source: ABdhPJxmzWcin3tu/sPTPiYaFxcGACvJJ6mYohPLf8mekbUmghbo2HykvKfzzeRoD4dE0rjvpWp86g==
-X-Received: by 2002:a17:902:7b92:: with SMTP id w18mr31507493pll.258.1594051901582;
-        Mon, 06 Jul 2020 09:11:41 -0700 (PDT)
+        bh=ORMV81O3czUIFwW3acp12shk8AyCXH1SXzuEkqXDnaw=;
+        b=d6Dz1/NCTMSRbKbhocrm5IqlFVkiyHUkHQlSXk4/EpKz7InMuQQ/tj5Q4eqfbQ/zHT
+         3dv1LPP1yc+Gcs8+QKObSCJt0Dgr+e3th0v7gQciy6Jtrw9mbqLW9zQMSeo4Vjy+5sfy
+         JTtmtQJhv+QRHKvfvUQ/OLS1mNUv0ZN+RLrKzGWCOv0CRm1HqKtnRoyXAHkAd0QqiZpb
+         CB5O7/tVdkNSlBbIzGSY8BCQsGLVjlcK1jEL3kJM5pjVJztbJ24KpwEjCtagCv2otN7S
+         98/qFs8Bg8Fb7tNQRpnVxl4yl2ouD+DvnTsx1+RQLgDZVKN2vG+Y+fiba6xacMhvLFWd
+         0o/A==
+X-Gm-Message-State: AOAM531hYTm4xhGv/lJaAIuK6P9ZkJAH5YvJ0ROX80qEe8bzHZtUDFle
+	6OtQEmZJ1/jKJOwUi13PX5MA0r+PA0hMaQ==
+X-Google-Smtp-Source: ABdhPJz53luaCKBNWSCwdfrOzUwaK4igzCEu53i29zmjLAjhluQuGmmaxVl+QaVaR8pAX9qfGDOO1w==
+X-Received: by 2002:a17:90a:ff09:: with SMTP id ce9mr34061549pjb.149.1594051903798;
+        Mon, 06 Jul 2020 09:11:43 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.40
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:41 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:43 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/25] oescripts.py: fix typo
-Date: Mon,  6 Jul 2020 06:10:17 -1000
-Message-Id: <d69c7499243e18660542b313c40175d4477c8dc0.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/25] oescripts: ignore whitespaces when comparing lines
+Date: Mon,  6 Jul 2020 06:10:18 -1000
+Message-Id: <70499483b859e98d2b7b279ac79f232cd7bcf61f.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
+list-packageconfig-flags.py determines the whitespace numbers according
+to the longest package name. This is reasonable for the tool as it's
+trying to generate pretty output.
+
+However, in this selftest case, the output is hardcoded. This results in
+"pinentry                       gtk2 libcap ncurses qt secret" not recognized
+as correct as the expected line is:
+"pinentry                     gtk2 libcap ncurses qt secret".
+
+The difference is only about whitespaces. So we should ignore the whitespaces
+when comparing lines.
+
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 115d44958806a2c73d0bf140f45c11db462cc7db)
+(cherry picked from commit 17c89ad1596dbc7cefdd2c01dcd95aa9e93c5dc6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/lib/oeqa/selftest/cases/oescripts.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index 2f18d8f29c..f697d29b50 100644
+index f697d29b50..726daff7c6 100644
 --- a/meta/lib/oeqa/selftest/cases/oescripts.py
 +++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -177,7 +177,7 @@ class OEListPackageconfigTests(OEScriptTests):
+@@ -133,7 +133,7 @@ class OEListPackageconfigTests(OEScriptTests):
+     def check_endlines(self, results,  expected_endlines): 
+         for line in results.output.splitlines():
+             for el in expected_endlines:
+-                if line == el:
++                if line.split() == el.split():
+                     expected_endlines.remove(el)
+                     break
  
-         self.check_endlines(results, expected_endlines)
- 
--    def test_packageconfig_flags_optiins_preferred_only(self):
-+    def test_packageconfig_flags_options_preferred_only(self):
-         results = runCmd('%s/contrib/list-packageconfig-flags.py -p' % self.scripts_dir)
-         expected_endlines = []
-         expected_endlines.append("RECIPE NAME                  PACKAGECONFIG FLAGS")
 -- 
 2.17.1
 
