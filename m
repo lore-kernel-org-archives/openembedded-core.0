@@ -1,105 +1,145 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web11.61411.1594051872076731897
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web11.61412.1594051874386436873
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:12 -0700
+ Mon, 06 Jul 2020 09:11:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=obz8etwz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.66, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f66.google.com with SMTP id f16so6835662pjt.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GJR2NNX5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.67, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f67.google.com with SMTP id gc9so10509582pjb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=qGJNng2VgZI4oY7q5+k9xi/i50tfmj4whIC9+4hC+lc=;
-        b=obz8etwzRcryzTHdICR9sxUHBaU38wH4HRNRnDafa1afPdwmjiVWMyuyB8rHEpee+X
-         EcmP1UKyzru2Ljgw0L+u92CsGsuHr6/gk1Uqws9ZoD50ajTsUmMALGGQc2FScY+m/19b
-         5EZ9nY9sP91rfM/yjRQ9BGFzaEN5Y2LDRdT5ogGpnaZusNH4QbNObWdiPzQhhuepmwC4
-         9Yc0EOxizgDdZOnmtNzjKIs28JOZA6IuwTHAMXAfnwu8q/sXb2iN5x/XiiMRRuaIkuwv
-         5sNfiK8//2+RbvIT4Agh4LEOTpfJEpbyBx+soyOjm3nqZ4/4W2T+bHgm16X+kWhSLhfp
-         TzkA==
+        bh=GN9sFl1+GQFttZ/ZUfHEVtcjfduArap3m+/OPwLpDQM=;
+        b=GJR2NNX5WDI0vfgRQSS6mQ6313Axtg7fkS90uX25kf69lsQxBMqSqzV2bDDvaHoNGn
+         /gdmSqVJZjgrHP/4DB0o4DHwAqKpUEzAPDd/DkKAb2eR+5qLMmZMF4Vdx7Qfgy21a+sI
+         gy528x9EDGrkjYdrQvfIED+R4FXBSjpMKQHL5O4uhEF0VaMy/rE2aAxEcBzfhacz5ZKm
+         iyAlaFw12nYmfVzX4kFl8WNjcjqiuvpsXtrHmFEo+3DJt+IbRB88ij76KXwCiS5piX9X
+         FdLzcPJdK7+n2qbjUhBQYsAvb7L8Ep2y/MagqoLz4vqxDttv2HYTZWuMHVHUzGIkwyRe
+         KTFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=qGJNng2VgZI4oY7q5+k9xi/i50tfmj4whIC9+4hC+lc=;
-        b=B/m2n3sS/R8KDKpfHPiShyZK45npYXKDK0VLD7r/jwJ/iQDA6ShKyI2zyOWPIke//N
-         yOQgW/gx+Sx1kZoCKhL391B2ZyXPj8/yOGG7wgO55Lih3IAB8wsYpXKgAFnp+WQo3Vkk
-         C+tPdQlJ4VTaZrjmX3QsYJAefmAGlzknvIYIQEcyIe2hAm/Ld4dBuAPLoCwA0bhQtzQ1
-         zi/FKk1PspRoQiXLJIoVb4a8+QUgyzUOD7E/Q+3nytYJ9cXJQBue5ahfdyGrfnU3+A2x
-         RVXOu5os8XymIze9Afk2GkWYBpQWJlMOi0ILJLEaFD23BL/1zaTmwKVeu1d9t3Xx2Agm
-         NU9A==
-X-Gm-Message-State: AOAM533elpo+yc632xtqVR2GgoVEuyiOyOODJ5z1FYDIlsxcnUdiLyGr
-	74W3ZJfNbDdjoOI9Z/Wiy8++pK72TfnS6w==
-X-Google-Smtp-Source: ABdhPJy5xH1cpD1Tc2vWy11yra2qmKY/yGAPQNpAESprbvQdSUVqrgD4+XRTG9cRV7SPV+PLIJpRiw==
-X-Received: by 2002:a17:902:bf4c:: with SMTP id u12mr7356778pls.32.1594051871139;
-        Mon, 06 Jul 2020 09:11:11 -0700 (PDT)
+        bh=GN9sFl1+GQFttZ/ZUfHEVtcjfduArap3m+/OPwLpDQM=;
+        b=DsON9nzMzXQbrQX2kcBHfSkYKkm4kKNHoa/bqGHBn1ruo7tRzGBYv572hw0aB/f+0Q
+         SD/4ldfBZMvpnf3ez6GIn0XenFSF7W7dqYmdua8jWbd5vQfHEgqqgKVygyVU623ZGSVq
+         UJ4i8aUyPtD/rE9dkxeCknlnGyXIuOsKijUJT7+QTnLBB/UP8M9PNin0wWC1QKmFoFh0
+         xL0Mcm1LFc0dV0oDdEMf6PQCsILHVR4DA5VsD9KtOhjDcq9aL64OdhbdUE1hVZpGUEjO
+         dIeEumHbMoMksNA1dfLjv2Per87Zz0gpv+o/smcB1qSTUEK37ZaUiIguExGZ+K8SMtgy
+         wogQ==
+X-Gm-Message-State: AOAM533P6viNLUWuTp3TCPQgPywLNqR02Yw/pHxwhthurZJYH4URc6Zd
+	7d19KTxJ0w9/jh9w9gPB5MFvTlrORgZ3qw==
+X-Google-Smtp-Source: ABdhPJzVHrJOyqTVZmioi+co42sGJPJ9tWTErzyBgS8NEkJiaFKOebPLtljC34fsCCjekY/8nES4xQ==
+X-Received: by 2002:a17:90a:2465:: with SMTP id h92mr24302pje.26.1594051873389;
+        Mon, 06 Jul 2020 09:11:13 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.09
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:10 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:12 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/25] u-boot: avoid blind merging all *.cfg
-Date: Mon,  6 Jul 2020 06:10:05 -1000
-Message-Id: <8c2f4dc79f69df2174b8ab4f8b69a749aee16129.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/25] kernel/yocto: ensure that defconfigs are processed first
+Date: Mon,  6 Jul 2020 06:10:06 -1000
+Message-Id: <7a8612998a367dd3a54344ae75983cb210db813d.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Jens Rehsack <rehsack@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This fixes u-boot-qoriq breakage of:
+It is uncommon that a BSP definition and a defconfig are used in
+a single configuration. That being said, it is a valid way to
+organize kernel configuration meta data.
 
-    commit 4fde8c8f479f5acd24fb6e0d0b9b4dc94d6f560b
-    Author: Ming Liu <ming.liu@toradex.com>
-    Date:   Wed Jun 3 13:56:01 2020 +0200
+When a defconfig is used, either on the src_uri or from in
+the kernel tree, it is normally expected that it is the baseline,
+with all options applied on top of it.
 
-	u-boot: support merging .cfg files for UBOOT_CONFIG
+With this commit, we detect either type of defconfig and ensure
+that it is used first, followed by the fragments in their
+previous order. This allows existing configuration stacks to
+remain the same, while ensuring that a defconfig combined stack
+works as expected.
 
-	U-boot recipe supports .cfg files in SRC_URI, but they would be merged
-	to .config during do_configure only when UBOOT_MACHINE is set, we
-	should also support merging .cfg files for UBOOT_CONFIG.
-
-The intension of 4fde8c8 looks more than append delta-config snippets to
-u-boot config and should probably be rewritten to express that much better
-than implicitely assume all "*.cfg" are for merging into .config.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b4644f231a1463123d4100fcaf1448b3d174ef1a)
+(cherry picked from commit e6845327b69396d843a2f3c4c3ac9400ae9caedf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/kernel-yocto.bbclass | 33 ++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index f905dfed4e..bed759c7c5 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -89,8 +89,10 @@ do_configure () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]; then
-                     oe_runmake -C ${S} O=${B}/${config} ${config}
--                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
--                    oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                    if [ test -n "${@' '.join(find_cfgs(d))}" ]; then
-+                        merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-+                        oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                    fi
-                 fi
-             done
-             unset j
-@@ -123,7 +125,7 @@ do_compile () {
- 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
- 	fi
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 5bc627066e..41d8620e67 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -131,7 +131,7 @@ do_kernel_metadata() {
+ 			else
+ 				cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
+ 			fi
+-			sccs="${WORKDIR}/defconfig"
++			in_tree_defconfig="${WORKDIR}/defconfig"
+ 		else
+ 			bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
+ 		fi
+@@ -153,14 +153,24 @@ do_kernel_metadata() {
+ 	patches="${@" ".join(find_patches(d,''))}"
+ 	feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
  
--    if [ -n "${UBOOT_CONFIG}" ]
-+    if [ -n "${UBOOT_CONFIG}" -o -n "${UBOOT_DELTA_CONFIG}" ]
-     then
-         unset i j k
-         for config in ${UBOOT_MACHINE}; do
+-	# a quick check to make sure we don't have duplicate defconfigs
+-	# If there's a defconfig in the SRC_URI, did we also have one from
+-	# the KBUILD_DEFCONFIG processing above ?
+-	if [ -n "$sccs" ]; then
+-	    # we did have a defconfig from above. remove any that might be in the src_uri
+-	    sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
++	# a quick check to make sure we don't have duplicate defconfigs If
++	# there's a defconfig in the SRC_URI, did we also have one from the
++	# KBUILD_DEFCONFIG processing above ?
++	src_uri_defconfig=$(echo $sccs_from_src_uri | awk '{ if ($0=="defconfig") { print $0 } }' RS=' ')
++	# drop and defconfig's from the src_uri variable, we captured it just above here if it existed
++	sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
++	if [ -n "$in_tree_defconfig" ]; then
++		sccs_defconfig=$in_tree_defconfig
++		if [ -n "$src_uri_defconfig" ]; then
++			bbwarn "[NOTE]: defconfig was supplied both via KBUILD_DEFCONFIG and SRC_URI. Dropping SRC_URI defconfig"
++		fi
++	else
++		# if we didn't have an in-tree one, make our defconfig the one
++		# from the src_uri. Note: there may not have been one from the
++		# src_uri, so this can be an empty variable.
++		sccs_defconfig=$src_uri_defconfig
+ 	fi
+-	sccs="$sccs $sccs_from_src_uri"
++	sccs="$sccs_from_src_uri"
+ 
+ 	# check for feature directories/repos/branches that were part of the
+ 	# SRC_URI. If they were supplied, we convert them into include directives
+@@ -187,11 +197,10 @@ do_kernel_metadata() {
+ 	# expand kernel features into their full path equivalents
+ 	bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE} -DKTYPE=${LINUX_KERNEL_TYPE})
+ 	if [ -z "$bsp_definition" ]; then
+-		echo "$sccs" | grep -q defconfig
+-		if [ $? -ne 0 ]; then
++		if [ -z "$sccs_defconfig" ]; then
+ 			bbfatal_log "Could not locate BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
+ 		fi
+-
++	else
+ 		# if the bsp definition has "define KMETA_EXTERNAL_BSP t",
+ 		# then we need to set a flag that will instruct the next
+ 		# steps to use the BSP as both configuration and patches.
+@@ -206,7 +215,7 @@ do_kernel_metadata() {
+ 	elements="`echo -n ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}`"
+ 	if [ -n "${elements}" ]; then
+ 		echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
+-		scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
++		scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNEL_FEATURES}
+ 		if [ $? -ne 0 ]; then
+ 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+ 		fi
 -- 
 2.17.1
 
