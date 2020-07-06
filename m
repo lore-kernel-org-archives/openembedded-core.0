@@ -1,96 +1,139 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.61453.1594051919072709456
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.61283.1594051921730067123
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:59 -0700
+ Mon, 06 Jul 2020 09:12:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RflpIUVE;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id u185so15119705pfu.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dTb0E+YM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f194.google.com with SMTP id j20so1480576pfe.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=gMKRg4LfAq6d7MPmZY7Ouj3ZptmJ30rbzLnj9GhljOs=;
-        b=RflpIUVEubmvlcVnZtSzO8A5iRQVSRg5I4hGup12xYFptGKbWQ2sLGWcrXxBX/C2n3
-         NPsQYPIBntv07hxSjfH1NysUIfsIrbD9/RHeAf352Mc5H9HoH851SteNmDYc41im2q5X
-         ngxtyy5OTWs3CENDPdPGc/d/IhRHe3bsPTWXQlHzHpgvrN4bBvCMga6y1Se9+6z3GXUW
-         4WOolPsDQN3HN9U4J64RZvBxb6VuxV0THi5OK1g+6kk7AaATJg+DL7OtRHX40N1K0fe3
-         Hy8FkbtUUkSp0tdwoRDPYKMwl21bMRNo6gFKPQkx0heiRpvICXRTcB5wNO2+ykXf2DqW
-         eChg==
+        bh=Kno1jS+YEYXbS9LfK+m7snhkGLSGON2yDhbexBXjvH0=;
+        b=dTb0E+YMtNmQC+55i7mQGJ0F7OFzjfZrmOLV6P7NDgnuChfcTB5DgTjsKYgt4fwdDn
+         LxxTFv3M8DPX96TQqN2etRMMy07HJMXRJqhvTGH4y8AUtimKiTKE3UcGKZXoAmSAn4cW
+         rGfIq2eiEqQNMojNu5wTAfhsYKsREdRT6w4/S5gREp2xfw2accN2FoZRHiNDFoy5ycss
+         jkFpZAp2Hep030ebcvo+j3wvYKny4dSi6AOY4McKAUll9QB+NM2RO76rYh81SmQDAO3t
+         VBb5c8JvKE4hTPBXf1bLiE2EIEtVud1FeRVb/Y79zedxDYzHYWypIHYkRBanE1o5HASo
+         mGjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=gMKRg4LfAq6d7MPmZY7Ouj3ZptmJ30rbzLnj9GhljOs=;
-        b=Ja1FlGVKAA57XM2Ib9mg+CvgNUCFSdSpQwX2Q1HveoA3FD3z161ihODXC6YUxSwdSA
-         YkC+cbiM+c+UAHUPliLnbu4U8MQc/gMcSS2OK1XskGdDUY3vaI+8TjjGZiR9xKAYJDUu
-         5HyQTruip56XA9DQ9vLdcYA90b2ofDdax78+58qfS+LFH8cdZHiJ/qWa2XYtj6B5VUYH
-         0CWPHqeF/pbx2Na7ke84aBZbeaXLERbuAPLtDvZoheFOpydMmMs4BM++DO4vCPh5bEZT
-         rLgyv4Ugbgj/ZWeNrzrTW2LSuUA2A00m4rhdPMHYbZRsojp9wWM6cLvAFNAbq26F+6/b
-         wqhQ==
-X-Gm-Message-State: AOAM531ZvWP7p+EVTliQkE4l0WK6sf4TMWYAC89mk/OffKHlFXYeLyqz
-	An8SWATxmHd4kjMHUaY2iuY0LJaEyEMelw==
-X-Google-Smtp-Source: ABdhPJzjGMMCA6Hfw297GJ1rvEr8He7bKMda5pcmdGM9Llhc9+PwOh6lL5ryG6YMAy1brCkaO2HFsA==
-X-Received: by 2002:a62:7e0d:: with SMTP id z13mr42044721pfc.161.1594051918110;
-        Mon, 06 Jul 2020 09:11:58 -0700 (PDT)
+        bh=Kno1jS+YEYXbS9LfK+m7snhkGLSGON2yDhbexBXjvH0=;
+        b=m3P+f/arQJIE09RoBOakOgq/RYvNXcwg0VlLKIdfmI0N+AT9y+0qVWWu7NUFYHuCZC
+         1QGlM6sNWVz5eKqy69bk0dEjWhGpKyR0AZdyw9AEgd29vKiIk0IVvW312fdQgG59LjT4
+         3FgHlJk/02rfb+53kUpYGCvPOc/Gi10UvPiQei4ZxYlazTYEfvwebtkxqu4Dxpo8PiD8
+         ogC3+B3bfBfjRDnVhYwe6zFdOSBFyT4UAuB6PC0vQ5QqHHbpFHSNCjKvBvzH1x5WX2Eo
+         tZQwOGKhD1mSIm56ZAfS0YICsJd1Z+i3DQRmeoIiCDXWvPbWh/J7O21d+5jPso6KQVjz
+         4oRQ==
+X-Gm-Message-State: AOAM530VzSTP99sI2xbvKWMqyjx+06YGTGgho+PDThZylc3bRSiOThY9
+	sWliqw9SO5Xap8r9y5cCwZdIL51RNAHWJw==
+X-Google-Smtp-Source: ABdhPJyVdAlD1wHAc9txg75K7IGyzWN7e/vroG9czp2Qrnpp8j01y5A5Y4EH9iQvOAPXn7HNeQPXMw==
+X-Received: by 2002:aa7:988e:: with SMTP id r14mr36272172pfl.35.1594051920748;
+        Mon, 06 Jul 2020 09:12:00 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.56
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:57 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:59 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 22/25] rootfs-postcommands: Improve/fix rootfs_check_host_user_contaminated
-Date: Mon,  6 Jul 2020 06:10:24 -1000
-Message-Id: <eac1c35c7d441dfadb323884717d267ba1c789b7.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 23/25] sqlite3: Security fix for CVE-2020-15358
+Date: Mon,  6 Jul 2020 06:10:25 -1000
+Message-Id: <5cb016f1cbaebe636ad97f8521df7d2c4a79122e.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Armin Kuster <akuster@mvista.com>
 
-Currently if the find command finds /home it stops checking the other
-files. Tweak the find expression to fix this.
+Source: sqlite.org
+MR: 104526
+Type: Security Fix
+Disposition: Backport from https://www.sqlite.org/src/vinfo/10fa79d00f8091e5?diff=1
+ChangeID: a1c012b8c8aecd4970f3ae16686bf25f2376f542
+Description:
 
-Also, from Alex Kiernan <alex.kiernan@gmail.com>, generate output for
-each contaminated path so it's visible in the main log file.
+Affects sqlite < 3.32.3
 
-When matches are found, dump the data from the group and passwd files
-so useful debugging can be done based on the results.
+Fixes CVE CVE-2020-15358
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 504f1d158bf7c6ad08fbce755021db2b14565231)
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ .../sqlite/files/CVE-2020-15358.patch         | 47 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-15358.patch
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 2f171836fa..c43b9a9823 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -308,12 +308,16 @@ rootfs_check_host_user_contaminated () {
- 	HOST_USER_UID="$(PSEUDO_UNLOAD=1 id -u)"
- 	HOST_USER_GID="$(PSEUDO_UNLOAD=1 id -g)"
- 
--	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
--	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
-+	find "${IMAGE_ROOTFS}" -path "${IMAGE_ROOTFS}/home" -prune -o \
-+	    -user "$HOST_USER_UID" -print -o -group "$HOST_USER_GID" -print >"$contaminated"
+diff --git a/meta/recipes-support/sqlite/files/CVE-2020-15358.patch b/meta/recipes-support/sqlite/files/CVE-2020-15358.patch
+new file mode 100644
+index 0000000000..086f6ef913
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2020-15358.patch
+@@ -0,0 +1,47 @@
++Fix a defect in the query-flattener optimization identified by ticket [8f157e8010b22af0]. 
 +
-+	sed -e "s,${IMAGE_ROOTFS},," $contaminated | while read line; do
-+		bbwarn "Path in the rootfs is owned by the same user or group as the user running bitbake:" $line `ls -lan ${IMAGE_ROOTFS}/$line`
-+	done
- 
- 	if [ -s "$contaminated" ]; then
--		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
--		cat "$contaminated" | sed "s,^,  ,"
-+		bbwarn "/etc/passwd:" `cat ${IMAGE_ROOTFS}/etc/passwd`
-+		bbwarn "/etc/group:" `cat ${IMAGE_ROOTFS}/etc/group`
- 	fi
- }
- 
++Upstream-Status: Backport
++https://www.sqlite.org/src/info/10fa79d00f8091e5
++CVE: CVE-2020-15358
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: sqlite-autoconf-3310100/sqlite3.c
++===================================================================
++--- sqlite-autoconf-3310100.orig/sqlite3.c
+++++ sqlite-autoconf-3310100/sqlite3.c
++@@ -18349,6 +18349,7 @@ struct Select {
++ #define SF_WhereBegin    0x0080000 /* Really a WhereBegin() call.  Debug Only */
++ #define SF_WinRewrite    0x0100000 /* Window function rewrite accomplished */
++ #define SF_View          0x0200000 /* SELECT statement is a view */
+++#define SF_NoopOrderBy   0x0400000 /* ORDER BY is ignored for this query */
++ 
++ /*
++ ** The results of a SELECT can be distributed in several ways, as defined
++@@ -130607,9 +130608,7 @@ static int multiSelect(
++                           selectOpName(p->op)));
++         rc = sqlite3Select(pParse, p, &uniondest);
++         testcase( rc!=SQLITE_OK );
++-        /* Query flattening in sqlite3Select() might refill p->pOrderBy.
++-        ** Be sure to delete p->pOrderBy, therefore, to avoid a memory leak. */
++-        sqlite3ExprListDelete(db, p->pOrderBy);
+++        assert( p->pOrderBy==0 );
++         pDelete = p->pPrior;
++         p->pPrior = pPrior;
++         p->pOrderBy = 0;
++@@ -131958,7 +131957,7 @@ static int flattenSubquery(
++     ** We look at every expression in the outer query and every place we see
++     ** "a" we substitute "x*3" and every place we see "b" we substitute "y+10".
++     */
++-    if( pSub->pOrderBy ){
+++    if( pSub->pOrderBy && (pParent->selFlags & SF_NoopOrderBy)==0 ){
++       /* At this point, any non-zero iOrderByCol values indicate that the
++       ** ORDER BY column expression is identical to the iOrderByCol'th
++       ** expression returned by SELECT statement pSub. Since these values
++@@ -133659,6 +133658,7 @@ SQLITE_PRIVATE int sqlite3Select(
++     sqlite3ExprListDelete(db, p->pOrderBy);
++     p->pOrderBy = 0;
++     p->selFlags &= ~SF_Distinct;
+++    p->selFlags |= SF_NoopOrderBy;
++   }
++   sqlite3SelectPrep(pParse, p, 0);
++   if( pParse->nErr || db->mallocFailed ){
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+index 57a791385c..e5071b48bb 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+@@ -7,6 +7,7 @@ SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2020-9327.patch \
+            file://CVE-2020-11656.patch \
+            file://CVE-2020-11655.patch \
++           file://CVE-2020-15358.patch \
+            "
+ SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
+ SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
 -- 
 2.17.1
 
