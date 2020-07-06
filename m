@@ -1,58 +1,88 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.55388.1594033386069524390
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.55975.1594036634516942758
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 04:03:06 -0700
+ Mon, 06 Jul 2020 04:57:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 28E0960FF5
-	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2020 11:03:04 +0000 (UTC)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=fbt7uLhJ;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.67, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f67.google.com with SMTP id w3so29183566wmi.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 04:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E69bHbEsJihMbEZ3CWtIssaEIowdHi/LYAchKQQlgp8=;
+        b=fbt7uLhJD/A3kIJgosxMYT1xrekL3h2FRcOh/fFC46EIQWVtPVE8a9JtCZ/Ubt9U08
+         G4jd+JZkeiRoO23QB0JYJiKkOucp77pOXd4Kqvnl3iA4DhalU7Gxn8JSuRf46NGUDt7W
+         lK//hSZa4cHM7fW3jZHwsT2i1POxUiCoksrXRnNylUN9Tcc0yAkpkX7Uz23iIBOw/tGT
+         E/z/P1+Jq9Z6MdqVhOqU9Z0SCyUYj5/SaveGVpPuogg+T6h+qj2iAKsvdWttAP5MqCXm
+         1mm0dYlCOHF6BbWbkBc5uTQVjayPYiJunZzjSQ2XvqdPRH3SUIV0Yg+2l86g0wcZ/ToR
+         VM7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E69bHbEsJihMbEZ3CWtIssaEIowdHi/LYAchKQQlgp8=;
+        b=hrcid7mLt9toT+hxiJ5j9r9MriYzPFQyz7kZ+yg0a1n58rRDyJUuuDSFUyMengdktb
+         PH8ofcNnf0dLbbCfteD7PcMjuNWnpjMHMcEVmY0lOVv6l6+3AUEAe+dSsghIPM8XxxDz
+         yeOF26XU/qx9dEfpWI11EaO0Mi1i/JVGqSxiGSArQs0zp9RLAYN9UpwImy/Elw1czsH3
+         Jxfphoe0qpx1+hPmYAMjbkAbroOXUltvfbrgJYCepDjbHAC7QwQt1n9mbrKmuNEiZL5d
+         ZvpuovRQl98+nmhQC+LQOOOBdgKLi+0y/l+FhUmZekpUpFJVR8CWk1MQp90MITTJT+pH
+         z8cA==
+X-Gm-Message-State: AOAM533TNYmiJN1w3KDo5LKbgx5zPMYP+v/S/mIUIka7xVHKK3qf+QUN
+	2rzhtVR0D6qu8NmzcyFTEumrsr1AcCnEmA==
+X-Google-Smtp-Source: ABdhPJwNYG17LbgpHl4E/pTK64mzJUynUcQv7mZSyhFwTfTAKugUqkvsHTSzu1iIvIDbWHG3yDKgaw==
+X-Received: by 2002:a1c:544f:: with SMTP id p15mr47377467wmi.84.1594036632440;
+        Mon, 06 Jul 2020 04:57:12 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
+        by smtp.gmail.com with ESMTPSA id w17sm26059553wra.42.2020.07.06.04.57.11
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2020 04:57:11 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gtk+3: fix reproducible build failure
+Date: Mon,  6 Jul 2020 12:57:07 +0100
+Message-Id: <20200706115707.3180610-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYS9jb3JlL2xvYWRlcjogZml4IHJlZ2V4IHRvIGluY2x1ZGUgbnVtYmVycw==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Vacek, Patrick via lists.openembedded.org
- <patrick.vacek=here.com@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 06 Jul 2020 11:03:05 -0000
-Message-ID: <20200706110305.20810.25988@do>
-References: <dcf024f45cbf15b5cda297569fdd35f260b6bf5e.camel@here.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <dcf024f45cbf15b5cda297569fdd35f260b6bf5e.camel@here.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+From: Ross Burton <ross.burton@arm.com>
 
-Series: oeqa/core/loader: fix regex to include numbers
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/25014/
-State : failure
+There's a build race between the use of a pre-generated file and
+re-generating it again, which breaks reproducible builds.  Solve the
+race by deleting the shipped generated file.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at bb946b8cdb)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-gnome/gtk+/gtk+3.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index e1ecf504a0..8d5edb7ee8 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -1,3 +1,4 @@
++
+ SUMMARY = "Multi-platform toolkit for creating GUIs"
+ DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
+ set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
+@@ -31,6 +32,13 @@ do_configure_prepend() {
+     ln -s ${TARGET_PREFIX}libtool libtool
+     #delete a file that will get confused with generated one in ${B}
+     rm -f ${S}/gtk/gtktypefuncs.c
++
++    # These files are generated by wayland-scanner but will race over modification
++    # time between the copies in the sysroot from wayland-protocols and the copy
++    # in the source tree. Solve the race by deleting so they need to be regenerated.
++    # 3.24.22 will not be shipping these files so this can be deleted then:
++    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
++    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
+ }
+ 
+ EXTRA_OECONF += " \
+-- 
+2.26.2
 
