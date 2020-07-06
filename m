@@ -1,166 +1,178 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.61885.1594053511980765902
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web10.10.1594055568240775172
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:38:32 -0700
+ Mon, 06 Jul 2020 10:12:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DBLfwI68;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.46, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f46.google.com with SMTP id a8so34400196edy.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:38:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KTxuHIy7;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id i4so40090177iov.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 10:12:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s9wByrGdYOQkBgjrJZ3cWL/ZTVAW/Ttw98ABoAlDsSg=;
-        b=DBLfwI68B5UnNVsmE+FPB+GP+qIzh23zdCAG74Rl+b8Hw9KBcjZU5Z+VaZQIJiiGar
-         xYmxIAHltpBaU/VGyDQwpNb0lAH+23JSaSGJ/rmacnmX6xY3iXRis78x6ofce2gJD6xv
-         C602mbUgJnlD7yhusmsV+6sL+90LSAF/VTxDEEomL2AlN/vK8Yna1s+XyAAzI+O3c+mL
-         IAEsjHbTeWOxl5TzmG65Iwz9mqf6Z0ODg8Y4pstqco7+mTWlR0ngn83/+zGcvwQoS9d5
-         jOiMQDdLJKAoQ+AlVFUy7zIcEv70pscaw/IcjVA2O+xW6HEGyKVZ+IBIB6pN7UyHvuJ4
-         RNoA==
+        d=gmail.com; s=20161025;
+        h=from:subject:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language;
+        bh=/7rjQEfqddy8xE0S/Z6G2K42FUr9kDShO0gsv3RWt8k=;
+        b=KTxuHIy7XLiD4SSaAj7/QIZUPu6PxKXazjTulGPrIE7NiXlpgvdSbsMt3q3II7t8al
+         AtVe17Pb07xY3liSr/5b4OyAmLJyJYgckNldbGYN4RHPCXfftM2qhEfr5rCYh/xh2fgu
+         EwBXwfTwpv1oWVmFlLnKk/lC0DoykTZ3lP6ZpkjfYsVWWc5u4LBH/3MeHX0/Imuh5GI+
+         AiVMctmsf37+G5QQcJmKUCyEYbrn+73tfsVb7TuVz+WMd+qtpGr/miWdHARz36Dda3xA
+         pM5JwS9fBzromxH4eyJQKtF8Tl66LEG5Yhfi8gJwzBzRWH8uExzJ3MNez0ek9q6V/TyT
+         fXCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s9wByrGdYOQkBgjrJZ3cWL/ZTVAW/Ttw98ABoAlDsSg=;
-        b=R/Ba5VEqYQObxa77z8wDdsOXWLQzDPvZ//HjqZG/gXyBjkTTr/rhrIGSfa8p2h+lnn
-         B2TfbD/3NeHOQrdRvvsL5hkd2JlKRyGByJl7N4/AB+sr8M6H+j/C4BeKY5LhLbOIWZuc
-         Jq4GCJqL+LiBpKidZckfF2mo+T0s9NtxWDTDBYOkKNphL6KClmibGMubYfVlsypfvXFx
-         P3/PdGAd/9amgxUJ5fXuE78j/e5VhQugUvqK7+sxAZq9onvYffvgY5hfhG/fWKun6LoM
-         94rz/rQQtYfif9yIVyQ5ilvvJx7ma/6MSwEtR+6MD02Qy+Jv407rHL4Oe9ueEyk3Zm/K
-         QNgQ==
-X-Gm-Message-State: AOAM533jJSMzXQZCchBzaayowLvhcuhaJWSB117vHa/A3HSuAfikcUm6
-	hUX2RDvafi6+0blxCSdHjyK8Rb4goq8P+TiZkToZCg==
-X-Google-Smtp-Source: ABdhPJzNKRLVfQ/NA8JPSFq+C/AufH3CgoqTV62odFJUE+BI//+Cw02AlyOJAMXAT/6R0/KU6Bdg3dYc7hY8f8d9pho=
-X-Received: by 2002:aa7:db53:: with SMTP id n19mr27589742edt.338.1594053510348;
- Mon, 06 Jul 2020 09:38:30 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=/7rjQEfqddy8xE0S/Z6G2K42FUr9kDShO0gsv3RWt8k=;
+        b=UHtM07CMYISw1q5T6lGNgOzc7jQ4bP4f7ystSaJRAADUC/cUQHxt8TedhDp/lPo2Pz
+         1jbOtNeytrwL4U/lqAMcOWvpILmoX0h4TfuJ5C5sciPh00TZ7YHqyPXuzqoQK8Kxvtgy
+         lKQVVSutzD9QZi41Yc8LGUiM1xaqgzuEMc3ifFdVC6t+9oF3XC+d6Hx8JuEAVsrM9QW0
+         nMBuRkilZ/LxyRweggf2iASCAmHzfHZFuFNep4s0/p7klHsxg0RKPWqKPRk+OG7X7Yoh
+         sJ/uAKVGqTvC6BI/s0UG2a90bg3vc/aJq1gBTtjCUE9HFm1z2WZcgiAT0zjuUmpyGrzg
+         Yw5A==
+X-Gm-Message-State: AOAM531ZQ1W4hUO9ooTRaNx8T6YZx+HCHbFWKrLdBVivIRlzfTTaUwyD
+	a/hL/y4X4i3ZNUEXRX5chnybOFidOk4=
+X-Google-Smtp-Source: ABdhPJw44lKyJuZSWNGYJy5v6FfvvavTQrQY+ld7BbSIY9/YoJRe0s7/uOKPKk1y8EDNY3HNlJRsWw==
+X-Received: by 2002:a5e:9309:: with SMTP id k9mr25915474iom.135.1594055567397;
+        Mon, 06 Jul 2020 10:12:47 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:656d:925d:1c0d:96dd? ([2605:a601:ac3d:c100:656d:925d:1c0d:96dd])
+        by smtp.gmail.com with ESMTPSA id o16sm11036429ilt.59.2020.07.06.10.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2020 10:12:46 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][dunfell 14/25] classes/archiver: run do_unpack_and_patch after do_preconfigure
+To: Steve Sakoman <steve@sakoman.com>,
+ openembedded-core@lists.openembedded.org
+References: <cover.1594050175.git.steve@sakoman.com>
+ <3c9dfa31c3ffcb882fb400f2513e14ae1d830ae6.1594050175.git.steve@sakoman.com>
+Message-ID: <4d68fb48-b134-cba3-5500-59db0b3f2433@gmail.com>
+Date: Mon, 6 Jul 2020 12:12:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <cover.1594050175.git.steve@sakoman.com> <7a8612998a367dd3a54344ae75983cb210db813d.1594050175.git.steve@sakoman.com>
- <CADkTA4Nyy_=+bXfiaXoHPzZHDsdHmfAX=tjzarrz3_y-Sw=3tw@mail.gmail.com>
-In-Reply-To: <CADkTA4Nyy_=+bXfiaXoHPzZHDsdHmfAX=tjzarrz3_y-Sw=3tw@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 6 Jul 2020 06:38:19 -1000
-Message-ID: <CAOSpxdYXtK=5=QhGEGiJbx1_zzQp2LmnnHBfAbZ8uL1W01hTdg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 04/25] kernel/yocto: ensure that defconfigs are processed first
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3c9dfa31c3ffcb882fb400f2513e14ae1d830ae6.1594050175.git.steve@sakoman.com>
+Content-Type: multipart/alternative;
+ boundary="------------3B091B906C15DBF8F8B4190E"
+Content-Language: en-US
 
-On Mon, Jul 6, 2020 at 6:29 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> We have a fixup patch for this one in test right now, so we don't want
-> this patch, without the follow up.
->
-> But this is useful for dunfell, since it was an unexpected behaviour
-> that needed to be fixed.
+--------------3B091B906C15DBF8F8B4190E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks, I'll drop this patch from the pull request and include it
-along with the fixup patch in next week's patch set.
+Steve,
 
-Steve
+Please also grab f02c190433 ("classes/archive: do_configure should not 
+depend on do_ar_patched") as it fixes a bug introduced by this patch
 
-> On Mon, Jul 6, 2020 at 12:11 PM Steve Sakoman <steve@sakoman.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > It is uncommon that a BSP definition and a defconfig are used in
-> > a single configuration. That being said, it is a valid way to
-> > organize kernel configuration meta data.
-> >
-> > When a defconfig is used, either on the src_uri or from in
-> > the kernel tree, it is normally expected that it is the baseline,
-> > with all options applied on top of it.
-> >
-> > With this commit, we detect either type of defconfig and ensure
-> > that it is used first, followed by the fragments in their
-> > previous order. This allows existing configuration stacks to
-> > remain the same, while ensuring that a defconfig combined stack
-> > works as expected.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit e6845327b69396d843a2f3c4c3ac9400ae9caedf)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  meta/classes/kernel-yocto.bbclass | 33 ++++++++++++++++++++-----------
-> >  1 file changed, 21 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> > index 5bc627066e..41d8620e67 100644
-> > --- a/meta/classes/kernel-yocto.bbclass
-> > +++ b/meta/classes/kernel-yocto.bbclass
-> > @@ -131,7 +131,7 @@ do_kernel_metadata() {
-> >                         else
-> >                                 cp -f ${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
-> >                         fi
-> > -                       sccs="${WORKDIR}/defconfig"
-> > +                       in_tree_defconfig="${WORKDIR}/defconfig"
-> >                 else
-> >                         bbfatal "A KBUILD_DEFCONFIG '${KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
-> >                 fi
-> > @@ -153,14 +153,24 @@ do_kernel_metadata() {
-> >         patches="${@" ".join(find_patches(d,''))}"
-> >         feat_dirs="${@" ".join(find_kernel_feature_dirs(d))}"
-> >
-> > -       # a quick check to make sure we don't have duplicate defconfigs
-> > -       # If there's a defconfig in the SRC_URI, did we also have one from
-> > -       # the KBUILD_DEFCONFIG processing above ?
-> > -       if [ -n "$sccs" ]; then
-> > -           # we did have a defconfig from above. remove any that might be in the src_uri
-> > -           sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
-> > +       # a quick check to make sure we don't have duplicate defconfigs If
-> > +       # there's a defconfig in the SRC_URI, did we also have one from the
-> > +       # KBUILD_DEFCONFIG processing above ?
-> > +       src_uri_defconfig=$(echo $sccs_from_src_uri | awk '{ if ($0=="defconfig") { print $0 } }' RS=' ')
-> > +       # drop and defconfig's from the src_uri variable, we captured it just above here if it existed
-> > +       sccs_from_src_uri=$(echo $sccs_from_src_uri | awk '{ if ($0!="defconfig") { print $0 } }' RS=' ')
-> > +       if [ -n "$in_tree_defconfig" ]; then
-> > +               sccs_defconfig=$in_tree_defconfig
-> > +               if [ -n "$src_uri_defconfig" ]; then
-> > +                       bbwarn "[NOTE]: defconfig was supplied both via KBUILD_DEFCONFIG and SRC_URI. Dropping SRC_URI defconfig"
-> > +               fi
-> > +       else
-> > +               # if we didn't have an in-tree one, make our defconfig the one
-> > +               # from the src_uri. Note: there may not have been one from the
-> > +               # src_uri, so this can be an empty variable.
-> > +               sccs_defconfig=$src_uri_defconfig
-> >         fi
-> > -       sccs="$sccs $sccs_from_src_uri"
-> > +       sccs="$sccs_from_src_uri"
-> >
-> >         # check for feature directories/repos/branches that were part of the
-> >         # SRC_URI. If they were supplied, we convert them into include directives
-> > @@ -187,11 +197,10 @@ do_kernel_metadata() {
-> >         # expand kernel features into their full path equivalents
-> >         bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE} -DKTYPE=${LINUX_KERNEL_TYPE})
-> >         if [ -z "$bsp_definition" ]; then
-> > -               echo "$sccs" | grep -q defconfig
-> > -               if [ $? -ne 0 ]; then
-> > +               if [ -z "$sccs_defconfig" ]; then
-> >                         bbfatal_log "Could not locate BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
-> >                 fi
-> > -
-> > +       else
-> >                 # if the bsp definition has "define KMETA_EXTERNAL_BSP t",
-> >                 # then we need to set a flag that will instruct the next
-> >                 # steps to use the BSP as both configuration and patches.
-> > @@ -206,7 +215,7 @@ do_kernel_metadata() {
-> >         elements="`echo -n ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}`"
-> >         if [ -n "${elements}" ]; then
-> >                 echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
-> > -               scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
-> > +               scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNEL_FEATURES}
-> >                 if [ $? -ne 0 ]; then
-> >                         bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
-> >                 fi
-> > --
-> > 2.17.1
-> >
-> > 
+On 7/6/20 11:10 AM, Steve Sakoman wrote:
+> From: Joshua Watt <JPEWhacker@gmail.com>
 >
+> The commit 8a7c779487 ("classes/archiver: Create patched archive before
+> configuring") fixed a race condition when using the archiver, but
+> introduced a bug where the GCC source would occasionally be deleted due
+> to the archiving code running before do_preconfigure. Instead, make sure
+> the archiving code runs after do_preconfigure by making
+> do_unpack_and_patch depend on it. This makes more sense anyway since
+> do_preconfigure is effectively an extension of do_patch.
 >
+> This fixes errors like:
 >
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+>   cat: .../gcc/defaults.h: No such file or directory
+>
+> when making certain configuration changes
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit d4be264061023ae0ea6e023d82a7b99605bfc22c)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>   meta/classes/archiver.bbclass | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index a8d3afcbe9..bf275f4543 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -583,8 +583,8 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
+>   addtask do_deploy_archives_setscene
+>   
+>   addtask do_ar_original after do_unpack
+> -addtask do_unpack_and_patch after do_patch
+> -addtask do_ar_patched after do_unpack_and_patch before do_preconfigure do_configure
+> +addtask do_unpack_and_patch after do_patch do_preconfigure
+> +addtask do_ar_patched after do_unpack_and_patch before do_configure
+>   addtask do_ar_configured after do_unpack_and_patch
+>   addtask do_ar_mirror after do_fetch
+>   addtask do_dumpdata
+>
+> 
+
+--------------3B091B906C15DBF8F8B4190E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Steve,</p>
+    <p>Please also grab f02c190433 ("classes/archive: do_configure
+      should not depend on do_ar_patched") as it fixes a bug introduced
+      by this patch<br>
+    </p>
+    <div class="moz-cite-prefix">On 7/6/20 11:10 AM, Steve Sakoman
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:3c9dfa31c3ffcb882fb400f2513e14ae1d830ae6.1594050175.git.steve@sakoman.com">
+      <pre class="moz-quote-pre" wrap="">From: Joshua Watt <a class="moz-txt-link-rfc2396E" href="mailto:JPEWhacker@gmail.com">&lt;JPEWhacker@gmail.com&gt;</a>
+
+The commit 8a7c779487 ("classes/archiver: Create patched archive before
+configuring") fixed a race condition when using the archiver, but
+introduced a bug where the GCC source would occasionally be deleted due
+to the archiving code running before do_preconfigure. Instead, make sure
+the archiving code runs after do_preconfigure by making
+do_unpack_and_patch depend on it. This makes more sense anyway since
+do_preconfigure is effectively an extension of do_patch.
+
+This fixes errors like:
+
+ cat: .../gcc/defaults.h: No such file or directory
+
+when making certain configuration changes
+
+Signed-off-by: Joshua Watt <a class="moz-txt-link-rfc2396E" href="mailto:JPEWhacker@gmail.com">&lt;JPEWhacker@gmail.com&gt;</a>
+Signed-off-by: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+(cherry picked from commit d4be264061023ae0ea6e023d82a7b99605bfc22c)
+Signed-off-by: Steve Sakoman <a class="moz-txt-link-rfc2396E" href="mailto:steve@sakoman.com">&lt;steve@sakoman.com&gt;</a>
+---
+ meta/classes/archiver.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index a8d3afcbe9..bf275f4543 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -583,8 +583,8 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
+ addtask do_deploy_archives_setscene
+ 
+ addtask do_ar_original after do_unpack
+-addtask do_unpack_and_patch after do_patch
+-addtask do_ar_patched after do_unpack_and_patch before do_preconfigure do_configure
++addtask do_unpack_and_patch after do_patch do_preconfigure
++addtask do_ar_patched after do_unpack_and_patch before do_configure
+ addtask do_ar_configured after do_unpack_and_patch
+ addtask do_ar_mirror after do_fetch
+ addtask do_dumpdata
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------3B091B906C15DBF8F8B4190E--
