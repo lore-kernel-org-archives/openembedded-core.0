@@ -1,144 +1,97 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.98])
- by mx.groups.io with SMTP id smtpd.web11.53552.1594023477375048215
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.120])
+ by mx.groups.io with SMTP id smtpd.web12.54932.1594031692217302319
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 01:17:58 -0700
+ Mon, 06 Jul 2020 03:34:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=GCKyKh9B;
- spf=pass (domain: prevas.dk, ip: 40.107.7.98, mailfrom: rasmus.villemoes@prevas.dk)
+ dkim=pass header.i=@here.com header.s=selector2 header.b=YDqQYLBF;
+ spf=pass (domain: here.com, ip: 40.107.22.120, mailfrom: patrick.vacek@here.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AOg29epvSbkY2hunn+qHXJYuTfWXWsw8WKyyW5kKV9ictiymasg0M05uBRQuylQ/HmsU4sVpZUvjGtUery1adR8IXSZhR6w3x5OFOK+Gzv/5NJCVn++SIW9hua887wEjeLdvVGzMgGtFQJHUP8+1cuPGahH1dUlQyO3v6sMyRzIDdwj0rGmGOxXW+rfyKe0dXgUH8ey9v+m/XTAmjHpzqTmOQ7GNRefP+3OME6dSAdqCO2fVJgpdglFSFETVlknQ8ToruLyocwpxDd9OrinVUAEcVO7wHCSaTAQCSxWRT022bJ7z2zKsTqxbXvnzDaU58ngzbprFNWv3OQh8wKu8Cw==
+ b=HLHjhw0DOeUJcjp2Jd3JkGkAOFQj8fjl6qQI3B+4HHA2qwVJud+6ZwpnFCIxbmibWHgXUtm94cCG5yMGaktKwy0dSHVplfJXK+XMjf80xdq4EDnzp3DV91l6l6fLWsVfe1m/bY0KPf6IbMFuulVOBhe7mKK/swiY/UnVJX65HrU0bBIPI5pQcQogm/RvagfxkuXXPp94ltLOdFD4N6A3Axd5CkaCbpWRkIPGhRSHv/VERsbHuDOxS9YgcXInxuQCm5kZD8QqrbKlfimu7vexofc4cRdo9YlV8tnRLAQRFH1RVLGLqniFBxBpTuKgd+W012I95IQ/KCvW8ZYc3K4V0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kvT+YXy8yKc/DIbT/SwaPkl2bQo0VRlNphwh0TV1ij0=;
- b=BaYChckt4DK9eTWQjcfDxP7UVAalT3xMUnjtZXE56WGvtdlfYGczk0x7vjzPuFSMuN8ixuDnvAXOSf3avs4LnFzKOwfXCbxP08OQgzZkBxCFOkCeseM6ovw8JrsdqrPSb7oxBPEpyW+9JYxCNsVIFTEoFFvzZuej1NUQVgK9WHXl6xeftTcc5yHJe4UBHsPklWQmbCKX/rUQLS9HACXq/oU4X7o/vMnh9ARqnXC0/JHckAi+QZqYq5hPjZ7CbqXKbPVXn+hvqYN6MgXE8Ck07eIfJ2cMkK9cyLZ5D4A+fraoBTBJBN3fUeYKjG+gpJunCYb9L5R1fqNyiVm3kcEXPA==
+ bh=u1+iWyMWKTJ+WBuffV0w5FTx6G04quV29ZcT0I16MV0=;
+ b=V9DritFqcFcWRzxkNdyylMnbPK+4vx0FApR/J4OdJDt5UV6KRbvyoszVUYrbl45q+LqbxudsggDVOL62MxR5F6W0ihSoMInQl9+bCcjyXUZROGfIFycpQbk9lebg5ORNkWYJTerrJtE9sGh3VNDuxVZsSiOJuzbaqGXZqv5KLnvlWduxYwpyaAi83GEwkMm3zA6gr6z3Sa7N7LUWzLxFC6tk/HEAf+YmoRTNupllubUrGy6xQ8ydbfpxmzJSiFyWaJSpjxPTmec2l+oK2SXcOf+tmbHDwaipBM07d/UKuiQkushkItL2n/4mpfI9ByR+w212+HOl5HO4KpFJkwq40Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
+ smtp.mailfrom=here.com; dmarc=pass action=none header.from=here.com;
+ dkim=pass header.d=here.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=here.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kvT+YXy8yKc/DIbT/SwaPkl2bQo0VRlNphwh0TV1ij0=;
- b=GCKyKh9BZrW7LbEt3mMYsOnBA62AMHftkUZvuFc0GGMJCNpKUf70vgTk+4/ZW+8fXgRo70PwFlR6N1aSgTtPcNHGPUdF6ChXqZTd7JH1ef2ZdQ/9ebihDOU8gL2xW7cMqTVE3wnYxZtdMXUPO4vhl09ajjuqcRDAaeEhF5ZFdPE=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=prevas.dk;
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
- by AM0PR10MB2962.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15e::30) with
+ bh=u1+iWyMWKTJ+WBuffV0w5FTx6G04quV29ZcT0I16MV0=;
+ b=YDqQYLBFYu4NAyk8Reo6C9+5w9pHTo8TXmVhEYqQn0lz3M9onu+cu7X2ME87fX7f0WBZQ5+KX+/6TBi52Q1fT8CrS/CUl51DhQdZw6UjoaUdnL4L7MYS/1IOGZmSb2eb3s0kBpwva9hfQLB6pQivaOzLzBvtdQe69XjlCZ3Idwg=
+Received: from VE1PR04MB6431.eurprd04.prod.outlook.com (2603:10a6:803:12a::13)
+ by VE1PR04MB6432.eurprd04.prod.outlook.com (2603:10a6:803:122::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.27; Mon, 6 Jul
- 2020 08:17:54 +0000
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::91fd:aebc:e8cb:a663]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::91fd:aebc:e8cb:a663%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
- 08:17:54 +0000
-From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-To: openembedded-core@lists.openembedded.org
-CC: Adrian Bunk <bunk@stusta.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: [PATCH v2] coreutils: don't split stdbuf to own package with single-binary
-Date: Mon,  6 Jul 2020 10:17:39 +0200
-Message-ID: <20200706081739.8418-1-rasmus.villemoes@prevas.dk>
-X-Mailer: git-send-email 2.23.0
-X-ClientProxiedBy: AM0PR10CA0060.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::40) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:3f::10)
-Return-Path: rasmus.villemoes@prevas.dk
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.24; Mon, 6 Jul
+ 2020 10:34:46 +0000
+Received: from VE1PR04MB6431.eurprd04.prod.outlook.com
+ ([fe80::1427:13eb:c506:99dd]) by VE1PR04MB6431.eurprd04.prod.outlook.com
+ ([fe80::1427:13eb:c506:99dd%5]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 10:34:46 +0000
+From: "Vacek, Patrick" <patrick.vacek@here.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] oeqa/core/loader: fix regex to include numbers
+Thread-Topic: [PATCH] oeqa/core/loader: fix regex to include numbers
+Thread-Index: AQHWU4ERSqwFNX2CJUaNOMuZkKitVQ==
+Date: Mon, 6 Jul 2020 10:34:46 +0000
+Message-ID: <dcf024f45cbf15b5cda297569fdd35f260b6bf5e.camel@here.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=here.com;
+x-originating-ip: [2003:fc:d700:d000:40fb:1437:ccb1:8ab3]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 1cd5088b-aa89-4807-e081-08d82198342a
+x-ms-traffictypediagnostic: VE1PR04MB6432:
+x-microsoft-antispam-prvs: 
+ <VE1PR04MB6432E7A28FB61F5CCEF39B528D690@VE1PR04MB6432.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 04569283F9
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Ykw5eDTTHUGbLBSGAr+aRBhmraMExHW04lTBtrHgT1X9PJmX190gD7pvOsbHFi6ZX0bIB7SwErlhhinFx3UHnaVuErdawq4eUpRzEJWz5pzLv4AYXTHJ5NLTE2EwyC8mOBqz4humZ7abL18Vc8vcC80GqVew0VyTFk+7cU3CYEfBE+WuSB5I1HfPLB63QKc16iRYBoFSvhxqdr3s/ZfT5pEEROuGDh2g3x2P8aqqyeJv45FsGsaN8w0OrZh7UdxliS00kPR308axW4aKmXKJcWZBC1n69q8hFNg5TsFpl6RAuLe3I3SyAlfdSfcjuG4zNt1iT+Hk1WcPoJEWSm8nCA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6431.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(39850400004)(346002)(376002)(136003)(396003)(6916009)(91956017)(316002)(76116006)(8676002)(66946007)(66556008)(66446008)(71200400001)(66476007)(64756008)(478600001)(4744005)(6512007)(36756003)(6506007)(6486002)(5660300002)(83380400001)(86362001)(8936002)(2906002)(186003)(2616005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 
+ XaDKtGKsjvX5Hhh1xTvgRGpkHhnNsylTzQf8vyjD1AxhsuNyjK3HigEHf6OlvYmhLgpL9rFFqNooDF8NNC40bbMY7abCWdEo3tItfLTfluhF7T/MMrg+yjU1RoCXKVbSNQiIveVftJki/SFe8e52Xzk2DuOXblL2xE5ZGtH0L0WFUnZZEiFPPON8Dwj7tdOpGHnNzdfcAETUH5GtiKOPmANfd/FbMwz9K1bB5fIRqz9Wo1hqxq32QmofkyeTfriO5pmwygFA3Ek7Dd/R+Fo40Lbu6pkpXCXPFtaKJE64PuZ9XQExBSKk3uEJdUDxWeNk+e4neQhZdtki6YIJAbjOQIi2ZTK+ammXrZmxinH3F65ij3mASXU8Z2M6uCd9pmhEvQtHRu5yn1grMqXkpuCtrn2FFjLHnmEyBK2WVMvwXT+JEHzvuD+dK0ByNQC7CZI5WohTXM+o3t3dtO3wR77GVTDY/w9uJdgoI2s8PwI29XbGM1rKG2Gg9oijSLG13OcXCRM7a8LPFo6j4gnciQgbdkpTDFlF3Xwux709er9aBrw=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from prevas-ravi.prevas.se (81.216.59.226) by AM0PR10CA0060.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend Transport; Mon, 6 Jul 2020 08:17:53 +0000
-X-Mailer: git-send-email 2.23.0
-X-Originating-IP: [81.216.59.226]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fca3499e-efce-468a-1d84-08d8218514fe
-X-MS-TrafficTypeDiagnostic: AM0PR10MB2962:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR10MB2962CD37546EBBF0B435188593690@AM0PR10MB2962.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 04569283F9
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DUwowqRKh02lDeAuDu1459hLNvhbCR0tcfsheIhgHtyXkCGH997+09a4L2Ze8ZGxe4jqc4E+t3tFvPQPIcCwvd1x5JPqiINMTndnHQwwoeIISH0beJdAO6s8rP5lyTcsJw5eZ9jO72jakvhqeRpZdzK/rgqpv3wZiNMfNCnqdKWyAPzKZXOwvViy8tzWFdni689DY/UEwbpz4ur5ifN5/mvgzM92GqzFvuxG3g7oQZD3ys6/2aAV1eFhpLvwuU6mVO6hxzTVFB3o225vciy+KZQoKXdQyJS+MQQMCAAVeZUEi/IVwQZUU1QT6YDPrLS9C5iqy/K/sHFllHpDxfRTIw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(366004)(39840400004)(396003)(376002)(136003)(346002)(8676002)(6666004)(8936002)(6512007)(316002)(86362001)(36756003)(478600001)(186003)(6506007)(16526019)(26005)(2906002)(52116002)(54906003)(5660300002)(8976002)(6486002)(66946007)(4326008)(1076003)(107886003)(44832011)(83380400001)(2616005)(66476007)(6916009)(956004)(66556008);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	8K4BH2vfiGvGf9RLRIXoJZV2r3sEvFqQw8fxELijwCs8dFt5rvhG2YyJ/T/oDUtFeP9+CGFzIgtXR0128DydZMEowEa/y3tj5AvCSa2YOoMlGFkSmrkpUGCa8zTaYShvH4mmxY139MGQ0KgG30nenUz4Y+j8lUh8asdr3eh0ZcmXYkpFgTLUjuqsIvAE0TWLKentTQH70Bq+hEpgJdpCWoqcZCi9R5uH9a6Ah4YGE1w8OTRC1+Yg8wEIc1Q+jmTwQa9kW/orRg2X6je+aaQplOxGfTnu7/M2QhjW7/2yqJGp9Nbm5Ch+FFegttsPDMliaHTqQrnT/QXi4aQ3SduMicvk13izEd4MvKboRiGZoPtnNw/2WwWP+ARdPYIJTblzmSgGqVJl76ck5gC9li/WYmlaofmjexA4sAaUE8gqO6oq/W7ctXMBm5gzq224I59Nv9cTrvW68f8PtwP6um1x9hgWeQ4KqRMwJ+d+yTmOiTM=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: fca3499e-efce-468a-1d84-08d8218514fe
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+X-OriginatorOrg: here.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 08:17:54.1469
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6431.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cd5088b-aa89-4807-e081-08d82198342a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2020 10:34:46.5726
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r+2xscCE3lx7jvZ0x4ZRyqraRjUEerjZACjxlkQOJBZcc6LXHd1gmOQLvbOx9qNmVShiCtQmB10jwDT/yPxPGVMlZD4Onx86iLY48rI6giQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2962
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6d4034cd-7225-4f72-b853-91feaea64919
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eaJFczpaWJYZBSpLOdtMkmHG0MGYEQ3Zzbm7rrOJg1GPUu/o+JVCH1+zV3MUCh1dOgkmIAXvTwnpj/5kYT8zAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6432
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6815C7571E50CD408530D6AA9CE7D960@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-Commit 992cec44 (coreutils: Move stdbuf into an own package
-coreutils-stdbuf) breaks package-qa when the single-binary
-PACKAGECONFIG is used:
-
-ERROR: coreutils-8.32-r0 do_package_qa: QA Issue: /usr/bin/stdbuf contained=
- in package coreutils-stdbuf requires /usr/bin/coreutils, but no providers =
-found in RDEPENDS_coreutils-stdbuf? [file-rdeps]
-ERROR: coreutils-8.32-r0 do_package_qa: QA run found fatal errors. Please c=
-onsider fixing them.
-
-With that PACKAGECONFIG, /usr/bin/stdbuf is just a simple "script"
-containing the single line
-
-  #!/usr/bin/coreutils --coreutils-prog-shebang=3Dstdbuf
-
-Since there's no point splitting stdbuf to its own package when all
-the functionality is in the single big coreutils binary anyway, fix
-this by not creating the separate stdbuf package for the single-binary
-case. But also make sure that the coreutils-stdbuf item always exists
-so recipes can always RDEPEND on coreutils-stdbuf.
-
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
----
- meta/recipes-core/coreutils/coreutils_8.32.bb | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/coreutils/coreutils_8.32.bb b/meta/recipes-c=
-ore/coreutils/coreutils_8.32.bb
-index 2422f8634e..f8ae3fd94c 100644
---- a/meta/recipes-core/coreutils/coreutils_8.32.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.32.bb
-@@ -59,9 +59,20 @@ base_bindir_progs =3D "cat chgrp chmod chown cp date dd =
-echo false hostname kill l
-=20
- sbindir_progs=3D "chroot"
-=20
--PACKAGE_BEFORE_PN_class-target +=3D "coreutils-stdbuf"
-+# Split stdbuf into its own package, so one can include
-+# coreutils-stdbuf without getting the rest of coreutils, but make
-+# coreutils itself pull in stdbuf, so IMAGE_INSTALL +=3D "coreutils"
-+# always provides all coreutils
-+PACKAGE_BEFORE_PN_class-target +=3D "${@bb.utils.contains('PACKAGECONFIG',=
- 'single-binary', '', 'coreutils-stdbuf', d)}"
- FILES_coreutils-stdbuf =3D "${bindir}/stdbuf ${libdir}/coreutils/libstdbuf=
-.so"
--RDEPENDS_coreutils_class-target +=3D "coreutils-stdbuf"
-+RDEPENDS_coreutils_class-target +=3D "${@bb.utils.contains('PACKAGECONFIG'=
-, 'single-binary', '', 'coreutils-stdbuf', d)}"
-+
-+# However, when the single-binary PACKAGECONFIG is used, stdbuf
-+# functionality is built into the single coreutils binary, so there's
-+# no point splitting /usr/bin/stdbuf to its own package. Instead, add
-+# an RPROVIDE so that rdepending on coreutils-stdbuf will work
-+# regardless of whether single-binary is in effect.
-+RPROVIDES_coreutils +=3D "${@bb.utils.contains('PACKAGECONFIG', 'single-bi=
-nary', 'coreutils-stdbuf', '', d)}"
-=20
- # Let aclocal use the relative path for the m4 file rather than the
- # absolute since coreutils has a lot of m4 files, otherwise there might
---=20
-2.23.0
-
+VGhlIHByZXZpb3VzIHZlcnNpb24gb25seSBpbmNsdWRlZCB0aGUgbnVtYmVycyAxIGFuZCAyIGlu
+IHRoZSBhbGxvd2VkIGNoYXJhY3RlcnMNCmZvciB0aGUgbW9kdWxlIG5hbWUuIEluIHRoZSBwYXN0
+LCB0aGlzIHdhcyAoXHcrKSBzbyBhbGwgbnVtYmVycyB3ZXJlIGFsbG93ZWQuDQpOb3cgaXQgZXhw
+bGljaXRseSBpbmNsdWRlcyBhbGwgbnVtYmVycyBhZ2Fpbi4NCg0KU2lnbmVkLW9mZi1ieTogUGF0
+cmljayBWYWNlayA8cGF0cmlja3ZhY2VrQGdtYWlsLmNvbT4NCi0tLQ0KIG1ldGEvbGliL29lcWEv
+Y29yZS9sb2FkZXIucHkgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFhL2NvcmUvbG9hZGVyLnB5
+IGIvbWV0YS9saWIvb2VxYS9jb3JlL2xvYWRlci5weQ0KaW5kZXggNzNjNTc4ODUwOC4uMTE5Nzgy
+MTNiOCAxMDA2NDQNCi0tLSBhL21ldGEvbGliL29lcWEvY29yZS9sb2FkZXIucHkNCisrKyBiL21l
+dGEvbGliL29lcWEvY29yZS9sb2FkZXIucHkNCkBAIC00Niw3ICs0Niw3IEBAIGRlZiBfYnVpbHRf
+bW9kdWxlc19kaWN0KG1vZHVsZXMpOg0KICAgICBmb3IgbW9kdWxlIGluIG1vZHVsZXM6DQogICAg
+ICAgICAjIEFzc3VtcHRpb246IHBhY2thZ2UgYW5kIG1vZHVsZSBuYW1lcyBkbyBub3QgY29udGFp
+biB1cHBlciBjYXNlDQogICAgICAgICAjIGNoYXJhY3RlcnMsIHdoZXJlYXMgY2xhc3MgbmFtZXMg
+ZG8NCi0gICAgICAgIG0gPSByZS5tYXRjaChyJ14oWzEtMmEtel8uXSspKD86XC4oXHdbXi5dKiko
+PzpcLihbXi5dKykpPyk/JCcsIG1vZHVsZSwgZmxhZ3M9cmUuQVNDSUkpDQorICAgICAgICBtID0g
+cmUubWF0Y2gocideKFswLTlhLXpfLl0rKSg/OlwuKFx3W14uXSopKD86XC4oW14uXSspKT8pPyQn
+LCBtb2R1bGUsIGZsYWdzPXJlLkFTQ0lJKQ0KICAgICAgICAgaWYgbm90IG06DQogICAgICAgICAg
+ICAgY29udGludWUNCiANCi0tIA0KMi4yNy4wDQo=
