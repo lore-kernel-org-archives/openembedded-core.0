@@ -1,83 +1,68 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.61426.1594051892817088413
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web12.61263.1594051895333892513
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:32 -0700
+ Mon, 06 Jul 2020 09:11:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QjFK1hF/;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id ch3so2047930pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LFblD+SN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id k71so13505513pje.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=sPDjUvy4T9fPTDs6eSOe0DuS7xkubAozr7+loMNxM/A=;
-        b=QjFK1hF/+0CTe1RTpbxlCdR9FJWzjZzgZoCyn06jkb8oIMKZvZAcY3+WrPAXQJmmUG
-         V03Gu1uTPN/B+/KE/UjGl5Ph6+oWtwj6AFwU1wilwZDEV1ApHb0MrRTNqf4Uz8ZFy3aA
-         EXAm4MTDL2P+0aKj9eQlZjoBuMHxUgsByDfsaiMCSrNGFe8NDNEHCukFGMVwvq3A+0Cc
-         QMwRu7rF4dMpNiaBNDDAh2A6c4SiUBc/N1+Uumf7CVfDfHs0kbocKtIPtk9AWW9mUEfY
-         +MFYryI1ya4fRnTFy7taKJQbmzg8zGvSJ6BfoqeXf4Z6X34/CIhmpWch1mTgKEI5PY2U
-         HvBw==
+        bh=bItHpbnmoEQTon3adu3vpw8fsac1sLWoszIS/gNsjkw=;
+        b=LFblD+SNsySW6n0ffe5zp/yqJOnCKKzGxC7bRK8vOC/VbrA8QW/iof978Bbge8rDv3
+         mnjQxqz1RD4H/RLjU8d2dGpdsBV22FcmMPcJZIj0YZpx7zXXgxrOPrWX6p9SuCK4z3Fb
+         t35ctsL0rBEUFtbCxDAaGrulGMM4ogt0uli7B64KLQS+u+9V+kLOFKMb4DryaLC1qkmU
+         qWRDnmjbj+h7oIFLz6otXae6Py5KL3dXP0Y6QczltF1MWwx/ApYeFfoe8NRTzDIYJDIr
+         IMbPh3yqFHQl8j7pC5dcs5hrHyAwp9oaNp5XGgDvhY6Xf3jrfLDvXrqCBE7tCu/yXXvX
+         1Ktw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=sPDjUvy4T9fPTDs6eSOe0DuS7xkubAozr7+loMNxM/A=;
-        b=sVXD45+5jUGvIqC/6YGZSkNJt7jCtgo1qBvVravTWF3FVhw2EVmPWUuz6kBYzt+i4l
-         IcGfvF+Z+iG5bNeuaJN8tjbZ49ROB9xyvlvsGneSL3nSV4keZucwyWsU+y0I8zG+2frC
-         o/SqueoWaMFPbpIxrKvmhhY/OYfSqBBjFngJ+xaEH9cdCfAACEYDbnS6DzcUfpYUUFA2
-         +WDwBN3kPEcli3H1cqP5gx+fqxbpR98p8inh9pmXHmHi3G+n4SSD3pinFeJpf1+4p3p2
-         TPxJYXKGZsxAP3tcB1aJPpp33Ia2OuXI9D4jA8j/FOs/aj21s/TJYOJN8P6KQnfbPh13
-         7Bbw==
-X-Gm-Message-State: AOAM532j4OkdbxAq8oFBXPgC5mvPcxQI2+lbmbH2yausdWso2b2x2ErK
-	rcRfKkM0szdTb9GFOkF9XJw1d668KSIOGg==
-X-Google-Smtp-Source: ABdhPJwmDK+g7bNRtcl81Eba+2eC3PTtqas+BQPswvJdjhNalPLkgh9iZmvKrLravwLtBnZzmz4kxw==
-X-Received: by 2002:a17:90b:11c9:: with SMTP id gv9mr36094962pjb.177.1594051891942;
-        Mon, 06 Jul 2020 09:11:31 -0700 (PDT)
+        bh=bItHpbnmoEQTon3adu3vpw8fsac1sLWoszIS/gNsjkw=;
+        b=VzioV+2rBljHjeCPx2sCQUCE9/OS9Jgg70IpCQwZLeKXEITQG4v5SrT9sPU9k0sGfB
+         7L4cPAOZte3CkGwcJ8SFiB2PLGtZTZ7CJB9pb8/ej2534RgX1WiI+w/eYq7zgDd9cHc1
+         kiNSYElgwfyZaNQIbq05JZhQMVgw/AnbhFGuo2JtmWeZbJASFnnSYadeQ4dXNy5pAEPs
+         q8grl+Y2m05f1Jb1HYOjFTPViSVHNy0EpccE/URj8uSDVX5+w44MqiqiFO3QyOxEYKY8
+         Yb/bEza453ayYD/loFxnjq1lls7FiLfVjkC+js0GFJpd91DU2JNfIPjLVigMOyd9gcBb
+         zfaA==
+X-Gm-Message-State: AOAM532LeSlxP9BOeGw3rRWFa0UMew+8hnhHNuU6HHYR4T11IOthRXKz
+	OgGESwBA+QmIVCue6y8TCXzFYvtXElL7BA==
+X-Google-Smtp-Source: ABdhPJwroVGKD7RM/Zf5H7w/P6IqDalUhFfoOTVoN0/LzsZ0UdRtuK3wXpznHT9xc5iT+xSj6Fi0VA==
+X-Received: by 2002:a17:90a:e987:: with SMTP id v7mr16967pjy.56.1594051894491;
+        Mon, 06 Jul 2020 09:11:34 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.30
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:31 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/25] initscripts: update postinst
-Date: Mon,  6 Jul 2020 06:10:13 -1000
-Message-Id: <b48ea868f0f972861d6144201468388d197e2965.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/25] common-licenses: fix filename of BSD-2-Clause-Patent
+Date: Mon,  6 Jul 2020 06:10:14 -1000
+Message-Id: <9f93b8f46fc7e33f07d8fd8d6e0348d7b5bc5414.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Ross Burton <ross.burton@arm.com>
 
-in container image, it don't have init system,
-install package initscripts will report error:
-systemctl: command not found
-
-fix by use same way as systemd.bbclass to decide if systemctl
-mask will run
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 790276bde066ecc9876120c3097dcd57a9936f00)
+(cherry picked from commit 4a9c62d49940b154177d817a845188d827370607)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent}              | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/files/common-licenses/{BSD-2-Clause-Patent.txt => BSD-2-Clause-Patent} (100%)
 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 1a59b82fbf..f98e42eb2e 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -169,7 +169,7 @@ MASKED_SCRIPTS = " \
-   urandom"
- 
- pkg_postinst_${PN} () {
--	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+	if type systemctl >/dev/null 2>/dev/null; then
- 		if [ -n "$D" ]; then
- 			OPTS="--root=$D"
- 		fi
+diff --git a/meta/files/common-licenses/BSD-2-Clause-Patent.txt b/meta/files/common-licenses/BSD-2-Clause-Patent
+similarity index 100%
+rename from meta/files/common-licenses/BSD-2-Clause-Patent.txt
+rename to meta/files/common-licenses/BSD-2-Clause-Patent
 -- 
 2.17.1
 
