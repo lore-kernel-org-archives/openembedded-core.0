@@ -1,88 +1,93 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.61230.1594051914151305959
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web12.61278.1594051916685830749
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:54 -0700
+ Mon, 06 Jul 2020 09:11:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=k+Npx/3F;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id s14so15510648plq.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MHzJH6vl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.196, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f196.google.com with SMTP id g67so17701927pgc.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=iyDToiN8eeezqiAjA/irRk3Z+D958LelkNk66s13pc4=;
-        b=k+Npx/3FrF+wUK8cKQUSQ5eNWfx2S+4dxEI1nrUxm98TP1mVRCZyJ59/Wha8S+UW99
-         1MxifH2xweJLir6RV+Pi6ZpGYLy9848Ex3VOHC44quviMPachSANvdOheBNu15wf7sSn
-         h/Cu8RGAYyyPqFp5bzmHe1b8BkT/43vp+u4UQb7RWEjM4YV2BGA1I/1Vq+X5iQOVdUpd
-         7B8fQ1xUW9Y3DnFF/hv8DuPXLE25OWKEwsf1I6BcW/nwlVl93mm7eAagS/HSZN5lNx8a
-         a71Tot9zJhM2YmNZtbixq6q+yIsicbJqPnrCV53h3KV0+jbyhRh/zW9kcRI/URqE0gMS
-         ht4w==
+        bh=NiUm8Z2NmtaJ8AK0nIqBYQkCW0ecJBLEe9zIqYtUtDM=;
+        b=MHzJH6vlHcSSY/hIj9dOYhuq7EStyLNY8I0uSaz4pm7mWMkUd4c3zK7VGjwKAfUrTx
+         2m+cj/TGBqE0tbwSDuWKY9CdUdRXealon1jwOFTRAUIr8Le8LAfgIYhXl+kqPRH58ObO
+         wRW4Sgxs9nmwcy3Y7VzM6PKjK4T8PsRk04PezNQldTBrRZrehnsMiTo1noYIn320xnII
+         rNpS6nR1B2hg+E4V2oyf+Vyineo6giwuSElriy0G0N9cPbM90aa1ziEglpUyqlYEGdDL
+         kvK1HGEpFnh+pYY82rVy9vuD7pjq3VSFQ+OFqtih2Cx0pC920aLKdQpAziI+m0hQe8sS
+         Gsjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=iyDToiN8eeezqiAjA/irRk3Z+D958LelkNk66s13pc4=;
-        b=pY6uVDYHvS1Tx30xk0lVHGSOwNSX7ejiapVHIcmEz1GUVCZiuLauKxalUsLX72Cpi2
-         pGt08dff1+FiHObCkR0om2Sqg5146NxlCbUnonvOWfen9ygtihX/WLTRZyXSJp8g4jk3
-         Aet7ovMI1IgDaFNcBNwczc4GViAH+65d3GBnhq/j1dsPkkNYkfd7fA8m9uInbW7Y5QOK
-         2L2gWMpN3lPQnXc0ftVQqsw8bthAlGrAVTRiHci/BNu6JuVxLq1JbA+Rowq1gGyJoL7G
-         QN1R8oxP82DzowoJiX59UafIJKBaJBG45bCyrsdFiXCXaF3tQGuniqOIyYXlmwUmaFQo
-         QkOw==
-X-Gm-Message-State: AOAM533UdxminrfH3VyVyr+huBSt4VprEwthoUk3IOmui5WHARLQ5E3j
-	D8zpXwNOC3IGC1GjxAWql42VxMX2FqduoA==
-X-Google-Smtp-Source: ABdhPJyEMhoatOWWEWeQOEG3Gpeb26FN6qi55yNff818JPzyIfhx326J0dGYxvBzMjVVhO5H7VLpow==
-X-Received: by 2002:a17:902:121:: with SMTP id 30mr42313785plb.44.1594051913243;
-        Mon, 06 Jul 2020 09:11:53 -0700 (PDT)
+        bh=NiUm8Z2NmtaJ8AK0nIqBYQkCW0ecJBLEe9zIqYtUtDM=;
+        b=e4Zkv91dU2sWuDykgGMq8p9v3vjCzGGJqW4U8jk59JjiKyzJbZMd7GuInRSAS9Da6c
+         48NHiL9+Jo6UO5KZeEFu0q8OOpAaUBZPKp5v5kNwe9wf1/A6HEU0PsWJ5kAXlrXx4pAs
+         84ub9FIl6XEU2vghi2H8lqhuxGPnNycyft0lHMjhh5Fgf43MP/zyg6EvoiD6GB8mqhIM
+         +MYf54P62Bra/824rh6qbYqUVHsuG7Dn+3/jlz/helJBl5J5iGI+I2Wj+DrhZqvdHK5b
+         P7105Dy/eygAIOA6iwGY2TgTmk8bfINaZH5OGKvke7pxjvGcubbcpICiR9TtkkPaU0HJ
+         DE4A==
+X-Gm-Message-State: AOAM530HyBtDDJns2W+geS3QWpc9ffc39xjMZlKxJmd0DyBwKQPpcUrR
+	hAEY6zqFoiETfE16w4c8IBehFtUYapx/lA==
+X-Google-Smtp-Source: ABdhPJxiDuJuvvBbUM2bjuNbZWPU4dNmEmYjNY6U5JxNOMxHFV6k6W0nSEkoYlw9i3pFA+g9fun1og==
+X-Received: by 2002:a63:6741:: with SMTP id b62mr40246829pgc.58.1594051915660;
+        Mon, 06 Jul 2020 09:11:55 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.51
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:52 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:55 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/25] oeqa/targetcontrol: Attempt to fix log closure warning message
-Date: Mon,  6 Jul 2020 06:10:22 -1000
-Message-Id: <5f19120d537bc5c7a4a7d8535182adc0f687c830.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/25] logrotate.py: fix testimage occasionally failure
+Date: Mon,  6 Jul 2020 06:10:23 -1000
+Message-Id: <468c8eed12fec94475815cf0242c0835099dc43a.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
 
-We continue to see the warning message:
+testcase test_systemd_failed occasionally failed with below error:
+Failed to start Rotate log files.
+logrotate.service: Failed with result 'exit-code'.
+logrotate.service: Main process exited, code=exited, status=1/FAILURE
+error: stat of /var/log/logrotate_test failed: No such file or directory
+error: logrotate_test:1 lines must begin with a keyword or a filename (possibly in double quotes)
 
-WARNING: lib/bb/daemonize.py:76: ResourceWarning: unclosed file <_io.TextIOWrapper
-name='build/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0-r0/testimage/qemurunner_log.20200703011821'
-mode='a' encoding='UTF-8'>
+above failure caused since testcase test_logrotate_wtmp
+add /etc/logrotate.d/logrotate_test, which need /var/log/logrotate_test,
+but there is no such file. so when logrotate.service is triggerd
+by logrotate.timer after testcase test_logrotate_wtmp is runned,
+the testcase test_systemd_failed will fail.
 
-I've been unable to reprodue this but believe its caused by garbage
-collection of the FileHandler used in QemuTarget being delayed until
-after a new tinfoil instance is created by a subseqent test.
+these 3 lines are useless, so remove them to fix above problem.
 
-Force the log file to be closed when we stop using it to avoid this.
-
-[YOCTO #13961]
-
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e15cc7801ec611f867f5b31028741722ac718c87)
+(cherry picked from commit 22f5f7f86a4d47624c476be00e5121009c48cb7b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/targetcontrol.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/runtime/cases/logrotate.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 7bbba6016b..19f5a4ea7e 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -187,6 +187,7 @@ class QemuTarget(BaseTarget):
-         except:
-             pass
-         self.logger.removeHandler(self.loggerhandler)
-+        self.loggerhandler.close()
-         self.connection = None
-         self.ip = None
-         self.server_ip = None
+diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
+index 3938e91993..a4efcd07c0 100644
+--- a/meta/lib/oeqa/runtime/cases/logrotate.py
++++ b/meta/lib/oeqa/runtime/cases/logrotate.py
+@@ -37,10 +37,6 @@ class LogrotateTest(OERuntimeTestCase):
+         msg = ('Could not write to /tmp/logrotate-test.conf')
+         self.assertEqual(status, 0, msg = msg)
+         
+-        status, output = self.target.run('echo "/var/log/logrotate_test {\\n missingok \\n monthly \\n rotate 1" > /etc/logrotate.d/logrotate_test')
+-        msg = ('Could not write to /etc/logrotate.d/logrotate_test')
+-        self.assertEqual(status, 0, msg = msg)
+-        
+         # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
+         _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
+         status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep wtmp.1')
 -- 
 2.17.1
 
