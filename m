@@ -1,88 +1,115 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.61437.1594051904726500479
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.61223.1594051907079562431
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:44 -0700
+ Mon, 06 Jul 2020 09:11:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BILev5zx;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id s14so15510489plq.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kn/8ZYru;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id x11so15508111plo.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ORMV81O3czUIFwW3acp12shk8AyCXH1SXzuEkqXDnaw=;
-        b=BILev5zxgIHl6BmrQk2sGuUOi05O5vn//TynCdy/DFplT3PYFyNseY39rKyX8Fs8fO
-         7auow7Zb2x/YW4ghp/c3v09h/jv2UrkUJuQG/zjvvk05onHDEwzc7idYG+LnS+4Z4UXY
-         Y/1fd9RvvRxhYqkMfcChAciS1FxyaXjQZTLfjlY8DetatiM0IHbv8dNqcH3thX8XZiKL
-         Xf4a4DFf2zsRmVEGyEGubC3SX0sGzpbhbMiegT7i4pLPrEa6rz/GJgIa1G7yxiBBJf+X
-         BB4MrfZNLFhTJUMzgkhl+aRbhnTkHm8yUzUnGHPc5K+El4R3ZvMoif4n289u3HTIakyN
-         6HCg==
+        bh=n6zzgJoHrFe72za4Bw96YZ0pOFpzErj5p1gf5wnU4/Y=;
+        b=kn/8ZYruYq8xRCmttra5zrQtc3ndEej7RjmayehK/EyksGBhRuQpSQnTHK2+3C+vCe
+         4KRSNuEP6P6z9UfYJUB1uV6uKKVwOeKf65JJk3N5tBuBoLteWFKx6rV+ziSM2wW8L2tn
+         MIX6vJzCfuOjGnF3BUIi/ijhTm3RZefhfsXM8g/p3rxhoUGXEKJyJ0VIAupnzQtfHJe6
+         SUb4oW9QvC7dTH6Vke7cop6tZQ5HVEX0MkNIDaAzry7wwh5MqcTq+3va5yR5TktDQXFb
+         1/vpotxpPHBp5z1B7QCkWZpML30BMHZQxXslvz4QQH/OYBpp+EmlqZK/g4jAGhWG11N0
+         JNIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ORMV81O3czUIFwW3acp12shk8AyCXH1SXzuEkqXDnaw=;
-        b=d6Dz1/NCTMSRbKbhocrm5IqlFVkiyHUkHQlSXk4/EpKz7InMuQQ/tj5Q4eqfbQ/zHT
-         3dv1LPP1yc+Gcs8+QKObSCJt0Dgr+e3th0v7gQciy6Jtrw9mbqLW9zQMSeo4Vjy+5sfy
-         JTtmtQJhv+QRHKvfvUQ/OLS1mNUv0ZN+RLrKzGWCOv0CRm1HqKtnRoyXAHkAd0QqiZpb
-         CB5O7/tVdkNSlBbIzGSY8BCQsGLVjlcK1jEL3kJM5pjVJztbJ24KpwEjCtagCv2otN7S
-         98/qFs8Bg8Fb7tNQRpnVxl4yl2ouD+DvnTsx1+RQLgDZVKN2vG+Y+fiba6xacMhvLFWd
-         0o/A==
-X-Gm-Message-State: AOAM531hYTm4xhGv/lJaAIuK6P9ZkJAH5YvJ0ROX80qEe8bzHZtUDFle
-	6OtQEmZJ1/jKJOwUi13PX5MA0r+PA0hMaQ==
-X-Google-Smtp-Source: ABdhPJz53luaCKBNWSCwdfrOzUwaK4igzCEu53i29zmjLAjhluQuGmmaxVl+QaVaR8pAX9qfGDOO1w==
-X-Received: by 2002:a17:90a:ff09:: with SMTP id ce9mr34061549pjb.149.1594051903798;
-        Mon, 06 Jul 2020 09:11:43 -0700 (PDT)
+        bh=n6zzgJoHrFe72za4Bw96YZ0pOFpzErj5p1gf5wnU4/Y=;
+        b=IGe+KahE2oteI8cNhaQ/z5czeSi09M9qu07Duqrv9Dfz2L6EvzZG+LNKiN9eV3Wxq/
+         vTAGHgkkK2EIgPt6EnWQ8ppCqY2mhXAuK7ot4p4ZhKS0ksl7tSKdmt35Ox92A1yOMS1D
+         ERoZowBslCS51Tca0XWT+dhHo+Zz5AVRDeumjy5euf+ijOIAfVteq4XIy9AQj+OTNUHM
+         9e9pv7sngqxRlPUGM7TvmVwiOw/awbMdP3DmslOvXQp7dgp8iT25fTpBZ+zWmsLNhJto
+         kckSWO5jzkVzWSsl+VCh085o+hWTtoKTPqCqkSinUGJU4FTyeD2BxV3wzZuwQ+b5DKRV
+         IxAA==
+X-Gm-Message-State: AOAM531y2TPILzNi0cPSMkwd38X5hn2T1p6Bo/Pc1+GQSZSkp4uKLlWD
+	yMLRtiJqzMrfvwwXKwl+SMjv/Qhy3ZiYEg==
+X-Google-Smtp-Source: ABdhPJxhh7kBxsAPh0nKFUuUPklYAOyBcwzSh3dJMoeylUHrS6IwHEmWQfY6EPLcWqPN0YoMvOVw7g==
+X-Received: by 2002:a17:90a:be06:: with SMTP id a6mr4173pjs.136.1594051906086;
+        Mon, 06 Jul 2020 09:11:46 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.42
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:43 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:45 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/25] oescripts: ignore whitespaces when comparing lines
-Date: Mon,  6 Jul 2020 06:10:18 -1000
-Message-Id: <70499483b859e98d2b7b279ac79f232cd7bcf61f.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/25] gtk-icon-cache.bbclass: add runtime dependency
+Date: Mon,  6 Jul 2020 06:10:19 -1000
+Message-Id: <90da201e79584ce9b29cf660d7efc3611fa91861.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-list-packageconfig-flags.py determines the whitespace numbers according
-to the longest package name. This is reasonable for the tool as it's
-trying to generate pretty output.
+fix error:
++ /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+/var/tmp/rpm-tmp.mdYxY6: line 12: /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders: No such file or directory
+%post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961 status 7f00
+warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet failed, exit status 127
 
-However, in this selftest case, the output is hardcoded. This results in
-"pinentry                       gtk2 libcap ncurses qt secret" not recognized
-as correct as the expected line is:
-"pinentry                     gtk2 libcap ncurses qt secret".
+when install adwaita-icon-theme on target, which inherit gtk-icon-cache
+above error reported,  fix by add runtime dependency to pkgs
 
-The difference is only about whitespaces. So we should ignore the whitespaces
-when comparing lines.
+we don't use explicit RDEPENDS, so fix do_rootfs breaking by adding it into DEPENDS.
+Error:
+ Problem: conflicting requests
+  - nothing provides gdk-pixbuf needed by adwaita-icon-theme-3.36.1-r0.noarch
+  - nothing provides gtk+3 needed by adwaita-icon-theme-3.36.1-r0.noarch
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 17c89ad1596dbc7cefdd2c01dcd95aa9e93c5dc6)
+(cherry picked from commit 31e3d34c8a9c3e8481aa837aa0bf52adf095fe62)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/oescripts.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/gtk-icon-cache.bbclass | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index f697d29b50..726daff7c6 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -133,7 +133,7 @@ class OEListPackageconfigTests(OEScriptTests):
-     def check_endlines(self, results,  expected_endlines): 
-         for line in results.output.splitlines():
-             for el in expected_endlines:
--                if line == el:
-+                if line.split() == el.split():
-                     expected_endlines.remove(el)
-                     break
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 91cb4ad409..dd394af27c 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -1,6 +1,10 @@
+ FILES_${PN} += "${datadir}/icons/hicolor"
  
+-DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+3-native"
++DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} \
++            ${@['gdk-pixbuf', '']['${BPN}' == 'gdk-pixbuf']} \
++            ${@['gtk+3', '']['${BPN}' == 'gtk+3']} \
++            gtk+3-native \
++"
+ 
+ PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+ 
+@@ -48,9 +52,18 @@ python populate_packages_append () {
+         bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
+         rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
+         d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+-    
++
++        #gtk_icon_cache_postinst depend on gdk-pixbuf and gtk+3
++        bb.note("adding gdk-pixbuf dependency to %s" % pkg)
++        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gdk-pixbuf"
++        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
++
++        bb.note("adding gtk+3 dependency to %s" % pkg)
++        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gtk+3"
++        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
++
+         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
+-        
++
+         postinst = d.getVar('pkg_postinst_%s' % pkg)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
 -- 
 2.17.1
 
