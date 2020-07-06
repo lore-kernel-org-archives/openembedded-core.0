@@ -1,92 +1,76 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.61218.1594051900251716779
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web12.61267.1594051902453378766
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2020 09:11:40 -0700
+ Mon, 06 Jul 2020 09:11:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HiS9ZK5P;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f193.google.com with SMTP id w2so17794400pgg.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QG3AFGdg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d10so3481262pll.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2020 09:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=99hkkYy2rGRxELC1Pi/3tEyqG7uxarbX3fULgX8SAi4=;
-        b=HiS9ZK5PpuaB9YPsXafvN68GiMW/6j3ghWtZ9OW410Mxch24ge7/AcvW6L5oS17HHM
-         PZq8ph5vRWvmfNkKZY9mFgDqPS6PKcdiebgjfoFP+IpVAG2FbjLqId7fbv8m74WdS7/g
-         MXdUbKnLIv7sRilZIRXLBVQQjF48i5UVivQQMu8vk+J0NN+FFItaVtbchSQSmvBVjBlz
-         suk1NMJbOY2xb3aQNsTtncX+7sRldh0LRsZRcemT6Dn9aXHfC8+cdHtH25arncPKO5ND
-         QyGwJ05nk1sRnTiYxR1iaDee4ggvCjgg4gFB8Bagv6eXrJsLCKaaPVtPe+1uv/JTlybG
-         bT1A==
+        bh=WjBu7YeoQ9Sj8xwZG40jVPuslYhdr5KSQcAdHFT6qbM=;
+        b=QG3AFGdgJZLPchefCtEFEZxIz+D3jKD1o55/0q2e2BhtB125P9Oe2MrzUkhxr8kS4d
+         PvLP27EjeZXNBzZ84LKDggsEDhRU61jPKZETUHwtUo4jJxfexZZHC3cxJtgfKr/0OFgl
+         cFgVpgdhRKbjtifflmnd8m0BFS73YzgKCByvU6NfLkI6LZR1AeVlipGNN/G6niKFRxob
+         9EJnqDfgF+4knmTvI7awUaK7NI4MX8QWEDZ9wlcUA3ITH3u+12ccWO697QWVT6WUg/hN
+         QVdZj9KK+zGerGqginnv+ph6H5KTlzMHT5xLgN65g2fkpWIuJSvCGlmNch+WqdeoSqIG
+         7SMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=99hkkYy2rGRxELC1Pi/3tEyqG7uxarbX3fULgX8SAi4=;
-        b=oth6jOR6XBXYG3ctStOsb9Sg7zMiEwjXyaPO73EZVcTV0DOpE19e9vjyRLzEtoyg7d
-         IW8NjpUC8cnW+JL/Lyuw87KeOg5cgpYiqoFSexoCrVoXBH3aY8wIlkjw6h77QepWdloH
-         63hyCTpdEONN/wYl186TWEIVk0Cj7+kssLiOnk8P9iKPTx7Lb0XrhRj0nt1OKtVDnDT/
-         rlB2h9gubdj+cTq+s5xCI9NLiDCOebaTfivNZfoiGexYU+EBSGeZvSGbO3yc7F89deGT
-         GgvlLuKwKARdA+7RNi8Rm4BE3AkgoTa7iLvFmUYgHyAJJ2A1P4+nq/biFkrH+raRsycY
-         MK5g==
-X-Gm-Message-State: AOAM532KS9P3CXdx+KHV9pnuFuZy6yb0zfYO3xxdMDOhiraGx2znD5kx
-	sXWnsl85jN5mLCEARR1FnjZLlkgi030jgA==
-X-Google-Smtp-Source: ABdhPJznVWs9HeSGJQ2f5bL1StV1LF0KyKC6AqPAok2vXMm9KXYDoxPi+PaDkBVGlq+pMvdVrDsJAg==
-X-Received: by 2002:a05:6a00:148c:: with SMTP id v12mr44530651pfu.171.1594051899354;
-        Mon, 06 Jul 2020 09:11:39 -0700 (PDT)
+        bh=WjBu7YeoQ9Sj8xwZG40jVPuslYhdr5KSQcAdHFT6qbM=;
+        b=XxcBpOj4QbZzm4H5qsJQGCPkOv3xsU5WQ7smXIQEY6uF7wbvnQnjYL6b4xS+QgImra
+         57L1xhwHUX1hYgeKBPiEmyv85kw1vZ6I7+8IPxVzOqDQ4l4W427UcZaMFe+EkAaLDY2s
+         SNGfxyKISIEvFY6Bz4abp/Z7GoAMYjuv6pn+gv0zu5RYHYZCQJdhAeX75GrFvnS0be8F
+         68q6P6I+2HShMSB/t8nbdQQSHw68Y/nVgpCo+MOw+CE/ySVvVpSn2/FG/sgS8boye5Eg
+         PsYfMFhDpmRzGdn8k+khZ08k6+ae9deWtMfWfrKuxsbHcvsZSyKMwz4/+orQGYWAgxyw
+         sDHw==
+X-Gm-Message-State: AOAM531vU9y6gaf97gJkYknn9OrOc1U4aZn1BxExHY41Rl8cTinqYBui
+	DCem0hegbAxqFvbc3z3y/wvUQ8neIwAFpA==
+X-Google-Smtp-Source: ABdhPJxmzWcin3tu/sPTPiYaFxcGACvJJ6mYohPLf8mekbUmghbo2HykvKfzzeRoD4dE0rjvpWp86g==
+X-Received: by 2002:a17:902:7b92:: with SMTP id w18mr31507493pll.258.1594051901582;
+        Mon, 06 Jul 2020 09:11:41 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.37
+        by smtp.gmail.com with ESMTPSA id i67sm18225811pfg.13.2020.07.06.09.11.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 09:11:38 -0700 (PDT)
+        Mon, 06 Jul 2020 09:11:41 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/25] classes/archiver: run do_unpack_and_patch after do_preconfigure
-Date: Mon,  6 Jul 2020 06:10:16 -1000
-Message-Id: <3c9dfa31c3ffcb882fb400f2513e14ae1d830ae6.1594050175.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/25] oescripts.py: fix typo
+Date: Mon,  6 Jul 2020 06:10:17 -1000
+Message-Id: <d69c7499243e18660542b313c40175d4477c8dc0.1594050175.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594050175.git.steve@sakoman.com>
 References: <cover.1594050175.git.steve@sakoman.com>
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The commit 8a7c779487 ("classes/archiver: Create patched archive before
-configuring") fixed a race condition when using the archiver, but
-introduced a bug where the GCC source would occasionally be deleted due
-to the archiving code running before do_preconfigure. Instead, make sure
-the archiving code runs after do_preconfigure by making
-do_unpack_and_patch depend on it. This makes more sense anyway since
-do_preconfigure is effectively an extension of do_patch.
-
-This fixes errors like:
-
- cat: .../gcc/defaults.h: No such file or directory
-
-when making certain configuration changes
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d4be264061023ae0ea6e023d82a7b99605bfc22c)
+(cherry picked from commit 115d44958806a2c73d0bf140f45c11db462cc7db)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/archiver.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/oescripts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index a8d3afcbe9..bf275f4543 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -583,8 +583,8 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
- addtask do_deploy_archives_setscene
+diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+index 2f18d8f29c..f697d29b50 100644
+--- a/meta/lib/oeqa/selftest/cases/oescripts.py
++++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+@@ -177,7 +177,7 @@ class OEListPackageconfigTests(OEScriptTests):
  
- addtask do_ar_original after do_unpack
--addtask do_unpack_and_patch after do_patch
--addtask do_ar_patched after do_unpack_and_patch before do_preconfigure do_configure
-+addtask do_unpack_and_patch after do_patch do_preconfigure
-+addtask do_ar_patched after do_unpack_and_patch before do_configure
- addtask do_ar_configured after do_unpack_and_patch
- addtask do_ar_mirror after do_fetch
- addtask do_dumpdata
+         self.check_endlines(results, expected_endlines)
+ 
+-    def test_packageconfig_flags_optiins_preferred_only(self):
++    def test_packageconfig_flags_options_preferred_only(self):
+         results = runCmd('%s/contrib/list-packageconfig-flags.py -p' % self.scripts_dir)
+         expected_endlines = []
+         expected_endlines.append("RECIPE NAME                  PACKAGECONFIG FLAGS")
 -- 
 2.17.1
 
