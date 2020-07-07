@@ -1,80 +1,74 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web12.26006.1594156179419577767
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.26340.1594156204900716395
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2020 14:09:39 -0700
+ Tue, 07 Jul 2020 14:10:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Xy9O+c+7;
- spf=pass (domain: linaro.org, ip: 209.85.210.194, mailfrom: arthur.she@linaro.org)
-Received: by mail-pf1-f194.google.com with SMTP id i14so2473475pfu.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 14:09:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RmFxB7UW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f18so643559wml.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 14:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mQUkfHasj1a89Xpdy9wVk6jz0oQYWwaqbjs0ioGWYLE=;
-        b=Xy9O+c+7xqqQ3y45h0oug2Th8Zd/hZjSNYpmnn8zZXX4abm/7kh9Tc4DC8d6TPUMHq
-         DMPjzd0JODJdPQIwAHK3M+fxQMQFwXuG5yDP/fWa/IoUoDdMmTXeJOcfyPG+nl68gZ6q
-         Or2Qo7bXYuThkXDRuhtW8eZJnjHus1vFGFdFRquM3Jihvgf11a1llFX901deP0vvdXYZ
-         fWx9e1FaxgAK/ZUc+4cUBKlk+Aib57niZwm152mltkUfiUyKzHsDZtUjmRCENXCm9RQN
-         t3PtEuEVm1Y6X+5xF6S2HQ6+y02z/2AvvwIsTmhjnwiNE6jrorBNK9FtEDwBPMWb5fG4
-         ycbA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=VvLoX89QA1Sa9BnDHkN7jQzDoYJtpsl6+b4CywR8cP8=;
+        b=RmFxB7UW84u5krco9qb00eosrWNtbKTKN69h9DV2t2YJ4Z5Lc8bDEqyjL+64OIQUJ9
+         J6WQGoCa2w4NqeO9tDI2bZcFg42zZj5TBq2+qoeZYBbW3B0toodnfyKwOMSNxZzGEYOr
+         /m986Pf6mrrrAw2YnOXZTzvY1QWDpTFJRnlZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mQUkfHasj1a89Xpdy9wVk6jz0oQYWwaqbjs0ioGWYLE=;
-        b=UWBwwQ+tTGacVE05IXdE6xqfbMXQcydL5Z6QxZKe9rJs1oOrpxeSdaT+eNZsBQEc1S
-         xTmgFKqWikGIeXqmZgjZBpnm/l1z2QWddK9FNlr0jur2vRr0AWOwTYXw/wE8hx99Ymqh
-         zw/l/Y+7u7hNBzF9i9Y9inoCf08S75wEQ72o5XFWLPA9CpYRHgCIx5Ni7HwP/lXWXf7u
-         D17fzDjs1uMQbKoaFChtCNf6BP+4752eux0SDet6EBW7683eD/PwkOf8EsyQZlwoRqSp
-         ceyQkv8fcDbMIKqrNU9dnu34su+PwlNAFbIKh16DXILY1PyznAW9fj5mT3KtfVng0uB/
-         e4aQ==
-X-Gm-Message-State: AOAM531rDzPXGY9Y8K5J1FoqxwQvQJFNBYnF81aq0MeGHoBW/talhZ14
-	IopfMereiUUKWu9Hh0inmazThqFAeTBgqg==
-X-Google-Smtp-Source: ABdhPJycUyIHQ7eiHL1xT/WuEml+NEXrwPoUqnzI1ciUr2DQkkh5t2H/VR9yGNLcf+y00Rmca9lZtg==
-X-Received: by 2002:a62:3587:: with SMTP id c129mr11056224pfa.212.1594156178668;
-        Tue, 07 Jul 2020 14:09:38 -0700 (PDT)
-Return-Path: <arthur.she@linaro.org>
-Received: from arthur-X1E.hitronhub.home (S0106a84e3f840fe3.vn.shawcable.net. [50.68.230.12])
-        by smtp.gmail.com with ESMTPSA id w9sm24025840pfq.178.2020.07.07.14.09.37
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VvLoX89QA1Sa9BnDHkN7jQzDoYJtpsl6+b4CywR8cP8=;
+        b=Ii2Cei0bA552f8b9AeiaTxHgUM0E9qbv84s9i08/FrQ9dHPii91f2pu8fr+SLtJ2HI
+         ynPby4fO+44GIRCxtXbEAUP6sVIdH0p2FvRS0RcCzcBiUZ6M/kjuaEoELGgoN0OcdSLh
+         jnaqt7SPLydDQ66tYDHMN29IlGNJtvJ0om7H35tpWjUgkEnwHbz+2eMTyY4UUgiw4FyC
+         qUmWxHIZMoUoHc85yFr1Wv6xpjQxxW8YyJY5088QRSb9R6aW6JTp+vibMHVe8xyFKgiW
+         +/YgO6EVvVTWkCCUTpuu/V5vdQWuxE7ZXZ/vO5ppUxXTDVWcdI3ke2zMIAm0AnJVoSR1
+         8Nwg==
+X-Gm-Message-State: AOAM533nVaK4yxnSiLA5GpMg2GLOOyEuoziiF5YtK2XYGS58mdUk+EUr
+	Ag0HrIGK9jXAG7xQwWkC/QXhuQ==
+X-Google-Smtp-Source: ABdhPJzXSdDYqQJUvYQw5tQymUxUk1RzmUj5StmiAxwklAWf3FqReAReCB0gS2kCNRlZWsMFevFofA==
+X-Received: by 2002:a7b:cb92:: with SMTP id m18mr4216685wmi.94.1594156203554;
+        Tue, 07 Jul 2020 14:10:03 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id k126sm2784098wme.17.2020.07.07.14.10.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 14:09:37 -0700 (PDT)
-From: "Arthur She" <arthur.she@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Arthur She <arthur.she@linaro.org>
-Subject: [OE-core][PATCH] igt-gpu-tools: Add PACKAGECONFIG for Chamelium support
-Date: Tue,  7 Jul 2020 14:09:17 -0700
-Message-Id: <20200707210917.231615-1-arthur.she@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        Tue, 07 Jul 2020 14:10:02 -0700 (PDT)
+Message-ID: <4380ad1a86fbdf5a181105226230089755dd6b6a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: make dependency on lzop-native conditional
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, "T. Ulrich"
+ <timon.ulrich@kabelmail.de>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Timon
+	Ulrich <t.ulrich@anapur.de>
+Date: Tue, 07 Jul 2020 22:10:01 +0100
+In-Reply-To: <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
+References: <20200707092511.7781-1-timon.ulrich@kabelmail.de>
+	 <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Chamelium is a hardware device that can be used for external display
-test automation [1].
-It is disabled by default and can be turned on through PACKAGECONFIG.
+On Tue, 2020-07-07 at 12:47 -0700, Andre McCurdy wrote:
+> On Tue, Jul 7, 2020 at 2:25 AM T. Ulrich <timon.ulrich@kabelmail.de>
+> wrote:
+> > From: Timon Ulrich <t.ulrich@anapur.de>
+> > 
+> > a native lzop is only needed when an lzo compressed initramfs is
+> > actually present
+> 
+> Is the logic actually that native lzop is only needed if an lzo
+> compressed initramfs is present AND and a plain .cpio or .cpio.gz is
+> NOT present?
 
-[1] https://www.chromium.org/chromium-os/testing/chamelium
+This patch improves things but as you point out there appears to be
+further room for improvement. Not sure how much more ugly implementing
+that logic would be and whether its worth it...
 
-Signed-off-by: Arthur She <arthur.she@linaro.org>
----
- meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-index f60880c292..29031e64dc 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -20,7 +20,9 @@ RDEPENDS_${PN}-tests += "bash"
- 
- PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
- 
--EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled"
-+PACKAGECONFIG[chamelium] = "-Dchamelium=enabled,-Dchamelium=disabled,gsl xmlrpc-c"
-+
-+EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dchamelium=disabled"
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
- COMPATIBLE_HOST_libc-musl_class-target = "null"
- SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
--- 
-2.25.1
+Richard
 
