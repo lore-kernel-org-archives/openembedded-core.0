@@ -1,72 +1,90 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.24722.1594151864219415554
+Received: from smtp-out01.xworks.net (smtp-out01.xworks.net [31.25.48.218])
+ by mx.groups.io with SMTP id smtpd.web10.25066.1594152780689638196
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2020 12:57:44 -0700
+ Tue, 07 Jul 2020 13:13:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TAB0yInE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 22so427626wmg.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 12:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=6ZkEQGeY3f3GvlhlsbP7RKeye6ZYycOqX2VVhepZgMQ=;
-        b=TAB0yInEAMIANzgtN1clwca/v/m+I81cSKLJiKca2kMRnKW12adUP88BwqoXGVOQiX
-         BySIS4zj+UGNCCCcjlOkG6M9xGBrU8iqvHGgy0xi+kkPcXjvUc6EUMpKpnvemexAf1rz
-         /9ZtPi/THRd+xKUIOZQu8QBMtAy2BkBO3tvXw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6ZkEQGeY3f3GvlhlsbP7RKeye6ZYycOqX2VVhepZgMQ=;
-        b=LuzaOasMsGCf0+H+zL5QBB2js6w9bprVdcQqHlm2JKPTRQd9DtZPF2cMLSkPxnlG3r
-         E4rCCQMuxYGUyXDAteZWcdRIhHBT3D43nJ/HLuVMa6aJNPkw8SAl6jPWCBzwuiJruTiv
-         8hcSDq8CldlXKg8zudzq+rnvBcze9hJpYxkEjEkH3ALDLXiKuL2hF2Ah8TSjGXobkIzd
-         ZlOYURMbhHNeQg7TZBdKyelPN7Dn+8VruCVY0LGbURAxE/hC3/wg9DJGAky8AAgRu1XD
-         8yO3FEkqM0lSYN11jtYyWEPxyazsz2ZvbpfO06WA1KieBcy5OzqqeSDih9q4HgGSOlpi
-         M4RA==
-X-Gm-Message-State: AOAM531t0CershhRzkFSWSR8UsnvKdepV6o69CG9DRS9lcu5IOQXgSTw
-	8G2SHHm9V8U0DMfQtFA9yTyzlQ==
-X-Google-Smtp-Source: ABdhPJwhbdsKZt4IDeOtoppbZv7bnsMmWIDpyZoM8jh9C6GPuHngnamXGQ6wMRkqbzwoLdSEfvEIug==
-X-Received: by 2002:a1c:80c8:: with SMTP id b191mr5493207wmd.37.1594151862629;
-        Tue, 07 Jul 2020 12:57:42 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e23sm2205917wme.35.2020.07.07.12.57.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 12:57:34 -0700 (PDT)
-Message-ID: <96b58c86ca72aacc7e95936eb09a95504b1eb2bc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCH] distutils: put tests to a separate package
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 Jul 2020 20:57:29 +0100
-In-Reply-To: <AM7PR05MB68813E4C4054D8A201FD2DACA8660@AM7PR05MB6881.eurprd05.prod.outlook.com>
-References: 
-	<PR3PR05MB6890710E8729FAD4ED19D5F4A8660@PR3PR05MB6890.eurprd05.prod.outlook.com>
-	 <c16a183feaffb57121e74462dcd56816220daeac.camel@linuxfoundation.org>
-	 <AM7PR05MB68813E4C4054D8A201FD2DACA8660@AM7PR05MB6881.eurprd05.prod.outlook.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ dkim=pass header.i=@kabelmail.de header.s=mail header.b=CsVazqXY;
+ spf=pass (domain: kabelmail.de, ip: 31.25.48.218, mailfrom: timon.ulrich@kabelmail.de)
+Received: from mailbackend5 (cluster06.xworks.net [10.100.1.80])
+	by smtp-out01.xworks.net (Postfix) with ESMTP id 8F4B86139C;
+	Tue,  7 Jul 2020 22:12:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kabelmail.de;
+	s=mail; t=1594152777;
+	bh=sO50/ZwWZ8RbgMNWv/NYD4KjpZl+rBx8BUjyqkmzULQ=;
+	h=Subject:To:References:From:Date:MIME-Version:In-Reply-To:
+	 Content-Type;
+	b=CsVazqXYdNQjqAxmdcbtx95+cbQuylfPHdkNxseiZDzcNwAt2d4knDsfygu4TVJdN
+	 JjBUv69bKqyv32f0B0DOedX3KBykvv4HCKCzWwCQikecNfqmUvFKQv5YLhTuE9gkzJ
+	 nFM33nHpdYRyKn14Mu5Kfj7ZgPtO69p8Mm7Vyd60=
+Received: from [192.168.1.2] (x4db51e0e.dyn.telefonica.de [77.181.30.14])
+	(authenticated bits=0)
+	by smtp.kabelmail.de  with ESMTP id 067KCsFO028351
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Jul 2020 22:12:55 +0200
+X-mediaBEAM-Originating-IP: [77.181.30.14]
+X-mediaBEAM-AUTHID: [timon.ulrich@kabelmail.de]
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: make dependency on lzop-native conditional
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+        Timon Ulrich <t.ulrich@anapur.de>
+References: <20200707092511.7781-1-timon.ulrich@kabelmail.de>
+ <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
+From: "T. Ulrich" <timon.ulrich@kabelmail.de>
+Message-ID: <7eeb7370-b3ee-475b-c6f4-4c05b87a6159@kabelmail.de>
+Date: Tue, 7 Jul 2020 22:12:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
+X-mediaBEAM-AuthCheck: route13
+X-mediaBEAM-AuthScore: 0.0/5.0, scanned in 1.221sec
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-07-07 at 21:34 +0200, Konrad Weihmann wrote:
-> That's a very good question.
-> I myself haven't seen python unit tests used via ptests in the wild,
-> but 
-> if that is used, yes fully agree, it should be rather PN-ptests than 
-> PN-tests.
-> BTW it would also require to create a run-ptest file, which would 
-> complicate things even more.
+> Is the logic actually that native lzop is only needed if an lzo
+> compressed initramfs is present AND and a plain .cpio or .cpio.gz is
+> NOT present?
+Yes, that is the case. If a plain cpio is present then there's no
+need to uncompress, hence there's no need for lzop-native.
 
-Even if we don't create the run-ptest yet, I think putting them there
-is the more correct location...
+IMO this patch still improves the behavior:
+before lzop-native would be built regardless,
+now it gets if it _might_ be necessary.
 
-Cheers,
-
-Richard
+Am 07.07.2020 um 21:47 schrieb Andre McCurdy:
+> On Tue, Jul 7, 2020 at 2:25 AM T. Ulrich <timon.ulrich@kabelmail.de> wrote:
+>> From: Timon Ulrich <t.ulrich@anapur.de>
+>>
+>> a native lzop is only needed when an lzo compressed initramfs is actually present
+> Is the logic actually that native lzop is only needed if an lzo
+> compressed initramfs is present AND and a plain .cpio or .cpio.gz is
+> NOT present?
+>
+>> Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
+>> ---
+>>   meta/classes/kernel.bbclass | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index c834aad033..3230c12ccf 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -4,7 +4,8 @@ KERNEL_PACKAGE_NAME ??= "kernel"
+>>   KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+>>
+>>   PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
+>> -DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
+>> +DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native bison-native"
+>> +DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lzo", "lzop-native", "", d)}"
+>>   DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", "lz4-native", "", d)}"
+>>   PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+>>
+>> --
+>> 2.17.1
+>>
+>>
+>> 
+> .
 
 
 
