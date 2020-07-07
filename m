@@ -1,75 +1,80 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.26118.1594155818263836224
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.26006.1594156179419577767
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2020 14:03:38 -0700
+ Tue, 07 Jul 2020 14:09:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AfTcMHd0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id k6so46755547wrn.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 14:03:38 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Xy9O+c+7;
+ spf=pass (domain: linaro.org, ip: 209.85.210.194, mailfrom: arthur.she@linaro.org)
+Received: by mail-pf1-f194.google.com with SMTP id i14so2473475pfu.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 14:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yTLD6ue/SWefF0nD4GZiYv2qqYjcSqZHZVpWR2d+KeM=;
-        b=AfTcMHd0FcpfkruTeC+GfIrPbasFtLjStMGjMnVSK0dwX2+bDyoahLZPctNNqU2q01
-         /jO9eXJQbe5tJHxuYAh3TPHdfFFy/Scf/h69DV0sK41XBrk9sM1gJflHc8PkbH1A9hhi
-         NUq/HUIioOmCGZAvK/AvQ+MLbVU9YokAlp414=
+        bh=mQUkfHasj1a89Xpdy9wVk6jz0oQYWwaqbjs0ioGWYLE=;
+        b=Xy9O+c+7xqqQ3y45h0oug2Th8Zd/hZjSNYpmnn8zZXX4abm/7kh9Tc4DC8d6TPUMHq
+         DMPjzd0JODJdPQIwAHK3M+fxQMQFwXuG5yDP/fWa/IoUoDdMmTXeJOcfyPG+nl68gZ6q
+         Or2Qo7bXYuThkXDRuhtW8eZJnjHus1vFGFdFRquM3Jihvgf11a1llFX901deP0vvdXYZ
+         fWx9e1FaxgAK/ZUc+4cUBKlk+Aib57niZwm152mltkUfiUyKzHsDZtUjmRCENXCm9RQN
+         t3PtEuEVm1Y6X+5xF6S2HQ6+y02z/2AvvwIsTmhjnwiNE6jrorBNK9FtEDwBPMWb5fG4
+         ycbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yTLD6ue/SWefF0nD4GZiYv2qqYjcSqZHZVpWR2d+KeM=;
-        b=UonESHsd+ALmF6qT/pG5sZYER9oJnD2VUYTO4isaNOrKPQ2wISHSr0GDvrYzeZkJ/o
-         P4F3ZH3LnFYrHztv4lazLUMfc+0JdCZB4ihvPgkdHzNrlhdKVBVbSYiLs2pPVL8f0DbG
-         U15I2rZ//01jbSbOhkl6tP+0u9vrwCmuF9/B8uZ7H5ZtoNXBEgeS0KNGfYeRgZ0CCi0J
-         FLZ+UrHpecZ2anki//Bom1kQPObqviD4j5xz5IC/3e4Bp7xjtRrGyOggRkXNlHrmwY2p
-         O9q4LcEHf0/2i+iF8XiGXySlVMOdE6y8td2P4y4NSrJwfh34nbkk7agAE6CRw4CytdDG
-         qHXA==
-X-Gm-Message-State: AOAM531Fn2quRqFW6Xr53iO5YmZGLurI64ohiKIxJpyw8ClUL0kh1IAG
-	qmM3eNrZ7EjTZ0BALcS7NCG3p6gg3I6Daw==
-X-Google-Smtp-Source: ABdhPJxp63WAeMEzmS8uOYjahVoAZ9NZzD09bYaLYA+Ul2baeDKwNFnDB0tnJ7NL9GlUjcmH8iIZDQ==
-X-Received: by 2002:a5d:4903:: with SMTP id x3mr58931805wrq.351.1594155816588;
-        Tue, 07 Jul 2020 14:03:36 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id q7sm2672709wra.56.2020.07.07.14.03.35
-        for <openembedded-core@lists.openembedded.org>
+        bh=mQUkfHasj1a89Xpdy9wVk6jz0oQYWwaqbjs0ioGWYLE=;
+        b=UWBwwQ+tTGacVE05IXdE6xqfbMXQcydL5Z6QxZKe9rJs1oOrpxeSdaT+eNZsBQEc1S
+         xTmgFKqWikGIeXqmZgjZBpnm/l1z2QWddK9FNlr0jur2vRr0AWOwTYXw/wE8hx99Ymqh
+         zw/l/Y+7u7hNBzF9i9Y9inoCf08S75wEQ72o5XFWLPA9CpYRHgCIx5Ni7HwP/lXWXf7u
+         D17fzDjs1uMQbKoaFChtCNf6BP+4752eux0SDet6EBW7683eD/PwkOf8EsyQZlwoRqSp
+         ceyQkv8fcDbMIKqrNU9dnu34su+PwlNAFbIKh16DXILY1PyznAW9fj5mT3KtfVng0uB/
+         e4aQ==
+X-Gm-Message-State: AOAM531rDzPXGY9Y8K5J1FoqxwQvQJFNBYnF81aq0MeGHoBW/talhZ14
+	IopfMereiUUKWu9Hh0inmazThqFAeTBgqg==
+X-Google-Smtp-Source: ABdhPJycUyIHQ7eiHL1xT/WuEml+NEXrwPoUqnzI1ciUr2DQkkh5t2H/VR9yGNLcf+y00Rmca9lZtg==
+X-Received: by 2002:a62:3587:: with SMTP id c129mr11056224pfa.212.1594156178668;
+        Tue, 07 Jul 2020 14:09:38 -0700 (PDT)
+Return-Path: <arthur.she@linaro.org>
+Received: from arthur-X1E.hitronhub.home (S0106a84e3f840fe3.vn.shawcable.net. [50.68.230.12])
+        by smtp.gmail.com with ESMTPSA id w9sm24025840pfq.178.2020.07.07.14.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 14:03:36 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 07 Jul 2020 14:09:37 -0700 (PDT)
+From: "Arthur She" <arthur.she@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] server/process: Increase timeout for commands
-Date: Tue,  7 Jul 2020 22:03:35 +0100
-Message-Id: <20200707210335.351040-1-richard.purdie@linuxfoundation.org>
+Cc: Arthur She <arthur.she@linaro.org>
+Subject: [OE-core][PATCH] igt-gpu-tools: Add PACKAGECONFIG for Chamelium support
+Date: Tue,  7 Jul 2020 14:09:17 -0700
+Message-Id: <20200707210917.231615-1-arthur.she@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We're running into this timeout on loaded autobuilders in situations
-where things should otherwise succeed. Log a note in these
-cases and continue to try for longer.
+Chamelium is a hardware device that can be used for external display
+test automation [1].
+It is disabled by default and can be turned on through PACKAGECONFIG.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[1] https://www.chromium.org/chromium-os/testing/chamelium
+
+Signed-off-by: Arthur She <arthur.she@linaro.org>
 ---
- lib/bb/server/process.py | 4 +++-
+ meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/lib/bb/server/process.py b/lib/bb/server/process.py
-index 69aae626eb..83385baf60 100644
---- a/lib/bb/server/process.py
-+++ b/lib/bb/server/process.py
-@@ -331,7 +331,9 @@ class ServerCommunicator():
-     def runCommand(self, command):
-         self.connection.send(command)
-         if not self.recv.poll(30):
--            raise ProcessTimeout("Timeout while waiting for a reply from the bitbake server")
-+            logger.note("No reply from server in 30s")
-+            if not self.recv.poll(30):
-+                raise ProcessTimeout("Timeout while waiting for a reply from the bitbake server (60s)")
-         return self.recv.get()
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+index f60880c292..29031e64dc 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+@@ -20,7 +20,9 @@ RDEPENDS_${PN}-tests += "bash"
  
-     def updateFeatureSet(self, featureset):
+ PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+ 
+-EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled"
++PACKAGECONFIG[chamelium] = "-Dchamelium=enabled,-Dchamelium=disabled,gsl xmlrpc-c"
++
++EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dchamelium=disabled"
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
+ COMPATIBLE_HOST_libc-musl_class-target = "null"
+ SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
 -- 
 2.25.1
 
