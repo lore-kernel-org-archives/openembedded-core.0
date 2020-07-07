@@ -1,90 +1,100 @@
-Received: from smtp-out01.xworks.net (smtp-out01.xworks.net [31.25.48.218])
- by mx.groups.io with SMTP id smtpd.web10.25066.1594152780689638196
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.25324.1594154268530580974
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2020 13:13:01 -0700
+ Tue, 07 Jul 2020 13:37:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kabelmail.de header.s=mail header.b=CsVazqXY;
- spf=pass (domain: kabelmail.de, ip: 31.25.48.218, mailfrom: timon.ulrich@kabelmail.de)
-Received: from mailbackend5 (cluster06.xworks.net [10.100.1.80])
-	by smtp-out01.xworks.net (Postfix) with ESMTP id 8F4B86139C;
-	Tue,  7 Jul 2020 22:12:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kabelmail.de;
-	s=mail; t=1594152777;
-	bh=sO50/ZwWZ8RbgMNWv/NYD4KjpZl+rBx8BUjyqkmzULQ=;
-	h=Subject:To:References:From:Date:MIME-Version:In-Reply-To:
-	 Content-Type;
-	b=CsVazqXYdNQjqAxmdcbtx95+cbQuylfPHdkNxseiZDzcNwAt2d4knDsfygu4TVJdN
-	 JjBUv69bKqyv32f0B0DOedX3KBykvv4HCKCzWwCQikecNfqmUvFKQv5YLhTuE9gkzJ
-	 nFM33nHpdYRyKn14Mu5Kfj7ZgPtO69p8Mm7Vyd60=
-Received: from [192.168.1.2] (x4db51e0e.dyn.telefonica.de [77.181.30.14])
-	(authenticated bits=0)
-	by smtp.kabelmail.de  with ESMTP id 067KCsFO028351
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 7 Jul 2020 22:12:55 +0200
-X-mediaBEAM-Originating-IP: [77.181.30.14]
-X-mediaBEAM-AUTHID: [timon.ulrich@kabelmail.de]
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: make dependency on lzop-native conditional
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
-        Timon Ulrich <t.ulrich@anapur.de>
-References: <20200707092511.7781-1-timon.ulrich@kabelmail.de>
- <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
-From: "T. Ulrich" <timon.ulrich@kabelmail.de>
-Message-ID: <7eeb7370-b3ee-475b-c6f4-4c05b87a6159@kabelmail.de>
-Date: Tue, 7 Jul 2020 22:12:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=i/X47t/Z;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.68, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f68.google.com with SMTP id q5so46634406wru.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2020 13:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fyTollEHbpYg8SDpoAR8ZJITBF3mzo3VcMV23ZpOPfg=;
+        b=i/X47t/Z9znAZ8v1GBAFa+wD4sGaJCTK16B0OlMlGYBnTfW0cFz//eMnMhtdu1Tp1f
+         AfX0/i9+5dk2TIj/ycL2if0AJNk6JgM+DDTmweW7jKRboqvb8zyxYfcy7ca02h57dFZ3
+         ekkKSZtul2KJ0n5JgO9QJWUToZ8sN/GuHr7utCOimDZ/iYNyMO9sdz6iaawEXDDvSdYX
+         5bupE8NjAMFYE5BUaGRwUAtaaKhTT3ykX3TXoFF0NSkJSIRZIagt2sHeUdNdhZPlsAH2
+         W04obWcXANwqlTVlFtKdjqTSSUOw9OdFmhSabXpHvdL/XUvpmeeEz+KCfAX+yX+7V4hJ
+         rEHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fyTollEHbpYg8SDpoAR8ZJITBF3mzo3VcMV23ZpOPfg=;
+        b=ltRHVS2oA3emuChrk/5TXH4ANkSL9BQa+iyEFveyjxcFfubBu01pv9PdmZVEuzoSZ8
+         BYprsauSDFfznojJPVUhJ6qkFgLJQXTufPKcwZoJ6DlE9Qox/k8/CvssJDPKzQkbrrBP
+         XDYa6WfW/QljVrbLdhH/XnQbc1MBrMCiS3itIU4IUEhsHeLJGkqI5VxSRDqcqz5P7kZY
+         vt87y3L0darhBGxBqNBGX5kKdDcAYxsWTpWsnTw6E2XmgHH3oGMLebxvu98/QJLWd4ze
+         Abe3tE/4ehZIzvYvwh2+F/FMwvlO1MRXQvNaG6A0/LH/8RZrgBtA85DJZMvpCpOEqba2
+         t3pQ==
+X-Gm-Message-State: AOAM53315VVcFY33/Q05hhxyx7uSLOcFDBOaA+KB8NIVQoE4ix/uFveT
+	FPjM3bmUJriIUeQb/15OTMEMpU0NQNrDWA==
+X-Google-Smtp-Source: ABdhPJwToCtULtQA3+zLJWJW4YAEfgRFIfgJeB4h23LvN7BEbadufR3zdrJRPkVYgvZ/IjkD1GKvwA==
+X-Received: by 2002:adf:cf0a:: with SMTP id o10mr26587816wrj.14.1594154266731;
+        Tue, 07 Jul 2020 13:37:46 -0700 (PDT)
+Return-Path: <ross@burtonini.com>
+Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
+        by smtp.gmail.com with ESMTPSA id v24sm2960437wrd.92.2020.07.07.13.37.45
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2020 13:37:46 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] insane: consolidate skipping of temporary do_package files
+Date: Tue,  7 Jul 2020 21:37:42 +0100
+Message-Id: <20200707203743.133023-1-ross@burtonini.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=XYCDAD1jG2JTODSc-Oz9JmpPeNd0jXg9aeJbo88pciWw@mail.gmail.com>
-X-mediaBEAM-AuthCheck: route13
-X-mediaBEAM-AuthScore: 0.0/5.0, scanned in 1.221sec
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-> Is the logic actually that native lzop is only needed if an lzo
-> compressed initramfs is present AND and a plain .cpio or .cpio.gz is
-> NOT present?
-Yes, that is the case. If a plain cpio is present then there's no
-need to uncompress, hence there's no need for lzop-native.
+From: Ross Burton <ross.burton@arm.com>
 
-IMO this patch still improves the behavior:
-before lzop-native would be built regardless,
-now it gets if it _might_ be necessary.
+During the course of do_package_rpm and friends the tools create a
+top-level CONTROL or DEBIAN directory in the package directory.
+do_package_qa needs to be aware of these files and ignore them, this was
+previously done in just one check but instead should be done once when
+building the file list so all the checks don't see the temporary files.
 
-Am 07.07.2020 um 21:47 schrieb Andre McCurdy:
-> On Tue, Jul 7, 2020 at 2:25 AM T. Ulrich <timon.ulrich@kabelmail.de> wrote:
->> From: Timon Ulrich <t.ulrich@anapur.de>
->>
->> a native lzop is only needed when an lzo compressed initramfs is actually present
-> Is the logic actually that native lzop is only needed if an lzo
-> compressed initramfs is present AND and a plain .cpio or .cpio.gz is
-> NOT present?
->
->> Signed-off-by: Timon Ulrich <t.ulrich@anapur.de>
->> ---
->>   meta/classes/kernel.bbclass | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index c834aad033..3230c12ccf 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -4,7 +4,8 @@ KERNEL_PACKAGE_NAME ??= "kernel"
->>   KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
->>
->>   PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else "" }"
->> -DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native bison-native"
->> +DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native bison-native"
->> +DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lzo", "lzop-native", "", d)}"
->>   DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", "lz4-native", "", d)}"
->>   PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
->>
->> --
->> 2.17.1
->>
->>
->> 
-> .
+[ YOCTO #13804 ]
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes/insane.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 649aea1da1..89a516882b 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -459,10 +459,6 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     if os.path.islink(path):
+         return
+ 
+-    # Ignore ipk and deb's CONTROL dir
+-    if path.find(name + "/CONTROL/") != -1 or path.find(name + "/DEBIAN/") != -1:
+-        return
+-
+     tmpdir = bytes(d.getVar('TMPDIR'), encoding="utf-8")
+     with open(path, 'rb') as f:
+         file_content = f.read()
+@@ -1034,7 +1030,14 @@ python do_package_qa () {
+     pkgfiles = {}
+     for pkg in packages:
+         pkgfiles[pkg] = []
+-        for walkroot, dirs, files in os.walk(os.path.join(pkgdest, pkg)):
++        pkgdir = os.path.join(pkgdest, pkg)
++        for walkroot, dirs, files in os.walk(pkgdir):
++            # Don't walk into top-level CONTROL or DEBIAN directories as these
++            # are temporary directories created by do_package.
++            if walkroot == pkgdir:
++                for control in ("CONTROL", "DEBIAN"):
++                    if control in dirs:
++                        dirs.remove(control)
+             for file in files:
+                 pkgfiles[pkg].append(os.path.join(walkroot, file))
+ 
+-- 
+2.26.2
 
