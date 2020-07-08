@@ -1,52 +1,48 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web11.4641.1594242489605184596
+ by mx.groups.io with SMTP id smtpd.web12.4717.1594242489619170622
  for <openembedded-core@lists.openembedded.org>;
  Wed, 08 Jul 2020 14:08:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=ABWpQ5A9;
+ dkim=pass header.i=@stusta.de header.s=default header.b=dJART+FL;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjK627hz5k
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:05 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjL46y1zF2
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1594242486;
-	bh=qR5b7c+fPk/xmeIF8122Ty8LagEOY0FT/GsjsVV9rcc=;
+	bh=fM/rEVz9kXobP+e/2fYBGEAeydoopQQiP+rL3JEVzPQ=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=ABWpQ5A9aMbumFh4Tar8zW3piRNus9Ud5mNl3t+ICtVvqhceSk/oOvppgE/jWINnF
-	 pg8W8NbQzyhy3oH2hsyx3Aj956CnU99j8qw7cSWWz5Xl6t8WZHK2FIlwsUAJmIfS4t
-	 DbGkliJFhnAE+nT7k9OFLde8fPJ8R5L+9nsXBcSSwyS2UuFAyTrGqIwKLdrItTYNa4
-	 GNwTHjYiu91Wy3Bsyc9l4Ks4eV9H3Woi5AOJwwdbvbZw0uKsr/eKSCHiSKBdqkdp2V
-	 QOlt4Qi5iQaZ5FoT3WiHAPnQtkugqhLMwJImo506kvRP/KvPiX+NwzJ2iArzsFGaSj
-	 3PWe8h/JS0wLsbrCE6vdJs2DbnsJ/yeVw5GHpHZYFWF2oujkaZx5XCJ2evfJcCGsLf
-	 X4Mb6s7OS5A+RuJO0M/lfw/6fnLNzPpXQZw0kkk/EZcTHHG/pcAKpdy6/1UO9/TEc7
-	 3O+kErWgOfus1yt2u2i/Hq+ZSnA2E/QfglM1jxHz5HyXE+GVcSDURdVxCx6AX5kAbI
-	 pPwKD6cCdEKlt5iVTbBM+z1pOUKImbMMLgwV5qZwd+LBumJJZf6iMg/+BdDtzM7efI
-	 HvgIAZH8W+vqZ3rXps09RDOgJkoKD56lJcG+D2BqucxpioFO05TM0kDMdXqoA+BaMz
-	 mmqnfhvjp02PWdAvIh7Xa6rk=
+	b=dJART+FLYkJ6tqb1tZSAYoVdYkpU0mIdXEqvZ5l0pJ+/ERQMXS969/7qWX5j6DJLf
+	 xx6CWhDCnWXELVN+lWWnalATEAW1cpwr/umvrJAqDd7p7amLkHMRP1eCcOeeoGYrV1
+	 gYYzC7X3SDrlYasAwaVsRFNjeksGD8GVgbaJSNVw+OiSuMZuHrpKLvidAS6s1KhFPh
+	 bMS0wzY3IsOu3apxMHNPkKqoqbcJmAz4IIMwE9BUEZ/STCekEmXgPw/ImIamm3MTmt
+	 jTDUmLqR0vhntXBcbWUL5ZRXCrynsZwdOhyB/2aJTLf00wCp3KXF42gCpnL04R9kXa
+	 wvh5yN+UvOr1pQYxT0FV/w3uTTIis7Fg/lwyjb14WAWraworq0ticaK+sqcAmOR8Jg
+	 GqcNd3/ss8rJy7/RHe3gUHILvyKzPepMYcaAksWOwUlObRVkilDLoXs+JWKxKUViM0
+	 6IAa/lS05TeSJzOe8I7vs+2dB/hDH0PYAGb5DcYn5F/ywbl4Xn/XsZhyuzyx438qH6
+	 /m4cU49wTQ0RTlUzkbXJA/w1ll2c9+LUqIO3f8Bm4KrYG/eT/TX826Ptqob7VLbXfi
+	 pX8kkEOv9ldDW4/YaBoXngLvZJy/Bz/s8M46i8D+2Rm3PhsJB1wgigmHy+q5ZA51Cn
+	 gQlwmP2DDR+BDS3PtrJ9htZg=
 From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH 06/19] cve-check: Run it after do_fetch
-Date: Thu,  9 Jul 2020 00:07:48 +0300
-Message-Id: <20200708210801.5553-6-bunk@stusta.de>
+Subject: [OE-core][zeus][PATCH 08/19] cve-check: include epoch in product version output
+Date: Thu,  9 Jul 2020 00:07:50 +0300
+Message-Id: <20200708210801.5553-8-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200708210801.5553-1-bunk@stusta.de>
 References: <20200708210801.5553-1-bunk@stusta.de>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Certain recipes e.g. bash readline ( from meta-gplv2 ) download patches instead of having them in
-metadata, this could fail cve_check
+In the generated cve.log files, include the epoch in the product
+version. This better matches how versions are displayed elsewhere,
+in particular the bb.warn("Found unpatched CVE...") that appears
+on the terminal when CVEs are found.
 
-ERROR: readline-5.2-r9 do_cve_check: File Not found: qemuarm/build/../downloads/readline52-001
+(From OE-Core rev: 99f6de1c74b581054c74c6b4598a5d47facc9964)
 
-This patch ensures that download is done before running CVE scan, even
-though these will be external patches and may not contain CVE tags as it
-expects, but it will fix the run failures as seen above
-
-(From OE-Core rev: dbf143d79476e54e8da93101fc16eaedeec88362)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-(cherry picked from commit e406fcb6c609a0d2456d7da0d2406d2d9fa52dd2)
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+(cherry picked from commit e1c3c0b6e5b01304e2127f5058986697e82adf93)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
@@ -55,18 +51,18 @@ Signed-off-by: Adrian Bunk <bunk@stusta.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 2a530a0489..556ac6e67f 100644
+index 556ac6e67f..514897e8b8 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -65,7 +65,7 @@ python do_cve_check () {
+@@ -301,7 +301,7 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
  
- }
- 
--addtask cve_check before do_build
-+addtask cve_check before do_build after do_fetch
- do_cve_check[depends] = "cve-update-db-native:do_populate_cve_db"
- do_cve_check[nostamp] = "1"
- 
+     for cve in sorted(cve_data):
+         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
+-        write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV")
++        write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
+         write_string += "CVE: %s\n" % cve
+         if cve in whitelisted:
+             write_string += "CVE STATUS: Whitelisted\n"
 -- 
 2.17.1
 
