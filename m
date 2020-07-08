@@ -1,82 +1,65 @@
-Received: from mailout03.rmx.de (mailout03.rmx.de [94.199.88.101])
- by mx.groups.io with SMTP id smtpd.web11.13762.1594223302812715872
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web11.13853.1594223488801376258
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 08:48:24 -0700
+ Wed, 08 Jul 2020 08:51:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.101, mailfrom: ceggers@arri.de)
-Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout03.rmx.de (Postfix) with ESMTPS id 4B23cM0VmzzlbJZ
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 17:48:19 +0200 (CEST)
-Received: from mta.arri.de (unknown [217.111.95.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by kdin02.retarus.com (Postfix) with ESMTPS id 4B23cL2vsfz2TSBr
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 17:48:18 +0200 (CEST)
-Received: from n95hx1g2.localnet (192.168.54.17) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 8 Jul
- 2020 17:48:17 +0200
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-Subject: license.manifest misses header-only libraries
-Date: Wed, 8 Jul 2020 17:48:17 +0200
-Message-ID: <15493295.j7L6bUlEPz@n95hx1g2>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+ dkim=pass header.i=@stusta.de header.s=default header.b=KWfom1sC;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B23gx33CBz4b;
+	Wed,  8 Jul 2020 17:51:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1594223486;
+	bh=B0eMDMIQhOFz2yJPnm7NxST50Bvhfb7NAZFXv4Z+Y0U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KWfom1sC9sCq1uVCF1vBHnvn5iB1Q+//h2/HgTSzBMcXpeTD+NDzj3mVh2CV65gou
+	 NEIWfuUs0EmHSX6jxLVPotVYKhW9g3CU8YWDs1CTSRKRwE6Bctc7+T44OoZymq2U9h
+	 gxfPIT7p5vyD8NxNjutjz/+fhKGooJFDB7wEDFiKjEZ0/s5gJjQDhy9u2M3cdX6HwF
+	 RC8Myi7JFuZD8tQLTnfa430cEn5bQP2VGdNsGV7B0GwbvjV7vzcOfgWPgG7sfP1EW1
+	 MzxEcdYA8MAviRtHoC6YEIBDgewtRkZNRWowax3GaPeAkWFlIm3Q3GFbB4RIn6V1oU
+	 Ajylb3CNVa8+T123ftovicdNs9qcJ3a0+S528/Ecv9vVJVG/cDif0FimcO6/XwnEpb
+	 8jKBw1EV0Z9Yv/lh6OI5AsFBAvY3t+ZV1YxgGWvsfeUYC+OO3f+e9LaAskEltbWnQ5
+	 cokStxhsbzQzcma3RLXWgVic6I1YXZN5+OLa15dBaC28i5DRl6ZrGzOrC+kY1Vyrdj
+	 h490HCmXeMKl1tEc1mOb+vE3DnrQ4P03NefaL3PHk7CqMialI5KAbSwCy9QzLmLMra
+	 gzZCkVXDNRtRFaLkkKjFIVRE/5biupnXpG7X/NDuzKu3dyMECnJYSA50BXBSJLujvm
+	 CCz/fw0zTYFffr4cDGyT+Jvo=
+Date: Wed, 8 Jul 2020 18:51:23 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Christian Eggers <ceggers@arri.de>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Patches are stuck in master-next
+Message-ID: <20200708155123.GE5419@localhost>
+References: <5614347.lOV4Wx5bFT@n95hx1g2>
+ <12184874.L5pGue1uWE@n95hx1g2>
+ <20200708142003.GD5419@localhost>
+ <18770938.c9i5bXPaRE@n95hx1g2>
+ <4b2516f1c16b7eff3fbedf15083bfc7c06aaad36.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.17]
-X-RMX-ID: 20200708-174818-4B23cL2vsfz2TSBr-0@kdin02
-X-RMX-SOURCE: 217.111.95.66
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <4b2516f1c16b7eff3fbedf15083bfc7c06aaad36.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-According to [1], a license manifest is generated during image creation:
+On Wed, Jul 08, 2020 at 04:35:21PM +0100, Richard Purdie wrote:
+> On Wed, 2020-07-08 at 17:07 +0200, Christian Eggers wrote:
+> > From Richard I got no response to the question whether
+> > potentially every package may be extended for nativesdk/native,
+> > or these platforms a reserved for packages required for "building".
+> 
+> There needs to be a sensible use case for extending them. It doesn't
+> come for free and increases parse time for each extension added.
 
-"The Yocto Project generates a license manifest during image creation that =
-is located in ${DEPLOY_DIR}/licenses/image_name-datestamp to assist with an=
-y audits."
+My biggest worry is a different one:
 
-This manifest lists all packages installed on the target (either being inst=
-alled
-directly via IMAGE_INSTALL or due to other packages RDEPENDS).
+Native is built by the host compiler, and Yocto stable series aim at
+supporting hosts with future distributions. Something like "building
+dunfell on hosts with gcc 11" is easier when there are fewer recipes
+that have to be patched.
 
-The manifest seems to miss header-only libraries (like tclap or big parts
-of boost), which were used during compilation (headers) but do not
-contain dynamic libraries required at runtime. I guess that the same
-may be true for libraries linked statically.
+> Cheers,
+> 
+> Richard
 
-Setting RDEPENDS_${PN} +=3D "tclap" in my own applications recipe
-seems to improve the situation as now the (empty) package tclap
-is included in my image and in the license.manifest. But this requires
-manual work and cannot do this for all recipes shipped by OE.
-Additionally this doesn't work for boost, as rdepending on boost
-will pull in ALL boost library packages.
-
-Is there a reliable way to get the header-only/static libraries into
-the manifest file?
-
-regards
-Christian
-
-[1] https://www.yoctoproject.org/docs/3.1.1/dev-manual/dev-manual.html#main=
-taining-open-source-license-compliance-during-your-products-lifecycle
-
-
-________________________________
- [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
-.jpg] <https://microsites.arri.com/stellar/>
-
-Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
-cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
-Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
-tube.com/user/ARRIChannel>.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
+cu
+Adrian
