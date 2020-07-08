@@ -1,74 +1,81 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.6999.1594200043622343611
+Received: from mailout03.rmx.de (mailout03.rmx.de [94.199.88.101])
+ by mx.groups.io with SMTP id smtpd.web11.7282.1594201564333435876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 02:20:43 -0700
+ Wed, 08 Jul 2020 02:46:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gOETFScZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id f139so2147362wmf.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 02:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=yd+yCPNmtMu2OQ6w+tUR8ZT5OxSz5rn/k7VZS8eEJTE=;
-        b=gOETFScZI+pOfT4Ar7z8VlxDl9X5QEMg8wyM+EjDfD9A98KB0KpfgUNsc8Jvo5lK+a
-         Zwv9RHYlyc1Jp+ygFBKRIreJh+x2OQM8DadqjYI24lsDQ/N1Xllfv/qcAQCKVnJXT7Oa
-         9Fv6KecpuAK+WLcdDk7QPyxFLTjDQtpL/GnrU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yd+yCPNmtMu2OQ6w+tUR8ZT5OxSz5rn/k7VZS8eEJTE=;
-        b=g7TmhsNFoSkcLfqtlh52WySoAvFN2cwUWXEC1Wrn6YgASlKX/MW55NX9ov6YBqD7v0
-         LOxfgfml54fP/2dY2Mfcomew+zDouwFbTSVKVq2dyjcDJ9ATkqcQrpbUv4xzvFk8AgHH
-         opBbDL38tdWVcumdSwyur8XSAv9T7teZUxOhFTp1+7Dle1NfcpGT+SuZOPqVYA1bZztr
-         n7r5LMYaEY96jfibUNvwpPNE77GZpkbJAA8InTUQ7XdXBeKexE/8ZmOft+I9wdKGQucB
-         1UnP6hNYv9GgxlcaMoVXiRsTHfd7RhLNGG5JAU6BgoNUpzfMb1HGhQQqQGsKj6pUCsbs
-         JV1A==
-X-Gm-Message-State: AOAM532icnBe1/MkE2ttDId73IVtcrToEK/NJoy+MO4iKm9hx39g0qPy
-	fSdhQDcjyKTtJUGZ8zQzm7msVg==
-X-Google-Smtp-Source: ABdhPJxsFb6W83OxQpiBvqdvl5i6/OmGh/48Xs7DlRYE6ko0ChTemIzYVtn8r6JX7BHXR9vPOwkjoQ==
-X-Received: by 2002:a7b:c099:: with SMTP id r25mr8920059wmh.159.1594200042109;
-        Wed, 08 Jul 2020 02:20:42 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id h5sm5720682wrc.97.2020.07.08.02.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 02:20:41 -0700 (PDT)
-Message-ID: <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.101, mailfrom: ceggers@arri.de)
+Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout03.rmx.de (Postfix) with ESMTPS id 4B1vZH64yczldYS;
+	Wed,  8 Jul 2020 11:45:59 +0200 (CEST)
+Received: from mta.arri.de (unknown [217.111.95.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by kdin02.retarus.com (Postfix) with ESMTPS id 4B1vZ90QnGz2TSDd;
+	Wed,  8 Jul 2020 11:45:53 +0200 (CEST)
+Received: from n95hx1g2.localnet (192.168.54.174) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 8 Jul
+ 2020 11:40:31 +0200
+From: "Christian Eggers" <ceggers@arri.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] Patches are stuck in master-next
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Christian Eggers <ceggers@arri.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 08 Jul 2020 10:20:40 +0100
-In-Reply-To: <5614347.lOV4Wx5bFT@n95hx1g2>
-References: <5614347.lOV4Wx5bFT@n95hx1g2>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+Date: Wed, 8 Jul 2020 11:40:30 +0200
+Message-ID: <12184874.L5pGue1uWE@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
+References: <5614347.lOV4Wx5bFT@n95hx1g2> <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.54.174]
+X-RMX-ID: 20200708-114553-4B1vZ90QnGz2TSDd-0@kdin02
+X-RMX-SOURCE: 217.111.95.66
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 2020-07-08 at 08:20 +0200, Christian Eggers wrote:
-> Two of my patches are in master-next since some time. Is there any
-> reason why
-> they don't appear in master?
-> 
-> https://patchwork.openembedded.org/series/24760/#
-> https://patchwork.openembedded.org/series/24775/#
-> 
-> I would like to send further patches for meta-openembedded which
-> depend on the above ones.
+Hi Richard,
 
-The issue is I still don't really like the eudev one in particular. A
-native eudev really doesn't make sense and I'm reluctant to encourage
-people to build such a thing. I suspect you can't convince
-networkmanager-native to build without it (although I'm not convinced
-a native libnm is that useful either).
+Am Mittwoch, 8. Juli 2020, 11:20:40 CEST schrieb Richard Purdie:
+> The issue is I still don't really like the eudev one in particular. A
+> native eudev really doesn't make sense and I'm reluctant to encourage
+> people to build such a thing. I suspect you can't convince
+> networkmanager-native to build without it (although I'm not convinced
+> a native libnm is that useful either).
 
-Cheers,
+For NATIVESDK, I need the libs because I deploy a x86 version
+of our embedded application for our internal integration test team. Sure, I
+could built two cross SDKs (one for ARM, one for x86), but (mis?)using
+NATIVESDK for getting the x86 version of our applications works
+very fine for me.
 
-Richard
+For NATIVE, I need the libs for running automatic unit tests on the
+build machine. One could probably ask whether unit tests should
+depend on libraries like libudev or libnm.
+
+Please let me know, which of the additions (NATIVE / NATIVESDK)
+are welcome. I'm only offering to share my work, I'm also fine
+keeping this in my private layer.
+
+regards
+Christian
 
 
 
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
