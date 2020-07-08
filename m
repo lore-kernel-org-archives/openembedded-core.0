@@ -1,92 +1,47 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.7188.1594202035138800671
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.7410.1594202570234593461
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 02:53:55 -0700
+ Wed, 08 Jul 2020 03:02:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XITo/b1l;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id r12so48116726wrj.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 02:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=s5nycc4ZOLY5Qe6AiORLDowrKubr5tycxvSk55qpXn0=;
-        b=XITo/b1lbWjCtpPO8Tfr81geC/c74eoJW4+InCO/kmGeRT9YWRFxby3Ud180F7BPeW
-         X7ufs101BYx++KO6YnkpBR6FEwZM9gYdJo2qv7Z9XbdaXuihpQqx4Jw5+iOPg3S7VXNu
-         +70NxUKTd/uDbz2fAtIpMSzubqFo5ZaOuyAdo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=s5nycc4ZOLY5Qe6AiORLDowrKubr5tycxvSk55qpXn0=;
-        b=Q+Jbfk4KD3XWhmAnXioZ09okppVbzluNgw5TvEWkjitOOrNeH72qt2IaVU76c6VXh0
-         czuAa5y50tn/81J7+LdkhSUN67Wd8Zer5fcyGJJyHfEjqOJCdjmKXa2mZqMyCxN2V63t
-         wkGTZr+FdUceBq7O7/QhOdo5/ihzXp5Qr7/3cXYcOWmp9R01VoAbCEPs8dzRVv2hVQH5
-         mhJNgzvPa2Od2iS+gp/4WQ5b3MAYJv17qsW17gZWdoIe7lla3Qqx+zSLv5nTE6ux/9la
-         nSWx/dCiAXyAOqiAHm2MU5EMjs3VlC35jr6N+qF8ueEb85C6lPOMQpSykmUXl+2thSGu
-         8dBw==
-X-Gm-Message-State: AOAM533/nMoS/pHkCUBmf+ninvOndCQiTWCbSiDrMW93DBKsQC+6gdyE
-	pmF5PkDw+xjuNtqd/5xpMAkbkw==
-X-Google-Smtp-Source: ABdhPJzP+AYbrV90OGEJJAxCP4q16K7WoI89g/5zZ4Cr42+RYG5KzgVIt5BJ5iRpn8An2biA/AFHOA==
-X-Received: by 2002:adf:de07:: with SMTP id b7mr62005686wrm.302.1594202033472;
-        Wed, 08 Jul 2020 02:53:53 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j6sm5227251wro.25.2020.07.08.02.53.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 02:53:52 -0700 (PDT)
-Message-ID: <7799b4ab6e0df7ccbee0064a08b34e597da33f75.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Patches are stuck in master-next
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Christian Eggers <ceggers@arri.de>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 08 Jul 2020 10:53:51 +0100
-In-Reply-To: <12184874.L5pGue1uWE@n95hx1g2>
-References: <5614347.lOV4Wx5bFT@n95hx1g2>
-	 <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
-	 <12184874.L5pGue1uWE@n95hx1g2>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: jun.miao@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 068A2kBw004476
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 8 Jul 2020 03:02:46 -0700 (PDT)
+Received: from pek-lpggp7.wrs.com (128.224.153.21) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Wed, 8 Jul 2020
+ 03:02:30 -0700
+From: "jmiao1" <jun.miao@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][PATCH] linux-firmware: Correct the path of ibt firmware
+Date: Wed, 8 Jul 2020 18:02:29 +0800
+Message-ID: <20200708100229.797065-1-jun.miao@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 2020-07-08 at 11:40 +0200, Christian Eggers wrote:
-> Am Mittwoch, 8. Juli 2020, 11:20:40 CEST schrieb Richard Purdie:
-> > The issue is I still don't really like the eudev one in particular.
-> > A
-> > native eudev really doesn't make sense and I'm reluctant to
-> > encourage
-> > people to build such a thing. I suspect you can't convince
-> > networkmanager-native to build without it (although I'm not
-> > convinced
-> > a native libnm is that useful either).
-> 
-> For NATIVESDK, I need the libs because I deploy a x86 version
-> of our embedded application for our internal integration test team.
-> Sure, I
-> could built two cross SDKs (one for ARM, one for x86), but
-> (mis?)using
-> NATIVESDK for getting the x86 version of our applications works
-> very fine for me.
-> 
-> For NATIVE, I need the libs for running automatic unit tests on the
-> build machine. One could probably ask whether unit tests should
-> depend on libraries like libudev or libnm.
-> 
-> Please let me know, which of the additions (NATIVE / NATIVESDK)
-> are welcome. I'm only offering to share my work, I'm also fine
-> keeping this in my private layer.
+The right ibt(intel bluetooth) firmware is under the folder of "intel".
 
-I don't mind taking the libnl change, I can see reasons that could make
-sense. I think the eudev change is a little too specific to your use
-case and isn't something that makes sense in OE-Core so I think I'd
-prefer to not take that one.
+Signed-off-by: Jun Miao <jun.miao@windriver.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If large numbers of people come forward saying they need/use it, we can
-reconsider that but we're not seeing that at the moment.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
+index 726055738f..ab8cafa9b3 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
+@@ -817,7 +817,7 @@ FILES_${PN}-ibt-hw-37-8 = "${nonarch_base_libdir}/firmware/intel/ibt-hw-37.8*.bs
+ FILES_${PN}-ibt-11-5    = "${nonarch_base_libdir}/firmware/intel/ibt-11-5.sfi ${nonarch_base_libdir}/firmware/intel/ibt-11-5.ddc"
+ FILES_${PN}-ibt-12-16   = "${nonarch_base_libdir}/firmware/intel/ibt-12-16.sfi ${nonarch_base_libdir}/firmware/intel/ibt-12-16.ddc"
+ FILES_${PN}-ibt-17 = "${nonarch_base_libdir}/firmware/intel/ibt-17-*.sfi ${nonarch_base_libdir}/firmware/intel/ibt-17-*.ddc"
+-FILES_${PN}-ibt-misc    = "${nonarch_base_libdir}/firmware/ibt-*"
++FILES_${PN}-ibt-misc    = "${nonarch_base_libdir}/firmware/intel/ibt-*"
+ 
+ RDEPENDS_${PN}-ibt-hw-37-7 = "${PN}-ibt-license"
+ RDEPENDS_${PN}-ibt-hw-37.8 = "${PN}-ibt-license"
+-- 
+2.25.1
 
