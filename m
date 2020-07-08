@@ -1,114 +1,74 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.6838.1594198854337496815
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.6999.1594200043622343611
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 02:00:55 -0700
+ Wed, 08 Jul 2020 02:20:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Jq05L4nd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id f18so2091902wml.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 02:00:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gOETFScZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id f139so2147362wmf.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 02:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=3hqwqvpb9/G0Dg1ccSMbQy+sDZZa0aQvgRLUeRVVVn0=;
-        b=Jq05L4ndfyNDcJh1GkTtEiIPlsUYXtDz2HbYF7jHVm1j0rjd71Plf5UeK11AiuK0pC
-         jRLpJEjx7ogNptglvwlP4VxlMuT7jjFsMoIoEpbDmYQdutsPF+6f0jfALS9Qf1cl8EkN
-         GRj4DBm7ilWbjM1f7qKJV5lUiEtGcvdhONVqo=
+        bh=yd+yCPNmtMu2OQ6w+tUR8ZT5OxSz5rn/k7VZS8eEJTE=;
+        b=gOETFScZI+pOfT4Ar7z8VlxDl9X5QEMg8wyM+EjDfD9A98KB0KpfgUNsc8Jvo5lK+a
+         Zwv9RHYlyc1Jp+ygFBKRIreJh+x2OQM8DadqjYI24lsDQ/N1Xllfv/qcAQCKVnJXT7Oa
+         9Fv6KecpuAK+WLcdDk7QPyxFLTjDQtpL/GnrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=3hqwqvpb9/G0Dg1ccSMbQy+sDZZa0aQvgRLUeRVVVn0=;
-        b=YYNkjohutr4Z85xYqgfyWT0kX3XRxyFJQ68AOYTUgsoBzYsNYN16Uir+VagZ6DimbD
-         ZMemdi6Eul8vnzj/+JxC3eVAAkgxoWNfcvsLmABPKKTy0DpNuioF/kgpNP/+2hHnzmc/
-         LCoDj1djeZbiBA2+/dSrMlscfLaysJzAGElLbiDFuh5Qv0fu42EJqLyMajK2kitR7aeJ
-         M4t6/4LCq1bXeT3dfhuLILRsECAZap4Hp9OTatreyyfW0xVvyosO8pmWwVktJ7VRzUEi
-         F9nN7SYUUcwQweWTTRUp1UREPwOsmK+PB31lKjH5H7bBmeULlDllYGxSvZOnAj06P07d
-         h6lQ==
-X-Gm-Message-State: AOAM531x9N1tl1P97y2GntbOYyqQsxnFg+aPfEdthXIXm6e9Sk+mSYMd
-	vLvh37aAist4mtJrJfrGix7ybw==
-X-Google-Smtp-Source: ABdhPJxeDdAqtp8TQyd99lMvLw4y4dqEoOKTw1ocCShXT/fy212fp2fFEKSIFAYKamRgs+t7B4y5eQ==
-X-Received: by 2002:a1c:e0c4:: with SMTP id x187mr7991515wmg.153.1594198852672;
-        Wed, 08 Jul 2020 02:00:52 -0700 (PDT)
+        bh=yd+yCPNmtMu2OQ6w+tUR8ZT5OxSz5rn/k7VZS8eEJTE=;
+        b=g7TmhsNFoSkcLfqtlh52WySoAvFN2cwUWXEC1Wrn6YgASlKX/MW55NX9ov6YBqD7v0
+         LOxfgfml54fP/2dY2Mfcomew+zDouwFbTSVKVq2dyjcDJ9ATkqcQrpbUv4xzvFk8AgHH
+         opBbDL38tdWVcumdSwyur8XSAv9T7teZUxOhFTp1+7Dle1NfcpGT+SuZOPqVYA1bZztr
+         n7r5LMYaEY96jfibUNvwpPNE77GZpkbJAA8InTUQ7XdXBeKexE/8ZmOft+I9wdKGQucB
+         1UnP6hNYv9GgxlcaMoVXiRsTHfd7RhLNGG5JAU6BgoNUpzfMb1HGhQQqQGsKj6pUCsbs
+         JV1A==
+X-Gm-Message-State: AOAM532icnBe1/MkE2ttDId73IVtcrToEK/NJoy+MO4iKm9hx39g0qPy
+	fSdhQDcjyKTtJUGZ8zQzm7msVg==
+X-Google-Smtp-Source: ABdhPJxsFb6W83OxQpiBvqdvl5i6/OmGh/48Xs7DlRYE6ko0ChTemIzYVtn8r6JX7BHXR9vPOwkjoQ==
+X-Received: by 2002:a7b:c099:: with SMTP id r25mr8920059wmh.159.1594200042109;
+        Wed, 08 Jul 2020 02:20:42 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id b17sm4766930wrp.32.2020.07.08.02.00.51
+        by smtp.gmail.com with ESMTPSA id h5sm5720682wrc.97.2020.07.08.02.20.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 02:00:51 -0700 (PDT)
-Message-ID: <6dd1b41fa6447558922720588acca4c7991165a9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH 3/4] libgcrypt: made libgcrypt-lic license "GPLv2+ & LGPLv2.1+"
+        Wed, 08 Jul 2020 02:20:41 -0700 (PDT)
+Message-ID: <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Patches are stuck in master-next
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Matthias Schoepfer <matthias.schoepfer@googlemail.com>, 
+To: Christian Eggers <ceggers@arri.de>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 08 Jul 2020 10:00:49 +0100
-In-Reply-To: <4acef93f-54ac-abbb-e99b-202136dd5227@googlemail.com>
-References: <20200526081233.62413-1-matthias.schoepfer@googlemail.com>
-	 <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
-	 <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
-	 <b595d584-b544-b755-d175-85fffbfd31e5@googlemail.com>
-	 <5ce01ee5048a9f5c0e11889cd6a9ecb150420f2f.camel@linuxfoundation.org>
-	 <38bf8144-019d-f9c5-f816-1ad80ed79d8d@googlemail.com>
-	 <03d998dfc621b417b2fb8464cd53827f2421dfac.camel@linuxfoundation.org>
-	 <4acef93f-54ac-abbb-e99b-202136dd5227@googlemail.com>
+Date: Wed, 08 Jul 2020 10:20:40 +0100
+In-Reply-To: <5614347.lOV4Wx5bFT@n95hx1g2>
+References: <5614347.lOV4Wx5bFT@n95hx1g2>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-07-08 at 10:19 +0200, Matthias Schoepfer wrote:
-> thanks, that does help maybe a little. Personally, I find the license
-> / compliance topic one of the most annoying things in embedded
-> development *by far*. I also wonder, why nobody else has stumbled
-> across this, since I guess it is quite common to rule out GPLv3,
-> because most project  managers I have seen are very worried about
-> this. Nobody (at least not our lawyers can) can say, how you can
-> safely use GPLv3ed software. 
-> Starts out with standard template library. It really is only
-> headers. headers. 
-> Are they subject to the linking exception? My favorite solution would
-> be to open source everything. But my company does not like this very
-> much...
+On Wed, 2020-07-08 at 08:20 +0200, Christian Eggers wrote:
+> Two of my patches are in master-next since some time. Is there any
+> reason why
+> they don't appear in master?
 > 
-> Anyhow: There are 4 recipes affected. These are somewhat special, 
-> because GPLv3 is only applicable on certain packages that are not 
-> commonly installed on the target.
+> https://patchwork.openembedded.org/series/24760/#
+> https://patchwork.openembedded.org/series/24775/#
 > 
-> If I got you right, we should set:
-> 
-> LICENSE_${PN}-lic = "FSF-license-text"
-> 
-> If that is correct, I will happily prepare a patch set...
+> I would like to send further patches for meta-openembedded which
+> depend on the above ones.
 
-I've been looking at the license.bbclass code for other reasons and it
-has a few issues. I suspect not many people are actually enabling the
-separate license packages, I don't think its enabled anywhere in our
-automated testing either.
-
-I think we'll have to have some code which translates "XXX" into "XXX-
-license-text" for the license of ${PN}-lic.
-
-Something like:
-
-def convert_to_license_texts(d):
-    licenses = d.getVar("LICENSE")
-    ret = []
-    for x in licenses.split():
-        if "|" in x or "&" in x:
-            ret.append(x)
-        else:
-            ret.append(x + "-license-text")
-    return ret.join(" ")
-
-LICENSE_${PN}-lic = "${@convert_to_license_texts(d)}"
-
-(admittedly completely untested)
-
-Ideally we'd have some mapping to convert the GPL/LGPL entries to FSF-
-license-text and simplify out any |/& expressions but for now the above
-is probably good enough.
+The issue is I still don't really like the eudev one in particular. A
+native eudev really doesn't make sense and I'm reluctant to encourage
+people to build such a thing. I suspect you can't convince
+networkmanager-native to build without it (although I'm not convinced
+a native libnm is that useful either).
 
 Cheers,
 
 Richard
+
+
 
