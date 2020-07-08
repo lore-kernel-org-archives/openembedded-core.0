@@ -1,166 +1,114 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web10.6595.1594198370700764791
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.6838.1594198854337496815
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 01:52:55 -0700
+ Wed, 08 Jul 2020 02:00:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.75,327,1589212800"; 
-   d="scan'208";a="95925563"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Jul 2020 16:52:46 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 492624CE5059
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 16:52:45 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 8 Jul 2020 16:52:45 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] libvorbis: upgrade 1.3.6 -> 1.3.7
-Date: Wed, 8 Jul 2020 16:52:39 +0800
-Message-ID: <1594198359-42354-4-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1594198359-42354-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1594198359-42354-1-git-send-email-wangmy@cn.fujitsu.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Jq05L4nd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id f18so2091902wml.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 02:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=3hqwqvpb9/G0Dg1ccSMbQy+sDZZa0aQvgRLUeRVVVn0=;
+        b=Jq05L4ndfyNDcJh1GkTtEiIPlsUYXtDz2HbYF7jHVm1j0rjd71Plf5UeK11AiuK0pC
+         jRLpJEjx7ogNptglvwlP4VxlMuT7jjFsMoIoEpbDmYQdutsPF+6f0jfALS9Qf1cl8EkN
+         GRj4DBm7ilWbjM1f7qKJV5lUiEtGcvdhONVqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=3hqwqvpb9/G0Dg1ccSMbQy+sDZZa0aQvgRLUeRVVVn0=;
+        b=YYNkjohutr4Z85xYqgfyWT0kX3XRxyFJQ68AOYTUgsoBzYsNYN16Uir+VagZ6DimbD
+         ZMemdi6Eul8vnzj/+JxC3eVAAkgxoWNfcvsLmABPKKTy0DpNuioF/kgpNP/+2hHnzmc/
+         LCoDj1djeZbiBA2+/dSrMlscfLaysJzAGElLbiDFuh5Qv0fu42EJqLyMajK2kitR7aeJ
+         M4t6/4LCq1bXeT3dfhuLILRsECAZap4Hp9OTatreyyfW0xVvyosO8pmWwVktJ7VRzUEi
+         F9nN7SYUUcwQweWTTRUp1UREPwOsmK+PB31lKjH5H7bBmeULlDllYGxSvZOnAj06P07d
+         h6lQ==
+X-Gm-Message-State: AOAM531x9N1tl1P97y2GntbOYyqQsxnFg+aPfEdthXIXm6e9Sk+mSYMd
+	vLvh37aAist4mtJrJfrGix7ybw==
+X-Google-Smtp-Source: ABdhPJxeDdAqtp8TQyd99lMvLw4y4dqEoOKTw1ocCShXT/fy212fp2fFEKSIFAYKamRgs+t7B4y5eQ==
+X-Received: by 2002:a1c:e0c4:: with SMTP id x187mr7991515wmg.153.1594198852672;
+        Wed, 08 Jul 2020 02:00:52 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id b17sm4766930wrp.32.2020.07.08.02.00.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2020 02:00:51 -0700 (PDT)
+Message-ID: <6dd1b41fa6447558922720588acca4c7991165a9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH 3/4] libgcrypt: made libgcrypt-lic license "GPLv2+ & LGPLv2.1+"
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Matthias Schoepfer <matthias.schoepfer@googlemail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 08 Jul 2020 10:00:49 +0100
+In-Reply-To: <4acef93f-54ac-abbb-e99b-202136dd5227@googlemail.com>
+References: <20200526081233.62413-1-matthias.schoepfer@googlemail.com>
+	 <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
+	 <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
+	 <b595d584-b544-b755-d175-85fffbfd31e5@googlemail.com>
+	 <5ce01ee5048a9f5c0e11889cd6a9ecb150420f2f.camel@linuxfoundation.org>
+	 <38bf8144-019d-f9c5-f816-1ad80ed79d8d@googlemail.com>
+	 <03d998dfc621b417b2fb8464cd53827f2421dfac.camel@linuxfoundation.org>
+	 <4acef93f-54ac-abbb-e99b-202136dd5227@googlemail.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 492624CE5059.A35CF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-CVE-2017-14160.patch
-CVE-2018-10392.patch
-removed since they are included in 1.3.7
+On Wed, 2020-07-08 at 10:19 +0200, Matthias Schoepfer wrote:
+> thanks, that does help maybe a little. Personally, I find the license
+> / compliance topic one of the most annoying things in embedded
+> development *by far*. I also wonder, why nobody else has stumbled
+> across this, since I guess it is quite common to rule out GPLv3,
+> because most project  managers I have seen are very worried about
+> this. Nobody (at least not our lawyers can) can say, how you can
+> safely use GPLv3ed software. 
+> Starts out with standard template library. It really is only
+> headers. headers. 
+> Are they subject to the linking exception? My favorite solution would
+> be to open source everything. But my company does not like this very
+> much...
+> 
+> Anyhow: There are 4 recipes affected. These are somewhat special, 
+> because GPLv3 is only applicable on certain packages that are not 
+> commonly installed on the target.
+> 
+> If I got you right, we should set:
+> 
+> LICENSE_${PN}-lic = "FSF-license-text"
+> 
+> If that is correct, I will happily prepare a patch set...
 
--License-Update: Copyright year updated to 2020.
+I've been looking at the license.bbclass code for other reasons and it
+has a few issues. I suspect not many people are actually enabling the
+separate license packages, I don't think its enabled anywhere in our
+automated testing either.
 
-license text: URL of Xiph.Org Foundation changed to https://xiph.org/
+I think we'll have to have some code which translates "XXX" into "XXX-
+license-text" for the license of ${PN}-lic.
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../libvorbis/libvorbis/CVE-2017-14160.patch  | 34 -------------------
- .../libvorbis/libvorbis/CVE-2018-10392.patch  | 34 -------------------
- ...{libvorbis_1.3.6.bb => libvorbis_1.3.7.bb} | 10 +++---
- 3 files changed, 4 insertions(+), 74 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
- delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-10392.patch
- rename meta/recipes-multimedia/libvorbis/{libvorbis_1.3.6.bb => libvorbis_1.3.7.bb} (61%)
+Something like:
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
-deleted file mode 100644
-index b7603c3b13..0000000000
---- a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14160.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 018ca26dece618457dd13585cad52941193c4a25 Mon Sep 17 00:00:00 2001
--From: Thomas Daede <daede003@umn.edu>
--Date: Wed, 9 May 2018 14:56:59 -0700
--Subject: [PATCH] CVE-2017-14160: fix bounds check on very low sample rates.
--
-----
--CVE: CVE-2017-14160 CVE-2018-10393
--
--Upstream-Status: Backport [gitlab.com/Xiph.Org/Vorbis/Commits/018ca26d...]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
-----
-----
-- lib/psy.c |    3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/lib/psy.c b/lib/psy.c
--index 422c6f1..1310123 100644
----- a/lib/psy.c
--+++ b/lib/psy.c
--@@ -602,8 +602,9 @@ static void bark_noise_hybridmp(int n,const long *b,
--   for (i = 0, x = 0.f;; i++, x += 1.f) {
-- 
--     lo = b[i] >> 16;
---    if( lo>=0 ) break;
--     hi = b[i] & 0xffff;
--+    if( lo>=0 ) break;
--+    if( hi>=n ) break;
-- 
--     tN = N[hi] + N[-lo];
--     tX = X[hi] - X[-lo];
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-10392.patch b/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-10392.patch
-deleted file mode 100644
-index b7936b4b4d..0000000000
---- a/meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-10392.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 112d3bd0aaacad51305e1464d4b381dabad0e88b Mon Sep 17 00:00:00 2001
--From: Thomas Daede <daede003@umn.edu>
--Date: Thu, 17 May 2018 16:19:19 -0700
--Subject: [PATCH] Sanity check number of channels in setup.
--
--Fixes #2335.
--
-----
--CVE: CVE-2018-10392
--
--Upstream-Status: Backport [gitlab.com/Xiph.Org/Vorbis/Commits/112d3bd...]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
-----
--
-- lib/vorbisenc.c |    1 +
-- 1 file changed, 1 insertion(+)
--
--
--diff --git a/lib/vorbisenc.c b/lib/vorbisenc.c
--index 4fc7b62..64a51b5 100644
----- a/lib/vorbisenc.c
--+++ b/lib/vorbisenc.c
--@@ -684,6 +684,7 @@ int vorbis_encode_setup_init(vorbis_info *vi){
--   highlevel_encode_setup *hi=&ci->hi;
-- 
--   if(ci==NULL)return(OV_EINVAL);
--+  if(vi->channels<1||vi->channels>255)return(OV_EINVAL);
--   if(!hi->impulse_block_p)i0=1;
-- 
--   /* too low/high an ATH floater is nonsensical, but doesn't break anything */
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.6.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-similarity index 61%
-rename from meta/recipes-multimedia/libvorbis/libvorbis_1.3.6.bb
-rename to meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-index 1a3cdc2269..c5c10348c6 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.6.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-@@ -6,16 +6,14 @@ HOMEPAGE = "http://www.vorbis.com/"
- BUGTRACKER = "https://trac.xiph.org"
- SECTION = "libs"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://COPYING;md5=70c7063491d2d9f76a098d62ed5134f1 \
--                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=73d9c8942c60b846c3bad13cc6c2e520 \
-+                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=c95a4ac2b4125f00a9acf61449ebb843"
- DEPENDS = "libogg"
- 
- SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz \
-            file://0001-configure-Check-for-clang.patch \
--           file://CVE-2018-10392.patch \
--           file://CVE-2017-14160.patch \
-           "
--SRC_URI[md5sum] = "b7d1692f275c73e7833ed1cc2697cd65"
--SRC_URI[sha256sum] = "af00bb5a784e7c9e69f56823de4637c350643deedaf333d0fa86ecdba6fcb415"
-+SRC_URI[md5sum] = "50902641d358135f06a8392e61c9ac77"
-+SRC_URI[sha256sum] = "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b"
- 
- inherit autotools pkgconfig
--- 
-2.17.1
+def convert_to_license_texts(d):
+    licenses = d.getVar("LICENSE")
+    ret = []
+    for x in licenses.split():
+        if "|" in x or "&" in x:
+            ret.append(x)
+        else:
+            ret.append(x + "-license-text")
+    return ret.join(" ")
 
+LICENSE_${PN}-lic = "${@convert_to_license_texts(d)}"
 
+(admittedly completely untested)
+
+Ideally we'd have some mapping to convert the GPL/LGPL entries to FSF-
+license-text and simplify out any |/& expressions but for now the above
+is probably good enough.
+
+Cheers,
+
+Richard
 
