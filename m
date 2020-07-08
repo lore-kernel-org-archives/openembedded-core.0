@@ -1,134 +1,117 @@
-Received: from EUR06-AM7-obe.outbound.protection.outlook.com (EUR06-AM7-obe.outbound.protection.outlook.com [40.92.16.35])
- by mx.groups.io with SMTP id smtpd.web11.1417.1594233440160454409
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.85])
+ by mx.groups.io with SMTP id smtpd.web10.1591.1594233865785469873
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 11:37:20 -0700
+ Wed, 08 Jul 2020 11:44:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=N3KNNA5a;
- spf=pass (domain: outlook.com, ip: 40.92.16.35, mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=IC+8Rehk;
+ spf=pass (domain: outlook.com, ip: 40.92.64.85, mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e0vWFZb/wCxbg10lGPx5XeSd9ABzPD7MhV86tBVNf5swCop4SnxvA33PtLoevvg0xGNuq/j1o75S9Hv17Gwr31P4AG/GVhuRU9HtnFQOD+Ze0K6ymVLDwJ4K6Z1NVDOGheNxSZtERSvWs6X/1myLdw0hnzEG6sNe5rH89koeGVa9LyJkA1d87c54HPEf1clRYD7q1z+UkHEwlJtHKTMj9ICw0Zn0rkObvHAgR7Hr2rYathPA6slAPPGSSGXUsVTqb082OQTnobzJcEAVy3+Ir5FFBYa7jXRyrMmTWJfszWxASoT5DZD6BRbqPXHkpC0SpdPswjggC637x4pCHwTGEA==
+ b=a9STgcQX3x9uwse1+vyJwIth/TSAsNtVjsVofiKr7KY51OHVDMQS/zclMysAiZV15ZXJlixozJ4y9bUj3UqM/NHXl0oe6xpbcIJySc9KjbxPpuc3AGiIneH4C9JXrbTtIMJKeMRPw8ZyF+Q7JR+JJRvuuEmkywSOs8bS5mkSRmY4uKYak77hbMy1AIgzmQP+T4NlFJeGOd0LuD2HNJaoLw0PnWL45vmFpPxztrJqB+4DHMM0eR9l6eJVRZ3NWkeGGdQcLsWN1zvWumLc0hg70LBM/FXQtpTVLOeKciyQOs7i2BZ4yDoU1hUvU330+gy2J98I5QuHebOpTTatFfBF4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dp9ooZdg2P5IyTL0mG8yVWq/3eHdQfAC4ON9JTwRkRU=;
- b=jpCGSwxDOy69aF39RMluOvO0f20GWubmjqj7VKpWrEDK8EG7Rvia8IDY2WdsIk1aBOql2NDZocfmDvtIloUP3+gcwjz4VlvrSrLzYCft9RZ3Ez75wXkbIofQnxD7s9FpTNDw4IXAyz17yHgWL1C3ve/vUrRCHisjxsDjX3jAs8qaGyuFxcoF2tU3lF2PZPGhLj+yIY+GMGbLpXIxs2GlvgFn2S/movuswrUXk5c+h5F545Kj6wY6zrJ8MjGqIPjnJC2WmP66CDG+MmAA4HUpwUql6BysCF8RNSi0m+H9hlJlZSDx+IS5vMi84yizqNQ2c1UZs0T5oa7DqOlnXk/+Ow==
+ bh=NWQN7bcqEeb+f/x7P38yfUj+9oiMpNEX/Ht3rMzQ1zk=;
+ b=NkoBKPnaDCzEFSKJqoeYKoC+fFvPf7azQ3HiKYllGmsBaPdW/Laj4XbPI0H2ljR6xcsTm1f+ps5s84/7ODhaBc8K86FSPnR2qvgvlHsbwLLIE2xRsAAQL94VrMumvcozuUu6Tnra98qCga+oxV6MeOfZmneYmlTvsT9siVxQU5JYM9beDHuMDeEP6n+bp2E8ERgxI7YOrEG/dyD2uqIz92Qqq4ImVMMQFOukXAZIYA8alhB2IwVS3BrtspDgl1u5JkFSQV6mjLcDYeMeunJYEl6M6dB2pDWmh7yiiaEc1lPcs6kAKVwfgcqSGCTWAdVl60y/+MmOy/CRZcbgS6YfCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dp9ooZdg2P5IyTL0mG8yVWq/3eHdQfAC4ON9JTwRkRU=;
- b=N3KNNA5a+qqKqPlfasmQrxON31nE5WtdF8E/52knCxhnYXReypyPS64wNzJfbCWyf1/WNzA4CJT18nshNXgTccgVxIi8P99rjrt2NzJPG6eEpxOFQqyeLnQTqndHEZWqD+83tkDiu3fG4ySkHrXkJl7P8AUh09tW8aFaOl14fsV6Gx7uzbyomWhCIrCgZbJKByN6vk/8MWGviC3LwBpQy7LqGI45GaI3aMqn3CnDcQdhHOJjF4rx/z/eGh6hZfrBmz4hWDYAGilfhlGYasSoUiXuWqd7WIFihtO8IC0b79zChlnQCurW8Bt+kKvckkYPOpDY1PaEQwhjf8gaoQmfzA==
-Received: from AM7EUR06FT061.eop-eur06.prod.protection.outlook.com
- (2a01:111:e400:fc36::4c) by
- AM7EUR06HT100.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc36::207)
+ bh=NWQN7bcqEeb+f/x7P38yfUj+9oiMpNEX/Ht3rMzQ1zk=;
+ b=IC+8Rehk10i0XN2hB5plljt8Z7K3Gfz5t0GQroCxGFh5ZxD7OwgEOqqIgv9iWIXi6vx1ORXfQlK+Td4YFyO29V/NULPi9Tnplnp3wu7nx3oLQNY5Bm0Iih+rEOitYE0CGETNeIHsUiltXKuVhZu6cdgzArlgRsXTp5IWXgosCoHLSB/VyMxTJZkmDsnyXYz2RKBwIRGGbfGwmI8h/FpWKioSlHrJBApnEIfpGPhz006Rc6SW3Fu7mAVszFKXk1sH8W5HT1KKmeetDaxTRoZbP0YUjN+kMg9+YOCKWXyEjIrLvFGHNtOqBBPMxuMtB9nNXLUTAFqwozAHGUM35C7V0Q==
+Received: from DB5EUR01FT058.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e1a::53) by
+ DB5EUR01HT128.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e1a::501)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Wed, 8 Jul
- 2020 18:37:17 +0000
+ 2020 18:44:23 +0000
 Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:fc36::49) by AM7EUR06FT061.mail.protection.outlook.com
- (2a01:111:e400:fc36::95) with Microsoft SMTP Server (version=TLS1_2,
+ (2a01:111:e400:7e1a::48) by DB5EUR01FT058.mail.protection.outlook.com
+ (2a01:111:e400:7e1a::302) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Wed, 8 Jul 2020 18:37:17 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:53F7A218E04D0E453401DCA5B7483981329F6011E90C6CB7AD4549A925216A49;UpperCasedChecksum:F848A3E0268C207EE5B4F6F771E51DE8C7D33ED02E2E30361B27603606BDF642;SizeAsReceived:8970;Count:48
+ Transport; Wed, 8 Jul 2020 18:44:23 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:9CCD46E33D02DE41B3CBCA2A71581D39FF96C32524435D7AEA5F43E5BE400975;UpperCasedChecksum:90039D086AC2D25A7F6B01F54F3E09EDB43EAB38896F7C98C85DE2EB89EEB3F7;SizeAsReceived:7375;Count:47
 Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
  ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
  ([fe80::2c81:794e:63ae:e722%5]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
- 18:37:17 +0000
-Subject: Re: [OE-core] [PATCH 2/2] rootfs-post: add sanity check for ROOTFS_POSTCMD
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200708110936.17099-1-kweihmann@outlook.com>
- <AM7PR05MB6881E32F96C6B2D662250CFAA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
- <1f6807cd44de94bcf6d9d4eb47a29a3fa3861893.camel@linuxfoundation.org>
+ 18:44:23 +0000
 From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM7PR05MB688168801B8CD0016C5FE9C9A8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Date: Wed, 8 Jul 2020 20:37:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <1f6807cd44de94bcf6d9d4eb47a29a3fa3861893.camel@linuxfoundation.org>
-X-ClientProxiedBy: AM5PR0701CA0054.eurprd07.prod.outlook.com
- (2603:10a6:203:2::16) To AM7PR05MB6881.eurprd05.prod.outlook.com
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH 1/2] distutils: put tests to ptest package
+Date: Wed,  8 Jul 2020 20:44:08 +0200
+Message-ID: <AM7PR05MB6881765BB66D07D02E10727EA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+X-ClientProxiedBy: AM5PR0601CA0071.eurprd06.prod.outlook.com
+ (2603:10a6:206::36) To AM7PR05MB6881.eurprd05.prod.outlook.com
  (2603:10a6:20b:1a9::19)
 Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <990b6b6b-42d3-2983-9975-caf9b31abf0e@outlook.com>
+X-Microsoft-Original-Message-ID: <20200708184409.21292-1-kweihmann@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.150.33.67) by AM5PR0701CA0054.eurprd07.prod.outlook.com (2603:10a6:203:2::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.8 via Frontend Transport; Wed, 8 Jul 2020 18:37:17 +0000
-X-Microsoft-Original-Message-ID: 
- <990b6b6b-42d3-2983-9975-caf9b31abf0e@outlook.com>
-X-TMN: [3zgfK/t2x/1GsWbyTCEVvorsOosqOolK]
+Received: from ICKE-EDGE.fritz.box (87.150.33.67) by AM5PR0601CA0071.eurprd06.prod.outlook.com (2603:10a6:206::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend Transport; Wed, 8 Jul 2020 18:44:22 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200708184409.21292-1-kweihmann@outlook.com>
+X-TMN: [3QmTBfZ2Q+GC9zRJzilx3or/IsqTpN7x]
 X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
+X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: e5ed196e-6ed9-4ce6-6015-08d8236df105
-X-MS-TrafficTypeDiagnostic: AM7EUR06HT100:
+X-MS-Office365-Filtering-Correlation-Id: 118b5570-3a7d-4c5b-2a06-08d8236eee83
+X-MS-Exchange-SLBlob-MailProps: 
+	mBRmoEB1kyJw5UtaifPLpECH0lBUWmaKPJYkMCWMJOF8nLo+jP6afQrTnlw6euytX1ZJK8pJZ7bGegV0ORelwfOh+ZkfcYeLaRjoaBed40OMNe2BIMYHNQOWV+sDmN8A12euMbDjIAQNKMgzAZxLbE54RlBujqTbumw5LkNS4gmiYGkDvzQltGTS5jb8sL40tB3hcxersNwLDZbTvnWwaVW9QKRJhjOdOq0oC71seKhsvw0CpDeLS0scvMGv3yUaxsTH9lt+7tdabBy8brmdDlaCfa9kxcLV+2P3dfR7mNs0kHdITTlBw27w9LpMwt1emXBvkvy5m469MTraspHTw6RFW4i24hCiNkdxrmyu+I6QZVmsWYC5jN+/rwu+aSxT3jxY6zo1900+IxkvIs+RBCETkU3wvsY23dRHc2VcgdbnzHpRfLrYX3QmpN83sP12G7psakeFes30eQ1mg++zEIGUwqU4KXthN4k7yZEWlAZVoFTouG/FqqSsRQXtoQH/E8QVK8byF9I7wyjiUdRSQiGGG0DLR/lLyPB29tMlvQ4vFYzADXZ4h5zsuJ2D5uwHJmX97BlEXpbiwqYbxCxOc3imN9md8+49RaE2eHHtoGiYrCJUlchAX0bmOCAIBM+0vR3Vg9JRh7mX4ztxh9LCV5XWgVN2Qli/Fcqt9lgsmDYcRMz9YRkkpX+u5DUWN0ZyBN9PPJ+6X33XhEbbRcaoiIDvbIJZXT5EE1WkvkWlE6H0lg5QdwVpIGh6b1xxtIUxXk5M1/axrEc=
+X-MS-TrafficTypeDiagnostic: DB5EUR01HT128:
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	HEJvCkdzEe3JTVkAA4QynYhPJGAfl7dOoigvExupMBmRCQKcmzSYgAa0z5zmxuhEkWE5s/PE8pVKGn2ovO4asdn8VknRgpUuer9TigjAhZGr5eCuCyBpu172P84vfHgPaNyH737dkswYejXvTIvgfAR0preCtWtcHbmf7jtT4IP2WRk6Unc0cPGH5WVGiCPOwOB7Ukvg6bvBg/Khuri6UQ==
+	JpIZgmHV/6Vf/O+ORfl0o+3oBztC7MFgeg6Jnr5V/RrjoAhqcDYQOrB2Fv9qs5CT61uvwOtF2hDUJeeShpiriI65F9bMHzK37OP+BhKO7eSWCbcbkgoRfk0ikOtU3meGKwE8ss/zsW6pC4MwrahPKfbUjlKB//TjKj06c7t8U91n5ecqS8pIbdorxLJ2Yhv1pEcIHx4v361Aov2nmw/Cww==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
 X-MS-Exchange-AntiSpam-MessageData: 
-	mPeAQGqC79SkGcAwtWMHwSfgJ5279j6db92Jt4tkboEy+Z0e9SDPj0SlbRmgcvfeKYDVeDW8qn7NR+ZHF0ahmrwoin6z5E4SXAHhaO/0IKzUHa0MK+eitMfFiGVT1KOHABfyIRrQKcX9fJizi6UrZQ==
+	Mht6Jhu1uT4a7qHkIrF1mOFdPdTcmj/mX3ZIDSVNJZommDuoRlVZnw7VdAcF8qk7eE0P9AX4TGXSA41/PCB5LFYcH3bOgWPSrYVT2IPDX8CDnLKii8fagi4wI+nYPWoUc8J7b786up8992VLuphZjA==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5ed196e-6ed9-4ce6-6015-08d8236df105
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 18:37:17.8289
+X-MS-Exchange-CrossTenant-Network-Message-Id: 118b5570-3a7d-4c5b-2a06-08d8236eee83
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 18:44:23.0222
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR06FT061.eop-eur06.prod.protection.outlook.com
+	DB5EUR01FT058.eop-EUR01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7EUR06HT100
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR01HT128
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Then please ignore the second patch - if I find some time, I'll try to 
-add that to the sanity class - but for now the first patch solve a real 
-problem for me, while the second is nice 2 have at the moment
+Put files from installed tests into a ptest package to avoid having
+them in an image and to avoid having more runtime dependencies
+than necessary.
 
-On 08.07.20 14:08, Richard Purdie wrote:
-> On Wed, 2020-07-08 at 13:09 +0200, Konrad Weihmann wrote:
->> It warns about trailing blanks before the delimiter, as otherwise the
->> task can't be removed properly
->>
->> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
->> ---
->>   meta/classes/rootfs-postcommands.bbclass | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
->> index 984730ebe8..e33715f016 100644
->> --- a/meta/classes/rootfs-postcommands.bbclass
->> +++ b/meta/classes/rootfs-postcommands.bbclass
->> @@ -57,6 +57,14 @@ python () {
->>       d.appendVar('ROOTFS_POSTPROCESS_COMMAND', 'rootfs_reproducible;')
->>   }
->>   
->> +addhandler rootfs_postcmd_sanity_eventhandler
->> +rootfs_postcmd_sanity_eventhandler[eventmask] = "bb.event.RecipeParsed"
->> +python rootfs_postcmd_sanity_eventhandler() {
->> +    for x in (d.getVar("ROOTFS_POSTPROCESS_COMMAND") or "").split(";"):
->> +        if x.endswith(" "):
->> +            bb.warn("'%s' ends with a blank, making the task unremovable" % x.strip())
->> +}
->> +
->>   systemd_create_users () {
->>   	for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
->>   		[ -e $conffile ] || continue
-> 
-> I think this belongs with other sanity tests in insane.bbclass. I'd
-> prefer not to have another event handler in the system just for this
-> (they're high overhead).
-> 
-> Cheers,
-> 
-> Richard
-> 
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/classes/distutils-common-base.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/dist=
+utils-common-base.bbclass
+index 94b5fd426d..e3b36574aa 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -13,8 +13,13 @@ export CCSHARED  =3D "-fPIC -DPIC"
+ # the python executable
+ export LINKFORSHARED =3D "{SECURITY_CFLAGS} -Xlinker -export-dynamic"
+=20
++PACKAGES =3D+ "${@oe.utils.ifelse(bb.data.inherits_class('image', d), '', =
+'${PN}-ptest')}"
++
+ FILES_${PN} +=3D "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+=20
++FILES_${PN}-ptest +=3D "${PYTHON_SITEPACKAGES_DIR}/**/test/*"
++ALLOW_EMPTY_${PN}-ptest =3D "1"
++
+ FILES_${PN}-staticdev +=3D "\
+   ${PYTHON_SITEPACKAGES_DIR}/*.a \
+ "
+--=20
+2.20.1
+
