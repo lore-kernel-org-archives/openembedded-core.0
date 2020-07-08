@@ -1,56 +1,81 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.11651.1594218009441814463
+Received: from mailout09.rmx.de (mailout09.rmx.de [94.199.88.74])
+ by mx.groups.io with SMTP id smtpd.web12.12722.1594220934573806976
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 07:20:11 -0700
+ Wed, 08 Jul 2020 08:08:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=bCZExmhM;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B21fY2ByVz4K;
-	Wed,  8 Jul 2020 16:20:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1594218006;
-	bh=0QrlOtIiJmA5gILiveSEBUP3KDChsX3+E3fORL3RLZM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bCZExmhMLr2Lupr5o+Xy0r9Fn4D8LNnHkndAUVnVBfkuLNnv51JbdEjjGlbA9OcIS
-	 ZA0N7blTcqMqwuIzPrVmFkJbV7aAw0KMlXMS/4/l/9kEiB1n2UwRzcYFEFysry1P8I
-	 +iuEEWVy48swttoIrdMJaptm4yXccuSr4EHoGpIrMRWq8tNkNR0+UPojHyg4MSGmN0
-	 8o9fBnSlv5VOoyDEb8L1ocwzcjPHNzxn9f9z2IvDUzADXES8GfR5zMn+LqcNU4cc4q
-	 7B+F3mPT6hotsm//OVGzXkOCT/BaMBiuv3xBuuvzlV2mJc+R/tjIhN3zln/BEMSDX0
-	 0hJsxTgOIRAG2/tJoTj6+hK7urkoAcmQgg0ZSJh3WNUhVZ3S9RwIVO5G3nA4NVNz2w
-	 VEIDP3EcJ42IGCA9NchuXkcemQKcxB/D/d2wP/2PIpJo5W/dHGEgJlaQXpxCl6/5sL
-	 3iZZoHv+/J0RL2U9og96gsE1CW28p9ftP/59+RJPBPrPk2XpOEIytcilvh9pRKXSyg
-	 p0xa7ANJMBS4sjqL4TM+INktCuyl2HJdBNhJa04TLApnMclgM8BI8sGNj+6RjHaKYe
-	 1Nw09/DAlNOZG6ZjzKqrssk5zO89Q9eYOzkCyig9MWcrd0zLAFCNNDKucMds4ZAJqB
-	 /nAi2U1XVD17wqSDNzs1Go+M=
-Date: Wed, 8 Jul 2020 17:20:03 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Christian Eggers <ceggers@arri.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.74, mailfrom: ceggers@arri.de)
+Received: from kdin01.retarus.com (kdin01.dmz1.retloc [172.19.17.48])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout09.rmx.de (Postfix) with ESMTPS id 4B22kn5j0zzbl2K;
+	Wed,  8 Jul 2020 17:08:49 +0200 (CEST)
+Received: from mta.arri.de (unknown [217.111.95.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by kdin01.retarus.com (Postfix) with ESMTPS id 4B22kS70bJz2xF4;
+	Wed,  8 Jul 2020 17:08:32 +0200 (CEST)
+Received: from n95hx1g2.localnet (192.168.54.17) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 8 Jul
+ 2020 17:07:29 +0200
+From: "Christian Eggers" <ceggers@arri.de>
+To: Adrian Bunk <bunk@stusta.de>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] Patches are stuck in master-next
-Message-ID: <20200708142003.GD5419@localhost>
-References: <5614347.lOV4Wx5bFT@n95hx1g2>
- <ec870c18ff3d28d9e0f45f9b128b380dd8b5d668.camel@linuxfoundation.org>
- <12184874.L5pGue1uWE@n95hx1g2>
+Date: Wed, 8 Jul 2020 17:07:28 +0200
+Message-ID: <18770938.c9i5bXPaRE@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <20200708142003.GD5419@localhost>
+References: <5614347.lOV4Wx5bFT@n95hx1g2> <12184874.L5pGue1uWE@n95hx1g2> <20200708142003.GD5419@localhost>
 MIME-Version: 1.0
-In-Reply-To: <12184874.L5pGue1uWE@n95hx1g2>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Originating-IP: [192.168.54.17]
+X-RMX-ID: 20200708-170838-4B22kS70bJz2xF4-0@kdin01
+X-RMX-SOURCE: 217.111.95.66
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jul 08, 2020 at 11:40:30AM +0200, Christian Eggers wrote:
->...
-> For NATIVE, I need the libs for running automatic unit tests on the
-> build machine. One could probably ask whether unit tests should
-> depend on libraries like libudev or libnm.
->...
+Am Mittwoch, 8. Juli 2020, 16:20:03 CEST schrieb Adrian Bunk:
+> I would rather ask why you aren't running automatic unit tests
+> built for the target inside qemu.
+>
+> cu
+> Adrian
 
-I would rather ask why you aren't running automatic unit tests
-built for the target inside qemu.
+This may be an option. Currently the platform (x86 or arm)
+decides whether real peripheral routines or mock objects
+will be used. Of course this can easily be changed. But
+running the tests within a (slow) emulator brings not much
+benefit compared to building and running the tests directly
+on x86.
 
-> regards
-> Christian
+Instead of using NATIVE, also the NATIVESDK build could
+be executed within qemu on the build machine... (without
+qemu, nativesdk executables cannot be executed on the
+build machine due to non existing loader in .interp section).
 
-cu
-Adrian
+From Richard I got no response to the question whether
+potentially every package may be extended for nativesdk/native,
+or these platforms a reserved for packages required for "building".
+
+regards
+Christian
+
+
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
