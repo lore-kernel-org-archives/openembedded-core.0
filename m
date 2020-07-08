@@ -1,66 +1,83 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.4792.1594242489705940062
+ by mx.groups.io with SMTP id smtpd.web12.4719.1594242489723068129
  for <openembedded-core@lists.openembedded.org>;
  Wed, 08 Jul 2020 14:08:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=JXhPeB0S;
+ dkim=pass header.i=@stusta.de header.s=default header.b=d3tYblkH;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjM2FfMzhF
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjM5mRCzhY
 	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1594242487;
-	bh=250IHcFwipRK3P4aVHra4KwxlrxudRzL9Z0QandQKCA=;
+	bh=UvvrU86cH3q6KrD4nF9HQwmHV7FQ0Efpm+XnCLbYtb0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JXhPeB0Sj3kfPe1kJeaHp46EFKp5zKn0mSKYGMN5GtRGY8H08ovefGRU9vUx5qun5
-	 4C1LrtnSvPRj1mpCEVF4wFJxrYb1efUrUM0Vqa/vVmlcEvXsrq5libwtd+30HhYNLA
-	 bPUC+F1Nvqt3q4nO3OOIlfWmjNoz1IVkO0Iuqqnq+K3L7wbIYtrsSGxnxyZAZWbUYd
-	 oP6b46uY5WWFcV+FnYIfzfMefgGq8SY7J8hJmt7YceVqDl6N5OSm2zWoyPlfCdIV/y
-	 1IKleFJYtxIWbLXvHZogyNkBH4tDNR86LmOlpj/h3Zu7Rf66xwslwWyAW18V5eRq+/
-	 a3ObWKnHDDbyMi7ovLIE8Jc/tCfnlv1Rzc4aRzeoyGjzQmumKohWVMr5UJA6kklQVd
-	 y9zDP1OYmrNuUXKDzPGJFMGHP54casBZDIlE8v3NO0H/aZ1RzXV4Rn7pzuzhURZ8u/
-	 9ya6g097k9/LETZjdU/w5sNJ6nQY7KGhaxxydmNZzs9EQWupPe1/grPapHbzRR4qJY
-	 XCzmu0mCqW6oQhu563CBbc09SHu1xSmcZHxvE+mXV4OBENZzWFXbkou1K2wWdh/fXj
-	 FPKAdrGMFIDQEpGzN6hgrV1n+PCCHHZsaeXQabkUUHh2U2qKTj8LB0zRxPRBGALNgM
-	 gJ9qo1ZUVfhXoY/4f2wkxOEE=
+	b=d3tYblkHfftJvsMZLuRGabRkoe8obSSqzg31BgeobO4g2aAX9+VsN8YUMYFgBdfwr
+	 5OK5KzLQKl1KEvlVGTDlTm9818NjOrLebOTRS0g9GfMHCDoq/c7+G7REBrWAM4PZiT
+	 2OXQAXw026bBVXdPHx/x2NzEoOWJpHp4nJqI1DO3V1loQgOTgPOlItWqAy0AXXFdpb
+	 GrQH/MyMC5gfGwXuvuFwNVAyWOu+Mhtj+qr3NQc3VO0KXXbgT81CUKWwxdfmDghwiv
+	 2Xv/JWUnQ48ScXoOdKDIB+saaxn0qi06GtDwIkayKXLWNFf20bkB7JQWRZiqjPl4Cu
+	 aJkoCqDGH87GfS0Qyo1ETo4S9tiP7MHjKUZmgu8B87QQE0x1Dboswl/6OIi9b1hNMu
+	 pVNlk3oq2L99zDUliW7qFf36ASDcz9s0RUJVENurJcOKznY9aQm/GA32YiUP7+KlYZ
+	 bCJAPU8Tvp1sW29++ck/+RLTZHDNsgwWmg0NaA4cOJDeXtea7LIny6VAwHB2XP2aBr
+	 1ewwKimj4pI3ZOsfFkxH7r61++6YTXya63sBTMymGjenmP7LKsFBAMTiQDP6GRmwpt
+	 Y0ZWnZi5cr0nXEfM7Q0Zr10utRO6ofNMSVu5k11CAyaKl0Am+6+caS7SXyswLXlKVH
+	 9j5Owsenxmd2Zo7EH9yOne3Q=
 From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH 10/19] vim: _FORTIFY_SOURCE=2 be gone
-Date: Thu,  9 Jul 2020 00:07:52 +0300
-Message-Id: <20200708210801.5553-10-bunk@stusta.de>
+Subject: [OE-core][zeus][PATCH 11/19] wpa-supplicant: remove service templates from SYSTEMD_SERVICE
+Date: Thu,  9 Jul 2020 00:07:53 +0300
+Message-Id: <20200708210801.5553-11-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200708210801.5553-1-bunk@stusta.de>
 References: <20200708210801.5553-1-bunk@stusta.de>
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-vim will abort in many places with this setting.  Replace
-it with the benign _FORTIFY_SOURCE=1.
+Remove service templates wpa_supplicant-nl80211@.service and
+wpa_supplicant-wired@.service from SYSTEMD_SERVICE that they should NOT
+be started/stopped by calling 'systemctl' in postinst and prerm scripts.
 
-(From OE-Core rev: d9de155f6452f916edd3131addd0c2eebaf4d639)
+(From OE-Core rev: 7910a0d6f332253608767a9576a0d521dd87efd7)
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
-(cherry picked from commit 18129cbaeddb3278efe9963718556e3765f06c1e)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+(cherry picked from commit fe9b8e50461ab00ab3ad8b065ebd32f0eea2a255)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-support/vim/vim_8.1.1518.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../wpa-supplicant/wpa-supplicant_2.9.bb                    | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim_8.1.1518.bb b/meta/recipes-support/vim/vim_8.1.1518.bb
-index 60946a181f..709b6ddb55 100644
---- a/meta/recipes-support/vim/vim_8.1.1518.bb
-+++ b/meta/recipes-support/vim/vim_8.1.1518.bb
-@@ -8,3 +8,8 @@ BBCLASSEXTEND = "native"
- ALTERNATIVE_${PN}_append = " xxd"
- ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
- ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+index 2db09ad2c6..0e74d21a76 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+@@ -15,7 +15,7 @@ PACKAGECONFIG[openssl] = ",,openssl"
+ 
+ inherit pkgconfig systemd
+ 
+-SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
++SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service"
+ SYSTEMD_AUTO_ENABLE = "disable"
+ 
+ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+@@ -37,13 +37,13 @@ S = "${WORKDIR}/wpa_supplicant-${PV}"
+ PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+ FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
+ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+-FILES_${PN} += "${datadir}/dbus-1/system-services/*"
++FILES_${PN} += "${datadir}/dbus-1/system-services/* ${systemd_system_unitdir}/*"
+ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+ 
+ do_configure () {
+ 	${MAKE} -C wpa_supplicant clean
+ 	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
+-	
 +
-+# We override the default in security_flags.inc because vim (not vim-tiny!) will abort
-+# in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
-+#
-+lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
+ 	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
+         	ssl=openssl
+ 	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
 -- 
 2.17.1
 
