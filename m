@@ -1,143 +1,337 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.4720.1594242490280304734
+ by mx.groups.io with SMTP id smtpd.web12.4721.1594242491193882225
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 14:08:10 -0700
+ Wed, 08 Jul 2020 14:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=QXqE6s92;
+ dkim=pass header.i=@stusta.de header.s=default header.b=MOQA5j1/;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjN41hcz4D
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:08 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjP3Htxz4t
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1594242488;
-	bh=3Yf6/PC/gcQvExfr0XYWY1hJGoH+M6AFUU3k/1joEUg=;
+	s=default; t=1594242489;
+	bh=AJU/WgFzaABqMhA+iZz8B9XTTyKTXnX1MDc9H1l2lSs=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=QXqE6s92Z9FFoXme3M4/V+fneyhTtqWIFEwviOecXpl5cvCgYwdv3fh39g+SdTqXI
-	 PKLCOTqFF3eJOVzLJ+C/l+FUt3avTKPsJw/2qL+i7e5Uo2WyYtC7i0u/i9tiaMkqk2
-	 2efv7MP2TaKX2eLdMUZrOxXnZmUYsZUN+w/ypvVnY/0YeR9PXnsO90URZcrYsd6QRL
-	 GqqjeQWYs00Stk4fvmZ55dgF9kJE35jBJi09uld2D5waeviouvSMZuBCmIhwNdlqLl
-	 LcN+n/2WeuxbYW386RNjb8+d4Cgh5m/i2hKofZbp9dLrPkH86C4CJeV3YTYC7VcjS/
-	 KoLwTFVC2AFUMY+gp31ZBLFzMwacXrNxjaf0lEU2qY2dwBmR+4X68VTKT0jedEHZef
-	 ApXBMEeZNn/gs5WTLiggN1v50CuoY0fc/hl/4rnpQrGtXP1DkmTDCOzYmxFe64T0y2
-	 kjy5QNFkGbjwt4aaF8MZRefiQXFc6GPv8vz1dWtRKEPuqCbg2V3+grdK+G92P+M9Jy
-	 uPjIatKsc9zYElOjg/SfysU1wUi2rfhUfAtFIZHocQEzT3BQRO4RikXP5aLfsIIMly
-	 3V63ll0Y9R0Bo4j68QeOGAR67+kbBMyt9nzKLJTiLS6pH+4wyziq7NYuGyb172LiAj
-	 56vqReRs7ZD93Qh39U9bKXCw=
+	b=MOQA5j1/P2bWpzFwXmx8+Q5EWaW60N0UJaH3/nAjayjqcm7Dno4hDuo38Y8p1Ssvv
+	 y/Zgfjrdl5N8ENeizrfxJIYUHRV5Tsijy5QcpFPwidD3m+jc6m8LhrD0eN3nf0ovuD
+	 ASELY1rOCVpAY/LdzfNHsFKTXPDWv5ulMU0I72UGQ1RjsWpZR1L3sz/0K7ycPfzQNC
+	 4/AoGOifWtdNqn/wnBmPZ31DHaWDuPVM+GHPlbEvyq+TcWKfYm/LF88/KEX4Rj69ii
+	 oaZQcQct/d2nh88+ScHRz3Su+zAKPgamhnnP0vcwqWLhfsdAbS5fqeHIdwNPsdBQd4
+	 OGgnrnDLoHDXs3FPgC0KPGihTsOdYzKsNMLVriCL7iTJkvOAdalr3uGV50xu5DjZjR
+	 cLRIZofg/BCaOrGt8pB8IU8ASk1D0z8L9GgdbSeqJ4TNSVNlJVo7WOKgm2i0PzJ8Kj
+	 W8g0BpOs6NhP5o022qcYqILNX/ZCwyZjxyEtvTNz+3EO2tA7dosW8Jy2xwyK8mgQDb
+	 5gPkXK1sh7rQ6xUYHBDYaQw7suPzm1kXWe0T8BrZlLC8I+GCTEheoA205/eJNSDpG7
+	 zmQ5rWkw+PHCCh59KqspmiX22vtK/KkqNnClwt2L35eH+LpAhMLV9EkGDQCtA/R5ky
+	 j+/Y1+pf7AOqeTF0gAHcrmto=
 From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH 13/19] mtd-utils: Fix return value of ubiformat
-Date: Thu,  9 Jul 2020 00:07:55 +0300
-Message-Id: <20200708210801.5553-13-bunk@stusta.de>
+Subject: [OE-core][zeus][PATCH 15/19] bind: update to 9.11.19
+Date: Thu,  9 Jul 2020 00:07:57 +0300
+Message-Id: <20200708210801.5553-15-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200708210801.5553-1-bunk@stusta.de>
 References: <20200708210801.5553-1-bunk@stusta.de>
 
-From: Otavio Salvador <otavio.salvador@gmail.com>
+From: akuster <akuster808@gmail.com>
 
-This changeset fixes a feature regression in ubiformat.  Older versions
-of ubiformat, when invoked with a flash-image, would return 0 in the
-case no error was encountered.  Upon upgrading to latest, it was
-discovered that ubiformat returned 255 even without encountering an
-error condition.
+Bug fix only updates.
 
-This changeset corrects the above issue and causes ubiformat, when given an
-image file, to return 0 when no errors are detected.
+suitable for Stable branch updates where applicable.
 
-Backport fix from 2.1.2
+Drop CVE patches included in update
+LIC_FILES_CHKSUM update copyright year to 2020
 
-(From OE-Core rev: 3ee98b6c9ddd1dd0825245ca672236b7befb9859)
+Full changes found at : https://gitlab.isc.org/isc-projects/bind9/-/blob/v9_11/CHANGES
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-(cherry picked from commit 7ebacd9cbaec98fbc406e8ae99c9805a24fdadc6)
+(From OE-Core rev: c672d2b6c98607f1fda917f4a3189a53712e8fc2)
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+(cherry picked from commit a6ba66cf5e754cdcd41f01d233fbef7b94a10225)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...-utils-Fix-return-value-of-ubiformat.patch | 62 +++++++++++++++++++
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+ .../bind/bind/CVE-2020-8616.patch             | 206 ------------------
+ .../bind/bind/CVE-2020-8617.patch             |  29 ---
+ .../bind/{bind_9.11.13.bb => bind_9.11.19.bb} |   5 +-
+ 3 files changed, 2 insertions(+), 238 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.13.bb => bind_9.11.19.bb} (96%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
-new file mode 100644
-index 0000000000..d43f7e1a7a
---- /dev/null
-+++ b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
-@@ -0,0 +1,62 @@
-+From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
-+From: Barry Grussling <barry@grussling.com>
-+Date: Sun, 12 Jan 2020 12:33:32 -0800
-+Subject: [PATCH] mtd-utils: Fix return value of ubiformat
-+Organization: O.S. Systems Software LTDA.
-+
-+This changeset fixes a feature regression in ubiformat.  Older versions of
-+ubiformat, when invoked with a flash-image, would return 0 in the case no error
-+was encountered.  Upon upgrading to latest, it was discovered that ubiformat
-+returned 255 even without encountering an error condition.
-+
-+This changeset corrects the above issue and causes ubiformat, when given an
-+image file, to return 0 when no errors are detected.
-+
-+Tested by running through my loading scripts and verifying ubiformat returned
-+0.
-+
-+Upstream-Status: Backport [2.1.2]
-+
-+Signed-off-by: Barry Grussling <barry@grussling.com>
-+Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ ubi-utils/ubiformat.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
-+index a90627c..5377b12 100644
-+--- a/ubi-utils/ubiformat.c
-++++ b/ubi-utils/ubiformat.c
-+@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-+ 	struct ubi_vtbl_record *vtbl;
-+ 	int eb1 = -1, eb2 = -1;
-+ 	long long ec1 = -1, ec2 = -1;
-++	int ret = -1;
-+ 
-+ 	write_size = UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
-+ 	write_size /= mtd->subpage_size;
-+@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-+ 	if (!args.quiet && !args.verbose)
-+ 		printf("\n");
-+ 
-+-	if (novtbl)
-++	if (novtbl) {
-++		ret = 0;
-+ 		goto out_free;
-++	}
-+ 
-+ 	if (eb1 == -1 || eb2 == -1) {
-+ 		errmsg("no eraseblocks for volume table");
-+@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-+ 
-+ out_free:
-+ 	free(hdr);
-+-	return -1;
-++	return ret;
-+ }
-+ 
-+ int main(int argc, char * const argv[])
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index 810fe40f4e..d1658a739b 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -15,6 +15,7 @@ PV = "2.1.1"
- SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
- SRC_URI = "git://git.infradead.org/mtd-utils.git \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
-+           file://0001-mtd-utils-Fix-return-value-of-ubiformat.patch \
- "
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+deleted file mode 100644
+index 8f00231919..0000000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
++++ /dev/null
+@@ -1,206 +0,0 @@
+-Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8616.patch]
+-CVE: CVE-2020-8616
+-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+----
+-diff --git a/lib/dns/adb.c b/lib/dns/adb.c
+-index 058495f6a5..6b8a9537f0 100644
+---- a/lib/dns/adb.c
+-+++ b/lib/dns/adb.c
+-@@ -404,14 +404,13 @@ static void log_quota(dns_adbentry_t *entry, const char *fmt, ...)
+-  */
+- #define FIND_WANTEVENT(fn)      (((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
+- #define FIND_WANTEMPTYEVENT(fn) (((fn)->options & DNS_ADBFIND_EMPTYEVENT) != 0)
+--#define FIND_AVOIDFETCHES(fn)   (((fn)->options & DNS_ADBFIND_AVOIDFETCHES) \
+--				 != 0)
+--#define FIND_STARTATZONE(fn)    (((fn)->options & DNS_ADBFIND_STARTATZONE) \
+--				 != 0)
+--#define FIND_HINTOK(fn)         (((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+--#define FIND_GLUEOK(fn)         (((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+--#define FIND_HAS_ADDRS(fn)      (!ISC_LIST_EMPTY((fn)->list))
+--#define FIND_RETURNLAME(fn)     (((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+-+#define FIND_AVOIDFETCHES(fn)	(((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
+-+#define FIND_STARTATZONE(fn)	(((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
+-+#define FIND_HINTOK(fn)		(((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+-+#define FIND_GLUEOK(fn)		(((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+-+#define FIND_HAS_ADDRS(fn)	(!ISC_LIST_EMPTY((fn)->list))
+-+#define FIND_RETURNLAME(fn)	(((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+-+#define FIND_NOFETCH(fn)	(((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
+- 
+- /*
+-  * These are currently used on simple unsigned ints, so they are
+-@@ -3155,21 +3154,26 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * Listen to negative cache hints, and don't start
+- 		 * another query.
+- 		 */
+--		if (NCACHE_RESULT(result) || AUTH_NX(result))
+-+		if (NCACHE_RESULT(result) || AUTH_NX(result)) {
+- 			goto fetch;
+-+		}
+- 
+--		if (!NAME_FETCH_V6(adbname))
+-+		if (!NAME_FETCH_V6(adbname)) {
+- 			wanted_fetches |= DNS_ADBFIND_INET6;
+-+		}
+- 	}
+- 
+-  fetch:
+- 	if ((WANT_INET(wanted_addresses) && NAME_HAS_V4(adbname)) ||
+- 	    (WANT_INET6(wanted_addresses) && NAME_HAS_V6(adbname)))
+-+	{
+- 		have_address = true;
+--	else
+-+	} else {
+- 		have_address = false;
+--	if (wanted_fetches != 0 &&
+--	    ! (FIND_AVOIDFETCHES(find) && have_address)) {
+-+	}
+-+	if (wanted_fetches != 0 && !(FIND_AVOIDFETCHES(find) && have_address) &&
+-+	    !FIND_NOFETCH(find))
+-+	{
+- 		/*
+- 		 * We're missing at least one address family.  Either the
+- 		 * caller hasn't instructed us to avoid fetches, or we don't
+-@@ -3177,8 +3181,9 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
+- 		 * be acceptable so we have to launch fetches.
+- 		 */
+- 
+--		if (FIND_STARTATZONE(find))
+-+		if (FIND_STARTATZONE(find)) {
+- 			start_at_zone = true;
+-+		}
+- 
+- 		/*
+- 		 * Start V4.
+-diff --git a/lib/dns/include/dns/adb.h b/lib/dns/include/dns/adb.h
+-index 63a13c4e41..edf6e54935 100644
+---- a/lib/dns/include/dns/adb.h
+-+++ b/lib/dns/include/dns/adb.h
+-@@ -207,6 +207,10 @@ struct dns_adbfind {
+-  *      lame for this query.
+-  */
+- #define DNS_ADBFIND_OVERQUOTA		0x00000400
+-+/*%
+-+ *	Don't perform a fetch even if there are no address records available.
+-+ */
+-+#define DNS_ADBFIND_NOFETCH		0x00000800
+- 
+- /*%
+-  * The answers to queries come back as a list of these.
+-diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
+-index 7c44478a26..0a40859d08 100644
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -172,6 +172,14 @@
+- #define DEFAULT_MAX_QUERIES 75
+- #endif
+- 
+-+/*
+-+ * After NS_FAIL_LIMIT attempts to fetch a name server address,
+-+ * if the number of addresses in the NS RRset exceeds NS_RR_LIMIT,
+-+ * stop trying to fetch, in order to avoid wasting resources.
+-+ */
+-+#define NS_FAIL_LIMIT 4
+-+#define NS_RR_LIMIT   5
+-+
+- /* Number of hash buckets for zone counters */
+- #ifndef RES_DOMAIN_BUCKETS
+- #define RES_DOMAIN_BUCKETS	523
+-@@ -3130,8 +3138,7 @@ sort_finds(dns_adbfindlist_t *findlist, unsigned int bias) {
+- static void
+- findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
+- 	 unsigned int options, unsigned int flags, isc_stdtime_t now,
+--	 bool *overquota, bool *need_alternate)
+--{
+-+	 bool *overquota, bool *need_alternate, unsigned int *no_addresses) {
+- 	dns_adbaddrinfo_t *ai;
+- 	dns_adbfind_t *find;
+- 	dns_resolver_t *res;
+-@@ -3219,7 +3226,12 @@ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
+- 			      find->result_v6 != DNS_R_NXDOMAIN) ||
+- 			     (res->dispatches6 == NULL &&
+- 			      find->result_v4 != DNS_R_NXDOMAIN)))
+-+			{
+- 				*need_alternate = true;
+-+			}
+-+			if (no_addresses != NULL) {
+-+				(*no_addresses)++;
+-+			}
+- 		} else {
+- 			if ((find->options & DNS_ADBFIND_OVERQUOTA) != 0) {
+- 				if (overquota != NULL)
+-@@ -3270,6 +3282,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 	dns_rdata_ns_t ns;
+- 	bool need_alternate = false;
+- 	bool all_spilled = true;
+-+	unsigned int no_addresses = 0;
+- 
+- 	FCTXTRACE5("getaddresses", "fctx->depth=", fctx->depth);
+- 
+-@@ -3437,20 +3450,28 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 		 * Extract the name from the NS record.
+- 		 */
+- 		result = dns_rdata_tostruct(&rdata, &ns, NULL);
+--		if (result != ISC_R_SUCCESS)
+-+		if (result != ISC_R_SUCCESS) {
+- 			continue;
+-+		}
+- 
+--		findname(fctx, &ns.name, 0, stdoptions, 0, now,
+--			 &overquota, &need_alternate);
+-+		if (no_addresses > NS_FAIL_LIMIT &&
+-+		    dns_rdataset_count(&fctx->nameservers) > NS_RR_LIMIT)
+-+		{
+-+			stdoptions |= DNS_ADBFIND_NOFETCH;
+-+		}
+-+		findname(fctx, &ns.name, 0, stdoptions, 0, now, &overquota,
+-+			 &need_alternate, &no_addresses);
+- 
+--		if (!overquota)
+-+		if (!overquota) {
+- 			all_spilled = false;
+-+		}
+- 
+- 		dns_rdata_reset(&rdata);
+- 		dns_rdata_freestruct(&ns);
+- 	}
+--	if (result != ISC_R_NOMORE)
+-+	if (result != ISC_R_NOMORE) {
+- 		return (result);
+-+	}
+- 
+- 	/*
+- 	 * Do we need to use 6 to 4?
+-@@ -3465,7 +3486,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
+- 			if (!a->isaddress) {
+- 				findname(fctx, &a->_u._n.name, a->_u._n.port,
+- 					 stdoptions, FCTX_ADDRINFO_FORWARDER,
+--					 now, NULL, NULL);
+-+					 now, NULL, NULL, NULL);
+- 				continue;
+- 			}
+- 			if (isc_sockaddr_pf(&a->_u.addr) != family)
+-@@ -3827,16 +3827,14 @@ fctx_try(fetchctx_t *fctx, bool retrying, bool badcache) {
+- 		}
+- 	}
+- 
+--	if (dns_name_countlabels(&fctx->domain) > 2) {
+--		result = isc_counter_increment(fctx->qc);
+--		if (result != ISC_R_SUCCESS) {
+--			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+--				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+--				      "exceeded max queries resolving '%s'",
+--				      fctx->info);
+--			fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+--			return;
+--		}
+-+	result = isc_counter_increment(fctx->qc);
+-+	if (result != ISC_R_SUCCESS) {
+-+		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+-+			      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+-+			      "exceeded max queries resolving '%s'",
+-+			      fctx->info);
+-+		fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+-+		return;
+- 	}
+- 
+- 	bucketnum = fctx->bucketnum;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+deleted file mode 100644
+index d8769c45cc..0000000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8617.patch]
+-CVE: CVE-2020-8617
+-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+----
+-diff --git a/lib/dns/tsig.c b/lib/dns/tsig.c
+-index b597a18d49..6357a3a486 100644
+---- a/lib/dns/tsig.c
+-+++ b/lib/dns/tsig.c
+-@@ -1427,8 +1424,9 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
+- 			goto cleanup_context;
+- 		}
+- 		msg->verified_sig = 1;
+--	} else if (tsig.error != dns_tsigerror_badsig &&
+--		   tsig.error != dns_tsigerror_badkey) {
+-+	} else if (!response || (tsig.error != dns_tsigerror_badsig &&
+-+				 tsig.error != dns_tsigerror_badkey))
+-+	{
+- 		tsig_log(msg->tsigkey, 2, "signature was empty");
+- 		return (DNS_R_TSIGVERIFYFAILURE);
+- 	}
+-@@ -1484,7 +1482,7 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
+- 		}
+- 	}
+- 
+--	if (tsig.error != dns_rcode_noerror) {
+-+	if (response && tsig.error != dns_rcode_noerror) {
+- 		msg->tsigstatus = tsig.error;
+- 		if (tsig.error == dns_tsigerror_badtime)
+- 			ret = DNS_R_CLOCKSKEW;
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.13.bb b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.11.13.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.19.bb
+index 79275bb1ca..a77be8678f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.13.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
  
- S = "${WORKDIR}/git/"
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bf39058a7f64b2a934ce14dc9ec1dd45"
+ 
+ DEPENDS = "openssl libcap zlib"
+ 
+@@ -20,8 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[md5sum] = "17de0d024ab1eac377f1c2854dc25057"
+-SRC_URI[sha256sum] = "fd3f3cc9fcfcdaa752db35eb24598afa1fdcc2509d3227fc90a8631b7b400f7d"
++SRC_URI[sha256sum] = "0dee554a4caa368948b32da9a0c97b516c19103bc13ff5b3762c5d8552f52329"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
 -- 
 2.17.1
 
