@@ -1,325 +1,75 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.4712.1594242486024268560
+ by mx.groups.io with SMTP id smtpd.web12.4713.1594242486024799703
  for <openembedded-core@lists.openembedded.org>;
  Wed, 08 Jul 2020 14:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=kvT3+tO4;
+ dkim=pass header.i=@stusta.de header.s=default header.b=CA4vovRj;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=z9mr=at=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjH20xTz45
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:02 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B2BjH59sNz4D
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2020 23:08:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1594242483;
-	bh=uIl/lIcbEFPwu48TNIYAvrAsIu/yhzQAn/zFgNN7aIU=;
-	h=From:To:Subject:Date:From;
-	b=kvT3+tO4j/AG0GYni8eIzZFflsQWG4w6ttkUc2yzl14MMySMnnamJ5kxroAhvBuCN
-	 LGciY2iLwT86ztFDvtfr8VkawXU6rvK3s8u/d8pj7iU8nPwJDHPVpdv8gfmZRGsacn
-	 AskngM47zMtmt3IHy0YHrEW+ruAsU7hiJ1z6KaffGlbs/1wyjF95lynWSYJcdr05fI
-	 r/cZRVXzBsqfnBwixH4WD25ubPLZrdh9q6WczWZSlWwSSA64RLsfpHF0PNwzlIdKUv
-	 JUi9/Jf9Lv6UYXGvMxIQo1fT235tJ7YlcLHxSnlpocJI9VaebPGjqCrL0zY2gzOSe1
-	 qt+Y/zBZg8cMTiCrFS0VaLX0VfK42siFQDgDqXIgqUDvxHqGaCY1xnbmT0Z3aXv4JG
-	 e+IMA9k3cChC1l32xapcC3DzzZG6Dg7iVl7QXQ52gtsyGiTsyc78mUk2EAlNIW9Aiw
-	 P1IP1hXUuxEgyh4zJ+n4HcvDFEQwMEkMANIDq2TDkRkx7maFfZH8IOb8k2VWQIhsx2
-	 qXIyDVgZjqivxcCYkqFjPT6qgfWkngPLe6Ob9nTRJAJW9E+v5Ey+whjSTBzM8WKgna
-	 ApL+f5xtJRPasYpo1yUxqW2tSve8QWRzNGzrlLuqMF8F+sY1JSCTySNSUc5J9iVTmN
-	 oROj3Jh3M1GVJLdWk/mxsEH4=
+	bh=U6YDscUbh4z398kMdu239oxW4osErUdLbxkTHdlujB8=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=CA4vovRjP3GA0O9XN82EqlsO0KVCMr9rec9TeED1Q9HkR5LkyPRegVZW+lqoh9leW
+	 dK+Gc0nhOhOCuU4X3wLH6bMZLz8SfA/AROvQlXk+Fo8Fg7Ne72YmaX1UY80Zm9PYiU
+	 X4ua1mb2OnhZLHjdJgbptAbveZk80Mw22g4JxI00FN0YxCgiXa0okyDbrNeWTva5Dh
+	 mK1C55G+ANHqL5Er3HlJrVzmqjIr5jrUqH9ZNtkT06T0qIre8HrRApH8jfgxw9B1nH
+	 tqwyCT7FBw3VTqfH/Za3yZcfoTInwjFte2p/iCK0PtdCMnZb7ZQlnHxfChi/z3DOFW
+	 K1yj87+KF0NbtUHvufC+/a90Pwd5oe1Mh3j1yS1agCaP3OZ02WoNlEs63QoXQcpDDW
+	 VC0DzcgmSkd9sxwfd/9z0126jMnsHcnxuJguj3yw4ldk3VVGmYR3+rQYyIwVI+aQga
+	 4QDqIkRC1hkhwVLKavyS7dVJV+YbtGwa/EKvK+Fz3yh6Av64Erxou3kOmATO3lr9rX
+	 EJMqXBGKF8FD1gOwz54A/J1K6zHnaEvqrzP45jy4bMaH6ilGlDyGmQui2Z4y0Xg5nT
+	 aFTylx3bnWG9cxNfWbcbVfEDkna9N/+MLwGEu8PRiAulWJz1jLWb2WJHFTzfemdoz5
+	 TLxFklMT1tbgTeazxOic6ClM=
 From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH 01/19] python3: Upgrade 3.7.7 -> 3.7.8
-Date: Thu,  9 Jul 2020 00:07:43 +0300
-Message-Id: <20200708210801.5553-1-bunk@stusta.de>
+Subject: [OE-core][zeus][PATCH 02/19] timezone: upgrade 2019c -> 2020a
+Date: Thu,  9 Jul 2020 00:07:44 +0300
+Message-Id: <20200708210801.5553-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200708210801.5553-1-bunk@stusta.de>
+References: <20200708210801.5553-1-bunk@stusta.de>
 
-Backported patch removed.
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
 
+See full changelog https://github.com/eggert/tz/blob/master/NEWS#L11
+
+(From OE-Core rev: 9d74b048e3a160d7a9a20e85817e9eb3a558af63)
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...20-8492-Fix-AbstractBasicAuthHandler.patch | 248 ------------------
- .../{python3_3.7.7.bb => python3_3.7.8.bb}    |   5 +-
- 2 files changed, 2 insertions(+), 251 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
- rename meta/recipes-devtools/python/{python3_3.7.7.bb => python3_3.7.8.bb} (98%)
+ meta/recipes-extended/timezone/timezone.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-deleted file mode 100644
-index e16b99bcb9..0000000000
---- a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-+++ /dev/null
-@@ -1,248 +0,0 @@
--From 0b297d4ff1c0e4480ad33acae793fbaf4bf015b4 Mon Sep 17 00:00:00 2001
--From: Victor Stinner <vstinner@python.org>
--Date: Thu, 2 Apr 2020 02:52:20 +0200
--Subject: [PATCH] bpo-39503: CVE-2020-8492: Fix AbstractBasicAuthHandler
-- (GH-18284)
--
--Upstream-Status: Backport
--(https://github.com/python/cpython/commit/0b297d4ff1c0e4480ad33acae793fbaf4bf015b4)
--
--CVE: CVE-2020-8492
--
--The AbstractBasicAuthHandler class of the urllib.request module uses
--an inefficient regular expression which can be exploited by an
--attacker to cause a denial of service. Fix the regex to prevent the
--catastrophic backtracking. Vulnerability reported by Ben Caller
--and Matt Schwager.
--
--AbstractBasicAuthHandler of urllib.request now parses all
--WWW-Authenticate HTTP headers and accepts multiple challenges per
--header: use the realm of the first Basic challenge.
--
--Co-Authored-By: Serhiy Storchaka <storchaka@gmail.com>
--Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-----
-- Lib/test/test_urllib2.py                      | 90 ++++++++++++-------
-- Lib/urllib/request.py                         | 69 ++++++++++----
-- .../2020-03-25-16-02-16.bpo-39503.YmMbYn.rst  |  3 +
-- .../2020-01-30-16-15-29.bpo-39503.B299Yq.rst  |  5 ++
-- 4 files changed, 115 insertions(+), 52 deletions(-)
-- create mode 100644 Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-- create mode 100644 Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
--
--diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
--index 8abedaac98..e69ac3e213 100644
----- a/Lib/test/test_urllib2.py
--+++ b/Lib/test/test_urllib2.py
--@@ -1446,40 +1446,64 @@ class HandlerTests(unittest.TestCase):
--         bypass = {'exclude_simple': True, 'exceptions': []}
--         self.assertTrue(_proxy_bypass_macosx_sysconf('test', bypass))
-- 
---    def test_basic_auth(self, quote_char='"'):
---        opener = OpenerDirector()
---        password_manager = MockPasswordManager()
---        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
---        realm = "ACME Widget Store"
---        http_handler = MockHTTPHandler(
---            401, 'WWW-Authenticate: Basic realm=%s%s%s\r\n\r\n' %
---            (quote_char, realm, quote_char))
---        opener.add_handler(auth_handler)
---        opener.add_handler(http_handler)
---        self._test_basic_auth(opener, auth_handler, "Authorization",
---                              realm, http_handler, password_manager,
---                              "http://acme.example.com/protected",
---                              "http://acme.example.com/protected",
---                              )
---
---    def test_basic_auth_with_single_quoted_realm(self):
---        self.test_basic_auth(quote_char="'")
---
---    def test_basic_auth_with_unquoted_realm(self):
---        opener = OpenerDirector()
---        password_manager = MockPasswordManager()
---        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
---        realm = "ACME Widget Store"
---        http_handler = MockHTTPHandler(
---            401, 'WWW-Authenticate: Basic realm=%s\r\n\r\n' % realm)
---        opener.add_handler(auth_handler)
---        opener.add_handler(http_handler)
---        with self.assertWarns(UserWarning):
--+    def check_basic_auth(self, headers, realm):
--+        with self.subTest(realm=realm, headers=headers):
--+            opener = OpenerDirector()
--+            password_manager = MockPasswordManager()
--+            auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
--+            body = '\r\n'.join(headers) + '\r\n\r\n'
--+            http_handler = MockHTTPHandler(401, body)
--+            opener.add_handler(auth_handler)
--+            opener.add_handler(http_handler)
--             self._test_basic_auth(opener, auth_handler, "Authorization",
---                                realm, http_handler, password_manager,
---                                "http://acme.example.com/protected",
---                                "http://acme.example.com/protected",
---                                )
--+                                  realm, http_handler, password_manager,
--+                                  "http://acme.example.com/protected",
--+                                  "http://acme.example.com/protected")
--+
--+    def test_basic_auth(self):
--+        realm = "realm2@example.com"
--+        realm2 = "realm2@example.com"
--+        basic = f'Basic realm="{realm}"'
--+        basic2 = f'Basic realm="{realm2}"'
--+        other_no_realm = 'Otherscheme xxx'
--+        digest = (f'Digest realm="{realm2}", '
--+                  f'qop="auth, auth-int", '
--+                  f'nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", '
--+                  f'opaque="5ccc069c403ebaf9f0171e9517f40e41"')
--+        for realm_str in (
--+            # test "quote" and 'quote'
--+            f'Basic realm="{realm}"',
--+            f"Basic realm='{realm}'",
--+
--+            # charset is ignored
--+            f'Basic realm="{realm}", charset="UTF-8"',
--+
--+            # Multiple challenges per header
--+            f'{basic}, {basic2}',
--+            f'{basic}, {other_no_realm}',
--+            f'{other_no_realm}, {basic}',
--+            f'{basic}, {digest}',
--+            f'{digest}, {basic}',
--+        ):
--+            headers = [f'WWW-Authenticate: {realm_str}']
--+            self.check_basic_auth(headers, realm)
--+
--+        # no quote: expect a warning
--+        with support.check_warnings(("Basic Auth Realm was unquoted",
--+                                     UserWarning)):
--+            headers = [f'WWW-Authenticate: Basic realm={realm}']
--+            self.check_basic_auth(headers, realm)
--+
--+        # Multiple headers: one challenge per header.
--+        # Use the first Basic realm.
--+        for challenges in (
--+            [basic,  basic2],
--+            [basic,  digest],
--+            [digest, basic],
--+        ):
--+            headers = [f'WWW-Authenticate: {challenge}'
--+                       for challenge in challenges]
--+            self.check_basic_auth(headers, realm)
-- 
--     def test_proxy_basic_auth(self):
--         opener = OpenerDirector()
--diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
--index 7fe50535da..2a3d71554f 100644
----- a/Lib/urllib/request.py
--+++ b/Lib/urllib/request.py
--@@ -937,8 +937,15 @@ class AbstractBasicAuthHandler:
-- 
--     # allow for double- and single-quoted realm values
--     # (single quotes are a violation of the RFC, but appear in the wild)
---    rx = re.compile('(?:.*,)*[ \t]*([^ \t]+)[ \t]+'
---                    'realm=(["\']?)([^"\']*)\\2', re.I)
--+    rx = re.compile('(?:^|,)'   # start of the string or ','
--+                    '[ \t]*'    # optional whitespaces
--+                    '([^ \t]+)' # scheme like "Basic"
--+                    '[ \t]+'    # mandatory whitespaces
--+                    # realm=xxx
--+                    # realm='xxx'
--+                    # realm="xxx"
--+                    'realm=(["\']?)([^"\']*)\\2',
--+                    re.I)
-- 
--     # XXX could pre-emptively send auth info already accepted (RFC 2617,
--     # end of section 2, and section 1.2 immediately after "credentials"
--@@ -950,27 +957,51 @@ class AbstractBasicAuthHandler:
--         self.passwd = password_mgr
--         self.add_password = self.passwd.add_password
-- 
--+    def _parse_realm(self, header):
--+        # parse WWW-Authenticate header: accept multiple challenges per header
--+        found_challenge = False
--+        for mo in AbstractBasicAuthHandler.rx.finditer(header):
--+            scheme, quote, realm = mo.groups()
--+            if quote not in ['"', "'"]:
--+                warnings.warn("Basic Auth Realm was unquoted",
--+                              UserWarning, 3)
--+
--+            yield (scheme, realm)
--+
--+            found_challenge = True
--+
--+        if not found_challenge:
--+            if header:
--+                scheme = header.split()[0]
--+            else:
--+                scheme = ''
--+            yield (scheme, None)
--+
--     def http_error_auth_reqed(self, authreq, host, req, headers):
--         # host may be an authority (without userinfo) or a URL with an
--         # authority
---        # XXX could be multiple headers
---        authreq = headers.get(authreq, None)
--+        headers = headers.get_all(authreq)
--+        if not headers:
--+            # no header found
--+            return
-- 
---        if authreq:
---            scheme = authreq.split()[0]
---            if scheme.lower() != 'basic':
---                raise ValueError("AbstractBasicAuthHandler does not"
---                                 " support the following scheme: '%s'" %
---                                 scheme)
---            else:
---                mo = AbstractBasicAuthHandler.rx.search(authreq)
---                if mo:
---                    scheme, quote, realm = mo.groups()
---                    if quote not in ['"',"'"]:
---                        warnings.warn("Basic Auth Realm was unquoted",
---                                      UserWarning, 2)
---                    if scheme.lower() == 'basic':
---                        return self.retry_http_basic_auth(host, req, realm)
--+        unsupported = None
--+        for header in headers:
--+            for scheme, realm in self._parse_realm(header):
--+                if scheme.lower() != 'basic':
--+                    unsupported = scheme
--+                    continue
--+
--+                if realm is not None:
--+                    # Use the first matching Basic challenge.
--+                    # Ignore following challenges even if they use the Basic
--+                    # scheme.
--+                    return self.retry_http_basic_auth(host, req, realm)
--+
--+        if unsupported is not None:
--+            raise ValueError("AbstractBasicAuthHandler does not "
--+                             "support the following scheme: %r"
--+                             % (scheme,))
-- 
--     def retry_http_basic_auth(self, host, req, realm):
--         user, pw = self.passwd.find_user_password(realm, host)
--diff --git a/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
--new file mode 100644
--index 0000000000..be80ce79d9
----- /dev/null
--+++ b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
--@@ -0,0 +1,3 @@
--+:class:`~urllib.request.AbstractBasicAuthHandler` of :mod:`urllib.request`
--+now parses all WWW-Authenticate HTTP headers and accepts multiple challenges
--+per header: use the realm of the first Basic challenge.
--diff --git a/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
--new file mode 100644
--index 0000000000..9f2800581c
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
--@@ -0,0 +1,5 @@
--+CVE-2020-8492: The :class:`~urllib.request.AbstractBasicAuthHandler` class of the
--+:mod:`urllib.request` module uses an inefficient regular expression which can
--+be exploited by an attacker to cause a denial of service. Fix the regex to
--+prevent the catastrophic backtracking. Vulnerability reported by Ben Caller
--+and Matt Schwager.
---- 
--2.24.1
--
-diff --git a/meta/recipes-devtools/python/python3_3.7.7.bb b/meta/recipes-devtools/python/python3_3.7.8.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.7.7.bb
-rename to meta/recipes-devtools/python/python3_3.7.8.bb
-index 4d2578c817..5230fe0ee6 100644
---- a/meta/recipes-devtools/python/python3_3.7.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.8.bb
-@@ -29,7 +29,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
-            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
--           file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-            "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index f6bab1acb4..e542290c3c 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -4,7 +4,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- SRC_URI_append_class-native = " \
-@@ -41,8 +40,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-            "
+-PV = "2019c"
++PV = "2020a"
  
--SRC_URI[md5sum] = "172c650156f7bea68ce31b2fd01fa766"
--SRC_URI[sha256sum] = "06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136"
-+SRC_URI[md5sum] = "a224ef2249a18824f48fba9812f4006f"
-+SRC_URI[sha256sum] = "43a543404b363f0037f89df8478f19db2dbc0d6f3ffee310bc2997fa71854a63"
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -12,7 +12,7 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.md5sum] = "195a17454c5db05cab96595380650391"
+-SRC_URI[tzcode.sha256sum] = "f6ebd3668e02d5ed223d3b7b1947561bf2d2da2f4bd1db61efefd9e06c167ed4"
+-SRC_URI[tzdata.md5sum] = "f6987e6dfdb2eb83a1b5076a50b80894"
+-SRC_URI[tzdata.sha256sum] = "79c7806dab09072308da0e3d22c37d3b245015a591891ea147d3b133b60ffc7c"
++SRC_URI[tzcode.md5sum] = "f87c3477e85a5c4b00df0def6c6a0055"
++SRC_URI[tzcode.sha256sum] = "7d2af7120ee03df71fbca24031ccaf42404752e639196fe93c79a41b38a6d669"
++SRC_URI[tzdata.md5sum] = "96a985bb8eeab535fb8aa2132296763a"
++SRC_URI[tzdata.sha256sum] = "547161eca24d344e0b5f96aff6a76b454da295dc14ed4ca50c2355043fb899a2"
 -- 
 2.17.1
 
