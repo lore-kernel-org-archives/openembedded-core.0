@@ -1,53 +1,84 @@
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
- by mx.groups.io with SMTP id smtpd.web10.6572.1594301104316510580
+Received: from mailout11.rmx.de (mailout11.rmx.de [94.199.88.76])
+ by mx.groups.io with SMTP id smtpd.web11.6893.1594302271955480778
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 06:25:05 -0700
+ Thu, 09 Jul 2020 06:44:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 4B2cNY5DFFz5tl9;
-	Thu,  9 Jul 2020 15:25:01 +0200 (CEST)
-Date: Thu, 9 Jul 2020 15:25:00 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Christian Eggers <ceggers@arri.de>
-Cc: openembedded-core@lists.openembedded.org
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.76, mailfrom: ceggers@arri.de)
+Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout11.rmx.de (Postfix) with ESMTPS id 4B2cpz34Xnz423x;
+	Thu,  9 Jul 2020 15:44:27 +0200 (CEST)
+Received: from mta.arri.de (unknown [217.111.95.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by kdin02.retarus.com (Postfix) with ESMTPS id 4B2cpw4Cw5z2TTMN;
+	Thu,  9 Jul 2020 15:44:24 +0200 (CEST)
+Received: from n95hx1g2.localnet (192.168.54.15) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 9 Jul
+ 2020 15:44:24 +0200
+From: "Christian Eggers" <ceggers@arri.de>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+CC: <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] libgcc: Set LICENSE for -lic package
-Message-ID: <20200709132500.prkhj3xqowdhcavu@qschulz>
-References: <20200709131734.30235-1-ceggers@arri.de>
+Date: Thu, 9 Jul 2020 15:44:10 +0200
+Message-ID: <2974074.WB9ANkTbeW@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <20200709132500.prkhj3xqowdhcavu@qschulz>
+References: <20200709131734.30235-1-ceggers@arri.de> <20200709132500.prkhj3xqowdhcavu@qschulz>
 MIME-Version: 1.0
-In-Reply-To: <20200709131734.30235-1-ceggers@arri.de>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Originating-IP: [192.168.54.15]
+X-RMX-ID: 20200709-154424-4B2cpw4Cw5z2TTMN-0@kdin02
+X-RMX-SOURCE: 217.111.95.66
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Christian,
+Hi Quentin,
 
-On Thu, Jul 09, 2020 at 03:17:34PM +0200, Christian Eggers wrote:
-> The default license (GPL-3.0-with-GCC-exception & GPLv3) is not suitable
-> for installing libgcc-lic on an image where INCOMPATIBLE_LICENSE is set
-> to "GPL-3.0".
-> 
-> Signed-off-by: Christian Eggers <ceggers@arri.de>
-> ---
->  meta/recipes-devtools/gcc/libgcc.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-> index 6d48ec9809..372da46459 100644
-> --- a/meta/recipes-devtools/gcc/libgcc.inc
-> +++ b/meta/recipes-devtools/gcc/libgcc.inc
-> @@ -35,6 +35,7 @@ PACKAGES = "\
->  LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
->  LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
->  LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
-> +LICENSE_${PN}-lic = "GPL-3.0-with-GCC-exception"
->  
+Am Donnerstag, 9. Juli 2020, 15:25:00 CEST schrieb Quentin Schulz:
+> Not really directing the question to you but... does this actually makes
+> sense? Is the license licensed? Can't we just empty LICENSE_${PN}-lic or
+> not check the license for this package? That might be something that can
+> be done in the license.bbclass for example.
 
-Not really directing the question to you but... does this actually makes
-sense? Is the license licensed? Can't we just empty LICENSE_${PN}-lic or
-not check the license for this package? That might be something that can
-be done in the license.bbclass for example.
+I already asked myself what license the -lic package should have. Is this a
+license of it's own (or none)?
 
-Nothing else to say though on that particular patch :)
+From the GPLv2:
 
-Quentin
+"Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed."
+
+Other licenses like MIT have no such restrictions, so that they
+are often forked. But setting an individual license for each -lic paket may
+also complicate things.
+
+The patch I sent, "works for me". But I'll be also happy with another
+solution...
+
+regards
+Christian
+
+
+
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
