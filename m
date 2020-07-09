@@ -1,185 +1,107 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.758.1594272662923859242
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+ by mx.groups.io with SMTP id smtpd.web11.759.1594273029856379471
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2020 22:31:03 -0700
+ Wed, 08 Jul 2020 22:37:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ABxbpZkO;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: rehsack@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id l12so903451ejn.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 22:31:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gIPL7pte;
+ spf=pass (domain: gmail.com, ip: 209.85.167.66, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f66.google.com with SMTP id k17so447657lfg.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2020 22:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=eyIafpaTH29eLIz+FVAG024v27QR++f2QU7IdA1TM2Y=;
-        b=ABxbpZkOIPXMrLNAkGULWDnbw/yjlEZ+Ps3s6s+RUX0/SNRhS18Lt+jAJtYWRusr+F
-         zzwK9yFA0+mzjs4vuA6kVzF5jPdfm9k/5wvbV1zpnbZvLiw5aoJbblmiE6Fj3AzOrVhg
-         fd6SFLfrQS/OuFlaYLFsrh8V15rWFGZL7YYiTXse3ry6Vkf9hb2AniebiVtW97gxEpt3
-         9OMG3byi4XROMW+XTiSoX0SCslo0D2lUW4/GiWdJuKe+MEFDAxWaYrJWhrbSqC97ZcJx
-         flmigdQJb4dfDxPdcyWU5dvIrFCgxfC0cFzS4lvJXS4Ae2PSMWMbGQw+AxKF+CU8vFWQ
-         r5hQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fY45+K8BzD7YGEkmiW/JYvHAI/IxlZAOK+Rk1TlgIs4=;
+        b=gIPL7pteBuUnn7YDDjDyMmjVo1vLo05BU3Am6kkRpEnpFPi523WQZuFLANr+8dPv91
+         wvrA56kceIE/w7EAoSnZS2ijzwOi+ThuZWVx7b8BgNsN25wZ272hLYwvwF26+MXCAtMy
+         j6TQR9SjbfdAdD96gxWvPGKGXjjTt7Aelp5GO1rbtN1JXiowqSLbYHOQRX3AZDUoPzgm
+         fFyr2UWT/TzO3ZFDgSRlmBW3XVG1idH/7e1S5JcDb2YKp0IynDP+AoZCxqJlqObnmCsU
+         4ul28BpNhl+eL/VsX55Avva1PDTJyExdroa40i1mxKwLAhIsyYYiLcsdNplJAIwtdcni
+         +Esg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=eyIafpaTH29eLIz+FVAG024v27QR++f2QU7IdA1TM2Y=;
-        b=fijhQej40PR5P48RvbSgh/iE8nO7QHnPU0G6AQmKH/QklRxlyxoZNwoSzwNBrLDcEX
-         kcOFjT7upvmo5tukNGztwzNxq65jH6zgzSIU/I/Qu4yI8DjyMFK3g4u4Z1sJkkWYCEwa
-         l0KuolMdqYUKqQBC//ngqSn0aPbJOG3GGCbtCsmr7HM+zHTrvG2a+coh4lProtjVJdpV
-         jjXn/rKnjMiXjFCoONCkXKJ4AGmTlocnWWrWqD5nfgZ/nihAnuI8zpM5zCmzTkKXmCT2
-         BRTmrEs0yO6tvO/cnoNqOXwMk3RPj5vNpLzwKngIic76A51yhSTRvQK/30MZYy2h5N8u
-         46qQ==
-X-Gm-Message-State: AOAM530VAqVCt3rsXjKUrxu5Td6qSAkFnLbuHsD6oVStGDlMRsKhIGHK
-	3Vrrqqlj+fot2E+o4+lAM+Q=
-X-Google-Smtp-Source: ABdhPJzB0JB+rb9ywWxTZMRkOJV/G4wNt6gFFlX3F/Hv2EcOhTszOHSOIK0kCH+qnou66hET2AlD5w==
-X-Received: by 2002:a17:907:20b4:: with SMTP id pw20mr56926824ejb.225.1594272661303;
-        Wed, 08 Jul 2020 22:31:01 -0700 (PDT)
-Return-Path: <rehsack@gmail.com>
-Received: from [10.42.8.217] (p4fe931fc.dip0.t-ipconnect.de. [79.233.49.252])
-        by smtp.gmail.com with ESMTPSA id m6sm1059265ejq.85.2020.07.08.22.31.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Jul 2020 22:31:00 -0700 (PDT)
-From: "Jens Rehsack" <rehsack@gmail.com>
-Message-Id: <B35F64C3-D38E-4612-B68B-A359F79AE892@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fY45+K8BzD7YGEkmiW/JYvHAI/IxlZAOK+Rk1TlgIs4=;
+        b=Dtr2VQEKrFt0a5GhJYI3YrEWvUI31NvFfPEBtR+duEQbnZ+qLG5Ugj0U5RhB/ZOrs4
+         /w78LvqOtDHYkaInqqBZkXuzJuc8cLliIbcbqON+fnW5dclh6RSof5G7e8qIaohyLdww
+         RvV4I3rZHCuYLpscUYfa+QH7BBFpgQ2nYiE0QdpS/Fh8PUu1wS9pXKi9SgsnYQkR+hn2
+         uBIz+4tROVEwrSl+JaotX8s+s0pNLwepVgIG/c8U1kFADkiuP7v9Gf61xrlsuZwReOgD
+         vgvgHj0eXuEq+PF1GBi8OMCCNq1euaorMYJyVv3xpICYBOSPbIi56gEcNW7FP4q6KtQ+
+         +7Tg==
+X-Gm-Message-State: AOAM531TJ4IYuUjxDoUnTzqqWS/pHGthIDhLLyH3sE/TfpkArJZh0t4A
+	AxC/0vTDB2XDTwx3uVR5k/Yu1a4e
+X-Google-Smtp-Source: ABdhPJw5G3Rk/9ZQlK5WX7xupukwCLWRf4QHXdxdR3QrzxyqICsjcKY3dV0Kqf444M5oILnw0JJpTA==
+X-Received: by 2002:ac2:558f:: with SMTP id v15mr38965605lfg.187.1594273027751;
+        Wed, 08 Jul 2020 22:37:07 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id e10sm475601ljb.118.2020.07.08.22.37.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jul 2020 22:37:06 -0700 (PDT)
 Subject: Re: [OE-core] [PATCH 1/2] rootfs-post: remove traling blanks from tasks
-Date: Thu, 9 Jul 2020 07:30:59 +0200
-In-Reply-To: <AM7PR05MB68810192ED5AB6DB0BDFF67DA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
+To: Jens Rehsack <rehsack@gmail.com>, Konrad Weihmann <kweihmann@outlook.com>
 Cc: openembedded-core@lists.openembedded.org
-To: Konrad Weihmann <kweihmann@outlook.com>
 References: <AM7PR05MB68810192ED5AB6DB0BDFF67DA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-Groupsio-MsgNum: 140462
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_484E1613-DF04-48F9-ABA1-84AA4F97079F";
-	protocol="application/pgp-signature";
-	micalg=pgp-sha512
-
---Apple-Mail=_484E1613-DF04-48F9-ABA1-84AA4F97079F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-
-> Am 08.07.2020 um 13:09 schrieb Konrad Weihmann <kweihmann@outlook.com>:
->=20
-> remove the traling blanks before the ;-delimiter, so one could use
-               ^
-               here & subject: do you mean "trailing"?
-
-> "_remove" to avoid running tasks like 'rootfs_update_timestamp',
-> which are currently hardcoded and not bound to any
-> configurable feature flag
->=20
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
-> meta/classes/rootfs-postcommands.bbclass | 6 +++---
-> meta/classes/rootfsdebugfiles.bbclass    | 2 +-
-> 2 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/roo=
-tfs-postcommands.bbclass
-> index c43b9a9823..984730ebe8 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -1,6 +1,6 @@
->=20
-> # Zap the root password if debug-tweaks feature is not enabled
-> -ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATUR=
-ES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_passwor=
-d ; ",d)}'
-> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATUR=
-ES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_passwor=
-d; ",d)}'
->=20
-> # Allow dropbear/openssh to accept logins from accounts with an empty pa=
-ssword string if debug-tweaks or allow-empty-password is enabled
-> ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATURE=
-S", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; =
-", "",d)}'
-> @@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_=
-any("IMAGE_FEATURES", [ 'deb
-> ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATURE=
-S", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; "=
-, "",d)}'
->=20
-> # Create /etc/timestamp during image construction to give a reasonably s=
-ane default time setting
-> -ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp ; "
-> +ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp; "
-
-How about
-+ROOTFS_POSTPROCESS_COMMAND +=3D " rootfs_update_timestamp;"
-
-Reading a list is much easier when words are separated by whitespaces.
-
-> # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs i=
-s enabled
-> ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
-> @@ -26,7 +26,7 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains(=
-"IMAGE_FEATURES", "read-only
-> APPEND_append =3D '${@bb.utils.contains("IMAGE_FEATURES", "read-only-roo=
-tfs", " ro", "", d)}'
->=20
-> # Generates test data file with data store variables expanded in json fo=
-rmat
-> -ROOTFS_POSTPROCESS_COMMAND +=3D "write_image_test_data ; "
-> +ROOTFS_POSTPROCESS_COMMAND +=3D "write_image_test_data; "
->=20
-> # Write manifest
-> IMAGE_MANIFEST =3D "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ma=
-nifest"
-> diff --git a/meta/classes/rootfsdebugfiles.bbclass b/meta/classes/rootfs=
-debugfiles.bbclass
-> index e2ba4e3647..85c7ec7434 100644
-> --- a/meta/classes/rootfsdebugfiles.bbclass
-> +++ b/meta/classes/rootfsdebugfiles.bbclass
-> @@ -28,7 +28,7 @@
-> ROOTFS_DEBUG_FILES ?=3D ""
-> ROOTFS_DEBUG_FILES[doc] =3D "Lists additional files or directories to be=
- installed with 'cp -a' in the format 'source1 target1;source2 target2;...'=
-"
->=20
-> -ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_debug_files ;"
-> +ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_debug_files;"
-> rootfs_debug_files () {
->    #!/bin/sh -e
->    echo "${ROOTFS_DEBUG_FILES}" | sed -e 's/;/\n/g' | while read source =
-target mode; do
-> --
-> 2.20.1
->=20
->=20
-
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_484E1613-DF04-48F9-ABA1-84AA4F97079F
+ <B35F64C3-D38E-4612-B68B-A359F79AE892@gmail.com>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <78623d14-1e14-0109-742b-1ba9366f6d85@gmail.com>
+Date: Thu, 9 Jul 2020 07:37:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <B35F64C3-D38E-4612-B68B-A359F79AE892@gmail.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
 
------BEGIN PGP SIGNATURE-----
+On 7/9/20 7:30 AM, Jens Rehsack wrote:
+> 
+> 
+>> Am 08.07.2020 um 13:09 schrieb Konrad Weihmann <kweihmann@outlook.com>:
+>>
+>> remove the traling blanks before the ;-delimiter, so one could use
+>                 ^
+>                 here & subject: do you mean "trailing"?
+> 
+>> "_remove" to avoid running tasks like 'rootfs_update_timestamp',
+>> which are currently hardcoded and not bound to any
+>> configurable feature flag
+>>
+>> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+>> ---
+>> meta/classes/rootfs-postcommands.bbclass | 6 +++---
+>> meta/classes/rootfsdebugfiles.bbclass    | 2 +-
+>> 2 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+>> index c43b9a9823..984730ebe8 100644
+>> --- a/meta/classes/rootfs-postcommands.bbclass
+>> +++ b/meta/classes/rootfs-postcommands.bbclass
+>> @@ -1,6 +1,6 @@
+>>
+>> # Zap the root password if debug-tweaks feature is not enabled
+>> -ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
+>> +ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
+>>
+>> # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+>> ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+>> @@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
+>> ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+>>
+>> # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+>> -ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+>> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+> 
+> How about
+> +ROOTFS_POSTPROCESS_COMMAND += " rootfs_update_timestamp;"
+> 
+> Reading a list is much easier when words are separated by whitespaces.
+> 
 
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl8Gq5MACgkQRJmWrtzl
-Cp1rtBAAmUo+2b1MpJ6m/VmrBgHi2NK+F3aplTHAeshKF8Cb0WYvBT4k/qVuZyM9
-y5/aBs9uU14mxc6DMaMpiT3+yGb4YIXFrO3UsZ2/5XMWPVcLnYXm21DVLdv/HA9h
-THe06odcQO1hD87iZZlv6afaF7Az1I+raDm3UZvKCXJliSFshqcvxJgDMA0U5ven
-ZB7J/f5JGNTfcw95OEJwvoCJlPkoqIuGndUVAyx6GpLMmgekgOJRN8uE502GXLpD
-1H2NEURvfTYba62KRTqg2dsqgIXzjLYEaa/nK9QghtoxALSwghv/PrHFvX7r9a1X
-TZW13x+QwilA9Jn8JTOOxTYvNZrbqlO8ypyliV3+RfxSJlFLPvOu45RDXGzDUGFC
-8RqxAmD4+c21S8KTcPXGb5cLMGuR+PhfScaRJgNrXWMkVjNxjDJAl37aGfBmS8sD
-4kkSQXDJGChxiaA9rcdQbjtmHPWrfKX4FVNPDGyZVyeCraXM+3pdygeEokLs/qBU
-2qtqv6QYmyMhSiPKLvlH+CEWgVXkT5PriENOsbaepFtod0k/D2YSZNTe9z9vCGPv
-moRQPxlMTuAFNE4ciuOUP1EpVcIhQH9i/nlYkb5J8Ns1oa4M6h1RRh6axigDIDRy
-MpPu63MWuQMIepvLQTq77t7bEEGImO196Opuc8Oaa6nA4QXV0+w=
-=WULy
------END PGP SIGNATURE-----
+The += and =+ operators already insert a space between the concatenations.
 
---Apple-Mail=_484E1613-DF04-48F9-ABA1-84AA4F97079F--
+https://www.yoctoproject.org/docs/latest/bitbake-user-manual/bitbake-user-manual.html#appending-and-prepending
+
+Jacob
