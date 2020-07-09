@@ -1,132 +1,126 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web11.4904.1594295584882932004
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web10.5026.1594295849078406784
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 04:53:05 -0700
+ Thu, 09 Jul 2020 04:57:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=FZIbEwnP;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f195.google.com with SMTP id i3so1356707qtq.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 04:53:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sjGrnS6D;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id x9so1777986ila.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 04:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=caOcrEiJf+Qzjh1KYTbNIA+iikRTWx0n5qPMMYeRC+w=;
-        b=FZIbEwnPSYNYr8sTX8XcjS5Vwgg/+N+0C7GFuTfqYklxLFNd4MQ4xybIkPnnRsmFSM
-         gy+b6URRXoO4P+pO8kfu5iH2xTp4FNLe58UmP9kEWWtzoxQP6KUpjAQd2T+o7ADPMpqE
-         46vFcxw+o+9+Fzn8ly0zmt4HUaq8AoQxQE7RpJdqqk7via2iqkOoF3BQ6zWCN87ef03k
-         l64trZDz88oKy0uMdnhgvz6gP795bq8P4cS5JbHsWyCyqbPX8Xf54iECZdBRancFHP0u
-         zHNB0jcXlJWXGUcdnE2aEpqsnTSZqcWGQHG8wHaztTUSehPyiKQ/jGTEQpum5awjkP45
-         SzXw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NiAeVZBkQW9oVrlOMtYV9tfeBWEsxos0u4EtV1G4PO4=;
+        b=sjGrnS6DztYuFRRLrPfk6I76g+fvWiYTC/sEqeXwMIW1fW/COLJXqN4qpuV5vwRHtq
+         yJ+8AqD6fbI0/UoUdPhqR6oyTqDUkQaFjGbXwh8J8+c/kZxV4D7UORwsNJB6BY4WC6Cp
+         rkstSATiZScQPQuAuaFRhRxfuz79xOcMcJOCdSBl9GAcrVnjX3izJQuhWY1e7xQeVJHs
+         FN25iPJf1NHUTc42p05nM3xvcypHJxlf5MWApaV/cBx3iX+bZTTeu/XwA0pV+nC5jhe5
+         p4xWG6jFSqqlocUs7AaC9yadO+A1QCwbtRaugsdWWBkC/yvNbE5qMB6pgGQZQUFZlB99
+         NBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=caOcrEiJf+Qzjh1KYTbNIA+iikRTWx0n5qPMMYeRC+w=;
-        b=XZBg4DzP4cxgn/0M8Tb/pSyqYuXMOZ5kPWmyG6SCXRdTOjpgwhRHO2nicmcuQQ1ypY
-         kdaB8fD89hm91v8mMRZWTcMiHqgD4IsP8tkjIaY6SWrNJ1qobf+FyQ3rqzK9yz1FKu/R
-         evDQUMcBHblrAiD3xAiuDT8KuV/OKvFxfjNUwa2ko4FKVaQMRkqDkVbqVlZ2Un0AO/t8
-         UJ5sF7fdPpGHxYYzWFGxnXjfF2UbG2engYiIlzEsOtEUUodaQDFOrLicFZ/764Vz/VLn
-         Yv/kARR5z9PKE4UUH5Yaz9SEFHSQm7nn7kOF2xGoWnlgsDGvFU/VPbrUflmzPbtbZdmU
-         OKAQ==
-X-Gm-Message-State: AOAM531VEr+YlXB98vNz1AuHA0VqIgV5L1axL/01NvnPhUaAQv/e/3XP
-	+fUQKZd4lgVdRb5cnCMcqC1/e5vC8WuURA==
-X-Google-Smtp-Source: ABdhPJxBjKNHK30Jz5wIJ2w6PpHCMC5chmRU1A7dFTPZSiXQfSXVEAoq+eYV+psJee5USsz+RM60cA==
-X-Received: by 2002:aed:22ef:: with SMTP id q44mr61807357qtc.333.1594295583681;
-        Thu, 09 Jul 2020 04:53:03 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
-        by smtp.gmail.com with ESMTPSA id p63sm3516117qkc.80.2020.07.09.04.53.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2020 04:53:03 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f171.google.com with SMTP id b185so1455006qkg.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 04:53:02 -0700 (PDT)
-X-Received: by 2002:a05:620a:24b:: with SMTP id q11mr62626674qkn.277.1594295582225;
- Thu, 09 Jul 2020 04:53:02 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NiAeVZBkQW9oVrlOMtYV9tfeBWEsxos0u4EtV1G4PO4=;
+        b=dicbBPhwC8UFv4NYVBgbuC+1g6x2lgKIDaUVq9pr2RmE/eq+5hC/+UtojJqr8AUGGs
+         z+RuWCKfIL4r0zBiAHIbZVXvtMmYJ7MTVYcC5WjBDp68XVbAvXf/Vo/p19kRt4aIgFHT
+         leDu45YxNV0MFB253oeYW0sn7YvrPAxjac3or5SMVz2OXMk3MunAX/YwGRgxEE5ygZ9c
+         i/pxoo7044V5cRbgtIGT9ZyPKnNm8/R8eX60Vu5xIqLBG57HmirHTlAy39PkB4uT0uwJ
+         yDz7MQ3WX5a9QADZgjcv/2V9m9Sd8WTn8DKIFxEkm8CSLnWDGzxiQHSdxyqWuus1fCCN
+         s3Xw==
+X-Gm-Message-State: AOAM533uT03niwrKpX91wu5+fyDXBWa6uIVEY8214Dv+7z+Y69Y2rdXQ
+	Td+kby2OoG6l4QdQ8dvLM+FfI8riTK3KpMkc/SA=
+X-Google-Smtp-Source: ABdhPJxaHzmzeYNdDhXnjpDD/5WEo+eAG37jYf36JGK09uEb4LeTkr/+31iVvCPDDoIJhGbIusSzuMx9QX4PKn7TwPA=
+X-Received: by 2002:a92:1bd2:: with SMTP id f79mr47600295ill.115.1594295848459;
+ Thu, 09 Jul 2020 04:57:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200708195756.760-1-sno@netbsd.org> <CAP9ODKosgPup-Y3Ee-of+N9d9t+3GPHfZ4ZkfpE8PhJoxAkjTg@mail.gmail.com>
- <B0E130E3-E9C3-4D39-BFB1-9CE1D59345BE@gmail.com>
-In-Reply-To: <B0E130E3-E9C3-4D39-BFB1-9CE1D59345BE@gmail.com>
-Date: Thu, 9 Jul 2020 08:52:50 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo9u6qQydVg_qhiSpZP_YwsHBO0EipQh8f2cemtY+PPng@mail.gmail.com>
-Message-ID: <CAP9ODKo9u6qQydVg_qhiSpZP_YwsHBO0EipQh8f2cemtY+PPng@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] toolchain-scripts.bbclass: also recognize ${SDK_SYS} env setups
-To: Jens Rehsack <rehsack@gmail.com>, 
-	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+References: <AM7PR05MB6881E512124C27A177984016A8640@AM7PR05MB6881.eurprd05.prod.outlook.com>
+In-Reply-To: <AM7PR05MB6881E512124C27A177984016A8640@AM7PR05MB6881.eurprd05.prod.outlook.com>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Thu, 9 Jul 2020 12:57:17 +0100
+Message-ID: <CAO5Uq5TimYvfuX=M4-4ms=4C_yHyo0pKsMfZXhSoopA7J1FhMA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] rootfs-post: remove trailing blanks from tasks
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello Jens,
-
-I've added Richard on Cc.
-
-Em qui., 9 de jul. de 2020 =C3=A0s 01:13, Jens Rehsack <rehsack@gmail.com> =
-escreveu:
-> > Am 08.07.2020 um 23:20 schrieb Otavio Salvador <otavio.salvador@ossyste=
-ms.com.br>:
-> >
-> > Em qua., 8 de jul. de 2020 =C3=A0s 16:58, Jens Rehsack <rehsack@gmail.c=
-om> escreveu:
-> >>
-> >> Instead of recognizing only environment-setup scripts in
-> >> ${STAGING_DIR_TARGET} or ${STAGING_DIR_NATIVE}, respectively - lurk al=
-so into
-> >> ${SDKPATH}/buildtools/sysroots/${SDK_SYS} where nativesdk-openssl inst=
-alls
-> >> setup files.
-> >>
-> >> Remove overwriting of OPENSSL_CONF from buildtools-tarball.bb to clari=
-fy
-> >> whether nativesdk-openssl installs wrong content or buildtools-tarball=
-:
-> >>    (nativesdk-openssl) tmp/sysroots/x86_64/usr/lib/ssl-1.1/openssl.cnf
-> >>    (buildtools-tarball) buildtools/sysroots/x86_64-pokysdk-linux/etc/s=
-sl/openssl.cnf
-> >>
-> >> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> >
-> > I did not understand the openssl related change. Is it possible to
-> > rework the commit log so it is more detailed?
+On Thu, Jul 9, 2020 at 8:19 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
 >
-> For sure, but maybe I'm completely wrong. Let me try explaining it first.=
-..
+> remove the trailing blanks before the ;-delimiter, so one could use
+> "_remove" to avoid running tasks like 'rootfs_update_timestamp',
+> which are currently hardcoded and not bound to any
+> configurable feature flag
 >
-> If - and only if - one creates an SDK which included openssl (and not lib=
-ressl, mbedssl, ...),
-> nativesdk-openssl packages an ${SDKPATHNATIVE}/environment-setup.d/openss=
-l.sh
->
-> OTOH - meta/recipes-core/meta/buildtools-tarball.bb creates a script whic=
-h is sourced
-> at the very end of SDK environment setup and writes what's included in
-> {SDKPATHNATIVE}/environment-setup.d/openssl.sh on it's own - with maybe s=
-lightly
-> different location - what guides me to add:
-> ... to clarify whether nativesdk-openssl installs wrong content or buildt=
-ools-tarball:
->    (nativesdk-openssl) tmp/sysroots/x86_64/usr/lib/ssl-1.1/openssl.cnf
->    (buildtools-tarball) buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/=
-openssl.cnf
->
-> Maybe they way how nativesdk-cmake is doing it is the right way. Then, ma=
-ybe
-> nativesdk-openssl should be reworked. This is for clarification.
->
-> Does it explain something better?
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
 
-Yes and generating it directly might indeed be not the best option.
-Ideally, it'd generate a new source script which would run later and
-do any need adjustment. Do you agree?
+I think this duplicates a change I submitted:
 
-Either way, this commit seems to be mixing two changes and I'd prefer
-if you split it. This allow for nicer review as well as better commit
-messages of individual changes.
+https://patchwork.openembedded.org/patch/168931/
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Comment from @Richard Purdie at the time was "This does sound like
+you're working around a bug in shlex :/", which I started to dig into,
+but failed to figure it out.
+
+
+
+
+
+>  meta/classes/rootfs-postcommands.bbclass | 6 +++---
+>  meta/classes/rootfsdebugfiles.bbclass    | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+> index c43b9a9823..984730ebe8 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -1,6 +1,6 @@
+>
+>  # Zap the root password if debug-tweaks feature is not enabled
+> -ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
+> +ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
+>
+>  # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+> @@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+>
+>  # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+> -ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+>
+>  # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+> @@ -26,7 +26,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
+>  APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
+>
+>  # Generates test data file with data store variables expanded in json format
+> -ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
+> +ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
+>
+>  # Write manifest
+>  IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
+> diff --git a/meta/classes/rootfsdebugfiles.bbclass b/meta/classes/rootfsdebugfiles.bbclass
+> index e2ba4e3647..85c7ec7434 100644
+> --- a/meta/classes/rootfsdebugfiles.bbclass
+> +++ b/meta/classes/rootfsdebugfiles.bbclass
+> @@ -28,7 +28,7 @@
+>  ROOTFS_DEBUG_FILES ?= ""
+>  ROOTFS_DEBUG_FILES[doc] = "Lists additional files or directories to be installed with 'cp -a' in the format 'source1 target1;source2 target2;...'"
+>
+> -ROOTFS_POSTPROCESS_COMMAND += "rootfs_debug_files ;"
+> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_debug_files;"
+>  rootfs_debug_files () {
+>     #!/bin/sh -e
+>     echo "${ROOTFS_DEBUG_FILES}" | sed -e 's/;/\n/g' | while read source target mode; do
+> --
+> 2.20.1
+>
+> 
+
+
+
+--
+Alex Kiernan
