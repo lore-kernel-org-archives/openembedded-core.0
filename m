@@ -1,89 +1,57 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.2653.1594285064727780003
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.2706.1594285357379601507
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 01:57:44 -0700
+ Thu, 09 Jul 2020 02:02:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0698vC44013312
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Jul 2020 01:57:33 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 9 Jul 2020 01:57:17 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] dpkg: change SRC_URI to take dpkg from git
-Date: Thu, 9 Jul 2020 16:54:21 +0800
-Message-ID: <20200709085421.2941679-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
-References: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2997260CBC;
+	Thu,  9 Jul 2020 09:02:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZHBrZzogdXBkYXRlIFNSQ19VUkkgKHJldjIp?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 09 Jul 2020 09:02:36 -0000
+Message-ID: <20200709090236.2262.92649@do>
+References: <20200707025305.3408244-1-changqing.li@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200707025305.3408244-1-changqing.li@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+== Series Details ==
 
-tar.xz on original URL have been removed, switch to use git
+Series: dpkg: update SRC_URI (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/25025/
+State : failure
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at b3c96103a5)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/dpkg/dpkg.inc       |  9 ++++++++-
- meta/recipes-devtools/dpkg/dpkg_1.20.0.bb | 10 +++++++---
- 2 files changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 1c3c585d79..a309613259 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -7,7 +7,7 @@ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alte
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
- RDEPENDS_${PN}_class-native = ""
- 
--UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
- inherit autotools gettext perlnative pkgconfig perl-version update-alternatives
- 
-@@ -30,6 +30,13 @@ EXTRA_OECONF_append_class-target = " --disable-update-alternatives DEB_HOST_ARCH
- PACKAGECONFIG = "liblzma"
- PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
- 
-+do_configure_prepend () {
-+        # autotools_do_configure updates po/Makefile.in.in, we also need
-+        # update dselect/po and scripts/po
-+        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/dselect/po/
-+        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/scripts/po/
-+}
-+
- do_install_append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
-index 089caeffb5..935dcac918 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
-@@ -1,7 +1,7 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian-debug/20200308T085219Z/pool/main/d/dpkg/${BPN}_${PV}.tar.xz \
-+SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https \
-            file://noman.patch \
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
-@@ -18,5 +18,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian-debug/20200308T085219Z/pool
- 
- SRC_URI_append_class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
- 
--SRC_URI[md5sum] = "f88f077236a3ff3decae3b25c989893d"
--SRC_URI[sha256sum] = "b633cc2b0e030efb61e11029d8a3fb1123f719864c9992da2e52b471c96d0900"
-+SRCREV = "314ac02663c5bd1a82b34745150bf13a39a549a3"
-+
-+S = "${WORKDIR}/git"
-+
-+#autotools.bbclass default AUTOTOOLS_AUXDIR is ${S}, we need to under ${S}/build-aux
-+AUTOTOOLS_AUXDIR = "${S}/build-aux"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
