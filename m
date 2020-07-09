@@ -1,50 +1,50 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web10.3524.1594324178094723084
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web12.3786.1594324666017824329
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 12:49:38 -0700
+ Thu, 09 Jul 2020 12:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kg/3uwtf;
- spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f195.google.com with SMTP id d4so1430217pgk.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 12:49:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SJjz/Lfn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f196.google.com with SMTP id q17so1247839pls.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 12:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JR9zCZLpOuMaWHqGlFBR308uKtCSc6QWrk0MBXNl8Xk=;
-        b=kg/3uwtfc8+MPa/ATv+BWXXtbxwuFI8jS3YeQajDWSbXgBzuMiCu7X3a5aN2D743J6
-         JLE+v19skUptQK7/poecVUcY7T0xgh450A/RE9Y4nB7ZCQEPFSITJzqXPSuSSh+A/D1e
-         PFJB2s0a0unV4Ahh5Fhuw5W4DuSZAXnShdumNHXiMjW4y6lQmsDY9TrGZ+N0uUu+ScjK
-         S67kKTeqNgAZdRfKvI1rJm5sx3iJ+znHu0eVyKy4uzJpN2sPYStjQ6L4WwJmM2VuT7gX
-         48O854MVyCBrAA4SyQxP1aoqWwvcEpUKEwbOBAt+tAv6A6vQh7gGxK4gE7xutUmXPTae
-         VGWg==
+        bh=DGXh5hVi4wxrc6qfBVXF/b5UWUYXz2Ju+6FIqGzi4Wk=;
+        b=SJjz/Lfnci/f+mWN8C9DB7oDY5dxDAvtBuAt1G8juilbzv/Urd4gj0+HBtEL2WSMur
+         ZXp0uwY5mjZlpcIlxdPXpeRtF8AFf7YiboJ+m3yVEt5tXg2jJTDYknG5rjlRhxUWgQRl
+         JSO/3iDmUfxL3Ll5P+RYvta1G0kt0MIkNd2bHQbArmFGXVPtdQDpNZA90Iks9tnMMtQX
+         PGIrN6xMo4cLfgmq9HKNmgQMG3vH2o1k9ZEoU3JxIdg3wWffG8htCMyQ1KRXAYmWqE9n
+         6WpErNG/mOU1syjlf14WEEQnNEmUqJyBn/eaHipATa+BCoQQOxskcvHhd4+Ei0U4vPyt
+         lM9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JR9zCZLpOuMaWHqGlFBR308uKtCSc6QWrk0MBXNl8Xk=;
-        b=oScBBCfVIQaNH7zFC/p9pjA0qldO0SW1dOlrB7HqbQpT5eLNIV1CrOqzxCYavpqEFy
-         NBn9magiI/c8dE8+z9rPcTAN3NpVH4EZgMdtjDRx8rhnWG0C1rJba52s9qv84psdjfYu
-         tltLwBbLTOk859F3/VK/fH4FfCIR97CTeXL1qXUv09tkuibPfJZ6EDz1CpipODGtLGt6
-         LLSFJwCLVfvCR9zzePgbqQOV3e5xVoh+gGWa47Co2VyL2g2+tF2RQa/u8co3Jli7thNz
-         HWPEzXosei/oa4KouoKnY0UfMlzJVS1UXRqM8CN/XUQvtF0EL8CmU4kD9nY3QHVOf4uy
-         ux/Q==
-X-Gm-Message-State: AOAM533W3GCPfj8q0QLiIGxJLOKoMHR2udvMm7zorRbZvxMjT2wg32eA
-	OjVkLUG/oWPd8VyxDjwt02Hx7/QFQLM=
-X-Google-Smtp-Source: ABdhPJz8V6kvvzQLAQe95Zox8JJSw60WaaEsYQHp/tDv3wk84/UVckq3SiKzHdgBeREKC02I2M4/tg==
-X-Received: by 2002:a05:6a00:d:: with SMTP id h13mr54048783pfk.288.1594324177318;
-        Thu, 09 Jul 2020 12:49:37 -0700 (PDT)
+        bh=DGXh5hVi4wxrc6qfBVXF/b5UWUYXz2Ju+6FIqGzi4Wk=;
+        b=Nl0cAFd/bwkeqnDJT7WKUv+6qocZjsAJDSApT2M5zs+EBVYzr++lCvaprDF9LW4egR
+         TGJm6GmiheM9hFbNEtEvMy80tkacUgQ7WAt4Zp2i97i18gPic8FDenzoMDFtaEgtnxY6
+         woiNeqq/I63CsdGA6H93sBcPTUYsErkTTPnir00GGdqqEdAhWzY/hLn/XOAqZ8GlT416
+         /1tR+QWznTghhJF7ODmjWUsOavvzojQ+dN0HlVX151mfGbMAXkr1XjPIZ3s/hSUQOG8W
+         zkKLPuLVXVUcL6UNoPK7QqhefnBtqFq8VHRVclx5q5T6KpEBpbFX2IUzm6hRwdOKngzw
+         AvTg==
+X-Gm-Message-State: AOAM5324V2TAr8voNFV4Fa4vLdqOC5jtpNmeh9f/0LT+xSLdOyr1xXfR
+	uvz5YGzKOe8pq8z/S9kwKQDfS40eL78=
+X-Google-Smtp-Source: ABdhPJx/XFYrh+kGcC1v9CUIPdkR7/cxnuE1crN36BB2qZQIEcq7m+qNK9IRLHZ7ICIhOpHNn+pwUw==
+X-Received: by 2002:a17:902:8bc3:: with SMTP id r3mr17532685plo.162.1594324665212;
+        Thu, 09 Jul 2020 12:57:45 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c85a])
-        by smtp.gmail.com with ESMTPSA id b18sm3446703pju.10.2020.07.09.12.49.36
+        by smtp.gmail.com with ESMTPSA id n15sm3575933pjf.12.2020.07.09.12.57.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 12:49:36 -0700 (PDT)
+        Thu, 09 Jul 2020 12:57:36 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] go-runtime: Disbale CGO for riscv64
-Date: Thu,  9 Jul 2020 12:49:34 -0700
-Message-Id: <20200709194934.2179514-1-raj.khem@gmail.com>
+Subject: [PATCH v2] go: Disbale CGO for riscv64
+Date: Thu,  9 Jul 2020 12:57:29 -0700
+Message-Id: <20200709195729.2224354-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,8 +59,11 @@ Fixes
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Fix go as well along with go-runtime
+
  meta/recipes-devtools/go/go-runtime_1.14.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/go/go_1.14.bb         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/go/go-runtime_1.14.bb b/meta/recipes-devtools/go/go-runtime_1.14.bb
 index 43b68b4e46..4eeee65e0c 100644
@@ -70,6 +73,19 @@ index 43b68b4e46..4eeee65e0c 100644
 +export CGO_ENABLED_riscv64 = ""
  require go-${PV}.inc
  require go-runtime.inc
+diff --git a/meta/recipes-devtools/go/go_1.14.bb b/meta/recipes-devtools/go/go_1.14.bb
+index 5d40cf9d04..bc90a1329e 100644
+--- a/meta/recipes-devtools/go/go_1.14.bb
++++ b/meta/recipes-devtools/go/go_1.14.bb
+@@ -2,7 +2,7 @@ require go-${PV}.inc
+ require go-target.inc
+ 
+ export GOBUILDMODE=""
+-
++export CGO_ENABLED_riscv64 = ""
+ # Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips/riscv
+ # doesn't support -buildmode=pie, so skip the QA checking for mips/riscv and its
+ # variants.
 -- 
 2.27.0
 
