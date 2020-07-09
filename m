@@ -1,94 +1,108 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.2066.1594280930034256967
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.2572.1594284686331032186
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 00:48:50 -0700
+ Thu, 09 Jul 2020 01:51:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QSgLwk6u;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id q15so815238wmj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2020 00:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=6LXhM62YhY+wVCUXDFkQZFUYrbYcGv/A644R9ISzzWE=;
-        b=QSgLwk6uzHkb2EjVWW/8cRQpds6ic3K5J8t3HufWnIPUvxevw5Ep36sXoDn3bTJUMk
-         Y+l9rZrBnsv0+1ZP85ZoWfWNd8h4jmB4+lCJGLneUE7F9t4J+d9i0IGBXRAXYMbMKyUL
-         Ir7h3dpY2OzdhEFHUzHI3LLZ7HMnnPTHfbX+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6LXhM62YhY+wVCUXDFkQZFUYrbYcGv/A644R9ISzzWE=;
-        b=NY2v/PlzfkUj5uFwEgclfSNw3WIUwc9ID+YCH0cSvFx5LTgN0cQSXYYTPbBTxaSoOO
-         c1iW1tNVoq0CGRUQQYD+V+KdxEVAb6/XBc1POgr6k2JtrA557AbRgjNiuKCwYETvBeAE
-         /LF1bxdmWRoTcznewi1OCflU9eKWgZUmAP30u8tKEb22xgiOZDkWHvgj8f+VGUXkS1vG
-         azl+2OzOisf0s8GktKvjvoicWNjkbFKEhKgAO8cO2lfHS9QLhGjnMwPWhr5YfCeHfxIC
-         ONFQvsHJuAFC2nrhZsV4NOLiJlZmEI5N190YVQpoUCsC+tTGOCJNyJ9HX3EBgrSNoncX
-         N8gw==
-X-Gm-Message-State: AOAM533s/+Ptw+F94UZ4f24jFUwawH7LmkC3H+uTm+Taf6Vo+IUZsImw
-	KdcqjV1w+pV2zjySUWQpd0grrA==
-X-Google-Smtp-Source: ABdhPJx8g465uf+lyZxs0yTMfFjfTM4fmvbmr24v9+azEYcOaj1YTwf4d9QWOr5bbHnGlgSj65BwqA==
-X-Received: by 2002:a7b:c84d:: with SMTP id c13mr12819971wml.170.1594280928504;
-        Thu, 09 Jul 2020 00:48:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u84sm3511798wmg.7.2020.07.09.00.48.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 00:48:47 -0700 (PDT)
-Message-ID: <eb3e588aff2d599c3dfccb3b4192a4fa15407821.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] linux-firmware: fix iwlwifi-misc to include all iwlwifi firmware
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jun Miao <jun.miao@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 09 Jul 2020 08:48:46 +0100
-In-Reply-To: <1594273815-13127-1-git-send-email-jun.miao@windriver.com>
-References: <1594273815-13127-1-git-send-email-jun.miao@windriver.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0698pO8v006168
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Jul 2020 01:51:25 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 9 Jul 2020 01:51:12 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] python3: define a profile directory path
+Date: Thu, 9 Jul 2020 16:48:17 +0800
+Message-ID: <20200709084817.2936467-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Thu, 2020-07-09 at 13:50 +0800, Jun Miao wrote:
-> Signed-off-by: Jun Miao <jun.miao@windriver.com>
-> ---
->  meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb | 3 +-
-> -
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-
-> firmware_20200619.bb b/meta/recipes-kernel/linux-firmware/linux-
-> firmware_20200619.bb
-> index 79acccddc7..321d808884 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-> @@ -265,7 +265,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
->               \
->               ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-
-> sdma-imx7d \
->               \
-> -             ${PN}-iwlwifi-license ${PN}-iwlwifi \
-> +             ${PN}-iwlwifi-license ${PN}-iwlwifi ${PN}-iwlwifi-misc
-> \
->               ${PN}-iwlwifi-135-6 \
->               ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-
-> iwlwifi-3160-9 \
->               ${PN}-iwlwifi-3160-10 ${PN}-iwlwifi-3160-12 ${PN}-
-> iwlwifi-3160-13 \
-> @@ -277,7 +277,6 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
->               ${PN}-iwlwifi-7265 \
->               ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-
-> 8265 \
->               ${PN}-iwlwifi-9000 \
-> -             ${PN}-iwlwifi-misc \
->               ${PN}-ibt-license ${PN}-ibt ${PN}-ibt-misc \
->               ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-
-> ibt-hw-37-8 \
->               ${PN}-ibt-17 \
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Why? Does this make the individual iwlwifi packages empty?
+After ccache upgrade to 3.7.10, there comes below error when
+enable ccache to build python3 and check [1] and [2] for more
+details.
+ | Python-3.8.3/Modules/_contextvarsmodule.c:43:1: error: source locations for function 'PyInit__contextvars' have changed, the profile data may be out of date [-Werror=coverage-mismatch]
 
-Cheers,
+That's because the logic for profile directory changes a little in
+[3] after ccache upgrades to 3.7.10.
 
-Richard
+So define a profile directory path accordingly to fix the above error.
+
+[1] https://github.com/ccache/ccache/issues/615
+[2] https://lists.openembedded.org/g/openembedded-core/topic/75170448#140065
+[3] https://github.com/ccache/ccache/commit/91a2954eb47b4a106e2be6cf611917b895108e35
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...re.ac-define-a-path-for-profile-data.patch | 42 +++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.3.bb |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
+
+diff --git a/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch b/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
+new file mode 100644
+index 0000000000..ee3d645521
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
+@@ -0,0 +1,42 @@
++From 5e94e315119117898ce1a2798641848f61d796b1 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Thu, 9 Jul 2020 07:58:44 +0000
++Subject: [PATCH] configure.ac: define a path for profile data
++
++There comes below error when use ccache 3.7.10 to compile python3
++and check [1] for more details.
++ | Python-3.8.3/Modules/_contextvarsmodule.c:43:1: error: source locations for function 'PyInit__contextvars' have changed, the profile data may be out of date [-Werror=coverage-mismatch]
++
++That's because the logic for profile directory changes a little in
++[2] after ccache upgrades to 3.7.10.
++
++So define a profile directory path accordingly to fix the above error.
++
++[1] https://github.com/ccache/ccache/issues/615
++[2] https://github.com/ccache/ccache/commit/91a2954eb47b4a106e2be6cf611917b895108e35
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/21408]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 08fe397..bb15bda 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1332,8 +1332,8 @@ case $cc_basename in
++         fi
++         ;;
++       *)
++-        PGO_PROF_GEN_FLAG="-fprofile-generate"
++-        PGO_PROF_USE_FLAG="-fprofile-use -fprofile-correction"
+++        PGO_PROF_GEN_FLAG="-fprofile-generate=$(pwd)"
+++        PGO_PROF_USE_FLAG="-fprofile-use=$(pwd) -fprofile-correction"
++         LLVM_PROF_MERGER="true"
++         LLVM_PROF_FILE=""
++         ;;
++-- 
++2.26.2
++
+diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
+index a7cfbad5cd..7e0f35ce41 100644
+--- a/meta/recipes-devtools/python/python3_3.8.3.bb
++++ b/meta/recipes-devtools/python/python3_3.8.3.bb
+@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-configure.ac-fix-LIBPL.patch \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
++           file://0001-configure.ac-define-a-path-for-profile-data.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+-- 
+2.17.1
 
