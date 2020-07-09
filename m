@@ -1,108 +1,89 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.2572.1594284686331032186
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2653.1594285064727780003
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 01:51:26 -0700
+ Thu, 09 Jul 2020 01:57:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0698pO8v006168
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0698vC44013312
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Jul 2020 01:51:25 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Jul 2020 01:57:33 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 9 Jul 2020 01:51:12 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 9 Jul 2020 01:57:17 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] python3: define a profile directory path
-Date: Thu, 9 Jul 2020 16:48:17 +0800
-Message-ID: <20200709084817.2936467-1-mingli.yu@windriver.com>
+Subject: [PATCH] dpkg: change SRC_URI to take dpkg from git
+Date: Thu, 9 Jul 2020 16:54:21 +0800
+Message-ID: <20200709085421.2941679-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
+References: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-After ccache upgrade to 3.7.10, there comes below error when
-enable ccache to build python3 and check [1] and [2] for more
-details.
- | Python-3.8.3/Modules/_contextvarsmodule.c:43:1: error: source locations for function 'PyInit__contextvars' have changed, the profile data may be out of date [-Werror=coverage-mismatch]
+tar.xz on original URL have been removed, switch to use git
 
-That's because the logic for profile directory changes a little in
-[3] after ccache upgrades to 3.7.10.
-
-So define a profile directory path accordingly to fix the above error.
-
-[1] https://github.com/ccache/ccache/issues/615
-[2] https://lists.openembedded.org/g/openembedded-core/topic/75170448#140065
-[3] https://github.com/ccache/ccache/commit/91a2954eb47b4a106e2be6cf611917b895108e35
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...re.ac-define-a-path-for-profile-data.patch | 42 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.3.bb |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
+ meta/recipes-devtools/dpkg/dpkg.inc       |  9 ++++++++-
+ meta/recipes-devtools/dpkg/dpkg_1.20.0.bb | 10 +++++++---
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch b/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
-new file mode 100644
-index 0000000000..ee3d645521
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-configure.ac-define-a-path-for-profile-data.patch
-@@ -0,0 +1,42 @@
-+From 5e94e315119117898ce1a2798641848f61d796b1 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Thu, 9 Jul 2020 07:58:44 +0000
-+Subject: [PATCH] configure.ac: define a path for profile data
-+
-+There comes below error when use ccache 3.7.10 to compile python3
-+and check [1] for more details.
-+ | Python-3.8.3/Modules/_contextvarsmodule.c:43:1: error: source locations for function 'PyInit__contextvars' have changed, the profile data may be out of date [-Werror=coverage-mismatch]
-+
-+That's because the logic for profile directory changes a little in
-+[2] after ccache upgrades to 3.7.10.
-+
-+So define a profile directory path accordingly to fix the above error.
-+
-+[1] https://github.com/ccache/ccache/issues/615
-+[2] https://github.com/ccache/ccache/commit/91a2954eb47b4a106e2be6cf611917b895108e35
-+
-+Upstream-Status: Submitted [https://github.com/python/cpython/pull/21408]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ configure.ac | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 08fe397..bb15bda 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1332,8 +1332,8 @@ case $cc_basename in
-+         fi
-+         ;;
-+       *)
-+-        PGO_PROF_GEN_FLAG="-fprofile-generate"
-+-        PGO_PROF_USE_FLAG="-fprofile-use -fprofile-correction"
-++        PGO_PROF_GEN_FLAG="-fprofile-generate=$(pwd)"
-++        PGO_PROF_USE_FLAG="-fprofile-use=$(pwd) -fprofile-correction"
-+         LLVM_PROF_MERGER="true"
-+         LLVM_PROF_FILE=""
-+         ;;
-+-- 
-+2.26.2
-+
-diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
-index a7cfbad5cd..7e0f35ce41 100644
---- a/meta/recipes-devtools/python/python3_3.8.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.3.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-configure.ac-fix-LIBPL.patch \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-+           file://0001-configure.ac-define-a-path-for-profile-data.patch \
-            "
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 1c3c585d79..a309613259 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -7,7 +7,7 @@ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alte
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
+ RDEPENDS_${PN}_class-native = ""
  
- SRC_URI_append_class-native = " \
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ inherit autotools gettext perlnative pkgconfig perl-version update-alternatives
+ 
+@@ -30,6 +30,13 @@ EXTRA_OECONF_append_class-target = " --disable-update-alternatives DEB_HOST_ARCH
+ PACKAGECONFIG = "liblzma"
+ PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
+ 
++do_configure_prepend () {
++        # autotools_do_configure updates po/Makefile.in.in, we also need
++        # update dselect/po and scripts/po
++        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/dselect/po/
++        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/scripts/po/
++}
++
+ do_install_append () {
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		# update-alternatives doesn't have an offline mode
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+index 089caeffb5..935dcac918 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+@@ -1,7 +1,7 @@
+ require dpkg.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian-debug/20200308T085219Z/pool/main/d/dpkg/${BPN}_${PV}.tar.xz \
++SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https \
+            file://noman.patch \
+            file://remove-tar-no-timestamp.patch \
+            file://arch_pm.patch \
+@@ -18,5 +18,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian-debug/20200308T085219Z/pool
+ 
+ SRC_URI_append_class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ 
+-SRC_URI[md5sum] = "f88f077236a3ff3decae3b25c989893d"
+-SRC_URI[sha256sum] = "b633cc2b0e030efb61e11029d8a3fb1123f719864c9992da2e52b471c96d0900"
++SRCREV = "314ac02663c5bd1a82b34745150bf13a39a549a3"
++
++S = "${WORKDIR}/git"
++
++#autotools.bbclass default AUTOTOOLS_AUXDIR is ${S}, we need to under ${S}/build-aux
++AUTOTOOLS_AUXDIR = "${S}/build-aux"
 -- 
 2.17.1
 
