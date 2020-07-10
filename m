@@ -1,88 +1,91 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web12.6810.1594371992429633971
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web11.7217.1594373056927911776
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2020 02:06:32 -0700
+ Fri, 10 Jul 2020 02:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=H+en/ftn;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id by13so4047102edb.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 02:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+u1gjvbBrx08EsPdHfg+HF46NCMuD1MMuXMbTaSkrfo=;
-        b=H+en/ftnQTZrokJZ0BPsiJWINIAegXZAow+irAVPFHfLGTDppmStyDWoWrtDtvOVKJ
-         jwOB1v3vWHiIEHJX10BVgvO4tahvVuU8GrYp5qmCAJU07w8XeZm77Ffs2hUgm14g5dwT
-         Q5umcP9r+4Sb1zARNQrauvQYHU/5G2GmkkErPAlR5tib8S1xybjAqeQo6Wr/aTVU75dh
-         QXsYaWi48QonTIGr5QkljCVuTe3sd2Eqq5xe/64BfUlnge0vZqNkqx07aSwBMdkJbVdQ
-         i/jm7+ISfq/SFJxaHTGGVyNvAV09sOCbiWxeqB1K5Ep1H6YjtyLSkEQwkcAF9BcMaz2i
-         /5BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+u1gjvbBrx08EsPdHfg+HF46NCMuD1MMuXMbTaSkrfo=;
-        b=mt/QEpNYMXTaLrzssZyYl9il9L2dQD5s3M8wKWM9Qo7ZRLfaYY5U/sYgdxBFbJGnGm
-         r076YNEsfwwBevfmH2ftDE3KHqmx3YMetvYtOXV+0SfzUPVHEUW5Q7ZGjJY7imHBsCt8
-         jDoJdmvHs8rlKr93OojVBJiIe8RGBJISeDcld4i4PpyLmLBiCwqhuRgcQFgbHFAXh5Rw
-         0kiJWzRS1nJYX1lXahQPEpuZw3e3J5E+5ImsFGEQr9ThIrc7j8yOSeHh7S9CHWrzZnZM
-         1chbp8C8sU3PDiI273jKr+QCMnRkMl5U/XrAE7WFaAejqHMqxrdU0KeOJ11BNNpaxzTa
-         NRSA==
-X-Gm-Message-State: AOAM531p8fdSCIAtaC9HUm8h8By9PygY7rXDT5fC8YLMVCsgMNEwvUkD
-	K4Vf3Ic2ybRkZX9Ujje+ipZOBQ1p
-X-Google-Smtp-Source: ABdhPJxNjcuHS+3zWSm4QyM5UytjpEp9UC7NJh/X81ibkM4A0e2W27VSaIbesRkzfWP/hGW3fWCQjQ==
-X-Received: by 2002:aa7:c883:: with SMTP id p3mr78523470eds.128.1594371990936;
-        Fri, 10 Jul 2020 02:06:30 -0700 (PDT)
-Return-Path: <max.oss.09@gmail.com>
-Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch. [31.10.206.124])
-        by smtp.gmail.com with ESMTPSA id d22sm3249773ejc.90.2020.07.10.02.06.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2020 02:06:30 -0700 (PDT)
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.krummenacher@toradex.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [OE-core][Patch 2/2] kernel-yocto.bbclass: force creation of config.queue
-Date: Fri, 10 Jul 2020 11:05:14 +0200
-Message-Id: <20200710090514.440-2-max.krummenacher@toradex.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200710090514.440-1-max.krummenacher@toradex.com>
-References: <20200710090514.440-1-max.krummenacher@toradex.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 06A9ODOw026258
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 02:24:16 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 10 Jul 2020 02:24:06 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V4] dpkg: change SRC_URI to take dpkg from git
+Date: Fri, 10 Jul 2020 17:21:07 +0800
+Message-ID: <20200710092107.1150497-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
+References: <CANNYZj_5-Sd-zww=bL8=_sDSL8P19iPB59w=+6c-tyCwBVY3rQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In the case of no patches or no configure fragments, during
-do_kernel_metadata() scc is not called, and thus
-kernel-sources/${meta_dir}/config.queue is not created.
-Later do_kernel_configme fails because the file is missing.
+From: Changqing Li <changqing.li@windriver.com>
 
-| ERROR: Execution of 'run.do_kernel_configme.24874' failed with exit code 1:
-| exit 1 from 'configs="$(scc --configs -o ${meta_dir})"'
+tar.xz on original URL have been removed, switch to use git
 
-Forcing at least an empty config.queue file fixes this.
-
-Fixes: 23dcff0d396c (kernel/yocto: ensure that defconfigs are processed first)
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/dpkg/dpkg.inc       | 14 +++++++++++++-
+ meta/recipes-devtools/dpkg/dpkg_1.20.0.bb |  7 ++++---
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 7cedb05e93..7ea3cb5e51 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -220,6 +220,8 @@ do_kernel_metadata() {
- 		if [ $? -ne 0 ]; then
- 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
- 		fi
-+	else
-+		touch ${S}/${meta_dir}/config.queue
- 	fi
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 1c3c585d79..04fe85c4a8 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -7,7 +7,7 @@ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alte
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
+ RDEPENDS_${PN}_class-native = ""
  
- 	# if KMETA_EXTERNAL_BSPS has been set, or it has been detected from
+-UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ inherit autotools gettext perlnative pkgconfig perl-version update-alternatives
+ 
+@@ -30,6 +30,18 @@ EXTRA_OECONF_append_class-target = " --disable-update-alternatives DEB_HOST_ARCH
+ PACKAGECONFIG = "liblzma"
+ PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
+ 
++
++#autotools.bbclass default AUTOTOOLS_AUXDIR is ${S}, we need to under ${S}/build-aux
++AUTOTOOLS_AUXDIR = "${S}/build-aux"
++
++do_configure_prepend () {
++        mkdir -p ${AUTOTOOLS_AUXDIR}
++        # autotools_do_configure updates po/Makefile.in.in, we also need
++        # update dselect/po and scripts/po
++        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/dselect/po/
++        cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/scripts/po/
++}
++
+ do_install_append () {
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		# update-alternatives doesn't have an offline mode
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+index c98a9e58e2..334294e6f8 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+@@ -1,7 +1,7 @@
+ require dpkg.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
++SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https \
+            file://noman.patch \
+            file://remove-tar-no-timestamp.patch \
+            file://arch_pm.patch \
+@@ -18,5 +18,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+ 
+ SRC_URI_append_class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ 
+-SRC_URI[md5sum] = "f88f077236a3ff3decae3b25c989893d"
+-SRC_URI[sha256sum] = "b633cc2b0e030efb61e11029d8a3fb1123f719864c9992da2e52b471c96d0900"
++SRCREV = "314ac02663c5bd1a82b34745150bf13a39a549a3"
++
++S = "${WORKDIR}/git"
 -- 
-2.20.1
+2.17.1
 
