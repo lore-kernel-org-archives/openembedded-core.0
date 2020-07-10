@@ -1,103 +1,72 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web11.5530.1594364309108458449
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.5526.1594364688261923598
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 23:58:35 -0700
+ Fri, 10 Jul 2020 00:04:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=Ka7E8Sov;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=cw8d=av=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4B33m14D6Gz4s
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 08:58:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1594364305;
-	bh=Wpd0b5LN+ehb0Is5OPJYvwpU5tW7vau2NhjRVDI+gwA=;
-	h=From:To:Subject:Date:From;
-	b=Ka7E8SovF9eIwgDwcB8QPx7n5Wduws/39pRRMm8bRzl+rarU6bUVfDsGlbJZb5//6
-	 mvtjykKe56yEnO5vXrUA+ea89LvKwZvWxhaDpBRaYZvYPcdzm/gID26LL4PGTOyttd
-	 hXY5F/Q/iR3UMwh5SfWwVY3mh0NFTvyVeGzS7yD7nx79jMqkzEhzqt3YKbCwGmSMcP
-	 jnFKvDMB2cc2RXAlqpf9ByUvZ+U9bb0lg95nHE4G6QTuVWEl1rstcS+wlVW6GX/pBv
-	 9m+//wSowAVOyASLwzBBi5b3CSiS3T7I/AMrMNzq/fJZQTzjls+TxfLiOZ2IINwrfX
-	 4U2ZVY6hlVvq9ZDOLlmNEgD7gqKZMfv8pryxyoAaIzHQwCDQPcoPwHJldkSDiAnofC
-	 E86oyps6jqQhojJjFTCBdIatwSh27jD5uUwr0UFXOCth49OoL+HTdQ7in6/iQu+RLs
-	 piS/PjrTiVLRK7FCRBcLrLotHE3dS/5TiGOjQ/akIZUwyhhIdEGERlR2KXXzEyDI+H
-	 0l7H4bIuO3N8yoe3FZxQfUYUiiKxLwShWzz2tgRiHO5wjHACOlWWQwfKNM4wMohK8S
-	 w5xMOBBx7WPn3ahJz1y0HDCy5uR3rVvmfDgMUBRW8hMTbct8myMazpTLGeYxNK3xDm
-	 B/6+5Nt31QH4woCoKZR13/GQ=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH v2] sqlite: backport CVE fix
-Date: Fri, 10 Jul 2020 09:58:23 +0300
-Message-Id: <20200710065823.18954-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 06A74kc6000905
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 00:04:46 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 10 Jul 2020 00:04:46 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3] netbase: use git fetcher
+Date: Fri, 10 Jul 2020 15:01:47 +0800
+Message-ID: <20200710070147.2910367-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <161F1A6116A44000.17108@lists.openembedded.org>
+References: <161F1A6116A44000.17108@lists.openembedded.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Fixes CVE-2020-11655
-
-(From OE-Core rev: 3b06a6c73f4e49c6d00f758423c2e8865ec2de00)
-
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[ without the CVE-2020-11656 fix that did not apply cleanly ]
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Use git repo as the the previous URL only stores the latest
+source file and fails to locate the source tar file if we
+don't upgrade timely.
 ---
-v2: Upstream Status -> Upstream-Status
----
- .../sqlite/files/CVE-2020-11655.patch         | 32 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.29.0.bb |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-11655.patch
+ meta/recipes-core/netbase/netbase_6.1.bb | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2020-11655.patch b/meta/recipes-support/sqlite/files/CVE-2020-11655.patch
-new file mode 100644
-index 0000000000..c2360cb867
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2020-11655.patch
-@@ -0,0 +1,32 @@
-+From a4601326d61bf1a11151ac6b78b50804bfd03b4d Mon Sep 17 00:00:00 2001
-+From: Sakib Sajal <sakib.sajal@windriver.com>
-+Date: Thu, 30 Apr 2020 10:46:16 -0700
-+Subject: [PATCH 2/2] In the event of a semantic error in an aggregate query,
-+ early-out the resetAccumulator() function to prevent problems due to
-+ incomplete or incorrect initialization of the AggInfo object. Fix for ticket
-+ [af4556bb5c285c08].
+diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+index bc0049c0201..491e6bf4cbf 100644
+--- a/meta/recipes-core/netbase/netbase_6.1.bb
++++ b/meta/recipes-core/netbase/netbase_6.1.bb
+@@ -6,10 +6,10 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+ PE = "1"
+ 
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "git://salsa.debian.org/md/netbase.git;protocol=https"
++SRCREV = "0fc1e4ce39328f7388badace0aaf7b7294d5ed61"
+ 
+-SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+-SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
++S = "${WORKDIR}/git"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+ do_install () {
+@@ -18,3 +18,16 @@ do_install () {
+ 	install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
+ 	install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
+ }
 +
-+FossilOrigin-Name: 4a302b42c7bf5e11ddb5522ca999f74aba397d3a7eb91b1844bb02852f772441
-+Upstream-Status: Backport [c415d91007e1680e4eb17def583b202c3c83c718]
-+
-+CVE: CVE-2020-11655
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ sqlite3.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 1df6633..726adf7 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -133242,6 +133242,7 @@ static void resetAccumulator(Parse *pParse, AggInfo *pAggInfo){
-+   struct AggInfo_func *pFunc;
-+   int nReg = pAggInfo->nFunc + pAggInfo->nColumn;
-+   if( nReg==0 ) return;
-++  if( pParse->nErr ) return;
-+ #ifdef SQLITE_DEBUG
-+   /* Verify that all AggInfo registers are within the range specified by
-+   ** AggInfo.mnReg..AggInfo.mxReg */
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-index cf3b179845..95e1174b07 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2019-19926.patch \
-            file://CVE-2019-19959.patch \
-            file://CVE-2019-20218.patch \
-+           file://CVE-2020-11655.patch \
- "
- SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
- SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
++# The reproducible test failed in autobuilder env as
++# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200630-_jn1koza/packages/diff-html/
++# But I didn't reproduce it locally when run "oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds"
++# Per the logic in meta/classes/reproducible_build.bbclass, it should use
++# get_source_date_epoch_from_git to get the SOURCE_DATE_EPOCH after we
++# switch to use git fetcher, don't understand why the SOURCE_DATE_EPOCH
++# is different between reproducibleA and reproducibleB during reproducible
++# test in autobuilder env. The only difference is reproducibleA use sstate
++# but reproducibleB not. Maybe the sstate in autobuilder env has some problem?
++# Anyway, use the default value for SOURCE_DATE_EPOCH from meta/classes/reproducible_build_simple.bbclass
++# to fix the gap as a workaround.
++export SOURCE_DATE_EPOCH = "1520598896"
 -- 
-2.17.1
+2.26.2
 
