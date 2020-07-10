@@ -1,40 +1,41 @@
-Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
- by mx.groups.io with SMTP id smtpd.web10.5280.1594363003953293787
- for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2020 23:36:44 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id CEB9A22019A;
-	Fri, 10 Jul 2020 18:36:42 +1200 (NZST)
-From: "Douglas" <douglas.royds@taitradio.com>
+Subject: mv: cannot stat './.builtin-script.o.tmp': No such file or directory
 To: openembedded-core@lists.openembedded.org
-Cc: Douglas Royds <douglas.royds@taitradio.com>
-Subject: [PATCH] nativesdk: clear MACHINE_FEATURES
-Date: Fri, 10 Jul 2020 18:36:39 +1200
-Message-Id: <20200710063639.11598-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
+From: "Pankaj  Vinadrao Joshi" <pankaj.vj@exaleapsemi.com>
+X-Originating-Location: Pune, Maharashtra, IN (49.35.79.71)
+X-Originating-Platform: Windows Chrome 83
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 09 Jul 2020 23:45:16 -0700
+Message-ID: <OJT4.1594363516310055363.xgoQ@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="sGQ3CaQMWIU5JxntWVoq"
 
-Further to 96c20c9df7:
-Try to avoid nativesdk recipes accidentally being dependent on MACHINE_FEATURES.
+--sGQ3CaQMWIU5JxntWVoq
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
----
- meta/classes/nativesdk.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Hi,
+i have built minimal-image for RPI4 image with perf enabled in it but i am=
+ getting following error when i am running some script after booting up the=
+ image=C2=A0 is this is an issue because i am missing something that i shou=
+ld add while building ,can anyone suggest me ??
 
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index 7b75710726..cd389c9c77 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -9,6 +9,7 @@ NATIVESDKLIBC ?= "libc-glibc"
- LIBCOVERRIDE = ":${NATIVESDKLIBC}"
- CLASSOVERRIDE = "class-nativesdk"
- MACHINEOVERRIDES = ""
-+MACHINE_FEATURES = ""
- 
- MULTILIBS = ""
- 
--- 
-2.17.1
+cc1: all warnings being treated as errors
+mv: cannot stat './.builtin-script.o.tmp': No such file or directory
+make[3]: *** [/home/root/lkp/lkp-tests/tmp-pkg/perf/src/linux/tools/build/=
+Makefile.build:96: builtin-script.o] Error 1
 
+--sGQ3CaQMWIU5JxntWVoq
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"font-family: 'Segoe UI', system-ui, 'Apple Color Emoji', 'Seg=
+oe UI Emoji', sans-serif;">Hi,<br />i have built minimal-image for RPI4 ima=
+ge with perf enabled in it but i am getting following error when i am runni=
+ng some script after booting up the image&nbsp; is this is an issue because=
+ i am missing something that i should add while building ,can anyone sugges=
+t me ??<br /><br />cc1: all warnings being treated as errors<br />mv: canno=
+t stat './.builtin-script.o.tmp': No such file or directory<br />make[3]: *=
+** [/home/root/lkp/lkp-tests/tmp-pkg/perf/src/linux/tools/build/Makefile.bu=
+ild:96: builtin-script.o] Error 1</div>
+
+--sGQ3CaQMWIU5JxntWVoq--
