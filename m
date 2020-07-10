@@ -1,58 +1,61 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web11.4323.1594411308915824046
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.4655.1594412489881271508
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2020 13:01:49 -0700
+ Fri, 10 Jul 2020 13:21:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qc44yvXH;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id t11so3173182qvk.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 13:01:48 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TyR4zs1Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id a6so9181340wmm.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 13:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M+mK5bhKOEcUmTkpCovhiSa7Ee/NWW9oX1f7ItLhGAs=;
-        b=qc44yvXHW0r3+whSU+4nV3lIHoDZqAIq/TmMftC4102Ftn6R65sVr9/ui60Wjh/VOQ
-         R35QqyySjJ1BlNp/7PBZaJ1EsNhcWAuJMC/wW04hL7ASsBq1RGBJgumQ1Mbh0S+u0UDw
-         2yUiZep3JHdmyeObssx+NW7EkugDUcCeMgOHYgT/yLsx9lINPIIK7wVzY2lKIVzf+L2/
-         YFZNTu0yPJi8eGgu/3QbAW4t6VmlP1oe1Cuc40cEV3RrK/Zlamn8UCDDmWos3jo8quJn
-         SuprXVJx+2s2xb3mswYDy0qs7q0NDSzCZbbgEvjHroZ7P93NqlSIcOv4tb0zMZ4zT26i
-         DawA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=l+gnqamC1KeClSDsunaaz/h1uRKGn8dtF3Nibf4zwu8=;
+        b=TyR4zs1QH4N+hfn0t3AD8M6pZnY29E8dPOPWuscL8UfAPt6l8OWsJUcLyID7GE6YRZ
+         93z1O6s312aAwCpFftXFv+1zzLrk+bxHEtJu3ifElKqzwMmis9rNIWCPR3p5M+xb7Jcw
+         ovy2e1U77ZD5Ah7m3E49UzSyBqHNsOvuRi0LU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M+mK5bhKOEcUmTkpCovhiSa7Ee/NWW9oX1f7ItLhGAs=;
-        b=cjw5oEPjLtUx8j3aIBfviEKqJpxqPnx3cplQ6BfFjnZapQeL1Th4gMHQ9kAhipT6GO
-         LZizu/4J/Sk8bjfgnE5OMJm5KHGrf2n5k6FobZuK5ctFLEQgk0ixKy3+jKzdQhUE/65i
-         6VDIYti67jrI0TDlq2/HhhskiwE8daZEtWnFLzZ25aZztc8HcvTE05wgvyatTDCf0Qo4
-         I3Q+N9BylTkrHddPxOcyLsB0vYYap8DXClBBoztmHby6MymwFSwDnODP0BlWPE6No5FW
-         pVU5ELBmjgiSkpagVJIbmfh06OMOTi1DJhJYIw7pDiBJ3rbESE678vsa9uFLHlUE3siS
-         z1Cw==
-X-Gm-Message-State: AOAM530YGlu07FcbrQqtM9ea2lijmx4f/wueL0oa9FvTJya2sP5HEA0F
-	mX3Q27/ICQvGXMRnyBS2Ujw6noO4F7g08KBlMkc=
-X-Google-Smtp-Source: ABdhPJzuDoFb+3JCOhykYLuflZclIS1PSULVLJLkkxEC5ft9b1JDRST8YLAJf9KuWRr432Ep69f0rMoFTWwkuUVgaV8=
-X-Received: by 2002:a0c:83a5:: with SMTP id k34mr68665162qva.130.1594411307800;
- Fri, 10 Jul 2020 13:01:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200710193957.1969769-1-takondra@cisco.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=l+gnqamC1KeClSDsunaaz/h1uRKGn8dtF3Nibf4zwu8=;
+        b=hHdGzhKp0OVsBoX4LANg/l+YL+PppEoalfWasVfIqTa3QbsAaOBOXwqNS5DjUvyFlN
+         iTbP+rvhZI+vlONLuiEmVlufGYM800bSt8IzrilOZewNwTX761vaCLCIOEOMvP1IjyUN
+         jO0SVP/Au4hTaWDdAwin6vAhg0b62eKqqwqKIou7QHGlpr8HLgwA/DgjOP+6x564Gipn
+         f5cUvYg0YTH8DJXcO/GaE6mIrHeLdz8ap5UDtWwEtiKbqE/J8lEGsWrymg7C7aYef0jm
+         /X1s+3+6ZVW+i8P5QXTIj1H9vKT/F1Dy62310vLe4j/MJyEmx7+ejYvD4yDSrf3g9D7m
+         kuYw==
+X-Gm-Message-State: AOAM532YSF6cA0UpPjo/RxwXpKou0PVfILjigU2Lkwf0FWZ7QURNoLC3
+	+qvaU5GSy6/Shw3PHtXKoXw/8g==
+X-Google-Smtp-Source: ABdhPJwzf5KpY97ENhlWp5QQWbwxjomLQsxwaelIMv898n9qQw3PAfqGRgqPv4xcEvJepNtJSGSM5A==
+X-Received: by 2002:a1c:a589:: with SMTP id o131mr6372935wme.12.1594412488330;
+        Fri, 10 Jul 2020 13:21:28 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id n5sm10578758wmi.34.2020.07.10.13.21.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2020 13:21:27 -0700 (PDT)
+Message-ID: <3d63c868f4e94dee8c7ee05a3afa0f0620f98a15.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] openssl: add rdcpu to rand-seed
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: takondra@cisco.com, Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, xe-linux-external@cisco.com, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jul 2020 21:21:26 +0100
 In-Reply-To: <20200710193957.1969769-1-takondra@cisco.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 10 Jul 2020 13:01:21 -0700
-Message-ID: <CAMKF1sqpr6mf_GcPOf-saR8x8HtZ-CVxh8ZnNLV4km=wdTyjYw@mail.gmail.com>
-Subject: Re: [PATCH] openssl: add rdcpu to rand-seed
-To: Taras Kondratiuk <takondra@cisco.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, XE-Linux <xe-linux-external@cisco.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+References: <20200710193957.1969769-1-takondra@cisco.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 10, 2020 at 12:40 PM Taras Kondratiuk <takondra@cisco.com> wrote:
->
+On Fri, 2020-07-10 at 12:39 -0700, Taras Kondratiuk via lists.openembedded.org wrote:
 > Native[sdk] openssl fails to initialize RNG on systems where native[sdk]
 > glibc is built against pre-3.17 linux-libc-headers, but runs on 4.8+
 > kernel:
 > 140737348333184:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1g/crypto/rand/drbg_lib.c:342
->
+> 
 > Commit 3ff98f558157 ("Start up DEVRANDOM entropy improvement for older
 > Linux devices.") in OpenSSL 1.1.1d has effectively disabled devrandom
 > seed source for kernels >=4.8. The assumption is that getrandom(2) will
@@ -60,39 +63,24 @@ On Fri, Jul 10, 2020 at 12:40 PM Taras Kondratiuk <takondra@cisco.com> wrote:
 > c6e9d6f38894 ("random: introduce getrandom(2) system call"). So on a
 > system with 4.8+ kernel and pre-3.17 libc headers both getrandom and
 > devrandom can't be used.
->
-> To workaround this issue add 'rdcpu' as additional source of entropy for
-> the rand seed. Also devrandom in the list is no-op since os = getrandom
-> + devrandom on Linux, so remove it. The comment is also not relevant
-> anymore.
->
 
-I think rdcpu will work on x86 hosts but not on say aarch64 build
-hosts. Can we still
-have devrandom as an option if rdcpu fails ?
+Where would we find a system where we're building with pre-3.17 libc
+headers?
 
-> Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1g.bb | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> index 47ed6b7640b3..2bf7f56183ce 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> @@ -43,10 +43,8 @@ do_configure[cleandirs] = "${B}"
->  EXTRA_OECONF_append_libc-musl = " no-async"
->  EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
->
-> -# adding devrandom prevents openssl from using getrandom() which is not available on older glibc versions
-> -# (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
-> -EXTRA_OECONF_class-native = "--with-rand-seed=os,devrandom"
-> -EXTRA_OECONF_class-nativesdk = "--with-rand-seed=os,devrandom"
-> +EXTRA_OECONF_class-native = "--with-rand-seed=os,rdcpu"
-> +EXTRA_OECONF_class-nativesdk = "--with-rand-seed=os,rdcpu"
->
->  # Relying on hardcoded built-in paths causes openssl-native to not be relocateable from sstate.
->  CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
-> --
-> 2.25.1
->
+We updated to 3.17 in 2014:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=be50d1dc1c03b709e60d2493df5890f7556852b7
+
+If I remember correctly this change was added to avoid problems with
+different host OSes and I'm worried we'd see those issues return if we
+change things like this. Whilst the syscall may have been added quite
+early, the glibc wrappers for it are quite recent and where our source
+of problems was.
+
+Khem's concerns about this being x86 only also worry me.
+
+Cheers,
+
+Richard
+> 
+
