@@ -1,99 +1,83 @@
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
- by mx.groups.io with SMTP id smtpd.web11.3193.1594408093672816630
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.3134.1594408108504742755
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2020 12:08:13 -0700
+ Fri, 10 Jul 2020 12:08:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=dtGP4qXe;
- spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: takondra@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2330; q=dns/txt; s=iport;
-  t=1594408093; x=1595617693;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e2FrO5fIzDGPZAIUZ5vM1opV54n5OqUntrICh/Rfpmo=;
-  b=dtGP4qXeWvG7cjWwpSmW5/g+RyPOxi2ynkMqR98AHCAzT/AcpenXtL2b
-   EsZjHNpfOBLv2em5URN0OeqXzl0FzCzrS0DDThN/cb7e6jypBK2qDHtFg
-   V2fGhoa9c6GXS2oJLF1jo3fZfTiUbATQm1wFb5Ykfoe5mZTWiH9iAfLjV
-   o=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0A9AAC1uwhf/49dJa1gHQEBAQEJARI?=
- =?us-ascii?q?BBQUBgXYIAQsBgilvVAEyLIxUkwaKTYUtgX0LAQEBDAEBGxQEAQGETYIYAiQ?=
- =?us-ascii?q?0CQ4CAwEBCwEBBQEBAQIBBgRthVsMhigBRoE+E4MmAYJXJakUgiiJIIFAFIE?=
- =?us-ascii?q?kAYgBhG8agUE/hF+KMwSPLiuCJokNmQeBBIJnh1V6kHcPIJ8lAS2wJgIECwI?=
- =?us-ascii?q?VgVM6gVdwFYMkCUcZDZd0hREhAzA3AgYIAQEDCY92AQE?=
-X-IronPort-AV: E=Sophos;i="5.75,336,1589241600"; 
-   d="scan'208";a="510839550"
-Received: from rcdn-core-7.cisco.com ([173.37.93.143])
-  by alln-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 10 Jul 2020 19:08:12 +0000
-Received: from localhost.localdomain ([10.24.63.201])
-	(authenticated bits=0)
-	by rcdn-core-7.cisco.com (8.15.2/8.15.2) with ESMTPSA id 06AJ8Ba0031721
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 10 Jul 2020 19:08:12 GMT
-From: "Taras Kondratiuk" <takondra@cisco.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, xe-linux-external@cisco.com,
-        Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [RFC PATCH] devtool: remove _PYTHON_SYSCONFIGDATA_NAME to fix do_unpack
-Date: Fri, 10 Jul 2020 12:08:10 -0700
-Message-Id: <20200710190810.1967868-1-takondra@cisco.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MnIDhjHu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id z2so7005329wrp.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2020 12:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=co0CA6egoH7KNYP1cKrSlyqXtot8dOTeCoDw5S1wPck=;
+        b=MnIDhjHuoaTA/ua5/XmpZrShZEsyP+PICUPbCKWqlXLUv4YTTHqZbYGdlX7LZB/ByW
+         GcVcjcMePg/db45It7T9Ul15bYQOMVQMag8+XUdaa6DdD8xQukQMWapcGKBY0hhkcGjl
+         B+e1ImEynbpwyuH52lnjxFqWE2B1g8AneBiBo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=co0CA6egoH7KNYP1cKrSlyqXtot8dOTeCoDw5S1wPck=;
+        b=WOq2oC1Mn+sH3Yk8Du0ZAy0xhZijnVSmOsCopBdBQnJgowKVpa/HSjsmS+rJ86wUaD
+         7BNuT/4oYyn+hLTTRDe/C7v1Z9uDmAW144LbS9z87tssyPjpdEWXbhAXIuN2tP/MjZ1x
+         DQ8Y8CIR6G2W/sVtB6CHktG1jPZaTJZVkMB51WMZuxBIknhTUWzabsH/CLYtyUI2p/RY
+         DQbHTpCduEr5sGbveux4P0Ujhj77bzq6ymCGE2WFN9+6JzDNlmqfeAhjzK/36KFkZO5c
+         iz6aNsAzRcbA0Y9h2ELjb3zmWxGnnv0u5jnOrNjplvu8FJaB5XffjE6czZwEL+NrqUKb
+         sPaw==
+X-Gm-Message-State: AOAM532ojsQ7MA2nBgqUS46YwwPtbUSsqbtRgk9cpOYwT6nX8qzIdKFU
+	iy5iCnH/QpVf7H8f9ocSu8cA5A==
+X-Google-Smtp-Source: ABdhPJwDGBUXhvDH9YYEfywTSCrh2HoidTZq6pdvdBLhXL25fNslIJvD+MJXq7EhDrOiXqtIQ5UVaw==
+X-Received: by 2002:a5d:6748:: with SMTP id l8mr76807836wrw.347.1594408107072;
+        Fri, 10 Jul 2020 12:08:27 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id g3sm13048863wrb.59.2020.07.10.12.08.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2020 12:08:26 -0700 (PDT)
+Message-ID: <b21eb07708fa1c6dc6d7159bbbc7e3cab7ea1a6a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] distutils: put tests to ptest package
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 10 Jul 2020 20:08:25 +0100
+In-Reply-To: <AM7PR05MB6881765BB66D07D02E10727EA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
+References: 
+	<AM7PR05MB6881765BB66D07D02E10727EA8670@AM7PR05MB6881.eurprd05.prod.outlook.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: takondra@cisco.com
-X-Outbound-SMTP-Client: 10.24.63.201, [10.24.63.201]
-X-Outbound-Node: rcdn-core-7.cisco.com
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-'devtool modify' fails for packages that inherit python3native (e.g.
-gpgme or systemd, via meson class):
-| Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+On Wed, 2020-07-08 at 20:44 +0200, Konrad Weihmann wrote:
+> Put files from installed tests into a ptest package to avoid having
+> them in an image and to avoid having more runtime dependencies
+> than necessary.
+> 
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
+>  meta/classes/distutils-common-base.bbclass | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+> index 94b5fd426d..e3b36574aa 100644
+> --- a/meta/classes/distutils-common-base.bbclass
+> +++ b/meta/classes/distutils-common-base.bbclass
+> @@ -13,8 +13,13 @@ export CCSHARED  = "-fPIC -DPIC"
+>  # the python executable
+>  export LINKFORSHARED = "{SECURITY_CFLAGS} -Xlinker -export-dynamic"
+>  
+> +PACKAGES =+ "${@oe.utils.ifelse(bb.data.inherits_class('image', d), '', '${PN}-ptest')}"
 
-After commit 02714c105426 ("python3: upgrade to 3.7.2") python3native
-class exports _PYTHON_SYSCONFIGDATA_NAME = '_sysconfigdata'. I think the
-expectation is that it will find
-usr/lib/python-sysconfigdata/_sysconfigdata.py prepared by the same
-commit. But some places seems to still use host python3 which doesn't
-have _sysconfigdata.py. This leads to "No module named '_sysconfigdata'"
-errors. E.g. commit 4b26eaf7152f ("prservice.py: fix do_package with
-newer Python in Ubuntu 20.04") recently tried to workaround it for PR
-service. And now we see similar issue in devtool. To unblock devtool
-apply similar workaround here.
+We can't do that as for recipes which inherit ptest, we see duplicates
+in PACKAGES:
 
-But looks like there is some deeper issue here. I haven't fully grasped
-the purpose of _sysconfigdata.py yet. It is copied from
-_sysconfigdata_m_linux_x86_64-linux-gnu.py and then some variables are
-modified. But new values seems to be wrong. For example:
-In _sysconfigdata_m_linux_x86_64-linux-gnu.py:
-'INCLUDEPY': 'FIXMESTAGINGDIRHOST/usr/include/python3.7m',
-While in _sysconfigdata.py:
-'INCLUDEPY': 'FIXMESTAGINGDIRHOSTFIXMESTAGINGDIRHOST/usr/include/python3.7m',
+https://errors.yoctoproject.org/Errors/Build/105653/?limit=150
 
-When FIXMESTAGINGDIRHOST is replaces by staging.bbclass, the path in
-_sysconfigdata.py points to nowhere while
-_sysconfigdata_m_linux_x86_64-linux-gnu.py has a correct path.
+(recipes from meta-oe failing with this change).
 
-Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
----
- meta/classes/devtool-source.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+Cheers,
 
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
-index 280d6009f3c2..4a469bfacad7 100644
---- a/meta/classes/devtool-source.bbclass
-+++ b/meta/classes/devtool-source.bbclass
-@@ -65,6 +65,11 @@ python() {
- 
- 
- python devtool_post_unpack() {
-+    # Otherwise this fails when called from recipes which e.g. inherit
-+    # python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with: No module
-+    # named '_sysconfigdata'
-+    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
-+        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
-     import oe.recipeutils
-     import shutil
-     sys.path.insert(0, os.path.join(d.getVar('COREBASE'), 'scripts', 'lib'))
--- 
-2.25.1
+Richard
 
