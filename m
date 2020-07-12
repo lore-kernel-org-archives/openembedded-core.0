@@ -1,98 +1,117 @@
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.web11.5663.1594589755826648129
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web11.6757.1594593511812372341
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jul 2020 14:35:56 -0700
+ Sun, 12 Jul 2020 15:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@cisco.com header.s=iport header.b=C719jxca;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: takondra@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2337; q=dns/txt; s=iport;
-  t=1594589755; x=1595799355;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GJAELGynOuT/ooTsdxkiqOPdplCBywdVNN8V3b/bl3U=;
-  b=C719jxcaDROVgoYsnjrccNy2GI3+iV+OcMO0XXBQ0fLYlbLiNJZUXc1N
-   pCGBIokKvV/ECkUh9l9d2nWVCYKVW2ioUbdemqBQfCUdm3KhO2V0oxB59
-   eyIgK6QAplJzyqpzieuqlTMqBydZFbIUq0a4Wv6+btZfwfXpNHdkCUG0j
-   s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0C+AAAjgQtf/5hdJa1gHAEBAQEBAQc?=
- =?us-ascii?q?BARIBAQQEAQGBeQQBAQsBgimBQwEyLJ9ckXgLAQEBDAEBLwQBAYRMAoIWAiQ?=
- =?us-ascii?q?3Bg4CAwEBCwEBBQEBAQIBBgRthWeFcAYyAUYQUVcGE4MmglglpwGCKIVRgzO?=
- =?us-ascii?q?BQBSBJAGIAoRvGoFBP4Nsc4QVhh4EjyeLaZkIgQSCZ4dXkXIPIZ8pAbBgAgQ?=
- =?us-ascii?q?LAhWBaSSBV3AVgyRQGQ2dBSEDMDcCBggBAQMJjWeCRQEB?=
-X-IronPort-AV: E=Sophos;i="5.75,345,1589241600"; 
-   d="scan'208";a="528881902"
-Received: from rcdn-core-1.cisco.com ([173.37.93.152])
-  by alln-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 12 Jul 2020 21:35:52 +0000
-Received: from localhost.localdomain ([10.24.63.201])
-	(authenticated bits=0)
-	by rcdn-core-1.cisco.com (8.15.2/8.15.2) with ESMTPSA id 06CLZpIt009737
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 12 Jul 2020 21:35:52 GMT
-From: "Taras Kondratiuk" <takondra@cisco.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: xe-linux-external@cisco.com,
-        OE-core <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] qemu: use host pkg-config only when host provides sdl
-Date: Sun, 12 Jul 2020 14:35:51 -0700
-Message-Id: <20200712213551.2206605-1-takondra@cisco.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <fb3b732ab791369a2287a3b89e0d125c78f228ca.camel@cisco.com>
-References: <fb3b732ab791369a2287a3b89e0d125c78f228ca.camel@cisco.com>
-MIME-Version: 1.0
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: takondra@cisco.com
-X-Outbound-SMTP-Client: 10.24.63.201, [10.24.63.201]
-X-Outbound-Node: rcdn-core-1.cisco.com
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Dwr6DxHd;
+ spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f196.google.com with SMTP id f2so4618097plr.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2020 15:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=hNuGLT0n7fwjDO+IQsvfQxBHn6/dPvvt/CwuQ9gYKgs=;
+        b=Dwr6DxHdXaMb5BkpzhqAUKGFoIDcJTymGyqtfyGrL+es8OI3wJNQyD//JJtDLsI6rN
+         317UW+3IiMy0tT0YU3Vy1KjG6eheWWOdatFw4cRO5v0tM+nqvPgDK6OIxAP1flQt7wYS
+         HSxRnypcxGwBWaAsjEr+HxEuf6MPARZGefy7iRmYKAKsNn1Wo8BOtBst8pBPBXu5Gzu6
+         PROEt88n+uuhPHFJIYZ0m1bLexrewW+RZgIApoBXgs4xmLmieWqlZzSWRBkmwxlAioxN
+         J3rbVCb8pm8Bnvb59K3W+BwtCJwlIscVLHq8ro78DUqwnBxcICr7cvlaGSEoHgSHFtu2
+         xSiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=hNuGLT0n7fwjDO+IQsvfQxBHn6/dPvvt/CwuQ9gYKgs=;
+        b=UTMGQyjObtpY+/2o1zaWzG0V1zcyukvB3GIYavw8736WZwGZ/HwDtvNxddkeNx8rA8
+         GQoXi+fmkr/g6KMvtkPBghn8OqdUrrUO8OAz1edK3PngLd4bHq+q8GaUgBSrHSilQBZZ
+         wxD/xn4U31/EuEdLu6YjkEQA+H2hNTIqflH9eisINEGdW0ALYgBuo+yTNYu0mKGZbUlt
+         wMOnpLn3y04prVLBYgpLy8GJDE3Qyz6TlPhQRMEJeGSyIhsIOE2oTCA5J79slAZL/fqV
+         ktHvMNrKP8W/70Y4krDjNrs6/ElNttUjm9NeR1JyY4FYWMgnpUG67vrIsOOhVAQG8NAI
+         ERQQ==
+X-Gm-Message-State: AOAM5321IskYNNwOi4CPYsJKC9kzxq1rY+I2zdrpxEMQaCDRxqbu9vgW
+	YpNwYl+/fuWize6ZgLk44h9+M+jduCY=
+X-Google-Smtp-Source: ABdhPJyTd/+WhJOaflvTfeEi53CQRqFpB53OHgs7AN2xPW0RT2Ea/59Ba4TfWc+FAV76jy8338KRUQ==
+X-Received: by 2002:a17:902:8641:: with SMTP id y1mr37345057plt.336.1594593510910;
+        Sun, 12 Jul 2020 15:38:30 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
+        by smtp.gmail.com with ESMTPSA id c187sm12355678pfc.146.2020.07.12.15.38.29
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2020 15:38:30 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cve-check.bbclass: always save cve report
+Date: Sun, 12 Jul 2020 22:38:28 +0000
+Message-Id: <20200712223828.584-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Qemu recipe adds host pkg-config paths to PKG_CONFIG_PATH using
-hardcoded pkg-config tool's location (/usr/bin:/bin). This may cause
-qemu build failures on systems that use external native toolchain (from
-buildtools tarball): a host package is detected during do_configure via
-host PKG_CONFIG_PATH, but then the toolchain can't find the package
-because it uses headers from buildtools-tarball only.
+The cve-check file should be saved always, it has good info.
 
-For example if xkbcommon is present on host, but not in
-buildtools-tarball:
-| build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4.1.0/qemu-keymap.c:16:10: fatal error: xkbcommon/xkbcommon.h: No such file or directory
-|    16 | #include <xkbcommon/xkbcommon.h>
-|       |          ^~~~~~~~~~~~~~~~~~~~~~~
-| compilation terminated.
-| make: *** [build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4.1.0/rules.mak:69: qemu-keymap.o] Error 1
+Put a copy in the log dir as cve-summary with symlinks to latest run.
 
-Using hardcoded pkg-config path seems like a hack. It was added to
-handle a case when host sdl is provided by host. So limit usage of
-host pkg-config only to the case when ASSUME_PROVIDED contains
-libsdl2-native.
+[Yocto #13974]
 
-Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ meta/classes/cve-check.bbclass | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d41cc8f200b3..bfa69c402c8b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -93,10 +93,12 @@ B = "${WORKDIR}/build"
- EXTRA_OECONF_append = " --python=${HOSTTOOLS_DIR}/python3"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 514897e8b8..0889e7544a 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -30,6 +30,9 @@ CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
  
- do_configure_prepend_class-native() {
--	# Append build host pkg-config paths for native target since the host may provide sdl
--	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
--	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
--		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-+	# Append build host pkg-config paths for native target if the host provides sdl
-+	if ${@bb.utils.contains('ASSUME_PROVIDED', 'libsdl2-native', 'true', 'false', d)}; then
-+		BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
-+		if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
-+			export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-+		fi
- 	fi
- }
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
++CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
++CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
++CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
  
+ CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
+ CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
+@@ -46,6 +49,32 @@ CVE_CHECK_PN_WHITELIST ?= ""
+ # 
+ CVE_CHECK_WHITELIST ?= ""
+ 
++python cve_save_summary_handler () {
++    import shutil
++    import datetime
++
++    cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
++
++    cve_summary_name = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME")
++    cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
++    bb.utils.mkdirhier(cvelogpath)
++
++    timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
++    cve_summary_file = os.path.join(cvelogpath, "%s-%s.txt" % (cve_summary_name, timestamp))
++
++    shutil.copyfile(cve_tmp_file, cve_summary_file)
++
++    if cve_summary_file and os.path.exists(cve_summary_file):
++        cvefile_link = os.path.join(cvelogpath, cve_summary_name)
++
++        if os.path.exists(os.path.realpath(cvefile_link)):
++            os.remove(cvefile_link)
++        os.symlink(os.path.basename(cve_summary_file), cvefile_link)
++}
++
++addhandler cve_save_summary_handler
++cve_save_summary_handler[eventmask] = "bb.event.BuildCompleted"
++
+ python do_cve_check () {
+     """
+     Check recipe for patched and unpatched CVEs
+@@ -331,5 +360,8 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+             f.write(write_string)
+ 
+     if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
++        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
++        bb.utils.mkdirhier(cvelogpath)
++
+         with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
+             f.write("%s" % write_string)
 -- 
-2.25.1
+2.17.1
 
