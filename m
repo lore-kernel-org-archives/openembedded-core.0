@@ -1,86 +1,84 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.7102.1594552629813257316
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.7174.1594552630219147467
  for <openembedded-core@lists.openembedded.org>;
  Sun, 12 Jul 2020 04:17:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D5svZRJ5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id o8so10461569wmh.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2020 04:17:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QWSJbLdZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id f2so10042702wrp.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2020 04:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=qc98/RZnfxBmDJAIgHff0I88/cuZDuMgoxIUx2cOBBM=;
-        b=D5svZRJ5rVjTdfrW457uwyXtWMMF5kidl00i6IZAqhl76/1v9hY60+tsUPSfs8nZut
-         YacxOlK5PlxphhIuUPdUV3tJT2SO1q0K6ndgDMOurA7aOiwPJaYHXDuRXaNAioKdbbX7
-         J2fQ93KHqlVY0dRMkLRUyQbkUUMgddmOtIiEo=
+        bh=2wC0vOEgM3tLM+OyyfM6UlxS1cBYdt1rk0E0V4qHaMw=;
+        b=QWSJbLdZ64fVUk0f396iG+R0zXFcmmc77wYF8tHyMn/95aELBYxwTchVMKRZUh3clz
+         GQBOAYiRDtEQ+Q9qsIjYRG99/Bk3zUmC9HJcWX+MIhHRupygoq0CRk50iT/AhawpGurU
+         73+8XDJSGUTsu0aXnc+tBapNzbViMFnrhHQ+M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qc98/RZnfxBmDJAIgHff0I88/cuZDuMgoxIUx2cOBBM=;
-        b=bWt0bw5yzdPCzzKZfORIq0k7K74nE0hYnxqsGlYfkBeOv//dB881ZRziikhhKTvHPs
-         sezWPXmSmzbxgZ6LbPNe49VU6Ho2jJ4Z+pTuRUh+62dCZzrIVBupug8xKVTXplv1d4l0
-         Nz7sV26THPRwiZMcPsW6kfMXsHL9pO16/smXCbJNb7nmRADFUAaNeE6uspDMw/oW/Q8j
-         tIT7g8sOMC9YjbFECPvEqFxu1rDZyazK/W30jUi4KTUZGeiXL79FMs/aL/tBt0tnDUVC
-         vUsLuRotoO41Lf+prINAIuVSip8eZ5YcTaVmFxlpoju9dS4XvvsmtcOjnR+lT2gIrvy+
-         kkZg==
-X-Gm-Message-State: AOAM530l3T/zAyYaTcCzw2uuzggKhc+E8A/MDDoFYlb1nuGCw60BPx4B
-	FSCeZdjG2D8uvSBqK03g4LUwmnN+g060/Q==
-X-Google-Smtp-Source: ABdhPJygszT9Ur34njHHRhehk6t4A49ldtJEJne94E4f8QfvTxZZmQ1osGGx9rxZmwBeW2U3B7F1hg==
-X-Received: by 2002:a1c:6887:: with SMTP id d129mr13764197wmc.179.1594552627742;
-        Sun, 12 Jul 2020 04:17:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2wC0vOEgM3tLM+OyyfM6UlxS1cBYdt1rk0E0V4qHaMw=;
+        b=p1h3HMqkeDbib94lZVXHIWcOF2XJZcp1ND6239/IkUbfAwL4zwDL7CqTaxOBayqoZs
+         De57zyD1G5yT8C8/7aEPdM3Ub41KVDSadhXvvEpNesH38UdTKLMQVnHY5lD8xbbXuVb7
+         0+ecTxKj+tlKCRoygonfOLhymZdco8cIky4ylJoWEjOla2J23pzJyhLMstdSfWzffNta
+         GhhbbE5Ni+RoESzZuQDJUpKfarbO9/cMPL3XAAoQC0KqBU9wz+Y0RiOCgcP3OpCRpyi6
+         13eESsAcEUVifetRC982+gA1hUxvTxK1fJwJqCb6Rz54gtBQj7o9f4hWriEDG45TtJb4
+         rVyQ==
+X-Gm-Message-State: AOAM530dBKREkrQsg4+LYhvsUJqge9OIHKQUTVTPEUxFP9hlCMSsSYXn
+	rTc3iFCRd4V5lTlPSUR+7RBR9juWRzdDNQ==
+X-Google-Smtp-Source: ABdhPJyCDc6JhTYt7KsACDKX3bVAllSr1eBbTQKwGu7uwdeM/AKlgnem3aYJA8DreNs5RCIEy2CvIA==
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr78377876wrn.9.1594552628550;
+        Sun, 12 Jul 2020 04:17:08 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id w13sm18847760wrr.67.2020.07.12.04.17.06
+        by smtp.gmail.com with ESMTPSA id w13sm18847760wrr.67.2020.07.12.04.17.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2020 04:17:07 -0700 (PDT)
+        Sun, 12 Jul 2020 04:17:08 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] qemurunner: Ensure pid location is deterministic
-Date: Sun, 12 Jul 2020 12:17:04 +0100
-Message-Id: <20200712111705.509644-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] qemurunner: Add extra debug info when qemu fails to start
+Date: Sun, 12 Jul 2020 12:17:05 +0100
+Message-Id: <20200712111705.509644-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200712111705.509644-1-richard.purdie@linuxfoundation.org>
+References: <20200712111705.509644-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The pid location could vary due to changes in cwd as only a filename
-is specified, not a full path. This in theory could be resulting in
-some of our autobuilder failures. Whilst its difficult to know if this
-is causing a problem, Using a full path removes any question of such an
-issue.
+When qemu fails to start we're struggling to work out why. Add more debug
+info which can at least confirm/rule out various things.
+
+This code is only on the error handling path and more info shoudl help
+us debug issues.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 992fff9370a..486d2bb8932 100644
+index 486d2bb8932..41c6bb33d62 100644
 --- a/meta/lib/oeqa/utils/qemurunner.py
 +++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -32,7 +32,7 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
- class QemuRunner:
- 
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds,
--                 use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False):
-+                 use_kvm, logger, use_slirp=False, serial_ports=2, boot_patterns = defaultdict(str), use_ovmf=False, workdir=None):
- 
-         # Popen object for runqemu
-         self.runqemu = None
-@@ -63,7 +63,9 @@ class QemuRunner:
-         self.boot_patterns = boot_patterns
- 
-         self.runqemutime = 120
--        self.qemu_pidfile = 'pidfile_'+str(os.getpid())
-+        if not workdir:
-+            workdir = os.getcwd()
-+        self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
-         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
-         self.monitorpipe = None
- 
+@@ -254,6 +254,15 @@ class QemuRunner:
+         if not self.is_alive():
+             self.logger.error("Qemu pid didn't appear in %s seconds (%s)" %
+                               (self.runqemutime, time.strftime("%D %H:%M:%S")))
++
++            qemu_pid = None
++            if os.path.isfile(self.qemu_pidfile):
++                with open(self.qemu_pidfile, 'r') as f:
++                    qemu_pid = f.read().strip()
++
++            self.logger.error("Status information, poll status: %s, pidfile exists: %s, pidfile contents %s, proc pid exists %s"
++                % (self.runqemu.poll(), os.path.isfile(self.qemu_pidfile), str(qemu_pid), os.path.exists("/proc/" + qemu_pid)))
++
+             # Dump all processes to help us to figure out what is going on...
+             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
+             processes = ps.decode("utf-8")
 -- 
 2.25.1
 
