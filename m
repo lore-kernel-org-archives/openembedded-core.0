@@ -1,93 +1,75 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web10.20454.1594649870713134051
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web12.20336.1594649872761780090
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jul 2020 07:17:50 -0700
+ Mon, 13 Jul 2020 07:17:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jzRo2Z9E;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.195, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f195.google.com with SMTP id x8so5566974plm.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2020 07:17:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TG5b5O+Z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id md7so6328261pjb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2020 07:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=sD84jseW/QWb4KIJMh/74r2G8/APhzhO5AW+iOaevJo=;
-        b=jzRo2Z9Ele+7IsqXlaGxSxkUn+KqA70TRgsbZVpqjXA9DI3quXm5+YqGdYj1VvoTBY
-         Pq72ow0Dz0Olr2/nhXhFUtDag9ec+ujDYssHD7c9LxgPLxLPY/Mopw5j9zDNB+unuCCl
-         8D86HhJwnJhPiWnWKsbX/W9NtRv/lpqz7OTAoCzvGQ4kVgyy6ye0xGTRKcsY7ZHmgLWD
-         B1pi1LZFE6XZYlFnv8wYTJtKdIxTzSYMzoO5/LqCvi8IDOTOTEsqA3CUnY976NnKDNY9
-         K/INr2Hr8EjG7owTJnhVqIwm6rlynWpWVLULcXdC+sqknCs0BwpHXmArlXNX1l1242Lf
-         dhZw==
+        bh=7VWDqHPNCmy3mthZwckVww+GIhPnXsUJ2/8G+FYUGOE=;
+        b=TG5b5O+ZBP02KI1l0YqftTn+ezf/3LfPFw/L5kj7yxdC7pSr0cZNauWdveN0KcEsaL
+         M4YMsjz6e1tj7JUjKkxmHDr8nOutwVYdT3clsBGTBB04DSpSVcbYepfLvWYfkguXf+4T
+         /5I5aInRfKFk3MoinRdq5Zh0zLpO5v1cF7lqq53UZUletlF81kjageH6VLxrVUwev9Qx
+         YDbT5JSZG4Ga1TCuQ0oWK8rMMnH8laxjiE8Qb4I3lYI06Nn0kaV+QfQKraOJpG0Ww06Q
+         PxBigqNOq0w2p9F6eQJF0sUsNVxCmQs5BCWNfl7TlVgzDtsVF+ZUS3sXXdzakNIlbCRE
+         d50g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=sD84jseW/QWb4KIJMh/74r2G8/APhzhO5AW+iOaevJo=;
-        b=eZGmJkLtuk2OSGtEzpGKK+ky5w91u72sPEz6xwqijvM+lQeRfcb5pzVgvLS416CFs2
-         kbZ5dLpFZ1IBYYPgfP0FoMuFd4II+O61D4JnrY08FgjOs8wHpsvcwPNjPdd1s33SwVO7
-         uo/u3wLEfR495gbxBVq2Vf8DCNgjDDg98BNQEzi+NkFRI2dwjQvMGacKTmJbBym+hrqT
-         ggLFAJbrfodA46HUOCGg1yCJQdDthhOQK3L3H30jm2HHgdGpSM3Sa9nPYH8iZ3mx3p75
-         gWg/H/N6vFT5lXQztUgBrzXCGmyukdjKMPWDq2UFH/cP9Vp7w1O7JbXWuHVMHQvBkHe+
-         ZIww==
-X-Gm-Message-State: AOAM530cBYNhFJc1UIZ3A8fW3Np+gXQzRMsRY3ZEjF8//xCG/MAZceUJ
-	lfeJhC3hpy0w1hG7Xef9mPXyPw4uckzSaA==
-X-Google-Smtp-Source: ABdhPJwLFPGpcrNySMWOuSYAGpqZOA9UT9sVaoCDekpARD6T5WgenjlSJssoM0fF7UlzO1ccITZkng==
-X-Received: by 2002:a17:90b:353:: with SMTP id fh19mr20471790pjb.196.1594649869769;
-        Mon, 13 Jul 2020 07:17:49 -0700 (PDT)
+        bh=7VWDqHPNCmy3mthZwckVww+GIhPnXsUJ2/8G+FYUGOE=;
+        b=TCdMlCa1DAARW1JupMahe7MKgsf/NYf4UMCfe3LFmCgGYOKzZZHQfeUtZGxX6yTwxJ
+         glm8MTXi0Vd6ZaeTlvrlUY79pfEuZEvcdh/oqI4fAV4yEKxRc+ht86TSRChRAzH0U9Vu
+         hU2gIEjBmoo50sKnzjFJeEdVVyJ8WlRnji44TQV6yyWYkzV617CEX79Gd/EheKNr5OQh
+         DmaPb5bUgsM/oWbNyzEy/F37MMVHrbdXId9Fu2jufuP4CztafPZc6k+Egrpnj6FzaREY
+         6KH+PBq72Vz1Nq8MLfHUTVTy5wF2nNII10gfpLCdkLpu5lkeu+JlYaE7Nx+U2cq9nXbL
+         TU/g==
+X-Gm-Message-State: AOAM530OCUD4eDZp/lGPbSlAIJj9rhSSku7Wyb8BF8YKGIjxtrFpO+Vg
+	+y/mmn9+lgrK+gDcNInQMSLMXkruTnBDsg==
+X-Google-Smtp-Source: ABdhPJwyAePHsNgCdvfHQhxU7cqEKEa0EYr+DzFTAMW/UgzG7QDaIXaTXz6pKCMBOU9rSYz3NkYLVg==
+X-Received: by 2002:a17:902:c24a:: with SMTP id 10mr66371846plg.82.1594649871905;
+        Mon, 13 Jul 2020 07:17:51 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k7sm13723738pgh.46.2020.07.13.07.17.48
+        by smtp.gmail.com with ESMTPSA id k7sm13723738pgh.46.2020.07.13.07.17.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 07:17:49 -0700 (PDT)
+        Mon, 13 Jul 2020 07:17:51 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/15] devtool: default to empty string, if LIC_FILES_CHKSUM is not available
-Date: Mon, 13 Jul 2020 04:17:01 -1000
-Message-Id: <87df275eb298e46abef12e96f124e687266b97e9.1594649587.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/15] libnl: Extend for native/nativesdk
+Date: Mon, 13 Jul 2020 04:17:02 -1000
+Message-Id: <d0018af12372d05a9077e80607731e6c4718bdc0.1594649587.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594649587.git.steve@sakoman.com>
 References: <cover.1594649587.git.steve@sakoman.com>
 
-From: Bjarne Michelsen <bjarne_michelsen@hotmail.com>
+From: Christian Eggers <ceggers@arri.de>
 
-[Bug 13971] https://bugzilla.yoctoproject.org/show_bug.cgi?id=13971
+libnl is required by networkmanager.
 
-A recipe using LICENSE=CLOSED would normally not have LIC_FILES_CHKSUM
-set.
-If LIC_FILES_CHKSUM was not set, it would cause `devtool upgrade` to fail.
-
-This fixes the issue by defaulting to an empty string if
-LIC_FILES_CHKSUM is not found.
-
-[YOCTO #13971]
-
-Signed-off-by: Bjarne Michelsen <bjarne_michelsen@hotmail.com>
+Signed-off-by: Christian Eggers <ceggers@arri.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 95e112f0f465868e98285509ea0d1a624a439ac2)
+(cherry picked from commit b3c96103a5063eeefb0c537227eab3f77616b9c0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/upgrade.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/libnl/libnl_3.5.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index cb6dce378a..327916ade3 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -550,12 +550,12 @@ def upgrade(args, config, basepath, workspace):
-         try:
-             logger.info('Extracting current version source...')
-             rev1, srcsubdir1 = standard._extract_source(srctree, False, 'devtool-orig', False, config, basepath, workspace, args.fixed_setup, rd, tinfoil, no_overrides=args.no_overrides)
--            old_licenses = _extract_licenses(srctree, rd.getVar('LIC_FILES_CHKSUM'))
-+            old_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-             logger.info('Extracting upgraded version source...')
-             rev2, md5, sha256, srcbranch, srcsubdir2 = _extract_new_source(args.version, srctree, args.no_patch,
-                                                     args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                                     tinfoil, rd)
--            new_licenses = _extract_licenses(srctree, rd.getVar('LIC_FILES_CHKSUM'))
-+            new_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-             license_diff = _generate_license_diff(old_licenses, new_licenses)
-             rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
-         except bb.process.CmdError as e:
+diff --git a/meta/recipes-support/libnl/libnl_3.5.0.bb b/meta/recipes-support/libnl/libnl_3.5.0.bb
+index c0609c4d90..9d0e1441a9 100644
+--- a/meta/recipes-support/libnl/libnl_3.5.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.5.0.bb
+@@ -40,3 +40,5 @@ FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
+ FILES_${PN}-xfrm  = "${libdir}/libnl-xfrm-3.so.*"
+ RREPLACES_${PN}-genl = "libnl-genl2"
+ RCONFLICTS_${PN}-genl = "libnl-genl2"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
