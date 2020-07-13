@@ -1,412 +1,201 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web10.360.1594657646485099211
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web11.443.1594657856466101590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jul 2020 09:27:26 -0700
+ Mon, 13 Jul 2020 09:30:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vDARIPpw;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id j19so6221629pgm.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2020 09:27:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HGGlsSOQ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f196.google.com with SMTP id m16so4531791pls.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2020 09:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:cc:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uri6etNRUGU8dXlcDjW4qBUv1M0mSjXfNkuD1EzeY5k=;
-        b=vDARIPpwilf63IWss/sD6O0XVbbrxGvmZcPiJgxSdfa/cDPyu893X2fay2aKZjWjMp
-         nPle87TIncGY8im8dCbHfG6vaHa5/MV+psT4UCSW9DCIN30KwYIcP/sFkvRc2AkgporD
-         9ItSYB+6NI2lwIlyS2VxuFIGUvpBa87SLjBmIz7gcu9XOfc3sOj+rCLp3miLHn1Q6vj+
-         VQ9Qess00VN3CGxeuQ480XrZ/gVjHpdCR5i/nCuHCgHgzLaML570ypHo+AZdDs2hZAyF
-         mFNAt8KW/pQZ7AdydaOkxIZwW1sNZF4xim1jgHz+3dD1x0+KCnTu1XaZ7npIIYPaM2wu
-         urBg==
+        bh=ELHZ+y0izXDWiDPiMQb75MMsQezZG7MCVnPGODoDfPo=;
+        b=HGGlsSOQ0srqTtNrFGuJ3nUfKMapLU1STgxh0+ewpFlPJrC2hESsh042J6bkreT7+P
+         5D1RLw0fqPrMyc8983qAZJF/zNnLHGcpd6BMbSFBgOI3YL5xGVuE3yyytLzLHMC77ogA
+         puZsJlpNyGTb4N/I69jgi4WSPC4kGucujbgjg91dzFk0310mW0qjXoZ60+zbHh7rwsEn
+         ZSEU1uqSIu+5djIKkoBpj9XxWHnWiQmJjAEw7O51YQYhC4D3hgvBUQvgI/ySbxq80jH4
+         G4lerHxJgztYbVRnvClMKsAY1apVvyYohPSuwe5OOHKCCreHFbkMOHp2qu275uKFVwAO
+         aouQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=uri6etNRUGU8dXlcDjW4qBUv1M0mSjXfNkuD1EzeY5k=;
-        b=UQ/ksZM4rI2bKd3WBG9X4m3Ii6CLWgraM/mvPIFt7UTeNhHJRfx6hmsq0A+trR5O77
-         CLr0PXKEtOqH0X7EE3L0hTPQovs8DLkU+VjyO6FQjiDmfT//Azn6e87NFP04DV8UHwuw
-         9CC951NSQB0IA4s2SBHk6b8hsbQ4FtNp532uA3V1C6z5nH4+ncy3cG5GrhvTNv2Zhida
-         dNa8oLdAuvdGnTC2Ryhe7aX7CilCiKySTdXf4rPOXWRmP6P5zCp3CWLHYxfeuiOAb0lu
-         xZ+811fO8MNtcWuejylDas7WD3/419cCemLhss13keXrSdoNHba5drVaY4ouHLWXKWCL
-         yHbg==
-X-Gm-Message-State: AOAM533y5TvxDuOlRLGEnQeSrq3IJjjYJ+J4FE24n0rMBsFSxPJizXRM
-	vtIl1c8WX85vCCVY3/aCQAk=
-X-Google-Smtp-Source: ABdhPJxtQIKnrYYvZb5gyGMqR2EYzqZ2jXHNyOC7yDtqHB+lm47dqFnUJjWenV3pjkQcfnCzu0UYAQ==
-X-Received: by 2002:a63:3d07:: with SMTP id k7mr18233pga.93.1594657645708;
-        Mon, 13 Jul 2020 09:27:25 -0700 (PDT)
+        bh=ELHZ+y0izXDWiDPiMQb75MMsQezZG7MCVnPGODoDfPo=;
+        b=E2Tx/i/lyCcuOg1naDnJ5dRD2kdhhJbCCRSN2u2qTyqXsPaVXGUp8Rf5xuBtgfICzA
+         wTPgKfSiR3WplntMyp8BpqFeaC0XKyEr7NyS8RjE0W54N3hauzI8nPwVFhjG+yFOZ48P
+         dDlVTNIrAI6gMmT+Or39aQsfy4dAfjFmPwykg2r7a3cNgQIP+NaI4kM/BdGkSo9GOdg3
+         jNCx0sbGFy9L3f5a2aePtmt/rQlh982y3DBerkR3fL5yvG7LdnmSpLKVxrb6jvu/vHLK
+         6gUJY0TdjvKsYkbYHaJigfqRdFQZxRkHJJE6X0VNfxgm9vBpRZ+WqLlOD7AMokJumAEB
+         m6kw==
+X-Gm-Message-State: AOAM531bb01xQ3sqoJ5ML12J/TxqgfCGgaHqQprqryauB63AHe0n7wov
+	pTJUtvpFFOb2TXochBcwKpGGb21lzrA=
+X-Google-Smtp-Source: ABdhPJzfo3AoZqu0SzW2wwHnevqGmpVbNL7uYdGBBNH0sgoeAvOPP+6XO3GPFI7vxFMfwU3qkq4sRA==
+X-Received: by 2002:a17:90a:ea8c:: with SMTP id h12mr158168pjz.151.1594657855343;
+        Mon, 13 Jul 2020 09:30:55 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0:5886:34b9:1392:15a2? ([2601:646:9200:4e0:5886:34b9:1392:15a2])
-        by smtp.gmail.com with ESMTPSA id u66sm14675681pfb.191.2020.07.13.09.27.24
+        by smtp.gmail.com with ESMTPSA id fh12sm106413pjb.5.2020.07.13.09.30.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2020 09:27:25 -0700 (PDT)
-Subject: Re: [OE-core][zeus][PATCH] glibc: CVE-2020-6096
-To: Zhixiong Chi <zhixiong.chi@windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <20200713055213.88388-1-zhixiong.chi@windriver.com>
-Cc: akuster808 <akuster808@gmail.com>, Steve Sakoman <sakoman@gmail.com>
+        Mon, 13 Jul 2020 09:30:54 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] gtk-icon-cache.bbclass: update RDEPENDS
+To: Changqing Li <changqing.li@windriver.com>,
+ Martin Jansa <martin.jansa@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20200630094907.1396284-1-changqing.li@windriver.com>
+ <5c6132dcb03b32e9798eb96a437af3dcf650d6c6.camel@linuxfoundation.org>
+ <61ba6f0c-0bb3-42fa-408e-c2396d5a2773@windriver.com>
+ <CA+chaQc3oXSrbDYdWKRyFEbqn9oNHdeiAVexmzVndwcyYFEBog@mail.gmail.com>
+ <100548f6-240a-4ba1-0aeb-bc301d066c52@windriver.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <d476dcd8-77bc-799d-bf9e-ff4201b80471@gmail.com>
-Date: Mon, 13 Jul 2020 09:27:24 -0700
+Message-ID: <db248f93-870a-bff8-4959-29faa8fa7c28@gmail.com>
+Date: Mon, 13 Jul 2020 09:30:53 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200713055213.88388-1-zhixiong.chi@windriver.com>
+In-Reply-To: <100548f6-240a-4ba1-0aeb-bc301d066c52@windriver.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 7/12/20 10:52 PM, Zhixiong Chi wrote:
-> Backport the CVE patch from the upstream:
-> git://sourceware.org/git/glibc.git
-> commit 79a4fa341b8a89cb03f84564fd72abaa1a2db394
-> commit beea361050728138b82c57dda0c4810402d342b9
+On 7/12/20 11:03 PM, Changqing Li wrote:
+> Hi, Martin
 > 
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->   .../glibc/glibc/CVE-2020-6096-1.patch         | 193 ++++++++++++++++++
->   .../glibc/glibc/CVE-2020-6096-2.patch         | 111 ++++++++++
->   meta/recipes-core/glibc/glibc_2.30.bb         |   2 +
->   3 files changed, 306 insertions(+)
->   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096-1.patch
->   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096-2.patch
+> Thanks for tell me the problem.  Maybe I don't understand you 
+> correctly,  but I don't met your problem, below is what I tried,
 > 
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-6096-1.patch b/meta/recipes-core/glibc/glibc/CVE-2020-6096-1.patch
-> new file mode 100644
-> index 0000000000..01c0328362
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2020-6096-1.patch
-> @@ -0,0 +1,193 @@
-> +From 79a4fa341b8a89cb03f84564fd72abaa1a2db394 Mon Sep 17 00:00:00 2001
-> +From: Evgeny Eremin <e.eremin@omprussia.ru>
-> +Date: Wed, 8 Jul 2020 14:18:19 +0200
-> +Subject: [PATCH 1/2] arm: CVE-2020-6096: fix memcpy and memmove for negative
-> + length [BZ #25620]
-> +
-> +Unsigned branch instructions could be used for r2 to fix the wrong
-> +behavior when a negative length is passed to memcpy and memmove.
-> +This commit fixes the generic arm implementation of memcpy amd memmove.
-> +
-> +CVE: CVE-2020-6096
-> +Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-
-This is needed on master as well, so please propose it for master and 
-then backport it to release branches, dunfell will also need it.
-
-> +---
-> + sysdeps/arm/memcpy.S  | 24 ++++++++++--------------
-> + sysdeps/arm/memmove.S | 24 ++++++++++--------------
-> + 2 files changed, 20 insertions(+), 28 deletions(-)
-> +
-> +diff --git a/sysdeps/arm/memcpy.S b/sysdeps/arm/memcpy.S
-> +index 510e8adaf2..bcfbc51d99 100644
-> +--- a/sysdeps/arm/memcpy.S
-> ++++ b/sysdeps/arm/memcpy.S
-> +@@ -68,7 +68,7 @@ ENTRY(memcpy)
-> + 		cfi_remember_state
-> +
-> + 		subs	r2, r2, #4
-> +-		blt	8f
-> ++		blo	8f
-> + 		ands	ip, r0, #3
-> + 	PLD(	pld	[r1, #0]		)
-> + 		bne	9f
-> +@@ -82,7 +82,7 @@ ENTRY(memcpy)
-> + 		cfi_rel_offset (r6, 4)
-> + 		cfi_rel_offset (r7, 8)
-> + 		cfi_rel_offset (r8, 12)
-> +-		blt	5f
-> ++		blo	5f
-> +
-> + 	CALGN(	ands	ip, r1, #31		)
-> + 	CALGN(	rsb	r3, ip, #32		)
-> +@@ -98,9 +98,9 @@ ENTRY(memcpy)
-> + #endif
-> +
-> + 	PLD(	pld	[r1, #0]		)
-> +-2:	PLD(	subs	r2, r2, #96		)
-> ++2:	PLD(	cmp	r2, #96			)
-> + 	PLD(	pld	[r1, #28]		)
-> +-	PLD(	blt	4f			)
-> ++	PLD(	blo	4f			)
-> + 	PLD(	pld	[r1, #60]		)
-> + 	PLD(	pld	[r1, #92]		)
-> +
-> +@@ -108,9 +108,7 @@ ENTRY(memcpy)
-> + 4:		ldmia	r1!, {r3, r4, r5, r6, r7, r8, ip, lr}
-> + 		subs	r2, r2, #32
-> + 		stmia	r0!, {r3, r4, r5, r6, r7, r8, ip, lr}
-> +-		bge	3b
-> +-	PLD(	cmn	r2, #96			)
-> +-	PLD(	bge	4b			)
-> ++		bhs	3b
-> +
-> + 5:		ands	ip, r2, #28
-> + 		rsb	ip, ip, #32
-> +@@ -222,7 +220,7 @@ ENTRY(memcpy)
-> + 		strbge	r4, [r0], #1
-> + 		subs	r2, r2, ip
-> + 		strb	lr, [r0], #1
-> +-		blt	8b
-> ++		blo	8b
-> + 		ands	ip, r1, #3
-> + 		beq	1b
-> +
-> +@@ -236,7 +234,7 @@ ENTRY(memcpy)
-> + 		.macro	forward_copy_shift pull push
-> +
-> + 		subs	r2, r2, #28
-> +-		blt	14f
-> ++		blo	14f
-> +
-> + 	CALGN(	ands	ip, r1, #31		)
-> + 	CALGN(	rsb	ip, ip, #32		)
-> +@@ -253,9 +251,9 @@ ENTRY(memcpy)
-> + 		cfi_rel_offset (r10, 16)
-> +
-> + 	PLD(	pld	[r1, #0]		)
-> +-	PLD(	subs	r2, r2, #96		)
-> ++	PLD(	cmp	r2, #96			)
-> + 	PLD(	pld	[r1, #28]		)
-> +-	PLD(	blt	13f			)
-> ++	PLD(	blo	13f			)
-> + 	PLD(	pld	[r1, #60]		)
-> + 	PLD(	pld	[r1, #92]		)
-> +
-> +@@ -280,9 +278,7 @@ ENTRY(memcpy)
-> + 		mov	ip, ip, PULL #\pull
-> + 		orr	ip, ip, lr, PUSH #\push
-> + 		stmia	r0!, {r3, r4, r5, r6, r7, r8, r10, ip}
-> +-		bge	12b
-> +-	PLD(	cmn	r2, #96			)
-> +-	PLD(	bge	13b			)
-> ++		bhs	12b
-> +
-> + 		pop	{r5 - r8, r10}
-> + 		cfi_adjust_cfa_offset (-20)
-> +diff --git a/sysdeps/arm/memmove.S b/sysdeps/arm/memmove.S
-> +index 954037ef3a..0d07b76ee6 100644
-> +--- a/sysdeps/arm/memmove.S
-> ++++ b/sysdeps/arm/memmove.S
-> +@@ -85,7 +85,7 @@ ENTRY(memmove)
-> + 		add	r1, r1, r2
-> + 		add	r0, r0, r2
-> + 		subs	r2, r2, #4
-> +-		blt	8f
-> ++		blo	8f
-> + 		ands	ip, r0, #3
-> + 	PLD(	pld	[r1, #-4]		)
-> + 		bne	9f
-> +@@ -99,7 +99,7 @@ ENTRY(memmove)
-> + 		cfi_rel_offset (r6, 4)
-> + 		cfi_rel_offset (r7, 8)
-> + 		cfi_rel_offset (r8, 12)
-> +-		blt	5f
-> ++		blo     5f
-> +
-> + 	CALGN(	ands	ip, r1, #31		)
-> + 	CALGN(	sbcsne	r4, ip, r2		)  @ C is always set here
-> +@@ -114,9 +114,9 @@ ENTRY(memmove)
-> + #endif
-> +
-> + 	PLD(	pld	[r1, #-4]		)
-> +-2:	PLD(	subs	r2, r2, #96		)
-> ++2:	PLD(	cmp	r2, #96			)
-> + 	PLD(	pld	[r1, #-32]		)
-> +-	PLD(	blt	4f			)
-> ++	PLD(    blo     4f                      )
-> + 	PLD(	pld	[r1, #-64]		)
-> + 	PLD(	pld	[r1, #-96]		)
-> +
-> +@@ -124,9 +124,7 @@ ENTRY(memmove)
-> + 4:		ldmdb	r1!, {r3, r4, r5, r6, r7, r8, ip, lr}
-> + 		subs	r2, r2, #32
-> + 		stmdb	r0!, {r3, r4, r5, r6, r7, r8, ip, lr}
-> +-		bge	3b
-> +-	PLD(	cmn	r2, #96			)
-> +-	PLD(	bge	4b			)
-> ++		bhs     3b
-> +
-> + 5:		ands	ip, r2, #28
-> + 		rsb	ip, ip, #32
-> +@@ -237,7 +235,7 @@ ENTRY(memmove)
-> + 		strbge	r4, [r0, #-1]!
-> + 		subs	r2, r2, ip
-> + 		strb	lr, [r0, #-1]!
-> +-		blt	8b
-> ++		blo	8b
-> + 		ands	ip, r1, #3
-> + 		beq	1b
-> +
-> +@@ -251,7 +249,7 @@ ENTRY(memmove)
-> + 		.macro	backward_copy_shift push pull
-> +
-> + 		subs	r2, r2, #28
-> +-		blt	14f
-> ++		blo	14f
-> +
-> + 	CALGN(	ands	ip, r1, #31		)
-> + 	CALGN(	rsb	ip, ip, #32		)
-> +@@ -268,9 +266,9 @@ ENTRY(memmove)
-> + 		cfi_rel_offset (r10, 16)
-> +
-> + 	PLD(	pld	[r1, #-4]		)
-> +-	PLD(	subs	r2, r2, #96		)
-> ++	PLD(	cmp	r2, #96			)
-> + 	PLD(	pld	[r1, #-32]		)
-> +-	PLD(	blt	13f			)
-> ++	PLD(	blo	13f			)
-> + 	PLD(	pld	[r1, #-64]		)
-> + 	PLD(	pld	[r1, #-96]		)
-> +
-> +@@ -295,9 +293,7 @@ ENTRY(memmove)
-> + 		mov     r4, r4, PUSH #\push
-> + 		orr     r4, r4, r3, PULL #\pull
-> + 		stmdb   r0!, {r4 - r8, r10, ip, lr}
-> +-		bge	12b
-> +-	PLD(	cmn	r2, #96			)
-> +-	PLD(	bge	13b			)
-> ++		bhs	12b
-> +
-> + 		pop	{r5 - r8, r10}
-> + 		cfi_adjust_cfa_offset (-20)
-> +--
-> +2.17.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-6096-2.patch b/meta/recipes-core/glibc/glibc/CVE-2020-6096-2.patch
-> new file mode 100644
-> index 0000000000..bfb2d7e7f5
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2020-6096-2.patch
-> @@ -0,0 +1,111 @@
-> +From beea361050728138b82c57dda0c4810402d342b9 Mon Sep 17 00:00:00 2001
-> +From: Alexander Anisimov <a.anisimov@omprussia.ru>
-> +Date: Wed, 8 Jul 2020 14:18:31 +0200
-> +Subject: [PATCH 2/2] arm: CVE-2020-6096: Fix multiarch memcpy for negative
-> + length [BZ #25620]
-> +
-> +Unsigned branch instructions could be used for r2 to fix the wrong
-> +behavior when a negative length is passed to memcpy.
-> +This commit fixes the armv7 version.
-> +
-> +CVE: CVE-2020-6096
-> +Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +---
-> + sysdeps/arm/armv7/multiarch/memcpy_impl.S | 22 +++++++++++-----------
-> + 1 file changed, 11 insertions(+), 11 deletions(-)
-> +
-> +diff --git a/sysdeps/arm/armv7/multiarch/memcpy_impl.S b/sysdeps/arm/armv7/multiarch/memcpy_impl.S
-> +index bf4ac7077f..379bb56fc9 100644
-> +--- a/sysdeps/arm/armv7/multiarch/memcpy_impl.S
-> ++++ b/sysdeps/arm/armv7/multiarch/memcpy_impl.S
-> +@@ -268,7 +268,7 @@ ENTRY(memcpy)
-> +
-> + 	mov	dst, dstin	/* Preserve dstin, we need to return it.  */
-> + 	cmp	count, #64
-> +-	bge	.Lcpy_not_short
-> ++	bhs	.Lcpy_not_short
-> + 	/* Deal with small copies quickly by dropping straight into the
-> + 	   exit block.  */
-> +
-> +@@ -351,10 +351,10 @@ ENTRY(memcpy)
-> +
-> + 1:
-> + 	subs	tmp2, count, #64	/* Use tmp2 for count.  */
-> +-	blt	.Ltail63aligned
-> ++	blo	.Ltail63aligned
-> +
-> + 	cmp	tmp2, #512
-> +-	bge	.Lcpy_body_long
-> ++	bhs	.Lcpy_body_long
-> +
-> + .Lcpy_body_medium:			/* Count in tmp2.  */
-> + #ifdef USE_VFP
-> +@@ -378,7 +378,7 @@ ENTRY(memcpy)
-> + 	add	src, src, #64
-> + 	vstr	d1, [dst, #56]
-> + 	add	dst, dst, #64
-> +-	bge	1b
-> ++	bhs	1b
-> + 	tst	tmp2, #0x3f
-> + 	beq	.Ldone
-> +
-> +@@ -412,7 +412,7 @@ ENTRY(memcpy)
-> + 	ldrd	A_l, A_h, [src, #64]!
-> + 	strd	A_l, A_h, [dst, #64]!
-> + 	subs	tmp2, tmp2, #64
-> +-	bge	1b
-> ++	bhs	1b
-> + 	tst	tmp2, #0x3f
-> + 	bne	1f
-> + 	ldr	tmp2,[sp], #FRAME_SIZE
-> +@@ -482,7 +482,7 @@ ENTRY(memcpy)
-> + 	add	src, src, #32
-> +
-> + 	subs	tmp2, tmp2, #prefetch_lines * 64 * 2
-> +-	blt	2f
-> ++	blo	2f
-> + 1:
-> + 	cpy_line_vfp	d3, 0
-> + 	cpy_line_vfp	d4, 64
-> +@@ -494,7 +494,7 @@ ENTRY(memcpy)
-> + 	add	dst, dst, #2 * 64
-> + 	add	src, src, #2 * 64
-> + 	subs	tmp2, tmp2, #prefetch_lines * 64
-> +-	bge	1b
-> ++	bhs	1b
-> +
-> + 2:
-> + 	cpy_tail_vfp	d3, 0
-> +@@ -615,8 +615,8 @@ ENTRY(memcpy)
-> + 1:
-> + 	pld	[src, #(3 * 64)]
-> + 	subs	count, count, #64
-> +-	ldrmi	tmp2, [sp], #FRAME_SIZE
-> +-	bmi	.Ltail63unaligned
-> ++	ldrlo	tmp2, [sp], #FRAME_SIZE
-> ++	blo	.Ltail63unaligned
-> + 	pld	[src, #(4 * 64)]
-> +
-> + #ifdef USE_NEON
-> +@@ -633,7 +633,7 @@ ENTRY(memcpy)
-> + 	neon_load_multi d0-d3, src
-> + 	neon_load_multi d4-d7, src
-> + 	subs	count, count, #64
-> +-	bmi	2f
-> ++	blo	2f
-> + 1:
-> + 	pld	[src, #(4 * 64)]
-> + 	neon_store_multi d0-d3, dst
-> +@@ -641,7 +641,7 @@ ENTRY(memcpy)
-> + 	neon_store_multi d4-d7, dst
-> + 	neon_load_multi d4-d7, src
-> + 	subs	count, count, #64
-> +-	bpl	1b
-> ++	bhs	1b
-> + 2:
-> + 	neon_store_multi d0-d3, dst
-> + 	neon_store_multi d4-d7, dst
-> +--
-> +2.17.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
-> index e9286b6b49..b674b02706 100644
-> --- a/meta/recipes-core/glibc/glibc_2.30.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.30.bb
-> @@ -45,6 +45,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->              file://CVE-2020-10029.patch \
->              file://CVE-2020-1751.patch \
->              file://CVE-2020-1752.patch \
-> +           file://CVE-2020-6096-1.patch \
-> +           file://CVE-2020-6096-2.patch \
->              "
->   S = "${WORKDIR}/git"
->   B = "${WORKDIR}/build-${TARGET_SYS}"
+> if I am wrong, please tell me how I can reproduce your problem, thanks.
 > 
+> 
+
+since gtk+3 or perhaps even gdk-pixbuf is not allarch package being 
+added as runtime dependency here would mean that any package thats 
+inheriting this class and allarch class will have the issue Martin is 
+seeing, one way to fix is to call it abi safe using 
+SIGGEN_EXCLUDERECIPES_ABISAFE but since its a class, I dont think you 
+can easily call that out in layer.conf.
+
+> Here is what I tried:
+> 
+> bitbake adwaita-icon-themewithout my patch, and then build 
+> adwaita-icon-theme with my patch, and then run below command:
+> 
+> bitbake-diffsigs 
+> 3.36.1-r0.do_prepare_recipe_sysroot.sigdata.608eb6ea5873c19534fddfeacee59d81fa799ce6c965217ffe76a0141885093a 
+> 3.36.1-r0.do_prepare_recipe_sysroot.sigdata.b10948f26bfd089980c9f9af928e108e9764627201dcfd9db43efc8a455b181b
+> NOTE: Starting bitbake server...
+> runtaskdeps changed:
+> ['autoconf/autoconf_2.69.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-devtools/autoconf/autoconf_2.69.bb 
+> automake/automake_1.16.2.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-devtools/automake/automake_1.16.2.bb', 
+> +gdk-pixbuf/gdk-pixbuf_2.40.0.bb:do_populate_sysroot, 
+> 'gnome/adwaita-icon-theme_3.36.1.bb:do_fetch 
+> gnu-config/gnu-config_git.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-devtools/gnu-config/gnu-config_git.bb', 
+> +gtk+/gtk+3_3.24.21.bb:do_populate_sysroot, 
+> 'gtk+/gtk+3_3.24.21.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb 
+> hicolor-icon-theme/hicolor-icon-theme_0.17.bb:do_populate_sysroot 
+> librsvg/librsvg_2.40.20.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb 
+> libtool/libtool-native_2.4.6.bb:do_populate_sysroot 
+> pkgconfig/pkgconfig_git.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb 
+> pseudo/pseudo_git.bb:do_populate_sysroot:virtual:native:/poky/meta/recipes-devtools/pseudo/pseudo_git.bb']
+> Number of task dependencies changed
+> Dependency on task gtk+/gtk+3_3.24.21.bb:do_populate_sysroot was added 
+> with hash 60018dc07fa11c46226232c0923871b65f88f51a0b7665045f779a1111c1e1dd
+> Dependency on task gdk-pixbuf/gdk-pixbuf_2.40.0.bb:do_populate_sysroot 
+> was added with hash 
+> 17cd8a1fe76fa0b342dc50b8e2d71d8d88eec93d0367ae48629ae66f41eca11f
+> 
+> 
+> On 7/11/20 12:37 AM, Martin Jansa wrote:
+>> With this change now in master and dunfell there is signature issue in 
+>> allarch adwaita-icon-theme now runtime depending on TUNE_PKGARCH 
+>> gdk-pixbuf as shown by sstate-diff-machines.sh/bitbake-diffsigs 
+>> <http://sstate-diff-machines.sh/bitbake-diffsigs>:
+>>
+>> bitbake-diffsigs 
+>> tmp-glibc/sstate-diff/1594398219/qemu*/all-webos-linux/adwaita-icon-theme/*do_prepare_recipe_sysroot*
+>> NOTE: Starting bitbake server...
+>> NOTE: Started PRServer with DBfile: cache/prserv.sqlite3, IP: 
+>> 127.0.0.1, PORT: 33511, PID: 36423
+>> Hash for dependent task 
+>> gdk-pixbuf/gdk-pixbuf_2.40.0.bb:do_populate_sysroot changed from 
+>> a72aba8432699c8ce4ca1f71833ef14a89ffde0ea4063e37b9d819fdb1e407f4 to 
+>> 1ad4e1bd76921b71482657f3b017184e9ade8e2a0b9f43ad64ed2dda83b1520f
+>> Unable to find matching sigdata for 
+>> openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb:do_populate_sysroot 
+>> with hashes 
+>> a72aba8432699c8ce4ca1f71833ef14a89ffde0ea4063e37b9d819fdb1e407f4 or 
+>> 1ad4e1bd76921b71482657f3b017184e9ade8e2a0b9f43ad64ed2dda83b1520f
+>>
+>> On Wed, Jul 1, 2020 at 3:39 AM Changqing Li 
+>> <changqing.li@windriver.com <mailto:changqing.li@windriver.com>> wrote:
+>>
+>>
+>>     On 6/30/20 6:01 PM, Richard Purdie wrote:
+>>     > On Tue, 2020-06-30 at 17:49 +0800, Changqing Li wrote:
+>>     >> From: Changqing Li <changqing.li@windriver.com
+>>     <mailto:changqing.li@windriver.com>>
+>>     >>
+>>     >> fix error:
+>>     >> + /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+>>     >> /var/tmp/rpm-tmp.mdYxY6: line 12:
+>>     /usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-
+>>     >> query-loaders: No such file or directory
+>>     >> %post(adwaita-icon-theme-3.36.1-r0.0.noarch): waitpid(2961) rc 2961
+>>     >> status 7f00
+>>     >> warning: %post(adwaita-icon-theme-3.36.1-r0.0.noarch) scriptlet
+>>     >> failed, exit status 127
+>>     >>
+>>     >> when install adwaita-icon-theme, which inherit gtk-icon-cache
+>>     >> on target, above error reported,  fix by add needeed packages
+>>     >> in RDEPENDS
+>>     >>
+>>     >> Signed-off-by: Changqing Li <changqing.li@windriver.com
+>>     <mailto:changqing.li@windriver.com>>
+>>     >> ---
+>>     >>   meta/classes/gtk-icon-cache.bbclass | 2 ++
+>>     >>   1 file changed, 2 insertions(+)
+>>     >>
+>>     >> diff --git a/meta/classes/gtk-icon-cache.bbclass
+>>     b/meta/classes/gtk-
+>>     >> icon-cache.bbclass
+>>     >> index 91cb4ad409..7f218ce7ae 100644
+>>     >> --- a/meta/classes/gtk-icon-cache.bbclass
+>>     >> +++ b/meta/classes/gtk-icon-cache.bbclass
+>>     >> @@ -4,6 +4,8 @@ DEPENDS +=" ${@['hicolor-icon-theme',
+>>     '']['${BPN}' ==
+>>     >> 'hicolor-icon-theme']} gtk
+>>     >>
+>>     >>   PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+>>     >>
+>>     >> +RDEPENDS_${PN} += "gdk-pixbuf gtk+3"
+>>     >> +
+>>     >>   gtk_icon_cache_postinst() {
+>>     >>   if [ "x$D" != "x" ]; then
+>>     >>      $INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG}
+>>     >> \
+>>     > This isn't quite right since the postinst may be added to a package
+>>     > other than ${PN}.
+>>     >
+>>     > You need to add the RDEPENDS to the code:
+>>     >
+>>     >          rdepends = ' ' + d.getVar('MLPREFIX', False) +
+>>     "hicolor-icon-theme"
+>>     >          d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+>>     >
+>>     > later in that class.
+>>     >
+>>     > Cheers,
+>>     >
+>>     > Richard
+>>     Thanks, I will correct it.
+>>     >
+>>
 > 
 > 
 > 
