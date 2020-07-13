@@ -1,58 +1,66 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.14612.1594625537874282771
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web12.15704.1594632310041906756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jul 2020 00:32:18 -0700
+ Mon, 13 Jul 2020 02:25:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E9B1E60AC2
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2020 07:32:15 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYS9jb3JlL2xvYWRlcjogZml4IHJlZ2V4IHRvIGluY2x1ZGUgbnVtYmVycyAocmV2Mik=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Vacek, Patrick via lists.openembedded.org
- <patrick.vacek=here.com@lists.openembedded.org>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 4B4ysv25PVz5tlS;
+	Mon, 13 Jul 2020 11:25:07 +0200 (CEST)
+Date: Mon, 13 Jul 2020 11:25:06 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jul 2020 07:32:17 -0000
-Message-ID: <20200713073217.2263.65042@do>
-References: <7568cbf70de113b3804b38bfd79ba4437d282833.camel@here.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <7568cbf70de113b3804b38bfd79ba4437d282833.camel@here.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Subject: Re: [OE-core] cmake is not getting installed
+Message-ID: <20200713092505.zfdh4leyfobakodb@qschulz>
+References: <Groupsio.1.7ylM.1594462586409601210.8UWi@lists.openembedded.org>
+MIME-Version: 1.0
+In-Reply-To: <Groupsio.1.7ylM.1594462586409601210.8UWi@lists.openembedded.org>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-== Series Details ==
+Hi Pankaj,
 
-Series: oeqa/core/loader: fix regex to include numbers (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/25014/
-State : failure
+On Sat, Jul 11, 2020 at 03:16:26AM -0700, Pankaj  Vinadrao Joshi wrote:
+> [Edited Message Follows]
+> 
+> Hi,
+> i have built a minimal-image for RPI4 and i want cmake to be present on my image i have added following line for cmake
+> 
+> IMAGE_INSTALL += "libc6-dev virtual-libc-dev cmake"
+> 
+> but on image still i am getting an error like -sh cmake:commang not found
+> 
 
-== Summary ==
+I'm not sure you're going the right way now. It's pretty unusual I think
+to use Yocto to build an image that is going to be used to build stuff.
+Why don't you build whatever you want to build on the RPI, but with
+Yocto on your build machine?
 
+I think your line should be enough, depending on where you set it.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+oe-pkgdata-util find-path "*/cmake" might help you find which package is
+installing the cmake binary and where. But cmake looks correct at first
+glance.
 
+> Also now i am facing same issue for ssh as well i have tried to add openssh and dropbear
+> 
+> CORE_IMAGE_EXTRA_INSTALL += "bash e2fsprogs mtd-utils-ubifs openssh ssh-server-dropbear ssh-server-openssh"
+> 
+> but for this also i am getting error like *ssh command not found*
+> 
 
+I suspect you're doing something wrong because ssh-server-dropbear and
+ssh-server-openssh are incompatible so your image can *NOT* compile with
+both enabled.
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  dunfell (currently at cabaf5654d)
+Your CORE_IMAGE_EXTRA_INSTALL is probably not used because you put it in
+the wrong place, or it's being overriden later.
 
+You can use bitbake -e <your_imaeg_recipe> and look for the line
+starting with IMAGE_INSTALL (or CORE_IMAGE_EXTRA_INSTALL) and check it's
+correctly set. If not, look the few lines above to understand how the
+variable is constructed.
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Quentin
