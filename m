@@ -1,128 +1,129 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.4719.1594756319652794331
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+ by mx.groups.io with SMTP id smtpd.web12.6715.1594761776704614148
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 12:52:04 -0700
+ Tue, 14 Jul 2020 14:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ssajal@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 06EJpMSx007822
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 12:51:48 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 14 Jul 2020
- 12:51:29 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id 65B441FF3F;
- Tue, 14 Jul 2020 15:51:28 -0400 (EDT)
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Sakib Sajal <sakib.sajal@windriver.com>
-Subject: [PATCH 3/4] qemu: fix CVE-2020-13800
-Date: Tue, 14 Jul 2020 15:51:18 -0400
-Message-ID: <20200714195119.20074-3-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200714195119.20074-1-sakib.sajal@windriver.com>
-References: <20200714195119.20074-1-sakib.sajal@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=O0sjoyWc;
+ spf=pass (domain: gmail.com, ip: 209.85.221.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f177.google.com with SMTP id t187so4027581vke.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 14:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=do6LV9nDf3zE9FCwPVs5DuMlpAkYSL7N46FgEyLKEYE=;
+        b=O0sjoyWcx5RvMfCCJpfcGqVxe1uzsDy5/2Ts0/gmnEGm6lhPBEaLu+zRCJUPeAII8N
+         vfYtEqPQaexnfQ+r2Qs8ZSkadHeFC2J3q2O7hRy6IY3Zk+E2iXCCk6dWezmXQdhoyLZ2
+         fcdGghLs8lxtNxFb1opSANFgSLlgsF9Q2loODxef+2jrCA3jn24hZDeF6l9OZU/wKJgQ
+         NiXCbxwt1gr6RCwIJkfhoB/YoX5hdKYqRfA3oQnVi4DnfGDDM5VTgKAO/So0R1cvlOlp
+         jHzxQhQMInxv2J2T7iTFL5wYZ/Bplpm8fqMDBYy9uj1KBjdXsIyU5rVJ0vzGESESfZGW
+         jikw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=do6LV9nDf3zE9FCwPVs5DuMlpAkYSL7N46FgEyLKEYE=;
+        b=W63AxG4T1AcTwWpQTJPTU43Sv+peuetH2OpIA6C65CkNxD+w3BGvMaOaXnilfYfodt
+         YhTP1rvD/0n1/yBD7zz9RpQd5EnjqK0B1Dit5j9jupqJD4/LU6yzrs2NLdBhBEbFvqas
+         cqdgUKMYiNjDHa+yD0vdZNRAXbusg60VbMcgMwPOU7OS/45WOnzi9JZDSaOCwK4ugwdp
+         yX80HtSAN2JmK0Dan/8fKNO8fnLnOdQ43LnKX13Ot5Tde389fDrIZ1oL2jiDKnD3I0OK
+         0UYR/lC3YpRCdSCYpbALrgXMGVtK/5jOs79Pkp+nMUeTc6Ht3qC+3Lams46b17i9b+3+
+         e42A==
+X-Gm-Message-State: AOAM533IV6MCyWzVY3cHig7zoudYK+jgIyJuoy8LtAQQBEVKWgn7M6Et
+	lXjv+yzkDbLNeNUfMpAbyjHA4/9wJI4TW2I2pG4=
+X-Google-Smtp-Source: ABdhPJw+DN9Ljt+n3TwoaXNXBTqw6sks8ZIhIMrdYhls5eBweNwscy7BctGj81NxfkfEPlUzSMaxstuBLtdEG/RUOmo=
+X-Received: by 2002:ac5:cdf5:: with SMTP id v21mr5349756vkn.1.1594761775925;
+ Tue, 14 Jul 2020 14:22:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 06EJpMSx007822
+References: <CAA5OMZ8KP=CriR-gsRsiq223_r-N7+yT6Y9_AvPddQb3Fbuscw@mail.gmail.com>
+In-Reply-To: <CAA5OMZ8KP=CriR-gsRsiq223_r-N7+yT6Y9_AvPddQb3Fbuscw@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 14 Jul 2020 23:22:44 +0200
+Message-ID: <CANNYZj_fsrhc02Ox9HZ0npEyU4Wa+2tzWUp7OmADctMaH4o8fg@mail.gmail.com>
+Subject: Re: [OE-core] tinymembench: fix patch fuzz
+To: mircea.carausu@broadcom.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000027cbff05aa6d69c5"
+
+--00000000000027cbff05aa6d69c5
 Content-Type: text/plain; charset="UTF-8"
+
+You can start here:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+Alex
+
+On Tue, 14 Jul 2020 at 20:50, Mircea Carausu via lists.openembedded.org
+<mircea.carausu=broadcom.com@lists.openembedded.org> wrote:
+
+> Hello,
+> I am new to the list and up-streaming activities.
+> Could you please kindly guide me how to submit a fix for the existing
+> tinymembench.patch
+>
+> (meta-openembedded/meta-oe/recipes-benchmark/tinymembench/tinymembench/0001-asm-Delete-.func-.endfunc-directives.patch)
+> Problem:
+>
+> tinymembench patch does not apply cleanly (it succeeds with warnings -
+> fuzz detected). Used devtool to fix:
+>
+> devtool modify tinymembench devtool finish --force-patch-refresh
+> tinymembench ../meta-openembedded/meta-oe
+>
+> I already generated the new patch.
+>
+> What are the next steps (other than local verification).
+>
+> Should I just upload it here for review once I consider it ready for
+> review?
+>
+> Sorry for asking such basic questions....
+>
+> Many thanks,
+>
+> Mircea
+>
+>
+> 
+>
+
+--00000000000027cbff05aa6d69c5
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-13800.patch            | 63 +++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13800.patch
+<div dir=3D"ltr"><div>You can start here:</div><div><a href=3D"https://www.=
+openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded">https://www.op=
+enembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded</a></div><div><br=
+></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Tue, 14 Jul 2020 at 20:50, Mircea Carausu via =
+<a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;mi=
+rcea.carausu=3D<a href=3D"mailto:broadcom.com@lists.openembedded.org">broad=
+com.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div dir=3D"ltr">Hello,<div>I am new to the l=
+ist and up-streaming activities.</div><div>Could you please kindly guide me=
+ how to submit a fix for the existing tinymembench.patch</div><div>(meta-op=
+enembedded/meta-oe/recipes-benchmark/tinymembench/tinymembench/0001-asm-Del=
+ete-.func-.endfunc-directives.patch)</div><div>Problem:</div><div><p style=
+=3D"white-space:pre-wrap;color:rgb(53,53,53);font-family:sans-serif">tinym=
+embench patch does not apply cleanly (it succeeds with warnings - fuzz dete=
+cted).
+Used devtool to fix:</p><p style=3D"white-space:pre-wrap;color:rgb(53,53,5=
+3);font-family:sans-serif">  devtool modify tinymembench
+  devtool finish --force-patch-refresh tinymembench ../meta-openembedded/m=
+eta-oe</p><p style=3D"white-space:pre-wrap;color:rgb(53,53,53);font-family:=
+sans-serif">I already generated the new patch. <br></p><p style=3D"white-sp=
+ace:pre-wrap;color:rgb(53,53,53);font-family:sans-serif">What are the next =
+steps (other than local verification). </p><p style=3D"white-space:pre-wrap=
+;color:rgb(53,53,53);font-family:sans-serif">Should I just upload it here f=
+or review once I consider it ready for review?</p><p style=3D"white-space:p=
+re-wrap;color:rgb(53,53,53);font-family:sans-serif">Sorry for asking such b=
+asic questions.... </p><p style=3D"white-space:pre-wrap;color:rgb(53,53,53)=
+;font-family:sans-serif">Many thanks,</p><p style=3D"white-space:pre-wrap;c=
+olor:rgb(53,53,53);font-family:sans-serif">Mircea<br></p><p style=3D"white-=
+space:pre-wrap;color:rgb(53,53,53);font-family:sans-serif"><br></p></div></=
+div>
+<br>
+</blockquote></div>
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index a9ef3b78bf..618cc50180 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -34,6 +34,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
-.xz \
- 	   file://CVE-2020-10761.patch \
- 	   file://CVE-2020-13362.patch \
- 	   file://CVE-2020-13659.patch \
-+	   file://CVE-2020-13800.patch \
- 	   "
- UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13800.patch b/meta/=
-recipes-devtools/qemu/qemu/CVE-2020-13800.patch
-new file mode 100644
-index 0000000000..52bfafbbae
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13800.patch
-@@ -0,0 +1,63 @@
-+From a98610c429d52db0937c1e48659428929835c455 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Thu, 4 Jun 2020 14:38:30 +0530
-+Subject: [PATCH] ati-vga: check mm_index before recursive call
-+ (CVE-2020-13800)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+While accessing VGA registers via ati_mm_read/write routines,
-+a guest may set 's->regs.mm_index' such that it leads to infinite
-+recursion. Check mm_index value to avoid such recursion. Log an
-+error message for wrong values.
-+
-+Reported-by: Ren Ding <rding@gatech.edu>
-+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
-+Reported-by: Yi Ren <c4tren@gmail.com>
-+Message-id: 20200604090830.33885-1-ppandit@redhat.com
-+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-+Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [a98610c429d52db0937c1e48659428929835c455]
-+CVE: CVE-2020-13800
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ hw/display/ati.c | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/display/ati.c b/hw/display/ati.c
-+index 065f197678..67604e68de 100644
-+--- a/hw/display/ati.c
-++++ b/hw/display/ati.c
-+@@ -285,8 +285,11 @@ static uint64_t ati_mm_read(void *opaque, hwaddr ad=
-dr, unsigned int size)
-+             if (idx <=3D s->vga.vram_size - size) {
-+                 val =3D ldn_le_p(s->vga.vram_ptr + idx, size);
-+             }
-+-        } else {
-++        } else if (s->regs.mm_index > MM_DATA + 3) {
-+             val =3D ati_mm_read(s, s->regs.mm_index + addr - MM_DATA, s=
-ize);
-++        } else {
-++            qemu_log_mask(LOG_GUEST_ERROR,
-++                "ati_mm_read: mm_index too small: %u\n", s->regs.mm_ind=
-ex);
-+         }
-+         break;
-+     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
-+@@ -520,8 +523,11 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-+             if (idx <=3D s->vga.vram_size - size) {
-+                 stn_le_p(s->vga.vram_ptr + idx, size, data);
-+             }
-+-        } else {
-++        } else if (s->regs.mm_index > MM_DATA + 3) {
-+             ati_mm_write(s, s->regs.mm_index + addr - MM_DATA, data, si=
-ze);
-++        } else {
-++            qemu_log_mask(LOG_GUEST_ERROR,
-++                "ati_mm_write: mm_index too small: %u\n", s->regs.mm_in=
-dex);
-+         }
-+         break;
-+     case BIOS_0_SCRATCH ... BUS_CNTL - 1:
-+--=20
-+2.20.1
-+
---=20
-2.27.0
-
+--00000000000027cbff05aa6d69c5--
