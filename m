@@ -1,99 +1,305 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web10.22595.1594740986060190633
+Received: from fortimail.saucontech.com (fortimail.saucontech.com [72.2.176.80])
+ by mx.groups.io with SMTP id smtpd.web11.138.1594742865679911897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 08:36:26 -0700
+ Tue, 14 Jul 2020 09:07:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=emnWh9eD;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: mdeneen@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id e64so17727552iof.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 08:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nM8Djzv2N0qpJhdtoXxQOW5NX8Ut71r1c5xqrYzBJ8E=;
-        b=emnWh9eDIv6IDOIJakCCVIL2eabTG/w5IUGv8ZiGCXkNsBERYnUXlNYIRCEpvlGLM4
-         wQF95FRP04bYujeYMptE90El9/874pceid3BombOUrCLpiaASofVoQTU2GUFkOryYpcu
-         UWH6Wujuj9AHyq7UqxTGa1jTqZpMTzFAwnqUvFiLdYgA9YRPOLVhNuihvxt0kDDuzYYf
-         UXwI8Sn4p/pGvzxuAgrepxHnbH/6rRIlmnx9IZzMLocjNv94D5HD8VL70LOd/iadF5fI
-         aTMa1E6sSGhG6qqEInYG4RgXezG9p9Mtno2hov3BHUnI8uHwr1DJXbQbGsYLaVi34A5c
-         Phtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nM8Djzv2N0qpJhdtoXxQOW5NX8Ut71r1c5xqrYzBJ8E=;
-        b=WjwKcM3FiYxe7lQLnSCBQeUV8A+mU3VZpcnvaZXy8JwigY8QKLIVi/sWjacayOs7x0
-         bi9sV0KjNFYmwH/bOCNuCf3DYlNtq5pNRh5ieh568wb1KjTp2glp0qOD4hL9CAZ83vSu
-         HCKWQAB4e5QItYEoQtAgOeFrRXUJSK2ZMFHkNHJjSst3i201uiNUj2Bx/j8Q/dYNOoON
-         cPxycncgwzsbvWobW0Bq4+AzMBBqX9A89abqwzBMIWj0gIvLXFpmJdbS7mDXabW6T89/
-         gRZGKjPvmeIU/sQNGyBcgFzJ6KP9lgAFVlZp1rsj/Eeod5IhXeyOVC+I56x/1iBJo+7m
-         am/w==
-X-Gm-Message-State: AOAM531SaeQCsI7vgCKBLlzln01UEIlq2Dumt/pSFtLTkHXZUi0euuds
-	Vh9mpY+5zx7uMiLWXUAQlHHVVD1mFs1btZ89ZqK0o2lcOWU=
-X-Google-Smtp-Source: ABdhPJzudSLV3hZHdJqahTxrwwV+5ME14nKktulxjnLxzXI9xDvNEfrnvlfYv5ClM+tHSG9YQiZjWbqEXEaYxewMxAw=
-X-Received: by 2002:a05:6638:1014:: with SMTP id r20mr6496745jab.44.1594740985310;
- Tue, 14 Jul 2020 08:36:25 -0700 (PDT)
+ dkim=missing; spf=pass (domain: saucontech.com, ip: 72.2.176.80, mailfrom: mdeneen@saucontech.com)
+Received: from email.saucontech.com ([10.20.20.47])
+	by fortimail.saucontech.com  with ESMTP id 06EG7iMO029235-06EG7iMQ029235
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 12:07:44 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by email.saucontech.com (Postfix) with ESMTP id E92CD408274
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 12:07:44 -0400 (EDT)
+Received: from email.saucontech.com ([127.0.0.1])
+	by localhost (email.saucontech.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 7PGjvInPtOev; Tue, 14 Jul 2020 12:07:44 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by email.saucontech.com (Postfix) with ESMTP id 4041F408587;
+	Tue, 14 Jul 2020 12:07:44 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at email.saucontech.com
+Received: from email.saucontech.com ([127.0.0.1])
+	by localhost (email.saucontech.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id VQeWdnmo9mQ8; Tue, 14 Jul 2020 12:07:44 -0400 (EDT)
+Received: from mdeneen.saucon.int (unknown [10.5.1.150])
+	by email.saucontech.com (Postfix) with ESMTPSA id 1F727408274;
+	Tue, 14 Jul 2020 12:07:44 -0400 (EDT)
+From: "Mark Deneen" <mdeneen@saucontech.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mark Deneen <mdeneen@saucontech.com>
+Subject: [PATCH] Allow arbitrary interface names to be specified in pppd config
+Date: Tue, 14 Jul 2020 12:07:34 -0400
+Message-Id: <20200714160734.2093086-1-mdeneen@saucontech.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
- <20200714151434.vthcngsgjyzeafkq@qschulz>
-In-Reply-To: <20200714151434.vthcngsgjyzeafkq@qschulz>
-From: "Mark Deneen" <mdeneen@gmail.com>
-Date: Tue, 14 Jul 2020 11:36:13 -0400
-Message-ID: <CAP6JJ88eh3i5KFS4ViTfMvx43NXWqgmfCHJJoUtjVuu61RGfGQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ppp: Add support for setting ifname in ppp options
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Quentin,
+pppd is patched in most Linux distributions to allow arbitrary naming
+of ppp interfaces, allowing users to create consistent firewall rules
+rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
+missing this option.
 
-Thanks for the feedback, and I will resend this.  I started off with a
-patch which contained the original authors, but that was lost in the
-process of applying the patch, since it is a patch of a patch.  I was
-attempting to avoid patch fuzzing, since it had previously been
-applied to pppd 2.4.8.  Is a small amount of fuzz acceptable?
+This patch, originally from SUSE, adds this option to pppd. It is not
+included upstream because there are some pppd-supported platforms which
+lack the ability to rename interfaces.
 
--M
+Signed-off-by: Mark Deneen <mdeneen@saucontech.com>
+---
+ .../ppp/ppp/0002-pppd-add-ifname-option.patch | 214 ++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.8.bb    |   1 +
+ 2 files changed, 215 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifnam=
+e-option.patch
 
-On Tue, Jul 14, 2020 at 11:14 AM Quentin Schulz
-<quentin.schulz@streamunlimited.com> wrote:
->
-> Hi Mark,
->
-> On Tue, Jul 14, 2020 at 11:04:41AM -0400, Mark Deneen wrote:
-> > pppd is patched in most Linux distributions to allow arbitrary naming
-> > of ppp interfaces, allowing users to create consistent firewall rules
-> > rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
-> > missing this option.
-> >
-> > This patch, originally from SUSE, adds this option to pppd. It is not
-> > included upstream because there are some pppd-supported platforms which
-> > lack the ability to rename interfaces.
-> >
-> > Signed-off-by: Mark Deneen <mdeneen@gmail.com>
->
-> Please follow guidelines from:
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
-> to know how to contribute in a way that is matching OE patch management.
->
-> Your mail content should probably be the content of the commit log. Your
-> mail should directly be the output of git format-patch (send it with
-> git send-email), the patch shouldn't be attached to the mail but rather
-> "be" the mail.
->
-> On the content of the patch, it'd be nice to take the patch with the
-> authors, commit title and log from the original place where you took it
-> from.
->
-> It probably is:
-> https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
-> ?
->
-> No author, no commit log :/ Though, I could find
-> https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
-> which is slightly different and the changelog seems decent between
-> Suse's and debian's patch.
->
-> Thanks,
-> Quentin
+diff --git a/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-optio=
+n.patch b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.p=
+atch
+new file mode 100644
+index 0000000000..8e54024d15
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
+@@ -0,0 +1,214 @@
++From bbcdc4366bbee6c3f4e1ddda31e4eec8c1b3ccc2 Mon Sep 17 00:00:00 2001
++From: Paul Mackerras <paulus@samba.org>
++Date: Tue, 23 Aug 2016 16:10:21 +1000
++Subject: [PATCH 13/16] pppd: allow use of arbitrary interface names
++
++This is a modified version of a patch from openSUSE that enables PPP int=
+erfaces
++to be called arbitrary names, rather than simply pppX where X is the uni=
+t
++number.
++
++The modifications from the stock openSUSE patch are:
++- refresh patch on top of 018_ip-up_option.diff
++- fix a printf format-string vulnerability in pppd/main.c:set_ifunit()
++- clarify the pppd.8 manpage additions
++- patch pppstats/pppstats.c to query renamed interfaces without complain=
+t
++
++Origin: SUSE
++Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D458646
++Forwarded: no
++Reviewed-by: Chris Boot <bootc@debian.org>
++Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
++---
++ pppd/main.c         | 16 ++++++----------
++ pppd/options.c      |  5 +++++
++ pppd/pppd.8         |  8 +++++++-
++ pppd/pppd.h         | 11 +++++++++++
++ pppd/sys-linux.c    | 15 +++++++++++++++
++ pppstats/pppstats.c | 12 ++++++------
++ 6 files changed, 50 insertions(+), 17 deletions(-)
++
++diff --git a/pppd/main.c b/pppd/main.c
++index 6d50d1bac1d9..f1986ed68d0b 100644
++--- a/pppd/main.c
+++++ b/pppd/main.c
++@@ -124,7 +124,7 @@
++ static const char rcsid[] =3D RCSID;
++=20
++ /* interface vars */
++-char ifname[32];		/* Interface name */
+++char ifname[MAXIFNAMELEN];	/* Interface name */
++ int ifunit;			/* Interface unit number */
++=20
++ struct channel *the_channel;
++@@ -298,13 +298,6 @@ struct protent *protocols[] =3D {
++     NULL
++ };
++=20
++-/*
++- * If PPP_DRV_NAME is not defined, use the default "ppp" as the device =
+name.
++- */
++-#if !defined(PPP_DRV_NAME)
++-#define PPP_DRV_NAME	"ppp"
++-#endif /* !defined(PPP_DRV_NAME) */
++-
++ int
++ main(argc, argv)
++     int argc;
++@@ -737,8 +730,11 @@ void
++ set_ifunit(iskey)
++     int iskey;
++ {
++-    info("Using interface %s%d", PPP_DRV_NAME, ifunit);
++-    slprintf(ifname, sizeof(ifname), "%s%d", PPP_DRV_NAME, ifunit);
+++    if (req_ifname[0] !=3D '\0')
+++	slprintf(ifname, sizeof(ifname), "%s", req_ifname);
+++    else
+++	slprintf(ifname, sizeof(ifname), "%s%d", PPP_DRV_NAME, ifunit);
+++    info("Using interface %s", ifname);
++     script_setenv("IFNAME", ifname, iskey);
++     if (iskey) {
++ 	create_pidfile(getpid());	/* write pid to file */
++diff --git a/pppd/options.c b/pppd/options.c
++index c06a2b4ad8ed..177488ca6813 100644
++--- a/pppd/options.c
+++++ b/pppd/options.c
++@@ -114,6 +114,7 @@ char	linkname[MAXPATHLEN];	/* logical name for link =
+*/
++ bool	tune_kernel;		/* may alter kernel settings */
++ int	connect_delay =3D 1000;	/* wait this many ms after connect script *=
+/
++ int	req_unit =3D -1;		/* requested interface unit */
+++char	req_ifname[MAXIFNAMELEN];	/* requested interface name */
++ bool	multilink =3D 0;		/* Enable multilink operation */
++ char	*bundle_name =3D NULL;	/* bundle name for multilink */
++ bool	dump_options;		/* print out option values */
++@@ -284,6 +285,10 @@ option_t general_options[] =3D {
++       "PPP interface unit number to use if possible",
++       OPT_PRIO | OPT_LLIMIT, 0, 0 },
++=20
+++    { "ifname", o_string, req_ifname,
+++      "Set PPP interface name",
+++      OPT_PRIO | OPT_PRIV | OPT_STATIC, NULL, MAXIFNAMELEN },
+++
++     { "dump", o_bool, &dump_options,
++       "Print out option values after parsing all options", 1 },
++     { "dryrun", o_bool, &dryrun,
++diff --git a/pppd/pppd.8 b/pppd/pppd.8
++index c508d277df3a..06e945fce998 100644
++--- a/pppd/pppd.8
+++++ b/pppd/pppd.8
++@@ -1079,7 +1079,13 @@ under Linux and FreeBSD 2.2.8 and later.
++ .TP
++ .B unit \fInum
++ Sets the ppp unit number (for a ppp0 or ppp1 etc interface name) for ou=
+tbound
++-connections.
+++connections.  If the unit is already in use a dynamically allocated num=
+ber will
+++be used.
+++.TP
+++.B ifname \fIstring
+++Set the ppp interface name for outbound connections.  If the interface =
+name is
+++already in use, or if the name cannot be used for any other reason, ppp=
+d will
+++terminate.
++ .TP
++ .B unset \fIname
++ Remove a variable from the environment variable for scripts that are
++diff --git a/pppd/pppd.h b/pppd/pppd.h
++index 247fa153739b..1a1bf0b99582 100644
++--- a/pppd/pppd.h
+++++ b/pppd/pppd.h
++@@ -80,6 +80,16 @@
++ #define MAXARGS		1	/* max # args to a command */
++ #define MAXNAMELEN	256	/* max length of hostname or name for auth */
++ #define MAXSECRETLEN	256	/* max length of password or secret */
+++#define MAXIFNAMELEN	32	/* max length of interface name; or use IFNAMSI=
+Z, can we
+++				   always include net/if.h? */
+++
+++/*
+++ * If PPP_DRV_NAME is not defined, use the default "ppp" as the device =
+name.
+++ * Where should PPP_DRV_NAME come from? Do we include it here?
+++ */
+++#if !defined(PPP_DRV_NAME)
+++#define PPP_DRV_NAME	"ppp"
+++#endif /* !defined(PPP_DRV_NAME) */
++=20
++ /*
++  * Option descriptor structure.
++@@ -318,6 +328,7 @@ extern bool	tune_kernel;	/* May alter kernel setting=
+s as necessary */
++ extern int	connect_delay;	/* Time to delay after connect script */
++ extern int	max_data_rate;	/* max bytes/sec through charshunt */
++ extern int	req_unit;	/* interface unit number to use */
+++extern char	req_ifname[MAXIFNAMELEN]; /* interface name to use */
++ extern bool	multilink;	/* enable multilink operation */
++ extern bool	noendpoint;	/* don't send or accept endpt. discrim. */
++ extern char	*bundle_name;	/* bundle name for multilink */
++diff --git a/pppd/sys-linux.c b/pppd/sys-linux.c
++index b4a435d2a993..b832031f7e26 100644
++--- a/pppd/sys-linux.c
+++++ b/pppd/sys-linux.c
++@@ -643,6 +643,21 @@ static int make_ppp_unit()
++ 	}
++ 	if (x < 0)
++ 		error("Couldn't create new ppp unit: %m");
+++
+++	if (x =3D=3D 0 && req_ifname[0] !=3D '\0') {
+++		struct ifreq ifr;
+++		char t[MAXIFNAMELEN];
+++		memset(&ifr, 0, sizeof(struct ifreq));
+++		slprintf(t, sizeof(t), "%s%d", PPP_DRV_NAME, ifunit);
+++		strncpy(ifr.ifr_name, t, IF_NAMESIZE);
+++		strncpy(ifr.ifr_newname, req_ifname, IF_NAMESIZE);
+++		x =3D ioctl(sock_fd, SIOCSIFNAME, &ifr);
+++		if (x < 0)
+++		    error("Couldn't rename interface %s to %s: %m", t, req_ifname);
+++		else
+++		    info("Renamed interface %s to %s", t, req_ifname);
+++	}
+++
++ 	return x;
++ }
++=20
++diff --git a/pppstats/pppstats.c b/pppstats/pppstats.c
++index 6367988eb96b..46cb9c24942b 100644
++--- a/pppstats/pppstats.c
+++++ b/pppstats/pppstats.c
++@@ -88,7 +88,6 @@ int	aflag;			/* print absolute values, not deltas */
++ int	dflag;			/* print data rates, not bytes */
++ int	interval, count;
++ int	infinite;
++-int	unit;
++ int	s;			/* socket or /dev/ppp file descriptor */
++ int	signalled;		/* set if alarm goes off "early" */
++ char	*progname;
++@@ -449,6 +448,7 @@ main(argc, argv)
++ {
++     int c;
++ #ifdef STREAMS
+++    int unit;
++     char *dev;
++ #endif
++=20
++@@ -506,11 +506,6 @@ main(argc, argv)
++     if (argc > 0)
++ 	interface =3D argv[0];
++=20
++-    if (sscanf(interface, PPP_DRV_NAME "%d", &unit) !=3D 1) {
++-	fprintf(stderr, "%s: invalid interface '%s' specified\n",
++-		progname, interface);
++-    }
++-
++ #ifndef STREAMS
++     {
++ 	struct ifreq ifr;
++@@ -535,6 +530,11 @@ main(argc, argv)
++     }
++=20
++ #else	/* STREAMS */
+++    if (sscanf(interface, PPP_DRV_NAME "%d", &unit) !=3D 1) {
+++	fprintf(stderr, "%s: invalid interface '%s' specified\n",
+++		progname, interface);
+++    }
+++
++ #ifdef __osf__
++     dev =3D "/dev/streams/ppp";
++ #else
++--=20
++2.15.1
++
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.8.bb b/meta/recipes-co=
+nnectivity/ppp/ppp_2.4.8.bb
+index f9c60d6bad..231c40f6ca 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.8.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.8.bb
+@@ -30,6 +30,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/${BP=
+}.tar.gz \
+            file://fix-CVE-2015-3310.patch \
+            file://0001-ppp-Remove-unneeded-include.patch \
+            file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
++           file://0002-pppd-add-ifname-option.patch \
+            "
+=20
+ SRC_URI_append_libc-musl =3D "\
+--=20
+2.27.0
+
