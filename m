@@ -1,200 +1,82 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
- by mx.groups.io with SMTP id smtpd.web10.21906.1594739093392943825
+Received: from mailout09.rmx.de (mailout09.rmx.de [94.199.88.74])
+ by mx.groups.io with SMTP id smtpd.web10.21975.1594739244685189324
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 08:04:53 -0700
+ Tue, 14 Jul 2020 08:07:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=R212hOCk;
- spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: mdeneen@gmail.com)
-Received: by mail-io1-f46.google.com with SMTP id e64so17603174iof.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 08:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=xJJf7F1v0JX9TbZ/kqHLUvBOeUo8ipSdAde3d/ZRRqg=;
-        b=R212hOCkinKeLlqic/HWeQRlMDXrBlRZoXu58itZ6s3PS7+gC9yQMTS3S+5K5+0BAF
-         IbgxXTIKjEM718YMGMc9JIQJVbYSd4c+lIU/EPhs944kFVcTOY1u9u+nZlQbBZDvxqo4
-         Bog5RWxyrDyuK9HroPiy4sUuDGNHnbD2Sj2lpme8dlSp17nqyBgoq6sDwvg7PcH6Crcu
-         uXVgdhihJpORCWngsiZUtrR0ObFIWV/sgT0zNt21j/qJatJCXBS5CX94j3P4eegrbyOB
-         Rv759Ndq39uVl86XfDynp9eWPp18dOeY+pb+wORz6q5Iz94G3+tJi6ClXxvOBhdz8uLB
-         J2gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=xJJf7F1v0JX9TbZ/kqHLUvBOeUo8ipSdAde3d/ZRRqg=;
-        b=K4hGCcn+QrOtuFTH6YmvZkZvkY4lknJeOKjjsq+l9ooNnJvXWGtILcaPhaQOlOl8xQ
-         pHvtURYse5Lm+g87pTNKMJOVq9MgJROY5upd8CmXysfKCUF+Uw0i4vr3YVEJ2YGEA8qe
-         2JGSc6ipAM2VpsaXRPwAxOsq70E2Vb+8yYXS6KF66WEdcbaA7y8wlbrxI47NltmlLXFd
-         IsQL8/yPe0QqB6XtR/jo+s69+XQGA21D1aMUQAn0jSOqD7U67cwPuXktb1at8CJKjEwg
-         x6mGsMKf49URjNZgLYl0llDs2rvH07vcqPc1iV1sOdsNQMljwVmua680qaMpkkfYQA6+
-         ws1Q==
-X-Gm-Message-State: AOAM531mkPE2QRW6TdRrbq4OOs6CxU1MEDzohkrDONAwBpQoVepuTl9r
-	nIbjz2IFx7GjVJYJLQ2rRUnzmIec3cQvbLUF62fEsqQc+x4V9w==
-X-Google-Smtp-Source: ABdhPJz8d1lG0HLzrCiG8FiorzYHpRCNm3jSd3vxZshseYfXQM4DYoxjwE6+0zT/ghMGRGHPtqsaAmbVs4sYKJuHl4g=
-X-Received: by 2002:a05:6602:482:: with SMTP id y2mr5496851iov.30.1594739092680;
- Tue, 14 Jul 2020 08:04:52 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.74, mailfrom: ceggers@arri.de)
+Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout09.rmx.de (Postfix) with ESMTPS id 4B5kQJ2PB1zbk87;
+	Tue, 14 Jul 2020 17:07:20 +0200 (CEST)
+Received: from mta.arri.de (unknown [217.111.95.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by kdin02.retarus.com (Postfix) with ESMTPS id 4B5kQF4dyCz2TRjk;
+	Tue, 14 Jul 2020 17:07:17 +0200 (CEST)
+Received: from n95hx1g2.localnet (192.168.54.74) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 14 Jul
+ 2020 17:07:17 +0200
+From: "Christian Eggers" <ceggers@arri.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Christopher Larson <kergoth@gmail.com>
+Subject: Re: [OE-core] How to install individual -lic packages
+Date: Tue, 14 Jul 2020 17:07:16 +0200
+Message-ID: <1677376.LsCQ3QojgJ@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <162080BCA151ECDB.25249@lists.openembedded.org>
+References: <2349716.bIJK7JYWuR@n95hx1g2> <CABcZANmiNUMz1W8UKpsFKmjJ9DvCCepH2u3XjSeKaZUaaXHkcw@mail.gmail.com> <162080BCA151ECDB.25249@lists.openembedded.org>
 MIME-Version: 1.0
-From: "Mark Deneen" <mdeneen@gmail.com>
-Date: Tue, 14 Jul 2020 11:04:41 -0400
-Message-ID: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
-Subject: [PATCH] ppp: Add support for setting ifname in ppp options
-To: openembedded-core@lists.openembedded.org
-X-Groupsio-MsgNum: 140615
-Content-Type: multipart/mixed; boundary="00000000000021123505aa6821e9"
+X-Originating-IP: [192.168.54.74]
+X-RMX-ID: 20200714-170717-4B5kQF4dyCz2TRjk-0@kdin02
+X-RMX-SOURCE: 217.111.95.66
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
---00000000000021123505aa6821e9
-Content-Type: text/plain; charset="UTF-8"
+In the meantime I could answer the question myself:
 
-pppd is patched in most Linux distributions to allow arbitrary naming
-of ppp interfaces, allowing users to create consistent firewall rules
-rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
-missing this option.
+Am Freitag, 10. Juli 2020, 23:16:39 CEST schrieb Christian Eggers:
+> [...]
+> I think this is not what I require. How can I install -lic packages
+> directly?
 
-This patch, originally from SUSE, adds this option to pppd. It is not
-included upstream because there are some pppd-supported platforms which
-lack the ability to rename interfaces.
+In order to known by other (image) recipes, -lic packages must be
+added to PACKAGES_DYNAMIC. This is done in my distro.conf but should also w=
+ork
+from local.conf:
 
-Signed-off-by: Mark Deneen <mdeneen@gmail.com>
+# Create separate ${PN}-lic packages for all recipes
+LICENSE_CREATE_PACKAGE =3D "1"
+# -lic packages are created dynamically. Satisfy dependencies to it (requir=
+ed
+# if a -lic package needs to be installed directly (e.g. via IMAGE_INSTALL)
+# instead of being installed due to RRECOMMENDS_${PN}).
+PACKAGES_DYNAMIC +=3D "^${PN}-lic"
 
---00000000000021123505aa6821e9
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-allow-setting-ifname-in-ppp-config-options-patch-ori.patch"
-Content-Disposition: attachment; 
-	filename="0001-allow-setting-ifname-in-ppp-config-options-patch-ori.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kcm2fxuh0>
-X-Attachment-Id: f_kcm2fxuh0
+After adding ${PN}-lic to PACKAGES_DYNAMIC, arbitrary -lic packages
+can be added to an image recipe by using IMAGE_INSTALL. As an alternative,
+other packages can RDEPEND on them.
 
-RnJvbSBiZWM5NTQ1NDQ4YTJhZThjZTRiZGY0NzM4ZjM4NzM0ZjQ0NjQzYWE2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIERlbmVlbiA8bWRlbmVlbkBnbWFpbC5jb20+CkRhdGU6
-IFR1ZSwgMTQgSnVsIDIwMjAgMTA6NDE6NDEgLTA0MDAKU3ViamVjdDogW1BBVENIXSBhbGxvdyBz
-ZXR0aW5nIGlmbmFtZSBpbiBwcHAgY29uZmlnIG9wdGlvbnMsIHBhdGNoIG9yaWdpbmFsbHkKIGZy
-b20gU1VTRS4KCi0tLQogLi4uL3BwcC9wcHAvMDAwMi1wcHBkLWFkZC1pZm5hbWUtb3B0aW9uLnBh
-dGNoIHwgMTgyICsrKysrKysrKysrKysrKysrKwogbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9w
-cHAvcHBwXzIuNC44LmJiICAgIHwgICAxICsKIDIgZmlsZXMgY2hhbmdlZCwgMTgzIGluc2VydGlv
-bnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9w
-cHAvMDAwMi1wcHBkLWFkZC1pZm5hbWUtb3B0aW9uLnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDItcHBwZC1hZGQtaWZuYW1lLW9wdGlvbi5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAyLXBwcGQtYWRkLWlm
-bmFtZS1vcHRpb24ucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4u
-MjllNTBjYjk0OQotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-cHBwL3BwcC8wMDAyLXBwcGQtYWRkLWlmbmFtZS1vcHRpb24ucGF0Y2gKQEAgLTAsMCArMSwxODIg
-QEAKK2RpZmYgLS1naXQgYS9wcHBkL21haW4uYyBiL3BwcGQvbWFpbi5jCitpbmRleCA2ZDUwZDFi
-Li5mMTk4NmVkIDEwMDY0NAorLS0tIGEvcHBwZC9tYWluLmMKKysrKyBiL3BwcGQvbWFpbi5jCitA
-QCAtMTI0LDcgKzEyNCw3IEBACisgc3RhdGljIGNvbnN0IGNoYXIgcmNzaWRbXSA9IFJDU0lEOwor
-IAorIC8qIGludGVyZmFjZSB2YXJzICovCistY2hhciBpZm5hbWVbMzJdOwkJLyogSW50ZXJmYWNl
-IG5hbWUgKi8KKytjaGFyIGlmbmFtZVtNQVhJRk5BTUVMRU5dOwkvKiBJbnRlcmZhY2UgbmFtZSAq
-LworIGludCBpZnVuaXQ7CQkJLyogSW50ZXJmYWNlIHVuaXQgbnVtYmVyICovCisgCisgc3RydWN0
-IGNoYW5uZWwgKnRoZV9jaGFubmVsOworQEAgLTI5OCwxMyArMjk4LDYgQEAgc3RydWN0IHByb3Rl
-bnQgKnByb3RvY29sc1tdID0geworICAgICBOVUxMCisgfTsKKyAKKy0vKgorLSAqIElmIFBQUF9E
-UlZfTkFNRSBpcyBub3QgZGVmaW5lZCwgdXNlIHRoZSBkZWZhdWx0ICJwcHAiIGFzIHRoZSBkZXZp
-Y2UgbmFtZS4KKy0gKi8KKy0jaWYgIWRlZmluZWQoUFBQX0RSVl9OQU1FKQorLSNkZWZpbmUgUFBQ
-X0RSVl9OQU1FCSJwcHAiCistI2VuZGlmIC8qICFkZWZpbmVkKFBQUF9EUlZfTkFNRSkgKi8KKy0K
-KyBpbnQKKyBtYWluKGFyZ2MsIGFyZ3YpCisgICAgIGludCBhcmdjOworQEAgLTczNyw4ICs3MzAs
-MTEgQEAgdm9pZAorIHNldF9pZnVuaXQoaXNrZXkpCisgICAgIGludCBpc2tleTsKKyB7CistICAg
-IGluZm8oIlVzaW5nIGludGVyZmFjZSAlcyVkIiwgUFBQX0RSVl9OQU1FLCBpZnVuaXQpOworLSAg
-ICBzbHByaW50ZihpZm5hbWUsIHNpemVvZihpZm5hbWUpLCAiJXMlZCIsIFBQUF9EUlZfTkFNRSwg
-aWZ1bml0KTsKKysgICAgaWYgKHJlcV9pZm5hbWVbMF0gIT0gJ1wwJykKKysJc2xwcmludGYoaWZu
-YW1lLCBzaXplb2YoaWZuYW1lKSwgIiVzIiwgcmVxX2lmbmFtZSk7CisrICAgIGVsc2UKKysJc2xw
-cmludGYoaWZuYW1lLCBzaXplb2YoaWZuYW1lKSwgIiVzJWQiLCBQUFBfRFJWX05BTUUsIGlmdW5p
-dCk7CisrICAgIGluZm8oIlVzaW5nIGludGVyZmFjZSAlcyIsIGlmbmFtZSk7CisgICAgIHNjcmlw
-dF9zZXRlbnYoIklGTkFNRSIsIGlmbmFtZSwgaXNrZXkpOworICAgICBpZiAoaXNrZXkpIHsKKyAJ
-Y3JlYXRlX3BpZGZpbGUoZ2V0cGlkKCkpOwkvKiB3cml0ZSBwaWQgdG8gZmlsZSAqLworZGlmZiAt
-LWdpdCBhL3BwcGQvb3B0aW9ucy5jIGIvcHBwZC9vcHRpb25zLmMKK2luZGV4IGY2NmI3NjUuLjkx
-ZGE1MTUgMTAwNjQ0CistLS0gYS9wcHBkL29wdGlvbnMuYworKysrIGIvcHBwZC9vcHRpb25zLmMK
-K0BAIC0xMTQsNiArMTE0LDcgQEAgY2hhcglsaW5rbmFtZVtNQVhQQVRITEVOXTsJLyogbG9naWNh
-bCBuYW1lIGZvciBsaW5rICovCisgYm9vbAl0dW5lX2tlcm5lbDsJCS8qIG1heSBhbHRlciBrZXJu
-ZWwgc2V0dGluZ3MgKi8KKyBpbnQJY29ubmVjdF9kZWxheSA9IDEwMDA7CS8qIHdhaXQgdGhpcyBt
-YW55IG1zIGFmdGVyIGNvbm5lY3Qgc2NyaXB0ICovCisgaW50CXJlcV91bml0ID0gLTE7CQkvKiBy
-ZXF1ZXN0ZWQgaW50ZXJmYWNlIHVuaXQgKi8KKytjaGFyCXJlcV9pZm5hbWVbTUFYSUZOQU1FTEVO
-XTsJLyogcmVxdWVzdGVkIGludGVyZmFjZSBuYW1lICovCisgYm9vbAltdWx0aWxpbmsgPSAwOwkJ
-LyogRW5hYmxlIG11bHRpbGluayBvcGVyYXRpb24gKi8KKyBjaGFyCSpidW5kbGVfbmFtZSA9IE5V
-TEw7CS8qIGJ1bmRsZSBuYW1lIGZvciBtdWx0aWxpbmsgKi8KKyBib29sCWR1bXBfb3B0aW9uczsJ
-CS8qIHByaW50IG91dCBvcHRpb24gdmFsdWVzICovCitAQCAtMjgzLDYgKzI4NCwxMCBAQCBvcHRp
-b25fdCBnZW5lcmFsX29wdGlvbnNbXSA9IHsKKyAgICAgICAiUFBQIGludGVyZmFjZSB1bml0IG51
-bWJlciB0byB1c2UgaWYgcG9zc2libGUiLAorICAgICAgIE9QVF9QUklPIHwgT1BUX0xMSU1JVCwg
-MCwgMCB9LAorIAorKyAgICB7ICJpZm5hbWUiLCBvX3N0cmluZywgcmVxX2lmbmFtZSwKKysgICAg
-ICAiU2V0IFBQUCBpbnRlcmZhY2UgbmFtZSIsCisrICAgICAgT1BUX1BSSU8gfCBPUFRfUFJJViB8
-IE9QVF9TVEFUSUMsIE5VTEwsIE1BWElGTkFNRUxFTiB9LAorKworICAgICB7ICJkdW1wIiwgb19i
-b29sLCAmZHVtcF9vcHRpb25zLAorICAgICAgICJQcmludCBvdXQgb3B0aW9uIHZhbHVlcyBhZnRl
-ciBwYXJzaW5nIGFsbCBvcHRpb25zIiwgMSB9LAorICAgICB7ICJkcnlydW4iLCBvX2Jvb2wsICZk
-cnlydW4sCitkaWZmIC0tZ2l0IGEvcHBwZC9wcHBkLjggYi9wcHBkL3BwcGQuOAoraW5kZXggYzhi
-NTk1ZC4uMGFjZDQ5MyAxMDA2NDQKKy0tLSBhL3BwcGQvcHBwZC44CisrKysgYi9wcHBkL3BwcGQu
-OAorQEAgLTEwODUsNyArMTA4NSwxMyBAQCB1bmRlciBMaW51eCBhbmQgRnJlZUJTRCAyLjIuOCBh
-bmQgbGF0ZXIuCisgLlRQCisgLkIgdW5pdCBcZkludW0KKyBTZXRzIHRoZSBwcHAgdW5pdCBudW1i
-ZXIgKGZvciBhIHBwcDAgb3IgcHBwMSBldGMgaW50ZXJmYWNlIG5hbWUpIGZvciBvdXRib3VuZAor
-LWNvbm5lY3Rpb25zLgorK2Nvbm5lY3Rpb25zLiAgSWYgdGhlIHVuaXQgaXMgYWxyZWFkeSBpbiB1
-c2UgYSBkeW5hbWljYWxseSBhbGxvY2F0ZWQgbnVtYmVyIHdpbGwKKytiZSB1c2VkLgorKy5UUAor
-Ky5CIGlmbmFtZSBcZklzdHJpbmcKKytTZXQgdGhlIHBwcCBpbnRlcmZhY2UgbmFtZSBmb3Igb3V0
-Ym91bmQgY29ubmVjdGlvbnMuICBJZiB0aGUgaW50ZXJmYWNlIG5hbWUgaXMKKythbHJlYWR5IGlu
-IHVzZSwgb3IgaWYgdGhlIG5hbWUgY2Fubm90IGJlIHVzZWQgZm9yIGFueSBvdGhlciByZWFzb24s
-IHBwcGQgd2lsbAorK3Rlcm1pbmF0ZS4KKyAuVFAKKyAuQiB1bnNldCBcZkluYW1lCisgUmVtb3Zl
-IGEgdmFyaWFibGUgZnJvbSB0aGUgZW52aXJvbm1lbnQgdmFyaWFibGUgZm9yIHNjcmlwdHMgdGhh
-dCBhcmUKK2RpZmYgLS1naXQgYS9wcHBkL3BwcGQuaCBiL3BwcGQvcHBwZC5oCitpbmRleCA4YWRl
-NGQ4Li43NDk1ZGY2IDEwMDY0NAorLS0tIGEvcHBwZC9wcHBkLmgKKysrKyBiL3BwcGQvcHBwZC5o
-CitAQCAtODAsNiArODAsMTYgQEAKKyAjZGVmaW5lIE1BWEFSR1MJCTEJLyogbWF4ICMgYXJncyB0
-byBhIGNvbW1hbmQgKi8KKyAjZGVmaW5lIE1BWE5BTUVMRU4JMjU2CS8qIG1heCBsZW5ndGggb2Yg
-aG9zdG5hbWUgb3IgbmFtZSBmb3IgYXV0aCAqLworICNkZWZpbmUgTUFYU0VDUkVUTEVOCTI1Ngkv
-KiBtYXggbGVuZ3RoIG9mIHBhc3N3b3JkIG9yIHNlY3JldCAqLworKyNkZWZpbmUgTUFYSUZOQU1F
-TEVOCTMyCS8qIG1heCBsZW5ndGggb2YgaW50ZXJmYWNlIG5hbWU7IG9yIHVzZSBJRk5BTVNJWiwg
-Y2FuIHdlCisrCQkJCSAgIGFsd2F5cyBpbmNsdWRlIG5ldC9pZi5oPyAqLworKworKy8qCisrICog
-SWYgUFBQX0RSVl9OQU1FIGlzIG5vdCBkZWZpbmVkLCB1c2UgdGhlIGRlZmF1bHQgInBwcCIgYXMg
-dGhlIGRldmljZSBuYW1lLgorKyAqIFdoZXJlIHNob3VsZCBQUFBfRFJWX05BTUUgY29tZSBmcm9t
-PyBEbyB3ZSBpbmNsdWRlIGl0IGhlcmU/CisrICovCisrI2lmICFkZWZpbmVkKFBQUF9EUlZfTkFN
-RSkKKysjZGVmaW5lIFBQUF9EUlZfTkFNRQkicHBwIgorKyNlbmRpZiAvKiAhZGVmaW5lZChQUFBf
-RFJWX05BTUUpICovCisgCisgLyoKKyAgKiBPcHRpb24gZGVzY3JpcHRvciBzdHJ1Y3R1cmUuCitA
-QCAtMzE4LDYgKzMyOCw3IEBAIGV4dGVybiBib29sCXR1bmVfa2VybmVsOwkvKiBNYXkgYWx0ZXIg
-a2VybmVsIHNldHRpbmdzIGFzIG5lY2Vzc2FyeSAqLworIGV4dGVybiBpbnQJY29ubmVjdF9kZWxh
-eTsJLyogVGltZSB0byBkZWxheSBhZnRlciBjb25uZWN0IHNjcmlwdCAqLworIGV4dGVybiBpbnQJ
-bWF4X2RhdGFfcmF0ZTsJLyogbWF4IGJ5dGVzL3NlYyB0aHJvdWdoIGNoYXJzaHVudCAqLworIGV4
-dGVybiBpbnQJcmVxX3VuaXQ7CS8qIGludGVyZmFjZSB1bml0IG51bWJlciB0byB1c2UgKi8KKytl
-eHRlcm4gY2hhcglyZXFfaWZuYW1lW01BWElGTkFNRUxFTl07IC8qIGludGVyZmFjZSBuYW1lIHRv
-IHVzZSAqLworIGV4dGVybiBib29sCW11bHRpbGluazsJLyogZW5hYmxlIG11bHRpbGluayBvcGVy
-YXRpb24gKi8KKyBleHRlcm4gYm9vbAlub2VuZHBvaW50OwkvKiBkb24ndCBzZW5kIG9yIGFjY2Vw
-dCBlbmRwdC4gZGlzY3JpbS4gKi8KKyBleHRlcm4gY2hhcgkqYnVuZGxlX25hbWU7CS8qIGJ1bmRs
-ZSBuYW1lIGZvciBtdWx0aWxpbmsgKi8KK2RpZmYgLS1naXQgYS9wcHBkL3N5cy1saW51eC5jIGIv
-cHBwZC9zeXMtbGludXguYworaW5kZXggYTEwNTUwNS4uODVkYmIwYiAxMDA2NDQKKy0tLSBhL3Bw
-cGQvc3lzLWxpbnV4LmMKKysrKyBiL3BwcGQvc3lzLWxpbnV4LmMKK0BAIC02NDMsNiArNjQzLDIx
-IEBAIHN0YXRpYyBpbnQgbWFrZV9wcHBfdW5pdCgpCisgCX0KKyAJaWYgKHggPCAwKQorIAkJZXJy
-b3IoIkNvdWxkbid0IGNyZWF0ZSBuZXcgcHBwIHVuaXQ6ICVtIik7CisrCisrCWlmICh4ID09IDAg
-JiYgcmVxX2lmbmFtZVswXSAhPSAnXDAnKSB7CisrCQlzdHJ1Y3QgaWZyZXEgaWZyOworKwkJY2hh
-ciB0W01BWElGTkFNRUxFTl07CisrCQltZW1zZXQoJmlmciwgMCwgc2l6ZW9mKHN0cnVjdCBpZnJl
-cSkpOworKwkJc2xwcmludGYodCwgc2l6ZW9mKHQpLCAiJXMlZCIsIFBQUF9EUlZfTkFNRSwgaWZ1
-bml0KTsKKysJCXN0cm5jcHkoaWZyLmlmcl9uYW1lLCB0LCBJRl9OQU1FU0laRSk7CisrCQlzdHJu
-Y3B5KGlmci5pZnJfbmV3bmFtZSwgcmVxX2lmbmFtZSwgSUZfTkFNRVNJWkUpOworKwkJeCA9IGlv
-Y3RsKHNvY2tfZmQsIFNJT0NTSUZOQU1FLCAmaWZyKTsKKysJCWlmICh4IDwgMCkKKysJCSAgICBl
-cnJvcigiQ291bGRuJ3QgcmVuYW1lIGludGVyZmFjZSAlcyB0byAlczogJW0iLCB0LCByZXFfaWZu
-YW1lKTsKKysJCWVsc2UKKysJCSAgICBpbmZvKCJSZW5hbWVkIGludGVyZmFjZSAlcyB0byAlcyIs
-IHQsIHJlcV9pZm5hbWUpOworKwl9CisrCisgCXJldHVybiB4OworIH0KKyAKK2RpZmYgLS1naXQg
-YS9wcHBzdGF0cy9wcHBzdGF0cy5jIGIvcHBwc3RhdHMvcHBwc3RhdHMuYworaW5kZXggNjM2Nzk4
-OC4uNDZjYjljMiAxMDA2NDQKKy0tLSBhL3BwcHN0YXRzL3BwcHN0YXRzLmMKKysrKyBiL3BwcHN0
-YXRzL3BwcHN0YXRzLmMKK0BAIC04OCw3ICs4OCw2IEBAIGludAlhZmxhZzsJCQkvKiBwcmludCBh
-YnNvbHV0ZSB2YWx1ZXMsIG5vdCBkZWx0YXMgKi8KKyBpbnQJZGZsYWc7CQkJLyogcHJpbnQgZGF0
-YSByYXRlcywgbm90IGJ5dGVzICovCisgaW50CWludGVydmFsLCBjb3VudDsKKyBpbnQJaW5maW5p
-dGU7CistaW50CXVuaXQ7CisgaW50CXM7CQkJLyogc29ja2V0IG9yIC9kZXYvcHBwIGZpbGUgZGVz
-Y3JpcHRvciAqLworIGludAlzaWduYWxsZWQ7CQkvKiBzZXQgaWYgYWxhcm0gZ29lcyBvZmYgImVh
-cmx5IiAqLworIGNoYXIJKnByb2duYW1lOworQEAgLTQ0OSw2ICs0NDgsNyBAQCBtYWluKGFyZ2Ms
-IGFyZ3YpCisgeworICAgICBpbnQgYzsKKyAjaWZkZWYgU1RSRUFNUworKyAgICBpbnQgdW5pdDsK
-KyAgICAgY2hhciAqZGV2OworICNlbmRpZgorIAorQEAgLTUwNiwxMSArNTA2LDYgQEAgbWFpbihh
-cmdjLCBhcmd2KQorICAgICBpZiAoYXJnYyA+IDApCisgCWludGVyZmFjZSA9IGFyZ3ZbMF07Cisg
-CistICAgIGlmIChzc2NhbmYoaW50ZXJmYWNlLCBQUFBfRFJWX05BTUUgIiVkIiwgJnVuaXQpICE9
-IDEpIHsKKy0JZnByaW50ZihzdGRlcnIsICIlczogaW52YWxpZCBpbnRlcmZhY2UgJyVzJyBzcGVj
-aWZpZWRcbiIsCistCQlwcm9nbmFtZSwgaW50ZXJmYWNlKTsKKy0gICAgfQorLQorICNpZm5kZWYg
-U1RSRUFNUworICAgICB7CisgCXN0cnVjdCBpZnJlcSBpZnI7CitAQCAtNTM1LDYgKzUzMCwxMSBA
-QCBtYWluKGFyZ2MsIGFyZ3YpCisgICAgIH0KKyAKKyAjZWxzZQkvKiBTVFJFQU1TICovCisrICAg
-IGlmIChzc2NhbmYoaW50ZXJmYWNlLCBQUFBfRFJWX05BTUUgIiVkIiwgJnVuaXQpICE9IDEpIHsK
-KysJZnByaW50ZihzdGRlcnIsICIlczogaW52YWxpZCBpbnRlcmZhY2UgJyVzJyBzcGVjaWZpZWRc
-biIsCisrCQlwcm9nbmFtZSwgaW50ZXJmYWNlKTsKKysgICAgfQorKworICNpZmRlZiBfX29zZl9f
-CisgICAgIGRldiA9ICIvZGV2L3N0cmVhbXMvcHBwIjsKKyAjZWxzZQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNC44LmJiIGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9wcHAvcHBwXzIuNC44LmJiCmluZGV4IGY5YzYwZDZiYWQuLjIzMWM0MGY2Y2Eg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcF8yLjQuOC5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHBfMi40LjguYmIKQEAgLTMwLDYg
-KzMwLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2Rvd25sb2FkLnNhbWJhLm9yZy9wdWIvJHtCUE59
-LyR7QlB9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9maXgtQ1ZFLTIwMTUtMzMxMC5wYXRj
-aCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXBwcC1SZW1vdmUtdW5uZWVkZWQtaW5jbHVkZS5w
-YXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXBwcGQtRml4LWJvdW5kcy1jaGVjay1pbi1F
-QVAtY29kZS5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAyLXBwcGQtYWRkLWlmbmFtZS1v
-cHRpb24ucGF0Y2ggXAogICAgICAgICAgICAiCiAKIFNSQ19VUklfYXBwZW5kX2xpYmMtbXVzbCA9
-ICJcCi0tIAoyLjI3LjAKCg==
+regards
+Christian
 
---00000000000021123505aa6821e9--
+
+
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
