@@ -1,141 +1,310 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web11.1151.1594746548624169214
+Received: from fortimail.saucontech.com (fortimail.saucontech.com [72.2.176.80])
+ by mx.groups.io with SMTP id smtpd.web10.1109.1594746550682744495
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 10:09:08 -0700
+ Tue, 14 Jul 2020 10:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VrxAZiH1;
- spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f66.google.com with SMTP id k5so1816096pjg.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 10:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+o3C+moIn9/5oNfXPaSDxynbiwysP56mgY64BlF+66w=;
-        b=VrxAZiH1V7OKi1eXn81T0xv3TIl2vHSZQsq9zkTlz5mfDj6fFF16K/m6XGTXoN6eGD
-         UAiaxlQ8/e2UytJ0F+pb1GjVJVI4DdkO/LLljGAEbiFdkctNT+g9F5GDN2bI1Dv2XJqI
-         3fr8NREdfj9xAE/+S26NabtMZti1BmY91tT97lhv68umrfrcj4TbrKx4bf+ZhxIWkI5e
-         giqRX25Q0ECyVIjEtSz/5RkI7tEn6uMTgCS7FyVKbWNFkpf+UH9TaWpoScpLdLBSXUtC
-         /3AersGN+N+fuOAATMugdkJpxRmU+wqPrL09hTvuTf86I021cbj/0Tm3hHGXa8Z22TC1
-         5onQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+o3C+moIn9/5oNfXPaSDxynbiwysP56mgY64BlF+66w=;
-        b=GI0X8djguFSgJEf2a3TQPUgXF8pOSOPI1nGc23Qmjag3x0L8W8aKnYCaz0/NrahwDp
-         0J9B61LRALoZa2FichEb1IzerJTRaeQ/E6Qt7eqzfVdT1qawCXX4dRPxrB6010ym3NOy
-         kpsaelZgQTqzReZyn20pzFQPwgTNRDF0++QNA+EhwqhT4kBTy3K+/8lpZDBageDeyitK
-         LkWZ23dNarGjLoGQY2bWIBOALVnFDyC87Hpj7kjf+JHDi729Dc2qfKdH1ksXZuiTeVif
-         01cf7JHTxO04rCIdl67o4UISXMD/Qkbao02oMu9mygKbN4P4lcPpnZhkOgdJnpCLeEWG
-         hX1Q==
-X-Gm-Message-State: AOAM532hmfl7E2OU8IppolChRNfcitkQrfvJFqzRtbWS00dzeHK+73Lw
-	Zkcg6yi2CK/nSy6hOliXqnSVD23NS/0=
-X-Google-Smtp-Source: ABdhPJy85wfz4sIC6lBbXyKWDhBryeTdpbE+T5pzLj/nZ1cYlQFR184taX7XOYsRiNzIGiAtNUCTYg==
-X-Received: by 2002:a17:90b:f06:: with SMTP id br6mr5402548pjb.97.1594746547129;
-        Tue, 14 Jul 2020 10:09:07 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0::ad4? ([2601:646:9200:4e0::ad4])
-        by smtp.gmail.com with ESMTPSA id lx9sm3315445pjb.52.2020.07.14.10.09.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2020 10:09:06 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 2/2] insane: improve arch test messages
-To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-References: <20200714170248.1036410-1-ross@burtonini.com>
- <20200714170248.1036410-2-ross@burtonini.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Autocrypt: addr=raj.khem@gmail.com; keydata=
- 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
-Message-ID: <6960b415-cb15-2f34-c1c9-08f4461bb48d@gmail.com>
-Date: Tue, 14 Jul 2020 10:09:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=missing; spf=pass (domain: saucontech.com, ip: 72.2.176.80, mailfrom: mdeneen@saucontech.com)
+Received: from email.saucontech.com ([10.20.20.47])
+	by fortimail.saucontech.com  with ESMTP id 06EH99WL030929-06EH99WN030929
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 13:09:09 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by email.saucontech.com (Postfix) with ESMTP id 7C38A4083C9
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2020 13:09:09 -0400 (EDT)
+Received: from email.saucontech.com ([127.0.0.1])
+	by localhost (email.saucontech.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id rhnczxP6fKP7; Tue, 14 Jul 2020 13:09:08 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by email.saucontech.com (Postfix) with ESMTP id 6D78E40836F;
+	Tue, 14 Jul 2020 13:09:08 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at email.saucontech.com
+Received: from email.saucontech.com ([127.0.0.1])
+	by localhost (email.saucontech.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id FJdInyRsXTMC; Tue, 14 Jul 2020 13:09:08 -0400 (EDT)
+Received: from mdeneen.saucon.int (unknown [10.5.1.150])
+	by email.saucontech.com (Postfix) with ESMTPSA id 4243040493C;
+	Tue, 14 Jul 2020 13:09:08 -0400 (EDT)
+From: "Mark Deneen" <mdeneen@saucontech.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mark Deneen <mdeneen@saucontech.com>
+Subject: [PATCH v3] ppp: Allow arbitrary interface names to be specified in pppd config
+Date: Tue, 14 Jul 2020 13:08:34 -0400
+Message-Id: <20200714170833.2096002-1-mdeneen@saucontech.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200714170248.1036410-2-ross@burtonini.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+pppd is patched in most Linux distributions to allow arbitrary naming
+of ppp interfaces, allowing users to create consistent firewall rules
+rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
+missing this option.
 
+This patch, originally from SUSE, adds this option to pppd. It is not
+included upstream because there are some pppd-supported platforms which
+lack the ability to rename interfaces.
 
-On 7/14/20 10:02 AM, Ross Burton wrote:
-> From: Ross Burton <ross.burton@arm.com>
-> 
-> The messages from the ELF 'arch' test are not obvious, clarify the
-> messages and prune output paths.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/classes/insane.bbclass | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 89a516882b..ee19ef673e 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -364,14 +364,14 @@ def package_qa_check_arch(path,name,d, elf, messages):
->              target_os == "linux-gnu_ilp32" or re.match(r'mips64.*32', d.getVar('DEFAULTTUNE')))
->      is_bpf = (oe.qa.elf_machine_to_string(elf.machine()) == "BPF")
->      if not ((machine == elf.machine()) or is_32 or is_bpf):
-> -        package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
-> -                 (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
-> +        package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) in %s" % \
+This is the same as the previous patch, but I messed up the subject line.
 
-Should this be called CPU architecture as well.
+Upstream-Status: Inappropriate [not all platforms supported by pppd can r=
+ename interfaces]
 
-> +                 (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path, d, name)))
->      elif not ((bits == elf.abiSize()) or is_32 or is_bpf):
-> -        package_qa_add_message(messages, "arch", "Bit size did not match (%d to %d) %s on %s" % \
-> -                 (bits, elf.abiSize(), bpn, package_qa_clean_path(path,d)))
-> +        package_qa_add_message(messages, "arch", "Bit size did not match (%d, expected %d) in %s" % \
+Signed-off-by: Mark Deneen <mdeneen@saucontech.com>
+---
+ .../ppp/ppp/0002-pppd-add-ifname-option.patch | 214 ++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.8.bb    |   1 +
+ 2 files changed, 215 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifnam=
+e-option.patch
 
-Bit size perhaps should be called Word size to use more familiar term
-for this.
+diff --git a/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-optio=
+n.patch b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.p=
+atch
+new file mode 100644
+index 0000000000..8e54024d15
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
+@@ -0,0 +1,214 @@
++From bbcdc4366bbee6c3f4e1ddda31e4eec8c1b3ccc2 Mon Sep 17 00:00:00 2001
++From: Paul Mackerras <paulus@samba.org>
++Date: Tue, 23 Aug 2016 16:10:21 +1000
++Subject: [PATCH 13/16] pppd: allow use of arbitrary interface names
++
++This is a modified version of a patch from openSUSE that enables PPP int=
+erfaces
++to be called arbitrary names, rather than simply pppX where X is the uni=
+t
++number.
++
++The modifications from the stock openSUSE patch are:
++- refresh patch on top of 018_ip-up_option.diff
++- fix a printf format-string vulnerability in pppd/main.c:set_ifunit()
++- clarify the pppd.8 manpage additions
++- patch pppstats/pppstats.c to query renamed interfaces without complain=
+t
++
++Origin: SUSE
++Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D458646
++Forwarded: no
++Reviewed-by: Chris Boot <bootc@debian.org>
++Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
++---
++ pppd/main.c         | 16 ++++++----------
++ pppd/options.c      |  5 +++++
++ pppd/pppd.8         |  8 +++++++-
++ pppd/pppd.h         | 11 +++++++++++
++ pppd/sys-linux.c    | 15 +++++++++++++++
++ pppstats/pppstats.c | 12 ++++++------
++ 6 files changed, 50 insertions(+), 17 deletions(-)
++
++diff --git a/pppd/main.c b/pppd/main.c
++index 6d50d1bac1d9..f1986ed68d0b 100644
++--- a/pppd/main.c
+++++ b/pppd/main.c
++@@ -124,7 +124,7 @@
++ static const char rcsid[] =3D RCSID;
++=20
++ /* interface vars */
++-char ifname[32];		/* Interface name */
+++char ifname[MAXIFNAMELEN];	/* Interface name */
++ int ifunit;			/* Interface unit number */
++=20
++ struct channel *the_channel;
++@@ -298,13 +298,6 @@ struct protent *protocols[] =3D {
++     NULL
++ };
++=20
++-/*
++- * If PPP_DRV_NAME is not defined, use the default "ppp" as the device =
+name.
++- */
++-#if !defined(PPP_DRV_NAME)
++-#define PPP_DRV_NAME	"ppp"
++-#endif /* !defined(PPP_DRV_NAME) */
++-
++ int
++ main(argc, argv)
++     int argc;
++@@ -737,8 +730,11 @@ void
++ set_ifunit(iskey)
++     int iskey;
++ {
++-    info("Using interface %s%d", PPP_DRV_NAME, ifunit);
++-    slprintf(ifname, sizeof(ifname), "%s%d", PPP_DRV_NAME, ifunit);
+++    if (req_ifname[0] !=3D '\0')
+++	slprintf(ifname, sizeof(ifname), "%s", req_ifname);
+++    else
+++	slprintf(ifname, sizeof(ifname), "%s%d", PPP_DRV_NAME, ifunit);
+++    info("Using interface %s", ifname);
++     script_setenv("IFNAME", ifname, iskey);
++     if (iskey) {
++ 	create_pidfile(getpid());	/* write pid to file */
++diff --git a/pppd/options.c b/pppd/options.c
++index c06a2b4ad8ed..177488ca6813 100644
++--- a/pppd/options.c
+++++ b/pppd/options.c
++@@ -114,6 +114,7 @@ char	linkname[MAXPATHLEN];	/* logical name for link =
+*/
++ bool	tune_kernel;		/* may alter kernel settings */
++ int	connect_delay =3D 1000;	/* wait this many ms after connect script *=
+/
++ int	req_unit =3D -1;		/* requested interface unit */
+++char	req_ifname[MAXIFNAMELEN];	/* requested interface name */
++ bool	multilink =3D 0;		/* Enable multilink operation */
++ char	*bundle_name =3D NULL;	/* bundle name for multilink */
++ bool	dump_options;		/* print out option values */
++@@ -284,6 +285,10 @@ option_t general_options[] =3D {
++       "PPP interface unit number to use if possible",
++       OPT_PRIO | OPT_LLIMIT, 0, 0 },
++=20
+++    { "ifname", o_string, req_ifname,
+++      "Set PPP interface name",
+++      OPT_PRIO | OPT_PRIV | OPT_STATIC, NULL, MAXIFNAMELEN },
+++
++     { "dump", o_bool, &dump_options,
++       "Print out option values after parsing all options", 1 },
++     { "dryrun", o_bool, &dryrun,
++diff --git a/pppd/pppd.8 b/pppd/pppd.8
++index c508d277df3a..06e945fce998 100644
++--- a/pppd/pppd.8
+++++ b/pppd/pppd.8
++@@ -1079,7 +1079,13 @@ under Linux and FreeBSD 2.2.8 and later.
++ .TP
++ .B unit \fInum
++ Sets the ppp unit number (for a ppp0 or ppp1 etc interface name) for ou=
+tbound
++-connections.
+++connections.  If the unit is already in use a dynamically allocated num=
+ber will
+++be used.
+++.TP
+++.B ifname \fIstring
+++Set the ppp interface name for outbound connections.  If the interface =
+name is
+++already in use, or if the name cannot be used for any other reason, ppp=
+d will
+++terminate.
++ .TP
++ .B unset \fIname
++ Remove a variable from the environment variable for scripts that are
++diff --git a/pppd/pppd.h b/pppd/pppd.h
++index 247fa153739b..1a1bf0b99582 100644
++--- a/pppd/pppd.h
+++++ b/pppd/pppd.h
++@@ -80,6 +80,16 @@
++ #define MAXARGS		1	/* max # args to a command */
++ #define MAXNAMELEN	256	/* max length of hostname or name for auth */
++ #define MAXSECRETLEN	256	/* max length of password or secret */
+++#define MAXIFNAMELEN	32	/* max length of interface name; or use IFNAMSI=
+Z, can we
+++				   always include net/if.h? */
+++
+++/*
+++ * If PPP_DRV_NAME is not defined, use the default "ppp" as the device =
+name.
+++ * Where should PPP_DRV_NAME come from? Do we include it here?
+++ */
+++#if !defined(PPP_DRV_NAME)
+++#define PPP_DRV_NAME	"ppp"
+++#endif /* !defined(PPP_DRV_NAME) */
++=20
++ /*
++  * Option descriptor structure.
++@@ -318,6 +328,7 @@ extern bool	tune_kernel;	/* May alter kernel setting=
+s as necessary */
++ extern int	connect_delay;	/* Time to delay after connect script */
++ extern int	max_data_rate;	/* max bytes/sec through charshunt */
++ extern int	req_unit;	/* interface unit number to use */
+++extern char	req_ifname[MAXIFNAMELEN]; /* interface name to use */
++ extern bool	multilink;	/* enable multilink operation */
++ extern bool	noendpoint;	/* don't send or accept endpt. discrim. */
++ extern char	*bundle_name;	/* bundle name for multilink */
++diff --git a/pppd/sys-linux.c b/pppd/sys-linux.c
++index b4a435d2a993..b832031f7e26 100644
++--- a/pppd/sys-linux.c
+++++ b/pppd/sys-linux.c
++@@ -643,6 +643,21 @@ static int make_ppp_unit()
++ 	}
++ 	if (x < 0)
++ 		error("Couldn't create new ppp unit: %m");
+++
+++	if (x =3D=3D 0 && req_ifname[0] !=3D '\0') {
+++		struct ifreq ifr;
+++		char t[MAXIFNAMELEN];
+++		memset(&ifr, 0, sizeof(struct ifreq));
+++		slprintf(t, sizeof(t), "%s%d", PPP_DRV_NAME, ifunit);
+++		strncpy(ifr.ifr_name, t, IF_NAMESIZE);
+++		strncpy(ifr.ifr_newname, req_ifname, IF_NAMESIZE);
+++		x =3D ioctl(sock_fd, SIOCSIFNAME, &ifr);
+++		if (x < 0)
+++		    error("Couldn't rename interface %s to %s: %m", t, req_ifname);
+++		else
+++		    info("Renamed interface %s to %s", t, req_ifname);
+++	}
+++
++ 	return x;
++ }
++=20
++diff --git a/pppstats/pppstats.c b/pppstats/pppstats.c
++index 6367988eb96b..46cb9c24942b 100644
++--- a/pppstats/pppstats.c
+++++ b/pppstats/pppstats.c
++@@ -88,7 +88,6 @@ int	aflag;			/* print absolute values, not deltas */
++ int	dflag;			/* print data rates, not bytes */
++ int	interval, count;
++ int	infinite;
++-int	unit;
++ int	s;			/* socket or /dev/ppp file descriptor */
++ int	signalled;		/* set if alarm goes off "early" */
++ char	*progname;
++@@ -449,6 +448,7 @@ main(argc, argv)
++ {
++     int c;
++ #ifdef STREAMS
+++    int unit;
++     char *dev;
++ #endif
++=20
++@@ -506,11 +506,6 @@ main(argc, argv)
++     if (argc > 0)
++ 	interface =3D argv[0];
++=20
++-    if (sscanf(interface, PPP_DRV_NAME "%d", &unit) !=3D 1) {
++-	fprintf(stderr, "%s: invalid interface '%s' specified\n",
++-		progname, interface);
++-    }
++-
++ #ifndef STREAMS
++     {
++ 	struct ifreq ifr;
++@@ -535,6 +530,11 @@ main(argc, argv)
++     }
++=20
++ #else	/* STREAMS */
+++    if (sscanf(interface, PPP_DRV_NAME "%d", &unit) !=3D 1) {
+++	fprintf(stderr, "%s: invalid interface '%s' specified\n",
+++		progname, interface);
+++    }
+++
++ #ifdef __osf__
++     dev =3D "/dev/streams/ppp";
++ #else
++--=20
++2.15.1
++
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.8.bb b/meta/recipes-co=
+nnectivity/ppp/ppp_2.4.8.bb
+index f9c60d6bad..231c40f6ca 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.8.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.8.bb
+@@ -30,6 +30,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/${BP=
+}.tar.gz \
+            file://fix-CVE-2015-3310.patch \
+            file://0001-ppp-Remove-unneeded-include.patch \
+            file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
++           file://0002-pppd-add-ifname-option.patch \
+            "
+=20
+ SRC_URI_append_libc-musl =3D "\
+--=20
+2.27.0
 
-> +                 (elf.abiSize(), bits, package_qa_clean_path(path, d, name)))
->      elif not ((littleendian == elf.isLittleEndian()) or is_bpf):
-> -        package_qa_add_message(messages, "arch", "Endiannes did not match (%d to %d) on %s" % \
-> -                 (littleendian, elf.isLittleEndian(), package_qa_clean_path(path,d)))
-> +        package_qa_add_message(messages, "arch", "Endiannes did not match (%d, expected %d) in %s" % \
-
-typo, it should be Endianness
-
-> +                 (elf.isLittleEndian(), littleendian, package_qa_clean_path(path,d, name)))
->  
->  QAPATHTEST[desktop] = "package_qa_check_desktop"
->  def package_qa_check_desktop(path, name, d, elf, messages):
-> 
-> 
-> 
-> 
