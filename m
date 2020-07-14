@@ -1,60 +1,61 @@
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
- by mx.groups.io with SMTP id smtpd.web11.22078.1594739678617549533
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.22494.1594740736108654901
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 08:14:39 -0700
+ Tue, 14 Jul 2020 08:32:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 4B5kZg5rd1z5tlG;
-	Tue, 14 Jul 2020 17:14:35 +0200 (CEST)
-Date: Tue, 14 Jul 2020 17:14:34 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id F249560AC2;
+	Tue, 14 Jul 2020 15:32:13 +0000 (UTC)
+MIME-Version: 1.0
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHBwOiBBZGQgc3VwcG9ydCBmb3Igc2V0dGluZyBpZm5hbWUgaW4gcHBwIG9wdGlvbnM=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
 To: Mark Deneen <mdeneen@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] ppp: Add support for setting ifname in ppp options
-Message-ID: <20200714151434.vthcngsgjyzeafkq@qschulz>
+Date: Tue, 14 Jul 2020 15:32:15 -0000
+Message-ID: <20200714153215.2264.44364@do>
 References: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
-MIME-Version: 1.0
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+== Series Details ==
 
-On Tue, Jul 14, 2020 at 11:04:41AM -0400, Mark Deneen wrote:
-> pppd is patched in most Linux distributions to allow arbitrary naming
-> of ppp interfaces, allowing users to create consistent firewall rules
-> rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
-> missing this option.
-> 
-> This patch, originally from SUSE, adds this option to pppd. It is not
-> included upstream because there are some pppd-supported platforms which
-> lack the ability to rename interfaces.
-> 
-> Signed-off-by: Mark Deneen <mdeneen@gmail.com>
+Series: ppp: Add support for setting ifname in ppp options
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25130/
+State : failure
 
-Please follow guidelines from:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
-to know how to contribute in a way that is matching OE patch management.
+== Summary ==
 
-Your mail content should probably be the content of the commit log. Your
-mail should directly be the output of git format-patch (send it with
-git send-email), the patch shouldn't be attached to the mail but rather
-"be" the mail.
 
-On the content of the patch, it'd be nice to take the patch with the
-authors, commit title and log from the original place where you took it
-from.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-It probably is:
-https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
-?
 
-No author, no commit log :/ Though, I could find
-https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
-which is slightly different and the changelog seems decent between
-Suse's and debian's patch.
 
-Thanks,
-Quentin
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
