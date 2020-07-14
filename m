@@ -1,82 +1,60 @@
-Received: from mailout09.rmx.de (mailout09.rmx.de [94.199.88.74])
- by mx.groups.io with SMTP id smtpd.web10.21975.1594739244685189324
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web11.22078.1594739678617549533
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2020 08:07:26 -0700
+ Tue, 14 Jul 2020 08:14:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.74, mailfrom: ceggers@arri.de)
-Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout09.rmx.de (Postfix) with ESMTPS id 4B5kQJ2PB1zbk87;
-	Tue, 14 Jul 2020 17:07:20 +0200 (CEST)
-Received: from mta.arri.de (unknown [217.111.95.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by kdin02.retarus.com (Postfix) with ESMTPS id 4B5kQF4dyCz2TRjk;
-	Tue, 14 Jul 2020 17:07:17 +0200 (CEST)
-Received: from n95hx1g2.localnet (192.168.54.74) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 14 Jul
- 2020 17:07:17 +0200
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Christopher Larson <kergoth@gmail.com>
-Subject: Re: [OE-core] How to install individual -lic packages
-Date: Tue, 14 Jul 2020 17:07:16 +0200
-Message-ID: <1677376.LsCQ3QojgJ@n95hx1g2>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-In-Reply-To: <162080BCA151ECDB.25249@lists.openembedded.org>
-References: <2349716.bIJK7JYWuR@n95hx1g2> <CABcZANmiNUMz1W8UKpsFKmjJ9DvCCepH2u3XjSeKaZUaaXHkcw@mail.gmail.com> <162080BCA151ECDB.25249@lists.openembedded.org>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 4B5kZg5rd1z5tlG;
+	Tue, 14 Jul 2020 17:14:35 +0200 (CEST)
+Date: Tue, 14 Jul 2020 17:14:34 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Mark Deneen <mdeneen@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] ppp: Add support for setting ifname in ppp options
+Message-ID: <20200714151434.vthcngsgjyzeafkq@qschulz>
+References: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.74]
-X-RMX-ID: 20200714-170717-4B5kQF4dyCz2TRjk-0@kdin02
-X-RMX-SOURCE: 217.111.95.66
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAP6JJ88RJ0LJZb4=kOUZNtBBYZMXHbP3q40ECaRMZ4kLeaBwKA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In the meantime I could answer the question myself:
+Hi Mark,
 
-Am Freitag, 10. Juli 2020, 23:16:39 CEST schrieb Christian Eggers:
-> [...]
-> I think this is not what I require. How can I install -lic packages
-> directly?
+On Tue, Jul 14, 2020 at 11:04:41AM -0400, Mark Deneen wrote:
+> pppd is patched in most Linux distributions to allow arbitrary naming
+> of ppp interfaces, allowing users to create consistent firewall rules
+> rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
+> missing this option.
+> 
+> This patch, originally from SUSE, adds this option to pppd. It is not
+> included upstream because there are some pppd-supported platforms which
+> lack the ability to rename interfaces.
+> 
+> Signed-off-by: Mark Deneen <mdeneen@gmail.com>
 
-In order to known by other (image) recipes, -lic packages must be
-added to PACKAGES_DYNAMIC. This is done in my distro.conf but should also w=
-ork
-from local.conf:
+Please follow guidelines from:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+to know how to contribute in a way that is matching OE patch management.
 
-# Create separate ${PN}-lic packages for all recipes
-LICENSE_CREATE_PACKAGE =3D "1"
-# -lic packages are created dynamically. Satisfy dependencies to it (requir=
-ed
-# if a -lic package needs to be installed directly (e.g. via IMAGE_INSTALL)
-# instead of being installed due to RRECOMMENDS_${PN}).
-PACKAGES_DYNAMIC +=3D "^${PN}-lic"
+Your mail content should probably be the content of the commit log. Your
+mail should directly be the output of git format-patch (send it with
+git send-email), the patch shouldn't be attached to the mail but rather
+"be" the mail.
 
-After adding ${PN}-lic to PACKAGES_DYNAMIC, arbitrary -lic packages
-can be added to an image recipe by using IMAGE_INSTALL. As an alternative,
-other packages can RDEPEND on them.
+On the content of the patch, it'd be nice to take the patch with the
+authors, commit title and log from the original place where you took it
+from.
 
-regards
-Christian
+It probably is:
+https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
+?
 
+No author, no commit log :/ Though, I could find
+https://sources.debian.org/patches/ppp/2.4.6-3.1/ppp-2.4.2-ifname.diff/
+which is slightly different and the changelog seems decent between
+Suse's and debian's patch.
 
-
-________________________________
- [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
-.jpg] <https://microsites.arri.com/stellar/>
-
-Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
-cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
-Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
-tube.com/user/ARRIChannel>.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
+Thanks,
+Quentin
