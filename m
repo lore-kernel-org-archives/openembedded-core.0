@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.131.1594831466133806155
+ by mx.groups.io with SMTP id smtpd.web11.108.1594831466411941505
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Jul 2020 09:44:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 03422E01E93; Wed, 15 Jul 2020 09:44:26 -0700 (PDT)
+	id 4A2A4E01E97; Wed, 15 Jul 2020 09:44:26 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CAA29E01EDC
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F008CE01EE0
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:43:02 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 151 SUCCEEDED
-Message-Id: <20200715164426.03422E01E93@yocto-www.yoctoproject.org>
+Subject: [AUH] libcap: upgrading to 2.39 FAILED
+Message-Id: <20200715164426.4A2A4E01E97@yocto-www.yoctoproject.org>
 Date: Wed, 15 Jul 2020 09:44:26 -0700 (PDT)
-X-Groupsio-MsgNum: 140681
-Content-Type: multipart/mixed; boundary="===============2466147160029415912=="
+Content-Type: multipart/mixed; boundary="===============7588671420763457179=="
 
---===============2466147160029415912==
+--===============7588671420763457179==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,19 +38,99 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *151* has Succeeded.
+that the automatic attempt to upgrade the recipe *libcap* to *2.39* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-150-151.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libcap failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8a644d9671d3e8519a82832fe1b502b24043b782"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.39.tar.xz...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (777 cached, 2 parsed). 1340 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8a644d9671d3e8519a82832fe1b502b24043b782"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 720aa2290c6588910120640323dee147311c96f6' failed:
+First, rewinding head to replay your work on top of it...
+Applying: Ensure the XATTR_NAME_CAPS is defined when it is used
+Applying: tests: do not run target executables
+Using index info to reconstruct a base tree...
+M	tests/Makefile
+Falling back to patching base and 3-way merge...
+Auto-merging tests/Makefile
+CONFLICT (content): Merge conflict in tests/Makefile
+error: Failed to merge in the changes.
+Patch failed at 0002 tests: do not run target executables
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libcap
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libcap/libcap_2.39.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -59,93 +138,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2466147160029415912==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 778 .bb files complete (0 cached, 778 parsed). 1339 targets, 44 skipped, 0 masked, 0 errors.
-Removing 144 recipes from the core2-32 sysroot...done.
-Removing 148 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============2466147160029415912==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 883149 to 883300 (+0%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 150 [default] to 151 [default]
-packages/core2-32-poky-linux/diffoscope: PV changed from "150" to "151"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 150 [default] to 151 [default]
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.8/site-packages/diffoscope-150-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/diffoscope-151-py3.8.egg-info
-
---===============2466147160029415912==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-150-151.patch"
-
-From 6b93ac8e8f9ca72be9eab1f32d268567df98f03d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 15:17:13 +0000
-Subject: [PATCH] diffoscope: upgrade 150 -> 151
-
----
- .../diffoscope/{diffoscope_150.bb => diffoscope_151.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_150.bb => diffoscope_151.bb} (83%)
-
-diff --git a/meta/recipes-support/diffoscope/diffoscope_150.bb b/meta/recipes-support/diffoscope/diffoscope_151.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_150.bb
-rename to meta/recipes-support/diffoscope/diffoscope_151.bb
-index 58bd60a2c2..9b39b44350 100644
---- a/meta/recipes-support/diffoscope/diffoscope_150.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_151.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "0b9e4ae401fe4cbb8ce89b0bcabe608581d0ed53b91a28f18337179c7494af57"
-+SRC_URI[sha256sum] = "f15e04aa537f0a3d91c99bf631c604668f4eea8f6552c5f93ea9be2bf014df84"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
--- 
-2.17.1
-
-
---===============2466147160029415912==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.8/site-packages/diffoscope-150-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/diffoscope-151-py3.8.egg-info
-
---===============2466147160029415912==--
+--===============7588671420763457179==--
