@@ -1,109 +1,130 @@
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
- by mx.groups.io with SMTP id smtpd.web10.3162.1594804542081678696
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web12.69.1594831378359412585
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 02:15:42 -0700
+ Wed, 15 Jul 2020 09:42:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DlZVGcQX;
- spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f66.google.com with SMTP id n4so378866uae.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 02:15:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wg9Rb03ywJN3RbLMickCDJymyJEdlf5X46niHTIUAjQ=;
-        b=DlZVGcQXptKw+4dH6zvVyvo2ejR4Rig6KuI/xMhTl/pVRNNi1/ssav6bqn/Xp5q7Ch
-         rTGeKMGJdthgpfBxx/zCVriC419jBfrf2FhydXrduUOzzCr6rBNMEPo3GrboBpPQM1ch
-         H1KE5ImH1BP2SXRtf0AEG36OrTq551mu6xvqzIsgn5WkOrrtvxnYegUBwkUz0kPwnrSb
-         9IxukWb3Z+HrAqkcOx0+ELY+ekc6ocKTYvAXxdhr1tGfaRLQAnewRpJQPjJjeY4GxIth
-         4GP14sBRPTcXGntnknE2Qxa3K9oCNBMb3Sepfe5lOlXVU1RA/ADnmYnAJakfy1JpijFV
-         7Vtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wg9Rb03ywJN3RbLMickCDJymyJEdlf5X46niHTIUAjQ=;
-        b=cEWmWibbdxGG7Z9kpeXSmBTXae0gu7NYQ1sMXn0v2ghMwxYDqcmBKgKbFpGFfKzf7r
-         hvIKU7f7JR+1GgG+9VO6rlT1SIlUar0JBzYYJz18eFaY4KyNPWcAxBwek7JknX4FYvwM
-         bNPnWcIJhL5JmGMU+06EeMNpdcwPDMtUNW7unm8vwltCTURqYXvif3zKxuiwNunJOPd7
-         dntyZhMfO1PIdEIi25u4sCpB4mqIBQkiqKPCDT4AHRUhAyPDmF+YM8H9W/7RfAZzclwS
-         5VYE7JJx5ej3jk9A8Jjm4PtBpp+5ArqMuejg2DMkX4hCYsCJVGD7xNT74DAJlcpf4D55
-         TxRA==
-X-Gm-Message-State: AOAM533LIKemn4fI2BgmVCeXMlIiWly1AiX/YR7ODJTks2ZNYCzLK4Xp
-	1o9un1Qz3dFi2Lap3x6rX60rFb4Y5v/qaWDxKLo=
-X-Google-Smtp-Source: ABdhPJy5Wb7Cfu+xoj5DQEGqxKCkTHh7vzWpMsaU3mTLro2c2Y7XmjBIvbXMoKihYOXX+Tpt1Rw5FOJBsQnEDcDYeJk=
-X-Received: by 2002:ab0:2eab:: with SMTP id y11mr6119012uay.22.1594804541253;
- Wed, 15 Jul 2020 02:15:41 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id EF4DEE01E9A; Wed, 15 Jul 2020 09:42:57 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,HELO_MISC_IP,
+	MISSING_DATE,MISSING_MID,RDNS_NONE,WEIRD_PORT autolearn=no version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 WEIRD_PORT URI: Uses non-standard port number for HTTP
+	*  0.5 MISSING_MID Missing Message-Id: header
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+	*  1.4 MISSING_DATE Missing Date: header
+	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
+Received: from [172.29.10.111] (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 09FD1E01E8B
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:42:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <fb3b732ab791369a2287a3b89e0d125c78f228ca.camel@cisco.com> <20200712213551.2206605-1-takondra@cisco.com>
-In-Reply-To: <20200712213551.2206605-1-takondra@cisco.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 15 Jul 2020 11:15:29 +0200
-Message-ID: <CANNYZj8QBo7X5qoq3yse8rO3qh47_zTWkm6hkRUng2hHmj+c_w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: use host pkg-config only when host provides sdl
-To: "Taras Kondratiuk (takondra)" <takondra@cisco.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002aeb2605aa775e33"
+From: auh@auh.yoctoproject.org
+To: Armin Kuster <akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] bind: upgrading to 9.16.4 FAILED
+Message-Id: <20200715164257.EF4DEE01E9A@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:42:57 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============5871812348994886765=="
 
---0000000000002aeb2605aa775e33
-Content-Type: text/plain; charset="UTF-8"
+--===============5871812348994886765==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-On Sun, 12 Jul 2020 at 23:35, Taras Kondratiuk via lists.openembedded.org
-<takondra=cisco.com@lists.openembedded.org> wrote:
+Hello,
 
-> For example if xkbcommon is present on host, but not in
-> buildtools-tarball:
-> |
-> build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4.1.0/qemu-keymap.c:16:10:
-> fatal error: xkbcommon/xkbcommon.h: No such file or directory
-> |    16 | #include <xkbcommon/xkbcommon.h>
-> |       |          ^~~~~~~~~~~~~~~~~~~~~~~
-> | compilation terminated.
-> | make: ***
-> [build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4.1.0/rules.mak:69:
-> qemu-keymap.o] Error 1
->
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *bind* to *9.16.4* has Failed (devtool error).
 
-Qemu's xkbcommon support is disabled by default via PACKAGECONFIG:
-PACKAGECONFIG[xkbcommon] =
-"--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+Detailed error information:
 
-So why is it then re-enabled? Can you take a closer look at what happens at
-configure step? The way I read it, it should skip the whole pkg-config
-thing.
-(please check on latest master poky)
+The following devtool command failed:  upgrade bind -V 9.16.4
+NOTE: Starting bitbake server...
+INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 778 .bb files complete (0 cached, 778 parsed). 1339 targets, 33 skipped, 0 masked, 0 errors.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
 
-Alex
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
 
---0000000000002aeb2605aa775e33
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (777 cached, 2 parsed). 1340 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 12 Jul 2020 at 23:35, Taras Kondr=
-atiuk via <a href=3D"http://lists.openembedded.org">lists.openembedded.org<=
-/a> &lt;takondra=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisc=
-o.com@lists.openembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">For example if xkbco=
-mmon is present on host, but not in<br>
-buildtools-tarball:<br>
-| build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4.1.0/qemu-k=
-eymap.c:16:10: fatal error: xkbcommon/xkbcommon.h: No such file or director=
-y<br>
-|=C2=A0 =C2=A0 16 | #include &lt;xkbcommon/xkbcommon.h&gt;<br>
-|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~=
-~~~~~~~~~~~~<br>
-| compilation terminated.<br>
-| make: *** [build/tmp/work/x86_64-linux/qemu-system-native/4.1.0-r0/qemu-4=
-.1.0/rules.mak:69: qemu-keymap.o] Error 1<br></blockquote><div><br></div><d=
-iv>Qemu&#39;s xkbcommon support is disabled by default via PACKAGECONFIG:</=
-div><div>PACKAGECONFIG[xkbcommon] =3D &quot;--enable-xkbcommon,--disable-xk=
-bcommon,libxkbcommon&quot;</div><div><br></div><div>So why is it then re-en=
-abled? Can you take a closer look at what happens at configure step? The wa=
-y I read it, it should skip the whole pkg-config thing.</div><div>(please c=
-heck on latest master poky)<br></div><div><br></div><div>Alex<br></div><div=
->=C2=A0</div></div></div>
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
 
---0000000000002aeb2605aa775e33--
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz, attempting MIRRORS if available
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; unset _PYTHON_SYSCONFIGDATA_NAME; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/
+ build/build/build/tmp/work/recipetool-whozhkib/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz' --progress=dot -v failed with exit code 8, output:
+--2020-07-15 02:16:05--  https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz
+Resolving ftp.isc.org (ftp.isc.org)... 2001:4f8:1:f::49, 149.20.1.49
+Connecting to ftp.isc.org (ftp.isc.org)|2001:4f8:1:f::49|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2020-07-15 02:16:05 ERROR 404: Not Found.
+
+
+ERROR: Fetcher failure for URL: 'https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz'. Unable to fetch URL from any source.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-whozhkib/work/temp/log.do_fetch.25271
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+ERROR: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.4/bind-9.16.4.tar.gz
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============5871812348994886765==--
