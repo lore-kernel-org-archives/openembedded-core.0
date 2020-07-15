@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.61.1594831407378172044
+ by mx.groups.io with SMTP id smtpd.web10.67.1594831413227905812
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:43:27 -0700
+ Wed, 15 Jul 2020 09:43:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3E3B1E01E93; Wed, 15 Jul 2020 09:43:27 -0700 (PDT)
+	id 19077E01E9D; Wed, 15 Jul 2020 09:43:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,18 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B0605E01E9A
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 00C98E01EA3
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:42:58 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nasm: upgrading to 2.15.02 FAILED
-Message-Id: <20200715164327.3E3B1E01E93@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:43:27 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============0202017041108102489=="
+Subject: [AUH] python3-cython: upgrading to 0.29.21 SUCCEEDED
+Message-Id: <20200715164333.19077E01E9D@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:43:33 -0700 (PDT)
+X-Groupsio-MsgNum: 140655
+Content-Type: multipart/mixed; boundary="===============1447839965461426608=="
 
---===============0202017041108102489==
+--===============1447839965461426608==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,104 +39,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nasm* to *2.15.02* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-cython* to *0.29.21* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.20-0.29.21.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe nasm failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1339 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200715"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f617e9b2b04be29ecf1e07fd0d073522b97cf37d"
-workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.nasm.us/pub/nasm/releasebuilds/2.15.02/nasm-2.15.02.tar.bz2...
-Loading cache...done.
-Loaded 1339 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 779 .bb files complete (777 cached, 2 parsed). 1340 targets, 33 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200715"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f617e9b2b04be29ecf1e07fd0d073522b97cf37d"
-workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  15% |#####                               | ETA:  0:00:00
-Adding changed files:  30% |##########                          | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 54e5ed3e49619d7bba1d39647b98ee07789515ac' failed:
-First, rewinding head to replay your work on top of it...
-Applying: preproc: Fix malformed parameter count
-Using index info to reconstruct a base tree...
-M	asm/preproc.c
-Falling back to patching base and 3-way merge...
-Auto-merging asm/preproc.c
-CONFLICT (content): Merge conflict in asm/preproc.c
-error: Failed to merge in the changes.
-Patch failed at 0001 preproc: Fix malformed parameter count
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since recipe inherits autotools-brokensep
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/nasm
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/nasm/nasm_2.15.02.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -143,4 +59,86 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0202017041108102489==--
+--===============1447839965461426608==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 9846580 to 9858588 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8471794 to 8483229 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.20" to "0.29.21"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.20 [default] to 0.29.21 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.8/site-packages/Cython-0.29.20-py3.8.egg-info -> /usr/lib/python3.8/site-packages/Cython-0.29.21-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/Cython/Compiler/Tests/TestStringEncoding.py /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/__pycache__/TestStringEncoding.cpython-38.pyc"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 8666373 to 8670091 (+0%)
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.8/site-packages/Cython-0.29.20-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/Cython-0.29.21-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/__pycache__/TestStringEncoding.cpython-38.pyc was added
+  /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/TestStringEncoding.py was added
+
+--===============1447839965461426608==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.8/site-packages/Cython-0.29.20-py3.8.egg-info -> /usr/lib/python3.8/site-packages/Cython-0.29.21-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/Cython/Compiler/Tests/__pycache__/TestStringEncoding.cpython-38.pyc /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/TestStringEncoding.py"
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.8/site-packages/Cython-0.29.20-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/Cython-0.29.21-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/__pycache__/TestStringEncoding.cpython-38.pyc was added
+  /usr/lib/python3.8/site-packages/Cython/Compiler/Tests/TestStringEncoding.py was added
+
+--===============1447839965461426608==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-python3-cython-upgrade-0.29.20-0.29.21.patch"
+
+From d6a11e4b5466a41d9fa60901df7b51a32be690b8 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Wed, 15 Jul 2020 06:06:54 +0000
+Subject: [PATCH] python3-cython: upgrade 0.29.20 -> 0.29.21
+
+---
+ meta/recipes-devtools/python/python-cython.inc                  | 2 +-
+ .../{python3-cython_0.29.20.bb => python3-cython_0.29.21.bb}    | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.20.bb => python3-cython_0.29.21.bb} (100%)
+
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index a0cd2a5fb4..b1e71f3ccd 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
+ PYPI_PACKAGE = "Cython"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "22d91af5fc2253f717a1b80b8bb45acb655f643611983fd6f782b9423f8171c7"
++SRC_URI[sha256sum] = "e57acb89bd55943c8d8bf813763d20b9099cc7165c0f16b707631a7654be9cad"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.20.bb b/meta/recipes-devtools/python/python3-cython_0.29.21.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-cython_0.29.20.bb
+rename to meta/recipes-devtools/python/python3-cython_0.29.21.bb
+-- 
+2.17.1
+
+
+--===============1447839965461426608==--
