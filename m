@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.95.1594831452963358083
+ by mx.groups.io with SMTP id smtpd.web12.124.1594831454820744218
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:44:13 -0700
+ Wed, 15 Jul 2020 09:44:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C24AFE01EA4; Wed, 15 Jul 2020 09:44:12 -0700 (PDT)
+	id A67D4E01E94; Wed, 15 Jul 2020 09:44:14 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 85A0DE01E94
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B379AE01EBE
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:43:00 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 3.36.3 SUCCEEDED
-Message-Id: <20200715164412.C24AFE01EA4@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:44:12 -0700 (PDT)
-X-Groupsio-MsgNum: 140673
-Content-Type: multipart/mixed; boundary="===============2945130713584476057=="
+Subject: [AUH] libhandy: upgrading to 0.80.0 SUCCEEDED
+Message-Id: <20200715164414.A67D4E01E94@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:44:14 -0700 (PDT)
+X-Groupsio-MsgNum: 140674
+Content-Type: multipart/mixed; boundary="===============7374229660281990533=="
 
---===============2945130713584476057==
+--===============7374229660281990533==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *3.36.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libhandy* to *0.80.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-3.36.2-3.36.3.patch
+    - apply the patch: git am 0001-libhandy-upgrade-0.0.13-0.80.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,235 +59,151 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2945130713584476057==
+--===============7374229660281990533==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 4000672 to 4001368 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGSIZE changed from 34693 to 40667 (+17%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PKGSIZE changed from 74401 to 74637 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 25510805 to 25511636 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-src: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany/epiphany: PKGSIZE changed from 3865510 to 3862219 (-0%)
-packages/core2-32-poky-linux/epiphany/epiphany: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany/epiphany: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
-packages/core2-32-poky-linux/epiphany: PV changed from "3.36.2" to "3.36.3"
-packages/core2-32-poky-linux/epiphany: PKGV changed from 3.36.2 [default] to 3.36.3 [default]
+packages/core2-32-poky-linux/libhandy: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1385088 to 1561100 (+13%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: FILELIST: removed "/usr/bin/.debug/handy-0.0-demo /usr/lib/.debug/libhandy-0.0.so.0", added "/usr/bin/.debug/handy-1-demo /usr/lib/.debug/libhandy-1.so.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423484 to 447466 (+6%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
+packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-dialog.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-keypad.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-preferences-group.h /usr/include/libhandy-0.0/hdy-enums.h /usr/include/libhandy-0.0/hdy-version.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-preferences-window.h /usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-search-b
+ ar.h /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-title-bar.h /usr/share/vala/vapi/libhandy-0.0.vapi /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/include/libhandy-0.0/hdy-fold.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/lib/pkgconfig/libhandy-0.0.pc /usr/include/libhandy-0.0/hdy-arrows.h /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-string-utf8.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-enum-value-object.h", added "/usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-leaflet.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-preferences-row.h 
+ /usr/include/libhandy-1/hdy-keypad.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-avatar.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-value-object.h /usr/include/libhandy-1/hdy-preferences-page.h /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-enums.h /usr/lib/libhandy-1.so /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-enum-value-object.h /usr/include/libhandy-1/handy.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/hdy-squeezer.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-carousel.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/incl
+ ude/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-swipe-group.h /usr/include/libhandy-1/hdy-deprecation-macros.h /usr/include/libhandy-1/hdy-column.h /usr/include/libhandy-1/hdy-list-box.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-action-row.h /usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy-1/hdy-version.h /usr/include/libhandy-1/hdy-header-bar.h"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 239032 (+75%)
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
+packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-1-locale
+packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 3725166 (+43%)
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
+packages/core2-32-poky-linux/libhandy/libhandy-src: FILELIST: directory renamed /usr/src/debug/libhandy/0.0.13-r0/build/examples -> /usr/src/debug/libhandy/0.80.0-r0/build/examples, directory renamed /usr/src/debug/libhandy/0.0.13-r0/git/examples -> /usr/src/debug/libhandy/0.80.0-r0/git/examples, removed "/usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-title-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-button.c /usr/src/debug/libh
+ andy/0.0.13-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.c /usr/src/debug/libha
+ ndy/0.0.13-r0/git/src/hdy-dialer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-fold.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.0.13-r0/git/s
+ rc/hdy-main.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-
+ search-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.h /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-page.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.h /usr/src/
+ debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-list-box.c", added "/usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-title.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-application-window.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-carousel-box-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-leaflet
+ .h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-stackable-box.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-avatar.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-mixin-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-navigation-direction.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-carousel.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-title-bar.c /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-enums-private.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-stackable-box-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.80.0-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-deck.c /us
+ r/src/debug/libhandy/0.80.0-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-keypad-button.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-cairo-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-window.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-carousel-box.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-handle.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-column.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-handle.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-avatar.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-nothing-private.h /usr/src/debug
+ /libhandy/0.80.0-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.80.0-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.80.0-r0/git/src/gtk-window-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipeable-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-column.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-handle-controller-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-value-obje
+ ct.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-nothing.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-handle-controller.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-header-bar.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window-mixin.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-deck.h /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-enums-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-search-bar.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-squeezer.h /u
+ sr/src/debug/libhandy/0.80.0-r0/git/src/hdy-combo-row.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-application-window.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-window.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.80.0-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-list-box.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-carousel.h /usr/src/debug/libhandy/0.80.0-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-window.c /usr/src/deb
+ ug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-title.c /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-animation.h /usr/src/debug/libhandy/0.80.0-r0/git/src/hdy-preferences-page.h"
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
+packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "0.0.13" to "0.80.0"
+packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 0.0.13 [default] to 0.80.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 556040 (+11%)
+packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
+packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/lib/libhandy-1.so.0 /usr/lib/girepository-1.0/Handy-1.typelib"
+Changes to packages/core2-32-poky-linux/libhandy (sysroot):
+  /usr/include/libhandy-1 was added
+  /usr/include/libhandy-1/handy.h was added
+  /usr/include/libhandy-1/hdy-action-row.h was added
+  /usr/include/libhandy-1/hdy-animation.h was added
+  /usr/include/libhandy-1/hdy-application-window.h was added
+  /usr/include/libhandy-1/hdy-avatar.h was added
+  /usr/include/libhandy-1/hdy-carousel.h was added
+  /usr/include/libhandy-1/hdy-column.h was added
+  /usr/include/libhandy-1/hdy-combo-row.h was added
+  /usr/include/libhandy-1/hdy-deck.h was added
+  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
+  /usr/include/libhandy-1/hdy-enums.h was added
+  /usr/include/libhandy-1/hdy-enum-value-object.h was added
+  /usr/include/libhandy-1/hdy-expander-row.h was added
+  /usr/include/libhandy-1/hdy-header-bar.h was added
+  /usr/include/libhandy-1/hdy-header-group.h was added
+  /usr/include/libhandy-1/hdy-keypad.h was added
+  /usr/include/libhandy-1/hdy-leaflet.h was added
+  /usr/include/libhandy-1/hdy-list-box.h was added
+  /usr/include/libhandy-1/hdy-navigation-direction.h was added
+  /usr/include/libhandy-1/hdy-preferences-group.h was added
+  /usr/include/libhandy-1/hdy-preferences-page.h was added
+  /usr/include/libhandy-1/hdy-preferences-row.h was added
+  /usr/include/libhandy-1/hdy-preferences-window.h was added
+  /usr/include/libhandy-1/hdy-search-bar.h was added
+  /usr/include/libhandy-1/hdy-squeezer.h was added
+  /usr/include/libhandy-1/hdy-swipeable.h was added
+  /usr/include/libhandy-1/hdy-swipe-group.h was added
+  /usr/include/libhandy-1/hdy-title-bar.h was added
+  /usr/include/libhandy-1/hdy-value-object.h was added
+  /usr/include/libhandy-1/hdy-version.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
+  /usr/include/libhandy-1/hdy-view-switcher.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
+  /usr/include/libhandy-1/hdy-window.h was added
+  /usr/include/libhandy-1/hdy-window-handle.h was added
+  /usr/lib/girepository-1.0/Handy-1.typelib was added
+  /usr/lib/libhandy-1.so.0 was added
+  /usr/lib/libhandy-1.so was added
+  /usr/lib/pkgconfig/libhandy-1.pc was added
+  /usr/share/gir-1.0/Handy-1.gir was added
+  /usr/share/vala/vapi/libhandy-1.deps was added
+  /usr/share/vala/vapi/libhandy-1.vapi was added
+  /usr/include/libhandy-0.0 was removed
+  /usr/include/libhandy-0.0/handy.h was removed
+  /usr/include/libhandy-0.0/hdy-action-row.h was removed
+  /usr/include/libhandy-0.0/hdy-animation.h was removed
+  /usr/include/libhandy-0.0/hdy-arrows.h was removed
+  /usr/include/libhandy-0.0/hdy-column.h was removed
+  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
+  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer.h was removed
+  /usr/include/libhandy-0.0/hdy-dialog.h was removed
+  /usr/include/libhandy-0.0/hdy-enums.h was removed
+  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
+  /usr/include/libhandy-0.0/hdy-fold.h was removed
+  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-header-group.h was removed
+  /usr/include/libhandy-0.0/hdy-keypad.h was removed
+  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
+  /usr/include/libhandy-0.0/hdy-list-box.h was removed
+  /usr/include/libhandy-0.0/hdy-main.h was removed
+  /usr/include/libhandy-0.0/hdy-paginator.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
+  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
+  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
+  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
+  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
+  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-version.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
+  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
+  /usr/lib/libhandy-0.0.so.0 was removed
+  /usr/lib/libhandy-0.0.so was removed
+  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
+  /usr/share/gir-1.0/Handy-0.0.gir was removed
+  /usr/share/vala/vapi/libhandy-0.0.deps was removed
+  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1733,50 +1649,119 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============2945130713584476057==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-3.36.2-3.36.3.patch"
-
-From ddad280e8690e0683c31a62b386a26fc66617be4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 10:20:01 +0000
-Subject: [PATCH] epiphany: upgrade 3.36.2 -> 3.36.3
-
----
- .../epiphany/{epiphany_3.36.2.bb => epiphany_3.36.3.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.36.2.bb => epiphany_3.36.3.bb} (90%)
-
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
-similarity index 90%
-rename from meta/recipes-gnome/epiphany/epiphany_3.36.2.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
-index 8ac318b0d7..8eb4ac4fcc 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.36.2.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
-@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.sha256sum] = "c2e676aa0fe211809a5e7e8a7e461d182890f253c53f4610f2610094b6fbfb5e"
-+SRC_URI[archive.sha256sum] = "621b5626374891769afec9c35946ab6c3910ea9cf9a2498bab166c99bd91e16f"
- 
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
--- 
-2.17.1
-
-
---===============2945130713584476057==
+--===============7374229660281990533==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGSIZE changed from 34693 to 40667 (+17%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1385088 to 1561100 (+13%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
+packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/include/libhandy-0.0/hdy-dialog.h /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/include/libhandy-0.0/hdy-string-utf8.h /usr/lib/pkgconfig/libhandy-0.0.pc /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-preferences-window.h /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-enum-value-object.h /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/incl
+ ude/libhandy-0.0/hdy-preferences-group.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/include/libhandy-0.0/hdy-fold.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-arrows.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-title-bar.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-keypad.h /usr/share/vala/vapi/libhandy-0.0.vapi /usr/include/libhandy-0.0/hdy-version.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-search-bar.h /usr/include/libhandy-0.0/hdy-enums.h", added "/usr/include/libhandy-1/handy.h /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-list-box.h /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/h
+ dy-swipe-group.h /usr/lib/libhandy-1.so /usr/include/libhandy-1/hdy-enum-value-object.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy-1/hdy-keypad.h /usr/include/libhandy-1/hdy-deprecation-macros.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/include/libhandy-1/hdy-squeezer.h /usr/include/libhandy-1/hdy-leaflet.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-column.h /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-action-row.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-carousel.h /usr/include/
+ libhandy-1/hdy-avatar.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-preferences-row.h /usr/include/libhandy-1/hdy-version.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-preferences-page.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-value-object.h /usr/include/libhandy-1/hdy-header-bar.h /usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-enums.h"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
+packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 239032 (+75%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-1-locale
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 3725166 (+43%)
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
+packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
+packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/lib/girepository-1.0/Handy-1.typelib /usr/lib/libhandy-1.so.0"
+packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 556040 (+11%)
+Changes to packages/core2-32-poky-linux/libhandy (sysroot):
+  /usr/include/libhandy-1 was added
+  /usr/include/libhandy-1/handy.h was added
+  /usr/include/libhandy-1/hdy-action-row.h was added
+  /usr/include/libhandy-1/hdy-animation.h was added
+  /usr/include/libhandy-1/hdy-application-window.h was added
+  /usr/include/libhandy-1/hdy-avatar.h was added
+  /usr/include/libhandy-1/hdy-carousel.h was added
+  /usr/include/libhandy-1/hdy-column.h was added
+  /usr/include/libhandy-1/hdy-combo-row.h was added
+  /usr/include/libhandy-1/hdy-deck.h was added
+  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
+  /usr/include/libhandy-1/hdy-enums.h was added
+  /usr/include/libhandy-1/hdy-enum-value-object.h was added
+  /usr/include/libhandy-1/hdy-expander-row.h was added
+  /usr/include/libhandy-1/hdy-header-bar.h was added
+  /usr/include/libhandy-1/hdy-header-group.h was added
+  /usr/include/libhandy-1/hdy-keypad.h was added
+  /usr/include/libhandy-1/hdy-leaflet.h was added
+  /usr/include/libhandy-1/hdy-list-box.h was added
+  /usr/include/libhandy-1/hdy-navigation-direction.h was added
+  /usr/include/libhandy-1/hdy-preferences-group.h was added
+  /usr/include/libhandy-1/hdy-preferences-page.h was added
+  /usr/include/libhandy-1/hdy-preferences-row.h was added
+  /usr/include/libhandy-1/hdy-preferences-window.h was added
+  /usr/include/libhandy-1/hdy-search-bar.h was added
+  /usr/include/libhandy-1/hdy-squeezer.h was added
+  /usr/include/libhandy-1/hdy-swipeable.h was added
+  /usr/include/libhandy-1/hdy-swipe-group.h was added
+  /usr/include/libhandy-1/hdy-title-bar.h was added
+  /usr/include/libhandy-1/hdy-value-object.h was added
+  /usr/include/libhandy-1/hdy-version.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
+  /usr/include/libhandy-1/hdy-view-switcher.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
+  /usr/include/libhandy-1/hdy-window.h was added
+  /usr/include/libhandy-1/hdy-window-handle.h was added
+  /usr/lib/girepository-1.0/Handy-1.typelib was added
+  /usr/lib/libhandy-1.so.0 was added
+  /usr/lib/libhandy-1.so was added
+  /usr/lib/pkgconfig/libhandy-1.pc was added
+  /usr/share/gir-1.0/Handy-1.gir was added
+  /usr/share/vala/vapi/libhandy-1.deps was added
+  /usr/share/vala/vapi/libhandy-1.vapi was added
+  /usr/include/libhandy-0.0 was removed
+  /usr/include/libhandy-0.0/handy.h was removed
+  /usr/include/libhandy-0.0/hdy-action-row.h was removed
+  /usr/include/libhandy-0.0/hdy-animation.h was removed
+  /usr/include/libhandy-0.0/hdy-arrows.h was removed
+  /usr/include/libhandy-0.0/hdy-column.h was removed
+  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
+  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer.h was removed
+  /usr/include/libhandy-0.0/hdy-dialog.h was removed
+  /usr/include/libhandy-0.0/hdy-enums.h was removed
+  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
+  /usr/include/libhandy-0.0/hdy-fold.h was removed
+  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-header-group.h was removed
+  /usr/include/libhandy-0.0/hdy-keypad.h was removed
+  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
+  /usr/include/libhandy-0.0/hdy-list-box.h was removed
+  /usr/include/libhandy-0.0/hdy-main.h was removed
+  /usr/include/libhandy-0.0/hdy-paginator.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
+  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
+  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
+  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
+  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
+  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-version.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
+  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
+  /usr/lib/libhandy-0.0.so.0 was removed
+  /usr/lib/libhandy-0.0.so was removed
+  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
+  /usr/share/gir-1.0/Handy-0.0.gir was removed
+  /usr/share/vala/vapi/libhandy-0.0.deps was removed
+  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3222,4 +3207,40 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============2945130713584476057==--
+--===============7374229660281990533==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libhandy-upgrade-0.0.13-0.80.0.patch"
+
+From 5d2091d212be0b1fe846baab360d43ba7c4320a9 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Wed, 15 Jul 2020 10:29:47 +0000
+Subject: [PATCH] libhandy: upgrade 0.0.13 -> 0.80.0
+
+---
+ meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
+index 64258941ee..190e69abf7 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_git.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
+@@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "git://source.puri.sm/Librem5/${BPN}.git;protocol=https"
+-SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
++SRCREV = "b61eefde06040703026f49a0b979588e69f77d3a"
+ S = "${WORKDIR}/git"
+-PV = "0.0.13"
++PV = "0.80.0"
+ 
+ GIR_MESON_ENABLE_FLAG = 'enabled'
+ GIR_MESON_DISABLE_FLAG = 'disabled'
+-- 
+2.17.1
+
+
+--===============7374229660281990533==--
