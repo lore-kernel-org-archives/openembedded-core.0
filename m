@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.133.1594831471764753923
+ by mx.groups.io with SMTP id smtpd.web11.119.1594831478028414039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:44:32 -0700
+ Wed, 15 Jul 2020 09:44:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 99C6AE01EA7; Wed, 15 Jul 2020 09:44:31 -0700 (PDT)
+	id DA6DBE01EA8; Wed, 15 Jul 2020 09:44:37 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 669C0E01ED6
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:43:02 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1E417E01EE2
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:43:03 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mpg123: upgrading to 1.26.2 SUCCEEDED
-Message-Id: <20200715164431.99C6AE01EA7@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:44:31 -0700 (PDT)
-X-Groupsio-MsgNum: 140684
-Content-Type: multipart/mixed; boundary="===============6792548522353341629=="
+Subject: [AUH] libevent: upgrading to 2.1.12 SUCCEEDED
+Message-Id: <20200715164437.DA6DBE01EA8@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:44:37 -0700 (PDT)
+X-Groupsio-MsgNum: 140685
+Content-Type: multipart/mixed; boundary="===============8972928684390226510=="
 
---===============6792548522353341629==
+--===============8972928684390226510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mpg123* to *1.26.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libevent* to *2.1.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mpg123-upgrade-1.26.1-1.26.2.patch
+    - apply the patch: git am 0001-libevent-upgrade-2.1.11-2.1.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,346 +59,69 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6792548522353341629==
+--===============8972928684390226510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mpg123: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-dbg: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-dbg: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-dbg: PKGSIZE changed from 2269624 to 2270208 (+0%)
-packages/core2-32-poky-linux/mpg123/mpg123-dbg: FILELIST: removed "/usr/lib/.debug/libsyn123.so.0.1.0", added "/usr/lib/.debug/libsyn123.so.0.1.1"
-packages/core2-32-poky-linux/mpg123/mpg123-dev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-dev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-dev: PKGSIZE changed from 163204 to 163267 (+0%)
-packages/core2-32-poky-linux/mpg123/mpg123-doc: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-doc: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-locale: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-locale: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-src: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-src: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123-src: PKGSIZE changed from 1635064 to 1635990 (+0%)
-packages/core2-32-poky-linux/mpg123/mpg123-staticdev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123-staticdev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123: PV changed from "1.26.1" to "1.26.2"
-packages/core2-32-poky-linux/mpg123/mpg123: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-32-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libsyn123.so.0.1.0", added "/usr/lib/libsyn123.so.0.1.1"
-Changes to packages/core2-32-poky-linux/mpg123 (sysroot):
-  /usr/lib/libsyn123.so.0 changed symlink target from libsyn123.so.0.1.0 to libsyn123.so.0.1.1
-  /usr/lib/libsyn123.so changed symlink target from libsyn123.so.0.1.0 to libsyn123.so.0.1.1
-  /usr/lib/libsyn123.so.0.1.0 moved to /usr/lib/libsyn123.so.0.1.1
-Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
-  /usr/bin/i686-poky-linux-musl was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-addr2line was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ar was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-as was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++filt was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-dwp was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-elfedit was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gprof was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld.bfd was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld.gold was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-nm was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-objcopy was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-objdump was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ranlib was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-readelf was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-size was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-strings was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-strip was added
-  /usr/lib/i686-poky-linux-musl was added
-  /usr/lib/i686-poky-linux-musl/ldscripts was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xwe was added
-  /sysroot-providers/virtual_i686-poky-linux-binutils was removed
-  /usr/bin/i686-poky-linux was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-addr2line was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ar was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-as was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++filt was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-dwp was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-elfedit was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-gprof was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld.bfd was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld.gold was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-nm was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-objcopy was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-objdump was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ranlib was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-readelf was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-size was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-strings was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-strip was removed
-  /usr/lib/i686-poky-linux was removed
-  /usr/lib/i686-poky-linux/ldscripts was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xwe was removed
+packages/core2-32-poky-linux/libevent: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-core: PKGSIZE changed from 247142 to 251238 (+2%)
+packages/core2-32-poky-linux/libevent/libevent-core: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-core: FILES: removed "/usr/lib/libevent_core-2.1.so.7.0.0", added "/usr/lib/libevent_core-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-core: FILELIST: removed "/usr/lib/libevent_core-2.1.so.7.0.0", added "/usr/lib/libevent_core-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-core: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-dbg: PKGSIZE changed from 4032616 to 4099640 (+2%)
+packages/core2-32-poky-linux/libevent/libevent-dbg: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-dbg: FILELIST: removed "/usr/lib/.debug/libevent-2.1.so.7.0.0 /usr/lib/.debug/libevent_pthreads-2.1.so.7.0.0 /usr/lib/.debug/libevent_core-2.1.so.7.0.0 /usr/lib/.debug/libevent_extra-2.1.so.7.0.0", added "/usr/lib/.debug/libevent-2.1.so.7.0.1 /usr/lib/.debug/libevent_pthreads-2.1.so.7.0.1 /usr/lib/.debug/libevent_extra-2.1.so.7.0.1 /usr/lib/.debug/libevent_core-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-dbg: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-dev: PKGSIZE changed from 373048 to 373799 (+0%)
+packages/core2-32-poky-linux/libevent/libevent-dev: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-dev: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-doc: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-doc: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-extra: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-extra: FILES: removed "/usr/lib/libevent_extra-2.1.so.7.0.0", added "/usr/lib/libevent_extra-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-extra: FILELIST: removed "/usr/lib/libevent_extra-2.1.so.7.0.0", added "/usr/lib/libevent_extra-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-extra: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-locale: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-locale: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-ptest: PKGSIZE changed from 973369 to 998233 (+3%)
+packages/core2-32-poky-linux/libevent/libevent-ptest: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-ptest: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-pthreads: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-pthreads: FILES: removed "/usr/lib/libevent_pthreads-2.1.so.7.0.0", added "/usr/lib/libevent_pthreads-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-pthreads: FILELIST: removed "/usr/lib/libevent_pthreads-2.1.so.7.0.0", added "/usr/lib/libevent_pthreads-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-pthreads: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-src: PKGSIZE changed from 1988269 to 2011525 (+1%)
+packages/core2-32-poky-linux/libevent/libevent-src: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-src: FILELIST: directory renamed /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/include/event2 -> /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/include/event2, directory renamed /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable -> /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable, removed "/usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_util.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-closed.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_thread.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_minheap.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-fdleak.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress.h /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_et.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_testutils.h 
+ /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_zlib.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-time.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_buffer.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/tinytest.h /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_http.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-weof.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/tinytest.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-init.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_testutils.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_finalize.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-dumpevents.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_mai
+ n.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_bufferevent.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_dns.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-eof.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-changelist.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress.gen.h /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_listener.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress_rpc.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/test-ratelim.c /usr/src/debug/libevent/2.1.11-r0/libevent-2.1.11-stable/test/regress.gen.c", added "/usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-eof.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress.h /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_dns.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable
+ /test/regress_et.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_http.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_testutils.h /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_thread.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-dumpevents.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_main.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_thread.h /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_util.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/tinytest.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_bufferevent.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-changelist.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-ratelim.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_minheap.c /usr/src/debug/libevent/2
+ .1.12-r0/libevent-2.1.12-stable/test/test-time.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-init.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_finalize.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/tinytest.h /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_testutils.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-fdleak.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_listener.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_rpc.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/test-closed.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress.gen.h /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_buffer.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress.gen.c /usr/src/debug/lib
+ event/2.1.12-r0/libevent-2.1.12-stable/test/test-weof.c /usr/src/debug/libevent/2.1.12-r0/libevent-2.1.12-stable/test/regress_zlib.c"
+packages/core2-32-poky-linux/libevent/libevent-src: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent-staticdev: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent-staticdev: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+packages/core2-32-poky-linux/libevent/libevent: PKGSIZE changed from 390677 to 394773 (+1%)
+packages/core2-32-poky-linux/libevent/libevent: PV changed from "2.1.11" to "2.1.12"
+packages/core2-32-poky-linux/libevent/libevent: FILELIST: removed "/usr/lib/libevent-2.1.so.7.0.0", added "/usr/lib/libevent-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent: PKGV changed from 2.1.11 [default] to 2.1.12 [default]
+Changes to packages/core2-32-poky-linux/libevent (sysroot):
+  /usr/lib/libevent-2.1.so.7 changed symlink target from libevent-2.1.so.7.0.0 to libevent-2.1.so.7.0.1
+  /usr/lib/libevent_core-2.1.so.7 changed symlink target from libevent_core-2.1.so.7.0.0 to libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_core.so changed symlink target from libevent_core-2.1.so.7.0.0 to libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_extra-2.1.so.7 changed symlink target from libevent_extra-2.1.so.7.0.0 to libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_extra.so changed symlink target from libevent_extra-2.1.so.7.0.0 to libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads-2.1.so.7 changed symlink target from libevent_pthreads-2.1.so.7.0.0 to libevent_pthreads-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads.so changed symlink target from libevent_pthreads-2.1.so.7.0.0 to libevent_pthreads-2.1.so.7.0.1
+  /usr/lib/libevent.so changed symlink target from libevent-2.1.so.7.0.0 to libevent-2.1.so.7.0.1
+  /usr/lib/libevent-2.1.so.7.0.0 moved to /usr/lib/libevent-2.1.so.7.0.1
+  /usr/lib/libevent_core-2.1.so.7.0.0 moved to /usr/lib/libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_extra-2.1.so.7.0.0 moved to /usr/lib/libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads-2.1.so.7.0.0 moved to /usr/lib/libevent_pthreads-2.1.so.7.0.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-musl-gcc was added
@@ -1535,363 +1258,67 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============6792548522353341629==
+--===============8972928684390226510==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-mpg123-upgrade-1.26.1-1.26.2.patch"
+ filename="0001-libevent-upgrade-2.1.11-2.1.12.patch"
 
-From 9a939b50f48fff381be05c85ae1c7e5d2b978ee6 Mon Sep 17 00:00:00 2001
+From 868cf9d373d6a42a3249497623c1a4e2e17fe16a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 12:47:34 +0000
-Subject: [PATCH] mpg123: upgrade 1.26.1 -> 1.26.2
+Date: Wed, 15 Jul 2020 15:37:23 +0000
+Subject: [PATCH] libevent: upgrade 2.1.11 -> 2.1.12
 
 ---
- .../mpg123/{mpg123_1.26.1.bb => mpg123_1.26.2.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.26.1.bb => mpg123_1.26.2.bb} (96%)
+ .../libevent/{libevent_2.1.11.bb => libevent_2.1.12.bb}        | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/libevent/{libevent_2.1.11.bb => libevent_2.1.12.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.26.1.bb b/meta/recipes-multimedia/mpg123/mpg123_1.26.2.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.26.1.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.26.2.bb
-index affbac4919..aaa66e17a6 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.26.1.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.26.2.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
+diff --git a/meta/recipes-support/libevent/libevent_2.1.11.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
+similarity index 91%
+rename from meta/recipes-support/libevent/libevent_2.1.11.bb
+rename to meta/recipes-support/libevent/libevent_2.1.12.bb
+index fb186eb89f..29e87081d3 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.11.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+@@ -12,8 +12,7 @@ SRC_URI = "https://github.com/libevent/libevent/releases/download/release-${PV}-
+            file://0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch \
+            "
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "74d6629ab7f3dd9a588b0931528ba7ecfa989a2cad6bf53ffeef9de31b0fe032"
-+SRC_URI[sha256sum] = "00f7bf7ea64fcec2c9d07751d6ad8849343ee09c282ea3b0d5dd486e886e2ff3"
+-SRC_URI[md5sum] = "7f35cfe69b82d879111ec0d7b7b1c531"
+-SRC_URI[sha256sum] = "a65bac6202ea8c5609fd5c7e480e6d25de467ea1917c08290c521752f147283d"
++SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
  
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ UPSTREAM_CHECK_URI = "http://libevent.org/"
  
 -- 
 2.17.1
 
 
---===============6792548522353341629==
+--===============8972928684390226510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libsyn123.so.0.1.0", added "/usr/lib/libsyn123.so.0.1.1"
-Changes to packages/core2-32-poky-linux/mpg123 (sysroot):
-  /usr/lib/libsyn123.so.0 changed symlink target from libsyn123.so.0.1.0 to libsyn123.so.0.1.1
-  /usr/lib/libsyn123.so changed symlink target from libsyn123.so.0.1.0 to libsyn123.so.0.1.1
-  /usr/lib/libsyn123.so.0.1.0 moved to /usr/lib/libsyn123.so.0.1.1
-Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
-  /usr/bin/i686-poky-linux-musl was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-addr2line was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ar was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-as was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++filt was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-dwp was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-elfedit was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gprof was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld.bfd was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ld.gold was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-nm was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-objcopy was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-objdump was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-ranlib was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-readelf was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-size was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-strings was added
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-strip was added
-  /usr/lib/i686-poky-linux-musl was added
-  /usr/lib/i686-poky-linux-musl/ldscripts was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_i386.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_k1om.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_l1om.xwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.x was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xd was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xde was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xn was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xr was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xs was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xse was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xu was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xw was added
-  /usr/lib/i686-poky-linux-musl/ldscripts/elf_x86_64.xwe was added
-  /sysroot-providers/virtual_i686-poky-linux-binutils was removed
-  /usr/bin/i686-poky-linux was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-addr2line was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ar was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-as was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++filt was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-dwp was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-elfedit was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-gprof was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld.bfd was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ld.gold was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-nm was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-objcopy was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-objdump was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-ranlib was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-readelf was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-size was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-strings was removed
-  /usr/bin/i686-poky-linux/i686-poky-linux-strip was removed
-  /usr/lib/i686-poky-linux was removed
-  /usr/lib/i686-poky-linux/ldscripts was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_i386.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_k1om.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_l1om.xwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.x was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/i686-poky-linux/ldscripts/elf_x86_64.xwe was removed
+packages/core2-32-poky-linux/libevent/libevent-core: FILELIST: removed "/usr/lib/libevent_core-2.1.so.7.0.0", added "/usr/lib/libevent_core-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-extra: FILELIST: removed "/usr/lib/libevent_extra-2.1.so.7.0.0", added "/usr/lib/libevent_extra-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent-pthreads: FILELIST: removed "/usr/lib/libevent_pthreads-2.1.so.7.0.0", added "/usr/lib/libevent_pthreads-2.1.so.7.0.1"
+packages/core2-32-poky-linux/libevent/libevent: FILELIST: removed "/usr/lib/libevent-2.1.so.7.0.0", added "/usr/lib/libevent-2.1.so.7.0.1"
+Changes to packages/core2-32-poky-linux/libevent (sysroot):
+  /usr/lib/libevent-2.1.so.7 changed symlink target from libevent-2.1.so.7.0.0 to libevent-2.1.so.7.0.1
+  /usr/lib/libevent_core-2.1.so.7 changed symlink target from libevent_core-2.1.so.7.0.0 to libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_core.so changed symlink target from libevent_core-2.1.so.7.0.0 to libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_extra-2.1.so.7 changed symlink target from libevent_extra-2.1.so.7.0.0 to libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_extra.so changed symlink target from libevent_extra-2.1.so.7.0.0 to libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads-2.1.so.7 changed symlink target from libevent_pthreads-2.1.so.7.0.0 to libevent_pthreads-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads.so changed symlink target from libevent_pthreads-2.1.so.7.0.0 to libevent_pthreads-2.1.so.7.0.1
+  /usr/lib/libevent.so changed symlink target from libevent-2.1.so.7.0.0 to libevent-2.1.so.7.0.1
+  /usr/lib/libevent-2.1.so.7.0.0 moved to /usr/lib/libevent-2.1.so.7.0.1
+  /usr/lib/libevent_core-2.1.so.7.0.0 moved to /usr/lib/libevent_core-2.1.so.7.0.1
+  /usr/lib/libevent_extra-2.1.so.7.0.0 moved to /usr/lib/libevent_extra-2.1.so.7.0.1
+  /usr/lib/libevent_pthreads-2.1.so.7.0.0 moved to /usr/lib/libevent_pthreads-2.1.so.7.0.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-musl-gcc was added
@@ -3028,4 +2455,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============6792548522353341629==--
+--===============8972928684390226510==--
