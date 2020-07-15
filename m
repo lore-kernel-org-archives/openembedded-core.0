@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.70.1594831378724495914
+ by mx.groups.io with SMTP id smtpd.web10.47.1594831379733027522
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:42:58 -0700
+ Wed, 15 Jul 2020 09:42:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 96CA1E01EA3; Wed, 15 Jul 2020 09:42:58 -0700 (PDT)
+	id 8421EE01EAD; Wed, 15 Jul 2020 09:42:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2A2D9E01E8D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7026FE01E91
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:42:57 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster@mvista.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libuv: upgrading to 1.38.1 SUCCEEDED
-Message-Id: <20200715164258.96CA1E01EA3@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:42:58 -0700 (PDT)
-X-Groupsio-MsgNum: 140641
-Content-Type: multipart/mixed; boundary="===============7550007933180245744=="
+Subject: [AUH] kbd: upgrading to 2.3.0 FAILED
+Message-Id: <20200715164259.8421EE01EAD@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:42:59 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============8405118575777951328=="
 
---===============7550007933180245744==
+--===============8405118575777951328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,19 +38,109 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libuv* to *1.38.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *kbd* to *2.3.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libuv-upgrade-1.38.0-1.38.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe kbd failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a03a3175610203616050f8372c50931df03f851f"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.3.0.tar.xz...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (777 cached, 2 parsed). 1340 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200715"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a03a3175610203616050f8372c50931df03f851f"
+workspace            = "master:ca701cb92dcf186664d9b1f82c679e4f9cc388ec"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  22% |########                            | ETA:  0:00:00
+Adding changed files:  44% |################                    | ETA:  0:00:00
+Adding changed files:  66% |########################            | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase cc503ee0c4fd1986916a1e584de7d8a05b541a09' failed:
+First, rewinding head to replay your work on top of it...
+Applying: kbd: create ptest sub-package
+Using index info to reconstruct a base tree...
+M	tests/Makefile.am
+A	tests/alt-is-meta.in
+A	tests/dumpkeys-bkeymap.in
+A	tests/dumpkeys-fulltable.in
+A	tests/dumpkeys-mktable.in
+Falling back to patching base and 3-way merge...
+CONFLICT (modify/delete): tests/dumpkeys-mktable.in deleted in HEAD and modified in kbd: create ptest sub-package. Version kbd: create ptest sub-package of tests/dumpkeys-mktable.in left in tree.
+CONFLICT (modify/delete): tests/dumpkeys-fulltable.in deleted in HEAD and modified in kbd: create ptest sub-package. Version kbd: create ptest sub-package of tests/dumpkeys-fulltable.in left in tree.
+CONFLICT (modify/delete): tests/dumpkeys-bkeymap.in deleted in HEAD and modified in kbd: create ptest sub-package. Version kbd: create ptest sub-package of tests/dumpkeys-bkeymap.in left in tree.
+CONFLICT (modify/delete): tests/alt-is-meta.in deleted in HEAD and modified in kbd: create ptest sub-package. Version kbd: create ptest sub-package of tests/alt-is-meta.in left in tree.
+Auto-merging tests/Makefile.am
+CONFLICT (content): Merge conflict in tests/Makefile.am
+error: Failed to merge in the changes.
+Patch failed at 0001 kbd: create ptest sub-package
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/kbd
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/kbd/kbd_2.3.0.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -59,70 +148,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7550007933180245744==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libuv: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-dbg: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-dbg: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-dbg: PKGSIZE changed from 600456 to 598712 (-0%)
-packages/core2-32-poky-linux/libuv/libuv-dev: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-dev: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-doc: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-doc: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-locale: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-locale: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-src: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-src: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv-src: FILELIST: directory renamed /usr/src/debug/libuv/1.38.0-r0/git/src -> /usr/src/debug/libuv/1.38.1-r0/git/src, directory renamed /usr/src/debug/libuv/1.38.0-r0/git/include -> /usr/src/debug/libuv/1.38.1-r0/git/include, directory renamed /usr/src/debug/libuv/1.38.0-r0/git/include/uv -> /usr/src/debug/libuv/1.38.1-r0/git/include/uv, removed "/usr/src/debug/libuv/1.38.0-r0/git/src/unix/pipe.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/getaddrinfo.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/internal.h /usr/src/debug/libuv/1.38.0-r0/git/src/unix/signal.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/proctitle.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/thread.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/getnameinfo.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/poll.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/fs.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/dl.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/async.c /usr/src/debug/lib
- uv/1.38.0-r0/git/src/unix/procfs-exepath.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/udp.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/linux-inotify.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/random-devurandom.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/loop-watcher.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/stream.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/atomic-ops.h /usr/src/debug/libuv/1.38.0-r0/git/src/unix/random-sysctl-linux.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/loop.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/tcp.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/sysinfo-loadavg.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/core.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/random-getrandom.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/linux-core.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/spinlock.h /usr/src/debug/libuv/1.38.0-r0/git/src/unix/linux-syscalls.h /usr/src/debug/libuv/1.38.0-r0/git/src/unix/linux-syscalls.c /usr/src/debug/libuv/1.38.
- 0-r0/git/src/unix/tty.c /usr/src/debug/libuv/1.38.0-r0/git/src/unix/process.c", added "/usr/src/debug/libuv/1.38.1-r0/git/src/unix/dl.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/async.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/internal.h /usr/src/debug/libuv/1.38.1-r0/git/src/unix/spinlock.h /usr/src/debug/libuv/1.38.1-r0/git/src/unix/core.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/linux-core.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/loop-watcher.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/linux-syscalls.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/linux-syscalls.h /usr/src/debug/libuv/1.38.1-r0/git/src/unix/tcp.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/random-sysctl-linux.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/getaddrinfo.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/udp.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/pipe.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/signal.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/process.c /usr/src/debug/libuv
- /1.38.1-r0/git/src/unix/stream.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/getnameinfo.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/atomic-ops.h /usr/src/debug/libuv/1.38.1-r0/git/src/unix/proctitle.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/poll.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/thread.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/loop.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/random-devurandom.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/random-getrandom.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/procfs-exepath.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/fs.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/linux-inotify.c /usr/src/debug/libuv/1.38.1-r0/git/src/unix/tty.c"
-packages/core2-32-poky-linux/libuv/libuv-src: PKGSIZE changed from 533186 to 532420 (-0%)
-packages/core2-32-poky-linux/libuv/libuv-staticdev: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv-staticdev: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-packages/core2-32-poky-linux/libuv/libuv: PV changed from "1.38.0" to "1.38.1"
-packages/core2-32-poky-linux/libuv/libuv: PKGV changed from 1.38.0 [default] to 1.38.1 [default]
-
---===============7550007933180245744==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-libuv-upgrade-1.38.0-1.38.1.patch"
-
-From ae922c8946f45609c94411b2ee92e1ab56fb79f1 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 02:22:10 +0000
-Subject: [PATCH] libuv: upgrade 1.38.0 -> 1.38.1
-
----
- .../libuv/{libuv_1.38.0.bb => libuv_1.38.1.bb}                  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.38.0.bb => libuv_1.38.1.bb} (90%)
-
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.38.0.bb b/meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-similarity index 90%
-rename from meta/recipes-connectivity/libuv/libuv_1.38.0.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-index afc9b2f2ea..874546373a 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.38.0.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
- 
--SRCREV = "1ab9ea3790378f9f25c4e78e9e2b511c75f9c9ed"
-+SRCREV = "e8b989ea1f7f9d4083511a2caec7791e9abd1871"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
-
-
---===============7550007933180245744==--
+--===============8405118575777951328==--
