@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.116.1594831439027162535
+ by mx.groups.io with SMTP id smtpd.web10.86.1594831445710137464
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:43:59 -0700
+ Wed, 15 Jul 2020 09:44:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D7B85E01E9F; Wed, 15 Jul 2020 09:43:58 -0700 (PDT)
+	id 8E9B0E01EA1; Wed, 15 Jul 2020 09:44:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3814FE01EB8
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D3320E01EBF
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:43:00 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rpcsvc-proto: upgrading to 1.4.2 SUCCEEDED
-Message-Id: <20200715164358.D7B85E01E9F@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:43:58 -0700 (PDT)
-X-Groupsio-MsgNum: 140666
-Content-Type: multipart/mixed; boundary="===============3024911281514637838=="
+Subject: [AUH] libva-initial: upgrading to 2.8.0 FAILED
+Message-Id: <20200715164405.8E9B0E01EA1@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:44:05 -0700 (PDT)
+X-Groupsio-MsgNum: 140667
+Content-Type: multipart/mixed; boundary="===============7251608650289411479=="
 
---===============3024911281514637838==
+--===============7251608650289411479==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,33 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rpcsvc-proto* to *1.4.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libva-initial* to *2.8.0* has Failed (devtool error).
+
+Detailed error information:
+
+The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libva
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1339 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (778 cached, 1 parsed). 1340 targets, 33 skipped, 0 masked, 0 errors.
+INFO: No patches or local source files needed updating
+INFO: Cleaning sysroot for recipe libva-initial...
+ERROR: Command 'bitbake -c clean libva-initial' failed, output:
+Loading cache...done.
+Loaded 1340 entries from dependency cache.
+Parsing recipes...ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libva/libva_2.7.1.bb:1: Could not include required file libva.inc
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+If you wish, you may specify -n/--no-clean to skip running this command when resetting
+
+
 
 Next steps:
-    - apply the patch: git am 0001-rpcsvc-proto-upgrade-1.4.1-1.4.2.patch
+    - apply the patch: git am 0001-libva-initial-upgrade-2.7.1-2.8.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,63 +82,74 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3024911281514637838==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/rpcsvc-proto: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-dbg: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-dbg: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-dev: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-dev: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-doc: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-doc: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-locale: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-locale: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-src: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-src: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-staticdev: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto-staticdev: PV changed from "1.4.1" to "1.4.2"
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
-packages/core2-32-poky-linux/rpcsvc-proto/rpcsvc-proto: PV changed from "1.4.1" to "1.4.2"
-
---===============3024911281514637838==
+--===============7251608650289411479==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-rpcsvc-proto-upgrade-1.4.1-1.4.2.patch"
+ filename="0001-libva-initial-upgrade-2.7.1-2.8.0.patch"
 
-From 111abf2a3aee0073e1cafff0e0724bc2cac5b068 Mon Sep 17 00:00:00 2001
+From 368a35cfda2c8a44e3469b969678a001c6896494 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 07:13:29 +0000
-Subject: [PATCH] rpcsvc-proto: upgrade 1.4.1 -> 1.4.2
+Date: Wed, 15 Jul 2020 10:31:01 +0000
+Subject: [PATCH] libva-initial: upgrade 2.7.1 -> 2.8.0
 
 ---
- meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libva/libva-initial_2.7.1.bb              |  8 ------
+ meta/recipes-graphics/libva/libva.inc         | 27 -------------------
+ 2 files changed, 35 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+ delete mode 100644 meta/recipes-graphics/libva/libva.inc
 
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-index f2e9e3975e..5aff2b56a6 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -15,9 +15,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0daaf958d5531ab86169ec6e275e1517"
- SECTION = "libs"
- DEPENDS += "rpcsvc-proto-native"
- 
--PV = "1.4.1"
-+PV = "1.4.2"
- 
--SRCREV = "e295c9a3b67752734995dfc057bfbf5313ed0d82"
-+SRCREV = "6f54e54455c073d08a56ea627c6cd2355a40eb53"
- 
- SRC_URI = "git://github.com/thkukuk/${BPN} \
-            file://0001-Use-cross-compiled-rpcgen.patch \
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.7.1.bb b/meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+deleted file mode 100644
+index 3e2b806c6d..0000000000
+--- a/meta/recipes-graphics/libva/libva-initial_2.7.1.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require libva.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27c230efd5d98a04"
+-
+-do_install_append () {
+-	rm -f ${D}${libdir}/*.so*
+-}
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+deleted file mode 100644
+index e7bec80c14..0000000000
+--- a/meta/recipes-graphics/libva/libva.inc
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY = "Video Acceleration (VA) API for Linux"
+-DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
+-and API specification which enables and provides access to graphics \
+-hardware (GPU) acceleration for video processing on Linux and UNIX \
+-based operating systems. Accelerated processing includes video \
+-decoding, video encoding, subpicture blending and rendering. The \
+-specification was originally designed by Intel for its GMA (Graphics \
+-Media Accelerator) series of GPU hardware, the API is however not \
+-limited to GPUs or Intel specific hardware, as other hardware and \
+-manufacturers can also freely use this API for hardware accelerated \
+-video decoding."
+-
+-HOMEPAGE = "https://01.org/linuxmedia/vaapi"
+-BUGTRACKER = "https://github.com/intel/libva/issues"
+-
+-SECTION = "x11"
+-LICENSE = "MIT"
+-
+-SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
+-
+-S = "${WORKDIR}/libva-${PV}"
+-
+-UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+-
+-DEPENDS = "libdrm"
+-
+-inherit meson pkgconfig
 -- 
 2.17.1
 
 
---===============3024911281514637838==--
+--===============7251608650289411479==--
