@@ -1,96 +1,129 @@
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com [209.85.221.193])
- by mx.groups.io with SMTP id smtpd.web10.2641.1594840660047096443
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
+ by mx.groups.io with SMTP id smtpd.web12.299.1594843052168385444
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 12:17:40 -0700
+ Wed, 15 Jul 2020 12:57:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q7dL2+fm;
- spf=pass (domain: gmail.com, ip: 209.85.221.193, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f193.google.com with SMTP id g22so740802vke.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 12:17:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IqBaZ73v;
+ spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f67.google.com with SMTP id l1so3582732ioh.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 12:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AKZCuA847hcu5EBpsu8C6lBW5LVGT21HUPwCiLaKuVo=;
-        b=Q7dL2+fm9o/Pc/xtnm2BCIVRYKUa5/jBK+gdM3E89mIIptxuyt+OGzGXarGwKnKQ98
-         l7tREpM9659nzVnD+F/oM5zuFyhrGKoYB1O6SMeTs2E9svCNHO8Um3fvaw83z8bT3EFm
-         qUi3yYPqdtJySHeYbHWZ2WPgeW4i+l2/LgoJDaXwPl7yT2WNTyqGajlHFGxbr0chLHq1
-         A6A2H6c5Sw3kTttQnNhIm1xF+M57Jf45QvNG8C8v5oOmDinJS56+M2eaZptwfY600pi0
-         aNAJYdD2orbOfGl74LXSGmpS1lOJFW/55+02G1Rb5id120Q//9LffwVHx5FensxlQhO7
-         grVg==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=lhogL40aQIWHfOs+VU84/LjBnhRVBIxj0iHeRIO6a0A=;
+        b=IqBaZ73vvn/TiK95Ua00cpX5Xl3sLc7Wq53Tfo7bz8ivcgvwWGHAeHWbItNFSmqD6p
+         C9y5OOazzZyKCiwFFxDBJh1fBpPOeNuj3R+ifGRTjGxGG4h2AbYnr7xeiWkkfrEHFyA1
+         D8Z971SDEdbNDyhmp6q+tMberHWEStNBd3DNHoC4HgoQ3YxaLzR9ZAuyAHfBPhFxVCyj
+         HfH0Ba5HRGEb9OnAEKtkeQB2dWMZOLFlRinU9UvRHsyf7tY9vHg00/tgaKHRQAgP5G7B
+         srjoL+BclHjAdmUMl19WkkAr7420/kAS3ucIT7sR3gxFCm+pxjtXx34m77L656IYG9Ad
+         vCOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AKZCuA847hcu5EBpsu8C6lBW5LVGT21HUPwCiLaKuVo=;
-        b=IaqHTlhEK96KYuXyvVNfAsmgKmc+5HV15qM82Inmw/ijfN5yfDQKNHLL2aQfVhYqo1
-         9SHLcpkEzcGCL4y7Eft/2PighijIzHiSCDfi+M9MqlAIXsk8hoE9NYgniciL27vgtNrc
-         hBGZVMd7acM6KhbY/5PqrPBfxm+BZXh6nSbnb0D5wUsBcJE2NFIc8heiwroKzEIP9yw/
-         Qljx3Mqcbl1dp5EEipN5t+hRZZQ1uWywhaWAMqxd8dyv52AiwZX/p+Z0t2zX6pQzUZbR
-         Evbrqdt0ycWSa8nqN/sBiMs0ZXddh5AVr0RmZrEL/MKxx/ys39lrvZA2/6z2xyscPZRb
-         7UCg==
-X-Gm-Message-State: AOAM530R4GXLGR1Zps7FKhHiyXjIKcP1rKOrtNy9N70fWJFp2e4NIBLX
-	sw5KuSwPjAjWFem32/V2HXzUvj1vV0WUwDT0wGY=
-X-Google-Smtp-Source: ABdhPJzcr2NwukwXJJ3H0ATyHXt+OPuHvcCdX/T54Y2KRvbf/bhJ0rUc5+HKm77/Dj1vCUaJTvRGEfpIVueuSmIsMZ4=
-X-Received: by 2002:ac5:cdf5:: with SMTP id v21mr496621vkn.1.1594840659260;
- Wed, 15 Jul 2020 12:17:39 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=lhogL40aQIWHfOs+VU84/LjBnhRVBIxj0iHeRIO6a0A=;
+        b=KIA0ZtC/+yYhoelFG2PXg75vdDZjC/RamkbRI2Rb5x6Y+s1a7QGVH5aAn8jfAQ56uE
+         5wDcMIk/F8ZBDn2R5Vp9Hc/v2mPCWJGp/b7uR2SxURit9JFXUe+E496jGq/STBc0mOk2
+         e6+OFKuOPFLVPTaG+Uid7BJTLybvApQsw7ZJ94D73b1KqpBu76YMNp3UOxsMJyH3hHYb
+         /fqYMswDHYMGYJV06Ei3Bu5ihodK3pMMBkNgrtCFlXkHa4YlnTKkdf7Tzb3etUqo9c0e
+         aasx475dYhehtUdC9a9M4K36sB1HUy5QpZruifUD63yKBAvJlDgi/cQcU9ScQaKBIHWD
+         Q7qQ==
+X-Gm-Message-State: AOAM532Fn1tbWlCCMi+3Q5o472Z5pA30JtNtwnOAxpCzl/qkVMjAhOCq
+	iLhXQupDdsk9T+eoPAPLKo0=
+X-Google-Smtp-Source: ABdhPJyCpb0dSmWC2PF2iZIgG3HnK6ADE26JHsu3rYsN9687dQW8OetCJiQAsDg0EprJ8FQctA9IeQ==
+X-Received: by 2002:a5e:dc03:: with SMTP id b3mr907002iok.97.1594843051506;
+        Wed, 15 Jul 2020 12:57:31 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:a8de:37f6:bed5:6e4c? ([2605:a601:ac3d:c100:a8de:37f6:bed5:6e4c])
+        by smtp.gmail.com with ESMTPSA id g1sm1797899iov.38.2020.07.15.12.57.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2020 12:57:30 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][PATCH v8] expat: Added ptest
+To: Randy MacLeod <randy.macleod@windriver.com>,
+ oleksandr.s.popovych@globallogic.com,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+ Joshua Watt <JPEW.hacker@gmail.com>
+References: <20200430165529.23657-1-oleksandr.s.popovych@globallogic.com>
+ <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
+ <CAKqUGW-3RDNU1SFmy9egAbPv8AEOfGBHWb9o34O0P2TxF3boMA@mail.gmail.com>
+ <b4996474-6945-9542-0b73-1eeb1499250c@windriver.com>
+Message-ID: <dffc8b1e-ba48-eb47-9607-6e4a2bca1393@gmail.com>
+Date: Wed, 15 Jul 2020 14:57:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <fb3b732ab791369a2287a3b89e0d125c78f228ca.camel@cisco.com>
- <20200712213551.2206605-1-takondra@cisco.com> <CANNYZj8QBo7X5qoq3yse8rO3qh47_zTWkm6hkRUng2hHmj+c_w@mail.gmail.com>
- <0cef3914ade47872815423de749d0885759d24e8.camel@cisco.com>
- <CANNYZj-5OJTK7OZ0MHvdiHuWdEAykbG0SKbkxaQjYQpqkgQzqw@mail.gmail.com> <b2d458f64f65890e3fa30644b4c18f7dcd74dddf.camel@cisco.com>
-In-Reply-To: <b2d458f64f65890e3fa30644b4c18f7dcd74dddf.camel@cisco.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 15 Jul 2020 21:17:27 +0200
-Message-ID: <CANNYZj8+qiNMt_0thqSY-TZGGH+PDwdLLY6c0vevof98=iR_OQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: use host pkg-config only when host provides sdl
-To: "Taras Kondratiuk (takondra)" <takondra@cisco.com>
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
-Content-Type: multipart/alternative; boundary="000000000000f7f8b105aa7fc6a8"
+In-Reply-To: <b4996474-6945-9542-0b73-1eeb1499250c@windriver.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---000000000000f7f8b105aa7fc6a8
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 15 Jul 2020 at 20:54, Taras Kondratiuk (takondra) <
-takondra@cisco.com> wrote:
+On 7/15/20 11:54 AM, Randy MacLeod wrote:
+> On 2020-06-03 8:48 a.m., Oleksandr via lists.openembedded.org wrote:
+>> Hello Richard, Joshua,
+>>
+>> On Mon, May 11, 2020 at 3:45 PM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>> ...
+>>>
+>>> Thanks, this is definitely getting there. There was only one test
+>>> failure this time, with meta-mingw:
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1884
+>>>
+>>> I've cc'd Joshua in case he has any insights on this.
+>>
+>> I`ve tested my patch with meta-mingw layer on my host and it seems I
+>> have fixed the current compilation error, with making some changes to
+>> meta-mingw (by changing "CMAKE_SYSTEM_NAME" variable to "Windows"
+>> value during toolchain file generation in
+>> "recipes-core/expat/expat_%.bbappend" file using a
+>> "recipes-devtools/cmake/cmake_%.bbappend" file as template). However
+>> this is only part of a solution, because another error appears next to
+>> it: gdb-cross-canadian that depends on expat now fails to build,
+>> because it can not find a proper expat library. It seems that expat
+>> recipe, which was switched to build with CMake in my patch, does not
+>> generate output library in proper format (it compiles only
+>> "libexpat.dll.a", when the current version of expat recipe from
+>> upstream, that uses Autotools, generates both "libexpat.a" and
+>> "libexpat.dll.a"). This is such an error that I can not figure out how
+>> to solve it by myself, so I ask for help.
+>
+> When I was cleaning up my inbox, I noticed this thread had gone idle.
+>
+> Ugh, I have no idea about Windows, Joshua any ideas?
+
+I don't have any idea either. If you can post a patch to the meta-mingw 
+mailing list (yocto@lists.yoctoproject.org with [meta-mingw] in the 
+subject), it might help provided a little more context.
 
 >
-> PACKAGECONFIG improves determinism, but it is not sufficient. It is not
-> feasible to make sure that PACKAGECONFIGs cover all configurations.
-> There will be always something that slips through. I think
-> acknowledging this fact was one of the reasons for recipe-specific
-> sysroots.
+>>
+>> Additionally I would like to ask you: How should I send patches now
+>> when at least two separate patches with similar purposes should be
+>> sent to different layers (one for [OE-core] and other for
+>> [meta-mingw])? Should they be connected with some kind of cover-letter
+>> or is there another option?
 >
-> We use buildtools tarball to better isolate OE build from host
-> environment and improve determinism. Host pkg-config opens a big hole
-> for non-determinism and plugging it with PACKAGECONFIGs seems fragile.
+> I think that if you just CC the maintainers and mention the dependency
+> in the commit log or wrapper email, then things will work out.
 >
-
-Right, with this I agree.
-
-Alex
-
---000000000000f7f8b105aa7fc6a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 15 Jul 2020 at 20:54, Taras Kondr=
-atiuk (takondra) &lt;<a href=3D"mailto:takondra@cisco.com">takondra@cisco.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex"><br>
-PACKAGECONFIG improves determinism, but it is not sufficient. It is not<br>
-feasible to make sure that PACKAGECONFIGs cover all configurations.<br>
-There will be always something that slips through. I think<br>
-acknowledging this fact was one of the reasons for recipe-specific<br>
-sysroots.<br>
-<br>
-We use buildtools tarball to better isolate OE build from host<br>
-environment and improve determinism. Host pkg-config opens a big hole<br>
-for non-determinism and plugging it with PACKAGECONFIGs seems fragile.<br><=
-/blockquote><div><br></div><div>Right, with this I agree.</div><div><br></d=
-iv><div>Alex<br></div></div></div>
-
---000000000000f7f8b105aa7fc6a8--
+> Thanks for continuing to work on this Oleksandr.
+> Hopefully v9 will work well and be merged.
+>
+> ../Randy
+>
+>>
+>> Thanks for your attention.
+>>
+>>
+>> 
+>>
+>
+>
