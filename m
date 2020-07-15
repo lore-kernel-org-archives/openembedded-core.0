@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.100.1594831426425771777
+ by mx.groups.io with SMTP id smtpd.web12.102.1594831427611125789
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 09:43:46 -0700
+ Wed, 15 Jul 2020 09:43:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4B5D8E01E99; Wed, 15 Jul 2020 09:43:46 -0700 (PDT)
+	id 77149E01E99; Wed, 15 Jul 2020 09:43:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 47E44E01EA7
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 207BAE01EA8
 	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 09:42:59 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pycryptodome: upgrading to 3.9.8 SUCCEEDED
-Message-Id: <20200715164346.4B5D8E01E99@yocto-www.yoctoproject.org>
-Date: Wed, 15 Jul 2020 09:43:46 -0700 (PDT)
-X-Groupsio-MsgNum: 140656
-Content-Type: multipart/mixed; boundary="===============5738836441508240789=="
+Subject: [AUH] python3-git: upgrading to 3.1.7 SUCCEEDED
+Message-Id: <20200715164347.77149E01E99@yocto-www.yoctoproject.org>
+Date: Wed, 15 Jul 2020 09:43:47 -0700 (PDT)
+X-Groupsio-MsgNum: 140657
+Content-Type: multipart/mixed; boundary="===============1888790429855470106=="
 
---===============5738836441508240789==
+--===============1888790429855470106==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pycryptodome* to *3.9.8* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-git* to *3.1.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pycryptodome-upgrade-3.9.7-3.9.8.patch
+    - apply the patch: git am 0001-python3-git-upgrade-3.1.3-3.1.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,46 +59,175 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5738836441508240789==
+--===============1888790429855470106==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pycryptodome: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dbg: PKGSIZE changed from 901144 to 904060 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dbg: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dbg: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dev: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dev: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-doc: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-doc: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-locale: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-locale: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: PKGSIZE changed from 2704601 to 2705905 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: FILELIST: directory renamed /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/libtom -> /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/libtom, removed "/usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/CAST.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/AES.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/DES.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/MD2.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_cfb.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/MD4.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/scrypt.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/common.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/block_common.c /usr/src/debug/python3-pycryptodome/3
- .9.7-r0/pycryptodome-3.9.7/src/endianess.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ghash_clmul.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/hash_SHA2_template.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_ocb.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/MD5.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/RIPEMD160.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/modexp_utils.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/strxor.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/SHA256.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/blowfish_init.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ec.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/blake2b.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/Sal
- sa20.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/cpuid.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/p384_table.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/keccak.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/siphash.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/AESNI.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/poly1305.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/mont.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/multiply.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/multiply_64.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ARC4.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/blake2s.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/p256_table.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/
- pycryptodome-3.9.7/src/blowfish.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/p521_table.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ec_ws.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/cast5.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/modexp_utils.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/mont.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/SHA512.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/block_base.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_ecb.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/chacha20.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/SHA1.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ARC2.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_ctr.c /usr/src/debug/python
- 3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/siphash.h /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/SHA224.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/SHA384.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/blake2.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/ghash_portable.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/modexp.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_cbc.c /usr/src/debug/python3-pycryptodome/3.9.7-r0/pycryptodome-3.9.7/src/raw_ofb.c", added "/usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/blowfish.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_ocb.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_ofb.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/DES.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/s
- rc/endianess.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/blake2s.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_cbc.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/blake2.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ghash_clmul.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/poly1305.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_ctr.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ec.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/MD2.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/siphash.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/AESNI.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/common.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/MD4.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycry
- ptodome-3.9.8/src/cast5.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/mont.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p521_table.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_cfb.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/AES.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/SHA1.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/hash_SHA2_template.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/modexp.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/CAST.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/keccak.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/SHA224.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ARC2.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/block_common.c /usr/src/debug/python3-pycr
- yptodome/3.9.8-r0/pycryptodome-3.9.8/src/siphash.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p256_table.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/blowfish_init.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p256_table.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/block_base.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/mont.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/cpuid.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/chacha20.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/modexp_utils.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/multiply_64.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/blake2b.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/SHA256.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9
- .8/src/Salsa20.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/SHA512.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/raw_ecb.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/RIPEMD160.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/modexp_utils.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p521_table.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p384_table.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/p384_table.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/scrypt.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/multiply.h /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ec_ws.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ARC4.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/strxor.c /usr/src/debug/python3-pycr
- yptodome/3.9.8-r0/pycryptodome-3.9.8/src/MD5.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/SHA384.c /usr/src/debug/python3-pycryptodome/3.9.8-r0/pycryptodome-3.9.8/src/ghash_portable.c"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-staticdev: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-staticdev: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PKGSIZE changed from 34075645 to 34084020 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PV changed from "3.9.7" to "3.9.8"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PKGSIZE changed from 3062074 to 3063213 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PKGV changed from 3.9.7 [default] to 3.9.8 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PV changed from "3.9.7" to "3.9.8"
-Changes to packages/core2-32-poky-linux/python3-pycryptodome (sysroot):
-  /usr/lib/python3.8/site-packages/pycryptodome-3.9.7-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/pycryptodome-3.9.8-py3.8.egg-info
+packages/core2-32-poky-linux/python3-git: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-dbg: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-dbg: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-dev: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-dev: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-doc: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-doc: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-locale: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-locale: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-src: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-src: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PV changed from "3.1.3" to "3.1.7"
+packages/core2-32-poky-linux/python3-git/python3-git: FILELIST: directory renamed /usr/lib/python3.8/site-packages/GitPython-3.1.3-py3.8.egg-info -> /usr/lib/python3.8/site-packages/GitPython-3.1.7-py3.8.egg-info, removed "/usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_commit /usr/lib/python3.8/site-packages/git/test/fixtures/index /usr/lib/python3.8/site-packages/git/test/fixtures/diff_i /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_commit.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_base.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_config.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental /usr/lib/python3.8/site-packages/git/test/performance/test_odb.py /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_email /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_binary /usr/lib/python3.8/site-packages/git/test/test_git.py /usr/lib/python3.8/site-pac
+ kages/git/test/fixtures/diff_copied_mode_raw /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_streams.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_raw /usr/lib/python3.8/site-packages/git/test/__pycache__/test_base.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_stats /usr/lib/python3.8/site-packages/git/test/test_docs.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2 /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_comments /usr/lib/python3.8/site-packages/git/test/__pycache__/test_docs.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_bisect_all /usr/lib/python3.8/site-packages/git/test/fixtures/commit_invalid_data /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_a /usr/lib/python3.8/site-packages/git/test/__pycache__/test_util.
+ cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_initial /usr/lib/python3.8/site-packages/git/test/fixtures/rev_parse /usr/lib/python3.8/site-packages/git/test/performance/__init__.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_file_with_spaces /usr/lib/python3.8/site-packages/git/test/test_config.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_index.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_util.py /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__/cat_file.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_index.py /usr/lib/python3.8/site-packages/git/test/test_stats.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type_raw /usr/lib/python3.8/site-packages/git/test/fixtures/blame_complex_revision /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2f /usr/lib/python3.8/site-packages/
+ git/test/__pycache__/test_stats.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/performance/lib.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode /usr/lib/python3.8/site-packages/git/test/__pycache__/test_actor.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_count /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list /usr/lib/python3.8/site-packages/git/test/__pycache__/test_exc.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_diff.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_refs.py /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_multiple /usr/lib/python3.8/site-packages/git/test/performance/test_streams.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_remote.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/issue-301_stderr /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_master /usr/lib/python3.8/site-packages/git/tes
+ t/fixtures/diff_tree_numstat_root /usr/lib/python3.8/site-packages/git/test/fixtures/index_merge /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_unsafe_paths /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental_2.11.1_plus /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_empty /usr/lib/python3.8/site-packages/git/test/fixtures/for_each_ref_with_path_component /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_odb.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_size /usr/lib/python3.8/site-packages/git/test/test_repo.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_tree.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_stderr /usr/lib/python3.8/site-packages/git/test/test_actor.py /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_HEAD /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_diffs /usr/lib/python3.8/s
+ ite-packages/git/test/fixtures/show_empty_commit /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_empty_value /usr/lib/python3.8/site-packages/git/test/__pycache__/test_fun.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_b /usr/lib/python3.8/site-packages/git/test/__init__.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_refs.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_db.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_idabbrev /usr/lib/python3.8/site-packages/git/test/test_diff.py /usr/lib/python3.8/site-packages/git/test/fixtures/commit_with_gpgsig /usr/lib/python3.8/site-packages/git/test/test_reflog.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_raw_binary /usr/lib/python3.8/site-packages/git/test/fixtures/diff_new_mode /usr/lib/python3.8/site-packages/git/test/__pycache__/test_reflog.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test
+ /fixtures/diff_numstat /usr/lib/python3.8/site-packages/git/test/fixtures/diff_f /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_newsha /usr/lib/python3.8/site-packages/git/test/fixtures/git_config /usr/lib/python3.8/site-packages/git/test/test_blob.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_blob.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_date /usr/lib/python3.8/site-packages/git/test/test_submodule.py /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_a /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_b /usr/lib/python3.8/site-packages/git/test/__pycache__/test_submodule.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_nl /usr/lib/python3.8/site-packages/git/test/test_commit.py /usr/lib/python3.
+ 8/site-packages/git/test/fixtures/uncommon_branch_prefix_FETCH_HEAD /usr/lib/python3.8/site-packages/git/test/fixtures/diff_mode_only /usr/lib/python3.8/site-packages/git/test/fixtures/git_file /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_global /usr/lib/python3.8/site-packages/git/test/test_fun.py /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_single /usr/lib/python3.8/site-packages/git/test/__pycache__/test_git.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/git_config-inc.cfg /usr/lib/python3.8/site-packages/git/test/fixtures/diff_abbrev-40_full-index_M_raw_no-color /usr/lib/python3.8/site-packages/git/test/test_remote.py /usr/lib/python3.8/site-packages/git/test/fixtures/blame /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename /usr/lib/python3.8/site-packages/git/test/performance/test_commit.py /usr/lib/python3.8/site-packages/git/test/test_db.py /
+ usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename_raw /usr/lib/python3.8/site-packages/git/test/test_tree.py /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_oldsha /usr/lib/python3.8/site-packages/git/test/lib/__init__.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_repo.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/blame_binary /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/lib.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_exc.py /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/helper.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_commit.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_sep /usr/lib/python3.8/site-packages/git/test/fixtures/diff_p /usr/lib/python3.8/site-packages/git/test/lib/helper.py /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file.py /usr/lib/python3.8/site-packages/git/test/fixtu
+ res/diff_index_patch"
+packages/core2-32-poky-linux/python3-git/python3-git: PKGSIZE changed from 2189929 to 875885 (-60%)
+packages/core2-32-poky-linux/python3-git/python3-git: PKGV changed from 3.1.3 [default] to 3.1.7 [default]
+packages/core2-32-poky-linux/python3-git/python3-git: PV changed from "3.1.3" to "3.1.7"
+Changes to packages/core2-32-poky-linux/python3-git (sysroot):
+  /usr/lib/python3.8/site-packages/GitPython-3.1.3-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/GitPython-3.1.7-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/git/test was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_complex_revision was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental_2.11.1_plus was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_nl was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_size was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file.py was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/commit_invalid_data was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/commit_with_gpgsig was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2 was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2f was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_abbrev-40_full-index_M_raw_no-color was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_f was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_file_with_spaces was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_i was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_patch was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_initial was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_mode_only was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_new_mode was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_numstat was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_p was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_unsafe_paths was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_raw_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_tree_numstat_root was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/for_each_ref_with_path_component was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_global was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config-inc.cfg was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_multiple was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_comments was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_empty_value was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_file was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/index was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/index_merge was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/issue-301_stderr was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_a was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_b was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_commit was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_empty was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__/cat_file.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_HEAD was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_date was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_email was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_newsha was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_oldsha was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_sep was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_master was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_bisect_all was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_diffs was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_idabbrev was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_stats was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_count was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_a was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_b was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_single was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_parse was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/show_empty_commit was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_FETCH_HEAD was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_stderr was removed
+  /usr/lib/python3.8/site-packages/git/test/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/helper.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/helper.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/lib.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/lib.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_commit.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_odb.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_streams.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_commit.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_odb.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_streams.py was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_actor.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_base.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_blob.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_commit.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_config.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_db.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_diff.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_docs.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_exc.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_fun.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_git.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_index.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_reflog.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_refs.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_remote.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_repo.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_stats.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_submodule.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_tree.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_util.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/test_actor.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_base.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_blob.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_commit.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_config.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_db.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_diff.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_docs.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_exc.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_fun.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_git.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_index.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_reflog.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_refs.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_remote.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_repo.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_stats.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_submodule.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_tree.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_util.py was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1544,49 +1673,196 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============5738836441508240789==
+--===============1888790429855470106==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-python3-pycryptodome-upgrade-3.9.7-3.9.8.patch"
+ filename="0001-python3-git-upgrade-3.1.3-3.1.7.patch"
 
-From 37c8ede50adae242445bcfcf33954365cf12e4b2 Mon Sep 17 00:00:00 2001
+From fc4822eaf626bb49c9e5babba0b998c87a6e16eb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Wed, 15 Jul 2020 06:24:03 +0000
-Subject: [PATCH] python3-pycryptodome: upgrade 3.9.7 -> 3.9.8
+Date: Wed, 15 Jul 2020 06:16:50 +0000
+Subject: [PATCH] python3-git: upgrade 3.1.3 -> 3.1.7
 
 ---
- ...hon3-pycryptodome_3.9.7.bb => python3-pycryptodome_3.9.8.bb} | 2 +-
+ .../python/{python3-git_3.1.3.bb => python3-git_3.1.7.bb}       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pycryptodome_3.9.7.bb => python3-pycryptodome_3.9.8.bb} (38%)
+ rename meta/recipes-devtools/python/{python3-git_3.1.3.bb => python3-git_3.1.7.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.9.7.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb
-similarity index 38%
-rename from meta/recipes-devtools/python/python3-pycryptodome_3.9.7.bb
-rename to meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb
-index 8f19984bed..46e122072e 100644
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.9.7.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb
-@@ -1,5 +1,5 @@
- require python-pycryptodome.inc
- inherit setuptools3
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.3.bb b/meta/recipes-devtools/python/python3-git_3.1.7.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-git_3.1.3.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.7.bb
+index 064868d858..6d1fc4b653 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.3.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.7.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
  
--SRC_URI[sha256sum] = "f1add21b6d179179b3c177c33d18a2186a09cc0d3af41ff5ed3f377360b869f2"
-+SRC_URI[sha256sum] = "0e24171cf01021bc5dc17d6a9d4f33a048f09d62cc3f62541e95ef104588bda4"
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "e107af4d873daed64648b4f4beb89f89f0cfbe3ef558fc7821ed2331c2f8da1a"
++SRC_URI[sha256sum] = "2db287d71a284e22e5c2846042d0602465c7434d910406990d5b74df4afb0858"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
  
 -- 
 2.17.1
 
 
---===============5738836441508240789==
+--===============1888790429855470106==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-pycryptodome (sysroot):
-  /usr/lib/python3.8/site-packages/pycryptodome-3.9.7-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/pycryptodome-3.9.8-py3.8.egg-info
+packages/core2-32-poky-linux/python3-git/python3-git: PKGSIZE changed from 2189929 to 875885 (-60%)
+packages/core2-32-poky-linux/python3-git/python3-git: FILELIST: directory renamed /usr/lib/python3.8/site-packages/GitPython-3.1.3-py3.8.egg-info -> /usr/lib/python3.8/site-packages/GitPython-3.1.7-py3.8.egg-info, removed "/usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_commit.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_multiple /usr/lib/python3.8/site-packages/git/test/__pycache__/test_repo.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2f /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_unsafe_paths /usr/lib/python3.8/site-packages/git/test/fixtures/diff_mode_only /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/lib.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_FETCH_HEAD /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_raw /usr/lib/python3.8/site-packages/git/test/__pycache__/test_remote.cpython-38.pyc /usr/li
+ b/python3.8/site-packages/git/test/performance/test_odb.py /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__/cat_file.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_stats.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_docs.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/lib/__init__.py /usr/lib/python3.8/site-packages/git/test/performance/lib.py /usr/lib/python3.8/site-packages/git/test/test_stats.py /usr/lib/python3.8/site-packages/git/test/test_config.py /usr/lib/python3.8/site-packages/git/test/fixtures/for_each_ref_with_path_component /usr/lib/python3.8/site-packages/git/test/__pycache__/test_index.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2 /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_email /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_bisect_all /usr/lib/python3
+ .8/site-packages/git/test/performance/test_streams.py /usr/lib/python3.8/site-packages/git/test/fixtures/issue-301_stderr /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental_2.11.1_plus /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_newsha /usr/lib/python3.8/site-packages/git/test/lib/helper.py /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/helper.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_diff.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_exc.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_commit /usr/lib/python3.8/site-packages/git/test/fixtures/diff_tree_numstat_root /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_stderr /usr/lib/python3.8/site-packages/git/test/__pycache__/test_refs.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_repo.py /usr/lib/python3.8/site-packages/git/test/test_exc.py /usr/lib/python3.8/site-packages/gi
+ t/test/fixtures/diff_change_in_type_raw /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_empty /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_binary /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode /usr/lib/python3.8/site-packages/git/test/fixtures/rev_parse /usr/lib/python3.8/site-packages/git/test/fixtures/diff_abbrev-40_full-index_M_raw_no-color /usr/lib/python3.8/site-packages/git/test/test_docs.py /usr/lib/python3.8/site-packages/git/test/fixtures/index_merge /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_size /usr/lib/python3.8/site-packages/git/test/__pycache__/test_commit.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_date /usr/lib/python3.8/site-packages/git/test/test_index.py /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_sep /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_patch /usr/lib/python3.8/site-packages/git/test/fixtures/git_confi
+ g_global /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list /usr/lib/python3.8/site-packages/git/test/fixtures/blame_binary /usr/lib/python3.8/site-packages/git/test/performance/test_commit.py /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_idabbrev /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_single /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob /usr/lib/python3.8/site-packages/git/test/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_base.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/show_empty_commit /usr/lib/python3.8/site-packages/git/test/fixtures/git_config-inc.cfg /usr/lib/python3.8/site-packages/git/test/fixtures/diff_f /usr/lib/python3.8/site-packages/git/test/fixtures/blame_complex_revision /usr/lib/python3.8/site-packages/git/test/__pycache__/test_tree.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_a /usr/lib/py
+ thon3.8/site-packages/git/test/lib/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_streams.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_reflog.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_numstat /usr/lib/python3.8/site-packages/git/test/__pycache__/test_git.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_raw_binary /usr/lib/python3.8/site-packages/git/test/test_reflog.py /usr/lib/python3.8/site-packages/git/test/test_db.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_fun.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_initial /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_oldsha /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename_raw /usr/lib/python3.8/site-packages/git/test/performance/__init__.py /usr/lib/python3.8/site-packages/git/test/test_blob.py /usr/lib/python3.8/si
+ te-packages/git/test/test_util.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename /usr/lib/python3.8/site-packages/git/test/fixtures/commit_invalid_data /usr/lib/python3.8/site-packages/git/test/fixtures/commit_with_gpgsig /usr/lib/python3.8/site-packages/git/test/__pycache__/test_util.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_a /usr/lib/python3.8/site-packages/git/test/fixtures/index /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_odb.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode_raw /usr/lib/python3.8/site-packages/git/test/fixtures/diff_new_mode /usr/lib/python3.8/site-packages/git/test/test_base.py /usr/lib/python3.8/site-packages/git/test/test_refs.py /usr/lib/python3.8/site-packages/git/test/fixtures/git_file /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file.py /usr/lib/python3.8/site-packages/git/test/test_fun.py /usr/lib/python3.8/site-packages/
+ git/test/fixtures/rev_list_count /usr/lib/python3.8/site-packages/git/test/fixtures/blame /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_b /usr/lib/python3.8/site-packages/git/test/fixtures/diff_i /usr/lib/python3.8/site-packages/git/test/__pycache__/test_actor.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_diff.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_empty_value /usr/lib/python3.8/site-packages/git/test/fixtures/git_config /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_master /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/__init__.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/__pycache__/test_blob.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_actor.py /usr/lib/python3.8/site-packages/git/test/test_tree.py /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list
+ _commit_diffs /usr/lib/python3.8/site-packages/git/test/test_commit.py /usr/lib/python3.8/site-packages/git/test/test_submodule.py /usr/lib/python3.8/site-packages/git/test/fixtures/diff_p /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_stats /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_comments /usr/lib/python3.8/site-packages/git/test/__init__.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_db.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_nl /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_HEAD /usr/lib/python3.8/site-packages/git/test/fixtures/diff_file_with_spaces /usr/lib/python3.8/site-packages/git/test/__pycache__/test_submodule.cpython-38.pyc /usr/lib/python3.8/site-packages/git/test/test_git.py /usr/lib/python3.8/site-packages/git/test/test_remote.py /usr/lib/python3.8/site-packages/git/test/__pycache__/test_config.cpython-38.pyc /usr/lib/python3.8/site-packages/git/tes
+ t/fixtures/ls_tree_b"
+Changes to packages/core2-32-poky-linux/python3-git (sysroot):
+  /usr/lib/python3.8/site-packages/GitPython-3.1.3-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/GitPython-3.1.7-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/git/test was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_complex_revision was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/blame_incremental_2.11.1_plus was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_nl was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file_blob_size was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/cat_file.py was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/commit_invalid_data was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/commit_with_gpgsig was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2 was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_2f was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_abbrev-40_full-index_M_raw_no-color was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_change_in_type_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_copied_mode_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_f was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_file_with_spaces was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_i was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_patch was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_index_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_initial was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_mode_only was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_new_mode was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_numstat was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_p was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_patch_unsafe_paths was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_raw_binary was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_rename_raw was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/diff_tree_numstat_root was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/for_each_ref_with_path_component was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_global was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config-inc.cfg was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_multiple was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_comments was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_config_with_empty_value was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/git_file was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/index was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/index_merge was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/issue-301_stderr was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_a was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_b was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_commit was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/ls_tree_empty was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/__pycache__/cat_file.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_HEAD was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_date was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_email was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_newsha was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_oldsha was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_invalid_sep was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/reflog_master was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_bisect_all was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_diffs was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_idabbrev was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_commit_stats was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_count was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_a was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_delta_b was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_list_single was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/rev_parse was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/show_empty_commit was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_FETCH_HEAD was removed
+  /usr/lib/python3.8/site-packages/git/test/fixtures/uncommon_branch_prefix_stderr was removed
+  /usr/lib/python3.8/site-packages/git/test/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/helper.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/helper.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/lib/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__init__.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/lib.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/lib.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_commit.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_odb.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/__pycache__/test_streams.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_commit.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_odb.py was removed
+  /usr/lib/python3.8/site-packages/git/test/performance/test_streams.py was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__ was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/__init__.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_actor.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_base.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_blob.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_commit.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_config.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_db.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_diff.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_docs.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_exc.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_fun.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_git.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_index.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_reflog.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_refs.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_remote.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_repo.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_stats.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_submodule.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_tree.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/__pycache__/test_util.cpython-38.pyc was removed
+  /usr/lib/python3.8/site-packages/git/test/test_actor.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_base.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_blob.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_commit.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_config.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_db.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_diff.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_docs.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_exc.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_fun.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_git.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_index.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_reflog.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_refs.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_remote.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_repo.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_stats.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_submodule.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_tree.py was removed
+  /usr/lib/python3.8/site-packages/git/test/test_util.py was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3032,4 +3308,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/wide-int-print.h was removed
 
---===============5738836441508240789==--
+--===============1888790429855470106==--
