@@ -1,98 +1,77 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web11.16337.1594908656218060994
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web10.16248.1594908783170304990
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 07:10:56 -0700
+ Thu, 16 Jul 2020 07:13:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ojM6jm5Y;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id i18so5137588ilk.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 07:10:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BeTw5G+J;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id a12so6113340ion.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 07:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+AuWThOYQMuDD8jFyvyNWQmHc4Jf5e6XN8AvusOFsvU=;
-        b=ojM6jm5YQVimQ14jfzib5MQKrktKnOQunZt5IJii/6cLLx5emKKQyDSXuyX9x/+KIv
-         CR1KbwIi7+yC8E6iIf6XEZISpuCvPuNgLrvcUb1V8ly1pHdhq66wCKboEqaRkDt0eyC9
-         jzuF8PvYelXlxfMJiojCdipNimyRB9IQkpLvJxMugDvWa2mMeoXPdZDvq+e8Mb9md8uS
-         IpTV5UipXse+vkWhRKXzXfWktTEMv3UEMqD04llCqkFCtXRtBAjozllgm7MDWaipLuQI
-         5Qccrv7mTQWcjrDGX2HT3noCdBsMsSHPyaEtxoQa+58BkxYDhYkxOaef7dhGgfSXiuAx
-         2yvA==
+        bh=jRuUr4ZUz0fqk7RK0IaXoBPmn+ZJmw1wyJJDYfYoPdo=;
+        b=BeTw5G+JZLdnNh99IKVzycBMQjbV5qcSdEJJAeOAJCzDAs0Ta+oCv09zFctRYmq9Py
+         1fJENFljCaHtxZenpQrsUpOTQkqbX+zM6PCUiCLHboFIhE/W2wGGC9Oq7kNkyyG2Ptt7
+         EXd2fBq0JCQLX2te1+gapRGXVEayxH0RoAXhRfclxOc5r+iwTNB9OW8dF6v8Hmu0uWlK
+         ahQ31Ut+7eR8E6tJ5WaCMvO7c7lzjxjt50hfGWBjNzkSt/O0azOBD2WGd5UO3hyvLmws
+         egTKJssF/1/xNnQveIYOPCcvrECKp5YtahBSNY/eiyDW5U96yv7OBQ+JAy1OiaZBiIx6
+         KaQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+AuWThOYQMuDD8jFyvyNWQmHc4Jf5e6XN8AvusOFsvU=;
-        b=OWYJqvCV0jYAa5RfbvkzciVubINVsZzIS27mjhvCeDNIWj1gWCOjZYpOuo54a2d3SU
-         C8PLXNK6Xta9a4Jyg1aHwKEsNVEUD4O2eD2j+o7SzFwzlnRX5nU+IwhZg2h2zxvXRaT7
-         uCOGPxma9Sf7vi5NpIEr6qHekCNV/LzHLXx61fIlXXoKhDAPe1BqLrCMTswDZTtTFn3N
-         e5MOMoCzOuIxC79TglHMmdtSRd+7vdQ9hDx7oCC1Y/m5cBB1dqtw/ZfcS0EFT+tEGVkW
-         z22RzZHGrW2dLD5b0UyguRiHzOGhOa+GImkYlWF9uwIZnT/Lgqo9KZbmFV6I42N80BtL
-         SQBw==
-X-Gm-Message-State: AOAM533v7y1132AmhXVDiwwhtgIzrqotXza16sA9BTAmsOiCSNwgNOGh
-	qk1KV0auqz6OTuF93jC7zzuuCfnd/AA=
-X-Google-Smtp-Source: ABdhPJx66XdX/aj1TtjNVUzqdvP8NdQT981Tp657k68YN4PY9ZzlovApYbb+X21HQIdo2z0scEFE4Q==
-X-Received: by 2002:a92:300a:: with SMTP id x10mr4503913ile.124.1594908655223;
-        Thu, 16 Jul 2020 07:10:55 -0700 (PDT)
+        bh=jRuUr4ZUz0fqk7RK0IaXoBPmn+ZJmw1wyJJDYfYoPdo=;
+        b=FA30xF7AcYjO1FwFKwpIMWshdhab7BLnRT39VTiTnIQQ745EiP66jK3V/vSk7GwT2F
+         ndte03eQWsudDdEsoVItLIToFjPmIaGIMUZkxgAG7RYAd0wKk3NWMzuXKCbyF89GiNV7
+         XHOe6hhfCqogYlLNZQE96kHASKTFNvyLj9OqhnkwaobufhogUAObkijJB+lqxsQi2Bpp
+         woFqioBfwmKjr8h/Moc+QM5c2fKEvY+kjPwvGEHbch8X1NoaBuLwj+lWa2Y+oFnrtPVf
+         /xJGbGszKQzFmu95m/2XcfUuKGFPm6DhmkLiwZoYMK320R74m3tk7gZMxn1ipU0S6H4R
+         02Jw==
+X-Gm-Message-State: AOAM531B/bE/ICpT5j6hHrq7UYBnYS3wOsIPcEop3WMflYXnwrzYr8GZ
+	XSprutBAgrnkQhY5dpFE26+MoeBsxKI=
+X-Google-Smtp-Source: ABdhPJxMoxB2EQGQ4FzZxAWfHzAXrGZFIW/nPfux+XG8rEmEkOb87f37WBCyPHS3rhtpB5AKXujXOQ==
+X-Received: by 2002:a6b:db17:: with SMTP id t23mr4665336ioc.4.1594908782303;
+        Thu, 16 Jul 2020 07:13:02 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:8425:3b41:f78d:f429])
-        by smtp.gmail.com with ESMTPSA id s11sm2782705ili.79.2020.07.16.07.10.54
+        by smtp.gmail.com with ESMTPSA id y8sm2725445ilq.21.2020.07.16.07.13.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:10:54 -0700 (PDT)
+        Thu, 16 Jul 2020 07:13:01 -0700 (PDT)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] diffoscope: upgrade 150 -> 151
-Date: Thu, 16 Jul 2020 09:10:52 -0500
-Message-Id: <20200716141052.27340-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] python3-pycryptodomex: upgrade 3.9.7 -> 3.9.8
+Date: Thu, 16 Jul 2020 09:12:59 -0500
+Message-Id: <20200716141259.27709-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* Improvements and bug fixes:
-
-  - Pass the absolute path when extracting members from SquashFS images as we
-    run the command with our working directory set to the temporary
-    directory. (Closes: #964365, reproducible-builds/diffoscope#189)
-  - Increase the minimum length of the output from strings(1) to 8 characters
-    to avoid unnecessary diff noise. (Re. reproducible-builds/diffoscope#148)
-
-* Logging improvements:
-
-  - Fix the compare_files message when the file does not have a literal name.
-  - Reduce potential log noise by truncating the has_some_content messages.
-
-* Codebase changes:
-
-  - Clarify use of a "null" diff in order to remember an exit code.
-  - Don't alias a variable when don't end up it; use "_" instead.
-  - Use a  "NullChanges" file to represent missing data in the Debian package
-    comparator.
-  - Update some miscellaneous terms.
-
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../diffoscope/{diffoscope_150.bb => diffoscope_151.bb}         | 2 +-
+ ...n3-pycryptodomex_3.9.7.bb => python3-pycryptodomex_3.9.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_150.bb => diffoscope_151.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-pycryptodomex_3.9.7.bb => python3-pycryptodomex_3.9.8.bb} (69%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_150.bb b/meta/recipes-support/diffoscope/diffoscope_151.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_150.bb
-rename to meta/recipes-support/diffoscope/diffoscope_151.bb
-index 58bd60a2c2..9b39b44350 100644
---- a/meta/recipes-support/diffoscope/diffoscope_150.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_151.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.9.7.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.9.8.bb
+similarity index 69%
+rename from meta/recipes-devtools/python/python3-pycryptodomex_3.9.7.bb
+rename to meta/recipes-devtools/python/python3-pycryptodomex_3.9.8.bb
+index abb03b9909..035c7fa636 100644
+--- a/meta/recipes-devtools/python/python3-pycryptodomex_3.9.7.bb
++++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.9.8.bb
+@@ -1,7 +1,7 @@
+ require python-pycryptodome.inc
+ inherit setuptools3
  
- inherit pypi setuptools3
+-SRC_URI[sha256sum] = "50163324834edd0c9ce3e4512ded3e221c969086e10fdd5d3fdcaadac5e24a78"
++SRC_URI[sha256sum] = "48cc2cfc251f04a6142badeb666d1ff49ca6fdfc303fd72579f62b768aaa52b9"
  
--SRC_URI[sha256sum] = "0b9e4ae401fe4cbb8ce89b0bcabe608581d0ed53b91a28f18337179c7494af57"
-+SRC_URI[sha256sum] = "f15e04aa537f0a3d91c99bf631c604668f4eea8f6552c5f93ea9be2bf014df84"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
+ FILES_${PN}-tests = " \
+     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
 -- 
 2.27.0
 
