@@ -1,76 +1,190 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.3249.1594933716277193476
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.29.1594939002142451421
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 14:08:36 -0700
+ Thu, 16 Jul 2020 15:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U/mUX12X;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id z2so8623660wrp.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 14:08:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CoiOGiIF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id u12so4857627lff.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 15:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nta3y52XxoNiEE+sjf31zILUFKrBrgAt/86S5PJVPJE=;
-        b=U/mUX12Xog7PC+K1wDAVVCZlF6A3dvK4OeToEClZK9awVFwHHmZde4yoBTenhzL6+b
-         s3x8m6Qbc2HjJcLGL9gNH9Y4B07Bcg7UPoAnsao3JiBus4gzsKLm/ujDNOxvKIGfBEMb
-         veDJCCgkZNA9goldgd80P41e2OylXDIitvXuw=
+        bh=/sM1Fa6VvpZuU0gOeennO9WYYDM6oTrGOlUYNlb/e6Q=;
+        b=CoiOGiIFXkH9SRTHnO32/qMZE0v+qKWFrjh8v0cf1E/sYCPocsNZYpFatJYBQQEGWt
+         yS9ZjB0RDQwLNf5x/+sgT1JjEmMrMh50NG+ukV8paQbkpRo16AsvU0WWbdTfCv0VzYfd
+         9Z47T4NX9sUtuMRlht92O4ye1MZfqgzjxA3fPpIWElKHkB34quOlzyZeuegZdhNkdRZe
+         UdDFAGF/Gbgp7jYHrheRAXAamVZ1Ol3TjWRH82hXpgyp4frHCUsA3EdH0rQW6UBa29jP
+         1Y9ISVSwTesml6TkXmQuT7IKSCPJH9jYbo0RVKi06yBKQTB3a7w5sSZ/nd0F/pSL12sw
+         Sl7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nta3y52XxoNiEE+sjf31zILUFKrBrgAt/86S5PJVPJE=;
-        b=E2WzH70jZaY+RRegSNmW/t0tQYT+Mmt1EabxCh6F2Lc+oKx0M0gGZ1/lac5RDfCDRS
-         trd5aO1gOzx4zjjXW/e1u276hDZjvmHJb7EIYz/i2ARnzD9xNPL+aorzlzNsuGhef/72
-         wm0Is3jX45K7Vaj6OLys/h6a9sPFzUOpCKpwuEOYiFTVGExHp6ZUFyH0ITFEPrhNUp3H
-         SzHefWt8hP9uEH4ScIy8Wg/B6GIA5nIo/UxHYxdCkju2XtZInAehJhrXrh/w/3ChOb/8
-         elSBpEUtfeFpFYYfzjp3k6Eobf/GpBijFxilWx4qJN7DEBQr2DOdtTADas/cNVnpn+Oz
-         +aPQ==
-X-Gm-Message-State: AOAM531zZhll8M1v1qZkcGg1Ejq6sqcP53IExHYGsrYAb3wbf98riLSx
-	J6bar8Il8+bmcqI5DUnd94sFPK4wgRPu6g==
-X-Google-Smtp-Source: ABdhPJxoLyj3Upf9dPw8K+VpzYl2HFSXfORfEA84xiLHs3IppKS7JnEs8iy2Xopr+RIt0asBk+8mjw==
-X-Received: by 2002:a5d:4687:: with SMTP id u7mr7112834wrq.357.1594933714588;
-        Thu, 16 Jul 2020 14:08:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
-        by smtp.gmail.com with ESMTPSA id r10sm10952034wrm.17.2020.07.16.14.08.33
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/sM1Fa6VvpZuU0gOeennO9WYYDM6oTrGOlUYNlb/e6Q=;
+        b=IJPmoNx4fA+M5lInBy3BXEeRdUc4upLHsJuj16tUy8HjPJzPSnqt1KguFn/f61wLGn
+         CMobRq2MLc2r+rXNVovbLSnUVc7ZIfw5pI1JyFdpdLRSN5YixjYhPXW83iMrIqal3Cjs
+         gkFp5BBlYsNUjTWjzrrrO0hEOi5GzOG9yZ/uQpevqJ6tgL1SkFBGQDwgIzrW5Bb7pcX8
+         vv3V2AQlw0syNbDFs+SUijYZfg1H/iM2LQUh8NCHKntHxN+B4BPpqkXELVnk7ctvU1X9
+         hysyqxL1PzQQQ1QVSWzQDfcJBE77ZMKYXJcMWYO+DZBkSozPAWNFW9QitmP4z6ydzyJD
+         brRA==
+X-Gm-Message-State: AOAM5319na08eaN7xtGkr1AGS3Db0SH5nFFoyRwtyNC5ZgeNzBxj/LaN
+	1yG0Guj8NbSdVBA4Nb3pl6MV7hYKjWU=
+X-Google-Smtp-Source: ABdhPJz0gUJ2rWf/LLKnIyRLzvCX8mzp3IQaKXAx2Eueezywin2B9DU0Krt4FVayIexOyfdbaKks3w==
+X-Received: by 2002:a05:6512:6cc:: with SMTP id u12mr2973629lff.148.1594938999641;
+        Thu, 16 Jul 2020 15:36:39 -0700 (PDT)
+Return-Path: <dbaryshkov@gmail.com>
+Received: from eriador.lan ([188.162.65.92])
+        by smtp.gmail.com with ESMTPSA id o1sm1300297ljj.82.2020.07.16.15.36.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 14:08:33 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Thu, 16 Jul 2020 15:36:37 -0700 (PDT)
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 20/20] mpfr: upgrade 4.0.2 -> 4.1.0
-Date: Thu, 16 Jul 2020 22:08:08 +0100
-Message-Id: <20200716210808.7438-20-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
-References: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH] gcc-10.1: add fix for PR 96130
+Date: Fri, 17 Jul 2020 01:36:35 +0300
+Message-Id: <20200716223635.3349898-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/mpfr/{mpfr_4.0.2.bb => mpfr_4.1.0.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/mpfr/{mpfr_4.0.2.bb => mpfr_4.1.0.bb} (79%)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/meta/recipes-support/mpfr/mpfr_4.0.2.bb b/meta/recipes-support/mpfr/mpfr_4.1.0.bb
-similarity index 79%
-rename from meta/recipes-support/mpfr/mpfr_4.0.2.bb
-rename to meta/recipes-support/mpfr/mpfr_4.1.0.bb
-index 00c2dc2fe99..82b5516f267 100644
---- a/meta/recipes-support/mpfr/mpfr_4.0.2.bb
-+++ b/meta/recipes-support/mpfr/mpfr_4.1.0.bb
-@@ -11,8 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
- DEPENDS = "gmp autoconf-archive"
+Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96130 causing ICE
+(SegFault) when compiling current Mesa git tree.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meta/recipes-devtools/gcc/gcc-10.1.inc        |   1 +
+ .../gcc/gcc-10.1/pr96130.patch                | 106 ++++++++++++++++++
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devtools/gcc/gcc-10.1.inc
+index a3de91a2c6a3..a2dd2ae252a5 100644
+--- a/meta/recipes-devtools/gcc/gcc-10.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
+@@ -66,6 +66,7 @@ SRC_URI = "\
+            file://0036-Enable-CET-in-cross-compiler-if-possible.patch \
+            file://0037-mingw32-Enable-operation_not_supported.patch \
+            file://0038-libatomic-Do-not-enforce-march-on-aarch64.patch \
++           file://pr96130.patch \
+ "
+ SRC_URI[sha256sum] = "b6898a23844b656f1b68691c5c012036c2e694ac4b53a8918d4712ad876e7ea2"
  
- SRC_URI = "https://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
--SRC_URI[md5sum] = "320fbc4463d4c8cb1e566929d8adc4f8"
--SRC_URI[sha256sum] = "1d3be708604eae0e42d578ba93b390c2a145f17743a744d8f3f8c2ad5855a38a"
-+SRC_URI[sha256sum] = "0c98a3f1732ff6ca4ea690552079da9c597872d30e96ec28414ee23c95558a7f"
- 
- UPSTREAM_CHECK_URI = "http://www.mpfr.org/mpfr-current/"
- 
+diff --git a/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch b/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
+new file mode 100644
+index 000000000000..f0e6f85e22f9
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
+@@ -0,0 +1,106 @@
++From 0d03c0ee5213703ec6d9ffa632fa5298d83adaaa Mon Sep 17 00:00:00 2001
++From: Jakub Jelinek <jakub@redhat.com>
++Date: Mon, 13 Jul 2020 18:25:53 +0200
++Subject: [PATCH] ipa-fnsummary: Fix ICE with switch predicates [PR96130]
++
++The following testcase ICEs since r10-3199.
++There is a switch with default label, where the controlling expression has
++range just 0..7 and there are case labels for all those 8 values, but
++nothing has yet optimized away the default.
++Since r10-3199, set_switch_stmt_execution_predicate sets the switch to
++default label's edge's predicate to a false predicate and then
++compute_bb_predicates propagates the predicates through the cfg, but false
++predicates aren't really added.  The caller of compute_bb_predicates
++in one place handles NULL bb->aux as false predicate:
++      if (fbi.info)
++	{
++	  if (bb->aux)
++	    bb_predicate = *(predicate *) bb->aux;
++	  else
++	    bb_predicate = false;
++	}
++      else
++	bb_predicate = true;
++but then in two further spots that the patch below is changing
++it assumes bb->aux must be non-NULL.  Those two spots are guarded by a
++condition that is only true if fbi.info is non-NULL, so I think the right
++fix is to treat NULL aux as false predicate in those spots too.
++
++2020-07-13  Jakub Jelinek  <jakub@redhat.com>
++
++	PR ipa/96130
++	* ipa-fnsummary.c (analyze_function_body): Treat NULL bb->aux
++	as false predicate.
++
++	* gcc.dg/torture/pr96130.c: New test.
++
++(cherry picked from commit 776e48e0931db69f158f40e5cb8e15463d879a42)
++---
++ gcc/ipa-fnsummary.c                    | 10 ++++++++--
++ gcc/testsuite/gcc.dg/torture/pr96130.c | 26 ++++++++++++++++++++++++++
++ 2 files changed, 34 insertions(+), 2 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/torture/pr96130.c
++
++diff --git a/gcc/ipa-fnsummary.c b/gcc/ipa-fnsummary.c
++index 045a0ecf766..55a0b272a96 100644
++--- a/gcc/ipa-fnsummary.c
+++++ b/gcc/ipa-fnsummary.c
++@@ -2766,7 +2766,10 @@ analyze_function_body (struct cgraph_node *node, bool early)
++ 	  edge ex;
++ 	  unsigned int j;
++ 	  class tree_niter_desc niter_desc;
++-	  bb_predicate = *(predicate *) loop->header->aux;
+++	  if (loop->header->aux)
+++	    bb_predicate = *(predicate *) loop->header->aux;
+++	  else
+++	    bb_predicate = false;
++ 
++ 	  exits = get_loop_exit_edges (loop);
++ 	  FOR_EACH_VEC_ELT (exits, j, ex)
++@@ -2799,7 +2802,10 @@ analyze_function_body (struct cgraph_node *node, bool early)
++ 	  for (unsigned i = 0; i < loop->num_nodes; i++)
++ 	    {
++ 	      gimple_stmt_iterator gsi;
++-	      bb_predicate = *(predicate *) body[i]->aux;
+++	      if (body[i]->aux)
+++		bb_predicate = *(predicate *) body[i]->aux;
+++	      else
+++		bb_predicate = false;
++ 	      for (gsi = gsi_start_bb (body[i]); !gsi_end_p (gsi);
++ 		   gsi_next (&gsi))
++ 		{
++diff --git a/gcc/testsuite/gcc.dg/torture/pr96130.c b/gcc/testsuite/gcc.dg/torture/pr96130.c
++new file mode 100644
++index 00000000000..f722b9ad2a9
++--- /dev/null
+++++ b/gcc/testsuite/gcc.dg/torture/pr96130.c
++@@ -0,0 +1,26 @@
+++/* PR ipa/96130 */
+++/* { dg-do compile } */
+++
+++struct S { unsigned j : 3; };
+++int k, l, m;
+++
+++void
+++foo (struct S x)
+++{
+++  while (l != 5)
+++    switch (x.j)
+++      {
+++      case 1:
+++      case 3:
+++      case 4:
+++      case 6:
+++      case 2:
+++      case 5:
+++	l = m;
+++      case 7:
+++      case 0:
+++	k = 0;
+++      default:
+++	break;
+++      }
+++}
++-- 
++2.18.4
++
 -- 
-2.25.1
+2.27.0
 
