@@ -1,119 +1,60 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
- by mx.groups.io with SMTP id smtpd.web11.5168.1594857721977151364
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.10260.1594882628006529778
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jul 2020 17:02:02 -0700
+ Wed, 15 Jul 2020 23:57:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Uq3e+JTZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.194, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f194.google.com with SMTP id g67so3904318pgc.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 17:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LFy25d/ogI68A+g9OexQ0nRjUIA/AhtvKhrfPg/6FPc=;
-        b=Uq3e+JTZRavZ3YdVVgpzJOzgxM2emLLQkOYsLNuig8gvMl8vb+37AiNSlXpePaRlMZ
-         6E5G2DPxQrvfvWkDuXAtUVDAQNZqKNaKjPGCzY+w/IdyaGhYtLd655LDO3Z2A63PqHUF
-         BQ9LCUiHsxps2zsOidudDETHIr+15TpgyhDYD10JMDc/fob5/2uH2Jkv5/DrWJmh0Uu2
-         sTEzjHKrRwhxf6RJ1Rd2w4TA9sxOjLQ5pUHiJidu6hZGsSFaJJK8bbXSDhFNuBC9DuGS
-         iExSZmEnhEkopccDixS4dqcqIYtxhoxyphqQciKa3yKeqaAD5CS/uTgKHQzVTultf7TC
-         tOqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LFy25d/ogI68A+g9OexQ0nRjUIA/AhtvKhrfPg/6FPc=;
-        b=C9jSJw2sGxE2oiV6/YZDTucMSB/V7aeNjNr1IVcSr87JJut064TYfdHslqUCWwZJot
-         3iKCXjeif26Pgoj1y+hQsQcNMf5SLNhJtEgPOELCRzzwbvgD16QzMRqFiWbjK2RahDg5
-         sAre0RO+2syJKAN3vVp5eK8g1gSldDaLT9mG9QYfwCsvBqu/+dAVw8DDahGov5ajJByy
-         5n0OOJGp4V7/Z5adisSrB/MUpEN/4uPUumpgXju+2XQzlgkBLF3v+hgO5gRtuNRg5Ddv
-         o+SzS4ussbVk/vNoKoAHoftjpfiBVVOI1JT4VTaqDbO4q/Duxq2PIWj0dEDs/du5YNC9
-         AY/g==
-X-Gm-Message-State: AOAM532O1seVzoAG8VnHRq0KsuEI4+NSuHk59g0wnMyOruWUdvjdLN7O
-	Gv5XN5mU1ZSgS/Ebw1gGSfbJf2p6nFM3bg==
-X-Google-Smtp-Source: ABdhPJzu4bSwNkgeojcIKtazDs7dPJrpmfdVo6lK9U8oEuVxYdqGLgOYmTk8boCN7gil4udY4ZrNxg==
-X-Received: by 2002:a63:3c16:: with SMTP id j22mr1946668pga.335.1594857720609;
-        Wed, 15 Jul 2020 17:02:00 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z11sm3153267pfg.169.2020.07.15.17.01.59
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 17:01:59 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
-Date: Wed, 15 Jul 2020 14:01:47 -1000
-Message-Id: <cover.1594857635.git.steve@sakoman.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 06G6uZQ3019069
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Jul 2020 23:56:56 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 15 Jul 2020 23:56:34 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] rpm: fix nativesdk's default var location
+Date: Thu, 16 Jul 2020 14:56:32 +0800
+Message-ID: <20200716065632.33861-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The following changes since commit cabaf5654db5db12b6576ef0ebae9bc7b422a8ca:
+For now, the nativesdk-rpm's %_var in /usr/lib/rpm/macros is
+'/var'. This is causing error when running `rpm -qplv A.rpm'.
 
-  iso-codes: switch upstream branch master -> main (2020-07-07 07:07:06 -1000)
+   error: cannot open Packages index using db5 - Permission denied (13)
+   error: cannot open Packages database in /var/lib/rpm
 
-are available in the Git repository at:
+The rpm in SDK should be using its own database. So we should remove
+this configure option, letting the SDK's native sysroot prefix to be
+there in %_var. In fact, '%_usr' in macros has already got the prefix.
+After this change, we have in the macros file lines like below.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+"""
+%_usr                   /opt/windriver/wrlinux/20.29/sysroots/x86_64-wrlinuxsdk-linux/usr
+%_usrsrc                %{_usr}/src
+%_var                   /opt/windriver/wrlinux/20.29/sysroots/x86_64-wrlinuxsdk-linux/var
+"""
 
-Alexander Kanavin (2):
-  gobject-introspection: add a patch to fix a build race
-  icu: make filtered data generation optional, serial and off by default
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-devtools/rpm/rpm_4.15.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andrey Zhizhikin (1):
-  kernel/yocto: fix search for defconfig from src_uri
-
-Bjarne Michelsen (1):
-  devtool: default to empty string, if LIC_FILES_CHKSUM is not available
-
-Bruce Ashfield (2):
-  kernel/yocto: ensure that defconfigs are processed first
-  linux-yocto/5.4: update to v5.4.50
-
-Christian Eggers (1):
-  libnl: Extend for native/nativesdk
-
-Hannu Lounento (1):
-  openssl: move ${libdir}/[...]/openssl.cnf to ${PN}-conf
-
-Joshua Watt (2):
-  classes/archiver: run do_unpack_and_patch after do_preconfigure
-  classes/archive: do_configure should not depend on do_ar_patched
-
-Konrad Weihmann (1):
-  systemd: remove kernel-install from base pkg
-
-Rasmus Villemoes (1):
-  coreutils: don't split stdbuf to own package with single-binary
-
-Timon Ulrich (1):
-  kernel.bbclass: add lz4 dependency and fix the call to lz4
-
-Vacek, Patrick (1):
-  oeqa/core/loader: fix regex to include numbers
-
- meta/classes/archiver.bbclass                 |  4 +--
- meta/classes/kernel-yocto.bbclass             | 34 ++++++++++++-------
- meta/classes/kernel.bbclass                   |  3 +-
- meta/lib/oeqa/core/loader.py                  |  2 +-
- .../openssl/openssl_1.1.1g.bb                 |  4 ++-
- meta/recipes-core/coreutils/coreutils_8.31.bb | 15 ++++++--
- meta/recipes-core/systemd/systemd_244.3.bb    |  1 -
- ...ency-for-g-ir-compiler-for-building-.patch | 33 ++++++++++++++++++
- .../gobject-introspection_1.62.0.bb           |  1 +
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++--
- .../linux/linux-yocto-tiny_5.4.bb             |  8 ++---
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++------
- meta/recipes-support/icu/icu.inc              |  4 ++-
- meta/recipes-support/icu/icu_66.1.bb          |  6 +++-
- meta/recipes-support/libnl/libnl_3.5.0.bb     |  2 ++
- scripts/lib/devtool/upgrade.py                |  4 +--
- 16 files changed, 107 insertions(+), 42 deletions(-)
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
-
+diff --git a/meta/recipes-devtools/rpm/rpm_4.15.1.bb b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+index cbe1acffe2..b5a0ac9382 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.15.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+@@ -67,7 +67,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls --disable-openmp"
+ # Disable dbus for native, so that rpm doesn't attempt to inhibit shutdown via session dbus even when plugins support is enabled.
+ # Also disable plugins by default for native.
+ EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
+-EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
++EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --disable-plugins"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.17.1
 
