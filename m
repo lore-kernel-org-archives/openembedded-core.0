@@ -1,82 +1,57 @@
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
- by mx.groups.io with SMTP id smtpd.web10.11109.1594887833518066115
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.12053.1594892178854619826
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 01:23:54 -0700
+ Thu, 16 Jul 2020 02:36:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 4B6nMq0Hj5z5tlB;
-	Thu, 16 Jul 2020 10:23:50 +0200 (CEST)
-Date: Thu, 16 Jul 2020 10:23:49 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Mark Deneen <mdeneen@saucontech.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [[PATCH v2] ppp: Allow arbitrary interface names to be specified in pppd config
-Message-ID: <20200716082349.xupj6ruqzi7zv4a7@qschulz>
-References: <20200714164951.2095229-1-mdeneen@saucontech.com>
-MIME-Version: 1.0
-In-Reply-To: <20200714164951.2095229-1-mdeneen@saucontech.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: wGsn1bZbfGwGTxQkzcrP8ELYtp/1d0NbfVST6CIzwknK8PfpniYjXTezrfqr9SXYwwRHP52GYr
+ nBrDKHcgEbzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9683"; a="214086602"
+X-IronPort-AV: E=Sophos;i="5.75,358,1589266800"; 
+   d="scan'208";a="214086602"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 02:36:09 -0700
+IronPort-SDR: ZPMNLjzkjOHkZIUnjGGArvZKnaBPC7uGP2Wq2IvWGwgmZ5y5VKncq9VOr7lDqrRYtl3oPvDOuj
+ nUropYsdn0KA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,358,1589266800"; 
+   d="scan'208";a="269206620"
+Received: from saininav-desk1.png.intel.com ([172.30.199.23])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Jul 2020 02:36:08 -0700
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] libva: upgrade 2.7.1 -> 2.8.0
+Date: Thu, 16 Jul 2020 17:43:36 +0800
+Message-Id: <20200716094338.9110-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-Hi Mark,
+Release notes:
+https://github.com/intel/libva/releases/tag/2.8.0
 
-On Tue, Jul 14, 2020 at 12:49:51PM -0400, Mark Deneen wrote:
-> pppd is patched in most Linux distributions to allow arbitrary naming
-> of ppp interfaces, allowing users to create consistent firewall rules
-> rather than having interfaces named "ppp0", "ppp1", etc.  Yocto is
-> missing this option.
-> 
-> This patch, originally from SUSE, adds this option to pppd. It is not
-> included upstream because there are some pppd-supported platforms which
-> lack the ability to rename interfaces.
-> 
-> Upstream-Status: Inappropriate [not all platforms supported by pppd can rename interfaces]
-> 
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+---
+ meta/recipes-graphics/libva/{libva_2.7.1.bb => libva_2.8.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libva/{libva_2.7.1.bb => libva_2.8.0.bb} (89%)
 
-This should probably go....
+diff --git a/meta/recipes-graphics/libva/libva_2.7.1.bb b/meta/recipes-graphics/libva/libva_2.8.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/libva/libva_2.7.1.bb
+rename to meta/recipes-graphics/libva/libva_2.8.0.bb
+index b2deb017ac..621ceea86c 100644
+--- a/meta/recipes-graphics/libva/libva_2.7.1.bb
++++ b/meta/recipes-graphics/libva/libva_2.8.0.bb
+@@ -1,7 +1,7 @@
+ require libva.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27c230efd5d98a04"
++SRC_URI[sha256sum] = "adbb1244d278908f89ccfcf254a442de6d71934565a492cb6f03caf2ed4d1ec3"
+ 
+ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)} \
+-- 
+2.17.1
 
-> Signed-off-by: Mark Deneen <mdeneen@saucontech.com>
-> ---
->  .../ppp/ppp/0002-pppd-add-ifname-option.patch | 214 ++++++++++++++++++
->  meta/recipes-connectivity/ppp/ppp_2.4.8.bb    |   1 +
->  2 files changed, 215 insertions(+)
->  create mode 100644 meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
-> 
-> diff --git a/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
-> new file mode 100644
-> index 0000000000..8e54024d15
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/ppp/ppp/0002-pppd-add-ifname-option.patch
-> @@ -0,0 +1,214 @@
-> +From bbcdc4366bbee6c3f4e1ddda31e4eec8c1b3ccc2 Mon Sep 17 00:00:00 2001
-> +From: Paul Mackerras <paulus@samba.org>
-> +Date: Tue, 23 Aug 2016 16:10:21 +1000
-> +Subject: [PATCH 13/16] pppd: allow use of arbitrary interface names
-> +
-> +This is a modified version of a patch from openSUSE that enables PPP interfaces
-> +to be called arbitrary names, rather than simply pppX where X is the unit
-> +number.
-> +
-> +The modifications from the stock openSUSE patch are:
-> +- refresh patch on top of 018_ip-up_option.diff
-> +- fix a printf format-string vulnerability in pppd/main.c:set_ifunit()
-> +- clarify the pppd.8 manpage additions
-> +- patch pppstats/pppstats.c to query renamed interfaces without complaint
-> +
-> +Origin: SUSE
-> +Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458646
-> +Forwarded: no
-> +Reviewed-by: Chris Boot <bootc@debian.org>
-> +Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
-
-... here ^.
-
-With your Signed-off-by right after?
-
-Also.. Does Yocto support any of such platforms that can't rename
-interfaces?
-
-Thanks,
-Quentin
