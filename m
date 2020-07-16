@@ -1,47 +1,47 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.3346.1594933693915069229
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.3238.1594933694360272944
  for <openembedded-core@lists.openembedded.org>;
  Thu, 16 Jul 2020 14:08:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZwAwPbND;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id f18so13047257wml.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 14:08:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RUwXmeTc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id z15so8571018wrl.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 14:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=+gPTHJ6eOB7d59HhiNIJPOvCM00GoHguaHZuaqwyxkM=;
-        b=ZwAwPbNDpeJXOIgL6IC5lfGxQmSW5Cwjob4pnDMP3k4uy8qAgnxdRJBiVFrZV/I0IL
-         BzhvTmUu8IcD+1fNKjGjE32YY0K+tkYhPjJSf6y7eMPAAo7HEETrKaMZNn42TOsXckW8
-         9qN86TKyjZyGYMA+wVLDt9aEcHVy1V/zTEu58=
+        bh=6z7cxRJ89wFw4I+Hgt4swP7R7Uez6fag7fA/xwjC/f8=;
+        b=RUwXmeTczAOHtmqkiGlpQcxx0SBj76FB7ZNp9LE+f5cfurODVdxgmzKbblPtEAyNda
+         Qzm8xfmrr8zLrY0lrlxwrk6/fORZHVhQjig0ixoMuQDYsNeUbm5B3gLsIx3io78rXwIs
+         prbBzSUhduwkBNIrtcdIJIBKzF0pr1IT4hDfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+gPTHJ6eOB7d59HhiNIJPOvCM00GoHguaHZuaqwyxkM=;
-        b=SWnhBom57qqqbrOLI0hv9xw51Ec517BROqbajEvO732DCNrZ7FwAhyKhJXZw/d0N8D
-         S7LL4X3yyeiiaMXgNxZJWI8Xq338vwhO7SdZohlL7M+An9mzx/Kkpw8NT5ZNghnGqfxg
-         341GWgNFS/3U4T01oemD3HvDLMFfd0/ZQ8n47Xb3x0np7RKSY/a3ND8cbJd+Z/+WveV+
-         yN99fXW4Xbqhem167DsgrXQeOJy3bLQOiwEYrs5p0ovZj3fXTeMIMW1seuJVwt8aXWUy
-         OT1DNVuyi4lQqj1FKzOuMjI4r18fHY6Xbdp9yexJN1gwJ12AYmpSNDsuwe1ZqiLzvl3Z
-         S0Ug==
-X-Gm-Message-State: AOAM5308cqLVZnHgs+9GDkVeWfmheMeYRtGOzT4rV13QZxv0ECIBCg11
-	bUr+pDnMPyTxf/cYiQRalZ67We8sayY3rQ==
-X-Google-Smtp-Source: ABdhPJwU5XNCr/4bUynR6qNDRaqC9b8v3RcFebb8ztnK/Xww3uXnAEH1//wQ4owu0rwdsmRJqmK5fQ==
-X-Received: by 2002:a7b:c44d:: with SMTP id l13mr6309583wmi.66.1594933691720;
-        Thu, 16 Jul 2020 14:08:11 -0700 (PDT)
+        bh=6z7cxRJ89wFw4I+Hgt4swP7R7Uez6fag7fA/xwjC/f8=;
+        b=sCyQuoSepLrC9Ui+tHFEaCF85V1DS4RP/dRa6woSbvU+VXQxWM2HY3bc07xwctB9ih
+         YUVKcgLWrafjk8JBYUYZ8W9Ng2E0ivlpQ+V4MRyVVqsUkFSpdrIMrtppAINHH6lBXZ7c
+         z+QQbtjxQ16Wr6eY0jaTELzSbiGuQMVftzpMEs8MvJMKqPOfhbn8C+P+ZeFXl+D4BWY6
+         pyiITkwZNRF9Xr28BdU1a5LJcXf8QZrUsWMvA3rNpWXc4tVW9K+z2WgSvH3W2tmj7+8r
+         H7c5cy0jSkOuwNiDf6+1AZfHczlaH3XgZH9STnhz3We6r2mbKFllCBDeungzzpYiFrN0
+         yXyg==
+X-Gm-Message-State: AOAM532KCybvzDnDA/GL9VH5uZNQDPuBzPiptN+xaPuLvJsN9REtfiS1
+	ctwzaqX0pOBnpB76aYbgg4MN5SV3SR7Csg==
+X-Google-Smtp-Source: ABdhPJxZ1Rqeu6clpXFuDfYzwA0JZ5nAnmtb5EFXK10HGGqKopH9NeySJB5LpUI44TEqyF3T6UK0Hg==
+X-Received: by 2002:a5d:6990:: with SMTP id g16mr6651243wru.131.1594933692617;
+        Thu, 16 Jul 2020 14:08:12 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
-        by smtp.gmail.com with ESMTPSA id r10sm10952034wrm.17.2020.07.16.14.08.10
+        by smtp.gmail.com with ESMTPSA id r10sm10952034wrm.17.2020.07.16.14.08.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 14:08:10 -0700 (PDT)
+        Thu, 16 Jul 2020 14:08:12 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/20] init-system-helpers: upgrade 1.57 -> 1.58
-Date: Thu, 16 Jul 2020 22:07:51 +0100
-Message-Id: <20200716210808.7438-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/20] createrepo-c: upgrade 0.15.11 -> 0.16.0
+Date: Thu, 16 Jul 2020 22:07:52 +0100
+Message-Id: <20200716210808.7438-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
 References: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
@@ -50,26 +50,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...{init-system-helpers_1.57.bb => init-system-helpers_1.58.bb} | 2 +-
+ .../{createrepo-c_0.15.11.bb => createrepo-c_0.16.0.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/initscripts/{init-system-helpers_1.57.bb => init-system-helpers_1.58.bb} (96%)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.15.11.bb => createrepo-c_0.16.0.bb} (95%)
 
-diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb b/meta/recipes-core/initscripts/init-system-helpers_1.58.bb
-similarity index 96%
-rename from meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-rename to meta/recipes-core/initscripts/init-system-helpers_1.58.bb
-index e41ac21a285..b591f412c67 100644
---- a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-+++ b/meta/recipes-core/initscripts/init-system-helpers_1.58.bb
-@@ -16,7 +16,7 @@ SECTION = "base"
- LICENSE = "BSD-3-Clause & GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.11.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb
+similarity index 95%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.15.11.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb
+index 969894e4486..c6d89630720 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.11.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
  
--SRCREV = "760c625ec0e1ffebec2e391d891d389da0f65726"
-+SRCREV = "6a1860c6f5ad295af605ddf588933544e7c24ce1"
- SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git;protocol=https"
+-SRCREV = "ea3bcf302c1a071040e1a8b6ad77861c12a2ae99"
++SRCREV = "bac48ace91c51abe37792415e75452bbabd44d93"
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.25.1
 
