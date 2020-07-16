@@ -1,151 +1,113 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.3347.1594933695383546844
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.3254.1594933696578548498
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 14:08:15 -0700
+ Thu, 16 Jul 2020 14:08:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WxO2rjPd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id f18so8634779wrs.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 14:08:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HhR93P1R;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id l2so13096529wmf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 14:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=AU5fqMENg5wLOHtuvUmGSCuUxz/jHxqXBRwN2j/I4Tw=;
-        b=WxO2rjPdn9TPu0igzA2Ufz/TOB7lpHhHcykwtyFwEvSpu3gweA1QuynPNqlWXuu6X0
-         Dx53G0vfzvoGbWFvybsWOTWXxOWXqp46IXQpUHmvVKHqq2szbPoZe5vWT0bmfyepIynM
-         7CBWBKVB6sXU5d6BZt/G7eIwGGy3nRWH3ht2w=
+        bh=E5wy5vUcFY/YyqiHUUAFM7teKE0Mrs2FBH4tZ6xOjfg=;
+        b=HhR93P1Rwl8aK13kGmb69UvPsMhopxslLT3nvrUTIAAVxdNRBaHrUoj0mVlfqEMVX6
+         PEDZFN5IHvtFuYZKoHXopYUQg1x4Iazq98E2ybwXsr31qwtMJkGUTQdhU9xQfWz++g9p
+         VWch3iJUzx25hth/EjCt+apmsT5j9uVeqiJtQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AU5fqMENg5wLOHtuvUmGSCuUxz/jHxqXBRwN2j/I4Tw=;
-        b=nDLYwLi+/cUwQv3sT8X6pCOaKhJ6ghbbVv2Fi68ybxI3p6xUNZOET8skf5omN8QNux
-         bYTd+w/Btf18rlCwQVOt9HhgNn/+HMNPP2JpprQI5pMRwo75qsW0d5gTanBeZM9bwvVv
-         mhMExx06Gocej/Zng5ouzFfyY2gYgGrkiT0/mY9Gp2V8kiqT8c3OBMEeAGQ5NC5Je0S7
-         Q1lx4RP5KEQjXt7pdV2gjwqujbXXebFdYvVBn6NXqChLAJcsbILHpFFylX5a0A2ogyE4
-         YfJ5493WFR9x0DoEKpxzm0Hd+ehhbwG4q+UHAN4YzXgQ8MeFA1/TFesu+BBPlwuxAzMP
-         pH5w==
-X-Gm-Message-State: AOAM531uexNKWW6K1VnA336BmzlWa7teaTL1AAaQpSHpanNB0/kQU9a4
-	+LBsOU2HcW8BF5U4YpzssFxR4K4PnTJwkQ==
-X-Google-Smtp-Source: ABdhPJzmgYnq5VaFGrcvxH/xJwEUJNl+f6tvQ4whR/GQRbNHMLZHJlDcVBvAq/SNgy/red1NPyEp6A==
-X-Received: by 2002:a5d:4687:: with SMTP id u7mr7111293wrq.357.1594933693556;
-        Thu, 16 Jul 2020 14:08:13 -0700 (PDT)
+        bh=E5wy5vUcFY/YyqiHUUAFM7teKE0Mrs2FBH4tZ6xOjfg=;
+        b=WzPSR7eEhSLaWYwD3zdWzxS21sjlGh9x93sI4w5cZz6piLUCKsnn0uNBDCs96eIBil
+         VK80jfxqs1vi6PIhErQ6sDlLHeCeuC5/DZjk13D/sjXwA0h09f/P/f8iPC5Y9YljLgGy
+         /myaW0OAdp8/qnFlyLQW3NbCR9hbk/U9feh3SKpoQIQhKl8Qmm5NhiQqjvHbQ8/4atP1
+         p35L0kEEYj5LNq5jsPsQleBJVuF4/Bm90ashI5VrP7JD6+B+P+TmjVS2prQ/IllRONDE
+         YnB1S491YYzbIAsIVRh6v2+C0oWEGEehkInL46bmMbX81zKNa75d1c/tkFVfbm2IFQzH
+         P0rQ==
+X-Gm-Message-State: AOAM531rtv8fDISppAYgF3hKpaGZHTf4ZA5N36MzTd8zUcLMmb1gZRYC
+	OqHmC+MeDgJBJe7UQNaPpVsnO60X/VSARw==
+X-Google-Smtp-Source: ABdhPJy3Zeabsa6moRMWnKi7pYUP0T9RLWKoUkH4a3CaLertMTgWk7r1EVwoL4bSVamNRogZ9LB1kA==
+X-Received: by 2002:a1c:e088:: with SMTP id x130mr5812530wmg.14.1594933694605;
+        Thu, 16 Jul 2020 14:08:14 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
-        by smtp.gmail.com with ESMTPSA id r10sm10952034wrm.17.2020.07.16.14.08.12
+        by smtp.gmail.com with ESMTPSA id r10sm10952034wrm.17.2020.07.16.14.08.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 14:08:12 -0700 (PDT)
+        Thu, 16 Jul 2020 14:08:13 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/20] mtd-utils: upgrade 2.1.1 -> 2.1.2
-Date: Thu, 16 Jul 2020 22:07:53 +0100
-Message-Id: <20200716210808.7438-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 06/20] dpkg: upgrade 1.20.0 -> 1.20.5
+Date: Thu, 16 Jul 2020 22:07:54 +0100
+Message-Id: <20200716210808.7438-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
 References: <20200716210808.7438-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop backported patch.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...-utils-Fix-return-value-of-ubiformat.patch | 62 -------------------
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  7 +--
- 2 files changed, 3 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+ .../0001-build.c-ignore-return-of-1-from-tar-cf.patch    | 9 +++++----
+ .../dpkg/{dpkg_1.20.0.bb => dpkg_1.20.5.bb}              | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.20.0.bb => dpkg_1.20.5.bb} (95%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
-deleted file mode 100644
-index d43f7e1a7a0..00000000000
---- a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
--From: Barry Grussling <barry@grussling.com>
--Date: Sun, 12 Jan 2020 12:33:32 -0800
--Subject: [PATCH] mtd-utils: Fix return value of ubiformat
--Organization: O.S. Systems Software LTDA.
--
--This changeset fixes a feature regression in ubiformat.  Older versions of
--ubiformat, when invoked with a flash-image, would return 0 in the case no error
--was encountered.  Upon upgrading to latest, it was discovered that ubiformat
--returned 255 even without encountering an error condition.
--
--This changeset corrects the above issue and causes ubiformat, when given an
--image file, to return 0 when no errors are detected.
--
--Tested by running through my loading scripts and verifying ubiformat returned
--0.
--
--Upstream-Status: Backport [2.1.2]
--
--Signed-off-by: Barry Grussling <barry@grussling.com>
--Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- ubi-utils/ubiformat.c | 7 +++++--
-- 1 file changed, 5 insertions(+), 2 deletions(-)
--
--diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
--index a90627c..5377b12 100644
----- a/ubi-utils/ubiformat.c
--+++ b/ubi-utils/ubiformat.c
--@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-- 	struct ubi_vtbl_record *vtbl;
-- 	int eb1 = -1, eb2 = -1;
-- 	long long ec1 = -1, ec2 = -1;
--+	int ret = -1;
-- 
-- 	write_size = UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
-- 	write_size /= mtd->subpage_size;
--@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-- 	if (!args.quiet && !args.verbose)
-- 		printf("\n");
-- 
---	if (novtbl)
--+	if (novtbl) {
--+		ret = 0;
-- 		goto out_free;
--+	}
-- 
-- 	if (eb1 == -1 || eb2 == -1) {
-- 		errmsg("no eraseblocks for volume table");
--@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
-- 
-- out_free:
-- 	free(hdr);
---	return -1;
--+	return ret;
-- }
-- 
-- int main(int argc, char * const argv[])
---- 
--2.27.0
--
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index d1658a739b4..91814134275 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -10,13 +10,12 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS = "zlib e2fsprogs util-linux"
- RDEPENDS_mtd-utils-tests += "bash"
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
+index 7c354073648..ffe520c5130 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
+@@ -1,4 +1,4 @@
+-From 450fece894fce750502be8accabfd88c585bda4c Mon Sep 17 00:00:00 2001
++From 15b081cc8bead80c493ab83369ecb3345a24a3dc Mon Sep 17 00:00:00 2001
+ From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+ Date: Tue, 16 Jun 2020 03:57:25 +0000
+ Subject: [PATCH] build.c: ignore return of 1 from tar -cf
+@@ -23,15 +23,16 @@ Upstream-Status: Inappropriate [OE specific]
+ Original patch by RP 2015/3/27, rebased by Paul Eggleton
  
--PV = "2.1.1"
-+PV = "2.1.2"
+ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
++
+ ---
+  dpkg-deb/build.c | 5 ++++-
+  1 file changed, 4 insertions(+), 1 deletion(-)
  
--SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
-+SRCREV = "7b986779342021bda87c04da3bf729718736d8ab"
- SRC_URI = "git://git.infradead.org/mtd-utils.git \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
--           file://0001-mtd-utils-Fix-return-value-of-ubiformat.patch \
--"
-+           "
+ diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index a3d1912..1de7f9c 100644
++index 8436839cd..6b44a36f7 100644
+ --- a/dpkg-deb/build.c
+ +++ b/dpkg-deb/build.c
+-@@ -427,6 +427,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
++@@ -434,6 +434,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+  {
+    int pipe_filenames[2], pipe_tarball[2];
+    pid_t pid_tar, pid_comp;
+@@ -39,7 +40,7 @@ index a3d1912..1de7f9c 100644
+  
+    /* Fork off a tar. We will feed it a list of filenames on stdin later. */
+    m_pipe(pipe_filenames);
+-@@ -477,7 +478,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
++@@ -486,7 +487,9 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+    /* All done, clean up wait for tar and <compress> to finish their job. */
+    close(pipe_filenames[1]);
+    subproc_reap(pid_comp, _("<compress> from tar -cf"), 0);
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.5.bb
+similarity index 95%
+rename from meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.20.5.bb
+index 334294e6f88..d97b69c0b97 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.20.5.bb
+@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https \
  
- S = "${WORKDIR}/git/"
+ SRC_URI_append_class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
  
+-SRCREV = "314ac02663c5bd1a82b34745150bf13a39a549a3"
++SRCREV = "823a67d67538b1b403a32d1fef40e6e228265566"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.25.1
 
