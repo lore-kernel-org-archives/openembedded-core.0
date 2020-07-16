@@ -1,89 +1,98 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web11.16238.1594908330499279732
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web11.16337.1594908656218060994
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 07:05:30 -0700
+ Thu, 16 Jul 2020 07:10:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WKujmH8f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id k6so7225703wrn.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 07:05:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ojM6jm5Y;
+ spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f193.google.com with SMTP id i18so5137588ilk.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 07:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=jxb89Eo6hbmSmbPyfkLL4TDrFepGrhjnueq2hCE0SYc=;
-        b=WKujmH8fH/zNF2/++STgKk4YZ9GadicQ/YDXWgxf9wZE7pvT8e9VbxIaKKL2hDKn2+
-         gO9vIxQbYJJiIchcxxIWqhgUGATiIu+hG+HqOch+eqvqiJRTKAkt/JQ0bLb80T4HRFab
-         S+Ko86wYS6S7NE5mE/rNEubryKNfJ3KOLakjg=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+AuWThOYQMuDD8jFyvyNWQmHc4Jf5e6XN8AvusOFsvU=;
+        b=ojM6jm5YQVimQ14jfzib5MQKrktKnOQunZt5IJii/6cLLx5emKKQyDSXuyX9x/+KIv
+         CR1KbwIi7+yC8E6iIf6XEZISpuCvPuNgLrvcUb1V8ly1pHdhq66wCKboEqaRkDt0eyC9
+         jzuF8PvYelXlxfMJiojCdipNimyRB9IQkpLvJxMugDvWa2mMeoXPdZDvq+e8Mb9md8uS
+         IpTV5UipXse+vkWhRKXzXfWktTEMv3UEMqD04llCqkFCtXRtBAjozllgm7MDWaipLuQI
+         5Qccrv7mTQWcjrDGX2HT3noCdBsMsSHPyaEtxoQa+58BkxYDhYkxOaef7dhGgfSXiuAx
+         2yvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jxb89Eo6hbmSmbPyfkLL4TDrFepGrhjnueq2hCE0SYc=;
-        b=qdLRpnqy/pzgKi8X0yiVpcVd01pfxolT4miwldyRVsi7tpRkmturbxRySl/YNaUQ7A
-         0XheIQAKX2EFAV0rPmgaPSyJf1Kh1wwW69FXXO6fw11q0bwIN0jFhZQqCXYslCQ0RVvI
-         Iq70TJaQKKgvAFX4WlZ58nZo/uh+TNXftHxmkRWh5Ipb6B4ekCSu/Zq3nQ43BJRsuMwU
-         Md/N50LP9G5DdBgrxR7qEbsNvd01ACX5MvPTlCOuyt7TJaC50sA8+g1hFkVWS3uLjnJu
-         H+Lv58+bZYo/YD35faQhkDkUDZJfWQHEytSqQAYHqkqv64Bqsbz0HzTn5kRZ8hWDyC4u
-         9Slg==
-X-Gm-Message-State: AOAM5303emdsJgTfvW1/tbTvEfWWCUICZtJgN/5LqLHMeV6BI83s2TRS
-	AJqIFAKuqf3ePAdQ3Ctaa8Xi1g==
-X-Google-Smtp-Source: ABdhPJzF7AI2jno+9KKfMM4xu7q4H2MbqNjySxeInixVBzlMyPQJe1kl5RfW95XfIhnBKa8GtQG8kw==
-X-Received: by 2002:a5d:5490:: with SMTP id h16mr5586897wrv.394.1594908329053;
-        Thu, 16 Jul 2020 07:05:29 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.5.e.d.0.0.8.7.7.9.2.b.d.5.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.5.e.d.0.0.8.7.7.9.2.b.d.5.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d55d:b297:7800:de5e])
-        by smtp.gmail.com with ESMTPSA id u23sm9916484wru.94.2020.07.16.07.05.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+AuWThOYQMuDD8jFyvyNWQmHc4Jf5e6XN8AvusOFsvU=;
+        b=OWYJqvCV0jYAa5RfbvkzciVubINVsZzIS27mjhvCeDNIWj1gWCOjZYpOuo54a2d3SU
+         C8PLXNK6Xta9a4Jyg1aHwKEsNVEUD4O2eD2j+o7SzFwzlnRX5nU+IwhZg2h2zxvXRaT7
+         uCOGPxma9Sf7vi5NpIEr6qHekCNV/LzHLXx61fIlXXoKhDAPe1BqLrCMTswDZTtTFn3N
+         e5MOMoCzOuIxC79TglHMmdtSRd+7vdQ9hDx7oCC1Y/m5cBB1dqtw/ZfcS0EFT+tEGVkW
+         z22RzZHGrW2dLD5b0UyguRiHzOGhOa+GImkYlWF9uwIZnT/Lgqo9KZbmFV6I42N80BtL
+         SQBw==
+X-Gm-Message-State: AOAM533v7y1132AmhXVDiwwhtgIzrqotXza16sA9BTAmsOiCSNwgNOGh
+	qk1KV0auqz6OTuF93jC7zzuuCfnd/AA=
+X-Google-Smtp-Source: ABdhPJx66XdX/aj1TtjNVUzqdvP8NdQT981Tp657k68YN4PY9ZzlovApYbb+X21HQIdo2z0scEFE4Q==
+X-Received: by 2002:a92:300a:: with SMTP id x10mr4503913ile.124.1594908655223;
+        Thu, 16 Jul 2020 07:10:55 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:8425:3b41:f78d:f429])
+        by smtp.gmail.com with ESMTPSA id s11sm2782705ili.79.2020.07.16.07.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 07:05:28 -0700 (PDT)
-Message-ID: <a5a2f620b4203f3c4584c7d686f4991ed5e3464c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] openssl: openssl-bin requires openssl-conf to run
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2020 15:05:27 +0100
-In-Reply-To: <3541ef9cd5a1ebdfa20e9bfe1b1dacf4589bf2fd.1594897729.git.liezhi.yang@windriver.com>
-References: <cover.1594897729.git.liezhi.yang@windriver.com>
-	 <3541ef9cd5a1ebdfa20e9bfe1b1dacf4589bf2fd.1594897729.git.liezhi.yang@windriver.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Thu, 16 Jul 2020 07:10:54 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] diffoscope: upgrade 150 -> 151
+Date: Thu, 16 Jul 2020 09:10:52 -0500
+Message-Id: <20200716141052.27340-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-07-16 at 04:09 -0700, Robert Yang wrote:
-> Fixed:
-> $ dnf install openssl-bin
-> $ openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days
-> 365 -nodes -batch
-> Can't open /usr/lib/ssl-1.1/openssl.cnf for reading, No such file or
-> directory
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1g.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> index 47ed6b7640..815955837b 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-> @@ -204,6 +204,8 @@ CONFFILES_openssl-conf =
-> "${sysconfdir}/ssl/openssl.cnf"
->  RRECOMMENDS_libcrypto += "openssl-conf"
->  RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash"
->  
-> +RDEPENDS_${PN}-bin += "openssl-conf"
-> +
->  BBCLASSEXTEND = "native nativesdk"
+* Improvements and bug fixes:
 
-Wasn't this addressed by:
+  - Pass the absolute path when extracting members from SquashFS images as we
+    run the command with our working directory set to the temporary
+    directory. (Closes: #964365, reproducible-builds/diffoscope#189)
+  - Increase the minimum length of the output from strings(1) to 8 characters
+    to avoid unnecessary diff noise. (Re. reproducible-builds/diffoscope#148)
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=cd80b0e52ee2e008672ce910856f63176bc00480
+* Logging improvements:
 
-?
+  - Fix the compare_files message when the file does not have a literal name.
+  - Reduce potential log noise by truncating the has_some_content messages.
 
-Cheers,
+* Codebase changes:
 
-Richard
+  - Clarify use of a "null" diff in order to remember an exit code.
+  - Don't alias a variable when don't end up it; use "_" instead.
+  - Use a  "NullChanges" file to represent missing data in the Debian package
+    comparator.
+  - Update some miscellaneous terms.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ .../diffoscope/{diffoscope_150.bb => diffoscope_151.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_150.bb => diffoscope_151.bb} (83%)
+
+diff --git a/meta/recipes-support/diffoscope/diffoscope_150.bb b/meta/recipes-support/diffoscope/diffoscope_151.bb
+similarity index 83%
+rename from meta/recipes-support/diffoscope/diffoscope_150.bb
+rename to meta/recipes-support/diffoscope/diffoscope_151.bb
+index 58bd60a2c2..9b39b44350 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_150.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_151.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "0b9e4ae401fe4cbb8ce89b0bcabe608581d0ed53b91a28f18337179c7494af57"
++SRC_URI[sha256sum] = "f15e04aa537f0a3d91c99bf631c604668f4eea8f6552c5f93ea9be2bf014df84"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
+ 
+-- 
+2.27.0
 
