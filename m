@@ -1,110 +1,165 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web12.13642.1594900590579777077
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web11.13849.1594900591295977226
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 04:56:30 -0700
+ Thu, 16 Jul 2020 04:56:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=KxxXUrEO;
- spf=pass (domain: burtonini.com, ip: 209.85.221.66, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f66.google.com with SMTP id z13so6772281wrw.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 04:56:30 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=jNVPHXxZ;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.67, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f67.google.com with SMTP id o11so6756040wrv.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 04:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kHDinU98t6DXv35PzKpkm/Q3g4LFmg9HAsIXoYCqVtc=;
-        b=KxxXUrEOv1eJpEfXiqCnxAs9oHAAOwEma1DxiekAQeiu30EV09qBSH9bWDx0WCF+2p
-         tMy1EE0hJUr+0zV3Io61LKai04p75Jw0h7/MSF9fLhpVDr63ljRpBq2/GG7KaVA1pZm9
-         MFnwtjnG+/+pef1YZcIu2ZnFvWS5y38n3CoiAQusrqTGHM1YQVsy7IeaJ8tfBffHgUVB
-         Ng1d9d1hcIzzioeqHlVrW6MW1gUiKcuhBiq+eIjyQuw9MdBKdfJ3fJrMRO6pLq/qN/C8
-         SMucm0YeP4p5C4aXaLKN5HzOEowHLT3d/iD9y6cR55ob7fbUJYR7c7xEbA/sCbjTWHIk
-         i5pg==
+        bh=biC/T5BwCn1ZydWCxv0OTiTPQKyTFZfhV+kMKMIZM5Q=;
+        b=jNVPHXxZIrR4GAfMKiaLBFerqk3R92s15F4buKJCEQkxz8zBf4wSzxOGOpodriq8cx
+         auevmx9jAjwJhRcE6U1CgprS4p/pDHI8fIyhqnaJ88etpCyKSEfJ5KG/S4zvoCwISAtv
+         fxHcGQeJ1GbUZ0CsRVZyxsmqsFbpKHHixFdBKBs+pCk8hBXDkXm0K6SeND0uQ9y6g+Cg
+         k8RCbRMRFfiEeTmEear3c8JdKP6LXO61Sd8ZFa8KEgAlUgOdAhxh0dXbXwypJyFgObGD
+         gUsq2FVvwGPR0sKynnQs1oechpnTuMAYbJQeF/amNpWhZ3IiYQYUWtDq7CADQPsTl+UE
+         N5TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kHDinU98t6DXv35PzKpkm/Q3g4LFmg9HAsIXoYCqVtc=;
-        b=W6mZczSKiyUsdLqLQCL879mUkEBnDGjpdU26P+iW2iwI/qoPbvXjSEPRhmJniHLP91
-         AP6J1OKFc+Q7pkPcfQHCmeMg+MvT42NOSRKZ5gLVnNklipcXqavMgTcB19vY9Epuz5Ow
-         i7R+OnndNAzeGqFCnxiWyIUwrljyfn/4N1YKWBjWA5bdi//Cx1VtnJv6rygPFYq8opzD
-         bCiabalXexZnCGqrPAceSoPKkTBuOrwbmZAn0XGpOWC/7hIhEOBkMRzhIn5AZJddzzCc
-         C8Osp374Tl5Xl4OJHiwwjC3jTaoJie8Xiwp+VcoNF6TZ2EwVNLFq/RWuYbfOjzmYxVYi
-         GN4A==
-X-Gm-Message-State: AOAM531IN3Ymwm//0ZT0E558/4PZtsOjK7akPwxdWk9f/vtW/66GIgpx
-	QeNPnBR97Sb7P8QYWn8M17skZrcOBp0=
-X-Google-Smtp-Source: ABdhPJwkHkt64ezDFj1EEF5KX73MZaXo5E/Tf9T1e6UGIy2x3hP8+SbvERuAje/IIPuUqBnn3vmTNg==
-X-Received: by 2002:a5d:6045:: with SMTP id j5mr4629217wrt.209.1594900588816;
-        Thu, 16 Jul 2020 04:56:28 -0700 (PDT)
+        bh=biC/T5BwCn1ZydWCxv0OTiTPQKyTFZfhV+kMKMIZM5Q=;
+        b=W/GtKLtdnqDEk53fyYwD4ndE/+dmgeRyuCAxha8Gll5SQCjxz6wvbHResgVm6oHZig
+         fir3nUXhalifiTUq4SqeAJNHxg2jdKAL9qZc9wKpiwLmDjZ8Fmi5+uTmxokzsJZSFAjj
+         BSN+7XDqzu6/XIABTrSFIbSYovJYwP2L5BE9YSTzLZgOhAud8/wy4sYleE1drfjotsR+
+         94bochJ4xnbGXWQYt6ZekN1NMqNiRwQhD7o24wdkpdpj3unPqcctECeEALDXH6dPAao7
+         yrQiuGnNvEWNgX2R96Eu77TZiL4HrJkCz3UIzeiiqUeSaoyx4MBiBid/jtgtkbMTzjH7
+         o4IQ==
+X-Gm-Message-State: AOAM530cHcH6paEhcAJbbBAfActnujh4AUpvEBMzW2JdjNiWUGQOKnhX
+	o2CyJpuAK90nxTZZxmVrSGTVmeC6x7w=
+X-Google-Smtp-Source: ABdhPJzmU/wYPAo178oZxASM5q+AmIfTfny6ZaUHXSpGTb+GwbUSr79z0z6NS4jbpLLElmsL6avzSw==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr4960581wro.90.1594900589450;
+        Thu, 16 Jul 2020 04:56:29 -0700 (PDT)
 Return-Path: <ross@burtonini.com>
 Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
         by smtp.gmail.com with ESMTPSA id w7sm7914939wmc.32.2020.07.16.04.56.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2020 04:56:28 -0700 (PDT)
+        Thu, 16 Jul 2020 04:56:29 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] help2man: rewrite recipe
-Date: Thu, 16 Jul 2020 12:55:44 +0100
-Message-Id: <20200716115546.3724268-2-ross@burtonini.com>
+Subject: [PATCH 3/4] flex: fix build with autoconf 2.70
+Date: Thu, 16 Jul 2020 12:55:45 +0100
+Message-Id: <20200716115546.3724268-3-ross@burtonini.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200716115546.3724268-1-ross@burtonini.com>
 References: <20200716115546.3724268-1-ross@burtonini.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@arm.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Instead of being explicitly native, use BBCLASSEXTEND.
-
-No need to explicitly depend on autoconf-native automake-native, because
-the autotools class does that.
-
-Don't explicitly disable NLS, but use the gettext class.
-
-As this recipe isn't needed in early build anymore there's no need to
-avoid reconfiguring.
+autoconf 2.70 is coming soon which has some small behavioural fixes, so
+backport a patch from upstream to fix the build with that release.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...2man-native_1.47.15.bb => help2man_1.47.15.bb} | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.15.bb => help2man_1.47.15.bb} (66%)
+ .../flex/flex/check-funcs.patch               | 79 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/check-funcs.patch
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb b/meta/recipes-devtools/help2man/help2man_1.47.15.bb
-similarity index 66%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-rename to meta/recipes-devtools/help2man/help2man_1.47.15.bb
-index 4f80a2bdb1..7a913507a3 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.47.15.bb
-@@ -2,22 +2,19 @@ SUMMARY = "Program for creating simple man pages"
- SECTION = "devel"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
--DEPENDS = "autoconf-native automake-native"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
- SRC_URI[sha256sum] = "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f1ee762f001dbcd1c"
- 
--inherit autotools native
-+inherit autotools gettext
- 
--EXTRA_OECONF = "--disable-nls"
--
--# We don't want to reconfigure things as it would require 'perlnative' to be
--# used.
--do_configure() {
--	oe_runconf
--}
-+# This is a hand-maintained aclocal.m4 but our autotools class currently deletes
-+# aclocal.m4.
-+EXTRA_AUTORECONF += "--exclude=aclocal"
- 
- do_install_append () {
- 	# Make sure we use /usr/bin/env perl
- 	sed -i -e "1s:#!.*:#! /usr/bin/env perl:" ${D}${bindir}/help2man
- }
+diff --git a/meta/recipes-devtools/flex/flex/check-funcs.patch b/meta/recipes-devtools/flex/flex/check-funcs.patch
+new file mode 100644
+index 0000000000..037ca81fdc
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/check-funcs.patch
+@@ -0,0 +1,79 @@
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+BBCLASSEXTEND = "native nativesdk"
++From c42de062bbdc7c31d7181c10a74202d493280ada Mon Sep 17 00:00:00 2001
++From: Explorer09 <explorer09@gmail.com>
++Date: Tue, 27 Feb 2018 09:10:12 +0800
++Subject: [PATCH] build: Move dnl comments out of AC_CHECK_FUNCS
++
++Due to a bug, autoheader (2.69) will treat M4 dnl comments in a quoted
++argument of AC_CHECK_FUNCS as function tokens and generate a lot of
++redundant and useless HAVE_* macros in config.h.in.
++(Examples: HAVE_DNL, HAVE_AVAILABLE_, HAVE_BY)
++
++It seems to be this commit dbb4e94dc7bacbcfd4acef4f085ef752fe1aa03f of
++mine that revealed this autoheader bug, and the affected config.h.in
++had been shipped within flex-2.6.4 release tarball.
++
++I have reported the autoheader bug here:
++<https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html>
++
++As a workaround, let's move comments out of AC_CHECK_FUNCS.
++
++Signed-off-by: Kang-Che Sung <explorer09@gmail.com>
++---
++ configure.ac | 29 +++++++++++++----------------
++ 1 file changed, 13 insertions(+), 16 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 55e774b0..d0f3b7da 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -166,6 +166,7 @@ strtol dnl
++ AC_CHECK_FUNCS([dnl
++ pow dnl           Used only by "examples/manual/expr"
++ setlocale dnl     Needed only if NLS is enabled
+++reallocarr dnl    NetBSD function. Use reallocarray if not available.
++ reallocarray dnl  OpenBSD function. We have replacement if not available.
++ ])
++ 
++diff --git a/configure.ac b/configure.ac
++index 3c977a4e..9c53590f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -158,22 +158,19 @@ AC_FUNC_REALLOC
++ AS_IF([test "$cross_compiling" = yes],
++    AC_MSG_WARN([result $ac_cv_func_realloc_0_nonnull guessed because of cross compilation]))
++ 
++-AC_CHECK_FUNCS([dup2 dnl
++-memset dnl
++-regcomp dnl
++-strcasecmp dnl
++-strchr dnl
++-strdup dnl
++-strtol dnl
++-], [], [AC_MSG_ERROR(required library function not found on your system)])
++-
++-# Optional library functions
++-AC_CHECK_FUNCS([dnl
++-pow dnl           Used only by "examples/manual/expr"
++-setlocale dnl     Needed only if NLS is enabled
++-reallocarr dnl    NetBSD function. Use reallocarray if not available.
++-reallocarray dnl  OpenBSD function. We have replacement if not available.
++-])
+++dnl Autoheader (<= 2.69) bug: "dnl" comments in a quoted argument of
+++dnl AC_CHECK_FUNCS will expand wierdly in config.h.in.
+++dnl (https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html)
+++
+++AC_CHECK_FUNCS([dup2 memset regcomp strcasecmp strchr strdup strtol], [],
+++  [AC_MSG_ERROR(required library function not found on your system)])
+++
+++# Optional library functions:
+++# pow - Used only by "examples/manual/expr".
+++# setlocale - Needed only if NLS is enabled.
+++# reallocarr - NetBSD function. Use reallocarray if not available.
+++# reallocarray - OpenBSD function. We have replacement if not available.
+++AC_CHECK_FUNCS([pow setlocale reallocarr reallocarray])
++ 
++ AC_CONFIG_FILES(
++ Makefile
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 43b2547fc6..3d57572865 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
++           file://check-funcs.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.26.2
 
