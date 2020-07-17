@@ -1,69 +1,137 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.718.1595008019853721511
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
+ by mx.groups.io with SMTP id smtpd.web10.276.1595013562696589088
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 10:47:00 -0700
+ Fri, 17 Jul 2020 12:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JB/dSbXh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id 88so1741671wrh.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 10:46:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UbOq5Kg4;
+ spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f67.google.com with SMTP id e15so5401251vsc.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 12:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=27BWiFZSOy5PQnxaYos4IAttYkw3FALgCgJou1EuXP8=;
-        b=JB/dSbXhjqkvRASlR6VkA+Sd4si7VThUcI84S51jqUjIqAAsWRdAneer6aQrVbN/O9
-         HwKij5fJ7j+OTm8zurG4nYQg4lt8IuTUm5yimfDhgVujMaMzPzNe/p3Uhb4ypIGgpi2i
-         m5n306pWn59mpyXbq0bnNkGwYzNBXRQdxh4/E=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YZxan2a4N4EvfMXI1aJUfiosd4/vCiGIdsPe9g6uXE8=;
+        b=UbOq5Kg4H8ZkLXyCBXfK2N+7UlT+n2PA0UJdB1pul3cTSoUsC0KQdse0smafNxRR2u
+         fTcmmn3ZvY8mQtRR+rqdbyvu7HFfFUE9t/wVq/LTW93dtkVd5chPb7q4+DuyDUa+AkzW
+         DLxIyCUZaWM7sFT61krLEuN7tHm0VDxYvfwqfE7RKnclVXf6cFv2LZMQk+uEu63NkXPB
+         G45k9gk7dXJc4iuHbkxV1xpOn8dC5+BGIl+hBBLSGYyKBRE1kx90NL7C19nSPjA62kLg
+         LpHuOV2eLFDgxoYat5zt0Pg+mXtE4M5TZiuiS59Y2GmJ7sFxuwICXd5MpI5v4DLzudm3
+         exlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=27BWiFZSOy5PQnxaYos4IAttYkw3FALgCgJou1EuXP8=;
-        b=QSF2A+8ujAzEgFspLh6l8ZD1GJbQKzBkj7qxSbF39/dI29tYhkT5mwjQoQewmpxKlm
-         67zjY7gO4a07nqe3PG6EBlERDXIY7NQBoCaBR/Zt2bAuiKZ5tDgb1vBQyIW/X/TUhFhm
-         Y3tYB30xGEGfB69bwvegRgEesaQDLSx/SxTe6ZPzrvmWXczeqE3XFPnlT53JpRv3w2yd
-         RQ4dw1VJYyf4flnQQqzbKehcax5Y5BpNtCrFmDGWMWDKEm37BAVkYSDGYlcb3d3SAeH9
-         ozUJZER/BBZenniUEuDraVqjtP5dNZfEGwayZKEQJB5XbGpJaRMzo9IMdCSaWFg3rB1T
-         b0KQ==
-X-Gm-Message-State: AOAM5319mAfm4pFV9fiX21xVb2eyAQpVJH9wsyxA65+Odd1dUDXblKdV
-	G5J0vecspQmqEtSkyEgPFPwbjg==
-X-Google-Smtp-Source: ABdhPJwB5AL5FpF5mMwb9wXl3XqDamx6bI8GZVkax9OKByMPySQAMA7u6T6ZUfSldOJU7p96kjDJTg==
-X-Received: by 2002:adf:f34c:: with SMTP id e12mr11036054wrp.46.1595008018321;
-        Fri, 17 Jul 2020 10:46:58 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
-        by smtp.gmail.com with ESMTPSA id c194sm15267305wme.8.2020.07.17.10.46.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 10:46:57 -0700 (PDT)
-Message-ID: <4d8f36dd9075958747ff4b0194b6df750c313dc0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [AUH] Upgrade status: 2020-07-15
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jul 2020 18:46:56 +0100
-In-Reply-To: <CANNYZj8VV-OHJa6epGPvUsQb=29ezhACQ8bop+oD2GNn9ADsDw@mail.gmail.com>
-References: <20200715164441.DDD23E01EAA@yocto-www.yoctoproject.org>
-	 <CANNYZj8drAJ8fvTC_KPhQ3yZr7KN7iaB-616DnQHmf43TjCFmg@mail.gmail.com>
-	 <09ec097fc3cd3f5bb1ebbc7248cc52e56716fbfb.camel@linuxfoundation.org>
-	 <CANNYZj8VV-OHJa6epGPvUsQb=29ezhACQ8bop+oD2GNn9ADsDw@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YZxan2a4N4EvfMXI1aJUfiosd4/vCiGIdsPe9g6uXE8=;
+        b=aikqm4lhYcgwsOLxj++oKgcXY/N4KvwbS45X51l0cpgOCk5nK+Gaa1YHy8HyOIR1xO
+         nd6488SPSIG8/90iYMIrkCMtXlyiP5hFt7uu8HIGYEe7s69SXO7izdQQMTPqOdq+ash0
+         V8H4UfArACopXfz7+6GObxb7Hkz/FvVaMiK/J8D1A6q58WReHEYGbHk7uDWEnofs/gpt
+         2d3eP5qro/8pKWORUQao3US8r2UK2maGi0whQhs3z8fZKEUx9sKlScesCARuTfocfE1c
+         5QPXEnnhxm6yf2AAA+J6G0lvGGeawwjw3/SE/mAIqiV2hEwyYqfYfSn4mGo9DcfZg4vF
+         3EZg==
+X-Gm-Message-State: AOAM531zelHiQUYDaVI/MiuWn0PeRB0Xg8rFEJQWeiP5/8zJF3GEAukx
+	a4u5Qvy+kCR75KTIGeIXatchaytw4MeK9sIUUwY=
+X-Google-Smtp-Source: ABdhPJzE4f5iKriwSuReBtTX6FWNCUadLl+J7KjTC/wd9vZcBPHTZkMysdezi6vmNvbX2veSDtUdoOVtbjTkE8078IQ=
+X-Received: by 2002:a67:2ed8:: with SMTP id u207mr8394029vsu.11.1595013561745;
+ Fri, 17 Jul 2020 12:19:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200326152629.29272-1-stefan.ghinea@windriver.com>
+ <20200326191628.GC5401@localhost> <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
+ <20200326202650.GA14127@localhost> <CAJ86T=ULPheVBCFMQd8-rF5v6YyCpO6phPZqeYW88NtL=f=t+g@mail.gmail.com>
+ <eb355d2835cfd5f5525216b8544a5384dcb9ad6c.camel@iki.fi>
+In-Reply-To: <eb355d2835cfd5f5525216b8544a5384dcb9ad6c.camel@iki.fi>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Fri, 17 Jul 2020 12:19:12 -0700
+Message-ID: <CAJ86T=Vw_DtkogqtQ8tW_y9A4ULgpkOJHULV-FkU5MGWgdmebA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: Adrian Bunk <bunk@stusta.de>, Stefan Ghinea <stefan.ghinea@windriver.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-07-17 at 12:15 +0200, Alexander Kanavin wrote:
-> Thanks - obviously, the most appreciated work for volunteer upgrades
-> is taking items that AUH wasn't able to handle, and resolving the
-> issues (most often patch rebase conflicts or build failures - AUH
-> tells in the email exactly what the problem was).
+On Fri, Jul 17, 2020 at 3:09 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+> On Thu, 2020-03-26 at 14:23 -0700, Andre McCurdy wrote:
+> > On Thu, Mar 26, 2020 at 1:26 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > > On Thu, Mar 26, 2020 at 12:53:08PM -0700, Andre McCurdy wrote:
+> > > > On Thu, Mar 26, 2020 at 12:16 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > > > > On Thu, Mar 26, 2020 at 05:26:29PM +0200, Stefan Ghinea wrote:
+> > > > > > ...
+> > > > > > When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+> > > > > > since the Thumb frame pointer in r7
+> > > > > > ...
+> > > > >
+> > > > > How are you reproducing the problem in pulseaudio?
+> > > > >
+> > > > > This sounds like a workaround for a bug in musl that was fixed 2 years ago.
+> > > >
+> > > > The problem can show up anywhere that inline asm is trying to use r7.
+> > > > In this case it looks like:
+> > > >
+> > > >   https://github.com/pulseaudio/pulseaudio/blob/master/src/pulsecore/remap_neon.c#L50
+> > > > ...
+> > >
+> > > After looking at the pulseaudio code I suspected the patch description
+> > > claiming pulseaudio syscall code would be the problem was rubbish, and
+> > > that this NEON code was the problem.
+> >
+> > Yes, the comment looks like it was copied and pasted and doesn't
+> > really apply in this case (since pulseaudio isn't making syscalls).
+> > That should be updated.
+> >
+> > > But when I tried to reproduce the problem it built for me with both
+> > > glibc and musl in master (the patch didn't mention that this was a
+> > > musl-only problem).
+> > >
+> > > Then I saw that this was fixed in musl upstream 2 years ago:
+> > > https://git.musl-libc.org/cgit/musl/commit/?id=e3c682ab5257aaa6739ef242a9676d897370e78e
+> >
+> > Right, it's not related to musl or glibc. I suspect it can be
+> > reproduced by building for an ARM target which supports NEON, ensuring
+> > that DEFAULTTUNE doesn't forcefully disable Thumb (e.g. it should be
+> > armv7vethf-neon, not armv7vehf-neon), setting ARM_INSTRUCTION_SET to
+> > thumb and then compiling with frame pointers enabled (e.g. by adding
+> > -fno-omit-frame-pointer to CFLAGS).
+> >
+> > In terms of a fix, then changing the code to use r12 instead of r7 is
+> > probably the best solution (assuming it works), but would need careful
+> > testing. Appending -fomit-frame-pointer to CFLAGS for ARM machines
+> > building for Thumb is safe and should fix the issue too. Presumably
+> > limiting the -fomit-frame-pointer workaround to ARM machines which
+> > support NEON building for Thumb would be an even more targeted
+> > solution.
+>
+> I finally found time to test fixing the assembly code to use r12
+> instead of r7. Seems to work fine (I was first baffled by incorrect
+> behaviour, because I changed "{r4-r7}" to "{r4-r12}" without realizing
+> that "r4-r12" meant a range of all registers from r4 to r12).
+>
+> Can you enlighten me: why did you choose r12 instead of r8? Why did the
+> original author use registers r4-r7 instead of r0-r3? Is it somehow
+> advisable to avoid registers r0-r3 and r8-r11? The code seems to work
+> fine with any set of registers, except r7.
 
-Absolutely!
+The compiler will work around whichever set of registers you want to
+use (apart from r7 in some cases) so it's expected that other
+combinations will work fine. Some combinations will be more efficient
+than others (ie the compiler will need to do less shuffling values
+between registers or saving register values to the stack in order to
+make registers you specify available to you). Using r12 instead of r8
+is just an educated guess about the combination will allow the
+compiler to generate the most efficient code.
 
-I think there are some there which should be relatively easy fixes. I
-just wanted to ensure people saw what was in -next and what was not.
+Registers r0-r3 and r12 can be used within a function without needing
+to preserve their previous contents, so if a function needs registers
+it's more efficient to use these registers first. Other registers need
+to be preserved (ie saved to the stack) before use.
 
-Cheers,
+Registers r0-r3 are also used to pass non-floating point arguments to
+a function, so if a function takes 4 or more non-floating point
+arguments, then r0-r3 will already contain values which the function
+will need to use.
 
-Richard
-
+Note that in this particular function, the first argument (ie the
+pointer m) is never actually used, so it may be that using r0, r4, r5
+and r12 will give the best result. The function is pretty trivial
+though so I guess with a recent compiler just writing the whole thing
+in C will give close to the optimal result too without all the
+maintenance issues.
