@@ -1,155 +1,125 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web11.7588.1594976369022084990
+Received: from forward5-smtp.messagingengine.com (forward5-smtp.messagingengine.com [66.111.4.239])
+ by mx.groups.io with SMTP id smtpd.web12.8279.1594980582230130021
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 01:59:29 -0700
+ Fri, 17 Jul 2020 03:09:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: S76PeaGVRR0oF6n+XrUpJ8DijtXUedaZGrz3QbOA3ZYwhLkkqXxgPxiLRtQ9Ur6u/VQmWAIJdK
- IN9LzzWfDNtw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="129122010"
-X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
-   d="scan'208";a="129122010"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 01:59:27 -0700
-IronPort-SDR: Wd+OI1/gvtYWPG2hv/JV1HPH6K7Fq7pDnj0vmp8TnZsfAAzdp02dhk+UggBTLlsOz60ljt6YQq
- CUNBFWuUw+jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
-   d="scan'208";a="270776445"
-Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Jul 2020 01:59:26 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell] systemd : fix CVE-2020-13776
-Date: Fri, 17 Jul 2020 16:59:25 +0800
-Message-Id: <20200717085925.51834-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=ZoYP8lGr;
+ spf=neutral (domain: iki.fi, ip: 66.111.4.239, mailfrom: tanuk@iki.fi)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailforward.nyi.internal (Postfix) with ESMTP id 7E13A1940E8E;
+	Fri, 17 Jul 2020 06:09:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 17 Jul 2020 06:09:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=4oWZUAt2c/uINYtb7GUMyBiwsA4dveo/Qp3KvtKln
+	hQ=; b=ZoYP8lGrGsDpS6sRk3AH9UgNx9JCesEVbD8pnAXduge0NwFsnWx/tOfcH
+	vzcH6VlopA9yNg2I4zDSlgUaLDjPBA5Rz/3OehpSxb7h8ZT4XrWo6WOZckwJhXmf
+	1SDtNrvtMapHO7wNOP0SiMGeCvBw01spt8vY4jOTb/Wb/OlR91j2Nd1v9ufkFUcg
+	14XZchxR+Q1VHOM+Kb2H6QJRJiK/vqEcYjDmBSMgFhHed+gxVJO1/cJnpaP4d0Af
+	mmTy6PPvfU+1mROgO2ox0ycb7KdYordB5jv9lzG9hsNUdRQcmAkLif3ISBcI/lLh
+	vHB2tCem6MNj0h5CqyiMvyS51+3Og==
+X-ME-Sender: <xms:5HgRXztXgsBZlPoxkAg8o4F2hE3VIiDmDvtrB-2kl_QKD01B6NK29g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrfeeigddvvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghnuhcu
+    mfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucggtffrrghtthgvrhhnpe
+    ffkeevteegfedvhfdugeelfeekgefhtdfhvdffhffhvdfgveduleeileeitdelkeenucff
+    ohhmrghinhepghhithhhuhgsrdgtohhmpdhmuhhslhdqlhhisggtrdhorhhgpdhprghtrh
+    gvohhnrdgtohhmpdhlihgsvghrrghprgihrdgtohhmnecukfhppeekvddruddtvddrvddt
+    rddujeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epthgrnhhukhesihhkihdrfhhi
+X-ME-Proxy: <xmx:5HgRX0dCOO6kJTYqvsmF_mqKz299RrDnx-f83iMeJAUbLkCNN3sRvQ>
+    <xmx:5HgRX2xaVJyXkT9tLHq3Oils7Sp1pl-GbM4wogeGDflXCyP_TZzfcg>
+    <xmx:5HgRXyP0mqGXb4j_dEWfqRp_y9C8Sg--hRoeyAGTDGg68d_FKlBAig>
+    <xmx:5XgRXwHZ8dirTItBMnn-hMhe9124NJe1zuExwiP9CK8rX9GS-VStlg>
+Received: from laptop (unknown [82.102.20.179])
+	by mail.messagingengine.com (Postfix) with ESMTPA id E62F2328005A;
+	Fri, 17 Jul 2020 06:09:39 -0400 (EDT)
+Message-ID: <eb355d2835cfd5f5525216b8544a5384dcb9ad6c.camel@iki.fi>
+Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
+From: "Tanu Kaskinen" <tanuk@iki.fi>
+To: Andre McCurdy <armccurdy@gmail.com>, Adrian Bunk <bunk@stusta.de>
+Cc: Stefan Ghinea <stefan.ghinea@windriver.com>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jul 2020 13:09:36 +0300
+In-Reply-To: <CAJ86T=ULPheVBCFMQd8-rF5v6YyCpO6phPZqeYW88NtL=f=t+g@mail.gmail.com>
+References: <20200326152629.29272-1-stefan.ghinea@windriver.com>
+	 <20200326191628.GC5401@localhost>
+	 <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
+	 <20200326202650.GA14127@localhost>
+	 <CAJ86T=ULPheVBCFMQd8-rF5v6YyCpO6phPZqeYW88NtL=f=t+g@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Thu, 2020-03-26 at 14:23 -0700, Andre McCurdy wrote:
+> On Thu, Mar 26, 2020 at 1:26 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > On Thu, Mar 26, 2020 at 12:53:08PM -0700, Andre McCurdy wrote:
+> > > On Thu, Mar 26, 2020 at 12:16 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > > > On Thu, Mar 26, 2020 at 05:26:29PM +0200, Stefan Ghinea wrote:
+> > > > > ...
+> > > > > When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+> > > > > since the Thumb frame pointer in r7
+> > > > > ...
+> > > > 
+> > > > How are you reproducing the problem in pulseaudio?
+> > > > 
+> > > > This sounds like a workaround for a bug in musl that was fixed 2 years ago.
+> > > 
+> > > The problem can show up anywhere that inline asm is trying to use r7.
+> > > In this case it looks like:
+> > > 
+> > >   https://github.com/pulseaudio/pulseaudio/blob/master/src/pulsecore/remap_neon.c#L50
+> > > ...
+> > 
+> > After looking at the pulseaudio code I suspected the patch description
+> > claiming pulseaudio syscall code would be the problem was rubbish, and
+> > that this NEON code was the problem.
+> 
+> Yes, the comment looks like it was copied and pasted and doesn't
+> really apply in this case (since pulseaudio isn't making syscalls).
+> That should be updated.
+> 
+> > But when I tried to reproduce the problem it built for me with both
+> > glibc and musl in master (the patch didn't mention that this was a
+> > musl-only problem).
+> > 
+> > Then I saw that this was fixed in musl upstream 2 years ago:
+> > https://git.musl-libc.org/cgit/musl/commit/?id=e3c682ab5257aaa6739ef242a9676d897370e78e
+> 
+> Right, it's not related to musl or glibc. I suspect it can be
+> reproduced by building for an ARM target which supports NEON, ensuring
+> that DEFAULTTUNE doesn't forcefully disable Thumb (e.g. it should be
+> armv7vethf-neon, not armv7vehf-neon), setting ARM_INSTRUCTION_SET to
+> thumb and then compiling with frame pointers enabled (e.g. by adding
+> -fno-omit-frame-pointer to CFLAGS).
+> 
+> In terms of a fix, then changing the code to use r12 instead of r7 is
+> probably the best solution (assuming it works), but would need careful
+> testing. Appending -fomit-frame-pointer to CFLAGS for ARM machines
+> building for Thumb is safe and should fix the issue too. Presumably
+> limiting the -fomit-frame-pointer workaround to ARM machines which
+> support NEON building for Thumb would be an even more targeted
+> solution.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../systemd/systemd/CVE-2020-13776.patch      | 96 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_244.3.bb    |  1 +
- 2 files changed, 97 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
+I finally found time to test fixing the assembly code to use r12
+instead of r7. Seems to work fine (I was first baffled by incorrect
+behaviour, because I changed "{r4-r7}" to "{r4-r12}" without realizing
+that "r4-r12" meant a range of all registers from r4 to r12).
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
-new file mode 100644
-index 0000000000..7b5e3e7f7a
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
-@@ -0,0 +1,96 @@
-+From 156a5fd297b61bce31630d7a52c15614bf784843 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Sun, 31 May 2020 18:21:09 +0200
-+Subject: [PATCH 1/1] basic/user-util: always use base 10 for user/group
-+ numbers
-+
-+We would parse numbers with base prefixes as user identifiers. For example,
-+"0x2b3bfa0" would be interpreted as UID==45334432 and "01750" would be
-+interpreted as UID==1000. This parsing was used also in cases where either a
-+user/group name or number may be specified. This means that names like
-+0x2b3bfa0 would be ambiguous: they are a valid user name according to our
-+documented relaxed rules, but they would also be parsed as numeric uids.
-+
-+This behaviour is definitely not expected by users, since tools generally only
-+accept decimal numbers (e.g. id, getent passwd), while other tools only accept
-+user names and thus will interpret such strings as user names without even
-+attempting to convert them to numbers (su, ssh). So let's follow suit and only
-+accept numbers in decimal notation. Effectively this means that we will reject
-+such strings as a username/uid/groupname/gid where strict mode is used, and try
-+to look up a user/group with such a name in relaxed mode.
-+
-+Since the function changed is fairly low-level and fairly widely used, this
-+affects multiple tools: loginctl show-user/enable-linger/disable-linger foo',
-+the third argument in sysusers.d, fourth and fifth arguments in tmpfiles.d,
-+etc.
-+
-+Fixes #15985.
-+---
-+ src/basic/user-util.c     |  2 +-
-+ src/test/test-user-util.c | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+--- end of commit 156a5fd297b61bce31630d7a52c15614bf784843 ---
-+
-+
-+Add definition of safe_atou32_full() from commit b934ac3d6e7dcad114776ef30ee9098693e7ab7e
-+
-+CVE: CVE-2020-13776
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+
-+--- git.orig/src/basic/user-util.c
-++++ git/src/basic/user-util.c
-+@@ -49,7 +49,7 @@ int parse_uid(const char *s, uid_t *ret)
-+         assert(s);
-+ 
-+         assert_cc(sizeof(uid_t) == sizeof(uint32_t));
-+-        r = safe_atou32(s, &uid);
-++        r = safe_atou32_full(s, 10, &uid);
-+         if (r < 0)
-+                 return r;
-+ 
-+--- git.orig/src/test/test-user-util.c
-++++ git/src/test/test-user-util.c
-+@@ -48,9 +48,19 @@ static void test_parse_uid(void) {
-+ 
-+         r = parse_uid("65535", &uid);
-+         assert_se(r == -ENXIO);
-++        assert_se(uid == 100);
-++
-++        r = parse_uid("0x1234", &uid);
-++        assert_se(r == -EINVAL);
-++        assert_se(uid == 100);
-++
-++        r = parse_uid("01234", &uid);
-++        assert_se(r == 0);
-++        assert_se(uid == 1234);
-+ 
-+         r = parse_uid("asdsdas", &uid);
-+         assert_se(r == -EINVAL);
-++        assert_se(uid == 1234);
-+ }
-+ 
-+ static void test_uid_ptr(void) {
-+--- git.orig/src/basic/parse-util.h
-++++ git/src/basic/parse-util.h
-+@@ -45,9 +45,13 @@ static inline int safe_atoux16(const cha
-+ 
-+ int safe_atoi16(const char *s, int16_t *ret);
-+ 
-+-static inline int safe_atou32(const char *s, uint32_t *ret_u) {
-++static inline int safe_atou32_full(const char *s, unsigned base, uint32_t *ret_u) {
-+         assert_cc(sizeof(uint32_t) == sizeof(unsigned));
-+-        return safe_atou(s, (unsigned*) ret_u);
-++        return safe_atou_full(s, base, (unsigned*) ret_u);
-++}
-++
-++static inline int safe_atou32(const char *s, uint32_t *ret_u) {
-++        return safe_atou32_full(s, 0, (unsigned*) ret_u);
-+ }
-+ 
-+ static inline int safe_atoi32(const char *s, int32_t *ret_i) {
-diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-core/systemd/systemd_244.3.bb
-index c52a01b2dd..850d64e8b0 100644
---- a/meta/recipes-core/systemd/systemd_244.3.bb
-+++ b/meta/recipes-core/systemd/systemd_244.3.bb
-@@ -20,6 +20,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://99-default.preset \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-+           file://CVE-2020-13776.patch \
-            "
- 
- # patches needed by musl
+Can you enlighten me: why did you choose r12 instead of r8? Why did the
+original author use registers r4-r7 instead of r0-r3? Is it somehow
+advisable to avoid registers r0-r3 and r8-r11? The code seems to work
+fine with any set of registers, except r7.
+
 -- 
-2.17.1
+Tanu
+
+https://www.patreon.com/tanuk
+https://liberapay.com/tanuk
 
