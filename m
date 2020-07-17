@@ -1,50 +1,50 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web11.10531.1594990600378799623
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.10543.1594990601535881191
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 05:56:40 -0700
+ Fri, 17 Jul 2020 05:56:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pwtm4w6U;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id w27so7485668qtb.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 05:56:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t+UWHFPH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id a32so7488931qtb.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 05:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RKL8fV/SAGY7tXX4jK3ysoDF1ID1k4X4a8pj4Ww5Jls=;
-        b=Pwtm4w6U1T9qcaMFV9nhYjL0XhM4H9YHzpLUWJXakDVjA/vox7Ako12xPrWNByiCeS
-         gt1k0FDnV3BmiBv7PHI6QD+gFI3AOjz3Zg1lyEC3xDyDa2MFkN0VdrxdgKgiiuQ2v9Ar
-         EfYbioY9VdDxibClG9Uytkh/hIw7a5JSsLqS2OMpQZdMDPobH5Aqs/5xAbE61rv9zb24
-         RFpQ+vqPx71Kbw5pq8ft3Np+jKDx6TqrppmBycmUns6j86uyeducORcowgxlESxEavez
-         fOJYTZJG/jNUm3YuNUxlGz2lCowf2oRzkHpNL4p/31lfjjwnrPSqO3Jp8Q9qjfChbRc3
-         owGQ==
+        bh=s3A5ZTuRzhayzfPIfsqxf57jWTeVgtiz9iUR+xVsV+8=;
+        b=t+UWHFPHsZkZjbUuPj5rhTJA16DQbfqi5t41IwNHt68ni0A2MQaC6+yLsFuHtqwOLE
+         2T/zlS0mFfvSmgKpgpyUd4g8nMzdFKxuLGS0cVcLHgGuVJ1jxfy7QEePrwOAIVzTN5tt
+         ZPBGxWmH0XtTkQtuquia2gWqBdAWxQYVuMwHkXw0heLpFBWQVv0YSAlb2zOtWrBoljod
+         6ABfNBExobFnTV0TDt/3a9k+p1ckhfo+J6rw9DVNjmB+PXFoFPH646iFou4+xLigL0xi
+         gbtgQ9p+DwsNjAZHTjv5W3yK0sFubQ5jdrlfwWTovgkCwJ8DTc70Q3sMZJU/jFAaSLyN
+         AMXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RKL8fV/SAGY7tXX4jK3ysoDF1ID1k4X4a8pj4Ww5Jls=;
-        b=A1XQNKKWwqtr4OPRWXqqBJM4H+6ryKRmmUUsf5EEoHT1G0fsdL6fRg60wnHBUItdz1
-         gI4lPpHLEm0HLB4NXTYfzsreSkcTrRw9Txk2XkSEz30hV3gDEDMXrz4SykX52IB6ip0r
-         lJjdB/72MdEC18tOVSv1qKjYWTBRNI7K5y1gD7I5dNO/pS0XasubdigBlzqP9fPcIkor
-         YehRAFQ8J/bemBQ7jsKy4yT1oOK4IpF4D0FHI475B9pf78mfDdnS/kFIcw0adet7j743
-         RlMDKtP4zuxva+TkUbVeFSTTPnNcvhTN54Cy5uXaNepfdUDm8u022O4Iwwx4yMIJoAWY
-         F/dw==
-X-Gm-Message-State: AOAM532YcbpX/X16BYJQil+JfU0jxLIrCGlwPvv2HDuN+n9Y5G+8x40w
-	pH55iBum+fksZ23IlrUahNI=
-X-Google-Smtp-Source: ABdhPJzClMX3LepfV6aNaIwzgqVkRCI3JMySCgkE2YMbg6iEFk+xFbSnzBpbkhKcSQkBzoVzst/LvA==
-X-Received: by 2002:ac8:6f26:: with SMTP id i6mr10151366qtv.61.1594990599455;
-        Fri, 17 Jul 2020 05:56:39 -0700 (PDT)
+        bh=s3A5ZTuRzhayzfPIfsqxf57jWTeVgtiz9iUR+xVsV+8=;
+        b=L87jrzL87pb6gYzVGfSms04+/0eY/vS+1lr/ZswK3skS3ERA9F7duH0jlCQzkD2SUL
+         NCPkDpdyYZjZ2k+FJgRwyAmTTnKcmIrHrWttpCnQEPxtd0nJjBDRlb0gf2n8tp/+p/Vl
+         ILCM1XJbkU5ZQvym4/6n82ANqkOuGEZfCIeudsYnhMFAyLsOgKnttF9ESt1RgCAumzhg
+         LQdmbuJi2lWe0mOPRsU5FnduwxRSWImvgVBfy9ZfufZHAYqLNom+hHagwXa7+GQ0iSXX
+         ticyN6vzEOsbIrp7iiV6wXMiAoBtlDsmPUFgkjCnfmTrqS+eEe2gh7LfB245M5QPi8Jn
+         +kWw==
+X-Gm-Message-State: AOAM532baddD4+Bq+XXllKqG0C4a1mfMR5Copf/+SR4lHhhgBMmbKcwz
+	4tZ/i1a5Ku9baxVp+5mc9geR9TwWdAJzZg==
+X-Google-Smtp-Source: ABdhPJwwaLh2saZS+X75xtvMgsUBefHpp2zM6MwNGLgORi7nQP5BDBWarZYIbeJpaZeTbMOuUVW/iw==
+X-Received: by 2002:aed:2a74:: with SMTP id k49mr10637620qtf.38.1594990600726;
+        Fri, 17 Jul 2020 05:56:40 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id 79sm10431808qkd.134.2020.07.17.05.56.38
+        by smtp.gmail.com with ESMTPSA id 79sm10431808qkd.134.2020.07.17.05.56.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 05:56:38 -0700 (PDT)
+        Fri, 17 Jul 2020 05:56:39 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] linux-yocto-rt/5.4: fix mmdrop stress test issues
-Date: Fri, 17 Jul 2020 08:56:32 -0400
-Message-Id: <fbaf2b8c5dcf738321284c3d643e943c0de0b097.1594989620.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 3/4] kernel-yocto: account for extracted defconfig in elements check
+Date: Fri, 17 Jul 2020 08:56:33 -0400
+Message-Id: <e4121155e3c51b8f4f9aedb3280600f859bb3add.1594989620.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1594989620.git.bruce.ashfield@gmail.com>
 References: <cover.1594989620.git.bruce.ashfield@gmail.com>
@@ -53,28 +53,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto/5.4:
-
-    508b4e6ada7f sched: Remove unexpected mmdrop on RT
+The test for whether or not scc should to invoked to generate a
+config.queue was missing the newly created sccs_defconfig variable.
+We need to test for that variable as well, or we may miss generating
+the config.queue in some cases.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
+ meta/classes/kernel-yocto.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 22a0dc997e..caa5b4ef53 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 54a1a1627a..3311f6e84e 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -213,7 +213,7 @@ do_kernel_metadata() {
+ 	meta_dir=$(kgit --meta)
  
--SRCREV_machine ?= "a1e1e3cbe42d8a08de5a3e3daaa2b389e352fe77"
-+SRCREV_machine ?= "508b4e6ada7f78b3ef5a9dbdd182d13dffe00123"
- SRCREV_meta ?= "caafbdfe382bf22a4786d871af097acd49d0867a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+ 	# run1: pull all the configuration fragments, no matter where they come from
+-	elements="`echo -n ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}`"
++	elements="`echo -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} ${KERNEL_FEATURES}`"
+ 	if [ -n "${elements}" ]; then
+ 		echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
+ 		scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNEL_FEATURES}
 -- 
 2.19.1
 
