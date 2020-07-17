@@ -1,109 +1,92 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.12932.1594996744457910074
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web11.12687.1594996748018029692
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 07:39:04 -0700
+ Fri, 17 Jul 2020 07:39:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jaVNpgr8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id m9so5487430pfh.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 07:39:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qfhuCDRY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id b92so6449609pjc.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 07:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=FYtdQXKctuWYoYB1oXeohUAp7iDUY12djvw/tiuqiGo=;
-        b=jaVNpgr8aUnONmlnvTiw54gE3kwPKoKeBLvE9rGfQmDG8YxF5XMPsX9KiJLO0dTVqA
-         CzLa0svgfl2bOI1f1sKu31NyaWQnI3kziP2fCGUiSUZbc9pYDtgmf02q01cTQDoB1Jqo
-         s9P7zNG3v9zlPuyzlA5cbrzuJ1QALao9byxD6jshCeIqCiJxOuFTgInKfGsaeGvjo296
-         bB8bmJCqBrMc8ogk6cok2s6zttxylnaqt/XZPMAjtJgh7jOkpRZ5/GwIZL/0zE4bAy6A
-         8MRfI2PgFKPdBGNtHfUU93tfw347kUMgj/q/RhkkgAvfc7ygESafc0wowtd/z0vVyqRF
-         eN9w==
+        bh=zVmSp1IdnmpQ/I35h5gAzq0NDo0psFP4qbaJknbQc6k=;
+        b=qfhuCDRYsRCITpfAYyABfrrPnMo1NeRdhdksQyHN6j7QsFDWs3Qegy3QAcV0x//ONt
+         2+fHFRVmFheR8NGRAoJywkDGHdngE7xS79Ah6zw/HAFWkWoO8tsPlcChsJcvu4sh5ZWL
+         fUrIOswKH/JmIf95K/u/iz1FXYQSTPr34tta6pYK+8KR/EABpPVD3+xPGnmYAE4vh7Yw
+         n92Vne3vEcNIx+ZfInZEV/X1baiskaKQ7zEoQFV8owSyyrE0qyczxgczXB4iWXKpDXMG
+         OMtwoLaXYxxlPGMsSObt32D/e30sR7K/OLE51BpKNEH2hxrasayPcrGhz9GKqddOZ8np
+         6wjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=FYtdQXKctuWYoYB1oXeohUAp7iDUY12djvw/tiuqiGo=;
-        b=dkqddQ4z5qtOHD6cuQj8h2iEJg7MibQh3rTmaLgGL5Rkip/RhnYsKPIv9ICuDf01ik
-         PdwLP/caIonXrHLTncHWZJwIhUwyoh1CAzIFCEhLnz9otrMzh3WLmuLGKOUYNzYn4Ft4
-         rYkYCIf57gbWDOyoP4HXR0IbRt6Ax4fwm2WJ5j42AJ9sl/BMeu6Nnq3zjvht1/vTeIXY
-         GqZU8mVVt0aYN0aRDI8/yaoyTMsACavkX/Npfv0CVM8GPsh3JwNnjOo2tbelSEgUexx8
-         jqTYoonea+IjKqGdGDF2IUnTutrq9dZQ4akvHdjPQwBwdjqdpHxRkPpnYReQzhlW6tHx
-         OHOw==
-X-Gm-Message-State: AOAM531CMVB4Py4Y15QJjS8nzRuy/pU8q8p35CCHtmWOAA/fB1pWetTG
-	h+9i7L2VAN4y3AiQXpkUPIO6w4ERZpw=
-X-Google-Smtp-Source: ABdhPJw/9z/56MxFOu13i7oSQqFXHHzTvvX11ju6mglz5S53BDo6xrvHDFrZZJH/wkz3AIzrgNZR1g==
-X-Received: by 2002:a05:6a00:f:: with SMTP id h15mr8227391pfk.193.1594996743524;
-        Fri, 17 Jul 2020 07:39:03 -0700 (PDT)
+        bh=zVmSp1IdnmpQ/I35h5gAzq0NDo0psFP4qbaJknbQc6k=;
+        b=M+z9pCwECr9YMGxJbc1JT3WckaSmDwQiV5VMDDi1ebAV2VsJHJ8GSZ4Te/lbvwYTTG
+         v3Cb+aeTz1R9Srjw/iLA+uDzOhJbeQ/EeS6CvdQh4zNzxJ/3A+bLIxGIXuDrGpM617Qy
+         iH4Zo7c4jQ3oQMLGVk1/qrFtBAcCRMVRFYPoli5bmZkEUNQrOqTPN8Zo8Rtvyo5hRA0g
+         eMzhTCqmTMWrVH80hW4rxtXuHXKT1qJmen7uFKxWgmzNdtpvGgP3soplT+pJQdTe5VuX
+         sEKynJMF//O2P4mJlTAV4hd+E4SVZDN3dw4l+QedZ3xVbtxTg4yGBY5tR6sCcNTouwtn
+         tm7g==
+X-Gm-Message-State: AOAM530RS1+pDLssW1iVFq1fX+M9k4zcdc0RCus3iIGIJrSN9RN0daHx
+	9U2Wfz1sN0N9/ZgeBtCInDP3MmpPq18=
+X-Google-Smtp-Source: ABdhPJxapOsxcscdZPlxx94EiMRFghDfuxej5KgU2fFvVbpq/NB2787kSd2OtP7rSoglBFmGEO58PA==
+X-Received: by 2002:a17:902:820a:: with SMTP id x10mr7841614pln.135.1594996747130;
+        Fri, 17 Jul 2020 07:39:07 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id mw5sm3448727pjb.27.2020.07.17.07.39.02
+        by smtp.gmail.com with ESMTPSA id mw5sm3448727pjb.27.2020.07.17.07.39.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 07:39:03 -0700 (PDT)
+        Fri, 17 Jul 2020 07:39:06 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/20] scripts/lib/recipetool/create.py: fix regex strings
-Date: Fri, 17 Jul 2020 04:37:21 -1000
-Message-Id: <f8a5db7a6072ddb1be96405fc8b44f595275206d.1594996441.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/20] babeltrace: correct the git SRC_URI
+Date: Fri, 17 Jul 2020 04:37:22 -1000
+Message-Id: <5dd3d61c5c739f31cb87a3c0c924c617b432e8a9.1594996441.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594996440.git.steve@sakoman.com>
 References: <cover.1594996440.git.steve@sakoman.com>
 
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Python now expects regex strings to be prepended with r.
-Silence pylint/autopep8 and similar warnings by identifying
-these regex patterns as... regex patterns.
+The previous one seems to be gone.
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0eae98a369d80340e48dc690d09a1364cde97973)
+(cherry picked from commit b9995f8a8f08bbcb1e0915a7420ec7fb5623d604)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/recipetool/create.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb | 2 +-
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 8d78c5b6f9..566c75369a 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -66,7 +66,7 @@ class RecipeHandler(object):
-         libdir = d.getVar('libdir')
-         base_libdir = d.getVar('base_libdir')
-         libpaths = list(set([base_libdir, libdir]))
--        libname_re = re.compile('^lib(.+)\.so.*$')
-+        libname_re = re.compile(r'^lib(.+)\.so.*$')
-         pkglibmap = {}
-         for lib, item in shlib_providers.items():
-             for path, pkg in item.items():
-@@ -428,7 +428,7 @@ def create_recipe(args):
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
+index 0791c654f9..7777f9b39b 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
  
-     if scriptutils.is_src_url(source):
-         # Warn about github archive URLs
--        if re.match('https?://github.com/[^/]+/[^/]+/archive/.+(\.tar\..*|\.zip)$', source):
-+        if re.match(r'https?://github.com/[^/]+/[^/]+/archive/.+(\.tar\..*|\.zip)$', source):
-             logger.warning('github archive files are not guaranteed to be stable and may be re-generated over time. If the latter occurs, the checksums will likely change and the recipe will fail at do_fetch. It is recommended that you point to an actual commit or tag in the repository instead (using the repository URL in conjunction with the -S/--srcrev option).')
-         # Fetch a URL
-         fetchuri = reformat_git_uri(urldefrag(source)[0])
-@@ -830,7 +830,7 @@ def create_recipe(args):
-         elif line.startswith('PV = '):
-             if realpv:
-                 # Replace the first part of the PV value
--                line = re.sub('"[^+]*\+', '"%s+' % realpv, line)
-+                line = re.sub(r'"[^+]*\+', '"%s+' % realpv, line)
-         lines_before.append(line)
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
  
-     if args.also_native:
-@@ -1066,8 +1066,8 @@ def crunch_license(licfile):
-     import oe.utils
+-SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
++SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
+ 	   file://run-ptest \
+ 	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
+            file://0001-Make-manpages-multilib-identical.patch \
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+index 4d2492a170..9e5d3a7a97 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
  
-     # Note: these are carefully constructed!
--    license_title_re = re.compile('^\(?(#+ *)?(The )?.{1,10} [Ll]icen[sc]e( \(.{1,10}\))?\)?:?$')
--    license_statement_re = re.compile('^(This (project|software) is( free software)? (released|licen[sc]ed)|(Released|Licen[cs]ed)) under the .{1,10} [Ll]icen[sc]e:?$')
-+    license_title_re = re.compile(r'^\(?(#+ *)?(The )?.{1,10} [Ll]icen[sc]e( \(.{1,10}\))?\)?:?$')
-+    license_statement_re = re.compile(r'^(This (project|software) is( free software)? (released|licen[sc]ed)|(Released|Licen[cs]ed)) under the .{1,10} [Ll]icen[sc]e:?$')
-     copyright_re = re.compile('^(#+)? *Copyright .*$')
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
  
-     crunched_md5sums = {}
+-SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5 \
++SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.5 \
+ 	   file://run-ptest \
+ 	  "
+ SRCREV = "054a54ae10b01a271afc4f19496c041b10fb414c"
 -- 
 2.17.1
 
