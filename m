@@ -1,79 +1,84 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.3209.1594951387816708597
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.5995.1594966475546432724
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jul 2020 19:03:08 -0700
+ Thu, 16 Jul 2020 23:14:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: liezhi.yang@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 06H2306M025661
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Thu, 16 Jul 2020 19:03:00 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Thu, 16 Jul 2020
- 19:02:41 -0700
-Subject: Re: [OE-core] [PATCH 1/1] openssl: openssl-bin requires openssl-conf to run
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        <openembedded-core@lists.openembedded.org>
-References: <cover.1594897729.git.liezhi.yang@windriver.com>
- <3541ef9cd5a1ebdfa20e9bfe1b1dacf4589bf2fd.1594897729.git.liezhi.yang@windriver.com>
- <a5a2f620b4203f3c4584c7d686f4991ed5e3464c.camel@linuxfoundation.org>
-From: "Robert Yang" <liezhi.yang@windriver.com>
-Message-ID: <21975f95-cae3-d18a-bbe2-b6830c592595@windriver.com>
-Date: Fri, 17 Jul 2020 10:01:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Otamcam4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id j4so9728678wrp.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Jul 2020 23:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Jy4A4ljjKptRZplez5DvZ+Jfa/1hjb1FWlQloIQkY2c=;
+        b=Otamcam4MTTCCTttV92GYn+DEbzgjVZR/yAy07Nr0f+ePfolkwnQCsZzi0mWlZyrfP
+         gnB4mHFsIxVOidm06ymqaoHoZvovGFzyGUprWhHBpDoMcazaC6u3dTT0rrhn3Cdg01Bo
+         +xYdoWziHosxJz6JUD+babmDplTwGsLT/Ne2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Jy4A4ljjKptRZplez5DvZ+Jfa/1hjb1FWlQloIQkY2c=;
+        b=lLg22snpYeYk3rvD7c5oFI2CFDKwWTsnzMBK7LgihmQqNbnvEuBnX+sve/FcQFUn33
+         aM8RAY/p7Whv1yt3BsDoA6plbTSLu2Cx4MqUbMv5YnJslZ6g7t6/3bplOibeVf/mS1I7
+         z5XkQD4PExUZjkIZ395KtxoBTAjLM3tJZdf74W5SX2kMtwZg5dm9YeFn5f0JJ1OOOskM
+         jElKiEUu4qZQvf00pcf+zxAsC6ygvxKiGYqhejKVncmUg23iPr9xZJVpX8OCSF53h6wh
+         IY1dG2bVDuw5KkyWmniEAo/uI1F54jo/E6CMz16fbGDjfoVadk51Y10AUK1ZH2irJ+Sa
+         ll3Q==
+X-Gm-Message-State: AOAM530kUpcaJ4xmuJ1+iHejb66FtTCVxbybCtSxPU3PyRULlLlMyEyr
+	YXJpIjlj3icjpBdEEMvoB4fppQ==
+X-Google-Smtp-Source: ABdhPJwwUAQFSfKnnG6J+kq3/qE19T1p8IULAo6SIO0Vr2Ao8TiORQ8IKCAbhUvWRGZr3/OxDhLPNA==
+X-Received: by 2002:adf:d842:: with SMTP id k2mr8868928wrl.239.1594966473889;
+        Thu, 16 Jul 2020 23:14:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
+        by smtp.gmail.com with ESMTPSA id h23sm11619882wmb.3.2020.07.16.23.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 23:14:33 -0700 (PDT)
+Message-ID: <b9cce6cf64c1afa1f389262858bc5b0dab04d6f3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/4] help2man: rewrite recipe
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross@burtonini.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jul 2020 07:14:29 +0100
+In-Reply-To: <20200716115546.3724268-2-ross@burtonini.com>
+References: <20200716115546.3724268-1-ross@burtonini.com>
+	 <20200716115546.3724268-2-ross@burtonini.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <a5a2f620b4203f3c4584c7d686f4991ed5e3464c.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi RP,
-
-On 7/16/20 10:05 PM, Richard Purdie wrote:
-> On Thu, 2020-07-16 at 04:09 -0700, Robert Yang wrote:
->> Fixed:
->> $ dnf install openssl-bin
->> $ openssl req -new -x509 -keyout lighttpd.pem -out lighttpd.pem -days
->> 365 -nodes -batch
->> Can't open /usr/lib/ssl-1.1/openssl.cnf for reading, No such file or
->> directory
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/recipes-connectivity/openssl/openssl_1.1.1g.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
->> b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
->> index 47ed6b7640..815955837b 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
->> @@ -204,6 +204,8 @@ CONFFILES_openssl-conf =
->> "${sysconfdir}/ssl/openssl.cnf"
->>   RRECOMMENDS_libcrypto += "openssl-conf"
->>   RDEPENDS_${PN}-ptest += "openssl-bin perl perl-modules bash"
->>   
->> +RDEPENDS_${PN}-bin += "openssl-conf"
->> +
->>   BBCLASSEXTEND = "native nativesdk"
+On Thu, 2020-07-16 at 12:55 +0100, Ross Burton wrote:
+> From: Ross Burton <ross.burton@arm.com>
 > 
-> Wasn't this addressed by:
+> Instead of being explicitly native, use BBCLASSEXTEND.
 > 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=cd80b0e52ee2e008672ce910856f63176bc00480
-
-The commit didn't fix the issues, it moved ${libdir}/ssl-1.1/openssl.cnf from
-openssl to openssl-conf, but openssl-bin doesn't rdepend on openssl-conf, so the
-issue still exists.
-
-// Robert
-
-
-
+> No need to explicitly depend on autoconf-native automake-native,
+> because
+> the autotools class does that.
 > 
-> ?
+> Don't explicitly disable NLS, but use the gettext class.
 > 
-> Cheers,
+> As this recipe isn't needed in early build anymore there's no need to
+> avoid reconfiguring.
 > 
-> Richard
-> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  ...2man-native_1.47.15.bb => help2man_1.47.15.bb} | 15 ++++++-------
+> --
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+>  rename meta/recipes-devtools/help2man/{help2man-native_1.47.15.bb =>
+> help2man_1.47.15.bb} (66%)
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2185
+
+configure: error: perl module Locale::gettext required
+
+(from no-x11 world build)
+
+Cheers,
+
+Richard
+
