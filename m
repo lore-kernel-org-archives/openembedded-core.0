@@ -1,57 +1,102 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.12793.1594996354129293288
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web10.12905.1594996680215677718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 07:32:34 -0700
+ Fri, 17 Jul 2020 07:38:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 32D7760B5D;
-	Fri, 17 Jul 2020 14:32:32 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlOiBidWlsZCBjb25maWd1cmF0aW9uIGZvciBpbWFnZSB0cmVlIHdoZW4gZHRiIGlzIG5vdCBwcmVzZW50?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Usama Arif <usama.arif@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jul 2020 14:32:33 -0000
-Message-ID: <20200717143233.2265.38478@do>
-References: <20200717140848.55937-1-usama.arif@arm.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200717140848.55937-1-usama.arif@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LPzjZx8j;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.193, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f193.google.com with SMTP id o1so5530022plk.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 07:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=FqRPytbcBo+IKF2ax44Qs5ZsIV56R/xBg8iJkpn+mVk=;
+        b=LPzjZx8jnao66WxM+6WWWszNEP4texF7/v9J2RVwDwcx+igDTzOoRY7M6DKNcnmyN/
+         3mVvj4CozAL5CWtPRlAEtl0nJ1RvsjLX5x9LWDRXmBbR3lExH3dDmeBJHDCLszvqBdQC
+         5uahs0ZkMS3pnIU0K4/r9BBjPlDy6woD5GP3T6JeQiMoooYFjqN9Tmc94g1NKFedfet2
+         hy5oeS2BUveSHrz5Nwsb4BS9bwVQ5bonWnqezJnYEktG3SetXJipHInFuiXBKcMS4wrM
+         GsYmfeooBZynA4KrrQ9kuI1wJPns8XvsxUB2VnYorN0yHqdbHnNWy2dyvEfYPFnQ7R+f
+         I8zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=FqRPytbcBo+IKF2ax44Qs5ZsIV56R/xBg8iJkpn+mVk=;
+        b=XZlTMXo9YOnN5a70gJRc4dHElaNPqtXz8YgIocv/UqnP+S+tHCGl5r3dMZ/GUYBt6j
+         fhEnh4lfsuAYsIgF1A/ecXM9HVxkqcsDVYc1bL/rRijrRpO5HqVrkGBwm1WBUoxscS6S
+         Y1D1C0yo2fXzANd1gGsrph8KisEL/IDOKZHQCd3igGOoqw/UlW7uncJMKphyuJ631hki
+         27ERvCm8HD0pRIOswEPdKvAtE4fkYSlvlaJmmgWcaumxHjDbsgO20XgWDi/yxvRRKpT5
+         2NS4RgZVAQAb+pmWGWs3s0rsooLg4vcK3TiQC7NQIY9yoDwXwx+5tcOMD2fFQJOTUDs8
+         /fyA==
+X-Gm-Message-State: AOAM530KNYGbqm1arPM4pGeghMp958eS5Xa8R1ss2BDjMk20HdR9a5Oo
+	+HTtJZW+hrz690WTQcV6FmYNZXAJkg0=
+X-Google-Smtp-Source: ABdhPJyd/1tiia2Aw8DBuT7xJ+I8Vf0sw2mwqVIfzKVx4U1X5U84BmxJz/UreacCJnpMj3JfTfMWGw==
+X-Received: by 2002:a17:90a:b009:: with SMTP id x9mr3288149pjq.136.1594996679297;
+        Fri, 17 Jul 2020 07:37:59 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id mw5sm3448727pjb.27.2020.07.17.07.37.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2020 07:37:58 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 01/20] insane: consolidate skipping of temporary do_package files
+Date: Fri, 17 Jul 2020 04:37:06 -1000
+Message-Id: <0dbdcd305a969b67415ed74c3286af02612bd64c.1594996440.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1594996440.git.steve@sakoman.com>
+References: <cover.1594996440.git.steve@sakoman.com>
 
-== Series Details ==
+From: Ross Burton <ross.burton@arm.com>
 
-Series: kernel-fitimage: build configuration for image tree when dtb is not present
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/25171/
-State : failure
+During the course of do_package_rpm and friends the tools create a
+top-level CONTROL or DEBIAN directory in the package directory.
+do_package_qa needs to be aware of these files and ignore them, this was
+previously done in just one check but instead should be done once when
+building the file list so all the checks don't see the temporary files.
 
-== Summary ==
+[ YOCTO #13804 ]
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 15b2c666cb)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4b2f45c47a5c8c800626f12c14f216a5ab923512)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/insane.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3a0efa3ad6..1d76ae7c1d 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -458,10 +458,6 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     if os.path.islink(path):
+         return
+ 
+-    # Ignore ipk and deb's CONTROL dir
+-    if path.find(name + "/CONTROL/") != -1 or path.find(name + "/DEBIAN/") != -1:
+-        return
+-
+     tmpdir = bytes(d.getVar('TMPDIR'), encoding="utf-8")
+     with open(path, 'rb') as f:
+         file_content = f.read()
+@@ -1023,7 +1019,14 @@ python do_package_qa () {
+     pkgfiles = {}
+     for pkg in packages:
+         pkgfiles[pkg] = []
+-        for walkroot, dirs, files in os.walk(os.path.join(pkgdest, pkg)):
++        pkgdir = os.path.join(pkgdest, pkg)
++        for walkroot, dirs, files in os.walk(pkgdir):
++            # Don't walk into top-level CONTROL or DEBIAN directories as these
++            # are temporary directories created by do_package.
++            if walkroot == pkgdir:
++                for control in ("CONTROL", "DEBIAN"):
++                    if control in dirs:
++                        dirs.remove(control)
+             for file in files:
+                 pkgfiles[pkg].append(os.path.join(walkroot, file))
+ 
+-- 
+2.17.1
 
