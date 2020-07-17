@@ -1,75 +1,73 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web12.12749.1594996696383258546
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+ by mx.groups.io with SMTP id smtpd.web12.12752.1594996698626334002
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 07:38:16 -0700
+ Fri, 17 Jul 2020 07:38:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OFh2paQT;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.65, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f65.google.com with SMTP id gc9so6609833pjb.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 07:38:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=g0Oib/Nd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f193.google.com with SMTP id k27so6767469pgm.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 07:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=tMEPooMfvxq/IzFaO92hbU3/DPL2W7Pc1L6Od2XZUZQ=;
-        b=OFh2paQT8dElD2qqjh+4QJhnOrzdexj+Yf9dzYuB31sapWL0XKobeqd2TGtAg5Ok2/
-         9Z/OXNQdz6JBeTDckcSlUs8siBJ8j7rMr3ioZbKYzBom9ZpG9FVp96/mSy9BvNu6wm5j
-         LIp8ipYB7nl9RTES5VGUlQwXoBHuUhOhBHYp/naWtCWqeG2owjMbGSQ7/Psliq2dSpO1
-         IssujjSldT2pgtOf4WMj8F8F3Q5HSEey7Hj82NFoH1r7XRq/YmDee4OstXIZNWjfl4WN
-         LspoXyKi91Wf3hWJsAMVAvV3LFUVjc1pvsY2znoBpA7UH5Fzi40EEI9lj2VIKFOF9oAT
-         iJSw==
+        bh=xKs9Yq42yNXNKjnNiCBT6Mgwe8sqdO3RqNxLF8yHBRo=;
+        b=g0Oib/NdQMwEFukQU6h2OrlDDHd22ESZhyn4HejmAex6XLwivty8m/LYA6mbjvo5e4
+         yXzpDml7LL5WFk/L8eF7oOEhnVYsE+UInPpkQ5iyYt/QuSGhDOaRbzJN/F2gw0BE3Tme
+         7i5FtmEvbcsj7POpSX9e4mPMu78phBfWqerC7Z2CPsxQ5z7jHeunDy3N2sBSoveKO4fl
+         0xBewcTUyamppz/5Etq1lN8IpzIPCNO1q8yGiR1ari7k0MuGIBm6dv+v3hmZ1Aj54xql
+         CjREQXK23NixqnpjzL2kziR1mLWTDheK06yiEV1vO7t8x4afGqnuhTuocYoyDGPq8pTx
+         KxHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=tMEPooMfvxq/IzFaO92hbU3/DPL2W7Pc1L6Od2XZUZQ=;
-        b=WGeiaJcTndBHps+4RCAab8if8VNdWKlf6EHPq3DQPz7LS6RiUmtTk3fLYSqzj34z7K
-         DhrXOUUFWNA3+in1xlqrLcdl7wrCTk+F+d3Xo0qinbAgFlCgYyTkwecIQZWVniZOFGMI
-         50g+3HQd3UHUObhcXJj6NdNrGnyQsUTaT4jhOkGcONF3B0U7BVjLln2l5PPB8F4H4P8V
-         pr8ojE/uzz447W5qTwldV1/rv84rgxe7+gAdml3chLGJCAbqECDVtL2ywN4LrzAmSOWr
-         7vJNza367dQYCamOEi4SAetL5tJTJFXFr+Z+YalD31oaHqr6GqKLgHm3hGnzo3VX+SxP
-         0JBg==
-X-Gm-Message-State: AOAM533KxiTCqrTdR+AfIe76Xruw4O+rrQMECSaTr7hQWJQMw89GTelc
-	ggKfhp82CHt0zUASBmegzQA4++xZflg=
-X-Google-Smtp-Source: ABdhPJz5+OY4+z8VdnTWka4pjNJDiOzMe8O8gjVBg/NQ1/c3WlAlH+PXqAWO7KQrRn7RCtrX21IHlg==
-X-Received: by 2002:a17:90a:246:: with SMTP id t6mr10389205pje.230.1594996695476;
-        Fri, 17 Jul 2020 07:38:15 -0700 (PDT)
+        bh=xKs9Yq42yNXNKjnNiCBT6Mgwe8sqdO3RqNxLF8yHBRo=;
+        b=bQFUDgz/l+yQVpQLazwSQTNuCZeqvJA3lvq4xR3FmQBMZotMeW3ed8NpU7VUNNrn/b
+         uHqt5iaxLPJ+BjW9oWkoWqQz0TfOdg+C3QnNTrvfEJBCF1NbOul/gfIx6jiJxfC2gygR
+         Bm56kJWpwIg33ubFmOHw5Ef7q/DD8D6LHMIdL9epNonFh5xUH91lecI8wQZNk2SC3nEB
+         XVx9fGKUPgZKcjbayYIMbpoLuVWsdMWLRMY2WPIQlW9/0ybeZ+9hFue5eLGbPyUBzVsG
+         ApTM/YDoLw7FyAfmpUFhY/aKK11igNYg5KIju8yKi/GlZL/BP6Zc/sXVE26VWeaRYj+d
+         C+MA==
+X-Gm-Message-State: AOAM5323I2cKYBVkI/DZSX63I18sKxOmY0OfGkHa86/BZLX2TCd2vlil
+	o7LAuEpcPzS65bE7fJEx18yTttNPt78=
+X-Google-Smtp-Source: ABdhPJxQbXTB9lHJoxPZBVprpUgNe+NjhsJCaGvlWc0bBc7Z/f/01ySl3BcA2vlTUBJ4OAoWcyyvSA==
+X-Received: by 2002:a65:6119:: with SMTP id z25mr9278023pgu.52.1594996697711;
+        Fri, 17 Jul 2020 07:38:17 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id mw5sm3448727pjb.27.2020.07.17.07.38.14
+        by smtp.gmail.com with ESMTPSA id mw5sm3448727pjb.27.2020.07.17.07.38.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 07:38:14 -0700 (PDT)
+        Fri, 17 Jul 2020 07:38:17 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/20] subversion: extend for nativesdk
-Date: Fri, 17 Jul 2020 04:37:12 -1000
-Message-Id: <795781db8a82c9268fcabc93dd54cb6b07cbe9c8.1594996440.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/20] serf: extend for nativesdk
+Date: Fri, 17 Jul 2020 04:37:13 -1000
+Message-Id: <3b78a39535089bbafbeb1ebd854efe180890f375.1594996440.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1594996440.git.steve@sakoman.com>
 References: <cover.1594996440.git.steve@sakoman.com>
 
 From: Jens Rehsack <rehsack@gmail.com>
 
-For SDK environments where people still use subversion, let it easily being
-added to buildtools-tarball to invite more developers relying on Yocto
-based SDKs without much requirement to setup anything on the development
-workplace.
+As an unconditionally dependency of subversion, extend serf recipe for
+building a nativesdk variant being usable by nativesdk-subversion.
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 586a15b76f879f49c5224116cbf506b7ccf96cd2)
+(cherry picked from commit ff731a25a49c768f04a474438efccb3bb505a898)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/subversion/subversion_1.13.0.bb | 2 +-
+ meta/recipes-support/serf/serf_1.3.9.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.13.0.bb b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-index 6879f1249f..b3c44ca9b9 100644
---- a/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
-@@ -60,4 +60,4 @@ PARALLEL_MAKEINST = ""
- 
- RDEPENDS_${PN} = "serf"
+diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
+index dd4133a45c..6a27f12102 100644
+--- a/meta/recipes-support/serf/serf_1.3.9.bb
++++ b/meta/recipes-support/serf/serf_1.3.9.bb
+@@ -30,4 +30,4 @@ EXTRA_OESCONS = " \
+                   OPENSSL="${STAGING_EXECPREFIXDIR}" \
+                   "
  
 -BBCLASSEXTEND = "native"
 +BBCLASSEXTEND = "native nativesdk"
