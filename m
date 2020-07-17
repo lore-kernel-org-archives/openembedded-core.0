@@ -1,96 +1,69 @@
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
- by mx.groups.io with SMTP id smtpd.web10.188.1595006598148869999
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.718.1595008019853721511
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 10:23:18 -0700
+ Fri, 17 Jul 2020 10:47:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MA6G14aw;
- spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: kekiefer@gmail.com)
-Received: by mail-pj1-f67.google.com with SMTP id a9so1227236pjd.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 10:23:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JB/dSbXh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id 88so1741671wrh.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Jul 2020 10:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=zBAhCwBNwcvzMpbUJW63TfeE7wcBcoUips2cSldpW+A=;
-        b=MA6G14awFgD3GJ09lYFJZlMb2Hkhxia6FTdZtVw/UQje0EZTF/dnBy2L7X7xi3o0Tf
-         nLQqeGU4zJjIeaKLzpGwYX5dwp9VhjcBqZjnPVueUhAd8LqxOzWlhIerbiH6Gl7RjgSH
-         vEjviLMkXspGOz6yzQYB4beb3AOc5kUyq3ZHoSHCEeBNWzY05ybOKfDEeEc8DyXK9bXF
-         5+HdGe0syGXLXDhHs4Y1GyZgcqIHb2TF79NseMj5HRvYqWipcH3dVK/76y6ZYveAzSnz
-         a2R3BnvbliN9Vh6ZTCfHC6qxgMzZcwWQwOrNC4NOdAn0qcBLQCEgkxLRYAV3FFTFLpqH
-         jBqA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=27BWiFZSOy5PQnxaYos4IAttYkw3FALgCgJou1EuXP8=;
+        b=JB/dSbXhjqkvRASlR6VkA+Sd4si7VThUcI84S51jqUjIqAAsWRdAneer6aQrVbN/O9
+         HwKij5fJ7j+OTm8zurG4nYQg4lt8IuTUm5yimfDhgVujMaMzPzNe/p3Uhb4ypIGgpi2i
+         m5n306pWn59mpyXbq0bnNkGwYzNBXRQdxh4/E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=zBAhCwBNwcvzMpbUJW63TfeE7wcBcoUips2cSldpW+A=;
-        b=sRKWTxek7hjy2smiSIJX2AvGhPzvub+h/56DzBC5h32KEn9s1pbo9IMFoPkMfXXbh6
-         S2Q5t7dXkUV0BCBneD3N1H11/GtwoTpsCHrTGHbho/Pzua65SUUJZ2muA23gy9E+EIuA
-         EmYGS637PIamcVPRtKLXk74jfITrFsU7o6sQmN+RagIjoN2h2KanWFLNRPvfYwXVIUBv
-         KHoPKRR1mVWMHe6QlLKPN/G86TzdtUQAVmjf6nDLTBKB/JK/7nOFFr1G6fe5uykYXG1c
-         vgvUWiEvSso+UvWzl5HOiHyqj4kf2tHvSr65lIFinTF2J2lxSPm2Ivuev3KhAjgX8bSn
-         UwsQ==
-X-Gm-Message-State: AOAM531MFzjdYYr3WSUJpDlBccRc/aS3+nsM8WhfDdWVCxJv6Nz24H2R
-	aCXeSr7PuuE6xG7EbVnURIxKQjg6cOo=
-X-Google-Smtp-Source: ABdhPJxjnTmffeoSz3yERuvtYKc0EELHbD4xsIj5nFLIUspDdaznb12S6wEV08M2sxCGACsbYwkj4A==
-X-Received: by 2002:a17:902:7441:: with SMTP id e1mr8348063plt.23.1595006597352;
-        Fri, 17 Jul 2020 10:23:17 -0700 (PDT)
-Return-Path: <kekiefer@gmail.com>
-Received: from localhost.localdomain (ip184-189-236-128.sb.sd.cox.net. [184.189.236.128])
-        by smtp.gmail.com with ESMTPSA id d14sm3456587pjc.20.2020.07.17.10.23.16
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=27BWiFZSOy5PQnxaYos4IAttYkw3FALgCgJou1EuXP8=;
+        b=QSF2A+8ujAzEgFspLh6l8ZD1GJbQKzBkj7qxSbF39/dI29tYhkT5mwjQoQewmpxKlm
+         67zjY7gO4a07nqe3PG6EBlERDXIY7NQBoCaBR/Zt2bAuiKZ5tDgb1vBQyIW/X/TUhFhm
+         Y3tYB30xGEGfB69bwvegRgEesaQDLSx/SxTe6ZPzrvmWXczeqE3XFPnlT53JpRv3w2yd
+         RQ4dw1VJYyf4flnQQqzbKehcax5Y5BpNtCrFmDGWMWDKEm37BAVkYSDGYlcb3d3SAeH9
+         ozUJZER/BBZenniUEuDraVqjtP5dNZfEGwayZKEQJB5XbGpJaRMzo9IMdCSaWFg3rB1T
+         b0KQ==
+X-Gm-Message-State: AOAM5319mAfm4pFV9fiX21xVb2eyAQpVJH9wsyxA65+Odd1dUDXblKdV
+	G5J0vecspQmqEtSkyEgPFPwbjg==
+X-Google-Smtp-Source: ABdhPJwB5AL5FpF5mMwb9wXl3XqDamx6bI8GZVkax9OKByMPySQAMA7u6T6ZUfSldOJU7p96kjDJTg==
+X-Received: by 2002:adf:f34c:: with SMTP id e12mr11036054wrp.46.1595008018321;
+        Fri, 17 Jul 2020 10:46:58 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.2.4.2.d.8.4.b.f.c.c.1.d.5.4.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b45d:1ccf:b48d:242f])
+        by smtp.gmail.com with ESMTPSA id c194sm15267305wme.8.2020.07.17.10.46.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 10:23:16 -0700 (PDT)
-From: kekiefer@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Kurt Kiefer <kurt.kiefer@arthrex.com>
-Subject: [oe-core][PATCH] linux-firmware: add ibt-20 package
-Date: Fri, 17 Jul 2020 10:23:02 -0700
-Message-Id: <20200717172302.2845-1-kekiefer@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 17 Jul 2020 10:46:57 -0700 (PDT)
+Message-ID: <4d8f36dd9075958747ff4b0194b6df750c313dc0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [AUH] Upgrade status: 2020-07-15
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jul 2020 18:46:56 +0100
+In-Reply-To: <CANNYZj8VV-OHJa6epGPvUsQb=29ezhACQ8bop+oD2GNn9ADsDw@mail.gmail.com>
+References: <20200715164441.DDD23E01EAA@yocto-www.yoctoproject.org>
+	 <CANNYZj8drAJ8fvTC_KPhQ3yZr7KN7iaB-616DnQHmf43TjCFmg@mail.gmail.com>
+	 <09ec097fc3cd3f5bb1ebbc7248cc52e56716fbfb.camel@linuxfoundation.org>
+	 <CANNYZj8VV-OHJa6epGPvUsQb=29ezhACQ8bop+oD2GNn9ADsDw@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kurt Kiefer <kurt.kiefer@arthrex.com>
+On Fri, 2020-07-17 at 12:15 +0200, Alexander Kanavin wrote:
+> Thanks - obviously, the most appreciated work for volunteer upgrades
+> is taking items that AUH wasn't able to handle, and resolving the
+> issues (most often patch rebase conflicts or build failures - AUH
+> tells in the email exactly what the problem was).
 
-Add the firmware packaging for Intel Bluetooth AX200, also known
-as Intel CyclonePeak (CcP).
+Absolutely!
 
-Signed-off-by: Kurt Kiefer <kurt.kiefer@arthrex.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+I think there are some there which should be relatively easy fixes. I
+just wanted to ensure people saw what was in -next and what was not.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-index 2b5963c0c8..bf25ff8b70 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200619.bb
-@@ -281,6 +281,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-ibt-license ${PN}-ibt \
-              ${PN}-ibt-11-5 ${PN}-ibt-12-16 ${PN}-ibt-hw-37-7 ${PN}-ibt-hw-37-8 \
-              ${PN}-ibt-17 \
-+             ${PN}-ibt-20 \
-              ${PN}-ibt-misc \
-              ${PN}-i915-license ${PN}-i915 \
-              ${PN}-ice-license ${PN}-ice \
-@@ -806,6 +807,7 @@ LICENSE_${PN}-ibt-hw-37-8 = "Firmware-ibt_firmware"
- LICENSE_${PN}-ibt-11-5    = "Firmware-ibt_firmware"
- LICENSE_${PN}-ibt-12-16   = "Firmware-ibt_firmware"
- LICENSE_${PN}-ibt-17 = "Firmware-ibt_firmware"
-+LICENSE_${PN}-ibt-20 = "Firmware-ibt_firmware"
- LICENSE_${PN}-ibt-misc    = "Firmware-ibt_firmware"
- 
- FILES_${PN}-ibt-license = "${nonarch_base_libdir}/firmware/LICENCE.ibt_firmware"
-@@ -814,6 +816,7 @@ FILES_${PN}-ibt-hw-37-8 = "${nonarch_base_libdir}/firmware/intel/ibt-hw-37.8*.bs
- FILES_${PN}-ibt-11-5    = "${nonarch_base_libdir}/firmware/intel/ibt-11-5.sfi ${nonarch_base_libdir}/firmware/intel/ibt-11-5.ddc"
- FILES_${PN}-ibt-12-16   = "${nonarch_base_libdir}/firmware/intel/ibt-12-16.sfi ${nonarch_base_libdir}/firmware/intel/ibt-12-16.ddc"
- FILES_${PN}-ibt-17 = "${nonarch_base_libdir}/firmware/intel/ibt-17-*.sfi ${nonarch_base_libdir}/firmware/intel/ibt-17-*.ddc"
-+FILES_${PN}-ibt-20 = "${nonarch_base_libdir}/firmware/intel/ibt-20-*.sfi ${nonarch_base_libdir}/firmware/intel/ibt-20-*.ddc"
- FILES_${PN}-ibt-misc    = "${nonarch_base_libdir}/firmware/intel/ibt-*"
- 
- RDEPENDS_${PN}-ibt-hw-37-7 = "${PN}-ibt-license"
-@@ -821,6 +824,7 @@ RDEPENDS_${PN}-ibt-hw-37.8 = "${PN}-ibt-license"
- RDEPENDS_${PN}-ibt-11-5    = "${PN}-ibt-license"
- RDEPENDS_${PN}-ibt-12-16   = "${PN}-ibt-license"
- RDEPENDS_${PN}-ibt-17 = "${PN}-ibt-license"
-+RDEPENDS_${PN}-ibt-20 = "${PN}-ibt-license"
- RDEPENDS_${PN}-ibt-misc    = "${PN}-ibt-license"
- 
- ALLOW_EMPTY_${PN}-ibt= "1"
--- 
-2.17.1
+Cheers,
+
+Richard
 
