@@ -1,135 +1,138 @@
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
- by mx.groups.io with SMTP id smtpd.web12.12923.1595086182717825415
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.79.1595088191823600931
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jul 2020 08:29:43 -0700
+ Sat, 18 Jul 2020 09:03:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=YwnBShg6;
- spf=pass (domain: konsulko.com, ip: 209.85.210.66, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f66.google.com with SMTP id n24so9028378otr.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 08:29:42 -0700 (PDT)
+ dkim=pass header.i=@globallogic.com header.s=google header.b=kC41EWle;
+ spf=pass (domain: globallogic.com, ip: 209.85.167.42, mailfrom: oleksandr.s.popovych@globallogic.com)
+Received: by mail-lf1-f42.google.com with SMTP id b30so5352800lfj.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 09:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yUZqCmyrAlIsSvbnoxLuMxmvGWklY5MyBv4ELMx4oAc=;
-        b=YwnBShg6QMlfYfNa5ho49MeRouLBaHjnxKOkkDHGP5kYrZAMIBoXBDJ9flyaDkNiWC
-         GMMqBUXBvh8g+mhIKzwoXDmMHrwN/6iUbRuhGuZqfofTlFlGouK9KVRJJY7u3apBH2u+
-         GAL7zKkOqqi1u2lO96pD+m+i5CvX94nXwqrTs=
+        d=globallogic.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=SuthXTY6kg9BEB7lWQLYnSuJUoIHqNevMH1LXemfcss=;
+        b=kC41EWleMx4iURj79b/6ym6W19+NdBVvp/JGNKsbu1F1TIXSJ6N8LEa02gTe3KyP27
+         v3xm2JofhIytdMCBB52Eb3FTsEFZQD62YEfNLkLPhhEfgZCVjemTavl4BRjhytthWHA5
+         ho78CzocGTIZS3j0rGEgji5iDQg8pahJmZaakxF8oj3co1djhnJA3sIr3u0ppeB7cDMA
+         9dmH//CWImLZqxs1v3cndPVdS0oqsLF6GD3t2fmxWhSDKPLr6fH5PdX1bHFz52/pAd8K
+         WEjxmDczqU6dsYOPBLej1CxGJ/c0RSYoNJjc28oRzqrgXutYuA+36CZrh4AVg6WH9ryI
+         QABw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yUZqCmyrAlIsSvbnoxLuMxmvGWklY5MyBv4ELMx4oAc=;
-        b=KnAP84xezsO0o1KVHBiYRWxPUt7tWJ/3dPNYc3hYZSYNxFdGKIZoeLaL5O7oJylcnv
-         WLiFShWwjvg6T8UfzsgQ87wYMhZZiSl7Bh2URKPF58wxLcXxcEJawMmlVucZVPsr+Hpr
-         Nz9lFHvVMYdb5f15A7tHXDl5vKms2HciHjwZ/2VgFLdKZToHjp1icS+nZxiyQcVvon/2
-         ivRUIku5z2JXPB2xG0N99Q3VQUuGvVAt+VDJAD1FP7iQq7w2DRha8Eb84wN6ArGQUNlb
-         7FlyoKDA97aRm/B4vGvzcNnzsffBOJOd2uCVbTWgAM6uF6prQQnuNgCzoZgxEv4kNGz6
-         gOnA==
-X-Gm-Message-State: AOAM533sro+eZYD7Hke5JFmu8umyNjJPHWgaAbr8LWYYa9EVASfk/wza
-	qegmLDTVyz/3EoUqxpvNlhi4HXjw5vCxrlh234Iwfw==
-X-Google-Smtp-Source: ABdhPJwIAGheOdXlYkUN97TotiXa8qcni5HQxcuSmXjNxiVedAWd1sAtaQjHtysJBlv4xUNlz+CDZlH+RL+OXRdbSok=
-X-Received: by 2002:a9d:640b:: with SMTP id h11mr13576810otl.92.1595086181872;
- Sat, 18 Jul 2020 08:29:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703114402.8850-1-fredrigu@axis.com> <20200703114402.8850-2-fredrigu@axis.com>
- <1594291329382.85415@axis.com> <CAM9ZRVtH5m14PHydagC1k9XnaEu=USX2oFRraGUvCh=911scxg@mail.gmail.com>
- <1594710174328.5614@axis.com>
-In-Reply-To: <1594710174328.5614@axis.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Sat, 18 Jul 2020 16:29:31 +0100
-Message-ID: <CAM9ZRVs_KNN4pqA7k1YmQkThsDdDAJbTdyiVY=2uAdnPmaFz5Q@mail.gmail.com>
-Subject: Re: [PATCH v4 01/12] Move rpm manifest to its own subdir
-To: Fredrik Gustafsson <Fredrik.Gustafsson@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SuthXTY6kg9BEB7lWQLYnSuJUoIHqNevMH1LXemfcss=;
+        b=UENa/lG+pwUG5VFVvGPJYy7Ml0bG5E6fwC1DCYSlBNsLv73xwBiWfYK/vxeQCaIwq0
+         ilSQHgy1WHa7A8tVTc5oulTaK3s/KgnyOlbS5qu4k5S1zzf5rkHIdgW4q/QO4qSNUrWz
+         wyKLOE7jUsv2U72qeY+8P5qVI1XO7TaswHotYZEIhBQe3VBEj3EF14Q7caBkXX1Bim1+
+         iPyrjhIbJTNbl1uGz+k2+J11qkuZRPKbOBQAOhARR7jiFS8PEEstxDyId5phO8rKA05F
+         XVhwsilEceGv7r87TKcTVy9QHJ1PCQNF1N3Tb2tfUT88JmKbCt3kRav9GqfOEbsE3L7Y
+         uX0Q==
+X-Gm-Message-State: AOAM53366WAA9Xd8NGlCc1K6i5FssnvVlrUVZsPFGnxEoFEy1LbwO7lY
+	YO0+bbkQAapB3LOfF4ksFOmVkTcKny0=
+X-Google-Smtp-Source: ABdhPJw0yLLwAZZHBGOi6nOkI6KiRFe8yr14jOZCgcPZLe/tWiao/pbwDY2GoRJw7Gz1cHI6zUcRhw==
+X-Received: by 2002:a19:8c09:: with SMTP id o9mr7104038lfd.160.1595088189489;
+        Sat, 18 Jul 2020 09:03:09 -0700 (PDT)
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from localhost.localdomain ([92.60.178.172])
+        by smtp.gmail.com with ESMTPSA id 202sm1094485lfg.24.2020.07.18.09.03.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2020 09:03:08 -0700 (PDT)
+From: "Oleksandr" <oleksandr.s.popovych@globallogic.com>
+To: openembedded-core@lists.openembedded.org
+Cc: jpewhacker@gmail.com,
+	Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Subject: [OE-core][PATCH v9] expat: Added ptest
+Date: Sat, 18 Jul 2020 19:02:09 +0300
+Message-Id: <20200718160209.18117-1-oleksandr.s.popovych@globallogic.com>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, 14 Jul 2020 at 08:02, Fredrik Gustafsson
-<Fredrik.Gustafsson@axis.com> wrote:
->
-> Thank you, just let me know if I can make it any easier to review this,
-> I know it's a big patch.
+For ptest support of expat package:
 
-Hi Fredrik,
+ - expat_2.2.9.bb recipe was switched on cmake-based building system to
+avoid cahnges in autotools build system which considered in upstream as
+potentially deprecated (https://github.com/libexpat/libexpat/issues/330).
 
-Sorry for the delays here, I've been unable to get back to this until
-today due to other commitments and a few health issues.
+ - cmake-native_3.17.3.bb recipe was forced to use bundled version of
+expat from CMake source tree. Therefore expat-native package has been removed
+from DEPENDS variable for cmake-native recipe. Without
+these changes, next dependency loop appears:
 
-Here's my feedback on the series as a whole. Overall I think it's
-excellent, I much prefer the result where the code is grouped by
-package manager (opkg, dpkg or rpm) to the existing code where it's
-spread across package_manager.py, rootfs.py, manifest.py and sdk.py.
+Dependency loop #1 found:
+  Task /home/opopovych/repos/poky/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb:do_compile (dependent Tasks ['cmake-native_3.17.3.bb:do_configure'])
+  Task /home/opopovych/repos/poky/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb:do_install (dependent Tasks ['cmake-native_3.17.3.bb:do_compile'])
+  Task /home/opopovych/repos/poky/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb:do_populate_sysroot (dependent Tasks ['cmake-native_3.17.3.bb:do_install'])
+  Task virtual:native:/home/opopovych/repos/poky/meta/recipes-core/expat/expat_2.2.9.bb:do_prepare_recipe_sysroot (dependent Tasks ['cmake-native_3.17.3.bb:do_populate_sysroot', 'ninja_1.10.0.bb:do_populate_sysroot', 'expat_2.2.9.bb:do_fetch'])
+  Task virtual:native:/home/opopovych/repos/poky/meta/recipes-core/expat/expat_2.2.9.bb:do_configure (dependent Tasks ['expat_2.2.9.bb:do_patch', 'expat_2.2.9.bb:do_prepare_recipe_sysroot', 'expat_2.2.9.bb:do_generate_toolchain_file', 'expat_2.2.9.bb:do_deploy_source_date_epoch'])
+  Task virtual:native:/home/opopovych/repos/poky/meta/recipes-core/expat/expat_2.2.9.bb:do_compile (dependent Tasks ['expat_2.2.9.bb:do_configure'])
+  Task virtual:native:/home/opopovych/repos/poky/meta/recipes-core/expat/expat_2.2.9.bb:do_install (dependent Tasks ['expat_2.2.9.bb:do_compile'])
+  Task virtual:native:/home/opopovych/repos/poky/meta/recipes-core/expat/expat_2.2.9.bb:do_populate_sysroot (dependent Tasks ['expat_2.2.9.bb:do_install'])
+  Task /home/opopovych/repos/poky/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb:do_prepare_recipe_sysroot (dependent Tasks ['expat_2.2.9.bb:do_populate_sysroot', 'xz_5.2.5.bb:do_populate_sysroot', 'bzip2_1.0.8.bb:do_populate_sysroot', 'ncurses_6.2.bb:do_populate_sysroot', 'zlib_1.2.11.bb:do_populate_sysroot', 'cmake-native_3.17.3.bb:do_fetch', 'curl_7.71.1.bb:do_populate_sysroot'])
+  Task /home/opopovych/repos/poky/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb:do_configure (dependent Tasks ['cmake-native_3.17.3.bb:do_deploy_source_date_epoch', 'cmake-native_3.17.3.bb:do_patch', 'cmake-native_3.17.3.bb:do_prepare_recipe_sysroot'])
 
-1) Please edit the first line of each commit message to follow the
-style guide at https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines.
+ - run-ptest script that initalizes testing, copies testing
+executables' output to log file and measures execution time of each testing
+executable was added.
 
-2) Please also fix the following whitespace errors reported when
-applying these patches:
+ - patch that implements output of each testcase result in testing exectutable
+was added.
 
-$ git am ../v4-Move-rpm-manifest-to-its-...-and-11-more.mbox
-Applying: Move rpm manifest to its own subdir
-.git/rebase-apply/patch:148: new blank line at EOF.
+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+---
+ meta/recipes-core/expat/expat_2.2.9.bb             | 14 ++++++++++----
+ meta/recipes-devtools/cmake/cmake-native_3.17.3.bb |  3 ++-
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index 8f3db41352..61bbca1709 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -8,15 +8,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
++	   file://run-ptest \
++	   file://0001-Add-output-of-tests-result.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+ SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+ 
+-inherit autotools lib_package
++EXTRA_OECMAKE += "-DEXPAT_BUILD_DOCS=OFF"
+ 
+-do_configure_prepend () {
+-	rm -f ${S}/conftools/libtool.m4
++RDEPENDS_${PN}-ptest += "bash"
 +
-warning: 1 line adds whitespace errors.
-Applying: Move ipk manifest to its own subdir
-.git/rebase-apply/patch:187: new blank line at EOF.
++inherit cmake lib_package ptest
 +
-warning: 1 line adds whitespace errors.
-Applying: Move deb manifest to its own subdir
-Applying: Move rpm rootfs to its own dir
-.git/rebase-apply/patch:161: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move ipk rootfs to its own dir
-Applying: Move deb rootfs to its own dir
-.git/rebase-apply/patch:222: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move rpm sdk to its own dir
-.git/rebase-apply/patch:127: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move ipk sdk to its own dir
-.git/rebase-apply/patch:42: trailing whitespace.
-self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"),
-.git/rebase-apply/patch:109: new blank line at EOF.
-+
-warning: 2 lines add whitespace errors.
-Applying: Move deb sdk to its own dir
-.git/rebase-apply/patch:108: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move rpm package manager to its own dir
-.git/rebase-apply/patch:840: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move ipk package manager to its own dir
-.git/rebase-apply/patch:951: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: Move deb package manager to its own dir
-.git/rebase-apply/patch:1042: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-
-3) I'd recommend the new module keeps the name package_manager. You
-can do this by moving the existing code into
-package_manager/__init__.py and then splitting it up inside that
-directory. Imports and wrappers in the __init__.py file can be used to
-ensure no other bit of the code needs to worry about the changes.
-
-4) Please avoid unnecessarily using imports inside functions. In
-rootfs.py, manifest.py and sdk.py you can import the required classes
-at the top level. Functions like create_rootfs(), populate_sdk(), etc
-should not require any changes as part of this patch series.
-
-I'll run as much of the selftest suite as I can on this series as-is
-to see if there are any other issues.
-
-Thanks,
-
++do_install_ptest_class-target() {
++	install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
+ }
+ 
+-BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND += "native nativesdk"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb
+index b2952ee5f5..d91e42ef9a 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.17.3.bb
+@@ -1,7 +1,7 @@
+ require cmake.inc
+ inherit native
+ 
+-DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native ncurses-native"
++DEPENDS += "bzip2-replacement-native xz-native zlib-native curl-native ncurses-native"
+ 
+ SRC_URI += "file://OEToolchainConfig.cmake \
+             file://environment.d-cmake.sh \
+@@ -21,6 +21,7 @@ CMAKE_EXTRACONF = "\
+     -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=0 \
+     -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 \
+     -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 \
++    -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=0 \
+     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
+     -DHAVE_SYS_ACL_H=0 \
+ "
 -- 
-Paul Barker
-Konsulko Group
+2.17.1
+
