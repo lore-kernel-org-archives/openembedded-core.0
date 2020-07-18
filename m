@@ -1,152 +1,135 @@
-Received: from forward5-smtp.messagingengine.com (forward5-smtp.messagingengine.com [66.111.4.239])
- by mx.groups.io with SMTP id smtpd.web11.5423.1595049363860069051
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
+ by mx.groups.io with SMTP id smtpd.web12.12923.1595086182717825415
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 22:16:04 -0700
+ Sat, 18 Jul 2020 08:29:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Iqh/fWtL;
- spf=neutral (domain: iki.fi, ip: 66.111.4.239, mailfrom: tanuk@iki.fi)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailforward.nyi.internal (Postfix) with ESMTP id 263961940A64
-	for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 01:16:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 18 Jul 2020 01:16:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rNBy1rvs4a7JTwVCK
-	L+keXD8td4V+sxURpDgaTn5XFc=; b=Iqh/fWtLiSMYk2IRNdQoDX9cEinSwXrpP
-	RShKmi9iRVPqeYKwaOsx4/0oOio1FIyUD0qmbVjYOVMsk3ds5pVbRBNF6P7wvRQh
-	oYe9Wk4yGz/52v5H7fxmcmvj9rP61ypToUzTJlduB3Nnr9tIdDNtAC4P3WE1n9Uo
-	CDFPoNldSDnjFEU0P1LgLu6F/qi3gJN7uCJqQbmTKVEG3nJnoQtVUNaKUt4I5eml
-	d4xcsGM1EU9tOJVSRuz4zkW9sACxpzF9MLIbBPtIpgfPvstDUYsvdUOwkic5NH+o
-	629HncFYQbUSvYc9JWim7z3Xxi5H4dMDwi2OrW9V9ln5QPSfnxrTw==
-X-ME-Sender: <xms:koUSX8GkxH-XZlkDmhVIDyK9fWlSHHhKDFP2-YGNWrigmGFYXYwP9w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrfeekgdelhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpefvrghnuhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhi
-    qeenucggtffrrghtthgvrhhnpeeuheefffetgfffhfdvheejudekgffhheeigfehvdelhe
-    efieevgeekgeefveehkeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhg
-    pdhfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeekvddruddtvddrvddtrddujeelne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhu
-    khesihhkihdrfhhi
-X-ME-Proxy: <xmx:koUSX1WooZp5WcDsNbFzTaykgTkBPmlVtDiWH7aML78a-JcfpfXl0g>
-    <xmx:koUSX2Jize8ZDe8TRJ-uZgJFVsyCZ6Oyx8zQgcBphyOOxCYu9Ro7yw>
-    <xmx:koUSX-FbEpSulMDPumHFzWNzwmZ-MHQoU6dPdcWmMumBpTnt3MaROg>
-    <xmx:k4USX7VDKRIeNwQNpMon4Q8qsRLDo7bHFzKBaxZSeHPB48I4I0jmLQ>
-Received: from localhost.localdomain (unknown [82.102.20.179])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 2A36A306005F
-	for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 01:16:02 -0400 (EDT)
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] pulseaudio: improve the Thumb frame pointer fix
-Date: Sat, 18 Jul 2020 08:15:55 +0300
-Message-Id: <20200718051555.15159-1-tanuk@iki.fi>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@konsulko.com header.s=google header.b=YwnBShg6;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.66, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f66.google.com with SMTP id n24so9028378otr.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 08:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yUZqCmyrAlIsSvbnoxLuMxmvGWklY5MyBv4ELMx4oAc=;
+        b=YwnBShg6QMlfYfNa5ho49MeRouLBaHjnxKOkkDHGP5kYrZAMIBoXBDJ9flyaDkNiWC
+         GMMqBUXBvh8g+mhIKzwoXDmMHrwN/6iUbRuhGuZqfofTlFlGouK9KVRJJY7u3apBH2u+
+         GAL7zKkOqqi1u2lO96pD+m+i5CvX94nXwqrTs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yUZqCmyrAlIsSvbnoxLuMxmvGWklY5MyBv4ELMx4oAc=;
+        b=KnAP84xezsO0o1KVHBiYRWxPUt7tWJ/3dPNYc3hYZSYNxFdGKIZoeLaL5O7oJylcnv
+         WLiFShWwjvg6T8UfzsgQ87wYMhZZiSl7Bh2URKPF58wxLcXxcEJawMmlVucZVPsr+Hpr
+         Nz9lFHvVMYdb5f15A7tHXDl5vKms2HciHjwZ/2VgFLdKZToHjp1icS+nZxiyQcVvon/2
+         ivRUIku5z2JXPB2xG0N99Q3VQUuGvVAt+VDJAD1FP7iQq7w2DRha8Eb84wN6ArGQUNlb
+         7FlyoKDA97aRm/B4vGvzcNnzsffBOJOd2uCVbTWgAM6uF6prQQnuNgCzoZgxEv4kNGz6
+         gOnA==
+X-Gm-Message-State: AOAM533sro+eZYD7Hke5JFmu8umyNjJPHWgaAbr8LWYYa9EVASfk/wza
+	qegmLDTVyz/3EoUqxpvNlhi4HXjw5vCxrlh234Iwfw==
+X-Google-Smtp-Source: ABdhPJwIAGheOdXlYkUN97TotiXa8qcni5HQxcuSmXjNxiVedAWd1sAtaQjHtysJBlv4xUNlz+CDZlH+RL+OXRdbSok=
+X-Received: by 2002:a9d:640b:: with SMTP id h11mr13576810otl.92.1595086181872;
+ Sat, 18 Jul 2020 08:29:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200703114402.8850-1-fredrigu@axis.com> <20200703114402.8850-2-fredrigu@axis.com>
+ <1594291329382.85415@axis.com> <CAM9ZRVtH5m14PHydagC1k9XnaEu=USX2oFRraGUvCh=911scxg@mail.gmail.com>
+ <1594710174328.5614@axis.com>
+In-Reply-To: <1594710174328.5614@axis.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Sat, 18 Jul 2020 16:29:31 +0100
+Message-ID: <CAM9ZRVs_KNN4pqA7k1YmQkThsDdDAJbTdyiVY=2uAdnPmaFz5Q@mail.gmail.com>
+Subject: Re: [PATCH v4 01/12] Move rpm manifest to its own subdir
+To: Fredrik Gustafsson <Fredrik.Gustafsson@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	tools-cfpbuild-internal <tools-cfpbuild-internal@axis.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-By changing the register that PulseAudio uses in its asm code makes it
-unnecessary to care whether frame pointers are enabled or not.
+On Tue, 14 Jul 2020 at 08:02, Fredrik Gustafsson
+<Fredrik.Gustafsson@axis.com> wrote:
+>
+> Thank you, just let me know if I can make it any easier to review this,
+> I know it's a big patch.
 
-This fix was suggested by Andre McCurdy.
+Hi Fredrik,
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
+Sorry for the delays here, I've been unable to get back to this until
+today due to other commitments and a few health issues.
 
-v2: Fixed the Upstream-Status line.
+Here's my feedback on the series as a whole. Overall I think it's
+excellent, I much prefer the result where the code is grouped by
+package manager (opkg, dpkg or rpm) to the existing code where it's
+spread across package_manager.py, rootfs.py, manifest.py and sdk.py.
 
- .../pulseaudio/pulseaudio.inc                 |  8 ----
- ..._neon-use-register-r12-instead-of-r7.patch | 48 +++++++++++++++++++
- .../pulseaudio/pulseaudio_13.0.bb             |  1 +
- 3 files changed, 49 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
+1) Please edit the first line of each commit message to follow the
+style guide at https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index c7f3e67022..4e32b27087 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -63,14 +63,6 @@ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
- 
- inherit autotools bash-completion pkgconfig useradd gettext perlnative systemd manpages gsettings
- 
--# When compiling for Thumb or Thumb2, frame pointers _must_ be disabled since the
--# Thumb frame pointer in r7 clashes with pulseaudio's use of inline asm to make syscalls
--# (where r7 is used for the syscall NR). In most cases, frame pointers will be
--# disabled automatically due to the optimisation level, but append an explicit
--# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
--# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
--CFLAGS_append_arm = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--
- # *.desktop rules wont be generated during configure and build will fail
- # if using --disable-nls
- USE_NLS = "yes"
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
-new file mode 100644
-index 0000000000..aaa162f9b0
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
-@@ -0,0 +1,48 @@
-+From 4a1668f341f0228904105f77fe5871b9d59b2663 Mon Sep 17 00:00:00 2001
-+From: Tanu Kaskinen <tanuk@iki.fi>
-+Date: Mon, 13 Jul 2020 12:42:14 +0300
-+Subject: [PATCH] remap_neon: use register r12 instead of r7
+2) Please also fix the following whitespace errors reported when
+applying these patches:
+
+$ git am ../v4-Move-rpm-manifest-to-its-...-and-11-more.mbox
+Applying: Move rpm manifest to its own subdir
+.git/rebase-apply/patch:148: new blank line at EOF.
 +
-+When the Thumb instructions set is used and frame pointers are enabled
-+(-fno-omit-frame-pointer), r7 can't be used, because it's used for the
-+frame pointer. Trying to use r7 caused the compilation to fail.
+warning: 1 line adds whitespace errors.
+Applying: Move ipk manifest to its own subdir
+.git/rebase-apply/patch:187: new blank line at EOF.
 +
-+Thanks to Andre McCurdy for suggesting[1] this fix, all I had to do was to
-+test that it works. The code builds now, and cpu-remap-test also
-+succeeds.
+warning: 1 line adds whitespace errors.
+Applying: Move deb manifest to its own subdir
+Applying: Move rpm rootfs to its own dir
+.git/rebase-apply/patch:161: new blank line at EOF.
 +
-+[1] https://lists.openembedded.org/g/openembedded-core/message/136786
+warning: 1 line adds whitespace errors.
+Applying: Move ipk rootfs to its own dir
+Applying: Move deb rootfs to its own dir
+.git/rebase-apply/patch:222: new blank line at EOF.
 +
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/324]
+warning: 1 line adds whitespace errors.
+Applying: Move rpm sdk to its own dir
+.git/rebase-apply/patch:127: new blank line at EOF.
 +
-+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-+---
-+ src/pulsecore/remap_neon.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
+warning: 1 line adds whitespace errors.
+Applying: Move ipk sdk to its own dir
+.git/rebase-apply/patch:42: trailing whitespace.
+self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"),
+.git/rebase-apply/patch:109: new blank line at EOF.
 +
-+diff --git a/src/pulsecore/remap_neon.c b/src/pulsecore/remap_neon.c
-+index ca3b95b48..6f71345f8 100644
-+--- a/src/pulsecore/remap_neon.c
-++++ b/src/pulsecore/remap_neon.c
-+@@ -52,11 +52,15 @@ static void remap_mono_to_stereo_float32ne_generic_arm(pa_remap_t *m, float *dst
-+         __asm__ __volatile__ (
-+             "ldm        %[src]!, {r4,r6}        \n\t"
-+             "mov        r5, r4                  \n\t"
-+-            "mov        r7, r6                  \n\t"
-+-            "stm        %[dst]!, {r4-r7}        \n\t"
-++
-++            /* We use r12 instead of r7 here, because r7 is reserved for the
-++             * frame pointer when using Thumb. */
-++            "mov        r12, r6                 \n\t"
-++
-++            "stm        %[dst]!, {r4-r6,r12}    \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : /* input operands */
-+-            : "memory", "r4", "r5", "r6", "r7" /* clobber list */
-++            : "memory", "r4", "r5", "r6", "r12" /* clobber list */
-+         );
-+     }
-+ 
-+-- 
-+2.20.1
+warning: 2 lines add whitespace errors.
+Applying: Move deb sdk to its own dir
+.git/rebase-apply/patch:108: new blank line at EOF.
 +
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-index d2f201d06e..53e9a2357d 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-@@ -4,6 +4,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
-            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
-            file://0001-remap-arm-Adjust-inline-asm-constraints.patch \
-+           file://0001-remap_neon-use-register-r12-instead-of-r7.patch \
-            file://volatiles.04_pulse \
-            "
- SRC_URI[md5sum] = "e41d606f90254ed45c90520faf83d95c"
+warning: 1 line adds whitespace errors.
+Applying: Move rpm package manager to its own dir
+.git/rebase-apply/patch:840: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+Applying: Move ipk package manager to its own dir
+.git/rebase-apply/patch:951: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+Applying: Move deb package manager to its own dir
+.git/rebase-apply/patch:1042: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+
+3) I'd recommend the new module keeps the name package_manager. You
+can do this by moving the existing code into
+package_manager/__init__.py and then splitting it up inside that
+directory. Imports and wrappers in the __init__.py file can be used to
+ensure no other bit of the code needs to worry about the changes.
+
+4) Please avoid unnecessarily using imports inside functions. In
+rootfs.py, manifest.py and sdk.py you can import the required classes
+at the top level. Functions like create_rootfs(), populate_sdk(), etc
+should not require any changes as part of this patch series.
+
+I'll run as much of the selftest suite as I can on this series as-is
+to see if there are any other issues.
+
+Thanks,
+
 -- 
-2.20.1
-
+Paul Barker
+Konsulko Group
