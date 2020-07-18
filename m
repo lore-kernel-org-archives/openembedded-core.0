@@ -1,58 +1,152 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.5240.1595048549704144175
+Received: from forward5-smtp.messagingengine.com (forward5-smtp.messagingengine.com [66.111.4.239])
+ by mx.groups.io with SMTP id smtpd.web11.5423.1595049363860069051
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jul 2020 22:02:29 -0700
+ Fri, 17 Jul 2020 22:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9102960BB8;
-	Sat, 18 Jul 2020 05:02:27 +0000 (UTC)
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Iqh/fWtL;
+ spf=neutral (domain: iki.fi, ip: 66.111.4.239, mailfrom: tanuk@iki.fi)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailforward.nyi.internal (Postfix) with ESMTP id 263961940A64
+	for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 01:16:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 18 Jul 2020 01:16:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rNBy1rvs4a7JTwVCK
+	L+keXD8td4V+sxURpDgaTn5XFc=; b=Iqh/fWtLiSMYk2IRNdQoDX9cEinSwXrpP
+	RShKmi9iRVPqeYKwaOsx4/0oOio1FIyUD0qmbVjYOVMsk3ds5pVbRBNF6P7wvRQh
+	oYe9Wk4yGz/52v5H7fxmcmvj9rP61ypToUzTJlduB3Nnr9tIdDNtAC4P3WE1n9Uo
+	CDFPoNldSDnjFEU0P1LgLu6F/qi3gJN7uCJqQbmTKVEG3nJnoQtVUNaKUt4I5eml
+	d4xcsGM1EU9tOJVSRuz4zkW9sACxpzF9MLIbBPtIpgfPvstDUYsvdUOwkic5NH+o
+	629HncFYQbUSvYc9JWim7z3Xxi5H4dMDwi2OrW9V9ln5QPSfnxrTw==
+X-ME-Sender: <xms:koUSX8GkxH-XZlkDmhVIDyK9fWlSHHhKDFP2-YGNWrigmGFYXYwP9w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrfeekgdelhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpefvrghnuhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhi
+    qeenucggtffrrghtthgvrhhnpeeuheefffetgfffhfdvheejudekgffhheeigfehvdelhe
+    efieevgeekgeefveehkeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhg
+    pdhfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeekvddruddtvddrvddtrddujeelne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhu
+    khesihhkihdrfhhi
+X-ME-Proxy: <xmx:koUSX1WooZp5WcDsNbFzTaykgTkBPmlVtDiWH7aML78a-JcfpfXl0g>
+    <xmx:koUSX2Jize8ZDe8TRJ-uZgJFVsyCZ6Oyx8zQgcBphyOOxCYu9Ro7yw>
+    <xmx:koUSX-FbEpSulMDPumHFzWNzwmZ-MHQoU6dPdcWmMumBpTnt3MaROg>
+    <xmx:k4USX7VDKRIeNwQNpMon4Q8qsRLDo7bHFzKBaxZSeHPB48I4I0jmLQ>
+Received: from localhost.localdomain (unknown [82.102.20.179])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 2A36A306005F
+	for <openembedded-core@lists.openembedded.org>; Sat, 18 Jul 2020 01:16:02 -0400 (EDT)
+From: "Tanu Kaskinen" <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] pulseaudio: improve the Thumb frame pointer fix
+Date: Sat, 18 Jul 2020 08:15:55 +0300
+Message-Id: <20200718051555.15159-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHVsc2VhdWRpbzogaW1wcm92ZSB0aGUgVGh1bWIgZnJhbWUgcG9pbnRlciBmaXg=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jul 2020 05:02:29 -0000
-Message-ID: <20200718050229.2266.54396@do>
-References: <20200718044010.13546-1-tanuk@iki.fi>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200718044010.13546-1-tanuk@iki.fi>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+By changing the register that PulseAudio uses in its asm code makes it
+unnecessary to care whether frame pointers are enabled or not.
 
-Series: pulseaudio: improve the Thumb frame pointer fix
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/25177/
-State : failure
+This fix was suggested by Andre McCurdy.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where 0001-remap_neon-use-register-r12-instead-of-r7.patch was submitted
-  Current          Upstream-Status: Submitted
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+v2: Fixed the Upstream-Status line.
+
+ .../pulseaudio/pulseaudio.inc                 |  8 ----
+ ..._neon-use-register-r12-instead-of-r7.patch | 48 +++++++++++++++++++
+ .../pulseaudio/pulseaudio_13.0.bb             |  1 +
+ 3 files changed, 49 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
+
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index c7f3e67022..4e32b27087 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -63,14 +63,6 @@ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
+ 
+ inherit autotools bash-completion pkgconfig useradd gettext perlnative systemd manpages gsettings
+ 
+-# When compiling for Thumb or Thumb2, frame pointers _must_ be disabled since the
+-# Thumb frame pointer in r7 clashes with pulseaudio's use of inline asm to make syscalls
+-# (where r7 is used for the syscall NR). In most cases, frame pointers will be
+-# disabled automatically due to the optimisation level, but append an explicit
+-# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
+-# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
+-CFLAGS_append_arm = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+ USE_NLS = "yes"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
+new file mode 100644
+index 0000000000..aaa162f9b0
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap_neon-use-register-r12-instead-of-r7.patch
+@@ -0,0 +1,48 @@
++From 4a1668f341f0228904105f77fe5871b9d59b2663 Mon Sep 17 00:00:00 2001
++From: Tanu Kaskinen <tanuk@iki.fi>
++Date: Mon, 13 Jul 2020 12:42:14 +0300
++Subject: [PATCH] remap_neon: use register r12 instead of r7
++
++When the Thumb instructions set is used and frame pointers are enabled
++(-fno-omit-frame-pointer), r7 can't be used, because it's used for the
++frame pointer. Trying to use r7 caused the compilation to fail.
++
++Thanks to Andre McCurdy for suggesting[1] this fix, all I had to do was to
++test that it works. The code builds now, and cpu-remap-test also
++succeeds.
++
++[1] https://lists.openembedded.org/g/openembedded-core/message/136786
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/324]
++
++Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
++---
++ src/pulsecore/remap_neon.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/src/pulsecore/remap_neon.c b/src/pulsecore/remap_neon.c
++index ca3b95b48..6f71345f8 100644
++--- a/src/pulsecore/remap_neon.c
+++++ b/src/pulsecore/remap_neon.c
++@@ -52,11 +52,15 @@ static void remap_mono_to_stereo_float32ne_generic_arm(pa_remap_t *m, float *dst
++         __asm__ __volatile__ (
++             "ldm        %[src]!, {r4,r6}        \n\t"
++             "mov        r5, r4                  \n\t"
++-            "mov        r7, r6                  \n\t"
++-            "stm        %[dst]!, {r4-r7}        \n\t"
+++
+++            /* We use r12 instead of r7 here, because r7 is reserved for the
+++             * frame pointer when using Thumb. */
+++            "mov        r12, r6                 \n\t"
+++
+++            "stm        %[dst]!, {r4-r6,r12}    \n\t"
++             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
++             : /* input operands */
++-            : "memory", "r4", "r5", "r6", "r7" /* clobber list */
+++            : "memory", "r4", "r5", "r6", "r12" /* clobber list */
++         );
++     }
++ 
++-- 
++2.20.1
++
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
+index d2f201d06e..53e9a2357d 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
+@@ -4,6 +4,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
+            file://0001-remap-arm-Adjust-inline-asm-constraints.patch \
++           file://0001-remap_neon-use-register-r12-instead-of-r7.patch \
+            file://volatiles.04_pulse \
+            "
+ SRC_URI[md5sum] = "e41d606f90254ed45c90520faf83d95c"
+-- 
+2.20.1
 
