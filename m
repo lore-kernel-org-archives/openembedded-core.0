@@ -1,80 +1,72 @@
-Received: from wforward1-smtp.messagingengine.com (wforward1-smtp.messagingengine.com [64.147.123.30])
- by mx.groups.io with SMTP id smtpd.web10.13742.1595151978332841707
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web12.24772.1595191766129396715
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jul 2020 02:46:18 -0700
+ Sun, 19 Jul 2020 13:49:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=P7gi6AZJ;
- spf=neutral (domain: iki.fi, ip: 64.147.123.30, mailfrom: tanuk@iki.fi)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailforward.west.internal (Postfix) with ESMTP id 1E41CD19;
-	Sun, 19 Jul 2020 05:46:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sun, 19 Jul 2020 05:46:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=GyT4EecmsyH5meiCogBLWirWWGYx5Q5/gY+CowYE+
-	bw=; b=P7gi6AZJu+rXgfYNJdm6JGZk20NKrmdoFZKMgqU1XhFqyB+GUiLx46DoD
-	WmZB5YQrV0+fWBpe5JdbK3EM7srtCfUWgyCOOWPsAM/jPmWZNkYAI/zevgqSRBBf
-	GbMVCHe/YGho/UNXGd3feVBxkyPbG44nULiLY5FxZSu19fZJ4+m8VBSFKsQj0xUA
-	igf3mA8iegzhPveha7G9Jj7Xn3RQ2486iHluditnT1vA6d7dJ3FYbpo44KfnrgQX
-	Y1Z/BG1iiOC05mMi1bH26lWuvqASyLFAwq0JkG67XFpLDUds7zwlC+iv+CrdrxAF
-	MRspPNbsjhw5Oys4GIgMyWO3AMN0Q==
-X-ME-Sender: <xms:aBYUX0MqhzgSFy_lxhonxHu520VnbaGTFFYZoTIsNtldISJXaMsiTQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgedugddulecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghnuhcu
-    mfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucggtffrrghtthgvrhhnpe
-    fgleekhfejvedtvdeltdekleevhfefjeetgeekfffffeduuefgleffieeugeevfeenucff
-    ohhmrghinhepphgrthhrvghonhdrtghomhdplhhisggvrhgrphgrhidrtghomhenucfkph
-    epkedvrddutddvrddvtddrudejleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehtrghnuhhksehikhhirdhfih
-X-ME-Proxy: <xmx:aBYUX69MP9nyvpaT5kjGLeYl0YMR5vSb59peWPTIjNYRgCgJypfaVw>
-    <xmx:aBYUX7Q4jckgWzPOlDE5Jk1mzQc11XXTw2zqLg9ymozQ8C4DIj47Lg>
-    <xmx:aBYUX8tI5lQVYVFU3dFu8Qo4gttMgC5_i7QhyE3zDi71FYQo4yY1NA>
-    <xmx:aBYUX2p6q4H88_50yxytIxVBCFxSXK36QL3KkLoN1oa9alG8xPiOpfBgGjo>
-Received: from laptop (unknown [82.102.20.179])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 9673030600A6;
-	Sun, 19 Jul 2020 05:46:15 -0400 (EDT)
-Message-ID: <9d8c4ff8d48a20a03bad298774d66cbdbf6940c6.camel@iki.fi>
-Subject: Re: [OE-core] Why disable NEON support in recipes if runtime detection works?
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Jul 2020 12:46:11 +0300
-In-Reply-To: <20200719093011.GL1229@localhost>
-References: <64ecaddb6eaae1bd569e299ffb03b13081efe50b.camel@iki.fi>
-	 <20200719093011.GL1229@localhost>
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ckCM/qzx;
+ spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f193.google.com with SMTP id s26so8024876pfm.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Jul 2020 13:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=f/iVarY0Va86UK0aCiYcsuErb9vXhUuvbLB6WdPXquo=;
+        b=ckCM/qzxQCY5RXVqxPFSlJ6egqn77F0KAb9QdFFnbTn1S/4U5Cz06fnv1h5ZJY3KFg
+         LT4ICryzxdpJOTMtT2g1RC/pJti4nCJ+xzSI8B2Hay3nrAaLtDV+l5maSfEKAS3FPofP
+         +heanvLsPQO42c9ZALu1rvSMGPyvAyAOs0l/D1XwTgKcmU/Osnvb6m2p1VlNsPaRHGY+
+         67d+Fav7BuBOkMPT0MaB0b30dA7o7CDFVqFloNbh5F5AwRnHmt7pc0tMWtIk5pP/3Dqn
+         FQdYzYR9yIWAnRjWY9jjYgRnerhDoqiUNg5q3I+Lz9RZeL/eAWdHdNKQQGYL768Bk7cc
+         S+Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=f/iVarY0Va86UK0aCiYcsuErb9vXhUuvbLB6WdPXquo=;
+        b=mtjCv1SLslV8ayEOmEZ8uCk9M99WEIt8k+OBVe8i+kb9d06OViGqzFIOyou5TEeVoS
+         hAoIsPRDTazgFxLmKNw3hLIIGbR+LcyJCJ1Kk6cwPSuyBMWiAM+TVuPS+w8b7OuOKuqT
+         05xB2lv9jlBqyYngdzeHEmTkcT1mBHHGl46/gBhXIMSZiLqf3JRbV76CC0KnO0pZMQ+1
+         uTfEI+K9eVinnXuEvx4Nq1zL/j6frMsxTlN5JTGh5K3i/gfA9WWlG5ksqP8ZiMpGXYED
+         xTsZkq7Pv2ZsPUGPi2bYwdmS4xoDIdBBDQf8ACYANLeI0pT9bbRujiy+eVWdJy+SFWt+
+         chvw==
+X-Gm-Message-State: AOAM531RVdO4BYptoScBTcsc8LI2CQfr5wB0ONzFeEpo101UjHk6mR79
+	+pdEzyIt8UGySRsRhE7MAp3DrFW0jYs=
+X-Google-Smtp-Source: ABdhPJxQvKceF6RiN9T9h0u/Q6nel/YUOwncQ1vlYTvIIpMSvUs470tL7PpJ+OhEiRamFXSMkTzFxg==
+X-Received: by 2002:a63:bf04:: with SMTP id v4mr16964897pgf.212.1595191765361;
+        Sun, 19 Jul 2020 13:49:25 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:8d90:30de:6ec9:116a])
+        by smtp.gmail.com with ESMTPSA id ng12sm9664275pjb.15.2020.07.19.13.49.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jul 2020 13:49:24 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [master][dunfell][PATCH] glibc: whitelist CVE-2010-10029
+Date: Sun, 19 Jul 2020 13:49:23 -0700
+Message-Id: <20200719204923.20911-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Sun, 2020-07-19 at 12:30 +0300, Adrian Bunk wrote:
-> On Sun, Jul 19, 2020 at 12:06:15PM +0300, Tanu Kaskinen wrote:
-> > ...
-> > I'm currently converting the pulseaudio recipe from Autotools to Meson,
-> > and the old Autotools build system supports disabling NEON
-> > optimizations but the Meson build system doesn't. So I'm wondering if I
-> > should add the missing feature to the Meson build system, or just let
-> > the runtime detection do its work.
-> > ...
-> 
-> Looking at the git history it seems this was added as a workaround at a 
-> time when the autodetection was buggy and caused build breakage.
-> 
-> Debian also backported commit 0af05213 (build: make ARM NEON check in 
-> configure.ac more strict) to PulseAudio 4.0, which was included in
-> PulseAudio 5.0.
+The update via Commit https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/glibc?id=2c7e0e0bf32eb1ed0b7d8acddb16c0d1e93f2aa1
 
-Thanks for the archeology work! I'll go ahead and drop the
-TUNE_FEATURES check then.
+should have added the whitelist for this CVE removed
 
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-core/glibc/glibc_2.31.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 61679e2c1cb..9b2cf1bdeb4 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -1,6 +1,8 @@
+ require glibc.inc
+ require glibc-version.inc
+ 
++CVE_CHECK_WHITELIST += "CVE-2020-10029"
++
+ DEPENDS += "gperf-native bison-native make-native"
+ 
+ NATIVESDKFIXES ?= ""
 -- 
-Tanu
-
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
+2.17.1
 
