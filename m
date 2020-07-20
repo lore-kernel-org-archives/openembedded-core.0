@@ -1,89 +1,270 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.3196.1595273527280066292
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.5811.1595280893987155264
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2020 12:32:07 -0700
+ Mon, 20 Jul 2020 14:34:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fxz0KQSC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id f139so606362wmf.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 12:32:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h4dxwJ6g;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id p1so9313946pls.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 14:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=yBV10hkpKDtWfds5CezeUUFZd0sc5b9N0D6WVvfZ1rs=;
-        b=Fxz0KQSCDbN1svRyvtfHxASXsdEf/xmEGpnFJecCPyPKWy2H/bEjykpuOrzzVIwFZU
-         YvLjpdVumNm90GxWzXr9UCPiFPTnQKZrS5U7PD1kdNNNkzUPgGFtzuxFUC4RBHkQeVxI
-         Te5WsioH1JRxqqKa7RcGQWC3SqzwDH1OMTpbM=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=M7lpqR32MIRg2Didw9mvmiFtzowodRILgqRiNAq4p+0=;
+        b=h4dxwJ6gUK+l8kJXifa0O5/8H4aBO5Zm/Q9Q2palcOQ/DFV/HJHSDKmGstN3Jbj+um
+         DnQLlqu6dSOxZXWMcOMGxdFw3ziGOd3EnjqHLcMhupK4TeodMNWuIp20mXle7UXOE/PW
+         gC+0UMqhpbHNX35eSe14OS6y+PuJrsFOcJkQHex32rOk41v1gHvSX9CILWETEhkcqJFC
+         5BJIYwZaEeKY6TrBGGjG/trtkLz5ZuFpkoc0D6ZVxDQA6Ko1xKJJUJp+YgRhauLc8XS9
+         ZqiwwJXQ85uFb2bsvgShto0iLsk7z8nrYYgQ62E9TKfjNg/x4Jv9GyMEy0pvKcWvXbIx
+         NNuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yBV10hkpKDtWfds5CezeUUFZd0sc5b9N0D6WVvfZ1rs=;
-        b=ejD/TVOd0Desu+ZNISaNur4w1oItopgRC0plrjq+6fnbDG4zqXO0Z3RWgPFbuIFcuQ
-         8wicfXkKnPSQWkPCxxriNVs1DGRrEF1XtGOdpJW6432ritIe3/e6BncmJDoscPJJjl7r
-         2DnMbGIJPdECZ3GXhSQ8RbY4Yq8BBNuqWhDOmj9K9wFPZkbuNoTl7ZauyK/lVd9l3kIF
-         S08YmekktdMcqNMG6vLOAuSwhV2fyo/lyULZSDflGDHTjPkHBFRZMcqjd5J8NPRJezlz
-         P6Mk8jgqmcwC7wOH5HZLLO4auDAN4wwacXNRCA3ceSSH/QtSiXrIG40Jk6rQ1ZcQWN5y
-         o9iw==
-X-Gm-Message-State: AOAM533mxEuAFGjILe/uv+luK8gOTTGjr5xm/GloV93/n+doD9kwvMg1
-	poOkoENhtrDi5RTTF6mHMCTd5zKlFPQOeA==
-X-Google-Smtp-Source: ABdhPJwR2TlhBaZmnl5WuApMCp7bs4SST9ji/cVoid8XLbBwACSbmUveLcmZ2fZomek5zlQsT4/WPQ==
-X-Received: by 2002:a1c:a513:: with SMTP id o19mr714371wme.119.1595273525356;
-        Mon, 20 Jul 2020 12:32:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5.f.a.a.6.6.c.6.8.7.0.3.0.b.c.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1cb0:3078:6c66:aaf5])
-        by smtp.gmail.com with ESMTPSA id p14sm2843589wrg.96.2020.07.20.12.32.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 12:32:04 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] oeqa/qemurunner: Add priority/nice information for running processes
-Date: Mon, 20 Jul 2020 20:32:03 +0100
-Message-Id: <20200720193203.100741-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720193203.100741-1-richard.purdie@linuxfoundation.org>
-References: <20200720193203.100741-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=M7lpqR32MIRg2Didw9mvmiFtzowodRILgqRiNAq4p+0=;
+        b=D4g1Y5tVrqf1FUS98JtMjsCxIFzC9hWpVltaRFgn5fBa069xrkthZxBfSVj/cocaMN
+         W5Diq7J175DNVS9Xw6xoNZFtsC/AhCGvK+gAQ2j7TgApfW5E6kwOjxmiQXOgYZVXleSN
+         nTKTe9lljoyr3BX8xatITSRW5o8AKUnd1Vvf0D+pgSjpGLptFRmZWpl0/Oi5pIiKcSYa
+         CcdhmroUDNkzcPkAe7uHlkhWJFygCOJWjf85zOXxZKWrF402GPEe90hhwJziU8wDnso4
+         Vsmp+u6+goegiB+vq4ATjeh6Oj//tkhB1sz7iZBzf9RL6ByOGnY2W302Qljk17zuwIwD
+         Dtxg==
+X-Gm-Message-State: AOAM531GqsLB43ujfUZcPWFuYP/Ro0IMuXbFr8t/+fRogmAagYDYfmsl
+	EJTvqXf62Cq6Tq2TpJb78ova2Plf
+X-Google-Smtp-Source: ABdhPJwboimYfOjrr2hmPmwK3zDOjBguO4CPmmtHAEzgoRWE8TFX6Fhz3KLVySAcB2fQ/TOX2WEa+A==
+X-Received: by 2002:a17:902:20a:: with SMTP id 10mr20051151plc.127.1595280893206;
+        Mon, 20 Jul 2020 14:34:53 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id lb11sm569400pjb.28.2020.07.20.14.34.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Jul 2020 14:34:52 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 20 Jul 2020 14:34:53 -0700
+Message-ID: <0d5701d65edd$9afe51b0$d0faf510$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJjM92UabXxQcUOvaW1BPDOkCLobA==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0D58_01D65EA2.EEA25FE0"
+Content-Language: en-us
 
-We're seeing failures due to system load. In theory we've set process
-nice levels which should compensate for this. Add debugging so we can
-find out if they're being correctly applied.
+------=_NextPart_000_0D58_01D65EA2.EEA25FE0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/utils/qemurunner.py     | 2 +-
- meta/lib/oeqa/utils/qemutinyrunner.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+All,
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 01cbf52b8b1..519aa9aa1e5 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -264,7 +264,7 @@ class QemuRunner:
-                 % (self.runqemu.poll(), os.path.isfile(self.qemu_pidfile), str(qemu_pid), os.path.exists("/proc/" + str(qemu_pid))))
  
-             # Dump all processes to help us to figure out what is going on...
--            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
-+            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
-             self._dump_host()
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index 364005bd2d5..5c92941c0a6 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -138,7 +138,7 @@ class QemuTinyRunner(QemuRunner):
-         #
-         # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
-         #
--        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
-+        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command'], stdout=subprocess.PIPE).communicate()[0]
-         processes = ps.decode("utf-8").split('\n')
-         nfields = len(processes[0].split()) - 1
-         pids = {}
--- 
-2.25.1
 
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+ 
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 338
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0D58_01D65EA2.EEA25FE0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_03B4_01D65927.17138480";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 338 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0D58_01D65EA2.EEA25FE0--
