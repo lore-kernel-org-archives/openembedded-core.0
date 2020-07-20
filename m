@@ -1,117 +1,75 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
- by mx.groups.io with SMTP id smtpd.web11.939.1595267802971882117
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
+ by mx.groups.io with SMTP id smtpd.web11.940.1595267804039460086
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2020 10:56:43 -0700
+ Mon, 20 Jul 2020 10:56:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SuXxHyEN;
- spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f178.google.com with SMTP id t27so14056037ill.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 10:56:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gqUzasRN;
+ spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f68.google.com with SMTP id e64so18529485iof.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 10:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WwlBL3CCL3/mx0Q8BuBjvBAeVAdY28tcXcg1btOY14c=;
-        b=SuXxHyENrhZnEqTMuKsklbqDTXCrbHFT1Cwkqyaqs/COLkPli5/j/12xbFC2hBdwvN
-         5UP8wHFcNr3mfuveRO8OHV4BwvfBMacT8lkVI6ItETRsyY7fqvMcR+iCgASCnXEG8sBh
-         3ZwEdR3Q5QNPJxyJGe0/k6B6Kzrsq6YfSpshLCJow39ajss43qZp2Ngwa/Ni6u/cnTcW
-         ItYMQIB+30f+r+b2U/Tb7zKASl85zWrNTmb51dyVzgg18dwsvreGKAXdp0KKdeCNNBCI
-         Ff3OJlJp41G4JsFH63J3RPEui395oWXPlQHsIw6akYIpWICudlKTHZ0vGU/C0BEhsY2F
-         UNow==
+        bh=tXcUfD9jazXpM7eJJYXsZF83E+ZhDGToCMoLis1OTXs=;
+        b=gqUzasRN5ovBlkAq8P8FAW02jOrJvsuNhW2rwyBY4YEnqb447DbjRpLbyTjVzJ4D4U
+         2bOjG/UTSRu2uY/QqowrdpE6gOFS5iJhbsFkKLIEVntUil5wda0QJ1jj/dsB2fUvDgtM
+         TxNIZT0rMW2+6HpDCQxV3Ua1Yg5u+2h7eIqP9WRSvHv24UBMYAd1S0SyeZadQhq2vsqC
+         An2yZ71GExVtXPliujr9jmgaVrAnE91rUg6kLZoRdm9rVPlV3Jcev8ia93xk4Wj/PkUM
+         /68z5yLJjGUmxKakgkoiA7BAgSJPyTACsBfanTIGnGMLa+EI7SGhTUd0MjdTC+jNkfR2
+         OPLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WwlBL3CCL3/mx0Q8BuBjvBAeVAdY28tcXcg1btOY14c=;
-        b=FpVI9+jwM0x7X+USlKWXOFRePlw9FBnBsBAK1nwtQCDY119MYdZpR6aaOzkB3u6TyF
-         FwEVHZhSlCpHeysbWCHe4tGpiUMWBm/9/OwxMRAPzH+GILqj1gVYV5zxC+k/s83+rSr3
-         4nyvLpD9MZ/YBmjblwTTvG0wHjPpgwlnOM878TTzQV5KDrm3znX+pTONVTXSMVojXza0
-         5VJNjJTyTUfLHY2JpbL+GDna40FV8RasUMqIZELqK6zRlHzMpzSnSaT/C9nUX3VRGgH/
-         NZWX2rvcDyb06jbw5mWuj6plt7L/hUioce74mBh77fzo+e8hS+Hdp63pvU8kTbxJpHBN
-         xFog==
-X-Gm-Message-State: AOAM533Gst32Y1U+pXd75XNikyEDVdPWOcHiBMGF34GZUXsSws3i6dZg
-	t9/5lIETC4toDr5RP2RMFB2Nis2HXIc=
-X-Google-Smtp-Source: ABdhPJxX3uKCYa4AyLv1SoEKt+5YbyZxU81nW1rxPrdUZD9EYOWVbEsXbCrJ6NAGe27y1kLIWPzZHQ==
-X-Received: by 2002:a92:340d:: with SMTP id b13mr25354759ila.78.1595267802005;
-        Mon, 20 Jul 2020 10:56:42 -0700 (PDT)
+        bh=tXcUfD9jazXpM7eJJYXsZF83E+ZhDGToCMoLis1OTXs=;
+        b=p7zxy6ueaWHzvLZ1J5SjoJtItQK9ASXPm9RZtHAJthUoQhvmFMuvB5QrCkvIvuHQ9T
+         xH+AduDneyqLW9cCGjcpCG5aCRNipEjPV0gY1BsdNi5zNRBqGBxMJ8LYQQCO/v3WZRD8
+         9WTuRv+jATLCoPyncGsybPg8/oZKT6TsB8ml5H39U4ptVdhzKZePZMFc9bbSEMeqGPTZ
+         F+iCTPyi050TGwMDpI77tJBqq1PV2NxB/w6YNvgmWhRIJBEAbDOS/NXXh0Q7aiFVmib0
+         awJ+fnF10gx6kuL8Sy+82vSMc7k4lso47EgT/Lyd+eMi7M4DwVXemSrUh+22sE2+hbGF
+         jewg==
+X-Gm-Message-State: AOAM5300++OQ1SYAbVJZ34q/BDftYgkMFq2YZDwz2AiGaDDsYrbfaDxv
+	l1oHVg3f8ZycmDt8uzfxM2nHnfEynUg=
+X-Google-Smtp-Source: ABdhPJzTM/tArVh+ns2OOQA9XMAMBi17sn5FYaO5v0Ib/PwR5H/Bh6X7IYgytV+bx62rQnufQvwliw==
+X-Received: by 2002:a05:6638:22d0:: with SMTP id j16mr26901278jat.92.1595267803141;
+        Mon, 20 Jul 2020 10:56:43 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:c488:d9d1:f30d:969e])
-        by smtp.gmail.com with ESMTPSA id c7sm9400006ilo.85.2020.07.20.10.56.41
+        by smtp.gmail.com with ESMTPSA id c7sm9400006ilo.85.2020.07.20.10.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 10:56:41 -0700 (PDT)
+        Mon, 20 Jul 2020 10:56:42 -0700 (PDT)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 1/2] classes/reproducible: Move to library code
-Date: Mon, 20 Jul 2020 12:56:31 -0500
-Message-Id: <20200720175632.25568-2-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 2/2] lib/oe/reproducible: Fix error when no git HEAD
+Date: Mon, 20 Jul 2020 12:56:32 -0500
+Message-Id: <20200720175632.25568-3-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200720175632.25568-1-JPEWhacker@gmail.com>
 References: <20200720175632.25568-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Moves most of the python code used for dealing with the source date
-epoch to library code.
+Fixes an error that occurs when attempting to get the timestamp of the
+latest commit when there is no HEAD in the git repository. The easiest
+way to trigger this condition is to use the 'subdir=' option when
+specifying a 'git://' SRC_URI.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/reproducible_build.bbclass | 90 +----------------------
- meta/lib/oe/reproducible.py             | 95 +++++++++++++++++++++++++
- 2 files changed, 98 insertions(+), 87 deletions(-)
- create mode 100644 meta/lib/oe/reproducible.py
+ meta/lib/oe/reproducible.py | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-index 8da40f656a..2f3bd90b07 100644
---- a/meta/classes/reproducible_build.bbclass
-+++ b/meta/classes/reproducible_build.bbclass
-@@ -70,100 +70,16 @@ do_deploy_source_date_epoch[sstate-plaindirs] = "${SDE_DEPLOYDIR}"
- addtask do_deploy_source_date_epoch_setscene
- addtask do_deploy_source_date_epoch before do_configure after do_patch
+diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
+index f80a85ddef..f4f58dd952 100644
+--- a/meta/lib/oe/reproducible.py
++++ b/meta/lib/oe/reproducible.py
+@@ -47,14 +47,23 @@ def find_git_folder(d, sourcedir):
+     return None
  
--def get_source_date_epoch_from_known_files(d, sourcedir):
--    source_date_epoch = None
--    newest_file = None
--    known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
--    for file in known_files:
--        filepath = os.path.join(sourcedir, file)
--        if os.path.isfile(filepath):
--            mtime = int(os.lstat(filepath).st_mtime)
--            # There may be more than one "known_file" present, if so, use the youngest one
--            if not source_date_epoch or mtime > source_date_epoch:
--                source_date_epoch = mtime
--                newest_file = filepath
--    if newest_file:
--        bb.debug(1, "SOURCE_DATE_EPOCH taken from: %s" % newest_file)
--    return source_date_epoch
--
--def find_git_folder(d, sourcedir):
--    # First guess: WORKDIR/git
--    # This is the default git fetcher unpack path
--    workdir = d.getVar('WORKDIR')
--    gitpath = os.path.join(workdir, "git/.git")
--    if os.path.isdir(gitpath):
--        return gitpath
--
--    # Second guess: ${S}
--    gitpath = os.path.join(sourcedir, ".git")
--    if os.path.isdir(gitpath):
--        return gitpath
--
--    # Perhaps there was a subpath or destsuffix specified.
--    # Go looking in the WORKDIR
--    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
--                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
--    for root, dirs, files in os.walk(workdir, topdown=True):
--        dirs[:] = [d for d in dirs if d not in exclude]
--        if '.git' in dirs:
--            return root
--
--    bb.warn("Failed to find a git repository in WORKDIR: %s" % workdir)
--    return None
--
--def get_source_date_epoch_from_git(d, sourcedir):
+ def get_source_date_epoch_from_git(d, sourcedir):
 -    source_date_epoch = None
 -    if "git://" in d.getVar('SRC_URI'):
 -        gitpath = find_git_folder(d, sourcedir)
@@ -120,157 +78,26 @@ index 8da40f656a..2f3bd90b07 100644
 -            source_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct'], cwd=gitpath))
 -            bb.debug(1, "git repository: %s" % gitpath)
 -    return source_date_epoch
--
--def get_source_date_epoch_from_youngest_file(d, sourcedir):
--    if sourcedir == d.getVar('WORKDIR'):
--       # These sources are almost certainly not from a tarball
--       return None
--
--    # Do it the hard way: check all files and find the youngest one...
--    source_date_epoch = None
--    newest_file = None
--    for root, dirs, files in os.walk(sourcedir, topdown=True):
--        files = [f for f in files if not f[0] == '.']
--
--        for fname in files:
--            filename = os.path.join(root, fname)
--            try:
--                mtime = int(os.lstat(filename).st_mtime)
--            except ValueError:
--                mtime = 0
--            if not source_date_epoch or mtime > source_date_epoch:
--                source_date_epoch = mtime
--                newest_file = filename
--
--    if newest_file:
--        bb.debug(1, "Newest file found: %s" % newest_file)
--    return source_date_epoch
--
--def fixed_source_date_epoch():
--    bb.debug(1, "No tarball or git repo found to determine SOURCE_DATE_EPOCH")
--    return 0
--
- python create_source_date_epoch_stamp() {
-+    import oe.reproducible
++    if not "git://" in d.getVar('SRC_URI'):
++        return None
 +
-     epochfile = d.getVar('SDE_FILE')
-     # If it exists we need to regenerate as the sources may have changed
-     if os.path.isfile(epochfile):
-         bb.debug(1, "Deleting existing SOURCE_DATE_EPOCH from: %s" % epochfile)
-         os.remove(epochfile)
++    gitpath = find_git_folder(d, sourcedir)
++    if not gitpath:
++        return None
++
++    # Check that the repository has a valid HEAD; it may not if subdir is used
++    # in SRC_URI
++    p = subprocess.run(['git', 'rev-parse', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=gitpath)
++    if p.returncode != 0:
++        bb.debug(1, "%s does not have a valid HEAD: %s" % (gitpath, p.stdout.decode('utf-8')))
++        return None
++
++    bb.debug(1, "git repository: %s" % gitpath)
++    p = subprocess.run(['git','log','-1','--pretty=%ct'], check=True, stdout=subprocess.PIPE, cwd=gitpath)
++    return int(p.stdout.decode('utf-8'))
  
--    sourcedir = d.getVar('S')
--    source_date_epoch = (
--        get_source_date_epoch_from_git(d, sourcedir) or
--        get_source_date_epoch_from_known_files(d, sourcedir) or
--        get_source_date_epoch_from_youngest_file(d, sourcedir) or
--        fixed_source_date_epoch()       # Last resort
--    )
-+    source_date_epoch = oe.reproducible.get_source_date_epoch(d, d.getVar('S'))
- 
-     bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
-     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
-diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
-new file mode 100644
-index 0000000000..f80a85ddef
---- /dev/null
-+++ b/meta/lib/oe/reproducible.py
-@@ -0,0 +1,95 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+import os
-+import subprocess
-+import bb
-+
-+def get_source_date_epoch_from_known_files(d, sourcedir):
-+    source_date_epoch = None
-+    newest_file = None
-+    known_files = set(["NEWS", "ChangeLog", "Changelog", "CHANGES"])
-+    for file in known_files:
-+        filepath = os.path.join(sourcedir, file)
-+        if os.path.isfile(filepath):
-+            mtime = int(os.lstat(filepath).st_mtime)
-+            # There may be more than one "known_file" present, if so, use the youngest one
-+            if not source_date_epoch or mtime > source_date_epoch:
-+                source_date_epoch = mtime
-+                newest_file = filepath
-+    if newest_file:
-+        bb.debug(1, "SOURCE_DATE_EPOCH taken from: %s" % newest_file)
-+    return source_date_epoch
-+
-+def find_git_folder(d, sourcedir):
-+    # First guess: WORKDIR/git
-+    # This is the default git fetcher unpack path
-+    workdir = d.getVar('WORKDIR')
-+    gitpath = os.path.join(workdir, "git/.git")
-+    if os.path.isdir(gitpath):
-+        return gitpath
-+
-+    # Second guess: ${S}
-+    gitpath = os.path.join(sourcedir, ".git")
-+    if os.path.isdir(gitpath):
-+        return gitpath
-+
-+    # Perhaps there was a subpath or destsuffix specified.
-+    # Go looking in the WORKDIR
-+    exclude = set(["build", "image", "license-destdir", "patches", "pseudo",
-+                   "recipe-sysroot", "recipe-sysroot-native", "sysroot-destdir", "temp"])
-+    for root, dirs, files in os.walk(workdir, topdown=True):
-+        dirs[:] = [d for d in dirs if d not in exclude]
-+        if '.git' in dirs:
-+            return root
-+
-+    bb.warn("Failed to find a git repository in WORKDIR: %s" % workdir)
-+    return None
-+
-+def get_source_date_epoch_from_git(d, sourcedir):
-+    source_date_epoch = None
-+    if "git://" in d.getVar('SRC_URI'):
-+        gitpath = find_git_folder(d, sourcedir)
-+        if gitpath:
-+            import subprocess
-+            source_date_epoch = int(subprocess.check_output(['git','log','-1','--pretty=%ct'], cwd=gitpath))
-+            bb.debug(1, "git repository: %s" % gitpath)
-+    return source_date_epoch
-+
-+def get_source_date_epoch_from_youngest_file(d, sourcedir):
-+    if sourcedir == d.getVar('WORKDIR'):
-+       # These sources are almost certainly not from a tarball
-+       return None
-+
-+    # Do it the hard way: check all files and find the youngest one...
-+    source_date_epoch = None
-+    newest_file = None
-+    for root, dirs, files in os.walk(sourcedir, topdown=True):
-+        files = [f for f in files if not f[0] == '.']
-+
-+        for fname in files:
-+            filename = os.path.join(root, fname)
-+            try:
-+                mtime = int(os.lstat(filename).st_mtime)
-+            except ValueError:
-+                mtime = 0
-+            if not source_date_epoch or mtime > source_date_epoch:
-+                source_date_epoch = mtime
-+                newest_file = filename
-+
-+    if newest_file:
-+        bb.debug(1, "Newest file found: %s" % newest_file)
-+    return source_date_epoch
-+
-+def fixed_source_date_epoch():
-+    bb.debug(1, "No tarball or git repo found to determine SOURCE_DATE_EPOCH")
-+    return 0
-+
-+def get_source_date_epoch(d, sourcedir):
-+    return (
-+        get_source_date_epoch_from_git(d, sourcedir) or
-+        get_source_date_epoch_from_known_files(d, sourcedir) or
-+        get_source_date_epoch_from_youngest_file(d, sourcedir) or
-+        fixed_source_date_epoch()       # Last resort
-+    )
-+
+ def get_source_date_epoch_from_youngest_file(d, sourcedir):
+     if sourcedir == d.getVar('WORKDIR'):
 -- 
 2.27.0
 
