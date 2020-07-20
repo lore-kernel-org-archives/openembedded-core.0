@@ -1,66 +1,61 @@
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web10.34129.1595234272325847004
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.33837.1595235749878723231
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2020 01:37:53 -0700
+ Mon, 20 Jul 2020 02:02:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@agner.ch header.s=dkim header.b=tzL/qfpP;
- spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
-Received: from trochilidae.toradex.int (31-10-206-124.static.upc.ch [31.10.206.124])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 1F55D5C0103;
-	Mon, 20 Jul 2020 10:37:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1595234268;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:
-	 content-transfer-encoding:content-transfer-encoding:in-reply-to:
-	 references; bh=LeAL6Bru+AWZMEx6AkJy2GdZw0mu9tyNPUYUkuLvIDw=;
-	b=tzL/qfpPQ1dAODLRalMq4LNJLtoTM3/l8w8DF6rGNd8SsKobk0qNDs1OY6QG9ipZ6WBlhu
-	0JQKlZP4IMdaaYwxAAhBscojLvYjP46KJRPTI1teUL9l3/+GKjToq0ajSGjLO1YL/2BfV3
-	Oglc74f9W6DR1aR5yoGuuxqsMmo1CUU=
-From: "Stefan Agner" <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org,
-	seebs@seebs.net
-Cc: ross.burton@intel.com,
-	stefan@agner.ch
-Subject: [PATCH v2] Handle OFD lock flags
-Date: Mon, 20 Jul 2020 10:37:43 +0200
-Message-Id: <20200720083743.12097-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E00EB60AC2;
+	Mon, 20 Jul 2020 09:02:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSGFuZGxlIE9GRCBsb2NrIGZsYWdzIChyZXYyKQ==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Stefan Agner <stefan@agner.ch>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Jul 2020 09:02:29 -0000
+Message-ID: <20200720090229.2264.54478@do>
+References: <20200720083743.12097-1-stefan@agner.ch>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200720083743.12097-1-stefan@agner.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Linux 3.15 and newer introduced new open file description locks.
-Currently pseudo prints a warning if fcntl is used with OFD locks:
-  unknown fcntl argument 37, assuming long argument.
+== Series Details ==
 
-However, calls to fcntl with a OFC lock set need a struct flock
-pointer. Treat F_OFD_GETLK (and friends) like F_GETLK (and friends).
+Series: Handle OFD lock flags (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/15665/
+State : failure
 
-This issue has been observed with ostree. Comparing strace output
-between two runs with/without this patch shows the same fcntl calls,
-hence it seems not to matter in practice.
+== Summary ==
 
-Signed-off-by: Stefan Agner <stefan@agner.ch>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 532ae127c5)
+
+* Patch            [v2] Handle OFD lock flags
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ports/linux/guts/fcntl.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/ports/linux/guts/fcntl.c b/ports/linux/guts/fcntl.c
-index 4dd9796..434c7f3 100644
---- a/ports/linux/guts/fcntl.c
-+++ b/ports/linux/guts/fcntl.c
-@@ -52,6 +52,11 @@
- 	case F_GETLK:
- 	case F_SETLK:
- 	case F_SETLKW:
-+#ifdef F_OFD_GETLK
-+	case F_OFD_GETLK:
-+	case F_OFD_SETLK:
-+	case F_OFD_SETLKW:
-+#endif
- 		rc =3D real_fcntl(fd, cmd, lock);
- 		break;
- #if defined(F_GETLK64) && (F_GETLK64 !=3D F_GETLK)
---=20
-2.27.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
