@@ -1,52 +1,85 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.11569.1595300976619288025
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web12.11571.1595300985893258177
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2020 20:09:36 -0700
+ Mon, 20 Jul 2020 20:09:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 06L39Y5N016358
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 20:09:35 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 20 Jul 2020 20:09:34 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gtk-immodules-cache.bbclass: fix post install scriptlet error
-Date: Tue, 21 Jul 2020 11:06:03 +0800
-Message-ID: <20200721030603.3206539-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@foundries-io.20150623.gappssmtp.com header.s=20150623 header.b=flxtQ4ak;
+ spf=softfail (domain: foundries.io, ip: 209.85.160.196, mailfrom: ricardo@foundries.io)
+Received: by mail-qt1-f196.google.com with SMTP id a32so15135738qtb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 20:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=foundries-io.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HxvCY9AIwdSaIXkvNSbHTGHhfXH5M+ticf8UC6t3bKs=;
+        b=flxtQ4akiRVKQsRPFSD02TxgD6SsOOk/vpbvfE/prE2DuhZEkUC5jIHep46LN+z540
+         TuJ2prSQnxJdI3b9gSZ/CKQvGyWVfm8NXHGpK+CkmUYdRKfTUpXXjKdqQbOhsGq8aH3E
+         r+aQfSvlam0H9AuE6YYJo+buAGV4b5CvWgzISOfFGaJe/SRR3+dfJ/6JS3MF+K5IQ1nz
+         +ZRh/7fIfScRvZL9ZvW8v+ybCMwyiYCTbJRhthKkPQGnRUG+yvlKfXfiHqaHrjEvn+UL
+         QQucFF2tQjGanz3efaB7Cfop3Oeb5gqD6PR7RXOiaW2hxVtot5cLmPSXjN3AmB1oAdaq
+         Gpnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HxvCY9AIwdSaIXkvNSbHTGHhfXH5M+ticf8UC6t3bKs=;
+        b=drVAIKtRVLCV2SLGP31RQQnfrB38mZthaXzbjHuruooWEkT4Hi598HdL6WAE5taw7G
+         J9v4HShNJvHCC+2MvOM+mstxDqW9tN5T1GZ+ezzeQ4VkAbhzrT43VykvtpjPqnCyEIo/
+         Di+iAomK5s+gEjCya59Qj47hN4/aITz+8pSW6SgnNcgaj+xw+JOV40FjREtBK5+OB7JH
+         sLPxtBqkwh0Fueg6h/wq4535tcqAnAQswTuGMVUBxljPPvoq8QbfF5QwEUyrArmS284g
+         mAU4fKXsLKg+ujqaKRBOb7LOVetskpZWSxa50lpLRsFDsAtEvlLc/pJXA1TpqpLrsgFG
+         n7Vw==
+X-Gm-Message-State: AOAM5316Liewu8C7rxexiI47wTSowk5JxlbWZ3+6mYJoXSnfeDqO6Gfu
+	XTb0VSB9M0UAi8p6yI6KzY3mb9go4g==
+X-Google-Smtp-Source: ABdhPJyuXuyBjyQUGxuMV3AZf0+3yTSaNp9pyKcGwlYarr0vLPGBQVXAMMsk8kT6fm8KJ+KDr4VU1w==
+X-Received: by 2002:ac8:34e8:: with SMTP id x37mr27714365qtb.291.1595300984683;
+        Mon, 20 Jul 2020 20:09:44 -0700 (PDT)
+Return-Path: <ricardo@foundries.io>
+Received: from localhost.localdomain ([2804:7f5:f480:fae7:ed55:c24c:450f:a455])
+        by smtp.gmail.com with ESMTPSA id e2sm1351747qkm.115.2020.07.20.20.09.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2020 20:09:44 -0700 (PDT)
+From: "Ricardo Salveti" <ricardo@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com
+Subject: [PATCH] sudo: set with-rundir to /run/sudo
+Date: Tue, 21 Jul 2020 00:09:26 -0300
+Message-Id: <20200721030926.31939-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+Set with-rundir to a known path instead of letting configure decide
+which is the best folder to store the timestamp files. This is required
+otherwise it might end up at /sudo, which will cause errors on a ro
+filesystem.
 
-package libgtk-3.0 don't install dir /usr/lib/gtk-3.0/3.0.0/ by default.
-when install package gtk-immodule-xim, it is possible met below error:
-
-/var/tmp/rpm-tmp.tlfoeo: line 17: /usr/lib/gtk-3.0/3.0.0/immodules.cache: No such file or directory
-warning: %post(gtk-immodule-xim-2.24.32-r0.0.cortexa72) scriptlet failed, exit status 1
-
-fix by create the dir when try to write to /usr/lib/gtk-3.0/3.0.0/immodules.cache
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
 ---
- meta/classes/gtk-immodules-cache.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/sudo/sudo_1.9.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
-index 9bb0af8b26..8e783fb493 100644
---- a/meta/classes/gtk-immodules-cache.bbclass
-+++ b/meta/classes/gtk-immodules-cache.bbclass
-@@ -22,6 +22,7 @@ else
-         gtk-query-immodules-2.0 > ${libdir}/gtk-2.0/2.10.0/immodules.cache
-     fi
-     if [ ! -z `which gtk-query-immodules-3.0` ]; then
-+        mkdir -p ${libdir}/gtk-3.0/3.0.0
-         gtk-query-immodules-3.0 > ${libdir}/gtk-3.0/3.0.0/immodules.cache
-     fi
- fi
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.1.bb b/meta/recipes-extended/sudo/sudo_1.9.1.bb
+index aac505af60..d6bc1a9c3a 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.1.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.1.bb
+@@ -22,6 +22,7 @@ CACHED_CONFIGUREVARS = " \
+ EXTRA_OECONF += " \
+              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
+              ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-tmpfiles.d=${nonarch_libdir}/tmpfiles.d', '--disable-tmpfiles.d', d)} \
++             --with-rundir=/run/sudo \
+              --with-vardir=/var/lib/sudo \
+              "
+ 
+@@ -38,7 +39,7 @@ do_install_append () {
+ 	chmod 0440 ${D}${sysconfdir}/sudoers
+ 
+ 	# Explicitly remove the /sudo directory to avoid QA error
+-	rmdir -p --ignore-fail-on-non-empty ${D}/sudo
++	rmdir -p --ignore-fail-on-non-empty ${D}/run/sudo
+ }
+ 
+ FILES_${PN} += "${nonarch_libdir}/tmpfiles.d"
 -- 
-2.17.1
+2.27.0
 
