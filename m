@@ -1,24 +1,24 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.1249.1595354406440248582
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.1297.1595354464535201125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2020 11:00:06 -0700
+ Tue, 21 Jul 2020 11:01:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: ssajal@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ssajal@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 06LI00HD023504
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 06LI13rv000147
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 11:00:01 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 11:01:04 -0700 (PDT)
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 21 Jul 2020
- 10:59:59 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id 66C34200D1;
- Tue, 21 Jul 2020 13:59:59 -0400 (EDT)
+ 11:01:03 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id CED8E200D1;
+ Tue, 21 Jul 2020 14:01:02 -0400 (EDT)
 From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Sakib Sajal <sakib.sajal@windriver.com>
-Subject: [PATCH] busybox: make hwclock compatible with glibc 2.31
-Date: Tue, 21 Jul 2020 13:59:45 -0400
-Message-ID: <20200721175945.37741-1-sakib.sajal@windriver.com>
+Subject: [dunfell][PATCH] busybox: make hwclock compatible with glibc 2.31
+Date: Tue, 21 Jul 2020 14:00:54 -0400
+Message-ID: <20200721180054.38185-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
