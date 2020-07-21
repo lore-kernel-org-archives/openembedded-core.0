@@ -1,123 +1,213 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web11.6495.1595369412771913597
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web10.8377.1595375407780150317
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2020 15:10:12 -0700
+ Tue, 21 Jul 2020 16:50:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=miRGg97g;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id z5so115384pgb.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 15:10:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FPIbH0Os;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id d16so278629edz.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 16:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pncaz8iZ2bpB4d3X8A/RYTOmPrVjs8EFP9/ruywTGpQ=;
-        b=miRGg97g0imMBIBIdz6iqqWg0b+FJPrbyiPyxiAnw7/tUmvo3tW6uxeWUAxzsLb3gE
-         KSSEntb7Ahti1Vn4ySArNqmsegXqlg9BiHqyUsmIBU+60CQKtTpshrCswGeFzkzZmc8c
-         FmuLzUYxqJsqQVyeNYUX76WwlthocsMLgtYAXX2JN9Zqc4txB1JnUgb7zeTu2hKzsJer
-         blfzFBPVkTrq/6e4f9yqzpyA6cuJz0ggHHQ3AJ7ssZ6OVpV2ltA1r+j4LZN1/08n5oji
-         SZzDWoR2VdW/omKwi/ELToEYlFrCG44WdnNapyfLJXSwwGSC/nGsmbA+NlFDzHoTKYCH
-         DsYQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HNV/EX2NHfwBmk0433+vRuyNgpeltJxmC7thoeitzXs=;
+        b=FPIbH0Osppes0DTeedPwL4uoakhujrV9JxuDcTBJ1IAVQEp7HeYuszWoYPfTChezLq
+         GuN7aLrc7BY34ObXnVjUOyUMp0/YFsQZ15avQtgRtng7AtvIJRiI3YWqnIiYZiBQQUY8
+         7v/g9DQaHAsBSUrTZat8j5QMZ5cbFV/cPui6I9247iYAIqg6Eyv1OZu2LZn0g3q0MN/g
+         RUaHCjFr8WYKqTiXF1Gtyfl1DzzgGHktfT/xBq6cXONvI4MW2/JuwfXTBhQ5GfP9B1kR
+         0BbZGwJEMAHy03/DZjVHX0gRaznLn589dp3ZzBl+JGgGgAwKm8fvHGqk+S5bc9d4WySX
+         11tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pncaz8iZ2bpB4d3X8A/RYTOmPrVjs8EFP9/ruywTGpQ=;
-        b=ngU33OXzWwb+r0kHnqv3pXqGXqFRiKHJH9IAfIR8r1BAiFsWebY48cYGn3qI0ExFQA
-         KX0bOzOeah1o8ipNEGAPS2mNmtnJg9wbmjnU9upxImtavVZT37BNgcCTLXigBIDA8aV3
-         9hOJf9skMw7A2A3UhGhtmkqnX/mH5j0flj+wCcMk5jKObKn4TZ16lvRN6DIbAXKZuR8U
-         qyJN92pG/JcIHUuXRb51/NvOZvTsUKBMZzAyiiNprjJCSaYPCjef4NeNJ5fZ7B2Wv36U
-         Mba4NDQoOV3hgbRAUgbiDYf5sqZYMJTzrMxo4LBqd9sy4C+afkawpCFVpLP10CdK9105
-         WkAQ==
-X-Gm-Message-State: AOAM531UVuE5PFzRpnTYwDJmWwaLvcUkG5nNAd1XIWJnhxSyrKbqgs+2
-	gr1Vn246FBBelEQ2byxsdVo+5CHv7Tc=
-X-Google-Smtp-Source: ABdhPJz4BidRT0m/05842hGhJwr7yLaFEUf80mNFAk19j/qDGILt/XH/z9+utAZCmQL8arlLWgQSUw==
-X-Received: by 2002:a63:125f:: with SMTP id 31mr25200413pgs.239.1595369411848;
-        Tue, 21 Jul 2020 15:10:11 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::6651])
-        by smtp.gmail.com with ESMTPSA id c14sm21479106pfj.82.2020.07.21.15.10.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 15:10:11 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] site: Make sys_siglist default to no
-Date: Tue, 21 Jul 2020 15:10:09 -0700
-Message-Id: <20200721221009.2570384-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HNV/EX2NHfwBmk0433+vRuyNgpeltJxmC7thoeitzXs=;
+        b=cNOxjcypfut6g91B5PXcHtN3/zdC9NNHtjcdUfLpWWoELfDDPFOFNUbvXv0N1Wq84l
+         xo0pkrNulQ4mmv7W+RWxzm3FtLQTEFVByuTz/IxuM/MYiAw+IbiF9RXkCRn/fAlmyuFg
+         XrQoWLrfhD4y61gmKRt8/rdBDwTVSeWbuH6cqY2Ho/2zRa5j+lQ+Sr1Vv3DHrdFIFa9e
+         6SpwPQ1yqSjiTkHH3TuU8zkJ1SUpdlTws6+Hwjqa4dzCH5iQnyy3pwf69+lyj5kOwK9W
+         hDZm1Kkrg3Q3K9v37cVUJAKGwwSX/S7VlYOKXD/4nUyGDGwwAWfTlriO2YOZ74Blwduq
+         rfiw==
+X-Gm-Message-State: AOAM531hA9o2Yav9nuCA3nMZ03jMPc6xh0Dwb3i1ykPN8AFzRDfWpHi7
+	cI58J7qkFnG+kOheWRpsbI/W71l1pWrFa2wUALQ=
+X-Google-Smtp-Source: ABdhPJw9zGRqmc3BnaEG2iZHM43JG9432Th7Us44nAB9pvUxqf3co9PGuHqVu98Etj8u14pZPxJZyM+BPloXIJ2nGg8=
+X-Received: by 2002:a05:6402:1a3c:: with SMTP id be28mr29060324edb.140.1595375406344;
+ Tue, 21 Jul 2020 16:50:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200721215640.136052-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200721215640.136052-1-richard.purdie@linuxfoundation.org>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Tue, 21 Jul 2020 18:49:31 -0500
+Message-ID: <CAJdd5GY5jBuoE5zAHqYMnkX7ZAz5mU41p2dpxWqhEQNymyr0Cg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemurunner: Use tempfile.mkstemp to create pidfile name
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000060ecae05aafc4827"
 
-glibc 2.32 has deprecated sys_siglist [1]
+--00000000000060ecae05aafc4827
+Content-Type: text/plain; charset="UTF-8"
 
-since no is default for musl as well, therefore elevate it to common
-site file for all
+On Tue, Jul 21, 2020, 4:56 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=b1ccfc061feee9ce616444ded8e1cd5acf9fa97f
+> We continue to see qemu races where qemu fails to write out a pidfile. The
+> pidfile name being used was based on the parent process starting the qemus
+> so in theory, a qemu shutting down could have deleted the file into which
+> the new qemu's pid was about to be written. This shouldn't happen as qemu
+> processes should be exitting completely before the code returns.
+>
+> In the absence of better theory for the failure, use a random pid filename
+> rather than the parent pid so there is no overlap in the pid filename,
+> thereby removing any theoretical race.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/utils/qemurunner.py | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py
+> b/meta/lib/oeqa/utils/qemurunner.py
+> index 519aa9aa1e5..73a3efdc964 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -20,6 +20,7 @@ import string
+>  import threading
+>  import codecs
+>  import logging
+> +import tempfile
+>  from oeqa.utils.dump import HostDumper
+>  from collections import defaultdict
+>
+> @@ -65,7 +66,11 @@ class QemuRunner:
+>          self.runqemutime = 120
+>          if not workdir:
+>              workdir = os.getcwd()
+> -        self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
+> +        # Use tempfile to obtain a unique name. We own the directory
+> +        # so closing the file isn't an issue as long as we don't delete it
+> +        self.qemu_pidfile = tempfile.mkstemp(dir=workdir,
+> prefix="qemupid_")
+> +        os.close(self.qemu_pidfile[0])
+> +        self.qemu_pidfile = self.qemu_pidfile[1]
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/site/common       | 7 +++++++
- meta/site/common-glibc | 3 ---
- meta/site/common-musl  | 5 -----
- 3 files changed, 7 insertions(+), 8 deletions(-)
+Minor, but more idiomatic python:
 
-diff --git a/meta/site/common b/meta/site/common
-index ff552329bd..62907274d7 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -19,3 +19,10 @@ shadow_cv_passwd_dir=${bindir}
- ac_cv_buggy_getaddrinfo=no
- 
- ac_cv_path_SED=${ac_cv_path_SED=sed}
-+
-+# General
-+ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
-+
-+# bash
-+bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
-+bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index a0680bc44c..0a665658fb 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -18,8 +17,6 @@ ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- ac_cv_func_strtod=${ac_cv_func_strtod=yes}
- 
- # bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=yes}
- bash_cv_getcwd_malloc=${bash_cv_getcwd_malloc=yes}
- 
- # clamav
-diff --git a/meta/site/common-musl b/meta/site/common-musl
-index 4be8d002d6..44a7a1aea9 100644
---- a/meta/site/common-musl
-+++ b/meta/site/common-musl
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -29,10 +28,6 @@ glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- 
--# bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
--
- # coreutils
- fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
--- 
-2.27.0
+ (fd, self.qemu_pidfile) = tempfile.mkstemp(...)
+ os.close(fd)
 
+
+         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
+>          self.monitorpipe = None
+>
+> @@ -182,8 +187,6 @@ class QemuRunner:
+>
+>          # Ask QEMU to store the QEMU process PID in file, this way we
+> don't have to parse running processes
+>          # and analyze descendents in order to determine it.
+> -        if os.path.exists(self.qemu_pidfile):
+> -            os.remove(self.qemu_pidfile)
+>          self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile
+> {1}"'.format(bootparams, self.qemu_pidfile)
+>          if qemuparams:
+>              self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + "
+> " + '\"'
+> --
+> 2.25.1
+>
+> 
+>
+
+--00000000000060ecae05aafc4827
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Jul 21, 2020, 4:56 PM Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">We continue=
+ to see qemu races where qemu fails to write out a pidfile. The<br>
+pidfile name being used was based on the parent process starting the qemus=
+<br>
+so in theory, a qemu shutting down could have deleted the file into which<=
+br>
+the new qemu&#39;s pid was about to be written. This shouldn&#39;t happen =
+as qemu<br>
+processes should be exitting completely before the code returns.<br>
+<br>
+In the absence of better theory for the failure, use a random pid filename=
+<br>
+rather than the parent pid so there is no overlap in the pid filename,<br>
+thereby removing any theoretical race.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfoun=
+dation.org</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oeqa/utils/qemurunner.py | 9 ++++++---<br>
+=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemur=
+unner.py<br>
+index 519aa9aa1e5..73a3efdc964 100644<br>
+--- a/meta/lib/oeqa/utils/qemurunner.py<br>
++++ b/meta/lib/oeqa/utils/qemurunner.py<br>
+@@ -20,6 +20,7 @@ import string<br>
+=C2=A0import threading<br>
+=C2=A0import codecs<br>
+=C2=A0import logging<br>
++import tempfile<br>
+=C2=A0from oeqa.utils.dump import HostDumper<br>
+=C2=A0from collections import defaultdict<br>
+<br>
+@@ -65,7 +66,11 @@ class QemuRunner:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.runqemutime =3D 120<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not workdir:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workdir =3D os.getcwd()<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_pidfile =3D workdir + &#39;/pidfile=
+_&#39; + str(os.getpid())<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Use tempfile to obtain a unique name. We ow=
+n the directory<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # so closing the file isn&#39;t an issue as l=
+ong as we don&#39;t delete it<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_pidfile =3D tempfile.mkstemp(dir=3D=
+workdir, prefix=3D&quot;qemupid_&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.close(self.qemu_pidfile[0])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_pidfile =3D self.qemu_pidfile[1]<br=
+></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Min=
+or, but more idiomatic python:</div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">=C2=A0(fd, self.qemu_pidfile) =3D tempfile.mkstemp(...)</div><div di=
+r=3D"auto">=C2=A0os.close(fd)</div><div dir=3D"auto"><br></div><div dir=3D"=
+auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.host_dumper =3D HostDumper(dump_hos=
+t_cmds, dump_dir)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.monitorpipe =3D None<br>
+<br>
+@@ -182,8 +187,6 @@ class QemuRunner:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Ask QEMU to store the QEMU process PID=
+ in file, this way we don&#39;t have to parse running processes<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# and analyze descendents in order to de=
+termine it.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(self.qemu_pidfile):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(self.qemu_pidfile)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.qemuparams =3D &#39;bootparams=3D&q=
+uot;{0}&quot; qemuparams=3D&quot;-pidfile {1}&quot;&#39;.format(bootparams,=
+ self.qemu_pidfile)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if qemuparams:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.qemuparams =3D self.q=
+emuparams[:-1] + &quot; &quot; + qemuparams + &quot; &quot; + &#39;\&quot;&=
+#39;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000060ecae05aafc4827--
