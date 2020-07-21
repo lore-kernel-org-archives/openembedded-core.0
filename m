@@ -1,113 +1,145 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web12.1118.1595353944390878108
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.1249.1595354406440248582
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2020 10:52:24 -0700
+ Tue, 21 Jul 2020 11:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P+DsiUuj;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id i4so22294591iov.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 10:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0aRY5+cLw8pA3tML4ILa522MjRhTA+LuYdXLj0LfBGY=;
-        b=P+DsiUuj3EoiIsNUiQsTEJrwtNCwHoWJohm130v6GHelmHtzvXQAyNYoD4gbi4EPYt
-         2UQiun8LmpcqkxVmdL8ofvO3whJS+kPZKKCHZ0L1RXspcZ2BOguLJ84Jd6gBXRaytrvd
-         tckQUq8Huud/5pLyF77xeQMbj1RHWfIsUAm/aV+EyGcGKmSeJkQIPPLMVIZlkuTFCdhI
-         O8mjjM5/883F1hmzJBvMTZIeISjeQELNC7I9/12DcRU7Mohd/E8T/I2eWfKW9p3teSDj
-         9Eob8lzmGSUU64ry4SMjlzqhSOF9sBBrCnx08DZg+zIaazGIN1Ez7ZmbAxIsQE6l2oCq
-         5G6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0aRY5+cLw8pA3tML4ILa522MjRhTA+LuYdXLj0LfBGY=;
-        b=aKenLtQoBOmtQeO9OE7yp9KlgE1LfTSbOPeRTSZcikH+lm9f19gX/Ca2mCLI92WdXJ
-         xhq8Y9+5cJQY/uyu3TFPm5JdBGEQQbp6ds9+1MgCTEVgo0DiG1zjVhsbtRy4QyiTmuGG
-         OBQHZ/90KcijN152xCmd7QC6vMoby9h6u3budQyfWPctbDx4z8OlvrmjgF+F/dN69H31
-         w9YPZyFKphIrU/51vGtUJr6Cq3+AVI9uGixt2/xM3fUW9P5p36poHv0FeegKFKbhcrS1
-         RnbZ8qxE0BknTDXqpWc3gCYY9ySVyJBJgspiirkXQod/Z9Fyc5/ddPaDsNxfVFC4gT4T
-         DceA==
-X-Gm-Message-State: AOAM530hfBQ3kr8QO3pG4fuj7F3A//WH9rfiNZNye3191vGJ/jaFI2Gd
-	CnLeT3FfDY8lsMKaO/HDG36VNOwHU1U=
-X-Google-Smtp-Source: ABdhPJwXBZGHWiq2eEX+rXRPg7DWFsy6dmsfdzECX7G4LGphAgbgC3tnyO0KMcy8TqjVVhCoMmPkuw==
-X-Received: by 2002:a6b:5c07:: with SMTP id z7mr29778879ioh.140.1595353943605;
-        Tue, 21 Jul 2020 10:52:23 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:c183:1b34:3163:7b15])
-        by smtp.gmail.com with ESMTPSA id i10sm264508ild.29.2020.07.21.10.52.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 10:52:23 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/package: Use HOST_OS for runtime dependencies
-Date: Tue, 21 Jul 2020 12:52:19 -0500
-Message-Id: <20200721175219.11267-1-JPEWhacker@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: ssajal@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 06LI00HD023504
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 11:00:01 -0700 (PDT)
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 21 Jul 2020
+ 10:59:59 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id 66C34200D1;
+ Tue, 21 Jul 2020 13:59:59 -0400 (EDT)
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Sakib Sajal <sakib.sajal@windriver.com>
+Subject: [PATCH] busybox: make hwclock compatible with glibc 2.31
+Date: Tue, 21 Jul 2020 13:59:45 -0400
+Message-ID: <20200721175945.37741-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The code was using TARGET_OS to try and detect what type of OS the
-packages would be running on, but this is incorrect. TARGET_OS is the OS
-for which the package will generate output (e.g. GCC output target or
-GDB debugging target). The OS where the package will run is the HOST_OS.
-Note that HOST_OS only differs from TARGET_OS when doing a
-canadian cross compile, and even then in our case only when doing so for
-a non-Linux host (e.g. MinGW).
+settimeofday(2) has been deprecated as of glibc 2.31
+which hwclock makes use of. This patch makes hwclock
+compatible with glibc v2.31
+See patch for more details:
+  busybox/0001-hwclock-make-glibc-2.31-compatible.patch
 
-Fix the code to use HOST_OS instead.
+Fixes [YOCTO #13981]
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/classes/package.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ ...1-hwclock-make-glibc-2.31-compatible.patch | 83 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.32.0.bb   |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0af5f66733..f8dc1bb468 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1039,7 +1039,7 @@ python split_and_strip_files () {
+diff --git a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch b/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+new file mode 100644
+index 0000000000..8d1f272120
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+@@ -0,0 +1,83 @@
++From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 2001
++From: Sakib Sajal <sakib.sajal@windriver.com>
++Date: Fri, 17 Jul 2020 17:27:21 +0000
++Subject: [PATCH] hwclock: make glibc 2.31 compatible
++
++NEWS for glibc version 2.31
++===========================
++
++Deprecated and removed features, and other changes affecting compatibility:
++
++* The settimeofday function can still be used to set a system-wide
++  time zone when the operating system supports it.  This is because
++  the Linux kernel reused the API, on some architectures, to describe
++  a system-wide time-zone-like offset between the software clock
++  maintained by the kernel, and the "RTC" clock that keeps time when
++  the system is shut down.
++
++  However, to reduce the odds of this offset being set by accident,
++  settimeofday can no longer be used to set the time and the offset
++  simultaneously.  If both of its two arguments are non-null, the call
++  will fail (setting errno to EINVAL).
++
++  Callers attempting to set this offset should also be prepared for
++  the call to fail and set errno to ENOSYS; this already happens on
++  the Hurd and on some Linux architectures.  The Linux kernel
++  maintainers are discussing a more principled replacement for the
++  reused API.  After a replacement becomes available, we will change
++  settimeofday to fail with ENOSYS on all platforms when its 'tzp'
++  argument is not a null pointer.
++
++  settimeofday itself is obsolescent according to POSIX.  Programs
++  that set the system time should use clock_settime and/or the adjtime
++  family of functions instead.  We may cease to make settimeofday
++  available to newly linked binaries after there is a replacement for
++  Linux's time-zone-like offset API.
++
++hwclock had two calls to settimeofday, in functions to_sys_clock and
++set_system_clock_timezone, where both the arguments to settimeofday
++were valid (non-null).
++Therefore, split the call, once for timezone and once for timeval.
++
++Fixes #12756
++
++Upstream-Status: Pending
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ util-linux/hwclock.c | 12 ++++++++----
++ 1 file changed, 8 insertions(+), 4 deletions(-)
++
++diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c
++index dc97d8f..cf346e8 100644
++--- a/util-linux/hwclock.c
+++++ b/util-linux/hwclock.c
++@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcname, int utc)
++ 
++ 	tv.tv_sec = read_rtc(pp_rtcname, NULL, utc);
++ 	tv.tv_usec = 0;
++-	if (settimeofday(&tv, &tz))
++-		bb_simple_perror_msg_and_die("settimeofday");
+++	if (settimeofday(NULL, &tz))
+++		bb_simple_perror_msg_and_die("settimeofday: timezone");
+++	if (settimeofday(&tv, NULL))
+++		bb_simple_perror_msg_and_die("settimeofday: timeval");
++ }
++ 
++ static void from_sys_clock(const char **pp_rtcname, int utc)
++@@ -283,8 +285,10 @@ static void set_system_clock_timezone(int utc)
++ 	gettimeofday(&tv, NULL);
++ 	if (!utc)
++ 		tv.tv_sec += tz.tz_minuteswest * 60;
++-	if (settimeofday(&tv, &tz))
++-		bb_simple_perror_msg_and_die("settimeofday");
+++	if (settimeofday(NULL, &tz))
+++		bb_simple_perror_msg_and_die("settimeofday: timezone");
+++	if (settimeofday(&tv, NULL))
+++		bb_simple_perror_msg_and_die("settimeofday: timeval");
++ }
++ 
++ //usage:#define hwclock_trivial_usage
++-- 
++2.24.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb b/meta/recipes-core/busybox/busybox_1.32.0.bb
+index 0dfdfdb549..aeea40fbc1 100644
+--- a/meta/recipes-core/busybox/busybox_1.32.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.32.0.bb
+@@ -43,6 +43,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
++           file://0001-hwclock-make-glibc-2.31-compatible.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
  
-     dvar = d.getVar('PKGD')
-     pn = d.getVar('PN')
--    targetos = d.getVar('TARGET_OS')
-+    hostos = d.getVar('HOST_OS')
- 
-     oldcwd = os.getcwd()
-     os.chdir(dvar)
-@@ -1194,7 +1194,7 @@ python split_and_strip_files () {
-     if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
-         results = oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles), d, extraargs=(dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d))
- 
--        if debugsrcdir and not targetos.startswith("mingw"):
-+        if debugsrcdir and not hostos.startswith("mingw"):
-             if (d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
-                 results = oe.utils.multiprocess_launch(splitstaticdebuginfo, staticlibs, d, extraargs=(dvar, debugstaticdir, debugstaticlibdir, debugstaticappend, debugsrcdir, d))
-             else:
-@@ -1761,7 +1761,7 @@ python package_do_shlibs() {
-     else:
-         shlib_pkgs = packages.split()
- 
--    targetos = d.getVar('TARGET_OS')
-+    hostos = d.getVar('HOST_OS')
- 
-     workdir = d.getVar('WORKDIR')
- 
-@@ -1912,9 +1912,9 @@ python package_do_shlibs() {
-                 soname = None
-                 if cpath.islink(file):
-                     continue
--                if targetos == "darwin" or targetos == "darwin8":
-+                if hostos == "darwin" or hostos == "darwin8":
-                     darwin_so(file, needed, sonames, renames, pkgver)
--                elif targetos.startswith("mingw"):
-+                elif hostos.startswith("mingw"):
-                     mingw_dll(file, needed, sonames, renames, pkgver)
-                 elif os.access(file, os.X_OK) or lib_re.match(file):
-                     linuxlist.append(file)
 -- 
 2.27.0
 
