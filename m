@@ -1,85 +1,99 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web12.11571.1595300985893258177
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web11.14920.1595321586791420410
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jul 2020 20:09:46 -0700
+ Tue, 21 Jul 2020 01:53:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries-io.20150623.gappssmtp.com header.s=20150623 header.b=flxtQ4ak;
- spf=softfail (domain: foundries.io, ip: 209.85.160.196, mailfrom: ricardo@foundries.io)
-Received: by mail-qt1-f196.google.com with SMTP id a32so15135738qtb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Jul 2020 20:09:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HU5P2bCO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id g10so1710442wmc.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 01:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries-io.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HxvCY9AIwdSaIXkvNSbHTGHhfXH5M+ticf8UC6t3bKs=;
-        b=flxtQ4akiRVKQsRPFSD02TxgD6SsOOk/vpbvfE/prE2DuhZEkUC5jIHep46LN+z540
-         TuJ2prSQnxJdI3b9gSZ/CKQvGyWVfm8NXHGpK+CkmUYdRKfTUpXXjKdqQbOhsGq8aH3E
-         r+aQfSvlam0H9AuE6YYJo+buAGV4b5CvWgzISOfFGaJe/SRR3+dfJ/6JS3MF+K5IQ1nz
-         +ZRh/7fIfScRvZL9ZvW8v+ybCMwyiYCTbJRhthKkPQGnRUG+yvlKfXfiHqaHrjEvn+UL
-         QQucFF2tQjGanz3efaB7Cfop3Oeb5gqD6PR7RXOiaW2hxVtot5cLmPSXjN3AmB1oAdaq
-         Gpnw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=zYCNEJACaPiEaUhEZirYxzQJlragZteVQ/Y6JR8khRQ=;
+        b=HU5P2bCOgnZa4vUNTBsuOU24RDcTkE1lyiE656vv8YbD2OJYS7RIJ6PIWGRCSMWoAG
+         /GIDJCbswCGD14Y6DBoAFWMIcsYXvOc4YnUvZ9mpc9o5UaatpG8OSy20HLcbfujtFvJf
+         pOTcV9fr7CEs9GU6IrhE4HF1GO/vpmzZlvVTA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HxvCY9AIwdSaIXkvNSbHTGHhfXH5M+ticf8UC6t3bKs=;
-        b=drVAIKtRVLCV2SLGP31RQQnfrB38mZthaXzbjHuruooWEkT4Hi598HdL6WAE5taw7G
-         J9v4HShNJvHCC+2MvOM+mstxDqW9tN5T1GZ+ezzeQ4VkAbhzrT43VykvtpjPqnCyEIo/
-         Di+iAomK5s+gEjCya59Qj47hN4/aITz+8pSW6SgnNcgaj+xw+JOV40FjREtBK5+OB7JH
-         sLPxtBqkwh0Fueg6h/wq4535tcqAnAQswTuGMVUBxljPPvoq8QbfF5QwEUyrArmS284g
-         mAU4fKXsLKg+ujqaKRBOb7LOVetskpZWSxa50lpLRsFDsAtEvlLc/pJXA1TpqpLrsgFG
-         n7Vw==
-X-Gm-Message-State: AOAM5316Liewu8C7rxexiI47wTSowk5JxlbWZ3+6mYJoXSnfeDqO6Gfu
-	XTb0VSB9M0UAi8p6yI6KzY3mb9go4g==
-X-Google-Smtp-Source: ABdhPJyuXuyBjyQUGxuMV3AZf0+3yTSaNp9pyKcGwlYarr0vLPGBQVXAMMsk8kT6fm8KJ+KDr4VU1w==
-X-Received: by 2002:ac8:34e8:: with SMTP id x37mr27714365qtb.291.1595300984683;
-        Mon, 20 Jul 2020 20:09:44 -0700 (PDT)
-Return-Path: <ricardo@foundries.io>
-Received: from localhost.localdomain ([2804:7f5:f480:fae7:ed55:c24c:450f:a455])
-        by smtp.gmail.com with ESMTPSA id e2sm1351747qkm.115.2020.07.20.20.09.43
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=zYCNEJACaPiEaUhEZirYxzQJlragZteVQ/Y6JR8khRQ=;
+        b=Vcqv9iDeaxxjtuZv8p7kwVALp06uztqawdgBgPFtOtmbBBRHIwiuM9v1/GJQcOFcui
+         UC87ehFbtldt7+3pnb8xhQWb4Zai0toD85VnWi7WMibSElWM0u+n3AofXBbZwA0KspFV
+         +fTHG8lzJghjgqzznVAULYrGumD2pyev+yiq6syOw6MlAWjNfH4QTHOfalIqx+6rFbr5
+         YOkdGqvNlJ4y34p9ODPdUWzwcaT6IM6NxFF/iKcNNob+kVnKyEnAY3t9q+4rxH3wyT1G
+         wwbo8VotSO15ib3W5cBEY/yXY7h5nU7b0C6v/lTQZSdi8qBJOMmIqOdrKlcdBz/4V+ig
+         /kWQ==
+X-Gm-Message-State: AOAM530iMUleWD95zHLtoo5alaosZwSY5SIk8F6lXab3nE37sGty+0Dj
+	uLU4YlZDE1/2/twadkAO5vFTqg==
+X-Google-Smtp-Source: ABdhPJwmzdzRKW+GVQvXv5EVZ+ZvImTsC3czMBC7v5o1nKBEvqWSkC9AVIClfBGBOBP8cPHw5Iarnw==
+X-Received: by 2002:a1c:7fd3:: with SMTP id a202mr2961779wmd.67.1595321585130;
+        Tue, 21 Jul 2020 01:53:05 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 6.d.c.a.e.4.9.c.8.4.4.2.b.1.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.d.c.a.e.4.9.c.8.4.4.2.b.1.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:181b:2448:c94e:acd6])
+        by smtp.gmail.com with ESMTPSA id l1sm39019702wrb.12.2020.07.21.01.53.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 20:09:44 -0700 (PDT)
-From: "Ricardo Salveti" <ricardo@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com
-Subject: [PATCH] sudo: set with-rundir to /run/sudo
-Date: Tue, 21 Jul 2020 00:09:26 -0300
-Message-Id: <20200721030926.31939-1-ricardo@foundries.io>
-X-Mailer: git-send-email 2.27.0
+        Tue, 21 Jul 2020 01:53:04 -0700 (PDT)
+Message-ID: <cca863dd41cf837cfaa89484c010578e5ac0809b.camel@linuxfoundation.org>
+Subject: Re: [bitbake-devel] [yocto] Stable Warrior branch
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, akuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, "yocto@yoctoproject.org"
+	 <yocto@yoctoproject.org>, "bitbake-devel@lists.openembedded.org"
+	 <bitbake-devel@lists.openembedded.org>
+Date: Tue, 21 Jul 2020 09:53:03 +0100
+In-Reply-To: <20200714135619.GF25970@localhost>
+References: <03a353c4-80dd-e66c-3222-7850a98182f7@gmail.com>
+	 <20200714135619.GF25970@localhost>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Set with-rundir to a known path instead of letting configure decide
-which is the best folder to store the timestamp files. This is required
-otherwise it might end up at /sudo, which will cause errors on a ro
-filesystem.
+On Tue, 2020-07-14 at 16:56 +0300, Adrian Bunk wrote:
+> On Thu, Jun 04, 2020 at 09:28:00PM -0700, akuster wrote:
+> > Hello,
+> > 
+> > The Warrior branch of Poky has had its last official dot release.
+> > It
+> > will be moving to Community support and EOL within 6 weeks if no
+> > one
+> > steps up.
+> > If someone is interested in taking on the responsibilities of
+> > maintaining the "Warrior" branch moving forward, please email this
+> > list.
+> 
+> I have an interest in keeping warrior branch alive in poky and meta-
+> oe,
+> and I'll take this responsibility since noone else seems to be
+> interested.
+> 
+> > Please look at the
+> > https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS for what
+> > will
+> > be expected.
+> 
+> I have some ideas, but not yet a fixed plan how I will set this up.
 
-Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
----
- meta/recipes-extended/sudo/sudo_1.9.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ok. FWIW we are struggling a little with keeping the older releases
+building on the autobuilder as the workers change. We do have plans for
+handling this with buildtools but its not rolled out on the older
+autobuilder-helper branches.
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.1.bb b/meta/recipes-extended/sudo/sudo_1.9.1.bb
-index aac505af60..d6bc1a9c3a 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.1.bb
-@@ -22,6 +22,7 @@ CACHED_CONFIGUREVARS = " \
- EXTRA_OECONF += " \
-              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
-              ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-tmpfiles.d=${nonarch_libdir}/tmpfiles.d', '--disable-tmpfiles.d', d)} \
-+             --with-rundir=/run/sudo \
-              --with-vardir=/var/lib/sudo \
-              "
- 
-@@ -38,7 +39,7 @@ do_install_append () {
- 	chmod 0440 ${D}${sysconfdir}/sudoers
- 
- 	# Explicitly remove the /sudo directory to avoid QA error
--	rmdir -p --ignore-fail-on-non-empty ${D}/sudo
-+	rmdir -p --ignore-fail-on-non-empty ${D}/run/sudo
- }
- 
- FILES_${PN} += "${nonarch_libdir}/tmpfiles.d"
--- 
-2.27.0
+I do have work in progress working with Jeremy for thud
+(contrib/rpurdie/thud), much of which should apply to warrior too
+(contrib/rpurdie/warrior is a guess). I just really want to highlight
+that there may be some initial work to get these older branches to the
+point where they continue to work on the infrastructure.
+
+I think we may have to accept backporting a lot of patches in helper to
+bring things more into sync with master/dunfell to make all this easier
+to maintain/get working.
+
+Cheers,
+
+Richard
 
