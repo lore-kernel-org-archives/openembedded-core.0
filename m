@@ -1,191 +1,1563 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.21991.1595346499191017645
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web12.590.1595350145724905252
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2020 08:48:19 -0700
+ Tue, 21 Jul 2020 09:49:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=cDOnskJx;
- spf=pass (domain: burtonini.com, ip: 209.85.221.66, mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f66.google.com with SMTP id z2so21728418wrp.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 08:48:18 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=RyWRqMMy;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.176, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f176.google.com with SMTP id q7so24862433ljm.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 09:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QjEvbXBV6qiuPv/n/MHH/uA2OfHrE7Y3TDpsN9ks8p4=;
-        b=cDOnskJxRrrhN/tSzb+muCsRcyVL5jvZU+Xtu5e/xLmNHkwI5BBRhrNB2Jx25batNP
-         NZujjaWXWXPp/OaIestbQtw4MVd3apb6b6QWI/p32uyaklAc6jZban/8fBA9SO/Mf7gB
-         0u0fJf51hWY0Sb+u30LzjVi9F4OYpXos2yyFojYJ3Avwh3Fgk3h4EOrTgZvdhrKIpsBH
-         nuwFYLO6hmCVAoF1jBm27+H2ZOhvB56Xg5Q3uMjY40FvYF9UcMzmRgbkesPLGugGV08/
-         kS+pDa07Zzu43MEd/phBJgKh5YHAd+xpPGPXHA87aLe8V06IYw7nssR0NCS6fC/Mf2m3
-         Bluw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=FSZkUXnkRMFopkYOER7V/YdmoPEbYEv32800K3kJ2hg=;
+        b=RyWRqMMy8VW5YjDP7jAjv5bsgr/+4EkMfIVIMWVl/32Q69adU1ilgicFRYruMZ8jPl
+         AoRJEEpRlLsYn5FOYBgDjHRuKDthPW6k0poPs9LWQY3MDCCrlvnlmMlwkP1a/PMiGCVn
+         66wV5fqfuLUQJG/mkoceHrxwkmkwTCIgiRFWwi+v5OO588MFmNNSXg0PIoO5V+eik+e2
+         tZ8e9AKqltDLGL+fVBfX/emkiaosk/2wPxQiYQa9P3dpcPTKdbFzzNgPXyS1YWTx7sVI
+         +Uute76BtJ+CWWDM0DH5zdnoWAsbqRWxIKpscj0Ki6nuXd9NkfKavp9SwbkI0NFF7dv3
+         lk/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QjEvbXBV6qiuPv/n/MHH/uA2OfHrE7Y3TDpsN9ks8p4=;
-        b=nTl1B7SfgvAc1TTGgiqGBfZNB6UkvAKCdqQZFt1jBDiqzm1mV/ITJek1bnfA4PH6qQ
-         7JHExf9mvorNnnmEvL5hpZprMvwb2pMa9bqcWZFKsboK/YguEEIiREHTsTBYSJs588Eu
-         sIubfcskPZFvju4dWWTquGW1/eZDeFPTxDqiYhY8HrgwkQOKx8AN/NNxqaxicTlWQ2zx
-         uAkf2Kq1hUbKLQnLhyRPQP01MhSYgYzM+isUPqPhO+C0frtCpUo5i4DCzvYVaJJju5c6
-         Hp4+HrvD/2ypa9Hr2iz85U1AaXYhskPVlxMfXTnmfbFt5IDFyRYCEpUZHQSRVkAAcwJn
-         KL6g==
-X-Gm-Message-State: AOAM533JMTjIgOcuvITk4O2ONRFj5Ml3iGmbRYrx32YaIzTzhx1RvEKx
-	9R9rNSSURrCmW67cbN9Vlu1N038y0JA=
-X-Google-Smtp-Source: ABdhPJxX3Ytchd2x4Gi04YEdYuhqMfe9xTpLkL/jKQi6JdQ8+AdcKAtd6Tyn+HUVoQW0WP+Hnz+szg==
-X-Received: by 2002:adf:e6c1:: with SMTP id y1mr29204762wrm.116.1595346497218;
-        Tue, 21 Jul 2020 08:48:17 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id w14sm37352952wrt.55.2020.07.21.08.48.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 08:48:16 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] startup-notification: add time_t type mismatch patch from upstream
-Date: Tue, 21 Jul 2020 16:48:15 +0100
-Message-Id: <20200721154815.3846936-1-ross@burtonini.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=FSZkUXnkRMFopkYOER7V/YdmoPEbYEv32800K3kJ2hg=;
+        b=hmi+dq5W9BqRpbXmQdaZDi8dvT/6MMvUx1inrgHn203sGcWAqDO+MP+VLYzlpr7065
+         yP2hzagO0AV+XD8ur/GyaFlWqagPpC3Tw5ChSHWqjlp1t0+k2zTs+ke5/8GHCDp0Bc2L
+         iPDQhW+n8soF0JZtMxYtKcvadnaxaqMG8/9zSI0B0uDXLQf7igc1zuOiWsk3M871e3DI
+         FRqGXgSaLMvPzipJYncxtrGUmNs0JPM6agwVmezZICIAy9CMbgQ4NqJfUYc5TteO1BKX
+         mhCtOf58FwryNhzoYgepSOvYFRB3hKrVqNlvjcMNAhNrhsB7NweM6N0y0wcNgTUk3t/F
+         W7MA==
+X-Gm-Message-State: AOAM531rUKGI/7jzDF3TLtI0zK3D2HKLjcs/UzOpg6cv/C/piEjAhDqY
+	zWjASMq770rRdLet7ijmly4ym/W6oW/U+UjoUCvLmJ4nGok=
+X-Google-Smtp-Source: ABdhPJxhA27G/8ZXaWbLyio35NcRm9/EiLrL1NFsrViuhYsryk/nzvlu7uXOM/oAhmshzS2sr8yke3qYRPpaO90/itI=
+X-Received: by 2002:a2e:9908:: with SMTP id v8mr12778915lji.186.1595350142503;
+ Tue, 21 Jul 2020 09:49:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200721154605.3846541-1-ross@burtonini.com>
+In-Reply-To: <20200721154605.3846541-1-ross@burtonini.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 21 Jul 2020 17:48:50 +0100
+Message-ID: <CAAnfSTupvcDOgTpEzs5Qu39fKCYyONBaiGnRrR=2YxvkA2BCtg@mail.gmail.com>
+Subject: Re: [PATCH] gcc: mitigate the Straight-line Speculation attack
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ross Burton <ross.burton@arm.com>
+Retracting this: v2 coming tomorrow.
 
-Backport a patch to fix issues where sizeof(time_t) != sizeof(long).
+Ross
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../startup-notification-0.12/time_t.patch    | 108 ++++++++++++++++++
- .../startup-notification_0.12.bb              |   1 +
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch
-
-diff --git a/meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch b/meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch
-new file mode 100644
-index 0000000000..e5dff007d4
---- /dev/null
-+++ b/meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch
-@@ -0,0 +1,108 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From a7e49fefde18ea8d5bada8096d32f23bcfb5a6dc Mon Sep 17 00:00:00 2001
-+From: "Federico G. Schwindt" <fgsch@openbsd.org>
-+Date: Mon, 17 Feb 2014 15:48:12 +0100
-+Subject: [PATCH 1/3] Fix crash on 32bit architectures where time_t is 64 bit
-+
-+This is an ABI change on platforms where sizeof(time_t) doesn't equal
-+sizeof(long). For most platforms this change shouldn't make a difference
-+at present. OpenBSD recently switched to 64bit time_t on all architectures
-+to avoid time_t overflow in 2038 on 32bit machines.
-+
-+This fix extends to consumers of startup-notification, for instance
-+the window manager of XFCE, which is how I got involved in this.
-+See http://mail.xfce.org/pipermail/xfce4-dev/2014-February/030611.html
-+and follow-ups. The XFCE devs pointed out that my patch to fix a
-+crash in XFCE's window manager depends on this startup-notification patch.
-+
-+Signed-off-by: Julien Danjou <julien@danjou.info>
-+---
-+ libsn/sn-monitor.c | 8 ++++----
-+ libsn/sn-monitor.h | 8 ++++----
-+ 2 files changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/libsn/sn-monitor.c b/libsn/sn-monitor.c
-+index 2a9ad16..f419bc1 100644
-+--- a/libsn/sn-monitor.c
-++++ b/libsn/sn-monitor.c
-+@@ -364,8 +364,8 @@ sn_startup_sequence_get_screen (SnStartupSequence *sequence)
-+  **/
-+ void
-+ sn_startup_sequence_get_initiated_time (SnStartupSequence *sequence,
-+-                                        long              *tv_sec,
-+-                                        long              *tv_usec)
-++                                        time_t            *tv_sec,
-++                                        suseconds_t       *tv_usec)
-+ {
-+   if (tv_sec)
-+     *tv_sec = sequence->initiation_time.tv_sec;
-+@@ -386,8 +386,8 @@ sn_startup_sequence_get_initiated_time (SnStartupSequence *sequence,
-+  **/
-+ void
-+ sn_startup_sequence_get_last_active_time (SnStartupSequence *sequence,
-+-                                          long              *tv_sec,
-+-                                          long              *tv_usec)
-++                                          time_t            *tv_sec,
-++                                          suseconds_t       *tv_usec)
-+ {
-+   /* for now the same as get_initiated_time */
-+   if (tv_sec)
-+diff --git a/libsn/sn-monitor.h b/libsn/sn-monitor.h
-+index b58581f..2f639df 100644
-+--- a/libsn/sn-monitor.h
-++++ b/libsn/sn-monitor.h
-+@@ -77,11 +77,11 @@ const char* sn_startup_sequence_get_application_id        (SnStartupSequence *se
-+ int         sn_startup_sequence_get_screen                (SnStartupSequence *sequence);
-+ 
-+ void        sn_startup_sequence_get_initiated_time        (SnStartupSequence *sequence,
-+-                                                           long              *tv_sec,
-+-                                                           long              *tv_usec);
-++                                                           time_t            *tv_sec,
-++                                                           suseconds_t       *tv_usec);
-+ void        sn_startup_sequence_get_last_active_time      (SnStartupSequence *sequence,
-+-                                                           long              *tv_sec,
-+-                                                           long              *tv_usec);
-++                                                           time_t            *tv_sec,
-++                                                           suseconds_t       *tv_usec);
-+ 
-+ void        sn_startup_sequence_complete                  (SnStartupSequence *sequence);
-+ 
-+-- 
-+2.26.2
-+
-+From ea9f7e4cc6fd8c08d175ed7774ed2c5bd11c8ef0 Mon Sep 17 00:00:00 2001
-+From: Colin Walters <walters@verbum.org>
-+Date: Mon, 17 Feb 2014 14:37:09 -0500
-+Subject: [PATCH 2/3] Add include of <sys/select.h> for previous patch
-+
-+Unfortunately while the standard says that <sys/types.h> is the
-+correct header to get suseconds_t, at least with glibc, that requires
-+-DXOPEN_SOURCE.  Which is problematic for a public header, because
-+then all *users* of startup-notification will be required to define
-+that.
-+
-+Poking around a bit, it looks like at least with glibc, <sys/select.h>
-+will give us an unconditional define.
-+
-+Signed-off-by: Julien Danjou <julien@danjou.info>
-+---
-+ libsn/sn-monitor.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libsn/sn-monitor.h b/libsn/sn-monitor.h
-+index 2f639df..cea4e12 100644
-+--- a/libsn/sn-monitor.h
-++++ b/libsn/sn-monitor.h
-+@@ -28,6 +28,7 @@
-+ #define __SN_MONITOR_H__
-+ 
-+ #include <libsn/sn-common.h>
-++#include <sys/select.h>
-+ 
-+ SN_BEGIN_DECLS
-+ 
-+-- 
-+2.26.2
-+
-diff --git a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-index a26ab44fa7..d10bddb529 100644
---- a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-+++ b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-@@ -23,6 +23,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRC_URI = "http://www.freedesktop.org/software/startup-notification/releases/${BPN}-${PV}.tar.gz \
-            file://obsolete_automake_macros.patch \
-+           file://time_t.patch \
- "
- 
- SRC_URI[md5sum] = "2cd77326d4dcaed9a5a23a1232fb38e9"
--- 
-2.26.2
-
+On Tue, 21 Jul 2020 at 16:46, Ross Burton <ross@burtonini.com> wrote:
+>
+> From: Ross Burton <ross.burton@arm.com>
+>
+> Straight-line Speculation is a SPECTRE-like attack on Armv8-A, further
+> details can be found in the white paper here:
+>
+> https://developer.arm.com/support/arm-security-updates/speculative-processor-vulnerability/downloads/straight-line-speculation
+>
+> Backport the GCC patches to mitigate the attack.
+>
+> CVE: CVE-2020-13844
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-10.1.inc        |   3 +
+>  ...ight-Line-Speculation-SLS-mitigation.patch | 202 ++++++
+>  ...e-SLS-mitigation-for-RET-and-BR-inst.patch | 596 ++++++++++++++++
+>  ...h64-Mitigate-SLS-for-BLR-instruction.patch | 658 ++++++++++++++++++
+>  4 files changed, 1459 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devtools/gcc/gcc-10.1.inc
+> index a3de91a2c6..7c1201a2e3 100644
+> --- a/meta/recipes-devtools/gcc/gcc-10.1.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
+> @@ -66,6 +66,9 @@ SRC_URI = "\
+>             file://0036-Enable-CET-in-cross-compiler-if-possible.patch \
+>             file://0037-mingw32-Enable-operation_not_supported.patch \
+>             file://0038-libatomic-Do-not-enforce-march-on-aarch64.patch \
+> +           file://0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch \
+> +           file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
+> +           file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
+>  "
+>  SRC_URI[sha256sum] = "b6898a23844b656f1b68691c5c012036c2e694ac4b53a8918d4712ad876e7ea2"
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch b/meta/recipes-devtools/gcc/gcc-10.1/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
+> new file mode 100644
+> index 0000000000..73de4c7590
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-10.1/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
+> @@ -0,0 +1,202 @@
+> +CVE: CVE-2020-13844
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +From 1ff243934ac443b5f58cd02a5012ce58ecc31fb2 Mon Sep 17 00:00:00 2001
+> +From: Matthew Malcomson <matthew.malcomson@arm.com>
+> +Date: Thu, 9 Jul 2020 09:11:58 +0100
+> +Subject: [PATCH 1/3] aarch64: New Straight Line Speculation (SLS) mitigation
+> + flags
+> +
+> +Here we introduce the flags that will be used for straight line speculation.
+> +
+> +The new flag introduced is `-mharden-sls=`.
+> +This flag can take arguments of `none`, `all`, or a comma seperated list of one
+> +or more of `retbr` or `blr`.
+> +`none` indicates no special mitigation of the straight line speculation
+> +vulnerability.
+> +`all` requests all mitigations currently implemented.
+> +`retbr` requests that the RET and BR instructions have a speculation barrier
+> +inserted after them.
+> +`blr` requests that BLR instructions are replaced by a BL to a function stub
+> +using a BR with a speculation barrier after it.
+> +
+> +Setting this on a per-function basis using attributes or the like is not
+> +enabled, but may be in the future.
+> +
+> +gcc/ChangeLog:
+> +
+> +2020-06-02  Matthew Malcomson  <matthew.malcomson@arm.com>
+> +
+> +       * config/aarch64/aarch64-protos.h (aarch64_harden_sls_retbr_p):
+> +       New.
+> +       (aarch64_harden_sls_blr_p): New.
+> +       * config/aarch64/aarch64.c (enum aarch64_sls_hardening_type):
+> +       New.
+> +       (aarch64_harden_sls_retbr_p): New.
+> +       (aarch64_harden_sls_blr_p): New.
+> +       (aarch64_validate_sls_mitigation): New.
+> +       (aarch64_override_options): Parse options for SLS mitigation.
+> +       * config/aarch64/aarch64.opt (-mharden-sls): New option.
+> +       * doc/invoke.texi: Document new option.
+> +---
+> + gcc/config/aarch64/aarch64-protos.h |  3 ++
+> + gcc/config/aarch64/aarch64.c        | 76 +++++++++++++++++++++++++++++++++++++
+> + gcc/config/aarch64/aarch64.opt      |  4 ++
+> + gcc/doc/invoke.texi                 | 12 ++++++
+> + 4 files changed, 95 insertions(+)
+> +
+> +diff --git a/gcc/config/aarch64/aarch64-protos.h b/gcc/config/aarch64/aarch64-protos.h
+> +index 723d9ba..eb5f4b4 100644
+> +--- a/gcc/config/aarch64/aarch64-protos.h
+> ++++ b/gcc/config/aarch64/aarch64-protos.h
+> +@@ -781,4 +781,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
+> +
+> + tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
+> +
+> ++extern bool aarch64_harden_sls_retbr_p (void);
+> ++extern bool aarch64_harden_sls_blr_p (void);
+> ++
+> + #endif /* GCC_AARCH64_PROTOS_H */
+> +diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
+> +index b86434a..437a9cf 100644
+> +--- a/gcc/config/aarch64/aarch64.c
+> ++++ b/gcc/config/aarch64/aarch64.c
+> +@@ -14494,6 +14494,79 @@ aarch64_validate_mcpu (const char *str, const struct processor **res,
+> +   return false;
+> + }
+> +
+> ++/* Straight line speculation indicators.  */
+> ++enum aarch64_sls_hardening_type
+> ++{
+> ++  SLS_NONE = 0,
+> ++  SLS_RETBR = 1,
+> ++  SLS_BLR = 2,
+> ++  SLS_ALL = 3,
+> ++};
+> ++static enum aarch64_sls_hardening_type aarch64_sls_hardening;
+> ++
+> ++/* Return whether we should mitigatate Straight Line Speculation for the RET
+> ++   and BR instructions.  */
+> ++bool
+> ++aarch64_harden_sls_retbr_p (void)
+> ++{
+> ++  return aarch64_sls_hardening & SLS_RETBR;
+> ++}
+> ++
+> ++/* Return whether we should mitigatate Straight Line Speculation for the BLR
+> ++   instruction.  */
+> ++bool
+> ++aarch64_harden_sls_blr_p (void)
+> ++{
+> ++  return aarch64_sls_hardening & SLS_BLR;
+> ++}
+> ++
+> ++/* As of yet we only allow setting these options globally, in the future we may
+> ++   allow setting them per function.  */
+> ++static void
+> ++aarch64_validate_sls_mitigation (const char *const_str)
+> ++{
+> ++  char *token_save = NULL;
+> ++  char *str = NULL;
+> ++
+> ++  if (strcmp (const_str, "none") == 0)
+> ++    {
+> ++      aarch64_sls_hardening = SLS_NONE;
+> ++      return;
+> ++    }
+> ++  if (strcmp (const_str, "all") == 0)
+> ++    {
+> ++      aarch64_sls_hardening = SLS_ALL;
+> ++      return;
+> ++    }
+> ++
+> ++  char *str_root = xstrdup (const_str);
+> ++  str = strtok_r (str_root, ",", &token_save);
+> ++  if (!str)
+> ++    error ("invalid argument given to %<-mharden-sls=%>");
+> ++
+> ++  int temp = SLS_NONE;
+> ++  while (str)
+> ++    {
+> ++      if (strcmp (str, "blr") == 0)
+> ++      temp |= SLS_BLR;
+> ++      else if (strcmp (str, "retbr") == 0)
+> ++      temp |= SLS_RETBR;
+> ++      else if (strcmp (str, "none") == 0 || strcmp (str, "all") == 0)
+> ++      {
+> ++        error ("%<%s%> must be by itself for %<-mharden-sls=%>", str);
+> ++        break;
+> ++      }
+> ++      else
+> ++      {
+> ++        error ("invalid argument %<%s%> for %<-mharden-sls=%>", str);
+> ++        break;
+> ++      }
+> ++      str = strtok_r (NULL, ",", &token_save);
+> ++    }
+> ++  aarch64_sls_hardening = (aarch64_sls_hardening_type) temp;
+> ++  free (str_root);
+> ++}
+> ++
+> + /* Parses CONST_STR for branch protection features specified in
+> +    aarch64_branch_protect_types, and set any global variables required.  Returns
+> +    the parsing result and assigns LAST_STR to the last processed token from
+> +@@ -14738,6 +14811,9 @@ aarch64_override_options (void)
+> +   selected_arch = NULL;
+> +   selected_tune = NULL;
+> +
+> ++  if (aarch64_harden_sls_string)
+> ++    aarch64_validate_sls_mitigation (aarch64_harden_sls_string);
+> ++
+> +   if (aarch64_branch_protection_string)
+> +     aarch64_validate_mbranch_protection (aarch64_branch_protection_string);
+> +
+> +diff --git a/gcc/config/aarch64/aarch64.opt b/gcc/config/aarch64/aarch64.opt
+> +index d99d14c..5170361 100644
+> +--- a/gcc/config/aarch64/aarch64.opt
+> ++++ b/gcc/config/aarch64/aarch64.opt
+> +@@ -71,6 +71,10 @@ mgeneral-regs-only
+> + Target Report RejectNegative Mask(GENERAL_REGS_ONLY) Save
+> + Generate code which uses only the general registers.
+> +
+> ++mharden-sls=
+> ++Target RejectNegative Joined Var(aarch64_harden_sls_string)
+> ++Generate code to mitigate against straight line speculation.
+> ++
+> + mfix-cortex-a53-835769
+> + Target Report Var(aarch64_fix_a53_err835769) Init(2) Save
+> + Workaround for ARM Cortex-A53 Erratum number 835769.
+> +diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+> +index a2794a6..bd5b77a 100644
+> +--- a/gcc/doc/invoke.texi
+> ++++ b/gcc/doc/invoke.texi
+> +@@ -696,6 +696,7 @@ Objective-C and Objective-C++ Dialects}.
+> + -msign-return-address=@var{scope} @gol
+> + -mbranch-protection=@var{none}|@var{standard}|@var{pac-ret}[+@var{leaf}
+> + +@var{b-key}]|@var{bti} @gol
+> ++-mharden-sls=@var{opts} @gol
+> + -march=@var{name}  -mcpu=@var{name}  -mtune=@var{name}  @gol
+> + -moverride=@var{string}  -mverbose-cost-dump @gol
+> + -mstack-protector-guard=@var{guard} -mstack-protector-guard-reg=@var{sysreg} @gol
+> +@@ -17065,6 +17066,17 @@ functions.  The optional argument @samp{b-key} can be used to sign the functions
+> + with the B-key instead of the A-key.
+> + @samp{bti} turns on branch target identification mechanism.
+> +
+> ++@item -mharden-sls=@var{opts}
+> ++@opindex mharden-sls
+> ++Enable compiler hardening against straight line speculation (SLS).
+> ++@var{opts} is a comma-separated list of the following options:
+> ++@table @samp
+> ++@item retbr
+> ++@item blr
+> ++@end table
+> ++In addition, @samp{-mharden-sls=all} enables all SLS hardening while
+> ++@samp{-mharden-sls=none} disables all SLS hardening.
+> ++
+> + @item -msve-vector-bits=@var{bits}
+> + @opindex msve-vector-bits
+> + Specify the number of bits in an SVE vector register.  This option only has
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch b/meta/recipes-devtools/gcc/gcc-10.1/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
+> new file mode 100644
+> index 0000000000..c062e32c69
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-10.1/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
+> @@ -0,0 +1,596 @@
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +From 82170bc298dc838837b6b3363a12476a03f5fea8 Mon Sep 17 00:00:00 2001
+> +From: Matthew Malcomson <matthew.malcomson@arm.com>
+> +Date: Thu, 9 Jul 2020 09:11:59 +0100
+> +Subject: [PATCH 2/3] aarch64: Introduce SLS mitigation for RET and BR
+> + instructions
+> +
+> +Instructions following RET or BR are not necessarily executed.  In order
+> +to avoid speculation past RET and BR we can simply append a speculation
+> +barrier.
+> +
+> +Since these speculation barriers will not be architecturally executed,
+> +they are not expected to add a high performance penalty.
+> +
+> +The speculation barrier is to be SB when targeting architectures which
+> +have this enabled, and DSB SY + ISB otherwise.
+> +
+> +We add tests for each of the cases where such an instruction was seen.
+> +
+> +This is implemented by modifying each machine description pattern that
+> +emits either a RET or a BR instruction.  We choose not to use something
+> +like `TARGET_ASM_FUNCTION_EPILOGUE` since it does not affect the
+> +`indirect_jump`, `jump`, `sibcall_insn` and `sibcall_value_insn`
+> +patterns and we find it preferable to implement the functionality in the
+> +same way for every pattern.
+> +
+> +There is one particular case which is slightly tricky.  The
+> +implementation of TARGET_ASM_TRAMPOLINE_TEMPLATE uses a BR which needs
+> +to be mitigated against.  The trampoline template is used *once* per
+> +compilation unit, and the TRAMPOLINE_SIZE is exposed to the user via the
+> +builtin macro __LIBGCC_TRAMPOLINE_SIZE__.
+> +In the future we may implement function specific attributes to turn on
+> +and off hardening on a per-function basis.
+> +The fixed nature of the trampoline described above implies it will be
+> +safer to ensure this speculation barrier is always used.
+> +
+> +Testing:
+> +  Bootstrap and regtest done on aarch64-none-linux
+> +  Used a temporary hack(1) to use these options on every test in the
+> +  testsuite and a script to check that the output never emitted an
+> +  unmitigated RET or BR.
+> +
+> +1) Temporary hack was a change to the testsuite to always use
+> +`-save-temps` and run a script on the assembly output of those
+> +compilations which produced one to ensure every RET or BR is immediately
+> +followed by a speculation barrier.
+> +
+> +gcc/ChangeLog:
+> +
+> +       * config/aarch64/aarch64-protos.h (aarch64_sls_barrier): New.
+> +       * config/aarch64/aarch64.c (aarch64_output_casesi): Emit
+> +       speculation barrier after BR instruction if needs be.
+> +       (aarch64_trampoline_init): Handle ptr_mode value & adjust size
+> +       of code copied.
+> +       (aarch64_sls_barrier): New.
+> +       (aarch64_asm_trampoline_template): Add needed barriers.
+> +       * config/aarch64/aarch64.h (AARCH64_ISA_SB): New.
+> +       (TARGET_SB): New.
+> +       (TRAMPOLINE_SIZE): Account for barrier.
+> +       * config/aarch64/aarch64.md (indirect_jump, *casesi_dispatch,
+> +       simple_return, *do_return, *sibcall_insn, *sibcall_value_insn):
+> +       Emit barrier if needs be, also account for possible barrier using
+> +       "sls_length" attribute.
+> +       (sls_length): New attribute.
+> +       (length): Determine default using any non-default sls_length
+> +       value.
+> +
+> +gcc/testsuite/ChangeLog:
+> +
+> +       * gcc.target/aarch64/sls-mitigation/sls-miti-retbr.c: New test.
+> +       * gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c:
+> +       New test.
+> +       * gcc.target/aarch64/sls-mitigation/sls-mitigation.exp: New file.
+> +       * lib/target-supports.exp (check_effective_target_aarch64_asm_sb_ok):
+> +       New proc.
+> +---
+> + gcc/config/aarch64/aarch64-protos.h                |   1 +
+> + gcc/config/aarch64/aarch64.c                       |  37 ++++++-
+> + gcc/config/aarch64/aarch64.h                       |  10 +-
+> + gcc/config/aarch64/aarch64.md                      |  76 +++++++++----
+> + .../aarch64/sls-mitigation/sls-miti-retbr-pacret.c |  21 ++++
+> + .../aarch64/sls-mitigation/sls-miti-retbr.c        | 119 +++++++++++++++++++++
+> + .../aarch64/sls-mitigation/sls-mitigation.exp      |  73 +++++++++++++
+> + gcc/testsuite/lib/target-supports.exp              |   2 +-
+> + 8 files changed, 316 insertions(+), 23 deletions(-)
+> + create mode 100644 gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c
+> + create mode 100644 gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr.c
+> + create mode 100644 gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-mitigation.exp
+> +
+> +diff --git a/gcc/config/aarch64/aarch64-protos.h b/gcc/config/aarch64/aarch64-protos.h
+> +index eb5f4b4..ee0ffde 100644
+> +--- a/gcc/config/aarch64/aarch64-protos.h
+> ++++ b/gcc/config/aarch64/aarch64-protos.h
+> +@@ -781,6 +781,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
+> +
+> + tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
+> +
+> ++const char *aarch64_sls_barrier (int);
+> + extern bool aarch64_harden_sls_retbr_p (void);
+> + extern bool aarch64_harden_sls_blr_p (void);
+> +
+> +diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
+> +index 437a9cf..2389d49 100644
+> +--- a/gcc/config/aarch64/aarch64.c
+> ++++ b/gcc/config/aarch64/aarch64.c
+> +@@ -10876,6 +10876,17 @@ aarch64_asm_trampoline_template (FILE *f)
+> +     }
+> +   asm_fprintf (f, "\tbr\t%s\n", reg_names [IP1_REGNUM]);
+> +
+> ++  /* We always emit a speculation barrier.
+> ++     This is because the same trampoline template is used for every nested
+> ++     function.  Since nested functions are not particularly common or
+> ++     performant we don't worry too much about the extra instructions to copy
+> ++     around.
+> ++     This is not yet a problem, since we have not yet implemented function
+> ++     specific attributes to choose between hardening against straight line
+> ++     speculation or not, but such function specific attributes are likely to
+> ++     happen in the future.  */
+> ++  asm_fprintf (f, "\tdsb\tsy\n\tisb\n");
+> ++
+> +   /* The trampoline needs an extra padding instruction.  In case if BTI is
+> +      enabled the padding instruction is replaced by the BTI instruction at
+> +      the beginning.  */
+> +@@ -10890,10 +10901,14 @@ static void
+> + aarch64_trampoline_init (rtx m_tramp, tree fndecl, rtx chain_value)
+> + {
+> +   rtx fnaddr, mem, a_tramp;
+> +-  const int tramp_code_sz = 16;
+> ++  const int tramp_code_sz = 24;
+> +
+> +   /* Don't need to copy the trailing D-words, we fill those in below.  */
+> +-  emit_block_move (m_tramp, assemble_trampoline_template (),
+> ++  /* We create our own memory address in Pmode so that `emit_block_move` can
+> ++     use parts of the backend which expect Pmode addresses.  */
+> ++  rtx temp = convert_memory_address (Pmode, XEXP (m_tramp, 0));
+> ++  emit_block_move (gen_rtx_MEM (BLKmode, temp),
+> ++                 assemble_trampoline_template (),
+> +                  GEN_INT (tramp_code_sz), BLOCK_OP_NORMAL);
+> +   mem = adjust_address (m_tramp, ptr_mode, tramp_code_sz);
+> +   fnaddr = XEXP (DECL_RTL (fndecl), 0);
+> +@@ -11084,6 +11099,8 @@ aarch64_output_casesi (rtx *operands)
+> +   output_asm_insn (buf, operands);
+> +   output_asm_insn (patterns[index][1], operands);
+> +   output_asm_insn ("br\t%3", operands);
+> ++  output_asm_insn (aarch64_sls_barrier (aarch64_harden_sls_retbr_p ()),
+> ++                 operands);
+> +   assemble_label (asm_out_file, label);
+> +   return "";
+> + }
+> +@@ -22924,6 +22941,22 @@ aarch64_file_end_indicate_exec_stack ()
+> + #undef GNU_PROPERTY_AARCH64_FEATURE_1_BTI
+> + #undef GNU_PROPERTY_AARCH64_FEATURE_1_AND
+> +
+> ++/* Helper function for straight line speculation.
+> ++   Return what barrier should be emitted for straight line speculation
+> ++   mitigation.
+> ++   When not mitigating against straight line speculation this function returns
+> ++   an empty string.
+> ++   When mitigating against straight line speculation, use:
+> ++   * SB when the v8.5-A SB extension is enabled.
+> ++   * DSB+ISB otherwise.  */
+> ++const char *
+> ++aarch64_sls_barrier (int mitigation_required)
+> ++{
+> ++  return mitigation_required
+> ++    ? (TARGET_SB ? "sb" : "dsb\tsy\n\tisb")
+> ++    : "";
+> ++}
+> ++
+> + /* Target-specific selftests.  */
+> +
+> + #if CHECKING_P
+> +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
+> +index 1ce23c6..8e0fc37 100644
+> +--- a/gcc/config/aarch64/aarch64.h
+> ++++ b/gcc/config/aarch64/aarch64.h
+> +@@ -281,6 +281,7 @@ extern unsigned aarch64_architecture_version;
+> + #define AARCH64_ISA_F32MM        (aarch64_isa_flags & AARCH64_FL_F32MM)
+> + #define AARCH64_ISA_F64MM        (aarch64_isa_flags & AARCH64_FL_F64MM)
+> + #define AARCH64_ISA_BF16         (aarch64_isa_flags & AARCH64_FL_BF16)
+> ++#define AARCH64_ISA_SB                   (aarch64_isa_flags & AARCH64_FL_SB)
+> +
+> + /* Crypto is an optional extension to AdvSIMD.  */
+> + #define TARGET_CRYPTO (TARGET_SIMD && AARCH64_ISA_CRYPTO)
+> +@@ -378,6 +379,9 @@ extern unsigned aarch64_architecture_version;
+> + #define TARGET_FIX_ERR_A53_835769_DEFAULT 1
+> + #endif
+> +
+> ++/* SB instruction is enabled through +sb.  */
+> ++#define TARGET_SB (AARCH64_ISA_SB)
+> ++
+> + /* Apply the workaround for Cortex-A53 erratum 835769.  */
+> + #define TARGET_FIX_ERR_A53_835769     \
+> +   ((aarch64_fix_a53_err835769 == 2)   \
+> +@@ -1058,8 +1062,10 @@ typedef struct
+> +
+> + #define RETURN_ADDR_RTX aarch64_return_addr
+> +
+> +-/* BTI c + 3 insns + 2 pointer-sized entries.  */
+> +-#define TRAMPOLINE_SIZE       (TARGET_ILP32 ? 24 : 32)
+> ++/* BTI c + 3 insns
+> ++   + sls barrier of DSB + ISB.
+> ++   + 2 pointer-sized entries.  */
+> ++#define TRAMPOLINE_SIZE       (24 + (TARGET_ILP32 ? 8 : 16))
+> +
+> + /* Trampolines contain dwords, so must be dword aligned.  */
+> + #define TRAMPOLINE_ALIGNMENT 64
+> +diff --git a/gcc/config/aarch64/aarch64.md b/gcc/config/aarch64/aarch64.md
+> +index 8c8be3c..dda04ee 100644
+> +--- a/gcc/config/aarch64/aarch64.md
+> ++++ b/gcc/config/aarch64/aarch64.md
+> +@@ -407,10 +407,25 @@
+> + ;; Attribute that specifies whether the alternative uses MOVPRFX.
+> + (define_attr "movprfx" "no,yes" (const_string "no"))
+> +
+> ++;; Attribute to specify that an alternative has the length of a single
+> ++;; instruction plus a speculation barrier.
+> ++(define_attr "sls_length" "none,retbr,casesi" (const_string "none"))
+> ++
+> + (define_attr "length" ""
+> +   (cond [(eq_attr "movprfx" "yes")
+> +            (const_int 8)
+> +-        ] (const_int 4)))
+> ++
+> ++       (eq_attr "sls_length" "retbr")
+> ++         (cond [(match_test "!aarch64_harden_sls_retbr_p ()") (const_int 4)
+> ++                (match_test "TARGET_SB") (const_int 8)]
+> ++               (const_int 12))
+> ++
+> ++       (eq_attr "sls_length" "casesi")
+> ++         (cond [(match_test "!aarch64_harden_sls_retbr_p ()") (const_int 16)
+> ++                (match_test "TARGET_SB") (const_int 20)]
+> ++               (const_int 24))
+> ++      ]
+> ++        (const_int 4)))
+> +
+> + ;; Strictly for compatibility with AArch32 in pipeline models, since AArch64 has
+> + ;; no predicated insns.
+> +@@ -447,8 +462,12 @@
+> + (define_insn "indirect_jump"
+> +   [(set (pc) (match_operand:DI 0 "register_operand" "r"))]
+> +   ""
+> +-  "br\\t%0"
+> +-  [(set_attr "type" "branch")]
+> ++  {
+> ++    output_asm_insn ("br\\t%0", operands);
+> ++    return aarch64_sls_barrier (aarch64_harden_sls_retbr_p ());
+> ++  }
+> ++  [(set_attr "type" "branch")
+> ++   (set_attr "sls_length" "retbr")]
+> + )
+> +
+> + (define_insn "jump"
+> +@@ -765,7 +784,7 @@
+> +   "*
+> +   return aarch64_output_casesi (operands);
+> +   "
+> +-  [(set_attr "length" "16")
+> ++  [(set_attr "sls_length" "casesi")
+> +    (set_attr "type" "branch")]
+> + )
+> +
+> +@@ -844,18 +863,23 @@
+> +   [(return)]
+> +   ""
+> +   {
+> ++    const char *ret = NULL;
+> +     if (aarch64_return_address_signing_enabled ()
+> +       && TARGET_ARMV8_3
+> +       && !crtl->calls_eh_return)
+> +       {
+> +       if (aarch64_ra_sign_key == AARCH64_KEY_B)
+> +-        return "retab";
+> ++        ret = "retab";
+> +       else
+> +-        return "retaa";
+> ++        ret = "retaa";
+> +       }
+> +-    return "ret";
+> ++    else
+> ++      ret = "ret";
+> ++    output_asm_insn (ret, operands);
+> ++    return aarch64_sls_barrier (aarch64_harden_sls_retbr_p ());
+> +   }
+> +-  [(set_attr "type" "branch")]
+> ++  [(set_attr "type" "branch")
+> ++   (set_attr "sls_length" "retbr")]
+> + )
+> +
+> + (define_expand "return"
+> +@@ -867,8 +891,12 @@
+> + (define_insn "simple_return"
+> +   [(simple_return)]
+> +   ""
+> +-  "ret"
+> +-  [(set_attr "type" "branch")]
+> ++  {
+> ++    output_asm_insn ("ret", operands);
+> ++    return aarch64_sls_barrier (aarch64_harden_sls_retbr_p ());
+> ++  }
+> ++  [(set_attr "type" "branch")
+> ++   (set_attr "sls_length" "retbr")]
+> + )
+> +
+> + (define_insn "*cb<optab><mode>1"
+> +@@ -1066,10 +1094,16 @@
+> +    (unspec:DI [(match_operand:DI 2 "const_int_operand")] UNSPEC_CALLEE_ABI)
+> +    (return)]
+> +   "SIBLING_CALL_P (insn)"
+> +-  "@
+> +-   br\\t%0
+> +-   b\\t%c0"
+> +-  [(set_attr "type" "branch, branch")]
+> ++  {
+> ++    if (which_alternative == 0)
+> ++      {
+> ++      output_asm_insn ("br\\t%0", operands);
+> ++      return aarch64_sls_barrier (aarch64_harden_sls_retbr_p ());
+> ++      }
+> ++    return "b\\t%c0";
+> ++  }
+> ++  [(set_attr "type" "branch, branch")
+> ++   (set_attr "sls_length" "retbr,none")]
+> + )
+> +
+> + (define_insn "*sibcall_value_insn"
+> +@@ -1080,10 +1114,16 @@
+> +    (unspec:DI [(match_operand:DI 3 "const_int_operand")] UNSPEC_CALLEE_ABI)
+> +    (return)]
+> +   "SIBLING_CALL_P (insn)"
+> +-  "@
+> +-   br\\t%1
+> +-   b\\t%c1"
+> +-  [(set_attr "type" "branch, branch")]
+> ++  {
+> ++    if (which_alternative == 0)
+> ++      {
+> ++      output_asm_insn ("br\\t%1", operands);
+> ++      return aarch64_sls_barrier (aarch64_harden_sls_retbr_p ());
+> ++      }
+> ++    return "b\\t%c1";
+> ++  }
+> ++  [(set_attr "type" "branch, branch")
+> ++   (set_attr "sls_length" "retbr,none")]
+> + )
+> +
+> + ;; Call subroutine returning any type.
+> +diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c
+> +new file mode 100644
+> +index 0000000..fa1887a
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c
+> +@@ -0,0 +1,21 @@
+> ++/* Avoid ILP32 since pacret is only available for LP64 */
+> ++/* { dg-do compile { target { ! ilp32 } } } */
+> ++/* { dg-additional-options "-mharden-sls=retbr -mbranch-protection=pac-ret -march=armv8.3-a" } */
+> ++
+> ++/* Testing the do_return pattern for retaa and retab.  */
+> ++long retbr_subcall(void);
+> ++long retbr_do_return_retaa(void)
+> ++{
+> ++    return retbr_subcall()+1;
+> ++}
+> ++
+> ++__attribute__((target("branch-protection=pac-ret+b-key")))
+> ++long retbr_do_return_retab(void)
+> ++{
+> ++    return retbr_subcall()+1;
+> ++}
+> ++
+> ++/* Ensure there are no BR or RET instructions which are not directly followed
+> ++   by a speculation barrier.  */
+> ++/* { dg-final { scan-assembler-not {\t(br|ret|retaa|retab)\tx[0-9][0-9]?\n\t(?!dsb\tsy\n\tisb)} } } */
+> ++/* { dg-final { scan-assembler-not {ret\t} } } */
+> +diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr.c
+> +new file mode 100644
+> +index 0000000..76b8d03
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr.c
+> +@@ -0,0 +1,119 @@
+> ++/* We ensure that -Wpedantic is off since it complains about the trampolines
+> ++   we explicitly want to test.  */
+> ++/* { dg-additional-options "-mharden-sls=retbr -Wno-pedantic " } */
+> ++/*
+> ++   Ensure that the SLS hardening of RET and BR leaves no unprotected RET/BR
+> ++   instructions.
+> ++  */
+> ++typedef int (foo) (int, int);
+> ++typedef void (bar) (int, int);
+> ++struct sls_testclass {
+> ++    foo *x;
+> ++    bar *y;
+> ++    int left;
+> ++    int right;
+> ++};
+> ++
+> ++int
+> ++retbr_sibcall_value_insn (struct sls_testclass x)
+> ++{
+> ++  return x.x(x.left, x.right);
+> ++}
+> ++
+> ++void
+> ++retbr_sibcall_insn (struct sls_testclass x)
+> ++{
+> ++  x.y(x.left, x.right);
+> ++}
+> ++
+> ++/* Aim to test two different returns.
+> ++   One that introduces a tail call in the middle of the function, and one that
+> ++   has a normal return.  */
+> ++int
+> ++retbr_multiple_returns (struct sls_testclass x)
+> ++{
+> ++  int temp;
+> ++  if (x.left % 10)
+> ++    return x.x(x.left, 100);
+> ++  else if (x.right % 20)
+> ++    {
+> ++      return x.x(x.left * x.right, 100);
+> ++    }
+> ++  temp = x.left % x.right;
+> ++  temp *= 100;
+> ++  temp /= 2;
+> ++  return temp % 3;
+> ++}
+> ++
+> ++void
+> ++retbr_multiple_returns_void (struct sls_testclass x)
+> ++{
+> ++  if (x.left % 10)
+> ++    {
+> ++      x.y(x.left, 100);
+> ++    }
+> ++  else if (x.right % 20)
+> ++    {
+> ++      x.y(x.left * x.right, 100);
+> ++    }
+> ++  return;
+> ++}
+> ++
+> ++/* Testing the casesi jump via register.  */
+> ++__attribute__ ((optimize ("Os")))
+> ++int
+> ++retbr_casesi_dispatch (struct sls_testclass x)
+> ++{
+> ++  switch (x.left)
+> ++    {
+> ++    case -5:
+> ++      return -2;
+> ++    case -3:
+> ++      return -1;
+> ++    case 0:
+> ++      return 0;
+> ++    case 3:
+> ++      return 1;
+> ++    case 5:
+> ++      break;
+> ++    default:
+> ++      __builtin_unreachable ();
+> ++    }
+> ++  return x.right;
+> ++}
+> ++
+> ++/* Testing the BR in trampolines is mitigated against.  */
+> ++void f1 (void *);
+> ++void f3 (void *, void (*)(void *));
+> ++void f2 (void *);
+> ++
+> ++int
+> ++retbr_trampolines (void *a, int b)
+> ++{
+> ++  if (!b)
+> ++    {
+> ++      f1 (a);
+> ++      return 1;
+> ++    }
+> ++  if (b)
+> ++    {
+> ++      void retbr_tramp_internal (void *c)
+> ++      {
+> ++      if (c == a)
+> ++        f2 (c);
+> ++      }
+> ++      f3 (a, retbr_tramp_internal);
+> ++    }
+> ++  return 0;
+> ++}
+> ++
+> ++/* Testing the indirect_jump pattern.  */
+> ++void
+> ++retbr_indirect_jump (int *buf)
+> ++{
+> ++  __builtin_longjmp(buf, 1);
+> ++}
+> ++
+> ++/* Ensure there are no BR or RET instructions which are not directly followed
+> ++   by a speculation barrier.  */
+> ++/* { dg-final { scan-assembler-not {\t(br|ret|retaa|retab)\tx[0-9][0-9]?\n\t(?!dsb\tsy\n\tisb|sb)} } } */
+> +diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-mitigation.exp b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-mitigation.exp
+> +new file mode 100644
+> +index 0000000..8122503
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-mitigation.exp
+> +@@ -0,0 +1,73 @@
+> ++#  Regression driver for SLS mitigation on AArch64.
+> ++#  Copyright (C) 2020 Free Software Foundation, Inc.
+> ++#  Contributed by ARM Ltd.
+> ++#
+> ++#  This file is part of GCC.
+> ++#
+> ++#  GCC is free software; you can redistribute it and/or modify it
+> ++#  under the terms of the GNU General Public License as published by
+> ++#  the Free Software Foundation; either version 3, or (at your option)
+> ++#  any later version.
+> ++#
+> ++#  GCC is distributed in the hope that it will be useful, but
+> ++#  WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> ++#  General Public License for more details.
+> ++#
+> ++#  You should have received a copy of the GNU General Public License
+> ++#  along with GCC; see the file COPYING3.  If not see
+> ++#  <http://www.gnu.org/licenses/>.  */
+> ++
+> ++# Exit immediately if this isn't an AArch64 target.
+> ++if {![istarget aarch64*-*-*] } then {
+> ++  return
+> ++}
+> ++
+> ++# Load support procs.
+> ++load_lib gcc-dg.exp
+> ++load_lib torture-options.exp
+> ++
+> ++# If a testcase doesn't have special options, use these.
+> ++global DEFAULT_CFLAGS
+> ++if ![info exists DEFAULT_CFLAGS] then {
+> ++    set DEFAULT_CFLAGS " "
+> ++}
+> ++
+> ++# Initialize `dg'.
+> ++dg-init
+> ++torture-init
+> ++
+> ++# Use different architectures as well as the normal optimisation options.
+> ++# (i.e. use both SB and DSB+ISB barriers).
+> ++
+> ++set save-dg-do-what-default ${dg-do-what-default}
+> ++# Main loop.
+> ++# Run with torture tests (i.e. a bunch of different optimisation levels) just
+> ++# to increase test coverage.
+> ++set dg-do-what-default assemble
+> ++gcc-dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/*.\[cCS\]]] \
+> ++      "-save-temps" $DEFAULT_CFLAGS
+> ++
+> ++# Run the same tests but this time with SB extension.
+> ++# Since not all supported assemblers will support that extension we decide
+> ++# whether to assemble or just compile based on whether the extension is
+> ++# supported for the available assembler.
+> ++
+> ++set templist {}
+> ++foreach x $DG_TORTURE_OPTIONS {
+> ++  lappend templist "$x -march=armv8.3-a+sb "
+> ++  lappend templist "$x -march=armv8-a+sb "
+> ++}
+> ++set-torture-options $templist
+> ++if { [check_effective_target_aarch64_asm_sb_ok] } {
+> ++    set dg-do-what-default assemble
+> ++} else {
+> ++    set dg-do-what-default compile
+> ++}
+> ++gcc-dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/*.\[cCS\]]] \
+> ++      "-save-temps" $DEFAULT_CFLAGS
+> ++set dg-do-what-default ${save-dg-do-what-default}
+> ++
+> ++# All done.
+> ++torture-finish
+> ++dg-finish
+> +diff --git a/gcc/testsuite/lib/target-supports.exp b/gcc/testsuite/lib/target-supports.exp
+> +index 8a186dd..9d2e093 100644
+> +--- a/gcc/testsuite/lib/target-supports.exp
+> ++++ b/gcc/testsuite/lib/target-supports.exp
+> +@@ -9432,7 +9432,7 @@ proc check_effective_target_aarch64_tiny { } {
+> + # various architecture extensions via the .arch_extension pseudo-op.
+> +
+> + foreach { aarch64_ext } { "fp" "simd" "crypto" "crc" "lse" "dotprod" "sve"
+> +-                        "i8mm" "f32mm" "f64mm" "bf16" } {
+> ++                        "i8mm" "f32mm" "f64mm" "bf16" "sb" } {
+> +     eval [string map [list FUNC $aarch64_ext] {
+> +       proc check_effective_target_aarch64_asm_FUNC_ok { } {
+> +         if { [istarget aarch64*-*-*] } {
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch b/meta/recipes-devtools/gcc/gcc-10.1/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
+> new file mode 100644
+> index 0000000000..716a367172
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-10.1/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
+> @@ -0,0 +1,658 @@
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +From a5e7efc40ed841934c1d913f39476afa17d8e5f7 Mon Sep 17 00:00:00 2001
+> +From: Matthew Malcomson <matthew.malcomson@arm.com>
+> +Date: Thu, 9 Jul 2020 09:11:59 +0100
+> +Subject: [PATCH 3/3] aarch64: Mitigate SLS for BLR instruction
+> +
+> +This patch introduces the mitigation for Straight Line Speculation past
+> +the BLR instruction.
+> +
+> +This mitigation replaces BLR instructions with a BL to a stub which uses
+> +a BR to jump to the original value.  These function stubs are then
+> +appended with a speculation barrier to ensure no straight line
+> +speculation happens after these jumps.
+> +
+> +When optimising for speed we use a set of stubs for each function since
+> +this should help the branch predictor make more accurate predictions
+> +about where a stub should branch.
+> +
+> +When optimising for size we use one set of stubs for all functions.
+> +This set of stubs can have human readable names, and we are using
+> +`__call_indirect_x<N>` for register x<N>.
+> +
+> +When BTI branch protection is enabled the BLR instruction can jump to a
+> +`BTI c` instruction using any register, while the BR instruction can
+> +only jump to a `BTI c` instruction using the x16 or x17 registers.
+> +Hence, in order to ensure this transformation is safe we mov the value
+> +of the original register into x16 and use x16 for the BR.
+> +
+> +As an example when optimising for size:
+> +a
+> +    BLR x0
+> +instruction would get transformed to something like
+> +    BL __call_indirect_x0
+> +where __call_indirect_x0 labels a thunk that contains
+> +__call_indirect_x0:
+> +    MOV X16, X0
+> +    BR X16
+> +    <speculation barrier>
+> +
+> +The first version of this patch used local symbols specific to a
+> +compilation unit to try and avoid relocations.
+> +This was mistaken since functions coming from the same compilation unit
+> +can still be in different sections, and the assembler will insert
+> +relocations at jumps between sections.
+> +
+> +On any relocation the linker is permitted to emit a veneer to handle
+> +jumps between symbols that are very far apart.  The registers x16 and
+> +x17 may be clobbered by these veneers.
+> +Hence the function stubs cannot rely on the values of x16 and x17 being
+> +the same as just before the function stub is called.
+> +
+> +Similar can be said for the hot/cold partitioning of single functions,
+> +so function-local stubs have the same restriction.
+> +
+> +This updated version of the patch never emits function stubs for x16 and
+> +x17, and instead forces other registers to be used.
+> +
+> +Given the above, there is now no benefit to local symbols (since they
+> +are not enough to avoid dealing with linker intricacies).  This patch
+> +now uses global symbols with hidden visibility each stored in their own
+> +COMDAT section.  This means stubs can be shared between compilation
+> +units while still avoiding the PLT indirection.
+> +
+> +This patch also removes the `__call_indirect_x30` stub (and
+> +function-local equivalent) which would simply jump back to the original
+> +location.
+> +
+> +The function-local stubs are emitted to the assembly output file in one
+> +chunk, which means we need not add the speculation barrier directly
+> +after each one.
+> +This is because we know for certain that the instructions directly after
+> +the BR in all but the last function stub will be from another one of
+> +these stubs and hence will not contain a speculation gadget.
+> +Instead we add a speculation barrier at the end of the sequence of
+> +stubs.
+> +
+> +The global stubs are emitted in COMDAT/.linkonce sections by
+> +themselves so that the linker can remove duplicates from multiple object
+> +files.  This means they are not emitted in one chunk, and each one must
+> +include the speculation barrier.
+> +
+> +Another difference is that since the global stubs are shared across
+> +compilation units we do not know that all functions will be targeting an
+> +architecture supporting the SB instruction.
+> +Rather than provide multiple stubs for each architecture, we provide a
+> +stub that will work for all architectures -- using the DSB+ISB barrier.
+> +
+> +This mitigation does not apply for BLR instructions in the following
+> +places:
+> +- Some accesses to thread-local variables use a code sequence with a BLR
+> +  instruction.  This code sequence is part of the binary interface between
+> +  compiler and linker. If this BLR instruction needs to be mitigated, it'd
+> +  probably be best to do so in the linker. It seems that the code sequence
+> +  for thread-local variable access is unlikely to lead to a Spectre Revalation
+> +  Gadget.
+> +- PLT stubs are produced by the linker and each contain a BLR instruction.
+> +  It seems that at most only after the last PLT stub a Spectre Revalation
+> +  Gadget might appear.
+> +
+> +Testing:
+> +  Bootstrap and regtest on AArch64
+> +    (with BOOT_CFLAGS="-mharden-sls=retbr,blr")
+> +  Used a temporary hack(1) in gcc-dg.exp to use these options on every
+> +  test in the testsuite, a slight modification to emit the speculation
+> +  barrier after every function stub, and a script to check that the
+> +  output never emitted a BLR, or unmitigated BR or RET instruction.
+> +  Similar on an aarch64-none-elf cross-compiler.
+> +
+> +1) Temporary hack emitted a speculation barrier at the end of every stub
+> +function, and used a script to ensure that:
+> +  a) Every RET or BR is immediately followed by a speculation barrier.
+> +  b) No BLR instruction is emitted by compiler.
+> +
+> +gcc/ChangeLog:
+> +
+> +       * config/aarch64/aarch64-protos.h (aarch64_indirect_call_asm):
+> +       New declaration.
+> +       * config/aarch64/aarch64.c (aarch64_regno_regclass): Handle new
+> +       stub registers class.
+> +       (aarch64_class_max_nregs): Likewise.
+> +       (aarch64_register_move_cost): Likewise.
+> +       (aarch64_sls_shared_thunks): Global array to store stub labels.
+> +       (aarch64_sls_emit_function_stub): New.
+> +       (aarch64_create_blr_label): New.
+> +       (aarch64_sls_emit_blr_function_thunks): New.
+> +       (aarch64_sls_emit_shared_blr_thunks): New.
+> +       (aarch64_asm_file_end): New.
+> +       (aarch64_indirect_call_asm): New.
+> +       (TARGET_ASM_FILE_END): Use aarch64_asm_file_end.
+> +       (TARGET_ASM_FUNCTION_EPILOGUE): Use
+> +       aarch64_sls_emit_blr_function_thunks.
+> +       * config/aarch64/aarch64.h (STB_REGNUM_P): New.
+> +       (enum reg_class): Add STUB_REGS class.
+> +       (machine_function): Introduce `call_via` array for
+> +       function-local stub labels.
+> +       * config/aarch64/aarch64.md (*call_insn, *call_value_insn): Use
+> +       aarch64_indirect_call_asm to emit code when hardening BLR
+> +       instructions.
+> +       * config/aarch64/constraints.md (Ucr): New constraint
+> +       representing registers for indirect calls.  Is GENERAL_REGS
+> +       usually, and STUB_REGS when hardening BLR instruction against
+> +       SLS.
+> +       * config/aarch64/predicates.md (aarch64_general_reg): STUB_REGS class
+> +       is also a general register.
+> +
+> +gcc/testsuite/ChangeLog:
+> +
+> +       * gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c: New test.
+> +       * gcc.target/aarch64/sls-mitigation/sls-miti-blr.c: New test.
+> +---
+> + gcc/config/aarch64/aarch64-protos.h                |   1 +
+> + gcc/config/aarch64/aarch64.c                       | 225 ++++++++++++++++++++-
+> + gcc/config/aarch64/aarch64.h                       |  15 ++
+> + gcc/config/aarch64/aarch64.md                      |  11 +-
+> + gcc/config/aarch64/constraints.md                  |   9 +
+> + gcc/config/aarch64/predicates.md                   |   3 +-
+> + .../aarch64/sls-mitigation/sls-miti-blr-bti.c      |  40 ++++
+> + .../aarch64/sls-mitigation/sls-miti-blr.c          |  33 +++
+> + 8 files changed, 328 insertions(+), 9 deletions(-)
+> + create mode 100644 gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c
+> + create mode 100644 gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr.c
+> +
+> +diff --git a/gcc/config/aarch64/aarch64-protos.h b/gcc/config/aarch64/aarch64-protos.h
+> +index ee0ffde..839f801 100644
+> +--- a/gcc/config/aarch64/aarch64-protos.h
+> ++++ b/gcc/config/aarch64/aarch64-protos.h
+> +@@ -782,6 +782,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
+> + tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
+> +
+> + const char *aarch64_sls_barrier (int);
+> ++const char *aarch64_indirect_call_asm (rtx);
+> + extern bool aarch64_harden_sls_retbr_p (void);
+> + extern bool aarch64_harden_sls_blr_p (void);
+> +
+> +diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
+> +index 2389d49..0f7bba3 100644
+> +--- a/gcc/config/aarch64/aarch64.c
+> ++++ b/gcc/config/aarch64/aarch64.c
+> +@@ -10605,6 +10605,9 @@ aarch64_label_mentioned_p (rtx x)
+> + enum reg_class
+> + aarch64_regno_regclass (unsigned regno)
+> + {
+> ++  if (STUB_REGNUM_P (regno))
+> ++    return STUB_REGS;
+> ++
+> +   if (GP_REGNUM_P (regno))
+> +     return GENERAL_REGS;
+> +
+> +@@ -10939,6 +10942,7 @@ aarch64_class_max_nregs (reg_class_t regclass, machine_mode mode)
+> +   unsigned int nregs, vec_flags;
+> +   switch (regclass)
+> +     {
+> ++    case STUB_REGS:
+> +     case TAILCALL_ADDR_REGS:
+> +     case POINTER_REGS:
+> +     case GENERAL_REGS:
+> +@@ -13155,10 +13159,12 @@ aarch64_register_move_cost (machine_mode mode,
+> +     = aarch64_tune_params.regmove_cost;
+> +
+> +   /* Caller save and pointer regs are equivalent to GENERAL_REGS.  */
+> +-  if (to == TAILCALL_ADDR_REGS || to == POINTER_REGS)
+> ++  if (to == TAILCALL_ADDR_REGS || to == POINTER_REGS
+> ++      || to == STUB_REGS)
+> +     to = GENERAL_REGS;
+> +
+> +-  if (from == TAILCALL_ADDR_REGS || from == POINTER_REGS)
+> ++  if (from == TAILCALL_ADDR_REGS || from == POINTER_REGS
+> ++      || from == STUB_REGS)
+> +     from = GENERAL_REGS;
+> +
+> +   /* Make RDFFR very expensive.  In particular, if we know that the FFR
+> +@@ -22957,6 +22963,215 @@ aarch64_sls_barrier (int mitigation_required)
+> +     : "";
+> + }
+> +
+> ++static GTY (()) tree aarch64_sls_shared_thunks[30];
+> ++static GTY (()) bool aarch64_sls_shared_thunks_needed = false;
+> ++const char *indirect_symbol_names[30] = {
+> ++    "__call_indirect_x0",
+> ++    "__call_indirect_x1",
+> ++    "__call_indirect_x2",
+> ++    "__call_indirect_x3",
+> ++    "__call_indirect_x4",
+> ++    "__call_indirect_x5",
+> ++    "__call_indirect_x6",
+> ++    "__call_indirect_x7",
+> ++    "__call_indirect_x8",
+> ++    "__call_indirect_x9",
+> ++    "__call_indirect_x10",
+> ++    "__call_indirect_x11",
+> ++    "__call_indirect_x12",
+> ++    "__call_indirect_x13",
+> ++    "__call_indirect_x14",
+> ++    "__call_indirect_x15",
+> ++    "", /* "__call_indirect_x16",  */
+> ++    "", /* "__call_indirect_x17",  */
+> ++    "__call_indirect_x18",
+> ++    "__call_indirect_x19",
+> ++    "__call_indirect_x20",
+> ++    "__call_indirect_x21",
+> ++    "__call_indirect_x22",
+> ++    "__call_indirect_x23",
+> ++    "__call_indirect_x24",
+> ++    "__call_indirect_x25",
+> ++    "__call_indirect_x26",
+> ++    "__call_indirect_x27",
+> ++    "__call_indirect_x28",
+> ++    "__call_indirect_x29",
+> ++};
+> ++
+> ++/* Function to create a BLR thunk.  This thunk is used to mitigate straight
+> ++   line speculation.  Instead of a simple BLR that can be speculated past,
+> ++   we emit a BL to this thunk, and this thunk contains a BR to the relevant
+> ++   register.  These thunks have the relevant speculation barries put after
+> ++   their indirect branch so that speculation is blocked.
+> ++
+> ++   We use such a thunk so the speculation barriers are kept off the
+> ++   architecturally executed path in order to reduce the performance overhead.
+> ++
+> ++   When optimizing for size we use stubs shared by the linked object.
+> ++   When optimizing for performance we emit stubs for each function in the hope
+> ++   that the branch predictor can better train on jumps specific for a given
+> ++   function.  */
+> ++rtx
+> ++aarch64_sls_create_blr_label (int regnum)
+> ++{
+> ++  gcc_assert (STUB_REGNUM_P (regnum));
+> ++  if (optimize_function_for_size_p (cfun))
+> ++    {
+> ++      /* For the thunks shared between different functions in this compilation
+> ++       unit we use a named symbol -- this is just for users to more easily
+> ++       understand the generated assembly.  */
+> ++      aarch64_sls_shared_thunks_needed = true;
+> ++      const char *thunk_name = indirect_symbol_names[regnum];
+> ++      if (aarch64_sls_shared_thunks[regnum] == NULL)
+> ++      {
+> ++        /* Build a decl representing this function stub and record it for
+> ++           later.  We build a decl here so we can use the GCC machinery for
+> ++           handling sections automatically (through `get_named_section` and
+> ++           `make_decl_one_only`).  That saves us a lot of trouble handling
+> ++           the specifics of different output file formats.  */
+> ++        tree decl = build_decl (BUILTINS_LOCATION, FUNCTION_DECL,
+> ++                                get_identifier (thunk_name),
+> ++                                build_function_type_list (void_type_node,
+> ++                                                          NULL_TREE));
+> ++        DECL_RESULT (decl) = build_decl (BUILTINS_LOCATION, RESULT_DECL,
+> ++                                         NULL_TREE, void_type_node);
+> ++        TREE_PUBLIC (decl) = 1;
+> ++        TREE_STATIC (decl) = 1;
+> ++        DECL_IGNORED_P (decl) = 1;
+> ++        DECL_ARTIFICIAL (decl) = 1;
+> ++        make_decl_one_only (decl, DECL_ASSEMBLER_NAME (decl));
+> ++        resolve_unique_section (decl, 0, false);
+> ++        aarch64_sls_shared_thunks[regnum] = decl;
+> ++      }
+> ++
+> ++      return gen_rtx_SYMBOL_REF (Pmode, thunk_name);
+> ++    }
+> ++
+> ++  if (cfun->machine->call_via[regnum] == NULL)
+> ++    cfun->machine->call_via[regnum]
+> ++      = gen_rtx_LABEL_REF (Pmode, gen_label_rtx ());
+> ++  return cfun->machine->call_via[regnum];
+> ++}
+> ++
+> ++/* Helper function for aarch64_sls_emit_blr_function_thunks and
+> ++   aarch64_sls_emit_shared_blr_thunks below.  */
+> ++static void
+> ++aarch64_sls_emit_function_stub (FILE *out_file, int regnum)
+> ++{
+> ++  /* Save in x16 and branch to that function so this transformation does
+> ++     not prevent jumping to `BTI c` instructions.  */
+> ++  asm_fprintf (out_file, "\tmov\tx16, x%d\n", regnum);
+> ++  asm_fprintf (out_file, "\tbr\tx16\n");
+> ++}
+> ++
+> ++/* Emit all BLR stubs for this particular function.
+> ++   Here we emit all the BLR stubs needed for the current function.  Since we
+> ++   emit these stubs in a consecutive block we know there will be no speculation
+> ++   gadgets between each stub, and hence we only emit a speculation barrier at
+> ++   the end of the stub sequences.
+> ++
+> ++   This is called in the TARGET_ASM_FUNCTION_EPILOGUE hook.  */
+> ++void
+> ++aarch64_sls_emit_blr_function_thunks (FILE *out_file)
+> ++{
+> ++  if (! aarch64_harden_sls_blr_p ())
+> ++    return;
+> ++
+> ++  bool any_functions_emitted = false;
+> ++  /* We must save and restore the current function section since this assembly
+> ++     is emitted at the end of the function.  This means it can be emitted *just
+> ++     after* the cold section of a function.  That cold part would be emitted in
+> ++     a different section.  That switch would trigger a `.cfi_endproc` directive
+> ++     to be emitted in the original section and a `.cfi_startproc` directive to
+> ++     be emitted in the new section.  Switching to the original section without
+> ++     restoring would mean that the `.cfi_endproc` emitted as a function ends
+> ++     would happen in a different section -- leaving an unmatched
+> ++     `.cfi_startproc` in the cold text section and an unmatched `.cfi_endproc`
+> ++     in the standard text section.  */
+> ++  section *save_text_section = in_section;
+> ++  switch_to_section (function_section (current_function_decl));
+> ++  for (int regnum = 0; regnum < 30; ++regnum)
+> ++    {
+> ++      rtx specu_label = cfun->machine->call_via[regnum];
+> ++      if (specu_label == NULL)
+> ++      continue;
+> ++
+> ++      targetm.asm_out.print_operand (out_file, specu_label, 0);
+> ++      asm_fprintf (out_file, ":\n");
+> ++      aarch64_sls_emit_function_stub (out_file, regnum);
+> ++      any_functions_emitted = true;
+> ++    }
+> ++  if (any_functions_emitted)
+> ++    /* Can use the SB if needs be here, since this stub will only be used
+> ++      by the current function, and hence for the current target.  */
+> ++    asm_fprintf (out_file, "\t%s\n", aarch64_sls_barrier (true));
+> ++  switch_to_section (save_text_section);
+> ++}
+> ++
+> ++/* Emit shared BLR stubs for the current compilation unit.
+> ++   Over the course of compiling this unit we may have converted some BLR
+> ++   instructions to a BL to a shared stub function.  This is where we emit those
+> ++   stub functions.
+> ++   This function is for the stubs shared between different functions in this
+> ++   compilation unit.  We share when optimizing for size instead of speed.
+> ++
+> ++   This function is called through the TARGET_ASM_FILE_END hook.  */
+> ++void
+> ++aarch64_sls_emit_shared_blr_thunks (FILE *out_file)
+> ++{
+> ++  if (! aarch64_sls_shared_thunks_needed)
+> ++    return;
+> ++
+> ++  for (int regnum = 0; regnum < 30; ++regnum)
+> ++    {
+> ++      tree decl = aarch64_sls_shared_thunks[regnum];
+> ++      if (!decl)
+> ++      continue;
+> ++
+> ++      const char *name = indirect_symbol_names[regnum];
+> ++      switch_to_section (get_named_section (decl, NULL, 0));
+> ++      ASM_OUTPUT_ALIGN (out_file, 2);
+> ++      targetm.asm_out.globalize_label (out_file, name);
+> ++      /* Only emits if the compiler is configured for an assembler that can
+> ++       handle visibility directives.  */
+> ++      targetm.asm_out.assemble_visibility (decl, VISIBILITY_HIDDEN);
+> ++      ASM_OUTPUT_TYPE_DIRECTIVE (out_file, name, "function");
+> ++      ASM_OUTPUT_LABEL (out_file, name);
+> ++      aarch64_sls_emit_function_stub (out_file, regnum);
+> ++      /* Use the most conservative target to ensure it can always be used by any
+> ++       function in the translation unit.  */
+> ++      asm_fprintf (out_file, "\tdsb\tsy\n\tisb\n");
+> ++      ASM_DECLARE_FUNCTION_SIZE (out_file, name, decl);
+> ++    }
+> ++}
+> ++
+> ++/* Implement TARGET_ASM_FILE_END.  */
+> ++void
+> ++aarch64_asm_file_end ()
+> ++{
+> ++  aarch64_sls_emit_shared_blr_thunks (asm_out_file);
+> ++  /* Since this function will be called for the ASM_FILE_END hook, we ensure
+> ++     that what would be called otherwise (e.g. `file_end_indicate_exec_stack`
+> ++     for FreeBSD) still gets called.  */
+> ++#ifdef TARGET_ASM_FILE_END
+> ++  TARGET_ASM_FILE_END ();
+> ++#endif
+> ++}
+> ++
+> ++const char *
+> ++aarch64_indirect_call_asm (rtx addr)
+> ++{
+> ++  gcc_assert (REG_P (addr));
+> ++  if (aarch64_harden_sls_blr_p ())
+> ++    {
+> ++      rtx stub_label = aarch64_sls_create_blr_label (REGNO (addr));
+> ++      output_asm_insn ("bl\t%0", &stub_label);
+> ++    }
+> ++  else
+> ++   output_asm_insn ("blr\t%0", &addr);
+> ++  return "";
+> ++}
+> ++
+> + /* Target-specific selftests.  */
+> +
+> + #if CHECKING_P
+> +@@ -23507,6 +23722,12 @@ aarch64_libgcc_floating_mode_supported_p
+> + #undef TARGET_MD_ASM_ADJUST
+> + #define TARGET_MD_ASM_ADJUST arm_md_asm_adjust
+> +
+> ++#undef TARGET_ASM_FILE_END
+> ++#define TARGET_ASM_FILE_END aarch64_asm_file_end
+> ++
+> ++#undef TARGET_ASM_FUNCTION_EPILOGUE
+> ++#define TARGET_ASM_FUNCTION_EPILOGUE aarch64_sls_emit_blr_function_thunks
+> ++
+> + struct gcc_target targetm = TARGET_INITIALIZER;
+> +
+> + #include "gt-aarch64.h"
+> +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
+> +index 8e0fc37..7331450 100644
+> +--- a/gcc/config/aarch64/aarch64.h
+> ++++ b/gcc/config/aarch64/aarch64.h
+> +@@ -643,6 +643,16 @@ extern unsigned aarch64_architecture_version;
+> + #define GP_REGNUM_P(REGNO)                                            \
+> +   (((unsigned) (REGNO - R0_REGNUM)) <= (R30_REGNUM - R0_REGNUM))
+> +
+> ++/* Registers known to be preserved over a BL instruction.  This consists of the
+> ++   GENERAL_REGS without x16, x17, and x30.  The x30 register is changed by the
+> ++   BL instruction itself, while the x16 and x17 registers may be used by
+> ++   veneers which can be inserted by the linker.  */
+> ++#define STUB_REGNUM_P(REGNO) \
+> ++  (GP_REGNUM_P (REGNO) \
+> ++   && (REGNO) != R16_REGNUM \
+> ++   && (REGNO) != R17_REGNUM \
+> ++   && (REGNO) != R30_REGNUM) \
+> ++
+> + #define FP_REGNUM_P(REGNO)                    \
+> +   (((unsigned) (REGNO - V0_REGNUM)) <= (V31_REGNUM - V0_REGNUM))
+> +
+> +@@ -667,6 +677,7 @@ enum reg_class
+> + {
+> +   NO_REGS,
+> +   TAILCALL_ADDR_REGS,
+> ++  STUB_REGS,
+> +   GENERAL_REGS,
+> +   STACK_REG,
+> +   POINTER_REGS,
+> +@@ -689,6 +700,7 @@ enum reg_class
+> + {                                             \
+> +   "NO_REGS",                                  \
+> +   "TAILCALL_ADDR_REGS",                               \
+> ++  "STUB_REGS",                                        \
+> +   "GENERAL_REGS",                             \
+> +   "STACK_REG",                                        \
+> +   "POINTER_REGS",                             \
+> +@@ -708,6 +720,7 @@ enum reg_class
+> + {                                                                     \
+> +   { 0x00000000, 0x00000000, 0x00000000 },     /* NO_REGS */           \
+> +   { 0x00030000, 0x00000000, 0x00000000 },     /* TAILCALL_ADDR_REGS */\
+> ++  { 0x3ffcffff, 0x00000000, 0x00000000 },     /* STUB_REGS */         \
+> +   { 0x7fffffff, 0x00000000, 0x00000003 },     /* GENERAL_REGS */      \
+> +   { 0x80000000, 0x00000000, 0x00000000 },     /* STACK_REG */         \
+> +   { 0xffffffff, 0x00000000, 0x00000003 },     /* POINTER_REGS */      \
+> +@@ -862,6 +875,8 @@ typedef struct GTY (()) machine_function
+> +   struct aarch64_frame frame;
+> +   /* One entry for each hard register.  */
+> +   bool reg_is_wrapped_separately[LAST_SAVED_REGNUM];
+> ++  /* One entry for each general purpose register.  */
+> ++  rtx call_via[SP_REGNUM];
+> +   bool label_is_assembled;
+> + } machine_function;
+> + #endif
+> +diff --git a/gcc/config/aarch64/aarch64.md b/gcc/config/aarch64/aarch64.md
+> +index dda04ee..43da754 100644
+> +--- a/gcc/config/aarch64/aarch64.md
+> ++++ b/gcc/config/aarch64/aarch64.md
+> +@@ -1022,16 +1022,15 @@
+> + )
+> +
+> + (define_insn "*call_insn"
+> +-  [(call (mem:DI (match_operand:DI 0 "aarch64_call_insn_operand" "r, Usf"))
+> ++  [(call (mem:DI (match_operand:DI 0 "aarch64_call_insn_operand" "Ucr, Usf"))
+> +        (match_operand 1 "" ""))
+> +    (unspec:DI [(match_operand:DI 2 "const_int_operand")] UNSPEC_CALLEE_ABI)
+> +    (clobber (reg:DI LR_REGNUM))]
+> +   ""
+> +   "@
+> +-  blr\\t%0
+> ++  * return aarch64_indirect_call_asm (operands[0]);
+> +   bl\\t%c0"
+> +-  [(set_attr "type" "call, call")]
+> +-)
+> ++  [(set_attr "type" "call, call")])
+> +
+> + (define_expand "call_value"
+> +   [(parallel
+> +@@ -1050,13 +1049,13 @@
+> +
+> + (define_insn "*call_value_insn"
+> +   [(set (match_operand 0 "" "")
+> +-      (call (mem:DI (match_operand:DI 1 "aarch64_call_insn_operand" "r, Usf"))
+> ++      (call (mem:DI (match_operand:DI 1 "aarch64_call_insn_operand" "Ucr, Usf"))
+> +                     (match_operand 2 "" "")))
+> +    (unspec:DI [(match_operand:DI 3 "const_int_operand")] UNSPEC_CALLEE_ABI)
+> +    (clobber (reg:DI LR_REGNUM))]
+> +   ""
+> +   "@
+> +-  blr\\t%1
+> ++  * return aarch64_indirect_call_asm (operands[1]);
+> +   bl\\t%c1"
+> +   [(set_attr "type" "call, call")]
+> + )
+> +diff --git a/gcc/config/aarch64/constraints.md b/gcc/config/aarch64/constraints.md
+> +index d993268..8cc6f50 100644
+> +--- a/gcc/config/aarch64/constraints.md
+> ++++ b/gcc/config/aarch64/constraints.md
+> +@@ -24,6 +24,15 @@
+> + (define_register_constraint "Ucs" "TAILCALL_ADDR_REGS"
+> +   "@internal Registers suitable for an indirect tail call")
+> +
+> ++(define_register_constraint "Ucr"
+> ++    "aarch64_harden_sls_blr_p () ? STUB_REGS : GENERAL_REGS"
+> ++  "@internal Registers to be used for an indirect call.
+> ++   This is usually the general registers, but when we are hardening against
+> ++   Straight Line Speculation we disallow x16, x17, and x30 so we can use
+> ++   indirection stubs.  These indirection stubs cannot use the above registers
+> ++   since they will be reached by a BL that may have to go through a linker
+> ++   veneer.")
+> ++
+> + (define_register_constraint "w" "FP_REGS"
+> +   "Floating point and SIMD vector registers.")
+> +
+> +diff --git a/gcc/config/aarch64/predicates.md b/gcc/config/aarch64/predicates.md
+> +index 215fcec..1754b1e 100644
+> +--- a/gcc/config/aarch64/predicates.md
+> ++++ b/gcc/config/aarch64/predicates.md
+> +@@ -32,7 +32,8 @@
+> +
+> + (define_predicate "aarch64_general_reg"
+> +   (and (match_operand 0 "register_operand")
+> +-       (match_test "REGNO_REG_CLASS (REGNO (op)) == GENERAL_REGS")))
+> ++       (match_test "REGNO_REG_CLASS (REGNO (op)) == STUB_REGS
+> ++                  || REGNO_REG_CLASS (REGNO (op)) == GENERAL_REGS")))
+> +
+> + ;; Return true if OP a (const_int 0) operand.
+> + (define_predicate "const0_operand"
+> +diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c
+> +new file mode 100644
+> +index 0000000..b1fb754
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c
+> +@@ -0,0 +1,40 @@
+> ++/* { dg-do compile } */
+> ++/* { dg-additional-options "-mharden-sls=blr -mbranch-protection=bti" } */
+> ++/*
+> ++   Ensure that the SLS hardening of BLR leaves no BLR instructions.
+> ++   Here we also check that there are no BR instructions with anything except an
+> ++   x16 or x17 register.  This is because a `BTI c` instruction can be branched
+> ++   to using a BLR instruction using any register, but can only be branched to
+> ++   with a BR using an x16 or x17 register.
+> ++  */
+> ++typedef int (foo) (int, int);
+> ++typedef void (bar) (int, int);
+> ++struct sls_testclass {
+> ++    foo *x;
+> ++    bar *y;
+> ++    int left;
+> ++    int right;
+> ++};
+> ++
+> ++/* We test both RTL patterns for a call which returns a value and a call which
+> ++   does not.  */
+> ++int blr_call_value (struct sls_testclass x)
+> ++{
+> ++  int retval = x.x(x.left, x.right);
+> ++  if (retval % 10)
+> ++    return 100;
+> ++  return 9;
+> ++}
+> ++
+> ++int blr_call (struct sls_testclass x)
+> ++{
+> ++  x.y(x.left, x.right);
+> ++  if (x.left % 10)
+> ++    return 100;
+> ++  return 9;
+> ++}
+> ++
+> ++/* { dg-final { scan-assembler-not {\tblr\t} } } */
+> ++/* { dg-final { scan-assembler-not {\tbr\tx(?!16|17)} } } */
+> ++/* { dg-final { scan-assembler {\tbr\tx(16|17)} } } */
+> ++
+> +diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr.c
+> +new file mode 100644
+> +index 0000000..88bafff
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr.c
+> +@@ -0,0 +1,33 @@
+> ++/* { dg-additional-options "-mharden-sls=blr -save-temps" } */
+> ++/* Ensure that the SLS hardening of BLR leaves no BLR instructions.
+> ++   We only test that all BLR instructions have been removed, not that the
+> ++   resulting code makes sense.  */
+> ++typedef int (foo) (int, int);
+> ++typedef void (bar) (int, int);
+> ++struct sls_testclass {
+> ++    foo *x;
+> ++    bar *y;
+> ++    int left;
+> ++    int right;
+> ++};
+> ++
+> ++/* We test both RTL patterns for a call which returns a value and a call which
+> ++   does not.  */
+> ++int blr_call_value (struct sls_testclass x)
+> ++{
+> ++  int retval = x.x(x.left, x.right);
+> ++  if (retval % 10)
+> ++    return 100;
+> ++  return 9;
+> ++}
+> ++
+> ++int blr_call (struct sls_testclass x)
+> ++{
+> ++  x.y(x.left, x.right);
+> ++  if (x.left % 10)
+> ++    return 100;
+> ++  return 9;
+> ++}
+> ++
+> ++/* { dg-final { scan-assembler-not {\tblr\t} } } */
+> ++/* { dg-final { scan-assembler {\tbr\tx[0-9][0-9]?} } } */
+> +--
+> +2.7.4
+> +
+> --
+> 2.26.2
+>
