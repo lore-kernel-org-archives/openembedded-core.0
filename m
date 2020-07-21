@@ -1,100 +1,123 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.6338.1595368604531029814
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web11.6495.1595369412771913597
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jul 2020 14:56:44 -0700
+ Tue, 21 Jul 2020 15:10:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S2I5nG4k;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id c80so71130wme.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 14:56:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=miRGg97g;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id z5so115384pgb.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Jul 2020 15:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PTkwCX/VACmxd6cHFQTTuV2ttEPUYKSzHD1tbmV0QnY=;
-        b=S2I5nG4kzex8xalYFl88/9SV7ckM2YuFJNkSgVENlkE93KrEDFgdgWi0MDm+HdODLw
-         gv9//tKS8ox/gS/Qq81lo+871l06tQ+/KFFioZuN0qMUOQIYP8xc0tR2nBc4bqLdPcJ2
-         0ESmLKDXJ6j6bbLhTBKVGVdq3D+1dFnWkeais=
+        bh=pncaz8iZ2bpB4d3X8A/RYTOmPrVjs8EFP9/ruywTGpQ=;
+        b=miRGg97g0imMBIBIdz6iqqWg0b+FJPrbyiPyxiAnw7/tUmvo3tW6uxeWUAxzsLb3gE
+         KSSEntb7Ahti1Vn4ySArNqmsegXqlg9BiHqyUsmIBU+60CQKtTpshrCswGeFzkzZmc8c
+         FmuLzUYxqJsqQVyeNYUX76WwlthocsMLgtYAXX2JN9Zqc4txB1JnUgb7zeTu2hKzsJer
+         blfzFBPVkTrq/6e4f9yqzpyA6cuJz0ggHHQ3AJ7ssZ6OVpV2ltA1r+j4LZN1/08n5oji
+         SZzDWoR2VdW/omKwi/ELToEYlFrCG44WdnNapyfLJXSwwGSC/nGsmbA+NlFDzHoTKYCH
+         DsYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PTkwCX/VACmxd6cHFQTTuV2ttEPUYKSzHD1tbmV0QnY=;
-        b=aYimrey165YYhthrVlL1m12hrsX7jDI3efn5JV8uonL/gZYcby4lddW0HIo3tI85KA
-         VLSUsO/we2mELjv6ksQSsR2er4S/VPr1R/AwaDo45dT4rbv6waw7m72Nsg91akNtpVeP
-         IipreMWZjj2M/D8uDG6aUziq9Zm/Z/ObkXdgmGym3AXRiKLBcU7NDCXoAqIhyIwE/xHw
-         +soBacUCBk9VfZA57Z67XrqnhuuvfmlJMgf4RifIglOWPmhUVL4k/ZVAUhJCjs9qrdU7
-         i/Dq6YDFsz1uhdh6ouZAR23cazxb/qiRsH0XVByQRBA5b8T1mmwXxm9EgBGI/Q2dh0i/
-         NGuQ==
-X-Gm-Message-State: AOAM532uVE1yersJfBtYQ8dBmbmX2UzSCr0/GYvCEdCJqkPjzySijR56
-	W+lZ5/MHHgev+ZvQt/VGA41qAGDQHSlxrg==
-X-Google-Smtp-Source: ABdhPJzq7w/4r72Pr0jgX2UA15lVPYJMyyi1zcggkm/tQwFqVLHxrAysnA6O/4jOmHqL11rBZt1asw==
-X-Received: by 2002:a1c:2e57:: with SMTP id u84mr6191161wmu.52.1595368602493;
-        Tue, 21 Jul 2020 14:56:42 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (b.3.a.7.d.5.9.a.4.5.7.5.f.0.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3d0f:5754:a95d:7a3b])
-        by smtp.gmail.com with ESMTPSA id s14sm26172954wrv.24.2020.07.21.14.56.41
-        for <openembedded-core@lists.openembedded.org>
+        bh=pncaz8iZ2bpB4d3X8A/RYTOmPrVjs8EFP9/ruywTGpQ=;
+        b=ngU33OXzWwb+r0kHnqv3pXqGXqFRiKHJH9IAfIR8r1BAiFsWebY48cYGn3qI0ExFQA
+         KX0bOzOeah1o8ipNEGAPS2mNmtnJg9wbmjnU9upxImtavVZT37BNgcCTLXigBIDA8aV3
+         9hOJf9skMw7A2A3UhGhtmkqnX/mH5j0flj+wCcMk5jKObKn4TZ16lvRN6DIbAXKZuR8U
+         qyJN92pG/JcIHUuXRb51/NvOZvTsUKBMZzAyiiNprjJCSaYPCjef4NeNJ5fZ7B2Wv36U
+         Mba4NDQoOV3hgbRAUgbiDYf5sqZYMJTzrMxo4LBqd9sy4C+afkawpCFVpLP10CdK9105
+         WkAQ==
+X-Gm-Message-State: AOAM531UVuE5PFzRpnTYwDJmWwaLvcUkG5nNAd1XIWJnhxSyrKbqgs+2
+	gr1Vn246FBBelEQ2byxsdVo+5CHv7Tc=
+X-Google-Smtp-Source: ABdhPJz4BidRT0m/05842hGhJwr7yLaFEUf80mNFAk19j/qDGILt/XH/z9+utAZCmQL8arlLWgQSUw==
+X-Received: by 2002:a63:125f:: with SMTP id 31mr25200413pgs.239.1595369411848;
+        Tue, 21 Jul 2020 15:10:11 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::6651])
+        by smtp.gmail.com with ESMTPSA id c14sm21479106pfj.82.2020.07.21.15.10.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 14:56:41 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 21 Jul 2020 15:10:11 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemurunner: Use tempfile.mkstemp to create pidfile name
-Date: Tue, 21 Jul 2020 22:56:40 +0100
-Message-Id: <20200721215640.136052-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] site: Make sys_siglist default to no
+Date: Tue, 21 Jul 2020 15:10:09 -0700
+Message-Id: <20200721221009.2570384-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We continue to see qemu races where qemu fails to write out a pidfile. The
-pidfile name being used was based on the parent process starting the qemus
-so in theory, a qemu shutting down could have deleted the file into which
-the new qemu's pid was about to be written. This shouldn't happen as qemu
-processes should be exitting completely before the code returns.
+glibc 2.32 has deprecated sys_siglist [1]
 
-In the absence of better theory for the failure, use a random pid filename
-rather than the parent pid so there is no overlap in the pid filename,
-thereby removing any theoretical race.
+since no is default for musl as well, therefore elevate it to common
+site file for all
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=b1ccfc061feee9ce616444ded8e1cd5acf9fa97f
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/site/common       | 7 +++++++
+ meta/site/common-glibc | 3 ---
+ meta/site/common-musl  | 5 -----
+ 3 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 519aa9aa1e5..73a3efdc964 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -20,6 +20,7 @@ import string
- import threading
- import codecs
- import logging
-+import tempfile
- from oeqa.utils.dump import HostDumper
- from collections import defaultdict
+diff --git a/meta/site/common b/meta/site/common
+index ff552329bd..62907274d7 100644
+--- a/meta/site/common
++++ b/meta/site/common
+@@ -19,3 +19,10 @@ shadow_cv_passwd_dir=${bindir}
+ ac_cv_buggy_getaddrinfo=no
  
-@@ -65,7 +66,11 @@ class QemuRunner:
-         self.runqemutime = 120
-         if not workdir:
-             workdir = os.getcwd()
--        self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
-+        # Use tempfile to obtain a unique name. We own the directory
-+        # so closing the file isn't an issue as long as we don't delete it
-+        self.qemu_pidfile = tempfile.mkstemp(dir=workdir, prefix="qemupid_")
-+        os.close(self.qemu_pidfile[0])
-+        self.qemu_pidfile = self.qemu_pidfile[1]
-         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
-         self.monitorpipe = None
+ ac_cv_path_SED=${ac_cv_path_SED=sed}
++
++# General
++ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
++
++# bash
++bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
++bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index a0680bc44c..0a665658fb 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -1,5 +1,4 @@
+ # general
+-ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
+ ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
+ ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+ ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+@@ -18,8 +17,6 @@ ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ ac_cv_func_strtod=${ac_cv_func_strtod=yes}
  
-@@ -182,8 +187,6 @@ class QemuRunner:
+ # bash
+-bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
+-bash_cv_sys_siglist=${bash_cv_sys_siglist=yes}
+ bash_cv_getcwd_malloc=${bash_cv_getcwd_malloc=yes}
  
-         # Ask QEMU to store the QEMU process PID in file, this way we don't have to parse running processes
-         # and analyze descendents in order to determine it.
--        if os.path.exists(self.qemu_pidfile):
--            os.remove(self.qemu_pidfile)
-         self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile {1}"'.format(bootparams, self.qemu_pidfile)
-         if qemuparams:
-             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
+ # clamav
+diff --git a/meta/site/common-musl b/meta/site/common-musl
+index 4be8d002d6..44a7a1aea9 100644
+--- a/meta/site/common-musl
++++ b/meta/site/common-musl
+@@ -1,5 +1,4 @@
+ # general
+-ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
+ ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
+ ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+ ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+@@ -29,10 +28,6 @@ glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
+ #dbus-glib
+ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ 
+-# bash
+-bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
+-bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
+-
+ # coreutils
+ fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
+ gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
 -- 
-2.25.1
+2.27.0
 
