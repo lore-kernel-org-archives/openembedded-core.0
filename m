@@ -1,492 +1,162 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.18598.1595424694057962182
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.18911.1595424827729639516
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2020 06:31:35 -0700
+ Wed, 22 Jul 2020 06:33:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DKVAFBNr;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=KnLD2lLp;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=13588; q=dns/txt; s=axis-central1;
-  t=1595424695; x=1626960695;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=YJeQqJAeZyVfu05TICLB1dckETax5QGnvXdGgPCotOA=;
-  b=DKVAFBNr0+j72PyTW/bWGxYZrlbXA2PXGhZ6RsJlXHBrBheK65KJxvjC
-   hqmJ+8Qs0DgkuZHGuoGJBSKYX65/9O1NyxYhBDEjuROrEvZMOKz7N5wMl
-   k/M2ZFDpq8Gk9wNadai19T0CZmokEIPC1NU5xcvFNb1S8G5oQpPNFJkC2
-   mrLpH3fNX0FQl0FNki3BRveM2HE/IpzfKriU0Q3qMW7DJWuRn0tPlVqge
-   7NnnHm5GCR9kW8gXZ3xpe5btTBoF/wxy7q4McP/zUe82YertME0WKYetI
-   cjU/FC2f4bdKaNXUS99nB93LZjJ2hLxi3Lozge+ZDN39IFoSIlNUZTugy
+  d=axis.com; l=4423; q=dns/txt; s=axis-central1;
+  t=1595424828; x=1626960828;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=xxzUt9z6G9f+0rbfAocuYGWdHRyx6dxbQTxBwYYudMI=;
+  b=KnLD2lLpa93veXv/Do1auIAzTsXOls59ZcPklY/KXJW5e3slblL40kpu
+   btGvnQ7qosqb0uWJrvpSg/CXmr4u8zwLS5XXjyZvqkiNLR4BUnZBG1mBM
+   W3KH+/Yle1E4hV/YKxtU/r7wwEcHV0VNb4J8E5PVjr4+/mVuVCPiRO+2d
+   YoJa9fQ/BNv+XyyPDW8p4lFgUY3j73Pp+Mc+YPUtQ8e2iN074BoOzPq3J
+   YGSIhLPSn0i7dxHzjWElIv1Y8i2Qe463/LuUxqSC9+lzluAWv+Lk/gi7X
+   mjL/uCSmF30/OshzSQo0abAieehdCGsROzvr4IPuwNFz+gAl2Q0W6MOy6
    A==;
-IronPort-SDR: nSMnG6xqhKJ9jVNPBVEfy+dDE4HiEw4HUhBaadoEBBGHHPuinCaBXRa6L5qKAl6QjIqk1iW+/Z
- XBA2F7zFJkFIHbDJt0zlD8vEEGjOmUozzOuewNkzxafTfJdo5Jnw7GVahfiYviuricTK1CRHGQ
- WbHB0PHJ0FDRpzhIVamWPbDWbVfPrRIMvcerO5w6GqLgU+bzu8+RcEuvQexqXvCFcOTSO36BgU
- JeYWwA2RxBfgyMc4KBxcRDr7YLLxuLb8cZw7seH+6+RmDAC8JtrLyRo7uPkNvF0hqGO/pb8T2u
- y5s=
+IronPort-SDR: WQ5+c8NWzIo+Nqh4ZyYblLqcDtnTiKRX/9Z/OF/0fG/b06FdNkTBHQJJw9T8Uqn6SlwpjqKz9L
+ eFhVjon9fGfH02L26PlPuBxPqH6P47t3xFhIPgo77WGrkQiz7Q5vRjdfe6B94m66o5LJeGkUYj
+ yiwpow3ylQ8l/MpyzPBi2iIvYZZ2a7niQvEfyRMs8n8eOGQhBnY4W9/sdouYJeKAWZcsvWl1g7
+ 1S279wFwBOAqXctBBg+DrFIZjYoXClxxDIjD9Iu01cB0EjKwVpZeBtA7MQy7sCRAAFx5RkHgV8
+ jnM=
 X-IronPort-AV: E=Sophos;i="5.75,383,1589234400"; 
-   d="scan'208";a="11107590"
+   d="scan'208";a="11107744"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v5 07/13] deb: Move rootfs to its own dir
-Date: Wed, 22 Jul 2020 15:31:14 +0200
-Message-ID: <20200722133120.11484-8-fredrigu@axis.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200722133120.11484-1-fredrigu@axis.com>
-References: <20200722133120.11484-1-fredrigu@axis.com>
+To: Paul Barker <pbarker@konsulko.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, tools-cfpbuild-internal
+	<tools-cfpbuild-internal@axis.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH v4 01/12] Move rpm manifest to its own subdir
+Thread-Topic: [PATCH v4 01/12] Move rpm manifest to its own subdir
+Thread-Index: AQHWUS9HKFExdm4B+0exxdD/0h6qFKj/GLQwgAA86oCAB2F99IAGtXaAgAZJ9xM=
+Date: Wed, 22 Jul 2020 13:33:45 +0000
+Message-ID: <1595424825526.56776@axis.com>
+References: <20200703114402.8850-1-fredrigu@axis.com>
+ <20200703114402.8850-2-fredrigu@axis.com> <1594291329382.85415@axis.com>
+ <CAM9ZRVtH5m14PHydagC1k9XnaEu=USX2oFRraGUvCh=911scxg@mail.gmail.com>
+ <1594710174328.5614@axis.com>,<CAM9ZRVs_KNN4pqA7k1YmQkThsDdDAJbTdyiVY=2uAdnPmaFz5Q@mail.gmail.com>
+In-Reply-To: <CAM9ZRVs_KNN4pqA7k1YmQkThsDdDAJbTdyiVY=2uAdnPmaFz5Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Return-Path: fredrigu@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This is a part of a refactor that will split the package manager
-code so that it's possible to use other package managers in other
-layers.
-
-Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
----
- meta/lib/oe/package_manager/deb/rootfs.py | 209 ++++++++++++++++++++++
- meta/lib/oe/rootfs.py                     | 201 +--------------------
- 2 files changed, 211 insertions(+), 199 deletions(-)
- create mode 100644 meta/lib/oe/package_manager/deb/rootfs.py
-
-diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/package_manager/deb/rootfs.py
-new file mode 100644
-index 0000000000..0661ee7c5b
---- /dev/null
-+++ b/meta/lib/oe/package_manager/deb/rootfs.py
-@@ -0,0 +1,209 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+from oe.rootfs import Rootfs
-+from oe.package_manager import DpkgPM
-+from oe.manifest import Manifest
-+from oe.utils import execute_pre_post_process
-+from oe.package_manager.deb.manifest import DpkgManifest
-+import re
-+
-+class DpkgOpkgRootfs(Rootfs):
-+    def __init__(self, d, progress_reporter=None, logcatcher=None):
-+        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
-+
-+    def _get_pkgs_postinsts(self, status_file):
-+        def _get_pkg_depends_list(pkg_depends):
-+            pkg_depends_list = []
-+            # filter version requirements like libc (>= 1.1)
-+            for dep in pkg_depends.split(', '):
-+                m_dep = re.match(r"^(.*) \(.*\)$", dep)
-+                if m_dep:
-+                    dep = m_dep.group(1)
-+                pkg_depends_list.append(dep)
-+
-+            return pkg_depends_list
-+
-+        pkgs = {}
-+        pkg_name = ""
-+        pkg_status_match = False
-+        pkg_depends = ""
-+
-+        with open(status_file) as status:
-+            data = status.read()
-+            status.close()
-+            for line in data.split('\n'):
-+                m_pkg = re.match(r"^Package: (.*)", line)
-+                m_status = re.match(r"^Status:.*unpacked", line)
-+                m_depends = re.match(r"^Depends: (.*)", line)
-+
-+                #Only one of m_pkg, m_status or m_depends is not None at time
-+                #If m_pkg is not None, we started a new package
-+                if m_pkg is not None:
-+                    #Get Package name
-+                    pkg_name = m_pkg.group(1)
-+                    #Make sure we reset other variables
-+                    pkg_status_match = False
-+                    pkg_depends = ""
-+                elif m_status is not None:
-+                    #New status matched
-+                    pkg_status_match = True
-+                elif m_depends is not None:
-+                    #New depends macthed
-+                    pkg_depends = m_depends.group(1)
-+                else:
-+                    pass
-+
-+                #Now check if we can process package depends and postinst
-+                if "" != pkg_name and pkg_status_match:
-+                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
-+                else:
-+                    #Not enough information
-+                    pass
-+
-+        # remove package dependencies not in postinsts
-+        pkg_names = list(pkgs.keys())
-+        for pkg_name in pkg_names:
-+            deps = pkgs[pkg_name][:]
-+
-+            for d in deps:
-+                if d not in pkg_names:
-+                    pkgs[pkg_name].remove(d)
-+
-+        return pkgs
-+
-+    def _get_delayed_postinsts_common(self, status_file):
-+        def _dep_resolve(graph, node, resolved, seen):
-+            seen.append(node)
-+
-+            for edge in graph[node]:
-+                if edge not in resolved:
-+                    if edge in seen:
-+                        raise RuntimeError("Packages %s and %s have " \
-+                                "a circular dependency in postinsts scripts." \
-+                                % (node, edge))
-+                    _dep_resolve(graph, edge, resolved, seen)
-+
-+            resolved.append(node)
-+
-+        pkg_list = []
-+
-+        pkgs = None
-+        if not self.d.getVar('PACKAGE_INSTALL').strip():
-+            bb.note("Building empty image")
-+        else:
-+            pkgs = self._get_pkgs_postinsts(status_file)
-+        if pkgs:
-+            root = "__packagegroup_postinst__"
-+            pkgs[root] = list(pkgs.keys())
-+            _dep_resolve(pkgs, root, pkg_list, [])
-+            pkg_list.remove(root)
-+
-+        if len(pkg_list) == 0:
-+            return None
-+
-+        return pkg_list
-+
-+    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
-+        if bb.utils.contains("IMAGE_FEATURES", "package-management",
-+                         True, False, self.d):
-+            return
-+        num = 0
-+        for p in self._get_delayed_postinsts():
-+            bb.utils.mkdirhier(dst_postinst_dir)
-+
-+            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
-+                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
-+                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
-+
-+            num += 1
-+
-+class DpkgRootfs(DpkgOpkgRootfs):
-+    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
-+        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
-+        self.log_check_regex = '^E:'
-+        self.log_check_expected_regexes = \
-+        [
-+            "^E: Unmet dependencies."
-+        ]
-+
-+        bb.utils.remove(self.image_rootfs, True)
-+        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
-+        self.manifest = DpkgManifest(d, manifest_dir)
-+        self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
-+                         d.getVar('PACKAGE_ARCHS'),
-+                         d.getVar('DPKG_ARCH'))
-+
-+
-+    def _create(self):
-+        pkgs_to_install = self.manifest.parse_initial_manifest()
-+        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS')
-+        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS')
-+
-+        alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
-+        bb.utils.mkdirhier(alt_dir)
-+
-+        # update PM index files
-+        self.pm.write_index()
-+
-+        execute_pre_post_process(self.d, deb_pre_process_cmds)
-+
-+        if self.progress_reporter:
-+            self.progress_reporter.next_stage()
-+            # Don't support incremental, so skip that
-+            self.progress_reporter.next_stage()
-+
-+        self.pm.update()
-+
-+        if self.progress_reporter:
-+            self.progress_reporter.next_stage()
-+
-+        for pkg_type in self.install_order:
-+            if pkg_type in pkgs_to_install:
-+                self.pm.install(pkgs_to_install[pkg_type],
-+                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+                self.pm.fix_broken_dependencies()
-+
-+        if self.progress_reporter:
-+            # Don't support attemptonly, so skip that
-+            self.progress_reporter.next_stage()
-+            self.progress_reporter.next_stage()
-+
-+        self.pm.install_complementary()
-+
-+        if self.progress_reporter:
-+            self.progress_reporter.next_stage()
-+
-+        self._setup_dbg_rootfs(['/var/lib/dpkg'])
-+
-+        self.pm.fix_broken_dependencies()
-+
-+        self.pm.mark_packages("installed")
-+
-+        self.pm.run_pre_post_installs()
-+
-+        execute_pre_post_process(self.d, deb_post_process_cmds)
-+
-+        if self.progress_reporter:
-+            self.progress_reporter.next_stage()
-+
-+    @staticmethod
-+    def _depends_list():
-+        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
-+
-+    def _get_delayed_postinsts(self):
-+        status_file = self.image_rootfs + "/var/lib/dpkg/status"
-+        return self._get_delayed_postinsts_common(status_file)
-+
-+    def _save_postinsts(self):
-+        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
-+        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
-+        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
-+
-+    def _log_check(self):
-+        self._log_check_warn()
-+        self._log_check_error()
-+
-+    def _cleanup(self):
-+        pass
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index e2b8d99d4f..0b6e2d0480 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -355,208 +355,10 @@ class Rootfs(object, metaclass=ABCMeta):
-                                   self.image_rootfs, "-D", devtable])
- 
- 
--class DpkgOpkgRootfs(Rootfs):
--    def __init__(self, d, progress_reporter=None, logcatcher=None):
--        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
--
--    def _get_pkgs_postinsts(self, status_file):
--        def _get_pkg_depends_list(pkg_depends):
--            pkg_depends_list = []
--            # filter version requirements like libc (>= 1.1)
--            for dep in pkg_depends.split(', '):
--                m_dep = re.match(r"^(.*) \(.*\)$", dep)
--                if m_dep:
--                    dep = m_dep.group(1)
--                pkg_depends_list.append(dep)
--
--            return pkg_depends_list
--
--        pkgs = {}
--        pkg_name = ""
--        pkg_status_match = False
--        pkg_depends = ""
--
--        with open(status_file) as status:
--            data = status.read()
--            status.close()
--            for line in data.split('\n'):
--                m_pkg = re.match(r"^Package: (.*)", line)
--                m_status = re.match(r"^Status:.*unpacked", line)
--                m_depends = re.match(r"^Depends: (.*)", line)
--
--                #Only one of m_pkg, m_status or m_depends is not None at time
--                #If m_pkg is not None, we started a new package
--                if m_pkg is not None:
--                    #Get Package name
--                    pkg_name = m_pkg.group(1)
--                    #Make sure we reset other variables
--                    pkg_status_match = False
--                    pkg_depends = ""
--                elif m_status is not None:
--                    #New status matched
--                    pkg_status_match = True
--                elif m_depends is not None:
--                    #New depends macthed
--                    pkg_depends = m_depends.group(1)
--                else:
--                    pass
--
--                #Now check if we can process package depends and postinst
--                if "" != pkg_name and pkg_status_match:
--                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
--                else:
--                    #Not enough information
--                    pass
--
--        # remove package dependencies not in postinsts
--        pkg_names = list(pkgs.keys())
--        for pkg_name in pkg_names:
--            deps = pkgs[pkg_name][:]
--
--            for d in deps:
--                if d not in pkg_names:
--                    pkgs[pkg_name].remove(d)
--
--        return pkgs
--
--    def _get_delayed_postinsts_common(self, status_file):
--        def _dep_resolve(graph, node, resolved, seen):
--            seen.append(node)
--
--            for edge in graph[node]:
--                if edge not in resolved:
--                    if edge in seen:
--                        raise RuntimeError("Packages %s and %s have " \
--                                "a circular dependency in postinsts scripts." \
--                                % (node, edge))
--                    _dep_resolve(graph, edge, resolved, seen)
--
--            resolved.append(node)
--
--        pkg_list = []
--
--        pkgs = None
--        if not self.d.getVar('PACKAGE_INSTALL').strip():
--            bb.note("Building empty image")
--        else:
--            pkgs = self._get_pkgs_postinsts(status_file)
--        if pkgs:
--            root = "__packagegroup_postinst__"
--            pkgs[root] = list(pkgs.keys())
--            _dep_resolve(pkgs, root, pkg_list, [])
--            pkg_list.remove(root)
--
--        if len(pkg_list) == 0:
--            return None
--
--        return pkg_list
--
--    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
--        if bb.utils.contains("IMAGE_FEATURES", "package-management",
--                         True, False, self.d):
--            return
--        num = 0
--        for p in self._get_delayed_postinsts():
--            bb.utils.mkdirhier(dst_postinst_dir)
--
--            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
--                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
--                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
--
--            num += 1
--
--class DpkgRootfs(DpkgOpkgRootfs):
--    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
--        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
--        self.log_check_regex = '^E:'
--        self.log_check_expected_regexes = \
--        [
--            "^E: Unmet dependencies."
--        ]
--
--        bb.utils.remove(self.image_rootfs, True)
--        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
--        self.manifest = DpkgManifest(d, manifest_dir)
--        self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
--                         d.getVar('PACKAGE_ARCHS'),
--                         d.getVar('DPKG_ARCH'))
--
--
--    def _create(self):
--        pkgs_to_install = self.manifest.parse_initial_manifest()
--        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS')
--        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS')
--
--        alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
--        bb.utils.mkdirhier(alt_dir)
--
--        # update PM index files
--        self.pm.write_index()
--
--        execute_pre_post_process(self.d, deb_pre_process_cmds)
--
--        if self.progress_reporter:
--            self.progress_reporter.next_stage()
--            # Don't support incremental, so skip that
--            self.progress_reporter.next_stage()
--
--        self.pm.update()
--
--        if self.progress_reporter:
--            self.progress_reporter.next_stage()
--
--        for pkg_type in self.install_order:
--            if pkg_type in pkgs_to_install:
--                self.pm.install(pkgs_to_install[pkg_type],
--                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
--                self.pm.fix_broken_dependencies()
--
--        if self.progress_reporter:
--            # Don't support attemptonly, so skip that
--            self.progress_reporter.next_stage()
--            self.progress_reporter.next_stage()
--
--        self.pm.install_complementary()
--
--        if self.progress_reporter:
--            self.progress_reporter.next_stage()
--
--        self._setup_dbg_rootfs(['/var/lib/dpkg'])
--
--        self.pm.fix_broken_dependencies()
--
--        self.pm.mark_packages("installed")
--
--        self.pm.run_pre_post_installs()
--
--        execute_pre_post_process(self.d, deb_post_process_cmds)
--
--        if self.progress_reporter:
--            self.progress_reporter.next_stage()
--
--    @staticmethod
--    def _depends_list():
--        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
--
--    def _get_delayed_postinsts(self):
--        status_file = self.image_rootfs + "/var/lib/dpkg/status"
--        return self._get_delayed_postinsts_common(status_file)
--
--    def _save_postinsts(self):
--        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
--        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
--        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
--
--    def _log_check(self):
--        self._log_check_warn()
--        self._log_check_error()
--
--    def _cleanup(self):
--        pass
--
- def get_class_for_type(imgtype):
-     from oe.package_manager.rpm.rootfs import RpmRootfs
-     from oe.package_manager.ipk.rootfs import OpkgRootfs
-+    from oe.package_manager.deb.rootfs import DpkgRootfs
-     return {"rpm": RpmRootfs,
-             "ipk": OpkgRootfs,
-             "deb": DpkgRootfs}[imgtype]
-@@ -571,6 +373,7 @@ def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None)
- 
-     from oe.package_manager.rpm.rootfs import RpmRootfs
-     from oe.package_manager.ipk.rootfs import OpkgRootfs
-+    from oe.package_manager.deb.rootfs import DpkgRootfs
-     img_type = d.getVar('IMAGE_PKGTYPE')
-     if img_type == "rpm":
-         RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
--- 
-2.20.1
-
+Hi Paul,=0A=
+thank you for your review, I hope you're feeling better!=0A=
+I think I've managed to fix all your comments.=0A=
+Some imports was not possible to move to the top of the file but those=0A=
+who where possible to move I've moved.=0A=
+=0A=
+Please note that I'll be away from monday and four weeks forward. Please=0A=
+don't take my silence then as a lack of interest. This has my highest prior=
+ity.=0A=
+=0A=
+Best regards=0A=
+Fredrik=0A=
+________________________________________=0A=
+From: Paul Barker <pbarker@konsulko.com>=0A=
+Sent: Saturday, July 18, 2020 5:29 PM=0A=
+To: Fredrik Gustafsson=0A=
+Cc: openembedded-core@lists.openembedded.org; tools-cfpbuild-internal; Rich=
+ard Purdie=0A=
+Subject: Re: [PATCH v4 01/12] Move rpm manifest to its own subdir=0A=
+=0A=
+On Tue, 14 Jul 2020 at 08:02, Fredrik Gustafsson=0A=
+<Fredrik.Gustafsson@axis.com> wrote:=0A=
+>=0A=
+> Thank you, just let me know if I can make it any easier to review this,=
+=0A=
+> I know it's a big patch.=0A=
+=0A=
+Hi Fredrik,=0A=
+=0A=
+Sorry for the delays here, I've been unable to get back to this until=0A=
+today due to other commitments and a few health issues.=0A=
+=0A=
+Here's my feedback on the series as a whole. Overall I think it's=0A=
+excellent, I much prefer the result where the code is grouped by=0A=
+package manager (opkg, dpkg or rpm) to the existing code where it's=0A=
+spread across package_manager.py, rootfs.py, manifest.py and sdk.py.=0A=
+=0A=
+1) Please edit the first line of each commit message to follow the=0A=
+style guide at https://www.openembedded.org/wiki/Commit_Patch_Message_Guide=
+lines.=0A=
+=0A=
+2) Please also fix the following whitespace errors reported when=0A=
+applying these patches:=0A=
+=0A=
+$ git am ../v4-Move-rpm-manifest-to-its-...-and-11-more.mbox=0A=
+Applying: Move rpm manifest to its own subdir=0A=
+.git/rebase-apply/patch:148: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move ipk manifest to its own subdir=0A=
+.git/rebase-apply/patch:187: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move deb manifest to its own subdir=0A=
+Applying: Move rpm rootfs to its own dir=0A=
+.git/rebase-apply/patch:161: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move ipk rootfs to its own dir=0A=
+Applying: Move deb rootfs to its own dir=0A=
+.git/rebase-apply/patch:222: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move rpm sdk to its own dir=0A=
+.git/rebase-apply/patch:127: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move ipk sdk to its own dir=0A=
+.git/rebase-apply/patch:42: trailing whitespace.=0A=
+self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"),=0A=
+.git/rebase-apply/patch:109: new blank line at EOF.=0A=
++=0A=
+warning: 2 lines add whitespace errors.=0A=
+Applying: Move deb sdk to its own dir=0A=
+.git/rebase-apply/patch:108: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move rpm package manager to its own dir=0A=
+.git/rebase-apply/patch:840: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move ipk package manager to its own dir=0A=
+.git/rebase-apply/patch:951: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+Applying: Move deb package manager to its own dir=0A=
+.git/rebase-apply/patch:1042: new blank line at EOF.=0A=
++=0A=
+warning: 1 line adds whitespace errors.=0A=
+=0A=
+3) I'd recommend the new module keeps the name package_manager. You=0A=
+can do this by moving the existing code into=0A=
+package_manager/__init__.py and then splitting it up inside that=0A=
+directory. Imports and wrappers in the __init__.py file can be used to=0A=
+ensure no other bit of the code needs to worry about the changes.=0A=
+=0A=
+4) Please avoid unnecessarily using imports inside functions. In=0A=
+rootfs.py, manifest.py and sdk.py you can import the required classes=0A=
+at the top level. Functions like create_rootfs(), populate_sdk(), etc=0A=
+should not require any changes as part of this patch series.=0A=
+=0A=
+I'll run as much of the selftest suite as I can on this series as-is=0A=
+to see if there are any other issues.=0A=
+=0A=
+Thanks,=0A=
+=0A=
+--=0A=
+Paul Barker=0A=
+Konsulko Group=0A=
