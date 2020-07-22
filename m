@@ -1,36 +1,36 @@
 Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web10.18842.1595424693136719558
+ by mx.groups.io with SMTP id smtpd.web11.18598.1595424694057962182
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2020 06:31:34 -0700
+ Wed, 22 Jul 2020 06:31:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=euAxZZQ5;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DKVAFBNr;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=7903; q=dns/txt; s=axis-central1;
-  t=1595424694; x=1626960694;
+  d=axis.com; l=13588; q=dns/txt; s=axis-central1;
+  t=1595424695; x=1626960695;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RlcbL9mRCeEuDrEVzXtPbZ8MWZSZE6Ic4sD70W5TD14=;
-  b=euAxZZQ5rdus4AZOxLx+sE2kkJDu99A+K19A2FjfJ11eKWLCPS84rjsH
-   STLjkRvEWZ+8dXAblV0MxF5hNOj0vNnxIoGkFtqYEAJnWycPwuFBL4+oS
-   VABrY60xtm9Owk4uRhx0SVZNjsIazCGbS7zvwEUBQjGszgyHq9KWUGnV/
-   tGDsuOD2ZBBmDsawUCS2VkJ1lSMrFTSGNQM4EkS7is+ZAch37ULnI5oZi
-   /KsagksWPXuvfz1gl2oFIEvBdFcRYSWVzXAe0SJ/LHAFHtfRrkjnfyG+Z
-   2O7lRR6ayERxIIiVjzkNT9M7YeX00N0t0CuctvzJjG7wxntbU1jH4n7SM
+  bh=YJeQqJAeZyVfu05TICLB1dckETax5QGnvXdGgPCotOA=;
+  b=DKVAFBNr0+j72PyTW/bWGxYZrlbXA2PXGhZ6RsJlXHBrBheK65KJxvjC
+   hqmJ+8Qs0DgkuZHGuoGJBSKYX65/9O1NyxYhBDEjuROrEvZMOKz7N5wMl
+   k/M2ZFDpq8Gk9wNadai19T0CZmokEIPC1NU5xcvFNb1S8G5oQpPNFJkC2
+   mrLpH3fNX0FQl0FNki3BRveM2HE/IpzfKriU0Q3qMW7DJWuRn0tPlVqge
+   7NnnHm5GCR9kW8gXZ3xpe5btTBoF/wxy7q4McP/zUe82YertME0WKYetI
+   cjU/FC2f4bdKaNXUS99nB93LZjJ2hLxi3Lozge+ZDN39IFoSIlNUZTugy
    A==;
-IronPort-SDR: Zgt6jnDQILsWhqgPGkfoAO+Gwc97t3uzoaIaaZQ3M3aeKApvO73976N4Wkoz/HXLHKwhIUT5o3
- wms0hzTs6dPEqMwbM7BZb9RiZwN9V2phTI9kwpduJZIGxUthUgD4N12szeoopILLAKwXaFZ1pI
- 3BO9rswB3L5wlV4r/nXvXZDvBWj0nX3Qpn0HeWsHwwLf3VWEbKtMjcH3XLw848Qc21fp19HKFI
- 0qgVuwUz119JpGdQE2eVmduEjnqyJN6oXcajqDU3yRW/mc3sSt4QDIRVos89zqQ4uEtX3f+Te1
- ewI=
+IronPort-SDR: nSMnG6xqhKJ9jVNPBVEfy+dDE4HiEw4HUhBaadoEBBGHHPuinCaBXRa6L5qKAl6QjIqk1iW+/Z
+ XBA2F7zFJkFIHbDJt0zlD8vEEGjOmUozzOuewNkzxafTfJdo5Jnw7GVahfiYviuricTK1CRHGQ
+ WbHB0PHJ0FDRpzhIVamWPbDWbVfPrRIMvcerO5w6GqLgU+bzu8+RcEuvQexqXvCFcOTSO36BgU
+ JeYWwA2RxBfgyMc4KBxcRDr7YLLxuLb8cZw7seH+6+RmDAC8JtrLyRo7uPkNvF0hqGO/pb8T2u
+ y5s=
 X-IronPort-AV: E=Sophos;i="5.75,383,1589234400"; 
-   d="scan'208";a="11107588"
+   d="scan'208";a="11107590"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v5 08/13] rpm: Move sdk to its own dir
-Date: Wed, 22 Jul 2020 15:31:15 +0200
-Message-ID: <20200722133120.11484-9-fredrigu@axis.com>
+Subject: [PATCH v5 07/13] deb: Move rootfs to its own dir
+Date: Wed, 22 Jul 2020 15:31:14 +0200
+Message-ID: <20200722133120.11484-8-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722133120.11484-1-fredrigu@axis.com>
 References: <20200722133120.11484-1-fredrigu@axis.com>
@@ -39,261 +39,454 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This is part of a refactor that will split the package manager
+This is a part of a refactor that will split the package manager
 code so that it's possible to use other package managers in other
 layers.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_manager/rpm/sdk.py | 114 +++++++++++++++++++++++++
- meta/lib/oe/sdk.py                     | 106 +----------------------
- 2 files changed, 115 insertions(+), 105 deletions(-)
- create mode 100644 meta/lib/oe/package_manager/rpm/sdk.py
+ meta/lib/oe/package_manager/deb/rootfs.py | 209 ++++++++++++++++++++++
+ meta/lib/oe/rootfs.py                     | 201 +--------------------
+ 2 files changed, 211 insertions(+), 199 deletions(-)
+ create mode 100644 meta/lib/oe/package_manager/deb/rootfs.py
 
-diff --git a/meta/lib/oe/package_manager/rpm/sdk.py b/meta/lib/oe/package_manager/rpm/sdk.py
+diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/package_manager/deb/rootfs.py
 new file mode 100644
-index 0000000000..0d44b0ee6c
+index 0000000000..0661ee7c5b
 --- /dev/null
-+++ b/meta/lib/oe/package_manager/rpm/sdk.py
-@@ -0,0 +1,114 @@
++++ b/meta/lib/oe/package_manager/deb/rootfs.py
+@@ -0,0 +1,209 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+from oe.utils import execute_pre_post_process
-+from oe.sdk import Sdk
++from oe.rootfs import Rootfs
++from oe.package_manager import DpkgPM
 +from oe.manifest import Manifest
-+from oe.package_manager import RpmPM
-+import glob
++from oe.utils import execute_pre_post_process
++from oe.package_manager.deb.manifest import DpkgManifest
++import re
 +
-+class RpmSdk(Sdk):
-+    def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
-+        super(RpmSdk, self).__init__(d, manifest_dir)
++class DpkgOpkgRootfs(Rootfs):
++    def __init__(self, d, progress_reporter=None, logcatcher=None):
++        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
 +
-+        from oe.package_managers.rpm.manifest import RpmManifest
-+        self.target_manifest = RpmManifest(d, self.manifest_dir,
-+                                           Manifest.MANIFEST_TYPE_SDK_TARGET)
-+        self.host_manifest = RpmManifest(d, self.manifest_dir,
-+                                         Manifest.MANIFEST_TYPE_SDK_HOST)
++    def _get_pkgs_postinsts(self, status_file):
++        def _get_pkg_depends_list(pkg_depends):
++            pkg_depends_list = []
++            # filter version requirements like libc (>= 1.1)
++            for dep in pkg_depends.split(', '):
++                m_dep = re.match(r"^(.*) \(.*\)$", dep)
++                if m_dep:
++                    dep = m_dep.group(1)
++                pkg_depends_list.append(dep)
 +
-+        rpm_repo_workdir = "oe-sdk-repo"
-+        if "sdk_ext" in d.getVar("BB_RUNTASK"):
-+            rpm_repo_workdir = "oe-sdk-ext-repo"
++            return pkg_depends_list
 +
-+        self.target_pm = RpmPM(d,
-+                               self.sdk_target_sysroot,
-+                               self.d.getVar('TARGET_VENDOR'),
-+                               'target',
-+                               rpm_repo_workdir=rpm_repo_workdir
-+                               )
++        pkgs = {}
++        pkg_name = ""
++        pkg_status_match = False
++        pkg_depends = ""
 +
-+        self.host_pm = RpmPM(d,
-+                             self.sdk_host_sysroot,
-+                             self.d.getVar('SDK_VENDOR'),
-+                             'host',
-+                             "SDK_PACKAGE_ARCHS",
-+                             "SDK_OS",
-+                             rpm_repo_workdir=rpm_repo_workdir
-+                             )
++        with open(status_file) as status:
++            data = status.read()
++            status.close()
++            for line in data.split('\n'):
++                m_pkg = re.match(r"^Package: (.*)", line)
++                m_status = re.match(r"^Status:.*unpacked", line)
++                m_depends = re.match(r"^Depends: (.*)", line)
 +
-+    def _populate_sysroot(self, pm, manifest):
-+        pkgs_to_install = manifest.parse_initial_manifest()
++                #Only one of m_pkg, m_status or m_depends is not None at time
++                #If m_pkg is not None, we started a new package
++                if m_pkg is not None:
++                    #Get Package name
++                    pkg_name = m_pkg.group(1)
++                    #Make sure we reset other variables
++                    pkg_status_match = False
++                    pkg_depends = ""
++                elif m_status is not None:
++                    #New status matched
++                    pkg_status_match = True
++                elif m_depends is not None:
++                    #New depends macthed
++                    pkg_depends = m_depends.group(1)
++                else:
++                    pass
 +
-+        pm.create_configs()
-+        pm.write_index()
-+        pm.update()
++                #Now check if we can process package depends and postinst
++                if "" != pkg_name and pkg_status_match:
++                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
++                else:
++                    #Not enough information
++                    pass
 +
-+        pkgs = []
-+        pkgs_attempt = []
-+        for pkg_type in pkgs_to_install:
-+            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
-+                pkgs_attempt += pkgs_to_install[pkg_type]
-+            else:
-+                pkgs += pkgs_to_install[pkg_type]
++        # remove package dependencies not in postinsts
++        pkg_names = list(pkgs.keys())
++        for pkg_name in pkg_names:
++            deps = pkgs[pkg_name][:]
 +
-+        pm.install(pkgs)
++            for d in deps:
++                if d not in pkg_names:
++                    pkgs[pkg_name].remove(d)
 +
-+        pm.install(pkgs_attempt, True)
++        return pkgs
 +
-+    def _populate(self):
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
++    def _get_delayed_postinsts_common(self, status_file):
++        def _dep_resolve(graph, node, resolved, seen):
++            seen.append(node)
 +
-+        bb.note("Installing TARGET packages")
-+        self._populate_sysroot(self.target_pm, self.target_manifest)
++            for edge in graph[node]:
++                if edge not in resolved:
++                    if edge in seen:
++                        raise RuntimeError("Packages %s and %s have " \
++                                "a circular dependency in postinsts scripts." \
++                                % (node, edge))
++                    _dep_resolve(graph, edge, resolved, seen)
 +
-+        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
++            resolved.append(node)
 +
-+        self.target_pm.run_intercepts(populate_sdk='target')
++        pkg_list = []
 +
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
++        pkgs = None
++        if not self.d.getVar('PACKAGE_INSTALL').strip():
++            bb.note("Building empty image")
++        else:
++            pkgs = self._get_pkgs_postinsts(status_file)
++        if pkgs:
++            root = "__packagegroup_postinst__"
++            pkgs[root] = list(pkgs.keys())
++            _dep_resolve(pkgs, root, pkg_list, [])
++            pkg_list.remove(root)
 +
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.target_pm.remove_packaging_data()
++        if len(pkg_list) == 0:
++            return None
 +
-+        bb.note("Installing NATIVESDK packages")
-+        self._populate_sysroot(self.host_pm, self.host_manifest)
-+        self.install_locales(self.host_pm)
++        return pkg_list
 +
-+        self.host_pm.run_intercepts(populate_sdk='host')
++    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
++        if bb.utils.contains("IMAGE_FEATURES", "package-management",
++                         True, False, self.d):
++            return
++        num = 0
++        for p in self._get_delayed_postinsts():
++            bb.utils.mkdirhier(dst_postinst_dir)
 +
-+        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
++            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
++                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
++                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
 +
-+        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-+            self.host_pm.remove_packaging_data()
++            num += 1
 +
-+        # Move host RPM library data
-+        native_rpm_state_dir = os.path.join(self.sdk_output,
-+                                            self.sdk_native_path,
-+                                            self.d.getVar('localstatedir_nativesdk').strip('/'),
-+                                            "lib",
-+                                            "rpm"
-+                                            )
-+        self.mkdirhier(native_rpm_state_dir)
-+        for f in glob.glob(os.path.join(self.sdk_output,
-+                                        "var",
-+                                        "lib",
-+                                        "rpm",
-+                                        "*")):
-+            self.movefile(f, native_rpm_state_dir)
++class DpkgRootfs(DpkgOpkgRootfs):
++    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
++        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
++        self.log_check_regex = '^E:'
++        self.log_check_expected_regexes = \
++        [
++            "^E: Unmet dependencies."
++        ]
 +
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
++        bb.utils.remove(self.image_rootfs, True)
++        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
++        self.manifest = DpkgManifest(d, manifest_dir)
++        self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
++                         d.getVar('PACKAGE_ARCHS'),
++                         d.getVar('DPKG_ARCH'))
 +
-+        # Move host sysconfig data
-+        native_sysconf_dir = os.path.join(self.sdk_output,
-+                                          self.sdk_native_path,
-+                                          self.d.getVar('sysconfdir',
-+                                                        True).strip('/'),
-+                                          )
-+        self.mkdirhier(native_sysconf_dir)
-+        for f in glob.glob(os.path.join(self.sdk_output, "etc", "rpm*")):
-+            self.movefile(f, native_sysconf_dir)
-+        for f in glob.glob(os.path.join(self.sdk_output, "etc", "dnf", "*")):
-+            self.movefile(f, native_sysconf_dir)
-+        self.remove(os.path.join(self.sdk_output, "etc"), True)
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index d02a274812..29053e69ee 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -110,111 +110,6 @@ class Sdk(object, metaclass=ABCMeta):
-             pass
++
++    def _create(self):
++        pkgs_to_install = self.manifest.parse_initial_manifest()
++        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS')
++        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS')
++
++        alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
++        bb.utils.mkdirhier(alt_dir)
++
++        # update PM index files
++        self.pm.write_index()
++
++        execute_pre_post_process(self.d, deb_pre_process_cmds)
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++            # Don't support incremental, so skip that
++            self.progress_reporter.next_stage()
++
++        self.pm.update()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        for pkg_type in self.install_order:
++            if pkg_type in pkgs_to_install:
++                self.pm.install(pkgs_to_install[pkg_type],
++                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++                self.pm.fix_broken_dependencies()
++
++        if self.progress_reporter:
++            # Don't support attemptonly, so skip that
++            self.progress_reporter.next_stage()
++            self.progress_reporter.next_stage()
++
++        self.pm.install_complementary()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        self._setup_dbg_rootfs(['/var/lib/dpkg'])
++
++        self.pm.fix_broken_dependencies()
++
++        self.pm.mark_packages("installed")
++
++        self.pm.run_pre_post_installs()
++
++        execute_pre_post_process(self.d, deb_post_process_cmds)
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++    @staticmethod
++    def _depends_list():
++        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
++
++    def _get_delayed_postinsts(self):
++        status_file = self.image_rootfs + "/var/lib/dpkg/status"
++        return self._get_delayed_postinsts_common(status_file)
++
++    def _save_postinsts(self):
++        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
++        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
++        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
++
++    def _log_check(self):
++        self._log_check_warn()
++        self._log_check_error()
++
++    def _cleanup(self):
++        pass
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index e2b8d99d4f..0b6e2d0480 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -355,208 +355,10 @@ class Rootfs(object, metaclass=ABCMeta):
+                                   self.image_rootfs, "-D", devtable])
  
  
--class RpmSdk(Sdk):
--    def __init__(self, d, manifest_dir=None, rpm_workdir="oe-sdk-repo"):
--        super(RpmSdk, self).__init__(d, manifest_dir)
+-class DpkgOpkgRootfs(Rootfs):
+-    def __init__(self, d, progress_reporter=None, logcatcher=None):
+-        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
 -
--        self.target_manifest = RpmManifest(d, self.manifest_dir,
--                                           Manifest.MANIFEST_TYPE_SDK_TARGET)
--        self.host_manifest = RpmManifest(d, self.manifest_dir,
--                                         Manifest.MANIFEST_TYPE_SDK_HOST)
+-    def _get_pkgs_postinsts(self, status_file):
+-        def _get_pkg_depends_list(pkg_depends):
+-            pkg_depends_list = []
+-            # filter version requirements like libc (>= 1.1)
+-            for dep in pkg_depends.split(', '):
+-                m_dep = re.match(r"^(.*) \(.*\)$", dep)
+-                if m_dep:
+-                    dep = m_dep.group(1)
+-                pkg_depends_list.append(dep)
 -
--        rpm_repo_workdir = "oe-sdk-repo"
--        if "sdk_ext" in d.getVar("BB_RUNTASK"):
--            rpm_repo_workdir = "oe-sdk-ext-repo"
+-            return pkg_depends_list
 -
--        self.target_pm = RpmPM(d,
--                               self.sdk_target_sysroot,
--                               self.d.getVar('TARGET_VENDOR'),
--                               'target',
--                               rpm_repo_workdir=rpm_repo_workdir
--                               )
+-        pkgs = {}
+-        pkg_name = ""
+-        pkg_status_match = False
+-        pkg_depends = ""
 -
--        self.host_pm = RpmPM(d,
--                             self.sdk_host_sysroot,
--                             self.d.getVar('SDK_VENDOR'),
--                             'host',
--                             "SDK_PACKAGE_ARCHS",
--                             "SDK_OS",
--                             rpm_repo_workdir=rpm_repo_workdir
--                             )
+-        with open(status_file) as status:
+-            data = status.read()
+-            status.close()
+-            for line in data.split('\n'):
+-                m_pkg = re.match(r"^Package: (.*)", line)
+-                m_status = re.match(r"^Status:.*unpacked", line)
+-                m_depends = re.match(r"^Depends: (.*)", line)
 -
--    def _populate_sysroot(self, pm, manifest):
--        pkgs_to_install = manifest.parse_initial_manifest()
+-                #Only one of m_pkg, m_status or m_depends is not None at time
+-                #If m_pkg is not None, we started a new package
+-                if m_pkg is not None:
+-                    #Get Package name
+-                    pkg_name = m_pkg.group(1)
+-                    #Make sure we reset other variables
+-                    pkg_status_match = False
+-                    pkg_depends = ""
+-                elif m_status is not None:
+-                    #New status matched
+-                    pkg_status_match = True
+-                elif m_depends is not None:
+-                    #New depends macthed
+-                    pkg_depends = m_depends.group(1)
+-                else:
+-                    pass
 -
--        pm.create_configs()
--        pm.write_index()
--        pm.update()
+-                #Now check if we can process package depends and postinst
+-                if "" != pkg_name and pkg_status_match:
+-                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
+-                else:
+-                    #Not enough information
+-                    pass
 -
--        pkgs = []
--        pkgs_attempt = []
--        for pkg_type in pkgs_to_install:
--            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
--                pkgs_attempt += pkgs_to_install[pkg_type]
--            else:
--                pkgs += pkgs_to_install[pkg_type]
+-        # remove package dependencies not in postinsts
+-        pkg_names = list(pkgs.keys())
+-        for pkg_name in pkg_names:
+-            deps = pkgs[pkg_name][:]
 -
--        pm.install(pkgs)
+-            for d in deps:
+-                if d not in pkg_names:
+-                    pkgs[pkg_name].remove(d)
 -
--        pm.install(pkgs_attempt, True)
+-        return pkgs
 -
--    def _populate(self):
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
+-    def _get_delayed_postinsts_common(self, status_file):
+-        def _dep_resolve(graph, node, resolved, seen):
+-            seen.append(node)
 -
--        bb.note("Installing TARGET packages")
--        self._populate_sysroot(self.target_pm, self.target_manifest)
+-            for edge in graph[node]:
+-                if edge not in resolved:
+-                    if edge in seen:
+-                        raise RuntimeError("Packages %s and %s have " \
+-                                "a circular dependency in postinsts scripts." \
+-                                % (node, edge))
+-                    _dep_resolve(graph, edge, resolved, seen)
 -
--        self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+-            resolved.append(node)
 -
--        self.target_pm.run_intercepts(populate_sdk='target')
+-        pkg_list = []
 -
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+-        pkgs = None
+-        if not self.d.getVar('PACKAGE_INSTALL').strip():
+-            bb.note("Building empty image")
+-        else:
+-            pkgs = self._get_pkgs_postinsts(status_file)
+-        if pkgs:
+-            root = "__packagegroup_postinst__"
+-            pkgs[root] = list(pkgs.keys())
+-            _dep_resolve(pkgs, root, pkg_list, [])
+-            pkg_list.remove(root)
 -
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.target_pm.remove_packaging_data()
+-        if len(pkg_list) == 0:
+-            return None
 -
--        bb.note("Installing NATIVESDK packages")
--        self._populate_sysroot(self.host_pm, self.host_manifest)
--        self.install_locales(self.host_pm)
+-        return pkg_list
 -
--        self.host_pm.run_intercepts(populate_sdk='host')
+-    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
+-        if bb.utils.contains("IMAGE_FEATURES", "package-management",
+-                         True, False, self.d):
+-            return
+-        num = 0
+-        for p in self._get_delayed_postinsts():
+-            bb.utils.mkdirhier(dst_postinst_dir)
 -
--        execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+-            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
+-                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
+-                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
 -
--        if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
--            self.host_pm.remove_packaging_data()
+-            num += 1
 -
--        # Move host RPM library data
--        native_rpm_state_dir = os.path.join(self.sdk_output,
--                                            self.sdk_native_path,
--                                            self.d.getVar('localstatedir_nativesdk').strip('/'),
--                                            "lib",
--                                            "rpm"
--                                            )
--        self.mkdirhier(native_rpm_state_dir)
--        for f in glob.glob(os.path.join(self.sdk_output,
--                                        "var",
--                                        "lib",
--                                        "rpm",
--                                        "*")):
--            self.movefile(f, native_rpm_state_dir)
+-class DpkgRootfs(DpkgOpkgRootfs):
+-    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(DpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+-        self.log_check_regex = '^E:'
+-        self.log_check_expected_regexes = \
+-        [
+-            "^E: Unmet dependencies."
+-        ]
 -
--        self.remove(os.path.join(self.sdk_output, "var"), True)
--
--        # Move host sysconfig data
--        native_sysconf_dir = os.path.join(self.sdk_output,
--                                          self.sdk_native_path,
--                                          self.d.getVar('sysconfdir',
--                                                        True).strip('/'),
--                                          )
--        self.mkdirhier(native_sysconf_dir)
--        for f in glob.glob(os.path.join(self.sdk_output, "etc", "rpm*")):
--            self.movefile(f, native_sysconf_dir)
--        for f in glob.glob(os.path.join(self.sdk_output, "etc", "dnf", "*")):
--            self.movefile(f, native_sysconf_dir)
--        self.remove(os.path.join(self.sdk_output, "etc"), True)
+-        bb.utils.remove(self.image_rootfs, True)
+-        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
+-        self.manifest = DpkgManifest(d, manifest_dir)
+-        self.pm = DpkgPM(d, d.getVar('IMAGE_ROOTFS'),
+-                         d.getVar('PACKAGE_ARCHS'),
+-                         d.getVar('DPKG_ARCH'))
 -
 -
- class OpkgSdk(Sdk):
-     def __init__(self, d, manifest_dir=None):
-         super(OpkgSdk, self).__init__(d, manifest_dir)
-@@ -409,6 +304,7 @@ def populate_sdk(d, manifest_dir=None):
-     env_bkp = os.environ.copy()
+-    def _create(self):
+-        pkgs_to_install = self.manifest.parse_initial_manifest()
+-        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS')
+-        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS')
+-
+-        alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
+-        bb.utils.mkdirhier(alt_dir)
+-
+-        # update PM index files
+-        self.pm.write_index()
+-
+-        execute_pre_post_process(self.d, deb_pre_process_cmds)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-            # Don't support incremental, so skip that
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.update()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        for pkg_type in self.install_order:
+-            if pkg_type in pkgs_to_install:
+-                self.pm.install(pkgs_to_install[pkg_type],
+-                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+-                self.pm.fix_broken_dependencies()
+-
+-        if self.progress_reporter:
+-            # Don't support attemptonly, so skip that
+-            self.progress_reporter.next_stage()
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.install_complementary()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self._setup_dbg_rootfs(['/var/lib/dpkg'])
+-
+-        self.pm.fix_broken_dependencies()
+-
+-        self.pm.mark_packages("installed")
+-
+-        self.pm.run_pre_post_installs()
+-
+-        execute_pre_post_process(self.d, deb_post_process_cmds)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-    @staticmethod
+-    def _depends_list():
+-        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
+-
+-    def _get_delayed_postinsts(self):
+-        status_file = self.image_rootfs + "/var/lib/dpkg/status"
+-        return self._get_delayed_postinsts_common(status_file)
+-
+-    def _save_postinsts(self):
+-        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
+-        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
+-        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
+-
+-    def _log_check(self):
+-        self._log_check_warn()
+-        self._log_check_error()
+-
+-    def _cleanup(self):
+-        pass
+-
+ def get_class_for_type(imgtype):
+     from oe.package_manager.rpm.rootfs import RpmRootfs
+     from oe.package_manager.ipk.rootfs import OpkgRootfs
++    from oe.package_manager.deb.rootfs import DpkgRootfs
+     return {"rpm": RpmRootfs,
+             "ipk": OpkgRootfs,
+             "deb": DpkgRootfs}[imgtype]
+@@ -571,6 +373,7 @@ def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None)
  
+     from oe.package_manager.rpm.rootfs import RpmRootfs
+     from oe.package_manager.ipk.rootfs import OpkgRootfs
++    from oe.package_manager.deb.rootfs import DpkgRootfs
      img_type = d.getVar('IMAGE_PKGTYPE')
-+    from oe.package_managers.rpm.sdk import RpmSdk
      if img_type == "rpm":
-         RpmSdk(d, manifest_dir).populate()
-     elif img_type == "ipk":
+         RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
 -- 
 2.20.1
 
