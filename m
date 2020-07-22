@@ -1,202 +1,112 @@
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com [209.85.219.193])
- by mx.groups.io with SMTP id smtpd.web12.16506.1595416097858759412
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.16990.1595418261547027458
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2020 04:08:18 -0700
+ Wed, 22 Jul 2020 04:44:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=OpNJHdwg;
- spf=pass (domain: linaro.org, ip: 209.85.219.193, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-yb1-f193.google.com with SMTP id 134so809933ybd.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2020 04:08:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BceYpi46;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f139so1676975wmf.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2020 04:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Bi1f7V8bLEcf8COi8zIVBUaCaW22gER6/wgyiiO1OtQ=;
-        b=OpNJHdwg+FOmNppdGG87XZIgX7pqG9hs6YWUvGk88gYv0i843A9EbnHQ0nk8+cww4v
-         CzPTjl1Ved4F9NbJ/hmKV89+Wapxp7jPLje8BC3ntTBVNNi3CmlaNxOpILWV/tLbP/J5
-         QAq5Bx9Kkz7SHC3L8qGY1BL4VqE7ERzO3hOWHr05uOD7RVs+AxAem2lnVx89Vi9gJNU9
-         VFHKGnkPGb/W7NGrNI7oF0LjBCEMZOqCz38KOwZYT0DEG+SpqLUAo8jIEdQzuADPG6jj
-         iUWyTezQ9lPy4aIq8v70DIku5pof3ODXfJJtAuGG1/ExBBIn4uOckEnrm5p2DsIudNZB
-         v5iA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LY/0xUklfQYIVUziPCOd3L1L0igl3Tsi9VbOyCfuc2U=;
+        b=BceYpi466Ms6NsWhCW/L0tRFmRfVgW2JPsuNDJD87Qk6lOM921LxcstKAdCUg2E43V
+         UruVKwOYa9B9gJepZCXYF95sT/5wFDJOcJFql28OL+BxMJV0fxzbK5Gna+y2px26rXWi
+         PVY/HXN0A8bjCX+Wo2zPP6VR4gDaCCgPU17w8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bi1f7V8bLEcf8COi8zIVBUaCaW22gER6/wgyiiO1OtQ=;
-        b=I6TqlsNfUFgMapQMxkHHWxq73+CQHyU/5z1s5hvebetXJChqlT0WBSsEkA1LKt5k/+
-         Pxi8Xd6oIxdwwEyvmlGKrHGnNnogX5/6+v38OiCfOY5uzgNzmeL2b29rIJlBCjCCTWk9
-         lyXSILBSJlb/RpdIDdU0k9QEps9SPJRRyKAQvHMNARfV0oQSL9xljb/ge9rtiLR4RTKD
-         8e+3rUcGaQJ7A6cDDyTXAJnbcW/uuQyJAXa9ayCJLhRJ2aBIcl9oNSpa4EF3SpWHjmLF
-         BeQvdnmBvTiGMzkC9K1AwDdCKwOqHvIqavwOvAQr70cSfLZCwUcBTzSG20hgbeOZCw4n
-         BS8g==
-X-Gm-Message-State: AOAM531C9dsPieNHX4nQ3HqvzE4w17fCIWEFn6lZXo1a2/upHITVDfdB
-	1TWFJHmcDS9kcqDV2e/mVSIsf2pzA61kazUJ37wHjA==
-X-Google-Smtp-Source: ABdhPJxJuviaji+q3PZgoJbxU5nnNp5110b4G6ewa4iCLDP7G8JfL0YZlASO1Q+hJ9/iseNAWWUdW1oTr9r7G0ZYuKg=
-X-Received: by 2002:a25:da10:: with SMTP id n16mr49446466ybf.373.1595416096829;
- Wed, 22 Jul 2020 04:08:16 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LY/0xUklfQYIVUziPCOd3L1L0igl3Tsi9VbOyCfuc2U=;
+        b=N5nbNyj+Fp5S+PVtsvdm5vSRxU9d524sMfpK1vaCqzp/E4BqfY0OtJiM4KlDvOjAgd
+         RllHrHSya6eLr0k7LLI8Dhm7dcTa9h7oGSXmndkrC2ksqgm2P6vE/XiEng+yrKKvLu2m
+         hoPs4xOdCmj9XoyNp5UvjeZladOhhC8y8G/o68IRTSMV3aDuOXsvILhpj4gjc6A+iCiZ
+         ZycEnmPStqm4t6iIOhOM4XcK2ARXpAjM3H3AxI98Fa0jr08T6FILd7ylH1IQv8PJoTis
+         SuwVvJ+gMwoq3qJXQV/pyb+Vk8SpBEST6wYte4qSO8zOo+Vk1hAsaaf3Q9dWz1ezyv6y
+         8IBQ==
+X-Gm-Message-State: AOAM531/gvlLOvVBShS2i0J3Ira5oxIixHzrsJqpMIZdBnHNDMjw5wVW
+	pYEh60icZ3OQ7t1XMxA6kMUbvA==
+X-Google-Smtp-Source: ABdhPJyOQ08UjZFOSVpcJr2OmBVVux6yfyCWml7FVSmy5apUz24Dq5U6b4+sf6DN6LpbeCto00/zmg==
+X-Received: by 2002:a1c:f317:: with SMTP id q23mr1334207wmq.182.1595418259970;
+        Wed, 22 Jul 2020 04:44:19 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from b.3.a.7.d.5.9.a.4.5.7.5.f.0.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (b.3.a.7.d.5.9.a.4.5.7.5.f.0.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3d0f:5754:a95d:7a3b])
+        by smtp.gmail.com with ESMTPSA id x204sm4162023wmg.2.2020.07.22.04.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2020 04:44:18 -0700 (PDT)
+Message-ID: <56743047d0ab30cb084fe71a2302efd63e6e67ab.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] qemurunner: Use tempfile.mkstemp to create pidfile name
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jul 2020 12:44:17 +0100
+In-Reply-To: <CAJdd5GY5jBuoE5zAHqYMnkX7ZAz5mU41p2dpxWqhEQNymyr0Cg@mail.gmail.com>
+References: <20200721215640.136052-1-richard.purdie@linuxfoundation.org>
+	 <CAJdd5GY5jBuoE5zAHqYMnkX7ZAz5mU41p2dpxWqhEQNymyr0Cg@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-References: <20200716223635.3349898-1-dbaryshkov@gmail.com>
-In-Reply-To: <20200716223635.3349898-1-dbaryshkov@gmail.com>
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-Date: Wed, 22 Jul 2020 13:08:05 +0200
-Message-ID: <CAP71Wjxxayo+hMD_EaJPOXVNgSYKyz60N84Rz36=CN-X5Z9d+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc-10.1: add fix for PR 96130
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Khem, Richard,
-
-On Fri, Jul 17, 2020 at 12:36 AM Dmitry Baryshkov <dbaryshkov@gmail.com> wrote:
->
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96130 causing ICE
-> (SegFault) when compiling current Mesa git tree.
-
-This fixes the build issue reported when trying to build mesa master
-branch, see:
-https://github.com/ndechesne/meta-qcom/pull/174
-
-While we aren't using mesa/master in OE core, some BSP layer might be
-doing that. If mesa gets released before gcc, we might hit this issue.
-The gcc is queued for 10.2 already. If we can't get this patch in OE
-core, we will host in our layer..
-
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  meta/recipes-devtools/gcc/gcc-10.1.inc        |   1 +
->  .../gcc/gcc-10.1/pr96130.patch                | 106 ++++++++++++++++++
->  2 files changed, 107 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devtools/gcc/gcc-10.1.inc
-> index a3de91a2c6a3..a2dd2ae252a5 100644
-> --- a/meta/recipes-devtools/gcc/gcc-10.1.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
-> @@ -66,6 +66,7 @@ SRC_URI = "\
->             file://0036-Enable-CET-in-cross-compiler-if-possible.patch \
->             file://0037-mingw32-Enable-operation_not_supported.patch \
->             file://0038-libatomic-Do-not-enforce-march-on-aarch64.patch \
-> +           file://pr96130.patch \
->  "
->  SRC_URI[sha256sum] = "b6898a23844b656f1b68691c5c012036c2e694ac4b53a8918d4712ad876e7ea2"
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch b/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
-> new file mode 100644
-> index 000000000000..f0e6f85e22f9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-10.1/pr96130.patch
-> @@ -0,0 +1,106 @@
-> +From 0d03c0ee5213703ec6d9ffa632fa5298d83adaaa Mon Sep 17 00:00:00 2001
-> +From: Jakub Jelinek <jakub@redhat.com>
-> +Date: Mon, 13 Jul 2020 18:25:53 +0200
-> +Subject: [PATCH] ipa-fnsummary: Fix ICE with switch predicates [PR96130]
-> +
-> +The following testcase ICEs since r10-3199.
-> +There is a switch with default label, where the controlling expression has
-> +range just 0..7 and there are case labels for all those 8 values, but
-> +nothing has yet optimized away the default.
-> +Since r10-3199, set_switch_stmt_execution_predicate sets the switch to
-> +default label's edge's predicate to a false predicate and then
-> +compute_bb_predicates propagates the predicates through the cfg, but false
-> +predicates aren't really added.  The caller of compute_bb_predicates
-> +in one place handles NULL bb->aux as false predicate:
-> +      if (fbi.info)
-> +       {
-> +         if (bb->aux)
-> +           bb_predicate = *(predicate *) bb->aux;
-> +         else
-> +           bb_predicate = false;
-> +       }
-> +      else
-> +       bb_predicate = true;
-> +but then in two further spots that the patch below is changing
-> +it assumes bb->aux must be non-NULL.  Those two spots are guarded by a
-> +condition that is only true if fbi.info is non-NULL, so I think the right
-> +fix is to treat NULL aux as false predicate in those spots too.
-> +
-> +2020-07-13  Jakub Jelinek  <jakub@redhat.com>
-> +
-> +       PR ipa/96130
-> +       * ipa-fnsummary.c (analyze_function_body): Treat NULL bb->aux
-> +       as false predicate.
-> +
-> +       * gcc.dg/torture/pr96130.c: New test.
-> +
-> +(cherry picked from commit 776e48e0931db69f158f40e5cb8e15463d879a42)
-> +---
-> + gcc/ipa-fnsummary.c                    | 10 ++++++++--
-> + gcc/testsuite/gcc.dg/torture/pr96130.c | 26 ++++++++++++++++++++++++++
-> + 2 files changed, 34 insertions(+), 2 deletions(-)
-> + create mode 100644 gcc/testsuite/gcc.dg/torture/pr96130.c
-> +
-> +diff --git a/gcc/ipa-fnsummary.c b/gcc/ipa-fnsummary.c
-> +index 045a0ecf766..55a0b272a96 100644
-> +--- a/gcc/ipa-fnsummary.c
-> ++++ b/gcc/ipa-fnsummary.c
-> +@@ -2766,7 +2766,10 @@ analyze_function_body (struct cgraph_node *node, bool early)
-> +         edge ex;
-> +         unsigned int j;
-> +         class tree_niter_desc niter_desc;
-> +-        bb_predicate = *(predicate *) loop->header->aux;
-> ++        if (loop->header->aux)
-> ++          bb_predicate = *(predicate *) loop->header->aux;
-> ++        else
-> ++          bb_predicate = false;
-> +
-> +         exits = get_loop_exit_edges (loop);
-> +         FOR_EACH_VEC_ELT (exits, j, ex)
-> +@@ -2799,7 +2802,10 @@ analyze_function_body (struct cgraph_node *node, bool early)
-> +         for (unsigned i = 0; i < loop->num_nodes; i++)
-> +           {
-> +             gimple_stmt_iterator gsi;
-> +-            bb_predicate = *(predicate *) body[i]->aux;
-> ++            if (body[i]->aux)
-> ++              bb_predicate = *(predicate *) body[i]->aux;
-> ++            else
-> ++              bb_predicate = false;
-> +             for (gsi = gsi_start_bb (body[i]); !gsi_end_p (gsi);
-> +                  gsi_next (&gsi))
-> +               {
-> +diff --git a/gcc/testsuite/gcc.dg/torture/pr96130.c b/gcc/testsuite/gcc.dg/torture/pr96130.c
-> +new file mode 100644
-> +index 00000000000..f722b9ad2a9
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.dg/torture/pr96130.c
-> +@@ -0,0 +1,26 @@
-> ++/* PR ipa/96130 */
-> ++/* { dg-do compile } */
-> ++
-> ++struct S { unsigned j : 3; };
-> ++int k, l, m;
-> ++
-> ++void
-> ++foo (struct S x)
-> ++{
-> ++  while (l != 5)
-> ++    switch (x.j)
-> ++      {
-> ++      case 1:
-> ++      case 3:
-> ++      case 4:
-> ++      case 6:
-> ++      case 2:
-> ++      case 5:
-> ++      l = m;
-> ++      case 7:
-> ++      case 0:
-> ++      k = 0;
-> ++      default:
-> ++      break;
-> ++      }
-> ++}
-> +--
-> +2.18.4
-> +
-> --
-> 2.27.0
->
+On Tue, 2020-07-21 at 18:49 -0500, Joshua Watt wrote:
 > 
+> 
+> On Tue, Jul 21, 2020, 4:56 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > We continue to see qemu races where qemu fails to write out a pidfile. The
+> > pidfile name being used was based on the parent process starting the qemus
+> > so in theory, a qemu shutting down could have deleted the file into which
+> > the new qemu's pid was about to be written. This shouldn't happen as qemu
+> > processes should be exitting completely before the code returns.
+> > 
+> > In the absence of better theory for the failure, use a random pid filename
+> > rather than the parent pid so there is no overlap in the pid filename,
+> > thereby removing any theoretical race.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/lib/oeqa/utils/qemurunner.py | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+> > index 519aa9aa1e5..73a3efdc964 100644
+> > --- a/meta/lib/oeqa/utils/qemurunner.py
+> > +++ b/meta/lib/oeqa/utils/qemurunner.py
+> > @@ -20,6 +20,7 @@ import string
+> >  import threading
+> >  import codecs
+> >  import logging
+> > +import tempfile
+> >  from oeqa.utils.dump import HostDumper
+> >  from collections import defaultdict
+> > 
+> > @@ -65,7 +66,11 @@ class QemuRunner:
+> >          self.runqemutime = 120
+> >          if not workdir:
+> >              workdir = os.getcwd()
+> > -        self.qemu_pidfile = workdir + '/pidfile_' + str(os.getpid())
+> > +        # Use tempfile to obtain a unique name. We own the directory
+> > +        # so closing the file isn't an issue as long as we don't delete it
+> > +        self.qemu_pidfile = tempfile.mkstemp(dir=workdir, prefix="qemupid_")
+> > +        os.close(self.qemu_pidfile[0])
+> > +        self.qemu_pidfile = self.qemu_pidfile[1]
+> 
+> Minor, but more idiomatic python:
+> 
+>  (fd, self.qemu_pidfile) = tempfile.mkstemp(...)
+>  os.close(fd)
+
+Yes!
+
+I'd changed the code a few too many times and it ended up a bit silly.
+
+Sadly the autobuilder showed the same fault with this applied so this
+patch doesn't work anyway and probably isn't worth applying :(
+
+If anyone can spot the race...
+
+Cheers,
+
+Richard
+
