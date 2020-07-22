@@ -1,36 +1,36 @@
 Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web10.18840.1595424690324706328
+ by mx.groups.io with SMTP id smtpd.web11.18595.1595424687254984647
  for <openembedded-core@lists.openembedded.org>;
  Wed, 22 Jul 2020 06:31:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Pjmcee3J;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=WWw+KrJZ;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=35774; q=dns/txt; s=axis-central1;
-  t=1595424691; x=1626960691;
+  d=axis.com; l=21707; q=dns/txt; s=axis-central1;
+  t=1595424692; x=1626960692;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=s3/N9icag7UbguUbaIwAnLFV0vXoieJuJ/qP+8MYgQU=;
-  b=Pjmcee3J9SNqEUtVJ1Y7OXMOQjczhJXbXhJTCu6TR/BMStkEF2tFabyx
-   L1YXEwsrVgsFRIALQuS0RlSCxy5oOk52Cs+eX9rs/1M03gaYGKJdlJo1L
-   ZrhqJLt4Pkdu7z9cLMimhgkcY8gLyad6poQaFbRhbAFCJ8KDjT3MbtYuV
-   5XkOrdZSeaLLsCLaYWsnxl/CliahUMfzD6/hMUIQklizl67U2btBHqzk2
-   u9/jQAgcB4re6EALg0oz7xUzb1zOtdc7iMFjgAQq4jeUwzQpCUapRWDcQ
-   IEYfeMjmQP0QbwBT30wROlX/JqIPkD8R5r8PbzTGVYZypABJKpYF9+eI4
+  bh=nsnI+RR7qPqz7a9rg8a5tr4KbKcHtzLEA87hV3b+pK8=;
+  b=WWw+KrJZMmdj0MoXXxRgwlPKBZaTJGREBCKYEzQhSdwxcLQxX9Iz1cJv
+   vr0CZEi1bFOj4bPB0FODHSC3vcZ697vun+L12TXKkLvvcwMJ+oNdtKsOt
+   5TWtwLvIS8UAHCADNvhbAekVKO36ty8/KOQ+wfH/Zoz5vcDxlYmyG7Jxh
+   lXgykv99WcZJsEJv73nZnI4Ncwd9VUitkaVjVOf+vQFZHUT+2pbH4HIHY
+   n5Nyr8tFN5F3TecygL3WJxUQvkK5yFIpk0fuFslsJoppob2VcGhoLL+Ci
+   MsfNAe1Qhu4+iEJe8UvNfRUpBDCjctOaZFy0ucLkf4RsMy+Ax2pOqrkKs
    w==;
-IronPort-SDR: y17843qs2HOh/tQbUmfe6TitPSPxJxKOUVxsQKc06bPxWqjthTjKGhPoOXz4SQPjOXoX4IiIuX
- HJoYYRju6AfBEgPlSG0hQJmScQlM+wRm9Ha2AcBsRtzDQnjkTx3r80LqymQZqN4YBUWU3YtC5r
- 3daXARuzFhzA8+dc8OpX3iJMf2e6LVfDY73ei+Vl7e3DZCE+cFnXRt7CMvvOTuY5ZYezT1RptZ
- PdZseE/5k0riNQiTJg35JGBTQu689/SMn0Misz8XncMRqqfu97cKQZWIIl/WpzN3Nb81DjhJL0
- ZcA=
+IronPort-SDR: q5eMVgg7PeIvpsElw0J3fCKWfo+QV1bnQ8McC21FDF04JYVL0xkpNNkI2OTIoA9ZTEQPgFUfYn
+ khqKHK/ZteuMkvjzYsbz9RGVztCx+lo2gjNYnh7WgQHYCQJ4kyX0rrspb/scLizGG8jTcsRF9W
+ CaT5YKPGDRCloTalm6LTsxMvw9nzyyB/IbdwgmZIFHDggQHpplSPDw+nrFHli7ho2shqfzRAsl
+ 4mINr6zNAp3QZzzWhcQFhsMhv4bUF0EcadZjQ5A/jMSkj0m7rpPHXNkzgtsdW5Up6ryf+T9It4
+ f/8=
 X-IronPort-AV: E=Sophos;i="5.75,383,1589234400"; 
-   d="scan'208";a="10790847"
+   d="scan'208";a="10790848"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v5 12/13] ipk: Move package manager to its own dir
-Date: Wed, 22 Jul 2020 15:31:19 +0200
-Message-ID: <20200722133120.11484-13-fredrigu@axis.com>
+Subject: [PATCH v5 06/13] ipk: Move rootfs to its own dir
+Date: Wed, 22 Jul 2020 15:31:13 +0200
+Message-ID: <20200722133120.11484-7-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200722133120.11484-1-fredrigu@axis.com>
 References: <20200722133120.11484-1-fredrigu@axis.com>
@@ -39,1002 +39,696 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This is part of a refactor that will split the package manager
+This is a part of a refactor that will split the package manager
 code so that it's possible to use other package managers in other
 layers.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/package_manager/__init__.py       | 432 ---------------
- .../oe/package_manager/ipk/package_manager.py | 504 ++++++++++++++++++
- meta/lib/oe/package_manager/ipk/rootfs.py     |   2 +-
- 3 files changed, 505 insertions(+), 433 deletions(-)
- create mode 100644 meta/lib/oe/package_manager/ipk/package_manager.py
+ meta/lib/oe/package_manager/ipk/rootfs.py | 385 ++++++++++++++++++++++
+ meta/lib/oe/rootfs.py                     | 268 +--------------
+ 2 files changed, 387 insertions(+), 266 deletions(-)
+ create mode 100644 meta/lib/oe/package_manager/ipk/rootfs.py
 
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
-index 2ca47e5109..af254fcf6e 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -149,59 +149,6 @@ class Indexer(object, metaclass=ABCMeta):
-     def write_index(self):
-         pass
- 
--class OpkgIndexer(Indexer):
--    def write_index(self):
--        arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
--                     "SDK_PACKAGE_ARCHS",
--                     ]
--
--        opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
--        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
--            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
--        else:
--            signer = None
--
--        if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
--            open(os.path.join(self.deploy_dir, "Packages"), "w").close()
--
--        index_cmds = set()
--        index_sign_files = set()
--        for arch_var in arch_vars:
--            archs = self.d.getVar(arch_var)
--            if archs is None:
--                continue
--
--            for arch in archs.split():
--                pkgs_dir = os.path.join(self.deploy_dir, arch)
--                pkgs_file = os.path.join(pkgs_dir, "Packages")
--
--                if not os.path.isdir(pkgs_dir):
--                    continue
--
--                if not os.path.exists(pkgs_file):
--                    open(pkgs_file, "w").close()
--
--                index_cmds.add('%s --checksum md5 --checksum sha256 -r %s -p %s -m %s' %
--                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
--
--                index_sign_files.add(pkgs_file)
--
--        if len(index_cmds) == 0:
--            bb.note("There are no packages in %s!" % self.deploy_dir)
--            return
--
--        oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
--
--        if signer:
--            feed_sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
--            is_ascii_sig = (feed_sig_type.upper() != "BIN")
--            for f in index_sign_files:
--                signer.detach_sign(f,
--                                   self.d.getVar('PACKAGE_FEED_GPG_NAME'),
--                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
--                                   armor=is_ascii_sig)
--
--
- class DpkgIndexer(Indexer):
-     def _create_configs(self):
-         bb.utils.mkdirhier(self.apt_conf_dir)
-@@ -286,33 +233,6 @@ class PkgsList(object, metaclass=ABCMeta):
-     def list_pkgs(self):
-         pass
- 
--class OpkgPkgsList(PkgsList):
--    def __init__(self, d, rootfs_dir, config_file):
--        super(OpkgPkgsList, self).__init__(d, rootfs_dir)
--
--        self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
--        self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
--        self.opkg_args += self.d.getVar("OPKG_ARGS")
--
--    def list_pkgs(self, format=None):
--        cmd = "%s %s status" % (self.opkg_cmd, self.opkg_args)
--
--        # opkg returns success even when it printed some
--        # "Collected errors:" report to stderr. Mixing stderr into
--        # stdout then leads to random failures later on when
--        # parsing the output. To avoid this we need to collect both
--        # output streams separately and check for empty stderr.
--        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
--        cmd_output, cmd_stderr = p.communicate()
--        cmd_output = cmd_output.decode("utf-8")
--        cmd_stderr = cmd_stderr.decode("utf-8")
--        if p.returncode or cmd_stderr:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d and stderr:\n%s" % (cmd, p.returncode, cmd_stderr))
--
--        return opkg_query(cmd_output)
--
--
- class DpkgPkgsList(PkgsList):
- 
-     def list_pkgs(self):
-@@ -763,358 +683,6 @@ class OpkgDpkgPM(PackageManager):
-     def _handle_intercept_failure(self, registered_pkgs):
-         self.mark_packages("unpacked", registered_pkgs.split())
- 
--class OpkgPM(OpkgDpkgPM):
--    def __init__(self, d, target_rootfs, config_file, archs, task_name='target', ipk_repo_workdir="oe-rootfs-repo", filterbydependencies=True, prepare_index=True):
--        super(OpkgPM, self).__init__(d, target_rootfs)
--
--        self.config_file = config_file
--        self.pkg_archs = archs
--        self.task_name = task_name
--
--        self.deploy_dir = oe.path.join(self.d.getVar('WORKDIR'), ipk_repo_workdir)
--        self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
--        self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
--        self.opkg_args = "--volatile-cache -f %s -t %s -o %s " % (self.config_file, self.d.expand('${T}/ipktemp/') ,target_rootfs)
--        self.opkg_args += self.d.getVar("OPKG_ARGS")
--
--        if prepare_index:
--            create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_IPK"), "package_write_ipk", filterbydependencies)
--
--        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
--        if opkg_lib_dir[0] == "/":
--            opkg_lib_dir = opkg_lib_dir[1:]
--
--        self.opkg_dir = os.path.join(target_rootfs, opkg_lib_dir, "opkg")
--
--        bb.utils.mkdirhier(self.opkg_dir)
--
--        self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
--        if not os.path.exists(self.d.expand('${T}/saved')):
--            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
--
--        self.from_feeds = (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") == "1"
--        if self.from_feeds:
--            self._create_custom_config()
--        else:
--            self._create_config()
--
--        self.indexer = OpkgIndexer(self.d, self.deploy_dir)
--
--    def mark_packages(self, status_tag, packages=None):
--        """
--        This function will change a package's status in /var/lib/opkg/status file.
--        If 'packages' is None then the new_status will be applied to all
--        packages
--        """
--        status_file = os.path.join(self.opkg_dir, "status")
--
--        with open(status_file, "r") as sf:
--            with open(status_file + ".tmp", "w+") as tmp_sf:
--                if packages is None:
--                    tmp_sf.write(re.sub(r"Package: (.*?)\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)",
--                                        r"Package: \1\n\2Status: \3%s" % status_tag,
--                                        sf.read()))
--                else:
--                    if type(packages).__name__ != "list":
--                        raise TypeError("'packages' should be a list object")
--
--                    status = sf.read()
--                    for pkg in packages:
--                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
--                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
--                                        status)
--
--                    tmp_sf.write(status)
--
--        os.rename(status_file + ".tmp", status_file)
--
--    def _create_custom_config(self):
--        bb.note("Building from feeds activated!")
--
--        with open(self.config_file, "w+") as config_file:
--            priority = 1
--            for arch in self.pkg_archs.split():
--                config_file.write("arch %s %d\n" % (arch, priority))
--                priority += 5
--
--            for line in (self.d.getVar('IPK_FEED_URIS') or "").split():
--                feed_match = re.match(r"^[ \t]*(.*)##([^ \t]*)[ \t]*$", line)
--
--                if feed_match is not None:
--                    feed_name = feed_match.group(1)
--                    feed_uri = feed_match.group(2)
--
--                    bb.note("Add %s feed with URL %s" % (feed_name, feed_uri))
--
--                    config_file.write("src/gz %s %s\n" % (feed_name, feed_uri))
--
--            """
--            Allow to use package deploy directory contents as quick devel-testing
--            feed. This creates individual feed configs for each arch subdir of those
--            specified as compatible for the current machine.
--            NOTE: Development-helper feature, NOT a full-fledged feed.
--            """
--            if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") != "":
--                for arch in self.pkg_archs.split():
--                    cfg_file_name = os.path.join(self.target_rootfs,
--                                                 self.d.getVar("sysconfdir"),
--                                                 "opkg",
--                                                 "local-%s-feed.conf" % arch)
--
--                    with open(cfg_file_name, "w+") as cfg_file:
--                        cfg_file.write("src/gz local-%s %s/%s" %
--                                       (arch,
--                                        self.d.getVar('FEED_DEPLOYDIR_BASE_URI'),
--                                        arch))
--
--                        if self.d.getVar('OPKGLIBDIR') != '/var/lib':
--                            # There is no command line option for this anymore, we need to add
--                            # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
--                            # the default value of "/var/lib" as defined in opkg:
--                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_LISTS_DIR     VARDIR "/lib/opkg/lists"
--                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      VARDIR "/lib/opkg/info"
--                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   VARDIR "/lib/opkg/status"
--                            cfg_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'info'))
--                            cfg_file.write("option lists_dir    %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'lists'))
--                            cfg_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'status'))
--
--
--    def _create_config(self):
--        with open(self.config_file, "w+") as config_file:
--            priority = 1
--            for arch in self.pkg_archs.split():
--                config_file.write("arch %s %d\n" % (arch, priority))
--                priority += 5
--
--            config_file.write("src oe file:%s\n" % self.deploy_dir)
--
--            for arch in self.pkg_archs.split():
--                pkgs_dir = os.path.join(self.deploy_dir, arch)
--                if os.path.isdir(pkgs_dir):
--                    config_file.write("src oe-%s file:%s\n" %
--                                      (arch, pkgs_dir))
--
--            if self.d.getVar('OPKGLIBDIR') != '/var/lib':
--                # There is no command line option for this anymore, we need to add
--                # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
--                # the default value of "/var/lib" as defined in opkg:
--                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_LISTS_DIR     VARDIR "/lib/opkg/lists"
--                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      VARDIR "/lib/opkg/info"
--                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   VARDIR "/lib/opkg/status"
--                config_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'info'))
--                config_file.write("option lists_dir    %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'lists'))
--                config_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'status'))
--
--    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
--        if feed_uris == "":
--            return
--
--        rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
--                                  % self.target_rootfs)
--
--        os.makedirs('%s/etc/opkg' % self.target_rootfs, exist_ok=True)
--
--        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
--        archs = self.pkg_archs.split() if feed_archs is None else feed_archs.split()
--
--        with open(rootfs_config, "w+") as config_file:
--            uri_iterator = 0
--            for uri in feed_uris:
--                if archs:
--                    for arch in archs:
--                        if (feed_archs is None) and (not os.path.exists(oe.path.join(self.deploy_dir, arch))):
--                            continue
--                        bb.note('Adding opkg feed url-%s-%d (%s)' %
--                            (arch, uri_iterator, uri))
--                        config_file.write("src/gz uri-%s-%d %s/%s\n" %
--                                          (arch, uri_iterator, uri, arch))
--                else:
--                    bb.note('Adding opkg feed url-%d (%s)' %
--                        (uri_iterator, uri))
--                    config_file.write("src/gz uri-%d %s\n" %
--                                      (uri_iterator, uri))
--
--                uri_iterator += 1
--
--    def update(self):
--        self.deploy_dir_lock()
--
--        cmd = "%s %s update" % (self.opkg_cmd, self.opkg_args)
--
--        try:
--            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
--        except subprocess.CalledProcessError as e:
--            self.deploy_dir_unlock()
--            bb.fatal("Unable to update the package index files. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
--
--        self.deploy_dir_unlock()
--
--    def install(self, pkgs, attempt_only=False):
--        if not pkgs:
--            return
--
--        cmd = "%s %s" % (self.opkg_cmd, self.opkg_args)
--        for exclude in (self.d.getVar("PACKAGE_EXCLUDE") or "").split():
--            cmd += " --add-exclude %s" % exclude
--        for bad_recommendation in (self.d.getVar("BAD_RECOMMENDATIONS") or "").split():
--            cmd += " --add-ignore-recommends %s" % bad_recommendation
--        cmd += " install "
--        cmd += " ".join(pkgs)
--
--        os.environ['D'] = self.target_rootfs
--        os.environ['OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
--        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
--
--        try:
--            bb.note("Installing the following packages: %s" % ' '.join(pkgs))
--            bb.note(cmd)
--            output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
--            bb.note(output)
--            failed_pkgs = []
--            for line in output.split('\n'):
--                if line.endswith("configuration required on target."):
--                    bb.warn(line)
--                    failed_pkgs.append(line.split(".")[0])
--            if failed_pkgs:
--                failed_postinsts_abort(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
--        except subprocess.CalledProcessError as e:
--            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
--                                              "Command '%s' returned %d:\n%s" %
--                                              (cmd, e.returncode, e.output.decode("utf-8")))
--
--    def remove(self, pkgs, with_dependencies=True):
--        if not pkgs:
--            return
--
--        if with_dependencies:
--            cmd = "%s %s --force-remove --force-removal-of-dependent-packages remove %s" % \
--                (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
--        else:
--            cmd = "%s %s --force-depends remove %s" % \
--                (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
--
--        try:
--            bb.note(cmd)
--            output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
--            bb.note(output)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Unable to remove packages. Command '%s' "
--                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
--
--    def write_index(self):
--        self.deploy_dir_lock()
--
--        result = self.indexer.write_index()
--
--        self.deploy_dir_unlock()
--
--        if result is not None:
--            bb.fatal(result)
--
--    def remove_packaging_data(self):
--        bb.utils.remove(self.opkg_dir, True)
--        # create the directory back, it's needed by PM lock
--        bb.utils.mkdirhier(self.opkg_dir)
--
--    def remove_lists(self):
--        if not self.from_feeds:
--            bb.utils.remove(os.path.join(self.opkg_dir, "lists"), True)
--
--    def list_installed(self):
--        return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
--
--    def dummy_install(self, pkgs):
--        """
--        The following function dummy installs pkgs and returns the log of output.
--        """
--        if len(pkgs) == 0:
--            return
--
--        # Create an temp dir as opkg root for dummy installation
--        temp_rootfs = self.d.expand('${T}/opkg')
--        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
--        if opkg_lib_dir[0] == "/":
--            opkg_lib_dir = opkg_lib_dir[1:]
--        temp_opkg_dir = os.path.join(temp_rootfs, opkg_lib_dir, 'opkg')
--        bb.utils.mkdirhier(temp_opkg_dir)
--
--        opkg_args = "-f %s -o %s " % (self.config_file, temp_rootfs)
--        opkg_args += self.d.getVar("OPKG_ARGS")
--
--        cmd = "%s %s update" % (self.opkg_cmd, opkg_args)
--        try:
--            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Unable to update. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
--
--        # Dummy installation
--        cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
--                                                opkg_args,
--                                                ' '.join(pkgs))
--        try:
--            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Unable to dummy install packages. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
--
--        bb.utils.remove(temp_rootfs, True)
--
--        return output
--
--    def backup_packaging_data(self):
--        # Save the opkglib for increment ipk image generation
--        if os.path.exists(self.saved_opkg_dir):
--            bb.utils.remove(self.saved_opkg_dir, True)
--        shutil.copytree(self.opkg_dir,
--                        self.saved_opkg_dir,
--                        symlinks=True)
--
--    def recover_packaging_data(self):
--        # Move the opkglib back
--        if os.path.exists(self.saved_opkg_dir):
--            if os.path.exists(self.opkg_dir):
--                bb.utils.remove(self.opkg_dir, True)
--
--            bb.note('Recover packaging data')
--            shutil.copytree(self.saved_opkg_dir,
--                            self.opkg_dir,
--                            symlinks=True)
--
--    def package_info(self, pkg):
--        """
--        Returns a dictionary with the package info.
--        """
--        cmd = "%s %s info %s" % (self.opkg_cmd, self.opkg_args, pkg)
--        pkg_info = super(OpkgPM, self).package_info(pkg, cmd)
--
--        pkg_arch = pkg_info[pkg]["arch"]
--        pkg_filename = pkg_info[pkg]["filename"]
--        pkg_info[pkg]["filepath"] = \
--                os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
--
--        return pkg_info
--
--    def extract(self, pkg):
--        """
--        Returns the path to a tmpdir where resides the contents of a package.
--
--        Deleting the tmpdir is responsability of the caller.
--        """
--        pkg_info = self.package_info(pkg)
--        if not pkg_info:
--            bb.fatal("Unable to get information for package '%s' while "
--                     "trying to extract the package."  % pkg)
--
--        tmp_dir = super(OpkgPM, self).extract(pkg, pkg_info)
--        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
--
--        return tmp_dir
--
- class DpkgPM(OpkgDpkgPM):
-     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None, deb_repo_workdir="oe-rootfs-repo", filterbydependencies=True):
-         super(DpkgPM, self).__init__(d, target_rootfs)
-diff --git a/meta/lib/oe/package_manager/ipk/package_manager.py b/meta/lib/oe/package_manager/ipk/package_manager.py
+diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
 new file mode 100644
-index 0000000000..34500b8a0a
+index 0000000000..067831be00
 --- /dev/null
-+++ b/meta/lib/oe/package_manager/ipk/package_manager.py
-@@ -0,0 +1,504 @@
++++ b/meta/lib/oe/package_manager/ipk/rootfs.py
+@@ -0,0 +1,385 @@
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
 +
-+from oe.package_manager import *
++from oe.rootfs import Rootfs
++from oe.package_manager import OpkgPM
++from oe.manifest import Manifest
++from oe.utils import execute_pre_post_process
++import re
++from oe.package_manager.ipk.manifest import OpkgManifest
 +
-+class OpkgIndexer(Indexer):
-+    def write_index(self):
-+        arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
-+                     "SDK_PACKAGE_ARCHS",
-+                     ]
++class DpkgOpkgRootfs(Rootfs):
++    def __init__(self, d, progress_reporter=None, logcatcher=None):
++        super(DpkgOpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
 +
-+        opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
-+        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
-+            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
++    def _get_pkgs_postinsts(self, status_file):
++        def _get_pkg_depends_list(pkg_depends):
++            pkg_depends_list = []
++            # filter version requirements like libc (>= 1.1)
++            for dep in pkg_depends.split(', '):
++                m_dep = re.match(r"^(.*) \(.*\)$", dep)
++                if m_dep:
++                    dep = m_dep.group(1)
++                pkg_depends_list.append(dep)
++
++            return pkg_depends_list
++
++        pkgs = {}
++        pkg_name = ""
++        pkg_status_match = False
++        pkg_depends = ""
++
++        with open(status_file) as status:
++            data = status.read()
++            status.close()
++            for line in data.split('\n'):
++                m_pkg = re.match(r"^Package: (.*)", line)
++                m_status = re.match(r"^Status:.*unpacked", line)
++                m_depends = re.match(r"^Depends: (.*)", line)
++
++                #Only one of m_pkg, m_status or m_depends is not None at time
++                #If m_pkg is not None, we started a new package
++                if m_pkg is not None:
++                    #Get Package name
++                    pkg_name = m_pkg.group(1)
++                    #Make sure we reset other variables
++                    pkg_status_match = False
++                    pkg_depends = ""
++                elif m_status is not None:
++                    #New status matched
++                    pkg_status_match = True
++                elif m_depends is not None:
++                    #New depends macthed
++                    pkg_depends = m_depends.group(1)
++                else:
++                    pass
++
++                #Now check if we can process package depends and postinst
++                if "" != pkg_name and pkg_status_match:
++                    pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
++                else:
++                    #Not enough information
++                    pass
++
++        # remove package dependencies not in postinsts
++        pkg_names = list(pkgs.keys())
++        for pkg_name in pkg_names:
++            deps = pkgs[pkg_name][:]
++
++            for d in deps:
++                if d not in pkg_names:
++                    pkgs[pkg_name].remove(d)
++
++        return pkgs
++
++    def _get_delayed_postinsts_common(self, status_file):
++        def _dep_resolve(graph, node, resolved, seen):
++            seen.append(node)
++
++            for edge in graph[node]:
++                if edge not in resolved:
++                    if edge in seen:
++                        raise RuntimeError("Packages %s and %s have " \
++                                "a circular dependency in postinsts scripts." \
++                                % (node, edge))
++                    _dep_resolve(graph, edge, resolved, seen)
++
++            resolved.append(node)
++
++        pkg_list = []
++
++        pkgs = None
++        if not self.d.getVar('PACKAGE_INSTALL').strip():
++            bb.note("Building empty image")
 +        else:
-+            signer = None
++            pkgs = self._get_pkgs_postinsts(status_file)
++        if pkgs:
++            root = "__packagegroup_postinst__"
++            pkgs[root] = list(pkgs.keys())
++            _dep_resolve(pkgs, root, pkg_list, [])
++            pkg_list.remove(root)
 +
-+        if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
-+            open(os.path.join(self.deploy_dir, "Packages"), "w").close()
++        if len(pkg_list) == 0:
++            return None
 +
-+        index_cmds = set()
-+        index_sign_files = set()
-+        for arch_var in arch_vars:
-+            archs = self.d.getVar(arch_var)
-+            if archs is None:
-+                continue
++        return pkg_list
 +
-+            for arch in archs.split():
-+                pkgs_dir = os.path.join(self.deploy_dir, arch)
-+                pkgs_file = os.path.join(pkgs_dir, "Packages")
-+
-+                if not os.path.isdir(pkgs_dir):
-+                    continue
-+
-+                if not os.path.exists(pkgs_file):
-+                    open(pkgs_file, "w").close()
-+
-+                index_cmds.add('%s --checksum md5 --checksum sha256 -r %s -p %s -m %s' %
-+                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
-+
-+                index_sign_files.add(pkgs_file)
-+
-+        if len(index_cmds) == 0:
-+            bb.note("There are no packages in %s!" % self.deploy_dir)
++    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
++        if bb.utils.contains("IMAGE_FEATURES", "package-management",
++                         True, False, self.d):
 +            return
++        num = 0
++        for p in self._get_delayed_postinsts():
++            bb.utils.mkdirhier(dst_postinst_dir)
 +
-+        oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
++            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
++                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
++                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
 +
-+        if signer:
-+            feed_sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
-+            is_ascii_sig = (feed_sig_type.upper() != "BIN")
-+            for f in index_sign_files:
-+                signer.detach_sign(f,
-+                                   self.d.getVar('PACKAGE_FEED_GPG_NAME'),
-+                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
-+                                   armor=is_ascii_sig)
++            num += 1
 +
-+class OpkgPkgsList(PkgsList):
-+    def __init__(self, d, rootfs_dir, config_file):
-+        super(OpkgPkgsList, self).__init__(d, rootfs_dir)
++class OpkgRootfs(DpkgOpkgRootfs):
++    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
++        super(OpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
++        self.log_check_regex = '(exit 1|Collected errors)'
 +
-+        self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
-+        self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
-+        self.opkg_args += self.d.getVar("OPKG_ARGS")
++        self.manifest = OpkgManifest(d, manifest_dir)
++        self.opkg_conf = self.d.getVar("IPKGCONF_TARGET")
++        self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS")
 +
-+    def list_pkgs(self, format=None):
-+        cmd = "%s %s status" % (self.opkg_cmd, self.opkg_args)
++        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN') or ""
++        if self._remove_old_rootfs():
++            bb.utils.remove(self.image_rootfs, True)
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++        else:
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++            self.pm.recover_packaging_data()
 +
-+        # opkg returns success even when it printed some
-+        # "Collected errors:" report to stderr. Mixing stderr into
-+        # stdout then leads to random failures later on when
-+        # parsing the output. To avoid this we need to collect both
-+        # output streams separately and check for empty stderr.
-+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-+        cmd_output, cmd_stderr = p.communicate()
-+        cmd_output = cmd_output.decode("utf-8")
-+        cmd_stderr = cmd_stderr.decode("utf-8")
-+        if p.returncode or cmd_stderr:
-+            bb.fatal("Cannot get the installed packages list. Command '%s' "
-+                     "returned %d and stderr:\n%s" % (cmd, p.returncode, cmd_stderr))
++        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
 +
-+        return opkg_query(cmd_output)
++    def _prelink_file(self, root_dir, filename):
++        bb.note('prelink %s in %s' % (filename, root_dir))
++        prelink_cfg = oe.path.join(root_dir,
++                                   self.d.expand('${sysconfdir}/prelink.conf'))
++        if not os.path.exists(prelink_cfg):
++            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
++                        prelink_cfg)
 +
++        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
++        self._exec_shell_cmd([cmd_prelink,
++                              '--root',
++                              root_dir,
++                              '-amR',
++                              '-N',
++                              '-c',
++                              self.d.expand('${sysconfdir}/prelink.conf')])
 +
++    '''
++    Compare two files with the same key twice to see if they are equal.
++    If they are not equal, it means they are duplicated and come from
++    different packages.
++    1st: Comapre them directly;
++    2nd: While incremental image creation is enabled, one of the
++         files could be probaly prelinked in the previous image
++         creation and the file has been changed, so we need to
++         prelink the other one and compare them.
++    '''
++    def _file_equal(self, key, f1, f2):
 +
-+class OpkgDpkgPM(PackageManager):
-+    def __init__(self, d, target_rootfs):
-+        """
-+        This is an abstract class. Do not instantiate this directly.
-+        """
-+        super(OpkgDpkgPM, self).__init__(d, target_rootfs)
++        # Both of them are not prelinked
++        if filecmp.cmp(f1, f2):
++            return True
 +
-+    def package_info(self, pkg, cmd):
-+        """
-+        Returns a dictionary with the package info.
++        if bb.data.inherits_class('image-prelink', self.d):
++            if self.image_rootfs not in f1:
++                self._prelink_file(f1.replace(key, ''), f1)
 +
-+        This method extracts the common parts for Opkg and Dpkg
-+        """
++            if self.image_rootfs not in f2:
++                self._prelink_file(f2.replace(key, ''), f2)
 +
-+        try:
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to list available packages. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+        return opkg_query(output)
++            # Both of them are prelinked
++            if filecmp.cmp(f1, f2):
++                return True
 +
-+    def extract(self, pkg, pkg_info):
-+        """
-+        Returns the path to a tmpdir where resides the contents of a package.
++        # Not equal
++        return False
 +
-+        Deleting the tmpdir is responsability of the caller.
++    """
++    This function was reused from the old implementation.
++    See commit: "image.bbclass: Added variables for multilib support." by
++    Lianhao Lu.
++    """
++    def _multilib_sanity_test(self, dirs):
 +
-+        This method extracts the common parts for Opkg and Dpkg
-+        """
++        allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP")
++        if allow_replace is None:
++            allow_replace = ""
 +
-+        ar_cmd = bb.utils.which(os.getenv("PATH"), "ar")
-+        tar_cmd = bb.utils.which(os.getenv("PATH"), "tar")
-+        pkg_path = pkg_info[pkg]["filepath"]
++        allow_rep = re.compile(re.sub(r"\|$", r"", allow_replace))
++        error_prompt = "Multilib check error:"
 +
-+        if not os.path.isfile(pkg_path):
-+            bb.fatal("Unable to extract package for '%s'."
-+                     "File %s doesn't exists" % (pkg, pkg_path))
++        files = {}
++        for dir in dirs:
++            for root, subfolders, subfiles in os.walk(dir):
++                for file in subfiles:
++                    item = os.path.join(root, file)
++                    key = str(os.path.join("/", os.path.relpath(item, dir)))
 +
-+        tmp_dir = tempfile.mkdtemp()
-+        current_dir = os.getcwd()
-+        os.chdir(tmp_dir)
-+        data_tar = 'data.tar.xz'
++                    valid = True
++                    if key in files:
++                        #check whether the file is allow to replace
++                        if allow_rep.match(key):
++                            valid = True
++                        else:
++                            if os.path.exists(files[key]) and \
++                               os.path.exists(item) and \
++                               not self._file_equal(key, files[key], item):
++                                valid = False
++                                bb.fatal("%s duplicate files %s %s is not the same\n" %
++                                         (error_prompt, item, files[key]))
 +
-+        try:
-+            cmd = [ar_cmd, 'x', pkg_path]
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-+            cmd = [tar_cmd, 'xf', data_tar]
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s" % (pkg_path, ' '.join(cmd), e.returncode, e.output.decode("utf-8")))
-+        except OSError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s at %s" % (pkg_path, ' '.join(cmd), e.errno, e.strerror, e.filename))
++                    #pass the check, add to list
++                    if valid:
++                        files[key] = item
 +
-+        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
-+        bb.utils.remove(os.path.join(tmp_dir, "debian-binary"))
-+        bb.utils.remove(os.path.join(tmp_dir, "control.tar.gz"))
-+        os.chdir(current_dir)
++    def _multilib_test_install(self, pkgs):
++        ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
++        bb.utils.mkdirhier(ml_temp)
 +
-+        return tmp_dir
++        dirs = [self.image_rootfs]
 +
-+    def _handle_intercept_failure(self, registered_pkgs):
-+        self.mark_packages("unpacked", registered_pkgs.split())
++        for variant in self.d.getVar("MULTILIB_VARIANTS").split():
++            ml_target_rootfs = os.path.join(ml_temp, variant)
 +
-+class OpkgPM(OpkgDpkgPM):
-+    def __init__(self, d, target_rootfs, config_file, archs, task_name='target', ipk_repo_workdir="oe-rootfs-repo", filterbydependencies=True, prepare_index=True):
-+        super(OpkgPM, self).__init__(d, target_rootfs)
++            bb.utils.remove(ml_target_rootfs, True)
 +
-+        self.config_file = config_file
-+        self.pkg_archs = archs
-+        self.task_name = task_name
++            ml_opkg_conf = os.path.join(ml_temp,
++                                        variant + "-" + os.path.basename(self.opkg_conf))
 +
-+        self.deploy_dir = oe.path.join(self.d.getVar('WORKDIR'), ipk_repo_workdir)
-+        self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
-+        self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg")
-+        self.opkg_args = "--volatile-cache -f %s -t %s -o %s " % (self.config_file, self.d.expand('${T}/ipktemp/') ,target_rootfs)
-+        self.opkg_args += self.d.getVar("OPKG_ARGS")
++            ml_pm = OpkgPM(self.d, ml_target_rootfs, ml_opkg_conf, self.pkg_archs, prepare_index=False)
 +
-+        if prepare_index:
-+            create_packages_dir(self.d, self.deploy_dir, d.getVar("DEPLOY_DIR_IPK"), "package_write_ipk", filterbydependencies)
++            ml_pm.update()
++            ml_pm.install(pkgs)
++
++            dirs.append(ml_target_rootfs)
++
++        self._multilib_sanity_test(dirs)
++
++    '''
++    While ipk incremental image generation is enabled, it will remove the
++    unneeded pkgs by comparing the old full manifest in previous existing
++    image and the new full manifest in the current image.
++    '''
++    def _remove_extra_packages(self, pkgs_initial_install):
++        if self.inc_opkg_image_gen == "1":
++            # Parse full manifest in previous existing image creation session
++            old_full_manifest = self.manifest.parse_full_manifest()
++
++            # Create full manifest for the current image session, the old one
++            # will be replaced by the new one.
++            self.manifest.create_full(self.pm)
++
++            # Parse full manifest in current image creation session
++            new_full_manifest = self.manifest.parse_full_manifest()
++
++            pkg_to_remove = list()
++            for pkg in old_full_manifest:
++                if pkg not in new_full_manifest:
++                    pkg_to_remove.append(pkg)
++
++            if pkg_to_remove != []:
++                bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
++                self.pm.remove(pkg_to_remove)
++
++    '''
++    Compare with previous existing image creation, if some conditions
++    triggered, the previous old image should be removed.
++    The conditions include any of 'PACKAGE_EXCLUDE, NO_RECOMMENDATIONS
++    and BAD_RECOMMENDATIONS' has been changed.
++    '''
++    def _remove_old_rootfs(self):
++        if self.inc_opkg_image_gen != "1":
++            return True
++
++        vars_list_file = self.d.expand('${T}/vars_list')
++
++        old_vars_list = ""
++        if os.path.exists(vars_list_file):
++            old_vars_list = open(vars_list_file, 'r+').read()
++
++        new_vars_list = '%s:%s:%s\n' % \
++                ((self.d.getVar('BAD_RECOMMENDATIONS') or '').strip(),
++                 (self.d.getVar('NO_RECOMMENDATIONS') or '').strip(),
++                 (self.d.getVar('PACKAGE_EXCLUDE') or '').strip())
++        open(vars_list_file, 'w+').write(new_vars_list)
++
++        if old_vars_list != new_vars_list:
++            return True
++
++        return False
++
++    def _create(self):
++        pkgs_to_install = self.manifest.parse_initial_manifest()
++        opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS')
++        opkg_post_process_cmds = self.d.getVar('OPKG_POSTPROCESS_COMMANDS')
++
++        # update PM index files
++        self.pm.write_index()
++
++        execute_pre_post_process(self.d, opkg_pre_process_cmds)
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++            # Steps are a bit different in order, skip next
++            self.progress_reporter.next_stage()
++
++        self.pm.update()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        if self.inc_opkg_image_gen == "1":
++            self._remove_extra_packages(pkgs_to_install)
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        for pkg_type in self.install_order:
++            if pkg_type in pkgs_to_install:
++                # For multilib, we perform a sanity test before final install
++                # If sanity test fails, it will automatically do a bb.fatal()
++                # and the installation will stop
++                if pkg_type == Manifest.PKG_TYPE_MULTILIB:
++                    self._multilib_test_install(pkgs_to_install[pkg_type])
++
++                self.pm.install(pkgs_to_install[pkg_type],
++                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++        self.pm.install_complementary()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
 +
 +        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
-+        if opkg_lib_dir[0] == "/":
-+            opkg_lib_dir = opkg_lib_dir[1:]
-+
-+        self.opkg_dir = os.path.join(target_rootfs, opkg_lib_dir, "opkg")
-+
-+        bb.utils.mkdirhier(self.opkg_dir)
-+
-+        self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
-+        if not os.path.exists(self.d.expand('${T}/saved')):
-+            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
-+
-+        self.from_feeds = (self.d.getVar('BUILD_IMAGES_FROM_FEEDS') or "") == "1"
-+        if self.from_feeds:
-+            self._create_custom_config()
-+        else:
-+            self._create_config()
-+
-+        self.indexer = OpkgIndexer(self.d, self.deploy_dir)
-+
-+    def mark_packages(self, status_tag, packages=None):
-+        """
-+        This function will change a package's status in /var/lib/opkg/status file.
-+        If 'packages' is None then the new_status will be applied to all
-+        packages
-+        """
-+        status_file = os.path.join(self.opkg_dir, "status")
-+
-+        with open(status_file, "r") as sf:
-+            with open(status_file + ".tmp", "w+") as tmp_sf:
-+                if packages is None:
-+                    tmp_sf.write(re.sub(r"Package: (.*?)\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)",
-+                                        r"Package: \1\n\2Status: \3%s" % status_tag,
-+                                        sf.read()))
-+                else:
-+                    if type(packages).__name__ != "list":
-+                        raise TypeError("'packages' should be a list object")
-+
-+                    status = sf.read()
-+                    for pkg in packages:
-+                        status = re.sub(r"Package: %s\n((?:[^\n]+\n)*?)Status: (.*)(?:unpacked|installed)" % pkg,
-+                                        r"Package: %s\n\1Status: \2%s" % (pkg, status_tag),
-+                                        status)
-+
-+                    tmp_sf.write(status)
-+
-+        os.rename(status_file + ".tmp", status_file)
-+
-+    def _create_custom_config(self):
-+        bb.note("Building from feeds activated!")
-+
-+        with open(self.config_file, "w+") as config_file:
-+            priority = 1
-+            for arch in self.pkg_archs.split():
-+                config_file.write("arch %s %d\n" % (arch, priority))
-+                priority += 5
-+
-+            for line in (self.d.getVar('IPK_FEED_URIS') or "").split():
-+                feed_match = re.match(r"^[ \t]*(.*)##([^ \t]*)[ \t]*$", line)
-+
-+                if feed_match is not None:
-+                    feed_name = feed_match.group(1)
-+                    feed_uri = feed_match.group(2)
-+
-+                    bb.note("Add %s feed with URL %s" % (feed_name, feed_uri))
-+
-+                    config_file.write("src/gz %s %s\n" % (feed_name, feed_uri))
-+
-+            """
-+            Allow to use package deploy directory contents as quick devel-testing
-+            feed. This creates individual feed configs for each arch subdir of those
-+            specified as compatible for the current machine.
-+            NOTE: Development-helper feature, NOT a full-fledged feed.
-+            """
-+            if (self.d.getVar('FEED_DEPLOYDIR_BASE_URI') or "") != "":
-+                for arch in self.pkg_archs.split():
-+                    cfg_file_name = os.path.join(self.target_rootfs,
-+                                                 self.d.getVar("sysconfdir"),
-+                                                 "opkg",
-+                                                 "local-%s-feed.conf" % arch)
-+
-+                    with open(cfg_file_name, "w+") as cfg_file:
-+                        cfg_file.write("src/gz local-%s %s/%s" %
-+                                       (arch,
-+                                        self.d.getVar('FEED_DEPLOYDIR_BASE_URI'),
-+                                        arch))
-+
-+                        if self.d.getVar('OPKGLIBDIR') != '/var/lib':
-+                            # There is no command line option for this anymore, we need to add
-+                            # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
-+                            # the default value of "/var/lib" as defined in opkg:
-+                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_LISTS_DIR     VARDIR "/lib/opkg/lists"
-+                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      VARDIR "/lib/opkg/info"
-+                            # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   VARDIR "/lib/opkg/status"
-+                            cfg_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'info'))
-+                            cfg_file.write("option lists_dir    %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'lists'))
-+                            cfg_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'status'))
-+
-+
-+    def _create_config(self):
-+        with open(self.config_file, "w+") as config_file:
-+            priority = 1
-+            for arch in self.pkg_archs.split():
-+                config_file.write("arch %s %d\n" % (arch, priority))
-+                priority += 5
-+
-+            config_file.write("src oe file:%s\n" % self.deploy_dir)
-+
-+            for arch in self.pkg_archs.split():
-+                pkgs_dir = os.path.join(self.deploy_dir, arch)
-+                if os.path.isdir(pkgs_dir):
-+                    config_file.write("src oe-%s file:%s\n" %
-+                                      (arch, pkgs_dir))
-+
-+            if self.d.getVar('OPKGLIBDIR') != '/var/lib':
-+                # There is no command line option for this anymore, we need to add
-+                # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
-+                # the default value of "/var/lib" as defined in opkg:
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_LISTS_DIR     VARDIR "/lib/opkg/lists"
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      VARDIR "/lib/opkg/info"
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   VARDIR "/lib/opkg/status"
-+                config_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'info'))
-+                config_file.write("option lists_dir    %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'lists'))
-+                config_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR'), 'opkg', 'status'))
-+
-+    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
-+        if feed_uris == "":
-+            return
-+
-+        rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
-+                                  % self.target_rootfs)
-+
-+        os.makedirs('%s/etc/opkg' % self.target_rootfs, exist_ok=True)
-+
-+        feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
-+        archs = self.pkg_archs.split() if feed_archs is None else feed_archs.split()
-+
-+        with open(rootfs_config, "w+") as config_file:
-+            uri_iterator = 0
-+            for uri in feed_uris:
-+                if archs:
-+                    for arch in archs:
-+                        if (feed_archs is None) and (not os.path.exists(oe.path.join(self.deploy_dir, arch))):
-+                            continue
-+                        bb.note('Adding opkg feed url-%s-%d (%s)' %
-+                            (arch, uri_iterator, uri))
-+                        config_file.write("src/gz uri-%s-%d %s/%s\n" %
-+                                          (arch, uri_iterator, uri, arch))
-+                else:
-+                    bb.note('Adding opkg feed url-%d (%s)' %
-+                        (uri_iterator, uri))
-+                    config_file.write("src/gz uri-%d %s\n" %
-+                                      (uri_iterator, uri))
-+
-+                uri_iterator += 1
-+
-+    def update(self):
-+        self.deploy_dir_lock()
-+
-+        cmd = "%s %s update" % (self.opkg_cmd, self.opkg_args)
-+
-+        try:
-+            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-+        except subprocess.CalledProcessError as e:
-+            self.deploy_dir_unlock()
-+            bb.fatal("Unable to update the package index files. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+        self.deploy_dir_unlock()
-+
-+    def install(self, pkgs, attempt_only=False):
-+        if not pkgs:
-+            return
-+
-+        cmd = "%s %s" % (self.opkg_cmd, self.opkg_args)
-+        for exclude in (self.d.getVar("PACKAGE_EXCLUDE") or "").split():
-+            cmd += " --add-exclude %s" % exclude
-+        for bad_recommendation in (self.d.getVar("BAD_RECOMMENDATIONS") or "").split():
-+            cmd += " --add-ignore-recommends %s" % bad_recommendation
-+        cmd += " install "
-+        cmd += " ".join(pkgs)
-+
-+        os.environ['D'] = self.target_rootfs
-+        os.environ['OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
-+        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-+        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
-+
-+        try:
-+            bb.note("Installing the following packages: %s" % ' '.join(pkgs))
-+            bb.note(cmd)
-+            output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
-+            bb.note(output)
-+            failed_pkgs = []
-+            for line in output.split('\n'):
-+                if line.endswith("configuration required on target."):
-+                    bb.warn(line)
-+                    failed_pkgs.append(line.split(".")[0])
-+            if failed_pkgs:
-+                failed_postinsts_abort(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
-+        except subprocess.CalledProcessError as e:
-+            (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
-+                                              "Command '%s' returned %d:\n%s" %
-+                                              (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+    def remove(self, pkgs, with_dependencies=True):
-+        if not pkgs:
-+            return
-+
-+        if with_dependencies:
-+            cmd = "%s %s --force-remove --force-removal-of-dependent-packages remove %s" % \
-+                (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
-+        else:
-+            cmd = "%s %s --force-depends remove %s" % \
-+                (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
-+
-+        try:
-+            bb.note(cmd)
-+            output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT).decode("utf-8")
-+            bb.note(output)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to remove packages. Command '%s' "
-+                     "returned %d:\n%s" % (e.cmd, e.returncode, e.output.decode("utf-8")))
-+
-+    def write_index(self):
-+        self.deploy_dir_lock()
-+
-+        result = self.indexer.write_index()
-+
-+        self.deploy_dir_unlock()
-+
-+        if result is not None:
-+            bb.fatal(result)
-+
-+    def remove_packaging_data(self):
-+        bb.utils.remove(self.opkg_dir, True)
-+        # create the directory back, it's needed by PM lock
-+        bb.utils.mkdirhier(self.opkg_dir)
-+
-+    def remove_lists(self):
-+        if not self.from_feeds:
-+            bb.utils.remove(os.path.join(self.opkg_dir, "lists"), True)
-+
-+    def list_installed(self):
-+        return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
-+
-+    def dummy_install(self, pkgs):
-+        """
-+        The following function dummy installs pkgs and returns the log of output.
-+        """
-+        if len(pkgs) == 0:
-+            return
-+
-+        # Create an temp dir as opkg root for dummy installation
-+        temp_rootfs = self.d.expand('${T}/opkg')
-+        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
-+        if opkg_lib_dir[0] == "/":
-+            opkg_lib_dir = opkg_lib_dir[1:]
-+        temp_opkg_dir = os.path.join(temp_rootfs, opkg_lib_dir, 'opkg')
-+        bb.utils.mkdirhier(temp_opkg_dir)
-+
-+        opkg_args = "-f %s -o %s " % (self.config_file, temp_rootfs)
-+        opkg_args += self.d.getVar("OPKG_ARGS")
-+
-+        cmd = "%s %s update" % (self.opkg_cmd, opkg_args)
-+        try:
-+            subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to update. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+        # Dummy installation
-+        cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
-+                                                opkg_args,
-+                                                ' '.join(pkgs))
-+        try:
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to dummy install packages. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
-+
-+        bb.utils.remove(temp_rootfs, True)
-+
-+        return output
-+
-+    def backup_packaging_data(self):
-+        # Save the opkglib for increment ipk image generation
-+        if os.path.exists(self.saved_opkg_dir):
-+            bb.utils.remove(self.saved_opkg_dir, True)
-+        shutil.copytree(self.opkg_dir,
-+                        self.saved_opkg_dir,
-+                        symlinks=True)
-+
-+    def recover_packaging_data(self):
-+        # Move the opkglib back
-+        if os.path.exists(self.saved_opkg_dir):
-+            if os.path.exists(self.opkg_dir):
-+                bb.utils.remove(self.opkg_dir, True)
-+
-+            bb.note('Recover packaging data')
-+            shutil.copytree(self.saved_opkg_dir,
-+                            self.opkg_dir,
-+                            symlinks=True)
-+
-+    def package_info(self, pkg):
-+        """
-+        Returns a dictionary with the package info.
-+        """
-+        cmd = "%s %s info %s" % (self.opkg_cmd, self.opkg_args, pkg)
-+        pkg_info = super(OpkgPM, self).package_info(pkg, cmd)
-+
-+        pkg_arch = pkg_info[pkg]["arch"]
-+        pkg_filename = pkg_info[pkg]["filename"]
-+        pkg_info[pkg]["filepath"] = \
-+                os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
-+
-+        return pkg_info
-+
-+    def extract(self, pkg):
-+        """
-+        Returns the path to a tmpdir where resides the contents of a package.
-+
-+        Deleting the tmpdir is responsability of the caller.
-+        """
-+        pkg_info = self.package_info(pkg)
-+        if not pkg_info:
-+            bb.fatal("Unable to get information for package '%s' while "
-+                     "trying to extract the package."  % pkg)
-+
-+        tmp_dir = super(OpkgPM, self).extract(pkg, pkg_info)
-+        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
-+
-+        return tmp_dir
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index 067831be00..203b11bc33 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -3,11 +3,11 @@
- #
++        opkg_dir = os.path.join(opkg_lib_dir, 'opkg')
++        self._setup_dbg_rootfs([opkg_dir])
++
++        execute_pre_post_process(self.d, opkg_post_process_cmds)
++
++        if self.inc_opkg_image_gen == "1":
++            self.pm.backup_packaging_data()
++
++        if self.progress_reporter:
++            self.progress_reporter.next_stage()
++
++    @staticmethod
++    def _depends_list():
++        return ['IPKGCONF_SDK', 'IPK_FEED_URIS', 'DEPLOY_DIR_IPK', 'IPKGCONF_TARGET', 'INC_IPK_IMAGE_GEN', 'OPKG_ARGS', 'OPKGLIBDIR', 'OPKG_PREPROCESS_COMMANDS', 'OPKG_POSTPROCESS_COMMANDS', 'OPKGLIBDIR']
++
++    def _get_delayed_postinsts(self):
++        status_file = os.path.join(self.image_rootfs,
++                                   self.d.getVar('OPKGLIBDIR').strip('/'),
++                                   "opkg", "status")
++        return self._get_delayed_postinsts_common(status_file)
++
++    def _save_postinsts(self):
++        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts")
++        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info")
++        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
++
++    def _log_check(self):
++        self._log_check_warn()
++        self._log_check_error()
++
++    def _cleanup(self):
++        self.pm.remove_lists()
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4895f1ebb9..e2b8d99d4f 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -554,274 +554,9 @@ class DpkgRootfs(DpkgOpkgRootfs):
+     def _cleanup(self):
+         pass
  
- from oe.rootfs import Rootfs
--from oe.package_manager import OpkgPM
- from oe.manifest import Manifest
- from oe.utils import execute_pre_post_process
- import re
- from oe.package_manager.ipk.manifest import OpkgManifest
-+from oe.package_manager.ipk.package_manager import OpkgPM
+-
+-class OpkgRootfs(DpkgOpkgRootfs):
+-    def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+-        super(OpkgRootfs, self).__init__(d, progress_reporter, logcatcher)
+-        self.log_check_regex = '(exit 1|Collected errors)'
+-
+-        self.manifest = OpkgManifest(d, manifest_dir)
+-        self.opkg_conf = self.d.getVar("IPKGCONF_TARGET")
+-        self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS")
+-
+-        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN') or ""
+-        if self._remove_old_rootfs():
+-            bb.utils.remove(self.image_rootfs, True)
+-            self.pm = OpkgPM(d,
+-                             self.image_rootfs,
+-                             self.opkg_conf,
+-                             self.pkg_archs)
+-        else:
+-            self.pm = OpkgPM(d,
+-                             self.image_rootfs,
+-                             self.opkg_conf,
+-                             self.pkg_archs)
+-            self.pm.recover_packaging_data()
+-
+-        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
+-
+-    def _prelink_file(self, root_dir, filename):
+-        bb.note('prelink %s in %s' % (filename, root_dir))
+-        prelink_cfg = oe.path.join(root_dir,
+-                                   self.d.expand('${sysconfdir}/prelink.conf'))
+-        if not os.path.exists(prelink_cfg):
+-            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
+-                        prelink_cfg)
+-
+-        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
+-        self._exec_shell_cmd([cmd_prelink,
+-                              '--root',
+-                              root_dir,
+-                              '-amR',
+-                              '-N',
+-                              '-c',
+-                              self.d.expand('${sysconfdir}/prelink.conf')])
+-
+-    '''
+-    Compare two files with the same key twice to see if they are equal.
+-    If they are not equal, it means they are duplicated and come from
+-    different packages.
+-    1st: Comapre them directly;
+-    2nd: While incremental image creation is enabled, one of the
+-         files could be probaly prelinked in the previous image
+-         creation and the file has been changed, so we need to
+-         prelink the other one and compare them.
+-    '''
+-    def _file_equal(self, key, f1, f2):
+-
+-        # Both of them are not prelinked
+-        if filecmp.cmp(f1, f2):
+-            return True
+-
+-        if bb.data.inherits_class('image-prelink', self.d):
+-            if self.image_rootfs not in f1:
+-                self._prelink_file(f1.replace(key, ''), f1)
+-
+-            if self.image_rootfs not in f2:
+-                self._prelink_file(f2.replace(key, ''), f2)
+-
+-            # Both of them are prelinked
+-            if filecmp.cmp(f1, f2):
+-                return True
+-
+-        # Not equal
+-        return False
+-
+-    """
+-    This function was reused from the old implementation.
+-    See commit: "image.bbclass: Added variables for multilib support." by
+-    Lianhao Lu.
+-    """
+-    def _multilib_sanity_test(self, dirs):
+-
+-        allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP")
+-        if allow_replace is None:
+-            allow_replace = ""
+-
+-        allow_rep = re.compile(re.sub(r"\|$", r"", allow_replace))
+-        error_prompt = "Multilib check error:"
+-
+-        files = {}
+-        for dir in dirs:
+-            for root, subfolders, subfiles in os.walk(dir):
+-                for file in subfiles:
+-                    item = os.path.join(root, file)
+-                    key = str(os.path.join("/", os.path.relpath(item, dir)))
+-
+-                    valid = True
+-                    if key in files:
+-                        #check whether the file is allow to replace
+-                        if allow_rep.match(key):
+-                            valid = True
+-                        else:
+-                            if os.path.exists(files[key]) and \
+-                               os.path.exists(item) and \
+-                               not self._file_equal(key, files[key], item):
+-                                valid = False
+-                                bb.fatal("%s duplicate files %s %s is not the same\n" %
+-                                         (error_prompt, item, files[key]))
+-
+-                    #pass the check, add to list
+-                    if valid:
+-                        files[key] = item
+-
+-    def _multilib_test_install(self, pkgs):
+-        ml_temp = self.d.getVar("MULTILIB_TEMP_ROOTFS")
+-        bb.utils.mkdirhier(ml_temp)
+-
+-        dirs = [self.image_rootfs]
+-
+-        for variant in self.d.getVar("MULTILIB_VARIANTS").split():
+-            ml_target_rootfs = os.path.join(ml_temp, variant)
+-
+-            bb.utils.remove(ml_target_rootfs, True)
+-
+-            ml_opkg_conf = os.path.join(ml_temp,
+-                                        variant + "-" + os.path.basename(self.opkg_conf))
+-
+-            ml_pm = OpkgPM(self.d, ml_target_rootfs, ml_opkg_conf, self.pkg_archs, prepare_index=False)
+-
+-            ml_pm.update()
+-            ml_pm.install(pkgs)
+-
+-            dirs.append(ml_target_rootfs)
+-
+-        self._multilib_sanity_test(dirs)
+-
+-    '''
+-    While ipk incremental image generation is enabled, it will remove the
+-    unneeded pkgs by comparing the old full manifest in previous existing
+-    image and the new full manifest in the current image.
+-    '''
+-    def _remove_extra_packages(self, pkgs_initial_install):
+-        if self.inc_opkg_image_gen == "1":
+-            # Parse full manifest in previous existing image creation session
+-            old_full_manifest = self.manifest.parse_full_manifest()
+-
+-            # Create full manifest for the current image session, the old one
+-            # will be replaced by the new one.
+-            self.manifest.create_full(self.pm)
+-
+-            # Parse full manifest in current image creation session
+-            new_full_manifest = self.manifest.parse_full_manifest()
+-
+-            pkg_to_remove = list()
+-            for pkg in old_full_manifest:
+-                if pkg not in new_full_manifest:
+-                    pkg_to_remove.append(pkg)
+-
+-            if pkg_to_remove != []:
+-                bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
+-                self.pm.remove(pkg_to_remove)
+-
+-    '''
+-    Compare with previous existing image creation, if some conditions
+-    triggered, the previous old image should be removed.
+-    The conditions include any of 'PACKAGE_EXCLUDE, NO_RECOMMENDATIONS
+-    and BAD_RECOMMENDATIONS' has been changed.
+-    '''
+-    def _remove_old_rootfs(self):
+-        if self.inc_opkg_image_gen != "1":
+-            return True
+-
+-        vars_list_file = self.d.expand('${T}/vars_list')
+-
+-        old_vars_list = ""
+-        if os.path.exists(vars_list_file):
+-            old_vars_list = open(vars_list_file, 'r+').read()
+-
+-        new_vars_list = '%s:%s:%s\n' % \
+-                ((self.d.getVar('BAD_RECOMMENDATIONS') or '').strip(),
+-                 (self.d.getVar('NO_RECOMMENDATIONS') or '').strip(),
+-                 (self.d.getVar('PACKAGE_EXCLUDE') or '').strip())
+-        open(vars_list_file, 'w+').write(new_vars_list)
+-
+-        if old_vars_list != new_vars_list:
+-            return True
+-
+-        return False
+-
+-    def _create(self):
+-        pkgs_to_install = self.manifest.parse_initial_manifest()
+-        opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS')
+-        opkg_post_process_cmds = self.d.getVar('OPKG_POSTPROCESS_COMMANDS')
+-
+-        # update PM index files
+-        self.pm.write_index()
+-
+-        execute_pre_post_process(self.d, opkg_pre_process_cmds)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-            # Steps are a bit different in order, skip next
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.update()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        if self.inc_opkg_image_gen == "1":
+-            self._remove_extra_packages(pkgs_to_install)
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        for pkg_type in self.install_order:
+-            if pkg_type in pkgs_to_install:
+-                # For multilib, we perform a sanity test before final install
+-                # If sanity test fails, it will automatically do a bb.fatal()
+-                # and the installation will stop
+-                if pkg_type == Manifest.PKG_TYPE_MULTILIB:
+-                    self._multilib_test_install(pkgs_to_install[pkg_type])
+-
+-                self.pm.install(pkgs_to_install[pkg_type],
+-                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        self.pm.install_complementary()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-        opkg_lib_dir = self.d.getVar('OPKGLIBDIR')
+-        opkg_dir = os.path.join(opkg_lib_dir, 'opkg')
+-        self._setup_dbg_rootfs([opkg_dir])
+-
+-        execute_pre_post_process(self.d, opkg_post_process_cmds)
+-
+-        if self.inc_opkg_image_gen == "1":
+-            self.pm.backup_packaging_data()
+-
+-        if self.progress_reporter:
+-            self.progress_reporter.next_stage()
+-
+-    @staticmethod
+-    def _depends_list():
+-        return ['IPKGCONF_SDK', 'IPK_FEED_URIS', 'DEPLOY_DIR_IPK', 'IPKGCONF_TARGET', 'INC_IPK_IMAGE_GEN', 'OPKG_ARGS', 'OPKGLIBDIR', 'OPKG_PREPROCESS_COMMANDS', 'OPKG_POSTPROCESS_COMMANDS', 'OPKGLIBDIR']
+-
+-    def _get_delayed_postinsts(self):
+-        status_file = os.path.join(self.image_rootfs,
+-                                   self.d.getVar('OPKGLIBDIR').strip('/'),
+-                                   "opkg", "status")
+-        return self._get_delayed_postinsts_common(status_file)
+-
+-    def _save_postinsts(self):
+-        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts")
+-        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info")
+-        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
+-
+-    def _log_check(self):
+-        self._log_check_warn()
+-        self._log_check_error()
+-
+-    def _cleanup(self):
+-        self.pm.remove_lists()
+-
+ def get_class_for_type(imgtype):
+     from oe.package_manager.rpm.rootfs import RpmRootfs
++    from oe.package_manager.ipk.rootfs import OpkgRootfs
+     return {"rpm": RpmRootfs,
+             "ipk": OpkgRootfs,
+             "deb": DpkgRootfs}[imgtype]
+@@ -835,6 +570,7 @@ def create_rootfs(d, manifest_dir=None, progress_reporter=None, logcatcher=None)
+     env_bkp = os.environ.copy()
  
- class DpkgOpkgRootfs(Rootfs):
-     def __init__(self, d, progress_reporter=None, logcatcher=None):
+     from oe.package_manager.rpm.rootfs import RpmRootfs
++    from oe.package_manager.ipk.rootfs import OpkgRootfs
+     img_type = d.getVar('IMAGE_PKGTYPE')
+     if img_type == "rpm":
+         RpmRootfs(d, manifest_dir, progress_reporter, logcatcher).create()
 -- 
 2.20.1
 
