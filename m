@@ -1,90 +1,115 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web11.3192.1595466983694827224
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web10.3830.1595469511672742456
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2020 18:16:23 -0700
+ Wed, 22 Jul 2020 18:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: yUTZMmb05C/XHe+X2eZCXgEvs3do5RJ7czy2fLrMB69/kiwJj9qAtABDBxI17Xm7Xsolm8+7nc
- aK1QBkhbCK0Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="149624476"
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; 
-   d="scan'208";a="149624476"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2020 18:16:14 -0700
-IronPort-SDR: lhdqDNwzUTb5ivS1tjL+x29Imy/sLldIePrAdsQkopoKrvlWW1pFqlMFE/wEMlE3Cp0NLJInma
- IjmBSnQCflfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; 
-   d="scan'208";a="488189076"
-Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Jul 2020 18:16:13 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] buildhistory: use pid for temporary txt file name
-Date: Thu, 23 Jul 2020 09:16:13 +0800
-Message-Id: <20200723011613.63042-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uB+aBULz;
+ spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f67.google.com with SMTP id q4so98080edv.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2020 18:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LvqvlsLhBc3vbSF1ahfGS2JjF6pum8kmMwvQkLb0Eyg=;
+        b=uB+aBULzH5kiIihgNdxRqROMoY1DXL0PFWWZLoh7LhTzfP1X+5281UkO33mt+f40OA
+         +IcrvFH8LfLyw2moA3D8OtTTEo7tu5BzXR281KAZd3N35jAMXHYN2CGFLNCxjs9Rs64A
+         4ldB2qMxjLGK6maMl1aCwn433fT8n8cLI6MNW4Ujg36tvG2Iya/nQKvSJHnI3KYccX3X
+         spC3g45hd0xWNStKcNZv6UcogSbJBRTLEY1XVzoPVQ6x82VoXeZdWMAlQtaoKBMfWCrg
+         ua0h3RPaE9ZNIdQeKhK1GYSBRWs1DHPlFe//7MdZEyV7he9wMOhxPyl9zcIuPlIh5UDR
+         cUPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LvqvlsLhBc3vbSF1ahfGS2JjF6pum8kmMwvQkLb0Eyg=;
+        b=K/5x4p8jNyu2dxsdvkNdXqPTJ4j8W6r6kNrJR7uDH0kDIu79O9UTyuciQKWkOafKfd
+         eQZ9h6ruAVaH1KFkIfAUQDdlASZYAFPyye2/+/a6Yf2OnSSrMV/YJMwglS2igKS7JHm9
+         IfjbeeEYP728QJ9TSP5XgSH0KgxCbTt77dQBW2PHxO6ziaFjpSrRE8Zrvh/Nly164pMf
+         g/moMd70xY1idxZSTtLGVbVHToGSMZ54W1aUK0D21LUfGYNlbYxHXXdCU5ETgSeS/fGz
+         j/EYT0f+7LTT9pEmM8+tNtmDg+qNORJTbNoVaGUi7qBJg7M8AzKwp/IZSFOJ6OpXA0XM
+         DDew==
+X-Gm-Message-State: AOAM531M6rbt/HVDqh1NqpsQZBMLZeYGGpSWdhSMJHPcWIRaB06TuxXM
+	1LxKDs44g9/J77YTTW+PPPA1p8N8s/6Iuk1DSds=
+X-Google-Smtp-Source: ABdhPJzhezph4wqyokVNeXVsvOHsLdUfn96KYru1F+PSR7wiiC3WZUK61EE2rpf9buWcTjn7V8oPGNXURPwrt07aByA=
+X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr2062955edr.164.1595469509995;
+ Wed, 22 Jul 2020 18:58:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200722075354.1568251-1-gary.bisson@boundarydevices.com>
+In-Reply-To: <20200722075354.1568251-1-gary.bisson@boundarydevices.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 22 Jul 2020 21:58:18 -0400
+Message-ID: <CADkTA4N+PY9VBNZFfQtkM=mWmJEf1WLDAozTndmqAmwHT2nrJA@mail.gmail.com>
+Subject: Re: [PATCH][poky][dunfell] kernel-yocto: account for extracted defconfig in elements check
+To: Gary Bisson <gary.bisson@boundarydevices.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: poky@lists.yoctoproject.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Adding oe-core, since that's where this would be noticed (and is the
+right list for it).
 
-buildhistory create .txt file bh_installed_pkgs.txt and
-bh_installed_pkgs_deps.txt while listing down installed package.
-These file is later removed in buildhistory_get_installed().
+Steve: this change is good for backpor, and puts everything back to a
+working state, the bug this fixes only came in after the initial fixes
+had gone to dunfell.
 
-when multiple process runs in parellal there are chances to race for
-the file where one process created the file while another task remove
-the file right after it.
+Bruce
 
-using different file name for each process should avoid the race. So
-add PID to the file name to make it unique.
+On Wed, Jul 22, 2020 at 3:53 AM Gary Bisson
+<gary.bisson@boundarydevices.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> The test for whether or not scc should to invoked to generate a
+> config.queue was missing the newly created sccs_defconfig variable.
+> We need to test for that variable as well, or we may miss generating
+> the config.queue in some cases.
+>
+> (From OE-Core rev: 3a95e171d3eaa6ab143d4f422c98a0ac7ad31761)
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> Hi,
+>
+> I believe this patch log should also say:
+> Fixes: 23dcff0d39 (kernel/yocto: ensure that defconfigs are processed first)
+>
+> What I see on dunfell HEAD currently is that it's impossible to build my
+> kernel (that uses KBUILD_DEFCONFIG) as the configme step fails because
+> the config.queue in meta folder is not created.
+>
+> Adding this patch on dunfell branch fixed the issue, hence this backport
+> request.
+>
+> Let me know if you have any questions.
+>
+> Regards,
+> Gary
+> ---
+>  meta/classes/kernel-yocto.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 54a1a1627a..3311f6e84e 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -213,7 +213,7 @@ do_kernel_metadata() {
+>         meta_dir=$(kgit --meta)
+>
+>         # run1: pull all the configuration fragments, no matter where they come from
+> -       elements="`echo -n ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}`"
+> +       elements="`echo -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} ${KERNEL_FEATURES}`"
+>         if [ -n "${elements}" ]; then
+>                 echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
+>                 scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNEL_FEATURES}
+> --
+> 2.27.0
+>
 
-[yocto #13709]
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/classes/buildhistory.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index a4288ef9e1..805e976ac5 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -429,8 +429,8 @@ def buildhistory_list_installed(d, rootfs_type="image"):
-     from oe.sdk import sdk_list_installed_packages
-     from oe.utils import format_pkg_list
- 
--    process_list = [('file', 'bh_installed_pkgs.txt'),\
--                    ('deps', 'bh_installed_pkgs_deps.txt')]
-+    process_list = [('file', 'bh_installed_pkgs_%s.txt' % os.getpid()),\
-+                    ('deps', 'bh_installed_pkgs_deps_%s.txt' % os.getpid())]
- 
-     if rootfs_type == "image":
-         pkgs = image_list_installed_packages(d)
-@@ -460,9 +460,10 @@ buildhistory_get_installed() {
- 
- 	# Get list of installed packages
- 	pkgcache="$1/installed-packages.tmp"
--	cat ${WORKDIR}/bh_installed_pkgs.txt | sort > $pkgcache && rm ${WORKDIR}/bh_installed_pkgs.txt
-+	cat ${WORKDIR}/bh_installed_pkgs_${PID}.txt | sort > $pkgcache && rm ${WORKDIR}/bh_installed_pkgs_${PID}.txt
- 
- 	cat $pkgcache | awk '{ print $1 }' > $1/installed-package-names.txt
-+
- 	if [ -s $pkgcache ] ; then
- 		cat $pkgcache | awk '{ print $2 }' | xargs -n1 basename > $1/installed-packages.txt
- 	else
-@@ -471,8 +472,8 @@ buildhistory_get_installed() {
- 
- 	# Produce dependency graph
- 	# First, quote each name to handle characters that cause issues for dot
--	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps.txt > $1/depends.tmp &&
--		rm ${WORKDIR}/bh_installed_pkgs_deps.txt
-+	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps_${PID}.txt > $1/depends.tmp &&
-+		rm ${WORKDIR}/bh_installed_pkgs_deps_${PID}.txt
- 	# Remove lines with rpmlib(...) and config(...) dependencies, change the
- 	# delimiter from pipe to "->", set the style for recommend lines and
- 	# turn versioned dependencies into edge labels.
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
