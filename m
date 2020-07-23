@@ -1,134 +1,162 @@
-Received: from mail1.bemta24.messagelabs.com (mail1.bemta24.messagelabs.com [67.219.250.3])
- by mx.groups.io with SMTP id smtpd.web11.5659.1595478704135023359
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web10.6580.1595484576816476027
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jul 2020 21:31:44 -0700
+ Wed, 22 Jul 2020 23:09:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@opengear.com header.s=selector1 header.b=Fc4BYAcJ;
- spf=pass (domain: digi.com, ip: 67.219.250.3, mailfrom: dan.callaghan@digi.com)
-Return-Path: <Dan.Callaghan@digi.com>
-Received: from [100.112.130.41] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.us-west-2.aws.symcld.net id 86/7D-20041-EA2191F5; Thu, 23 Jul 2020 04:31:42 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRWlGSWpSXmKPExsWSoW+eqrtWSDL
-  e4OZGHYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPF+l1MBQvYKy6s3cDYwLiWrYuRi4NRYCmz
-  xNwX7UwQzjEWiQkXJkFlNjFKnPu5hBHEYRHYwSLxaO8NFojMckaJO58/sYI4QgLzmST+Pd3JB
-  OHcZ5TofrCTuYuRk4NNwEBi3dypQMM4OEQEdCTefPQCCTML6En0HvzPDmILCzhI7P/yhgXEZh
-  FQlVj0cRVYnFfAUaLn60qwuISAvMT17btYIXrlJZq3zmaGsCUkDr54wQyyV0JgCqPE2qZeJpC
-  EkIC6xOrVT9kgBglKnJz5BGqQjsTfRY2sEDW7mCRa+vQg7HqJ23M72dEtkxCwljjcvQgqLitx
-  9OwcqDm+Ems3XWeCsLUkZvcdZAH5UUJAReL2ExuIcI7Ei7ermSFsVYmnj65AtcpJnOo9B9UqI
-  zFxzwWWCYy6s5C8NgvJa7OQfLCAkXkVo0VSUWZ6RkluYmaOrqGBga6hoZGuoZGlrqGlkV5ilW
-  6iXmmxbnlqcYkukFterFdcmZuck6KXl1qyiRGYSFIKGg/sYLzx+oPeIUZJDiYlUV7FxxLxQnx
-  J+SmVGYnFGfFFpTmpxYcYZTg4lCR4/YGpSUiwKDU9tSItMweY1GDSEhw8SiK8lwSB0rzFBYm5
-  xZnpEKlTjLocE17OXcQsxJKXn5cqJc4bBjJDAKQoozQPbgQswV5ilJUS5mVkYGAQ4ilILcrNL
-  EGVf8UozsGoJMxrAjKFJzOvBG7TK6AjmICOUL4rCnJESSJCSqqBiavaf9XGnoZcrSPcKjYfbm
-  8oTO18vlN0357MXTwMbGWT4toeP5g0NzS8XLhp0fSTG3i613G/jq1T08xPbtffzHLEVvrsdaF
-  tkyvrf27/0CXUKumk//Da29t3nT5mJfPOrvh/KnWt64Fr8gfV7ux75OFnIfJ81cNQptL6LzE3
-  Zu2MeM11KMNGQlMvVuCNRHP9p4tmHVEtB4+qVO3ZbiTmyvguwa1LOf4cR9r3qb6zd381uKc6z
-  2u9KbvdjLLTNmeCBXavza/teK2mPWv5fNOlzrqiaoE9qROy67bPjDox9fv1LXoZWqdOMX2xPi
-  21u+7TdYlLM1aoBIQHLZu2YM+qiYu8f5ZvdlbcZ6OeW3DxpRJLcUaioRZzUXEiAMY853UrBAA
-  A
-X-Env-Sender: Dan.Callaghan@digi.com
-X-Msg-Ref: server-29.tower-334.messagelabs.com!1595478700!183126!1
-X-Originating-IP: [104.47.55.101]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.50.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2640 invoked from network); 23 Jul 2020 04:31:41 -0000
-Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) (104.47.55.101)
-  by server-29.tower-334.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 23 Jul 2020 04:31:41 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aaRt8oIL17uBodIUIiq3b+4snzCJcQJ9mDn1qoSbCPoC7nyxoLNunEMhXJB63W1jhynCVr2N4IcUjDT8H7xGP9QRP788uaM6uZM5hXdSsdE4WfHiTn/nDgto1ouGLnGlXJpflE8XniEt8XHiSegPI3IyIW9dog85Rc+u84090rVBPxbQWhGUUpCk1VcW2eYdkAvztv420d0wvbbaJDng6noisz8AW9hQdnQqS/6uGCyb6jiCx5pCLcepjeUPXyg4Kbl/Pb+TzlKOKTvgR8LDN/TlQOsS1VvqBrIKd/BhlBYBgW5zRIVTKmZOuwCM3wvmFQNadX5NBb4jFgwak/xk4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SecLoS+DEaTac0ECwiEElJLviIiU9+OJiem4TnuJIhw=;
- b=jS0eUfiMHImQji5D/NyZ9SSuyISVGzs9S/lRPEMGLY8V7hg9h/3YV0a3E6lVhPrXQDs+0k8nrsfuQlj90gu+cvaSeMNAsg1HUWl5j332SzAfuzG58GsoTCf4bTel8K7TJeD1t7kjRiuax81rWVJcl7sZRwQOilBHq67Hj1MjEZZE5OJbGb9O3baJl06jF/1dIgEMqGJE8mXhiIP5akv/Upwze+pKmfiqb4+ddNkjFDe51dSa+/JTtrA2VI0ZFd4j3xg3TuWasmniIvn/9/7K5bTQFQ4Bj9MjCXfU8nYRV4rSONoskSu+kNegd9kSIx1YihKwGRfzOt4MqbIU8vFQjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=digi.com; dmarc=pass action=none header.from=opengear.com;
- dkim=pass header.d=opengear.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SecLoS+DEaTac0ECwiEElJLviIiU9+OJiem4TnuJIhw=;
- b=Fc4BYAcJ0bGNR6csHJmIIecleKUUpr0frmSyHLKtHrlHCONljvgsw1eLRquCCLMF/+e1V2NHo2JUTK0r+eYPOuoSi/gwcuaP5mNXvPnYvVcoetzRYGMo23bP2vsEgsooqYWxCLbSQ8Mne0wSOZcUkjL29mIuLhD57cqLMGcwePxv/thgGHb5ga2mODVchNxDaecCNPsKzvkJl49h50HEek3Ad0NyVABjAiA3NRu+lnqyBsj4nvRKwkZrO7t3YsA0zt6opIsofcP+FasxNVPC5YLiH9fmKMol9B/CCvAFu0s5yUGfbubUFc+6P+CMz7r1zKJqzx9avG/CTPOpgYGwMg==
-Received: from CY4PR10MB1944.namprd10.prod.outlook.com (2603:10b6:903:124::10)
- by CY4PR10MB1559.namprd10.prod.outlook.com (2603:10b6:903:2c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Thu, 23 Jul
- 2020 04:31:37 +0000
-Received: from CY4PR10MB1944.namprd10.prod.outlook.com
- ([fe80::c052:ad1d:f718:ee45]) by CY4PR10MB1944.namprd10.prod.outlook.com
- ([fe80::c052:ad1d:f718:ee45%7]) with mapi id 15.20.3216.021; Thu, 23 Jul 2020
- 04:31:37 +0000
-From: "Dan Callaghan" <dan.callaghan@opengear.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dan Callaghan <dan.callaghan@opengear.com>
-Subject: [PATCH] stress-ng: create a symlink for /usr/bin/stress
-Date: Thu, 23 Jul 2020 14:31:27 +1000
-Message-Id: <20200723043127.2821063-1-dan.callaghan@opengear.com>
-X-Mailer: git-send-email 2.25.4
-X-ClientProxiedBy: SYBPR01CA0142.ausprd01.prod.outlook.com
- (2603:10c6:10:5::34) To CY4PR10MB1944.namprd10.prod.outlook.com
- (2603:10b6:903:124::10)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IXpcm87w;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id g67so2528556pgc.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Jul 2020 23:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:autocrypt:organization:message-id:date
+         :user-agent:mime-version:in-reply-to;
+        bh=Iy3OFmS8txYww2OWrc68TbIEbu9dw/WMSK8h8fYrLqo=;
+        b=IXpcm87wwQlB8xpvhpKdh4SjyCH2v2S8H+/rzdRzMLyrS6UeTTD8HLY0tNTWO41yBK
+         /u7Yy/mGnnukBbCLRSA9moZmKSzF2nR854d+GPHBBUhxoZnFP5+apVdbP9EEmjRdiq+O
+         fQMFj0GpoPcUmw4Bg6e9yO2PycnYrwsWqgmATsFLekDz10Lp9AorOyQSU1GFrDBzjH27
+         sj/od9kqD4IwDphcE+N0ka8koles9cgq/Jb0mLApVSRBgyMFB6Mbd9XUIh9BbU8dzO/A
+         m6sqyD8e76AFp884jujcs00qTcpiw18IVtOgoV3AKcIJzkjcopko659yhdpnQMT6tmqJ
+         0rJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=Iy3OFmS8txYww2OWrc68TbIEbu9dw/WMSK8h8fYrLqo=;
+        b=i9g/sBhwKRZjY7J+PUYgCgjhP0jdIwsUveENoEPnQgxESM27m8YIgC1aLk7CvF5efW
+         HSVp1tL7Dk5EDI6exjLqDaqDEnKv/Vlob3m125o+YyMnWq1NDgE33AB8wCzh35MinRtn
+         Y4Y5nnNYmwJ29oY1I+eBabLOdE0K24ZnquxtRTzKbX2VNjhJZW9qtN5xLdIiKVvF730l
+         bSpnjJNzz470XLjbsCgLMXSx7eV5c25SylKrv4MAmEzdmKAuqlcN/x78BXjJy3FUDQzO
+         vrMMgNqPi7c1BxHnulSsmVx2CVVN0WPwUMKVIf+P9karJBUuF9QLrTa5v34r4o7svwUQ
+         k4kw==
+X-Gm-Message-State: AOAM530g34le7dX7h6sHoIhuq6c0B1SO6qE5i27qvg+I68AIlXY21C5k
+	DYcEo6tEli8eEuTlMNg/AqcT6gvZ67I=
+X-Google-Smtp-Source: ABdhPJxQZ4O4ycgTNFOYTp0QSWDLEt/5yjtw5iGRXxtXBHwYXBSs6jYQRs6fuvxMxxS4b9NxRQEK8w==
+X-Received: by 2002:a63:4a4c:: with SMTP id j12mr2967310pgl.115.1595484575969;
+        Wed, 22 Jul 2020 23:09:35 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::fba5? ([2601:646:9200:4e0::fba5])
+        by smtp.gmail.com with ESMTPSA id r6sm1556433pfl.142.2020.07.22.23.09.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2020 23:09:35 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] stress-ng: create a symlink for /usr/bin/stress
+To: Dan Callaghan <dan.callaghan@opengear.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200723043127.2821063-1-dan.callaghan@opengear.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
+ Zw2ZDXeaQbGU2thctxXTyYf6N1fY6P5Tww6mWKInuGU3yAv8Mg5p+Xd8itwOoVR41DOBkftV
+ miO2G7FtXsnqonB6F43a2yvc+h9OwPRVxAFss5mSmwCglSXPWndN1Ka4M/hzt7g+FmeyEssD
+ /1V/G8lLeAS9gQCNjS7jch+uHMFJuWgHzMXdw99e1ywlIkvXN77NPkW+FLVxKxNAHyWZZ3wO
+ 4BQ9/GVR2y0s/rrF1lQSIcfnUmzZrh/Bh0b1wVOSLhl0Vx4MI0/MbdL3xx17JAWy+s67evuK
+ ER4Y8ycTq3gbIGJtVrIJjWPCzWF8BACAA2u52uDmJ2pS8SIhEW0jMK/zYQ5Od9l9fM6BmS6Q
+ jnIlzzcuMvRdZn2IrnuE/YoC8yyzBK3mN+MVc2jWN9rfSg6ml7r14Zjem9Ee0O5Ca7Jg3ZvN
+ 6g3vSlrRJqKgsnq3vdatDF+5rd0NJ7ZKUy6x2i1Pavgtv3qaAgPGa1qQdLQdS2hlbSBSYWog
+ PHJhai5raGVtQGdtYWlsLmNvbT6IYAQTEQIAIAUCSpdokQIbAwYLCQgHAwIEFQIIAwQWAgMB
+ Ah4BAheAAAoJELsFM1WRnTMUhOMAoJJleT2hdT7uw9Fyn26+w+/K4i0gAJ9wRt36PqfjNe90
+ 4evWolFf5cMmp7kEDQRKl2iREBAAjjbVQ55RAouAe0l0nPsKkWdtMuUHwBdLBkpF3rGM/f0u
+ DlPaQzYGLjKT7xDoyRh8x2tFwWvOfiqrZFArxX8e4fsACmJdL0kahTbxC/8SmSWVHXi10JUX
+ 2fmZ5ufzlXAnl0ivXkWnrUfLX9DdNwL6DR4DeFK9qBFqtHmK5TQXMu87G+MJwgNJIwCKQX4i
+ I9YJILMuqInVwaxg5/ALdKfE3QPmtadnKb/cuUm4gICdaJeyQfI6qdYLcSuyBWCbAEMM1wmh
+ RAhw5RgzMRRIquZlxPt7lZkXXjals7M6juh87VGRoIJwYoQi97Q1ZHzPBo3AlMPe3haNihkd
+ 6D3lwvdB4pmjYG4I6bHCgtEhEss3hHvsBaqV9jV1dMUSs95ZxQtT9qtkOxydHgOlwRX3CG+r
+ 584J/s4vWm+iPQtLvDY1u4UFwOLjCOFe709BcLJdPR2GQiOPoyZF7lVY8nu/dtTrAEuiZFk4
+ HD7afUlcr/IKwPWID1V9kRLoDlzdbNuoUy/XfVErK8wcoiGowerEMed4ajNoKxCxBweIkjxq
+ KMt8CKgp30n9UxljglEcgf+/UumwSHxqZcCPVbWXtdhy/hwMk27shOdUvaiynep8OsVGqAzS
+ seL4qZIJ5XzCcyV4KJCmwmdQzt5+ZylcVmeq6R4ob+d8JIDU0ELqdwxwIDiTj0cAAwUP/inN
+ 3/r8IFDms4g5xafPrCw31o2jIYahkIfN0WVPWI5K/hFCo2PczPStzDcTsZx7mN2qwpGOe3Lz
+ 9/0krZeksrz1ZIHNi5LTasuzXyFJbO05Y+eiHgV1rV7VVEipOrpV1496w112Y/0SZ/FhOfEm
+ EA1TeDejy2sZiTOUW4gyzewbHMpE07d27F2qM2NfMMhKQCcvzr+N0VJmAOeATEivxPUHn+Dp
+ X/NniBWOcWv++wHlxv0Xr63gsRKSt62eFKGjgF50hHD5lM31ziqycc42sbgcqAZ+rYFlb9k0
+ 3JcKyq1XdVUSm+xcC2DMSstTI6iqFMGo6FnEO+gyE5VdceajbuZ1GOmJXJUCyYIdGuvCyIoK
+ jTE9lcIYSEEDZQej5xdiGk9eUz0MPmZEUwSR/nLmmwjHDJi0prVvs9xqe5bvS3ddPAqepvZ5
+ UrisgtWD+TDI8ktkt5VLh3XsG9FuXUVAaahOvFMGiZtsioDXTorL4AfMeuA9f+yLwrCVQO3x
+ mH/WA0Tgf/5gYB3t9KoHPjLBNruVOuQbAjubi0pvRAOUcMdBfmPofksK4uWS1zGtPWS7Uu1c
+ suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
+ XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
+ VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
+Organization: HIMVIS LLC
+Message-ID: <ab49af9a-8aa4-9767-e6b9-daa18682b34f@gmail.com>
+Date: Wed, 22 Jul 2020 23:09:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from galangal.danc.bne.opengear.com (2001:44b8:21b0:d600:329c:23ff:fef3:d4d4) by SYBPR01CA0142.ausprd01.prod.outlook.com (2603:10c6:10:5::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend Transport; Thu, 23 Jul 2020 04:31:36 +0000
-Received: by galangal.danc.bne.opengear.com (Postfix, from userid 1090)	id 1AB054219D45; Thu, 23 Jul 2020 14:31:29 +1000 (AEST)
-X-Mailer: git-send-email 2.25.4
-X-Originating-IP: [2001:44b8:21b0:d600:329c:23ff:fef3:d4d4]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7bf43b32-f3da-47ff-4fcf-08d82ec14992
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1559:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR10MB155968B1815961AA58CCE6BF90760@CY4PR10MB1559.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:549;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4MPoNzeocBGPgrygI7bpryyDmFFetMY6KyK6YDu+TNEg0o21uER9OHbNUBNtcIAvpe7pTAQOkUyYl/jtzj9htqKmDVMuHWluTUmAiQN77XySBglFZH0oS03U9BZcH5nsaybk/DVgE7sq9+3AMIlQ0C+Gmp9+kxjBdZavHHquEbgzXegXkQP4xZ7Jqxw+RdYVMSGqlGG14kbNghySU885u6YUHAPR93PCk37MkjmHEANipUgi7NwEoZbHh9UI1YruXoMKUpnpVH5m2IHQP592Srd7Pi+XbLZkJZ4sigvRas3NAP7+IVtViZZw++ifvaFY
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR10MB1944.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39840400004)(396003)(366004)(376002)(136003)(346002)(66476007)(66556008)(66946007)(426003)(4744005)(52116002)(6916009)(2906002)(8676002)(478600001)(2616005)(4326008)(107886003)(8936002)(44832011)(186003)(83170400001)(36756003)(316002)(6266002)(42882007)(1076003)(42186006)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	hQn/Z2vosJP1wzjkWdoycT0SSl/h27X7O2uLjFDG1GpwBVl0X6DMiOA3UrHzddPAVoVzkglyJ19Ili9sFj+DMAQonKO/930wkdLAj2cwYX8y8gu1NKHncnsvo08B68aly2EaaLUzG5DI5ZDQ8lw6mYUjpNNn1YK6ZY3m8IIqPOFC40M2Xq436B42sHRtuZ9QYA/SaRn4lCdoAhBS36h3oU50dtBcTaYgXMwUTvud97GWPkvK1oRxxXnO8lRjI4ADSRxnELQgcsZMWXFmY3CpL5iOfSpqH1RH8/JXeaeXetLSRC8FJTApHTpBp2S0wYc8BVahJGQmTTSsBBZaXBUl/yBTaY3sdMSmNUvq4U0FPAJ35pK+eor2n7qj40q17uI1+o1TjyOSV3lcAZW/v4kePKuANWERYlHfOt1a4lXnr4PpfK/zeQW+Dw/YzGTuHb73pIs6vw+EXmIBodzbdOaWapweIt2Uv8XIQ0qf4R/MwIwH6CDKnTBI2hF4XN3roYFQPeoTs+epY5UMHLZTSa0JeFtdWpHBvyWEBzxu5AnuW7Q8/VchvCFih/WLQGROXvTZ
-X-OriginatorOrg: opengear.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bf43b32-f3da-47ff-4fcf-08d82ec14992
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR10MB1944.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2020 04:31:37.2465
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DZTOtcuCf7Iushp39L2Yen+nMO029coIkAP6GLbKsJNxMx3j0bqSkhvHBB6cSb/HmrbBXlIl4FGIZa7PLiTWHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1559
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20200723043127.2821063-1-dan.callaghan@opengear.com>
+X-Groupsio-MsgNum: 140888
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="QbAAlT6kpGpb3WwBeAjs4k3baxqVBpmZx"
 
-In commit 72641004, stress-ng was made to provide the stress package,
-because it's backwards compatible with the old stress command. But it
-doesn't actually provide /usr/bin/stress which is what other recipes
-depending on stress will expect.
+--QbAAlT6kpGpb3WwBeAjs4k3baxqVBpmZx
+Content-Type: multipart/mixed; boundary="XnlSOaJShPYLgtMxN1E0nsuyftE3H9535";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Dan Callaghan <dan.callaghan@opengear.com>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <ab49af9a-8aa4-9767-e6b9-daa18682b34f@gmail.com>
+Subject: Re: [OE-core] [PATCH] stress-ng: create a symlink for /usr/bin/stress
+References: <20200723043127.2821063-1-dan.callaghan@opengear.com>
+In-Reply-To: <20200723043127.2821063-1-dan.callaghan@opengear.com>
 
-Symlink /usr/bin/stress to stress-ng so that it actually becomes
-a drop-in replacement for stress.
+--XnlSOaJShPYLgtMxN1E0nsuyftE3H9535
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
----
- meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb | 1 +
- 1 file changed, 1 insertion(+)
+Hi Dan
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb
-index 8ea0476db5..dcded1120d 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb
-@@ -22,5 +22,6 @@ inherit bash-completion
- 
- do_install() {
-     oe_runmake DESTDIR=${D} install
-+    ln -s stress-ng ${D}/usr/bin/stress
- }
- 
--- 
-2.25.4
+On 7/22/20 9:31 PM, Dan Callaghan wrote:
+> In commit 72641004, stress-ng was made to provide the stress package,
+> because it's backwards compatible with the old stress command. But it
+> doesn't actually provide /usr/bin/stress which is what other recipes
+> depending on stress will expect.
+>=20
+> Symlink /usr/bin/stress to stress-ng so that it actually becomes
+> a drop-in replacement for stress.
+>=20
+> Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
+> ---
+>  meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb b/meta=
+/recipes-extended/stress-ng/stress-ng_0.11.15.bb
+> index 8ea0476db5..dcded1120d 100644
+> --- a/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb
+> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.15.bb
+> @@ -22,5 +22,6 @@ inherit bash-completion
+>  
+>  do_install() {
+>      oe_runmake DESTDIR=3D${D} install
+> +    ln -s stress-ng ${D}/usr/bin/stress
 
+there is stress recipe in some layers which could provide stress utility
+as well, therefore it should be using update-alternatives mechanism so
+it fills in when stress is not provided by say stress recipe.
+
+secondly please use ${D}${bindir}/stress instead of hardcoding the path
+
+>  }
+>  
+>=20
+>=20
+>=20
+>=20
+
+
+--XnlSOaJShPYLgtMxN1E0nsuyftE3H9535--
+
+--QbAAlT6kpGpb3WwBeAjs4k3baxqVBpmZx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXxkpmAAKCRC7BTNVkZ0z
+FKGOAJ9XhDROTfAfZPrVvOTv2dhmQgaSrQCfZ9uqqUdGPQrJrPwzzJzP2upXeKA=
+=NWKV
+-----END PGP SIGNATURE-----
+
+--QbAAlT6kpGpb3WwBeAjs4k3baxqVBpmZx--
