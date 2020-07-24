@@ -1,36 +1,36 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.7520.1595601769187280372
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web11.7521.1595601769281243979
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2020 07:42:50 -0700
+ Fri, 24 Jul 2020 07:42:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=VlALM1eQ;
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Cb6r4ca2;
  spf=fail (domain: axis.com, ip: <nil>, mailfrom: fredrik.gustafsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=6018; q=dns/txt; s=axis-central1;
+  d=axis.com; l=36571; q=dns/txt; s=axis-central1;
   t=1595601770; x=1627137770;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Qb7uGajtAXyr/9vqD/Ae60j+ai+ZWGQX5lEtRxjs0dQ=;
-  b=VlALM1eQs0Rkaz/KAzQNxDUfrfn9O/0DVGJ5ABdDtE3D8PuCDxU2Cer9
-   VAYuagQJU9r0UfQtBqsQy4EPDxoAQ/kQofsN4kvh95iVS+MuHQ7CSg2/q
-   qduMx5pRr71JAhWO2lMajOYoC2JMQNE8w6Sx+qrbbfmu+V4pMUAsmWK+p
-   65jzxSeUIS5HbFgZM51ymo5DfGjVdp6WF7j+DTaz37TNf46fQBazWu7c6
-   H3r4i1a15uIWVSZqZUnybw3Vx3qabfCrF7aTPMMRvQibvZKWhU5OKN6BC
-   lk3l+L0wae3Un6HGobDeV+BoS3aOyKDc09Zx+VCnKGgMM1i1gDyIBbAnn
-   g==;
-IronPort-SDR: mhchBp4gvUT5FuATvGdNJVFUdjBM83OzJynEQMDTiBnl+zMzAABvaZd5l8B4i8iqahLD2fRvr/
- CczlVedxkz8j9W6NoBbSTGvb2ha4+nO8qAJfv5DhVlQHqA7APFtbm1dE2eP6Gm/Z12piGxx6y+
- 7H9l3V5MoLacrC4jNr3wJbiEeJrhq2Ua4I5VSudXktyiRsLmQYDOQnxcRlUKBQvnMepEyg5bkU
- AcOQDSm8IsXIdE5L08V3iux8MoicDTIjICxiQUxidb9wrEMWTCpiOfiZiCCTAhV1rPPUYvYn7o
- EYQ=
+  bh=9EIU+ePQfBE3L1qOxhpwGnYvAsdI8ZDzSoGm/YU/rsE=;
+  b=Cb6r4ca2n3uWYAv0J9OPCORcXQ9EmVU6t0v7JL8SEGMlW8THP7KhdzK/
+   OzXz3zlYFx0mQme734E/DNDUfl8dhkQp7Q/8MxLHOVUqdcNMjSabdtpep
+   uSKQKblMGaJAb8Nm7TO7GpEP8SNuLq+EpBd0TrNXaZNpJ/2XPoBhBLbFW
+   8EWxhdq1GPFZyKkB6UNCm4hsmRuikaHJXpUIg7spKfXYdx0AsScMsmI1o
+   s7VJV8iWIxILc6BrFvSNMhcalK+LPn1mcKaO38o9eyE7JT/++eQrnpkT5
+   CzQ83LKk1Of3A9HReqmcGZWkMMRNSlglIXYTb2cK1cO0/0Bpydu/vs4gp
+   w==;
+IronPort-SDR: X9g2W+MbK7dxUmJPWQ9Ypazzja+Bn2Ywm5DtjJ9OSzPv6QZaIB0vH26uxYj+ea4k/3mm4VWeJK
+ Ucreuf8Xgp+q6AVsaZDzRS507hVJmDeIEdzC2Oa7DaW5Bpm2krBH5FOCStHMwGX876o9nsVwsg
+ KrHEMkz/fnEThQ2wGVI99FTFGQ1Q1XeDA4d4Qn6VAsatVYZpQv5yOfHLQHTGYvoyTDorTu/iua
+ 31p6u/TC/2kQAZBzkx3gwiBB0T9ool1cJVKZzLDp+8bVznFBdT2c2M9u/oh0gc2e5jV0w14eXG
+ 7dY=
 X-IronPort-AV: E=Sophos;i="5.75,391,1589234400"; 
-   d="scan'208";a="11187081"
+   d="scan'208";a="10868083"
 From: "Fredrik Gustafsson" <fredrik.gustafsson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <tools-cfpbuild-internal@axis.com>, Fredrik Gustafsson <fredrigu@axis.com>
-Subject: [PATCH v6 03/13] ipk: Move ipk manifest to its own subdir
-Date: Fri, 24 Jul 2020 16:42:31 +0200
-Message-ID: <20200724144241.9977-4-fredrigu@axis.com>
+Subject: [PATCH v6 11/13] rpm: Move package manager to its own dir
+Date: Fri, 24 Jul 2020 16:42:39 +0200
+Message-ID: <20200724144241.9977-12-fredrigu@axis.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200724144241.9977-1-fredrigu@axis.com>
 References: <20200724144241.9977-1-fredrigu@axis.com>
@@ -39,211 +39,904 @@ Return-Path: fredrigu@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This is a part of a refactor that will split the package manager
+This is part of a refactor that will split the package manager
 code so that it's possible to use other package managers in other
 layers.
 
 Signed-off-by: Fredrik Gustafsson <fredrigu@axis.com>
 ---
- meta/lib/oe/manifest.py                     | 72 +-------------------
- meta/lib/oe/package_manager/ipk/__init__.py |  3 +
- meta/lib/oe/package_manager/ipk/manifest.py | 73 +++++++++++++++++++++
- meta/lib/oe/rootfs.py                       |  1 +
- 4 files changed, 78 insertions(+), 71 deletions(-)
- create mode 100644 meta/lib/oe/package_manager/ipk/__init__.py
- create mode 100644 meta/lib/oe/package_manager/ipk/manifest.py
+ meta/lib/oe/package_manager/__init__.py     | 398 -------------------
+ meta/lib/oe/package_manager/rpm/__init__.py | 399 ++++++++++++++++++++
+ meta/lib/oe/package_manager/rpm/rootfs.py   |   2 +-
+ meta/lib/oe/package_manager/rpm/sdk.py      |   2 +-
+ meta/lib/oe/rootfs.py                       |   2 +
+ meta/lib/oe/sdk.py                          |   1 +
+ 6 files changed, 404 insertions(+), 400 deletions(-)
 
-diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index 17461cda64..f87c150d33 100644
---- a/meta/lib/oe/manifest.py
-+++ b/meta/lib/oe/manifest.py
-@@ -187,76 +187,6 @@ class Manifest(object, metaclass=ABCMeta):
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 35e5cff073..2ca47e5109 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -149,43 +149,6 @@ class Indexer(object, metaclass=ABCMeta):
+     def write_index(self):
+         pass
  
-         return installed_pkgs
+-
+-class RpmIndexer(Indexer):
+-    def write_index(self):
+-        self.do_write_index(self.deploy_dir)
+-
+-    def do_write_index(self, deploy_dir):
+-        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
+-        else:
+-            signer = None
+-
+-        createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
+-        result = create_index("%s --update -q %s" % (createrepo_c, deploy_dir))
+-        if result:
+-            bb.fatal(result)
+-
+-        # Sign repomd
+-        if signer:
+-            sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
+-            is_ascii_sig = (sig_type.upper() != "BIN")
+-            signer.detach_sign(os.path.join(deploy_dir, 'repodata', 'repomd.xml'),
+-                               self.d.getVar('PACKAGE_FEED_GPG_NAME'),
+-                               self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
+-                               armor=is_ascii_sig)
+-
+-class RpmSubdirIndexer(RpmIndexer):
+-    def write_index(self):
+-        bb.note("Generating package index for %s" %(self.deploy_dir))
+-        self.do_write_index(self.deploy_dir)
+-        for entry in os.walk(self.deploy_dir):
+-            if os.path.samefile(self.deploy_dir, entry[0]):
+-                for dir in entry[1]:
+-                    if dir != 'repodata':
+-                        dir_path = oe.path.join(self.deploy_dir, dir)
+-                        bb.note("Generating package index for %s" %(dir_path))
+-                        self.do_write_index(dir_path)
+-
+ class OpkgIndexer(Indexer):
+     def write_index(self):
+         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
+@@ -323,10 +286,6 @@ class PkgsList(object, metaclass=ABCMeta):
+     def list_pkgs(self):
+         pass
  
+-class RpmPkgsList(PkgsList):
+-    def list_pkgs(self):
+-        return RpmPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
 -
--class OpkgManifest(Manifest):
--    """
--    Returns a dictionary object with mip and mlp packages.
--    """
--    def _split_multilib(self, pkg_list):
--        pkgs = dict()
+ class OpkgPkgsList(PkgsList):
+     def __init__(self, d, rootfs_dir, config_file):
+         super(OpkgPkgsList, self).__init__(d, rootfs_dir)
+@@ -737,363 +696,6 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+                     else:
+                         raise
+ 
+-class RpmPM(PackageManager):
+-    def __init__(self,
+-                 d,
+-                 target_rootfs,
+-                 target_vendor,
+-                 task_name='target',
+-                 arch_var=None,
+-                 os_var=None,
+-                 rpm_repo_workdir="oe-rootfs-repo",
+-                 filterbydependencies=True,
+-                 needfeed=True):
+-        super(RpmPM, self).__init__(d, target_rootfs)
+-        self.target_vendor = target_vendor
+-        self.task_name = task_name
+-        if arch_var == None:
+-            self.archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
+-        else:
+-            self.archs = self.d.getVar(arch_var).replace("-","_")
+-        if task_name == "host":
+-            self.primary_arch = self.d.getVar('SDK_ARCH')
+-        else:
+-            self.primary_arch = self.d.getVar('MACHINE_ARCH')
 -
--        for pkg in pkg_list.split():
--            pkg_type = self.PKG_TYPE_MUST_INSTALL
+-        if needfeed:
+-            self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
+-            create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
 -
--            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
+-        self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
+-        if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+-            bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
+-        self.packaging_data_dirs = ['etc/rpm', 'etc/rpmrc', 'etc/dnf', 'var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
+-        self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+-                                               self.task_name)
+-        if not os.path.exists(self.d.expand('${T}/saved')):
+-            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
 -
--            for ml_variant in ml_variants:
--                if pkg.startswith(ml_variant + '-'):
--                    pkg_type = self.PKG_TYPE_MULTILIB
+-    def _configure_dnf(self):
+-        # libsolv handles 'noarch' internally, we don't need to specify it explicitly
+-        archs = [i for i in reversed(self.archs.split()) if i not in ["any", "all", "noarch"]]
+-        # This prevents accidental matching against libsolv's built-in policies
+-        if len(archs) <= 1:
+-            archs = archs + ["bogusarch"]
+-        # This architecture needs to be upfront so that packages using it are properly prioritized
+-        archs = ["sdk_provides_dummy_target"] + archs
+-        confdir = "%s/%s" %(self.target_rootfs, "etc/dnf/vars/")
+-        bb.utils.mkdirhier(confdir)
+-        open(confdir + "arch", 'w').write(":".join(archs))
+-        distro_codename = self.d.getVar('DISTRO_CODENAME')
+-        open(confdir + "releasever", 'w').write(distro_codename if distro_codename is not None else '')
 -
--            if not pkg_type in pkgs:
--                pkgs[pkg_type] = pkg
--            else:
--                pkgs[pkg_type] += " " + pkg
+-        open(oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"), 'w').write("")
 -
--        return pkgs
 -
--    def create_initial(self):
--        pkgs = dict()
+-    def _configure_rpm(self):
+-        # We need to configure rpm to use our primary package architecture as the installation architecture,
+-        # and to make it compatible with other package architectures that we use.
+-        # Otherwise it will refuse to proceed with packages installation.
+-        platformconfdir = "%s/%s" %(self.target_rootfs, "etc/rpm/")
+-        rpmrcconfdir = "%s/%s" %(self.target_rootfs, "etc/")
+-        bb.utils.mkdirhier(platformconfdir)
+-        open(platformconfdir + "platform", 'w').write("%s-pc-linux" % self.primary_arch)
+-        with open(rpmrcconfdir + "rpmrc", 'w') as f:
+-            f.write("arch_compat: %s: %s\n" % (self.primary_arch, self.archs if len(self.archs) > 0 else self.primary_arch))
+-            f.write("buildarch_compat: %s: noarch\n" % self.primary_arch)
 -
--        with open(self.initial_manifest, "w+") as manifest:
--            manifest.write(self.initial_manifest_file_header)
+-        open(platformconfdir + "macros", 'w').write("%_transaction_color 7\n")
+-        if self.d.getVar('RPM_PREFER_ELF_ARCH'):
+-            open(platformconfdir + "macros", 'a').write("%%_prefer_color %s" % (self.d.getVar('RPM_PREFER_ELF_ARCH')))
 -
--            for var in self.var_maps[self.manifest_type]:
--                if var in self.vars_to_split:
--                    split_pkgs = self._split_multilib(self.d.getVar(var))
--                    if split_pkgs is not None:
--                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
--                else:
--                    pkg_list = self.d.getVar(var)
--                    if pkg_list is not None:
--                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
+-        if self.d.getVar('RPM_SIGN_PACKAGES') == '1':
+-            signer = get_signer(self.d, self.d.getVar('RPM_GPG_BACKEND'))
+-            pubkey_path = oe.path.join(self.d.getVar('B'), 'rpm-key')
+-            signer.export_pubkey(pubkey_path, self.d.getVar('RPM_GPG_NAME'))
+-            rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmkeys")
+-            cmd = [rpm_bin, '--root=%s' % self.target_rootfs, '--import', pubkey_path]
+-            try:
+-                subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+-            except subprocess.CalledProcessError as e:
+-                bb.fatal("Importing GPG key failed. Command '%s' "
+-                        "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
 -
--            for pkg_type in sorted(pkgs):
--                for pkg in sorted(pkgs[pkg_type].split()):
--                    manifest.write("%s,%s\n" % (pkg_type, pkg))
+-    def create_configs(self):
+-        self._configure_dnf()
+-        self._configure_rpm()
 -
--    def create_final(self):
--        pass
+-    def write_index(self):
+-        lockfilename = self.d.getVar('DEPLOY_DIR_RPM') + "/rpm.lock"
+-        lf = bb.utils.lockfile(lockfilename, False)
+-        RpmIndexer(self.d, self.rpm_repo_dir).write_index()
+-        bb.utils.unlockfile(lf)
 -
--    def create_full(self, pm):
--        if not os.path.exists(self.initial_manifest):
--            self.create_initial()
+-    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
+-        from urllib.parse import urlparse
 -
--        initial_manifest = self.parse_initial_manifest()
--        pkgs_to_install = list()
--        for pkg_type in initial_manifest:
--            pkgs_to_install += initial_manifest[pkg_type]
--        if len(pkgs_to_install) == 0:
+-        if feed_uris == "":
 -            return
 -
--        output = pm.dummy_install(pkgs_to_install)
+-        gpg_opts = ''
+-        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            gpg_opts += 'repo_gpgcheck=1\n'
+-            gpg_opts += 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' % (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'), self.d.getVar('DISTRO_CODENAME'))
 -
--        with open(self.full_manifest, 'w+') as manifest:
--            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
--            for line in set(output.split('\n')):
--                m = pkg_re.match(line)
--                if m:
--                    manifest.write(m.group(1) + '\n')
+-        if self.d.getVar('RPM_SIGN_PACKAGES') != '1':
+-            gpg_opts += 'gpgcheck=0\n'
 -
--        return
+-        bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
+-        remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
+-        for uri in remote_uris:
+-            repo_base = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
+-            if feed_archs is not None:
+-                for arch in feed_archs.split():
+-                    repo_uri = uri + "/" + arch
+-                    repo_id   = "oe-remote-repo"  + "-".join(urlparse(repo_uri).path.split("/"))
+-                    repo_name = "OE Remote Repo:" + " ".join(urlparse(repo_uri).path.split("/"))
+-                    open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'a').write(
+-                             "[%s]\nname=%s\nbaseurl=%s\n%s\n" % (repo_id, repo_name, repo_uri, gpg_opts))
+-            else:
+-                repo_name = "OE Remote Repo:" + " ".join(urlparse(uri).path.split("/"))
+-                repo_uri = uri
+-                open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'w').write(
+-                             "[%s]\nname=%s\nbaseurl=%s\n%s" % (repo_base, repo_name, repo_uri, gpg_opts))
+-
+-    def _prepare_pkg_transaction(self):
+-        os.environ['D'] = self.target_rootfs
+-        os.environ['OFFLINE_ROOT'] = self.target_rootfs
+-        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
+-        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
+-        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
+-        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
 -
 -
- class DpkgManifest(Manifest):
-     def create_initial(self):
-         with open(self.initial_manifest, "w+") as manifest:
-@@ -281,8 +211,8 @@ class DpkgManifest(Manifest):
- 
- def create_manifest(d, final_manifest=False, manifest_dir=None,
-                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
+-    def install(self, pkgs, attempt_only = False):
+-        if len(pkgs) == 0:
+-            return
+-        self._prepare_pkg_transaction()
 -
-     from oe.package_manager.rpm.manifest import RpmManifest
-+    from oe.package_manager.ipk.manifest import OpkgManifest
-     manifest_map = {'rpm': RpmManifest,
-                     'ipk': OpkgManifest,
-                     'deb': DpkgManifest}
-diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-new file mode 100644
-index 0000000000..a2094304c9
---- /dev/null
-+++ b/meta/lib/oe/package_manager/ipk/__init__.py
-@@ -0,0 +1,3 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-diff --git a/meta/lib/oe/package_manager/ipk/manifest.py b/meta/lib/oe/package_manager/ipk/manifest.py
-new file mode 100644
-index 0000000000..69676903ab
---- /dev/null
-+++ b/meta/lib/oe/package_manager/ipk/manifest.py
-@@ -0,0 +1,73 @@
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
+-        bad_recommendations = self.d.getVar('BAD_RECOMMENDATIONS')
+-        package_exclude = self.d.getVar('PACKAGE_EXCLUDE')
+-        exclude_pkgs = (bad_recommendations.split() if bad_recommendations else []) + (package_exclude.split() if package_exclude else [])
+-
+-        output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
+-                         (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
+-                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
+-                         (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
+-                         ["install"] +
+-                         pkgs)
+-
+-        failed_scriptlets_pkgnames = collections.OrderedDict()
+-        for line in output.splitlines():
+-            if line.startswith("Error in POSTIN scriptlet in rpm package"):
+-                failed_scriptlets_pkgnames[line.split()[-1]] = True
+-
+-        if len(failed_scriptlets_pkgnames) > 0:
+-            failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+-
+-    def remove(self, pkgs, with_dependencies = True):
+-        if not pkgs:
+-            return
+-
+-        self._prepare_pkg_transaction()
+-
+-        if with_dependencies:
+-            self._invoke_dnf(["remove"] + pkgs)
+-        else:
+-            cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+-            args = ["-e", "-v", "--nodeps", "--root=%s" %self.target_rootfs]
+-
+-            try:
+-                bb.note("Running %s" % ' '.join([cmd] + args + pkgs))
+-                output = subprocess.check_output([cmd] + args + pkgs, stderr=subprocess.STDOUT).decode("utf-8")
+-                bb.note(output)
+-            except subprocess.CalledProcessError as e:
+-                bb.fatal("Could not invoke rpm. Command "
+-                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args + pkgs), e.returncode, e.output.decode("utf-8")))
+-
+-    def upgrade(self):
+-        self._prepare_pkg_transaction()
+-        self._invoke_dnf(["upgrade"])
+-
+-    def autoremove(self):
+-        self._prepare_pkg_transaction()
+-        self._invoke_dnf(["autoremove"])
+-
+-    def remove_packaging_data(self):
+-        self._invoke_dnf(["clean", "all"])
+-        for dir in self.packaging_data_dirs:
+-            bb.utils.remove(oe.path.join(self.target_rootfs, dir), True)
+-
+-    def backup_packaging_data(self):
+-        # Save the packaging dirs for increment rpm image generation
+-        if os.path.exists(self.saved_packaging_data):
+-            bb.utils.remove(self.saved_packaging_data, True)
+-        for i in self.packaging_data_dirs:
+-            source_dir = oe.path.join(self.target_rootfs, i)
+-            target_dir = oe.path.join(self.saved_packaging_data, i)
+-            if os.path.isdir(source_dir):
+-                shutil.copytree(source_dir, target_dir, symlinks=True)
+-            elif os.path.isfile(source_dir):
+-                shutil.copy2(source_dir, target_dir)
+-
+-    def recovery_packaging_data(self):
+-        # Move the rpmlib back
+-        if os.path.exists(self.saved_packaging_data):
+-            for i in self.packaging_data_dirs:
+-                target_dir = oe.path.join(self.target_rootfs, i)
+-                if os.path.exists(target_dir):
+-                    bb.utils.remove(target_dir, True)
+-                source_dir = oe.path.join(self.saved_packaging_data, i)
+-                if os.path.isdir(source_dir):
+-                    shutil.copytree(source_dir, target_dir, symlinks=True)
+-                elif os.path.isfile(source_dir):
+-                    shutil.copy2(source_dir, target_dir)
+-
+-    def list_installed(self):
+-        output = self._invoke_dnf(["repoquery", "--installed", "--queryformat", "Package: %{name} %{arch} %{version} %{name}-%{version}-%{release}.%{arch}.rpm\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nDependenciesEndHere:\n"],
+-                                  print_output = False)
+-        packages = {}
+-        current_package = None
+-        current_deps = None
+-        current_state = "initial"
+-        for line in output.splitlines():
+-            if line.startswith("Package:"):
+-                package_info = line.split(" ")[1:]
+-                current_package = package_info[0]
+-                package_arch = package_info[1]
+-                package_version = package_info[2]
+-                package_rpm = package_info[3]
+-                packages[current_package] = {"arch":package_arch, "ver":package_version, "filename":package_rpm}
+-                current_deps = []
+-            elif line.startswith("Dependencies:"):
+-                current_state = "dependencies"
+-            elif line.startswith("Recommendations"):
+-                current_state = "recommendations"
+-            elif line.startswith("DependenciesEndHere:"):
+-                current_state = "initial"
+-                packages[current_package]["deps"] = current_deps
+-            elif len(line) > 0:
+-                if current_state == "dependencies":
+-                    current_deps.append(line)
+-                elif current_state == "recommendations":
+-                    current_deps.append("%s [REC]" % line)
+-
+-        return packages
+-
+-    def update(self):
+-        self._invoke_dnf(["makecache", "--refresh"])
+-
+-    def _invoke_dnf(self, dnf_args, fatal = True, print_output = True ):
+-        os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
+-
+-        dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
+-        standard_dnf_args = ["-v", "--rpmverbosity=info", "-y",
+-                             "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
+-                             "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
+-                             "--installroot=%s" % (self.target_rootfs),
+-                             "--setopt=logdir=%s" % (self.d.getVar('T'))
+-                            ]
+-        if hasattr(self, "rpm_repo_dir"):
+-            standard_dnf_args.append("--repofrompath=oe-repo,%s" % (self.rpm_repo_dir))
+-        cmd = [dnf_cmd] + standard_dnf_args + dnf_args
+-        bb.note('Running %s' % ' '.join(cmd))
+-        try:
+-            output = subprocess.check_output(cmd,stderr=subprocess.STDOUT).decode("utf-8")
+-            if print_output:
+-                bb.debug(1, output)
+-            return output
+-        except subprocess.CalledProcessError as e:
+-            if print_output:
+-                (bb.note, bb.fatal)[fatal]("Could not invoke dnf. Command "
+-                     "'%s' returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+-            else:
+-                (bb.note, bb.fatal)[fatal]("Could not invoke dnf. Command "
+-                     "'%s' returned %d:" % (' '.join(cmd), e.returncode))
+-            return e.output.decode("utf-8")
+-
+-    def dump_install_solution(self, pkgs):
+-        open(self.solution_manifest, 'w').write(" ".join(pkgs))
+-        return pkgs
+-
+-    def load_old_install_solution(self):
+-        if not os.path.exists(self.solution_manifest):
+-            return []
+-        with open(self.solution_manifest, 'r') as fd:
+-            return fd.read().split()
+-
+-    def _script_num_prefix(self, path):
+-        files = os.listdir(path)
+-        numbers = set()
+-        numbers.add(99)
+-        for f in files:
+-            numbers.add(int(f.split("-")[0]))
+-        return max(numbers) + 1
+-
+-    def save_rpmpostinst(self, pkg):
+-        bb.note("Saving postinstall script of %s" % (pkg))
+-        cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+-        args = ["-q", "--root=%s" % self.target_rootfs, "--queryformat", "%{postin}", pkg]
+-
+-        try:
+-            output = subprocess.check_output([cmd] + args,stderr=subprocess.STDOUT).decode("utf-8")
+-        except subprocess.CalledProcessError as e:
+-            bb.fatal("Could not invoke rpm. Command "
+-                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args), e.returncode, e.output.decode("utf-8")))
+-
+-        # may need to prepend #!/bin/sh to output
+-
+-        target_path = oe.path.join(self.target_rootfs, self.d.expand('${sysconfdir}/rpm-postinsts/'))
+-        bb.utils.mkdirhier(target_path)
+-        num = self._script_num_prefix(target_path)
+-        saved_script_name = oe.path.join(target_path, "%d-%s" % (num, pkg))
+-        open(saved_script_name, 'w').write(output)
+-        os.chmod(saved_script_name, 0o755)
+-
+-    def _handle_intercept_failure(self, registered_pkgs):
+-        rpm_postinsts_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
+-        bb.utils.mkdirhier(rpm_postinsts_dir)
+-
+-        # Save the package postinstalls in /etc/rpm-postinsts
+-        for pkg in registered_pkgs.split():
+-            self.save_rpmpostinst(pkg)
+-
+-    def extract(self, pkg):
+-        output = self._invoke_dnf(["repoquery", "--queryformat", "%{location}", pkg])
+-        pkg_name = output.splitlines()[-1]
+-        if not pkg_name.endswith(".rpm"):
+-            bb.fatal("dnf could not find package %s in repository: %s" %(pkg, output))
+-        pkg_path = oe.path.join(self.rpm_repo_dir, pkg_name)
+-
+-        cpio_cmd = bb.utils.which(os.getenv("PATH"), "cpio")
+-        rpm2cpio_cmd = bb.utils.which(os.getenv("PATH"), "rpm2cpio")
+-
+-        if not os.path.isfile(pkg_path):
+-            bb.fatal("Unable to extract package for '%s'."
+-                     "File %s doesn't exists" % (pkg, pkg_path))
+-
+-        tmp_dir = tempfile.mkdtemp()
+-        current_dir = os.getcwd()
+-        os.chdir(tmp_dir)
+-
+-        try:
+-            cmd = "%s %s | %s -idmv" % (rpm2cpio_cmd, pkg_path, cpio_cmd)
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+-        except subprocess.CalledProcessError as e:
+-            bb.utils.remove(tmp_dir, recurse=True)
+-            bb.fatal("Unable to extract %s package. Command '%s' "
+-                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output.decode("utf-8")))
+-        except OSError as e:
+-            bb.utils.remove(tmp_dir, recurse=True)
+-            bb.fatal("Unable to extract %s package. Command '%s' "
+-                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
+-
+-        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
+-        os.chdir(current_dir)
+-
+-        return tmp_dir
+-
+-
+ class OpkgDpkgPM(PackageManager):
+     def __init__(self, d, target_rootfs):
+         """
+diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/package_manager/rpm/__init__.py
+index a2094304c9..6183f81d58 100644
+--- a/meta/lib/oe/package_manager/rpm/__init__.py
++++ b/meta/lib/oe/package_manager/rpm/__init__.py
+@@ -1,3 +1,402 @@
+ #
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
 +
-+from oe.manifest import Manifest
++from oe.package_manager import *
 +
-+class OpkgManifest(Manifest):
-+    """
-+    Returns a dictionary object with mip and mlp packages.
-+    """
-+    def _split_multilib(self, pkg_list):
-+        pkgs = dict()
++class RpmIndexer(Indexer):
++    def write_index(self):
++        self.do_write_index(self.deploy_dir)
 +
-+        for pkg in pkg_list.split():
-+            pkg_type = self.PKG_TYPE_MUST_INSTALL
++    def do_write_index(self, deploy_dir):
++        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
++        else:
++            signer = None
 +
-+            ml_variants = self.d.getVar('MULTILIB_VARIANTS').split()
++        createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
++        result = create_index("%s --update -q %s" % (createrepo_c, deploy_dir))
++        if result:
++            bb.fatal(result)
 +
-+            for ml_variant in ml_variants:
-+                if pkg.startswith(ml_variant + '-'):
-+                    pkg_type = self.PKG_TYPE_MULTILIB
++        # Sign repomd
++        if signer:
++            sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
++            is_ascii_sig = (sig_type.upper() != "BIN")
++            signer.detach_sign(os.path.join(deploy_dir, 'repodata', 'repomd.xml'),
++                               self.d.getVar('PACKAGE_FEED_GPG_NAME'),
++                               self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
++                               armor=is_ascii_sig)
 +
-+            if not pkg_type in pkgs:
-+                pkgs[pkg_type] = pkg
-+            else:
-+                pkgs[pkg_type] += " " + pkg
++class RpmSubdirIndexer(RpmIndexer):
++    def write_index(self):
++        bb.note("Generating package index for %s" %(self.deploy_dir))
++        self.do_write_index(self.deploy_dir)
++        for entry in os.walk(self.deploy_dir):
++            if os.path.samefile(self.deploy_dir, entry[0]):
++                for dir in entry[1]:
++                    if dir != 'repodata':
++                        dir_path = oe.path.join(self.deploy_dir, dir)
++                        bb.note("Generating package index for %s" %(dir_path))
++                        self.do_write_index(dir_path)
 +
-+        return pkgs
 +
-+    def create_initial(self):
-+        pkgs = dict()
++class RpmPkgsList(PkgsList):
++    def list_pkgs(self):
++        return RpmPM(self.d, self.rootfs_dir, self.d.getVar('TARGET_VENDOR'), needfeed=False).list_installed()
 +
-+        with open(self.initial_manifest, "w+") as manifest:
-+            manifest.write(self.initial_manifest_file_header)
++class RpmPM(PackageManager):
++    def __init__(self,
++                 d,
++                 target_rootfs,
++                 target_vendor,
++                 task_name='target',
++                 arch_var=None,
++                 os_var=None,
++                 rpm_repo_workdir="oe-rootfs-repo",
++                 filterbydependencies=True,
++                 needfeed=True):
++        super(RpmPM, self).__init__(d, target_rootfs)
++        self.target_vendor = target_vendor
++        self.task_name = task_name
++        if arch_var == None:
++            self.archs = self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
++        else:
++            self.archs = self.d.getVar(arch_var).replace("-","_")
++        if task_name == "host":
++            self.primary_arch = self.d.getVar('SDK_ARCH')
++        else:
++            self.primary_arch = self.d.getVar('MACHINE_ARCH')
 +
-+            for var in self.var_maps[self.manifest_type]:
-+                if var in self.vars_to_split:
-+                    split_pkgs = self._split_multilib(self.d.getVar(var))
-+                    if split_pkgs is not None:
-+                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
-+                else:
-+                    pkg_list = self.d.getVar(var)
-+                    if pkg_list is not None:
-+                        pkgs[self.var_maps[self.manifest_type][var]] = self.d.getVar(var)
++        if needfeed:
++            self.rpm_repo_dir = oe.path.join(self.d.getVar('WORKDIR'), rpm_repo_workdir)
++            create_packages_dir(self.d, oe.path.join(self.rpm_repo_dir, "rpm"), d.getVar("DEPLOY_DIR_RPM"), "package_write_rpm", filterbydependencies)
 +
-+            for pkg_type in sorted(pkgs):
-+                for pkg in sorted(pkgs[pkg_type].split()):
-+                    manifest.write("%s,%s\n" % (pkg_type, pkg))
++        self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
++        if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
++            bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
++        self.packaging_data_dirs = ['etc/rpm', 'etc/rpmrc', 'etc/dnf', 'var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
++        self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
++                                               self.task_name)
++        if not os.path.exists(self.d.expand('${T}/saved')):
++            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
 +
-+    def create_final(self):
-+        pass
++    def _configure_dnf(self):
++        # libsolv handles 'noarch' internally, we don't need to specify it explicitly
++        archs = [i for i in reversed(self.archs.split()) if i not in ["any", "all", "noarch"]]
++        # This prevents accidental matching against libsolv's built-in policies
++        if len(archs) <= 1:
++            archs = archs + ["bogusarch"]
++        # This architecture needs to be upfront so that packages using it are properly prioritized
++        archs = ["sdk_provides_dummy_target"] + archs
++        confdir = "%s/%s" %(self.target_rootfs, "etc/dnf/vars/")
++        bb.utils.mkdirhier(confdir)
++        open(confdir + "arch", 'w').write(":".join(archs))
++        distro_codename = self.d.getVar('DISTRO_CODENAME')
++        open(confdir + "releasever", 'w').write(distro_codename if distro_codename is not None else '')
 +
-+    def create_full(self, pm):
-+        if not os.path.exists(self.initial_manifest):
-+            self.create_initial()
++        open(oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"), 'w').write("")
 +
-+        initial_manifest = self.parse_initial_manifest()
-+        pkgs_to_install = list()
-+        for pkg_type in initial_manifest:
-+            pkgs_to_install += initial_manifest[pkg_type]
-+        if len(pkgs_to_install) == 0:
++
++    def _configure_rpm(self):
++        # We need to configure rpm to use our primary package architecture as the installation architecture,
++        # and to make it compatible with other package architectures that we use.
++        # Otherwise it will refuse to proceed with packages installation.
++        platformconfdir = "%s/%s" %(self.target_rootfs, "etc/rpm/")
++        rpmrcconfdir = "%s/%s" %(self.target_rootfs, "etc/")
++        bb.utils.mkdirhier(platformconfdir)
++        open(platformconfdir + "platform", 'w').write("%s-pc-linux" % self.primary_arch)
++        with open(rpmrcconfdir + "rpmrc", 'w') as f:
++            f.write("arch_compat: %s: %s\n" % (self.primary_arch, self.archs if len(self.archs) > 0 else self.primary_arch))
++            f.write("buildarch_compat: %s: noarch\n" % self.primary_arch)
++
++        open(platformconfdir + "macros", 'w').write("%_transaction_color 7\n")
++        if self.d.getVar('RPM_PREFER_ELF_ARCH'):
++            open(platformconfdir + "macros", 'a').write("%%_prefer_color %s" % (self.d.getVar('RPM_PREFER_ELF_ARCH')))
++
++        if self.d.getVar('RPM_SIGN_PACKAGES') == '1':
++            signer = get_signer(self.d, self.d.getVar('RPM_GPG_BACKEND'))
++            pubkey_path = oe.path.join(self.d.getVar('B'), 'rpm-key')
++            signer.export_pubkey(pubkey_path, self.d.getVar('RPM_GPG_NAME'))
++            rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmkeys")
++            cmd = [rpm_bin, '--root=%s' % self.target_rootfs, '--import', pubkey_path]
++            try:
++                subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++            except subprocess.CalledProcessError as e:
++                bb.fatal("Importing GPG key failed. Command '%s' "
++                        "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
++
++    def create_configs(self):
++        self._configure_dnf()
++        self._configure_rpm()
++
++    def write_index(self):
++        lockfilename = self.d.getVar('DEPLOY_DIR_RPM') + "/rpm.lock"
++        lf = bb.utils.lockfile(lockfilename, False)
++        RpmIndexer(self.d, self.rpm_repo_dir).write_index()
++        bb.utils.unlockfile(lf)
++
++    def insert_feeds_uris(self, feed_uris, feed_base_paths, feed_archs):
++        from urllib.parse import urlparse
++
++        if feed_uris == "":
 +            return
 +
-+        output = pm.dummy_install(pkgs_to_install)
++        gpg_opts = ''
++        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
++            gpg_opts += 'repo_gpgcheck=1\n'
++            gpg_opts += 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' % (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'), self.d.getVar('DISTRO_CODENAME'))
 +
-+        with open(self.full_manifest, 'w+') as manifest:
-+            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
-+            for line in set(output.split('\n')):
-+                m = pkg_re.match(line)
-+                if m:
-+                    manifest.write(m.group(1) + '\n')
++        if self.d.getVar('RPM_SIGN_PACKAGES') != '1':
++            gpg_opts += 'gpgcheck=0\n'
 +
-+        return
++        bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
++        remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
++        for uri in remote_uris:
++            repo_base = "oe-remote-repo" + "-".join(urlparse(uri).path.split("/"))
++            if feed_archs is not None:
++                for arch in feed_archs.split():
++                    repo_uri = uri + "/" + arch
++                    repo_id   = "oe-remote-repo"  + "-".join(urlparse(repo_uri).path.split("/"))
++                    repo_name = "OE Remote Repo:" + " ".join(urlparse(repo_uri).path.split("/"))
++                    open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'a').write(
++                             "[%s]\nname=%s\nbaseurl=%s\n%s\n" % (repo_id, repo_name, repo_uri, gpg_opts))
++            else:
++                repo_name = "OE Remote Repo:" + " ".join(urlparse(uri).path.split("/"))
++                repo_uri = uri
++                open(oe.path.join(self.target_rootfs, "etc", "yum.repos.d", repo_base + ".repo"), 'w').write(
++                             "[%s]\nname=%s\nbaseurl=%s\n%s" % (repo_base, repo_name, repo_uri, gpg_opts))
++
++    def _prepare_pkg_transaction(self):
++        os.environ['D'] = self.target_rootfs
++        os.environ['OFFLINE_ROOT'] = self.target_rootfs
++        os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
++        os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
++        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
++        os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
++
++
++    def install(self, pkgs, attempt_only = False):
++        if len(pkgs) == 0:
++            return
++        self._prepare_pkg_transaction()
++
++        bad_recommendations = self.d.getVar('BAD_RECOMMENDATIONS')
++        package_exclude = self.d.getVar('PACKAGE_EXCLUDE')
++        exclude_pkgs = (bad_recommendations.split() if bad_recommendations else []) + (package_exclude.split() if package_exclude else [])
++
++        output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
++                         (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
++                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
++                         (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
++                         ["install"] +
++                         pkgs)
++
++        failed_scriptlets_pkgnames = collections.OrderedDict()
++        for line in output.splitlines():
++            if line.startswith("Error in POSTIN scriptlet in rpm package"):
++                failed_scriptlets_pkgnames[line.split()[-1]] = True
++
++        if len(failed_scriptlets_pkgnames) > 0:
++            failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
++
++    def remove(self, pkgs, with_dependencies = True):
++        if not pkgs:
++            return
++
++        self._prepare_pkg_transaction()
++
++        if with_dependencies:
++            self._invoke_dnf(["remove"] + pkgs)
++        else:
++            cmd = bb.utils.which(os.getenv('PATH'), "rpm")
++            args = ["-e", "-v", "--nodeps", "--root=%s" %self.target_rootfs]
++
++            try:
++                bb.note("Running %s" % ' '.join([cmd] + args + pkgs))
++                output = subprocess.check_output([cmd] + args + pkgs, stderr=subprocess.STDOUT).decode("utf-8")
++                bb.note(output)
++            except subprocess.CalledProcessError as e:
++                bb.fatal("Could not invoke rpm. Command "
++                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args + pkgs), e.returncode, e.output.decode("utf-8")))
++
++    def upgrade(self):
++        self._prepare_pkg_transaction()
++        self._invoke_dnf(["upgrade"])
++
++    def autoremove(self):
++        self._prepare_pkg_transaction()
++        self._invoke_dnf(["autoremove"])
++
++    def remove_packaging_data(self):
++        self._invoke_dnf(["clean", "all"])
++        for dir in self.packaging_data_dirs:
++            bb.utils.remove(oe.path.join(self.target_rootfs, dir), True)
++
++    def backup_packaging_data(self):
++        # Save the packaging dirs for increment rpm image generation
++        if os.path.exists(self.saved_packaging_data):
++            bb.utils.remove(self.saved_packaging_data, True)
++        for i in self.packaging_data_dirs:
++            source_dir = oe.path.join(self.target_rootfs, i)
++            target_dir = oe.path.join(self.saved_packaging_data, i)
++            if os.path.isdir(source_dir):
++                shutil.copytree(source_dir, target_dir, symlinks=True)
++            elif os.path.isfile(source_dir):
++                shutil.copy2(source_dir, target_dir)
++
++    def recovery_packaging_data(self):
++        # Move the rpmlib back
++        if os.path.exists(self.saved_packaging_data):
++            for i in self.packaging_data_dirs:
++                target_dir = oe.path.join(self.target_rootfs, i)
++                if os.path.exists(target_dir):
++                    bb.utils.remove(target_dir, True)
++                source_dir = oe.path.join(self.saved_packaging_data, i)
++                if os.path.isdir(source_dir):
++                    shutil.copytree(source_dir, target_dir, symlinks=True)
++                elif os.path.isfile(source_dir):
++                    shutil.copy2(source_dir, target_dir)
++
++    def list_installed(self):
++        output = self._invoke_dnf(["repoquery", "--installed", "--queryformat", "Package: %{name} %{arch} %{version} %{name}-%{version}-%{release}.%{arch}.rpm\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nDependenciesEndHere:\n"],
++                                  print_output = False)
++        packages = {}
++        current_package = None
++        current_deps = None
++        current_state = "initial"
++        for line in output.splitlines():
++            if line.startswith("Package:"):
++                package_info = line.split(" ")[1:]
++                current_package = package_info[0]
++                package_arch = package_info[1]
++                package_version = package_info[2]
++                package_rpm = package_info[3]
++                packages[current_package] = {"arch":package_arch, "ver":package_version, "filename":package_rpm}
++                current_deps = []
++            elif line.startswith("Dependencies:"):
++                current_state = "dependencies"
++            elif line.startswith("Recommendations"):
++                current_state = "recommendations"
++            elif line.startswith("DependenciesEndHere:"):
++                current_state = "initial"
++                packages[current_package]["deps"] = current_deps
++            elif len(line) > 0:
++                if current_state == "dependencies":
++                    current_deps.append(line)
++                elif current_state == "recommendations":
++                    current_deps.append("%s [REC]" % line)
++
++        return packages
++
++    def update(self):
++        self._invoke_dnf(["makecache", "--refresh"])
++
++    def _invoke_dnf(self, dnf_args, fatal = True, print_output = True ):
++        os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
++
++        dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
++        standard_dnf_args = ["-v", "--rpmverbosity=info", "-y",
++                             "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
++                             "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
++                             "--installroot=%s" % (self.target_rootfs),
++                             "--setopt=logdir=%s" % (self.d.getVar('T'))
++                            ]
++        if hasattr(self, "rpm_repo_dir"):
++            standard_dnf_args.append("--repofrompath=oe-repo,%s" % (self.rpm_repo_dir))
++        cmd = [dnf_cmd] + standard_dnf_args + dnf_args
++        bb.note('Running %s' % ' '.join(cmd))
++        try:
++            output = subprocess.check_output(cmd,stderr=subprocess.STDOUT).decode("utf-8")
++            if print_output:
++                bb.debug(1, output)
++            return output
++        except subprocess.CalledProcessError as e:
++            if print_output:
++                (bb.note, bb.fatal)[fatal]("Could not invoke dnf. Command "
++                     "'%s' returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
++            else:
++                (bb.note, bb.fatal)[fatal]("Could not invoke dnf. Command "
++                     "'%s' returned %d:" % (' '.join(cmd), e.returncode))
++            return e.output.decode("utf-8")
++
++    def dump_install_solution(self, pkgs):
++        open(self.solution_manifest, 'w').write(" ".join(pkgs))
++        return pkgs
++
++    def load_old_install_solution(self):
++        if not os.path.exists(self.solution_manifest):
++            return []
++        with open(self.solution_manifest, 'r') as fd:
++            return fd.read().split()
++
++    def _script_num_prefix(self, path):
++        files = os.listdir(path)
++        numbers = set()
++        numbers.add(99)
++        for f in files:
++            numbers.add(int(f.split("-")[0]))
++        return max(numbers) + 1
++
++    def save_rpmpostinst(self, pkg):
++        bb.note("Saving postinstall script of %s" % (pkg))
++        cmd = bb.utils.which(os.getenv('PATH'), "rpm")
++        args = ["-q", "--root=%s" % self.target_rootfs, "--queryformat", "%{postin}", pkg]
++
++        try:
++            output = subprocess.check_output([cmd] + args,stderr=subprocess.STDOUT).decode("utf-8")
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Could not invoke rpm. Command "
++                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args), e.returncode, e.output.decode("utf-8")))
++
++        # may need to prepend #!/bin/sh to output
++
++        target_path = oe.path.join(self.target_rootfs, self.d.expand('${sysconfdir}/rpm-postinsts/'))
++        bb.utils.mkdirhier(target_path)
++        num = self._script_num_prefix(target_path)
++        saved_script_name = oe.path.join(target_path, "%d-%s" % (num, pkg))
++        open(saved_script_name, 'w').write(output)
++        os.chmod(saved_script_name, 0o755)
++
++    def _handle_intercept_failure(self, registered_pkgs):
++        rpm_postinsts_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
++        bb.utils.mkdirhier(rpm_postinsts_dir)
++
++        # Save the package postinstalls in /etc/rpm-postinsts
++        for pkg in registered_pkgs.split():
++            self.save_rpmpostinst(pkg)
++
++    def extract(self, pkg):
++        output = self._invoke_dnf(["repoquery", "--queryformat", "%{location}", pkg])
++        pkg_name = output.splitlines()[-1]
++        if not pkg_name.endswith(".rpm"):
++            bb.fatal("dnf could not find package %s in repository: %s" %(pkg, output))
++        pkg_path = oe.path.join(self.rpm_repo_dir, pkg_name)
++
++        cpio_cmd = bb.utils.which(os.getenv("PATH"), "cpio")
++        rpm2cpio_cmd = bb.utils.which(os.getenv("PATH"), "rpm2cpio")
++
++        if not os.path.isfile(pkg_path):
++            bb.fatal("Unable to extract package for '%s'."
++                     "File %s doesn't exists" % (pkg, pkg_path))
++
++        tmp_dir = tempfile.mkdtemp()
++        current_dir = os.getcwd()
++        os.chdir(tmp_dir)
++
++        try:
++            cmd = "%s %s | %s -idmv" % (rpm2cpio_cmd, pkg_path, cpio_cmd)
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++        except subprocess.CalledProcessError as e:
++            bb.utils.remove(tmp_dir, recurse=True)
++            bb.fatal("Unable to extract %s package. Command '%s' "
++                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output.decode("utf-8")))
++        except OSError as e:
++            bb.utils.remove(tmp_dir, recurse=True)
++            bb.fatal("Unable to extract %s package. Command '%s' "
++                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
++
++        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
++        os.chdir(current_dir)
++
++        return tmp_dir
+diff --git a/meta/lib/oe/package_manager/rpm/rootfs.py b/meta/lib/oe/package_manager/rpm/rootfs.py
+index 3d9eb95528..305e83794e 100644
+--- a/meta/lib/oe/package_manager/rpm/rootfs.py
++++ b/meta/lib/oe/package_manager/rpm/rootfs.py
+@@ -3,10 +3,10 @@
+ #
+ 
+ from oe.rootfs import Rootfs
+-from oe.package_manager import RpmPM
+ from oe.manifest import Manifest
+ from oe.utils import execute_pre_post_process
+ from oe.package_manager.rpm.manifest import RpmManifest
++from oe.package_manager.rpm.package_manager import RpmPM
+ 
+ class RpmRootfs(Rootfs):
+     def __init__(self, d, manifest_dir, progress_reporter=None, logcatcher=None):
+diff --git a/meta/lib/oe/package_manager/rpm/sdk.py b/meta/lib/oe/package_manager/rpm/sdk.py
+index ab816f43df..4d3f9461ef 100644
+--- a/meta/lib/oe/package_manager/rpm/sdk.py
++++ b/meta/lib/oe/package_manager/rpm/sdk.py
+@@ -5,7 +5,7 @@
+ from oe.utils import execute_pre_post_process
+ from oe.sdk import Sdk
+ from oe.manifest import Manifest
+-from oe.package_manager import RpmPM
++from oe.package_manager.rpm import RpmPM
+ import glob
+ 
+ class RpmSdk(Sdk):
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index c674551764..1ba0a71253 100644
+index 0b6e2d0480..83c905662f 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -12,6 +12,7 @@ import os
- import subprocess
- import re
+@@ -14,6 +14,8 @@ import re
  from oe.package_manager.rpm.manifest import RpmManifest
-+from oe.package_manager.ipk.manifest import OpkgManifest
+ from oe.package_manager.ipk.manifest import OpkgManifest
+ from oe.package_manager.deb.manifest import DpkgManifest
++from oe.package_manager.rpm.package_manager import RpmPkgsList
++from oe.package_manager.ipk.package_manager import OpkgPkgsList
  
  class Rootfs(object, metaclass=ABCMeta):
      """
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index 2f8cbd03d7..3a4c9bb7ca 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -117,6 +117,7 @@ def sdk_list_installed_packages(d, target, rootfs_dir=None):
+ 
+         rootfs_dir = [sdk_output, os.path.join(sdk_output, target_path)][target is True]
+ 
++    from oe.package_manager.rpm import RpmPkgsList
+     img_type = d.getVar('IMAGE_PKGTYPE')
+     if img_type == "rpm":
+         arch_var = ["SDK_PACKAGE_ARCHS", None][target is True]
 -- 
 2.20.1
 
