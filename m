@@ -1,76 +1,92 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web10.7594.1595601778748392629
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web10.7601.1595601791757496575
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Jul 2020 07:42:59 -0700
+ Fri, 24 Jul 2020 07:43:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=U+2V9Iri;
- spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-lj1-f195.google.com with SMTP id v4so551058ljd.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2020 07:42:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aHvcmW0y;
+ spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-lj1-f196.google.com with SMTP id q7so10248000ljm.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Jul 2020 07:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XZllx7RBI72l9lQuDwGpmFUEV6vErSSk+0X4LZ2BWKA=;
-        b=U+2V9IriMaT7awkpSVdZB20WlhIYcdIbh/DRpUchX344izWsM7V34ro7lxrSGkpEe9
-         gOMpnaKcZ9X1rj/ccZY0UFXJkI7slE4XOLePLbhV0q1OFhXXZBgvQXKXOOOi9t21zUkt
-         SRyBxSxIDcQlVZV2vlpyuSS3J1VCCi2p8ZCNUMTUxNlIHCyvW7yfM/Hj3+htnb3GKMmW
-         dgffoDzoG1pVHBZ/tDixsFBB2+sBVwp3tHtKg/9zfGI9OBjaZm0UYRSyyximMtbtx9lZ
-         Gdaf8rtRQlju1LednnbPbIlo9tQFJP62xroJ1/1xxDKnROxBvLVimMBVTM3pNMeZ9PMo
-         h+rQ==
+        bh=MAEaVUp/miUQY8wBaS1a8i90YHIL021BBsPnD6+F7SM=;
+        b=aHvcmW0y3s3bhtd2D6IPClTz8GNyHsTVRF0eLCWoa0wkb551wJwtPctmfGyp2B0PZm
+         8RWzUYAkVHXct1ZpWr9eREOuvlx/vA+MqJ/+kJeeis5SJtAej/iCXSrXV8c9qklYf1rx
+         KiXVXwIUCvLCpYfZfSwD7pjEn9q7+AQW67BkbANYRism6eaIPDuVih7FOm4r5Y51zGFu
+         sikbMYkQ3n+cdWdl794RBM/nFjc0b33gqGWtlyzKueV9ZHblmURDCzUCYbyWhqQcdiuL
+         rCefAjIiBQQRJK5iqlXIoguP2r27eoqfGG4ymlkO8oobGG2EmZJ2nnm2E/69De2ycoq1
+         2XmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XZllx7RBI72l9lQuDwGpmFUEV6vErSSk+0X4LZ2BWKA=;
-        b=nWEEKUzAxVWNaTq9ASo2DdCbvY2uzyn5VqzvzLgscF0LmMz9eGG+KjfYtVU/VOA8SS
-         jYiJX044cYmgl49VBHwjKQX3sUgu1nfn9glBZaWKHa51BIC85s1U+7M+xjXZvQiRZyYz
-         fGjuUVJ+ko8xzP+8/ia9N2q/tOPAW3KyOqqcd7xrVBFjHiiRHEAPWSmgO8vP6DZT+UKV
-         W2UcAi/6M4cs3nGNXH7VDD1woLFvrj/QCNHbL8FR5HdCfGPbNU/cBP7IRvzrTWU8wBFU
-         csixIef4IeLd02TgaBzOcbkU0GHO6ftycILfZV/ZH0FtRlHz5oM1OYzbVeGgZar/WHn1
-         XgHw==
-X-Gm-Message-State: AOAM530qwOZNW8pJ6tPFP30nquvl84Yx+PEUwU0G7mB8R8oD4e012GWz
-	gTAXvyrL88FytvuQhDOdaT1BJHp05GQ=
-X-Google-Smtp-Source: ABdhPJyQNUbb4/MX0XTuL/D/5Vm47cbZ6Ty1/iejl9X1R4EbqPcTKCZ79neAn+EeDG5D56KHJBFutw==
-X-Received: by 2002:a2e:5141:: with SMTP id b1mr4155442lje.336.1595601776344;
-        Fri, 24 Jul 2020 07:42:56 -0700 (PDT)
+        bh=MAEaVUp/miUQY8wBaS1a8i90YHIL021BBsPnD6+F7SM=;
+        b=RFgn9ayUPx6Wn+9SrlGp5Dwa9NoMPE5d0tY+YoFeN3z6Ah2ClAeNxa0xUclr44QTB3
+         QlGbXn8Jh6OE065SqGecrPqS8RQbGHLGVoNcXU7MIzpbzOw8MuI40ZDJddAMa9I+/bCJ
+         OC0AzQCnzRxGkcocIhW2/weQHAHBMiQi6MENRNrOPvFCF9wOfX+FUyUDC5INrnSB518z
+         vo0pypUivno2Vs6quy/gvdWwYMpWtD/BpBnaT9+NR9kxSv+C/bMArnTTY/iM1S7Hyjwy
+         L2xI3sMqj19WVlGYHutXI7mis5rYGmt/tPhHMgXbxawvP72sR99K9FMjvrfNiNc4JlGM
+         VTug==
+X-Gm-Message-State: AOAM532QlvGTyIoh1FGCYXTMuLPW3I99ic/7AFthE00ILi7cXoC6flLq
+	W0WOgbHGpCGWNUlrLO84JQkeqvMphXc=
+X-Google-Smtp-Source: ABdhPJx5Oo7T3NZNt5er70wmojAbTDgH7rU+63ZhebF0ljFK6HBPiWEDxPKhlg+7YCafj/aRpzgvkQ==
+X-Received: by 2002:a2e:7a03:: with SMTP id v3mr4811755ljc.141.1595601789489;
+        Fri, 24 Jul 2020 07:43:09 -0700 (PDT)
 Return-Path: <dbaryshkov@gmail.com>
 Received: from eriador.lan ([188.162.65.229])
-        by smtp.gmail.com with ESMTPSA id x22sm284511lji.133.2020.07.24.07.42.54
+        by smtp.gmail.com with ESMTPSA id h21sm290851ljk.31.2020.07.24.07.43.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2020 07:42:55 -0700 (PDT)
+        Fri, 24 Jul 2020 07:43:08 -0700 (PDT)
 From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] mesa: enable freedreno Vulkan driver if freedreno is enabled
-Date: Fri, 24 Jul 2020 17:42:53 +0300
-Message-Id: <20200724144253.4030969-1-dbaryshkov@gmail.com>
+Subject: [PATCH 1/2] arch-armv8-2a.inc: add tune include for armv8.2a
+Date: Fri, 24 Jul 2020 17:43:05 +0300
+Message-Id: <20200724144306.4031060-1-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-If freedreno is enabled in PACKAGECONFIG, enable respective Vulkan
-driver.
+Add tune include for armv8.2a. This adds support only for bare armv8.2a
+(and for crypto extension). There is no support for additional
+instructions added by architecture extensions (except the main crypto
+extension support).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../machine/include/arm/arch-armv8-2a.inc     | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8-2a.inc
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 4fe5f025ebbb..6fd92035f02a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -121,6 +121,7 @@ PACKAGECONFIG[dri3] = "-Ddri3=true, -Ddri3=false, xorgproto libxshmfence"
- VULKAN_DRIVERS = ""
- VULKAN_DRIVERS_append_x86_class-target = ",intel"
- VULKAN_DRIVERS_append_x86-64_class-target = ",intel"
-+VULKAN_DRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ',freedreno', '', d)}"
- PACKAGECONFIG[vulkan] = "-Dvulkan-drivers=${VULKAN_DRIVERS}, -Dvulkan-drivers='',"
- 
- PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
+diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+new file mode 100644
+index 000000000000..1c095256d185
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+@@ -0,0 +1,19 @@
++DEFAULTTUNE ?= "armv8-2a"
++
++TUNEVALID[armv8-2a] = "Enable instructions for ARMv8-a"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', ' -march=armv8.2-a', '', d)}"
++# TUNE crypto will be handled by arch-armv8a.inc below
++MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', 'armv8-2a:', '' ,d)}"
++
++require conf/machine/include/arm/arch-armv8a.inc
++
++# Little Endian base configs
++AVAILTUNES += "armv8-2a armv8-2a-crypto"
++ARMPKGARCH_tune-armv8-2a                    ?= "armv8-2a"
++ARMPKGARCH_tune-armv8-2a-crypto             ?= "armv8-2a"
++TUNE_FEATURES_tune-armv8-2a                  = "aarch64 armv8-2a"
++TUNE_FEATURES_tune-armv8-2a-crypto           = "${TUNE_FEATURES_tune-armv8-2a} crypto"
++PACKAGE_EXTRA_ARCHS_tune-armv8-2a            = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8-2a"
++PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} armv8-2a-crypto"
++BASE_LIB_tune-armv8-2a                       = "lib64"
++BASE_LIB_tune-armv8-2a-crypto                = "lib64"
 -- 
 2.27.0
 
