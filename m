@@ -1,600 +1,227 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web12.3227.1595537222508403508
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web10.7704.1595552291541763546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jul 2020 13:47:02 -0700
+ Thu, 23 Jul 2020 17:58:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A0vSE9tW;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a1so7772975ejg.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Jul 2020 13:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=N3xkzMjTVVBgo+z86MhnLUFWHn93aDBkDG1KeAL3JHw=;
-        b=A0vSE9tWgD7nswpqb513FF8t5dKJERLKVBhd4nFQuY/lDnzn5HWYCqXdjGfpb3Dwp4
-         CvtT0yvmE+/bbsnMa/RIHVVLvknCBXRKM5XqJVqXcjUxFHXC+0Jn7mzAS6gQ/bLO1tU/
-         SocFkVmbiKd4ioFTZ0+2cgjAKTLxsz2sfb7acUyxkbHhw/Rs9AF6bq5Szd0bPFStYGa4
-         sX75jHab/2L05KQJkKAwhAM+KrBxqSz47mb4Ier7gVdkfX60xK51nmny8fnBI8qtn1yY
-         XZxYGpaLBv2+zajja9OuM5QO179SX6IiNrlUX/UKzMov01R+XeGwR9A1JK0CJHx301Kl
-         ucSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=N3xkzMjTVVBgo+z86MhnLUFWHn93aDBkDG1KeAL3JHw=;
-        b=JgmI0AQ7L20rXzQhWvJUNKTPg06L16tik/WV4dO3IYi+QzPiwkQUQ8IOIvCxe2ed49
-         /bvMrn+LCFBOl4Z5TB6KMFu6CJpeTxcN3mVDP0FCM1g8W19ncxDJCNnwpKhs1FnYnegf
-         x9JElJmuWh7Gtq/879wr6ZLbBz0T0ACxbVvF0gNSubDKDLSwB6QKjP/mCU2E3BZhRq/L
-         3vx7tbadAPfvhRbl0emfNOZtaXdX/njbsIYaMaX1B0pemCHWVl0eQ3Gk5SsLX6JAj/Ms
-         Ty6Z7i5Ax6SQki8gd7JtKJeJ4QfX6agmgjyejdXeySXVCyP1GhhCd6hIulfH1nqf7k4Y
-         Yb1g==
-X-Gm-Message-State: AOAM531qrVL107a/CD5FabHh840vBSAdPVPia8vuFKAHD3wdYD1llJWg
-	UT6wyik5H7WNlqBcbHGh9yHFAPtbUOP5lEwsXmM=
-X-Google-Smtp-Source: ABdhPJz9x5pYk47gB+eaVzjU/4h8StMZRfxvQSrRHEM1FulmOzwyDcgkK1P1gt6OJFjeAOpABDN9d9UXZtUk2uIfZJ8=
-X-Received: by 2002:a17:906:8542:: with SMTP id h2mr6062484ejy.517.1595537220589;
- Thu, 23 Jul 2020 13:47:00 -0700 (PDT)
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=AeUfduMm;
+ spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: fpdzQznUv69wBMYZyEePC1vtkqu3kGpiXFF9CpwbVH1Or5yUYpLde46SOkJSyfBVTfn1hxKBWe
+ qxfqVKeEkZmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="149833040"
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
+   d="scan'208";a="149833040"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 17:58:10 -0700
+IronPort-SDR: cSobXQPTkl+XUVcBqu3rA7wjdUarn2qT2IV4/TZpVlsZaOuOURM/NRyYl9YFIrM11oQuztkWlI
+ Hl8HE+EccXiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
+   d="scan'208";a="432923165"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga004.jf.intel.com with ESMTP; 23 Jul 2020 17:58:09 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 23 Jul 2020 17:58:09 -0700
+Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 23 Jul 2020 17:58:09 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 23 Jul 2020 17:58:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R95sLEVioN8fm8B4OwRhj0VnKpJAAH1hYzhArybBqVuO29EZm3VrW2kBcJGaY/qvtg+nKLBkET7U4kJg9O7gad2fSUoyCs085mFttPLxS/bTx/JpyV3t8Fa6BcijdNHW11pgSulKggOCc9FiR/5liQGPG4e19SFrFhyGRVvPghlBs0I3TV52aCaX8wY7Cwajh4MJbZ0HrmIDGZeZBOUjooNvg5KWMEYPNNR9fweN3XaNgFEx0eSMzAynNRgYJZR4vsWtUlNI3HgtC4GMzQ4gqMgiHQtfejBjT831+5Xn1OlApKnQ5DJWEb087zQAQ2gUx0CCili3pebKjTpipZ9RQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VE+GmbZtG9K2yv7aKhxKblqAAdmCELbcaL14lWrTTY0=;
+ b=LM7NB6wqJkzAzxZP5VGBYoFnu79DLCj0IM3vxBx/rluqDmHBFoah1ZV4z9yAbAOCQYoyPiXZgo5NqFz6WDNzPT9FTQIlFSE+eNGpmXBQECUZHSJTdtphImzbvKJDhuiflB37FjRb874tAdkXvC4o1QAzI7+fg/bE5obSI5qD4cRWPfvH/yBRxwNMA8OcJNhYql3ixK2ke/XAMacpoeyPhyXeGh8XKp5vTrBujHeUAZ2s6aot7x6dGUiNaUXTL3REXg23B371X11JZbyYcqQoQl2zwuE28Iyb9REy0sabNVF8+Yw9/dHKePhrqLZAoKp9TEOta7kpmf79+1pxA4DZcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VE+GmbZtG9K2yv7aKhxKblqAAdmCELbcaL14lWrTTY0=;
+ b=AeUfduMmbeSIDp7dzM/ESAgorwM5yKKT69M6ksl26YQLMEQ8w5b6k4fvQqW0/flO9dv+j2MGbDGW6y9KoV6BF9GCJWVQCW9luFty+4Msd07YGbVSyaSJmMwpAyp1x6X33jDA8gAu3LkfzH5cfJaJa2IxR+7t34rx+uzI/rbTlf4=
+Received: from BN6PR11MB0066.namprd11.prod.outlook.com (2603:10b6:405:67::18)
+ by BN6PR11MB4034.namprd11.prod.outlook.com (2603:10b6:405:7d::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Fri, 24 Jul
+ 2020 00:58:06 +0000
+Received: from BN6PR11MB0066.namprd11.prod.outlook.com
+ ([fe80::202d:dbf0:6691:56d6]) by BN6PR11MB0066.namprd11.prod.outlook.com
+ ([fe80::202d:dbf0:6691:56d6%6]) with mapi id 15.20.3216.021; Fri, 24 Jul 2020
+ 00:58:06 +0000
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: Khasim Mohammed <khasim.mohammed@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "nd@arm.com" <nd@arm.com>
+Subject: Re: [OE-core] [PATCH] wic/bootimg-efi: Add support for IMAGE_BOOT_FILES
+Thread-Topic: [OE-core] [PATCH] wic/bootimg-efi: Add support for
+ IMAGE_BOOT_FILES
+Thread-Index: AQHWYNcD4iT44HY2v0aQqUCuShczzakV5dvw
+Date: Fri, 24 Jul 2020 00:58:06 +0000
+Message-ID: <BN6PR11MB006610995289E54741817379B9770@BN6PR11MB0066.namprd11.prod.outlook.com>
+References: <20200723095150.18257-1-khasim.mohammed@arm.com>
+In-Reply-To: <20200723095150.18257-1-khasim.mohammed@arm.com>
+Accept-Language: en-SG, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+authentication-results: arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [42.189.59.242]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e1d95560-36de-437f-f56a-08d82f6ca043
+x-ms-traffictypediagnostic: BN6PR11MB4034:
+x-microsoft-antispam-prvs: <BN6PR11MB40341D3C94E0B52FE297941AB9770@BN6PR11MB4034.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:949;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YmmZTvHjSQpBfdpKDJuXYwcMrNBFWFxMe32aS6D886Ntg+e2zstvtbyuNQbYwEi5Qd9/U6y7gxiS1E1m0A/TMiE5U77u0IYS3kYa8TlVocGstvf5q7AmF1cUIsMKCcR1wkX8wR+zw6rSSmjkzImI5VtOSw/qCTtwLKyIBZZAqeS/ANOHHu6yhkGQ/Zo+QVrcBZpIh9m0G7UVlrtkuF6jf5YQ36UGKXijRq5hnnPyB5se9DD0Ucl4+s9wkXLFS809ShrNRQcHVY/u+hFcyyHLcMd7zfqSESvjqNQ9vrCqrp2joLLsgO7YHud9PK8sC+9CkFn0lqEcRWi6TENTaFNaZA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB0066.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(366004)(136003)(39860400002)(396003)(6506007)(478600001)(55016002)(64756008)(8676002)(52536014)(53546011)(110136005)(33656002)(76116006)(71200400001)(66556008)(66446008)(66946007)(66476007)(5660300002)(316002)(186003)(8936002)(2906002)(86362001)(4326008)(7696005)(9686003)(26005)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 8UI7/L//r+KkvX3iVgEJ6eHVUJH5QEJ2lguvM2iEcMK7/w9heLMtTswG3QhdSbv3We2Y2DUBtKeuWqs/dRImPthjBz7Pq0tSiPZRYv4XwVwY+ktS2Nsdz1GmcPHSKHJXJf0TDVcktsUygN5j4NWZIg4aI0RTVr9D6Ch1IQxSBv1f/mEgcQ79FHzi+JcNmKfNeXL9nfkIEM9HM1dfurK3etWdY43oTyATWYtFcEnSYK7dsAozWrJUTiMZ+Rapw+68WBXTb+Xn5mFz6isy9t/fCFpFnXllewDO9lFqRIo8PaF2wcg3jT9YlYIlbiUQ90W9Y60GXtMCZm6b49CrOzeVwk822s8n9UBzEa/xLPlYEz7JkbQkvbEwOSfA9h9NpszXayCUkl6h9QvB8rY+CMXh+y8ZPcjlYRvLzEA8ZGMo6Os0uB8QQWJXGI5FdusReYgoH7uF1NQQcQbrZCzsE0heU3EjNscYyS/J4A+dDw53duY=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <cover.1594050175.git.steve@sakoman.com> <7a8612998a367dd3a54344ae75983cb210db813d.1594050175.git.steve@sakoman.com>
- <CADkTA4Nyy_=+bXfiaXoHPzZHDsdHmfAX=tjzarrz3_y-Sw=3tw@mail.gmail.com>
- <CAOSpxdYXtK=5=QhGEGiJbx1_zzQp2LmnnHBfAbZ8uL1W01hTdg@mail.gmail.com>
- <CAD0U-h+oBmDGQ3DipQJNdTBYi6QjX0JgCWDAM5UTz4W8=pN6Gg@mail.gmail.com>
- <CADkTA4N8u0_VK6dhCX2t9Hyfgzif3sR6jCHOi9Y-OvZyHhOe+Q@mail.gmail.com>
- <CAOSpxdZ-OQZ--5q3Y5EdCW=Pv=HhncVy_osbDmcZYs13LeHnqQ@mail.gmail.com>
- <CAD0U-hK0upC8OpXCU_FsHt_46gmcfMKO32Y2zjVKf-d27dviFw@mail.gmail.com>
- <CADkTA4M895FfQer_n4-5TF5ycq9g5nsmaHWqzCHiBCQwd4oR2w@mail.gmail.com>
- <CAD0U-h+Cc94LdVMGpGR8Cn0hBcr0YQSefv=+7XhgXXym6TAufg@mail.gmail.com>
- <CADkTA4Ord_XFE3nTFCOTp=hzRQWbUtyJbZEA9G4BWnZG7G2+Tg@mail.gmail.com>
- <CAD0U-hLJpDSDC_9YyYziwWTPw_Dt=GHBdCLYiEXdRs-+pJyjwQ@mail.gmail.com> <CAHtQpK4iLSNVhsz6BAfBff+ki+nPmJqZZ9oM0uO9+mwN0p3Sqw@mail.gmail.com>
-In-Reply-To: <CAHtQpK4iLSNVhsz6BAfBff+ki+nPmJqZZ9oM0uO9+mwN0p3Sqw@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 23 Jul 2020 16:46:49 -0400
-Message-ID: <CADkTA4NzmHRLQ=gH0pcFK6yHyBz6Fp_XMSuahzAKH-b_eikwYg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 04/25] kernel/yocto: ensure that defconfigs are processed first
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Ryan Harkin <ryan.harkin@linaro.org>, Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB0066.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1d95560-36de-437f-f56a-08d82f6ca043
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2020 00:58:06.2818
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pgEBtbhGVB21ZOdidNpU5Sg50BJTAr++r7xrqPP4/Lr/BvDxVkSfM5i90+TJ3PySvOTZe6QzyX4TRQQzNIEF8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4034
+Return-Path: chee.yang.lee@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 23, 2020 at 2:34 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote=
-:
->
-> Hey guys,
->
-> Sorry for jumping into this thread a bit later - I saw that it has
-> been sorted out already.
->
-> On Thu, Jul 23, 2020 at 6:06 PM Ryan Harkin <ryan.harkin@linaro.org> wro=
-te:
-> >
-> >
-> >
-> > On Thu, 23 Jul 2020 at 16:05, Bruce Ashfield <bruce.ashfield@gmail.com=
-> wrote:
-> >>
-> >> On Thu, Jul 23, 2020 at 9:38 AM Ryan Harkin <ryan.harkin@linaro.org> =
-wrote:
-> >> >
-> >> > Hi Bruce,
-> >> >
-> >> > On Thu, 23 Jul 2020 at 13:27, Bruce Ashfield <bruce.ashfield@gmail.=
-com> wrote:
-> >> >>
-> >> >> On Thu, Jul 23, 2020 at 5:34 AM Ryan Harkin <ryan.harkin@linaro.or=
-g> wrote:
-> >> >> >
-> >> >> > Hi Bruce, Steve,
-> >> >> >
-> >> >> > Thanks for your replies and the help.
-> >> >> >
-> >> >> > On Thu, 23 Jul 2020 at 04:33, Steve Sakoman <steve@sakoman.com> =
-wrote:
-> >> >> >>
-> >> >> >> On Wed, Jul 22, 2020 at 3:58 PM Bruce Ashfield <bruce.ashfield@=
-gmail.com> wrote:
-> >> >> >> >
-> >> >> >> > On Wed, Jul 22, 2020 at 5:27 PM Ryan Harkin <ryan.harkin@lina=
-ro.org> wrote:
-> >> >> >> > >
-> >> >> >> > > Just an FYI, but when this was submitted, my imx7s-warp bui=
-lds began to fail when building linux-fslc from meta-freescale / meta-frees=
-cale-3rdparty.
-> >> >> >> > >
-> >> >> >> > > I'm not sure why yet, I've only discovered the problem, but=
- I thought I'd report it in case anyone else sees the problem.
-> >> >> >> > >
-> >> >> >> >
-> >> >> >> > Someone already sent a dunfell backport request for a follow =
-up patch to this.
-> >> >> >> >
-> >> >> >> > It went to the poky list, but I just replied to it and copied=
- oe-core.
-> >> >> >>
-> >> >> >> Both patches are already in dunfell!
-> >> >> >>
-> >> >> >> https://git.openembedded.org/openembedded-core/commit/?h=3Ddunf=
-ell&id=3D7ecc81baeacaa1149a4947791200e8819c3df677
-> >> >> >> https://git.openembedded.org/openembedded-core/commit/?h=3Ddunf=
-ell&id=3D11089e06bfb3d0defb52825ffba978d085385569
-> >> >> >
-> >> >> >
-> >> >> > Yes, they are present. I guess I should have checked the error m=
-essages more closely during git bisect rather than stopping as soon as the =
-build failed.
-> >> >> >
-> >> >> > After Bruce's 7ecc81baea patch, I see this error:
-> >> >> >
-> >> >> > ERROR: linux-fslc-5.4.46+gitAUTOINC+38d6c3525e-r0 do_kernel_meta=
-data: Could not locate BSP definition for imx7s-warp/standard and no defcon=
-fig was provided
-> >> >> >
-> >> >> > Then, after 11089e06bf, I see the error I originally posted from=
- my CI job, but reproduced here from a local build:
->
-> This was the patch I've introduced and seeing those errors were quite
-> a surprise to me. I have also an internal CI that builds
-> meta-freescale off the dunfell branch - and I never had any issues
-> with it.
->
-> >> >> >
-> >> >> > ERROR: linux-fslc-5.4.46+gitAUTOINC+38d6c3525e-r0 do_kernel_conf=
-igme: Execution of '/data/warp7/workspace-dunfell/build-rpb/tmp-rpb-glibc/w=
-ork/imx7s_warp-linaro-linux-gnueabi/linux-fslc/5.4.46+gitAUTOINC+38d6c3525e=
--r0/temp/run.do_kernel_configme.31899' failed with exit code 1:
-> >> >> > WARNING: exit code 1 from a shell command.
-> >> >> >
-> >> >> > ERROR: Logfile of failure stored in: /data/warp7/workspace-dunfe=
-ll/build-rpb/tmp-rpb-glibc/work/imx7s_warp-linaro-linux-gnueabi/linux-fslc/=
-5.4.46+gitAUTOINC+38d6c3525e-r0/temp/log.do_kernel_configme.31899
-> >> >> > Log data follows:
-> >> >> > | DEBUG: Executing python function extend_recipe_sysroot
-> >> >> > | NOTE: Direct dependencies are ['/data/warp7/workspace-dunfell/=
-build-rpb/conf/../../layers/meta-arm/meta-arm-toolchain/recipes-devtools/gc=
-c/gcc-cross_arm-9.2.bb:do_populate_sysroot', 'virtual:native:/data/warp7/wo=
-rkspace-dunfell/build-rpb/conf/../../layers/openembedded-core/meta/recipes-=
-extended/bc/bc_1.07.1.bb:do_populate_sysroot', '/data/warp7/workspace-dunfe=
-ll/build-rpb/conf/../../layers/openembedded-core/meta/recipes-devtools/binu=
-tils/binutils-cross_2.34.bb:do_populate_sysroot', 'virtual:native:/data/war=
-p7/workspace-dunfell/build-rpb/conf/../../layers/openembedded-core/meta/rec=
-ipes-devtools/bison/bison_3.5.3.bb:do_populate_sysroot', '/data/warp7/works=
-pace-dunfell/build-rpb/conf/../../layers/openembedded-core/meta/recipes-dev=
-tools/quilt/quilt-native_0.66.bb:do_populate_sysroot', '/data/warp7/workspa=
-ce-dunfell/build-rpb/conf/../../layers/openembedded-core/meta/recipes-kerne=
-l/kern-tools/kern-tools-native_git.bb:do_populate_sysroot', 'virtual:native=
-:/data/warp7/workspace-dunfell/build-rpb/conf/../../layers/openembedded-cor=
-e/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot']
-> >> >> > | NOTE: Installed into sysroot: []
-> >> >> > | NOTE: Skipping as already exists in sysroot: ['gcc-cross-arm',=
- 'bc-native', 'binutils-cross-arm', 'bison-native', 'quilt-native', 'kern-t=
-ools-native', 'patch-native', 'readline-native', 'flex-native', 'automake-n=
-ative', 'texinfo-dummy-native', 'autoconf-native', 'libtool-native', 'gnu-c=
-onfig-native', 'xz-native', 'gettext-minimal-native', 'libmpc-native', 'gmp=
--native', 'zlib-native', 'mpfr-native', 'linux-libc-headers', 'attr-native'=
-, 'ncurses-native', 'm4-native', 'pkgconfig-native']
-> >> >> > | DEBUG: Python function extend_recipe_sysroot finished
-> >> >> > | DEBUG: Executing shell function do_kernel_configme
-> >> >> > | WARNING: exit code 1 from a shell command.
-> >> >> > | ERROR: Execution of '/data/warp7/workspace-dunfell/build-rpb/t=
-mp-rpb-glibc/work/imx7s_warp-linaro-linux-gnueabi/linux-fslc/5.4.46+gitAUTO=
-INC+38d6c3525e-r0/temp/run.do_kernel_configme.31899' failed with exit code =
-1:
-> >> >> > | WARNING: exit code 1 from a shell command.
-> >> >> >
-> >> >> > I haven't yet looked at what these patches do, but I'm expecting=
- there's something to update in the linux-fslc recipe, unless there's anoth=
-er issue in the defconfig patches.
-> >> >> >
-> >> >>
-> >> >> We've had multiple reports that with those patches the linux-fslc
-> >> >> recipe is building. So something else may be going on in your setu=
-p.
->
-> If there were some reports - I haven't seen them...
->
-> Bruce, do you happen to have any reference to them? I'm trying to
-> merge and maintain linux-fslc[-imx] kernels, and so far I've never
-> seen any failures. Or maybe they were reported on some mailing lists
-> I'm not in.
+Hi,
+I think currently IMAGE_BOOT_FILES test run on bootimg-partition only.=20
+Could you add test cases for bootimg-efi too?
 
-They were deeper follow ups to some of the threads here and on
-linux-yocto. Nothing too obvious.
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Khasim Mohammed
+Sent: Thursday, 23 July, 2020 5:52 PM
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com; Khasim Syed Mohammed <khasim.mohammed@arm.com>
+Subject: [OE-core] [PATCH] wic/bootimg-efi: Add support for IMAGE_BOOT_FILE=
+S
 
-Just in case anyone is reading this and thinking the issue was ever
-with the linux-fslc* kernels .. that isn't the case. It just happened
-to be the one that people were using that showed the issue introduced
-by my defconfig juggling.
+List of files defined using IMAGE_BOOT_FILES are installed into the boot pa=
+rtition when preparing an image using the wic tool with the bootimg-efi sou=
+rce plugin.
 
+The code snippet introduced is taken as is from bootimg-partition.py
 
->
-> >> >
-> >> >
-> >> > That's reassuring.
-> >> >
-> >> >>
-> >> >> If you have a set of layers and build steps, can you send them to =
-me ?
-> >> >> I can spin up a local build and see if I get the same behaviour.
-> >> >
-> >> >
-> >> > Thanks for the offer. I'm based on Linaro's "OE-RPB" setup.
-> >> >
-> >> > My own layer is quite simple:
-> >> > https://git.linaro.org/people/ryan.harkin/meta-warp7.git/log/?h=3Dd=
-unfell
-> >> >
-> >> > I mostly provide a new image definition and a simple u-boot patch t=
-o change the console UART for our CI system. I don't have a kernel recipe o=
-verlaying linux-fslc.
-> >> >
-> >> > My basic steps to clone and build are:
-> >> > --------------------------
-> >> > mkdir /data/warp7/workspace-dunfell
-> >> > cd /data/warp7/workspace-dunfell
-> >> > repo init -u \
-> >> > https://git.linaro.org/people/ryan.harkin/oe-rpb-manifest.git \
-> >> > -b dunfell
-> >> > repo sync
-> >> >
-> >> > # link in shared downloads and sstate-cache
-> >> > ln -s /linaro/oe-rpb/downloads . && ln -s /linaro/oe-rpb/sstate-cac=
-he .
-> >> >
-> >> > export MACHINE=3Dimx7s-warp ; export DISTRO=3Drpb ; . setup-environ=
-ment
-> >> > bitbake warp7-console-image
-> >> > --------------------------
-> >> >
-> >>
-> >> I'm spinning up a build now (but as usual, I'm fighting some
-> >> infrastructure issues and can't get repo to install).
-> >
-> >
-> > It looks like you can stand down on this...
-> >
-> >>
-> >>
-> >> Steve mentioned two patches ... but can you also confirm that:
-> >> [kernel-yocto: account for extracted defconfig in elements check] is
-> >> in the branch you are building ?
-> >
-> >
-> > That patch wasn't in my dunfell branch, so I cherry-picked it from mas=
-ter locally and now the build is working again.
-> > Meanwhile, doing a "git remote update" and I see the patch is now on t=
-op of the dunfell branch as of today, and my build is working again.
->
-> Glad to see that it is solved for you! I've run the build for
-> meta-freescale linux-fslc yesterday - it went through like a breeze...
-> I don't think there was a significant update on dunfell, but I can
-> start the build now anyway...
+Change-Id: I8dbb6b4e7c24870f587a6f31e6ae4a87d7033782
+Issue-Id: PLATFORMS-3134
+Signed-off-by: Khasim Syed Mohammed <khasim.mohammed@arm.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-It'll be fine once Steve does the next release. We just got unlucky
-and picked up 2 of the defconfig correction patches before he bug
-report came in. So everything is ok, and with the latest dunfell queue
-there aren't any issues.
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wi=
+c/plugins/source/bootimg-efi.py
+index 2cfdc10ecd..14c1723577 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -13,6 +13,9 @@
+ import logging
+ import os
+ import shutil
++import re
++
++from glob import glob
+=20
+ from wic import WicError
+ from wic.engine import get_custom_config @@ -209,6 +212,57 @@ class Bootim=
+gEFIPlugin(SourcePlugin):
+         except KeyError:
+             raise WicError("bootimg-efi requires a loader, none specified"=
+)
+=20
++        if get_bitbake_var("IMAGE_BOOT_FILES") is None:
++            logger.debug('No boot files defined in IMAGE_BOOT_FILES')
++        else:
++            boot_files =3D None
++            for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.=
+label), (None, None)):
++                if fmt:
++                    var =3D fmt % id
++                else:
++                    var =3D ""
++
++                boot_files =3D get_bitbake_var("IMAGE_BOOT_FILES" + var)
++                if boot_files:
++                    break
++
++            logger.debug('Boot files: %s', boot_files)
++
++            # list of tuples (src_name, dst_name)
++            deploy_files =3D []
++            for src_entry in re.findall(r'[\w;\-\./\*]+', boot_files):
++                if ';' in src_entry:
++                    dst_entry =3D tuple(src_entry.split(';'))
++                    if not dst_entry[0] or not dst_entry[1]:
++                        raise WicError('Malformed boot file entry: %s' % s=
+rc_entry)
++                else:
++                    dst_entry =3D (src_entry, src_entry)
++
++                logger.debug('Destination entry: %r', dst_entry)
++                deploy_files.append(dst_entry)
++
++            cls.install_task =3D [];
++            for deploy_entry in deploy_files:
++                src, dst =3D deploy_entry
++                if '*' in src:
++                    # by default install files under their basename
++                    entry_name_fn =3D os.path.basename
++                    if dst !=3D src:
++                        # unless a target name was given, then treat name
++                        # as a directory and append a basename
++                        entry_name_fn =3D lambda name: \
++                                        os.path.join(dst,
++                                                    =20
++ os.path.basename(name))
++
++                    srcs =3D glob(os.path.join(kernel_dir, src))
++
++                    logger.debug('Globbed sources: %s', ', '.join(srcs))
++                    for entry in srcs:
++                        src =3D os.path.relpath(entry, kernel_dir)
++                        entry_dst_name =3D entry_name_fn(entry)
++                        cls.install_task.append((src, entry_dst_name))
++                else:
++                    cls.install_task.append((src, dst))
+=20
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, creator, cr_workdir=
+, @@ -238,6 +292,12 @@ class BootimgEFIPlugin(SourcePlugin):
+             (staging_kernel_dir, kernel, hdddir, kernel)
+         exec_cmd(install_cmd)
+=20
++        if get_bitbake_var("IMAGE_BOOT_FILES"):
++            for src_path, dst_path in cls.install_task:
++                install_cmd =3D "install -m 0644 -D %s %s" \
++                              % (os.path.join(kernel_dir, src_path),
++                                 os.path.join(hdddir, dst_path))
++                exec_cmd(install_cmd)
+=20
+         try:
+             if source_params['loader'] =3D=3D 'grub-efi':
+--
+2.17.1
 
-Bruce
-
->
-> >
-> > Great, thanks for your help folks.
-> >
-> > Regards,
-> > Ryan.
-> >
-> >
-> >
-> >>
-> >>
-> >> Bruce
-> >>
-> >>
-> >> > Right now, I've pinned oo-core to my last known working build from =
-before your recent defconfig patch, so you'll want to go into layer/openemb=
-edded-core and checkout the latest commits.
-> >> >
-> >> > For reference, my pinned commit:
-> >> > cabaf5654d  2020-07-06  iso-codes: switch upstream branch master ->=
- main                [Hongxu Jia]
-> >> >
-> >> > Local testing tells me that the repo works fine for me all the way =
-up to just before your commit, at this point:
-> >> > 2399fdf98a  2020-07-03  classes/archive: do_configure should not de=
-pend on do_ar_p..    [Joshua Watt]
-> >> >
-> >> > I'm building on an Ubuntu 18.04 host locally.
-> >> >
-> >> > Regards,
-> >> > Ryan.
-> >> >
-> >> >
-> >> >>
-> >> >>
-> >> >> Bruce
-> >> >>
-> >> >> > Regards,
-> >> >> > Ryan.
-> >> >> >
-> >> >> >
-> >> >> >
-> >> >> >
-> >> >> >
-> >> >> >
-> >> >> >>
-> >> >> >>
-> >> >> >>
-> >> >> >> Steve
-> >> >> >>
-> >> >> >> > > Here's a link to my failing build for reference:
-> >> >> >> > > https://ci.linaro.org/job/warp7-openembedded-dunfell/67/DIS=
-TRO=3Drpb,MACHINE=3Dimx7s-warp,label=3Ddocker-buster-amd64/consoleText
-> >> >> >> > >
-> >> >> >> > > And a snippet from the failure:
-> >> >> >> > >
-> >> >> >> > > ERROR: linux-fslc-5.4.46+gitAUTOINC+38d6c3525e-r0 do_kernel=
-_configme: Execution of '/srv/oe/build/tmp-rpb-glibc/work/imx7s_warp-linaro=
--linux-gnueabi/linux-fslc/5.4.46+gitAUTOINC+38d6c3525e-r0/temp/run.do_kerne=
-l_configme.7123' failed with exit code 1:
->
-> Oh, this is actually a good reminder: I have to bump up the kernel
-> version! It's been merged into the linux-fslc repo, but I didn't
-> update recipes so far... Vacation time... :) Latest update would
-> include v5.4.51 tag.
->
-> >> >> >> > > WARNING: exit code 1 from a shell command.
-> >> >> >> > >
-> >> >> >> > > ERROR: Logfile of failure stored in: /srv/oe/build/tmp-rpb-=
-glibc/work/imx7s_warp-linaro-linux-gnueabi/linux-fslc/5.4.46+gitAUTOINC+38d=
-6c3525e-r0/temp/log.do_kernel_configme.7123
-> >> >> >> > > Log data follows:
-> >> >> >> > > | DEBUG: Executing python function extend_recipe_sysroot
-> >> >> >> > > | NOTE: Direct dependencies are ['virtual:native:/srv/oe/bu=
-ild/conf/../../layers/openembedded-core/meta/recipes-devtools/bison/bison_3=
-.5.3.bb:do_populate_sysroot', '/srv/oe/build/conf/../../layers/openembedded=
--core/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb:do_populate_s=
-ysroot', '/srv/oe/build/conf/../../layers/openembedded-core/meta/recipes-de=
-vtools/binutils/binutils-cross_2.34.bb:do_populate_sysroot', '/srv/oe/build=
-/conf/../../layers/openembedded-core/meta/recipes-devtools/quilt/quilt-nati=
-ve_0.66.bb:do_populate_sysroot', 'virtual:native:/srv/oe/build/conf/../../l=
-ayers/openembedded-core/meta/recipes-devtools/patch/patch_2.7.6.bb:do_popul=
-ate_sysroot', 'virtual:native:/srv/oe/build/conf/../../layers/openembedded-=
-core/meta/recipes-extended/bc/bc_1.07.1.bb:do_populate_sysroot', '/srv/oe/b=
-uild/conf/../../layers/meta-arm/meta-arm-toolchain/recipes-devtools/gcc/gcc=
--cross_arm-9.2.bb:do_populate_sysroot']
-> >> >> >> > > | NOTE: Installed into sysroot: []
-> >> >> >> > > | NOTE: Skipping as already exists in sysroot: ['bison-nati=
-ve', 'kern-tools-native', 'binutils-cross-arm', 'quilt-native', 'patch-nati=
-ve', 'bc-native', 'gcc-cross-arm', 'flex-native', 'texinfo-dummy-native', '=
-gnu-config-native', 'readline-native', 'libtool-native', 'automake-native',=
- 'autoconf-native', 'xz-native', 'linux-libc-headers', 'gmp-native', 'libmp=
-c-native', 'mpfr-native', 'zlib-native', 'gettext-minimal-native', 'attr-na=
-tive', 'm4-native', 'ncurses-native', 'pkgconfig-native']
-> >> >> >> > > | DEBUG: Python function extend_recipe_sysroot finished
-> >> >> >> > > | DEBUG: Executing shell function do_kernel_configme
-> >> >> >> > > | WARNING: exit code 1 from a shell command.
-> >> >> >> > > | ERROR: Execution of '/srv/oe/build/tmp-rpb-glibc/work/imx=
-7s_warp-linaro-linux-gnueabi/linux-fslc/5.4.46+gitAUTOINC+38d6c3525e-r0/tem=
-p/run.do_kernel_configme.7123' failed with exit code 1:
-> >> >> >> > > | WARNING: exit code 1 from a shell command.
-> >> >> >> > > |
-> >> >> >> > > NOTE: recipe linux-fslc-5.4.46+gitAUTOINC+38d6c3525e-r0: ta=
-sk do_kernel_configme: Failed
-> >> >> >> > > ERROR: Task (/srv/oe/build/conf/../../layers/meta-freescale=
-/recipes-kernel/linux/linux-fslc_5.4.bb:do_kernel_configme) failed with exi=
-t code '1'
-> >> >> >> > >
-> >> >> >> > >
-> >> >> >> > >
-> >> >> >> > > On Mon, 6 Jul 2020 at 17:38, Steve Sakoman <steve@sakoman.c=
-om> wrote:
-> >> >> >> > >>
-> >> >> >> > >> On Mon, Jul 6, 2020 at 6:29 AM Bruce Ashfield <bruce.ashfi=
-eld@gmail.com> wrote:
-> >> >> >> > >> >
-> >> >> >> > >> > We have a fixup patch for this one in test right now, so=
- we don't want
-> >> >> >> > >> > this patch, without the follow up.
-> >> >> >> > >> >
-> >> >> >> > >> > But this is useful for dunfell, since it was an unexpect=
-ed behaviour
-> >> >> >> > >> > that needed to be fixed.
-> >> >> >> > >>
-> >> >> >> > >> Thanks, I'll drop this patch from the pull request and inc=
-lude it
-> >> >> >> > >> along with the fixup patch in next week's patch set.
-> >> >> >> > >>
-> >> >> >> > >> Steve
-> >> >> >> > >>
-> >> >> >> > >> > On Mon, Jul 6, 2020 at 12:11 PM Steve Sakoman <steve@sak=
-oman.com> wrote:
-> >> >> >> > >> > >
-> >> >> >> > >> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >> >> >> > >> > >
-> >> >> >> > >> > > It is uncommon that a BSP definition and a defconfig a=
-re used in
-> >> >> >> > >> > > a single configuration. That being said, it is a valid=
- way to
-> >> >> >> > >> > > organize kernel configuration meta data.
-> >> >> >> > >> > >
-> >> >> >> > >> > > When a defconfig is used, either on the src_uri or fro=
-m in
-> >> >> >> > >> > > the kernel tree, it is normally expected that it is th=
-e baseline,
-> >> >> >> > >> > > with all options applied on top of it.
-> >> >> >> > >> > >
-> >> >> >> > >> > > With this commit, we detect either type of defconfig a=
-nd ensure
-> >> >> >> > >> > > that it is used first, followed by the fragments in th=
-eir
-> >> >> >> > >> > > previous order. This allows existing configuration sta=
-cks to
-> >> >> >> > >> > > remain the same, while ensuring that a defconfig combi=
-ned stack
-> >> >> >> > >> > > works as expected.
-> >> >> >> > >> > >
-> >> >> >> > >> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.co=
-m>
-> >> >> >> > >> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfou=
-ndation.org>
-> >> >> >> > >> > > (cherry picked from commit e6845327b69396d843a2f3c4c3a=
-c9400ae9caedf)
-> >> >> >> > >> > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> >> >> >> > >> > > ---
-> >> >> >> > >> > >  meta/classes/kernel-yocto.bbclass | 33 ++++++++++++++=
-++++++-----------
-> >> >> >> > >> > >  1 file changed, 21 insertions(+), 12 deletions(-)
-> >> >> >> > >> > >
-> >> >> >> > >> > > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/=
-classes/kernel-yocto.bbclass
-> >> >> >> > >> > > index 5bc627066e..41d8620e67 100644
-> >> >> >> > >> > > --- a/meta/classes/kernel-yocto.bbclass
-> >> >> >> > >> > > +++ b/meta/classes/kernel-yocto.bbclass
-> >> >> >> > >> > > @@ -131,7 +131,7 @@ do_kernel_metadata() {
-> >> >> >> > >> > >                         else
-> >> >> >> > >> > >                                 cp -f ${S}/arch/${ARCH=
-}/configs/${KBUILD_DEFCONFIG} ${WORKDIR}/defconfig
-> >> >> >> > >> > >                         fi
-> >> >> >> > >> > > -                       sccs=3D"${WORKDIR}/defconfig"
-> >> >> >> > >> > > +                       in_tree_defconfig=3D"${WORKDIR=
-}/defconfig"
-> >> >> >> > >> > >                 else
-> >> >> >> > >> > >                         bbfatal "A KBUILD_DEFCONFIG '$=
-{KBUILD_DEFCONFIG}' was specified, but not present in the source tree"
-> >> >> >> > >> > >                 fi
-> >> >> >> > >> > > @@ -153,14 +153,24 @@ do_kernel_metadata() {
-> >> >> >> > >> > >         patches=3D"${@" ".join(find_patches(d,''))}"
-> >> >> >> > >> > >         feat_dirs=3D"${@" ".join(find_kernel_feature_d=
-irs(d))}"
-> >> >> >> > >> > >
-> >> >> >> > >> > > -       # a quick check to make sure we don't have dup=
-licate defconfigs
-> >> >> >> > >> > > -       # If there's a defconfig in the SRC_URI, did w=
-e also have one from
-> >> >> >> > >> > > -       # the KBUILD_DEFCONFIG processing above ?
-> >> >> >> > >> > > -       if [ -n "$sccs" ]; then
-> >> >> >> > >> > > -           # we did have a defconfig from above. remo=
-ve any that might be in the src_uri
-> >> >> >> > >> > > -           sccs_from_src_uri=3D$(echo $sccs_from_src_=
-uri | awk '{ if ($0!=3D"defconfig") { print $0 } }' RS=3D' ')
-> >> >> >> > >> > > +       # a quick check to make sure we don't have dup=
-licate defconfigs If
-> >> >> >> > >> > > +       # there's a defconfig in the SRC_URI, did we a=
-lso have one from the
-> >> >> >> > >> > > +       # KBUILD_DEFCONFIG processing above ?
-> >> >> >> > >> > > +       src_uri_defconfig=3D$(echo $sccs_from_src_uri =
-| awk '{ if ($0=3D=3D"defconfig") { print $0 } }' RS=3D' ')
-> >> >> >> > >> > > +       # drop and defconfig's from the src_uri variab=
-le, we captured it just above here if it existed
-> >> >> >> > >> > > +       sccs_from_src_uri=3D$(echo $sccs_from_src_uri =
-| awk '{ if ($0!=3D"defconfig") { print $0 } }' RS=3D' ')
-> >> >> >> > >> > > +       if [ -n "$in_tree_defconfig" ]; then
-> >> >> >> > >> > > +               sccs_defconfig=3D$in_tree_defconfig
-> >> >> >> > >> > > +               if [ -n "$src_uri_defconfig" ]; then
-> >> >> >> > >> > > +                       bbwarn "[NOTE]: defconfig was =
-supplied both via KBUILD_DEFCONFIG and SRC_URI. Dropping SRC_URI defconfig"
-> >> >> >> > >> > > +               fi
-> >> >> >> > >> > > +       else
-> >> >> >> > >> > > +               # if we didn't have an in-tree one, ma=
-ke our defconfig the one
-> >> >> >> > >> > > +               # from the src_uri. Note: there may no=
-t have been one from the
-> >> >> >> > >> > > +               # src_uri, so this can be an empty var=
-iable.
-> >> >> >> > >> > > +               sccs_defconfig=3D$src_uri_defconfig
-> >> >> >> > >> > >         fi
-> >> >> >> > >> > > -       sccs=3D"$sccs $sccs_from_src_uri"
-> >> >> >> > >> > > +       sccs=3D"$sccs_from_src_uri"
-> >> >> >> > >> > >
-> >> >> >> > >> > >         # check for feature directories/repos/branches=
- that were part of the
-> >> >> >> > >> > >         # SRC_URI. If they were supplied, we convert t=
-hem into include directives
-> >> >> >> > >> > > @@ -187,11 +197,10 @@ do_kernel_metadata() {
-> >> >> >> > >> > >         # expand kernel features into their full path =
-equivalents
-> >> >> >> > >> > >         bsp_definition=3D$(spp ${includes} --find -DKM=
-ACHINE=3D${KMACHINE} -DKTYPE=3D${LINUX_KERNEL_TYPE})
-> >> >> >> > >> > >         if [ -z "$bsp_definition" ]; then
-> >> >> >> > >> > > -               echo "$sccs" | grep -q defconfig
-> >> >> >> > >> > > -               if [ $? -ne 0 ]; then
-> >> >> >> > >> > > +               if [ -z "$sccs_defconfig" ]; then
-> >> >> >> > >> > >                         bbfatal_log "Could not locate =
-BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was pr=
-ovided"
-> >> >> >> > >> > >                 fi
-> >> >> >> > >> > > -
-> >> >> >> > >> > > +       else
-> >> >> >> > >> > >                 # if the bsp definition has "define KM=
-ETA_EXTERNAL_BSP t",
-> >> >> >> > >> > >                 # then we need to set a flag that will=
- instruct the next
-> >> >> >> > >> > >                 # steps to use the BSP as both configu=
-ration and patches.
-> >> >> >> > >> > > @@ -206,7 +215,7 @@ do_kernel_metadata() {
-> >> >> >> > >> > >         elements=3D"`echo -n ${bsp_definition} ${sccs}=
- ${patches} ${KERNEL_FEATURES}`"
-> >> >> >> > >> > >         if [ -n "${elements}" ]; then
-> >> >> >> > >> > >                 echo "${bsp_definition}" > ${S}/${meta=
-_dir}/bsp_definition
-> >> >> >> > >> > > -               scc --force -o ${S}/${meta_dir}:cfg,me=
-rge,meta ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES=
-}
-> >> >> >> > >> > > +               scc --force -o ${S}/${meta_dir}:cfg,me=
-rge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNE=
-L_FEATURES}
-> >> >> >> > >> > >                 if [ $? -ne 0 ]; then
-> >> >> >> > >> > >                         bbfatal_log "Could not generat=
-e configuration queue for ${KMACHINE}."
-> >> >> >> > >> > >                 fi
-> >> >> >> > >> > > --
-> >> >> >> > >> > > 2.17.1
-> >> >> >> > >> > >
-> >> >> >> > >> > >
-> >> >> >> > >> >
-> >> >> >> > >> >
-> >> >> >> > >> >
-> >> >> >> > >> > --
-> >> >> >> > >> > - Thou shalt not follow the NULL pointer, for chaos and =
-madness await
-> >> >> >> > >> > thee at its end
-> >> >> >> > >> > - "Use the force Harry" - Gandalf, Star Trek II
-> >> >> >> > >>
-> >> >> >> >
-> >> >> >> >
-> >> >> >> >
-> >> >> >> > --
-> >> >> >> > - Thou shalt not follow the NULL pointer, for chaos and madne=
-ss await
-> >> >> >> > thee at its end
-> >> >> >> > - "Use the force Harry" - Gandalf, Star Trek II
-> >> >>
-> >> >>
-> >> >>
-> >> >> --
-> >> >> - Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait
-> >> >> thee at its end
-> >> >> - "Use the force Harry" - Gandalf, Star Trek II
-> >>
-> >>
-> >>
-> >> --
-> >> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >> thee at its end
-> >> - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >=20
->
->
->
-> --
-> Regards,
-> Andrey.
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
