@@ -1,48 +1,55 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.11073.1595688741907548775
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web12.11198.1595689112038620263
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jul 2020 07:52:22 -0700
+ Sat, 25 Jul 2020 07:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qPr5CJnj;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id t6so6010156plo.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2020 07:52:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q+cjlwTx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id d4so6995129pgk.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2020 07:58:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language;
-        bh=BFFblUAdtr/k5fcontequ+yzuBFkZScrlXXmZuf4VHQ=;
-        b=qPr5CJnj09xtzDNZAIEzP3/qRF/6uFd457tqBtNwI5pgnEvS786FOi+lDpvwC9Q26s
-         HAyrOGE2pNls6l3eSn4/8ItJUSlmbe2JJARBD1QgX+k69OmWlQH4NNczkAG2yx8lwBWm
-         J5JiFWX/6ObpHXv3nZrEERQTCgLrR+sreUm5WCekXzb4xjTZCgY1slmZGk0eeTHUg9iR
-         0qdJPG41DcD0gifs6qx1eYj0bCnrnFSGoXQ0kwpqmZ1JCr9321LjpXGnTD4jqpApArVs
-         9UlHiry6DT0/hyFdU5SVjzWajpVvy+MWv0X0HeL7jEy2RvrDzQmEK7LgQd3E83k6scwy
-         pM7w==
+        bh=5YNWl6lp8rbLpURr80TVIiBxE3fgZp0WkxypjrIEJMA=;
+        b=Q+cjlwTxuPQZnpQwWZmXUEoankwLTEW48U86wVQkrLTEeTvCOk6a5ko4yhKdjhoUQl
+         w4VG/gzPb7JlVzUNGk4clRAfx3POiX0ct0ZlK9PXRMGVXzy/4w2o3tD3dwEmsEuCjf0j
+         8nykiqhEmKakXFJdRZq4RaRqdsK4kUaUN7QT5+ZyvRA332kGkk7UfkPyoRY4Yk1IovQX
+         7GAJrqsBIB7pGn8fgU1xXEYUg8RTCoHG6/rp56X0p2XPUV2OPjpEU++CvTNJFKT2jHpH
+         OQ0UnQM100StfaP+b9IFRFZvDo69UitJH9T2fZbGDy2spnLnyLj/PboexuMfVpXzEqDh
+         J77Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language;
-        bh=BFFblUAdtr/k5fcontequ+yzuBFkZScrlXXmZuf4VHQ=;
-        b=kezHOjfp3uwiH03loIBdsUFxq2wPRGeBOcsfYMcy0GI1X91I6DVow49G1iMHG7ww7r
-         iygwvy5SJx2IPh/qynY8QZ8sc+0Gx2iSahMIkuLFAh7zj+9NGHiZcAxhhql7fdvRAXrf
-         w7FV7PMB1fBbX86chai/3aA/wMOITGJ4B2UKelSk/b6c4FT1xF8xFHcvoHTYj6zOUJcE
-         Ke0aBt7goiZPk8rVP4f7AfmKglVF5bSeHdXad34sxa2W7DXM1f+cv7TGp69nitnQmvaK
-         1ZP+/pAARyQx3lFQah6QKs76zp5OUA0SiVwuCoGwh03j/BIwIFtIG0aOvYb2uUgV/6/Z
-         VbVg==
-X-Gm-Message-State: AOAM5328ushxK0FYCiTJTPJwCK4HkKzaWbcru+cwcGKB5AZzArUmSnct
-	iYqUcFiCaPiPFk9fFsFyVla6IrnvHLA=
-X-Google-Smtp-Source: ABdhPJxKzuVCnXOgd36zsRQEiYuUC5TE7g8dWNKu0ve6vKrnEWXagvuimHd0S8etR/HYVyG01AjYqg==
-X-Received: by 2002:a17:90b:300d:: with SMTP id hg13mr10868661pjb.212.1595688741311;
-        Sat, 25 Jul 2020 07:52:21 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language;
+        bh=5YNWl6lp8rbLpURr80TVIiBxE3fgZp0WkxypjrIEJMA=;
+        b=BKQPmbWeVLXXaJTraMY6LL+eU41JukwkN5Me5apu7a9b1l05VtIKrGawq40ugKPqFm
+         rpSJnbmhmGTiy+KDnLG3cz7RFDIxATiaU2FghXN4l8K6sRWNgB1rVl0y7LLrU/h5cz6s
+         ZCaZVev9p6RetNGeV7fbdDHchULsEuJznSF/RXPp0EgH5tyo8iPze2fChaIokzAXoC3D
+         Tb5zrCCMqcQggnWWiK35MPFw1qaFIGcHMucL09TNtvbIi/EuP+s+hxERLZkCoEe4OxEg
+         WzXA7VpH6xEvKrY2dO4Dv/I1ecxGXd+/YLqGqq7F2sZetJGK/VBpto4U1x6cXKqWFUgV
+         ewqQ==
+X-Gm-Message-State: AOAM530bVKVM85ySUF0S94VZApZTjE9B6L7HR2imHsBjVsWmGWll+E0Q
+	ehIxpIlI1uvnwnOZg6KwCntK8XWXE3M=
+X-Google-Smtp-Source: ABdhPJzL2ofNQbdorqjOm/Tb19eM4hAzBiYobHZL0SYRD6ivMY5DD2MT+gXw0YiZwHWS+49oJcp64A==
+X-Received: by 2002:a65:6089:: with SMTP id t9mr13006192pgu.236.1595689111374;
+        Sat, 25 Jul 2020 07:58:31 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from ?IPv6:2601:202:4180:a5c0:40e5:a0a0:80e8:2308? ([2601:202:4180:a5c0:40e5:a0a0:80e8:2308])
-        by smtp.gmail.com with ESMTPSA id t187sm9235416pgb.76.2020.07.25.07.52.20
+        by smtp.gmail.com with ESMTPSA id 204sm9612802pfx.3.2020.07.25.07.58.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jul 2020 07:52:20 -0700 (PDT)
-Subject: Re: [OE-core] cve-check breaks on zeus
-To: Konrad Weihmann <kweihmann@outlook.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <AM7PR05MB6881998FE5ADEC576D81902CA8740@AM7PR05MB6881.eurprd05.prod.outlook.com>
+        Sat, 25 Jul 2020 07:58:30 -0700 (PDT)
+Subject: Re: [OE-core][PATCH] llvm: upgrade 9.0.1 -> 10.0.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Trevor Gamblin <trevor.gamblin@windriver.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20200527134844.105405-1-trevor.gamblin@windriver.com>
+ <CAMKF1soY7W40VRw-puspRKkmQ0FEiFk35=W_z=uz93Hj2mWVxA@mail.gmail.com>
+ <f6d9c9c0-71e1-439e-f20e-00f7cc721c0e@windriver.com>
+ <CANNYZj8J_ZrcQNLqPg0NRUfu042kCBJWmiDaxejTyuWnv9MMmw@mail.gmail.com>
 From: "akuster" <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -87,75 +94,109 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
  ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
  8CS2NxU=
-Message-ID: <f1b775ff-0fbb-2444-ec91-5efea2f75868@gmail.com>
-Date: Sat, 25 Jul 2020 07:52:19 -0700
+Message-ID: <5226bca8-5917-7783-c832-899256caea4d@gmail.com>
+Date: Sat, 25 Jul 2020 07:58:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <AM7PR05MB6881998FE5ADEC576D81902CA8740@AM7PR05MB6881.eurprd05.prod.outlook.com>
+In-Reply-To: <CANNYZj8J_ZrcQNLqPg0NRUfu042kCBJWmiDaxejTyuWnv9MMmw@mail.gmail.com>
 Content-Type: multipart/alternative;
- boundary="------------960E24387E281394C17DD371"
+ boundary="------------242B2283495B0E53978E0248"
 Content-Language: en-US
 
---------------960E24387E281394C17DD371
+--------------242B2283495B0E53978E0248
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
+Per release notes, riscv is now supported.
+https://releases.llvm.org/10.0.0/docs/ReleaseNotes.html#changes-to-the-risc-v-target
+
+If you have time, can you also double check Riscv so these two can be
+removed, if not maybe we can wait until this is in core.
+
+|
+
+COMPATIBLE_HOST_riscv64 = "null"
+COMPATIBLE_HOST_riscv32 = "null"|
 
 
-On 7/25/20 4:13 AM, Konrad Weihmann wrote:
-> Hi all,
->
-> I'm just too lazy to check if that has been fixed in master already,
-> but since yesterday cve-check breaks on zeus for me with the following
-
-I think I just saw this on master. We need to check if NVD changed their
-format again.
+There is a qemuriscv64 machine in core.
 
 -armin
 
+On 7/25/20 4:07 AM, Alexander Kanavin wrote:
+> Llvm 10.0.1 is now out, please rebase and resend the patches :)
 >
-> File:
-> '/opt/build/poky/meta/recipes-core/meta/cve-update-db-native.bb',
-> lineno: 91, function: do_populate_cve_db
->      0087:            # Update db with current year json file
->      0088:            try:
->      0089:                response = urllib.request.urlopen(json_url)
->      0090:                if response:
->  *** 0091:                    update_db(c,
-> gzip.decompress(response.read()).decode('utf-8'))
->      0092:                c.execute("insert or replace into META
-> values (?, ?)", [year, last_modified])
->      0093:            except urllib.error.URLError as e:
->      0094:                cve_f.write('Warning: CVE db update error,
-> CVE data is outdated.\n\n')
->      0095:                bb.warn("Cannot parse CVE data (%s), update
-> failed" % e.reason)
-> File:
-> '/opt/build/poky/meta/recipes-core/meta/cve-update-db-native.bb',
-> lineno: 173, function: update_db
->      0169:
->      0170:        cveId = elt['cve']['CVE_data_meta']['ID']
->      0171:        cveDesc =
-> elt['cve']['description']['description_data'][0]['value']
->      0172:        date = elt['lastModifiedDate']
->  *** 0173:        accessVector =
-> elt['impact']['baseMetricV2']['cvssV2']['accessVector']
->      0174:        cvssv2 =
-> elt['impact']['baseMetricV2']['cvssV2']['baseScore']
->      0175:
->      0176:        try:
->      0177:            cvssv3 =
-> elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-> Exception: KeyError: 'baseMetricV2'
+> Alex
 >
-> Cheers
-> Konrad
+> On Fri, 29 May 2020 at 15:30, Trevor Gamblin
+> <trevor.gamblin@windriver.com <mailto:trevor.gamblin@windriver.com>>
+> wrote:
+>
+>
+>     On 5/28/20 9:57 PM, Khem Raj wrote:
+>     > On Wed, May 27, 2020 at 6:48 AM Trevor Gamblin
+>     > <trevor.gamblin@windriver.com
+>     <mailto:trevor.gamblin@windriver.com>> wrote:
+>     >> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com
+>     <mailto:trevor.gamblin@windriver.com>>
+>     >> ---
+>     >>   meta/recipes-devtools/llvm/llvm_git.bb <http://llvm_git.bb> |
+>     6 +++---
+>     >>   1 file changed, 3 insertions(+), 3 deletions(-)
+>     >>
+>     >> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb
+>     <http://llvm_git.bb> b/meta/recipes-devtools/llvm/llvm_git.bb
+>     <http://llvm_git.bb>
+>     >> index d24ed761bf..787cc3adcf 100644
+>     >> --- a/meta/recipes-devtools/llvm/llvm_git.bb <http://llvm_git.bb>
+>     >> +++ b/meta/recipes-devtools/llvm/llvm_git.bb <http://llvm_git.bb>
+>     >> @@ -19,9 +19,9 @@ inherit cmake pkgconfig
+>     >>
+>     >>   PROVIDES += "llvm${PV}"
+>     >>
+>     >> -MAJOR_VERSION = "9"
+>     >> +MAJOR_VERSION = "10"
+>     >>   MINOR_VERSION = "0"
+>     >> -PATCH_VERSION = "1"
+>     >> +PATCH_VERSION = "0"
+>     >>
+>     > It also needs updating LLVMVERSION in
+>     > meta/conf/distro/include/tcmode-default.inc
+>     > secondly, I would suggest to wait for 10.0.1 which is releasing
+>     in a weeks time.
+>
+>     Alright, I'll watch for that release.
+>
+>     Thanks!
+>
+>     >
+>     >>   PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+>     >>
+>     >> @@ -29,7 +29,7 @@ LLVM_RELEASE = "${PV}"
+>     >>   LLVM_DIR = "llvm${LLVM_RELEASE}"
+>     >>
+>     >>   BRANCH = "release/${MAJOR_VERSION}.x"
+>     >> -SRCREV = "c1a0a213378a458fbea1a5c77b315c7dce08fd05"
+>     >> +SRCREV = "d32170dbd5b0d54436537b6b75beaf44324e0c28"
+>     >>   SRC_URI =
+>     "git://github.com/llvm/llvm-project.git;branch=${BRANCH}
+>     <http://github.com/llvm/llvm-project.git;branch=$%7BBRANCH%7D> \
+>     >>             
+>     file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2
+>     \
+>     >>             
+>     file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+>     >> --
+>     >> 2.24.1
+>     >>
+>     >>
+>
 >
 > 
 
 
---------------960E24387E281394C17DD371
+--------------242B2283495B0E53978E0248
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
@@ -164,89 +205,115 @@ Content-Transfer-Encoding: 8bit
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
+    Per release notes, riscv is now supported. <br>
+<a class="moz-txt-link-freetext" href="https://releases.llvm.org/10.0.0/docs/ReleaseNotes.html#changes-to-the-risc-v-target">https://releases.llvm.org/10.0.0/docs/ReleaseNotes.html#changes-to-the-risc-v-target</a><br>
     <br>
+    If you have time, can you also double check Riscv so these two can
+    be removed, if not maybe we can wait until this is in core.<br>
     <br>
-    <div class="moz-cite-prefix">On 7/25/20 4:13 AM, Konrad Weihmann
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:AM7PR05MB6881998FE5ADEC576D81902CA8740@AM7PR05MB6881.eurprd05.prod.outlook.com">Hi
-      all,
-      <br>
-      <br>
-      I'm just too lazy to check if that has been fixed in master
-      already, but since yesterday cve-check breaks on zeus for me with
-      the following
-      <br>
-    </blockquote>
+    <pre><code><pre><span class="nv">COMPATIBLE_HOST_riscv64</span> <span class="o">=</span> <span class="s2">"null"</span>
+<span class="nv">COMPATIBLE_HOST_riscv32</span> <span class="o">=</span> <span class="s2">"null"</span></pre></code></pre>
     <br>
-    I think I just saw this on master. We need to check if NVD changed
-    their format again.<br>
+    There is a qemuriscv64 machine in core.<br>
     <br>
     -armin<br>
     <br>
+    <div class="moz-cite-prefix">On 7/25/20 4:07 AM, Alexander Kanavin
+      wrote:<br>
+    </div>
     <blockquote type="cite"
-cite="mid:AM7PR05MB6881998FE5ADEC576D81902CA8740@AM7PR05MB6881.eurprd05.prod.outlook.com"><br>
-      File:
-      '/opt/build/poky/meta/recipes-core/meta/cve-update-db-native.bb',
-      lineno: 91, function: do_populate_cve_db
+cite="mid:CANNYZj8J_ZrcQNLqPg0NRUfu042kCBJWmiDaxejTyuWnv9MMmw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>Llvm 10.0.1 is now out, please rebase and resend the
+          patches :)</div>
+        <div><br>
+        </div>
+        <div>Alex<br>
+        </div>
+      </div>
       <br>
-           0087:            # Update db with current year json file
-      <br>
-           0088:            try:
-      <br>
-           0089:                response =
-      urllib.request.urlopen(json_url)
-      <br>
-           0090:                if response:
-      <br>
-       *** 0091:                    update_db(c,
-      gzip.decompress(response.read()).decode('utf-8'))
-      <br>
-           0092:                c.execute("insert or replace into META
-      values (?, ?)", [year, last_modified])
-      <br>
-           0093:            except urllib.error.URLError as e:
-      <br>
-           0094:                cve_f.write('Warning: CVE db update
-      error, CVE data is outdated.\n\n')
-      <br>
-           0095:                bb.warn("Cannot parse CVE data (%s),
-      update failed" % e.reason)
-      <br>
-      File:
-      '/opt/build/poky/meta/recipes-core/meta/cve-update-db-native.bb',
-      lineno: 173, function: update_db
-      <br>
-           0169:
-      <br>
-           0170:        cveId = elt['cve']['CVE_data_meta']['ID']
-      <br>
-           0171:        cveDesc =
-      elt['cve']['description']['description_data'][0]['value']
-      <br>
-           0172:        date = elt['lastModifiedDate']
-      <br>
-       *** 0173:        accessVector =
-      elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-      <br>
-           0174:        cvssv2 =
-      elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-      <br>
-           0175:
-      <br>
-           0176:        try:
-      <br>
-           0177:            cvssv3 =
-      elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-      <br>
-      Exception: KeyError: 'baseMetricV2'
-      <br>
-      <br>
-      Cheers
-      <br>
-      Konrad
-      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Fri, 29 May 2020 at 15:30,
+          Trevor Gamblin &lt;<a
+            href="mailto:trevor.gamblin@windriver.com"
+            moz-do-not-send="true">trevor.gamblin@windriver.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+          On 5/28/20 9:57 PM, Khem Raj wrote:<br>
+          &gt; On Wed, May 27, 2020 at 6:48 AM Trevor Gamblin<br>
+          &gt; &lt;<a href="mailto:trevor.gamblin@windriver.com"
+            target="_blank" moz-do-not-send="true">trevor.gamblin@windriver.com</a>&gt;
+          wrote:<br>
+          &gt;&gt; Signed-off-by: Trevor Gamblin &lt;<a
+            href="mailto:trevor.gamblin@windriver.com" target="_blank"
+            moz-do-not-send="true">trevor.gamblin@windriver.com</a>&gt;<br>
+          &gt;&gt; ---<br>
+          &gt;&gt;   meta/recipes-devtools/llvm/<a
+            href="http://llvm_git.bb" rel="noreferrer" target="_blank"
+            moz-do-not-send="true">llvm_git.bb</a> | 6 +++---<br>
+          &gt;&gt;   1 file changed, 3 insertions(+), 3 deletions(-)<br>
+          &gt;&gt;<br>
+          &gt;&gt; diff --git a/meta/recipes-devtools/llvm/<a
+            href="http://llvm_git.bb" rel="noreferrer" target="_blank"
+            moz-do-not-send="true">llvm_git.bb</a>
+          b/meta/recipes-devtools/llvm/<a href="http://llvm_git.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">llvm_git.bb</a><br>
+          &gt;&gt; index d24ed761bf..787cc3adcf 100644<br>
+          &gt;&gt; --- a/meta/recipes-devtools/llvm/<a
+            href="http://llvm_git.bb" rel="noreferrer" target="_blank"
+            moz-do-not-send="true">llvm_git.bb</a><br>
+          &gt;&gt; +++ b/meta/recipes-devtools/llvm/<a
+            href="http://llvm_git.bb" rel="noreferrer" target="_blank"
+            moz-do-not-send="true">llvm_git.bb</a><br>
+          &gt;&gt; @@ -19,9 +19,9 @@ inherit cmake pkgconfig<br>
+          &gt;&gt;<br>
+          &gt;&gt;   PROVIDES += "llvm${PV}"<br>
+          &gt;&gt;<br>
+          &gt;&gt; -MAJOR_VERSION = "9"<br>
+          &gt;&gt; +MAJOR_VERSION = "10"<br>
+          &gt;&gt;   MINOR_VERSION = "0"<br>
+          &gt;&gt; -PATCH_VERSION = "1"<br>
+          &gt;&gt; +PATCH_VERSION = "0"<br>
+          &gt;&gt;<br>
+          &gt; It also needs updating LLVMVERSION in<br>
+          &gt; meta/conf/distro/include/tcmode-default.inc<br>
+          &gt; secondly, I would suggest to wait for 10.0.1 which is
+          releasing in a weeks time.<br>
+          <br>
+          Alright, I'll watch for that release.<br>
+          <br>
+          Thanks!<br>
+          <br>
+          &gt;<br>
+          &gt;&gt;   PV =
+          "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"<br>
+          &gt;&gt;<br>
+          &gt;&gt; @@ -29,7 +29,7 @@ LLVM_RELEASE = "${PV}"<br>
+          &gt;&gt;   LLVM_DIR = "llvm${LLVM_RELEASE}"<br>
+          &gt;&gt;<br>
+          &gt;&gt;   BRANCH = "release/${MAJOR_VERSION}.x"<br>
+          &gt;&gt; -SRCREV = "c1a0a213378a458fbea1a5c77b315c7dce08fd05"<br>
+          &gt;&gt; +SRCREV = "d32170dbd5b0d54436537b6b75beaf44324e0c28"<br>
+          &gt;&gt;   SRC_URI = "git://<a
+            href="http://github.com/llvm/llvm-project.git;branch=$%7BBRANCH%7D"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">github.com/llvm/llvm-project.git;branch=${BRANCH}</a>
+          \<br>
+          &gt;&gt;             
+<a class="moz-txt-link-freetext" href="file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2">file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2</a>
+          \<br>
+          &gt;&gt;             
+          <a class="moz-txt-link-freetext" href="file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2">file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2</a>
+          \<br>
+          &gt;&gt; --<br>
+          &gt;&gt; 2.24.1<br>
+          &gt;&gt;<br>
+          &gt;&gt; <br>
+          <br>
+        </blockquote>
+      </div>
       <br>
       <fieldset class="mimeAttachmentHeader"></fieldset>
       <pre class="moz-quote-pre" wrap="">
@@ -256,4 +323,4 @@ cite="mid:AM7PR05MB6881998FE5ADEC576D81902CA8740@AM7PR05MB6881.eurprd05.prod.out
   </body>
 </html>
 
---------------960E24387E281394C17DD371--
+--------------242B2283495B0E53978E0248--
