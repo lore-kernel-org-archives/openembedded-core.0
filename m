@@ -1,152 +1,78 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web10.26457.1595759475551985530
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web11.29066.1595770885446257162
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2020 03:31:15 -0700
+ Sun, 26 Jul 2020 06:41:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hVN7kl6L;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id b26so2294038vsa.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2020 03:31:15 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=w56ZW0GK;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.194, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f194.google.com with SMTP id g6so1807809ljn.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2020 06:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oPP26vca2aUqL/dnUyLXcxmfi33R5t+iBYXrLcV4beI=;
-        b=hVN7kl6L5xNYfKC3z/CzfGcQPSzbQUv1ahKaNNgNiSsX94L2C1TOTY2vzf519QvsAI
-         BvPU7uOjU48JJh4mdsazIXo9GYIp0pZpq3/pOyAzqAwtjRPbFE8YcPfTWf/xvhsfP55O
-         Mhf/d6mRtK0XR4UPm0H8wiq48mpXVy4FVSMoJ+pAoTCQRUZlgppE4ZB55EqNOUZt2QRz
-         PZm/QvTGqiwKQg0GNxzkHMCLmb6nCh91OIbuPRP3o91jJmdzxJO3H3E4ecUAHMuuKZbe
-         TuVNs3aApDf1eLBGanDufaWhANQVniVR6a9/tHEHyWR10afO9LyGd6JRn7ejwAiUMLh0
-         Jcbg==
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2tE+xhCE3yth5joFY1OLmVuxMPrMCEgcgTRoQY9R9gg=;
+        b=w56ZW0GKfkTgfoG1qNcdjBxx1Mxts3fWTpMhuFAc9VIBqo52Z6d1TNUOVAtmEHUxHh
+         Q5SVOI8bOh/o+9x6+gC3PnLZag7S8reBicAoXFN645Qn4/az3Q63x0G4wPLh8y1Ll1RK
+         tVexNkANIholsAtmB3T7TuePZ6ioKTxALIF4m8qcP+Cbjx+VbBvwEwqpCTYIyM699bWI
+         h8qkVygFVLkY9k+GLAiOVuELzFvw2HUyBzyH5Pxbtgy2DzqHu1WZZO1Hb/vDjsjO3+2X
+         zqX0BkJ0Yg1xFoesEkuEhjl+YAT2Xk3wer9U6wEAYXtLIediB155QuiwDSH1HmZriElZ
+         D3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oPP26vca2aUqL/dnUyLXcxmfi33R5t+iBYXrLcV4beI=;
-        b=Xk+/xlvdTwOW9OuS2dWvpl72CRjdGR6UZ8d/euYZT/AuBCp2/4G9ZkDFU5cYyMIGGA
-         XyggEE0VhOnVMuFC+IPgNnB3blQDAm6rDO8B5KvJERN6mKmRC9Ov+4fRTRt7pvzpYdQv
-         o0QUUCxpPrpsOhe05GV/xE+4dYcjif7zVy1rDRo4gW7kBUb1R/6imGn5HAwqQpBy+186
-         TELdi35zz1EECPAyJKmvhW0uB1bIWWbuO06fAr2HS6fi6bFSzNT5MFP/BGEBZpERVjcp
-         445zS82SZb1k+yazknacHziTStTUGsfS8/nFZ6n2w7Z0Ir4u4dg1hY1f6OFzg9vxB1zk
-         emsg==
-X-Gm-Message-State: AOAM532o5nGBC8j8DtNQukbRChJhWzceeqkvsmijCQjeKEgYxfVJT64b
-	qZSPR9ZzFGAlkELbxp2SYfmMReREhI3/dgoT7BzhSQAr0Ao=
-X-Google-Smtp-Source: ABdhPJzm8RYo7gOSbD8BLAc/GBWuWN/lEsPHTUo26H0GU3kFnXY4LS3wS+tHozmLpWlbp/TWvOfXN+0wTQDRcQABpHA=
-X-Received: by 2002:a67:cf88:: with SMTP id g8mr12864301vsm.25.1595759474384;
- Sun, 26 Jul 2020 03:31:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2tE+xhCE3yth5joFY1OLmVuxMPrMCEgcgTRoQY9R9gg=;
+        b=uAXxRC9gcmstpVNtXu+S/m/HldIDUMgp6dOO28AftCj8sn0cIxuHkd23tfglRQTaGj
+         FNRTNG/MBwlRqczvhCdZtxZoQQ2H1LDDozY1qUhVEHyD3/qfm2EbA4k3Ao38pOM73s+c
+         PofxSTL0U2RMLaN/VKz4lfCxey1L8xwav9DE/ZRMqj2l3Ql9LwSezf6vzdgoa+6/wdTp
+         YPN90Ify5/VqvARwVUTlMC3wyM4XJDeVeqF/g5E4M8DNM3uwfR3/sn+qTFuJIrzkO7yb
+         4yo85PHC/ycJc2CrYAXcM9BgD6m5aJPsqXWUJKFO7bfdIMbZzNxmYS+OwtvhixPP8BKA
+         rg0w==
+X-Gm-Message-State: AOAM530E5m4JdB84yug+kAbTFDw17yR6YTB6X2Mi5KtxNyjYjLRaYsBi
+	lBC50BIdKV63Km1+7+4kOhtn/RaGrGs=
+X-Google-Smtp-Source: ABdhPJwwhSST3iFivXN2gKNjyCAfKt9aFQpksquJy0g3i7tChCZEwhw9Jb2hiho4EmQfIdMK8ZcORA==
+X-Received: by 2002:a2e:8046:: with SMTP id p6mr8527713ljg.100.1595770883184;
+        Sun, 26 Jul 2020 06:41:23 -0700 (PDT)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
+        by smtp.gmail.com with ESMTPSA id k23sm1795758ljh.55.2020.07.26.06.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2020 06:41:22 -0700 (PDT)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] bash-completion: update to 2.11
+Date: Sun, 26 Jul 2020 15:39:01 +0200
+Message-Id: <20200726133901.205884-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200726101759.3991490-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20200726101759.3991490-1-open.source@oleksandr-kravchuk.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 26 Jul 2020 12:31:03 +0200
-Message-ID: <CANNYZj94-vz9n+TL-t9NLeR90f9xOuEeBBGKmi50TByh8JgNDw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libhandy: update to 0.80.0
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009e2ca305ab55b4f7"
+Content-Transfer-Encoding: 8bit
 
---0000000000009e2ca305ab55b4f7
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../{bash-completion_2.10.bb => bash-completion_2.11.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/bash-completion/{bash-completion_2.10.bb => bash-completion_2.11.bb} (87%)
 
-This also needs a backport of compatibility patch for epiphany.
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.10.bb b/meta/recipes-support/bash-completion/bash-completion_2.11.bb
+similarity index 87%
+rename from meta/recipes-support/bash-completion/bash-completion_2.10.bb
+rename to meta/recipes-support/bash-completion/bash-completion_2.11.bb
+index 041af7490e..da0baa7afc 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.10.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.11.bb
+@@ -9,8 +9,8 @@ SECTION = "console/utils"
+ 
+ SRC_URI = "https://github.com/scop/bash-completion/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "f376ae3266cc70017aa833c39b76f984"
+-SRC_URI[sha256sum] = "123c17998e34b937ce57bb1b111cd817bc369309e9a8047c0bcf06ead4a3ec92"
++SRC_URI[md5sum] = "2514c6772d0de6254758b98c53f91861"
++SRC_URI[sha256sum] = "73a8894bad94dee83ab468fa09f628daffd567e8bef1a24277f1e9a0daf911ac"
+ UPSTREAM_CHECK_REGEX = "bash-completion-(?P<pver>(?!2008).+)\.tar"
+ UPSTREAM_CHECK_URI = "https://github.com/scop/bash-completion/releases"
+ 
+-- 
+2.25.1
 
-Alex
-
-On Sun, 26 Jul 2020 at 12:18, Oleksandr Kravchuk <
-open.source@oleksandr-kravchuk.com> wrote:
-
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  .../libhandy/{libhandy_git.bb => libhandy_0.80.0.bb}          | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-gnome/libhandy/{libhandy_git.bb => libhandy_0.80.0.bb}
-> (89%)
->
-> diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb
-> b/meta/recipes-gnome/libhandy/libhandy_0.80.0.bb
-> similarity index 89%
-> rename from meta/recipes-gnome/libhandy/libhandy_git.bb
-> rename to meta/recipes-gnome/libhandy/libhandy_0.80.0.bb
-> index 64258941ee..056d9659d8 100644
-> --- a/meta/recipes-gnome/libhandy/libhandy_git.bb
-> +++ b/meta/recipes-gnome/libhandy/libhandy_0.80.0.bb
-> @@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->
->  SRC_URI = "git://source.puri.sm/Librem5/${BPN}.git;protocol=https
-> <http://source.puri.sm/Librem5/$%7BBPN%7D.git;protocol=https>"
-> -SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
-> +SRCREV = "b61eefde06040703026f49a0b979588e69f77d3a"
-> +
->  S = "${WORKDIR}/git"
-> -PV = "0.0.13"
->
->  GIR_MESON_ENABLE_FLAG = 'enabled'
->  GIR_MESON_DISABLE_FLAG = 'disabled'
-> --
-> 2.25.1
->
-> 
->
-
---0000000000009e2ca305ab55b4f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>This also needs a backport of compatibility patch for=
- epiphany.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 26 Jul 2020 at 12=
-:18, Oleksandr Kravchuk &lt;<a href=3D"mailto:open.source@oleksandr-kravchu=
-k.com">open.source@oleksandr-kravchuk.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Oleksandr Kravchuk =
-&lt;<a href=3D"mailto:open.source@oleksandr-kravchuk.com" target=3D"_blank"=
->open.source@oleksandr-kravchuk.com</a>&gt;<br>
----<br>
-=C2=A0.../libhandy/{<a href=3D"http://libhandy_git.bb" rel=3D"noreferrer" =
-target=3D"_blank">libhandy_git.bb</a> =3D&gt; <a href=3D"http://libhandy_0.=
-80.0.bb" rel=3D"noreferrer" target=3D"_blank">libhandy_0.80.0.bb</a>}=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-gnome/libhandy/{<a href=3D"http://libhandy_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">libhandy_git.bb</a> =3D&gt; <a href=
-=
-=3D"http://libhandy_0.80.0.bb" rel=3D"noreferrer" target=3D"_blank">libhan=
-dy_0.80.0.bb</a>} (89%)<br>
-<br>
-diff --git a/meta/recipes-gnome/libhandy/<a href=3D"http://libhandy_git.bb=
-" rel=3D"noreferrer" target=3D"_blank">libhandy_git.bb</a> b/meta/recipes-g=
-nome/libhandy/<a href=3D"http://libhandy_0.80.0.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">libhandy_0.80.0.bb</a><br>
-similarity index 89%<br>
-rename from meta/recipes-gnome/libhandy/<a href=3D"http://libhandy_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">libhandy_git.bb</a><br>
-rename to meta/recipes-gnome/libhandy/<a href=3D"http://libhandy_0.80.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">libhandy_0.80.0.bb</a><br>
-index 64258941ee..056d9659d8 100644<br>
---- a/meta/recipes-gnome/libhandy/<a href=3D"http://libhandy_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">libhandy_git.bb</a><br>
-+++ b/meta/recipes-gnome/libhandy/<a href=3D"http://libhandy_0.80.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">libhandy_0.80.0.bb</a><br>
-@@ -3,9 +3,9 @@ LICENSE =3D &quot;LGPLv2.1&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4fbd65380cdd25595107=
-9008b364516c&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://source.puri.sm/Librem5/$%7=
-BBPN%7D.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">source.p=
-uri.sm/Librem5/${BPN}.git;protocol=3Dhttps</a>&quot;<br>
--SRCREV =3D &quot;7a193d7692c9c76a1a94f17c4d30b585f77d177c&quot;<br>
-+SRCREV =3D &quot;b61eefde06040703026f49a0b979588e69f77d3a&quot;<br>
-+<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
--PV =3D &quot;0.0.13&quot;<br>
-<br>
-=C2=A0GIR_MESON_ENABLE_FLAG =3D &#39;enabled&#39;<br>
-=C2=A0GIR_MESON_DISABLE_FLAG =3D &#39;disabled&#39;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000009e2ca305ab55b4f7--
