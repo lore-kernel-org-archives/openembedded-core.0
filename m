@@ -1,123 +1,99 @@
-Received: from wforward4-smtp.messagingengine.com (wforward4-smtp.messagingengine.com [64.147.123.34])
- by mx.groups.io with SMTP id smtpd.web10.25047.1595750385857847978
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.25505.1595751753767102947
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jul 2020 00:59:46 -0700
+ Sun, 26 Jul 2020 01:22:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=FcR4kTGG;
- spf=neutral (domain: iki.fi, ip: 64.147.123.34, mailfrom: tanuk@iki.fi)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailforward.west.internal (Postfix) with ESMTP id B03F0C88;
-	Sun, 26 Jul 2020 03:59:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sun, 26 Jul 2020 03:59:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=r/EF19jMBU80tcMn6nKu19mUReg1wY3uQ6n2+qY4F
-	H4=; b=FcR4kTGG/wxDH0oxShbqZmKIiMtHadmn3PtU2lbXoRszWIk0SzKBvuXSa
-	NoCF6E8grmS6ElUmTXFbwDALt5kqEhnegoFTvEu7ciTJQoUM/xwopiqhmzo/7iG7
-	KAf/usDgyRrBqM3UilKdI2IxwER72OzrRWlfj5bhajTNPxptR+Rman4hi2AwSIGI
-	5ULWp1iZlcr1ahYbRfWAov7H63jUe8CFqycfFYq9AvSAgyqic1I4XIApU7jUrOef
-	Ikm7+X3baH4Q9tJZtmnBY/erFhXXSase/QZcPvJ63bdEVXgG0jucQVpyLzNwVB9O
-	fXxoFEiDflHTbroDuZQmUu2cTVV7g==
-X-ME-Sender: <xms:7zcdXyMOs11T2RVDYfV2wb1qjHyw_cgKmlrneqyz5GJWvFSyJEhfaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrheeigdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepvfgrnhhu
-    ucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhfiheqnecuggftrfgrthhtvghrnh
-    epgfelkefhjeevtddvledtkeelvefhfeejteegkeffffefudeugfelffeiueegveefnecu
-    ffhomhgrihhnpehprghtrhgvohhnrdgtohhmpdhlihgsvghrrghprgihrdgtohhmnecukf
-    hppeekvddruddtvddrvddtrddujeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepthgrnhhukhesihhkihdrfhhi
-X-ME-Proxy: <xmx:7zcdXw-TKm4GyAOQJdRIFVdrV1s9-UIUkvKnaDS1LjOs7xveL8blGA>
-    <xmx:7zcdX5RvdLMDWCOlFNOau7E9H62yzXElUwbus5Zy4O5t94yE0DBJHg>
-    <xmx:7zcdXyvmJX4K7BeWwTwZF5llImKplxLPES9ldIKU2QfiuCPuVdKsMA>
-    <xmx:8DcdX0r6O54I52OSn_3CzshjRhWSFE_lT2FdT6tjSrsjy2aRNvDFU_9kr6g>
-Received: from laptop (unknown [82.102.20.179])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 47C3A328005E;
-	Sun, 26 Jul 2020 03:59:43 -0400 (EDT)
-Message-ID: <65325f6d63b5927ea8f0f7a167119d0ca8dcfd34.camel@iki.fi>
-Subject: Re: [OE-core] Why disable NEON support in recipes if runtime detection works?
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Jul 2020 10:59:39 +0300
-In-Reply-To: <1625397D9F68474B.26462@lists.openembedded.org>
-References: <64ecaddb6eaae1bd569e299ffb03b13081efe50b.camel@iki.fi>
-	 <CAMKF1sqvmPNPs6Vsh111hmWt3Fd-7E_4XbyQqrrvfqGH=RKYsg@mail.gmail.com>
-	 <1625397D9F68474B.26462@lists.openembedded.org>
-User-Agent: Evolution 3.30.5-1.1 
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U3dQ8IEL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id f18so11820064wml.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Jul 2020 01:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=rUtx4fm4A4ESAyNvHH3xzOuVxRhzwZ3rg2ZSmMZV67Q=;
+        b=U3dQ8IELRFmqN6+e1IM3s3W9FbOfEq2ghStyavR4fBhwBcWG/i2mKeoKFiL18I/H6H
+         eSYDjT4lo7eeuD8MXx6/iKjyVXdnRlSth8QORjojzREgBDHWNwTbQwpkeU6RsaUESsyL
+         VgNO7Ee4RAEpo33q2QLhgIIo/d6rmW1kdWS0U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rUtx4fm4A4ESAyNvHH3xzOuVxRhzwZ3rg2ZSmMZV67Q=;
+        b=gOepsCGGK1GllqRNEfNZxho5Ehxo1Vlq12hJaRKgF5iRHIhejJSFWWJh0PA0Jjy0fJ
+         Y85O71ngbUmgaYPi8CJ3PDsp9O28xPRLMoMdN40ejOB1JuA00ZnXKfRPW9QgW//skFNI
+         M8iQBhuoVQOndjTpktYX81WdPSljR2geOZLrh2ZX/YjBV1YyY2gYV7POqv2eDSe2Vpk1
+         VaYU7oYxOTfLovstucAoBO0GMCtITPFxFDS2nV1Qk3BY0ypcSRG1tXVIydL3tQ+AwpNQ
+         oVxheezjkR1YkSmMM4Sigcoxwbm16W09AMpOaAplOjNEX4rLkr0hMwjlnLtpC8BsNDoa
+         2LTg==
+X-Gm-Message-State: AOAM532bakrwQrGKG9ao6hPF2bg5/dFsDfWwm0pA/34XZoYo2xakQr4u
+	jyWycPxRYqs9U+zA9Genqxgw8w==
+X-Google-Smtp-Source: ABdhPJzD8l+hE1rvcwphC9Q2dWwa3FSlvaj2/kYA2Uq5Kvg5ZZLJnZyuXr1feeixG0kNi2FyrNppsA==
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr2670676wme.158.1595751752301;
+        Sun, 26 Jul 2020 01:22:32 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c1c0:577:97eb:ef04])
+        by smtp.gmail.com with ESMTPSA id o4sm12906482wmc.13.2020.07.26.01.22.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2020 01:22:29 -0700 (PDT)
+Message-ID: <21b69e046379ce7d55e0dfacd42d6e77d175d23b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFT][PATCH] glibc: Upgrade to upcoming 2.32
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 26 Jul 2020 09:22:26 +0100
+In-Reply-To: <20200725153705.127723-1-raj.khem@gmail.com>
+References: <20200725153705.127723-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2020-07-26 at 09:27 +0300, Tanu Kaskinen wrote:
-> On Mon, 2020-07-20 at 15:26 -0700, Khem Raj wrote:
-> > On Sun, Jul 19, 2020 at 2:06 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > > Hi!
-> > > 
-> > > If a recipe provides NEON optimizations, should those be explicitly
-> > > disabled when "neon" is not in TUNE_FEATUERS, even if the software is
-> > > able to detect NEON availability at runtime?
-> > > 
-> > > I'm currently converting the pulseaudio recipe from Autotools to Meson,
-> > > and the old Autotools build system supports disabling NEON
-> > > optimizations but the Meson build system doesn't. So I'm wondering if I
-> > > should add the missing feature to the Meson build system, or just let
-> > > the runtime detection do its work.
-> > > 
-> > > Is there ever need for disabling NEON optimizations if the CPU
-> > > indicates NEON support? I guess it could be useful for testing the "no
-> > > NEON" case (I today found out that dropping "neon" from TUNE_FEATURES
-> > > doesn't remove NEON support from the qemuarm machine), but otherwise it
-> > > seems unnecessary, unless there are CPUs that advertise NEON support
-> > > but don't actually support it.
-> > > 
-> > 
-> > I think the issue will result in a compiler error perhaps when neon is
-> > disabled via
-> > compiler command line which would be the case when neon is not in TUNE_FEATURES
-> > the compiler might warn or error out when it finds neon instructions
-> > being compiled via inline
-> > assembly.  you just can try passing something like -mfpu=vfpv3d16 or
-> > some such and see if
-> > compiler/assembler complains during build, if not then perhaps its fine.
-> 
-> If the last -mfpu is something else than neon, then including
-> arm_neon.h will succeed but compiling neon code will fail.
-> 
-> I did some experiments, and what I found was that when I remove neon
-> from TUNE_FEATURES, OE adds -mfpu=vfp to CC, not CFLAGS, so it's very
-> early in the compiler command line. PulseAudio adds -mfpu=neon to
-> CFLAGS when building neon code, and the last -mfpu wins, so the neon
-> code gets built without errors.
-> 
-> The configure check in PulseAudio only checks that the compiler accepts
-> -mfpu=neon and #include <arm_neon.h>, it doesn't try to compile any
-> actual neon code. This means that if the user adds -mfpu=vfp (or other
-> non-neon) to CFLAGS rather than CC, configure will pass but building
-> will fail. Is this something to guard against? A default qemuarm build
-> doesn't do this, so I don't know if this ever happens in OE.
-> 
-> I don't know yet how Meson behaves, I'll continue testing...
+On Sat, 2020-07-25 at 08:37 -0700, Khem Raj wrote:
+> Drop 0001-localedef-Add-hardlink-resolver-to-build.patch as its
+> applied
+> to localedef upstream
+>=20
+> Drop CVE patches which are already part of 2.32 release
+>=20
+> Drop unused attribute patch as its fixed differently in 2.32
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-I tested Meson now. Meson too enables Neon even if -mfpu=vfp is in CC.
-Unlike Autotools, Meson doesn't fail if -mfpu=vfp is added to CFLAGS (I
-tried CFLAGS_append = " -mfpu=vfp" in the pulseaudio recipe). Neon is
-enabled in any case.
+Doesn't look too bad however both qemuppc and qemuppc-alt builds are
+hanging building gobject-introspection while running:
 
-So, Meson seems pretty safe, although I guess it would be nice not to
-override the user's -mfpu setting. I think this isn't a big problem is
-practice, since runtime detection works.
+qemu-ppc -r 3.2.0 -cpu 7400 -L /home/pokybuild/yocto-worker/qemuppc/build/b=
+uild/tmp/work/ppc7400-poky-linux/gobject-introspection/1.64.1-r0/recipe-sys=
+root -E LD_LIBRARY_PATH=3D/home/pokybuild/yocto-worker/qemuppc/build/build/=
+tmp/work/ppc7400-poky-linux/gobject-introspection/1.64.1-r0/build/.libs:.li=
+bs:/home/pokybuild/yocto-worker/qemuppc/build/build/tmp/work/ppc7400-poky-l=
+inux/gobject-introspection/1.64.1-r0/recipe-sysroot//usr/lib:/home/pokybuil=
+d/yocto-worker/qemuppc/build/build/tmp/work/ppc7400-poky-linux/gobject-intr=
+ospection/1.64.1-r0/recipe-sysroot//lib /home/pokybuild/yocto-worker/qemupp=
+c/build/build/tmp/work/ppc7400-poky-linux/gobject-introspection/1.64.1-r0/b=
+uild/tmp-introspectng7y7pc4/GLib-2.0 --introspect-dump=3D/home/pokybuild/yo=
+cto-worker/qemuppc/build/build/tmp/work/ppc7400-poky-linux/gobject-introspe=
+ction/1.64.1-r0/build/tmp-introspectng7y7pc4/functions.txt,/home/pokybuild/=
+yocto-worker/qemuppc/build/build/tmp/work/ppc7400-poky-linux/gobject-intros=
+pection/1.64.1-r0/build/tmp-introspectng7y7pc4/dump.xml
 
-I haven't tested with a compiler that truly can't build Neon code,
-because I don't know how to do that.
+(https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/743
+ and=20
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/2199)
 
--- 
-Tanu
+Also, qemumips failed with a date issue:
 
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
+https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/754
+
+not sure if that is related to this patch or not. Its rerunning to get
+a second opinion:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/754
+
+There were also two perl failures but I don't think those are from this
+patch.
+
+Cheers,
+
+Richard
 
