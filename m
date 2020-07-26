@@ -1,78 +1,126 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
- by mx.groups.io with SMTP id smtpd.web12.20187.1595720646279620161
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web12.21896.1595728581986613423
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jul 2020 16:44:06 -0700
+ Sat, 25 Jul 2020 18:56:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=wtSngtuj;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.66, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f66.google.com with SMTP id d2so1469098lfj.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2020 16:44:05 -0700 (PDT)
+ dkim=pass header.i=@babayev.com header.s=google header.b=LSi79lci;
+ spf=pass (domain: babayev.com, ip: 209.85.210.193, mailfrom: ruslan@babayev.com)
+Received: by mail-pf1-f193.google.com with SMTP id k18so12994pfp.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Jul 2020 18:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        d=babayev.com; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CWYdIdXKqhMBg96BImvf/gqqC/uedfSe9aHOgh9/7nU=;
-        b=wtSngtujYnGIEFo3Eq1XX0jBnoO8UO7UVYib7gzGIsyFQborNoWuvuCIjz7n9wUZc+
-         MUWc4/wq5+LZ5hSz/BFYV8qvHLWrM6VIcIgUNWItnjWBlgRLBxN/UJkBW7rYRtWJiUql
-         n5wKbPLB5Nrt4/oW9anT8W2R8liFdXy2827RJk/JOyOfikKeX6SnIw/Y9KWQzsiYR3+o
-         mNlWKA2g1UfDcxEIAizvN3nV27TVOwti3qTDtx8LtbbCrCLxkHe5+goyrOy4olyUP9ZX
-         b2+GCIhLREpYzuRU48G9HvPPDNzbR1RTm2NOdukx9v/k/QphnRKzXpmwHpZAQy9a3NZa
-         rddQ==
+        bh=eifrL8mXRIRXy8kDwx832vBDrvTuEY/6dLteIOJ8HWE=;
+        b=LSi79lciiGKnz2Feobiw25FWHytUSFWBLimy+6TCZrNYRDySaYA9owEqI34l7FCjVv
+         v/oBCG2zKf4FGfSZWvXjtvoJraAm4TBnP6yFShS8gst2+u+ssQU7b3bCd3k6aY+GRHHN
+         hRMt3YUqSZENIpfI8WZeVjkBfxGs6Y71m3kBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CWYdIdXKqhMBg96BImvf/gqqC/uedfSe9aHOgh9/7nU=;
-        b=Dz0NaVhyFCk4FlfqK//Bsg0956HP0qMskzxPK8ZP9HjRvGchedL8K9UuzLb6FDDVyz
-         dWLNYKTSi14p6IpOLuCLOzBCsmKullpFjEvbDG+hqi+khCNhxgeKZbjWa/JxYhH+vpTv
-         owOx9zQ8fH9ibwmIMkf7dQRIFH7uKeL/M2epOq1PA5X2/CVg3DP09Ku20v1zXlS7PS3a
-         AW1qd8JGQYZ+oXSvg6bY8KaX+VIbePaQDkrcB+Q+8rTpbcBh20bAWeO3a6C4AwqwLvCX
-         SMF/sa0DE5jdUNzoJ0b4LfwGszjFqOJQp4X0rneoSZfYToF5WHxMa+VRws9cg7Ilj5kL
-         Eipw==
-X-Gm-Message-State: AOAM53029mQhA3opgHAkZnm6UcWK6IrECaj5ONnDsOHRGh79YQQiHnOg
-	NHEuCgKTKNUy1A2ZxM1FBKLhAebB8hE=
-X-Google-Smtp-Source: ABdhPJyqnuteef8r7wBg8y5RVJPlmGYJXSmJJIM8dreI4Chjwh6pQ8vT9TyJAfzSbtROc0Hn0PS6YA==
-X-Received: by 2002:ac2:5502:: with SMTP id j2mr6756014lfk.50.1595720643893;
-        Sat, 25 Jul 2020 16:44:03 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id w7sm1794361lfe.41.2020.07.25.16.44.02
+        bh=eifrL8mXRIRXy8kDwx832vBDrvTuEY/6dLteIOJ8HWE=;
+        b=KytGS5+i6G9QKqzyuDWP/xCeQVoDzDl9O97z/2IRV2Z+yzpVuOhKUhsc8zXEFIIKs5
+         Go9jVl/s3rKGwvmhojSfP1FJGmWgu1sUZLaLnhNaSH47LPEepJqQ+5xA3kwvrYN3E4j4
+         n887l/1l9oNQA+TkF/+w3aqT32HUXSl1UGr5o6Y72sui4Pv2O+yH45KFKDSokXCzTLgn
+         3m5+qFcIBPs/4C/tV65WBXzvllsTkYuPwBj5C875jvf1h7IHEhNVOGXxZhQV3JJEiUmV
+         diiAflkzlvdTREDkqtwe2LymE8czlVZmwnDc9JbDeP/rREPpRbEkg1MO3Ywi1XA8yxBV
+         PlKA==
+X-Gm-Message-State: AOAM530QY6VwCb21jCik3OLOf3dg56kPBWmoc/bBFW9AwwZcW4aXnE7Y
+	3TxCwcyXJcTKL90bNMD0WAXDmX+cSwk=
+X-Google-Smtp-Source: ABdhPJwwRt5U4uMx6HlzLwSXniFIQDpQ3U2cq/eHIBsgnlaNNVPD+W9md6YzqcYnNfoWnHw/X8sp4Q==
+X-Received: by 2002:a63:230e:: with SMTP id j14mr14066694pgj.107.1595728580909;
+        Sat, 25 Jul 2020 18:56:20 -0700 (PDT)
+Return-Path: <ruslan@babayev.com>
+Received: from baku.babayev.lan (50-47-143-95.evrt.wa.frontiernet.net. [50.47.143.95])
+        by smtp.gmail.com with ESMTPSA id n14sm10579704pgd.78.2020.07.25.18.56.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2020 16:44:03 -0700 (PDT)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+        Sat, 25 Jul 2020 18:56:20 -0700 (PDT)
+From: "Ruslan Babayev" <ruslan@babayev.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3: update to 3.8.5
-Date: Sun, 26 Jul 2020 01:41:09 +0200
-Message-Id: <20200725234109.2638903-1-open.source@oleksandr-kravchuk.com>
+Cc: Ruslan Babayev <ruslan@babayev.com>
+Subject: [PATCH] meson: use the more specific cpu arch in cross file
+Date: Sat, 25 Jul 2020 18:56:14 -0700
+Message-Id: <20200726015614.2875-1-ruslan@babayev.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../python/{python3_3.8.3.bb => python3_3.8.5.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.8.3.bb => python3_3.8.5.bb} (99%)
+'cpu' unlike 'cpu_family' must be a more specific subtype for the CPU.
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.5.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.8.3.bb
-rename to meta/recipes-devtools/python/python3_3.8.5.bb
-index a7cfbad5cd..cabe5dc075 100644
---- a/meta/recipes-devtools/python/python3_3.8.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.5.bb
-@@ -40,8 +40,8 @@ SRC_URI_append_class-native = " \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
+Signed-off-by: Ruslan Babayev <ruslan@babayev.com>
+---
+ meta/classes/meson.bbclass                         | 14 ++++++++++++--
+ .../meson/nativesdk-meson_0.53.2.bb                | 12 +++++++++++-
+ 2 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index ff52d20e56..0caa7a37c2 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -62,6 +62,16 @@ def meson_cpu_family(var, d):
+     else:
+         return arch
  
--SRC_URI[md5sum] = "3000cf50aaa413052aef82fd2122ca78"
--SRC_URI[sha256sum] = "dfab5ec723c218082fe3d5d7ae17ecbdebffa9a1aea4d64aa3a2ecdd2e795864"
-+SRC_URI[md5sum] = "35b5a3d0254c1c59be9736373d429db7"
-+SRC_URI[sha256sum] = "e3003ed57db17e617acb382b0cade29a248c6026b1bd8aad1f976e9af66a83b0"
++def meson_cpu(prefix, d):
++    import re
++    arch = d.getVar(prefix + "_ARCH")
++    tune_ccargs = d.getVar("TUNE_CCARGS")
++    m = re.search(r"(?<=-march=)\w+|(?<=-mcpu=)\w+", tune_ccargs)
++    if m:
++        return m.group(0)
++    else:
++        return arch
++
+ # Map our OS values to what Meson expects:
+ # https://mesonbuild.com/Reference-tables.html#operating-system-names
+ def meson_operating_system(var, d):
+@@ -110,13 +120,13 @@ gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+ [host_machine]
+ system = '${@meson_operating_system('HOST_OS', d)}'
+ cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+-cpu = '${HOST_ARCH}'
++cpu = '${@meson_cpu('HOST', d)}'
+ endian = '${@meson_endian('HOST', d)}'
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ [target_machine]
+ system = '${@meson_operating_system('TARGET_OS', d)}'
+ cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+-cpu = '${TARGET_ARCH}'
++cpu = '${@meson_cpu('TARGET', d)}'
+ endian = '${@meson_endian('TARGET', d)}'
+ EOF
+ }
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
+index 67add2c25e..021bff0992 100644
+--- a/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
++++ b/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
+@@ -6,6 +6,16 @@ inherit siteinfo
+ SRC_URI += "file://meson-setup.py \
+             file://meson-wrapper"
+ 
++def meson_cpu(var, d):
++    import re
++    arch = d.getVar(var)
++    tune_ccargs = d.getVar("TUNE_CCARGS")
++    m = re.search(r"(?<=-march=)\w+|(?<=-mcpu=)\w+", tune_ccargs)
++    if m:
++        return m.group(0)
++    else:
++        return arch
++
+ def meson_endian(prefix, d):
+     arch, os = d.getVar(prefix + "_ARCH"), d.getVar(prefix + "_OS")
+     sitedata = siteinfo_data_for_machine(arch, os, d)
+@@ -44,7 +54,7 @@ cpp_link_args = @LDFLAGS
+ [host_machine]
+ system = '${SDK_OS}'
+ cpu_family = '${SDK_ARCH}'
+-cpu = '${SDK_ARCH}'
++cpu = '${@meson_cpu("SDK_ARCH", d)}'
+ endian = '${@meson_endian("SDK", d)}'
+ EOF
+ 
 -- 
 2.25.1
 
