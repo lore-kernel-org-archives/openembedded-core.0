@@ -1,141 +1,64 @@
-Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.78])
- by mx.groups.io with SMTP id smtpd.web10.62514.1595874393556816925
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.63188.1595876597960993759
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 11:26:33 -0700
+ Mon, 27 Jul 2020 12:03:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=YvcN1mgj;
- spf=pass (domain: outlook.com, ip: 40.92.51.78, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KM9o9PnVIr8WfGNmM2W8VGfxV93XzYdBSKvnaPHizN+zY/tTEVpW3E8yX3ESyJFcdv0e954L97+7JSebhFYR5ZuragBRb/mMKVXZpLccCAdFaiNVBDQu8Gbt4MMhngOcjTykrnlm/wQUab8hNBe1EQM7ObglI0/UieRXjgRZ8pZoIexrFxHn7jlu5ALwz8ybwDhc8vLHIN2MxewVXVmnkFs/Q9BJ4kbhcT8saVO9ZiChEwz7M7Tm/zhA+w4RF5QEKJ84BXlDZHptya63N6eXKEP2wxQshm27fZ4/NXsnpczr56RLMIgE//vVF595kxS5OJx5VWdQK4sHQGsEezEYIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BKaJOAKsuOgnuGQmlzvESSMmTd68+TmdZPcvuQphrhc=;
- b=jwA0oWGbb23zvF5NRPEMUaSaFb9aHlyJJ8+FXOONUKQR5KDF3lgE5spx+2AlC6Mm+GNSNdCrnCHPJYD0r3VnbGYUp40Kg9fbN7OnEDQtFmUKH+Q5sCgK6qxrixMXMDcj1dkVzJKyfTjtxo35O7BV1UKDArtfiCEwKBBVGdQweiEaB0fjoTDlnrnOTQRMCNLWjK1JMDRD6NuznidKK3ST1m9j0Jbc9Qr7aMhPqrg/zAB2yF+9iDwLgx57MmEwYSBMv2WOC3PHh6B0Vw7YGDG1Gh2QnLPH7pYVdkelXOCyKyEUeQT73eob5baaAEKISR8Ec8aqq2FpXQPYutlnSH5Bbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BKaJOAKsuOgnuGQmlzvESSMmTd68+TmdZPcvuQphrhc=;
- b=YvcN1mgjABlSaAHaVFWsbNVKm2qoaa9Pj5c5TTg31rE0FmDYb+t2Y9ile1AavGcD2Wg9IhDkxU7HymC9XsBkXaNMds4TMwMI6dPcgvVOR+3WbH4CvFGHwZmKsUKyavclMOyJ9+yT8z6w+tzAZJFcVgDUKr/pQTlohG1DvyD8BJvTXlFU3YJ6YG2a14p1vuSZaFWCnzSsF6Dnb27dHV8xCjAeZowZvR+sHisL25sCLWGkH97y2qS/04Ya76xXJGyDqKEVPmJat/J/9+NyQ1c3+eqr8bylRHoo5L8oEm7okCbPevWBEtB/pHc3GF3BEpJZYqWNJwFuL4NXLmInVktuuA==
-Received: from VI1EUR06FT056.eop-eur06.prod.protection.outlook.com
- (2a01:111:e400:fc37::49) by
- VI1EUR06HT235.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc37::397)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.31; Mon, 27 Jul
- 2020 18:26:31 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:fc37::51) by VI1EUR06FT056.mail.protection.outlook.com
- (2a01:111:e400:fc37::162) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.10 via Frontend
- Transport; Mon, 27 Jul 2020 18:26:31 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:A29B7FB21A958E800E660FBB11A911F8510146AEF5249AEF2B5438E9EC73E180;UpperCasedChecksum:40C41374146D5AAFEA59C9A9B3478230BF1339F73C1B5570FC15C645351027AB;SizeAsReceived:8794;Count:49
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::2c81:794e:63ae:e722%5]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 18:26:31 +0000
-Subject: Re: [OE-core] [PATCH v2] cve-update: handle baseMetricV2 as optional
-To: openembedded-core@lists.openembedded.org
-References: <162552C22941F232.11956@lists.openembedded.org>
-Cc: akuster808@gmail.com, steve@sakoman.com, anuj.mittal@intel.com
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM7PR05MB68819E7C05243F00A918121DA8720@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Date: Mon, 27 Jul 2020 20:26:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <162552C22941F232.11956@lists.openembedded.org>
-X-ClientProxiedBy: AM7PR04CA0007.eurprd04.prod.outlook.com
- (2603:10a6:20b:110::17) To AM7PR05MB6881.eurprd05.prod.outlook.com
- (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <03a6bf81-49da-f103-69cd-8fa269986811@outlook.com>
+ dkim=pass header.i=@stusta.de header.s=default header.b=AcnOu/3p;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=yaqv=bg=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4BFq2S5Q2rz3l;
+	Mon, 27 Jul 2020 21:03:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1595876594;
+	bh=L/WOvPg0k+P+BX8+P3NqjwQ11sxpeT/XnSTPjjYW2Gg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AcnOu/3pP06DRvICd5+gk8b2Zmd7yh0JJljRihHBueT5m3UXVYGxcs7CS8oW5Yeg1
+	 3z7mc2mMYVoR20HjDBanY4/ewydUKK9Q3NlELjk8WztaCMT5DrgH3x+NONcE3YJueL
+	 3D5Sn5czm3l/8BSzfI7ytKA0OdkVm/gIeTya4afuzIqyQtfMdiIfHZK21NhyIVPxEh
+	 3RWFtNy92TIHJhNb00ULsI6vPRP0+WIPyDkGppskunuXzi7onhNhau5QLADPqlRLWA
+	 Bp4wiLm8kmoQc+eTOh73WD3tByj/ODKjZ2BS0hGzHW7PhmkClVsMH41+VT+2L5bxPz
+	 bKbJzNJ/zUkf+r+yGzRTMsacCW0q7Dx5yBcPLPfD6mmf/C5pHcLzKMBUYshYrjQIWz
+	 QuAelH+XgQ+j2HT97iGg1Ug73GWOVcRLvojZ35VQpLpNmx6DA+IB/h/KgfjNJvl1M3
+	 LnpU9M76fyQAkBLa9d12tNoMqjZu7jwywdwsWnOXIwM+yBvvJML+s/mO3QYKAawx+H
+	 vM17i2rPLRJWYKDecdyGBh6Bk7mHpPuU6Rzu4QqmrGzwSTE7osm/rGJDlq/NNVYVKC
+	 HJhYSBD9mfZZ/fLnHxOG3G2U23r8cIymzfcaEVLVR7WWT7AWAVTXVbnwwplGQhjXzV
+	 hYGZfHbP28At0/Pa3aTEydz8=
+Date: Mon, 27 Jul 2020 22:03:09 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Anuj Mittal <anuj.mittal@intel.com>,
+	Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] python3-numpy: Stop shipping manual config files
+Message-ID: <20200727190309.GC29335@localhost>
+References: <20191027173648.6095-1-bunk@stusta.de>
+ <b2ee3e9e-9d8d-5bd4-d82a-918f7c380c5a@kontron.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.85.53) by AM7PR04CA0007.eurprd04.prod.outlook.com (2603:10a6:20b:110::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22 via Frontend Transport; Mon, 27 Jul 2020 18:26:30 +0000
-X-Microsoft-Original-Message-ID: 
- <03a6bf81-49da-f103-69cd-8fa269986811@outlook.com>
-X-TMN: [uvmsn10dykwNTklCO5oJ4vmMWT3CKvZ0]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 49
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 5cec8e44-4052-4501-d8d3-08d8325a9544
-X-MS-TrafficTypeDiagnostic: VI1EUR06HT235:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Op5xM9l7W5AHDZjTdkWavZbGKm6Gqt2n6H+ctnGixLSB7R5UYdzuFENHptPJaWfN7qHcgf4qZsbYGaQdkYo2zHnYQdiSw1q2uc8cyrZR7umKapF6x7xFJRQIXIwFl9bw1Yc6gcS5G4SfpO7SnloBzPAUtm1bMXb9L9SMAdTKBy+JX5yGCoHHJZ7fwWDwlX58jnvus+mws/DwvKLhPu//C1AY5UtE3YfhH5TS30L2eH4NMhjA+wLpaAXW78If79Fx
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	pwj8NHx8ENR+I+X1SAAMbWjtgWqwdXamdan9xcotnCBEHzo9wM7qLsIGa3KtuyefqlkmxOSgdoQ0XcFDpj4ot6Lgxoo3NBRdgequEnEvLjasz8jVIjhRIR/xiWwRUKjRdrjv96Q01HRvOZq9TJ1VhA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cec8e44-4052-4501-d8d3-08d8325a9544
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 18:26:30.9520
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VI1EUR06FT056.eop-eur06.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR06HT235
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <b2ee3e9e-9d8d-5bd4-d82a-918f7c380c5a@kontron.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi all,
+On Tue, Jul 21, 2020 at 12:28:15PM +0200, Frieder Schrempf wrote:
+> Hi Armin, Anuj, Adrian,
 
-please consider this patch to be backported to dunfell/zeus and warrior.
-Master-rev: bbefe04a622e166d95093d5127c316de91b27d20
+Hi Frieder,
 
-Thanks
-Konrad
+> On 27.10.19 18:36, Adrian Bunk wrote:
+> > Automatic generation seems to work fine,
+> > and does not become outdated.
+> > 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> 
+> Can you confirm this will also work on zeus, or does zeus miss some other
+> patches this depends on?
+>...
 
-On 26.07.20 16:10, Konrad Weihmann wrote:
-> Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
-> Let the parser handle it as an optional item.
-> In case use baseMetricV2 before baseMetricV3
-> 
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
->   meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-> index f27ade40db..32d6dbdffc 100644
-> --- a/meta/recipes-core/meta/cve-update-db-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-> @@ -176,15 +176,20 @@ def update_db(c, jsondata):
->           if not elt['impact']:
->               continue
->   
-> +        accessVector = None
->           cveId = elt['cve']['CVE_data_meta']['ID']
->           cveDesc = elt['cve']['description']['description_data'][0]['value']
->           date = elt['lastModifiedDate']
-> -        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-> -        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-> -
->           try:
-> +            accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-> +            cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-> +        except KeyError:
-> +            cvssv2 = 0.0
-> +        try:
-> +            accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
->               cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-> -        except:
-> +        except KeyError:
-> +            accessVector = accessVector or "UNKNOWN"
->               cvssv3 = 0.0
->   
->           c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
-> 
-> 
-> 
-> 
+I am not aware of any reason why it shouldn't work in zeus,
+it entered master shortly after zeus was branched.
+
+> Thanks,
+> Frieder
+
+cu
+Adrian
