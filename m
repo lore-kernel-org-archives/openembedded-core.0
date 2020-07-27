@@ -1,94 +1,144 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.55617.1595856630643929058
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web10.56215.1595858258049218130
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 06:30:31 -0700
+ Mon, 27 Jul 2020 06:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eNR7Wue4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id b6so14899675wrs.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 06:30:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bS5eXp4N;
+ spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f194.google.com with SMTP id p1so8030012pls.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 06:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=kQsO/hifDZ7DZhkABBXRGer+JGqO7FUPW8B6YWaRTqU=;
-        b=eNR7Wue4y6tkbzso79LPLUHzQRgSMdjDFfrsI7Q4OD7fleO/b++n+hS5oDKpeqSWPc
-         krPtUmgD38B1dDNEDTjRvmPsbBpUStRFOlPCCjFMB9DlbHs88Ajhy9Ejg7ZJquQRh+K+
-         iO4Z3iuWhoCPoHIv3zRHPjoYwNtxBtdzX95j8=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=1yGFDZDCKdR3YzjlsZIQTNPsx+MR7Oz8f0NmpolH/R0=;
+        b=bS5eXp4N/HSngNkTo2A9tvhVddYwVxaLxtW9zjllMUXTylhVlmKakYHISgkZsCCoF3
+         o/nE3k4kS3f4uisqJLTyz6Kud/2V+FDqV4RwtAUCT8eryivQpQJJdTj/nnEUG1TPbtMl
+         en+hSdB4ytAwAfWhs109Gvoz5Kfx3QkG/6lC0v2H8h5WvJnCijC1oP/43iaxsVesr+7i
+         PivPREGpEShQ6uuR1gxGOBakqGg37m8lb/nJ//a9NzJNvB08/UqyivZuWQggxayNYk+Y
+         r1OzbOPwu6sq6yVXr+cG5BbtpOFl9XEEebSSuiLr4L92ternFiNs8LUyRF1GscNZZYlP
+         AG1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=kQsO/hifDZ7DZhkABBXRGer+JGqO7FUPW8B6YWaRTqU=;
-        b=fq60Am/z8ohkDEJzHx55P1dB43BmSnUMoPPSlIOKaYLpvl7+VLap1GPSVGvKI+QR48
-         M1D773Se0lL1Gr8BdajAsbkvXRUPW+DAOm+BxpNiDKASM9LadtOCFXdwm1C7Ql9DDhnv
-         4xxSyyPqj4vZ4pck8Dzfi/U9i+irjq3V87QohBwpKsQaj8x6osPQQCCGcOhhXZEFwzj0
-         nQKfdo6FU8/v0phXYxYBtfmojJmOovNxNTmMtFuIS1iGH6+xAbF2AAR5CBmRP1sLvoEl
-         Vf+rF3vEPFccCkVs8/04wK4B7J7koreiXNWkVjFBpYCxBKjnqlHmHvrj/oIuyGc1Ddo2
-         LneQ==
-X-Gm-Message-State: AOAM533MskUrxK8NwapSRmDbnNp+5+I5SUFkSiKlSwpVEnQnrctKzI5X
-	7fzTdL5vOoDfYRhcN6ouX0xIZg==
-X-Google-Smtp-Source: ABdhPJwOzKyRmq90N76IvuK3Jct0LhciR2txW9foeAsXxzHcUoiYdoGoECShd0ABrFOwROR2RG5g1Q==
-X-Received: by 2002:adf:ed88:: with SMTP id c8mr19114908wro.233.1595856629097;
-        Mon, 27 Jul 2020 06:30:29 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c1c0:577:97eb:ef04])
-        by smtp.gmail.com with ESMTPSA id q3sm17407895wmq.22.2020.07.27.06.30.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 06:30:26 -0700 (PDT)
-Message-ID: <13bf2c62e3d81e5b76d7a4c44644af337fb3b758.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6] Add package managers as a plugin
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Fredrik Gustafsson <fredrik.gustafsson@axis.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: tools-cfpbuild-internal@axis.com
-Date: Mon, 27 Jul 2020 14:30:25 +0100
-In-Reply-To: <20200724144241.9977-1-fredrigu@axis.com>
-References: <20200724144241.9977-1-fredrigu@axis.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=1yGFDZDCKdR3YzjlsZIQTNPsx+MR7Oz8f0NmpolH/R0=;
+        b=YxZmF++6Uhu/j8A9rgt1zJNKiigNv/0cnjWGQU6mba+1TteN+lrN7Rh9JrNR9CEHUE
+         yoHVcetFWWcJuwasiYCeY3W0moCX6OqFTz0cRuHR6IQ7veljMuV4wZ6Sykta42e8JYN7
+         tTJ3jV7U1YbWDeytAI7R9xe9KLQ+nOs3C1qTTQ6Et0XKaKZ5dAZytrGhNnQWchHbLBMV
+         JP+eCgWxl0qSKkpeOf48Xj3xsgc1AdI9CiSIhFcrzrrCSOJgqzVBz1Gh8v3NR1cFUR0t
+         FJQYNM+44f9PqDAxFYx0Bli4pvQSOi0N57enF0RYjOpCgFszGn6b6CQjRp/F+usN/JpV
+         ZYRw==
+X-Gm-Message-State: AOAM530UDfOYGOPkppFvfa8YCoOfDQ4m/ol/FSxZ4xZE5enEKI9RX2+k
+	ixqiArJWrfuOo3Aidy3toHtA2X63LIM=
+X-Google-Smtp-Source: ABdhPJzGI3NSlQESYCqC6RSilQ30hN2NFdelDA3/e7nXgOJsPlQ35CApC6k2jHxCEV7qxcWzlNYw8Q==
+X-Received: by 2002:a17:90a:df11:: with SMTP id gp17mr17391239pjb.188.1595858257433;
+        Mon, 27 Jul 2020 06:57:37 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:8df1:f28:d14a:8296? ([2601:202:4180:a5c0:8df1:f28:d14a:8296])
+        by smtp.gmail.com with ESMTPSA id k12sm5065169pjp.38.2020.07.27.06.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2020 06:57:36 -0700 (PDT)
+Subject: Re: [OE-core] [v2][PATCH] cve-check: print warning if file is missing
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200727025231.24418-1-akuster808@gmail.com>
+ <d60c82f476989c46864b9d50a7f6fce3ae9eb189.camel@linuxfoundation.org>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+ Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+ mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+ aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+ mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+ C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+ Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+ 7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+ dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+ FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
+ IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+ FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+ vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+ ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+ IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+ g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+ rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+ FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+ wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+ t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+ aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+ oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+ Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+ 37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+ 0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+ IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+ 0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+ 0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+ ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+ UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+ Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
+ AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+ mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+ ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+ vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+ JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+ EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+ dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+ /mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+ PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+ ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+ 8CS2NxU=
+Message-ID: <f5995aa5-dedb-167e-cbfb-00886de6ca64@gmail.com>
+Date: Mon, 27 Jul 2020 06:57:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <d60c82f476989c46864b9d50a7f6fce3ae9eb189.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-On Fri, 2020-07-24 at 16:42 +0200, Fredrik Gustafsson wrote:
-> OE-core today has three different package managers, the well-known formats deb
-> and rpm is supported as well as ipkg that is good for embedded devices.
-> 
-> When building and having a good cache hit, a significant amount of time is
-> spent in the phase of generating a rootfs, which is really about the
-> performance of the package manager. To save build time and also get a
-> package manager that is suitanle for use on targets where flash memory is a
-> concern, support for apk is suggested.
-> 
-> However, it might or might not be what's wanted for OE-core since it increases
-> the test matrix. Therefore I will refactor the package management code to
-> allow a layer to add a new package manager without editing the meta layer.
-> 
-> This refactor will be divided into multiple patch series to be easier to review,
-> this series will only move code but keep existing functionality.
-> 
-> Changes since v5:
-> * Moved code in package_manager/rpm/package_manager.py to package_manager/rpm/__init__.py
-> * Fixed places that used package_managers instead of package_manager
-> * Added missing imports in a function.
 
-My first try at building this series failed to even parse on the
-autobuilder. The second attempt has failed due to further bugs in these
-changes. This is using a significant amount of my time and the
-auobuilder's time to debug the series and makes me wonder how much
-testing its had.
 
-The changes do at least look like the right direction to change this
-code in though. I've a bunch of fixes in master-next to try and make
-the series work.
+On 7/27/20 2:39 AM, Richard Purdie wrote:
+> On Sun, 2020-07-26 at 19:52 -0700, akuster wrote:
+>> If the "tmp/cve_check" file was not create as in the case for -c
+>> populate_sdk, just print a
+>> warning instead of dumping a trace back
+>>
+>> ---
+>> v2] lets include the missing part of the patch
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  meta/classes/cve-check.bbclass | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-
+>> check.bbclass
+>> index 0889e7544aa..b16da9890af 100644
+>> --- a/meta/classes/cve-check.bbclass
+>> +++ b/meta/classes/cve-check.bbclass
+>> @@ -55,6 +55,10 @@ python cve_save_summary_handler () {
+>> =20
+>>      cve_tmp_file =3D d.getVar("CVE_CHECK_TMP_FILE")
+>> =20
+>> +    if not os.path.isfile(cve_tmp_file):
+>> +        bb.warn("File Not found: %s" % cve_tmp_file)
+>> +        return
+>> +
+> A warning is something the user really needs to fix or take some action=
 
-You mentioned being away for several weeks. If I merge this, where do
-we stand if any other issues arise? Not sure I like the idea of waiting
-several weeks to merge this either :(.
-
-Cheers,
-
-Richard
-
+> about. Is this a warning?
+Its actually an error in certail conditions. Do we want this to be
+silent or fail on 'populate_sdk'?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
 
