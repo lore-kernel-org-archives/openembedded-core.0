@@ -1,80 +1,93 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.57642.1595862633029178445
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.57885.1595862635157945350
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 08:10:33 -0700
+ Mon, 27 Jul 2020 08:10:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=L+TG3l9b;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id t10so2822600plz.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Me6Zer1F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id w17so8137221ply.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=KsX0yT1Hh/mvNS+09IYFcqfMZ9FiM7b6VFDwb4ZdNr0=;
-        b=L+TG3l9b/FLi1teQlHgaJJs1qNfuXaxmooOI3w0tN1ERwlF4ROldtT2vSg021u1wxI
-         x4VjV0xgxpR93MbEKEK6IBppefCCZiYIMDmW15vK9wViYXM6IXLrOdadE1GNzFky0hDS
-         ugMszgI8rsYbtRiKNLcTufHB7P7l4HaUCBqGkxpQbaCdx875oZjjvp11ctySEtUK1n4N
-         5MhiVxs5oba2+8K0gwagY8FxRdHa/WSk9WOXPsY0Xg3KR+dk6H6pzlvb43yyeQtq1P+h
-         k+0ugGJ6ScH5f03ELSnkR2My0hM6Uy3BgArbVjrSOkbSjnzrhrs1k+OvAaMX3INaRtD/
-         xEdw==
+        bh=TcnHpwm5hb6AHEuusFYJpcm0DZ+l9wDlmikLMphSpig=;
+        b=Me6Zer1FvVRjP4l6xBz+28a4abMBJ6xewIlTAZFv/3dmltV8qMw19tJfvaaMZrbkte
+         h8LmtR6K3URCmsurR3dxD/KxRkKA3v4Pt6w/LzG+U7I1kuCG+1t8bwerJayFUUkKS/86
+         +9TGN5rcEHh3P0thXk410o3kcRTGbk9SBExfEhdkC9OOYMNPl1IGKCkIUW47J7zNH0e/
+         ADHfUloc41t9hQhqt3+canR5OW6rUq2TusWm/zQ9WMxm1sDepwPE2dMR1EdJobnbFpjp
+         +3hAeb1zkAfCfQ2rUIslyGfFMLiKeMnS3+H04r+CizdFq3y4YB3out55VsEGMKlUfM3s
+         AkSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=KsX0yT1Hh/mvNS+09IYFcqfMZ9FiM7b6VFDwb4ZdNr0=;
-        b=tv4VydGCsTYp8+nG8dYu/DRuvC3to0/yVng2U5Ix8Posm4cS62KhuxBDxGKuHiNe0v
-         /BjTz2zW4h6wcYe54yUMhrrfKIsPYzBryO6fWN+S4cYu44LlmR2y1ACTwYc170XTuvBP
-         6DH0SjKPxFE3QQpC7bKXb8XA95W0OLrqx4r/tc9HEpXr/uxtaJntlmzEr98rk4HMM026
-         zI4Jkm5GlA5hoK3O1rwkcaifc3TBT6G6+8oOosxjWSIjC/kgX2KBRGPjv1pRz8B1WXXP
-         vJ34m+4lmTjnxFE3UhTFHkQuHZmU0DNp109Wh7ILlzssKqamD5nNvC3Scr6I0uHec4f6
-         71Ew==
-X-Gm-Message-State: AOAM532Lohksa1tKH7/r/zwsNrFS/N+EF7IppzyMQx/9sSYAaneCaQTw
-	2NLB8N6GhA7Q0OEKEl4/o4t/zCddsO0=
-X-Google-Smtp-Source: ABdhPJxaotz8kfwkx44oIb/QgKn9kH16qxxmuk5T4ECzp7nI73j6xxcjqRNIKKXD9s5XQqIURpQ91Q==
-X-Received: by 2002:a17:90a:7103:: with SMTP id h3mr17366996pjk.34.1595862631923;
-        Mon, 27 Jul 2020 08:10:31 -0700 (PDT)
+        bh=TcnHpwm5hb6AHEuusFYJpcm0DZ+l9wDlmikLMphSpig=;
+        b=orcE3lc875WgwjyyZbRYgm6r7E46JmVnV8/5+UNg45RZ7OUD+Bw/FaAieqTaJu2bci
+         uZQpv0Ue20uxXp+zanMVkXwe3Mkyd3fOk6+YMbQotnn6VcD7A+k9PxSKIzlsFGCSxcSe
+         wOPWJwGZYep83jNOKyyTiYsAetxdayj4n4cr28FN4pMUb1LTEsy8UlpkE6nzklD88KEW
+         t42FuUp9VbmZqtYcKRp/CRJEZJCoIO/Mv0n5L5H0bFXAc7chLsvgH1pdOLB/kFlUNiso
+         IIGAkXC6X+YoXDce/PUklXO8Womq1xHsIbyH38SBwgRlxMlWGImaSJaL/4NSWu8/J0UU
+         JquQ==
+X-Gm-Message-State: AOAM530pBUpAdk9sPsoOrBZE4ajHZF3Bvv92LJ93Xyvog+MyEVGnxDVT
+	4RPkfxW9W/4gQqpOEbZBLstkmpJh8pg=
+X-Google-Smtp-Source: ABdhPJy0WC7n6Or+AhLX9U39F/XoH8jilS2dMpOfH6LkL4+kmIsiDI2uEtFWQyohMWgNffgV21rcog==
+X-Received: by 2002:a17:90a:1c97:: with SMTP id t23mr12345436pjt.216.1595862634160;
+        Mon, 27 Jul 2020 08:10:34 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.30
+        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 08:10:31 -0700 (PDT)
+        Mon, 27 Jul 2020 08:10:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/18] linux-yocto-rt/5.4: fix mmdrop stress test issues
-Date: Mon, 27 Jul 2020 05:09:47 -1000
-Message-Id: <c381a58954da72c5b44b8047328c13f81f178bbf.1595862361.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/18] oeqa/qemurunner: Add priority/nice information for running processes
+Date: Mon, 27 Jul 2020 05:09:48 -1000
+Message-Id: <693dc285164eb6cc88cc7174238fd59f0393b5c3.1595862361.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1595862361.git.steve@sakoman.com>
 References: <cover.1595862361.git.steve@sakoman.com>
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Integrating the following commit(s) to linux-yocto/5.4:
+We're seeing failures due to system load. In theory we've set process
+nice levels which should compensate for this. Add debugging so we can
+find out if they're being correctly applied.
 
-    508b4e6ada7f sched: Remove unexpected mmdrop on RT
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8500665cb8da792bb92a484e286f3935cf85e2b2)
+(cherry picked from commit 1e4e345bba8216b9b5623682206a7dae7cad261c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/qemurunner.py     | 2 +-
+ meta/lib/oeqa/utils/qemutinyrunner.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 22a0dc997e..caa5b4ef53 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 01cbf52b8b..519aa9aa1e 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -264,7 +264,7 @@ class QemuRunner:
+                 % (self.runqemu.poll(), os.path.isfile(self.qemu_pidfile), str(qemu_pid), os.path.exists("/proc/" + str(qemu_pid))))
  
--SRCREV_machine ?= "a1e1e3cbe42d8a08de5a3e3daaa2b389e352fe77"
-+SRCREV_machine ?= "508b4e6ada7f78b3ef5a9dbdd182d13dffe00123"
- SRCREV_meta ?= "caafbdfe382bf22a4786d871af097acd49d0867a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+             # Dump all processes to help us to figure out what is going on...
+-            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
++            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
+             processes = ps.decode("utf-8")
+             self.logger.debug("Running processes:\n%s" % processes)
+             self._dump_host()
+diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+index 364005bd2d..5c92941c0a 100644
+--- a/meta/lib/oeqa/utils/qemutinyrunner.py
++++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+@@ -138,7 +138,7 @@ class QemuTinyRunner(QemuRunner):
+         #
+         # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
+         #
+-        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
++        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command'], stdout=subprocess.PIPE).communicate()[0]
+         processes = ps.decode("utf-8").split('\n')
+         nfields = len(processes[0].split()) - 1
+         pids = {}
 -- 
 2.17.1
 
