@@ -1,116 +1,116 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web10.57887.1595862637298727403
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.57648.1595862640181913602
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 08:10:37 -0700
+ Mon, 27 Jul 2020 08:10:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Lglk0lh6;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f196.google.com with SMTP id k4so8140280pld.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LW1wwJL1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id 1so9211465pfn.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=rvtihaHxivKE3PMHS5cxFAXJM/gySM5JXhxx+AyDQWw=;
-        b=Lglk0lh60Y7d/gs8CKOwVg6UuUgn1hOG92KkFsu0MqmgeisvsFhZian5vdGXOj8dd3
-         zez4OqX6uCHqEn+wZDRflancNMBDDNIQOwf3ycN3enTZj2BIiUBNgFgfN4z+GBVzSEZG
-         nNVeZRiokoTVsbLseLcQnm5+taFKsZra1BmV77tLQWORDLlMOIjPtr1SLUcwhM5AflTe
-         Kh1Shh2lmmWxRpRe/ZooczoGsNeJfh+aWVUQP30Xr1FSEkFEzvdXoEbRffjDzd87rH8A
-         aznIoNToQ++KSJqyGLMQ4GIBabqfXk1Fxm7T72saQmH5npTPTmaPBjKL+JchwgB4i8ZS
-         lLpw==
+        bh=tSj3ei6Az1U/a1OVAcTBv6j4uhX7E8pslLk9Niaf3gU=;
+        b=LW1wwJL1fZJV1R/Ri5nlTJMEZsgr71a2v1YuarOrkMVti92ZppmgkYX3lD/aNUq0od
+         TyRJC1yii5LD2U0314GEuXpFPUBxW4m1LcvLSQ37awDGxvmUurEYERlC8GE+3yRNXldJ
+         KoKbV7OdspUjvDemG14XMCC8k7IEtX8fVYm/TOQC4nDuSY6+bBqH2myWv9KjNBqcyK1i
+         tkkQIEOkpRS8iU8Lr+6GRQ4lcw8c96K2Yq5vinRxO/xOmo9wPilXfFJbA0pSIKdipiUh
+         nSm1opLhzPhvmeXn58AH/GomjQtrNZx9d/t2qW8rweLSamAr+eMyiKYn/w9QvxPNsJmi
+         ZNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=rvtihaHxivKE3PMHS5cxFAXJM/gySM5JXhxx+AyDQWw=;
-        b=UtqLPHGr1mb4dd/Xrq/pL5OehKFkIsksGkgKk5W3Ym4ilRO32bykI6XOEPymroRGgE
-         5C+lueVUlmGNN1lSqzmIR87PiShzuK1G/DQz6lTuSWexZ9UKz53Iju9TFH1GHfW9pYZ2
-         YJtV/cwDJu4ymcU7vV1vHlH6XKc6PpDafOogOlaG3b7qNM3xAg09DNBdoqbLFJCHK431
-         y3OsKd7zhCMmHnVPGd1Rh49gFzaDDH98c7FE0uGHCbdHEhvJRRDcyr3m/YS3LtqHnSZr
-         joQrdZJxxQ/Z+sFkNRIVEKZHpMJ6Nz+UtwTNMr9xewOgU58XwlRzBV3dk71Qc73AEBuz
-         0Hhw==
-X-Gm-Message-State: AOAM530xbnTXsIpnniVKkMDKH3CZDQdNbnanh+zEzQ2y6kHsyGc4tqIi
-	/+d/K4ZWTaicYjseTP5zEOzhP3z8hAo=
-X-Google-Smtp-Source: ABdhPJy6C87bhv5HD2HC9+NtOv3LCGY/s5qqRImD5o4Ba2r9yUd4qc57gS7HaAwHGbKoP0T8hPRveg==
-X-Received: by 2002:a17:90a:e60b:: with SMTP id j11mr19566975pjy.189.1595862636271;
-        Mon, 27 Jul 2020 08:10:36 -0700 (PDT)
+        bh=tSj3ei6Az1U/a1OVAcTBv6j4uhX7E8pslLk9Niaf3gU=;
+        b=siB2SKE04y9/PV4o962j0IlJ53h85daebBqxaq6Y/Ot8wnxg+Av+0hAj5lWdpQvkW5
+         T+ziv4jWORZswkQD4AV73gP/XDw4M+TJ5dh7pxe4SQMAx8rKNeslAY6flTz8BEydiIfJ
+         Nk7MTtT5JWbYUzo5RLmhaCkCdMBQbb4qMs47k7U+YAc2UIkgLa2yQe0aoNjsThj+dLwF
+         tE52VRhrrf580JGsXWdmn3h0HN56/TFkZakHyO8MDYm4gfHVtNQFIJwrsXejWyJDcSCd
+         242Mrd69WNhuE5w6FCPawO08eoIh578jGe9IEuZSyJOhYWehMplSlNZOg4zJlomrvQTx
+         HABA==
+X-Gm-Message-State: AOAM531n18eAeoWJ0WaHCtvC60ikaQzhc12UUIyRNQLKEDWUpG8uRjpO
+	IWmzhXRk5s7jiBb8y6VgLOwOdn2t0Nc=
+X-Google-Smtp-Source: ABdhPJzQEUuLYyroBgUeY8q8ZDGnC1buzDs3Fz9u/JLs1Pg3VkBoJYbblORBgpl3bnqIYv8KC792CQ==
+X-Received: by 2002:a63:745:: with SMTP id 66mr20791304pgh.316.1595862639152;
+        Mon, 27 Jul 2020 08:10:39 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.35
+        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 08:10:35 -0700 (PDT)
+        Mon, 27 Jul 2020 08:10:38 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/18] classes/cmake: Fix host detection
-Date: Mon, 27 Jul 2020 05:09:49 -1000
-Message-Id: <59b8c49a54b8977ba2f3ed4f33f0fd3f7dd749d5.1595862361.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/18] classes/package: Use HOST_OS for runtime dependencies
+Date: Mon, 27 Jul 2020 05:09:50 -1000
+Message-Id: <2541b5be1e9c2c33ca8017130461a19f8734d883.1595862361.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1595862361.git.steve@sakoman.com>
 References: <cover.1595862361.git.steve@sakoman.com>
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-Fixes the class to use HOST_OS and HOST_ARCH to set the cmake SYSTEM
-variables. The HOST variables should be used instead of
-TARGET_OS/TARGET_ARCH because we want to control how cmake compiles for
-where the package is going to run (the host), not what it will be
-generating output for (the target). The distinction is only really
-relevant when building canadian cross recipes.
+The code was using TARGET_OS to try and detect what type of OS the
+packages would be running on, but this is incorrect. TARGET_OS is the OS
+for which the package will generate output (e.g. GCC output target or
+GDB debugging target). The OS where the package will run is the HOST_OS.
+Note that HOST_OS only differs from TARGET_OS when doing a
+canadian cross compile, and even then in our case only when doing so for
+a non-Linux host (e.g. MinGW).
 
-Also fix up the host OS detection to account for MinGW by setting
-CMAKE_SYSTEM_NAME to "Windows". This eliminates the need for meta-mingw
-to patch this in all the cmake recipes it builds.
+Fix the code to use HOST_OS instead.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 01245db2893e39ffb5d4a00e4689f048d0698974)
+(cherry picked from commit f284c5b2df220b520b025a59874e04ef4becd829)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cmake.bbclass | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ meta/classes/package.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 94ed8061bb..8243f7ce8c 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -70,15 +70,22 @@ CMAKE_BUILD_PARALLEL_LEVEL_task-install = "${@oe.utils.parallel_make(d, True)}"
- OECMAKE_TARGET_COMPILE ?= "all"
- OECMAKE_TARGET_INSTALL ?= "install"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index d4c6a90e84..099d0459f3 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -950,7 +950,7 @@ python split_and_strip_files () {
  
-+def map_host_os_to_system_name(host_os):
-+    if host_os.startswith('mingw'):
-+        return 'Windows'
-+    if host_os.startswith('linux'):
-+        return 'Linux'
-+    return host_os
-+
- # CMake expects target architectures in the format of uname(2),
- # which do not always match TARGET_ARCH, so all the necessary
- # conversions should happen here.
--def map_target_arch_to_uname_arch(target_arch):
--    if target_arch == "powerpc":
-+def map_host_arch_to_uname_arch(host_arch):
-+    if host_arch == "powerpc":
-         return "ppc"
--    if target_arch == "powerpc64":
-+    if host_arch == "powerpc64":
-         return "ppc64"
--    return target_arch
-+    return host_arch
+     dvar = d.getVar('PKGD')
+     pn = d.getVar('PN')
+-    targetos = d.getVar('TARGET_OS')
++    hostos = d.getVar('HOST_OS')
  
- cmake_do_generate_toolchain_file() {
- 	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
-@@ -88,8 +95,8 @@ cmake_do_generate_toolchain_file() {
- # CMake system name must be something like "Linux".
- # This is important for cross-compiling.
- $cmake_crosscompiling
--set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).*/\1/'` )
--set( CMAKE_SYSTEM_PROCESSOR ${@map_target_arch_to_uname_arch(d.getVar('TARGET_ARCH'))} )
-+set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('HOST_OS'))} )
-+set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('HOST_ARCH'))} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
- set( CMAKE_C_COMPILER_LAUNCHER ${OECMAKE_C_COMPILER_LAUNCHER} )
+     oldcwd = os.getcwd()
+     os.chdir(dvar)
+@@ -1105,7 +1105,7 @@ python split_and_strip_files () {
+     if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
+         results = oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles), d, extraargs=(dvar, debugdir, debuglibdir, debugappend, debugsrcdir, d))
+ 
+-        if debugsrcdir and not targetos.startswith("mingw"):
++        if debugsrcdir and not hostos.startswith("mingw"):
+             if (d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
+                 results = oe.utils.multiprocess_launch(splitstaticdebuginfo, staticlibs, d, extraargs=(dvar, debugstaticdir, debugstaticlibdir, debugstaticappend, debugsrcdir, d))
+             else:
+@@ -1667,7 +1667,7 @@ python package_do_shlibs() {
+     else:
+         shlib_pkgs = packages.split()
+ 
+-    targetos = d.getVar('TARGET_OS')
++    hostos = d.getVar('HOST_OS')
+ 
+     workdir = d.getVar('WORKDIR')
+ 
+@@ -1818,9 +1818,9 @@ python package_do_shlibs() {
+                 soname = None
+                 if cpath.islink(file):
+                     continue
+-                if targetos == "darwin" or targetos == "darwin8":
++                if hostos == "darwin" or hostos == "darwin8":
+                     darwin_so(file, needed, sonames, renames, pkgver)
+-                elif targetos.startswith("mingw"):
++                elif hostos.startswith("mingw"):
+                     mingw_dll(file, needed, sonames, renames, pkgver)
+                 elif os.access(file, os.X_OK) or lib_re.match(file):
+                     linuxlist.append(file)
 -- 
 2.17.1
 
