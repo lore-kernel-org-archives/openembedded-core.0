@@ -1,76 +1,85 @@
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
- by mx.groups.io with SMTP id smtpd.web10.63697.1595877581809175768
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web11.63501.1595877738407195606
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 12:19:42 -0700
+ Mon, 27 Jul 2020 12:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=0xacjDTF;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.194, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f194.google.com with SMTP id r19so18459428ljn.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 12:19:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JzdkB9HL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id g10so14011617wmc.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 12:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uJGoobgT76ak3Zn1F9zfREoKQP6NzsT9F/VC8tDXD6Q=;
-        b=0xacjDTFoqJ+iF66RkLO4NfHQZzkFluFLmiVrNxBSD5GCXYnXyLuq2YswKomqXSd2c
-         5jmCG+wvwp8ZU//nNySiYkmo3dCW8taGRy510MqEH7HymIXn4heNgqyMXlOKw61pwcpf
-         TQAs3NqGx+Bq1L38txtVGr+IhkXpb6ctUAAJr0VH/yM3ti2fn5cdEfc1mWHAMT1BIizS
-         X/GUOjYMHHagC2qrkn4T9dM7a5F8qx5ELsgpwMh/cIPa1RTvVxoyZp8Q7gXgqgvWxtNe
-         G0bKdINko+u5XkWjgjJe0CxVM+6KjYEw6yLGx4xnpruwQjrJ4txxFDC6x5CFM9D55zmQ
-         +EuQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=XdLDag98HwUENHYu8095xk1jUj1Fj1gZghmvqLTUDlk=;
+        b=JzdkB9HLS7cwmzOMoa5xJTv5wZpxsEd+Lk8PdzE6nQgtul8+11ySOS7jQ7WuybhNQy
+         0N30t97jeIU1coWK7yT/SxDVbXvga03VapkUHRwZ6Sctwv5FYqYWt/waNS6nddAKp3s+
+         FQvhXoJoy6MiLbLr/sEXGmcKRWNGivNvhT4as=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uJGoobgT76ak3Zn1F9zfREoKQP6NzsT9F/VC8tDXD6Q=;
-        b=M5qpUtrceS21TSLMTS6+IU2B7mcP1r2pLEn56nvG94U0KdgIf6Nt9N1FqIGg7O9QPO
-         LNNZHp8XWFRe8J7nYAUNv8ihfUvLsXfiq2J1hQEWLjBpIGY4eCD9CyhiIdP19n9L3RbV
-         +wm79B913D7y7m1oQe0lglXg9Lb8ECcEAuZAE3iw1uqi7FF0A6hzvJDV4OH1So0EYR6N
-         IHUvveHGo1u4H8bOfSkUno8ORQwnBOoSPHD50HzbbL37z799AzuGv5mmP9j0M4x3Voxd
-         LCQ8uRbVpOzs7TcErSEiJCx2L+usZA66rqXQL/mOyLic1KU6l7u4SJx9Swszgr1faROY
-         87ng==
-X-Gm-Message-State: AOAM532ISz3LPYEdtjcJQ6ZbBbz0s9gsyimPf3ciUj5funafeCaGdIhP
-	nF6MJsdj278lziuOimvuUpMlhiod4/Q=
-X-Google-Smtp-Source: ABdhPJwch8LQjzBqt8XKm3b1YXaSgyKb13+8tbneOQtHBOhlwaylzHHbfH+qy90scdKpnr1AWN8djA==
-X-Received: by 2002:a2e:87c2:: with SMTP id v2mr11021844ljj.78.1595877579326;
-        Mon, 27 Jul 2020 12:19:39 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id 186sm3213430lfn.66.2020.07.27.12.19.37
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=XdLDag98HwUENHYu8095xk1jUj1Fj1gZghmvqLTUDlk=;
+        b=lEJFwC1YOvINlp8UDcF6zOh4W2p2uklCC+efh/h1ByQ8qSmAJZeO31E+S7nkDuSHOC
+         PS8p3Erz9KlqpgaH/cx33OIYjxNglEk5gjrLKcYjkSICX8IXchwH8F3ljDgaCH6FA18r
+         QwrLwHnaFgLTyhK3y3ki9QK1GdlC3IOCn4/cVMKoAr2XqZu1pReo3RyA+Yb5Dq6Op3YN
+         jlxS2GdqqxIfwFI9SE6BdZ+tSizdG1Nob8vrcc1yZHuqehyLqo1lshtY1QqAyS10rLoZ
+         gxvBufHvFw9IsrbYNBW+OLmPC8sbQfa3CdHxyHb9UO+jicL1LKnuiUilJXq7LSRn4HUo
+         mxiw==
+X-Gm-Message-State: AOAM530LQCDhewhcV48LjPtr8xLQ46I2uD4Ith94s3NEy8qLGIEEuwqj
+	GFRnJWasai2rZw5WmxlAzW0pkQ==
+X-Google-Smtp-Source: ABdhPJx3JWOu4q/31NKJSeCe3Jw0vr81dgiISGqW086e+hP/JqMN7jnTlhQ0Jo6O3U0zQdklQ4D8NQ==
+X-Received: by 2002:a7b:c05a:: with SMTP id u26mr642730wmc.134.1595877736956;
+        Mon, 27 Jul 2020 12:22:16 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c1c0:577:97eb:ef04])
+        by smtp.gmail.com with ESMTPSA id q4sm684794wmq.33.2020.07.27.12.22.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 12:19:38 -0700 (PDT)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] git: update 2.28.0
-Date: Mon, 27 Jul 2020 21:19:17 +0200
-Message-Id: <20200727191917.2470300-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 27 Jul 2020 12:22:13 -0700 (PDT)
+Message-ID: <ee5491c9de9fba8b39c233b648afd7b55b061eec.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] re2c: update to 2.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 27 Jul 2020 20:22:11 +0100
+In-Reply-To: <20200726194213.351746-1-open.source@oleksandr-kravchuk.com>
+References: <20200726194213.351746-1-open.source@oleksandr-kravchuk.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-devtools/git/{git_2.27.0.bb => git_2.28.0.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/git/{git_2.27.0.bb => git_2.28.0.bb} (51%)
+On Sun, 2020-07-26 at 21:42 +0200, Oleksandr Kravchuk wrote:
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  meta/recipes-support/re2c/{re2c_1.3.bb => re2c_2.0.bb} | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>  rename meta/recipes-support/re2c/{re2c_1.3.bb => re2c_2.0.bb} (74%)
+> 
+> diff --git a/meta/recipes-support/re2c/re2c_1.3.bb b/meta/recipes-support/re2c/re2c_2.0.bb
+> similarity index 74%
+> rename from meta/recipes-support/re2c/re2c_1.3.bb
+> rename to meta/recipes-support/re2c/re2c_2.0.bb
+> index e9053acdf6..b73b024072 100644
+> --- a/meta/recipes-support/re2c/re2c_1.3.bb
+> +++ b/meta/recipes-support/re2c/re2c_2.0.bb
+> @@ -5,10 +5,8 @@ SECTION = "devel"
+>  LICENSE = "PD"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+>  
+> -SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz \
+> -           file://CVE-2020-11958.patch \
+> -"
+> -SRC_URI[sha256sum] = "f37f25ff760e90088e7d03d1232002c2c2672646d5844fdf8e0d51a5cd75a503"
+> +SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+> +SRC_URI[sha256sum] = "89a9d7ee14be10e3779ea7b2c8ea4a964afce6e76b8dbcd5479940681db46d20"
+>  UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
 
-diff --git a/meta/recipes-devtools/git/git_2.27.0.bb b/meta/recipes-devtools/git/git_2.28.0.bb
-similarity index 51%
-rename from meta/recipes-devtools/git/git_2.27.0.bb
-rename to meta/recipes-devtools/git/git_2.28.0.bb
-index 8022659ad7..e90787d060 100644
---- a/meta/recipes-devtools/git/git_2.27.0.bb
-+++ b/meta/recipes-devtools/git/git_2.28.0.bb
-@@ -5,6 +5,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.sha256sum] = "77ded85cbe42b1ffdc2578b460a1ef5d23bcbc6683eabcafbb0d394dffe2e787"
--SRC_URI[manpages.sha256sum] = "414e4b17133e54d846f6bfa2479f9757c50e16c013eb76167a492ae5409b8947"
--
-+SRC_URI[tarball.sha256sum] = "f914c60a874d466c1e18467c864a910dd4ea22281ba6d4d58077cb0c3f115170"
-+SRC_URI[manpages.sha256sum] = "3cfca28a88d5b8112ea42322b797a500a14d0acddea391aed0462aff1ab11bf7"
--- 
-2.25.1
+The above patch wasn't git rm'd. I fixed it as I merged it.
+
+Cheers,
+
+Richard
 
