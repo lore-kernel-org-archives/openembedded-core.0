@@ -1,93 +1,116 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.57885.1595862635157945350
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web10.57887.1595862637298727403
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 08:10:35 -0700
+ Mon, 27 Jul 2020 08:10:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Me6Zer1F;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id w17so8137221ply.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Lglk0lh6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f196.google.com with SMTP id k4so8140280pld.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=TcnHpwm5hb6AHEuusFYJpcm0DZ+l9wDlmikLMphSpig=;
-        b=Me6Zer1FvVRjP4l6xBz+28a4abMBJ6xewIlTAZFv/3dmltV8qMw19tJfvaaMZrbkte
-         h8LmtR6K3URCmsurR3dxD/KxRkKA3v4Pt6w/LzG+U7I1kuCG+1t8bwerJayFUUkKS/86
-         +9TGN5rcEHh3P0thXk410o3kcRTGbk9SBExfEhdkC9OOYMNPl1IGKCkIUW47J7zNH0e/
-         ADHfUloc41t9hQhqt3+canR5OW6rUq2TusWm/zQ9WMxm1sDepwPE2dMR1EdJobnbFpjp
-         +3hAeb1zkAfCfQ2rUIslyGfFMLiKeMnS3+H04r+CizdFq3y4YB3out55VsEGMKlUfM3s
-         AkSQ==
+        bh=rvtihaHxivKE3PMHS5cxFAXJM/gySM5JXhxx+AyDQWw=;
+        b=Lglk0lh60Y7d/gs8CKOwVg6UuUgn1hOG92KkFsu0MqmgeisvsFhZian5vdGXOj8dd3
+         zez4OqX6uCHqEn+wZDRflancNMBDDNIQOwf3ycN3enTZj2BIiUBNgFgfN4z+GBVzSEZG
+         nNVeZRiokoTVsbLseLcQnm5+taFKsZra1BmV77tLQWORDLlMOIjPtr1SLUcwhM5AflTe
+         Kh1Shh2lmmWxRpRe/ZooczoGsNeJfh+aWVUQP30Xr1FSEkFEzvdXoEbRffjDzd87rH8A
+         aznIoNToQ++KSJqyGLMQ4GIBabqfXk1Fxm7T72saQmH5npTPTmaPBjKL+JchwgB4i8ZS
+         lLpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=TcnHpwm5hb6AHEuusFYJpcm0DZ+l9wDlmikLMphSpig=;
-        b=orcE3lc875WgwjyyZbRYgm6r7E46JmVnV8/5+UNg45RZ7OUD+Bw/FaAieqTaJu2bci
-         uZQpv0Ue20uxXp+zanMVkXwe3Mkyd3fOk6+YMbQotnn6VcD7A+k9PxSKIzlsFGCSxcSe
-         wOPWJwGZYep83jNOKyyTiYsAetxdayj4n4cr28FN4pMUb1LTEsy8UlpkE6nzklD88KEW
-         t42FuUp9VbmZqtYcKRp/CRJEZJCoIO/Mv0n5L5H0bFXAc7chLsvgH1pdOLB/kFlUNiso
-         IIGAkXC6X+YoXDce/PUklXO8Womq1xHsIbyH38SBwgRlxMlWGImaSJaL/4NSWu8/J0UU
-         JquQ==
-X-Gm-Message-State: AOAM530pBUpAdk9sPsoOrBZE4ajHZF3Bvv92LJ93Xyvog+MyEVGnxDVT
-	4RPkfxW9W/4gQqpOEbZBLstkmpJh8pg=
-X-Google-Smtp-Source: ABdhPJy0WC7n6Or+AhLX9U39F/XoH8jilS2dMpOfH6LkL4+kmIsiDI2uEtFWQyohMWgNffgV21rcog==
-X-Received: by 2002:a17:90a:1c97:: with SMTP id t23mr12345436pjt.216.1595862634160;
-        Mon, 27 Jul 2020 08:10:34 -0700 (PDT)
+        bh=rvtihaHxivKE3PMHS5cxFAXJM/gySM5JXhxx+AyDQWw=;
+        b=UtqLPHGr1mb4dd/Xrq/pL5OehKFkIsksGkgKk5W3Ym4ilRO32bykI6XOEPymroRGgE
+         5C+lueVUlmGNN1lSqzmIR87PiShzuK1G/DQz6lTuSWexZ9UKz53Iju9TFH1GHfW9pYZ2
+         YJtV/cwDJu4ymcU7vV1vHlH6XKc6PpDafOogOlaG3b7qNM3xAg09DNBdoqbLFJCHK431
+         y3OsKd7zhCMmHnVPGd1Rh49gFzaDDH98c7FE0uGHCbdHEhvJRRDcyr3m/YS3LtqHnSZr
+         joQrdZJxxQ/Z+sFkNRIVEKZHpMJ6Nz+UtwTNMr9xewOgU58XwlRzBV3dk71Qc73AEBuz
+         0Hhw==
+X-Gm-Message-State: AOAM530xbnTXsIpnniVKkMDKH3CZDQdNbnanh+zEzQ2y6kHsyGc4tqIi
+	/+d/K4ZWTaicYjseTP5zEOzhP3z8hAo=
+X-Google-Smtp-Source: ABdhPJy6C87bhv5HD2HC9+NtOv3LCGY/s5qqRImD5o4Ba2r9yUd4qc57gS7HaAwHGbKoP0T8hPRveg==
+X-Received: by 2002:a17:90a:e60b:: with SMTP id j11mr19566975pjy.189.1595862636271;
+        Mon, 27 Jul 2020 08:10:36 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.32
+        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 08:10:33 -0700 (PDT)
+        Mon, 27 Jul 2020 08:10:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/18] oeqa/qemurunner: Add priority/nice information for running processes
-Date: Mon, 27 Jul 2020 05:09:48 -1000
-Message-Id: <693dc285164eb6cc88cc7174238fd59f0393b5c3.1595862361.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/18] classes/cmake: Fix host detection
+Date: Mon, 27 Jul 2020 05:09:49 -1000
+Message-Id: <59b8c49a54b8977ba2f3ed4f33f0fd3f7dd749d5.1595862361.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1595862361.git.steve@sakoman.com>
 References: <cover.1595862361.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-We're seeing failures due to system load. In theory we've set process
-nice levels which should compensate for this. Add debugging so we can
-find out if they're being correctly applied.
+Fixes the class to use HOST_OS and HOST_ARCH to set the cmake SYSTEM
+variables. The HOST variables should be used instead of
+TARGET_OS/TARGET_ARCH because we want to control how cmake compiles for
+where the package is going to run (the host), not what it will be
+generating output for (the target). The distinction is only really
+relevant when building canadian cross recipes.
 
+Also fix up the host OS detection to account for MinGW by setting
+CMAKE_SYSTEM_NAME to "Windows". This eliminates the need for meta-mingw
+to patch this in all the cmake recipes it builds.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1e4e345bba8216b9b5623682206a7dae7cad261c)
+(cherry picked from commit 01245db2893e39ffb5d4a00e4689f048d0698974)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py     | 2 +-
- meta/lib/oeqa/utils/qemutinyrunner.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/cmake.bbclass | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 01cbf52b8b..519aa9aa1e 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -264,7 +264,7 @@ class QemuRunner:
-                 % (self.runqemu.poll(), os.path.isfile(self.qemu_pidfile), str(qemu_pid), os.path.exists("/proc/" + str(qemu_pid))))
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 94ed8061bb..8243f7ce8c 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -70,15 +70,22 @@ CMAKE_BUILD_PARALLEL_LEVEL_task-install = "${@oe.utils.parallel_make(d, True)}"
+ OECMAKE_TARGET_COMPILE ?= "all"
+ OECMAKE_TARGET_INSTALL ?= "install"
  
-             # Dump all processes to help us to figure out what is going on...
--            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
-+            ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
-             self._dump_host()
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index 364005bd2d..5c92941c0a 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -138,7 +138,7 @@ class QemuTinyRunner(QemuRunner):
-         #
-         # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
-         #
--        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
-+        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command'], stdout=subprocess.PIPE).communicate()[0]
-         processes = ps.decode("utf-8").split('\n')
-         nfields = len(processes[0].split()) - 1
-         pids = {}
++def map_host_os_to_system_name(host_os):
++    if host_os.startswith('mingw'):
++        return 'Windows'
++    if host_os.startswith('linux'):
++        return 'Linux'
++    return host_os
++
+ # CMake expects target architectures in the format of uname(2),
+ # which do not always match TARGET_ARCH, so all the necessary
+ # conversions should happen here.
+-def map_target_arch_to_uname_arch(target_arch):
+-    if target_arch == "powerpc":
++def map_host_arch_to_uname_arch(host_arch):
++    if host_arch == "powerpc":
+         return "ppc"
+-    if target_arch == "powerpc64":
++    if host_arch == "powerpc64":
+         return "ppc64"
+-    return target_arch
++    return host_arch
+ 
+ cmake_do_generate_toolchain_file() {
+ 	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
+@@ -88,8 +95,8 @@ cmake_do_generate_toolchain_file() {
+ # CMake system name must be something like "Linux".
+ # This is important for cross-compiling.
+ $cmake_crosscompiling
+-set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).*/\1/'` )
+-set( CMAKE_SYSTEM_PROCESSOR ${@map_target_arch_to_uname_arch(d.getVar('TARGET_ARCH'))} )
++set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('HOST_OS'))} )
++set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('HOST_ARCH'))} )
+ set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
+ set( CMAKE_C_COMPILER_LAUNCHER ${OECMAKE_C_COMPILER_LAUNCHER} )
 -- 
 2.17.1
 
