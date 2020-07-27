@@ -1,122 +1,106 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web11.65375.1595882730148824078
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web11.66755.1595886907294653196
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 13:45:30 -0700
+ Mon, 27 Jul 2020 14:55:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=emJKWmZ8;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id q15so5831296uap.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 13:45:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cPA0utTh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id y3so16312659wrl.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 14:55:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SefkLhTpXWp9JOV1pDQ5v2tPL/U6rIh72cCXToR1SKM=;
-        b=emJKWmZ8QOzesvvoJPK1N2ABznL8YVqa5LkqyRbyPUyqwUUq9WCPWLFNEPmi9EN/08
-         Of5V1L8D8q73ffnA1ZbvH1psccOpRwOQIbtN1lm4She8GcB3ucZlpPn+1uwLjVgbWabM
-         NpCha0xHJRgunzI26pk/WomRN49Vamb8rSQng8jmcCJqv8B/j8ZFJRgOomUI6SjgkcA/
-         4H07Ra4Gx21MdPyxMycGDmkSux1lawdxF44mkSJC0HfC4L1YdUcjzxykRJA1wGeic75F
-         vQQOim0doLgZloMvhuctpnl90ZBisvTpwr4WYhfIf4UP+zTxoLPv/V9qdjeBkowInxad
-         hfqw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xI4Q/j0QmM51lhykpMqRP3jZqSKSZxJJhOtVRSSw2+8=;
+        b=cPA0utThrn7Jy2oHNMl/xMXi3eWLBjQPB8EHOC0zu2y4htx4P/Zo8GWLdEYvD5ggNl
+         lYQ+bLmkxo2DIc8kYrZHzmzmcThwC3KRI2Zhd0eAeq5gaEgU2iiWj/R4GH/4yOvGtc48
+         o1VZTe+Nmk/Hq0TEHGe3yNmj+edIOG9AZIJEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SefkLhTpXWp9JOV1pDQ5v2tPL/U6rIh72cCXToR1SKM=;
-        b=bh0XRh2ytn1OMqM035sBWlja64fFx8Xd6IK3P492ks2U9gYczupwwPJImhSbZj6KPJ
-         IYkqgD4t6R3vU5azLMvH9r3wTRUQZdOmDiKLhr3PjpK+Q6S5SheG7IVf0RKOfqJl1fWm
-         5EZuOYaLD+Ok2pMiUjaidWR93gRU+xUH0TO6JUoCQAuCJfBqqocth64pvFMJ1kdXB9fG
-         1Qpbj4CNVc8MjqTD7DSppJ5FL9CRgpAZXrTrWGFF8ijOXMWelp3H4SP0d8Pwa7tQ58wV
-         Ee9Zc+YJC2Ck+CwRnrDxXmtDfnUrYmQ9NiEy52LhoIpazKU9sbLWKCLg0kiof3tZeodG
-         rCRA==
-X-Gm-Message-State: AOAM5311rzQ7tAh3gS9DD8OFkyvfGxxLF1btw5eK29H2Bo2D3++ClxYR
-	7AKK8bVos3UfKRzdEl2SBaUgTekmGQE9ep9iJ4s=
-X-Google-Smtp-Source: ABdhPJzc81UVOY5pMjxk/vinSlJRYFoIlg1x5Wx43O2PEW5+5GRwKHqt1psC86vbnrCNL+6zaCDgaJmwVLEzCJcr99M=
-X-Received: by 2002:ab0:280b:: with SMTP id w11mr17848735uap.81.1595882729186;
- Mon, 27 Jul 2020 13:45:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xI4Q/j0QmM51lhykpMqRP3jZqSKSZxJJhOtVRSSw2+8=;
+        b=qKK0+UunAJubp+oTDz+/xkagUrwHFDWBNhtWJ1pnY5Wyda5J86RfmoX4wTTUsOh3z0
+         wH8v0YtNvQ5DmOHNUd6eeG/ifi3unq1HlbtbffZyWVSgebwV5IoE18sXmMKeSb7xnjcN
+         vvJKqFQFjXLOte5JlR+cvr7ak5VjFTwoBaFBDumhxygaqWn/vyPyRDqni4G1Vag62bbs
+         Cqhi6gB4OfbfnbTHYIMTQhAb6wl71K7GISGBZ0WXgke4BMqPu+dfL33LK8C4V9fkV53e
+         /EGLOQ04fhaGtNWWXNPve28nnlxTK+Lxr8wNkx3brDCOLxqxK03DvC4MsMWtaasJugYd
+         liBg==
+X-Gm-Message-State: AOAM5306/a5x33SuOxtlB96YorgN9WNBbcRsoUKuD9U/eZ0FJzDPVIXV
+	QNUF+gmtrMraBFldYiGMOYq9aPwzURsdXQ==
+X-Google-Smtp-Source: ABdhPJyH6HzJvDFQ57e9IGPiGR0U7Ugb05w1VUhJlOnpDp6+ae+a3Vxr6t4Iadv234YkYqeVXWTwBQ==
+X-Received: by 2002:adf:fe0c:: with SMTP id n12mr16859137wrr.48.1595886905019;
+        Mon, 27 Jul 2020 14:55:05 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c1c0:577:97eb:ef04])
+        by smtp.gmail.com with ESMTPSA id b63sm1111674wme.41.2020.07.27.14.55.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2020 14:55:01 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc: Fix mangled patch
+Date: Mon, 27 Jul 2020 22:55:01 +0100
+Message-Id: <20200727215501.319386-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <64ecaddb6eaae1bd569e299ffb03b13081efe50b.camel@iki.fi>
- <CAMKF1sqvmPNPs6Vsh111hmWt3Fd-7E_4XbyQqrrvfqGH=RKYsg@mail.gmail.com>
- <1625397D9F68474B.26462@lists.openembedded.org> <65325f6d63b5927ea8f0f7a167119d0ca8dcfd34.camel@iki.fi>
- <CAMKF1srEGQnkaZutfPaH5QS_vK8Yx0NeWvWo_10rOQpD7s8=0A@mail.gmail.com>
-In-Reply-To: <CAMKF1srEGQnkaZutfPaH5QS_vK8Yx0NeWvWo_10rOQpD7s8=0A@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 27 Jul 2020 13:45:16 -0700
-Message-ID: <CAJ86T=Wt=dB+WauhLgzUOgOc56dpq41TORuyvnhGXOS46z3pZw@mail.gmail.com>
-Subject: Re: [OE-core] Why disable NEON support in recipes if runtime detection works?
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Tanu Kaskinen <tanuk@iki.fi>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 26, 2020 at 7:01 AM Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, Jul 26, 2020 at 12:59 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
->> On Sun, 2020-07-26 at 09:27 +0300, Tanu Kaskinen wrote:
->> > On Mon, 2020-07-20 at 15:26 -0700, Khem Raj wrote:
->> > > On Sun, Jul 19, 2020 at 2:06 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
->> > > > Hi!
->> > > >
->> > > > If a recipe provides NEON optimizations, should those be explicitly
->> > > > disabled when "neon" is not in TUNE_FEATUERS, even if the software is
->> > > > able to detect NEON availability at runtime?
->> > > >
->> > > > I'm currently converting the pulseaudio recipe from Autotools to Meson,
->> > > > and the old Autotools build system supports disabling NEON
->> > > > optimizations but the Meson build system doesn't. So I'm wondering if I
->> > > > should add the missing feature to the Meson build system, or just let
->> > > > the runtime detection do its work.
->> > > >
->> > > > Is there ever need for disabling NEON optimizations if the CPU
->> > > > indicates NEON support? I guess it could be useful for testing the "no
->> > > > NEON" case (I today found out that dropping "neon" from TUNE_FEATURES
->> > > > doesn't remove NEON support from the qemuarm machine), but otherwise it
->> > > > seems unnecessary, unless there are CPUs that advertise NEON support
->> > > > but don't actually support it.
->> > > >
->> > >
->> > > I think the issue will result in a compiler error perhaps when neon is
->> > > disabled via
->> > > compiler command line which would be the case when neon is not in TUNE_FEATURES
->> > > the compiler might warn or error out when it finds neon instructions
->> > > being compiled via inline
->> > > assembly.  you just can try passing something like -mfpu=vfpv3d16 or
->> > > some such and see if
->> > > compiler/assembler complains during build, if not then perhaps its fine.
->> >
->> > If the last -mfpu is something else than neon, then including
->> > arm_neon.h will succeed but compiling neon code will fail.
->> >
->> > I did some experiments, and what I found was that when I remove neon
->> > from TUNE_FEATURES, OE adds -mfpu=vfp to CC, not CFLAGS, so it's very
->> > early in the compiler command line. PulseAudio adds -mfpu=neon to
->> > CFLAGS when building neon code, and the last -mfpu wins, so the neon
->> > code gets built without errors.
->> >
->> > The configure check in PulseAudio only checks that the compiler accepts
->> > -mfpu=neon and #include <arm_neon.h>, it doesn't try to compile any
->> > actual neon code. This means that if the user adds -mfpu=vfp (or other
->> > non-neon) to CFLAGS rather than CC, configure will pass but building
->> > will fail. Is this something to guard against? A default qemuarm build
->> > doesn't do this, so I don't know if this ever happens in OE.
->> >
->> > I don't know yet how Meson behaves, I'll continue testing...
->>
->> I tested Meson now. Meson too enables Neon even if -mfpu=vfp is in CC.
->> Unlike Autotools, Meson doesn't fail if -mfpu=vfp is added to CFLAGS (I
->> tried CFLAGS_append = " -mfpu=vfp" in the pulseaudio recipe). Neon is
->> enabled in any case.
->>
->> So, Meson seems pretty safe, although I guess it would be nice not to
->> override the user's -mfpu setting. I think this isn't a big problem is
->> practice, since runtime detection works.
->>
->> I haven't tested with a compiler that truly can't build Neon code,
->> because I don't know how to do that.
+To quote Zhuang <qiuguang.zqg@alibaba-inc.com>:
+"""
+A few days ago, I tried to compile a gcc plugin with the toolchain from poky sdk.
+It failed with errors about missing header files such as backend.h etc.
 
-Presumably set a -mcpu=XXX to something which can never support NEON?
+After investigation, I found that the problem was brought by a gcc patch:
+0012-gcc-Fix-argument-list-too-long-error.patch (which is considered derived from the original patch)
 
-> Right. Cpu implementations without neon do exist
->  But they are perhaps rare enough and may not use the package too so chances are slim that we encounter this issue
+- headers=`echo $(PLUGIN_HEADERS) $$(cd $(srcdir); echo *.h *.def) | tr ' ' '\012' | sort -u`; \
++ headers="$(sort $(PLUGIN_HEADERS) $$(cd $(srcdir); echo *.h *.def))"; \
 
-So what's the conclusion? That CPU's without NEON are so rare that OE
-doesn't need to care about them?
+It changes the commands of install-plugin, making the sorting taken effect before the shell globs.
+Thus results in the header files under gcc $(srcdir) being not installed.
+
+By checking log.do_install, we can find that the `headers=' statement to run is incorrect and will not work as expected:
+headers="$(cd *.def) *.h ../../../../../../../work-shared/gcc-10.1.0-r0/gcc-10.1.0/gcc/../include/ansidecl.h ...
+
+As the patch says,
+"The PLUGIN_HEADERS is too long before sort, so the "echo" can't handle it, ..."
+my suggestion is that we can simply take care of PLUGIN_HEADERS
+using the original proposed sort.
+"""
+
+This fixes the gcc patch as proposed as it does appear its been
+broken over time.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../0012-gcc-Fix-argument-list-too-long-error.patch         | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0012-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc-10.1/0012-gcc-Fix-argument-list-too-long-error.patch
+index acbd75f139e..88e1715b5cc 100644
+--- a/meta/recipes-devtools/gcc/gcc-10.1/0012-gcc-Fix-argument-list-too-long-error.patch
++++ b/meta/recipes-devtools/gcc/gcc-10.1/0012-gcc-Fix-argument-list-too-long-error.patch
+@@ -17,6 +17,10 @@ $(sort list) doesn't need this.
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
++RP: gcc then added *.h and *.def additions to this list, breaking the original
++fix. Add the sort to the original gcc code, leaving the tr+sort to fix the original
++issue but include the new files too as reported by Zhuang <qiuguang.zqg@alibaba-inc.com>
++
+ Upstream-Status: Pending
+ ---
+  gcc/Makefile.in | 2 +-
+@@ -31,7 +35,7 @@ index a67d2cc18d6..480c9366418 100644
+  # files. All other files are flattened to a single directory.
+  	$(mkinstalldirs) $(DESTDIR)$(plugin_includedir)
+ -	headers=`echo $(PLUGIN_HEADERS) $$(cd $(srcdir); echo *.h *.def) | tr ' ' '\012' | sort -u`; \
+-+	headers="$(sort $(PLUGIN_HEADERS) $$(cd $(srcdir); echo *.h *.def))"; \
+++	headers=`echo $(sort $(PLUGIN_HEADERS)) $$(cd $(srcdir); echo *.h *.def) | tr ' ' '\012' | sort -u`; \
+  	srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`; \
+  	for file in $$headers; do \
+  	  if [ -f $$file ] ; then \
+-- 
+2.25.1
+
