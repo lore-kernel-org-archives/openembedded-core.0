@@ -1,94 +1,122 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web10.63901.1595878111221189293
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web11.65375.1595882730148824078
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 12:28:31 -0700
+ Mon, 27 Jul 2020 13:45:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=i5si69yq;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.195, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f195.google.com with SMTP id q6so18518297ljp.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 12:28:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=emJKWmZ8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f52.google.com with SMTP id q15so5831296uap.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 13:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=WH6Ft8V1ci48Re2xHQQokzLtURtXKibFrmXf/+c1XjI=;
-        b=i5si69yqpPNcFPtVeQdQyCJehxrcbFnqYvfojAS0C+H7XlIBRp95UEDsvAuRxpu4X/
-         bb8rJQ0SjMQBx+imUU7fQjbhxo8HuQshu4O3bu3FRUFRa4V7cr8kPvO8t4dkQ9mpHeIi
-         RXcn6+9j2f+JW0PNgS8sPnYRODdu73bB0iSRnfjXhRbUV6tVaHrnF4LKXMGgJYjAB1no
-         6F34sHWKLuiN5gWH3YJ7ERd44hQ/XKhRPCW39iHgMgamtmvCr2E5MqHCLr/u0HQC94tb
-         ZFaoXqHIPt73Q7wP+RurqBq3IU9+FtJYmVdTy1ai3NRqckv+ZmfLu797ZvN0C4n5eZVZ
-         Dp4Q==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SefkLhTpXWp9JOV1pDQ5v2tPL/U6rIh72cCXToR1SKM=;
+        b=emJKWmZ8QOzesvvoJPK1N2ABznL8YVqa5LkqyRbyPUyqwUUq9WCPWLFNEPmi9EN/08
+         Of5V1L8D8q73ffnA1ZbvH1psccOpRwOQIbtN1lm4She8GcB3ucZlpPn+1uwLjVgbWabM
+         NpCha0xHJRgunzI26pk/WomRN49Vamb8rSQng8jmcCJqv8B/j8ZFJRgOomUI6SjgkcA/
+         4H07Ra4Gx21MdPyxMycGDmkSux1lawdxF44mkSJC0HfC4L1YdUcjzxykRJA1wGeic75F
+         vQQOim0doLgZloMvhuctpnl90ZBisvTpwr4WYhfIf4UP+zTxoLPv/V9qdjeBkowInxad
+         hfqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=WH6Ft8V1ci48Re2xHQQokzLtURtXKibFrmXf/+c1XjI=;
-        b=A+Ou3GUrKb+eAAUGLLwKRX2WSC5oZghoYYiDqKC+9DYab1SrDlsTXtWB7Fs3Xg8SBJ
-         asmZAvmZTlcSBLki71qqPJNhguuiZ8jpjV62KGXuCRKME5kHztUYa/bMG2eF+0jAiT6a
-         xMbBLNkD1gi+/sTt8tOkKuXfCwBqSddXjWj7xepIo7Ov15rhG9dfPIiFxa/rru6acsQj
-         KWYlVV6298U09McZM3Yc959VKkehE7THD2VYEe5tpdhNEQqXt67Gz7vaqYqRIczLk7Mb
-         WwYO4ZdS6FP6VQFrb1ZWVzpmlHGrDO8lXRqVJ4OtLhtlEmHr1pguJa+FSivwJJh0KjYD
-         VgVw==
-X-Gm-Message-State: AOAM533V3jwbqGvKUIrhhERZ6A6i0k+67w6Da47KsQ4gTDyNSxPQ2VqM
-	FSv4LnSrcv+OWDRKXIVYNXoKf7Rq/LY=
-X-Google-Smtp-Source: ABdhPJx/hdH74fQj1z+ANVL2jR8mmtY6PLdYA7yeyBqDT1EqIPDtHyy693eJwewiW7fRlHxg+jh5RQ==
-X-Received: by 2002:a2e:8699:: with SMTP id l25mr11703593lji.81.1595878108587;
-        Mon, 27 Jul 2020 12:28:28 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from [192.168.0.8] (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id a14sm1152976ljb.29.2020.07.27.12.28.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2020 12:28:27 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] re2c: update to 2.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200726194213.351746-1-open.source@oleksandr-kravchuk.com>
- <ee5491c9de9fba8b39c233b648afd7b55b061eec.camel@linuxfoundation.org>
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-Message-ID: <5f1545fe-d15e-177a-470d-b5b495fbae40@oleksandr-kravchuk.com>
-Date: Mon, 27 Jul 2020 21:28:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SefkLhTpXWp9JOV1pDQ5v2tPL/U6rIh72cCXToR1SKM=;
+        b=bh0XRh2ytn1OMqM035sBWlja64fFx8Xd6IK3P492ks2U9gYczupwwPJImhSbZj6KPJ
+         IYkqgD4t6R3vU5azLMvH9r3wTRUQZdOmDiKLhr3PjpK+Q6S5SheG7IVf0RKOfqJl1fWm
+         5EZuOYaLD+Ok2pMiUjaidWR93gRU+xUH0TO6JUoCQAuCJfBqqocth64pvFMJ1kdXB9fG
+         1Qpbj4CNVc8MjqTD7DSppJ5FL9CRgpAZXrTrWGFF8ijOXMWelp3H4SP0d8Pwa7tQ58wV
+         Ee9Zc+YJC2Ck+CwRnrDxXmtDfnUrYmQ9NiEy52LhoIpazKU9sbLWKCLg0kiof3tZeodG
+         rCRA==
+X-Gm-Message-State: AOAM5311rzQ7tAh3gS9DD8OFkyvfGxxLF1btw5eK29H2Bo2D3++ClxYR
+	7AKK8bVos3UfKRzdEl2SBaUgTekmGQE9ep9iJ4s=
+X-Google-Smtp-Source: ABdhPJzc81UVOY5pMjxk/vinSlJRYFoIlg1x5Wx43O2PEW5+5GRwKHqt1psC86vbnrCNL+6zaCDgaJmwVLEzCJcr99M=
+X-Received: by 2002:ab0:280b:: with SMTP id w11mr17848735uap.81.1595882729186;
+ Mon, 27 Jul 2020 13:45:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ee5491c9de9fba8b39c233b648afd7b55b061eec.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <64ecaddb6eaae1bd569e299ffb03b13081efe50b.camel@iki.fi>
+ <CAMKF1sqvmPNPs6Vsh111hmWt3Fd-7E_4XbyQqrrvfqGH=RKYsg@mail.gmail.com>
+ <1625397D9F68474B.26462@lists.openembedded.org> <65325f6d63b5927ea8f0f7a167119d0ca8dcfd34.camel@iki.fi>
+ <CAMKF1srEGQnkaZutfPaH5QS_vK8Yx0NeWvWo_10rOQpD7s8=0A@mail.gmail.com>
+In-Reply-To: <CAMKF1srEGQnkaZutfPaH5QS_vK8Yx0NeWvWo_10rOQpD7s8=0A@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Mon, 27 Jul 2020 13:45:16 -0700
+Message-ID: <CAJ86T=Wt=dB+WauhLgzUOgOc56dpq41TORuyvnhGXOS46z3pZw@mail.gmail.com>
+Subject: Re: [OE-core] Why disable NEON support in recipes if runtime detection works?
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Tanu Kaskinen <tanuk@iki.fi>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 27/07/2020 21:22, Richard Purdie wrote:
-> On Sun, 2020-07-26 at 21:42 +0200, Oleksandr Kravchuk wrote:
->> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
->> ---
->>   meta/recipes-support/re2c/{re2c_1.3.bb => re2c_2.0.bb} | 6 ++----
->>   1 file changed, 2 insertions(+), 4 deletions(-)
->>   rename meta/recipes-support/re2c/{re2c_1.3.bb => re2c_2.0.bb} (74%)
+On Sun, Jul 26, 2020 at 7:01 AM Khem Raj <raj.khem@gmail.com> wrote:
+> On Sun, Jul 26, 2020 at 12:59 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+>> On Sun, 2020-07-26 at 09:27 +0300, Tanu Kaskinen wrote:
+>> > On Mon, 2020-07-20 at 15:26 -0700, Khem Raj wrote:
+>> > > On Sun, Jul 19, 2020 at 2:06 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+>> > > > Hi!
+>> > > >
+>> > > > If a recipe provides NEON optimizations, should those be explicitly
+>> > > > disabled when "neon" is not in TUNE_FEATUERS, even if the software is
+>> > > > able to detect NEON availability at runtime?
+>> > > >
+>> > > > I'm currently converting the pulseaudio recipe from Autotools to Meson,
+>> > > > and the old Autotools build system supports disabling NEON
+>> > > > optimizations but the Meson build system doesn't. So I'm wondering if I
+>> > > > should add the missing feature to the Meson build system, or just let
+>> > > > the runtime detection do its work.
+>> > > >
+>> > > > Is there ever need for disabling NEON optimizations if the CPU
+>> > > > indicates NEON support? I guess it could be useful for testing the "no
+>> > > > NEON" case (I today found out that dropping "neon" from TUNE_FEATURES
+>> > > > doesn't remove NEON support from the qemuarm machine), but otherwise it
+>> > > > seems unnecessary, unless there are CPUs that advertise NEON support
+>> > > > but don't actually support it.
+>> > > >
+>> > >
+>> > > I think the issue will result in a compiler error perhaps when neon is
+>> > > disabled via
+>> > > compiler command line which would be the case when neon is not in TUNE_FEATURES
+>> > > the compiler might warn or error out when it finds neon instructions
+>> > > being compiled via inline
+>> > > assembly.  you just can try passing something like -mfpu=vfpv3d16 or
+>> > > some such and see if
+>> > > compiler/assembler complains during build, if not then perhaps its fine.
+>> >
+>> > If the last -mfpu is something else than neon, then including
+>> > arm_neon.h will succeed but compiling neon code will fail.
+>> >
+>> > I did some experiments, and what I found was that when I remove neon
+>> > from TUNE_FEATURES, OE adds -mfpu=vfp to CC, not CFLAGS, so it's very
+>> > early in the compiler command line. PulseAudio adds -mfpu=neon to
+>> > CFLAGS when building neon code, and the last -mfpu wins, so the neon
+>> > code gets built without errors.
+>> >
+>> > The configure check in PulseAudio only checks that the compiler accepts
+>> > -mfpu=neon and #include <arm_neon.h>, it doesn't try to compile any
+>> > actual neon code. This means that if the user adds -mfpu=vfp (or other
+>> > non-neon) to CFLAGS rather than CC, configure will pass but building
+>> > will fail. Is this something to guard against? A default qemuarm build
+>> > doesn't do this, so I don't know if this ever happens in OE.
+>> >
+>> > I don't know yet how Meson behaves, I'll continue testing...
 >>
->> diff --git a/meta/recipes-support/re2c/re2c_1.3.bb b/meta/recipes-support/re2c/re2c_2.0.bb
->> similarity index 74%
->> rename from meta/recipes-support/re2c/re2c_1.3.bb
->> rename to meta/recipes-support/re2c/re2c_2.0.bb
->> index e9053acdf6..b73b024072 100644
->> --- a/meta/recipes-support/re2c/re2c_1.3.bb
->> +++ b/meta/recipes-support/re2c/re2c_2.0.bb
->> @@ -5,10 +5,8 @@ SECTION = "devel"
->>   LICENSE = "PD"
->>   LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
->>   
->> -SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz \
->> -           file://CVE-2020-11958.patch \
->> -"
->> -SRC_URI[sha256sum] = "f37f25ff760e90088e7d03d1232002c2c2672646d5844fdf8e0d51a5cd75a503"
->> +SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
->> +SRC_URI[sha256sum] = "89a9d7ee14be10e3779ea7b2c8ea4a964afce6e76b8dbcd5479940681db46d20"
->>   UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
->>   
->>   BBCLASSEXTEND = "native nativesdk"
-> The above patch wasn't git rm'd. I fixed it as I merged it.
->
-> Cheers,
->
-> Richard
+>> I tested Meson now. Meson too enables Neon even if -mfpu=vfp is in CC.
+>> Unlike Autotools, Meson doesn't fail if -mfpu=vfp is added to CFLAGS (I
+>> tried CFLAGS_append = " -mfpu=vfp" in the pulseaudio recipe). Neon is
+>> enabled in any case.
+>>
+>> So, Meson seems pretty safe, although I guess it would be nice not to
+>> override the user's -mfpu setting. I think this isn't a big problem is
+>> practice, since runtime detection works.
+>>
+>> I haven't tested with a compiler that truly can't build Neon code,
+>> because I don't know how to do that.
 
-Thank you, Richard.
+Presumably set a -mcpu=XXX to something which can never support NEON?
 
+> Right. Cpu implementations without neon do exist
+>  But they are perhaps rare enough and may not use the package too so chances are slim that we encounter this issue
+
+So what's the conclusion? That CPU's without NEON are so rare that OE
+doesn't need to care about them?
