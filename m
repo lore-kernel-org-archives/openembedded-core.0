@@ -1,71 +1,53 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.52213.1595843467368014325
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web11.52836.1595847173031079398
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 02:51:07 -0700
+ Mon, 27 Jul 2020 03:52:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CThPZCKr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id 9so13542213wmj.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 02:51:07 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=CC5HR1H3;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f196.google.com with SMTP id r19so16657489ljn.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 03:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=VirhIP2IVlcd6UmBcN1pgZ2m1xnAjxXrPcNs8QgQQRc=;
-        b=CThPZCKrHMgWIqXIvEhDLV3JctVPvgkzXENzM1oGNcKladCcGBBp14Ouowb0bffgzR
-         6SMKoYkUAgLhrWxwb4/RhjH6+x4MUJUY+KbOW3osVAw0i2U7sL5u2FCl6EPixUBwm27k
-         1+zS9b8s0OhfYzXsTv2LhMhiFNzmShnMCJjF8=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K2v/Z2/MK0iffzVR0IYki9ILbdaV0Sp+oyAc9ZhF2I8=;
+        b=CC5HR1H3SsbUFMbWDNVfVSL0tXSO16wAucVqjytqm7gPBF5winzGpDSRt48RIw87bv
+         n6OUKGA8snrMeeTqnHqy6TOgg0V4eOIuIwpDmOgZMSEULUgCMcakH8b+s90M4XHIRiEi
+         wFSHLpg4vO8+9WGB9Xb0XX+qCgHNpbUBHTrNzeUdog7tllgjL0r78zOQJBRH5KjZW5Ox
+         G4SdM3JYBEYP+ijUu5wyRPeoW9KXHeRM5wjk55q+puYg4uxAeCLSMkCSZ51YZEp+/98O
+         UsnEbBOhPgRfPLO30DIrZSKvVzGcKeQ5t2xzGHtq1ZURB0Bz/BZe9JqoKz5OhiIqmqAZ
+         Ccsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=VirhIP2IVlcd6UmBcN1pgZ2m1xnAjxXrPcNs8QgQQRc=;
-        b=aIVYa5q8SLhancybRrMjkcMG3CyBAnbuKcK21RoyJSfRxmyNTNl6jiWRiQ4jqRgLrA
-         WSjEquNZbbAhJb7zxgSYGZzTaLKweVeUOKdGfD+2jrSu97r7ZUeA0SRJz3VOYOVLStA5
-         49iuliQBb0RKna3s1tSqz6ds0AYn8M+ZVCGbLHtRcEGrpM3yEqoj+57rLeuLGEOzlB0F
-         0ZRdaO3XBohObk695jbTZtYJpMNL3jqCxVvmjra57b3kfxH7EZu6NjCSjfJsOJHeGerB
-         CWxB2BDvsyx5mRaj7USE1at7kqulk7EW2l77igKWznRRI4HMhEfwM1FBJy8OhrD+3cY4
-         Kprw==
-X-Gm-Message-State: AOAM532n8JghazT6Xm7q5uo2EDqbM7d9IrU4cTp6hQPPTxnmFxMHFfkC
-	NixrSuEg7/IzKeRyNY0FXkKEuA==
-X-Google-Smtp-Source: ABdhPJztUnW2VfiTC7GBvt0vHVytEbueivuzsCESPqBzP7d/rkIPN7hDWf1FEpfCD+VG71hDR8f3qA==
-X-Received: by 2002:a1c:b007:: with SMTP id z7mr18937224wme.37.1595843465827;
-        Mon, 27 Jul 2020 02:51:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.0.f.e.b.e.7.9.7.7.5.0.0.c.1.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c1c0:577:97eb:ef04])
-        by smtp.gmail.com with ESMTPSA id s19sm13155482wrb.54.2020.07.27.02.51.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 02:51:03 -0700 (PDT)
-Message-ID: <037aa5161aaae9f91a2a92877bcc9edd5739051e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] adwaita-icon-theme: has a dependancy to gtk3+ add check
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jul 2020 10:51:02 +0100
-In-Reply-To: <20200726182135.477-1-akuster808@gmail.com>
-References: <20200726182135.477-1-akuster808@gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K2v/Z2/MK0iffzVR0IYki9ILbdaV0Sp+oyAc9ZhF2I8=;
+        b=CdCy/fgMN0Q1YQw8jbawyrM9jrNgp4gX9HOWxjSgq11JIH5VbUVQHTnusyHtN4x7I+
+         aQnJ1/GVH/St0OCJVB3YREFUw5clqiviLbPzmeOWd6fMEBNulUUDjSCyFqfSl920gZ9n
+         C4cBx+NyeCPpzUnKRlyIIG2eS0wUSMAEKJXsp8Hq1IkTgvVwuJu7iUpWL7KHQjfVysjc
+         2yJSpXfmTWJxseoEuWzCgI8w0DEf/SiZc4hN8WKmkR02zU5Bkd0rEnvFR6FacuD703Bm
+         lW9RBFvp1FgKhTpC79MsY2bXDMMpRxa8GUUBtO0wXbjE9GV6nkFflBi/pyu8VNTZxYXw
+         im6w==
+X-Gm-Message-State: AOAM533Ie8T0f1FIuXZ6o/sHLKvD233jX3WGPr7A0JCsQo5j1zuR1VxT
+	8tY+gr2yEQ9lBYdnZFl3hMxZGOHunI1msOP2F+fwqA==
+X-Google-Smtp-Source: ABdhPJyGBA4iy3OSceoq2aE9DH/QbL8AC42S26L6QFXZDSdTuRvxqWC/KU4tDQdausURppSl2b7J1TOX10pgdxQMm/Y=
+X-Received: by 2002:a2e:9908:: with SMTP id v8mr9634100lji.186.1595847171027;
+ Mon, 27 Jul 2020 03:52:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200726015614.2875-1-ruslan@babayev.com>
+In-Reply-To: <20200726015614.2875-1-ruslan@babayev.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 27 Jul 2020 11:52:40 +0100
+Message-ID: <CAAnfSTvFPFsSzimALDEGWQCrMRszViYWT7kqBbs3UrgRrfAN3w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meson: use the more specific cpu arch in cross file
+To: Ruslan Babayev <ruslan@babayev.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-07-26 at 11:21 -0700, akuster wrote:
-> fixes:
-> 
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing PROVIDES 'gtk+3' (but /.../poky/meta/recipes-
-> gnome/gnome/adwaita-icon-theme_3.36.1.bb DEPENDS on or otherwise
-> requires it)
-> gtk+3 was skipped: one of 'wayland x11' needs to be in
-> DISTRO_FEATURES
-> 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Sun, 26 Jul 2020 at 02:56, Ruslan Babayev <ruslan@babayev.com> wrote:
+> 'cpu' unlike 'cpu_family' must be a more specific subtype for the CPU.
 
-There is a patch in master-next which I think supersedes this?
+Can you elaborate here some more?
 
-Cheers,
-
-Richard
-
+Ross
