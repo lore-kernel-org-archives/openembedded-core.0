@@ -1,173 +1,141 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.59549.1595867138569153432
+Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.78])
+ by mx.groups.io with SMTP id smtpd.web10.62514.1595874393556816925
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 09:25:39 -0700
+ Mon, 27 Jul 2020 11:26:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XAydmahE;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.65, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f65.google.com with SMTP id d6so3862940ejr.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 09:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Ih3ZxQdp4SYeh29LrM1FNfBx4A0GbDgcaFHBGkAVa3E=;
-        b=XAydmahEyZ2HYCR7bqbA60akejaRbRpe1jaFzxCNEOlMwFjMgGjQtEj+TguIhmYPw9
-         tCD1NGyf3Qko0D/tSDtaPdp/h1MtVikl083pUtCjg/0764R8g2XKUDcPYQNLXM4Azysp
-         Kdp90gUaPl12VcE8NDZFJA5w51xfKvCWXWPn2WyhREspr/xlZLcY2IlvbarAbAJkLFFJ
-         dP9i1++NxC729QSlp2MwjFQmJU6Tp2fgMd1Zn+G1EMsKr6BamRQBiG9s/2yjSM/jU6Mc
-         E4nBqwwDSJaQ9N9ObzyNNyPbJ0YVGJJUXnoZJtl1YiQix1Lpovq91vUWTqlmzeNm8HUh
-         JCCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Ih3ZxQdp4SYeh29LrM1FNfBx4A0GbDgcaFHBGkAVa3E=;
-        b=eWcX+9rZdBDUjjG8lnmcQkAj22QcVURoIJj9Ily7P8Ojo5XPKqIlEvhkNKnFVtHgVr
-         7h82Nj+xMGAReo0oUrG0lhp+pYfv1eG48C4l0JtN1DSYFL55vITT7hIVpX6wQPFhH7ki
-         1bvwdlLZzmXi7+ZO8zeYXExMTo2a0ZVbba6ug6QDzHtlB/8T+J+tldJC79R40Q6ncBDI
-         gC9c8TwAkus3xp24f/jCKkgRRMVFlUK6YWyM319SujYuYylNrk9+3J4tOmGhmEuHK7jn
-         apfim/hQGJLRg6numY7WLMVW3Tn5ky/J4ljpzbc6GbO6tYkf8NGFsuJVb7zcKUntWgE3
-         zhFA==
-X-Gm-Message-State: AOAM5328R9GeZ9/cWB2Uaq8F6udJMxJHZwK+i62EoNMfBxqDevSYBXKh
-	8xBATfG2J9EES4hWzJ3Lke8QDf6AaRf257YGRzX0kQ==
-X-Google-Smtp-Source: ABdhPJyjZxnmUBn0ttmaUUijVEqZRZ1D8VuMRbBqnhmkkAMOCtPIq/k/Ry5D6Gqaf4SCzxPDSBQ+6qt9JSlzG9GelmM=
-X-Received: by 2002:a17:906:6055:: with SMTP id p21mr3346193ejj.173.1595867137010;
- Mon, 27 Jul 2020 09:25:37 -0700 (PDT)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=YvcN1mgj;
+ spf=pass (domain: outlook.com, ip: 40.92.51.78, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KM9o9PnVIr8WfGNmM2W8VGfxV93XzYdBSKvnaPHizN+zY/tTEVpW3E8yX3ESyJFcdv0e954L97+7JSebhFYR5ZuragBRb/mMKVXZpLccCAdFaiNVBDQu8Gbt4MMhngOcjTykrnlm/wQUab8hNBe1EQM7ObglI0/UieRXjgRZ8pZoIexrFxHn7jlu5ALwz8ybwDhc8vLHIN2MxewVXVmnkFs/Q9BJ4kbhcT8saVO9ZiChEwz7M7Tm/zhA+w4RF5QEKJ84BXlDZHptya63N6eXKEP2wxQshm27fZ4/NXsnpczr56RLMIgE//vVF595kxS5OJx5VWdQK4sHQGsEezEYIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BKaJOAKsuOgnuGQmlzvESSMmTd68+TmdZPcvuQphrhc=;
+ b=jwA0oWGbb23zvF5NRPEMUaSaFb9aHlyJJ8+FXOONUKQR5KDF3lgE5spx+2AlC6Mm+GNSNdCrnCHPJYD0r3VnbGYUp40Kg9fbN7OnEDQtFmUKH+Q5sCgK6qxrixMXMDcj1dkVzJKyfTjtxo35O7BV1UKDArtfiCEwKBBVGdQweiEaB0fjoTDlnrnOTQRMCNLWjK1JMDRD6NuznidKK3ST1m9j0Jbc9Qr7aMhPqrg/zAB2yF+9iDwLgx57MmEwYSBMv2WOC3PHh6B0Vw7YGDG1Gh2QnLPH7pYVdkelXOCyKyEUeQT73eob5baaAEKISR8Ec8aqq2FpXQPYutlnSH5Bbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BKaJOAKsuOgnuGQmlzvESSMmTd68+TmdZPcvuQphrhc=;
+ b=YvcN1mgjABlSaAHaVFWsbNVKm2qoaa9Pj5c5TTg31rE0FmDYb+t2Y9ile1AavGcD2Wg9IhDkxU7HymC9XsBkXaNMds4TMwMI6dPcgvVOR+3WbH4CvFGHwZmKsUKyavclMOyJ9+yT8z6w+tzAZJFcVgDUKr/pQTlohG1DvyD8BJvTXlFU3YJ6YG2a14p1vuSZaFWCnzSsF6Dnb27dHV8xCjAeZowZvR+sHisL25sCLWGkH97y2qS/04Ya76xXJGyDqKEVPmJat/J/9+NyQ1c3+eqr8bylRHoo5L8oEm7okCbPevWBEtB/pHc3GF3BEpJZYqWNJwFuL4NXLmInVktuuA==
+Received: from VI1EUR06FT056.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc37::49) by
+ VI1EUR06HT235.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc37::397)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.31; Mon, 27 Jul
+ 2020 18:26:31 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:fc37::51) by VI1EUR06FT056.mail.protection.outlook.com
+ (2a01:111:e400:fc37::162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.10 via Frontend
+ Transport; Mon, 27 Jul 2020 18:26:31 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:A29B7FB21A958E800E660FBB11A911F8510146AEF5249AEF2B5438E9EC73E180;UpperCasedChecksum:40C41374146D5AAFEA59C9A9B3478230BF1339F73C1B5570FC15C645351027AB;SizeAsReceived:8794;Count:49
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722%5]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
+ 18:26:31 +0000
+Subject: Re: [OE-core] [PATCH v2] cve-update: handle baseMetricV2 as optional
+To: openembedded-core@lists.openembedded.org
+References: <162552C22941F232.11956@lists.openembedded.org>
+Cc: akuster808@gmail.com, steve@sakoman.com, anuj.mittal@intel.com
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM7PR05MB68819E7C05243F00A918121DA8720@AM7PR05MB6881.eurprd05.prod.outlook.com>
+Date: Mon, 27 Jul 2020 20:26:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <162552C22941F232.11956@lists.openembedded.org>
+X-ClientProxiedBy: AM7PR04CA0007.eurprd04.prod.outlook.com
+ (2603:10a6:20b:110::17) To AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <03a6bf81-49da-f103-69cd-8fa269986811@outlook.com>
 MIME-Version: 1.0
-References: <cover.1595862361.git.steve@sakoman.com> <1eb5483fea909177dd4f510ebcb32084d77897b3.1595862361.git.steve@sakoman.com>
- <CALbNGRR-rF1A0ej3R7T+VbX1VuC5vixi_-Rr4myFjYrwjV1JZA@mail.gmail.com>
-In-Reply-To: <CALbNGRR-rF1A0ej3R7T+VbX1VuC5vixi_-Rr4myFjYrwjV1JZA@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 27 Jul 2020 06:25:24 -1000
-Message-ID: <CAOSpxdaDqwnVhbzuZO87b_kb-KqBOtNbohRtd3Hr_SDTnPtG0A@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 14/18] core: glib-2.0: fix requested libmount/mkostemp/selinux not being linked in
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.85.53) by AM7PR04CA0007.eurprd04.prod.outlook.com (2603:10a6:20b:110::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22 via Frontend Transport; Mon, 27 Jul 2020 18:26:30 +0000
+X-Microsoft-Original-Message-ID: 
+ <03a6bf81-49da-f103-69cd-8fa269986811@outlook.com>
+X-TMN: [uvmsn10dykwNTklCO5oJ4vmMWT3CKvZ0]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 49
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 5cec8e44-4052-4501-d8d3-08d8325a9544
+X-MS-TrafficTypeDiagnostic: VI1EUR06HT235:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Op5xM9l7W5AHDZjTdkWavZbGKm6Gqt2n6H+ctnGixLSB7R5UYdzuFENHptPJaWfN7qHcgf4qZsbYGaQdkYo2zHnYQdiSw1q2uc8cyrZR7umKapF6x7xFJRQIXIwFl9bw1Yc6gcS5G4SfpO7SnloBzPAUtm1bMXb9L9SMAdTKBy+JX5yGCoHHJZ7fwWDwlX58jnvus+mws/DwvKLhPu//C1AY5UtE3YfhH5TS30L2eH4NMhjA+wLpaAXW78If79Fx
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	pwj8NHx8ENR+I+X1SAAMbWjtgWqwdXamdan9xcotnCBEHzo9wM7qLsIGa3KtuyefqlkmxOSgdoQ0XcFDpj4ot6Lgxoo3NBRdgequEnEvLjasz8jVIjhRIR/xiWwRUKjRdrjv96Q01HRvOZq9TJ1VhA==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cec8e44-4052-4501-d8d3-08d8325a9544
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 18:26:30.9520
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VI1EUR06FT056.eop-eur06.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR06HT235
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 27, 2020 at 6:14 AM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
+Hi all,
 
-> If I am not mistaken, the patch
-> "meson.bbclass: avoid unexpected operating-system names"
-> made it into dunfell so this patch does not change anything (it should
-> do no harm either)
+please consider this patch to be backported to dunfell/zeus and warrior.
+Master-rev: bbefe04a622e166d95093d5127c316de91b27d20
 
-You are correct!  I didn't parse the commit message properly when I
-took this patch.
+Thanks
+Konrad
 
-I'll drop this patch from the final pull request.
-
-Thanks for reviewing it, I really appreciate your help!
-
-Steve
-
-
-> Andreas
-> > To fix just the glib issue, instances of host_system =3D=3D 'linux' ar=
-e patched
-> > locally.
-> >
-> > The patch is marked as Upstream-Status: Inappropriate as it is rendere=
-d
-> > unnecessary for OE releases newer than Dunfell.
-> >
-> > Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  ...ot-hardcode-linux-as-the-host-system.patch | 49 ++++++++++++++++++=
-+
-> >  meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |  1 +
-> >  2 files changed, 50 insertions(+)
-> >  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0020-meson.bui=
-ld-do-not-hardcode-linux-as-the-host-system.patch
-> >
-> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-n=
-ot-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/gli=
-b-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-> > new file mode 100644
-> > index 0000000000..616bbd8a7d
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hard=
-code-linux-as-the-host-system.patch
-> > @@ -0,0 +1,49 @@
-> > +From a300a09661124451d4783d4be66e3993262dc9be Mon Sep 17 00:00:00 200=
-1
-> > +From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > +Date: Thu, 9 Jul 2020 13:00:16 +0200
-> > +Subject: [PATCH] meson.build: do not hardcode 'linux' as the host sys=
-tem
-> > +
-> > +OE build system can set this to other values that include 'linux',
-> > +e.g. 'linux-gnueabi'. This led to glib always being built without
-> > +libmount, mkostemp and selinux support.
-> > +
-> > +Upstream-Status: Inappropriate [other]
-> > +Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > +---
-> > + meson.build | 6 +++---
-> > + 1 file changed, 3 insertions(+), 3 deletions(-)
-> > +
-> > +diff --git a/meson.build b/meson.build
-> > +index 3a47a7cc4b98..af09dfc853e5 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -632,7 +632,7 @@ else
-> > + endif
-> > + message('Checking whether to use statfs or statvfs .. ' + stat_func_=
-to_use)
-> > +
-> > +-if host_system =3D=3D 'linux'
-> > ++if host_system.contains('linux')
-> > +   if cc.has_function('mkostemp',
-> > +                      prefix: '''#define _GNU_SOURCE
-> > +                                 #include <stdlib.h>''')
-> > +@@ -1857,7 +1857,7 @@ glib_conf.set_quoted('GLIB_LOCALE_DIR', join_pa=
-ths(glib_datadir, 'locale'))
-> > + # libmount is only used by gio, but we need to fetch the libs to gen=
-erate the
-> > + # pkg-config file below
-> > + libmount_dep =3D []
-> > +-if host_system =3D=3D 'linux' and get_option('libmount')
-> > ++if host_system.contains('linux') and get_option('libmount')
-> > +   libmount_dep =3D [dependency('mount', version : '>=3D2.23', requir=
-ed : true)]
-> > +   glib_conf.set('HAVE_LIBMOUNT', 1)
-> > + endif
-> > +@@ -1867,7 +1867,7 @@ if host_system =3D=3D 'windows'
-> > + endif
-> > +
-> > + selinux_dep =3D []
-> > +-if host_system =3D=3D 'linux'
-> > ++if host_system.contains('linux')
-> > +   selinux_dep =3D dependency('libselinux', required: get_option('sel=
-inux'))
-> > +
-> > +   glib_conf.set('HAVE_SELINUX', selinux_dep.found())
-> > +--
-> > +2.27.0
-> > +
-> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/reci=
-pes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > index d496235003..fd7f5ee920 100644
-> > --- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > @@ -19,6 +19,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-$=
-{PV}.tar.xz \
-> >             file://0011-GMainContext-Fix-GSource-iterator-if-iteration=
--can-m.patch \
-> >             file://0012-GMainContext-Fix-memory-leaks-and-memory-corru=
-ption-.patch \
-> >             file://0013-GMainContext-Move-mutex-unlocking-in-destructo=
-r-righ.patch \
-> > +           file://0020-meson.build-do-not-hardcode-linux-as-the-host-=
-system.patch \
-> >             "
-> >
-> >  SRC_URI_append_class-native =3D " file://relocate-modules.patch"
-> > --
-> > 2.17.1
-> >
-> >=20
+On 26.07.20 16:10, Konrad Weihmann wrote:
+> Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
+> Let the parser handle it as an optional item.
+> In case use baseMetricV2 before baseMetricV3
+> 
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
+>   meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+> index f27ade40db..32d6dbdffc 100644
+> --- a/meta/recipes-core/meta/cve-update-db-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+> @@ -176,15 +176,20 @@ def update_db(c, jsondata):
+>           if not elt['impact']:
+>               continue
+>   
+> +        accessVector = None
+>           cveId = elt['cve']['CVE_data_meta']['ID']
+>           cveDesc = elt['cve']['description']['description_data'][0]['value']
+>           date = elt['lastModifiedDate']
+> -        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
+> -        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
+> -
+>           try:
+> +            accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
+> +            cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
+> +        except KeyError:
+> +            cvssv2 = 0.0
+> +        try:
+> +            accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
+>               cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
+> -        except:
+> +        except KeyError:
+> +            accessVector = accessVector or "UNKNOWN"
+>               cvssv3 = 0.0
+>   
+>           c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
+> 
+> 
+> 
+> 
