@@ -1,141 +1,107 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web12.57659.1595862609642736934
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web12.57661.1595862615116055244
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 08:10:10 -0700
+ Mon, 27 Jul 2020 08:10:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OqQNCras;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.194, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f194.google.com with SMTP id d1so8145563plr.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RJLde+1I;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id o22so9579092pjw.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 08:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=dDvoD26O4fWBcU0nJU2fnlU0FI/L1AY6tihIZI26TUA=;
-        b=OqQNCrasJgQKkvuu2BJYsOgMqXcE0MGj3o13zq1nic5+2xzRqD6423GFtnFMlyIGj4
-         6am1ekqiUbjfQK0JbHtMRbDWlWM2uRbliR3RLaaxFjZKkU2DReViE7Y5+DkcyQJ2pKOt
-         8IdTKwao22DWBwndlGvb65HQycpeVXDyScz5AFl7DGiyZSfgIc7by1q3hY4IXT61gQkv
-         zLiLYUxlZLFspqsBAWyojQLquDyrG234qUISMVXAhoFOtp6/Qoj8SMkcy1TV400RsoXK
-         xPFb+Tgqk4ghaPuEiSgS0nCOO5r1jGaXY22tvhhuprri6eLDQ2iDZuPBJeULYGD8ZwED
-         jNow==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=N6vd4+erZx3vJbjCnMk2a69u72y1pTzMqlE6AuTVGFQ=;
+        b=RJLde+1I2uokk5N39Ftbb/ODp2DTVAi9UZtzCRztfqwNPuk+EaE0WLXuDPICCaSURN
+         +gL1CD1qgFVfnFnMEmYEz/O/WucxGTVN5M21brSE10/mlRfIQqu+nJ+E1X0EPC3/mVHb
+         YbCJl+rrxe0dQnw5iF2ZGB0NbwlConJEMwZhbfc/3Cx4ZsN6lUDAF6h12nptleAn44wq
+         spd0x2nJ2XO4LtBMwEr9pQn281sokRR5urEdgMaxZsN/9TBMNl67fktkvMCMFzbhfYOs
+         vcH3fVnPTI/6Guusi2fdrLSlziVYdeGkIy6iOx7TZGKprl4lgCvo5UgUzOZkFgHzf+tO
+         OrEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=dDvoD26O4fWBcU0nJU2fnlU0FI/L1AY6tihIZI26TUA=;
-        b=rQM7O4tyBolJg6SSNAf5VaCVlvzxKOtadiF5rcRQ7ALgNeUj+0wyLUZzztcOrSa1sK
-         FYhz5pgJpBH8mwhxxGEEd/4ROHCJaBoqyPZCTQ0j23EfGrnm05voNcJZa1ZgVYrwDPgj
-         cGDUt/MNiCZ9/rS9WhjnAS7Pseaq3Zds8uQQmvalQ585vl6GQ3og26sMR5hxI0lF6hKa
-         onKG1Ax+3mykj9ionKV8fgCEMq3jSE9L3iI74YT6jHD0Y5oMTXFQQkTqE4wjL4D3OhRy
-         j9dZ3FAM4v5yRwovypQJxaWxWNbvALTZEi8ysduqCrsL7aXz8i9wTBdBkdasvn8RajIJ
-         ZnVg==
-X-Gm-Message-State: AOAM531o+SpRM+2ZdSAXkxciXdxOH2pI+AhMfFJhzsOilEGe4vJqFaWU
-	bqs6fsbqEzObHoJLCouYyesoiOIL1e4=
-X-Google-Smtp-Source: ABdhPJyq0C3sDIzRN8YxaX5cQwp8oD4817Mw2PYC4wuhClhS2jrlfuwMJZWDHYRC+uNmxmredjKn3A==
-X-Received: by 2002:a17:902:c011:: with SMTP id v17mr18535570plx.15.1595862608407;
-        Mon, 27 Jul 2020 08:10:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=N6vd4+erZx3vJbjCnMk2a69u72y1pTzMqlE6AuTVGFQ=;
+        b=gmyAOj833QR0NRUue0/wW0hiBbCn8Xo5qMFUUk4BByAK+/09atVcuwNKzuzD5+Wl6V
+         NmzakPz9p/zAaC6K5OpgG3320OQ21zSRkHvXyAwdN6qO7OR/2lmJe9I5lvADZstG8FLs
+         /sG13zzcUn5n0r5lx9iamhD/2EmeOa07+r2TniIJS6U5HvSK4HXsZ18MNitoB26PtCa5
+         vy6/+7E/ZsgL/6aP1GJtWIYf1A0iYCPCC1DhaZ4gbljg7G16ooFUZIhrvLrhAGmE3zYi
+         QoJsNQEqjFlBsQHSf4JKkG/2ro537FbAMA+6fxeoFy8rT3H4eqxYIWw8Foy8sLqzu/9G
+         Iw6g==
+X-Gm-Message-State: AOAM533H25pFGxriuaLgmU9aAPE/nUULjJaHU92K81xM5CtBcE4s+0wX
+	TEcnE5hSkcft2VcCw4Cw4EJvCAZVbGY=
+X-Google-Smtp-Source: ABdhPJwReVPbglw9L+d0rpnlgzM1gig1BSx1loB0nVqHsZSKdHL6qFZDO3b8Zka4mS6Awry5FIXYMQ==
+X-Received: by 2002:a17:902:8d86:: with SMTP id v6mr19757140plo.200.1595862613968;
+        Mon, 27 Jul 2020 08:10:13 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.06
+        by smtp.gmail.com with ESMTPSA id p127sm14929495pfb.17.2020.07.27.08.10.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 08:10:07 -0700 (PDT)
+        Mon, 27 Jul 2020 08:10:13 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/18] Patch review
-Date: Mon, 27 Jul 2020 05:09:39 -1000
-Message-Id: <cover.1595862361.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/18] wic/filemap: Drop the unused block_is_unmapped()
+Date: Mon, 27 Jul 2020 05:09:40 -1000
+Message-Id: <14cbfc04f4a9da5baba6267daefd54a12a04d56e.1595862361.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1595862361.git.steve@sakoman.com>
+References: <cover.1595862361.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Wednesday.
+From: Kevin Hao <kexin.hao@windriver.com>
 
-The following changes since commit ea886d57db917a41a0d106a15e1e96c72d6407b0:
+This method is not used by any code, so drop it.
 
-  kernel-yocto: account for extracted defconfig in elements check (2020-07-23 04:07:37 -1000)
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fb62a15349597ee026c67a0bb0a6ca2cc9bfe420)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ scripts/lib/wic/filemap.py | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Ahmad Fatoum (1):
-  core: glib-2.0: fix requested libmount/mkostemp/selinux not being
-    linked in
-
-Armin Kuster (1):
-  glibc: Secruity fix for CVE-2020-6096
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.51
-  linux-yocto-rt/5.4: fix mmdrop stress test issues
-
-Changqing Li (1):
-  gtk-immodules-cache.bbclass: fix post install scriptlet error
-
-Chen Qi (1):
-  rpm: fix nativesdk's default var location
-
-Daniel Ammann (1):
-  image.bbclass: improve wording when image size exceeds the specified
-    limit
-
-Joshua Watt (2):
-  classes/cmake: Fix host detection
-  classes/package: Use HOST_OS for runtime dependencies
-
-Kevin Hao (3):
-  wic/filemap: Drop the unused block_is_unmapped()
-  wic/filemap: Drop the unused get_unmapped_ranges()
-  wic/filemap: Fall back to standard copy when no way to get the block
-    map
-
-Kurt Kiefer (1):
-  linux-firmware: add ibt-20 package
-
-Lee Chee Yang (1):
-  buildhistory: use pid for temporary txt file name
-
-Richard Purdie (1):
-  oeqa/qemurunner: Add priority/nice information for running processes
-
-Robert Yang (1):
-  openssl: openssl-bin requires openssl-conf to run
-
-Ross Burton (1):
-  startup-notification: add time_t type mismatch patch from upstream
-
-Sakib Sajal (1):
-  busybox: make hwclock compatible with glibc 2.31
-
- meta/classes/buildhistory.bbclass             |  11 +-
- meta/classes/cmake.bbclass                    |  19 +-
- meta/classes/gtk-immodules-cache.bbclass      |   1 +
- meta/classes/image.bbclass                    |   4 +-
- meta/classes/package.bbclass                  |  10 +-
- meta/lib/oeqa/utils/qemurunner.py             |   2 +-
- meta/lib/oeqa/utils/qemutinyrunner.py         |   2 +-
- .../openssl/openssl_1.1.1g.bb                 |   2 +
- ...1-hwclock-make-glibc-2.31-compatible.patch |  83 ++++++++
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   1 +
- ...ot-hardcode-linux-as-the-host-system.patch |  49 +++++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |   1 +
- .../glibc/glibc/CVE-2020-6096.patch           | 112 ++++++++++
- .../glibc/glibc/CVE-2020-6096_2.patch         | 194 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   2 +
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   2 +-
- .../startup-notification-0.12/time_t.patch    | 108 ++++++++++
- .../startup-notification_0.12.bb              |   1 +
- .../linux-firmware/linux-firmware_20200619.bb |   4 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- scripts/lib/wic/filemap.py                    |  75 +++----
- 23 files changed, 630 insertions(+), 89 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch
- create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch
-
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index c53147c2f1..8cfed5afa8 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -142,15 +142,6 @@ class _FilemapBase(object):
+ 
+         raise Error("the method is not implemented")
+ 
+-    def block_is_unmapped(self, block): # pylint: disable=W0613,R0201
+-        """
+-        This method has has to be implemented by child classes. It returns
+-        'True' if block number 'block' of the image file is not mapped (hole)
+-        and 'False' otherwise.
+-        """
+-
+-        raise Error("the method is not implemented")
+-
+     def get_mapped_ranges(self, start, count): # pylint: disable=W0613,R0201
+         """
+         This method has has to be implemented by child classes. This is a
+@@ -265,10 +256,6 @@ class FilemapSeek(_FilemapBase):
+                         % (block, result))
+         return result
+ 
+-    def block_is_unmapped(self, block):
+-        """Refer the '_FilemapBase' class for the documentation."""
+-        return not self.block_is_mapped(block)
+-
+     def _get_ranges(self, start, count, whence1, whence2):
+         """
+         This function implements 'get_mapped_ranges()' and
+@@ -422,10 +409,6 @@ class FilemapFiemap(_FilemapBase):
+                         % (block, result))
+         return result
+ 
+-    def block_is_unmapped(self, block):
+-        """Refer the '_FilemapBase' class for the documentation."""
+-        return not self.block_is_mapped(block)
+-
+     def _unpack_fiemap_extent(self, index):
+         """
+         Unpack a 'struct fiemap_extent' structure object number 'index' from
 -- 
 2.17.1
 
