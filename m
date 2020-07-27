@@ -1,50 +1,55 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web10.56215.1595858258049218130
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web11.56871.1595860612513900396
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 06:57:38 -0700
+ Mon, 27 Jul 2020 07:36:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bS5eXp4N;
- spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f194.google.com with SMTP id p1so8030012pls.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Jul 2020 06:57:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kuJc0pBk;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id p3so9646302pgh.3;
+        Mon, 27 Jul 2020 07:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=1yGFDZDCKdR3YzjlsZIQTNPsx+MR7Oz8f0NmpolH/R0=;
-        b=bS5eXp4N/HSngNkTo2A9tvhVddYwVxaLxtW9zjllMUXTylhVlmKakYHISgkZsCCoF3
-         o/nE3k4kS3f4uisqJLTyz6Kud/2V+FDqV4RwtAUCT8eryivQpQJJdTj/nnEUG1TPbtMl
-         en+hSdB4ytAwAfWhs109Gvoz5Kfx3QkG/6lC0v2H8h5WvJnCijC1oP/43iaxsVesr+7i
-         PivPREGpEShQ6uuR1gxGOBakqGg37m8lb/nJ//a9NzJNvB08/UqyivZuWQggxayNYk+Y
-         r1OzbOPwu6sq6yVXr+cG5BbtpOFl9XEEebSSuiLr4L92ternFiNs8LUyRF1GscNZZYlP
-         AG1w==
+        bh=zTdM1D4wEVsNTVgUFFjF0AbTfi0vc+hxwQ9r1RQD0Io=;
+        b=kuJc0pBkzOYEM+nFHR8rnAmTo9Ygj4nmuy1v5SGnS2ydpeCKt3agUF0gw2S0EWb4v2
+         ZDkft/3NQbx5BLAodZCUJpoUMmWkbcd3riBr6IJvWy12MUVG3zeV30UNh4NpA4u4sMDI
+         Wa6Li4EQU3Gp3+e32ByproRHn+vHI7au60rn5x5fwmieCbjMhSFLn/krs6uaT5E7btUN
+         Y408PuM+Z2h4VKWBej+GdcBCeYfBicjeE3pIr298jdRMg5eVW+YnwSpTtCDkv/ztNL84
+         KutIi3woj3R73dQDQTU7rp7VP+6TyvrOhVro1XS0RCJzPqwj3I1nbajNpPmRxC1ydZ27
+         i1uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=1yGFDZDCKdR3YzjlsZIQTNPsx+MR7Oz8f0NmpolH/R0=;
-        b=YxZmF++6Uhu/j8A9rgt1zJNKiigNv/0cnjWGQU6mba+1TteN+lrN7Rh9JrNR9CEHUE
-         yoHVcetFWWcJuwasiYCeY3W0moCX6OqFTz0cRuHR6IQ7veljMuV4wZ6Sykta42e8JYN7
-         tTJ3jV7U1YbWDeytAI7R9xe9KLQ+nOs3C1qTTQ6Et0XKaKZ5dAZytrGhNnQWchHbLBMV
-         JP+eCgWxl0qSKkpeOf48Xj3xsgc1AdI9CiSIhFcrzrrCSOJgqzVBz1Gh8v3NR1cFUR0t
-         FJQYNM+44f9PqDAxFYx0Bli4pvQSOi0N57enF0RYjOpCgFszGn6b6CQjRp/F+usN/JpV
-         ZYRw==
-X-Gm-Message-State: AOAM530UDfOYGOPkppFvfa8YCoOfDQ4m/ol/FSxZ4xZE5enEKI9RX2+k
-	ixqiArJWrfuOo3Aidy3toHtA2X63LIM=
-X-Google-Smtp-Source: ABdhPJzGI3NSlQESYCqC6RSilQ30hN2NFdelDA3/e7nXgOJsPlQ35CApC6k2jHxCEV7qxcWzlNYw8Q==
-X-Received: by 2002:a17:90a:df11:: with SMTP id gp17mr17391239pjb.188.1595858257433;
-        Mon, 27 Jul 2020 06:57:37 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=zTdM1D4wEVsNTVgUFFjF0AbTfi0vc+hxwQ9r1RQD0Io=;
+        b=ZduN6h9r1YEjgWsIb3LR9eIAvVPxQZsRX9C+e0a3BE08VruSQTBet6WjmNwfzWMcR6
+         GotnB2dBXK+tlbkmlfW/RXz5VtLrxgeNVbjnkR97P3a1jYxHbdI5aEKOfZ7szWHKYLty
+         GTVcp0+5gDfO5uvHnRKpSrPMu9x6el2uTueTcQIVlAjxabJ6iArwARbmUyCTe0zxjw9v
+         Uo35Z8kJGJitA5wuTPS4Owp1uUgSOyHJHujmzP1epd29eBijpZO2Ts9/4uGz3iow0If2
+         30BsDMdclXQf4QukDk6sePaEktKm23OoA4UqENSMDBFE53eadP6xoppeOy3StUkdHEPO
+         Qqpw==
+X-Gm-Message-State: AOAM533FYbI4TvI0DjQybqkjqnv3fYo9OLe1gM9qh0AOeQiGRAIUDKHU
+	RVKlVMIq7sSE5v9CsK9J58rSDTtjPLA=
+X-Google-Smtp-Source: ABdhPJyj2fb/J2lEndItqhHtHKRhgrDhb+vcDxzdMnd5pmcdptqEHmUPDZcfHFABvt9DwyEsaJNmJQ==
+X-Received: by 2002:aa7:8f26:: with SMTP id y6mr20414005pfr.191.1595860611612;
+        Mon, 27 Jul 2020 07:36:51 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from ?IPv6:2601:202:4180:a5c0:8df1:f28:d14a:8296? ([2601:202:4180:a5c0:8df1:f28:d14a:8296])
-        by smtp.gmail.com with ESMTPSA id k12sm5065169pjp.38.2020.07.27.06.57.36
+        by smtp.gmail.com with ESMTPSA id x9sm16448954pfq.11.2020.07.27.07.36.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2020 06:57:36 -0700 (PDT)
-Subject: Re: [OE-core] [v2][PATCH] cve-check: print warning if file is missing
+        Mon, 27 Jul 2020 07:36:50 -0700 (PDT)
+Subject: Re: [bitbake-devel] [yocto] Stable Warrior branch
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200727025231.24418-1-akuster808@gmail.com>
- <d60c82f476989c46864b9d50a7f6fce3ae9eb189.camel@linuxfoundation.org>
+ Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+ "bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
+References: <03a353c4-80dd-e66c-3222-7850a98182f7@gmail.com>
+ <20200714135619.GF25970@localhost>
+ <cca863dd41cf837cfaa89484c010578e5ac0809b.camel@linuxfoundation.org>
 From: "akuster" <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -89,56 +94,61 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
  ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
  8CS2NxU=
-Message-ID: <f5995aa5-dedb-167e-cbfb-00886de6ca64@gmail.com>
-Date: Mon, 27 Jul 2020 06:57:35 -0700
+Message-ID: <e6743da0-b2d2-14bf-2d1c-7e6f50ba8e1b@gmail.com>
+Date: Mon, 27 Jul 2020 07:36:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <d60c82f476989c46864b9d50a7f6fce3ae9eb189.camel@linuxfoundation.org>
+In-Reply-To: <cca863dd41cf837cfaa89484c010578e5ac0809b.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
+Adrian,
 
+On 7/21/20 1:53 AM, Richard Purdie wrote:
+> On Tue, 2020-07-14 at 16:56 +0300, Adrian Bunk wrote:
+>> On Thu, Jun 04, 2020 at 09:28:00PM -0700, akuster wrote:
+>>> Hello,
+>>>
+>>> The Warrior branch of Poky has had its last official dot release.
+>>> It
+>>> will be moving to Community support and EOL within 6 weeks if no
+>>> one
+>>> steps up.
+>>> If someone is interested in taking on the responsibilities of
+>>> maintaining the "Warrior" branch moving forward, please email this
+>>> list.
+>> I have an interest in keeping warrior branch alive in poky and meta-
+>> oe,
+>> and I'll take this responsibility since noone else seems to be
+>> interested.
 
-On 7/27/20 2:39 AM, Richard Purdie wrote:
-> On Sun, 2020-07-26 at 19:52 -0700, akuster wrote:
->> If the "tmp/cve_check" file was not create as in the case for -c
->> populate_sdk, just print a
->> warning instead of dumping a trace back
->>
->> ---
->> v2] lets include the missing part of the patch
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/classes/cve-check.bbclass | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-
->> check.bbclass
->> index 0889e7544aa..b16da9890af 100644
->> --- a/meta/classes/cve-check.bbclass
->> +++ b/meta/classes/cve-check.bbclass
->> @@ -55,6 +55,10 @@ python cve_save_summary_handler () {
->> =20
->>      cve_tmp_file =3D d.getVar("CVE_CHECK_TMP_FILE")
->> =20
->> +    if not os.path.isfile(cve_tmp_file):
->> +        bb.warn("File Not found: %s" % cve_tmp_file)
->> +        return
->> +
-> A warning is something the user really needs to fix or take some action=
+Are you still interested?
 
-> about. Is this a warning?
-Its actually an error in certail conditions. Do we want this to be
-silent or fail on 'populate_sdk'?
+-armin
+>>> Please look at the
+>>> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS for what
+>>> will
+>>> be expected.
+>> I have some ideas, but not yet a fixed plan how I will set this up.
+> Ok. FWIW we are struggling a little with keeping the older releases
+> building on the autobuilder as the workers change. We do have plans for
+> handling this with buildtools but its not rolled out on the older
+> autobuilder-helper branches.
+>
+> I do have work in progress working with Jeremy for thud
+> (contrib/rpurdie/thud), much of which should apply to warrior too
+> (contrib/rpurdie/warrior is a guess). I just really want to highlight
+> that there may be some initial work to get these older branches to the
+> point where they continue to work on the infrastructure.
+>
+> I think we may have to accept backporting a lot of patches in helper to
+> bring things more into sync with master/dunfell to make all this easier
+> to maintain/get working.
 >
 > Cheers,
 >
 > Richard
 >
->
->
-
 
