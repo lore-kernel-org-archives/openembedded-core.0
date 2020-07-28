@@ -1,106 +1,78 @@
-Received: from mga07.intel.com (mga07.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.8252.1595926408928178289
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.8071.1595926461485962472
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 01:53:33 -0700
+ Tue, 28 Jul 2020 01:54:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: FBsotO/rffrFlEQKtKiJlkykiPb7qEly+GHYZtcVFg4yf7bNzgNxij37rbVOqL6GSxi8xXj2MW
- jeYCybyhAvpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="215699811"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: rW4fxE0zBXaS1pIyNnwPKbfR6EcoRUSqWA0BhpBEy7KaQwqrHN6lKmagSngGSqjIE8vuqC88Zz
+ AEIrnIzKEE8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="215699769"
 X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="215699811"
+   d="scan'208";a="215699769"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:32 -0700
-IronPort-SDR: jQ/6Vcg7VB6OTmB65C9N2Irb/XjHLCgCjKawQBt7v6rJw6G2GgH57PsxOsP2BQVWqpUhEEHdw0
- Xg5wKXIXPCBQ==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:19 -0700
+IronPort-SDR: s5f4s3PGv2caGGOC9nmXcEujdbX1CdnGVTFMzhksQdfZsne8LsnnclX0Y5mHAEOS3T2BRG9fXJ
+ Z2ulo2mc8GfA==
 X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="434245993"
+   d="scan'208";a="434245945"
 Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.137.161])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:31 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:17 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 32/32] gstreamer1.0: fix builds with make 4.3
-Date: Tue, 28 Jul 2020 16:51:33 +0800
-Message-Id: <74e22d0d2b61d0014f408972725469bb7a024622.1595924916.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 24/32] perf: Correct the substitution of python shebangs
+Date: Tue, 28 Jul 2020 16:51:25 +0800
+Message-Id: <c0bcc24ccc6d769935d7fa202a1405250d94e342.1595924916.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1595924916.git.anuj.mittal@intel.com>
 References: <cover.1595924916.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Depend on make-native instead of using host make to avoid errors like:
+From: He Zhe <zhe.he@windriver.com>
 
-| controller-enumtypes.c:10:1: error: stray '\' in program
-|    10 | \#include "gstinterpolationcontrolsource.h"
-|       | ^
-| controller-enumtypes.c:10:2: error: stray '#' in program
-|    10 | \#include "gstinterpolationcontrolsource.h"
-|       |  ^
-| controller-enumtypes.c:10:11: error: expected '=', ',', ';', 'asm' or '__attribute__' before string constant
-|    10 | \#include "gstinterpolationcontrolsource.h"
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| controller-enumtypes.c:11:1: error: stray '\' in program
-|    11 | \#include "gstlfocontrolsource.h"
-|       | ^
-| controller-enumtypes.c:11:2: error: stray '#' in program
-|    11 | \#include "gstlfocontrolsource.h"
+To make the native python3 always used,
 
-This helps building on autobuilder where some workers have buildtools
-with make 4.3 installed.
+- Use sed one-liner instead
+- Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
+  following warning.
 
-Building using meson works fine so later branches are not affected and
-upstream has rejected patches to fix this:
+File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
+_temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+ModuleNotFoundError: No module named '_sysconfigdata'
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/515
+This issue is first reported by Joel Stanley <joel@jms.id.au>
+The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
 
+(From OE-Core rev: 3f93173130a94310255389cfc62c67102a4fb21b)
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3a1a18ba9d28adb5562eabe9ec354f6d93154f5c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc      | 2 +-
- .../gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb                | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index bc24b05fec..92b473add6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
- SECTION = "multimedia"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index d707b580e2..904aca95de 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -233,11 +233,8 @@ do_configure_prepend () {
+     fi
  
--DEPENDS = "gstreamer1.0 glib-2.0-native"
-+DEPENDS = "gstreamer1.0 glib-2.0-native make-native"
+     # use /usr/bin/env instead of version specific python
+-    for s in `find ${S}/tools/perf/ -name '*.py'`; do
+-        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
++    for s in `find ${S}/tools/perf/ -name '*.py'` `find ${S}/scripts/ -name 'bpf_helpers_doc.py'`; do
++        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
+     done
  
- SRC_URI_append = " file://gtk-doc-tweaks.patch"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb
-index 15ef5d1b28..b7470b0047 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb
-@@ -4,7 +4,7 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
- 
--DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
-+DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base make-native"
- 
- PNREAL = "gst-rtsp-server"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
-index cf7c1bca12..96a6ade22b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
- SECTION = "multimedia"
- LICENSE = "LGPLv2+"
- 
--DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
-+DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native make-native"
- 
- inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc ptest
- 
+     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
 -- 
 2.25.4
 
