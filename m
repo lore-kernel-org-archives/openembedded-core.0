@@ -1,59 +1,41 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.2060.1595969037593211641
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.2238.1595980351116825465
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 13:43:57 -0700
+ Tue, 28 Jul 2020 16:52:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mzeng@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 06SKhtlx009767
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 13:43:56 -0700 (PDT)
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Jul 2020
- 13:43:55 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 21151)	id 7B26C2000C;
- Tue, 28 Jul 2020 16:43:54 -0400 (EDT)
-From: "Matthew" <matthew.zeng@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <randy.macleod@windriver.com>
-Subject: [PATCH] ltp.py: remove mm from ltp_groups
-Date: Tue, 28 Jul 2020 16:43:54 -0400
-Message-ID: <20200728204354.10970-1-matthew.zeng@windriver.com>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2080740C1E;
+	Tue, 28 Jul 2020 23:52:30 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 24cRQbwdps1k; Tue, 28 Jul 2020 23:52:30 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C86A8409BB;
+	Tue, 28 Jul 2020 23:52:25 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 230CA173BE2; Tue, 28 Jul 2020 19:52:25 -0400 (EDT)
+Date: Tue, 28 Jul 2020 19:52:25 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour July 29 9pm/2100 UTC
+Message-ID: <20200728235225.GV17660@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes [YOCTO #13802]
+Just a reminder about our upcoming OpenEmbedded Happy Hour on July 29 for 
+Oceania/Asia timezones @ 2100/9pm UTC (5pm EDT):
 
-Temporary disable mm test for a while, since it calls the OOM tests.
-See ltp-git/runtest/mm:
-    oom01 oom01
-    oom02 oom02
-    oom03 oom03
-    oom04 oom04
-    oom05 oom05
+https://www.openembedded.org/wiki/Calendar
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+July+29&iso=20200729T21
 
-Let's wait for a week or two to see if the error stops occuring.
-
-Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
----
- meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-index cfac29c153..9ac7bb15f6 100644
---- a/meta/lib/oeqa/runtime/cases/ltp.py
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -57,7 +57,7 @@ class LtpTestBase(OERuntimeTestCase):
- 
- class LtpTest(LtpTestBase):
- 
--    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
-+    ltp_groups = ["math", "syscalls", "dio", "io", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
- 
-     ltp_fs = ["fs", "fsx", "fs_bind"]
-     # skip kernel cpuhotplug
 -- 
-2.27.0
-
+Denys
