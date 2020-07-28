@@ -1,223 +1,113 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web12.14320.1595948544004626615
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.15218.1595951415755754742
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 08:02:24 -0700
+ Tue, 28 Jul 2020 08:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=TGMLlOcs;
- spf=pass (domain: linaro.org, ip: 209.85.219.66, mailfrom: ryan.harkin@linaro.org)
-Received: by mail-qv1-f66.google.com with SMTP id dm12so9230410qvb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 08:02:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7nDlgZh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id c80so35438wme.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 08:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N+Wj7bxHF4z8Uu9lyGk6JOkEa81quklX9cRpoZoCISg=;
-        b=TGMLlOcsegmVs6qIRal3GYkd5KMa64ipRKlAseXLAlKfOlR3AtVplybP7JIb9glmnG
-         ALp59x8yxsbCVw+YGS0wzPMiXYzFqwrwWfc+wIbmuxRkp86z0d12teyQk0Er1M3fmm1u
-         J1F6ZwWvp+OsnLGapYv7kjdzhCHNrSQobAiQVsGpY6BBSOJTEXy/ZVjAwyMy53ZqZMmi
-         AlHksLBgcCFx3jPDezaSm/oaplA0ycVVG4X7BNQTiv/40xmVbUIYfASqfvMaZ97+ZHNk
-         xr5P6m63Ng6UzOzegGXodDfVa53jfprw9UtI63pCfz47ZODXUs1ErlEa7Rfk9DHUvhB1
-         lLbA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ZSMRLNNu3nqdf2PG1w29jnNMO/zugzeedqmmaVxIDtY=;
+        b=X7nDlgZhGcN5QDdarGtTw5u6gj8MqumsymVNihoguML0q9OHCFTwzMZ4o+ThpJLFnD
+         YY1DI+335pTBpdj3fp0jYuD8MAgdit7hWhxqXskmUZia+GkPG+f9JVkx8lLayG/Khpfd
+         A/ECBAbctXFrOmDNEHtXayPpmonhKImmnTQyY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N+Wj7bxHF4z8Uu9lyGk6JOkEa81quklX9cRpoZoCISg=;
-        b=AZkmw6h+LEHxWrtlMak1y3oX4k/LH7Rb2vXyu8rkegyYrUlsRBmlVR7JGpnyjdaDrE
-         a2ZNFEJ0Vs660YzZIl7I/7KlFuYCbihwSFhNZ+pyQReFszUsdS+X/K0UygXB0GO3hh8C
-         nzt4PRExYyLfZJOUznYnFFXC7z8hEUq6zKJNO5SkxWKbqf+hdMnpNMUW7biCOImqwLww
-         oEbM0wMQi30Hj9/lR/mqWWrWoWS1tjN6z6/dAe1ckMbM5dwz0m4c2YqxbQt5YAbGWx1I
-         7paj+rMynK5jBiU9eMNB4vZqPUJBEU7RAuCKZp6J11ACr5A1+Z/nIV+XSvxRRnef/EAE
-         aD2g==
-X-Gm-Message-State: AOAM533KrVao12hocBaQ58J6pRHzI6PACWR8vyl2rI2xiVw1UVrba6rL
-	nncDtY2Okyi7a98YWqkI2ORolPpxyVpsW/JcAnbYMw==
-X-Google-Smtp-Source: ABdhPJwiH1nwaaxG5RoA/XfgOfGHIAiRLzrvyoFQRVO3jAEHGWzN2+eHjQcZJC121X5Hfk6N0+P1Ras9hgu9bqAIOLQ=
-X-Received: by 2002:a0c:b45b:: with SMTP id e27mr16560104qvf.208.1595948543070;
- Tue, 28 Jul 2020 08:02:23 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ZSMRLNNu3nqdf2PG1w29jnNMO/zugzeedqmmaVxIDtY=;
+        b=PEAco9fu0LW0hfpOuFNUD4FtPhX7fOOj4fy07MeC30a9I2cduBhd9HcSfNM9euKCSG
+         qiuJ7Pi/s8wT70uaCaxA8jQPTlJrcufGHK39PE5uiy4sTC8HLmP2vHYaRv/wiQphc8kU
+         mSnOyGVOexIPDpmNTXjiJCY52Q5RU6Z+BRKKyJ5FnWwxHTi3WYvkAJrfaMAStXl0Zmr4
+         RGPGWPm6dGGw33r6JWwBdda4+ZuSCOxFlhuBXzBw+9947+1s65R0/bGDI4Cb7zfCl4di
+         z5qES1gt4bhyCRZIfpYyXnHVJyfW9noT6Meel08nsWciRj5bE+gCXxdV+obu392kKJiZ
+         5luA==
+X-Gm-Message-State: AOAM533defz9EQmUqFITjMD8qSKCm0atyxUa5uNWQY4yWvLjQPgqHWv8
+	HMHhWWXQnqkVjyur3+2gnaLuhg==
+X-Google-Smtp-Source: ABdhPJwFrRCV56mWiYu6p8cow6ADlHl6Y1zXuMkzajXjckDL0vilFk6J2yfZgKAy+Qib+XZ62fz5Gw==
+X-Received: by 2002:a1c:bc54:: with SMTP id m81mr4524902wmf.60.1595951414192;
+        Tue, 28 Jul 2020 08:50:14 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.6.3.d.4.5.3.d.8.9.d.0.a.0.d.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.6.3.d.4.5.3.d.8.9.d.0.a.0.d.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d0a:d98:d354:d36f])
+        by smtp.gmail.com with ESMTPSA id t14sm8012468wrg.38.2020.07.28.08.50.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 08:50:10 -0700 (PDT)
+Message-ID: <edc83a1a101292425dce9dd1c9df51d6b8db8e7a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH 0/3] Log colorizer
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: chris.laplante@agilent.com, openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jul 2020 16:50:07 +0100
+In-Reply-To: <20200728013557.111830-1-chris.laplante@agilent.com>
+References: <20200728013557.111830-1-chris.laplante@agilent.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-References: <162552C22941F232.11956@lists.openembedded.org> <AM7PR05MB68819E7C05243F00A918121DA8720@AM7PR05MB6881.eurprd05.prod.outlook.com>
-In-Reply-To: <AM7PR05MB68819E7C05243F00A918121DA8720@AM7PR05MB6881.eurprd05.prod.outlook.com>
-From: "Ryan Harkin" <ryan.harkin@linaro.org>
-Date: Tue, 28 Jul 2020 16:02:11 +0100
-Message-ID: <CAD0U-hJ00kreMdgpj0s_geoFkWZcnukdCxHCTxpVpXp_a5G7+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] cve-update: handle baseMetricV2 as optional
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, akuster808@gmail.com, 
-	Steve Sakoman <steve@sakoman.com>, anuj.mittal@intel.com
-Content-Type: multipart/alternative; boundary="000000000000fd705805ab81b905"
-
---000000000000fd705805ab81b905
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 27 Jul 2020 at 19:26, Konrad Weihmann <kweihmann@outlook.com> wrote:
-
-> Hi all,
->
-> please consider this patch to be backported to dunfell/zeus and warrior.
->
-
-I'll second that request. My Warrior and Dunfell builds broke last week
-because of this.
-
-
-> Master-rev: bbefe04a622e166d95093d5127c316de91b27d20
->
-
-Thanks for the fix, Konrad.
-
-
->
-> Thanks
-> Konrad
->
-> On 26.07.20 16:10, Konrad Weihmann wrote:
-> > Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
-> > Let the parser handle it as an optional item.
-> > In case use baseMetricV2 before baseMetricV3
-> >
-> > Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> > ---
-> >   meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
-> >   1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/meta/cve-update-db-native.bb
-> b/meta/recipes-core/meta/cve-update-db-native.bb
-> > index f27ade40db..32d6dbdffc 100644
-> > --- a/meta/recipes-core/meta/cve-update-db-native.bb
-> > +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-> > @@ -176,15 +176,20 @@ def update_db(c, jsondata):
-> >           if not elt['impact']:
-> >               continue
-> >
-> > +        accessVector = None
-> >           cveId = elt['cve']['CVE_data_meta']['ID']
-> >           cveDesc =
-> elt['cve']['description']['description_data'][0]['value']
-> >           date = elt['lastModifiedDate']
-> > -        accessVector =
-> elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-> > -        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-> > -
-> >           try:
-> > +            accessVector =
-> elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-> > +            cvssv2 =
-> elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-> > +        except KeyError:
-> > +            cvssv2 = 0.0
-> > +        try:
-> > +            accessVector = accessVector or
-> elt['impact']['baseMetricV3']['cvssV3']['attackVector']
-> >               cvssv3 =
-> elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-> > -        except:
-> > +        except KeyError:
-> > +            accessVector = accessVector or "UNKNOWN"
-> >               cvssv3 = 0.0
-> >
-> >           c.execute("insert or replace into NVD values (?, ?, ?, ?, ?,
-> ?)",
-> >
-> >
-> >
-> >
+On Mon, 2020-07-27 at 21:35 -0400, Chris Laplante via lists.openembedded.org wrote:
+> This patch series turns on color compiler diagnostics. It is especially
+> useful when doing edit-compile-test development work with devtool.
 > 
->
+> It is based on one I've been using internally for about a
+> year now.
+> 
+> Limitation: Note that the *.nocolor and *.color logs will only contain the
+>  output of the task itself, not any prefuncs or postfuncs. This is
+>  because the color filtering is implemented using progress handlers,
+>  which don't see prefunc or postfunc output.
+> 
+> Chris Laplante (3):
+>   lib/oe/log_colorizer.py: add LogColorizerProxyProgressHandler
+>   base.bbclass: make oe.log_colorizer available in global context
+>   log-colorizer.bbclass: add new class
+> 
+>  meta/classes/base.bbclass          |  2 +-
+>  meta/classes/log-colorizer.bbclass | 49 +++++++++++++++++
+>  meta/lib/oe/log_colorizer.py       | 86 ++++++++++++++++++++++++++++++
+>  3 files changed, 136 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/classes/log-colorizer.bbclass
+>  create mode 100644 meta/lib/oe/log_colorizer.py
 
---000000000000fd705805ab81b905
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This looks interesting. Could we add something to the manual about how
+to use it and maybe a test for it as well please?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 27 Jul 2020 at 19:26, Konrad =
-Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Hi all,<br>
-<br>
-please consider this patch to be backported to dunfell/zeus and warrior.<b=
-r></blockquote><div><br></div><div>I&#39;ll second that request. My Warrior=
- and Dunfell builds broke last week because of this.</div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-Master-rev: bbefe04a622e166d95093d5127c316de91b27d20<br></blockquote><div>=
-<br></div><div>Thanks for the fix, Konrad.</div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-<br>
-Thanks<br>
-Konrad<br>
-<br>
-On 26.07.20 16:10, Konrad Weihmann wrote:<br>
-&gt; Currently in NVD DB an item popped up, which hasn&#39;t set baseMetri=
-cV2.<br>
-&gt; Let the parser handle it as an optional item.<br>
-&gt; In case use baseMetricV2 before baseMetricV3<br>
-&gt; <br>
-&gt; Signed-off-by: Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outloo=
-k.com" target=3D"_blank">kweihmann@outlook.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/recipes-core/meta/<a href=3D"http://cve-update-db-na=
-tive.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a> |=
- 13 +++++++++----<br>
-&gt;=C2=A0 =C2=A01 file changed, 9 insertions(+), 4 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-core/meta/<a href=3D"http://cve-update-db-n=
-ative.bb" rel=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a> =
-b/meta/recipes-core/meta/<a href=3D"http://cve-update-db-native.bb" rel=3D"=
-noreferrer" target=3D"_blank">cve-update-db-native.bb</a><br>
-&gt; index f27ade40db..32d6dbdffc 100644<br>
-&gt; --- a/meta/recipes-core/meta/<a href=3D"http://cve-update-db-native.b=
-b" rel=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a><br>
-&gt; +++ b/meta/recipes-core/meta/<a href=3D"http://cve-update-db-native.b=
-b" rel=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a><br>
-&gt; @@ -176,15 +176,20 @@ def update_db(c, jsondata):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not elt[&#39;impact&#39;]:=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 accessVector =3D None<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cveId =3D elt[&#39;cve&#39;][=
-&#39;CVE_data_meta&#39;][&#39;ID&#39;]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cveDesc =3D elt[&#39;cve&#39;=
-][&#39;description&#39;][&#39;description_data&#39;][0][&#39;value&#39;]<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0date =3D elt[&#39;lastModifie=
-dDate&#39;]<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 accessVector =3D elt[&#39;impact&#39;][&=
-#39;baseMetricV2&#39;][&#39;cvssV2&#39;][&#39;accessVector&#39;]<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 cvssv2 =3D elt[&#39;impact&#39;][&#39;ba=
-seMetricV2&#39;][&#39;cvssV2&#39;][&#39;baseScore&#39;]<br>
-&gt; -<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 accessVector =3D elt[&#39;=
-impact&#39;][&#39;baseMetricV2&#39;][&#39;cvssV2&#39;][&#39;accessVector&#3=
-9;]<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cvssv2 =3D elt[&#39;impact=
-&#39;][&#39;baseMetricV2&#39;][&#39;cvssV2&#39;][&#39;baseScore&#39;]<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except KeyError:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cvssv2 =3D 0.0<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 accessVector =3D accessVec=
-tor or elt[&#39;impact&#39;][&#39;baseMetricV3&#39;][&#39;cvssV3&#39;][&#39=
-;attackVector&#39;]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cvssv3 =3D elt[=
-&#39;impact&#39;][&#39;baseMetricV3&#39;][&#39;cvssV3&#39;][&#39;baseScore&=
-#39;]<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except KeyError:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 accessVector =3D accessVec=
-tor or &quot;UNKNOWN&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cvssv3 =3D 0.0<=
-br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0c.execute(&quot;insert or rep=
-lace into NVD values (?, ?, ?, ?, ?, ?)&quot;,<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-</blockquote></div></div>
+I did write something similar in a different context recently which
+applies here near enough as well:
 
---000000000000fd705805ab81b905--
+"""
+By documentation, I mean that kernel-fitimage.bbclass has no
+information in the reference manual:
+
+https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ref-classes-kernel-fitimage
+
+generated from:
+http://git.yoctoproject.org/cgit.cgi/yocto-docs/tree/documentation/ref-manual/ref-classes.xml
+
+and also there is also no header at the start of the class saying what
+it does or how to use it.
+
+Could we add something to these locations to give more information
+about the class?
+
+For testing, have a look at
+meta/lib/oeqa/selftest/cases/imagefeatures.py. Its testing target image
+rootfs settings but I believe the concept is similar to how you'd test
+something like the kernel-fitimage class.
+
+You can run these tests individually with "oe-selftest -r
+imagefeatures" to run that file or "oe-selftest -r
+imagefeatures.ImageFeatures.test_bmap" as an example of a specific
+test.
+"""
+
+although there may be a different selftest which would be a better
+example to base a test off for this code.
+
+Cheers,
+
+Richard
+
