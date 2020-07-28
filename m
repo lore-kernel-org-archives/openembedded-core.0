@@ -1,17 +1,17 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.55])
- by mx.groups.io with SMTP id smtpd.web11.3114.1595900227554663816
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.50])
+ by mx.groups.io with SMTP id smtpd.web11.3115.1595900228161238040
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jul 2020 18:37:07 -0700
+ Mon, 27 Jul 2020 18:37:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=JZDBbPyW;
- spf=pass (domain: agilent.com, ip: 40.107.237.55, mailfrom: chris.laplante@agilent.com)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=B2ygdcqn;
+ spf=pass (domain: agilent.com, ip: 40.107.75.50, mailfrom: chris.laplante@agilent.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mpXKVJfNwM/NqoW/b6R08JuruU0ArTOd6B9DqwUo21TywBTc5UCYRkKAfkvcyaVCKlsE1krcKjKH+chqcoKY+InQXxH1z9OG756drWHYAEyDy9p22/l2GhnWPdg0D9Y14HvD1wMqXgkyy4M7VW+9XIjFMNOHOmlD/8A1BmR/t4OVMA3kmLk66VJNP1bJdr9nZcmUxAHzKwAnZELeYbpiFoXMMzuL3n21Kp53c7fhXxrTf6iN7DIMr7+Xq/iWcgRbO2rM9eaPtJXEOieMGitE9B40+ZvrSGWWfma7Q77qNxnHyWWn3xAlgP4jUTnwl0Vg07a6ztSIxnwokxfOyP/bcw==
+ b=W5NbwKjiEZIKLnjGo49Oa1VYxu0ePJW3XXhhlrYzdWVHuv/kWxh/iVhH5wCZOX1PPXrNLu3Yyx7AQXX0TqG6xH4jIH8oPQ0trC8RzvrKJr9S+Wsh+gr0xWT6ZkVrgOlCLGYM6kWDgMzwWtXzG8QYomqsu7s59A/qGYruA0OBFERkRLlXHnIu4SYqw/ICE95PVGKctsDtckIkeDHY20yZ4EKAg3tkoPlE5hCaHvbEKNZBkeKrJ7s1cWR21YPPE0OVSdidWTJr8CAFzejBLqcRvox+8c/pibRswwoTRe1dtdGTRZKG2uYJOezSOrDur8OH0ISlUuuVMtaHz2fVwPfreQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tFIgEyYu0AxLv+Mnn2TM2tDhg7VAkiOl136fq7YY19s=;
- b=CPC/caOqXvlYxJCrt0LAI8l1+V+BEmbqoe4G9Ow/g7quapJBvUJS9rrIk9Xpxrqn+ZefstvXB+euiRieQncAcvOtVSTYNB6M34j9McGLG7l0BZ/m3ELebbMMj/RdBl9rab5e1SnXQAIIDkeuL+EOEPzxyCyPtXHrNYdZDPK1hMxJA8B1tkWSCv7KybFW6SwNKOzzcGTSAyr3lFIhF0YT3IwOMsqFxDwQlQO6Yr873WYmR0nvU2Dod4gwbRZZyU0xvbeIlOEZt0fmrBC8l+7zyyo3oFzRXlyktcplLtMBw99dGtMdKdO5I2uUnHXJ9QjQufKyywRDmQdSMczekpA5RQ==
+ bh=bTlcNonubLjbFgkQhxFn8U5x2doXXGR/TmMTO+OQZx0=;
+ b=JlpjMgdYB9VgAufmH95+icCM/bdRk+cILWKbXHixkxNl84a4mOEBRnz2y4L6qs4A48qHwT39IBPbpPM9pNdGv+Owhm8B0lOHQJtWea51RyFTbd/2vOVsUxDXxapaUbSoHyiTALPqYmwrNCskD6GYrl78mWJQP9rsbzWmr3XCsN1N3Kwa2gjy620ELdUGhd8AY2SAYrcOxBSZO1al60VzQ7z979obA0KLNN+tDnfg/lGPkLaBemeFYn3Ywco4gu7IWJjeAn8JEq0y17eL91kOL2Gwf6KzWfdqpdmhALoTsSKquk2VcpktPl02B4OEE06RWpilkfpRYCDf+qVZzfJx6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.25.218.37) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -19,18 +19,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tFIgEyYu0AxLv+Mnn2TM2tDhg7VAkiOl136fq7YY19s=;
- b=JZDBbPyWzgDMLUou2bR8MoWoMj2ENy9IK45tW6fCIxBIAU81g02JgLyVVcdlhY/9w2Vndr/PWSRDl0eJol5ffW2+lamS+lhEyvaEJDjulvWkddVSCjtpg+zSTrW6NypczJ0xBnYHx/LiBajT3TgNqgDpnHVsIT0Q9zW2zOpgBlUNF9M91+WGk9mytK9EEeH8+E5t/F62WdL/nmDINZlYbiGDsAv1Ji6jIeLSMCMJysidhc74K1Hfmu6OZazoTtu/D57yRu4GcIQZcoHG7z15HNmMiBGUTGA0/PEzRcT3wsELWcVeKMv6wElkTKStJwAHboVcQxTcUKIJ72NVr73Lwg==
-Received: from MWHPR17CA0068.namprd17.prod.outlook.com (2603:10b6:300:93::30)
- by BYAPR12MB3176.namprd12.prod.outlook.com (2603:10b6:a03:134::26) with
+ bh=bTlcNonubLjbFgkQhxFn8U5x2doXXGR/TmMTO+OQZx0=;
+ b=B2ygdcqnP1l6Rr+1wnGpM2n+hkT7tgOyneOuRgyFrg2IBvrJa5sAHjjxNH13bOFzF3pF7w2zVwE4zl0ZiUtOgWg6YZTItYIFDIX7ADBXo9jHdnlcAxGmvQHCZ6WfI9thzcpO78Bz0LQlF6pfx/SlPaFJpes2EptRBcfaZzXtlMlrtBAWV/Bo0vH1O/UODvUdPTORPLilk/E0n0cJmGtICydc3ukCZIfh79bHZWOHOs7jrVLFp0lQgXv779zMuXX4lbUEtjJUGfgzXJp9/dojY6O7J4N0ksLm/dr/HAQ6TtpvAz0nxbVyDtDzjMhVzzOkxw5vdIHnp+MfFcwNmYlVVg==
+Received: from MWHPR08CA0060.namprd08.prod.outlook.com (2603:10b6:300:c0::34)
+ by CY4PR12MB1512.namprd12.prod.outlook.com (2603:10b6:910:3::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Tue, 28 Jul
- 2020 01:37:05 +0000
-Received: from MW2NAM12FT031.eop-nam12.prod.protection.outlook.com
- (2603:10b6:300:93:cafe::75) by MWHPR17CA0068.outlook.office365.com
- (2603:10b6:300:93::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20 via Frontend
- Transport; Tue, 28 Jul 2020 01:37:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Tue, 28 Jul
+ 2020 01:37:06 +0000
+Received: from MW2NAM12FT051.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:300:c0:cafe::4b) by MWHPR08CA0060.outlook.office365.com
+ (2603:10b6:300:c0::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend
+ Transport; Tue, 28 Jul 2020 01:37:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.37)
  smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
  signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
@@ -39,18 +39,18 @@ Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
  192.25.218.37 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.25.218.37; helo=edgeappmail.agilent.com;
 Received: from edgeappmail.agilent.com (192.25.218.37) by
- MW2NAM12FT031.mail.protection.outlook.com (10.13.181.126) with Microsoft SMTP
+ MW2NAM12FT051.mail.protection.outlook.com (10.13.181.74) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.14 via Frontend Transport; Tue, 28 Jul 2020 01:37:04 +0000
+ 15.20.3239.14 via Frontend Transport; Tue, 28 Jul 2020 01:37:06 +0000
 Received: from laplante-lm-19.localdomain (192.25.126.27) by
  edgeappmail.agilent.com (192.25.218.37) with Microsoft SMTP Server id
- 15.1.1261.35; Mon, 27 Jul 2020 19:36:50 -0600
+ 15.1.1261.35; Mon, 27 Jul 2020 19:36:51 -0600
 From: "Chris Laplante" <chris.laplante@agilent.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [meta-oe][PATCH 1/3] lib/oe/log_colorizer.py: add LogColorizerProxyProgressHandler
-Date: Mon, 27 Jul 2020 21:35:55 -0400
-Message-ID: <20200728013557.111830-2-chris.laplante@agilent.com>
+Subject: [meta-oe][PATCH 3/3] log-colorizer.bbclass: add new class
+Date: Mon, 27 Jul 2020 21:35:57 -0400
+Message-ID: <20200728013557.111830-4-chris.laplante@agilent.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200728013557.111830-1-chris.laplante@agilent.com>
 References: <20200728013557.111830-1-chris.laplante@agilent.com>
@@ -61,132 +61,103 @@ Received-SPF: SoftFail (wpcosapexchedg1.windmz.agilent.com: domain of
  permitted sender)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 868f9138-00bc-426f-26c9-08d83296bbbb
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3176:
+X-MS-Office365-Filtering-Correlation-Id: fc6076ca-2ba4-4eed-5a24-08d83296bc8e
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1512:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR12MB317678CBBCA1B5A676BE671C8B730@BYAPR12MB3176.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+	<CY4PR12MB151259FAD7534EEF8074BF738B730@CY4PR12MB1512.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	mEjmQcgu6NMYEfV6ZyY97DNIhKFO7U3nnX/ujoOuW4+7y1AjmZduCADO/HMyWUHd2B9TRVXW0wo0ZyZvUpB5/KpOhCMhllaCD2+SLpxoh7mPJQ62ZwOtSH0Xl2XlAmw0/r34aNkG8ZZBfxxJ9Vkc6MTBegPKZXVqaKtQkEzjbYiWWxCgZAeDR5GVPqT3zpIfNtAA2GGkkaLgKe22r0QGWYdP/gPYfukcfCNVOI/tB0ON9SkcD495G3jixQ/+TTzJ6dKlXipYhrCK3lZguDvNhcx518WmDxFGfepJm8/W1sQVb18eTs3+2uFy6Dri/cHs86LJzJD4NjSubvT4vhr7PdZZiutUD1CSm0dhjvUxUtkZN5uXwCuegjxYwDAYIIb89D/6kqgOXC94mzV3QwVJaTG5XkOySlFbxfnESCI4sdjwBEozHllkje+c6IsK7t6Mo42nc5AKB+Zn2t2GZedxkPgWWxtSpQeDVvNe6aFHbZ2Yw3cfW1UlZB7oQQqm+VMIJ7IlLdDdOfwegWcAF7OxiSpO/jRVjmvolog69oW4GP0=
+	qtZBrJuZei/MXvg4mAOsODRASQRv2veXcy9Ny8UsP8qFEhfQPops4g+KpgBC13Q2zl/qrA6WU2R0k9OgW2VOg2/tMWnRHqy87AXgrl1iAd/RjXK8XgAJmYX794iWqUvXEQ/f9KKRUqPWWBRHqzxe5RuurmwiEm77nYrTYGmdvn3j7x6CJof6du1a7AfrViD26XM1RgEjSl13RM4Clr6ZoZxd+DW4eASMHguXsgBGLqe5O1PQm1tWaJAOOf5ogqM1DRYG4PT7yprYmbvbDmNA8ccMttJirEz/i1+cLMX1ZDjuvwnhT5h1k6duYBhs5G8EfdkgNO0jNyGORCNjBEzr0mUHMuSUKi+/jJJ/AwdAo2dlgxSjKDb4L1PCyN+uVbjHqJUO0X9UkDQZWs/tUHKPgYzaeFVAM1lLkddZ1kmUjbw=
 X-Forefront-Antispam-Report: 
-	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFTY:;SFS:(376002)(39860400002)(346002)(136003)(396003)(29502001)(46966005)(107886003)(956004)(86362001)(4326008)(6916009)(966005)(8936002)(82740400003)(36756003)(26005)(2906002)(2616005)(426003)(8676002)(336012)(186003)(47076004)(82310400002)(1076003)(356005)(44832011)(316002)(7636003)(70206006)(478600001)(5660300002)(213903007);DIR:OUT;SFP:1101;
+	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFTY:;SFS:(136003)(376002)(396003)(346002)(39860400002)(29502001)(46966005)(82740400003)(44832011)(7636003)(316002)(36756003)(47076004)(4326008)(478600001)(426003)(1076003)(26005)(86362001)(107886003)(6916009)(2906002)(956004)(70206006)(82310400002)(8676002)(356005)(2616005)(186003)(336012)(8936002)(5660300002)(83380400001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 01:37:04.7973
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 01:37:06.1644
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 868f9138-00bc-426f-26c9-08d83296bbbb
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc6076ca-2ba4-4eed-5a24-08d83296bc8e
 X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.37];Helo=[edgeappmail.agilent.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW2NAM12FT031.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW2NAM12FT051.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3176
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1512
 Content-Type: text/plain
 
-This progress handler intercepts log output, stripping any ANSII color
-escape codes. Then the stripped output is fed to the underlying progress
-handler which will render the progress bar as usual.
+This bbclass turns on compiler color diagnostics to make it easier to
+visually interpret compiler errors and warnings. It can be used
+per-recipe or globally (via INHERIT in local.conf).
+
+You can set the LOG_COLORIZER_SUPPRESS_COLORIZED_OUTPUT variable to turn
+off color output - this is intended for usage in a CI environment.
+
+log.do_compile and log.do_configure task logs will contain the colorized
+output. Non-colorized versions (log.do_<task>.nocolor) and explicitly
+colorized versions (log.do_<task>.color) are created as well, regardless
+of LOG_COLORIZER_SUPPRESS_COLORIZED_OUTPUT.
 
 Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 ---
- meta/lib/oe/log_colorizer.py | 86 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 meta/lib/oe/log_colorizer.py
+ meta/classes/log-colorizer.bbclass | 49 ++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 meta/classes/log-colorizer.bbclass
 
-diff --git a/meta/lib/oe/log_colorizer.py b/meta/lib/oe/log_colorizer.py
+diff --git a/meta/classes/log-colorizer.bbclass b/meta/classes/log-colorizer.bbclass
 new file mode 100644
-index 0000000000..10021ef880
+index 0000000000..4271957e28
 --- /dev/null
-+++ b/meta/lib/oe/log_colorizer.py
-@@ -0,0 +1,86 @@
++++ b/meta/classes/log-colorizer.bbclass
+@@ -0,0 +1,49 @@
 +# Copyright (C) 2020  Agilent Technologies, Inc.
 +# Author: Chris Laplante <chris.laplante@agilent.com>
 +#
 +# Released under the MIT license (see COPYING.MIT)
 +
-+from bb.progress import ProgressHandler
-+from bb.build import create_progress_handler
-+import contextlib
-+import re
-+import os.path
++LOG_COLORIZER_SUPPRESS_COLORIZED_OUTPUT ?= ""
++LOG_COLORIZER_SUPPRESS_COLORIZED_OUTPUT[doc] = "If set, then console output from the colorized tasks will be stripped of ANSI escape codes."
 +
-+# from https://stackoverflow.com/a/14693789/221061
-+ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
++LOG_COLORIZER_TASKS ?= " \
++    configure \
++    compile \
++"
 +
++BB_SIGNATURE_EXCLUDE_FLAGS += "originalprogress"
 +
-+class LogColorizerProxyProgressHandler(ProgressHandler):
-+    """
-+    This is a proxy progress handler. It intercepts log output, stripping any
-+    ANSII color escape codes. Then the stripped output is fed to the task's
-+    original progress handler which will render the progress bar as usual.
-+    """
-+    def __init__(self, d, outfile=None, otherargs=None):
-+        self._task = d.getVar("BB_RUNTASK")
-+        self._color_log = None
-+        self._nocolor_log = None
-+        self._exit_stack = None
-+        self._original_ph = None
++CFLAGS += "-fdiagnostics-color"
 +
-+        self._suppress_color_output = not not d.getVar("LOG_COLORIZER_SUPPRESS_COLORIZED_OUTPUT")
++python log_colorizer_eventhandler() {
++    def is_task_enabled(task):
++        return task in (d.getVar("__BBTASKS") or []) and "noexec" not in d.getVarFlags(task)
 +
-+        self._tempdir = d.getVar("T")
-+        logfmt = (d.getVar('BB_LOGFMT') or 'log.{task}.{pid}')
-+        self._logbasename = logfmt.format(task=self._task, pid=os.getpid())
++    for task in set((d.getVar("LOG_COLORIZER_TASKS") or "").split()):
++        if not task.startswith("do_"):
++            task = "do_{0}".format(task)
 +
-+        # Setup courtesy symlinks
-+        for suffix in [".nocolor", ".color"]:
-+            loglink = os.path.join(self._tempdir, 'log.{0}{1}'.format(self._task, suffix))
-+            logfn = os.path.join(self._tempdir, self._logbasename + suffix)
-+            if loglink:
-+                bb.utils.remove(loglink)
++        if not is_task_enabled(task):
++            continue
 +
-+                try:
-+                    os.symlink(self._logbasename + suffix, loglink)
-+                except OSError:
-+                    pass
++        ph = d.getVarFlag(task, "progress")
++        if ph:
++            # Stash away the original progress handler
++            d.setVarFlag(task, "originalprogress", ph)
 +
-+        super().__init__(d, outfile)
++        d.setVarFlag(task, "progress", "custom:oe.log_colorizer.LogColorizerProxyProgressHandler")
++}
 +
-+    def __enter__(self):
-+        with contextlib.ExitStack() as es:
-+            self._color_log = es.enter_context(open(os.path.join(self._tempdir, self._logbasename) + ".color", "w"))
-+            self._nocolor_log = es.enter_context(open(os.path.join(self._tempdir, self._logbasename) + ".nocolor", "w"))
++addhandler log_colorizer_eventhandler
++log_colorizer_eventhandler[eventmask] = " \
++    bb.event.RecipeTaskPreProcess \
++"
 +
-+            # Reconstitute the original progress handler. We will feed stripped output to it so
-+            # that the progress bar still shows up for the task.
-+            original_ph = self._data.getVarFlag(self._task, "originalprogress")
-+            if original_ph:
-+                # We don't want task output showing up on the screen twice, so we'll just have
-+                # the original progress handler write to /dev/null.
-+                # Note the progress handler itself is responsible for closing the devnull handler.
-+                devnull = open("/dev/null", "w")
-+                self._original_ph = es.enter_context(create_progress_handler(self._task, original_ph, devnull, self._data))
-+
-+            self._exit_stack = es.pop_all()
-+        super().__enter__()
-+
-+    def __exit__(self, *exc_info):
-+        if self._exit_stack:
-+            self._exit_stack.__exit__(*exc_info)
-+        super().__exit__(*exc_info)
-+
-+    def write(self, string):
-+        # Filter out ANSI escape sequences using the regular expression
-+        filtered = ansi_escape.sub('', string)
-+
-+        if self._color_log:
-+            self._color_log.write(string)
-+
-+        if self._nocolor_log:
-+            self._nocolor_log.write(filtered)
-+
-+        if self._original_ph:
-+            # Pass-through to the original progress handler so we get our progress bar
-+            self._original_ph.write(filtered)
-+
-+        super().write(filtered if self._suppress_color_output else string)
++python __anonymous() {
++    if bb.data.inherits_class("cmake", d):
++        # Inject environment variable to ensure CMake/Ninja gives colorized output
++        func = d.getVar("cmake_do_compile", False)
++        if "export CLICOLOR_FORCE=1" not in [line.strip() for line in func.split("\n")]:
++            func = "\texport CLICOLOR_FORCE=1\n" + func
++            d.setVar("cmake_do_compile", func)
++}
 --
 2.17.1
 
