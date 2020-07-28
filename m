@@ -1,113 +1,87 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.15218.1595951415755754742
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
+ by mx.groups.io with SMTP id smtpd.web10.16117.1595952873385102891
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 08:50:16 -0700
+ Tue, 28 Jul 2020 09:14:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7nDlgZh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id c80so35438wme.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 08:50:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=q/ntPZKA;
+ spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f194.google.com with SMTP id r12so16671250ilh.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 09:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ZSMRLNNu3nqdf2PG1w29jnNMO/zugzeedqmmaVxIDtY=;
-        b=X7nDlgZhGcN5QDdarGtTw5u6gj8MqumsymVNihoguML0q9OHCFTwzMZ4o+ThpJLFnD
-         YY1DI+335pTBpdj3fp0jYuD8MAgdit7hWhxqXskmUZia+GkPG+f9JVkx8lLayG/Khpfd
-         A/ECBAbctXFrOmDNEHtXayPpmonhKImmnTQyY=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ARUvDA68SJGb/2Ex3v/zq65NK0PcKVDt9/mcYCmhS1U=;
+        b=q/ntPZKAbkL+yTLNT/3TUm4VheC2LexARklOXIWGYOr4vuwdjxvxY8kTb0j1xYAxq+
+         B3rR/RHZiVyvU59rKcmnDdR0Fw/tGVXLDDSy7d7+Hnceo8TXvs7zau+MxPnLykPXX9XG
+         NgVItt6nIsH+hAoaz/8cUtgtHR6XJPgS86GO7pMff1WXsxaB+tzIX0OC3I3J9/NuqfUT
+         1DyE6zoaurHZbOrEJl7eT0EWZcf9jekfeVezDsHROwCXukodqzz9gXt5pYepvPhRHiTh
+         junh0o8cIwztpcWNeFq8Hg3jQhO+dp0WDcI7TxUZ/rlXf85p+PFO9c4rcs4CwSbXohpA
+         9pqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ZSMRLNNu3nqdf2PG1w29jnNMO/zugzeedqmmaVxIDtY=;
-        b=PEAco9fu0LW0hfpOuFNUD4FtPhX7fOOj4fy07MeC30a9I2cduBhd9HcSfNM9euKCSG
-         qiuJ7Pi/s8wT70uaCaxA8jQPTlJrcufGHK39PE5uiy4sTC8HLmP2vHYaRv/wiQphc8kU
-         mSnOyGVOexIPDpmNTXjiJCY52Q5RU6Z+BRKKyJ5FnWwxHTi3WYvkAJrfaMAStXl0Zmr4
-         RGPGWPm6dGGw33r6JWwBdda4+ZuSCOxFlhuBXzBw+9947+1s65R0/bGDI4Cb7zfCl4di
-         z5qES1gt4bhyCRZIfpYyXnHVJyfW9noT6Meel08nsWciRj5bE+gCXxdV+obu392kKJiZ
-         5luA==
-X-Gm-Message-State: AOAM533defz9EQmUqFITjMD8qSKCm0atyxUa5uNWQY4yWvLjQPgqHWv8
-	HMHhWWXQnqkVjyur3+2gnaLuhg==
-X-Google-Smtp-Source: ABdhPJwFrRCV56mWiYu6p8cow6ADlHl6Y1zXuMkzajXjckDL0vilFk6J2yfZgKAy+Qib+XZ62fz5Gw==
-X-Received: by 2002:a1c:bc54:: with SMTP id m81mr4524902wmf.60.1595951414192;
-        Tue, 28 Jul 2020 08:50:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.6.3.d.4.5.3.d.8.9.d.0.a.0.d.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.6.3.d.4.5.3.d.8.9.d.0.a.0.d.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d0a:d98:d354:d36f])
-        by smtp.gmail.com with ESMTPSA id t14sm8012468wrg.38.2020.07.28.08.50.09
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ARUvDA68SJGb/2Ex3v/zq65NK0PcKVDt9/mcYCmhS1U=;
+        b=ExAqSoBtIdaHRKIdNZOrjFHgeQXLmYDDxXaICbfw7G6S+NLuHkdTQcFckrtmsWP+hg
+         jRKv/fmJHutmvLIbDJeHhywesXTCFhkJKRLZu8AYdqtRpF9wOXM3TojPdxVSL0bTcHYM
+         bvr8g/rSwmR4cOlDdPhlxCbgqw05simwrBDe6zUMYNwHitHJkGy4SuZYn769tCFJNIlx
+         QwHoetZ9WSeUJ5CKC/rSqM3n7X+yjjtFErd9OIjik9jvMX3sJmjPIRi289u6P6yRChdm
+         w10pDNat4cqJWxzXzeETIFERM1zt5Iij9YSXwFOFRTB/6uec/6jATelFP+S4+1AZPWiO
+         Z+pQ==
+X-Gm-Message-State: AOAM533g8H4HLfjbwhOiZAY0c/RQsZG5uBeN5pyOfWp+ZHHNc1H3B9Ax
+	B5Cen7R3ul4eXyId5ivrg4QjnwgGB80=
+X-Google-Smtp-Source: ABdhPJzL+PE1HUHvwLT1EYhApjT8Rd36u945KlXxs9EvXns7wTQRyZ0BsCoiWNDhelx9NSMZCYnIlw==
+X-Received: by 2002:a05:6e02:1105:: with SMTP id u5mr343516ilk.258.1595952869532;
+        Tue, 28 Jul 2020 09:14:29 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:8884:5f51:bc84:89b5])
+        by smtp.gmail.com with ESMTPSA id h5sm10330325ilq.22.2020.07.28.09.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 08:50:10 -0700 (PDT)
-Message-ID: <edc83a1a101292425dce9dd1c9df51d6b8db8e7a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH 0/3] Log colorizer
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: chris.laplante@agilent.com, openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2020 16:50:07 +0100
-In-Reply-To: <20200728013557.111830-1-chris.laplante@agilent.com>
-References: <20200728013557.111830-1-chris.laplante@agilent.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Tue, 28 Jul 2020 09:14:28 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] lib/oe/reproducible.py: Fix git HEAD check
+Date: Tue, 28 Jul 2020 11:14:26 -0500
+Message-Id: <20200728161426.29928-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-07-27 at 21:35 -0400, Chris Laplante via lists.openembedded.org wrote:
-> This patch series turns on color compiler diagnostics. It is especially
-> useful when doing edit-compile-test development work with devtool.
-> 
-> It is based on one I've been using internally for about a
-> year now.
-> 
-> Limitation: Note that the *.nocolor and *.color logs will only contain the
->  output of the task itself, not any prefuncs or postfuncs. This is
->  because the color filtering is implemented using progress handlers,
->  which don't see prefunc or postfunc output.
-> 
-> Chris Laplante (3):
->   lib/oe/log_colorizer.py: add LogColorizerProxyProgressHandler
->   base.bbclass: make oe.log_colorizer available in global context
->   log-colorizer.bbclass: add new class
-> 
->  meta/classes/base.bbclass          |  2 +-
->  meta/classes/log-colorizer.bbclass | 49 +++++++++++++++++
->  meta/lib/oe/log_colorizer.py       | 86 ++++++++++++++++++++++++++++++
->  3 files changed, 136 insertions(+), 1 deletion(-)
->  create mode 100644 meta/classes/log-colorizer.bbclass
->  create mode 100644 meta/lib/oe/log_colorizer.py
+The check for a git HEAD still wasn't quite correct because it was using
+the .git directory as the current working directory. Instead, it should
+be passed as the --git-dir argument when running git. Running `git
+rev-parse HEAD` in a .git directory with no HEAD reports 'HEAD' and
+exits with success but then 'git log' will fail, which is not what we
+want.
 
-This looks interesting. Could we add something to the manual about how
-to use it and maybe a test for it as well please?
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/reproducible.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I did write something similar in a different context recently which
-applies here near enough as well:
-
-"""
-By documentation, I mean that kernel-fitimage.bbclass has no
-information in the reference manual:
-
-https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ref-classes-kernel-fitimage
-
-generated from:
-http://git.yoctoproject.org/cgit.cgi/yocto-docs/tree/documentation/ref-manual/ref-classes.xml
-
-and also there is also no header at the start of the class saying what
-it does or how to use it.
-
-Could we add something to these locations to give more information
-about the class?
-
-For testing, have a look at
-meta/lib/oeqa/selftest/cases/imagefeatures.py. Its testing target image
-rootfs settings but I believe the concept is similar to how you'd test
-something like the kernel-fitimage class.
-
-You can run these tests individually with "oe-selftest -r
-imagefeatures" to run that file or "oe-selftest -r
-imagefeatures.ImageFeatures.test_bmap" as an example of a specific
-test.
-"""
-
-although there may be a different selftest which would be a better
-example to base a test off for this code.
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
+index f4f58dd952..421bb12f54 100644
+--- a/meta/lib/oe/reproducible.py
++++ b/meta/lib/oe/reproducible.py
+@@ -56,13 +56,13 @@ def get_source_date_epoch_from_git(d, sourcedir):
+ 
+     # Check that the repository has a valid HEAD; it may not if subdir is used
+     # in SRC_URI
+-    p = subprocess.run(['git', 'rev-parse', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=gitpath)
++    p = subprocess.run(['git', '--git-dir', gitpath, 'rev-parse', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+     if p.returncode != 0:
+         bb.debug(1, "%s does not have a valid HEAD: %s" % (gitpath, p.stdout.decode('utf-8')))
+         return None
+ 
+     bb.debug(1, "git repository: %s" % gitpath)
+-    p = subprocess.run(['git','log','-1','--pretty=%ct'], check=True, stdout=subprocess.PIPE, cwd=gitpath)
++    p = subprocess.run(['git', '--git-dir', gitpath, 'log', '-1', '--pretty=%ct'], check=True, stdout=subprocess.PIPE)
+     return int(p.stdout.decode('utf-8'))
+ 
+ def get_source_date_epoch_from_youngest_file(d, sourcedir):
+-- 
+2.27.0
 
