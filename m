@@ -1,78 +1,57 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web11.8071.1595926461485962472
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.8163.1595926947754555500
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 01:54:21 -0700
+ Tue, 28 Jul 2020 02:02:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: rW4fxE0zBXaS1pIyNnwPKbfR6EcoRUSqWA0BhpBEy7KaQwqrHN6lKmagSngGSqjIE8vuqC88Zz
- AEIrnIzKEE8w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="215699769"
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="215699769"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:19 -0700
-IronPort-SDR: s5f4s3PGv2caGGOC9nmXcEujdbX1CdnGVTFMzhksQdfZsne8LsnnclX0Y5mHAEOS3T2BRG9fXJ
- Z2ulo2mc8GfA==
-X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="434245945"
-Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.137.161])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:17 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 24/32] perf: Correct the substitution of python shebangs
-Date: Tue, 28 Jul 2020 16:51:25 +0800
-Message-Id: <c0bcc24ccc6d769935d7fa202a1405250d94e342.1595924916.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1595924916.git.anuj.mittal@intel.com>
-References: <cover.1595924916.git.anuj.mittal@intel.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B7EDF60B4D;
+	Tue, 28 Jul 2020 09:02:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgemV1cyByZXZpZXcgcmVxdWVzdCAocmV2NCk=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jul 2020 09:02:27 -0000
+Message-ID: <20200728090227.2262.38532@do>
+References: <cover.1595924916.git.anuj.mittal@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1595924916.git.anuj.mittal@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+== Series Details ==
 
-To make the native python3 always used,
+Series: zeus review request (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/23013/
+State : failure
 
-- Use sed one-liner instead
-- Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
-  following warning.
+== Summary ==
 
-File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-_temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
-ModuleNotFoundError: No module named '_sysconfigdata'
 
-This issue is first reported by Joel Stanley <joel@jms.id.au>
-The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-(From OE-Core rev: 3f93173130a94310255389cfc62c67102a4fb21b)
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3a1a18ba9d28adb5562eabe9ec354f6d93154f5c)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+
+* Patch            [zeus,29/32] nss: Fix CVE-2020-12399
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-kernel/perf/perf.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index d707b580e2..904aca95de 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -233,11 +233,8 @@ do_configure_prepend () {
-     fi
- 
-     # use /usr/bin/env instead of version specific python
--    for s in `find ${S}/tools/perf/ -name '*.py'`; do
--        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-+    for s in `find ${S}/tools/perf/ -name '*.py'` `find ${S}/scripts/ -name 'bpf_helpers_doc.py'`; do
-+        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
-     done
- 
-     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
--- 
-2.25.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
