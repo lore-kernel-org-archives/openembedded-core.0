@@ -1,310 +1,357 @@
 Received: from mga07.intel.com (mga07.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.8237.1595926357616374658
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 01:53:08 -0700
+ Tue, 28 Jul 2020 01:53:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 0HUG8DHp+oto0ZO9OyP9UIEb0hRTNy0JA0iiUoKG9ktyYRU74sxhlbps631HeIJ7sVbl6fGZn+
- Ymzw1TF1KLXQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="215699733"
+IronPort-SDR: WPqe6BqpTg79B7tWsFLsLG9YeilHpiZqjCpuiraQ0nDFZ8Z0h9qj7rIAblIUC5iMY0AqU0Id0T
+ JGB6fGzF+QYg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="215699741"
 X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="215699733"
+   d="scan'208";a="215699741"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:08 -0700
-IronPort-SDR: 9iJ8oSu0aHzuV5ZYMmuM+RrlT+6OjFcIPqXhhhNcKVPNb1wM3zSDe+J9XVuf5GlnqL3JJeK9Pv
- i9n6IeOuXiUQ==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:09 -0700
+IronPort-SDR: iF/695kuYXrUWJ+dKaOuGO4nPrP5rB5z/CTItFIAvJCv9OTkVw4qP4sdjrh+59TQaQHfrvxzc6
+ UcHSg71TZIQw==
 X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; 
-   d="scan'208";a="434245860"
+   d="scan'208";a="434245877"
 Received: from unknown (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.137.161])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:06 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 01:53:08 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 17/32] perl: fix CVE-2020-10543 & CVE-2020-10878
-Date: Tue, 28 Jul 2020 16:51:18 +0800
-Message-Id: <de3fe84fcfe3f1c3c2ad963b1fe459ccca9472a0.1595924916.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 18/32] wpa-supplicant: Security fix CVE-2020-12695
+Date: Tue, 28 Jul 2020 16:51:19 +0800
+Message-Id: <a341c128a5166c505ee1ec207abb87e5fa64d62e.1595924916.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1595924916.git.anuj.mittal@intel.com>
 References: <cover.1595924916.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Armin Kuster <akuster@mvista.com>
 
-(From OE-Core rev: d9c5d9c52eb1f03ff9c907a76dda31042fb26edb)
+Source: http://w1.fi/security/
+Disposition: Backport from http://w1.fi/security/2020-1/
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Affects <= 2.9 wpa-supplicant
+
+(From OE-Core rev: 720d29cbfce34375402c6a4c17e440ffbb2659bf)
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+(cherry picked from commit e9c696397ae1b4344b8329a13076f265980ee74d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../perl/files/CVE-2020-10543.patch           |  36 +++++
- .../perl/files/CVE-2020-10878_1.patch         | 152 ++++++++++++++++++
- .../perl/files/CVE-2020-10878_2.patch         |  36 +++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   3 +
- 4 files changed, 227 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10543.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
+ ...allow-event-subscriptions-with-URLs-.patch | 151 ++++++++++++++++++
+ ...nt-message-generation-using-a-long-U.patch |  62 +++++++
+ ...HTTP-initiation-failures-for-events-.patch |  50 ++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |   5 +-
+ 4 files changed, 267 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10543.patch b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
 new file mode 100644
-index 0000000000..36dff0aac9
+index 0000000000..53ad5d028a
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10543.patch
-@@ -0,0 +1,36 @@
-+From 897d1f7fd515b828e4b198d8b8bef76c6faf03ed Mon Sep 17 00:00:00 2001
-+From: John Lightsey <jd@cpanel.net>
-+Date: Wed, 20 Nov 2019 20:02:45 -0600
-+Subject: [PATCH] regcomp.c: Prevent integer overflow from nested regex
-+ quantifiers.
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch
+@@ -0,0 +1,151 @@
++From 5b78c8f961f25f4dc22d6f2b77ddd06d712cec63 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@codeaurora.org>
++Date: Wed, 3 Jun 2020 23:17:35 +0300
++Subject: [PATCH 1/3] WPS UPnP: Do not allow event subscriptions with URLs to
++ other networks
 +
-+(CVE-2020-10543) On 32bit systems the size calculations for nested regular
-+expression quantifiers could overflow causing heap memory corruption.
++The UPnP Device Architecture 2.0 specification errata ("UDA errata
++16-04-2020.docx") addresses a problem with notifications being allowed
++to go out to other domains by disallowing such cases. Do such filtering
++for the notification callback URLs to avoid undesired connections to
++external networks based on subscriptions that any device in the local
++network could request when WPS support for external registrars is
++enabled (the upnp_iface parameter in hostapd configuration).
 +
-+Fixes: Perl/perl5-security#125
-+(cherry picked from commit bfd31397db5dc1a5c5d3e0a1f753a4f89a736e71)
++Upstream-Status: Backport
++CVE: CVE-2020-12695 patch #1
++Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/897d1f7fd515b828e4b198d8b8bef76c6faf03ed] 
-+CVE: CVE-2020-10543
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ regcomp.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ src/wps/wps_er.c     |  2 +-
++ src/wps/wps_upnp.c   | 38 ++++++++++++++++++++++++++++++++++++--
++ src/wps/wps_upnp_i.h |  3 ++-
++ 3 files changed, 39 insertions(+), 4 deletions(-)
 +
-+diff --git a/regcomp.c b/regcomp.c
-+index 93c8d98fbb0..5f86be8086d 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -5489,6 +5489,12 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 				  RExC_precomp)));
-+                 }
-+ 
-++                if ( ( minnext > 0 && mincount >= SSize_t_MAX / minnext )
-++                    || min >= SSize_t_MAX - minnext * mincount )
-++                {
-++                    FAIL("Regexp out of space");
-++                }
-++
-+ 		min += minnext * mincount;
-+ 		is_inf_internal |= deltanext == SSize_t_MAX
-+                          || (maxcount == REG_INFTY && minnext + deltanext > 0);
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-new file mode 100644
-index 0000000000..b86085a551
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_1.patch
-@@ -0,0 +1,152 @@
-+From 0a320d753fe7fca03df259a4dfd8e641e51edaa8 Mon Sep 17 00:00:00 2001
-+From: Hugo van der Sanden <hv@crypt.org>
-+Date: Tue, 18 Feb 2020 13:51:16 +0000
-+Subject: [PATCH] study_chunk: extract rck_elide_nothing
-+
-+(CVE-2020-10878)
-+
-+(cherry picked from commit 93dee06613d4e1428fb10905ce1c3c96f53113dc)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/0a320d753fe7fca03df259a4dfd8e641e51edaa8] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ embed.fnc |  1 +
-+ embed.h   |  1 +
-+ proto.h   |  3 +++
-+ regcomp.c | 70 ++++++++++++++++++++++++++++++++++---------------------
-+ 4 files changed, 48 insertions(+), 27 deletions(-)
-+
-+diff --git a/embed.fnc b/embed.fnc
-+index aedb4baef19..d7cd04d3fc3 100644
-+--- a/embed.fnc
-++++ b/embed.fnc
-+@@ -2481,6 +2481,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
-+                                 |I32 stopparen|U32 recursed_depth \
-+ 				|NULLOK regnode_ssc *and_withp \
-+ 				|U32 flags|U32 depth
-++Es	|void	|rck_elide_nothing|NN regnode *node
-+ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
-+ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
-+ 				|NN const char* const s|const U32 n
-+diff --git a/embed.h b/embed.h
-+index 75c91f77f45..356a8b98d96 100644
-+--- a/embed.h
-++++ b/embed.h
-+@@ -1208,6 +1208,7 @@
-+ #define parse_lparen_question_flags(a)	S_parse_lparen_question_flags(aTHX_ a)
-+ #define parse_uniprop_string(a,b,c,d,e,f,g,h,i)	Perl_parse_uniprop_string(aTHX_ a,b,c,d,e,f,g,h,i)
-+ #define populate_ANYOF_from_invlist(a,b)	S_populate_ANYOF_from_invlist(aTHX_ a,b)
-++#define rck_elide_nothing(a)	S_rck_elide_nothing(aTHX_ a)
-+ #define reg(a,b,c,d)		S_reg(aTHX_ a,b,c,d)
-+ #define reg2Lanode(a,b,c,d)	S_reg2Lanode(aTHX_ a,b,c,d)
-+ #define reg_node(a,b)		S_reg_node(aTHX_ a,b)
-+diff --git a/proto.h b/proto.h
-+index 141ddbaee6d..f316fe134e1 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -5543,6 +5543,9 @@ PERL_CALLCONV SV *	Perl_parse_uniprop_string(pTHX_ const char * const name, cons
-+ STATIC void	S_populate_ANYOF_from_invlist(pTHX_ regnode *node, SV** invlist_ptr);
-+ #define PERL_ARGS_ASSERT_POPULATE_ANYOF_FROM_INVLIST	\
-+ 	assert(node); assert(invlist_ptr)
-++STATIC void	S_rck_elide_nothing(pTHX_ regnode *node);
-++#define PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING	\
-++	assert(node)
-+ PERL_STATIC_NO_RET void	S_re_croak2(pTHX_ bool utf8, const char* pat1, const char* pat2, ...)
-+ 			__attribute__noreturn__;
-+ #define PERL_ARGS_ASSERT_RE_CROAK2	\
-+diff --git a/regcomp.c b/regcomp.c
-+index 5f86be8086d..4ba2980db66 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -4450,6 +4450,44 @@ S_unwind_scan_frames(pTHX_ const void *p)
-+     } while (f);
++Index: wpa_supplicant-2.9/src/wps/wps_er.c
++===================================================================
++--- wpa_supplicant-2.9.orig/src/wps/wps_er.c
+++++ wpa_supplicant-2.9/src/wps/wps_er.c
++@@ -1298,7 +1298,7 @@ wps_er_init(struct wps_context *wps, con
++			   "with %s", filter);
++	}
++	if (get_netif_info(er->ifname, &er->ip_addr, &er->ip_addr_text,
++-			   er->mac_addr)) {
+++			   NULL, er->mac_addr)) {
++		wpa_printf(MSG_INFO, "WPS UPnP: Could not get IP/MAC address "
++			   "for %s. Does it have IP address?", er->ifname);
++		wps_er_deinit(er, NULL, NULL);
++Index: wpa_supplicant-2.9/src/wps/wps_upnp.c
++===================================================================
++--- wpa_supplicant-2.9.orig/src/wps/wps_upnp.c
+++++ wpa_supplicant-2.9/src/wps/wps_upnp.c
++@@ -303,6 +303,14 @@ static void subscr_addr_free_all(struct
 + }
-+ 
-++/* Follow the next-chain of the current node and optimize away
-++   all the NOTHINGs from it.
-++ */
-++STATIC void
-++S_rck_elide_nothing(pTHX_ regnode *node)
++
++
+++static int local_network_addr(struct upnp_wps_device_sm *sm,
+++			      struct sockaddr_in *addr)
 ++{
-++    dVAR;
-++
-++    PERL_ARGS_ASSERT_RCK_ELIDE_NOTHING;
-++
-++    if (OP(node) != CURLYX) {
-++        const int max = (reg_off_by_arg[OP(node)]
-++                        ? I32_MAX
-++                          /* I32 may be smaller than U16 on CRAYs! */
-++                        : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-++        int off = (reg_off_by_arg[OP(node)] ? ARG(node) : NEXT_OFF(node));
-++        int noff;
-++        regnode *n = node;
-++
-++        /* Skip NOTHING and LONGJMP. */
-++        while (
-++            (n = regnext(n))
-++            && (
-++                (PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-++                || ((OP(n) == LONGJMP) && (noff = ARG(n)))
-++            )
-++            && off + noff < max
-++        ) {
-++            off += noff;
-++        }
-++        if (reg_off_by_arg[OP(node)])
-++            ARG(node) = off;
-++        else
-++            NEXT_OFF(node) = off;
-++    }
-++    return;
+++	return (addr->sin_addr.s_addr & sm->netmask.s_addr) ==
+++		(sm->ip_addr & sm->netmask.s_addr);
 ++}
 ++
-+ /* the return from this sub is the minimum length that could possibly match */
-+ STATIC SSize_t
-+ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+@@ -4550,28 +4588,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+          */
-+         JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-+ 
-+-	/* Follow the next-chain of the current node and optimize
-+-	   away all the NOTHINGs from it.  */
-+-	if (OP(scan) != CURLYX) {
-+-	    const int max = (reg_off_by_arg[OP(scan)]
-+-		       ? I32_MAX
-+-		       /* I32 may be smaller than U16 on CRAYs! */
-+-		       : (I32_MAX < U16_MAX ? I32_MAX : U16_MAX));
-+-	    int off = (reg_off_by_arg[OP(scan)] ? ARG(scan) : NEXT_OFF(scan));
-+-	    int noff;
-+-	    regnode *n = scan;
-+-
-+-	    /* Skip NOTHING and LONGJMP. */
-+-	    while ((n = regnext(n))
-+-		   && ((PL_regkind[OP(n)] == NOTHING && (noff = NEXT_OFF(n)))
-+-		       || ((OP(n) == LONGJMP) && (noff = ARG(n))))
-+-		   && off + noff < max)
-+-		off += noff;
-+-	    if (reg_off_by_arg[OP(scan)])
-+-		ARG(scan) = off;
-+-	    else
-+-		NEXT_OFF(scan) = off;
-+-	}
-++        /* Follow the next-chain of the current node and optimize
-++           away all the NOTHINGs from it.
-++         */
-++        rck_elide_nothing(scan);
-+ 
-+ 	/* The principal pseudo-switch.  Cannot be a switch, since we
-+ 	   look into several different things.  */
-+@@ -5745,11 +5765,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+ 		if (data && (fl & SF_HAS_EVAL))
-+ 		    data->flags |= SF_HAS_EVAL;
-+ 	      optimize_curly_tail:
-+-		if (OP(oscan) != CURLYX) {
-+-		    while (PL_regkind[OP(next = regnext(oscan))] == NOTHING
-+-			   && NEXT_OFF(next))
-+-			NEXT_OFF(oscan) += NEXT_OFF(next);
-+-		}
-++		rck_elide_nothing(oscan);
-+ 		continue;
-+ 
-+ 	    default:
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-new file mode 100644
-index 0000000000..0bacd6b192
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-10878_2.patch
-@@ -0,0 +1,36 @@
-+From 3295b48defa0f8570114877b063fe546dd348b3c Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Thu, 20 Feb 2020 17:49:36 +0000
-+Subject: [PATCH] regcomp: use long jumps if there is any possibility of
-+ overflow
-+
-+(CVE-2020-10878) Be conservative for backporting, we'll aim to do
-+something more aggressive for bleadperl.
-+
-+(cherry picked from commit 9d7759db46f3b31b1d3f79c44266b6ba42a47fc6)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/3295b48defa0f8570114877b063fe546dd348b3c] 
-+CVE: CVE-2020-10878
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ regcomp.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 4ba2980db66..73c35a67020 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -7762,6 +7762,13 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+ 
-+         /* We have that number in RExC_npar */
-+         RExC_total_parens = RExC_npar;
 ++
-++        /* XXX For backporting, use long jumps if there is any possibility of
-++         * overflow */
-++        if (RExC_size > U16_MAX && ! RExC_use_BRANCHJ) {
-++            RExC_use_BRANCHJ = TRUE;
-++            flags |= RESTART_PARSE;
-++        }
-+     }
-+     else if (! MUST_RESTART(flags)) {
-+ 	ReREFCNT_dec(Rx);
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 149885f692..b633acfcea 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -23,6 +23,9 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0001-tests-adjust-to-correctly-exclude-unbuilt-extensions.patch \
-            file://determinism.patch  \
-            file://racefix.patch \
-+           file://CVE-2020-10543.patch \
-+           file://CVE-2020-10878_1.patch \
-+           file://CVE-2020-10878_2.patch \
-            "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
++ /* subscr_addr_add_url -- add address(es) for one url to subscription */
++ static void subscr_addr_add_url(struct subscription *s, const char *url,
++				size_t url_len)
++@@ -381,6 +389,7 @@ static void subscr_addr_add_url(struct s
++
++	for (rp = result; rp; rp = rp->ai_next) {
++		struct subscr_addr *a;
+++		struct sockaddr_in *addr = (struct sockaddr_in *) rp->ai_addr;
++
++		/* Limit no. of address to avoid denial of service attack */
++		if (dl_list_len(&s->addr_list) >= MAX_ADDR_PER_SUBSCRIPTION) {
++@@ -389,6 +398,13 @@ static void subscr_addr_add_url(struct s
++			break;
++		}
++
+++		if (!local_network_addr(s->sm, addr)) {
+++			wpa_printf(MSG_INFO,
+++				   "WPS UPnP: Ignore a delivery URL that points to another network %s",
+++				   inet_ntoa(addr->sin_addr));
+++			continue;
+++		}
+++
++		a = os_zalloc(sizeof(*a) + alloc_len);
++		if (a == NULL)
++			break;
++@@ -889,11 +905,12 @@ static int eth_get(const char *device, u
++  * @net_if: Selected network interface name
++  * @ip_addr: Buffer for returning IP address in network byte order
++  * @ip_addr_text: Buffer for returning a pointer to allocated IP address text
+++ * @netmask: Buffer for returning netmask or %NULL if not needed
++  * @mac: Buffer for returning MAC address
++  * Returns: 0 on success, -1 on failure
++  */
++ int get_netif_info(const char *net_if, unsigned *ip_addr, char **ip_addr_text,
++-		   u8 mac[ETH_ALEN])
+++		   struct in_addr *netmask, u8 mac[ETH_ALEN])
++ {
++	struct ifreq req;
++	int sock = -1;
++@@ -919,6 +936,19 @@ int get_netif_info(const char *net_if, u
++	in_addr.s_addr = *ip_addr;
++	os_snprintf(*ip_addr_text, 16, "%s", inet_ntoa(in_addr));
++
+++	if (netmask) {
+++		os_memset(&req, 0, sizeof(req));
+++		os_strlcpy(req.ifr_name, net_if, sizeof(req.ifr_name));
+++		if (ioctl(sock, SIOCGIFNETMASK, &req) < 0) {
+++			wpa_printf(MSG_ERROR,
+++				   "WPS UPnP: SIOCGIFNETMASK failed: %d (%s)",
+++				   errno, strerror(errno));
+++			goto fail;
+++		}
+++		addr = (struct sockaddr_in *) &req.ifr_netmask;
+++		netmask->s_addr = addr->sin_addr.s_addr;
+++	}
+++
++ #ifdef __linux__
++	os_strlcpy(req.ifr_name, net_if, sizeof(req.ifr_name));
++	if (ioctl(sock, SIOCGIFHWADDR, &req) < 0) {
++@@ -1025,11 +1055,15 @@ static int upnp_wps_device_start(struct
++
++	/* Determine which IP and mac address we're using */
++	if (get_netif_info(net_if, &sm->ip_addr, &sm->ip_addr_text,
++-			   sm->mac_addr)) {
+++			   &sm->netmask, sm->mac_addr)) {
++		wpa_printf(MSG_INFO, "WPS UPnP: Could not get IP/MAC address "
++			   "for %s. Does it have IP address?", net_if);
++		goto fail;
++	}
+++	wpa_printf(MSG_DEBUG, "WPS UPnP: Local IP address %s netmask %s hwaddr "
+++		   MACSTR,
+++		   sm->ip_addr_text, inet_ntoa(sm->netmask),
+++		   MAC2STR(sm->mac_addr));
++
++	/* Listen for incoming TCP connections so that others
++	 * can fetch our "xml files" from us.
++Index: wpa_supplicant-2.9/src/wps/wps_upnp_i.h
++===================================================================
++--- wpa_supplicant-2.9.orig/src/wps/wps_upnp_i.h
+++++ wpa_supplicant-2.9/src/wps/wps_upnp_i.h
++@@ -128,6 +128,7 @@ struct upnp_wps_device_sm {
++	u8 mac_addr[ETH_ALEN]; /* mac addr of network i.f. we use */
++	char *ip_addr_text; /* IP address of network i.f. we use */
++	unsigned ip_addr; /* IP address of network i.f. we use (host order) */
+++	struct in_addr netmask;
++	int multicast_sd; /* send multicast messages over this socket */
++	int ssdp_sd; /* receive discovery UPD packets on socket */
++	int ssdp_sd_registered; /* nonzero if we must unregister */
++@@ -158,7 +159,7 @@ struct subscription * subscription_find(
++					const u8 uuid[UUID_LEN]);
++ void subscr_addr_delete(struct subscr_addr *a);
++ int get_netif_info(const char *net_if, unsigned *ip_addr, char **ip_addr_text,
++-		   u8 mac[ETH_ALEN]);
+++		   struct in_addr *netmask, u8 mac[ETH_ALEN]);
++
++ /* wps_upnp_ssdp.c */
++ void msearchreply_state_machine_stop(struct advertisement_state_machine *a);
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+new file mode 100644
+index 0000000000..59640859dd
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch
+@@ -0,0 +1,62 @@
++From f7d268864a2660b7239b9a8ff5ad37faeeb751ba Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@codeaurora.org>
++Date: Wed, 3 Jun 2020 22:41:02 +0300
++Subject: [PATCH 2/3] WPS UPnP: Fix event message generation using a long URL
++ path
++
++More than about 700 character URL ended up overflowing the wpabuf used
++for building the event notification and this resulted in the wpabuf
++buffer overflow checks terminating the hostapd process. Fix this by
++allocating the buffer to be large enough to contain the full URL path.
++However, since that around 700 character limit has been the practical
++limit for more than ten years, start explicitly enforcing that as the
++limit or the callback URLs since any longer ones had not worked before
++and there is no need to enable them now either.
++
++Upstream-Status: Backport
++CVE: CVE-2020-12695 patch #2
++Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/wps/wps_upnp.c       | 9 +++++++--
++ src/wps/wps_upnp_event.c | 3 ++-
++ 2 files changed, 9 insertions(+), 3 deletions(-)
++
++diff --git a/src/wps/wps_upnp.c b/src/wps/wps_upnp.c
++index 7d4b7439940e..ab685d52ecab 100644
++--- a/src/wps/wps_upnp.c
+++++ b/src/wps/wps_upnp.c
++@@ -328,9 +328,14 @@ static void subscr_addr_add_url(struct subscription *s, const char *url,
++	int rerr;
++	size_t host_len, path_len;
++
++-	/* url MUST begin with http: */
++-	if (url_len < 7 || os_strncasecmp(url, "http://", 7))
+++	/* URL MUST begin with HTTP scheme. In addition, limit the length of
+++	 * the URL to 700 characters which is around the limit that was
+++	 * implicitly enforced for more than 10 years due to a bug in
+++	 * generating the event messages. */
+++	if (url_len < 7 || os_strncasecmp(url, "http://", 7) || url_len > 700) {
+++		wpa_printf(MSG_DEBUG, "WPS UPnP: Reject an unacceptable URL");
++		goto fail;
+++	}
++	url += 7;
++	url_len -= 7;
++
++diff --git a/src/wps/wps_upnp_event.c b/src/wps/wps_upnp_event.c
++index d7e6edcc6503..08a23612f338 100644
++--- a/src/wps/wps_upnp_event.c
+++++ b/src/wps/wps_upnp_event.c
++@@ -147,7 +147,8 @@ static struct wpabuf * event_build_message(struct wps_event_ *e)
++	struct wpabuf *buf;
++	char *b;
++
++-	buf = wpabuf_alloc(1000 + wpabuf_len(e->data));
+++	buf = wpabuf_alloc(1000 + os_strlen(e->addr->path) +
+++			   wpabuf_len(e->data));
++	if (buf == NULL)
++		return NULL;
++	wpabuf_printf(buf, "NOTIFY %s HTTP/1.1\r\n", e->addr->path);
++--
++2.20.1
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
+new file mode 100644
+index 0000000000..8a014ef28a
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch
+@@ -0,0 +1,50 @@
++From 85aac526af8612c21b3117dadc8ef5944985b476 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@codeaurora.org>
++Date: Thu, 4 Jun 2020 21:24:04 +0300
++Subject: [PATCH 3/3] WPS UPnP: Handle HTTP initiation failures for events more
++ properly
++
++While it is appropriate to try to retransmit the event to another
++callback URL on a failure to initiate the HTTP client connection, there
++is no point in trying the exact same operation multiple times in a row.
++Replve the event_retry() calls with event_addr_failure() for these cases
++to avoid busy loops trying to repeat the same failing operation.
++
++These potential busy loops would go through eloop callbacks, so the
++process is not completely stuck on handling them, but unnecessary CPU
++would be used to process the continues retries that will keep failing
++for the same reason.
++
++Upstream-Status: Backport
++CVE: CVE-2020-12695 patch #2
++Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/wps/wps_upnp_event.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/wps/wps_upnp_event.c b/src/wps/wps_upnp_event.c
++index 08a23612f338..c0d9e41d9a38 100644
++--- a/src/wps/wps_upnp_event.c
+++++ b/src/wps/wps_upnp_event.c
++@@ -294,7 +294,7 @@ static int event_send_start(struct subscription *s)
++
++	buf = event_build_message(e);
++	if (buf == NULL) {
++-		event_retry(e, 0);
+++		event_addr_failure(e);
++		return -1;
++	}
++
++@@ -302,7 +302,7 @@ static int event_send_start(struct subscription *s)
++					 event_http_cb, e);
++	if (e->http_event == NULL) {
++		wpabuf_free(buf);
++-		event_retry(e, 0);
+++		event_addr_failure(e);
++		return -1;
++	}
++
++--
++2.20.1
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+index 0e74d21a76..de882fad55 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+@@ -25,7 +25,10 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+            file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
+-		   file://0001-AP-Silently-ignore-management-frame-from-unexpected-.patch \
++           file://0001-AP-Silently-ignore-management-frame-from-unexpected-.patch \
++           file://0001-WPS-UPnP-Do-not-allow-event-subscriptions-with-URLs-.patch \
++           file://0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch \
++           file://0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch \
+           "
+ SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
+ SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
 -- 
 2.25.4
 
