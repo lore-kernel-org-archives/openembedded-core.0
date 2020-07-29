@@ -1,204 +1,174 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.5927.1596056704097396073
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web11.1076.1596060521368545890
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2020 14:05:04 -0700
+ Wed, 29 Jul 2020 15:08:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@babayev.com header.s=google header.b=TGJdZ7wg;
- spf=pass (domain: babayev.com, ip: 209.85.128.67, mailfrom: ruslan@babayev.com)
-Received: by mail-wm1-f67.google.com with SMTP id g8so3923474wmk.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 14:05:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bnu7f6af;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f46.google.com with SMTP id b26so8368784vsa.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 15:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=babayev.com; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sTBJrlS6JBkjl6/CuD+4XpcI0QK6S2764GrruvFa2l0=;
-        b=TGJdZ7wgUwdwu4/ZIBXfWZvESJ1PqN9aboHdZnItOw3NMISlnVYd5TW4BSSjNRK5Mk
-         3tb8KRoR4cSNpHE7hC6V6kuqEREHyngIpri7Mznw2yV7CNOiXGVFkNGNrmrEGkXBPp9i
-         0MW4/PzfFt8vP5o28Gd9iCu8eRx5IIDtDLnHI=
+        bh=Ni/UkmwMrhEn8TRzKRdOwZr7naop2CFUJ6I+dA3rXAo=;
+        b=Bnu7f6afFMhIdX80f0e6tm14YWP5ZyKhnS2oWZf79oki+AeuBqg5Cv/m6urfnoFjcG
+         fnEqSFIXhK/UNBNqDNdffQF8gix28fR7vb+5bKmFj4ifwTthVzYj1taige9LG3g+UZqn
+         bSj6w5rAdbz+i7CBQ2eTr8fG08Z9YkYwKPEGazVVQSo2nTSTDPu/s8VkUhLEsoif9ZcK
+         DSPH9TTCLpj4b0X1U6LI8U33HuaLMjep9HfrBFSqHu8ABfDOZa1PA4mxSVshWUdvqcrr
+         BL1tk4Qea1mAInfTYiTlvgdXVLuRISRV6C0q9rrwNiMVNHqUIA3K/dDA23ie2VjEu41d
+         NmEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sTBJrlS6JBkjl6/CuD+4XpcI0QK6S2764GrruvFa2l0=;
-        b=QcsuYBqBhkaL+9oSpWMBVHK0TeZVgARQKKHJ7IPO0t4FAny1iyJTOmaXeJqt6hiXEJ
-         VXFZG6dWdX7NEOSvl0ofWV2vr24YpobFF0N53yM6/Oeq2XKfXXWNj+ixN+JcfKuA+2Ih
-         R9Vcpm91/HDyLBqAUznrYC5BMoLm8vUqIoyyQ904tOJ/w86WdU/TJRj9tq+J3p9CtxZd
-         q8O5QULG4zu15CSOyRbWb9e2Vyliqbx4tjIQW8/UuMZKzV9ZW+XuyAERsaBgRwi7SgtU
-         iBEP4RU7fgLBFvfbzjaPSKC6aplCGbbUfmzLbUtXYv/4cZgLjGzQGUu8Sj6QRA2Y4bJN
-         wn+A==
-X-Gm-Message-State: AOAM532VpzOYfLBQNx0MG2qHiw2cl4be+R7feWQ8N2ftO3+0Mn7ONjN5
-	VEfO6RwQuH31jKTWbJi85UB1kt2faPRcEaXK+C4lLQ==
-X-Google-Smtp-Source: ABdhPJwPiGC6CljZuNaGq7QFqNsyLqaMUJm84pBWOW+2RaNhWomRqcDTph/blIaDZO8ktMr3MCZJlnm5O1Zs3MbNBcw=
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr10029982wmc.179.1596056702497;
- Wed, 29 Jul 2020 14:05:02 -0700 (PDT)
+        bh=Ni/UkmwMrhEn8TRzKRdOwZr7naop2CFUJ6I+dA3rXAo=;
+        b=nQ60N3mYh6t9M6snPEVA2GSXsg/Ms4UK6pDvQ2mapYWP71pjKpkWh2smea/xckfq7I
+         DADTeVFRKwkzZVtvxEpDOVA6IdwdGixMO+trk/aGs2oFtCemZ6SNPmT/lBb5LWheviHd
+         BOBpGI75ah7QcHVjxFd3yF1AGCl7dh9uoPJgPevnT0ehrtRgqL1xkFB4XEaj5BHp2U+O
+         gCef46qI+eO/ghN+Fi7mRVwhf3yEmrKeRlfWX3ieIzi6PVtUKONhhMqaEJ99cCuFmQcz
+         G5CReY8aaPYYo4Hieo5xs62CoRCt2wTse7uR+ohDDpVd3br0helSO3KR2vK8kmcmAMxC
+         k8bA==
+X-Gm-Message-State: AOAM532YKaAo51WJvhH47B4sm1JdQq0rolH8xD7Wq8n/bClwqTy964L0
+	+WTntnvJvhgxgYq8I10PLNejXhGzvRiDywj3msc=
+X-Google-Smtp-Source: ABdhPJyep7Knr1prwKsLdFNPe7OB1969kURe9J3lIi81uDoT/3WgnbRTBizDWBDGs/xUsNcrEpiYmA+iwN4KfQZkqKs=
+X-Received: by 2002:a67:1c06:: with SMTP id c6mr238328vsc.137.1596060520374;
+ Wed, 29 Jul 2020 15:08:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200726015614.2875-1-ruslan@babayev.com> <CAAnfSTvFPFsSzimALDEGWQCrMRszViYWT7kqBbs3UrgRrfAN3w@mail.gmail.com>
- <CAOpYhv9MHvuDgU-Rrkn3cdyhge0y_wTtOQRuogMR46E-zQ-w6A@mail.gmail.com>
-In-Reply-To: <CAOpYhv9MHvuDgU-Rrkn3cdyhge0y_wTtOQRuogMR46E-zQ-w6A@mail.gmail.com>
-From: "Ruslan Babayev" <ruslan@babayev.com>
-Date: Wed, 29 Jul 2020 14:04:51 -0700
-Message-ID: <CAOpYhv8UEfdbY0nLyoso--td1yMX6uUbOzP0aRnvWdG2AH1gDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meson: use the more specific cpu arch in cross file
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cb4c7005ab9ae800"
-
---000000000000cb4c7005ab9ae800
+References: <64ecaddb6eaae1bd569e299ffb03b13081efe50b.camel@iki.fi>
+ <CAMKF1sqvmPNPs6Vsh111hmWt3Fd-7E_4XbyQqrrvfqGH=RKYsg@mail.gmail.com>
+ <1625397D9F68474B.26462@lists.openembedded.org> <65325f6d63b5927ea8f0f7a167119d0ca8dcfd34.camel@iki.fi>
+ <CAMKF1srEGQnkaZutfPaH5QS_vK8Yx0NeWvWo_10rOQpD7s8=0A@mail.gmail.com>
+ <CAJ86T=Wt=dB+WauhLgzUOgOc56dpq41TORuyvnhGXOS46z3pZw@mail.gmail.com> <cc769449fccdd6867890b6347d89ced00844b566.camel@iki.fi>
+In-Reply-To: <cc769449fccdd6867890b6347d89ced00844b566.camel@iki.fi>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 29 Jul 2020 15:08:28 -0700
+Message-ID: <CAJ86T=WOQkBPFWfN_JO0bLt0O+D=Yg=0z_+_P4B3wx8q+b8Esg@mail.gmail.com>
+Subject: Re: [OE-core] Why disable NEON support in recipes if runtime detection works?
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross,
+On Wed, Jul 29, 2020 at 6:46 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+>
+> On Mon, 2020-07-27 at 13:45 -0700, Andre McCurdy wrote:
+> > On Sun, Jul 26, 2020 at 7:01 AM Khem Raj <raj.khem@gmail.com> wrote:
+> > > On Sun, Jul 26, 2020 at 12:59 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > > > On Sun, 2020-07-26 at 09:27 +0300, Tanu Kaskinen wrote:
+> > > > > On Mon, 2020-07-20 at 15:26 -0700, Khem Raj wrote:
+> > > > > > On Sun, Jul 19, 2020 at 2:06 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
+> > > > > > > Hi!
+> > > > > > >
+> > > > > > > If a recipe provides NEON optimizations, should those be explicitly
+> > > > > > > disabled when "neon" is not in TUNE_FEATUERS, even if the software is
+> > > > > > > able to detect NEON availability at runtime?
+> > > > > > >
+> > > > > > > I'm currently converting the pulseaudio recipe from Autotools to Meson,
+> > > > > > > and the old Autotools build system supports disabling NEON
+> > > > > > > optimizations but the Meson build system doesn't. So I'm wondering if I
+> > > > > > > should add the missing feature to the Meson build system, or just let
+> > > > > > > the runtime detection do its work.
+> > > > > > >
+> > > > > > > Is there ever need for disabling NEON optimizations if the CPU
+> > > > > > > indicates NEON support? I guess it could be useful for testing the "no
+> > > > > > > NEON" case (I today found out that dropping "neon" from TUNE_FEATURES
+> > > > > > > doesn't remove NEON support from the qemuarm machine), but otherwise it
+> > > > > > > seems unnecessary, unless there are CPUs that advertise NEON support
+> > > > > > > but don't actually support it.
+> > > > > > >
+> > > > > >
+> > > > > > I think the issue will result in a compiler error perhaps when neon is
+> > > > > > disabled via
+> > > > > > compiler command line which would be the case when neon is not in TUNE_FEATURES
+> > > > > > the compiler might warn or error out when it finds neon instructions
+> > > > > > being compiled via inline
+> > > > > > assembly.  you just can try passing something like -mfpu=vfpv3d16 or
+> > > > > > some such and see if
+> > > > > > compiler/assembler complains during build, if not then perhaps its fine.
+> > > > >
+> > > > > If the last -mfpu is something else than neon, then including
+> > > > > arm_neon.h will succeed but compiling neon code will fail.
+> > > > >
+> > > > > I did some experiments, and what I found was that when I remove neon
+> > > > > from TUNE_FEATURES, OE adds -mfpu=vfp to CC, not CFLAGS, so it's very
+> > > > > early in the compiler command line. PulseAudio adds -mfpu=neon to
+> > > > > CFLAGS when building neon code, and the last -mfpu wins, so the neon
+> > > > > code gets built without errors.
+> > > > >
+> > > > > The configure check in PulseAudio only checks that the compiler accepts
+> > > > > -mfpu=neon and #include <arm_neon.h>, it doesn't try to compile any
+> > > > > actual neon code. This means that if the user adds -mfpu=vfp (or other
+> > > > > non-neon) to CFLAGS rather than CC, configure will pass but building
+> > > > > will fail. Is this something to guard against? A default qemuarm build
+> > > > > doesn't do this, so I don't know if this ever happens in OE.
+> > > > >
+> > > > > I don't know yet how Meson behaves, I'll continue testing...
+> > > >
+> > > > I tested Meson now. Meson too enables Neon even if -mfpu=vfp is in CC.
+> > > > Unlike Autotools, Meson doesn't fail if -mfpu=vfp is added to CFLAGS (I
+> > > > tried CFLAGS_append = " -mfpu=vfp" in the pulseaudio recipe). Neon is
+> > > > enabled in any case.
+> > > >
+> > > > So, Meson seems pretty safe, although I guess it would be nice not to
+> > > > override the user's -mfpu setting. I think this isn't a big problem is
+> > > > practice, since runtime detection works.
+> > > >
+> > > > I haven't tested with a compiler that truly can't build Neon code,
+> > > > because I don't know how to do that.
+> >
+> > Presumably set a -mcpu=XXX to something which can never support NEON?
+>
+> No success so far...
+>
+> I tried CFLAGS_append = " -mcpu=cortex-a9+nosimd" in the pulseaudio
+> recipe, but Neon got still enabled. GCC warned that -march=armv7ve
+> conflicted with the chosen -mcpu (which makes sense, since "ve" in
+> "armv7ve" means "virtualization extensinons", and Cortex-A9 doesn't
+> have virtualization support, and all cores that have virtualization
+> support have mandatory Neon support).
 
-What do you think of the patch? Any objections to merging it? Do you have
-any feedback?
+Is that true? If so then the various armv7ve specific tuning files
+(tune-cortexa15.inc, etc) could all be simplified by removing the
+option to disable NEON support.
 
-Thanks,
-Ruslan
+> Then I tried adding -march=armv7a to the pulseaudio CFLAGS, but then
+> the build failed, because Meson failed some C++ linker check ("Unable
+> to determine dynamic linker").
+>
+> Then I tried to remove armv7ve and add cortexa9 to TUNE_FEATURES, but
+> GCC didn't like that at all, nothing built any more.
+>
+> I'm still in the process of trying different combinations. Maybe it
+> would be better to try to use someting older than Cortex-A9, since A9
+> has optional Neon support. If you're familiar with tweaking the target
+> CPU with qemuarm, suggestions are welcome. (If I sound like I know
+> something about Arm CPUs, that's only because I've looked up things
+> from Wikipedia today.)
 
-On Mon, Jul 27, 2020 at 12:03 PM Ruslan Babayev <ruslan@babayev.com> wrote:
+For this test I think you can just set a custom DEFAULTTUNE from
+within the pulseaudio recipe.
 
-> Hi Ross,
+> > > Right. Cpu implementations without neon do exist
+> > >  But they are perhaps rare enough and may not use the package too so chances are slim that we encounter this issue
+> >
+> > So what's the conclusion? That CPU's without NEON are so rare that OE
+> > doesn't need to care about them?
 >
-> According to https://mesonbuild.com/Cross-compilation.html
->
-> There are two different values for the CPU. The first one is cpu_family.
-> It is a general type of the CPU. This should have a value from the CPU
-> Family table <https://mesonbuild.com/Reference-tables.html#cpu-families>.
-> *Note* that meson does not add el to end cpu_family value for little
-> endian systems. Big endian and little endian mips are both just mips,
-> with the endian field set approriately.
->
-> The second value is cpu which is a more specific subtype for the CPU.
-> Typical values for a x86 CPU family might include i386 or i586 and for arm
->  family armv5 or armv7hl. Note that CPU type strings are very system
-> dependent. You might get a different value if you check its value on the
-> same machine but with different operating systems.
-> At the moment both 'cpu_family' and 'cpu' are being set to TARGET_ARCH
-> (like x86_64) in meson cross file.
->
-> TUNE_CCARSG usually contains the exact subfamily either as -march= or
-> -mcpu=
->
-> The meson_cpu function will use regex to search for -march and if that's
-> missing for -mcpu value. If both flags are missing it defaults to
-> TARGET_ARCH.
->
-> Ruslan
->
->
-> On Mon, Jul 27, 2020 at 3:52 AM Ross Burton <ross@burtonini.com> wrote:
->
->> On Sun, 26 Jul 2020 at 02:56, Ruslan Babayev <ruslan@babayev.com> wrote:
->> > 'cpu' unlike 'cpu_family' must be a more specific subtype for the CPU.
->>
->> Can you elaborate here some more?
->>
->> Ross
->>
->
+> That seems overkill. PulseAudio detects Neon support at runtime, so
+> even if Neon is enabled at build time, the binaries should work also on
+> hardware without Neon. I think Khem misunderstood some details. I'm
+> currently just trying to figure out how to test that the Neon check in
+> Meson works also in the cases where the compiler can't build Neon code
+> - so far in my tests Meson has always enabled Neon and the compiler has
+> always built it without errors.
 
---000000000000cb4c7005ab9ae800
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+With runtime detection, the Makefiles etc should be forcing hardcoded
+CFLAGS (or setting assembler directives etc) as required to build any
+CPU specific code even if the global CFLAGS etc don't support it, so I
+think it's expected that the NEON code will still be built even if you
+succeed in setting the generic CFLAGS to target a CPU which doesn't
+support NEON.
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e;font-size:large">Hi Ross,</div><div class=3D"gmail_default" style=3D"font=
--family:monospace;font-size:large"><br></div><div class=3D"gmail_default" s=
-tyle=3D"font-family:monospace;font-size:large">What do you think of the=C2=
-=A0patch? Any objections to merging it? Do you have any feedback?</div><div=
- class=3D"gmail_default" style=3D"font-family:monospace;font-size:large"><b=
-r></div><div class=3D"gmail_default" style=3D"font-family:monospace;font-si=
-ze:large">Thanks,</div><div class=3D"gmail_default" style=3D"font-family:mo=
-nospace;font-size:large">Ruslan</div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27, 2020 at 12:03 PM Rusla=
-n Babayev &lt;<a href=3D"mailto:ruslan@babayev.com">ruslan@babayev.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-fam=
-ily:monospace;font-size:large">Hi Ross,</div><div class=3D"gmail_default" s=
-tyle=3D"font-family:monospace;font-size:large"><br></div><div class=3D"gmai=
-l_default" style=3D"font-family:monospace;font-size:large">According to=C2=
-=A0<a href=3D"https://mesonbuild.com/Cross-compilation.html" style=3D"font-=
-family:Arial,Helvetica,sans-serif;font-size:small" target=3D"_blank">https:=
-//mesonbuild.com/Cross-compilation.html</a></div><div class=3D"gmail_defaul=
-t" style=3D"font-family:monospace;font-size:large"><br></div><div class=3D"=
-gmail_default" style=3D"font-family:monospace;font-size:large"><p style=3D"=
-box-sizing:border-box;margin:0px 0px 10px;color:rgb(200,200,200);font-famil=
-y:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:14px;back=
-ground-color:rgb(39,43,48)">There are two different values for the CPU. The=
- first one is=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,M=
-onaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:2=
-px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4p=
-x">cpu_family</code>. It is a general type of the CPU. This should have a v=
-alue from=C2=A0<a href=3D"https://mesonbuild.com/Reference-tables.html#cpu-=
-families" style=3D"box-sizing:border-box;background-color:transparent;color=
-:rgb(135,206,250);text-decoration-line:none;outline:none" target=3D"_blank"=
->the CPU Family table</a>.=C2=A0<em style=3D"box-sizing:border-box">Note</e=
-m>=C2=A0that meson does not add=C2=A0<code style=3D"box-sizing:border-box;f=
-ont-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-siz=
-e:12.6px;padding:2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34=
-);border-radius:4px">el</code>=C2=A0to end cpu_family value for little endi=
-an systems. Big endian and little endian mips are both just=C2=A0<code styl=
-e=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier =
-New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);b=
-ackground-color:rgb(39,40,34);border-radius:4px">mips</code>, with the=C2=
-=A0<code style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&=
-quot;Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb=
-(98,196,98);background-color:rgb(39,40,34);border-radius:4px">endian</code>=
-=C2=A0field set approriately.</p><p style=3D"box-sizing:border-box;margin:0=
-px 0px 10px;color:rgb(200,200,200);font-family:&quot;Helvetica Neue&quot;,H=
-elvetica,Arial,sans-serif;font-size:14px;background-color:rgb(39,43,48)">Th=
-e second value is=C2=A0<code style=3D"box-sizing:border-box;font-family:Men=
-lo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;paddi=
-ng:2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radiu=
-s:4px">cpu</code>=C2=A0which is a more specific subtype for the CPU. Typica=
-l values for a=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,=
-Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:=
-2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4=
-px">x86</code>=C2=A0CPU family might include=C2=A0<code style=3D"box-sizing=
-:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monos=
-pace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);background-color=
-:rgb(39,40,34);border-radius:4px">i386</code>=C2=A0or=C2=A0<code style=3D"b=
-ox-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier New&qu=
-ot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);backgro=
-und-color:rgb(39,40,34);border-radius:4px">i586</code>=C2=A0and for=C2=A0<c=
-ode style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;=
-Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,1=
-96,98);background-color:rgb(39,40,34);border-radius:4px">arm</code>=C2=A0fa=
-mily=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Con=
-solas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;co=
-lor:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4px">armv5<=
-/code>=C2=A0or=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,=
-Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:=
-2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4=
-px">armv7hl</code>. Note that CPU type strings are very system dependent. Y=
-ou might get a different value if you check its value on the same machine b=
-ut with different operating systems.</p></div></div><div class=3D"gmail_def=
-ault" style=3D"font-family:monospace;font-size:large">At the moment both &#=
-39;cpu_family&#39; and &#39;cpu&#39; are being set to TARGET_ARCH (like x86=
-_64) in meson cross file.</div><div class=3D"gmail_default" style=3D"font-f=
-amily:monospace;font-size:large"><br></div><div class=3D"gmail_default" sty=
-le=3D"font-family:monospace;font-size:large">TUNE_CCARSG usually contains t=
-he exact subfamily either as -march=3D or -mcpu=3D=C2=A0</div><div><br></di=
-v><div><div class=3D"gmail_default" style=3D"font-family:monospace;font-siz=
-e:large">The meson_cpu function will use regex to search for -march and if =
-that&#39;s missing for -mcpu value. If both flags are missing it defaults t=
-o TARGET_ARCH.</div><div class=3D"gmail_default" style=3D"font-family:monos=
-pace;font-size:large"><br></div><div class=3D"gmail_default" style=3D"font-=
-family:monospace;font-size:large">Ruslan</div><br></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27, 2020 at 3=
-:52 AM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com" target=3D"_bla=
-nk">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">On Sun, 26 Jul 2020 at 02:56, Ruslan Babayev &lt;<a h=
-ref=3D"mailto:ruslan@babayev.com" target=3D"_blank">ruslan@babayev.com</a>&=
-gt; wrote:<br>
-&gt; &#39;cpu&#39; unlike &#39;cpu_family&#39; must be a more specific subt=
-ype for the CPU.<br>
-<br>
-Can you elaborate here some more?<br>
-<br>
-Ross<br>
-</blockquote></div></div>
-</blockquote></div>
-
---000000000000cb4c7005ab9ae800--
+In other words, with runtime detection, there should be no need for
+any build time configuration.
