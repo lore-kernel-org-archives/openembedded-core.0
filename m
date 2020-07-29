@@ -1,88 +1,96 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.2542.1596015708583972696
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
+ by mx.groups.io with SMTP id smtpd.web12.2617.1596015756306782483
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2020 02:41:48 -0700
+ Wed, 29 Jul 2020 02:42:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IDoRi8+f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id f18so2267658wml.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 02:41:48 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=r9xc7Vwj;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.195, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f195.google.com with SMTP id v13so3570324oiv.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 02:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=UCPdu6YVmZ//ruG8+b7gsNjH257JADRF5flsvbQrhpc=;
-        b=IDoRi8+f/BC1RW8O47Hufc5XVmbBY/rATuOB5IonyefQLr9/9ZIdga31bpoLIc7H0u
-         fNcdnMKiD0GVUjx/gAenFH3k/CDb5UFjinLwlvfW/GSUmbzbLbLQ5HITmtJaGCzooEyP
-         m2iOnlRpeq3JNGiFA5LK6pPF7nT4dmGj97AzY=
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CN12S9V4ZA6FyiQmtD8dzGQC+rcquuxlAgax8i1Hcvo=;
+        b=r9xc7Vwj80u8Y1mq3P/O5MKp40rTEqV5OkWPDbzuGGQ60CSgkvUrvXR3tHVGqliDJD
+         1p7o+R3P9I3hVwLxxuRJUrhYOI9of6ewe/VdqLOAw0Tiysg8WzBSPMnMJ27imPlCig+C
+         5NeaZynOlyMPrGEu0+35UfttgHREzHv/jGDmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UCPdu6YVmZ//ruG8+b7gsNjH257JADRF5flsvbQrhpc=;
-        b=Z4NP/FlxRRXKNRMWOYEzH3WTK/m/dCM25dqf7Py4Q0P8AtU6frlCGCkZY/r4wus2Ev
-         KXh7CddB3BHlL9GVpMt3MsjD2WvSXQZlZXL61LrsMAvJl1S5uc/G8FQEi+PAGXe+1OMi
-         EDmqaswCqjgXa6l6IC03X6sCM75CnxtUI8cnxsoUKn+W1UGT72Cq4epx5ayslvOSlgqD
-         nETCghb7VNEBMvNjYkT2TasD2DSxqSrHSkikjHzhOsK/cTfTkoNQZ00fv9+4UhZLV2fB
-         Rf1F6c0uT5K9cPNI0PjMf+n6fj9A+JK8cFjVCG4Z934ByGtZU3BE03q7AsqAR8skBk6w
-         ubLA==
-X-Gm-Message-State: AOAM530yovefcNovv1jptabobQ1tdRt+k/0B8elKFl1Ju/ZN1WvJX3S3
-	0VhPmWnCT9tJ9BDJx4dIS6E8AA==
-X-Google-Smtp-Source: ABdhPJxKywpBdsKL2kLxBELJteDSwBwe207A3JvDPyKh3evirs2AJq3v4KTrx5OcayAWfFFycL1SfQ==
-X-Received: by 2002:a1c:e405:: with SMTP id b5mr8430319wmh.54.1596015707081;
-        Wed, 29 Jul 2020 02:41:47 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from b.5.1.e.3.9.b.a.2.d.3.0.f.a.0.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (b.5.1.e.3.9.b.a.2.d.3.0.f.a.0.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:20af:3d2:ab93:e15b])
-        by smtp.gmail.com with ESMTPSA id v5sm3605757wmh.12.2020.07.29.02.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2020 02:41:43 -0700 (PDT)
-Message-ID: <106c5c943d502a122f4db5a554cf62a76580ea76.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ltp.py: remove mm from ltp_groups
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Matthew <matthew.zeng@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com
-Date: Wed, 29 Jul 2020 10:41:42 +0100
-In-Reply-To: <20200728204354.10970-1-matthew.zeng@windriver.com>
-References: <20200728204354.10970-1-matthew.zeng@windriver.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CN12S9V4ZA6FyiQmtD8dzGQC+rcquuxlAgax8i1Hcvo=;
+        b=AtcDmLMUc6pcgkljQTWMtl+KhHye1JamDfxvJZ8y+d4Y5X4A2tPGaBlNzGSBLnOP19
+         qi3je5jXpwadIsAxi1qHFKglVVOTrAy0sLwgUQ0Ibm+ZNHfh2Og9+tYOHp8QVzNfp5oc
+         Oe30vcLRyzaZLj2mZDwW+46X+UILTsi/fArfN/o6pMx+MN89zor0Wuhojm4zpC6d6slb
+         0DL5Ah8Pa98S+5aV3O0ssCCxBatwzvNcNjWT8sUJ52iElVRDhI0eOPySN4r8aIqQJIgL
+         /dJ3m1jmzo9o6B10YDeS1kR1HtH19Mdy5etlipN7AZFdLWqMXKUROOf2hV91QGLUUDUi
+         qs9w==
+X-Gm-Message-State: AOAM5308Da1KBL3wmEaHI1X/TOpgcMprf9rWYSa49+1jiPV0/xgkBMb4
+	ndAMmstH2dpMYwAYeFvKJrY+Ak0tmNeSESOHUV4hWL9l
+X-Google-Smtp-Source: ABdhPJzx6AgSlZ7RXEnFi05h3LIb5wwgHvf4+pBu5mZ+lcqy40pR7DaSlUYJLdzlBgxDPao3bIr1sK1ZKy1MskItyE0=
+X-Received: by 2002:aca:cc50:: with SMTP id c77mr6559405oig.152.1596015755511;
+ Wed, 29 Jul 2020 02:42:35 -0700 (PDT)
 MIME-Version: 1.0
+References: <3040885.oeqThZ24Ku@n95hx1g2>
+In-Reply-To: <3040885.oeqThZ24Ku@n95hx1g2>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Wed, 29 Jul 2020 10:42:25 +0100
+Message-ID: <CAM9ZRVsDE8Lxd5OsrxoP3htDjc2CuEFu4Hrkh=MOkC0BNt8ngA@mail.gmail.com>
+Subject: Re: [OE-core] archiver.bbclass and GIT repositories
+To: Christian Eggers <ceggers@arri.de>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-07-28 at 16:43 -0400, Matthew wrote:
-> Fixes [YOCTO #13802]
-> 
-> Temporary disable mm test for a while, since it calls the OOM tests.
-> See ltp-git/runtest/mm:
->     oom01 oom01
->     oom02 oom02
->     oom03 oom03
->     oom04 oom04
->     oom05 oom05
-> 
-> Let's wait for a week or two to see if the error stops occuring.
-> 
-> Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
-> ---
->  meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-> index cfac29c153..9ac7bb15f6 100644
-> --- a/meta/lib/oeqa/runtime/cases/ltp.py
-> +++ b/meta/lib/oeqa/runtime/cases/ltp.py
-> @@ -57,7 +57,7 @@ class LtpTestBase(OERuntimeTestCase):
->  
->  class LtpTest(LtpTestBase):
->  
-> -    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
-> +    ltp_groups = ["math", "syscalls", "dio", "io", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
+On Tue, 28 Jul 2020 at 13:56, Christian Eggers <ceggers@arri.de> wrote:
+>
+> In my project, the linux kernel (together with dozens of our changes) is kept
+> in a company internal GIT repository. The GPLv2 requires the following:
+>
+> > 2a) You must cause the modified files to carry prominent notices stating
+> > that you changed the files and the date of any change.
+>
+> My idea is, that the GIT history (and diff) should be sufficient for documenting
+> our changes to the linux source code.
+>
+> But when I unpack the .tar.gz file which was deploy by archiver.bbclass,
+> I get the following:
+>
+> # tar -xf my-linux-kernel.tar.gz
+> # cd <temporary directory name>/git
+> # git log
+>
+> > error: object directory /srv/gitlab-runner/downloads/[..]/yocto/git2/[xxx].git/objects does not exist; check .git/objects/info/alternates
+> > fatal: bad object HEAD
+>
+> Note: The project has been built on another machine.
+>
+> From the bitbake user manual, 4.3.5, Git Fetcher:
+> > "This bare clone is then cloned into the work directory during the unpack
+> > stage when a specific tree is checked out. This is done using alternates and
+> > by reference to minimize the amount of duplicate data on the disk and make
+> > the unpack process fast."
+>
+> It looks like the .git directory within the tar archive doesn't contain
+> the necessary information required for using the "git" command on
+> the extracted "working copy". If I understood the bitbake doc correctly,
+> the working copy is cloned "by reference" from a "bare" clone which
+> resided outside the archived directory (in the downloads dir).
+>
+> So I have three questions:
+> 1. Is it possible to archive the git project in a way, that the GIT history
+> can be examined later?
+> 2. If this is not possible, I would have to put my changes in an
+> "external" patch file alongside the bitbake recipe, right?
+> 3. Is there any value archiving the .git directory at all?
 
-Since there are a load of other tests in runtest/mm, shouldn't we just
-patching out the oom ones?
+What configuration are you using to enable the archiver? There may be
+ways to fix this by changing the configuration.
 
-Cheers,
+Also, which Yocto Project version/branch are you using?
 
-Richard
+Thanks,
 
+-- 
+Paul Barker
+Konsulko Group
