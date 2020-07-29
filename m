@@ -1,96 +1,90 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
- by mx.groups.io with SMTP id smtpd.web12.2617.1596015756306782483
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web12.2773.1596016582069902645
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2020 02:42:36 -0700
+ Wed, 29 Jul 2020 02:56:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=r9xc7Vwj;
- spf=pass (domain: konsulko.com, ip: 209.85.167.195, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f195.google.com with SMTP id v13so3570324oiv.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 02:42:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c5ARbqwg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id c80so2160146wme.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 02:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CN12S9V4ZA6FyiQmtD8dzGQC+rcquuxlAgax8i1Hcvo=;
-        b=r9xc7Vwj80u8Y1mq3P/O5MKp40rTEqV5OkWPDbzuGGQ60CSgkvUrvXR3tHVGqliDJD
-         1p7o+R3P9I3hVwLxxuRJUrhYOI9of6ewe/VdqLOAw0Tiysg8WzBSPMnMJ27imPlCig+C
-         5NeaZynOlyMPrGEu0+35UfttgHREzHv/jGDmQ=
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=sZdSZY8lN8pfb44vdTdCvrMtyfLspgr+QMHpeVDkcrE=;
+        b=c5ARbqwgXiYuuIES0eHavESGXmFMA5Sj46NAa5CS0dpAPbNyltz2v63XwKWgndBSBm
+         i1vTfoqiie+Cqyut9TUnKy3mbQhFSmvRQY7frMIYeRB4ToPq1ITvwdO2Tqdw/zcJNTEQ
+         1Fqxsw1aZ2D89z52O6YQGhWELvG79LIX8XyMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CN12S9V4ZA6FyiQmtD8dzGQC+rcquuxlAgax8i1Hcvo=;
-        b=AtcDmLMUc6pcgkljQTWMtl+KhHye1JamDfxvJZ8y+d4Y5X4A2tPGaBlNzGSBLnOP19
-         qi3je5jXpwadIsAxi1qHFKglVVOTrAy0sLwgUQ0Ibm+ZNHfh2Og9+tYOHp8QVzNfp5oc
-         Oe30vcLRyzaZLj2mZDwW+46X+UILTsi/fArfN/o6pMx+MN89zor0Wuhojm4zpC6d6slb
-         0DL5Ah8Pa98S+5aV3O0ssCCxBatwzvNcNjWT8sUJ52iElVRDhI0eOPySN4r8aIqQJIgL
-         /dJ3m1jmzo9o6B10YDeS1kR1HtH19Mdy5etlipN7AZFdLWqMXKUROOf2hV91QGLUUDUi
-         qs9w==
-X-Gm-Message-State: AOAM5308Da1KBL3wmEaHI1X/TOpgcMprf9rWYSa49+1jiPV0/xgkBMb4
-	ndAMmstH2dpMYwAYeFvKJrY+Ak0tmNeSESOHUV4hWL9l
-X-Google-Smtp-Source: ABdhPJzx6AgSlZ7RXEnFi05h3LIb5wwgHvf4+pBu5mZ+lcqy40pR7DaSlUYJLdzlBgxDPao3bIr1sK1ZKy1MskItyE0=
-X-Received: by 2002:aca:cc50:: with SMTP id c77mr6559405oig.152.1596015755511;
- Wed, 29 Jul 2020 02:42:35 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=sZdSZY8lN8pfb44vdTdCvrMtyfLspgr+QMHpeVDkcrE=;
+        b=bZ4wXKDUOQriDjIEd982AgSZ6oudp0qypyYqQDVX2OpBOaNDp6pnau/9QxSM9rkGFF
+         DUMQCyeORrvaCWGMmQlGtb2tBE4lmHtGDxzT3ZP/94IWwfXHdkJ0ZcWPhlZNi0HZS0Gv
+         TK8afZvxGOGQyF1QI5IB/UYbzx+K4yvv2P0/T4U8HAhNh8fYGwM8s6lHt6GTJ7JSD9he
+         0hSw/olU9e34q3fmrEMmjNqQLOFoPS/HsAHpCXHIsYV3Gd5ColK/89OPOUfZaajzH1tS
+         hQztK+WF/XOHJC+coTWmERXGKlMGjDWoVPjfQuGIp5Z9BeevwPuAkBOykDQ/zsLhl5Ed
+         KVMg==
+X-Gm-Message-State: AOAM531lVHdnJExncrK9PBomSLU6E1lKOgPGwkurEZbS3wrquypO2yzT
+	ffaYN8JXCEDBPzy8nhFu27Bxrg==
+X-Google-Smtp-Source: ABdhPJwdor2LRjzF8BLtp4nTrt1+XrGvFY0fCh8T8LfTtF7gBr2Abtma4JByFZXbBjYbSEzUfbTDcw==
+X-Received: by 2002:a1c:ed05:: with SMTP id l5mr8088125wmh.68.1596016580550;
+        Wed, 29 Jul 2020 02:56:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from b.5.1.e.3.9.b.a.2.d.3.0.f.a.0.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (b.5.1.e.3.9.b.a.2.d.3.0.f.a.0.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:20af:3d2:ab93:e15b])
+        by smtp.gmail.com with ESMTPSA id t25sm3643350wmj.18.2020.07.29.02.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 02:56:16 -0700 (PDT)
+Message-ID: <227aa8701444b9568576b7edda84cc136dc587c2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] qemumips: Use 34Kf CPU emulation
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jul 2020 10:56:15 +0100
+In-Reply-To: <20200729022852.1792061-1-raj.khem@gmail.com>
+References: <20200729022852.1792061-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-References: <3040885.oeqThZ24Ku@n95hx1g2>
-In-Reply-To: <3040885.oeqThZ24Ku@n95hx1g2>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Wed, 29 Jul 2020 10:42:25 +0100
-Message-ID: <CAM9ZRVsDE8Lxd5OsrxoP3htDjc2CuEFu4Hrkh=MOkC0BNt8ngA@mail.gmail.com>
-Subject: Re: [OE-core] archiver.bbclass and GIT repositories
-To: Christian Eggers <ceggers@arri.de>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 28 Jul 2020 at 13:56, Christian Eggers <ceggers@arri.de> wrote:
->
-> In my project, the linux kernel (together with dozens of our changes) is kept
-> in a company internal GIT repository. The GPLv2 requires the following:
->
-> > 2a) You must cause the modified files to carry prominent notices stating
-> > that you changed the files and the date of any change.
->
-> My idea is, that the GIT history (and diff) should be sufficient for documenting
-> our changes to the linux source code.
->
-> But when I unpack the .tar.gz file which was deploy by archiver.bbclass,
-> I get the following:
->
-> # tar -xf my-linux-kernel.tar.gz
-> # cd <temporary directory name>/git
-> # git log
->
-> > error: object directory /srv/gitlab-runner/downloads/[..]/yocto/git2/[xxx].git/objects does not exist; check .git/objects/info/alternates
-> > fatal: bad object HEAD
->
-> Note: The project has been built on another machine.
->
-> From the bitbake user manual, 4.3.5, Git Fetcher:
-> > "This bare clone is then cloned into the work directory during the unpack
-> > stage when a specific tree is checked out. This is done using alternates and
-> > by reference to minimize the amount of duplicate data on the disk and make
-> > the unpack process fast."
->
-> It looks like the .git directory within the tar archive doesn't contain
-> the necessary information required for using the "git" command on
-> the extracted "working copy". If I understood the bitbake doc correctly,
-> the working copy is cloned "by reference" from a "bare" clone which
-> resided outside the archived directory (in the downloads dir).
->
-> So I have three questions:
-> 1. Is it possible to archive the git project in a way, that the GIT history
-> can be examined later?
-> 2. If this is not possible, I would have to put my changes in an
-> "external" patch file alongside the bitbake recipe, right?
-> 3. Is there any value archiving the .git directory at all?
+On Tue, 2020-07-28 at 19:28 -0700, Khem Raj wrote:
+> Few years ago we switched to using mips32r2 tunings for qemumips however
+> the default CPU emulation still remained 24Kf which is not optimal for
+> mips32r2 ISA for qemu [1], therefore switch to recommended 32Kf for CPU
+> emulation when running qemu in system mode
+> 
+> Boot time to console is ~1s faster with this setting, hopefully this
+> should speed up qemumips in general
+> 
+> [1] https://www.qemu.org/docs/master/system/target-mips.html#preferred-cpu-models-for-mips-hosts
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/machine/qemumips.conf | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+> index 31ad754483..4617c3c7b6 100644
+> --- a/meta/conf/machine/qemumips.conf
+> +++ b/meta/conf/machine/qemumips.conf
+> @@ -12,3 +12,5 @@ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>  SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
+>  
+>  QB_SYSTEM_NAME = "qemu-system-mips"
+> +
+> +QB_CPU = "-cpu 34Kf"
 
-What configuration are you using to enable the archiver? There may be
-ways to fix this by changing the configuration.
+Thanks!
 
-Also, which Yocto Project version/branch are you using?
+I did run some tests locally, timing core-image-sato -c testimage
+before and after this change. It took 999s before, 1018s after but the
+difference looks like noise rather than any speedup or slowdown.
 
-Thanks,
+Its certainly worth a try to see if it helps the intermittent failures
+though.
 
--- 
-Paul Barker
-Konsulko Group
+Cheers,
+
+Richard
+
