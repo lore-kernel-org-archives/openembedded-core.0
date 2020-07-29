@@ -1,132 +1,204 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.76])
- by mx.groups.io with SMTP id smtpd.web10.5704.1596056135570959935
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.5927.1596056704097396073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2020 13:55:40 -0700
+ Wed, 29 Jul 2020 14:05:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=AM9NXjG0;
- spf=pass (domain: agilent.com, ip: 40.107.220.76, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aosfYqWBhAfXK+F8nsr5oF7SkYsVDcrjSi7RcVjbtE7rVvZHbZVcX2wlAKgfbu9SOLYkELu25CWzjrZbH+LSrt7/3qkDH4PcYpMIj+hWcAdFRqJs6XlwKIw3O4fnWXtFXwqgcTebxw92FPflxEewyHuMnjjECrIYSHiTwGqjKXK4OPmrE//zyfOEHXwgsN35uGKrPByp/aVfmlVzDpoyyuk2AnA2fm+nOIonsakx2x99KK7fhCfWWFfocbbAvzqY+n6+SN9suXfjHxf5qMqaNmfrwTFHxis/plBMf3+LQARe16zSg5rnkaG6Q345AGS45VXdJxrhCl1W1fHEs43jhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7lOSqgRoBDvZCcIEfIWRrJTxmHPPFNIEOt8nUAHj5mI=;
- b=PtxgiPdHYMuc7rRmZpm8phRsUXMwDXFGTQ/LN6x77/bzhld69OvLarhwWXN4N+fp0vQrqjIjbgLYh/Ax8+5405LyuNNijKguKUTJ097oLD0xHP7LcGR5M6/JyjJwUqhsiA06NPp5dE44BUtpEnkgIVwmGA6stYdY/8EBL+ijoP2GPNlO8s7tcIJiA9xm9WuVKlthnjEBL5B7HfF2epzXuEws3nwOzrA9IRTuxHuNthlUYrzg0bz1P/RSK2Rx4RXo3pyw+KTbn++hOybYTCmGA2Nnkg5kzvCRh3HETGqGkXFcmcbzkXXa+Lg4r9Zmc8ijiorIr2TjiYhjZR/vkkN81Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
- dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7lOSqgRoBDvZCcIEfIWRrJTxmHPPFNIEOt8nUAHj5mI=;
- b=AM9NXjG08V11Mi4SVBvNJvQ2+2eOBTNjCrOiAtPIhUCg/RiioM5FdFBK3cPf2Fyc3v2c6R/tdYnUcB3GgAjbVfXScy4YKhQ+xOt0qFqmrmwkjTX3fdMZubWugVOEZsgZ4vibqi4HOAU0woVT/dPpBbd2J+vixKubogu4nb0hqR4eyyq6H7JVO+d3GZiCWo4iOMuRMaUrjHog+pOdMFTRuGKm9YUCfMp/7jQh3E5YaMfxIGnQwKkZh5BmYyJLTLtiOKw4lGGp5ZJZoWUyfJOLde4ufc4CWbPjkRzuTgsM86XxXDA4b/TGPSMT43FdF0B3JJmFQc+xE4sn53a6YoGXNQ==
-Received: from SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21)
- by SN6PR12MB2704.namprd12.prod.outlook.com (2603:10b6:805:72::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.25; Wed, 29 Jul
- 2020 20:55:34 +0000
-Received: from SN1PR12MB2480.namprd12.prod.outlook.com
- ([fe80::4c4f:2633:b1bc:c164]) by SN1PR12MB2480.namprd12.prod.outlook.com
- ([fe80::4c4f:2633:b1bc:c164%6]) with mapi id 15.20.3216.034; Wed, 29 Jul 2020
- 20:55:33 +0000
-From: "Chris Laplante" <chris.laplante@agilent.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [meta-oe][PATCH 0/3] Log colorizer
-Thread-Topic: [OE-core] [meta-oe][PATCH 0/3] Log colorizer
-Thread-Index: AQHWZH+X/5T0YEzquE+9VTefFwGSvakdJImAgAHgNwA=
-Date: Wed, 29 Jul 2020 20:55:33 +0000
-Message-ID: 
- <SN1PR12MB2480AF36B2683F26D1D4777C8B700@SN1PR12MB2480.namprd12.prod.outlook.com>
-References: <20200728013557.111830-1-chris.laplante@agilent.com>
- <edc83a1a101292425dce9dd1c9df51d6b8db8e7a.camel@linuxfoundation.org>
-In-Reply-To: 
- <edc83a1a101292425dce9dd1c9df51d6b8db8e7a.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=agilent.com;
-x-originating-ip: [76.99.179.205]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e1ddd52a-cb6b-418e-47e2-08d83401bcc4
-x-ms-traffictypediagnostic: SN6PR12MB2704:
-x-microsoft-antispam-prvs: 
- <SN6PR12MB2704C0A2C60825954733009D8B700@SN6PR12MB2704.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- I0ppBA2df2dch8W2++4ZGr2CaH4OwKIg9kPfSH36Us6x4wZ2LW1Ct/VU9LGj9MDVnm4pu2zJHh+4cQVnXPq11Q7ru5GWkTCwg7nVPvU04HhThVSBLuwfRvBeX+GF81bOFXL6ASzuBACMTw1AWUmkiZ7q8ahj5I/KwiY/bOBnRDzGbDolcj9JuwA2l4nDEpHuECvNi6KPEFdueXkA9KhOOC1/AIti/nzH/Chnd96w5VtRrljUt/O5iu60k/n9iZ+9c+iY1rJmY4kbREfZNqeIaOzcQsTH1I9mgfRtuikT3k+Ww8iHBck50IFO2iCYbBnM8QSmjW48GFvuXImGP2A4lqFgPp+tcCsFEjCcb7tf4bnewemUcn1X54sStlq4w5ER
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2480.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(39860400002)(366004)(396003)(346002)(376002)(29502001)(55016002)(316002)(9686003)(8936002)(7696005)(2906002)(110136005)(8676002)(5660300002)(33656002)(6506007)(83380400001)(66946007)(64756008)(76116006)(66476007)(66556008)(26005)(478600001)(186003)(52536014)(66446008)(86362001)(71200400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- Pvyy8+gNTyYd5gKxL3a75W5PzqjVRyk0VA8nRt8kGV1wHpdzHk+EunPTy8pNDYj8I1CTyb27Emyy6xB+3bwobTa/50OKzXjrpClmZRLLDVzYdS8MAtTAWmbfJ/4wgRrdl0fag19nVx6k2C2YtOubh5Fh1GT/DB0UOaHALzhOR05RkHSCWucV8DB9PPOfhePCIWmizf8tiEQMC+CtgspGp2t1YEnL9CkH7tCsiHd9b/KDX/IgEGh74f5VH7m8vGVkpEXdReyVwIFh6vREqKJMfLXXLdTHqLaVSzw2OXFTLOgV1sXsbzcRr9jced62QjdXXgxYJVEukjUl7Fix1tKq3M4GEjyByfs+LJKWsnCzTMT0JoCrpevWLFs9hDpLQFQ5LFXCP3uuAUgl/T4uNVTI66nq35OWGkdv8f7ykrCdCe7MQ8jaTu9rBQaUY+iOmMrHQlqS/VeK/JoGRiWPBWW5QdbMDWof6ceOgxhL6oGkBLA=
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@babayev.com header.s=google header.b=TGJdZ7wg;
+ spf=pass (domain: babayev.com, ip: 209.85.128.67, mailfrom: ruslan@babayev.com)
+Received: by mail-wm1-f67.google.com with SMTP id g8so3923474wmk.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 14:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=babayev.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sTBJrlS6JBkjl6/CuD+4XpcI0QK6S2764GrruvFa2l0=;
+        b=TGJdZ7wgUwdwu4/ZIBXfWZvESJ1PqN9aboHdZnItOw3NMISlnVYd5TW4BSSjNRK5Mk
+         3tb8KRoR4cSNpHE7hC6V6kuqEREHyngIpri7Mznw2yV7CNOiXGVFkNGNrmrEGkXBPp9i
+         0MW4/PzfFt8vP5o28Gd9iCu8eRx5IIDtDLnHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sTBJrlS6JBkjl6/CuD+4XpcI0QK6S2764GrruvFa2l0=;
+        b=QcsuYBqBhkaL+9oSpWMBVHK0TeZVgARQKKHJ7IPO0t4FAny1iyJTOmaXeJqt6hiXEJ
+         VXFZG6dWdX7NEOSvl0ofWV2vr24YpobFF0N53yM6/Oeq2XKfXXWNj+ixN+JcfKuA+2Ih
+         R9Vcpm91/HDyLBqAUznrYC5BMoLm8vUqIoyyQ904tOJ/w86WdU/TJRj9tq+J3p9CtxZd
+         q8O5QULG4zu15CSOyRbWb9e2Vyliqbx4tjIQW8/UuMZKzV9ZW+XuyAERsaBgRwi7SgtU
+         iBEP4RU7fgLBFvfbzjaPSKC6aplCGbbUfmzLbUtXYv/4cZgLjGzQGUu8Sj6QRA2Y4bJN
+         wn+A==
+X-Gm-Message-State: AOAM532VpzOYfLBQNx0MG2qHiw2cl4be+R7feWQ8N2ftO3+0Mn7ONjN5
+	VEfO6RwQuH31jKTWbJi85UB1kt2faPRcEaXK+C4lLQ==
+X-Google-Smtp-Source: ABdhPJwPiGC6CljZuNaGq7QFqNsyLqaMUJm84pBWOW+2RaNhWomRqcDTph/blIaDZO8ktMr3MCZJlnm5O1Zs3MbNBcw=
+X-Received: by 2002:a1c:740e:: with SMTP id p14mr10029982wmc.179.1596056702497;
+ Wed, 29 Jul 2020 14:05:02 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2480.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1ddd52a-cb6b-418e-47e2-08d83401bcc4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2020 20:55:33.8257
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y7vsWXJ8LdxJ6y3nTt39v2/Ey/2xMS+puGeRA9thlttrDpXy5Ve+tx9lPOcDQmR4MH5VfPQPbwzGIZEra9HRhRHHPF5mJSaK36N4rTNNyTg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2704
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20200726015614.2875-1-ruslan@babayev.com> <CAAnfSTvFPFsSzimALDEGWQCrMRszViYWT7kqBbs3UrgRrfAN3w@mail.gmail.com>
+ <CAOpYhv9MHvuDgU-Rrkn3cdyhge0y_wTtOQRuogMR46E-zQ-w6A@mail.gmail.com>
+In-Reply-To: <CAOpYhv9MHvuDgU-Rrkn3cdyhge0y_wTtOQRuogMR46E-zQ-w6A@mail.gmail.com>
+From: "Ruslan Babayev" <ruslan@babayev.com>
+Date: Wed, 29 Jul 2020 14:04:51 -0700
+Message-ID: <CAOpYhv8UEfdbY0nLyoso--td1yMX6uUbOzP0aRnvWdG2AH1gDA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meson: use the more specific cpu arch in cross file
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000cb4c7005ab9ae800"
 
-SGkgUmljaGFyZCwNCg0KPiBUaGlzIGxvb2tzIGludGVyZXN0aW5nLiBDb3VsZCB3ZSBhZGQgc29t
-ZXRoaW5nIHRvIHRoZSBtYW51YWwgYWJvdXQgaG93IHRvDQo+IHVzZSBpdCBhbmQgbWF5YmUgYSB0
-ZXN0IGZvciBpdCBhcyB3ZWxsIHBsZWFzZT8NCg0KDQpIYWxmd2F5IHRocm91Z2ggd3JpdGluZyB0
-aGUgdGVzdHMsIGFuZCBJIHJlYWxpemVkIExPR19DT0xPUklaRVJfU1VQUFJFU1NfQ09MT1JJWkVE
-X09VVFBVVCBkb2VzbuKAmXQgcXVpdGUgd29yay4gSSB3cm90ZSBhIHRlc3QgcmVjaXBlIHdpdGgg
-YSBkb19jb21waWxlIHRoYXQgcHVycG9zZWx5IGZhaWxzIHdpdGggYSBjb21waWxlIGVycm9yLCB0
-byBjaGVjayB3aGV0aGVyIGNvbG9yIGRpYWdub3N0aWNzIHdvcmsuDQoNCkJ1dCBJJ20gZ2V0dGlu
-ZyBjb2xvciB0ZXh0IHByaW50ZWQgb3V0IGFmdGVyICJMb2cgZGF0YSBmb2xsb3dzOiAiIHdoaWNo
-IGlzIGtub3R0eSdzIHJlc3BvbnNlIHRvIHRoZSBiYi5idWlsZC5UYXNrRmFpbGVkLiANCg0KVGhp
-cyBpcyBiZWNhdXNlIG9mIHNvbWUgY29kZSBvZiBfZXhlY190YXNrIGluIGJ1aWxkLnB5LiANCg0K
-DQo1ODEgICAgICAgICB0cnk6DQo1ODIgICAgICAgICAgICAgZm9yIGZ1bmMgaW4gKHByZWZ1bmNz
-IG9yICcnKS5zcGxpdCgpOg0KNTgzICAgICAgICAgICAgICAgICBleGVjX2Z1bmMoZnVuYywgbG9j
-YWxkYXRhKQ0KNTg0ICAgICAgICAgICAgIGV4ZWNfZnVuYyh0YXNrLCBsb2NhbGRhdGEpDQo1ODUg
-ICAgICAgICAgICAgZm9yIGZ1bmMgaW4gKHBvc3RmdW5jcyBvciAnJykuc3BsaXQoKToNCjU4NiAg
-ICAgICAgICAgICAgICAgZXhlY19mdW5jKGZ1bmMsIGxvY2FsZGF0YSkNCjU4NyAgICAgICAgIGV4
-Y2VwdCBiYi5CQkhhbmRsZWRFeGNlcHRpb246DQo1ODggICAgICAgICAgICAgZXZlbnQuZmlyZShU
-YXNrRmFpbGVkKHRhc2ssIGZuLCBsb2dmbiwgbG9jYWxkYXRhLCBUcnVlKSwgbG9jYWxkYXRhKQ0K
-NTg5ICAgICAgICAgICAgIHJldHVybiAxDQo1OTAgICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFz
-IGV4YzoNCjU5MSAgICAgICAgICAgICBpZiBxdWlldGVycjoNCjU5MiAgICAgICAgICAgICAgICAg
-ZXZlbnQuZmlyZShUYXNrRmFpbGVkU2lsZW50KHRhc2ssIGZuLCBsb2dmbiwgbG9jYWxkYXRhKSwg
-bG9jYWxkYXRhKQ0KNTkzICAgICAgICAgICAgIGVsc2U6DQo1OTQgICAgICAgICAgICAgICAgIGVy
-cnByaW50ZWQgPSBlcnJjaGsudHJpZ2dlcmVkDQo1OTUgICAgICAgICAgICAgICAgIGxvZ2dlci5l
-cnJvcihzdHIoZXhjKSkNCjU5NiAgICAgICAgICAgICAgICAgZXZlbnQuZmlyZShUYXNrRmFpbGVk
-KHRhc2ssIGZuLCBsb2dmbiwgbG9jYWxkYXRhLCBlcnJwcmludGVkKSwgbG9jYWxkYXRhKQ0KNTk3
-ICAgICAgICAgICAgIHJldHVybiAxDQoNCg0KVGhlIGNvbG9yIG91dHB1dCBpcyBjb21pbmcgZnJv
-bSBsaW5lIDU5NS4gVGhlIENvbW1hbmRGYWlsZWQgZXhjZXB0aW9uIGZyb20gYmIucHJvY2Vzcy5y
-dW4gY2FycmllcyB3aXRoIGl0IHRoZSBzdGRvdXQgb2YgdGhlIHByb2Nlc3MsIHdoaWNoIGluIHRo
-aXMgY2FzZSBoYXMgY29sb3IgdGV4dC4gDQoNCkkgdGhpbmsgYXQgdGhpcyBwb2ludCwgSSBxdWVz
-dGlvbiB3aGV0aGVyIEkgc2hvdWxkIGp1c3QgaW50ZWdyYXRlIHdpdGggYml0IEJpdEJha2UgYmFr
-ZSBkaXJlY3RseS4gSWYgSSB3ZXJlIHRvIGRvIHRoYXQsIEkgY291bGQgYWxzbyBmaXggdGhlIGxp
-bWl0YXRpb24gb2YgLmNvbG9yIGFuZCAubm9jb2xvciBsb2dzIG5vdCBoYXZpbmcgb3V0cHV0IGZy
-b20gcHJlL3Bvc3RmdW5jcy4gSSBwcm9wb3NlIHRoaXM6DQoNCmxvZy1jb2xvcml6ZXIuYmJjbGFz
-czoNCgkxLiBSZXNwb25zaWJsZSBmb3Igc2V0dGluZyB1cCBDRkxBR1MNCgkyLiBSZXNwb25zaWJs
-ZSBmb3IgcGFzc2luZyB0aGUgYXBwcm9wcmlhdGUgZmxhZ3MvZW52aXJvbm1lbnQgdmFyaWFibGVz
-IGRlcGVuZGluZyBvbiBidWlsZCBzeXN0ZW0gaW4gdXNlIChmb3IgZXhhbXBsZSwgdGhlIGxpdHRs
-ZSBiaXQgb2YgY29kZSBJIGhhdmUgdGFyZ2V0aW5nIENNYWtlKS4NCg0KQml0QmFrZToNCgkxLiBF
-bnN1cmUgcHJvZ3Jlc3MgaGFuZGxlcnMgb25seSBzZWUgZmlsdGVyZWQgb3V0cHV0LiBBdCB0aGUg
-Qml0QmFrZSBsZXZlbCBJIGNhbiBqdXN0IGRvIHRoaXMgZGlyZWN0bHkgYW5kIG5vdCBtZXNzIGFy
-b3VuZCB3aXRoIHByb3h5IHByb2dyZXNzIGhhbmRsZXJzLg0KCTIuIENyZWF0ZSBhICItLXN1cHBy
-ZXNzLWNvbG9yIiBmbGFnIHRoYXQgZmlsdGVycyBvdXQgQU5TSSBlc2NhcGUgc2VxdWVuY2VzIGZy
-b20gdGhlIGNvbnNvbGUgYW5kIHRoZSB0YXNrIGxvZyANCgkzLiBNYWludGFpbiB0aGUgLm5vY29s
-b3IgYW5kIC5jb2xvciB2ZXJzaW9ucyBvZiB0aGUgbG9ncy4gVGhvdWdoIEknbSBub3Qgc3VyZSBo
-b3cgSSdkIGtlZXAgTE9HX0NPTE9SSVpFUl9UQVNLUy1saWtlIGZ1bmN0aW9uYWxpdHkgKHdoaWNo
-IG9ubHkgd3JpdGVzIC5ub2NvbG9yLy5jb2xvciBsb2dzIGZvciB0YXNrcyB3ZSBhY3R1YWxseSBl
-eHBlY3QgdG8gcHJvZHVjZSBjb2xvciBvdXRwdXQpLiBNYXliZSBJIHNob3VsZCBkbyBpdCBhdXRv
-bWF0aWNhbGx5IGJhc2VkIG9uIHdoZXRoZXIgYW55IGVzY2FwZSBzZXF1ZW5jZXMgYXJlIGRldGVj
-dGVkLg0KDQpUaGUgdXNlciB3b3VsZCBzdGlsbCBiZSByZXNwb25zaWJsZSBmb3IgSU5IRVJJVCdp
-bmcgbG9nLWNvbG9yaXplciBnbG9iYWxseSBvciBwZXItcmVjaXBlLiANCg0KV2hhdCBkbyB5b3Ug
-dGhpbms/DQoNClRoYW5rcywNCkNocmlzDQo=
+--000000000000cb4c7005ab9ae800
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Ross,
+
+What do you think of the patch? Any objections to merging it? Do you have
+any feedback?
+
+Thanks,
+Ruslan
+
+On Mon, Jul 27, 2020 at 12:03 PM Ruslan Babayev <ruslan@babayev.com> wrote:
+
+> Hi Ross,
+>
+> According to https://mesonbuild.com/Cross-compilation.html
+>
+> There are two different values for the CPU. The first one is cpu_family.
+> It is a general type of the CPU. This should have a value from the CPU
+> Family table <https://mesonbuild.com/Reference-tables.html#cpu-families>.
+> *Note* that meson does not add el to end cpu_family value for little
+> endian systems. Big endian and little endian mips are both just mips,
+> with the endian field set approriately.
+>
+> The second value is cpu which is a more specific subtype for the CPU.
+> Typical values for a x86 CPU family might include i386 or i586 and for arm
+>  family armv5 or armv7hl. Note that CPU type strings are very system
+> dependent. You might get a different value if you check its value on the
+> same machine but with different operating systems.
+> At the moment both 'cpu_family' and 'cpu' are being set to TARGET_ARCH
+> (like x86_64) in meson cross file.
+>
+> TUNE_CCARSG usually contains the exact subfamily either as -march= or
+> -mcpu=
+>
+> The meson_cpu function will use regex to search for -march and if that's
+> missing for -mcpu value. If both flags are missing it defaults to
+> TARGET_ARCH.
+>
+> Ruslan
+>
+>
+> On Mon, Jul 27, 2020 at 3:52 AM Ross Burton <ross@burtonini.com> wrote:
+>
+>> On Sun, 26 Jul 2020 at 02:56, Ruslan Babayev <ruslan@babayev.com> wrote:
+>> > 'cpu' unlike 'cpu_family' must be a more specific subtype for the CPU.
+>>
+>> Can you elaborate here some more?
+>>
+>> Ross
+>>
+>
+
+--000000000000cb4c7005ab9ae800
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e;font-size:large">Hi Ross,</div><div class=3D"gmail_default" style=3D"font=
+-family:monospace;font-size:large"><br></div><div class=3D"gmail_default" s=
+tyle=3D"font-family:monospace;font-size:large">What do you think of the=C2=
+=A0patch? Any objections to merging it? Do you have any feedback?</div><div=
+ class=3D"gmail_default" style=3D"font-family:monospace;font-size:large"><b=
+r></div><div class=3D"gmail_default" style=3D"font-family:monospace;font-si=
+ze:large">Thanks,</div><div class=3D"gmail_default" style=3D"font-family:mo=
+nospace;font-size:large">Ruslan</div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27, 2020 at 12:03 PM Rusla=
+n Babayev &lt;<a href=3D"mailto:ruslan@babayev.com">ruslan@babayev.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-fam=
+ily:monospace;font-size:large">Hi Ross,</div><div class=3D"gmail_default" s=
+tyle=3D"font-family:monospace;font-size:large"><br></div><div class=3D"gmai=
+l_default" style=3D"font-family:monospace;font-size:large">According to=C2=
+=A0<a href=3D"https://mesonbuild.com/Cross-compilation.html" style=3D"font-=
+family:Arial,Helvetica,sans-serif;font-size:small" target=3D"_blank">https:=
+//mesonbuild.com/Cross-compilation.html</a></div><div class=3D"gmail_defaul=
+t" style=3D"font-family:monospace;font-size:large"><br></div><div class=3D"=
+gmail_default" style=3D"font-family:monospace;font-size:large"><p style=3D"=
+box-sizing:border-box;margin:0px 0px 10px;color:rgb(200,200,200);font-famil=
+y:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-size:14px;back=
+ground-color:rgb(39,43,48)">There are two different values for the CPU. The=
+ first one is=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,M=
+onaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:2=
+px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4p=
+x">cpu_family</code>. It is a general type of the CPU. This should have a v=
+alue from=C2=A0<a href=3D"https://mesonbuild.com/Reference-tables.html#cpu-=
+families" style=3D"box-sizing:border-box;background-color:transparent;color=
+:rgb(135,206,250);text-decoration-line:none;outline:none" target=3D"_blank"=
+>the CPU Family table</a>.=C2=A0<em style=3D"box-sizing:border-box">Note</e=
+m>=C2=A0that meson does not add=C2=A0<code style=3D"box-sizing:border-box;f=
+ont-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-siz=
+e:12.6px;padding:2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34=
+);border-radius:4px">el</code>=C2=A0to end cpu_family value for little endi=
+an systems. Big endian and little endian mips are both just=C2=A0<code styl=
+e=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier =
+New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);b=
+ackground-color:rgb(39,40,34);border-radius:4px">mips</code>, with the=C2=
+=A0<code style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&=
+quot;Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb=
+(98,196,98);background-color:rgb(39,40,34);border-radius:4px">endian</code>=
+=C2=A0field set approriately.</p><p style=3D"box-sizing:border-box;margin:0=
+px 0px 10px;color:rgb(200,200,200);font-family:&quot;Helvetica Neue&quot;,H=
+elvetica,Arial,sans-serif;font-size:14px;background-color:rgb(39,43,48)">Th=
+e second value is=C2=A0<code style=3D"box-sizing:border-box;font-family:Men=
+lo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;paddi=
+ng:2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radiu=
+s:4px">cpu</code>=C2=A0which is a more specific subtype for the CPU. Typica=
+l values for a=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,=
+Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:=
+2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4=
+px">x86</code>=C2=A0CPU family might include=C2=A0<code style=3D"box-sizing=
+:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monos=
+pace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);background-color=
+:rgb(39,40,34);border-radius:4px">i386</code>=C2=A0or=C2=A0<code style=3D"b=
+ox-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;Courier New&qu=
+ot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,196,98);backgro=
+und-color:rgb(39,40,34);border-radius:4px">i586</code>=C2=A0and for=C2=A0<c=
+ode style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Consolas,&quot;=
+Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;color:rgb(98,1=
+96,98);background-color:rgb(39,40,34);border-radius:4px">arm</code>=C2=A0fa=
+mily=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,Monaco,Con=
+solas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:2px 4px;co=
+lor:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4px">armv5<=
+/code>=C2=A0or=C2=A0<code style=3D"box-sizing:border-box;font-family:Menlo,=
+Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:12.6px;padding:=
+2px 4px;color:rgb(98,196,98);background-color:rgb(39,40,34);border-radius:4=
+px">armv7hl</code>. Note that CPU type strings are very system dependent. Y=
+ou might get a different value if you check its value on the same machine b=
+ut with different operating systems.</p></div></div><div class=3D"gmail_def=
+ault" style=3D"font-family:monospace;font-size:large">At the moment both &#=
+39;cpu_family&#39; and &#39;cpu&#39; are being set to TARGET_ARCH (like x86=
+_64) in meson cross file.</div><div class=3D"gmail_default" style=3D"font-f=
+amily:monospace;font-size:large"><br></div><div class=3D"gmail_default" sty=
+le=3D"font-family:monospace;font-size:large">TUNE_CCARSG usually contains t=
+he exact subfamily either as -march=3D or -mcpu=3D=C2=A0</div><div><br></di=
+v><div><div class=3D"gmail_default" style=3D"font-family:monospace;font-siz=
+e:large">The meson_cpu function will use regex to search for -march and if =
+that&#39;s missing for -mcpu value. If both flags are missing it defaults t=
+o TARGET_ARCH.</div><div class=3D"gmail_default" style=3D"font-family:monos=
+pace;font-size:large"><br></div><div class=3D"gmail_default" style=3D"font-=
+family:monospace;font-size:large">Ruslan</div><br></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 27, 2020 at 3=
+:52 AM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com" target=3D"_bla=
+nk">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Sun, 26 Jul 2020 at 02:56, Ruslan Babayev &lt;<a h=
+ref=3D"mailto:ruslan@babayev.com" target=3D"_blank">ruslan@babayev.com</a>&=
+gt; wrote:<br>
+&gt; &#39;cpu&#39; unlike &#39;cpu_family&#39; must be a more specific subt=
+ype for the CPU.<br>
+<br>
+Can you elaborate here some more?<br>
+<br>
+Ross<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--000000000000cb4c7005ab9ae800--
