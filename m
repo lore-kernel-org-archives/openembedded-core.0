@@ -1,112 +1,79 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.3792.1595986297036130819
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web12.4606.1595989736590160511
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 18:31:37 -0700
+ Tue, 28 Jul 2020 19:28:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.75,408,1589212800"; 
-   d="scan'208";a="97031514"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Jul 2020 09:31:33 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8139D4CE4B10
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 09:31:30 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 29 Jul 2020 09:31:29 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] flex:Refresh patch.
-Date: Wed, 29 Jul 2020 09:31:22 +0800
-Message-ID: <1595986282-33013-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S/82HD1b;
+ spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f68.google.com with SMTP id dm12so10159954qvb.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 19:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vIAJTeqiYTggUSgUmgdoQFt04GYpiMBMPjX/WHNxvo8=;
+        b=S/82HD1baEWhO7+5RzVNrIpt1/+iBaDEOy6UfATwIrr8fDpDfgowcwTE/slO+FJg9N
+         Dl0wT6C7pq2h6MNdUrtZBUTvi1k2/xnS9eFgMVvBi0ctLDjCVTq2eVIgvDl0/2DB8dlN
+         KvhW1UUHm9nTQCBWM+FYslFJosEBFMLxfiOk2zo7SPxMg7Aep8pEGObJev27barXEZ9U
+         x/pRernL/b3Wvcfm1N4CU9Kl4qO9M+J0dQ75p3QTZIe8rmIdrUo9HSpZum/t4UM3mcsz
+         +VuR4Ye62FGwdyf1/qMthJnS1JUAia2AcvNU1p9yWhPC/QbIKuk/87iOUxgg3kuqMlnl
+         lsfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vIAJTeqiYTggUSgUmgdoQFt04GYpiMBMPjX/WHNxvo8=;
+        b=eRtHmCtP3TgWjZp5gZ62zyWRYAzhVa2UH3VF8Am/LD4DBDdPKBrTHHw0sCIMh6/zBG
+         bxLxZbGK8mn2snQgzgNXnLjV0PSme9zMHx9tbL/mlvBWBhKHYYtXBAc+QRHgIY3ZJcqO
+         PbOwQk9qUnVMTgNbjMnKtEiLzwSym0GJSvoq9dN+YGSWeOa0VZw/oOn4UjRYTjc4tVmC
+         frCWIi5JejknhDmx2ZxpSWwq7m3HIOMGWuBRCp9cOiGgcWQsx1mZvqPWIBfTlCPyzCmg
+         zSg1H4OL1ytknA/jhEGY48gQChOr+xvu1TczAcg5iyfCqEvQ/WYDms9J+v7pg7zkCLpf
+         55IQ==
+X-Gm-Message-State: AOAM531u+KEAKONm0khLEUEta8y7lQ6eUgZbxztV1iaiPGhE/ODAwxBA
+	T0xh0JWh2ZOPhalU5RWBulbV9m6OixU=
+X-Google-Smtp-Source: ABdhPJwuh3/UCHsBDKDxDTjsvc3ml4FgVUiIaZGKQfl6M3MMxRGGObn4zurqLLRv7g1pK1nvVHbTyA==
+X-Received: by 2002:ad4:452c:: with SMTP id l12mr30166987qvu.198.1595989735384;
+        Tue, 28 Jul 2020 19:28:55 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.cable.comcast.com ([2601:646:9200:4e0::e841])
+        by smtp.gmail.com with ESMTPSA id 205sm480947qkj.19.2020.07.28.19.28.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 19:28:54 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemumips: Use 34Kf CPU emulation
+Date: Tue, 28 Jul 2020 19:28:52 -0700
+Message-Id: <20200729022852.1792061-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 8139D4CE4B10.A3F7A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Two changes conflict in the original patch, and it is remade.
+Few years ago we switched to using mips32r2 tunings for qemumips however
+the default CPU emulation still remained 24Kf which is not optimal for
+mips32r2 ISA for qemu [1], therefore switch to recommended 32Kf for CPU
+emulation when running qemu in system mode
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Boot time to console is ~1s faster with this setting, hopefully this
+should speed up qemumips in general
+
+[1] https://www.qemu.org/docs/master/system/target-mips.html#preferred-cpu-models-for-mips-hosts
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../flex/flex/check-funcs.patch               | 36 +++++++------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+ meta/conf/machine/qemumips.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/flex/flex/check-funcs.patch b/meta/recipes-devtools/flex/flex/check-funcs.patch
-index 037ca81fdc..25e03bc7de 100644
---- a/meta/recipes-devtools/flex/flex/check-funcs.patch
-+++ b/meta/recipes-devtools/flex/flex/check-funcs.patch
-@@ -1,10 +1,4 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From c42de062bbdc7c31d7181c10a74202d493280ada Mon Sep 17 00:00:00 2001
--From: Explorer09 <explorer09@gmail.com>
--Date: Tue, 27 Feb 2018 09:10:12 +0800
--Subject: [PATCH] build: Move dnl comments out of AC_CHECK_FUNCS
-+Subject: build: Move dnl comments out of AC_CHECK_FUNCS
+diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+index 31ad754483..4617c3c7b6 100644
+--- a/meta/conf/machine/qemumips.conf
++++ b/meta/conf/machine/qemumips.conf
+@@ -12,3 +12,5 @@ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
  
- Due to a bug, autoheader (2.69) will treat M4 dnl comments in a quoted
- argument of AC_CHECK_FUNCS as function tokens and generate a lot of
-@@ -20,28 +14,20 @@ I have reported the autoheader bug here:
- 
- As a workaround, let's move comments out of AC_CHECK_FUNCS.
- 
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
+ QB_SYSTEM_NAME = "qemu-system-mips"
 +
- Signed-off-by: Kang-Che Sung <explorer09@gmail.com>
-+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
- ---
-- configure.ac | 29 +++++++++++++----------------
-- 1 file changed, 13 insertions(+), 16 deletions(-)
-+ configure.ac | 28 +++++++++++++---------------
-+ 1 file changed, 13 insertions(+), 15 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 55e774b0..d0f3b7da 100644
-+index 55e774b..5ea3a93 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -166,6 +166,7 @@ strtol dnl
-- AC_CHECK_FUNCS([dnl
-- pow dnl           Used only by "examples/manual/expr"
-- setlocale dnl     Needed only if NLS is enabled
--+reallocarr dnl    NetBSD function. Use reallocarray if not available.
-- reallocarray dnl  OpenBSD function. We have replacement if not available.
-- ])
-- 
--diff --git a/configure.ac b/configure.ac
--index 3c977a4e..9c53590f 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -158,22 +158,19 @@ AC_FUNC_REALLOC
-+@@ -153,21 +153,19 @@ AC_FUNC_REALLOC
-  AS_IF([test "$cross_compiling" = yes],
-     AC_MSG_WARN([result $ac_cv_func_realloc_0_nonnull guessed because of cross compilation]))
-  
-@@ -58,7 +44,6 @@ index 3c977a4e..9c53590f 100644
- -AC_CHECK_FUNCS([dnl
- -pow dnl           Used only by "examples/manual/expr"
- -setlocale dnl     Needed only if NLS is enabled
---reallocarr dnl    NetBSD function. Use reallocarray if not available.
- -reallocarray dnl  OpenBSD function. We have replacement if not available.
- -])
- +dnl Autoheader (<= 2.69) bug: "dnl" comments in a quoted argument of
-@@ -77,3 +62,6 @@ index 3c977a4e..9c53590f 100644
-  
-  AC_CONFIG_FILES(
-  Makefile
-+-- 
-+2.25.1
-+
++QB_CPU = "-cpu 34Kf"
 -- 
-2.25.1
-
-
+2.27.0
 
