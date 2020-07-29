@@ -1,79 +1,90 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web12.4606.1595989736590160511
+Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
+ by mx.groups.io with SMTP id smtpd.web10.4755.1595990029735769610
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jul 2020 19:28:56 -0700
+ Tue, 28 Jul 2020 19:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S/82HD1b;
- spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f68.google.com with SMTP id dm12so10159954qvb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Jul 2020 19:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vIAJTeqiYTggUSgUmgdoQFt04GYpiMBMPjX/WHNxvo8=;
-        b=S/82HD1baEWhO7+5RzVNrIpt1/+iBaDEOy6UfATwIrr8fDpDfgowcwTE/slO+FJg9N
-         Dl0wT6C7pq2h6MNdUrtZBUTvi1k2/xnS9eFgMVvBi0ctLDjCVTq2eVIgvDl0/2DB8dlN
-         KvhW1UUHm9nTQCBWM+FYslFJosEBFMLxfiOk2zo7SPxMg7Aep8pEGObJev27barXEZ9U
-         x/pRernL/b3Wvcfm1N4CU9Kl4qO9M+J0dQ75p3QTZIe8rmIdrUo9HSpZum/t4UM3mcsz
-         +VuR4Ye62FGwdyf1/qMthJnS1JUAia2AcvNU1p9yWhPC/QbIKuk/87iOUxgg3kuqMlnl
-         lsfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vIAJTeqiYTggUSgUmgdoQFt04GYpiMBMPjX/WHNxvo8=;
-        b=eRtHmCtP3TgWjZp5gZ62zyWRYAzhVa2UH3VF8Am/LD4DBDdPKBrTHHw0sCIMh6/zBG
-         bxLxZbGK8mn2snQgzgNXnLjV0PSme9zMHx9tbL/mlvBWBhKHYYtXBAc+QRHgIY3ZJcqO
-         PbOwQk9qUnVMTgNbjMnKtEiLzwSym0GJSvoq9dN+YGSWeOa0VZw/oOn4UjRYTjc4tVmC
-         frCWIi5JejknhDmx2ZxpSWwq7m3HIOMGWuBRCp9cOiGgcWQsx1mZvqPWIBfTlCPyzCmg
-         zSg1H4OL1ytknA/jhEGY48gQChOr+xvu1TczAcg5iyfCqEvQ/WYDms9J+v7pg7zkCLpf
-         55IQ==
-X-Gm-Message-State: AOAM531u+KEAKONm0khLEUEta8y7lQ6eUgZbxztV1iaiPGhE/ODAwxBA
-	T0xh0JWh2ZOPhalU5RWBulbV9m6OixU=
-X-Google-Smtp-Source: ABdhPJwuh3/UCHsBDKDxDTjsvc3ml4FgVUiIaZGKQfl6M3MMxRGGObn4zurqLLRv7g1pK1nvVHbTyA==
-X-Received: by 2002:ad4:452c:: with SMTP id l12mr30166987qvu.198.1595989735384;
-        Tue, 28 Jul 2020 19:28:55 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.cable.comcast.com ([2601:646:9200:4e0::e841])
-        by smtp.gmail.com with ESMTPSA id 205sm480947qkj.19.2020.07.28.19.28.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 19:28:54 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemumips: Use 34Kf CPU emulation
-Date: Tue, 28 Jul 2020 19:28:52 -0700
-Message-Id: <20200729022852.1792061-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 2F288220248
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 14:33:46 +1200 (NZST)
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: "Douglas" <douglas.royds@taitradio.com>
+Subject: sdk package_arch and yum
+Message-ID: <cf22da6d-2a72-15b4-9027-8b81fe3cc264@taitradio.com>
+Date: Wed, 29 Jul 2020 14:33:46 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+ boundary="------------B496B2376AB955461FC7517E"
+Content-Language: en-GB
 
-Few years ago we switched to using mips32r2 tunings for qemumips however
-the default CPU emulation still remained 24Kf which is not optimal for
-mips32r2 ISA for qemu [1], therefore switch to recommended 32Kf for CPU
-emulation when running qemu in system mode
+--------------B496B2376AB955461FC7517E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Boot time to console is ~1s faster with this setting, hopefully this
-should speed up qemumips in general
+I was unable to install my nativesdk packages on CentOS using yum, as 
+the package architecture was set to "x86_64_nativesdk". My web-digging 
+revealed no work-around I could use for yum.
 
-[1] https://www.qemu.org/docs/master/system/target-mips.html#preferred-cpu-models-for-mips-hosts
+dnf (available in CentOS 8, I believe) supports a --forcearch 
+<https://www.mankier.com/8/dnf#--forcearch> option, and also provides an 
+ignorearch <https://www.mankier.com/5/dnf.conf#ignorearch> configuration 
+option, though this seems an unsatisfactory work-around.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/qemumips.conf | 2 ++
- 1 file changed, 2 insertions(+)
+For the experiment, I forced the sdk package_arch to simply "x86_64", 
+and yum cheerfully installed the resulting rpm packages:
 
-diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-index 31ad754483..4617c3c7b6 100644
---- a/meta/conf/machine/qemumips.conf
-+++ b/meta/conf/machine/qemumips.conf
-@@ -12,3 +12,5 @@ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
- SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- QB_SYSTEM_NAME = "qemu-system-mips"
-+
-+QB_CPU = "-cpu 34Kf"
--- 
-2.27.0
+    PACKAGE_ARCH_class-nativesdk = "${SDK_ARCH}"
+    SDK_PACKAGE_ARCHS = "all any noarch ${SDK_ARCH}"
 
+I have no familiarity with yum. Am I missing something?
+
+If not, I will propose a patch to create packages with PACKAGE_ARCH = 
+x86_64 in the nativesdk case, but I wanted a sanity check before I did 
+this work.
+
+For the record, apt did install the corresponding .deb files, cheerfully 
+ignoring the architecture.
+
+
+--------------B496B2376AB955461FC7517E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>I was unable to install my nativesdk packages on CentOS using
+      yum, as the package architecture was set to "x86_64_nativesdk". My
+      web-digging revealed no work-around I could use for yum.<br>
+    </p>
+    <p>dnf (available in CentOS 8, I believe) supports a <a
+        moz-do-not-send="true"
+        href="https://www.mankier.com/8/dnf#--forcearch">--forcearch</a>
+      option, and also provides an <a moz-do-not-send="true"
+        href="https://www.mankier.com/5/dnf.conf#ignorearch">ignorearch</a>
+      configuration option, though this seems an unsatisfactory
+      work-around.<br>
+    </p>
+    <p>For the experiment, I forced the sdk package_arch to simply
+      "x86_64", and yum cheerfully installed the resulting rpm packages:</p>
+    <blockquote>
+      <p><tt>PACKAGE_ARCH_class-nativesdk = "${SDK_ARCH}"</tt><tt><br>
+        </tt><tt>SDK_PACKAGE_ARCHS = "all any noarch ${SDK_ARCH}"</tt><br>
+      </p>
+    </blockquote>
+    <p>I have no familiarity with yum. Am I missing something?</p>
+    <p>If not, I will propose a patch to create packages with
+      PACKAGE_ARCH = x86_64 in the nativesdk case, but I wanted a sanity
+      check before I did this work.</p>
+    <p>For the record, apt did install the corresponding .deb files,
+      cheerfully ignoring the architecture.<br>
+    </p>
+  </body>
+</html>
+
+--------------B496B2376AB955461FC7517E--
