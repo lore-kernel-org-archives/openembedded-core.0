@@ -1,128 +1,131 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.1098.1596080068824407397
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web12.1262.1596080590099632358
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jul 2020 20:34:29 -0700
+ Wed, 29 Jul 2020 20:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PU5M11iZ;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id s23so19341552qtq.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 20:34:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uim3OKj8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.195, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f195.google.com with SMTP id z5so15772780pgb.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Jul 2020 20:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AX6VaISyQbcWjRSiqrHdkWUUE0rQOlrpxYg6B64l75Q=;
-        b=PU5M11iZ6amLXIPT7HJsYwSS+7Jzk3yp4EFABRtnXEjXPvC4DiQ5gRf3Ey6FoqI7Ee
-         Y5s+IpMS2ACewvpVClYiTqAbOi6Wkidk/PKtmn+bgMf3eSykAbpp7WOURYUc4oGYdVWu
-         2Y0GkqXBN3lhtxZm0IRZ5XdU8NJMC/Iu/nlFB+bc3o9NS9ih6LwULXLqBhqF6S8Nvk1h
-         CZqbW70/JQDFKd6vBdxPgFpZ6Z7rOIkAwHEwP/tJ4N4RDSK9yHDm5U2uzjDDuidSDqFr
-         TMdBKXsMTN0kD44Wgjy/rL2QKru/EagdU9v4dG2qNwRREa9Qj92ywt29TXG8F3XBdHkO
-         LjZQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=kpPrGsYQguVprqczzx1thXJ4eMibpJTa6qVmqU4cFso=;
+        b=uim3OKj8PnnovuaElwTEjQh9T6UqreI86zyW5wojSSNynogt0RkSYc85bcdRCztsGG
+         grPNJ6pUwXqqx6EafF9RVmufeEc7xkIkwos4gPnlDpZxRFGkUYqX+rj1PxlbUw70BCnN
+         EEOxXPpD2xOPGVsBSWdOPXdnsQBa22ECzH8qNYnHsm4Q1xVPJKsZbH1yaLj8JAfA/Hod
+         i+STk/bUYzzv11pBqCdm0EaKbDY5H/GZ06mNbDr2aQ9q4fY6bd4mUQoGj0h/6+t6tXJu
+         ag5MhMfOhDw1C2uFfzAlBa3uP4/MpFBjpwnwZ2+e68sypJO0xEx+6yyZpITxUBRDpiMV
+         fYJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AX6VaISyQbcWjRSiqrHdkWUUE0rQOlrpxYg6B64l75Q=;
-        b=INuC8pfNyYFOnKTlcncZpBsByxpTi4rx3Mlierp6cIGySvgecK5ViokriNpHS/wteO
-         PpVNEP9kniyuyVwapp+NMSs0SP2muCahllGWU+/MAnWGudvqnU743sxZwHJgT+KVf9YI
-         m2wVmxyBHYeR5tCvFPwA/lcxiAivQwr2Lh5sxzsRGuolzLyWlhyBmFalIWKkKj+bYz2L
-         x1i7BUxkveRaCTDFQRrGS5dB3VykQ4QvKmham3yuxo9eV9XcAK2EZ/7g7YPSJPZfKZsI
-         O5N+o7ZAVp2UPNz1pw8xcPqkV1+iRvialB3SoJy4jUwsOZzRBwVLPpZRsXO13Pgv521c
-         DlXQ==
-X-Gm-Message-State: AOAM531QBOMNaB5ML8PJXXNyyYNSgmmxSgZjZy1lopRq3Ik0fAQAKaiK
-	wSXxROxrk0YcBGV/s+OP9N8V2d0wCk0rNx7AyKI=
-X-Google-Smtp-Source: ABdhPJx1gVHAq4rimXN30la7RBO8PmNBu3X6edge5TO85Zsa3g+vn6pGoNFZ7StbNhLb2RFt4aNfUPQth1zfu1PoPPs=
-X-Received: by 2002:ac8:748b:: with SMTP id v11mr966459qtq.293.1596080067885;
- Wed, 29 Jul 2020 20:34:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200729130916.38764-1-matthew.zeng@windriver.com>
- <d05d7357b7199a1e787d7f0510eaeacb46740a0a.camel@linuxfoundation.org>
- <87bljyqvzk.fsf@windriver.com> <e7a7ee265ac55cf179980f9deb5579b068e12299.camel@linuxfoundation.org>
- <CAMKF1sqZuL_0GE7uOuJqQTNm9TEazXDAsUZmzSebaAZq0VLzFQ@mail.gmail.com> <878sf1r8c9.fsf@windriver.com>
-In-Reply-To: <878sf1r8c9.fsf@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 29 Jul 2020 20:34:00 -0700
-Message-ID: <CAMKF1sq+MdGJY9A_V7=SDGxk5gAk53pqsWQsOrQYUHc-ozveaQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv2] ltp: remove OOM tests from runtest/mm
-To: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=kpPrGsYQguVprqczzx1thXJ4eMibpJTa6qVmqU4cFso=;
+        b=SZ9Os1VTzkmVBTRja1Re5akSFa40ZdGXgcxORyopLNQjGkmDQTzIw1zJxU2Sw9MLn8
+         sH9xqpfycc25BBHn53UJirzqazT+7KRO9tTibhResjaOmQ0CevGRRF4mhxIzyAIqXISO
+         ok8/E8Ly84bcsqw2/dEWTygZu1col4Nj5X7E3muazV42yyFFQOYv0kr+FvqGJy28nC78
+         Wv2aMNv3UlBZ46muvoM3dScNwSghtcL2OFi3UPjKxYIrcjHBu5vQrkoacli1/+2XdS7V
+         J1pqHkn3KPMZFUfCv/WUUVHexAeG0B/jKirTu4IXM5SjTzFBmi4WPoalvc+ZakNBOPiO
+         TDQg==
+X-Gm-Message-State: AOAM532jlQfmYTxY2XQVelVvTzny0W+52YQoB3rCKVLLapMr6YXDFq3W
+	0MZzaJIT6xz5nD3g/7ceZyEZUCLrQxk=
+X-Google-Smtp-Source: ABdhPJwJ+CfLnM9dymu/U3Ofr/1FQsRpRnh6T/MawzAqaFylzQgW/yqSSHo1jwkohoBbr8xAk+BKRA==
+X-Received: by 2002:a65:664a:: with SMTP id z10mr31858949pgv.352.1596080588979;
+        Wed, 29 Jul 2020 20:43:08 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id 129sm4049083pfv.161.2020.07.29.20.43.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 20:43:08 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/17] Pull request (cover letter only)
+Date: Wed, 29 Jul 2020 17:42:57 -1000
+Message-Id: <cover.1596080427.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, Jul 29, 2020 at 8:27 PM Mingde (Matthew) Zeng
-<matthew.zeng@windriver.com> wrote:
->
->
-> Khem Raj <raj.khem@gmail.com> writes:
->
-> > on master-next I am also seeing
-> >
-> > step1b: WARNING: ltp-20200515-r0 do_patch: QA Issue: Patch log
-> > indicates that patches do not apply cleanly. [patch-fuzz]
-> >
-> > I wonder if its related to this as well.
->
-> My bad.
->
-> Just a couple days ago ltp master introduced a commit directly effected the line above my change, resulting the diff to look slightly different.
->
-> I could send a patch on top of this commit, or is it possible to revert this merged commit altogether and I will send a new patch, to keep the git log clean. Whichever preferred by YP.
->
+The following changes since commit ea886d57db917a41a0d106a15e1e96c72d6407b0:
 
-its not in master yet so please send a v2.
+  kernel-yocto: account for extracted defconfig in elements check (2020-07-23 04:07:37 -1000)
 
->
-> Matthew
->
-> >
-> > On Wed, Jul 29, 2020 at 6:43 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >>
-> >> On Wed, 2020-07-29 at 09:41 -0400, Mingde (Matthew) Zeng wrote:
-> >> > Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> >> >
-> >> > > On Wed, 2020-07-29 at 09:09 -0400, Matthew wrote:
-> >> > > > Fixes [YOCTO #13802]
-> >> > >
-> >> > > Thanks, we can reference the bug but I don't think we can yet claim
-> >> > > it
-> >> > > fixes it.
-> >> >
-> >> > Sure, would something like the following work?
-> >> >
-> >> > Reference [YOCTO #13802]
-> >>
-> >> Simply "[YOCTO #13802]" is fine (I'll tweak the commit message as I
-> >> merge).
-> >>
-> >> > > The missing log issue happened again:
-> >> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/908
-> >> > > so I think there are multiple issues at play here.
-> >> >
-> >> > Can you attach this build's log.do_testimage so I can have a further
-> >> > look?
-> >>
-> >> Sorry, that build directory has been reused in this case :( Next time
-> >> that happens I'll try and spot/grab it.
-> >>
-> >> > > Is there any way to have the logging logged to disk straight away
-> >> > > rather than stuck internally in oeqa's logging buffers? That way we
-> >> > > could see which tests had run before a hang?
-> >> > >
-> >> > > Also, could we make the scp failure non-fatal, maybe a warning so
-> >> > > that
-> >> > > when it fails we can look at the rest of the logs?
-> >> >
-> >> > I'll further investigate this idea.
-> >>
-> >> Thanks!
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >>
-> >> 
->
->
-> --
-> Mingde (Matthew) Zeng
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Armin Kuster (1):
+  glibc: Secruity fix for CVE-2020-6096
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.51
+  linux-yocto-rt/5.4: fix mmdrop stress test issues
+
+Changqing Li (1):
+  gtk-immodules-cache.bbclass: fix post install scriptlet error
+
+Chen Qi (1):
+  rpm: fix nativesdk's default var location
+
+Daniel Ammann (1):
+  image.bbclass: improve wording when image size exceeds the specified
+    limit
+
+Joshua Watt (2):
+  classes/cmake: Fix host detection
+  classes/package: Use HOST_OS for runtime dependencies
+
+Kevin Hao (3):
+  wic/filemap: Drop the unused block_is_unmapped()
+  wic/filemap: Drop the unused get_unmapped_ranges()
+  wic/filemap: Fall back to standard copy when no way to get the block
+    map
+
+Kurt Kiefer (1):
+  linux-firmware: add ibt-20 package
+
+Lee Chee Yang (1):
+  buildhistory: use pid for temporary txt file name
+
+Richard Purdie (1):
+  oeqa/qemurunner: Add priority/nice information for running processes
+
+Robert Yang (1):
+  openssl: openssl-bin requires openssl-conf to run
+
+Ross Burton (1):
+  startup-notification: add time_t type mismatch patch from upstream
+
+Sakib Sajal (1):
+  busybox: make hwclock compatible with glibc 2.31
+
+ meta/classes/buildhistory.bbclass             |  11 +-
+ meta/classes/cmake.bbclass                    |  19 +-
+ meta/classes/gtk-immodules-cache.bbclass      |   1 +
+ meta/classes/image.bbclass                    |   4 +-
+ meta/classes/package.bbclass                  |  10 +-
+ meta/lib/oeqa/utils/qemurunner.py             |   2 +-
+ meta/lib/oeqa/utils/qemutinyrunner.py         |   2 +-
+ .../openssl/openssl_1.1.1g.bb                 |   2 +
+ ...1-hwclock-make-glibc-2.31-compatible.patch |  83 ++++++++
+ meta/recipes-core/busybox/busybox_1.31.1.bb   |   1 +
+ .../glibc/glibc/CVE-2020-6096.patch           | 112 ++++++++++
+ .../glibc/glibc/CVE-2020-6096_2.patch         | 194 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   2 +
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   2 +-
+ .../startup-notification-0.12/time_t.patch    | 108 ++++++++++
+ .../startup-notification_0.12.bb              |   1 +
+ .../linux-firmware/linux-firmware_20200619.bb |   4 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ scripts/lib/wic/filemap.py                    |  75 +++----
+ 21 files changed, 580 insertions(+), 89 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch
+ create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/time_t.patch
+
+-- 
+2.17.1
+
