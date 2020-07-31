@@ -1,90 +1,98 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.17662.1596200198885282047
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web10.18976.1596204051872124214
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Jul 2020 05:56:39 -0700
+ Fri, 31 Jul 2020 07:00:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=0/BKO/lS;
- spf=pass (domain: burtonini.com, ip: 209.85.128.65, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f65.google.com with SMTP id g8so8471801wmk.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2020 05:56:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cWFnA4dh;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id r12so25381870ilh.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Jul 2020 07:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3JoKrKwpCQrChROzD+1zv6e2uyCs5slL9UMVruM5eJs=;
-        b=0/BKO/lSYVTmwj2816R8glKS+K/dySFsPCecU0GCs9h/IhKac0YgemiHOJkfFQZoSs
-         3jq4FnIQ/+/KurnN/hcipj5JRg5Kr/SKh2zmrEDHA3uyJbJbHghbDvfUZ+upP+6p2wQ5
-         5ZmRRliucDplOcuNB4HjQKGPorZr2XLFnTkI2AZaR0tSLfeZmcxyUibvoya8nXJcYQlv
-         FoZwtti8bs6aCNI2posIVDLNrMefQcGxBfEu3xKZeTsPsTrhUhREXmeC73bZpXKkvhFM
-         P46QYshu46TFouiAdt3iggqCY14tm6J+zPyafRfoyDqT4yzwFiezt6+9E98o1GDR/6fL
-         kauA==
+        bh=t9deL55XnhDq9Fsg7tOAyDIDEpA3YzIKVSMLy4zTXH8=;
+        b=cWFnA4dhoL4nsPQN9//pEACBdfWf4jAqWsTFz78ed2xsJ9g/vqo8+FvsDaIdtVb7pZ
+         hcszLRlQQlDbS7IjiVJXUH95uii8FdP0SnqODDcsl9ZJGdEL869WXjdsrUjEUx3UEN5m
+         DKF7oj+FIQHvw+GBhaG1XbK+sF79+YgwS93eztxh9zjNUP8U0JPy0JBv9VK8vE1Yo/4u
+         /Rp9D7a4MrCfQjv4t0s251p7rc0AENu3/2WHGtk/axbtWEXUdFJy78lNNyu1iKhOUe4g
+         epvFBYwBSAFTG5gVMSGZwqpaXa7KMneaPVG7uHeqOFORgTVC6XHBvZgUIU//OE6zH/zw
+         8bkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3JoKrKwpCQrChROzD+1zv6e2uyCs5slL9UMVruM5eJs=;
-        b=oyXuPSn5NMbq5nu7ULNSFY3IeKcDuYKdObcT+78cUdeuIgQPiCO2loFJrbLa6+32Fy
-         vdR4UbB9dt8CnyOldU2tp85byZLA7AVi9Ku62uAO5Fc244KE51jYCo5xQsCSi4Ojg4WS
-         bCuzmoAdyZZI5PHJ3jtZQakPBMNKKVZggX2+/325Mu1IFeivSfBYQX2rSI6loJ7m1crf
-         mR9DleEZwzx7+sf5QVmzWUNTgRWe8REY+psJToVDh9xBuHuxh3t2IAuwW4Mis+YQpnbC
-         pddVrgnmo8RTbw/1qg/f8Gd9KmA9RfB7qLw+RYAP2GotbvR5ACTRpmgOUOlOtQ9stmNX
-         dPbA==
-X-Gm-Message-State: AOAM532Uku+CRyBtFx4NVT7bGipr8oDTRpc915VBwyvScI5Tx4p8rZZQ
-	aS/9nOe+tDshhju2BwC2npkmLYabBVo=
-X-Google-Smtp-Source: ABdhPJzHlFmDiq371HT1E5olI550w9Rls02KEy1jLgeR5APwWYAS4pr1j2rrzTVSa+9gejA3KEGBCg==
-X-Received: by 2002:a05:600c:245:: with SMTP id 5mr3803269wmj.22.1596200197132;
-        Fri, 31 Jul 2020 05:56:37 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from rossb-vm.manchester.arm.com ([213.86.15.71])
-        by smtp.gmail.com with ESMTPSA id o2sm12945862wrj.21.2020.07.31.05.56.36
-        for <openembedded-core@lists.openembedded.org>
+        bh=t9deL55XnhDq9Fsg7tOAyDIDEpA3YzIKVSMLy4zTXH8=;
+        b=HaEfnG2IHOaQPdgOhbX+Tlk/xGD3cWOdFOGiQGnpOiPNxEAss2YQKnoGxLjSr1K2Kw
+         7hi6m1TWEJQGvyq6fDTewhuuF1dnn7TWX9jnvl9I9qG5DirVJ715JyNOvo7dBI3v5eLd
+         LhvZn4taP888sU01+/1XXWY0telCrIDKfwWxUpPynLJFDJwUzAiBrav6ajoY20egxNMN
+         UVFhW4AAKKflcnQvFH41XZfF4epo1G6XtjkFvQYtNQBx4GOOw7fYi2nTPVLD+SsTdI2O
+         9YvEUTUoBhk7jrP3/69JjycWaEdIcnG8fofpT0Av62Sd8XgOM92Yt9h0sF9GC+fzTN9o
+         h9Vg==
+X-Gm-Message-State: AOAM533Re19LD1bwh6Kbp+qTCUMktSpyYqwM6zomq9s+Wtz9DF7EGita
+	1d5dwSkMPFM6rgJ0nFsDPpUJBpsx
+X-Google-Smtp-Source: ABdhPJxO/IVqNk0e8Y1kBFDsTpwaKe6VuKUDSebiPJta1vHmpPKIxac2MwzgrpZr4N53Ya21BH1BaQ==
+X-Received: by 2002:a92:9687:: with SMTP id g129mr3681420ilh.219.1596204050948;
+        Fri, 31 Jul 2020 07:00:50 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:d55f:99d9:fd3b:7490])
+        by smtp.gmail.com with ESMTPSA id 82sm4329097ioc.34.2020.07.31.07.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2020 05:56:36 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+        Fri, 31 Jul 2020 07:00:50 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] conf/machine: set UBOOT_MACHINE for qemuarm and qemuarm64
-Date: Fri, 31 Jul 2020 13:56:33 +0100
-Message-Id: <20200731125633.1869900-1-ross@burtonini.com>
-X-Mailer: git-send-email 2.26.2
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [pseudo][PATCH] db: Use WAL mode for on-disk database
+Date: Fri, 31 Jul 2020 09:00:43 -0500
+Message-Id: <20200731140043.29659-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@arm.com>
+If the in-memory database is not being used, enable WAL mode on the
+database to ensure that the database is resilient to pseudo shutting
+down unexpectedly (or being terminated by the OS). This allows projects
+to make the reliability vs. performance tradeoff: If they want
+performance they can use the in-memory database; if they want resilience
+they can disable the in-memory database and WAL will prevent database
+corruption.
 
-These machines support booting U-Boot, so set the machine appropriately.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/conf/machine/qemuarm.conf   | 2 ++
- meta/conf/machine/qemuarm64.conf | 2 ++
- 2 files changed, 4 insertions(+)
+ pseudo_db.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 44e73a3070..3364dcf042 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -7,6 +7,8 @@ require conf/machine/include/qemu.inc
+diff --git a/pseudo_db.c b/pseudo_db.c
+index 92e4f50..ebf6e08 100644
+--- a/pseudo_db.c
++++ b/pseudo_db.c
+@@ -158,11 +158,24 @@ static struct sql_index {
  
- KERNEL_IMAGETYPE = "zImage"
- 
-+UBOOT_MACHINE ?= "qemu_arm_defconfig"
-+
- SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
- SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
- 
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index d0d6f38e42..fdd464d708 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -7,6 +7,8 @@ require conf/machine/include/qemu.inc
- 
- KERNEL_IMAGETYPE = "Image"
- 
-+UBOOT_MACHINE ?= "qemu_arm64_defconfig"
-+
- SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
- SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
- 
+ static char *file_pragmas[] = {
+ 	"PRAGMA legacy_file_format = OFF;",
+-	"PRAGMA journal_mode = OFF;",
++#ifdef USE_MEMORY_DB
+ 	/* the default page size produces painfully bad behavior
+ 	 * for memory databases with some versions of sqlite.
+ 	 */
+ 	"PRAGMA page_size = 8192;",
++	"PRAGMA journal_mode = OFF;",
++#else
++        /* Use WAL mode when using the on-disk database. If user care about
++         * performance, they can use the in-memory database, but if they care
++         * more about resilience, they can disable it and WAL mode will prevent
++         * corruption of the on-disk database (for a slight performance
++         * penalty). Note that the database still keeps synchronous to OFF,
++         * meaning its resilient to the pseudo process crashing or being killed
++         * unexpectedly, but not to the OS crashing and losing buffered disk
++         * state
++         */
++	"PRAGMA journal_mode = WAL;",
++#endif
+ 	"PRAGMA locking_mode = EXCLUSIVE;",
+ 	/* Setting this to NORMAL makes pseudo noticably slower
+ 	 * than fakeroot, but is perhaps more secure.  However,
 -- 
-2.26.2
+2.27.0
 
