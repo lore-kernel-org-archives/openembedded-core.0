@@ -1,100 +1,300 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web12.4509.1596317028379978801
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web12.4510.1596317029266475005
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Aug 2020 14:23:48 -0700
+ Sat, 01 Aug 2020 14:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iFWRhmpi;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id o18so34828048eje.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2020 14:23:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=r3Q1lQcc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f67.google.com with SMTP id bs17so5933007edb.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 Aug 2020 14:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Onosa/1YZNErzfOPj4YNm830v5WlFmt/kVTcoPxDoO0=;
-        b=iFWRhmpi3Vo4uMB6R03EEqBqhmSk6Yf88DZuIkHlHh2C0ZhUcHXyZHYJBGMT7zth8F
-         h9LfH5xoB+pFYZDauEgkigg5qt0VCLvKwVDg/XIKkzJ2BD+kRTKt8i6WDIXJxCZWQIYK
-         OczL03CdMcL2d+0ApntwKkdDGV7tZt1kvuHFrzvw6Gffzr1VSoe0sb7rh6f4u7C1hHk/
-         yWPoGpoU9WwQnPV349DDLCaxl/4vh6KixECU9O2fn+RnButJWHad4nMSr0OacEMzeG49
-         tTFkpa8S5qrKEyZ6QwllJ4p9AzmEZmVsIpRjjlACEONP89KWpFadRwbezfCnkSbmiCYs
-         +fiw==
+        bh=zKA0Qsy1+7Agmj7J5pGKyy48CLDL10QOzWKL11YQjFQ=;
+        b=r3Q1lQccGuebGSj1dWL4zqu2qxEtmFaNBPXx4B9kXOF7I2RT0GbmPbQdGgvQHwCiXe
+         q5UxsvjE2Fdp/t8JIVujD/+ASaECoNqpwBACtvRJyOjj0N9HOOb0lMj3pfNt0Vr57dJo
+         gUJGgoApR7qaeuhJNyxk4TihL+B/nXaMZ09vAr+/no62wZ4F2i25OuvVO839iIxd+HrY
+         PSmXg5AY8iL7RbO5G87jRJ+1z8is/Ioy0FKBt7KkEXtYqV+aAI5ixNMyYQ3xNQnnS4Qx
+         PULjDGtAMUjeQ/PgpXkgq+iojv1B8q4qqGT1K+3xVaQ6lVeNiSnKoTKec8YWegwsRu78
+         ZXww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Onosa/1YZNErzfOPj4YNm830v5WlFmt/kVTcoPxDoO0=;
-        b=O0LwHMiG57LuhC4FrT50TaPruZNMF0HMRsBJvPmOcGjsQI9R2ET0vppjekwzkFwFoP
-         sXtXMa9LVT1eYHl9/ECb/j5Mh/QLnf0vUJaK83N/GabFNN6sFTaNzJhsq8k001WyZ1I+
-         fx7Ie7ONVu7mUjYYUOED/S1zbvbSKIAMy/R5bnffB0bPHwMA/K8aEXNXHH2/1fZCHYEY
-         AvwcdbkUBNPtCNpVJ5iFJ54oCD6r5+tOI6DB53EUi0U6stBzJGIYDGiODetCC056e07i
-         8XMSjQ3oUhIWuXCEo7ySpgnR8XZ9LuCp6kiKNYkVnL/MYmyftOeWRXAvW66HH36G08Sd
-         XN1g==
-X-Gm-Message-State: AOAM533eFQR5tDCC7RtwhxHEMvS+LJnD7972Cz/DPXXkJNYFbUF8osGF
-	SBz9NRjCm4obb7yKjEuHJH9DL0ouiMg=
-X-Google-Smtp-Source: ABdhPJyOzBUIokx34L/dqPT5qbOTcJpiw6vZyvSMUL52///LjWoahS0LRORouDLbxHykADJGrttCYQ==
-X-Received: by 2002:a17:906:fac1:: with SMTP id lu1mr10521159ejb.427.1596317026754;
-        Sat, 01 Aug 2020 14:23:46 -0700 (PDT)
+        bh=zKA0Qsy1+7Agmj7J5pGKyy48CLDL10QOzWKL11YQjFQ=;
+        b=adzPzW1XPQVpcWKyl+mk6MbVL2X5dXD4ViNdgKlyg/Y2IV9uWkZUyPFFmG3fH3PN91
+         umYUYBSslug1Fi1KWvfPFcT7mdmb61+aAMQA8g4Z9wGGbcIylvqyqDuOv6dUhjZyHUVU
+         YaCbz4iaBuhBG22TicPJzIRHE9kiyx1hAPpv8axBNaxMDfgzpcr/o0UV/n2U/pjriN0O
+         MAGuuZBvZ9WI1cRsyYe55EfamSJmlxvYRW1O+X82SOMM27VBozvc1opggJ07H/eT+OkA
+         38vwuDGaznpDG2AVkivCurOPCFXgayOYPzhKMB7z/5mz/MmUMFSvoXVoIbkGz9wixH21
+         Bn7g==
+X-Gm-Message-State: AOAM532KJoTaPA4mtdnzqVWaTQW8Ol3lUadKlukXc5Y8FWQ2buQ6eLTx
+	DnZkojWRiQWFbh1fPwe5X1ZXvahupkc=
+X-Google-Smtp-Source: ABdhPJyGivdBvFPdQlWND40L/1TqQL6KBJRjs8SERDSXWZCFygr22y4EifKfJrwidz5GeYCyrtC3JQ==
+X-Received: by 2002:a05:6402:2d7:: with SMTP id b23mr9750186edx.145.1596317027530;
+        Sat, 01 Aug 2020 14:23:47 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
         by smtp.gmail.com with ESMTPSA id cm22sm12168803edb.44.2020.08.01.14.23.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2020 14:23:46 -0700 (PDT)
+        Sat, 01 Aug 2020 14:23:47 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/13] go: update 1.14.4 -> 1.14.6
-Date: Sat,  1 Aug 2020 23:23:26 +0200
-Message-Id: <20200801212335.14922-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/13] meson: update 0.54.3 -> 0.55.0
+Date: Sat,  1 Aug 2020 23:23:27 +0200
+Message-Id: <20200801212335.14922-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200801212335.14922-1-alex.kanavin@gmail.com>
 References: <20200801212335.14922-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Rebase patches.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc                          | 4 ++--
- ...{go-binary-native_1.14.4.bb => go-binary-native_1.14.6.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.14.4.bb => go-binary-native_1.14.6.bb} (83%)
+ meta/recipes-devtools/meson/meson.inc         |  2 +-
+ .../0001-Make-CPU-family-warnings-fatal.patch | 19 ++++----
+ ...g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch | 48 +++++++++----------
+ ...y-do-not-substitute-python-s-install.patch | 11 +++--
+ ...pport-building-allarch-recipes-again.patch |  4 +-
+ .../meson/meson/disable-rpath-handling.patch  | 10 ++--
+ .../{meson_0.54.3.bb => meson_0.55.0.bb}      |  0
+ ...on_0.54.3.bb => nativesdk-meson_0.55.0.bb} |  0
+ 8 files changed, 47 insertions(+), 47 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_0.54.3.bb => meson_0.55.0.bb} (100%)
+ rename meta/recipes-devtools/meson/{nativesdk-meson_0.54.3.bb => nativesdk-meson_0.55.0.bb} (100%)
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 1050116950..64c2768f7e 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index ffa17b3061..607093a152 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,7 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+            file://0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch \
+            "
+-SRC_URI[sha256sum] = "f2bdf4cf0694e696b48261cdd14380fb1d0fe33d24744d8b2df0c12f33ebb662"
++SRC_URI[sha256sum] = "0a1ae2bfe2ae14ac47593537f93290fb79e9b775c55b4c53c282bc3ca3745b35"
+ 
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 1be94a9b19..ceb2fde342 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
 @@ -1,7 +1,7 @@
- require go-common.inc
+-From 62c415eedb62905de76e2e0bbd156a947705cab2 Mon Sep 17 00:00:00 2001
++From 5624b5835af747b601780ad14646f9c1fb854931 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+-Subject: [PATCH] Make CPU family warnings fatal
++Subject: [PATCH 1/2] Make CPU family warnings fatal
  
- GO_BASEVERSION = "1.14"
--GO_MINOR = ".4"
-+GO_MINOR = ".6"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -12,23 +12,23 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  2 files changed, 2 insertions(+), 4 deletions(-)
  
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
--SRC_URI[main.sha256sum] = "7011af3bbc2ac108d1b82ea8abb87b2e63f78844f0259be20cde4d42c5c40584"
-+SRC_URI[main.sha256sum] = "73fc9d781815d411928eccb92bf20d5b4264797be69410eac854babe44c94c09"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.14.4.bb b/meta/recipes-devtools/go/go-binary-native_1.14.6.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.14.4.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.14.6.bb
-index 72c988944f..694c597a72 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.14.4.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.14.6.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 17058df..18bbf86 100644
++index 219b62e..d1be65b 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+-@@ -225,7 +225,7 @@ class MachineInfo:
++@@ -199,7 +199,7 @@ class MachineInfo:
+  
+          cpu_family = literal['cpu_family']
+          if cpu_family not in known_cpu_families:
+--            mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % cpu_family)
+-+            raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % cpu_family)
++-            mlog.warning('Unknown CPU family {}, please report this at https://github.com/mesonbuild/meson/issues/new'.format(cpu_family))
+++            raise EnvironmentException('Unknown CPU family {}, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.'.format(cpu_family))
+  
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index a2f78a4..59fcb07 100644
++index bf09a88..8eabe78 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -364,9 +364,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++@@ -375,9 +375,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+          trial = 'parisc'
+  
+      if trial not in known_cpu_families:
+@@ -39,3 +39,6 @@ index a2f78a4..59fcb07 100644
+  
+      return trial
+  
++-- 
++2.24.0
++
+diff --git a/meta/recipes-devtools/meson/meson/0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch b/meta/recipes-devtools/meson/meson/0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch
+index 35c18f0785..a1f8422d44 100644
+--- a/meta/recipes-devtools/meson/meson/0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch
++++ b/meta/recipes-devtools/meson/meson/0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch
+@@ -1,4 +1,4 @@
+-From 7be634fa9705d0367f48a91305f9acb642ff0a11 Mon Sep 17 00:00:00 2001
++From 64aa6718c290e150dafd8da83f31cb08af00af0e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 27 May 2020 16:43:05 +0000
+ Subject: [PATCH] gnome.py: prefix g-i paths with PKG_CONFIG_SYSROOT_DIR
+@@ -9,33 +9,29 @@ determine when a custom variable is a path)
  
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "aed845e4185a0b2a3c3d5e1d0a35491702c55889192bb9c30e67a3de6849c067"
--SRC_URI[go_linux_arm64.sha256sum] = "05dc46ada4e23a1f58e72349f7c366aae2e9c7a7f1e7653095538bc5bba5e077"
-+SRC_URI[go_linux_amd64.sha256sum] = "5c566ddc2e0bcfc25c26a5dc44a440fcc0177f7350c1f01952b34d5989a0d287"
-+SRC_URI[go_linux_arm64.sha256sum] = "291bccfd7d7f1915599bbcc90e49d9fccfcb0004b7c62a2f5cdf0f96a09d6a3e"
+ Upstream-Status: Pending
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+- mesonbuild/modules/gnome.py | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
++ mesonbuild/modules/gnome.py | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.py
+-index 89d5d5d..d75f2e5 100644
++index 52016f4..2b72ee4 100644
+ --- a/mesonbuild/modules/gnome.py
+ +++ b/mesonbuild/modules/gnome.py
+-@@ -739,17 +739,17 @@ class GnomeModule(ExtensionModule):
+-         if giscanner.found():
+-             giscanner_path = giscanner.get_command()[0]
+-             if not any(x in giscanner_path for x in gi_util_dirs_check):
+--                giscanner = self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {})
+-+                giscanner = os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {})
+-         else:
+--            giscanner = self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {})
+-+            giscanner = os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {})
+- 
+-         gicompiler = self.interpreter.find_program_impl('g-ir-compiler')
+-         if gicompiler.found():
+-             gicompiler_path = gicompiler.get_command()[0]
+-             if not any(x in gicompiler_path for x in gi_util_dirs_check):
+--                gicompiler = self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {})
+-+                gicompiler = os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {})
+-         else:
+--            gicompiler = self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {})
+-+            gicompiler = os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {})
+- 
+-         ns = kwargs.pop('namespace')
+-         nsversion = kwargs.pop('nsversion')
++@@ -410,14 +410,14 @@ class GnomeModule(ExtensionModule):
++             if giscanner is not None:
++                 self.giscanner = ExternalProgram.from_entry('g-ir-scanner', giscanner)
++             elif self.gir_dep.type_name == 'pkgconfig':
++-                self.giscanner = ExternalProgram('g_ir_scanner', self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {}))
+++                self.giscanner = ExternalProgram('g_ir_scanner', os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_scanner', {}))
++             else:
++                 self.giscanner = self.interpreter.find_program_impl('g-ir-scanner')
++             gicompiler = state.environment.lookup_binary_entry(MachineChoice.HOST, 'g-ir-compiler')
++             if gicompiler is not None:
++                 self.gicompiler = ExternalProgram.from_entry('g-ir-compiler', gicompiler)
++             elif self.gir_dep.type_name == 'pkgconfig':
++-                self.gicompiler = ExternalProgram('g_ir_compiler', self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {}))
+++                self.gicompiler = ExternalProgram('g_ir_compiler', os.environ['PKG_CONFIG_SYSROOT_DIR'] + self.gir_dep.get_pkgconfig_variable('g_ir_compiler', {}))
++             else:
++                 self.gicompiler = self.interpreter.find_program_impl('g-ir-compiler')
++         return self.gir_dep, self.giscanner, self.gicompiler
+diff --git a/meta/recipes-devtools/meson/meson/0001-modules-python.py-do-not-substitute-python-s-install.patch b/meta/recipes-devtools/meson/meson/0001-modules-python.py-do-not-substitute-python-s-install.patch
+index a25c392270..c0ad01e9d3 100644
+--- a/meta/recipes-devtools/meson/meson/0001-modules-python.py-do-not-substitute-python-s-install.patch
++++ b/meta/recipes-devtools/meson/meson/0001-modules-python.py-do-not-substitute-python-s-install.patch
+@@ -1,4 +1,4 @@
+-From 1d178fb2928d325e339b15972890ceced863d3ec Mon Sep 17 00:00:00 2001
++From 214e559d394491b1376e4cc370f75151117a3f83 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 18 Apr 2019 17:36:11 +0200
+ Subject: [PATCH] modules/python.py: do not substitute python's install prefix
+@@ -10,15 +10,16 @@ b) shouldn't be necessary as Python's prefix ought to be correct in the first pl
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  mesonbuild/modules/python.py | 7 +++----
+  1 file changed, 3 insertions(+), 4 deletions(-)
+ 
+ diff --git a/mesonbuild/modules/python.py b/mesonbuild/modules/python.py
+-index 6e2c63b..f5a37ac 100644
++index 2f0c644..d2aa565 100644
+ --- a/mesonbuild/modules/python.py
+ +++ b/mesonbuild/modules/python.py
+-@@ -254,7 +254,7 @@ import sysconfig
++@@ -251,7 +251,7 @@ INTROSPECT_COMMAND = '''import sysconfig
+  import json
+  import sys
+  
+@@ -27,8 +28,8 @@ index 6e2c63b..f5a37ac 100644
+  
+  def links_against_libpython():
+      from distutils.core import Distribution, Extension
+-@@ -279,12 +279,11 @@ class PythonInstallation(ExternalProgramHolder):
+-         ExternalProgramHolder.__init__(self, python)
++@@ -276,12 +276,11 @@ class PythonInstallation(ExternalProgramHolder):
++         ExternalProgramHolder.__init__(self, python, interpreter.subproject)
+          self.interpreter = interpreter
+          self.subproject = self.interpreter.subproject
+ -        prefix = self.interpreter.environment.coredata.get_builtin_option('prefix')
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index b5b463e68e..7a3b01262e 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From d976d5a8abd6d42edf794d2a4c211fc6697fb14c Mon Sep 17 00:00:00 2001
++From 4b283d545152092fec12b9d80219161d11002c72 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+@@ -13,7 +13,7 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 18bbf86..e76315e 100644
++index dc20616..f54adcd 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+ @@ -36,6 +36,7 @@ _T = T.TypeVar('_T')
+diff --git a/meta/recipes-devtools/meson/meson/disable-rpath-handling.patch b/meta/recipes-devtools/meson/meson/disable-rpath-handling.patch
+index 38e50d72f4..4653a72a20 100644
+--- a/meta/recipes-devtools/meson/meson/disable-rpath-handling.patch
++++ b/meta/recipes-devtools/meson/meson/disable-rpath-handling.patch
+@@ -1,4 +1,4 @@
+-From 3af10fa8cd4e97181288d72227dea712290fd5e6 Mon Sep 17 00:00:00 2001
++From 9e3fcf192c1ca068d310c648c311f9d850214421 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 23 Nov 2018 15:28:28 +0000
+ Subject: [PATCH] meson: Disable rpath stripping at install time
+@@ -16,17 +16,17 @@ Upstream-Status: Submitted [https://github.com/mesonbuild/meson/issues/2567]
+  1 file changed, 5 insertions(+), 2 deletions(-)
+ 
+ diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
+-index ace0569..85bd8df 100644
++index 0be01fe..5406cab 100644
+ --- a/mesonbuild/minstall.py
+ +++ b/mesonbuild/minstall.py
+-@@ -508,8 +508,11 @@ class Installer:
++@@ -512,8 +512,11 @@ class Installer:
+              if file_copied:
+                  self.did_install_something = True
+                  try:
+--                    depfixer.fix_rpath(outname, install_rpath, final_path,
++-                    depfixer.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
+ -                                       install_name_mappings, verbose=False)
+ +                    if install_rpath:
+-+                        depfixer.fix_rpath(outname, install_rpath, final_path,
+++                        depfixer.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
+ +                                           install_name_mappings, verbose=False)
+ +                    else:
+ +                        print("RPATH changes at install time disabled")
+diff --git a/meta/recipes-devtools/meson/meson_0.54.3.bb b/meta/recipes-devtools/meson/meson_0.55.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/meson_0.54.3.bb
+rename to meta/recipes-devtools/meson/meson_0.55.0.bb
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.54.3.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.55.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/nativesdk-meson_0.54.3.bb
+rename to meta/recipes-devtools/meson/nativesdk-meson_0.55.0.bb
 -- 
 2.27.0
 
