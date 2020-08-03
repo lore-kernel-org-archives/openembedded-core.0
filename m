@@ -1,85 +1,89 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.12742.1596464861739642576
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web12.12806.1596464864106974219
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2020 07:27:41 -0700
+ Mon, 03 Aug 2020 07:27:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HUvxxAyJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id p1so20741204pls.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 07:27:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GnjFbjcC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id bh1so7639715plb.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 07:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=VThXWq+BkLkXXWms4n4UMXQiWSUCYdaxYvvP/8gWXrk=;
-        b=HUvxxAyJfDmOF8hIyQPnxoVgtLh/g6miGzoQC2M2xXEKoOoixRREoZtdtXd//aRPyE
-         5qzbqoOaamsn4TZHDvP2JKZLcf5OcqzVfAnRqC724QVGTc9mvBBQAhM1CA2jpiW6lNe9
-         vCvuSZQsOpyWnDk4UugUovzA+XTnnC30SXvPSV3EwmD4NdjNVlpzCdrclPedyusa8xPu
-         5PgXT6naNS/EDC5AOgdmV1eCX4JSl9PazzCsruNf99iA3UoD7f+akzfm4fbuzGgbSmTk
-         DBagA91tUqTh1R6uCvrFx089cK8nh050ZJE1uovdEDvKcMLPDYtFDh+aWLCCZkqmH7ff
-         d8OQ==
+        bh=pnocu2Y86SNa+Lh7mU3O//vbiFNgSPsMCprvn+KUihs=;
+        b=GnjFbjcCQVu1ayOTDYom8Bo1MhLunzYAxrVThKsV0O8dyFUJZ6ZSB42V/tszC/zs/H
+         PxHdZXfddIwob5qR38DQd8+UVraQM8qBkrKj/BLynSjNwHuHCfcOYq6rnx49886O9HRn
+         t77wIwoqwocahc75oJMb4q5HjcZQR7r5v4htvXN+H0H8yQAYn9czaLuYOVSC9UgTKj0L
+         kF6y79HnOGrqUrE9WCAinLm5t1KLapf87Sry6sydf7BsoYFAfzCIWEzSgWgCP0SerRfY
+         dMNvaCJlLT70jyAHNw8BqGKA2JpU+Do8qwGIqLfSVNuZ8rec1Zm8zwxWOeGpToQl9LsV
+         smkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=VThXWq+BkLkXXWms4n4UMXQiWSUCYdaxYvvP/8gWXrk=;
-        b=Ffegb0E+ISn+r3A13FNqaqo+yu87dvm1DrLEfd6MK3N1fU1gxcOwb+dbajrhJxmzxd
-         0c8MUw5VuZkcWHh8+JZAxNboeaAHKpaRHfZQgwNqFJ+y2sefwmpcGRoEgHHJvO9J4PCy
-         dji7vuR+SKSaTV79gv3y1q29rRm31t1eFEtqBr653HY5HaXXlb4PhD6kkYbxKxMpDuwK
-         Kgk6sSlWv6/fTfihle/pFRSQB05ttQ9VkoZ1AcJQLRe7z3BhiHwmLwT/CF1dVaHY4YPn
-         x/pPg0N6XbtzXf+/wbIOhng/77FjBhfxaPTJUyNQbOablNM1hFOLHx0XSeA4yX/abPz4
-         Z+lQ==
-X-Gm-Message-State: AOAM531RcZnxxrmfUMEjnpYUTAODNK6XPRQ4Vx+c/EBE3R9vD11wc7eH
-	14+/JMEAQ+IEm2OpHMsgBM2d2Vf3Ylo=
-X-Google-Smtp-Source: ABdhPJzbx2+1vhKmcmYFSruwCVTQgywEbeHLibNGJSGIUbUwa78g/IK8Aw2QypvBi1OPATqBwrdyiA==
-X-Received: by 2002:a17:902:a3c2:: with SMTP id q2mr15320809plb.212.1596464860847;
-        Mon, 03 Aug 2020 07:27:40 -0700 (PDT)
+        bh=pnocu2Y86SNa+Lh7mU3O//vbiFNgSPsMCprvn+KUihs=;
+        b=qEdoS7zXB+iWNOG4Ho+mgPhokDikPaP5mewL2aNcIQPZ4wTogugHOKLZezuKdjyyKK
+         zHBiW8rNKtMRdUMWmnwiofFnA7oFlR/LDLJP5DeBltFVX+/AhzSsaLWI+wDDaYsUyFtn
+         fUk8hgNMp1V8Td5cya8xLvOLcakXVzWRFJobyrDmpYKRjV9lvXUmDbbsxpj0fpf4KVxk
+         sYYUDhVCeKqilMckGra2J6k4jPTPQcjI51KrKW5VrcZndEjKOmAmQQ1InPo6blmYhMCv
+         JUV00bQMCLaz87qkHHHdRKyVzOVu3hQ3DHN6Vx0D2t7HYyR9fOg+vsu3T24T8QZRWNRx
+         vNXQ==
+X-Gm-Message-State: AOAM530+yFUbd2OkvB9rQvvsPU3lHR/A/vPQgsbYxQSGMFuC966+GxYK
+	2juYUDmy8sN5/euujw0tYSY3ftiYyuY=
+X-Google-Smtp-Source: ABdhPJwgwHNRT6K7CENY/IkgVm0r4Mp+cYH2b7ztXtSveCuUv7Ui2lVaKO3wGBuH7Q1UxLGdxnW6UA==
+X-Received: by 2002:a17:90b:4a4e:: with SMTP id lb14mr5428756pjb.228.1596464863191;
+        Mon, 03 Aug 2020 07:27:43 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id r15sm10913729pfq.189.2020.08.03.07.27.39
+        by smtp.gmail.com with ESMTPSA id r15sm10913729pfq.189.2020.08.03.07.27.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 07:27:40 -0700 (PDT)
+        Mon, 03 Aug 2020 07:27:42 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/12] bind: upgrade 9.11.19 -> 9.11.21
-Date: Mon,  3 Aug 2020 04:27:01 -1000
-Message-Id: <ad079ab6cce42a76eb4579c0fae1d443df3212dc.1596464561.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/12] gnutls: upgrade 3.6.13 -> 3.6.14
+Date: Mon,  3 Aug 2020 04:27:02 -1000
+Message-Id: <26f34bf4f4be1743c03099b842916f4d607e7ed8.1596464561.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1596464561.git.steve@sakoman.com>
 References: <cover.1596464561.git.steve@sakoman.com>
 
-From: Yi Zhao <yi.zhao@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Bug and CVE fixes only
+Security and bug fix release on the stable 3.6.x branch
+
+Fixes CVE-2020-13777
 
 Detailed list of changes at:
-https://gitlab.isc.org/isc-projects/bind9/-/blob/v9_11_21/CHANGES
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+https://lists.gnupg.org/pipermail/gnutls-help/2020-June/004648.html
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c6749532f94f435e6771d66d3fa225e676753478)
+(cherry picked from commit cd88c81804a4a52b9875f2244c9f35911539be96)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bind/{bind_9.11.19.bb => bind_9.11.21.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.19.bb => bind_9.11.21.bb} (98%)
+ .../gnutls/{gnutls_3.6.13.bb => gnutls_3.6.14.bb}              | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.13.bb => gnutls_3.6.14.bb} (93%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.19.bb b/meta/recipes-connectivity/bind/bind_9.11.21.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.11.19.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.21.bb
-index 276173e09f..ee546a0a2c 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.19.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.21.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.13.bb b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+similarity index 93%
+rename from meta/recipes-support/gnutls/gnutls_3.6.13.bb
+rename to meta/recipes-support/gnutls/gnutls_3.6.14.bb
+index f56d42a613..a285e5a1f1 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+@@ -21,8 +21,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://arm_eabi.patch \
+ "
  
--SRC_URI[sha256sum] = "0dee554a4caa368948b32da9a0c97b516c19103bc13ff5b3762c5d8552f52329"
-+SRC_URI[sha256sum] = "668158b005b3de4328fa0dbbbb3f524b66f28f024c67538aa9412a9e69c9dfbc"
+-SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
+-SRC_URI[sha256sum] = "32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38"
++SRC_URI[sha256sum] = "5630751adec7025b8ef955af4d141d00d252a985769f51b4059e5affa3d39d63"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
 -- 
 2.17.1
 
