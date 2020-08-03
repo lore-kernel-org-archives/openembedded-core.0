@@ -1,50 +1,50 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web12.10090.1596457834636246324
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.9945.1596457836428951829
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2020 05:30:34 -0700
+ Mon, 03 Aug 2020 05:30:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oBv60k8p;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id r19so8691860qvw.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 05:30:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a9TX0e9x;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id 6so28034929qtt.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 05:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mgXTBgynzo6LiXo9vX84W2A2xwZUUZnfv6c2n4oX9ug=;
-        b=oBv60k8pLEv9GlQD46xrC4lwUXh6vVuecUe1Rl9Qu0ttXpKJZRzX0qiXk+d6csVL+W
-         qTbeA5JC2Ky9yNmCFL3h2Ktbe4jEpXCEbtRO2vYlLw+liiNygwlwrGlO5gqrn8o+S1DJ
-         cVxQE4PMxgMqWnIJFI83mT2Oj2EAxM4E8mCXqlc7L0zqV1cEY178Rf1Q/m1a/uIKmbRs
-         WvDXKZd1Zf0Fxv7XrECAHbbxljzWbmlZYEtOwjEsvF2TcctTqE/TaHAP8RRgUYkOkrPX
-         P4krroI4OARuZPEIdSuQ7yYfORwnA/PFVODIhSrCOPXuvnYPKXy0/1m1lTTbag2A5SAO
-         6qnA==
+        bh=mTbw1H3Kdaf54UuBRRxizwUOQPr76NWKRiOAhKDGpMc=;
+        b=a9TX0e9x8Jutf13mWX+91giyRVBO02WW1xV497kYTAi1iK7AJtRw9C5BSNDSX8QvbY
+         BMbC54MjNu3IB4raqGbD2W7lgojSMbeDIsRyuh9xO5nS10v9V0VflcV+0jcdiYUymuxs
+         9qxUyGigsRNqGNCgnbYSJkTVchCgaSEBwm//N+SKbCEq1cVtZoSyZdI3F4NmbgFuEnNd
+         gj9+ZPkAjd2Bh+pYUOlMl+MIr8TYsCbU5zl1zuOzDzBmXDGPXqo7tMBAw+o9ajVLDDDe
+         SHt/NImF7tNoU2sZSs9JeT/iV1oZYU4K4i0QYfIJdtIdxy6bJBlqQe41Jp6ZlixAhCld
+         Pv3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mgXTBgynzo6LiXo9vX84W2A2xwZUUZnfv6c2n4oX9ug=;
-        b=RfKwsDfLvzBmpFvItjXK04Hov4xoPF8J2IM6LDr0C3elTNkcMCNMngjIjgpcMLnWh8
-         ACovi96HFIFyRCdlNCf51o7jP8LXtADLdxE2hm3wxlP2Kvu0aLOWfvJzauT8OJsIJwxW
-         eyeioTWpez+7PcBdMbqHUr1cU7guIH2N6aeM9bQyT2mGKt6LrP9qQn3ZL29MbjGVjZZG
-         l5S5SKgp+9QQ9pVfHplygEjjmliVfYfsBlaY5291AhoFNFBNZG+31UtDOKHqntG76X3m
-         aowV3n0W80kl7z7AYTh+fT3jqidSe7kCwgxWwRbljh6tEaXvG4zP2dK2kITUHIDXwcg0
-         sx6A==
-X-Gm-Message-State: AOAM531KyaXZTEGaP/EtKUnSaHh2o3jJG7OGZrT1d28SweZgx1mi23PB
-	pETBjkN6TBdafvXsZ72nXkk=
-X-Google-Smtp-Source: ABdhPJxzPEFmV5hGeOory7//nb0DOuhVjP245dwifoRHL/Mk7Zp55fsSUrSYuF6MQ/sqco28PK7z7g==
-X-Received: by 2002:ad4:4d03:: with SMTP id l3mr13235434qvl.155.1596457833698;
-        Mon, 03 Aug 2020 05:30:33 -0700 (PDT)
+        bh=mTbw1H3Kdaf54UuBRRxizwUOQPr76NWKRiOAhKDGpMc=;
+        b=Xxv87PXQOKoTKJ7Q3SLx1LNq0ZUlnP48TEg70HPOIOhtZoCy8vJFlU4/m/u0aTE/QK
+         06d0enXANib4LTO4XNdGcazG9lTKXhAfEvoKrnsvDAAbjxX7qrQfuCszhVcrUEajrW18
+         RX3XsUUfMoAq2JwQrAAqcm3/GDS0VblkjKmzQ7iPFMcZe9QzI1EH5e169zEnTx1Vgj1S
+         RAieeYQyJBUOemd2IQXrM8MEKTdmKVy83PdCtYjYkyD/EMuqGsWqEy+RRhkS1RKuPIf9
+         MxVWULCNBHd7blM9LEyn/eHnVhfccB4ZU1d784arliljOpQFV+8hag9IRZWU/VNT6W+A
+         dp3A==
+X-Gm-Message-State: AOAM531xI6Y8F9xvdPgHOfF520guUv1dQ9Tu3uKAbrMmCNAuDGIBYfZ6
+	Pv1s47Os0ThbrNGnViPbHF+EH5SFUDQIVg==
+X-Google-Smtp-Source: ABdhPJzROXkj9g6uqRb7ft645XtzIuAiqKrHssYsGKRSP9SHxyjL5FIUU+EixnRVsQ+Ps53+n8dSPw==
+X-Received: by 2002:ac8:7388:: with SMTP id t8mr16180844qtp.222.1596457835411;
+        Mon, 03 Aug 2020 05:30:35 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id z14sm20184299qtn.92.2020.08.03.05.30.32
+        by smtp.gmail.com with ESMTPSA id z14sm20184299qtn.92.2020.08.03.05.30.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 05:30:33 -0700 (PDT)
+        Mon, 03 Aug 2020 05:30:34 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] kernel/yocto: allow dangling KERNEL_FEATURES
-Date: Mon,  3 Aug 2020 08:30:27 -0400
-Message-Id: <8516d096199df115e1d9997c2f72977dfbdb191f.1596457310.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 4/4] kernel-yocto: enhance configuration queue analysis capabilities
+Date: Mon,  3 Aug 2020 08:30:28 -0400
+Message-Id: <fd148cb1e02fec645cf89b35372b700014aa2ade.1596457310.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1596457310.git.bruce.ashfield@gmail.com>
 References: <cover.1596457310.git.bruce.ashfield@gmail.com>
@@ -53,87 +53,272 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-KERNEL_FEATURES are explicitly checked by the kern-tools, and trigger
-and error when not present. This is since the KERNEL_FEATURES are
-specified by layers or BSPs as elements that are requied for correct
-operation.
+Enable the kernel-yocto bbclass to use enhanced capabilities from
+the kern-tools symbol_why.pl.
 
-That being said, in order to support more kernel recipes that are using
-fragments, but not necessarily the yocto kernel-cache for meta-data,
-this change introduces: KERNEL_DANGLING_FEATURES_WARN_ONLY
+We bump the kern-tools SRCREV to pickup the reworking of symbol_why,
+which uses Kconfiglib to provide analysis on configuration values.
 
-As you'd expect, when set, missing kernel features only print a
-message and warn that runtime issues may occur, but otherwise allow
-the kernel configuration and build process to continue.
+This is useful for debugging why a symbol specified in a fragment
+did not end up in the final .config.
 
-This was noticed/required when meta-virtualization adopted a more
-generic kernel bbappend (to serve the needs of more layers in the
-ecosystem), but also specifies some KERNEL_FEATURES. If layers using
-a recipe derived from kernel-yocto, but not the main kernel-cache,
-used meta-virtualization and error would be thrown due to missing
-features. We now can both allow them to continue, and also provide
-a more useful message to resolve the issue.
+We introduce two ways to interact with the new symbol_why:
+
+ 1) a replacement of the existing kconf_check script
+ 2) a dedicated task that is explicitly invoked to dump details
+    on the configuration.
+
+The kconf_check replacement is transparent to the user, and is
+run in exactly the same way as it was previously. But we get better
+output and more detailed diagnostics if there are symbols that
+don't make it into the final .config
+
+The second way to interact with symbol why is via the new task
+do_config_analysis. This is invoked like any other task, and by
+default will provide a full configuration analysis and point the
+user at files to look at for details.
+
+If a more targetted analysis is desired, then specific symbols
+can be set in the CONFIG_ANALYSIS variable. When this variable
+is set, the task will only run for the given symbols and provide
+per-variable links to the user. This variable can be set like
+any other, including specification in the local.conf:
+
+  CONFIG_ANALYSIS_pn-linux-yocto-dev = 'NF_CONNTRACK LOCALVERSION'
+
+Which produces output as follows:
+
+   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
+   do_config_analysis: Configuration analysis executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/NF_CONNTRACK-config-analysis.txt for details
+   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
+   do_config_analysis: Configuration audit executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/NF_CONNTRACK-config-audit.txt for details
+   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
+   do_config_analysis: Configuration analysis executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/LOCALVERSION-config-analysis.txt for details
+   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
+   do_config_analysis: Configuration audit executed, see: work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/LOCALVERSION-config-audit.txt for details
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes/kernel-yocto.bbclass | 33 +++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+ meta/classes/kernel-yocto.bbclass             | 158 ++++++++++++++----
+ .../kern-tools/kern-tools-native_git.bb       |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
+ 3 files changed, 128 insertions(+), 34 deletions(-)
 
 diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 3311f6e84e..70818cc01c 100644
+index 70818cc01c..3c428c0782 100644
 --- a/meta/classes/kernel-yocto.bbclass
 +++ b/meta/classes/kernel-yocto.bbclass
-@@ -212,11 +212,36 @@ do_kernel_metadata() {
- 	fi
- 	meta_dir=$(kgit --meta)
+@@ -405,6 +405,67 @@ do_kernel_configme() {
+ }
  
-+	KERNEL_FEATURES_FINAL=""
-+	if [ -n "${KERNEL_FEATURES}" ]; then
-+		for feature in ${KERNEL_FEATURES}; do
-+			feature_found=f
-+			for d in $includes; do
-+				path_to_check=$(echo $d | sed 's/-I//g')
-+				if [ "$feature_found" = "f" ] && [ -e "$path_to_check/$feature" ]; then
-+				    feature_found=t
-+				fi
-+			done
-+			if [ "$feature_found" = "f" ]; then
-+				if [ -n "${KERNEL_DANGLING_FEATURES_WARN_ONLY}" ]; then
-+				    bbwarn "Feature '$feature' not found, but KERNEL_DANGLING_FEATURES_WARN_ONLY is set"
-+				    bbwarn "This may cause runtime issues, dropping feature and allowing configuration to continue"
-+				else
-+				    bberror "Feature '$feature' not found, this will cause configuration failures."
-+				    bberror "Check the SRC_URI for meta-data repositories or directories that may be missing"
-+				    bbfatal_log "Set KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue"
-+				fi
-+			else
-+				KERNEL_FEATURES_FINAL="$KERNEL_FEATURES_FINAL $feature"
-+			fi
-+		done
-+        fi
+ addtask kernel_configme before do_configure after do_patch
++addtask config_analysis
 +
- 	# run1: pull all the configuration fragments, no matter where they come from
--	elements="`echo -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} ${KERNEL_FEATURES}`"
-+	elements="`echo -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
- 	if [ -n "${elements}" ]; then
- 		echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
--		scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches ${KERNEL_FEATURES}
-+		scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches $KERNEL_FEATURES_FINAL
- 		if [ $? -ne 0 ]; then
- 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
- 		fi
-@@ -230,9 +255,9 @@ do_kernel_metadata() {
- 	fi
++do_config_analysis[depends] = "virtual/kernel:do_configure"
++do_config_analysis[depends] += "kern-tools-native:do_populate_sysroot"
++
++CONFIG_AUDIT_FILE ?= "${WORKDIR}/config-audit.txt"
++CONFIG_ANALYSIS_FILE ?= "${WORKDIR}/config-analysis.txt"
++
++python do_config_analysis() {
++    import re, string, sys, subprocess
++
++    s = d.getVar('S')
++
++    env = os.environ.copy()
++    env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
++    env['LD'] = d.getVar('KERNEL_LD')
++    env['CC'] = d.getVar('KERNEL_CC')
++    env['ARCH'] = d.getVar('ARCH')
++    env['srctree'] = s
++
++    # read specific symbols from the kernel recipe or from local.conf
++    # i.e.: CONFIG_ANALYSIS_pn-linux-yocto-dev = 'NF_CONNTRACK LOCALVERSION'
++    config = d.getVar( 'CONFIG_ANALYSIS' )
++    if not config:
++       config = [ "" ]
++    else:
++       config = config.split()
++
++    for c in config:
++        for action in ["analysis","audit"]:
++            if action == "analysis":
++                try:
++                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--blame', c], cwd=s, env=env ).decode('utf-8')
++                except subprocess.CalledProcessError as e:
++                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++
++                outfile = d.getVar( 'CONFIG_ANALYSIS_FILE' )
++
++            if action == "audit":
++                try:
++                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--summary', '--extended', '--sanity', c], cwd=s, env=env ).decode('utf-8')
++                except subprocess.CalledProcessError as e:
++                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++
++                outfile = d.getVar( 'CONFIG_AUDIT_FILE' )
++
++            if c:
++                outdir = os.path.dirname( outfile )
++                outname = os.path.basename( outfile )
++                outfile = outdir + '/'+ c + '-' + outname
++
++            if config and os.path.isfile(outfile):
++                os.remove(outfile)
++
++            with open(outfile, 'w+') as f:
++                f.write( analysis )
++
++            bb.warn( "Configuration {} executed, see: {} for details".format(action,outfile ))
++            if c:
++                bb.warn( analysis )
++}
  
- 	# run2: only generate patches for elements that have been passed on the SRC_URI
--	elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
-+	elements="`echo -n ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
- 	if [ -n "${elements}" ]; then
--		scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
-+		scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} $KERNEL_FEATURES_FINAL
- 		if [ $? -ne 0 ]; then
- 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
- 		fi
+ python do_kernel_configcheck() {
+     import re, string, sys, subprocess
+@@ -420,51 +481,84 @@ python do_kernel_configcheck() {
+ 
+     env = os.environ.copy()
+     env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
+-    env['LD'] = "${KERNEL_LD}"
++    env['LD'] = d.getVar('KERNEL_LD')
++    env['CC'] = d.getVar('KERNEL_CC')
++    env['ARCH'] = d.getVar('ARCH')
++    env['srctree'] = s
+ 
+     try:
+         configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         bb.fatal( "Cannot gather config fragments for audit: %s" % e.output.decode("utf-8") )
+ 
+-    try:
+-        subprocess.check_call(['kconf_check', '--report', '-o',
+-                '%s/%s/cfg' % (s, kmeta), d.getVar('B') + '/.config', s, configs], cwd=s, env=env)
+-    except subprocess.CalledProcessError:
+-        # The configuration gathering can return different exit codes, but
+-        # we interpret them based on the KCONF_AUDIT_LEVEL variable, so we catch
+-        # everything here, and let the run continue.
+-        pass
+-
+     config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
+     bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
+ 
+-    # if config check visibility is non-zero, report dropped configuration values
+-    mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+-    if os.path.exists(mismatch_file):
+-        if config_check_visibility:
+-            with open (mismatch_file, "r") as myfile:
++    # if config check visibility is "1", that's the lowest level of audit. So
++    # we add the --classify option to the run, since classification will
++    # streamline the output to only report options that could be boot issues,
++    # or are otherwise required for proper operation.
++    extra_params = ""
++    if config_check_visibility == 1:
++       extra_params = "--classify"
++
++    # category #1: mismatches
++    try:
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, env=env ).decode('utf-8')
++    except subprocess.CalledProcessError as e:
++        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++
++    if analysis:
++        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
++        if os.path.isfile(outfile):
++           os.remove(outfile)
++        with open(outfile, 'w+') as f:
++            f.write( analysis )
++
++        bb.debug( "outfile size is: %s %s" % (outfile,os.stat(outfile).st_size))
++        if config_check_visibility and os.stat(outfile).st_size > 0:
++            with open (outfile, "r") as myfile:
+                 results = myfile.read()
+                 bb.warn( "[kernel config]: specified values did not make it into the kernel's final configuration:\n\n%s" % results)
+ 
+-    if bsp_check_visibility:
+-        invalid_file = d.expand("${S}/%s/cfg/invalid.cfg" % kmeta)
+-        if os.path.exists(invalid_file) and os.stat(invalid_file).st_size > 0:
+-            with open (invalid_file, "r") as myfile:
+-                results = myfile.read()
+-                bb.warn( "[kernel config]: This BSP sets config options that are not offered anywhere within this kernel:\n\n%s" % results)
+-        errors_file = d.expand("${S}/%s/cfg/fragment_errors.txt" % kmeta)
+-        if os.path.exists(errors_file) and os.stat(errors_file).st_size > 0:
+-            with open (errors_file, "r") as myfile:
++    # category #2: invalid fragment elements
++    extra_params = ""
++    if bsp_check_visibility > 1:
++        extra_params = "--strict"
++    try:
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, env=env ).decode('utf-8')
++    except subprocess.CalledProcessError as e:
++        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++
++    if analysis:
++        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
++        if os.path.isfile(outfile):
++           os.remove(outfile)
++        with open(outfile, 'w+') as f:
++            f.write( analysis )
++
++        if bsp_check_visibility and os.stat(outfile).st_size > 0:
++            with open (outfile, "r") as myfile:
+                results = myfile.read()
+-               bb.warn( "[kernel config]: This BSP contains fragments with errors:\n\n%s" % results)
+-
+-    # if the audit level is greater than two, we report if a fragment has overriden
+-    # a value from a base fragment. This is really only used for new kernel introduction
+-    if bsp_check_visibility > 2:
+-        redefinition_file = d.expand("${S}/%s/cfg/redefinition.txt" % kmeta)
+-        if os.path.exists(redefinition_file) and os.stat(redefinition_file).st_size > 0:
+-            with open (redefinition_file, "r") as myfile:
++               bb.warn( "[kernel config]: This BSP contains fragments with warnings:\n\n%s" % results)
++
++    # category #3: redefined options (this is pretty verbose and is debug only)
++    try:
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, env=env ).decode('utf-8')
++    except subprocess.CalledProcessError as e:
++        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++
++    if analysis:
++        outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
++        if os.path.isfile(outfile):
++           os.remove(outfile)
++        with open(outfile, 'w+') as f:
++            f.write( analysis )
++
++        # if the audit level is greater than two, we report if a fragment has overriden
++        # a value from a base fragment. This is really only used for new kernel introduction
++        if bsp_check_visibility > 2 and os.stat(outfile).st_size > 0:
++            with open (outfile, "r") as myfile:
+                 results = myfile.read()
+                 bb.warn( "[kernel config]: This BSP has configuration options defined in more than one config, with differing values:\n\n%s" % results)
+ }
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 4f1af731d6..4402e14754 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
+ 
+ DEPENDS = "git-native"
+ 
+-SRCREV = "c66833e1caac25279a5052fceb13213f5e4f79f9"
++SRCREV = "8b6fa727013daba5e8d72e5fc61d80caed944c6a"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index d3fb451340..811c37e8ff 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -38,7 +38,7 @@ DEPENDS += "openssl-native util-linux-native"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ KMETA = "kernel-meta"
+-KCONF_BSP_AUDIT_LEVEL = "2"
++KCONF_BSP_AUDIT_LEVEL = "1"
+ 
+ KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+ 
 -- 
 2.19.1
 
