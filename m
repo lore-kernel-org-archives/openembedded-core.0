@@ -1,164 +1,280 @@
-Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com [209.85.219.196])
- by mx.groups.io with SMTP id smtpd.web12.13130.1596465167503959170
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.9108.1596499767458688183
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Aug 2020 07:32:47 -0700
+ Mon, 03 Aug 2020 17:09:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Cx1P3F0d;
- spf=pass (domain: gmail.com, ip: 209.85.219.196, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f196.google.com with SMTP id q3so758663ybp.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 07:32:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t+KKWrp+;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id a79so3448812pfa.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Aug 2020 17:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gocQqZpwI+Tphb8b16d4o+gedq8d0lbmbCmwV4iSOVs=;
-        b=Cx1P3F0da4yMuzpkteNrAQ6uLoNIwsQurSbg2MmNFZkRtv+bzsHx0JSh74h5HEK06n
-         84WnVU3cTkJQnyUXnx2/Y8CSBzEduMkZxIKl2ucuLfolnAV9cKxy3oDRoCrpmgaMWp1m
-         znoXtYoJatHPlrorMip8s/BGNyAftA6+s+vOdQNazZA6z2JdlVMR7A5/Xmqi5TgkQv2m
-         dLQ2jQ0uvz7tsw8Gk4V9F1xbi6AFeVwD8ZehzyOzS+3cNZxUAbN59tZ41812neykTVRt
-         ZQRwEtMA577pwMa5PEf+C2D3OQbECjGNoDu2hO76WUXFu2NFs3Cuyfc8YisbegUb/ZeY
-         LcRQ==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :importance:content-language;
+        bh=v+C89/GQnVmiINJjaKEX/BIU4o4Sh58eyocOugt8sZ0=;
+        b=t+KKWrp+XQlw77ousD7/xtkbTBgjcKMsjKNWYogeYtXrMBSb18Maq5RHkyQzZJ4QK6
+         ur+vQjvBqmMBjE73mmVYfCjTJfRnD/aNJHJdJGdjFH3PrPTqfXUEfY86VgXxQIdx5dlz
+         3uY52h3pQVnhZHQCIB63Ao0A5g1e5N5LknHXgESCL50SnOnCoqdUd1Y/Ea0MbB4ZkCWk
+         rrwtAxB8HMbN7aVjxZ6Z4SqsBv8MlGKym/WNvOhcjBNTfHqSxTTjVHnyM9EJGMOJnT73
+         0/taXw4nX0bwVc7J/pF1IL5umQ25D5/P8hCvKcMwNJzrzx7466EAX+9Fwib4ZnhZwpTL
+         YMsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gocQqZpwI+Tphb8b16d4o+gedq8d0lbmbCmwV4iSOVs=;
-        b=WxLp9/dapslHX7gAbu4LN18qB+55LH/8QCyn7FAR1/Jrctgczt5s2gp9X74zssrZsn
-         DZ0euXcizSx3fQt4BoPiftZ4Lzf6ZkLcEAFGUl7hyv1b5ErKwHyJYnCB3rqQ+U1FF/zo
-         84dDhqkOoDNvRzQ9QIMSOtxZcCeYCwLW3CxXkvG/daWW/E/VSnSpBgPoMzkyQ+OSFCMA
-         q2MpTWYTsh50MH9mlqywZRTJR1iQ4TwwKjhXatgQqRLDDIrRGXvCkC7M1jiTCfqjwOUR
-         UZpMVipa2wOjikrUc82q7LND9BX4LuDTidpCwOYbo4Wcj463LazvmjEYplhdUMhblm4i
-         iL7Q==
-X-Gm-Message-State: AOAM533gv+Y2fIr/RbohzLW9V+/Itt2vregiCg4L8kPpQ6anM0Yo7yFn
-	sArlyNmLCqmLypcsP9f8qpm0Tg1BDRAXA87N4Uw=
-X-Google-Smtp-Source: ABdhPJz+mTwT1cfqYPtu5pBL9d7KP1Vass3bf2PxmnIGCuXOc6VHtgOCbkzi+dmIJDyTUgcPTvkcQxh1o0d9uxPZIZw=
-X-Received: by 2002:a05:6902:706:: with SMTP id k6mr26067374ybt.416.1596465166589;
- Mon, 03 Aug 2020 07:32:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:importance:content-language;
+        bh=v+C89/GQnVmiINJjaKEX/BIU4o4Sh58eyocOugt8sZ0=;
+        b=YCMbwlmUISjSFO+7l30EeHPwQ9hAk+zhPAOh8JH1sz2ZeY3vjfiPnG1thlJ0vKW/DW
+         2yRtky3DJuZQsVGDCy7unEUje+7jrv4dT9gkTd51CsgQ7pU8vm3gVurtb2n1InZTAzRg
+         cRX+AmQkfPLhlSMY4I2BNxArlImF9Z/QCSL2XGE9ulbQbu+2U9tuNcNuFIKylxIGiHUc
+         DBsuvW5y4NErOchc3fPIlyw0CQ0+1JE/vVrYeR9pb2rR9Dsu432TkchwexycNe89g/ps
+         SJDndeyELxFY8UUdlL6X4BzY9ms3b5mRkqInnHZeqT7EeXmXnQ/UfnXwAyvrk6nZxK8a
+         uorA==
+X-Gm-Message-State: AOAM5338EsYxC/pl/4vqqvFP0WtzUeK5aRK0lqmxihyh+Ov1GYlGYVto
+	ytGPKiLIwn1fTwkKrMyElsntCsoJ
+X-Google-Smtp-Source: ABdhPJzdNfCcPPS4JZ0hJAbjDGz/uqZY5KaoNXmyBaOTUl65ehtrzhLwq2JfopmqvbEm9BTa6BTeMg==
+X-Received: by 2002:a62:e30a:: with SMTP id g10mr10637126pfh.66.1596499766660;
+        Mon, 03 Aug 2020 17:09:26 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id d13sm20752935pfq.118.2020.08.03.17.09.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Aug 2020 17:09:26 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
+Date: Mon, 3 Aug 2020 17:09:25 -0700
+Message-ID: <000e01d669f3$83dc4a70$8b94df50$@gmail.com>
 MIME-Version: 1.0
-References: <16236F46F8876220.6175@lists.openembedded.org> <631dc54f-8199-be04-c4e5-8ff48450ab42@pengutronix.de>
-In-Reply-To: <631dc54f-8199-be04-c4e5-8ff48450ab42@pengutronix.de>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Mon, 3 Aug 2020 04:32:35 -1000
-Message-ID: <CAGDS+n=-Y2LxWiu6vdL9Jm1re2cObHQE7A6tvQVUQXaPEqj_mg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] core: glib-2.0: fix requested libmount/mkostemp/selinux not being linked in
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	akuster <akuster808@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHnwsu/gz8WpolZNjp1LaDfS/6oTg==
+Importance: High
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_000F_01D669B8.D780CDD0"
+Content-Language: en-us
 
-On Sun, Aug 2, 2020 at 9:43 PM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->
-> Hello,
->
-> On 7/20/20 12:30 PM, Ahmad Fatoum wrote:
-> > Since 010202076760 ("meson.bbclass: avoid unexpected operating-system
-> > names"), meson is no longer used with a cross file that appends the used
-> > libc to the operating system name, e.g. linux-gnueabi.
-> >
-> > Prior to that commit, the host_system == 'linux' checks in glib's meson
-> > failed, which led to glib being compiled without libmount, mkostemp and
-> > selinux even if explicitly requested.
-> >
-> > As the aforementioned commit affects all recipes built by glib, it might
-> > not be a candidate for backporting to current stable branches. To fix
-> > just the glib issue, instances of host_system == 'linux' are patched
-> > locally.
-> >
-> > The patch is marked as Upstream-Status: Inappropriate as it is rendered
-> > unnecessary for OE releases newer than Dunfell.
->
-> Gentle Ping.
+------=_NextPart_000_000F_01D669B8.D780CDD0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-I didn't take this patch since it no longer seems to be needed in dunfell.
+All,
 
-Please see:  https://lists.openembedded.org/g/openembedded-core/message/141008
+ 
 
-If we are mistaken, please let us know!
+Just a reminder we will hold the monthly Yocto Project Technical Meeting at
+8am PST tomorrow. 8/4)  
 
-Steve
+ 
 
-> > Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > ---
-> >  ...ot-hardcode-linux-as-the-host-system.patch | 49 +++++++++++++++++++
-> >  meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |  1 +
-> >  2 files changed, 50 insertions(+)
-> >  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-> >
-> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-> > new file mode 100644
-> > index 000000000000..616bbd8a7d7c
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
-> > @@ -0,0 +1,49 @@
-> > +From a300a09661124451d4783d4be66e3993262dc9be Mon Sep 17 00:00:00 2001
-> > +From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > +Date: Thu, 9 Jul 2020 13:00:16 +0200
-> > +Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
-> > +
-> > +OE build system can set this to other values that include 'linux',
-> > +e.g. 'linux-gnueabi'. This led to glib always being built without
-> > +libmount, mkostemp and selinux support.
-> > +
-> > +Upstream-Status: Inappropriate [other]
-> > +Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > +---
-> > + meson.build | 6 +++---
-> > + 1 file changed, 3 insertions(+), 3 deletions(-)
-> > +
-> > +diff --git a/meson.build b/meson.build
-> > +index 3a47a7cc4b98..af09dfc853e5 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -632,7 +632,7 @@ else
-> > + endif
-> > + message('Checking whether to use statfs or statvfs .. ' + stat_func_to_use)
-> > +
-> > +-if host_system == 'linux'
-> > ++if host_system.contains('linux')
-> > +   if cc.has_function('mkostemp',
-> > +                      prefix: '''#define _GNU_SOURCE
-> > +                                 #include <stdlib.h>''')
-> > +@@ -1857,7 +1857,7 @@ glib_conf.set_quoted('GLIB_LOCALE_DIR', join_paths(glib_datadir, 'locale'))
-> > + # libmount is only used by gio, but we need to fetch the libs to generate the
-> > + # pkg-config file below
-> > + libmount_dep = []
-> > +-if host_system == 'linux' and get_option('libmount')
-> > ++if host_system.contains('linux') and get_option('libmount')
-> > +   libmount_dep = [dependency('mount', version : '>=2.23', required : true)]
-> > +   glib_conf.set('HAVE_LIBMOUNT', 1)
-> > + endif
-> > +@@ -1867,7 +1867,7 @@ if host_system == 'windows'
-> > + endif
-> > +
-> > + selinux_dep = []
-> > +-if host_system == 'linux'
-> > ++if host_system.contains('linux')
-> > +   selinux_dep = dependency('libselinux', required: get_option('selinux'))
-> > +
-> > +   glib_conf.set('HAVE_SELINUX', selinux_dep.found())
-> > +--
-> > +2.27.0
-> > +
-> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > index d496235003d4..fd7f5ee920d8 100644
-> > --- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> > @@ -19,6 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-> >             file://0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch \
-> >             file://0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch \
-> >             file://0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch \
-> > +           file://0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
-> >             "
-> >
-> >  SRC_URI_append_class-native = " file://relocate-modules.patch"
-> >
-> >
-> >
-> >
->
-> --
-> Pengutronix e.K.                           |                             |
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
+Yocto Project Technical Team Meeting: We encourage people attending the
+meeting to logon and announce themselves on the Yocto Project IRC chancel
+during the meeting (optional):
+
+Yocto IRC: http://webchat.freenode.net/?channels=#yocto
+
+ 
+
+Wiki: https://www.yoctoproject.org/public-virtual-meetings/
+
+ 
+
+When            Monthly from 8am to 8:30am on the first Tuesday Pacific Time
+
+Where           Zoom Meeting: https://zoom.us/j/990892712 
+
+ 
+
+We are tracking the minutes at:
+https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
+DH4/edit?pli=1 Please request access if you want to assist in editing them.
+The world should have view access. 
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_000F_01D669B8.D780CDD0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_06BE_01D65396.00203980";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>All,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
+reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
+PST tomorrow. 8/4)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
+Project Technical Team Meeting: We encourage people attending the =
+meeting to logon and announce themselves on the Yocto Project IRC =
+chancel during the meeting (optional):</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto IRC: =
+</span><a =
+href=3D"http://webchat.freenode.net/?channels=3D#yocto">http://webchat.fr=
+eenode.net/?channels=3D#yocto</a><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Wiki: =
+</span><a =
+href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
+w.yoctoproject.org/public-virtual-meetings/</a><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 8:30am on the first Tuesday =
+Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
+New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; Zoom Meeting: </span><a =
+href=3D"https://zoom.us/j/990892712">https://zoom.us/j/990892712</a><span=
+ style=3D'color:#1F497D'> </span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
+tracking the minutes at: </span><a =
+href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
+wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
+4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
+style=3D'color:#1F497D'> Please request access if you want to assist in =
+editing them.&nbsp; The world should have view access. </span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Thanks,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_000F_01D669B8.D780CDD0--
