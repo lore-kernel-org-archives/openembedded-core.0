@@ -1,170 +1,291 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web11.6254.1596631412423599973
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web11.6315.1596631659262918922
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 05:43:32 -0700
+ Wed, 05 Aug 2020 05:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lNXEpxnb;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id l23so18685303edv.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 05:43:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=roWs31MZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id m7so9317723qki.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 05:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JZxmkprluhsE6EEgpizzxibdVIdNKx9Nd2WdgnKt8Wc=;
-        b=lNXEpxnbsqmuTOz6wiXhpsc7hm5bjFeYo5GBol3ZpVXnU9EpnBAtUXU9kqgyuHdY2A
-         qZuq2CcDg0apo9kxr6omcI8QlKlikQs4FZEHGqld7vzZiKPFYIprbaypMU0ZdW4aINj1
-         5T24iDvsL/6PRWnLR7SuJFd9FngYSbgIAh1nq9QMtCorq/4E91U16pvrdHV8Io3RWmBL
-         og4VlbLy93TbnIGlfUz6S9GEuF6QtIq4SxK2oVIWRxmvum+4U6EctUjnAjnnj/2BXlQX
-         wuX39AEwv2239MVyMc/e+2qkP6VWMMPYt1EIUkL7q0YnWsXKAqJBkiRciM6r7zfMyd5p
-         C/5A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zpKbzE6aNIwpo5LAwNEm6Xm7TqssRx9NHMKOeCw5MMY=;
+        b=roWs31MZSEXc4NTTVU+c0COrXnHeKQ0jqLWHvfq5u4R52mnzyqOjs4O8jun60ymkDY
+         bCh4CWZOBNRirnezZIJhc1MQ+ANtwGuT7gamBgxYt3Wl3eyo6uMQQYiKzBCLAAS+xhXB
+         DiN8dvje2qNYzRDB7RlokOeMVAUOWLJdoIS8JY9SmfljVbG0mm+OC4DBseC0T5XFjabW
+         OSDXmHNcqznOeKgA0ht9ZUXTN3IOz8ns2EhxKbiLJ7CnqBl/HvX2ygDnPqo3o9Oy4KaD
+         7xeOAHl2jtzEr19dns843Ip4JpyABzSk7IPIb6Ozn63cdxbCNf1UEXUwEnEd/IhfUyO9
+         2axg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JZxmkprluhsE6EEgpizzxibdVIdNKx9Nd2WdgnKt8Wc=;
-        b=Yf3WXJuT7lluRW3GS99rsC4iBhnxjQw8r8EfnQZRE+Eaa30vu+rZxzsJkRJ9r51Mh0
-         xNhsysWkqWMRvXQ+PZUYPNXqxPxD8G+FjOwtGHnuB9D/CgDuZ3tKO4eniEYz5GCDegay
-         l5sbcnDFV3WYWVuxehnob5aPNR3qt6S6n9G9bPegIAkhRltEz58Qv6uvi64LDrRMb+Ee
-         Y3d5wRbpBzy+/rvWAcK8AtSXX7WbD4jMUF6uPsrMYePR1W+7H51JFAi7CLEarm9kRNTV
-         8yRcMZi2lr3lQq8pK9fog2mf7iqzfX0gHL9Qsw9tAH2CpP+6r7YNGhbT1/rT3uZISA8r
-         H0Ig==
-X-Gm-Message-State: AOAM533YxT618gGjDFBV4YoWLq0Ta0ov/2Fqy79lsqHJxl4c2fG9RBCS
-	hJwPG/Tq94SHbOZo09kOvO4jJGQ1FweSlO2zvQE=
-X-Google-Smtp-Source: ABdhPJzZ2vcF9qtfHreWxz5UCStsd+M4BgunZUmftFd8Ps4wODvqdGLz7VsNRdeh5oATDcGNi0RGJu/9FWFLAZrbG9c=
-X-Received: by 2002:aa7:cd6c:: with SMTP id ca12mr2471805edb.365.1596631410753;
- Wed, 05 Aug 2020 05:43:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1594989620.git.bruce.ashfield@gmail.com> <3d609c832b9475706c45ace895aed899a6670542.camel@linuxfoundation.org>
-In-Reply-To: <3d609c832b9475706c45ace895aed899a6670542.camel@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zpKbzE6aNIwpo5LAwNEm6Xm7TqssRx9NHMKOeCw5MMY=;
+        b=RGOhTSxyD7oAhdBEiSnO99MdA3/e2b1pRk4JE8m1oj4UfFR9NoS/Hd1MBPgrG4jNUq
+         cHhtCU4eFnP91Pu/FHPscGugX6r5d1bgRdwkoWGoRd01+B0oAuZfpblBG2TkYgcf9Kgd
+         JvFr5RnR+1KZYiiEW2fQDaEnZOUeFUlQ5rFLekzl9agXuE02giBm4fWpMEzXs5QZ06vr
+         yKVvTlSyjcFuSN/Q/y4I1xUT+9kRqSch/NAMelLMReJbHhS8HlGBNvJ7d3TNXG/mFx3A
+         oxwuo5mgKR2U/MkvbfZVW4wagBlZVipYIKjitMUd2bXIPjkt0UwC7MeoKVKtsI6CpT9O
+         8ibw==
+X-Gm-Message-State: AOAM530QLCLDuPkTOYwf1OfhSnQOEYlBFElZ/PeXpUAVHoMef7IolKGT
+	5wc2aiz8YZ6TaYhKnD1w2Tc=
+X-Google-Smtp-Source: ABdhPJxrrohKzLVPCOIJxYyVVOarG38mxpUuwwIdLBoSg4333Kd96RsUJHxdaVwMok2vpylyePQrWg==
+X-Received: by 2002:a37:d08:: with SMTP id 8mr2987345qkn.393.1596631658220;
+        Wed, 05 Aug 2020 05:47:38 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id f4sm1915052qtp.38.2020.08.05.05.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2020 05:47:37 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 5 Aug 2020 08:43:19 -0400
-Message-ID: <CADkTA4P-M6+KX1oWz-ueub0vr15rCo2Y+wt=J4Nzju7Dt_fvBg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] kernel/yocto: conslidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, Ross Burton <ross@burtonini.com>, 
-	Jon Mason <Jon.Mason@arm.com>, Kevin Hao <kexin.hao@windriver.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000013442405ac20b83c"
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.4: update to v5.4.54
+Date: Wed,  5 Aug 2020 08:47:36 -0400
+Message-Id: <20200805124736.42926-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---00000000000013442405ac20b83c
-Content-Type: text/plain; charset="UTF-8"
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On Wed, Aug 5, 2020 at 7:06 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
-> On Fri, 2020-07-17 at 08:56 -0400, bruce.ashfield@gmail.com wrote:
-> > Here's my latest set of patches.
-> >
-> > For 5.4: a -stable update, and -rt bug fix
-> >
-> > For the build: a tweak to the config generation (as reported
-> > and discussed on the mailing list)
-> >
-> > For 5.8 (aka the next reference kernel): a fix for devsrc and
-> > on target kernel building. With this tweak, I have all of the
-> > refrences booting and passing most tests on 5.8, so we are in
-> > good shape on that front. I'll be doing libc-headers testing
-> > next.
-> >
-> > I ran these through the AB and local testing, no issues popped
-> > up, except a warning on qemuarm-alt in my last run. It was
-> > about a console login and didn't look related to the change,
-> > but I'm keeping my eye on it.
->
-> Thanks, I ran this combined with Khem's binutils change through the
-> autobuilder and your changes are likely fine but we need more work to
-> get binutils in. Basically:
->
-> * meta-arm needs to add the kernel patch for perf
-> * meta-intel needs to add the kernel patch for perf
-> * the hardware BSPs need to add the kernel patch for perf
->
-> I've added a few maintainers/people to the address list to try and sort
-> that out. Who is going to handle the hardware platforms?
->
+    58a12e3368db Linux 5.4.54
+    c15d59b94511 ath9k: Fix regression with Atheros 9271
+    e6eb815beccc ath9k: Fix general protection fault in ath9k_hif_usb_rx_cb
+    6d4448ca54bc dm integrity: fix integrity recalculation that is improperly skipped
+    2ca71b807383 ASoC: topology: fix tlvs in error handling for widget_dmixer
+    a4fd00dd8299 ASoC: topology: fix kernel oops on route addition error
+    e60e53e685d9 ASoC: qcom: Drop HAS_DMA dependency to fix link failure
+    8f64dc9e1d49 ASoC: rt5670: Add new gpio1_is_ext_spk_en quirk and enable it on the Lenovo Miix 2 10
+    697bd3e4aa4b x86, vmlinux.lds: Page-align end of ..page_aligned sections
+    c89af82f64a0 parisc: Add atomic64_set_release() define to avoid CPU soft lockups
+    d1bab3cf71dd drm/amd/powerplay: fix a crash when overclocking Vega M
+    33ab3f2dc444 drm/amdgpu: Fix NULL dereference in dpm sysfs handlers
+    c3de96686db9 mmc: sdhci-of-aspeed: Fix clock divider calculation
+    615f44e04792 io-mapping: indicate mapping failure
+    40c5836b4a48 khugepaged: fix null-pointer dereference due to race
+    95750e1edbcd mm: memcg/slab: fix memory leak at non-root kmem_cache destroy
+    db949f60d983 mm/memcg: fix refcount error while moving and swapping
+    549bfc142706 mm/mmap.c: close race between munmap() and expand_upwards()/downwards()
+    5835e6d5988f Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+    23e8b741c8a1 vt: Reject zero-sized screen buffer size.
+    028b478f2231 fbdev: Detect integer underflow at "struct fbcon_ops"->clear_margins.
+    bf331efc8ea4 /dev/mem: Add missing memory barriers for devmem_inode
+    3c52751df236 serial: 8250_mtk: Fix high-speed baud rates clamping
+    af811869db06 serial: 8250: fix null-ptr-deref in serial8250_start_tx()
+    fb8d832978bb serial: tegra: fix CREAD handling for PIO
+    c76a1dacc28d staging: comedi: addi_apci_1564: check INSN_CONFIG_DIGITAL_TRIG shift
+    178a09b0fb0d staging: comedi: addi_apci_1500: check INSN_CONFIG_DIGITAL_TRIG shift
+    7ee8d78bc12b staging: comedi: ni_6527: fix INSN_CONFIG_DIGITAL_TRIG support
+    747558b1c737 staging: comedi: addi_apci_1032: check INSN_CONFIG_DIGITAL_TRIG shift
+    c9afe420c53a staging: wlan-ng: properly check endpoint types
+    a44c859323c2 tty: xilinx_uartps: Really fix id assignment
+    f32718cfa5db iwlwifi: mvm: don't call iwl_mvm_free_inactive_queue() under RCU
+    3e84602475f7 Revert "cifs: Fix the target file was deleted when rename failed."
+    86894c3797ed usb: xhci: Fix ASM2142/ASM3142 DMA addressing
+    1d91547f2fc8 usb: xhci-mtk: fix the failure of bandwidth allocation
+    93f1e16af4a5 binder: Don't use mmput() from shrinker function.
+    35728cac176a RISC-V: Upgrade smp_mb__after_spinlock() to iorw,iorw
+    5345ede4acde drivers/perf: Prevent forced unbinding of PMU drivers
+    0821295b23cc asm-generic/mmiowb: Allow mmiowb_set_pending() when preemptible()
+    90e78ec7d725 x86: math-emu: Fix up 'cmp' insn for clang ias
+    679fe09188c1 arm64: Use test_tsk_thread_flag() for checking TIF_SINGLESTEP
+    7fc7942f52cf drivers/perf: Fix kernel panic when rmmod PMU modules during perf sampling
+    347f735ca82b ALSA: hda/realtek - fixup for yet another Intel reference board
+    30a17b51d80d hwmon: (scmi) Fix potential buffer overflow in scmi_hwmon_probe()
+    76361edb5559 platform/x86: asus-wmi: allow BAT1 battery name
+    41a7fdf90ce2 platform/x86: ISST: Add new PCI device ids
+    ace6e8b448b9 hwmon: (nct6775) Accept PECI Calibration as temperature source for NCT6798D
+    6627a265c598 drm/amdgpu: fix preemption unit test
+    ffb5604d2043 drm/amdgpu/gfx10: fix race condition for kiq
+    c04a48251314 hwmon: (adm1275) Make sure we are reading enough data for different chips
+    a2a380bd4575 usb: cdns3: trace: fix some endian issues
+    103a90ad4e64 usb: cdns3: ep0: fix some endian issues
+    89fe6eba178d usb: gadget: udc: gr_udc: fix memleak on error handling path in gr_ep_init()
+    74ec2cc5bfff usb: dwc3: pci: add support for the Intel Jasper Lake
+    c4c6363b8e68 usb: dwc3: pci: add support for the Intel Tiger Lake PCH -H variant
+    4f5eb2735fa3 Input: elan_i2c - only increment wakeup count on touch
+    186d3fe73e27 Input: synaptics - enable InterTouch for ThinkPad X1E 1st gen
+    460c0dafea92 dmaengine: ioat setting ioat timeout as module parameter
+    493aed3263ca dmaengine: fsl-edma: fix wrong tcd endianness for big-endian cpu
+    6a3015ae35f5 hwmon: (aspeed-pwm-tacho) Avoid possible buffer overflow
+    01d7bd8903d8 regmap: dev_get_regmap_match(): fix string comparison
+    bbc0b6e18405 spi: mediatek: use correct SPI_CFG2_REG MACRO
+    126a0ab6b83b ARM: dts: n900: remove mmc1 card detect gpio
+    80fed4024c39 Input: add `SW_MACHINE_COVER`
+    db886ec71fe4 dmaengine: tegra210-adma: Fix runtime PM imbalance on error
+    5cbe437d5968 HID: apple: Disable Fn-key key-re-mapping on clone keyboards
+    2c179ece3bfb HID: steam: fixes race in handling device list.
+    5d273c566f7b HID: alps: support devices with report id 2
+    08696a4ac9f6 HID: i2c-hid: add Mediacom FlexBook edge13 to descriptor override
+    9ab9cfcc2d8f scripts/gdb: fix lx-symbols 'gdb.error' while loading modules
+    22508bc315eb scripts/decode_stacktrace: strip basepath from all paths
+    1e63d569fd2d serial: exar: Fix GPIO configuration for Sealevel cards based on XR17V35X
+    a86abef1558a geneve: fix an uninitialized value in geneve_changelink()
+    89b4f204ba43 bonding: check return value of register_netdevice() in bond_newlink()
+    93bb40b79e84 i2c: i2c-qcom-geni: Fix DMA transfer race
+    58637b3027db i2c: rcar: always clear ICSAR to avoid side effects
+    e8b86b4d87e3 enetc: Remove the mdio bus on PF probe bailout
+    9f2c2928b939 nfsd4: fix NULL dereference in nfsd/clients display code
+    a44625dc0bd3 Revert "PCI/PM: Assume ports without DLL Link Active train links in 100 ms"
+    9e3e96aa9a2e net: ethernet: ave: Fix error returns in ave_init
+    eb2c32de1ce6 ipvs: fix the connection sync failed in some cases
+    592614918431 qed: suppress false-positives interrupt error messages on HW init
+    641bd96bd0ac qed: suppress "don't support RoCE & iWARP" flooding on HW init
+    8d416c038a91 netdevsim: fix unbalaced locking in nsim_create()
+    99a5e865cbe4 net: dsa: microchip: call phy_remove_link_mode during probe
+    4997b311c01e net: hns3: fix error handling for desc filling
+    107ea66643bd net: ag71xx: add missed clk_disable_unprepare in error path of probe
+    34e93385c416 ionic: fix up filter locks and debug msgs
+    42f5c49f7bbb ionic: use offset for ethtool regs data
+    eac87543368c mlxsw: destroy workqueue when trap_register in mlxsw_emad_init
+    9b52f23ad648 bonding: check error value of register_netdevice() immediately
+    d11a27411c65 net: smc91x: Fix possible memory leak in smc_drv_probe()
+    a2cdb4ebd84e drm: sun4i: hdmi: Fix inverted HPD result
+    988e5d2179e4 ieee802154: fix one possible memleak in adf7242_probe
+    7bf93c95a9b9 net: dp83640: fix SIOCSHWTSTAMP to update the struct with actual configuration
+    e2e31a0bf7a1 ASoC: Intel: bytcht_es8316: Add missed put_device()
+    613e7c52aaaa RDMA/mlx5: Use xa_lock_irq when access to SRQ table
+    d0d394c71604 ax88172a: fix ax88172a_unbind() failures
+    ad49d766612e vsock/virtio: annotate 'the_virtio_vsock' RCU pointer
+    f826efa1c381 hippi: Fix a size used in a 'pci_free_consistent()' in an error handling path
+    570b1c92cb48 fpga: dfl: fix bug in port reset handshake
+    c73188295841 fpga: dfl: pci: reduce the scope of variable 'ret'
+    57393e695a10 bnxt_en: Fix completion ring sizing with TPA enabled.
+    9cc322773b20 bnxt_en: Fix race when modifying pause settings.
+    38a66f3cdab4 btrfs: fix page leaks after failure to lock page for delalloc
+    b04805a7e8a5 btrfs: fix mount failure caused by race with umount
+    e333df0e4ac6 btrfs: fix double free on ulist after backref resolution failure
+    f668e822950d ASoC: rt5670: Correct RT5670_LDO_SEL_MASK
+    0f87dabe4415 ALSA: info: Drop WARN_ON() from buffer NULL sanity check
+    aad343d571ae ALSA: hda/realtek: Fixed ALC298 sound bug by adding quirk for Samsung Notebook Pen S
+    ee2f6a6b39be uprobes: Change handle_swbp() to send SIGTRAP with si_code=SI_KERNEL, to fix GDB regression
+    ee08663380ff btrfs: reloc: clear DEAD_RELOC_TREE bit for orphan roots to prevent runaway balance
+    044ca910276b btrfs: reloc: fix reloc root leak and NULL pointer dereference
+    cb1225707041 SUNRPC reverting d03727b248d0 ("NFSv4 fix CLOSE not waiting for direct IO compeletion")
+    02140e85d8e4 drm/amd/display: Check DMCU Exists Before Loading
+    722c6e954c90 dmabuf: use spinlock to access dmabuf->name
+    44838b956304 ARM: dts: imx6qdl-gw551x: fix audio SSI
+    593221ce16af ARM: dts: imx6qdl-gw551x: Do not use 'simple-audio-card,dai-link'
+    36f735554572 irqdomain/treewide: Keep firmware node unconditionally allocated
+    8676732c3337 fuse: fix weird page warning
+    96002e7485be drivers/firmware/psci: Fix memory leakage in alloc_init_cpu_groups()
+    d0e40e510aa7 dm: use bio_uninit instead of bio_disassociate_blkg
+    0ff9fce4abee scsi: dh: Add Fujitsu device to devinfo and dh lists
+    3959567d870d scsi: mpt3sas: Fix error returns in BRM_status_show
+    0c1337e94a54 drm/nouveau/i2c/g94-: increase NV_PMGR_DP_AUXCTL_TRANSACTREQ timeout
+    fb50c5cf2105 net: sky2: initialize return of gm_phy_read
+    b4397143da53 ALSA: hda/hdmi: fix failures at PCM open on Intel ICL and later
+    e50116e51281 drivers/net/wan/lapbether: Fixed the value of hard_header_len
+    0eced7636001 scsi: mpt3sas: Fix unlock imbalance
+    0edfdefc0a9c xtensa: update *pos in cpuinfo_op.next
+    df5b65f5df3e xtensa: fix __sync_fetch_and_{and,or}_4 declarations
+    806ffec1a93a scsi: scsi_transport_spi: Fix function pointer check
+    65c835ebe2cd mac80211: allow rx of mesh eapol frames with default rx key
+    f55550d566e4 pinctrl: amd: fix npins for uart0 in kerncz_groups
+    de0d953ee787 gpio: arizona: put pm_runtime in case of failure
+    52083907ebfa gpio: arizona: handle pm_runtime_get_sync failure case
+    4f80cb2c787f soc: qcom: rpmh: Dirt can only make you dirtier, not cleaner
 
-I have a meta-yocto-bsp bump that I did for the latest 5.4, it'll have that
-fix as well. I can send it out now for the reference platforms.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-Bruce
-
-
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index c7e468671b..ec0beeba76 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "ffd6790852ee25869539fdcabc7b89fb11743c0a"
+-SRCREV_meta ?= "021a303c35cbd79f67666a8d4c4487751f96cbce"
++SRCREV_machine ?= "37478f8c6f336b271b26e783c14bcaf7fa8ca9a6"
++SRCREV_meta ?= "96883b38c16febfa10668d16fe08a5cdc3419872"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.53"
++LINUX_VERSION ?= "5.4.54"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 62e413e902..9881b09a9f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.53"
++LINUX_VERSION ?= "5.4.54"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "a64c0668d850dcd447004c41347497a4ff814476"
+-SRCREV_machine ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_meta ?= "021a303c35cbd79f67666a8d4c4487751f96cbce"
++SRCREV_machine_qemuarm ?= "58d322d637edd20fe24aadfdc0d621f63700c009"
++SRCREV_machine ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_meta ?= "96883b38c16febfa10668d16fe08a5cdc3419872"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index d3fb451340..3829748269 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "4b2316e7867e7ebc4c5354c7f5c0076dc57b9541"
+-SRCREV_machine_qemuarm64 ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_machine_qemumips ?= "1b740d5443ea367eae0b2ec71eb25964c10cebec"
+-SRCREV_machine_qemuppc ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_machine_qemuriscv64 ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_machine_qemux86 ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_machine_qemux86-64 ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_machine_qemumips64 ?= "21a0d1ffcc340dcfe1e94afdc36870c6824b1112"
+-SRCREV_machine ?= "1fe4ee7f680c3f69f620d68a5d2f7341e8db693b"
+-SRCREV_meta ?= "021a303c35cbd79f67666a8d4c4487751f96cbce"
++SRCREV_machine_qemuarm ?= "84e270de836971e9fec8e6acbe06f8a2e1405916"
++SRCREV_machine_qemuarm64 ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_machine_qemumips ?= "f418fa62aec041e4c3b5c28df853a8c636fa2f62"
++SRCREV_machine_qemuppc ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_machine_qemuriscv64 ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_machine_qemux86 ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_machine_qemux86-64 ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_machine_qemumips64 ?= "3a515b583c3efc896cafa4f7f1e784456a360f8f"
++SRCREV_machine ?= "9fc2fb2e73466a520ee9a3c48b3ca2f5b21415dc"
++SRCREV_meta ?= "96883b38c16febfa10668d16fe08a5cdc3419872"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.53"
++LINUX_VERSION ?= "5.4.54"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.19.1
 
---00000000000013442405ac20b83c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Wed, Aug 5, 2020 at 7:06 AM Richard Purdie &lt;<=
-a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfo=
-undation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">On Fri, 2020-07-17 at 08:56 -0400, <a href=3D"mailto:bruce.ashf=
-ield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a> wrote:<br>
-&gt; Here&#39;s my latest set of patches.<br>
-&gt; <br>
-&gt; For 5.4: a -stable update, and -rt bug fix<br>
-&gt; <br>
-&gt; For the build: a tweak to the config generation (as reported<br>
-&gt; and discussed on the mailing list)<br>
-&gt; <br>
-&gt; For 5.8 (aka the next reference kernel): a fix for devsrc and<br>
-&gt; on target kernel building. With this tweak, I have all of the<br>
-&gt; refrences booting and passing most tests on 5.8, so we are in<br>
-&gt; good shape on that front. I&#39;ll be doing libc-headers testing<br>
-&gt; next.<br>
-&gt; <br>
-&gt; I ran these through the AB and local testing, no issues popped<br>
-&gt; up, except a warning on qemuarm-alt in my last run. It was<br>
-&gt; about a console login and didn&#39;t look related to the change,<br>
-&gt; but I&#39;m keeping my eye on it.<br>
-<br>
-Thanks, I ran this combined with Khem&#39;s binutils change through the<br>
-autobuilder and your changes are likely fine but we need more work to<br>
-get binutils in. Basically:<br>
-<br>
-* meta-arm needs to add the kernel patch for perf<br>
-* meta-intel needs to add the kernel patch for perf<br>
-* the hardware BSPs need to add the kernel patch for perf<br>
-<br>
-I&#39;ve added a few maintainers/people to the address list to try and sort=
-<br>
-that out. Who is going to handle the hardware platforms?<br></blockquote><d=
-iv><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">I =
-have a meta-yocto-bsp bump that I did for the latest 5.4, it&#39;ll have th=
-at fix as well. I can send it out now for the reference platforms.</div><di=
-v class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D=
-"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---00000000000013442405ac20b83c--
