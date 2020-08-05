@@ -1,98 +1,83 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web12.8728.1596639031076765406
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web12.9933.1596642180469536653
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:50:31 -0700
+ Wed, 05 Aug 2020 08:43:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RxWPDElt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id 17so2472914pfw.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JKsM90ca;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id t23so30855414qto.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 08:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Bf4x1DZM72dIPLTfu5yJqLzKTfpUjpghKT2hfuPwWMw=;
-        b=RxWPDElt0xC5uDpiDhtlh66D6GH6wL6jYRCmJCkjW2uM4f3GiC8Ywq7GY5Qcsd4M9V
-         0xGxWbWfi4dZy1RmuCgsbjLbdm6GkaWyW5Jsx/aw5EQD9emITCdV6zvfcnSzooAoVr1b
-         lsIIzpM0d4meeAz1KRjZYZTQDFSIR/VBxElAcWOhuW32tIfvcLbwNH7Z/uvZ/z4UeNUZ
-         RXpxaHMY4UWR92e+W+nFRsQqdedpGaiPjnR9UZ1CMGP6WUcajX6VHMaRofmLRtLzxTIq
-         KSjIBtn8ofou2YHKnVJ0iT/VAdpnPe/IV20Gc3BTM8oBG7DZ+5uckfaDIeTLl3LnaW/h
-         p/nA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TzxOjm5WWPzh7L7bn33yoCWemArcspoV9qDBUi47uFQ=;
+        b=JKsM90cagaCPM3n1OZFi63vf/ax55RPLvefgkHYwEUnB30BI0e45GQX9Ndfl9zQ7tn
+         qR7Nq+Xb0Qw+Qzy5BfZf2v1+8vxmYsIc4F4cMwMQYoM7SH7+/HRGDvSSq5E+eHd0zwQS
+         OIIxQNynfOpqB69pBbZ3ptKAZUG+6bbs0uQ5VcoXxq60WnlqRlVOceSzOaJux/F3woOn
+         ALI+zp4GcJJuyibSm7LpCplsEZwdUHrtvLiJIjYMfEn3kQG/vhikGiL257Ve5ZvLjGcW
+         1NRNgXqrAAD6cHCLlsI/1y52Qxa2fc69qGat+meXn1wKhKvFcjUcZToZnyY33qsYNHnt
+         LX3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=Bf4x1DZM72dIPLTfu5yJqLzKTfpUjpghKT2hfuPwWMw=;
-        b=ota3SXAFVI2Ek3icf5ZmM6ZfyMIjZlklnlfPBKWnxY65oLkcG5kEkjha6L3h9rBEvc
-         puPfqRpX31licPxGGyDB9ah1XiUelfLKKN1vaMCDdcdtmfTEBadWCVYYqRo+uon8Pcvs
-         dNC/TytqwoSVFlIyyOrV3JfiBBsRg6Qh/bCaxuh9M++Kw0dPn9h3OK3aRo7PMw/ky41M
-         C3TiaGvKuP7YmOPH3eaY5M/xdp62EeMPO/4yRlWoie1KycEFTDMvhXVnYP3pslJlkFvr
-         cu1fJt+YhvRtONK6Jd3pZRTrGvoCnDGvtGmVlfVkdmMt2pApkhuwjWqoA5wgH9biTdnk
-         qakQ==
-X-Gm-Message-State: AOAM532Vnjaslzvyd6R83Ni0lgE5AE86p9XqBxn17PV499jn9z+w6Yvn
-	HxskQ22pVHsDnVojrbTjEoFjfVmpzb8=
-X-Google-Smtp-Source: ABdhPJxlGQWQTAz0fUp4jRLMeTDPGDHoVBlP0228bpIMo10cK5OfqcSzMG1fUDBx9TS/ojsr6w8o+Q==
-X-Received: by 2002:a62:1543:: with SMTP id 64mr3819880pfv.242.1596639030125;
-        Wed, 05 Aug 2020 07:50:30 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.28
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TzxOjm5WWPzh7L7bn33yoCWemArcspoV9qDBUi47uFQ=;
+        b=HMaRP0WjZUyEEu1tYCtTYbN7M3A5fYIVRH9N4jypHoVbPUHkSV3Uz47T8RrgfqsOPe
+         WpEr0HZDB3dLOPoBa1CfhaMGZkEpNoHzltDQdV+urSfiq8Jt3c1lUxe8rJi2gjIrsHVG
+         Vv8ukHggmHwk/v7CjchXsILZSY3qiqb75jQDOPUKXF+b+aq3mcq9gv/lJBVKr721o/UL
+         MxTHMQXE4v4kLxjHFzYGiMv8C4YTdvhBp5Vo2jlYSm1LYPgwUuCSj/zFdu+CYUFMPwD7
+         RPR9u78EXZPv8Ae8XJF0zTuGWEb8vOpatT28YTe1+NTIC2mN5QufGPy66bqN6IaAp889
+         Zglg==
+X-Gm-Message-State: AOAM533giyOzVgUw1T1b4G5pu7Smr8xNa1VxHO53AnRCO2Ng9SIViGZ5
+	rEV0iPY3QHrVvqGnWT2CroE=
+X-Google-Smtp-Source: ABdhPJxqlAUUqxjjHgQAYCC8McO5XjNpw3zJ5nZGcNXxoUUQRA6TTc0atCi3hf3srAY+jP+QeNxHSw==
+X-Received: by 2002:ac8:180b:: with SMTP id q11mr3835162qtj.389.1596642179557;
+        Wed, 05 Aug 2020 08:42:59 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id o48sm2480731qtf.14.2020.08.05.08.42.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:50:29 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 11/11] Revert "gtk-icon-cache.bbclass: add runtime dependency"
-Date: Wed,  5 Aug 2020 04:49:34 -1000
-Message-Id: <257758f175cdcb99f4fe890cc0b1a60e82b5b84b.1596638643.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1596638643.git.steve@sakoman.com>
-References: <cover.1596638643.git.steve@sakoman.com>
+        Wed, 05 Aug 2020 08:42:58 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-devsrc: fix x86 (32bit) on target module build
+Date: Wed,  5 Aug 2020 11:42:57 -0400
+Message-Id: <20200805154257.850-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This reverts commit e921edd27e71af00f07e3f1e973d2b0c6c777bf4 since
-it breaks adwaita-icon-theme and other recipes using gtk-icon-cache
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+The previous devsrc v5.8 on target build fixup [532ae127c
+kernel-devsrc: fix on-target module build for v5.8+], missed
+on condition: the defconfig
+
+On 32bit x86 the arch can be queried differently on the host
+and target. We aren't building against the defconfig, so we
+remove it from auto.conf.cmd and we can again prepare to build
+modules on target.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes/gtk-icon-cache.bbclass | 19 +++----------------
- 1 file changed, 3 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index dd394af27c..91cb4ad409 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -1,10 +1,6 @@
- FILES_${PN} += "${datadir}/icons/hicolor"
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 2f20ca25b3..6c49b4891f 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -277,6 +277,8 @@ do_install() {
+         sed -i 's/ifneq "$(LD)" ".*-linux-ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
+         sed -i 's/ifneq "$(CC_VERSION_TEXT)".*\(gcc.*\)"/ifneq "$(CC_VERSION_TEXT)" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
+         sed -i 's/ifneq "$(srctree)" ".*"/ifneq "$(srctree)" "."/' "$kerneldir/build/include/config/auto.conf.cmd"
++        # we don't build against the defconfig, so make sure it isn't the trigger for syncconfig
++        sed -i 's/ifneq "$(KBUILD_DEFCONFIG)".*"\(.*\)"/ifneq "\1" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
+     fi
  
--DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} \
--            ${@['gdk-pixbuf', '']['${BPN}' == 'gdk-pixbuf']} \
--            ${@['gtk+3', '']['${BPN}' == 'gtk+3']} \
--            gtk+3-native \
--"
-+DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+3-native"
- 
- PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
- 
-@@ -52,18 +48,9 @@ python populate_packages_append () {
-         bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
-         rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
-         d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--
--        #gtk_icon_cache_postinst depend on gdk-pixbuf and gtk+3
--        bb.note("adding gdk-pixbuf dependency to %s" % pkg)
--        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gdk-pixbuf"
--        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--
--        bb.note("adding gtk+3 dependency to %s" % pkg)
--        rdepends = ' ' + d.getVar('MLPREFIX', False) + "gtk+3"
--        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--
-+    
-         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
--
-+        
-         postinst = d.getVar('pkg_postinst_%s' % pkg)
-         if not postinst:
-             postinst = '#!/bin/sh\n'
+     # make the scripts python3 safe. We won't be running these, and if they are
 -- 
-2.17.1
+2.19.1
 
