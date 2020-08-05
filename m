@@ -1,83 +1,67 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web12.9933.1596642180469536653
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.10108.1596642655821113942
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 08:43:00 -0700
+ Wed, 05 Aug 2020 08:51:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JKsM90ca;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id t23so30855414qto.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 08:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TzxOjm5WWPzh7L7bn33yoCWemArcspoV9qDBUi47uFQ=;
-        b=JKsM90cagaCPM3n1OZFi63vf/ax55RPLvefgkHYwEUnB30BI0e45GQX9Ndfl9zQ7tn
-         qR7Nq+Xb0Qw+Qzy5BfZf2v1+8vxmYsIc4F4cMwMQYoM7SH7+/HRGDvSSq5E+eHd0zwQS
-         OIIxQNynfOpqB69pBbZ3ptKAZUG+6bbs0uQ5VcoXxq60WnlqRlVOceSzOaJux/F3woOn
-         ALI+zp4GcJJuyibSm7LpCplsEZwdUHrtvLiJIjYMfEn3kQG/vhikGiL257Ve5ZvLjGcW
-         1NRNgXqrAAD6cHCLlsI/1y52Qxa2fc69qGat+meXn1wKhKvFcjUcZToZnyY33qsYNHnt
-         LX3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TzxOjm5WWPzh7L7bn33yoCWemArcspoV9qDBUi47uFQ=;
-        b=HMaRP0WjZUyEEu1tYCtTYbN7M3A5fYIVRH9N4jypHoVbPUHkSV3Uz47T8RrgfqsOPe
-         WpEr0HZDB3dLOPoBa1CfhaMGZkEpNoHzltDQdV+urSfiq8Jt3c1lUxe8rJi2gjIrsHVG
-         Vv8ukHggmHwk/v7CjchXsILZSY3qiqb75jQDOPUKXF+b+aq3mcq9gv/lJBVKr721o/UL
-         MxTHMQXE4v4kLxjHFzYGiMv8C4YTdvhBp5Vo2jlYSm1LYPgwUuCSj/zFdu+CYUFMPwD7
-         RPR9u78EXZPv8Ae8XJF0zTuGWEb8vOpatT28YTe1+NTIC2mN5QufGPy66bqN6IaAp889
-         Zglg==
-X-Gm-Message-State: AOAM533giyOzVgUw1T1b4G5pu7Smr8xNa1VxHO53AnRCO2Ng9SIViGZ5
-	rEV0iPY3QHrVvqGnWT2CroE=
-X-Google-Smtp-Source: ABdhPJxqlAUUqxjjHgQAYCC8McO5XjNpw3zJ5nZGcNXxoUUQRA6TTc0atCi3hf3srAY+jP+QeNxHSw==
-X-Received: by 2002:ac8:180b:: with SMTP id q11mr3835162qtj.389.1596642179557;
-        Wed, 05 Aug 2020 08:42:59 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id o48sm2480731qtf.14.2020.08.05.08.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 08:42:58 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-devsrc: fix x86 (32bit) on target module build
-Date: Wed,  5 Aug 2020 11:42:57 -0400
-Message-Id: <20200805154257.850-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mzeng@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 075FoNMw009956
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 5 Aug 2020 08:50:44 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 5 Aug 2020
+ 08:50:19 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 21151)	id B42201FFED;
+ Wed,  5 Aug 2020 11:50:18 -0400 (EDT)
+From: "Matthew" <matthew.zeng@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ltp: make copyFrom scp command non-fatal
+Date: Wed, 5 Aug 2020 11:50:18 -0400
+Message-ID: <20200805155018.8076-1-matthew.zeng@windriver.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+[YOCTO #13802]
 
-The previous devsrc v5.8 on target build fixup [532ae127c
-kernel-devsrc: fix on-target module build for v5.8+], missed
-on condition: the defconfig
+Make the scp failure non-fatal so the ltp tests continue to run and
+the rest of the logs will be available to see afterwards.
 
-On 32bit x86 the arch can be queried differently on the host
-and target. We aren't building against the defconfig, so we
-remove it from auto.conf.cmd and we can again prepare to build
-modules on target.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oeqa/core/target/ssh.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 2f20ca25b3..6c49b4891f 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -277,6 +277,8 @@ do_install() {
-         sed -i 's/ifneq "$(LD)" ".*-linux-ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(CC_VERSION_TEXT)".*\(gcc.*\)"/ifneq "$(CC_VERSION_TEXT)" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(srctree)" ".*"/ifneq "$(srctree)" "."/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        # we don't build against the defconfig, so make sure it isn't the trigger for syncconfig
-+        sed -i 's/ifneq "$(KBUILD_DEFCONFIG)".*"\(.*\)"/ifneq "\1" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
-     fi
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 090b40a814..1b78e830d4 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -61,9 +61,12 @@ class OESSHTarget(OETarget):
+         self.logger.debug("[Command returned '%d' after %.2f seconds]"
+                  "" % (status, time.time() - starttime))
  
-     # make the scripts python3 safe. We won't be running these, and if they are
+-        if status and not ignore_status:
+-            raise AssertionError("Command '%s' returned non-zero exit "
+-                                 "status %d:\n%s" % (command, status, output))
++        if status:
++            if not ignore_status:
++                raise AssertionError("Command '%s' returned non-zero exit "
++                                     "status %d:\n%s" % (command, status, output))
++            else:
++                self.logger.warning("Command '%s' returned non-zero exit status %d:\n%s" % (command, status, output))
+ 
+         return (status, output)
+ 
+@@ -113,7 +116,7 @@ class OESSHTarget(OETarget):
+         """
+         remotePath = '%s@%s:%s' % (self.user, self.ip, remoteSrc)
+         scpCmd = self.scp + [remotePath, localDst]
+-        return self._run(scpCmd, ignore_status=False)
++        return self._run(scpCmd, ignore_status=True)
+ 
+     def copyDirTo(self, localSrc, remoteDst):
+         """
 -- 
-2.19.1
+2.27.0
 
