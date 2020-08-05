@@ -1,96 +1,88 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web12.8715.1596639013237318513
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.8878.1596639015594192880
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:50:13 -0700
+ Wed, 05 Aug 2020 07:50:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oUh5fXtU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id o1so25392367plk.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=itHQ5WX6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id ep8so4418156pjb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=rQc2CQEwfB+FLd+mRxDE/MczrWT7+qfbpWmdcxfXE0A=;
-        b=oUh5fXtUkNi5QFQcC+AQct/O/KUOZy8V+0a54Y/18H5VKcAAsYYi8suma06GJeOG2O
-         +BsCix0UJ19b2C8ok5M3LYzOq5qfPFvk4Qs++h1WhBpfXqnDTZ/waejtlxsQak4lh0kt
-         FOE/cmJHSlN109OaO1ye52OKUQyUdWsx668evCmSe5fM4ShJwgtjeigH4Sma0t67zdp4
-         ak92sj59H5x/zMG+lAmhvz7xYlhNAbgz2bsWtljImQTXKBEyCGjte4krcRTAisIgiFXJ
-         G+MTkG4aUs0cC7PlCxQtfv9Dtgnp9CJSUD8yoW1uo4e2MKy4ZPDRc+HG+k84OQNRJikN
-         rAhg==
+        bh=v1Nzs7aHfZLpDhPLHx5Hs0TF/2qzn0CW8wX2AzbBGOg=;
+        b=itHQ5WX6npg54Vzm9kxcSOW9oPKWLihyyfgxUG0g6Vht/TMz4CpuEW8sqBSIgvst5L
+         rjcVDfn8tF2RhIZiZscgSSYgOMKdY9RPSC2SOPBZgyd/m6V/YZnpP+C7uyEIe21iCJsF
+         JmsW3C6n/oGOOFj08MeGCb8MKUdFc2MCyBCRIm8MMcKlsapJ9PRmteY/ufG6JsRFkZ9/
+         df86OFZdAEfRa8jHvwHpB/SmidHt9re/3gBma5S6H8ri0aI8R+lW2AzV0f/4IduY4/5i
+         m9k3gvjHKOR2V9LE7E9x2s/RuELO16YAuH5LE/Gy6iMZ38VuLeHBHs0pW6KgsHaeciBu
+         6q/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=rQc2CQEwfB+FLd+mRxDE/MczrWT7+qfbpWmdcxfXE0A=;
-        b=oel+O10mdudmSTtTVEPAAFPt2OPfiM/ZROq99IHkGk49pX81jTSphTL9h2kIRQHgEX
-         MhhC0fukXwDJ6HqcML4S4JoyfXjwpLIVXFraJ5HI/RwSFBO/yV5uANuIntEjwm9ybXwF
-         +ft2OAnoG5mfL+SzbmtO+Yb+NFV9mhc+qQ27G4zFJVSkFWM+1GlgrV06gSsMSXedNEmI
-         mjn9cxO6ytbVGxwUX9Z6ZnZs/XXCoaFmQ9K7funpnrp/TpEor899gSPiImMpLMFOxSAj
-         9mamqbdWfP8P1qn4oP6FF3mDvZ7T/4HUa4ECyxk6X3m/oeqZWOET9nRU8AKCc9maCjtP
-         nUTg==
-X-Gm-Message-State: AOAM533hQDA9BoPwkk6JSLXpf3xlATQWZbWGLkPNrMDakzxAojqnSVgv
-	/KL5zlTEKJceGC6P01GogUncrTGR9m4=
-X-Google-Smtp-Source: ABdhPJwcPiWgxBB+dDjM2a1SBhntEGz13kNafB+rWLSqfF46AjkoluTr4FcpPhfjV9t+j/XwzouHZA==
-X-Received: by 2002:a17:902:bd01:: with SMTP id p1mr3562725pls.25.1596639012355;
-        Wed, 05 Aug 2020 07:50:12 -0700 (PDT)
+        bh=v1Nzs7aHfZLpDhPLHx5Hs0TF/2qzn0CW8wX2AzbBGOg=;
+        b=k9dkGeFVxjS9xrErNjGIy6WKqefJcxd29odQj6RvYW1t8zKqDnxYH734XQMIhkXe45
+         KRyepvI0wdqBfuAMI+VjwogL1Ff5H5AX1Vbo92SR8+sqF7zuqtfpnSIF+LtBjkO0qOxf
+         wiLVAzlOZ2MA5x8tB+GHrYBYDyEQf7rhDdH/xpGS8K9YKTsY01SG3Y8xXZ3VgacgXhjH
+         wk7O33YYEudesCDpbQD6bCkBaIzJvNzqVQEg028MiXUpdJqvnAnc4CrmYun4zI1Nkaub
+         ClsRTfMLhYOIobafX937q05LzXlJzS4HwNcdW3GSUF5bTQ9bDCEp6TiIsRGXLn0uldTr
+         olMw==
+X-Gm-Message-State: AOAM531U83eszOfVvEUwY4Kue3Yl0pBtuSRvy0OGfSkbce9ord4MlsvF
+	0mrMaNkq7k9Nem6Pe9NgLt+fvBnZGJQ=
+X-Google-Smtp-Source: ABdhPJy0MyLod5CWV/cHawuGqyvcqhsLc74Cvh9HjP8w3kYQOdBhP+yeFtmpH65BlwszlN0wb1/7qQ==
+X-Received: by 2002:a17:90a:aa8f:: with SMTP id l15mr3643754pjq.123.1596639014611;
+        Wed, 05 Aug 2020 07:50:14 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.11
+        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:50:11 -0700 (PDT)
+        Wed, 05 Aug 2020 07:50:14 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 04/11] cve-update: handle baseMetricV2 as optional
-Date: Wed,  5 Aug 2020 04:49:27 -1000
-Message-Id: <135a6a4f55aed6148f45d01b307fadbd45be2997.1596638643.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 05/11] cogl-1.0: correct X11 dependencies
+Date: Wed,  5 Aug 2020 04:49:28 -1000
+Message-Id: <4cbfaae7f6ecdcbb67675da6cbdcf63aed0aaf61.1596638643.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1596638643.git.steve@sakoman.com>
 References: <cover.1596638643.git.steve@sakoman.com>
 
-From: Konrad Weihmann <kweihmann@outlook.com>
+From: Matt Madison <matt@madison.systems>
 
-Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
-Let the parser handle it as an optional item.
-In case use baseMetricV2 before baseMetricV3
+cogl depends on libxdamage when configured for X11 support.
+A dependency was added for this in 2012 with
+959a2f6d88d8fa6874fff83b7a1f0e7d4e36b887, but that addition
+was lost when the recipe was reworked in 2013 with
+b508fdd2b19ca30da8d09caf646897dc4cf195c8. That commit also
+added a dependency on libxi, which is not actually needed.
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+The missing dependency doesn't cause problems in most cases,
+since mesa also depends on libxdamage, but when an alternative
+opengl implementation such as libglvnd is used, cogl fails
+to configure.
+
+Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fdcbf3f28289188c5a97664d1421d4a5c4991eda)
+(cherry picked from commit 7651a63c508562caf1a3732cb49af50bccc98e8b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/cogl/cogl-1.0.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index f27ade40db..32d6dbdffc 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -176,15 +176,20 @@ def update_db(c, jsondata):
-         if not elt['impact']:
-             continue
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index 1c5d0b79cb..d581ad1c04 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -21,7 +21,7 @@ EDEPENDS_GL = "virtual/libgl libdrm"
+ EDEPENDS_GLES2 = "virtual/libgles2"
+ EDEPENDS_KMS = "libdrm virtual/egl"
+ EDEPENDS_EGL = "virtual/egl"
+-EDEPENDS_X11 = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
++EDEPENDS_X11 = "virtual/libx11 libxcomposite libxdamage libxfixes libxrandr"
+ EDEPENDS_WAYLAND = "virtual/egl virtual/libgles2 wayland"
  
-+        accessVector = None
-         cveId = elt['cve']['CVE_data_meta']['ID']
-         cveDesc = elt['cve']['description']['description_data'][0]['value']
-         date = elt['lastModifiedDate']
--        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
--        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
--
-         try:
-+            accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-+            cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-+        except KeyError:
-+            cvssv2 = 0.0
-+        try:
-+            accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
-             cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
--        except:
-+        except KeyError:
-+            accessVector = accessVector or "UNKNOWN"
-             cvssv3 = 0.0
- 
-         c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
+ # Extra RDEPENDS for PACKAGECONFIG
 -- 
 2.17.1
 
