@@ -1,65 +1,100 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web11.1031.1596646427727312600
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.1084.1596646599600655873
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 09:53:47 -0700
+ Wed, 05 Aug 2020 09:56:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=it15Sz8J;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id t23so31044615qto.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 09:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uN52GJAF5V8D1y6JIaTiN4M61VU78XwhR4TJMyAYuB0=;
-        b=it15Sz8JTXpPegQr2pSUmzl7TGlOZWfrwqFYBK1g0IdXgSKdiLj/6iA4J2yHs6hizb
-         1PpnXhmifWwwMpxULJc5YSW523EL9CkwOrxig3OM3ywtxJT14UaWdnNkOvpot/rpdbKt
-         9S7hPCrArOevPyaE4FW2LQiJuc2T6w0hejP3QrAd+19jRSTm7zJE4BBeB5QH1zodwwbZ
-         rbdVdm7K0rUxKmGzYaHcX6r3a6USuar42ePdQYS5lilXgTT3z56HVYBe7WDnNbBDRVHV
-         6M8k8GU2WsXeO0XsHFq0HwPnk3AEuHza1HATdzAGsq+tjfFb+H4GxdOCFzmfhi2o5ZmV
-         pSEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uN52GJAF5V8D1y6JIaTiN4M61VU78XwhR4TJMyAYuB0=;
-        b=JKzTdnNOWONqndJXe6yCGVnXKp3/P6diSYbFc5IAalWcRdUa73dV2K/RxXn8StC/3R
-         LTxAdLNtFPBGRvE0bqCdczoUycUSmq3Qcvezq6ORpR82R2CDU8j5lhMy3VyTZhWtMo7T
-         pRN1snHtnOaMB5sPVdFGd0W2tT7q5ThezaoXxhBXRqizHefif2a6O9R/QXYeLMJ/fHQV
-         ahDA3I+WVt38DrRhRPRu/2keyyWWgZV5QnE4g9TaFp7cM1wvtuOKCTSAtGjqYiycpTGf
-         481qBJgv83LfZ7UdXRnb8HScLdqgTVE4Sdns+FlXlEAlE3lrA0V11UivdCLIVvv153bo
-         Trbg==
-X-Gm-Message-State: AOAM532+KIXL20QTFEayyal35mK/wSOSgm4ANqueozAIM7g8ACtxHakj
-	zD6z3xEoCf8aMxOmd27ltFxMvlfv4718MFSgpU5faeKm
-X-Google-Smtp-Source: ABdhPJzz80ijqk39vM9tD6U1bzGMI6q1ernl7Aka0mI+qvplKcSJA+0op6MM4ca7wJZSDqcrGrRGM2s8iyXsZ8sMo6Q=
-X-Received: by 2002:ac8:22ea:: with SMTP id g39mr4421706qta.146.1596646426702;
- Wed, 05 Aug 2020 09:53:46 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=kL6Z+9qZ;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: tyhicks@linux.microsoft.com)
+Received: from sequoia.work.tihix.com (162-237-133-238.lightspeed.rcsntx.sbcglobal.net [162.237.133.238])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A5EBD20B490A;
+	Wed,  5 Aug 2020 09:56:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A5EBD20B490A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1596646598;
+	bh=AS9DUEI3QGh3zW4O+O0uZvKSGMNa9VQL6n9lT4vvl84=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kL6Z+9qZpfSJNjv7fe31z+uRVYHuJjxIpODaLlKPGa7ViPKzMarzOiwf0DN3T8wo4
+	 hk1loMaXEZf+5KzV8dEgpuxjxAkB7sezeHcl8FXkKcCt9qXUdTJhpGuGJAUiI+3kur
+	 rGrLGKw1v06swNfjjXY/Z6fZZpxQ3Dhqtc+6eBXc=
+From: tyhicks@linux.microsoft.com
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+Subject: [PATCH] kernel-devicetree: Fix intermittent build failures caused by DTB builds
+Date: Wed,  5 Aug 2020 11:56:12 -0500
+Message-Id: <20200805165612.53600-1-tyhicks@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200805061449.1029166-1-raj.khem@gmail.com> <20200805092610.GA27769@localhost>
-In-Reply-To: <20200805092610.GA27769@localhost>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 5 Aug 2020 09:53:20 -0700
-Message-ID: <CAMKF1spo2fcHvj=XD1g4pboMow+kXvWdDkPy_cBhBJzQSmSaUA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libunwind: Use -fcommon option to compile
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 5, 2020 at 2:26 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Tue, Aug 04, 2020 at 11:14:48PM -0700, Khem Raj wrote:
-> > defaults for gcc is to use -fno-common this ensures that it keeps using
-> > -fcommon until the real issue is fixed
-> >
-> > Fixes
-> > src/arm/Ginit.c:60: multiple definition of `_U_dyn_info_list'; mi/.libs/dyn-info-list.o:/usr/src/debug/libunwind/1.4.0-r0/build/src/../../libunwind-1.4.0/src/mi/dyn-info-list.c:28: first defined here
-> >...
->
-> The upstream fix is
-> https://github.com/libunwind/libunwind/commit/29e17d8d2ccbca07c423e3089a6d5ae8a1c9cb6e
->
+Fix a build-time race condition that resulted in intermittent build
+failures in the do_assemble_fitimage task. The race condition involved
+the do_assemble_fitimage task reading the vmlinux file while the
+do_compile_kernelmodules task was re-writing the vmlinux file.
 
-Thanks for suggesting this, I have sent a v2
+This can be seen with an aarch64 image build that uses a 5.4 based
+kernel and sets KERNEL_DEVICETREE. The problem is that the do_compile
+snippet that the kernel-devicetree class appends did not specify the
+full kernel build environment when building the DTB(s) from the kernel
+tree. This resulted in CONFIG_CC_CAN_LINK=3Dy being removed from the
+kernel config file just before the do_compile task completed. The
+CONFIG_CC_CAN_LINK=3Dy line was then re-inserted into the kernel config
+file as part of the do_compile_kernelmodules task.
 
-> cu
-> Adrian
+In some cases, this resulted in the do_compile_kernelmodules task to
+re-link vmlinux which sometimes occured at the same time that the
+do_assemble_fitimage task was attempting to use vmlinux. The
+do_assemble_fitimage task would fail with the following error message:
+
+ aarch64-poky-linux-objcopy:vmlinux: file format not recognized
+
+We can use the pine-a64-lts machine, from the meta-pine64 layer, to show
+that the kernel config file was changed between do_compile and
+do_compile_kernelmodules:
+
+ $ C=3Dtmp/work/pine_a64_lts-poky-linux/linux-pine64/5.7+gitAUTOINC+ae03b=
+ade3b-r0/linux-pine_a64_lts-standard-build/.config
+ $ bitbake -c do_kernel_configcheck virtual/kernel
+ ...
+ $ md5sum $C; grep CC_CAN_LINK $C
+ 32b133cf8a749a91f698a7ca8616c84f  ...
+ CONFIG_CC_CAN_LINK=3Dy
+
+ $ bitbake -c do_compile virtual/kernel
+ ...
+ $ md5sum $C; grep CC_CAN_LINK $C
+ 2fd2ec2a66eecc329dcb5afaf005eada  ...
+
+ $ bitbake -c do_compile_kernelmodules virtual/kernel
+ ...
+ $ md5sum $C; grep CC_CAN_LINK $C
+ 32b133cf8a749a91f698a7ca8616c84f  ...
+ CONFIG_CC_CAN_LINK=3Dy
+
+With this change, the do_compile snippet appended by the
+kernel-devicetree class does not modify the kernel config. The kernel
+config is unchanged across the do_compile and do_compile_kernelmodules
+tasks and do_compile_kernelmodules will not attempt to re-link vmlinux.
+
+Signed-off-by: Tyler Hicks <tyhicks@linux.microsoft.com>
+---
+ meta/classes/kernel-devicetree.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel=
+-devicetree.bbclass
+index 522c46575d12..81dda8003f46 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -52,7 +52,7 @@ do_configure_append() {
+ do_compile_append() {
+ 	for dtbf in ${KERNEL_DEVICETREE}; do
+ 		dtb=3D`normalize_dtb "$dtbf"`
+-		oe_runmake $dtb
++		oe_runmake $dtb CC=3D"${KERNEL_CC} $cc_extra " LD=3D"${KERNEL_LD}" ${K=
+ERNEL_EXTRA_ARGS}
+ 	done
+ }
+=20
+--=20
+2.17.1
+
