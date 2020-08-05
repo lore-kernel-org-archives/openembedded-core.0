@@ -1,126 +1,120 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.1497.1596607162529322867
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web12.1517.1596607236641391382
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2020 22:59:22 -0700
+ Tue, 04 Aug 2020 23:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MGXzgqms;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id f24so24546946ejx.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 22:59:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=R+m9j81F;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id m7so8550306qki.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 23:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=D17Jqvf4V0qGppL//46xUmbr9W1/Rvw1FexIJLVnzMw=;
-        b=MGXzgqmsxmwSyIcLVqOPTt4suRgFMBkMekE7F0pVRPeIBDuQ0orKAsXWXrlQb/dD6q
-         IkSYDjcm+g2RUwE2j1Xx6ucNu+Y0gFkQIL0BNiLQKuPrI8J5rdQJTpYxUC/HRmYukfEq
-         q9NW42oE3Mn4oqAafVa6xwlWCjCObsdhLyQAPfLGOuEBNSoGeCQVtCWT2LUSSOVynFV4
-         l4bRVdGpUo0gcUVAdd6ToyYsypY/fCkN0v/A8ztNjyHu2pGAto0Y5kVONXbAZE9QS09z
-         Z6BLMkLtvkLyD3Zp64BZ2cUMh1zyEPQJ0GpZFQT58nvKflUQpYe2fXCgbyVxb/vr1nYA
-         QiaQ==
+        bh=UnEvEisWsvp2LObF3hwApJK3azWMZwmj+CzL0gUW/Rc=;
+        b=R+m9j81FMVtZSDskycfwVf51SLFC6gw7AwHZzToaOEZTZzQ1V4qYBGaHI1e8whA4MA
+         XYoNDNqQp3XzJIaJAPhGEtiGHaa32P/NeJjrWKzXbAhFHv+g/370M/QeLKvofRG0qihp
+         q4YfzT4aOr9htnk5XZMQWdBNin7Ykz7JnmWEMUWKNtCVYg9HbqEIG0rJQN1q1MFt6iZg
+         pu/q528xC+5TDqfOfiNa08NeNT6ahhi1mnKP4k7xBiFTFVzzblz0UBXlwNXCt4KcIPom
+         U7VwlnVh4+fY936xK5HUaz8THMh8DSF73zjUcNQ6qh/j07QtZqX7gPoTWGHPcbcuGd7k
+         7cRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D17Jqvf4V0qGppL//46xUmbr9W1/Rvw1FexIJLVnzMw=;
-        b=fIg4OBEx5JLqBRdry1o4wllNjGDXErBzmHgce9C3pyDhemLVl4kX1oxqv9OclRY8eA
-         P8dPLLE5cmU5b/MRDOiC9lV3394fHiVxrPB1+z6/WXzSydqjWEyMPJH4HQsyhs/5Xedk
-         Gp3mbdiKJPVBcyWtf9XP7OBEEX+Gp8cwoAE2h7pRDK0JG/uIz6fQNjLshhCCS2Z0c+Pv
-         mLDw8RSjtWsZnA9dNvDUBI6GpEuVb+053DoU9N+mxLk2dsEU2b4QlnpTf4mZZJFv0/t+
-         /u+2MeTBdf2NwrnBXO5E3LZRi5jgWoR807sTaU0SDp2OTiBwIDyTK31Ud/Rm4iLEjN93
-         EzCg==
-X-Gm-Message-State: AOAM532RJTMhItZ1Q0vNS08XqTlE23km9jUAgmZ8mPIbHO7vTi5p8t4y
-	H1kzUO+lQX2RF6OKvsZTxePg3pMsJEJWNzJwzx0=
-X-Google-Smtp-Source: ABdhPJwt48ONliUYlI3h5bkOzeXZ+lfUD/oc1knuMrxP9uiDIKeCOQJwGbifAfql/5u6J0khckZ+eeuz9dccBfjbrTg=
-X-Received: by 2002:a17:907:11dd:: with SMTP id va29mr1684880ejb.470.1596607161009;
- Tue, 04 Aug 2020 22:59:21 -0700 (PDT)
+        bh=UnEvEisWsvp2LObF3hwApJK3azWMZwmj+CzL0gUW/Rc=;
+        b=JKHSwtUY/MssCid0vbIrTl2H/3+DfaraI7+i8zEz4wFwyRUrbESofTPSY3uc86iEiA
+         VByVVnGh+EQYYAtbWor3BSIDq38+6WKMsVhzddc09Qh+b+NERnHhZy0DIgpbcJIJyU9p
+         g3WUgviiHB8hxMXJZAsV5C/IZOmxToIfX2HR5YS0+QM4RKBTyxsN6oNl9U+iMG4hIu6r
+         Mzzr8JA2PBIlN9i1gRWkBnq4hrhzUCqDT3PAWlyqbC8EHFskLq60J69591vz0KqIdS5A
+         tOuRMkXH2mT9QnhMbX+pi0+cs1LxHhEQfE5XwgEzXUcWx0ngH3Q3su76kGPxNYf69LG+
+         ws+g==
+X-Gm-Message-State: AOAM531DlJOqwP+R42IHM+JD+2wt0KtPjf+ixfVYEsZaq3S1HE+KhYZT
+	LeTgF0NyV2zr9qmkqKdu+4p7PTgpzSSXO/n9Vl4=
+X-Google-Smtp-Source: ABdhPJwmPulIK17kd5fudWH3F5nK6tK6EYMnWKpdRnZsEBvH3NU6IFlIP5z8moISPMDzs2A//ErkZgr3xNhO7BinPCY=
+X-Received: by 2002:a05:620a:565:: with SMTP id p5mr1833520qkp.215.1596607235580;
+ Tue, 04 Aug 2020 23:00:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1596464561.git.steve@sakoman.com> <0a664b963c116786382fbba6f3386a7105a01122.1596464561.git.steve@sakoman.com>
- <a6cd8adae83c5cbe1aabc48fc2a613bc03f93f4e.camel@linuxfoundation.org>
-In-Reply-To: <a6cd8adae83c5cbe1aabc48fc2a613bc03f93f4e.camel@linuxfoundation.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 5 Aug 2020 07:59:09 +0200
-Message-ID: <CA+chaQdKyvwfSnMj6G=obKiUADNyVDKm20SJbhYopmDqWrqJsQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 05/12] layer.conf: fix adwaita-icon-theme signature change problem
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ad8a9605ac1b1268"
+References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
+ <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
+In-Reply-To: <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 4 Aug 2020 23:00:24 -0700
+Message-ID: <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001f69dd05ac1b175b"
 
---000000000000ad8a9605ac1b1268
+--0000000000001f69dd05ac1b175b
 Content-Type: text/plain; charset="UTF-8"
 
-We did the gtk-icon-cache.bbclass backport in:
-https://git.openembedded.org/openembedded-core/commit/meta/classes/gtk-icon-cache.bbclass?h=dunfell&id=e921edd27e71af00f07e3f1e973d2b0c6c777bf4
-but this fix, is only for adwaita-icon-them and other recipes using
-gtk-icon-cache might need identical fix as mentioned by Khem in review of
-this work around in master:
-https://lists.openembedded.org/g/openembedded-core/message/140910
+On Tue, Aug 4, 2020 at 10:05 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
 
-I guess it would be better to just
-revert e921edd27e71af00f07e3f1e973d2b0c6c777bf4 in dunfell and find better
-solution for master first.
-
-Cheers,
-
-On Tue, Aug 4, 2020 at 11:46 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Mon, 2020-08-03 at 04:26 -1000, Steve Sakoman wrote:
-> > From: Changqing Li <changqing.li@windriver.com>
+> On 8/5/20 2:14 AM, Khem Raj wrote:
+> > On Tue, Aug 4, 2020 at 1:20 AM Jacob Kroon <jacob.kroon@gmail.com>
+> wrote:
+> >>
+> >> It has been almost 3 months since the upgrade to gcc 10. Switch back to
+> >> relying on gcc default configuration (-fno-common).
+> >>
 > >
-> > allarch package adwaita-icon-theme inherit both allarch and
-> > gtk-icon-cache, since commit 31e3d34c8a9c3e8481aa837aa0bf52adf095fe62
-> > [gtk-icon-cache.bbclass: add runtime dependency]
+> > have you done a world build with this? In core+meta-oe I still see 70+
+> > recipes failing
+> > what will be good is if people start sending fixes before switching
+> > the defaults.
+> >
 >
-> Did we add that to dunfell? If not we don't need this fix?
+> Ah, that I haven't, only the images I use. Is there a list of failing
+> recipes available somewhere ?
+
+
+I think I posted the list when I submitted the gcc10 upgrade but this patch
+is already in master-next so Richard will soon share the Oe-core list
+atleast
+
 >
-> Cheers,
 >
-> Richard
->
-> 
+> Jacob
 >
 
---000000000000ad8a9605ac1b1268
+--0000000000001f69dd05ac1b175b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">We did the gtk-icon-cache.bbclass backport in:<div><a href=
-=
-=3D"https://git.openembedded.org/openembedded-core/commit/meta/classes/gtk=
--icon-cache.bbclass?h=3Ddunfell&amp;id=3De921edd27e71af00f07e3f1e973d2b0c6c=
-777bf4">https://git.openembedded.org/openembedded-core/commit/meta/classes/=
-gtk-icon-cache.bbclass?h=3Ddunfell&amp;id=3De921edd27e71af00f07e3f1e973d2b0=
-c6c777bf4</a><br></div><div>but this fix, is only for adwaita-icon-them and=
- other recipes using gtk-icon-cache might need identical fix as mentioned b=
-y Khem in review of this work around in master:</div><div><a href=3D"https:=
-//lists.openembedded.org/g/openembedded-core/message/140910">https://lists.=
-openembedded.org/g/openembedded-core/message/140910</a><br></div><div><br><=
-/div><div>I guess it would be better to just revert=C2=A0e921edd27e71af00f0=
-7e3f1e973d2b0c6c777bf4 in dunfell and find better solution for master first=
-.</div><div><br></div><div>Cheers,</div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 4, 2020 at 11:46 PM Ric=
-hard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richa=
-rd.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">On Mon, 2020-08-03 at 04:26 -1000, Steve Sakom=
-an wrote:<br>
-&gt; From: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.com" =
-target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Aug 4, 2020 at 10:05 PM Jacob Kroon &lt;<a href=3D"=
+mailto:jacob.kroon@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)">On 8/5/20 2:14 AM, Khem Raj wrote:<br>
+&gt; On Tue, Aug 4, 2020 at 1:20 AM Jacob Kroon &lt;<a href=3D"mailto:jacob=
+.kroon@gmail.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt; wrote:<br=
+>
+&gt;&gt;<br>
+&gt;&gt; It has been almost 3 months since the upgrade to gcc 10. Switch ba=
+ck to<br>
+&gt;&gt; relying on gcc default configuration (-fno-common).<br>
+&gt;&gt;<br>
 &gt; <br>
-&gt; allarch package adwaita-icon-theme inherit both allarch and<br>
-&gt; gtk-icon-cache, since commit 31e3d34c8a9c3e8481aa837aa0bf52adf095fe62=
+&gt; have you done a world build with this? In core+meta-oe I still see 70+=
 <br>
-&gt; [gtk-icon-cache.bbclass: add runtime dependency]<br>
+&gt; recipes failing<br>
+&gt; what will be good is if people start sending fixes before switching<br=
+>
+&gt; the defaults.<br>
+&gt; <br>
 <br>
-Did we add that to dunfell? If not we don&#39;t need this fix?<br>
+Ah, that I haven&#39;t, only the images I use. Is there a list of failing <=
+br>
+recipes available somewhere ?</blockquote><div dir=3D"auto"><br></div><div =
+dir=3D"auto">I think I posted the list when I submitted the gcc10 upgrade b=
+ut this patch is already in master-next so Richard will soon share the Oe-c=
+ore list atleast=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-=
+left:1ex;border-left-color:rgb(204,204,204)"><br>
 <br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div>
+Jacob<br>
+</blockquote></div></div>
 
---000000000000ad8a9605ac1b1268--
+--0000000000001f69dd05ac1b175b--
