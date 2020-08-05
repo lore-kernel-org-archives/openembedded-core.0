@@ -1,76 +1,50 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web11.954.1596603948427908170
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.1300.1596605908039173495
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2020 22:05:48 -0700
+ Tue, 04 Aug 2020 22:38:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C4Z/yDHi;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id k13so23604805lfo.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 22:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kfDi6QM4jaMj/BFE6Xwy4GEqhoMVhBkDi8jfdJXsc4M=;
-        b=C4Z/yDHikRdRvIDjP6EJBbtIJkL0sAfCSyhrYO6mbl66qF5HlHM6qXurmxyy+/axBp
-         MsGI6uT47W+1V3wXlxe2KiC4eEty5QY4+5CyDfhVfmVUpMQ9cHx9q/xGuxN6rrCgGc0S
-         8zu2eOqpRD4JSH17KE8C01gmyh9qaVJ7iI2K2NZW3vUNDZrLsG1abhSWIzYeQphQXg5l
-         eiKqTxYDVUMIo2kdADFaQp2jTsK4TBnZbH9iksv6AODbaC5y/kAuwz7c6HXHiCi3IP30
-         xxC2yYjbEgmqC4XOsvHl9huDAHgrJ1Delb8hokzICZFcziGCn9IQe5m1FQE97FXL/j6w
-         4SDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kfDi6QM4jaMj/BFE6Xwy4GEqhoMVhBkDi8jfdJXsc4M=;
-        b=ElFBqednBDCWa0RGQbZoiTh4NfD3TmOIUjbujhtIPK08PMm5nYkWUVyktdDOTt4Ypv
-         j3VfkfjrBqOkiMzqd1y81mePGv2NfJPGAMKiCaSeqZArRrHy+OQIS8sSIz9MH6J/9q5D
-         wB/rtLBRsNOROEzArZzB1y2/ie+E9Q1zsnvwMpZcRkMsdH6jp05G8TdDErKZTOtFzj0V
-         M+Zxfq3JvOrozhuqqd7owkiH0IVO4kfHn+AyyK7JvYsRCL3zeJ9KB/UK5BpHrPAMutGE
-         S4RQi4ycXRDJMeCP2RTGuhLyJQNjSG+3uO88dFKFCZLsYDSOtyaFexhbNic8JJhRvcKr
-         LFyw==
-X-Gm-Message-State: AOAM5335vioaY3LOWufyXD0ZK1cKbUFxly12z7K8b5OPHF5UuZ9KZDb8
-	ANxx3M7Mp+6gSx63PpxskP1c7/xp
-X-Google-Smtp-Source: ABdhPJyYI0G5Cb3GgJX378LSTgzowI6VMNvONt04AdOi/h6FTxkKBA04yUfZCgaX4sn+u/emQD8kSw==
-X-Received: by 2002:a19:ae0a:: with SMTP id f10mr710916lfc.100.1596603946224;
-        Tue, 04 Aug 2020 22:05:46 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id k12sm361892ljh.95.2020.08.04.22.05.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2020 22:05:45 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20200804082019.76320-1-jacob.kroon@gmail.com>
- <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
-Date: Wed, 5 Aug 2020 07:05:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=Mj3xVKMP;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from ALSAMON-X.corp.microsoft.com (unknown [131.107.159.250])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DE32620B4908
+	for <openembedded-core@lists.openembedded.org>; Tue,  4 Aug 2020 22:38:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DE32620B4908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1596605906;
+	bh=M/VEUbAIsU0xmPXs/vYkhM7OqcpHX1aqUvN0CtKlZeE=;
+	h=From:To:Subject:Date:From;
+	b=Mj3xVKMPK3NP7/FMgYsHY9wmlXsGiJoyMyeiveD6avEiz+D570vWgS5SPYgaGXn4D
+	 I3vja/w+2mYOfrLNrREANbVxASTz+dM9XEcaauwH3ggbncxI31wRe0w/uZb2X8arP7
+	 xXLA+uCiL1bhVr2qzWD+JF0QwvGOqvaCC67Zbp7Y=
+From: "Alejandro Hernandez" <alhe@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] musl: Upgrade to latest release 1.2.1
+Date: Tue,  4 Aug 2020 22:38:20 -0700
+Message-Id: <20200805053820.17794-1-alhe@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-On 8/5/20 2:14 AM, Khem Raj wrote:
-> On Tue, Aug 4, 2020 at 1:20 AM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->>
->> It has been almost 3 months since the upgrade to gcc 10. Switch back to
->> relying on gcc default configuration (-fno-common).
->>
-> 
-> have you done a world build with this? In core+meta-oe I still see 70+
-> recipes failing
-> what will be good is if people start sending fixes before switching
-> the defaults.
-> 
+Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+---
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ah, that I haven't, only the images I use. Is there a list of failing 
-recipes available somewhere ?
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index ed2178b5a4..51b19e89a5 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,9 +4,9 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "0a005f499cf39822166dd4db3d2d31f0639f1b1b"
++SRCREV = "73cc775bee53300c7cf759f37580220b18ac13d3"
+ 
+-BASEVER = "1.2.0"
++BASEVER = "1.2.1"
+ 
+ PV = "${BASEVER}+git${SRCPV}"
+ 
+-- 
+2.17.1
 
-Jacob
