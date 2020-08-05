@@ -1,74 +1,62 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.7275.1596634315323885891
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.7115.1596634338577536640
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 06:31:55 -0700
+ Wed, 05 Aug 2020 06:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YRFCLPMk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id c15so4494553wrs.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 06:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=3o4zySesyW5IDDDySP+NcDi0gTPyv+qaq7XNvBrcSS0=;
-        b=YRFCLPMkhl4xMxim+014pVKPfgFnzlk9uXC+k+BZW4o1Ht4BN3atxgahAwbj2llKFr
-         xj67YNMcCqh4VuSli8YG44Vi6SLs7+gQYUlL6Zfdc+fKiNs9TRfesgEcCDDCNHdyWnHz
-         CqTPp2CY8z9oR7CJ/Vjs4Re1Er0ggKF8/bPW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=3o4zySesyW5IDDDySP+NcDi0gTPyv+qaq7XNvBrcSS0=;
-        b=mWFq4g6tyNIqKsJho2F2YyqKkFBOoXf/Hx957xlHIn0Rnt9K6p8uuZFAVyhgNlqRBe
-         qd2Q7gjv3LOeTAjtCReJCoZoh6vBvbGkWgoGY9aNnsRptoT/HaFOk6rlaWayUK54ELWs
-         nB2KFJ3+6T78D7pcLetFfDWBHw10E2KfzdFYzNtBXYCi/NPlXh60ofgFUhsLRqZ88azA
-         NSCIoUYsEcvAvgEqo39I3b1TGvMS1jFEd4V6552o9frOK9ZuTIgwGzFkTh9PHgQUpbfR
-         4uzwcKkREg05VnPgbc41mNMbKluy8PwQJHjN2J5ndRInxDX4/zqDvjGnJuWsc6tgvyfl
-         9d4Q==
-X-Gm-Message-State: AOAM531LwbA1lch+siPwxsHr/1ObQhjyZP4gebf1U5gw4P+rlCkrBWbT
-	p3Ea9Fo6fzS48u/Wf2F9zQtMFw==
-X-Google-Smtp-Source: ABdhPJwTx5LNa1wJMhFd2eaKsSeJBMXY2VHCnpuRYMMsXrYKLE2biyYfrRLF2iIDrV3GqvASMmplKw==
-X-Received: by 2002:adf:a19e:: with SMTP id u30mr2776820wru.274.1596634313680;
-        Wed, 05 Aug 2020 06:31:53 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 1.8.8.2.4.4.9.8.7.6.b.0.9.5.0.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.8.8.2.4.4.9.8.7.6.b.0.9.5.0.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7059:b67:8944:2881])
-        by smtp.gmail.com with ESMTPSA id a3sm2749115wme.34.2020.08.05.06.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 06:31:53 -0700 (PDT)
-Message-ID: <41aab2e8335492a1e8aed97ee75219a3461504b0.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] allarch: Fix wrong dependencies
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Daniel Gomez <daniel@qtec.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 05 Aug 2020 14:31:52 +0100
-In-Reply-To: <20200805132224.616205-1-daniel@qtec.com>
-References: <20200805132224.616205-1-daniel@qtec.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AE6AC60F22;
+	Wed,  5 Aug 2020 13:32:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYWxsYXJjaDogRml4IHdyb25nIGRlcGVuZGVuY2llcw==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Daniel Gomez <daniel@qtec.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 05 Aug 2020 13:32:18 -0000
+Message-ID: <20200805133218.2264.64387@do>
+References: <20200805132224.616205-1-daniel@qtec.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200805132224.616205-1-daniel@qtec.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-08-05 at 15:22 +0200, Daniel Gomez wrote:
-> In all these cases, allarch is used but the package dependencies are not
-> allarch. It generates a conflict when the same package is built for different
-> MACHINES at the same time.
-> 
-> Here a build error for the ttf-ubuntu-font-family in a multiconfig enviroment:
+== Series Details ==
 
-This is on the wrong mailing list. I also thought there was code
-somewhere to remove font dependencies from changing the task
-signatures?
+Series: allarch: Fix wrong dependencies
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25470/
+State : failure
 
-http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/layer.conf
+== Summary ==
 
-see the lines like:
 
-liberation-fonts->fontconfig \
-cantarell-fonts->fontconfig \
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Perhaps meta-oe has some of those missing?
 
-Cheers,
 
-Richard
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
+  Patch's path:    meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 10221e578f)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
