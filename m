@@ -1,67 +1,135 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.10108.1596642655821113942
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web11.10271.1596642747189816994
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 08:51:01 -0700
+ Wed, 05 Aug 2020 08:52:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mzeng@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: matthew.zeng@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 075FoNMw009956
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Aug 2020 08:50:44 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 5 Aug 2020
- 08:50:19 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 21151)	id B42201FFED;
- Wed,  5 Aug 2020 11:50:18 -0400 (EDT)
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 075FqOwY007496
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 5 Aug 2020 08:52:24 -0700 (PDT)
+Received: from mt-manjaro (128.224.72.53) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 5 Aug
+ 2020 08:52:05 -0700
+References: <20200729130916.38764-1-matthew.zeng@windriver.com>
+ <d05d7357b7199a1e787d7f0510eaeacb46740a0a.camel@linuxfoundation.org>
+User-agent: mu4e 1.4.12; emacs 27.0.91
 From: "Matthew" <matthew.zeng@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] ltp: make copyFrom scp command non-fatal
-Date: Wed, 5 Aug 2020 11:50:18 -0400
-Message-ID: <20200805155018.8076-1-matthew.zeng@windriver.com>
-X-Mailer: git-send-email 2.27.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCHv2] ltp: remove OOM tests from runtest/mm
+In-Reply-To: <d05d7357b7199a1e787d7f0510eaeacb46740a0a.camel@linuxfoundation.org>
+Date: Wed, 5 Aug 2020 11:52:03 -0400
+Message-ID: <87h7thhyzg.fsf@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [128.224.72.53]
 Content-Type: text/plain
 
-[YOCTO #13802]
 
-Make the scp failure non-fatal so the ltp tests continue to run and
-the rest of the logs will be available to see afterwards.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
----
- meta/lib/oeqa/core/target/ssh.py | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> On Wed, 2020-07-29 at 09:09 -0400, Matthew wrote:
+>> Fixes [YOCTO #13802]
+>
+> Thanks, we can reference the bug but I don't think we can yet claim it
+> fixes it.
+>
+> The missing log issue happened again:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/908
+> so I think there are multiple issues at play here.
+>
+> Is there any way to have the logging logged to disk straight away
+> rather than stuck internally in oeqa's logging buffers? That way we
+> could see which tests had run before a hang?
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 090b40a814..1b78e830d4 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -61,9 +61,12 @@ class OESSHTarget(OETarget):
-         self.logger.debug("[Command returned '%d' after %.2f seconds]"
-                  "" % (status, time.time() - starttime))
- 
--        if status and not ignore_status:
--            raise AssertionError("Command '%s' returned non-zero exit "
--                                 "status %d:\n%s" % (command, status, output))
-+        if status:
-+            if not ignore_status:
-+                raise AssertionError("Command '%s' returned non-zero exit "
-+                                     "status %d:\n%s" % (command, status, output))
-+            else:
-+                self.logger.warning("Command '%s' returned non-zero exit status %d:\n%s" % (command, status, output))
- 
-         return (status, output)
- 
-@@ -113,7 +116,7 @@ class OESSHTarget(OETarget):
-         """
-         remotePath = '%s@%s:%s' % (self.user, self.ip, remoteSrc)
-         scpCmd = self.scp + [remotePath, localDst]
--        return self._run(scpCmd, ignore_status=False)
-+        return self._run(scpCmd, ignore_status=True)
- 
-     def copyDirTo(self, localSrc, remoteDst):
-         """
--- 
-2.27.0
+Ltp comes with zoo file already, is it what you're looking for?
 
+>
+> Also, could we make the scp failure non-fatal, maybe a warning so that
+> when it fails we can look at the rest of the logs?
+
+I submitted a patch that I think should achieve this idea, please have a look.
+
+>
+> Cheers,
+>
+> Richard
+>
+>> Remove the OOM tests, since they might cause oeqa ssh
+>> connection lost.
+>>
+>> Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+>> ---
+>>  ...001-Remove-OOM-tests-from-runtest-mm.patch | 33
+>> +++++++++++++++++++
+>>  meta/recipes-extended/ltp/ltp_20200515.bb     |  1 +
+>>  2 files changed, 34 insertions(+)
+>>  create mode 100644 meta/recipes-extended/ltp/ltp/0001-Remove-OOM-
+>> tests-from-runtest-mm.patch
+>>
+>> diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-
+>> from-runtest-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-
+>> OOM-tests-from-runtest-mm.patch
+>> new file mode 100644
+>> index 0000000000..2d8262be78
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-
+>> runtest-mm.patch
+>> @@ -0,0 +1,33 @@
+>> +From 373b21dcf7a2879c27cc3dbeac5d83f5d45d22ae Mon Sep 17 00:00:00
+>> 2001
+>> +From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
+>> +Date: Wed, 29 Jul 2020 08:47:09 -0400
+>> +Subject: [PATCH] Remove OOM tests from runtest/mm
+>> +
+>> +Disable OOM tests, as they might cause oeqa ssh connection lost
+>> +
+>> +Upstream-Status: Inappropriate [oe-core specific]
+>> +Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+>> +---
+>> + runtest/mm | 6 ------
+>> + 1 file changed, 6 deletions(-)
+>> +
+>> +diff --git a/runtest/mm b/runtest/mm
+>> +index 4701a14bd..2f9888ec6 100644
+>> +--- a/runtest/mm
+>> ++++ b/runtest/mm
+>> +@@ -75,12 +75,6 @@ ksm06_2 ksm06 -n 10000
+>> +
+>> + cpuset01 cpuset01
+>> +
+>> +-oom01 oom01
+>> +-oom02 oom02
+>> +-oom03 oom03
+>> +-oom04 oom04
+>> +-oom05 oom05
+>> +-
+>> + swapping01 swapping01 -i 5
+>> +
+>> + thp01 thp01 -I 120
+>> +--
+>> +2.27.0
+>> +
+>> diff --git a/meta/recipes-extended/ltp/ltp_20200515.bb
+>> b/meta/recipes-extended/ltp/ltp_20200515.bb
+>> index ece3acf0f9..0c7044d044 100644
+>> --- a/meta/recipes-extended/ltp/ltp_20200515.bb
+>> +++ b/meta/recipes-extended/ltp/ltp_20200515.bb
+>> @@ -37,6 +37,7 @@ SRC_URI = "git://github.com/linux-test-
+>> project/ltp.git \
+>>             file://0001-ptrace01-Fix-missing-format-string.patch \
+>>             file://0001-sigwaitinfo-Do-not-run-invalid-undefined-
+>> test-cases.patch \
+>>             file://0001-syscalls-copy_file_range02-Expect-EFBIG-in-
+>> subcase-m.patch \
+>> +           file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+>>             "
+>>
+>>  S = "${WORKDIR}/git"
+>> --
+>> 2.27.0
+>> 
+
+
+--
+Mingde (Matthew) Zeng
