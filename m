@@ -1,153 +1,127 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.8687.1596639007742756678
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.8875.1596639011032790478
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:50:07 -0700
+ Wed, 05 Aug 2020 07:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=d3W5nfeX;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id mt12so4639693pjb.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mJ1W33Sx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id o13so24573619pgf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=pGB0j65X/AefxL8ybpfswhcAJ7T6oaHyXa39WiYpPCM=;
-        b=d3W5nfeXnVsQNXN2u9EgRECsWinEFxB/teyIIqXnaOAbO0ZNyrSgvVZC64cQ1v695x
-         UwtQRD9JOoFbz5H+EsgdGzh8ZIFBqWDMw/ehbV/MexXcapUSycl4mZEEfckrIA+NuLds
-         BS95XUWl0W/GNc2oeYnDqkm234LAW41TVzOvaQEE7UtnLOze/aT6hmiWdrCv4hLCtAON
-         ASivDHAL1B2gmKXxuHPi02wgJVmce3GUc6Wb7o2HjazR4TokSoMHFrrXrd9FZgsmhaxF
-         +OX99JDVtRLI68Y9loGvrRKbq7J527Ec5oPIUG6oPDHForu/qfPWBNc7OWLZLSxjx6OJ
-         SqVA==
+        bh=chcDTGaIA/wWKJU9sVYKAA7JIOtpkR4qhdaGewj6+GQ=;
+        b=mJ1W33SxtKISoDdYgD+3iXayqqJ1Ydfsnrnh/6T+82ceCr4SMoejGBcXoHYcAlaC1D
+         86vIXDg3g5o0QF6V/Ou1SveKv9tTl4A1K16CobbhvCYCbB1lOblNZtiFhXDLGrLq8J74
+         FtJvW1jpy/F7XjYaCxkH+DsP5manjM7K+FObR+1g8MZ2ASnwHT8oVlDLTfDBSZExRXbe
+         ekI34qN4FwcQTm6GDdrNEbdNopPbm0KFCtLSRALYp086H6mifMTvfr+V9LSVHJdHGiCg
+         dHeqvCMJvO4SYKq+trNQtiNbq3c7v1Sg7i3Wru/YaKdUSf2yuXvh+QHa0pChKAqpwwpE
+         kbSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=pGB0j65X/AefxL8ybpfswhcAJ7T6oaHyXa39WiYpPCM=;
-        b=QSNSAAfF+48LjAuUEAfNI9bCehOz+3DrnFrt/E0G2uFQPdf4bZVr70kDEmUQk+3qws
-         W0iWUWINw95i/LMFz33EbLagJwWrrXULiDMU+iNz/ORdli1h+ghL/lpkH7LtbudrXobk
-         vNfz9iCqQ8QybS7B7G1O/7XNxZ+hZAxmSG7Akfps7qRObXEq/A7Ir12lE9Qm4YV11guU
-         5k5WqRXoUol1J63wJX6poZOxUMgYEcgmDiPv6d4jgS7lHh4xJmNgT7EYw+vwuZ73CyC3
-         XKw+y2kt+ZeV1JfxTs9hux3LNh8svKJJ12gNnpYKjBItWGhy67uJPwnh08vt1JHiK9od
-         Eq1Q==
-X-Gm-Message-State: AOAM531zV8/vY6sSPIL+vsvwvehs274bBCqZ6LTc+Zcd1rlW6RfaG1YM
-	AfvH6Qze4+KIFN4s88Ueij2Z4GCNxJw=
-X-Google-Smtp-Source: ABdhPJxCDFYVqJsT8yoECNLLsBiLlsfY4ZJ/aodL7/Y9CYc0si5EZ+FwUICJvYSVkG3L6nwI3j0s5A==
-X-Received: by 2002:a17:90a:f2d7:: with SMTP id gt23mr3773523pjb.0.1596639006799;
-        Wed, 05 Aug 2020 07:50:06 -0700 (PDT)
+        bh=chcDTGaIA/wWKJU9sVYKAA7JIOtpkR4qhdaGewj6+GQ=;
+        b=bEJiGqBOgoM2OwhKuaopyIbRmpsnhTSykEDFmm75JeGCd7HZQXggE7/IFTPxFI/RHh
+         5CdE+FE5ayC0/0nSSL/29gOkYYSMWYdAx27wctYJqEWouPsIhi/HVDLvF4j8Ldf9On+2
+         2yMKQKZkBx8McWLtN02FxMic5FlVYAa2QppQjHMb26G0e39SvK0LTf10FYNaYRz3AWHm
+         76b2c5dUxCz5JWYWrWsepsBIxYtWR8BWQ5CgxwFcd4Adjv8bWtkGVwkEelaRf1Jnfmjf
+         riiRVjXHcGmvCDcOo6SpNURCSpXr7fTkHKOc2q1fawylYFRQBu7JoZudNmzEA8vxzhDp
+         euhA==
+X-Gm-Message-State: AOAM532Vm3JPxrICksPotWbKG0ZG+HMd9BeH4/R2Z30lnbrWXvuqEljL
+	YhfdSF8K+iLtLdgPoZxMs9bKvqfxSSs=
+X-Google-Smtp-Source: ABdhPJwMVGET1Zfh4R37k2EoeEVaLn3G3yUM06Syk1kdf4QpkweyOAZzpmMtxSSt0/zZfztAGgeq3A==
+X-Received: by 2002:aa7:97a3:: with SMTP id d3mr3706322pfq.178.1596639009940;
+        Wed, 05 Aug 2020 07:50:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.05
+        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:50:06 -0700 (PDT)
+        Wed, 05 Aug 2020 07:50:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 02/11] initscripts: Fix populate-volatile.sh bug when file/dir exists
-Date: Wed,  5 Aug 2020 04:49:25 -1000
-Message-Id: <471094f8afa57548e9ff3fd7a99306f58b87d478.1596638643.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 03/11] checklayer: check layer in BBLAYERS before test
+Date: Wed,  5 Aug 2020 04:49:26 -1000
+Message-Id: <a10ff925584406e563edfb4042b44c3e8ea57ce3.1596638643.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1596638643.git.steve@sakoman.com>
 References: <cover.1596638643.git.steve@sakoman.com>
 
-From: Andrei Gherzan <andrei@gherzan.ro>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-The blocks which test for entry exitence (file or directory) use a
-`A && B || C` syntax. This form is not behaving as a if-then-else block
-even the code logic assumes that. C may run when A is true which breaks
-the case where VERBOSE is 'no' but the file/directory exists.
+layer under test should absent from BBLAYERS when running
+yocto-check-layer. This allow to get signatures before layer
+under test. There are existing steps to add the layer under
+test to BBLAYERS after getting initial signatures.
 
-Along with fixing these specific issues, this patch fixes the other
-instances where blocks of form `A && B || C` are used as if-then-else.
+add steps to check for layer under test in BBLAYERS before
+running any test, skip test for the layer if the layer under
+test exist in BBLAYERS.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+[YOCTO #13176]
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1b9ea22acb66554925720e04cf24100664234574)
+(cherry picked from commit be02e8dbfb0d1decce125322f9f1e11a649756c0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../initscripts-1.0/populate-volatile.sh      | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ scripts/lib/checklayer/__init__.py | 14 ++++++++++++++
+ scripts/yocto-check-layer          |  9 ++++++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index 3a265329f0..f21f48dd30 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -26,15 +26,15 @@ COREDEF="00_core"
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index f625d59896..fe545607bb 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -229,6 +229,20 @@ def add_layers(bblayersconf, layers, logger):
+                 f.write("\nBBLAYERS += \"%s\"\n" % path)
+     return True
  
- create_file() {
- 	EXEC=""
--	[ -z "$2" ] && {
-+	if [ -z "$2" ]; then
- 		EXEC="
- 		touch \"$1\";
- 		"
--	} || {
-+	else
- 		EXEC="
- 		cp \"$2\" \"$1\";
- 		"
--	}
-+	fi
- 	EXEC="
- 	${EXEC}
- 	chown ${TUSER}:${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
-@@ -42,9 +42,9 @@ create_file() {
++def check_bblayers(bblayersconf, layer_path, logger):
++    '''
++    If layer_path found in BBLAYERS return True
++    '''
++    import bb.parse
++    import bb.data
++
++    ldata = bb.parse.handle(bblayersconf, bb.data.init(), include=True)
++    for bblayer in (ldata.getVar('BBLAYERS') or '').split():
++        if os.path.normpath(bblayer) == os.path.normpath(layer_path):
++            return True
++
++    return False
++
+ def check_command(error_msg, cmd, cwd=None):
+     '''
+     Run a command under a shell, capture stdout and stderr in a single stream,
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index ca6c79bc8d..b7c83c8b54 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -24,7 +24,7 @@ import scriptpath
+ scriptpath.add_oe_lib_path()
+ scriptpath.add_bitbake_lib_path()
  
- 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+-from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_signatures
++from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_signatures, check_bblayers
+ from oeqa.utils.commands import get_bb_vars
  
--	[ -e "$1" ] && {
-+	if [ -e "$1" ]; then
- 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
--	} || {
-+	else
- 		if [ -z "$ROOT_DIR" ]; then
- 			eval "$EXEC"
- 		else
-@@ -54,7 +54,7 @@ create_file() {
- 			# run on target to set up the correct files and directories.
- 			eval "$EXEC" > /dev/null 2>&1
- 		fi
--	}
-+	fi
- }
+ PROGNAME = 'yocto-check-layer'
+@@ -138,6 +138,13 @@ def main():
+                 layer['type'] == LayerType.ERROR_BSP_DISTRO:
+             continue
  
- mk_dir() {
-@@ -64,9 +64,9 @@ mk_dir() {
- 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
- 
- 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
--	[ -e "$1" ] && {
-+	if [ -e "$1" ]; then
- 		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
--	} || {
-+	else
- 		if [ -z "$ROOT_DIR" ]; then
- 			eval "$EXEC"
- 		else
-@@ -74,7 +74,7 @@ mk_dir() {
- 			# not be logged.
- 			eval "$EXEC" > /dev/null 2>&1
- 		fi
--	}
-+	fi
- }
- 
- link_file() {
-@@ -188,13 +188,13 @@ apply_cfgfile() {
- 		[ -L "${TNAME}" ] && {
- 			[ "${VERBOSE}" != "no" ] && echo "Found link."
- 			NEWNAME=$(ls -l "${TNAME}" | sed -e 's/^.*-> \(.*\)$/\1/')
--			echo "${NEWNAME}" | grep -v "^/" >/dev/null && {
-+			if echo "${NEWNAME}" | grep -v "^/" >/dev/null; then
- 				TNAME="$(echo "${TNAME}" | sed -e 's@\(.*\)/.*@\1@')/${NEWNAME}"
- 				[ "${VERBOSE}" != "no" ] && echo "Converted relative linktarget to absolute path -${TNAME}-."
--			} || {
-+			else
- 				TNAME="${NEWNAME}"
- 				[ "${VERBOSE}" != "no" ] && echo "Using absolute link target -${TNAME}-."
--			}
-+			fi
- 		}
- 
- 		case "${TTYPE}" in
++        if check_bblayers(bblayersconf, layer['path'], logger):
++            logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
++               "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
++            results[layer['name']] = None
++            results_status[layer['name']] = 'SKIPPED (Layer under test should not present in BBLAYERS)'
++            continue
++
+         logger.info('')
+         logger.info("Setting up for %s(%s), %s" % (layer['name'], layer['type'],
+             layer['path']))
 -- 
 2.17.1
 
