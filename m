@@ -1,79 +1,193 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web12.6777.1596633341380574994
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.7080.1596633754826775934
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 06:15:41 -0700
+ Wed, 05 Aug 2020 06:22:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=N2oMEFtN;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id b30so24239767lfj.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 06:15:41 -0700 (PDT)
+ dkim=pass header.i=@qtec.com header.s=google header.b=gMBYxloX;
+ spf=pass (domain: qtec.com, ip: 209.85.167.44, mailfrom: daniel@qtec.com)
+Received: by mail-lf1-f44.google.com with SMTP id i80so24236343lfi.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 06:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jqTkOjMt4WLYTzONP+S75I7VE9bM3UsxyeIl5qYgv40=;
-        b=N2oMEFtNOpynB1rUGyi49i+e5lRertfja2WWldu5hkj47HCDbE2/sXSlHoCAPyDEC9
-         YsiZAWf1w3vchfqNgSRBGm3asHNqxeUg1pApLJB7DgWqwMc7KhmIdamuV028oMXhGGfA
-         m3bGen7vU9N8CYtU4Ux/Hlp79rhVs3um+dlY+2bNedUYMc2dSsr+9xgQLcRxMf1Rjdcj
-         z+5Y0hDb0XKdgsfQHKwgOa02pURptS8ca0mnS9FBZt6k/9I9yDzD1ndXiDeojnGz8Qun
-         D+PxHm1tDKxtnSt9uDwncJGLeWZ9SQt2sHMHJyLYk3gpw4CxUZ5qRKxlb6JNoU+EkK2N
-         ZPwA==
+        d=qtec.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uVQrJcSFdUIQ6bF59CR5TnJYrDaExRyR6GRHHGbFlmo=;
+        b=gMBYxloXqCOYzk8a1d70vPKD6D1MTyd+dbXNuTM6FpXYQxABsh81T1NPP3XOviTJTP
+         mzdaQpX2wO4Lm9uX7uJnqC/8WLOWX6IJjUu2FY7r/TmUchbvW+27pjCTcA8s9O1gS2nA
+         9jQXxaSmeMhg1qHpbhc3MwwFqzDmSP6l6XSUlewBLspE8/sh5fmTMtMvTNB8qsOo9uyW
+         LgG4CHz3gCxtft4Kt7szEss4KiuFlrlvyZkDVdEzTS+u/RXbaxeD96FgIXEXoIwjnl0f
+         8KjTG+8rXuk763iiu+FLKcNl9YEaIJ3N86sH0HfnTfc3jt/nsut3MnLQKehZoMMRs6UZ
+         NpbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jqTkOjMt4WLYTzONP+S75I7VE9bM3UsxyeIl5qYgv40=;
-        b=qCnL0SDyHDXYgwp35u2mQWxvZP7T+WqEjsdZ72zYvsjZa20ORdlTUsgL/QQ1/PCk3C
-         L9kfkj5i0p65VWdPTfonbrB4E/5ro5xt6L2wvvqCZHUBwVltE6SmWBgvlQViLEtCcgfH
-         psX9TQuldThxppznm9KMhnfSDkUnF7PGLxzgizs9D+Wt6DeIPXq5PMdHWBYmOT2b7L+y
-         hFypviVm2PVF45edEcWZ06kKEgEYOdirAkE3WnXBMfS3cwEaQ2vJSB9TsjkMEdeR0ikm
-         jd/baOjxqYYVmMSkHlWSK66Vm0rudFYcRuCqglkHo5TYJFA9ls2wI1gm+tRZIg6PDJya
-         c2Ig==
-X-Gm-Message-State: AOAM531n02rXLNeC9O+2ACHhFJpeL+j7YK6rfgKEicTL3sbugtAx0fJu
-	kAkQ31tdnUxzln3v1cXSDW2pL8cB
-X-Google-Smtp-Source: ABdhPJzwo68fMoLoWOGO+UgfMLP/XrfN4+ZY6kjFAJRqE1G7hrLHSWDpPpuV6OpRB+XuAlnHiEub+Q==
-X-Received: by 2002:ac2:4adb:: with SMTP id m27mr1630296lfp.90.1596633339302;
-        Wed, 05 Aug 2020 06:15:39 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id g11sm1112068lfc.46.2020.08.05.06.15.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Aug 2020 06:15:37 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20200804082019.76320-1-jacob.kroon@gmail.com>
- <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
- <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
- <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
- <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <3237f09f-7b55-97b2-9c39-8bc7bf1a62c9@gmail.com>
-Date: Wed, 5 Aug 2020 15:15:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=uVQrJcSFdUIQ6bF59CR5TnJYrDaExRyR6GRHHGbFlmo=;
+        b=YNxgqeqwDCi3bdKIHL0jQ18y8TXPFVBu9uPOyyDtRo6eqN80oSvZR/Hvgbdo9mC8aq
+         LpkQ6RePCRCyGRt84DrL5Kl5cNJxM9mmkPSHu+pYMNBx1BuVzTKDcHvkpDoaodfH7wT7
+         xe5fHV9DscvFUHCAIaHu/ub0RRxLm0iWtH2RENvq50XEnkrmY40FuDos/kWFUk/BgwB4
+         HIPCr+unbcUYsPW/OucVkNY1ueu/oWD58Ev7SaQgcYzNz+qWn6/nSkKQ8rZCgI+wHlWG
+         3UpDWiV+D3NlF99bLEijlZ6SaGt264B5pi07G80fmWFVFiFsyBetywtgq26+yg3E87BB
+         asrg==
+X-Gm-Message-State: AOAM532nskluHFoJw7AeCk8VqAK7qAoyXgMkp7EJScTo4vtjN5u4WZjM
+	Caqyqwcgn3tgVKVI9oR4iLaSQYw4M9bRO+j19LIURCtEK/hWrlxJzQoySmoQME5H6ZnmaH+sEsq
+	qYl8MzIAysoT8bwfO+2ksDGWU6Sc5O3ycGUhJRzNHSp6XJ9UybqIcgweF4fAI3/cgwraSTfJh/S
+	k6T2RIVTnfsA==
+X-Google-Smtp-Source: ABdhPJy2uh27kM6PEIhHNlT8vVAIGciMsMzx+9lGFmdy155xbwVd+hEu829TTb5UqtgUha4M9C60kQ==
+X-Received: by 2002:a19:983:: with SMTP id 125mr1617852lfj.129.1596633752389;
+        Wed, 05 Aug 2020 06:22:32 -0700 (PDT)
+Return-Path: <daniel@qtec.com>
+Received: from turia.fritz.box (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id x6sm1091667lff.64.2020.08.05.06.22.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2020 06:22:31 -0700 (PDT)
+From: "Daniel Gomez" <daniel@qtec.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel Gomez <daniel@qtec.com>
+Subject: [OE-core][PATCH] allarch: Fix wrong dependencies
+Date: Wed,  5 Aug 2020 15:22:24 +0200
+Message-Id: <20200805132224.616205-1-daniel@qtec.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/5/20 8:17 AM, Khem Raj wrote:
-> here is a recent build with clang11 which also switched to using
-> -fno-common and errors are pretty much same you will see with gcc10
-> with this patch to revert the -fcommon defaults.
-> 
-> https://errors.yoctoproject.org/Errors/Build/107234/?limit=100
-> 
-> I was waiting for upstream packages to get fixed before switching the
-> defaults back to -fno-common.
-> 
+In all these cases, allarch is used but the package dependencies are not
+allarch. It generates a conflict when the same package is built for different
+MACHINES at the same time.
 
-Yes I understand, maybe its better to hold this for now.
+Here a build error for the ttf-ubuntu-font-family in a multiconfig enviroment:
 
-Having a list of recipes that needs fixing would probably speed things 
-up. I can have a look at some of them.
+ERROR: mc:qt5507:ttf-ubuntu-font-family-0.83-r1
+do_package_write_deb:
+Fatal errors occurred in subprocesses:
+Command
+'PATH="/workdir/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/workdir/repo/poky/scripts:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot-native/usr/bin/allarch-poky-linux:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot/usr/bin/crossscripts:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot-native/usr/sbin:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot-native/usr/bin:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot-native/sbin:/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/recipe-sysroot-native/bin:/workdir/repo/poky/bitbake/bin:/workdir/build/tmp/hosttools"
+dpkg-deb -b
+/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/packages-split/ttf-ubuntu-sans
+/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/deploy-debs/all'
+returned non-zero exit status 2
+Subprocess output:dpkg-deb: building package 'ttf-ubuntu-sans' in
+'/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/deploy-debs/all'.
+dpkg-deb: error: unable to create
+'/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/deploy-debs/all':
+No such file or directory
 
-Jacob
+ERROR: mc:qt5507:ttf-ubuntu-font-family-0.83-r1
+do_package_write_deb:
+ERROR: mc:qt5507:ttf-ubuntu-font-family-0.83-r1
+do_package_write_deb:
+Function failed: do_package_deb
+ERROR: Logfile of failure stored in:
+/workdir/build/tmp/work/all-poky-linux/ttf-ubuntu-font-family/0.83-r1/temp/log.do_package_write_deb.11826
+NOTE: recipe ttf-ubuntu-font-family-0.83-r1: task
+do_package_write_deb:
+Failed
+ERROR: Task
+(multiconfig:qt5507:/workdir/repo/poky/../meta-qtec-hockey/recipes-graphics/ttf-fonts/ttf-ubuntu-font-family_0.83.bb:do_package_write_deb)
+failed with exit code '1'
+
+Similar patch:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-graphics/ttf-fonts?id=0d9f7900dec4ec68d8ad6c8a455e5b4f068e3715
+
+Signed-off-by: Daniel Gomez <daniel@qtec.com>
+---
+ meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb    | 2 +-
+ .../ttf-fonts/source-han-sans-cn-fonts_1.004.bb                 | 2 +-
+ .../ttf-fonts/source-han-sans-jp-fonts_1.004.bb                 | 2 +-
+ .../ttf-fonts/source-han-sans-kr-fonts_1.004.bb                 | 2 +-
+ .../ttf-fonts/source-han-sans-tw-fonts_1.004.bb                 | 2 +-
+ meta-oe/recipes-graphics/ttf-fonts/ttf-pt-sans_1.1.bb           | 2 +-
+ meta-oe/recipes-graphics/ttf-fonts/ttf.inc                      | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb b/meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb
+index c460fc35c..23a73b37b 100644
+--- a/meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb
++++ b/meta-oe/recipes-graphics/terminus-font/terminus-font_4.38.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ SRC_URI[md5sum] = "a8e792fe6e84c86ed2b6ed3e2a12ba66"
+ SRC_URI[sha256sum] = "f6f4876a4dabe6a37c270c20bb9e141e38fb50e0bba200e1b9d0470e5eed97b7"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+ PACKAGECONFIG[x11] = ""
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-cn-fonts_1.004.bb b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-cn-fonts_1.004.bb
+index 9fbfc8b49..04ab188e6 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-cn-fonts_1.004.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-cn-fonts_1.004.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/adobe-fonts/source-han-sans"
+ LICENSE = "OFL-1.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=55719faa0112708e946b820b24b14097"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ # Download tends to break - so - or not?
+ #EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-jp-fonts_1.004.bb b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-jp-fonts_1.004.bb
+index 4a26a2f57..bb54e8aa5 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-jp-fonts_1.004.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-jp-fonts_1.004.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/adobe-fonts/source-han-sans"
+ LICENSE = "OFL-1.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=55719faa0112708e946b820b24b14097"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ # Download tends to break - so - or not?
+ #EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-kr-fonts_1.004.bb b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-kr-fonts_1.004.bb
+index c91d1671f..52df396da 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-kr-fonts_1.004.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-kr-fonts_1.004.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/adobe-fonts/source-han-sans"
+ LICENSE = "OFL-1.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=55719faa0112708e946b820b24b14097"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ # Download tends to break - so - or not?
+ #EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-tw-fonts_1.004.bb b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-tw-fonts_1.004.bb
+index 728250538..3586836e6 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-tw-fonts_1.004.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/source-han-sans-tw-fonts_1.004.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://github.com/adobe-fonts/source-han-sans"
+ LICENSE = "OFL-1.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=55719faa0112708e946b820b24b14097"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ # Download tends to break - so - or not?
+ #EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/ttf-pt-sans_1.1.bb b/meta-oe/recipes-graphics/ttf-fonts/ttf-pt-sans_1.1.bb
+index ac60a365f..ee5cf6b3a 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/ttf-pt-sans_1.1.bb
++++ b/meta-oe/recipes-graphics/ttf-fonts/ttf-pt-sans_1.1.bb
+@@ -7,7 +7,7 @@ SECTION = "x11/fonts"
+ LICENSE = "ParaTypeFFL-1.3"
+ LIC_FILES_CHKSUM = "file://../PT%20Free%20Font%20License_eng.txt;md5=d720f3a281ed81c3f4cfc465e11b1d0d"
+
+-inherit allarch fontcache
++inherit fontcache
+
+ # Downloading from fedora because upstream doesn't version its zip file
+ # and causes hash build failures
+diff --git a/meta-oe/recipes-graphics/ttf-fonts/ttf.inc b/meta-oe/recipes-graphics/ttf-fonts/ttf.inc
+index c77af3993..9faa43a07 100644
+--- a/meta-oe/recipes-graphics/ttf-fonts/ttf.inc
++++ b/meta-oe/recipes-graphics/ttf-fonts/ttf.inc
+@@ -9,4 +9,4 @@ do_install() {
+     find ./ -name '*.tt[cf]' -exec install -m 0644 {} ${D}${datadir}/fonts/truetype/ \;
+ }
+
+-inherit allarch fontcache
++inherit fontcache
+--
+2.27.0
+
