@@ -1,127 +1,96 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.8875.1596639011032790478
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.8715.1596639013237318513
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:50:11 -0700
+ Wed, 05 Aug 2020 07:50:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mJ1W33Sx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id o13so24573619pgf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oUh5fXtU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id o1so25392367plk.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=chcDTGaIA/wWKJU9sVYKAA7JIOtpkR4qhdaGewj6+GQ=;
-        b=mJ1W33SxtKISoDdYgD+3iXayqqJ1Ydfsnrnh/6T+82ceCr4SMoejGBcXoHYcAlaC1D
-         86vIXDg3g5o0QF6V/Ou1SveKv9tTl4A1K16CobbhvCYCbB1lOblNZtiFhXDLGrLq8J74
-         FtJvW1jpy/F7XjYaCxkH+DsP5manjM7K+FObR+1g8MZ2ASnwHT8oVlDLTfDBSZExRXbe
-         ekI34qN4FwcQTm6GDdrNEbdNopPbm0KFCtLSRALYp086H6mifMTvfr+V9LSVHJdHGiCg
-         dHeqvCMJvO4SYKq+trNQtiNbq3c7v1Sg7i3Wru/YaKdUSf2yuXvh+QHa0pChKAqpwwpE
-         kbSQ==
+        bh=rQc2CQEwfB+FLd+mRxDE/MczrWT7+qfbpWmdcxfXE0A=;
+        b=oUh5fXtUkNi5QFQcC+AQct/O/KUOZy8V+0a54Y/18H5VKcAAsYYi8suma06GJeOG2O
+         +BsCix0UJ19b2C8ok5M3LYzOq5qfPFvk4Qs++h1WhBpfXqnDTZ/waejtlxsQak4lh0kt
+         FOE/cmJHSlN109OaO1ye52OKUQyUdWsx668evCmSe5fM4ShJwgtjeigH4Sma0t67zdp4
+         ak92sj59H5x/zMG+lAmhvz7xYlhNAbgz2bsWtljImQTXKBEyCGjte4krcRTAisIgiFXJ
+         G+MTkG4aUs0cC7PlCxQtfv9Dtgnp9CJSUD8yoW1uo4e2MKy4ZPDRc+HG+k84OQNRJikN
+         rAhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=chcDTGaIA/wWKJU9sVYKAA7JIOtpkR4qhdaGewj6+GQ=;
-        b=bEJiGqBOgoM2OwhKuaopyIbRmpsnhTSykEDFmm75JeGCd7HZQXggE7/IFTPxFI/RHh
-         5CdE+FE5ayC0/0nSSL/29gOkYYSMWYdAx27wctYJqEWouPsIhi/HVDLvF4j8Ldf9On+2
-         2yMKQKZkBx8McWLtN02FxMic5FlVYAa2QppQjHMb26G0e39SvK0LTf10FYNaYRz3AWHm
-         76b2c5dUxCz5JWYWrWsepsBIxYtWR8BWQ5CgxwFcd4Adjv8bWtkGVwkEelaRf1Jnfmjf
-         riiRVjXHcGmvCDcOo6SpNURCSpXr7fTkHKOc2q1fawylYFRQBu7JoZudNmzEA8vxzhDp
-         euhA==
-X-Gm-Message-State: AOAM532Vm3JPxrICksPotWbKG0ZG+HMd9BeH4/R2Z30lnbrWXvuqEljL
-	YhfdSF8K+iLtLdgPoZxMs9bKvqfxSSs=
-X-Google-Smtp-Source: ABdhPJwMVGET1Zfh4R37k2EoeEVaLn3G3yUM06Syk1kdf4QpkweyOAZzpmMtxSSt0/zZfztAGgeq3A==
-X-Received: by 2002:aa7:97a3:: with SMTP id d3mr3706322pfq.178.1596639009940;
-        Wed, 05 Aug 2020 07:50:09 -0700 (PDT)
+        bh=rQc2CQEwfB+FLd+mRxDE/MczrWT7+qfbpWmdcxfXE0A=;
+        b=oel+O10mdudmSTtTVEPAAFPt2OPfiM/ZROq99IHkGk49pX81jTSphTL9h2kIRQHgEX
+         MhhC0fukXwDJ6HqcML4S4JoyfXjwpLIVXFraJ5HI/RwSFBO/yV5uANuIntEjwm9ybXwF
+         +ft2OAnoG5mfL+SzbmtO+Yb+NFV9mhc+qQ27G4zFJVSkFWM+1GlgrV06gSsMSXedNEmI
+         mjn9cxO6ytbVGxwUX9Z6ZnZs/XXCoaFmQ9K7funpnrp/TpEor899gSPiImMpLMFOxSAj
+         9mamqbdWfP8P1qn4oP6FF3mDvZ7T/4HUa4ECyxk6X3m/oeqZWOET9nRU8AKCc9maCjtP
+         nUTg==
+X-Gm-Message-State: AOAM533hQDA9BoPwkk6JSLXpf3xlATQWZbWGLkPNrMDakzxAojqnSVgv
+	/KL5zlTEKJceGC6P01GogUncrTGR9m4=
+X-Google-Smtp-Source: ABdhPJwcPiWgxBB+dDjM2a1SBhntEGz13kNafB+rWLSqfF46AjkoluTr4FcpPhfjV9t+j/XwzouHZA==
+X-Received: by 2002:a17:902:bd01:: with SMTP id p1mr3562725pls.25.1596639012355;
+        Wed, 05 Aug 2020 07:50:12 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.08
+        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:50:09 -0700 (PDT)
+        Wed, 05 Aug 2020 07:50:11 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 03/11] checklayer: check layer in BBLAYERS before test
-Date: Wed,  5 Aug 2020 04:49:26 -1000
-Message-Id: <a10ff925584406e563edfb4042b44c3e8ea57ce3.1596638643.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 04/11] cve-update: handle baseMetricV2 as optional
+Date: Wed,  5 Aug 2020 04:49:27 -1000
+Message-Id: <135a6a4f55aed6148f45d01b307fadbd45be2997.1596638643.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1596638643.git.steve@sakoman.com>
 References: <cover.1596638643.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Konrad Weihmann <kweihmann@outlook.com>
 
-layer under test should absent from BBLAYERS when running
-yocto-check-layer. This allow to get signatures before layer
-under test. There are existing steps to add the layer under
-test to BBLAYERS after getting initial signatures.
+Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
+Let the parser handle it as an optional item.
+In case use baseMetricV2 before baseMetricV3
 
-add steps to check for layer under test in BBLAYERS before
-running any test, skip test for the layer if the layer under
-test exist in BBLAYERS.
-
-[YOCTO #13176]
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit be02e8dbfb0d1decce125322f9f1e11a649756c0)
+(cherry picked from commit fdcbf3f28289188c5a97664d1421d4a5c4991eda)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/checklayer/__init__.py | 14 ++++++++++++++
- scripts/yocto-check-layer          |  9 ++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index f625d59896..fe545607bb 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -229,6 +229,20 @@ def add_layers(bblayersconf, layers, logger):
-                 f.write("\nBBLAYERS += \"%s\"\n" % path)
-     return True
- 
-+def check_bblayers(bblayersconf, layer_path, logger):
-+    '''
-+    If layer_path found in BBLAYERS return True
-+    '''
-+    import bb.parse
-+    import bb.data
-+
-+    ldata = bb.parse.handle(bblayersconf, bb.data.init(), include=True)
-+    for bblayer in (ldata.getVar('BBLAYERS') or '').split():
-+        if os.path.normpath(bblayer) == os.path.normpath(layer_path):
-+            return True
-+
-+    return False
-+
- def check_command(error_msg, cmd, cwd=None):
-     '''
-     Run a command under a shell, capture stdout and stderr in a single stream,
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index ca6c79bc8d..b7c83c8b54 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -24,7 +24,7 @@ import scriptpath
- scriptpath.add_oe_lib_path()
- scriptpath.add_bitbake_lib_path()
- 
--from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_signatures
-+from checklayer import LayerType, detect_layers, add_layers, add_layer_dependencies, get_signatures, check_bblayers
- from oeqa.utils.commands import get_bb_vars
- 
- PROGNAME = 'yocto-check-layer'
-@@ -138,6 +138,13 @@ def main():
-                 layer['type'] == LayerType.ERROR_BSP_DISTRO:
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index f27ade40db..32d6dbdffc 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -176,15 +176,20 @@ def update_db(c, jsondata):
+         if not elt['impact']:
              continue
  
-+        if check_bblayers(bblayersconf, layer['path'], logger):
-+            logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
-+               "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
-+            results[layer['name']] = None
-+            results_status[layer['name']] = 'SKIPPED (Layer under test should not present in BBLAYERS)'
-+            continue
-+
-         logger.info('')
-         logger.info("Setting up for %s(%s), %s" % (layer['name'], layer['type'],
-             layer['path']))
++        accessVector = None
+         cveId = elt['cve']['CVE_data_meta']['ID']
+         cveDesc = elt['cve']['description']['description_data'][0]['value']
+         date = elt['lastModifiedDate']
+-        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
+-        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
+-
+         try:
++            accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
++            cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
++        except KeyError:
++            cvssv2 = 0.0
++        try:
++            accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
+             cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
+-        except:
++        except KeyError:
++            accessVector = accessVector or "UNKNOWN"
+             cvssv3 = 0.0
+ 
+         c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
 -- 
 2.17.1
 
