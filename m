@@ -1,120 +1,75 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web12.1517.1596607236641391382
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web12.1656.1596608092692181361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2020 23:00:36 -0700
+ Tue, 04 Aug 2020 23:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=R+m9j81F;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id m7so8550306qki.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 23:00:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lh150GkM;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id p8so7735100pgn.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 23:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UnEvEisWsvp2LObF3hwApJK3azWMZwmj+CzL0gUW/Rc=;
-        b=R+m9j81FMVtZSDskycfwVf51SLFC6gw7AwHZzToaOEZTZzQ1V4qYBGaHI1e8whA4MA
-         XYoNDNqQp3XzJIaJAPhGEtiGHaa32P/NeJjrWKzXbAhFHv+g/370M/QeLKvofRG0qihp
-         q4YfzT4aOr9htnk5XZMQWdBNin7Ykz7JnmWEMUWKNtCVYg9HbqEIG0rJQN1q1MFt6iZg
-         pu/q528xC+5TDqfOfiNa08NeNT6ahhi1mnKP4k7xBiFTFVzzblz0UBXlwNXCt4KcIPom
-         U7VwlnVh4+fY936xK5HUaz8THMh8DSF73zjUcNQ6qh/j07QtZqX7gPoTWGHPcbcuGd7k
-         7cRA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lqCGcWaD7dKXY/VpyCCrlw5FUwXqqcT1nQ0vWbJY4HE=;
+        b=lh150GkMTgIgxRQtFM1W6RaYkofEPeIw4FOECNLf9jrWYEn5fsfE3y5yodlvofcP0S
+         ZmuxU9HQNfFwmX5/oUTyDFQUwXoJRiYYQBa6p0sMbUVenYk/0RgzkXEzTL7Oq4XImuTA
+         /C0ehDy6V9g5bzBi0tZmGjt16MHWNiDQBKRPPDRlz5F5Arni3RvF/XPRAPrWMmTKYRoz
+         BtX4DLY/hlGH9WhiUw5BDq2dJ/9F6hJuQwZU/321TFGOgQSifNlk2h2OpzlRpONV2VKo
+         OXE6v20fyszBan6jnir2hbwzZ1JMrQjvoTzWpEvbFl70Ey+O66AEjmzDwQlMxJTD+v/V
+         eOHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UnEvEisWsvp2LObF3hwApJK3azWMZwmj+CzL0gUW/Rc=;
-        b=JKHSwtUY/MssCid0vbIrTl2H/3+DfaraI7+i8zEz4wFwyRUrbESofTPSY3uc86iEiA
-         VByVVnGh+EQYYAtbWor3BSIDq38+6WKMsVhzddc09Qh+b+NERnHhZy0DIgpbcJIJyU9p
-         g3WUgviiHB8hxMXJZAsV5C/IZOmxToIfX2HR5YS0+QM4RKBTyxsN6oNl9U+iMG4hIu6r
-         Mzzr8JA2PBIlN9i1gRWkBnq4hrhzUCqDT3PAWlyqbC8EHFskLq60J69591vz0KqIdS5A
-         tOuRMkXH2mT9QnhMbX+pi0+cs1LxHhEQfE5XwgEzXUcWx0ngH3Q3su76kGPxNYf69LG+
-         ws+g==
-X-Gm-Message-State: AOAM531DlJOqwP+R42IHM+JD+2wt0KtPjf+ixfVYEsZaq3S1HE+KhYZT
-	LeTgF0NyV2zr9qmkqKdu+4p7PTgpzSSXO/n9Vl4=
-X-Google-Smtp-Source: ABdhPJwmPulIK17kd5fudWH3F5nK6tK6EYMnWKpdRnZsEBvH3NU6IFlIP5z8moISPMDzs2A//ErkZgr3xNhO7BinPCY=
-X-Received: by 2002:a05:620a:565:: with SMTP id p5mr1833520qkp.215.1596607235580;
- Tue, 04 Aug 2020 23:00:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
- <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
-In-Reply-To: <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lqCGcWaD7dKXY/VpyCCrlw5FUwXqqcT1nQ0vWbJY4HE=;
+        b=CJ59wmIBlE/QYG0DVadZDd5XOJEIeRoYpGOfQbIUOdtSpE2U6fYrLTrT5LDfX/WSus
+         kYk1MvxEF2Jo6R876A9nrlwKc3WVQXFkOs/lOALwlqLN7tV+s168Tap96uHUBEYAvF5p
+         k2Y8+3//Z7qM8/WZTvsAVb4X+7/b22MOoCtRcXwh2by7aWNf0J2VA0DJEUf86l1a4hUU
+         egSBjBwojMtrLH50AuZIRNq7IRg/YA1IsHaDncUKHgVwb/lRrkzET3x/B2jW997Zp8Q7
+         JwwcMQV27Zpa0vbgPBCgHrhwDPM2d6fqC+2kfV7ZgiqeUqM4ARvjlNjjmpuTE+Vuu9Ws
+         w2gA==
+X-Gm-Message-State: AOAM5321UYjwFgpbyv2GA889ixFi1x81a67ZAdSxbQ8OLT3HIlgRLlQp
+	Bvphpjekj05ifaV4GY6HK2k7t1bnp2c=
+X-Google-Smtp-Source: ABdhPJzhVgmBZJbym3Vn5DEjrWG6WROn2aD3OD2oQEefbNDwLegapk/AzZRsg3YFL5xoGYZG02b+NQ==
+X-Received: by 2002:a63:8ec8:: with SMTP id k191mr1687459pge.154.1596608091693;
+        Tue, 04 Aug 2020 23:14:51 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e60c])
+        by smtp.gmail.com with ESMTPSA id a134sm1608405pfd.219.2020.08.04.23.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2020 23:14:51 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 4 Aug 2020 23:00:24 -0700
-Message-ID: <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001f69dd05ac1b175b"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] libunwind: Use -fcommon option to compile
+Date: Tue,  4 Aug 2020 23:14:48 -0700
+Message-Id: <20200805061449.1029166-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---0000000000001f69dd05ac1b175b
-Content-Type: text/plain; charset="UTF-8"
+defaults for gcc is to use -fno-common this ensures that it keeps using
+-fcommon until the real issue is fixed
 
-On Tue, Aug 4, 2020 at 10:05 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+Fixes
+src/arm/Ginit.c:60: multiple definition of `_U_dyn_info_list'; mi/.libs/dyn-info-list.o:/usr/src/debug/libunwind/1.4.0-r0/build/src/../../libunwind-1.4.0/src/mi/dyn-info-list.c:28: first defined here
 
-> On 8/5/20 2:14 AM, Khem Raj wrote:
-> > On Tue, Aug 4, 2020 at 1:20 AM Jacob Kroon <jacob.kroon@gmail.com>
-> wrote:
-> >>
-> >> It has been almost 3 months since the upgrade to gcc 10. Switch back to
-> >> relying on gcc default configuration (-fno-common).
-> >>
-> >
-> > have you done a world build with this? In core+meta-oe I still see 70+
-> > recipes failing
-> > what will be good is if people start sending fixes before switching
-> > the defaults.
-> >
->
-> Ah, that I haven't, only the images I use. Is there a list of failing
-> recipes available somewhere ?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/libunwind/libunwind_1.4.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-support/libunwind/libunwind_1.4.0.bb b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
+index 34c2249e91..a0bfec90b5 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.4.0.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
+@@ -23,3 +23,5 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
+ LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+ 
+ SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared"
++
++CFLAGS += "-fcommon"
+-- 
+2.28.0
 
-I think I posted the list when I submitted the gcc10 upgrade but this patch
-is already in master-next so Richard will soon share the Oe-core list
-atleast
-
->
->
-> Jacob
->
-
---0000000000001f69dd05ac1b175b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Aug 4, 2020 at 10:05 PM Jacob Kroon &lt;<a href=3D"=
-mailto:jacob.kroon@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
-rgb(204,204,204)">On 8/5/20 2:14 AM, Khem Raj wrote:<br>
-&gt; On Tue, Aug 4, 2020 at 1:20 AM Jacob Kroon &lt;<a href=3D"mailto:jacob=
-.kroon@gmail.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt; wrote:<br=
->
-&gt;&gt;<br>
-&gt;&gt; It has been almost 3 months since the upgrade to gcc 10. Switch ba=
-ck to<br>
-&gt;&gt; relying on gcc default configuration (-fno-common).<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; have you done a world build with this? In core+meta-oe I still see 70+=
-<br>
-&gt; recipes failing<br>
-&gt; what will be good is if people start sending fixes before switching<br=
->
-&gt; the defaults.<br>
-&gt; <br>
-<br>
-Ah, that I haven&#39;t, only the images I use. Is there a list of failing <=
-br>
-recipes available somewhere ?</blockquote><div dir=3D"auto"><br></div><div =
-dir=3D"auto">I think I posted the list when I submitted the gcc10 upgrade b=
-ut this patch is already in master-next so Richard will soon share the Oe-c=
-ore list atleast=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-=
-left:1ex;border-left-color:rgb(204,204,204)"><br>
-<br>
-Jacob<br>
-</blockquote></div></div>
-
---0000000000001f69dd05ac1b175b--
