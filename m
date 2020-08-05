@@ -1,73 +1,75 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
- by mx.groups.io with SMTP id smtpd.web12.1656.1596608092692181361
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web12.1657.1596608093333426641
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Aug 2020 23:14:52 -0700
+ Tue, 04 Aug 2020 23:14:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lh150GkM;
- spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f194.google.com with SMTP id p8so7735100pgn.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 23:14:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IoWb/mG0;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id g33so6416727pgb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Aug 2020 23:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lqCGcWaD7dKXY/VpyCCrlw5FUwXqqcT1nQ0vWbJY4HE=;
-        b=lh150GkMTgIgxRQtFM1W6RaYkofEPeIw4FOECNLf9jrWYEn5fsfE3y5yodlvofcP0S
-         ZmuxU9HQNfFwmX5/oUTyDFQUwXoJRiYYQBa6p0sMbUVenYk/0RgzkXEzTL7Oq4XImuTA
-         /C0ehDy6V9g5bzBi0tZmGjt16MHWNiDQBKRPPDRlz5F5Arni3RvF/XPRAPrWMmTKYRoz
-         BtX4DLY/hlGH9WhiUw5BDq2dJ/9F6hJuQwZU/321TFGOgQSifNlk2h2OpzlRpONV2VKo
-         OXE6v20fyszBan6jnir2hbwzZ1JMrQjvoTzWpEvbFl70Ey+O66AEjmzDwQlMxJTD+v/V
-         eOHA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9+Eze62MmYFDqePu2mB9qskd6m0O4+P+FDTflMHYzYM=;
+        b=IoWb/mG0Xe0V9o538C4uwUZSdbu3qSHlIhXVCmt0lP/l3nJxXbpKCrWaaxoEvSlH0Q
+         eG9bVVb2K23efZY+okq7i1XkolFiqkTfByfK69xHT4hcWjjJDuWbv5gQdktJlaG6mqz/
+         PSEasKuGGGoEYWl0e/2PrFyVKz2RW8LmFNUAydT1n2ENi7usqPZONof0jqCHLt/9Lho3
+         4FlS8T2/hYHRjWQuM01WM4O1T4Ir9N1Kqv7dqgp07vAtKrE4Xyr+x76bjTx2/o3vg1Ce
+         jBz9GjhOW1M8AfqzFqjiIbmwkDUqZWUYwlEjAZm0DuBhD6MJYaEpqvPMaRpAC6O286re
+         puhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lqCGcWaD7dKXY/VpyCCrlw5FUwXqqcT1nQ0vWbJY4HE=;
-        b=CJ59wmIBlE/QYG0DVadZDd5XOJEIeRoYpGOfQbIUOdtSpE2U6fYrLTrT5LDfX/WSus
-         kYk1MvxEF2Jo6R876A9nrlwKc3WVQXFkOs/lOALwlqLN7tV+s168Tap96uHUBEYAvF5p
-         k2Y8+3//Z7qM8/WZTvsAVb4X+7/b22MOoCtRcXwh2by7aWNf0J2VA0DJEUf86l1a4hUU
-         egSBjBwojMtrLH50AuZIRNq7IRg/YA1IsHaDncUKHgVwb/lRrkzET3x/B2jW997Zp8Q7
-         JwwcMQV27Zpa0vbgPBCgHrhwDPM2d6fqC+2kfV7ZgiqeUqM4ARvjlNjjmpuTE+Vuu9Ws
-         w2gA==
-X-Gm-Message-State: AOAM5321UYjwFgpbyv2GA889ixFi1x81a67ZAdSxbQ8OLT3HIlgRLlQp
-	Bvphpjekj05ifaV4GY6HK2k7t1bnp2c=
-X-Google-Smtp-Source: ABdhPJzhVgmBZJbym3Vn5DEjrWG6WROn2aD3OD2oQEefbNDwLegapk/AzZRsg3YFL5xoGYZG02b+NQ==
-X-Received: by 2002:a63:8ec8:: with SMTP id k191mr1687459pge.154.1596608091693;
-        Tue, 04 Aug 2020 23:14:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9+Eze62MmYFDqePu2mB9qskd6m0O4+P+FDTflMHYzYM=;
+        b=YHZGxC7NDLliyiEHG2fxBoGj2jJY4Myjc8NXFwxYLhti1nIWfr0CdQ9TqezQmTUfT1
+         Yptne4v1ryTTrz/PSilygDAaLxAMsA0OfKbCxWds6wkrsJb8xs1xnD9HLTz7rlYcXTe6
+         DBBbslux4q3zVKpifqopIRzItiAinXvGLDolXxk196whXaDhIth9pd4CzAWTrzIgDvTB
+         XKiXT9YI+Uf4LrurYS/u/aNvciIINPdoXOIHgAI0Of+Ek6Ph5OkMWz4RYdTqrj2YyGRe
+         n2MKoU+0jWwt3oCZ7aaI4+7PWYzeTx+z3Gmz1RJ1K77W6sFBANHajfmIpjEVha1Ke7z4
+         6VqQ==
+X-Gm-Message-State: AOAM5338onDJY6H5MVboPQYnEz3Rw7HphpVPiZYbNX5Y4rDtOq9lpcz2
+	33OPmLTHmxhvfhuzUUWKSpiabED4OaE=
+X-Google-Smtp-Source: ABdhPJyKCKTFSUh0HIvcJPZLTHuutLq8H3hD8Hwoh86Y7aU+LHbyFa1brVQ1uz83DExJFpzlI5LFsw==
+X-Received: by 2002:a63:1f04:: with SMTP id f4mr1663259pgf.34.1596608092460;
+        Tue, 04 Aug 2020 23:14:52 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e60c])
-        by smtp.gmail.com with ESMTPSA id a134sm1608405pfd.219.2020.08.04.23.14.50
+        by smtp.gmail.com with ESMTPSA id a134sm1608405pfd.219.2020.08.04.23.14.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 23:14:51 -0700 (PDT)
+        Tue, 04 Aug 2020 23:14:52 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] libunwind: Use -fcommon option to compile
-Date: Tue,  4 Aug 2020 23:14:48 -0700
-Message-Id: <20200805061449.1029166-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] dhcp: Use -fcommon compiler option
+Date: Tue,  4 Aug 2020 23:14:49 -0700
+Message-Id: <20200805061449.1029166-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200805061449.1029166-1-raj.khem@gmail.com>
+References: <20200805061449.1029166-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-defaults for gcc is to use -fno-common this ensures that it keeps using
--fcommon until the real issue is fixed
+This ensures -fcommon is still used when compiler defaults to
+-fno-common in gcc10 and clang11
 
 Fixes
-src/arm/Ginit.c:60: multiple definition of `_U_dyn_info_list'; mi/.libs/dyn-info-list.o:/usr/src/debug/libunwind/1.4.0-r0/build/src/../../libunwind-1.4.0/src/mi/dyn-info-list.c:28: first defined here
+dhcp-4.4.2/server/mdb.c:70: multiple definition of `dhcp_type_host'; dhcpd-omapi.o:/usr/src/debug/dhcp/4.4.2-r0/dhcp-4.4.2/server/omapi.c:50: first defined here
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libunwind/libunwind_1.4.0.bb | 2 ++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libunwind/libunwind_1.4.0.bb b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
-index 34c2249e91..a0bfec90b5 100644
---- a/meta/recipes-support/libunwind/libunwind_1.4.0.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
-@@ -23,3 +23,5 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
- LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+index b56a204821..cf4af82609 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+@@ -19,3 +19,5 @@ LDFLAGS_append = " -pthread"
  
- SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared"
+ PACKAGECONFIG ?= ""
+ PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
 +
 +CFLAGS += "-fcommon"
 -- 
