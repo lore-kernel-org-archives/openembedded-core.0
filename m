@@ -1,90 +1,75 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web12.7943.1596636793298836110
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web10.7925.1596636845149105905
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:13:13 -0700
+ Wed, 05 Aug 2020 07:14:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qtec.com header.s=google header.b=gz++HRo8;
- spf=pass (domain: qtec.com, ip: 209.85.208.195, mailfrom: daniel@qtec.com)
-Received: by mail-lj1-f195.google.com with SMTP id w25so12404719ljo.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:13:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rTkNYuNe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.67, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f67.google.com with SMTP id c15so22972899edj.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xRRXUjeJJs5rUEVzDbnlYNySRso+rAbDE6w00UwQpOk=;
-        b=gz++HRo8fXy1Zck/ohE5T1rVoEFXv6YO2jzIgpA9kHvgEjd9jm8KqX4SgtPHDWbui3
-         9Rkb/AsFoQJc1OhH10PVRho8PkQCu4QtfRqwZZT9BxDijJhBTz4uYTmhi1siWHyliDcp
-         F5T7XxCWzGOOlFanZd4QukDDOfnFQr1WzM8z/AbwGqHK/kQvW5BKEMf+SDtJBZQyfVxs
-         CJzbxqizUbHPej6bHhmwQab65kjHPpaImFTHhqPMu4sDoy8IJ6jvYmKxqL9fPMDxlO3i
-         9oo2KRWX38BVLruKNvH/RP4AnjM+VEhDIVVvzze1BSQvEYQ0EhSvMxmNYzHbEGA09PgT
-         F2HA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ghV89hGpfMHZu1kA6dkMs6QBHGmK3bD+5iQfDuHZEeo=;
+        b=rTkNYuNe0VlA08DDB2ZJ/jHisa7rPE0vFBJlcicj+d4emRRm63gaeijMePFx0Ky2iO
+         Wag47QkHXdmsvexKXgJPX7fLNLKZjxK3eNL9mTiybdWllalQDYcRfMrs6PoMqLb1AJ23
+         GOZUi7xQnUIHdYz4s6qiPD6aXUPby4IvoOh6XUfwMUqScewZ6+QeBe3WPLEvE7yLmYKT
+         QJBuk6DkmSUCln/HYWC/JGRii9HF32rRcnQcK9S4ZG79rUmzJMJpoSH2/73CV/oH3XkT
+         YZeRtWh5Wf86ssbnRaqt7ELwzypgSmQXJXiSyya0hO+A55hFikI6lm8fAWaQd+G0y5yK
+         PYPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xRRXUjeJJs5rUEVzDbnlYNySRso+rAbDE6w00UwQpOk=;
-        b=Voy7dgh2REAfh5hSGnaZ7eFVdr6KCqSOcfWrNl5pHOl7PS3U3eBKeYiqDoGX5AFtg/
-         PqTiAlG3Bw0HjoDl5cXYVOZsWWeLqTDB6YqUf1aWgqqOJQGD8wD6n8EJGKCw94XHjWxE
-         oMZjGhMnedIs838WeC190A7CParZHm71IwsNVH1EXe8mgWh4oijPyJ0D47x0a+Jo7Ecf
-         gyYpud+nz1HDCF37jzGd120BJU4WUzQpvHjzb7/MCfNpcDS/QXJaif94P42jdlvMTFoA
-         1N3QqCYJ+pdlCLuYxfP7QuguhC6yiCjjTNwpbWBBwVpQzZrnva2wCzA2u8wRKE7OImFF
-         vVxg==
-X-Gm-Message-State: AOAM530wnC+P8GdwZVE+BGcpCtG00QDt2Q4ncTrco43nYWRfiuIVp3Zf
-	DtRLqoUTWeKN4nlaH5CFPNNGXiev2gJdg+lVjuqLbragE7P5Xf6m8L0n7IHkAZga+Za9qGaHm6X
-	FUurV8y0JsxHs9WqvLGV6hwa0hiIk0GZYvjYcjAH77tcVfs99OiQ01vu/gcqBHuVO0GvhP7lIAr
-	mR+q38bl9ctg==
-X-Google-Smtp-Source: ABdhPJyoIVZOLefXbhz36KnaNHHdYG3P6UnVXfgbRipLTLAUKw3vXjtZyc4x06ilXWmHSKG0yP5U0Q==
-X-Received: by 2002:a2e:9d1a:: with SMTP id t26mr692931lji.297.1596636790815;
-        Wed, 05 Aug 2020 07:13:10 -0700 (PDT)
-Return-Path: <daniel@qtec.com>
-Received: from turia.fritz.box (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id r19sm1155244lfi.58.2020.08.05.07.13.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:13:10 -0700 (PDT)
-From: "Daniel Gomez" <daniel@qtec.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Daniel Gomez <daniel@qtec.com>
-Subject: [OE-core][PATCH] allarch: Add missing allarch ttf-bitstream-vera
-Date: Wed,  5 Aug 2020 16:13:00 +0200
-Message-Id: <20200805141300.624367-1-daniel@qtec.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ghV89hGpfMHZu1kA6dkMs6QBHGmK3bD+5iQfDuHZEeo=;
+        b=ThW0mjOrwxrQMsN8N1dISjnlmlYL4ofQGasegpSERT27Q1n+mAteX2lkt864pam5EN
+         3Gskwm7KUgxAw8jIgWbzS7kFCJ8kBA8MwAcvkoD9iaqyjA/KoUxgSphLhW6Qb733Pusy
+         WwZXOTypHjTOWFkzPxAxMz7sDIvlC07jiJlGCSacqK7yhUROcUaDm8HFFOWO/YiFJPvk
+         wZwwm8Ktivys+zFfmA3vOYV3WlQv5SNUSH08n6sjyMCIQo+7d5UZ92hE7J2mluQbc2/L
+         e7nBow8zWEcTTaOdZs97ivLXaBpmau/qgqRSJzBLDySUOnYDri/cnTDGJaRfHOiANBVE
+         Ylrg==
+X-Gm-Message-State: AOAM532H6CgdXCCIqVswe4+34wyqJbgHZTUakCYYjr9UYfd5TAhOOGW/
+	XnbSI1eaqKdFh+WU8xKAE9jW2UsiTi3qTb8XUDyy/lXBDeU=
+X-Google-Smtp-Source: ABdhPJxGyG9tVC7K/WxJFheLw8PvS6c8giAQ+ED7KMpGwdfTBshj2PBzs3xD4LtL3g4l+RiEldukxWhhhDk4MXjCepM=
+X-Received: by 2002:a05:6402:1a54:: with SMTP id bf20mr3000626edb.217.1596636843089;
+ Wed, 05 Aug 2020 07:14:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1596464561.git.steve@sakoman.com> <0a664b963c116786382fbba6f3386a7105a01122.1596464561.git.steve@sakoman.com>
+ <a6cd8adae83c5cbe1aabc48fc2a613bc03f93f4e.camel@linuxfoundation.org>
+ <CA+chaQdKyvwfSnMj6G=obKiUADNyVDKm20SJbhYopmDqWrqJsQ@mail.gmail.com> <CAMKF1sqFi_pHcxKSe-RGHmBHPuKLNB6E=UckNd5dj7taZKKxbw@mail.gmail.com>
+In-Reply-To: <CAMKF1sqFi_pHcxKSe-RGHmBHPuKLNB6E=UckNd5dj7taZKKxbw@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Wed, 5 Aug 2020 04:13:51 -1000
+Message-ID: <CAOSpxdYzZpdEd5vkOteF8uNUV+oJTH6b407TBaLP1TV7jhEz5g@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 05/12] layer.conf: fix adwaita-icon-theme signature change problem
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-allarch is missing in ttf-bitstream-vera recipe. Add it and include the
-recipe in the SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS list.
+On Tue, Aug 4, 2020 at 8:18 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Tue, Aug 4, 2020 at 10:59 PM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+> >
+> > We did the gtk-icon-cache.bbclass backport in:
+> > https://git.openembedded.org/openembedded-core/commit/meta/classes/gtk-icon-cache.bbclass?h=dunfell&id=e921edd27e71af00f07e3f1e973d2b0c6c777bf4
+> > but this fix, is only for adwaita-icon-them and other recipes using gtk-icon-cache might need identical fix as mentioned by Khem in review of this work around in master:
+> > https://lists.openembedded.org/g/openembedded-core/message/140910
+> >
+> > I guess it would be better to just revert e921edd27e71af00f07e3f1e973d2b0c6c777bf4 in dunfell and find better solution for master first.
+> >
+>
+> +1
 
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
----
- meta/conf/layer.conf                                       | 1 +
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+OK, sounds like a plan.  WIll revert
+e921edd27e71af00f07e3f1e973d2b0c6c777bf4 and drop this patch.
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index c115c87043..1a01d02fef 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -71,6 +71,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   grub-efi->grub-bootconf \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-+  ttf-bitstream-vera->fontconfig \
-   gnome-icon-theme->librsvg \
-   font-alias->font-util \
-   systemd-boot->systemd-bootconf \
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 70b32cf8f1..3e1ba196b5 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -9,7 +9,7 @@ LICENSE = "BitstreamVera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
- PR = "r7"
+Steve
 
--inherit fontcache
-+inherit allarch fontcache
 
- FONT_PACKAGES = "${PN}"
-
---
-2.27.0
-
+> > View/Reply Online (#141192): https://lists.openembedded.org/g/openembedded-core/message/141192
+> > Mute This Topic: https://lists.openembedded.org/mt/75966624/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub  [raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
