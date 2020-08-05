@@ -1,78 +1,57 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.3519.1596653525937032541
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.3735.1596654141216475456
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 11:52:11 -0700
+ Wed, 05 Aug 2020 12:02:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mzeng@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 075Ipiop015762
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Aug 2020 11:51:54 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 5 Aug 2020
- 11:51:34 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 21151)	id 4673320014;
- Wed,  5 Aug 2020 14:51:33 -0400 (EDT)
-From: "Matthew" <matthew.zeng@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv4] ltp: make copyFrom scp command non-fatal
-Date: Wed, 5 Aug 2020 14:51:33 -0400
-Message-ID: <20200805185133.13830-1-matthew.zeng@windriver.com>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3171C60F26;
+	Wed,  5 Aug 2020 19:02:19 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRwOiBtYWtlIGNvcHlGcm9tIHNjcCBjb21tYW5kIG5vbi1mYXRhbCAocmV2NCk=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 05 Aug 2020 19:02:20 -0000
+Message-ID: <20200805190220.2264.95678@do>
+References: <20200805185133.13830-1-matthew.zeng@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200805185133.13830-1-matthew.zeng@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #13802]
+== Series Details ==
 
-Make the scp failure non-fatal so the ltp tests continue to run and
-the rest of the logs will be available to see afterwards.
+Series: ltp: make copyFrom scp command non-fatal (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/25475/
+State : failure
 
-Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 10221e578f)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/core/target/ssh.py   | 7 +++++--
- meta/lib/oeqa/runtime/cases/ltp.py | 5 +++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 090b40a814..aefb576805 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -107,13 +107,16 @@ class OESSHTarget(OETarget):
-             scpCmd = self.scp + [localSrc, remotePath]
-             return self._run(scpCmd, ignore_status=False)
-
--    def copyFrom(self, remoteSrc, localDst):
-+    def copyFrom(self, remoteSrc, localDst, warn_on_failure=False):
-         """
-             Copy file from target.
-         """
-         remotePath = '%s@%s:%s' % (self.user, self.ip, remoteSrc)
-         scpCmd = self.scp + [remotePath, localDst]
--        return self._run(scpCmd, ignore_status=False)
-+        (status, output) = self._run(scpCmd, ignore_status=warn_on_failure)
-+        if warn_on_failure and status:
-+            self.logger.warning("Copy returned non-zero exit status %d:\n%s" % (status, output))
-+        return (status, output)
-
-     def copyDirTo(self, localSrc, remoteDst):
-         """
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-index 6dc5ef22ad..a66d5d13d7 100644
---- a/meta/lib/oeqa/runtime/cases/ltp.py
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -78,9 +78,10 @@ class LtpTest(LtpTestBase):
-             # copy nice log from DUT
-             dst = os.path.join(self.ltptest_log_dir, "%s" %  ltp_group )
-             remote_src = "/opt/ltp/results/%s" % ltp_group
--            (status, output) = self.target.copyFrom(remote_src, dst)
-+            (status, output) = self.target.copyFrom(remote_src, dst, True)
-             msg = 'File could not be copied. Output: %s' % output
--            self.assertEqual(status, 0, msg=msg)
-+            if status:
-+                self.target.logger.warning(msg)
-
-             parser = LtpParser()
-             results, sections  = parser.parse(dst)
---
-2.27.0
