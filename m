@@ -1,88 +1,144 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.8878.1596639015594192880
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.8880.1596639018127058126
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Aug 2020 07:50:15 -0700
+ Wed, 05 Aug 2020 07:50:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=itHQ5WX6;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id ep8so4418156pjb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=O0V33deE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id m8so15981345pfh.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Aug 2020 07:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=v1Nzs7aHfZLpDhPLHx5Hs0TF/2qzn0CW8wX2AzbBGOg=;
-        b=itHQ5WX6npg54Vzm9kxcSOW9oPKWLihyyfgxUG0g6Vht/TMz4CpuEW8sqBSIgvst5L
-         rjcVDfn8tF2RhIZiZscgSSYgOMKdY9RPSC2SOPBZgyd/m6V/YZnpP+C7uyEIe21iCJsF
-         JmsW3C6n/oGOOFj08MeGCb8MKUdFc2MCyBCRIm8MMcKlsapJ9PRmteY/ufG6JsRFkZ9/
-         df86OFZdAEfRa8jHvwHpB/SmidHt9re/3gBma5S6H8ri0aI8R+lW2AzV0f/4IduY4/5i
-         m9k3gvjHKOR2V9LE7E9x2s/RuELO16YAuH5LE/Gy6iMZ38VuLeHBHs0pW6KgsHaeciBu
-         6q/g==
+        bh=13PBTYoRzgCaVlgSYtkVNBrTNMBXrSdFTvK9QjpjOVM=;
+        b=O0V33deEozbQ0bCWqIiNMHqjJfucA1U+o0LdH1Zk+L8B1V9FxRiU9Osydvf89ygc9W
+         HHZ/+Vq2kzsAWQH9fenj/cPPrYwVCQCPzGeA8HlaAWWmQZunIqoor9mrPVonmxwKqSuS
+         NMJ9kU8ImfvfuGlEfthh5+WC3FGl3/hCWVnIAi7N+UOfQXT6euhBVc7VTRdilUQJBqF+
+         0HpdkTFyYUDfHwJb83fjmzpMzN+Eytp8jJiwX6vUkJtyHrJNQhxm8o8iFhaZOd/ZMYu6
+         luthPo/BTkE59+0ts46UhnHlS4zCnoPaIj9JJFnxl0ZpY78DpI1RMnN5grX+HzCFcCV1
+         ++Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=v1Nzs7aHfZLpDhPLHx5Hs0TF/2qzn0CW8wX2AzbBGOg=;
-        b=k9dkGeFVxjS9xrErNjGIy6WKqefJcxd29odQj6RvYW1t8zKqDnxYH734XQMIhkXe45
-         KRyepvI0wdqBfuAMI+VjwogL1Ff5H5AX1Vbo92SR8+sqF7zuqtfpnSIF+LtBjkO0qOxf
-         wiLVAzlOZ2MA5x8tB+GHrYBYDyEQf7rhDdH/xpGS8K9YKTsY01SG3Y8xXZ3VgacgXhjH
-         wk7O33YYEudesCDpbQD6bCkBaIzJvNzqVQEg028MiXUpdJqvnAnc4CrmYun4zI1Nkaub
-         ClsRTfMLhYOIobafX937q05LzXlJzS4HwNcdW3GSUF5bTQ9bDCEp6TiIsRGXLn0uldTr
-         olMw==
-X-Gm-Message-State: AOAM531U83eszOfVvEUwY4Kue3Yl0pBtuSRvy0OGfSkbce9ord4MlsvF
-	0mrMaNkq7k9Nem6Pe9NgLt+fvBnZGJQ=
-X-Google-Smtp-Source: ABdhPJy0MyLod5CWV/cHawuGqyvcqhsLc74Cvh9HjP8w3kYQOdBhP+yeFtmpH65BlwszlN0wb1/7qQ==
-X-Received: by 2002:a17:90a:aa8f:: with SMTP id l15mr3643754pjq.123.1596639014611;
-        Wed, 05 Aug 2020 07:50:14 -0700 (PDT)
+        bh=13PBTYoRzgCaVlgSYtkVNBrTNMBXrSdFTvK9QjpjOVM=;
+        b=kvJscho0UtrbmUifsNO8EACVvarbfWUDLATtWcsxRh03KBgup9nDfEWQJwkR3Dvbhz
+         0R9so4Zic1t4BhPRaLizdnw8eU5IrTPK7Ea0i4Qq23UNscLpAtl2OHjZeSt1S21EJ6en
+         N+VfY5po4fOZn7pw+StoKK7bP6IChvhrXmwX/Ryy01kZ52TQR+vi77X/KOaoeiWo3IGs
+         S+sy3r9Ta09jfgwsg5WSrOTZ9xfLUKwrOpMVPFUHjPUf5RmwcQotqinzBNNbNds95MlI
+         a/RwCnAFwjZfuQZe/cFeRmFwiTCj3KCVzjZxUR51hNI6NW+wrmpgsdqfh2vWoOrMMXxa
+         0D0w==
+X-Gm-Message-State: AOAM5332GdsZLJ5nIsX/QH9UL4Teone5QpjY9TCo+q4nVSUa5RfUqFjU
+	xqSaLmoveTTbOzSPlM55gx1D7VYRLUM=
+X-Google-Smtp-Source: ABdhPJx1vSXLJdjEjwOWEiObRvWo7GBYfOlvizOlanYBCwj6jmCH5B8aEHL/x0Fso+rd74aOX5CR8w==
+X-Received: by 2002:a63:1b42:: with SMTP id b2mr3082626pgm.397.1596639016998;
+        Wed, 05 Aug 2020 07:50:16 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.13
+        by smtp.gmail.com with ESMTPSA id d81sm3879721pfd.174.2020.08.05.07.50.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 07:50:14 -0700 (PDT)
+        Wed, 05 Aug 2020 07:50:16 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 05/11] cogl-1.0: correct X11 dependencies
-Date: Wed,  5 Aug 2020 04:49:28 -1000
-Message-Id: <4cbfaae7f6ecdcbb67675da6cbdcf63aed0aaf61.1596638643.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 06/11] boost: backport fix to make async_pipes work with asio
+Date: Wed,  5 Aug 2020 04:49:29 -1000
+Message-Id: <f3f6cc45b0b95cce337947df8dfaa9402251541c.1596638643.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1596638643.git.steve@sakoman.com>
 References: <cover.1596638643.git.steve@sakoman.com>
 
-From: Matt Madison <matt@madison.systems>
+From: Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
 
-cogl depends on libxdamage when configured for X11 support.
-A dependency was added for this in 2012 with
-959a2f6d88d8fa6874fff83b7a1f0e7d4e36b887, but that addition
-was lost when the recipe was reworked in 2013 with
-b508fdd2b19ca30da8d09caf646897dc4cf195c8. That commit also
-added a dependency on libxi, which is not actually needed.
+async_pipe is missing the executor_type type, which is expected by
+asio in /usr/include/boost/asio/impl/read.hpp. Without this, it's
+not possible to even compile code that uses constructs such as:
 
-The missing dependency doesn't cause problems in most cases,
-since mesa also depends on libxdamage, but when an alternative
-opengl implementation such as libglvnd is used, cogl fails
-to configure.
+boost::asio::io_service foo;
+boost::process::async_pipe foopipe{ boost::process::async_pipe(foo) };
 
-Signed-off-by: Matt Madison <matt@madison.systems>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7651a63c508562caf1a3732cb49af50bccc98e8b)
+This is only relevant for Dunfell because master has already moved to
+boost-1.73.0 in which this bug has been fixed. The bug is also not
+present in Zeus, which uses boost-1.71.0.
+
+Signed-off-by: Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/cogl/cogl-1.0.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../0001-added-typedef-executor_type.patch    | 54 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 1c5d0b79cb..d581ad1c04 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -21,7 +21,7 @@ EDEPENDS_GL = "virtual/libgl libdrm"
- EDEPENDS_GLES2 = "virtual/libgles2"
- EDEPENDS_KMS = "libdrm virtual/egl"
- EDEPENDS_EGL = "virtual/egl"
--EDEPENDS_X11 = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
-+EDEPENDS_X11 = "virtual/libx11 libxcomposite libxdamage libxfixes libxrandr"
- EDEPENDS_WAYLAND = "virtual/egl virtual/libgles2 wayland"
- 
- # Extra RDEPENDS for PACKAGECONFIG
+diff --git a/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch b/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
+new file mode 100644
+index 0000000000..7b8178fd76
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
+@@ -0,0 +1,54 @@
++From 6a4d2ff72114ef47c7afaf92e1042aca3dfa41b0 Mon Sep 17 00:00:00 2001
++From: Klemens David Morgenstern <klemens.morgenstern@gmx.net>
++Date: Fri, 22 Nov 2019 14:03:22 +0800
++Subject: [PATCH] added typedef executor_type;
++
++Upstream-Status: Backport [https://github.com/boostorg/process/commit/6a4d2ff72114ef47c7afaf92e1042aca3dfa41b0]
++
++Signed-off-by: Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
++---
++ include/boost/process/async_pipe.hpp                | 2 ++
++ include/boost/process/detail/posix/async_pipe.hpp   | 1 +
++ include/boost/process/detail/windows/async_pipe.hpp | 1 +
++ 3 files changed, 4 insertions(+)
++
++diff --git a/include/boost/process/async_pipe.hpp b/include/boost/process/async_pipe.hpp
++index 101fe1d..a562432 100644
++--- a/boost/process/async_pipe.hpp
+++++ b/boost/process/async_pipe.hpp
++@@ -47,6 +47,8 @@ public:
++      */
++     typedef platform_specific handle_type;
++ 
+++    typedef typename handle_type::executor_type executor_type;
+++
++     /** Construct a new async_pipe, does automatically open the pipe.
++      * Initializes source and sink with the same io_context.
++      * @note Windows creates a named pipe here, where the name is automatically generated.
++diff --git a/include/boost/process/detail/posix/async_pipe.hpp b/include/boost/process/detail/posix/async_pipe.hpp
++index 725a078..a82c057 100644
++--- a/boost/process/detail/posix/async_pipe.hpp
+++++ b/boost/process/detail/posix/async_pipe.hpp
++@@ -23,6 +23,7 @@ class async_pipe
++ public:
++     typedef int native_handle_type;
++     typedef ::boost::asio::posix::stream_descriptor handle_type;
+++    typedef typename handle_type::executor_type executor_type;
++ 
++     inline async_pipe(boost::asio::io_context & ios) : async_pipe(ios, ios) {}
++ 
++diff --git a/include/boost/process/detail/windows/async_pipe.hpp b/include/boost/process/detail/windows/async_pipe.hpp
++index 06d5f2d..0b447f9 100644
++--- a/boost/process/detail/windows/async_pipe.hpp
+++++ b/boost/process/detail/windows/async_pipe.hpp
++@@ -48,6 +48,7 @@ class async_pipe
++ public:
++     typedef ::boost::winapi::HANDLE_ native_handle_type;
++     typedef ::boost::asio::windows::stream_handle   handle_type;
+++    typedef typename handle_type::executor_type executor_type;
++ 
++     async_pipe(boost::asio::io_context & ios) : async_pipe(ios, ios, make_pipe_name(), true) {}
++     async_pipe(boost::asio::io_context & ios_source, boost::asio::io_context & ios_sink)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
+index 0b7badbc76..51c84bc935 100644
+--- a/meta/recipes-support/boost/boost_1.72.0.bb
++++ b/meta/recipes-support/boost/boost_1.72.0.bb
+@@ -8,4 +8,5 @@ SRC_URI += "file://arm-intrinsics.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
+            file://0001-revert-cease-dependence-on-range.patch \
++           file://0001-added-typedef-executor_type.patch \
+            "
 -- 
 2.17.1
 
