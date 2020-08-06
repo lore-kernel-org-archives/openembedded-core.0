@@ -1,63 +1,73 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.2766.1596705069171804217
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.2811.1596705314905814162
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2020 02:11:09 -0700
+ Thu, 06 Aug 2020 02:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.75,441,1589212800"; 
-   d="scan'208";a="97705579"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 06 Aug 2020 17:11:02 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id E74944CE34F2
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 Aug 2020 17:10:59 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 6 Aug 2020 17:11:01 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libinput:upgrade 1.15.6 -> 1.16.0
-Date: Fri, 7 Aug 2020 05:10:52 +0800
-Message-ID: <1596748253-123303-2-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1596748253-123303-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-References: <1596748253-123303-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pbnlhy6D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id k8so8965342wma.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2020 02:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5OcA4r9D3ugJrV0bJ/2gwPjpvty1T5bQ/p8uTtMsyY8=;
+        b=Pbnlhy6DKXhLS/qpeB1CdSltqyniFnR0IsLscImplwrBRyzPxyaDPIqzkFOY/2pyEH
+         YvUinTc9DRvBRq8nuSiCfEu0GuSQNJ0fTqbw+GL4k/RGKTOkV7CZnsYvQEemCB2bGNPH
+         jGGsENQOgziMVpUMg66DjMLMZbYcMEP+tzLpA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5OcA4r9D3ugJrV0bJ/2gwPjpvty1T5bQ/p8uTtMsyY8=;
+        b=AMJ9NDPz4vKFAbb6u5nrPRC1LIz7yVpCgphl6rUSL3VgoYv3EhTZ+jmDmu7NtFaYdz
+         wMiNCX+w4B30wvXWflxrpJhbur3xGAqcgU3vwWdauKRKR/cVnKwrvy33vaJCsPqDKqWq
+         P43JwiCuKn4Z7/DLWvbZVLcpzDYodlUjoJ5t0y8xui8uf7eH74h7OUjWceJi1KTWCiTq
+         gEpmJkEoM7yZLCEwTUCQt+offps4qPRfmytJg8tk2U29Vcq/4FJynsuRr5uDNymQ04rL
+         7Y9KZBN3cSBJt5L/WGUYUKtAlY5d6/2KM46lFbPCJIApC7Nq7Z7/UajLeuHISbSRuM3K
+         Visg==
+X-Gm-Message-State: AOAM531Lm2Ye9YLaqv3o/vkKFh/zb/TNNdZiGC2scFg8gVEn8uZ3kmFR
+	1blrQ4ChbrH41pS8fTCJczHybocXPEvFoQ==
+X-Google-Smtp-Source: ABdhPJwKVZ5nyMbZCMI8z0Qe79B2RX+eK2M0oZjYfAUFBMLB0QUDR7yNk/0wmToTR/jRq5bXZWAkqw==
+X-Received: by 2002:a1c:e244:: with SMTP id z65mr6993422wmg.34.1596705312957;
+        Thu, 06 Aug 2020 02:15:12 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (b.f.9.1.0.8.f.d.f.5.0.d.7.c.1.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1c7:d05f:df80:19fb])
+        by smtp.gmail.com with ESMTPSA id f63sm5806626wmf.9.2020.08.06.02.15.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2020 02:15:12 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-yocto: Fix bb.debug to add missing log level
+Date: Thu,  6 Aug 2020 10:15:12 +0100
+Message-Id: <20200806091512.691613-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: E74944CE34F2.A3042
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Fixes warnings like:
+
+WARNING: linux-intel-5.4.50+gitAUTOINC+caafbdfe38_89e6c056f3-r0 do_kernel_configcheck: Passed invalid debug level 'outfile size is: /home/pokybuild/yocto-worker/meta-intel/build/build/tmp/work-shared/intel-corei7-64/kernel-source/.kernel-meta/cfg/mismatch.txt 767' to bb.debug
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../wayland/{libinput_1.15.6.bb => libinput_1.16.0.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{libinput_1.15.6.bb => libinput_1.16.0.bb} (92%)
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.15.6.bb b/meta/recipes-graphics/wayland/libinput_1.16.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/wayland/libinput_1.15.6.bb
-rename to meta/recipes-graphics/wayland/libinput_1.16.0.bb
-index f81cf7f031..baf5c1d167 100644
---- a/meta/recipes-graphics/wayland/libinput_1.15.6.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.16.0.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-            file://run-ptest \
-            file://determinism.patch \
-            "
--SRC_URI[md5sum] = "b2388a1d6f0dcc944b49bc7239a53be8"
--SRC_URI[sha256sum] = "aeedea216a6317ddc6e27c3d54f26b987078780db6a8320cc09e19c25b307f1c"
-+SRC_URI[md5sum] = "b518dae7f603040872739216971ee97b"
-+SRC_URI[sha256sum] = "83f6d0c94e5e0dd87094ce73f0edb631919617d24a60ee0ab9bd9197411d76e8"
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 3c428c0782e..7f870a6cc61 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -515,7 +515,7 @@ python do_kernel_configcheck() {
+         with open(outfile, 'w+') as f:
+             f.write( analysis )
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- 
+-        bb.debug( "outfile size is: %s %s" % (outfile,os.stat(outfile).st_size))
++        bb.debug(1, "outfile size is: %s %s" % (outfile,os.stat(outfile).st_size))
+         if config_check_visibility and os.stat(outfile).st_size > 0:
+             with open (outfile, "r") as myfile:
+                 results = myfile.read()
 -- 
 2.25.1
-
-
 
