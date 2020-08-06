@@ -1,338 +1,417 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web10.14770.1596743848666180807
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web12.14725.1596743991668747155
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2020 12:57:28 -0700
+ Thu, 06 Aug 2020 12:59:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YBs5hwm+;
- spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f68.google.com with SMTP id o2so23035992qvk.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2020 12:57:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GstIR+d4;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id x69so46189656qkb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2020 12:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dMRacukNKCNtiNRx5on9uWa4rV/EeVj7wHmJ5/wFsss=;
-        b=YBs5hwm+Js3OeHBDDJmSr5L1NYc8eYtdtup48KXO1MyiJEx0rxmEINfzGesDOZmYIa
-         26oAVAuwmS/hTd3lT99P5URtmYox5kMsFE3BwQIiTjRFy9LMOz95xHWaV0/qH2hPwdD7
-         CS4YPbx80i0237k1I3AUDWXk6rQpzECcIMPQdYmQ8qHihcE9FZ7P2Q/5AXvwzcxlTCvM
-         emKwQKvannGpckktR5nNoe+JqCYSbGh09c0uxLPXpUS4CFMf/aFOBZnuS1Iv7AGKq89X
-         VgCEpr9gcXrNvIcf7O12fczHWPFJY8pe4X90UKRnclPcZO9dEyZjlk3sIFWm1cZMuJoN
-         BUmQ==
+        bh=7mY6vQ4kUtM1NvgBrGDKppZJzD529GUsXI//4QOg/C4=;
+        b=GstIR+d4gXLuMwNqu0XOXf+WNx/friKTap3hkAAHpjpL4lbH5faBM4zoZIVpBoUSdh
+         SNayRXE0r7kdGT1M7GAymk13TrQyrseNKB8U58N8HFaXOCV+h6IVgaPAAabzSWiIEuq7
+         3uC49jRRZj8+BhwbyhH7GJV/QWzjpVFsTHUvTxIxvDvQa4Ibpe9529cVZMGaaWT+Z3Bq
+         JeEVutf0QWON7osmSiWI1w6hLUzvDDft7W3bIrrX37izUQ8JXOhDNAHac35Bi1HqzwDZ
+         mnSZJrQfk7WpRHCY2w8t3mBJpjcCqUTw8jxxr4wmx2tqS2WnEeWHbi+oxFEcvWqEnAIB
+         ZCgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dMRacukNKCNtiNRx5on9uWa4rV/EeVj7wHmJ5/wFsss=;
-        b=P3yWdpLi5bOBE457cHyoS6mpHuHnQ5m49GJ1B4Loou5473kUSRnvpslJ1BIQ88p7d4
-         890VU/TXzctUcyNTbsY7Rk9FK6afSSb3IpPV6UOsRLBn9vqZc/gLs4MM1AZsgD5qL89W
-         kGhq06UoIUl7UKRo/R7L1SL42n47+IvCwkrlfQS34YBilRfDU0KymythXz4FuoU+sjHC
-         gWgdjhK+RC3xbS6Ox8weRQOIQfQu46eL7+kdLDVoXrlxNStWc+Syn+oO8eWqJqix7pkW
-         0i6DNPf/ZOs75C5kr8BmWPKOiOpYsZe2s6jovHOuA7/Arq0mFNe08pGNK1bzqusG4SSd
-         XELQ==
-X-Gm-Message-State: AOAM530zNGtQuPmJg31vWzE6MftVCgYBCroxLos+QJG8LdnVH2dt7HGL
-	qaB+JAH2xWPp2XujekdNHz4=
-X-Google-Smtp-Source: ABdhPJztx4x1fl4fdD0M6Qo+WYzYaR5ecVuOdrygL9TgLUBk/ED4C0mfFxI0AFNbNfsbNcywuGiG0A==
-X-Received: by 2002:ad4:54c6:: with SMTP id j6mr11125933qvx.126.1596743847692;
-        Thu, 06 Aug 2020 12:57:27 -0700 (PDT)
+        bh=7mY6vQ4kUtM1NvgBrGDKppZJzD529GUsXI//4QOg/C4=;
+        b=J3MONoAhj1iFV+TabiFqAkDGzVAqNT2hNoPPzVWH2xzw3GBCJCjti0ZuzUAxo3TZVn
+         E6Y/VkAYoRtzpeqDFrt8FDnr7VQNS6QKuNrMdPmaLHFCS2EEcIZiqyLDLez3AMNuEEsD
+         Q4rCgNfU4ruVqvRZ1hwhOkJaJMreSBK+t3dV6qcjARVQMFtLltJNNbBPnIru8BbS5adu
+         d4S5qfEO4Ajs7e748tuB0MPA2LN/LGVQ7aB1qN279CFdw8Wus5h8xhIBOCGE+mHJYFnF
+         mqkKk4Tj26jlrjkuYaVrW+7e8TP7kX91d4yWL8tm6YdX296j3tFwIwnxskp0pfsnEhMO
+         /qUQ==
+X-Gm-Message-State: AOAM531Uqqj5B84O+8wREN16vI/li9/9HTWvHFyFgHRCxqI872kqcGko
+	+R9h43eeztBDsEGzXULjdp8=
+X-Google-Smtp-Source: ABdhPJxkOKZaSigarS19/m0ME7MZTffMwveiDDaEhcQS/H81qjF4uO4ue4pjCdHCJpS9I9HrQmp2Mg==
+X-Received: by 2002:a37:97c5:: with SMTP id z188mr10049699qkd.185.1596743990639;
+        Thu, 06 Aug 2020 12:59:50 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id x24sm6101048qtj.8.2020.08.06.12.57.26
+        by smtp.gmail.com with ESMTPSA id 65sm4549434qkn.103.2020.08.06.12.59.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 12:57:26 -0700 (PDT)
+        Thu, 06 Aug 2020 12:59:49 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-yocto: enhance configuration queue analysis capabilities
-Date: Thu,  6 Aug 2020 15:57:25 -0400
-Message-Id: <20200806195725.29807-1-bruce.ashfield@gmail.com>
+Subject: [PATCH] strace: fix build against v5.8 uapi headers
+Date: Thu,  6 Aug 2020 15:59:48 -0400
+Message-Id: <20200806195948.30040-1-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Enable the kernel-yocto bbclass to use enhanced capabilities from
-the kern-tools symbol_why.pl.
+The 5.8 kernel introduced changes to io uring that require adjustments
+in strace for it to build against the new headers. See kernel commits
+v5.8-rc1~190^2~22 and v5.8-rc1~190^2~21 for details.
 
-We bump the kern-tools SRCREV to pickup the reworking of symbol_why,
-which uses Kconfiglib to provide analysis on configuration values.
+There are two patches in the upstream strace that deal with the new
+flags, so we port them to the v5.7 release until a new one is
+available upstream.
 
-This is useful for debugging why a symbol specified in a fragment
-did not end up in the final .config.
+We also have a third patch that is oe specific, which is the addition
+of a newly generated flags file and removal of some static checks.
+We need this change to build, since released versions of strace don't
+run the bootstrap step and hence won't generate the flags or fixup
+any static checks.
 
-We introduce two ways to interact with the new symbol_why:
-
- 1) a replacement of the existing kconf_check script
- 2) a dedicated task that is explicitly invoked to dump details
-    on the configuration.
-
-The kconf_check replacement is transparent to the user, and is
-run in exactly the same way as it was previously. But we get better
-output and more detailed diagnostics if there are symbols that
-don't make it into the final .config
-
-The second way to interact with symbol why is via the new task
-do_config_analysis. This is invoked like any other task, and by
-default will provide a full configuration analysis and point the
-user at files to look at for details.
-
-If a more targetted analysis is desired, then specific symbols
-can be set in the CONFIG_ANALYSIS variable. When this variable
-is set, the task will only run for the given symbols and provide
-per-variable links to the user. This variable can be set like
-any other, including specification in the local.conf:
-
-  CONFIG_ANALYSIS_pn-linux-yocto-dev = 'NF_CONNTRACK LOCALVERSION'
-
-Which produces output as follows:
-
-   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
-   do_config_analysis: Configuration analysis executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/NF_CONNTRACK-config-analysis.txt for details
-   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
-   do_config_analysis: Configuration audit executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/NF_CONNTRACK-config-audit.txt for details
-   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
-   do_config_analysis: Configuration analysis executed, see: tmp/work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/LOCALVERSION-config-analysis.txt for details
-   WARNING: linux-yocto-dev-5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0
-   do_config_analysis: Configuration audit executed, see: work/qemuarm64-poky-linux/linux-yocto-dev/5.8-rc++gitAUTOINC+d22beb8f8a_8fc484ed37-r0/LOCALVERSION-config-audit.txt for details
+Tested against the v5.4 and v5.8 kernels.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
 
-v2: - removed the bb.debug line that RP had to fixup previously
-    - fixed the detection of the .kernel-meta directory. This fixes the
-      meta-arm build issue, and should also help meta-intel.
-
-Note: you'll actually get a configuration warning out of meta-arm when
-you build now, but the warning is accurate and isn't a problem (an
-option goes from =m to =y).
+Note: also tested against both the 5.8 and 5.4 libc-headers.
 
 Bruce
 
- meta/classes/kernel-yocto.bbclass             | 159 ++++++++++++++----
- .../kern-tools/kern-tools-native_git.bb       |   2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
- 3 files changed, 128 insertions(+), 35 deletions(-)
+ ...-io_uring-Add-io_cqring_offset-flags.patch | 154 ++++++++++++++++++
+ ...struct-io_cqring_offsets-compile-tim.patch |  46 ++++++
+ ...g-fix-build-against-5.8-libc-headers.patch |  98 +++++++++++
+ meta/recipes-devtools/strace/strace_5.7.bb    |   3 +
+ 4 files changed, 301 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-io_uring-Add-io_cqring_offset-flags.patch
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-io_uring-Remove-struct-io_cqring_offsets-compile-tim.patch
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-uring-fix-build-against-5.8-libc-headers.patch
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 70818cc01c..77849a28c9 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -405,6 +405,67 @@ do_kernel_configme() {
- }
- 
- addtask kernel_configme before do_configure after do_patch
-+addtask config_analysis
+diff --git a/meta/recipes-devtools/strace/strace/0001-io_uring-Add-io_cqring_offset-flags.patch b/meta/recipes-devtools/strace/strace/0001-io_uring-Add-io_cqring_offset-flags.patch
+new file mode 100644
+index 0000000000..dceeff7c7e
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-io_uring-Add-io_cqring_offset-flags.patch
+@@ -0,0 +1,154 @@
++From 592b915033de37322e19f3e6413de33317d272fe Mon Sep 17 00:00:00 2001
++From: Chris Packham <chris.packham@alliedtelesis.co.nz>
++Date: Mon, 15 Jun 2020 22:01:26 +1200
++Subject: [PATCH] io_uring: Add io_cqring_offset flags
 +
-+do_config_analysis[depends] = "virtual/kernel:do_configure"
-+do_config_analysis[depends] += "kern-tools-native:do_populate_sysroot"
++Add support for displaying struct io_cqring_offsets.flags introduced
++by Linux kernel commits v5.8-rc1~190^2~22 and v5.8-rc1~190^2~21.
 +
-+CONFIG_AUDIT_FILE ?= "${WORKDIR}/config-audit.txt"
-+CONFIG_ANALYSIS_FILE ?= "${WORKDIR}/config-analysis.txt"
++* types/io_uring.h (struct_io_cqring_offsets): Replace resv array
++with flags, resv1, and resv2 fields.
++* xlat/uring_cqring_flags.in: New file.
++* configure.ac (AC_CHECK_MEMBERS): Check struct io_cqring_offsets.flags.
++* io_uring.c: Include "xlat/uring_cqring_flags.h".
++(SYS_FUNC(io_uring_setup)): Replace printing of the resv array
++of struct io_cqring_offsets with flags, resv1, and resv2 fields.
++* tests/io_uring_setup.c: Check it.
 +
-+python do_config_analysis() {
-+    import re, string, sys, subprocess
++Upstream-status: backport of commit 592b915033de37322e19f3e6413de33317d272fe
 +
-+    s = d.getVar('S')
++Co-authored-by: Dmitry V. Levin <ldv@altlinux.org>
++Resolves: https://github.com/strace/strace/issues/138
++---
++ configure.ac               |  1 +
++ io_uring.c                 | 11 +++++++----
++ tests/io_uring_setup.c     | 31 ++++++++++++++++++++++++++-----
++ types/io_uring.h           |  4 +++-
++ xlat/uring_cqring_flags.in |  1 +
++ 5 files changed, 38 insertions(+), 10 deletions(-)
++ create mode 100644 xlat/uring_cqring_flags.in
 +
-+    env = os.environ.copy()
-+    env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
-+    env['LD'] = d.getVar('KERNEL_LD')
-+    env['CC'] = d.getVar('KERNEL_CC')
-+    env['ARCH'] = d.getVar('ARCH')
-+    env['srctree'] = s
++diff --git a/configure.ac b/configure.ac
++index d0fd51ff..91c2249e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -481,6 +481,7 @@ AC_CHECK_HEADERS([linux/bpf.h], [
++ 
++ AC_CHECK_HEADERS([linux/io_uring.h], [
++ 	AC_CHECK_MEMBERS(m4_normalize([
+++		struct io_cqring_offsets.flags,
++ 		struct io_uring_params.features,
++ 		struct io_uring_params.wq_fd,
++ 		struct io_uring_params.resv
++diff --git a/io_uring.c b/io_uring.c
++index cfeea82b..2ffe163e 100644
++--- a/io_uring.c
+++++ b/io_uring.c
++@@ -17,6 +17,7 @@
++ #include "xlat/uring_setup_flags.h"
++ #include "xlat/uring_enter_flags.h"
++ #include "xlat/uring_register_opcodes.h"
+++#include "xlat/uring_cqring_flags.h"
++ 
++ #ifdef HAVE_STRUCT_IO_URING_PARAMS
++ # ifdef HAVE_STRUCT_IO_URING_PARAMS_RESV
++@@ -88,10 +89,12 @@ SYS_FUNC(io_uring_setup)
++ 		PRINT_FIELD_U(", ", params.cq_off, ring_entries);
++ 		PRINT_FIELD_U(", ", params.cq_off, overflow);
++ 		PRINT_FIELD_U(", ", params.cq_off, cqes);
++-		if (!IS_ARRAY_ZERO(params.cq_off.resv)) {
++-			PRINT_FIELD_ARRAY(", ", params.cq_off, resv, tcp,
++-					  print_xint64_array_member);
++-		}
+++		PRINT_FIELD_FLAGS(", ", params.cq_off, flags,
+++				  uring_cqring_flags, "IORING_CQ_???");
+++		if (params.cq_off.resv1)
+++			PRINT_FIELD_X(", ", params.cq_off, resv1);
+++		if (params.cq_off.resv2)
+++			PRINT_FIELD_X(", ", params.cq_off, resv2);
++ 		tprints("}");
++ 	}
++ 	tprints("}");
++diff --git a/tests/io_uring_setup.c b/tests/io_uring_setup.c
++index 317b0d7a..a59e4a1a 100644
++--- a/tests/io_uring_setup.c
+++++ b/tests/io_uring_setup.c
++@@ -27,6 +27,7 @@
++ # include "xlat.h"
++ 
++ # include "xlat/uring_setup_features.h"
+++# include "xlat/uring_cqring_flags.h"
++ 
++ # ifdef HAVE_STRUCT_IO_URING_PARAMS_FEATURES
++ #  ifdef HAVE_STRUCT_IO_URING_PARAMS_WQ_FD
++@@ -144,20 +145,40 @@ main(void)
++ 						params->sq_off.resv2);
++ 
++ 			printf("}, cq_off={head=%u, tail=%u, ring_mask=%u"
++-			       ", ring_entries=%u, overflow=%u, cqes=%u",
+++			       ", ring_entries=%u, overflow=%u, cqes=%u, flags=",
++ 			       params->cq_off.head,
++ 			       params->cq_off.tail,
++ 			       params->cq_off.ring_mask,
++ 			       params->cq_off.ring_entries,
++ 			       params->cq_off.overflow,
++ 			       params->cq_off.cqes);
++-			if (params->cq_off.resv[0] || params->cq_off.resv[1]) {
++-				printf(", resv=[%#llx, %#llx]",
+++#ifdef HAVE_STRUCT_IO_CQRING_OFFSETS_FLAGS
+++			printflags(uring_cqring_flags,
+++			       params->cq_off.flags,
+++			       "IORING_CQ_???");
+++			if (params->cq_off.resv1)
+++				printf(", resv1=%#x", params->cq_off.resv1);
+++			if (params->cq_off.resv2)
+++				printf(", resv2=%#llx",
++ 				       (unsigned long long)
++-						params->cq_off.resv[0],
+++						params->cq_off.resv2);
+++#else
+++			union {
+++				struct {
+++					uint32_t flags;
+++					uint32_t resv1;
+++				} s;
+++				uint64_t v;
+++			} u = { .v = params->cq_off.resv[0] };
+++			printflags(uring_cqring_flags, u.s.flags,
+++				   "IORING_CQ_???");
+++			if (u.s.resv1)
+++				printf(", resv1=%#x", u.s.resv1);
+++			if (params->cq_off.resv[1])
+++				printf(", resv2=%#llx",
++ 				       (unsigned long long)
++ 						params->cq_off.resv[1]);
++-			}
+++#endif
++ 
++ 			printf("}}) = %ld<anon_inode:[io_uring]>\n", rc);
++ 		}
++diff --git a/types/io_uring.h b/types/io_uring.h
++index 76f432c3..2fe1c13a 100644
++--- a/types/io_uring.h
+++++ b/types/io_uring.h
++@@ -31,7 +31,9 @@ typedef struct {
++ 	uint32_t ring_entries;
++ 	uint32_t overflow;
++ 	uint32_t cqes;
++-	uint64_t resv[2];
+++	/** Added by v5.8-rc1~190^2~22 */	uint32_t flags;
+++	/** Added by v5.8-rc1~190^2~22 */	uint32_t resv1;
+++	/** Added by v5.8-rc1~190^2~22 */	uint64_t resv2;
++ } struct_io_cqring_offsets;
++ 
++ typedef struct {
++diff --git a/xlat/uring_cqring_flags.in b/xlat/uring_cqring_flags.in
++new file mode 100644
++index 00000000..c81fbc20
++--- /dev/null
+++++ b/xlat/uring_cqring_flags.in
++@@ -0,0 +1 @@
+++IORING_CQ_EVENTFD_DISABLED	1U
++-- 
++2.19.1
 +
-+    # read specific symbols from the kernel recipe or from local.conf
-+    # i.e.: CONFIG_ANALYSIS_pn-linux-yocto-dev = 'NF_CONNTRACK LOCALVERSION'
-+    config = d.getVar( 'CONFIG_ANALYSIS' )
-+    if not config:
-+       config = [ "" ]
-+    else:
-+       config = config.split()
+diff --git a/meta/recipes-devtools/strace/strace/0001-io_uring-Remove-struct-io_cqring_offsets-compile-tim.patch b/meta/recipes-devtools/strace/strace/0001-io_uring-Remove-struct-io_cqring_offsets-compile-tim.patch
+new file mode 100644
+index 0000000000..774b520a06
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-io_uring-Remove-struct-io_cqring_offsets-compile-tim.patch
+@@ -0,0 +1,46 @@
++From fded17c15bca4150165f899cc47f67bab963d9a7 Mon Sep 17 00:00:00 2001
++From: Chris Packham <chris.packham@alliedtelesis.co.nz>
++Date: Mon, 15 Jun 2020 22:01:25 +1200
++Subject: [PATCH] io_uring: Remove struct io_cqring_offsets compile time
++ asserts
 +
-+    for c in config:
-+        for action in ["analysis","audit"]:
-+            if action == "analysis":
-+                try:
-+                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--blame', c], cwd=s, env=env ).decode('utf-8')
-+                except subprocess.CalledProcessError as e:
-+                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++The generated types/check-io_uring.c already checks the kernel's struct
++io_cqring_offsets for compatibility with the strace definition so
++there's no need for manual checks.
 +
-+                outfile = d.getVar( 'CONFIG_ANALYSIS_FILE' )
++Upstream-status: backport of commit fded17c15bca4150165f899cc47f67bab963d9a7
 +
-+            if action == "audit":
-+                try:
-+                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--summary', '--extended', '--sanity', c], cwd=s, env=env ).decode('utf-8')
-+                except subprocess.CalledProcessError as e:
-+                    bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++* io_uring.c [HAVE_STRUCT_IO_CQRING_OFFSETS]: Remove static_asserts.
++---
++ io_uring.c | 15 ---------------
++ 1 file changed, 15 deletions(-)
 +
-+                outfile = d.getVar( 'CONFIG_AUDIT_FILE' )
++diff --git a/io_uring.c b/io_uring.c
++index cd183457..cfeea82b 100644
++--- a/io_uring.c
+++++ b/io_uring.c
++@@ -18,21 +18,6 @@
++ #include "xlat/uring_enter_flags.h"
++ #include "xlat/uring_register_opcodes.h"
++ 
++-#ifdef HAVE_STRUCT_IO_CQRING_OFFSETS
++-# ifdef HAVE_STRUCT_IO_CQRING_OFFSETS_RESV
++-static_assert(offsetof(struct_io_cqring_offsets, resv)
++-             >= offsetof(struct io_cqring_offsets, resv),
++-             "struct io_cqring_offsets.resv offset mismatch"
++-             ", please update the decoder");
++-static_assert(sizeof_field(struct_io_cqring_offsets, resv)
++-             <= sizeof_field(struct io_cqring_offsets, resv),
++-             "struct io_cqring_offsets.resv size mismatch"
++-             ", please update the decoder");
++-# else /* !HAVE_STRUCT_IO_CQRING_OFFSETS_RESV */
++-static_assert(0, "struct io_cqring_offsets.resv is missing"
++-		 ", please update the decoder");
++-# endif
++-#endif /* HAVE_STRUCT_IO_CQRING_OFFSETS */
++ #ifdef HAVE_STRUCT_IO_URING_PARAMS
++ # ifdef HAVE_STRUCT_IO_URING_PARAMS_RESV
++ static_assert(offsetof(struct_io_uring_params, resv)
++-- 
++2.19.1
 +
-+            if c:
-+                outdir = os.path.dirname( outfile )
-+                outname = os.path.basename( outfile )
-+                outfile = outdir + '/'+ c + '-' + outname
+diff --git a/meta/recipes-devtools/strace/strace/0001-uring-fix-build-against-5.8-libc-headers.patch b/meta/recipes-devtools/strace/strace/0001-uring-fix-build-against-5.8-libc-headers.patch
+new file mode 100644
+index 0000000000..cfce3eca51
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-uring-fix-build-against-5.8-libc-headers.patch
+@@ -0,0 +1,98 @@
++From 8dda6b8ddbe18b6bb83cf1fa6bc71ebdc82e1b72 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@gmail.com>
++Date: Mon, 3 Aug 2020 23:00:39 -0400
++Subject: [PATCH] uring: fix build against 5.8 libc-headers
 +
-+            if config and os.path.isfile(outfile):
-+                os.remove(outfile)
++To get strace building against v5.8 headers before the next
++version of strace is released, we need to copy in a bootstrapped
++file from the latest git (xlat/uring_cqring_flags.h) and remove
++remove unnecessary asserts for v5.8+ (in a similar manner to the
++main strace repository).
 +
-+            with open(outfile, 'w+') as f:
-+                f.write( analysis )
++Upstream-status: inappropriate. oe specific (upstream builds bootstrap)
 +
-+            bb.warn( "Configuration {} executed, see: {} for details".format(action,outfile ))
-+            if c:
-+                bb.warn( analysis )
-+}
- 
- python do_kernel_configcheck() {
-     import re, string, sys, subprocess
-@@ -414,57 +475,89 @@ python do_kernel_configcheck() {
-     # meta-series for processing
-     kmeta = d.getVar("KMETA") or "meta"
-     if not os.path.exists(kmeta):
--        kmeta = "." + kmeta
-+        kmeta = subprocess.check_output(['kgit', '--meta']).decode('utf-8').rstrip()
- 
-     s = d.getVar('S')
- 
-     env = os.environ.copy()
-     env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
--    env['LD'] = "${KERNEL_LD}"
-+    env['LD'] = d.getVar('KERNEL_LD')
-+    env['CC'] = d.getVar('KERNEL_CC')
-+    env['ARCH'] = d.getVar('ARCH')
-+    env['srctree'] = s
- 
-     try:
-         configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
-     except subprocess.CalledProcessError as e:
-         bb.fatal( "Cannot gather config fragments for audit: %s" % e.output.decode("utf-8") )
- 
--    try:
--        subprocess.check_call(['kconf_check', '--report', '-o',
--                '%s/%s/cfg' % (s, kmeta), d.getVar('B') + '/.config', s, configs], cwd=s, env=env)
--    except subprocess.CalledProcessError:
--        # The configuration gathering can return different exit codes, but
--        # we interpret them based on the KCONF_AUDIT_LEVEL variable, so we catch
--        # everything here, and let the run continue.
--        pass
--
-     config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
-     bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
- 
--    # if config check visibility is non-zero, report dropped configuration values
--    mismatch_file = d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
--    if os.path.exists(mismatch_file):
--        if config_check_visibility:
--            with open (mismatch_file, "r") as myfile:
-+    # if config check visibility is "1", that's the lowest level of audit. So
-+    # we add the --classify option to the run, since classification will
-+    # streamline the output to only report options that could be boot issues,
-+    # or are otherwise required for proper operation.
-+    extra_params = ""
-+    if config_check_visibility == 1:
-+       extra_params = "--classify"
++Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++---
++ types/check-io_uring.c    | 10 --------
++ xlat/uring_cqring_flags.h | 48 +++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 48 insertions(+), 10 deletions(-)
++ create mode 100644 xlat/uring_cqring_flags.h
 +
-+    # category #1: mismatches
-+    try:
-+        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, env=env ).decode('utf-8')
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
++diff --git a/types/check-io_uring.c b/types/check-io_uring.c
++index dc21569..d5bd4b1 100644
++--- a/types/check-io_uring.c
+++++ b/types/check-io_uring.c
++@@ -13,16 +13,6 @@ static_assert(sizeof(struct io_sqring_offsets) <= offsetof(struct_io_sqring_offs
++ # endif /* HAVE_STRUCT_IO_SQRING_OFFSETS_RESV2 */
++ #endif /* HAVE_STRUCT_IO_SQRING_OFFSETS */
++ 
++-#ifdef HAVE_STRUCT_IO_CQRING_OFFSETS
++-# ifdef HAVE_STRUCT_IO_CQRING_OFFSETS_RESV
++-static_assert(sizeof(struct io_cqring_offsets) == sizeof(struct_io_cqring_offsets),
++-      "struct io_cqring_offsets size mismatch, please update the decoder or fix the kernel");
++-# else
++-static_assert(sizeof(struct io_cqring_offsets) <= offsetof(struct_io_cqring_offsets, resv),
++-"struct io_cqring_offsets size mismatch, please update the decoder or fix the kernel");
++-# endif /* HAVE_STRUCT_IO_CQRING_OFFSETS_RESV */
++-#endif /* HAVE_STRUCT_IO_CQRING_OFFSETS */
++-
++ #ifdef HAVE_STRUCT_IO_URING_PARAMS
++ # ifdef HAVE_STRUCT_IO_URING_PARAMS_CQ_OFF
++ static_assert(sizeof(struct io_uring_params) == sizeof(struct_io_uring_params),
++diff --git a/xlat/uring_cqring_flags.h b/xlat/uring_cqring_flags.h
++new file mode 100644
++index 0000000..0352749
++--- /dev/null
+++++ b/xlat/uring_cqring_flags.h
++@@ -0,0 +1,48 @@
+++/* Generated by ./xlat/gen.sh from ./xlat/uring_cqring_flags.in; do not edit. */
+++
+++#include "gcc_compat.h"
+++#include "static_assert.h"
+++
+++#if defined(IORING_CQ_EVENTFD_DISABLED) || (defined(HAVE_DECL_IORING_CQ_EVENTFD_DISABLED) && HAVE_DECL_IORING_CQ_EVENTFD_DISABLED)
+++DIAG_PUSH_IGNORE_TAUTOLOGICAL_COMPARE
+++static_assert((IORING_CQ_EVENTFD_DISABLED) == (1U), "IORING_CQ_EVENTFD_DISABLED != 1U");
+++DIAG_POP_IGNORE_TAUTOLOGICAL_COMPARE
+++#else
+++# define IORING_CQ_EVENTFD_DISABLED 1U
+++#endif
+++
+++#ifndef XLAT_MACROS_ONLY
+++
+++# ifdef IN_MPERS
+++
+++#  error static const struct xlat uring_cqring_flags in mpers mode
+++
+++# else
+++
+++static const struct xlat_data uring_cqring_flags_xdata[] = {
+++ XLAT(IORING_CQ_EVENTFD_DISABLED),
+++ #define XLAT_VAL_0 ((unsigned) (IORING_CQ_EVENTFD_DISABLED))
+++ #define XLAT_STR_0 STRINGIFY(IORING_CQ_EVENTFD_DISABLED)
+++};
+++static
+++const struct xlat uring_cqring_flags[1] = { {
+++ .data = uring_cqring_flags_xdata,
+++ .size = ARRAY_SIZE(uring_cqring_flags_xdata),
+++ .type = XT_NORMAL,
+++ .flags_mask = 0
+++#  ifdef XLAT_VAL_0
+++  | XLAT_VAL_0
+++#  endif
+++  ,
+++ .flags_strsz = 0
+++#  ifdef XLAT_STR_0
+++  + sizeof(XLAT_STR_0)
+++#  endif
+++  ,
+++} };
+++
+++#  undef XLAT_STR_0
+++#  undef XLAT_VAL_0
+++# endif /* !IN_MPERS */
+++
+++#endif /* !XLAT_MACROS_ONLY */
++-- 
++2.19.1
 +
-+    if analysis:
-+        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
-+        if os.path.isfile(outfile):
-+           os.remove(outfile)
-+        with open(outfile, 'w+') as f:
-+            f.write( analysis )
-+
-+        if config_check_visibility and os.stat(outfile).st_size > 0:
-+            with open (outfile, "r") as myfile:
-                 results = myfile.read()
-                 bb.warn( "[kernel config]: specified values did not make it into the kernel's final configuration:\n\n%s" % results)
- 
--    if bsp_check_visibility:
--        invalid_file = d.expand("${S}/%s/cfg/invalid.cfg" % kmeta)
--        if os.path.exists(invalid_file) and os.stat(invalid_file).st_size > 0:
--            with open (invalid_file, "r") as myfile:
--                results = myfile.read()
--                bb.warn( "[kernel config]: This BSP sets config options that are not offered anywhere within this kernel:\n\n%s" % results)
--        errors_file = d.expand("${S}/%s/cfg/fragment_errors.txt" % kmeta)
--        if os.path.exists(errors_file) and os.stat(errors_file).st_size > 0:
--            with open (errors_file, "r") as myfile:
-+    # category #2: invalid fragment elements
-+    extra_params = ""
-+    if bsp_check_visibility > 1:
-+        extra_params = "--strict"
-+    try:
-+        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, env=env ).decode('utf-8')
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+
-+    if analysis:
-+        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
-+        if os.path.isfile(outfile):
-+           os.remove(outfile)
-+        with open(outfile, 'w+') as f:
-+            f.write( analysis )
-+
-+        if bsp_check_visibility and os.stat(outfile).st_size > 0:
-+            with open (outfile, "r") as myfile:
-                results = myfile.read()
--               bb.warn( "[kernel config]: This BSP contains fragments with errors:\n\n%s" % results)
--
--    # if the audit level is greater than two, we report if a fragment has overriden
--    # a value from a base fragment. This is really only used for new kernel introduction
--    if bsp_check_visibility > 2:
--        redefinition_file = d.expand("${S}/%s/cfg/redefinition.txt" % kmeta)
--        if os.path.exists(redefinition_file) and os.stat(redefinition_file).st_size > 0:
--            with open (redefinition_file, "r") as myfile:
-+               bb.warn( "[kernel config]: This BSP contains fragments with warnings:\n\n%s" % results)
-+
-+    # category #3: redefined options (this is pretty verbose and is debug only)
-+    try:
-+        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, env=env ).decode('utf-8')
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-+
-+    if analysis:
-+        outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
-+        if os.path.isfile(outfile):
-+           os.remove(outfile)
-+        with open(outfile, 'w+') as f:
-+            f.write( analysis )
-+
-+        # if the audit level is greater than two, we report if a fragment has overriden
-+        # a value from a base fragment. This is really only used for new kernel introduction
-+        if bsp_check_visibility > 2 and os.stat(outfile).st_size > 0:
-+            with open (outfile, "r") as myfile:
-                 results = myfile.read()
-                 bb.warn( "[kernel config]: This BSP has configuration options defined in more than one config, with differing values:\n\n%s" % results)
- }
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 4f1af731d6..4402e14754 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
- 
- DEPENDS = "git-native"
- 
--SRCREV = "c66833e1caac25279a5052fceb13213f5e4f79f9"
-+SRCREV = "8b6fa727013daba5e8d72e5fc61d80caed944c6a"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 7904850317..3f9e6aa480 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -38,7 +38,7 @@ DEPENDS += "openssl-native util-linux-native"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "2"
-+KCONF_BSP_AUDIT_LEVEL = "1"
- 
- KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+diff --git a/meta/recipes-devtools/strace/strace_5.7.bb b/meta/recipes-devtools/strace/strace_5.7.bb
+index c184d035aa..bc6aea54d3 100644
+--- a/meta/recipes-devtools/strace/strace_5.7.bb
++++ b/meta/recipes-devtools/strace/strace_5.7.bb
+@@ -14,6 +14,9 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://ptest-spacesave.patch \
+            file://uintptr_t.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
++           file://0001-io_uring-Remove-struct-io_cqring_offsets-compile-tim.patch \
++           file://0001-io_uring-Add-io_cqring_offset-flags.patch \
++           file://0001-uring-fix-build-against-5.8-libc-headers.patch \
+            "
+ SRC_URI[sha256sum] = "b284b59f9bcd95b9728cea5bd5c0edc5ebe360af73dc76fbf6334f11c777ccd8"
  
 -- 
 2.19.1
