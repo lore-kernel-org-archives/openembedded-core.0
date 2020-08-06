@@ -1,73 +1,118 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.2811.1596705314905814162
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.2814.1596705355938760306
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2020 02:15:15 -0700
+ Thu, 06 Aug 2020 02:15:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pbnlhy6D;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id k8so8965342wma.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2020 02:15:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bMOaspcM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id z18so39708785wrm.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Aug 2020 02:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5OcA4r9D3ugJrV0bJ/2gwPjpvty1T5bQ/p8uTtMsyY8=;
-        b=Pbnlhy6DKXhLS/qpeB1CdSltqyniFnR0IsLscImplwrBRyzPxyaDPIqzkFOY/2pyEH
-         YvUinTc9DRvBRq8nuSiCfEu0GuSQNJ0fTqbw+GL4k/RGKTOkV7CZnsYvQEemCB2bGNPH
-         jGGsENQOgziMVpUMg66DjMLMZbYcMEP+tzLpA=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=1PMwSGam0aogP7h7Shbrucdv/IZk81zuw3uu41bz6Ww=;
+        b=bMOaspcMGnErdUypf5i2XMXAmAs8uy1BjxjzqOPn6CxTqI+tT1XU6Lek53s7ikJoEy
+         YS0fXAE4RWejI+I1Y0VMNj7GjtDAKHao4LV8TmiZs0xVT2iiUazrE6CmSLQuIYu42dFB
+         E6qRgI3vcHMbKx9pJ8WYLJFq6xGz10BpqcQmU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5OcA4r9D3ugJrV0bJ/2gwPjpvty1T5bQ/p8uTtMsyY8=;
-        b=AMJ9NDPz4vKFAbb6u5nrPRC1LIz7yVpCgphl6rUSL3VgoYv3EhTZ+jmDmu7NtFaYdz
-         wMiNCX+w4B30wvXWflxrpJhbur3xGAqcgU3vwWdauKRKR/cVnKwrvy33vaJCsPqDKqWq
-         P43JwiCuKn4Z7/DLWvbZVLcpzDYodlUjoJ5t0y8xui8uf7eH74h7OUjWceJi1KTWCiTq
-         gEpmJkEoM7yZLCEwTUCQt+offps4qPRfmytJg8tk2U29Vcq/4FJynsuRr5uDNymQ04rL
-         7Y9KZBN3cSBJt5L/WGUYUKtAlY5d6/2KM46lFbPCJIApC7Nq7Z7/UajLeuHISbSRuM3K
-         Visg==
-X-Gm-Message-State: AOAM531Lm2Ye9YLaqv3o/vkKFh/zb/TNNdZiGC2scFg8gVEn8uZ3kmFR
-	1blrQ4ChbrH41pS8fTCJczHybocXPEvFoQ==
-X-Google-Smtp-Source: ABdhPJwKVZ5nyMbZCMI8z0Qe79B2RX+eK2M0oZjYfAUFBMLB0QUDR7yNk/0wmToTR/jRq5bXZWAkqw==
-X-Received: by 2002:a1c:e244:: with SMTP id z65mr6993422wmg.34.1596705312957;
-        Thu, 06 Aug 2020 02:15:12 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=1PMwSGam0aogP7h7Shbrucdv/IZk81zuw3uu41bz6Ww=;
+        b=Ha9lS6iny1dnTGY9UcqVnf2NSxffeH5j9fkpodqXw2uUG6wQu6nCdQAWqmFYvVhpdT
+         6HweTFTOIFf7sO9U3heNw4CIYJ990DlT7Ppe5dbgRmHWU7ULes2P3sw/JmzxzW0ws6zr
+         2CG94RBYFXrEYQD6fRuqarczIEwHjTkvwqVZwo8lLQ3coO5grYSDVV1d3d8hfoF3xScz
+         UuxF5MQoUnFzsiAyNloc6ajKV9ul7HJBibd7MjlBzgtIQLgcYrzy3G4neof+Ox7NHYj8
+         KN+bqJg+ToqBfPcfjrzDPEMZbPH9dDYbOJdtHz1b9UQ9Www7L1OGzifg1lSL78YN3+fC
+         Jfmg==
+X-Gm-Message-State: AOAM53269s3o9C9KAgr9bQKnyEdAbjWm/ANKB77ovFAMfZ3aFTE800Q7
+	8x1P2s3qRkEQ7clLvMplVbYltg==
+X-Google-Smtp-Source: ABdhPJxZkX3u5yr6LCHI9KiRZVzAl8mcM1N6L/by5pKytXb6w2AqfhHpEuKFYQgal3Y/TCpTfHrRhA==
+X-Received: by 2002:a5d:460c:: with SMTP id t12mr6800997wrq.334.1596705354545;
+        Thu, 06 Aug 2020 02:15:54 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (b.f.9.1.0.8.f.d.f.5.0.d.7.c.1.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1c7:d05f:df80:19fb])
-        by smtp.gmail.com with ESMTPSA id f63sm5806626wmf.9.2020.08.06.02.15.12
-        for <openembedded-core@lists.openembedded.org>
+Received: from b.f.9.1.0.8.f.d.f.5.0.d.7.c.1.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (b.f.9.1.0.8.f.d.f.5.0.d.7.c.1.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1c7:d05f:df80:19fb])
+        by smtp.gmail.com with ESMTPSA id g70sm5925422wmg.24.2020.08.06.02.15.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 02:15:12 -0700 (PDT)
+        Thu, 06 Aug 2020 02:15:54 -0700 (PDT)
+Message-ID: <6d7824e5e06d0947d9985d5816577abaaeaa5950.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/4] kernel/yocto: conslidated pull request
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-yocto: Fix bb.debug to add missing log level
-Date: Thu,  6 Aug 2020 10:15:12 +0100
-Message-Id: <20200806091512.691613-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+To: "Mittal, Anuj" <anuj.mittal@intel.com>, "kexin.hao@windriver.com"
+ <kexin.hao@windriver.com>, "bruce.ashfield@gmail.com"
+ <bruce.ashfield@gmail.com>,  "Jon.Mason@arm.com" <Jon.Mason@arm.com>,
+ "ross@burtonini.com" <ross@burtonini.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	 <raj.khem@gmail.com>
+Date: Thu, 06 Aug 2020 10:15:52 +0100
+In-Reply-To: <cc48a8ec9e8066248c2c29662bc9e28dd3d7645f.camel@intel.com>
+References: <cover.1594989620.git.bruce.ashfield@gmail.com>
+	 <16285A84D29254CC.27500@lists.openembedded.org>
+	 <7af01e4c3d12d960a7c8820f773f77658d6d59e5.camel@linuxfoundation.org>
+	 <cc48a8ec9e8066248c2c29662bc9e28dd3d7645f.camel@intel.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixes warnings like:
+On Thu, 2020-08-06 at 05:04 +0000, Mittal, Anuj wrote:
+> On Wed, 2020-08-05 at 12:10 +0100, Richard Purdie wrote:
+> > On Wed, 2020-08-05 at 12:06 +0100, Richard Purdie via
+> > lists.openembedded.org wrote:
+> > > On Fri, 2020-07-17 at 08:56 -0400, bruce.ashfield@gmail.com wrote:
+> > > > Here's my latest set of patches.
+> > > > 
+> > > > For 5.4: a -stable update, and -rt bug fix
+> > > > 
+> > > > For the build: a tweak to the config generation (as reported
+> > > > and discussed on the mailing list)
+> > > > 
+> > > > For 5.8 (aka the next reference kernel): a fix for devsrc and
+> > > > on target kernel building. With this tweak, I have all of the
+> > > > refrences booting and passing most tests on 5.8, so we are in
+> > > > good shape on that front. I'll be doing libc-headers testing
+> > > > next.
+> > > > 
+> > > > I ran these through the AB and local testing, no issues popped
+> > > > up, except a warning on qemuarm-alt in my last run. It was
+> > > > about a console login and didn't look related to the change,
+> > > > but I'm keeping my eye on it.
+> > > 
+> > > Thanks, I ran this combined with Khem's binutils change through the
+> > > autobuilder and your changes are likely fine but we need more work
+> > > to
+> > > get binutils in. Basically:
+> > > 
+> > > * meta-arm needs to add the kernel patch for perf
+> > > * meta-intel needs to add the kernel patch for perf
+> > > * the hardware BSPs need to add the kernel patch for perf
+> > > 
+> > > I've added a few maintainers/people to the address list to try and
+> > > sort
+> > > that out. Who is going to handle the hardware platforms?
+> > 
+> > Sorry, the url for the failing builds:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1231
+> > 
+> > The kernel tweak needed for binutils 2.35:
+> > 
+> > http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/?h=v5.4/standard/base&id=1fe4ee7f680c3f69f620d68a5d2f7341e8db693b
+> > 
+> 
+> Thanks Richard. I have included the patch in meta-intel.
 
-WARNING: linux-intel-5.4.50+gitAUTOINC+caafbdfe38_89e6c056f3-r0 do_kernel_configcheck: Passed invalid debug level 'outfile size is: /home/pokybuild/yocto-worker/meta-intel/build/build/tmp/work-shared/intel-corei7-64/kernel-source/.kernel-meta/cfg/mismatch.txt 767' to bb.debug
+Thanks Anuj. That fixed the errors but there are still warnings with
+master-next:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/kernel-yocto.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/594
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 3c428c0782e..7f870a6cc61 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -515,7 +515,7 @@ python do_kernel_configcheck() {
-         with open(outfile, 'w+') as f:
-             f.write( analysis )
- 
--        bb.debug( "outfile size is: %s %s" % (outfile,os.stat(outfile).st_size))
-+        bb.debug(1, "outfile size is: %s %s" % (outfile,os.stat(outfile).st_size))
-         if config_check_visibility and os.stat(outfile).st_size > 0:
-             with open (outfile, "r") as myfile:
-                 results = myfile.read()
--- 
-2.25.1
+I've sent a patch for the first one which is a simple typo. The other
+one looks to be a meta-intel configuration issue.
+
+Cheers,
+
+Richard
 
