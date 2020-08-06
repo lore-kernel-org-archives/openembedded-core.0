@@ -1,236 +1,113 @@
-Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.87])
- by mx.groups.io with SMTP id smtpd.web12.2949.1596706673679321378
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.3036.1596707180669197707
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Aug 2020 02:37:54 -0700
+ Thu, 06 Aug 2020 02:46:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=d9sCWAz0;
- spf=pass (domain: kpit.com, ip: 40.107.138.87, mailfrom: amitanand.chikorde@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mdQCzurZCMUqEgm2M51utLZG560daBY6gZIMY+EgIUoOLfL3P+wCBLpaHS3nsKk6PJxOp+sGryRm+v7FkRKO3TOFIXl1WJ45DUmttdvR/1MTCL+1zkg68yCwfiVAez1gwBS4LqyLWvGpIbE1CrfIBjqgs5CRAJl+sqX2CjGXMF/f5VtdVSvrxeE6yxDOOi1qlCHDyFlV5AzNVu3vi6AdaHOkUxApAON+bzmvXzRkmWiIvaUtX4h+qOiPYMauFx8RIp+R2DgK/f6Gd55hOS/VpEedNTgBBwzEVBiyI9G10WRI0GsKQqcOeW/gK7HwRlR8IPST2fd4jkFaMGggYLXVLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XpAGX4OFO4bTKJ0gKr7uWkS7S3S7D3dHdIbndZNyXUc=;
- b=EWCbRqriV6Q+PMOE30xSkAYS6T/NCyJFhKnSQEAyNaKHNURiyew6m9GbDutY+AMQ/19bzXFBgPpZXeD3MQAzwBj9n80nyd/GX/A09MJcwIeojTyJxMUkSHq7pN62ovleZS9aHDc/uSIQ+DgYVIlJgFKN+GCPT9jfkbwOIYorzKlhv9cXa3azEUG21iOTR1So0PcprHWX2+q0XWeF1pHIdhSj+JAPcrmFlEYWLXhcah44zvPIP66S4taWkTo/Aqzv5YD4m0nj7fO6BOCcK8YsCrfW4FJrb6ralX+82UuYmyfMGSCq9TKLorLajK8iTNe/yhHZEL7e6/gg5q9kxBNldQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XpAGX4OFO4bTKJ0gKr7uWkS7S3S7D3dHdIbndZNyXUc=;
- b=d9sCWAz0w6JkvvjJ1GHV2IS8i4BdEQkORlMggIm6e0SBKIoE40LyjCod0FDu4Pl9v2oX58SDeQmLjH/RbU1PpktT6wufuntE7yPsH87fbMkAciBH/qAQO+I047KS20KbtG/Rov5qZaOL1loRTJI3l0XRSodK0d+MbxEypPZLO7s=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=kpit.com;
-Received: from BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:57::22)
- by BMXPR01MB2326.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:39::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.18; Thu, 6 Aug
- 2020 09:37:39 +0000
-Received: from BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::94b9:9645:e369:6d94]) by BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::94b9:9645:e369:6d94%6]) with mapi id 15.20.3239.022; Thu, 6 Aug 2020
- 09:37:39 +0000
-From: "Amitanand N Chikorde" <Amitanand.Chikorde@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: anuj.chougule@kpit.com,
-	nisha.parrakat@kpit.com,
-	"Amitanand.Chikorde" <amitanand.chikorde@kpit.com>
-Subject: [meta-oe][sumo][PATCH] systemd: fix codesonar warnings
-Date: Thu,  6 Aug 2020 15:07:21 +0530
-Message-Id: <1596706641-5853-1-git-send-email-Amitanand.Chikorde@kpit.com>
-X-Mailer: git-send-email 2.7.4
-X-ClientProxiedBy: BM1PR0101CA0011.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:18::21) To BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:57::22)
-Return-Path: Amitanand.Chikorde@kpit.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2405:204:9595:d581:fdc7:bc14:ffdf:b60b) by BM1PR0101CA0011.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:18::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3261.18 via Frontend Transport; Thu, 6 Aug 2020 09:37:37 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [2405:204:9595:d581:fdc7:bc14:ffdf:b60b]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f4339402-a05c-48d8-56bb-08d839ec5b5c
-X-MS-TrafficTypeDiagnostic: BMXPR01MB2326:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BMXPR01MB232679E6BF6DD805E9206A5BFD480@BMXPR01MB2326.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	U7rXphai6sN6tfIIYhxIr+Tb6yS4w/HEj/hSZZH3yJNcjMa3WzNucTxYjrdrmeWW+hJpc+sGJ6JYZVPTdO5a5Q3mwnKSUUlaA3K+dpp1CubnSALXSjWoKjjcjmx4b46D6eWiNn+OcI0hLKjTnvOmRVznKDhxpUSUnv7ApPxwnmQVJVazV5kGDmSkMqR2ioGAShc617BhYl05/H0wcV5E3uHVCQ32n2+sITRixFHCAfNIgeWZNcF66ONLLN4oIItCwlZvmg9uTmsbxCtPPSbznOTnu3KgouR4EEe7Je8G8bDNrTCM247EjQU04/GuQ8ODUXOllxqYi2m1nLpg22zptxKeS2SjthiqbtwpPG9dkmzuBH6KmPYAXpCuOxDdaib0
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(8936002)(316002)(2616005)(5660300002)(2906002)(36756003)(6666004)(66946007)(8676002)(66574015)(16526019)(186003)(6506007)(6512007)(4326008)(478600001)(69590400007)(66556008)(66476007)(107886003)(52116002)(86362001)(83380400001)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	fklTD9NkiED8W3LWTWuQHGL/KBcinlsMTNMzKNYWeUhTPMQlB8sGjqrTJYJXJoQF+/y6+Z++94tymwaaxcCuTEml8oEkVQhdySqufzKQoK8isCAXqTWoX950IeG5sXz0KFd2/ty+K8ex8S9EWWN5rAm5tpqGiWJSjOwKn9lH00b95D/DoEk5zgtME+GSzZzTlB0RBmrz0BgkJV3AE/Ic8xhJ1PM340YYg9TMqKl2oDp8tt7EW/a6oLDQ0qpnYbIIVlu5ehKj4KYvEN06B7b8btmhnts8zmibsA6oGnoMD1qiseB1oOCTJVXHaZW3hPrYvHvqpf+8AccowXspLuEaOoEtVkb1x1Z9Gix0m8TNw3P6qLkcyi/9ww3gBKg7lRvYH5XVzyQusohS6XRxDHVFmpCCqbTt2o0J15JeKt4d/Zm0gP1vHiGvGr7wYdo8p4gETRCJZeWizW+819ttzU7u5MMh7N17khxhCkR0CZfj6wffjRxXdqBTKis7jrrQ0mzWv/NR+tzHVpTxR4fTzsv3d9Cc8Ajc8rYCSCnOI2CfUPQUiULGOYYABOupI25YgRr/ISl041vTDfzPEywLxoLaINYbtfkyPC3ARMoTzo6pT/eetmuV5HhB4MopJDPlTIpMVJPd2QnHqsFG2BitvUURt/7ck4Wq/sqC2VKqkPRVyW7X6hlg+Ko4t0YnIvgtF8SLpmal6RfHGWxWckcjtk6rJw==
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4339402-a05c-48d8-56bb-08d839ec5b5c
-X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB3397.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2020 09:37:38.7034
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gqzxz7QbPDf+qLMGyCSa/iqXWx6lVmSM2y55kkhjQSKYSn9k/14WOeq2pHGIbaOZ8Tkp4ohZxwxFupkrXYJByg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB2326
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: 0ogc+ow6K1xuK0s1vgH2RwpBLxPPf8Waefyvdtuzo4M4GngelJXPsC32SETytC1RdcB0qAbJTc
+ 2ElipUAvAE9w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="170836657"
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; 
+   d="scan'208";a="170836657"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2020 02:46:19 -0700
+IronPort-SDR: TUOqp2HCVDNQMCgsDrE3uqnxx2cRkVvNYSL/PX5hED8CP2MY9rZr/J+nClw3STaI+WsaDc3lEU
+ UoHAHa6PQTvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,441,1589266800"; 
+   d="scan'208";a="493610325"
+Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
+  by fmsmga005.fm.intel.com with ESMTP; 06 Aug 2020 02:46:19 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] ghostscript: fix CVE-2020-15900
+Date: Thu,  6 Aug 2020 17:46:17 +0800
+Message-Id: <20200806094618.31973-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-From: "Amitanand.Chikorde" <amitanand.chikorde@kpit.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Fixed below systemd codesonar warnings.
-1. isprint() and isspace() is invoked here with an argument of signed
-type char, but only has defined behavior for int arguments that are
-either representable as unsigned char or equal to the value
-of macro EOF(-1).
-
-As per codesonar report, in a number of libc implementations, isprint()
-and isspace() functions implemented using lookup tables (arrays):
-passing in a negative value can result in a read underrun.
-
-To avoid this unexpected behaviour, typecasted char type argument to
-unsigned char type.
-
-2. "seqnum" defined, not initialized & used in device-private.c
-Intialized "seqnum" at definition.
-
-Signed-off-by: Amitanand <Amitanand.Chikorde@kpit.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- files/systemd_codesonar_warnings_fix.patch | 106 +++++++++++++++++++++++++=
-++++
- 1 file changed, 106 insertions(+)
- create mode 100644 files/systemd_codesonar_warnings_fix.patch
+ .../ghostscript/CVE-2020-15900.patch          | 54 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.52.bb           |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
 
-diff --git a/files/systemd_codesonar_warnings_fix.patch b/files/systemd_cod=
-esonar_warnings_fix.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
 new file mode 100644
-index 0000000..ce79eb2
+index 0000000000..d7c5f034e5
 --- /dev/null
-+++ b/files/systemd_codesonar_warnings_fix.patch
-@@ -0,0 +1,106 @@
-+systemd: fix codesonar warnings
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
+@@ -0,0 +1,54 @@
++From 5d499272b95a6b890a1397e11d20937de000d31b Mon Sep 17 00:00:00 2001
++From: Ray Johnston <ray.johnston@artifex.com>
++Date: Wed, 22 Jul 2020 09:57:54 -0700
++Subject: [PATCH] Bug 702582, CVE 2020-15900 Memory Corruption in Ghostscript
++ 9.52
 +
-+Fixed below systemd codesonar warnings.
-+1. isprint() and isspace() is invoked here with an argument of signed
-+type char, but only has defined behavior for int arguments that are
-+either representable as unsigned char or equal to the value
-+of macro EOF(-1).
++Fix the 'rsearch' calculation for the 'post' size to give the correct
++size.  Previous calculation would result in a size that was too large,
++and could underflow to max uint32_t. Also fix 'rsearch' to return the
++correct 'pre' string with empty string match.
 +
-+As per codesonar report, in a number of libc implementations, isprint()
-+and isspace() functions implemented using lookup tables (arrays):
-+passing in a negative value can result in a read underrun.
++A future change may 'undefine' this undocumented, non-standard operator
++during initialization as we do with the many other non-standard internal
++PostScript operators and procedures.
 +
-+To avoid this unexpected behaviour, typecasted char type argument to
-+unsigned char type.
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5d499272b95a6b890a1397e11d20937de000d31b]
++CVE: CVE-2020-15900
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ psi/zstring.c | 17 +++++++++++------
++ 1 file changed, 11 insertions(+), 6 deletions(-)
 +
-+2. "seqnum" defined, not initialized & used in device-private.c
-+Intialized "seqnum" at definition.
++diff --git a/psi/zstring.c b/psi/zstring.c
++index 33662dafa..58e1af2b3 100644
++--- a/psi/zstring.c
+++++ b/psi/zstring.c
++@@ -142,13 +142,18 @@ search_impl(i_ctx_t *i_ctx_p, bool forward)
++     return 0;
++ found:
++     op->tas.type_attrs = op1->tas.type_attrs;
++-    op->value.bytes = ptr;
++-    r_set_size(op, size);
+++    op->value.bytes = ptr;				/* match */
+++    op->tas.rsize = size;				/* match */
++     push(2);
++-    op[-1] = *op1;
++-    r_set_size(op - 1, ptr - op[-1].value.bytes);
++-    op1->value.bytes = ptr + size;
++-    r_set_size(op1, count + (!forward ? (size - 1) : 0));
+++    op[-1] = *op1;					/* pre */
+++    op[-3].value.bytes = ptr + size;			/* post */
+++    if (forward) {
+++        op[-1].tas.rsize = ptr - op[-1].value.bytes;	/* pre */
+++        op[-3].tas.rsize = count;			/* post */
+++    } else {
+++        op[-1].tas.rsize = count;			/* pre */
+++        op[-3].tas.rsize -= count + size;		/* post */
+++    }
++     make_true(op);
++     return 0;
++ }
++-- 
++2.17.1
 +
-+Upstream-Status: Pending
-+
-+Signed-off-by: Amitanand N. Chikorde <Amitanand.Chikorde@kpit.com>
-+
-+--- origcode/src/libsystemd/sd-device/device-private.c 2020-07-09 18:05:13=
-.744127907 +0530
-++++ modifcode/src/libsystemd/sd-device/device-private.c        2020-07-09 =
-18:01:56.494621945 +0530
-+@@ -560,7 +560,7 @@
-+         char **key;
-+         const char *major =3D NULL, *minor =3D NULL;
-+         DeviceAction action =3D _DEVICE_ACTION_INVALID;
-+-        uint64_t seqnum;
-++        uint64_t seqnum =3D 0;
-+         int r;
-+
-+         assert(ret);
-+--- origcode/src/libudev/libudev-util.c        2020-07-09 18:05:13.6560495=
-15 +0530
-++++ modifcode/src/libudev/libudev-util.c       2020-07-09 18:02:32.5633864=
-14 +0530
-+@@ -171,7 +171,7 @@
-+
-+         /* strip trailing whitespace */
-+         len =3D strnlen(str, len);
-+-        while (len && isspace(str[len-1]))
-++        while (len && isspace((unsigned char) str[len-1]))
-+                 len--;
-+
-+         /* strip leading whitespace */
-+@@ -182,8 +182,8 @@
-+         j =3D 0;
-+         while (i < len) {
-+                 /* substitute multiple whitespace with a single '_' */
-+-                if (isspace(str[i])) {
-+-                        while (isspace(str[i]))
-++                if (isspace((unsigned char) str[i])) {
-++                        while (isspace((unsigned char) str[i]))
-+                                 i++;
-+                         to[j++] =3D '_';
-+                 }
-+--- origcode/src/udev/udevadm-hwdb.c   2020-07-09 18:05:13.612010318 +0530
-++++ modifcode/src/udev/udevadm-hwdb.c  2020-07-09 18:03:26.243530163 +0530
-+@@ -487,7 +487,7 @@
-+
-+                 /* strip trailing whitespace */
-+                 len =3D strlen(line);
-+-                while (len > 0 && isspace(line[len-1]))
-++                while (len > 0 && isspace((unsigned char) line[len-1]))
-+                         len--;
-+                 line[len] =3D '\0';
-+
-+--- origcode/src/udev/udevadm-info.c   2020-07-09 18:05:13.616013882 +0530
-++++ modifcode/src/udev/udevadm-info.c  2020-07-09 18:03:41.621625782 +0530
-+@@ -73,7 +73,7 @@
-+
-+                 /* skip nonprintable attributes */
-+                 len =3D strlen(value);
-+-                while (len > 0 && isprint(value[len-1]))
-++                while (len > 0 && isprint((unsigned char) value[len-1]))
-+                         len--;
-+                 if (len > 0)
-+                         continue;
-+--- origcode/src/udev/udev-rules.c     2020-07-09 18:05:13.624021008 +0530
-++++ modifcode/src/udev/udev-rules.c    2020-07-09 18:03:03.227995790 +0530
-+@@ -726,7 +726,7 @@
-+                 return -1;
-+
-+         /* skip whitespace */
-+-        while (isspace(linepos[0]) || linepos[0] =3D=3D ',')
-++        while (isspace((unsigned char) linepos[0]) || linepos[0] =3D=3D '=
-,')
-+                 linepos++;
-+
-+         /* get the key */
-+@@ -738,7 +738,7 @@
-+                 linepos++;
-+                 if (linepos[0] =3D=3D '\0')
-+                         return -1;
-+-                if (isspace(linepos[0]))
-++                if (isspace((unsigned char) linepos[0]))
-+                         break;
-+                 if (linepos[0] =3D=3D '=3D')
-+                         break;
-+@@ -751,7 +751,7 @@
-+         temp =3D linepos;
-+
-+         /* skip whitespace after key */
-+-        while (isspace(linepos[0]))
-++        while (isspace((unsigned char) linepos[0]))
-+                 linepos++;
-+         if (linepos[0] =3D=3D '\0')
-+                 return -1;
---
-2.7.4
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+index 4cdb6e00d8..65135f5821 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+@@ -34,6 +34,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+ SRC_URI = "${SRC_URI_BASE} \
+            file://ghostscript-9.21-prevent_recompiling.patch \
+            file://cups-no-gcrypt.patch \
++           file://CVE-2020-15900.patch \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+-- 
+2.17.1
 
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
