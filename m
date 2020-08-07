@@ -1,139 +1,107 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.93.1596816883366827483
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.622.1596818403723732171
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 09:14:43 -0700
+ Fri, 07 Aug 2020 09:40:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QS/oZePe;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: rehsack@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id df16so1645023edb.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 09:14:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NUAG/AzL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id m34so1156429pgl.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 09:40:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:subject:from:in-reply-to:date:cc:message-id:references
-         :to;
-        bh=U/2+gXUH80ApYlKX9rtDVlmmXdC994Uj1DixqwvLJF8=;
-        b=QS/oZePekSODrU/KnzRXj2VbHlixUrAw2Zf++6Iytenz+D+/mb/MeoEMo6U384+EB4
-         g33LrnF21GsdkAKbnS5Wsmczm9ZB2svR97md/MnXUNeDkQ9zZj09HFnyRhzgsxzLSFHN
-         F444uXuYGLPBKbTvqyPklqIBJNY5S5ezYlGS4lPAN2tTlBVEKkQyqwzR/jdV/R1yjW9J
-         Acz+1eFiYr0uI6kiETwfPCVAJZ7Iym/NS88rRXaX+HkNdBQXfeWV/FiN4ygyBXuy2xNz
-         x8vK8RHpMNTS9lSJ73rGYm7OHOvzLy/wsicmOWXXDUZ51m5PHA3EjKT4NBvcSYTG58iZ
-         E/GA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=tav9G6t25X0KDA8u7ncEhy4tsUCxWO9xiqdjZBpY//I=;
+        b=NUAG/AzLrxVCZaEatcPX/QtWuzhelYXlLmsmoO0dQwLb8SNWbAdI+9WYmhhwjnbljZ
+         sdwJlcDHTokUjJxOc9o/Gix9Y7lyh7yFKM45Fn42Fd6UHVFN+vdn/VIzuYoKAq3Ke2te
+         oLRCj/CfUeAYb4fb9F69SgbTHyeWBlph3IVr2bdJ1lRv8dAML8m26VMLlqz8qPUqRii8
+         EpNntSO/mfDll9SKqorZx4js0ddru3Xm8Cm0wzRCo0L54qSLWKyp3mj9Vn/OKCEqk3ZA
+         kjaYMfN+TBvojuIwSTuxAZCDOHF4AgprPOQHhcSG866pceFQz0cV82c67It+O1lHeh8X
+         XSzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :message-id:references:to;
-        bh=U/2+gXUH80ApYlKX9rtDVlmmXdC994Uj1DixqwvLJF8=;
-        b=E7xUsjnIrmOwIZwdVe2G6cSZFERM0AGdh0oyppTyfjLyva+3Wu9513yKOl1FOgvXWQ
-         LRFj3BvjwImxAK/d6MPKufLauajrDbiyJPXhKjQb9xGc2HdIFUWZ5lndxPbS7peNI7/i
-         F5G9OdBss06ewPUSa0F3MipLYk/VftjsQHlWnbgZ0HgI0ElfcUWbWLu9W8UX3eLBsaMd
-         f2l7zX+8sbALJHwj33OJPmQ3668Dp8jFcHM9tCCsRvXBQh9uKawJDUADorTqn3f+J/Ao
-         y0u6CaTuWC6FZ6ISSo8+bEMUaF6riA29X+EBlNb57AwbjekDFeovQ3iqKKONFs4a3pZM
-         FI5g==
-X-Gm-Message-State: AOAM5316IzVwAdoA/osmmQlEJDQx1k+7Q6jaxNJzbQZWWocHGNXGKdyV
-	zxN0DojSFyha+gXnJrFVFi8=
-X-Google-Smtp-Source: ABdhPJxoVqG46KJs+BWoySUBEryGdeOR18jRZTpwTJkentlSdyqD3Ipb8afHJNTfEGQH8GU9qL1ALA==
-X-Received: by 2002:aa7:d983:: with SMTP id u3mr9843548eds.366.1596816881788;
-        Fri, 07 Aug 2020 09:14:41 -0700 (PDT)
-Return-Path: <rehsack@gmail.com>
-Received: from [10.42.8.217] (p5b25b5e7.dip0.t-ipconnect.de. [91.37.181.231])
-        by smtp.gmail.com with ESMTPSA id e6sm672969edu.36.2020.08.07.09.14.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Aug 2020 09:14:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: environment-setup.d usage in SDKs and eSDK
-From: "Jens Rehsack" <rehsack@gmail.com>
-In-Reply-To: <da1885af24ecf70823c3aa80ba668cc71493582b.camel@linuxfoundation.org>
-Date: Fri, 7 Aug 2020 18:14:39 +0200
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Message-Id: <5751DB36-25F5-4995-9CC6-106C30D0DF66@gmail.com>
-References: <da1885af24ecf70823c3aa80ba668cc71493582b.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-X-Groupsio-MsgNum: 141299
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7B4680A6-5DC4-4F14-9AE6-60D2914D9A74";
-	protocol="application/pgp-signature";
-	micalg=pgp-sha512
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=tav9G6t25X0KDA8u7ncEhy4tsUCxWO9xiqdjZBpY//I=;
+        b=m31tJdziIO7k8eBXUmQJeeVnLUtFYq8Ml2DZ5WVsduZkoSHLeIj1CznpQfAaI219Je
+         qA692k2226rf3wmSS8vc7HPuQ5nicAR0kBJcjH+adx9wm03xOIXa6PbXiHxX8lWJvKRu
+         WNDqwITviCiMPdum8l3vWFvWPvGguij1wsD2CKaxOcRvfPAUHaFt3wK0gC8Fjs1LAA5n
+         OKAnHm4v689qjqfdufahUQRFI+cyNN0iJQvR4az63XE4dnglcyOnaPnou7vDbkYiUyc2
+         Mn/ukWyYCxr+dLQKExZQpBNsz3u/ruwuPonPnrY2snJXSs5xBGpM/wIpCvcuSyhwaTs+
+         ohSQ==
+X-Gm-Message-State: AOAM532vXRLvT+A4Qu/N0OEuse01t7k3zFpATs7kXxEqyjAhpw42uTwv
+	JRyAbWDMbreJKWnn4FZyvzlmhibW3fXHyA==
+X-Google-Smtp-Source: ABdhPJx395LZ1BmTsrGwUATyyHOSctUtBu38++JP34KIvmcCPpsOy7WataX6RrmXX/vR547dW5ELUQ==
+X-Received: by 2002:a63:e057:: with SMTP id n23mr12032073pgj.368.1596818402412;
+        Fri, 07 Aug 2020 09:40:02 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id gz7sm10973702pjb.45.2020.08.07.09.40.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 09:40:01 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
+Date: Fri,  7 Aug 2020 06:39:51 -1000
+Message-Id: <cover.1596818262.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
---Apple-Mail=_7B4680A6-5DC4-4F14-9AE6-60D2914D9A74
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The following changes since commit 7ce425fa1295a9dca48f8474be58db3ac8aa540d:
 
+  glibc: Secruity fix for CVE-2020-6096 (2020-07-27 12:15:56 -1000)
 
+are available in the Git repository at:
 
-> Am 07.08.2020 um 17:17 schrieb Richard Purdie =
-<richard.purdie@linuxfoundation.org>:
->=20
-> I've just spent far too long staring at this so I'm going to write =
-down
-> what I found out. I may as well share it publicly.
->=20
-> An eSDK can be used like a normal SDK with an environment file that =
-can
-> be sourced. The challenge is that an eSDK contains native binaries
-> rather than the nativesdk variants in the SDK.
->=20
-> This means that where an SDK has nativesdk environment.d files, an =
-eSDK
-> ends up using "native" environment.d files which are not used in any
-> other context.
->=20
-> Some recipes like cmake implement both. Some others like icecc or
-> openssl only have nativesdk variants. This probably needs cleaning up
-> to be consistent.
->=20
-> It gets worse when you find that buildtools is included in eSDK and =
-its
-> environment file is sourced. This means you get a mix of nativesdk and
-> native. If you set OECORE_NATIVE_SYSROOT in buildtools, it corrupts =
-the
-> eSDK's variable of the same name. This why buildtools has a hardcoded
-> list of variables it puts in the enrivonment rather than using
-> environment.d.
->=20
-> It would be better if the two sets of environment files (native and
-> nativesdk) referenced different variables as currently the two can't
-> coexist. This also really needs to be fixed.
->=20
-> Cheers,
->=20
-> Richard
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Thank you very much for your patience and time digging deeper into this.
-Maybe I'm getting the chance to help something - I forwarded this =
-information
-to the team and look if we can use both, SDK and eSDK so we would need
-those fixups (and thus do them then ^^).
+Alexander Kanavin (1):
+  gnutls: upgrade 3.6.13 -> 3.6.14
 
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
+Andrei Gherzan (2):
+  initscripts: Fix various shellcheck warnings in populate-volatile.sh
+  initscripts: Fix populate-volatile.sh bug when file/dir exists
 
+Konrad Weihmann (1):
+  cve-update: handle baseMetricV2 as optional
 
---Apple-Mail=_7B4680A6-5DC4-4F14-9AE6-60D2914D9A74
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+Lee Chee Yang (1):
+  checklayer: check layer in BBLAYERS before test
 
------BEGIN PGP SIGNATURE-----
+Matt Madison (1):
+  cogl-1.0: correct X11 dependencies
 
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl8tfe8ACgkQRJmWrtzl
-Cp0vYA//Z1NByUBsDglVJfRnVNWV2SwKSHXReyf2cnmNQd+ZmSCiv9Wavay5hzkr
-oEQTcD94SXHBFv3dzh0Rfz44JhBPT7+C3N71DeJhM4oIwnOiZa6RUfJbOp4crCDk
-Gw7wqRswPx1m4ATfA3snhl52QHbs4PcZ0PLo3Oq8Wj88ORObz/F5zv/Kl1z5wVEm
-UbB2olaqiWY6onoc2s0QhMauMNwZ6FpJ1kKM1vYFIcRrTRmVqZkbAyyAHVNQ64+K
-Ps5zDfBo6Bw0/XaXB8ZULrH+LsBvKz3EX9ntHW1gVZnwSVk9CPN6Koe7w+K0DXkz
-Og3Ti89Xv/l15y1DbhgvVAS8586/tDXSFLZ7EfbXN6TuHPEA3evQgpttWrVM3j5A
-0Sxs14WIaYEK4lVIlekjWaCzTyChTgoIfXMCSGmCLoRTSiQ54AoV3SVfJwEsYSgP
-O/XGD7tJpD+9gEE5wRR4VkaGe7ksxkwccRkHU1CLVH9OoaWMMawNtLQlSws+gGru
-pdsyrzLboZGAOT2xGOdqAW+iIWVSjhK63Ty0PGADHPLZ6bJOnwTvkXPNB0vudsu/
-4mKXiVpyRHn8rA7J6dpnGsfwD6YpiZO63nXBkmY4r0boHr9zOdULh6XWeUDZtZxD
-gfQ3G9Rvd3K32OM5MmdcDTu88LZxBpPexzX3FZRv0GsafKW/Zt0=
-=vO+E
------END PGP SIGNATURE-----
+Steve Sakoman (2):
+  glib-networking: upgrade 2.62.3 to 2.62.4
+  Revert "gtk-icon-cache.bbclass: add runtime dependency"
 
---Apple-Mail=_7B4680A6-5DC4-4F14-9AE6-60D2914D9A74--
+Viktor Rosendahl (1):
+  boost: backport fix to make async_pipes work with asio
+
+Yi Zhao (1):
+  bind: upgrade 9.11.19 -> 9.11.21
+
+zhengruoqin (1):
+  gnutls: Fix krb5 code license to GPLv2.1+ to match the LICENSE file.
+
+ meta/classes/gtk-icon-cache.bbclass           | 19 +---
+ .../bind/{bind_9.11.19.bb => bind_9.11.21.bb} |  2 +-
+ ...ng_2.62.3.bb => glib-networking_2.62.4.bb} |  4 +-
+ .../initscripts-1.0/populate-volatile.sh      | 80 ++++++++---------
+ .../recipes-core/meta/cve-update-db-native.bb | 13 ++-
+ meta/recipes-graphics/cogl/cogl-1.0.inc       |  2 +-
+ .../0001-added-typedef-executor_type.patch    | 54 +++++++++++
+ meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
+ ...se-to-GPLv2.1-to-keep-with-LICENSE-f.patch | 90 +++++++++++++++++++
+ .../{gnutls_3.6.13.bb => gnutls_3.6.14.bb}    |  4 +-
+ scripts/lib/checklayer/__init__.py            | 14 +++
+ scripts/yocto-check-layer                     |  9 +-
+ 12 files changed, 225 insertions(+), 67 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.19.bb => bind_9.11.21.bb} (98%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.62.3.bb => glib-networking_2.62.4.bb} (88%)
+ create mode 100644 meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.6.13.bb => gnutls_3.6.14.bb} (92%)
+
+-- 
+2.17.1
+
