@@ -1,245 +1,154 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.81])
- by mx.groups.io with SMTP id smtpd.web10.7314.1596810747266819823
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.77])
+ by mx.groups.io with SMTP id smtpd.web11.7622.1596811562315650729
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 07:32:28 -0700
+ Fri, 07 Aug 2020 07:46:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=NxPLArv1;
- spf=pass (domain: kpit.com, ip: 40.107.139.81, mailfrom: amitanand.chikorde@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=jfeax/NM;
+ spf=pass (domain: kpit.com, ip: 40.107.138.77, mailfrom: amitanand.chikorde@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A02blBsy46aVm4oio8bwnzRVPcVk38qxu3+ZUIu1fbGKNjWkmKGkWJC50Kdr7fUwi49qbn2aLO1YS0G7Hp+hDQC22reKDwYthCY8m9gjNZeYW+oRcLjFtOMPulsOSGN4bP7mpf7arhrLQZJEjVUhFmv3dqkkYcJkywYgj7mQHX8V+fEmsxAgZdc7Pg3iTBGaie/hXmPtuZr9+Rz0CJlgidJ0rRiqrmbs8xuVCEi1FOdgt3E3sNUaK5dfplxVUOT8hGTkPgaUd0511L40X7kjn8Vuo1DcUjUk12jrgBKlWgLiIOTy/HZGiTHimKndIC+EKlAvFWeeA/4UOGVfyZ7efw==
+ b=BxUExcD+lzJOhlezeAoRKztzlfj7tartnqU+75wLWZH8FcURVTS16fubKKS15Q5jUw6uTyrhgnuHBQTOD8yeKUMJ+ZLQswdkNhf+4OHJveTPKKOjdOtXXcHJSDmMmdlhNWSZMYq9qUFScw7P7bcg3EDJJseAH2S8jKn5Zd4a/5mEPDnR5L71fIgWYZ8VcKbUKLaNSiUHwggy/tHRBs/k0N04O8stdkN4vQB98dKGZE6QN/J98fSC+iZJTGe+qlqKFRTNteV20CdTmB2INuvcPoTuco06i83v043ptkbsF6MixA5aQTMezeLcpdH0XJuzfDGN5Yw+uJz+fFt3Q8Pwwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=udQYKZGdYwBOCsr8j2ayPDcs5OV5HGNTIH+H/DN+UBs=;
- b=fyhVq6PUpRtkjvM/v1VUq0d5/9jFsr1z6dbFfEJckcy9DHbOiyRUzZDyq2lLAcMeyQGb+EbNn071CGjCop50+T9lCiiyOtbF+VwQ7vkUfMhBO5P1eguS14FwRA+q+fjaRpSe411P9rUmzXmfoTc26xuvaDHfEnSOxXy4+gpUMVb6gTTFH+ahM/+XD7mU8D548JY+8QAHnc3OjmN+RZjG2twEFjBnfh3/AMYn4Y5cH6ObD/PnNr844Jwdc1ASZD6Yr/9une7LwWA71v1oO6TVnRxY2K3PBjf6z1E8vFnIYKkCMbSAQqIPZneF/c+axcztTPMvfFfdErf1+4naQLi7hg==
+ bh=9a1hF0MpP+cd8hFm551brqIdqdUEoIsr6hAnl6uwo3o=;
+ b=ULUfJolZ34SJH/0mENdy34p3SrrIJ+4qYxa+hOCEUb/7g7PQFVwVwhyHbli5JTnSwiQf7m/lGso5tS6ZvH9pGbZX8qXLN9uRm2bU9Ye0Ki58rdanEnntOWvsjXaZ+7uDtd9qyudPuM52TXZ02xiXuWwA5ycgAc9uXi/qGttEbWrRbKFP8k6REJcB1pBlVr76jWhijlLGztKKbdQrFL0Q3iEcTfW2Sbm678GVGZNpHMb+qL+en/X/9Dm9fsJq9NtCOS1pQUz1wprGxkyX0eHNhxdP8pCnXkzkadW1cUbBk14jNz1rEGFFvNMLeMzCfURhbG2A5EETYZx1zEq4+AjmJQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=udQYKZGdYwBOCsr8j2ayPDcs5OV5HGNTIH+H/DN+UBs=;
- b=NxPLArv1obI5LDt2zoBrc67g7uSVDihdtDef2eLAtXZQG1Poo8tb+yG68sZUdYlJkgXeuxtrBzGbfoWOkhIHWybl2Gsovfo15YrbHngOS2V/A/ovqcvjwl5Z+HHYSWJUMSDcRUou/M+JR8gWM9JGmXMcVv0UYSj2EK8VjX3+xrY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=kpit.com;
+ bh=9a1hF0MpP+cd8hFm551brqIdqdUEoIsr6hAnl6uwo3o=;
+ b=jfeax/NMAjPA4pgPOWO+mg9IKWrvLcVAmxj53a/T43ftmEsAYes45mSfgSdFFw5CYItRauNuumSFcfyT3JUSQqCpoD6VT+ZQlwPMVR2IKMAVy5hnpnCpfkFeR5UjrzjppnUdFphtaX8kncxji1BjaY4zdXExgu0/2FRLo++ndUI=
 Received: from MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:63::10)
- by MAXPR01MB2285.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:57::19) with
+ by MA1PR01MB3115.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:43::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.18; Fri, 7 Aug
- 2020 14:31:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Fri, 7 Aug
+ 2020 14:45:57 +0000
 Received: from MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::211f:4e7e:e90d:8928]) by MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::211f:4e7e:e90d:8928%4]) with mapi id 15.20.3261.019; Fri, 7 Aug 2020
- 14:31:59 +0000
+ 14:45:57 +0000
 From: "Amitanand N Chikorde" <Amitanand.Chikorde@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com,
-	anuj.chougule@kpit.com,
-	amitanand.chikorde@kpit.com
-Subject: [meta-oe][sumo][PATCH] systemd: fix codesonar warnings
-Date: Fri,  7 Aug 2020 20:01:47 +0530
-Message-Id: <1596810707-16909-1-git-send-email-Amitanand.Chikorde@kpit.com>
-X-Mailer: git-send-email 2.7.4
-X-ClientProxiedBy: BMXPR01CA0001.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:d::11) To MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:63::10)
-Return-Path: Amitanand.Chikorde@kpit.com
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
+	<Anuj.Chougule@kpit.com>, Aditya Tayade <Aditya.Tayade@kpit.com>
+Subject: Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar warnings
+Thread-Topic: [OE-core] [poky][master][PATCH] systemd: fix codesonar warnings
+Thread-Index: AQHWbJjwVAIXmniG1Ead3kmfXxJ856ksXxUAgABW7Qo=
+Date: Fri, 7 Aug 2020 14:45:57 +0000
+Message-ID: 
+ <MAXPR01MB34089A990650B474A09C851BFD490@MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM>
+References: 
+ <1596790670-25319-1-git-send-email-Amitanand.Chikorde@kpit.com>,<57532ca51c2af5673966e242c4c5414441707429.camel@linuxfoundation.org>
+In-Reply-To: 
+ <57532ca51c2af5673966e242c4c5414441707429.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=kpit.com;
+x-originating-ip: [157.33.189.50]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 198487d5-9f77-4786-dba8-08d83ae09857
+x-ms-traffictypediagnostic: MA1PR01MB3115:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <MA1PR01MB3115F69189ECC442E5FE36F9FD490@MA1PR01MB3115.INDPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ fLoU0U0eerCVTPl600YD4pma1s3P+ECaHLcoixTTBxEH/XvSdnEm0AsLOGuQJXVsPn0ZbLhTc3NRFXKVKxH+CFvdc0I5Ou36gUZNjS2D8i1VvrAFqpKgPZwZISlDpLb8Iiz1bemqLiarv+JTmBYSJLaOfW2iDQ1Q4dueVTpq9NHdhUYniYdDoQqWCYGoYHjBhq7pv57EyAc/appadI0bzSUpCPlFwSxldefM5OLLHqWSYJ+R6FNmYknxu+lCq6H8fcZHWCLBdAXt9yMSew2gceG5TKgdMe+WlPZCu9gU5j+NKlKlxx+DqcIIGP/au78Qr3WDwkDfH3dTWzfINdkUeMpnNDqiM4/JeNQaOx3ShvmKIHVvbjjZC38IKSdReE58bx5O8tAZbbBHTOBAHTAxrQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(376002)(366004)(136003)(39850400004)(54906003)(4326008)(966005)(166002)(66446008)(2906002)(5660300002)(52536014)(76116006)(33656002)(110136005)(186003)(316002)(7696005)(91956017)(66556008)(71200400001)(6506007)(478600001)(86362001)(64756008)(8676002)(19627405001)(83380400001)(53546011)(66946007)(66574015)(66476007)(9686003)(26005)(55016002)(107886003)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ iHJnrCzuHr30pDvt/hBz1AdLP/NDxwXqPzOFiixn8Xc/BAuOF7UmuxWb7RTsfLgBTKog6YG/o7GZqlLAELnMaqc3Hh+pNtH3oZ17FgeHI6zEnYAmcg7Z0K3ZN7bZO4qBFj8oQqP3pvLEppLb+3z6ZuOWh6QJidyZG9GnEnmG3M/Z0H3mti0DaChsaq5/K1PEpbRzhEXvKQPn5baOinN+2SUaKkXbEcONCNATlFaisFNJbZCmh1AB/DwtQCU3IbLskB2HF0O1FA7aFC42SvkCuYJLuME4fsfjMOqJBcn2fWYE8yvO8e59ppn/SiiS3ri+t4AeQYPaD0eVPhGytMbVaBuByKQUcyKZa6FBUpVF+bVnFZa+Hd0Wy1RHntvdHiBa7+1qy2pv2mGzcy/SozyJ4mXJL0GCnqXs6xzrQLcFA7csrh+oM4AkZ58QcvkXFrYAbnR3Glp+uoGTM/vLl2SgMaqeSeog+gCyz75CcDFuijGF5kPSFqYt/RE4Ym2by/OJTuQ+KSNkA7nXic23/ImuekKJqkppVEEgjHWwfTvc7RFxFD3JCd+jaNOBYNMzNzz16bua11DbVSAh8SXYlZVD3FrK0bgOXKwRCyCLZjXI9Lc7phfqy7PniZYzm6xt7bNZilu3adQU71REc0K0kalz6g==
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2409:4042:261c:cec0:10e1:ffc8:3f09:9f09) by BMXPR01CA0001.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:d::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3261.19 via Frontend Transport; Fri, 7 Aug 2020 14:31:57 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [2409:4042:261c:cec0:10e1:ffc8:3f09:9f09]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 743b8d0f-d2bb-422c-d91a-08d83adea3fc
-X-MS-TrafficTypeDiagnostic: MAXPR01MB2285:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MAXPR01MB22852FE6E48B621698CBEE4AFD490@MAXPR01MB2285.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Wx5Ejc4ZRv+mPfojYcsjovv2y4AZhRxRgSwy3ZvDkS1ijDmCTLLMADvilLfw3v7ZiWVhi5c3+j/EYXljRouz8KHzZ5ZXHWm+4Wm02DuMhidO4KEkGnox/IxAIF+Q9Ygl1is0LaPExvRmhjveUgj8em/w5JBlwNk1cVA/wmQuw23oihlmi9DM22EjRZFH7QaNn6ST20xZ0W5+8xmSmdvZr6DEi+fFGty+C9rlVQANPH+FXOQDAmH/UdmipQwpETgGdCb7uYFAMI/huNNnzmmFdj0HNG+5O57I+5Nh++MXD/TF9JhFH6fl5+zkWsEUPZvqdM3yTYDHSOsLFUZakvXngcfTmqv5x2+f6qz4XbV4ejvj2nROab9fOY+XqnGfn9hy
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(366004)(346002)(396003)(39850400004)(376002)(36756003)(8936002)(66946007)(86362001)(66476007)(66556008)(186003)(6666004)(16526019)(52116002)(6506007)(5660300002)(4326008)(83380400001)(478600001)(6512007)(2906002)(316002)(6486002)(8676002)(2616005)(107886003)(66574015)(69590400007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	L/sJGx8ozRFzkENNZMBgz22vV6PTa+VVphGNoN4RI+ucovdXR5iNCtZr13D5BDxuirKgUTO2/W4+DZWbScQ5/iP9s7Onzj5hMGTUuEEO1/dQvyfTbqpUHHqJJx0f1bU/iG0miAoy+8ihuGoydAgRQBKcc3HP7pN+nzVm/i30pa5b5+T/FNA6sUyyObVyV9+CZkxZBJyKtTDdmXVfDmTgQ/7N0XTmNBz4XcHdaczBZz5flQ3tbeU+032KFQv/cmWPlg3EPyNTxWcyrxHqIsNLYODArRIVLLmBnrxMO0lKLsDL8Q+YR8vQf0MlDMdup3fzSwaHwlHcrxrwToLUBEa+f8HqHk9A4afUPx5waHVVxTFRPyKBPYSny+7NeUYnMFcqE5dfE+xR3fvEMNXjXomFtkafmexikt3if2S61+ZzpOZP+bSqnYEetrqj8J/+M9BijhPUt+pvXD2jWSCm4OYccGPFA7Vtzs2C5H+Y1/w4A2o0a1W/hoV6zg8wtsJ+BF5PRXtwXlZMSwLGK+PmnzVEZvv/tvNZkuZh05jbLZiT6IHHWUTxJnUntEJI/FAxewYUrrkAam43wRb1kFfaSHajHb7JwbABbIaQyvDm5CA6umSXjb0re44ihNpFKcIHcvYz97Z4ocS54miy52SLJ2nKH1QUOJBqE88gqS4symNOXRpowCJ0djqig4iE6/tRy1aQl52V7EydqOxqo2vR4FUjMA==
 X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 743b8d0f-d2bb-422c-d91a-08d83adea3fc
-X-MS-Exchange-CrossTenant-AuthSource: MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2020 14:31:59.4574
+X-MS-Exchange-CrossTenant-AuthSource: MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 198487d5-9f77-4786-dba8-08d83ae09857
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2020 14:45:57.4026
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JU55wlp9CAVuw5fohg0AuKSSVjocPk9MyM7dnDEQzvE66EXkpa6MpsQs3CyudOkHasnEwJ+UWvYk0m80a5e70w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB2285
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +flSSJQq3S66GnuXdMID71VvsIRndexIBL7eo5CQgTyWahEY4Fun/AXZRB7+3P7/fPOKvFWHd4bXajRUSqVmHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB3115
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_MAXPR01MB34089A990650B474A09C851BFD490MAXPR01MB3408INDP_"
+
+--_000_MAXPR01MB34089A990650B474A09C851BFD490MAXPR01MB3408INDP_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Fixed below systemd codesonar warnings.
-1. isprint() and isspace() is invoked here with an argument of signed
-type char, but only has defined behavior for int arguments that are
-either representable as unsigned char or equal to the value
-of macro EOF(-1).
+Hi Richard,
 
-As per codesonar report, in a number of libc implementations, isprint()
-and isspace() functions implemented using lookup tables (arrays):
-passing in a negative value can result in a read underrun.
+The patch is having 8 fixes of which only 1 is applicable to upstream syste=
+md.
 
-To avoid this unexpected behaviour, typecasted char type argument to
-unsigned char type.
+The applicable fix is up-streamed to systemd project ( pull request  https:=
+//github.com/systemd/systemd/pull/16625 ), it is merged into upstream syste=
+md master branch.
 
-2. "seqnum" defined, not initialized & used in device-private.c
-Intialized "seqnum" at definition.
+We need to upstream all of the systemd codesonar fixes.
 
-Signed-off-by: Amitanand <Amitanand.Chikorde@kpit.com>
----
- .../systemd/systemd_codesonar_warnings_fix.patch   | 105 +++++++++++++++++=
-++++
- meta/recipes-core/systemd/systemd_245.6.bb         |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/systemd_codesonar_war=
-nings_fix.patch
+Moved patch file to path "poky/meta/recipes-core/systemd/systemd/" and will=
+ be sending the patch file to openembedded-core mailing list.
 
-diff --git a/meta/recipes-core/systemd/systemd/systemd_codesonar_warnings_f=
-ix.patch b/meta/recipes-core/systemd/systemd/systemd_codesonar_warnings_fix=
-.patch
-new file mode 100644
-index 0000000..a62f968
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/systemd_codesonar_warnings_fix.patc=
-h
-@@ -0,0 +1,105 @@
-+systemd: fix codesonar warnings
-+
-+Fixed below systemd codesonar warnings.
-+1. isprint() and isspace() is invoked here with an argument of signed
-+type char, but only has defined behavior for int arguments that are
-+either representable as unsigned char or equal to the value
-+of macro EOF(-1).
-+
-+As per codesonar report, in a number of libc implementations, isprint()
-+and isspace() functions implemented using lookup tables (arrays):
-+passing in a negative value can result in a read underrun.
-+
-+To avoid this unexpected behaviour, typecasted char type argument to
-+unsigned char type.
-+
-+2. "seqnum" defined, not initialized & used in device-private.c
-+Intialized "seqnum" at definition.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Amitanand N. Chikorde <Amitanand.Chikorde@kpit.com>
-+
-+--- origcode/src/libsystemd/sd-device/device-private.c 2020-07-09 18:05:13=
-.744127907 +0530
-++++ modifcode/src/libsystemd/sd-device/device-private.c        2020-07-09 =
-18:01:56.494621945 +0530
-+@@ -560,7 +560,7 @@
-+         char **key;
-+         const char *major =3D NULL, *minor =3D NULL;
-+         DeviceAction action =3D _DEVICE_ACTION_INVALID;
-+-        uint64_t seqnum;
-++        uint64_t seqnum =3D 0;
-+         int r;
-+
-+         assert(ret);
-+--- origcode/src/libudev/libudev-util.c        2020-07-09 18:05:13.6560495=
-15 +0530
-++++ modifcode/src/libudev/libudev-util.c       2020-07-09 18:02:32.5633864=
-14 +0530
-+@@ -171,7 +171,7 @@
-+
-+         /* strip trailing whitespace */
-+         len =3D strnlen(str, len);
-+-        while (len && isspace(str[len-1]))
-++        while (len && isspace((unsigned char) str[len-1]))
-+                 len--;
-+
-+         /* strip leading whitespace */
-+@@ -182,8 +182,8 @@
-+         j =3D 0;
-+         while (i < len) {
-+                 /* substitute multiple whitespace with a single '_' */
-+-                if (isspace(str[i])) {
-+-                        while (isspace(str[i]))
-++                if (isspace((unsigned char) str[i])) {
-++                        while (isspace((unsigned char) str[i]))
-+                                 i++;
-+                         to[j++] =3D '_';
-+                 }
-+--- origcode/src/udev/udevadm-hwdb.c   2020-07-09 18:05:13.612010318 +0530
-++++ modifcode/src/udev/udevadm-hwdb.c  2020-07-09 18:03:26.243530163 +0530
-+@@ -487,7 +487,7 @@
-+
-+                 /* strip trailing whitespace */
-+                 len =3D strlen(line);
-+-                while (len > 0 && isspace(line[len-1]))
-++                while (len > 0 && isspace((unsigned char) line[len-1]))
-+                         len--;
-+                 line[len] =3D '\0';
-+
-+--- origcode/src/udev/udevadm-info.c   2020-07-09 18:05:13.616013882 +0530
-++++ modifcode/src/udev/udevadm-info.c  2020-07-09 18:03:41.621625782 +0530
-+@@ -73,7 +73,7 @@
-+
-+                 /* skip nonprintable attributes */
-+                 len =3D strlen(value);
-+-                while (len > 0 && isprint(value[len-1]))
-++                while (len > 0 && isprint((unsigned char) value[len-1]))
-+                         len--;
-+                 if (len > 0)
-+                         continue;
-+--- origcode/src/udev/udev-rules.c     2020-07-09 18:05:13.624021008 +0530
-++++ modifcode/src/udev/udev-rules.c    2020-07-09 18:03:03.227995790 +0530
-+@@ -726,7 +726,7 @@
-+                 return -1;
-+
-+         /* skip whitespace */
-+-        while (isspace(linepos[0]) || linepos[0] =3D=3D ',')
-++        while (isspace((unsigned char) linepos[0]) || linepos[0] =3D=3D '=
-,')
-+                 linepos++;
-+
-+         /* get the key */
-+@@ -738,7 +738,7 @@
-+                 linepos++;
-+                 if (linepos[0] =3D=3D '\0')
-+                         return -1;
-+-                if (isspace(linepos[0]))
-++                if (isspace((unsigned char) linepos[0]))
-+                         break;
-+                 if (linepos[0] =3D=3D '=3D')
-+                         break;
-+@@ -751,7 +751,7 @@
-+         temp =3D linepos;
-+
-+         /* skip whitespace after key */
-+-        while (isspace(linepos[0]))
-++        while (isspace((unsigned char) linepos[0]))
-+                 linepos++;
-+         if (linepos[0] =3D=3D '\0')
-+                 return -1;
-diff --git a/meta/recipes-core/systemd/systemd_245.6.bb b/meta/recipes-core=
-/systemd/systemd_245.6.bb
-index cdafb98..63c58e1 100644
---- a/meta/recipes-core/systemd/systemd_245.6.bb
-+++ b/meta/recipes-core/systemd/systemd_245.6.bb
-@@ -21,6 +21,7 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
-m.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://CVE-2020-13776.patch \
-+           file://systemd_codesonar_warnings_fix.patch \
-            "
 
- # patches needed by musl
---
-2.7.4
+Regards,
+Amit
+
+________________________________
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: Friday, August 7, 2020 2:51 PM
+To: Amitanand N Chikorde <Amitanand.Chikorde@kpit.com>; openembedded-core@l=
+ists.openembedded.org <openembedded-core@lists.openembedded.org>; raj.khem@=
+gmail.com <raj.khem@gmail.com>
+Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>; Anuj Chougule <Anuj.Chougule@=
+kpit.com>; Aditya Tayade <Aditya.Tayade@kpit.com>
+Subject: Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar warning=
+s
+
+On Fri, 2020-08-07 at 14:27 +0530, Amitanand N Chikorde wrote:
+> Fixed below systemd codesonar warnings.
+> 1. isprint() and isspace() is invoked here with an argument of signed
+> type char, but only has defined behavior for int arguments that are
+> either representable as unsigned char or equal to the value
+> of macro EOF(-1).
+>
+> As per codesonar report, in a number of libc implementations,
+> isprint()
+> and isspace() functions implemented using lookup tables (arrays):
+> passing in a negative value can result in a read underrun.
+>
+> To avoid this unexpected behaviour, typecasted char type argument to
+> unsigned char type.
+>
+> 2. "seqnum" defined, not initialized & used in device-private.c
+> Intialized "seqnum" at definition.
+>
+> Signed-off-by: Amitanand <Amitanand.Chikorde@kpit.com>
+> ---
+>  files/systemd_codesonar_warnings_fix.patch | 106
+> +++++++++++++++++++++++++++++
+>  1 file changed, 106 insertions(+)
+>  create mode 100644 files/systemd_codesonar_warnings_fix.patch
+
+This patch simply creates a patch file. It doesn't get applied anywhere
+and is in a generic files/ directory.
+
+Shouldn't this go to upstream systemd?
+
+Cheers,
+
+Richard
 
 This message contains information that may be privileged or confidential an=
 d is the property of the KPIT Technologies Ltd. It is intended only for the=
@@ -249,3 +158,148 @@ r use this message or any part thereof. If you receive this message in erro=
 r, please notify the sender immediately and delete all copies of this messa=
 ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
  mails.
+
+--_000_MAXPR01MB34089A990650B474A09C851BFD490MAXPR01MB3408INDP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Hi Richard, <br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+The patch is having 8 fixes of which only 1 is applicable to upstream syste=
+md. <br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+The applicable fix is up-streamed to systemd project ( pull request&nbsp; <=
+a href=3D"https://github.com/systemd/systemd/pull/16625" class=3D"external-=
+link" rel=3D"nofollow">
+https://github.com/systemd/systemd/pull/16625</a> ), it is merged into upst=
+ream systemd master branch.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+We need to upstream all of the systemd codesonar fixes.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Moved patch file to path &quot;poky/meta/recipes-core/systemd/systemd/&quot=
+; and will be sending the patch file to openembedded-core mailing list.<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Amit<br>
+</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
+=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Richard Purdie &lt;=
+richard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> Friday, August 7, 2020 2:51 PM<br>
+<b>To:</b> Amitanand N Chikorde &lt;Amitanand.Chikorde@kpit.com&gt;; openem=
+bedded-core@lists.openembedded.org &lt;openembedded-core@lists.openembedded=
+.org&gt;; raj.khem@gmail.com &lt;raj.khem@gmail.com&gt;<br>
+<b>Cc:</b> Nisha Parrakat &lt;Nisha.Parrakat@kpit.com&gt;; Anuj Chougule &l=
+t;Anuj.Chougule@kpit.com&gt;; Aditya Tayade &lt;Aditya.Tayade@kpit.com&gt;<=
+br>
+<b>Subject:</b> Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar =
+warnings</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">On Fri, 2020-08-07 at 14:27 +0530, Amitanand N Chi=
+korde wrote:<br>
+&gt; Fixed below systemd codesonar warnings.<br>
+&gt; 1. isprint() and isspace() is invoked here with an argument of signed<=
+br>
+&gt; type char, but only has defined behavior for int arguments that are<br=
+>
+&gt; either representable as unsigned char or equal to the value<br>
+&gt; of macro EOF(-1).<br>
+&gt; <br>
+&gt; As per codesonar report, in a number of libc implementations,<br>
+&gt; isprint()<br>
+&gt; and isspace() functions implemented using lookup tables (arrays):<br>
+&gt; passing in a negative value can result in a read underrun.<br>
+&gt; <br>
+&gt; To avoid this unexpected behaviour, typecasted char type argument to<b=
+r>
+&gt; unsigned char type.<br>
+&gt; <br>
+&gt; 2. &quot;seqnum&quot; defined, not initialized &amp; used in device-pr=
+ivate.c<br>
+&gt; Intialized &quot;seqnum&quot; at definition.<br>
+&gt; <br>
+&gt; Signed-off-by: Amitanand &lt;Amitanand.Chikorde@kpit.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; files/systemd_codesonar_warnings_fix.patch | 106<br>
+&gt; +++++++++++++++++++++++++++++<br>
+&gt;&nbsp; 1 file changed, 106 insertions(+)<br>
+&gt;&nbsp; create mode 100644 files/systemd_codesonar_warnings_fix.patch<br=
+>
+<br>
+This patch simply creates a patch file. It doesn't get applied anywhere<br>
+and is in a generic files/ directory.<br>
+<br>
+Shouldn't this go to upstream systemd?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</div>
+</span></font></div>
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print,
+ retain copy, disseminate, distribute, or use this message or any part ther=
+eof. If you receive this message in error, please notify the sender immedia=
+tely and delete all copies of this message. KPIT Technologies Ltd. does not=
+ accept any liability for virus
+ infected mails.
+</body>
+</html>
+
+--_000_MAXPR01MB34089A990650B474A09C851BFD490MAXPR01MB3408INDP_--
