@@ -1,76 +1,90 @@
-Received: from mga12.intel.com (mga12.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.3016.1596793522486784343
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.4942.1596803120456535137
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 02:45:24 -0700
+ Fri, 07 Aug 2020 05:25:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: HBBxpg1Xzymq4VMe3vTIrN9ON8eJogX9EXPWsjzSp16m9gIiIFTEoa9+zlCh8z4Bpo2T28RiLZ
- eXwkg3t9wauw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9705"; a="132602547"
-X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; 
-   d="scan'208";a="132602547"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2020 02:45:24 -0700
-IronPort-SDR: 3WleSrLZAa5XNT84JJUyaMRWajS/fVcknziE0MWompmO0uzjKcdUlFjtoELX6chO+bO3qGot05
- lfs581nbs50g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; 
-   d="scan'208";a="333496893"
-Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by orsmga007.jf.intel.com with ESMTP; 07 Aug 2020 02:45:23 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gV6Py6cI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id m20so1141780eds.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 05:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2cFPiHq+pO8a4SlCgzEB/ot/csizoDz+6EG3InlgwJo=;
+        b=gV6Py6cIIMUONGA9U0hIM2OJZfMskvynUB+0ANUBBISQUnNj/Ne11eEu/GGknnO+if
+         SGmbt9nwK2UtsU7wI5Wuj6YsXFvAajBiyOOxnzQ+SWtF1ZqHLLalYRVEEo1JNJtm1zyz
+         QacsRJ+6lfo2qFQ2D3rDHBre7vAqFDizZFxYL2yRvOkk5JsYAYP1SSx53xFhea92LTv4
+         BEQudvlb81cnlyRU/zjMjJQSRAzMpoV21Jdzw4VAuduyYr10SBGrs8WnCr5aBzu6vtRs
+         5w/g7rLXbwzihTA56ghbQW6YIsIiQwiJn6QwNLHtLSQlFYrnZ18VMMBT7NRyzyhry1Tn
+         2Kqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2cFPiHq+pO8a4SlCgzEB/ot/csizoDz+6EG3InlgwJo=;
+        b=oMzDJ/eUVtFpqIfsqpwEAx8yl6vrZtfZrnWzLXjw6hiO3edxSifTrao6vIp7k4Jyjd
+         ztqccLo6EpemP0BXco4RiTRKznBp+cZDuCmuYQLRJ3ByLT7y/vYHmWF2DWXaUxEiFJDe
+         H2r+smMUUs3HWsW5xENevGUFHFn2AfWsSjq9HFm9rMRwBqfmoelFLbuSRmr0vNWA/Fxv
+         uFF0Q77eRRxK6WdG+8y0hqVfDvk0XYdqFPUctf43jw3kKoIyUpPNgt+5khrsxERQCdjT
+         KPoqs7KFqEzGtqtY1pYq2f9G6rIp7G+gGYHD4YPcWYdZH4sSPmnwQnk4vH3CjVFNK1hb
+         OkMw==
+X-Gm-Message-State: AOAM533LjygSIbqbXBoDjUyaDlphsZvuw9YV4bBznoVACRAHmHw7uX/Y
+	uq4vqZQVsXDLPCqd99pWUNFMgoxD
+X-Google-Smtp-Source: ABdhPJxafRcy/vM5eo6DhZ89AdCjuqyZ3B7waeZVOVHV4j6HDic+X9W9UGDMJ7oBjVrGHE1BqR1X8w==
+X-Received: by 2002:aa7:d1cc:: with SMTP id g12mr8788291edp.385.1596803118470;
+        Fri, 07 Aug 2020 05:25:18 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
+        by smtp.gmail.com with ESMTPSA id k6sm583698ejj.41.2020.08.07.05.25.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 05:25:17 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 4/4] webkitgtk: fix CVE-2020-13753
-Date: Fri,  7 Aug 2020 17:45:19 +0800
-Message-Id: <20200807094519.6436-4-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200807094519.6436-1-chee.yang.lee@intel.com>
-References: <20200807094519.6436-1-chee.yang.lee@intel.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] oeqa: write @OETestTag content into json test reports for each case
+Date: Fri,  7 Aug 2020 14:24:54 +0200
+Message-Id: <20200807122454.29750-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+This allows using these tags for classification and filtering of test results
+according to various organization-specific criteria, such as teams
+responsible for the test, internal test ids, feature domains and so on.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Test name itself meanwhile can stay short and human-readable.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../webkit/webkitgtk/CVE-2020-13753.patch         | 15 +++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.28.2.bb      |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
+ meta/lib/oeqa/core/runner.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
-new file mode 100644
-index 0000000000..d8504c2b36
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Backport [https://trac.webkit.org/changeset/262368/webkit?format=diff&new=262368]
-+CVE: CVE-2020-13753
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 00b7d0bb12..d50690ab37 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -195,6 +195,20 @@ class OETestResult(_TestResult):
+                 report['log'] = log
+             if duration:
+                 report['duration'] = duration
 +
-+Index: a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
-+===================================================================
-+--- a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262367)
-++++ b/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262368)
-+@@ -642,5 +642,5 @@
-+         int r;
-+         if (rule.arg)
-+-            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, rule.arg);
-++            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, *rule.arg);
-+         else
-+             r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 0);
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-index 288c715cc3..9cfec83ec7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://cross-compile.patch \
-            file://0001-Fix-build-with-musl.patch \
-            file://include_array.patch \
-+           file://CVE-2020-13753.patch \
-            "
- SRC_URI[md5sum] = "ec0ef870ca37e3a5ebbead2f268a28ec"
- SRC_URI[sha256sum] = "b9d23525cfd8d22c37b5d964a9fe9a8ce7583042a2f8d3922e71e6bbc68c30bd"
++            alltags = []
++            # pull tags from the case class
++            if hasattr(case, "__oeqa_testtags"):
++                alltags.extend(getattr(case, "__oeqa_testtags"))
++            # pull tags from the method itself
++            test_name = case._testMethodName
++            if hasattr(case, test_name):
++                method = getattr(case, test_name)
++                if hasattr(method, "__oeqa_testtags"):
++                    alltags.extend(getattr(method, "__oeqa_testtags"))
++            if alltags:
++                report['oetags'] = alltags
++
+             if dump_streams and case.id() in self.logged_output:
+                 (stdout, stderr) = self.logged_output[case.id()]
+                 report['stdout'] = stdout
 -- 
-2.17.1
+2.28.0
 
