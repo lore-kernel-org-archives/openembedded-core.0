@@ -1,81 +1,85 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.8069.1596812940788094192
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web12.8290.1596813483310910595
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 08:09:01 -0700
+ Fri, 07 Aug 2020 08:18:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gwkHFPrb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id 9so2018660wmj.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 08:09:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EUJhawmn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id d190so2047389wmd.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 08:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=2URvIUzhE9TVsTEJJ+Kej7qkU3xIWrTylxCedb5W44U=;
-        b=gwkHFPrbTlUoCzFB7nzW22sOBwUKcaK6TzU9yy/55eGsMrPW+u4nGne9Xb/+jh0pdi
-         R9mmD0aORfbwgx3zzyHYaYkB27FwSmTNzgzRHyn8tAQ0f8dqmSPuJzStwmcDrXDLqHxA
-         6qReuNYQs4R3oyxOYu9RSCrSrWMhE8WVojCM8=
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=Ilr0kiSR+wD38SlNB3Pkw0+z4etePWuEoSIqc9YUzjo=;
+        b=EUJhawmn0LeGm3mUaAex7ZSaCqQGIxuprrBKDgJlJL2wRArUyIVVDgG5VfBNpTxrjK
+         vqb7BcoG7PenxTPUlFXasAAN+iS3nZCQd4DYDVOoXJjpgspkIzP7bQPn2jUmYJ8qMeUC
+         aztRPhQe4V8qiOBTmZhM0hTkRNbWdF5SIfoDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2URvIUzhE9TVsTEJJ+Kej7qkU3xIWrTylxCedb5W44U=;
-        b=M72IYSBXG8vry8LkEnM1OYPb6DaSe0Vuhova0kaLrCh1CT/hX5dc7ru11EFhNX38Xj
-         K28EeQdgZYFhLl2kQTJr3BlYBb+oSpY1mv44ykpxsjsP2ZEE9KhqEXvMMw1cNVaDKD9e
-         PEz5Ip3VkCEdnxAZQ4DFX1lplLqnruhu4DdFK51MlcQKtKTkfV/AgT+uLdmRleMEzQDQ
-         lgwnZtNaJm/l7VzyT2x6lV+hXtIDrCoitirTjFufUePlyMbLQCOWYSTP4whPwsAjrmqg
-         z5XyTNPsZaDvPit4ckwTkeeBfRH6O63YCsK65w2Ln/s2enErfSI93MmWdNZxshsBTCas
-         QJ2A==
-X-Gm-Message-State: AOAM533/8UrYHAeOfciIxZhB3FunvFzbSCQ19Cw6rLL+wICA6qagdxZq
-	ex8EXVMpKFJ4qdKH+K+oSK8wVw==
-X-Google-Smtp-Source: ABdhPJwuzq9m3ugKLxPJDd3EaoCz1g7fYeIxai3EoFVS3yU/AhpYSvdc5t3VR2ungAltr1y+Nza8NQ==
-X-Received: by 2002:a1c:c1:: with SMTP id 184mr13981399wma.105.1596812939296;
-        Fri, 07 Aug 2020 08:08:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Ilr0kiSR+wD38SlNB3Pkw0+z4etePWuEoSIqc9YUzjo=;
+        b=qCE8HVORxAWraO+Zd4xLnsGmVFXE2bAJDDzr284O8rf0NBgS5lKj4p4fPHtbYz813l
+         /oNf907To5u8dxEz7a9haYu9AzUtpGMYZ+nRnfLLHH0wqR0sqvE74NXv1budm9jPb+yl
+         rGIoO5IIc7AAJjDPukB91Ug7WNZsHS0Y8a0pHgEhdLK462At69bYj7Zv2TwUkBHzWcWC
+         Qsb6JfpIXAXQ8uqYHhudBTHutJK/n9HOqje2hmdwYDJnrUEQZZZYDH+QU+ROSgVHLeBf
+         HZKn1x02ZdVzl48Sz9SHgXb5btKsGiA8rOfFF9hIk3851i3TE7rt9Affup8Z3MOwisGV
+         D3ww==
+X-Gm-Message-State: AOAM533jd6ivOhLiIcZGa9AwQGt8QpXLxGskLZXV8q457RUfmUQ2WqH4
+	zRmhQg6WDdSh963NrGZtIC11+29U4K/1AQ==
+X-Google-Smtp-Source: ABdhPJxucEen8G/5VZbTQt7wLUsNHtuhY3CKV1gTwz7KW/dE6AGdbhMKxizgww99iJ/1F4Qdm8Eyig==
+X-Received: by 2002:a1c:80d0:: with SMTP id b199mr13665707wmd.28.1596813481506;
+        Fri, 07 Aug 2020 08:18:01 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from 9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f98f:bfec:7aa3:2ba9])
-        by smtp.gmail.com with ESMTPSA id j24sm11646414wrb.49.2020.08.07.08.08.58
+        by smtp.gmail.com with ESMTPSA id 32sm12076175wrh.18.2020.08.07.08.18.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 08:08:58 -0700 (PDT)
-Message-ID: <e12d8db71892e6e8b32c897af382a5fcba1bee20.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar warnings
+        Fri, 07 Aug 2020 08:18:00 -0700 (PDT)
+Message-ID: <da1885af24ecf70823c3aa80ba668cc71493582b.camel@linuxfoundation.org>
+Subject: environment-setup.d usage in SDKs and eSDK
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Amitanand N Chikorde <Amitanand.Chikorde@kpit.com>, "raj.khem@gmail.com"
-	 <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+To: Patches and discussions about the oe-core layer
 	 <openembedded-core@lists.openembedded.org>
-Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
-	 <Anuj.Chougule@kpit.com>, Aditya Tayade <Aditya.Tayade@kpit.com>
-Date: Fri, 07 Aug 2020 16:08:57 +0100
-In-Reply-To: <MAXPR01MB34089A990650B474A09C851BFD490@MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM>
-References: <1596790670-25319-1-git-send-email-Amitanand.Chikorde@kpit.com>
-	,<57532ca51c2af5673966e242c4c5414441707429.camel@linuxfoundation.org>
-	 <MAXPR01MB34089A990650B474A09C851BFD490@MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM>
+Cc: Jens Rehsack <rehsack@gmail.com>
+Date: Fri, 07 Aug 2020 16:17:58 +0100
 User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-08-07 at 14:45 +0000, Amitanand N Chikorde wrote:
-> The patch is having 8 fixes of which only 1 is applicable to upstream
-> systemd. 
+I've just spent far too long staring at this so I'm going to write down
+what I found out. I may as well share it publicly.
 
-This implies the issues are in patches that Yocto Project is applying?
+An eSDK can be used like a normal SDK with an environment file that can
+be sourced. The challenge is that an eSDK contains native binaries
+rather than the nativesdk variants in the SDK.
 
-If that is the case, why aren't we fixing those patches rather than
-what amounts to patching of patches?
+This means that where an SDK has nativesdk environment.d files, an eSDK
+ends up using "native" environment.d files which are not used in any
+other context.
 
-> The applicable fix is up-streamed to systemd project ( pull request  
-> https://github.com/systemd/systemd/pull/16625 ), it is merged into
-> upstream systemd master branch.
-> 
-> We need to upstream all of the systemd codesonar fixes.
-> 
-> Moved patch file to path "poky/meta/recipes-core/systemd/systemd/"
-> and will be sending the patch file to openembedded-core mailing list.
+Some recipes like cmake implement both. Some others like icecc or
+openssl only have nativesdk variants. This probably needs cleaning up
+to be consistent.
 
-Moving the patch is a good first step but lets fix the problematic
-patches and have the changes included in the recipe too please.
+It gets worse when you find that buildtools is included in eSDK and its
+environment file is sourced. This means you get a mix of nativesdk and
+native. If you set OECORE_NATIVE_SYSROOT in buildtools, it corrupts the
+eSDK's variable of the same name. This why buildtools has a hardcoded
+list of variables it puts in the enrivonment rather than using
+environment.d.
+
+It would be better if the two sets of environment files (native and
+nativesdk) referenced different variables as currently the two can't
+coexist. This also really needs to be fixed.
 
 Cheers,
 
 Richard
+
+
+
+
+
 
