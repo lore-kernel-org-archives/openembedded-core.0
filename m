@@ -1,86 +1,113 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.2774.1596792096159548301
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web10.3016.1596793522486784343
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 02:21:36 -0700
+ Fri, 07 Aug 2020 02:45:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Zp5AxFeR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id 3so1185482wmi.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 02:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=gwMMDfXx/g4GpJEl6exxPy0Qqinu3kdWKiGtj41EyO0=;
-        b=Zp5AxFeRNnYdu9Tg+OBp5sM8568Yg4/hhOJQjuwXjm2K50DZkgrQlMnBR37nI+WDcy
-         pZ0/1soY3nGMgpRlBwNLPLbNDEKulASmpjLQ3UqqU7beh/zqLzm4JzPEsw7f/85dJtnK
-         AZGgbbaE9vK6DP+f+pjQTq54TTodpsE2n8mkw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gwMMDfXx/g4GpJEl6exxPy0Qqinu3kdWKiGtj41EyO0=;
-        b=d9GFxtjIueESOuN5CldUjfLA2qw2oLkt0ZlKD+YOdafVILkNqRkZ2b1DEW+tPG+xwk
-         ohekX5vDhuEDjH8WfcLaYbnj/xJ4TS2+n8VeVp/Ivuxm7iVpjHoN3+u6KRFxPtNuoOaA
-         F/ghl5QRDZqJ8Pzgi2Py1KVJfXddGNfWK7xDMo9mHelP+u4WftpzoMfSiEEryvwtaml7
-         mACCfP1nUIotBc96bgRjE39jLTJwZTsTq7Z7DoopW+PRbl6o7fyJtz4Isj2IZ5yMLx1i
-         KKgJRaLbvUYj3s3O9kz/tWEzOcAvPAXfmCR19TFPTvK3iLSRiYuf7ZPXnbJ/rN8sBjwZ
-         WlSg==
-X-Gm-Message-State: AOAM532bwuluDKC5J+NKCAz9x25EtK2VAmaeAK+NVSryeYAws/eJ4Mi0
-	EUGduQS3oGkiQad/Y16dz+WWiA==
-X-Google-Smtp-Source: ABdhPJyBVBFqbS9SQPi1Kg/XZaMeTpY0/JjDHO6xLeEGH4cINvjL9sQyr8Rs6mB4seEPdLtnrH6oDw==
-X-Received: by 2002:a1c:818e:: with SMTP id c136mr12353931wmd.170.1596792094343;
-        Fri, 07 Aug 2020 02:21:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f98f:bfec:7aa3:2ba9])
-        by smtp.gmail.com with ESMTPSA id k15sm9836655wrp.43.2020.08.07.02.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2020 02:21:33 -0700 (PDT)
-Message-ID: <57532ca51c2af5673966e242c4c5414441707429.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar warnings
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Amitanand N Chikorde <Amitanand.Chikorde@kpit.com>, 
-	openembedded-core@lists.openembedded.org, raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com, anuj.chougule@kpit.com, aditya.tayade@kpit.com
-Date: Fri, 07 Aug 2020 10:21:32 +0100
-In-Reply-To: <1596790670-25319-1-git-send-email-Amitanand.Chikorde@kpit.com>
-References: <1596790670-25319-1-git-send-email-Amitanand.Chikorde@kpit.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: ZUy1ryWKkDj4C84lzjDzgYQQ04QMQUPbEb4/H1p11846GAP72Opuw7boU7KEsuN7iTSKwVkzYD
+ ReJ+K0ErRGQw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9705"; a="132602541"
+X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; 
+   d="scan'208";a="132602541"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2020 02:45:21 -0700
+IronPort-SDR: eSvLfzvlNFGSXbGfdUDsbr3C9iBrofII1ix62wsl+mMHsWivV1za/9wW81Zd16pgowWg08dB/z
+ 41Skul5k1nnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,445,1589266800"; 
+   d="scan'208";a="333496885"
+Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
+  by orsmga007.jf.intel.com with ESMTP; 07 Aug 2020 02:45:20 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 1/4] ghostscript: fix CVE-2020-15900
+Date: Fri,  7 Aug 2020 17:45:16 +0800
+Message-Id: <20200807094519.6436-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, 2020-08-07 at 14:27 +0530, Amitanand N Chikorde wrote:
-> Fixed below systemd codesonar warnings.
-> 1. isprint() and isspace() is invoked here with an argument of signed
-> type char, but only has defined behavior for int arguments that are
-> either representable as unsigned char or equal to the value
-> of macro EOF(-1).
-> 
-> As per codesonar report, in a number of libc implementations,
-> isprint()
-> and isspace() functions implemented using lookup tables (arrays):
-> passing in a negative value can result in a read underrun.
-> 
-> To avoid this unexpected behaviour, typecasted char type argument to
-> unsigned char type.
-> 
-> 2. "seqnum" defined, not initialized & used in device-private.c
-> Intialized "seqnum" at definition.
-> 
-> Signed-off-by: Amitanand <Amitanand.Chikorde@kpit.com>
-> ---
->  files/systemd_codesonar_warnings_fix.patch | 106
-> +++++++++++++++++++++++++++++
->  1 file changed, 106 insertions(+)
->  create mode 100644 files/systemd_codesonar_warnings_fix.patch
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-This patch simply creates a patch file. It doesn't get applied anywhere
-and is in a generic files/ directory.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../ghostscript/CVE-2020-15900.patch          | 54 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.50.bb           |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
 
-Shouldn't this go to upstream systemd?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
+new file mode 100644
+index 0000000000..d7c5f034e5
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2020-15900.patch
+@@ -0,0 +1,54 @@
++From 5d499272b95a6b890a1397e11d20937de000d31b Mon Sep 17 00:00:00 2001
++From: Ray Johnston <ray.johnston@artifex.com>
++Date: Wed, 22 Jul 2020 09:57:54 -0700
++Subject: [PATCH] Bug 702582, CVE 2020-15900 Memory Corruption in Ghostscript
++ 9.52
++
++Fix the 'rsearch' calculation for the 'post' size to give the correct
++size.  Previous calculation would result in a size that was too large,
++and could underflow to max uint32_t. Also fix 'rsearch' to return the
++correct 'pre' string with empty string match.
++
++A future change may 'undefine' this undocumented, non-standard operator
++during initialization as we do with the many other non-standard internal
++PostScript operators and procedures.
++
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5d499272b95a6b890a1397e11d20937de000d31b]
++CVE: CVE-2020-15900
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ psi/zstring.c | 17 +++++++++++------
++ 1 file changed, 11 insertions(+), 6 deletions(-)
++
++diff --git a/psi/zstring.c b/psi/zstring.c
++index 33662dafa..58e1af2b3 100644
++--- a/psi/zstring.c
+++++ b/psi/zstring.c
++@@ -142,13 +142,18 @@ search_impl(i_ctx_t *i_ctx_p, bool forward)
++     return 0;
++ found:
++     op->tas.type_attrs = op1->tas.type_attrs;
++-    op->value.bytes = ptr;
++-    r_set_size(op, size);
+++    op->value.bytes = ptr;				/* match */
+++    op->tas.rsize = size;				/* match */
++     push(2);
++-    op[-1] = *op1;
++-    r_set_size(op - 1, ptr - op[-1].value.bytes);
++-    op1->value.bytes = ptr + size;
++-    r_set_size(op1, count + (!forward ? (size - 1) : 0));
+++    op[-1] = *op1;					/* pre */
+++    op[-3].value.bytes = ptr + size;			/* post */
+++    if (forward) {
+++        op[-1].tas.rsize = ptr - op[-1].value.bytes;	/* pre */
+++        op[-3].tas.rsize = count;			/* post */
+++    } else {
+++        op[-1].tas.rsize = count;			/* pre */
+++        op[-3].tas.rsize -= count + size;		/* post */
+++    }
++     make_true(op);
++     return 0;
++ }
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.50.bb b/meta/recipes-extended/ghostscript/ghostscript_9.50.bb
+index 39c32644db..662db72b5e 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.50.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.50.bb
+@@ -26,6 +26,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+                 file://CVE-2019-14869-0001.patch \
++                file://CVE-2020-15900.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.17.1
 
