@@ -1,106 +1,75 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web11.2633.1596824254031739980
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.5061.1596831952018027140
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 11:17:34 -0700
+ Fri, 07 Aug 2020 13:25:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=IK60KPxg;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.166.68, mailfrom: brgl@bgdev.pl)
-Received: by mail-io1-f68.google.com with SMTP id a5so2783144ioa.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 11:17:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dRUFk8l/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id l2so2761505wrc.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 13:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4GM0YlVaV6oHYxLJPn/F+AT/vzQ1BGEtJYK6FlgJZiQ=;
-        b=IK60KPxgX/1sGCtB2sbfL/Hf2s/iddR9FiWORit1Alz+ouL/KUFAUwqm1ElqPd4wdd
-         DQ1RMV+l27Qt3Qu6mUq0VahwoB/u8RxOcqtWBejUZa0ZG1HDG+YbbQhwmUVFh9G/ZW+L
-         w55UahcMoYXVfrr9lgn53Ht5Ls+msVdmFUfyZnA3fQDRPEs30H0suzgmkZNjlDMJlRMr
-         jYrXvvYRnwkZherMj2oIPrJtMiIKwQ1Ixi8BuKy+WV0KxcHHQDG7S5L+JnLw9ohNHUYO
-         EjH4lCaWuaF2wcLWTi5Ph2EJzmbX8yGUG+JyNxoz9YlWmJeeIaGmnJwMRWLxver1jf60
-         LoGQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cNU314vgcPiIw8gYIANz7rddfb8gP4PQVnBkPlQU6dI=;
+        b=dRUFk8l/6bbTiWL6eRAjvgiYnHyT5pG294fxFuUFKS7h6Ys+A3dIBEmqEvotyZ+xBu
+         EA1ZXF0ykpQpVSImhMHzan2SuuZtj+WLuZxOyXRJPan4PAK6ufoWYh5r8ICvkgpSquuY
+         Y16hIt/cDhnnZsPcf/sAO4fDdbJ2IlvcFXv2g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4GM0YlVaV6oHYxLJPn/F+AT/vzQ1BGEtJYK6FlgJZiQ=;
-        b=XT1e9wTqjZv5i3iihY3aVX1deUHgt6TzDpKRUA+boiko+iVk5xICf3kgkWqwrgpcJN
-         V3+F83KK/jUMwbly4evAZhckRCpS49qv9SQVV12xdJg6qTLqKqPvjY+YOh+/VLDySNEU
-         n8wAVQ/jvCwcBfb0zGp4CDdz/uD1lfx5s5fzx6RR6AHHyRYQAVlVgQ0umlIKXDVBuhGt
-         0rujYeLzDOD5K6mtKdseXdDJlLqHYpNtEsiN52NPdy+rmZxnHtS7/QfAFxiudYtCujkc
-         b3sGUtpwO4Yr6JuMJJv0sA9tSP3jZY1NT5+JJIzDT1uxrCGPflUcbjYwcv7ywG1c7VFM
-         0o9w==
-X-Gm-Message-State: AOAM530NuHYUyw1hUTbmyYzMW2ZXPOyFVhdyvEW7+DwrVhg0U7NFJl/l
-	WQjjwARq7AAoBBgAqLVboyj2go2vXjUxXojJdYZG+A==
-X-Google-Smtp-Source: ABdhPJxGtaAueJsELDqgWxB+ZFFb2Ppni5w0JS5sd18jy8MD8kmMmUbzlEwvrqat5+4vNsvazYO1bkLT37ACJLmhHTI=
-X-Received: by 2002:a5d:9586:: with SMTP id a6mr5640900ioo.131.1596824253102;
- Fri, 07 Aug 2020 11:17:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cNU314vgcPiIw8gYIANz7rddfb8gP4PQVnBkPlQU6dI=;
+        b=fta3zOGAHoSde4Pxw3m+TPNsvBHdTThQmBduKXJwAKN82k24pzUpuP542f+exKo/kH
+         iGOsPZgAq2esX7+LtlKDjaIiBQTm8aak0UswZrUxv5uvLahjmw04TlmHkMQFrPniFPTo
+         0plIPBO2cq806/IpRCoaUnIl1vvlLxn3YR76O2R/Q4tiLAnYddk6R2WxUv4vvJOuifr1
+         czU7tsYVS7KkudDfMAWVyq6ea8Wr8uboAMdejoupkZ0ZKbCE52WVZs5+TtZ61ojlI4il
+         qGNMqrzNWpn+ga7IsC6irmGLh22l4JLAIYDM4BwoGEjgIRWYSUYYpPOdUg0N/MbXH1lZ
+         KDsw==
+X-Gm-Message-State: AOAM533NK+uefWsj+hMgLhe38LkBalY6y/P12d8vEMGB27r1PEpav/FE
+	zZbSkPqr5S0W35kkddknD5Qth6A3JAF1fQ==
+X-Google-Smtp-Source: ABdhPJxWGOG5XdsafRTA+ZZOr57Y67AmLRmRLj5wf3FqhcQvyLvsGpCEIEmieTnZuSsh38hIN4Wn3w==
+X-Received: by 2002:adf:aa9e:: with SMTP id h30mr12985622wrc.377.1596831950318;
+        Fri, 07 Aug 2020 13:25:50 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f98f:bfec:7aa3:2ba9])
+        by smtp.gmail.com with ESMTPSA id q4sm11827770wme.31.2020.08.07.13.25.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 13:25:49 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] populate_sdk_ext: Ensure buildtools doesn't corrupt OECORE_NATIVE_SYSROOT
+Date: Fri,  7 Aug 2020 21:25:46 +0100
+Message-Id: <20200807202548.753073-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200512140529.27606-1-brgl@bgdev.pl> <7fbf9d94860522944c8764760b717a0524bf20b5.camel@linuxfoundation.org>
-In-Reply-To: <7fbf9d94860522944c8764760b717a0524bf20b5.camel@linuxfoundation.org>
-From: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Date: Fri, 7 Aug 2020 20:17:22 +0200
-Message-ID: <CAMRc=MfFFmMdcsSihz3fgi2fzrAL+PSc03wVmTfxb3XVHrExyA@mail.gmail.com>
-Subject: Re: [meta-OE][PATCH v3] image.bbclass: deploy image artifacts in stages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Khem Raj <raj.khem@gmail.com>, Armin Kuster <akuster808@gmail.com>, 
-	Jerome Neanne <jneanne@baylibre.com>, Quentin Schulz <quentin.schulz@streamunlimited.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 15, 2020 at 7:56 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2020-05-12 at 16:05 +0200, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
-> > override. This way each generated set of artifacts is deployed as soon
-> > as it's ready instead of the do_image_complete task handling the entire
-> > deployement. This allows us to better fine-tune dependencies e.g. we
-> > can make do_image_wic depend on fitImage task which can in turn depend
-> > on do_image_ext4.
-> >
-> > We need delete the IMGDEPLOYDIR variable from the data object passed
-> > to each image task so that it gets expanded with the correct override.
-> >
-> > In order to make sure that tasks added to SSTATETASKS in anonymous python
-> > functions are correctly setup, move the code that assigns pre- and
-> > postfuncs to an event handler invoked on bb.event.RecipeTaskPreProcess
-> > in sstate.bbclass. This event is fired right after the anonymous
-> > functions.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > ---
-> > Changes since v2:
-> > - dropped the qemuboot patch (already upstream)
-> > - switched to % string formatting instead of using .format() for consistency
->
-> Thanks, I included this in automated testing and its shown a few
-> issues:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/943
->
-> "oe-selftest -r
-> sstatetests.SStateTests.test_sstate_nativelsbstring_same_hash " should
-> reproduce
->
-> I think multiconfig.MultiConfig.test_multiconfig and
-> multiconfig.MultiConfig.test_multiconfig are also related but its
-> harder to be sure.
->
-> package.PackageTests.test_gdb_hardlink_debug isn't related in there.
-> runqemu.RunqemuTests.test_boot_deploy_hddimg and
-> runqemu.RunqemuTests.test_boot_machine_iso could be, not sure.
->
+buildtools is built as a nativesdk which needs to use OECORE_NATIVE_SYSROOT
+for its own purposes and can reset it. Save and restore the value
+within the eSDK so the two don't clash.
 
-Hi Richard,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/populate_sdk_ext.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I've been trying to figure out what's wrong on and off for some time
-now but I'm afraid I don't get the idea behind the NATIVELSBSTRING
-variable and how it affects generating the hashes. Could you maybe
-point me in the right direction because so far I've been unable to
-find a way to fix these tests.
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index fd0da16e7ea..44d99cfb972 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -653,7 +653,10 @@ sdk_ext_postinst() {
+ 
+ 		# Make sure when the user sets up the environment, they also get
+ 		# the buildtools-tarball tools in their path.
++		echo "# Save and reset OECORE_NATIVE_SYSROOT as buildtools may change it" >> $env_setup_script
++		echo "SAVED=\"\$OECORE_NATIVE_SYSROOT\"" >> $env_setup_script
+ 		echo ". $target_sdk_dir/buildtools/environment-setup*" >> $env_setup_script
++		echo "OECORE_NATIVE_SYSROOT=\"\$SAVED\"" >> $env_setup_script
+ 	fi
+ 
+ 	# Allow bitbake environment setup to be ran as part of this sdk.
+-- 
+2.25.1
 
-Best regards,
-Bartosz
