@@ -1,61 +1,81 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.7932.1596812543543009301
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.8069.1596812940788094192
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Aug 2020 08:02:23 -0700
+ Fri, 07 Aug 2020 08:09:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6833E60C24;
-	Fri,  7 Aug 2020 15:02:21 +0000 (UTC)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gwkHFPrb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id 9so2018660wmj.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Aug 2020 08:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=2URvIUzhE9TVsTEJJ+Kej7qkU3xIWrTylxCedb5W44U=;
+        b=gwkHFPrbTlUoCzFB7nzW22sOBwUKcaK6TzU9yy/55eGsMrPW+u4nGne9Xb/+jh0pdi
+         R9mmD0aORfbwgx3zzyHYaYkB27FwSmTNzgzRHyn8tAQ0f8dqmSPuJzStwmcDrXDLqHxA
+         6qReuNYQs4R3oyxOYu9RSCrSrWMhE8WVojCM8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=2URvIUzhE9TVsTEJJ+Kej7qkU3xIWrTylxCedb5W44U=;
+        b=M72IYSBXG8vry8LkEnM1OYPb6DaSe0Vuhova0kaLrCh1CT/hX5dc7ru11EFhNX38Xj
+         K28EeQdgZYFhLl2kQTJr3BlYBb+oSpY1mv44ykpxsjsP2ZEE9KhqEXvMMw1cNVaDKD9e
+         PEz5Ip3VkCEdnxAZQ4DFX1lplLqnruhu4DdFK51MlcQKtKTkfV/AgT+uLdmRleMEzQDQ
+         lgwnZtNaJm/l7VzyT2x6lV+hXtIDrCoitirTjFufUePlyMbLQCOWYSTP4whPwsAjrmqg
+         z5XyTNPsZaDvPit4ckwTkeeBfRH6O63YCsK65w2Ln/s2enErfSI93MmWdNZxshsBTCas
+         QJ2A==
+X-Gm-Message-State: AOAM533/8UrYHAeOfciIxZhB3FunvFzbSCQ19Cw6rLL+wICA6qagdxZq
+	ex8EXVMpKFJ4qdKH+K+oSK8wVw==
+X-Google-Smtp-Source: ABdhPJwuzq9m3ugKLxPJDd3EaoCz1g7fYeIxai3EoFVS3yU/AhpYSvdc5t3VR2ungAltr1y+Nza8NQ==
+X-Received: by 2002:a1c:c1:: with SMTP id 184mr13981399wma.105.1596812939296;
+        Fri, 07 Aug 2020 08:08:59 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f98f:bfec:7aa3:2ba9])
+        by smtp.gmail.com with ESMTPSA id j24sm11646414wrb.49.2020.08.07.08.08.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2020 08:08:58 -0700 (PDT)
+Message-ID: <e12d8db71892e6e8b32c897af382a5fcba1bee20.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][master][PATCH] systemd: fix codesonar warnings
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Amitanand N Chikorde <Amitanand.Chikorde@kpit.com>, "raj.khem@gmail.com"
+	 <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
+	 <Anuj.Chougule@kpit.com>, Aditya Tayade <Aditya.Tayade@kpit.com>
+Date: Fri, 07 Aug 2020 16:08:57 +0100
+In-Reply-To: <MAXPR01MB34089A990650B474A09C851BFD490@MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM>
+References: <1596790670-25319-1-git-send-email-Amitanand.Chikorde@kpit.com>
+	,<57532ca51c2af5673966e242c4c5414441707429.camel@linuxfoundation.org>
+	 <MAXPR01MB34089A990650B474A09C851BFD490@MAXPR01MB3408.INDPRD01.PROD.OUTLOOK.COM>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogRml4IGNvZGVzb25hciB3YXJuaW5ncyAocmV2NCk=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Amitanand N Chikorde <Amitanand.Chikorde@kpit.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 07 Aug 2020 15:02:22 -0000
-Message-ID: <20200807150222.2265.75668@do>
-References: <1596810707-16909-1-git-send-email-Amitanand.Chikorde@kpit.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1596810707-16909-1-git-send-email-Amitanand.Chikorde@kpit.com>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Fri, 2020-08-07 at 14:45 +0000, Amitanand N Chikorde wrote:
+> The patch is having 8 fixes of which only 1 is applicable to upstream
+> systemd. 
 
-Series: systemd: Fix codesonar warnings (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/25093/
-State : failure
+This implies the issues are in patches that Yocto Project is applying?
 
-== Summary ==
+If that is the case, why aren't we fixing those patches rather than
+what amounts to patching of patches?
 
+> The applicable fix is up-streamed to systemd project ( pull request  
+> https://github.com/systemd/systemd/pull/16625 ), it is merged into
+> upstream systemd master branch.
+> 
+> We need to upstream all of the systemd codesonar fixes.
+> 
+> Moved patch file to path "poky/meta/recipes-core/systemd/systemd/"
+> and will be sending the patch file to openembedded-core mailing list.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Moving the patch is a good first step but lets fix the problematic
+patches and have the changes included in the recipe too please.
 
+Cheers,
 
-
-* Patch            [meta-oe,sumo] systemd: fix codesonar warnings
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe,sumo) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  sumo (currently at 84f19e78d9)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Richard
 
