@@ -1,122 +1,79 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web10.4030.1596888530148134543
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web12.6607.1596898313558073276
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2020 05:08:50 -0700
+ Sat, 08 Aug 2020 07:51:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=LzsXpOAY;
- spf=pass (domain: nathanrossi.com, ip: 209.85.216.65, mailfrom: nathan@nathanrossi.com)
-Received: by mail-pj1-f65.google.com with SMTP id f9so2351062pju.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 05:08:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jiYJM2Bt;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id j21so2495569pgi.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 07:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nathanrossi.com; s=google;
-        h=date:message-id:from:to:cc:subject:content-transfer-encoding
-         :mime-version;
-        bh=bFByEP+PbOZTC9h7uYIlWBdvS8Yx/Z1sOYF+IwJ3PFs=;
-        b=LzsXpOAYwAEvfV7cs2sXgfA6UOsBYJUX5d4AQaq70gzUyKra4sM8wyIqInU2nDr4Du
-         FSKw10gD/wiWQw5GYDRvshQ0W6bqfmA58N6aGw5ufKpxh2cj2DzFWmZ2W/9tA7wr7wmC
-         p7QIuQzy9p38A4yMVipsKu9AJNK8aVN9KYmLgwe1tM9qf5mk8p7HozMNAvcMc4LYCxER
-         zIV1Jr0Sjzlr5oxo1eGPkFX7btz6YTcEWt6K4+nNXMq5hDx0tLTFrq0tiUhMZbcaX1xK
-         o8VTU6cVqKo7CBZ+ce9Dc/EvvxH6+xpyX4sbnuhn/yvdwP5jA1r2rRE/8gWKX+xydNty
-         P5SA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=1JYw58wIJVu3BafCvKkg3ojiOGwwDS934/HdXJOXaIU=;
+        b=jiYJM2BtfPjfcUmYylMwp+CrIuhenEs7XwbTX3CTOxrG9s3pvyM6n+vzcN0AMb7atO
+         kiB/01Wf1SckShx8qYcNMjMxWHaG8QkdrZhXIM3ll8QxyLBQuCln5eSq9rI7PwjiKuYM
+         DvI1GbuavWE9/whmlSaJJ3o133JF0p/8cXLks3vNdiMQfXAzIcUdX3DDmLAogNxWZcgG
+         bNMEZWpKWW7QPFCSZvENEKHf6QmniHhSIR+LCKwYTx8ICgk7WGDeQFtghGEnkP4+scty
+         hPpbN+vUECLFvi/O2woe19TKbsk2DW6GzzrWXOaOJ1PtZcPfrpae0pN8MZZzCCbZ2f4V
+         5jgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:from:to:cc:subject
-         :content-transfer-encoding:mime-version;
-        bh=bFByEP+PbOZTC9h7uYIlWBdvS8Yx/Z1sOYF+IwJ3PFs=;
-        b=ETWoad/D5OKDnknzEYrx1VVSTMn/wHtLU5FOqFoSn6Z9+oD/q8Ibw9XLE12L4cDQ6D
-         wfaXDIEZGse/FCDjit7t0yUi2irg4yfDqQU6oMBaxzrgv6g9NpAXd+rWsgzbaPr4b+F2
-         4201dnbwuWma3qbrQOmuu/PAzShyko+pNfiCMAtXZWweMphbSZxvuSP5bZsDOyZeiY2R
-         jYRoZTQJSR/aFBD3SlMPKVxhPT7gsXNUwJ3b2o63DPbNkIJ2NeFjMOsxCTbpVwj1+gEM
-         LTJuZrLomdLUIaKHGcDqZXsfX1is9gNkK/suzAXSbxcQdnQvFnTT6qS3db5WIe7R6LOq
-         9JeQ==
-X-Gm-Message-State: AOAM530ybV0JXWVdmkgiHYf3iKP/LxNHt+hzo+fHZa0kZE6OnP1nboa/
-	rMvjCTykXGYn7aWJDlTxOcBlihVxUjl/yg==
-X-Google-Smtp-Source: ABdhPJxYpIjOdtkIYFu4+4nhMp/+xnhAXwqE8fOp2UtwfMJ/uzz4Qry71+bh6vqMnzYulAuVi0GyDQ==
-X-Received: by 2002:a17:90a:cc14:: with SMTP id b20mr17485237pju.1.1596888529308;
-        Sat, 08 Aug 2020 05:08:49 -0700 (PDT)
-Return-Path: <nathan@nathanrossi.com>
-Received: from [127.0.1.1] (117-20-68-14.751444.bne.nbn.aussiebb.net. [117.20.68.14])
-        by smtp.gmail.com with UTF8SMTPSA id u15sm13679047pgm.10.2020.08.08.05.08.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=1JYw58wIJVu3BafCvKkg3ojiOGwwDS934/HdXJOXaIU=;
+        b=GnfGevmV+CeaEs4gURc0ks6EbDZi9u1GJ1d2GjizlChoiLxhnK62OEyUoVS+EXZZXK
+         XRXalLSIoQjLFEnHhm/DAEzaqbNZJ1cxS7eT1JwVg49d6khLKDAErjWgfZ+xo+DX936F
+         IHLJOXD8Ep9FSrdN0PK2OhRbck/CIrA0KBkjXjVjcNJJ3LkkvYLbx8K+sutgP7XwPQIM
+         9QbtyjMr8rjIi0Y4IfSamMOtFYD2ekxy0t15alNrRTQCRClGyFOEo/+BrKfhE/VCMJEi
+         RuDTahK3REfVQdCad/zjf2mmOvctv654l40qxav2dEqtQszGQVkhkCX7Jyvh1NMNs5U3
+         EifA==
+X-Gm-Message-State: AOAM531RqrKiS6TWtNY2Xm+paKz4BvwIM9nX2goXEBN0R/fh7nGvLOrX
+	IY+nFSDLvMEKHXnAXV1+mCsBwAHi
+X-Google-Smtp-Source: ABdhPJxj6UOjRMRQiuPlSezwwgph/RJ7sIV21AeyH5iiSGgymEu8VQlolFcLyPxyVGOgNrKDETeSeg==
+X-Received: by 2002:aa7:9ecd:: with SMTP id r13mr17031053pfq.317.1596898312811;
+        Sat, 08 Aug 2020 07:51:52 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:ddd8:1d38:7eb0:693c])
+        by smtp.gmail.com with ESMTPSA id u65sm14582643pjb.22.2020.08.08.07.51.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 05:08:48 -0700 (PDT)
-Date: Sat, 08 Aug 2020 12:08:43 +0000
-Message-Id: <20200808120843.299177-1-nathan@nathanrossi.com>
-From: "Nathan Rossi" <nathan@nathanrossi.com>
+        Sat, 08 Aug 2020 07:51:52 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Nathan Rossi <nathan@nathanrossi.com>
-Subject: [PATCH] cmake.bbclass: Rework compiler program variables for allarch
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Cc: Konrad Weihmann <kweihmann@outlook.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [zeus][PATCH 1/2] pypi.bbclass: mind package suffix on version check
+Date: Sat,  8 Aug 2020 07:51:49 -0700
+Message-Id: <20200808145150.12949-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-CMake projects can specify the NONE project type. Projects that do this
-do not use any C or C++ compiler, this currently works fine with caveat
-that when changing the machine/arch the compiler is different causing
-signature hash differences.
+From: Konrad Weihmann <kweihmann@outlook.com>
 
-To avoid the signature hash differences clear the associated C/CXX
-compiler variables. In order to achieve this with overrides, simplify
-the existing construction of the values using a python function and
-variable setting and remove the anonymous variable setup.
+Some pypi packages do have suffixes like dev, or a0 or b1.
+When doing a version check on these, the version will get falsely
+identified as major release versions.
+Add a terminating slash to rule out those false positives
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 0603f6d9f2abfa67b99b1bc39228f6aa16a0370d)
+[Yocto bug #13990]
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cmake.bbclass | 36 +++++++++++++++++-------------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ meta/classes/pypi.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 8243f7ce8c..7c055e8a3d 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -21,23 +21,6 @@ python() {
-         d.setVarFlag("do_compile", "progress", r"outof:^\[(\d+)/(\d+)\]\s+")
-     else:
-         bb.fatal("Unknown CMake Generator %s" % generator)
--
--    # C/C++ Compiler (without cpu arch/tune arguments)
--    if not d.getVar('OECMAKE_C_COMPILER'):
--        cc_list = d.getVar('CC').split()
--        if cc_list[0] == 'ccache':
--            d.setVar('OECMAKE_C_COMPILER_LAUNCHER', cc_list[0])
--            d.setVar('OECMAKE_C_COMPILER', cc_list[1])
--        else:
--            d.setVar('OECMAKE_C_COMPILER', cc_list[0])
--
--    if not d.getVar('OECMAKE_CXX_COMPILER'):
--        cxx_list = d.getVar('CXX').split()
--        if cxx_list[0] == 'ccache':
--            d.setVar('OECMAKE_CXX_COMPILER_LAUNCHER', cxx_list[0])
--            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[1])
--        else:
--            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[0])
- }
- OECMAKE_AR ?= "${AR}"
+diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+index e5d7ab3ce1..ffa8aa3ff4 100644
+--- a/meta/classes/pypi.bbclass
++++ b/meta/classes/pypi.bbclass
+@@ -23,4 +23,4 @@ SRC_URI += "${PYPI_SRC_URI}"
+ S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
  
-@@ -51,8 +34,23 @@ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LD
- CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
- CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
- 
--OECMAKE_C_COMPILER_LAUNCHER ?= ""
--OECMAKE_CXX_COMPILER_LAUNCHER ?= ""
-+def oecmake_map_compiler(compiler, d):
-+    args = d.getVar(compiler).split()
-+    if args[0] == "ccache":
-+        return args[1], args[0]
-+    return args[0], ""
-+
-+# C/C++ Compiler (without cpu arch/tune arguments)
-+OECMAKE_C_COMPILER ?= "${@oecmake_map_compiler('CC', d)[0]}"
-+OECMAKE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CC', d)[1]}"
-+OECMAKE_CXX_COMPILER ?= "${@oecmake_map_compiler('CXX', d)[0]}"
-+OECMAKE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CXX', d)[1]}"
-+
-+# clear compiler vars for allarch to avoid sig hash difference
-+OECMAKE_C_COMPILER_allarch = ""
-+OECMAKE_C_COMPILER_LAUNCHER_allarch = ""
-+OECMAKE_CXX_COMPILER_allarch = ""
-+OECMAKE_CXX_COMPILER_LAUNCHER_allarch = ""
- 
- OECMAKE_RPATH ?= ""
- OECMAKE_PERLNATIVE_DIR ??= ""
----
-2.28.0
+ UPSTREAM_CHECK_URI ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+-UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)"
++UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+-- 
+2.17.1
+
