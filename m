@@ -1,79 +1,81 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web12.6607.1596898313558073276
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.6714.1596898314798007223
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2020 07:51:53 -0700
+ Sat, 08 Aug 2020 07:51:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jiYJM2Bt;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id j21so2495569pgi.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 07:51:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q9x9o7Dr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id k13so2559688plk.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 07:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=1JYw58wIJVu3BafCvKkg3ojiOGwwDS934/HdXJOXaIU=;
-        b=jiYJM2BtfPjfcUmYylMwp+CrIuhenEs7XwbTX3CTOxrG9s3pvyM6n+vzcN0AMb7atO
-         kiB/01Wf1SckShx8qYcNMjMxWHaG8QkdrZhXIM3ll8QxyLBQuCln5eSq9rI7PwjiKuYM
-         DvI1GbuavWE9/whmlSaJJ3o133JF0p/8cXLks3vNdiMQfXAzIcUdX3DDmLAogNxWZcgG
-         bNMEZWpKWW7QPFCSZvENEKHf6QmniHhSIR+LCKwYTx8ICgk7WGDeQFtghGEnkP4+scty
-         hPpbN+vUECLFvi/O2woe19TKbsk2DW6GzzrWXOaOJ1PtZcPfrpae0pN8MZZzCCbZ2f4V
-         5jgQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=lc3vK8N4WGSpWowAn4pMve3VFu0ONL0ZQaFA0Ngexp4=;
+        b=Q9x9o7DrNOvAhxwOz984xhoopCoBUMioE19Ij7lZ2Bk7QTgKYmlqaYAN3vmFxGjhbH
+         0K6e8IULZe0sMMsbUOPjAihnmyfu4WeXUxeYWtZphnKFVMOHhrFAlb91DwtS8oaWe3vd
+         H20Qnjp9aDIn6J18cLHlzs2VWCExBvEREGS4MjZaZZjdf7AZCx27+rEQB+FknJndr07c
+         naSA5qfA30BJZ9vW11Ql8JkmBQsVMlfqHSaeR1A0cUYmRE9Q38dHRV77PAeX0oCRGORI
+         aHbh3XQygLOZOH2gvMP+pJ7k4J0iN7qbqVVJEsYUqwmWvgaDMv6OEdGp1o8hDXGxRMZX
+         UZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1JYw58wIJVu3BafCvKkg3ojiOGwwDS934/HdXJOXaIU=;
-        b=GnfGevmV+CeaEs4gURc0ks6EbDZi9u1GJ1d2GjizlChoiLxhnK62OEyUoVS+EXZZXK
-         XRXalLSIoQjLFEnHhm/DAEzaqbNZJ1cxS7eT1JwVg49d6khLKDAErjWgfZ+xo+DX936F
-         IHLJOXD8Ep9FSrdN0PK2OhRbck/CIrA0KBkjXjVjcNJJ3LkkvYLbx8K+sutgP7XwPQIM
-         9QbtyjMr8rjIi0Y4IfSamMOtFYD2ekxy0t15alNrRTQCRClGyFOEo/+BrKfhE/VCMJEi
-         RuDTahK3REfVQdCad/zjf2mmOvctv654l40qxav2dEqtQszGQVkhkCX7Jyvh1NMNs5U3
-         EifA==
-X-Gm-Message-State: AOAM531RqrKiS6TWtNY2Xm+paKz4BvwIM9nX2goXEBN0R/fh7nGvLOrX
-	IY+nFSDLvMEKHXnAXV1+mCsBwAHi
-X-Google-Smtp-Source: ABdhPJxj6UOjRMRQiuPlSezwwgph/RJ7sIV21AeyH5iiSGgymEu8VQlolFcLyPxyVGOgNrKDETeSeg==
-X-Received: by 2002:aa7:9ecd:: with SMTP id r13mr17031053pfq.317.1596898312811;
-        Sat, 08 Aug 2020 07:51:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=lc3vK8N4WGSpWowAn4pMve3VFu0ONL0ZQaFA0Ngexp4=;
+        b=M1tpJOKe4ehT36vEfZ6IaBPQIxCPkkHQI4ZVd3bQq6/LZ2XxDqEKFt5MMbHOA2xSp2
+         k+3SLCQgU5TyqEyVsFEb8i/WjgMv/bcMxnQiBcJsvI5y6XbaWSOfL22Uxs4w1Q12r2a4
+         Xo66lDf6bvLSjV9eBRmjAfVpNTS8oYDrfcEYKpZu7pH78ILcgHmN89grpyeoTe1sIB1V
+         ujPQOmZp/07MmF13nSk7slZvmpOvo6huJYX865LMM+rOY+Ke8CJKlmflTAlpE4HtSaFF
+         5lcYM5/iLVGhjrfgiyfJYGNSRTug3+KtV158r8qJjoAytPviWZcE7A6AIAeo/yMSgIjv
+         y/AQ==
+X-Gm-Message-State: AOAM533BC5EizuxEbC+0+QPuizvWu3YgXjODFCzIaW60JB3kg9l9A6qY
+	GAOmaAhkAl7rqOxs3aM6b65LyVr5
+X-Google-Smtp-Source: ABdhPJwq6cMEJ8bnbVAHtkxA2sTRTcILYJ8Chkf+BPUMWndCItv60E/NuAZy/dUIMxlYu0suqXaXiA==
+X-Received: by 2002:a17:90a:2a0d:: with SMTP id i13mr19029192pjd.92.1596898313959;
+        Sat, 08 Aug 2020 07:51:53 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:ddd8:1d38:7eb0:693c])
-        by smtp.gmail.com with ESMTPSA id u65sm14582643pjb.22.2020.08.08.07.51.51
+        by smtp.gmail.com with ESMTPSA id u65sm14582643pjb.22.2020.08.08.07.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 07:51:52 -0700 (PDT)
+        Sat, 08 Aug 2020 07:51:53 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Konrad Weihmann <kweihmann@outlook.com>,
+Cc: Tim Orling <timothy.t.orling@linux.intel.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Steve Sakoman <steve@sakoman.com>
-Subject: [zeus][PATCH 1/2] pypi.bbclass: mind package suffix on version check
-Date: Sat,  8 Aug 2020 07:51:49 -0700
-Message-Id: <20200808145150.12949-1-akuster808@gmail.com>
+Subject: [zeus][PATCH 2/2] pypi.bbclass: use new pypi UPSTREAM_CHECK_URI
+Date: Sat,  8 Aug 2020 07:51:50 -0700
+Message-Id: <20200808145150.12949-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200808145150.12949-1-akuster808@gmail.com>
+References: <20200808145150.12949-1-akuster808@gmail.com>
 
-From: Konrad Weihmann <kweihmann@outlook.com>
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Some pypi packages do have suffixes like dev, or a0 or b1.
-When doing a version check on these, the version will get falsely
-identified as major release versions.
-Add a terminating slash to rule out those false positives
+Upstream https://pypi.python.org/pypi/${PYPI_PACKAGE}/
+redirects to https://pypi.org/project/${PYPI_PACKAGE}/
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 0603f6d9f2abfa67b99b1bc39228f6aa16a0370d)
-[Yocto bug #13990]
+(cherry picked from commit e5f3f961242d888f3f786af8f793bf1d247fdff0)
+[Yocto # 13990]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/classes/pypi.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
-index e5d7ab3ce1..ffa8aa3ff4 100644
+index ffa8aa3ff4..87b4c85fc0 100644
 --- a/meta/classes/pypi.bbclass
 +++ b/meta/classes/pypi.bbclass
-@@ -23,4 +23,4 @@ SRC_URI += "${PYPI_SRC_URI}"
+@@ -22,5 +22,5 @@ SECTION = "devel/python"
+ SRC_URI += "${PYPI_SRC_URI}"
  S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
  
- UPSTREAM_CHECK_URI ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
--UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)"
-+UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+-UPSTREAM_CHECK_URI ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
++UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
+ UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
 -- 
 2.17.1
 
