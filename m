@@ -1,136 +1,122 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web11.4018.1596888241448470116
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web10.4030.1596888530148134543
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2020 05:04:02 -0700
+ Sat, 08 Aug 2020 05:08:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=OwpvuKtT;
- spf=pass (domain: nathanrossi.com, ip: 209.85.215.193, mailfrom: nathan@nathanrossi.com)
-Received: by mail-pg1-f193.google.com with SMTP id s15so2371645pgc.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 05:04:01 -0700 (PDT)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=LzsXpOAY;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.216.65, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pj1-f65.google.com with SMTP id f9so2351062pju.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 05:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=nathanrossi.com; s=google;
         h=date:message-id:from:to:cc:subject:content-transfer-encoding
          :mime-version;
-        bh=u/GmxZmlE04BbiRR08QvSoZ+wf9UO87s4526uXpYjjY=;
-        b=OwpvuKtT4tM7a8OSxwMM3Y3/3XZdBCLHZltpIElrxxSHB5PWULMnEb+bXDfPH12ho8
-         CVcBPgzUpWH2+lmvpSWhE4KY8bGlHh0TlyKFXIqLk7rnuDjQmxnG1SJP/jQTjpY3hxmB
-         9bDNIGVeowwLk7/h1e//S6fwZ17pBmQyOYd0j69JYEA5FNdOfY1dbIuiYWGRkctbkWSO
-         s6Amf0R1WEzqoEFu14ukbnWSSrFbpFQXc7XzSY47WZfbuTax5GzQS8P3COh0bmgSgoXw
-         CEwqAs1ymYyM9XBEQmsihBkLe6gJg4z2Cu/H9kaVmOWro5VqVyZBIQP9igb+ig+Ru2O1
-         /3XA==
+        bh=bFByEP+PbOZTC9h7uYIlWBdvS8Yx/Z1sOYF+IwJ3PFs=;
+        b=LzsXpOAYwAEvfV7cs2sXgfA6UOsBYJUX5d4AQaq70gzUyKra4sM8wyIqInU2nDr4Du
+         FSKw10gD/wiWQw5GYDRvshQ0W6bqfmA58N6aGw5ufKpxh2cj2DzFWmZ2W/9tA7wr7wmC
+         p7QIuQzy9p38A4yMVipsKu9AJNK8aVN9KYmLgwe1tM9qf5mk8p7HozMNAvcMc4LYCxER
+         zIV1Jr0Sjzlr5oxo1eGPkFX7btz6YTcEWt6K4+nNXMq5hDx0tLTFrq0tiUhMZbcaX1xK
+         o8VTU6cVqKo7CBZ+ce9Dc/EvvxH6+xpyX4sbnuhn/yvdwP5jA1r2rRE/8gWKX+xydNty
+         P5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:message-id:from:to:cc:subject
          :content-transfer-encoding:mime-version;
-        bh=u/GmxZmlE04BbiRR08QvSoZ+wf9UO87s4526uXpYjjY=;
-        b=i3Imus6hMRjH4Z0TfohjwwUkVEFgm1ZqF8xmIp1ahc9jcESKzdy/xssPlr47nKHeuJ
-         hY6ziRUQwFd6sN6sWgAWG5kD1pH3u7bLNZ+yO0DGi/JMew+9wW+dJE2zWoRWbpZiMUNz
-         LanMF/7eLvIv4B9+zmyRKOTt01GAiXWhmx8ejuu9IK8a13ThZ+FX/1oGlCQ7D5DccbgI
-         92Esm0vE/VPXWO78HdHG8Ng13h40pzxrgd8oUb27U54btznFdpS9DZVleHaTmdsx3N+l
-         0tPLzS38MZ5+3P4lt45/XGp8waC+ec8UXVUASlDrlfjkWhb/rRl0xfCor8os8TVScugX
-         BEJQ==
-X-Gm-Message-State: AOAM532tjoGaDaLTxSrDWqgyfVh3hmD+RCrJmRgg3Pp79HPgk/UOb3W6
-	bye7RXPIcai5aDptojhxfBzDTg==
-X-Google-Smtp-Source: ABdhPJx0gembZ59shpxFhpYQhSPtyrGxnElkRgvfA8v9CY+L/fsBEP51denEPRasy5cZmDEuH+talg==
-X-Received: by 2002:a62:1997:: with SMTP id 145mr6261665pfz.201.1596888240755;
-        Sat, 08 Aug 2020 05:04:00 -0700 (PDT)
+        bh=bFByEP+PbOZTC9h7uYIlWBdvS8Yx/Z1sOYF+IwJ3PFs=;
+        b=ETWoad/D5OKDnknzEYrx1VVSTMn/wHtLU5FOqFoSn6Z9+oD/q8Ibw9XLE12L4cDQ6D
+         wfaXDIEZGse/FCDjit7t0yUi2irg4yfDqQU6oMBaxzrgv6g9NpAXd+rWsgzbaPr4b+F2
+         4201dnbwuWma3qbrQOmuu/PAzShyko+pNfiCMAtXZWweMphbSZxvuSP5bZsDOyZeiY2R
+         jYRoZTQJSR/aFBD3SlMPKVxhPT7gsXNUwJ3b2o63DPbNkIJ2NeFjMOsxCTbpVwj1+gEM
+         LTJuZrLomdLUIaKHGcDqZXsfX1is9gNkK/suzAXSbxcQdnQvFnTT6qS3db5WIe7R6LOq
+         9JeQ==
+X-Gm-Message-State: AOAM530ybV0JXWVdmkgiHYf3iKP/LxNHt+hzo+fHZa0kZE6OnP1nboa/
+	rMvjCTykXGYn7aWJDlTxOcBlihVxUjl/yg==
+X-Google-Smtp-Source: ABdhPJxYpIjOdtkIYFu4+4nhMp/+xnhAXwqE8fOp2UtwfMJ/uzz4Qry71+bh6vqMnzYulAuVi0GyDQ==
+X-Received: by 2002:a17:90a:cc14:: with SMTP id b20mr17485237pju.1.1596888529308;
+        Sat, 08 Aug 2020 05:08:49 -0700 (PDT)
 Return-Path: <nathan@nathanrossi.com>
 Received: from [127.0.1.1] (117-20-68-14.751444.bne.nbn.aussiebb.net. [117.20.68.14])
-        by smtp.gmail.com with UTF8SMTPSA id q73sm14808251pjc.11.2020.08.08.05.03.58
+        by smtp.gmail.com with UTF8SMTPSA id u15sm13679047pgm.10.2020.08.08.05.08.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 05:04:00 -0700 (PDT)
-Date: Sat, 08 Aug 2020 12:03:51 +0000
-Message-Id: <20200808120351.298876-1-nathan@nathanrossi.com>
+        Sat, 08 Aug 2020 05:08:48 -0700 (PDT)
+Date: Sat, 08 Aug 2020 12:08:43 +0000
+Message-Id: <20200808120843.299177-1-nathan@nathanrossi.com>
 From: "Nathan Rossi" <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Nathan Rossi <nathan@nathanrossi.com>
-Subject: [PATCH] python3: Improve handling of python3 manifest generation
+Subject: [PATCH] cmake.bbclass: Rework compiler program variables for allarch
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Specifically cover detection of modules within a python package that do
-not import anything within their __init__.py. This is at least the case
-with the xmlrpc package which is only used via its modules xmlrpc.server
-and xmlrpc.client. Other important corner cases include ctypes.utils
-which depends on some modules not used by ctypes.
+CMake projects can specify the NONE project type. Projects that do this
+do not use any C or C++ compiler, this currently works fine with caveat
+that when changing the machine/arch the compiler is different causing
+signature hash differences.
 
-This is implemented by generally assuming that importing all the modules
-of a package (aka *.py within a package, excluding _*.py) will provide
-enough information.
-
-Also due to this change some modules import sysconfig, resulting in
-sysconfigdata being imported. Handle the conversion of its path to a
-wildcard based on the platform dependent name being replaced.
+To avoid the signature hash differences clear the associated C/CXX
+compiler variables. In order to achieve this with overrides, simplify
+the existing construction of the values using a python function and
+variable setting and remove the anonymous variable setup.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- .../python/python3/get_module_deps3.py                 | 18 ++++++++++++++++--
- .../python/python3/python3-manifest.json               |  2 +-
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ meta/classes/cmake.bbclass | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/get_module_deps3.py b/meta/recipes-devtools/python/python3/get_module_deps3.py
-index fd12baad84..59767046f6 100644
---- a/meta/recipes-devtools/python/python3/get_module_deps3.py
-+++ b/meta/recipes-devtools/python/python3/get_module_deps3.py
-@@ -9,6 +9,7 @@
- debug=False
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8243f7ce8c..7c055e8a3d 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -21,23 +21,6 @@ python() {
+         d.setVarFlag("do_compile", "progress", r"outof:^\[(\d+)/(\d+)\]\s+")
+     else:
+         bb.fatal("Unknown CMake Generator %s" % generator)
+-
+-    # C/C++ Compiler (without cpu arch/tune arguments)
+-    if not d.getVar('OECMAKE_C_COMPILER'):
+-        cc_list = d.getVar('CC').split()
+-        if cc_list[0] == 'ccache':
+-            d.setVar('OECMAKE_C_COMPILER_LAUNCHER', cc_list[0])
+-            d.setVar('OECMAKE_C_COMPILER', cc_list[1])
+-        else:
+-            d.setVar('OECMAKE_C_COMPILER', cc_list[0])
+-
+-    if not d.getVar('OECMAKE_CXX_COMPILER'):
+-        cxx_list = d.getVar('CXX').split()
+-        if cxx_list[0] == 'ccache':
+-            d.setVar('OECMAKE_CXX_COMPILER_LAUNCHER', cxx_list[0])
+-            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[1])
+-        else:
+-            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[0])
+ }
+ OECMAKE_AR ?= "${AR}"
  
- import sys
-+import os
+@@ -51,8 +34,23 @@ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LD
+ CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+ CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
  
- # We can get a list of the modules which are currently required to run python
- # so we run python-core and get its modules, we then import what we need
-@@ -48,8 +49,17 @@ current_module =  str(sys.argv[1]).rstrip()
- if(debug==True):
-     log = open('log_%s' % current_module,'w')
-     log.write('Module %s generated the following dependencies:\n' % current_module)
--try: 
--    importlib.import_module('%s' % current_module)
-+try:
-+    importlib.import_module(current_module)
-+    m = importlib.import_module(current_module)
-+    modulepath = os.path.dirname(m.__file__)
-+    for i in os.listdir(modulepath):
-+        if not i.startswith("_") and i.endswith(".py") and i != os.path.basename(m.__file__):
-+            submodule = "{}.{}".format(current_module, i[:-3])
-+            try:
-+                importlib.import_module(submodule)
-+            except:
-+                pass # ignore all import or other exceptions raised during import
- except ImportError as e:
-     if (debug==True):
-         log.write('Module was not found')
-@@ -107,6 +117,8 @@ for item in dif:
-         dep_path = dep_path.replace(soabi,'*')
-         print (dep_path)
-         continue
-+    if "_sysconfigdata" in dep_path:
-+        dep_path = dep_path.replace(sysconfig._get_sysconfigdata_name(), "_sysconfigdata*")
+-OECMAKE_C_COMPILER_LAUNCHER ?= ""
+-OECMAKE_CXX_COMPILER_LAUNCHER ?= ""
++def oecmake_map_compiler(compiler, d):
++    args = d.getVar(compiler).split()
++    if args[0] == "ccache":
++        return args[1], args[0]
++    return args[0], ""
++
++# C/C++ Compiler (without cpu arch/tune arguments)
++OECMAKE_C_COMPILER ?= "${@oecmake_map_compiler('CC', d)[0]}"
++OECMAKE_C_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CC', d)[1]}"
++OECMAKE_CXX_COMPILER ?= "${@oecmake_map_compiler('CXX', d)[0]}"
++OECMAKE_CXX_COMPILER_LAUNCHER ?= "${@oecmake_map_compiler('CXX', d)[1]}"
++
++# clear compiler vars for allarch to avoid sig hash difference
++OECMAKE_C_COMPILER_allarch = ""
++OECMAKE_C_COMPILER_LAUNCHER_allarch = ""
++OECMAKE_CXX_COMPILER_allarch = ""
++OECMAKE_CXX_COMPILER_LAUNCHER_allarch = ""
  
-     if (debug==True):
-         log.write(dep_path+'\n')
-@@ -140,6 +152,8 @@ for item in dif:
-             log.write(cached)
-         cached = fix_path(cached)
-         cached = cached.replace(cpython_tag,'*')
-+        if "_sysconfigdata" in cached:
-+            cached = cached.replace(sysconfig._get_sysconfigdata_name(), "_sysconfigdata*")
-         print (cached)
- 
- if debug==True:
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 3bcc9b8662..07b084d48c 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -324,7 +324,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compression.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sitebuiltins.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfigdata.*.pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfigdata*.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_weakrefset.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/abc.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/argparse.*.pyc",
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
 ---
 2.28.0
