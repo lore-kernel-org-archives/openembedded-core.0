@@ -1,72 +1,68 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.3064.1596883307502230410
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.3862.1596887392280660669
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Aug 2020 03:41:47 -0700
+ Sat, 08 Aug 2020 04:49:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=d1FmxeW2;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id l4so4578352ejd.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 03:41:47 -0700 (PDT)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=b1xisKYL;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.216.45, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pj1-f45.google.com with SMTP id 2so2271326pjx.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Aug 2020 04:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wt20h+/N9TlD5bFbwN25UZVexnDTAgzZ2IzRsn2MAQ8=;
-        b=d1FmxeW2t0JEfYQV/gUs4mL0r3q7PhcB9IC21NAuQVt4N2JFRIzpg63P38ctBz064d
-         zQ1LAL0GWVymHz7+u9eX6Vr7zWQxcmkOXFt6kNmUtE1pA/afeMCVrRlwJZFlvnIBmK35
-         bNaLVSXRy3J5FQZRCCTINSfK3SZMRjYcrwArbFE4roZJ583o0yRmpaH5bvya43lY96ou
-         zkJdCaqCxS3ONBYUxNwoUQWfJ5Ji6JJ5Y8FoEw8LTt893HGi7w9hvMh9iRg8+xzQNSwP
-         ffGUv1MffNSQ/3KTZcwVNAuj5qPDwkktylRXJiqgNvR7cIj4szcb8Ig1bUyhT+pLcSmQ
-         G2wQ==
+        d=nathanrossi.com; s=google;
+        h=date:message-id:from:to:cc:subject:content-transfer-encoding
+         :mime-version;
+        bh=35noUsVKuNaBQK9ep5fuQVWHJ/jkW7Wq9Xs4Bp3DZuw=;
+        b=b1xisKYL2SxqT1ynYLP12Z/Q+i3CUDKbZtZFI9EHePec/sv/Wd/ba1FMGA5VzpqEI2
+         zWhsef0Ll74RppHPcHBBcKiBc8hZWdBJrLZ1dzQF5CwJLnCIg49BG7iuiZEK9xlhRohi
+         ppaWMB61yblzKDirTs36IsYQG13+mgnwDLMoyZtygB05NiKtgA4JxMUsQGqWMOWhj5pp
+         usm6UfDrcT4IWmp4kkjiXm0nXCUlRwqHndlrsMFucDRVq+CtpxR6G8oILkWv+HKDCpew
+         LV2k9hBkFAfn0+O3zxbghx3Lh409gig/9YOwpCrCRIPGjqTLJfBNtyzk5sVOViTQwB6B
+         ONPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wt20h+/N9TlD5bFbwN25UZVexnDTAgzZ2IzRsn2MAQ8=;
-        b=GMHUD1cd4Hh3dNaXBf7ChEJ8fT2CusdnBFwhkh/aCK06De0RxTcUEQ6eXGmtDOzQLt
-         XKloKmG+1sDVJH5yNzLVC3zzGWzdlvNu84KSmfBaiGweaKAzQYIiG7JhGcGdsqs9gaFO
-         B8jOMl9dEzQUgsboF8OCDLcIdMqqlUAgSWGTIW3Vo4SLbDaoSSjdZEm5u2BTO+h/+0Rx
-         8QFlNH2RLcNGKkrWfDN+EkLIK1ocHHclMvk/8cWjCkiymSpiJQThNPGrhRQSccDPOPam
-         jhJcVR/GuE3Kqzx3QQtiWciYY7Or6V0BaLWFfjRxuYbo07icjO7Q2teU7fwWYJnajwYw
-         CxyA==
-X-Gm-Message-State: AOAM532olDlYaFzVFmuglWnKS0lwAvXVawVsjhnPpZmcjvtvgAtmrzOU
-	HvXgx7ygBRjrHBGPqNeWm0kGXqxF
-X-Google-Smtp-Source: ABdhPJwjjbWpIdWzPwEUlEEarhAsEBJyqIY3KzNr/EJhOJg15EvoTHOm4xSv8iU4yv9J+b5jxx3hfQ==
-X-Received: by 2002:a17:906:a081:: with SMTP id q1mr12815294ejy.499.1596883305852;
-        Sat, 08 Aug 2020 03:41:45 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id dc12sm7808015ejb.124.2020.08.08.03.41.45
+        h=x-gm-message-state:date:message-id:from:to:cc:subject
+         :content-transfer-encoding:mime-version;
+        bh=35noUsVKuNaBQK9ep5fuQVWHJ/jkW7Wq9Xs4Bp3DZuw=;
+        b=nPAdPUMrj8QJcVjytaXm4eaiA/u/YFqDZJB8FfuNObFPSXq6P16Mw3HpUS109GZs2I
+         D5uTddf0w9kqz1ttTX4jTCRXgnpsdsSesdA4UDMDGLORy+dokg40eGK7Ji0uwniBGu1p
+         i1ADIo1dI3ts+rjwkSR1Ikk9jkzfxII6tN+bseYtoC5mPNLDbTLjMe+4rWO9azMwj7cz
+         lPGLyo4ukEjIlpQyn9dCsRa1+eWMSmLiLmlWwxLc3iwnS/p5l4mkPAk5pK7U8M2yMEOx
+         BTd1Swy9sGqb+WFl8kB7wjbmxAfrOwH3mjgxnKIrARGzLZak8vG72l6hVnqdrACPh/uC
+         UvSw==
+X-Gm-Message-State: AOAM533mbRjEjxctZk+KNlUOkN5qou/SMgdz9mceRZOUezQ6LnWIlWts
+	9qVGxkCj7zOnh4H2F/IQRyja/URuDQiUaw==
+X-Google-Smtp-Source: ABdhPJzCOO+SnTZnxrINDW3p07OaPxFByj5u/IXewwDWPT0RB4eHc1DYqfbWnfCd66xCE6gD5nsAIw==
+X-Received: by 2002:a17:90b:1985:: with SMTP id mv5mr17177089pjb.43.1596887391519;
+        Sat, 08 Aug 2020 04:49:51 -0700 (PDT)
+Return-Path: <nathan@nathanrossi.com>
+Received: from [127.0.1.1] (117-20-68-14.751444.bne.nbn.aussiebb.net. [117.20.68.14])
+        by smtp.gmail.com with UTF8SMTPSA id u24sm16088868pfm.211.2020.08.08.04.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2020 03:41:45 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Sat, 08 Aug 2020 04:49:50 -0700 (PDT)
+Date: Sat, 08 Aug 2020 11:49:45 +0000
+Message-Id: <20200808114945.297135-1-nathan@nathanrossi.com>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] libhandy: upstream has moved to gnome
-Date: Sat,  8 Aug 2020 12:41:28 +0200
-Message-Id: <20200808104128.28523-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.28.0
+Cc: Nathan Rossi <nathan@nathanrossi.com>
+Subject: [PATCH] libexif: Enable native and nativesdk
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-gnome/libhandy/libhandy_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/libexif/libexif_0.6.22.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
-index 64258941ee..9f74014640 100644
---- a/meta/recipes-gnome/libhandy/libhandy_git.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
-@@ -2,7 +2,7 @@ SUMMARY = "A library full of GTK+ widgets for mobile phones"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-support/libexif/libexif_0.6.22.bb b/meta/recipes-support/libexif/libexif_0.6.22.bb
+index a520d5c9f9..2478ba07d8 100644
+--- a/meta/recipes-support/libexif/libexif_0.6.22.bb
++++ b/meta/recipes-support/libexif/libexif_0.6.22.bb
+@@ -17,3 +17,5 @@ UPSTREAM_CHECK_URI = "https://github.com/libexif/libexif/releases/"
+ inherit autotools gettext
  
--SRC_URI = "git://source.puri.sm/Librem5/${BPN}.git;protocol=https"
-+SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
- SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
- S = "${WORKDIR}/git"
- PV = "0.0.13"
--- 
+ EXTRA_OECONF += "--disable-docs"
++
++BBCLASSEXTEND = "native nativesdk"
+---
 2.28.0
-
