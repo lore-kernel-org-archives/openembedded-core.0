@@ -1,94 +1,65 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web11.22086.1596971095923908855
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.22921.1596975541863633909
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2020 04:04:56 -0700
+ Sun, 09 Aug 2020 05:19:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kcItAYGI;
- spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f66.google.com with SMTP id g19so6144696ioh.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 04:04:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JFm8ZyVx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id 9so5349606wmj.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 05:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OUDPqDhL2TI5RSB83q5EGpl3Ww9P0Y+Q906RxfZHvEI=;
-        b=kcItAYGICw7UeS86RtgUk+32rZE9g7mwhKyMqFj+SFMTlFkP8aHFPIHtIGE29AbP2G
-         GZ511RIF+D1m7jXM3Xx6cNygQV1vJeoWpMSyYlr0+tMeipgEO77SqBNYa01dtcUQxZRT
-         7OpTPwLmuCONtcW3nVzWvDeWtVgNsFHN5lvZhwRrAv0kiepKb9JQ3NRe/iT6EKLeHrIp
-         GHXlx4NEPMdDTENDBdeoeXsmjmszoDsuZrELW7gKx8FvWRezHIWo6gfMgYyGzKrCFP3i
-         N0KHwc7raynrHQa/YHEKmdxP2KpvLFa9l4QcYEZyf690dbDl+rKI/2vabcnZyKc8Cb6M
-         zjGw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=z15KOdxQ0F6SjYbGRH68P3BzgLeyHQffseQSyrFFqmY=;
+        b=JFm8ZyVx2qXlw6s/4LpJOpCTJB3iMcc2l+bXWkMakEDRyIRsiuhRyMl5O39Mdkk//i
+         CIkBCJ0npxmLZ3ucyrT+2KS/ssQfa0uXi1CJtWuXMFqjhozbxY5r0E5ft1zrc4R6xkCW
+         ltpzuLlBp17wmhc1z5cGHW9W0W3lJTKoC9rtU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OUDPqDhL2TI5RSB83q5EGpl3Ww9P0Y+Q906RxfZHvEI=;
-        b=LjCJVL907S+eUa01ltj3n58PRNk4WcSsg+USdml3oo99KdoCxhLyh2bmtmJ9oVq6Ct
-         GLlEvAEBjPuPxqgpAtr1VUtDmz0yo5Kds1mCxZlw7Ir2yXPfr7VxUnabH+QAMjVl8CQF
-         buZnqD2Ld7HL+TT4E29vtlfdljNzerw9Eeq02CyGs064wDuFVse57WXvidBFsjksPS3f
-         dRgEyDniw7f+uXcvx2/yIEBqZ9H6oJ4PaNynunAN/SsEROplkHiyAM3hGf82SmIaoJwj
-         zKQ0wRkEFZchg6ynPRH9Tv1H/byJrRE8HfnO3GQhBH7QXPI/eqEWG/5BaTpqLs7BC0iJ
-         wyiA==
-X-Gm-Message-State: AOAM532hzHKOOC7vQVi+q84NEv/zw647bk7LJnogAaABwb4/hcSWNRag
-	nEgGR8xEsdfWKobMDRJH315w7tfprIucaEgXSPA=
-X-Google-Smtp-Source: ABdhPJzRY6h7lmGYTzULBmuh/zz+EBE7h2i1IqRUA3WLKqtkvtiHzXLYZcusvJZ3pKGOLuNRRK836OusW+JT84ILHF0=
-X-Received: by 2002:a6b:185:: with SMTP id 127mr13085921iob.153.1596971095135;
- Sun, 09 Aug 2020 04:04:55 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=z15KOdxQ0F6SjYbGRH68P3BzgLeyHQffseQSyrFFqmY=;
+        b=QwcTvbeQy35uzgFyKHw6t6AvF+fitiQWb/9skTjAJkIXuzudBJXnySMGgm60Hp+kGU
+         ziQ791UjPhs/X9zbr5m7JfLN8E4jZb7tpXrYQqmRye3XnGQaBfQmMPeotV45v5UyMegU
+         fDlqLlOnCK1CCZ2ZNoZLl0hv0o4amZYfJqg4L09/sttPJeioKWzI3X5YLKKjy6VhPbVt
+         Uf/SwSsBTHC4ahLbueBIwR+6/jAoYnfvc+bf/SFC7928JXzpY+VxjKxPTUOM6k4/6ZMn
+         U9PNENX7O6PsFD8UMkTagmA9WINOO+Uwc9PHnsE2vsSa+XnDM7xiM7xk+GPDN1LNCzbe
+         DeVg==
+X-Gm-Message-State: AOAM533BQGkGNxmUVZx/+k7pEpKGXVijbsPZAUp+5UcMcYi8gDVDu6vA
+	qyABF1sBfFUNqsLGkRydDMRofA==
+X-Google-Smtp-Source: ABdhPJxpjTUhPF6W3beonN54aBxKj5qBQiSW4Ef8WI3BlJdYxhj/icF187mfi1ZyX6dJ4zBQzZXrWQ==
+X-Received: by 2002:a1c:38b:: with SMTP id 133mr11640006wmd.153.1596975540368;
+        Sun, 09 Aug 2020 05:19:00 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.a.b.2.3.a.a.7.c.e.f.b.f.8.9.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f98f:bfec:7aa3:2ba9])
+        by smtp.gmail.com with ESMTPSA id s205sm17925036wme.7.2020.08.09.05.18.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2020 05:18:59 -0700 (PDT)
+Message-ID: <83ff8e557f8872d5fe8c1bfdc387e1ec7bbfb3ff.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] populate_sdk_ext: Ensure buildtools doesn't corrupt OECORE_NATIVE_SYSROOT
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Sun, 09 Aug 2020 13:18:56 +0100
+In-Reply-To: <CAOSpxdZrryt+TiLgpei1grJDQwxyqNfi_txg8=D2=4fLFmf8aw@mail.gmail.com>
+References: <20200807202548.753073-1-richard.purdie@linuxfoundation.org>
+	 <CAOSpxdZrryt+TiLgpei1grJDQwxyqNfi_txg8=D2=4fLFmf8aw@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-References: <20200807164249.32605-1-alex.kiernan@gmail.com>
- <CAMKF1spoj_R_-=CvzV6OE==jpEb0SiGj6FXPi17LoNZjivCOWA@mail.gmail.com> <16299320E916D773.23035@lists.openembedded.org>
-In-Reply-To: <16299320E916D773.23035@lists.openembedded.org>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Sun, 9 Aug 2020 12:04:43 +0100
-Message-ID: <CAO5Uq5Qc+rVRjAiK6vTiZzG8Ayd3RU0Pko==FXB-OF=krXkLqQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] systemd: upgrade v245.6 -> v246
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 9, 2020 at 11:35 AM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Sun, Aug 9, 2020 at 7:22 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Hi Alex
-> >
-> > I am seeing a packaging failure for iwd
-> >
-> > http://errors.yoctoproject.org/Errors/Details/459665/
-> >
-> >  which seems to originate from this patch
-> > iwd configure detects path to systemd modules load directory if
-> > --with-systemd-modloaddir is not specified using pkgconfing to enquire
-> > modulesloaddir variable from systemd.pc
-> > and the value for this has changed in latest systemd via this patch
-> >
-> > https://github.com/systemd/systemd/commit/4a56315a990b802860170ecd1bbd3eb68e14a38b
-> >
-> > as a result now
-> >
-> > modules_load_dir=${rootprefix}/lib/modules-load.d
-> > modulesloaddir=${modules_load_dir}
-> >
-> > but rootprefix is empty in OE version of systemd.pc i systemd < 246  had
-> >
-> > modulesloaddir=${prefix}/lib/modules-load.d
-> >
-> > and prefix=/usr
-> >
-> > I could have easily fixed it in iwd by adding the additional configure
-> > option but it seems that systemd recipe should rather be fixed to use
-> > proper value for ROOTPREFIX
-> >
->
-> Presumably this is building with usrmerge?
->
+On Sat, 2020-08-08 at 12:12 -1000, Steve Sakoman wrote:
+> Is this series suitable for dunfell?
 
-Having dug a bit more, I suspect this is without usrmerge?
+The uninative one is probably a good idea. The buildtools one,
+definitely not. This one should be harmless but isn't necessary without
+the buildtools one.
 
-It looks to me like that upstream change is just wrong for the !usrmerge case.
+Cheers,
 
--- 
-Alex Kiernan
+Richard
+
+
