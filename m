@@ -1,111 +1,95 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.37304.1597028423159899557
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web12.37306.1597028425966157584
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2020 20:00:23 -0700
+ Sun, 09 Aug 2020 20:00:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zWh7FF28;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id z20so4063559plo.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=R4JzNCtV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id g33so4104903pgb.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ION1J2GBbZo/+LX2i1gOTK2V/keqOmQJUAA6fKOLzwY=;
-        b=zWh7FF28NbFYsiv1AZRW/p5jeo9w7GuNP463lSsZWNKjSWkFL6jkuhgvCW9QfhvznP
-         nT6BsHFcIfT7oRuAoMLHzKP4+mFePoOCzDlEsNWOZHga1bsnTBoVG0JMCbsPwkaUmWDu
-         Cv0L+AgXvNotl0VHsY9uDh4bD4IyAJq2S3pnNV2Q/KD1RIRD12uqfOPWe/vP91PVLgdG
-         jj6yk1nTnpLKuYvtqDfGbTN/74OI/lk8OGfoeW6Lyqyh0VmN3Z/3l1OxQecC0cysOb7Z
-         ZR5IIX7m+e5xsTjlfgKKui+mAp0y2uYFK4hk0llyzju5dpA5+0Jxft2O5XV9SJp/+Y0L
-         qj/A==
+        bh=rNRNNdhAzp6mSzE89l3fzApAdgGvzgjxElZ8NgJ2rZ0=;
+        b=R4JzNCtVSDZFmhLZsPQqMPMVT9nlMqkTsEmNSmZasYRO4r1QkzHITfxAppHJyuXHru
+         fkpzIWVn0VzImScKaB0x+2efjupTLKL2OwxOjW7s+vRTzzoGv7vKJIH0JhKkCoqqA3yV
+         CWE1aPfe0kSBtcJz2FAO6YS8AqbEbButKRZQ+akp20ljFsY1ietUYC8svolXmseC5hxu
+         wSWYfrUAKmem9FsmGD+h1RbFPZRWC+lp5YmRUleqoKPHlGHtTSUGvmJblpKU4DI6fzqC
+         4r1U2yFD1Mkfkr+ORuI45QJdOPpwL5zC5ZKfqT3dbI4zo5BloCYx2KAWpkvUS6+5iRLO
+         EOnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ION1J2GBbZo/+LX2i1gOTK2V/keqOmQJUAA6fKOLzwY=;
-        b=oJDYBdmA66bHxq75JqfId2vcenIXyIfjg8flqlBfnmIGYfFrA1VN2VG/evpQb6AsLm
-         70JPMuVlQfn0qHQ+cfwJ/zNRHoL6RTxMO6KW4OCrfjGNh5g4QI5wgQYSrFK0eha9yH3U
-         zmg97/y+Qxxa9fTudZL/KhYZqOcWJ9F5HUnA3l5j/HqMIoZ6ANDW4E6DOlhNR9Ni7GS0
-         ruedVkTK/SnkCxeG8CPOKyFHNRPyzwKfOfCWTowfETYy4OtqmwGBSwjCbd+EOTi19vFM
-         GbU6opixArQvnMesmiRLCcYinBTnnKjgkIlEeeywjx8KH/22c/ev803/uwv2mnD/o2GG
-         EBAw==
-X-Gm-Message-State: AOAM531KwI+72XEmTmKV8hLdup+c17IX+8MJtqtSC3JNcIWeKzxzbiVW
-	DxROSrY1jL+TIBFpOa2ZplLoAB+S1fchFQ==
-X-Google-Smtp-Source: ABdhPJxvQpO+hykyT2sQn3yBnENkxsMDCwQHU1p+SFVx2v38rlFWmK2F1/pS1ITE0PWZ1wjqnrjnog==
-X-Received: by 2002:a17:90a:2a0d:: with SMTP id i13mr25530361pjd.92.1597028422243;
-        Sun, 09 Aug 2020 20:00:22 -0700 (PDT)
+        bh=rNRNNdhAzp6mSzE89l3fzApAdgGvzgjxElZ8NgJ2rZ0=;
+        b=nWevMgOh2TohaRO74HJGfLWVjBrQ7fgZpCQgF2bqV0GHw6A7uFvjC4nVEpLvxO2O/E
+         hRyoO+tJRn0dTWCcyLYDBhVLYVtJmPRwBpRf0Jj1O7Tbo86OYpS/2FXqKwegQTybVuvx
+         arMiiufupm1380/MW+2gr4FY3gnzrnrnqVBhTGAuvx7iK2rt8Y61a5xclCOGsPb7ECIC
+         mc/+EuThZ+aTeuESsG86pPuHrVmKK0keawm+/XiLx2X0gHjD1D9h4nQTN9c8dn/r78h6
+         mOLjJLE6wYlWYQSlTKetYCZpIMPKU8Gt9PDSv82NxWo6w8weMf2tfO75MS0tmfHvZGzn
+         JnnQ==
+X-Gm-Message-State: AOAM533wNggq9gFBbwd4BFFRppZ+0qAs2x8kzSJtEqvjl3Ev/YmOxBqK
+	8VZHVISSk9PV8HXENoserzSje2BgRXFrxg==
+X-Google-Smtp-Source: ABdhPJwX3wY5iJC1HHPU9zvzDx4EEv4R1erc/qSyIw7rokOkZaMG6F3NQznHepvc5oAlJExKpO/5ow==
+X-Received: by 2002:a65:60cb:: with SMTP id r11mr20684498pgv.131.1597028425158;
+        Sun, 09 Aug 2020 20:00:25 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.21
+        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2020 20:00:21 -0700 (PDT)
+        Sun, 09 Aug 2020 20:00:24 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/19] testimage: add an overall timeout setting
-Date: Sun,  9 Aug 2020 16:59:23 -1000
-Message-Id: <eb57207f983b454dbdf2321da330fc1ec8a8bcbf.1597028036.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 18/19] oeqa: write @OETestTag content into json test reports for each case
+Date: Sun,  9 Aug 2020 16:59:24 -1000
+Message-Id: <9eaf11657cc8304af5cb75f98decbc64cca37801.1597028036.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1597028036.git.steve@sakoman.com>
 References: <cover.1597028036.git.steve@sakoman.com>
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-This is useful when tests misbehave and get stuck, or when
-a significant increase in testing time is undesirable and
-needs to be caught automatically.
+This allows using these tags for classification and filtering of test results
+according to various organization-specific criteria, such as teams
+responsible for the test, internal test ids, feature domains and so on.
 
-(From OE-Core rev: d77546e910ad9048f0057f4465716d417b810065)
+Test name itself meanwhile can stay short and human-readable.
+
+(From OE-Core rev: 3801b126eb52cd46efe417111afcd27f05d8f72b)
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/testimage.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/lib/oeqa/core/runner.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 53945478af..00f0c29836 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -31,6 +31,7 @@ TESTIMAGE_AUTO ??= "0"
- # TEST_LOG_DIR contains a command ssh log and may contain infromation about what command is running, output and return codes and for qemu a boot log till login.
- # Booting is handled by this class, and it's not a test in itself.
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
-+# TEST_OVERALL_TIMEOUT can be used to set the maximum time in seconds the tests will be allowed to run (defaults to no limit).
- # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
- # TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
- 
-@@ -75,6 +76,7 @@ DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
-+TEST_OVERALL_TIMEOUT ?= ""
- TEST_TARGET ?= "qemu"
- TEST_QEMUPARAMS ?= ""
- TEST_RUNQEMUPARAMS ?= ""
-@@ -206,6 +208,10 @@ def testimage_main(d):
-         """
-         os.kill(os.getpid(), signal.SIGINT)
- 
-+    def handle_test_timeout(timeout):
-+        bb.warn("Global test timeout reached (%s seconds), stopping the tests." %(timeout))
-+        os.kill(os.getpid(), signal.SIGINT)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 00b7d0bb12..d50690ab37 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -195,6 +195,20 @@ class OETestResult(_TestResult):
+                 report['log'] = log
+             if duration:
+                 report['duration'] = duration
 +
-     testimage_sanity(d)
- 
-     if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
-@@ -363,6 +369,11 @@ def testimage_main(d):
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
-         tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-+        import threading
-+        try:
-+            threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
-+        except ValueError:
-+            pass
-         results = tc.runTests()
-     except (KeyboardInterrupt, BlockingIOError) as err:
-         if isinstance(err, KeyboardInterrupt):
++            alltags = []
++            # pull tags from the case class
++            if hasattr(case, "__oeqa_testtags"):
++                alltags.extend(getattr(case, "__oeqa_testtags"))
++            # pull tags from the method itself
++            test_name = case._testMethodName
++            if hasattr(case, test_name):
++                method = getattr(case, test_name)
++                if hasattr(method, "__oeqa_testtags"):
++                    alltags.extend(getattr(method, "__oeqa_testtags"))
++            if alltags:
++                report['oetags'] = alltags
++
+             if dump_streams and case.id() in self.logged_output:
+                 (stdout, stderr) = self.logged_output[case.id()]
+                 report['stdout'] = stdout
 -- 
 2.17.1
 
