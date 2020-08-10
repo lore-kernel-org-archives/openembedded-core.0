@@ -1,116 +1,91 @@
-Received: from mga05.intel.com (mga05.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.46332.1597071178064241135
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2839.1597097152794591239
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2020 07:53:00 -0700
+ Mon, 10 Aug 2020 15:05:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: lG/pi1ECg04Meb+LddGyWn+gTJvvQnfCkq8WTlPiLsd7Rws1R+P+gx5iqKxpQoWL0yPjNTC+UQ
- 6o15c98SXPoA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9708"; a="238376833"
-X-IronPort-AV: E=Sophos;i="5.75,457,1589266800"; 
-   d="scan'208";a="238376833"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2020 07:53:00 -0700
-IronPort-SDR: QWCFDb3OSNaHoCQWPVN7b9Y+JpMcZ3Iixd42RR0VMlcb8qVWuof8Ku4DNrrHfy0qT2cC7W7DO5
- 5GBYNNVkO4AQ==
-X-IronPort-AV: E=Sophos;i="5.75,457,1589266800"; 
-   d="scan'208";a="494819276"
-Received: from sshettyx-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.64.39])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2020 07:52:59 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 4/4] libpcre: Add fix for CVE-2020-14155
-Date: Mon, 10 Aug 2020 22:52:47 +0800
-Message-Id: <3f536edfa56ce3f93223c23ed48427a0c24ede1a.1597071024.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1597071024.git.anuj.mittal@intel.com>
-References: <cover.1597071024.git.anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: joe.slater@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07AM5Uan029504
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2020 15:05:41 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Mon, 10 Aug 2020
+ 15:05:20 -0700
+From: "Joe Slater" <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] gcr: make sure gcr-oids.h is generated
+Date: Mon, 10 Aug 2020 15:05:20 -0700
+Message-ID: <20200810220520.157259-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Rahul Taya <Rahul.Taya@kpit.com>
+Backport, without modification, a patch from mainline after
+gcr-3-36 branch created.
 
-Added below patch in libpcre
-CVE-2020-14155.patch
-
-This patch fixes below error:
-PCRE could allow a remote attacker to execute arbitrary
-code on the system, caused by an integer overflow in
-libpcre via a large number after (?C substring.
-By sending a request with a large number, an attacker
-can execute arbitrary code on the system or
-cause the application to crash.
-
-Tested-by: Rahul Taya <Rahul.Taya@kpit.com>
-Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- .../libpcre/libpcre/CVE-2020-14155.patch      | 41 +++++++++++++++++++
- meta/recipes-support/libpcre/libpcre_8.43.bb  |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2020-14155.patch
+ ...-meson-Make-sure-gcr-oids.h-is-built.patch | 36 +++++++++++++++++++
+ meta/recipes-gnome/gcr/gcr_3.36.0.bb          |  2 ++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre/CVE-2020-14155.patch b/meta/recipes-support/libpcre/libpcre/CVE-2020-14155.patch
+diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch b/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
 new file mode 100644
-index 0000000000..183512fd7d
+index 0000000000..3c8902d05e
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre/CVE-2020-14155.patch
-@@ -0,0 +1,41 @@
-+--- pcre-8.43/pcre_compile.c    2020-07-05 22:26:25.310501521 +0530
-++++ pcre-8.43/pcre_compile1.c   2020-07-05 22:30:22.254489562 +0530
++++ b/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
+@@ -0,0 +1,36 @@
++From 9fca6ae0aa7355c27d0922c561b9fbe18dde5b3d Mon Sep 17 00:00:00 2001
++From: Niels De Graef <nielsdegraef@gmail.com>
++Date: Fri, 19 Jun 2020 22:37:31 +0200
++Subject: [PATCH 1/1] meson: Make sure gcr-oids.h is built
 +
-+CVE: CVE-2020-14155
-+Upstream-Status: Backport [https://vcs.pcre.org/pcre/code/trunk/pcre_compile.c?view=patch&r1=1761&r2=1760&pathrev=1761]
-+Signed-off-by: Rahul Taya<Rahul.Taya@kpit.com>
++Fixes https://gitlab.gnome.org/GNOME/gcr/-/issues/48
++---
++ gcr/meson.build | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+@@ -6,7 +6,7 @@
-+ and semantics are as close as possible to those of the Perl 5 language.
++--- end of original header ---
 +
-+                        Written by Philip Hazel
-+-           Copyright (c) 1997-2018 University of Cambridge
-++           Copyright (c) 1997-2020 University of Cambridge
++Upstream-Status:  backport [https://github.com/GNOME/gcr.git]
 +
-+ -----------------------------------------------------------------------------
-+ Redistribution and use in source and binary forms, with or without
-+@@ -7130,17 +7130,19 @@
-+           int n = 0;
-+           ptr++;
-+           while(IS_DIGIT(*ptr))
-++           {
-+             n = n * 10 + *ptr++ - CHAR_0;
-++            if (n > 255)
-++               {
-++               *errorcodeptr = ERR38;
-++               goto FAILED;
-++               }
-++            }
-+           if (*ptr != CHAR_RIGHT_PARENTHESIS)
-+             {
-+             *errorcodeptr = ERR39;
-+             goto FAILED;
-+             }
-+-          if (n > 255)
-+-            {
-+-            *errorcodeptr = ERR38;
-+-            goto FAILED;
-+-            }
-+           *code++ = n;
-+           PUT(code, 0, (int)(ptr - cd->start_pattern + 1)); /* Pattern offset */
-+           PUT(code, LINK_SIZE, 0);                          /* Default length */
-diff --git a/meta/recipes-support/libpcre/libpcre_8.43.bb b/meta/recipes-support/libpcre/libpcre_8.43.bb
-index b97af08b25..60ece64504 100644
---- a/meta/recipes-support/libpcre/libpcre_8.43.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.43.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://out-of-tree.patch \
-            file://run-ptest \
-            file://Makefile \
-+           file://CVE-2020-14155.patch \
- "
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++---
++diff --git a/gcr/meson.build b/gcr/meson.build
++index 199452f..06c3a63 100644
++--- a/gcr/meson.build
+++++ b/gcr/meson.build
++@@ -178,7 +178,10 @@ endif
++ gcr_base_dep = declare_dependency(
++   link_with: gcr_base_lib,
++   include_directories: include_directories('..'),
++-  sources: gcr_enums_gen[1], # Make sure gcr-enum-types-base.h can be included
+++  sources: [
+++    gcr_enums_gen[1],
+++    gcr_oids[1],
+++  ],
++ )
++ 
++ if get_option('introspection')
++-- 
++2.7.4
++
+diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
+index d5a88dfb35..ff455a68ec 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
+@@ -18,6 +18,8 @@ inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even
+ REQUIRED_DISTRO_FEATURES = "x11"
  
- SRC_URI[md5sum] = "636222e79e392c3d95dcc545f24f98c4"
+ SRC_URI += " file://0001-meson.build-correctly-set-internal-vapi-dependencies.patch"
++SRC_URI += " file://0001-meson-Make-sure-gcr-oids.h-is-built.patch"
++
+ SRC_URI[archive.md5sum] = "adc65563b6b458507b9a578a8b68fb61"
+ SRC_URI[archive.sha256sum] = "aaf9bed017a2263c6145c89a1a84178f9f40f238426463e4ae486694ef5f6601"
+ 
 -- 
-2.26.2
+2.17.1
 
