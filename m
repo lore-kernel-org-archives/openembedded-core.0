@@ -1,91 +1,71 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.37307.1597028429387181148
+Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
+ by mx.groups.io with SMTP id smtpd.web12.38765.1597036584673464372
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2020 20:00:29 -0700
+ Sun, 09 Aug 2020 22:16:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kBGgtaKI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id o13so4111162pgf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:29 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=p+KEuOJ4;
+ spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=4841f601d=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=+hd+Twf+zoi/PB7caMfMeuPNqMvRCoRamsntRZbnw5s=;
-        b=kBGgtaKIDQoiaMCY4Tfrkq90dkKCdMCbse5EE4U6mQ4kB87j7DuFDllcWMV6mRQWGU
-         K5x3axZIePnYDnUGeNZ+dupmpFNcKxL2ieK4wrlxuGhIZTem4ZgiEXDkideykqQdZnBK
-         YP36Mi2asZZaf63LnBbhsOIqCRzY98Rfwx1I+wFRi7ftML1lfVtBoGtf2R7CLs0m8/h5
-         w1wErdBF33Ui8pSK+5nGcJhDH7wT8CWxXhqJgjNpLiDXiSvuvuN/x4XAIKt6m/oSs8Ro
-         1Gw0CTHdK63G/8i2wtnsg1Vxu+BMxIPHjfKGEtE5j4IcpBPjIKM+ym9CJfNEJna9q8kj
-         kzEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=+hd+Twf+zoi/PB7caMfMeuPNqMvRCoRamsntRZbnw5s=;
-        b=KsfWDmSF6rTOfN7Lk2uwyxwVAL3F8sujxsJg+9ipmBaVXiXwu5d43djVr0YAmETTyw
-         jQOkBLC7+s8N5ngDvy8tSFbmGfvuiBJIRwDU8bMW3gNksVeAwISPJ9GnSFRruj0o3Vtt
-         v+/WWhrlrkqc7Jfx9fsQlYwpO9KKMPlgUJsrxNNNAU0gkLBqGIXBkq5Kd1vyUdzdh18O
-         V3sYWo168jC3kB6dJd00yWzigZPcCd57Q9gazL9/wCN8VrvJ5ZO/h61/F23hHgUTsP38
-         BDUIQZ0GwkF4foWzQm0EcfvoUR8KoYF2oH74JgFOTglx0ba6Vt8eD33alnZ7siWcwUcn
-         amyw==
-X-Gm-Message-State: AOAM531FJtrKZjUgNVRyvhWgptgI6R+D14J2z4KNLJ45YdI7yGmnleeT
-	O/fl5e+WBoguuap0KK8hEeV4j+ytmxqJaA==
-X-Google-Smtp-Source: ABdhPJzJEQexuaGTQOdnvvzvkGy4AHu25oZM8FHoIdEjpDgM8K94lDLE/DDAWQte70WayoQx/wrxow==
-X-Received: by 2002:a63:3241:: with SMTP id y62mr2582145pgy.305.1597028428289;
-        Sun, 09 Aug 2020 20:00:28 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2020 20:00:27 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/19] uninative: Handle PREMIRRORS generically
-Date: Sun,  9 Aug 2020 16:59:25 -1000
-Message-Id: <b95d6aeafb70765e22d2e1254e749a48f508d489.1597028036.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1597028036.git.steve@sakoman.com>
-References: <cover.1597028036.git.steve@sakoman.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1597036584; x=1628572584;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=6QkRFqJ548FfEUmLd1Pc4Kivs+/l78hUn/Wjf7RKrUA=;
+  b=p+KEuOJ4gOGchahndXM4g/8vVoTXRXeBqzVNVBrn6ziec4iX4g1Q+76C
+   +gnq+lmYHHzGo9ounhar1atdsAJPSwc71xfL7BZc1lAX2T8pTy7c14pJF
+   OEdJybWx/pL/TG2ttdT4TxCwEzx5kHsTQLj902Er+WY631kmNU2A20QsJ
+   4=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 10 Aug 2020 07:16:21 +0200
+Received: from esabb5.muc ([160.50.100.47])  by esagw5.muc with ESMTP/TLS;
+ 10 Aug 2020 07:16:22 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp) ([160.48.96.48])
+ by esabb5.muc with ESMTP/TLS; 10 Aug 2020 07:16:22 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10l.europe.bmw.corp
+ (160.48.96.48) with Microsoft SMTP Server (TLS;
+ Mon, 10 Aug 2020 07:16:21 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.006; Mon,
+ 10 Aug 2020 07:16:21 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <sakoman@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 02 Aug 2020 08:00:01 AM HST
+Thread-Topic: [OE-core] OE-core CVE metrics for dunfell on Sun 02 Aug 2020
+ 08:00:01 AM HST
+Thread-Index: AQHWaPcIs7e5lkwRM0G8wmqFld6l6KklUlKAgAtk/AA=
+Date: Mon, 10 Aug 2020 05:16:21 +0000
+Message-ID: <20200810051620.GI108868@korppu>
+References: <20200802180141.74B86962630@nuc.router0800d9.com>
+ <CAGDS+nmyJeJqTb3jkn8Ph8g-V2Qei9NiX4afBaf6w+oi5N3mjw@mail.gmail.com>
+In-Reply-To: <CAGDS+nmyJeJqTb3jkn8Ph8g-V2Qei9NiX4afBaf6w+oi5N3mjw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <023BC63AD3E173439681C1D1C25A49D3@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Sun, Aug 02, 2020 at 01:16:03PM -1000, Steve Sakoman wrote:
+> I'll be sending these reports out each week on Sunday morning (Hawaii tim=
+e).
+>=20
+> They are generated by checking out the heads of the current master and
+> dunfell branches of poky and running cve_check.
+>=20
+> Patches to fix CVE's would be most welcome if you'd like to help
+> shorten this list!
+>=20
+> After you've selected one to work on I'd suggest doing a quick check
+> in master-next or stable/dunfell-nut to make sure we aren't already
+> testing a CVE fix for master or dunfell respectively.
 
-Currently uninative handles SOURCE_MIRROR_URL but not generic PREMIRRORS.
-It can handle this better, attempt to iterate PREMIRRORS entries.
+Thanks for setting this up!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6426c952b5ade48ea94fb647efc464e603989b97)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/uninative.bbclass | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 70799bbf6d..316c0f0616 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -56,12 +56,17 @@ python uninative_event_fetchloader() {
-             # Our games with path manipulation of DL_DIR mean standard PREMIRRORS don't work
-             # and we can't easily put 'chksum' into the url path from a url parameter with
-             # the current fetcher url handling
--            ownmirror = d.getVar('SOURCE_MIRROR_URL')
--            if ownmirror:
--                localdata.appendVar("PREMIRRORS", " ${UNINATIVE_URL}${UNINATIVE_TARBALL} ${SOURCE_MIRROR_URL}/uninative/%s/${UNINATIVE_TARBALL}" % chksum)
-+            premirrors = bb.fetch2.mirror_from_string(localdata.getVar("PREMIRRORS"))
-+            for line in premirrors:
-+                try:
-+                    (find, replace) = line
-+                except ValueError:
-+                    continue
-+                if find.startswith("http"):
-+                    localdata.appendVar("PREMIRRORS", " ${UNINATIVE_URL}${UNINATIVE_TARBALL} %s/uninative/%s/${UNINATIVE_TARBALL}" % (replace, chksum))
- 
-             srcuri = d.expand("${UNINATIVE_URL}${UNINATIVE_TARBALL};sha256sum=%s" % chksum)
--            bb.note("Fetching uninative binary shim from %s" % srcuri)
-+            bb.note("Fetching uninative binary shim %s (will check PREMIRRORS first)" % srcuri)
- 
-             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-             fetcher.download()
--- 
-2.17.1
-
+-Mikko=
