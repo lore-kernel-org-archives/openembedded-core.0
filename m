@@ -1,124 +1,109 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web12.37295.1597028403766320127
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.37544.1597028406205441755
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2020 20:00:03 -0700
+ Sun, 09 Aug 2020 20:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ASDzMO9O;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f196.google.com with SMTP id y6so4069096plt.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fiLjMKXn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id ha11so4191276pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=9/QSIVh+kSiBuMUfmgSZREp4Zwdt4IayFbcAOri6/+o=;
-        b=ASDzMO9OE+evSChKV72/gRNGr+YuLDodHSJAafGVuzQlWguB1ge8BGqbGBJRybKRKA
-         0Fk5yXCG7ZgNAl8HzDyw5f+rFO3HWeIC0g7/u7KmMgjV61rGj5oRcUgbCf+eT+q2YNbj
-         9JfTIEE1kMTPha7orlQawiPp7UTmeRzr3yQ2257Z/Sj6N8H/r+IiIzauBTvmjQVfKlqI
-         Hqk1sPR4pOXfo1Xop/0lWVbtZGpDR9uO7Iz8P0TNsLSiqa3qtfzNjMnhDQMVQeSRORTw
-         dsx5UQ7GECiR6LUzHqQYdG4QXPxNLqlVxfqvGQeOe6lEyZ6TN8ueT7dXyVw7E6zTctt/
-         JgeA==
+        bh=Gmr1nrKf8mAFWrAtg3eblbAXvLE30POxzW5V3T91g1g=;
+        b=fiLjMKXnazCRpUd+mL/pbHfIJshlDR7QIROjul+U2FgkyyTCEsyQah+WnnWHZbMr8k
+         0VU+junkOox5A30TIM1ZqozND01AyaRV47FN7IvuSv05x5FP070uKaj8LMSUO+RCRQLV
+         qGGxJRP3ekqi165R70IG/lfMP564wK9A3gPY/l/o+QcnhcHrKhhF6r+yEfJ6QCOpWDmG
+         kdP9TWs+1KTRSlH3Nd4XbRx16qF443heJwASZL6HCvUTYMMPiLBJqvlO6VUZAV6T3xbj
+         APwyPLZJZFrdfisE6BfNj85n9qJyyCT6iRELm++LLX83SRjQ8i7btHFNVs1sF7lYgKGt
+         lQ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=9/QSIVh+kSiBuMUfmgSZREp4Zwdt4IayFbcAOri6/+o=;
-        b=ncXFswvDf13mY9DlMOF8nWnEwzgNHNRuqhGNJEdMNBVkrQDV/jMFQIirSxLBccwilW
-         QkuDGruQ8ZOqB4xyz+hhOXVKm4uh9snFtkQYDYVzG9NWF+XH8B8zv9uffim6Pmc9OfjO
-         Y8fqDylHPPnGzTrRy1OvJuEZr+eFDAolKDgIpnzayb5icf5q24qrsyfG5OWTSybm++Cz
-         a88Lo7DQxohs3hIsXQQjiP32mIw1Adg+8yC8pCxWbFuE3OEvk9ViErxmhR15M/wmLBeT
-         PlozAjz/rxT5A9ok1KosBocjSvugfableYYkazFw8a4Q6bv02echwIy1GWv1w90QXNiU
-         KSeg==
-X-Gm-Message-State: AOAM533DoXFoArAWYWD7pWg8p/JhFwD1pJIGBVYQkBq0AbGg0zsZM/LE
-	EGoXmge0J/7wTKgki56rDIyuLeDlJ/HhNQ==
-X-Google-Smtp-Source: ABdhPJw2mHJVdxrSq6j7kDitRXWctnPBS2G7N39TLYGXcKbce7dN22U04xTnLxmLclENUZtG4E9KUw==
-X-Received: by 2002:a17:902:8495:: with SMTP id c21mr23198133plo.82.1597028402777;
-        Sun, 09 Aug 2020 20:00:02 -0700 (PDT)
+        bh=Gmr1nrKf8mAFWrAtg3eblbAXvLE30POxzW5V3T91g1g=;
+        b=taF0VvPBa96a5z+eyfa1Z1DYHKXckc37Ngis9m859jwSl2T6aKS4V811OcIccsU4Es
+         7dBLMcCCBdaoCequfznLIoIeVqE0rWrV27560gclz0zNoEzVTl4TmtuuLd5YsO8BpCyq
+         uTPedjexz8ahWsbnRIUYH6Xc9uqM4nomNAkZ1TZ8Y+kz+TO8v6TuP3pu7kfYyQf6XEIz
+         //nuhodZnmnSI2vgZ2XocLxeQYJRmDMqg4ovWVgFsHySX4gzn1Dba1Eniqjwsz4TvDtB
+         8FGEmkepjdEBszBKNF7KOnVY+BARpn/ow7/zH8rB82cdhgrrqzqyAmnx6wOTZ2T4vjFY
+         6VXg==
+X-Gm-Message-State: AOAM533jVepqZMNfR+P//BSNRcHwg191RkJRCNW5aVOKYk9lgZKdc0M8
+	hL/6ZIbv8Ntz0uV90VEkhLV38q5XSBXLog==
+X-Google-Smtp-Source: ABdhPJwAHHM89UtN01kZ6woG0lfzXxCIt/vYb2PL303Tr7p3vfue3WV4NRnmXkgSHcdfGfP5k7oQxA==
+X-Received: by 2002:a17:90a:15c8:: with SMTP id w8mr16904011pjd.179.1597028404965;
+        Sun, 09 Aug 2020 20:00:04 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.01
+        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2020 20:00:02 -0700 (PDT)
+        Sun, 09 Aug 2020 20:00:04 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/19] kernel-devicetree: Fix intermittent build failures caused by DTB builds
-Date: Sun,  9 Aug 2020 16:59:15 -1000
-Message-Id: <7c1fff00b7268d518afa87078bdc781324c63d03.1597028036.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/19] ltp: make copyFrom scp command non-fatal
+Date: Sun,  9 Aug 2020 16:59:16 -1000
+Message-Id: <9390846e2abdd6837094a619ba4703a1be4a04cf.1597028036.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1597028036.git.steve@sakoman.com>
 References: <cover.1597028036.git.steve@sakoman.com>
 
-From: Tyler Hicks <tyhicks@linux.microsoft.com>
+From: Matthew <matthew.zeng@windriver.com>
 
-Fix a build-time race condition that resulted in intermittent build
-failures in the do_assemble_fitimage task. The race condition involved
-the do_assemble_fitimage task reading the vmlinux file while the
-do_compile_kernelmodules task was re-writing the vmlinux file.
+[YOCTO #13802]
 
-This can be seen with an aarch64 image build that uses a 5.4 based
-kernel and sets KERNEL_DEVICETREE. The problem is that the do_compile
-snippet that the kernel-devicetree class appends did not specify the
-full kernel build environment when building the DTB(s) from the kernel
-tree. This resulted in CONFIG_CC_CAN_LINK=y being removed from the
-kernel config file just before the do_compile task completed. The
-CONFIG_CC_CAN_LINK=y line was then re-inserted into the kernel config
-file as part of the do_compile_kernelmodules task.
+Make the scp failure non-fatal so the ltp tests continue to run and
+the rest of the logs will be available to see afterwards.
 
-In some cases, this resulted in the do_compile_kernelmodules task to
-re-link vmlinux which sometimes occured at the same time that the
-do_assemble_fitimage task was attempting to use vmlinux. The
-do_assemble_fitimage task would fail with the following error message:
-
- aarch64-poky-linux-objcopy:vmlinux: file format not recognized
-
-We can use the pine-a64-lts machine, from the meta-pine64 layer, to show
-that the kernel config file was changed between do_compile and
-do_compile_kernelmodules:
-
- $ C=tmp/work/pine_a64_lts-poky-linux/linux-pine64/5.7+gitAUTOINC+ae03bade3b-r0/linux-pine_a64_lts-standard-build/.config
- $ bitbake -c do_kernel_configcheck virtual/kernel
- ...
- $ md5sum $C; grep CC_CAN_LINK $C
- 32b133cf8a749a91f698a7ca8616c84f  ...
- CONFIG_CC_CAN_LINK=y
-
- $ bitbake -c do_compile virtual/kernel
- ...
- $ md5sum $C; grep CC_CAN_LINK $C
- 2fd2ec2a66eecc329dcb5afaf005eada  ...
-
- $ bitbake -c do_compile_kernelmodules virtual/kernel
- ...
- $ md5sum $C; grep CC_CAN_LINK $C
- 32b133cf8a749a91f698a7ca8616c84f  ...
- CONFIG_CC_CAN_LINK=y
-
-With this change, the do_compile snippet appended by the
-kernel-devicetree class does not modify the kernel config. The kernel
-config is unchanged across the do_compile and do_compile_kernelmodules
-tasks and do_compile_kernelmodules will not attempt to re-link vmlinux.
-
-Signed-off-by: Tyler Hicks <tyhicks@linux.microsoft.com>
+Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74619de0277471f446bf7a719f4c445359c823f6)
+(cherry picked from commit 0f7d093038274f4f21f6cca39a96aac4f6c32ee3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-devicetree.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/core/target/ssh.py   | 7 +++++--
+ meta/lib/oeqa/runtime/cases/ltp.py | 5 +++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 522c46575d..81dda8003f 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -52,7 +52,7 @@ do_configure_append() {
- do_compile_append() {
- 	for dtbf in ${KERNEL_DEVICETREE}; do
- 		dtb=`normalize_dtb "$dtbf"`
--		oe_runmake $dtb
-+		oe_runmake $dtb CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
- 	done
- }
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 090b40a814..aefb576805 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -107,13 +107,16 @@ class OESSHTarget(OETarget):
+             scpCmd = self.scp + [localSrc, remotePath]
+             return self._run(scpCmd, ignore_status=False)
  
+-    def copyFrom(self, remoteSrc, localDst):
++    def copyFrom(self, remoteSrc, localDst, warn_on_failure=False):
+         """
+             Copy file from target.
+         """
+         remotePath = '%s@%s:%s' % (self.user, self.ip, remoteSrc)
+         scpCmd = self.scp + [remotePath, localDst]
+-        return self._run(scpCmd, ignore_status=False)
++        (status, output) = self._run(scpCmd, ignore_status=warn_on_failure)
++        if warn_on_failure and status:
++            self.logger.warning("Copy returned non-zero exit status %d:\n%s" % (status, output))
++        return (status, output)
+ 
+     def copyDirTo(self, localSrc, remoteDst):
+         """
+diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
+index 6dc5ef22ad..a66d5d13d7 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp.py
++++ b/meta/lib/oeqa/runtime/cases/ltp.py
+@@ -78,9 +78,10 @@ class LtpTest(LtpTestBase):
+             # copy nice log from DUT
+             dst = os.path.join(self.ltptest_log_dir, "%s" %  ltp_group )
+             remote_src = "/opt/ltp/results/%s" % ltp_group 
+-            (status, output) = self.target.copyFrom(remote_src, dst)
++            (status, output) = self.target.copyFrom(remote_src, dst, True)
+             msg = 'File could not be copied. Output: %s' % output
+-            self.assertEqual(status, 0, msg=msg)
++            if status:
++                self.target.logger.warning(msg)
+ 
+             parser = LtpParser()
+             results, sections  = parser.parse(dst)
 -- 
 2.17.1
 
