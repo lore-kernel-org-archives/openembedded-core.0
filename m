@@ -1,145 +1,280 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.44100.1597063668667364115
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.44101.1597063672826169268
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2020 05:47:49 -0700
+ Mon, 10 Aug 2020 05:47:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=WGpD7DUk;
- spf=pass (domain: nathanrossi.com, ip: 209.85.210.180, mailfrom: nathan@nathanrossi.com)
-Received: by mail-pf1-f180.google.com with SMTP id x25so1811263pff.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2020 05:47:48 -0700 (PDT)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=GFssgLLD;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.216.47, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pj1-f47.google.com with SMTP id f9so4978677pju.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2020 05:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=nathanrossi.com; s=google;
-        h=date:message-id:from:to:cc:subject:content-transfer-encoding
-         :mime-version;
-        bh=n8npg9TPYhlbFK1Sem69jEoxA6OmifN7fGQZJ6nDANs=;
-        b=WGpD7DUkEJjHC8mcoE+qQq8e6B0Sp3bZXmQe+KAeXhVEZhcnkMeYaBZbVi1XyBflZA
-         cn8Q69+xK1ixfxLZQNNQO8NTGPXaGn6AATB/D31Z3uo4ekjY84IxX8bKMcHE7Vrf4Msb
-         SZk4ug8MR+R8O4pNi+XVoy0TVLN71IDESxANuZGIxOFf69yiMyjC3FeoU8XkScLWLscA
-         adj9JX5E43+GROPrJQmhPwgMfWBiLKyIiaZz/U1U3FJZlC0RipWEbS8mVBVGH6iF2Ep3
-         nc+1VEezJwQOgVSVlajRJpNeLrJ/4SkTk9klNdb2Xvgz8Bkqi/LsIZeaByPiZZuIIoqn
-         VB8g==
+        h=date:message-id:in-reply-to:references:from:to:cc:subject
+         :content-transfer-encoding:mime-version;
+        bh=QGM2jJpSQRAkpmPmRA2CnQ1fcA1h9BiadkCFStfePmM=;
+        b=GFssgLLDdq8uDySL0ziPcuBsQcIWj3Pd6+dHl0v5K8rXQOmLLjR6/D3TQq33Vi0li1
+         CQUUws5eZ0iB4bQisyzYoAsnpBQ0usjqOOml4qJWh+CZh0HgR42i6g3DSL6F7dD/YBZB
+         LpPus97s4s7CnWfJ5AW3pMFYRsTp8dblTOnQSkDU1EuCoe9XdppQU91KhL6lll7BXXtU
+         ELJy8ztmXL/7jRRScFFOP1r+EMEqWHomAmKdozN/xcDLJ2zXPZsiFWKUnsCaTyZE+AGh
+         hF5GCI+m82jfM5nuYwms+5y/QUtNByS/CU+FsCDAQh4AQakuIaY8CsVCPIRWocN6tcTz
+         lNKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:from:to:cc:subject
-         :content-transfer-encoding:mime-version;
-        bh=n8npg9TPYhlbFK1Sem69jEoxA6OmifN7fGQZJ6nDANs=;
-        b=hVNg6yYzWOu/b2VKCS7K2NO5VEa9rmsEGYzM0VN4Gs8coEcIyPjrDNVe8ywfbYE6JY
-         8NK0DtWZ2mbNGWaPFecqwQloVv0lrkV8+zVUqwhjQJ/VfgTR7AT/U+IU76E+aWg1t1ls
-         gIQUinFq4Qoh9g7NHAcQvfi4oUnrMTd6oYkkUySWToDOc5ypv/V3zBW6FY+k2h2/vbqg
-         qVkY9HBaeJOY10gQ2Ln7X9Ohc/LGIfKz2HdQ3uZVEARi2gWGXeez9ibHPpb5hVRB1QmO
-         4turq568scOKS+yL0vbWFuofEtOsZ6VPfKR9cBoG2touV8U4hiLcGpCyE71LoPnKx4MB
-         ELAw==
-X-Gm-Message-State: AOAM530WR4rCZ3BZ4g7dIfnrQ5n914wcVK/zrRvZRBPP0tP5UdETi5uB
-	RlbUVSNIdJN7JXyCDhNLu2u1qw==
-X-Google-Smtp-Source: ABdhPJy/2OANv/QZHBUpw9unXmbBZ9H05qecTo6eRIe2LRZY1/ywYfT6D7SBhD7Nr5lb9vjvwqmP6A==
-X-Received: by 2002:a63:3241:: with SMTP id y62mr4047108pgy.305.1597063667890;
-        Mon, 10 Aug 2020 05:47:47 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+         :cc:subject:content-transfer-encoding:mime-version;
+        bh=QGM2jJpSQRAkpmPmRA2CnQ1fcA1h9BiadkCFStfePmM=;
+        b=VYOJFtOLigMtEOBT4QWhpva1xSQQ3xboP3Dgl7BPkiceWcpAgGlDYQwqaIr6Uh46Os
+         W2jQF64BYAZ0R0YTOJwQI61I9DGwxAHWjzMwk+G7yAW3bI0tPSybcSU+AV4Vzy6iYJ0j
+         DtbyVjm1vbfICPnwES6uUof3MFbfrqPUdlu5Dw7bfNzMFDJd0fULnANMxxCHn7YWWPa8
+         5SH57tjIPOPpOZVQcYMeb651/fYwgx1i7atT3+wood7iFJTkugbT8Kry+2p/CFqb4RhB
+         9Dw8V+m/z/gh3/tRF9wp3OZQym/GxAqrwqJp+3ZzJ5etHomHb4t9fzDSbjBUj8xCOsiu
+         ymfw==
+X-Gm-Message-State: AOAM531YtDauFn7EtdqGuTTLELdRgXyBh9HWh+7cM2xYyWfSbPdtcHt4
+	Cmrnc3FFOPapx2ZXtL66cUGZjQ==
+X-Google-Smtp-Source: ABdhPJwZDJ1lA2ssjzoxx93xYjedHlfVssKX4zgPekDYhFKN4b/eGR8VntsdWBpXF2bpOMN7ZYc2hw==
+X-Received: by 2002:a17:90a:22cd:: with SMTP id s71mr27319718pjc.217.1597063672257;
+        Mon, 10 Aug 2020 05:47:52 -0700 (PDT)
 Return-Path: <nathan@nathanrossi.com>
 Received: from [127.0.1.1] (117-20-68-14.751444.bne.nbn.aussiebb.net. [117.20.68.14])
-        by smtp.gmail.com with UTF8SMTPSA id 13sm22977019pfp.3.2020.08.10.05.47.46
+        by smtp.gmail.com with UTF8SMTPSA id g15sm22545197pfh.70.2020.08.10.05.47.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2020 05:47:47 -0700 (PDT)
+        Mon, 10 Aug 2020 05:47:51 -0700 (PDT)
 Date: Mon, 10 Aug 2020 12:47:36 +0000
-Message-Id: <20200810124736.84643-1-nathan@nathanrossi.com>
+Message-Id: <20200810124736.84643-2-nathan@nathanrossi.com>
+In-Reply-To: <20200810124736.84643-1-nathan@nathanrossi.com>
+References: <20200810124736.84643-1-nathan@nathanrossi.com>
 From: "Nathan Rossi" <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Nathan Rossi <nathan@nathanrossi.com>
-Subject: [PATCH v2 1/2] python3: Improve handling of python3 manifest generation
+Subject: [PATCH v2 2/2] python3-manifest.json: Updates
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Specifically cover detection of modules within a python package that do
-not import anything within their __init__.py. This is at least the case
-with the xmlrpc package which is only used via its modules xmlrpc.server
-and xmlrpc.client. Other important corner cases include ctypes.utils
-which depends on some modules not used by ctypes.
-
-This is implemented by generally assuming that importing all the modules
-of a package (aka *.py within a package, excluding _*.py) will provide
-enough information.
-
-Also due to this change some modules import sysconfig, resulting in
-sysconfigdata being imported. Handle the conversion of its path to a
-wildcard based on the platform dependent name being replaced.
+- Regenerate using create_manifest
+- Fix up some indentation compared to generated
+- Add "secrets" module into netclient package (introduced in 3.6)
+- Move "urllib" python package into core package, it is used more
+  commonly than just netclient (e.g. email, xml, mimetypes, pydoc)
+- Update compression package dependencies due to some modules moving
+  into core package
+- Update dependencies due to improvements to get_module_deps handling
+  modules of a python package (e.g. ctypes.utils)
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
-Changes in v2:
-- Remove duplicate importlib.import_module()
-- Only treat imports which are "__init__.py" files as python packages
-  for which to import child modules for
-- Add additional patch to this series for updating the manifest due to
-  the updated dependency logic and other minor fixes
----
- .../python/python3/get_module_deps3.py               | 20 ++++++++++++++++++--
- .../python/python3/python3-manifest.json             |  2 +-
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ .../python/python3/python3-manifest.json           | 66 ++++++++++++++++------
+ 1 file changed, 48 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/get_module_deps3.py b/meta/recipes-devtools/python/python3/get_module_deps3.py
-index fd12baad84..6806f23172 100644
---- a/meta/recipes-devtools/python/python3/get_module_deps3.py
-+++ b/meta/recipes-devtools/python/python3/get_module_deps3.py
-@@ -9,6 +9,7 @@
- debug=False
- 
- import sys
-+import os
- 
- # We can get a list of the modules which are currently required to run python
- # so we run python-core and get its modules, we then import what we need
-@@ -48,8 +49,19 @@ current_module =  str(sys.argv[1]).rstrip()
- if(debug==True):
-     log = open('log_%s' % current_module,'w')
-     log.write('Module %s generated the following dependencies:\n' % current_module)
--try: 
--    importlib.import_module('%s' % current_module)
-+try:
-+    m = importlib.import_module(current_module)
-+    # handle python packages which may not include all modules in the __init__
-+    if os.path.basename(m.__file__) == "__init__.py":
-+        modulepath = os.path.dirname(m.__file__)
-+        for i in os.listdir(modulepath):
-+            if i.startswith("_") or not(i.endswith(".py")):
-+                continue
-+            submodule = "{}.{}".format(current_module, i[:-3])
-+            try:
-+                importlib.import_module(submodule)
-+            except:
-+                pass # ignore all import or other exceptions raised during import
- except ImportError as e:
-     if (debug==True):
-         log.write('Module was not found')
-@@ -107,6 +119,8 @@ for item in dif:
-         dep_path = dep_path.replace(soabi,'*')
-         print (dep_path)
-         continue
-+    if "_sysconfigdata" in dep_path:
-+        dep_path = dep_path.replace(sysconfig._get_sysconfigdata_name(), "_sysconfigdata*")
- 
-     if (debug==True):
-         log.write(dep_path+'\n')
-@@ -140,6 +154,8 @@ for item in dif:
-             log.write(cached)
-         cached = fix_path(cached)
-         cached = cached.replace(cpython_tag,'*')
-+        if "_sysconfigdata" in cached:
-+            cached = cached.replace(sysconfig._get_sysconfigdata_name(), "_sysconfigdata*")
-         print (cached)
- 
- if debug==True:
 diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 3bcc9b8662..07b084d48c 100644
+index 07b084d48c..69aecb7004 100644
 --- a/meta/recipes-devtools/python/python3/python3-manifest.json
 +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -324,7 +324,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_compression.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_markupbase.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sitebuiltins.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfigdata.*.pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfigdata*.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_weakrefset.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/abc.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/argparse.*.pyc",
+@@ -285,7 +285,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/operator.py",
+             "${libdir}/python${PYTHON_MAJMIN}/optparse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/os.py",
+-	    "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
++            "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+@@ -313,6 +313,8 @@
+             "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
+             "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
+             "${libdir}/python${PYTHON_MAJMIN}/types.py",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/parse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
+             "${libdir}/python${PYTHON_MAJMIN}/weakref.py",
+             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]"
+@@ -359,7 +361,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/operator.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/optparse.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/os.*.pyc",
+-	    "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pathlib.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pathlib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
+@@ -397,7 +399,9 @@
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/abc.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/machinery.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/util.*.pyc"
++            "${libdir}/python${PYTHON_MAJMIN}/importlib/__pycache__/util.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__/parse.*.pyc"
+         ]
+     },
+     "crypt": {
+@@ -427,7 +431,10 @@
+     "ctypes": {
+         "summary": "Python C types support",
+         "rdepends": [
+-            "core"
++            "core",
++            "crypt",
++            "io",
++            "math"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/ctypes",
+@@ -537,7 +544,10 @@
+     "distutils": {
+         "summary": "Python Distribution Utilities",
+         "rdepends": [
+-            "core"
++            "compression",
++            "core",
++            "email",
++            "stringold"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/distutils"
+@@ -548,7 +558,6 @@
+         "summary": "Python framework for running examples in docstrings",
+         "rdepends": [
+             "asyncio",
+-            "compression",
+             "core",
+             "debugger",
+             "difflib",
+@@ -577,7 +586,9 @@
+             "datetime",
+             "io",
+             "math",
+-            "netclient"
++            "mime",
++            "netclient",
++            "stringold"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/email",
+@@ -648,7 +659,6 @@
+     "io": {
+         "summary": "Python low-level I/O",
+         "rdepends": [
+-            "compression",
+             "core",
+             "crypt",
+             "math",
+@@ -690,7 +700,11 @@
+         "summary": "Python logging support",
+         "rdepends": [
+             "core",
+-            "stringold"
++            "io",
++            "netserver",
++            "pickle",
++            "stringold",
++            "threading"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/logging"
+@@ -824,11 +838,18 @@
+         "summary": "Python multiprocessing support",
+         "rdepends": [
+             "core",
++            "crypt",
++            "ctypes",
+             "io",
+-            "pickle"
++            "math",
++            "mmap",
++            "netclient",
++            "pickle",
++            "threading"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_multiprocessing.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixshmem.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/multiprocessing"
+         ],
+         "cached": []
+@@ -855,10 +876,9 @@
+             "${libdir}/python${PYTHON_MAJMIN}/mimetypes.py",
+             "${libdir}/python${PYTHON_MAJMIN}/nntplib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
++            "${libdir}/python${PYTHON_MAJMIN}/secrets.py",
+             "${libdir}/python${PYTHON_MAJMIN}/smtplib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/telnetlib.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/uuid.py"
+         ],
+         "cached": [
+@@ -868,6 +888,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/mimetypes.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/nntplib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/poplib.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/secrets.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/smtplib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/telnetlib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/uuid.*.pyc"
+@@ -876,7 +897,6 @@
+     "netserver": {
+         "summary": "Python Internet Protocol servers",
+         "rdepends": [
+-            "compression",
+             "core",
+             "crypt",
+             "datetime",
+@@ -992,8 +1012,7 @@
+     "pydoc": {
+         "summary": "Python interactive help support",
+         "rdepends": [
+-            "core",
+-            "netclient"
++            "core"
+         ],
+         "files": [
+             "${bindir}/pydoc*",
+@@ -1017,7 +1036,6 @@
+     "shell": {
+         "summary": "Python shell-like functionality",
+         "rdepends": [
+-            "compression",
+             "core",
+             "stringold"
+         ],
+@@ -1150,7 +1168,6 @@
+         "summary": "Python unit testing framework",
+         "rdepends": [
+             "asyncio",
+-            "compression",
+             "core",
+             "difflib",
+             "io",
+@@ -1185,7 +1202,6 @@
+     "venv": {
+         "summary": "Provides support for creating lightweight virtual environments with their own site directories, optionally isolated from system site directories.",
+         "rdepends": [
+-            "compression",
+             "core",
+             "logging",
+             "stringold"
+@@ -1211,7 +1227,21 @@
+     "xmlrpc": {
+         "summary": "Python XML-RPC support",
+         "rdepends": [
++            "compression",
+             "core",
++            "crypt",
++            "datetime",
++            "email",
++            "fcntl",
++            "html",
++            "io",
++            "math",
++            "mime",
++            "netclient",
++            "netserver",
++            "numbers",
++            "pydoc",
++            "stringold",
+             "xml"
+         ],
+         "files": [
 ---
 2.28.0
