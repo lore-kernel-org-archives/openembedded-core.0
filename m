@@ -1,96 +1,78 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.37549.1597028418806841864
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.37303.1597028420972937560
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Aug 2020 20:00:18 -0700
+ Sun, 09 Aug 2020 20:00:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lk1f6AYQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id a79so4396337pfa.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=P1H+Li9B;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id u10so4058069plr.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Aug 2020 20:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=xBlXDYd887WZsimHbR5G5tqDz24avavnv9UJ8XGrhGI=;
-        b=lk1f6AYQs14FeHREDB28PaqnFm5JsYUJueFhhWWFP9aYGfpI4ew1vLvkLFuRjsfDii
-         aICDoXZkTV3V597JE5BHCvt6gk1fL7bdIIo1SDRpjFmpu9f24c4f+rrYXCvZJTe8nsGz
-         ImVUPRgQ4U6cYw9umJTOeJu8BPpxf6HnP7Q2UjOta3VEbY5q6ApjXDmHhYCeefnemc43
-         XIRwwjQWqebtEQSBAQqtYsXqge+yGX1lt42RUvF/NCR5XDO1FFVsni4gri8zYBARMIdW
-         LU+yOhKMOldBnU+ubzwMqYKJPCrU9v/Nl3KodcxLTLo+QpszVrhBjpwiR7P3eUkoQCHf
-         dm2g==
+        bh=/KNDWct8ddUvijz4jWFMbJqB2DPD/amyT1YHQYxdFj8=;
+        b=P1H+Li9B72fdoZgVNSLwhsEU2SzeKBT/I+ns9OH8IJ3FaZqoRwrjN6GqkyDU+qk9B2
+         8OnnKG7JM83gMALq7eIvbWmAL1Wojv9Z4UKfntc+5SwDg2SlcFWZl3VFxwhhFH/RSh1h
+         FZFRiTqT0e9PZblv9C5CUMNWAN8yYZoyXEr+LxlzRIO4tqYCgruc/iqW+5sBQkd7+zo5
+         z4ugj2zNksR+crwsqJQmSC2Qam69HcHA7/KZF7t72/7qCpZ1GTbTurb6XTcyOtyq08Sz
+         xcGo0e+Ga7VOvSPavK74BJcZcho+8rsWol0Zdpg+wyL1q+oaNtDAn7bAIMFbvRqv0r4E
+         8GJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=xBlXDYd887WZsimHbR5G5tqDz24avavnv9UJ8XGrhGI=;
-        b=i613hHOfw9ylD/sdItSTsjQihb3rfa/WMZsH1yKIx/QlQp/Dme7aFdzpx4WGL8VYuH
-         Eg5SDP4K8mkkAHR7G9M+qfG3oXvP/1To6b1zLRHrsa9gNGM6BsveZk6Avk0FDZ0wKTWF
-         IR9TkBODDZUoi4rtr2ex+b9P6+ytf0semRUydHzToa4iV9vm/l/6JHBOcEtyKKMmAP/W
-         ouczAeXgx58Ouz0ElaTjclh/gLdFX3xETwaujDSHsNIeyB127mEeNhjaHPaAnVfnYozo
-         TgCHWz7iijmUrXcScG8Odr4F5gZy/mIDuFroymfDXl8c5yCKvo5gABLHXxGIjZt1NYR5
-         yDFQ==
-X-Gm-Message-State: AOAM533Ln/b4ftN0I5SyUxVCdeMgWR08Dv7y4AYKMSR7Eghd9g4wkFXf
-	BL5lEtzLnO+aAv2nKdfAx9UG2tMhMmmHeA==
-X-Google-Smtp-Source: ABdhPJxvA8/HVAwk6fJFHJgrIQjRx3316C92+esu4wfaVuS8HeHlv5VWg+ZiBsZ8m112cyOoQWuAJQ==
-X-Received: by 2002:aa7:984e:: with SMTP id n14mr23513758pfq.272.1597028417927;
-        Sun, 09 Aug 2020 20:00:17 -0700 (PDT)
+        bh=/KNDWct8ddUvijz4jWFMbJqB2DPD/amyT1YHQYxdFj8=;
+        b=EQILu+QoVxVrSvyrrqichoB671r5dzH/PxNutDiIInW4T4/i52uDiDC/lbsZ2f0t/l
+         3F9FdGOLNVJr5uO8cV6XSKK8qt7E8hs/ocbdLYu9HWh6LE0I4EC0nNMvDcJ5hiNoEQ02
+         f/TrHX4ynXuvX4c1V8v3+DLXvUV/sZ6jrCEoo+tmZ0p3DM+gh2q1oiRoxMeiPpSsUKmF
+         B1drQ3wgHN07p9TGiMA5pBPumdxPa4Ce5c43hrU5hY3FCcLb6qoyPf0aET7BZg5dkAHP
+         IWJZ5A0TdiTSNa2iFixuwtT++F/LeBGXiMJ2gG+EMi9bMJZ7RMp7e9iATpd6Lcift33u
+         zd2Q==
+X-Gm-Message-State: AOAM532zhwIbDBcvFEGyHjafAzmg3bWUusKuPd76gKGVOBczrR0JWo6L
+	JCoCdebyx1dAOypZsJMIQfHUuW1sc1u78g==
+X-Google-Smtp-Source: ABdhPJzrwIFMOpPV5acZc2uSurduKXANL5Yt6MIgGJb6AifKisIfNqDLBNPzsc1uki+WPCCpx3HMbA==
+X-Received: by 2002:a17:90a:326b:: with SMTP id k98mr25607968pjb.72.1597028420133;
+        Sun, 09 Aug 2020 20:00:20 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.16
+        by smtp.gmail.com with ESMTPSA id e23sm7187271pgb.79.2020.08.09.20.00.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2020 20:00:17 -0700 (PDT)
+        Sun, 09 Aug 2020 20:00:19 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/19] webkitgtk: fix CVE-2020-13753
-Date: Sun,  9 Aug 2020 16:59:21 -1000
-Message-Id: <c19c4ef4efeebe4df03c06a995a60d1a31c605d8.1597028036.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/19] grub: set CVE_PRODUCT to grub2
+Date: Sun,  9 Aug 2020 16:59:22 -1000
+Message-Id: <ca39b482c4fed513e37a8b3af6b4547af78596bb.1597028036.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1597028036.git.steve@sakoman.com>
 References: <cover.1597028036.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+grub and grub-efi recipes' CVE_PRODUCT should be grub2.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8682f6bc7e3e8d5fcf682647526f1a8430d08768)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../webkit/webkitgtk/CVE-2020-13753.patch         | 15 +++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.28.2.bb      |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
+ meta/recipes-bsp/grub/grub2.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
-new file mode 100644
-index 0000000000..d8504c2b36
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2020-13753.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Backport [https://trac.webkit.org/changeset/262368/webkit?format=diff&new=262368]
-+CVE: CVE-2020-13753
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index b3291cb4b8..e796904f5b 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -11,6 +11,8 @@ SECTION = "bootloaders"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
++CVE_PRODUCT = "grub2"
 +
-+Index: a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
-+===================================================================
-+--- a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262367)
-++++ b/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp	(revision 262368)
-+@@ -642,5 +642,5 @@
-+         int r;
-+         if (rule.arg)
-+-            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, rule.arg);
-++            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, *rule.arg);
-+         else
-+             r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 0);
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-index 288c715cc3..9cfec83ec7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://cross-compile.patch \
-            file://0001-Fix-build-with-musl.patch \
-            file://include_array.patch \
-+           file://CVE-2020-13753.patch \
-            "
- SRC_URI[md5sum] = "ec0ef870ca37e3a5ebbead2f268a28ec"
- SRC_URI[sha256sum] = "b9d23525cfd8d22c37b5d964a9fe9a8ce7583042a2f8d3922e71e6bbc68c30bd"
+ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://0001-Disable-mfpmath-sse-as-well-when-SSE-is-disabled.patch \
+            file://autogen.sh-exclude-pc.patch \
 -- 
 2.17.1
 
