@@ -1,91 +1,59 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.2839.1597097152794591239
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.3376.1597098749424659208
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Aug 2020 15:05:53 -0700
+ Mon, 10 Aug 2020 15:32:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: joe.slater@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07AM5Uan029504
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2020 15:05:41 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Mon, 10 Aug 2020
- 15:05:20 -0700
-From: "Joe Slater" <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] gcr: make sure gcr-oids.h is generated
-Date: Mon, 10 Aug 2020 15:05:20 -0700
-Message-ID: <20200810220520.157259-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8725F6002A
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 Aug 2020 22:32:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2NyOiBtYWtlIHN1cmUgZ2NyLW9pZHMuaCBpcyBnZW5lcmF0ZWQ=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Slater, Joseph <joe.slater@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Aug 2020 22:32:28 -0000
+Message-ID: <20200810223228.2264.76373@do>
+References: <20200810220520.157259-1-joe.slater@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200810220520.157259-1-joe.slater@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Backport, without modification, a patch from mainline after
-gcr-3-36 branch created.
+== Series Details ==
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Series: gcr: make sure gcr-oids.h is generated
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25552/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-meson-Make-sure-gcr-oids.h-is-built.patch
+  Current          Upstream-Status:  backport [https://github.com/GNOME/gcr.git]
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...-meson-Make-sure-gcr-oids.h-is-built.patch | 36 +++++++++++++++++++
- meta/recipes-gnome/gcr/gcr_3.36.0.bb          |  2 ++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
-
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch b/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
-new file mode 100644
-index 0000000000..3c8902d05e
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
-@@ -0,0 +1,36 @@
-+From 9fca6ae0aa7355c27d0922c561b9fbe18dde5b3d Mon Sep 17 00:00:00 2001
-+From: Niels De Graef <nielsdegraef@gmail.com>
-+Date: Fri, 19 Jun 2020 22:37:31 +0200
-+Subject: [PATCH 1/1] meson: Make sure gcr-oids.h is built
-+
-+Fixes https://gitlab.gnome.org/GNOME/gcr/-/issues/48
-+---
-+ gcr/meson.build | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+--- end of original header ---
-+
-+Upstream-Status:  backport [https://github.com/GNOME/gcr.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+diff --git a/gcr/meson.build b/gcr/meson.build
-+index 199452f..06c3a63 100644
-+--- a/gcr/meson.build
-++++ b/gcr/meson.build
-+@@ -178,7 +178,10 @@ endif
-+ gcr_base_dep = declare_dependency(
-+   link_with: gcr_base_lib,
-+   include_directories: include_directories('..'),
-+-  sources: gcr_enums_gen[1], # Make sure gcr-enum-types-base.h can be included
-++  sources: [
-++    gcr_enums_gen[1],
-++    gcr_oids[1],
-++  ],
-+ )
-+ 
-+ if get_option('introspection')
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-index d5a88dfb35..ff455a68ec 100644
---- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-@@ -18,6 +18,8 @@ inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even
- REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRC_URI += " file://0001-meson.build-correctly-set-internal-vapi-dependencies.patch"
-+SRC_URI += " file://0001-meson-Make-sure-gcr-oids.h-is-built.patch"
-+
- SRC_URI[archive.md5sum] = "adc65563b6b458507b9a578a8b68fb61"
- SRC_URI[archive.sha256sum] = "aaf9bed017a2263c6145c89a1a84178f9f40f238426463e4ae486694ef5f6601"
- 
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
