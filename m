@@ -1,222 +1,322 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web12.2890.1597174590797561306
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.3619.1597186159888793352
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 12:36:30 -0700
+ Tue, 11 Aug 2020 15:49:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LfikfDmv;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id x10so7654203ybj.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 12:36:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SovTMjmH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id f18so3020407wmc.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 15:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=BkDNWY0rJDAdcIAtqwPIzJNIf8EPAIcYFBv1otDIZX8=;
-        b=LfikfDmv7vdHAmEU3GL5ghO+xWhWsyoQCPmpij2VP8jmefmy6sHyEODfdZ5H+Mq+BD
-         v2csCPP8bsjYSJhy6WMc2+7j529Jy44mFIobnBXcgJSyxI0yctTbnyRZrM2959OGjpk7
-         0tnIcli9MWtiMmUXCO7JlmrBxQefLfENNQNVbwhiYOwiWDLXg40QdY06S67qSec7XZFa
-         LTMR981kc0GJwn64BcTb4a1WSMshLO2uNIccV3tK7H3qG9rq4n/0biQUYJs+10wTxb5O
-         nmMjYd3k5N/XGJTfXfCt26C6CBEpMHjCa9tNkQ4vgvLYG129n/AFU+Ox/hskIhvzU+5v
-         ANIA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+SnHbQ489127s6hliMIzLp2hZgdntbk7vAJlDcBduS0=;
+        b=SovTMjmH3pXn/fTK6iKjNtkBuCwaBqZoTDZmTpWFCq9s6hEtvoz40sGMuFvYuKtHJ2
+         p768H4HmlfU0/xYqkGRCQARuTmwhiQbEq9KwzdJzv2iax3QVfvJoX4b8Q9RJXyvyruXe
+         wUzJn320tzoDfwhzdbuMDaSWucAtZBI/3dahM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=BkDNWY0rJDAdcIAtqwPIzJNIf8EPAIcYFBv1otDIZX8=;
-        b=WpDhVTRlNsiATFnfMvsDitnwuN2Vl4VHDK4kmA6nqy7DzV0hRuRBA6IbSfTmMpnQh2
-         GE3th1q5G4IxycRvlSdqPq8i6flsXH1Fh0/kNDIveG6l2K1G74S5I0+5mjdnKMmgUsbX
-         /S4TyHqlZO8yQOo1dyu2cQkd3WtZLNSgnHJIAZ0SvEBHGPo66wL5/zEL9slVmfUw+Q24
-         JbPWWpoLWiHXS4MNQJz4ZFjBoez4hPP8P7vORH+plAFLRPAcFqCfmuqIjJTLqcCrfTEg
-         pR9E5NCyGbOvpTu3OMBnNCaXNYT0lHM04nC361IVNrtGEH/uQREWS9u4cJcSDCx2j8dY
-         BajQ==
-X-Gm-Message-State: AOAM532PBToyUP94QS8BR252NziUv+v1R/51FlvssyE1kf030EG1N99Z
-	LMzX3AmjUVdxU/CrpL/okoYsBjJeKAGHQo1EAAI=
-X-Google-Smtp-Source: ABdhPJylpQrGRnkW6tOQOCgOwg5Vsro7RlccYp52pCmI4+GSIVUhp6W9RqCaCcbz74Hk51oWQeHNYwUUmLxkfG6JZQY=
-X-Received: by 2002:a25:ca83:: with SMTP id a125mr52557221ybg.513.1597174589936;
- Tue, 11 Aug 2020 12:36:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+SnHbQ489127s6hliMIzLp2hZgdntbk7vAJlDcBduS0=;
+        b=QNe5RaDGBAH3igKQMQGeIhYBq850xIIzXgjpw+JAh1n8jAOTh+/l/G5K9cyBKvYUaz
+         e9wkoKUAYg5IfYXCjW1qRwebY9ZSiT6/8DRjL5HdLE+8jfTa/g5sFaDR/cRILmh449jG
+         +/W39qOjYfDtPGs4qELjhsmdyh4TLmW43zX45L7f4xFOjk2sLfDB2TJcU5afTf87Klzn
+         +U1LQ9meRaO297iH5Au3xqWm6lhvzwA86XHWUrpbt65d1gO7p7Mm78k6zA37lU7KhQlI
+         j5yV9WGM1foppFypmhJzT4yrYxVegWeahla7jm8AAMsMDU2VVy1BJkRaSszIdO3grBQj
+         voYg==
+X-Gm-Message-State: AOAM530SLYYNPANlm802+A4hOt8wwMoLje8Gca+35AG1mWdtGVayfCq9
+	rnyVZYqII8jP4UzLpitKo2xBT16GqlupNA==
+X-Google-Smtp-Source: ABdhPJxtnjDpbW7KIfFPvGKGz6gDjVK/LbdELs6T3cluncJowt6wWkKhpHdfPsPKH64Ql/3JldjByA==
+X-Received: by 2002:a1c:7fd3:: with SMTP id a202mr5669739wmd.67.1597186157909;
+        Tue, 11 Aug 2020 15:49:17 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (9.a.c.c.d.f.6.e.e.7.9.e.9.0.c.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:ec09:e97e:e6fd:cca9])
+        by smtp.gmail.com with ESMTPSA id f6sm483752wme.32.2020.08.11.15.49.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 15:49:17 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] packagefeed-stability: Remove as obsolete
+Date: Tue, 11 Aug 2020 23:49:15 +0100
+Message-Id: <20200811224916.895597-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200811083853.83841-1-zhixiong.chi@windriver.com>
-In-Reply-To: <20200811083853.83841-1-zhixiong.chi@windriver.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Tue, 11 Aug 2020 09:36:18 -1000
-Message-ID: <CAGDS+nmujHQNE2qg35EP-7AXXXVrQ0rrNbktHvh0byM8cp2QVw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] go: CVE-2020-16845
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Since this CVE will be covered in a pending version upgrade, there
-isn't a need to take this patch.
+This class had great ideas and potential but now we have hash
+equivalence and reproducibility, its effectively obsolete.
 
-Thanks, though!  I really appreciate the help in reducing the number
-of outrstanding CVE's!
+I'm not aware of any serious use of the class, we certainly don't
+get bug reports or patches so remove it and focus on those other
+areas.
 
-Steve
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/packagefeed-stability.bbclass | 252 ---------------------
+ 1 file changed, 252 deletions(-)
+ delete mode 100644 meta/classes/packagefeed-stability.bbclass
 
-On Mon, Aug 10, 2020 at 10:38 PM Zhixiong Chi
-<zhixiong.chi@windriver.com> wrote:
->
-> Backport CVE patch from the upstream:
-> https://github.com/golang/go.git
-> commit 027d7241ce050d197e7fabea3d541ffbe3487258
->
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->  meta/recipes-devtools/go/go-1.14.inc          |   1 +
->  .../go/go-1.14/CVE-2020-16845.patch           | 110 ++++++++++++++++++
->  2 files changed, 111 insertions(+)
->  create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patc=
-h
->
-> diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtool=
-s/go/go-1.14.inc
-> index c52593db6b..8db7f4e4e4 100644
-> --- a/meta/recipes-devtools/go/go-1.14.inc
-> +++ b/meta/recipes-devtools/go/go-1.14.inc
-> @@ -16,6 +16,7 @@ SRC_URI +=3D "\
->      file://0006-cmd-dist-separate-host-and-target-builds.patch \
->      file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
->      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-> +    file://CVE-2020-16845.patch \
->  "
->  SRC_URI_append_libc-musl =3D " file://0009-ld-replace-glibc-dynamic-lin=
-ker-with-musl.patch"
->
-> diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch b/met=
-a/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
-> new file mode 100644
-> index 0000000000..80f467522f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
-> @@ -0,0 +1,110 @@
-> +From 027d7241ce050d197e7fabea3d541ffbe3487258 Mon Sep 17 00:00:00 2001
-> +From: Katie Hockman <katie@golang.org>
-> +Date: Tue, 4 Aug 2020 11:45:32 -0400
-> +Subject: [PATCH] encoding/binary: read at most MaxVarintLen64 bytes in
-> + ReadUvarint
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +This CL ensures that ReadUvarint consumes only a limited
-> +amount of input (instead of an unbounded amount).
-> +
-> +On some inputs, ReadUvarint could read an arbitrary number
-> +of bytes before deciding to return an overflow error.
-> +After this CL, ReadUvarint returns that same overflow
-> +error sooner, after reading at most MaxVarintLen64 bytes.
-> +
-> +Fix authored by Robert Griesemer and Filippo Valsorda.
-> +
-> +Thanks to Diederik Loerakker, Jonny Rhea, Ra=C3=BAl Kripalani,
-> +and Preston Van Loon for reporting this.
-> +
-> +Fixes #40618
-> +Fixes CVE-2020-16845
-> +
-> +Change-Id: Ie0cb15972f14c38b7cf7af84c45c4ce54909bb8f
-> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-privat=
-e/+/812099
-> +Reviewed-by: Filippo Valsorda <valsorda@google.com>
-> +Reviewed-on: https://go-review.googlesource.com/c/go/+/247120
-> +Run-TryBot: Katie Hockman <katie@golang.org>
-> +TryBot-Result: Gobot Gobot <gobot@golang.org>
-> +Reviewed-by: Alexander Rakoczy <alex@golang.org>
-> +
-> +Upstream-Status: Backport [https://github.com/golang/go.git]
-> +CVE: CVE-2020-16845
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +---
-> + src/encoding/binary/varint.go      |  5 +++--
-> + src/encoding/binary/varint_test.go | 18 ++++++++++++------
-> + 2 files changed, 15 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/src/encoding/binary/varint.go b/src/encoding/binary/varint=
-.go
-> +index bcb8ac9a45..38af61075c 100644
-> +--- a/src/encoding/binary/varint.go
-> ++++ b/src/encoding/binary/varint.go
-> +@@ -106,13 +106,13 @@ var overflow =3D errors.New("binary: varint overf=
-lows a 64-bit integer")
-> + func ReadUvarint(r io.ByteReader) (uint64, error) {
-> +       var x uint64
-> +       var s uint
-> +-      for i :=3D 0; ; i++ {
-> ++      for i :=3D 0; i < MaxVarintLen64; i++ {
-> +               b, err :=3D r.ReadByte()
-> +               if err !=3D nil {
-> +                       return x, err
-> +               }
-> +               if b < 0x80 {
-> +-                      if i > 9 || i =3D=3D 9 && b > 1 {
-> ++                      if i =3D=3D 9 && b > 1 {
-> +                               return x, overflow
-> +                       }
-> +                       return x | uint64(b)<<s, nil
-> +@@ -120,6 +120,7 @@ func ReadUvarint(r io.ByteReader) (uint64, error) {
-> +               x |=3D uint64(b&0x7f) << s
-> +               s +=3D 7
-> +       }
-> ++      return x, overflow
-> + }
-> +
-> + // ReadVarint reads an encoded signed integer from r and returns it as=
- an int64.
-> +diff --git a/src/encoding/binary/varint_test.go b/src/encoding/binary/v=
-arint_test.go
-> +index ca411ecbd6..6ef4c99505 100644
-> +--- a/src/encoding/binary/varint_test.go
-> ++++ b/src/encoding/binary/varint_test.go
-> +@@ -121,21 +121,27 @@ func TestBufferTooSmall(t *testing.T) {
-> +       }
-> + }
-> +
-> +-func testOverflow(t *testing.T, buf []byte, n0 int, err0 error) {
-> ++func testOverflow(t *testing.T, buf []byte, x0 uint64, n0 int, err0 er=
-ror) {
-> +       x, n :=3D Uvarint(buf)
-> +       if x !=3D 0 || n !=3D n0 {
-> +               t.Errorf("Uvarint(%v): got x =3D %d, n =3D %d; want 0, %=
-d", buf, x, n, n0)
-> +       }
-> +
-> +-      x, err :=3D ReadUvarint(bytes.NewReader(buf))
-> +-      if x !=3D 0 || err !=3D err0 {
-> +-              t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; wan=
-t 0, %s", buf, x, err, err0)
-> ++      r :=3D bytes.NewReader(buf)
-> ++      len :=3D r.Len()
-> ++      x, err :=3D ReadUvarint(r)
-> ++      if x !=3D x0 || err !=3D err0 {
-> ++              t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; wan=
-t %d, %s", buf, x, err, x0, err0)
-> ++      }
-> ++      if read :=3D len - r.Len(); read > MaxVarintLen64 {
-> ++              t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64=
- bytes, got %d", buf, read)
-> +       }
-> + }
-> +
-> + func TestOverflow(t *testing.T) {
-> +-      testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
- 0x80, 0x80, 0x2}, -10, overflow)
-> +-      testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
- 0x80, 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, -13, overflow)
-> ++      testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
- 0x80, 0x80, 0x2}, 0, -10, overflow)
-> ++      testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
- 0x80, 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, 0, -13, overflow)
-> ++      testOverflow(t, []byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,=
- 0xFF, 0xFF, 0xFF, 0xFF}, 1<<64-1, 0, overflow) // 11 bytes, should overflo=
-w
-> + }
-> +
-> + func TestNonCanonicalZero(t *testing.T) {
-> +--
-> +2.17.0
-> +
-> --
-> 2.17.1
->
->=20
+diff --git a/meta/classes/packagefeed-stability.bbclass b/meta/classes/packagefeed-stability.bbclass
+deleted file mode 100644
+index 56486025642..00000000000
+--- a/meta/classes/packagefeed-stability.bbclass
++++ /dev/null
+@@ -1,252 +0,0 @@
+-# Class to avoid copying packages into the feed if they haven't materially changed
+-#
+-# Copyright (C) 2015 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT for details)
+-#
+-# This class effectively intercepts packages as they are written out by
+-# do_package_write_*, causing them to be written into a different
+-# directory where we can compare them to whatever older packages might
+-# be in the "real" package feed directory, and avoid copying the new
+-# package to the feed if it has not materially changed. The idea is to
+-# avoid unnecessary churn in the packages when dependencies trigger task
+-# reexecution (and thus repackaging). Enabling the class is simple:
+-#
+-# INHERIT += "packagefeed-stability"
+-#
+-# Caveats:
+-# 1) Latest PR values in the build system may not match those in packages
+-#    seen on the target (naturally)
+-# 2) If you rebuild from sstate without the existing package feed present,
+-#    you will lose the "state" of the package feed i.e. the preserved old
+-#    package versions. Not the end of the world, but would negate the
+-#    entire purpose of this class.
+-#
+-# Note that running -c cleanall on a recipe will purposely delete the old
+-# package files so they will definitely be copied the next time.
+-
+-python() {
+-    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
+-        return
+-    # Package backend agnostic intercept
+-    # This assumes that the package_write task is called package_write_<pkgtype>
+-    # and that the directory in which packages should be written is
+-    # pointed to by the variable DEPLOY_DIR_<PKGTYPE>
+-    for pkgclass in (d.getVar('PACKAGE_CLASSES') or '').split():
+-        if pkgclass.startswith('package_'):
+-            pkgtype = pkgclass.split('_', 1)[1]
+-            pkgwritefunc = 'do_package_write_%s' % pkgtype
+-            sstate_outputdirs = d.getVarFlag(pkgwritefunc, 'sstate-outputdirs', False)
+-            deploydirvar = 'DEPLOY_DIR_%s' % pkgtype.upper()
+-            deploydirvarref = '${' + deploydirvar + '}'
+-            pkgcomparefunc = 'do_package_compare_%s' % pkgtype
+-
+-            if bb.data.inherits_class('image', d):
+-                d.appendVarFlag('do_rootfs', 'recrdeptask', ' ' + pkgcomparefunc)
+-
+-            if bb.data.inherits_class('populate_sdk_base', d):
+-                d.appendVarFlag('do_populate_sdk', 'recrdeptask', ' ' + pkgcomparefunc)
+-
+-            if bb.data.inherits_class('populate_sdk_ext', d):
+-                d.appendVarFlag('do_populate_sdk_ext', 'recrdeptask', ' ' + pkgcomparefunc)
+-
+-            d.appendVarFlag('do_build', 'recrdeptask', ' ' + pkgcomparefunc)
+-
+-            if d.getVarFlag(pkgwritefunc, 'noexec') or not d.getVarFlag(pkgwritefunc, 'task'):
+-                # Packaging is disabled for this recipe, we shouldn't do anything
+-                continue
+-
+-            if deploydirvarref in sstate_outputdirs:
+-                deplor_dir_pkgtype = d.expand(deploydirvarref + '-prediff')
+-                # Set intermediate output directory
+-                d.setVarFlag(pkgwritefunc, 'sstate-outputdirs', sstate_outputdirs.replace(deploydirvarref, deplor_dir_pkgtype))
+-                # Update SSTATE_DUPWHITELIST to avoid shared location conflicted error
+-                d.appendVar('SSTATE_DUPWHITELIST', ' %s' % deplor_dir_pkgtype)
+-
+-            d.setVar(pkgcomparefunc, d.getVar('do_package_compare', False))
+-            d.setVarFlags(pkgcomparefunc, d.getVarFlags('do_package_compare', False))
+-            d.appendVarFlag(pkgcomparefunc, 'depends', ' build-compare-native:do_populate_sysroot')
+-            bb.build.addtask(pkgcomparefunc, 'do_build', 'do_packagedata ' + pkgwritefunc, d)
+-}
+-
+-# This isn't the real task function - it's a template that we use in the
+-# anonymous python code above
+-fakeroot python do_package_compare () {
+-    currenttask = d.getVar('BB_CURRENTTASK')
+-    pkgtype = currenttask.rsplit('_', 1)[1]
+-    package_compare_impl(pkgtype, d)
+-}
+-
+-def package_compare_impl(pkgtype, d):
+-    import errno
+-    import fnmatch
+-    import glob
+-    import subprocess
+-    import oe.sstatesig
+-
+-    pn = d.getVar('PN')
+-    deploydir = d.getVar('DEPLOY_DIR_%s' % pkgtype.upper())
+-    prepath = deploydir + '-prediff/'
+-
+-    # Find out PKGR values are
+-    pkgdatadir = d.getVar('PKGDATA_DIR')
+-    packages = []
+-    try:
+-        with open(os.path.join(pkgdatadir, pn), 'r') as f:
+-            for line in f:
+-                if line.startswith('PACKAGES:'):
+-                    packages = line.split(':', 1)[1].split()
+-                    break
+-    except IOError as e:
+-        if e.errno == errno.ENOENT:
+-            pass
+-
+-    if not packages:
+-        bb.debug(2, '%s: no packages, nothing to do' % pn)
+-        return
+-
+-    pkgrvalues = {}
+-    rpkgnames = {}
+-    rdepends = {}
+-    pkgvvalues = {}
+-    for pkg in packages:
+-        with open(os.path.join(pkgdatadir, 'runtime', pkg), 'r') as f:
+-            for line in f:
+-                if line.startswith('PKGR:'):
+-                    pkgrvalues[pkg] = line.split(':', 1)[1].strip()
+-                if line.startswith('PKGV:'):
+-                    pkgvvalues[pkg] = line.split(':', 1)[1].strip()
+-                elif line.startswith('PKG_%s:' % pkg):
+-                    rpkgnames[pkg] = line.split(':', 1)[1].strip()
+-                elif line.startswith('RDEPENDS_%s:' % pkg):
+-                    rdepends[pkg] = line.split(':', 1)[1].strip()
+-
+-    # Prepare a list of the runtime package names for packages that were
+-    # actually produced
+-    rpkglist = []
+-    for pkg, rpkg in rpkgnames.items():
+-        if os.path.exists(os.path.join(pkgdatadir, 'runtime', pkg + '.packaged')):
+-            rpkglist.append((rpkg, pkg))
+-    rpkglist.sort(key=lambda x: len(x[0]), reverse=True)
+-
+-    pvu = d.getVar('PV', False)
+-    if '$' + '{SRCPV}' in pvu:
+-        pvprefix = pvu.split('$' + '{SRCPV}', 1)[0]
+-    else:
+-        pvprefix = None
+-
+-    pkgwritetask = 'package_write_%s' % pkgtype
+-    files = []
+-    docopy = False
+-    manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
+-    mlprefix = d.getVar('MLPREFIX')
+-    # Copy recipe's all packages if one of the packages are different to make
+-    # they have the same PR.
+-    with open(manifest, 'r') as f:
+-        for line in f:
+-            if line.startswith(prepath):
+-                srcpath = line.rstrip()
+-                if os.path.isfile(srcpath):
+-                    destpath = os.path.join(deploydir, os.path.relpath(srcpath, prepath))
+-
+-                    # This is crude but should work assuming the output
+-                    # package file name starts with the package name
+-                    # and rpkglist is sorted by length (descending)
+-                    pkgbasename = os.path.basename(destpath)
+-                    pkgname = None
+-                    for rpkg, pkg in rpkglist:
+-                        if mlprefix and pkgtype == 'rpm' and rpkg.startswith(mlprefix):
+-                            rpkg = rpkg[len(mlprefix):]
+-                        if pkgbasename.startswith(rpkg):
+-                            pkgr = pkgrvalues[pkg]
+-                            destpathspec = destpath.replace(pkgr, '*')
+-                            if pvprefix:
+-                                pkgv = pkgvvalues[pkg]
+-                                if pkgv.startswith(pvprefix):
+-                                    pkgvsuffix = pkgv[len(pvprefix):]
+-                                    if '+' in pkgvsuffix:
+-                                        newpkgv = pvprefix + '*+' + pkgvsuffix.split('+', 1)[1]
+-                                        destpathspec = destpathspec.replace(pkgv, newpkgv)
+-                            pkgname = pkg
+-                            break
+-                    else:
+-                        bb.warn('Unable to map %s back to package' % pkgbasename)
+-                        destpathspec = destpath
+-
+-                    oldfile = None
+-                    if not docopy:
+-                        oldfiles = glob.glob(destpathspec)
+-                        if oldfiles:
+-                            oldfile = oldfiles[-1]
+-                            result = subprocess.call(['pkg-diff.sh', oldfile, srcpath])
+-                            if result != 0:
+-                                docopy = True
+-                                bb.note("%s and %s are different, will copy packages" % (oldfile, srcpath))
+-                        else:
+-                            docopy = True
+-                            bb.note("No old packages found for %s, will copy packages" % pkgname)
+-
+-                    files.append((pkgname, pkgbasename, srcpath, destpath))
+-
+-    # Remove all the old files and copy again if docopy
+-    if docopy:
+-        bb.note('Copying packages for recipe %s' % pn)
+-        pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+-        try:
+-            with open(pcmanifest, 'r') as f:
+-                for line in f:
+-                    fn = line.rstrip()
+-                    if fn:
+-                        try:
+-                            os.remove(fn)
+-                            bb.note('Removed old package %s' % fn)
+-                        except OSError as e:
+-                            if e.errno == errno.ENOENT:
+-                                pass
+-        except IOError as e:
+-            if e.errno == errno.ENOENT:
+-                pass
+-
+-        # Create new manifest
+-        with open(pcmanifest, 'w') as f:
+-            for pkgname, pkgbasename, srcpath, destpath in files:
+-                destdir = os.path.dirname(destpath)
+-                bb.utils.mkdirhier(destdir)
+-                # Remove allarch rpm pkg if it is already existed (for
+-                # multilib), they're identical in theory, but sstate.bbclass
+-                # copies it again, so keep align with that.
+-                if os.path.exists(destpath) and pkgtype == 'rpm' \
+-                        and d.getVar('PACKAGE_ARCH') == 'all':
+-                    os.unlink(destpath)
+-                if (os.stat(srcpath).st_dev == os.stat(destdir).st_dev):
+-                    # Use a hard link to save space
+-                    os.link(srcpath, destpath)
+-                else:
+-                    shutil.copyfile(srcpath, destpath)
+-                f.write('%s\n' % destpath)
+-    else:
+-        bb.note('Not copying packages for recipe %s' % pn)
+-
+-do_cleansstate[postfuncs] += "pfs_cleanpkgs"
+-python pfs_cleanpkgs () {
+-    import errno
+-    for pkgclass in (d.getVar('PACKAGE_CLASSES') or '').split():
+-        if pkgclass.startswith('package_'):
+-            pkgtype = pkgclass.split('_', 1)[1]
+-            deploydir = d.getVar('DEPLOY_DIR_%s' % pkgtype.upper())
+-            prepath = deploydir + '-prediff'
+-            pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+-            try:
+-                with open(pcmanifest, 'r') as f:
+-                    for line in f:
+-                        fn = line.rstrip()
+-                        if fn:
+-                            try:
+-                                os.remove(fn)
+-                            except OSError as e:
+-                                if e.errno == errno.ENOENT:
+-                                    pass
+-                os.remove(pcmanifest)
+-            except IOError as e:
+-                if e.errno == errno.ENOENT:
+-                    pass
+-}
+-- 
+2.25.1
+
