@@ -1,124 +1,154 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.3434.1597186160196472133
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web12.3601.1597186682964862811
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 15:49:20 -0700
+ Tue, 11 Aug 2020 15:58:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KLDhgfwl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id y3so282758wrl.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 15:49:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dIaeU0e+;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id y6so234775plt.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 15:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jB5rg1c7XlMlbsdQaw72fGUwEjpbUULBcC2+Cpk06IA=;
-        b=KLDhgfwl2LzX93QZ+vlOr2jpB0sefcJJ4wL0lbOHOJiCja8NMOeyietfpPSOsU84JL
-         Me11+CPzGzp2qL32gXAQ1AT5mKqa/FXaltKrj2tQ1WwB5FkDAiuEV++0w/7xYXxdw66u
-         kEQWCejlJ/Ths8Ntdftmro8DLnXcFn6h6z5vk=
+        bh=0GheEV5DM58juqOXNE3gxSst7y/Rv5hfRIiH3/4IKNQ=;
+        b=dIaeU0e+kc7MXYajVNAujkMCAi8L/mzRbFVCBZjFXtHnY7/uXZoXuA6NydVnI4QYeO
+         OxikaXogISbITJ0GSb85cXAQeqEoN/rSxWsTerccDmhQ4kjcVOHF+MZxRS3aJKoBUn0G
+         s2DM9G/Yby+mfVf9g0TR7spvLacEHy55q6chs9e47yZGZeezB7b3OKidVr0k++uVbwR6
+         r378P33+LPz/Hnq05FBq9nQ12B8dOwUJtCRkE9RVMUlPzOQ1qYvAcFTwewvS0BH9PoVM
+         Pl4FoMQ3buZ3f+TzK1rRE/0o7Ln1WFQOoMapT3ZZpQSnsbPvs3oKIQAsKnVBGQyLOUNo
+         7t4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jB5rg1c7XlMlbsdQaw72fGUwEjpbUULBcC2+Cpk06IA=;
-        b=OAyqZDr+EOkrjvWsqQ41PSN8Os08h9WfkUQpFZR3drW/tFmInqQo0P6KH4flAzxXpZ
-         pvkqCq3Cmi+tbhxnNnzQOYU+bvN+L9GL4HgbbNNfmb8eP9pnVX3he5UMppKdPNmcRVpy
-         eiNSKv3FlezUsVN0fDupwAJ2rq3HTXa3sMVSuRPu0AOy8eaMaGYgvmjpiG9JD5yVa+Hk
-         VdcYbopwlSep4rufnMVD4G/4YnmMTjDn9EIUF7kaQzYJSxrhZ/ljEF2EtA6YZlelywe/
-         2Il9C6o/tLWSffOfQPZ7mljYjkUScw+74FZCcvfiXFpWba2XPCefVm9MTdUwwy3wUtoO
-         RkLA==
-X-Gm-Message-State: AOAM530yjQugz/sQaPfcJ12tdD4vAz3HSoeknCusz4IPSSZ1Qn4RKxH1
-	lRsO3ds1xma+opOjvHVbVxLBC5qC6wLF5Q==
-X-Google-Smtp-Source: ABdhPJxpj5qJ/C6UF5/dZIKTwGU9lPDO/f9Xt82nm+ZnMA6zZ/VALR3keEQNKVjn1+NHjo+LReZi3w==
-X-Received: by 2002:adf:9795:: with SMTP id s21mr30550858wrb.418.1597186158415;
-        Tue, 11 Aug 2020 15:49:18 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (9.a.c.c.d.f.6.e.e.7.9.e.9.0.c.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:ec09:e97e:e6fd:cca9])
-        by smtp.gmail.com with ESMTPSA id f6sm483752wme.32.2020.08.11.15.49.17
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0GheEV5DM58juqOXNE3gxSst7y/Rv5hfRIiH3/4IKNQ=;
+        b=BOTU+ouyAoFZwXMaEUWDFW9hA/NUXCpFjPoxdTiXFAet5j89hFo1tnpQoBTEfyzFCV
+         0l8/xaztteAtk3ZNiGX8zFhjMV7NKXgInACZf5eQ8q17aIy95+m9tUus/H2Tw6vL7Opd
+         CaIm4R9BLdQaW5Yl1kWB0PC8FSSsopqpwBxtbQHW7LCd406noBy5cWKd09NvB3ftnC/v
+         DQlbmUtARzNghYaLnuOxcsFW3PTuHPd0j3kU/cJ5Qg4231N1+q4Fboldr5T44g2zOm1a
+         nK7TuKErcrDvJDybESDXhqRTTejjGhXPFQtQOzck25m5uVsnxFV1qjaWyGZhzmDroP8U
+         r4wg==
+X-Gm-Message-State: AOAM5305I0oIjKlDSbC2CyUDuvRxxdDKRR4SXd/0fy8ONaj55WKUXC9G
+	iQTciyMBhPvdlalJvM/ncHBSCf7FWqk=
+X-Google-Smtp-Source: ABdhPJxgKNcyRx+0hY3PcaL1+uTmZQ8mdgP/pOsERnBJjayN7Ie1yoh72uIL5r74ADmkWJ/3ZfY2WA==
+X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr3297173pjt.120.1597186681844;
+        Tue, 11 Aug 2020 15:58:01 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e60c])
+        by smtp.gmail.com with ESMTPSA id g1sm127321pfr.97.2020.08.11.15.58.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 15:49:18 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 11 Aug 2020 15:58:01 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] build-compare: Drop recipe
-Date: Tue, 11 Aug 2020 23:49:16 +0100
-Message-Id: <20200811224916.895597-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200811224916.895597-1-richard.purdie@linuxfoundation.org>
-References: <20200811224916.895597-1-richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] webkitgtk: Upgrade to 2.28.4
+Date: Tue, 11 Aug 2020 15:57:59 -0700
+Message-Id: <20200811225759.618503-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If we no longer have the packagefeed-stability class, we no longer need
-need build-compare as it was the only user of it. Therefore drop
-the recipe too.
+backport a patch from master to fix clang11 build error
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/distro_alias.inc     |  1 -
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../build-compare/build-compare_git.bb        | 29 -------------------
- 3 files changed, 31 deletions(-)
- delete mode 100644 meta/recipes-devtools/build-compare/build-compare_git.bb
+ ...build-errors-due-to-WWc-11-narrowing.patch | 66 +++++++++++++++++++
+ ...ebkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb} |  3 +-
+ 2 files changed, 68 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb} (97%)
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 2f9e1b11328..56055f7798a 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -22,7 +22,6 @@ DISTRO_PN_ALIAS_pn-bluez5 = "Fedora=bluez  Opensuse=bluez"
- DISTRO_PN_ALIAS_pn-bootchart2 = "Fedora=bootchart2 Opensuse=bootchart"
- DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
- DISTRO_PN_ALIAS_pn-build-appliance-image = "OSPDT"
--DISTRO_PN_ALIAS_pn-build-compare = "Opensuse=build-compare Fedora=build-compare"
- DISTRO_PN_ALIAS_pn-builder = "OE-Core"
- DISTRO_PN_ALIAS_pn-buildtools-tarball = "OE-Core"
- DISTRO_PN_ALIAS_pn-cdrtools = "OpenSUSE=cdrtools OSPDT"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 3d29af40d68..285553b4f3c 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -80,7 +80,6 @@ RECIPE_MAINTAINER_pn-bootchart2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bsd-headers = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-btrfs-tools = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-build-appliance-image = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-build-compare = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-extended-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-deleted file mode 100644
-index 74a954db469..00000000000
---- a/meta/recipes-devtools/build-compare/build-compare_git.bb
-+++ /dev/null
-@@ -1,29 +0,0 @@
--SUMMARY = "Build Result Compare Script"
--DESCRIPTION = "This package contains scripts to find out if the build result\
--differs to a former build."
--HOMEPAGE = "https://github.com/openSUSE/build-compare"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--
--SRC_URI = "git://github.com/openSUSE/build-compare.git"
--
--# Date matches entry in build-compare.changes and date of SRCREV.
--#
--SRCREV = "102d844ce052c6dec6c56ee1d471bde72a1b4633"
--PE = "1"
--PV = "2020.05.29+git${SRCPV}"
--UPSTREAM_CHECK_COMMITS = "1"
--
--S = "${WORKDIR}/git"
--
--BBCLASSEXTEND = "native nativesdk"
--
--do_install() {
--    install -d ${D}/${bindir}
--    install -m 755 functions.sh ${D}/${bindir}
--    install -m 755 pkg-diff.sh ${D}/${bindir}
--    install -m 755 same-build-result.sh ${D}/${bindir}
--    install -m 755 srpm-check.sh ${D}/${bindir}
--}
--
--RDEPENDS_${PN} += "bash"
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch b/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
+new file mode 100644
+index 0000000000..d8bb8efb88
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
+@@ -0,0 +1,66 @@
++From cb929f59b527fe890376e47613dfe1434a320bc0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 11 Aug 2020 15:44:48 -0700
++Subject: [PATCH] [clang 11] fix build errors due to -WWc++11-narrowing
++
++https://bugs.webkit.org/show_bug.cgi?id=211193
++
++Reviewed by Adrian Perez de Castro.
++
++Fixes the following errors,
++
++Source/WebCore/html/MediaElementSession.cpp:1059:9: error: type 'WebCore::RenderMedia *' cannot be narrowed to 'bool' in initializer list [-Wc++11-narrowing]
++m_element.renderer(),
++^~~~~~~~~~~~~~~~~~~~
++
++Source/WebCore/style/StyleResolver.cpp:106:55: error: type 'const char [4]' cannot be narrowed to 'bool' in initializer list [-Wc++11-narrowing]
++m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
++                                              ^~~~~
++Source/WebCore/style/StyleResolver.cpp:106:55: note: insert an explicit cast to silence this issue
++m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
++                                              ^~~~~
++                                              static_cast<bool>( )
++
++* html/HTMLMediaElement.h:
++(WebCore::HTMLMediaElement::hasRenderer const):
++MediaElementSession was implicitly casting a pointer to a bool,
++which is not allowed with modern Clang checks. Add a helper method
++to encapsulate the now required static_cast<bool>.
++* html/MediaElementSession.cpp: Use the new helper method to see
++if the HTMLMediaElement has an associated renderer.
++(WebCore::MediaElementSession::updateMediaUsageIfChanged):
++* style/StyleResolver.cpp: This was calling MediaQueryEvaluator {
++"all" }; and seemingly expecting to cast a const char[] to a bool,
++or maybe String? It's confusing because of the MediaQueryEvaluator
++API. If it was implicitly converting to bool then that could be
++unintentional. Such casts are not allowed either now. The
++MediaQueryEvaluator's default constructor says it returns true for
++"all", which appears to be the original intent of this call, so I
++replaced it with that.
++(WebCore::Style::Resolver::Resolver):
++
++git-svn-id: http://svn.webkit.org/repository/webkit/trunk@260951 268f45cc-cd09-0410-ab3c-d52691b4dbfc
++
++Upstream-Status: Backport [https://github.com/WebKit/webkit/commit/c3cf651016e4cdcb4350598d4a586821071f91bf.patch]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Source/WebCore/style/StyleResolver.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Source/WebCore/style/StyleResolver.cpp b/Source/WebCore/style/StyleResolver.cpp
++index 8bf371a0..34580ddb 100644
++--- a/Source/WebCore/style/StyleResolver.cpp
+++++ b/Source/WebCore/style/StyleResolver.cpp
++@@ -107,7 +107,7 @@ Resolver::Resolver(Document& document)
++     if (view)
++         m_mediaQueryEvaluator = MediaQueryEvaluator { view->mediaType() };
++     else
++-        m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
+++        m_mediaQueryEvaluator = MediaQueryEvaluator { };
++ 
++     if (root) {
++         m_rootDefaultStyle = styleForElement(*root, m_document.renderStyle(), nullptr, RuleMatchingBehavior::MatchOnlyUserAgentRules).renderStyle;
++-- 
++2.28.0
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+index 0158092265..8ebb3709a8 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+@@ -19,8 +19,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://cross-compile.patch \
+            file://0001-Fix-build-with-musl.patch \
+            file://include_array.patch \
++           file://0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch \
+            "
+-SRC_URI[sha256sum] = "f0898ac072c220e13a4aee819408421a6cb56a6eb89170ceafe52468b0903522"
++SRC_URI[sha256sum] = "821952e8c9303ed752f1fb1d4283f612c25249d00d705d2b79c2db1bc49c9464"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
 -- 
-2.25.1
+2.28.0
 
