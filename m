@@ -1,24 +1,24 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.10322.1597131684263898451
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.10352.1597131818020421547
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 00:41:24 -0700
+ Tue, 11 Aug 2020 00:43:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: zhixiong.chi@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: zhixiong.chi@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 07B7fJ5i014245
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 07B7hbV6008028
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 00:41:19 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 00:43:37 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 11 Aug 2020
- 00:41:19 -0700
+ 00:43:36 -0700
 From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][zeus][PATCH] go: CVE-2020-16845
-Date: Tue, 11 Aug 2020 00:41:18 -0700
-Message-ID: <20200811074118.69247-1-zhixiong.chi@windriver.com>
+Subject: [OE-core][PATCH] go: CVE-2020-16845
+Date: Tue, 11 Aug 2020 00:43:36 -0700
+Message-ID: <20200811074336.13611-1-zhixiong.chi@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 07B7fJ5i014245
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 07B7hbV6008028
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -28,32 +28,32 @@ commit 027d7241ce050d197e7fabea3d541ffbe3487258
 
 Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- meta/recipes-devtools/go/go-1.12.inc          |   1 +
- .../go/go-1.12/CVE-2020-16845.patch           | 110 ++++++++++++++++++
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2020-16845.patch           | 110 ++++++++++++++++++
  2 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools=
-/go/go-1.12.inc
-index 6aecaad75d..1fffd5280b 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -18,6 +18,7 @@ SRC_URI +=3D "\
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools=
+/go/go-1.14.inc
+index 64c2768f7e..d9118f103d 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -16,6 +16,7 @@ SRC_URI +=3D "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.pat=
-ch \
-     file://0010-fix-CVE-2019-17596.patch \
 +    file://CVE-2020-16845.patch \
  "
  SRC_URI_append_libc-musl =3D " file://0009-ld-replace-glibc-dynamic-link=
 er-with-musl.patch"
-=20
-diff --git a/meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch b/meta=
-/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
+ SRC_URI[main.sha256sum] =3D "73fc9d781815d411928eccb92bf20d5b4264797be69=
+410eac854babe44c94c09"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch b/meta=
+/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
 new file mode 100644
 index 0000000000..80f467522f
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
 @@ -0,0 +1,110 @@
 +From 027d7241ce050d197e7fabea3d541ffbe3487258 Mon Sep 17 00:00:00 2001
 +From: Katie Hockman <katie@golang.org>
