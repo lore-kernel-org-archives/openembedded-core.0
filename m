@@ -1,177 +1,184 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.62])
- by mx.groups.io with SMTP id smtpd.web11.10584.1597134063745472576
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.10883.1597135135665504728
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 01:21:04 -0700
+ Tue, 11 Aug 2020 01:38:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=opDgJAWI;
- spf=pass (domain: windriver.com, ip: 40.107.220.62, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nh0CqIZelI6OyWedF/sZGGSuyCKHrRSi4KoCItCI0+d/AVZxBsXyJvFkh+tA9qpxeBXc7B+KbYjXlnInPMqm/JE0xqu1iHwpIiTIRVBLhIZ/jQKn6FnnYYpikvbWm+uzr1AhhllHlUDljnS1PK5s/0l2IzR6jFPLHHBYSS7ft17CS/o8aOML0wTVlOK3OaGh3kkHn/bGZ4MJ+afV89+JK4Hds8tvF0+ufTJWWmg77ihS8981xG4n0LCuX9yJtp4UjVjeGLik5Anem5NTRn+M5Pp1QIbH1+pLfHYEb3MORruZlUQY3g7gZVtxSrOm8/T7ya6D6nF11BDkTekaWNsw1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EMgKC2BdNbR3vziapZDaIRAmcnDuQcCdvv3ZQAmqZ70=;
- b=CyWDCzGk+fd/+qXOU2luWtr6ZM5xHs72pfVUvNrbjNZHC5qPUmjDa0wDuqt/5VGwRh1CKuI5uU+zz1PtdoFkLPBSiIAmvZUklKfx5F5lJQ3jilmvIQ1fJxjZcXJvyf/7mDYIEVxCwvJyXiftGYbgClcVgbamikPs2dy2ys3YKpRejr/73FUIYJzHlD5d2ECcmaM6TC83Ws+22hpD6WMZcLSBV88qgAK6UfCjjJRWsEqzl6I5Ygfuc54iBGVLKEAqQCXTR0XkoSVaSx7y5yFm9fo6eC5nN/vWgOeKYRfmQbTj22mOEcfyfRYVdyFJY7iGgtv07kVuZXcF73/rv+yieg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EMgKC2BdNbR3vziapZDaIRAmcnDuQcCdvv3ZQAmqZ70=;
- b=opDgJAWIBDscrLc20fsfSvMespqtwbI6hfYK6j1uq5EWA0Ny4Cq65ssPk6yJIH3TWSAq6YkCYAlCTA6W/o/ouYnvOP7hz5bzBpTIR3xbsaZ/Zic9XlFDHh79MMaCbda2ReGAExYzOwyGul2dgKy9HbMvivmYOBfN+BcQP2NKp00=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BYAPR11MB3816.namprd11.prod.outlook.com (2603:10b6:a03:f8::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Tue, 11 Aug
- 2020 08:21:00 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::19f6:49b4:700d:c360]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::19f6:49b4:700d:c360%3]) with mapi id 15.20.3261.024; Tue, 11 Aug 2020
- 08:21:00 +0000
-Subject: Re: [OE-core] [PATCH] bitbake.conf: set the default pigz thread
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200811072258.4074290-1-mingli.yu@windriver.com>
- <2803933a96d0b791c8cad542bbfec3c3dd67eefd.camel@linuxfoundation.org>
- <ae3b1594-1a8a-4a77-e777-03d7c6d6060f@windriver.com>
- <95b06a10d29546555e1a0064cd5644018bb90006.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <34eb245d-d69e-44e8-8563-630cecd94b10@windriver.com>
-Date: Tue, 11 Aug 2020 16:19:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <95b06a10d29546555e1a0064cd5644018bb90006.camel@linuxfoundation.org>
-X-ClientProxiedBy: HK2PR02CA0222.apcprd02.prod.outlook.com
- (2603:1096:201:20::34) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: zhixiong.chi@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 07B8cs2O016218
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 01:38:54 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 11 Aug 2020
+ 01:38:54 -0700
+From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][dunfell][PATCH] go: CVE-2020-16845
+Date: Tue, 11 Aug 2020 01:38:53 -0700
+Message-ID: <20200811083853.83841-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.138] (60.247.85.82) by HK2PR02CA0222.apcprd02.prod.outlook.com (2603:1096:201:20::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.18 via Frontend Transport; Tue, 11 Aug 2020 08:20:58 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45e0506b-05e8-422e-5814-08d83dcf7aef
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3816:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3816303DDED7D7C90679BAE2F1450@BYAPR11MB3816.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	cVg5u8lf6xG0lBb0+zLDu8AwXbdkbZVHCMR1MVPmL7Gy74+RFgzpiyL+o8IEKJQ+1EMMt02lWQQux1wxqtrniEc4Tvpwin2qxiylQ6zA1K5Fpii1yFLqviOkB+3DOGM429d/mxZPyBjUNe9OiClyZpxhgfFGPPgMI8FWU/SY7lmTMlYKSNxcNBN4KubdHcHUnlCs1PZdS8szLCV/sP0xe3cBbZ5DQDVwUMajlx1aDIzOfKzBGsDYPPjsFKSTaAjzzEb6hGiLoP74q7+SjWRpWsBO+LF2iBToYLRvIWGgNNGk8KaGZSNYRw9bN/fR8DOo2RaeovZtreoC6laxm8Y2n8DZUYloi6sgIDZly+z1gOzgeqj/OqMGduU44qBw8Hui1RAnJ6U3/JrLTBYT+1JYl2KB7X6NNwZyxwuQNf0isvw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(376002)(39850400004)(396003)(366004)(31696002)(2906002)(53546011)(26005)(186003)(16526019)(6666004)(6706004)(36756003)(66946007)(66476007)(66556008)(86362001)(2616005)(31686004)(478600001)(5660300002)(956004)(316002)(83380400001)(8936002)(16576012)(52116002)(8676002)(6486002)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	rXpjLuW+tTEtumbtvMj5mbGVyI2OxXO6yZaNJN2zhAue4+Rb+mxwRR1lZykJibaD0vo1h6Uq9uSZTbDi3S49jrO6EMJ08DN35qVu/49cV/8G2FqAj8eGdmJBtRQEUgCarSdWHPwV03Ku7eGYXxDpdsplIoi+HuR2EN+g/SHbo7xnsK1P2zwWECuiPQ1qtiaY+4XIXFGONLbT4wH9CAcLmiN/2kTSDTLhXNyJxIr2TwiMrZ+uE0SoHhCiLmma6dQ75RywlZc2wP5jClZHy7krOlEvYx5pTWeSW8LGrvb5rbFgdawGRmhNTf0QNIlkEMFyHU/y4/LLkNWfaGAY+0V0qFNjSvLA1ZufqKGRlZOJbttzhMxvU+fPF33aJzntR9f1uAa2nLmCmdJoYE8dzV1FG86ojlU+aEGFYQ4HecFWarJAb4gkirEgvTpH6gdK8SJuv1px1FQKIocJ6uME7sklbja/TG0atAUCgahinVVLAZuMpWzp2oskCm1x1mzX6zpzx4HBEwfVSKOs7o/1laA3w5ZMBUpFiKQ+YDBSNDmUGFu1/j/sHgeN3WsmlzfLbkWPxVTSYCvoT5eDW4DtsOxhAAhYi86QKAdJe/KOq97gwAUNzSp8MSuI8R3MHDK+E1C+S+yZD7IX1kyXS4yi8jAaeg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45e0506b-05e8-422e-5814-08d83dcf7aef
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2598.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2020 08:21:00.4534
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o6Ga/FHUc+vgm6IIZ1e1GkuBKHQOyUvnAt79jfW76JDg/LIoT7JJQvQ8sO+hWuB75wlRJrj7s9/2Y0dRSC1/0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3816
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 07B8cs2O016218
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Backport CVE patch from the upstream:
+https://github.com/golang/go.git
+commit 027d7241ce050d197e7fabea3d541ffbe3487258
 
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2020-16845.patch           | 110 ++++++++++++++++++
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
 
-On 8/11/20 4:19 PM, Richard Purdie wrote:
-> On Tue, 2020-08-11 at 16:09 +0800, Yu, Mingli wrote:
->> Hi RP,
->>
->> On 8/11/20 3:57 PM, Richard Purdie wrote:
->>> On Tue, 2020-08-11 at 15:22 +0800, Yu, Mingli wrote:
->>>> From: Mingli Yu <mingli.yu@windriver.com>
->>>>
->>>> pigz, which stands for parallel implementation of gzip, is a
->>>> fully functional replacement for gzip that exploits multiple
->>>> processors and multiple cores to the hilt when compressing data.
->>>>
->>>> do_package uses pigz to compress data to speed up the time
->>>> if there is pigz available on the build server.
->>>>
->>>> But for some big package such as clang, there comes below
->>>> error during do_package.
->>>> gzip: stdout: Cannot allocate memory
->>>> tar: TOPDIR/sstate-cache/20/80/sstate:clang:cortexa57-wrs-
->>>> linux:10.0.1:r0:cortexa57:3:20808f8a746b00ec9470a81057c8595d878cf
->>>> e8c565cfbcbbaa3ea870528ee34_package.tgz.QF5dss8M: Wrote only 8192
->>>> of 10240 bytes
->>>> tar: Child returned status 1
->>>> tar: Error is not recoverable: exiting now
->>>>
->>>> So set the default pigz thread and the user also can customize
->>>> the pigz thread such as via PIGZ = "-p 3" or PIGZ_pn-clang = "-p
->>>> 3"
->>>> for the individual package in local.conf to avoid eating so much
->>>> memory.
->>>>
->>>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->>>> ---
->>>>    meta/conf/bitbake.conf | 3 +++
->>>>    1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>>> index 353caacef9..bc87e78d78 100644
->>>> --- a/meta/conf/bitbake.conf
->>>> +++ b/meta/conf/bitbake.conf
->>>> @@ -804,6 +804,9 @@ XZ_THREADS ?= "${@oe.utils.cpu_count(at_least
->>>> =2)}"
->>>>    XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --
->>>> threads=${XZ_THREADS}"
->>>>    XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
->>>>    
->>>> +# Default parallelism and resource usage for pigz
->>>> +export PIGZ = "-p ${@oe.utils.cpu_count(at_least=2)}"
->>>
->>> Why not just set this in the cases you need it in and leave the
->>> defaults alone? You can just export it in the tasks which need it
->>> too.
->>
->> Actually I just want to use this logic in this patch altogether
->> PIGZ_pn-clang = "-p 3" in local.conf to limit the pigz thread number
->> for clang.
->>
->> Without this patch, I think PIGZ_pn-clang = "-p 3" doesn't take
->> effect.
-> 
-> You'll have to use something like:
-> 
-> PIGZEXPORT = "0"
-> PIGZEXPORT_pn-clang = "1"
-> PIGZ[export] = "${PIGZEXPORT}"
-> 
->>> This change actually makes the sstate number of cpus specific which
->>> we
->>> definitely don't want.
->>
->>   From my understanding, the default behavior for pigz is to take all
->> online cores, it should be the same with  export PIGZ = "-p
->> ${@oe.utils.cpu_count(at_least=2)}".
-> 
-> I understand why you want to do it and what it does. It breaks sstate
-> signatures for everyone else though so it is not acceptable.
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools=
+/go/go-1.14.inc
+index c52593db6b..8db7f4e4e4 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -16,6 +16,7 @@ SRC_URI +=3D "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
++    file://CVE-2020-16845.patch \
+ "
+ SRC_URI_append_libc-musl =3D " file://0009-ld-replace-glibc-dynamic-link=
+er-with-musl.patch"
+=20
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch b/meta=
+/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
+new file mode 100644
+index 0000000000..80f467522f
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2020-16845.patch
+@@ -0,0 +1,110 @@
++From 027d7241ce050d197e7fabea3d541ffbe3487258 Mon Sep 17 00:00:00 2001
++From: Katie Hockman <katie@golang.org>
++Date: Tue, 4 Aug 2020 11:45:32 -0400
++Subject: [PATCH] encoding/binary: read at most MaxVarintLen64 bytes in
++ ReadUvarint
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++This CL ensures that ReadUvarint consumes only a limited
++amount of input (instead of an unbounded amount).
++
++On some inputs, ReadUvarint could read an arbitrary number
++of bytes before deciding to return an overflow error.
++After this CL, ReadUvarint returns that same overflow
++error sooner, after reading at most MaxVarintLen64 bytes.
++
++Fix authored by Robert Griesemer and Filippo Valsorda.
++
++Thanks to Diederik Loerakker, Jonny Rhea, Ra=C3=BAl Kripalani,
++and Preston Van Loon for reporting this.
++
++Fixes #40618
++Fixes CVE-2020-16845
++
++Change-Id: Ie0cb15972f14c38b7cf7af84c45c4ce54909bb8f
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
+/+/812099
++Reviewed-by: Filippo Valsorda <valsorda@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/247120
++Run-TryBot: Katie Hockman <katie@golang.org>
++TryBot-Result: Gobot Gobot <gobot@golang.org>
++Reviewed-by: Alexander Rakoczy <alex@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go.git]
++CVE: CVE-2020-16845
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ src/encoding/binary/varint.go      |  5 +++--
++ src/encoding/binary/varint_test.go | 18 ++++++++++++------
++ 2 files changed, 15 insertions(+), 8 deletions(-)
++
++diff --git a/src/encoding/binary/varint.go b/src/encoding/binary/varint.=
+go
++index bcb8ac9a45..38af61075c 100644
++--- a/src/encoding/binary/varint.go
+++++ b/src/encoding/binary/varint.go
++@@ -106,13 +106,13 @@ var overflow =3D errors.New("binary: varint overfl=
+ows a 64-bit integer")
++ func ReadUvarint(r io.ByteReader) (uint64, error) {
++ 	var x uint64
++ 	var s uint
++-	for i :=3D 0; ; i++ {
+++	for i :=3D 0; i < MaxVarintLen64; i++ {
++ 		b, err :=3D r.ReadByte()
++ 		if err !=3D nil {
++ 			return x, err
++ 		}
++ 		if b < 0x80 {
++-			if i > 9 || i =3D=3D 9 && b > 1 {
+++			if i =3D=3D 9 && b > 1 {
++ 				return x, overflow
++ 			}
++ 			return x | uint64(b)<<s, nil
++@@ -120,6 +120,7 @@ func ReadUvarint(r io.ByteReader) (uint64, error) {
++ 		x |=3D uint64(b&0x7f) << s
++ 		s +=3D 7
++ 	}
+++	return x, overflow
++ }
++=20
++ // ReadVarint reads an encoded signed integer from r and returns it as =
+an int64.
++diff --git a/src/encoding/binary/varint_test.go b/src/encoding/binary/va=
+rint_test.go
++index ca411ecbd6..6ef4c99505 100644
++--- a/src/encoding/binary/varint_test.go
+++++ b/src/encoding/binary/varint_test.go
++@@ -121,21 +121,27 @@ func TestBufferTooSmall(t *testing.T) {
++ 	}
++ }
++=20
++-func testOverflow(t *testing.T, buf []byte, n0 int, err0 error) {
+++func testOverflow(t *testing.T, buf []byte, x0 uint64, n0 int, err0 err=
+or) {
++ 	x, n :=3D Uvarint(buf)
++ 	if x !=3D 0 || n !=3D n0 {
++ 		t.Errorf("Uvarint(%v): got x =3D %d, n =3D %d; want 0, %d", buf, x, n=
+, n0)
++ 	}
++=20
++-	x, err :=3D ReadUvarint(bytes.NewReader(buf))
++-	if x !=3D 0 || err !=3D err0 {
++-		t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; want 0, %s", buf=
+, x, err, err0)
+++	r :=3D bytes.NewReader(buf)
+++	len :=3D r.Len()
+++	x, err :=3D ReadUvarint(r)
+++	if x !=3D x0 || err !=3D err0 {
+++		t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; want %d, %s", bu=
+f, x, err, x0, err0)
+++	}
+++	if read :=3D len - r.Len(); read > MaxVarintLen64 {
+++		t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64 bytes, got %=
+d", buf, read)
++ 	}
++ }
++=20
++ func TestOverflow(t *testing.T) {
++-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x2}, -10, overflow)
++-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, -13, overflow)
+++	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x2}, 0, -10, overflow)
+++	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, 0, -13, overflow)
+++	testOverflow(t, []byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,=
+ 0xFF, 0xFF, 0xFF}, 1<<64-1, 0, overflow) // 11 bytes, should overflow
++ }
++=20
++ func TestNonCanonicalZero(t *testing.T) {
++--=20
++2.17.0
++
+--=20
+2.17.1
 
-Got it!
-
-Thanks,
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
