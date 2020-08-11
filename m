@@ -1,263 +1,520 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web12.240.1597166935728489299
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+ by mx.groups.io with SMTP id smtpd.web11.925.1597168890395832079
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 10:28:55 -0700
+ Tue, 11 Aug 2020 11:01:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u5XgMDsF;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id 6so10040339qtt.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 10:28:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FjXvk1Yn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f195.google.com with SMTP id bh1so7165852plb.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 11:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Iqh8+aX31/pUiVTzJfmF9q3dQvykNt5emBIteHhOBJo=;
-        b=u5XgMDsFtC3q2N3CrCOQklS5lBI0GfZwiDyON5Yo+MuLVOzxRS5YoKatMsny5MVAy+
-         eAeyhOfG0yRtQLcn1uUC8Nkn/mdGYoE0vHcSxVlSXJQ3H/qkC/y1MEs9heeI1HrxIJIa
-         rwjeyOiGXIUAMj3+X4DjtaqkRpUkf4EwhEyKIpbKj9s3qqrKk4bzEwL8eR+b9Ho59OgR
-         bj+pbb9UC4odqZlnoC6kmyLTGrudgLDKLGMpRXy0BKxaFf6MrVVcFHixw4n+NypkeF87
-         002Y6nR9bSJ5QIA5GVVfdC4SLYJfYG/iGrHKfxd/bylSWxv4mTze8bpUoC+f0gdymqLl
-         JJ4Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nLhtAYvusMvMJ4tUvUhuDPPn+l5xQ52hY0r2y94g1ZE=;
+        b=FjXvk1YnHqAAF2rWvFBIsC6YQVB6KaO2bBGH0C3Y9dOgAJroFV7u1rfSntlkgtjlYX
+         H0GJckljkyFIMCnCNWJVWH8QIWC5hySwQnAZSqDdHXl/HrOgFdaV4Nzvyy1od2rmZnIW
+         ywbP8Q4nLYCJmEyTCnS9gfWUuaaNWER9dS/jGSxLalav3z6pz28F02h2N6Fel4wxIkWF
+         aY1WF5K2t3dxt57JkOzT0YMB7V9pp/RrA/CkYyCB9H0HCiixcfqQFGzeAoaGiaZmU27v
+         6p8iqkY8Jy3UGKWArwIFEK0wVqptqSYki4BomtId86zQ1ydNOErkwVM91cqeZSxbpONL
+         KSdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Iqh8+aX31/pUiVTzJfmF9q3dQvykNt5emBIteHhOBJo=;
-        b=qQtzsgDfYhdqBZur9UEm+2U9iYmzWFCEGxk25w9ZAsmoEC14oW7Wdt79yC7tZN1W2g
-         Cn4G2dc3DYT8IsFuyLyjUk9A+f5QQHyY+VvmokCgBzp5gEf19gTS4lR0YO9Z6Bpyt3Ew
-         qvqtSvjEthJSvC1idQZ6bVQsfywJ8pdrvyx3MPt17VLXapBXZNve5xwPWL8eVb6VN01b
-         X43tRg6iT3zk9ky1qHT4Nl07I4Ii2/Z0o9PiXRQIVuSl4LcxMobtasXOWyyAK0p5vQjH
-         YUd5TtD+sG+9ipt+snIX7Oy/9gj6/boja1qJvReV9f+aet9iRpcJMiRTxsL+Nv2jUPJS
-         dGHA==
-X-Gm-Message-State: AOAM532nToz5zOc3sl8O3X684zwK40gUPJ3vjwk7QPLgBsmj3C6p9E3z
-	NZGHf/QTtX9sUcdknA+T3O5O/eRppQLZ6Le/25A=
-X-Google-Smtp-Source: ABdhPJwm1vs0QO/IJ+fD0P4QG2UGhjPamfc3rCSVZGMZw2qFwk2rEGy0kWaj7D4VgPqvKd7mzM9xfQ9KiREVvxpMX5U=
-X-Received: by 2002:ac8:22ea:: with SMTP id g39mr2254383qta.146.1597166934573;
- Tue, 11 Aug 2020 10:28:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200809100316.3DEE596293A@nuc.router0800d9.com>
- <CAAnfSTvvsL6-rdykdj+L=BeWve84CMXPfzkvK15OX4iszDsSfg@mail.gmail.com> <CAOSpxda3PUF77GJrztbNHdJ1ZK=0LRNhQxcs_Y7AYq3mJ_t95g@mail.gmail.com>
-In-Reply-To: <CAOSpxda3PUF77GJrztbNHdJ1ZK=0LRNhQxcs_Y7AYq3mJ_t95g@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nLhtAYvusMvMJ4tUvUhuDPPn+l5xQ52hY0r2y94g1ZE=;
+        b=iOIZK7VI/1oiT/cQXnxwuRruVKk4tP4BNzen5jbwtse+Bia1boIL0VcjE3Zdiz1Oa/
+         o3fhLE+ONWO32JfOhGapHpNZvq+fHmnNiwX3mK+dGh+fzjSnROMMEh+7TiFxAk4vpJqJ
+         ydwSWCCzaijZYbiA589/QZIT5HeewGz89RDLN/0qF31myHHNhc41m8KWFVUB8InSgTHF
+         idQTOza31jlF/Q4r6bPWp/ktL5J4eXy1N14aAqRdNQ41sOoCfzbtFCrPkoevVI2I/jko
+         WDelBVOGU1Q8L4L+Wo4M5qJu2eYPY6tJ5D/KsqZddz1Rl5l8O9wKfqV0QdVZT7IxHpWA
+         k+sA==
+X-Gm-Message-State: AOAM5334rGY4z2IVhhxZQrP3TcschfrT/q8jUUzQnvQBmmzSXG77Lv0v
+	erfX+w0sH1zdU5y0DQV98u3zlEL3lm0=
+X-Google-Smtp-Source: ABdhPJySwdECQRk829X1P44NGwQ1obPMXPp2bYjNxmkZgMbdIZ5ak42r61wTehJVpvimYOBW6x9mMA==
+X-Received: by 2002:a17:902:b683:: with SMTP id c3mr1962130pls.248.1597168888670;
+        Tue, 11 Aug 2020 11:01:28 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e60c])
+        by smtp.gmail.com with ESMTPSA id r134sm27073552pfc.1.2020.08.11.11.01.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 11:01:28 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 11 Aug 2020 10:28:28 -0700
-Message-ID: <CAMKF1spuHCFLD16iTY9ZTZD2FbrXhjTEMw96rneBH3RpEuaG6w@mail.gmail.com>
-Subject: Re: [OE-core] [yocto-security] OE-core CVE metrics for master on Sun 09 Aug 2020 12:00:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Ross Burton <ross@burtonini.com>, OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [dunfell][PATCH] glibc: Bring in CVE fixes and other bugfixes from 2.31 release branch
+Date: Tue, 11 Aug 2020 11:01:24 -0700
+Message-Id: <20200811180124.2636548-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Steve
+Drop 0016-Add-unused-attribute.patch since its fixed by Rewrite iconv
+option parsing [BZ #19519] [1]
 
-The gcc CVE [1] is already patched in gcc 9.3.0 which is in dunfell, I
-think its wrongly flagged.
+Upgrade to latest on 2.31 branch which brings following bug fixes
 
-[1]  https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-15847 *
+* 6fdf971c9db (origin/release/2.31/master) Add NEWS entry for CVE-2016-10228 (bug 19519)
+* 70d585151c0 Rewrite iconv option parsing [BZ #19519]
+* 1c8efe848bf powerpc: Fix incorrect cache line size load in memset (bug 26332)
+* 7611339a9b5 nptl: Zero-extend arguments to SETXID syscalls [BZ #26248]
+* 21b760cc2fa Disable warnings due to deprecated libselinux symbols used by nss and nscd
+* 6f3459f9859 Add NEWS entry for CVE-2020-6096 (bug 25620)
+* 64246fccafc arm: CVE-2020-6096: Fix multiarch memcpy for negative length [BZ #25620]
+* 9bbd2b61729 arm: CVE-2020-6096: fix memcpy and memmove for negative length [BZ #25620]
+* 4e8a33a9590 NEWS: Mention BZ 25933 fix
+* fd15ba932d2 Fix avx2 strncmp offset compare condition check [BZ #25933]
+* 3a44844c97a nss_compat: internal_end*ent may clobber errno, hiding ERANGE [BZ #25976]
+* c8391752678 aarch64: fix strcpy and strnlen for big-endian [BZ #25824]
+* 10947412240 aarch64: Accept PLT calls to __getauxval within libc.so
+* a98b8b221cf NEWS: Mention fixes for BZ 25810/25896/25902/25966
+* 4c833bbebe3 x86-64: Use RDX_LP on __x86_shared_non_temporal_threshold [BZ #25966]
+* 3b9ceb33204 NEWS: Mention bug 25639 fixed in 2.31 branch
+* bb44fe7711a oc_FR locale: Fix spelling of April (bug 25639)
+* f2ac7920474 oc_FR locale: Fix spelling of Thursday (bug 25639)
+* 18fdba553dd Add a C wrapper for prctl [BZ #25896]
+* 7c9e054afdd powerpc: Rename argN to _argN in LOADARGS_N [BZ #25902]
+* 9c5ae39a644 Add C wrappers for process_vm_readv/process_vm_writev [BZ #25810]
+* 63c3696a4ac Mark unsigned long arguments with U in more syscalls [BZ #25810]
+* 5b9d49293b7 Add a syscall test for [BZ #25810]
+* 496b5963a75 Add SYSCALL_ULONG_ARG_[12] to pass long to syscall [BZ #25810]
+* 04330f85263 x32: Properly pass long to syscall [BZ #25810]
+* de371d1581f Fix build with GCC 10 when long double = double.
+* ece4e11d55d Add new file missed in previous hppa commit.
+* 91b909315c4 Fix data race in setting function descriptors during lazy binding on hppa.
+* b999c0098ae nios2: delete sysdeps/unix/sysv/linux/nios2/kernel-features.h
+* 54ba2541b3a mips: Fix bracktrace result for signal frames
+* 83d3eec6728 stdlib: Move tst-system to tests-container
+* ad9b0037ccc support/shell-container.c: Add builtin kill
+* 2448ba1d724 support/shell-container.c: Add builtin exit
+* 5810e6d75ff support/shell-container.c: Return 127 if execve fails
+* d39fb022c26 Add NEWS entry for CVE-2020-1751 (bug 25423)
+* 46bbbd46223 posix: Fix system error return value [BZ #25715]
+* 3937f6806d9 Add NEWS entry for CVE-2020-1752 (bug 25414)
+* ab029a2801d Fix use-after-free in glob when expanding ~user (bug 25414)
+* a3189fb15b4 Update syscall lists for Linux 5.5.
+* 05c08d5aea9 NEWS: update list of bugs fixed on the 2.31 branch
+* 123d48b33a5 Add NEWS entry for CVE-2020-10029 (bug 25487)
+* 03f44ce0938 math/test-sinl-pseudo: Use stack protector only if available
+* e85a88e00c1 sparc: Move sigreturn stub to assembly
+* a9ae2062d57 arm: Fix softp-fp Implies (BZ #25635)
+* da6ce60e3cb linux/sysipc: Include linux/posix_types.h for __kernel_mode_t
+* 9db2970506c linux: Clear mode_t padding bits (BZ#25623)
+* 44f2c26ee4f i386: Use comdat instead of .gnu.linkonce for i386 setup pic register (BZ #20543)
+* f2d95cf030f Improve IFUNC check [BZ #25506]
+* 9f997ceca28 Avoid ldbl-96 stack corruption from range reduction of pseudo-zero (bug 25487).
 
-On Tue, Aug 11, 2020 at 9:56 AM Steve Sakoman <steve@sakoman.com> wrote:
->
-> On Tue, Aug 11, 2020 at 6:20 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > In the interest of avoiding reproducing work, I'm slowly trawling
-> > through the qemu CVEs in date order (starting from 2012) to fix up the
-> > CPE entries so they disappear from these lists.
->
-> Thanks Ross, much appreciated!
->
-> Steve
->
-> > On Sun, 9 Aug 2020 at 11:03, Steve Sakoman <steve@sakoman.com> wrote:
-> > >
-> > > Branch: master
-> > >
-> > > New this week:
-> > > CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-> > > CVE-2020-10713: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
-> > > CVE-2020-14308: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
-> > > CVE-2020-14309: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
-> > > CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-> > > CVE-2020-14311: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
-> > > CVE-2020-14344: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14344 *
-> > > CVE-2020-14347: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14347 *
-> > > CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-> > > CVE-2020-15706: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
-> > > CVE-2020-15707: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
-> > > CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-> > >
-> > > Removed this week:
-> > > CVE-2011-3193: pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-3193 *
-> > > CVE-2013-4577: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4577 *
-> > > CVE-2016-9085: libwebp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9085 *
-> > > CVE-2017-6311: gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6311 *
-> > > CVE-2017-6312: gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6312 *
-> > > CVE-2017-6313: gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6313 *
-> > > CVE-2017-6314: gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6314 *
-> > > CVE-2018-1000500: busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000500 *
-> > > CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-> > > CVE-2020-15900: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-> > >
-> > > Full list:  Found 162 unpatched CVEs
-> > > CVE-2011-3970: libxslt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-3970 *
-> > > CVE-2012-3515: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-3515 *
-> > > CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
-> > > CVE-2012-6075: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6075 *
-> > > CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
-> > > CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-> > > CVE-2013-2617: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2617 *
-> > > CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-> > > CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-> > > CVE-2013-4344: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4344 *
-> > > CVE-2013-6425: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6425 *
-> > > CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-> > > CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-> > > CVE-2014-3539: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3539 *
-> > > CVE-2014-3615: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3615 *
-> > > CVE-2014-3689: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3689 *
-> > > CVE-2014-5388: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-5388 *
-> > > CVE-2014-7815: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-7815 *
-> > > CVE-2014-7840: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-7840 *
-> > > CVE-2014-8166: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8166 *
-> > > CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
-> > > CVE-2015-1779: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1779 *
-> > > CVE-2015-3209: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3209 *
-> > > CVE-2015-4106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-4106 *
-> > > CVE-2015-5158: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-5158 *
-> > > CVE-2015-5224: util-linux-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-5224 *
-> > > CVE-2015-6855: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-6855 *
-> > > CVE-2015-7295: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7295 *
-> > > CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-> > > CVE-2015-7512: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7512 *
-> > > CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
-> > > CVE-2015-8504: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8504 *
-> > > CVE-2015-8558: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8558 *
-> > > CVE-2015-8567: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8567 *
-> > > CVE-2015-8568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8568 *
-> > > CVE-2015-8613: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8613 *
-> > > CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-> > > CVE-2015-8666: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8666 *
-> > > CVE-2015-8806: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8806 *
-> > > CVE-2016-10642: cmake-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-10642 *
-> > > CVE-2016-1568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1568 *
-> > > CVE-2016-2381: perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2381 *
-> > > CVE-2016-2391: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2391 *
-> > > CVE-2016-2857: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2857 *
-> > > CVE-2016-2858: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2858 *
-> > > CVE-2016-4001: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4001 *
-> > > CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-> > > CVE-2016-4020: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4020 *
-> > > CVE-2016-4483: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4483 *
-> > > CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
-> > > CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
-> > > CVE-2016-4964: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4964 *
-> > > CVE-2016-5011: util-linux-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5011 *
-> > > CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
-> > > CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
-> > > CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
-> > > CVE-2016-5126: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5126 *
-> > > CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
-> > > CVE-2016-5337: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5337 *
-> > > CVE-2016-5338: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5338 *
-> > > CVE-2016-6185: perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6185 *
-> > > CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-> > > CVE-2016-6351: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6351 *
-> > > CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
-> > > CVE-2016-6490: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6490 *
-> > > CVE-2016-6833: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6833 *
-> > > CVE-2016-6834: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6834 *
-> > > CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
-> > > CVE-2016-6836: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6836 *
-> > > CVE-2016-6888: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6888 *
-> > > CVE-2016-7116: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7116 *
-> > > CVE-2016-7155: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7155 *
-> > > CVE-2016-7156: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7156 *
-> > > CVE-2016-7157: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7157 *
-> > > CVE-2016-7170: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7170 *
-> > > CVE-2016-7421: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7421 *
-> > > CVE-2016-7422: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7422 *
-> > > CVE-2016-7423: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7423 *
-> > > CVE-2016-7466: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7466 *
-> > > CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
-> > > CVE-2016-7995: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7995 *
-> > > CVE-2016-8576: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8576 *
-> > > CVE-2016-8577: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8577 *
-> > > CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
-> > > CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
-> > > CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
-> > > CVE-2016-8669: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8669 *
-> > > CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
-> > > CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
-> > > CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-> > > CVE-2016-9102: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9102 *
-> > > CVE-2016-9103: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9103 *
-> > > CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
-> > > CVE-2016-9105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9105 *
-> > > CVE-2016-9106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9106 *
-> > > CVE-2016-9401: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9401 *
-> > > CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
-> > > CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
-> > > CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
-> > > CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
-> > > CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
-> > > CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
-> > > CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
-> > > CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
-> > > CVE-2017-16845: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-16845 *
-> > > CVE-2017-18030: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-18030 *
-> > > CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-> > > CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-> > > CVE-2017-6386: virglrenderer-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6386 *
-> > > CVE-2017-7377: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7377 *
-> > > CVE-2017-7471: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-7471 *
-> > > CVE-2017-8086: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-8086 *
-> > > CVE-2017-8112: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-8112 *
-> > > CVE-2017-8309: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-8309 *
-> > > CVE-2017-8379: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-8379 *
-> > > CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-> > > CVE-2018-10844: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10844 *
-> > > CVE-2018-10845: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10845 *
-> > > CVE-2018-10846: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10846 *
-> > > CVE-2018-11806: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-11806 *
-> > > CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-> > > CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-> > > CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-> > > CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
-> > > CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-> > > CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-> > > CVE-2018-15746: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-15746 *
-> > > CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
-> > > CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
-> > > CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
-> > > CVE-2018-17958: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-17958 *
-> > > CVE-2018-18073: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18073 *
-> > > CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-> > > CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-> > > CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-> > > CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-> > > CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-> > > CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-> > > CVE-2019-10216: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-10216 *
-> > > CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-> > > CVE-2019-15847: gcc-source-9.3.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-15847 *
-> > > CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
-> > > CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-> > > CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-> > > CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-> > > CVE-2020-10713: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
-> > > CVE-2020-10717: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10717 *
-> > > CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-> > > CVE-2020-14039: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14039 *
-> > > CVE-2020-14308: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
-> > > CVE-2020-14309: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
-> > > CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-> > > CVE-2020-14311: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
-> > > CVE-2020-14344: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14344 *
-> > > CVE-2020-14347: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14347 *
-> > > CVE-2020-15586: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15586 *
-> > > CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-> > > CVE-2020-15706: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
-> > > CVE-2020-15707: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
-> > > CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-> > > CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
-> > > CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-> > >
-> 
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=70d585151c03ede999bd2ad5a724243914cb5f54
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../glibc/0016-Add-unused-attribute.patch     |  31 ---
+ .../glibc/glibc/CVE-2020-6096.patch           | 112 ----------
+ .../glibc/glibc/CVE-2020-6096_2.patch         | 194 ------------------
+ meta/recipes-core/glibc/glibc_2.31.bb         |   5 +-
+ 5 files changed, 2 insertions(+), 342 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0016-Add-unused-attribute.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch
+
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index c2d68979eb..3bcd336de4 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.31/master"
+ PV = "2.31+git${SRCPV}"
+-SRCREV_glibc ?= "109474122400ca7d60782b131dc867a5c1f2fe55"
++SRCREV_glibc ?= "6fdf971c9dbf7dac9bea552113fe4694015bbc4d"
+ SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc/0016-Add-unused-attribute.patch b/meta/recipes-core/glibc/glibc/0016-Add-unused-attribute.patch
+deleted file mode 100644
+index 574e7c3503..0000000000
+--- a/meta/recipes-core/glibc/glibc/0016-Add-unused-attribute.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From c323125744020a29f79e50dc4d024b55c482eafc Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 18 Mar 2015 00:28:41 +0000
+-Subject: [PATCH] Add unused attribute
+-
+-Helps in avoiding gcc warning when header is is included in
+-a source file which does not use both functions
+-
+-        * iconv/gconv_charset.h (strip):
+-        Add unused attribute.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+----
+- iconv/gconv_charset.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/iconv/gconv_charset.h b/iconv/gconv_charset.h
+-index 348acc089b..fa92465d89 100644
+---- a/iconv/gconv_charset.h
+-+++ b/iconv/gconv_charset.h
+-@@ -21,7 +21,7 @@
+- #include <locale.h>
+- 
+- 
+--static void
+-+static void __attribute__ ((unused))
+- strip (char *wp, const char *s)
+- {
+-   int slash_count = 0;
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-6096.patch b/meta/recipes-core/glibc/glibc/CVE-2020-6096.patch
+deleted file mode 100644
+index 9c26f76432..0000000000
+--- a/meta/recipes-core/glibc/glibc/CVE-2020-6096.patch
++++ /dev/null
+@@ -1,112 +0,0 @@
+-From beea361050728138b82c57dda0c4810402d342b9 Mon Sep 17 00:00:00 2001
+-From: Alexander Anisimov <a.anisimov@omprussia.ru>
+-Date: Wed, 8 Jul 2020 14:18:31 +0200
+-Subject: [PATCH] arm: CVE-2020-6096: Fix multiarch memcpy for negative length
+- [BZ #25620]
+-
+-Unsigned branch instructions could be used for r2 to fix the wrong
+-behavior when a negative length is passed to memcpy.
+-This commit fixes the armv7 version.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2020-6096 patch #1
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- sysdeps/arm/armv7/multiarch/memcpy_impl.S | 22 +++++++++++-----------
+- 1 file changed, 11 insertions(+), 11 deletions(-)
+-
+-diff --git a/sysdeps/arm/armv7/multiarch/memcpy_impl.S b/sysdeps/arm/armv7/multiarch/memcpy_impl.S
+-index bf4ac7077f..379bb56fc9 100644
+---- a/sysdeps/arm/armv7/multiarch/memcpy_impl.S
+-+++ b/sysdeps/arm/armv7/multiarch/memcpy_impl.S
+-@@ -268,7 +268,7 @@ ENTRY(memcpy)
+- 
+- 	mov	dst, dstin	/* Preserve dstin, we need to return it.  */
+- 	cmp	count, #64
+--	bge	.Lcpy_not_short
+-+	bhs	.Lcpy_not_short
+- 	/* Deal with small copies quickly by dropping straight into the
+- 	   exit block.  */
+- 
+-@@ -351,10 +351,10 @@ ENTRY(memcpy)
+- 
+- 1:
+- 	subs	tmp2, count, #64	/* Use tmp2 for count.  */
+--	blt	.Ltail63aligned
+-+	blo	.Ltail63aligned
+- 
+- 	cmp	tmp2, #512
+--	bge	.Lcpy_body_long
+-+	bhs	.Lcpy_body_long
+- 
+- .Lcpy_body_medium:			/* Count in tmp2.  */
+- #ifdef USE_VFP
+-@@ -378,7 +378,7 @@ ENTRY(memcpy)
+- 	add	src, src, #64
+- 	vstr	d1, [dst, #56]
+- 	add	dst, dst, #64
+--	bge	1b
+-+	bhs	1b
+- 	tst	tmp2, #0x3f
+- 	beq	.Ldone
+- 
+-@@ -412,7 +412,7 @@ ENTRY(memcpy)
+- 	ldrd	A_l, A_h, [src, #64]!
+- 	strd	A_l, A_h, [dst, #64]!
+- 	subs	tmp2, tmp2, #64
+--	bge	1b
+-+	bhs	1b
+- 	tst	tmp2, #0x3f
+- 	bne	1f
+- 	ldr	tmp2,[sp], #FRAME_SIZE
+-@@ -482,7 +482,7 @@ ENTRY(memcpy)
+- 	add	src, src, #32
+- 
+- 	subs	tmp2, tmp2, #prefetch_lines * 64 * 2
+--	blt	2f
+-+	blo	2f
+- 1:
+- 	cpy_line_vfp	d3, 0
+- 	cpy_line_vfp	d4, 64
+-@@ -494,7 +494,7 @@ ENTRY(memcpy)
+- 	add	dst, dst, #2 * 64
+- 	add	src, src, #2 * 64
+- 	subs	tmp2, tmp2, #prefetch_lines * 64
+--	bge	1b
+-+	bhs	1b
+- 
+- 2:
+- 	cpy_tail_vfp	d3, 0
+-@@ -615,8 +615,8 @@ ENTRY(memcpy)
+- 1:
+- 	pld	[src, #(3 * 64)]
+- 	subs	count, count, #64
+--	ldrmi	tmp2, [sp], #FRAME_SIZE
+--	bmi	.Ltail63unaligned
+-+	ldrlo	tmp2, [sp], #FRAME_SIZE
+-+	blo	.Ltail63unaligned
+- 	pld	[src, #(4 * 64)]
+- 
+- #ifdef USE_NEON
+-@@ -633,7 +633,7 @@ ENTRY(memcpy)
+- 	neon_load_multi d0-d3, src
+- 	neon_load_multi d4-d7, src
+- 	subs	count, count, #64
+--	bmi	2f
+-+	blo	2f
+- 1:
+- 	pld	[src, #(4 * 64)]
+- 	neon_store_multi d0-d3, dst
+-@@ -641,7 +641,7 @@ ENTRY(memcpy)
+- 	neon_store_multi d4-d7, dst
+- 	neon_load_multi d4-d7, src
+- 	subs	count, count, #64
+--	bpl	1b
+-+	bhs	1b
+- 2:
+- 	neon_store_multi d0-d3, dst
+- 	neon_store_multi d4-d7, dst
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch b/meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch
+deleted file mode 100644
+index 905e44c8e3..0000000000
+--- a/meta/recipes-core/glibc/glibc/CVE-2020-6096_2.patch
++++ /dev/null
+@@ -1,194 +0,0 @@
+-From 79a4fa341b8a89cb03f84564fd72abaa1a2db394 Mon Sep 17 00:00:00 2001
+-From: Evgeny Eremin <e.eremin@omprussia.ru>
+-Date: Wed, 8 Jul 2020 14:18:19 +0200
+-Subject: [PATCH] arm: CVE-2020-6096: fix memcpy and memmove for negative
+- length [BZ #25620]
+-
+-Unsigned branch instructions could be used for r2 to fix the wrong
+-behavior when a negative length is passed to memcpy and memmove.
+-This commit fixes the generic arm implementation of memcpy amd memmove.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2020-6096 patch #2
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- sysdeps/arm/memcpy.S  | 24 ++++++++++--------------
+- sysdeps/arm/memmove.S | 24 ++++++++++--------------
+- 2 files changed, 20 insertions(+), 28 deletions(-)
+-
+-diff --git a/sysdeps/arm/memcpy.S b/sysdeps/arm/memcpy.S
+-index 510e8adaf2..bcfbc51d99 100644
+---- a/sysdeps/arm/memcpy.S
+-+++ b/sysdeps/arm/memcpy.S
+-@@ -68,7 +68,7 @@ ENTRY(memcpy)
+- 		cfi_remember_state
+- 
+- 		subs	r2, r2, #4
+--		blt	8f
+-+		blo	8f
+- 		ands	ip, r0, #3
+- 	PLD(	pld	[r1, #0]		)
+- 		bne	9f
+-@@ -82,7 +82,7 @@ ENTRY(memcpy)
+- 		cfi_rel_offset (r6, 4)
+- 		cfi_rel_offset (r7, 8)
+- 		cfi_rel_offset (r8, 12)
+--		blt	5f
+-+		blo	5f
+- 
+- 	CALGN(	ands	ip, r1, #31		)
+- 	CALGN(	rsb	r3, ip, #32		)
+-@@ -98,9 +98,9 @@ ENTRY(memcpy)
+- #endif
+- 
+- 	PLD(	pld	[r1, #0]		)
+--2:	PLD(	subs	r2, r2, #96		)
+-+2:	PLD(	cmp	r2, #96			)
+- 	PLD(	pld	[r1, #28]		)
+--	PLD(	blt	4f			)
+-+	PLD(	blo	4f			)
+- 	PLD(	pld	[r1, #60]		)
+- 	PLD(	pld	[r1, #92]		)
+- 
+-@@ -108,9 +108,7 @@ ENTRY(memcpy)
+- 4:		ldmia	r1!, {r3, r4, r5, r6, r7, r8, ip, lr}
+- 		subs	r2, r2, #32
+- 		stmia	r0!, {r3, r4, r5, r6, r7, r8, ip, lr}
+--		bge	3b
+--	PLD(	cmn	r2, #96			)
+--	PLD(	bge	4b			)
+-+		bhs	3b
+- 
+- 5:		ands	ip, r2, #28
+- 		rsb	ip, ip, #32
+-@@ -222,7 +220,7 @@ ENTRY(memcpy)
+- 		strbge	r4, [r0], #1
+- 		subs	r2, r2, ip
+- 		strb	lr, [r0], #1
+--		blt	8b
+-+		blo	8b
+- 		ands	ip, r1, #3
+- 		beq	1b
+- 
+-@@ -236,7 +234,7 @@ ENTRY(memcpy)
+- 		.macro	forward_copy_shift pull push
+- 
+- 		subs	r2, r2, #28
+--		blt	14f
+-+		blo	14f
+- 
+- 	CALGN(	ands	ip, r1, #31		)
+- 	CALGN(	rsb	ip, ip, #32		)
+-@@ -253,9 +251,9 @@ ENTRY(memcpy)
+- 		cfi_rel_offset (r10, 16)
+- 
+- 	PLD(	pld	[r1, #0]		)
+--	PLD(	subs	r2, r2, #96		)
+-+	PLD(	cmp	r2, #96			)
+- 	PLD(	pld	[r1, #28]		)
+--	PLD(	blt	13f			)
+-+	PLD(	blo	13f			)
+- 	PLD(	pld	[r1, #60]		)
+- 	PLD(	pld	[r1, #92]		)
+- 
+-@@ -280,9 +278,7 @@ ENTRY(memcpy)
+- 		mov	ip, ip, PULL #\pull
+- 		orr	ip, ip, lr, PUSH #\push
+- 		stmia	r0!, {r3, r4, r5, r6, r7, r8, r10, ip}
+--		bge	12b
+--	PLD(	cmn	r2, #96			)
+--	PLD(	bge	13b			)
+-+		bhs	12b
+- 
+- 		pop	{r5 - r8, r10}
+- 		cfi_adjust_cfa_offset (-20)
+-diff --git a/sysdeps/arm/memmove.S b/sysdeps/arm/memmove.S
+-index 954037ef3a..0d07b76ee6 100644
+---- a/sysdeps/arm/memmove.S
+-+++ b/sysdeps/arm/memmove.S
+-@@ -85,7 +85,7 @@ ENTRY(memmove)
+- 		add	r1, r1, r2
+- 		add	r0, r0, r2
+- 		subs	r2, r2, #4
+--		blt	8f
+-+		blo	8f
+- 		ands	ip, r0, #3
+- 	PLD(	pld	[r1, #-4]		)
+- 		bne	9f
+-@@ -99,7 +99,7 @@ ENTRY(memmove)
+- 		cfi_rel_offset (r6, 4)
+- 		cfi_rel_offset (r7, 8)
+- 		cfi_rel_offset (r8, 12)
+--		blt	5f
+-+		blo     5f
+- 
+- 	CALGN(	ands	ip, r1, #31		)
+- 	CALGN(	sbcsne	r4, ip, r2		)  @ C is always set here
+-@@ -114,9 +114,9 @@ ENTRY(memmove)
+- #endif
+- 
+- 	PLD(	pld	[r1, #-4]		)
+--2:	PLD(	subs	r2, r2, #96		)
+-+2:	PLD(	cmp	r2, #96			)
+- 	PLD(	pld	[r1, #-32]		)
+--	PLD(	blt	4f			)
+-+	PLD(    blo     4f                      )
+- 	PLD(	pld	[r1, #-64]		)
+- 	PLD(	pld	[r1, #-96]		)
+- 
+-@@ -124,9 +124,7 @@ ENTRY(memmove)
+- 4:		ldmdb	r1!, {r3, r4, r5, r6, r7, r8, ip, lr}
+- 		subs	r2, r2, #32
+- 		stmdb	r0!, {r3, r4, r5, r6, r7, r8, ip, lr}
+--		bge	3b
+--	PLD(	cmn	r2, #96			)
+--	PLD(	bge	4b			)
+-+		bhs     3b
+- 
+- 5:		ands	ip, r2, #28
+- 		rsb	ip, ip, #32
+-@@ -237,7 +235,7 @@ ENTRY(memmove)
+- 		strbge	r4, [r0, #-1]!
+- 		subs	r2, r2, ip
+- 		strb	lr, [r0, #-1]!
+--		blt	8b
+-+		blo	8b
+- 		ands	ip, r1, #3
+- 		beq	1b
+- 
+-@@ -251,7 +249,7 @@ ENTRY(memmove)
+- 		.macro	backward_copy_shift push pull
+- 
+- 		subs	r2, r2, #28
+--		blt	14f
+-+		blo	14f
+- 
+- 	CALGN(	ands	ip, r1, #31		)
+- 	CALGN(	rsb	ip, ip, #32		)
+-@@ -268,9 +266,9 @@ ENTRY(memmove)
+- 		cfi_rel_offset (r10, 16)
+- 
+- 	PLD(	pld	[r1, #-4]		)
+--	PLD(	subs	r2, r2, #96		)
+-+	PLD(	cmp	r2, #96			)
+- 	PLD(	pld	[r1, #-32]		)
+--	PLD(	blt	13f			)
+-+	PLD(	blo	13f			)
+- 	PLD(	pld	[r1, #-64]		)
+- 	PLD(	pld	[r1, #-96]		)
+- 
+-@@ -295,9 +293,7 @@ ENTRY(memmove)
+- 		mov     r4, r4, PUSH #\push
+- 		orr     r4, r4, r3, PULL #\pull
+- 		stmdb   r0!, {r4 - r8, r10, ip, lr}
+--		bge	12b
+--	PLD(	cmn	r2, #96			)
+--	PLD(	bge	13b			)
+-+		bhs	12b
+- 
+- 		pop	{r5 - r8, r10}
+- 		cfi_adjust_cfa_offset (-20)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index e8e11f5438..3d486fbb59 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -1,7 +1,7 @@
+ require glibc.inc
+ require glibc-version.inc
+ 
+-CVE_CHECK_WHITELIST += "CVE-2020-10029"
++CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-1751 CVE-2020-1752"
+ 
+ DEPENDS += "gperf-native bison-native make-native"
+ 
+@@ -28,7 +28,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0013-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://0014-__ieee754_sqrt-f-are-now-inline-functions-and-call-o.patch \
+            file://0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch \
+-           file://0016-Add-unused-attribute.patch \
+            file://0017-yes-within-the-path-sets-wrong-config-variables.patch \
+            file://0018-timezone-re-written-tzselect-as-posix-sh.patch \
+            file://0019-Remove-bash-dependency-for-nscd-init-script.patch \
+@@ -42,8 +41,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
+            file://0028-inject-file-assembly-directives.patch \
+            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+-           file://CVE-2020-6096.patch \
+-           file://CVE-2020-6096_2.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.28.0
+
