@@ -1,66 +1,185 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.10198.1597130900026048182
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.10322.1597131684263898451
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 00:28:20 -0700
+ Tue, 11 Aug 2020 00:41:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07B7RuvI016188
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: zhixiong.chi@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 07B7fJ5i014245
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 00:28:08 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 11 Aug 2020 00:27:33 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+	for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 00:41:19 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 11 Aug 2020
+ 00:41:19 -0700
+From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] bitbake.conf: set the default pigz thread
-Date: Tue, 11 Aug 2020 15:22:58 +0800
-Message-ID: <20200811072258.4074290-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.26.2
+Subject: [OE-core][zeus][PATCH] go: CVE-2020-16845
+Date: Tue, 11 Aug 2020 00:41:18 -0700
+Message-ID: <20200811074118.69247-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 07B7fJ5i014245
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Backport CVE patch from the upstream:
+https://github.com/golang/go.git
+commit 027d7241ce050d197e7fabea3d541ffbe3487258
 
-pigz, which stands for parallel implementation of gzip, is a
-fully functional replacement for gzip that exploits multiple
-processors and multiple cores to the hilt when compressing data.
-
-do_package uses pigz to compress data to speed up the time
-if there is pigz available on the build server.
-
-But for some big package such as clang, there comes below
-error during do_package.
-gzip: stdout: Cannot allocate memory
-tar: TOPDIR/sstate-cache/20/80/sstate:clang:cortexa57-wrs-linux:10.0.1:r0:cortexa57:3:20808f8a746b00ec9470a81057c8595d878cfe8c565cfbcbbaa3ea870528ee34_package.tgz.QF5dss8M: Wrote only 8192 of 10240 bytes
-tar: Child returned status 1
-tar: Error is not recoverable: exiting now
-
-So set the default pigz thread and the user also can customize
-the pigz thread such as via PIGZ = "-p 3" or PIGZ_pn-clang = "-p 3"
-for the individual package in local.conf to avoid eating so much
-memory.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/go/go-1.12.inc          |   1 +
+ .../go/go-1.12/CVE-2020-16845.patch           | 110 ++++++++++++++++++
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 353caacef9..bc87e78d78 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -804,6 +804,9 @@ XZ_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
- XZ_DEFAULTS ?= "--memlimit=${XZ_MEMLIMIT} --threads=${XZ_THREADS}"
- XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
- 
-+# Default parallelism and resource usage for pigz
-+export PIGZ = "-p ${@oe.utils.cpu_count(at_least=2)}"
+diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools=
+/go/go-1.12.inc
+index 6aecaad75d..1fffd5280b 100644
+--- a/meta/recipes-devtools/go/go-1.12.inc
++++ b/meta/recipes-devtools/go/go-1.12.inc
+@@ -18,6 +18,7 @@ SRC_URI +=3D "\
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.pat=
+ch \
+     file://0010-fix-CVE-2019-17596.patch \
++    file://CVE-2020-16845.patch \
+ "
+ SRC_URI_append_libc-musl =3D " file://0009-ld-replace-glibc-dynamic-link=
+er-with-musl.patch"
+=20
+diff --git a/meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch b/meta=
+/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
+new file mode 100644
+index 0000000000..80f467522f
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.12/CVE-2020-16845.patch
+@@ -0,0 +1,110 @@
++From 027d7241ce050d197e7fabea3d541ffbe3487258 Mon Sep 17 00:00:00 2001
++From: Katie Hockman <katie@golang.org>
++Date: Tue, 4 Aug 2020 11:45:32 -0400
++Subject: [PATCH] encoding/binary: read at most MaxVarintLen64 bytes in
++ ReadUvarint
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
- ##################################################################
- # Magic Cookie for SANITY CHECK
- ##################################################################
--- 
-2.26.2
++This CL ensures that ReadUvarint consumes only a limited
++amount of input (instead of an unbounded amount).
++
++On some inputs, ReadUvarint could read an arbitrary number
++of bytes before deciding to return an overflow error.
++After this CL, ReadUvarint returns that same overflow
++error sooner, after reading at most MaxVarintLen64 bytes.
++
++Fix authored by Robert Griesemer and Filippo Valsorda.
++
++Thanks to Diederik Loerakker, Jonny Rhea, Ra=C3=BAl Kripalani,
++and Preston Van Loon for reporting this.
++
++Fixes #40618
++Fixes CVE-2020-16845
++
++Change-Id: Ie0cb15972f14c38b7cf7af84c45c4ce54909bb8f
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
+/+/812099
++Reviewed-by: Filippo Valsorda <valsorda@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/247120
++Run-TryBot: Katie Hockman <katie@golang.org>
++TryBot-Result: Gobot Gobot <gobot@golang.org>
++Reviewed-by: Alexander Rakoczy <alex@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go.git]
++CVE: CVE-2020-16845
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ src/encoding/binary/varint.go      |  5 +++--
++ src/encoding/binary/varint_test.go | 18 ++++++++++++------
++ 2 files changed, 15 insertions(+), 8 deletions(-)
++
++diff --git a/src/encoding/binary/varint.go b/src/encoding/binary/varint.=
+go
++index bcb8ac9a45..38af61075c 100644
++--- a/src/encoding/binary/varint.go
+++++ b/src/encoding/binary/varint.go
++@@ -106,13 +106,13 @@ var overflow =3D errors.New("binary: varint overfl=
+ows a 64-bit integer")
++ func ReadUvarint(r io.ByteReader) (uint64, error) {
++ 	var x uint64
++ 	var s uint
++-	for i :=3D 0; ; i++ {
+++	for i :=3D 0; i < MaxVarintLen64; i++ {
++ 		b, err :=3D r.ReadByte()
++ 		if err !=3D nil {
++ 			return x, err
++ 		}
++ 		if b < 0x80 {
++-			if i > 9 || i =3D=3D 9 && b > 1 {
+++			if i =3D=3D 9 && b > 1 {
++ 				return x, overflow
++ 			}
++ 			return x | uint64(b)<<s, nil
++@@ -120,6 +120,7 @@ func ReadUvarint(r io.ByteReader) (uint64, error) {
++ 		x |=3D uint64(b&0x7f) << s
++ 		s +=3D 7
++ 	}
+++	return x, overflow
++ }
++=20
++ // ReadVarint reads an encoded signed integer from r and returns it as =
+an int64.
++diff --git a/src/encoding/binary/varint_test.go b/src/encoding/binary/va=
+rint_test.go
++index ca411ecbd6..6ef4c99505 100644
++--- a/src/encoding/binary/varint_test.go
+++++ b/src/encoding/binary/varint_test.go
++@@ -121,21 +121,27 @@ func TestBufferTooSmall(t *testing.T) {
++ 	}
++ }
++=20
++-func testOverflow(t *testing.T, buf []byte, n0 int, err0 error) {
+++func testOverflow(t *testing.T, buf []byte, x0 uint64, n0 int, err0 err=
+or) {
++ 	x, n :=3D Uvarint(buf)
++ 	if x !=3D 0 || n !=3D n0 {
++ 		t.Errorf("Uvarint(%v): got x =3D %d, n =3D %d; want 0, %d", buf, x, n=
+, n0)
++ 	}
++=20
++-	x, err :=3D ReadUvarint(bytes.NewReader(buf))
++-	if x !=3D 0 || err !=3D err0 {
++-		t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; want 0, %s", buf=
+, x, err, err0)
+++	r :=3D bytes.NewReader(buf)
+++	len :=3D r.Len()
+++	x, err :=3D ReadUvarint(r)
+++	if x !=3D x0 || err !=3D err0 {
+++		t.Errorf("ReadUvarint(%v): got x =3D %d, err =3D %s; want %d, %s", bu=
+f, x, err, x0, err0)
+++	}
+++	if read :=3D len - r.Len(); read > MaxVarintLen64 {
+++		t.Errorf("ReadUvarint(%v): read more than MaxVarintLen64 bytes, got %=
+d", buf, read)
++ 	}
++ }
++=20
++ func TestOverflow(t *testing.T) {
++-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x2}, -10, overflow)
++-	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, -13, overflow)
+++	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x2}, 0, -10, overflow)
+++	testOverflow(t, []byte{0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,=
+ 0x80, 0x80, 0x80, 0x80, 0x1, 0, 0}, 0, -13, overflow)
+++	testOverflow(t, []byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,=
+ 0xFF, 0xFF, 0xFF}, 1<<64-1, 0, overflow) // 11 bytes, should overflow
++ }
++=20
++ func TestNonCanonicalZero(t *testing.T) {
++--=20
++2.17.0
++
+--=20
+2.17.1
 
