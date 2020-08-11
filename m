@@ -1,94 +1,102 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web10.1442.1597170465796799579
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.1456.1597170498307465878
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 11:27:46 -0700
+ Tue, 11 Aug 2020 11:28:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=etL19JA/;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.67, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f67.google.com with SMTP id c16so14138947ejx.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 11:27:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aASPT+0h;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id a15so12355550wrh.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 11:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4c+CsJbrRJgtspm66AJvMNH+A193P7eJF9YX8bhrbIk=;
-        b=etL19JA/EvOES/OD6NGaxIDdSwihTb03K5arCKo4sEGPerFgIhOGmbLmvhW8v8lKD6
-         G1m9WK84cNOVUJWw+XdF3fyAcPvba99O7ghmdsAOmUPrL9xbLCBE5eLKo87pGDGm0v/F
-         J1u6c39xhtycS7Ix20yxTAVkZHwftbB+aYNldz2cKJjQj5/hCpjEO3v68NXiMU3P7wE4
-         Qs4eJpfq6zQ2rnVjB1hORxA7p5IFPT86+BOXTqHiqZOhj0538ivP61akrvIoTvk4r8IZ
-         OrxQ5vKucODfbp5UnE+dePxtNJhAt6gtCgrtboH6I4lMey7wJsM+4TGcranU42kx4dzG
-         nr5Q==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JSq2Y3Pptvlq4LObYIKB/QprpXzCFa0N5SQAbprq0uA=;
+        b=aASPT+0hfZvkw1z99JrCYu3GV7EPq2cV1fsrFFWrzXOUl7Woh91a+lDWgI+ts7y/ZN
+         LuUQV1iK3jFJ53l27GzT9JKUg7gK8Ld2phBwdZo4wyxPPSEFbJxxUf3R3DINUZuMLtUh
+         OzJ9eNgp58irwPXI2bLHa6MCStylPw3k7luso=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4c+CsJbrRJgtspm66AJvMNH+A193P7eJF9YX8bhrbIk=;
-        b=tsqikPOP0Dwu5hMwwo8CewwLH2g3F1zSYXsuyKaLddF7lUTgn57DIlR7lftBGma88B
-         38z1DILkbKdb0PNOHKN+6SrS1tNsiepxuB5O9xw6mZwKmA+IyLhnujuisLm3zLwE21ls
-         GSPLd2I8MxkafILNunQByhbvqAeW+yT0fOO0sbidN75CYoxGLyP2+YnQ9RYKez/d1rEv
-         uhTsNw2xgnbidS2/1zBnkJuN07jLLMjaGI/eY6vQiQxTih4O46a/vf/FBcMxs4ZsHu5E
-         zbU0kxauw9QolZ/hckNFE0jkK7EMCCif4Q5x69kb0tFtCqFNfk0sbrxicIIigs6x/RzI
-         sgAw==
-X-Gm-Message-State: AOAM533nSMxP+B72h4JToU7QSEPwcVbgICNFjtNzNj/1QWsr4eOOupBk
-	yiIB2pdq5PrirsTFuHpAz+fQ9o1S/6TLK6CDHzM9Mw==
-X-Google-Smtp-Source: ABdhPJzBtHRQWgRkhqhs/gBcqoQa2ehrDyFOXCuugb0vUcQ+5kV/yNW3U+UtlSHeIXORAOxaV7GW91cfS1DbjlCas+w=
-X-Received: by 2002:a17:906:1911:: with SMTP id a17mr26106727eje.431.1597170464191;
- Tue, 11 Aug 2020 11:27:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JSq2Y3Pptvlq4LObYIKB/QprpXzCFa0N5SQAbprq0uA=;
+        b=fRG4SOPzwskoKIg/rWqrxGGF2MgaZ1BRlyFOGTQjfsc6Zoe5HRs8vVYiMM9FSqws7b
+         dfTPLILWRKzrxJC8sgMR8/DNWLj9DHduK2U2Otd8OZjC5sY+8htVvkocKibsDkTQkb3w
+         s7upF8EReMjIkIBqBUytZ55O/O4FyADdaHRN/jLr+ZX2jv+ENtEzXVFdpv+7IKUEibWf
+         i44b6+Q4E0GdZn/BL6D6BZxJryg7/z2XtTMV7ZaYSDGDa/7gOgjkBoSHCTQ9h+PWJING
+         QvMX7kCv7EH2GC3vtzVx8tAOc0PZAHobZ6S6OYISSb1ACIYzNil1Is5xuVU8ErZhJi8S
+         vgEA==
+X-Gm-Message-State: AOAM530f4vxnsFJ+mIMmRFjCITUFsnm/MLzWAiy5iZjm9uE39EuH//vN
+	EzMhWeQDAVo48mFQjkj+E404PSpjfubh9g==
+X-Google-Smtp-Source: ABdhPJxQWbiUn8idL6MvVMRErV5dYPAH1ICRkuo/ArdHMolWiFR8eosaPa5N2LCkM/xem/2yEBDDBw==
+X-Received: by 2002:adf:df85:: with SMTP id z5mr29522733wrl.267.1597170496577;
+        Tue, 11 Aug 2020 11:28:16 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (b.1.8.7.e.c.7.c.b.7.0.b.c.1.9.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:291c:b07b:c7ce:781b])
+        by smtp.gmail.com with ESMTPSA id x11sm27128781wrl.28.2020.08.11.11.28.16
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 11:28:16 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] maintainers: Update entries for Mark Hatle
+Date: Tue, 11 Aug 2020 19:28:15 +0100
+Message-Id: <20200811182815.887148-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200811181701.2638189-1-raj.khem@gmail.com>
-In-Reply-To: <20200811181701.2638189-1-raj.khem@gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 11 Aug 2020 08:27:33 -1000
-Message-ID: <CAOSpxdaJtBOv18SzU0nDdQpAPMdaErFx4U8VGEBDNtb-=fDogg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] go: update 1.14.4 -> 1.14.6
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Zhixiong Chi <zhixiong.chi@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Zhixiong Chi submitted a patch today to fix CVE-2020-16845.
+db/rpm/depmodwrapper-cross no longer have a maintainer, update his
+address on prelink. I take pseudo since I'm doing the work there
+in the absence of anyone else.
 
-I don't see that referenced in your patch, so I assume we'll need to
-take both patches.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/maintainers.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Will do an autobuilder test this morning with both applied.
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e8d42db12f0..3d29af40d68 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -135,14 +135,14 @@ RECIPE_MAINTAINER_pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-cve-update-db-native = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-cwautomacros = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER_pn-db = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_MAINTAINER_pn-db = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-dbus = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-dbus-glib = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-dbus-test = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-dbus-wait = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-debianutils = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-dejagnu = "Nathan Rossi <nathan@nathanrossi.com>"
+-RECIPE_MAINTAINER_pn-depmodwrapper-cross = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_MAINTAINER_pn-depmodwrapper-cross = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-desktop-file-utils = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-dhcp = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-diffoscope = "Joshua Watt <JPEWhacker@gmail.com>"
+@@ -567,9 +567,9 @@ RECIPE_MAINTAINER_pn-popt = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-powertop = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-ppp = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@kernel.crashing.org>"
+ RECIPE_MAINTAINER_pn-procps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_MAINTAINER_pn-pseudo = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
+@@ -622,7 +622,7 @@ RECIPE_MAINTAINER_pn-rgb = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER_pn-rpm = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_MAINTAINER_pn-rpm = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-ruby = "Ross Burton <ross.burton@arm.com>"
+-- 
+2.25.1
 
-Steve
-
-On Tue, Aug 11, 2020 at 8:17 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Includes security Fixes for CVE-2020-14039 and CVE-2020-15586
->
-> (cherry picked from commit 97d5c2d1f2dffe2518f46bbe57cb9348eb59c633)
-> (cherry picked from commit 6591d269792fe864d7af4e379035f1cebc4510f5)
-> (cherry picked from commit c9011d04eb624aeabf5d707e88de80137bcc2eb1)
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/go/go-1.14.inc | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-> index c52593db6b..64c2768f7e 100644
-> --- a/meta/recipes-devtools/go/go-1.14.inc
-> +++ b/meta/recipes-devtools/go/go-1.14.inc
-> @@ -1,7 +1,7 @@
->  require go-common.inc
->
->  GO_BASEVERSION = "1.14"
-> -GO_MINOR = ".1"
-> +GO_MINOR = ".6"
->  PV .= "${GO_MINOR}"
->  FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
->
-> @@ -18,5 +18,4 @@ SRC_URI += "\
->      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
->  "
->  SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-> -
-> -SRC_URI[main.sha256sum] = "2ad2572115b0d1b4cb4c138e6b3a31cee6294cb48af75ee86bec3dca04507676"
-> +SRC_URI[main.sha256sum] = "73fc9d781815d411928eccb92bf20d5b4264797be69410eac854babe44c94c09"
-> --
-> 2.28.0
->
-> 
