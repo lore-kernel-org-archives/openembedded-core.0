@@ -1,154 +1,144 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web12.3601.1597186682964862811
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web10.4869.1597191029055865524
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 15:58:03 -0700
+ Tue, 11 Aug 2020 17:10:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dIaeU0e+;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id y6so234775plt.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 15:58:02 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=xxyVdCxy;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.196, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f196.google.com with SMTP id m22so271325ljj.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 17:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0GheEV5DM58juqOXNE3gxSst7y/Rv5hfRIiH3/4IKNQ=;
-        b=dIaeU0e+kc7MXYajVNAujkMCAi8L/mzRbFVCBZjFXtHnY7/uXZoXuA6NydVnI4QYeO
-         OxikaXogISbITJ0GSb85cXAQeqEoN/rSxWsTerccDmhQ4kjcVOHF+MZxRS3aJKoBUn0G
-         s2DM9G/Yby+mfVf9g0TR7spvLacEHy55q6chs9e47yZGZeezB7b3OKidVr0k++uVbwR6
-         r378P33+LPz/Hnq05FBq9nQ12B8dOwUJtCRkE9RVMUlPzOQ1qYvAcFTwewvS0BH9PoVM
-         Pl4FoMQ3buZ3f+TzK1rRE/0o7Ln1WFQOoMapT3ZZpQSnsbPvs3oKIQAsKnVBGQyLOUNo
-         7t4w==
+        bh=QnVYruDLfvhVln3et+1MU7DLIFapAx6/eXjq5eOuKNY=;
+        b=xxyVdCxyO1L8cgKLy8d8KNVy8dAjqeBBIaCioAPuxOq6JQpMof4lKe0siwIv1+j8lh
+         sITb12JY076bgWRFVpVJjTWSym2/JvtG1Qdex4ICb4HUxzkOoXDT48/pM5GRW/Hl8uWV
+         q2cIAQElLSUnoEsGcjX/OIx48yiOtn/DG0lCt1MwDhT12aJHPExnaXuN3YEseymjD8m3
+         NorkTrq3T8Rau4K6SbEJqHe89wIXb56PTGOkb+/VTZ6hLCtmGPM+7YiLt3m1y5jFObAy
+         W6WcBt10aO9L2WzzaP3GrWj0IqaI1eYQ8n9VwOQyM5VRtoB7zw8anPZdRsRPI+uDf+ue
+         1wKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0GheEV5DM58juqOXNE3gxSst7y/Rv5hfRIiH3/4IKNQ=;
-        b=BOTU+ouyAoFZwXMaEUWDFW9hA/NUXCpFjPoxdTiXFAet5j89hFo1tnpQoBTEfyzFCV
-         0l8/xaztteAtk3ZNiGX8zFhjMV7NKXgInACZf5eQ8q17aIy95+m9tUus/H2Tw6vL7Opd
-         CaIm4R9BLdQaW5Yl1kWB0PC8FSSsopqpwBxtbQHW7LCd406noBy5cWKd09NvB3ftnC/v
-         DQlbmUtARzNghYaLnuOxcsFW3PTuHPd0j3kU/cJ5Qg4231N1+q4Fboldr5T44g2zOm1a
-         nK7TuKErcrDvJDybESDXhqRTTejjGhXPFQtQOzck25m5uVsnxFV1qjaWyGZhzmDroP8U
-         r4wg==
-X-Gm-Message-State: AOAM5305I0oIjKlDSbC2CyUDuvRxxdDKRR4SXd/0fy8ONaj55WKUXC9G
-	iQTciyMBhPvdlalJvM/ncHBSCf7FWqk=
-X-Google-Smtp-Source: ABdhPJxgKNcyRx+0hY3PcaL1+uTmZQ8mdgP/pOsERnBJjayN7Ie1yoh72uIL5r74ADmkWJ/3ZfY2WA==
-X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr3297173pjt.120.1597186681844;
-        Tue, 11 Aug 2020 15:58:01 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e60c])
-        by smtp.gmail.com with ESMTPSA id g1sm127321pfr.97.2020.08.11.15.58.00
+        bh=QnVYruDLfvhVln3et+1MU7DLIFapAx6/eXjq5eOuKNY=;
+        b=apeGF1hXjLLFJmMAFRmroG/dg7sIovGOhPgUvnF5PSr9GpUdxVgLgJXatc5ayZZM7l
+         mqaDKZ3uFtKiP5Eth5f+aoyz1pKCieHLLvVJNEetENrUlKwNV4OkVq+Jz7+nlgIG9z8a
+         4I2lzM8K2HCdZmoOhaUzODFtCOtVpiYRWvGM7sUv1ZzvcteaEG9aHdaLS88tBpKAnvwd
+         oEPMXT8mG11OM6wNOJwGwe5mClHFLZllYTMTfbOhfqLX7jUAp0eW/uXz6oCXNSETKbU4
+         VPDcMulziFuXQw3cDeey/koqoDqM7Tja7gfkjXQRAIvi5EO06KB9ydW2GFnGEcDz+wTp
+         FfUA==
+X-Gm-Message-State: AOAM532KPtXDgfy+AKFDnyTC0iuUF5Gb59bu8iCS34JYp1qcSody9mn8
+	ByARvckIdfS/mTRo0PXvoZ4ANftGd6s=
+X-Google-Smtp-Source: ABdhPJyupMXY6jKbTNz6OwVxtDRReQNRSW+ZTFaGJ7CS84cNyqGss1D8qlRtC37q9exuChHklA3F6g==
+X-Received: by 2002:a2e:9f0a:: with SMTP id u10mr3930702ljk.140.1597191026463;
+        Tue, 11 Aug 2020 17:10:26 -0700 (PDT)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
+        by smtp.gmail.com with ESMTPSA id h23sm59681lfk.37.2020.08.11.17.10.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 15:58:01 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Tue, 11 Aug 2020 17:10:25 -0700 (PDT)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] webkitgtk: Upgrade to 2.28.4
-Date: Tue, 11 Aug 2020 15:57:59 -0700
-Message-Id: <20200811225759.618503-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] iproute2: update to 5.8.0
+Date: Wed, 12 Aug 2020 02:10:18 +0200
+Message-Id: <20200812001018.554194-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-backport a patch from master to fix clang11 build error
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...build-errors-due-to-WWc-11-narrowing.patch | 66 +++++++++++++++++++
- ...ebkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb} |  3 +-
- 2 files changed, 68 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb} (97%)
+ .../0001-devlink.c-add-missing-include.patch  | 23 -------------------
+ ...01-libc-compat.h-add-musl-workaround.patch | 10 ++++----
+ .../{iproute2_5.7.0.bb => iproute2_5.8.0.bb}  |  2 +-
+ 3 files changed, 5 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_5.7.0.bb => iproute2_5.8.0.bb} (79%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch b/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
-new file mode 100644
-index 0000000000..d8bb8efb88
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch
-@@ -0,0 +1,66 @@
-+From cb929f59b527fe890376e47613dfe1434a320bc0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 11 Aug 2020 15:44:48 -0700
-+Subject: [PATCH] [clang 11] fix build errors due to -WWc++11-narrowing
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
+deleted file mode 100644
+index f9580b7d44..0000000000
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-From 5df629d825df4ccc4283228bc0739da126326072 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sat, 6 Jun 2020 18:00:13 +0000
+-Subject: [PATCH] devlink.c: add missing include
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- devlink/devlink.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/devlink/devlink.c b/devlink/devlink.c
+-index 16602ab..c278e6d 100644
+---- a/devlink/devlink.c
+-+++ b/devlink/devlink.c
+-@@ -26,6 +26,7 @@
+- #include <libmnl/libmnl.h>
+- #include <netinet/ether.h>
+- #include <sys/types.h>
+-+#include <signal.h>
+- 
+- #include "SNAPSHOT.h"
+- #include "list.h"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
+index 50c4bfb0f2..60f31db9a2 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
+@@ -1,4 +1,4 @@
+-From b7d96340c55afb7023ded0041107c63dbd886196 Mon Sep 17 00:00:00 2001
++From c6109138e9e13c7e40313aacc3ea582c52ffd61f Mon Sep 17 00:00:00 2001
+ From: Baruch Siach <baruch@tkos.co.il>
+ Date: Thu, 22 Dec 2016 15:26:30 +0200
+ Subject: [PATCH] libc-compat.h: add musl workaround
+@@ -14,15 +14,16 @@ https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-work
+ 
+ Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
 +
-+https://bugs.webkit.org/show_bug.cgi?id=211193
-+
-+Reviewed by Adrian Perez de Castro.
-+
-+Fixes the following errors,
-+
-+Source/WebCore/html/MediaElementSession.cpp:1059:9: error: type 'WebCore::RenderMedia *' cannot be narrowed to 'bool' in initializer list [-Wc++11-narrowing]
-+m_element.renderer(),
-+^~~~~~~~~~~~~~~~~~~~
-+
-+Source/WebCore/style/StyleResolver.cpp:106:55: error: type 'const char [4]' cannot be narrowed to 'bool' in initializer list [-Wc++11-narrowing]
-+m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
-+                                              ^~~~~
-+Source/WebCore/style/StyleResolver.cpp:106:55: note: insert an explicit cast to silence this issue
-+m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
-+                                              ^~~~~
-+                                              static_cast<bool>( )
-+
-+* html/HTMLMediaElement.h:
-+(WebCore::HTMLMediaElement::hasRenderer const):
-+MediaElementSession was implicitly casting a pointer to a bool,
-+which is not allowed with modern Clang checks. Add a helper method
-+to encapsulate the now required static_cast<bool>.
-+* html/MediaElementSession.cpp: Use the new helper method to see
-+if the HTMLMediaElement has an associated renderer.
-+(WebCore::MediaElementSession::updateMediaUsageIfChanged):
-+* style/StyleResolver.cpp: This was calling MediaQueryEvaluator {
-+"all" }; and seemingly expecting to cast a const char[] to a bool,
-+or maybe String? It's confusing because of the MediaQueryEvaluator
-+API. If it was implicitly converting to bool then that could be
-+unintentional. Such casts are not allowed either now. The
-+MediaQueryEvaluator's default constructor says it returns true for
-+"all", which appears to be the original intent of this call, so I
-+replaced it with that.
-+(WebCore::Style::Resolver::Resolver):
-+
-+git-svn-id: http://svn.webkit.org/repository/webkit/trunk@260951 268f45cc-cd09-0410-ab3c-d52691b4dbfc
-+
-+Upstream-Status: Backport [https://github.com/WebKit/webkit/commit/c3cf651016e4cdcb4350598d4a586821071f91bf.patch]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/WebCore/style/StyleResolver.cpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Source/WebCore/style/StyleResolver.cpp b/Source/WebCore/style/StyleResolver.cpp
-+index 8bf371a0..34580ddb 100644
-+--- a/Source/WebCore/style/StyleResolver.cpp
-++++ b/Source/WebCore/style/StyleResolver.cpp
-+@@ -107,7 +107,7 @@ Resolver::Resolver(Document& document)
-+     if (view)
-+         m_mediaQueryEvaluator = MediaQueryEvaluator { view->mediaType() };
-+     else
-+-        m_mediaQueryEvaluator = MediaQueryEvaluator { "all" };
-++        m_mediaQueryEvaluator = MediaQueryEvaluator { };
-+ 
-+     if (root) {
-+         m_rootDefaultStyle = styleForElement(*root, m_document.renderStyle(), nullptr, RuleMatchingBehavior::MatchOnlyUserAgentRules).renderStyle;
-+-- 
-+2.28.0
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
-index 0158092265..8ebb3709a8 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
-@@ -19,8 +19,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://cross-compile.patch \
-            file://0001-Fix-build-with-musl.patch \
-            file://include_array.patch \
-+           file://0001-clang-11-fix-build-errors-due-to-WWc-11-narrowing.patch \
+ ---
+  include/uapi/linux/libc-compat.h | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+ diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
+-index f38571d..30f0b67 100644
++index a159991..22198fa 100644
+ --- a/include/uapi/linux/libc-compat.h
+ +++ b/include/uapi/linux/libc-compat.h
+-@@ -49,10 +49,12 @@
++@@ -50,10 +50,12 @@
+  #define _LIBC_COMPAT_H
+  
+  /* We have included glibc headers... */
+@@ -36,6 +37,3 @@ index f38571d..30f0b67 100644
+  
+  /* GLIBC headers included first so don't define anything
+   * that would already be defined. */
+--- 
+-2.4.0
+-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
+similarity index 79%
+rename from meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
+index 276afeab11..3a590f9122 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
+@@ -5,7 +5,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-devlink.c-add-missing-include.patch \
             "
--SRC_URI[sha256sum] = "f0898ac072c220e13a4aee819408421a6cb56a6eb89170ceafe52468b0903522"
-+SRC_URI[sha256sum] = "821952e8c9303ed752f1fb1d4283f612c25249d00d705d2b79c2db1bc49c9464"
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+-SRC_URI[sha256sum] = "725dc7ba94aae54c6f8d4223ca055d9fb4fe89d6994b1c03bfb4411c4dd10f21"
++SRC_URI[sha256sum] = "cfcd1f890290f8c8afcc91d9444ad929b9252c16f9ab3f286c50dd3c59dc646e"
  
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
-2.28.0
+2.25.1
 
