@@ -1,126 +1,122 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web10.19516.1597252095081462414
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web11.19729.1597252443779214877
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 10:08:15 -0700
+ Wed, 12 Aug 2020 10:14:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iaBSt3EI;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id bs17so2104360edb.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:08:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VRrdFVIE;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id o18so3101000eje.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HLbZeVyLNhh8B1wWpYrhVeXJVHgG2Db9xgW05flZB5E=;
-        b=iaBSt3EIlxyuLu2XPSR6n5wbUNdt9hBlMStJPZ3eH0ORk/Tu5IzqTScQuzqplQJGjB
-         2Jd+l1lqYg4o9y4R5J6FCpww3E+v7YQYOHTY9pF7Y2iaAlA00VMRwrehHZ8kMbwZnwT2
-         AQJs9VONQaiu4vFBIK08VlHRHTQBNLiviVwOKtNA2lbCORtCakJtCuDjOa8Dr8PjJ7Tl
-         cGhi6R7ZDADcFxc/JbQnPgxuHi/Gc68a0b/wJNF1WB7+2p2FgtkCpD4b7Fjnx9bJAp+T
-         F5T5wH1UmZd3RcKp6cH68xSQtsN5qFH6XzlujQetOkeSQBu+DGF6f8yB9bwLV7WZDLAt
-         aDMg==
+        bh=A7otihBhFZdnkA087GK5rB4llIhSpFVQyeSEph/QA3U=;
+        b=VRrdFVIEKU+DbxrWqNRMyDMqDDeVw9fYvjDnZNUIjiyyE49p173Yjg8K1ttYqZT+MD
+         hFPjkQNAiZScBLxA1yhStLOS34rAmYayLQJ8HfaJKIX9YK8REb0TuoyYeTY6FMk5b9/K
+         bjCIkexOBWsOVVUxI5SGR26bFVHz794CQYK6IQYi3lAFjRnAnuhLbet8GH3v99Wk3xuz
+         H3kZjBMpgvQPrJrQcCMcBdMNOSbN66LXkmGNEtWlj8gBTmG11wQiQEen+s4PXKcJUXvb
+         Cl3QxBQgY+Q2ZfqfqzAPP/6QEv8AOuKNCbpQdBRxFBJXRkjyPzKNCPFWcMLbfifnioF2
+         FADA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HLbZeVyLNhh8B1wWpYrhVeXJVHgG2Db9xgW05flZB5E=;
-        b=aT4UNqqVgfKQJgR/EpPy8HOz7JNuggZK/2BuBiiDvI0TTr16V5rf0ZUWCKWscs3xVO
-         bWpGlIuh+Zmo42s7QHjnaZvf9jSDLtXYRpwzi6v9a9gNVZKbhOUGEI3AYt2edtK+TXg4
-         4zVxaH/qxtFDD9eGMkYL6sw2odgGBRXRyLl5zh0t+eXMJ3f7inU6SVl1ed0H4wLJtPb4
-         bS7n08mTyFY5c3Na1Ivj+oSDaAOZt7ZY3zyA0Zn8NwcPAh8fGPTjXLnlUFhKYmBCzsrS
-         mZxwtYrNzn10lt+5aQd9aK/78T14tSOVn9sD5dkGJqQPGv5CXHdoTQN2YI6zUIybvHd4
-         F4DA==
-X-Gm-Message-State: AOAM530Eiz7mMLGb+DRTDB5+7YgmqiKoYIvXRu2UNfnX7tvEpWO34/mH
-	AT/6L5JhszOAPjSOtMNi7LwZWeTYuvng5B//p/8=
-X-Google-Smtp-Source: ABdhPJxaIY9PVuLqyVLaeTEXV6Ter18iEo+MEZfz+JuFguCT5HH8x+tPazSlSOXSwYcVi9Dj81kVeKgUvdhet7XaZfk=
-X-Received: by 2002:a50:99cf:: with SMTP id n15mr846807edb.352.1597252093549;
- Wed, 12 Aug 2020 10:08:13 -0700 (PDT)
+        bh=A7otihBhFZdnkA087GK5rB4llIhSpFVQyeSEph/QA3U=;
+        b=LYg91dpoH1k21+CmZmuImAhJfefrGp7U+DgEmjsDlV14A650mct0Smy2qJz902+D/H
+         5rrdK1BJyWg+ss+pOIKB5n89eVQemQ4kajK4n18Yh7X2Am35gmi8sePiZaOPiHQsaJ2D
+         x9fKaYz+/+EWNYeFMD1zasUzJeCWFbReOvPb6NYOfkcALvEVTQ9Uowy8feesLYPeAxLY
+         IdTI38Hbgl5Rx7nzelE04mnCWqtpQ3ctSOZS5upR/pHBtk7BmAIXnHo9drqn/D/GatqB
+         nd6ngQ6u/q+Cq/4M7EcE0toCO3a0lnZExEL7ratnnep9fWH7pfTengkW7zpwg1eRnRzt
+         9aJg==
+X-Gm-Message-State: AOAM5320Tde9AM3qe6DFqs7/FHerq7Nh39pSHdCgIXYDFRWK+uALlz0r
+	AxQ1Q46yrUB82qGaOs4n127bBDhbEJSdwwQZcQ4=
+X-Google-Smtp-Source: ABdhPJzvuBKxZmg8exLKgjUdOkc61jnBL9riaKiwO1P5zHbJX/mO9osJw1ZPaCeFPcFFrDabhZco01TzCou6l5aD1Zo=
+X-Received: by 2002:a17:906:1414:: with SMTP id p20mr761736ejc.247.1597252442288;
+ Wed, 12 Aug 2020 10:14:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <162A9410849FC6A4.13432@lists.openembedded.org>
-In-Reply-To: <162A9410849FC6A4.13432@lists.openembedded.org>
+References: <20200616170538.1049884-1-ross@burtonini.com> <20200616170538.1049884-2-ross@burtonini.com>
+ <1a012137-cde9-d770-8a67-aa5ca65b608a@windriver.com>
+In-Reply-To: <1a012137-cde9-d770-8a67-aa5ca65b608a@windriver.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 12 Aug 2020 13:08:02 -0400
-Message-ID: <CADkTA4PN9XY_W2PZ38UhP7k_y_WCJ3UeK0sGxf9EQ0OJGd1JvQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 00/10] kernel-yocto: consolidated pull request
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+Date: Wed, 12 Aug 2020 13:13:51 -0400
+Message-ID: <CADkTA4Nb8P3SV9JdB71w_6BJPHnefkGYPDChE0+L=5VyOsB8PA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 2/3] tcmode-default: use go-binary-native by default
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Ross Burton <ross@burtonini.com>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a722ec05acb13b09"
+Content-Type: multipart/alternative; boundary="0000000000007075fc05acb150c2"
 
---000000000000a722ec05acb13b09
+--0000000000007075fc05acb150c2
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 12, 2020 at 1:03 PM Bruce Ashfield via lists.openembedded.org
-<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+On Wed, Aug 12, 2020 at 5:25 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Hi Ross,
 >
-> Richard,
+> I've just tracked down to this patch about k8s build failure for arm.
+> I'm now setting the preferred provider to 'go-native' to avoid k8s build
+> regression.
 >
-> This is the part of my queue that is in preparation for the v5.8 kernel
-> and libc-headers.
+> go-native contains patches like
+> 0001-allow-CC-and-CXX-to-have-multiple-words.patch.
+> These patches seem to make sense.
 >
-> I've been chasing issues that have (re)appeared (I fixed all these once
-> before) with the recent gcc10 changes. I'm holding back the v5.8 core
-> changes, until I can confirm that everything is indeed still working.
+> Do you have any idea how to deal with such situation?
 >
 
-Also note that I am seeing some sort of test timeout on systemtap with
-qemuarm. I'm debugging it now and will put something in bugzilla when I
-know more, but from everything I can see, it isn't related to the kernel
-updates, since I can build and run the same test locally without issue.
+We've had lots of problems with 32bit arm and the new go compiler. I just
+confirmed that k8s still builds 64 bit.
+
+And if this is the gnu-stubs.h issue, it's the same thing.
+
+It might be time to just exclude 32bit arm from some of the bigger stack in
+meta-virt, since getting them to respect the cross go compiler is getting
+harder and harder.
+
+That being said, I hunted down a few more incorrect 'go' calls in the k8s
+build scripts, and can now build 32 bit again. But as for runtime, I can't
+say if it works or not.
+
+Once I complete builds on other archs, I'll push the change to meta-virt.
 
 Bruce
 
 
 
+> Best Regards,
+> Chen Qi
 >
-> Along with the v5.8 prep changes, I have some tweaks to the recent
-> symbol analysis update (to fix some issues reported on IRC).
+> On 06/17/2020 01:05 AM, Ross Burton wrote:
 >
-> And finally, there are some routine v5.4 -stable kernel updates. I'll
-> bump the reference BSPs as parts of some other series.
+> From: Ross Burton <ross.burton@arm.com> <ross.burton@arm.com>
 >
-> Cheers,
+> go-binary-native is faster and more portable than go-native, so use it
+> by default.
 >
-> Bruce
+> Signed-off-by: Ross Burton <ross.burton@arm.com> <ross.burton@arm.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> The following changes since commit
-> f664ecb910fdcc20aa9d3db6f5402e9008a5dd13:
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index ab4333144b..7103e10d3b 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -66,6 +66,10 @@ PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
 >
->   bitbake: data: emit filename/lineno information for shell functions
-> (2020-08-08 09:19:34 +0100)
+> +# Bootstrap Go using a binary release from golang.org.  If you want to bootstrap
+> +# from source using the C-implemented Go 1.4 (only supports x86-64 hosts) then use
+> +# go-native.
+> +PREFERRED_PROVIDER_go-native ?= "go-binary-native"
+>  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+>  PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
+>  PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
 >
-> are available in the Git repository at:
 >
->   git://git.yoctoproject.org/poky-contrib zedd/kernel
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 >
-> Bruce Ashfield (9):
->   linux-yocto-rt/5.4: update to rt32
->   linux-yocto/5.4: update to v5.4.56
->   linux-yocto/5.4: update to v5.4.57
->   kernel-yocto: set cwd before querying the meta data dir
->   kernel-yocto: make # is not set matching more precise
->   kernel-yocto: split meta data gathering into patch and config phases
->   make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
->   kernel-devsrc: fix on target modules prepare for ARM
->   kernel-devsrc: 5.8 + gcc10 require gcc-plugins + libmpc-dev
->
-> Zhang Qiang (1):
->   kernel.bbclass: Configuration for environment with HOSTCXX
->
->  meta/classes/kernel-yocto.bbclass             | 74 +++++++++++--------
->  meta/classes/kernel.bbclass                   |  2 +
->  .../kern-tools/kern-tools-native_git.bb       |  2 +-
->  meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 +-
->  .../linux/linux-yocto-rt_5.4.bb               |  6 +-
->  .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
->  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++---
->  .../make-mod-scripts/make-mod-scripts_1.0.bb  |  2 +
->  8 files changed, 71 insertions(+), 51 deletions(-)
->
-> --
-> 2.19.1
 >
 > 
 >
@@ -131,116 +127,107 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000a722ec05acb13b09
+--0000000000007075fc05acb150c2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
 t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Wed, Aug 12, 2020 at 1:03 PM Bruce Ashfield via =
-<a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;br=
-uce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.co=
-m@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.as=
-hfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-<br>
-Richard,<br>
-<br>
-This is the part of my queue that is in preparation for the v5.8 kernel<br=
->
-and libc-headers.<br>
-<br>
-I&#39;ve been chasing issues that have (re)appeared (I fixed all these onc=
-e<br>
-before) with the recent gcc10 changes. I&#39;m holding back the v5.8 core<=
-br>
-changes, until I can confirm that everything is indeed still working.<br><=
-/blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font-=
-size:small">Also note that I am seeing some sort of test timeout on systemt=
-ap with qemuarm. I&#39;m debugging it now and will put something in bugzill=
-a when I know more, but from everything I can see, it isn&#39;t related to =
-the kernel updates, since I can build and run the same test locally without=
- issue.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Along with the v5.8 prep changes, I have some tweaks to the recent<br>
-symbol analysis update (to fix some issues reported on IRC).<br>
-<br>
-And finally, there are some routine v5.4 -stable kernel updates. I&#39;ll<=
-br>
-bump the reference BSPs as parts of some other series.<br>
-<br>
-Cheers,<br>
-<br>
-Bruce<br>
-<br>
-The following changes since commit f664ecb910fdcc20aa9d3db6f5402e9008a5dd1=
-3:<br>
-<br>
-=C2=A0 bitbake: data: emit filename/lineno information for shell functions=
- (2020-08-08 09:19:34 +0100)<br>
-<br>
-are available in the Git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://git.yoctoproject.org/poky-contrib" rel=3D"n=
-oreferrer" target=3D"_blank">git.yoctoproject.org/poky-contrib</a> zedd/ker=
-nel<br>
-=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
+r" class=3D"gmail_attr">On Wed, Aug 12, 2020 at 5:25 AM Chen Qi &lt;<a href=
 =
-=3Dzedd/kernel" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproje=
-ct.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel</a><br>
-<br>
-Bruce Ashfield (9):<br>
-=C2=A0 linux-yocto-rt/5.4: update to rt32<br>
-=C2=A0 linux-yocto/5.4: update to v5.4.56<br>
-=C2=A0 linux-yocto/5.4: update to v5.4.57<br>
-=C2=A0 kernel-yocto: set cwd before querying the meta data dir<br>
-=C2=A0 kernel-yocto: make # is not set matching more precise<br>
-=C2=A0 kernel-yocto: split meta data gathering into patch and config phase=
-s<br>
-=C2=A0 make-mod-scripts: add HOSTCXX definitions and gmp-native dependency=
-<br>
-=C2=A0 kernel-devsrc: fix on target modules prepare for ARM<br>
-=C2=A0 kernel-devsrc: 5.8 + gcc10 require gcc-plugins + libmpc-dev<br>
-<br>
-Zhang Qiang (1):<br>
-=C2=A0 kernel.bbclass: Configuration for environment with HOSTCXX<br>
-<br>
-=C2=A0meta/classes/kernel-yocto.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+  
+  <div bgcolor=3D"#FFFFFF">
+    <div>Hi Ross,<br>
+      <br>
+      I&#39;ve just tracked down to this patch about k8s build failure for
+      arm.<br>
+      I&#39;m now setting the preferred provider to &#39;go-native&#39; to=
+ avoid k8s
+      build regression.<br>
+      <br>
+      go-native contains patches like
+      0001-allow-CC-and-CXX-to-have-multiple-words.patch.<br>
+      These patches seem to make sense.<br>
+      <br>
+      Do you have any idea how to deal with such situation?<br></div></div=
+></blockquote><div>=C2=A0<br><div class=3D"gmail_default" style=3D"font-siz=
+e:small">We&#39;ve had lots of problems with 32bit arm and the new go compi=
+ler. I just confirmed that k8s still builds 64 bit.=C2=A0</div><div class=
+=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail=
+_default" style=3D"font-size:small">And if this is the gnu-stubs.h issue, i=
+t&#39;s the same thing.</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I=
+t might be time to just exclude 32bit arm from some of the bigger stack in =
+meta-virt, since getting them to respect the cross go compiler is getting h=
+arder and harder.</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">That be=
+ing said, I hunted down a few more incorrect &#39;go&#39; calls in the k8s =
+build scripts, and can now build 32 bit again. But as for runtime, I can&#3=
+9;t say if it works or not.</div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">Once I complete builds on other archs, I&#39;ll push the change to meta-=
+virt.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div=
+><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></di=
+v><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div bgc=
+olor=3D"#FFFFFF"><div>
+      <br>
+      Best Regards,<br>
+      Chen Qi<br>
+      <br>
+      On 06/17/2020 01:05 AM, Ross Burton wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>From: Ross Burton <a href=3D"mailto:ross.burton@arm.com" target=
 =
-=C2=A0 =C2=A0| 74 +++++++++++--------<br>
-=C2=A0meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
-=C2=A0.../kern-tools/<a href=3D"http://kern-tools-native_git.bb" rel=3D"no=
-referrer" target=3D"_blank">kern-tools-native_git.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 2 +-<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D=
-"noreferrer" target=3D"_blank">kernel-devsrc.bb</a>=C2=A0 =C2=A0 |=C2=A0 6 =
-+-<br>
-=C2=A0.../linux/<a href=3D"http://linux-yocto-rt_5.4.bb" rel=3D"noreferrer=
-" target=3D"_blank">linux-yocto-rt_5.4.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +-<br>
-=C2=A0.../linux/<a href=3D"http://linux-yocto-tiny_5.4.bb" rel=3D"noreferr=
-er" target=3D"_blank">linux-yocto-tiny_5.4.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 8 +-<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a>=C2=A0 | 22 +++---=
-<br>
-=C2=A0.../make-mod-scripts/<a href=3D"http://make-mod-scripts_1.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">make-mod-scripts_1.0.bb</a>=C2=A0 |=C2=
-=A0 2 +<br>
-=C2=A08 files changed, 71 insertions(+), 51 deletions(-)<br>
-<br>
--- <br>
-2.19.1<br>
-<br>
+=3D"_blank">&lt;ross.burton@arm.com&gt;</a>
+
+go-binary-native is faster and more portable than go-native, so use it
+by default.
+
+Signed-off-by: Ross Burton <a href=3D"mailto:ross.burton@arm.com" target=
+=3D"_blank">&lt;ross.burton@arm.com&gt;</a>
+---
+ meta/conf/distro/include/tcmode-default.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distr=
+o/include/tcmode-default.inc
+index ab4333144b..7103e10d3b 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -66,6 +66,10 @@ PREFERRED_VERSION_qemu ?=3D &quot;${QEMUVERSION}&quot;
+ PREFERRED_VERSION_qemu-native ?=3D &quot;${QEMUVERSION}&quot;
+ PREFERRED_VERSION_nativesdk-qemu ?=3D &quot;${QEMUVERSION}&quot;
+=20
++# Bootstrap Go using a binary release from <a href=3D"http://golang.org" =
+target=3D"_blank">golang.org</a>.  If you want to bootstrap
++# from source using the C-implemented Go 1.4 (only supports x86-64 hosts)=
+ then use
++# go-native.
++PREFERRED_PROVIDER_go-native ?=3D &quot;go-binary-native&quot;
+ PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?=3D &quot;${GOVERSION}&quot=
+;
+ PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?=3D &quot;${GOVERSION}&quot;
+ PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?=3D &quot;${GOVERSION}&quot;
+</pre>
+      <br>
+      <fieldset></fieldset>
+      <br>
+      <pre></pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </div>
+
 <br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div></div>
+">- Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<b=
+r><br></div></div>
 
---000000000000a722ec05acb13b09--
+--0000000000007075fc05acb150c2--
