@@ -1,140 +1,108 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.17647.1597247565376040994
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web12.19237.1597251816197814158
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 08:52:46 -0700
+ Wed, 12 Aug 2020 10:03:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=CAaKaV69;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LrHPxmIT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id b79so2674963qkg.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=6914; q=dns/txt; s=axis-central1;
-  t=1597247565; x=1628783565;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=Pb9+r4Ac/sstLC5ew2Wr94y4MZmehGrCECYnFyLeqP8=;
-  b=CAaKaV69nfflO9DYG8N57g3nscfSr20lnnpG/5v12Rg2D6E/20Xi0U6t
-   2rYNxukH6cNE4ppZ76rmerwIZim/oV/JiVOe0LekDG8ODbBv2l5Aa6QhF
-   05cayKxzMOxm9cfb+uM1VjIACw2iJjeCCxfcEueEtMKJh77a0/0J9IOt5
-   m7lay5ZfY820ycoKnLffHK8owrtrFfOEgjlW60VuPd2vJq2DSaKpIfwKo
-   ixFBgwfyzuBZjyW5R9gJbmNyldNRzoDA6J1gGi4CtyQYKW8cOuHTXwIHn
-   4rUR3EgvruXgwBD+EaFqwK529A5jh2zcmkMBUtH/EWqRdoyt3S+H4TUDK
-   A==;
-IronPort-SDR: kG4IHTCLxhP6Thwbsq+qYNNwESXnXGN3KwbidIW5DJbuR5wCO8oBlkCYPqZzqz/VqOeoQyIGjj
- HsqhZ8acLRlvu9MWuct/xkP1mTYu+v9sA9glGWFX47eUiWoBU7jX7YC4P2CaDsufzAgKnQam1d
- uBIwZBKG4i4nV+NSTcopWD7S1t9/cQkcf2WeHZkRZ7nsbXxU3XX7Lu9IEjoJzIRQlAunwpFoAE
- VPLocgE6+7gEiNLIahDKysyPtAMSO4M/HLrr+wIz6hb/ZL0G9dRLX92gxiUX/hkDoXGghL7Z+K
- 6bM=
-X-IronPort-AV: E=Sophos;i="5.76,304,1592863200"; 
-   d="scan'208";a="11400824"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] iproute2: update to 5.8.0
-Thread-Topic: [OE-core] [PATCH] iproute2: update to 5.8.0
-Thread-Index: AQHWcD0DjKsqNsbAf0OkpUvN2OQBLqk0bYqAgAAHoICAACopMA==
-Date: Wed, 12 Aug 2020 15:52:38 +0000
-Message-ID: <e61ff8f66e0949ff977a32f893e71c56@XBOX03.axis.com>
-References: <20200812001018.554194-1-open.source@oleksandr-kravchuk.com>
- <caae9f9f867092660daf0dc8c667763af76c6996.camel@linuxfoundation.org>
- <a2b19816-16bc-41fe-753e-2c5194242815@oleksandr-kravchuk.com>
-In-Reply-To: <a2b19816-16bc-41fe-753e-2c5194242815@oleksandr-kravchuk.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MNkHI2CcWYEUPJeKIiz/ryx3GT37EyXdbQxfv1Sm/fA=;
+        b=LrHPxmITi7UMfbP5swQdu8kreoc7FpgNjEGuGJJ6zoQ3YgQ04PktDpqrHVNxTWMGU3
+         BgNeJDHCrKAS7K1SV2Py4n0dRdhRvW8z7giU/TejT/J9XN6+G3tKgAdq5ddS7WIgABzH
+         TEI8j5fzqbPHK1iV5MqPeQ3LwMGsDJJkTXuEMF6r4nx8tTGQU2DVquYS/zEKHWWcdFyt
+         fgl5LlcbDQtAauBpK8c2BQeB/ar0pr51fTMqMyzAVqq6gSPYZpzDmnkY4wN4D/VnujZF
+         D+ZDyo3YyVz36WtAe82bz9hEkhwU92QHZIKIydGCO/FrQcXLlZ6bNSq0inlCq/C0WN3D
+         s4zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MNkHI2CcWYEUPJeKIiz/ryx3GT37EyXdbQxfv1Sm/fA=;
+        b=Qo9kjswhwltmQYcf9lYYhi0+WzNbV7Zv2qwlWrEke4kIGGl4C2Qboc8ewjNJYYMQz+
+         SkiHKyKKhnML8o9lj9EKMMtSuydH25Ud1fo9kVExTYUq/R9rvzFzF59T/PMM50owT42s
+         vjfgmjIb2jCURyYZRje+HvafJAmobdDzx9J2cirN20Y03S/YCulE69NPui516WJ+S5Pq
+         1mEuWhFe5NSO2vGVAnP7VXGc1rwJy9yqSSrcTE8IlFwVqJxiSu0MlMvoCxp4td1e9Gbc
+         NW3u9GNc6jztvtzpisCzkLINSylk6/R5u9V6MbK4BkimUZ4etWItVJWM1oKi6a4Iw70l
+         2jmg==
+X-Gm-Message-State: AOAM533j2fQRe7tBIkrbde05pWPz0mgKfmh625lmPXWsaPlZ9AS9M9Kv
+	JC3Szd8YysmJc7/Lbu73iL4=
+X-Google-Smtp-Source: ABdhPJwPwJiQ61r3k6l2nreUmMJTLDwjfuvoWCmU3nIxrJh2u73PALqwcIRMSM5oTvvYSD+w+waZNA==
+X-Received: by 2002:a05:620a:2230:: with SMTP id n16mr926480qkh.268.1597251814441;
+        Wed, 12 Aug 2020 10:03:34 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id k24sm3249977qtb.26.2020.08.12.10.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2020 10:03:33 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/10] kernel-yocto: consolidated pull request
+Date: Wed, 12 Aug 2020 13:03:21 -0400
+Message-Id: <cover.1597203921.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIE9sZWtzYW5kciBLcmF2Y2h1aw0KPiBTZW50OiBkZW4g
-MTIgYXVndXN0aSAyMDIwIDE3OjE3DQo+IFRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBpcHJvdXRlMjog
-dXBkYXRlIHRvIDUuOC4wDQo+IA0KPiBPbiAxMi8wOC8yMDIwIDE2OjQ5LCBSaWNoYXJkIFB1cmRp
-ZSB3cm90ZToNCj4gPiBPbiBXZWQsIDIwMjAtMDgtMTIgYXQgMDI6MTAgKzAyMDAsIE9sZWtzYW5k
-ciBLcmF2Y2h1ayB3cm90ZToNCj4gPj4gU2lnbmVkLW9mZi1ieTogT2xla3NhbmRyIEtyYXZjaHVr
-IDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPg0KPiA+PiAtLS0NCj4gPj4gICAu
-Li4vMDAwMS1kZXZsaW5rLmMtYWRkLW1pc3NpbmctaW5jbHVkZS5wYXRjaCAgfCAyMyAtLS0tLS0t
-LS0tLS0tLS0tLQ0KPiAtLQ0KPiA+PiAgIC4uLjAxLWxpYmMtY29tcGF0LmgtYWRkLW11c2wtd29y
-a2Fyb3VuZC5wYXRjaCB8IDEwICsrKystLS0tDQo+ID4+ICAgLi4uL3tpcHJvdXRlMl81LjcuMC5i
-YiA9PiBpcHJvdXRlMl81LjguMC5iYn0gIHwgIDIgKy0NCj4gPj4gICAzIGZpbGVzIGNoYW5nZWQs
-IDUgaW5zZXJ0aW9ucygrKSwgMzAgZGVsZXRpb25zKC0pDQo+ID4+ICAgZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMS0NCj4g
-ZGV2bGluay5jLWFkZC1taXNzaW5nLWluY2x1ZGUucGF0Y2gNCj4gPj4gICByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi97aXByb3V0ZTJfNS43LjAuYmIgPT4NCj4gaXBy
-b3V0ZTJfNS44LjAuYmJ9ICg3OSUpDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtDQo+IGRldmxpbmsuYy1hZGQt
-bWlzc2luZy1pbmNsdWRlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTIvMDAwMS1kZXZsaW5rLmMtYWRkLW1pc3NpbmctaW5jbHVkZS5wYXRjaA0K
-PiA+PiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPj4gaW5kZXggZjk1ODBiN2Q0NC4uMDAw
-MDAwMDAwMA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lw
-cm91dGUyLzAwMDEtZGV2bGluay5jLWFkZC0NCj4gbWlzc2luZy1pbmNsdWRlLnBhdGNoDQo+ID4+
-ICsrKyAvZGV2L251bGwNCj4gPj4gQEAgLTEsMjMgKzAsMCBAQA0KPiA+PiAtRnJvbSA1ZGY2Mjlk
-ODI1ZGY0Y2NjNDI4MzIyOGJjMDczOWRhMTI2MzI2MDcyIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4g
-MjAwMQ0KPiA+PiAtRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
-b20+DQo+ID4+IC1EYXRlOiBTYXQsIDYgSnVuIDIwMjAgMTg6MDA6MTMgKzAwMDANCj4gPj4gLVN1
-YmplY3Q6IFtQQVRDSF0gZGV2bGluay5jOiBhZGQgbWlzc2luZyBpbmNsdWRlDQo+ID4+IC0NCj4g
-Pj4gLVVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiA+PiAtU2lnbmVkLW9mZi1ieTogQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+ID4+IC0tLS0NCj4gPj4gLSBk
-ZXZsaW5rL2RldmxpbmsuYyB8IDEgKw0KPiA+PiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKQ0KPiA+PiAtDQo+ID4+IC1kaWZmIC0tZ2l0IGEvZGV2bGluay9kZXZsaW5rLmMgYi9kZXZs
-aW5rL2RldmxpbmsuYw0KPiA+PiAtaW5kZXggMTY2MDJhYi4uYzI3OGU2ZCAxMDA2NDQNCj4gPj4g
-LS0tLSBhL2RldmxpbmsvZGV2bGluay5jDQo+ID4+IC0rKysgYi9kZXZsaW5rL2RldmxpbmsuYw0K
-PiA+PiAtQEAgLTI2LDYgKzI2LDcgQEANCj4gPj4gLSAjaW5jbHVkZSA8bGlibW5sL2xpYm1ubC5o
-Pg0KPiA+PiAtICNpbmNsdWRlIDxuZXRpbmV0L2V0aGVyLmg+DQo+ID4+IC0gI2luY2x1ZGUgPHN5
-cy90eXBlcy5oPg0KPiA+PiAtKyNpbmNsdWRlIDxzaWduYWwuaD4NCj4gPj4gLQ0KPiA+PiAtICNp
-bmNsdWRlICJTTkFQU0hPVC5oIg0KPiA+PiAtICNpbmNsdWRlICJsaXN0LmgiDQo+ID4+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEt
-bGliYy0NCj4gY29tcGF0LmgtYWRkLW11c2wtd29ya2Fyb3VuZC5wYXRjaCBiL21ldGEvcmVjaXBl
-cy0NCj4gY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtbGliYy1jb21wYXQuaC1h
-ZGQtbXVzbC0NCj4gd29ya2Fyb3VuZC5wYXRjaA0KPiA+PiBpbmRleCA1MGM0YmZiMGYyLi42MGYz
-MWRiOWEyIDEwMDY0NA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91
-dGUyL2lwcm91dGUyLzAwMDEtbGliYy1jb21wYXQuaC0NCj4gYWRkLW11c2wtd29ya2Fyb3VuZC5w
-YXRjaA0KPiA+PiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91
-dGUyLzAwMDEtbGliYy1jb21wYXQuaC0NCj4gYWRkLW11c2wtd29ya2Fyb3VuZC5wYXRjaA0KPiA+
-PiBAQCAtMSw0ICsxLDQgQEANCj4gPj4gLUZyb20gYjdkOTYzNDBjNTVhZmI3MDIzZGVkMDA0MTEw
-N2M2M2RiZDg4NjE5NiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gPj4gK0Zyb20gYzYx
-MDkxMzhlOWUxM2M3ZTQwMzEzYWFjYzNlYTU4MmM1MmZmZDYxZiBNb24gU2VwIDE3IDAwOjAwOjAw
-DQo+IDIwMDENCj4gPj4gICBGcm9tOiBCYXJ1Y2ggU2lhY2ggPGJhcnVjaEB0a29zLmNvLmlsPg0K
-PiA+PiAgIERhdGU6IFRodSwgMjIgRGVjIDIwMTYgMTU6MjY6MzAgKzAyMDANCj4gPj4gICBTdWJq
-ZWN0OiBbUEFUQ0hdIGxpYmMtY29tcGF0Lmg6IGFkZCBtdXNsIHdvcmthcm91bmQNCj4gPj4gQEAg
-LTE0LDE1ICsxNCwxNiBAQA0KPiBodHRwczovL2dpdC5idWlsZHJvb3QubmV0L2J1aWxkcm9vdC90
-cmVlL3BhY2thZ2UvaXByb3V0ZTIvMDAwMS1BZGQtdGhlLQ0KPiBtdXNsLXdvcmsNCj4gPj4NCj4g
-Pj4gICBTaWduZWQtb2ZmLWJ5OiBCYXJ1Y2ggU2lhY2ggPGJhcnVjaEB0a29zLmNvLmlsPg0KPiA+
-PiAgIFNpZ25lZC1vZmYtYnk6IE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPg0K
-PiA+PiArDQo+ID4+ICAgLS0tDQo+ID4+ICAgIGluY2x1ZGUvdWFwaS9saW51eC9saWJjLWNvbXBh
-dC5oIHwgNCArKystDQo+ID4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkNCj4gPj4NCj4gPj4gICBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2xpbnV4
-L2xpYmMtY29tcGF0LmgNCj4gYi9pbmNsdWRlL3VhcGkvbGludXgvbGliYy1jb21wYXQuaA0KPiA+
-PiAtaW5kZXggZjM4NTcxZC4uMzBmMGI2NyAxMDA2NDQNCj4gPj4gK2luZGV4IGExNTk5OTEuLjIy
-MTk4ZmEgMTAwNjQ0DQo+ID4+ICAgLS0tIGEvaW5jbHVkZS91YXBpL2xpbnV4L2xpYmMtY29tcGF0
-LmgNCj4gPj4gICArKysgYi9pbmNsdWRlL3VhcGkvbGludXgvbGliYy1jb21wYXQuaA0KPiA+PiAt
-QEAgLTQ5LDEwICs0OSwxMiBAQA0KPiA+PiArQEAgLTUwLDEwICs1MCwxMiBAQA0KPiA+PiAgICAj
-ZGVmaW5lIF9MSUJDX0NPTVBBVF9IDQo+ID4+DQo+ID4+ICAgIC8qIFdlIGhhdmUgaW5jbHVkZWQg
-Z2xpYmMgaGVhZGVycy4uLiAqLw0KPiA+PiBAQCAtMzYsNiArMzcsMyBAQCBpbmRleCBmMzg1NzFk
-Li4zMGYwYjY3IDEwMDY0NA0KPiA+Pg0KPiA+PiAgICAvKiBHTElCQyBoZWFkZXJzIGluY2x1ZGVk
-IGZpcnN0IHNvIGRvbid0IGRlZmluZSBhbnl0aGluZw0KPiA+PiAgICAgKiB0aGF0IHdvdWxkIGFs
-cmVhZHkgYmUgZGVmaW5lZC4gKi8NCj4gPj4gLS0tDQo+ID4+IC0yLjQuMA0KPiA+PiAtDQo+ID4+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUy
-XzUuNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81
-LjguMC5iYg0KPiA+PiBzaW1pbGFyaXR5IGluZGV4IDc5JQ0KPiA+PiByZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzUuNy4wLmJiDQo+ID4+IHJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzUuOC4w
-LmJiDQo+ID4+IGluZGV4IDI3NmFmZWFiMTEuLjNhNTkwZjkxMjIgMTAwNjQ0DQo+ID4+IC0tLSBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNS43LjAuYmINCj4g
-Pj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81Ljgu
-MC5iYg0KPiA+PiBAQCAtNSw3ICs1LDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9
-L2xpbnV4L3V0aWxzL25ldC8ke0JQTn0vJHtCUH0udGFyLnh6IFwNCj4gPj4gICAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWRldmxpbmsuYy1hZGQtbWlzc2luZy1pbmNsdWRlLnBhdGNoIFwNCj4gPj4g
-ICAgICAgICAgICAgICINCj4gPiBUaGUgcGF0Y2ggbWVudGlvbmVkIGFib3ZlIGluIFNSQ19VUkkg
-aXMgZGVsZXRlZCBhYm92ZT8NCj4gPg0KPiA+IENoZWVycywNCj4gPg0KPiA+IFJpY2hhcmQNCj4g
-DQo+IFllcywgaXQgd2FzIGEgYmFja3BvcnQuIEl0IGlzIHBhcnQgb2YgdGhpcyByZWxlYXNlLg0K
-DQpTaW5jZSB0aGUgcGF0Y2ggaGFzIGJlZW4gZGVsZXRlZCwgeW91IGFsc28gbmVlZCB0byByZW1v
-dmUgaXQgZnJvbSANCnRoZSBTUkNfVVJJIG9yIHRoZXJlIHdpbGwgYmUgYSBidWlsZCBmYWlsdXJl
-LiBJdCBpcyBhbHNvIGEgZ29vZCANCmlkZWEgdG8gbWVudGlvbiB3aHkgaXQgaXMgcmVtb3ZlZCBp
-biB0aGUgY29tbWl0IG1lc3NhZ2UuDQoNCi8vUGV0ZXINCg0K
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+Richard,
+
+This is the part of my queue that is in preparation for the v5.8 kernel
+and libc-headers.
+
+I've been chasing issues that have (re)appeared (I fixed all these once
+before) with the recent gcc10 changes. I'm holding back the v5.8 core
+changes, until I can confirm that everything is indeed still working.
+
+Along with the v5.8 prep changes, I have some tweaks to the recent
+symbol analysis update (to fix some issues reported on IRC).
+
+And finally, there are some routine v5.4 -stable kernel updates. I'll
+bump the reference BSPs as parts of some other series.
+
+Cheers,
+
+Bruce
+
+The following changes since commit f664ecb910fdcc20aa9d3db6f5402e9008a5dd13:
+
+  bitbake: data: emit filename/lineno information for shell functions (2020-08-08 09:19:34 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  linux-yocto-rt/5.4: update to rt32
+  linux-yocto/5.4: update to v5.4.56
+  linux-yocto/5.4: update to v5.4.57
+  kernel-yocto: set cwd before querying the meta data dir
+  kernel-yocto: make # is not set matching more precise
+  kernel-yocto: split meta data gathering into patch and config phases
+  make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
+  kernel-devsrc: fix on target modules prepare for ARM
+  kernel-devsrc: 5.8 + gcc10 require gcc-plugins + libmpc-dev
+
+Zhang Qiang (1):
+  kernel.bbclass: Configuration for environment with HOSTCXX
+
+ meta/classes/kernel-yocto.bbclass             | 74 +++++++++++--------
+ meta/classes/kernel.bbclass                   |  2 +
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++---
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |  2 +
+ 8 files changed, 71 insertions(+), 51 deletions(-)
+
+-- 
+2.19.1
+
