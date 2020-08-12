@@ -1,153 +1,140 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web10.17038.1597245407355170486
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.17647.1597247565376040994
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 08:16:47 -0700
+ Wed, 12 Aug 2020 08:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=jGTmDS1F;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.65, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f65.google.com with SMTP id b11so1338121lfe.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 08:16:47 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=CAaKaV69;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=3emP8Ntvlr025ak32VDJH0yWawgbmx46nxpFf0m99gk=;
-        b=jGTmDS1FyzHDrTCMidEN9FEbxNHSXIuR10XPSbH+U6XWksGT/YsGJO4A1PN+5xlM8Q
-         5koPDwhXS4TFDENAbfypOxZNNi89iVhkAES2AmXamtSZC84ZTbu+1/pH3QF0FYb4rnv1
-         3kEDk8tFBWtyS613Jyo6zHqItd1EbIkMUCLnNHnG1Z/00B0GtXsjro+KwJM1mgISmho/
-         SQI0idJXZGRTg6s/Z0hcBcH4sKLl5gBAMljbZGpmkb8Q5X40hQeVNr3Z98DE0zx70D0q
-         oejNePvwWJYT9+Ye3tCLoawktJGH9IIP+HneQQqQwCafKrvqKoRHCYvq80ecpLG4GH9p
-         /iuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=3emP8Ntvlr025ak32VDJH0yWawgbmx46nxpFf0m99gk=;
-        b=uUm6h/BmHJJijEpZ+kCD4/14efBCX7N32cwq0MTm2vG0PBVVo9fdr8H6VcFAgTkyHq
-         uTTTCyc8zCzmwvpMx9ILYypeaL+0sCtZoOuPgO5sR7iLs6RaCiR4FsK32GrIPH0MAwv7
-         AbstqgvQtp2m6qJ9TNE8rsCs3KUbtHwQTTW0utwp2kji326yTtt3e72MqHN2VhBAUU2j
-         H6ZLgd2qXOuUEuEF9b86oKewU55QHtVIo1Nh5f/H4MIqiBYA9CKzRo6u+ITMzZhYVfRj
-         HuMdb2msfFG1yExsjrBIF6tP4gBpL5DprnstQ+grQNRQPpOC07Y4Qmk7Ru8itAP19A3I
-         BSMw==
-X-Gm-Message-State: AOAM531QSJof428WSPEHL4Xeopj3OHjHHVvTKDBHUp8k2nHnxQFhs8cX
-	IX9y7Wa5KPDJVJ3lsfkQzUQPNUg3cUA=
-X-Google-Smtp-Source: ABdhPJyVFRqzy4KnNj+LVNi1Kn9dGRM3NU20jfWT0n4etS9YnrPemeWPA2j86hYxtlgYpBdBSncACg==
-X-Received: by 2002:a19:c206:: with SMTP id l6mr5832500lfc.152.1597245404846;
-        Wed, 12 Aug 2020 08:16:44 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from [192.168.0.8] (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id 12sm494862ljv.49.2020.08.12.08.16.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 08:16:44 -0700 (PDT)
+  d=axis.com; l=6914; q=dns/txt; s=axis-central1;
+  t=1597247565; x=1628783565;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=Pb9+r4Ac/sstLC5ew2Wr94y4MZmehGrCECYnFyLeqP8=;
+  b=CAaKaV69nfflO9DYG8N57g3nscfSr20lnnpG/5v12Rg2D6E/20Xi0U6t
+   2rYNxukH6cNE4ppZ76rmerwIZim/oV/JiVOe0LekDG8ODbBv2l5Aa6QhF
+   05cayKxzMOxm9cfb+uM1VjIACw2iJjeCCxfcEueEtMKJh77a0/0J9IOt5
+   m7lay5ZfY820ycoKnLffHK8owrtrFfOEgjlW60VuPd2vJq2DSaKpIfwKo
+   ixFBgwfyzuBZjyW5R9gJbmNyldNRzoDA6J1gGi4CtyQYKW8cOuHTXwIHn
+   4rUR3EgvruXgwBD+EaFqwK529A5jh2zcmkMBUtH/EWqRdoyt3S+H4TUDK
+   A==;
+IronPort-SDR: kG4IHTCLxhP6Thwbsq+qYNNwESXnXGN3KwbidIW5DJbuR5wCO8oBlkCYPqZzqz/VqOeoQyIGjj
+ HsqhZ8acLRlvu9MWuct/xkP1mTYu+v9sA9glGWFX47eUiWoBU7jX7YC4P2CaDsufzAgKnQam1d
+ uBIwZBKG4i4nV+NSTcopWD7S1t9/cQkcf2WeHZkRZ7nsbXxU3XX7Lu9IEjoJzIRQlAunwpFoAE
+ VPLocgE6+7gEiNLIahDKysyPtAMSO4M/HLrr+wIz6hb/ZL0G9dRLX92gxiUX/hkDoXGghL7Z+K
+ 6bM=
+X-IronPort-AV: E=Sophos;i="5.76,304,1592863200"; 
+   d="scan'208";a="11400824"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] iproute2: update to 5.8.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
+Thread-Topic: [OE-core] [PATCH] iproute2: update to 5.8.0
+Thread-Index: AQHWcD0DjKsqNsbAf0OkpUvN2OQBLqk0bYqAgAAHoICAACopMA==
+Date: Wed, 12 Aug 2020 15:52:38 +0000
+Message-ID: <e61ff8f66e0949ff977a32f893e71c56@XBOX03.axis.com>
 References: <20200812001018.554194-1-open.source@oleksandr-kravchuk.com>
  <caae9f9f867092660daf0dc8c667763af76c6996.camel@linuxfoundation.org>
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-Message-ID: <a2b19816-16bc-41fe-753e-2c5194242815@oleksandr-kravchuk.com>
-Date: Wed, 12 Aug 2020 17:16:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <a2b19816-16bc-41fe-753e-2c5194242815@oleksandr-kravchuk.com>
+In-Reply-To: <a2b19816-16bc-41fe-753e-2c5194242815@oleksandr-kravchuk.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <caae9f9f867092660daf0dc8c667763af76c6996.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 12/08/2020 16:49, Richard Purdie wrote:
-> On Wed, 2020-08-12 at 02:10 +0200, Oleksandr Kravchuk wrote:
->> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
->> ---
->>   .../0001-devlink.c-add-missing-include.patch  | 23 -------------------
->>   ...01-libc-compat.h-add-musl-workaround.patch | 10 ++++----
->>   .../{iproute2_5.7.0.bb => iproute2_5.8.0.bb}  |  2 +-
->>   3 files changed, 5 insertions(+), 30 deletions(-)
->>   delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
->>   rename meta/recipes-connectivity/iproute2/{iproute2_5.7.0.bb => iproute2_5.8.0.bb} (79%)
->>
->> diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
->> deleted file mode 100644
->> index f9580b7d44..0000000000
->> --- a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
->> +++ /dev/null
->> @@ -1,23 +0,0 @@
->> -From 5df629d825df4ccc4283228bc0739da126326072 Mon Sep 17 00:00:00 2001
->> -From: Alexander Kanavin <alex.kanavin@gmail.com>
->> -Date: Sat, 6 Jun 2020 18:00:13 +0000
->> -Subject: [PATCH] devlink.c: add missing include
->> -
->> -Upstream-Status: Pending
->> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> ----
->> - devlink/devlink.c | 1 +
->> - 1 file changed, 1 insertion(+)
->> -
->> -diff --git a/devlink/devlink.c b/devlink/devlink.c
->> -index 16602ab..c278e6d 100644
->> ---- a/devlink/devlink.c
->> -+++ b/devlink/devlink.c
->> -@@ -26,6 +26,7 @@
->> - #include <libmnl/libmnl.h>
->> - #include <netinet/ether.h>
->> - #include <sys/types.h>
->> -+#include <signal.h>
->> -
->> - #include "SNAPSHOT.h"
->> - #include "list.h"
->> diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
->> index 50c4bfb0f2..60f31db9a2 100644
->> --- a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
->> +++ b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
->> @@ -1,4 +1,4 @@
->> -From b7d96340c55afb7023ded0041107c63dbd886196 Mon Sep 17 00:00:00 2001
->> +From c6109138e9e13c7e40313aacc3ea582c52ffd61f Mon Sep 17 00:00:00 2001
->>   From: Baruch Siach <baruch@tkos.co.il>
->>   Date: Thu, 22 Dec 2016 15:26:30 +0200
->>   Subject: [PATCH] libc-compat.h: add musl workaround
->> @@ -14,15 +14,16 @@ https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-work
->>   
->>   Signed-off-by: Baruch Siach <baruch@tkos.co.il>
->>   Signed-off-by: Maxin B. John <maxin.john@intel.com>
->> +
->>   ---
->>    include/uapi/linux/libc-compat.h | 4 +++-
->>    1 file changed, 3 insertions(+), 1 deletion(-)
->>   
->>   diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
->> -index f38571d..30f0b67 100644
->> +index a159991..22198fa 100644
->>   --- a/include/uapi/linux/libc-compat.h
->>   +++ b/include/uapi/linux/libc-compat.h
->> -@@ -49,10 +49,12 @@
->> +@@ -50,10 +50,12 @@
->>    #define _LIBC_COMPAT_H
->>    
->>    /* We have included glibc headers... */
->> @@ -36,6 +37,3 @@ index f38571d..30f0b67 100644
->>    
->>    /* GLIBC headers included first so don't define anything
->>     * that would already be defined. */
->> ---
->> -2.4.0
->> -
->> diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
->> similarity index 79%
->> rename from meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
->> rename to meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
->> index 276afeab11..3a590f9122 100644
->> --- a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
->> +++ b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
->> @@ -5,7 +5,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
->>              file://0001-devlink.c-add-missing-include.patch \
->>              "
-> The patch mentioned above in SRC_URI is deleted above?
->
-> Cheers,
->
-> Richard
-
-Yes, it was a backport. It is part of this release.
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIE9sZWtzYW5kciBLcmF2Y2h1aw0KPiBTZW50OiBkZW4g
+MTIgYXVndXN0aSAyMDIwIDE3OjE3DQo+IFRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
+aWVAbGludXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBpcHJvdXRlMjog
+dXBkYXRlIHRvIDUuOC4wDQo+IA0KPiBPbiAxMi8wOC8yMDIwIDE2OjQ5LCBSaWNoYXJkIFB1cmRp
+ZSB3cm90ZToNCj4gPiBPbiBXZWQsIDIwMjAtMDgtMTIgYXQgMDI6MTAgKzAyMDAsIE9sZWtzYW5k
+ciBLcmF2Y2h1ayB3cm90ZToNCj4gPj4gU2lnbmVkLW9mZi1ieTogT2xla3NhbmRyIEtyYXZjaHVr
+IDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPg0KPiA+PiAtLS0NCj4gPj4gICAu
+Li4vMDAwMS1kZXZsaW5rLmMtYWRkLW1pc3NpbmctaW5jbHVkZS5wYXRjaCAgfCAyMyAtLS0tLS0t
+LS0tLS0tLS0tLQ0KPiAtLQ0KPiA+PiAgIC4uLjAxLWxpYmMtY29tcGF0LmgtYWRkLW11c2wtd29y
+a2Fyb3VuZC5wYXRjaCB8IDEwICsrKystLS0tDQo+ID4+ICAgLi4uL3tpcHJvdXRlMl81LjcuMC5i
+YiA9PiBpcHJvdXRlMl81LjguMC5iYn0gIHwgIDIgKy0NCj4gPj4gICAzIGZpbGVzIGNoYW5nZWQs
+IDUgaW5zZXJ0aW9ucygrKSwgMzAgZGVsZXRpb25zKC0pDQo+ID4+ICAgZGVsZXRlIG1vZGUgMTAw
+NjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMS0NCj4g
+ZGV2bGluay5jLWFkZC1taXNzaW5nLWluY2x1ZGUucGF0Y2gNCj4gPj4gICByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi97aXByb3V0ZTJfNS43LjAuYmIgPT4NCj4gaXBy
+b3V0ZTJfNS44LjAuYmJ9ICg3OSUpDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtDQo+IGRldmxpbmsuYy1hZGQt
+bWlzc2luZy1pbmNsdWRlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvaXBy
+b3V0ZTIvaXByb3V0ZTIvMDAwMS1kZXZsaW5rLmMtYWRkLW1pc3NpbmctaW5jbHVkZS5wYXRjaA0K
+PiA+PiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPj4gaW5kZXggZjk1ODBiN2Q0NC4uMDAw
+MDAwMDAwMA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lw
+cm91dGUyLzAwMDEtZGV2bGluay5jLWFkZC0NCj4gbWlzc2luZy1pbmNsdWRlLnBhdGNoDQo+ID4+
+ICsrKyAvZGV2L251bGwNCj4gPj4gQEAgLTEsMjMgKzAsMCBAQA0KPiA+PiAtRnJvbSA1ZGY2Mjlk
+ODI1ZGY0Y2NjNDI4MzIyOGJjMDczOWRhMTI2MzI2MDcyIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4g
+MjAwMQ0KPiA+PiAtRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
+b20+DQo+ID4+IC1EYXRlOiBTYXQsIDYgSnVuIDIwMjAgMTg6MDA6MTMgKzAwMDANCj4gPj4gLVN1
+YmplY3Q6IFtQQVRDSF0gZGV2bGluay5jOiBhZGQgbWlzc2luZyBpbmNsdWRlDQo+ID4+IC0NCj4g
+Pj4gLVVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiA+PiAtU2lnbmVkLW9mZi1ieTogQWxleGFu
+ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+ID4+IC0tLS0NCj4gPj4gLSBk
+ZXZsaW5rL2RldmxpbmsuYyB8IDEgKw0KPiA+PiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKQ0KPiA+PiAtDQo+ID4+IC1kaWZmIC0tZ2l0IGEvZGV2bGluay9kZXZsaW5rLmMgYi9kZXZs
+aW5rL2RldmxpbmsuYw0KPiA+PiAtaW5kZXggMTY2MDJhYi4uYzI3OGU2ZCAxMDA2NDQNCj4gPj4g
+LS0tLSBhL2RldmxpbmsvZGV2bGluay5jDQo+ID4+IC0rKysgYi9kZXZsaW5rL2RldmxpbmsuYw0K
+PiA+PiAtQEAgLTI2LDYgKzI2LDcgQEANCj4gPj4gLSAjaW5jbHVkZSA8bGlibW5sL2xpYm1ubC5o
+Pg0KPiA+PiAtICNpbmNsdWRlIDxuZXRpbmV0L2V0aGVyLmg+DQo+ID4+IC0gI2luY2x1ZGUgPHN5
+cy90eXBlcy5oPg0KPiA+PiAtKyNpbmNsdWRlIDxzaWduYWwuaD4NCj4gPj4gLQ0KPiA+PiAtICNp
+bmNsdWRlICJTTkFQU0hPVC5oIg0KPiA+PiAtICNpbmNsdWRlICJsaXN0LmgiDQo+ID4+IGRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEt
+bGliYy0NCj4gY29tcGF0LmgtYWRkLW11c2wtd29ya2Fyb3VuZC5wYXRjaCBiL21ldGEvcmVjaXBl
+cy0NCj4gY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtbGliYy1jb21wYXQuaC1h
+ZGQtbXVzbC0NCj4gd29ya2Fyb3VuZC5wYXRjaA0KPiA+PiBpbmRleCA1MGM0YmZiMGYyLi42MGYz
+MWRiOWEyIDEwMDY0NA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91
+dGUyL2lwcm91dGUyLzAwMDEtbGliYy1jb21wYXQuaC0NCj4gYWRkLW11c2wtd29ya2Fyb3VuZC5w
+YXRjaA0KPiA+PiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91
+dGUyLzAwMDEtbGliYy1jb21wYXQuaC0NCj4gYWRkLW11c2wtd29ya2Fyb3VuZC5wYXRjaA0KPiA+
+PiBAQCAtMSw0ICsxLDQgQEANCj4gPj4gLUZyb20gYjdkOTYzNDBjNTVhZmI3MDIzZGVkMDA0MTEw
+N2M2M2RiZDg4NjE5NiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gPj4gK0Zyb20gYzYx
+MDkxMzhlOWUxM2M3ZTQwMzEzYWFjYzNlYTU4MmM1MmZmZDYxZiBNb24gU2VwIDE3IDAwOjAwOjAw
+DQo+IDIwMDENCj4gPj4gICBGcm9tOiBCYXJ1Y2ggU2lhY2ggPGJhcnVjaEB0a29zLmNvLmlsPg0K
+PiA+PiAgIERhdGU6IFRodSwgMjIgRGVjIDIwMTYgMTU6MjY6MzAgKzAyMDANCj4gPj4gICBTdWJq
+ZWN0OiBbUEFUQ0hdIGxpYmMtY29tcGF0Lmg6IGFkZCBtdXNsIHdvcmthcm91bmQNCj4gPj4gQEAg
+LTE0LDE1ICsxNCwxNiBAQA0KPiBodHRwczovL2dpdC5idWlsZHJvb3QubmV0L2J1aWxkcm9vdC90
+cmVlL3BhY2thZ2UvaXByb3V0ZTIvMDAwMS1BZGQtdGhlLQ0KPiBtdXNsLXdvcmsNCj4gPj4NCj4g
+Pj4gICBTaWduZWQtb2ZmLWJ5OiBCYXJ1Y2ggU2lhY2ggPGJhcnVjaEB0a29zLmNvLmlsPg0KPiA+
+PiAgIFNpZ25lZC1vZmYtYnk6IE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPg0K
+PiA+PiArDQo+ID4+ICAgLS0tDQo+ID4+ICAgIGluY2x1ZGUvdWFwaS9saW51eC9saWJjLWNvbXBh
+dC5oIHwgNCArKystDQo+ID4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb24oLSkNCj4gPj4NCj4gPj4gICBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2xpbnV4
+L2xpYmMtY29tcGF0LmgNCj4gYi9pbmNsdWRlL3VhcGkvbGludXgvbGliYy1jb21wYXQuaA0KPiA+
+PiAtaW5kZXggZjM4NTcxZC4uMzBmMGI2NyAxMDA2NDQNCj4gPj4gK2luZGV4IGExNTk5OTEuLjIy
+MTk4ZmEgMTAwNjQ0DQo+ID4+ICAgLS0tIGEvaW5jbHVkZS91YXBpL2xpbnV4L2xpYmMtY29tcGF0
+LmgNCj4gPj4gICArKysgYi9pbmNsdWRlL3VhcGkvbGludXgvbGliYy1jb21wYXQuaA0KPiA+PiAt
+QEAgLTQ5LDEwICs0OSwxMiBAQA0KPiA+PiArQEAgLTUwLDEwICs1MCwxMiBAQA0KPiA+PiAgICAj
+ZGVmaW5lIF9MSUJDX0NPTVBBVF9IDQo+ID4+DQo+ID4+ICAgIC8qIFdlIGhhdmUgaW5jbHVkZWQg
+Z2xpYmMgaGVhZGVycy4uLiAqLw0KPiA+PiBAQCAtMzYsNiArMzcsMyBAQCBpbmRleCBmMzg1NzFk
+Li4zMGYwYjY3IDEwMDY0NA0KPiA+Pg0KPiA+PiAgICAvKiBHTElCQyBoZWFkZXJzIGluY2x1ZGVk
+IGZpcnN0IHNvIGRvbid0IGRlZmluZSBhbnl0aGluZw0KPiA+PiAgICAgKiB0aGF0IHdvdWxkIGFs
+cmVhZHkgYmUgZGVmaW5lZC4gKi8NCj4gPj4gLS0tDQo+ID4+IC0yLjQuMA0KPiA+PiAtDQo+ID4+
+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUy
+XzUuNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81
+LjguMC5iYg0KPiA+PiBzaW1pbGFyaXR5IGluZGV4IDc5JQ0KPiA+PiByZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzUuNy4wLmJiDQo+ID4+IHJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyXzUuOC4w
+LmJiDQo+ID4+IGluZGV4IDI3NmFmZWFiMTEuLjNhNTkwZjkxMjIgMTAwNjQ0DQo+ID4+IC0tLSBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNS43LjAuYmINCj4g
+Pj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl81Ljgu
+MC5iYg0KPiA+PiBAQCAtNSw3ICs1LDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9
+L2xpbnV4L3V0aWxzL25ldC8ke0JQTn0vJHtCUH0udGFyLnh6IFwNCj4gPj4gICAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLWRldmxpbmsuYy1hZGQtbWlzc2luZy1pbmNsdWRlLnBhdGNoIFwNCj4gPj4g
+ICAgICAgICAgICAgICINCj4gPiBUaGUgcGF0Y2ggbWVudGlvbmVkIGFib3ZlIGluIFNSQ19VUkkg
+aXMgZGVsZXRlZCBhYm92ZT8NCj4gPg0KPiA+IENoZWVycywNCj4gPg0KPiA+IFJpY2hhcmQNCj4g
+DQo+IFllcywgaXQgd2FzIGEgYmFja3BvcnQuIEl0IGlzIHBhcnQgb2YgdGhpcyByZWxlYXNlLg0K
+DQpTaW5jZSB0aGUgcGF0Y2ggaGFzIGJlZW4gZGVsZXRlZCwgeW91IGFsc28gbmVlZCB0byByZW1v
+dmUgaXQgZnJvbSANCnRoZSBTUkNfVVJJIG9yIHRoZXJlIHdpbGwgYmUgYSBidWlsZCBmYWlsdXJl
+LiBJdCBpcyBhbHNvIGEgZ29vZCANCmlkZWEgdG8gbWVudGlvbiB3aHkgaXQgaXMgcmVtb3ZlZCBp
+biB0aGUgY29tbWl0IG1lc3NhZ2UuDQoNCi8vUGV0ZXINCg0K
