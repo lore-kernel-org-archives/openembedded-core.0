@@ -1,88 +1,89 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web10.19407.1597251820702156391
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web11.19421.1597251822725898861
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 10:03:40 -0700
+ Wed, 12 Aug 2020 10:03:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Sa2jVxY1;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id x6so1337474qvr.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:03:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KZW/I8Ck;
+ spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f193.google.com with SMTP id o22so1993619qtt.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DhWDQTXL7uQ/eGTmkCwfvu/4YRrU7xcGiqfOi/8wMfc=;
-        b=Sa2jVxY1w0j9keKK9ZfFqcHSwnDDwml9ENnO+tM92Yygis5yGhqBWd7GTsbz1iNy9Z
-         ejdnv/FsfKirG47lPxO+dspIjNjtrApkkpCPv4zCUcl4g2pTZ2nZJMQudQakEbcQhCWm
-         rGV63CSJWIt//KM0vNGt9Dan2ZiVegkoG6oKuqfFRvc2W9gnqyh98rxPy5BiY3YzdeBi
-         vBh4fhHQBJ6HqHHC8ovYflJWOQuFHpNctss20vt4w80vgFq5VkswGKyxjsOVbP/y7K4B
-         nXiQivDFsKlBW722C7y2aawe1GNB76vBtLdjnhV9CdbF5hH/a405toaNTkKkZG32CU/v
-         lC5g==
+        bh=hQBv5GyfkvA78CkIDhvKSyv/FKohkBOgR81umI46GTA=;
+        b=KZW/I8Ck/nZ9Eb57G+Eig7oaIHNZBAH5mQoGeg0P1Cn4CvXR68CGSysDKGUAJD+xEd
+         9+SBChY1mGh0s0Tk4YlGwt+CotxVfQbcNIKb8enFqUudsdyEhNgmMyzlI6rRaSxH0uOM
+         22TgiPmXzPb6zN2RhV4OBOzyd83dxMjv38bQ7ogbuBu79qh1md4AEe8umWNsP4gEoixC
+         MN1o0+P4Neb0uyVmohd5nhTbyqKW6svC+PSDx7/S/aVv09Wp7rztWlb1U/SrecAIjP2s
+         IEIapizvgKmO7XGTZLAWoY30UfW43aamyNSlzA0g/svh3j0HL2qQbITlv7Hnr7sFpK4d
+         Vj2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DhWDQTXL7uQ/eGTmkCwfvu/4YRrU7xcGiqfOi/8wMfc=;
-        b=qe5FIPGmZhUYx/71ki4ml/e1nixCNSKLbAL6hI0v6oGExSjFijQxVmkHaD2ah4bztY
-         y9dODga7bPpjNPCyzaLcf05ZTFDBrWyaE4Bf14Cn91BAh8jU0WjeA3MBC8nB/2cUjbO0
-         sWc3qPNVEeklWtHkBAf9EYTdA397BgyPXjUfvPZ1UVPYPrbfTxq28xFxxeszxRgnrt1t
-         +jtMQwSci1Cx7lx8Redi3B1QoY+C81hE8cUKP1W59ytutDaz4jsHMr4zR6bjQc0totMH
-         vfeDf385PXJsMz+ik5um37IS+9t5S+DB3897Hbdv5bYBvvkGG50yevcvHIEjLLasSVWx
-         Fd5w==
-X-Gm-Message-State: AOAM530uLbMvBE1jKfwJn8fkFdbSEXKjyoRmE5WQkFJd7h8z6e452sE/
-	aF7aHTa72uOwSBrwzou8cnP2hHsSXAvlHw==
-X-Google-Smtp-Source: ABdhPJzUD2A9Q5dZ8H2999p2/5w3B1/FN+LqNggbd3akXZTC1Ep0G+X3rGld3tmKPT54ejDZA+wg2Q==
-X-Received: by 2002:a0c:fa92:: with SMTP id o18mr570043qvn.182.1597251819836;
-        Wed, 12 Aug 2020 10:03:39 -0700 (PDT)
+        bh=hQBv5GyfkvA78CkIDhvKSyv/FKohkBOgR81umI46GTA=;
+        b=biuuBXJHym7DFehwydePglTI6P78VauHD1K/RvDDBhpJKLlLB8GX474Nk/ucAc8Ez3
+         KTYEGutag4EduasRBR99+jEwgJ8RvbAARsXpSfzjdAAJ0rvA2JvfOPkVPabNKk57XDh7
+         UHbktTqC91qVtfh3KHst6pNFaGeDf2Plu3G7O3ndcDfKS2aK/z9lGyMg96aed0Wl2H1M
+         bIAJ6b4IspYORzWLedj0t3IUSamKc2PUCL8zo4O/BZWpz2hanRN+1XOxfHkVt91iJZ6T
+         1JuWSxgzTA7Sx61RxcCels22i52MSiJpfzWjZ4bWzGpIA68KTytrSBoQWl9g0ZAUS2WT
+         MVkA==
+X-Gm-Message-State: AOAM530JFgc8LXjP8Hil0twtoKXhW5gKOYBkJtZewtSLkh3SSGvtJlv5
+	P7J220wYyb9cJE0kXxagZBE=
+X-Google-Smtp-Source: ABdhPJyaZHSt4EreM1vuKBmVeARTioqq06PJcL6ToXbVic5FY90nnsv2vRtBuxVIh2cKIMHWn3f8dg==
+X-Received: by 2002:ac8:7a66:: with SMTP id w6mr653120qtt.242.1597251821790;
+        Wed, 12 Aug 2020 10:03:41 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id k24sm3249977qtb.26.2020.08.12.10.03.38
+        by smtp.gmail.com with ESMTPSA id k24sm3249977qtb.26.2020.08.12.10.03.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 10:03:39 -0700 (PDT)
+        Wed, 12 Aug 2020 10:03:40 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/10] kernel.bbclass: Configuration for environment with HOSTCXX
-Date: Wed, 12 Aug 2020 13:03:25 -0400
-Message-Id: <77ac5962e28b2fceb066b37f412e9a7d293f5774.1597203921.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 05/10] kernel-yocto: set cwd before querying the meta data dir
+Date: Wed, 12 Aug 2020 13:03:26 -0400
+Message-Id: <bd6218b385505e22b847fc88204f3112586004c6.1597203921.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1597203921.git.bruce.ashfield@gmail.com>
 References: <cover.1597203921.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Qiang <qiang.zhang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-When compiling xilinx-zynq board linux-kernel-dev(v5.8) if
-"GCC_PLUGINS=y", The following error will appear:
+To aid classifying options and streamling reports, fragments
+and classification info are consolidated into a kernel meta
+directory.
 
-"HOSTCXX -fPIC scripts/gcc-plugins/arm_ssp_per_task_plugin.o
-fatal error: gmp.h: No such file or directory"
+The name of the meta directory is (somewhat) flexible, and hence
+is queried by the tools and created if it doesn't exist.
 
-the GCC_PLUGINS depend on return result of gcc-plugin.sh execution
-however in gcc-plugin.sh use HOSTCC to detect the feature of GNU
-extension of gcc, this will result that HOSTCC can compile the file
-successfully, but HOSTCXX is used in the actual compilation process.
+The recent enhancements to the .config auditing introduced a
+new query for the meta directory, but isn't being run in the
+kernel's source directory .. and is hence creating an unwanted
+file in $TOPDIR. We set the kernel source directory as the cwd
+for the call, and everything goes back to where it belongs.
 
-Signed-off-by: Zhang Qiang <qiang.zhang@windriver.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes/kernel.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index cf43a5d604..e2ceb6a333 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -212,6 +212,8 @@ UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
- KERNEL_EXTRA_ARGS ?= ""
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 77849a28c9..fa8466e587 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -475,7 +475,7 @@ python do_kernel_configcheck() {
+     # meta-series for processing
+     kmeta = d.getVar("KMETA") or "meta"
+     if not os.path.exists(kmeta):
+-        kmeta = subprocess.check_output(['kgit', '--meta']).decode('utf-8').rstrip()
++        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
  
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
-+
- KERNEL_ALT_IMAGETYPE ??= ""
+     s = d.getVar('S')
  
- copy_initramfs() {
 -- 
 2.19.1
 
