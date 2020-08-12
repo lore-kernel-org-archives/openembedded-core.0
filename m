@@ -1,88 +1,135 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web11.421.1597255936130470421
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.54])
+ by mx.groups.io with SMTP id smtpd.web10.1149.1597271695699883073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 11:12:16 -0700
+ Wed, 12 Aug 2020 15:34:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KdzPJjDY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id z18so2897034wrm.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 11:12:15 -0700 (PDT)
+ dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=BGUixT2z;
+ spf=pass (domain: xilinx.com, ip: 40.107.76.54, mailfrom: ckalluri@xilinx.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nX3XbZOa5QY4PfE4+KS2fYHv2RnTQVj/EL+aSayQVaoFqlXbf16wvWl6YH2IOpvi3wYZBGuHZoND/pxmdYjKoYIhYk5GGKBY+enbqPMhe1z98YLsaD2dVlIhVb1RPWFummNBMgxAjgxq06Pz9ehzFFByaXKWN9KN7hpY3CjghdVax5zQL1pvBsZuXvlvpAhwLyp7e5MqS8Zc/w0v6a7jXjVv1Vu7b0wf/5ODlNcEDV/IRTp0D3zzfw19lQkzOw67PArzUywZID8gTWCUZpZ3gwXZB7wAPBCumAKn5oxH/gANa42POPExOKUt8MKZkJhKPwlEQqRd2Qt40DZSVP1pdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iZQp11ZHxP2uJzCsC0zoIYZw/bYkbZRkQiqG1vIrsdw=;
+ b=gvrYF52E/Fe0jTAMrRrIw7OAtcnokETX+nYy4Xgcwij37E7FJEzg3+5YAR31OoSF/f9fvKfsnE9Rq/0GgtQTAzWijXsjJI3fwLUIkicte9ILCzXaznwI6CdAPhBJKCHeEnKSEYIaNZFlvfsSwLm2aFXMFd7UbuTBFKl4PRmjTjHn44TpZis2MVWWqjDj85zmY5CEiw95IVzir0KET7yTGqZxVXr6yES7+Y+KGGswi5aDbj9eB4sQDGLgvwH4Fc0wdikNGyVohIvsuKEmYh+7VLAgAwZT7KvbNlyWQzH9UWld5kfR8Rjcd/jIkT4Mw4iQZgWMMFJQG5yPfVbItMgUuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=O0jygf4Ug/te2UnoaU82/35b4ri0GavAdSFltxzw3sQ=;
-        b=KdzPJjDYa7Z8GnCZ1jxdWVyP0hfw/pREua1ZKeujwHDUHGKW/e48N6EyyaeMZP40SE
-         bJrfNp+jPdQrtec3PYPOmWe59HGPQr0tsIZFbGYXizOiE0MGStbNVSMriMu8GY6cw9ah
-         PyuSAQuPb7ukDHBOzoyCVaK6GLNPp4JxYXuv0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=O0jygf4Ug/te2UnoaU82/35b4ri0GavAdSFltxzw3sQ=;
-        b=tn8oDHO57UrFLcXLIwK/NjbNcM6tUen/DF3F5TtbNwc+XIrd5GLRD5fXfDAyQZPs6S
-         olGurO4+CUtKcQwyGwKGAIbe41HBPGm48rK7dXys/MUOKXbVG1lPbf9QtoihQm5iEFnv
-         aSu04+AsKQzzZhD8tNR1yjDhoGHUn8wy5B6AavPuwZ5NdH7BrugVEF6RnODOILrIqaJN
-         uNr4uYrgQZO3amNwIG3ssMTmP4m0HDeYWDwCa2BDC51o/DZpxPdh4BF7liAD82vyyToT
-         uO+xcjXRtMRog4y/4qXqvFAiThRobQTJLSNZYZ9dyguCZFpUDWnc3mIdAlUXDlOUJWd6
-         Z0Og==
-X-Gm-Message-State: AOAM531H4mW/+R/sUMlQDLId3rxDCss+99apaa2lDdUzUqe4aNHWDYTU
-	H1dU2ecoghwicvP3HcmVw/fA1g==
-X-Google-Smtp-Source: ABdhPJwQGtu/Iqsc24q+WKskpqbKBX4Ly3aOgKIf3mJqFxnM3VRoJOHQ5vICCygPfH9a2csqIquUcQ==
-X-Received: by 2002:adf:ee51:: with SMTP id w17mr403548wro.239.1597255934596;
-        Wed, 12 Aug 2020 11:12:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.a.c.c.d.f.6.e.e.7.9.e.9.0.c.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.a.c.c.d.f.6.e.e.7.9.e.9.0.c.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:ec09:e97e:e6fd:cca9])
-        by smtp.gmail.com with ESMTPSA id y142sm5496350wmd.3.2020.08.12.11.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 11:12:14 -0700 (PDT)
-Message-ID: <b28e4c6829ce7d4c87747b5dccd0f2541a5cf8df.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 00/10] kernel-yocto: consolidated pull request
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Aug 2020 19:12:11 +0100
-In-Reply-To: <CADkTA4PN9XY_W2PZ38UhP7k_y_WCJ3UeK0sGxf9EQ0OJGd1JvQ@mail.gmail.com>
-References: <162A9410849FC6A4.13432@lists.openembedded.org>
-	 <CADkTA4PN9XY_W2PZ38UhP7k_y_WCJ3UeK0sGxf9EQ0OJGd1JvQ@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iZQp11ZHxP2uJzCsC0zoIYZw/bYkbZRkQiqG1vIrsdw=;
+ b=BGUixT2zNbdpUsCgMl73ThOzSMX/36/R23PXegQGMjkmJzlUJErNNgh2BrAFXA499DemoMwHrdwtQCmThfwAWIoNKvkiKCFarCwaJJM2VRrX7ujJMGRXol7tHvNVB6M0l1Y7+ppuzN4ns6X3/DtPu9cwvDUxoMapyAE18os4KJU=
+Received: from MN2PR19CA0037.namprd19.prod.outlook.com (2603:10b6:208:19b::14)
+ by SN6PR02MB5246.namprd02.prod.outlook.com (2603:10b6:805:6c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Wed, 12 Aug
+ 2020 22:34:54 +0000
+Received: from BL2NAM02FT004.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:19b:cafe::ef) by MN2PR19CA0037.outlook.office365.com
+ (2603:10b6:208:19b::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16 via Frontend
+ Transport; Wed, 12 Aug 2020 22:34:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+ signed) header.d=none;lists.openembedded.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT004.mail.protection.outlook.com (10.152.76.168) with Microsoft SMTP
+ Server id 15.20.3283.16 via Frontend Transport; Wed, 12 Aug 2020 22:34:53
+ +0000
+Return-Path: chandana.kalluri@xilinx.com
+Received: from [149.199.38.66] (port=47660 helo=smtp.xilinx.com)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5zKW-0004FF-6f
+	for openembedded-core@lists.openembedded.org; Wed, 12 Aug 2020 15:34:44 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5zKf-0007b1-B9
+	for openembedded-core@lists.openembedded.org; Wed, 12 Aug 2020 15:34:53 -0700
+Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5zKY-0007Zt-Ki; Wed, 12 Aug 2020 15:34:46 -0700
+From: "Chandana kalluri" <ckalluri@xilinx.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Subject: [ipoky][master][PATCH] qemu.inc: Use virtual/libgl instead of mesa
+Date: Wed, 12 Aug 2020 15:34:45 -0700
+Message-Id: <1597271685-22993-1-git-send-email-chandana.kalluri@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-MS-Office365-Filtering-Correlation-Id: 3e90846f-1a31-4400-5455-08d83f0feecf
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5246:
+X-Microsoft-Antispam-PRVS: 
+	<SN6PR02MB52468497E95614DC46BDD163B0420@SN6PR02MB5246.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	RZIRR/ewoWZZdqRZoaHaMEMwnZAV9d4q8HmALJlftJ8xa/C3llmrcQ5zZ7n+CYrShQlPLlNqN6khWvHu/b3WZyOVUHWdPnsufLcyT/WVsLmpD3K9i+XrayLJDwXtD5fi9FNW/FjNElj98Qhof/g1XiNG+45s4XU/NzMapP7NOZ9AK5cWQI3e/xfAHUfH/tnuipSmP42qJ3ImhFzbsD0vzoQ1kC6nkMQRlpmRSl5WNC6AkyjIp0OhEmYNQBw226brKpueDf67YNuSZcEZJyiRn5/mRXKGHjWq21nazuFx+9+InCZPw2x9kEOVSXGzDO5tzFnl10QraOtB+iOgw2VEh9G1PWOWN198KprVkJNOFxBZcELpUBqBDW/zcG10dTDFuSzg9HsjiNHTzNDQZNoN6GZGI3Koj63Up8TiAnHsuRvfBl7MrkvZwVB5cN4Od5nrGM2wGJfNWdgFllCwEMNE6g==
+X-Forefront-Antispam-Report: 
+	CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFS:(136003)(396003)(39860400002)(346002)(376002)(46966005)(2906002)(36756003)(478600001)(8676002)(426003)(2616005)(70206006)(6916009)(336012)(316002)(4326008)(82310400002)(107886003)(26005)(7696005)(8936002)(83380400001)(83080400001)(9786002)(47076004)(5660300002)(70586007)(82740400003)(186003)(81166007)(356005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2020 22:34:53.6519
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e90846f-1a31-4400-5455-08d83f0feecf
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	BL2NAM02FT004.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5246
+Content-Type: text/plain
 
-On Wed, 2020-08-12 at 13:08 -0400, Bruce Ashfield wrote:
-> 
-> 
-> On Wed, Aug 12, 2020 at 1:03 PM Bruce Ashfield via
-> lists.openembedded.org <
-> bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > 
-> > Richard,
-> > 
-> > This is the part of my queue that is in preparation for the v5.8
-> > kernel
-> > and libc-headers.
-> > 
-> > I've been chasing issues that have (re)appeared (I fixed all these
-> > once
-> > before) with the recent gcc10 changes. I'm holding back the v5.8
-> > core
-> > changes, until I can confirm that everything is indeed still
-> > working.
-> 
-> Also note that I am seeing some sort of test timeout on systemtap
-> with qemuarm. I'm debugging it now and will put something in bugzilla
-> when I know more, but from everything I can see, it isn't related to
-> the kernel updates, since I can build and run the same test locally
-> without issue.
+Use virtual/libgl instead of mesa within the recipes to provide users the
+flexibility to specify providers other than mesa.
 
-I did look at a few of your failures and ended up filing bugs for them
-as to me, they look like general intermittent problems. I reran those
-build components that failed and they passed the next time :(
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                        | 2 +-
+ meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index b1c822b..dada4b8 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -163,7 +163,7 @@ PACKAGECONFIG[nettle] = "--enable-nettle,--disable-nettle,nettle"
+ PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
+ PACKAGECONFIG[fdt] = "--enable-fdt,--disable-fdt,dtc"
+ PACKAGECONFIG[alsa] = "--audio-drv-list='oss alsa',,alsa-lib"
+-PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,mesa"
++PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,virtual/libgl"
+ PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
+ PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
+ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
+index 29b1262..5282119 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://virgil3d.github.io/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+ 
+-DEPENDS = "libdrm mesa libepoxy"
++DEPENDS = "libdrm virtual/libgl libepoxy"
+ SRCREV = "7d204f3927be65fb3365dce01dbcd04d447a4985"
+ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+            file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
+-- 
+2.7.4
 
