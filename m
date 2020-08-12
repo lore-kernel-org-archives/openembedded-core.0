@@ -1,50 +1,50 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web12.19248.1597251828273152585
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.19427.1597251829632203426
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 10:03:48 -0700
+ Wed, 12 Aug 2020 10:03:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LVyIVTyq;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id v22so2016707qtq.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:03:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iu3HNh01;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id t23so2039309qto.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 10:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sESpPAVLpX1VLb0v0PMTMXsjCQcDZs4nbPQOa2uQ/Mg=;
-        b=LVyIVTyqqM/W80Q3r2Pf815L+DuMsmByJItgcKw/FvhHhQ28UK/c3P9Ti6KcaZxweJ
-         +jPKYHyLDdH4BHJYzAi++W30mZfgOsFQR4SZTj7//CXrXz9RetKS/18YTwZmgRZL/kJs
-         iCBSEbrVSNaEbeJdjmdEhSRp1ttKQDsJmqc2JiGxKHW7lxf9RIFdDo5Zyi+PoGDqLcPW
-         hMPPc8nTTnmqO4iM7eHDATbbu4CAog+lbMAeIF2NofHI3xvvVSuiSQq5FgLCT7r8fRlL
-         p9i8WGYtNT4vehlvWCYwgfGP4u9HxCzS9YCXbMylCKenDiPoqBPCHhvo29EE7V/BiIMz
-         Z/tg==
+        bh=slIYj4/73SLaXRGRuypyAqh5Taze+eU0p4wMaS47MmU=;
+        b=iu3HNh01yRLQIU/bPIXOvbimz+N8vPscBDKpshLz36O4O7sGqa/NLUpBbqkYCSJkZF
+         ROfKMbEcvjqgIjD1Gnt0YphgOwrhUxzeH/Iyq7t4zdmrnZi0Vw5NIU9R0lidmgFPZaq6
+         8gc+TcdzFIwIk+t8sBpjv+CO+TPXvsZTU2VDuNYhBQ582UcwtqHPiID7n7mQkmTIR7oL
+         lNVMH9JF7ihiZ9retbqPFjqkQRXuOsr6IzsGGJHFe9SLbsGsniotapOqU6eh6kgk0jY/
+         +8sOWXux875Yes+N/9v3eKxc7i3OdeT22blNiJXIzJpWcBJoB0ziMXmVbxNVBWcsU03l
+         NGlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sESpPAVLpX1VLb0v0PMTMXsjCQcDZs4nbPQOa2uQ/Mg=;
-        b=rtdc/lMTtD45s6oYbAEA9fMow1BzwzfjlmnVjd/jwFJ7DmqP015iDgUBEepVqOUjNO
-         QWwVZ0+sNiwK498wTz4AemW0N39mD9x3OtOamvG7SvLOZCSFsPfyFSf39ZkR7kxUnwWL
-         oTjqUIcsZTCbnHboVpxykfBTlZ7/NXGfa8jgHxGU0UXRcHPcE3sg/dzj1NmU/tWqGQ5e
-         w0BmzNjpPZq3XgPdCmnb/3CEBf1yxSDf+MAj9o2Rv9qEZ9J8MOe3/FI4wSCVtD7Ob4Is
-         /ys09Aq5OIo+9AMaHws8c7pUepn7EC6KaYD4X2+Uej2pnX4CBuLS4VpF6g4rfMtkNFaS
-         qc3w==
-X-Gm-Message-State: AOAM533xWFeYer9j/U8m3u2oWd65LyTLf2kybWxPsr0hKeQ+G42Unc/w
-	+vO1azEZZ4EOyF3/vfhvdskR4oQiYKrHQw==
-X-Google-Smtp-Source: ABdhPJw9S+0ehdXt/8eeFOhDsFN+kFd2N8F/wYB4ldwvqt8ow2MNlYFS+l3SMXdFwNTNOzsdBq/jgQ==
-X-Received: by 2002:ac8:548b:: with SMTP id h11mr591366qtq.209.1597251827378;
-        Wed, 12 Aug 2020 10:03:47 -0700 (PDT)
+        bh=slIYj4/73SLaXRGRuypyAqh5Taze+eU0p4wMaS47MmU=;
+        b=Bsm/TH7aZDOP9564jFIF/5wh5y+STtEPd36kIrozxmG4QbaNUsHq+q5LLXQopNqE+I
+         LU8KtiiPQNn6e7hB2YzeRlC30JMkc46jbBReJG9ugzr2B2clQzT2EqnHnC0B2p21MoT1
+         AP+atRJMN/tK1ckpU2SFQPi8gbL0LbcQKdIH+pWwVEMFwvhwkw/T0m0+g5IIsKaxJ54K
+         edEmM76Me5nR7Ix0ZsVpZ3CWUuiofHR4XhwCbkHZXYlpFqIxRImlpIDd/7crxOTI1iYM
+         05yauqYiXYsOftonwIcqDGlRk1SlNT41YY0dyUd2Tan8+0ilV55UBuKoOfhwYEVkwMsV
+         o1PA==
+X-Gm-Message-State: AOAM53387dBm0CBpWzPbPhD/BpwkMSFAitATANx7CI4yl/+Jqlqo3bgT
+	MEir4lJuKiqTx0ndgu5U7ik=
+X-Google-Smtp-Source: ABdhPJyRt2jLfGftAwY67xRy7cuZiCT8HArHhWS4zYWFUw1tozgXaC9jc48Qg3e6mMaN7PHlSaAnqg==
+X-Received: by 2002:aed:2a82:: with SMTP id t2mr637785qtd.280.1597251828581;
+        Wed, 12 Aug 2020 10:03:48 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id k24sm3249977qtb.26.2020.08.12.10.03.45
+        by smtp.gmail.com with ESMTPSA id k24sm3249977qtb.26.2020.08.12.10.03.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 10:03:46 -0700 (PDT)
+        Wed, 12 Aug 2020 10:03:47 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/10] kernel-devsrc: fix on target modules prepare for ARM
-Date: Wed, 12 Aug 2020 13:03:30 -0400
-Message-Id: <c66778c2b70baac78215247c6e3f63d30637f664.1597203921.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 10/10] kernel-devsrc: 5.8 + gcc10 require gcc-plugins + libmpc-dev
+Date: Wed, 12 Aug 2020 13:03:31 -0400
+Message-Id: <90f850e5a8544a140da3b2a8dec7023913856884.1597203921.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1597203921.git.bruce.ashfield@gmail.com>
 References: <cover.1597203921.git.bruce.ashfield@gmail.com>
@@ -53,30 +53,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The arm compiler and linker weren't matching the replacement
-regex's in devsrc. We make the expressions a bit more generic
-to catch the triplets for ARM.
+In order to execute 'make scripts prepare' on target with the
+5.8 kernel and gcc 10, we need to have the gcc-plugins and
+libmpc-dev on target.
+
+Although not strictly required for all kernel versions, they
+don't do any harm when included.
+
+We add them to the RDEPENDS of devsrc to avoid the errors:
+
+   scripts/gcc-plugins/gcc-common.h:5:10: fatal error: bversion.h: No such
+   file or directory
+   | #include "bversion.h"
+
+and
+
+   /usr/lib/gcc/arm-poky-linux-gnueabi/10.1.0/plugin/include/builtins.h:23:10:
+     fatal error: mpc.h: No such file or directory
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 6a606c3570..34b947b599 100644
+index 34b947b599..a9c7be0f81 100644
 --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
 +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -259,8 +259,8 @@ do_install() {
-     touch -r $kerneldir/build/.config $kerneldir/build/include/config/auto.conf* 2>/dev/null || :
- 
-     if [ -e "$kerneldir/build/include/config/auto.conf.cmd" ]; then
--        sed -i 's/ifneq "$(CC)" ".*-linux-gcc.*$/ifneq "$(CC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
--        sed -i 's/ifneq "$(LD)" ".*-linux-ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        sed -i 's/ifneq "$(CC)" ".*-linux-.*gcc.*$/ifneq "$(CC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        sed -i 's/ifneq "$(LD)" ".*-linux-.*ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(CC_VERSION_TEXT)".*\(gcc.*\)"/ifneq "$(CC_VERSION_TEXT)" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(srctree)" ".*"/ifneq "$(srctree)" "."/' "$kerneldir/build/include/config/auto.conf.cmd"
-         # we don't build against the defconfig, so make sure it isn't the trigger for syncconfig
+@@ -290,3 +290,5 @@ RDEPENDS_${PN} = "bc python3 flex bison ${TCLIBC}-utils"
+ RDEPENDS_${PN} += "openssl-dev util-linux"
+ # and x86 needs a bit more for 4.15+
+ RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
++# 5.8+ needs gcc-plugins libmpc-dev
++RDEPENDS_${PN} += "gcc-plugins libmpc-dev"
 -- 
 2.19.1
 
