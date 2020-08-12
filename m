@@ -1,144 +1,101 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web10.4869.1597191029055865524
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.4902.1597191223790924798
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Aug 2020 17:10:29 -0700
+ Tue, 11 Aug 2020 17:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=xxyVdCxy;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.196, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f196.google.com with SMTP id m22so271325ljj.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 17:10:28 -0700 (PDT)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=Oas1sv4K;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.194, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f194.google.com with SMTP id m22so277285ljj.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Aug 2020 17:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QnVYruDLfvhVln3et+1MU7DLIFapAx6/eXjq5eOuKNY=;
-        b=xxyVdCxyO1L8cgKLy8d8KNVy8dAjqeBBIaCioAPuxOq6JQpMof4lKe0siwIv1+j8lh
-         sITb12JY076bgWRFVpVJjTWSym2/JvtG1Qdex4ICb4HUxzkOoXDT48/pM5GRW/Hl8uWV
-         q2cIAQElLSUnoEsGcjX/OIx48yiOtn/DG0lCt1MwDhT12aJHPExnaXuN3YEseymjD8m3
-         NorkTrq3T8Rau4K6SbEJqHe89wIXb56PTGOkb+/VTZ6hLCtmGPM+7YiLt3m1y5jFObAy
-         W6WcBt10aO9L2WzzaP3GrWj0IqaI1eYQ8n9VwOQyM5VRtoB7zw8anPZdRsRPI+uDf+ue
-         1wKA==
+        bh=4Wkm9+3289IQhkyRCBkiq0cP5NIWPfHLFRyLYZl2FKs=;
+        b=Oas1sv4KIz1YCYZLmhPwEBZSloLzWXgrdqSo+qiOYwPXSjBtDGTQvrZjGKd3IERA3J
+         VdULHOoEtRajq2jo3wXuPEvMcEvd5jk7cf4NyZNHkZUoWuUQqoaT9QBEBNOmS3QdKDJ1
+         y1lofn/qLNtzV5w6D9Q+fjEGScGrLLH+npv4vde+3QZVM2vesinjZyZhykNl6+XEjw2m
+         Zty8OBPI0C4uzW5MlGrd9Q3w/lVcHMUrlyPLulIC5OeIz8Enw71qKXUHO6xXMRrcKfFV
+         Th8Je02k16BgLSHP9oQ4k4TJ0EM9+TcMmWzOeV+i3iGgp/JRKxwZsLIwnpq/Z1prdgee
+         /sVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QnVYruDLfvhVln3et+1MU7DLIFapAx6/eXjq5eOuKNY=;
-        b=apeGF1hXjLLFJmMAFRmroG/dg7sIovGOhPgUvnF5PSr9GpUdxVgLgJXatc5ayZZM7l
-         mqaDKZ3uFtKiP5Eth5f+aoyz1pKCieHLLvVJNEetENrUlKwNV4OkVq+Jz7+nlgIG9z8a
-         4I2lzM8K2HCdZmoOhaUzODFtCOtVpiYRWvGM7sUv1ZzvcteaEG9aHdaLS88tBpKAnvwd
-         oEPMXT8mG11OM6wNOJwGwe5mClHFLZllYTMTfbOhfqLX7jUAp0eW/uXz6oCXNSETKbU4
-         VPDcMulziFuXQw3cDeey/koqoDqM7Tja7gfkjXQRAIvi5EO06KB9ydW2GFnGEcDz+wTp
-         FfUA==
-X-Gm-Message-State: AOAM532KPtXDgfy+AKFDnyTC0iuUF5Gb59bu8iCS34JYp1qcSody9mn8
-	ByARvckIdfS/mTRo0PXvoZ4ANftGd6s=
-X-Google-Smtp-Source: ABdhPJyupMXY6jKbTNz6OwVxtDRReQNRSW+ZTFaGJ7CS84cNyqGss1D8qlRtC37q9exuChHklA3F6g==
-X-Received: by 2002:a2e:9f0a:: with SMTP id u10mr3930702ljk.140.1597191026463;
-        Tue, 11 Aug 2020 17:10:26 -0700 (PDT)
+        bh=4Wkm9+3289IQhkyRCBkiq0cP5NIWPfHLFRyLYZl2FKs=;
+        b=K7ltCi/dpJ3Dnftk9lF6FF2FtZLL8Ks600tCc2c6zjqCOucNwEey+tkW9CbrWuZgsA
+         tf4TJVL0ir1o9dkx6faIUJV4dhU29V6SK33lfM8TJQb4Z91Yi9jd3GiOKnXmZBf35F2q
+         xEE59wMHboYa99ViWUuCKOSsGdt1vu2dWGmO0+7EkSwjRT25fCVk0ri1H0mOqQ9Ut23f
+         c+RivGT7mzOo1o7Fm3x3BzDeFrpNr1GTIbySMBA010PBUR7vFYrLkjqbvDKtlaHSwOTK
+         ENLg84J8P9iIUW1HllHDw39cC9IdR/QnSaWdJKhD4ISzdmf0BkFAsfeMj+pD/hGgxhub
+         V3vg==
+X-Gm-Message-State: AOAM530o8ezP7DrjvwBNywlDnklobI6jz6xrJSsML77z51ezirnuew4r
+	afXGUqdDoj0a4ee6llxuW6TNbGGC5ko=
+X-Google-Smtp-Source: ABdhPJwfXKpoc9AfgJubHZA+IhhIJa7gkA5sL3e6jZIwiRemibevPRoktFc0pdh0RD1+5qB6xtMR5w==
+X-Received: by 2002:a2e:b81a:: with SMTP id u26mr4340519ljo.241.1597191220779;
+        Tue, 11 Aug 2020 17:13:40 -0700 (PDT)
 Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id h23sm59681lfk.37.2020.08.11.17.10.25
+        by smtp.gmail.com with ESMTPSA id j6sm67265ljc.18.2020.08.11.17.13.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 17:10:25 -0700 (PDT)
+        Tue, 11 Aug 2020 17:13:39 -0700 (PDT)
 From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] iproute2: update to 5.8.0
-Date: Wed, 12 Aug 2020 02:10:18 +0200
-Message-Id: <20200812001018.554194-1-open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ethtool: update to 5.8
+Date: Wed, 12 Aug 2020 02:13:38 +0200
+Message-Id: <20200812001338.557467-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../0001-devlink.c-add-missing-include.patch  | 23 -------------------
- ...01-libc-compat.h-add-musl-workaround.patch | 10 ++++----
- .../{iproute2_5.7.0.bb => iproute2_5.8.0.bb}  |  2 +-
- 3 files changed, 5 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_5.7.0.bb => iproute2_5.8.0.bb} (79%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
+ .../ethtool/{ethtool_5.7.bb => ethtool_5.8.bb}              | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.7.bb => ethtool_5.8.bb} (93%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
-deleted file mode 100644
-index f9580b7d44..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-devlink.c-add-missing-include.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--From 5df629d825df4ccc4283228bc0739da126326072 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Sat, 6 Jun 2020 18:00:13 +0000
--Subject: [PATCH] devlink.c: add missing include
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- devlink/devlink.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/devlink/devlink.c b/devlink/devlink.c
--index 16602ab..c278e6d 100644
----- a/devlink/devlink.c
--+++ b/devlink/devlink.c
--@@ -26,6 +26,7 @@
-- #include <libmnl/libmnl.h>
-- #include <netinet/ether.h>
-- #include <sys/types.h>
--+#include <signal.h>
-- 
-- #include "SNAPSHOT.h"
-- #include "list.h"
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-index 50c4bfb0f2..60f31db9a2 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-libc-compat.h-add-musl-workaround.patch
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 8ecfde1417..90235e4072 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
 @@ -1,4 +1,4 @@
--From b7d96340c55afb7023ded0041107c63dbd886196 Mon Sep 17 00:00:00 2001
-+From c6109138e9e13c7e40313aacc3ea582c52ffd61f Mon Sep 17 00:00:00 2001
- From: Baruch Siach <baruch@tkos.co.il>
- Date: Thu, 22 Dec 2016 15:26:30 +0200
- Subject: [PATCH] libc-compat.h: add musl workaround
-@@ -14,15 +14,16 @@ https://git.buildroot.net/buildroot/tree/package/iproute2/0001-Add-the-musl-work
+-From 1c6c017e56ec536f5cceacdb02092777d390debb Mon Sep 17 00:00:00 2001
++From 5b58e7225ba49d497b23cf11d8c2bef17ef1b978 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- Signed-off-by: Baruch Siach <baruch@tkos.co.il>
- Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+
- ---
-  include/uapi/linux/libc-compat.h | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/include/uapi/linux/libc-compat.h b/include/uapi/linux/libc-compat.h
--index f38571d..30f0b67 100644
-+index a159991..22198fa 100644
- --- a/include/uapi/linux/libc-compat.h
- +++ b/include/uapi/linux/libc-compat.h
--@@ -49,10 +49,12 @@
-+@@ -50,10 +50,12 @@
-  #define _LIBC_COMPAT_H
-  
-  /* We have included glibc headers... */
-@@ -36,6 +37,3 @@ index f38571d..30f0b67 100644
-  
-  /* GLIBC headers included first so don't define anything
-   * that would already be defined. */
---- 
--2.4.0
--
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
-similarity index 79%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
-index 276afeab11..3a590f9122 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.7.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.8.0.bb
-@@ -5,7 +5,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-devlink.c-add-missing-include.patch \
+ diff --git a/configure.ac b/configure.ac
+-index 1169b7f..ed82524 100644
++index 19223f7..8a58d15 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.7, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.8, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.7.bb b/meta/recipes-extended/ethtool/ethtool_5.8.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_5.7.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.8.bb
+index d9fc30cb55..0a6e7a2b1f 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.7.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.8.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
             "
  
--SRC_URI[sha256sum] = "725dc7ba94aae54c6f8d4223ca055d9fb4fe89d6994b1c03bfb4411c4dd10f21"
-+SRC_URI[sha256sum] = "cfcd1f890290f8c8afcc91d9444ad929b9252c16f9ab3f286c50dd3c59dc646e"
+-SRC_URI[sha256sum] = "c2e16f8bf510c5822f8e25061c2533972308a421767c54abcacb1038b08bb782"
++SRC_URI[sha256sum] = "91e8bbda48a7fd5d374efacca542364ceb3a6c1f286f024b64ec40ccc799e125"
  
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ 
 -- 
 2.25.1
 
