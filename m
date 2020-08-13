@@ -1,172 +1,84 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web11.12359.1597331975171479545
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web10.758.1597340284813960601
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2020 08:19:35 -0700
+ Thu, 13 Aug 2020 10:38:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.ro header.s=google header.b=mbJJSHjy;
- spf=none, err=SPF record not found (domain: gherzan.ro, ip: 209.85.217.66, mailfrom: andrei@gherzan.ro)
-Received: by mail-vs1-f66.google.com with SMTP id 1so3093531vsl.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2020 08:19:35 -0700 (PDT)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=Y3QRdjB2;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.215.195, mailfrom: jpuhlman@mvista.com)
+Received: by mail-pg1-f195.google.com with SMTP id x6so3158024pgx.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2020 10:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gherzan.ro; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=7gLy9GDMOdY2HMZBK9/YtkOwmTn4wQsJtYuhFdWMK9Y=;
-        b=mbJJSHjya0q4aTUPDbGIrzyVisseF+e0UUsGuUWg1RdSKBPcsUtutRsIHqU8pmidnF
-         JssqFnKPdcy8Lo1alC74qZLN9+mqxmLl2gtivHzC5nN6jX78GyndDTE9i3pHBQRfr2Vg
-         uuRlslWTl0jn0UeQabWm/PN1Oiy72ZPjZN3l7JZy+6ZqJyg1nQ5ZXUFvSzGnzmChbqg0
-         Zhe+xPtQsM9PJAxbVWyo17hr2VoSgQntRKhp8ulHa59/KmW6SRvq2T63t20hSLn6Cg9n
-         Cu/LtD3pATSoWGuIsf4qRvjudA1xs7wFr5N9RqdYmPkhc9PfmXy2vTHyerSAVPUJiyMI
-         SYrw==
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SDE6j6L7KE/WxxI+dKbQ7UI86WNGkxfsZIPYIdZXfss=;
+        b=Y3QRdjB2ZewNOtPzKWd3bXntFps86RYM0YP3CFH1We6t8j6/PVf+xnCmCQaV/sm3Jw
+         L7Ip4GSA4Ij5YocOt/MUIg5Aih4GzBmfC4ea1DBntn0Q+AlHkK0oYsyaOVFp/bu2juqw
+         gpWeKSKzv503JqZLUB7r0QZH5mkhsevE1zAOML0MvymXH/TMTmK1qu9e7Bo0rH3YaqUM
+         LLNcsqKfllkoWvQGnzUUKbbODM5N1chpbmmoXgwuKLOKj07lqZ5AkTjpkjHsixVyWEyR
+         evjmBtr2tVhTh0R+1zSgQnpu8zne5E98enn5vt/wezaoLbnimTBvyH7aERzVRRwcH5J1
+         vUzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=7gLy9GDMOdY2HMZBK9/YtkOwmTn4wQsJtYuhFdWMK9Y=;
-        b=qOh3lQVvqS8rVn4t4KaoDu4gHTFG13ozzZh5ltO/e5Q5l2RoLh5yP24sta2f2lW9Ug
-         V8J633SjZNI79Jqj8YpDg8sO0tWZLUWHxEEwcSPsRuZBP8khgts7LpbBfvuwcac4evUH
-         adAYOKWtRbNJ0YohOPSwT83/FDz4rOTkBiLg9LM84TzRZ1t6SDiapjW1UH7IeloB+EjP
-         dAbqqR1FGZGlx2Zl9237UqT+pDg01j331lK1juviwOvtYPYCf7gV9MpY1VqgXXJCEyvb
-         JCuTeBd2HeWI2XL/Voyxfm17NASPcEIYOLkGIi9ZqG+Iaf+LTVXOj7uaTrNsasWMw5vW
-         1qGA==
-X-Gm-Message-State: AOAM530Ra5Cu4vvo1n26CluNps3CnyvuvS8XBcML7vmQR0qKAhWn+OoS
-	8qUmv4QQ8q4X20YDxawL9OH5Tvt1wM8h8zyJ5nBOfHgJ8vc=
-X-Google-Smtp-Source: ABdhPJwVKzEw17TqxH+AI5suHorow81bIWofSaCSSZEKGhfNME5RgXgccY1HVkNnVv8Tn30vnfiCPduSrU3wJPJ4v7E=
-X-Received: by 2002:a67:4387:: with SMTP id q129mr3614273vsa.26.1597331974033;
- Thu, 13 Aug 2020 08:19:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200316152820.23437-1-andrei@gherzan.ro>
-In-Reply-To: <20200316152820.23437-1-andrei@gherzan.ro>
-From: "Andrei Gherzan" <andrei@gherzan.ro>
-Date: Thu, 13 Aug 2020 16:18:57 +0100
-Message-ID: <CAK18fxHYa6GfbA7mnaAkjh4+9siDqUY8HcnfZtqd9WBX64nB6g@mail.gmail.com>
-Subject: Re: [PATCH] wic/bootimg-efi: Respect fixed partition size
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SDE6j6L7KE/WxxI+dKbQ7UI86WNGkxfsZIPYIdZXfss=;
+        b=p2d5aeQuY8+wIaJNMNbwQOTfo7478VsvNrJ1HCse6hFZoif9tO7PmFFGX9sLRzN+I5
+         yaDPyXiBD3joHaLSLY7vaBLuuL+cCzMvpcThBUKYMCYtMIW5anTt8/v5GVtR/yL5Zw1x
+         qGC3F71bfoVL0irjJYOMeBFPPfoacQ4Jr9Pogi3wpgPw06rjhIgbCmhz/IsCa70KKHXH
+         QMm5ImCzD3DavkZ86JszhNNZDrNFogDD5XPgQq0wIQWe4qYzeMKoonc5sHk2BpRjFlY3
+         Qa3KgBnfj/6LQI3JBQoOnwfLdD/Vx1GLpQv5Q0DTviZ6PfqxtF3SVfKWupTVSH9f3EUN
+         E/1g==
+X-Gm-Message-State: AOAM530bQcAZmEyOBKFprGKhm3kXmh4Ql4XoRw3dj0x2M3ornbercSfb
+	OJP/yKYUqxkl/fiFtOsXMFr1/ox5Cig=
+X-Google-Smtp-Source: ABdhPJxYU9ggBKwMb7H2+YB/wHpF1VNBoE4bqz8OAo5mZ/m8wljHESvqFxyWjsf/xYBg+NpmP5x4ug==
+X-Received: by 2002:a62:206:: with SMTP id 6mr5295241pfc.228.1597340283781;
+        Thu, 13 Aug 2020 10:38:03 -0700 (PDT)
+Return-Path: <jpuhlman@mvista.com>
+Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id x12sm6320065pff.48.2020.08.13.10.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2020 10:38:03 -0700 (PDT)
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id D98462A1883; Thu, 13 Aug 2020 10:38:01 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e6ae6805acc3d4f0"
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH] gobject-introspection: disable scanner caching in install
+Date: Thu, 13 Aug 2020 10:37:53 -0700
+Message-Id: <20200813173754.26674-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000e6ae6805acc3d4f0
-Content-Type: text/plain; charset="UTF-8"
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Hi,
+do_compile and the wrapper already disable touching the
+home cache. Do the same in do_install.
 
-On Mon, Mar 16, 2020 at 3:28 PM Andrei Gherzan <andrei@gherzan.ro> wrote:
+[YOCTO: 13970]
 
-> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 21 +++++++++++--------
->  1 file changed, 12 insertions(+), 9 deletions(-)
->
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index 2cfdc10ecd..6c3d7b8491 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -263,19 +263,22 @@ class BootimgEFIPlugin(SourcePlugin):
->              cp_cmd = "cp %s %s/" % (startup, hdddir)
->              exec_cmd(cp_cmd, True)
->
-> -        du_cmd = "du -bks %s" % hdddir
-> -        out = exec_cmd(du_cmd)
-> -        blocks = int(out.split()[0])
-> +        if part.fixed-size:
-> +            blocks = part.fixed_size
-> +        else:
-> +            du_cmd = "du -bks %s" % hdddir
-> +            out = exec_cmd(du_cmd)
-> +            blocks = int(out.split()[0])
->
-> -        extra_blocks = part.get_extra_block_count(blocks)
-> +            extra_blocks = part.get_extra_block_count(blocks)
->
-> -        if extra_blocks < BOOTDD_EXTRA_SPACE:
-> -            extra_blocks = BOOTDD_EXTRA_SPACE
-> +            if extra_blocks < BOOTDD_EXTRA_SPACE:
-> +                extra_blocks = BOOTDD_EXTRA_SPACE
->
-> -        blocks += extra_blocks
-> +            blocks += extra_blocks
->
-> -        logger.debug("Added %d extra blocks to %s to get to %d total
-> blocks",
-> -                     extra_blocks, part.mountpoint, blocks)
-> +            logger.debug("Added %d extra blocks to %s to get to %d total
-> blocks",
-> +                         extra_blocks, part.mountpoint, blocks)
->
->          # dosfs image, created by mkdosfs
->          bootimg = "%s/boot.img" % cr_workdir
->
->
-Small ping for this.
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+---
+ .../gobject-introspection/gobject-introspection_1.64.1.bb    | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Thanks,
-Andrei
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
+index 7eefdd3e27..4d80f00e10 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
+@@ -131,6 +131,11 @@ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH=$B/.libs
+ }
+ 
++do_install_prepend() {
++        # This prevents g-ir-scanner from writing cache data to $HOME
++        export GI_SCANNER_DISABLE_CACHE=1
++}
++
+ # Our wrappers need to be available system-wide, because they will be used
+ # to build introspection files for all other gobject-based packages
+ do_install_append_class-target() {
+-- 
+2.20.1
 
---000000000000e6ae6805acc3d4f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,<br></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 16, 2020 at 3:28 PM An=
-drei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro">andrei@gherzan.ro</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
-ed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro" target=
-=3D"_blank">andrei@gherzan.ro</a>&gt;<br>
----<br>
-=C2=A0scripts/lib/wic/plugins/source/bootimg-efi.py | 21 +++++++++++-------=
--<br>
-=C2=A01 file changed, 12 insertions(+), 9 deletions(-)<br>
-<br>
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wi=
-c/plugins/source/bootimg-efi.py<br>
-index 2cfdc10ecd..6c3d7b8491 100644<br>
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py<br>
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py<br>
-@@ -263,19 +263,22 @@ class BootimgEFIPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp_cmd =3D &quot;cp %s %s/&=
-quot; % (startup, hdddir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_cmd(cp_cmd, True)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 du_cmd =3D &quot;du -bks %s&quot; % hdddir<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 out =3D exec_cmd(du_cmd)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 blocks =3D int(out.split()[0])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if part.fixed-size:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blocks =3D part.fixed_size<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 du_cmd =3D &quot;du -bks %s&quot=
-; % hdddir<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out =3D exec_cmd(du_cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blocks =3D int(out.split()[0])<b=
-r>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 extra_blocks =3D part.get_extra_block_count(bl=
-ocks)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extra_blocks =3D part.get_extra_=
-block_count(blocks)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if extra_blocks &lt; BOOTDD_EXTRA_SPACE:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extra_blocks =3D BOOTDD_EXTRA_SP=
-ACE<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if extra_blocks &lt; BOOTDD_EXTR=
-A_SPACE:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extra_blocks =3D B=
-OOTDD_EXTRA_SPACE<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 blocks +=3D extra_blocks<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blocks +=3D extra_blocks<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Added %d extra blocks to %s=
- to get to %d total blocks&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0extra_blocks, part.mountpoint, blocks)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Added %d extr=
-a blocks to %s to get to %d total blocks&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0extra_blocks, part.mountpoint, blocks)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# dosfs image, created by mkdosfs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bootimg =3D &quot;%s/boot.img&quot; % cr_=
-workdir<br><br></blockquote><div><br></div><div>Small ping for this.</div><=
-div><br></div><div>Thanks,</div><div>Andrei<br></div></div></div>
-
---000000000000e6ae6805acc3d4f0--
