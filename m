@@ -1,69 +1,85 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.117.1597273395276809229
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
+ by mx.groups.io with SMTP id smtpd.web10.461.1597279031091195867
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Aug 2020 16:03:15 -0700
+ Wed, 12 Aug 2020 17:37:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eAzzr8dD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id a5so3523248wrm.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 16:03:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tBzP40f/;
+ spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f66.google.com with SMTP id t15so5469429iob.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Aug 2020 17:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=WZC953k+8s2XBcSu8D5r3tUxWvxrwq3NCMxRpcPewLc=;
-        b=eAzzr8dDRyyn8ifPpibhzR2HLDx8rhcvSlEOupbb60mgIJ1riWot/AcvIaSjmKmiwp
-         CtBbGxav3ou2m2NONYoh+BoELlmOOX12xnCqUcxMTSlX73iFeAOKKFEEhozj16zlF9nw
-         CU8lyVSCAREB99IsnXLGLmR4kHAYS6wazRQvo=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pqPO+2dZBpggtSUnQQtH02aJY350jTUct9BjtKenEvU=;
+        b=tBzP40f/Y+lhltrofrpm8SJbk8StnRoRIwpvqqMJWB628BVYpm3t49LSW1a0CVq9SV
+         1VrF3j9Ro/C9iRJOgFIXbYpE1O5RKHUumUinNt+oZAOaL0Mma9t9fPbI9Iwb8TOxonKi
+         fL/ZC5h+IcnSO5J//xCIU+lWnlmgSYXnTiwntmHBDXzmuETd4vAcYNEbuVd9O9pq17JN
+         y2flSKdRYktC3yX7H8BZIvaSVuBogkRNrrim1PU718kkcVc2AwygwWH1eXiqlu+USvQc
+         UwPNHQL3j0CiTHZkacILS7Y14Yd5AjJsL/azmSqZ0DAOyFZXytEMdKh+R+5nTYtYmdAi
+         bRvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WZC953k+8s2XBcSu8D5r3tUxWvxrwq3NCMxRpcPewLc=;
-        b=q92ZZAU/6B13o4Q1cC8HvbPxz7HvzwytBcV26Ca7CgNwzlLLTSzXTcy8GWNWzulHkZ
-         3NkqsAZaHj+F2X5zFYOiuQm4qS+fQozBMzH6tgVCF5HpLCFEWHVb2SKg8WDJsBiedhs6
-         ucjZCXWLUZFC4CySo0WiHupmPogQv3Gc4mk/GT8kliHS6XtvivPKTtMNmGUOEBeNiDqC
-         HYzI719KXsfXoqZuUwEzUGou/mje23S34dsh8B+0tNi7Fm0peD+1hiwockyMELABT3Oq
-         +ljzQ4OwC2A0VuhbiRTZBvk/Efm0tZ4q9Ceb+5dbcuprQU5TYRkEPpFtBQNRU/xi4IeG
-         G8oA==
-X-Gm-Message-State: AOAM530j0/H+RB7IwngL8zfazM1/qwqLBmzgnc+IHbWGpm6lIpS85KFt
-	CVCAuF8B1DKHEHXvD/dHtsggfbwzmhojlA==
-X-Google-Smtp-Source: ABdhPJxCaooB6v8nP4OVMdDgFOd3IeskjZB3Zgw2gcDbzl63DPi+fsR+tJV0eq3f3fA/UY4HIJKwuw==
-X-Received: by 2002:adf:82f6:: with SMTP id 109mr1325362wrc.25.1597273393875;
-        Wed, 12 Aug 2020 16:03:13 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 3.4.a.8.2.9.1.2.1.e.3.5.0.0.0.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.4.a.8.2.9.1.2.1.e.3.5.0.0.0.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3000:53e1:2192:8a43])
-        by smtp.gmail.com with ESMTPSA id z15sm6762710wrn.89.2020.08.12.16.03.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pqPO+2dZBpggtSUnQQtH02aJY350jTUct9BjtKenEvU=;
+        b=d9pd8J8O5w/31nCs1iv+S3OHm2zJ1RycLdWLdkQhmITr47As3kDND8EEAtpcnIz5ua
+         swtw1Mf1hA1vaXUYVqukBfwCJuzeQcUPbfQOJ0aSySzfAKd/HmEOZSL95nyGwV/s9PC8
+         mP8UvdGbkShOBmndmhphKPsmnwydHSwIRM9S55yBSbl1zsTx6kfA2SLXo8XIKWEfL0on
+         sdUW/vvhlw0SOJpM8g1pdbthMGqTV30+JAhT29LaZXutUuG/D76xIwm8aOyUesAxlNKj
+         9av+j/ZqQ0rkXQeCtS6Ijcfnea7FodXIzhQ4QIYWCFe2omF1R9ja2fyxM2k28i4uDZL0
+         h/Rw==
+X-Gm-Message-State: AOAM530XnR+lQ/TcD6Tv8/hct6rG1JUaE6DyW+Mk9gOCN6cKH/qwySuL
+	w9DJ1pAmoE5OIGF+a6FSAbNH7JF4
+X-Google-Smtp-Source: ABdhPJzaPn8gfN69GvpAJeSiaSeP3c2JAHj9btnF7YSkw/Plft3XQOq28W5zyn+7TdUW+1tSR6LWHw==
+X-Received: by 2002:a05:6602:2409:: with SMTP id s9mr2242838ioa.98.1597279030137;
+        Wed, 12 Aug 2020 17:37:10 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:408c:6846:c099:4d90])
+        by smtp.gmail.com with ESMTPSA id w7sm1895096ilo.17.2020.08.12.17.37.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 16:03:13 -0700 (PDT)
-Message-ID: <3ea593def41481918f0dd8ebc3713c38f2e55a2f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ethtool: update to 5.8
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 13 Aug 2020 00:03:12 +0100
-In-Reply-To: <20200812001338.557467-1-open.source@oleksandr-kravchuk.com>
-References: <20200812001338.557467-1-open.source@oleksandr-kravchuk.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Wed, 12 Aug 2020 17:37:09 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] perl: Add check for non-arch Storable.pm file
+Date: Wed, 12 Aug 2020 19:37:03 -0500
+Message-Id: <20200813003703.9702-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-08-12 at 02:13 +0200, Oleksandr Kravchuk wrote:
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
->  .../ethtool/{ethtool_5.7.bb => ethtool_5.8.bb}              | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-extended/ethtool/{ethtool_5.7.bb => ethtool_5.8.bb} (93%)
+Under unknown conditions, Storable.pm will be placed in the base library
+directory instead of under the arch specific one. This causes build
+issues, see https://bugzilla.yoctoproject.org/show_bug.cgi?id=13946. To
+try and catch this happening, add an explicit check for the bad file
+existing and fail the build if it is found.
 
-ptest doesn't build:
+[YOCTO #13946]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2315
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-devtools/perl/perl_5.32.0.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-[and many similar failures]
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/perl/perl_5.32.0.bb b/meta/recipes-devtools/perl/perl_5.32.0.bb
+index c10ce12303..bba8263b90 100644
+--- a/meta/recipes-devtools/perl/perl_5.32.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.32.0.bb
+@@ -139,6 +139,11 @@ do_install() {
+     # Fix up shared library
+     rm ${D}/${libdir}/perl5/${PV}/*/CORE/libperl.so
+     ln -sf ../../../../libperl.so.${PERL_LIB_VER} $(echo ${D}/${libdir}/perl5/${PV}/*/CORE)/libperl.so
++
++    # Try to catch Bug #13946
++    if [ -e ${D}/${libdir}/perl5/${PV}/Storable.pm ]; then
++        bbfatal 'non-arch specific Storable.pm found! See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13946'
++    fi
+ }
+ 
+ do_install_append_class-target() {
+-- 
+2.27.0
 
