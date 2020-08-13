@@ -1,60 +1,55 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web11.2323.1597345307064744128
+ by mx.groups.io with SMTP id smtpd.web12.2457.1597345531412903553
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2020 12:01:48 -0700
+ Thu, 13 Aug 2020 12:05:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=kOPwWTu+;
+ dkim=pass header.i=@stusta.de header.s=default header.b=d7ysKtIr;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=pkdr=bx=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4BSGBv3YD0z23
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2020 21:01:43 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4BSGHD5Lcfz23;
+	Thu, 13 Aug 2020 21:05:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1597345303;
-	bh=tXV8jUGumlIBH+6JDoGi/Gkpsxt7ctfoc/euW93u7dQ=;
-	h=From:To:Subject:Date:From;
-	b=kOPwWTu+9ZLkXyu9nEsA4hu/jZjXKy4V7UDv97L+u0AP3qb8UBisc27avjl8PZsFT
-	 j9EdAOku0ZXSAeFW3HGnHtOFd4SxezjLnzuTmRBpXqFAJiC2k/OMwP3W6oDJlYN67l
-	 G7WLW6Np+GcJaWQpySnWpogiljq6La54yr/C5adHX8/bUqudkQ/kjTOKIlaWNbo++3
-	 bG+fQRRB4RjdWCAIZsN/9iB9ES1XZi7IXSmTSkeWSZflIOT6u87cK037baySSPVftC
-	 Ypcapxuikdwq8ZYXU88IbqmzySNxcdjPd0v5bu+jNTiqUA5vIBq/iaBw41tLO4ZxXY
-	 D5OTe3I9KV9yPo3mrUv7szPl7hpZ81jEvigfMCN/6ouAIArm8jSAW2SUyi++gU3irJ
-	 D+fBrpf0hSCWNafASjEuMFLLWTz6vgA6tTpKyJfe8ZzeHuNSUYz9GELnIBCPVc2oxs
-	 AEs0T7iyyFIRoi1cnwMAKcveAKlFjjynALjFUCNLaE6CZdspOLeit7z/cDLaETtXV0
-	 IQ6Iu4+20EOuLxwr0q0GeleHMajNJTmR7ke95rWi2S2xwjE5wm0zLGrfVnVeht1+mS
-	 K0FaH0lnNsUwl18aO355xAgCb9BqvznlYFa6xX+KMRCDzp03eMfZ+VLfsZmPMQR0+z
-	 HMJOAecimbQaxFR6pTogZAYk=
+	s=default; t=1597345529;
+	bh=PDP+em8Cq9tDdvMV3xLZ/weLq2cxYCgfWuJSyCymBhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d7ysKtIrl66VhXX9a1ozhxPhe/3TfO4Qv5LMZQC5EX0j5BA8Gjp7PeGq1LvnlCvRr
+	 DBbJTyHeT8R6bdhwHPO1J2ttpQ5Ddy8BAfzgbQs+eIK59t8CxfK7960P1gyLmub2Xl
+	 PNn/XLpt71m9+1HEvehb2cLdcJ2aNJCuU8+OWTsOe1ITil5uwe36dYmw1uaPtIqwoM
+	 qy+A0GUf2F3ghsE5ofTAs+cMDbALfk5Ibr2Oyi2XIsLL4YXnvkX3/mHVWOiUSD9Mr3
+	 e9slyCVvmGiRwaF29HM6NfNUMcht1DESEM+9YbDthgrgzDqMYjJxNpUvoptRA+QYeH
+	 wyMbAXEbaN/tJLAv84nI26CjcFBYdZUdkB3xYuWQ5E+yHtUb+CYl8grIrhzD7Jbg2n
+	 YyflnjEyK9U6Wi4jrdG6lRrlaPLA7jciLdexpKM6fKasnCFSGGOeskAD/ipKXuLGF2
+	 E3CbDy0H7yyJg8oS+ZdywMp/PK4FIg4CXBHH4qsOcNNvZcf+pSM07p3pvk14xg0gr6
+	 +ID7d4a+iEtLrgPd9xh6/58lyChqAZYEXilzXbRVPZnxU/ORqEmQCFEy+Hx+TgC6ko
+	 Cm3DJwKQTL0WceM9uCP/BQH2Xt3DSll4r/+qBLwgsMAlAY+V9w32wwhb1il0POwhSq
+	 SNLaLx1pSBe1A5q/qDuCD/wE=
+Date: Thu, 13 Aug 2020 22:05:27 +0300
 From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] librsvg: Upgrade 2.40.20 -> 2.40.21
-Date: Thu, 13 Aug 2020 22:01:42 +0300
-Message-Id: <20200813190142.25315-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, stefan.agner@toradex.com,
+	sergio.prado@toradex.com, max.krummenacher@toradex.com,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V2 2/2] libubootenv: uprev to v0.3
+Message-ID: <20200813190527.GA30737@localhost>
+References: <20200813102117.8726-1-liu.ming50@gmail.com>
+ <20200813102117.8726-3-liu.ming50@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200813102117.8726-3-liu.ming50@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-This fixes CVE-2019-20446.
+On Thu, Aug 13, 2020 at 12:21:17PM +0200, Ming Liu wrote:
+>...
+> -PV = "0.2+git${SRCPV}"
+> +PV = "0.3+git${SRCPV}"
+>  SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
+> -SRCREV = "86bd30a14e153a18f670b25708795253d8736f0f"
+> +SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
+>...
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- .../librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb}         | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb} (92%)
+This is exactly the 0.3 release, so PV should be
+  PV = "0.3"
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-similarity index 92%
-rename from meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-index 337299ff69..acdbc1f1b3 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-@@ -23,8 +23,7 @@ SRC_URI += "file://gtk-option.patch \
-             file://0001-Remove-non-reproducible-SRCDIR.patch \
- "
- 
--SRC_URI[archive.md5sum] = "4949d313b0c5d9161a5c259104af5568"
--SRC_URI[archive.sha256sum] = "cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b"
-+SRC_URI[archive.sha256sum] = "f7628905f1cada84e87e2b14883ed57d8094dca3281d5bcb24ece4279e9a92ba"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
- 
--- 
-2.17.1
-
+cu
+Adrian
