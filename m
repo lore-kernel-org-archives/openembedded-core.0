@@ -1,115 +1,72 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.6639.1597311131484454419
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.7140.1597314095190561215
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Aug 2020 02:32:11 -0700
+ Thu, 13 Aug 2020 03:21:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CXSMfNQO;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id g8so4098535wmk.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2020 02:32:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kIsnS9Nr;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: liu.ming50@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id m22so5541639eje.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Aug 2020 03:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E9WSdi23Jq/5laqbNLKDZmeUoo3JB5s99nhGZbbjQhA=;
-        b=CXSMfNQOSsKTxxBxhSOTAjyac1eqgZqKGuq3Z5lX1hTMgE84fqbgFF16Xjgf+drrFD
-         Z4/bbpOmKDdbL8EMi2yIXPt71++ey21K5zDqlSRJCKw6z0Q4OS5nUXwGRZ0JBWebsFmQ
-         Y37ZnR298a8VGi1orivDhncaMDBcbmv/A6ifyquLFOn6SrS/1jzBPA+KldR7BjWgYn0L
-         kILtjMQxasfaPGOvDBkBo1ZR6FJhlBYEAzR++1AIkKLNxpycDzCBxbKNZKOC6tdryjGf
-         r5j/WBU3sRHuwIrlLQH4RUVxiDXD8pOM/UsXEPjj7TWI8G23sdxlnCu4leul4Aze+O/t
-         eQDw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j+6clElh7oHu3YURAt4E4P4ALjttHyvHhBNu2s2t3Vk=;
+        b=kIsnS9NrpxXyQ5vzT5Idsf0cWOTb1W7CvasnUrfNKwIthPWdDWub3gHVOHqFVWJY6a
+         ToGZPmyEBwNt7e4oJrbLucentYqc+afhuyjibPUEjUkwyVccJWqjZ+kKUGh8INCmwGWp
+         HEnG1T2L893qY0bNLcOog7o+2oGgDTWEX5UxR3dDPUIIelwy7huuGH6GNMuEOmVI6BY3
+         jm6T8ixFcsO5VMumHXkWaY4U2ZcmNGqXIxLh0mf5SXh+z7mbARKCU5ijZqySMQ8XQSIr
+         sv08yvnUVIvk8H42kF0rL2kYsWOZDyY0M7/Ol9+LDJEMjuX2G9MZZmVsG/KZLKxSQMIU
+         hi0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E9WSdi23Jq/5laqbNLKDZmeUoo3JB5s99nhGZbbjQhA=;
-        b=r3OeUUmdl2qURsjQYJsRvQh55m8PIVNNDRfIBYJipoPYriP/1vkl8B9ZT4xQcTLPt4
-         hncmf1stpUlB/GG6yvNujaNa4teOwncrwUh3o+xiNX2QjxJRgJkLVbVAHT/dz6Ve8WSR
-         RlEQLn4q1RX5pN4iaMjWRqdov1xSQKwC/J3uRD+XaYwg189sT+AtijrSQYlssuFemmIJ
-         6M5e0QiIBcf7uNHt7Zp3CCucPy98JnQZvP4T+CUVDh+EtlVL/Jkiaa5zbRX4HH6IUhjp
-         1V/0+SG3T0yVcV6k+zKzjJ4LvUhguq8OGJNaaKaUYV2QKBd/wxqcL4v/brRdGDujQkS/
-         ayGQ==
-X-Gm-Message-State: AOAM530wCqlMJkc+sYW4c3pqa+FtbUSBc0oFqONKipywEO0Pq/r2lBmt
-	8a0aMLZWSMNPYI0AP/UPTIDIMpzzoYzwL90vFPM=
-X-Google-Smtp-Source: ABdhPJwsRHRfwhRtXpnQ+uNwhMhWi+2Y/JVVquctCmdgskIhu+XVhjWfQsUHsK/OAt4IBgLGVBluuQ3cgaVhcJXHTm0=
-X-Received: by 2002:a05:600c:2209:: with SMTP id z9mr3467926wml.70.1597311130021;
- Thu, 13 Aug 2020 02:32:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200812121715.10548-1-liu.ming50@gmail.com> <beb12038274a4c2c0e5af09191501f1dd686db46.camel@linuxfoundation.org>
-In-Reply-To: <beb12038274a4c2c0e5af09191501f1dd686db46.camel@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j+6clElh7oHu3YURAt4E4P4ALjttHyvHhBNu2s2t3Vk=;
+        b=Na20mX28liUN/hM/4xw4Cr2zCyhbHaVLbNS9g5k0tUhOjHuIgpCINvfezaUZ45dfqi
+         KnWGogX2+1z9ecg37CVNsG+gbj7+HPIt6lIul+FScGDfrbK2KLQ90l1vNphN8UtG1z3J
+         3e3OKVwmnndI03fxUG+9X5EZrJQ6YVHijP6S9SK+FsFgwDcL0i59cF0d/9uFe3J+hU5+
+         oDxNzuBahI6MzyW28bfzIekjAHNpMz+qP44TquRDkcrbG6cRQUJbUP18FOJip+kLP9tG
+         xHUIA2vOqBJvcxe/MA6P5I9BK94QK74HBvQ1RmkR+NuwzMRT9GpKaJGgFlEifbMSb42v
+         gnmg==
+X-Gm-Message-State: AOAM531Kg6AeMjBLsgKt0BKCjECkadBTq7YY5MqFULbs8u6g14Lgk80H
+	VhAWTCVNqNC7DFsA7Vh3Eiqqko9HjHs=
+X-Google-Smtp-Source: ABdhPJyaeKIJYywQj3/+/s9tHD9goca+2kp0w7VVlDFw+n1ZA3k1u0jZobZ76ldtTvxrKo+8jVbtgg==
+X-Received: by 2002:a17:906:ce3a:: with SMTP id sd26mr3889615ejb.489.1597314093467;
+        Thu, 13 Aug 2020 03:21:33 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id v5sm3288017ede.13.2020.08.13.03.21.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 13 Aug 2020 03:21:32 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
-Date: Thu, 13 Aug 2020 11:32:00 +0200
-Message-ID: <CALatG=58VteAQJ5iuXM1thUqcTw3x-s1r-Qm2rzEci5we6oqzQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libubootenv: uprev to v0.3
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Stefan Agner <stefan.agner@toradex.com>, sergio.prado@toradex.com, 
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: multipart/alternative; boundary="00000000000080336705acbefa27"
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	sergio.prado@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V2 0/2] libubootenv: uprev to v0.3
+Date: Thu, 13 Aug 2020 12:21:15 +0200
+Message-Id: <20200813102117.8726-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---00000000000080336705acbefa27
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ming Liu <liu.ming50@gmail.com>
 
-Arha, a multilib failure, I did not verify it with multilib build, will
-check that.
+Changes in V2:
 
-//Ming Liu
+1 Added u-boot to NON_MULTILIB_RECIPES.
 
-Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2020=E5=B9=B4=
-8=E6=9C=8813=E6=97=A5 =E9=80=B1=E5=9B=9B
-=E4=B8=8A=E5=8D=881:01=E5=AF=AB=E9=81=93=EF=BC=9A
+Ming Liu (2):
+  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
+  libubootenv: uprev to v0.3
 
-> On Wed, 2020-08-12 at 14:17 +0200, Ming Liu wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > Update libubootenv to the latest 0.3 release, which comprises the
-> > following commits:
->
-> Seems to break world builds:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/2280
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/791
->
-> Cheers,
->
-> Richard
->
->
+ meta/conf/multilib.conf                                     | 2 +-
+ .../u-boot/{libubootenv_0.2.bb => libubootenv_git.bb}       | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_git.bb} (84%)
 
---00000000000080336705acbefa27
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.28.0
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr">Arha, a multil=
-ib failure, I did not verify it with multilib build, will check that.</div>=
-<div><br></div><div>//Ming Liu</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:richard.=
-purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; =E6=
-=96=BC 2020=E5=B9=B48=E6=9C=8813=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=
-=8D=881:01=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">On Wed, 2020-08-12 at 14:17 +0200, Ming Liu wrote:<br=
->
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Update libubootenv to the latest 0.3 release, which comprises the<br>
-&gt; following commits:<br>
-<br>
-Seems to break world builds:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/52/build=
-s/2280" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/52/builds/2280</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/108/buil=
-ds/791" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/108/builds/791</a><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---00000000000080336705acbefa27--
