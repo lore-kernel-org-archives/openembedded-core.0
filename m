@@ -1,70 +1,108 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.14293.1597395889476886589
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.14414.1597396801935687038
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2020 02:04:49 -0700
+ Fri, 14 Aug 2020 02:20:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D5QF0Iy+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id r4so7661263wrx.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 02:04:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dpp4tCUt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id k8so7350338wma.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 02:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=GHm5z376bjGuMEBBxoC0X4VEfjztFc+6uB58Q24mBgA=;
-        b=D5QF0Iy+PtenP8r5AZS2JNWL+aehyqBP4fb5Pfsg6BcAWGagPb0RgIt9+Tv03LAzCY
-         Kp79xzeIhNTv4Ox4nhFAt8YQgN8jURBcW1j9RJFLQR9UuLkAmzPIKpwmiRwMvKfVFWY3
-         mCMMDcmDNQ1I+eCwZAgcu4Gu6KKQOo8GI/W/c=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=68YzhWw86HQs7lv6+dWTAn7yR3k6hTUgnGqYttmIfMw=;
+        b=dpp4tCUttsQdR7cngToQ0Azt5+FbUZcdptYrD97BhrB2QhuFipT7ZDZEB+82qebdkm
+         iRGi4baMnQSM39YHu1QM3dsrhne09iqMz7UxN/VaiE4FX4zDJVSpzTMrNVa/NjpCDhPb
+         8kvG4jWsSWXZ3VxRzHaqXSlnQ0hfv0Xb3bCAy++ZyN4/VT5kn9gyudXftV/gPyav/V6x
+         WjmZupFIeNAZVfL4Ce/feWL/mtYOkhPKabXxRNqiMFk8Ueav0qpBqbvGqSErZ0IVc/Y+
+         5tILM7eir6V0ng5KIXEtJBDa2JPpoJw1Mr8R2gPworSr/F7Rvo8LdIGWQSqzXot1z+yw
+         Tp/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=GHm5z376bjGuMEBBxoC0X4VEfjztFc+6uB58Q24mBgA=;
-        b=llDLg6QVsL9NVf4AUQMHUMnF8OQrkpk8p1MOqi+S2Zwb4AofsYW1BppX8BP9lJNzsN
-         aWmcDUpYJZsw4Lce8CPEGW0aOqtdP2vVkUtJD5GqOBNIDaBIO2HukSAd2Jp0BOZU9jgv
-         fAbbeCtdW7RZ86VhlJrGLz4Lu8lXIT49+NKK7Ck5ko0//4SAXsGv9KzmBF87qy25jWaH
-         U+aOS4W8H8nnERj0wkvOrCQDyPXpR1P1g6t81u1YyivtRB1pf+lFGGlIaqDabCIMNivl
-         hmBbJvGgAg95OMkvcm585Mw2rcYA4U4ig8mF9gjmfUp9hG8FDYXat/eccFL6WSqShUHl
-         dkaQ==
-X-Gm-Message-State: AOAM532uxfHh7OVGGWUo53kshnyuJq3nxJJ3m79+PLCuqTS/PQMxPJLK
-	R6zrejCzSCl70TnkihKDDld+BA==
-X-Google-Smtp-Source: ABdhPJzxED3Zfb0vKTDPQDMMzet0/EsexArNjbEKeDhWFEBW5RX/hopEXYU8ltlutEeohENXkHYn0Q==
-X-Received: by 2002:adf:dfc7:: with SMTP id q7mr1827585wrn.80.1597395888002;
-        Fri, 14 Aug 2020 02:04:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:edc4:7dfa:277e:8b29])
-        by smtp.gmail.com with ESMTPSA id p6sm13383293wru.33.2020.08.14.02.04.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2020 02:04:47 -0700 (PDT)
-Message-ID: <defd0b2cb4166a058da0cd779c443b26e44baffb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH V2 2/2] libubootenv: uprev to v0.3
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ming Liu <liu.ming50@gmail.com>, Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Stefan Agner
-	 <stefan.agner@toradex.com>, sergio.prado@toradex.com, Max Krummenacher
-	 <max.krummenacher@toradex.com>
-Date: Fri, 14 Aug 2020 10:04:44 +0100
-In-Reply-To: <CALatG=7qEqtQZVoEHu=YAWujafJNtpAt1tR5NtKJoKecM6RFEA@mail.gmail.com>
-References: <20200813102117.8726-1-liu.ming50@gmail.com>
-	 <20200813102117.8726-3-liu.ming50@gmail.com>
-	 <20200813190527.GA30737@localhost>
-	 <CALatG=7KcQ-wqCVOsLD6_1CfM1F8ibR3RcTm2_G7QRgewh6HbA@mail.gmail.com>
-	 <CALatG=7qEqtQZVoEHu=YAWujafJNtpAt1tR5NtKJoKecM6RFEA@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=68YzhWw86HQs7lv6+dWTAn7yR3k6hTUgnGqYttmIfMw=;
+        b=dvRyE9t6UpB7c+rswGkuprv25MGUgqoVdVLxuQ8+FMTLd+EyZejtLy1Fd+tJfvOJMv
+         kSXxQxhIlxtjPsMdprrF35GiEsgsDpBLVsdyIfjalqsQ+FnTR9spWv2j5gcrkCdYO6KY
+         7Bup8cXne5CG02SeGIfVjQN7LMASPtjh++cVkusWqEtB5DL9PnilKFtgTjzjeR09VF3G
+         TXeQTyeocorXM96TTmOO1lXAZkVa7dOfxIqLQn87wsehkoXbNQdlcyp6rKGdcNHg7d01
+         lBTosJ0etUm2YxsReswPhJtSt/8iULQ3XE/sTxdSUcrlOFhpnPl63YXwmM6nsOGOzh1s
+         xfHQ==
+X-Gm-Message-State: AOAM533Z8R0NX7uhNdlJHWYe23R+07a0UhbHWiIbMjybpIq2Ji2jjYSm
+	W65Psx8GSnRR1ezHj1yKZf71wWMOKJTDdHHNCws=
+X-Google-Smtp-Source: ABdhPJzPM6zWwQKUOiLIIG3p2c7t5Ugz02eMrzPme52F0hAxqFOvZ8VG64Io2YRyxC2sJ55fbSsZ+7oL8uoWNE9wzDY=
+X-Received: by 2002:a7b:c38d:: with SMTP id s13mr1716511wmj.153.1597396800355;
+ Fri, 14 Aug 2020 02:20:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200813102117.8726-1-liu.ming50@gmail.com> <20200813102117.8726-3-liu.ming50@gmail.com>
+ <20200813190527.GA30737@localhost> <CALatG=7KcQ-wqCVOsLD6_1CfM1F8ibR3RcTm2_G7QRgewh6HbA@mail.gmail.com>
+ <CALatG=7qEqtQZVoEHu=YAWujafJNtpAt1tR5NtKJoKecM6RFEA@mail.gmail.com> <defd0b2cb4166a058da0cd779c443b26e44baffb.camel@linuxfoundation.org>
+In-Reply-To: <defd0b2cb4166a058da0cd779c443b26e44baffb.camel@linuxfoundation.org>
+From: "Ming Liu" <liu.ming50@gmail.com>
+Date: Fri, 14 Aug 2020 11:19:50 +0200
+Message-ID: <CALatG=4viVOz5OYtO0qJKu=3LhnV1Myom2raBBkv_8JG2_2vqQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2 2/2] libubootenv: uprev to v0.3
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Adrian Bunk <bunk@stusta.de>, OE-core <openembedded-core@lists.openembedded.org>, 
+	Stefan Agner <stefan.agner@toradex.com>, sergio.prado@toradex.com, 
+	Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: multipart/alternative; boundary="000000000000d9bffe05acd2ec4f"
+
+--000000000000d9bffe05acd2ec4f
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2020-08-14 at 10:16 +0200, Ming Liu wrote:
-> @Adrian Bunk Sorry, just double checked your comment, are you sure
-> "PV = 0.3" without git+SRCPV is a right way to go? This seems is not
-> like all other git recipes.
+Got that, will make a V3 dropping PV definition and _git version suffix
+from recipe.
 
-Adrian is correct, if this is 0.3, PV should be 0.3. The addition of
-SRCPV is only appropriate if it is some number of git commits past the
-0.3 release.
+//Ming Liu
 
-Cheers,
+Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2020=E5=B9=B4=
+8=E6=9C=8814=E6=97=A5 =E9=80=B1=E4=BA=94
+=E4=B8=8A=E5=8D=8811:04=E5=AF=AB=E9=81=93=EF=BC=9A
 
-Richard
+> On Fri, 2020-08-14 at 10:16 +0200, Ming Liu wrote:
+> > @Adrian Bunk Sorry, just double checked your comment, are you sure
+> > "PV =3D 0.3" without git+SRCPV is a right way to go? This seems is not
+> > like all other git recipes.
+>
+> Adrian is correct, if this is 0.3, PV should be 0.3. The addition of
+> SRCPV is only appropriate if it is some number of git commits past the
+> 0.3 release.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
+--000000000000d9bffe05acd2ec4f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Got that, will make a V3 dropping PV definition and _git v=
+ersion suffix from recipe.<div><br></div><div>//Ming Liu</div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Richard Purdi=
+e &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@=
+linuxfoundation.org</a>&gt; =E6=96=BC 2020=E5=B9=B48=E6=9C=8814=E6=97=A5 =
+=E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=8811:04=E5=AF=AB=E9=81=93=EF=BC=9A<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2020-08-14 at=
+ 10:16 +0200, Ming Liu wrote:<br>
+&gt; @Adrian Bunk Sorry, just double checked your comment, are you sure<br>
+&gt; &quot;PV =3D 0.3&quot; without git+SRCPV is a right way to go? This se=
+ems is not<br>
+&gt; like all other git recipes.<br>
+<br>
+Adrian is correct, if this is 0.3, PV should be 0.3. The addition of<br>
+SRCPV is only appropriate if it is some number of git commits past the<br>
+0.3 release.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+
+--000000000000d9bffe05acd2ec4f--
