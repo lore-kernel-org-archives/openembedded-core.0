@@ -1,209 +1,100 @@
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
- by mx.groups.io with SMTP id smtpd.web10.926.1597441470583336860
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.74.1597442774056388654
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2020 14:44:30 -0700
+ Fri, 14 Aug 2020 15:06:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BaT6/g0n;
- spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f67.google.com with SMTP id z12so3060637uam.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 14:44:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JHTcGQwO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id y3so9575853wrl.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 15:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UO1t6dxk9xxDsT/UsLBR8PrK7CA711XnWft4tgL+mdQ=;
-        b=BaT6/g0nuAMmDiBiF1JhuVQuB30pPRfFqZ81VkZEWvg/MpzAvo+mIn4WSwUgVUPjNg
-         +6bEVndv85ZSNa7E1OJNr3DCAOzpqxq4FIjcYAvkwQPFVxGU+zMomzEaTT/SRglpK4a0
-         0SlQICnQwV2uY9+OWSbGZOlNys/M7v3aWzCvD8OHspC3xUFzuhbqdaIL27Pb+6dKM2xC
-         swXE6h2XQdo1J4YF3gWDjC7jXJan6xo+kBY90D7tB+ZE0pptPUZYn+gSJbjWx4iovWNO
-         WpqtJyChiVlnirG0FY2evmMMzFdhhlMmkOMP4tvytnOFLq12trdsvYUbk85Sq8E1BNWd
-         ipRw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=TTpR1yhskdUW5tmfUuL0PEx496JYognFfL7MNaI0VTY=;
+        b=JHTcGQwO/vSpAFXoXmMwYVTWg0zWzvmm2tRsEorOM20U1ciX4oUaSKQeWHHkClQvLi
+         +rIg4YbswSFmdmgXc8Y3Lwk9fSRQ8YM9VUJCW713PFvnWeqQfrx6GX3yfpHotWNAwuhB
+         jNEhP1HbdphHeMH0It/vPR4LMpK0tFobmno6c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UO1t6dxk9xxDsT/UsLBR8PrK7CA711XnWft4tgL+mdQ=;
-        b=WV+SGyO8uJt5kJj4FfSUDktviXSM+ukrdJExYOg2JMJIzuBVPxgPMjbgyJ+7tXT5gf
-         ap6hZl4kzZ2n7VLSygDkyxZWvyY/34nnFnF9i/K3k6FjhGicmZ5cfHqIaMPrEqFxoyre
-         KDXLbgX2kvH05EVZMoglbg8FZme2RrT7NPxIjiEnFjbzPpHawscrd5UEPkS/9123tVkW
-         Rbr8UVznX7J4j9+lwRTtwli8vldAGAdqxWNDfSXRPhWsXQ3WrcgJGsnZQEvfuFsNPKJm
-         p8gDp4gD2VXMuaPN9mQFCZZrcESPQe29E0H1okABTGLQr95PtEo7lvc2ViFULNyW4u3R
-         xHqQ==
-X-Gm-Message-State: AOAM531T86GSq014C+pv6F7+eBWv1aMkccW3VSYfUrqWa2bPD3xTqK+2
-	MQ6YJgVxRsYDppEooEa4SkPMlW59AYtHwo3bKbOhfu+f
-X-Google-Smtp-Source: ABdhPJxzRw6eJAAchXcaH2GvsbBEX4HObOKeKdZbxmjptPLJLIdzMiAoH99IPU9/GYGd3KdDoJiwnCgsZ7dFHRM/TyU=
-X-Received: by 2002:ab0:6950:: with SMTP id c16mr2584877uas.71.1597441469616;
- Fri, 14 Aug 2020 14:44:29 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=TTpR1yhskdUW5tmfUuL0PEx496JYognFfL7MNaI0VTY=;
+        b=MD5UJ8K9FDyhzAfNXNqtHd9IK0vh2zOx7S2/oIcUyWUTF2OqqSyKm7jRSmKzW40oCx
+         UA7+l090smOTvOLIxMFi2fiaJQbYNIG6Y7lGmlzOX3nt0XMJAN/vRnHupBaOZh0HBxli
+         a6SJAl7j9gpawXkZvBPG0Cqmkhnsi1weokS8clcSC7ttLXSMFy0ufgKjQi0YgymbWosF
+         vry67rPDwxsqe1LqqxAn0k4FG3XzgETaJLlEOtUu61A5i44u+liHWYaHQ+4f89sXRuHc
+         1HsH/orQMqBhOYP48gOXaM+yKX1VkicXIEanP646am4NnlQBRm7rOHRbk1dDvwkd2whg
+         3GxA==
+X-Gm-Message-State: AOAM5324ih0i4z6kMRuj+zXGHCjEaZgUHC7/dap5mVV65z9/gaq06lC0
+	ZPdi7hlR9AhLdVpZb++uhkn/og==
+X-Google-Smtp-Source: ABdhPJyOG9ekuGoKt5zKstGNloq73YRfqbRZR8F0OZzEVC9ZAPssmk7/yfRgSQnVvCVEa3IombL99Q==
+X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr4258911wrq.407.1597442772526;
+        Fri, 14 Aug 2020 15:06:12 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:edc4:7dfa:277e:8b29])
+        by smtp.gmail.com with ESMTPSA id n5sm17436976wrx.22.2020.08.14.15.06.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2020 15:06:11 -0700 (PDT)
+Message-ID: <ccc06ed3053f5c8fb7f64ec50320d494376f4e4b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V3 2/2] libubootenv: uprev to v0.3
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Ming Liu <liu.ming50@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
+Date: Fri, 14 Aug 2020 23:06:09 +0100
+In-Reply-To: <CAMKF1soXJ0Jm_WzUYCKhNyaE-eAHg9jG4OEemTSaLu7u5t-SSQ@mail.gmail.com>
+References: <20200814092914.4160-1-liu.ming50@gmail.com>
+	 <20200814092914.4160-3-liu.ming50@gmail.com>
+	 <CAMKF1soXJ0Jm_WzUYCKhNyaE-eAHg9jG4OEemTSaLu7u5t-SSQ@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-References: <1597438000-20251-1-git-send-email-leon@sidebranch.com>
-In-Reply-To: <1597438000-20251-1-git-send-email-leon@sidebranch.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 14 Aug 2020 23:44:17 +0200
-Message-ID: <CANNYZj9i+s2ORHFtJDZDHJUQ2pfFHAbJdK+vp3cFSp5ZHNuitg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell] [PATCH] cmake-native: Use cmake-provided zstd library; supported host distro zstd may be too old.
-To: Leon Woestenberg <leon@sidebranch.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000058953605acdd53db"
-
---00000000000058953605acdd53db
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-This needs to go to master first probably?
+On Fri, 2020-08-14 at 13:12 -0700, Khem Raj wrote:
+> for qemumips I am still seeing
+> 
+> 00:01:59.669 WARNING: No bb files in default matched
+> BBFILE_PATTERN_odroid-extras
+> '^/mnt/jenkins/workspace/yocto-world-glibc/sources/meta-odroid/meta-odroid-extras/'
+> 00:02:03.245 ERROR: Nothing RPROVIDES 'u-boot-default-env' (but
+> /mnt/jenkins/workspace/yocto-world-glibc/sources/openembedded-core/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+> RDEPENDS on or otherwise requires it)
+> 00:02:03.534 ERROR: Nothing RPROVIDES 'libubootenv-dev' (but
+> /mnt/jenkins/workspace/yocto-world-glibc/sources/openembedded-core/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+> RDEPENDS on or otherwise requires it)
+> 00:02:03.534 No eligible RPROVIDERs exist for 'libubootenv-dev'
 
-Alex
+Its also breaking sstate testing:
 
-On Fri, 14 Aug 2020 at 22:46, Leon Woestenberg <leon@sidebranch.com> wrote=
-:
+"oe-selftest -r sstatetests.SStateTests.test_sstate_sametune_samesigs" 
 
-> cmake-native uses the system provided libraries due to:
->
-> CMAKE_EXTRACONF =3D "<...> -DCMAKE_USE_SYSTEM_LIBRARIES=3D1 <...>"
->
-> Now, iff the libzstd(-dev) is installed but too old, which can happen on
-> Ubuntu 16.04:
->
-> dpkg -l | grep zstd
-> ii  libzstd-dev  0.5.1-1
-> ii  libzstd0 0.5.1-1
->
-> cmake configure will use the zstd system library:
->
-> cat ./tmp/work/x86_64-linux/cmake-native/3.15.3-r0/temp/log.do_configure=
- |
-> grep -i ZSTD
-> -- Using system-installed ZSTD
-> -- Found ZSTD: /usr/lib/x86_64-linux-gnu/libzstd.so
->
-> but will fail to compile due to:
->
-> <...>/tmp/work/x86_64-linux/cmake-native/3.15.3-r0/cmake-3.15.3/Utilitie=
-s/cmlibarchive/libarchive/archive_read_support_filter_zstd.c:59:2:
-> error: unknown type name =E2=80=98ZSTD_DStream=E2=80=99
-> |   ZSTD_DStream *dstream;
-> |   ^
->
-> The library does not contain that datatype:
->
-> grep -rne ZSTD_DStream /usr/include/zstd.h
-> <no output>
->
-> Apparently the cmake-native library check is not checking the library
-> version or features.
->
-> This fix is to not depend on the system library and use the zstd library
-> provided with cmake.
->
-> CMAKE_EXTRACONF =3D "\
-> <...>
->     -DCMAKE_USE_SYSTEM_LIBRARY_ZSTD=3D0 \
-> <...>
->
-> Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
-> ---
->  meta/recipes-devtools/cmake/cmake-native_3.16.5.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
-> b/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
-> index b2952ee..e0ac3f8 100644
-> --- a/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
-> +++ b/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
-> @@ -21,6 +21,7 @@ CMAKE_EXTRACONF =3D "\
->      -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=3D0 \
->      -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=3D0 \
->      -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=3D0 \
-> +    -DCMAKE_USE_SYSTEM_LIBRARY_ZSTD=3D0 \
->      -DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \
->      -DHAVE_SYS_ACL_H=3D0 \
->  "
-> --
-> 2.7.4
->
->=20
->
+causing:
 
---00000000000058953605acdd53db
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1248/steps/8/logs/step2d
 
-<div dir=3D"ltr"><div>This needs to go to master first probably?</div><div>=
-<br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, 14 Aug 2020 at 22:46, Leon Woestenbe=
-rg &lt;<a href=3D"mailto:leon@sidebranch.com">leon@sidebranch.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">cmake-nati=
-ve uses the system provided libraries due to:<br>
-<br>
-CMAKE_EXTRACONF =3D &quot;&lt;...&gt; -DCMAKE_USE_SYSTEM_LIBRARIES=3D1 &lt=
-;...&gt;&quot;<br>
-<br>
-Now, iff the libzstd(-dev) is installed but too old, which can happen on U=
-buntu 16.04:<br>
-<br>
-dpkg -l | grep zstd<br>
-ii=C2=A0 libzstd-dev=C2=A0 0.5.1-1<br>
-ii=C2=A0 libzstd0 0.5.1-1<br>
-<br>
-cmake configure will use the zstd system library:<br>
-<br>
-cat ./tmp/work/x86_64-linux/cmake-native/3.15.3-r0/temp/log.do_configure |=
- grep -i ZSTD<br>
--- Using system-installed ZSTD<br>
--- Found ZSTD: /usr/lib/x86_64-linux-gnu/libzstd.so<br>
-<br>
-but will fail to compile due to:<br>
-<br>
-&lt;...&gt;/tmp/work/x86_64-linux/cmake-native/3.15.3-r0/cmake-3.15.3/Util=
-ities/cmlibarchive/libarchive/archive_read_support_filter_zstd.c:59:2: erro=
-r: unknown type name =E2=80=98ZSTD_DStream=E2=80=99<br>
-|=C2=A0 =C2=A0ZSTD_DStream *dstream;<br>
-|=C2=A0 =C2=A0^<br>
-<br>
-The library does not contain that datatype:<br>
-<br>
-grep -rne ZSTD_DStream /usr/include/zstd.h<br>
-&lt;no output&gt;<br>
-<br>
-Apparently the cmake-native library check is not checking the library vers=
-ion or features.<br>
-<br>
-This fix is to not depend on the system library and use the zstd library p=
-rovided with cmake.<br>
-<br>
-CMAKE_EXTRACONF =3D &quot;\<br>
-&lt;...&gt;<br>
-=C2=A0 =C2=A0 -DCMAKE_USE_SYSTEM_LIBRARY_ZSTD=3D0 \<br>
-&lt;...&gt;<br>
-<br>
-Signed-off-by: Leon Woestenberg &lt;<a href=3D"mailto:leon@sidebranch.com"=
- target=3D"_blank">leon@sidebranch.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.16.5.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.16.5.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.=
-16.5.bb" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.16.5.bb</a> b/=
-meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.16.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">cmake-native_3.16.5.bb</a><br>
-index b2952ee..e0ac3f8 100644<br>
---- a/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.16.5.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.16.5.bb</a><br>
-+++ b/meta/recipes-devtools/cmake/<a href=3D"http://cmake-native_3.16.5.bb=
-" rel=3D"noreferrer" target=3D"_blank">cmake-native_3.16.5.bb</a><br>
-@@ -21,6 +21,7 @@ CMAKE_EXTRACONF =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0-DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=3D0 \<br>
-=C2=A0 =C2=A0 =C2=A0-DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=3D0 \<br>
-=C2=A0 =C2=A0 =C2=A0-DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=3D0 \<br>
-+=C2=A0 =C2=A0 -DCMAKE_USE_SYSTEM_LIBRARY_ZSTD=3D0 \<br>
-=C2=A0 =C2=A0 =C2=A0-DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \<br>
-=C2=A0 =C2=A0 =C2=A0-DHAVE_SYS_ACL_H=3D0 \<br>
-=C2=A0&quot;<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-</blockquote></div>
+2020-08-14 19:36:15,406 - oe-selftest - INFO - sstatetests.SStateTests.test_sstate_sametune_samesigs (subunit.RemotedTestCase)
+2020-08-14 19:36:15,407 - oe-selftest - INFO -  ... FAIL
+2020-08-14 19:36:15,407 - oe-selftest - INFO - 9: 38/38 378/414 (153.36s) (sstatetests.SStateTests.test_sstate_sametune_samesigs)
+2020-08-14 19:36:15,407 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/sstatetests.py", line 449, in test_sstate_sametune_samesigs
+    self.assertCountEqual(files1, files2)
+  File "/usr/lib64/python3.6/unittest/case.py", line 1200, in assertCountEqual
+    self.fail(msg)
+  File "/usr/lib64/python3.6/unittest/case.py", line 687, in fail
+    raise self.failureException(msg)
+AssertionError: Element counts were not equal:
+First has 1, Second has 0:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/core2-32-poky-linux/libubootenv/0.3-r0.do_package_write_rpm.sigdata.05d757878a1583dd222357a916105e1723de0b287d61d4d217953102ef4b6710'
+First has 1, Second has 0:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/core2-32-poky-linux/libubootenv/0.3-r0.do_package_qa.sigdata.d5d478843b014fcf9715070611562e969b0ebf37e49b284509293a5956d3544b'
+First has 1, Second has 0:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/x86-pokymllib32-linux/lib32-libubootenv/0.3-r0.do_package_qa.sigdata.f8638f649c6aebeda30a11f6d2e9379c7e389ded8b84f6b5b57fa36c18868bfb'
+First has 1, Second has 0:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/x86-pokymllib32-linux/lib32-libubootenv/0.3-r0.do_package_write_rpm.sigdata.f74b2e6332d343f4800eefa823f0462649a549edd90c2c671f623493f9598756'
+First has 0, Second has 1:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/core2-32-poky-linux/libubootenv/0.3-r0.do_package_qa.sigdata.a60efa593fff1e0ed60834ecd0fb7f20b94a9534bb66e1b5fd968aca5a9eb831'
+First has 0, Second has 1:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/core2-32-poky-linux/libubootenv/0.3-r0.do_package_write_rpm.sigdata.b7097c279aba4be43e13e35cfeccc331bdf11dc2d6240da12430c953926796b1'
+First has 0, Second has 1:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/x86-pokymllib32-linux/lib32-libubootenv/0.3-r0.do_package_write_rpm.sigdata.0cd26580e083cbf8ac677e1deb8cbfa1c4ef4c35e29b2ea2bb61282b48cda68a'
+First has 0, Second has 1:  '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3335289/tmp-sstatesamehash/stamps/x86-pokymllib32-linux/lib32-libubootenv/0.3-r0.do_package_qa.sigdata.89a10fd2c56db51620a1b5492a894abacb4b38e9eee8ba05fe70f4ca46278ccd'
 
---00000000000058953605acdd53db--
+Cheers,
+
+Richard
+
