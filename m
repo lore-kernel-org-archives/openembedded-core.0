@@ -1,72 +1,77 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web12.14544.1597397365279431596
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.14510.1597397368091498794
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2020 02:29:25 -0700
+ Fri, 14 Aug 2020 02:29:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NJ9ONR+9;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: liu.ming50@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id d6so9234351ejr.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 02:29:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lIc/EVlk;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: liu.ming50@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id d6so9234498ejr.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 02:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVHEzrHe8tC361BwYscMzFC8Qnzl0iGxDL0dRLcOrjs=;
-        b=NJ9ONR+9jJFTK09YGzDcB2enGRWEL5Mp3ClrLvbLzpXygdcs8p8ByI3n4KX7ykURTd
-         cSP4iezu7b9bS+AnXo5b1I1IxjrpLVsg1bVDvEkFZ89Ke9D3lWVD3qchv697lmmgBjKR
-         Yb+cWGrXXVPBvoK0IO2evpypp/Xiu5AIkBtwV2WqbzGnPHh3dS+qC+BMdUKhKozgPxXw
-         V3pa3isxZfUQSVqorXu2WhUE4VhGBmqjYBWCn0aXRFsYpveAHtswfQs/UNA9srMpZpEL
-         Kj3R62J4NKCFAiWRMHhIvzc7/dWqva6W4aw/mOkQ10qQIYmCdRCfDTUc8QBnHdpzCSxq
-         ctig==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IOB7D1vAX6sebMezoqmtoj1dZtxn61iSEN9S05TZmng=;
+        b=lIc/EVlkim/dN/FbKnSEpEn6fvJdita7JF8LqZqdTh2tVykxYceNXQMwJrRIofO17n
+         WnkR2xKN+UKCLcyC2Ty36ZMpLTqoSNnfr+5yOWA2AuKi5plq/AmGinkIaOAKar/bxcXF
+         4ZPGtE2RICvarQvWPMbkL6PDhTMlLRWkgD8uXeIWm6NHT2iWzLtE4uayPtO1wGDF72NB
+         NkQ+r7DATlxmXI2ordf3RDJT9UWoG9jWFbDyL21wzMIW0XbpJPOu4heHfK5jd7OodVrg
+         Dg2HbJuwhi3jgCG01CKvOrglxtxaV8MGMh0jx4qsa9dGpzZ4aqrG0ZYH3lxlifOrDLti
+         Oj1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVHEzrHe8tC361BwYscMzFC8Qnzl0iGxDL0dRLcOrjs=;
-        b=pwWkf9jGa9UwMvIzaQNqWhtJMKaIU4XEBFmIsPIviZzUGnHB6zksco0PQ2EYIa0SxA
-         pW3piGtQ96Zk2k4kPiVjt453xDoxSwYKUjCT1IV9SoI9HNesf5rHo6wVzfSOOvFk1/H9
-         l4T3XMwTTDWQO85Wp9Xq0C7J+x3SIu/a1XQh1l22G6GGRjCNMJY8hrgw3WnyrmgbnZ47
-         jZpmBM05C0BDl2vIpqdOqGkQSc1wCxrs/DuAQiEm72JCR501vDMtTT+WS/H5NiOweDwy
-         9ukjHgriBEkd0ciM1BTaUqpXxoTIaD/nLIGeGdbrL30yLRskMhxg9aiOBrigwiR0BWTr
-         KAzA==
-X-Gm-Message-State: AOAM532sjVdxukfiRZ+xlTcUzDxoxV4WSWn+6VdVws4k13IAK8sgQRx6
-	su0I3YrcEzMYPSCpmvD9f5naOzFFeh2+Qg==
-X-Google-Smtp-Source: ABdhPJz1SdvtU74lAoHWUCfP6bGWRas9u2JU8pnoAXQeH9vK1/crL4wIemUo3eylVhoMIxKMjZWANg==
-X-Received: by 2002:a17:906:401b:: with SMTP id v27mr1525328ejj.300.1597397363550;
-        Fri, 14 Aug 2020 02:29:23 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IOB7D1vAX6sebMezoqmtoj1dZtxn61iSEN9S05TZmng=;
+        b=UBqI6QjbRVTE42HoKhlMRjAElwilj7kR/XklT3eWhL7k+Sk1/x08rkg9QhpyzI6+vu
+         NisZNHz+QGOOUz7SNZ76z3oum+XUPO5r9HpCJwhiKR6UAnLfvUTfuci8nLKAy5Al9Aj2
+         OEFviPDPhBuCfa6mx/gUBRBQA3GX9ghbMtzynJxbz6lkbWo1JW5QDdiXfUWIf8PKia8p
+         VWkuOKaT+oPrUtiviheC/u7SD/oCraIYov5UQ3imvcKalX0TfQsvRgl0H1BWnGcZjUgA
+         Eef6qhzmXt+5y10dCdzUAW9rJaVCpYN7CGXWs8cKSQthkylP3rtrRnSl53q1MxorjRwY
+         IWmQ==
+X-Gm-Message-State: AOAM532TUQOgDVq0Ns4/TQhN781PeOOaA2Z3oH9vWM5Gvv2pq1VW9gb6
+	0mVZNmu4Uno3lX1A3HWUGoKtPo1KpcFHKA==
+X-Google-Smtp-Source: ABdhPJwexdkk2JAks+L2XnQcXKi2kPXHTLun0GlaeMIkBBmKm6aFgcwUUuzknOtJ2LGksL7jr0hY0g==
+X-Received: by 2002:a17:906:f905:: with SMTP id lc5mr1467414ejb.340.1597397366551;
+        Fri, 14 Aug 2020 02:29:26 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id b2sm6329962ejg.70.2020.08.14.02.29.22
+        by smtp.gmail.com with ESMTPSA id b2sm6329962ejg.70.2020.08.14.02.29.25
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Aug 2020 02:29:22 -0700 (PDT)
+        Fri, 14 Aug 2020 02:29:26 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	bunk@stusta.de,
 	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V3 0/2] libubootenv: uprev to v0.3
-Date: Fri, 14 Aug 2020 11:29:12 +0200
-Message-Id: <20200814092914.4160-1-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V3 1/2] multilib.conf: add u-boot to NON_MULTILIB_RECIPES
+Date: Fri, 14 Aug 2020 11:29:13 +0200
+Message-Id: <20200814092914.4160-2-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200814092914.4160-1-liu.ming50@gmail.com>
+References: <20200814092914.4160-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-Changes in V3:
+u-boot should be a non multilib recipe, add it in NON_MULTILIB_RECIPES.
 
-1 Drop PV definition from recipe as suggested by Adrian Bunk.
-2 Change a '+=' to "_append" as suggested by Khem Raj.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/conf/multilib.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ming Liu (2):
-  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
-  libubootenv: uprev to v0.3
-
- meta/conf/multilib.conf                                      | 2 +-
- .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}        | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (85%)
-
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 58f2ac5c86..d231107f8b 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -30,4 +30,4 @@ PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkg
+ 
+ # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
+ # ${MLPREFIX}${BPN}
+-NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf"
++NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf u-boot"
 -- 
 2.28.0
 
