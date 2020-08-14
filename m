@@ -1,91 +1,93 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.458.1597423984219924375
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web10.1309.1597426487130605243
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Aug 2020 09:53:04 -0700
+ Fri, 14 Aug 2020 10:34:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Bvuox1ad;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id x5so8014550wmi.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 09:53:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XuWSBVv1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id p25so9085806qkp.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 14 Aug 2020 10:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=/HaCPxvikRNjvIOufMNsPS7wUHGjBXkGxmQiwCVGtIs=;
-        b=Bvuox1adE0izBA41fK5qtXar04Xpb2NWvy3p6dE1s15SrKKlg0WIqby7yjVAu1gr0R
-         64QFKZN8/s4Oeg+YoxGu/ouQgeL1jbupWb9kKwIu1l8XqbSkOYE12wPdhiOXsvtkbzvE
-         o7pd3oTWvPCaYWPoZhlCYid2/krT3F8Ec2Gv8=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tFino2R42ukF4MU4IrkZnODp5l/rZMV22fCc02/UhCk=;
+        b=XuWSBVv1jpiag+0QjfHGIqq0SZFWRVfgPGpyWA+jcrvQR02uLkgJep8Zez93umyJ2W
+         gXtf1APD1X7rgrWMR5EvGQkxpD6ZCodcGvxyod5AB3dbATiJ//ZK6hYGgp4DFkr4gs4M
+         ZTdMkma3rq2FSRYczcVX7q3E2z9bU4gZsF4E+DguzPVP3Vt2MOHa4+18QaJCB1oNI1gM
+         oTGVcKgdzH2EdHXfnBr3j2SgUUSZrwfhHeGPi4ptelwNN9srT9Gc4/Y7vedALram7Iir
+         Dmp3Geo+cbN27rzffsY+5cpQNxrSVh2LEJeNLRfQ5d928eK/kAGq7Wma6LltoPbICC2C
+         q74A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/HaCPxvikRNjvIOufMNsPS7wUHGjBXkGxmQiwCVGtIs=;
-        b=jteE+3Ekbz9d/Y1GfY9U9dpnT+vEbPD75Bhd7OUrc8VG5FqyHTtYn3QEawAj0RvsPU
-         FZpbGhf/ffUGwDYGONsi6Ege+QWKZpzDfVGx5nymn6JhVRZat/9U3IVisVQTEkayWu7p
-         YeZIWrwq4Pg5HpmPWj1i96cgRra8JbPZT6Arninr12uTFWG46GeYadou562qHwOv7iJi
-         bBwjP0Am21TBNQAMvRkvv1xugH875oaoNMRyiwXCwZuaQIfw8goMUCqZ6CHl3fLoUT6K
-         fEesMRM7SgOkjEgOKvHxwPj0TCSqjbfAlNIQ6Dw6aPNM/O3yWtde6MWA214veWOm88FX
-         tNYQ==
-X-Gm-Message-State: AOAM532oJUMs5FQo8ZsM6VDD9BDpvcdY/KHy+ZeE6b2kOyDhUNwM0VwZ
-	wI7Z/OwUXjtx2C+ZKIsHsVdHzg==
-X-Google-Smtp-Source: ABdhPJywVQ1qQBYdGq9tqs2BftITXVzgucn1ki5tnOXZNKGa7HuPX9qUVwZOf9HxS9A19oKbWQthag==
-X-Received: by 2002:a7b:c185:: with SMTP id y5mr3332308wmi.95.1597423982717;
-        Fri, 14 Aug 2020 09:53:02 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:edc4:7dfa:277e:8b29])
-        by smtp.gmail.com with ESMTPSA id d7sm17656524wra.29.2020.08.14.09.53.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2020 09:53:02 -0700 (PDT)
-Message-ID: <5b0f066de407dde9e70cc3dde3532aadc31e3b8e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc-target.inc: fix multilib conflict
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com
-Date: Fri, 14 Aug 2020 17:53:01 +0100
-In-Reply-To: <20200814061830.314124-1-changqing.li@windriver.com>
-References: <20200814061830.314124-1-changqing.li@windriver.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tFino2R42ukF4MU4IrkZnODp5l/rZMV22fCc02/UhCk=;
+        b=pmm8PLuXwuofOmqQNHN9ajhC2rIBspLPTl9NP0tzf/Iuokqn2JmLNeF0kKr50z6QB/
+         VsYmrpw5Q39M7xs1m5GB4crkB+kPj5SVKsRjM73Q4N/rxVBntesuWrOMquJtdVgJlTDH
+         saFXKANrtseaH0zAIVW0tRDWnMvaao5PKyISCC4kOew7mqJEs/wLLAZifI4OEaIq0Hyn
+         rcU1VDo8dXIeETK4Us+Hnyq5hxRoCW3qe5CtpZnss5pq2uweK56i7CnTHP6fGFjj7o2t
+         10Nl3t1dEqzAslRgXflnHU+2zoRmHkswJ5WMoZJwuvoxpjt1I6HLcQdrE7LkjkvDaVmH
+         SNIQ==
+X-Gm-Message-State: AOAM531GsNQAhf9duuiFUnZFiKd8/rRELBqoyaprYcchVmnakKtesTI5
+	Su00G4MrV1yNl0zcufEGGUbGBq0vwEv6wghYjN8=
+X-Google-Smtp-Source: ABdhPJyXLpkvbb9BDKQfyA/eYnyT1RuQp5pZffUvbaoXSsek8+DrFmKaAk/tOZJ5jRfQZ1OWW+2Pvh/W0LhXVHtg5F8=
+X-Received: by 2002:a05:620a:565:: with SMTP id p5mr3067074qkp.215.1597426486036;
+ Fri, 14 Aug 2020 10:34:46 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAJdd5Ga76MMFdjqU3tZ1-3RFYv-b5Fak0nSC+bmGjp70uhGtLg@mail.gmail.com>
+ <CAOSpxdbngZFJcrMLxqRWgjoRxdQX+uza812GB4ZJt0CNPWQZZA@mail.gmail.com>
+In-Reply-To: <CAOSpxdbngZFJcrMLxqRWgjoRxdQX+uza812GB4ZJt0CNPWQZZA@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 14 Aug 2020 10:34:19 -0700
+Message-ID: <CAMKF1spC6en=3emAbmDwODmYh1HJ32VLHMbV8hZwGA30YB08hg@mail.gmail.com>
+Subject: Re: [OE-core] Perl Storable.pm in non-arch directory (Bug #13946)
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Joshua Watt <jpewhacker@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-08-14 at 14:18 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Fri, Aug 14, 2020 at 7:09 AM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> On Thu, Aug 13, 2020 at 3:20 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> >
+> > I spent some time digging into the build failures that Steve
+> > encountered ([1], [2]) when pulling in my patch to make the build fail
+> > if Storable.pm wasn't place in an arch specific directory. As it turns
+> > out, this may be a false alarm. I dug into the perl code and it
+> > appears that this change [3] (introduced for 5.31.3) moved the
+> > installation of Storable.pm from the base directory to the arch
+> > specific one. By my reading of the code and empirical evidence of
+> > diffing the build output, this happens because Storable.pm is no
+> > longer explicitly listed to be installed as
+> > '$(INST_ARCHLIB)/Storable.pm', and thus defaults to the arch-specific
+> > directory. Practically speaking, I believe this means that dunfell
+> > (with perl 5.30) should always have Storable.pm in the base lib
+> > directory, whereas master (with perl 5.32) should always have
+> > Storable.pm in the arch specific directory. I don't have any
+> > conclusions about what this means about our intermittent bug, but at a
+> > minimum I suspect my patch is not appropriate for dunfell.
+>
+> This makes sense.  But what puzzles me is that while Fedora and
+> Centos builds triggered the directory test failure, Ubuntu and Debian
+> builds did not.
+>
+> Any theories?
+
+since you asked for theories here is one :). The perl patch seems to
+be sensitive to flock
+
+defined(HAS_FLOCK) || defined(FCNTL_CAN_LOCK) && defined(HAS_LOCKF)
+
+And its happening on redhat like systems, I wonder if perl-native is
+being built without flock on
+them whereas its being detected properly on debian-like systems.
+>
+> Steve
+>
+>
+> > [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1245
+> > [2] https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1229
+> > [3] https://github.com/Perl/perl5/commit/95173f94fe0c1b2b943af60e1f6c6e4c47b8a975#diff-03144331fb08a8b04b003b1a49659547L16
 > 
-> fix below error:
-> file /usr/bin/g++ conflicts between attempted installs of lib32-g++-symlinks-10.1.0-r0.core2_32 and g++-symlinks-10.1.0-r0.core2_64
-> file /usr/bin/gcc conflicts between attempted installs of lib32-gcc-symlinks-10.1.0-r0.core2_32 and gcc-symlinks-10.1.0-r0.core2_64
-> file /usr/bin/cpp conflicts between attempted installs of lib32-cpp-symlinks-10.1.0-r0.core2_32 and cpp-symlinks-10.1.0-r0.core2_64
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-target.inc | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-> index 1e25dad86b..03057dc71b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -28,6 +28,10 @@ export gcc_cv_objdump = "${TARGET_PREFIX}objdump"
->  
->  EXTRA_OECONF_GCC_FLOAT = "${@get_gcc_float_setting(bb, d)}"
->  
-> +inherit multilib_script
-> +MULTILIB_SCRIPTS += " ${MLPREFIX}g++-symlinks:${bindir}/g++ ${MLPREFIX}gcc-symlinks:${bindir}/gcc \
-> +                      ${MLPREFIX}cpp-symlinks:${bindir}/cpp"
-> +
->  PACKAGES = "\
->      ${PN} ${PN}-plugins ${PN}-symlinks \
->      g++ g++-symlinks \
-
-Surely you just shouldn't be installing both of these? Adding
-multilib_script just create symlinks of symlinks. Perhaps one should
-REPLACES the other?
-
-We really don't want to create a tangled mess of symlinks though.
-
-Cheers,
-
-Richard
-
