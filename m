@@ -1,76 +1,79 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.23994.1597585634212935946
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.24150.1597586368959587186
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2020 06:47:14 -0700
+ Sun, 16 Aug 2020 06:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N6rF1sSq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id y3so12367707wrl.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 06:47:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hOnoc8Vj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id k8so11832254wma.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 06:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BwO28oQCWvEXCAwKF8uZowxIcW13K3F77K9UG5LSFxs=;
-        b=N6rF1sSqym+auh1gue2dt6o107j18haYcswm9XdgougueqJwiwDVezT7n6nO/nerWH
-         +3fmZuvnv/uHvbbq3JJ7iOVYFOGQGU2vdr7IVMKVLDrb2j8rgM7CBD/efP9n2N0OrpLC
-         sCAWfeHGG3x0MZKI/fsjafSYLGwDXwaPsj8pc=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i3ITv3TEvwuneeZRsb9u45bSx/IpgR5KUE5Jn40gGl4=;
+        b=hOnoc8VjE7qeJQ8BYZ+7IRwMEx94L+uzlNmCKYH+OFvsZqQDO/nGh4NK51vnNkcWY8
+         st7gOXAXuKAcYQXgDgR/WGh75YZm8gG6xNy3bKbLa088AvNuFQvb4ctKxBE+35odzDjS
+         4H8xGpjrcYcVQJywCaSlNNDIfd+zdng2mb0fA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BwO28oQCWvEXCAwKF8uZowxIcW13K3F77K9UG5LSFxs=;
-        b=Dx/HV3YgEL4j9tj0q9bIl99gIVTl4d+oOpYv+AAuTblzsx7r5JsoJm1MB+xiliYAix
-         1zztmfgNI9vbxUMy/aQ5BSzaAicMlY5WYlut/Rd9NhNOeShILrdVb6b/eSWLNtfSwsBe
-         kldlDA1NmSkCFJeP9mPGWQrEORW0mvup9K5qZQNeWBdvuMOvd5LZPNvrsCMyLvxrYNZO
-         +75ScFzz/egc6ZUqlY8fOE2f2E9exrdEliIvWm3gCzWc0NdHnvSww7OqEYsF37hSak8B
-         U0ErzJAeR1MY8WSsHd/m1XVc2hBiuOsBG6zeQdPkvHAt64eM2isnVH1W/E+D1YhroH1s
-         uUyA==
-X-Gm-Message-State: AOAM533loWYS0zexCMTVUOE6Qn+XZbxWEl1b2WNlqL3b7uwEFeqqpb93
-	QRvIsBzZ8tIpaJQWG/Uho2WdLQ==
-X-Google-Smtp-Source: ABdhPJw5vFHxvVnvewZjzF6LKCSIj9yxt1AaZDIeXIcSwi+SXU+gyJT6r/d8SiFQnF7soBgDMyxhtw==
-X-Received: by 2002:a5d:6cd0:: with SMTP id c16mr10950495wrc.121.1597585632500;
-        Sun, 16 Aug 2020 06:47:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i3ITv3TEvwuneeZRsb9u45bSx/IpgR5KUE5Jn40gGl4=;
+        b=SdN0uQQ7L+hLbMkUOjs/lyzYk7W2DhdozhcXNIyNf8nFUG7Do7Yw+l8Epun/ce5q/5
+         ln5lR2kUhmlcSqJmEXNECxNOepE0gl0ioKB40Sw0vbnNq3yciIojX6qwUbavddKPcaI3
+         FBzj6Id+oBz00WGstbJ6oFRaKSSmDYVidWCX8dJjG7+RRpl0zatakUyLMajExr63wq3v
+         hmQN7WAuILmV0I02EMv6vbLDRpHeem1N7bO0GIyQMiRrA8iU6LQZCnAHo3GQ6RPqZPFu
+         dYtlTWgOfVKj9I9Gy9JpALph1VkC50FyqNXqsg0TV3FZpp38l8L3ikm/ERpeAw1fD/jO
+         YYMQ==
+X-Gm-Message-State: AOAM530LU7tzrpJBmzad/gwDHAFTYMN1v7msjOaU0lx4AvFAYLvgje8W
+	nTBnRnuK7s54oMcDpp6/e4mB//BBnSIKQmi2
+X-Google-Smtp-Source: ABdhPJygBbaX4KdDsbyFABWQ8I8oTmp3G0OPKK5WW/31PVl2EayOFL6vzJMGYPWP57sFcSVKMcxdhg==
+X-Received: by 2002:a1c:26c4:: with SMTP id m187mr10696549wmm.90.1597586367163;
+        Sun, 16 Aug 2020 06:59:27 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:edc4:7dfa:277e:8b29])
-        by smtp.gmail.com with ESMTPSA id b123sm26591930wme.20.2020.08.16.06.47.11
+Received: from hex.int.rpsys.net (9.2.b.8.e.7.7.2.a.f.d.7.4.c.d.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:edc4:7dfa:277e:8b29])
+        by smtp.gmail.com with ESMTPSA id j5sm27062556wmb.12.2020.08.16.06.59.26
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2020 06:47:11 -0700 (PDT)
-Message-ID: <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
+        Sun, 16 Aug 2020 06:59:26 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Jacob Kroon <jacob.kroon@gmail.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Sun, 16 Aug 2020 14:47:08 +0100
-In-Reply-To: <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
-References: <20200804082019.76320-1-jacob.kroon@gmail.com>
-	 <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
-	 <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
-	 <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
-	 <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
-	 <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
-	 <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
-	 <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] selftest/tinfoil: Increase wait event timeout
+Date: Sun, 16 Aug 2020 14:59:25 +0100
+Message-Id: <20200816135925.1066121-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
-> Bruce,
-> 
-> We need 
-> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
-> backported to 5.4 kernels for perf to build with -fno-common can you
-> queue this in your kernel updates as soon as you can ?
+We're seeing this on the autobuilder when IO load is high. Increase
+the timeout to give this a better chance of working out ok since
+there is no particular reason we only need to wait 5s and searching
+for files is IO sensitive.
 
-I think we have other active kernels which will also need it as even
-with Khem's patch we still see failures:
+[YOCTO #14001]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1267
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index d1aa7b9afdc..206168ed009 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -100,8 +100,9 @@ class TinfoilTests(OESelftestTestCase):
+             eventreceived = False
+             commandcomplete = False
+             start = time.time()
+-            # Wait for 5s in total so we'd detect spurious heartbeat events for example
+-            while time.time() - start < 5:
++            # Wait for 10s in total so we'd detect spurious heartbeat events for example
++            # The test is IO load sensitive too
++            while time.time() - start < 10:
+                 event = tinfoil.wait_event(1)
+                 if event:
+                     if isinstance(event, bb.command.CommandCompleted):
+-- 
+2.25.1
 
