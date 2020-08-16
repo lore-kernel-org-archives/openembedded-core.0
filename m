@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.19813.1597558900483212360
+ by mx.groups.io with SMTP id smtpd.web12.19658.1597558904212743454
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:21:41 -0700
+ Sat, 15 Aug 2020 23:21:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 55BE6E02034; Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
+	id 12A60E02033; Sat, 15 Aug 2020 23:21:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 44BF3E02050
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A265EE02054
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:40 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mc: upgrading to 4.8.25 SUCCEEDED
-Message-Id: <20200816062140.55BE6E02034@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
-X-Groupsio-MsgNum: 141497
-Content-Type: multipart/mixed; boundary="===============0245554123251279002=="
+Subject: [AUH] sysstat: upgrading to 12.4.0 SUCCEEDED
+Message-Id: <20200816062144.12A60E02033@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:21:44 -0700 (PDT)
+X-Groupsio-MsgNum: 141498
+Content-Type: multipart/mixed; boundary="===============7597892416935772024=="
 
---===============0245554123251279002==
+--===============7597892416935772024==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mc* to *4.8.25* has Succeeded.
+that the automatic attempt to upgrade the recipe *sysstat* to *12.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mc-upgrade-4.8.24-4.8.25.patch
+    - apply the patch: git am 0001-sysstat-upgrade-12.2.2-12.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,214 +59,120 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0245554123251279002==
+--===============7597892416935772024==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-dbg: PKGSIZE changed from 3059656 to 3179228 (+4%)
-packages/core2-32-poky-linux/mc/mc-dbg: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-dbg: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-dev: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-dev: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-doc: PKGSIZE changed from 1095047 to 1100506 (+0%)
-packages/core2-32-poky-linux/mc/mc-doc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-doc: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-fish: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-fish: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-helpers-perl: PKGSIZE changed from 77774 to 77844 (+0%)
-packages/core2-32-poky-linux/mc/mc-helpers-perl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-helpers-perl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-helpers: PKGSIZE changed from 95206 to 96817 (+2%)
-packages/core2-32-poky-linux/mc/mc-helpers: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-helpers: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-az: PKGSIZE changed from 21475 to 20806 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-az: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-az: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-be: PKGSIZE changed from 108213 to 110111 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-be: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-be: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-bg: PKGSIZE changed from 104040 to 101681 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-bg: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-bg: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ca: PKGSIZE changed from 91304 to 92674 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-ca: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ca: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-cs: PKGSIZE changed from 90729 to 92912 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-cs: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-cs: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-da: PKGSIZE changed from 84642 to 86536 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-da: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-da: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-de-ch: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-de-ch: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-de: PKGSIZE changed from 88532 to 90059 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-de: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-de: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-el: PKGSIZE changed from 61681 to 60556 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-el: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-el: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 2297 to 4577 (+99%)
-packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-en-gb: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-eo: PKGSIZE changed from 86151 to 88163 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-eo: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-eo: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-es: PKGSIZE changed from 86984 to 89088 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-es: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-es: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-et: PKGSIZE changed from 84613 to 83348 (-1%)
-packages/core2-32-poky-linux/mc/mc-locale-et: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-et: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-eu: PKGSIZE changed from 87238 to 85133 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-eu: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-eu: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-fa: PKGSIZE changed from 18751 to 18545 (-1%)
-packages/core2-32-poky-linux/mc/mc-locale-fa: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-fa: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-fi: PKGSIZE changed from 20228 to 20211 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-fi: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-fi: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-fr-ca: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-fr-ca: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-fr: PKGSIZE changed from 89719 to 87782 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-fr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-fr: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-gl: PKGSIZE changed from 89711 to 87498 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-gl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-gl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-hr: PKGSIZE changed from 533 to 516 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-hr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-hr: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-hu: PKGSIZE changed from 83687 to 81964 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-hu: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-hu: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ia: PKGSIZE changed from 29799 to 29699 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-ia: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ia: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-id: PKGSIZE changed from 17530 to 17513 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-id: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-id: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-it: PKGSIZE changed from 86922 to 84541 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-it: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-it: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ja: PKGSIZE changed from 39567 to 39562 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-ja: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ja: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ka: PKGSIZE changed from 19936 to 19919 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-ka: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ka: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-kk: PKGSIZE changed from 531 to 514 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-kk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-kk: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ko: PKGSIZE changed from 89958 to 89769 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-ko: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ko: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-lt: PKGSIZE changed from 49849 to 50104 (+1%)
-packages/core2-32-poky-linux/mc/mc-locale-lt: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-lt: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-lv: PKGSIZE changed from 20757 to 20122 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-lv: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-lv: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-mn: PKGSIZE changed from 27188 to 32113 (+18%)
-packages/core2-32-poky-linux/mc/mc-locale-mn: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-mn: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-nb: PKGSIZE changed from 84713 to 86648 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-nb: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-nb: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-nl: PKGSIZE changed from 83853 to 87984 (+5%)
-packages/core2-32-poky-linux/mc/mc-locale-nl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-nl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-pl: PKGSIZE changed from 89775 to 91973 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-pl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-pl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-pt-br: PKGSIZE changed from 55730 to 55070 (-1%)
-packages/core2-32-poky-linux/mc/mc-locale-pt-br: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-pt-br: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-pt: PKGSIZE changed from 88729 to 90792 (+2%)
-packages/core2-32-poky-linux/mc/mc-locale-pt: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-pt: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ro: PKGSIZE changed from 88221 to 86110 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-ro: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ro: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ru: PKGSIZE changed from 111726 to 111369 (-0%)
-packages/core2-32-poky-linux/mc/mc-locale-ru: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ru: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-sk: PKGSIZE changed from 88838 to 86477 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-sk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-sk: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-sl: PKGSIZE changed from 24255 to 23628 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-sl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-sl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-sr: PKGSIZE changed from 104122 to 101772 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-sr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-sr: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-sv: PKGSIZE changed from 85297 to 83468 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-sv: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-sv: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-szl: PKGSIZE changed from 521 to 504 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-szl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-szl: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-ta: PKGSIZE changed from 2164 to 2147 (-1%)
-packages/core2-32-poky-linux/mc/mc-locale-ta: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-ta: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-te: PKGSIZE changed from 459 to 442 (-4%)
-packages/core2-32-poky-linux/mc/mc-locale-te: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-te: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-tr: PKGSIZE changed from 85627 to 83563 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-tr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-tr: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-uk: PKGSIZE changed from 111641 to 108560 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-uk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-uk: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-vi: PKGSIZE changed from 26412 to 25526 (-3%)
-packages/core2-32-poky-linux/mc/mc-locale-vi: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-vi: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-wa: PKGSIZE changed from 14005 to 13888 (-1%)
-packages/core2-32-poky-linux/mc/mc-locale-wa: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-wa: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PKGSIZE changed from 81836 to 80001 (-2%)
-packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 19585 to 46121 (+135%)
-packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-src: PKGSIZE changed from 3715334 to 3755911 (+1%)
-packages/core2-32-poky-linux/mc/mc-src: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-src: FILELIST: directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/tty -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/tty, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/diffviewer -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/diffviewer, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/search -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/search, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/sfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/sfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/extfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/extfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/consaver -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/consaver, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/ftpfs -> /usr/src/debug/mc/4
- .8.25-r0/mc-4.8.25/src/vfs/ftpfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/fish -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/fish, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/mcconfig -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/mcconfig, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/cpio -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/cpio, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/tar -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/tar, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/viewer -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/viewer, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/skin -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/skin, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/editor -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/editor,
-  directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/filehighlight -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/filehighlight, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/vfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/vfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/strutil -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/strutil, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/event -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/event, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/local -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/local, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/subshell -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/subshell, removed "/usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/boxes.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/find.c /usr/src/deb
- ug/mc/4.8.24-r0/mc-4.8.24/lib/widget/buttonbar.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filenot.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/wtools.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/dir.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/find.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/check.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/groupbox.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/tree.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ext.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/info.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/radio.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/button.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/buttonbar.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/cmd.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/wid
- get/quick.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chmod.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/layout.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/achown.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/label.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panel.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/cmd.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/treestore.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ext.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/gauge.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panelize.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/widget-common.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/widget-common.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/groupbox.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/
- label.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/fileopctx.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/menu.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/quick.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox-window.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/menu.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input_complete.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/file.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input_complete.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/boxes.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/fileopctx.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/mouse.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chown.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panel.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/c
- ommand.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/check.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panelize.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chmod.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/midnight.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/tree.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/gauge.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/radio.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/info.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox-window.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/hline.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/history.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/hline.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filegui.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/history.c /usr/src/debug/mc/
- 4.8.24-r0/mc-4.8.24/lib/widget/button.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/wtools.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chown.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/mouse.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/treestore.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/layout.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filegui.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog-switch.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/achown.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/command.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/midnight.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/dir.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filenot.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog-switch.h /us
- r/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/file.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/mountlist.h", added "/usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/rect.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/gauge.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/mountlist.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/tree.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/background.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/frame.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chown.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/menu.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/radio.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/wtools.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/gauge.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filegui.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/command.h /usr/src/debug/
- mc/4.8.25-r0/mc-4.8.25/src/filemanager/info.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/group.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/groupbox.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/history.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/tree.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/command.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/wtools.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filegui.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/buttonbar.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/file.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filenot.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/label.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ext.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panelize.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chown.c /usr/src/debug/mc/4.8.25-r
- 0/mc-4.8.25/lib/widget/history.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/background.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/layout.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/dir.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/find.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/check.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/menu.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/mouse.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/radio.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/dir.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox-window.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panelize.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/button.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/fileopctx.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/widget-common.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/wi
- dget/listbox-window.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/button.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/rect.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/frame.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/check.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/file.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panel.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/groupbox.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/cmd.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/buttonbar.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/hline.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/quick.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chmod.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chmod.h /usr/src/debug/mc/4.8.25
- -r0/mc-4.8.25/lib/widget/dialog-switch.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/info.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/hline.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panel.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/boxes.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/mouse.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/midnight.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/treestore.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/quick.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input_complete.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ext.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/fileopctx.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/widget-common.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/label.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.2
- 5-r0/mc-4.8.25/src/filemanager/achown.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/cmd.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/treestore.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog-switch.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/achown.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/layout.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/group.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/boxes.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filenot.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/midnight.h"
-packages/core2-32-poky-linux/mc/mc-src: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc-staticdev: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc-staticdev: PV changed from "4.8.24" to "4.8.25"
-packages/core2-32-poky-linux/mc/mc: PKGSIZE changed from 3722624 to 3761888 (+1%)
-packages/core2-32-poky-linux/mc/mc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
-packages/core2-32-poky-linux/mc/mc: FILELIST: removed "/usr/share/mc/hints/mc.hint.ie /usr/share/mc/hints/mc.hint.vi /usr/share/mc/hints/mc.hint.zh_TW /usr/share/mc/hints/mc.hint.ta /usr/share/mc/hints/mc.hint.lv /usr/share/mc/hints/mc.hint.mn /usr/share/mc/hints/mc.hint.wa", added "/usr/share/mc/syntax/cobol.syntax /usr/share/mc/syntax/kotlin.syntax"
-packages/core2-32-poky-linux/mc/mc: PV changed from "4.8.24" to "4.8.25"
-Changes to packages/core2-32-poky-linux/mc (sysroot):
-  /usr/share/mc/syntax/cobol.syntax was added
-  /usr/share/mc/syntax/kotlin.syntax was added
-  /usr/share/mc/hints/mc.hint.ie was removed
-  /usr/share/mc/hints/mc.hint.lv was removed
-  /usr/share/mc/hints/mc.hint.mn was removed
-  /usr/share/mc/hints/mc.hint.ta was removed
-  /usr/share/mc/hints/mc.hint.vi was removed
-  /usr/share/mc/hints/mc.hint.wa was removed
-  /usr/share/mc/hints/mc.hint.zh_TW was removed
+packages/core2-32-poky-linux/sysstat: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-dbg: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-dbg: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-dbg: PKGSIZE changed from 1901944 to 2036348 (+7%)
+packages/core2-32-poky-linux/sysstat/sysstat-dev: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-dev: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-doc: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-doc: FILELIST: removed "/usr/share/doc/sysstat/sysstat-12.2.2.lsm /usr/share/man/man1/sadf.1 /usr/share/man/man8/sa2.8 /usr/share/man/man1/tapestat.1 /usr/share/man/man8/sa1.8 /usr/share/man/man1/sar.1 /usr/share/man/man1/mpstat.1 /usr/share/man/man5/sysstat.5 /usr/share/man/man1/iostat.1 /usr/share/man/man1/cifsiostat.1 /usr/share/man/man1/pidstat.1 /usr/share/man/man8/sadc.8", added "/usr/share/man/man1/sar.1.xz /usr/share/man/man1/sadf.1.xz /usr/share/man/man1/cifsiostat.1.xz /usr/share/man/man1/tapestat.1.xz /usr/share/man/man5/sysstat.5.xz /usr/share/man/man8/sadc.8.xz /usr/share/man/man1/iostat.1.xz /usr/share/man/man8/sa2.8.xz /usr/share/man/man1/pidstat.1.xz /usr/share/man/man8/sa1.8.xz /usr/share/man/man1/mpstat.1.xz /usr/share/doc/sysstat/sysstat-12.4.0.lsm"
+packages/core2-32-poky-linux/sysstat/sysstat-doc: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-doc: PKGSIZE changed from 331165 to 244624 (-26%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-af: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-af: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-cs: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-cs: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-da: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-da: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-de: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-de: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-de: PKGSIZE changed from 14150 to 14841 (+5%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-eo: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-eo: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-eo: PKGSIZE changed from 14004 to 14783 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-es: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-es: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-eu: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-eu: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fi: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fi: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fi: PKGSIZE changed from 14331 to 14354 (+0%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fr: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fr: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fr: PKGSIZE changed from 14511 to 15474 (+7%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fur: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-fur: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-gl: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-gl: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-hr: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-hr: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-hr: PKGSIZE changed from 13899 to 14623 (+5%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-hu: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-hu: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-id: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-id: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-it: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-it: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-it: PKGSIZE changed from 9725 to 15103 (+55%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ja: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ja: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ko: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ko: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ky: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ky: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-lv: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-lv: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-mt: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-mt: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nb: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nb: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nb: PKGSIZE changed from 13716 to 14564 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nl: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nl: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nl: PKGSIZE changed from 14204 to 14957 (+5%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nn: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-nn: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pl: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pl: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt-br: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt-br: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt-br: PKGSIZE changed from 14492 to 15398 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-pt: PKGSIZE changed from 14394 to 15297 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ro: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ro: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ru: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ru: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-ru: PKGSIZE changed from 16854 to 17800 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sk: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sk: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sk: PKGSIZE changed from 14178 to 14267 (+1%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sr: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sr: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sr: PKGSIZE changed from 15686 to 17243 (+10%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sv: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sv: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-sv: PKGSIZE changed from 13844 to 14566 (+5%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-tr: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-tr: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-tr: PKGSIZE changed from 13986 to 14881 (+6%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-uk: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-uk: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-uk: PKGSIZE changed from 17517 to 18704 (+7%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-vi: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-vi: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-zh-cn: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-zh-cn: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-locale-zh-cn: PKGSIZE changed from 13469 to 13543 (+1%)
+packages/core2-32-poky-linux/sysstat/sysstat-locale-zh-tw: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-zh-tw: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-src: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-src: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat-src: PKGSIZE changed from 1682955 to 1754593 (+4%)
+packages/core2-32-poky-linux/sysstat/sysstat-staticdev: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat-staticdev: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat: PV changed from "12.2.2" to "12.4.0"
+packages/core2-32-poky-linux/sysstat/sysstat: PKGV changed from 12.2.2 [default] to 12.4.0 [default]
+packages/core2-32-poky-linux/sysstat/sysstat: PKGSIZE changed from 1004796 to 1072942 (+7%)
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1834,133 +1740,15 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============0245554123251279002==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-mc-upgrade-4.8.24-4.8.25.patch"
-
-From d362a48571f7923bdf10d7a18cb06b153584b6fa Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 18:38:05 +0000
-Subject: [PATCH] mc: upgrade 4.8.24 -> 4.8.25
-
----
- ...-Makefile.am-install-mc.lib-only-onc.patch | 59 -------------------
- .../mc/{mc_4.8.24.bb => mc_4.8.25.bb}         |  4 +-
- 2 files changed, 1 insertion(+), 62 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
- rename meta/recipes-extended/mc/{mc_4.8.24.bb => mc_4.8.25.bb} (91%)
-
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch b/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
-deleted file mode 100644
-index 824c12f8d2..0000000000
---- a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From 58dd59637ac5c6340ddfe96ad8b76883e4da20ef Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyfox@gentoo.org>
--Date: Tue, 3 Mar 2020 09:26:12 +0000
--Subject: [PATCH] Ticket #4070: misc/Makefile.am: install mc.lib only once.
--
--Before the change mc.lib was installed twice due to being
--in two _DATA variables:
--
--dist_pkgdata_DATA = \
--        mc.lib
--
--pkgdata_DATA = \
--        $(dist_pkgdata_DATA) \
--        $(PKGDATA_OUT)
--
--This causes occasional install failures when two parallel
--`/usr/bin/install` calls race in installing the file:
--
--$ make -j20 DESTDIR=/var/tmp/portage/app-misc/mc-4.8.24/image install
--...
-- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
--    -c -m 644 mc.lib '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
-- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
--    -c -m 644 mc.lib mc.charsets '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
--...
-- /usr/bin/install: cannot create regular file
--   '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc/mc.lib': File exists
--
--After the change mc.lib is present only in dist_pkgdata_DATA.
--
--Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/afb09f7cd7024484845ade25e15b8b93d6cf2d2c]
--
--Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
--Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- misc/Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/misc/Makefile.am b/misc/Makefile.am
--index 8ed1826..24f4a0e 100644
----- a/misc/Makefile.am
--+++ b/misc/Makefile.am
--@@ -17,7 +17,6 @@ dist_pkgdata_DATA = \
-- 	mc.lib
-- 
-- pkgdata_DATA = \
---	$(dist_pkgdata_DATA) \
-- 	$(PKGDATA_OUT)
-- 
-- SCRIPTS_IN = \
--@@ -54,7 +53,6 @@ EXTRA_DIST = \
-- 	$(LIBFILES_SCRIPT) \
-- 	$(SCRIPTS_IN) \
-- 	$(noinst_DATA) \
---	$(dist_pkgdata_DATA) \
-- 	$(PKGDATA_IN)
-- 
-- install-data-hook:
-diff --git a/meta/recipes-extended/mc/mc_4.8.24.bb b/meta/recipes-extended/mc/mc_4.8.25.bb
-similarity index 91%
-rename from meta/recipes-extended/mc/mc_4.8.24.bb
-rename to meta/recipes-extended/mc/mc_4.8.25.bb
-index 034df2a422..83c8a6ecf6 100644
---- a/meta/recipes-extended/mc/mc_4.8.24.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.25.bb
-@@ -10,10 +10,8 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
-            file://nomandate.patch \
--           file://0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch \
-            "
--SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
--SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
-+SRC_URI[sha256sum] = "407dc20f70082f26c7f5716406cb755cbb6cba3f2f13b841b79a991282d310c2"
- 
- inherit autotools gettext pkgconfig
- 
--- 
-2.17.1
-
-
---===============0245554123251279002==
+--===============7597892416935772024==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 2297 to 4577 (+99%)
-packages/core2-32-poky-linux/mc/mc-locale-mn: PKGSIZE changed from 27188 to 32113 (+18%)
-packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 19585 to 46121 (+135%)
-packages/core2-32-poky-linux/mc/mc: FILELIST: removed "/usr/share/mc/hints/mc.hint.ie /usr/share/mc/hints/mc.hint.mn /usr/share/mc/hints/mc.hint.zh_TW /usr/share/mc/hints/mc.hint.ta /usr/share/mc/hints/mc.hint.vi /usr/share/mc/hints/mc.hint.lv /usr/share/mc/hints/mc.hint.wa", added "/usr/share/mc/syntax/cobol.syntax /usr/share/mc/syntax/kotlin.syntax"
-Changes to packages/core2-32-poky-linux/mc (sysroot):
-  /usr/share/mc/syntax/cobol.syntax was added
-  /usr/share/mc/syntax/kotlin.syntax was added
-  /usr/share/mc/hints/mc.hint.ie was removed
-  /usr/share/mc/hints/mc.hint.lv was removed
-  /usr/share/mc/hints/mc.hint.mn was removed
-  /usr/share/mc/hints/mc.hint.ta was removed
-  /usr/share/mc/hints/mc.hint.vi was removed
-  /usr/share/mc/hints/mc.hint.wa was removed
-  /usr/share/mc/hints/mc.hint.zh_TW was removed
+packages/core2-32-poky-linux/sysstat/sysstat-doc: PKGSIZE changed from 331165 to 244624 (-26%)
+packages/core2-32-poky-linux/sysstat/sysstat-doc: FILELIST: removed "/usr/share/man/man5/sysstat.5 /usr/share/doc/sysstat/sysstat-12.2.2.lsm /usr/share/man/man1/tapestat.1 /usr/share/man/man1/sar.1 /usr/share/man/man1/iostat.1 /usr/share/man/man8/sadc.8 /usr/share/man/man1/mpstat.1 /usr/share/man/man8/sa2.8 /usr/share/man/man1/pidstat.1 /usr/share/man/man1/sadf.1 /usr/share/man/man1/cifsiostat.1 /usr/share/man/man8/sa1.8", added "/usr/share/man/man1/iostat.1.xz /usr/share/man/man8/sadc.8.xz /usr/share/man/man1/cifsiostat.1.xz /usr/share/man/man1/sadf.1.xz /usr/share/man/man8/sa1.8.xz /usr/share/man/man5/sysstat.5.xz /usr/share/man/man1/mpstat.1.xz /usr/share/man/man1/pidstat.1.xz /usr/share/doc/sysstat/sysstat-12.4.0.lsm /usr/share/man/man1/sar.1.xz /usr/share/man/man8/sa2.8.xz /usr/share/man/man1/tapestat.1.xz"
+packages/core2-32-poky-linux/sysstat/sysstat-locale-it: PKGSIZE changed from 9725 to 15103 (+55%)
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3528,4 +3316,39 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============0245554123251279002==--
+--===============7597892416935772024==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-sysstat-upgrade-12.2.2-12.4.0.patch"
+
+From 62d52a4dab39dc54aea5bec25af7c12171df12fc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 15 Aug 2020 18:51:56 +0000
+Subject: [PATCH] sysstat: upgrade 12.2.2 -> 12.4.0
+
+---
+ .../sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb}           | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb} (54%)
+
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+similarity index 54%
+rename from meta/recipes-extended/sysstat/sysstat_12.2.2.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+index 333d10295a..6773213a40 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+@@ -4,5 +4,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+ SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch"
+ 
+-SRC_URI[md5sum] = "1073fdf7bba58483a467a8a0681beeda"
+-SRC_URI[sha256sum] = "78388b64acec81378b962e66b40e57acd4b18ff17a849bc9308f95d290248c9c"
++SRC_URI[sha256sum] = "78556c339795ecd07eb10ee09e3f5d52901d3a29f874ae92b45efd0de7b62d16"
+-- 
+2.17.1
+
+
+--===============7597892416935772024==--
