@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19649.1597558885332702580
+ by mx.groups.io with SMTP id smtpd.web11.19860.1597558886037834011
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:21:25 -0700
+ Sat, 15 Aug 2020 23:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 307C1E02027; Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
+	id DF37DE02026; Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9A176E02048
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5D724E02046
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:39 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] asciidoc: upgrading to 9.0.2 SUCCEEDED
-Message-Id: <20200816062125.307C1E02027@yocto-www.yoctoproject.org>
+Subject: [AUH] acpica: upgrading to 20200717 SUCCEEDED
+Message-Id: <20200816062125.DF37DE02026@yocto-www.yoctoproject.org>
 Date: Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
-X-Groupsio-MsgNum: 141492
-Content-Type: multipart/mixed; boundary="===============4783722333301201283=="
+X-Groupsio-MsgNum: 141493
+Content-Type: multipart/mixed; boundary="===============2969537127544895474=="
 
---===============4783722333301201283==
+--===============2969537127544895474==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *asciidoc* to *9.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *acpica* to *20200717* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-asciidoc-upgrade-9.0.1-9.0.2.patch
+    - apply the patch: git am 0001-acpica-upgrade-20200528-20200717.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,29 +59,30 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4783722333301201283==
+--===============2969537127544895474==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/asciidoc/asciidoc-dbg: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-dbg: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc-dev: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-dev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc-doc: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-doc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc-locale: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-locale: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc-src: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-src: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc-staticdev: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc-staticdev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc/asciidoc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
-packages/core2-32-poky-linux/asciidoc/asciidoc: PKGSIZE changed from 799877 to 799811 (-0%)
-packages/core2-32-poky-linux/asciidoc: PV changed from "9.0.1" to "9.0.2"
-packages/core2-32-poky-linux/asciidoc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 9037332 to 9037020 (-0%)
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10239433 to 10239928 (+0%)
+packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica/acpica: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/acpica: PKGV changed from 20200528 [default] to 20200717 [default]
+packages/core2-32-poky-linux/acpica: PV changed from "20200528" to "20200717"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1649,44 +1650,61 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============4783722333301201283==
+--===============2969537127544895474==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-asciidoc-upgrade-9.0.1-9.0.2.patch"
+ filename="0001-acpica-upgrade-20200528-20200717.patch"
 
-From 5491e54c6938eac5955e14e984d3cbe85d822fdd Mon Sep 17 00:00:00 2001
+From a05d194d30451b3aa86d301e7b0977d5462e5bd1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 18:10:26 +0000
-Subject: [PATCH] asciidoc: upgrade 9.0.1 -> 9.0.2
+Date: Sat, 15 Aug 2020 18:06:31 +0000
+Subject: [PATCH] acpica: upgrade 20200528 -> 20200717
 
 ---
- .../asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb}           | 2 +-
+ .../acpica/{acpica_20200528.bb => acpica_20200717.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb} (95%)
+ rename meta/recipes-extended/acpica/{acpica_20200528.bb => acpica_20200717.bb} (94%)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
-similarity index 95%
-rename from meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
-rename to meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
-index 2f841de065..711bfbfb9b 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
+diff --git a/meta/recipes-extended/acpica/acpica_20200528.bb b/meta/recipes-extended/acpica/acpica_20200717.bb
+similarity index 94%
+rename from meta/recipes-extended/acpica/acpica_20200528.bb
+rename to meta/recipes-extended/acpica/acpica_20200717.bb
+index d68afd8158..d1d06c0c24 100644
+--- a/meta/recipes-extended/acpica/acpica_20200528.bb
++++ b/meta/recipes-extended/acpica/acpica_20200717.bb
+@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "m4-native flex-native bison-native"
  
- SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
-            file://auto-catalogs.patch"
--SRCREV = "fce6bd87fbdef5e510310464b02a75fb32f72f74"
-+SRCREV = "9a407dc9a497364c91421fd961954eddb565baf1"
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "e69f81c6924c8d30f9b9005bb002307f07b5a1538e13c909bea2f8a44e0d8610"
++SRC_URI[sha256sum] = "cb99903ef240732f395af40c23b9b19c7899033f48840743544eebb6da72a828"
  
- DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
 -- 
 2.17.1
 
 
---===============4783722333301201283==
+--===============2969537127544895474==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 778 .bb files complete (0 cached, 778 parsed). 1342 targets, 60 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============2969537127544895474==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3259,4 +3277,21 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============4783722333301201283==--
+--===============2969537127544895474==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 778 .bb files complete (0 cached, 778 parsed). 1342 targets, 66 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============2969537127544895474==--
