@@ -1,412 +1,222 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web10.32448.1597617153585451977
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.32756.1597618276498504721
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2020 15:32:33 -0700
+ Sun, 16 Aug 2020 15:51:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mNnIw72k;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id p24so15549659ejf.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 15:32:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rz8Vohvw;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id w2so6941272qvh.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 15:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yuPg9vS0K5L8N4Sz6aOn/qzdWVP7MO2qowzmpsSNP1c=;
-        b=mNnIw72kFPokMBv6T2yNZphovVe36yn1dKEJiIuKj0PvSvq0/Uwuy6eZZ7K2BLDaSY
-         IDwMeEZciM187K2bTxkAX0MX2IzJV6Xcc+2GBSwY6PF/uH6rq/NAFiMvZcdB+woihRoU
-         Faphwfuo3Jtp9uyIrGv8O9JN94EQzikWrF/OvuKpZgids3ALLHCVnYuPdfQRNF+vErdO
-         hhNBOgptdpngJhikzB1MbLPJi3SCBC3ko4DbfxJkuTulJngHqCMta9VrRc5g1aC+Ut0B
-         crcrOCd7ZO+l2/g9Mf9ZjHGb6tefYxu0nSnQxspiFZiiSlocS61TypwW019iDAM/CsaV
-         G/fA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5KGnYXv05sGbX9K4ZTzGoeYJbcMLZMYyOO0jOj3dats=;
+        b=Rz8VohvwzVnBhGCCSVHM4JT0ohPTfHKJeIVULx5PYkzGBYyigsDagCIqlq3GAudqjh
+         95H1eKZOT/PBdToCJ2RdSFerz5GblYsBV6e/9yF8HYsnFTXz8ay2C58w3NTVe6/q1u3A
+         9llg4BcYhOuTs61RwkZC07iS2b5JdtQ/fWul20javVAzIIXuN5YZKL4ZSw/J7avBbARE
+         Gj7hYy/qJYvK/xNoJ/NdMHrHkGExY6fKObj4HDVlZ0Z4GFaHxk6eLLqLwgvDmCIyeS1k
+         AxKKCpVQshcUJNU9V3nhoAs1Yr+8XgQ4MQIn2uQrcAZvpQ+rOXwWSvnva5ctDBGTZaxi
+         CsDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yuPg9vS0K5L8N4Sz6aOn/qzdWVP7MO2qowzmpsSNP1c=;
-        b=qitB5d0Y9vLHu2irSAFG62v1Tkkxa77VUFLRTNEBgHlY2nXf2mNTjHHR9NZZcEEsYJ
-         GuwWDaWx97YJRZ55WcT7tsAerpYLaKtzYOBD4DQ5ZqCqU6Qj20CemCROibtkIsyQriLI
-         rWEsBUihW4M+AjV8EYJg+85WsPAua+JX7n5ZYMkAeY/1bq+ZUEd0CEVzU8mC27iGc4Q2
-         Bj5Od417EH68epw+id9fdBYVQ8qY+Z3Rb67TLPcI5fuMG1nkTsdGN+Bd0cAV4bZ32Al0
-         fgwsZXpXQsDQRvAX9Pdyb5kJrYCa/mmHxFfrebyGosB+VAhNJ9i/b7TYMg6KBjmi3irn
-         b+Nw==
-X-Gm-Message-State: AOAM532tDcyMfNu7mk5v93rRgQwXhpZJq9ti9a2BspoGUSArDsnynfZ2
-	3/6OV3zuuQoZMa4tyvzhxFa2qscXOS+7X4KCVeQ=
-X-Google-Smtp-Source: ABdhPJynL6AMjTmkLe6330fxRgC3Jut7TT6mqox3NmGw6v9lAfRq9HeUwH+MhNSOZlbDG8loy+LiEhIf5Jz5Kn53npY=
-X-Received: by 2002:a17:906:b815:: with SMTP id dv21mr12188795ejb.517.1597617151987;
- Sun, 16 Aug 2020 15:32:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200816070814.1303004-1-raj.khem@gmail.com> <20200816070814.1303004-3-raj.khem@gmail.com>
- <162BE0408706C05C.12673@lists.openembedded.org>
-In-Reply-To: <162BE0408706C05C.12673@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5KGnYXv05sGbX9K4ZTzGoeYJbcMLZMYyOO0jOj3dats=;
+        b=IReJ3lIdpTHD1hm4nR61V42N56hFGXXgiCRli8iDK67YKxaOl2OEFOyQz7oFi/uF3F
+         GKB41asvYyimlw4if6wPP4FeDp9UES5K2Bv/m00zvV6sxeMbblA+QwGkD++53+J+yDMM
+         Rnr7EDOBJ3khu6UgY2X5MPNflorCQMEXNFwBOs0CgYYpXLBSLEFMd6w4wCFcVmGNM46s
+         2xn6BPPlM8UPeF5bBGR/2LtNyQ0qRNZ78kcb5Gf3KYhI+YS0Is7CGKzvpLqpjpV6k8s1
+         cT8hXU6b7lPRjDLItkXwh0+YbiW167JPoeKygsxyR33BOlK/+cMvQkzMGdlyQVBB4w1t
+         U0PQ==
+X-Gm-Message-State: AOAM533UNzdf5BIBAhrnuYTL7xhetf0SEWqhKejcZxTQZPQ8jmMCwLT5
+	TfO1dLOejCE/3n1WFZ+ipH8=
+X-Google-Smtp-Source: ABdhPJy3Xz21IAHVFmablYeae7SPeuPhFY+RPUEDrRR2vbp2pXQgkNVXf3saQNBQRiixGcqHQPcGZg==
+X-Received: by 2002:a0c:99c8:: with SMTP id y8mr12012143qve.57.1597618275461;
+        Sun, 16 Aug 2020 15:51:15 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id n128sm15576578qke.8.2020.08.16.15.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2020 15:51:14 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 16 Aug 2020 18:32:20 -0400
-Message-ID: <CADkTA4OUb=Hk1kDv69FbiKLyiGh_1+CctpQAvzZJq4CTZFu_rA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] linux-yocto: Backport a patch to fix perf with -fno-common
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d4d5b005ad063a55"
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] linux-yocto/5.4: update to v5.4.58
+Date: Sun, 16 Aug 2020 18:51:12 -0400
+Message-Id: <20200816225113.6741-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000d4d5b005ad063a55
-Content-Type: text/plain; charset="UTF-8"
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On Sun, Aug 16, 2020 at 6:31 PM Bruce Ashfield via lists.openembedded.org
-<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
->
->
-> On Sun, Aug 16, 2020 at 3:08 AM Khem Raj <raj.khem@gmail.com> wrote:
->
->> Temp fix until linux-yocto picks it up
->>
->>
-> These really need to be submitted to the linux-yocto mailing list as
-> proper patches.
->
-> When they are submitted like this, it requires me to extract the patch, or
-> hunt up the original commit, see if it has already been submitted to
-> linux-stable (and if not, it should be), apply it to the kernel, revert
-> this commit if it happens to have merged and then finally do my update.
->
+    cad17feaf0d0 Linux 5.4.58
+    512570b17807 nfsd: Fix NFSv4 READ on RDMA when using readv
+    df6aeb5235e9 ima: move APPRAISE_BOOTPARAM dependency on ARCH_POLICY to runtime
+    fb264505b395 tcp: apply a floor of 1 for RTT samples from TCP timestamps
+    848e15a8c8f6 selftests/net: relax cpu affinity requirement in msg_zerocopy test
+    b8f2d34f6bb5 Revert "vxlan: fix tos value before xmit"
+    daff7f09f341 openvswitch: Prevent kernel-infoleak in ovs_ct_put_key()
+    ba729a97ae54 net: thunderx: use spin_lock_bh in nicvf_set_rx_mode_task()
+    786a9368be8c net: gre: recompute gre csum for sctp over gre tunnels
+    5d791d36a49b hv_netvsc: do not use VF device if link is down
+    3a82f4bfd20a dpaa2-eth: Fix passing zero to 'PTR_ERR' warning
+    5a963aa72107 appletalk: Fix atalk_proc_init() return path
+    3787b5a3ac67 net: lan78xx: replace bogus endpoint lookup
+    31489ed8c20c vxlan: Ensure FDB dump is performed under RCU
+    106b415d5139 rxrpc: Fix race between recvmsg and sendmsg on immediate call failure
+    6f9354702ca5 net: ethernet: mtk_eth_soc: fix MTU warnings
+    bd68177f26e4 ipv6: Fix nexthop refcnt leak when creating ipv6 route info
+    89c12bc36262 ipv6: fix memory leaks on IPV6_ADDRFORM path
+    9b37a7bcdd8a ipv4: Silence suspicious RCU usage warning
+    4913f71e64ab PCI: tegra: Revert tegra124 raw_violation_fixup
+    ceff42e6c1fc Revert "powerpc/kasan: Fix shadow pages allocation failure"
+    11e64146dc69 xattr: break delegations in {set,remove}xattr
+    6059000e145f Drivers: hv: vmbus: Ignore CHANNELMSG_TL_CONNECT_RESULT(23)
+    3429579045f1 tools lib traceevent: Fix memory leak in process_dynamic_array_len
+    414f10532c14 atm: fix atm_dev refcnt leaks in atmtcp_remove_persistent
+    5414f27048e5 igb: reinit_locked() should be called with rtnl_lock
+    7c8a863ba3cb cfg80211: check vendor command doit pointer before use
+    83ea63708a29 firmware: Fix a reference count leak.
+    01fdcb848611 ALSA: hda: fix NULL pointer dereference during suspend
+    eb96e4f71f59 net: ethernet: mtk_eth_soc: Always call mtk_gmac0_rgmii_adjust() for mt7623
+    fd601f38f59d usb: hso: check for return value in hso_serial_common_create()
+    871b5a5a3be9 i2c: slave: add sanity check when unregistering
+    fa0195d83a49 i2c: slave: improve sanity check when registering
+    4bba72b72c36 drm/drm_fb_helper: fix fbdev with sparc64
+    8e6af828a332 nvme-pci: prevent SK hynix PC400 from using Write Zeroes command
+    802df1e3f40c drm/nouveau/fbcon: zero-initialise the mode_cmd2 structure
+    5955ccb5a46d drm/nouveau/fbcon: fix module unload when fbcon init has failed for some reason
+    e0c47a51fc62 net/9p: validate fds in p9_fd_open
+    fe6402e0e66c leds: 88pm860x: fix use-after-free on unbind
+    3564cddefb5b leds: lm3533: fix use-after-free on unbind
+    385c1ae9ddb9 leds: da903x: fix use-after-free on unbind
+    bde8f23c030c leds: lm36274: fix use-after-free on unbind
+    635f8fcc2ee3 leds: wm831x-status: fix use-after-free on unbind
+    9a53e8bd59d9 mtd: properly check all write ioctls for permissions
+    8c3215a0426c vgacon: Fix for missing check in scrollback handling
+    1ae21e97d5d3 scripts: add dummy report mode to add_namespace.cocci
+    5f5fb7cea828 Smack: fix use-after-free in smk_write_relabel_self()
+    c5665cafbedd binder: Prevent context manager from incrementing ref 0
+    da47eae4e165 omapfb: dss: Fix max fclk divider for omap36xx
+    b78763e0a247 Bluetooth: Prevent out-of-bounds read in hci_inquiry_result_with_rssi_evt()
+    70d1e884edc4 Bluetooth: Prevent out-of-bounds read in hci_inquiry_result_evt()
+    c26eaaf547b7 Bluetooth: Fix slab-out-of-bounds read in hci_extended_inquiry_result_evt()
+    a8b8b535c588 Staging: rtl8188eu: rtw_mlme: Fix uninitialized variable authmode
+    af707d9d7f44 staging: rtl8712: handle firmware load failure
+    6a7626c4798d staging: android: ashmem: Fix lockdep warning for write operation
+    4d81a7bdd3b2 ALSA: seq: oss: Serialize ioctls
+    3ebdc7b61906 ALSA: hda/ca0132 - Fix AE-5 microphone selection commands.
+    b8ce0756b312 ALSA: hda/ca0132 - Fix ZxR Headphone gain control get value.
+    87775770635a ALSA: hda/ca0132 - Add new quirk ID for Recon3D.
+    1d05ad79e1dd ALSA: hda/realtek: Add alc269/alc662 pin-tables for Loongson-3 laptops
+    864468a7a63b Revert "ALSA: hda: call runtime_allow() for all hda controllers"
+    e8053c68337e io_uring: Fix use-after-free in io_sq_wq_submit_work()
+    a4d61e66ee4a io_uring: prevent re-read of sqe->opcode
+    67afa25456d0 usb: xhci: Fix ASMedia ASM1142 DMA addressing
+    e7ad225ba4ef usb: xhci: define IDs for various ASMedia host controllers
+    7173ac5c07bb USB: iowarrior: fix up report size handling for some devices
+    68a2350376b1 perf/core: Fix endless multiplex timer
+    aabba1b10075 USB: serial: qcserial: add EM7305 QDL product ID
 
-.. and of course I see that you did send me the commit ID in another email.
-I need to read ALL my unread mail first.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-I'll do that merge and take care of it shortly.
-
-Bruce
-
-
-
->
-> or, it could be submitted to linux-yocto like any patch, and it will be
-> applied and show up with the next update.
->
-> I'll take care of getting this into linux-yocto with my update that is
-> coming later today.
->
-> Cheers,
->
-> Bruce
->
->
->
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  ...-definition-of-traceid_list-global-v.patch | 66 +++++++++++++++++++
->>  meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  2 +
->>  2 files changed, 68 insertions(+)
->>  create mode 100644
->> meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definition-of-traceid_list-global-v.patch
->>
->> diff --git
->> a/meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definition-of-traceid_list-global-v.patch
->> b/meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definition-of-traceid_list-global-v.patch
->> new file mode 100644
->> index 0000000000..0fc9876501
->> --- /dev/null
->> +++
->> b/meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definition-of-traceid_list-global-v.patch
->> @@ -0,0 +1,66 @@
->> +From 168200b6d6ea0cb5765943ec5da5b8149701f36a Mon Sep 17 00:00:00 2001
->> +From: Leo Yan <leo.yan@linaro.org>
->> +Date: Tue, 5 May 2020 21:36:42 +0800
->> +Subject: [PATCH] perf cs-etm: Move definition of 'traceid_list' global
->> + variable from header file
->> +
->> +The variable 'traceid_list' is defined in the header file cs-etm.h,
->> +if multiple C files include cs-etm.h the compiler might complaint for
->> +multiple definition of 'traceid_list'.
->> +
->> +To fix multiple definition error, move the definition of 'traceid_list'
->> +into cs-etm.c.
->> +
->> +Fixes: cd8bfd8c973e ("perf tools: Add processing of coresight metadata")
->> +Reported-by: Thomas Backlund <tmb@mageia.org>
->> +Signed-off-by: Leo Yan <leo.yan@linaro.org>
->> +Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
->> +Reviewed-by: Mike Leach <mike.leach@linaro.org>
->> +Tested-by: Mike Leach <mike.leach@linaro.org>
->> +Tested-by: Thomas Backlund <tmb@mageia.org>
->> +Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
->> +Cc: Jiri Olsa <jolsa@redhat.com>
->> +Cc: Mark Rutland <mark.rutland@arm.com>
->> +Cc: Namhyung Kim <namhyung@kernel.org>
->> +Cc: Peter Zijlstra <peterz@infradead.org>
->> +Cc: Suzuki Poulouse <suzuki.poulose@arm.com>
->> +Cc: Tor Jeremiassen <tor@ti.com>
->> +Cc: linux-arm-kernel@lists.infradead.org
->> +Link:
->> http://lore.kernel.org/lkml/20200505133642.4756-1-leo.yan@linaro.org
->> +Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
->> +---
->> + tools/perf/util/cs-etm.c | 3 +++
->> + tools/perf/util/cs-etm.h | 3 ---
->> + 2 files changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->> +index 3c802fde4954..c283223fb31f 100644
->> +--- a/tools/perf/util/cs-etm.c
->> ++++ b/tools/perf/util/cs-etm.c
->> +@@ -94,6 +94,9 @@ struct cs_etm_queue {
->> +       struct cs_etm_traceid_queue **traceid_queues;
->> + };
->> +
->> ++/* RB tree for quick conversion between traceID and metadata pointers */
->> ++static struct intlist *traceid_list;
->> ++
->> + static int cs_etm__update_queues(struct cs_etm_auxtrace *etm);
->> + static int cs_etm__process_queues(struct cs_etm_auxtrace *etm);
->> + static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
->> +diff --git a/tools/perf/util/cs-etm.h b/tools/perf/util/cs-etm.h
->> +index 650ecc2a6349..4ad925d6d799 100644
->> +--- a/tools/perf/util/cs-etm.h
->> ++++ b/tools/perf/util/cs-etm.h
->> +@@ -114,9 +114,6 @@ enum cs_etm_isa {
->> +       CS_ETM_ISA_T32,
->> + };
->> +
->> +-/* RB tree for quick conversion between traceID and metadata pointers */
->> +-struct intlist *traceid_list;
->> +-
->> + struct cs_etm_queue;
->> +
->> + struct cs_etm_packet {
->> +--
->> +2.28.0
->> +
->> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
->> b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
->> index f85c54e7f7..5a3180f36d 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
->> @@ -32,6 +32,8 @@ SRC_URI = "git://
->> git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
->> <http://git.yoctoproject.org/linux-yocto.git;name=machine;branch=$%7BKBRA>
->>  SRC_URI_append_qemuppc64 = " file://defconfig"
->>  CFLAGS += "-Wno-error"
->>
->> +SRC_URI_append = "
->> file://0001-perf-cs-etm-Move-definition-of-traceid_list-global-v.patch"
->> +
->>  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
->>  LINUX_VERSION ?= "5.4.57"
->>
->> --
->> 2.28.0
->>
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> 
->
-
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 24cc5353e3..2857dea130 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "9b7e1eef068382c132768964ccac22d35ac05d7b"
+-SRCREV_meta ?= "4aeda12f7f7eb84613ae1fe6e22cd9cd9790c20b"
++SRCREV_machine ?= "550d18f9ff5749c779261b01d61a86c7e79b06b6"
++SRCREV_meta ?= "83311f062f4aede9928eca82a34ddf73f264fe2a"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.57"
++LINUX_VERSION ?= "5.4.58"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index c4bdfd61b1..78d57e1841 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.57"
++LINUX_VERSION ?= "5.4.58"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "afcbe2154b65d2ab1da70eaf38388b3c64366f8f"
+-SRCREV_machine ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_meta ?= "4aeda12f7f7eb84613ae1fe6e22cd9cd9790c20b"
++SRCREV_machine_qemuarm ?= "919fb1aeb12bceab82f32139bec283c1bb5ebc1c"
++SRCREV_machine ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_meta ?= "83311f062f4aede9928eca82a34ddf73f264fe2a"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 76cd3b3ea7..ba9c803947 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "69c2cb15ed433d0c54548167b771aa86edf731b0"
+-SRCREV_machine_qemuarm64 ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_machine_qemumips ?= "f0d91ff7f58bb7b6e6676abce3b2e56d8031c7a5"
+-SRCREV_machine_qemuppc ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_machine_qemuriscv64 ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_machine_qemux86 ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_machine_qemux86-64 ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_machine_qemumips64 ?= "053475d8f61a47f2aa66f2be0ca6c668a73ff784"
+-SRCREV_machine ?= "d3100abbe1a46aeefdf62d6a31fed31e94b9537d"
+-SRCREV_meta ?= "4aeda12f7f7eb84613ae1fe6e22cd9cd9790c20b"
++SRCREV_machine_qemuarm ?= "1f11670a455ce50f55597415afedfc5eaa3981bf"
++SRCREV_machine_qemuarm64 ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_machine_qemumips ?= "50557f1a2b606139ef5d6ba4a2f46ad7b7b2e96d"
++SRCREV_machine_qemuppc ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_machine_qemuriscv64 ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_machine_qemux86 ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_machine_qemux86-64 ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_machine_qemumips64 ?= "52e277a90804bb7ccef6e51bcf739d88788b4a69"
++SRCREV_machine ?= "7e20784a1d13af858f83a2d5f582fe30329553ce"
++SRCREV_meta ?= "83311f062f4aede9928eca82a34ddf73f264fe2a"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.57"
++LINUX_VERSION ?= "5.4.58"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.19.1
 
---000000000000d4d5b005ad063a55
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Sun, Aug 16, 2020 at 6:31 PM Bruce Ashfield via =
-<a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;br=
-uce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.co=
-m@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Sun, Aug 16, 2020 at 3:08 AM Khem Raj &lt;<a hre=
-f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Temp fi=
-x until linux-yocto picks it up<br>
-<br></blockquote><div><br></div><div><div style=3D"font-size:small">These =
-really need to be submitted to the linux-yocto mailing list as proper patch=
-es.</div><div style=3D"font-size:small"><br></div><div style=3D"font-size:s=
-mall">When they are submitted like this, it requires me to extract the patc=
-h, or hunt up the original commit, see if it has already been submitted to =
-linux-stable (and if not, it should be), apply it to the kernel, revert thi=
-s commit if it happens to have merged and then finally do my update.</div><=
-/div></div></div></blockquote><div><br></div><div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">.. and of course I see that you did send me t=
-he commit ID in another email. I need to read ALL my unread mail first.</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">I&#39;ll do that merge and t=
-ake care of it shortly.</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">B=
-ruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><div style=3D"=
-font-size:small"><br></div><div style=3D"font-size:small">or, it could be s=
-ubmitted to linux-yocto like any patch, and it will be applied and show up =
-with the next update.</div><div style=3D"font-size:small"><br></div><div st=
-yle=3D"font-size:small">I&#39;ll take care of getting this into linux-yocto=
- with my update that is coming later today.</div><div style=3D"font-size:sm=
-all"><br></div><div style=3D"font-size:small">Cheers,</div><div style=3D"fo=
-nt-size:small"><br></div><div style=3D"font-size:small">Bruce</div><br></di=
-v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
----<br>
-=C2=A0...-definition-of-traceid_list-global-v.patch | 66 +++++++++++++++++=
-++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a>=C2=A0 |=C2=A0 2 +=
-<br>
-=C2=A02 files changed, 68 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/0001-perf-cs-etm-=
-Move-definition-of-traceid_list-global-v.patch<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definit=
-ion-of-traceid_list-global-v.patch b/meta/recipes-kernel/linux/files/0001-p=
-erf-cs-etm-Move-definition-of-traceid_list-global-v.patch<br>
-new file mode 100644<br>
-index 0000000000..0fc9876501<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/0001-perf-cs-etm-Move-definition-of-=
-traceid_list-global-v.patch<br>
-@@ -0,0 +1,66 @@<br>
-+From 168200b6d6ea0cb5765943ec5da5b8149701f36a Mon Sep 17 00:00:00 2001<br=
->
-+From: Leo Yan &lt;<a href=3D"mailto:leo.yan@linaro.org" target=3D"_blank"=
->leo.yan@linaro.org</a>&gt;<br>
-+Date: Tue, 5 May 2020 21:36:42 +0800<br>
-+Subject: [PATCH] perf cs-etm: Move definition of &#39;traceid_list&#39; g=
-lobal<br>
-+ variable from header file<br>
-+<br>
-+The variable &#39;traceid_list&#39; is defined in the header file cs-etm.=
-h,<br>
-+if multiple C files include cs-etm.h the compiler might complaint for<br>
-+multiple definition of &#39;traceid_list&#39;.<br>
-+<br>
-+To fix multiple definition error, move the definition of &#39;traceid_lis=
-t&#39;<br>
-+into cs-etm.c.<br>
-+<br>
-+Fixes: cd8bfd8c973e (&quot;perf tools: Add processing of coresight metada=
-ta&quot;)<br>
-+Reported-by: Thomas Backlund &lt;<a href=3D"mailto:tmb@mageia.org" target=
-=
-=3D"_blank">tmb@mageia.org</a>&gt;<br>
-+Signed-off-by: Leo Yan &lt;<a href=3D"mailto:leo.yan@linaro.org" target=
-=3D"_blank">leo.yan@linaro.org</a>&gt;<br>
-+Reviewed-by: Mathieu Poirier &lt;<a href=3D"mailto:mathieu.poirier@linaro=
-.org" target=3D"_blank">mathieu.poirier@linaro.org</a>&gt;<br>
-+Reviewed-by: Mike Leach &lt;<a href=3D"mailto:mike.leach@linaro.org" targ=
-et=3D"_blank">mike.leach@linaro.org</a>&gt;<br>
-+Tested-by: Mike Leach &lt;<a href=3D"mailto:mike.leach@linaro.org" target=
-=
-=3D"_blank">mike.leach@linaro.org</a>&gt;<br>
-+Tested-by: Thomas Backlund &lt;<a href=3D"mailto:tmb@mageia.org" target=
-=3D"_blank">tmb@mageia.org</a>&gt;<br>
-+Cc: Alexander Shishkin &lt;<a href=3D"mailto:alexander.shishkin@linux.int=
-el.com" target=3D"_blank">alexander.shishkin@linux.intel.com</a>&gt;<br>
-+Cc: Jiri Olsa &lt;<a href=3D"mailto:jolsa@redhat.com" target=3D"_blank">j=
-olsa@redhat.com</a>&gt;<br>
-+Cc: Mark Rutland &lt;<a href=3D"mailto:mark.rutland@arm.com" target=3D"_b=
-lank">mark.rutland@arm.com</a>&gt;<br>
-+Cc: Namhyung Kim &lt;<a href=3D"mailto:namhyung@kernel.org" target=3D"_bl=
-ank">namhyung@kernel.org</a>&gt;<br>
-+Cc: Peter Zijlstra &lt;<a href=3D"mailto:peterz@infradead.org" target=3D"=
-_blank">peterz@infradead.org</a>&gt;<br>
-+Cc: Suzuki Poulouse &lt;<a href=3D"mailto:suzuki.poulose@arm.com" target=
-=3D"_blank">suzuki.poulose@arm.com</a>&gt;<br>
-+Cc: Tor Jeremiassen &lt;<a href=3D"mailto:tor@ti.com" target=3D"_blank">t=
-or@ti.com</a>&gt;<br>
-+Cc: <a href=3D"mailto:linux-arm-kernel@lists.infradead.org" target=3D"_bl=
-ank">linux-arm-kernel@lists.infradead.org</a><br>
-+Link: <a href=3D"http://lore.kernel.org/lkml/20200505133642.4756-1-leo.ya=
-n@linaro.org" rel=3D"noreferrer" target=3D"_blank">http://lore.kernel.org/l=
-kml/20200505133642.4756-1-leo.yan@linaro.org</a><br>
-+Signed-off-by: Arnaldo Carvalho de Melo &lt;<a href=3D"mailto:acme@redhat=
-.com" target=3D"_blank">acme@redhat.com</a>&gt;<br>
-+---<br>
-+ tools/perf/util/cs-etm.c | 3 +++<br>
-+ tools/perf/util/cs-etm.h | 3 ---<br>
-+ 2 files changed, 3 insertions(+), 3 deletions(-)<br>
-+<br>
-+diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c<br>
-+index 3c802fde4954..c283223fb31f 100644<br>
-+--- a/tools/perf/util/cs-etm.c<br>
-++++ b/tools/perf/util/cs-etm.c<br>
-+@@ -94,6 +94,9 @@ struct cs_etm_queue {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct cs_etm_traceid_queue **traceid_queues;<=
-br>
-+ };<br>
-+ <br>
-++/* RB tree for quick conversion between traceID and metadata pointers */=
-<br>
-++static struct intlist *traceid_list;<br>
-++<br>
-+ static int cs_etm__update_queues(struct cs_etm_auxtrace *etm);<br>
-+ static int cs_etm__process_queues(struct cs_etm_auxtrace *etm);<br>
-+ static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,<=
-br>
-+diff --git a/tools/perf/util/cs-etm.h b/tools/perf/util/cs-etm.h<br>
-+index 650ecc2a6349..4ad925d6d799 100644<br>
-+--- a/tools/perf/util/cs-etm.h<br>
-++++ b/tools/perf/util/cs-etm.h<br>
-+@@ -114,9 +114,6 @@ enum cs_etm_isa {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0CS_ETM_ISA_T32,<br>
-+ };<br>
-+ <br>
-+-/* RB tree for quick conversion between traceID and metadata pointers */=
-<br>
-+-struct intlist *traceid_list;<br>
-+-<br>
-+ struct cs_etm_queue;<br>
-+ <br>
-+ struct cs_etm_packet {<br>
-+-- <br>
-+2.28.0<br>
-+<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.4.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a> b/meta/recip=
-es-kernel/linux/<a href=3D"http://linux-yocto_5.4.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">linux-yocto_5.4.bb</a><br>
-index f85c54e7f7..5a3180f36d 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a><br>
-@@ -32,6 +32,8 @@ SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproje=
-ct.org/linux-yocto.git;name=3Dmachine;branch=3D$%7BKBRA" rel=3D"noreferrer"=
- target=3D"_blank">git.yoctoproject.org/linux-yocto.git;name=3Dmachine;bran=
-ch=3D${KBRA</a><br>
-=C2=A0SRC_URI_append_qemuppc64 =3D &quot; file://defconfig&quot;<br>
-=C2=A0CFLAGS +=3D &quot;-Wno-error&quot;<br>
-<br>
-+SRC_URI_append =3D &quot; file://0001-perf-cs-etm-Move-definition-of-trac=
-eid_list-global-v.patch&quot;<br>
-+<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dbbea815ee2795b2f4230=
-826c0c6b8814&quot;<br>
-=C2=A0LINUX_VERSION ?=3D &quot;5.4.57&quot;<br>
-<br>
--- <br>
-2.28.0<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-">- Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<b=
-r><br></div></div>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div></div>
-
---000000000000d4d5b005ad063a55--
