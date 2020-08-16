@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19662.1597558915304518018
+ by mx.groups.io with SMTP id smtpd.web10.19818.1597558919463916668
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:21:55 -0700
+ Sat, 15 Aug 2020 23:21:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2B942E0202B; Sat, 15 Aug 2020 23:21:55 -0700 (PDT)
+	id 4F800E02036; Sat, 15 Aug 2020 23:21:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 33797E0205A
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5D7AFE0205C
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:41 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libhandy: upgrading to 0.90.0 SUCCEEDED
-Message-Id: <20200816062155.2B942E0202B@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:21:55 -0700 (PDT)
-X-Groupsio-MsgNum: 141504
-Content-Type: multipart/mixed; boundary="===============1652081905810197559=="
+Subject: [AUH] harfbuzz: upgrading to 2.7.1 SUCCEEDED
+Message-Id: <20200816062159.4F800E02036@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:21:59 -0700 (PDT)
+X-Groupsio-MsgNum: 141505
+Content-Type: multipart/mixed; boundary="===============1331833549628474582=="
 
---===============1652081905810197559==
+--===============1331833549628474582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libhandy* to *0.90.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *harfbuzz* to *2.7.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libhandy-upgrade-0.0.13-0.90.0.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-2.6.8-2.7.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,157 +59,83 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1652081905810197559==
+--===============1331833549628474582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libhandy/libhandy-locale: RPROVIDES: removed all items "libhandy-locale (['= 0.0.13'])"
-packages/core2-32-poky-linux/libhandy/libhandy-locale: PKGV changed from 0.0.13 [default] to 1.3 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-locale [default] - may indicate debian renaming failure
-packages/core2-32-poky-linux/libhandy/libhandy-locale: PV changed from "0.0.13" to "1.3"
-packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-en-gb libhandy-locale-ro libhandy-locale-pl libhandy-locale-uk libhandy-locale-es libhandy-locale-pt-br"
-packages/core2-32-poky-linux/libhandy: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387192 to 1676864 (+21%)
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: FILELIST: removed "/usr/bin/.debug/handy-0.0-demo /usr/lib/.debug/libhandy-0.0.so.0", added "/usr/lib/.debug/libhandy-1.so.0 /usr/bin/.debug/handy-1-demo"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535654 (+26%)
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-title-bar.h /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-keypad.h /usr/include/libhandy-0.0/hdy-preferences-group.h /usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-search-bar.h /usr/include/libhandy-0.0/hdy-enums.h /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/lib/pkgconfig/libhandy-0.0.pc /usr/include/libhandy-0.0/hdy-arrows.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-version.h /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-stri
- ng-utf8.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/include/libhandy-0.0/hdy-enum-value-object.h /usr/include/libhandy-0.0/hdy-dialog.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/include/libhandy-0.0/hdy-fold.h /usr/include/libhandy-0.0/hdy-preferences-window.h /usr/share/vala/vapi/libhandy-0.0.vapi", added "/usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-types.h /usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-deprecation-macro
- s.h /usr/include/libhandy-1/hdy-preferences-page.h /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/lib/libhandy-1.so /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-preferences-row.h /usr/include/libhandy-1/hdy-keypad.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-main.h /usr/include/libhandy-1/hdy-enums.h /usr/include/libhandy-1/hdy-carousel-indicator-dots.h /usr/include/libhandy-1/hdy-version.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-header-bar.h /usr/include/libhandy-1/hdy-clamp.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-carousel.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-avatar.h /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/handy.h /usr/include/libhandy-1/hdy-enum-valu
- e-object.h /usr/include/libhandy-1/hdy-swipe-tracker.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/include/libhandy-1/hdy-swipe-group.h /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/hdy-value-object.h /usr/include/libhandy-1/hdy-carousel-indicator-lines.h /usr/include/libhandy-1/hdy-leaflet.h /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy-1/hdy-action-row.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/include/libhandy-1/hdy-squeezer.h"
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 267756 (+96%)
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 4141310 (+59%)
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
-packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy-src: FILELIST: directory renamed /usr/src/debug/libhandy/0.0.13-r0/build/examples -> /usr/src/debug/libhandy/0.90.0-r0/build/examples, directory renamed /usr/src/debug/libhandy/0.0.13-r0/git/examples -> /usr/src/debug/libhandy/0.90.0-r0/git/examples, removed "/usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-list-box.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.0.13
- -r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-search-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-page.h /usr/src/debug/libhandy/0.0.13-r0/git/src/
- hdy-dialer-button.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-title-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.h /usr
- /src/debug/libhandy/0.0.13-r0/git/src/hdy-fold.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.h /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-butt
- on.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window-private.h /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0
- .0.13-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.h", added "/usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-value-object.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-stackable-box.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-cairo-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-title.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-clamp.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0
- .90.0-r0/git/src/hdy-keypad-button.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-dots.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-lines.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-clamp.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-mixin-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-stackable-box-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-types.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-
- preferences-page.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-search-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.90.0-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-avatar.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle.h
-  /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-css-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums-private.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-css.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-nothing.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switch
- er.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle-controller.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-avatar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-leaflet.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-nothing-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-dots.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-application-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-deck.h /usr/src/debug/libhandy/0.90.0-r0/git
- /src/hdy-title-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-box.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-page-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-box-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-navigation-direction.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-mixin.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-lines.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.90.0-r0/git/src/gtk-window
- -private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-title.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle-controller-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-squeezer.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-deck.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-application-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-combo-row.h"
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
-packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
-packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "0.0.13" to "0.90.0"
-packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/libhandy-0.0.so.0 /usr/lib/girepository-1.0/Handy-0.0.typelib", added "/usr/lib/girepository-1.0/Handy-1.typelib /usr/lib/libhandy-1.so.0"
-Changes to packages/core2-32-poky-linux/libhandy (sysroot):
-  /usr/include/libhandy-1 was added
-  /usr/include/libhandy-1/handy.h was added
-  /usr/include/libhandy-1/hdy-action-row.h was added
-  /usr/include/libhandy-1/hdy-animation.h was added
-  /usr/include/libhandy-1/hdy-application-window.h was added
-  /usr/include/libhandy-1/hdy-avatar.h was added
-  /usr/include/libhandy-1/hdy-carousel.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
-  /usr/include/libhandy-1/hdy-clamp.h was added
-  /usr/include/libhandy-1/hdy-combo-row.h was added
-  /usr/include/libhandy-1/hdy-deck.h was added
-  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
-  /usr/include/libhandy-1/hdy-enums.h was added
-  /usr/include/libhandy-1/hdy-enum-value-object.h was added
-  /usr/include/libhandy-1/hdy-expander-row.h was added
-  /usr/include/libhandy-1/hdy-header-bar.h was added
-  /usr/include/libhandy-1/hdy-header-group.h was added
-  /usr/include/libhandy-1/hdy-keypad.h was added
-  /usr/include/libhandy-1/hdy-leaflet.h was added
-  /usr/include/libhandy-1/hdy-main.h was added
-  /usr/include/libhandy-1/hdy-navigation-direction.h was added
-  /usr/include/libhandy-1/hdy-preferences-group.h was added
-  /usr/include/libhandy-1/hdy-preferences-page.h was added
-  /usr/include/libhandy-1/hdy-preferences-row.h was added
-  /usr/include/libhandy-1/hdy-preferences-window.h was added
-  /usr/include/libhandy-1/hdy-search-bar.h was added
-  /usr/include/libhandy-1/hdy-squeezer.h was added
-  /usr/include/libhandy-1/hdy-swipeable.h was added
-  /usr/include/libhandy-1/hdy-swipe-group.h was added
-  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
-  /usr/include/libhandy-1/hdy-title-bar.h was added
-  /usr/include/libhandy-1/hdy-types.h was added
-  /usr/include/libhandy-1/hdy-value-object.h was added
-  /usr/include/libhandy-1/hdy-version.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
-  /usr/include/libhandy-1/hdy-view-switcher.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
-  /usr/include/libhandy-1/hdy-window.h was added
-  /usr/include/libhandy-1/hdy-window-handle.h was added
-  /usr/lib/girepository-1.0/Handy-1.typelib was added
-  /usr/lib/libhandy-1.so.0 was added
-  /usr/lib/libhandy-1.so was added
-  /usr/lib/pkgconfig/libhandy-1.pc was added
-  /usr/share/gir-1.0/Handy-1.gir was added
-  /usr/share/vala/vapi/libhandy-1.deps was added
-  /usr/share/vala/vapi/libhandy-1.vapi was added
-  /usr/include/libhandy-0.0 was removed
-  /usr/include/libhandy-0.0/handy.h was removed
-  /usr/include/libhandy-0.0/hdy-action-row.h was removed
-  /usr/include/libhandy-0.0/hdy-animation.h was removed
-  /usr/include/libhandy-0.0/hdy-arrows.h was removed
-  /usr/include/libhandy-0.0/hdy-column.h was removed
-  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
-  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer.h was removed
-  /usr/include/libhandy-0.0/hdy-dialog.h was removed
-  /usr/include/libhandy-0.0/hdy-enums.h was removed
-  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
-  /usr/include/libhandy-0.0/hdy-fold.h was removed
-  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-header-group.h was removed
-  /usr/include/libhandy-0.0/hdy-keypad.h was removed
-  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
-  /usr/include/libhandy-0.0/hdy-list-box.h was removed
-  /usr/include/libhandy-0.0/hdy-main.h was removed
-  /usr/include/libhandy-0.0/hdy-paginator.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
-  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
-  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
-  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
-  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
-  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-version.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
-  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
-  /usr/lib/libhandy-0.0.so.0 was removed
-  /usr/lib/libhandy-0.0.so was removed
-  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
-  /usr/share/gir-1.0/Handy-0.0.gir was removed
-  /usr/share/vala/vapi/libhandy-0.0.deps was removed
-  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-icu.so.0.20600.8 /usr/lib/.debug/libharfbuzz-subset.so.0.20600.8 /usr/lib/.debug/libharfbuzz.so.0.20600.8", added "/usr/lib/.debug/libharfbuzz.so.0.20701.0 /usr/lib/.debug/libharfbuzz-icu.so.0.20701.0 /usr/lib/.debug/libharfbuzz-subset.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 35214080 to 35146468 (-0%)
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.20600.8", added "/usr/lib/libharfbuzz-icu.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/util -> /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/util, removed "/usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-hangul.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color-cbdt-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-deprecated.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-map.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-iter.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-fdsc-table.hh /usr/src/debu
+ g/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-input.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-open-file.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-vowel-constraints.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-static.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-map.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-blob.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/sr
+ c/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-face.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-unicode.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-arabic-fallback.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-indic-table.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-atomic.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color-cpal-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-arabic.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-array.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-buffer.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ucd.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/
+ harfbuzz-2.6.8/src/hb-ot-shape-complex.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-bimap.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-input.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-meta.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-math.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-sanitize.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-buffer.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-map.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-map.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-map.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ucd-table.hh /usr/src/debu
+ g/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-face.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-thai.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-map.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-machinery.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-utf.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-unicode.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-metric
+ s.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-buffer.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-common.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-map.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-name.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shape.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-open-type.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-normalize.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff1.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff2-table.hh /usr/
+ src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color-colr-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-arabic.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-font.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-string-array.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-face.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-number.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-set.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset.cc /usr
+ /src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-algs.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-name.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color-sbix-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-arabic-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout-lcar-table.hh /usr/src/debug/harfbuzz/
+ 2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-math.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-default.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-khmer.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-font.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-vector.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-face.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-set-digest.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shape-plan.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/2.6.8-r
+ 0/harfbuzz-2.6.8/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-vowel-constraints.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-blob.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-face.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shape.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ft.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-version.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-kern.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-pool.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-icu.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-font.cc
+  /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-set.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-glib.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-glyf-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-indic.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-khmer.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shaper.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-unicode.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-dispatch.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-
+ complex-hebrew.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-serialize.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-subset-cff2.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-number.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shape-plan.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-font.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-null.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-use-table.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-common.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-name-language-static.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-meta-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6
+ .8/src/hb-ot-var.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-set.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout-gdef-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-myanmar.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-cache.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-color-svg-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-mutex.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-blob.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-aat-layout.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src
+ /hb-ot-tag.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ft.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-meta.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-name-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-use.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-use.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-shaper.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-object.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-debug.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-myanmar.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-fo
+ nt.h /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-shape-complex-indic.cc /usr/src/debug/harfbuzz/2.6.8-r0/harfbuzz-2.6.8/src/hb-ot-metrics.cc", added "/usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-input.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-unicode.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var-gvar-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff1-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-open-type.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-use-table.cc /usr/src/debug/harfbuzz/2
+ .7.1-r0/harfbuzz-2.7.1/src/hb-ot-post-macroman.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-name.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-fallback.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var-avar-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff1.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-map.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-face.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-glib.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-name-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-set.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-myanmar.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-ltag-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout-gsub-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-name-language-static.hh /usr/src/d
+ ebug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-map.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var-mvar-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-map.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-map.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-hhea-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-hebrew.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-trak-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-meta.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ucd.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-morx-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-math.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-map.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-arabic.hh /usr/src/debug/har
+ fbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-use.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-kern-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-map.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shape-plan.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-arabic-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color-cpal-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff2-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-buffer-serialize.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-meta.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-name.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-set.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-object.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-font.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset.h /usr/src/debug/harfbuzz/2
+ .7.1-r0/harfbuzz-2.7.1/src/hb-bimap.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-face-table-list.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff1-table.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-default.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-buffer.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-buffer.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-indic.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-number.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-face.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-arabic-fallback.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-face.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-version.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-normalize.cc /usr/src/
+ debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-kern.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-font.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-maxp-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-meta.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-myanmar.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-indic-table.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shaper-list.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-serialize.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-plan.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-feat-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-map.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-os2-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-array.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shape.cc /usr/src/d
+ ebug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-blob.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-blob.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-buffer.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-common.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-fallback.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-vowel-constraints.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-normalize.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-metrics.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-iter.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff1-std-str.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cache.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-sanitize.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-mutex.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var.h /usr/src/debug/harfbuzz/2.7.1-r0/h
+ arfbuzz-2.7.1/src/hb-ft.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-unicode-emoji-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-math.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-head-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-dispatch.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-hangul.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-set-digest.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-math-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-metrics.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-os2-unicode-ranges.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-kerx-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ucd-table.hh /usr/src/debug/harfbuzz/2
+ .7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout-gdef-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-fallback-shape.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-khmer.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-post-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cff-interp-cs-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-algs.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shaper.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-deprecated.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var-hvar-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shape-plan.hh /usr/src/debug/ha
+ rfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-font.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout-gpos-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-icu.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-vowel-constraints.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-hmtx-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-hdmx-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-machinery.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-stat-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-metrics.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color-cbdt-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cff-interp-dict-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-font.hh /
+ usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color-colr-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shape-plan.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-deprecated.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff-common.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-vector.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-utf.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-arabic-joining-list.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff2.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cff1-interp-cs.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ft.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-pool.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color-sbix-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-meta-
+ table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-face.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shape.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-font.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-use.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-thai.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-glyf-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-ankr-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var-fvar-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-indic.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape.h /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-static.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-input.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cff2-interp-cs.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/
+ src/hb-ot-layout-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout-gsubgpos.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff1.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-cff-interp-common.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-number.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cmap-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-khmer.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color-svg-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-unicode.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-shaper.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-open-file.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-layout-base-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-cff2-table.cc /usr/src/debug/harfbuzz/2.
+ 7.1-r0/harfbuzz-2.7.1/src/hb-blob.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-null.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-face.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-plan.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-color.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset-cff2.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-aat-layout-just-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-debug.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-shape-complex-arabic.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-set.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-string-array.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-vorg-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-name-language.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-tag.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/
+ src/hb-common.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-atomic.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-var.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-subset.cc /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-ot-tag-table.hh /usr/src/debug/harfbuzz/2.7.1-r0/harfbuzz-2.7.1/src/hb-unicode.hh"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 3295655 to 3282797 (-0%)
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.20600.8", added "/usr/lib/libharfbuzz-subset.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 767243 to 779531 (+2%)
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PV changed from "2.6.8" to "2.7.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.20600.8", added "/usr/lib/libharfbuzz.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1038724 to 1014148 (-2%)
+packages/core2-32-poky-linux/harfbuzz: PKGV changed from 2.6.8 [default] to 2.7.1 [default]
+packages/core2-32-poky-linux/harfbuzz: PV changed from "2.6.8" to "2.7.1"
+Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.20600.8 to libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz-icu.so changed symlink target from libharfbuzz-icu.so.0.20600.8 to libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.20600.8 to libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz.so changed symlink target from libharfbuzz.so.0.20600.8 to libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.20600.8 to libharfbuzz-subset.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so changed symlink target from libharfbuzz-subset.so.0.20600.8 to libharfbuzz-subset.so.0.20701.0
+  /usr/lib/libharfbuzz-icu.so.0.20600.8 moved to /usr/lib/libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz.so.0.20600.8 moved to /usr/lib/libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so.0.20600.8 moved to /usr/lib/libharfbuzz-subset.so.0.20701.0
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1777,126 +1703,25 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============1652081905810197559==
+--===============1331833549628474582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libhandy/libhandy-locale: RPROVIDES: removed all items "libhandy-locale (['= 0.0.13'])"
-packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-locale [default] - may indicate debian renaming failure
-packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-uk libhandy-locale-en-gb libhandy-locale-pt-br libhandy-locale-es libhandy-locale-pl libhandy-locale-ro"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387192 to 1676864 (+21%)
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535654 (+26%)
-packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/include/libhandy-0.0/hdy-preferences-window.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/share/vala/vapi/libhandy-0.0.vapi /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-fold.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/include/libhandy-0.0/hdy-preferences-group.h /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-string-utf8.h /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-search-bar.h /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-enums.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-enum-value-object.h /usr/lib/pkgconfig/libhandy-0.0.pc 
- /usr/include/libhandy-0.0/hdy-title-bar.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/include/libhandy-0.0/hdy-arrows.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-keypad.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-version.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-dialog.h", added "/usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-main.h /usr/include/libhandy-1/hdy-value-object.h /usr/incl
- ude/libhandy-1/hdy-leaflet.h /usr/include/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/hdy-types.h /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/include/libhandy-1/handy.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-keypad.h /usr/include/libhandy-1/hdy-carousel.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-enum-value-object.h /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/hdy-carousel-indicator-dots.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-avatar.h /usr/include/libhandy-1/hdy-clamp.h /usr/include/libhandy-1/hdy-carousel-indicator-lines.h /usr/lib/libhandy-1.so /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy
- -1/hdy-squeezer.h /usr/include/libhandy-1/hdy-swipe-group.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-swipe-tracker.h /usr/include/libhandy-1/hdy-deprecation-macros.h /usr/include/libhandy-1/hdy-preferences-row.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-enums.h /usr/include/libhandy-1/hdy-header-bar.h /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-version.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/include/libhandy-1/hdy-action-row.h /usr/include/libhandy-1/hdy-preferences-page.h"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 267756 (+96%)
-packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 4141310 (+59%)
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
-packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
-packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/lib/girepository-1.0/Handy-1.typelib /usr/lib/libhandy-1.so.0"
-packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
-Changes to packages/core2-32-poky-linux/libhandy (sysroot):
-  /usr/include/libhandy-1 was added
-  /usr/include/libhandy-1/handy.h was added
-  /usr/include/libhandy-1/hdy-action-row.h was added
-  /usr/include/libhandy-1/hdy-animation.h was added
-  /usr/include/libhandy-1/hdy-application-window.h was added
-  /usr/include/libhandy-1/hdy-avatar.h was added
-  /usr/include/libhandy-1/hdy-carousel.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
-  /usr/include/libhandy-1/hdy-clamp.h was added
-  /usr/include/libhandy-1/hdy-combo-row.h was added
-  /usr/include/libhandy-1/hdy-deck.h was added
-  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
-  /usr/include/libhandy-1/hdy-enums.h was added
-  /usr/include/libhandy-1/hdy-enum-value-object.h was added
-  /usr/include/libhandy-1/hdy-expander-row.h was added
-  /usr/include/libhandy-1/hdy-header-bar.h was added
-  /usr/include/libhandy-1/hdy-header-group.h was added
-  /usr/include/libhandy-1/hdy-keypad.h was added
-  /usr/include/libhandy-1/hdy-leaflet.h was added
-  /usr/include/libhandy-1/hdy-main.h was added
-  /usr/include/libhandy-1/hdy-navigation-direction.h was added
-  /usr/include/libhandy-1/hdy-preferences-group.h was added
-  /usr/include/libhandy-1/hdy-preferences-page.h was added
-  /usr/include/libhandy-1/hdy-preferences-row.h was added
-  /usr/include/libhandy-1/hdy-preferences-window.h was added
-  /usr/include/libhandy-1/hdy-search-bar.h was added
-  /usr/include/libhandy-1/hdy-squeezer.h was added
-  /usr/include/libhandy-1/hdy-swipeable.h was added
-  /usr/include/libhandy-1/hdy-swipe-group.h was added
-  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
-  /usr/include/libhandy-1/hdy-title-bar.h was added
-  /usr/include/libhandy-1/hdy-types.h was added
-  /usr/include/libhandy-1/hdy-value-object.h was added
-  /usr/include/libhandy-1/hdy-version.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
-  /usr/include/libhandy-1/hdy-view-switcher.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
-  /usr/include/libhandy-1/hdy-window.h was added
-  /usr/include/libhandy-1/hdy-window-handle.h was added
-  /usr/lib/girepository-1.0/Handy-1.typelib was added
-  /usr/lib/libhandy-1.so.0 was added
-  /usr/lib/libhandy-1.so was added
-  /usr/lib/pkgconfig/libhandy-1.pc was added
-  /usr/share/gir-1.0/Handy-1.gir was added
-  /usr/share/vala/vapi/libhandy-1.deps was added
-  /usr/share/vala/vapi/libhandy-1.vapi was added
-  /usr/include/libhandy-0.0 was removed
-  /usr/include/libhandy-0.0/handy.h was removed
-  /usr/include/libhandy-0.0/hdy-action-row.h was removed
-  /usr/include/libhandy-0.0/hdy-animation.h was removed
-  /usr/include/libhandy-0.0/hdy-arrows.h was removed
-  /usr/include/libhandy-0.0/hdy-column.h was removed
-  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
-  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer.h was removed
-  /usr/include/libhandy-0.0/hdy-dialog.h was removed
-  /usr/include/libhandy-0.0/hdy-enums.h was removed
-  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
-  /usr/include/libhandy-0.0/hdy-fold.h was removed
-  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-header-group.h was removed
-  /usr/include/libhandy-0.0/hdy-keypad.h was removed
-  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
-  /usr/include/libhandy-0.0/hdy-list-box.h was removed
-  /usr/include/libhandy-0.0/hdy-main.h was removed
-  /usr/include/libhandy-0.0/hdy-paginator.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
-  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
-  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
-  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
-  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
-  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-version.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
-  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
-  /usr/lib/libhandy-0.0.so.0 was removed
-  /usr/lib/libhandy-0.0.so was removed
-  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
-  /usr/share/gir-1.0/Handy-0.0.gir was removed
-  /usr/share/vala/vapi/libhandy-0.0.deps was removed
-  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.20600.8", added "/usr/lib/libharfbuzz-icu.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.20600.8", added "/usr/lib/libharfbuzz-subset.so.0.20701.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.20600.8", added "/usr/lib/libharfbuzz.so.0.20701.0"
+Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.20600.8 to libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz-icu.so changed symlink target from libharfbuzz-icu.so.0.20600.8 to libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.20600.8 to libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz.so changed symlink target from libharfbuzz.so.0.20600.8 to libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.20600.8 to libharfbuzz-subset.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so changed symlink target from libharfbuzz-subset.so.0.20600.8 to libharfbuzz-subset.so.0.20701.0
+  /usr/lib/libharfbuzz-icu.so.0.20600.8 moved to /usr/lib/libharfbuzz-icu.so.0.20701.0
+  /usr/lib/libharfbuzz.so.0.20600.8 moved to /usr/lib/libharfbuzz.so.0.20701.0
+  /usr/lib/libharfbuzz-subset.so.0.20600.8 moved to /usr/lib/libharfbuzz-subset.so.0.20701.0
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3464,40 +3289,42 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============1652081905810197559==
+--===============1331833549628474582==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libhandy-upgrade-0.0.13-0.90.0.patch"
+ filename="0001-harfbuzz-upgrade-2.6.8-2.7.1.patch"
 
-From db5b14f42fec7c9db962f4844b7bbe41c8cc4f42 Mon Sep 17 00:00:00 2001
+From f58dd8f0136cfa4a663790c676e86c19e37992c3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:08:46 +0000
-Subject: [PATCH] libhandy: upgrade 0.0.13 -> 0.90.0
+Date: Sat, 15 Aug 2020 23:20:38 +0000
+Subject: [PATCH] harfbuzz: upgrade 2.6.8 -> 2.7.1
 
 ---
- meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../harfbuzz/{harfbuzz_2.6.8.bb => harfbuzz_2.7.1.bb}          | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.6.8.bb => harfbuzz_2.7.1.bb} (92%)
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
-index 9f74014640..f6dd29b765 100644
---- a/meta/recipes-gnome/libhandy/libhandy_git.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
-@@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+similarity index 92%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+index 3c4a5b5a2b..08c8f83239 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+@@ -11,8 +11,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
--SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
-+SRCREV = "c7aaf6f4f50b64ee55fcfee84000e9525fc5f93a"
- S = "${WORKDIR}/git"
--PV = "0.0.13"
-+PV = "0.90.0"
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "c8d4f2aeed6e576bd42f9dc6def1b1ae"
+-SRC_URI[sha256sum] = "6648a571a27f186e47094121f0095e1b809e918b3037c630c7f38ffad86e3035"
++SRC_URI[sha256sum] = "e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569"
  
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
+ inherit autotools pkgconfig lib_package gtk-doc
+ 
 -- 
 2.17.1
 
 
---===============1652081905810197559==--
+--===============1331833549628474582==--
