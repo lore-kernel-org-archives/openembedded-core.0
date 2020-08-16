@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19672.1597558943809195367
+ by mx.groups.io with SMTP id smtpd.web11.19876.1597558945325121840
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:22:24 -0700
+ Sat, 15 Aug 2020 23:22:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A5FF9E0203A; Sat, 15 Aug 2020 23:22:23 -0700 (PDT)
+	id 358EAE0203A; Sat, 15 Aug 2020 23:22:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B99E7E02078
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DB242E0207A
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:43 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cryptodev-module: upgrading to 1.11 SUCCEEDED
-Message-Id: <20200816062223.A5FF9E0203A@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:22:23 -0700 (PDT)
-X-Groupsio-MsgNum: 141515
-Content-Type: multipart/mixed; boundary="===============7287698536566125277=="
+Subject: [AUH] cryptodev-tests: upgrading to 1.11 SUCCEEDED
+Message-Id: <20200816062225.358EAE0203A@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:22:25 -0700 (PDT)
+X-Groupsio-MsgNum: 141516
+Content-Type: multipart/mixed; boundary="===============5369334319283918416=="
 
---===============7287698536566125277==
+--===============5369334319283918416==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cryptodev-module* to *1.11* has Succeeded.
+that the automatic attempt to upgrade the recipe *cryptodev-tests* to *1.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cryptodev-module-upgrade-1.10-1.11.patch
+    - apply the patch: git am 0001-cryptodev-tests-upgrade-1.10-1.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,31 +59,28 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7287698536566125277==
+--===============5369334319283918416==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-dbg: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-dbg: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-dev: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-dev: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-doc: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-doc: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-locale: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-locale: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-src: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-src: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-staticdev: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module-staticdev: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/cryptodev-module: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module/kernel-module-cryptodev-5.4.57-yocto-standard: PKGSIZE changed from 51604 to 51720 (+0%)
-packages/qemux86-poky-linux/cryptodev-module/kernel-module-cryptodev-5.4.57-yocto-standard: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module/kernel-module-cryptodev-5.4.57-yocto-standard: PV changed from "1.10" to "1.11"
-packages/qemux86-poky-linux/cryptodev-module: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/qemux86-poky-linux/cryptodev-module: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dbg: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dbg: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dev: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dev: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-doc: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-doc: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-locale: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-locale: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-src: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-src: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-staticdev: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-staticdev: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/cryptodev-tests: PKGV changed from 1.10 [default] to 1.11 [default]
+packages/core2-32-poky-linux/cryptodev-tests: PV changed from "1.10" to "1.11"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1651,120 +1648,7 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============7287698536566125277==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-cryptodev-module-upgrade-1.10-1.11.patch"
-
-From ff8affa45aea5a736311157c153fdc25538c6e29 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 16 Aug 2020 02:27:22 +0000
-Subject: [PATCH] cryptodev-module: upgrade 1.10 -> 1.11
-
----
- ...odule_1.10.bb => cryptodev-module_1.11.bb} |  7 ++-
- meta/recipes-kernel/cryptodev/cryptodev.inc   |  2 +-
- .../0001-Fix-build-for-Linux-5.8-rc1.patch    | 49 -------------------
- 3 files changed, 4 insertions(+), 54 deletions(-)
- rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.10.bb => cryptodev-module_1.11.bb} (64%)
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-build-for-Linux-5.8-rc1.patch
-
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.11.bb
-similarity index 64%
-rename from meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
-rename to meta/recipes-kernel/cryptodev/cryptodev-module_1.11.bb
-index 6474599c45..47937c56b4 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
-+++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.11.bb
-@@ -7,10 +7,9 @@ inherit module
- # Header file provided by a separate package
- DEPENDS += "cryptodev-linux"
- 
--SRC_URI += " \
--file://0001-Disable-installing-header-file-provided-by-another-p.patch \
--file://0001-Fix-build-for-Linux-5.8-rc1.patch \
--"
-+SRC_URI += "git://github.com/cryptodev-linux/cryptodev-linux \
-+           file://0001-Disable-installing-header-file-provided-by-another-p.patch \
-+           "
- 
- EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
- 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index f99f8bc9f0..906f4fc181 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
-            "
--SRCREV = "a87053bee5680878c295b7d23cf0d7065576ac2b"
-+SRCREV = "2299d39475e91392abd050ea09f2d20feecb4adf"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Fix-build-for-Linux-5.8-rc1.patch b/meta/recipes-kernel/cryptodev/files/0001-Fix-build-for-Linux-5.8-rc1.patch
-deleted file mode 100644
-index 02c721a4f3..0000000000
---- a/meta/recipes-kernel/cryptodev/files/0001-Fix-build-for-Linux-5.8-rc1.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 9e765068582aae3696520346a7500322ca6cc2de Mon Sep 17 00:00:00 2001
--From: Joan Bruguera <joanbrugueram@gmail.com>
--Date: Sat, 13 Jun 2020 19:46:44 +0200
--Subject: [PATCH] Fix build for Linux 5.8-rc1
--
--See also: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9740ca4e95b43b91a4a848694a20d01ba6818f7b
--          https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=da1c55f1b272f4bd54671d459b39ea7b54944ef9
--          https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d8ed45c5dcd455fc5848d47f86883a1b872ac0d0
--
--Signed-off-by: Joan Bruguera <joanbrugueram@gmail.com>
--
--Upstream-Status: Backport [9e765068582aae3696520346a7500322ca6cc2de]
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- zc.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/zc.c b/zc.c
--index ae464ff..2c286bb 100644
----- a/zc.c
--+++ b/zc.c
--@@ -58,7 +58,11 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
-- 		return 0;
-- 	}
-- 
--+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-- 	down_read(&mm->mmap_sem);
--+#else
--+	mmap_read_lock(mm);
--+#endif
-- #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 6, 0))
-- 	ret = get_user_pages(task, mm,
-- 			(unsigned long)addr, pgcount, write, 0, pg, NULL);
--@@ -74,7 +78,11 @@ int __get_userbuf(uint8_t __user *addr, uint32_t len, int write,
-- 			(unsigned long)addr, pgcount, write ? FOLL_WRITE : 0,
-- 			pg, NULL, NULL);
-- #endif
--+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 8, 0))
-- 	up_read(&mm->mmap_sem);
--+#else
--+	mmap_read_unlock(mm);
--+#endif
-- 	if (ret != pgcount)
-- 		return -EINVAL;
-- 
---- 
--2.17.1
--
--- 
-2.17.1
-
-
---===============7287698536566125277==
+--===============5369334319283918416==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3337,4 +3221,43 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============7287698536566125277==--
+--===============5369334319283918416==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-cryptodev-tests-upgrade-1.10-1.11.patch"
+
+From 5fb48b56b1f6a8495c420b60349f53f1c361fe2e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 16 Aug 2020 02:31:59 +0000
+Subject: [PATCH] cryptodev-tests: upgrade 1.10 -> 1.11
+
+---
+ .../{cryptodev-tests_1.10.bb => cryptodev-tests_1.11.bb}        | 0
+ meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.10.bb => cryptodev-tests_1.11.bb} (100%)
+
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.10.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.11.bb
+similarity index 100%
+rename from meta/recipes-kernel/cryptodev/cryptodev-tests_1.10.bb
+rename to meta/recipes-kernel/cryptodev/cryptodev-tests_1.11.bb
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index f99f8bc9f0..906f4fc181 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
+            "
+-SRCREV = "a87053bee5680878c295b7d23cf0d7065576ac2b"
++SRCREV = "2299d39475e91392abd050ea09f2d20feecb4adf"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.17.1
+
+
+--===============5369334319283918416==--
