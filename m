@@ -1,37 +1,38 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.19860.1597558886037834011
+ by mx.groups.io with SMTP id smtpd.web10.19811.1597558894748272968
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:21:26 -0700
+ Sat, 15 Aug 2020 23:21:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DF37DE02026; Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
+	id 95289E02033; Sat, 15 Aug 2020 23:21:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,HELO_MISC_IP,
-	MISSING_DATE,MISSING_MID,RDNS_NONE autolearn=no version=3.3.1
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,HELO_MISC_IP,
+	MISSING_DATE,MISSING_MID,PDS_BTC_ID,RDNS_NONE autolearn=no version=3.3.1
 X-Spam-HAM-Report: 
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.5 MISSING_MID Missing Message-Id: header
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 	*  1.4 MISSING_DATE Missing Date: header
+	*  0.5 PDS_BTC_ID FP reduced Bitcoin ID
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5D724E02046
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:39 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 17CFFE0204E
+	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:40 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpica: upgrading to 20200717 SUCCEEDED
-Message-Id: <20200816062125.DF37DE02026@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
-X-Groupsio-MsgNum: 141493
-Content-Type: multipart/mixed; boundary="===============2969537127544895474=="
+Subject: [AUH] man-pages: upgrading to 5.08 SUCCEEDED
+Message-Id: <20200816062134.95289E02033@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:21:34 -0700 (PDT)
+X-Groupsio-MsgNum: 141494
+Content-Type: multipart/mixed; boundary="===============5550880840359611826=="
 
---===============2969537127544895474==
+--===============5550880840359611826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +40,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpica* to *20200717* has Succeeded.
+that the automatic attempt to upgrade the recipe *man-pages* to *5.08* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-acpica-upgrade-20200528-20200717.patch
+    - apply the patch: git am 0001-man-pages-upgrade-5.07-5.08.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,30 +60,30 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2969537127544895474==
+--===============5550880840359611826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 9037332 to 9037020 (-0%)
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10239433 to 10239928 (+0%)
-packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica/acpica: PV changed from "20200528" to "20200717"
-packages/core2-32-poky-linux/acpica: PKGV changed from 20200528 [default] to 20200717 [default]
-packages/core2-32-poky-linux/acpica: PV changed from "20200528" to "20200717"
+packages/core2-32-poky-linux/man-pages: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-dbg: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-dbg: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-dev: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-dev: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-doc: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-doc: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-locale: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-locale: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-src: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-src: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages-staticdev: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages-staticdev: PKGV changed from 5.07 [default] to 5.08 [default]
+packages/core2-32-poky-linux/man-pages/man-pages: FILELIST: removed "/usr/share/man/man2/mq_unlink.2 /usr/share/man/man2/mq_notify.2 /usr/share/man/man5/attr.5 /usr/share/man/man2/sethostid.2 /usr/share/man/man2/getcontext.2 /usr/share/man/man3/clock_getres.3 /usr/share/man/man2/statvfs.2 /usr/share/man/man2/fstatvfs.2 /usr/share/man/man3/clock_gettime.3 /usr/share/man/man5/numa_maps.5 /usr/share/man/man2/mq_timedsend.2 /usr/share/man/man2/mq_open.2 /usr/share/man/man2/gethostid.2 /usr/share/man/man2/killpg.2 /usr/share/man/man2/getcwd.2 /usr/share/man/man2/getdtablesize.2 /usr/share/man/man2/sigqueue.2 /usr/share/man/man2/mq_timedreceive.2 /usr/share/man/man3/clock_settime.3 /usr/share/man/man2/setcontext.2"
+packages/core2-32-poky-linux/man-pages/man-pages: PV changed from "5.07" to "5.08"
+packages/core2-32-poky-linux/man-pages/man-pages: PKGSIZE changed from 8051343 to 8073018 (+0%)
+packages/core2-32-poky-linux/man-pages/man-pages: PKGV changed from 5.07 [default] to 5.08 [default]
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1650,66 +1651,51 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============2969537127544895474==
+--===============5550880840359611826==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-acpica-upgrade-20200528-20200717.patch"
+ filename="0001-man-pages-upgrade-5.07-5.08.patch"
 
-From a05d194d30451b3aa86d301e7b0977d5462e5bd1 Mon Sep 17 00:00:00 2001
+From 0f10b48042b57b50aab1415b496ddeec150615ff Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 18:06:31 +0000
-Subject: [PATCH] acpica: upgrade 20200528 -> 20200717
+Date: Sat, 15 Aug 2020 18:25:12 +0000
+Subject: [PATCH] man-pages: upgrade 5.07 -> 5.08
 
 ---
- .../acpica/{acpica_20200528.bb => acpica_20200717.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/acpica/{acpica_20200528.bb => acpica_20200717.bb} (94%)
+ .../man-pages/{man-pages_5.07.bb => man-pages_5.08.bb}         | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_5.07.bb => man-pages_5.08.bb} (87%)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20200528.bb b/meta/recipes-extended/acpica/acpica_20200717.bb
-similarity index 94%
-rename from meta/recipes-extended/acpica/acpica_20200528.bb
-rename to meta/recipes-extended/acpica/acpica_20200717.bb
-index d68afd8158..d1d06c0c24 100644
---- a/meta/recipes-extended/acpica/acpica_20200528.bb
-+++ b/meta/recipes-extended/acpica/acpica_20200717.bb
-@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- DEPENDS = "m4-native flex-native bison-native"
+diff --git a/meta/recipes-extended/man-pages/man-pages_5.07.bb b/meta/recipes-extended/man-pages/man-pages_5.08.bb
+similarity index 87%
+rename from meta/recipes-extended/man-pages/man-pages_5.07.bb
+rename to meta/recipes-extended/man-pages/man-pages_5.08.bb
+index 04d0597b3d..caf9320a67 100644
+--- a/meta/recipes-extended/man-pages/man-pages_5.07.bb
++++ b/meta/recipes-extended/man-pages/man-pages_5.08.bb
+@@ -7,8 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "e69f81c6924c8d30f9b9005bb002307f07b5a1538e13c909bea2f8a44e0d8610"
-+SRC_URI[sha256sum] = "cb99903ef240732f395af40c23b9b19c7899033f48840743544eebb6da72a828"
+-SRC_URI[md5sum] = "193d9223e9c6dbe1d928eaaecc1f68db"
+-SRC_URI[sha256sum] = "5ba58d7b2b9a8929903b1cf791ed4edf72ab225678d5ea0a6b80dc090080ac33"
++SRC_URI[sha256sum] = "6e0b8ae23ee9467cee701f23dea908257a93e5fffa9e261b19a23efbd27e84a2"
  
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ inherit manpages
  
 -- 
 2.17.1
 
 
---===============2969537127544895474==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 778 .bb files complete (0 cached, 778 parsed). 1342 targets, 60 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============2969537127544895474==
+--===============5550880840359611826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/man-pages/man-pages: FILELIST: removed "/usr/share/man/man5/attr.5 /usr/share/man/man3/clock_getres.3 /usr/share/man/man2/setcontext.2 /usr/share/man/man5/numa_maps.5 /usr/share/man/man2/mq_notify.2 /usr/share/man/man2/sethostid.2 /usr/share/man/man2/mq_open.2 /usr/share/man/man2/fstatvfs.2 /usr/share/man/man2/getcwd.2 /usr/share/man/man2/killpg.2 /usr/share/man/man2/getdtablesize.2 /usr/share/man/man2/gethostid.2 /usr/share/man/man2/sigqueue.2 /usr/share/man/man2/getcontext.2 /usr/share/man/man2/mq_timedsend.2 /usr/share/man/man3/clock_gettime.3 /usr/share/man/man3/clock_settime.3 /usr/share/man/man2/mq_unlink.2 /usr/share/man/man2/statvfs.2 /usr/share/man/man2/mq_timedreceive.2"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3277,21 +3263,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============2969537127544895474==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 778 .bb files complete (0 cached, 778 parsed). 1342 targets, 66 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============2969537127544895474==--
+--===============5550880840359611826==--
