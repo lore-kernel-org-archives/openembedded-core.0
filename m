@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19654.1597558900348844408
+ by mx.groups.io with SMTP id smtpd.web12.19655.1597558900628002956
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Aug 2020 23:21:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 363BCE02033; Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
+	id 7AF03E02035; Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7830DE02052
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D3F0BE02056
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:40 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] stress-ng: upgrading to 0.11.18 SUCCEEDED
-Message-Id: <20200816062140.363BCE02033@yocto-www.yoctoproject.org>
+Subject: [AUH] epiphany: upgrading to 3.36.4 SUCCEEDED
+Message-Id: <20200816062140.7AF03E02035@yocto-www.yoctoproject.org>
 Date: Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
-X-Groupsio-MsgNum: 141495
-Content-Type: multipart/mixed; boundary="===============7161972955074662722=="
+X-Groupsio-MsgNum: 141496
+Content-Type: multipart/mixed; boundary="===============9022015552047845362=="
 
---===============7161972955074662722==
+--===============9022015552047845362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *stress-ng* to *0.11.18* has Succeeded.
+that the automatic attempt to upgrade the recipe *epiphany* to *3.36.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-stress-ng-upgrade-0.11.17-0.11.18.patch
+    - apply the patch: git am 0001-epiphany-upgrade-3.36.3-3.36.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,73 +59,235 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7161972955074662722==
+--===============9022015552047845362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/stress-ng: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5406592 to 5455320 (+1%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 48155 to 48360 (+0%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-key.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rdrand.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-urandom.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rtc.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-msg.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-quota.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tree.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-exec.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-mmap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-bind-mount.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-wait.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-idle-page.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigrt.c /usr/src/debug/stres
- s-ng/0.11.17-r0/stress-ng-0.11.17/stress-copy-file.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-cyclic.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-bsearch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-link.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-memcpy.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mremap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-kill.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-time.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-affinity.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-stack.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-env.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-numa.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-reboot.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sem-sysv.c /usr/src/debug/stress-ng/0.11.17-r0
- /stress-ng-0.11.17/stress-softlockup.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-enosys.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tmpfs.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dccp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ptrace.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-context.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigfpe.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-setting.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigabrt.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-chdir.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-zero.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fault.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-filename.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-
- 0.11.17/stress-sem.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vm-segv.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-resources.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-getdent.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fallocate.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pthread.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-sched.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-radixsort.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-spawn.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sendfile.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-madvise.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-kcmp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-stackmmap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-cache.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0
- .11.17/stress-rawudp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-daemon.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-perf.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-unshare.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-membarrier.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sctp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vm-addr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-procfs.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rawdev.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pipe.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-itimer.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-clock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-aio.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sy
- sfs.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-funccall.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-qsort.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-handle.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-seccomp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vm-splice.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-io-priority.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-try-open.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-close.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-flock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-xattr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sysinval.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigq.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-spl
- ice.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-branch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-bigheap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ioport.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigio.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigpipe.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vdso.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-thermal-zone.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pkey.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-cpu.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-seek.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-wcstr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-memfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-schedpolicy.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vecmath.c /usr/
- src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sleep.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-malloc.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-readahead.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-session.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-iomix.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pipeherd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-longjmp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-hrtimers.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mlockmany.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-shm.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-inode-flags.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mincore.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-skiplist.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-efivar.c
-  /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sockmany.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dynlib.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-matrix.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fiemap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-personality.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigsegv.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fcntl.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mmap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fstat.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mq.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-prctl.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-access.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-mincore.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rlimit.c /usr/src/d
- ebug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-shim.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fork.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-futex.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-netlink-proc.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-madvise.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rmap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-lease.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dirdeep.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-heapsort.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-open.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-mlock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-loop.c /usr/src/debug/stre
- ss-ng/0.11.17-r0/stress-ng-0.11.17/stress-rawsock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pidfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tee.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sysinfo.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mlock.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sockfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-nanosleep.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-swap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-udp-flood.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-mwc.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-apparmor.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-revio.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sockdiag.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-affinity.c /usr/src/debug/stress-ng/0.11
- .17-r0/stress-ng-0.11.17/stress-null.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dentry.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vm-rw.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-memthrash.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-klog.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-funcret.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dir.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-mounts.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ng.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ramfs.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-zombie.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-cache.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-get.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-out-of-memory.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11
- .17/stress-atomic.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-binderfs.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-iosync.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-full.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vforkmany.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-x86syscall.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigchld.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sockpair.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-switch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-netdev.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-chown.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-cpu.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-ignite-cpu.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-netlink-task.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng
- -0.11.17/stress-bad-altstack.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-memhotplug.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-brk.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-pty.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dnotify.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dev.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-af-alg.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-memrate.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-watchdog.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-cap.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-parse-opts.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-lockf.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-remap-file-pages.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-shm-sysv.c /usr/src/debug/stress-ng/0.11.17-r0/str
- ess-ng-0.11.17/stress-utime.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-stream.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-helper.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-log.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-thrash.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-hash.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fp-error.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-userfaultfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-udp.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-icache.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-seal.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dup.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mknod.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fanotify.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-s
- tr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-clone.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mmapfork.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mergesort.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-job.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-limit.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-aio-linux.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-judy.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tun.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-hsearch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-opcode.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-getrandom.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-poll.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-timer.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-dev-shm.c /usr/src
- /debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-locka.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-shellsort.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mmapmany.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-epoll.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-eventfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-ftrace.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-lockofd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-file-ioctl.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-matrix-3d.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-nice.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigsuspend.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-icmp-flood.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-crypt.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-nop.c /usr/
- src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-set.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tsc.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-vm.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-tsearch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/core-net.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-hdd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sockabuse.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-chmod.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-chattr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-inotify.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sigpending.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-timerfd.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-physpage.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rawpkt.c /usr/src/debug/stress
- -ng/0.11.17-r0/stress-ng-0.11.17/stress-chroot.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-rename.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-fifo.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-cpu-online.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-lockbus.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ng.h /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-sync-file.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-lsearch.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-ioprio.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mmapaddr.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-oom-pipe.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-zlib.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-yield.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mmapfixed.c /usr/src/debug/stress-n
- g/0.11.17-r0/stress-ng-0.11.17/stress-msync.c /usr/src/debug/stress-ng/0.11.17-r0/stress-ng-0.11.17/stress-mcontend.c", added "/usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-try-open.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-personality.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-nop.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mremap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-icmp-flood.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tsc.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-setting.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ptrace.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fstat.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-shm-sysv.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigpipe.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-netdev.c /usr/src/debug/str
- ess-ng/0.11.18-r0/stress-ng-0.11.18/stress-timerfd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rawudp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-helper.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-wcstr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-mlock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-cyclic.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-filename.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vm-splice.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pipeherd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-session.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-swap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-memcpy.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-poll.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mincore.c /usr/src/debug/stress-ng/0.
- 11.18-r0/stress-ng-0.11.18/stress-dccp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-longjmp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigio.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mmapmany.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-net.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-remap-file-pages.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rmap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vforkmany.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-funccall.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-flock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sysinval.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fcntl.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigabrt.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-ignite-cpu.c /usr/src/debug/stress-ng/
- 0.11.18-r0/stress-ng-0.11.18/stress-idle-page.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-memfd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigsegv.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-cpu-online.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sync-file.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dirdeep.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vm-addr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-iomix.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-physpage.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-seccomp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sockdiag.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mlock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fallocate.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-kill.c /usr/src/debug/str
- ess-ng/0.11.18-r0/stress-ng-0.11.18/stress-handle.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-chattr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-binderfs.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-readahead.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sockmany.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vecmath.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-key.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-exec.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-sched.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rawsock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-get.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-unshare.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-clone.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-eventfd.c /usr/src/debug/stress-ng/0.1
- 1.18-r0/stress-ng-0.11.18/stress-apparmor.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-getrandom.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-nanosleep.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rename.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sysinfo.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-matrix.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-nice.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-matrix-3d.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dev-shm.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vm-rw.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigq.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pty.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-cap.c /usr/src/debug/stress-ng/0.11.18-r0/s
- tress-ng-0.11.18/core-hash.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sysfs.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-cache.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-spawn.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-itimer.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dup.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-mincore.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ng.h /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-udp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-netlink-task.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mmapfixed.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rdrand.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dnotify.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mknod.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/c
- ore-perf.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-daemon.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mlockmany.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-x86syscall.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mmap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-numa.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-locka.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sockpair.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-malloc.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-stack.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-lockf.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-heapsort.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigpending.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-softlockup.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/co
- re-shim.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-mmap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-chdir.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fault.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-msg.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-thrash.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-atomic.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-urandom.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tsearch.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-seek.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-affinity.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-madvise.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-inode-flags.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-lockofd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-futex.c /usr
- /src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-lsearch.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-io-priority.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-stackmmap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sem-sysv.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-zero.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-context.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fiemap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigtrap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-procfs.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-time.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-stream.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tmpfs.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-parse-opts.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-mwc.c /usr/src/deb
- ug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-limit.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fifo.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-lease.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-memthrash.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-splice.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-getdent.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-iosync.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-qsort.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-netlink-proc.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-set.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tee.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-job.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-chmod.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vdso.c /usr/src/debug/stress-ng/0.11.18
- -r0/stress-ng-0.11.18/stress-revio.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-log.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-reboot.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-crypt.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rawpkt.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sendfile.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-thermal-zone.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-prctl.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-af-alg.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-copy-file.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dentry.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fp-error.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dir.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-bad-altstack.c /usr/src/debug/stress-ng/0.11.18-r0
- /stress-ng-0.11.18/stress-sigfd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-full.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-out-of-memory.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-seal.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigfpe.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-oom-pipe.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fanotify.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rawdev.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-hrtimers.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-wait.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigchld.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-resources.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ng.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sctp.c /usr/src/debug/stress-ng/0.11.18-r0/stress
- -ng-0.11.18/stress-memrate.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-cpu.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sem.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sockfd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigrt.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ioprio.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-userfaultfd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-radixsort.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-chown.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-skiplist.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sockabuse.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-branch.c /usr/src/debug/stress-ng/0.11.18-r0/stre
- ss-ng-0.11.18/stress-inotify.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-opcode.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rlimit.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-cpu.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-hsearch.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-open.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-timer.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-rtc.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sigsuspend.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-shellsort.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-clock.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-icache.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-close.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-aio.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/
- stress-klog.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-cache.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dynlib.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-mounts.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-judy.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mmapaddr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pkey.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-membarrier.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-madvise.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ioport.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-str.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-zombie.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mergesort.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-lockbus.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pidfd
- .c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-quota.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mcontend.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-file-ioctl.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-udp-flood.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-ftrace.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-kcmp.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-enosys.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-bsearch.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-shm.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-watchdog.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-memhotplug.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-dev.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-efivar.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mmapfork.c
-  /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-schedpolicy.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-brk.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-epoll.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-xattr.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-hdd.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-sleep.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-mq.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-funcret.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-env.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-fork.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-bind-mount.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pthread.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ramfs.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-chroot.c /usr/src/debug/s
- tress-ng/0.11.18-r0/stress-ng-0.11.18/stress-zlib.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vm.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-link.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-vm-segv.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tree.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-aio-linux.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-access.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-bigheap.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-loop.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/core-affinity.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-yield.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-pipe.c /usr/src/debug/stress-ng/0
- .11.18-r0/stress-ng-0.11.18/stress-tun.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-null.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-utime.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-switch.c /usr/src/debug/stress-ng/0.11.18-r0/stress-ng-0.11.18/stress-msync.c"
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2536694 to 2572532 (+1%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.11.17" to "0.11.18"
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.11.17 [default] to 0.11.18 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4003311 to 4015720 (+0%)
+packages/core2-32-poky-linux/epiphany/epiphany-dbg: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 4007744 to 4008312 (+0%)
+packages/core2-32-poky-linux/epiphany/epiphany-dev: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-dev: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-doc: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-doc: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGSIZE changed from 78161 to 76294 (-2%)
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-src: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-src: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 25511636 to 25512226 (+0%)
+packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany/epiphany: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany/epiphany: PKGSIZE changed from 3862219 to 3866403 (+0%)
+packages/core2-32-poky-linux/epiphany: PV changed from "3.36.3" to "3.36.4"
+packages/core2-32-poky-linux/epiphany: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
+packages/core2-32-poky-linux/epiphany: PACKAGES: added "epiphany-locale-ckb"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1693,49 +1855,50 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============7161972955074662722==
+--===============9022015552047845362==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-stress-ng-upgrade-0.11.17-0.11.18.patch"
+ filename="0001-epiphany-upgrade-3.36.3-3.36.4.patch"
 
-From 8c27a2eb9afbadb6281dabe373f3197748a5293a Mon Sep 17 00:00:00 2001
+From 359c1a09d71665ff52ad214d474c3caab32dd9b8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 18:47:07 +0000
-Subject: [PATCH] stress-ng: upgrade 0.11.17 -> 0.11.18
+Date: Sat, 15 Aug 2020 22:29:15 +0000
+Subject: [PATCH] epiphany: upgrade 3.36.3 -> 3.36.4
 
 ---
- .../stress-ng/{stress-ng_0.11.17.bb => stress-ng_0.11.18.bb}    | 2 +-
+ .../epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.11.17.bb => stress-ng_0.11.18.bb} (90%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb} (90%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
 similarity index 90%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb
-index a67df24dca..c668d8cbde 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb
-@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-            file://no_daddr_t.patch \
+rename from meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+index 8eb4ac4fcc..4c3b18331a 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
             "
--SRC_URI[sha256sum] = "860291dd3a18b985b3483190a627bbede2b5c52113766c1921001b3fb4b83af0"
-+SRC_URI[sha256sum] = "07c82a5c89538b5b696a79192faa70d0232352004c9e532946f7f3613d0adf23"
+-SRC_URI[archive.sha256sum] = "621b5626374891769afec9c35946ab6c3910ea9cf9a2498bab166c99bd91e16f"
++SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
  
- DEPENDS = "coreutils-native"
- 
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
 2.17.1
 
 
---===============7161972955074662722==
+--===============9022015552047845362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/epiphany: PACKAGES: added "epiphany-locale-ckb"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3303,4 +3466,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============7161972955074662722==--
+--===============9022015552047845362==--
