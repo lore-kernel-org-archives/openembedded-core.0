@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19677.1597558961549962990
+ by mx.groups.io with SMTP id smtpd.web12.19678.1597558967170985422
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:22:41 -0700
+ Sat, 15 Aug 2020 23:22:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 67453E0203F; Sat, 15 Aug 2020 23:22:41 -0700 (PDT)
+	id 0BEC5E0203F; Sat, 15 Aug 2020 23:22:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,18 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DF7C8E0208A
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2E55E0208C
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:44 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gpgme: upgrading to 1.14.0 FAILED
-Message-Id: <20200816062241.67453E0203F@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:22:41 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============1196709508917678511=="
+Subject: [AUH] libcheck: upgrading to 0.15.2 SUCCEEDED
+Message-Id: <20200816062247.0BEC5E0203F@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:22:47 -0700 (PDT)
+X-Groupsio-MsgNum: 141524
+Content-Type: multipart/mixed; boundary="===============4619511877024509677=="
 
---===============1196709508917678511==
+--===============4619511877024509677==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,106 +39,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gpgme* to *1.14.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libcheck* to *0.15.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libcheck-upgrade-0.15.0-0.15.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe gpgme failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1342 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200816"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:46acf55902e6e7f8a950d96c550ce2e141f51c28"
-workspace            = "master:bd1da2aca0bc26720f438a9c1d54f5b04084da4e"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.14.0.tar.bz2...
-Loading cache...done.
-Loaded 1342 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 779 .bb files complete (777 cached, 2 parsed). 1343 targets, 33 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200816"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:46acf55902e6e7f8a950d96c550ce2e141f51c28"
-workspace            = "master:bd1da2aca0bc26720f438a9c1d54f5b04084da4e"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  67% |########################            | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 98c864560ac75dc646b59ad18b1af0b2e9eb9f12' failed:
-First, rewinding head to replay your work on top of it...
-Applying: Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
-Applying: pkgconfig
-Applying: gpgme/lang/python: gpg-error-config should not be used
-Applying: Correctly install python modules
-Applying: python import
-Applying: gpgme-config: skip all /lib* or /usr/lib* directories in output
-Applying: fix build path issue
-Applying: python: Add variables to tests
-Applying: do not auto check var-PYTHON
-Using index info to reconstruct a base tree...
-M	configure.ac
-Falling back to patching base and 3-way merge...
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-error: Failed to merge in the changes.
-Patch failed at 0009 do not auto check var-PYTHON
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gpgme
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gpgme/gpgme_1.14.0.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -145,4 +59,71 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1196709508917678511==--
+--===============4619511877024509677==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libcheck/checkmk: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/checkmk: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-dbg: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-dbg: PKGSIZE changed from 113200 to 113216 (+0%)
+packages/core2-32-poky-linux/libcheck/libcheck-dbg: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-dev: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-dev: PKGSIZE changed from 77335 to 77684 (+0%)
+packages/core2-32-poky-linux/libcheck/libcheck-dev: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-doc: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-doc: PKGSIZE changed from 276470 to 277124 (+0%)
+packages/core2-32-poky-linux/libcheck/libcheck-doc: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-locale: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-locale: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-src: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-src: PKGSIZE changed from 255750 to 256430 (+0%)
+packages/core2-32-poky-linux/libcheck/libcheck-src: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck-staticdev: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck-staticdev: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+packages/core2-32-poky-linux/libcheck/libcheck: PV changed from "0.15.0" to "0.15.2"
+packages/core2-32-poky-linux/libcheck/libcheck: PKGSIZE changed from 50485 to 50489 (+0%)
+packages/core2-32-poky-linux/libcheck/libcheck: PKGV changed from 0.15.0 [default] to 0.15.2 [default]
+
+--===============4619511877024509677==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libcheck-upgrade-0.15.0-0.15.2.patch"
+
+From 708de8019813d150c414cfd3b9acc113a5fdecd9 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 16 Aug 2020 05:53:55 +0000
+Subject: [PATCH] libcheck: upgrade 0.15.0 -> 0.15.2
+
+---
+ .../libcheck/{libcheck_0.15.0.bb => libcheck_0.15.2.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcheck/{libcheck_0.15.0.bb => libcheck_0.15.2.bb} (89%)
+
+diff --git a/meta/recipes-support/libcheck/libcheck_0.15.0.bb b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+similarity index 89%
+rename from meta/recipes-support/libcheck/libcheck_0.15.0.bb
+rename to meta/recipes-support/libcheck/libcheck_0.15.2.bb
+index 177c0edc8f..33e07db93c 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.15.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+ SRC_URI = "https://github.com/${BPN}/check/releases/download/${PV}/check-${PV}.tar.gz \
+            file://not-echo-compiler-info-to-check_stdint.h.patch"
+-SRC_URI[sha256sum] = "aea2e3c68fa6e1e92378e744b1c0db350ccda4b6bd0d19530d0ae185b3d1ac60"
++SRC_URI[sha256sum] = "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+ UPSTREAM_CHECK_URI = "https://github.com/libcheck/check/releases/"
+ 
+ S = "${WORKDIR}/check-${PV}"
+-- 
+2.17.1
+
+
+--===============4619511877024509677==--
