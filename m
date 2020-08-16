@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.19808.1597558885122135368
+ by mx.groups.io with SMTP id smtpd.web12.19649.1597558885332702580
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Aug 2020 23:21:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F154AE02026; Sat, 15 Aug 2020 23:21:24 -0700 (PDT)
+	id 307C1E02027; Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 09752E02044
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9A176E02048
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:39 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vala: upgrading to 0.48.9 SUCCEEDED
-Message-Id: <20200816062124.F154AE02026@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:21:24 -0700 (PDT)
-X-Groupsio-MsgNum: 141491
-Content-Type: multipart/mixed; boundary="===============8809827321904140887=="
+Subject: [AUH] asciidoc: upgrading to 9.0.2 SUCCEEDED
+Message-Id: <20200816062125.307C1E02027@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:21:25 -0700 (PDT)
+X-Groupsio-MsgNum: 141492
+Content-Type: multipart/mixed; boundary="===============4783722333301201283=="
 
---===============8809827321904140887==
+--===============4783722333301201283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vala* to *0.48.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *asciidoc* to *9.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vala-upgrade-0.48.7-0.48.9.patch
+    - apply the patch: git am 0001-asciidoc-upgrade-9.0.1-9.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,32 +59,29 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8809827321904140887==
+--===============4783722333301201283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/vala: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-dbg: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-dbg: PKGSIZE changed from 17903964 to 17942688 (+0%)
-packages/core2-32-poky-linux/vala/vala-dbg: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-dev: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-dev: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-doc: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-doc: PKGSIZE changed from 9649 to 9655 (+0%)
-packages/core2-32-poky-linux/vala/vala-doc: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-locale: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-locale: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-src: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-src: PKGSIZE changed from 14782200 to 14820853 (+0%)
-packages/core2-32-poky-linux/vala/vala-src: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala-staticdev: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala-staticdev: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
-packages/core2-32-poky-linux/vala/vala: PV changed from "0.48.7" to "0.48.9"
-packages/core2-32-poky-linux/vala/vala: PKGSIZE changed from 12145737 to 12152784 (+0%)
-packages/core2-32-poky-linux/vala/vala: PKGV changed from 0.48.7 [default] to 0.48.9 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-dbg: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-dbg: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-dev: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-dev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-doc: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-doc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-locale: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-locale: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-src: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-src: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc-staticdev: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc-staticdev: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc/asciidoc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
+packages/core2-32-poky-linux/asciidoc/asciidoc: PKGSIZE changed from 799877 to 799811 (-0%)
+packages/core2-32-poky-linux/asciidoc: PV changed from "9.0.1" to "9.0.2"
+packages/core2-32-poky-linux/asciidoc: PKGV changed from 9.0.1 [default] to 9.0.2 [default]
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1652,7 +1649,44 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============8809827321904140887==
+--===============4783722333301201283==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-asciidoc-upgrade-9.0.1-9.0.2.patch"
+
+From 5491e54c6938eac5955e14e984d3cbe85d822fdd Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 15 Aug 2020 18:10:26 +0000
+Subject: [PATCH] asciidoc: upgrade 9.0.1 -> 9.0.2
+
+---
+ .../asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb} (95%)
+
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+similarity index 95%
+rename from meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
+rename to meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+index 2f841de065..711bfbfb9b 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
+ 
+ SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
+            file://auto-catalogs.patch"
+-SRCREV = "fce6bd87fbdef5e510310464b02a75fb32f72f74"
++SRCREV = "9a407dc9a497364c91421fd961954eddb565baf1"
+ 
+ DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ 
+-- 
+2.17.1
+
+
+--===============4783722333301201283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3225,38 +3259,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============8809827321904140887==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-vala-upgrade-0.48.7-0.48.9.patch"
-
-From 815dafa1125fe1150a12f9ed420aa580e8be2afc Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 18:02:26 +0000
-Subject: [PATCH] vala: upgrade 0.48.7 -> 0.48.9
-
----
- meta/recipes-devtools/vala/{vala_0.48.7.bb => vala_0.48.9.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/vala/{vala_0.48.7.bb => vala_0.48.9.bb} (50%)
-
-diff --git a/meta/recipes-devtools/vala/vala_0.48.7.bb b/meta/recipes-devtools/vala/vala_0.48.9.bb
-similarity index 50%
-rename from meta/recipes-devtools/vala/vala_0.48.7.bb
-rename to meta/recipes-devtools/vala/vala_0.48.9.bb
-index 2e61db1052..09bfcd6474 100644
---- a/meta/recipes-devtools/vala/vala_0.48.7.bb
-+++ b/meta/recipes-devtools/vala/vala_0.48.9.bb
-@@ -2,4 +2,4 @@ require ${BPN}.inc
- 
- SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
- 
--SRC_URI[sha256sum] = "28de33e28da24500cc1675c3a6ced1301c9a6a5e6dd06193569001f9ce9a5c53"
-+SRC_URI[sha256sum] = "9cea16d3bb3daddbfe0556b99fbfa08146230db7651e1e674cd08b4df5cefea9"
--- 
-2.17.1
-
-
---===============8809827321904140887==--
+--===============4783722333301201283==--
