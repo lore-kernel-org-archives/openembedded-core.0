@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.19834.1597558952737728829
+ by mx.groups.io with SMTP id smtpd.web12.19676.1597558961227597828
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:22:33 -0700
+ Sat, 15 Aug 2020 23:22:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 965B9E0203F; Sat, 15 Aug 2020 23:22:32 -0700 (PDT)
+	id 1ACEDE02031; Sat, 15 Aug 2020 23:22:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67014E02080
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F9CAE02082
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:44 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] x264: upgrading to cde9a93319bea766a92e306d69059c76de970190 SUCCEEDED
-Message-Id: <20200816062232.965B9E0203F@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:22:32 -0700 (PDT)
-X-Groupsio-MsgNum: 141521
-Content-Type: multipart/mixed; boundary="===============0811326783942187128=="
+Subject: [AUH] webkitgtk: upgrading to 2.28.4 SUCCEEDED
+Message-Id: <20200816062241.1ACEDE02031@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:22:41 -0700 (PDT)
+X-Groupsio-MsgNum: 141522
+Content-Type: multipart/mixed; boundary="===============0811359290287238256=="
 
---===============0811326783942187128==
+--===============0811359290287238256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *x264* to *cde9a93319bea766a92e306d69059c76de970190* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.28.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-x264-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-webkitgtk-upgrade-2.28.3-2.28.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,40 +59,134 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0811326783942187128==
+--===============0811359290287238256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/x264: PKGV changed from r2991+gitAUTOINC+296494a401 [default] to r2991+gitAUTOINC+cde9a93319 [default]
-packages/core2-32-poky-linux/x264: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-Changes to packages/core2-32-poky-linux/x264 (sysroot):
-  /usr/lib/libx264.so changed symlink target from libx264.so.159 to libx264.so.160
-  /usr/lib/libx264.so.159 moved to /usr/lib/libx264.so.160
-packages/core2-32-poky-linux/x264/x264-bin: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-bin: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-dbg: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-dbg: PKGSIZE changed from 12089052 to 12091724 (+0%)
-packages/core2-32-poky-linux/x264/x264-dbg: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-dbg: FILELIST: removed "/usr/lib/.debug/libx264.so.159", added "/usr/lib/.debug/libx264.so.160"
-packages/core2-32-poky-linux/x264/x264-dev: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-dev: PKGSIZE changed from 47977 to 47982 (+0%)
-packages/core2-32-poky-linux/x264/x264-dev: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-doc: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-doc: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-locale: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-locale: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-src: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-src: PKGSIZE changed from 1974932 to 1975144 (+0%)
-packages/core2-32-poky-linux/x264/x264-src: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264-staticdev: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-staticdev: PKGSIZE changed from 5848324 to 5849868 (+0%)
-packages/core2-32-poky-linux/x264/x264-staticdev: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264: PKG changed from libx264-159 to libx264-160
-packages/core2-32-poky-linux/x264/x264: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264: PV changed from "r2991+gitAUTOINC+296494a401" to "r2991+gitAUTOINC+cde9a93319"
-packages/core2-32-poky-linux/x264/x264: FILELIST: removed "/usr/lib/libx264.so.159", added "/usr/lib/libx264.so.160"
+packages/core2-32-poky-linux/webkitgtk: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk: PV changed from "2.28.3" to "2.28.4"
+Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
+  /usr/lib/libjavascriptcoregtk-4.0.so.18 changed symlink target from libjavascriptcoregtk-4.0.so.18.16.6 to libjavascriptcoregtk-4.0.so.18.16.7
+  /usr/lib/libwebkit2gtk-4.0.so.37 changed symlink target from libwebkit2gtk-4.0.so.37.44.5 to libwebkit2gtk-4.0.so.37.44.6
+  /usr/lib/libjavascriptcoregtk-4.0.so.18.16.6 moved to /usr/lib/libjavascriptcoregtk-4.0.so.18.16.7
+  /usr/lib/libwebkit2gtk-4.0.so.37.44.5 moved to /usr/lib/libwebkit2gtk-4.0.so.37.44.6
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: FILELIST: removed "/usr/lib/.debug/libjavascriptcoregtk-4.0.so.18.16.6 /usr/lib/.debug/libwebkit2gtk-4.0.so.37.44.5", added "/usr/lib/.debug/libjavascriptcoregtk-4.0.so.18.16.7 /usr/lib/.debug/libwebkit2gtk-4.0.so.37.44.6"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGSIZE changed from 2248310360 to 2248577608 (+0%)
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGSIZE changed from 131591946 to 131603199 (+0%)
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGV changed from 2.28.3 [default] to 2.28.4 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libjavascriptcoregtk-4.0.so.18.16.6 /usr/lib/libwebkit2gtk-4.0.so.37.44.5", added "/usr/lib/libwebkit2gtk-4.0.so.37.44.6 /usr/lib/libjavascriptcoregtk-4.0.so.18.16.7"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PV changed from "2.28.3" to "2.28.4"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGSIZE changed from 67158575 to 67179055 (+0%)
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1660,25 +1754,18 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============0811326783942187128==
+--===============0811359290287238256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/x264 (sysroot):
-  /usr/lib/libx264.so changed symlink target from libx264.so.159 to libx264.so.160
-  /usr/lib/libx264.so.159 moved to /usr/lib/libx264.so.160
-packages/core2-32-poky-linux/x264/x264-bin: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-dbg: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-dev: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-doc: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-locale: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-src: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264-staticdev: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
-packages/core2-32-poky-linux/x264/x264: FILELIST: removed "/usr/lib/libx264.so.159", added "/usr/lib/libx264.so.160"
-packages/core2-32-poky-linux/x264/x264: PKG changed from libx264-159 to libx264-160
-packages/core2-32-poky-linux/x264/x264: PKGV changed from r2991+git0+296494a401 to r2991+git0+cde9a93319
+Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
+  /usr/lib/libjavascriptcoregtk-4.0.so.18 changed symlink target from libjavascriptcoregtk-4.0.so.18.16.6 to libjavascriptcoregtk-4.0.so.18.16.7
+  /usr/lib/libwebkit2gtk-4.0.so.37 changed symlink target from libwebkit2gtk-4.0.so.37.44.5 to libwebkit2gtk-4.0.so.37.44.6
+  /usr/lib/libjavascriptcoregtk-4.0.so.18.16.6 moved to /usr/lib/libjavascriptcoregtk-4.0.so.18.16.7
+  /usr/lib/libwebkit2gtk-4.0.so.37.44.5 moved to /usr/lib/libwebkit2gtk-4.0.so.37.44.6
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libjavascriptcoregtk-4.0.so.18.16.6 /usr/lib/libwebkit2gtk-4.0.so.37.44.5", added "/usr/lib/libjavascriptcoregtk-4.0.so.18.16.7 /usr/lib/libwebkit2gtk-4.0.so.37.44.6"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3246,37 +3333,41 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============0811326783942187128==
+--===============0811359290287238256==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-x264-upgrade-to-latest-revision.patch"
+ filename="0001-webkitgtk-upgrade-2.28.3-2.28.4.patch"
 
-From 6858b88e4fc33511c9e282f74e003a71799b4dbf Mon Sep 17 00:00:00 2001
+From 284edcd26d25338ecaddd50678e463aa157e05ce Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 16 Aug 2020 03:09:45 +0000
-Subject: [PATCH] x264: upgrade to latest revision
+Date: Sun, 16 Aug 2020 05:18:35 +0000
+Subject: [PATCH] webkitgtk: upgrade 2.28.3 -> 2.28.4
 
 ---
- meta/recipes-multimedia/x264/x264_git.bb | 2 +-
+ .../webkit/{webkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.28.3.bb => webkitgtk_2.28.4.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 1ff5348b9e..52ba0cad83 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+index 0158092265..6221c95435 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.28.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.28.4.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-with-musl.patch \
+            file://include_array.patch \
             "
- UPSTREAM_CHECK_COMMITS = "1"
+-SRC_URI[sha256sum] = "f0898ac072c220e13a4aee819408421a6cb56a6eb89170ceafe52468b0903522"
++SRC_URI[sha256sum] = "821952e8c9303ed752f1fb1d4283f612c25249d00d705d2b79c2db1bc49c9464"
  
--SRCREV = "296494a4011f58f32adc54304a2654627558c59a"
-+SRCREV = "cde9a93319bea766a92e306d69059c76de970190"
- 
- PV = "r2991+git${SRCPV}"
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
  
 -- 
 2.17.1
 
 
---===============0811326783942187128==--
+--===============0811359290287238256==--
