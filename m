@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.19655.1597558900628002956
+ by mx.groups.io with SMTP id smtpd.web10.19813.1597558900483212360
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:21:40 -0700
+ Sat, 15 Aug 2020 23:21:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7AF03E02035; Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
+	id 55BE6E02034; Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D3F0BE02056
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 44BF3E02050
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:40 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 3.36.4 SUCCEEDED
-Message-Id: <20200816062140.7AF03E02035@yocto-www.yoctoproject.org>
+Subject: [AUH] mc: upgrading to 4.8.25 SUCCEEDED
+Message-Id: <20200816062140.55BE6E02034@yocto-www.yoctoproject.org>
 Date: Sat, 15 Aug 2020 23:21:40 -0700 (PDT)
-X-Groupsio-MsgNum: 141496
-Content-Type: multipart/mixed; boundary="===============9022015552047845362=="
+X-Groupsio-MsgNum: 141497
+Content-Type: multipart/mixed; boundary="===============0245554123251279002=="
 
---===============9022015552047845362==
+--===============0245554123251279002==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *3.36.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *mc* to *4.8.25* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-3.36.3-3.36.4.patch
+    - apply the patch: git am 0001-mc-upgrade-4.8.24-4.8.25.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,235 +59,214 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============9022015552047845362==
+--===============0245554123251279002==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 4007744 to 4008312 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGSIZE changed from 78161 to 76294 (-2%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-src: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 25511636 to 25512226 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany/epiphany: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany/epiphany: PKGSIZE changed from 3862219 to 3866403 (+0%)
-packages/core2-32-poky-linux/epiphany: PV changed from "3.36.3" to "3.36.4"
-packages/core2-32-poky-linux/epiphany: PKGV changed from 3.36.3 [default] to 3.36.4 [default]
-packages/core2-32-poky-linux/epiphany: PACKAGES: added "epiphany-locale-ckb"
+packages/core2-32-poky-linux/mc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-dbg: PKGSIZE changed from 3059656 to 3179228 (+4%)
+packages/core2-32-poky-linux/mc/mc-dbg: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-dbg: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-dev: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-dev: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-doc: PKGSIZE changed from 1095047 to 1100506 (+0%)
+packages/core2-32-poky-linux/mc/mc-doc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-doc: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-fish: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-fish: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-helpers-perl: PKGSIZE changed from 77774 to 77844 (+0%)
+packages/core2-32-poky-linux/mc/mc-helpers-perl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-helpers-perl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-helpers: PKGSIZE changed from 95206 to 96817 (+2%)
+packages/core2-32-poky-linux/mc/mc-helpers: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-helpers: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-az: PKGSIZE changed from 21475 to 20806 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-az: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-az: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-be: PKGSIZE changed from 108213 to 110111 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-be: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-be: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-bg: PKGSIZE changed from 104040 to 101681 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-bg: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-bg: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ca: PKGSIZE changed from 91304 to 92674 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-ca: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ca: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-cs: PKGSIZE changed from 90729 to 92912 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-cs: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-cs: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-da: PKGSIZE changed from 84642 to 86536 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-da: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-da: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-de-ch: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-de-ch: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-de: PKGSIZE changed from 88532 to 90059 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-de: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-de: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-el: PKGSIZE changed from 61681 to 60556 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-el: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-el: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 2297 to 4577 (+99%)
+packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-en-gb: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-eo: PKGSIZE changed from 86151 to 88163 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-eo: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-eo: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-es: PKGSIZE changed from 86984 to 89088 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-es: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-es: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-et: PKGSIZE changed from 84613 to 83348 (-1%)
+packages/core2-32-poky-linux/mc/mc-locale-et: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-et: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-eu: PKGSIZE changed from 87238 to 85133 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-eu: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-eu: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-fa: PKGSIZE changed from 18751 to 18545 (-1%)
+packages/core2-32-poky-linux/mc/mc-locale-fa: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-fa: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-fi: PKGSIZE changed from 20228 to 20211 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-fi: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-fi: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-fr-ca: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-fr-ca: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-fr: PKGSIZE changed from 89719 to 87782 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-fr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-fr: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-gl: PKGSIZE changed from 89711 to 87498 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-gl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-gl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-hr: PKGSIZE changed from 533 to 516 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-hr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-hr: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-hu: PKGSIZE changed from 83687 to 81964 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-hu: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-hu: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ia: PKGSIZE changed from 29799 to 29699 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-ia: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ia: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-id: PKGSIZE changed from 17530 to 17513 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-id: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-id: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-it: PKGSIZE changed from 86922 to 84541 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-it: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-it: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ja: PKGSIZE changed from 39567 to 39562 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-ja: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ja: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ka: PKGSIZE changed from 19936 to 19919 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-ka: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ka: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-kk: PKGSIZE changed from 531 to 514 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-kk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-kk: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ko: PKGSIZE changed from 89958 to 89769 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-ko: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ko: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-lt: PKGSIZE changed from 49849 to 50104 (+1%)
+packages/core2-32-poky-linux/mc/mc-locale-lt: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-lt: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-lv: PKGSIZE changed from 20757 to 20122 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-lv: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-lv: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-mn: PKGSIZE changed from 27188 to 32113 (+18%)
+packages/core2-32-poky-linux/mc/mc-locale-mn: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-mn: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-nb: PKGSIZE changed from 84713 to 86648 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-nb: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-nb: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-nl: PKGSIZE changed from 83853 to 87984 (+5%)
+packages/core2-32-poky-linux/mc/mc-locale-nl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-nl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-pl: PKGSIZE changed from 89775 to 91973 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-pl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-pl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-pt-br: PKGSIZE changed from 55730 to 55070 (-1%)
+packages/core2-32-poky-linux/mc/mc-locale-pt-br: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-pt-br: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-pt: PKGSIZE changed from 88729 to 90792 (+2%)
+packages/core2-32-poky-linux/mc/mc-locale-pt: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-pt: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ro: PKGSIZE changed from 88221 to 86110 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-ro: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ro: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ru: PKGSIZE changed from 111726 to 111369 (-0%)
+packages/core2-32-poky-linux/mc/mc-locale-ru: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ru: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-sk: PKGSIZE changed from 88838 to 86477 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-sk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-sk: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-sl: PKGSIZE changed from 24255 to 23628 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-sl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-sl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-sr: PKGSIZE changed from 104122 to 101772 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-sr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-sr: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-sv: PKGSIZE changed from 85297 to 83468 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-sv: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-sv: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-szl: PKGSIZE changed from 521 to 504 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-szl: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-szl: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-ta: PKGSIZE changed from 2164 to 2147 (-1%)
+packages/core2-32-poky-linux/mc/mc-locale-ta: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-ta: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-te: PKGSIZE changed from 459 to 442 (-4%)
+packages/core2-32-poky-linux/mc/mc-locale-te: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-te: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-tr: PKGSIZE changed from 85627 to 83563 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-tr: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-tr: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-uk: PKGSIZE changed from 111641 to 108560 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-uk: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-uk: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-vi: PKGSIZE changed from 26412 to 25526 (-3%)
+packages/core2-32-poky-linux/mc/mc-locale-vi: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-vi: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-wa: PKGSIZE changed from 14005 to 13888 (-1%)
+packages/core2-32-poky-linux/mc/mc-locale-wa: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-wa: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PKGSIZE changed from 81836 to 80001 (-2%)
+packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-zh-cn: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 19585 to 46121 (+135%)
+packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-src: PKGSIZE changed from 3715334 to 3755911 (+1%)
+packages/core2-32-poky-linux/mc/mc-src: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-src: FILELIST: directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/tty -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/tty, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/diffviewer -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/diffviewer, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/search -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/search, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/sfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/sfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/extfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/extfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/consaver -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/consaver, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/ftpfs -> /usr/src/debug/mc/4
+ .8.25-r0/mc-4.8.25/src/vfs/ftpfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/fish -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/fish, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/mcconfig -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/mcconfig, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/cpio -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/cpio, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/tar -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/tar, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/viewer -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/viewer, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/skin -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/skin, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/editor -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/editor,
+  directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/filehighlight -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/filehighlight, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/vfs -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/vfs, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/strutil -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/strutil, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/event -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/event, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/vfs/local -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/vfs/local, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib, directory renamed /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/subshell -> /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/subshell, removed "/usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/boxes.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/find.c /usr/src/deb
+ ug/mc/4.8.24-r0/mc-4.8.24/lib/widget/buttonbar.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filenot.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/wtools.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/dir.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/find.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/check.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/groupbox.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/tree.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ext.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/info.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/radio.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/button.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/buttonbar.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/cmd.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/wid
+ get/quick.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chmod.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/layout.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/achown.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/label.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panel.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/cmd.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/treestore.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ext.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/gauge.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panelize.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/widget-common.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/widget-common.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/groupbox.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/
+ label.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/fileopctx.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/menu.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/quick.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox-window.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/menu.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input_complete.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/file.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input_complete.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/boxes.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/fileopctx.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/mouse.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chown.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panel.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/c
+ ommand.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/check.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/panelize.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chmod.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/midnight.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/tree.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/gauge.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/radio.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/info.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/listbox-window.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/hline.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/history.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/input.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/hline.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filegui.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/history.c /usr/src/debug/mc/
+ 4.8.24-r0/mc-4.8.24/lib/widget/button.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/wtools.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/chown.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/mouse.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/treestore.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/layout.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filegui.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog-switch.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/achown.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/command.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/midnight.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/dir.c /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/filenot.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/lib/widget/dialog-switch.h /us
+ r/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/file.h /usr/src/debug/mc/4.8.24-r0/mc-4.8.24/src/filemanager/mountlist.h", added "/usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/hotlist.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/rect.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/gauge.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/mountlist.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/tree.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/background.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/frame.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chown.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/menu.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/radio.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/wtools.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/gauge.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filegui.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/command.h /usr/src/debug/
+ mc/4.8.25-r0/mc-4.8.25/src/filemanager/info.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/group.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/groupbox.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/history.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/tree.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/command.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/wtools.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filegui.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/buttonbar.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/hotlist.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/file.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filenot.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/label.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ext.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panelize.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chown.c /usr/src/debug/mc/4.8.25-r
+ 0/mc-4.8.25/lib/widget/history.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/background.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/layout.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/dir.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/find.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/check.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/menu.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/mouse.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/radio.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/dir.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox-window.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panelize.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/button.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/fileopctx.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/widget-common.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/wi
+ dget/listbox-window.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/button.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/rect.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/frame.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/check.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/file.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panel.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/groupbox.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/cmd.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/buttonbar.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/listbox.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/hline.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/quick.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chmod.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/chmod.h /usr/src/debug/mc/4.8.25
+ -r0/mc-4.8.25/lib/widget/dialog-switch.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/info.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/hline.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/panel.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/boxes.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/mouse.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/midnight.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/treestore.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/quick.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/input_complete.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ext.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/fileopctx.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/widget-common.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/label.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/mountlist.c /usr/src/debug/mc/4.8.2
+ 5-r0/mc-4.8.25/src/filemanager/achown.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/cmd.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/treestore.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/ioblksize.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/dialog-switch.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/achown.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/layout.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/lib/widget/group.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/boxes.h /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/filenot.c /usr/src/debug/mc/4.8.25-r0/mc-4.8.25/src/filemanager/midnight.h"
+packages/core2-32-poky-linux/mc/mc-src: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc-staticdev: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc-staticdev: PV changed from "4.8.24" to "4.8.25"
+packages/core2-32-poky-linux/mc/mc: PKGSIZE changed from 3722624 to 3761888 (+1%)
+packages/core2-32-poky-linux/mc/mc: PKGV changed from 4.8.24 [default] to 4.8.25 [default]
+packages/core2-32-poky-linux/mc/mc: FILELIST: removed "/usr/share/mc/hints/mc.hint.ie /usr/share/mc/hints/mc.hint.vi /usr/share/mc/hints/mc.hint.zh_TW /usr/share/mc/hints/mc.hint.ta /usr/share/mc/hints/mc.hint.lv /usr/share/mc/hints/mc.hint.mn /usr/share/mc/hints/mc.hint.wa", added "/usr/share/mc/syntax/cobol.syntax /usr/share/mc/syntax/kotlin.syntax"
+packages/core2-32-poky-linux/mc/mc: PV changed from "4.8.24" to "4.8.25"
+Changes to packages/core2-32-poky-linux/mc (sysroot):
+  /usr/share/mc/syntax/cobol.syntax was added
+  /usr/share/mc/syntax/kotlin.syntax was added
+  /usr/share/mc/hints/mc.hint.ie was removed
+  /usr/share/mc/hints/mc.hint.lv was removed
+  /usr/share/mc/hints/mc.hint.mn was removed
+  /usr/share/mc/hints/mc.hint.ta was removed
+  /usr/share/mc/hints/mc.hint.vi was removed
+  /usr/share/mc/hints/mc.hint.wa was removed
+  /usr/share/mc/hints/mc.hint.zh_TW was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1855,50 +1834,133 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============9022015552047845362==
+--===============0245554123251279002==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-3.36.3-3.36.4.patch"
+ filename="0001-mc-upgrade-4.8.24-4.8.25.patch"
 
-From 359c1a09d71665ff52ad214d474c3caab32dd9b8 Mon Sep 17 00:00:00 2001
+From d362a48571f7923bdf10d7a18cb06b153584b6fa Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 22:29:15 +0000
-Subject: [PATCH] epiphany: upgrade 3.36.3 -> 3.36.4
+Date: Sat, 15 Aug 2020 18:38:05 +0000
+Subject: [PATCH] mc: upgrade 4.8.24 -> 4.8.25
 
 ---
- .../epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb} (90%)
+ ...-Makefile.am-install-mc.lib-only-onc.patch | 59 -------------------
+ .../mc/{mc_4.8.24.bb => mc_4.8.25.bb}         |  4 +-
+ 2 files changed, 1 insertion(+), 62 deletions(-)
+ delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
+ rename meta/recipes-extended/mc/{mc_4.8.24.bb => mc_4.8.25.bb} (91%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-similarity index 90%
-rename from meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-index 8eb4ac4fcc..4c3b18331a 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+diff --git a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch b/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
+deleted file mode 100644
+index 824c12f8d2..0000000000
+--- a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 58dd59637ac5c6340ddfe96ad8b76883e4da20ef Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyfox@gentoo.org>
+-Date: Tue, 3 Mar 2020 09:26:12 +0000
+-Subject: [PATCH] Ticket #4070: misc/Makefile.am: install mc.lib only once.
+-
+-Before the change mc.lib was installed twice due to being
+-in two _DATA variables:
+-
+-dist_pkgdata_DATA = \
+-        mc.lib
+-
+-pkgdata_DATA = \
+-        $(dist_pkgdata_DATA) \
+-        $(PKGDATA_OUT)
+-
+-This causes occasional install failures when two parallel
+-`/usr/bin/install` calls race in installing the file:
+-
+-$ make -j20 DESTDIR=/var/tmp/portage/app-misc/mc-4.8.24/image install
+-...
+- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
+-    -c -m 644 mc.lib '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
+- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
+-    -c -m 644 mc.lib mc.charsets '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
+-...
+- /usr/bin/install: cannot create regular file
+-   '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc/mc.lib': File exists
+-
+-After the change mc.lib is present only in dist_pkgdata_DATA.
+-
+-Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/afb09f7cd7024484845ade25e15b8b93d6cf2d2c]
+-
+-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+-Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- misc/Makefile.am | 2 --
+- 1 file changed, 2 deletions(-)
+-
+-diff --git a/misc/Makefile.am b/misc/Makefile.am
+-index 8ed1826..24f4a0e 100644
+---- a/misc/Makefile.am
+-+++ b/misc/Makefile.am
+-@@ -17,7 +17,6 @@ dist_pkgdata_DATA = \
+- 	mc.lib
+- 
+- pkgdata_DATA = \
+--	$(dist_pkgdata_DATA) \
+- 	$(PKGDATA_OUT)
+- 
+- SCRIPTS_IN = \
+-@@ -54,7 +53,6 @@ EXTRA_DIST = \
+- 	$(LIBFILES_SCRIPT) \
+- 	$(SCRIPTS_IN) \
+- 	$(noinst_DATA) \
+--	$(dist_pkgdata_DATA) \
+- 	$(PKGDATA_IN)
+- 
+- install-data-hook:
+diff --git a/meta/recipes-extended/mc/mc_4.8.24.bb b/meta/recipes-extended/mc/mc_4.8.25.bb
+similarity index 91%
+rename from meta/recipes-extended/mc/mc_4.8.24.bb
+rename to meta/recipes-extended/mc/mc_4.8.25.bb
+index 034df2a422..83c8a6ecf6 100644
+--- a/meta/recipes-extended/mc/mc_4.8.24.bb
++++ b/meta/recipes-extended/mc/mc_4.8.25.bb
+@@ -10,10 +10,8 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://0001-mc-replace-perl-w-with-use-warnings.patch \
+            file://nomandate.patch \
+-           file://0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch \
             "
--SRC_URI[archive.sha256sum] = "621b5626374891769afec9c35946ab6c3910ea9cf9a2498bab166c99bd91e16f"
-+SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
+-SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
+-SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
++SRC_URI[sha256sum] = "407dc20f70082f26c7f5716406cb755cbb6cba3f2f13b841b79a991282d310c2"
  
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+ inherit autotools gettext pkgconfig
+ 
 -- 
 2.17.1
 
 
---===============9022015552047845362==
+--===============0245554123251279002==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/epiphany: PACKAGES: added "epiphany-locale-ckb"
+packages/core2-32-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 2297 to 4577 (+99%)
+packages/core2-32-poky-linux/mc/mc-locale-mn: PKGSIZE changed from 27188 to 32113 (+18%)
+packages/core2-32-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 19585 to 46121 (+135%)
+packages/core2-32-poky-linux/mc/mc: FILELIST: removed "/usr/share/mc/hints/mc.hint.ie /usr/share/mc/hints/mc.hint.mn /usr/share/mc/hints/mc.hint.zh_TW /usr/share/mc/hints/mc.hint.ta /usr/share/mc/hints/mc.hint.vi /usr/share/mc/hints/mc.hint.lv /usr/share/mc/hints/mc.hint.wa", added "/usr/share/mc/syntax/cobol.syntax /usr/share/mc/syntax/kotlin.syntax"
+Changes to packages/core2-32-poky-linux/mc (sysroot):
+  /usr/share/mc/syntax/cobol.syntax was added
+  /usr/share/mc/syntax/kotlin.syntax was added
+  /usr/share/mc/hints/mc.hint.ie was removed
+  /usr/share/mc/hints/mc.hint.lv was removed
+  /usr/share/mc/hints/mc.hint.mn was removed
+  /usr/share/mc/hints/mc.hint.ta was removed
+  /usr/share/mc/hints/mc.hint.vi was removed
+  /usr/share/mc/hints/mc.hint.wa was removed
+  /usr/share/mc/hints/mc.hint.zh_TW was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3466,4 +3528,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============9022015552047845362==--
+--===============0245554123251279002==--
