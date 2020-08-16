@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.19880.1597558949544786959
+ by mx.groups.io with SMTP id smtpd.web11.19881.1597558950212712552
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:22:29 -0700
+ Sat, 15 Aug 2020 23:22:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 68FEAE0203B; Sat, 15 Aug 2020 23:22:29 -0700 (PDT)
+	id 160B9E0203C; Sat, 15 Aug 2020 23:22:30 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A79CDE02084
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8785E02086
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:44 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wpebackend-fdo: upgrading to 1.7.1 FAILED
-Message-Id: <20200816062229.68FEAE0203B@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:22:29 -0700 (PDT)
-X-Groupsio-MsgNum: 141518
-Content-Type: multipart/mixed; boundary="===============8347812628265556375=="
+Subject: [AUH] boost: upgrading to 1.74.0 FAILED
+Message-Id: <20200816062230.160B9E0203C@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:22:30 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============7045428527990759140=="
 
---===============8347812628265556375==
+--===============7045428527990759140==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,25 +38,204 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wpebackend-fdo* to *1.7.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *boost* to *1.74.0* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
+Running 'devtool upgrade' for recipe boost failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1342 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200816"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7a6a76f19d7fc3bbd8a945ce9c8f2717be9e6620"
+workspace            = "master:bd1da2aca0bc26720f438a9c1d54f5b04084da4e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.bz2...
+Loading cache...done.
+Loaded 1342 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (777 cached, 2 parsed). 1343 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200816"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7a6a76f19d7fc3bbd8a945ce9c8f2717be9e6620"
+workspace            = "master:bd1da2aca0bc26720f438a9c1d54f5b04084da4e"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:00:31
+Adding changed files:   1% |                                    | ETA:  0:00:22
+Adding changed files:   2% |#                                   | ETA:  0:00:19
+Adding changed files:   3% |#                                   | ETA:  0:00:17
+Adding changed files:   4% |#                                   | ETA:  0:00:16
+Adding changed files:   5% |##                                  | ETA:  0:00:16
+Adding changed files:   6% |##                                  | ETA:  0:00:15
+Adding changed files:   7% |##                                  | ETA:  0:00:15
+Adding changed files:   8% |###                                 | ETA:  0:00:14
+Adding changed files:   9% |###                                 | ETA:  0:00:14
+Adding changed files:  10% |###                                 | ETA:  0:00:14
+Adding changed files:  11% |####                                | ETA:  0:00:13
+Adding changed files:  12% |####                                | ETA:  0:00:13
+Adding changed files:  13% |####                                | ETA:  0:00:13
+Adding changed files:  14% |#####                               | ETA:  0:00:13
+Adding changed files:  15% |#####                               | ETA:  0:00:12
+Adding changed files:  16% |#####                               | ETA:  0:00:12
+Adding changed files:  17% |######                              | ETA:  0:00:12
+Adding changed files:  18% |######                              | ETA:  0:00:12
+Adding changed files:  19% |#######                             | ETA:  0:00:12
+Adding changed files:  20% |#######                             | ETA:  0:00:11
+Adding changed files:  21% |#######                             | ETA:  0:00:11
+Adding changed files:  22% |########                            | ETA:  0:00:11
+Adding changed files:  23% |########                            | ETA:  0:00:11
+Adding changed files:  24% |########                            | ETA:  0:00:11
+Adding changed files:  25% |#########                           | ETA:  0:00:11
+Adding changed files:  26% |#########                           | ETA:  0:00:11
+Adding changed files:  27% |#########                           | ETA:  0:00:11
+Adding changed files:  28% |##########                          | ETA:  0:00:11
+Adding changed files:  29% |##########                          | ETA:  0:00:11
+Adding changed files:  30% |##########                          | ETA:  0:00:10
+Adding changed files:  31% |###########                         | ETA:  0:00:10
+Adding changed files:  32% |###########                         | ETA:  0:00:10
+Adding changed files:  33% |###########                         | ETA:  0:00:10
+Adding changed files:  34% |############                        | ETA:  0:00:10
+Adding changed files:  35% |############                        | ETA:  0:00:10
+Adding changed files:  36% |############                        | ETA:  0:00:10
+Adding changed files:  37% |#############                       | ETA:  0:00:10
+Adding changed files:  38% |#############                       | ETA:  0:00:10
+Adding changed files:  38% |##############                      | ETA:  0:00:09
+Adding changed files:  39% |##############                      | ETA:  0:00:09
+Adding changed files:  40% |##############                      | ETA:  0:00:09
+Adding changed files:  41% |###############                     | ETA:  0:00:09
+Adding changed files:  42% |###############                     | ETA:  0:00:09
+Adding changed files:  43% |###############                     | ETA:  0:00:09
+Adding changed files:  44% |################                    | ETA:  0:00:09
+Adding changed files:  45% |################                    | ETA:  0:00:08
+Adding changed files:  46% |################                    | ETA:  0:00:08
+Adding changed files:  47% |#################                   | ETA:  0:00:08
+Adding changed files:  48% |#################                   | ETA:  0:00:08
+Adding changed files:  49% |#################                   | ETA:  0:00:08
+Adding changed files:  50% |##################                  | ETA:  0:00:08
+Adding changed files:  51% |##################                  | ETA:  0:00:08
+Adding changed files:  52% |##################                  | ETA:  0:00:08
+Adding changed files:  53% |###################                 | ETA:  0:00:07
+Adding changed files:  54% |###################                 | ETA:  0:00:07
+Adding changed files:  55% |####################                | ETA:  0:00:07
+Adding changed files:  56% |####################                | ETA:  0:00:07
+Adding changed files:  57% |####################                | ETA:  0:00:07
+Adding changed files:  58% |#####################               | ETA:  0:00:06
+Adding changed files:  59% |#####################               | ETA:  0:00:06
+Adding changed files:  60% |#####################               | ETA:  0:00:06
+Adding changed files:  61% |######################              | ETA:  0:00:06
+Adding changed files:  62% |######################              | ETA:  0:00:06
+Adding changed files:  63% |######################              | ETA:  0:00:06
+Adding changed files:  64% |#######################             | ETA:  0:00:06
+Adding changed files:  65% |#######################             | ETA:  0:00:07
+Adding changed files:  66% |#######################             | ETA:  0:00:06
+Adding changed files:  67% |########################            | ETA:  0:00:06
+Adding changed files:  68% |########################            | ETA:  0:00:06
+Adding changed files:  69% |########################            | ETA:  0:00:06
+Adding changed files:  70% |#########################           | ETA:  0:00:06
+Adding changed files:  71% |#########################           | ETA:  0:00:05
+Adding changed files:  72% |#########################           | ETA:  0:00:05
+Adding changed files:  73% |##########################          | ETA:  0:00:05
+Adding changed files:  74% |##########################          | ETA:  0:00:05
+Adding changed files:  75% |###########################         | ETA:  0:00:05
+Adding changed files:  76% |###########################         | ETA:  0:00:04
+Adding changed files:  77% |###########################         | ETA:  0:00:04
+Adding changed files:  77% |############################        | ETA:  0:00:04
+Adding changed files:  78% |############################        | ETA:  0:00:04
+Adding changed files:  79% |############################        | ETA:  0:00:04
+Adding changed files:  80% |#############################       | ETA:  0:00:03
+Adding changed files:  81% |#############################       | ETA:  0:00:03
+Adding changed files:  82% |#############################       | ETA:  0:00:03
+Adding changed files:  83% |##############################      | ETA:  0:00:03
+Adding changed files:  84% |##############################      | ETA:  0:00:03
+Adding changed files:  85% |##############################      | ETA:  0:00:02
+Adding changed files:  86% |###############################     | ETA:  0:00:02
+Adding changed files:  87% |###############################     | ETA:  0:00:02
+Adding changed files:  88% |###############################     | ETA:  0:00:02
+Adding changed files:  89% |################################    | ETA:  0:00:02
+Adding changed files:  90% |################################    | ETA:  0:00:01
+Adding changed files:  91% |################################    | ETA:  0:00:01
+Adding changed files:  92% |#################################   | ETA:  0:00:01
+Adding changed files:  93% |#################################   | ETA:  0:00:01
+Adding changed files:  94% |##################################  | ETA:  0:00:01
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:20
+WARNING: Command 'git rebase 966250554ebe47951b8198e4e53544a3d4e0ad94' failed:
+First, rewinding head to replay your work on top of it...
+Applying: Add boost from OE.dev
+Applying: Reference
+Applying: boost-math: disable pch for gcc
+Applying: Apply boost-1.62.0-no-forced-flags.patch
+Applying: Don't set up arch/instruction-set flags, we do that
+Using index info to reconstruct a base tree...
+M	tools/build/src/tools/gcc.jam
+Falling back to patching base and 3-way merge...
+Auto-merging tools/build/src/tools/gcc.jam
+CONFLICT (content): Merge conflict in tools/build/src/tools/gcc.jam
+error: Failed to merge in the changes.
+Patch failed at 0005 Don't set up arch/instruction-set flags, we do that
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/boost
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/boost/boost_1.74.0.bb
 
 
 
-Next steps:
-    - apply the patch: git am 0001-wpebackend-fdo-upgrade-1.6.1-1.7.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -65,283 +243,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8347812628265556375==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-wpebackend-fdo-upgrade-1.6.1-1.7.1.patch"
-
-From 146de886f58157d5ba482576c4ad46eb486b8c7d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 16 Aug 2020 05:22:07 +0000
-Subject: [PATCH] wpebackend-fdo: upgrade 1.6.1 -> 1.7.1
-
----
- .../webkit/{wpebackend-fdo_1.6.1.bb => wpebackend-fdo_1.7.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.6.1.bb => wpebackend-fdo_1.7.1.bb} (85%)
-
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-similarity index 85%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-index 2fdab42c38..df057092e3 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-@@ -13,5 +13,5 @@ inherit cmake features_check
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "740eee3327acfb462b8460519a219e30dc0a870326e88e2ddc4fe2c8de20b1c9"
-+SRC_URI[sha256sum] = "9b980a73ea4e3762266c48f81ded56d9dcad4acf32bad9bd05d0dffdd454c6f5"
- 
--- 
-2.17.1
-
-
---===============8347812628265556375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1342 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 778 .bb files complete (777 cached, 1 parsed). 1342 targets, 33 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200816"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9606244567de0f29cdf25a8bd59c4270c6596715"
-workspace            = "master:bd1da2aca0bc26720f438a9c1d54f5b04084da4e"
-
-Initialising tasks...done.
-Sstate summary: Wanted 225 Found 217 Missed 8 Current 571 (96% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1673 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_fetch)
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_fetch: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2029 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_unpack)
-NOTE: Running task 2030 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_unpack: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2448 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_patch)
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_patch: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running task 2449 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_generate_toolchain_file)
-NOTE: Running task 2450 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2451 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_populate_lic)
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_generate_toolchain_file: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_populate_lic: Started
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2452 of 2460 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_configure)
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_configure: Started
-ERROR: wpebackend-fdo-1.7.1-r0 do_configure: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/temp/run.do_configure.4646' failed with exit code 1:
--- The C compiler identification is GNU 10.1.0
--- The CXX compiler identification is GNU 10.1.0
--- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc
--- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc - works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++
--- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ - works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Performing Test CXX_HAS_FLAG_-fno-exceptions
--- Performing Test CXX_HAS_FLAG_-fno-exceptions - Success
--- Performing Test CXX_HAS_FLAG_-fno-rtti
--- Performing Test CXX_HAS_FLAG_-fno-rtti - Success
--- Performing Test CXX_HAS_FLAG_-Wall
--- Performing Test CXX_HAS_FLAG_-Wall - Success
--- Performing Test CC_HAS_FLAG_-Wall
--- Performing Test CC_HAS_FLAG_-Wall - Success
--- Found PkgConfig: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/pkg-config (found version "0.29.2") 
--- Checking for module 'epoxy'
---   No package 'epoxy' found
--- Could NOT find EPOXY (missing: EPOXY_LIBRARY EPOXY_INCLUDE_DIR) 
--- Found GLIB: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/include/glib-2.0;/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/glib-2.0/include (found version "2.64.4") 
--- Checking for module 'wayland-client'
---   Found wayland-client, version 1.18.0
--- Checking for module 'wayland-server'
---   Found wayland-server, version 1.18.0
--- Checking for module 'wayland-egl'
---   Found wayland-egl, version 18.1.0
--- Found Wayland: 1.18.0  found components: client server egl 
--- Found WAYLAND_SCANNER: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/wayland-scanner  
--- Checking for module 'wpe-1.0'
---   Found wpe-1.0, version 1.7.1
--- Found WPE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/libwpe-1.0.so (Required is at least version "1.5.90") 
--- Configuring done
-CMake Error at CMakeLists.txt:181 (add_library):
-  Target "WPEBackend-fdo" links to target "Epoxy::libepoxy" but the target
-  was not found.  Perhaps a find_package() call is missing for an IMPORTED
-  target, or an ALIAS target is missing?
-
-
--- Generating done
-CMake Warning:
-  Manually-specified variables were not used by the project:
-
-    LIB_SUFFIX
-    PYTHON_EXECUTABLE
-    Python3_EXECUTABLE
-    Python_EXECUTABLE
-
-
-CMake Generate step failed.  Build files cannot be regenerated correctly.
-WARNING: exit code 1 from a shell command.
-
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/temp/log.do_configure.4646
-Log data follows:
-| DEBUG: Executing shell function do_configure
-| -- The C compiler identification is GNU 10.1.0
-| -- The CXX compiler identification is GNU 10.1.0
-| -- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc
-| -- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc - works
-| -- Detecting C compiler ABI info
-| -- Detecting C compiler ABI info - done
-| -- Detecting C compile features
-| -- Detecting C compile features - done
-| -- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++
-| -- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ - works
-| -- Detecting CXX compiler ABI info
-| -- Detecting CXX compiler ABI info - done
-| -- Detecting CXX compile features
-| -- Detecting CXX compile features - done
-| -- Performing Test CXX_HAS_FLAG_-fno-exceptions
-| -- Performing Test CXX_HAS_FLAG_-fno-exceptions - Success
-| -- Performing Test CXX_HAS_FLAG_-fno-rtti
-| -- Performing Test CXX_HAS_FLAG_-fno-rtti - Success
-| -- Performing Test CXX_HAS_FLAG_-Wall
-| -- Performing Test CXX_HAS_FLAG_-Wall - Success
-| -- Performing Test CC_HAS_FLAG_-Wall
-| -- Performing Test CC_HAS_FLAG_-Wall - Success
-| -- Found PkgConfig: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/pkg-config (found version "0.29.2")
-| -- Checking for module 'epoxy'
-| --   No package 'epoxy' found
-| -- Could NOT find EPOXY (missing: EPOXY_LIBRARY EPOXY_INCLUDE_DIR)
-| -- Found GLIB: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/include/glib-2.0;/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/glib-2.0/include (found version "2.64.4")
-| -- Checking for module 'wayland-client'
-| --   Found wayland-client, version 1.18.0
-| -- Checking for module 'wayland-server'
-| --   Found wayland-server, version 1.18.0
-| -- Checking for module 'wayland-egl'
-| --   Found wayland-egl, version 18.1.0
-| -- Found Wayland: 1.18.0  found components: client server egl
-| -- Found WAYLAND_SCANNER: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/wayland-scanner
-| -- Checking for module 'wpe-1.0'
-| --   Found wpe-1.0, version 1.7.1
-| -- Found WPE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/libwpe-1.0.so (Required is at least version "1.5.90")
-| -- Configuring done
-| CMake Error at CMakeLists.txt:181 (add_library):
-|   Target "WPEBackend-fdo" links to target "Epoxy::libepoxy" but the target
-|   was not found.  Perhaps a find_package() call is missing for an IMPORTED
-|   target, or an ALIAS target is missing?
-| 
-| 
-| -- Generating done
-| CMake Warning:
-|   Manually-specified variables were not used by the project:
-| 
-|     LIB_SUFFIX
-|     PYTHON_EXECUTABLE
-|     Python3_EXECUTABLE
-|     Python_EXECUTABLE
-| 
-| 
-| CMake Generate step failed.  Build files cannot be regenerated correctly.
-| WARNING: exit code 1 from a shell command.
-| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/temp/run.do_configure.4646' failed with exit code 1:
-| -- The C compiler identification is GNU 10.1.0
-| -- The CXX compiler identification is GNU 10.1.0
-| -- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc
-| -- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc - works
-| -- Detecting C compiler ABI info
-| -- Detecting C compiler ABI info - done
-| -- Detecting C compile features
-| -- Detecting C compile features - done
-| -- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++
-| -- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ - works
-| -- Detecting CXX compiler ABI info
-| -- Detecting CXX compiler ABI info - done
-| -- Detecting CXX compile features
-| -- Detecting CXX compile features - done
-| -- Performing Test CXX_HAS_FLAG_-fno-exceptions
-| -- Performing Test CXX_HAS_FLAG_-fno-exceptions - Success
-| -- Performing Test CXX_HAS_FLAG_-fno-rtti
-| -- Performing Test CXX_HAS_FLAG_-fno-rtti - Success
-| -- Performing Test CXX_HAS_FLAG_-Wall
-| -- Performing Test CXX_HAS_FLAG_-Wall - Success
-| -- Performing Test CC_HAS_FLAG_-Wall
-| -- Performing Test CC_HAS_FLAG_-Wall - Success
-| -- Found PkgConfig: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/pkg-config (found version "0.29.2")
-| -- Checking for module 'epoxy'
-| --   No package 'epoxy' found
-| -- Could NOT find EPOXY (missing: EPOXY_LIBRARY EPOXY_INCLUDE_DIR)
-| -- Found GLIB: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/include/glib-2.0;/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/glib-2.0/include (found version "2.64.4")
-| -- Checking for module 'wayland-client'
-| --   Found wayland-client, version 1.18.0
-| -- Checking for module 'wayland-server'
-| --   Found wayland-server, version 1.18.0
-| -- Checking for module 'wayland-egl'
-| --   Found wayland-egl, version 18.1.0
-| -- Found Wayland: 1.18.0  found components: client server egl
-| -- Found WAYLAND_SCANNER: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot-native/usr/bin/wayland-scanner
-| -- Checking for module 'wpe-1.0'
-| --   Found wpe-1.0, version 1.7.1
-| -- Found WPE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/wpebackend-fdo/1.7.1-r0/recipe-sysroot/usr/lib/libwpe-1.0.so (Required is at least version "1.5.90")
-| -- Configuring done
-| CMake Error at CMakeLists.txt:181 (add_library):
-|   Target "WPEBackend-fdo" links to target "Epoxy::libepoxy" but the target
-|   was not found.  Perhaps a find_package() call is missing for an IMPORTED
-|   target, or an ALIAS target is missing?
-| 
-| 
-| -- Generating done
-| CMake Warning:
-|   Manually-specified variables were not used by the project:
-| 
-|     LIB_SUFFIX
-|     PYTHON_EXECUTABLE
-|     Python3_EXECUTABLE
-|     Python_EXECUTABLE
-| 
-| 
-| CMake Generate step failed.  Build files cannot be regenerated correctly.
-| WARNING: exit code 1 from a shell command.
-| 
-NOTE: recipe wpebackend-fdo-1.7.1-r0: task do_configure: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2452 tasks of which 2444 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb:do_configure
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============8347812628265556375==--
+--===============7045428527990759140==--
