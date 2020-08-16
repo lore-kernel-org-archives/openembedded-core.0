@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.19876.1597558945325121840
+ by mx.groups.io with SMTP id smtpd.web12.19673.1597558947327871599
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Aug 2020 23:22:25 -0700
+ Sat, 15 Aug 2020 23:22:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 358EAE0203A; Sat, 15 Aug 2020 23:22:25 -0700 (PDT)
+	id 31775E0203C; Sat, 15 Aug 2020 23:22:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DB242E0207A
-	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:43 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 305FBE0207E
+	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:44 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cryptodev-tests: upgrading to 1.11 SUCCEEDED
-Message-Id: <20200816062225.358EAE0203A@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:22:25 -0700 (PDT)
-X-Groupsio-MsgNum: 141516
-Content-Type: multipart/mixed; boundary="===============5369334319283918416=="
+Subject: [AUH] lttng-tools: upgrading to 2.12.2 SUCCEEDED
+Message-Id: <20200816062227.31775E0203C@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:22:27 -0700 (PDT)
+X-Groupsio-MsgNum: 141517
+Content-Type: multipart/mixed; boundary="===============6156723675358641237=="
 
---===============5369334319283918416==
+--===============6156723675358641237==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cryptodev-tests* to *1.11* has Succeeded.
+that the automatic attempt to upgrade the recipe *lttng-tools* to *2.12.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cryptodev-tests-upgrade-1.10-1.11.patch
+    - apply the patch: git am 0001-lttng-tools-upgrade-2.12.1-2.12.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,28 +59,50 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5369334319283918416==
+--===============6156723675358641237==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dbg: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dbg: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dev: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-dev: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-doc: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-doc: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-locale: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-locale: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-src: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-src: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-staticdev: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests-staticdev: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests/cryptodev-tests: PV changed from "1.10" to "1.11"
-packages/core2-32-poky-linux/cryptodev-tests: PKGV changed from 1.10 [default] to 1.11 [default]
-packages/core2-32-poky-linux/cryptodev-tests: PV changed from "1.10" to "1.11"
+packages/core2-32-poky-linux/lttng-tools: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGSIZE changed from 25792516 to 25890912 (+0%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGSIZE changed from 238712 to 242137 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGSIZE changed from 8688054 to 8707695 (+0%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGSIZE changed from 4298320 to 4346228 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: FILELIST: directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/kernel -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/kernel, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/unit/ini_config -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/unit/ini_config, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/getcpu-override -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/getcpu-override, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/userspace-probe-elf-binary -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-binary, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/compat -> /usr/src/debug/lttng-tools/2.12
+ .2-r0/lttng-tools-2.12.2/src/common/compat, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/hashtable -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/hashtable, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/testpoint -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/testpoint, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/libc-wrapper -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/libc-wrapper, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/clock-override -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/clock-override, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-ust-tracef -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testa
+ pp/gen-ust-tracef, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/include/lttng -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/include/lttng, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/lib/lttng-ctl/filter -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/lib/lttng-ctl/filter, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-kernel-test-events -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-kernel-test-events, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng-consumerd -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng-consumerd, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/fork -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/fork, directory renamed /usr/src/debug/ltt
+ ng-tools/2.12.1-r0/lttng-tools-2.12.1/include/lttng/notification -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/include/lttng/notification, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/multi-lib -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/multi-lib, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/high-throughput -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/low-throughput, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/include/lttng/action -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/include/lttng/action, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/low-throughput -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/high-throughput, directory renamed /usr/src/debug/lttng-tools/2.12.1
+ -r0/lttng-tools-2.12.1/tests/regression/ust/ust-dl -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/ust-dl, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/linking -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/linking, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/string-utils -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/string-utils, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/rotation -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/rotation, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/overlap/demo -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/overlap/demo, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/sr
+ c/common/health -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/health, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/index -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/index, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/kernel-ctl -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/kernel-ctl, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/live -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/live, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-syscall-events-callstack -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-syscall-events-callstack, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-ust-events-ns -> /usr/src/deb
+ ug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-ust-events-ns, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/mi -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/mi, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-ust-nevents-str -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-ust-nevents-str, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng-crash -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng-crash, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/type-declarations -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/type-declarations, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/ust-consumer -> /usr/src/debug/lttn
+ g-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/ust-consumer, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/filtering -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/filtering, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/baddr-statedump -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/baddr-statedump, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/tap -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/tap, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/include/lttng/trigger -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/include/lttng/trigger, directory ren
+ amed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/relayd -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/relayd, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng-relayd -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng-relayd, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/sessiond-comm -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/sessiond-comm, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/userspace-probe-elf-cxx-binary -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-cxx-binary, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/
+ regression/ust/exit-fast -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/exit-fast, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/fd-tracker -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/fd-tracker, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-ns-events -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-ns-events, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/unit -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/unit, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-ust-nevents -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/util
+ s/testapp/gen-ust-nevents, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/lib/lttng-ctl -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/lib/lttng-ctl, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/config -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/config, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/include/lttng/condition -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/include/lttng/condition, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/notification -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/notification, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng/commands -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng/commands, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0
+ /lttng-tools-2.12.1/tests/utils/testapp/gen-ust-events -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-ust-events, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/tools/health -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/tools/health, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/bin/lttng-sessiond -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/bin/lttng-sessiond, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/daemon -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/daemon, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/utils/testapp/gen-sys
+ call-events -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/utils/testapp/gen-syscall-events, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/kernel-consumer -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/kernel-consumer, directory renamed /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/tests/regression/ust/multi-session -> /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/tests/regression/ust/multi-session, removed "/usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-stream.h /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-timer.h /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-testpoint.h /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-metadata-cache.h /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer.c /usr
+ /src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-stream.c /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-timer.c /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer.h /usr/src/debug/lttng-tools/2.12.1-r0/lttng-tools-2.12.1/src/common/consumer/consumer-metadata-cache.c", added "/usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-metadata-cache.h /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-testpoint.h /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-stream.c /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/metadata-bucket.c /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer.c /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-timer.c /usr/src/debug/lttng-tools/2.12.2-r0/lttn
+ g-tools-2.12.2/src/common/consumer/metadata-bucket.h /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-metadata-cache.c /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer.h /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-stream.h /usr/src/debug/lttng-tools/2.12.2-r0/lttng-tools-2.12.2/src/common/consumer/consumer-timer.h"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PV changed from "2.12.1" to "2.12.2"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGV changed from 2.12.1 [default] to 2.12.2 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGSIZE changed from 3734134 to 3746422 (+0%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PV changed from "2.12.1" to "2.12.2"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1648,7 +1670,7 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============5369334319283918416==
+--===============6156723675358641237==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3221,43 +3243,95 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============5369334319283918416==
+--===============6156723675358641237==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-cryptodev-tests-upgrade-1.10-1.11.patch"
+ filename="0001-lttng-tools-upgrade-2.12.1-2.12.2.patch"
 
-From 5fb48b56b1f6a8495c420b60349f53f1c361fe2e Mon Sep 17 00:00:00 2001
+From c5fcd3083373fb5beb961f9deacee08e754d3e44 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 16 Aug 2020 02:31:59 +0000
-Subject: [PATCH] cryptodev-tests: upgrade 1.10 -> 1.11
+Date: Sun, 16 Aug 2020 03:03:06 +0000
+Subject: [PATCH] lttng-tools: upgrade 2.12.1 -> 2.12.2
 
 ---
- .../{cryptodev-tests_1.10.bb => cryptodev-tests_1.11.bb}        | 0
- meta/recipes-kernel/cryptodev/cryptodev.inc                     | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.10.bb => cryptodev-tests_1.11.bb} (100%)
+ ...ents-ns-tp.h-Fix-build-with-musl-lib.patch | 43 -------------------
+ ...-tools_2.12.1.bb => lttng-tools_2.12.2.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 45 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-gen-ust-events-ns-tp.h-Fix-build-with-musl-lib.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.12.1.bb => lttng-tools_2.12.2.bb} (97%)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.10.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.11.bb
-similarity index 100%
-rename from meta/recipes-kernel/cryptodev/cryptodev-tests_1.10.bb
-rename to meta/recipes-kernel/cryptodev/cryptodev-tests_1.11.bb
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index f99f8bc9f0..906f4fc181 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-gen-ust-events-ns-tp.h-Fix-build-with-musl-lib.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-gen-ust-events-ns-tp.h-Fix-build-with-musl-lib.patch
+deleted file mode 100644
+index a150d648ab..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-gen-ust-events-ns-tp.h-Fix-build-with-musl-lib.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From e5d94cf4882cc6516af52b794c6acb8e4d6469a3 Mon Sep 17 00:00:00 2001
+-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+-Date: Mon, 18 May 2020 16:39:26 +0300
+-Subject: [PATCH] tests: gen-ust-events-ns/tp.h: Fix build with musl libc
+-
+-Fix the following build error with musl libc:
+-In file included from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:14,
+-                 from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.c:10:
+-../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+-   17 |  TP_ARGS(ino_t, ns_ino),
+-      |          ^~~~~
+-../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+-   17 |  TP_ARGS(ino_t, ns_ino),
+-      |          ^~~~~
+-../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+-   17 |  TP_ARGS(ino_t, ns_ino),
+-      |  ^~~~~~~
+-../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+-   17 |  TP_ARGS(ino_t, ns_ino),
+-      |  ^~~~~~~
+-
+-Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/161]
+-
+-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+----
+- tests/utils/testapp/gen-ust-events-ns/tp.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/tests/utils/testapp/gen-ust-events-ns/tp.h b/tests/utils/testapp/gen-ust-events-ns/tp.h
+-index 4dbfed5..e0ddb29 100644
+---- a/tests/utils/testapp/gen-ust-events-ns/tp.h
+-+++ b/tests/utils/testapp/gen-ust-events-ns/tp.h
+-@@ -11,6 +11,7 @@
+- #if !defined(_TRACEPOINT_TP_H) || defined(TRACEPOINT_HEADER_MULTI_READ)
+- #define _TRACEPOINT_TP_H
+- 
+-+#include <sys/types.h>
+- #include <lttng/tracepoint.h>
+- 
+- TRACEPOINT_EVENT(tp, tptest,
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+similarity index 97%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.12.1.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+index 094e33db71..e9c8e18e22 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.12.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+@@ -33,10 +33,9 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://run-ptest \
+            file://lttng-sessiond.service \
+            file://0001-tests-regression-disable-the-tools-live-tests.patch \
+-           file://0001-tests-gen-ust-events-ns-tp.h-Fix-build-with-musl-lib.patch \
             "
--SRCREV = "a87053bee5680878c295b7d23cf0d7065576ac2b"
-+SRCREV = "2299d39475e91392abd050ea09f2d20feecb4adf"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "0de7afc1f40a5acbede933cdfd6cf47b32ff84d02e170a1321f7fc86141585b8"
++SRC_URI[sha256sum] = "9ed9161795ff023b076f9f95afaa4f1f822ec42495c0fa04c586ab8fa74e84f1"
+ 
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
  
 -- 
 2.17.1
 
 
---===============5369334319283918416==--
+--===============6156723675358641237==--
