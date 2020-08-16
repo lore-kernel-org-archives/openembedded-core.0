@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.19865.1597558914858561463
+ by mx.groups.io with SMTP id smtpd.web12.19662.1597558915304518018
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Aug 2020 23:21:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AE9CAE02029; Sat, 15 Aug 2020 23:21:54 -0700 (PDT)
+	id 2B942E0202B; Sat, 15 Aug 2020 23:21:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.2 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.111] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9F282E0205E
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 33797E0205A
 	for <openembedded-core@lists.openembedded.org>; Sat, 15 Aug 2020 23:19:41 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 20.1.5 SUCCEEDED
-Message-Id: <20200816062154.AE9CAE02029@yocto-www.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:21:54 -0700 (PDT)
-X-Groupsio-MsgNum: 141503
-Content-Type: multipart/mixed; boundary="===============8078447331218974229=="
+Subject: [AUH] libhandy: upgrading to 0.90.0 SUCCEEDED
+Message-Id: <20200816062155.2B942E0202B@yocto-www.yoctoproject.org>
+Date: Sat, 15 Aug 2020 23:21:55 -0700 (PDT)
+X-Groupsio-MsgNum: 141504
+Content-Type: multipart/mixed; boundary="===============1652081905810197559=="
 
---===============8078447331218974229==
+--===============1652081905810197559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *20.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *libhandy* to *0.90.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-20.1.4-20.1.5.patch
+    - apply the patch: git am 0001-libhandy-upgrade-0.0.13-0.90.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,72 +59,157 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8078447331218974229==
+--===============1652081905810197559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgbm: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libglapi: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 172915664 to 172917772 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 77676420 to 77679656 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
-packages/core2-32-poky-linux/mesa/mesa: PV changed from "20.1.4" to "20.1.5"
-packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 20.1.4 [default] to 20.1.5 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale: RPROVIDES: removed all items "libhandy-locale (['= 0.0.13'])"
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKGV changed from 0.0.13 [default] to 1.3 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-locale [default] - may indicate debian renaming failure
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PV changed from "0.0.13" to "1.3"
+packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-en-gb libhandy-locale-ro libhandy-locale-pl libhandy-locale-uk libhandy-locale-es libhandy-locale-pt-br"
+packages/core2-32-poky-linux/libhandy: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387192 to 1676864 (+21%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: FILELIST: removed "/usr/bin/.debug/handy-0.0-demo /usr/lib/.debug/libhandy-0.0.so.0", added "/usr/lib/.debug/libhandy-1.so.0 /usr/bin/.debug/handy-1-demo"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535654 (+26%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-title-bar.h /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-keypad.h /usr/include/libhandy-0.0/hdy-preferences-group.h /usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-search-bar.h /usr/include/libhandy-0.0/hdy-enums.h /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/lib/pkgconfig/libhandy-0.0.pc /usr/include/libhandy-0.0/hdy-arrows.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-version.h /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-stri
+ ng-utf8.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/include/libhandy-0.0/hdy-enum-value-object.h /usr/include/libhandy-0.0/hdy-dialog.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/include/libhandy-0.0/hdy-fold.h /usr/include/libhandy-0.0/hdy-preferences-window.h /usr/share/vala/vapi/libhandy-0.0.vapi", added "/usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-types.h /usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-deprecation-macro
+ s.h /usr/include/libhandy-1/hdy-preferences-page.h /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/lib/libhandy-1.so /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-preferences-row.h /usr/include/libhandy-1/hdy-keypad.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-main.h /usr/include/libhandy-1/hdy-enums.h /usr/include/libhandy-1/hdy-carousel-indicator-dots.h /usr/include/libhandy-1/hdy-version.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-header-bar.h /usr/include/libhandy-1/hdy-clamp.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-carousel.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-avatar.h /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/handy.h /usr/include/libhandy-1/hdy-enum-valu
+ e-object.h /usr/include/libhandy-1/hdy-swipe-tracker.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/include/libhandy-1/hdy-swipe-group.h /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/hdy-value-object.h /usr/include/libhandy-1/hdy-carousel-indicator-lines.h /usr/include/libhandy-1/hdy-leaflet.h /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy-1/hdy-action-row.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/include/libhandy-1/hdy-squeezer.h"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 267756 (+96%)
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 4141310 (+59%)
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
+packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy-src: FILELIST: directory renamed /usr/src/debug/libhandy/0.0.13-r0/build/examples -> /usr/src/debug/libhandy/0.90.0-r0/build/examples, directory renamed /usr/src/debug/libhandy/0.0.13-r0/git/examples -> /usr/src/debug/libhandy/0.90.0-r0/git/examples, removed "/usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-list-box.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator-box-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.0.13
+ -r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-search-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-page.h /usr/src/debug/libhandy/0.0.13-r0/git/src/
+ hdy-dialer-button.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.c /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-squeezer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-title-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.h /usr
+ /src/debug/libhandy/0.0.13-r0/git/src/hdy-fold.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-paginator.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-arrows.h /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer-cycle-button.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-keypad-butt
+ on.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-leaflet.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialog.c /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-string-utf8.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.0.13-r0/git/src/gtk-window-private.h /usr/src/debug/libhandy/0.0.13-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-column.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-dialer.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0
+ .0.13-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-preferences-window.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher.h /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.0.13-r0/git/src/hdy-header-bar.h", added "/usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-value-object.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-stackable-box.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-cairo-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-title.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-clamp.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-shadow-helper.c /usr/src/debug/libhandy/0
+ .90.0-r0/git/src/hdy-keypad-button.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-dots.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-lines.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-clamp.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-squeezer.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-mixin-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-stackable-box-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-expander-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-types.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-shadow-helper-private.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-public-types.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-
+ preferences-page.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-action-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipeable.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-search-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-expander-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-value-object.h /usr/src/debug/libhandy/0.90.0-r0/git/src/gtkprogresstrackerprivate.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipeable.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-page.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-avatar.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-resources.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle.h
+  /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-combo-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-css-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/gtk-window.c /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums-private.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-group.h /usr/src/debug/libhandy/0.90.0-r0/build/src/hdy-enums.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-group.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-css.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-nothing.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switch
+ er.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle-controller.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-enum-value-object.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-enum-value-object.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-avatar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-leaflet.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-nothing-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/gtkprogresstracker.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-row.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-header-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-dots.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-action-row.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-application-window.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-deck.h /usr/src/debug/libhandy/0.90.0-r0/git
+ /src/hdy-title-bar.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-box.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-search-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-page-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-title-bar.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-keypad-button-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-box-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-group.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-navigation-direction.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-mixin.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-carousel-indicator-lines.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-button-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-leaflet.c /usr/src/debug/libhandy/0.90.0-r0/git/src/gtk-window
+ -private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-animation.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-button.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-tracker.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-view-switcher-title.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-preferences-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-window-handle-controller-private.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-swipe-group.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-squeezer.h /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-deck.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-application-window.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-main.c /usr/src/debug/libhandy/0.90.0-r0/git/src/hdy-combo-row.h"
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
+packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 0.0.13 [default] to 0.90.0 [default]
+packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
+packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "0.0.13" to "0.90.0"
+packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/libhandy-0.0.so.0 /usr/lib/girepository-1.0/Handy-0.0.typelib", added "/usr/lib/girepository-1.0/Handy-1.typelib /usr/lib/libhandy-1.so.0"
+Changes to packages/core2-32-poky-linux/libhandy (sysroot):
+  /usr/include/libhandy-1 was added
+  /usr/include/libhandy-1/handy.h was added
+  /usr/include/libhandy-1/hdy-action-row.h was added
+  /usr/include/libhandy-1/hdy-animation.h was added
+  /usr/include/libhandy-1/hdy-application-window.h was added
+  /usr/include/libhandy-1/hdy-avatar.h was added
+  /usr/include/libhandy-1/hdy-carousel.h was added
+  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
+  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
+  /usr/include/libhandy-1/hdy-clamp.h was added
+  /usr/include/libhandy-1/hdy-combo-row.h was added
+  /usr/include/libhandy-1/hdy-deck.h was added
+  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
+  /usr/include/libhandy-1/hdy-enums.h was added
+  /usr/include/libhandy-1/hdy-enum-value-object.h was added
+  /usr/include/libhandy-1/hdy-expander-row.h was added
+  /usr/include/libhandy-1/hdy-header-bar.h was added
+  /usr/include/libhandy-1/hdy-header-group.h was added
+  /usr/include/libhandy-1/hdy-keypad.h was added
+  /usr/include/libhandy-1/hdy-leaflet.h was added
+  /usr/include/libhandy-1/hdy-main.h was added
+  /usr/include/libhandy-1/hdy-navigation-direction.h was added
+  /usr/include/libhandy-1/hdy-preferences-group.h was added
+  /usr/include/libhandy-1/hdy-preferences-page.h was added
+  /usr/include/libhandy-1/hdy-preferences-row.h was added
+  /usr/include/libhandy-1/hdy-preferences-window.h was added
+  /usr/include/libhandy-1/hdy-search-bar.h was added
+  /usr/include/libhandy-1/hdy-squeezer.h was added
+  /usr/include/libhandy-1/hdy-swipeable.h was added
+  /usr/include/libhandy-1/hdy-swipe-group.h was added
+  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
+  /usr/include/libhandy-1/hdy-title-bar.h was added
+  /usr/include/libhandy-1/hdy-types.h was added
+  /usr/include/libhandy-1/hdy-value-object.h was added
+  /usr/include/libhandy-1/hdy-version.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
+  /usr/include/libhandy-1/hdy-view-switcher.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
+  /usr/include/libhandy-1/hdy-window.h was added
+  /usr/include/libhandy-1/hdy-window-handle.h was added
+  /usr/lib/girepository-1.0/Handy-1.typelib was added
+  /usr/lib/libhandy-1.so.0 was added
+  /usr/lib/libhandy-1.so was added
+  /usr/lib/pkgconfig/libhandy-1.pc was added
+  /usr/share/gir-1.0/Handy-1.gir was added
+  /usr/share/vala/vapi/libhandy-1.deps was added
+  /usr/share/vala/vapi/libhandy-1.vapi was added
+  /usr/include/libhandy-0.0 was removed
+  /usr/include/libhandy-0.0/handy.h was removed
+  /usr/include/libhandy-0.0/hdy-action-row.h was removed
+  /usr/include/libhandy-0.0/hdy-animation.h was removed
+  /usr/include/libhandy-0.0/hdy-arrows.h was removed
+  /usr/include/libhandy-0.0/hdy-column.h was removed
+  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
+  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer.h was removed
+  /usr/include/libhandy-0.0/hdy-dialog.h was removed
+  /usr/include/libhandy-0.0/hdy-enums.h was removed
+  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
+  /usr/include/libhandy-0.0/hdy-fold.h was removed
+  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-header-group.h was removed
+  /usr/include/libhandy-0.0/hdy-keypad.h was removed
+  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
+  /usr/include/libhandy-0.0/hdy-list-box.h was removed
+  /usr/include/libhandy-0.0/hdy-main.h was removed
+  /usr/include/libhandy-0.0/hdy-paginator.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
+  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
+  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
+  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
+  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
+  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-version.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
+  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
+  /usr/lib/libhandy-0.0.so.0 was removed
+  /usr/lib/libhandy-0.0.so was removed
+  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
+  /usr/share/gir-1.0/Handy-0.0.gir was removed
+  /usr/share/vala/vapi/libhandy-0.0.deps was removed
+  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1692,12 +1777,126 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============8078447331218974229==
+--===============1652081905810197559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/libhandy/libhandy-locale: RPROVIDES: removed all items "libhandy-locale (['= 0.0.13'])"
+packages/core2-32-poky-linux/libhandy/libhandy-locale: PKG changed from libhandy-0.0-locale to libhandy-locale [default] - may indicate debian renaming failure
+packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-uk libhandy-locale-en-gb libhandy-locale-pt-br libhandy-locale-es libhandy-locale-pl libhandy-locale-ro"
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387192 to 1676864 (+21%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535654 (+26%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/include/libhandy-0.0/hdy-preferences-window.h /usr/include/libhandy-0.0/hdy-leaflet.h /usr/share/vala/vapi/libhandy-0.0.vapi /usr/include/libhandy-0.0/hdy-dialer-button.h /usr/include/libhandy-0.0/hdy-fold.h /usr/include/libhandy-0.0/hdy-view-switcher-bar.h /usr/include/libhandy-0.0/hdy-preferences-group.h /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h /usr/include/libhandy-0.0/hdy-paginator.h /usr/include/libhandy-0.0/hdy-string-utf8.h /usr/include/libhandy-0.0/hdy-header-bar.h /usr/include/libhandy-0.0/hdy-value-object.h /usr/include/libhandy-0.0/hdy-combo-row.h /usr/include/libhandy-0.0/hdy-column.h /usr/include/libhandy-0.0/hdy-search-bar.h /usr/include/libhandy-0.0/hdy-dialer.h /usr/include/libhandy-0.0/hdy-enums.h /usr/include/libhandy-0.0/hdy-preferences-page.h /usr/include/libhandy-0.0/hdy-header-group.h /usr/include/libhandy-0.0/hdy-enum-value-object.h /usr/lib/pkgconfig/libhandy-0.0.pc 
+ /usr/include/libhandy-0.0/hdy-title-bar.h /usr/include/libhandy-0.0/hdy-swipeable.h /usr/include/libhandy-0.0/hdy-arrows.h /usr/share/gir-1.0/Handy-0.0.gir /usr/include/libhandy-0.0/hdy-keypad.h /usr/include/libhandy-0.0/hdy-preferences-row.h /usr/include/libhandy-0.0/hdy-squeezer.h /usr/include/libhandy-0.0/hdy-expander-row.h /usr/lib/libhandy-0.0.so /usr/include/libhandy-0.0/handy.h /usr/include/libhandy-0.0/hdy-main.h /usr/include/libhandy-0.0/hdy-list-box.h /usr/share/vala/vapi/libhandy-0.0.deps /usr/include/libhandy-0.0/hdy-deprecation-macros.h /usr/include/libhandy-0.0/hdy-view-switcher.h /usr/include/libhandy-0.0/hdy-animation.h /usr/include/libhandy-0.0/hdy-version.h /usr/include/libhandy-0.0/hdy-swipe-group.h /usr/include/libhandy-0.0/hdy-action-row.h /usr/include/libhandy-0.0/hdy-dialog.h", added "/usr/include/libhandy-1/hdy-animation.h /usr/include/libhandy-1/hdy-header-group.h /usr/include/libhandy-1/hdy-main.h /usr/include/libhandy-1/hdy-value-object.h /usr/incl
+ ude/libhandy-1/hdy-leaflet.h /usr/include/libhandy-1/hdy-expander-row.h /usr/include/libhandy-1/hdy-view-switcher-title.h /usr/share/vala/vapi/libhandy-1.vapi /usr/include/libhandy-1/hdy-search-bar.h /usr/include/libhandy-1/hdy-types.h /usr/lib/pkgconfig/libhandy-1.pc /usr/include/libhandy-1/hdy-view-switcher.h /usr/include/libhandy-1/hdy-application-window.h /usr/include/libhandy-1/hdy-preferences-window.h /usr/include/libhandy-1/handy.h /usr/share/vala/vapi/libhandy-1.deps /usr/include/libhandy-1/hdy-keypad.h /usr/include/libhandy-1/hdy-carousel.h /usr/include/libhandy-1/hdy-window.h /usr/include/libhandy-1/hdy-enum-value-object.h /usr/include/libhandy-1/hdy-navigation-direction.h /usr/include/libhandy-1/hdy-carousel-indicator-dots.h /usr/share/gir-1.0/Handy-1.gir /usr/include/libhandy-1/hdy-avatar.h /usr/include/libhandy-1/hdy-clamp.h /usr/include/libhandy-1/hdy-carousel-indicator-lines.h /usr/lib/libhandy-1.so /usr/include/libhandy-1/hdy-combo-row.h /usr/include/libhandy
+ -1/hdy-squeezer.h /usr/include/libhandy-1/hdy-swipe-group.h /usr/include/libhandy-1/hdy-title-bar.h /usr/include/libhandy-1/hdy-window-handle.h /usr/include/libhandy-1/hdy-swipe-tracker.h /usr/include/libhandy-1/hdy-deprecation-macros.h /usr/include/libhandy-1/hdy-preferences-row.h /usr/include/libhandy-1/hdy-deck.h /usr/include/libhandy-1/hdy-enums.h /usr/include/libhandy-1/hdy-header-bar.h /usr/include/libhandy-1/hdy-view-switcher-bar.h /usr/include/libhandy-1/hdy-swipeable.h /usr/include/libhandy-1/hdy-version.h /usr/include/libhandy-1/hdy-preferences-group.h /usr/include/libhandy-1/hdy-action-row.h /usr/include/libhandy-1/hdy-preferences-page.h"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 267756 (+96%)
+packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/bin/handy-0.0-demo", added "/usr/bin/handy-1-demo"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601886 to 4141310 (+59%)
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
+packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
+packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/lib/girepository-1.0/Handy-1.typelib /usr/lib/libhandy-1.so.0"
+packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
+Changes to packages/core2-32-poky-linux/libhandy (sysroot):
+  /usr/include/libhandy-1 was added
+  /usr/include/libhandy-1/handy.h was added
+  /usr/include/libhandy-1/hdy-action-row.h was added
+  /usr/include/libhandy-1/hdy-animation.h was added
+  /usr/include/libhandy-1/hdy-application-window.h was added
+  /usr/include/libhandy-1/hdy-avatar.h was added
+  /usr/include/libhandy-1/hdy-carousel.h was added
+  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
+  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
+  /usr/include/libhandy-1/hdy-clamp.h was added
+  /usr/include/libhandy-1/hdy-combo-row.h was added
+  /usr/include/libhandy-1/hdy-deck.h was added
+  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
+  /usr/include/libhandy-1/hdy-enums.h was added
+  /usr/include/libhandy-1/hdy-enum-value-object.h was added
+  /usr/include/libhandy-1/hdy-expander-row.h was added
+  /usr/include/libhandy-1/hdy-header-bar.h was added
+  /usr/include/libhandy-1/hdy-header-group.h was added
+  /usr/include/libhandy-1/hdy-keypad.h was added
+  /usr/include/libhandy-1/hdy-leaflet.h was added
+  /usr/include/libhandy-1/hdy-main.h was added
+  /usr/include/libhandy-1/hdy-navigation-direction.h was added
+  /usr/include/libhandy-1/hdy-preferences-group.h was added
+  /usr/include/libhandy-1/hdy-preferences-page.h was added
+  /usr/include/libhandy-1/hdy-preferences-row.h was added
+  /usr/include/libhandy-1/hdy-preferences-window.h was added
+  /usr/include/libhandy-1/hdy-search-bar.h was added
+  /usr/include/libhandy-1/hdy-squeezer.h was added
+  /usr/include/libhandy-1/hdy-swipeable.h was added
+  /usr/include/libhandy-1/hdy-swipe-group.h was added
+  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
+  /usr/include/libhandy-1/hdy-title-bar.h was added
+  /usr/include/libhandy-1/hdy-types.h was added
+  /usr/include/libhandy-1/hdy-value-object.h was added
+  /usr/include/libhandy-1/hdy-version.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
+  /usr/include/libhandy-1/hdy-view-switcher.h was added
+  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
+  /usr/include/libhandy-1/hdy-window.h was added
+  /usr/include/libhandy-1/hdy-window-handle.h was added
+  /usr/lib/girepository-1.0/Handy-1.typelib was added
+  /usr/lib/libhandy-1.so.0 was added
+  /usr/lib/libhandy-1.so was added
+  /usr/lib/pkgconfig/libhandy-1.pc was added
+  /usr/share/gir-1.0/Handy-1.gir was added
+  /usr/share/vala/vapi/libhandy-1.deps was added
+  /usr/share/vala/vapi/libhandy-1.vapi was added
+  /usr/include/libhandy-0.0 was removed
+  /usr/include/libhandy-0.0/handy.h was removed
+  /usr/include/libhandy-0.0/hdy-action-row.h was removed
+  /usr/include/libhandy-0.0/hdy-animation.h was removed
+  /usr/include/libhandy-0.0/hdy-arrows.h was removed
+  /usr/include/libhandy-0.0/hdy-column.h was removed
+  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
+  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
+  /usr/include/libhandy-0.0/hdy-dialer.h was removed
+  /usr/include/libhandy-0.0/hdy-dialog.h was removed
+  /usr/include/libhandy-0.0/hdy-enums.h was removed
+  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
+  /usr/include/libhandy-0.0/hdy-fold.h was removed
+  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-header-group.h was removed
+  /usr/include/libhandy-0.0/hdy-keypad.h was removed
+  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
+  /usr/include/libhandy-0.0/hdy-list-box.h was removed
+  /usr/include/libhandy-0.0/hdy-main.h was removed
+  /usr/include/libhandy-0.0/hdy-paginator.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
+  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
+  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
+  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
+  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
+  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
+  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-value-object.h was removed
+  /usr/include/libhandy-0.0/hdy-version.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
+  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
+  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
+  /usr/lib/libhandy-0.0.so.0 was removed
+  /usr/lib/libhandy-0.0.so was removed
+  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
+  /usr/share/gir-1.0/Handy-0.0.gir was removed
+  /usr/share/vala/vapi/libhandy-0.0.deps was removed
+  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3265,43 +3464,40 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.1.0/plugin/include/xcoffout.h was removed
 
---===============8078447331218974229==
+--===============1652081905810197559==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-20.1.4-20.1.5.patch"
+ filename="0001-libhandy-upgrade-0.0.13-0.90.0.patch"
 
-From a410399aa181337007c7b3d10228679b5232abcc Mon Sep 17 00:00:00 2001
+From db5b14f42fec7c9db962f4844b7bbe41c8cc4f42 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 15 Aug 2020 23:41:54 +0000
-Subject: [PATCH] mesa: upgrade 20.1.4 -> 20.1.5
+Date: Sat, 15 Aug 2020 23:08:46 +0000
+Subject: [PATCH] libhandy: upgrade 0.0.13 -> 0.90.0
 
 ---
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- meta/recipes-graphics/mesa/{mesa_20.1.4.bb => mesa_20.1.5.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa_20.1.4.bb => mesa_20.1.5.bb} (100%)
+ meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 8d8e5288a9..547a3a0b4f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            "
+diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
+index 9f74014640..f6dd29b765 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_git.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
+@@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI[sha256sum] = "6800271c2be2a0447510eb4e9b67edd9521859a4d565310617c4b359eb6799fe"
-+SRC_URI[sha256sum] = "fac1861e6e0bf1aec893f8d86dbfb9d8a0f426ff06b05256df10e3ad7e02c69b"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
+-SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
++SRCREV = "c7aaf6f4f50b64ee55fcfee84000e9525fc5f93a"
+ S = "${WORKDIR}/git"
+-PV = "0.0.13"
++PV = "0.90.0"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_20.1.4.bb b/meta/recipes-graphics/mesa/mesa_20.1.5.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_20.1.4.bb
-rename to meta/recipes-graphics/mesa/mesa_20.1.5.bb
+ GIR_MESON_ENABLE_FLAG = 'enabled'
+ GIR_MESON_DISABLE_FLAG = 'disabled'
 -- 
 2.17.1
 
 
---===============8078447331218974229==--
+--===============1652081905810197559==--
