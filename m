@@ -1,100 +1,77 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.41769.1597667256299735293
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web10.43848.1597672653871839837
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 05:27:36 -0700
+ Mon, 17 Aug 2020 06:57:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S/CxZEsA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id 184so13737189wmb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 05:27:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=q/pfqGwZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: vvavrychuk@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id di22so12314103edb.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 06:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Y8VQN02Ml+N1lwR78HcjPMzd4QPaiArxIbiQWQtEtqc=;
-        b=S/CxZEsAUk0rlmuisT3WHvsds46GE4z+UFiFK+mfDmu0VGNsBxOzATHlTlbXGDR8Vy
-         Ob1xIfaSwf9lY7v1mKV6mlH7jHYgl64Svf6LiDtmONygnE6xwoE9Pyn1Ni3LW9AJX262
-         KadPuo4YzfgYNr36spqyV0Pdp5n/zlMgctO60=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xe8JsaUPstGPj8O+x/1sAhqs77FyzHLBrUA2UdVsoA8=;
+        b=q/pfqGwZHcL7J80oXviqK04+L+8/iEDG6bGC540FuwNpFbotEvrex3F4ynD7GxUA8c
+         3nLTqSRC5DXkRUONnSpYIQjB+kU8F0sM16N7brfeLOT8NhglcfdO/oDn06ELsRnQ3/3m
+         OcCjMXjrx2qTbM431Ljp5UQwqjGHBQJjvUOkcBCTcMvolheeow22Pi4THvxm6tiYLGcp
+         B00dUcYfPNxllqkgTb6FxKJTkWSJp5k4HB96680jJf8KifgTvuHl2hkc9w33bj3dJjIX
+         ya3EyJWg4JbeeLDrXx+YI6zVqhIpF1X6jSEiNdXJtcgSUaqmPyhfOyDIGD0syPacprxf
+         I21Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Y8VQN02Ml+N1lwR78HcjPMzd4QPaiArxIbiQWQtEtqc=;
-        b=SwNCefrmiWSA1UeZSRvoNSjFVbvnJxd7iqgTS1TPX+ExgqDpdU34moFZ3hJ58bcmHk
-         iUxlzUL4wS0ZOig+C3eUz45WVMnMyUsbwSr6s8fcBGt7l1T8eMnibNblihKf6G6HIkQH
-         B1bgL9EhvQqXRnqHW42yZVRoH3VycOknk0BykroDWB3+PZwBmfnGUTRvZhwYaxGC8f5y
-         0QUesE/GflELGtNJIc4QsC4Nm/q5Z5QJQXqFSkIOpRrrVYh4I8nhxJsM1xaGf5VIBacG
-         uBW1If2ffpcy0mBA6/DorxArTKtCMSQzvZLIzHMLiTPg/eu9G1r5O2hzcTcdf6UMpS7N
-         VEsg==
-X-Gm-Message-State: AOAM532D43C4qhDAD2zNIhmNsfPPXiaevN//wX5hjgnvHnsl14qrrgG3
-	jMreJ8RkPxUVLzwxc3WeShe6vQ==
-X-Google-Smtp-Source: ABdhPJysyJN4ApS4kyCvmqTMPwiZdBFIxOvF6gECKPhKowgNEfTRpz0W/bBh8tyaYJg31WypNFeQLA==
-X-Received: by 2002:a1c:41c5:: with SMTP id o188mr14824519wma.187.1597667254849;
-        Mon, 17 Aug 2020 05:27:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b942:d7a3:7f1f:3e7])
-        by smtp.gmail.com with ESMTPSA id 32sm31766584wrn.86.2020.08.17.05.27.33
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xe8JsaUPstGPj8O+x/1sAhqs77FyzHLBrUA2UdVsoA8=;
+        b=GVfuWfggYtFtHeuNpU+RqFfhO1i3zyHVBdnDYailGz29L26CCt0qcfHnpv0t+esr4z
+         AVugYTxf/ANv6IlS4yrtqOezmaNZ03MS2Zhf812EPoORN3+2+1/4ryjXykldOUiQRsMd
+         +CioFl9DM1XG34gutak4IaEfFlynAqst9bc+d86ZTjqFk521fpw1qAImi/xvHv4Lqmeg
+         xu/DDi/cUL2ujd6cHPEAWDKfTmGfjPqvjWiU+dajK8W0v4+fuQwa0gFToeK4v2fq/W5n
+         yqgKvPdcLtqsJa+X559JXuW407JYNoOcRx3xVEsvlH0u6vxjuTRpyhDl+2PSffWtfhYA
+         Ojqw==
+X-Gm-Message-State: AOAM533rwhHGr1Y/6FcnWJxcVgs4bbw0hZJilJD+5eOzXBoCDJWhNmIc
+	zKO8qrqN/FyU16cdKGmQpgPeTrbrIJrgdw==
+X-Google-Smtp-Source: ABdhPJzA4oPoLceVKxEoObCx6h8JJWuXp9cdz5VNXz/6AgRNYS/FGMM0IPzvJYqHF4VlnULPxjboKA==
+X-Received: by 2002:aa7:df8a:: with SMTP id b10mr14615904edy.62.1597672652224;
+        Mon, 17 Aug 2020 06:57:32 -0700 (PDT)
+Return-Path: <vvavrychuk@gmail.com>
+Received: from glva-laptop.open-synergy.com ([213.174.19.120])
+        by smtp.gmail.com with ESMTPSA id s2sm14599451ejd.17.2020.08.17.06.57.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 05:27:34 -0700 (PDT)
-Message-ID: <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>, 
-	Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Aug 2020 13:27:31 +0100
-In-Reply-To: <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
-References: <20200804082019.76320-1-jacob.kroon@gmail.com>
-	 <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
-	 <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
-	 <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
-	 <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
-	 <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
-	 <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
-	 <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
-	 <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
-	 <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        Mon, 17 Aug 2020 06:57:31 -0700 (PDT)
+From: "Vasyl Vavrychuk" <vvavrychuk@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+Subject: [PATCH] runqemu: Check gtk or sdl option is passed together with gl or gl-es options.
+Date: Mon, 17 Aug 2020 16:57:28 +0300
+Message-Id: <20200817135728.19929-1-vvavrychuk@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
-> 
-> 
-> On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
-> > > Bruce,
-> > > 
-> > > We need 
-> > > 
-> > https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
-> > > backported to 5.4 kernels for perf to build with -fno-common can
-> > you
-> > > queue this in your kernel updates as soon as you can ?
-> > 
-> > I think we have other active kernels which will also need it as
-> > even
-> > with Khem's patch we still see failures:
-> > 
-> 
-> I've taken care of linux-yocto now, I don't think there are any
-> active use cases for those kernels that won't be covered.
+runqemu help reports that gtk or sdl option is needed with gl or gl-es
+option. But if user forgot to add gtk or sdl option, then gl or gl-es
+options were silently skipped.
 
-I bumped the meta-yocto BSPs with a quickly hacked up patch but we
-still see:
+Signed-off-by: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+---
+ scripts/runqemu | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
-
-so I think there may be another patch we need somewhere...
-
-(which matches what we saw with Khem's _append which also failed).
-
-There is still some piece of this we're missing, maybe on non-IA.
-
-Cheers,
-
-Richard
+diff --git a/scripts/runqemu b/scripts/runqemu
+index c40acc4a86..7fb5f7db57 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -478,7 +478,8 @@ class BaseConfig(object):
+                     self.qemu_opt_script += ' -display gtk,show-cursor=on'
+             elif arg == 'gl' or arg == 'gl-es':
+                 # These args are handled inside sdl or gtk blocks above
+-                pass
++                if ('gtk' not in sys.argv) and ('sdl' not in sys.argv):
++                    raise RunQemuError('Option %s also needs gtk or sdl option.' % (arg))
+             elif arg == 'egl-headless':
+                 self.set_dri_path()
+                 self.qemu_opt_script += ' -vga virtio -display egl-headless,show-cursor=on'
+-- 
+2.23.0
 
