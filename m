@@ -1,127 +1,126 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web12.45400.1597678096059838901
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web10.49225.1597686935086194535
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 08:28:17 -0700
+ Mon, 17 Aug 2020 10:55:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=yTcxMlun;
- spf=softfail (domain: sidebranch.com, ip: 209.85.222.176, mailfrom: leon@sidebranch.com)
-Received: by mail-qk1-f176.google.com with SMTP id 77so15298185qkm.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 08:28:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kSjjLjxy;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id 128so8460544pgd.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 10:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=Eh+27H3PMFpxT1H9VP9n8IlyGn1QZuIg6TQOP07PByQ=;
-        b=yTcxMluna3I2gftvYNi9xymmJ9kr743EGMQJ+nUOlcM3TQ+NxfKpMNYkQXHAyk4Iz7
-         GxJmRCu3T/DV/cOmpwyXrJ/NL+YS9AP0zFuijeMtcrdfY+9/IZuM2J5PopD2AA647lh9
-         /EOR8Pacp64VHdvSpyWPyoDLCTQPei1NpspXez5MR2ObTa2Dxed4BDrpOE1H5cJXZrki
-         R3manIpfm+dEKHykM7PDtccnIKFZggrEsZSg+65oXSFMA7E6z8Vpjn9Yc47BMzcuhmGs
-         pS28Tr/rsnU9ylvJUv5FKCwF+DYm8qxp0PGJNPN5sCisUaWCVYm/9PefZvPVxc9/c/6x
-         2JJg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NGnCy/Ml70Ls9/TBhCpHjBu0msiaBjXCmPXjDTqOCDk=;
+        b=kSjjLjxyQtk5G5opYgGVMLhfwKXqwqAcRgGVpruxZVd58trvIOlTpuDNGpQHBsKITo
+         oGnpZZOLDiYzxRl9hTZY7oe+pkuMPcxHRRd01LWAy3yWCitnEtkpSFwfADC2rrLxHCEK
+         PBUfArDbPHI2A+GAb0S5HWbFDs4M3MXzVaaQQNlHpk8tzPjC8Cora9AeuO3tdZyKE2CE
+         mPx6qimn4/Ck88/ZOsg+PrEiO9PHVDT85lW67FggXf2rB4wbLIyWba4FYNwuBMpVBewN
+         ux30vHMc41FWVWAyP8G3eYstBbfudYztMs6CNzMRY3xbkuWetvBMDAe7Iz381dkJjBuk
+         oqLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=Eh+27H3PMFpxT1H9VP9n8IlyGn1QZuIg6TQOP07PByQ=;
-        b=JDpQA9IzIxdUGRpi+nyBsdeKOekPndq1LivOlbcq1gNcgiAMkxRAoY4y3TmQfMv9+G
-         tnK1Sld3eKC+3jLNl5oQxiVI55rz20sZ5ijxjz0XPKc9e2zltFtHCZg5IadxrCh1NMIC
-         qcZLxy2O5DrtHhKgeZ/1hMgmWDjewQJHPjNeB9xOT/6p6AOxS1WRSnuXRpeouR0bQRcQ
-         Pz4sn2RcMElC7jj5Zy++4OrW0lVP7pvGKtWAugnuNxegPgNYNjJb6dg+px6mzKNtkCdg
-         5XHObMFwJtC5iz7ameIiRSXNC2ztv3ZAV676jXklfzjIrTPF8f0Thpqeet+mlY5EbTWA
-         aXCg==
-X-Gm-Message-State: AOAM533v7y9ZbUjzx/KJOv5Q2L+bI8SHIRPBAds76nKFR4TMLmF6N4w/
-	971BSgAOyAEursnc6f+OTLcKUClXjik5UO+FbSCP4K2ohfKESw==
-X-Google-Smtp-Source: ABdhPJyGQxdyukczLnM2IHe+glum3qY9impEkDaegt1J0QcNFjr7/oQKYpqzLmQiYOgGm0zWpFH9tZq0qpKpCRz9Yt8=
-X-Received: by 2002:a05:620a:12bb:: with SMTP id x27mr13976010qki.202.1597678094390;
- Mon, 17 Aug 2020 08:28:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NGnCy/Ml70Ls9/TBhCpHjBu0msiaBjXCmPXjDTqOCDk=;
+        b=FYbtyx7pWQXVBXOf5lIW5DL1ueUl1YC3P/p2tvpOQsW7377KkypZDdI2NG+6Ou3h2b
+         QxPjFEpjlx9JEIFjdgZ7+ttEFGAvMyfAf5Z30L5qOmTo013O0IjcFof9P5XTUZUcbRrn
+         DW43xNHHu7rksl/Y0PMnC2B6P4RjE32zUpHdmHP7jKCtAE7vXWo17U6Faomw4IDzHMsz
+         ZAl6rdTYb+TI7Pot4C2F1cm6hS+jPw0m5zx6X45TcdIEm7Y3EUf17t0bRSrtT4xs9mEY
+         cwfhoR8DvwRmRjWOLM/R3KeZgIx5VYoc6eTGOZHUdaHLk3BvX1fiWUoWZQW3zftWpzZi
+         LgEA==
+X-Gm-Message-State: AOAM530wJefiw3gEhS1KY++BS+WNkQGfIL6ziwjSICQ6mqM/QBdeplA0
+	KACslPfUQRhCYI95rPnSAcmaiOCjQ7o/Xg==
+X-Google-Smtp-Source: ABdhPJwButY3f3AfhIoWN18PZ5TqMvOUzRb+/pDDgHuFQtFXpObZm8SOe7t3DQdv4u2RvqiWzGb+mw==
+X-Received: by 2002:a63:f24a:: with SMTP id d10mr10594587pgk.4.1597686934129;
+        Mon, 17 Aug 2020 10:55:34 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::37ae])
+        by smtp.gmail.com with ESMTPSA id k29sm20153990pfp.142.2020.08.17.10.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 10:55:33 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] xserver-xorg: Fix build with -fno-common/mips
+Date: Mon, 17 Aug 2020 10:55:31 -0700
+Message-Id: <20200817175531.2702696-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-From: "Leon Woestenberg" <leon@sidebranch.com>
-Date: Mon, 17 Aug 2020 17:28:03 +0200
-Message-ID: <CAMjhiJgk4EOk0ifuNxJvc_jozYVRJF5-FBXn=SctzahWq1xBog@mail.gmail.com>
-Subject: -mmusl missing in SDK / CMake MUSL toolchain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000482efb05ad146bec"
+Content-Transfer-Encoding: 8bit
 
---000000000000482efb05ad146bec
-Content-Type: text/plain; charset="UTF-8"
+Build fails on architectures which use IOPortBase
 
-Hello all,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-duplicate-definitions-of-IOPortBase.patch | 45 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.8.bb       |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
 
-Compared with a BitBake/CMake built of a C application, the SDK/CMake
-approach lacks the "-mmusl" flag. The resulting binaries of the SDK do not
-load on the target (wrong runtime linker/loader).
-
-Minimal test case here (dunfell), just run make will show PASS / FAIL for
-BitBake and SDK approach:
-
-https://github.com/likewise/oe-musl-sdk-cmake
-
-Has something to do with TARGET_CC_ARCH not propagating, investigation
-further...
-
-
-Regards,
-
-Leon.
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+new file mode 100644
+index 0000000000..4737040675
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+@@ -0,0 +1,45 @@
++From fc04acfd948ac99d04a5dc08c78f3b13bc0c5c41 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 17 Aug 2020 10:50:51 -0700
++Subject: [PATCH] Avoid duplicate definitions of IOPortBase
++
++This fixed build with gcc10/-fno-common
++
++Fixes
++compiler.h:528: multiple definition of `IOPortBase';
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ hw/xfree86/common/compiler.h            | 2 +-
++ hw/xfree86/os-support/linux/lnx_video.c | 1 +
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/hw/xfree86/common/compiler.h b/hw/xfree86/common/compiler.h
++index 2b2008b..c7d617e 100644
++--- a/hw/xfree86/common/compiler.h
+++++ b/hw/xfree86/common/compiler.h
++@@ -525,7 +525,7 @@ xf86WriteMmio32Le(__volatile__ void *base, const unsigned long offset,
++ #define PORT_SIZE short
++ #endif
++ 
++-_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O port area */
+++extern _X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O port area */
++ 
++ static __inline__ void
++ outb(unsigned PORT_SIZE port, unsigned char val)
++diff --git a/hw/xfree86/os-support/linux/lnx_video.c b/hw/xfree86/os-support/linux/lnx_video.c
++index 04e4509..9dc7316 100644
++--- a/hw/xfree86/os-support/linux/lnx_video.c
+++++ b/hw/xfree86/os-support/linux/lnx_video.c
++@@ -78,6 +78,7 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)
++ /***************************************************************************/
++ /* I/O Permissions section                                                 */
++ /***************************************************************************/
+++_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O port area */
++ 
++ #if defined(__powerpc__)
++ volatile unsigned char *ioBase = NULL;
++-- 
++2.28.0
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+index 72d0d582eb..bea6ecc464 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
+            file://0001-dix-atom.c-make-xserver-crash-out-if-memory-cannot-b.patch \
++           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            "
+ SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
+ SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
 -- 
--- 
-Leon Woestenberg
-leon@sidebranch.com
-T: +31 40 711 42 76
-M: +31 6 472 30 372
+2.28.0
 
-Sidebranch Embedded Systems
-Eindhoven, The Netherlands
-http://www.sidebranch.com
-
---000000000000482efb05ad146bec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div style=3D"font-size:1rem;word-spacing:1px;border-color:rgb(49,49,49);co=
-lor:rgb(49,49,49)" dir=3D"auto">Hello all,</div><div style=3D"word-spacing:=
-1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto"><br></div>=
-<div style=3D"font-size:1rem;word-spacing:1px;border-color:rgb(49,49,49);co=
-lor:rgb(49,49,49)" dir=3D"auto">Compared with a BitBake/CMake built of a C =
-application, the SDK/CMake approach lacks the &quot;-mmusl&quot; flag. The =
-resulting binaries of the SDK do not load on the target (wrong runtime link=
-er/loader).</div><div style=3D"word-spacing:1px;border-color:rgb(49,49,49);=
-color:rgb(49,49,49)" dir=3D"auto"><br></div><div style=3D"font-size:1rem;wo=
-rd-spacing:1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto"=
->Minimal test case here (dunfell), just run make will show PASS / FAIL for =
-BitBake and SDK approach:</div><div style=3D"word-spacing:1px;border-color:=
-rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto"><br></div><div style=3D"wor=
-d-spacing:1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto">=
-<a href=3D"https://github.com/likewise/oe-musl-sdk-cmake" target=3D"_blank"=
- style=3D"font-size:1rem;border-color:rgb(66,133,244)">https://github.com/l=
-ikewise/oe-<span class=3D"term-highlighted" style=3D"background-color:rgba(=
-253,214,99,0.24)">musl</span>-sdk-cmake</a>=C2=A0</div><div style=3D"word-s=
-pacing:1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto"><br=
-></div><div style=3D"word-spacing:1px;border-color:rgb(49,49,49);color:rgb(=
-49,49,49)" dir=3D"auto">Has something to do with TARGET_CC_ARCH not propaga=
-ting, investigation further...</div><div style=3D"word-spacing:1px;border-c=
-olor:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto"><br></div><div style=
-=3D"word-spacing:1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D=
-"auto"><br></div><div style=3D"font-size:1rem;word-spacing:1px;border-color=
-:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto">Regards,</div><div style=
-=3D"word-spacing:1px;border-color:rgb(49,49,49);color:rgb(49,49,49)" dir=3D=
-"auto"><br></div><div style=3D"font-size:1rem;word-spacing:1px;border-color=
-:rgb(49,49,49);color:rgb(49,49,49)" dir=3D"auto">Leon.</div>-- <br><div dir=
-=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div =
-dir=3D"ltr"><div><div dir=3D"ltr"><div style=3D"color:rgb(0,0,0)"><span sty=
-le=3D"font-family:-webkit-standard;font-size:medium">--=C2=A0</span><br><sp=
-an style=3D"font-family:-webkit-standard;font-size:medium">Leon Woestenberg=
-</span><br><span style=3D"font-family:-webkit-standard;font-size:medium"><a=
- href=3D"mailto:leon@sidebranch.com" target=3D"_blank">leon@sidebranch.com<=
-/a></span><br><span style=3D"font-family:-webkit-standard;font-size:medium"=
->T: +31 40 711 42 76</span><br><span style=3D"font-family:-webkit-standard;=
-font-size:medium">M: +31 6 472 30 372</span><div style=3D"font-family:Helve=
-tica"><img src=3D"http://www.sidebranch.eu/en/images/sidebranch-logo.png" w=
-idth=3D"96" height=3D"53"><br></div><span style=3D"font-family:-webkit-stan=
-dard;font-size:medium">Sidebranch</span><font face=3D"Helvetica">=C2=A0</fo=
-nt><span style=3D"font-family:-webkit-standard;font-size:medium">Embedded S=
-ystems</span><br><span style=3D"font-family:-webkit-standard;font-size:medi=
-um">Eindhoven, The Netherlands</span><br><span style=3D"font-family:-webkit=
--standard;font-size:medium"><a href=3D"http://www.sidebranch.com" target=3D=
-"_blank">http://www.sidebranch.com</a></span><div style=3D"font-family:Helv=
-etica"><br></div></div></div></div></div></div>
-
---000000000000482efb05ad146bec--
