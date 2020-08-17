@@ -1,77 +1,76 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.38968.1597650200659303269
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web11.39928.1597656787632800607
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 00:43:21 -0700
+ Mon, 17 Aug 2020 02:33:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OcG52bKz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id p14so12425852wmg.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 00:43:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B8XrcZUY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id t23so16713913ljc.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 02:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=KJvgH3fvX7vOFIn+BoawGIs+oXUDgjhLb9E4qZl/C+0=;
-        b=OcG52bKzBBEKb5nrd4WP+dCbQktCizJj+saszTdHybalsTJ3pJYVvQMOPanHH4y716
-         768BuQk4o3CsGvIyzsZVDfjUX9plIcqXIKAzecie9eTQTx3ZKKSI7UFTQ7kGBLy2pLP5
-         gb23SRHF5AP8h3/uRaWqf37tBRDV7TgbZsgeA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KujZjCAi+C1kFwzlMIIGiWRi/0bx2CTeYqaILCYd1dc=;
+        b=B8XrcZUYZwAk3pETjIYEaP0wLA3QYIsQpDyEVhIKVlQMO7FZ6xTg7IuKmByGXBRWzv
+         n9KLKMxjmahzhSJtcI04PBHR0JNHnzKkBcdaCdC8Fe/tkdHvHGqSnw07E6gM3bKpyG1x
+         Sjrg6lc/03J1eJ2c+ZpaMqef7ONUapFTNzs92h3JsUg3blrGZSCGc2J/YXbYedNKk4Q8
+         cTFt0vb7xxO5sllsOvtXyNoX6WYscbIicgmszj/iR7z494MAFCqR3fQfb96xpZ96TKc3
+         WfRvPAsLmYrr80obtkVlnlnEcaWp/fGUrfmQOhl7QwUjbkSkt5mkmV6PZoZyMkQ2EfLR
+         IoVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KJvgH3fvX7vOFIn+BoawGIs+oXUDgjhLb9E4qZl/C+0=;
-        b=n8pMnQSIbKkSthG3lrZJJiEMGDeUc4pB2Z6jXdwVmn/68eOpEfpRo8leG5kQPGespO
-         3Q3W5+dG68IP/q2oEee9wMOek5UBHhV9jSHl8seBdwv45/qdD1dpaTtweE7n5YoB5gvQ
-         alBBtG9M0rS4wr11uC4yBtJc6rdg9U8YrH+aRUAbhnJSP3j11R/Eeqcg2t2qTTZEcLLv
-         8JHafJFzEEN12dZyE/HeOXAoJxisWkvvhgn+Fpd71WBlqPoVX2Z5d1Q2t8e8+1Ixx4jF
-         EiUvxP8zx2PcTGaKILAWV+PPw/ZGV3mrp2evqOLWAWhhNeOFSP6H3GrniMktCrtWfpQv
-         a+dA==
-X-Gm-Message-State: AOAM5331/SyFvkUZIL6Gc3iRwzC3BnbtItLoKfgZF80gjrUhDW+mYdYp
-	syEeOITA0baaUMkSiMv+2+Laqg==
-X-Google-Smtp-Source: ABdhPJzpPNLj6Lkh1Ngb8NxwwOvAzLjveEu0QzJu1gSABNYyBE45oB+d33tq4kFqX7ploejMqgOChQ==
-X-Received: by 2002:a7b:cd09:: with SMTP id f9mr12818367wmj.184.1597650199045;
-        Mon, 17 Aug 2020 00:43:19 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b942:d7a3:7f1f:3e7])
-        by smtp.gmail.com with ESMTPSA id p14sm31999331wrx.90.2020.08.17.00.43.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 00:43:18 -0700 (PDT)
-Message-ID: <c1580e5f02bf8b9adfe03934bc80a7954694f125.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 2/2] image_types: add Zstandard conversion support
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, Ross Burton <ross.burton@arm.com>
-Cc: Stefan Agner <stefan@agner.ch>,
- openembedded-core@lists.openembedded.org,  Stefan Agner
- <stefan.agner@toradex.com>
-Date: Mon, 17 Aug 2020 08:43:17 +0100
-In-Reply-To: <20200815161031.GA7593@localhost>
-References: <20191120124146.21245-1-stefan@agner.ch>
-	 <20191120124146.21245-2-stefan@agner.ch>
-	 <7eb71f58ebc85c734109a6635b620b66@agner.ch>
-	 <8ba354cf-b531-a386-32bf-fef3a33d0ef7@intel.com>
-	 <20200815161031.GA7593@localhost>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KujZjCAi+C1kFwzlMIIGiWRi/0bx2CTeYqaILCYd1dc=;
+        b=ITau0bsTk87i9xvGOckJLFEOBBjqSrxqoAtg0g4//uU+CQT7wJR/2xwW+veBy8dpRU
+         Z3c0Na6/1+M9XqrxMSVoQUqfokB/Q6XO0Xdj0bwuxw/nZzZiYLi4cgA8lDdEhx5McMi1
+         2Pf7Kq/OOF2NIssp+6JqqrnZTZuK/A8UCJeAD8U8I/X+2isP8hkEA8aREdiH1XULwIbT
+         841ZvKGRWqK1uWKLRxWbioePJq6gMlJkNkjw38K2nL+n8SFqhsHTgyyBTJBDuP4OYsU6
+         vqXS6rxcZGdAhjnkN2Ag9t44id8tpZdY3HH8+CcIgLUTaW4oNnLZvrZ93uGC5n8G+uQp
+         8lSQ==
+X-Gm-Message-State: AOAM5318qHhaP+f2+sgYbsx1gOQ661FhXlR8+dUalLRgmiadNL2sZti6
+	HI45nSSNokGLTn/OKlIrVf8TblkA8empqg==
+X-Google-Smtp-Source: ABdhPJxIpBxN3x8huOQMJlO7XEsJhdo8/hlAL6nZBR3nKiILHXDTcTnAFiG/o5euic+idq4XyH7thQ==
+X-Received: by 2002:a2e:8612:: with SMTP id a18mr7070369lji.149.1597656785462;
+        Mon, 17 Aug 2020 02:33:05 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.lan (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id u20sm4980097ljd.135.2020.08.17.02.33.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Aug 2020 02:33:04 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V4 0/3] libubootenv: uprev to v0.3
+Date: Mon, 17 Aug 2020 11:32:53 +0200
+Message-Id: <20200817093256.21644-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-08-15 at 19:10 +0300, Adrian Bunk wrote:
-> On Fri, Dec 06, 2019 at 12:00:54PM +0000, Ross Burton wrote:
-> > ...
-> > Personally I'm leaning towards keeping zstd out of core *for now*
-> > but I
-> > struggle to have a strong opinion either way.
-> > ...
-> 
-> Is there a chance the "for now" is over?
-> 
-> zstd is becoming more and more popular on the target side,
-> and right now cmake is already building an own copy also
-> on the native side.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Ross is away, I'm leaning towards adding it...
+Changes in patch set V4:
 
-Cheers,
+1 Add UBOOT_MACHINE to qemumips/qemumips64 to fix a uboot build issue.
+2 Set PACKAGE_ARCH = "${MACHINE_ARCH}" to fix a
+  test_sstate_sametune_samesigs issue.
 
-Richard
+
+Ming Liu (3):
+  conf/machine: set UBOOT_MACHINE for qemumips and qemumips64
+  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
+  libubootenv: uprev to v0.3
+
+ meta/conf/machine/qemumips.conf                            | 2 ++
+ meta/conf/machine/qemumips64.conf                          | 2 ++
+ meta/conf/multilib.conf                                    | 2 +-
+ .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}      | 7 +++++--
+ 4 files changed, 10 insertions(+), 3 deletions(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (82%)
+
+-- 
+2.28.0
 
