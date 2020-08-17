@@ -1,79 +1,91 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.35965.1597633351280126080
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.36537.1597635023676794505
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2020 20:02:31 -0700
+ Sun, 16 Aug 2020 20:30:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07H31xsL025590
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 20:02:20 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 16 Aug 2020 20:02:07 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V3] gpgme: fix multilib header conflict
-Date: Mon, 17 Aug 2020 10:57:13 +0800
-Message-ID: <20200817025713.832019-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <a6acd2d8a5d7389363d3e45b230c253ccbdc5e91.camel@linuxfoundation.org>
-References: <a6acd2d8a5d7389363d3e45b230c253ccbdc5e91.camel@linuxfoundation.org>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gry3fv57;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id t6so7035832pjr.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 20:30:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mxCOsa5eW7WggV3SzCd8J+k21m52DbALs5wFka8+0L8=;
+        b=Gry3fv57eanNgO4p26r5UTHHJV0cDYi3uq8dFV0BJy/UsOl1/q0JAtsxv5hxGHojIV
+         PksOgxSI+4O0Br5tLR/FKIdUVnr/N2oClmibv8S84TnjpxwdF9erIENCciWXtNLFj20e
+         HVazDi3QOVnhtMh4c2LzE7XGXxf/9TZQTcX8LG0Uawj4NBmEr5O6eeRg3tRMYtVruXyR
+         EHhyIByB2dCjapbR319zrSfGfiOm+AFN1zJ+Ww6dZlllTlVKFLFbHJYUc7QzetWc+q0A
+         BM8SNRGBseMauKkYg3zzKMiCyYIXKzUmFxDGowB0lBmd5OFyDSqg5Z04W7pv3640zxym
+         9T8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mxCOsa5eW7WggV3SzCd8J+k21m52DbALs5wFka8+0L8=;
+        b=fy6k6RcECRs8BKPoPffj1Q2tqTZDKEZHAmsVC63INEydRDXdeNNkbFYlwAQSkaJ+NX
+         crOLfTvRz8Rk2T/Js6K4/+mpHpnT2kBzeS69IIlKSH3/uJWZhEt+tLStXJvOWpcJi+e1
+         ofxjSWGo+A6mKLo+f8G1mCsT53wOYRgL4npsoZrmPG2GbRZLPtL4JhVJdiRSpGo3CxXM
+         J6EQPNhNie1qdDkv7LIGEo68dpNnHivGKOmOnvJspaM2OsnCbR886gB11wJIDa+yKNEv
+         3osuDcKXd7UjhV23dWHTXxxmVKN7PMlzX+GzscilI7o7AzILhx+nOvAJhRsYrTRRdNuR
+         4CZg==
+X-Gm-Message-State: AOAM532y+vYNHE31YFXtg9cMXDB2YCcZEAIjLXprlVIs6//SetMuC6rf
+	kr+0dksivRMkDUzqPWsPwbbniy6nH74Wug==
+X-Google-Smtp-Source: ABdhPJx7gW83Ci0iwq5xX+KlOq3TO6L2zh8zO1O7gAZnC+6pj6CXoMpggWp328L4bq2eYheR4CzPLQ==
+X-Received: by 2002:a17:902:ed4a:: with SMTP id y10mr9871207plb.106.1597635022804;
+        Sun, 16 Aug 2020 20:30:22 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net (c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
+        by smtp.gmail.com with ESMTPSA id i11sm14563247pjg.50.2020.08.16.20.30.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2020 20:30:22 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH V2 1/2] buildcpio.py: Apply patch to fix build with -fno-common
+Date: Sun, 16 Aug 2020 20:30:15 -0700
+Message-Id: <20200817033016.1539073-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+This sed expression implements the needed patch to fix compilation with
+-fno-common, hopefully this patch will get included in 2.14 release and
+we can remove this operation
 
-fix error:
-file /usr/include/gpgme.h conflicts between attempted installs of gpgme-dev-1.13.1-r0.core2_64 and lib32-gpgme-dev-1.13.1-r0.core2_32
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Fix the sdk sed expression, which seems to not work on v1
 
-diff of gpgme-32.h and gpgme-64.h
-21c21
-<  * Generated from gpgme.h.in for i686-pokymllib32-linux-gnu.
----
->  * Generated from gpgme.h.in for x86_64-poky-linux-gnu.
-109c109
-< #if 64
----
-> #if 0
-111c111
-< #error GPGME was compiled with _FILE_OFFSET_BITS = 64, please see the section "Largefile support (LFS)" in the GPGME manual.
----
-> #error GPGME was compiled with _FILE_OFFSET_BITS = 0, please see the section "Largefile support (LFS)" in the GPGME manual.
-113,114c113,114
-< #if (_FILE_OFFSET_BITS) != (64)
-< #error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 64, please see the section "Largefile support (LFS)" in the GPGME manual.
----
-> #if (_FILE_OFFSET_BITS) != (0)
-> #error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 0, please see the section "Largefile support (LFS)" in the GPGME manual.
+ meta/lib/oeqa/runtime/cases/buildcpio.py | 3 ++-
+ meta/lib/oeqa/sdk/cases/buildcpio.py     | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-support/gpgme/gpgme_1.13.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-index 9fc1ae24a4..b51534351d 100644
---- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-@@ -59,7 +59,7 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
-                  --disable-lang-python-test \
- '
+diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
+index d0f91668b2..e29bf16ccb 100644
+--- a/meta/lib/oeqa/runtime/cases/buildcpio.py
++++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
+@@ -27,6 +27,7 @@ class BuildCpioTest(OERuntimeTestCase):
+     @OEHasPackage(['autoconf'])
+     def test_cpio(self):
+         self.project.download_archive()
+-        self.project.run_configure('--disable-maintainer-mode','')
++        self.project.run_configure('--disable-maintainer-mode',
++                                   'sed -i -e "/char \*program_name/d" src/global.c;')
+         self.project.run_make()
+         self.project.run_install()
+diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
+index 902e93f623..e565826541 100644
+--- a/meta/lib/oeqa/sdk/cases/buildcpio.py
++++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
+@@ -28,6 +28,7 @@ class BuildCpioTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
  
--inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT}
-+inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT} multilib_header
- 
- export PKG_CONFIG='pkg-config'
- 
-@@ -83,3 +83,7 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/libassuan.m4
- 	rm -f ${S}/m4/python.m4
- }
-+
-+do_install_append() {
-+       oe_multilib_header gpgme.h
-+}
++            self._run("sed -i -e '/char.*program_name/d' {source}/src/global.c".format(**dirs))
+             self._run("cd {build} && {source}/configure --disable-maintainer-mode $CONFIGURE_FLAGS".format(**dirs))
+             self._run("cd {build} && make -j".format(**dirs))
+             self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
 -- 
-2.26.2
+2.28.0
 
