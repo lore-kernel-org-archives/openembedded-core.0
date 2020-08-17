@@ -1,190 +1,114 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web10.44235.1597673733136238432
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web10.44886.1597675546428252290
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 07:15:33 -0700
+ Mon, 17 Aug 2020 07:45:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IHqwKDf0;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id cq28so12394777edb.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 07:15:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YYn2Fq6T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id g8so13445592wmk.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 07:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AUDEvvVGlOze4h05vyO7111WBdwziW4O3xyW1ZiUR2w=;
-        b=IHqwKDf0aqg8coC/OL3O3bS4QfDcNe5JSofKBfSubkHMNwSCnm/m9IGXpf5tJYQYFX
-         4j8sb/FUsId+mmwh91/HLDvSOWcADaBy7uU1uWobPIwyzYFs07e/qgSlCogIEAnHWhSa
-         tK78cQrrQ9FqJ523NeDEDgwmDYRVwa0g85xWr93gQ7hVHXwCB/5ckMIynGk3nhgFjLsJ
-         Czy7zXI5dBDvtRnuPMhSwx+Vt1DoCajeyvaav7eY5K7o/M+v0MTK+OCR6Ve6x3oknat+
-         nnLCGXPDOnaC8Oy0aXFq2tzhIKEWLRDPC5uo75ikzOr31FnMuOzTPX9bGTqQSa0kBYKR
-         y2HQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7EdS3r4NnF/5O++ooc/1/ogQ39f1JhsbuUmRvxnhoa0=;
+        b=YYn2Fq6TmcPcyaCwxYhzsOi1XDDu/HC3klioFjHyeTVLPf9P8W/Jfq+dccTpDmVHyn
+         LDYLPULH07bVJAMrSYpvgBJYl2376ajbPA22Bd281kIR5uVnhklVeTqRE0OcScMQj3Ue
+         29oUoObmDy+vsC/bAIUot0KxmsOSlehLTdPC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AUDEvvVGlOze4h05vyO7111WBdwziW4O3xyW1ZiUR2w=;
-        b=ZTIiJ2KabaXrH1LxlPIsG1TRN8odUQAOZpMbfqSCSOYlATlZj6GQ2+sQw143pwW0IA
-         +x1vtygDB9vbR+0iQ+sBFs07V4DgF/2+/gY7AbJhgmx7c/AH+y1C2+15pQRlpxP+5rIu
-         sis+4Pq2yzb/472TaZtDpWZ2L2b3Khfp3jdTOwDWchsG/eaH+eYH6o1/6uo0cGAc/f5m
-         Xpp75YMY4K9e1fJUCjJdGYf4gw/9hItD3N22JVeRJRr158bCT4fPlfiivqld4cJexG+H
-         Q1hHo0nmIYTrYAiaeMkSJQr9aOMuIDI9PmW2B4WL00wCH9ImZnAUKam5Pl+DVQTNkrP3
-         WVOw==
-X-Gm-Message-State: AOAM532EaFjV/k7Jk7Xan0sz0b908fFb5kh309vbby9a9+iI3Y9g2kaN
-	dbjZnqNe1uEWluKv91X2j3jBMBkoh+WWNu9IiAo=
-X-Google-Smtp-Source: ABdhPJxa1YJCQt9aH9dti314IliRMWus+k0ziyZ7uOQ9AcxW+xu5bt24f10cx+Gxv4Xi+mldYpZupEGibZJW4dvKMeU=
-X-Received: by 2002:aa7:c383:: with SMTP id k3mr14728701edq.164.1597673731655;
- Mon, 17 Aug 2020 07:15:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
- <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com> <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
- <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
- <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
- <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
- <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
- <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
- <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com> <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
-In-Reply-To: <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 17 Aug 2020 10:15:20 -0400
-Message-ID: <CADkTA4PFf_PsFLg4nbZ9csO0zvE_pfh_h-LgRwn1RJJmS-5kQw@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7EdS3r4NnF/5O++ooc/1/ogQ39f1JhsbuUmRvxnhoa0=;
+        b=gc+HK1x9GVRE3HFBibK0NPMrwYdgS/lpbG7gVu+JIS7L7Y7N54jK+whBs2OYU8X+Is
+         sQiaM77sI1R0TwP+Q3zZORJ9aKaaB2V0e3TP4orT04/0rwRcBadek/DF7RpqgdKB7Zsf
+         yTyHhE6ycE7NDDoxQCg33TMleAimDRiycvQ/w4+7M0itxhy63ishIBRa8Be4hCqZl8l1
+         WHWOU94BNVqFm+dcVD3We3DvN3rY1YyxO1YBCTsAEnOxMAB2Ev6lcRR6yH5eq3WOtOka
+         OEszyGT+qFVnaj0UXkN/fP91JqQ9JgbfseOHXID32qa6pm7gExbyP5aL5+b7AZW88QD4
+         kJ7w==
+X-Gm-Message-State: AOAM533xvQtJQdILGAVap1JNH6V36o0cKF3Lf/7sPhNUXRgEqlOkqX+P
+	5PNy8s1wMV1raxHb2k2ESFkz4g==
+X-Google-Smtp-Source: ABdhPJyEeHWV8MvpeeEKCovkNkjiAnjqNaAhwmjihJGwoj1p8upfVuvff5GgmXAxFjO2Wk7lVgFWZA==
+X-Received: by 2002:a1c:26c4:: with SMTP id m187mr14609617wmm.90.1597675544890;
+        Mon, 17 Aug 2020 07:45:44 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b942:d7a3:7f1f:3e7])
+        by smtp.gmail.com with ESMTPSA id p8sm31768164wrq.9.2020.08.17.07.45.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 07:45:44 -0700 (PDT)
+Message-ID: <43615d8d4b831bcd0f86bcd815c8bf395d5bfcd8.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003e0c9305ad136761"
-
---0000000000003e0c9305ad136761
+	Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Aug 2020 15:45:43 +0100
+In-Reply-To: <CADkTA4PFf_PsFLg4nbZ9csO0zvE_pfh_h-LgRwn1RJJmS-5kQw@mail.gmail.com>
+References: <20200804082019.76320-1-jacob.kroon@gmail.com>
+	 <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
+	 <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
+	 <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
+	 <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
+	 <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
+	 <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
+	 <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
+	 <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
+	 <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
+	 <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
+	 <CADkTA4PFf_PsFLg4nbZ9csO0zvE_pfh_h-LgRwn1RJJmS-5kQw@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 17, 2020 at 8:27 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Mon, 2020-08-17 at 10:15 -0400, Bruce Ashfield wrote:
+> 
+> 
+> On Mon, Aug 17, 2020 at 8:27 AM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
+> > > 
+> > > 
+> > > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
+> > > richard.purdie@linuxfoundation.org> wrote:
+> > > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
+> > > > > Bruce,
+> > > > > 
+> > > > > We need 
+> > > > > 
+> > > > 
+> > https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
+> > > > > backported to 5.4 kernels for perf to build with -fno-common
+> > can
+> > > > you
+> > > > > queue this in your kernel updates as soon as you can ?
+> > > > 
+> > > > I think we have other active kernels which will also need it as
+> > > > even
+> > > > with Khem's patch we still see failures:
+> > > > 
+> > > 
+> > > I've taken care of linux-yocto now, I don't think there are any
+> > > active use cases for those kernels that won't be covered.
+> > 
+> > I bumped the meta-yocto BSPs with a quickly hacked up patch but we
+> > still see:
+> > 
+> 
+> I have local bumps for the yocto-bsps as well, let me try a perf
+> build against beaglebone to see if I can see anything.
+> 
+> If I build master-next, will I get all the required gcc patches to
+> trigger the issue ?
 
-> On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
-> >
-> >
-> > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
-> > > > Bruce,
-> > > >
-> > > > We need
-> > > >
-> > >
-> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
-> > > > backported to 5.4 kernels for perf to build with -fno-common can
-> > > you
-> > > > queue this in your kernel updates as soon as you can ?
-> > >
-> > > I think we have other active kernels which will also need it as
-> > > even
-> > > with Khem's patch we still see failures:
-> > >
-> >
-> > I've taken care of linux-yocto now, I don't think there are any
-> > active use cases for those kernels that won't be covered.
->
-> I bumped the meta-yocto BSPs with a quickly hacked up patch but we
-> still see:
->
->
-I have local bumps for the yocto-bsps as well, let me try a perf build
-against beaglebone to see if I can see anything.
+You need:
 
-If I build master-next, will I get all the required gcc patches to trigger
-the issue ?
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=c79101ffff8a9cc70daefe737e16b773190bb6ca
 
-Bruce
+without its revert (which is also in -next atm).
 
+Cheers,
 
+Richard
 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
->
-> so I think there may be another patch we need somewhere...
->
-> (which matches what we saw with Khem's _append which also failed).
->
-> There is still some piece of this we're missing, maybe on non-IA.
->
-> Cheers,
->
-> Richard
->
->
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000003e0c9305ad136761
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Aug 17, 2020 at 8:27 AM Richard Purdie &lt;=
-<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxf=
-oundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie &lt;<br>
-&gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:<br>
-&gt; &gt; &gt; Bruce,<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; We need <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; <a href=3D"https://github.com/torvalds/linux/commit/168200b6d6ea0=
-cb5765943ec5da5b8149701f36a" rel=3D"noreferrer" target=3D"_blank">https://g=
-ithub.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a</a=
-><br>
-&gt; &gt; &gt; backported to 5.4 kernels for perf to build with -fno-common=
- can<br>
-&gt; &gt; you<br>
-&gt; &gt; &gt; queue this in your kernel updates as soon as you can ?<br>
-&gt; &gt; <br>
-&gt; &gt; I think we have other active kernels which will also need it as<b=
-r>
-&gt; &gt; even<br>
-&gt; &gt; with Khem&#39;s patch we still see failures:<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; I&#39;ve taken care of linux-yocto now, I don&#39;t think there are an=
-y<br>
-&gt; active use cases for those kernels that won&#39;t be covered.<br>
-<br>
-I bumped the meta-yocto BSPs with a quickly hacked up patch but we<br>
-still see:<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">I have local bumps for the yocto-bsps as well, let me try =
-a perf build against beaglebone to see if I can see anything.</div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmai=
-l_default" style=3D"font-size:small">If I build master-next, will I get all=
- the required gcc patches to trigger the issue ?</div><div class=3D"gmail_d=
-efault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/65/build=
-s/2339" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/65/builds/2339</a><br>
-<br>
-so I think there may be another patch we need somewhere...<br>
-<br>
-(which matches what we saw with Khem&#39;s _append which also failed).<br>
-<br>
-There is still some piece of this we&#39;re missing, maybe on non-IA.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---0000000000003e0c9305ad136761--
