@@ -1,24 +1,24 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.36215.1597633292538819651
+ by mx.groups.io with SMTP id smtpd.web12.35965.1597633351280126080
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Aug 2020 20:01:33 -0700
+ Sun, 16 Aug 2020 20:02:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07H30xU1025549
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07H31xsL025590
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 20:01:20 -0700
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Aug 2020 20:02:20 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 16 Aug 2020 20:01:08 -0700
+ 14.3.487.0; Sun, 16 Aug 2020 20:02:07 -0700
 From: "Changqing Li" <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V2] libffi: fix multilib header conflict
-Date: Mon, 17 Aug 2020 10:56:15 +0800
-Message-ID: <20200817025615.831951-1-changqing.li@windriver.com>
+Subject: [PATCH V3] gpgme: fix multilib header conflict
+Date: Mon, 17 Aug 2020 10:57:13 +0800
+Message-ID: <20200817025713.832019-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <162B0F0EED7FC765.20848@lists.openembedded.org>
-References: <162B0F0EED7FC765.20848@lists.openembedded.org>
+In-Reply-To: <a6acd2d8a5d7389363d3e45b230c253ccbdc5e91.camel@linuxfoundation.org>
+References: <a6acd2d8a5d7389363d3e45b230c253ccbdc5e91.camel@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -26,81 +26,54 @@ Content-Type: text/plain
 From: Changqing Li <changqing.li@windriver.com>
 
 fix error:
-file /usr/include/ffitarget.h conflicts between attempted installs of lib32-libffi-dev-3.3-r0.armv7vet2hf_vfp and libffi-dev-3.3-r0.cortexa57
+file /usr/include/gpgme.h conflicts between attempted installs of gpgme-dev-1.13.1-r0.core2_64 and lib32-gpgme-dev-1.13.1-r0.core2_32
 
-part of diff of ffitarget-32.h and ffitarget-64.h
-
-< #ifdef __ILP32__
-< #define FFI_SIZEOF_ARG 8
-< #define FFI_SIZEOF_JAVA_RAW  4
-< typedef unsigned long long ffi_arg;
-< typedef signed long long ffi_sarg;
-< #elif defined(_M_ARM64)
-< #define FFI_SIZEOF_ARG 8
-< typedef unsigned long long ffi_arg;
-< typedef signed long long ffi_sarg;
+diff of gpgme-32.h and gpgme-64.h
+21c21
+<  * Generated from gpgme.h.in for i686-pokymllib32-linux-gnu.
 ---
-> typedef unsigned long          ffi_arg;
-> typedef signed long            ffi_sarg;
->
-> typedef enum ffi_abi {
->   FFI_FIRST_ABI = 0,
->   FFI_SYSV,
->   FFI_VFP,
->   FFI_LAST_ABI,
-> #if defined(__ARM_PCS_VFP) || defined(_M_ARM)
->   FFI_DEFAULT_ABI = FFI_VFP,
-40,41c49,51
-< typedef unsigned long ffi_arg;
-< typedef signed long ffi_sarg;
+>  * Generated from gpgme.h.in for x86_64-poky-linux-gnu.
+109c109
+< #if 64
 ---
->   FFI_DEFAULT_ABI = FFI_SYSV,
-> #endif
-> } ffi_abi;
-44,50c54,61
-< typedef enum ffi_abi
-<   {
-<     FFI_FIRST_ABI = 0,
-<     FFI_SYSV,
-<     FFI_LAST_ABI,
-<     FFI_DEFAULT_ABI = FFI_SYSV
-<   } ffi_abi;
+> #if 0
+111c111
+< #error GPGME was compiled with _FILE_OFFSET_BITS = 64, please see the section "Largefile support (LFS)" in the GPGME manual.
 ---
-> #define FFI_EXTRA_CIF_FIELDS			\
->   int vfp_used;					\
->   unsigned short vfp_reg_free, vfp_nargs;	\
->   signed char vfp_args[16]			\
->
-> #define FFI_TARGET_SPECIFIC_VARIADIC
-> #ifndef _M_ARM
-> #define FFI_TARGET_HAS_COMPLEX_TYPE
-55a67
-> #define FFI_GO_CLOSURES 1
-61,62c73,74
-< #define FFI_TRAMPOLINE_SIZE 16
-< #define FFI_TRAMPOLINE_CLOSURE_OFFSET 16
+> #error GPGME was compiled with _FILE_OFFSET_BITS = 0, please see the section "Largefile support (LFS)" in the GPGME manual.
+113,114c113,114
+< #if (_FILE_OFFSET_BITS) != (64)
+< #error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 64, please see the section "Largefile support (LFS)" in the GPGME manual.
 ---
-> #define FFI_TRAMPOLINE_SIZE 12
-> #define FFI_TRAMPOLINE_CLOSURE_OFFSET 8
+> #if (_FILE_OFFSET_BITS) != (0)
+> #error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 0, please see the section "Largefile support (LFS)" in the GPGME manual.
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-support/libffi/libffi_3.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/gpgme/gpgme_1.13.1.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
-index e5beb985c6..9dfdb9e39b 100644
---- a/meta/recipes-support/libffi/libffi_3.3.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3.bb
-@@ -28,7 +28,7 @@ EXTRA_OEMAKE_class-target = "LIBTOOLFLAGS='--tag=CC'"
- inherit autotools texinfo multilib_header
+diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+index 9fc1ae24a4..b51534351d 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+@@ -59,7 +59,7 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-lang-python-test \
+ '
  
- do_install_append() {
--	oe_multilib_header ffi.h
-+	oe_multilib_header ffi.h ffitarget.h
+-inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT}
++inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT} multilib_header
+ 
+ export PKG_CONFIG='pkg-config'
+ 
+@@ -83,3 +83,7 @@ do_configure_prepend () {
+ 	rm -f ${S}/m4/libassuan.m4
+ 	rm -f ${S}/m4/python.m4
  }
- 
- FILES_${PN}-dev += "${libdir}/libffi-${PV}"
++
++do_install_append() {
++       oe_multilib_header gpgme.h
++}
 -- 
 2.26.2
 
