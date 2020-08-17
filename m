@@ -1,132 +1,100 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web11.39931.1597656792392347873
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.41769.1597667256299735293
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 02:33:12 -0700
+ Mon, 17 Aug 2020 05:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W5dRtowD;
- spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id y2so7684903ljc.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 02:33:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S/CxZEsA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id 184so13737189wmb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 05:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tyYoenlcVPztmc/u85djQ1QNIuRMKwYOLb4K2wr+kbk=;
-        b=W5dRtowDAVBpZSG458m1P3BUzmCL7THkBkGcDBqPNKKdd4hMkWZoTO1gPkC6WCywSR
-         eDkpJeowWc6sXMymupo4GGwV3PbLf+u11re4J3y1/OoLHstvU/eUP4gu2aRMnuWk0TOO
-         HioqFxWW+i71jHaLHZp4FXCNpPBXeLRRd+fDP3LatlCxuoz8vv3uehZwZn/9Z0qz68Qm
-         G5etAk3JYpKI64jlFP74US4hXV5OIDFYbeYFGuveFG9Eu2t6dBRgH+DR0o7WSxmO3Cqv
-         5fjLd+I186JC+/dwnOGMSSYBC1r5PLGpqgt5sPHmzqjVA8jV9bL3yP3Yl+0VOd8tsLgg
-         ow+Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Y8VQN02Ml+N1lwR78HcjPMzd4QPaiArxIbiQWQtEtqc=;
+        b=S/CxZEsAUk0rlmuisT3WHvsds46GE4z+UFiFK+mfDmu0VGNsBxOzATHlTlbXGDR8Vy
+         Ob1xIfaSwf9lY7v1mKV6mlH7jHYgl64Svf6LiDtmONygnE6xwoE9Pyn1Ni3LW9AJX262
+         KadPuo4YzfgYNr36spqyV0Pdp5n/zlMgctO60=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tyYoenlcVPztmc/u85djQ1QNIuRMKwYOLb4K2wr+kbk=;
-        b=A/c/6mUMpEvMYQbIYAozhkOmhgSzqyzKp/pFx42qQEkI50/A45cO1+GhCbNiwE2kWH
-         OLA3DjlAUeTVVyloSnAY+XJSyQFNhxgDuJVQFH+2pTfLWgnYCd9DlseIz4FZk1w1/r4j
-         MAPrf6mvCt9BjJHPiouKP5r1dHB/0GrVXr1S/XuqHruUrOERyG3P/OiX7kjqVgdT3Sbo
-         zkx1guJQi0PjJz8vLtedQfQA4Sf3BRwgeve+pBlM+5I73ycNzNxSGZ3bjYX7w2o3LViI
-         tBEPO/pf/QJV8uskeCHRCnMhiJnT3pHLMyW1i285L4uMTTHpLEcaFFYmvVq19qLx+NTR
-         MU8A==
-X-Gm-Message-State: AOAM530drZcxFcopEICv+eI7UeIDcEXqFYp7H4U1OEa60P2dxXOJMuww
-	nZt8h3+MFvhLAedmmGj73cKW2Dnsw4XzwA==
-X-Google-Smtp-Source: ABdhPJyI6jC7gewS7pY4Gwmky+HHF7UTBjmROz4E97z9pG9fy9UmL0YieKr2QvhARWDY6xyiaw1oKg==
-X-Received: by 2002:a2e:a549:: with SMTP id e9mr6495474ljn.94.1597656790497;
-        Mon, 17 Aug 2020 02:33:10 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from peterliu-Precision-7530.lan (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id u20sm4980097ljd.135.2020.08.17.02.33.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Aug 2020 02:33:10 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V4 3/3] libubootenv: uprev to v0.3
-Date: Mon, 17 Aug 2020 11:32:56 +0200
-Message-Id: <20200817093256.21644-4-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200817093256.21644-1-liu.ming50@gmail.com>
-References: <20200817093256.21644-1-liu.ming50@gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Y8VQN02Ml+N1lwR78HcjPMzd4QPaiArxIbiQWQtEtqc=;
+        b=SwNCefrmiWSA1UeZSRvoNSjFVbvnJxd7iqgTS1TPX+ExgqDpdU34moFZ3hJ58bcmHk
+         iUxlzUL4wS0ZOig+C3eUz45WVMnMyUsbwSr6s8fcBGt7l1T8eMnibNblihKf6G6HIkQH
+         B1bgL9EhvQqXRnqHW42yZVRoH3VycOknk0BykroDWB3+PZwBmfnGUTRvZhwYaxGC8f5y
+         0QUesE/GflELGtNJIc4QsC4Nm/q5Z5QJQXqFSkIOpRrrVYh4I8nhxJsM1xaGf5VIBacG
+         uBW1If2ffpcy0mBA6/DorxArTKtCMSQzvZLIzHMLiTPg/eu9G1r5O2hzcTcdf6UMpS7N
+         VEsg==
+X-Gm-Message-State: AOAM532D43C4qhDAD2zNIhmNsfPPXiaevN//wX5hjgnvHnsl14qrrgG3
+	jMreJ8RkPxUVLzwxc3WeShe6vQ==
+X-Google-Smtp-Source: ABdhPJysyJN4ApS4kyCvmqTMPwiZdBFIxOvF6gECKPhKowgNEfTRpz0W/bBh8tyaYJg31WypNFeQLA==
+X-Received: by 2002:a1c:41c5:: with SMTP id o188mr14824519wma.187.1597667254849;
+        Mon, 17 Aug 2020 05:27:34 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.e.3.0.f.1.f.7.3.a.7.d.2.4.9.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b942:d7a3:7f1f:3e7])
+        by smtp.gmail.com with ESMTPSA id 32sm31766584wrn.86.2020.08.17.05.27.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 05:27:34 -0700 (PDT)
+Message-ID: <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>, 
+	Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Aug 2020 13:27:31 +0100
+In-Reply-To: <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
+References: <20200804082019.76320-1-jacob.kroon@gmail.com>
+	 <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
+	 <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com>
+	 <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
+	 <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
+	 <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
+	 <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
+	 <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
+	 <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
+	 <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
+> 
+> 
+> On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
+> > > Bruce,
+> > > 
+> > > We need 
+> > > 
+> > https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
+> > > backported to 5.4 kernels for perf to build with -fno-common can
+> > you
+> > > queue this in your kernel updates as soon as you can ?
+> > 
+> > I think we have other active kernels which will also need it as
+> > even
+> > with Khem's patch we still see failures:
+> > 
+> 
+> I've taken care of linux-yocto now, I don't think there are any
+> active use cases for those kernels that won't be covered.
 
-Update libubootenv to the latest 0.3 release, which comprises the
-following commits:
+I bumped the meta-yocto BSPs with a quickly hacked up patch but we
+still see:
 
-```
-1efed83 Increase max length for device name
-6f4fc1c uboot_env: Use canonicalized pathname when reading device
-23b3086 Fix bug introduced by commit 52a70114
-ed1a53e Dont store to device if no value changes
-4a0a466 Merge pull request #7 from TomzBench/cmake-fix
-6117831 Added Coverity badge
-49372a1 Fix coverity #293496
-69a6819 Fix coverity #293503 and #293507
-258bf52 Fix coverity #293501
-aa52e61 Fix coverity #293505
-52a7011 Fix coverity #293504 and #293506
-e822218 Fix coverity #293495 and #293497
-23b305f Fix coverity #293499
-25ef1f6 Add coverity setup for Travis
-41b5188 fixed install for static target, fixed BUILD_DOC acknowledgement
-86bd30a Restore ability to feed script file via stdin, using `-s -`.
-c91dcca ubi, write: fix invalid envsize ptr to UBI_IOCVOLUP
-f4b9cde Allow negative offsets
-45bf92a Detect sector size if not found in config
-9f59db6 uboot_env: remove unused variables
-65d243e README: libubootenv is now in oe-core
-ba952d0 BUG: variable lists not released in close()
-690f868 Variables are not removed when loading from file
-9e3586a Make sure there's no file descriptor leakage in case of error
-03647c4 Check config file defines a non-zero Sector size
-3b2d4f1 Check environment size from fw_env.config
-879c073 Do not hardcode path for install
-d9c639b libubootenv: add pkg-config support
-cc628ee libuboot: wrap libuboot in extern "C" for C++
-```
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
 
-Also add u-boot-default-env to RRECOMMENDS since
-/etc/u-boot-initial-env is being referred in libubootenv source, and
-turns libubootenv's PACKAGE_ARCH to be MACHINE_ARCH since
-u-boot-default-env is a machine-arch package.
+so I think there may be another patch we need somewhere...
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}      | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (82%)
+(which matches what we saw with Khem's _append which also failed).
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-similarity index 82%
-rename from meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-rename to meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-index 3820ba262e..47e64f9114 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-@@ -10,9 +10,8 @@ LICENSE = "LGPL-2.1"
- LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- 
--PV = "0.2+git${SRCPV}"
- SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
--SRCREV = "86bd30a14e153a18f670b25708795253d8736f0f"
-+SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
- 
- S = "${WORKDIR}/git"
- 
-@@ -24,4 +23,8 @@ DEPENDS = "zlib"
- PROVIDES += "u-boot-fw-utils"
- RPROVIDES_${PN}-bin += "u-boot-fw-utils"
- 
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
-+
- BBCLASSEXTEND = "native"
--- 
-2.28.0
+There is still some piece of this we're missing, maybe on non-IA.
+
+Cheers,
+
+Richard
 
