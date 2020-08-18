@@ -1,76 +1,77 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.63219.1597745092029065689
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.64333.1597750316347803941
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 03:04:52 -0700
+ Tue, 18 Aug 2020 04:31:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07IA4Tfg022514
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 03:04:40 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 18 Aug 2020 03:04:19 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V6] gpgme: fix multilib header conflict
-Date: Tue, 18 Aug 2020 17:59:02 +0800
-Message-ID: <20200818095902.1768116-2-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200818095902.1768116-1-changqing.li@windriver.com>
-References: <20200818095902.1768116-1-changqing.li@windriver.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1k7zqK-0002WC-49; Tue, 18 Aug 2020 14:31:52 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1k7zqK-0008VJ-1E; Tue, 18 Aug 2020 14:31:52 +0300
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@bmw.de>
+Subject: [PATCH 1/2] alsa-topology-conf: use ${datadir} in do_install()
+Date: Tue, 18 Aug 2020 14:31:42 +0300
+Message-Id: <20200818113143.31819-1-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Rspam-Score: 3.3 (+++)
+X-Rspam-Report: Action: no action
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(2.50)
+ Symbol: SUBJECT_HAS_CURRENCY(1.00)
+ Symbol: BROKEN_CONTENT_TYPE(1.50)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Message-ID: 20200818113143.31819-1-mikko.rapeli@bmw.de
+X-Rspam-Bar: +++
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+Fixes build with custom directory structure.
 
-fix error:
-file /usr/include/gpgme.h conflicts between attempted installs of gpgme-dev-1.13.1-r0.core2_64 and lib32-gpgme-dev-1.13.1-r0.core2_32
-
-part of diff:
--#if 64
-+#if 0
- #ifndef _FILE_OFFSET_BITS
--#error GPGME was compiled with _FILE_OFFSET_BITS = 64, please see the section "Largefile support (LFS)" in the GPGME manual.
-+#error GPGME was compiled with _FILE_OFFSET_BITS = 0, please see the section "Largefile support (LFS)" in the GPGME manual.
- #else
--#if (_FILE_OFFSET_BITS) != (64)
--#error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 64, please see the section "Largefile support (LFS)" in the GPGME manual.
-+#if (_FILE_OFFSET_BITS) != (0)
-+#error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 0, please see the section "Largefile support (LFS)" in the GPGME manual.
- #endif
- #endif
- #endif
-
-LFS support is enabled by default, and this header is generated during
-build according to current configure
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 ---
- meta/recipes-support/gpgme/gpgme_1.13.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-index 9fc1ae24a4..b51534351d 100644
---- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-@@ -59,7 +59,7 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
-                  --disable-lang-python-test \
- '
+diff --git a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
+index fd949be8a0..3575c460e4 100644
+--- a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
++++ b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.3.bb
+@@ -10,8 +10,8 @@ SRC_URI[sha256sum] = "833f99b2cbda34e0cfef867ef1d2e6a74fe276bb7fc525a573be32077f
+ inherit allarch
  
--inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT}
-+inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT} multilib_header
- 
- export PKG_CONFIG='pkg-config'
- 
-@@ -83,3 +83,7 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/libassuan.m4
- 	rm -f ${S}/m4/python.m4
+ do_install() {
+-        install -d ${D}/usr/share/alsa
+-        cp -r ${S}/topology ${D}/usr/share/alsa
++        install -d "${D}${datadir}/alsa"
++        cp -r "${S}/topology" "${D}${datadir}/alsa"
  }
-+
-+do_install_append() {
-+       oe_multilib_header gpgme.h
-+}
+ 
+ PACKAGES = "${PN}"
 -- 
-2.17.1
+2.20.1
 
