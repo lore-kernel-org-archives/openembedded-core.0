@@ -1,371 +1,1155 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga11.intel.com (mga11.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.66447.1597759602408912117
  for <openembedded-core@lists.openembedded.org>;
  Tue, 18 Aug 2020 07:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: Yh8Gm8F/GsKy83thofB4CIvGQ2CoqJ3e/Gugv4SZopIDgKX0jC/sLVHyqH8EKc7xDCucWUBRve
- ijhSnHvjjFzQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152534348"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: oUvzdWidljOOptF2C3RZv6J4au1JyyIJagzB25RjS9CH+ATXxsJ2ZmO9s0jec6HdRRuYO29dYB
+ K+lLIgI1Va9w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152534347"
 X-IronPort-AV: E=Sophos;i="5.76,327,1592895600"; 
-   d="scan'208";a="152534348"
+   d="scan'208";a="152534347"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 07:06:41 -0700
-IronPort-SDR: oLjrwwaSC/I+IV5LzcPHm8WRVkYJi4v3rlgIWyMF7h3VvULdCXUjFA6by4PzBs9zNLV8qqJLul
- /7P92Mn9S29Q==
+IronPort-SDR: wKUtEaHZBqEPMNYIz8S980XkRPX8RcGjKAUBfvBM942nM90FGaleZp2ufmDxRsbvnOgGmRkPTw
+ Ji5Ci2+o+QIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,327,1592895600"; 
-   d="scan'208";a="496860012"
+   d="scan'208";a="496859998"
 Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2020 07:06:39 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2020 07:06:38 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 2/2] perl: fix CVE-2020-12723
-Date: Tue, 18 Aug 2020 22:06:37 +0800
-Message-Id: <20200818140637.64777-2-chee.yang.lee@intel.com>
+Subject: [PATCH][dunfell 1/2] ghostscript: update to 9.52
+Date: Tue, 18 Aug 2020 22:06:36 +0800
+Message-Id: <20200818140637.64777-1-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200818140637.64777-1-chee.yang.lee@intel.com>
-References: <20200818140637.64777-1-chee.yang.lee@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Minor changes to the test cases count in the .patch file to make it
-align with current version, so the fixes can be apply.
-Changes apply to line:
-https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a#diff-e31ddd69cf47acf02911647c691a0283L28
+This is maintenance release consolidating the changes introduced
+in 9.50. see :
+https://www.ghostscript.com/doc/9.52/News.htm
+
+Drop all custom objarch.h files; ghostscript nowadays generates
+that with autoconf.
+
+Freetype can no longer be disabled.
+
+Building out of source tree is broken.
+
+Upgrade include several CVE fixes:
+CVE-2020-16287
+CVE-2020-16288
+CVE-2020-16289
+CVE-2020-16290
+CVE-2020-16291
+CVE-2020-16292
+CVE-2020-16293
+CVE-2020-16294
+CVE-2020-16295
+CVE-2020-16296
+CVE-2020-16297
+CVE-2020-16298
+CVE-2020-16299
+CVE-2020-16300
+CVE-2020-16301
+CVE-2020-16302
+CVE-2020-16303
+CVE-2020-16304
+CVE-2020-16305
+CVE-2020-16308
+CVE-2020-16309
+CVE-2020-17538
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
- 2 files changed, 303 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
+ .../do-not-check-local-libpng-source.patch    | 37 ++++------
+ .../ghostscript/CVE-2019-14869-0001.patch     | 70 -------------------
+ .../ghostscript/ghostscript/aarch64/objarch.h | 40 -----------
+ .../ghostscript/ghostscript/arm/objarch.h     | 40 -----------
+ .../ghostscript/ghostscript/armeb/objarch.h   | 40 -----------
+ .../ghostscript-9.02-genarch.patch            | 38 ----------
+ .../ghostscript/ghostscript/i586/objarch.h    | 41 -----------
+ .../ghostscript/ghostscript/i686              |  1 -
+ .../ghostscript/microblaze/objarch.h          | 40 -----------
+ .../ghostscript/microblazeel/objarch.h        | 40 -----------
+ .../ghostscript/mipsarchn32eb/objarch.h       | 40 -----------
+ .../ghostscript/mipsarchn32el/objarch.h       | 40 -----------
+ .../ghostscript/mipsarchn64eb/objarch.h       | 40 -----------
+ .../ghostscript/mipsarchn64el/objarch.h       | 40 -----------
+ .../ghostscript/mipsarcho32eb/objarch.h       | 40 -----------
+ .../ghostscript/mipsarcho32el/objarch.h       | 40 -----------
+ .../ghostscript/ghostscript/nios2/objarch.h   | 40 -----------
+ .../ghostscript/ghostscript/powerpc/objarch.h | 40 -----------
+ .../ghostscript/powerpc64/objarch.h           | 40 -----------
+ .../ghostscript/powerpc64le/objarch.h         | 40 -----------
+ .../ghostscript/ghostscript/x86-64/objarch.h  | 40 -----------
+ ...hostscript_9.50.bb => ghostscript_9.52.bb} | 27 +++----
+ 22 files changed, 25 insertions(+), 829 deletions(-)
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
+ delete mode 120000 meta/recipes-extended/ghostscript/ghostscript/i686
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.50.bb => ghostscript_9.52.bb} (87%)
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-12723.patch b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
-new file mode 100644
-index 0000000000..ad195cffab
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
-@@ -0,0 +1,302 @@
-+From da9ec461e22915ccabb06785bf39ec34577ada12 Mon Sep 17 00:00:00 2001
-+From: Hugo van der Sanden <hv@crypt.org>
-+Date: Sat, 11 Apr 2020 14:10:24 +0100
-+Subject: [PATCH] study_chunk: avoid mutating regexp program within GOSUB
+diff --git a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+index 5834ffaf9f..a9afb9948c 100644
+--- a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
++++ b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+@@ -1,7 +1,7 @@
+-From a954bf29a5f906b3151dffbecb5856e02e1565da Mon Sep 17 00:00:00 2001
++From 2adaa7366064a8f18af864eda74e52877a89620c Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 18 Jan 2016 01:00:30 -0500
+-Subject: [PATCH 03/10] configure.ac: do not check local png source
++Subject: [PATCH] configure.ac: do not check local png source
+ 
+ In oe-core, it did not need to compile local libpng
+ source in ghostscript, so do not check local png
+@@ -11,28 +11,21 @@ libpng library.
+ Upstream-Status: Inappropriate [OE-Core specific]
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +
-+gh16947 and gh17743: studying GOSUB may restudy in an inner call
-+(via a mix of recursion and enframing) something that an outer call
-+is in the middle of looking at.  Let the outer frame deal with it.
+ ---
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 9341930..80a60b1 100644
++index 698abd3..e65ac8b 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1114,11 +1114,11 @@ AC_SUBST(ZLIBDIR)
+- AC_SUBST(FT_SYS_ZLIB)
+- 
+- dnl png for the png output device; it also requires zlib
+--LIBPNGDIR=src
+-+LIBPNGDIR=$srcdir/libpng
+- PNGDEVS=''
+- PNGDEVS_ALL='png48 png16m pnggray pngmono pngmonod png256 png16 pngalpha'
+- AC_MSG_CHECKING([for local png library source])
+--if test -f $srcdir/libpng/pngread.c; then
+-+if false; then
+-         AC_MSG_RESULT([yes])
+-         SHARE_LIBPNG=0
+-         LIBPNGDIR=$srcdir/libpng
+--- 
+-1.8.3.1
+-
++@@ -1241,7 +1241,7 @@ else
++   PNGDEVS=''
++   PNGDEVS_ALL='png48 png16m pnggray pngmono pngmonod png256 png16 pngalpha'
++   AC_MSG_CHECKING([for local png library source])
++-  if test -f $srcdir/libpng/pngread.c; then
+++  if false; then
++           AC_MSG_RESULT([yes])
++           SHARE_LIBPNG=0
++           LIBPNGDIR=$srcdir/libpng
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+deleted file mode 100644
+index 715ec1c450..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 485904772c5f0aa1140032746e5a0abfc40f4cef Mon Sep 17 00:00:00 2001
+-From: Chris Liddell <chris.liddell@artifex.com>
+-Date: Tue, 5 Nov 2019 09:45:27 +0000
+-Subject: [PATCH] Bug 701841: remove .forceput from /.charkeys
+-
+-When loading Type 1 or Truetype fonts from disk, we attempt to extend the glyph
+-name table to include all identifiable glyph names from the Adobe Glyph List.
+-
+-In the case of Type 1 fonts, the font itself (almost always) marks the
+-CharStrings dictionary as read-only, hence we have to use .forceput for that
+-case.
+-
+-But for Truetype fonts, the CharStrings dictionary is created internally and is
+-not read-only until *after* we have fully populated it (including the extended
+-glyph names from the AGL), hence there is no need for .forceput, and no need to
+-carry the security risk of using it.
+-
+-Replace with regular put.
+-
+-CVE: CVE-2019-14869
+-Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+-
+-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+----
+- Resource/Init/gs_ttf.ps | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/Resource/Init/gs_ttf.ps b/Resource/Init/gs_ttf.ps
+-index e34967d..5354ff0 100644
+---- a/Resource/Init/gs_ttf.ps
+-+++ b/Resource/Init/gs_ttf.ps
+-@@ -1301,7 +1301,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
+-           TTFDEBUG { (\n1 setting alias: ) print dup ==only
+-                 ( to be the same as  ) print 2 index //== exec } if
+- 
+--          7 index 2 index 3 -1 roll exch .forceput
+-+          7 index 2 index 3 -1 roll exch put
+-         } forall
+-         pop pop pop
+-       }
+-@@ -1319,7 +1319,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
+-           exch pop
+-           TTFDEBUG { (\n2 setting alias: ) print 1 index ==only
+-                      ( to use glyph index: ) print dup //== exec } if
+--          5 index 3 1 roll .forceput
+-+          5 index 3 1 roll put
+-           //false
+-         }
+-         {
+-@@ -1336,7 +1336,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
+-         {                            %  CharStrings(dict) isunicode(boolean) cmap(dict) RAGL(dict) gname(name) codep(integer) gindex(integer)
+-           TTFDEBUG { (\3 nsetting alias: ) print 1 index ==only
+-                 ( to be index: ) print dup //== exec } if
+--          exch pop 5 index 3 1 roll .forceput
+-+          exch pop 5 index 3 1 roll put
+-         }
+-         {
+-           pop pop
+-@@ -1366,7 +1366,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
+-       } ifelse
+-     ]
+-   TTFDEBUG { (Encoding: ) print dup === flush } if
+--} .bind executeonly odef		% hides .forceput
+-+} .bind odef
+- 
+- % ---------------- CIDFontType 2 font loading ---------------- %
+- 
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
+deleted file mode 100644
+index a05de29def..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
+deleted file mode 100644
+index e8772cd958..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
+deleted file mode 100644
+index 359097f356..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
+deleted file mode 100644
+index 7b70bb8e2c..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From c076d0fc970f190f723018258790c79b59daba2e Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Sat, 11 May 2019 21:20:27 +0800
+-Subject: [PATCH] not generate objarch.h at compile time
+-
+-Import patch from windriver linux for cross compilation, and split
+-patches into oe way under different directories such as i586, powerpc etc
+-according to Richard's opinion.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-
+-Rebase to 9.27
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- base/lib.mak | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/base/lib.mak b/base/lib.mak
+-index 3ed088a..5af2b43 100644
+---- a/base/lib.mak
+-+++ b/base/lib.mak
+-@@ -87,8 +87,8 @@ arch_h=$(GLGEN)arch.h
+- stdpre_h=$(GLSRC)stdpre.h
+- stdint__h=$(GLSRC)stdint_.h
+- 
+--$(GLGEN)arch.h : $(GENARCH_XE)
+--	$(EXP)$(GENARCH_XE) $(GLGEN)arch.h $(TARGET_ARCH_FILE)
+-+##$(GLGEN)arch.h : $(GENARCH_XE)
+-+##	$(EXP)$(GENARCH_XE) $(GLGEN)arch.h $(TARGET_ARCH_FILE)
+- 
+- # Platform interfaces
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
+deleted file mode 100644
+index 5817b7a6d7..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
++++ /dev/null
+@@ -1,41 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 4
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+-
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/i686 b/meta/recipes-extended/ghostscript/ghostscript/i686
+deleted file mode 120000
+index 87aaca5903..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/i686
++++ /dev/null
+@@ -1 +0,0 @@
+-i586
+\ No newline at end of file
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
+deleted file mode 100644
+index 63232fdfa6..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 4
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
+deleted file mode 100644
+index 3ec8101681..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 4
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
+deleted file mode 100644
+index 0d0a16bfa3..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
+deleted file mode 100644
+index a05de29def..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
+deleted file mode 100644
+index 0d0a16bfa3..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
+deleted file mode 100644
+index a05de29def..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
+deleted file mode 100644
+index b8b637cca2..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 4
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
+deleted file mode 100644
+index 29f90ddf85..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 4
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
+deleted file mode 100644
+index 3ec8101681..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 4
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
+deleted file mode 100644
+index 359097f356..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 4
+-#define ARCH_ALIGN_PTR_MOD 4
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 2
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 4
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
+deleted file mode 100644
+index 0d0a16bfa3..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 1
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
+deleted file mode 100644
+index a05de29def..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
+deleted file mode 100644
+index a05de29def..0000000000
+--- a/meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/* Parameters derived from machine and compiler architecture. */
+-/* This file is generated mechanically by genarch.c. */
+-
+-	 /* ---------------- Scalar alignments ---------------- */
+-
+-#define ARCH_ALIGN_SHORT_MOD 2
+-#define ARCH_ALIGN_INT_MOD 4
+-#define ARCH_ALIGN_LONG_MOD 8
+-#define ARCH_ALIGN_PTR_MOD 8
+-#define ARCH_ALIGN_FLOAT_MOD 4
+-#define ARCH_ALIGN_DOUBLE_MOD 8
+-
+-	 /* ---------------- Scalar sizes ---------------- */
+-
+-#define ARCH_LOG2_SIZEOF_CHAR 0
+-#define ARCH_LOG2_SIZEOF_SHORT 1
+-#define ARCH_LOG2_SIZEOF_INT 2
+-#define ARCH_LOG2_SIZEOF_LONG 3
+-#define ARCH_LOG2_SIZEOF_LONG_LONG 3
+-#define ARCH_SIZEOF_GX_COLOR_INDEX 8
+-#define ARCH_SIZEOF_PTR 8
+-#define ARCH_SIZEOF_FLOAT 4
+-#define ARCH_SIZEOF_DOUBLE 8
+-#define ARCH_FLOAT_MANTISSA_BITS 24
+-#define ARCH_DOUBLE_MANTISSA_BITS 53
+-
+-	 /* ---------------- Unsigned max values ---------------- */
+-
+-#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
+-#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
+-#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
+-#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
+-
+-	 /* ---------------- Miscellaneous ---------------- */
+-
+-#define ARCH_IS_BIG_ENDIAN 0
+-#define ARCH_PTRS_ARE_SIGNED 0
+-#define ARCH_FLOATS_ARE_IEEE 1
+-#define ARCH_ARITH_RSHIFT 2
+-#define ARCH_DIV_NEG_POS_TRUNCATES 1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.50.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+similarity index 87%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.50.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+index 662db72b5e..65135f5821 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.50.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+@@ -19,21 +19,22 @@ DEPENDS_class-native = "libpng-native"
+ UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950/${BPN}-${PV}.tar.gz \
++def gs_verdir(v):
++    return "".join(v.split("."))
 +
-+(CVE-2020-12723)
 +
-+(cherry picked from commit c4033e740bd18d9fbe3456a9db2ec2053cdc5271)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a]
-+CVE: CVE-2020-12723
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ embed.fnc  |  2 +-
-+ embed.h    |  2 +-
-+ proto.h    |  2 +-
-+ regcomp.c  | 54 +++++++++++++++++++++++++++++++++++-------------------
-+ t/re/pat.t | 26 +++++++++++++++++++++++++-
-+ 5 files changed, 63 insertions(+), 23 deletions(-)
-+
-+diff --git a/embed.fnc b/embed.fnc
-+index f45c127..eff4a50 100644
-+--- a/embed.fnc
-++++ b/embed.fnc
-+@@ -2480,7 +2480,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
-+ 				|NULLOK struct scan_data_t *data \
-+                                 |I32 stopparen|U32 recursed_depth \
-+ 				|NULLOK regnode_ssc *and_withp \
-+-				|U32 flags|U32 depth
-++				|U32 flags|U32 depth|bool was_mutate_ok
-+ Es	|void	|rck_elide_nothing|NN regnode *node
-+ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
-+ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
-+diff --git a/embed.h b/embed.h
-+index 356a8b9..5346ec5 100644
-+--- a/embed.h
-++++ b/embed.h
-+@@ -1239,7 +1239,7 @@
-+ #define ssc_is_cp_posixl_init	S_ssc_is_cp_posixl_init
-+ #define ssc_or(a,b,c)		S_ssc_or(aTHX_ a,b,c)
-+ #define ssc_union(a,b,c)	S_ssc_union(aTHX_ a,b,c)
-+-#define study_chunk(a,b,c,d,e,f,g,h,i,j,k)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k)
-++#define study_chunk(a,b,c,d,e,f,g,h,i,j,k,l)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k,l)
-+ #  endif
-+ #  if defined(PERL_IN_REGCOMP_C) || defined (PERL_IN_DUMP_C)
-+ #define _invlist_dump(a,b,c,d)	Perl__invlist_dump(aTHX_ a,b,c,d)
-+diff --git a/proto.h b/proto.h
-+index 91530b1..1bda01f 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -5655,7 +5655,7 @@ PERL_STATIC_INLINE void	S_ssc_union(pTHX_ regnode_ssc *ssc, SV* const invlist, c
-+ #define PERL_ARGS_ASSERT_SSC_UNION	\
-+ 	assert(ssc); assert(invlist)
-+ #endif
-+-STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth);
-++STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth, bool was_mutate_ok);
-+ #define PERL_ARGS_ASSERT_STUDY_CHUNK	\
-+ 	assert(pRExC_state); assert(scanp); assert(minlenp); assert(deltap); assert(last)
-+ #endif
-+diff --git a/regcomp.c b/regcomp.c
-+index 5a9adee..8d7df1f 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -106,6 +106,7 @@ typedef struct scan_frame {
-+     regnode *next_regnode;      /* next node to process when last is reached */
-+     U32 prev_recursed_depth;
-+     I32 stopparen;              /* what stopparen do we use */
-++    bool in_gosub;              /* this or an outer frame is for GOSUB */
-+ 
-+     struct scan_frame *this_prev_frame; /* this previous frame */
-+     struct scan_frame *prev_frame;      /* previous frame */
-+@@ -4466,7 +4467,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 			I32 stopparen,
-+                         U32 recursed_depth,
-+ 			regnode_ssc *and_withp,
-+-			U32 flags, U32 depth)
-++			U32 flags, U32 depth, bool was_mutate_ok)
-+ 			/* scanp: Start here (read-write). */
-+ 			/* deltap: Write maxlen-minlen here. */
-+ 			/* last: Stop before this one. */
-+@@ -4545,6 +4546,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                                    node length to get a real minimum (because
-+                                    the folded version may be shorter) */
-+ 	bool unfolded_multi_char = FALSE;
-++        /* avoid mutating ops if we are anywhere within the recursed or
-++         * enframed handling for a GOSUB: the outermost level will handle it.
-++         */
-++        bool mutate_ok = was_mutate_ok && !(frame && frame->in_gosub);
-+ 	/* Peephole optimizer: */
-+         DEBUG_STUDYDATA("Peep", data, depth, is_inf);
-+         DEBUG_PEEP("Peep", scan, depth, flags);
-+@@ -4555,7 +4560,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+          * parsing code, as each (?:..) is handled by a different invocation of
-+          * reg() -- Yves
-+          */
-+-        JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-++        if (mutate_ok)
-++            JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-+ 
-+         /* Follow the next-chain of the current node and optimize
-+            away all the NOTHINGs from it.
-+@@ -4587,7 +4593,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+             /* DEFINEP study_chunk() recursion */
-+             (void)study_chunk(pRExC_state, &scan, &minlen,
-+                               &deltanext, next, &data_fake, stopparen,
-+-                              recursed_depth, NULL, f, depth+1);
-++                              recursed_depth, NULL, f, depth+1, mutate_ok);
-+ 
-+             scan = next;
-+         } else
-+@@ -4655,7 +4661,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                     /* recurse study_chunk() for each BRANCH in an alternation */
-+ 		    minnext = study_chunk(pRExC_state, &scan, minlenp,
-+                                       &deltanext, next, &data_fake, stopparen,
-+-                                      recursed_depth, NULL, f, depth+1);
-++                                      recursed_depth, NULL, f, depth+1,
-++                                      mutate_ok);
-+ 
-+ 		    if (min1 > minnext)
-+ 			min1 = minnext;
-+@@ -4722,9 +4729,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		    }
-+ 		}
-+ 
-+-                if (PERL_ENABLE_TRIE_OPTIMISATION &&
-+-                        OP( startbranch ) == BRANCH )
-+-                {
-++                if (PERL_ENABLE_TRIE_OPTIMISATION
-++                    && OP(startbranch) == BRANCH
-++                    && mutate_ok
-++                ) {
-+ 		/* demq.
-+ 
-+                    Assuming this was/is a branch we are dealing with: 'scan'
-+@@ -5179,6 +5187,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                 newframe->stopparen = stopparen;
-+                 newframe->prev_recursed_depth = recursed_depth;
-+                 newframe->this_prev_frame= frame;
-++                newframe->in_gosub = (
-++                    (frame && frame->in_gosub) || OP(scan) == GOSUB
-++                );
-+ 
-+                 DEBUG_STUDYDATA("frame-new", data, depth, is_inf);
-+                 DEBUG_PEEP("fnew", scan, depth, flags);
-+@@ -5336,7 +5347,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 
-+                 /* This temporary node can now be turned into EXACTFU, and
-+                  * must, as regexec.c doesn't handle it */
-+-                if (OP(next) == EXACTFU_S_EDGE) {
-++                if (OP(next) == EXACTFU_S_EDGE && mutate_ok) {
-+                     OP(next) = EXACTFU;
-+                 }
-+ 
-+@@ -5344,8 +5355,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                     &&   isALPHA_A(* STRING(next))
-+                     && (         OP(next) == EXACTFAA
-+                         || (     OP(next) == EXACTFU
-+-                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next)))))
-+-                {
-++                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next))))
-++                    &&   mutate_ok
-++                ) {
-+                     /* These differ in just one bit */
-+                     U8 mask = ~ ('A' ^ 'a');
-+ 
-+@@ -5432,7 +5444,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                                   (mincount == 0
-+                                    ? (f & ~SCF_DO_SUBSTR)
-+                                    : f)
-+-                                  ,depth+1);
-++                                  , depth+1, mutate_ok);
-+ 
-+ 		if (flags & SCF_DO_STCLASS)
-+ 		    data->start_class = oclass;
-+@@ -5498,7 +5510,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		if (  OP(oscan) == CURLYX && data
-+ 		      && data->flags & SF_IN_PAR
-+ 		      && !(data->flags & SF_HAS_EVAL)
-+-		      && !deltanext && minnext == 1 ) {
-++		      && !deltanext && minnext == 1
-++                      && mutate_ok
-++                ) {
-+ 		    /* Try to optimize to CURLYN.  */
-+ 		    regnode *nxt = NEXTOPER(oscan) + EXTRA_STEP_2ARGS;
-+ 		    regnode * const nxt1 = nxt;
-+@@ -5548,10 +5562,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		      && !(data->flags & SF_HAS_EVAL)
-+ 		      && !deltanext	/* atom is fixed width */
-+ 		      && minnext != 0	/* CURLYM can't handle zero width */
-+-
-+                          /* Nor characters whose fold at run-time may be
-+                           * multi-character */
-+                       && ! (RExC_seen & REG_UNFOLDED_MULTI_SEEN)
-++                      && mutate_ok
-+ 		) {
-+ 		    /* XXXX How to optimize if data == 0? */
-+ 		    /* Optimize to a simpler form.  */
-+@@ -5604,7 +5618,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                         /* recurse study_chunk() on optimised CURLYX => CURLYM */
-+ 			study_chunk(pRExC_state, &nxt1, minlenp, &deltanext, nxt,
-+                                     NULL, stopparen, recursed_depth, NULL, 0,
-+-                                    depth+1);
-++                                    depth+1, mutate_ok);
-+ 		    }
-+ 		    else
-+ 			oscan->flags = 0;
-+@@ -6009,7 +6023,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                 /* recurse study_chunk() for lookahead body */
-+                 minnext = study_chunk(pRExC_state, &nscan, minlenp, &deltanext,
-+                                       last, &data_fake, stopparen,
-+-                                      recursed_depth, NULL, f, depth+1);
-++                                      recursed_depth, NULL, f, depth+1,
-++                                      mutate_ok);
-+                 if (scan->flags) {
-+                     if (   deltanext < 0
-+                         || deltanext > (I32) U8_MAX
-+@@ -6114,7 +6129,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                 *minnextp = study_chunk(pRExC_state, &nscan, minnextp,
-+                                         &deltanext, last, &data_fake,
-+                                         stopparen, recursed_depth, NULL,
-+-                                        f, depth+1);
-++                                        f, depth+1, mutate_ok);
-+                 if (scan->flags) {
-+                     assert(0);  /* This code has never been tested since this
-+                                    is normally not compiled */
-+@@ -6282,7 +6297,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                         /* optimise study_chunk() for TRIE */
-+                         minnext = study_chunk(pRExC_state, &scan, minlenp,
-+                             &deltanext, (regnode *)nextbranch, &data_fake,
-+-                            stopparen, recursed_depth, NULL, f, depth+1);
-++                            stopparen, recursed_depth, NULL, f, depth+1,
-++                            mutate_ok);
-+                     }
-+                     if (nextbranch && PL_regkind[OP(nextbranch)]==BRANCH)
-+                         nextbranch= regnext((regnode*)nextbranch);
-+@@ -8075,7 +8091,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+             &data, -1, 0, NULL,
-+             SCF_DO_SUBSTR | SCF_WHILEM_VISITED_POS | stclass_flag
-+                           | (restudied ? SCF_TRIE_DOING_RESTUDY : 0),
-+-            0);
-++            0, TRUE);
-+ 
-+ 
-+         CHECK_RESTUDY_GOTO_butfirst(LEAVE_with_name("study_chunk"));
-+@@ -8204,7 +8220,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+             SCF_DO_STCLASS_AND|SCF_WHILEM_VISITED_POS|(restudied
-+                                                       ? SCF_TRIE_DOING_RESTUDY
-+                                                       : 0),
-+-            0);
-++            0, TRUE);
-+ 
-+         CHECK_RESTUDY_GOTO_butfirst(NOOP);
-+ 
-+diff --git a/t/re/pat.t b/t/re/pat.t
-+index 6a868f4..2869b58 100644
-+--- a/t/re/pat.t
-++++ b/t/re/pat.t
-+@@ -25,7 +25,7 @@ BEGIN {
-+ skip_all('no re module') unless defined &DynaLoader::boot_DynaLoader;
-+ skip_all_without_unicode_tables();
-+ 
-+-plan tests => 864;  # Update this when adding/deleting tests.
-++plan tests => 873;  # Update this when adding/deleting tests.
-+ 
-+ run_tests() unless caller;
-+ 
-+@@ -2115,6 +2115,30 @@ x{0c!}\;\;îçÿ  /0f/! F  /;îçÿù\Q   xÿÿÿÿ   ù   `x{0c!};   ù\Q
-+         like(runperl(prog => "$s", stderr => 1), qr/Unmatched \(/);
-+    }
-+ 
-++    # gh16947: test regexp corruption (GOSUB)
-++    {
-++        fresh_perl_is(q{
-++            'xy' =~ /x(?0)|x(?|y|y)/ && print 'ok'
-++        }, 'ok', {}, 'gh16947: test regexp corruption (GOSUB)');
-++    }
-++    # gh16947: test fix doesn't break SUSPEND
-++    {
-++        fresh_perl_is(q{ 'sx' =~ m{ss++}i; print 'ok' },
-++                'ok', {}, "gh16947: test fix doesn't break SUSPEND");
-++    }
-++
-++    # gh17743: more regexp corruption via GOSUB
-++    {
-++        fresh_perl_is(q{
-++            "0" =~ /((0(?0)|000(?|0000|0000)(?0))|)/; print "ok"
-++        }, 'ok', {}, 'gh17743: test regexp corruption (1)');
-++
-++        fresh_perl_is(q{
-++            "000000000000" =~ /(0(())(0((?0)())|000(?|\x{ef}\x{bf}\x{bd}|\x{ef}\x{bf}\x{bd}))|)/;
-++            print "ok"
-++        }, 'ok', {}, 'gh17743: test regexp corruption (2)');
-++    }
-++
-+ } # End of sub run_tests
-+ 
-+ 1;
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 47b2f9ca65..b53aff1216 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2020-10543.patch \
-            file://CVE-2020-10878_1.patch \
-            file://CVE-2020-10878_2.patch \
-+           file://CVE-2020-12723.patch \
++SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${@gs_verdir("${PV}")}/${BPN}-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+-                file://CVE-2019-14869-0001.patch \
+-                file://CVE-2020-15900.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+            file://ghostscript-9.21-prevent_recompiling.patch \
+-           file://ghostscript-9.02-genarch.patch \
+-           file://objarch.h \
+            file://cups-no-gcrypt.patch \
++           file://CVE-2020-15900.patch \
             "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+@@ -41,8 +42,8 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
+ 
+-SRC_URI[md5sum] = "00970cf622bd5b46f68eec9383753870"
+-SRC_URI[sha256sum] = "0f53e89fd647815828fc5171613e860e8535b68f7afbc91bf89aee886769ce89"
++SRC_URI[md5sum] = "0f6964ab9b83a63b7e373f136243f901"
++SRC_URI[sha256sum] = "c2501d8e8e0814c4a5aa7e443e230e73d7af7f70287546f7b697e5ef49e32176"
+ 
+ # Put something like
+ #
+@@ -73,7 +74,7 @@ EXTRA_OECONF_class-native = "--without-x --with-system-libtiff=no \
+                              --without-jbig2dec --without-libpaper \
+                              --with-fontpath=${datadir}/fonts \
+                              --without-libidn --disable-fontconfig \
+-                             --disable-freetype --disable-cups"
++                             --enable-freetype --disable-cups "
+ 
+ # This has been fixed upstream but for now we need to subvert the check for time.h
+ # http://bugs.ghostscript.com/show_bug.cgi?id=692443
+@@ -81,15 +82,7 @@ EXTRA_OECONF_class-native = "--without-x --with-system-libtiff=no \
+ CFLAGS += "-DHAVE_SYS_TIME_H=1"
+ BUILD_CFLAGS += "-DHAVE_SYS_TIME_H=1"
+ 
+-inherit autotools
+-
+-do_configure_prepend () {
+-	mkdir -p obj
+-	mkdir -p soobj
+-	if [ -e ${WORKDIR}/objarch.h ]; then
+-		cp ${WORKDIR}/objarch.h obj/arch.h
+-	fi
+-}
++inherit autotools-brokensep
+ 
+ do_configure_append () {
+ 	# copy tools from the native ghostscript build
 -- 
 2.17.1
 
