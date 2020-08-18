@@ -1,102 +1,56 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.60202.1597726282723070287
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web10.60233.1597726421182640826
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 21:51:23 -0700
+ Mon, 17 Aug 2020 21:53:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: li.wang@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 07I4pL73029719
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 21:51:22 -0700 (PDT)
-Received: from 6327d4c8e1cb.wrs.com (128.224.162.178) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 17 Aug 2020 21:51:21 -0700
-From: "Li Wang" <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][poky][zeus][PATCH] qemu: CVE-2020-16092
-Date: Tue, 18 Aug 2020 04:48:17 +0000
-Message-ID: <20200818044817.18740-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: XQcOMbK2ihxQnApQeR0DZ7szgXgmNFX86ched/4LmqD02x8R3tO9Ni62jilWKc34/Aep/NzevP
+ pf1HQrVYTEuQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152249956"
+X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
+   d="scan'208";a="152249956"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 21:53:40 -0700
+IronPort-SDR: SwAz0DSH7fzmohmIY8KeGT3wS8Kt6NA96peRcxIKz4gUJZ+wIVwcVMluf39BcxMsEdwCFpkEfr
+ ao5JRHNjBtyA==
+X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
+   d="scan'208";a="319960835"
+Received: from ychiew-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.70.25])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 21:53:38 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] harfbuzz: upgrade 2.6.8 -> 2.7.1
+Date: Tue, 18 Aug 2020 12:53:31 +0800
+Message-Id: <20200818045334.121647-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Backport CVE patch from the upstream:
-https://git.qemu.org/?p=qemu.git;a=commit;h=035e69b063835a5fd23cacabd63690a3d84532a8
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-16092.patch            | 49 +++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
+ .../harfbuzz/{harfbuzz_2.6.8.bb => harfbuzz_2.7.1.bb}          | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.6.8.bb => harfbuzz_2.7.1.bb} (92%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5cdba1f02c..e686b24e80 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -39,6 +39,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-11869.patch \
-            file://CVE-2020-13765.patch \
-            file://CVE-2020-10702.patch \
-+           file://CVE-2020-16092.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+similarity index 92%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+index 3c4a5b5a2b..08c8f83239 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.8.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+@@ -11,8 +11,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
-new file mode 100644
-index 0000000000..8ce01e26ad
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
-@@ -0,0 +1,49 @@
-+From 035e69b063835a5fd23cacabd63690a3d84532a8 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Sat, 1 Aug 2020 18:42:38 +0200
-+Subject: [PATCH] hw/net/net_tx_pkt: fix assertion failure in
-+ net_tx_pkt_add_raw_fragment()
-+
-+An assertion failure issue was found in the code that processes network
-+packets
-+while adding data fragments into the packet context. It could be abused
-+by a
-+malicious guest to abort the QEMU process on the host. This patch
-+replaces the
-+affected assert() with a conditional statement, returning false if the
-+current
-+data fragment exceeds max_raw_frags.
-+
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-+Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-16092
-+[https://git.qemu.org/?p=qemu.git;a=commit;h=035e69b063835a5fd23cacabd63690a3d84532a8]
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ hw/net/net_tx_pkt.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-+index 162f802..54d4c3b 100644
-+--- a/hw/net/net_tx_pkt.c
-++++ b/hw/net/net_tx_pkt.c
-+@@ -379,7 +379,10 @@ bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
-+     hwaddr mapped_len = 0;
-+     struct iovec *ventry;
-+     assert(pkt);
-+-    assert(pkt->max_raw_frags > pkt->raw_frags);
-++
-++    if (pkt->raw_frags >= pkt->max_raw_frags) {
-++        return false;
-++    }
-+ 
-+     if (!len) {
-+         return true;
-+-- 
-+2.17.1
-+
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "c8d4f2aeed6e576bd42f9dc6def1b1ae"
+-SRC_URI[sha256sum] = "6648a571a27f186e47094121f0095e1b809e918b3037c630c7f38ffad86e3035"
++SRC_URI[sha256sum] = "e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569"
+ 
+ inherit autotools pkgconfig lib_package gtk-doc
+ 
 -- 
-2.17.1
+2.26.2
 
