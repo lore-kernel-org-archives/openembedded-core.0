@@ -1,132 +1,114 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web11.70930.1597770653945182223
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.70943.1597770996481580339
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 10:10:54 -0700
+ Tue, 18 Aug 2020 10:16:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JGG+Ub3t;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id n129so18941427qkd.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 10:10:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bx/+HBio;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id i20so4744050qkk.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 10:16:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=IimS3Q64Snw1q1RXVMreLRKNhrk4LiTQ2JE3ZgkHTQs=;
-        b=JGG+Ub3t+KhvQJQY4UllegtZJ6Ii/TQTfn5L/SajwC/O30I6lhHzVz492voxKO4OIO
-         q+TkV/GdPeq8kpMs8UBqhyBF0x84BVqRUe8MWT0zdglIl2Pd4XJm3xB+iGgD4syUAd8v
-         rxMWZUR1We0VMfoAs/F2jWUO+q8g8ggXWGlvT4yq9XJzAjbEBCceU6vv4gXpzfP7C1ro
-         XvAT+wHGA9FFFYg6Lc+s1bL9rIvxMlJXxyi+KFX0YpS+kgvwVZmHN/XwQbk2/6lxJZKS
-         zEG8pvu5f9idzBqrH4SyAD6WW2JxHkDTHW6owE/UB+mvluQhprg9B1cOFobrS7UmXeby
-         2BhQ==
+        bh=kt9gGqUisVhBqkEOR/3XXx6lIiSRPBAz6vJPTBo0dy8=;
+        b=bx/+HBio7rYkEWAeddZpLHeSoCVewp9wGSclFJLD78Dsau498puTtIt7QN1axrlywj
+         43OUxUGdUS05QsR5AAxGqkfaQ2AD6vzFmGXOC+ZoGX8P1QdbmPhFaLkuoUBrVQZah4CL
+         ShJ+O1q+ab01VoaXeyM5KiJS2fGC4py1gyPb+Rnrm/nIReHrLAWJf5h1/cYOOXCKx6oY
+         8+HdJ38b8MK3bYxTezHNwbGcSZ8AoFOkOmIr5w4HlVo5t/Yo3G78Mynh6U8b/jLMSN1q
+         veizhNtRC8Wxn812ESFq/F8Bz8HrqsfTmg9kPHfuh4U/ioCTMttiQhG8Y20VFvND29Xg
+         LKUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IimS3Q64Snw1q1RXVMreLRKNhrk4LiTQ2JE3ZgkHTQs=;
-        b=HGs0Lg83tiiacKAlq4XsUnGnq9n0EoXAZlIR6QFZKXAumLQl4jUOehPo8kySp6mLMg
-         eP2n1Tu5fbO4hgSg+PUJsmOo+A0vkPBZ62OXzLaZg4gfI2GK+8x9NdsYNEdQQf1clRYn
-         4YjZM/oAGdiwmonWwv/2ehgS8cqrTkmeTgamDsOWkRQEJ92sNAUxg4MQdG2kLL6xdPWq
-         ER3Yz49/YAlG8a0Ul9TIoJ8zPt5aTRXJjVQWOfZfOB4c7YVXlRzHYCnESaZawjvVfsA6
-         XJdrs8oonswipcWDA0P8NkQIfGcx0GYZ+gWlQK2WpvW3o8qZSBpFaNKaM1+nFEbD/mOS
-         7dIQ==
-X-Gm-Message-State: AOAM532GLc7uVR17Dm1EYj/z+Or0xcjzXrq2I9smN46YbExNbf50PbeQ
-	EAfWD/SohhdfjKBy5jxuWHF8gvEPU+3LVj1fPqE=
-X-Google-Smtp-Source: ABdhPJzhfAEuz6i/vLeBIISrXW40gxFcEuC8tVH7zvm54AQy0Z7rygQymKNS0Qo0XBkEpcYfnxUUBiRgwG+RB3WwYrQ=
-X-Received: by 2002:a05:620a:209b:: with SMTP id e27mr17498404qka.431.1597770653066;
- Tue, 18 Aug 2020 10:10:53 -0700 (PDT)
+        bh=kt9gGqUisVhBqkEOR/3XXx6lIiSRPBAz6vJPTBo0dy8=;
+        b=VBNDiPp4Px1UniU9iQSQ3kTnu/c9qMgfvQsT0Qi6+5jnIgWlIUJBoAMBL2dtJk4Lc0
+         FFDlNt207NaLCJP9MDlbrcmccqmTyYolliV0NZzgSFoFdUXR2jd6YynmePhI0mNh7EsE
+         S9sWYNjt914jFLcvY6F/06Wbnn3rK3PCP9zqPZHuv3ilbkBZ5WKv3TLwlB77DhZMgnke
+         mdkzhEmNRANoRx0PiYggmFIstP4UqRrefFticP7bnOk4JkVAS7cy1wSb/Ctt3B+e5FXx
+         zxgpQiq3W/oDcBSAbI/Pw8BmupRlauf/rGFTDIzbP00B4OdylzU9bSZBP6HVR2UG8jNv
+         NuCQ==
+X-Gm-Message-State: AOAM531UD5+Nb2NPlkKj5g0RNZlFxUH3FdMgEUtbQzOlbqcgHyItYLr6
+	fgeCde14rcj4urvreRTqeZ0lJkUY6cGeLhgb1Yk=
+X-Google-Smtp-Source: ABdhPJzeI8FOZJ1cwqwAJEfzx0rhXmCXtWJMVKI6Z1hhSMqhrWYwu40VIaHhBnr2pcr/8N6IuGwL1guJDm4t8GH2Dok=
+X-Received: by 2002:a05:620a:209b:: with SMTP id e27mr17522222qka.431.1597770995542;
+ Tue, 18 Aug 2020 10:16:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807164249.32605-1-alex.kiernan@gmail.com>
- <CAMKF1spoj_R_-=CvzV6OE==jpEb0SiGj6FXPi17LoNZjivCOWA@mail.gmail.com>
- <16299320E916D773.23035@lists.openembedded.org> <CAO5Uq5Qc+rVRjAiK6vTiZzG8Ayd3RU0Pko==FXB-OF=krXkLqQ@mail.gmail.com>
- <CAMKF1sp4LUgBiEVYZMYOD9gJaNZePTOG56Xk+ovM1D0bzJDg6Q@mail.gmail.com> <CAO5Uq5RTiJ7Gjv9yq_axtpVu55AYwe87gmuOC96j3Zk1uO_LMA@mail.gmail.com>
-In-Reply-To: <CAO5Uq5RTiJ7Gjv9yq_axtpVu55AYwe87gmuOC96j3Zk1uO_LMA@mail.gmail.com>
+References: <162C5AD9D44F999B.7353@lists.openembedded.org> <20200818160409.244099-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20200818160409.244099-1-Martin.Jansa@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 18 Aug 2020 10:10:26 -0700
-Message-ID: <CAMKF1sopMLzU_dxx0+uGB2xHM+3JzgVYkju=GpBskhOAe_L2Mw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] systemd: upgrade v245.6 -> v246
-To: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 18 Aug 2020 10:16:09 -0700
+Message-ID: <CAMKF1srbTdp_Qf+rWvn-W=VAP0qzmS8bRv3e50EDx0-MqfVfnA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perf: backport a fix for confusing non-fatal error
+To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 18, 2020 at 9:43 AM Alex Kiernan <alex.kiernan@gmail.com> wrote=
+On Tue, Aug 18, 2020 at 9:04 AM Martin Jansa <Martin.Jansa@gmail.com> wrote=
 :
 >
-> On Sun, Aug 9, 2020 at 3:24 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >
-> >
-> > On Sun, Aug 9, 2020 at 4:04 AM Alex Kiernan <alex.kiernan@gmail.com> wr=
-ote:
-> >>
-> >> On Sun, Aug 9, 2020 at 11:35 AM Alex Kiernan via
-> >> lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.or=
-g>
-> >> wrote:
-> >> >
-> >> > On Sun, Aug 9, 2020 at 7:22 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >> > >
-> >> > > Hi Alex
-> >> > >
-> >> > > I am seeing a packaging failure for iwd
-> >> > >
-> >> > > http://errors.yoctoproject.org/Errors/Details/459665/
-> >> > >
-> >> > >  which seems to originate from this patch
-> >> > > iwd configure detects path to systemd modules load directory if
-> >> > > --with-systemd-modloaddir is not specified using pkgconfing to enq=
-uire
-> >> > > modulesloaddir variable from systemd.pc
-> >> > > and the value for this has changed in latest systemd via this patc=
-h
-> >> > >
-> >> > > https://github.com/systemd/systemd/commit/4a56315a990b802860170ecd=
-1bbd3eb68e14a38b
-> >> > >
-> >> > > as a result now
-> >> > >
-> >> > > modules_load_dir=3D${rootprefix}/lib/modules-load.d
-> >> > > modulesloaddir=3D${modules_load_dir}
-> >> > >
-> >> > > but rootprefix is empty in OE version of systemd.pc i systemd < 24=
-6  had
-> >> > >
-> >> > > modulesloaddir=3D${prefix}/lib/modules-load.d
-> >> > >
-> >> > > and prefix=3D/usr
-> >> > >
-> >> > > I could have easily fixed it in iwd by adding the additional confi=
-gure
-> >> > > option but it seems that systemd recipe should rather be fixed to =
-use
-> >> > > proper value for ROOTPREFIX
-> >> > >
-> >> >
-> >> > Presumably this is building with usrmerge?
-> >> >
-> >>
-> >> Having dug a bit more, I suspect this is without usrmerge?
-> >
-> >
-> > That=E2=80=99s correct
-> >
-> >>
-> >>
-> >> It looks to me like that upstream change is just wrong for the !usrmer=
-ge case.
-> >
-> >
-> > I am not sure perhaps best to ask upstream Via comments to systemd comm=
-it
-> >
+> * add V=3D1 to make log.do_compile a bit more useful, with this it shows=
+:
+>   /bin/sh '/OE/build/oe-core/tmp-glibc/work/qemux86_64-oe-linux/perf/1.0=
+-r9/perf-1.0/tools/perf/trace/beauty/arch_errno_names.sh' x86_64-oe-linux-g=
+cc  -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=3Dsse --sysroot=3D/O=
+E/build/oe-core/tmp-glibc/work/qemux86_64-oe-linux/perf/1.0-r9/recipe-sysro=
+ot /OE/build/oe-core/tmp-glibc/work/qemux86_64-oe-linux/perf/1.0-r9/perf-1.=
+0/tools > /OE/build/oe-core/tmp-glibc/work/qemux86_64-oe-linux/perf/1.0-r9/=
+perf-1.0/trace/beauty/generated/arch_errno_name_array.c
+>   find: unknown predicate `-m64/arch'
+>   x86_64-oe-linux-gcc: error: unrecognized command-line option '-m64/inc=
+lude/uapi/asm-generic/errno.h'
+>   x86_64-oe-linux-gcc: fatal error: no input files
+>   compilation terminated.
+>   x86_64-oe-linux-gcc: error: unrecognized command-line option '-m64/inc=
+lude/uapi/asm-generic/errno.h'
+>   x86_64-oe-linux-gcc: fatal error: no input files
+>   compilation terminated.
 >
-> https://github.com/systemd/systemd/issues/16773
+> * apply https://github.com/torvalds/linux/commit/e4ffd066ff440a57097e914=
+0fa9e16ceef905de8
+>   with sed call to fix this
 >
-> I have a patch locally which "fixes" it, but waiting to see first what
-> the upstream view is.
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-kernel/perf/perf.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf=
+/perf.bb
+> index cf95df710f..868cde7353 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -70,6 +70,7 @@ SPDX_S =3D "${S}/tools/perf"
+>  LDFLAGS=3D"-ldl -lutil"
+>
+>  EXTRA_OEMAKE =3D '\
+> +    V=3D1 \
+>      -C ${S}/tools/perf \
+>      O=3D${B} \
+>      CROSS_COMPILE=3D${TARGET_PREFIX} \
+> @@ -201,6 +202,9 @@ do_configure_prepend () {
+>              ${S}/tools/perf/Makefile.perf
+>          sed -i -e "s,prefix=3D'\$(DESTDIR_SQ)/usr'$,prefix=3D'\$(DESTDI=
+R_SQ)/usr' --install-lib=3D'\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
+>              ${S}/tools/perf/Makefile.perf
+> +        # backport https://github.com/torvalds/linux/commit/e4ffd066ff4=
+40a57097e9140fa9e16ceef905de8
+> +        sed -i -e 's,\($(Q)$(SHELL) .$(arch_errno_tbl).\) $(CC) $(arch_=
+errno_hdr_dir),\1 $(firstword $(CC)) $(arch_errno_hdr_dir),g' \
+> +            ${S}/tools/perf/Makefile.perf
 
+This is good instead of patching every BSP kernel
+how far back will it go patching ?
 
-thanks for followup Alex,
->
+>      fi
+>      sed -i -e "s,--root=3D'/\$(DESTDIR_SQ)',--prefix=3D'\$(DESTDIR_SQ)/=
+usr' --install-lib=3D'\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
+>          ${S}/tools/perf/Makefile*
 > --
-> Alex Kiernan
+> 2.25.1
+>
+>=20
