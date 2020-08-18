@@ -1,92 +1,106 @@
-Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com [209.85.219.196])
- by mx.groups.io with SMTP id smtpd.web10.77645.1597790242732624853
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web10.77729.1597790535005902285
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 15:37:23 -0700
+ Tue, 18 Aug 2020 15:42:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@broadcom.com header.s=google header.b=KRN4Ocsd;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.219.196, mailfrom: jonathan.richardson@broadcom.com)
-Received: by mail-yb1-f196.google.com with SMTP id q3so12254816ybp.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 15:37:22 -0700 (PDT)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=A4iv2rtN;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.215.194, mailfrom: jonathan.richardson@broadcom.com)
+Received: by mail-pg1-f194.google.com with SMTP id 189so9781138pgg.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 15:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x9pktuDAL6OjoD05x5c4mUwWs7bUmTJMLkQscJTHcnc=;
-        b=KRN4Ocsd2SHDsdjSF2UGa2tKRHL+7S4gG/ioD+jXPQW2RRl4rcLnkQ43yRmX5LpGI+
-         3iDlrXLxBcOtOafXq69HpM8VRBCYm2W+P7xjqGcXyvX1GjVqjEhlQZUr2P1MKGyQWbLW
-         uUvOBd44PwwKuZOjV+HbYcqBlVOH/NY7Zij3s=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OWR3dUsuuk+i7/l64p1EQLXlPthbrDff+gd7S0l1M5g=;
+        b=A4iv2rtN9PfhpML+A+Qf2rRAFrEaULYo/bSAlgFG3pQeGXEwi5mXcArIm1D8P+b3HW
+         tRoEcUPWjS5Zw6AMhLt2beI79MNhH6Ht9dtJ1ooNkwvNooahm3JRFKOINmHay6wgmEvz
+         qbFWSwPp5i+Ce3YzQsDrx1zbGl/gpfq9zUezE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x9pktuDAL6OjoD05x5c4mUwWs7bUmTJMLkQscJTHcnc=;
-        b=lMKu6brWPQR9YMRb0pI/RBkFKUDd2Z2RUvfsYUwcCSnhl/i1lELLCvrH1EO0t2oODW
-         EdBm9msS/gcIG3ytGeSnzBRvQnY516BTT6U4G2fau+ovY6M2JRAB1vLAnN2O3CFgHKOy
-         ARzisc2RYSwj3mXTlSmVQvququppB3ECZJzpho9DukfkJbV+nG6ncYHgklelLHQGDOc/
-         SzsoikHByz29XikngUS2Vw1BQ207JJgo4AUAAVIgRnwgbYa+Z2hkau/Wgg1H1XtDLMTr
-         bapY7/G21Rgzt3v82qZKP04nhxJnFz0X91qTVce2DfyQfBjXTHrlxH3AV2GQ3FAySeNr
-         NQVw==
-X-Gm-Message-State: AOAM531Z6RXS1SuRCJHLt0/4cvo2arajkmEsWZ6M81uKQweiH3gjaAzR
-	tCEz33zXD622EK30W/kTDj9v1jtugbaKiMzf6vIQLQ==
-X-Google-Smtp-Source: ABdhPJyfzxEAaLGqqd+gm50EUFKD5CqWn++Rs10aHkHxwhdyXzHsH8IcceIw6c0QYdWRt5jX56NdYdDDdGJlIBkjlvA=
-X-Received: by 2002:a25:6981:: with SMTP id e123mr28546184ybc.346.1597790241823;
- Tue, 18 Aug 2020 15:37:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200818211332.38006-1-jonathan.richardson@broadcom.com> <CAMKF1sqe-3pePMJh67AG8kMriyJw5hSbMzwvDbKQku5pEJQdcg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqe-3pePMJh67AG8kMriyJw5hSbMzwvDbKQku5pEJQdcg@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OWR3dUsuuk+i7/l64p1EQLXlPthbrDff+gd7S0l1M5g=;
+        b=e2F9oZmkkYTWh94USovgbjZ+dzJgPjVl4ThCyNmwBHTRmQIt5CTMXpao3H8uRTa/Ow
+         uZIKC/hOU843/7ApQeYpNQSXzQcj/p83GfL3VftAVBEImeHDol+lytvWcmyQ0f24Uh5T
+         EWTX6OwQA9rSTKS/g/Bf8Bvn+qCBCBxYfaWjW2uBQh2T98hbyYVVKoHaOODc4t5+oFiY
+         Bn974YT7oJCogA3c/BNFfNOgIj6nsw15qC2my6PeFxiCQHbzETmPT1zxprLYUzX40BGU
+         baIpZFTnEZKePwoy7xHa/BMEAaOyg2BOd1mN1VVGioAnimU/E4XfkhjKLcWxKwq61vnu
+         FBrg==
+X-Gm-Message-State: AOAM530slTcGdQLBPcLSeOoDP9j2mhq/EmesjrtEoJ/rQWh6q9vNclr8
+	v2FjplofNqLYZdRyPuxhL1P1eWwCMa6+uMdoM4pxKWs1maSd4wn1JatGvfDks3sJ0qDz7RDgbuK
+	/fMYCFTiXmkmayaX4WFWdgVkEHF8uyiU+KzDjqQpD/Qkxgnx6734Ulg7fju4pcmyKehaHu4PThL
+	ssBaCFTqCSmtDrqzMWuwlgowLBxpZkTgN9kRA=
+X-Google-Smtp-Source: ABdhPJwY0YTpom3Yxwe2YZP0khzdUG7Xlaclen30JmaznD/6Oio+m6yhSa3j0g5xb83/OfQTzPnEdA==
+X-Received: by 2002:a62:8105:: with SMTP id t5mr17062598pfd.94.1597790534069;
+        Tue, 18 Aug 2020 15:42:14 -0700 (PDT)
+Return-Path: <jonathan.richardson@broadcom.com>
+Received: from lbrmn-lnxub108.ric.broadcom.net ([192.19.228.250])
+        by smtp.gmail.com with ESMTPSA id 198sm25021484pfz.120.2020.08.18.15.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 15:42:13 -0700 (PDT)
 From: "Jonathan Richardson" <jonathan.richardson@broadcom.com>
-Date: Tue, 18 Aug 2020 15:37:10 -0700
-Message-ID: <CAHrpVsW_jBMoEywWvgcOAngi76Q5Qfc8J61Qu_hn91GjO655QQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/1] cortex-m0plus.inc: Add tuning for cortex M0 plus
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Jonathan Richardson <jonathan.richardson@broadcom.com>
+Subject: [OE-core][PATCH v2 1/1] cortex-m0plus.inc: Add tuning for cortex M0 plus
+Date: Tue, 18 Aug 2020 15:42:07 -0700
+Message-Id: <20200818224207.89914-1-jonathan.richardson@broadcom.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2020 at 2:38 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Aug 18, 2020 at 2:13 PM Jonathan Richardson via
-> lists.openembedded.org
-> <jonathan.richardson=broadcom.com@lists.openembedded.org> wrote:
-> >
-> > Add tuning files for ARM cortex m0 plus and the armv6-m architecture
-> > that it is based on.
-> >
-> > Signed-off-by: Jonathan Richardson <jonathan.richardson@broadcom.com>
-> > ---
-> >  meta/conf/machine/include/arm/arch-armv6m.inc | 20 +++++++++++++++++++
-> >  .../machine/include/tune-cortex-m0plus.inc    | 11 ++++++++++
-> >  2 files changed, 31 insertions(+)
-> >  create mode 100755 meta/conf/machine/include/arm/arch-armv6m.inc
-> >  create mode 100755 meta/conf/machine/include/tune-cortex-m0plus.inc
-> >
-> > diff --git a/meta/conf/machine/include/arm/arch-armv6m.inc b/meta/conf/machine/include/arm/arch-armv6m.inc
-> > new file mode 100755
-> > index 0000000000..8202ef52f7
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv6m.inc
-> > @@ -0,0 +1,20 @@
-> > +# Tuning for ARMV6-m defined in ARM v6-M ArchitectureReference Manual
-> > +# at https://static.docs.arm.com/ddi0419/d/DDI0419D_armv6m_arm.pdf
-> > +DEFAULTTUNE ?= "armv6m"
-> > +
-> > +TUNEVALID[armv6m] = "Enable instructions for ARMv6-m"
-> > +TUNECONFLICTS[armv6m] = "armv4 armv5 armv6 armv7a"
-> > +
-> > +# Use armv6s-m instead of armv6-m to avoid gcc bug "SVC is not permitted on this architecture".
-> > +# SVC is a valid instruction.
-> > +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6m', ' -march=armv6s-m', '', d)}"
-> > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6m', 'armv6m:', '' ,d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv5.inc
-> > +
-> > +# Little Endian
-> > +AVAILTUNES += "armv6m"
-> > +ARMPKGARCH_tune-armv6m             = "armv6m"
-> > +TUNE_FEATURES_tune-armv6m          = "armv6m"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv6m    = "armv6m"
-> > +BASE_LIB_tune-armv6m               = "lib32"
->
-> do we need BASE_LIB defined here ?
->
-I guess we don't actually. I see it's only set for the 64 bit arm
-tuning files. I'll remove it.
+Add tuning files for ARM cortex m0 plus and the armv6-m architecture
+that it is based on.
+
+Signed-off-by: Jonathan Richardson <jonathan.richardson@broadcom.com>
+---
+ meta/conf/machine/include/arm/arch-armv6m.inc | 19 +++++++++++++++++++
+ .../machine/include/tune-cortex-m0plus.inc    | 11 +++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100755 meta/conf/machine/include/arm/arch-armv6m.inc
+ create mode 100755 meta/conf/machine/include/tune-cortex-m0plus.inc
+
+diff --git a/meta/conf/machine/include/arm/arch-armv6m.inc b/meta/conf/machine/include/arm/arch-armv6m.inc
+new file mode 100755
+index 0000000000..68768106c6
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv6m.inc
+@@ -0,0 +1,19 @@
++# Tuning for ARMV6-m defined in ARM v6-M ArchitectureReference Manual
++# at https://static.docs.arm.com/ddi0419/d/DDI0419D_armv6m_arm.pdf
++DEFAULTTUNE ?= "armv6m"
++
++TUNEVALID[armv6m] = "Enable instructions for ARMv6-m"
++TUNECONFLICTS[armv6m] = "armv4 armv5 armv6 armv7a"
++
++# Use armv6s-m instead of armv6-m to avoid gcc bug "SVC is not permitted on this architecture".
++# SVC is a valid instruction.
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6m', ' -march=armv6s-m', '', d)}"
++MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6m', 'armv6m:', '' ,d)}"
++
++require conf/machine/include/arm/arch-armv5.inc
++
++# Little Endian
++AVAILTUNES += "armv6m"
++ARMPKGARCH_tune-armv6m             = "armv6m"
++TUNE_FEATURES_tune-armv6m          = "armv6m"
++PACKAGE_EXTRA_ARCHS_tune-armv6m    = "armv6m"
+diff --git a/meta/conf/machine/include/tune-cortex-m0plus.inc b/meta/conf/machine/include/tune-cortex-m0plus.inc
+new file mode 100755
+index 0000000000..1c7512b061
+--- /dev/null
++++ b/meta/conf/machine/include/tune-cortex-m0plus.inc
+@@ -0,0 +1,11 @@
++DEFAULTTUNE ?= "cortexm0-plus"
++require conf/machine/include/arm/arch-armv6m.inc
++
++TUNEVALID[cortexm0-plus] = "Enable Cortex-M0 Plus specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexm0-plus', ' -mcpu=cortex-m0plus', '', d)}"
++AVAILTUNES += "cortexm0-plus"
++
++ARMPKGARCH_tune-cortexm0-plus = "cortexm0-plus"
++TUNE_FEATURES_tune-cortexm0-plus = "${TUNE_FEATURES_tune-armv6m} cortexm0-plus"
++
++PACKAGE_EXTRA_ARCHS_tune-cortexm0-plus = "${PACKAGE_EXTRA_ARCHS_tune-armv6m} cortexm0-plus"
+-- 
+2.20.1
+
