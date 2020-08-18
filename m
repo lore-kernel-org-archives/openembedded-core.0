@@ -1,39 +1,39 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web11.64603.1597751858861862543
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web10.64992.1597753309175421133
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 04:57:39 -0700
+ Tue, 18 Aug 2020 05:21:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FfsjFXVY;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id c16so21708641ejx.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 04:57:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=htagiKsj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id c16so21799436ejx.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 05:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TSCUaZHiejFQMBn3XaPh4VoAAm/efV90WEIVAbrimpE=;
-        b=FfsjFXVY3AGXNSprZUmmio+ulfqQX53dUu5RQA90/tDwTWO/Qn74zPSsD6gC5I61nq
-         BZr/I5AUG/Hw6FEHCD4MWWDMHEFoU08wBSxnWVb17Vkq0K+DViboylEXZ57kV4FTg3vb
-         U26kBR0npTtb5b2tKfMQrecbKAI2WyXd5qxeXNa6VaF+iXdEwjKxSpey/Y3KXrS/sjx8
-         VbhSqg2kLr1iq9iXmnwI6qAlFtSb/7FWVp6mWsOEJP8e8dadCKiqSL7sqPEFUrjDvey0
-         E5eux+pQ0wI+/0fgSlEdlT5Dxwm8+byQVWHpfKfEUbMszPOtX3+xBXIQHG7ziHklsSdv
-         BBTQ==
+        bh=edfptoX6UndmNF/oStBjiRAPolUr++DfpL+bOJMUHKU=;
+        b=htagiKsjE6LqDta7RANr+Q5XElh82JSHaBlHNWcjdtI3ofFEc06T9HQvzU8Gzuyh0H
+         tOubUbJGVksIFkHBS7Ptgx7D+k4yH/Pt25/EJCfnPxSZsR9Pdn2dlKxGEMMmyNu5shdo
+         LYpk4fg00IgAZtvxMjBSkmSepALzVIS5oGRMhrG5DPVi8Aw0ChanmXAi1Hj/KDnOvIx7
+         vVyDrLye6N/bWWgyeuHYSEfyce+dExgtOWw1z6eosGgAdPHJNKXIwefXbWbfKpuogi6h
+         fW3srXUAqUou2lmOshlo8j82hE43otPlFae+0h0uxux9LNDQwuAygzGC8HVpvQkAaXVz
+         65ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TSCUaZHiejFQMBn3XaPh4VoAAm/efV90WEIVAbrimpE=;
-        b=lRTV0Drb5AjW0hjNtxc722cHS45DsINJrz4dsDs3CWTtN4CJh+5gIdM1w5SifMdOIE
-         9jP2aqXCF0YdoCE467ygqZDq/qapK1rmI+CPP5lRDgjMnFCngdmhi5yfvXWMiDq6maw1
-         MdplCA4/J8z5DcDD9YyVfp1E7wpz3gCTvsC5/EZl4uk7w2AYUPy41tE7t0/F3E1sjjQo
-         oz/6sQcSF3bSVHd1OgtWHBqsZyhyNiLcrMvti1fTTucvAHN/FUPaZfcj4ubj46fEO0dC
-         3/unb4aOjHR8bkhv9l0i1MkrZmPdhKJCqYPPtDJd9/xw0KoLaOgeQ0q5QKIebaYkkA6G
-         s6Dg==
-X-Gm-Message-State: AOAM530d47nCKEo08+9pq6iWezWG0nCryomzQAcYnTwxOHCgd2ngoX5q
-	l0fzNGxrT9XjJKMFPGonA9SJWFlUz9CA8VgsmC4=
-X-Google-Smtp-Source: ABdhPJwI9/3e0HUHO69puQRakbYrEq/OnMwQEbzamGqnPqzlbl9tUvhKNc7+BgbsjFcafuuQ78doJD+FYUSVpYxdD3s=
-X-Received: by 2002:a17:906:7391:: with SMTP id f17mr2430740ejl.392.1597751857155;
- Tue, 18 Aug 2020 04:57:37 -0700 (PDT)
+        bh=edfptoX6UndmNF/oStBjiRAPolUr++DfpL+bOJMUHKU=;
+        b=oDFTLsaEfKcM1t5+R1uoKp1LHzdh5/nCyVYMMXZyPl6hrZ2mjN5zbwGFa7Nsj/LyFt
+         lg4PmSbRULvv0LxSfQNlBngF2G4FT0YBnfvK+TsgeQUVefMfKdtEHWxYiq/5cAuqsKPQ
+         LDN2U7Onzi1q4eXwjMOVSF8QOnIXkBOY2EUy82wo5vd4tt7ruSKFV6c2gPRNP5UMkLg1
+         lVKokN/u4X3ByIxuaHqxy/hnwTlqcKuk/DlIkmlq06+OYn7Wt2kTHHZJJ1nw4rjKBXvq
+         6jgdpWsyTlbNO5X1De7aruU4qk47qEy8WmIwV6knkOEV3B5B+yzsP2ZYSTcnPP+CQXzk
+         cXqg==
+X-Gm-Message-State: AOAM530CfCqSRZ8cm7vxBQJ73kfY6qPKBdemt0f+WLTESYCMU8PbBqts
+	jZTX+wvePJ1D0tqTArdHaNPHALghJtfbOo7iQ9s=
+X-Google-Smtp-Source: ABdhPJwIj7yTnnbWwohOx2Zz3PPz4cGjp4pVhm8FZZprt/ZQMJMxhaQZlVOIFxVfzrSFP5CBrdOK0SIPBSahRHb6Itc=
+X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr18583259ejv.298.1597753307497;
+ Tue, 18 Aug 2020 05:21:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
  <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com> <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
@@ -43,115 +43,154 @@ References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v
  <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
  <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
  <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
- <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org> <CAMKF1spcEhgu0GE28h30uW60Qw8k+L_LO6qPD1YhSJ+69Pe18A@mail.gmail.com>
-In-Reply-To: <CAMKF1spcEhgu0GE28h30uW60Qw8k+L_LO6qPD1YhSJ+69Pe18A@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 18 Aug 2020 13:57:26 +0200
-Message-ID: <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
+ <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
+ <CAMKF1spcEhgu0GE28h30uW60Qw8k+L_LO6qPD1YhSJ+69Pe18A@mail.gmail.com> <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
+In-Reply-To: <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 18 Aug 2020 08:21:35 -0400
+Message-ID: <CADkTA4OREk8G=61vyufBT7vngCCc-iKSxJgMMDL-qg_GokE5ow@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>, 
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Jacob Kroon <jacob.kroon@gmail.com>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e2927b05ad2597bc"
+Content-Type: multipart/alternative; boundary="0000000000005508bf05ad25eeff"
 
---000000000000e2927b05ad2597bc
+--0000000000005508bf05ad25eeff
 Content-Type: text/plain; charset="UTF-8"
 
-Yes, I'm seeing this weird concatenation with raspberrypi builds as well:
+On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 
-find: unknown predicate `-mthumb/arch'
-arm-webos-linux-gnueabi-gcc: error: unrecognized command-line option
-'-mthumb/include/uapi/asm-generic/errno.h'
-arm-webos-linux-gnueabi-gcc: fatal error: no input files
-compilation terminated.
-
-But in this case it isn't fatal for the perf build, I've noticed it only
-because it was failing with 5.4.51 currently in meta-raspberrypi and after
-upgrade to 5.4.58 perf built OK, but this error message is still there in
-log.do_compile.
-
-On Mon, Aug 17, 2020 at 9:47 PM Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
-> > >
-> > >
-> > > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
-> > > richard.purdie@linuxfoundation.org> wrote:
-> > > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
-> > > > > Bruce,
-> > > > >
-> > > > > We need
-> > > > >
-> > > >
-> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
-> > > > > backported to 5.4 kernels for perf to build with -fno-common can
-> > > > you
-> > > > > queue this in your kernel updates as soon as you can ?
-> > > >
-> > > > I think we have other active kernels which will also need it as
-> > > > even
-> > > > with Khem's patch we still see failures:
-> > > >
-> > >
-> > > I've taken care of linux-yocto now, I don't think there are any
-> > > active use cases for those kernels that won't be covered.
-> >
-> > I bumped the meta-yocto BSPs with a quickly hacked up patch but we
-> > still see:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
-> >
-> > so I think there may be another patch we need somewhere...
-> >
-> > (which matches what we saw with Khem's _append which also failed).
-> >
+> Yes, I'm seeing this weird concatenation with raspberrypi builds as well:
 >
-> there seems to be concaternation of compiler options without space
->
-> | arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option
-> '-mfpu=neon/include/uapi/asm-generic/errno.h'
-> | arm-poky-linux-gnueabi-gcc: note: valid arguments to '-mfpu=' are:
-> auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16
-> neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2
-> vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4
-> vfpv4-d16
-> | arm-poky-linux-gnueabi-gcc: fatal error: no input files
->
-> but it also showed up on x86_64 in one of your prior builds, so I
-> wonder if its something in kernel build system or is it processing
-> TUNE_CCARGS in special ways.
->
-> > There is still some piece of this we're missing, maybe on non-IA.
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> 
+> find: unknown predicate `-mthumb/arch'
+> arm-webos-linux-gnueabi-gcc: error: unrecognized command-line option
+> '-mthumb/include/uapi/asm-generic/errno.h'
+> arm-webos-linux-gnueabi-gcc: fatal error: no input files
+> compilation terminated.
 >
 
---000000000000e2927b05ad2597bc
+confirmed as the same with my beaglebone build that ran overnight.
+
+I'll have a closer look and send a fix (hopefully) .. but if anyone else is
+already doing this, please let me know and I'll work on something else!
+
+Cheers,
+
+Bruce
+
+
+
+>
+> But in this case it isn't fatal for the perf build, I've noticed it only
+> because it was failing with 5.4.51 currently in meta-raspberrypi and after
+> upgrade to 5.4.58 perf built OK, but this error message is still there in
+> log.do_compile.
+>
+> On Mon, Aug 17, 2020 at 9:47 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
+>> > >
+>> > >
+>> > > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
+>> > > richard.purdie@linuxfoundation.org> wrote:
+>> > > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
+>> > > > > Bruce,
+>> > > > >
+>> > > > > We need
+>> > > > >
+>> > > >
+>> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
+>> > > > > backported to 5.4 kernels for perf to build with -fno-common can
+>> > > > you
+>> > > > > queue this in your kernel updates as soon as you can ?
+>> > > >
+>> > > > I think we have other active kernels which will also need it as
+>> > > > even
+>> > > > with Khem's patch we still see failures:
+>> > > >
+>> > >
+>> > > I've taken care of linux-yocto now, I don't think there are any
+>> > > active use cases for those kernels that won't be covered.
+>> >
+>> > I bumped the meta-yocto BSPs with a quickly hacked up patch but we
+>> > still see:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
+>> >
+>> > so I think there may be another patch we need somewhere...
+>> >
+>> > (which matches what we saw with Khem's _append which also failed).
+>> >
+>>
+>> there seems to be concaternation of compiler options without space
+>>
+>> | arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option
+>> '-mfpu=neon/include/uapi/asm-generic/errno.h'
+>> | arm-poky-linux-gnueabi-gcc: note: valid arguments to '-mfpu=' are:
+>> auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16
+>> neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2
+>> vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4
+>> vfpv4-d16
+>> | arm-poky-linux-gnueabi-gcc: fatal error: no input files
+>>
+>> but it also showed up on x86_64 in one of your prior builds, so I
+>> wonder if its something in kernel build system or is it processing
+>> TUNE_CCARGS in special ways.
+>>
+>> > There is still some piece of this we're missing, maybe on non-IA.
+>> >
+>> > Cheers,
+>> >
+>> > Richard
+>> >
+>> 
+>>
+>
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000005508bf05ad25eeff
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Yes, I&#39;m seeing this weird concatenation with raspberr=
-ypi builds as well:<div><br></div><div>find: unknown predicate `-mthumb/arc=
-h&#39;<br>arm-webos-linux-gnueabi-gcc: error: unrecognized command-line opt=
-ion &#39;-mthumb/include/uapi/asm-generic/errno.h&#39;<br>arm-webos-linux-g=
-nueabi-gcc: fatal error: no input files<br>compilation terminated.=C2=A0=C2=
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa &lt;<a=
+ href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr">Yes, I&#39;m seeing this weird concatenation with raspberrypi builds as=
+ well:<div><br></div><div>find: unknown predicate `-mthumb/arch&#39;<br>arm=
+-webos-linux-gnueabi-gcc: error: unrecognized command-line option &#39;-mth=
+umb/include/uapi/asm-generic/errno.h&#39;<br>arm-webos-linux-gnueabi-gcc: f=
+atal error: no input files<br>compilation terminated.=C2=A0=C2=A0<br></div>=
+</div></blockquote><div><br></div><div><div class=3D"gmail_default" style=
+=3D"font-size:small">confirmed as the same with my beaglebone build that r=
+an overnight.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll ha=
+ve a closer look and send a fix (hopefully) .. but if anyone else is alread=
+y doing this, please let me know and I&#39;ll work on something else!</div>=
+<div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
 =
-=A0<br></div><div><br></div><div>But in this case it isn&#39;t fatal for t=
-he perf build, I&#39;ve noticed it only because it was failing with 5.4.51 =
-currently in meta-raspberrypi and after upgrade to 5.4.58 perf built OK, bu=
-t this error message is still there in log.do_compile.</div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 17,=
- 2020 at 9:47 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khe=
-m@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=
+=3D"gmail_default" style=3D"font-size:small">Cheers,</div><div class=3D"gm=
+ail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>=
+<br></div><div>But in this case it isn&#39;t fatal for the perf build, I&#3=
+9;ve noticed it only because it was failing with 5.4.51 currently in meta-r=
+aspberrypi and after upgrade to 5.4.58 perf built OK, but this error messag=
+e is still there in log.do_compile.</div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 17, 2020 at 9:47 PM Kh=
+em Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem=
+@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
 =3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
 g-left:1ex">On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie<br>
 &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
@@ -228,5 +267,9 @@ TUNE_CCARGS in special ways.<br>
 &gt;<br>
 <br>
 </blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div></div>
 
---000000000000e2927b05ad2597bc--
+--0000000000005508bf05ad25eeff--
