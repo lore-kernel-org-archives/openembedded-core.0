@@ -1,123 +1,338 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web10.70222.1597769029976033687
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web10.70700.1597770329647319358
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 09:43:50 -0700
+ Tue, 18 Aug 2020 10:05:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AfZOGqyz;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id g13so7555188ioo.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 09:43:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I15xQxQo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id a26so22965738ejc.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 10:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PElu/aP4OkICBY/miBoEmy+1l1i8rYC4LdWaF+A9ALk=;
-        b=AfZOGqyzMnu1FuxKGAcZ1RjRjEyyDAkjNVmyqc825pyCfrKtjE5OqKtkLwq8HhoiW7
-         JlbPs8Rrvp9L0xgx+PFITyaJGfmEENvRYmjKYBC4H+HgljG+sG2p9cnbVpQgzc3q61hH
-         uQtA9z71/FKyz92lOmMsde95Fxhzm/0FVo+9sG6gwY7QK+99sNO0Sup8FuSCWYw1WdSd
-         Ccp0/BhT9NyMFTLEwqVuMaw0O7UooIN+A8GnVIFJfKQ+UoT4ibMNg9UvfjnJjdBpN62m
-         S2PK/Z/HyNlveAfMzRfUsHOCGF0HCiIwADyh1U+FQDOZbHqfvOLwmXPZIOFxErlH3yFu
-         mUmg==
+         :cc;
+        bh=Jh9uyPWP2cjLFRLVTZfQZ/NTEfZPaUwEXUMocyWz0p8=;
+        b=I15xQxQor1Mb4uFMF3+t5gRGetgj51aDi2koB76H9zsUJB2QjuBPJUtobYbc0v2qxF
+         AzkI5/gf9kQjN7bIFRmBBRqBDTbU39tUdUOKNXhe2plrh3lko4B2ot88X6oj3ZOgdoCi
+         HN4w5H/8gewHrK0c4EUJt0NDm/tsBpdGXflanrOv2oRrTroFgAdH4hxajS0j55jFwwx6
+         J36EWXNI10i3Hpf4LRs35ERIiVAUJIU9ULRkupIvvkY+GA/dcBG4l5XnEq0nEli31b6t
+         U0Q0r4triw2mfPgHwJ3U0aZVZ9ZitRnX/kDv85n+2cG8mtTRjth2vh99ie+ON6QFw++h
+         ZmJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PElu/aP4OkICBY/miBoEmy+1l1i8rYC4LdWaF+A9ALk=;
-        b=jfTM0YlVuK0KbAboDlV+uFI3vDCCMbzohLht1iFYTUTCLt+bg071yzStgsPjnyIN/E
-         eUARMN8L6/c11Pz+T8N0oy1DcPOIvWaYQNeofMDk1Xb9Tld0QxhmPJE4eagdTdMJ4Cvm
-         hIpGKPcazMzlN2xlZTAKJkA6qliBx6n6Q4NmyvuZFIyjubXrsf3seJsGUBBBZa3rg3+Y
-         vRW8J/yY8l93b3gkQx0D+E/DwPTvxYhUBsS3HIM9rtv5LeGiyVpYljhseW8MQDdSHdLk
-         bjsNMDxJf8G47yYAgyGgbRVNfKDiSpUTLbyWVRZIejhVcxXjnvijGjC3byef3+wahTGa
-         UyDw==
-X-Gm-Message-State: AOAM5323dsw4M/9r/4Cjh+HFJLs4ngAVKuy2+oDz8B8fz3nHV2e9Q64R
-	PLERn7SIp2m3GEheo27/EbLOhQDnzjMQjOSLPOU=
-X-Google-Smtp-Source: ABdhPJyGzYr3mBrUtlx0o/x8WvvWBGt5XJN9CBu6kxpv1wgOw1DAnDs1wI0v73ZUoUFOglhXxQDnA+YdFaVGKhg5G8o=
-X-Received: by 2002:a6b:6611:: with SMTP id a17mr9022048ioc.129.1597769027780;
- Tue, 18 Aug 2020 09:43:47 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Jh9uyPWP2cjLFRLVTZfQZ/NTEfZPaUwEXUMocyWz0p8=;
+        b=lfKswo3bFQacazWryrCzlNfsLuDVDDuSSFhJ0b9ehyekk3ENuvGwes6USwM50H1Vfj
+         pqP00V3cKoRojlw8ab7k91Noet366BgHmXg67aNpyndZ0YjwXewXFQQdFT7mMh/gkOkO
+         wh/N0MSOxOIv0ioul3IJ2a68aqgThP0d1bmTDWjPLEoQ4XhTXBNDmxTPBitHbsHOJX9r
+         EHG2Ai5yjJeq6va4BcOeAfZsCpdsgFtC9z67NNulSzRjIKM8X8GUxRxbGlckQfTXlLyo
+         2OfjrJqKyLpAzpDIyZ9Hsj/aJeDQioYZ43pqWMv7RpdHRLOPQB3mXl8hY8DFs6BYoS1m
+         zxKw==
+X-Gm-Message-State: AOAM533iLLO9fMreOHl6BnS72F0QX/9oSs+nIBRGApU7u/Q5uxYRRDBI
+	LNDqIk3wOynbuYzssSQM+pF8RGj9Xt99AIHlVzU=
+X-Google-Smtp-Source: ABdhPJxcPIxK9KSN7GWqBD/zm/T8i7sAYWKqYFAlVpWDpy2W1usXbCVNJ/eg6/NaAYP/lqPwNJSzCNtRG3oXzYCxKkY=
+X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr19789396ejv.298.1597770327948;
+ Tue, 18 Aug 2020 10:05:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807164249.32605-1-alex.kiernan@gmail.com>
- <CAMKF1spoj_R_-=CvzV6OE==jpEb0SiGj6FXPi17LoNZjivCOWA@mail.gmail.com>
- <16299320E916D773.23035@lists.openembedded.org> <CAO5Uq5Qc+rVRjAiK6vTiZzG8Ayd3RU0Pko==FXB-OF=krXkLqQ@mail.gmail.com>
- <CAMKF1sp4LUgBiEVYZMYOD9gJaNZePTOG56Xk+ovM1D0bzJDg6Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sp4LUgBiEVYZMYOD9gJaNZePTOG56Xk+ovM1D0bzJDg6Q@mail.gmail.com>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Tue, 18 Aug 2020 17:43:36 +0100
-Message-ID: <CAO5Uq5RTiJ7Gjv9yq_axtpVu55AYwe87gmuOC96j3Zk1uO_LMA@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] systemd: upgrade v245.6 -> v246
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
+ <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com> <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
+ <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
+ <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
+ <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
+ <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
+ <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
+ <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
+ <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
+ <CAMKF1spcEhgu0GE28h30uW60Qw8k+L_LO6qPD1YhSJ+69Pe18A@mail.gmail.com>
+ <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
+ <CADkTA4OREk8G=61vyufBT7vngCCc-iKSxJgMMDL-qg_GokE5ow@mail.gmail.com> <CA+chaQf5e3jtDD1BWR5=-79ms4+YaL90qx9Jn6FEB8FVeqNvyw@mail.gmail.com>
+In-Reply-To: <CA+chaQf5e3jtDD1BWR5=-79ms4+YaL90qx9Jn6FEB8FVeqNvyw@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 18 Aug 2020 13:05:16 -0400
+Message-ID: <CADkTA4NAkCwULYOtmKa=7dAf9yxfqxTUr5mcRi8jT0WdRYOuTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Jacob Kroon <jacob.kroon@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d4823305ad29e4ee"
+
+--000000000000d4823305ad29e4ee
 Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Aug 18, 2020 at 12:04 PM Martin Jansa <martin.jansa@gmail.com>
+wrote:
+
+> The perf issue with find and cflags concatenation is fixed in upstream by:
+>
+> https://github.com/torvalds/linux/commit/e4ffd066ff440a57097e9140fa9e16ceef905de8
+>
+> Adding V=1 to perf's EXTRA_OEMAKE makes it easier to see, sending a patch
+> now.
+>
+>
+Yah. I did the same thing here, was chasing the issue through the generated
+files, but hadn't tracked down the root cause yet.
+
+Looks good to me. I'll chuck away my debug.
+
+Bruce
+
+
+
+> On Tue, Aug 18, 2020 at 2:21 PM Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>
+>>
+>>
+>> On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>>
+>>> Yes, I'm seeing this weird concatenation with raspberrypi builds as well:
+>>>
+>>> find: unknown predicate `-mthumb/arch'
+>>> arm-webos-linux-gnueabi-gcc: error: unrecognized command-line option
+>>> '-mthumb/include/uapi/asm-generic/errno.h'
+>>> arm-webos-linux-gnueabi-gcc: fatal error: no input files
+>>> compilation terminated.
+>>>
+>>
+>> confirmed as the same with my beaglebone build that ran overnight.
+>>
+>> I'll have a closer look and send a fix (hopefully) .. but if anyone else
+>> is already doing this, please let me know and I'll work on something else!
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>
+>>
+>>>
+>>> But in this case it isn't fatal for the perf build, I've noticed it only
+>>> because it was failing with 5.4.51 currently in meta-raspberrypi and after
+>>> upgrade to 5.4.58 perf built OK, but this error message is still there in
+>>> log.do_compile.
+>>>
+>>> On Mon, Aug 17, 2020 at 9:47 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>>> On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie
+>>>> <richard.purdie@linuxfoundation.org> wrote:
+>>>> >
+>>>> > On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
+>>>> > >
+>>>> > >
+>>>> > > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
+>>>> > > richard.purdie@linuxfoundation.org> wrote:
+>>>> > > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
+>>>> > > > > Bruce,
+>>>> > > > >
+>>>> > > > > We need
+>>>> > > > >
+>>>> > > >
+>>>> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
+>>>> > > > > backported to 5.4 kernels for perf to build with -fno-common can
+>>>> > > > you
+>>>> > > > > queue this in your kernel updates as soon as you can ?
+>>>> > > >
+>>>> > > > I think we have other active kernels which will also need it as
+>>>> > > > even
+>>>> > > > with Khem's patch we still see failures:
+>>>> > > >
+>>>> > >
+>>>> > > I've taken care of linux-yocto now, I don't think there are any
+>>>> > > active use cases for those kernels that won't be covered.
+>>>> >
+>>>> > I bumped the meta-yocto BSPs with a quickly hacked up patch but we
+>>>> > still see:
+>>>> >
+>>>> >
+>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
+>>>> >
+>>>> > so I think there may be another patch we need somewhere...
+>>>> >
+>>>> > (which matches what we saw with Khem's _append which also failed).
+>>>> >
+>>>>
+>>>> there seems to be concaternation of compiler options without space
+>>>>
+>>>> | arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option
+>>>> '-mfpu=neon/include/uapi/asm-generic/errno.h'
+>>>> | arm-poky-linux-gnueabi-gcc: note: valid arguments to '-mfpu=' are:
+>>>> auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16
+>>>> neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2
+>>>> vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4
+>>>> vfpv4-d16
+>>>> | arm-poky-linux-gnueabi-gcc: fatal error: no input files
+>>>>
+>>>> but it also showed up on x86_64 in one of your prior builds, so I
+>>>> wonder if its something in kernel build system or is it processing
+>>>> TUNE_CCARGS in special ways.
+>>>>
+>>>> > There is still some piece of this we're missing, maybe on non-IA.
+>>>> >
+>>>> > Cheers,
+>>>> >
+>>>> > Richard
+>>>> >
+>>>> 
+>>>>
+>>>
+>>
+>> --
+>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end
+>> - "Use the force Harry" - Gandalf, Star Trek II
+>>
+>>
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000d4823305ad29e4ee
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 9, 2020 at 3:24 PM Khem Raj <raj.khem@gmail.com> wrote:
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Tue, Aug 18, 2020 at 12:04 PM Martin Jansa &lt;<=
+a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
+ltr">The perf issue with find and cflags concatenation is fixed in upstream=
+ by:<div><a href=3D"https://github.com/torvalds/linux/commit/e4ffd066ff440a=
+57097e9140fa9e16ceef905de8" target=3D"_blank">https://github.com/torvalds/l=
+inux/commit/e4ffd066ff440a57097e9140fa9e16ceef905de8</a><br></div><div><br>=
+</div><div>Adding V=3D1 to perf&#39;s EXTRA_OEMAKE makes it easier to see, =
+sending a patch now.</div></div><br></blockquote><div><br></div><div><div c=
+lass=3D"gmail_default" style=3D"font-size:small">Yah. I did the same thing =
+here, was chasing the issue through the generated files, but hadn&#39;t tra=
+cked down the root cause yet.</div><div class=3D"gmail_default" style=3D"fo=
+nt-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sm=
+all">Looks good to me. I&#39;ll chuck away my debug.</div><div class=3D"gma=
+il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
+" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Tue, Aug 18, 2020 at 2:21 PM Bruce Ashfie=
+ld &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.=
+ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size=
+:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa &lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><div dir=3D"ltr">Yes, I&#39;m seeing this weird concatenation with raspber=
+rypi builds as well:<div><br></div><div>find: unknown predicate `-mthumb/ar=
+ch&#39;<br>arm-webos-linux-gnueabi-gcc: error: unrecognized command-line op=
+tion &#39;-mthumb/include/uapi/asm-generic/errno.h&#39;<br>arm-webos-linux-=
+gnueabi-gcc: fatal error: no input files<br>compilation terminated.=C2=A0=
+=C2=A0<br></div></div></blockquote><div><br></div><div><div style=3D"font-=
+size:small">confirmed as the same with my beaglebone build that ran overnig=
+ht.</div><div style=3D"font-size:small"><br></div><div style=3D"font-size:s=
+mall">I&#39;ll have a closer look and send a fix (hopefully) .. but if anyo=
+ne else is already doing this, please let me know and I&#39;ll work on some=
+thing else!</div><div style=3D"font-size:small"><br></div><div style=3D"fon=
+t-size:small">Cheers,</div><div style=3D"font-size:small"><br></div><div st=
+yle=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div><br><=
+/div><div>But in this case it isn&#39;t fatal for the perf build, I&#39;ve =
+noticed it only because it was failing with 5.4.51 currently in meta-raspbe=
+rrypi and after upgrade to 5.4.58 perf built OK, but this error message is =
+still there in log.do_compile.</div></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 17, 2020 at 9:47 PM Khem Ra=
+j &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
+">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie &lt;<br>
+&gt; &gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"=
+_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:<br>
+&gt; &gt; &gt; &gt; Bruce,<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; We need<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; <a href=3D"https://github.com/torvalds/linux/commit/168200b=
+6d6ea0cb5765943ec5da5b8149701f36a" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f=
+36a</a><br>
+&gt; &gt; &gt; &gt; backported to 5.4 kernels for perf to build with -fno-=
+common can<br>
+&gt; &gt; &gt; you<br>
+&gt; &gt; &gt; &gt; queue this in your kernel updates as soon as you can ?=
+<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I think we have other active kernels which will also need i=
+t as<br>
+&gt; &gt; &gt; even<br>
+&gt; &gt; &gt; with Khem&#39;s patch we still see failures:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; I&#39;ve taken care of linux-yocto now, I don&#39;t think there =
+are any<br>
+&gt; &gt; active use cases for those kernels that won&#39;t be covered.<br=
 >
+&gt;<br>
+&gt; I bumped the meta-yocto BSPs with a quickly hacked up patch but we<br=
 >
->
-> On Sun, Aug 9, 2020 at 4:04 AM Alex Kiernan <alex.kiernan@gmail.com> wrot=
-e:
->>
->> On Sun, Aug 9, 2020 at 11:35 AM Alex Kiernan via
->> lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
->> wrote:
->> >
->> > On Sun, Aug 9, 2020 at 7:22 AM Khem Raj <raj.khem@gmail.com> wrote:
->> > >
->> > > Hi Alex
->> > >
->> > > I am seeing a packaging failure for iwd
->> > >
->> > > http://errors.yoctoproject.org/Errors/Details/459665/
->> > >
->> > >  which seems to originate from this patch
->> > > iwd configure detects path to systemd modules load directory if
->> > > --with-systemd-modloaddir is not specified using pkgconfing to enqui=
-re
->> > > modulesloaddir variable from systemd.pc
->> > > and the value for this has changed in latest systemd via this patch
->> > >
->> > > https://github.com/systemd/systemd/commit/4a56315a990b802860170ecd1b=
-bd3eb68e14a38b
->> > >
->> > > as a result now
->> > >
->> > > modules_load_dir=3D${rootprefix}/lib/modules-load.d
->> > > modulesloaddir=3D${modules_load_dir}
->> > >
->> > > but rootprefix is empty in OE version of systemd.pc i systemd < 246 =
- had
->> > >
->> > > modulesloaddir=3D${prefix}/lib/modules-load.d
->> > >
->> > > and prefix=3D/usr
->> > >
->> > > I could have easily fixed it in iwd by adding the additional configu=
-re
->> > > option but it seems that systemd recipe should rather be fixed to us=
-e
->> > > proper value for ROOTPREFIX
->> > >
->> >
->> > Presumably this is building with usrmerge?
->> >
->>
->> Having dug a bit more, I suspect this is without usrmerge?
->
->
-> That=E2=80=99s correct
->
->>
->>
->> It looks to me like that upstream change is just wrong for the !usrmerge=
- case.
->
->
-> I am not sure perhaps best to ask upstream Via comments to systemd commit
->
+&gt; still see:<br>
+&gt;<br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/65=
+/builds/2339" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
+oproject.org/typhoon/#/builders/65/builds/2339</a><br>
+&gt;<br>
+&gt; so I think there may be another patch we need somewhere...<br>
+&gt;<br>
+&gt; (which matches what we saw with Khem&#39;s _append which also failed)=
+.<br>
+&gt;<br>
+<br>
+there seems to be concaternation of compiler options without space<br>
+<br>
+| arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option<br>
+&#39;-mfpu=3Dneon/include/uapi/asm-generic/errno.h&#39;<br>
+| arm-poky-linux-gnueabi-gcc: note: valid arguments to &#39;-mfpu=3D&#39; =
+are:<br>
+auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16<br>
+neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2<br>
+vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4<br>
+vfpv4-d16<br>
+| arm-poky-linux-gnueabi-gcc: fatal error: no input files<br>
+<br>
+but it also showed up on x86_64 in one of your prior builds, so I<br>
+wonder if its something in kernel build system or is it processing<br>
+TUNE_CCARGS in special ways.<br>
+<br>
+&gt; There is still some piece of this we&#39;re missing, maybe on non-IA.=
+<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+<br>
+</blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+">- Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<b=
+r><br></div></div>
+</blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div></div>
 
-https://github.com/systemd/systemd/issues/16773
-
-I have a patch locally which "fixes" it, but waiting to see first what
-the upstream view is.
-
---=20
-Alex Kiernan
+--000000000000d4823305ad29e4ee--
