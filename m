@@ -1,56 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.60233.1597726421182640826
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.60687.1597729377502763238
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2020 21:53:44 -0700
+ Mon, 17 Aug 2020 22:42:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 2/kf/Vk6NWM0hiaUhAVEC+j8s6s66WKjwUduAx/WLKq8VLi2mwKAILF+TF+dBirEgBkggZT8ZU
- urbIzUwPDC7g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152249967"
-X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
-   d="scan'208";a="152249967"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 21:53:44 -0700
-IronPort-SDR: q5fAVI5dVdtIKk74TkDCe4IAu4c3UHqFqOlS9N0fL+Sdi9YclSCgA0l0FKp9fzU2fKCdmw4acS
- zqckcAeiadxw==
-X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
-   d="scan'208";a="319960846"
-Received: from ychiew-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.70.25])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2020 21:53:42 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] x264: upgrade to latest revision
-Date: Tue, 18 Aug 2020 12:53:34 +0800
-Message-Id: <20200818045334.121647-4-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200818045334.121647-1-anuj.mittal@intel.com>
-References: <20200818045334.121647-1-anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: li.zhou@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 07I5gpJb000528
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Aug 2020 22:42:52 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 17 Aug
+ 2020 22:42:27 -0700
+From: "Li Zhou" <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] connman-conf: make connman-conf only available for qemuall
+Date: Tue, 18 Aug 2020 13:41:41 +0800
+Message-ID: <1597729301-189377-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [128.224.153.75]
+Content-Type: text/plain
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+connman-conf is only for qemu machines, so use COMPATIBLE_MACHINE
+to limit that it is only available for qemuall, or else it can be
+built successfully without the package connman-conf generated.
+
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 ---
- meta/recipes-multimedia/x264/x264_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/connman/connman-conf.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 1ff5348b9e..f226fec3c4 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -14,9 +14,9 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+index 9a519ec..3a6c525 100644
+--- a/meta/recipes-connectivity/connman/connman-conf.bb
++++ b/meta/recipes-connectivity/connman/connman-conf.bb
+@@ -34,3 +34,5 @@ do_install() {
+ }
  
--SRCREV = "296494a4011f58f32adc54304a2654627558c59a"
-+SRCREV = "cde9a93319bea766a92e306d69059c76de970190"
- 
--PV = "r2991+git${SRCPV}"
-+PV = "r3011+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
+ SYSTEMD_SERVICE_${PN}_qemuall = "wired-connection.service"
++COMPATIBLE_MACHINE = "null"
++COMPATIBLE_MACHINE_qemuall = "${MACHINE}"
 -- 
-2.26.2
+1.9.1
 
