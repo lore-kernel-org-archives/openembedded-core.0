@@ -1,275 +1,371 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web10.64992.1597753309175421133
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web12.66447.1597759602408912117
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 05:21:49 -0700
+ Tue, 18 Aug 2020 07:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=htagiKsj;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id c16so21799436ejx.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 05:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=edfptoX6UndmNF/oStBjiRAPolUr++DfpL+bOJMUHKU=;
-        b=htagiKsjE6LqDta7RANr+Q5XElh82JSHaBlHNWcjdtI3ofFEc06T9HQvzU8Gzuyh0H
-         tOubUbJGVksIFkHBS7Ptgx7D+k4yH/Pt25/EJCfnPxSZsR9Pdn2dlKxGEMMmyNu5shdo
-         LYpk4fg00IgAZtvxMjBSkmSepALzVIS5oGRMhrG5DPVi8Aw0ChanmXAi1Hj/KDnOvIx7
-         vVyDrLye6N/bWWgyeuHYSEfyce+dExgtOWw1z6eosGgAdPHJNKXIwefXbWbfKpuogi6h
-         fW3srXUAqUou2lmOshlo8j82hE43otPlFae+0h0uxux9LNDQwuAygzGC8HVpvQkAaXVz
-         65ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=edfptoX6UndmNF/oStBjiRAPolUr++DfpL+bOJMUHKU=;
-        b=oDFTLsaEfKcM1t5+R1uoKp1LHzdh5/nCyVYMMXZyPl6hrZ2mjN5zbwGFa7Nsj/LyFt
-         lg4PmSbRULvv0LxSfQNlBngF2G4FT0YBnfvK+TsgeQUVefMfKdtEHWxYiq/5cAuqsKPQ
-         LDN2U7Onzi1q4eXwjMOVSF8QOnIXkBOY2EUy82wo5vd4tt7ruSKFV6c2gPRNP5UMkLg1
-         lVKokN/u4X3ByIxuaHqxy/hnwTlqcKuk/DlIkmlq06+OYn7Wt2kTHHZJJ1nw4rjKBXvq
-         6jgdpWsyTlbNO5X1De7aruU4qk47qEy8WmIwV6knkOEV3B5B+yzsP2ZYSTcnPP+CQXzk
-         cXqg==
-X-Gm-Message-State: AOAM530CfCqSRZ8cm7vxBQJ73kfY6qPKBdemt0f+WLTESYCMU8PbBqts
-	jZTX+wvePJ1D0tqTArdHaNPHALghJtfbOo7iQ9s=
-X-Google-Smtp-Source: ABdhPJwIj7yTnnbWwohOx2Zz3PPz4cGjp4pVhm8FZZprt/ZQMJMxhaQZlVOIFxVfzrSFP5CBrdOK0SIPBSahRHb6Itc=
-X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr18583259ejv.298.1597753307497;
- Tue, 18 Aug 2020 05:21:47 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: Yh8Gm8F/GsKy83thofB4CIvGQ2CoqJ3e/Gugv4SZopIDgKX0jC/sLVHyqH8EKc7xDCucWUBRve
+ ijhSnHvjjFzQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="152534348"
+X-IronPort-AV: E=Sophos;i="5.76,327,1592895600"; 
+   d="scan'208";a="152534348"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 07:06:41 -0700
+IronPort-SDR: oLjrwwaSC/I+IV5LzcPHm8WRVkYJi4v3rlgIWyMF7h3VvULdCXUjFA6by4PzBs9zNLV8qqJLul
+ /7P92Mn9S29Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,327,1592895600"; 
+   d="scan'208";a="496860012"
+Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2020 07:06:39 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 2/2] perl: fix CVE-2020-12723
+Date: Tue, 18 Aug 2020 22:06:37 +0800
+Message-Id: <20200818140637.64777-2-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200818140637.64777-1-chee.yang.lee@intel.com>
+References: <20200818140637.64777-1-chee.yang.lee@intel.com>
 MIME-Version: 1.0
-References: <20200804082019.76320-1-jacob.kroon@gmail.com> <CAMKF1soyMVB0jpLRA0v8WnCMaJ8DHf=id0xyvdoJ+78CL=UKwA@mail.gmail.com>
- <9e59ca1e-26f3-08a2-d43d-c4d4545d031a@gmail.com> <CAMKF1srkVAXV4NS7xL2mA+D8z7v4x612qjFG_0H_XFmvG3tx3A@mail.gmail.com>
- <CAMKF1sonGf4BT-XtktYVO02MtO_XA_SN_8N55WjjKgKafUPXJA@mail.gmail.com>
- <22b4b3f49bd9ca309ffe4c5fac7a3431fc43ce4b.camel@linuxfoundation.org>
- <CAMKF1srCFjrVimzDWU69Z=SaGu5gayYG7qi34Wo7pEqAG06osA@mail.gmail.com>
- <CAMKF1so+KKNoOTWMB6zLak5ek6c2rN-FAUfv1_L-TWp9h71jWQ@mail.gmail.com>
- <61e5a6bd3ec8371b2e15742caf18f342b5465c91.camel@linuxfoundation.org>
- <CADkTA4OCH85UM8EH+bCOgHC5qh0Tw=1Rg6RPznNu=0y_pg4qyQ@mail.gmail.com>
- <a6f7694da55ae6f10cba9a5d216100e54d3c8808.camel@linuxfoundation.org>
- <CAMKF1spcEhgu0GE28h30uW60Qw8k+L_LO6qPD1YhSJ+69Pe18A@mail.gmail.com> <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
-In-Reply-To: <CA+chaQeE25GYJEv4z329B4XR5SgAAEgx+OptqszNQmQ-Lsvu2A@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 18 Aug 2020 08:21:35 -0400
-Message-ID: <CADkTA4OREk8G=61vyufBT7vngCCc-iKSxJgMMDL-qg_GokE5ow@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc10: Don't default back to -fcommon
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Jacob Kroon <jacob.kroon@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000005508bf05ad25eeff"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---0000000000005508bf05ad25eeff
-Content-Type: text/plain; charset="UTF-8"
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+Minor changes to the test cases count in the .patch file to make it
+align with current version, so the fixes can be apply.
+Changes apply to line:
+https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a#diff-e31ddd69cf47acf02911647c691a0283L28
 
-> Yes, I'm seeing this weird concatenation with raspberrypi builds as well:
->
-> find: unknown predicate `-mthumb/arch'
-> arm-webos-linux-gnueabi-gcc: error: unrecognized command-line option
-> '-mthumb/include/uapi/asm-generic/errno.h'
-> arm-webos-linux-gnueabi-gcc: fatal error: no input files
-> compilation terminated.
->
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
+ 2 files changed, 303 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
 
-confirmed as the same with my beaglebone build that ran overnight.
-
-I'll have a closer look and send a fix (hopefully) .. but if anyone else is
-already doing this, please let me know and I'll work on something else!
-
-Cheers,
-
-Bruce
-
-
-
->
-> But in this case it isn't fatal for the perf build, I've noticed it only
-> because it was failing with 5.4.51 currently in meta-raspberrypi and after
-> upgrade to 5.4.58 perf built OK, but this error message is still there in
-> log.do_compile.
->
-> On Mon, Aug 17, 2020 at 9:47 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> >
->> > On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:
->> > >
->> > >
->> > > On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie <
->> > > richard.purdie@linuxfoundation.org> wrote:
->> > > > On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:
->> > > > > Bruce,
->> > > > >
->> > > > > We need
->> > > > >
->> > > >
->> https://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f36a
->> > > > > backported to 5.4 kernels for perf to build with -fno-common can
->> > > > you
->> > > > > queue this in your kernel updates as soon as you can ?
->> > > >
->> > > > I think we have other active kernels which will also need it as
->> > > > even
->> > > > with Khem's patch we still see failures:
->> > > >
->> > >
->> > > I've taken care of linux-yocto now, I don't think there are any
->> > > active use cases for those kernels that won't be covered.
->> >
->> > I bumped the meta-yocto BSPs with a quickly hacked up patch but we
->> > still see:
->> >
->> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2339
->> >
->> > so I think there may be another patch we need somewhere...
->> >
->> > (which matches what we saw with Khem's _append which also failed).
->> >
->>
->> there seems to be concaternation of compiler options without space
->>
->> | arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option
->> '-mfpu=neon/include/uapi/asm-generic/errno.h'
->> | arm-poky-linux-gnueabi-gcc: note: valid arguments to '-mfpu=' are:
->> auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16
->> neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2
->> vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4
->> vfpv4-d16
->> | arm-poky-linux-gnueabi-gcc: fatal error: no input files
->>
->> but it also showed up on x86_64 in one of your prior builds, so I
->> wonder if its something in kernel build system or is it processing
->> TUNE_CCARGS in special ways.
->>
->> > There is still some piece of this we're missing, maybe on non-IA.
->> >
->> > Cheers,
->> >
->> > Richard
->> >
->> 
->>
->
-
+diff --git a/meta/recipes-devtools/perl/files/CVE-2020-12723.patch b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
+new file mode 100644
+index 0000000000..ad195cffab
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
+@@ -0,0 +1,302 @@
++From da9ec461e22915ccabb06785bf39ec34577ada12 Mon Sep 17 00:00:00 2001
++From: Hugo van der Sanden <hv@crypt.org>
++Date: Sat, 11 Apr 2020 14:10:24 +0100
++Subject: [PATCH] study_chunk: avoid mutating regexp program within GOSUB
++
++gh16947 and gh17743: studying GOSUB may restudy in an inner call
++(via a mix of recursion and enframing) something that an outer call
++is in the middle of looking at.  Let the outer frame deal with it.
++
++(CVE-2020-12723)
++
++(cherry picked from commit c4033e740bd18d9fbe3456a9db2ec2053cdc5271)
++
++Upstream-Status: Backport [https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a]
++CVE: CVE-2020-12723
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ embed.fnc  |  2 +-
++ embed.h    |  2 +-
++ proto.h    |  2 +-
++ regcomp.c  | 54 +++++++++++++++++++++++++++++++++++-------------------
++ t/re/pat.t | 26 +++++++++++++++++++++++++-
++ 5 files changed, 63 insertions(+), 23 deletions(-)
++
++diff --git a/embed.fnc b/embed.fnc
++index f45c127..eff4a50 100644
++--- a/embed.fnc
+++++ b/embed.fnc
++@@ -2480,7 +2480,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
++ 				|NULLOK struct scan_data_t *data \
++                                 |I32 stopparen|U32 recursed_depth \
++ 				|NULLOK regnode_ssc *and_withp \
++-				|U32 flags|U32 depth
+++				|U32 flags|U32 depth|bool was_mutate_ok
++ Es	|void	|rck_elide_nothing|NN regnode *node
++ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
++ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
++diff --git a/embed.h b/embed.h
++index 356a8b9..5346ec5 100644
++--- a/embed.h
+++++ b/embed.h
++@@ -1239,7 +1239,7 @@
++ #define ssc_is_cp_posixl_init	S_ssc_is_cp_posixl_init
++ #define ssc_or(a,b,c)		S_ssc_or(aTHX_ a,b,c)
++ #define ssc_union(a,b,c)	S_ssc_union(aTHX_ a,b,c)
++-#define study_chunk(a,b,c,d,e,f,g,h,i,j,k)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k)
+++#define study_chunk(a,b,c,d,e,f,g,h,i,j,k,l)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k,l)
++ #  endif
++ #  if defined(PERL_IN_REGCOMP_C) || defined (PERL_IN_DUMP_C)
++ #define _invlist_dump(a,b,c,d)	Perl__invlist_dump(aTHX_ a,b,c,d)
++diff --git a/proto.h b/proto.h
++index 91530b1..1bda01f 100644
++--- a/proto.h
+++++ b/proto.h
++@@ -5655,7 +5655,7 @@ PERL_STATIC_INLINE void	S_ssc_union(pTHX_ regnode_ssc *ssc, SV* const invlist, c
++ #define PERL_ARGS_ASSERT_SSC_UNION	\
++ 	assert(ssc); assert(invlist)
++ #endif
++-STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth);
+++STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth, bool was_mutate_ok);
++ #define PERL_ARGS_ASSERT_STUDY_CHUNK	\
++ 	assert(pRExC_state); assert(scanp); assert(minlenp); assert(deltap); assert(last)
++ #endif
++diff --git a/regcomp.c b/regcomp.c
++index 5a9adee..8d7df1f 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -106,6 +106,7 @@ typedef struct scan_frame {
++     regnode *next_regnode;      /* next node to process when last is reached */
++     U32 prev_recursed_depth;
++     I32 stopparen;              /* what stopparen do we use */
+++    bool in_gosub;              /* this or an outer frame is for GOSUB */
++ 
++     struct scan_frame *this_prev_frame; /* this previous frame */
++     struct scan_frame *prev_frame;      /* previous frame */
++@@ -4466,7 +4467,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 			I32 stopparen,
++                         U32 recursed_depth,
++ 			regnode_ssc *and_withp,
++-			U32 flags, U32 depth)
+++			U32 flags, U32 depth, bool was_mutate_ok)
++ 			/* scanp: Start here (read-write). */
++ 			/* deltap: Write maxlen-minlen here. */
++ 			/* last: Stop before this one. */
++@@ -4545,6 +4546,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                                    node length to get a real minimum (because
++                                    the folded version may be shorter) */
++ 	bool unfolded_multi_char = FALSE;
+++        /* avoid mutating ops if we are anywhere within the recursed or
+++         * enframed handling for a GOSUB: the outermost level will handle it.
+++         */
+++        bool mutate_ok = was_mutate_ok && !(frame && frame->in_gosub);
++ 	/* Peephole optimizer: */
++         DEBUG_STUDYDATA("Peep", data, depth, is_inf);
++         DEBUG_PEEP("Peep", scan, depth, flags);
++@@ -4555,7 +4560,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++          * parsing code, as each (?:..) is handled by a different invocation of
++          * reg() -- Yves
++          */
++-        JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
+++        if (mutate_ok)
+++            JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
++ 
++         /* Follow the next-chain of the current node and optimize
++            away all the NOTHINGs from it.
++@@ -4587,7 +4593,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++             /* DEFINEP study_chunk() recursion */
++             (void)study_chunk(pRExC_state, &scan, &minlen,
++                               &deltanext, next, &data_fake, stopparen,
++-                              recursed_depth, NULL, f, depth+1);
+++                              recursed_depth, NULL, f, depth+1, mutate_ok);
++ 
++             scan = next;
++         } else
++@@ -4655,7 +4661,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                     /* recurse study_chunk() for each BRANCH in an alternation */
++ 		    minnext = study_chunk(pRExC_state, &scan, minlenp,
++                                       &deltanext, next, &data_fake, stopparen,
++-                                      recursed_depth, NULL, f, depth+1);
+++                                      recursed_depth, NULL, f, depth+1,
+++                                      mutate_ok);
++ 
++ 		    if (min1 > minnext)
++ 			min1 = minnext;
++@@ -4722,9 +4729,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 		    }
++ 		}
++ 
++-                if (PERL_ENABLE_TRIE_OPTIMISATION &&
++-                        OP( startbranch ) == BRANCH )
++-                {
+++                if (PERL_ENABLE_TRIE_OPTIMISATION
+++                    && OP(startbranch) == BRANCH
+++                    && mutate_ok
+++                ) {
++ 		/* demq.
++ 
++                    Assuming this was/is a branch we are dealing with: 'scan'
++@@ -5179,6 +5187,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                 newframe->stopparen = stopparen;
++                 newframe->prev_recursed_depth = recursed_depth;
++                 newframe->this_prev_frame= frame;
+++                newframe->in_gosub = (
+++                    (frame && frame->in_gosub) || OP(scan) == GOSUB
+++                );
++ 
++                 DEBUG_STUDYDATA("frame-new", data, depth, is_inf);
++                 DEBUG_PEEP("fnew", scan, depth, flags);
++@@ -5336,7 +5347,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 
++                 /* This temporary node can now be turned into EXACTFU, and
++                  * must, as regexec.c doesn't handle it */
++-                if (OP(next) == EXACTFU_S_EDGE) {
+++                if (OP(next) == EXACTFU_S_EDGE && mutate_ok) {
++                     OP(next) = EXACTFU;
++                 }
++ 
++@@ -5344,8 +5355,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                     &&   isALPHA_A(* STRING(next))
++                     && (         OP(next) == EXACTFAA
++                         || (     OP(next) == EXACTFU
++-                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next)))))
++-                {
+++                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next))))
+++                    &&   mutate_ok
+++                ) {
++                     /* These differ in just one bit */
++                     U8 mask = ~ ('A' ^ 'a');
++ 
++@@ -5432,7 +5444,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                                   (mincount == 0
++                                    ? (f & ~SCF_DO_SUBSTR)
++                                    : f)
++-                                  ,depth+1);
+++                                  , depth+1, mutate_ok);
++ 
++ 		if (flags & SCF_DO_STCLASS)
++ 		    data->start_class = oclass;
++@@ -5498,7 +5510,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 		if (  OP(oscan) == CURLYX && data
++ 		      && data->flags & SF_IN_PAR
++ 		      && !(data->flags & SF_HAS_EVAL)
++-		      && !deltanext && minnext == 1 ) {
+++		      && !deltanext && minnext == 1
+++                      && mutate_ok
+++                ) {
++ 		    /* Try to optimize to CURLYN.  */
++ 		    regnode *nxt = NEXTOPER(oscan) + EXTRA_STEP_2ARGS;
++ 		    regnode * const nxt1 = nxt;
++@@ -5548,10 +5562,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++ 		      && !(data->flags & SF_HAS_EVAL)
++ 		      && !deltanext	/* atom is fixed width */
++ 		      && minnext != 0	/* CURLYM can't handle zero width */
++-
++                          /* Nor characters whose fold at run-time may be
++                           * multi-character */
++                       && ! (RExC_seen & REG_UNFOLDED_MULTI_SEEN)
+++                      && mutate_ok
++ 		) {
++ 		    /* XXXX How to optimize if data == 0? */
++ 		    /* Optimize to a simpler form.  */
++@@ -5604,7 +5618,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
++                         /* recurse study_chunk() on optimised CURLYX => CURLYM */
++ 			study_chunk(pRExC_state, &nxt1, minlenp, &deltanext, nxt,
++                                     NULL, stopparen, recursed_depth, NULL, 0,
++-                                    depth+1);
+++                                    depth+1, mutate_ok);
++ 		    }
++ 		    else
++ 			oscan->flags = 0;
++@@ -6009,7 +6023,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
++                 /* recurse study_chunk() for lookahead body */
++                 minnext = study_chunk(pRExC_state, &nscan, minlenp, &deltanext,
++                                       last, &data_fake, stopparen,
++-                                      recursed_depth, NULL, f, depth+1);
+++                                      recursed_depth, NULL, f, depth+1,
+++                                      mutate_ok);
++                 if (scan->flags) {
++                     if (   deltanext < 0
++                         || deltanext > (I32) U8_MAX
++@@ -6114,7 +6129,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
++                 *minnextp = study_chunk(pRExC_state, &nscan, minnextp,
++                                         &deltanext, last, &data_fake,
++                                         stopparen, recursed_depth, NULL,
++-                                        f, depth+1);
+++                                        f, depth+1, mutate_ok);
++                 if (scan->flags) {
++                     assert(0);  /* This code has never been tested since this
++                                    is normally not compiled */
++@@ -6282,7 +6297,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
++                         /* optimise study_chunk() for TRIE */
++                         minnext = study_chunk(pRExC_state, &scan, minlenp,
++                             &deltanext, (regnode *)nextbranch, &data_fake,
++-                            stopparen, recursed_depth, NULL, f, depth+1);
+++                            stopparen, recursed_depth, NULL, f, depth+1,
+++                            mutate_ok);
++                     }
++                     if (nextbranch && PL_regkind[OP(nextbranch)]==BRANCH)
++                         nextbranch= regnext((regnode*)nextbranch);
++@@ -8075,7 +8091,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
++             &data, -1, 0, NULL,
++             SCF_DO_SUBSTR | SCF_WHILEM_VISITED_POS | stclass_flag
++                           | (restudied ? SCF_TRIE_DOING_RESTUDY : 0),
++-            0);
+++            0, TRUE);
++ 
++ 
++         CHECK_RESTUDY_GOTO_butfirst(LEAVE_with_name("study_chunk"));
++@@ -8204,7 +8220,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
++             SCF_DO_STCLASS_AND|SCF_WHILEM_VISITED_POS|(restudied
++                                                       ? SCF_TRIE_DOING_RESTUDY
++                                                       : 0),
++-            0);
+++            0, TRUE);
++ 
++         CHECK_RESTUDY_GOTO_butfirst(NOOP);
++ 
++diff --git a/t/re/pat.t b/t/re/pat.t
++index 6a868f4..2869b58 100644
++--- a/t/re/pat.t
+++++ b/t/re/pat.t
++@@ -25,7 +25,7 @@ BEGIN {
++ skip_all('no re module') unless defined &DynaLoader::boot_DynaLoader;
++ skip_all_without_unicode_tables();
++ 
++-plan tests => 864;  # Update this when adding/deleting tests.
+++plan tests => 873;  # Update this when adding/deleting tests.
++ 
++ run_tests() unless caller;
++ 
++@@ -2115,6 +2115,30 @@ x{0c!}\;\;îçÿ  /0f/! F  /;îçÿù\Q   xÿÿÿÿ   ù   `x{0c!};   ù\Q
++         like(runperl(prog => "$s", stderr => 1), qr/Unmatched \(/);
++    }
++ 
+++    # gh16947: test regexp corruption (GOSUB)
+++    {
+++        fresh_perl_is(q{
+++            'xy' =~ /x(?0)|x(?|y|y)/ && print 'ok'
+++        }, 'ok', {}, 'gh16947: test regexp corruption (GOSUB)');
+++    }
+++    # gh16947: test fix doesn't break SUSPEND
+++    {
+++        fresh_perl_is(q{ 'sx' =~ m{ss++}i; print 'ok' },
+++                'ok', {}, "gh16947: test fix doesn't break SUSPEND");
+++    }
+++
+++    # gh17743: more regexp corruption via GOSUB
+++    {
+++        fresh_perl_is(q{
+++            "0" =~ /((0(?0)|000(?|0000|0000)(?0))|)/; print "ok"
+++        }, 'ok', {}, 'gh17743: test regexp corruption (1)');
+++
+++        fresh_perl_is(q{
+++            "000000000000" =~ /(0(())(0((?0)())|000(?|\x{ef}\x{bf}\x{bd}|\x{ef}\x{bf}\x{bd}))|)/;
+++            print "ok"
+++        }, 'ok', {}, 'gh17743: test regexp corruption (2)');
+++    }
+++
++ } # End of sub run_tests
++ 
++ 1;
+diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
+index 47b2f9ca65..b53aff1216 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
+@@ -27,6 +27,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://CVE-2020-10543.patch \
+            file://CVE-2020-10878_1.patch \
+            file://CVE-2020-10878_2.patch \
++           file://CVE-2020-12723.patch \
+            "
+ SRC_URI_append_class-native = " \
+            file://perl-configpm-switch.patch \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
 
---0000000000005508bf05ad25eeff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Aug 18, 2020 at 7:57 AM Martin Jansa &lt;<a=
- href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
-tr">Yes, I&#39;m seeing this weird concatenation with raspberrypi builds as=
- well:<div><br></div><div>find: unknown predicate `-mthumb/arch&#39;<br>arm=
--webos-linux-gnueabi-gcc: error: unrecognized command-line option &#39;-mth=
-umb/include/uapi/asm-generic/errno.h&#39;<br>arm-webos-linux-gnueabi-gcc: f=
-atal error: no input files<br>compilation terminated.=C2=A0=C2=A0<br></div>=
-</div></blockquote><div><br></div><div><div class=3D"gmail_default" style=
-=3D"font-size:small">confirmed as the same with my beaglebone build that r=
-an overnight.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
-br></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll ha=
-ve a closer look and send a fix (hopefully) .. but if anyone else is alread=
-y doing this, please let me know and I&#39;ll work on something else!</div>=
-<div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
-=
-=3D"gmail_default" style=3D"font-size:small">Cheers,</div><div class=3D"gm=
-ail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>=
-<br></div><div>But in this case it isn&#39;t fatal for the perf build, I&#3=
-9;ve noticed it only because it was failing with 5.4.51 currently in meta-r=
-aspberrypi and after upgrade to 5.4.58 perf built OK, but this error messag=
-e is still there in log.do_compile.</div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 17, 2020 at 9:47 PM Kh=
-em Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem=
-@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">On Mon, Aug 17, 2020 at 5:27 AM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Sun, 2020-08-16 at 18:55 -0400, Bruce Ashfield wrote:<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; On Sun, Aug 16, 2020 at 9:47 AM Richard Purdie &lt;<br>
-&gt; &gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"=
-_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; On Sat, 2020-08-15 at 19:41 -0700, Khem Raj wrote:<br>
-&gt; &gt; &gt; &gt; Bruce,<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; We need<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; <a href=3D"https://github.com/torvalds/linux/commit/168200b=
-6d6ea0cb5765943ec5da5b8149701f36a" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://github.com/torvalds/linux/commit/168200b6d6ea0cb5765943ec5da5b8149701f=
-36a</a><br>
-&gt; &gt; &gt; &gt; backported to 5.4 kernels for perf to build with -fno-=
-common can<br>
-&gt; &gt; &gt; you<br>
-&gt; &gt; &gt; &gt; queue this in your kernel updates as soon as you can ?=
-<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I think we have other active kernels which will also need i=
-t as<br>
-&gt; &gt; &gt; even<br>
-&gt; &gt; &gt; with Khem&#39;s patch we still see failures:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;ve taken care of linux-yocto now, I don&#39;t think there =
-are any<br>
-&gt; &gt; active use cases for those kernels that won&#39;t be covered.<br=
->
-&gt;<br>
-&gt; I bumped the meta-yocto BSPs with a quickly hacked up patch but we<br=
->
-&gt; still see:<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/65=
-/builds/2339" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/typhoon/#/builders/65/builds/2339</a><br>
-&gt;<br>
-&gt; so I think there may be another patch we need somewhere...<br>
-&gt;<br>
-&gt; (which matches what we saw with Khem&#39;s _append which also failed)=
-.<br>
-&gt;<br>
-<br>
-there seems to be concaternation of compiler options without space<br>
-<br>
-| arm-poky-linux-gnueabi-gcc: error: unrecognized argument in option<br>
-&#39;-mfpu=3Dneon/include/uapi/asm-generic/errno.h&#39;<br>
-| arm-poky-linux-gnueabi-gcc: note: valid arguments to &#39;-mfpu=3D&#39; =
-are:<br>
-auto crypto-neon-fp-armv8 fp-armv8 fpv4-sp-d16 fpv5-d16 fpv5-sp-d16<br>
-neon neon-fp-armv8 neon-fp16 neon-vfpv3 neon-vfpv4 vfp vfp3 vfpv2<br>
-vfpv3 vfpv3-d16 vfpv3-d16-fp16 vfpv3-fp16 vfpv3xd vfpv3xd-fp16 vfpv4<br>
-vfpv4-d16<br>
-| arm-poky-linux-gnueabi-gcc: fatal error: no input files<br>
-<br>
-but it also showed up on x86_64 in one of your prior builds, so I<br>
-wonder if its something in kernel build system or is it processing<br>
-TUNE_CCARGS in special ways.<br>
-<br>
-&gt; There is still some piece of this we&#39;re missing, maybe on non-IA.=
-<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-<br>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div></div>
-
---0000000000005508bf05ad25eeff--
