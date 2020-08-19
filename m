@@ -1,66 +1,153 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.100200.1597879013398113647
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.54])
+ by mx.groups.io with SMTP id smtpd.web11.100384.1597879688067695347
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2020 16:16:54 -0700
+ Wed, 19 Aug 2020 16:28:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=HOSYg9gn;
- spf=softfail (domain: sidebranch.com, ip: 209.85.222.179, mailfrom: leon@sidebranch.com)
-Received: by mail-qk1-f179.google.com with SMTP id x69so91197qkb.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2020 16:16:53 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=qOVZwiag;
+ spf=pass (domain: windriver.com, ip: 40.107.94.54, mailfrom: joe.slater@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G8Q85BS0hqJzi6K8ETy1YcgrYKIhg14C3kfJCXqtTMd6+b7iqBdWKVWr05Xr3jcDR01pFHUIjOedbLrVZMUSZiLiFUuRK7rPEssUbmLctsB0aGe2bl48tjpsZkBJJWgsxgW+EwIXVyGXZzu+aTiTJrQnaJ7MzGB2WTawbu9V0/kscDkFwSDvkFou6If0aPCLpm3KRO5sjVnQXZ64KenTvMrp7bXUzc7dXbqSF6PgDOUdenxDRbgQzCPdPOxEQUXUtKE34VfHHJuOIik+ydJse/EfDKsu+dsHApy7TTCr54Je3Fs/lXZUu1z0RulQmN5Bf+FNASVzIDi402nuJcv0QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hgg/nSHYRp1RuRZBL5LvjJmKD3uKwfcdtt1NG6B5Dlk=;
+ b=Ucoml4baw8WJ3V1bjZtD8UeU/tH3KzY8qZH8MMDLF0Nw8su3S186679eIDx+LuRaea6QPxnzusoYtSk7LsbyhDkgIZwBYTSe21UTNwjEbi8F94Mym3IfL9Zv7VMzZtjkFswQeYLvhSZGW37Vz9e29zxNc4bUb17mSzUMkxVCKNn5DuhAYv3o5tR+gqilQZWUB0X8U84riHoVrKYSykgQZSTZyN7lLUmjxyCzE7ng8EewkCYBSJodFZAUv3Sww9tg90uwI2r4eD+eSzY3nj2bAdhNZF35xnQBboAwT3lWXS6+hhsm+crTN4t/drl33BFuD48rqfsLCWyFblk+Bkkc8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=nvlghr+opgcxmFmgvgBJuHtsjGMxSzRUChMADnhlcC4=;
-        b=HOSYg9gnsGqyXaFpJJqsq5hxQ4iwC8VYiWOyBftGalFDYzBNAw5i2ChLWNnsfk9Xo4
-         l9yhErJcMc6+7PVY8ufHIUsfYDP6bjdd6c3mlGNK8NsDeN7Cb2BLm15+Pg4rs+vUpaZ/
-         Yth8bIR7mePKQue7g9gaH9cv+IOkl+H8A4mGTPoK2bMEFccsAPcghFuE6HkJjtz/LjTo
-         /CsPhSqeTsMb5gdzWoOMoJm6jQH80ShCRQR5QU7B2n4zICzzJ36eGY6qrBuCerzrxcqi
-         TwaYettYdx/OCk6FD2jpvr7MZF4gYa9hby2N/k1M588+7vlHEyUtHX+r15Jrxbj4vYGB
-         umKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=nvlghr+opgcxmFmgvgBJuHtsjGMxSzRUChMADnhlcC4=;
-        b=H/BNhx+Dh5p+J7BOeUrl57ysb5JY81Sw1+zKUN5tiJD40I2cIlUH2pqXMuBL0TlKRU
-         4Ec8PO+8KozbwYUjJSiiGSXkDHaHzHbq7kft1HA2vM0z5RVOlqpVtoAkhydz/MV6wM98
-         9dWTkUwH8nTLZhFS0miYU/QvmAjgg+EmHZN3mARXiafuv1tBSOvaIxUmo5I1R5AoxmjG
-         niymEEfYLUrxxJQ0RnZxgMNgZz+qrN/dzAosu50x1SEXCRVuvN9/Jd7e1tQmLBr8bjsv
-         7v1faqzHj6rTwwIBHSkL8ZcjN/r4e7xCVr4o9pW8tNWj9Fn5rZa7NmgBI0gkgskkXjn8
-         in8Q==
-X-Gm-Message-State: AOAM530/LEXk6QTJiz31O24BYQlwJJpeRoAjvF/vbM2xjM+LKrEycvWP
-	ifglfIhQTSM7j55Kr8Dmf7i+QbigpK3J80AjKcUlY+LKHzSc4A==
-X-Google-Smtp-Source: ABdhPJyK6bDJDGDe4p4Zzd2DOcw2HQXSKb8HvHJao8LDQJwP0O1TyEQK5T5sTAiOTOfKL7s9Ckn3ENxeL/mOR6E+AMk=
-X-Received: by 2002:a05:620a:12bb:: with SMTP id x27mr352407qki.202.1597879012344;
- Wed, 19 Aug 2020 16:16:52 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hgg/nSHYRp1RuRZBL5LvjJmKD3uKwfcdtt1NG6B5Dlk=;
+ b=qOVZwiagKN+GkfDynVQKT6Zxw88ZlTOwNx5YtX+3wVuZdIuqOSAe5yjx30d7SeJnepepcXe4hho0+Rwln3y6dSbyeB0IJTZlnMjvOtz5JqRcSdzjonxya7M8lAcBDD9eXmHUZjmU3sPYJHpLRcrx8WB8/RDs8LDaMj9TjkCukig=
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
+ by BYAPR11MB2949.namprd11.prod.outlook.com (2603:10b6:a03:81::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Wed, 19 Aug
+ 2020 23:28:01 +0000
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::d93e:4c0f:e4a9:dfc6]) by BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::d93e:4c0f:e4a9:dfc6%2]) with mapi id 15.20.3305.024; Wed, 19 Aug 2020
+ 23:28:00 +0000
+From: "Joe Slater" <joe.slater@windriver.com>
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Subject: cleansstate
+Thread-Topic: cleansstate
+Thread-Index: AdZ2f++6TJw6HumXThCCKg2pI169VQ==
+Date: Wed, 19 Aug 2020 23:28:00 +0000
+Message-ID: 
+ <BY5PR11MB3992C1180C5A53CCD612FD47885D0@BY5PR11MB3992.namprd11.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+x-originating-ip: [24.4.218.114]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 431749e6-0bd3-4702-b552-08d84497835c
+x-ms-traffictypediagnostic: BYAPR11MB2949:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <BYAPR11MB294900EA5C4C38B7B6181F3D885D0@BYAPR11MB2949.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ C2xxWMMejGQ9Z558mYyHzzibbq3eIt2pUCLTVEtYMzS/W+eDMWw0kcLBt1WSOCsD8EodxSrKgQwX+h5Qf2ottXPIqvy1s8KCxZqDZ3wSI7GKKBXnv08QrMFLywERYOfEaT3wffvCt74QF20Y0G9ZdumYrJiMDyqF6gFSwoKg/rmqyiSC+43k/wmhtoBrS1SO8k/jm6GauHwNq+NZTwo5+glLfka9mJmGPHHhSyKJSu5s70kNCpNx1x56deZkHUAlOaf/qy7THZzxqzC0wtnlgYedlgC0k5QHcbI3ob39x9ix4ateAfUnTnAd/8HSii1oRn9rW6i7KW9y7md0NbB4uP7S2yEeJAidGwDhkB0NRF10oBBCBEuEjh4r6ZOyPnO4fJrGGwAx3dJaVJkxbwcLiSU5hDPgtCr5J4OGVQF2gz4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(376002)(346002)(39850400004)(366004)(136003)(4744005)(64756008)(8676002)(33656002)(66476007)(71200400001)(5660300002)(316002)(186003)(83380400001)(66446008)(8936002)(6916009)(52536014)(7116003)(7696005)(478600001)(2906002)(9686003)(66556008)(76116006)(86362001)(6506007)(55016002)(26005)(66946007)(3480700007)(166393002)(491001)(220243001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ wfeXfj31Ob+a0d6J2GEb1UaVqz/YQF0F4ofwyVTqfhnjkIzFna8qvzsON9ef12CCWJ+f22VtrmerEGQLkJFetS7m/1v8CCOfGBvyobQeGjFVhyeXns0mmqG170moTiLndiUuuJxrA7w+FPdDYz8kzl2TjlQFyvzsoLuSPEhNAw4Rmf8n8aDrQ/o24Mvyq4lbbcefTN8v79umSDQdcUbCsosy+IZ8hmSMc7oOv7Sa/8puLaJNCuIpF1e3HGA4QHadgPQ52AYqKFzrNlavBAYROg8LxZAssl27EwFGu107SVStcqK9iMZlasfFqDMWp6mFVc+0FvQvR1bovUQEYYqkDhXgsFiIX9Ro1hkmeSfgD23z8qLjZwjy3wmuYcDmz4rhhtC6P5y2pX+B7GPiC6l9fEz/kORzkVH5KG1uFfjR1XZupeuqlYHUhZpVpmo3j6a+QA1UCrQm1BhnA4c3f+GDZG8FRkGYENFnIxRxvzBedJMzHc42GoUSdr/oNW1K1fiKF86MNlCeVozy9E+IpH9nD4V5sHe7uNh7ISdiXRaxavBGZcpuy7hSrmYVfjGygel/CAND4V2os/b+EmDKt21CD5KujFM6I68ThkLxi2wwsN5nblJhS2nK2iX4AYSgss02JzuSqNSUGPqD5K+mVzCcyQ==
 MIME-Version: 1.0
-References: <162C17C3E9BAC6AE.7353@lists.openembedded.org> <CAMjhiJhwiAH4Wuvdom5VkD1aL=2wAEHg1n9Pb-QVsaO=qk6cQw@mail.gmail.com>
- <94e7e62a-7589-4914-aa8c-1cf394343812@www.fastmail.com>
-In-Reply-To: <94e7e62a-7589-4914-aa8c-1cf394343812@www.fastmail.com>
-From: "Leon Woestenberg" <leon@sidebranch.com>
-Date: Thu, 20 Aug 2020 01:16:43 +0200
-Message-ID: <CAMjhiJiE61DZyNS4TPkrhTk2y8f4fiEkoq6kQYCYQUs7y385hA@mail.gmail.com>
-Subject: Re: [OE-core] -mmusl missing in SDK / CMake MUSL toolchain
-To: Fred Baksik <fdk17@ftml.net>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 431749e6-0bd3-4702-b552-08d84497835c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2020 23:28:00.6137
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2wtx6pLCJlDINI5ewSPlk9vDe13UK0HS+fH8TVzKzsZt/caaT1HA5Ku41ok5OGCbLtZX1g+SlgiYoEsSHuvx8vwis9mzTHUq27hJ2W1pNv0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2949
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BY5PR11MB3992C1180C5A53CCD612FD47885D0BY5PR11MB3992namp_"
 
-Hello Fred,
+--_000_BY5PR11MB3992C1180C5A53CCD612FD47885D0BY5PR11MB3992namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-> This append at the top of toolchain-script.bbclass is thus without effect:
-> TARGET_CC_ARCH_append_libc-musl = " -mmusl"
->
-> This works:
->
-> TARGET_CC_ARCH_append_linux-musl = " -mmusl"
->
-> FYI,
-> Sounds like you ran into the SDK / musl problem
->
-Thanks, I have updated
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13459 with my
-findings so far.
+This might be specific to the distro I am typically using (take a guess) bu=
+t I notice that cleansstate usually pauses at the 33% mark for a significan=
+t amount of time.  I don't think this used to be quite as bad as it is now,=
+ but it is hard to remember.  Just an observation that someone might be abl=
+e to confirm/deny/explain.
 
-Regards,
+Joe
 
-Leon.
+
+--_000_BY5PR11MB3992C1180C5A53CCD612FD47885D0BY5PR11MB3992namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">This might be specific to the distro I am typically =
+using (take a guess) but I notice that cleansstate usually pauses at the 33=
+% mark for a significant amount of time.&nbsp; I don&#8217;t think this use=
+d to be quite as bad as it is now, but it is
+ hard to remember.&nbsp; Just an observation that someone might be able to =
+confirm/deny/explain.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_BY5PR11MB3992C1180C5A53CCD612FD47885D0BY5PR11MB3992namp_--
