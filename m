@@ -1,50 +1,50 @@
 Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web10.86664.1597837752192365188
+ by mx.groups.io with SMTP id smtpd.web12.85941.1597837825957932348
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2020 04:49:12 -0700
+ Wed, 19 Aug 2020 04:50:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B0o457G0;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pZ9TQ/WL;
  spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id p24so25880562ejf.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2020 04:49:11 -0700 (PDT)
+Received: by mail-ej1-f66.google.com with SMTP id f24so25956263ejx.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2020 04:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=nUxp4Ui/wGVg+riD17KV7txftMiMc4gpPXrVJ60ErWY=;
-        b=B0o457G0iCESh1fPrGGQjSELPCDNWrpdFVWYfUTuCoMUgLV7i9w6zkSjQyuwnJIebs
-         MvWQpZOHljkfVNMNBHDp2SX2tdi/PGYpqnV5jU+Q377+xZ9cKSdeA8xTtu6+fBWAtQFt
-         9+ZEpc257R9Gki/Y/dn4qXbTkMynU6+dgjWfxedKMaYX5dXe6XqM/bZ6w5c604cTHHMZ
-         YTxF6aOEzPvaM3GRx+MIgBa1NcJCHzxVRhbUpxMSTIQOPf6DTr8dNFplET2QwY6BPvjt
-         kI/jdgKa7/9UpNFx6qGsPh2OEGGmE5phaTpseTvR8H0RqPIk4eMvG/lcMx+adqxzxZTL
-         uJKw==
+        b=pZ9TQ/WLtDx5oZb4ylZ07VdhmTQ1X1BE60ONR+MVVccQVxQv4iTswngCEQlb7uaGEx
+         dlIP6MN8u/uwHrRARK3T+AUhSXrh03hWS1jQoRDt756Vwzyh5b0Uh/5y+wJGGFiyti2Y
+         AxyypBJyWH/IYDd5vyaKW5DMmxqMYSFw0ND5bVRpWcQ0i6xG67T9/Ecu5OwxR6NXrwk0
+         TjNfDvokt6iRr1p5wmO9XWdKCuwoTXWkC8WM4rbNeqIHOruKyA9ZPQ/x1Smx4Ph5xEb5
+         c9dAEPT8yBoKG/VG4wFEKXD/sgaBffXW1MLkxjXJnTi0FZeT8fkOC5k7I9rNO+sx+bpW
+         ZUpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=nUxp4Ui/wGVg+riD17KV7txftMiMc4gpPXrVJ60ErWY=;
-        b=HXbcYpCsRgT1lKoF233uMoCp2jOik8qyLDUbA2riqoMUMkw3qVfhEC5DWcMvnyX09k
-         Mj/Fs3G6031IfHSo82GnBKYHt+gvveMYx+OF8UqX/NQJLNmidncAMs78cXLRqyNx+xqn
-         jokzvGfsgz1FIWznvPMgUkiIQEuVzlRblFLitLlNyRCKR11DUyNIB0+PsFKyl2CdGlSa
-         h5Olrw8wu/cFSWdSx78pTLN8XFd8urQvGp/mZdc51kpmnvSR+IhmnDyh+n+Fppd6CjI+
-         UEruxB2ZvLhE6fsAUd0314h0MUPUvQIq9DF7xepDIIs/7A1B+m4H42+aJOeOe2/lQ4o3
-         B5MQ==
-X-Gm-Message-State: AOAM532rnLdTx2DI5RNrumMRPfpYcNjty1Yzay2E4+TYftnLDzs1rf3w
-	5jdsVOCjoNsXwXDOfeWQKun9Z63yJg1mIQ==
-X-Google-Smtp-Source: ABdhPJyHT/EWBZ93YB8RSKcwbmo5cl12gzgSIYLV6CtOQqaz/3T8PJfc/HZwdU4ju4gOeqFNRXOCwQ==
-X-Received: by 2002:a17:906:228a:: with SMTP id p10mr24435578eja.23.1597837750199;
-        Wed, 19 Aug 2020 04:49:10 -0700 (PDT)
+        b=L3/e0ZISNKoTs2uwqKqTcxphC5ajnmo69k7TpX7MM8S6VLiWHLc9CO6JaHoJddAdOc
+         XqcI7ZmGeOOAqid9gJFMeMUMbbGrRppYNbh9o8S3duE9Oa9oSClgyInlbgyGUm7cUa5C
+         /RyEkxOaRYz933cNRA+nvDrFmUwAlHqOuNgxCRt9OP2vF+fLiIzutsDNAdMu7195iATG
+         4WYUWvZnCL8rHqLsq3jQ8ob1mZdZovQ4MVX4gsZB1KiXm3N7hrDPw6wV1giIjfGBE6Ln
+         rTIMd2kVsezyW6lf7bhEIa+BDifJkoTpYFmYI6TpJafhqH3ySKOieJB0J7Vm+iU7gD8Q
+         hN/w==
+X-Gm-Message-State: AOAM53004PsOO3LoOnSdSV+h12jQRcQ64uCykXrgcUAIPJpgtKZT14cJ
+	YHO2WQqmLKFYxUdsEFCdPFfNylo5BsQkmA==
+X-Google-Smtp-Source: ABdhPJx9RDst+DrjeAVsVJR1CzAdE24Mi8x4vmo3wFB2wKf0wHiH+jT7KPTvi1Z2XUmlPVu9xoTs3A==
+X-Received: by 2002:a17:906:d78c:: with SMTP id pj12mr24278020ejb.179.1597837824154;
+        Wed, 19 Aug 2020 04:50:24 -0700 (PDT)
 Return-Path: <changhyeok.bae@gmail.com>
 Received: from cmtcleu60844809.rd.corpintra.net (ip5f5af139.dynamic.kabel-deutschland.de. [95.90.241.57])
-        by smtp.gmail.com with ESMTPSA id i35sm6419188edi.41.2020.08.19.04.49.09
+        by smtp.gmail.com with ESMTPSA id m24sm18478773eje.80.2020.08.19.04.50.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 04:49:09 -0700 (PDT)
+        Wed, 19 Aug 2020 04:50:23 -0700 (PDT)
 From: "Changhyeok Bae" <changhyeok.bae@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [meta-oe][PATCH] iproute2: upgrade 5.7.0 -> 5.8.0
-Date: Wed, 19 Aug 2020 13:50:56 +0200
-Message-Id: <20200819115056.19049-1-changhyeok.bae@gmail.com>
+Subject: [OE-Core][PATCH] iproute2: upgrade 5.7.0 -> 5.8.0
+Date: Wed, 19 Aug 2020 13:52:09 +0200
+Message-Id: <20200819115209.19160-1-changhyeok.bae@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
