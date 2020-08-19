@@ -1,81 +1,74 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web10.83988.1597819861816688662
- for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2020 23:51:02 -0700
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web11.84971.1597827907310215009
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 19 Aug 2020 02:05:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dyr4tsov;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id 77so20707286qkm.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2020 23:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OzeK0AnyGHR6dWznVgae6YdLsxFXddjCog+G2hGnm4E=;
-        b=dyr4tsovg096F57GLE8RJwXFctFI0TyRJ97PLQI3ESNI2Wv4rO7Ek35YACXgOCz6Q7
-         ANDMnHk7dTkKcjXJFFLqU7WlskEM+wiDlH8Aj22M8s9TO7g+XyFC1f6YcOC3YB42xwZp
-         /bwv8WBm+1CKspFwBaz3uminQOpsW4mrJeInZ/5eiq8kn+Mh6EFMZ8hM4WYi8azB5Kpi
-         ACCRDNQecq9FNx7LHr+0Jb8QXOIk9+W6DysJ6feEhcpU4jl8bTsxvp6CNLupNR5aB6G6
-         68lW8EsNevk2aN/u+a0wX4qN0HmYOirlThTw676n5TRlCFTHaGCxZ53sqH0m4hKCHU3V
-         WnQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OzeK0AnyGHR6dWznVgae6YdLsxFXddjCog+G2hGnm4E=;
-        b=crnlmOkMAHw4OCHu1jfXclpfQji6raUHy4rJ+FQ6TCuimhEM+7NSVOyxg874EfhY4c
-         NPoVlEy3rGqBSiyR61JndLH+eQKCcdGlzFutWPufR8OyGuDtYcrcxYxsnM2BS6WCwZ4D
-         kpwmodkjDAh3EcLPs1gLYp3WFl/P/CmqU5bOWl4GfywvDEG71YBNGPzHoxdpPEyLqN8I
-         5DIttf0MbtP/nCw5h8uOQzd7t13x7dEFPFLtnWyHJ6lgrXRwEsL7RYi3MPc7y+QuGwXl
-         m7/SpBw5VUD19Lcg0SrwwVLp6UPXzBhsjI3Fhla7bWjr9GrHDeL5qlc8U+46ou/VILNn
-         TTUg==
-X-Gm-Message-State: AOAM532ITPM7mQWnr9hhTKquAxfzLPJirGGdtXcrt75n7sajtWCAP6iH
-	FfVU+D/H0aoXWnfAWdSvhrYxaiyhlwa+fs/jMwA=
-X-Google-Smtp-Source: ABdhPJyws/ZNnpShPt2KoSU0dFyWDGZXYnL1YFs7L2Px734OJlPx/ZQlMW0NXRou+xbIaW60LPpSXQs9eqP2FitAGE0=
-X-Received: by 2002:a37:a0d1:: with SMTP id j200mr20760175qke.212.1597819860747;
- Tue, 18 Aug 2020 23:51:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200819053439.3241164-1-lachlan.archibald@opengear.com> <20200819061323.3247373-1-lachlan.archibald@opengear.com>
-In-Reply-To: <20200819061323.3247373-1-lachlan.archibald@opengear.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 18 Aug 2020 23:50:34 -0700
-Message-ID: <CAMKF1srZhAkK8UsPvnQDoKiNPM9nac97-B1o8Yyzc_Xdn9Es6A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] base-files: Add directory /var/empty
-To: Lachlan Archibald <lachlan.archibald@opengear.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: jay.shen.teoh@intel.com)
+IronPort-SDR: 3Ne/Luu6utgblNGsC5rjvxcrt3iiMbJLoTu588YouQYWV7JL0crw2q363OOFUWoSEYVp2btdpT
+ C5D5X4We+xpQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="173121174"
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; 
+   d="scan'208";a="173121174"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 02:05:06 -0700
+IronPort-SDR: xWCrD0sszHdr0JwfiHaaMOKxBs5ngtKKEaA1RGmXJeaR/q3dkkmdVKAQbsXqBCudwN/NA0Q3iC
+ VtKYOanwsXOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,330,1592895600"; 
+   d="scan'208";a="497687481"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga005.fm.intel.com with ESMTP; 19 Aug 2020 02:05:05 -0700
+From: jay.shen.teoh@intel.com
+To: Openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] oeqa/manual/bsp-hw.json : remove shutdown_system test
+Date: Wed, 19 Aug 2020 17:05:02 +0800
+Message-Id: <1597827903-18579-1-git-send-email-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-On Tue, Aug 18, 2020 at 11:14 PM Lachlan Archibald
-<lachlan.archibald@opengear.com> wrote:
->
-> /var/empty is commonly used as the home directory for system users that do not
-> have any other dedicated directory.
->
+From: TeohJayShen <jay.shen.teoh@intel.com>
 
-There is no "standard" empty directory specified in FHS so we need to
-justify why we should always create this directory
-which dameons need it or other applications that depend on /var/empty
+remove the test as shutdown function is already being validated
 
+Signed-off-by: TeohJayShen <jay.shen.teoh@intel.com>
+---
+ meta/lib/oeqa/manual/bsp-hw.json | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
-> Signed-off-by: Lachlan Archibald <lachlan.archibald@opengear.com>
-> ---
->  meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> index 94299431f6..ff706637fa 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -39,7 +39,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
->             ${libdir} ${sbindir} ${datadir} \
->             ${datadir}/common-licenses ${datadir}/dict ${infodir} \
->             ${mandir} ${datadir}/misc ${localstatedir} \
-> -           ${localstatedir}/backups ${localstatedir}/lib \
-> +           ${localstatedir}/backups ${localstatedir}/empty ${localstatedir}/lib \
->             ${localstatedir}/lib/misc ${localstatedir}/spool \
->             ${localstatedir}/volatile \
->             ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
-> --
-> 2.26.2
->
-> 
+diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
+index a9bc7d4..08132c0 100644
+--- a/meta/lib/oeqa/manual/bsp-hw.json
++++ b/meta/lib/oeqa/manual/bsp-hw.json
+@@ -125,28 +125,6 @@
+     },
+     {
+         "test": {
+-            "@alias": "bsps-hw.bsps-hw.shutdown_system",
+-            "author": [
+-                {
+-                    "email": "alexandru.c.georgescu@intel.com",
+-                    "name": "alexandru.c.georgescu@intel.com"
+-                }
+-            ],
+-            "execution": {
+-                "1": {
+-                    "action": "boot system",
+-                    "expected_results": ""
+-                },
+-                "2": {
+-                    "action": "launch terminal and run \"shutdown -h now\" or \"poweroff\"",
+-                    "expected_results": "System can be shutdown successfully . "
+-                }
+-            },
+-            "summary": "shutdown_system"
+-        }
+-    },
+-    {
+-        "test": {
+             "@alias": "bsps-hw.bsps-hw.switch_among_multi_applications_and_desktop",
+             "author": [
+                 {
+-- 
+2.7.4
+
