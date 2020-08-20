@@ -1,76 +1,66 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.115514.1597945957975569692
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web12.119486.1597957650664877815
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 10:52:38 -0700
+ Thu, 20 Aug 2020 14:07:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cd0lixDm;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id o5so1506569pgb.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 10:52:37 -0700 (PDT)
+ dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=HJBZM4MY;
+ spf=softfail (domain: sidebranch.com, ip: 209.85.219.68, mailfrom: leon@sidebranch.com)
+Received: by mail-qv1-f68.google.com with SMTP id x7so1614909qvi.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 14:07:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UkZXC5eO7xgMIhwTDeobKPyqcfog6vVDYweXT+kbdkM=;
-        b=cd0lixDmhWAuGniy3HpYVcG0YrrED9Qyh37V3sMgWRtMM9w3555PwOnkYGrZbPEeZO
-         pWk1JG/i4/xnWvHlCSdoDuFni+yffhQvdY0XGvI2se9wx/tsvEYPqoBiezf0m0YsOYFC
-         hYuYpizIUkFzUzE7ckO0S4S6u4IkMZWgEVzB0QAPhsqZ7XFjlWyLVVmei1lxt9FmnbAH
-         wv+nC0KvHkungwNH3gGdH/u6TrZp1furSvi3ZIrtKQoPDH6w2uTEjpId1TAPrp22fkgB
-         pQkvVL8vLOKd6oYTMF1oApnIYywfgwBjklVwyir3TcHMlKh9VsvGLFNs0hJkyfJncmF4
-         CzZA==
+        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7MJB2KpGnWya9BVJAd0pEFjFdYCZPPEY1b8w9fi4syU=;
+        b=HJBZM4MYDt1I0yJiw8ZA1HGsTMVo86yV4BPI8PNHq5Iwm4/qvxAE+IMogsb/e5FkOr
+         o0+xJB6VREo1/hEOerfI76lVhmO9cFSdmOfwFuq6r3juAaYkGJk8tjTSAG3Q9rsPJ9i5
+         9+Orc+55zLxsAtT9YoYNpcRkbgXWxTZzNrWDNvMxX2EPa6+JuuIBFrfxmz/DivqW7Uf9
+         B7REBbe/cFx9L0Wj08/DxOlHuXbkitkhSbTVxP6YyaNM7KWkce6UDpMfW8OwaqQdWHZZ
+         kIJh7OfH8WGEhgF3PW8jJpV0IWrmP48VE9POsUx5jgCruJfjN57AAbCYiXw2j3ccouy3
+         olZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UkZXC5eO7xgMIhwTDeobKPyqcfog6vVDYweXT+kbdkM=;
-        b=GaNg3dYm+iD7Pn5JshIyj0PVA+eg5osJG5ggYf+nSYSw+zCP7ewz7yeQwD+wDQ1Qwq
-         LS4lwL/g2cOd9ll6SZ/nDVQO7Nu1PbBFu5Au/6EBcqndAF91t22tk8W9ydl9VIjxnLi2
-         +HieXSnAA2vx1f9fr/VL2Fuqfz8erbLnvd3qmGx71RyBT3uLn00toZn6Uc5xcekG4FuF
-         1lQ5PWqU1itwVdL1wE/kQeiKosxhjJ0xOzNJOUNm1R3ApIvcZx2T2sM3PnDyhFqo/wBB
-         2gDA2UCeBWRL7TtoY1GrDEgS4UnhBbcDsX/752flA3ojNnZpGdPTMpxX1bQnr33oFeNP
-         tgrg==
-X-Gm-Message-State: AOAM532jnpbwSPE9iM44+M0lz1UBPg2/kDTQlgMcWQy29Tl4Yx6BzizK
-	xemOrXCVN5UqK9fAOTT6CMd6mZo8t+dnKg==
-X-Google-Smtp-Source: ABdhPJyiRy/B3aPSHs1WcgdRKzKNdkpWzTrk3gH4q+eJfzpqK/eJDIp5KykpAL1iOCdMl96jFXiWcg==
-X-Received: by 2002:a63:2022:: with SMTP id g34mr3131479pgg.151.1597945957196;
-        Thu, 20 Aug 2020 10:52:37 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::37ae])
-        by smtp.gmail.com with ESMTPSA id z2sm3679277pfq.46.2020.08.20.10.52.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 10:52:36 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] curl: Upgrade to 7.72.0
-Date: Thu, 20 Aug 2020 10:52:34 -0700
-Message-Id: <20200820175235.3307031-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7MJB2KpGnWya9BVJAd0pEFjFdYCZPPEY1b8w9fi4syU=;
+        b=l8QCCfGPFOmVpz3mf6m01YxeLm7xxABKCxwGAxVShoiINf4AH/eK8IF2xJNLj6xx6J
+         dip3EltL9ELzgUCsOvwEVCnCsvYhKNI+EWs9hE7dM+3qQ4AxY7rYCoEfLGEx/Z/KTfmb
+         JaYL7EDKMZ6TF2W8xBmaudxOxWiGyP7Ah6VFx7+iNnJ5LdFLQOUTdtermugbb98FZcs9
+         lAF0LQ/6AI7CpLNsOgehbq6DuFCESefe44yxLa7FhOpltvFVYJ8Lns3LfXPTXivmTBDf
+         vzBgJaom6/6DyBgTc+IhEplhng8eQgx50WarnEjssvVy9DUS2jp6qccOsrOJduKIifM0
+         ytTg==
+X-Gm-Message-State: AOAM530U91l0n1F/EkmsIs3Up8m8yx9hmB1UIetq7wKpO5M+fzNnGrSH
+	3nth4x0ZFMeTqyjAGCwxlvPAg/RjXeTHX3tgcUG1Tw==
+X-Google-Smtp-Source: ABdhPJymbLZaLMbb/9HpoF+1ZOuouX5IdHQaCOUvW4shagToTcoZK277GBIa0gxhRjhsI/7wCeAee/ebHvWzqZhH3jA=
+X-Received: by 2002:ad4:4cc9:: with SMTP id i9mr698771qvz.131.1597957649725;
+ Thu, 20 Aug 2020 14:07:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200820080115.2715139-1-raj.khem@gmail.com> <20200820080115.2715139-2-raj.khem@gmail.com>
+In-Reply-To: <20200820080115.2715139-2-raj.khem@gmail.com>
+From: "Leon Woestenberg" <leon@sidebranch.com>
+Date: Thu, 20 Aug 2020 23:07:19 +0200
+Message-ID: <CAMjhiJhf9zumg0_uC6xWwSZjqc6fHKh1Tze2jK51bkauwFco-g@mail.gmail.com>
+Subject: Re: [PATCH V2 2/3] gcc-cross-canadian: Install gcc/g++ wrappers for musl
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/curl/{curl_7.71.1.bb => curl_7.72.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/curl/{curl_7.71.1.bb => curl_7.72.0.bb} (97%)
+On Thu, Aug 20, 2020 at 10:01 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> gcc needs -mmusl option to be passed in SDK since we ship crossdk compiler
+> configured for glibc by default, this helps in creating correct
+> compiler defaults for musl based SDK compilers
+>
+> [YOCTO #13459]
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Leon Woestenberg <leon@sidebranch.com>
+> ---
+> v2: Delete file before creating wrapper
+>
+Thanks, v2 works and solves [YOCTO #13459]. We already independently
+had the same v1->v2 fix locally,  while we tested your v1 approach
+(and ignored the mailing list...)
 
-diff --git a/meta/recipes-support/curl/curl_7.71.1.bb b/meta/recipes-support/curl/curl_7.72.0.bb
-similarity index 97%
-rename from meta/recipes-support/curl/curl_7.71.1.bb
-rename to meta/recipes-support/curl/curl_7.72.0.bb
-index f028f1fdd5..e7f5492694 100644
---- a/meta/recipes-support/curl/curl_7.71.1.bb
-+++ b/meta/recipes-support/curl/curl_7.72.0.bb
-@@ -9,7 +9,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
- "
- 
--SRC_URI[sha256sum] = "9d52a4d80554f9b0d460ea2be5d7be99897a1a9f681ffafe739169afd6b4f224"
-+SRC_URI[sha256sum] = "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef"
- 
- CVE_PRODUCT = "curl libcurl"
- inherit autotools pkgconfig binconfig multilib_header
--- 
-2.28.0
-
+Tested-by: Leon Woestenberg <leon@sidebranch.com>
+Acked-by: Leon Woestenberg <leon@sidebranch.com>
