@@ -1,161 +1,165 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.109582.1597927782287786893
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.110174.1597929613467132745
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 05:49:42 -0700
+ Thu, 20 Aug 2020 06:20:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eNoMdvBO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id 88so1917965wrh.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 05:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=5M8S6cZSR7nllm8EdjPpLwRh6xryAoaNnQU/GhyebrY=;
-        b=eNoMdvBO/P18zh9LeDhljIzQAhcBxslFbYTDJ5ewEQ+cPbNnI48Hz7pftadoPig0bS
-         kjeVS8ADbLMUAzP+snDKEX44s6dXAK8QVukkZTYSEiJVO5YYvLRHcj/AtxBl4uE+mBZq
-         ZMWP05hC4gxQofVyGha1k25BuNJqw8L/fHL+k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=5M8S6cZSR7nllm8EdjPpLwRh6xryAoaNnQU/GhyebrY=;
-        b=aO36dfc9tzIB7dJwEW/5cOVZCBhITuRAyya0eLVY3Yxb1ms2YjXBPtrJsmAIPvgUml
-         Ypm5RVhhP3UBmJDg6lksa1bvfMzxiU470Ix5MnzvVZ2xU6fEA6ryVfEJPBwSHjHyrpKj
-         ZRQb2XMiyR6lOFl5yhPzS6YZjBBaK2Q1+M71muxMSIIzOeJbPkyNwQKq9l7+YT+8FJiE
-         ho4/NH6tSB19xoeaLJN0VyCfjmTWG/sreIKT4rV73Rkywhlvma6f0kVecDNHJ1XGqur0
-         seqt57W1o5Cmx9j2pZbV/PnnUO9jcdTZxZEgJJX2rV4C5eMMAFqdxhmKsRlahp6jQn46
-         w0Ng==
-X-Gm-Message-State: AOAM533e7OZqonPProKN8Wxq8HkAeM6sNYDYt8mEYdlsjENUwxZ39Yt1
-	NBqCNOem1wyFwPQHBXgW/hLUUg==
-X-Google-Smtp-Source: ABdhPJwm/1JoVtyPsml9bvP6OJ6RjQgG/X70b2wlzlnETJhuvoVqCkdNmbVE0rxIQtxfD34SCL5XyQ==
-X-Received: by 2002:adf:e911:: with SMTP id f17mr3053424wrm.397.1597927780580;
-        Thu, 20 Aug 2020 05:49:40 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:45a5:d6d5:8308:90dd])
-        by smtp.gmail.com with ESMTPSA id k1sm4329733wrw.91.2020.08.20.05.49.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 05:49:40 -0700 (PDT)
-Message-ID: <0c4384d70e7548a14b57b67f260d027220c2e15c.camel@linuxfoundation.org>
-Subject: Re: hash equivalency and PR service - RFC
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Cc: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 20 Aug 2020 13:49:38 +0100
-In-Reply-To: <54f14f4e-00f3-950f-c28e-7da70857804b@kernel.crashing.org>
-References: <54f14f4e-00f3-950f-c28e-7da70857804b@kernel.crashing.org>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: a.fatoum@pengutronix.de)
+Received: from [2001:67c:670:201:5054:ff:fe8d:eefb] (helo=[IPv6:::1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1k8kUE-00056o-UO; Thu, 20 Aug 2020 15:20:10 +0200
+Subject: Re: [OE-core] [dunfell][PATCH] core: glib-2.0: fix requested libmount/mkostemp/selinux not being linked in
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, akuster <akuster808@gmail.com>
+References: <16236F46F8876220.6175@lists.openembedded.org>
+ <631dc54f-8199-be04-c4e5-8ff48450ab42@pengutronix.de>
+ <CAGDS+n=-Y2LxWiu6vdL9Jm1re2cObHQE7A6tvQVUQXaPEqj_mg@mail.gmail.com>
+From: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
+Message-ID: <b6bde7c4-a67b-4767-749b-bb142c7855cf@pengutronix.de>
+Date: Thu, 20 Aug 2020 15:20:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAGDS+n=-Y2LxWiu6vdL9Jm1re2cObHQE7A6tvQVUQXaPEqj_mg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-08-19 at 23:44 -0500, Mark Hatle wrote:
-> I've been working recently to try to get hash equivalency and PR service to work
-> together properly.  Earlier today I sent a patch to address one of the issues I
-> found (un-related to PR service).
-> 
-> In order to replicate the condition, I've been using poky master (oe should work
-> fine) with the following configuration:
-> 
-> BB_HASHSERVE = "auto"
-> BB_SIGNATURE_HANDLER = "OEEquivHash"
-> 
-> PRSERV_HOST ??= "localhost:0"
-> 
-> PKGR[vardepsexclude] = "EXTENDPRAUTO"
-> 
-> INHERIT += "reproducible_build"
-> 
-> INHERIT += "buildhistory"
-> 
-> I then run:
-> 
-> MACHINE=qemuarm64 bitbake glibc
-> 
-> Go in and edit meta/recipes-core/glibc/glibc_2.32.bb, search for the
-> do_patch_append and add "# modify hash".
-> 
-> Re-run the build command.  The result SHOULD be the system detects that nothing
-> changed (in do_package, inspecting log.do_package should show it changed the
-> unihash.)  And then the rest is accelerated.  However, the PKGR (from the PR and
-> AUTOPR) cause this to fail, as well as any embedded dependencies that also have
-> PR/AUTOPR embedded into them.  Both of these are written to pkgdata files, and
-> when compared to prior builds for hashs will always be different.
-> 
-> I tried to break this by moving the AUTOPR value into a separate file that was
-> not used to calculate hash information.  For the most part this works, but I ran
-> into some problems.  (See below).
-> 
-> I've generated a patch:
-> 
-> https://github.com/mhatle/poky/commit/86fbd639261319de4c951708d9805abba6036510
-> 
-> (I'm not entirely happy with the change, but I think it's a reasonable start for
-> a review to make sure the direction of the change is reasonable.)
-> 
-> The header of the patch explains some of the work that I've done:
-> 
-> 
-> When the PR service is enabled a number of small changes happen to variables.
-> 
-> During the do_package task, EXTENDPRAUTO will get a value placed into it that
-> is intended to be used to extend the PR.  This value will get written to
-> various intermediate files and will result in the computed hash never being
-> equivalent.
-> 
-> To resolve this issue, we create a new file with the extension ".oe_nohash".
-> This extension contains various values that need to be passed from task to
-> task, but NOT calculated within the scope of the task hash.  The items
-> placed into the nohash are captured in package.bbclass in PKGDATA_VAR_NOHASH.
-> 
-> The PKGDATA_VAR_NOHASH is also used to prevent expansion of the value when
-> users are written to the various pkgdata files.  This expansion is prevented
-> by replacing the variable references ${VAR} with ##{VAR}## in a local
-> data store.  The pkgdata loading routines then know to load the nohash and
-> translate the ##{VAR}## back to ${VAR} automatically.
-> 
-> Additionally package dependencies rely on variables that also eventually
-> include EXTENDPRAUTO.  So instead of resolving the variable at getVar time,
-> we keep them as references.
-> 
-> The goal is instead of taking:
-> 
-> RRECOMMEND_package-dev = 'package = ${EXTENDPKGV}'
-> 
-> and making it:
-> 
-> RRECOMMEND_package-dev = 'package = 1.0-r0.1'
-> 
-> We want to keep EXTENDPKGV which internally refers to EXTENDPRAUTO
-> which is already in the special NOHASH category.
-> 
-> NOTE:  The above is not working properly in the case of ${@...} python
-> functions.  This is because the bb.utils.explode_dep_version2 does not
-> understand how to expand or deal with ${@ ... } syntax.  (It expects
-> a comma or space separated list, so the spaces cause problems!)
-> 
-> 
-> If anyone has any ideas how to address the RRECOMMEND issue above, I could use
-> some help.  I'm going to keep working on it, but I'm not sure how to get the
-> system to expand some but not everything.  (I might need to use the same local
-> datastore trick in this expansion that I used elsewhere.)
+Hello,
 
-The trick to write out without EXTENDPKGV expanded would be along the
-lines of:
+On 8/3/20 4:32 PM, Steve Sakoman wrote:
+> On Sun, Aug 2, 2020 at 9:43 PM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>>
+>> Hello,
+>>
+>> On 7/20/20 12:30 PM, Ahmad Fatoum wrote:
+>>> Since 010202076760 ("meson.bbclass: avoid unexpected operating-system
+>>> names"), meson is no longer used with a cross file that appends the used
+>>> libc to the operating system name, e.g. linux-gnueabi.
+>>>
+>>> Prior to that commit, the host_system == 'linux' checks in glib's meson
+>>> failed, which led to glib being compiled without libmount, mkostemp and
+>>> selinux even if explicitly requested.
+>>>
+>>> As the aforementioned commit affects all recipes built by glib, it might
+>>> not be a candidate for backporting to current stable branches. To fix
+>>> just the glib issue, instances of host_system == 'linux' are patched
+>>> locally.
+>>>
+>>> The patch is marked as Upstream-Status: Inappropriate as it is rendered
+>>> unnecessary for OE releases newer than Dunfell.
+>>
+>> Gentle Ping.
+> 
+> I didn't take this patch since it no longer seems to be needed in dunfell.
+> 
+> Please see:  https://lists.openembedded.org/g/openembedded-core/message/141008
+> 
+> If we are mistaken, please let us know!
 
-localdata = bb.data.createCopy(data)
-localdata.delVar("EXTENDPKGV")
+I didn't notice this (and the same patch rebased on zeus) were already
+looked at. Everything fine then. Thanks!
 
-then access the variables from localdata where EXTENDPKGV should be
-left unexpanded in the results.
+Cheers
+Ahmad
 
-The potential problem would be any cases where it was already expanded
-before this code.
+> 
+> Steve
+> 
+>>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>>> ---
+>>>  ...ot-hardcode-linux-as-the-host-system.patch | 49 +++++++++++++++++++
+>>>  meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |  1 +
+>>>  2 files changed, 50 insertions(+)
+>>>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+>>>
+>>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+>>> new file mode 100644
+>>> index 000000000000..616bbd8a7d7c
+>>> --- /dev/null
+>>> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+>>> @@ -0,0 +1,49 @@
+>>> +From a300a09661124451d4783d4be66e3993262dc9be Mon Sep 17 00:00:00 2001
+>>> +From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>>> +Date: Thu, 9 Jul 2020 13:00:16 +0200
+>>> +Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
+>>> +
+>>> +OE build system can set this to other values that include 'linux',
+>>> +e.g. 'linux-gnueabi'. This led to glib always being built without
+>>> +libmount, mkostemp and selinux support.
+>>> +
+>>> +Upstream-Status: Inappropriate [other]
+>>> +Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>>> +---
+>>> + meson.build | 6 +++---
+>>> + 1 file changed, 3 insertions(+), 3 deletions(-)
+>>> +
+>>> +diff --git a/meson.build b/meson.build
+>>> +index 3a47a7cc4b98..af09dfc853e5 100644
+>>> +--- a/meson.build
+>>> ++++ b/meson.build
+>>> +@@ -632,7 +632,7 @@ else
+>>> + endif
+>>> + message('Checking whether to use statfs or statvfs .. ' + stat_func_to_use)
+>>> +
+>>> +-if host_system == 'linux'
+>>> ++if host_system.contains('linux')
+>>> +   if cc.has_function('mkostemp',
+>>> +                      prefix: '''#define _GNU_SOURCE
+>>> +                                 #include <stdlib.h>''')
+>>> +@@ -1857,7 +1857,7 @@ glib_conf.set_quoted('GLIB_LOCALE_DIR', join_paths(glib_datadir, 'locale'))
+>>> + # libmount is only used by gio, but we need to fetch the libs to generate the
+>>> + # pkg-config file below
+>>> + libmount_dep = []
+>>> +-if host_system == 'linux' and get_option('libmount')
+>>> ++if host_system.contains('linux') and get_option('libmount')
+>>> +   libmount_dep = [dependency('mount', version : '>=2.23', required : true)]
+>>> +   glib_conf.set('HAVE_LIBMOUNT', 1)
+>>> + endif
+>>> +@@ -1867,7 +1867,7 @@ if host_system == 'windows'
+>>> + endif
+>>> +
+>>> + selinux_dep = []
+>>> +-if host_system == 'linux'
+>>> ++if host_system.contains('linux')
+>>> +   selinux_dep = dependency('libselinux', required: get_option('selinux'))
+>>> +
+>>> +   glib_conf.set('HAVE_SELINUX', selinux_dep.found())
+>>> +--
+>>> +2.27.0
+>>> +
+>>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
+>>> index d496235003d4..fd7f5ee920d8 100644
+>>> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
+>>> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
+>>> @@ -19,6 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>>>             file://0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch \
+>>>             file://0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch \
+>>>             file://0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch \
+>>> +           file://0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+>>>             "
+>>>
+>>>  SRC_URI_append_class-native = " file://relocate-modules.patch"
+>>>
+>>>
+>>>
+>>>
+>>
+>> --
+>> Pengutronix e.K.                           |                             |
+>> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+>> 
+> 
 
-Cheers,
-
-Richard
-
-
-
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
