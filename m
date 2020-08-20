@@ -1,66 +1,176 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web12.119486.1597957650664877815
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.121699.1597962908753123243
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 14:07:32 -0700
+ Thu, 20 Aug 2020 15:35:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=HJBZM4MY;
- spf=softfail (domain: sidebranch.com, ip: 209.85.219.68, mailfrom: leon@sidebranch.com)
-Received: by mail-qv1-f68.google.com with SMTP id x7so1614909qvi.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 14:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7MJB2KpGnWya9BVJAd0pEFjFdYCZPPEY1b8w9fi4syU=;
-        b=HJBZM4MYDt1I0yJiw8ZA1HGsTMVo86yV4BPI8PNHq5Iwm4/qvxAE+IMogsb/e5FkOr
-         o0+xJB6VREo1/hEOerfI76lVhmO9cFSdmOfwFuq6r3juAaYkGJk8tjTSAG3Q9rsPJ9i5
-         9+Orc+55zLxsAtT9YoYNpcRkbgXWxTZzNrWDNvMxX2EPa6+JuuIBFrfxmz/DivqW7Uf9
-         B7REBbe/cFx9L0Wj08/DxOlHuXbkitkhSbTVxP6YyaNM7KWkce6UDpMfW8OwaqQdWHZZ
-         kIJh7OfH8WGEhgF3PW8jJpV0IWrmP48VE9POsUx5jgCruJfjN57AAbCYiXw2j3ccouy3
-         olZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7MJB2KpGnWya9BVJAd0pEFjFdYCZPPEY1b8w9fi4syU=;
-        b=l8QCCfGPFOmVpz3mf6m01YxeLm7xxABKCxwGAxVShoiINf4AH/eK8IF2xJNLj6xx6J
-         dip3EltL9ELzgUCsOvwEVCnCsvYhKNI+EWs9hE7dM+3qQ4AxY7rYCoEfLGEx/Z/KTfmb
-         JaYL7EDKMZ6TF2W8xBmaudxOxWiGyP7Ah6VFx7+iNnJ5LdFLQOUTdtermugbb98FZcs9
-         lAF0LQ/6AI7CpLNsOgehbq6DuFCESefe44yxLa7FhOpltvFVYJ8Lns3LfXPTXivmTBDf
-         vzBgJaom6/6DyBgTc+IhEplhng8eQgx50WarnEjssvVy9DUS2jp6qccOsrOJduKIifM0
-         ytTg==
-X-Gm-Message-State: AOAM530U91l0n1F/EkmsIs3Up8m8yx9hmB1UIetq7wKpO5M+fzNnGrSH
-	3nth4x0ZFMeTqyjAGCwxlvPAg/RjXeTHX3tgcUG1Tw==
-X-Google-Smtp-Source: ABdhPJymbLZaLMbb/9HpoF+1ZOuouX5IdHQaCOUvW4shagToTcoZK277GBIa0gxhRjhsI/7wCeAee/ebHvWzqZhH3jA=
-X-Received: by 2002:ad4:4cc9:: with SMTP id i9mr698771qvz.131.1597957649725;
- Thu, 20 Aug 2020 14:07:29 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E104940C26;
+	Thu, 20 Aug 2020 22:35:07 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id npPgxVSGHUz7; Thu, 20 Aug 2020 22:35:07 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 9466540AB7;
+	Thu, 20 Aug 2020 22:35:04 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id E63BB17446C; Thu, 20 Aug 2020 18:35:03 -0400 (EDT)
+Date: Thu, 20 Aug 2020 18:35:03 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, akuster808@gmail.com,
+	richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCHv3 1/8] license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
+Message-ID: <20200820223503.GM17660@denix.org>
+References: <20191211164820.26588-1-pkj@axis.com>
 MIME-Version: 1.0
-References: <20200820080115.2715139-1-raj.khem@gmail.com> <20200820080115.2715139-2-raj.khem@gmail.com>
-In-Reply-To: <20200820080115.2715139-2-raj.khem@gmail.com>
-From: "Leon Woestenberg" <leon@sidebranch.com>
-Date: Thu, 20 Aug 2020 23:07:19 +0200
-Message-ID: <CAMjhiJhf9zumg0_uC6xWwSZjqc6fHKh1Tze2jK51bkauwFco-g@mail.gmail.com>
-Subject: Re: [PATCH V2 2/3] gcc-cross-canadian: Install gcc/g++ wrappers for musl
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191211164820.26588-1-pkj@axis.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Aug 20, 2020 at 10:01 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> gcc needs -mmusl option to be passed in SDK since we ship crossdk compiler
-> configured for glibc by default, this helps in creating correct
-> compiler defaults for musl based SDK compilers
->
-> [YOCTO #13459]
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Leon Woestenberg <leon@sidebranch.com>
+This actually fails yocto-check-layer script for Yocto compliance 
+checking, when a layer provides own licenses via LICENSE_PATH 
+(in layer.conf - LICENSE_PATH += "${LAYERDIR}/licenses"):
+
+Variable AVAILABLE_LICENSES value changed:
+...
+
+Is there a new way to provide additional licenses from a layer or 
+should the yocto-check-layer script be modified to accomodate 
+(i.e. ignore) this change?
+
+-- 
+Denys
+
+
+On Wed, Dec 11, 2019 at 05:48:13PM +0100, Peter Kjellerstedt wrote:
+> Previously, there was SRC_DISTRIBUTE_LICENSES, an undocumented
+> variable that contained a static list of licenses. It was used by
+> expand_wildcard_licenses() to expand any wildcards used in, e.g.,
+> INCOMPATIBLE_LICENSE. However, since this static list of licenses has
+> not been kept up-to-date, many licenses were missing, with the result
+> that if one tried to use any of those licenses with a wildcard, no
+> licenses would be found, effectively ignoring that they should be
+> marked as incompatible.
+> 
+> This introduces a new (documented) variable, AVAILABLE_LICENSES, that
+> is automatically updated to contain all licenses found in any
+> directories specified by ${COMMON_LICENSE_DIR} and ${LICENSE_PATH},
+> and uses it instead of SRC_DISTRIBUTE_LICENSES when expanding
+> wildcards.
+> 
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 > ---
-> v2: Delete file before creating wrapper
->
-Thanks, v2 works and solves [YOCTO #13459]. We already independently
-had the same v1->v2 fix locally,  while we tested your v1 approach
-(and ignored the mailing list...)
-
-Tested-by: Leon Woestenberg <leon@sidebranch.com>
-Acked-by: Leon Woestenberg <leon@sidebranch.com>
+> 
+> PATCHv2: Correct spelling of 'available'.
+> 
+>  meta/classes/license.bbclass                  | 27 ++++++++++++++++---
+>  meta/conf/documentation.conf                  |  1 +
+>  .../oeqa/selftest/cases/incompatible_lic.py   |  6 ++---
+>  3 files changed, 27 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index 648a4d7892..c388740003 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -252,7 +252,7 @@ def canonical_license(d, license):
+>      """
+>      Return the canonical (SPDX) form of the license if available (so GPLv3
+>      becomes GPL-3.0), for the license named 'X+', return canonical form of
+> -    'X' if availabel and the tailing '+' (so GPLv3+ becomes GPL-3.0+), 
+> +    'X' if available and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
+>      or the passed license if there is no canonical form.
+>      """
+>      lic = d.getVarFlag('SPDXLICENSEMAP', license) or ""
+> @@ -262,10 +262,29 @@ def canonical_license(d, license):
+>              lic += '+'
+>      return lic or license
+>  
+> +def available_licenses(d):
+> +    """
+> +    Return the available licenses by searching the directories specified by
+> +    COMMON_LICENSE_DIR and LICENSE_PATH.
+> +    """
+> +    lic_dirs = ((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' +
+> +                (d.getVar('LICENSE_PATH') or '')).split()
+> +
+> +    licenses = []
+> +    for lic_dir in lic_dirs:
+> +        licenses += os.listdir(lic_dir)
+> +
+> +    licenses = sorted(licenses)
+> +    return licenses
+> +
+> +# Only determine the list of all available licenses once. This assumes that any
+> +# additions to LICENSE_PATH have been done before this file is parsed.
+> +AVAILABLE_LICENSES := "${@' '.join(available_licenses(d))}"
+> +
+>  def expand_wildcard_licenses(d, wildcard_licenses):
+>      """
+> -    Return actual spdx format license names if wildcard used. We expand
+> -    wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
+> +    Return actual spdx format license names if wildcards are used. We expand
+> +    wildcards from SPDXLICENSEMAP flags and AVAILABLE_LICENSES.
+>      """
+>      import fnmatch
+>      licenses = wildcard_licenses[:]
+> @@ -274,7 +293,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
+>          spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
+>          licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in spdxflags]
+>  
+> -    spdx_lics = (d.getVar('SRC_DISTRIBUTE_LICENSES', False) or '').split()
+> +    spdx_lics = d.getVar('AVAILABLE_LICENSES').split()
+>      for wld_lic in wildcard_licenses:
+>          licenses += fnmatch.filter(spdx_lics, wld_lic)
+>  
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index fca36f3cf6..0b21d1f63e 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -69,6 +69,7 @@ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib p
+>  AUTHOR[doc] = "Email address used to contact the original author(s) in order to send patches and forward bugs."
+>  AUTO_SYSLINUXMENU[doc] = "Enables creating an automatic menu for the syslinux bootloader."
+>  AUTOREV[doc] = "When SRCREV is set to the value of this variable, it specifies to use the latest source revision in the repository."
+> +AVAILABLE_LICENSES[doc] = "List of licenses found in the directories specified by COMMON_LICENSE_DIR and LICENSE_PATH."
+>  
+>  #B
+>  
+> diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> index 904b5b4094..ad878571b5 100644
+> --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> @@ -12,12 +12,12 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+>          if error_msg not in result.output:
+>              raise AssertionError(result.output)
+>  
+> -    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
+> +    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+>      # cannot be built when INCOMPATIBLE_LICENSE contains this SPDX license
+>      def test_incompatible_spdx_license(self):
+>          self.lic_test('incompatible-license', 'GPL-3.0', 'GPL-3.0')
+>  
+> -    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
+> +    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+>      # cannot be built when INCOMPATIBLE_LICENSE contains an alias (in
+>      # SPDXLICENSEMAP) of this SPDX license
+>      def test_incompatible_alias_spdx_license(self):
+> @@ -35,7 +35,7 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+>          self.lic_test('incompatible-license-alias', 'GPLv3', 'GPLv3')
+>  
+>      # Verify that a package with a non-SPDX license (neither in
+> -    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+> +    # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+>      # INCOMPATIBLE_LICENSE contains this license
+>      def test_incompatible_nonspdx_license(self):
+>          self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
+> -- 
+> 2.21.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
