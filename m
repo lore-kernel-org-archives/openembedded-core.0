@@ -1,90 +1,61 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web11.112601.1597936514024245511
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web11.113425.1597938700328409417
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 08:15:15 -0700
+ Thu, 20 Aug 2020 08:51:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=Aqg94yuD;
- spf=softfail (domain: sidebranch.com, ip: 209.85.219.68, mailfrom: leon@sidebranch.com)
-Received: by mail-qv1-f68.google.com with SMTP id r19so1039587qvw.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 08:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m0DBFYKQ64Y4efFyeU/pLF9fZ6LMejDuS5M6+0p7nn4=;
-        b=Aqg94yuDlKvC2ZgPmPfXJlOjvbn5l7TqFDZ3ddSkTrY/MdmLluuh9jgKtiWp9sGlSd
-         RnEq40mljZHcqCTpEJvNgaMqkd0W0ch55JocFM32CshsOjUWR++TwUV81/bzRC0icj4L
-         wGW/A/tiCYZGrJxVj+Soc69S0Q1uSEF+wUWqOIxvu1oKYZLYwQj6v7+/iPw6tXhlRb67
-         qKtu8XiSD2ND4Lqm8KkMnGRJNMBoFmd6//pAVB//dUZ2VhnbXuvyoclkaYei16cvyYGX
-         ACAd/jxTX3iPU0EC3PHBmnope9QEfp513UQRckj9TYqu3CP58niQ6vT8HOmJpQOWnrkm
-         3BoQ==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bjarne.michelsen@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id o23so3122187ejr.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 08:51:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m0DBFYKQ64Y4efFyeU/pLF9fZ6LMejDuS5M6+0p7nn4=;
-        b=r4Kq3fq3yGvas7oykH6A6M2YPKHJjVDF16r7wmNzbZEsA5JHvKEHy+JR0jlcn773vV
-         LULvNXJUrE2gR2ZrMGqhWCrLdn5TSbgf5FizcK3r19TmVgsUqpssHbrP+c/eE1thpBWu
-         KADrLgNJfRl4A52p/4R53bWQVtO/Ouy1ACtzhf/InYz78Tap5v1DZ3AjmZkHM1xfMZrJ
-         mvarwDnrng4sIhtn7vicwBPcYbKdRFMkf40Uo6bEZ0g0LfAIOZxQX0ajhwUlPaE/d9+y
-         g+T9fZSOoxxa26jNAk9ZLFklidhXYkG9798/N0mPuKClx032rQ9EGIK0+nEFJ2eScCuJ
-         RDZg==
-X-Gm-Message-State: AOAM530uBmTK6he0mTRBxSiu0C1AmI3Px+siHngF7THyHHBjqeaGEk5I
-	IAJ96+aTJecwzO9B4DlMsN0Z+9rTLnRtBcjDpQAMQA==
-X-Google-Smtp-Source: ABdhPJx38tU3T47T+F0vIfr6cyFs+2Jt+NbNmYOi41zfUObtUklXN9b8sYKuKY+GC0MHXeloA3frD7kEqQUeS3tQx00=
-X-Received: by 2002:a0c:f702:: with SMTP id w2mr3321660qvn.152.1597936513058;
- Thu, 20 Aug 2020 08:15:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tgXP8Z4L71fe0d8mNH7vSQjxmDIJ2UXm3Qr7Pyt85ps=;
+        b=OF8y0rE6a6xuP+uABPEgSa9awo2qbt1KgNgVzAkwnDoU8ulv4rHXPnxDaXLe2rV17n
+         IVNR8UYxvP7yVi495YcRfWiDjYcTfhDwWKFTatU9FY0WWS2Uteo0mspfwwqs8GXe4t5Y
+         i0/mt7MB6ZaTU/eCCIL6S4i8SCfr4idiun5gb3mMEWGWMkjltKNhhbNndkhnGHCZu6tg
+         gvmQmdNvZqeWXep629EXqU6IPzQzZo/o5pp084Z2SzR0kwXANo/SufNAevtoATU+1fYW
+         lW+jTA7DfF77D4d/s0IM0/DouzpPpkkzWkpvuPIq2M59D2dZoUdVOR5HA3qNaK38SF3U
+         A84w==
+X-Gm-Message-State: AOAM532t+OQCm5aqfnblhTUFn7jRfWlQIaNWkq2xlIsEEwIHKmTeVqN1
+	CUyOWMUbZrluRvZYxqYLRQZC0KUTlEVNFQFx
+X-Google-Smtp-Source: ABdhPJwxvHmBuJZBEi75piAshr8eBwgJJR+uIGuUNPWzLFerbjkoMEzNXqPSWwn/Ci5suE4FJzN/VQ==
+X-Received: by 2002:a17:906:9618:: with SMTP id s24mr3844375ejx.53.1597938698335;
+        Thu, 20 Aug 2020 08:51:38 -0700 (PDT)
+Return-Path: <bjarne.michelsen@gmail.com>
+Received: from bjarne-ThinkPad-X1-Extreme-2nd.fritz.box (ip5b402d63.dynamic.kabel-deutschland.de. [91.64.45.99])
+        by smtp.gmail.com with ESMTPSA id m13sm1545305eds.10.2020.08.20.08.51.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 08:51:37 -0700 (PDT)
+From: "Bjarne Michelsen" <bjarne_michelsen@hotmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Bjarne Michelsen <bjarne_michelsen@hotmail.com>
+Subject: [PATCH] asio: extend recipe to add native support
+Date: Thu, 20 Aug 2020 17:51:30 +0200
+Message-Id: <20200820155130.8397-1-bjarne_michelsen@hotmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200820065727.2589128-1-raj.khem@gmail.com> <20200820065727.2589128-2-raj.khem@gmail.com>
- <162CF9C651AD323D.19371@lists.openembedded.org>
-In-Reply-To: <162CF9C651AD323D.19371@lists.openembedded.org>
-From: "Leon Woestenberg" <leon@sidebranch.com>
-Date: Thu, 20 Aug 2020 17:15:00 +0200
-Message-ID: <CAMjhiJi9LnojrDuFghYsac99Zna4E9S39j4+kDJ-hs7HbtJ0EA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] gcc-cross-canadian: Install gcc/g++ wrappers for musl
-To: Leon Woestenberg <leon@sidebranch.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-With the rm -f $d/$p added, the links generated earlier are first
-removed, then replaced by the wrapper, as expected.
-We have tested this to work correctly.
+Allows usage of asio for native packages
 
-(This fixes the bug where the first echo ... > would write to the
-softlink target, the actual gcc binary.)
+Signed-off-by: Bjarne Michelsen <bjarne_michelsen@hotmail.com>
+---
+ meta-oe/recipes-support/asio/asio_1.16.1.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-This is what I have locally in my meta-fixes overlay:
+diff --git a/meta-oe/recipes-support/asio/asio_1.16.1.bb b/meta-oe/recipes-support/asio/asio_1.16.1.bb
+index f381d12fb..dfc3b798d 100644
+--- a/meta-oe/recipes-support/asio/asio_1.16.1.bb
++++ b/meta-oe/recipes-support/asio/asio_1.16.1.bb
+@@ -25,3 +25,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/asio/${BP}.tar.bz2"
+ PACKAGECONFIG ??= "boost"
+ 
+ PACKAGECONFIG[boost] = "--with-boost,--without-boost,boost"
++
++BBCLASSEXTEND += "native nativesdk"
++
++EXTRA_OECONF_class-native += "--with-boost=${STAGING_LIBDIR_NATIVE}"
+-- 
+2.25.1
 
-meta-fixes/recipes-devtools/gcc/gcc-cross-canadian_%.bbappend:
-do_install_append () {
-       for i in linux ${CANADIANEXTRAOS}
-       do
-               for v in ${CANADIANEXTRAVENDOR}
-               do
-                       d=${D}${bindir}/../${TARGET_ARCH}$v-$i
-                       install -d $d
-                       for j in ${TARGET_PREFIX}gcc${EXEEXT}
-${TARGET_PREFIX}g++${EXEEXT}
-                       do
-                               p=${TARGET_ARCH}$v-$i-`echo $j | sed -e
-s,${TARGET_PREFIX},,`
-                               case $i in
-                               *musl*)
-                                       # %d/$p is a link to the
-compiler, if we redirect output to it, the target will be overwritten
-                                       rm -f $d/$p
-                                       echo "#!/usr/bin/env sh" > $d/$p
-                                       echo "exec \`dirname
-\$0\`/../${TARGET_SYS}/$j -mmusl \$@" >> $d/$p
-                                       chmod 0755 $d/$p
-                                       ;;
-                               esac
-                       done
-               done
-       done
-}
-
-Regards.
-
-Leon.
