@@ -1,165 +1,73 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.110174.1597929613467132745
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.110659.1597931071185022937
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 06:20:14 -0700
+ Thu, 20 Aug 2020 06:44:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: a.fatoum@pengutronix.de)
-Received: from [2001:67c:670:201:5054:ff:fe8d:eefb] (helo=[IPv6:::1])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1k8kUE-00056o-UO; Thu, 20 Aug 2020 15:20:10 +0200
-Subject: Re: [OE-core] [dunfell][PATCH] core: glib-2.0: fix requested libmount/mkostemp/selinux not being linked in
-To: Steve Sakoman <sakoman@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, akuster <akuster808@gmail.com>
-References: <16236F46F8876220.6175@lists.openembedded.org>
- <631dc54f-8199-be04-c4e5-8ff48450ab42@pengutronix.de>
- <CAGDS+n=-Y2LxWiu6vdL9Jm1re2cObHQE7A6tvQVUQXaPEqj_mg@mail.gmail.com>
-From: "Ahmad Fatoum" <a.fatoum@pengutronix.de>
-Message-ID: <b6bde7c4-a67b-4767-749b-bb142c7855cf@pengutronix.de>
-Date: Thu, 20 Aug 2020 15:20:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VUNBi98P;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id z18so2051297wrm.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 06:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=nAEHbVHj2ZeG4ND8qoYdxZHZEtKgHe4FqoA19XeZ2a4=;
+        b=VUNBi98PD0qQbG6NIrXMeUviKSsIyhKzMcna9Okx/trElTijsWLPQoyExBuZ9St7ls
+         ELELZzlCM1pxS0zNfUWQnq035Yx4C0McuYYM9JKr7iZIF9w1/glzlAHGzRDOwecQjZ/O
+         noE8piH7FYOZuh3aTH67EwgaiteJtCBYiNTp4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=nAEHbVHj2ZeG4ND8qoYdxZHZEtKgHe4FqoA19XeZ2a4=;
+        b=bM8U7Tszb/fgoLHobQY7t3U2jrf47z6cOtWgbiZC73uYEkJMeiVng5I9r/Pq0Cd3Dl
+         +deWC2+DPhN8p4EvywfyM9KR0HLaTCrdiQSTf+ozWyI1p0AEv0r7R3I4rLwwzQkZPyVe
+         wfSSqDh1izSLIN+Bgni+sXhoR/vJVMv5zsvzQSV+YomyzvdNQcrm6LHk1EgX72wWcQCW
+         1+Po/7VKFF1HHyf8ljhjCskHOtqZte3s/+7UitehjAIM4sljCBaKMLZH0EeQI8tDdbcv
+         mOweg6bQKDccRch6YbG2I2GqF4uP1FhwFm3PY2QVwCo86bENcWi9qbK3SU7sXfL7iqLw
+         lojw==
+X-Gm-Message-State: AOAM531kmuRMoeDfQtFBBSWNvEsi9ozJeG1QQyTU4c13sJ1div3D8XN3
+	k6pYUU+r57HwxHf77lLfhbgmLw==
+X-Google-Smtp-Source: ABdhPJxRnGaUqKXHAxl1A9xL+lgLk85JlvIs6JsIIBtaPmco/sdYxat0MB6iU8YbCG0aKKmjbzAp3w==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr3234100wrn.126.1597931069455;
+        Thu, 20 Aug 2020 06:44:29 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:45a5:d6d5:8308:90dd])
+        by smtp.gmail.com with ESMTPSA id z8sm4279351wmf.10.2020.08.20.06.44.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 06:44:28 -0700 (PDT)
+Message-ID: <51e6c1c12faf89297dc9e4caf45e5a3945463d61.camel@linuxfoundation.org>
+Subject: Re: QA notification for completed autobuilder build (yocto-3.0.4.rc1)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Jain, Sangeeta" <sangeeta.jain@intel.com>, 
+	"yocto@lists.yoctoproject.org"
+	 <yocto@lists.yoctoproject.org>, openembedded-core
+	 <openembedded-core@lists.openembedded.org>
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>, 
+ "yi.zhao@windriver.com" <yi.zhao@windriver.com>, "Sangal, Apoorv"
+ <apoorv.sangal@intel.com>, "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, "Chan,
+ Aaron Chun Yew" <aaron.chun.yew.chan@intel.com>,  "akuster808@gmail.com"
+ <akuster808@gmail.com>, "sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>
+Date: Thu, 20 Aug 2020 14:44:27 +0100
+In-Reply-To: <BYAPR11MB3624CCC0E73C6F4B2DE23F59E35D0@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20200815050617.E1710247EA@centos7-ty-4.yocto.io>
+	 <BYAPR11MB3624CCC0E73C6F4B2DE23F59E35D0@BYAPR11MB3624.namprd11.prod.outlook.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <CAGDS+n=-Y2LxWiu6vdL9Jm1re2cObHQE7A6tvQVUQXaPEqj_mg@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello,
+On Wed, 2020-08-19 at 09:09 +0000, Jain, Sangeeta wrote:
+> This is the full report for yocto-3.0.4.rc1:  
+> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
+> 
+> ======= Summary ========
+> No high milestone defects.  
+> No new defects are found in this cycle.
 
-On 8/3/20 4:32 PM, Steve Sakoman wrote:
-> On Sun, Aug 2, 2020 at 9:43 PM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->>
->> Hello,
->>
->> On 7/20/20 12:30 PM, Ahmad Fatoum wrote:
->>> Since 010202076760 ("meson.bbclass: avoid unexpected operating-system
->>> names"), meson is no longer used with a cross file that appends the used
->>> libc to the operating system name, e.g. linux-gnueabi.
->>>
->>> Prior to that commit, the host_system == 'linux' checks in glib's meson
->>> failed, which led to glib being compiled without libmount, mkostemp and
->>> selinux even if explicitly requested.
->>>
->>> As the aforementioned commit affects all recipes built by glib, it might
->>> not be a candidate for backporting to current stable branches. To fix
->>> just the glib issue, instances of host_system == 'linux' are patched
->>> locally.
->>>
->>> The patch is marked as Upstream-Status: Inappropriate as it is rendered
->>> unnecessary for OE releases newer than Dunfell.
->>
->> Gentle Ping.
-> 
-> I didn't take this patch since it no longer seems to be needed in dunfell.
-> 
-> Please see:  https://lists.openembedded.org/g/openembedded-core/message/141008
-> 
-> If we are mistaken, please let us know!
+Thanks Sangeeta and team!
 
-I didn't notice this (and the same patch rebased on zeus) were already
-looked at. Everything fine then. Thanks!
+Cheers,
 
-Cheers
-Ahmad
+Richard
 
-> 
-> Steve
-> 
->>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
->>> ---
->>>  ...ot-hardcode-linux-as-the-host-system.patch | 49 +++++++++++++++++++
->>>  meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |  1 +
->>>  2 files changed, 50 insertions(+)
->>>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
->>>
->>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
->>> new file mode 100644
->>> index 000000000000..616bbd8a7d7c
->>> --- /dev/null
->>> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch
->>> @@ -0,0 +1,49 @@
->>> +From a300a09661124451d4783d4be66e3993262dc9be Mon Sep 17 00:00:00 2001
->>> +From: Ahmad Fatoum <a.fatoum@pengutronix.de>
->>> +Date: Thu, 9 Jul 2020 13:00:16 +0200
->>> +Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
->>> +
->>> +OE build system can set this to other values that include 'linux',
->>> +e.g. 'linux-gnueabi'. This led to glib always being built without
->>> +libmount, mkostemp and selinux support.
->>> +
->>> +Upstream-Status: Inappropriate [other]
->>> +Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
->>> +---
->>> + meson.build | 6 +++---
->>> + 1 file changed, 3 insertions(+), 3 deletions(-)
->>> +
->>> +diff --git a/meson.build b/meson.build
->>> +index 3a47a7cc4b98..af09dfc853e5 100644
->>> +--- a/meson.build
->>> ++++ b/meson.build
->>> +@@ -632,7 +632,7 @@ else
->>> + endif
->>> + message('Checking whether to use statfs or statvfs .. ' + stat_func_to_use)
->>> +
->>> +-if host_system == 'linux'
->>> ++if host_system.contains('linux')
->>> +   if cc.has_function('mkostemp',
->>> +                      prefix: '''#define _GNU_SOURCE
->>> +                                 #include <stdlib.h>''')
->>> +@@ -1857,7 +1857,7 @@ glib_conf.set_quoted('GLIB_LOCALE_DIR', join_paths(glib_datadir, 'locale'))
->>> + # libmount is only used by gio, but we need to fetch the libs to generate the
->>> + # pkg-config file below
->>> + libmount_dep = []
->>> +-if host_system == 'linux' and get_option('libmount')
->>> ++if host_system.contains('linux') and get_option('libmount')
->>> +   libmount_dep = [dependency('mount', version : '>=2.23', required : true)]
->>> +   glib_conf.set('HAVE_LIBMOUNT', 1)
->>> + endif
->>> +@@ -1867,7 +1867,7 @@ if host_system == 'windows'
->>> + endif
->>> +
->>> + selinux_dep = []
->>> +-if host_system == 'linux'
->>> ++if host_system.contains('linux')
->>> +   selinux_dep = dependency('libselinux', required: get_option('selinux'))
->>> +
->>> +   glib_conf.set('HAVE_SELINUX', selinux_dep.found())
->>> +--
->>> +2.27.0
->>> +
->>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
->>> index d496235003d4..fd7f5ee920d8 100644
->>> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
->>> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
->>> @@ -19,6 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->>>             file://0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch \
->>>             file://0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch \
->>>             file://0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch \
->>> +           file://0020-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
->>>             "
->>>
->>>  SRC_URI_append_class-native = " file://relocate-modules.patch"
->>>
->>>
->>>
->>>
->>
->> --
->> Pengutronix e.K.                           |                             |
->> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
->> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
->> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
->> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
