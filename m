@@ -1,74 +1,100 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.126523.1597982403877767751
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.126938.1597984903387315125
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2020 21:00:04 -0700
+ Thu, 20 Aug 2020 21:41:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: leimaohui@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.76,335,1592841600"; 
-   d="scan'208";a="98371253"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 21 Aug 2020 11:59:57 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 82C9248990C1
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2020 11:59:54 +0800 (CST)
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 21 Aug 2020 11:59:55 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([::1]) by
- G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::4086:9520:5ef9:407d%14]) with mapi
- id 15.00.1497.006; Fri, 21 Aug 2020 11:59:55 +0800
-From: "leimaohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Why there is a RCONFLICTS in wireless-regdb recipe file
-Thread-Topic: Why there is a RCONFLICTS in wireless-regdb recipe file
-Thread-Index: AdZ3b3b/6pPOCdBPSVaJ2RAzFGBb8g==
-Date: Fri, 21 Aug 2020 03:59:54 +0000
-Message-ID: <007f8ef0fb6946248f6e5e2e3e465acf@G08CNEXMBPEKD05.g08.fujitsu.local>
-Accept-Language: en-AU, zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.227]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l/GlLnwJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f194.google.com with SMTP id d188so471518pfd.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2020 21:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r34u2P1h+FV0iD7taBxa21Br15OGDbeLbKER/R59A7Y=;
+        b=l/GlLnwJB7Q3BKDKMBj8XgFygk/sZr4IikmlEC+cAOpQb2fqmsfP+0EclarHWPmJXD
+         sBvxS1f2oQPtVhyI5CzgjX1GyO29oyEMiJqUHJDGfayt5PG0XUnMcFYr9z/dRWrcl+nw
+         pd3zVi/i/OPs7Smpq6P/9VsWO1lj8Vj0ccEmlqP0s/ll3tndm+kvLZBnysRc6NnJqKi6
+         16wiN6CpmGbi0dPRkoVnDWNkyVAMtfe0nvwMGG6Sz4VXKEAsNVZLFE8eUf6TD/3Y7zlA
+         ZFQIfLRofQAVaFFpihofWXlXxdSru1LuIFwP445boRh3OqoDYommMkd7F/fFLyCqjHWF
+         vEsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r34u2P1h+FV0iD7taBxa21Br15OGDbeLbKER/R59A7Y=;
+        b=YuhH9NSX9TvPgvE1OP5RttxQT9gsN19pLYrbI7G1LxkBbrjL/2CodABxXSLDoAvCLg
+         7Z/kWoB9kKZaaQYTvVTVvxJckvobBxc2Mz4PhiWVTWGBlk24Pi4HvqgO3nnvO+Tkm8pg
+         aTq7poSH76KUkQt4ZJGPFyGH+LPP7uzhr/gg8TvwqI0AmbCx8O6IT5nsSifwzDI/ITzp
+         qQQaTF/eQi55SrRD1Vlcs3I3QcbDrBz/Uka3me14Bq96Ot7mOue1RF3xoXrewH2/uRer
+         qjnmipp9rnoRi7qVhtVOp3EgXOKmTOivLwTONg3fljCvpwvbqZxbsHWNVEnyMgmYZjsz
+         CUjw==
+X-Gm-Message-State: AOAM531IgQnrdEdEy7KHUkLd33RKVP3u19bKLw1YT19LtiZRrPG71Pzu
+	pRBPCLX5LJ4U75ew0WeuIHVOleqXyoCypg==
+X-Google-Smtp-Source: ABdhPJyLCFsRxEm6xiKuNoYAlOcGgkZRAKY4lWaWZ89k5qHhGEJA9uk5d347/29qSzcoH1rt9m42OQ==
+X-Received: by 2002:a63:6dcd:: with SMTP id i196mr1109568pgc.70.1597984902483;
+        Thu, 20 Aug 2020 21:41:42 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net (c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
+        by smtp.gmail.com with ESMTPSA id e3sm621767pgu.40.2020.08.20.21.41.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 21:41:42 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] multilib: Add musl multilib support
+Date: Thu, 20 Aug 2020 21:41:36 -0700
+Message-Id: <20200821044136.3703818-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 82C9248990C1.ABA55
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-SGksDQoNClRoZXJlIGlzIGEgUkNPTkZMSUNUUyBpbiB3aXJlbGVzcy1yZWdk
-YiByZWNpcGUgZmlsZToNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCiMgSW5zdGFsbCBzdGF0aWMgcmVndWxhdG9yeSBE
-QiBpbiAvbGliL2Zpcm13YXJlIGZvciBrZXJuZWwgdG8gbG9hZC4NCiMgVGhp
-cyByZXF1aXJlcyBMaW51eCBrZXJuZWwgPj0gdjQuMTUuDQojIEZvciBrZXJu
-ZWwgPD0gdjQuMTQsIGluaGVyaXQgdGhlIGtlcm5lbF93aXJlbGVzc19yZWdk
-Yi5iYmNsYXNzDQojIChpbiBtZXRhLW5ldHdvcmtpbmcpIGluIGtlcm5lbCdz
-IHJlY2lwZS4NClBBQ0tBR0VTID0gIiR7UE59LXN0YXRpYyAke1BOfSINClJD
-T05GTElDVFNfJHtQTn0gPSAiJHtQTn0tc3RhdGljIiAgICA8LS0tSGVyZQ0K
-DQpGSUxFU18ke1BOfS1zdGF0aWMgPSAiIFwNCiAgICAke25vbmFyY2hfYmFz
-ZV9saWJkaXJ9L2Zpcm13YXJlL3JlZ3VsYXRvcnkuZGIgXA0KICAgICR7bm9u
-YXJjaF9iYXNlX2xpYmRpcn0vZmlybXdhcmUvcmVndWxhdG9yeS5kYi5wN3Mg
-XA0KIg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tDQoNCkJ1dCBJJ20gbm90IHVuZGVyc3RhbmQgd2h5IHRoaXMgcGFy
-YW1ldGVyIGhhcyBiZWVuIGFkZGVkPyBUaGVyZSBpcyBubyBjb25mbGljdCBm
-aWxlIGJldHdlZW4gdGhlc2UgdHdvIHBhY2thZ2VzPw0KT3IgZm9yIG90aGVy
-IHJlYXNvbnM/DQoNClRoZSBmb2xsb3dpbmcgaXMgdGhlIGZpbGUgbGlzdCBv
-ZiB3aXJlbGVzcy1yZWdkYi1zdGF0aWMgYW5kIHdpcmVsZXNzLXJlZ2RiLg0K
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-L3dpcmVsZXNzLXJlZ2RiLzIwMjAuMDQuMjktcjAvcGFja2FnZXMtc3BsaXQv
-d2lyZWxlc3MtcmVnZGItc3RhdGljLw0K4pSU4pSA4pSAIGxpYg0KICAgIOKU
-lOKUgOKUgCBmaXJtd2FyZQ0KICAgICAgICDilJzilIDilIAgcmVndWxhdG9y
-eS5kYg0KICAgICAgICDilJTilIDilIAgcmVndWxhdG9yeS5kYi5wN3MNCg0K
-MiBkaXJlY3RvcmllcywgMiBmaWxlcw0KLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0Kd2lyZWxlc3MtcmVnZGIvMjAyMC4w
-NC4yOS1yMC9wYWNrYWdlcy1zcGxpdC93aXJlbGVzcy1yZWdkYg0K4pSc4pSA
-4pSAIGV0Yw0K4pSCwqDCoCDilJTilIDilIAgd2lyZWxlc3MtcmVnZGINCuKU
-gsKgwqAgICAgIOKUlOKUgOKUgCBwdWJrZXlzDQrilILCoMKgICAgICAgICAg
-4pSU4pSA4pSAIHNmb3JzaGVlLmtleS5wdWIucGVtDQrilJTilIDilIAgdXNy
-DQogICAg4pSU4pSA4pSAIGxpYg0KICAgICAgICDilJTilIDilIAgY3JkYQ0K
-ICAgICAgICAgICAg4pSU4pSA4pSAIHJlZ3VsYXRvcnkuYmluDQoNCjYgZGly
-ZWN0b3JpZXMsIDIgZmlsZXMNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0NCg0KQmVzdCB3aXNoZWQNCkxlaQ0KCgo=
+Since musl ldso can now co-exist in multilib therefore add support to
+build multilibbed headers and adjust the wrapper header to support musl,
+it needs __WORDSIZE which is defined in bits/reg.h for musl
+
+[YOCTO #13122]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/multilib_header.bbclass | 7 -------
+ scripts/multilib_header_wrapper.h    | 4 ++++
+ 2 files changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
+index e03f5b13b2..48f231eed0 100644
+--- a/meta/classes/multilib_header.bbclass
++++ b/meta/classes/multilib_header.bbclass
+@@ -6,13 +6,6 @@ inherit siteinfo
+ # all of the ABI variants for that given architecture.
+ #
+ oe_multilib_header() {
+-
+-	case ${HOST_OS} in
+-	*-musl*)
+-		return
+-		;;
+-	*)
+-	esac
+         # For MIPS: "n32" is a special case, which needs to be
+         # distinct from both 64-bit and 32-bit.
+         case ${TARGET_ARCH} in
+diff --git a/scripts/multilib_header_wrapper.h b/scripts/multilib_header_wrapper.h
+index 88f3193812..a4d6612edb 100644
+--- a/scripts/multilib_header_wrapper.h
++++ b/scripts/multilib_header_wrapper.h
+@@ -5,7 +5,11 @@
+  * 
+  */
+ 
++#ifdef __GLIBC__
+ #include <bits/wordsize.h>
++#else
++#include <bits/reg.h>
++#endif
+ 
+ #if __WORDSIZE == 32
+ 
+-- 
+2.28.0
+
