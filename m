@@ -1,76 +1,98 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.155958.1598109734857701584
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.155959.1598109737248653705
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2020 08:22:15 -0700
+ Sat, 22 Aug 2020 08:22:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IdFDlxdu;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id c19so3127250wmd.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2020 08:22:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jhfzZMiF;
+ spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wr1-f67.google.com with SMTP id r2so4555829wrs.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2020 08:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pvBDn3iqYYwPYkbtU7bLsyfvt2vLmW0woNVIGlzi1Hk=;
-        b=IdFDlxduQWvr86YWRL2lGsmhXWhJfGfbobEbJ1jn/0kWkDD/MCLSBpPmiXETYAoSmo
-         2M30+H/fhjy1xpPCP4/bAvUe5GYdqlpVuQmRQJnIix52mzmRGK4zzhZRpYJfkjfFi80l
-         ENCFeQYFRcxHVOub+7UdWoR92f+rWAPBQQLz5tXB6d9g/WdnVIR5IFygeGJjKGuAthMM
-         qEc8WCeor9S73oY/yWmLgfVisgTw6dXcaFcanxmyvfSm0SBNpFcGJkp+zDJP0Z/8uwWX
-         cT752aYtExuMVtpecc/XGnMamOAaU4t0djbmsdxQDMCt9H0i/O8VSVlHIyirBym/HGwE
-         E8nA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=h2k4NF7VUYT6onDcXb+2Pr2JvAF4/Ml7oRkxN9RB8Ag=;
+        b=jhfzZMiFMyS9eo0ul+8KlyzbOz36x4pNgkRk5W1onAzZzv+a5d74Wamab346FKe6JE
+         8PcpOq8oQMKDSlB66GtsA2eEJXM++nfcAKDhZX7NcJbq9MgrP9TaKrVG827jXWjBMuDP
+         1dPg82BTdQainHlxHRfbSEYmjGU3VaXCxIQ69NRsnzeqE21fTM1N5Toh8At2Tw2qc+ne
+         0f8xm/SNJCmXWPmgNW3oL7Wt3VWO93UrXQoR/uKUToDsfwFriWIuqPb79ii1Ru0zurka
+         dVOye8V4cwMxMdAKYhUi13T2t6UPwUtJJ/tM80Ss3DHjuv+whdhw152dIc9eX80my4uW
+         sm2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pvBDn3iqYYwPYkbtU7bLsyfvt2vLmW0woNVIGlzi1Hk=;
-        b=mcperuFm8d+17TQgsIxptknyj/xa6wBRoia6SM9Uc4GVK7tJ8m4SoS9Frf0LovpJYP
-         w0h28TiKiQO6q6lP2YuAhKPmhfzjAjWU7OMD4Xy9a+G9DNdupZ2hbZAyC1kZ1qbxr2j1
-         Rp2i9SqqTda60phaR9M/tEFoPJQrZU31BB31zIvnDzq9QjYnKmkBzjo6iYCEwGFXsxSs
-         cFJSOvLwylKsEE6ezGaygbiGCyvwe/4nvtTMGIHx+u26RbkormVmZRWFY+px7f3qh2T9
-         A0vvVCBaqj2u8iJi3dWB6MacuaC0QjbVgoamzLFw+804OKuLkbwAsBC5nXI26ai37v54
-         6B1w==
-X-Gm-Message-State: AOAM532DZd83rGNhIdiEjSwnnw248NbZfrnEC+awO0venuKKrE6xvDNT
-	Kt5uecokr7bE2OyhTbtmCVCA6q925GH94w==
-X-Google-Smtp-Source: ABdhPJxkIEusRjUDJgb9Dunap8yKJIUFKvli2vt8p0x6k0KeCFrvNDUeWDNY/4KpMR5Kn4b0xErv3Q==
-X-Received: by 2002:a7b:cf08:: with SMTP id l8mr7621097wmg.183.1598109732365;
-        Sat, 22 Aug 2020 08:22:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=h2k4NF7VUYT6onDcXb+2Pr2JvAF4/Ml7oRkxN9RB8Ag=;
+        b=B+7pj81JvHuahcTonO53/uFqlfW3T4Qhs33Z6xFbq71+NdTEo5EmqyBEe+6Bkktu2Y
+         f+cOUy//MPeLLhf7ENKcKZQbV3NQr6c9PlMoliemf3ONsbv5b3j2nf3ro/wcJDyvXl6P
+         1LqOSZh5dsdTJl4zt7tZbPSLG1HyyYSzqp0A3qenWuB/uwQO/+EW8N1IfklSEyMRGu9N
+         h1OKxX0dGWYHh8bE6TXlDbqRjxak3SaZmF9kAiSeablLpNJHRMwp0BiIRopTqfawc2lW
+         RGW95FZ92VOFxRuXQUh10RDAnf6AcBKm6UNwYh4HCW3oWFcYyuu+2e5AlG1+ZenX1ODZ
+         XR0A==
+X-Gm-Message-State: AOAM531/gFTrR0F5Rc/btx+aGHo0MdMM9BHC+f+cRd76lNnKGbPjCy2o
+	ICmEG0/waEt0a0OCdFP6FZT9XS54FHBCjQ==
+X-Google-Smtp-Source: ABdhPJwxX5n2IefVrtNJ2gajXLZj16/HWPgijnXa8u69SkB1Ox8FXha2LEmGAJkph2pYc2LNvsIEpw==
+X-Received: by 2002:adf:c386:: with SMTP id p6mr7355354wrf.344.1598109735576;
+        Sat, 22 Aug 2020 08:22:15 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id c145sm12110018wmd.7.2020.08.22.08.22.11
+        by smtp.gmail.com with ESMTPSA id c145sm12110018wmd.7.2020.08.22.08.22.14
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Aug 2020 08:22:11 -0700 (PDT)
+        Sat, 22 Aug 2020 08:22:15 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefan.agner@toradex.com,
 	sergio.prado@toradex.com,
 	max.krummenacher@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] [dunfell 0/3] libubootenv: uprev to v0.3
-Date: Sat, 22 Aug 2020 17:22:04 +0200
-Message-Id: <20200822152207.32161-1-liu.ming50@gmail.com>
+	Ming Liu <liu.ming50@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core] [PATCH] [dunfell 1/3] conf/machine: set UBOOT_MACHINE for qemumips and qemumips64
+Date: Sat, 22 Aug 2020 17:22:05 +0200
+Message-Id: <20200822152207.32161-2-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200822152207.32161-1-liu.ming50@gmail.com>
+References: <20200822152207.32161-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-Cherry pick the patches from master to upgrade libubootenv 0.2 -> 0.3.
+These machines support booting U-Boot, so set the machine appropriately.
 
-Since libubootenv 0.2 is sort of buggy, it lacks of a lot of
-bug/regression/security fixes which has been included in 0.3.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b812fad85aed6cb9e433c689f3b14425488dfc68)
+---
+ meta/conf/machine/qemumips.conf   | 2 ++
+ meta/conf/machine/qemumips64.conf | 2 ++
+ 2 files changed, 4 insertions(+)
 
-Ming Liu (3):
-  conf/machine: set UBOOT_MACHINE for qemumips and qemumips64
-  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
-  libubootenv: uprev to v0.3
-
- meta/conf/machine/qemumips.conf                            | 2 ++
- meta/conf/machine/qemumips64.conf                          | 2 ++
- meta/conf/multilib.conf                                    | 2 +-
- .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}      | 7 +++++--
- 4 files changed, 10 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (82%)
-
+diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+index 4617c3c7b6..1373e4cba0 100644
+--- a/meta/conf/machine/qemumips.conf
++++ b/meta/conf/machine/qemumips.conf
+@@ -9,6 +9,8 @@ require conf/machine/include/qemuboot-mips.inc
+ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+ 
++UBOOT_MACHINE ?= "qemu_mips_defconfig"
++
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
+ 
+ QB_SYSTEM_NAME = "qemu-system-mips"
+diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+index 6d5174665f..1e77486491 100644
+--- a/meta/conf/machine/qemumips64.conf
++++ b/meta/conf/machine/qemumips64.conf
+@@ -11,6 +11,8 @@ QB_CPU = "-cpu MIPS64R2-generic"
+ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+ 
++UBOOT_MACHINE ?= "qemu_mips64_defconfig"
++
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
+ 
+ QB_SYSTEM_NAME = "qemu-system-mips64"
 -- 
 2.28.0
 
