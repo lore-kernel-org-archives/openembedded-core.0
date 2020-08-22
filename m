@@ -1,89 +1,76 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.156253.1598106569497417969
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web12.155958.1598109734857701584
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2020 07:29:29 -0700
+ Sat, 22 Aug 2020 08:22:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ak1HGN/f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id a65so775660wme.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2020 07:29:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IdFDlxdu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id c19so3127250wmd.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2020 08:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=IpIbuaWPzsonq1RnVsuSmBHg21NTds36rePineYUn9o=;
-        b=Ak1HGN/f8nxTbSNLCrP6FFb+uIxKoDucUR94SKyBuQwrFrGV0KrJS1XhG8xQZauOkI
-         at1eAbxrZlKx1VgibXIXN1PbveYdZt6BOTsWdWyVYY8/SgPlnTzuL6LHWZf3u2/WWByn
-         PcwvzZrr5MPRO+YKSoSYl0w9BcJPVd7uOh/Gc=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pvBDn3iqYYwPYkbtU7bLsyfvt2vLmW0woNVIGlzi1Hk=;
+        b=IdFDlxduQWvr86YWRL2lGsmhXWhJfGfbobEbJ1jn/0kWkDD/MCLSBpPmiXETYAoSmo
+         2M30+H/fhjy1xpPCP4/bAvUe5GYdqlpVuQmRQJnIix52mzmRGK4zzhZRpYJfkjfFi80l
+         ENCFeQYFRcxHVOub+7UdWoR92f+rWAPBQQLz5tXB6d9g/WdnVIR5IFygeGJjKGuAthMM
+         qEc8WCeor9S73oY/yWmLgfVisgTw6dXcaFcanxmyvfSm0SBNpFcGJkp+zDJP0Z/8uwWX
+         cT752aYtExuMVtpecc/XGnMamOAaU4t0djbmsdxQDMCt9H0i/O8VSVlHIyirBym/HGwE
+         E8nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=IpIbuaWPzsonq1RnVsuSmBHg21NTds36rePineYUn9o=;
-        b=RytdTK/6l1wm2VSoW0Vr/CyYTQOJEnww5v0wtAgol6k1Mm9iXsl7AUTC4Un8IGvwa/
-         fhkcLy8vEKtQUGoIe+0QQQIOPd65ZDJnEKl+BaqJMcfwAPzdwytLBhm2YGFA7aHfSo83
-         Qd6h7muLXik/x8JnQP1UDXaPXFX+VBWCAf2ffWZ6vp/Pqfuc+8LGeBCmBuDLQUE065JL
-         ohV0KonHtpYyePo9rY2JMGLJ9YjxREdbFtqcj1ordHOyG8yQR4znP68hTAAAAP7pHdJp
-         OcRLZOQAzNulxIHsoe2UpkLPaNvZbM1u5jXfcjOPPmPt9EMN9t/nNdHZlZQARlgKoB3I
-         NNRA==
-X-Gm-Message-State: AOAM532k5C+da+NFGd0GT5H3JO850nMEcbcUZi7v/RisoYP0LCZ4/rNS
-	mGntfS+GMbdzfYqdAM/HTmoXUA==
-X-Google-Smtp-Source: ABdhPJy+FgrRO+c+lP+mJM7QHhpLkLK9FKPodkj8ZgkJr3dEjndLGh8WuGGLdSqHiNR/7kObBClagw==
-X-Received: by 2002:a1c:2dcc:: with SMTP id t195mr7390572wmt.166.1598106567882;
-        Sat, 22 Aug 2020 07:29:27 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.d.0.9.8.0.3.8.5.d.6.d.5.a.5.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:45a5:d6d5:8308:90dd])
-        by smtp.gmail.com with ESMTPSA id t13sm11044832wru.65.2020.08.22.07.29.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2020 07:29:27 -0700 (PDT)
-Message-ID: <75977a489612546d9128d3575f125a9bc6844320.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv3 1/8] license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>, Denys Dmytriyenko
- <denis@denix.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, akuster808@gmail.com, 
-	Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Sat, 22 Aug 2020 15:29:26 +0100
-In-Reply-To: <CABcZAN=WmvJGmAG8fsJOOoSDB=+jjDFMJQ0Up7_Li_Nssd2UtA@mail.gmail.com>
-References: <20191211164820.26588-1-pkj@axis.com>
-	 <20200820223503.GM17660@denix.org>
-	 <CABcZAN=WmvJGmAG8fsJOOoSDB=+jjDFMJQ0Up7_Li_Nssd2UtA@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pvBDn3iqYYwPYkbtU7bLsyfvt2vLmW0woNVIGlzi1Hk=;
+        b=mcperuFm8d+17TQgsIxptknyj/xa6wBRoia6SM9Uc4GVK7tJ8m4SoS9Frf0LovpJYP
+         w0h28TiKiQO6q6lP2YuAhKPmhfzjAjWU7OMD4Xy9a+G9DNdupZ2hbZAyC1kZ1qbxr2j1
+         Rp2i9SqqTda60phaR9M/tEFoPJQrZU31BB31zIvnDzq9QjYnKmkBzjo6iYCEwGFXsxSs
+         cFJSOvLwylKsEE6ezGaygbiGCyvwe/4nvtTMGIHx+u26RbkormVmZRWFY+px7f3qh2T9
+         A0vvVCBaqj2u8iJi3dWB6MacuaC0QjbVgoamzLFw+804OKuLkbwAsBC5nXI26ai37v54
+         6B1w==
+X-Gm-Message-State: AOAM532DZd83rGNhIdiEjSwnnw248NbZfrnEC+awO0venuKKrE6xvDNT
+	Kt5uecokr7bE2OyhTbtmCVCA6q925GH94w==
+X-Google-Smtp-Source: ABdhPJxkIEusRjUDJgb9Dunap8yKJIUFKvli2vt8p0x6k0KeCFrvNDUeWDNY/4KpMR5Kn4b0xErv3Q==
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr7621097wmg.183.1598109732365;
+        Sat, 22 Aug 2020 08:22:12 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id c145sm12110018wmd.7.2020.08.22.08.22.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 22 Aug 2020 08:22:11 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	sergio.prado@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] [dunfell 0/3] libubootenv: uprev to v0.3
+Date: Sat, 22 Aug 2020 17:22:04 +0200
+Message-Id: <20200822152207.32161-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-08-21 at 21:13 -0700, Christopher Larson wrote:
-> This actually also results in checksums changing for recipes that
-> inherit license and call incompatible_license_contains() when
-> adding/removing layers that add to the license path, such as lvm2.
-> 
-> On Thu, Aug 20, 2020 at 3:35 PM Denys Dmytriyenko <denis@denix.org>
-> wrote:
-> > This actually fails yocto-check-layer script for Yocto compliance 
-> > checking, when a layer provides own licenses via LICENSE_PATH 
-> > (in layer.conf - LICENSE_PATH += "${LAYERDIR}/licenses"):
-> > 
-> > Variable AVAILABLE_LICENSES value changed:
-> > ...
-> > 
-> > Is there a new way to provide additional licenses from a layer or 
-> > should the yocto-check-layer script be modified to accomodate 
-> > (i.e. ignore) this change?
+From: Ming Liu <liu.ming50@gmail.com>
 
-I think we either need to vardepsexclude this variable from its usage
-sites or we need to figure out a different way of handling these
-license issues.
+Cherry pick the patches from master to upgrade libubootenv 0.2 -> 0.3.
 
-I worry about generically whitelisting it as there are cases where
-adding a new license should cause rebuilds.
+Since libubootenv 0.2 is sort of buggy, it lacks of a lot of
+bug/regression/security fixes which has been included in 0.3.
 
-We'll therefore have to look at the usage sites and decide if we want a
-rebuild for each usage.
+Ming Liu (3):
+  conf/machine: set UBOOT_MACHINE for qemumips and qemumips64
+  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
+  libubootenv: uprev to v0.3
 
-Cheers,
+ meta/conf/machine/qemumips.conf                            | 2 ++
+ meta/conf/machine/qemumips64.conf                          | 2 ++
+ meta/conf/multilib.conf                                    | 2 +-
+ .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}      | 7 +++++--
+ 4 files changed, 10 insertions(+), 3 deletions(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (82%)
 
-Richard
-
+-- 
+2.28.0
 
