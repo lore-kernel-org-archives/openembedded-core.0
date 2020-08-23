@@ -1,50 +1,50 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web12.180999.1598214075915386059
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web11.181504.1598214077509952314
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:16 -0700
+ Sun, 23 Aug 2020 13:21:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fAJOPEVr;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id l63so3211543edl.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rfq8RhJC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id k25so6233375edj.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/Rs2IF6vhfGYHR9ddRjRQvfD2NvKKmK17GOYePL8jSw=;
-        b=fAJOPEVr/YF+b7F1iTLxWfXt5vZAWkmiAInQpbnfQmeDPP95bW5Nsc2fIEuyACZ1Hw
-         MhR4IH4pSFKSI3zlZTMishuyYx6NAOryYebBIW/IW1ALFmn5/JpUFDO9HPBmK6bspIwS
-         FoFwDGA5GVwU7mR0JIAe+LwRdoWRDiRk6xR+gXzHYLvIbtidMrdg1MajDn6PuSxm6t4y
-         pzu18pMjlVRJ4JlFknggj7DOhdHFQHWNygx6i8xVSSQ2CuThN29qpuT9idwhnjoVubKD
-         BzX9mQ6GsyiSQMYlYxf3JSmF9NhL3xbVmGgEuHsQGTBK7aBxvbbDYz7YCK9b2UKxNC8W
-         vuvw==
+        bh=IZ8NDvbxCQ27ONfzL4rRqhNOAeqTYAqyAn9DD5S82ko=;
+        b=rfq8RhJCkCZo6HUlinnYq5gNe+G+4CrQmlEKfPbz706nnL2sIqVDWlY4lXg8wGQCww
+         w0YKdE8CRM4XAlhM2YaN7e0b56t6zY7MSALAo7Ukue6XW1bjO1oLPjs63Sp9+N6dR3tE
+         wIfk6/mB0H0DRfB26GTF7ShvJ+KYl6C/sIkYm95JQeXpvuykAFYFzKlwuCYjk4J8Qvhf
+         C9SdXfSvawv8IjGWVikSM4uWvVy3wI8QIygGUF2wdrDpcvznaighQB7QM1GZhfDzHPCy
+         jKFmhPeq0T/50JDg/1EIPalJg7EVvxCWiK6tWMPfUntL1oridztY4qcl43No73Yv+SCG
+         CPxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/Rs2IF6vhfGYHR9ddRjRQvfD2NvKKmK17GOYePL8jSw=;
-        b=roDYXITd17PtlghIMiXhgq8u1BxgdcNBqBFWMW35Ku0yr3/g1ly68OduaulnY2/ZmM
-         7TjE9vn95uAf4NhCEClQp54yPdiM4DNohSY9BWzmtDjjE9Da00rGDGxeLRFovkCn4y1k
-         MRuZJBLb5oP2payO8BfR/RgvpnpCkDBSBBSOYn8Po/frM/88ugnXk/e24QOVoBZ5mIfx
-         o43/2sD/CFqzCptdhrFNKnUNaHoY7gmvk7pwH8E7GYAxByPjE1iBcvUlXIdqn26oaV9N
-         A+7soodlpJjr1y2gRX4KAds8eBo4V4u1F2Mw8/+Zz/NPw1zBbEYgto6FVVhV9VIAbq9M
-         Wvqw==
-X-Gm-Message-State: AOAM533/gaC5yO4yBG3TkxkhMT+/kUQ2VU60aVqr99UgXMgRU74Dt+hr
-	vOpIAlcOaRx+7guOF1IG0zkC4ilrqVY=
-X-Google-Smtp-Source: ABdhPJz2eaVy2iem1vF6FRDRmEL5miw4bCRPXVN25vq1SjRQOSyjjDnQcoK0lagYGQor6fFwgPsCjQ==
-X-Received: by 2002:aa7:d6c2:: with SMTP id x2mr2559553edr.332.1598214073751;
-        Sun, 23 Aug 2020 13:21:13 -0700 (PDT)
+        bh=IZ8NDvbxCQ27ONfzL4rRqhNOAeqTYAqyAn9DD5S82ko=;
+        b=jQnntyGcMOyGHjSPErRCMMa7hu4R6nip/y2GFaMbi2ux8sdu3U7vgKjWfqlahKG/4p
+         /oRXxI2F79K2+ae0s28gJDKXQnzafqWNXLwN9As/fTFkrHqbYL4vnQNB4NC5nPiG0mR6
+         hpcWF5OWQfW0kmPt8ypYWo67y5tZoBGV0rvKtlXs5XLDP0YwYykv/lrAGpCaoM9k4c88
+         buYjdfZQulkfI4NCSZMdiroB6F0yTE1rHAhjXKsPvoWrnH4vCAL8Aagp3AUZ286HHLrr
+         UiF3lzTmN8n5lMaKh46t2ld0TUwI85RUJvvmEUUvdKkIN+Vopjf5PgVfEajay4KFIIGP
+         agFQ==
+X-Gm-Message-State: AOAM532R3myMfQypXywLLIRV1ICbUeWlmzajk4L6XEaLJeDHbRjYlVKP
+	96LMYSnqI1LxCwfyVsbwvdXJPPM6xyM=
+X-Google-Smtp-Source: ABdhPJzDG0QCC11kV3e8+62B+MTEIyjNS6w0rhwhDT3sJr68DNhU5B/3C93CkyrjTiG1hdw7C9Hb6A==
+X-Received: by 2002:a50:ee92:: with SMTP id f18mr2473878edr.191.1598214075695;
+        Sun, 23 Aug 2020 13:21:15 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.12
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:13 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:14 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 10/37] diffoscope: upgrade 153 -> 156
-Date: Sun, 23 Aug 2020 22:20:04 +0200
-Message-Id: <20200823202031.24686-10-alex.kanavin@gmail.com>
+Subject: [PATCH 11/37] epiphany: upgrade 3.36.3 -> 3.36.4
+Date: Sun, 23 Aug 2020 22:20:05 +0200
+Message-Id: <20200823202031.24686-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../diffoscope/{diffoscope_153.bb => diffoscope_156.bb}         | 2 +-
+ .../epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_153.bb => diffoscope_156.bb} (83%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.36.3.bb => epiphany_3.36.4.bb} (90%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_153.bb b/meta/recipes-support/diffoscope/diffoscope_156.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_153.bb
-rename to meta/recipes-support/diffoscope/diffoscope_156.bb
-index 77f5254aec..94e6e56d41 100644
---- a/meta/recipes-support/diffoscope/diffoscope_153.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_156.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+similarity index 90%
+rename from meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+index 8eb4ac4fcc..4c3b18331a 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.36.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            "
+-SRC_URI[archive.sha256sum] = "621b5626374891769afec9c35946ab6c3910ea9cf9a2498bab166c99bd91e16f"
++SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
  
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "b5104b5e72252df45ba6b7cbb0169e2e3407715b6b063fa5b38a2649b0d719a2"
-+SRC_URI[sha256sum] = "428f5d75197c3d9449ffbac52f8d79dd782a7ed67aba759e0452515b2d8e1441"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
 2.28.0
 
