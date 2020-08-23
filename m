@@ -1,50 +1,50 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.181958.1598214086315874747
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.181960.1598214087056596896
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:26 -0700
+ Sun, 23 Aug 2020 13:21:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=umpe7gWA;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id b17so984586ejq.8
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RlXB3ghw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id j25so106838ejk.9
         for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ciJBXMXbFNcIrt8mwKFzEXAaUjZkOhZ5EqAXai/P/bo=;
-        b=umpe7gWArbWM/h62DxglvguUA7Jvn3jGoQgDAN6UnZeS6JmjlLVzEdi2/7cp+q0+X+
-         Xoo/1Fkh9BQT6R7NlirLJEu21Z8MJRmjDDEC2M13+hArID+UZBh+uwO3uRjyKQZ8oq18
-         VLIa9dAxJFHFCq7pWS6uAirNwTN6atNZ85HtbvCP0sO9Ds28KI2yCQWyQhiItu/4bv0m
-         islJD/L/ea7ZmgVW1k6flZBqsuHjcMo6Iu2WeOJVG3kJdfL/0yvhFBf314znIZtK4fGP
-         wvrJIkmoVbCCF4PaAQyY9DwjvazQ+7UniQ1AtGsDHOdlVsAdU64fDaAgnVyK628Irb/S
-         +vsw==
+        bh=U+xX71/kcZ+EvXwPIhLDNeK/vih/MuoidHBs02o7MWA=;
+        b=RlXB3ghwmpnHULr344zTW3oD6fDq8R7ZlW5usqLDh2DCDzWedCJYeI64mA72kzkhEz
+         /KypX4RvhPkG3e1TH4nY2Q7LsvGDOoG3Xgg6KTZdJPr9sXfuQIYP2oGmetNg+vKJ9IN3
+         YzMAcWghaFaJdhaeaPgPGRYERJUkCumR/hLY5YC+TaodDBhkzTVTzYZst2hwvCNWQ7Df
+         9uIaa/DBsdq8X32tbChAl4ff9jRIuxUGFqhoxivbX643dvD47+ANzKkOcVMtaYByvxJ4
+         XqXs4C6v7b8mypQ7VGLB5iCla55gIpiytsJCQaPCMi7ktvA2TPOZ5KTQwQEv6uzpRZSy
+         Uovw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ciJBXMXbFNcIrt8mwKFzEXAaUjZkOhZ5EqAXai/P/bo=;
-        b=Con2lALuiNmeYDp1+nvOovADaM8Nv8UqHbrXotxLmbRRztQW1seIr9p3UaRQ8Y9ESP
-         fF2Zi5gwQv8uo0ogdQLeU9ao6+WPycwdaZQA/gO264PRL/rn3UGgUm17glPqMCzyzJke
-         El3Fx8UrROwOHnLoHmgSrErO2vd5jxQ0gtO5keqMNHSMfbmEU+M/A+pd+yRz5HQu48Pf
-         rlI7Rs5gk78KPwV6xl7wEVkh0HrudYg4uwxOS2WXr46XpJi//AcXkQ/r5f54r7fm4XG3
-         dHhb+jiD9/gqzVvPiB/vWP5OK5+1ZrKCFg5sj6IHv2697A9NmewrjdjQH3G2F/8fiLT1
-         OVIQ==
-X-Gm-Message-State: AOAM530zgA2rY612CtuzfBnF6fcmB0gq8YXlbL2BZNpLVKfC4rxhqK+9
-	s6pzat2oHAhpZDtigjKOtyDAbZvmaG0=
-X-Google-Smtp-Source: ABdhPJyLNvr78BJkZbqG6aJJ7YvxUD0d1Gp0yvaeAXB82ikfkfGULtmoZpLqfLGELG+yF7bZc2DP5Q==
-X-Received: by 2002:a17:906:311a:: with SMTP id 26mr2641187ejx.43.1598214084335;
-        Sun, 23 Aug 2020 13:21:24 -0700 (PDT)
+        bh=U+xX71/kcZ+EvXwPIhLDNeK/vih/MuoidHBs02o7MWA=;
+        b=J/SMi2IvwmQrzkU7pKx3LjKWhmEhIpQdgxIDWP3+enEL7mL8CK9wIAzcrNLEGYxycP
+         sOYLgbfo/3vCwmR1ZBeuAAza0inIj5Pf6S23mgsxdFoBq7KC0TJo/y6v62sF5oByRabs
+         NdfekGh600gnBEm2lnIdxwFTIsTDe+w+wLh5x1DGoVPbRf/XjlYBDM73MkPvZxoNcfWF
+         ExvxCZaJBFsZQMv2ktHdDreB7wL8YdZYKvDVx7jTEFReSedtoktf2jP9lUYsHsFD7088
+         0vFt8t0VWSwFpiNcOlbgm1Ah9ROu3RkmY99yKSJ2280HnqQ/vFbAqp/86qhhqf6UL//I
+         V3+A==
+X-Gm-Message-State: AOAM533kyXPMpIO4gd1u/ZOPZXh7MysyK4ksZH92BrhThFQlb4qnjwfI
+	dVXW9KhilMpiY2FR0Ql3LeLbqoOuWxc=
+X-Google-Smtp-Source: ABdhPJxscOv6+okD5UlubZI3cUoJCtPjr9JqzgdZa6nWlKliBRo3/iKH/QnXm8PDSGbHHrBZXj2X/g==
+X-Received: by 2002:a17:906:52da:: with SMTP id w26mr2729410ejn.493.1598214085255;
+        Sun, 23 Aug 2020 13:21:25 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.23
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:23 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:24 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 20/37] mc: upgrade 4.8.24 -> 4.8.25
-Date: Sun, 23 Aug 2020 22:20:14 +0200
-Message-Id: <20200823202031.24686-20-alex.kanavin@gmail.com>
+Subject: [PATCH 21/37] mesa: upgrade 20.1.4 -> 20.1.5
+Date: Sun, 23 Aug 2020 22:20:15 +0200
+Message-Id: <20200823202031.24686-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,96 +53,34 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-Makefile.am-install-mc.lib-only-onc.patch | 59 -------------------
- .../mc/{mc_4.8.24.bb => mc_4.8.25.bb}         |  4 +-
- 2 files changed, 1 insertion(+), 62 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
- rename meta/recipes-extended/mc/{mc_4.8.24.bb => mc_4.8.25.bb} (91%)
+ .../mesa/{mesa-gl_20.1.4.bb => mesa-gl_20.1.5.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_20.1.4.bb => mesa_20.1.5.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_20.1.4.bb => mesa-gl_20.1.5.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_20.1.4.bb => mesa_20.1.5.bb} (100%)
 
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch b/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
-deleted file mode 100644
-index 824c12f8d2..0000000000
---- a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From 58dd59637ac5c6340ddfe96ad8b76883e4da20ef Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyfox@gentoo.org>
--Date: Tue, 3 Mar 2020 09:26:12 +0000
--Subject: [PATCH] Ticket #4070: misc/Makefile.am: install mc.lib only once.
--
--Before the change mc.lib was installed twice due to being
--in two _DATA variables:
--
--dist_pkgdata_DATA = \
--        mc.lib
--
--pkgdata_DATA = \
--        $(dist_pkgdata_DATA) \
--        $(PKGDATA_OUT)
--
--This causes occasional install failures when two parallel
--`/usr/bin/install` calls race in installing the file:
--
--$ make -j20 DESTDIR=/var/tmp/portage/app-misc/mc-4.8.24/image install
--...
-- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
--    -c -m 644 mc.lib '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
-- /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
--    -c -m 644 mc.lib mc.charsets '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
--...
-- /usr/bin/install: cannot create regular file
--   '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc/mc.lib': File exists
--
--After the change mc.lib is present only in dist_pkgdata_DATA.
--
--Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/afb09f7cd7024484845ade25e15b8b93d6cf2d2c]
--
--Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
--Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- misc/Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/misc/Makefile.am b/misc/Makefile.am
--index 8ed1826..24f4a0e 100644
----- a/misc/Makefile.am
--+++ b/misc/Makefile.am
--@@ -17,7 +17,6 @@ dist_pkgdata_DATA = \
-- 	mc.lib
-- 
-- pkgdata_DATA = \
---	$(dist_pkgdata_DATA) \
-- 	$(PKGDATA_OUT)
-- 
-- SCRIPTS_IN = \
--@@ -54,7 +53,6 @@ EXTRA_DIST = \
-- 	$(LIBFILES_SCRIPT) \
-- 	$(SCRIPTS_IN) \
-- 	$(noinst_DATA) \
---	$(dist_pkgdata_DATA) \
-- 	$(PKGDATA_IN)
-- 
-- install-data-hook:
-diff --git a/meta/recipes-extended/mc/mc_4.8.24.bb b/meta/recipes-extended/mc/mc_4.8.25.bb
-similarity index 91%
-rename from meta/recipes-extended/mc/mc_4.8.24.bb
-rename to meta/recipes-extended/mc/mc_4.8.25.bb
-index 034df2a422..83c8a6ecf6 100644
---- a/meta/recipes-extended/mc/mc_4.8.24.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.25.bb
-@@ -10,10 +10,8 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
-            file://nomandate.patch \
--           file://0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch \
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.1.4.bb b/meta/recipes-graphics/mesa/mesa-gl_20.1.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_20.1.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_20.1.5.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 8d8e5288a9..547a3a0b4f 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
             "
--SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
--SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
-+SRC_URI[sha256sum] = "407dc20f70082f26c7f5716406cb755cbb6cba3f2f13b841b79a991282d310c2"
  
- inherit autotools gettext pkgconfig
+-SRC_URI[sha256sum] = "6800271c2be2a0447510eb4e9b67edd9521859a4d565310617c4b359eb6799fe"
++SRC_URI[sha256sum] = "fac1861e6e0bf1aec893f8d86dbfb9d8a0f426ff06b05256df10e3ad7e02c69b"
  
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_20.1.4.bb b/meta/recipes-graphics/mesa/mesa_20.1.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_20.1.4.bb
+rename to meta/recipes-graphics/mesa/mesa_20.1.5.bb
 -- 
 2.28.0
 
