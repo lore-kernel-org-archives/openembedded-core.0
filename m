@@ -1,50 +1,50 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web12.180997.1598214072768900715
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.181501.1598214073834859534
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:13 -0700
+ Sun, 23 Aug 2020 13:21:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GYJ57tl3;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id d11so9078115ejt.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z66mgxbn;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id di22so6250902edb.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oEhrTuIry8hufsBp32Qu7zpkIcQutMBPDzwyhnBiDwA=;
-        b=GYJ57tl322EL28FeGXlUGromfEclqMQltf0pA2Id9pkvdykI3hEoqA0xMKspyVoGpM
-         2DkZ5h4Jisb8xbmBXKxy37GLWLVi08oXMvMov7fMSBpU9cPyloyThwB/dW1FzcnmIBXG
-         hcR6vR0hRZlAPyb1tQl81GxOmXKv5YhxzjeC6xRWtIKFoIq2BHrz8tmCgA7BeogUAXn0
-         94pfhORPmJ1f81665eKMSavjF3kLQnHHydWkGaDBnhaw7j5tej400hiMXeRiy5HYEyb0
-         5UH3Hk52l40AZG3pYC5n5Lyf1WhqBoZZNDbpsm1COEJKPzpdYQqdtMuanBBEYQXXj7wK
-         eseA==
+        bh=I/6pui5fMbyGyZDXy8G+w8B5CmqxzuS+YeoZ009D51E=;
+        b=Z66mgxbnT+cbiLFTRUQDHIX7g4cPk6Z4JPP+J2Vk6Ue6ogFHH9ojZ97QBXzz39Lps6
+         uVfpJLj7c7aMcShj66ZcrgiMqqgxtGlqDQXPG1iIaZAYQA5W0SrtzJ7OivW/hQ26j9Ca
+         TxHx44LpUFkRpa7sqXQumFRrYX0wcItiJLqHiHbfyepUXO1iE+Kym6/cCBTGJPO+qHjF
+         RI7KZ5uVkzy8DymWwiBYyfuuGBb/QdMZycY0Nk8VskfC3obhIjTMzbf+TN7boIKtyvZ7
+         nfuP0aicDNk8bxWqy/ixTegoyulWBSa8PnWydMBv1xC4wEceDCJbEL4Htk/P4ordsfeR
+         hdyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oEhrTuIry8hufsBp32Qu7zpkIcQutMBPDzwyhnBiDwA=;
-        b=au5Ze1aaQ+wfNSsRpCBDCBLdnOv1skwOnv5O6ZjTJuQjQunAe5UzAXOXaKbwcbJ/9y
-         P+8/K5/qGSMj/v3JdxY1O0N0kEpSlYpbi5NykTwc8pWqJ+t6RWL0Hu7I2uc6p7V2MnTA
-         181DfMd9dGvMDj9Lt4H/e7fmN04P7tma4kekVeRAcj982tVRhlXBI1jB8pMZLjZsbFi3
-         LtuTQtRfC1fQxTZf+uEWNL2G1MLWp9lHsT1cDxCBxPRqBUpKWtmATN72seUcu3k12EHK
-         3+CuZE8tbi/4Kfd3MvpKhD3r807IFmULYKgtonswT3gn5szlQBq2ZUxcSajY1bNs20JY
-         Zdqw==
-X-Gm-Message-State: AOAM532ICtqaCs5Lbp3OtjylEGwQzNyGU90/DSkAuN5S9sClKe0dEr6S
-	7lkIAkKlcGzji3mP6L9GZndYkvIQm70=
-X-Google-Smtp-Source: ABdhPJwvh3figbltaSzsRYYr9HUhpyZYRVHii1J2jKeXRJOr9UggmC3Lq6axJ2cvCZ+L4/uz13pUQQ==
-X-Received: by 2002:a17:906:98c1:: with SMTP id zd1mr2784078ejb.410.1598214070968;
-        Sun, 23 Aug 2020 13:21:10 -0700 (PDT)
+        bh=I/6pui5fMbyGyZDXy8G+w8B5CmqxzuS+YeoZ009D51E=;
+        b=djHlrXfZfT6d4dm2pQiICfO/4B5RSwqVJvlIqsRpvbMXN5xt0gUSmyDGhc4GaZQzbx
+         6uRZ3oIglCt6xVi/b3ZpWWulPs+4EHEUQL82XNlmlsP48ZpxspRbhpkFvKbrjm/Vqsqu
+         ResidjOSllCW8ObdstBIhC8RMYOd8AYqKcfP04pYcJO5yFxfSiEwPrkQlclHnhsQTX3X
+         zW5M1WCikGLMdtbGCXrJhTjQdqHEw4tTRQIO9iwQAGS3tk3h0iSqVNxy5jvLLBS8b6qD
+         l/gHAjMav2cjsdng58ewMOj1QF9k9xE2bi03vBg1peo9/tc2Du4jOgHu64Dv/xR42/tf
+         MK4Q==
+X-Gm-Message-State: AOAM531OTjB45k3sGQtetPklCYembFTtAmD9xalKJ0IImb7KigRgyjVd
+	NzR456e+5opqTOZ8dbBAyJ5dR1MZr0I=
+X-Google-Smtp-Source: ABdhPJxQAHVtExx4QnmG9PixxjhB2Sf0/dhDqRUh9aNpnb2Wtqn3Hqs8UnYYv0Ckir3vhDsPGPBcrg==
+X-Received: by 2002:a50:cc92:: with SMTP id q18mr2593897edi.159.1598214072004;
+        Sun, 23 Aug 2020 13:21:12 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.10
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:10 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:11 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 07/37] acpica: upgrade 20200528 -> 20200717
-Date: Sun, 23 Aug 2020 22:20:01 +0200
-Message-Id: <20200823202031.24686-7-alex.kanavin@gmail.com>
+Subject: [PATCH 08/37] asciidoc: upgrade 9.0.1 -> 9.0.2
+Date: Sun, 23 Aug 2020 22:20:02 +0200
+Message-Id: <20200823202031.24686-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../acpica/{acpica_20200528.bb => acpica_20200717.bb}           | 2 +-
+ .../asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/acpica/{acpica_20200528.bb => acpica_20200717.bb} (94%)
+ rename meta/recipes-extended/asciidoc/{asciidoc_9.0.1.bb => asciidoc_9.0.2.bb} (95%)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20200528.bb b/meta/recipes-extended/acpica/acpica_20200717.bb
-similarity index 94%
-rename from meta/recipes-extended/acpica/acpica_20200528.bb
-rename to meta/recipes-extended/acpica/acpica_20200717.bb
-index d68afd8158..d1d06c0c24 100644
---- a/meta/recipes-extended/acpica/acpica_20200528.bb
-+++ b/meta/recipes-extended/acpica/acpica_20200717.bb
-@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- DEPENDS = "m4-native flex-native bison-native"
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+similarity index 95%
+rename from meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
+rename to meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+index 2f841de065..711bfbfb9b 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_9.0.1.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_9.0.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "e69f81c6924c8d30f9b9005bb002307f07b5a1538e13c909bea2f8a44e0d8610"
-+SRC_URI[sha256sum] = "cb99903ef240732f395af40c23b9b19c7899033f48840743544eebb6da72a828"
+ SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
+            file://auto-catalogs.patch"
+-SRCREV = "fce6bd87fbdef5e510310464b02a75fb32f72f74"
++SRCREV = "9a407dc9a497364c91421fd961954eddb565baf1"
  
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
 -- 
 2.28.0
