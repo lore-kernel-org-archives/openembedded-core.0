@@ -1,177 +1,420 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web11.181516.1598214097445312559
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.181519.1598214098746808093
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:37 -0700
+ Sun, 23 Aug 2020 13:21:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GFXnE8XD;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id f24so3958803edw.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OTSWT5nf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id b17so985033ejq.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KNnmqgMDS8FcTF79dJqFcmSDZa2An1XJJXc64uX2ywQ=;
-        b=GFXnE8XDTR/PPoSzvpFDVlDNVtBDVswfs9cnTzD0RVRcuPHHY6PiiAx/mfFdUeP5dS
-         oNhPkTYcYQSP7nVx0z/nfAA4RZKuHFyKdWPe90I9paqhyVUpiA8mhVxYDDrn/wrjlcan
-         BqF+KDdhuXeulRjweLLeKUxd29HAJxmpEwgk6RtmkBXPhHfkwKFDadC351z+ySBBdp8e
-         IQKsqzqfwZqQWZypeJjjHoFJmhXSg0ilwbN26ncSN/Fsbuc6J0jEjqSudUlwRuxTQzuz
-         iDe9Pg35WcWwdzKe+20vpdw246+HXUp5gMZREBafwxeJh2OlTNCwgelwlwj2xNp9u1qc
-         IgKw==
+        bh=PzGA654k+waklpz3d2Pk8ZpXTlwPiK26T2NGzpvlqSg=;
+        b=OTSWT5nfExnk9IEHsHuNR7gOSVCn2FXUtRtn3+7oU0FkeMEnYDjyRqGeIQlHFrAS8u
+         MjT3MKFiJwhWWVuqgYYGUqRs2MZfl7zm2oYHQypSjD8vk/qp0OrkMhx+3VPzmggladmZ
+         K4fXhKzmqSGevNNLdTbr/oRw2gWUOujO9TfUyNKTExm3559nObhavvNKBO85WGNKwsbZ
+         Ayx2D7GzbKPTGuJpnJrInoKMZc7BkAEskd4mK3yQYF6w5fzbeHnoOlv7LezkOVApMB/B
+         dzxRfR94onUZbaVbcgOOC90vwn1zkDa+m58zG/aWFmVcshw7/BooAaJ3U/U7XEoD2f9g
+         gBwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KNnmqgMDS8FcTF79dJqFcmSDZa2An1XJJXc64uX2ywQ=;
-        b=slRu57fms6Vnxzmnmi3jS6iQGMXeyEjrw9k6VMUS7QxRHkN/yh9d82CLjxxiXWWnDR
-         IdNW6O6xjzSLtYKiV+N2b6ZonyQFbdmU11WcgwgYsSe7MwSQwC9X5u8UINJbeqK8pXeN
-         C//7xuzBOP/2ej7LtXSLwUfq4UKkWKWopRXxec8anQg0eLwC15TyOSnKdpsgSlg9GYOb
-         RBGBEZUOJkzRQL68g9PIs5LTSJcdCRmeYtuErqwR6q9PHL9celgCw6r0pTug/8NL8zMa
-         buWAsxqvKPbOsMSk7q7hNFK350rSjtbZuPH3VoMTyWrdvtco4X7FdVVx1zlusqPvO37h
-         1iUw==
-X-Gm-Message-State: AOAM531FEU7lSSFaZS5Eej56D7O2V4C3rUypGlWJewlzz1M+7oFmrAk/
-	+g8DmrLOCmBn38Gmtmayv5Wuq5+kNSk=
-X-Google-Smtp-Source: ABdhPJwMKBqCeMG2OZNJL2GRNTCCjZCSC0ZHGcFyFGTKcrfz81hQcT9OOcRfzS52kPqj/UtxyKMGKQ==
-X-Received: by 2002:a50:ef15:: with SMTP id m21mr2639312eds.300.1598214095629;
-        Sun, 23 Aug 2020 13:21:35 -0700 (PDT)
+        bh=PzGA654k+waklpz3d2Pk8ZpXTlwPiK26T2NGzpvlqSg=;
+        b=UwOlmdLbiq9HqaGwWt9AFk4V+3kw1jjn4NAPpod/DbQ0gBpc5FeZ06/grqDkHi5VsH
+         CoW0+Q9+ovYb+i8ahLjlEkQ9Rl5F4rV8fdJRCHj0OQE8AvT2vK3qzmiEW4OMNsJMe+ph
+         0G9iDgeahG+Ygcr0uOg3W/Ta/7hsRo5iExs6XRHDmzKX8kL5E8+awl/V6ITEm0jHgeP/
+         Bf/80UCYEXcxuGj8h1qcbo15sDDT0tjyUy0rfsdzY+iVEbVCBsSabg+0Q/mEM3thoL09
+         nHp44pEMA0gnALYokms9gDJ2sRgUWQD/I4if9N1aBR7yrbH2Q/VBda/mS8GVZfuKlR43
+         QhEQ==
+X-Gm-Message-State: AOAM532lsRLpevlMLTHFz1uhqbgUA8RTkBf7Vyj6LBMflU7K6JcD/fBR
+	hvQ8KzSEDU+2yPYWOwOXwlOu429ng58=
+X-Google-Smtp-Source: ABdhPJxr4oOLHf8oIi0Gz0VQojigMmCRdpFHrZ6ZnlEhgrRuHuW5ToIxKOHuikBWn+hV5MVpyPjDYw==
+X-Received: by 2002:a17:906:15cc:: with SMTP id l12mr2784588ejd.7.1598214096657;
+        Sun, 23 Aug 2020 13:21:36 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.34
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:35 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:36 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 33/37] libpsl: update 0.21.0 -> 0.21.1.
-Date: Sun, 23 Aug 2020 22:20:27 +0200
-Message-Id: <20200823202031.24686-33-alex.kanavin@gmail.com>
+Subject: [PATCH 34/37] gettext: update 0.20.2 -> 0.21
+Date: Sun, 23 Aug 2020 22:20:28 +0200
+Message-Id: <20200823202031.24686-34-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Drop add-with-bisonlocaledir.patch as upstream (gnulib, not bison)
+now determines the directory from datadir.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-PYTHON-when-invoking-psl-make-dafsa.patch | 50 -------------------
- ...k-doc-do-not-include-tree_index.sgml.patch | 28 -----------
- .../{libpsl_0.21.0.bb => libpsl_0.21.1.bb}    |  7 +--
- 3 files changed, 2 insertions(+), 83 deletions(-)
- delete mode 100644 meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
- delete mode 100644 meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
- rename meta/recipes-support/libpsl/{libpsl_0.21.0.bb => libpsl_0.21.1.bb} (64%)
+ .../add-with-bisonlocaledir.patch             | 58 -------------------
+ ...t-env.in-do-not-add-C-CXX-parameters.patch |  0
+ ...01-tests-autopoint-3-unset-MAKEFLAGS.patch |  0
+ .../gettext/gettext-0.21/mingw.patch          | 28 +++++++++
+ .../parallel.patch                            |  0
+ .../run-ptest                                 |  0
+ .../serial-tests-config.patch                 |  0
+ .../use-pkgconfig.patch                       | 16 ++---
+ .../COPYING                                   |  0
+ .../Makefile.in.in                            |  9 ++-
+ .../aclocal/gettext.m4                        |  0
+ .../aclocal/host-cpu-c-abi.m4                 |  0
+ .../aclocal/iconv.m4                          |  0
+ .../aclocal/intlmacosx.m4                     |  0
+ .../aclocal/lib-ld.m4                         |  0
+ .../aclocal/lib-link.m4                       |  0
+ .../aclocal/lib-prefix.m4                     |  0
+ .../aclocal/nls.m4                            |  0
+ .../aclocal/po.m4                             |  0
+ .../aclocal/progtest.m4                       |  0
+ .../config.rpath                              |  0
+ .../remove-potcdate.sin                       |  0
+ ...20.2.bb => gettext-minimal-native_0.21.bb} |  0
+ .../{gettext_0.20.2.bb => gettext_0.21.bb}    |  7 +--
+ 24 files changed, 46 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.20.2/add-with-bisonlocaledir.patch
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/0001-init-env.in-do-not-add-C-CXX-parameters.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/0001-tests-autopoint-3-unset-MAKEFLAGS.patch (100%)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.21/mingw.patch
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/parallel.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/run-ptest (100%)
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/serial-tests-config.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.20.2 => gettext-0.21}/use-pkgconfig.patch (99%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/COPYING (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/Makefile.in.in (97%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/gettext.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/host-cpu-c-abi.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/iconv.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/intlmacosx.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/lib-ld.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/lib-link.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/lib-prefix.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/nls.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/po.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/aclocal/progtest.m4 (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/config.rpath (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.20.2 => gettext-minimal-0.21}/remove-potcdate.sin (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.20.2.bb => gettext-minimal-native_0.21.bb} (100%)
+ rename meta/recipes-core/gettext/{gettext_0.20.2.bb => gettext_0.21.bb} (97%)
 
-diff --git a/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch b/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/add-with-bisonlocaledir.patch b/meta/recipes-core/gettext/gettext-0.20.2/add-with-bisonlocaledir.patch
 deleted file mode 100644
-index 6d6ccf4d25..0000000000
---- a/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
+index 35a131067a..0000000000
+--- a/meta/recipes-core/gettext/gettext-0.20.2/add-with-bisonlocaledir.patch
 +++ /dev/null
-@@ -1,50 +0,0 @@
--From a0e6f0ec9dc6dd1db1c03f7f273cc16cb3af5561 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Thu, 11 Jul 2019 17:47:11 +0100
--Subject: [PATCH] Makefile.am: use PYTHON when invoking psl-make-dafsa
+@@ -1,58 +0,0 @@
+-From 04bd40fe2c48c6e01ab418a04d27c4aff644ad96 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Wed, 17 Feb 2016 23:54:02 -0500
+-Subject: [PATCH] m4/bison-i18n.m4: add --with-bisonlocaledir to assign
+- BISON_LOCALEDIR
 -
--In an environment where only Python 3 is installed, configure.ac finds and sets
--PYTHON=python3 correctly but src/psl-make-dafsa is called directly, so the hashbang of
--`#!/usr/bin/env python` is used which doesn't exist.
+-The variable BISON_LOCALEDIR is assigned only by the output of
+-'bison --print-localedir', we add option --with-bisonlocaledir
+-to assign it explicitly. It is helpful for user to split the
+-native compile and cross compile.
 -
--Fix this by explicitly running $(PYTHON) when using the tool.
+-For backward compatibility, if option not used, it still
+-make use of the output of 'bison --print-localedir'.
 -
--Upstream-Status: Backport [https://github.com/rockdaboot/libpsl/commit/b4fec5d0ddb70fc4f5360eb14f2f5c5e91194333]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Upstream-Status: Submitted [bison-patches@gnu.org]
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ----
-- src/Makefile.am   | 2 +-
-- tests/Makefile.am | 4 ++--
-- 2 files changed, 3 insertions(+), 3 deletions(-)
+- gettext-tools/gnulib-m4/bison-i18n.m4 | 10 ++++++++--
+- 1 file changed, 8 insertions(+), 2 deletions(-)
 -
--diff --git a/src/Makefile.am b/src/Makefile.am
--index f9c0a3d..a05ea05 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -19,7 +19,7 @@ libpsl_la_LDFLAGS = -no-undefined -version-info $(LIBPSL_SO_VERSION)
-- # Build rule for suffix_dafsa.c
-- # PSL_FILE can be set by ./configure --with-psl-file=[PATH]
-- suffixes_dafsa.h: $(PSL_FILE) $(srcdir)/psl-make-dafsa
---	$(srcdir)/psl-make-dafsa --output-format=cxx+ "$(PSL_FILE)" suffixes_dafsa.h
--+	$(PYTHON) $(srcdir)/psl-make-dafsa --output-format=cxx+ "$(PSL_FILE)" suffixes_dafsa.h
-- 
-- EXTRA_DIST = psl-make-dafsa LICENSE.chromium
-- 
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 8b29b61..28a9a0b 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -34,9 +34,9 @@ TESTS = $(PSL_TESTS)
-- # check-local target works in parallel to the tests, so the test suite will likely fail
-- BUILT_SOURCES = psl.dafsa psl_ascii.dafsa
-- psl.dafsa: $(top_srcdir)/list/public_suffix_list.dat
---	$(top_srcdir)/src/psl-make-dafsa --output-format=binary "$(PSL_FILE)" psl.dafsa
--+	$(PYTHON) $(top_srcdir)/src/psl-make-dafsa --output-format=binary "$(PSL_FILE)" psl.dafsa
-- psl_ascii.dafsa: $(top_srcdir)/list/public_suffix_list.dat
---	$(top_srcdir)/src/psl-make-dafsa --output-format=binary --encoding=ascii "$(PSL_FILE)" psl_ascii.dafsa
--+	$(PYTHON) $(top_srcdir)/src/psl-make-dafsa --output-format=binary --encoding=ascii "$(PSL_FILE)" psl_ascii.dafsa
-- 
-- clean-local:
-- 	rm -f psl.dafsa psl_ascii.dafsa
+-diff --git a/gettext-tools/gnulib-m4/bison-i18n.m4 b/gettext-tools/gnulib-m4/bison-i18n.m4
+-index f5cfd3a..fb6ac4d 100644
+---- a/gettext-tools/gnulib-m4/bison-i18n.m4
+-+++ b/gettext-tools/gnulib-m4/bison-i18n.m4
+-@@ -14,11 +14,16 @@ dnl sets BISON_LOCALEDIR to indicate where to find the bison-runtime.mo files
+- dnl and defines YYENABLE_NLS if there are bison-runtime.mo files at all.
+- AC_DEFUN([BISON_I18N],
+- [
+-+  dnl Default is not to set bisonlocaledir
+-+  AC_ARG_WITH([bisonlocaledir],
+-+    [  --with-bisonlocaledir   sets BISON_LOCALEDIR to indicate where to find the bison-runtime.mo files],
+-+    BISON_LOCALEDIR=$withval,
+-+    BISON_LOCALEDIR=)
+-+
+-   if test -z "$USE_NLS"; then
+-     echo "The BISON-I18N macro is used without being preceded by AM-GNU-GETTEXT." 1>&2
+-     exit 1
+-   fi
+--  BISON_LOCALEDIR=
+-   BISON_USE_NLS=no
+-   if test "$USE_NLS" = yes; then
+-     dnl Determine bison's localedir.
+-@@ -26,9 +31,10 @@ AC_DEFUN([BISON_I18N],
+-     dnl But even is YACC is called "yacc", it may be a script that invokes bison
+-     dnl and accepts the --print-localedir option.
+-     dnl YACC's default value is empty; BISON's default value is :.
+--    if (${YACC-${BISON-:}} --print-localedir) >/dev/null 2>&1; then
+-+    if test -z "$BISON_LOCALEDIR" -a ${YACC-${BISON-:}} --print-localedir >/dev/null 2>&1; then
+-       BISON_LOCALEDIR=`${YACC-${BISON-:}} --print-localedir`
+-     fi
+-+    AC_MSG_RESULT([$BISON_LOCALEDIR])
+-     AC_SUBST([BISON_LOCALEDIR])
+-     if test -n "$BISON_LOCALEDIR"; then
+-       dnl There is no need to enable internationalization if the user doesn't
 --- 
--2.17.1
+-1.9.1
 -
-diff --git a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
-deleted file mode 100644
-index c78d6fd981..0000000000
---- a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 8691105e1808ec9b031b6c25f70204a0908ae9c1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Sat, 1 Jun 2019 13:09:41 +0200
--Subject: [PATCH] gtk-doc: do not include tree_index.sgml
--
--gtk-doc 1.30 no longer generates the file if the object tree is empty
--
--Upstream-Status: Backport [87d1add318b5e5d09977f7f374e923577b6ff3be]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- docs/libpsl/libpsl-docs.sgml | 4 ----
-- 1 file changed, 4 deletions(-)
--
--diff --git a/docs/libpsl/libpsl-docs.sgml b/docs/libpsl/libpsl-docs.sgml
--index 1eca9a2..1c38dbc 100644
----- a/docs/libpsl/libpsl-docs.sgml
--+++ b/docs/libpsl/libpsl-docs.sgml
--@@ -22,10 +22,6 @@
--         </para>
--         <xi:include href="xml/libpsl.xml"/>
--   </chapter>
---  <chapter id="object-tree">
---    <title>Object Hierarchy</title>
---     <xi:include href="xml/tree_index.sgml"/>
---  </chapter>
--   <index id="api-index-full">
--     <title>API Index</title>
--     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
-diff --git a/meta/recipes-support/libpsl/libpsl_0.21.0.bb b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
-similarity index 64%
-rename from meta/recipes-support/libpsl/libpsl_0.21.0.bb
-rename to meta/recipes-support/libpsl/libpsl_0.21.1.bb
-index 9831b4b94f..0a48db65c3 100644
---- a/meta/recipes-support/libpsl/libpsl_0.21.0.bb
-+++ b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
-@@ -4,12 +4,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5437030d9e4fbe7267ced058ddb8a7f5 \
-                     file://COPYING;md5=f41d10997a12da5ee3c24ceeb0148d18"
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/0001-init-env.in-do-not-add-C-CXX-parameters.patch b/meta/recipes-core/gettext/gettext-0.21/0001-init-env.in-do-not-add-C-CXX-parameters.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.20.2/0001-init-env.in-do-not-add-C-CXX-parameters.patch
+rename to meta/recipes-core/gettext/gettext-0.21/0001-init-env.in-do-not-add-C-CXX-parameters.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/0001-tests-autopoint-3-unset-MAKEFLAGS.patch b/meta/recipes-core/gettext/gettext-0.21/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.20.2/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+rename to meta/recipes-core/gettext/gettext-0.21/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.21/mingw.patch b/meta/recipes-core/gettext/gettext-0.21/mingw.patch
+new file mode 100644
+index 0000000000..b062c784f6
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-0.21/mingw.patch
+@@ -0,0 +1,28 @@
++From 7cf68dffb2adb76375bfb0781e277510523a1f3e Mon Sep 17 00:00:00 2001
++From: Michele Locati <michele@locati.it>
++Date: Thu, 30 Jul 2020 18:58:02 +0200
++Subject: [PATCH] build: Fix build failure on Cygwin and mingw.
++
++* gettext-tools/woe32dll/gettextsrc-exports.c: Export formatstring_ruby.
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gettext-tools/woe32dll/gettextsrc-exports.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/gettext-tools/woe32dll/gettextsrc-exports.c b/gettext-tools/woe32dll/gettextsrc-exports.c
++index 4477ae8..6d76089 100644
++--- a/gettext-tools/woe32dll/gettextsrc-exports.c
+++++ b/gettext-tools/woe32dll/gettextsrc-exports.c
++@@ -50,6 +50,7 @@ VARIABLE(formatstring_python)
++ VARIABLE(formatstring_python_brace)
++ VARIABLE(formatstring_qt)
++ VARIABLE(formatstring_qt_plural)
+++VARIABLE(formatstring_ruby)
++ VARIABLE(formatstring_scheme)
++ VARIABLE(formatstring_sh)
++ VARIABLE(formatstring_smalltalk)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/parallel.patch b/meta/recipes-core/gettext/gettext-0.21/parallel.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.20.2/parallel.patch
+rename to meta/recipes-core/gettext/gettext-0.21/parallel.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/run-ptest b/meta/recipes-core/gettext/gettext-0.21/run-ptest
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.20.2/run-ptest
+rename to meta/recipes-core/gettext/gettext-0.21/run-ptest
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/serial-tests-config.patch b/meta/recipes-core/gettext/gettext-0.21/serial-tests-config.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.20.2/serial-tests-config.patch
+rename to meta/recipes-core/gettext/gettext-0.21/serial-tests-config.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.20.2/use-pkgconfig.patch b/meta/recipes-core/gettext/gettext-0.21/use-pkgconfig.patch
+similarity index 99%
+rename from meta/recipes-core/gettext/gettext-0.20.2/use-pkgconfig.patch
+rename to meta/recipes-core/gettext/gettext-0.21/use-pkgconfig.patch
+index feb56719d7..fc77feb270 100644
+--- a/meta/recipes-core/gettext/gettext-0.20.2/use-pkgconfig.patch
++++ b/meta/recipes-core/gettext/gettext-0.21/use-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From c832880c5242b454a2c9e61b6a2dc26aecdc51bd Mon Sep 17 00:00:00 2001
++From 15647f679834be633fb4a9aeff4671b9cb95ccb8 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 23 Jan 2018 00:54:13 +0000
+ Subject: [PATCH] gettext: beat library detection into shape
+@@ -25,7 +25,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  8 files changed, 83 insertions(+), 450 deletions(-)
  
--SRC_URI = "https://github.com/rockdaboot/${BPN}/releases/download/${BP}/${BP}.tar.gz \
--           file://0001-gtk-doc-do-not-include-tree_index.sgml.patch \
--           file://0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch \
-+SRC_URI = "https://github.com/rockdaboot/${BPN}/releases/download/${PV}/${BP}.tar.gz \
+ diff --git a/gettext-tools/gnulib-m4/libxml.m4 b/gettext-tools/gnulib-m4/libxml.m4
+-index 05b9550..031ee65 100644
++index 2f80c37..30ce58e 100644
+ --- a/gettext-tools/gnulib-m4/libxml.m4
+ +++ b/gettext-tools/gnulib-m4/libxml.m4
+ @@ -13,6 +13,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
+@@ -142,7 +142,7 @@ index 05b9550..031ee65 100644
+    ])
+    AC_SUBST([LIBXML])
+ diff --git a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c b/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+-index 2cfd4a8..d42c8b4 100644
++index 2ff978f..5ffb17a 100644
+ --- a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+ +++ b/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+ @@ -22,15 +22,15 @@
+@@ -166,7 +166,7 @@ index 2cfd4a8..d42c8b4 100644
+ +#include <libcroco/cr-string.h>
+  
+  #include "term-ostream.h"
+- #include "hash.h"
++ #include "mem-hash-map.h"
+ diff --git a/libtextstyle/gnulib-local/m4/libcroco.m4 b/libtextstyle/gnulib-local/m4/libcroco.m4
+ index bc53cc6..10b2455 100644
+ --- a/libtextstyle/gnulib-local/m4/libcroco.m4
+@@ -646,7 +646,7 @@ index 5853772..767fba2 100644
+    AC_SUBST([LTLIBGLIB])
+    AC_SUBST([INCGLIB])
+ diff --git a/libtextstyle/lib/term-styled-ostream.c b/libtextstyle/lib/term-styled-ostream.c
+-index 3675b5f..811e546 100644
++index 5484800..16793fa 100644
+ --- a/libtextstyle/lib/term-styled-ostream.c
+ +++ b/libtextstyle/lib/term-styled-ostream.c
+ @@ -28,15 +28,15 @@
+@@ -670,9 +670,9 @@ index 3675b5f..811e546 100644
+ +#include <libcroco/cr-string.h>
+  
+  #include "term-ostream.h"
+- #include "hash.h"
++ #include "mem-hash-map.h"
+ diff --git a/libtextstyle/lib/term-styled-ostream.oo.c b/libtextstyle/lib/term-styled-ostream.oo.c
+-index 2cfd4a8..d42c8b4 100644
++index 2ff978f..5ffb17a 100644
+ --- a/libtextstyle/lib/term-styled-ostream.oo.c
+ +++ b/libtextstyle/lib/term-styled-ostream.oo.c
+ @@ -22,15 +22,15 @@
+@@ -696,4 +696,4 @@ index 2cfd4a8..d42c8b4 100644
+ +#include <libcroco/cr-string.h>
+  
+  #include "term-ostream.h"
+- #include "hash.h"
++ #include "mem-hash-map.h"
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/COPYING b/meta/recipes-core/gettext/gettext-minimal-0.21/COPYING
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/COPYING
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/COPYING
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/Makefile.in.in b/meta/recipes-core/gettext/gettext-minimal-0.21/Makefile.in.in
+similarity index 97%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/Makefile.in.in
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/Makefile.in.in
+index de980e040a..6b25f0d916 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-0.20.2/Makefile.in.in
++++ b/meta/recipes-core/gettext/gettext-minimal-0.21/Makefile.in.in
+@@ -7,7 +7,7 @@
+ # notice and this notice are preserved.  This file is offered as-is,
+ # without any warranty.
+ #
+-# Origin: gettext-0.20.2
++# Origin: gettext-0.21
+ GETTEXT_MACRO_VERSION = 0.20
+ 
+ PACKAGE = @PACKAGE@
+@@ -415,12 +415,17 @@ dist distdir:
+ 	@$(MAKE) dist2
+ # This is a separate target because 'update-po' must be executed before.
+ dist2: $(srcdir)/stamp-po $(DISTFILES)
+-	dists="$(DISTFILES)"; \
++	@dists="$(DISTFILES)"; \
+ 	if test "$(PACKAGE)" = "gettext-tools"; then \
+ 	  dists="$$dists Makevars.template"; \
+ 	fi; \
+ 	if test -f $(srcdir)/$(DOMAIN).pot; then \
+ 	  dists="$$dists $(DOMAIN).pot stamp-po"; \
++	else \
++	  case $(XGETTEXT) in \
++	    :) echo "Warning: Creating a tarball without '$(DOMAIN).pot', because a suitable 'xgettext' program was not found in PATH." 1>&2;; \
++	    *) echo "Warning: Creating a tarball without '$(DOMAIN).pot', because 'xgettext' found no strings to extract. Check the contents of the POTFILES.in file and the XGETTEXT_OPTIONS in the Makevars file." 1>&2;; \
++	  esac; \
+ 	fi; \
+ 	if test -f $(srcdir)/ChangeLog; then \
+ 	  dists="$$dists ChangeLog"; \
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/gettext.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/gettext.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/gettext.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/gettext.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/host-cpu-c-abi.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/host-cpu-c-abi.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/host-cpu-c-abi.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/host-cpu-c-abi.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/iconv.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/iconv.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/intlmacosx.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/intlmacosx.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/intlmacosx.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/intlmacosx.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-ld.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-ld.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-ld.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-ld.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-link.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-link.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-link.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-link.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-prefix.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-prefix.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/lib-prefix.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/lib-prefix.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/nls.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/nls.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/nls.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/nls.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/po.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/po.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/po.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/po.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/progtest.m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/progtest.m4
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/aclocal/progtest.m4
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/progtest.m4
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/config.rpath b/meta/recipes-core/gettext/gettext-minimal-0.21/config.rpath
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/config.rpath
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/config.rpath
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.20.2/remove-potcdate.sin b/meta/recipes-core/gettext/gettext-minimal-0.21/remove-potcdate.sin
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-0.20.2/remove-potcdate.sin
+rename to meta/recipes-core/gettext/gettext-minimal-0.21/remove-potcdate.sin
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.20.2.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.21.bb
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-minimal-native_0.20.2.bb
+rename to meta/recipes-core/gettext/gettext-minimal-native_0.21.bb
+diff --git a/meta/recipes-core/gettext/gettext_0.20.2.bb b/meta/recipes-core/gettext/gettext_0.21.bb
+similarity index 97%
+rename from meta/recipes-core/gettext/gettext_0.20.2.bb
+rename to meta/recipes-core/gettext/gettext_0.21.bb
+index fda11c44cc..54305623dd 100644
+--- a/meta/recipes-core/gettext/gettext_0.20.2.bb
++++ b/meta/recipes-core/gettext/gettext_0.21.bb
+@@ -18,15 +18,14 @@ PROVIDES_class-native = "virtual/gettext-native"
+ RCONFLICTS_${PN} = "proxy-libintl"
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+            file://parallel.patch \
+-           file://add-with-bisonlocaledir.patch \
+            file://use-pkgconfig.patch \
+            file://run-ptest \
+            file://serial-tests-config.patch \
+            file://0001-tests-autopoint-3-unset-MAKEFLAGS.patch \
+            file://0001-init-env.in-do-not-add-C-CXX-parameters.patch \
++           file://mingw.patch \
             "
--SRC_URI[md5sum] = "171e96d887709e36a57f4ee627bf82d2"
--SRC_URI[sha256sum] = "41bd1c75a375b85c337b59783f5deb93dbb443fb0a52d257f403df7bd653ee12"
-+SRC_URI[sha256sum] = "ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c"
+-SRC_URI[md5sum] = "30fec34a895fab4c02584449c500aac2"
+-SRC_URI[sha256sum] = "ecb9d0908ca41d5ca5fef974323b3bba6bec19eebba0b44f396de98cfcc089f1"
++SRC_URI[sha256sum] = "c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12"
  
- UPSTREAM_CHECK_URI = "https://github.com/rockdaboot/libpsl/releases"
+ inherit autotools texinfo pkgconfig ptest
+ 
+@@ -130,7 +129,7 @@ do_install_append_class-native () {
+ 	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
+ 
+         create_wrapper ${D}${bindir}/msgfmt \
+-                GETTEXTDATADIR="${STAGING_DATADIR_NATIVE}/gettext-0.20.2/"
++                GETTEXTDATADIR="${STAGING_DATADIR_NATIVE}/gettext-${PV}/"
+ 
+ }
  
 -- 
 2.28.0
