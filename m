@@ -1,50 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web12.181007.1598214095880929953
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.181967.1598214096585346626
  for <openembedded-core@lists.openembedded.org>;
  Sun, 23 Aug 2020 13:21:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=G9gwF5+x;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id w2so6243505edv.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P9IqVmkX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id j25so107110ejk.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pVvZWGHPg6lfr3JNq1aOi4lX2Pe115svzfdySQBOkmU=;
-        b=G9gwF5+xJJm6UQw5QdyLZA0Z219yQfOKKsfGGEUasFGX0+FmZ5W2N82UzR/O2levIe
-         MteHyDpFdOjzNgy0zekTZn1wNSZmk42h+M73nEv9OfJ0ZcrHwh1QLOatroWt5eoCrZ4g
-         Wv64eMy0VQkO/jP/t1vXn7iwY7phh9aGoHJ2zA/JgesBbTTNGmik/Asu0cru7VeEMt+I
-         FCeYG4xrBOZ6dV8dEEb9/e5H+4CahuWbCuk5WZvxr3Vy4sPXJICuC1BnnHIcpIchuNv3
-         xOTpQAF11Qso0rIdMddUwrMJWALXLJit128OToaSmnYfn4YkPrCmcOW7q6TtQD1JCwCI
-         e2AA==
+        bh=i4uH6M2WW5Xm5I25oFjZETQOiW8rMewwI3RM9cEMm/A=;
+        b=P9IqVmkXoxHHUWItIgRi+0/0s+Rqpv+F9gSRjkdBh2v+SFXh1nJiw9LIiBVzdaKVTC
+         3rEgSbMeYHap7+IncpoKvF7VdSBmocO3cp9DAzI/3pArVvt4L164jl3DGN1jkNNXR5fl
+         8xyndI6YkwltdzvtflOh/ABMygWLh0rgs51nkF6/QG2PCv7IPESk3z4ERbewtH29Pk7J
+         sFGC1rmFOlRM6cpgWwBSl8/2ZGMIFCMS8wOKV3s+Bg3r2pwb13PnPJGEsAkDK7NumsDB
+         qDqYOjN9h/5ro39WGNxTq4FrGFkO8ZBmJQ8QYt7mUSoDbRW9LaLyegytZKeO6Zd89Mq7
+         aYbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pVvZWGHPg6lfr3JNq1aOi4lX2Pe115svzfdySQBOkmU=;
-        b=DkPXqVX9KZ9M4FpcvotkamAvYVXCDDV8hVAe+l8UznT6bcRKhZfE5YpoeFdEk7Cvds
-         wgpa7ueoY2alkjGSj+MNDunIjtrT5WRPnbkdpCSJDL1qsrr47HXVxgo4zBbqmcyOH6g2
-         8odq6iVVJTtANw78w+B/rTRJsgjXAHGZqHBYqMVtbZsXjlfetlS1Y6+r6BHvnUPMK8mp
-         qcYzuViuW0h9rT/5rGJHEBfOTj/cIOhao4d7lJzCq1feSR2t+zfo0l4+0NbKYPjIO4KS
-         oByjzOSyNWm57iHlylGG5bJ0KqFeatjaHY2qG7ONPC53YHtfwW3J+kWnebLu4ms/eQwm
-         QQjQ==
-X-Gm-Message-State: AOAM531TDYl9VrbxFxck/1Mfg1EP1oOuMVUo3oTsGQJIUAYxvVAFTKOf
-	K4Czq5VDV1PnjBdwV55mFLRDrxH4SiM=
-X-Google-Smtp-Source: ABdhPJy4xgslq54ey7nXGOvL21+B90GoLyyWt+YJcqVagYKY04f56QP92mdIsKEWRDY8C004gVDHiw==
-X-Received: by 2002:a50:e109:: with SMTP id h9mr2622879edl.47.1598214094105;
+        bh=i4uH6M2WW5Xm5I25oFjZETQOiW8rMewwI3RM9cEMm/A=;
+        b=FjbnILZ8cMD+poX0jn6mI2TU4r+3TcHAqa3ev2E2erK6x7JqTFmHo3VHVOOxjjTRuV
+         1rGjUJjwKPLuWSVXsX7Fv99NX67z5VucHrPFrjuOgG5Q7DDIJ0TuGMLCy3IpRJVDExNt
+         Ht9k2tmUlIWeURkuL9f84TpcMGTeiKBEB7ihHsACwSHzhP09OUDPM6a6AdzpYvpZj8S6
+         AHMqsh5aq0uURF1QL1M8IgxJHavNxk8B5KSlOE8lTJuXZR37AHlIGMIea4TlLwLerRgL
+         34Mw4WPP2p+KljhkCtZ8OW/fhd+nzIDrLctk/ogb1tz2QFW5aZNBQCB831Cz1qyDkLIN
+         idBQ==
+X-Gm-Message-State: AOAM532CFCCF6ZR1KaFYxHptlThld2uRbkrYhs6wguQYK/cX9ueHWasm
+	tjDZQwk0B2IDgBYG03GFzOzuTLBkn40=
+X-Google-Smtp-Source: ABdhPJy0E2YPjvf+FW0O5Iord0BeCTPN5J+zknudbU6jSqL//s4qLYnbu20aOzIGu0xDyPmRco4+oQ==
+X-Received: by 2002:a17:906:f1d4:: with SMTP id gx20mr2697884ejb.132.1598214094847;
         Sun, 23 Aug 2020 13:21:34 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.33
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:33 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:34 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 31/37] wpebackend-fdo: update 1.6.1 -> 1.7.1
-Date: Sun, 23 Aug 2020 22:20:25 +0200
-Message-Id: <20200823202031.24686-31-alex.kanavin@gmail.com>
+Subject: [PATCH 32/37] gpgme: update 1.13.1 -> 1.14.0
+Date: Sun, 23 Aug 2020 22:20:26 +0200
+Message-Id: <20200823202031.24686-32-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,35 +53,68 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{wpebackend-fdo_1.6.1.bb => wpebackend-fdo_1.7.1.bb}    | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.6.1.bb => wpebackend-fdo_1.7.1.bb} (69%)
+ .../gpgme/0008-do-not-auto-check-var-PYTHON.patch    | 12 +++++-------
+ .../gpgme/{gpgme_1.13.1.bb => gpgme_1.14.0.bb}       |  3 +--
+ 2 files changed, 6 insertions(+), 9 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme_1.13.1.bb => gpgme_1.14.0.bb} (96%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-similarity index 69%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-index 2fdab42c38..519762d125 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.6.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-@@ -4,14 +4,14 @@ BUGTRACKER = "https://github.com/Igalia/WPEBackend-fdo/issues"
+diff --git a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
+index 3afbfc8638..dfea1bf78a 100644
+--- a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
++++ b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
+@@ -1,4 +1,4 @@
+-From fc3d9cc218e60582fd158d21a1cd537a3dc1b007 Mon Sep 17 00:00:00 2001
++From 5bbf7a048b6d81d23186340e839f9f65b5b514b6 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 10 May 2019 16:19:54 +0800
+ Subject: [PATCH] do not auto check var-PYTHON
+@@ -12,25 +12,23 @@ only check specific python 2.7 and 3.7
+ Upstream-Status: Inappropriate [oe-core specific]
  
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1f62cef2e3645e3e74eb05fd389d7a66"
--DEPENDS = "glib-2.0 libxkbcommon wayland virtual/egl libwpe"
-+DEPENDS = "glib-2.0 libxkbcommon wayland virtual/egl libwpe libepoxy"
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  configure.ac | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- DEPENDS_append_class-target = " wayland-native"
+ diff --git a/configure.ac b/configure.ac
+-index cb2f073..7d74a6d 100644
++index 5ef00c0..bbcff93 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -423,8 +423,8 @@ if test "$found_py" = "1"; then
++@@ -425,8 +425,8 @@ if test "$found_py" = "1"; then
+  	if test "$found_py" = "1" -o "$found_py3" = "1"; then
+  	  # Reset everything, so that we can look for another Python.
+            m4_foreach([mym4pythonver],
+--                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[all]],
++-                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[3.9],[all]],
+ -           [unset PYTHON
+ +                     [[2.7],[3.7]],
+ +           [
+  	    unset PYTHON_VERSION
+  	    unset PYTHON_CPPFLAGS
+  	    unset PYTHON_LDFLAGS
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.14.0.bb
+similarity index 96%
+rename from meta/recipes-support/gpgme/gpgme_1.13.1.bb
+rename to meta/recipes-support/gpgme/gpgme_1.14.0.bb
+index b51534351d..9fa8212808 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.14.0.bb
+@@ -22,8 +22,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0008-do-not-auto-check-var-PYTHON.patch \
+           "
  
--inherit cmake features_check
-+inherit meson features_check
+-SRC_URI[md5sum] = "198f0a908ec3cd8f0ce9a4f3a4489645"
+-SRC_URI[sha256sum] = "c4e30b227682374c23cddc7fdb9324a99694d907e79242a25a4deeedb393be46"
++SRC_URI[sha256sum] = "cef1f710a6b0d28f5b44242713ad373702d1466dcbe512eb4e754d7f35cd4307"
  
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "740eee3327acfb462b8460519a219e30dc0a870326e88e2ddc4fe2c8de20b1c9"
-+SRC_URI[sha256sum] = "9b980a73ea4e3762266c48f81ded56d9dcad4acf32bad9bd05d0dffdd454c6f5"
- 
+ DEPENDS = "libgpg-error libassuan"
+ RDEPENDS_${PN}-cpp += "libstdc++"
 -- 
 2.28.0
 
