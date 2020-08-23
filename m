@@ -1,50 +1,50 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.181967.1598214096585346626
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web11.181516.1598214097445312559
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:36 -0700
+ Sun, 23 Aug 2020 13:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P9IqVmkX;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id j25so107110ejk.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GFXnE8XD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id f24so3958803edw.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=i4uH6M2WW5Xm5I25oFjZETQOiW8rMewwI3RM9cEMm/A=;
-        b=P9IqVmkXoxHHUWItIgRi+0/0s+Rqpv+F9gSRjkdBh2v+SFXh1nJiw9LIiBVzdaKVTC
-         3rEgSbMeYHap7+IncpoKvF7VdSBmocO3cp9DAzI/3pArVvt4L164jl3DGN1jkNNXR5fl
-         8xyndI6YkwltdzvtflOh/ABMygWLh0rgs51nkF6/QG2PCv7IPESk3z4ERbewtH29Pk7J
-         sFGC1rmFOlRM6cpgWwBSl8/2ZGMIFCMS8wOKV3s+Bg3r2pwb13PnPJGEsAkDK7NumsDB
-         qDqYOjN9h/5ro39WGNxTq4FrGFkO8ZBmJQ8QYt7mUSoDbRW9LaLyegytZKeO6Zd89Mq7
-         aYbg==
+        bh=KNnmqgMDS8FcTF79dJqFcmSDZa2An1XJJXc64uX2ywQ=;
+        b=GFXnE8XDTR/PPoSzvpFDVlDNVtBDVswfs9cnTzD0RVRcuPHHY6PiiAx/mfFdUeP5dS
+         oNhPkTYcYQSP7nVx0z/nfAA4RZKuHFyKdWPe90I9paqhyVUpiA8mhVxYDDrn/wrjlcan
+         BqF+KDdhuXeulRjweLLeKUxd29HAJxmpEwgk6RtmkBXPhHfkwKFDadC351z+ySBBdp8e
+         IQKsqzqfwZqQWZypeJjjHoFJmhXSg0ilwbN26ncSN/Fsbuc6J0jEjqSudUlwRuxTQzuz
+         iDe9Pg35WcWwdzKe+20vpdw246+HXUp5gMZREBafwxeJh2OlTNCwgelwlwj2xNp9u1qc
+         IgKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i4uH6M2WW5Xm5I25oFjZETQOiW8rMewwI3RM9cEMm/A=;
-        b=FjbnILZ8cMD+poX0jn6mI2TU4r+3TcHAqa3ev2E2erK6x7JqTFmHo3VHVOOxjjTRuV
-         1rGjUJjwKPLuWSVXsX7Fv99NX67z5VucHrPFrjuOgG5Q7DDIJ0TuGMLCy3IpRJVDExNt
-         Ht9k2tmUlIWeURkuL9f84TpcMGTeiKBEB7ihHsACwSHzhP09OUDPM6a6AdzpYvpZj8S6
-         AHMqsh5aq0uURF1QL1M8IgxJHavNxk8B5KSlOE8lTJuXZR37AHlIGMIea4TlLwLerRgL
-         34Mw4WPP2p+KljhkCtZ8OW/fhd+nzIDrLctk/ogb1tz2QFW5aZNBQCB831Cz1qyDkLIN
-         idBQ==
-X-Gm-Message-State: AOAM532CFCCF6ZR1KaFYxHptlThld2uRbkrYhs6wguQYK/cX9ueHWasm
-	tjDZQwk0B2IDgBYG03GFzOzuTLBkn40=
-X-Google-Smtp-Source: ABdhPJy0E2YPjvf+FW0O5Iord0BeCTPN5J+zknudbU6jSqL//s4qLYnbu20aOzIGu0xDyPmRco4+oQ==
-X-Received: by 2002:a17:906:f1d4:: with SMTP id gx20mr2697884ejb.132.1598214094847;
-        Sun, 23 Aug 2020 13:21:34 -0700 (PDT)
+        bh=KNnmqgMDS8FcTF79dJqFcmSDZa2An1XJJXc64uX2ywQ=;
+        b=slRu57fms6Vnxzmnmi3jS6iQGMXeyEjrw9k6VMUS7QxRHkN/yh9d82CLjxxiXWWnDR
+         IdNW6O6xjzSLtYKiV+N2b6ZonyQFbdmU11WcgwgYsSe7MwSQwC9X5u8UINJbeqK8pXeN
+         C//7xuzBOP/2ej7LtXSLwUfq4UKkWKWopRXxec8anQg0eLwC15TyOSnKdpsgSlg9GYOb
+         RBGBEZUOJkzRQL68g9PIs5LTSJcdCRmeYtuErqwR6q9PHL9celgCw6r0pTug/8NL8zMa
+         buWAsxqvKPbOsMSk7q7hNFK350rSjtbZuPH3VoMTyWrdvtco4X7FdVVx1zlusqPvO37h
+         1iUw==
+X-Gm-Message-State: AOAM531FEU7lSSFaZS5Eej56D7O2V4C3rUypGlWJewlzz1M+7oFmrAk/
+	+g8DmrLOCmBn38Gmtmayv5Wuq5+kNSk=
+X-Google-Smtp-Source: ABdhPJwMKBqCeMG2OZNJL2GRNTCCjZCSC0ZHGcFyFGTKcrfz81hQcT9OOcRfzS52kPqj/UtxyKMGKQ==
+X-Received: by 2002:a50:ef15:: with SMTP id m21mr2639312eds.300.1598214095629;
+        Sun, 23 Aug 2020 13:21:35 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
         by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:34 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:35 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 32/37] gpgme: update 1.13.1 -> 1.14.0
-Date: Sun, 23 Aug 2020 22:20:26 +0200
-Message-Id: <20200823202031.24686-32-alex.kanavin@gmail.com>
+Subject: [PATCH 33/37] libpsl: update 0.21.0 -> 0.21.1.
+Date: Sun, 23 Aug 2020 22:20:27 +0200
+Message-Id: <20200823202031.24686-33-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,68 +53,126 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gpgme/0008-do-not-auto-check-var-PYTHON.patch    | 12 +++++-------
- .../gpgme/{gpgme_1.13.1.bb => gpgme_1.14.0.bb}       |  3 +--
- 2 files changed, 6 insertions(+), 9 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_1.13.1.bb => gpgme_1.14.0.bb} (96%)
+ ...-PYTHON-when-invoking-psl-make-dafsa.patch | 50 -------------------
+ ...k-doc-do-not-include-tree_index.sgml.patch | 28 -----------
+ .../{libpsl_0.21.0.bb => libpsl_0.21.1.bb}    |  7 +--
+ 3 files changed, 2 insertions(+), 83 deletions(-)
+ delete mode 100644 meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
+ delete mode 100644 meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
+ rename meta/recipes-support/libpsl/{libpsl_0.21.0.bb => libpsl_0.21.1.bb} (64%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-index 3afbfc8638..dfea1bf78a 100644
---- a/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0008-do-not-auto-check-var-PYTHON.patch
-@@ -1,4 +1,4 @@
--From fc3d9cc218e60582fd158d21a1cd537a3dc1b007 Mon Sep 17 00:00:00 2001
-+From 5bbf7a048b6d81d23186340e839f9f65b5b514b6 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 10 May 2019 16:19:54 +0800
- Subject: [PATCH] do not auto check var-PYTHON
-@@ -12,25 +12,23 @@ only check specific python 2.7 and 3.7
- Upstream-Status: Inappropriate [oe-core specific]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
- ---
-  configure.ac | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index cb2f073..7d74a6d 100644
-+index 5ef00c0..bbcff93 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -423,8 +423,8 @@ if test "$found_py" = "1"; then
-+@@ -425,8 +425,8 @@ if test "$found_py" = "1"; then
-  	if test "$found_py" = "1" -o "$found_py3" = "1"; then
-  	  # Reset everything, so that we can look for another Python.
-            m4_foreach([mym4pythonver],
---                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[all]],
-+-                     [[2.7],[3.4],[3.5],[3.6],[3.7],[3.8],[3.9],[all]],
- -           [unset PYTHON
- +                     [[2.7],[3.7]],
- +           [
-  	    unset PYTHON_VERSION
-  	    unset PYTHON_CPPFLAGS
-  	    unset PYTHON_LDFLAGS
---- 
--2.7.4
+diff --git a/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch b/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
+deleted file mode 100644
+index 6d6ccf4d25..0000000000
+--- a/meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From a0e6f0ec9dc6dd1db1c03f7f273cc16cb3af5561 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Thu, 11 Jul 2019 17:47:11 +0100
+-Subject: [PATCH] Makefile.am: use PYTHON when invoking psl-make-dafsa
 -
-diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.14.0.bb
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme_1.13.1.bb
-rename to meta/recipes-support/gpgme/gpgme_1.14.0.bb
-index b51534351d..9fa8212808 100644
---- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.14.0.bb
-@@ -22,8 +22,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0008-do-not-auto-check-var-PYTHON.patch \
-           "
+-In an environment where only Python 3 is installed, configure.ac finds and sets
+-PYTHON=python3 correctly but src/psl-make-dafsa is called directly, so the hashbang of
+-`#!/usr/bin/env python` is used which doesn't exist.
+-
+-Fix this by explicitly running $(PYTHON) when using the tool.
+-
+-Upstream-Status: Backport [https://github.com/rockdaboot/libpsl/commit/b4fec5d0ddb70fc4f5360eb14f2f5c5e91194333]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- src/Makefile.am   | 2 +-
+- tests/Makefile.am | 4 ++--
+- 2 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index f9c0a3d..a05ea05 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -19,7 +19,7 @@ libpsl_la_LDFLAGS = -no-undefined -version-info $(LIBPSL_SO_VERSION)
+- # Build rule for suffix_dafsa.c
+- # PSL_FILE can be set by ./configure --with-psl-file=[PATH]
+- suffixes_dafsa.h: $(PSL_FILE) $(srcdir)/psl-make-dafsa
+--	$(srcdir)/psl-make-dafsa --output-format=cxx+ "$(PSL_FILE)" suffixes_dafsa.h
+-+	$(PYTHON) $(srcdir)/psl-make-dafsa --output-format=cxx+ "$(PSL_FILE)" suffixes_dafsa.h
+- 
+- EXTRA_DIST = psl-make-dafsa LICENSE.chromium
+- 
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 8b29b61..28a9a0b 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -34,9 +34,9 @@ TESTS = $(PSL_TESTS)
+- # check-local target works in parallel to the tests, so the test suite will likely fail
+- BUILT_SOURCES = psl.dafsa psl_ascii.dafsa
+- psl.dafsa: $(top_srcdir)/list/public_suffix_list.dat
+--	$(top_srcdir)/src/psl-make-dafsa --output-format=binary "$(PSL_FILE)" psl.dafsa
+-+	$(PYTHON) $(top_srcdir)/src/psl-make-dafsa --output-format=binary "$(PSL_FILE)" psl.dafsa
+- psl_ascii.dafsa: $(top_srcdir)/list/public_suffix_list.dat
+--	$(top_srcdir)/src/psl-make-dafsa --output-format=binary --encoding=ascii "$(PSL_FILE)" psl_ascii.dafsa
+-+	$(PYTHON) $(top_srcdir)/src/psl-make-dafsa --output-format=binary --encoding=ascii "$(PSL_FILE)" psl_ascii.dafsa
+- 
+- clean-local:
+- 	rm -f psl.dafsa psl_ascii.dafsa
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
+deleted file mode 100644
+index c78d6fd981..0000000000
+--- a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 8691105e1808ec9b031b6c25f70204a0908ae9c1 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sat, 1 Jun 2019 13:09:41 +0200
+-Subject: [PATCH] gtk-doc: do not include tree_index.sgml
+-
+-gtk-doc 1.30 no longer generates the file if the object tree is empty
+-
+-Upstream-Status: Backport [87d1add318b5e5d09977f7f374e923577b6ff3be]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- docs/libpsl/libpsl-docs.sgml | 4 ----
+- 1 file changed, 4 deletions(-)
+-
+-diff --git a/docs/libpsl/libpsl-docs.sgml b/docs/libpsl/libpsl-docs.sgml
+-index 1eca9a2..1c38dbc 100644
+---- a/docs/libpsl/libpsl-docs.sgml
+-+++ b/docs/libpsl/libpsl-docs.sgml
+-@@ -22,10 +22,6 @@
+-         </para>
+-         <xi:include href="xml/libpsl.xml"/>
+-   </chapter>
+--  <chapter id="object-tree">
+--    <title>Object Hierarchy</title>
+--     <xi:include href="xml/tree_index.sgml"/>
+--  </chapter>
+-   <index id="api-index-full">
+-     <title>API Index</title>
+-     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+diff --git a/meta/recipes-support/libpsl/libpsl_0.21.0.bb b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
+similarity index 64%
+rename from meta/recipes-support/libpsl/libpsl_0.21.0.bb
+rename to meta/recipes-support/libpsl/libpsl_0.21.1.bb
+index 9831b4b94f..0a48db65c3 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.21.0.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
+@@ -4,12 +4,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5437030d9e4fbe7267ced058ddb8a7f5 \
+                     file://COPYING;md5=f41d10997a12da5ee3c24ceeb0148d18"
  
--SRC_URI[md5sum] = "198f0a908ec3cd8f0ce9a4f3a4489645"
--SRC_URI[sha256sum] = "c4e30b227682374c23cddc7fdb9324a99694d907e79242a25a4deeedb393be46"
-+SRC_URI[sha256sum] = "cef1f710a6b0d28f5b44242713ad373702d1466dcbe512eb4e754d7f35cd4307"
+-SRC_URI = "https://github.com/rockdaboot/${BPN}/releases/download/${BP}/${BP}.tar.gz \
+-           file://0001-gtk-doc-do-not-include-tree_index.sgml.patch \
+-           file://0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch \
++SRC_URI = "https://github.com/rockdaboot/${BPN}/releases/download/${PV}/${BP}.tar.gz \
+            "
+-SRC_URI[md5sum] = "171e96d887709e36a57f4ee627bf82d2"
+-SRC_URI[sha256sum] = "41bd1c75a375b85c337b59783f5deb93dbb443fb0a52d257f403df7bd653ee12"
++SRC_URI[sha256sum] = "ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c"
  
- DEPENDS = "libgpg-error libassuan"
- RDEPENDS_${PN}-cpp += "libstdc++"
+ UPSTREAM_CHECK_URI = "https://github.com/rockdaboot/libpsl/releases"
+ 
 -- 
 2.28.0
 
