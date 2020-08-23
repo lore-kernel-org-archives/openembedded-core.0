@@ -1,50 +1,50 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.181962.1598214088713422587
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.181963.1598214089417992712
  for <openembedded-core@lists.openembedded.org>;
  Sun, 23 Aug 2020 13:21:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gxbZfedl;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id j25so106945ejk.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YZ68YLgA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id b17so984789ejq.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ff7/tfHuD/LN3I1nzDluCXz4mjNkAMZHeP8G2jb786A=;
-        b=gxbZfedlHuGVb+6Enfu5h44uNHtCWOC60U0/nmsBe5aW0wuhgG1MB4wL7rruFoBNao
-         dqhjhqm+K+ky+9WR2p6+zm58yveuYvzqXJToX+WvunJdtGNxABtl05Itq+mUOG+3I3S5
-         5Wuy8Eh8G7ETHv33B77PP/weL7sBnvYw5y4OFunHOrxw4JnuQViqOAoPwaI6pdjcRaZf
-         hh/2384rYt1VAD78+J3k+3gv8/RzQ+fJ3EAoX6Of9KjKl/ZYpnP3rTXbKX+5aYNv1BUP
-         2smqwRPReRzSQu19L4lJ6+pra5f8K8npvRXAK2SxZKQh5arAgmSresjTEn63WzPjgMXb
-         kcPw==
+        bh=h2QMPwC8PMRV1iGrImu10tZTYF1gQNoqpiTunLYkGkI=;
+        b=YZ68YLgAymZ6PESCEVAPc2juTqPQWGhHmN82kcWAP9bKEz1jB+5XJUQ/PCq6ajO00a
+         E0mdV6iEIBBo0OxpRei4AUy40l/0PutgSH8l69umZ84pmdl/86UDr8i0hbYK28LEdGA2
+         AO9qJ5bgoOBFozmqSOQ1Me5U6FF4FJwIiSdjWpo/0WqY8GIzZa7aE4/HncehpB4QSPow
+         xKNi0IFKnRqEpWHanO1tfll2cfEJqzTLezI8MAyTw7PufVm2tr2AferZnDbLvWCGIkUp
+         pOsthGWujTmWVE1F/fkzaJnG7V7NBL28uDIQzehTrWpbwjw4xetF1kyy4ZSbm9dU20eC
+         N63w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ff7/tfHuD/LN3I1nzDluCXz4mjNkAMZHeP8G2jb786A=;
-        b=ZYziGNvDpCwsMJEtbnp8VRphNkTqBEf2p0C549egDJCrCuAwOT0ENg54i34wmLxxjW
-         z9zwhd/tVm67g/gsArlxIh9kR7eT++ZrrUEBVa53QaeqK+L4ZjK/BQUSHCX1fRGOuruq
-         Muv5w93kiopiONXBKRsBkUP0FP+GHi3RZ+1MDrn5P3aSFGJeziLR9CJCMYuXHyr2jTKc
-         h71zi4plG5GK4oXM/GO/ikCAdCa9q7BAPnanBTh8zDwwxmRic7QCHZMI/Fw44SpzEh+N
-         oGZmeyW6vq0ZECE1wiK3CIRegxUQbD7kXK0vcMEk4ibrkFaP5CeEzXQ4kbEAXYktrHtN
-         bGrQ==
-X-Gm-Message-State: AOAM532w3TUCnC6MMUO/Ng9jbYVEvq5CfTMYTPyJS3B3PHwz4TzUAQhg
-	mk1NsrMsxxkyZfgPu/2TDVwf7Gvm2M0=
-X-Google-Smtp-Source: ABdhPJysFjqfLirCzN9A6n4cNF6L5WMVjiS+dCejoJ75cU3yKmanoOjQEWD3InADgxilF8JflHvWdQ==
-X-Received: by 2002:a17:906:698:: with SMTP id u24mr2596866ejb.57.1598214086958;
-        Sun, 23 Aug 2020 13:21:26 -0700 (PDT)
+        bh=h2QMPwC8PMRV1iGrImu10tZTYF1gQNoqpiTunLYkGkI=;
+        b=TWINUdCA2/TAwjRGCBGfFlFT67lDaVJ2yQRy9JW400H+bHLGENvfBjT+T9OWtv29iU
+         gonmsjo0Ppb2EMXJHKb6h15USZjIyM+9b8BWVNXXac+Za44tNO7nqTfik1QaKJTbiD8d
+         5IGIA+R4aDgNXCukbLbkNX+ZnWgIBuwHYgqbVqZYxyga7r8LWihf5VzUw10x+SNkUm05
+         lQMI/Zz+HMF1IAdgQh+H6zpCMjXxc3OgVWJvujy9GBbO68GxkDoMD7q9xF0gPd8E+zGw
+         yuwWlj2tQIvBatmi3p66v6YQInVUH4rk4TWW0bGpcbK2c08c+hvjIyQwNUrF3GPxz8fN
+         yOfw==
+X-Gm-Message-State: AOAM533uLC43QOSJ+qkaP3Gl1HPzEHd2srGkzTIHZms1U7CcpeEeHnLs
+	Ku4O+n1oUyT3PYqVqAEEgo2XqbKOkZo=
+X-Google-Smtp-Source: ABdhPJzktjzNRlyNnS+YDvXfO5JjwxWWAzYkhy/+Q8ysn7SMZYf4kuwbhEbbGywa1xMrIxVR7vyO5g==
+X-Received: by 2002:a17:906:2490:: with SMTP id e16mr2639361ejb.386.1598214087742;
+        Sun, 23 Aug 2020 13:21:27 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.26
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:26 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:27 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/37] re2c: upgrade 2.0 -> 2.0.2
-Date: Sun, 23 Aug 2020 22:20:17 +0200
-Message-Id: <20200823202031.24686-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/37] sysstat: upgrade 12.2.2 -> 12.4.0
+Date: Sun, 23 Aug 2020 22:20:18 +0200
+Message-Id: <20200823202031.24686-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,26 +53,24 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/re2c/{re2c_2.0.bb => re2c_2.0.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/re2c/{re2c_2.0.bb => re2c_2.0.2.bb} (84%)
+ .../sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb}           | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb} (54%)
 
-diff --git a/meta/recipes-support/re2c/re2c_2.0.bb b/meta/recipes-support/re2c/re2c_2.0.2.bb
-similarity index 84%
-rename from meta/recipes-support/re2c/re2c_2.0.bb
-rename to meta/recipes-support/re2c/re2c_2.0.2.bb
-index b73b024072..db26b02b84 100644
---- a/meta/recipes-support/re2c/re2c_2.0.bb
-+++ b/meta/recipes-support/re2c/re2c_2.0.2.bb
-@@ -6,7 +6,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+similarity index 54%
+rename from meta/recipes-extended/sysstat/sysstat_12.2.2.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+index 333d10295a..6773213a40 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
+@@ -4,5 +4,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
- SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "89a9d7ee14be10e3779ea7b2c8ea4a964afce6e76b8dbcd5479940681db46d20"
-+SRC_URI[sha256sum] = "6cddbb558dbfd697a729cb4fd3f095524480283b89911ca5221835d8a67ae5e0"
- UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
+ SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch"
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[md5sum] = "1073fdf7bba58483a467a8a0681beeda"
+-SRC_URI[sha256sum] = "78388b64acec81378b962e66b40e57acd4b18ff17a849bc9308f95d290248c9c"
++SRC_URI[sha256sum] = "78556c339795ecd07eb10ee09e3f5d52901d3a29f874ae92b45efd0de7b62d16"
 -- 
 2.28.0
 
