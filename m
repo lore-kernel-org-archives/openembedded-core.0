@@ -1,50 +1,50 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.181953.1598214079602915495
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.181954.1598214080384196189
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:19 -0700
+ Sun, 23 Aug 2020 13:21:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rN/Tmm+4;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id c10so6263096edk.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KBlUP36/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id w14so5769718eds.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cVk0lKCo6q/IpGacrJyV6QAhbcZD1c87w4+qqT5lFjM=;
-        b=rN/Tmm+4GpR/BVO5HIUY1vTXPoP+Qkem7A3tBoxY16mZL6Bk29h1M/BmQk5igJT5TV
-         RKdtxkBCrb6TqTEmedjPgbVg7Fa7OnDhQkk1yLkIhrDsV4iUOUcGupFvIq4Dn5/Pdbij
-         Uj/gA9Tq546mmcCANrd/zE1ipOtcdqCRESps56iYeGPTertipM4WR1lnUdrqP/Qd3WoV
-         oLVE25GKbzPkoUT89ZQzMOQBaVSOkkLxyWzR8o9pxJL7KGkSK8vv72rgBVsla5oNMgDi
-         7QB9PxJ6bvWFn9M3vgGTZOYuIcSmJLZKa/n2QriVgmzetqvFXZx785NqZ7CcuCwXSe22
-         Ra5g==
+        bh=GRDXN/qw7mBv7EDeidJhIKxRsxUVDvzJgO0+MexWv+c=;
+        b=KBlUP36/q/cD3MUnvp86iZoPC5yg6qdLJD3eOmmaijeRq77HyP4l2gD847VT1b3P3p
+         RABu4lUPDviMMWQZdt/Akrxu8/kwPfnpjoTlteXiIeIbcZP5lEy4N1EoIB3Sp4s8P256
+         9Tr7pJRGChEEgDn6RA61RWvve7TxvOIXduk5I/sEU4KNJPbMeAboq7umZsnZJVeJbhOu
+         Gt6wEr+FkXoHJGXFr4+tEsDkfHRwu+TU8sDMsCXqycHtTHezLkYxQvwKwgqEPcS1TvI3
+         ciToL4b1WX8psIF47Y8pJXybaKTLuBWu1U1KNZKd8yvFKB7wuu1RVUCbhouHk0DN1oUq
+         82TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cVk0lKCo6q/IpGacrJyV6QAhbcZD1c87w4+qqT5lFjM=;
-        b=lftd+xz5tkgzYgM9jtWRCluw/wlqJ2hLj5QYrw4oCFkCYAmr+ApobpGFf7sn4Oe27Z
-         DOYFD2KwZ2o41/dpACVbQutkGNjf2/4/RJR5ivmwsTiRRVjcGlX4p5Xupf8vKJ/sh+gU
-         +VrJrOhjmvs9qAatxbIIPB/JjsNX5Rj/4EFjxHQFgDON8+O3ifIm8oSk+mNLNHo/KfuP
-         iSqCT+tFwAxUfr9fItY2hxF8Z5i8m9PmZYd189lkgumUa/iWZPXrs8g16mXN9tHOgLJU
-         h6qQApdsRW2FInpjJ0EbnHIa6m1ianKNagLa4nxtE7ohFSMNW5ndJ4QiOy9Z/4PrxL+M
-         9hgQ==
-X-Gm-Message-State: AOAM5311bg3iqH2WWjGY66cVsAba7WcLQd/nNkPTeNc7F0IN4YNytUV4
-	bpmMnF12slGXocR25bAidLyiG3LnobM=
-X-Google-Smtp-Source: ABdhPJxc/5t2a9XSKTbyZ928mtBrrqQAiw8KZzrdwCy9djLUTbx57kiurT9w3kI+xGJfwGzhuABIQw==
-X-Received: by 2002:a05:6402:156:: with SMTP id s22mr2543781edu.372.1598214077887;
-        Sun, 23 Aug 2020 13:21:17 -0700 (PDT)
+        bh=GRDXN/qw7mBv7EDeidJhIKxRsxUVDvzJgO0+MexWv+c=;
+        b=D8Bd0EJNk8KA7UmrssJ29nz0KVvtU0UFO3wFL3phCAij29Z4QbLeioS625GuE+6Ybh
+         0Laq5lW6YVgR+IXuehKC+jcVrOnEwN7YAOne3hnOXKs56zSpMq9d/5wpWOl4hrs2jzDI
+         w3JjSFKeftM+mWYZqXLPko2440JkhIf0IMZrbb+gnZbBW+HHarKa9Tec6ZD/VQLhAFC0
+         YU/9cqylR0rONiLx3MvlLGFcDxZP2qJyNQI3KefuVRWtTivlad+tYxJsNBqMwbeAk04y
+         7ttZ92x4yzTK8h/BjLNHfL2+XnPGgvIQoaPxPZ1bsFYzCFqI8q2JJRyPU3fpCAx2b6B+
+         Cq0w==
+X-Gm-Message-State: AOAM533+XirbRq78L2wGfUhNqshkAB3BhtaN6Li2VLvYTy1LM9ygDbpS
+	I7pf1VIXEQ+nyIuUZn36zxnezqf7CjI=
+X-Google-Smtp-Source: ABdhPJzS+wHVGwMjz8Jot3WE5fTJWaQQQBJaMLpO71QQc71usiMR64apVQlcps+NgkxcGxf4wxL2Mw==
+X-Received: by 2002:aa7:d85a:: with SMTP id f26mr2626215eds.363.1598214078641;
+        Sun, 23 Aug 2020 13:21:18 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
         by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:17 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:18 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/37] gtk+3: upgrade 3.24.21 -> 3.24.22
-Date: Sun, 23 Aug 2020 22:20:07 +0200
-Message-Id: <20200823202031.24686-13-alex.kanavin@gmail.com>
+Subject: [PATCH 14/37] libcheck: upgrade 0.15.0 -> 0.15.2
+Date: Sun, 23 Aug 2020 22:20:08 +0200
+Message-Id: <20200823202031.24686-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,27 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gtk+/{gtk+3_3.24.21.bb => gtk+3_3.24.22.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.21.bb => gtk+3_3.24.22.bb} (84%)
+ .../libcheck/{libcheck_0.15.0.bb => libcheck_0.15.2.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcheck/{libcheck_0.15.0.bb => libcheck_0.15.2.bb} (89%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb
-similarity index 84%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb
-index 70c0e66db7..6af2bd94c1 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.21.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb
-@@ -8,8 +8,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
-            "
--SRC_URI[md5sum] = "95afed6c860d27de827db66434d681da"
--SRC_URI[sha256sum] = "aeea6ae7cd35e83dfc7699be716519faefca346c62e784dd1a37d9df94c08f52"
-+SRC_URI[sha256sum] = "bf18a4a5dff28a7b02aaef1b949c2d09c96c18387eddab152bb4cd55a5b67dda"
+diff --git a/meta/recipes-support/libcheck/libcheck_0.15.0.bb b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+similarity index 89%
+rename from meta/recipes-support/libcheck/libcheck_0.15.0.bb
+rename to meta/recipes-support/libcheck/libcheck_0.15.2.bb
+index 177c0edc8f..33e07db93c 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.15.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
- S = "${WORKDIR}/gtk+-${PV}"
+ SRC_URI = "https://github.com/${BPN}/check/releases/download/${PV}/check-${PV}.tar.gz \
+            file://not-echo-compiler-info-to-check_stdint.h.patch"
+-SRC_URI[sha256sum] = "aea2e3c68fa6e1e92378e744b1c0db350ccda4b6bd0d19530d0ae185b3d1ac60"
++SRC_URI[sha256sum] = "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+ UPSTREAM_CHECK_URI = "https://github.com/libcheck/check/releases/"
  
+ S = "${WORKDIR}/check-${PV}"
 -- 
 2.28.0
 
