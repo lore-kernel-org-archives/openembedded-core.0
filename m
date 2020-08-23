@@ -1,50 +1,50 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.181963.1598214089417992712
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web12.181005.1598214090578140483
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:29 -0700
+ Sun, 23 Aug 2020 13:21:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YZ68YLgA;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id b17so984789ejq.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rxm/Skj+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id dp2so3988214ejc.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h2QMPwC8PMRV1iGrImu10tZTYF1gQNoqpiTunLYkGkI=;
-        b=YZ68YLgAymZ6PESCEVAPc2juTqPQWGhHmN82kcWAP9bKEz1jB+5XJUQ/PCq6ajO00a
-         E0mdV6iEIBBo0OxpRei4AUy40l/0PutgSH8l69umZ84pmdl/86UDr8i0hbYK28LEdGA2
-         AO9qJ5bgoOBFozmqSOQ1Me5U6FF4FJwIiSdjWpo/0WqY8GIzZa7aE4/HncehpB4QSPow
-         xKNi0IFKnRqEpWHanO1tfll2cfEJqzTLezI8MAyTw7PufVm2tr2AferZnDbLvWCGIkUp
-         pOsthGWujTmWVE1F/fkzaJnG7V7NBL28uDIQzehTrWpbwjw4xetF1kyy4ZSbm9dU20eC
-         N63w==
+        bh=89A2mio1kvXmghW2DtogGcp3QdX7OdbZjJaQSvbBh+0=;
+        b=rxm/Skj+EtWBki6MB2oSSLdfxrqr5mIC6eVaRPU7Bd+Sy4/iTzviigyQEz364ObQWB
+         neYbd6VjF4hkfr41wM3cxj90Mh2o1/t2qhuDO1YeDKWp0HuPquxYiAzQTQZAbPxLpEZ4
+         puxfaQTCuy4HJ1gkuEhVjb8vdiwUesj0l6CjCtdOvhiKr2JPSleLIJvxx8OZxX6Ld/y/
+         h/YEAdfmSa3cMslvcmj7HOPecU5ZLja71srx1ONB9PLSu3i0Tqdk/BLHeEWcAguAoFpF
+         ARHRxtZacmpMN8XV+074CareuJ3qaQ1rYhxDxQpg0VPoxWwsvMHTp/RdflNrWauBeGke
+         wHQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h2QMPwC8PMRV1iGrImu10tZTYF1gQNoqpiTunLYkGkI=;
-        b=TWINUdCA2/TAwjRGCBGfFlFT67lDaVJ2yQRy9JW400H+bHLGENvfBjT+T9OWtv29iU
-         gonmsjo0Ppb2EMXJHKb6h15USZjIyM+9b8BWVNXXac+Za44tNO7nqTfik1QaKJTbiD8d
-         5IGIA+R4aDgNXCukbLbkNX+ZnWgIBuwHYgqbVqZYxyga7r8LWihf5VzUw10x+SNkUm05
-         lQMI/Zz+HMF1IAdgQh+H6zpCMjXxc3OgVWJvujy9GBbO68GxkDoMD7q9xF0gPd8E+zGw
-         yuwWlj2tQIvBatmi3p66v6YQInVUH4rk4TWW0bGpcbK2c08c+hvjIyQwNUrF3GPxz8fN
-         yOfw==
-X-Gm-Message-State: AOAM533uLC43QOSJ+qkaP3Gl1HPzEHd2srGkzTIHZms1U7CcpeEeHnLs
-	Ku4O+n1oUyT3PYqVqAEEgo2XqbKOkZo=
-X-Google-Smtp-Source: ABdhPJzktjzNRlyNnS+YDvXfO5JjwxWWAzYkhy/+Q8ysn7SMZYf4kuwbhEbbGywa1xMrIxVR7vyO5g==
-X-Received: by 2002:a17:906:2490:: with SMTP id e16mr2639361ejb.386.1598214087742;
-        Sun, 23 Aug 2020 13:21:27 -0700 (PDT)
+        bh=89A2mio1kvXmghW2DtogGcp3QdX7OdbZjJaQSvbBh+0=;
+        b=PRnvZbMWVGZFUiYfMDHdbG1pAzyn1Nsg+udSb4UmQ72g6jjF3zMZmSBi6u8LkpGhfI
+         qadF054Ekf4zlKFpOBJxqFmftNauJaO+VI7HASAaM3PWwkYYY9hDouvD0BtOArLVWJt4
+         vot9W+NT+LEzl42Lism3hpZR4x5eSy5OeRkbNGiVhbOAN2FYEVnPiiblN2qwqnPA5hiz
+         RNc5F4xhxAyvZrvSxBYE+LeUg8obTYa6RwPvCKOSjOM1B/GK+sskxbmdKoJm/wj+UZdi
+         jNqdk8dDhqEmCbe1JVAFnIp5putyy1wHjPhQh1qpaFzINJJaofAbFpPlIV2c7dQppWKu
+         XTLA==
+X-Gm-Message-State: AOAM532pZnBZBFRjZj8PMFme1kEoOvfJf4S3XxQTNDLdc3i5D3JGQl5L
+	URpD5aK7Jgb9bUF/BDWXHPYElmfrTJM=
+X-Google-Smtp-Source: ABdhPJyJttiRXGKKbKHYDOSpjE2gBv23WikEWl6Pon+3D1r8N2WYHR9as0+TcLIz3WA+sDnuoSEO+A==
+X-Received: by 2002:a17:906:244b:: with SMTP id a11mr2651688ejb.5.1598214088818;
+        Sun, 23 Aug 2020 13:21:28 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
         by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:27 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:28 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 24/37] sysstat: upgrade 12.2.2 -> 12.4.0
-Date: Sun, 23 Aug 2020 22:20:18 +0200
-Message-Id: <20200823202031.24686-24-alex.kanavin@gmail.com>
+Subject: [PATCH 25/37] vala: upgrade 0.48.7 -> 0.48.9
+Date: Sun, 23 Aug 2020 22:20:19 +0200
+Message-Id: <20200823202031.24686-25-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
@@ -53,24 +53,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_12.2.2.bb => sysstat_12.4.0.bb} (54%)
+ meta/recipes-devtools/vala/{vala_0.48.7.bb => vala_0.48.9.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/vala/{vala_0.48.7.bb => vala_0.48.9.bb} (50%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
-similarity index 54%
-rename from meta/recipes-extended/sysstat/sysstat_12.2.2.bb
-rename to meta/recipes-extended/sysstat/sysstat_12.4.0.bb
-index 333d10295a..6773213a40 100644
---- a/meta/recipes-extended/sysstat/sysstat_12.2.2.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.4.0.bb
-@@ -4,5 +4,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+diff --git a/meta/recipes-devtools/vala/vala_0.48.7.bb b/meta/recipes-devtools/vala/vala_0.48.9.bb
+similarity index 50%
+rename from meta/recipes-devtools/vala/vala_0.48.7.bb
+rename to meta/recipes-devtools/vala/vala_0.48.9.bb
+index 2e61db1052..09bfcd6474 100644
+--- a/meta/recipes-devtools/vala/vala_0.48.7.bb
++++ b/meta/recipes-devtools/vala/vala_0.48.9.bb
+@@ -2,4 +2,4 @@ require ${BPN}.inc
  
- SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch"
+ SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
  
--SRC_URI[md5sum] = "1073fdf7bba58483a467a8a0681beeda"
--SRC_URI[sha256sum] = "78388b64acec81378b962e66b40e57acd4b18ff17a849bc9308f95d290248c9c"
-+SRC_URI[sha256sum] = "78556c339795ecd07eb10ee09e3f5d52901d3a29f874ae92b45efd0de7b62d16"
+-SRC_URI[sha256sum] = "28de33e28da24500cc1675c3a6ced1301c9a6a5e6dd06193569001f9ce9a5c53"
++SRC_URI[sha256sum] = "9cea16d3bb3daddbfe0556b99fbfa08146230db7651e1e674cd08b4df5cefea9"
 -- 
 2.28.0
 
