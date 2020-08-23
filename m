@@ -1,206 +1,157 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.181966.1598214093853395178
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.181514.1598214094873990240
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:34 -0700
+ Sun, 23 Aug 2020 13:21:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=a2eqo/iN;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id l63so3212024edl.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uY/G7cEx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id o23so9322344ejr.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sVW8B2Q33n+5XoOimXp3rAe7YphrsB6QI2UHepke9c4=;
-        b=a2eqo/iN5Y+alwZ5Dtvgm7nMrtQ0TW+efGjkJuFpDmea6RQn3rdFgRuRdFXB95Fmvm
-         bMNvS5ZZgUy6iN4pRnBLY5PI7l+Q0Pg9s7ex4eqtiIbx4RqgyFCLdwO5syxxghbl1fUM
-         +jGr29P+QLudqPrUaA3Uwovxxf7v76v9aBzegna8i3dyxXAFiMjBw2qglV6DQDJ9E1cA
-         JeNiPc7u8vFQCmd8uX5j0eKQrOEu73qdgx2wFLTcGnD7HXE5Br/kue0eeI/wb1CisJgp
-         zetERtTWJQJUBtxrrQnT+MKTK92LssH3rbq3SaDNcxisy4WCX4ChMt4awphyBEw8MbSd
-         IOUw==
+        bh=L3Sz13C7t/rh7TN8DJL3ELSMIm8RV/T5jdtqKO7a6t8=;
+        b=uY/G7cExZHBb4WV7LYRdfuEHg2KTr89gE9WIHaYd6q83U4kEDUbhmSO91vlMIm3oiZ
+         cNbDz+PUMOWsGAheFLuKIzWXrzU8PRzgrLuK4U1MYc9dGcRdAx187J8l1xxQIoMBdj//
+         eihnDR3VLvRJ5pAj1oZtSCoHboMpzF8UdVWIsf2cAtcK44mO8x1+GJzggDZDwa1qyOGN
+         UEL1iKfGtYmp5BFrMisiGCH9nESizT7ifA8lwVY2bP2WfLkJsFjbz9e6zy5LzxkcO1re
+         eiENzjlN3noPkXFC5odNuT1wBKGw7yTVC6YX2iYjz+DfsQVDGvt0ejeEsO2WLrQ+wBo7
+         dOXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sVW8B2Q33n+5XoOimXp3rAe7YphrsB6QI2UHepke9c4=;
-        b=Gg7P1J4PMNMa7SHmp5VXPlHxsA+DZcfQsPatQXotefB1sE9O54S/lbK6oBSnFamU2k
-         w9xipjGcS+e5xfY51DeVs8UQOmCCwTHz0AOl8jarQX/lju53Z7UczEAVDvqWlkyac28k
-         bQ12Qx1df4FByfSt4M803G/I98w+iCLfOKaz6uGelkczNoJJHMHO7/XA+L2ANkcSgWLP
-         ZynSQwOFbRjviDRr0DBd+ANduL+dQ2XTe1L8BzyRIvLbRPCeZ/+rpGc7CaUhW8BWYXLN
-         gSeQgWSPGoXcNXORoTI2yIS9fJDly5xEoPh7w4olDooz7u6dTw1pNgcfP466gtCPpUUP
-         nZtw==
-X-Gm-Message-State: AOAM533q5BeIdgMwyjYe3jkfl+9iqjIlFXRJ3MpGsBnGkoDrr97uNYUz
-	zRmv0LmfdBxYTkFOXRU/YBJeM2McKwk=
-X-Google-Smtp-Source: ABdhPJx5Pe2ydwari3XgarjtwKvqmaVd4IGI8EFIYLcMwI7bqiRdjtFu8ZjMpBqI4vXvPEB2ylIcmA==
-X-Received: by 2002:aa7:d350:: with SMTP id m16mr2529174edr.169.1598214091883;
-        Sun, 23 Aug 2020 13:21:31 -0700 (PDT)
+        bh=L3Sz13C7t/rh7TN8DJL3ELSMIm8RV/T5jdtqKO7a6t8=;
+        b=ZWm6wsMsxVaygQTLvs+P6iVo0RxQHzqQXMzsV9tX1ePT9iyFVZ2wUZh09DbUFk8krk
+         C46ykfCyssuzmrBq+B4Qai08Gu07Nqioj6RBErhoOj3jjY0tgxU7qKwlUU3uuAjT+Xt7
+         CEmvkM95WS3k8VRerC40vg4Fxk0BofFN3g5UY9nJZjZawdIwwg80GPo+9JwHZTxbYxHD
+         LAeHNQLiUVcbRh3K5qZo0cib5ob+t5YM+AL1+z1alJz355ggMtkj/LdZW/V2/dQs/0vU
+         VrBNp/5XQJSbHtkHhI55YTM4dZyYgQTsufjkoc14P4ynWqfZm5Ta2fiDTtwLmnhP+dJz
+         EkjA==
+X-Gm-Message-State: AOAM530ZVEfgYCQOCwgY+euxRl2HL5R1y2R1io6V5pJpTsxVWaTxxxmc
+	NXBGJsU/yeljB1jmcHr7pnBYNrN5JsA=
+X-Google-Smtp-Source: ABdhPJzjwDexrp+0rIJ86RYCC9oJGgAP3fo3dyJq/WkNMrv7BqL8YWLs6Zv6xX7FMqZvyZyK3IPKiA==
+X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr2806325ejb.335.1598214092979;
+        Sun, 23 Aug 2020 13:21:32 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
         by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:31 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:32 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 29/37] boost: update 1.73.0 -> 1.74.0
-Date: Sun, 23 Aug 2020 22:20:23 +0200
-Message-Id: <20200823202031.24686-29-alex.kanavin@gmail.com>
+Subject: [PATCH 30/37] xev: update 1.2.3 -> 1.2.4
+Date: Sun, 23 Aug 2020 22:20:24 +0200
+Message-Id: <20200823202031.24686-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
 References: <20200823202031.24686-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...native_1.73.0.bb => bjam-native_1.74.0.bb} |  0
- .../{boost-1.73.0.inc => boost-1.74.0.inc}    |  3 +-
- ...h-instruction-set-flags-we-do-that-o.patch | 22 ++++++++------
- ...l-rtree-visitors-insert-base-class-p.patch | 30 -------------------
- .../{boost_1.73.0.bb => boost_1.74.0.bb}      |  1 -
- 5 files changed, 14 insertions(+), 42 deletions(-)
- rename meta/recipes-support/boost/{bjam-native_1.73.0.bb => bjam-native_1.74.0.bb} (100%)
- rename meta/recipes-support/boost/{boost-1.73.0.inc => boost-1.74.0.inc} (85%)
- delete mode 100644 meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
- rename meta/recipes-support/boost/{boost_1.73.0.bb => boost_1.74.0.bb} (83%)
+ .../xorg-app/xev/diet-x11.patch               | 35 +++++++++++--------
+ .../xorg-app/{xev_1.2.3.bb => xev_1.2.4.bb}   |  3 +-
+ 2 files changed, 21 insertions(+), 17 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xev_1.2.3.bb => xev_1.2.4.bb} (77%)
 
-diff --git a/meta/recipes-support/boost/bjam-native_1.73.0.bb b/meta/recipes-support/boost/bjam-native_1.74.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/bjam-native_1.73.0.bb
-rename to meta/recipes-support/boost/bjam-native_1.74.0.bb
-diff --git a/meta/recipes-support/boost/boost-1.73.0.inc b/meta/recipes-support/boost/boost-1.74.0.inc
-similarity index 85%
-rename from meta/recipes-support/boost/boost-1.73.0.inc
-rename to meta/recipes-support/boost/boost-1.74.0.inc
-index b574757199..b47fdaf099 100644
---- a/meta/recipes-support/boost/boost-1.73.0.inc
-+++ b/meta/recipes-support/boost/boost-1.74.0.inc
-@@ -12,8 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
- SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[md5sum] = "9273c8c4576423562bbe84574b07b2bd"
--SRC_URI[sha256sum] = "4eb3b8d442b426dc35346235c8733b5ae35ba431690e38c6a8263dce9fcbb402"
-+SRC_URI[sha256sum] = "83bfc1507731a0906e387fc28b7ef5417d591429e51e788417fe9ff025e116b1"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-index 7c6b62e383..91ab53efd9 100644
---- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-+++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-@@ -1,7 +1,8 @@
--From f4d3fad43d67808d71325ba0df1457555b9a0086 Mon Sep 17 00:00:00 2001
-+From 8e1d30454afde37eaa3c593ec19d108cd5ed10d0 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 18 Dec 2018 15:42:57 +0100
- Subject: [PATCH] Don't set up arch/instruction-set flags, we do that
+diff --git a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+index 53c0ac2e61..361369b291 100644
+--- a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
++++ b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+@@ -1,14 +1,19 @@
++From b9b2b8d1af283a13cdccea55562cf332de48dcb9 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross@openedhand.com>
++Date: Wed, 28 Mar 2007 16:10:50 +0000
++Subject: [PATCH] Add xev
 +
- ourselves
- 
- Upstream-Status: Inappropriate
-@@ -9,14 +10,14 @@ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Upstream-Status: Inappropriate [disable feature]
  
  ---
-- tools/build/src/tools/gcc.jam | 133 ----------------------------------
-- 1 file changed, 133 deletions(-)
-+ tools/build/src/tools/gcc.jam | 139 ----------------------------------
-+ 1 file changed, 139 deletions(-)
+- xev.c |   16 ++++++++--------
+- 1 file changed, 8 insertions(+), 8 deletions(-)
++ xev.c | 64 +----------------------------------------------------------
++ 1 file changed, 1 insertion(+), 63 deletions(-)
  
- diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
--index 8910a55f2..ed7e7b20c 100644
-+index ff3209f7b..70cbc39a5 100644
- --- a/tools/build/src/tools/gcc.jam
- +++ b/tools/build/src/tools/gcc.jam
--@@ -1195,136 +1195,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
-+@@ -1217,142 +1217,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
-          <architecture>$(architecture)/<instruction-set>$(instruction-set)
-          : $(values) ;
-  }
-@@ -66,7 +67,11 @@ index 8910a55f2..ed7e7b20c 100644
- -cpu-flags gcc OPTIONS : x86 : skylake : -march=skylake ;
- -cpu-flags gcc OPTIONS : x86 : skylake-avx512 : -march=skylake-avx512 ;
- -cpu-flags gcc OPTIONS : x86 : cannonlake : -march=skylake-avx512 -mavx512vbmi -mavx512ifma -msha ;
---cpu-flags gcc OPTIONS : x86 : icelake : -march=icelake ;
-+-cpu-flags gcc OPTIONS : x86 : icelake-client : -march=icelake-client ;
-+-cpu-flags gcc OPTIONS : x86 : icelake-server : -march=icelake-server ;
-+-cpu-flags gcc OPTIONS : x86 : cascadelake : -march=skylake-avx512 -mavx512vnni ;
-+-cpu-flags gcc OPTIONS : x86 : cooperlake : -march=cooperlake ;
-+-cpu-flags gcc OPTIONS : x86 : tigerlake : -march=tigerlake ;
- -cpu-flags gcc OPTIONS : x86 : k6 : -march=k6 ;
- -cpu-flags gcc OPTIONS : x86 : k6-2 : -march=k6-2 ;
- -cpu-flags gcc OPTIONS : x86 : k6-3 : -march=k6-3 ;
-@@ -92,10 +97,12 @@ index 8910a55f2..ed7e7b20c 100644
- -cpu-flags gcc OPTIONS : x86 : btver1 : -march=btver1 ;
- -cpu-flags gcc OPTIONS : x86 : btver2 : -march=btver2 ;
- -cpu-flags gcc OPTIONS : x86 : znver1 : -march=znver1 ;
-+-cpu-flags gcc OPTIONS : x86 : znver2 : -march=znver2 ;
- -cpu-flags gcc OPTIONS : x86 : winchip-c6 : -march=winchip-c6 ;
- -cpu-flags gcc OPTIONS : x86 : winchip2 : -march=winchip2 ;
- -cpu-flags gcc OPTIONS : x86 : c3 : -march=c3 ;
- -cpu-flags gcc OPTIONS : x86 : c3-2 : -march=c3-2 ;
-+-cpu-flags gcc OPTIONS : x86 : c7 : -march=c7 ;
- -##
- -cpu-flags gcc OPTIONS : x86 : atom : -march=atom ;
- -# Sparc
-@@ -153,6 +160,3 @@ index 8910a55f2..ed7e7b20c 100644
- -cpu-flags gcc OPTIONS : s390x : z15 : -march=z15 ;
- -# AIX variant of RS/6000 & PowerPC
- -toolset.flags gcc AROPTIONS <address-model>64/<target-os>aix : "-X64" ;
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch b/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
-deleted file mode 100644
-index 1edad329ca..0000000000
---- a/meta/recipes-support/boost/boost/0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From aafbceccc76dccb75963dd4f596fd1f10ee34b03 Mon Sep 17 00:00:00 2001
--From: Jonathan Wakely <boost@kayari.org>
--Date: Fri, 5 Jun 2020 19:29:27 +0100
--Subject: [PATCH] Make index::detail::rtree::visitors::insert base class public
--
--Fixes #721
--
--Upstream-Status: Backport [https://github.com/boostorg/geometry/commit/aafbceccc76dccb75963dd4f596fd1f10ee34b03]
--
--Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-----
-- boost/geometry/index/detail/rtree/visitors/insert.hpp | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/boost/geometry/index/detail/rtree/visitors/insert.hpp b/boost/geometry/index/detail/rtree/visitors/insert.hpp
--index 2d324cb7f..5709a930c 100644
----- a/boost/geometry/index/detail/rtree/visitors/insert.hpp
--+++ b/boost/geometry/index/detail/rtree/visitors/insert.hpp
--@@ -265,7 +265,7 @@ struct insert_traverse_data
-- // Default insert visitor
-- template <typename Element, typename MembersHolder>
-- class insert
---    : MembersHolder::visitor
--+    : public MembersHolder::visitor
-- {
-- protected:
--     typedef typename MembersHolder::box_type box_type;
---- 
--2.26.2
--
-diff --git a/meta/recipes-support/boost/boost_1.73.0.bb b/meta/recipes-support/boost/boost_1.74.0.bb
-similarity index 83%
-rename from meta/recipes-support/boost/boost_1.73.0.bb
-rename to meta/recipes-support/boost/boost_1.74.0.bb
-index 995c14e8cc..5e9e0d87d7 100644
---- a/meta/recipes-support/boost/boost_1.73.0.bb
-+++ b/meta/recipes-support/boost/boost_1.74.0.bb
-@@ -7,5 +7,4 @@ SRC_URI += "file://arm-intrinsics.patch \
-            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
-            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
-            file://0001-dont-setup-compiler-flags-m32-m64.patch \
--           file://0001-Make-index-detail-rtree-visitors-insert-base-class-p.patch \
-            "
+-Index: xev-1.2.3/xev.c
+-===================================================================
+---- xev-1.2.3.orig/xev.c
+-+++ xev-1.2.3/xev.c
+-@@ -125,17 +125,6 @@ do_KeyPress(XEvent *eventp)
++diff --git a/xev.c b/xev.c
++index ea69234..6d5eb30 100644
++--- a/xev.c
+++++ b/xev.c
++@@ -175,17 +175,6 @@ do_KeyPress(XEvent *eventp)
+      nbytes = XLookupString(e, str, 256, &ks, NULL);
+  
+      /* not supposed to call XmbLookupString on a key release event */
+@@ -26,24 +31,24 @@ Index: xev-1.2.3/xev.c
+  
+      if (ks == NoSymbol)
+          ksname = "NoSymbol";
+-@@ -168,16 +157,6 @@ do_KeyPress(XEvent *eventp)
++@@ -220,16 +209,6 @@ do_KeyPress(XEvent *eventp)
+      }
+  
+      /* not supposed to call XmbLookupString on a key release event */
+ -    if (e->type == KeyPress && xic) {
+--        printf("    XmbLookupString gives %d bytes: ", nmbbytes);
++-        output(Indent, "XmbLookupString gives %d bytes: ", nmbbytes);
+ -        if (nmbbytes > 0) {
+ -            dump(buf, nmbbytes);
+--            printf(" \"%s\"\n", buf);
++-            output(NewLine, " \"%s\"", buf);
+ -        }
+ -        else {
+--            printf("\n");
++-            output_new_line();
+ -        }
+ -    }
+  
+-     printf("    XFilterEvent returns: %s\n",
++     output(Indent | NewLine, "XFilterEvent returns: %s",
+             XFilterEvent(eventp, e->window) ? "True" : "False");
+-@@ -1141,7 +1120,7 @@ parse_event_mask(const char *s, long eve
++@@ -1211,7 +1190,7 @@ parse_event_mask(const char *s, long event_masks[])
+              if (s)
+                  return True;
+          }
+@@ -52,7 +57,7 @@ Index: xev-1.2.3/xev.c
+  
+      if (s != NULL)
+          fprintf(stderr, "%s: unrecognized event mask '%s'\n", ProgramName, s);
+-@@ -1288,37 +1267,6 @@ main(int argc, char **argv)
++@@ -1361,37 +1340,6 @@ main(int argc, char **argv)
+          fprintf(stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
+      }
+  
+@@ -90,7 +95,7 @@ Index: xev-1.2.3/xev.c
+      screen = DefaultScreen(dpy);
+  
+      attr.event_mask = event_masks[EVENT_MASK_INDEX_CORE];
+-@@ -1373,16 +1321,6 @@ main(int argc, char **argv)
++@@ -1446,16 +1394,6 @@ main(int argc, char **argv)
+          printf("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
+      }
+  
+diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.3.bb b/meta/recipes-graphics/xorg-app/xev_1.2.4.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-app/xev_1.2.3.bb
+rename to meta/recipes-graphics/xorg-app/xev_1.2.4.bb
+index 6a69e747a6..9407fa65f1 100644
+--- a/meta/recipes-graphics/xorg-app/xev_1.2.3.bb
++++ b/meta/recipes-graphics/xorg-app/xev_1.2.4.bb
+@@ -14,5 +14,4 @@ DEPENDS += "libxrandr xorgproto"
+ 
+ SRC_URI += "file://diet-x11.patch"
+ 
+-SRC_URI[md5sum] = "eec82a5d4b599736f0fa637e96136746"
+-SRC_URI[sha256sum] = "66bc4f1cfa1946d62612737815c34164e4ce40fcebd2c9e1d7e7a1117ad3ad09"
++SRC_URI[sha256sum] = "d700e08bfe751ed2dbf802baa204b056d0e49348b6eb3c6f9cb035d8ae4885e2"
 -- 
 2.28.0
 
