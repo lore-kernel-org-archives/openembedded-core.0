@@ -1,76 +1,151 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.180992.1598214067499032404
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.180993.1598214068394832280
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2020 13:21:07 -0700
+ Sun, 23 Aug 2020 13:21:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ixjR+44V;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id dp2so3987297ejc.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cUz9dhEh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id m22so9265303eje.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2020 13:21:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fLevrj53stt6nDz52T9izGJt/+GChFQEiKue5c3h1fA=;
-        b=ixjR+44V3c4zhcABg1osYsYo5bAL+liN9ZKqk+rG9I/ywN+lr310P6a2SKfpmSv9A9
-         Cn0hwJaQZD7QsL+JVU/pV7bjswkkZZ9BFmMFFgrF84IL7kS/UD053GhFOM07mmygwvVI
-         LexJQEQyTaQnG8x5+5/QudZfQlHvJPt0G0drKvzUwkDwRECd/KRLtYPdHEAURf8lOugO
-         YpaCshkxDXsJpZOM+e1IUiQuS69qwN5ScTbrk7QSo8xyRqJQMDZQY4VoGoT2GLjh5VKL
-         WbLjhg9CydcXnssjxgIb88aeo7o8XWItcZmBSgsnEcuBuxDKHTyhNYGxzBRv8zGjT8ge
-         Lhyw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dy9KJRd6zwLFc25z1i7bVlWqmyIOc90k9/ZQM6Q2bpI=;
+        b=cUz9dhEhju1p1/gdyW/kQfy/6svUZkW6iL66oTd1AnuuU+fJN1ZFCrOHCeatMv0I9p
+         lv+5HfJa86JsEObecoqMPnlB28HjT2FoxLVphRuMzekO5a9XOTwPKZ5oehpfBRK6q/9b
+         VjnXY1lawk/eCEQHdkOhhlqt689sh4XD3CJA+qhTvENadfM05eSyVGDuyjeTebuHxEEf
+         /a3bN1TLPdKTj3UfRv8LzYLk29kQWgNHPqQ6c87aVGqVMbizxMbTk1rSXMouEna+fe7o
+         vqyIZTmjtkL59HEIpdnqaksnjVdmgzGk891iVWo8mLdgrxPoaMnIwNXIIiolq9x3Crxz
+         Irtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fLevrj53stt6nDz52T9izGJt/+GChFQEiKue5c3h1fA=;
-        b=d1OwxjaDmsd/NdxsF7rHAfhZnB1NMCNbmFLJImM7IduhPUt9j0TwTJb2pN8WDleH5a
-         6N0FGtgcPCg8ZTa4A24guAv1hZKNi2Rtn2JUz68C0Dleg2PN9349o8TMZVcPfJeGCtZv
-         8oOgtxDY7czsV0v4hJizQsIETEuntXaZLYiC/QwXJq7dkztgGihOxEbwgOl8gqLUPA3m
-         t84te9t5mER8XHLYQVKrFd+rjUxz39q6QOX30zL8SsRn2FvNe2wNqWgL37ftISmKBELl
-         5wItD6Xo2cBHrKK7btxilEznF+qr9i37Y2UsnlLX7K6zZxrefhhIMKGbI+R9SlGqlgrk
-         PnVQ==
-X-Gm-Message-State: AOAM532UsBIYyidzl3I8g6mnULDV8Urvy5HaB9vpa5mij8QpwDZ+rAk4
-	Q7t03W0HWUm+zpcUCacTEIQTZxB7r7Y=
-X-Google-Smtp-Source: ABdhPJyChvJY7gKsKKOZ72Fe4m5uULwtQwIwSPrcSfYvEt2QrQF47jjFB8v8G/sGlkfLRl3kqNo8qg==
-X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr2805225ejb.335.1598214065606;
-        Sun, 23 Aug 2020 13:21:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dy9KJRd6zwLFc25z1i7bVlWqmyIOc90k9/ZQM6Q2bpI=;
+        b=m0sVmayQo7YR+dqHXUUsiem3MsLkEFiuF72HSwoDpqvrVBg8s/hUFZufY3G9/1lcLl
+         n2BUwdB14Nut5D4fLYE8nDvMcdT0WpowpLaGiCmBKPIbvmPeLTgfGPYMc73DTpCMX4Gl
+         9UkjPWnwtMjalT6ABZreP0R56Gydqn+9wQwmnVZTfvRQNU2xWbj9mDxbBvXNUEHIn7fP
+         V1i4/ZgxIAMspfRrMAVthjcmRMsBALzpAeumlOlU0iv7kfYyjFhetCqG4j4Sj2tqiU4R
+         sYyn/Ripebaz04jLpAdEOOWcDUD2zDuFzd0nncZIbvZKcd+YSA8Sljyt0ocNfJqLy7Vk
+         GpZQ==
+X-Gm-Message-State: AOAM5333zJvvKJxIXERdvE73PmQ79D80uq9HWkHhk6EQiBHK3YL06reK
+	SspAV6XlBjs7bCjRUrQd85MTjKHlIKQ=
+X-Google-Smtp-Source: ABdhPJxoa9baBRotdTs+hJjCWkaiC7d0Dz7lDA5i1AVjeYuzkb0PWN+noJMdFhPfBkRcnDwyhwCPMQ==
+X-Received: by 2002:a17:906:f1d4:: with SMTP id gx20mr2696811ejb.132.1598214066646;
+        Sun, 23 Aug 2020 13:21:06 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box (cable-95-168-130-13.cust.telecolumbus.net. [95.168.130.13])
-        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.04
+        by smtp.gmail.com with ESMTPSA id sd17sm7342480ejb.93.2020.08.23.13.21.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 13:21:04 -0700 (PDT)
+        Sun, 23 Aug 2020 13:21:05 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 01/37] bison: upgrade 3.6.4 -> 3.7.1
-Date: Sun, 23 Aug 2020 22:19:55 +0200
-Message-Id: <20200823202031.24686-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/37] util-linux: upgrade 2.35.2 -> 2.36
+Date: Sun, 23 Aug 2020 22:19:56 +0200
+Message-Id: <20200823202031.24686-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200823202031.24686-1-alex.kanavin@gmail.com>
+References: <20200823202031.24686-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/bison/{bison_3.6.4.bb => bison_3.7.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/bison/{bison_3.6.4.bb => bison_3.7.1.bb} (94%)
+ .../0001-include-cleanup-pidfd-inckudes.patch | 42 -------------------
+ .../util-linux/util-linux_2.35.2.bb           | 13 ------
+ .../util-linux/util-linux_2.36.bb             | 12 ++++++
+ 3 files changed, 12 insertions(+), 55 deletions(-)
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-include-cleanup-pidfd-inckudes.patch
+ delete mode 100644 meta/recipes-core/util-linux/util-linux_2.35.2.bb
+ create mode 100644 meta/recipes-core/util-linux/util-linux_2.36.bb
 
-diff --git a/meta/recipes-devtools/bison/bison_3.6.4.bb b/meta/recipes-devtools/bison/bison_3.7.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/bison/bison_3.6.4.bb
-rename to meta/recipes-devtools/bison/bison_3.7.1.bb
-index f3d4d42442..a765a2380d 100644
---- a/meta/recipes-devtools/bison/bison_3.6.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.7.1.bb
-@@ -13,7 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://add-with-bisonlocaledir.patch \
-            file://0001-bison-fix-the-parallel-build.patch \
-            "
--SRC_URI[sha256sum] = "8b13473b31ca7fcf65e5e8a74224368ffd5df19275602a9c9567ba393f18577d"
-+SRC_URI[sha256sum] = "55c215521a13982a9bee68cd42eed51a65713f96c530a739a57de4438ac1bb69"
- 
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-include-cleanup-pidfd-inckudes.patch b/meta/recipes-core/util-linux/util-linux/0001-include-cleanup-pidfd-inckudes.patch
+deleted file mode 100644
+index 0ef6fb4ec7..0000000000
+--- a/meta/recipes-core/util-linux/util-linux/0001-include-cleanup-pidfd-inckudes.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 0a4035ff2e4fd5b5ae0cf8f8665696c2aff53b75 Mon Sep 17 00:00:00 2001
+-From: Karel Zak <kzak@redhat.com>
+-Date: Tue, 10 Mar 2020 11:43:16 +0100
+-Subject: [PATCH] include: cleanup pidfd inckudes
+-
+-Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit/0a4035ff2e4fd5b5ae0cf8f8665696c2aff53b75]
+-
+-Signed-off-by: Karel Zak <kzak@redhat.com>
+-Signed-off-by: Benjamin Fair <benjaminfair@google.com>
+----
+- include/pidfd-utils.h | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/include/pidfd-utils.h b/include/pidfd-utils.h
+-index 0baedd2c9..4a6c3a604 100644
+---- a/include/pidfd-utils.h
+-+++ b/include/pidfd-utils.h
+-@@ -3,10 +3,10 @@
+- 
+- #if defined(__linux__)
+- # include <sys/syscall.h>
+--# if defined(SYS_pidfd_send_signal)
+-+# if defined(SYS_pidfd_send_signal) && defined(SYS_pidfd_open)
+- #  include <sys/types.h>
+- 
+--#  ifndef HAVE_PIDFD_OPEN
+-+#  ifndef HAVE_PIDFD_SEND_SIGNAL
+- static inline int pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
+- 				    unsigned int flags)
+- {
+-@@ -14,7 +14,7 @@ static inline int pidfd_send_signal(int pidfd, int sig, siginfo_t *info,
+- }
+- #  endif
+- 
+--#  ifndef HAVE_PIDFD_SEND_SIGNAL
+-+#  ifndef HAVE_PIDFD_OPEN
+- static inline int pidfd_open(pid_t pid, unsigned int flags)
+- {
+- 	return syscall(SYS_pidfd_open, pid, flags);
+--- 
+-2.26.1.301.g55bc3eb7cb9-goog
+-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.35.2.bb b/meta/recipes-core/util-linux/util-linux_2.35.2.bb
+deleted file mode 100644
+index 752a6fa214..0000000000
+--- a/meta/recipes-core/util-linux/util-linux_2.35.2.bb
++++ /dev/null
+@@ -1,13 +0,0 @@
+-require util-linux.inc
+-
+-SRC_URI += "file://configure-sbindir.patch \
+-            file://runuser.pamd \
+-            file://runuser-l.pamd \
+-            file://ptest.patch \
+-            file://run-ptest \
+-            file://display_testname_for_subtest.patch \
+-            file://avoid_parallel_tests.patch \
+-            file://0001-include-cleanup-pidfd-inckudes.patch \
+-"
+-SRC_URI[md5sum] = "248a4d0810c9193e0e9a4bb3f26b93d8"
+-SRC_URI[sha256sum] = "21b7431e82f6bcd9441a01beeec3d57ed33ee948f8a5b41da577073c372eb58a"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
+new file mode 100644
+index 0000000000..9feb717f00
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
+@@ -0,0 +1,12 @@
++require util-linux.inc
++
++SRC_URI += "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
++           file://configure-sbindir.patch \
++           file://runuser.pamd \
++           file://runuser-l.pamd \
++           file://ptest.patch \
++           file://run-ptest \
++           file://display_testname_for_subtest.patch \
++           file://avoid_parallel_tests.patch \
++           "
++SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
 -- 
 2.28.0
 
