@@ -1,144 +1,159 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web10.197588.1598282143097013448
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.197063.1598282145230257997
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 08:15:43 -0700
+ Mon, 24 Aug 2020 08:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yXBpTHZL;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f68.google.com with SMTP id ep8so4383732pjb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rMhfWF2J;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id j13so4380662pjd.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=hsmlhg04gHvwoBUMt7JsuytCcd8COldqH2FgAd1DPiM=;
-        b=yXBpTHZLyb9SsydNzs3NRa0TZqsv2a1CtCiaKLpAvaXToX99td/wJF/tkrMu8d/sR7
-         1t8oqnFN6iKNqw7oKG2HRIw5EqYtJ259Dz3kq3m824mwtnyDcV4d/umnhINXCFpj2rQI
-         /EKW0IchSp7JMyN1fROhLE/sBOwBHICIq5eEbvGT3o8JL+X1IyzcANUEAyf+IjKturWA
-         i+MNUg/R9vpr628dB1DKrNy26Qarh/pfOnmUh5nKUlNRCIGJD1GYUUgi81M1Ikd+bx1A
-         cOqtILkXHN8fOMQH23FOqFE1fgu8IaV5e1xOYux80K2I6qqb0rMVKCjddW82xrlpPKQY
-         3qzQ==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=eFNdKJTzo8qFYQukjXCupOu1+cGKCTj+Cz1oZ8Ez5pI=;
+        b=rMhfWF2JHKh03OO2qNcGNMJYTHLsM/a7ZzxReQRZH2bRO/Xjc/eYC4HGefeXdKtZN3
+         Dl+tV0Zuf3rgFErtindE5esmMNjN9Nmrnccu/8vw+rCPt2YhccS6NkbchVhhAfHTyomO
+         2c3NeRHR07p/VFfpV0WCjRbO/D1kiOY3YoyldywEnCx/SBSPKNdocn84Q4p9PjgpXQkc
+         A09Srs/LDSaV1kxnTRTbeSPZStbs3vrbYq+PzgkfoUwfaPkI5IhbTy/CYEBckssvU7jg
+         sEfgXDFVlYr09NFXhahslGgAgkiNzGuP6fMwhTuhvuJqJnesZThyI7SZx95BaPE76ISP
+         q7gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hsmlhg04gHvwoBUMt7JsuytCcd8COldqH2FgAd1DPiM=;
-        b=nqIPCJAihg48dkXEj7ghCu/qeRob4zwibcOaRhBwwX3yypB68oCpEkCOrmByPZ241f
-         ReNTTjcce6gWk5onk4hD5uGGH3e/N1LcTT5UhXznyzospTZ8Ad//BtSwLVxEnq6A9Q0m
-         d3fW212Fa1ShL2JKOD9pCDOUNVczyWb+7FgHgx+8ushtUSfftJdBQslzPwxDDCkW/+CC
-         cIM6VThUVlH22HjYP6TXZ8Je349HctBFOQMB3anxVHJrc4gBVJ4SwrTH8xbj6CbYP/i4
-         zLyz7HYAJJ+dUf7p0E2j3TFL2j4ecaka1MzuICZo921LWmZ8X3yerp+m9yn/DaORDGWi
-         qqwQ==
-X-Gm-Message-State: AOAM530TuFpkBg7QRuFch5YyAZqF6ORJyYd4paYe5e5QlZA8PcnKBk+W
-	gOBqyCbtm7n7BCXlNQ75ulyGAB6SIJlx8cIWvmI=
-X-Google-Smtp-Source: ABdhPJxpQt5frVk60BOkUpbtOnTqa8VAE1v8ZkI4l7b7oWOWGBtO5tJ4SVRwhKVC+LqYLMPq7y4zxQ==
-X-Received: by 2002:a17:902:868b:: with SMTP id g11mr3167058plo.213.1598282142159;
-        Mon, 24 Aug 2020 08:15:42 -0700 (PDT)
+         :references;
+        bh=eFNdKJTzo8qFYQukjXCupOu1+cGKCTj+Cz1oZ8Ez5pI=;
+        b=jBvn2PU3cwgnBcGGmIvE8ewjdOsVuPX1bReWcE7bxyKu0XCw9A61N5RiTGNTOqPqsT
+         6FJxbNfeN2opijSlxUaF4IJKeHS8hIwkHHz/ofnoz9MMvrFlVzRuvVfwkFgLtJno/BHK
+         9RhZzhy7Ldji+dXvcZghdigZJs8aiL9Yi5qZMwBTZ7yh5XQ1emc3pg5kLcE6YlqMDKXf
+         9aX3If6OsjN0HTOpr3IlPP6tn14JG5AreOYYLVId/cqUIfyTwJ64UMiSDWNeFdJD5lRV
+         9TxDzeQ5ANm3/1Cv29J1EPGCBvAVPglOnMySy9Pl4kxXz3RjO0WQe4kMviqDnGBPVmFR
+         OFtg==
+X-Gm-Message-State: AOAM5306qAu3+DJBJ/YnZQRMrIH+uBJv0cfv82OD4xytto9dohFSLSEG
+	/9QjSj/mB7HzhPavj/J1wQioPjCZSH8olTH8YPM=
+X-Google-Smtp-Source: ABdhPJwpFzgpux6wiEpq7htgLRuZfLiavevQaH8mpeE329JBTMmV3gVQ8+ynGVb0XW93uTH8bMaj0g==
+X-Received: by 2002:a17:902:b497:: with SMTP id y23mr3906525plr.251.1598282144311;
+        Mon, 24 Aug 2020 08:15:44 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.40
+        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 08:15:41 -0700 (PDT)
+        Mon, 24 Aug 2020 08:15:43 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/12] xserver-xorg: upgrade 1.20.7 -> 1.20.8
-Date: Mon, 24 Aug 2020 05:14:57 -1000
-Message-Id: <55d6ba6f7635f4939e6dad0bd3f6730a23870238.1598281931.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/12] libffi: fix multilib header conflict
+Date: Mon, 24 Aug 2020 05:14:58 -1000
+Message-Id: <6392d99de30e74c41b289c43fd98601e6cbc34ab.1598281931.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598281931.git.steve@sakoman.com>
 References: <cover.1598281931.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Bug fix point release for current stable branch
+fix error:
+file /usr/include/ffitarget.h conflicts between attempted installs of lib32-libffi-dev-3.3-r0.armv7vet2hf_vfp and libffi-dev-3.3-r0.cortexa57
 
-Adam Jackson (1):
-      Revert "dri2: Don't make reference to noClientException"
+part of diff
 
-Arthur Williams (1):
-      dix: Check for NULL spriteInfo in GetPairedDevice
+#ifndef LIBFFI_ASM
+-typedef unsigned long          ffi_arg;
+-typedef signed long            ffi_sarg;
+-
+-typedef enum ffi_abi {
+-  FFI_FIRST_ABI = 0,
+-  FFI_SYSV,
+-  FFI_VFP,
+-  FFI_LAST_ABI,
+-#if defined(__ARM_PCS_VFP) || defined(_M_ARM)
+-  FFI_DEFAULT_ABI = FFI_VFP,
++#ifdef __ILP32__
++#define FFI_SIZEOF_ARG 8
++#define FFI_SIZEOF_JAVA_RAW  4
++typedef unsigned long long ffi_arg;
++typedef signed long long ffi_sarg;
++#elif defined(_M_ARM64)
++#define FFI_SIZEOF_ARG 8
++typedef unsigned long long ffi_arg;
++typedef signed long long ffi_sarg;
+ #else
+-  FFI_DEFAULT_ABI = FFI_SYSV,
+-#endif
+-} ffi_abi;
++typedef unsigned long ffi_arg;
++typedef signed long ffi_sarg;
+ #endif
 
-Daniel Llewellyn (1):
-      os: Ignore dying client in ResetCurrentRequest
+-#define FFI_EXTRA_CIF_FIELDS			\
+-  int vfp_used;					\
+-  unsigned short vfp_reg_free, vfp_nargs;	\
+-  signed char vfp_args[16]			\
+-
+-#define FFI_TARGET_SPECIFIC_VARIADIC
+-#ifndef _M_ARM
+-#define FFI_TARGET_HAS_COMPLEX_TYPE
++typedef enum ffi_abi
++  {
++    FFI_FIRST_ABI = 0,
++    FFI_SYSV,
++    FFI_LAST_ABI,
++    FFI_DEFAULT_ABI = FFI_SYSV
++  } ffi_abi;
+ #endif
 
-Dave Airlie (1):
-      modesetting: remove unnecessary error message, fix zaphod leases
+ /* ---- Definitions for closures ----------------------------------------- */
 
-David Seifert (1):
-      Fix building with `-fno-common`
+ #define FFI_CLOSURES 1
+-#define FFI_GO_CLOSURES 1
+ #define FFI_NATIVE_RAW_API 0
 
-Dor Askayo (1):
-      xwayland: clear pixmaps after creation in rootless mode
+ #if defined (FFI_EXEC_TRAMPOLINE_TABLE) && FFI_EXEC_TRAMPOLINE_TABLE
 
-Eric Anholt (1):
-      glamor: Fix a compiler warning since the recent OOM fixes.
+ #ifdef __MACH__
+-#define FFI_TRAMPOLINE_SIZE 12
+-#define FFI_TRAMPOLINE_CLOSURE_OFFSET 8
++#define FFI_TRAMPOLINE_SIZE 16
++#define FFI_TRAMPOLINE_CLOSURE_OFFSET 16
+ #else
+ #error "No trampoline table implementation"
+ #endif
 
-George Matsumura (1):
-      Restrict 1x1 pixmap filling optimization to GXcopy
+ #else
+-#ifdef _MSC_VER
+-#define FFI_TRAMPOLINE_SIZE 16
+-#define FFI_TRAMPOLINE_CLOSURE_FUNCTION 12
+-#else
+-#define FFI_TRAMPOLINE_SIZE 12
+-#endif
++#define FFI_TRAMPOLINE_SIZE 24
+ #define FFI_TRAMPOLINE_CLOSURE_OFFSET FFI_TRAMPOLINE_SIZE
+ #endif
 
-Jon Turney (2):
-      Add xf86OSInputThreadInit to stub os-support as well
-      Fix old-style definition warning for xf86OSInputThreadInit()
++#ifdef _M_ARM64
++#define FFI_EXTRA_CIF_FIELDS unsigned is_variadic
++#endif
++
 
-Jonas Ådahl (1):
-      xwayland/glamor-gbm: Handle DRM_FORMAT_MOD_INVALID gracefully
-
-Kenneth Graunke (1):
-      configure: Define GLAMOR_HAS_EGL_QUERY_DRIVER when available
-
-Maarten Lankhorst (1):
-      modesetting: Disable atomic support by default
-
-Matt Turner (1):
-      xserver 1.20.8
-
-Michel Dänzer (8):
-      modesetting: Explicitly #include "mi.h"
-      xfree86/modes: Bail from xf86RotateRedisplay if pScreen->root is NULL
-      xwayland: Split up xwl_screen_post_damage into two phases
-      xwayland: Call glamor_block_handler from xwl_screen_post_damage
-      xwayland: Add xwl_window_create_frame_callback helper
-      xwayland: Use single frame callback for Present flips and normal updates
-      xwayland: Use frame callbacks for Present vblank events
-      xwayland: Delete all frame_callback_list nodes in xwl_unrealize_window
-
-Paul Kocialkowski (4):
-      glamor: Propagate FBO allocation failure for picture to texture upload
-      glamor: Error out on out-of-memory when allocating PBO for FBO access
-      glamor: Propagate glamor_prepare_access failures in copy helpers
-      glamor: Fallback to system memory for RW PBO buffer allocation
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4e06262ee0eafa4aff6dfcd7bd2fdd62820d5f12)
+(cherry picked from commit efe8d76810973e7032e729beee106b8acc39b8ed)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} (89%)
+ meta/recipes-support/libffi/libffi_3.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-similarity index 89%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-index 998b98a76c..3f7fbe85b8 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-@@ -6,8 +6,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://sdksyms-no-build-path.patch \
-            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
-            "
--SRC_URI[md5sum] = "d2e96355ad47244c675bce38db2b48a9"
--SRC_URI[sha256sum] = "bd5986f010f34f5b3d6bc99fe395ecb1e0dead15a26807e0c832701809a06ea1"
-+SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
-+SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
+diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
+index e5beb985c6..9dfdb9e39b 100644
+--- a/meta/recipes-support/libffi/libffi_3.3.bb
++++ b/meta/recipes-support/libffi/libffi_3.3.bb
+@@ -28,7 +28,7 @@ EXTRA_OEMAKE_class-target = "LIBTOOLFLAGS='--tag=CC'"
+ inherit autotools texinfo multilib_header
  
- CFLAGS += "-fcommon"
+ do_install_append() {
+-	oe_multilib_header ffi.h
++	oe_multilib_header ffi.h ffitarget.h
+ }
  
+ FILES_${PN}-dev += "${libdir}/libffi-${PV}"
 -- 
 2.17.1
 
