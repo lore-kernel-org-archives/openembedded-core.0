@@ -1,162 +1,305 @@
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web10.3129.1598311774880511253
+ by mx.groups.io with SMTP id smtpd.web12.3030.1598311774882250091
  for <openembedded-core@lists.openembedded.org>;
  Mon, 24 Aug 2020 16:29:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from lons-builder.int.hatle.net ([192.168.0.2])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07ONTUA5010752
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 18:29:32 -0500
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07ONTUA4010752
+	for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 18:29:31 -0500
 From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [master][PATCH 3/5] package.bbclass: Move package_get_auto_pr to packagedata.bbclass
-Date: Mon, 24 Aug 2020 18:29:28 -0500
-Message-Id: <20200824232930.150388-4-mark.hatle@kernel.crashing.org>
+Subject: [master][PATCH 2/5] hash equivalency and pr service
+Date: Mon, 24 Aug 2020 18:29:27 -0500
+Message-Id: <20200824232930.150388-3-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
 References: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
 
-Running package_get_auto_pr during do_package is 'too early' when we need
-to evaluate the do_package output to get it's unihash to look up the
-right value in the PR database.
+When the PR service is enabled a number of small changes happen to variables.
 
-Move this function packagedata.bbclass (no changes yet), as subsequent
-patches will refactor this function and the order in which it's called.
+During the do_package task, EXTENDPRAUTO will get a value placed into it that
+is intended to be used to extend the PR.  This value will get written to
+various intermediate files and will result in the computed hash never being
+equivalent.
+
+To resolve this issue, we create a new file with the extension ".oe_nohash".
+This extension contains various values that need to be passed from task to
+task, but NOT calculated within the scope of the task hash.  The items
+placed into the nohash are captured in package.bbclass in PKGDATA_VAR_NOHASH.
+
+The PKGDATA_VAR_NOHASH is also used to prevent expansion of the value when
+users are written to the various pkgdata files.  This expansion is prevented
+by removeing the variables, resulting in the system printing the literal
+${VAR} when used.
+
+Additionally package dependencies rely on variables that also eventually
+include EXTENDPRAUTO.  So instead of resolving the variable at getVar time,
+we keep them as references by using the same technique as above.
+
+Due to this change, buildhistory needs a few minor modifications to
+know how to deal with EXTENDPRAUTO not always being available for comparison.
 
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/classes/package.bbclass     | 50 ---------------------------
- meta/classes/packagedata.bbclass | 59 ++++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+), 50 deletions(-)
+ meta/classes/buildhistory.bbclass | 29 ++++++++++----
+ meta/classes/package.bbclass      | 63 ++++++++++++++++++++++++-------
+ meta/lib/oe/packagedata.py        |  8 +++-
+ meta/lib/oe/sstatesig.py          |  2 +
+ 4 files changed, 80 insertions(+), 22 deletions(-)
 
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 805e976ac5..2bccdfc953 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -99,6 +99,7 @@ python buildhistory_emit_pkghistory() {
+     import json
+     import shlex
+     import errno
++    import oe.packagedata
+ 
+     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
+     oldpkghistdir = d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
+@@ -127,6 +128,7 @@ python buildhistory_emit_pkghistory() {
+             self.pkge = ""
+             self.pkgv = ""
+             self.pkgr = ""
++            self.extendprauto = ""
+             self.size = 0
+             self.depends = ""
+             self.rprovides = ""
+@@ -163,6 +165,8 @@ python buildhistory_emit_pkghistory() {
+                     pkginfo.pkgv = value
+                 elif name == "PKGR":
+                     pkginfo.pkgr = value
++                elif name == "EXTENDPRAUTO":
++                    pkginfo.extendprauto = value
+                 elif name == "RPROVIDES":
+                     pkginfo.rprovides = value
+                 elif name == "RDEPENDS":
+@@ -260,18 +264,24 @@ python buildhistory_emit_pkghistory() {
+ 
+     pkgdest = d.getVar('PKGDEST')
+     for pkg in packagelist:
+-        pkgdata = {}
+-        with open(os.path.join(pkgdata_dir, 'runtime', pkg)) as f:
+-            for line in f.readlines():
+-                item = line.rstrip('\n').split(': ', 1)
+-                key = item[0]
+-                if key.endswith('_' + pkg):
+-                    key = key[:-len(pkg)-1]
+-                pkgdata[key] = item[1].encode('latin-1').decode('unicode_escape')
++        pkgdata = oe.packagedata.read_pkgdatafile(os.path.join(pkgdata_dir, 'runtime', pkg))
++
++        npkgdata = {}
++        for key in pkgdata.keys():
++            if key.endswith('_' + pkg):
++                nkey = key[:-len(pkg)-1]
++                npkgdata[nkey] = pkgdata[key]
++
++        for key in npkgdata.keys():
++          pkgdata[key] = npkgdata[key]
+ 
+         pkge = pkgdata.get('PKGE', '0')
+         pkgv = pkgdata['PKGV']
+         pkgr = pkgdata['PKGR']
++        try:
++            extendprauto = pkgdata['EXTENDPRAUTO']
++        except IndexError:
++            extendprauto = d.getVar('EXTENDPRAUTO')
+         #
+         # Find out what the last version was
+         # Make sure the version did not decrease
+@@ -295,6 +305,7 @@ python buildhistory_emit_pkghistory() {
+         pkginfo.pkge = pkge
+         pkginfo.pkgv = pkgv
+         pkginfo.pkgr = pkgr
++        pkginfo.extendprauto = extendprauto
+         pkginfo.rprovides = sortpkglist(oe.utils.squashspaces(pkgdata.get('RPROVIDES', "")))
+         pkginfo.rdepends = sortpkglist(oe.utils.squashspaces(pkgdata.get('RDEPENDS', "")))
+         pkginfo.rrecommends = sortpkglist(oe.utils.squashspaces(pkgdata.get('RRECOMMENDS', "")))
+@@ -398,6 +409,8 @@ def write_pkghistory(pkginfo, d):
+             f.write(u"PKGV = %s\n" % pkginfo.pkgv)
+         if pkginfo.pkgr != pkginfo.pr:
+             f.write(u"PKGR = %s\n" % pkginfo.pkgr)
++        if pkginfo.extendprauto:
++            f.write(u"EXTENDPRAUTO = %s\n" % pkginfo.extendprauto)
+         f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
+         f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
+         f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 5fa96eb331..003eb71a6e 100644
+index 7a36262eb6..5fa96eb331 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -672,56 +672,6 @@ def runtime_mapping_rename (varname, pkg, d):
- # Package functions suitable for inclusion in PACKAGEFUNCS
- #
+@@ -652,7 +652,12 @@ def runtime_mapping_rename (varname, pkg, d):
+     #bb.note("%s before: %s" % (varname, d.getVar(varname)))
  
--python package_get_auto_pr() {
--    import oe.prservice
--    import re
--
--    # Support per recipe PRSERV_HOST
--    pn = d.getVar('PN')
--    host = d.getVar("PRSERV_HOST_" + pn)
--    if not (host is None):
--        d.setVar("PRSERV_HOST", host)
--
--    pkgv = d.getVar("PKGV")
--
--    # PR Server not active, handle AUTOINC
--    if not d.getVar('PRSERV_HOST'):
--        if 'AUTOINC' in pkgv:
--            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
--        return
--
--    auto_pr = None
--    pv = d.getVar("PV")
--    version = d.getVar("PRAUTOINX")
--    pkgarch = d.getVar("PACKAGE_ARCH")
--    checksum = d.getVar("BB_TASKHASH")
--
--    if d.getVar('PRSERV_LOCKDOWN'):
--        auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
--        if auto_pr is None:
--            bb.fatal("Can NOT get PRAUTO from lockdown exported file")
--        d.setVar('PRAUTO',str(auto_pr))
--        return
--
--    try:
--        conn = d.getVar("__PRSERV_CONN")
--        if conn is None:
--            conn = oe.prservice.prserv_make_conn(d)
--        if conn is not None:
--            if "AUTOINC" in pkgv:
--                srcpv = bb.fetch2.get_srcrev(d)
--                base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
--                value = conn.getPR(base_ver, pkgarch, srcpv)
--                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
--
--            auto_pr = conn.getPR(version, pkgarch, checksum)
--    except Exception as e:
--        bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
--    if auto_pr is None:
--        bb.fatal("Can NOT get PRAUTO from remote PR service")
--    d.setVar('PRAUTO',str(auto_pr))
--}
--
- LOCALEBASEPN ??= "${PN}"
+     new_depends = {}
+-    deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
++    localdata = d.createCopy()
++    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++        # Remove the variable so it expands fully
++        localdata.delVar(exclude_var)
++
++    deps = bb.utils.explode_dep_versions2(localdata.getVar(varname) or "")
+     for depend, depversions in deps.items():
+         new_depend = get_package_mapping(depend, pkg, d, depversions)
+         if depend != new_depend:
+@@ -1486,8 +1491,13 @@ python package_fixsymlinks () {
+             if found == False:
+                 bb.note("%s contains dangling symlink to %s" % (pkg, l))
  
- python package_do_split_locales() {
-diff --git a/meta/classes/packagedata.bbclass b/meta/classes/packagedata.bbclass
-index a903e5cfd2..981c324909 100644
---- a/meta/classes/packagedata.bbclass
-+++ b/meta/classes/packagedata.bbclass
-@@ -32,3 +32,62 @@ python read_subpackage_metadata () {
-             else:
-                 d.setVar(key, sdata[key], parsing=True)
- }
++    localdata = d.createCopy()
++    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++        # Remove the variable so it expands fully
++        localdata.delVar(exclude_var)
 +
-+package_get_auto_pr[vardepsexclude] = "BB_TASKDEPDATA"
-+python package_get_auto_pr() {
-+    import oe.prservice
-+    import re
+     for pkg in newrdepends:
+-        rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg) or "")
++        rdepends = bb.utils.explode_dep_versions2(localdata.getVar('RDEPENDS_' + pkg) or "")
+         for p in newrdepends[pkg]:
+             if p not in rdepends:
+                 rdepends[p] = []
+@@ -1510,6 +1520,8 @@ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ 
+ PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+ 
++PKGDATA_VARS_NOHASH = "EXTENDPRAUTO"
 +
-+    def get_do_package_hash(pn):
-+        if d.getVar("BB_RUNTASK") != "do_package":
-+            taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-+            for dep in taskdepdata:
-+                if taskdepdata[dep][1] == "do_package" and taskdepdata[dep][0] == pn:
-+                    return taskdepdata[dep][6]
-+        return d.getVar("BB_UNIHASH")
+ python emit_pkgdata() {
+     from glob import glob
+     import json
+@@ -1548,7 +1560,7 @@ fi
+                     scriptlet = "set -e\n" + "\n".join(scriptlet_split[0:])
+             d.setVar('%s_%s' % (scriptlet_name, pkg), scriptlet)
+ 
+-    def write_if_exists(f, pkg, var):
++    def write_if_exists(d, f, pkg, var):
+         def encode(str):
+             import codecs
+             c = codecs.getencoder("unicode_escape")
+@@ -1621,17 +1633,29 @@ fi
+         add_set_e_to_scriptlets(pkg)
+ 
+         subdata_file = pkgdatadir + "/runtime/%s" % pkg
 +
-+    # Support per recipe PRSERV_HOST
-+    pn = d.getVar('PN')
-+    host = d.getVar("PRSERV_HOST_" + pn)
-+    if not (host is None):
-+        d.setVar("PRSERV_HOST", host)
++        # Write out nohash variables first
++        with open("%s.oe_nohash" % subdata_file, 'w') as sf:
++            for var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++                write_if_exists(d, sf, pkg, var)
 +
-+    pkgv = d.getVar("PKGV")
++        # Write out regular variables, but sanitize nohash values
+         with open(subdata_file, 'w') as sf:
++            localdata = d.createCopy()
++            for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++                # Remove the variable so it expands fully
++                localdata.delVar(exclude_var)
 +
-+    # PR Server not active, handle AUTOINC
-+    if not d.getVar('PRSERV_HOST'):
-+        if 'AUTOINC' in pkgv:
-+            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
-+        return
+             for var in (d.getVar('PKGDATA_VARS') or "").split():
+-                val = write_if_exists(sf, pkg, var)
++                write_if_exists(localdata, sf, pkg, var)
+ 
+-            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
+-            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
+-                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
++            write_if_exists(localdata, sf, pkg, 'FILERPROVIDESFLIST')
++            for dfile in (localdata.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
++                write_if_exists(localdata, sf, pkg, 'FILERPROVIDES_' + dfile)
+ 
+-            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
+-            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
+-                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
++            write_if_exists(localdata, sf, pkg, 'FILERDEPENDSFLIST')
++            for dfile in (localdata.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
++                write_if_exists(localdata, sf, pkg, 'FILERDEPENDS_' + dfile)
+ 
+             sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
+ 
+@@ -2126,9 +2150,14 @@ def read_libdep_files(d):
+ python read_shlibdeps () {
+     pkglibdeps = read_libdep_files(d)
+ 
++    localdata = d.createCopy()
++    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++        # Remove the variable so it expands fully
++        localdata.delVar(exclude_var)
 +
-+    auto_pr = None
-+    pv = d.getVar("PV")
-+    version = d.getVar("PRAUTOINX")
-+    pkgarch = d.getVar("PACKAGE_ARCH")
-+    checksum = get_do_package_hash(pn)
+     packages = d.getVar('PACKAGES').split()
+     for pkg in packages:
+-        rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg) or "")
++        rdepends = bb.utils.explode_dep_versions2(localdata.getVar('RDEPENDS_' + pkg) or "")
+         for dep in sorted(pkglibdeps[pkg]):
+             # Add the dep if it's not already there, or if no comparison is set
+             if dep not in rdepends:
+@@ -2158,9 +2187,13 @@ python package_depchains() {
+     prefixes  = (d.getVar('DEPCHAIN_PRE') or '').split()
+ 
+     def pkg_adddeprrecs(pkg, base, suffix, getname, depends, d):
++        localdata = d.createCopy()
++        for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++            # Remove the variable so it expands fully
++            localdata.delVar(exclude_var)
+ 
+         #bb.note('depends for %s is %s' % (base, depends))
+-        rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
++        rreclist = bb.utils.explode_dep_versions2(localdata.getVar('RRECOMMENDS_' + pkg) or "")
+ 
+         for depend in sorted(depends):
+             if depend.find('-native') != -1 or depend.find('-cross') != -1 or depend.startswith('virtual/'):
+@@ -2179,9 +2212,13 @@ python package_depchains() {
+         d.setVar('RRECOMMENDS_%s' % pkg, bb.utils.join_deps(rreclist, commasep=False))
+ 
+     def pkg_addrrecs(pkg, base, suffix, getname, rdepends, d):
++        localdata = d.createCopy()
++        for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
++            # Remove the variable so it expands fully
++            localdata.delVar(exclude_var)
+ 
+         #bb.note('rdepends for %s is %s' % (base, rdepends))
+-        rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
++        rreclist = bb.utils.explode_dep_versions2(localdata.getVar('RRECOMMENDS_' + pkg) or "")
+ 
+         for depend in sorted(rdepends):
+             if depend.find('virtual-locale-') != -1:
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index a82085a792..8f82f0fb60 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -15,7 +15,7 @@ def read_pkgdatafile(fn):
+         c = codecs.getdecoder("unicode_escape")
+         return c(str)[0]
+ 
+-    if os.access(fn, os.R_OK):
++    def load_file(fn):
+         import re
+         with open(fn, 'r') as f:
+             lines = f.readlines()
+@@ -25,6 +25,12 @@ def read_pkgdatafile(fn):
+             if m:
+                 pkgdata[m.group(1)] = decode(m.group(2))
+ 
++    if os.access("%s.oe_nohash" % fn, os.R_OK):
++        load_file("%s.oe_nohash" % fn)
 +
-+    if d.getVar('PRSERV_LOCKDOWN'):
-+        auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
-+        if auto_pr is None:
-+            bb.fatal("Can NOT get PRAUTO from lockdown exported file")
-+        d.setVar('PRAUTO',str(auto_pr))
-+        return
++    if os.access(fn, os.R_OK):
++        load_file(fn)
 +
-+    try:
-+        conn = d.getVar("__PRSERV_CONN")
-+        if conn is None:
-+            conn = oe.prservice.prserv_make_conn(d)
-+        if conn is not None:
-+            if "AUTOINC" in pkgv:
-+                srcpv = bb.fetch2.get_srcrev(d)
-+                base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
-+                value = conn.getPR(base_ver, pkgarch, srcpv)
-+                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
-+
-+            auto_pr = conn.getPR(version, pkgarch, checksum)
-+    except Exception as e:
-+        bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
-+    if auto_pr is None:
-+        bb.fatal("Can NOT get PRAUTO from remote PR service")
-+    d.setVar('PRAUTO',str(auto_pr))
-+}
+     return pkgdata
+ 
+ def get_subpkgedata_fn(pkg, d):
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 21ae0a7657..f96b96e261 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -589,6 +589,8 @@ def OEOuthashBasic(path, sigfile, task, d):
+             # Process this directory and all its child files
+             process(root)
+             for f in files:
++                if f.endswith('.oe_nohash'):
++                    continue
+                 if f == 'fixmepath':
+                     continue
+                 process(os.path.join(root, f))
 -- 
 2.17.1
 
