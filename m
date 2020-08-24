@@ -1,81 +1,108 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web12.196718.1598282152265721858
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web12.560.1598291624294716256
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 08:15:52 -0700
+ Mon, 24 Aug 2020 10:53:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jq2TRPMA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id p11so1797944pfn.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Up/F18Pv;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id p36so3459973qtd.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 10:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=qaVw3xqltoR4unZnmFNBTbk/CbI2SSLfl7y01vyE4vk=;
-        b=jq2TRPMA+7xo+tMQefcjID4ouxJnOy8N67ZLEg5dvTf8nGqSJIbTbkGb2pt0HQ14kC
-         CJkPvwptbGr0d9MvyYzoOOKDJ1D9Ny2UncE0oSQJbLEE/smh/Ss0XbWbbX6Dj0VYPr9y
-         /+knGq1HYoEnHMi8T+OLy9gAp+bjpJNcT0qMoCsXu9JjdIz91Ua1uWXebbhhSGpZAAvs
-         mGp2pTD9wHTzcemg04SX9NRXyCD3k3NjmDC/D3Z5NZjxmdAcxCm5bNOSgXX/KmB3cLXg
-         Rwpoo9AgFl9wWm3e2ZnEg0qob96DedgkCBZgAerkmXX2YA3HpovMG6DQo6QSAiWt4s5K
-         MHWQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+FP2H9KeOzZ9OBg1ioP66BPBZneqDaEIfLUCbfpRBvA=;
+        b=Up/F18Pvo40nfAOmNaif5yNve0552aNG7w3VLjR5rl44vW/y8ukiHf7rewrrbKjtvt
+         vh/PyAB5jMTGEuWi/VNqeYmT6t9by8AnOVi6mynJfuamndbCE8nuUaVVfFvQbdZMozHt
+         aRRbSHqfQxYsqpajLquhYkbffcLNGue3Tr/OePx7GivGm7xmcWZ374xcMXNvoBetoQL6
+         rfp5DjuLikrX9Q1vsKfP/7goka8JgOFKo/aqnJY3MKKW1i032J7W6E5s1thq0AX93EZ7
+         iNdUFr2y/17+LNErS9ObZx14dRViyKZ58WroP6FLttriRhiuHtOlXZA8aK5DhUo/Wn2q
+         SxCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=qaVw3xqltoR4unZnmFNBTbk/CbI2SSLfl7y01vyE4vk=;
-        b=TMy+pZk4c9Fj9RJ82gjBktKk96Zbfd2tTY32bPyQHMjTRQZDToyy5nCauSm4h0zwiJ
-         Pu5O2usAeTrnpS7RdqnqZz/Y4DHp5GcXMEpDzGDq8Oz1LvWkvtnVVfr9XKniXqkX+Y4o
-         MFjs5dP3fwP7Vjya/vcKHyL4yZI6WTE4uCqARK/LiX6ysMQNujZuRWqSpjZe1iZjCbiX
-         550hF+FktkFr52OZJoSbYAtb+3wtaOo4gBj9vRAhuNzhIFsyXDpvRwVQ+IVJoHgT5rgD
-         aD1YVf7ee6oUWKcaCief+GoZzKbudyU7EQokoiemTEqSKB7SeUI13eD8slPTKgwpZ0Xt
-         c3uA==
-X-Gm-Message-State: AOAM533UC1Yf32SneWgiFG7X1HiwJJWDWwQVYXBj3OicGbhxyB5/Yugj
-	qrLMJi1OyNArzESS0KgXpqHqKjeIFQrfQKyv4kM=
-X-Google-Smtp-Source: ABdhPJyIeAQ7Ya7CtfUm88SmR/T6AFHoGmKGfC2EDrmmzeGIuVGp+VZfJdQGtKrXnflaWLZRsn5S0A==
-X-Received: by 2002:a63:4f52:: with SMTP id p18mr3624924pgl.408.1598282151399;
-        Mon, 24 Aug 2020 08:15:51 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.50
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+FP2H9KeOzZ9OBg1ioP66BPBZneqDaEIfLUCbfpRBvA=;
+        b=YdymxkzWHxBRFY9NtOXYM3V9l3LfEWO6lgsYPbHyvtaAPCgEjchc9McNk2iGmbdxnb
+         9orgLUy+NPWcoXHiPo0ywzvxbPO79wV615GvxqpRfbs76BXp4QevRtyWM/ybXL4+Fo1e
+         sF6X0sDqP13sx0Mm1gGlHtOLiVsBF5rKt0Ae+bmE7QkF/p+bGe30+yf78g11yeOTATrm
+         D9jWpAFMT3XXKct85pki7FJcIcNUogV+PekFncIsPW2bB04uZs+WD+309PLSV+389qDd
+         saXv+Ed7DXGLoP0+qj+GDs6o6534OEMkAUu+KAADIWoGJyXqjvCnk/2ELUWcUgC39Z0/
+         MslA==
+X-Gm-Message-State: AOAM531rrBbf4dhh+3Aa0YSjQcqUHM+AEBYZmZH6EoEQ2A75/lmJJvME
+	8ldopogr0Xz/3GmKJlAzCsM=
+X-Google-Smtp-Source: ABdhPJwelkBr/ji7TX52iIOy9lnfoOnY3HMJKOsWY9FprmGXy6q6BK0iOPOke6ItvzUXP2Zf2cP5Yg==
+X-Received: by 2002:ac8:4511:: with SMTP id q17mr5680992qtn.117.1598291623362;
+        Mon, 24 Aug 2020 10:53:43 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id s124sm9871960qke.102.2020.08.24.10.53.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 08:15:50 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] runqemu: Check gtk or sdl option is passed together with gl or gl-es options.
-Date: Mon, 24 Aug 2020 05:15:01 -1000
-Message-Id: <bec0a45393d968251059f5075add2cf633aecd1a.1598281931.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1598281931.git.steve@sakoman.com>
-References: <cover.1598281931.git.steve@sakoman.com>
+        Mon, 24 Aug 2020 10:53:42 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.8: disable CONFIG_NFS_DISABLE_UDP_SUPPORT
+Date: Mon, 24 Aug 2020 13:53:40 -0400
+Message-Id: <20200824175340.53702-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-runqemu help reports that gtk or sdl option is needed with gl or gl-es
-option. But if user forgot to add gtk or sdl option, then gl or gl-es
-options were silently skipped.
+Some of our tests may run NFS over UDP, so we don't want udp
+support disabled.
 
-Signed-off-by: Vasyl Vavrychuk <vvavrychuk@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4d1e93d4bf013bb0c48032bfda43f77c5aba9ecf)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Turn off that setting, and we can revisit if any side effects
+are noticed.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- scripts/runqemu | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 310d79fdc5..398f0a0910 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -454,7 +454,8 @@ class BaseConfig(object):
-                     self.qemu_opt_script += ' -display gtk'
-             elif arg == 'gl' or arg == 'gl-es':
-                 # These args are handled inside sdl or gtk blocks above
--                pass
-+                if ('gtk' not in sys.argv) and ('sdl' not in sys.argv):
-+                    raise RunQemuError('Option %s also needs gtk or sdl option.' % (arg))
-             elif arg == 'egl-headless':
-                 self.qemu_opt_script += ' -vga virtio -display egl-headless'
-                 # As runqemu can be run within bitbake (when using testimage, for example),
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+index b2d4995474..bf1dba1060 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "912adf166eb0688e011154048f5fa0e5863249c3"
+-SRCREV_meta ?= "2f9b296099dc534d1c9909f34b1090d8d2280c9b"
++SRCREV_meta ?= "89db4beb484f8eca238bdd57554ebd7b55b78427"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+index 847b2623d6..308022ad16 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine_qemuarm ?= "a463c9ee9da138e9fd6f602b5a18352ddd241fbd"
+ SRCREV_machine ?= "912adf166eb0688e011154048f5fa0e5863249c3"
+-SRCREV_meta ?= "2f9b296099dc534d1c9909f34b1090d8d2280c9b"
++SRCREV_meta ?= "89db4beb484f8eca238bdd57554ebd7b55b78427"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+index 86f3e851f7..42d76f2b80 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "912adf166eb0688e011154048f5fa0e5863249c3"
+ SRCREV_machine_qemux86-64 ?= "912adf166eb0688e011154048f5fa0e5863249c3"
+ SRCREV_machine_qemumips64 ?= "21530680430bfb9f8a73fba97e6734bd4869a690"
+ SRCREV_machine ?= "912adf166eb0688e011154048f5fa0e5863249c3"
+-SRCREV_meta ?= "2f9b296099dc534d1c9909f34b1090d8d2280c9b"
++SRCREV_meta ?= "89db4beb484f8eca238bdd57554ebd7b55b78427"
+ 
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.17.1
+2.19.1
 
