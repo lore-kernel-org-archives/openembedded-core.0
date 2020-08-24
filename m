@@ -1,392 +1,144 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.197585.1598282140956802824
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web10.197588.1598282143097013448
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 08:15:41 -0700
+ Mon, 24 Aug 2020 08:15:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bWIXIbGr;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id kr4so4487225pjb.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yXBpTHZL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id ep8so4383732pjb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version:in-reply-to:references
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=G3ORuh0X2ZW0VSynur4CugBSlvn1ry7m1rYu3ny4UiI=;
-        b=bWIXIbGrLvUxl3sFu/J5myjOGho2Xw/Vgl8RbGqoqqzcLBM/OovmBoNjeXDjIFdYBB
-         KABMD8zw0YqTCMgyGgmMaHr+FZBZdYSOpn1yYwMAa45ZEpmKs4BBee8Y75Ofq4ztVVKl
-         MP0pA6aalq2uU2FMFrxxqzgIFhxdBebG7QgeBS0ejohIL0wOVRqqZh8KTyIIHhjP49Ua
-         y8RmoG7SQVnJzXsr8fUXvvXFMd4O8/mj4qruiUL3K2SBGakRmdaADcHi8UK1vfOsYd9j
-         gRA2W/rWh5Wk5OQ/O/VYpULSQFlRzqlmfOi4JDgxkfz2S0O2sJZAbeYdvT6q39kcY1B3
-         ixsQ==
+        bh=hsmlhg04gHvwoBUMt7JsuytCcd8COldqH2FgAd1DPiM=;
+        b=yXBpTHZLyb9SsydNzs3NRa0TZqsv2a1CtCiaKLpAvaXToX99td/wJF/tkrMu8d/sR7
+         1t8oqnFN6iKNqw7oKG2HRIw5EqYtJ259Dz3kq3m824mwtnyDcV4d/umnhINXCFpj2rQI
+         /EKW0IchSp7JMyN1fROhLE/sBOwBHICIq5eEbvGT3o8JL+X1IyzcANUEAyf+IjKturWA
+         i+MNUg/R9vpr628dB1DKrNy26Qarh/pfOnmUh5nKUlNRCIGJD1GYUUgi81M1Ikd+bx1A
+         cOqtILkXHN8fOMQH23FOqFE1fgu8IaV5e1xOYux80K2I6qqb0rMVKCjddW82xrlpPKQY
+         3qzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :in-reply-to:references:content-transfer-encoding;
-        bh=G3ORuh0X2ZW0VSynur4CugBSlvn1ry7m1rYu3ny4UiI=;
-        b=EA+x5rle7+kkCTWOZDcGDMP8IJpw+NpsLhUq7lBkU7lUeDW8I3WdeM5EwieLFhB0Tz
-         jPLEKVsLAhc1OR//f3iGHnPXz5DJUpP6lYIhMKT7N3uxSale/E7KwhMS45jiTkWFuuWg
-         izEcz2COLeTkwgTi0wDSRxNoIwBST8Vl4Ne4IA92CBwNknePQWTglrdGtyc3p1Zbufu9
-         ehguCKWO6pE/cAWY/xmPiF+hPx9CHmBIaU3BQUTWzZoh+4i+jSDqUM/N4884mtiHMmsT
-         uH0oSqDkExUppatUdQII6x7x/jaDQ7OjI5unYNhmcbki2qakt1yJOUU++1PoeWwzXa6w
-         xwkA==
-X-Gm-Message-State: AOAM5327tmxWqIqTmva/LndVZnZSQOlGuqP1gA6GYM6aAdtJKO5BdOc4
-	3kSWeQ3Q/RM6tOxUEp4PEOxFtuoJWtaLnU+mXzI=
-X-Google-Smtp-Source: ABdhPJy0aHKl2BiwAPos6AM1cql3mV60iLcxLhkbYeOMi5b6VAqIHr4Qq8kt3pmSsnIQkI/MGWfmKQ==
-X-Received: by 2002:a17:90a:f286:: with SMTP id fs6mr4995367pjb.221.1598282139764;
-        Mon, 24 Aug 2020 08:15:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hsmlhg04gHvwoBUMt7JsuytCcd8COldqH2FgAd1DPiM=;
+        b=nqIPCJAihg48dkXEj7ghCu/qeRob4zwibcOaRhBwwX3yypB68oCpEkCOrmByPZ241f
+         ReNTTjcce6gWk5onk4hD5uGGH3e/N1LcTT5UhXznyzospTZ8Ad//BtSwLVxEnq6A9Q0m
+         d3fW212Fa1ShL2JKOD9pCDOUNVczyWb+7FgHgx+8ushtUSfftJdBQslzPwxDDCkW/+CC
+         cIM6VThUVlH22HjYP6TXZ8Je349HctBFOQMB3anxVHJrc4gBVJ4SwrTH8xbj6CbYP/i4
+         zLyz7HYAJJ+dUf7p0E2j3TFL2j4ecaka1MzuICZo921LWmZ8X3yerp+m9yn/DaORDGWi
+         qqwQ==
+X-Gm-Message-State: AOAM530TuFpkBg7QRuFch5YyAZqF6ORJyYd4paYe5e5QlZA8PcnKBk+W
+	gOBqyCbtm7n7BCXlNQ75ulyGAB6SIJlx8cIWvmI=
+X-Google-Smtp-Source: ABdhPJxpQt5frVk60BOkUpbtOnTqa8VAE1v8ZkI4l7b7oWOWGBtO5tJ4SVRwhKVC+LqYLMPq7y4zxQ==
+X-Received: by 2002:a17:902:868b:: with SMTP id g11mr3167058plo.213.1598282142159;
+        Mon, 24 Aug 2020 08:15:42 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.38
+        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 08:15:39 -0700 (PDT)
+        Mon, 24 Aug 2020 08:15:41 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/12] perl: fix CVE-2020-12723
-Date: Mon, 24 Aug 2020 05:14:56 -1000
-Message-Id: <43f1aa650c45a0976230c7c2f79d8efe0e6e159a.1598281931.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/12] xserver-xorg: upgrade 1.20.7 -> 1.20.8
+Date: Mon, 24 Aug 2020 05:14:57 -1000
+Message-Id: <55d6ba6f7635f4939e6dad0bd3f6730a23870238.1598281931.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
 In-Reply-To: <cover.1598281931.git.steve@sakoman.com>
 References: <cover.1598281931.git.steve@sakoman.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-Minor changes to the test cases count in the .patch file to make it
-align with current version, so the fixes can be apply.
-Changes apply to line:
-https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a#diff-e31ddd69cf47acf02911647c691a0283L28
+Bug fix point release for current stable branch
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Adam Jackson (1):
+      Revert "dri2: Don't make reference to noClientException"
+
+Arthur Williams (1):
+      dix: Check for NULL spriteInfo in GetPairedDevice
+
+Daniel Llewellyn (1):
+      os: Ignore dying client in ResetCurrentRequest
+
+Dave Airlie (1):
+      modesetting: remove unnecessary error message, fix zaphod leases
+
+David Seifert (1):
+      Fix building with `-fno-common`
+
+Dor Askayo (1):
+      xwayland: clear pixmaps after creation in rootless mode
+
+Eric Anholt (1):
+      glamor: Fix a compiler warning since the recent OOM fixes.
+
+George Matsumura (1):
+      Restrict 1x1 pixmap filling optimization to GXcopy
+
+Jon Turney (2):
+      Add xf86OSInputThreadInit to stub os-support as well
+      Fix old-style definition warning for xf86OSInputThreadInit()
+
+Jonas Ådahl (1):
+      xwayland/glamor-gbm: Handle DRM_FORMAT_MOD_INVALID gracefully
+
+Kenneth Graunke (1):
+      configure: Define GLAMOR_HAS_EGL_QUERY_DRIVER when available
+
+Maarten Lankhorst (1):
+      modesetting: Disable atomic support by default
+
+Matt Turner (1):
+      xserver 1.20.8
+
+Michel Dänzer (8):
+      modesetting: Explicitly #include "mi.h"
+      xfree86/modes: Bail from xf86RotateRedisplay if pScreen->root is NULL
+      xwayland: Split up xwl_screen_post_damage into two phases
+      xwayland: Call glamor_block_handler from xwl_screen_post_damage
+      xwayland: Add xwl_window_create_frame_callback helper
+      xwayland: Use single frame callback for Present flips and normal updates
+      xwayland: Use frame callbacks for Present vblank events
+      xwayland: Delete all frame_callback_list nodes in xwl_unrealize_window
+
+Paul Kocialkowski (4):
+      glamor: Propagate FBO allocation failure for picture to texture upload
+      glamor: Error out on out-of-memory when allocating PBO for FBO access
+      glamor: Propagate glamor_prepare_access failures in copy helpers
+      glamor: Fallback to system memory for RW PBO buffer allocation
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4e06262ee0eafa4aff6dfcd7bd2fdd62820d5f12)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
- 2 files changed, 303 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
+ .../{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} (89%)
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2020-12723.patch b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
-new file mode 100644
-index 0000000000..ad195cffab
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2020-12723.patch
-@@ -0,0 +1,302 @@
-+From da9ec461e22915ccabb06785bf39ec34577ada12 Mon Sep 17 00:00:00 2001
-+From: Hugo van der Sanden <hv@crypt.org>
-+Date: Sat, 11 Apr 2020 14:10:24 +0100
-+Subject: [PATCH] study_chunk: avoid mutating regexp program within GOSUB
-+
-+gh16947 and gh17743: studying GOSUB may restudy in an inner call
-+(via a mix of recursion and enframing) something that an outer call
-+is in the middle of looking at.  Let the outer frame deal with it.
-+
-+(CVE-2020-12723)
-+
-+(cherry picked from commit c4033e740bd18d9fbe3456a9db2ec2053cdc5271)
-+
-+Upstream-Status: Backport [https://github.com/perl/perl5/commit/66bbb51b93253a3f87d11c2695cfb7bdb782184a]
-+CVE: CVE-2020-12723
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ embed.fnc  |  2 +-
-+ embed.h    |  2 +-
-+ proto.h    |  2 +-
-+ regcomp.c  | 54 +++++++++++++++++++++++++++++++++++-------------------
-+ t/re/pat.t | 26 +++++++++++++++++++++++++-
-+ 5 files changed, 63 insertions(+), 23 deletions(-)
-+
-+diff --git a/embed.fnc b/embed.fnc
-+index f45c127..eff4a50 100644
-+--- a/embed.fnc
-++++ b/embed.fnc
-+@@ -2480,7 +2480,7 @@ Es	|SSize_t|study_chunk	|NN RExC_state_t *pRExC_state \
-+ 				|NULLOK struct scan_data_t *data \
-+                                 |I32 stopparen|U32 recursed_depth \
-+ 				|NULLOK regnode_ssc *and_withp \
-+-				|U32 flags|U32 depth
-++				|U32 flags|U32 depth|bool was_mutate_ok
-+ Es	|void	|rck_elide_nothing|NN regnode *node
-+ EsR	|SV *	|get_ANYOFM_contents|NN const regnode * n
-+ EsRn	|U32	|add_data	|NN RExC_state_t* const pRExC_state \
-+diff --git a/embed.h b/embed.h
-+index 356a8b9..5346ec5 100644
-+--- a/embed.h
-++++ b/embed.h
-+@@ -1239,7 +1239,7 @@
-+ #define ssc_is_cp_posixl_init	S_ssc_is_cp_posixl_init
-+ #define ssc_or(a,b,c)		S_ssc_or(aTHX_ a,b,c)
-+ #define ssc_union(a,b,c)	S_ssc_union(aTHX_ a,b,c)
-+-#define study_chunk(a,b,c,d,e,f,g,h,i,j,k)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k)
-++#define study_chunk(a,b,c,d,e,f,g,h,i,j,k,l)	S_study_chunk(aTHX_ a,b,c,d,e,f,g,h,i,j,k,l)
-+ #  endif
-+ #  if defined(PERL_IN_REGCOMP_C) || defined (PERL_IN_DUMP_C)
-+ #define _invlist_dump(a,b,c,d)	Perl__invlist_dump(aTHX_ a,b,c,d)
-+diff --git a/proto.h b/proto.h
-+index 91530b1..1bda01f 100644
-+--- a/proto.h
-++++ b/proto.h
-+@@ -5655,7 +5655,7 @@ PERL_STATIC_INLINE void	S_ssc_union(pTHX_ regnode_ssc *ssc, SV* const invlist, c
-+ #define PERL_ARGS_ASSERT_SSC_UNION	\
-+ 	assert(ssc); assert(invlist)
-+ #endif
-+-STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth);
-++STATIC SSize_t	S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp, SSize_t *minlenp, SSize_t *deltap, regnode *last, struct scan_data_t *data, I32 stopparen, U32 recursed_depth, regnode_ssc *and_withp, U32 flags, U32 depth, bool was_mutate_ok);
-+ #define PERL_ARGS_ASSERT_STUDY_CHUNK	\
-+ 	assert(pRExC_state); assert(scanp); assert(minlenp); assert(deltap); assert(last)
-+ #endif
-+diff --git a/regcomp.c b/regcomp.c
-+index 5a9adee..8d7df1f 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -106,6 +106,7 @@ typedef struct scan_frame {
-+     regnode *next_regnode;      /* next node to process when last is reached */
-+     U32 prev_recursed_depth;
-+     I32 stopparen;              /* what stopparen do we use */
-++    bool in_gosub;              /* this or an outer frame is for GOSUB */
-+ 
-+     struct scan_frame *this_prev_frame; /* this previous frame */
-+     struct scan_frame *prev_frame;      /* previous frame */
-+@@ -4466,7 +4467,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 			I32 stopparen,
-+                         U32 recursed_depth,
-+ 			regnode_ssc *and_withp,
-+-			U32 flags, U32 depth)
-++			U32 flags, U32 depth, bool was_mutate_ok)
-+ 			/* scanp: Start here (read-write). */
-+ 			/* deltap: Write maxlen-minlen here. */
-+ 			/* last: Stop before this one. */
-+@@ -4545,6 +4546,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                                    node length to get a real minimum (because
-+                                    the folded version may be shorter) */
-+ 	bool unfolded_multi_char = FALSE;
-++        /* avoid mutating ops if we are anywhere within the recursed or
-++         * enframed handling for a GOSUB: the outermost level will handle it.
-++         */
-++        bool mutate_ok = was_mutate_ok && !(frame && frame->in_gosub);
-+ 	/* Peephole optimizer: */
-+         DEBUG_STUDYDATA("Peep", data, depth, is_inf);
-+         DEBUG_PEEP("Peep", scan, depth, flags);
-+@@ -4555,7 +4560,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+          * parsing code, as each (?:..) is handled by a different invocation of
-+          * reg() -- Yves
-+          */
-+-        JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-++        if (mutate_ok)
-++            JOIN_EXACT(scan,&min_subtract, &unfolded_multi_char, 0);
-+ 
-+         /* Follow the next-chain of the current node and optimize
-+            away all the NOTHINGs from it.
-+@@ -4587,7 +4593,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+             /* DEFINEP study_chunk() recursion */
-+             (void)study_chunk(pRExC_state, &scan, &minlen,
-+                               &deltanext, next, &data_fake, stopparen,
-+-                              recursed_depth, NULL, f, depth+1);
-++                              recursed_depth, NULL, f, depth+1, mutate_ok);
-+ 
-+             scan = next;
-+         } else
-+@@ -4655,7 +4661,8 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                     /* recurse study_chunk() for each BRANCH in an alternation */
-+ 		    minnext = study_chunk(pRExC_state, &scan, minlenp,
-+                                       &deltanext, next, &data_fake, stopparen,
-+-                                      recursed_depth, NULL, f, depth+1);
-++                                      recursed_depth, NULL, f, depth+1,
-++                                      mutate_ok);
-+ 
-+ 		    if (min1 > minnext)
-+ 			min1 = minnext;
-+@@ -4722,9 +4729,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		    }
-+ 		}
-+ 
-+-                if (PERL_ENABLE_TRIE_OPTIMISATION &&
-+-                        OP( startbranch ) == BRANCH )
-+-                {
-++                if (PERL_ENABLE_TRIE_OPTIMISATION
-++                    && OP(startbranch) == BRANCH
-++                    && mutate_ok
-++                ) {
-+ 		/* demq.
-+ 
-+                    Assuming this was/is a branch we are dealing with: 'scan'
-+@@ -5179,6 +5187,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                 newframe->stopparen = stopparen;
-+                 newframe->prev_recursed_depth = recursed_depth;
-+                 newframe->this_prev_frame= frame;
-++                newframe->in_gosub = (
-++                    (frame && frame->in_gosub) || OP(scan) == GOSUB
-++                );
-+ 
-+                 DEBUG_STUDYDATA("frame-new", data, depth, is_inf);
-+                 DEBUG_PEEP("fnew", scan, depth, flags);
-+@@ -5336,7 +5347,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 
-+                 /* This temporary node can now be turned into EXACTFU, and
-+                  * must, as regexec.c doesn't handle it */
-+-                if (OP(next) == EXACTFU_S_EDGE) {
-++                if (OP(next) == EXACTFU_S_EDGE && mutate_ok) {
-+                     OP(next) = EXACTFU;
-+                 }
-+ 
-+@@ -5344,8 +5355,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                     &&   isALPHA_A(* STRING(next))
-+                     && (         OP(next) == EXACTFAA
-+                         || (     OP(next) == EXACTFU
-+-                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next)))))
-+-                {
-++                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next))))
-++                    &&   mutate_ok
-++                ) {
-+                     /* These differ in just one bit */
-+                     U8 mask = ~ ('A' ^ 'a');
-+ 
-+@@ -5432,7 +5444,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                                   (mincount == 0
-+                                    ? (f & ~SCF_DO_SUBSTR)
-+                                    : f)
-+-                                  ,depth+1);
-++                                  , depth+1, mutate_ok);
-+ 
-+ 		if (flags & SCF_DO_STCLASS)
-+ 		    data->start_class = oclass;
-+@@ -5498,7 +5510,9 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		if (  OP(oscan) == CURLYX && data
-+ 		      && data->flags & SF_IN_PAR
-+ 		      && !(data->flags & SF_HAS_EVAL)
-+-		      && !deltanext && minnext == 1 ) {
-++		      && !deltanext && minnext == 1
-++                      && mutate_ok
-++                ) {
-+ 		    /* Try to optimize to CURLYN.  */
-+ 		    regnode *nxt = NEXTOPER(oscan) + EXTRA_STEP_2ARGS;
-+ 		    regnode * const nxt1 = nxt;
-+@@ -5548,10 +5562,10 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+ 		      && !(data->flags & SF_HAS_EVAL)
-+ 		      && !deltanext	/* atom is fixed width */
-+ 		      && minnext != 0	/* CURLYM can't handle zero width */
-+-
-+                          /* Nor characters whose fold at run-time may be
-+                           * multi-character */
-+                       && ! (RExC_seen & REG_UNFOLDED_MULTI_SEEN)
-++                      && mutate_ok
-+ 		) {
-+ 		    /* XXXX How to optimize if data == 0? */
-+ 		    /* Optimize to a simpler form.  */
-+@@ -5604,7 +5618,7 @@ S_study_chunk(pTHX_ RExC_state_t *pRExC_state, regnode **scanp,
-+                         /* recurse study_chunk() on optimised CURLYX => CURLYM */
-+ 			study_chunk(pRExC_state, &nxt1, minlenp, &deltanext, nxt,
-+                                     NULL, stopparen, recursed_depth, NULL, 0,
-+-                                    depth+1);
-++                                    depth+1, mutate_ok);
-+ 		    }
-+ 		    else
-+ 			oscan->flags = 0;
-+@@ -6009,7 +6023,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                 /* recurse study_chunk() for lookahead body */
-+                 minnext = study_chunk(pRExC_state, &nscan, minlenp, &deltanext,
-+                                       last, &data_fake, stopparen,
-+-                                      recursed_depth, NULL, f, depth+1);
-++                                      recursed_depth, NULL, f, depth+1,
-++                                      mutate_ok);
-+                 if (scan->flags) {
-+                     if (   deltanext < 0
-+                         || deltanext > (I32) U8_MAX
-+@@ -6114,7 +6129,7 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                 *minnextp = study_chunk(pRExC_state, &nscan, minnextp,
-+                                         &deltanext, last, &data_fake,
-+                                         stopparen, recursed_depth, NULL,
-+-                                        f, depth+1);
-++                                        f, depth+1, mutate_ok);
-+                 if (scan->flags) {
-+                     assert(0);  /* This code has never been tested since this
-+                                    is normally not compiled */
-+@@ -6282,7 +6297,8 @@ Perl_re_printf( aTHX_  "LHS=%" UVuf " RHS=%" UVuf "\n",
-+                         /* optimise study_chunk() for TRIE */
-+                         minnext = study_chunk(pRExC_state, &scan, minlenp,
-+                             &deltanext, (regnode *)nextbranch, &data_fake,
-+-                            stopparen, recursed_depth, NULL, f, depth+1);
-++                            stopparen, recursed_depth, NULL, f, depth+1,
-++                            mutate_ok);
-+                     }
-+                     if (nextbranch && PL_regkind[OP(nextbranch)]==BRANCH)
-+                         nextbranch= regnext((regnode*)nextbranch);
-+@@ -8075,7 +8091,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+             &data, -1, 0, NULL,
-+             SCF_DO_SUBSTR | SCF_WHILEM_VISITED_POS | stclass_flag
-+                           | (restudied ? SCF_TRIE_DOING_RESTUDY : 0),
-+-            0);
-++            0, TRUE);
-+ 
-+ 
-+         CHECK_RESTUDY_GOTO_butfirst(LEAVE_with_name("study_chunk"));
-+@@ -8204,7 +8220,7 @@ Perl_re_op_compile(pTHX_ SV ** const patternp, int pat_count,
-+             SCF_DO_STCLASS_AND|SCF_WHILEM_VISITED_POS|(restudied
-+                                                       ? SCF_TRIE_DOING_RESTUDY
-+                                                       : 0),
-+-            0);
-++            0, TRUE);
-+ 
-+         CHECK_RESTUDY_GOTO_butfirst(NOOP);
-+ 
-+diff --git a/t/re/pat.t b/t/re/pat.t
-+index 6a868f4..2869b58 100644
-+--- a/t/re/pat.t
-++++ b/t/re/pat.t
-+@@ -25,7 +25,7 @@ BEGIN {
-+ skip_all('no re module') unless defined &DynaLoader::boot_DynaLoader;
-+ skip_all_without_unicode_tables();
-+ 
-+-plan tests => 864;  # Update this when adding/deleting tests.
-++plan tests => 873;  # Update this when adding/deleting tests.
-+ 
-+ run_tests() unless caller;
-+ 
-+@@ -2115,6 +2115,30 @@ x{0c!}\;\;îçÿ  /0f/! F  /;îçÿù\Q   xÿÿÿÿ   ù   `x{0c!};   ù\Q
-+         like(runperl(prog => "$s", stderr => 1), qr/Unmatched \(/);
-+    }
-+ 
-++    # gh16947: test regexp corruption (GOSUB)
-++    {
-++        fresh_perl_is(q{
-++            'xy' =~ /x(?0)|x(?|y|y)/ && print 'ok'
-++        }, 'ok', {}, 'gh16947: test regexp corruption (GOSUB)');
-++    }
-++    # gh16947: test fix doesn't break SUSPEND
-++    {
-++        fresh_perl_is(q{ 'sx' =~ m{ss++}i; print 'ok' },
-++                'ok', {}, "gh16947: test fix doesn't break SUSPEND");
-++    }
-++
-++    # gh17743: more regexp corruption via GOSUB
-++    {
-++        fresh_perl_is(q{
-++            "0" =~ /((0(?0)|000(?|0000|0000)(?0))|)/; print "ok"
-++        }, 'ok', {}, 'gh17743: test regexp corruption (1)');
-++
-++        fresh_perl_is(q{
-++            "000000000000" =~ /(0(())(0((?0)())|000(?|\x{ef}\x{bf}\x{bd}|\x{ef}\x{bf}\x{bd}))|)/;
-++            print "ok"
-++        }, 'ok', {}, 'gh17743: test regexp corruption (2)');
-++    }
-++
-+ } # End of sub run_tests
-+ 
-+ 1;
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 47b2f9ca65..b53aff1216 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -27,6 +27,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2020-10543.patch \
-            file://CVE-2020-10878_1.patch \
-            file://CVE-2020-10878_2.patch \
-+           file://CVE-2020-12723.patch \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+index 998b98a76c..3f7fbe85b8 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+@@ -6,8 +6,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
             "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
+-SRC_URI[md5sum] = "d2e96355ad47244c675bce38db2b48a9"
+-SRC_URI[sha256sum] = "bd5986f010f34f5b3d6bc99fe395ecb1e0dead15a26807e0c832701809a06ea1"
++SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
++SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
+ 
+ CFLAGS += "-fcommon"
+ 
 -- 
 2.17.1
 
