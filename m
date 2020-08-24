@@ -1,160 +1,83 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web11.197052.1598282117926084546
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.197577.1598282121506211328
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 08:15:18 -0700
+ Mon, 24 Aug 2020 08:15:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XE5UjP9O;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.193, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f193.google.com with SMTP id x25so4981183pff.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A/TShHhG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id s14so4377478plp.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BmKx/gQhLRSKLr8xaHTUovlTmXYPYF09NVCtfyo8egk=;
-        b=XE5UjP9O1YXtrr3pIQ2cRtuqQXTm5kTOujMUr8XqfdIhbfbUcCtb5YBn7yFQwlVI5z
-         oHxjICamsqe5bnPVXQ73nz1AqxOUQxkq6LBOiiXUFqc5O263Nr+mZKpLz/+KYBBV+Mh8
-         GcbuSpetl1KWHC7BP5RT+SmIwNPuzoI9kZmzGTQ0DakrXBk97bfRUJxVlSwQlV/oDnaf
-         pzCaVoKJLPvxhZnNkww8U/XO2Xze1EcH3vMMnhL24MM+Nm4WUVjU1+yBqcjtTVCcw6Ug
-         k3bZjgEB/TZcCuw1f8e+Yx+DnQdLjHg+kN2pyjjeXxvzOXc3HVQ5HQ+7zKbEVh6tFJN4
-         m0YA==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=EnKEoFJOiuAPEm8kdmVr/dkw3PdYeb9u5DKTaI08B3E=;
+        b=A/TShHhG6wrv12sJnQRT/45NmM7oU6ra6LbIBnF0C/K+vt2cTsqOOyQNNylcMeWkd3
+         LzTYPMBf5WX9ZnhlbI28Ly9S7QbrfN1X9WKOlmC3kpnTkDd/2cuY5QtbfpHAWjn7unaZ
+         fYoxlvM9kTzdvAGEutLaWxW9GTgZj34pnRpk8r+H/QP6qIvGqqxdm9ZZAfvn/NnOmsOM
+         whm5X701uXobpSyduruzTvkQyDDlO1nEjCub3qIiLatWE+pvlQzuVUVFuENTzotY2ju2
+         Xcja8OX4J3p3h2uDSI0kHAhyyd01yoqDHRdP84+ALlRW8z1Tk7Zy/b5DSMIR2uh4g8yI
+         jdTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BmKx/gQhLRSKLr8xaHTUovlTmXYPYF09NVCtfyo8egk=;
-        b=OiTXbnj2jgDtAJVFWul/ib6sTXVpmYw+bSxbR5/ma5sMty83Ymc7fFv5vjyifcTEES
-         ULez93ygRS9/BbOoXUYwXk9y6fTjQI3Al3JcZE+shgsrHKAqXtDwZYT0BPbNr5rH3oGa
-         zAW72VfZJRiAZZ28orLC0M/HP2TpxyxPKx6o5w3uQOef0pU0hbUgU57p3IxKjXs03THg
-         GKPMrzklMxP43/+57WjvsXRX62OB3NjycTmdrOGz/Qdws9WAJ3hArsOxWTCFbAZvjN7s
-         uYvdAMR1Hlu/s0a4YIJ4Xs5O7hJU6m/aLcy0ONkdvQ6mk07OhmjzzG6TI7ivdcNaFz/C
-         p7Sw==
-X-Gm-Message-State: AOAM530U6+Z6Q332vJylIjBBDZ9wnwYh/MvUPrlPl3FBFRxG6BZaM9qc
-	H4FV8K6q9XaQiP7lsQ02x8PF2ALdxtJ12DqnE2U=
-X-Google-Smtp-Source: ABdhPJyCAlym6JETr/NKmqS6GDbl4ie/7BLf6kdfzUyRQI+5av+Od0/KIM2kh9C6RLStqSHIxjXmtg==
-X-Received: by 2002:a63:2a89:: with SMTP id q131mr3649259pgq.330.1598282116592;
-        Mon, 24 Aug 2020 08:15:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=EnKEoFJOiuAPEm8kdmVr/dkw3PdYeb9u5DKTaI08B3E=;
+        b=VJ2qU4iPyk//PTHiiNUhQDG89bZiZnIAWdgX3cMLd+qrB6zGzc7QWKAsfEo3XWQMki
+         dyUobHd4q4gR21xrQadFMyt2bS2Z1aYmGv6qu/ivvKHpIhp7Dych2H8UePQ7x33aii9n
+         IWL6JqHdnDmNxqhvIU1Ualrg0iuiYzzpn10vj7t1WBMGi0nT6WIFntxuSGpzoTVoFXRh
+         yTzzmwLk4hlAZHitlNZyCxqKHPqCEwP7LmoQ/SKXx/OJ9v3S5vAS7Teph4npejW1wZOg
+         X2f+c4wV4jeWqgo5OjIkdynWYyH3DXOyVFMPUC52nicCIfGgcj7rr8pYjmTnUvVazEDr
+         mp3Q==
+X-Gm-Message-State: AOAM532J362OtdriJPkAbQgDasbPfo20CZBTgJGZQp/OAYaBSbUxLORK
+	ui3XIDHcD7olYf+GZBCh5iLYnsZPlI8lElDsYHg=
+X-Google-Smtp-Source: ABdhPJzPDXWXa+ObTUWBFyNRF0jTx/pnXJYShc3ifyOO9bjvqcku3ny60kcmCNxwY5o73dF5nRkfrA==
+X-Received: by 2002:a17:90a:b108:: with SMTP id z8mr4841022pjq.39.1598282120488;
+        Mon, 24 Aug 2020 08:15:20 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.15
+        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 08:15:15 -0700 (PDT)
+        Mon, 24 Aug 2020 08:15:19 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Mon, 24 Aug 2020 05:14:49 -1000
-Message-Id: <cover.1598281931.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/12] librsvg: Upgrade 2.40.20 -> 2.40.21
+Date: Mon, 24 Aug 2020 05:14:50 -1000
+Message-Id: <586da5f972a7cc701969fb36f2a15bd36f6dece0.1598281931.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1598281931.git.steve@sakoman.com>
+References: <cover.1598281931.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Wednesday.
+From: Adrian Bunk <bunk@stusta.de>
 
-The following changes since commit 553a96644957ca6ad0f13b75a6e3a596357d1d52:
+This fixes CVE-2019-20446.
 
-  linux-yocto/5.4: update to v5.4.57 (2020-08-13 04:47:52 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Adrian Bunk (1):
-  librsvg: Upgrade 2.40.20 -> 2.40.21
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.58
-  linux-yocto/5.4: perf cs-etm: Move definition of 'traceid_list' global
-    variable from header file
-
-Changqing Li (1):
-  libffi: fix multilib header conflict
-
-Chen Qi (1):
-  fribidi: extend CVE_PRODUCT to include fribidi
-
-Lee Chee Yang (2):
-  ghostscript: update to 9.52
-  perl: fix CVE-2020-12723
-
-Mikko Rapeli (2):
-  alsa-topology-conf: use ${datadir} in do_install()
-  alsa-ucm-conf: use ${datadir} in do_install()
-
-Richard Purdie (1):
-  selftest/tinfoil: Increase wait event timeout
-
-Vasyl Vavrychuk (1):
-  runqemu: Check gtk or sdl option is passed together with gl or gl-es
-    options.
-
-Wang Mingyu (1):
-  xserver-xorg: upgrade 1.20.7 -> 1.20.8
-
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   5 +-
- .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
- .../do-not-check-local-libpng-source.patch    |  37 +--
- .../ghostscript/CVE-2019-14869-0001.patch     |  70 ----
- .../ghostscript/ghostscript/aarch64/objarch.h |  40 ---
- .../ghostscript/ghostscript/arm/objarch.h     |  40 ---
- .../ghostscript/ghostscript/armeb/objarch.h   |  40 ---
- .../ghostscript-9.02-genarch.patch            |  38 ---
- .../ghostscript/ghostscript/i586/objarch.h    |  41 ---
- .../ghostscript/ghostscript/i686              |   1 -
- .../ghostscript/microblaze/objarch.h          |  40 ---
- .../ghostscript/microblazeel/objarch.h        |  40 ---
- .../ghostscript/mipsarchn32eb/objarch.h       |  40 ---
- .../ghostscript/mipsarchn32el/objarch.h       |  40 ---
- .../ghostscript/mipsarchn64eb/objarch.h       |  40 ---
- .../ghostscript/mipsarchn64el/objarch.h       |  40 ---
- .../ghostscript/mipsarcho32eb/objarch.h       |  40 ---
- .../ghostscript/mipsarcho32el/objarch.h       |  40 ---
- .../ghostscript/ghostscript/nios2/objarch.h   |  40 ---
- .../ghostscript/ghostscript/powerpc/objarch.h |  40 ---
- .../ghostscript/powerpc64/objarch.h           |  40 ---
- .../ghostscript/powerpc64le/objarch.h         |  40 ---
- .../ghostscript/ghostscript/x86-64/objarch.h  |  40 ---
- ...hostscript_9.50.bb => ghostscript_9.52.bb} |  27 +-
- ...{librsvg_2.40.20.bb => librsvg_2.40.21.bb} |   3 +-
- ...-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../alsa/alsa-topology-conf_1.2.1.bb          |   4 +-
- .../alsa/alsa-ucm-conf_1.2.1.2.bb             |   6 +-
- meta/recipes-support/fribidi/fribidi_1.0.9.bb |   2 +-
- meta/recipes-support/libffi/libffi_3.3.bb     |   2 +-
- scripts/runqemu                               |   3 +-
- 35 files changed, 361 insertions(+), 861 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
- delete mode 120000 meta/recipes-extended/ghostscript/ghostscript/i686
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
- rename meta/recipes-extended/ghostscript/{ghostscript_9.50.bb => ghostscript_9.52.bb} (87%)
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5c117379dec1e33216fcbaf49d2b6130adf54bc1)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb}         | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
  rename meta/recipes-gnome/librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb} (92%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} (89%)
 
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
+similarity index 92%
+rename from meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
+rename to meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
+index 6dd0533a5d..237aec6062 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
+@@ -23,8 +23,7 @@ SRC_URI += "file://gtk-option.patch \
+             file://0001-Remove-non-reproducible-SRCDIR.patch \
+ "
+ 
+-SRC_URI[archive.md5sum] = "4949d313b0c5d9161a5c259104af5568"
+-SRC_URI[archive.sha256sum] = "cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b"
++SRC_URI[archive.sha256sum] = "f7628905f1cada84e87e2b14883ed57d8094dca3281d5bcb24ece4279e9a92ba"
+ 
+ CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
+ 
 -- 
 2.17.1
 
