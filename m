@@ -1,83 +1,77 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.197577.1598282121506211328
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.197579.1598282125419863982
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 08:15:21 -0700
+ Mon, 24 Aug 2020 08:15:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A/TShHhG;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id s14so4377478plp.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wJqtEg5u;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id h2so4384939plr.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2020 08:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=EnKEoFJOiuAPEm8kdmVr/dkw3PdYeb9u5DKTaI08B3E=;
-        b=A/TShHhG6wrv12sJnQRT/45NmM7oU6ra6LbIBnF0C/K+vt2cTsqOOyQNNylcMeWkd3
-         LzTYPMBf5WX9ZnhlbI28Ly9S7QbrfN1X9WKOlmC3kpnTkDd/2cuY5QtbfpHAWjn7unaZ
-         fYoxlvM9kTzdvAGEutLaWxW9GTgZj34pnRpk8r+H/QP6qIvGqqxdm9ZZAfvn/NnOmsOM
-         whm5X701uXobpSyduruzTvkQyDDlO1nEjCub3qIiLatWE+pvlQzuVUVFuENTzotY2ju2
-         Xcja8OX4J3p3h2uDSI0kHAhyyd01yoqDHRdP84+ALlRW8z1Tk7Zy/b5DSMIR2uh4g8yI
-         jdTQ==
+        bh=CCRqEYfHIwcbq463dx/U85ykESSNLFnkj4QyMOTJJZY=;
+        b=wJqtEg5uGxO+BI2jGzfaJ3vxGvAss6fBgwE0fzJPTsMBD7WXLAj3HKodb2C0iClBON
+         Doj/Lt9zxDl2sEjwqOpvj8vPBz6QGwO9ZFo8sAsBphdxULx0jLKXgai24dfNabkvfC2N
+         nPDNb57fCLxQkr+r4yG0qIqmZO+jOx5HZrJJja/Ql7Br5CyClRodrsDkip3Cwu22nejH
+         i7KdmBJeXaEh3hoVNAF9uoPPqEb/86xbKGucKCKoX97SwuCJytlXb0+ZbK0heRDj2cGQ
+         hlSPklSqOVpsLqROjhuKhOeQ/Tof20deMXD7NOmmaHEzZ6NmY/7hwti5wit8ZKkRGNMd
+         M+Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=EnKEoFJOiuAPEm8kdmVr/dkw3PdYeb9u5DKTaI08B3E=;
-        b=VJ2qU4iPyk//PTHiiNUhQDG89bZiZnIAWdgX3cMLd+qrB6zGzc7QWKAsfEo3XWQMki
-         dyUobHd4q4gR21xrQadFMyt2bS2Z1aYmGv6qu/ivvKHpIhp7Dych2H8UePQ7x33aii9n
-         IWL6JqHdnDmNxqhvIU1Ualrg0iuiYzzpn10vj7t1WBMGi0nT6WIFntxuSGpzoTVoFXRh
-         yTzzmwLk4hlAZHitlNZyCxqKHPqCEwP7LmoQ/SKXx/OJ9v3S5vAS7Teph4npejW1wZOg
-         X2f+c4wV4jeWqgo5OjIkdynWYyH3DXOyVFMPUC52nicCIfGgcj7rr8pYjmTnUvVazEDr
-         mp3Q==
-X-Gm-Message-State: AOAM532J362OtdriJPkAbQgDasbPfo20CZBTgJGZQp/OAYaBSbUxLORK
-	ui3XIDHcD7olYf+GZBCh5iLYnsZPlI8lElDsYHg=
-X-Google-Smtp-Source: ABdhPJzPDXWXa+ObTUWBFyNRF0jTx/pnXJYShc3ifyOO9bjvqcku3ny60kcmCNxwY5o73dF5nRkfrA==
-X-Received: by 2002:a17:90a:b108:: with SMTP id z8mr4841022pjq.39.1598282120488;
-        Mon, 24 Aug 2020 08:15:20 -0700 (PDT)
+        bh=CCRqEYfHIwcbq463dx/U85ykESSNLFnkj4QyMOTJJZY=;
+        b=rzMyvH2Qbk/S76O+z6cqf3pb4Ci99tCgOcjoNVE9xsh4lc8qtuPZRzSENBary9KmgX
+         EqyQlCX//WvsQ/zmXkv+avbBgFmj5rpQqDeZeyxWyIkqVCJQ2+MF+teKv9xtKpDQ9ucR
+         KPKfV66uoITNMEUbwbeksG61XbXM+O0mFY1KnhvgxxRQRrQ7pWnCLIH3P1CPhHqNysO9
+         GleLEx68wxJ1i/tQVzgdXIgKsPe5x3i/RzHG+tfnaUnkDTbd3YL42QS9p0v4nFqWsqgs
+         mh9PXUNm07M1JXIpl6PFV6rFR582vhJIJEyGkDIZKvB4WOh987zXbqOQGkVwy4RyHUWM
+         RdBw==
+X-Gm-Message-State: AOAM53058SDTer9zqDmOxsbf993KU+6xMhFajGTqsVn3Lhp5v2L5gKH+
+	X81oDVEicCVOiEHuk7HRN0RoDdNfxhOC1M/tfaE=
+X-Google-Smtp-Source: ABdhPJyDQloZeCD4WVourUW86Y8wKD200tu/h8kkjmst2PXgGuxynihqf2YC/eDdKrfH70Mf4xc58g==
+X-Received: by 2002:a17:90a:c505:: with SMTP id k5mr4845416pjt.188.1598282123603;
+        Mon, 24 Aug 2020 08:15:23 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.19
+        by smtp.gmail.com with ESMTPSA id a13sm11530382pfo.49.2020.08.24.08.15.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 08:15:19 -0700 (PDT)
+        Mon, 24 Aug 2020 08:15:22 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/12] librsvg: Upgrade 2.40.20 -> 2.40.21
-Date: Mon, 24 Aug 2020 05:14:50 -1000
-Message-Id: <586da5f972a7cc701969fb36f2a15bd36f6dece0.1598281931.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/12] fribidi: extend CVE_PRODUCT to include fribidi
+Date: Mon, 24 Aug 2020 05:14:51 -1000
+Message-Id: <e6e40f16e66e8720cd7c6f67f4328936967d3ee9.1598281931.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598281931.git.steve@sakoman.com>
 References: <cover.1598281931.git.steve@sakoman.com>
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-This fixes CVE-2019-20446.
+For example, CVE-2019-18397 uses fribidi instead gnu_fribidi.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5c117379dec1e33216fcbaf49d2b6130adf54bc1)
+(cherry picked from commit fa5d0f2c61a704436d71e5f02042fa8b2940f541)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb}         | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb} (92%)
+ meta/recipes-support/fribidi/fribidi_1.0.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-similarity index 92%
-rename from meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-index 6dd0533a5d..237aec6062 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.21.bb
-@@ -23,8 +23,7 @@ SRC_URI += "file://gtk-option.patch \
-             file://0001-Remove-non-reproducible-SRCDIR.patch \
- "
+diff --git a/meta/recipes-support/fribidi/fribidi_1.0.9.bb b/meta/recipes-support/fribidi/fribidi_1.0.9.bb
+index 21217aba5e..0654b07dc7 100644
+--- a/meta/recipes-support/fribidi/fribidi_1.0.9.bb
++++ b/meta/recipes-support/fribidi/fribidi_1.0.9.bb
+@@ -12,6 +12,6 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
  
--SRC_URI[archive.md5sum] = "4949d313b0c5d9161a5c259104af5568"
--SRC_URI[archive.sha256sum] = "cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b"
-+SRC_URI[archive.sha256sum] = "f7628905f1cada84e87e2b14883ed57d8094dca3281d5bcb24ece4279e9a92ba"
+ inherit meson lib_package pkgconfig
  
- CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
+-CVE_PRODUCT = "gnu_fribidi"
++CVE_PRODUCT = "gnu_fribidi fribidi"
  
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
