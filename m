@@ -1,135 +1,129 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.128])
- by mx.groups.io with SMTP id smtpd.web12.8235.1598336330611825976
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.126])
+ by mx.groups.io with SMTP id smtpd.web11.9874.1598346817125723582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2020 23:18:52 -0700
+ Tue, 25 Aug 2020 02:13:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=MfIoV1oL;
- spf=pass (domain: prevas.dk, ip: 40.107.22.128, mailfrom: rasmus.villemoes@prevas.dk)
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=J7QOpAJN;
+ spf=pass (domain: prevas.dk, ip: 40.107.6.126, mailfrom: rasmus.villemoes@prevas.dk)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wc/9VJ5fgC3RX5RlnUHHsI1eMvz1mPAU8TwZ1B6iEujOvif9GnMC2CaPhhn1tui99cexRWMX9tVReh5RhlQuRPVuhzCGMVPINaYLofHj0xCr0/CXHW/vxpDP/TtJszgo3qyoNiz+xvsFvq56nlT6XWe9LE49Dc/DfFqHXw+QWXGgpgvoWnpRw1YO81zCxWIhoWcbVaQbZgAkfwDV92FRwuFpn4eUXeuPazfOczb+K5O0mkM8ITO/IC2mFxNBIKGB4i0ImEUrY7WFnnM6we0fVRQdsyVGvva/IfqwzxCPioq6jvg4n2mIRktfnAFL3PSobJNlrg53wZv+KoU0IgBQSQ==
+ b=A+xKQxFlNasxeTyl+pB+Ujp3p99RqPOyM6F9ArmMt+CdWeYjmrvjYuMI9AH8nYHaEEneqeMShknCgiqRGaK8WKE9R0sP+lERwVVmJYbBF+HaISxIgM7G2I1i2rdzerlqA5LKUzvwUEEBBoJax/AwBUVTe/0PFahQmp1FGESRxYGE7bAI+PPyCn075SxabHvtwL5z6ANRH2A3OIChJarohRcVrq++bYpSMr2PttnwSJk8jWZNTOZkQGev6bkSqoQcoetPhEU5b3gUZypp1g3b6DyY1jLuJPImGSsDX09HPC9ObG+HdrbxNUkKSbgloj5EtfcL0hfozWOlZPjfY0kQQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eCa299Maiq3mGzDkJBfoljhQOaSPccBe39RO6Rb037A=;
- b=j0ZDqtOsYtY38gv126z64j1IprlZj866wkyqwYSKg9UrO1s4yO9bC6nKOih3VZCmMLeegCL4VVuo9vTcQeOXNAN0K5CvpLtFn4/4cWovs7a7Q7iKQUBul+juE1IxdBuaG/UvWSTxt7Dc7DAiHVSPJztkqdYzgznuj6vvDDo8tDCUEPjuzulTaSF6onYustSVTIpfyOF5LD49j7xJq2jDn9hoSCJB1wJIMUbIsNkMp6GXXDtB1iPuN4BU6lMZiGAxiTyz6gEhRCq+qxx5kyWmkKisNAZ74fxLlV0YjvA3OB3cUeU7+Mu0R4Y6/fTN18xtz8VsvxZPUYmohvEZY5lYmQ==
+ bh=/bTdqCuIYzTUL9lSqAC6FBmRjciYGFxNB4JKc5+Iwfg=;
+ b=j4pWK1IQOMs7q3WS67YI/idOFvElx2Y6DK3V+ipBGxz+GJt6xVTP/Mos4iuqKG3zgioit4HvPlqkiOMhl9Q8Z7UsM+tZQ3cw8HmSPFywuG2uQkmZBwmAZFMOMmTzNWR5Rq6OmqPjQ8zmUwhtmXi+aGXeW/n1a0smK567lIKCgxAt05qRyA/DrIlW5IuesDx4wQWJn8DLw6sDkRinWK1KRN8OzQVxbfE0fL3qH7W9/p/ACjZNeAgnLHRDoa7OvbsYxAQx/GG3sLi3URbxsgfOUZ20soku7hdGzGFJViPqDI3ojt+fGuJ2VYo0u6zICQh8r5rUyVwmUwm+cFxoQLCDrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
  dkim=pass header.d=prevas.dk; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eCa299Maiq3mGzDkJBfoljhQOaSPccBe39RO6Rb037A=;
- b=MfIoV1oL6eVsNrc4RYOTkMBS9iGlmDv+wy9CfTW/1etmL6oGpxGRLtZihaDC7G0xJvXe/H7w3ADTKdw0ii5DvEvGo4gtgcpjsdUQ0Ua/3Em8AT4V9aWPsEBWjDLCYuH5iQwCG9BQih3xFcG0nPf4g24pg5Ib6CjWW0RYvzPL8fg=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
+ bh=/bTdqCuIYzTUL9lSqAC6FBmRjciYGFxNB4JKc5+Iwfg=;
+ b=J7QOpAJNVz1X3cV/ps8XI57bOzYRvgABLCBHtXrJWPt1lN1sjgPMqFfCtZ3Kf7els7OJBPGcwK1i34t1fOZ9qjit3ZxExdQnVYa+ZyOKIwtVuIAk1Hi5Ma/tG73lwHVB1Okn9m5sJmjTq7459YZPa8czuzLnkJHOPJ5oHz4YYvA=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
  header.from=prevas.dk;
 Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
- by AM0PR10MB2962.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15e::30) with
+ by AM9PR10MB3991.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Tue, 25 Aug
- 2020 06:18:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25; Tue, 25 Aug
+ 2020 09:13:35 +0000
 Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::3cfb:a3e6:dfc0:37ec]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::3cfb:a3e6:dfc0:37ec%3]) with mapi id 15.20.3305.026; Tue, 25 Aug 2020
- 06:18:48 +0000
-Subject: Re: [OE-core] cleansstate
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Tom King <ka6sox@gmail.com>
-Cc: Joe Slater <joe.slater@windriver.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <BY5PR11MB3992C1180C5A53CCD612FD47885D0@BY5PR11MB3992.namprd11.prod.outlook.com>
- <92644e498d7a7ab6cbd2dba763d7c0900309c31b.camel@linuxfoundation.org>
- <CAHQecY4KmaTb6W_r88fRaqTVCsGDmiQMqk5pZvckAraHBLu+_A@mail.gmail.com>
- <4e07ca8b282abc62ede7969bc7c7dd6bd34014fb.camel@linuxfoundation.org>
- <fb0fa58a-cf84-9a5f-5b5e-489bd154b257@prevas.dk>
- <f058d2bf3e7d880aed5682d958e8afc0b90f752d.camel@linuxfoundation.org>
+ 09:13:35 +0000
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
 From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-Message-ID: <e6facd8b-6b2f-0d78-f54a-cd79e6591059@prevas.dk>
-Date: Tue, 25 Aug 2020 08:18:46 +0200
+Subject: do_populate_lic problems
+Message-ID: <5044ffcf-5959-1ada-0ae6-b351e55b4c0c@prevas.dk>
+Date: Tue, 25 Aug 2020 11:13:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <f058d2bf3e7d880aed5682d958e8afc0b90f752d.camel@linuxfoundation.org>
-X-ClientProxiedBy: AM3PR05CA0101.eurprd05.prod.outlook.com
- (2603:10a6:207:1::27) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+X-ClientProxiedBy: AM0PR10CA0111.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:e6::28) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:3f::10)
 Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.11.132] (81.216.59.226) by AM3PR05CA0101.eurprd05.prod.outlook.com (2603:10a6:207:1::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26 via Frontend Transport; Tue, 25 Aug 2020 06:18:47 +0000
+Received: from [172.16.11.132] (81.216.59.226) by AM0PR10CA0111.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend Transport; Tue, 25 Aug 2020 09:13:34 +0000
 X-Originating-IP: [81.216.59.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e642e6bc-d7d6-4141-ba4d-08d848beba35
-X-MS-TrafficTypeDiagnostic: AM0PR10MB2962:
+X-MS-Office365-Filtering-Correlation-Id: 653ed9f8-e2fe-49bf-94a5-08d848d724fa
+X-MS-TrafficTypeDiagnostic: AM9PR10MB3991:
 X-Microsoft-Antispam-PRVS: 
-	<AM0PR10MB2962A141E92C4D843CCF464993570@AM0PR10MB2962.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+	<AM9PR10MB3991CAAE61269A5AEF7BD6FE93570@AM9PR10MB3991.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:849;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	AOQUZyqdKed4emM3uOgi1p6uvSUiOWICJ0BnHD+7uuBbe9qVNB2dniacrlPpMmEXmISTBcpr7ZAiAxMXCrdBV8bcFZv5rkuFi6RFKXK2nTVQTNqdxTjY6CEkM49ekggOiMHNzhbirCY/w8t2/XWYlLgULGtwZHpwYfCA2ciVa44tBnBqRFX/a8wNRueAd27UV/BjNMtNWfeCPZH7JQRlHUuohGVm/8kfOh8QO8VY41faxfs8V/Y6jt8n5zpWdzJ/y+h1s6zFShQWErWISyoiJgMvCxPx9FAuUHbUkmIhlgD3Ap4ZNBjYuhboIUjpAxBROoSRzCaCMk9DlwxbOU+8rujde774YD67U55T+tqRNkMlJwR/OEd5Ns45CuPnx0T7KLXfTPgZhq9HZR48vCC4jugw8RVdSem+zDlka5wsGGPnARk8jax9OcTQJOoC0WX1poS+d6N25+y8JUrmLJg6Vw==
+	zDVISRRNb0JJKj4W9BqM1QqXdwOCFreVSYwz4pLjoHp0kMebs/hBjJgbw7v+m2LFSsIW3zuuduXI6xoQaf7YjaandKAYqbR3CKX0YxDHfjXljX8uLgB+Sdr2659ibjz+nUprdIhUxjswcq0JHW/kg80/Uqs4qTKTiNyYujhNiuDjrLWsko6Lk6lmqyhr07JPf3keru1tDQ4lefNKgWt5PmkQ9W+P7ivl63/AlhMLlkwhgakHDoHnnnbdYElv9OF1zOOOPy5OpuQbFIIw+ROmqCWapW4czbrg5W0FKPI6ppMvJS7LG7x8mjlxrnBKl0LCUF/qGpD+0haaFubao4d+JfuqnVAU/WWOf4Ttn7nDjSE1+CwoMSClia1vJ4T1Q0CNDqNXj37uKo6KRG2lZjPclvZLJ/9o1mnDVHJnfaKi+M8RwazCorJDu7IW8Ms+RozkrNHC68oBl1EjpdtJnhzHLg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(346002)(39850400004)(396003)(376002)(366004)(136003)(52116002)(86362001)(956004)(66556008)(478600001)(2906002)(6486002)(110136005)(316002)(66476007)(4326008)(2616005)(66946007)(966005)(16576012)(83380400001)(54906003)(26005)(16526019)(8976002)(44832011)(5660300002)(36756003)(8936002)(8676002)(31686004)(31696002)(186003)(43740500002);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(366004)(346002)(136003)(39850400004)(396003)(83380400001)(110136005)(16576012)(66946007)(2906002)(8936002)(8676002)(8976002)(66556008)(66476007)(966005)(478600001)(36756003)(316002)(86362001)(7116003)(31686004)(6486002)(31696002)(16526019)(26005)(44832011)(2616005)(186003)(5660300002)(52116002)(956004)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData: 
-	KI6tgP93k6lTtuqn7krc7voaOuKSkFy73KxvkTvcyq9aEX8Vij8hjt4Z7/5pvM02fCy0lp6OImPEPdOIGcG+cs5JwixNjylbSzNMvmnKqTOdY7IbwjNgf4DwPdQ+QrgyyejkgiChz6sfNs5phOiKkcRemYfjRdZEVzbsWuiyFJ5FI6NW6AjyzXgJt2eb4GeE1+UiJrVL2z7eu4DDs7sg1Ngi9gNoJSS9hemE/m83Sw1jpkvi/EMMoMh+ke7zkF9izX2fQI6d+LmkkeeVqoLhHWNnjOc25hDqwv8o4exyetu+yJbczXZfIQrtV85z5w8MRaZiPUjIEdJrF3FRm3nGCozWAedLg0QHX6GUAKMwK0LF9PVPQtyG4zWD/RNpHERN6nAbeV4mQhCGdY5WOspvYmT/IT0CIhYYfiyK/G9rYqazH95Bh7eDFp7BR03MqbP9RkMUmx2gVXb40wn7yBOYah34mYdYmIHZNMRri9paZzAYXhKg+HZfJco2N06bQGZbXsogPT+//61jicndE67UVKerbDKgR6P4+Zu78yfh1BA/MdH9WOCSk1MEAOAopcC3tAlKBdXPG5y1JzfnsvrvnLJU3N35gSiHVhLl7ktpQc2aLknG6gz6bO7y4DQEAIfebijj5KlBumzj4o/EB2Hwzw==
+	lMBVULZrQC4LSGWtrGjRkYkYKPCNJ1bGhPPd1EM+dOcm8OmUxnAHiuO0x/iXG9ma96u5qUSB8fU9+n/YIo7DabJjOYkWWKX6/rtXsGaVz2pM4onecF35T41CULb9fbgVFaa4cp944ZND8Nl6Jg8+pSou/KDr9AyniA/gdJQdR+GF+iXe5T4/HPYVX7ocJiEUaPUtaYJIFQ4+RT6BT/azSHFY1WyC3IfQsmiDp5jDZVu0SE1D/IgancrzHlm8ZgrmqATZlctnc70AGBJ+krRg2dqP2AowmbO+wXQt3dSTlfs4ppWsicfAQkhqnIZgAOwNY9cfjp07bC6x3CKiT1I+dOUGOKGxsPdsf7UxXkqVNGpusKu2uEFu3oexMJzWjXOcnJTZed2zdy/e2ruNjRSSTZB0nmm91xyCEKjpNoHDZgyCY67M5cSqKgsV9LiRNL7KOxSp8L0RfnEC9DdAoUG/6RFiEGUOcvcvCSLpmrfpNCJ32KEVe49xZjE6xyFin7VoLEZSYRWbnPSpXnjbd1i2KvhL72M+4To6xHoPOXS2mP5vOvOxTAbGVQ4O/OxptOPoCC6lKdGkiFLMzS21TXV7bS2PNFNtiqilj38TV5tnIPH80BQ7OXhGRWaDIMgvxITAx58cthVW1zZo5Dw/zXT0iQ==
 X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: e642e6bc-d7d6-4141-ba4d-08d848beba35
+X-MS-Exchange-CrossTenant-Network-Message-Id: 653ed9f8-e2fe-49bf-94a5-08d848d724fa
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 06:18:48.0263
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 09:13:35.0614
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xGXe0R0nHwF8VsctEL3f6xUuRrRlJpy+zpYLi63hGD06JE+oVz9/ipC6Q4zWpGwBrlfdoVh8FCdmwF1IAuyYFvuCuK0w9gYhamiB6oZ+KJI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2962
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-UserPrincipalName: JispaSHPt5T2WpaWPZRRhGWcDIsDU5sixub8ejo+alZ7N+oRbQyJNDUmdnMtfIBgSv/Mq2XmzTMv4NGBHlx9qdw2hbwl29j/Mr0KG24COis=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB3991
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 24/08/2020 23.08, Richard Purdie wrote:
-> On Mon, 2020-08-24 at 23:05 +0200, Rasmus Villemoes wrote:
->> On 22/08/2020 09.27, Richard Purdie via lists.openembedded.org wrote:
->>> On Fri, 2020-08-21 at 17:32 -0700, Tom King wrote:
->>>> What would be a use case for cleanstate?
->>>
+There are a couple of problems with do_populate_lic, especially around
+the kernel and u-boot recipes.
 
->>> I understand why people want it although it should never really
->>> need to
->>> be used.
->>
->> Well, except when you discover that your sstate is effectively
->> corrupted/polluted by objects that happen to have the same hashes as
->> those computed from current recipes, but the build artifacts
->> would/should be different. Such as when using a file://foo/* glob
->> pattern in SRC_URI.
-> 
-> Where such issues are reported, we do try and fix them. I hadn't quite
-> connected that the globbing issue was actually breaking sstate hashes,
-> that is more worrying :(
+First, we have a race condition in kernel recipes:
 
-It does, and you can reproduce yourself using upstream core recipes. Try
-building connman-gnome. Then alter one of the png files under images/,
-and build again. The recipe does not get rebuilt. Then cleansstate,
-build, and yes, then the modified png does get picked up.
+addtask populate_lic after do_patch before do_build
+addtask symlink_kernsrc before do_configure after do_unpack
 
-Of course, those pngs don't change often, if ever. But in our case the
-recipe was for including some firmware blobs for some I/O modules. We
-found out when the CI builds that used sstate cache failed to produce
-BSPs containing the updated firmware, while the nightly builds that
-build from scratch did.
+so there's no ordering between those two tasks. I have in fact seen
+do_populate_lic fail because (part of) it runs just between the two lines
 
->>
->> Richard, I'm still hoping you'd respond in the
->> https://lists.openembedded.org/g/openembedded-core/topic/75235594
->> thread. As I see it, half-way supporting glob patterns in file://
->> URIs is a giant footgun.
-> 
-> My leaning is to remove them. You can just do file://foo and I think
-> that actually works?
+            shutil.move(s, kernsrc)
+            os.symlink(kernsrc, s)
 
-In some of the cases where we had recipes using globs, yes, that was the
-solution. In a few other cases we had more complicated patterns (e.g.
-*.sh or something else that wasn't just including a whole dir).
+WARNING: Could not copy license file /mnt/...
+...
+ERROR: QA Issue: ...: LIC_FILES_CHKSUM points to an invalid file:
+
+and it's fairly easy to reproduce with a monkey-patch:
+
+@@ -148,7 +148,9 @@ python do_symlink_kernsrc () {
+             os.symlink(s, kernsrc)
+         else:
+             import shutil
++            import time
+             shutil.move(s, kernsrc)
++            time.sleep(15)
+             os.symlink(kernsrc, s)
+ }
+
+I think this could be fixed by making symlink_kernsrc run before
+do_patch rather than do_configure - in fact, AFAICT, there's the exact
+same lack of ordering with do_patch, it's just that nobody usually has
+any .patch files for the kernel when it's maintained in git.
+
+Second, as I've reported previously [1], creating hard-links to files in
+kernel or u-boot source repositories, as do_populate_lic does, leads to
+scripts/setlocalversion falsely appending a "-dirty" string. It doesn't
+happen if one is building a kernel containing ff64dd485730 or a backport
+of it (e.g. v5.0+, v4.19.82+) _and_ one has git >= 2.14. U-Boot hasn't
+copied ff64dd485730 yet, so it can always happen for U-Boot. Since
+there's no ordering between do_populate_lic and do_compile, it's not
+even deterministic whether that -dirty string is appended. So while
+appropriate tools and patched upstream projects will make the problem go
+away, I'm wondering the hardlink optimization is really worth the
+trouble it causes.
+
+[1] https://lists.openembedded.org/g/openembedded-core/message/137702
 
 Rasmus
