@@ -1,169 +1,81 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.320.1598375050653622681
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web10.909.1598378887030519027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 10:04:11 -0700
+ Tue, 25 Aug 2020 11:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=diyItaHo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id p17so7825235wrj.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 10:04:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lHvyPh/4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: liu.ming50@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id a21so1803076ejp.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 11:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=EiTzCoEWHVTKE4p9xx6Oou28Hl0gFD1BNmXKL/ywtoU=;
-        b=diyItaHoK0OiIRp0nwSIa+bctdFrnEisqW5dNj75xSC9ukhNvYMJmdCx9P0TyRC6qA
-         l87CIJV1nQJ7GZjGWgBeWjvAcblqNxL5u6cl08glQ5To+swkh36j6qTk0UU8s//5T/dR
-         eYOj6Y+BIGN6GgQy3MvGWzdiOCOCXnUt9HbIU=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MrJURVwO4K7jumnV5eHngzi8BsED7dmrUaL7yhEu2vE=;
+        b=lHvyPh/4ALctYNnzmQi5MaPhJ3dObtY1SLomkM6uVERdrFanrKLgL5kMmvmaAk6mOM
+         O6MoSNnDVLJAeqOfYyyUlFP6kM1BUvP9/F1Iq3l8EJjva8s6/UimclaFJDvgZ1QmBmhz
+         xiYi6GLUAWsPrqKJyguzXthtN9hMPH1dScI85k4UHfOkhAThdb1hu4rwNnw/VQSpg3Xy
+         SVuOx3zI6MTXd68bJne/PIVRpKbu4iFkidqdbHehlS6jeRiDWeYQMAvQaXZtefjX2u/+
+         Wm4be8wfMIuNojDKUWAWFXB6Zu7DRVZAcFv77z2PQto+aq2rOoTfW+ONPBFgOxVG7ZYl
+         x2IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EiTzCoEWHVTKE4p9xx6Oou28Hl0gFD1BNmXKL/ywtoU=;
-        b=d3U4+utHZBpbPEWxQC2mzNCNVu5vvcIPqJugXPtiYxdK8qZkIwIP2FOoxpJ2z3+bai
-         qfrPsMiV4paWgfQdsvhgfjY5vsMpMAC5Yeh2UAGR2zpVzka7Mi4NNPIEA2KULmwH2kzF
-         qaUBxT0BYpKQZJNs9CqlMIZQMkUemq2vSOxaJJAqGdDBaLl93SouOyW2pERDg3oroohc
-         8KL0bvtTj2q8hzxNMHW35M/MH2pS8JBP6/Zj7pqB59/sGu3hY8/4SEMQ5a/0QUsvKYAx
-         UVOwNNJG5TXfwdd0eSHJYfL/sIFA/VKvxZ5vD7y+BvwZUKI/scW+eUB+vXvwxeZyO7Uz
-         6RRw==
-X-Gm-Message-State: AOAM531HiImgqYTTYgDBlX5bRxd9+sfn8B5Huyz1Z2WV6xIBzt+I3PLZ
-	oES/QZMBD5iqf0VToVsWJBZt1w==
-X-Google-Smtp-Source: ABdhPJy22uiasvi7ciFNKw2c/gRbcTNc5BJ8Bx3+OHJvmiV9z5WLuXKrFnxVQQmFU1YBPmM+Mh7mNg==
-X-Received: by 2002:adf:c983:: with SMTP id f3mr11449409wrh.348.1598375048950;
-        Tue, 25 Aug 2020 10:04:08 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
-        by smtp.gmail.com with ESMTPSA id q3sm6442041wmq.12.2020.08.25.10.04.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 10:04:08 -0700 (PDT)
-Message-ID: <258d47f12d2f3d66cb0a0558a9e3bb19ed46ac19.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master][PATCH 4/5] package / packagedata bbclass: Change the way PRAUTO and AUTOINC are handled
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>, 
-	openembedded-core@lists.openembedded.org, Bruce Ashfield
-	 <bruce.ashfield@windriver.com>
-Date: Tue, 25 Aug 2020 18:04:06 +0100
-In-Reply-To: <fbfa1c68-27b0-c734-868f-615a62f47ee3@kernel.crashing.org>
-References: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
-	 <20200824232930.150388-5-mark.hatle@kernel.crashing.org>
-	 <f80beeb723c0f891dd5727ba09ab28de79836ed5.camel@linuxfoundation.org>
-	 <162E885FFA00831B.12036@lists.openembedded.org>
-	 <fbfa1c68-27b0-c734-868f-615a62f47ee3@kernel.crashing.org>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MrJURVwO4K7jumnV5eHngzi8BsED7dmrUaL7yhEu2vE=;
+        b=l/VhhLmSNS2FtvP+KO6+PHQwn4rFPZim84KcwuYjfppXrmO/a803KrA5j/kv2YijMs
+         B5aZndR8qGgBsKLiNiJ7Ytbwh6b3kTKFjlrRKO5zsbpbrplTDvDGYjq86usO17Ua9DiO
+         wvHOJaNmEPjMxdKT16Xbktn5TKuTg63fBG+TY+2nwNzYu8BzhlImsh+7Q3inwx7cfNZe
+         esVTIPejzTOWmlsjerOfv8E49Fwdd7g7EQz2LTcdRi5Qkl0tQYp7ylcXAdw84NY1Oc5K
+         L59baocCm6Dtv2OzqgObIMbroqT+SG6RDe22SmVM2tvNEYCPKRP1gBRQbuPYUeEQTMFP
+         gH1Q==
+X-Gm-Message-State: AOAM532RaxOy3he0VSRrG8IjycGf/tcLWEz0GzVCPHofHm/le40RtH37
+	C36mvu0PYBhr3XQPuPStxrZLtcGaS9nGCg==
+X-Google-Smtp-Source: ABdhPJyV87du7re8rqwb6X/TayGgBri2biTYL2d/lUhHdRgo4iIUIxkHL+Bt7xDYQ6+fKidX0JiIFA==
+X-Received: by 2002:a17:906:a1d7:: with SMTP id bx23mr12092339ejb.273.1598378885197;
+        Tue, 25 Aug 2020 11:08:05 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id r26sm12875089ejb.102.2020.08.25.11.08.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Aug 2020 11:08:04 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	sergio.prado@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] libubootenv: inherit uboot-config
+Date: Tue, 25 Aug 2020 20:08:01 +0200
+Message-Id: <20200825180801.2470-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-08-25 at 11:52 -0500, Mark Hatle wrote:
-> 
-> On 8/25/20 9:14 AM, Mark Hatle wrote:
-> > 
-> > On 8/25/20 5:56 AM, Richard Purdie wrote:
-> > > On Mon, 2020-08-24 at 18:29 -0500, Mark Hatle wrote:
-> > > > A related change was also needed for the kernel.bbclass.  The
-> > > > kernel
-> > > > 
-> > > > needs to get the AUTOINC values used by the various PV/PKGV,
-> > > > but with
-> > > > this new system we don't want to call auto_pr each time --
-> > > > instead
-> > > > call the read_subpackage_metadata to ensure a consistent
-> > > > result.
-> > > > 
-> > > > This also fixes an issue in the old version where the kernel
-> > > > sometimes
-> > > > caused the PR to be incremented twice, as the auto_pr was
-> > > > called
-> > > > multiple times from different tasks.
-> > > 
-> > > [...]
-> > > 
-> > > > diff --git a/meta/classes/kernel.bbclass
-> > > > b/meta/classes/kernel.bbclass
-> > > > index e2ceb6a333..4449452065 100644
-> > > > --- a/meta/classes/kernel.bbclass
-> > > > +++ b/meta/classes/kernel.bbclass
-> > > > @@ -416,7 +416,7 @@ kernel_do_install() {
-> > > >  	install -d ${D}${sysconfdir}/modules-load.d
-> > > >  	install -d ${D}${sysconfdir}/modprobe.d
-> > > >  }
-> > > > -do_install[prefuncs] += "package_get_auto_pr"
-> > > > +do_install[prefuncs] += "read_subpackage_metadata"
-> 
-> I talked with Bruce on this.  We see no reason do_install[prefuncs]
-> is required
-> any longer.
-> 
-> It was when that line was written, but when the kernel was refactored
-> to permit multiple kernel builds and such the need for this went
-> away.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Ok, lets start with a patch to remove that call.
+This mainly aims to involve in the sanity check of UBOOT_CONFIG and
+UBOOT_MACHINE, it will throw a error message at recipe parsing time if
+neither of them is set, and libubootenv would be skipped.
 
-> > > >  # Must be ran no earlier than after do_kernel_checkout or else
-> > > > Makefile won't be in ${S}/Makefile
-> > > >  do_kernel_version_sanity_check() {
-> > > > @@ -749,7 +749,7 @@ kernel_do_deploy() {
-> > > >  		done
-> > > >  	fi
-> > > >  }
-> > > > -do_deploy[prefuncs] += "package_get_auto_pr"
-> > > > +do_deploy[prefuncs] += "read_subpackage_metadata"
-> > > >  
-> > > >  addtask deploy after do_populate_sysroot do_packagedata
-> > > 
-> > > I don't think this can be right. I understand why the kernel was
-> > > expanding these early but at this point do_package hasn't
-> > > happened so
-> > > reading the subpackage metadata is a null op at best and
-> > > potentially
-> > > changes a lot more in the data store.
-> > > 
-> > > I suspect this is not doing the right thing and will be something
-> > > that
-> > > comes back to bite us so we need something more careful here and
-> > > I'd
-> > > like to better understand exactly what change to the variables
-> > > do_install and do_deploy need.
-> > 
-> > I don't know exactly why it's doing this.  But I believe it is so
-> > that the
-> > PV/PKGV is expanded (AUTOINC translated).  I don't see any other
-> > reason for it
-> > to be expanded in either do_install or do_deploy.
-> > 
-> > Best I can find is:
-> > 
-> > kernel-artifact-names.bbclass:KERNEL_ARTIFACT_NAME ?=
-> > "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
-> > 
-> > (That is then used in other places.)
-> > 
-> > So the PKGV replacement is desired to be that early.
-> > 
-> > I'll look into it further.
-> 
-> In do_deploy, I see multiple usages of the KERNEL_ARTIFACT_NAME
-> (sometimes with
-> alternative variables.. but in the end both PKGV and PKGR are used
-> here.)
-> 
-> do_deploy is after do_package/do_packagedata (where the values are
-> assigned and
-> stored).  So it should be safe for us to use the
-> read_subpackage_metadata (or
-> something new if desired) to read back in the stored PKGV (AUTOINC)
-> and PKGR
-> (PRAUTO) values.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-bsp/u-boot/libubootenv_0.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That sounds reasonable. FWIW do_deploy doesn't have to be after
-do_package but we can arrange that in the kernel case.
-
-I'd prefer to have a more granular function to call here than
-read_subpackage_metadata, just to make it clear what is happening and
-why.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+index 47e64f9114..07711484ac 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+@@ -15,7 +15,7 @@ SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit cmake lib_package
++inherit uboot-config cmake lib_package
+ 
+ EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release"
+ 
+-- 
+2.28.0
 
