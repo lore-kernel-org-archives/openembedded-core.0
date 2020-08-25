@@ -1,31 +1,31 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.14338.1598364152951505178
+ by mx.groups.io with SMTP id smtpd.web11.14285.1598364153934694920
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 07:02:33 -0700
+ Tue, 25 Aug 2020 07:02:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3874C60F33;
-	Tue, 25 Aug 2020 14:02:31 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3314460F4C;
+	Tue, 25 Aug 2020 14:02:32 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmx1ZXo1OiBmaXggYnVpbGRzIHRoYXQgcmVxdWlyZSBlbGwgc3VwcG9ydCAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImNvbm5tYW4tZ25vbWUvbWF0Y2hib3gtZGVza3RvcC4uLiIgYW5kIDEgbW9yZQ==?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Peter Bigot <pab@pabigot.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2020 14:02:32 -0000
-Message-ID: <20200825140232.2266.31022@do>
-References: <20200825134300.887457-1-pab@pabigot.com>
+Date: Tue, 25 Aug 2020 14:02:33 -0000
+Message-ID: <20200825140233.2264.61195@do>
+References: <20200825135656.1422309-1-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200825134300.887457-1-pab@pabigot.com>
+In-Reply-To: <20200825135656.1422309-1-richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: bluez5: fix builds that require ell support (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/25757/
+Series: "connman-gnome/matchbox-desktop..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25770/
 State : failure
 
 == Summary ==
@@ -37,9 +37,10 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [v2] bluez5: fix builds that require ell support
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+* Issue             Errors in your Python code were encountered [test_pylint] 
+  Suggested fix    Correct the lines introduced by your patch
+  Output           Please, fix the listed issues:
+                   meta/lib/oeqa/selftest/cases/recipetool.py does not exist
 
 
 
