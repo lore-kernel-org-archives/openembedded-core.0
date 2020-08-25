@@ -1,65 +1,124 @@
-Received: from p3plsmtpa06-02.prod.phx3.secureserver.net (p3plsmtpa06-02.prod.phx3.secureserver.net [173.201.192.103])
- by mx.groups.io with SMTP id smtpd.web11.16305.1598369739683993272
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web11.77.1598374371567414772
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 08:35:39 -0700
+ Tue, 25 Aug 2020 09:52:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pabigot.com, ip: 173.201.192.103, mailfrom: pab@pabigot.com)
-Received: from tirzah.pab ([73.65.46.39])
-	by :SMTPAUTH: with ESMTPSA
-	id Aaz4kJzZzuXtSAaz4kWyCP; Tue, 25 Aug 2020 08:35:39 -0700
-X-CMAE-Analysis: v=2.3 cv=Yv9xuLQX c=1 sm=1 tr=0
- a=G5fDw918NYv3KufUwDvNPg==:117 a=G5fDw918NYv3KufUwDvNPg==:17 a=tR03Z30jAAAA:8
- a=bvhZLmXwNWAoyZYRj84A:9 a=KfdqL2KK0gLj6ZZCE6RX:22
-X-SECURESERVER-ACCT: pab@pabigot.com
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "Peter A. Bigot" <pab@pabigot.com>
-Subject: [PATCH v3] bluez5: fix builds that require ell support
-Date: Tue, 25 Aug 2020 10:34:01 -0500
-Message-Id: <20200825153401.1283593-1-pab@pabigot.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MBP-16.int.hatle.net ([76.164.61.197])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07PGqkrx009274
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Tue, 25 Aug 2020 11:52:48 -0500
+Subject: Re: [OE-core] [master][PATCH 4/5] package / packagedata bbclass: Change the way PRAUTO and AUTOINC are handled
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org,
+        Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
+ <20200824232930.150388-5-mark.hatle@kernel.crashing.org>
+ <f80beeb723c0f891dd5727ba09ab28de79836ed5.camel@linuxfoundation.org>
+ <162E885FFA00831B.12036@lists.openembedded.org>
+Message-ID: <fbfa1c68-27b0-c734-868f-615a62f47ee3@kernel.crashing.org>
+Date: Tue, 25 Aug 2020 11:52:46 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.11.0
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfI/M08Jvj9d6FxzgX5euX3j+SRC/D5IZaVrZFCANJSL6rXsfFCUmGwy4K/ySEUy4eceyx/GYP5T1OuG24BtuYJKr3eFSWY2K0xzjEmgFFVvA27VqJMEp
- MYGjpLRosVlpcPXZr67EEJtf+hejuxoLd7Iygwzr1H879HcJOCy7FPGjequZRRCrNVUfw7r9nwMgLGcmnR9hI2ANb+4R5aIEHNA=
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <162E885FFA00831B.12036@lists.openembedded.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Shortly after the recipe was updated to add ell as a mesh dependency
-the way ell was integrated into bluez5 was changed.  BlueZ requires
-ell only for mesh and for btpclient (external test programs).  It will
-be ignored unless either mesh or btpclient are selected.
 
-ell can be supplied externally, or it can be copied into the bluez
-build directory from an existing sibling source directory.  Since
-bitbake builds do not provide a sibling source directory tell bluez to
-look for it as an external library in the conditions where it's
-required.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
+On 8/25/20 9:14 AM, Mark Hatle wrote:
+> 
+> 
+> On 8/25/20 5:56 AM, Richard Purdie wrote:
+>> On Mon, 2020-08-24 at 18:29 -0500, Mark Hatle wrote:
+>>> A related change was also needed for the kernel.bbclass.  The kernel
+>>>
+>>> needs to get the AUTOINC values used by the various PV/PKGV, but with
+>>> this new system we don't want to call auto_pr each time -- instead
+>>> call the read_subpackage_metadata to ensure a consistent result.
+>>>
+>>> This also fixes an issue in the old version where the kernel
+>>> sometimes
+>>> caused the PR to be incremented twice, as the auto_pr was called
+>>> multiple times from different tasks.
+>>
+>> [...]
+>>
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass
+>>> b/meta/classes/kernel.bbclass
+>>> index e2ceb6a333..4449452065 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -416,7 +416,7 @@ kernel_do_install() {
+>>>  	install -d ${D}${sysconfdir}/modules-load.d
+>>>  	install -d ${D}${sysconfdir}/modprobe.d
+>>>  }
+>>> -do_install[prefuncs] += "package_get_auto_pr"
+>>> +do_install[prefuncs] += "read_subpackage_metadata"
 
-v3: Follow request to not make dependency unconditional, but also not
-    introduce conflict when only one package variant requires it
+I talked with Bruce on this.  We see no reason do_install[prefuncs] is required
+any longer.
 
-v2: Follow request to make dependency unconditional with DEPENDS
+It was when that line was written, but when the kernel was refactored to permit
+multiple kernel builds and such the need for this went away.
 
- meta/recipes-connectivity/bluez5/bluez5.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+>>>  # Must be ran no earlier than after do_kernel_checkout or else
+>>> Makefile won't be in ${S}/Makefile
+>>>  do_kernel_version_sanity_check() {
+>>> @@ -749,7 +749,7 @@ kernel_do_deploy() {
+>>>  		done
+>>>  	fi
+>>>  }
+>>> -do_deploy[prefuncs] += "package_get_auto_pr"
+>>> +do_deploy[prefuncs] += "read_subpackage_metadata"
+>>>  
+>>>  addtask deploy after do_populate_sysroot do_packagedata
+>>
+>> I don't think this can be right. I understand why the kernel was
+>> expanding these early but at this point do_package hasn't happened so
+>> reading the subpackage metadata is a null op at best and potentially
+>> changes a lot more in the data store.
+>>
+>> I suspect this is not doing the right thing and will be something that
+>> comes back to bite us so we need something more careful here and I'd
+>> like to better understand exactly what change to the variables
+>> do_install and do_deploy need.
+> 
+> I don't know exactly why it's doing this.  But I believe it is so that the
+> PV/PKGV is expanded (AUTOINC translated).  I don't see any other reason for it
+> to be expanded in either do_install or do_deploy.
+> 
+> Best I can find is:
+> 
+> kernel-artifact-names.bbclass:KERNEL_ARTIFACT_NAME ?=
+> "${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+> 
+> (That is then used in other places.)
+> 
+> So the PKGV replacement is desired to be that early.
+> 
+> I'll look into it further.
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index eee7a53cd61..367c85ea120 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -42,8 +42,8 @@ PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
- PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
- PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
- PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
--PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
--PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
-+PACKAGECONFIG[mesh] = "--enable-mesh --enable-external-ell,--disable-mesh, json-c ell"
-+PACKAGECONFIG[btpclient] = "--enable-btpclient --enable-external-ell,--disable-btpclient, ell"
- PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
--- 
-2.25.1
+In do_deploy, I see multiple usages of the KERNEL_ARTIFACT_NAME (sometimes with
+alternative variables.. but in the end both PKGV and PKGR are used here.)
 
+do_deploy is after do_package/do_packagedata (where the values are assigned and
+stored).  So it should be safe for us to use the read_subpackage_metadata (or
+something new if desired) to read back in the stored PKGV (AUTOINC) and PKGR
+(PRAUTO) values.
+
+--Mark
+
+> --Mark
+> 
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> 
