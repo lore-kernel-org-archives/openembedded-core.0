@@ -1,117 +1,104 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.12429.1598359059046967148
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web12.12616.1598359678380600046
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 05:37:39 -0700
+ Tue, 25 Aug 2020 05:47:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Di+Gb23m;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id q14so1431090wrn.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 05:37:38 -0700 (PDT)
+ dkim=pass header.i=@fastree3d-com.20150623.gappssmtp.com header.s=20150623 header.b=aKqvJnqv;
+ spf=none, err=SPF record not found (domain: fastree3d.com, ip: 209.85.218.47, mailfrom: adrian.fiergolski@fastree3d.com)
+Received: by mail-ej1-f47.google.com with SMTP id dp2so11063344ejc.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 05:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=9JWGjQ+qyMlTUF+wF5mRokF92PzhYGDYvu62PjuytSc=;
-        b=Di+Gb23mYk/ugk3wGH6o849HofZ3FBgEOKX9y1VywBcSiJZX/IYeTmJ8pDl3bdoBZc
-         JCVAZzkb+lULwZBZMMOiZkzMLKpAawVsf7abg4G1OGWcQWM4DGrK4Bu+MmBsVapcnBGM
-         6ekKeW//bf6sUKhL3rMxIQPtVI8H5+eCOTu48=
+        d=fastree3d-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=ZfB4j0jVJWxo6U0pbT2lq6zxprrSK4gCuZa7qQgmQAM=;
+        b=aKqvJnqv1ITFx2dwC3j2AaChyfOLGLYboPIgevhXjRHOMUWEZYapcbCkN34LvemJ+w
+         Glvy+pLPvhnl7E9OU/ylWIyFll1O4UTk5Tb5MTblXGgvatCnZ+8Zmi45vI2vuFyJsse/
+         oCBOGHptCblcgcBhF9lM7h0j7P883xhScDquo5/scSXQbyM9sX+sjT/Sn8Jofdg0U9Hh
+         LuHr8sx6mqMzbBs3dz3wJVm9A8UYo1bTpY2SdljbM1eSVBCWSt8i4sW4z9wFbbPmdJjG
+         xSMQ5Wn6dCTMCM7J8TwqLsPqu1sjC3pv5RCjlOHV4JpUxP4dgI90iRo1IvsTWDB160DJ
+         SVig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9JWGjQ+qyMlTUF+wF5mRokF92PzhYGDYvu62PjuytSc=;
-        b=p4YjGaET8cn7kKJqXxmrjUXLW1Vm4Gr2U5VP/N7cmlhbmujShp65+XhBywl16elxHR
-         4/fGwKo/wn/PqBvHnKBIOVL48I3hMTVGB6rrftU1Wxu1K/Pgntp2nYxfnYomVjFvt56a
-         VXCCfE3h6qwhzYPVDLGizUi3IpUVj6BpopixJPU4cxxN8FKO2XwDOFiql3q65YjiS69E
-         7gl9VRgK5Z9a1K/DGYkUBsYgts4/Fg8gnJXN47vvAjJVt+WVOiTE4PD3QZ+4oMruh7Dj
-         +Jod4m8CnDLwxWjrkkyeS629ckkV7opwYVHFFWDQM+kDXcBDG0fO36yDX6RITZhm5RDy
-         UQrQ==
-X-Gm-Message-State: AOAM533yn4c5dBOjvrWRVQGqWG4aHcbWyewA/HO0iQ9h4Ngec1JAc2Pr
-	Im1IGuTGFtHowQBZuKDuLiweAw==
-X-Google-Smtp-Source: ABdhPJyP7ZeYIjQSBmPJ4jlnbgWNzmCG1Qt4E8dHPQggBz8QjD/MEkKARt5ur9tI3sOz6gd1COF1ig==
-X-Received: by 2002:a05:6000:c:: with SMTP id h12mr10189084wrx.49.1598359057338;
-        Tue, 25 Aug 2020 05:37:37 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
-        by smtp.gmail.com with ESMTPSA id b8sm8694901wrx.76.2020.08.25.05.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 05:37:36 -0700 (PDT)
-Message-ID: <0fad824f6ba54c1ca81b2c21aee58a5fea9ecb18.camel@linuxfoundation.org>
-Subject: Re: do_populate_lic problems
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Aug 2020 13:37:33 +0100
-In-Reply-To: <5044ffcf-5959-1ada-0ae6-b351e55b4c0c@prevas.dk>
-References: <5044ffcf-5959-1ada-0ae6-b351e55b4c0c@prevas.dk>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=ZfB4j0jVJWxo6U0pbT2lq6zxprrSK4gCuZa7qQgmQAM=;
+        b=E3OO8xOTtpCaDJU1TbkurEYr2hvZ5MKxSmXsFu2h7xuwRUBE4G2u26jqS2YyLjspot
+         F7uwbaZ8V2s+ydtNcDvDQOCp2QUj3QephJLzScQKJnstnM9M4mFKbGYCCohEi3QkT6y/
+         qM1vqq2DCIXQ89BV2169U03Hgj2m8MJgd6fqaJyw4lqgZHDxxbIhU/GAM4+cTcfrs0X8
+         yx8fsKcZLtPptT9IJkflSjh4V3DCKWG4qtNoz89aQTmxY1CXsEBV37Q9l2kIZjLzJ8m1
+         sIgRylgnRinQ1dxN5SecnjeNe78k3JExpEnLGRvbm6v6x05yLuOPBESqfv9zyIJMsX66
+         Yqwg==
+X-Gm-Message-State: AOAM530Vio3QvNtORG38kjVV642w7p71Sxj89vKuXLHiCj9KTY0saaPF
+	7Y8Hb8Q2aKgZOL5qtZ8v9lkojBjXAJHg
+X-Google-Smtp-Source: ABdhPJwwSizCmjIXs2FWGlVZCZrhCrtdaObEywSc1yC2jKC4wZtGfSgGT9RJO/UfPIZsCUuGsAEa8Q==
+X-Received: by 2002:a17:906:f6c9:: with SMTP id jo9mr8709880ejb.152.1598359676476;
+        Tue, 25 Aug 2020 05:47:56 -0700 (PDT)
+Return-Path: <adrian.fiergolski@fastree3d.com>
+Received: from [192.168.33.195] (fastree1.epfl.ch. [192.26.37.52])
+        by smtp.gmail.com with ESMTPSA id bu19sm12821958edb.34.2020.08.25.05.47.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2020 05:47:56 -0700 (PDT)
+From: "Adrian" <adrian.fiergolski@fastree3d.com>
+X-Google-Original-From: Adrian Fiergolski <Adrian.Fiergolski@fastree3d.com>
+Subject: [devtool] problem with PACKAGE_ARCH and TARGET_OS
+To: yocto@lists.yoctoproject.org
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <05aa33d7-b90a-f20d-9a55-a066681df83a@fastree3d.com>
+Date: Tue, 25 Aug 2020 14:47:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 
-On Tue, 2020-08-25 at 11:13 +0200, Rasmus Villemoes wrote:
-> There are a couple of problems with do_populate_lic, especially
-> around
-> the kernel and u-boot recipes.
-> 
-> First, we have a race condition in kernel recipes:
-> 
-> addtask populate_lic after do_patch before do_build
-> addtask symlink_kernsrc before do_configure after do_unpack
-> 
-> so there's no ordering between those two tasks. I have in fact seen
-> do_populate_lic fail because (part of) it runs just between the two
-> lines
-> 
->             shutil.move(s, kernsrc)
->             os.symlink(kernsrc, s)
-> 
-> WARNING: Could not copy license file /mnt/...
-> ...
-> ERROR: QA Issue: ...: LIC_FILES_CHKSUM points to an invalid file:
-> 
-> and it's fairly easy to reproduce with a monkey-patch:
-> 
-> @@ -148,7 +148,9 @@ python do_symlink_kernsrc () {
->              os.symlink(s, kernsrc)
->          else:
->              import shutil
-> +            import time
->              shutil.move(s, kernsrc)
-> +            time.sleep(15)
->              os.symlink(kernsrc, s)
->  }
-> 
-> I think this could be fixed by making symlink_kernsrc run before
-> do_patch rather than do_configure - in fact, AFAICT, there's the exact
-> same lack of ordering with do_patch, it's just that nobody usually has
-> any .patch files for the kernel when it's maintained in git.
+Hi,
 
-I agree with that solution, please send a patch for that.
+After recent update of poky, I started to experience an issue with
+devtool. Currently, I am using the latest zeus version. I have a
+multiconfig environment (Xilinx ZynqMP+ with ARM64 and Microblaze). I am
+modifying my recipe compiled from local sources. The custom target
+machine configuration sets DEAULTTUNE="cortexa53"
 
-> Second, as I've reported previously [1], creating hard-links to files in
-> kernel or u-boot source repositories, as do_populate_lic does, leads
-> to scripts/setlocalversion falsely appending a "-dirty" string. It
-> doesn't happen if one is building a kernel containing ff64dd485730 or
-> a backport of it (e.g. v5.0+, v4.19.82+) _and_ one has git >= 2.14.
-> U-Boot hasn't
-> copied ff64dd485730 yet, so it can always happen for U-Boot. Since
-> there's no ordering between do_populate_lic and do_compile, it's not
-> even deterministic whether that -dirty string is appended. So while
-> appropriate tools and patched upstream projects will make the problem
-> go
-> away, I'm wondering the hardlink optimization is really worth the
-> trouble it causes.
-> 
-> [1] https://lists.openembedded.org/g/openembedded-core/message/137702
+When I call:
 
-We use hardlinks a lot and it does help for disk IO and performance.
-Has this issue been raised with u-boot upstream? They're usually
-helpful and there are a few of the maintainers using OE so I think
-they'd want to fix this if they know about it.
+$> devtool build peary
+$>devtool deploy-target peary root@192.168.33.167
 
-Cheers,
+I get the error:
 
-Richard
+ERROR: No files to deploy - have you built the peary recipe? If so, the
+install step has not installed any files.
 
+In fact, I see that 'devtool build' creates image under
+'/home/afiergol/poky/build/tmp/work/aarch64-poky-linux/peary/1.0+git999-r0/image',
+while 'devtool deploy-target' search for files under
+'/home/afiergol/poky/build/tmp/work/cortexa53-poky-linux-gnueabi/peary/1.0+git999-r0/image'
+
+If in the 'peary' recipe I add a line
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+'devtool deploy-target' starts to search under
+'/home/afiergol/poky/build/tmp/work/aarch64-poky-linux-gnueabi/peary/1.0+git999-r0/image'
+
+If further, I fix in the 'peary' recipe:
+
+TARGET_OS = "linux"
+
+'devtool deploy-target' properly deploys the binaries to the target machine.
+
+However, as I explained, I had to fix in the recipe PACKAGE_ARCH and
+TARGET_OS variables. It is required only for devtool to work, as bitbake
+builds properly my custom Linux image containing the recipe without
+those variables being set anywhere in my layer.
+
+Has anybody else experienced a similar issue? Could somebody give a
+reference (I didn't find) to documentation which explains why and how
+those variables need to be set (I especially concerned about TARGET_OS)?
+
+Regards,
+
+Adrian
 
