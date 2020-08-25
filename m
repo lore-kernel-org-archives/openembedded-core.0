@@ -1,338 +1,166 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web12.14456.1598364973533837343
+Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com [209.85.219.195])
+ by mx.groups.io with SMTP id smtpd.web10.14683.1598365030214152162
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 07:16:14 -0700
+ Tue, 25 Aug 2020 07:17:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from Marks-MBP-16.int.hatle.net ([76.164.61.197])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07PEG97B007895
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Tue, 25 Aug 2020 09:16:10 -0500
-Subject: Re: [OE-core] [master][PATCH 2/5] hash equivalency and pr service
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
- <20200824232930.150388-3-mark.hatle@kernel.crashing.org>
- <CAJdd5GY+g7M_O05V4id+o-_fN=aAXz4M0zcxNUvQphACHHS-bg@mail.gmail.com>
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <ecc18b89-6291-4292-9421-16a9340380c7@kernel.crashing.org>
-Date: Tue, 25 Aug 2020 09:16:09 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.11.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hqXN2z8a;
+ spf=pass (domain: gmail.com, ip: 209.85.219.195, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f195.google.com with SMTP id i10so7222657ybt.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 07:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=h8rU4NpuncYH5Dw3g/YqyBatLXmAM5ffxh3L0bbrK+E=;
+        b=hqXN2z8aoLolHzPOptrVNIL4AGFgDhYxYW/v5keB/ggkD8gheY5H+qm/FeQ1I1ECEz
+         vh9zaTQ8knC/XiG3rOeU04vZq8TNMa0/m9+r7tX8iX4zJ8EbBjRpL6ffDDqO7C3VElZw
+         70P4NiLNO+M6IY4Tu3zfs9QgGHSRVb553UkdJc318nJfMMdybfbVu6HWFL4LO+fXyjpy
+         FdDSL+f3jFLg+89beAotLVxDKUojj1My4saQ/BMYdz7Mici1/bNhrweYoyAEnvjEgT1F
+         pSsEZn9JvOv0z4XdZrs2MF0RKdazS3zsjsLM6BdNpvjgt8w4rshlExcCz7HUbqpJckrs
+         8KZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=h8rU4NpuncYH5Dw3g/YqyBatLXmAM5ffxh3L0bbrK+E=;
+        b=QSzOAXnmTlhpST6DPG6IVhZo9aaWArUt5QP+i5N49Cs090GBv5UogEuBx8LLtscG2S
+         ASQJAyOSNktvNmkXZpY23QE4XmdqDPAXWoREmDsicwS9WagUVr0zyS0mf6hrvJjNVtrs
+         +VkA2lvG9Rn2q1FlwJKjiuVBPVywEzD32aiDimbkjZn3MtZI8X68ktBFFc5O3E6rW32S
+         mbrZA19NiA58qyG+cN6IWcETl0qvKhtAwDmpGUz9sfdZvq87HVqOYvJQ7RJDAvas2qn3
+         m5MIKqP/29pGqsAXq3pTfokhxUHNUgTKvUlNUfyDOj5DrJCbhX/1au1PBV4YvBDMFMRy
+         UWkA==
+X-Gm-Message-State: AOAM53176yRcyfAQ+4N6iYlHhYhGdaxlhvFdv+kSUe1KG/B8OoaUXjzB
+	TYFFcq9WqwRlIZyU3ZfrPGmcQzEgVJVf4KZlFF0=
+X-Google-Smtp-Source: ABdhPJw3b1GYeG6Otz4pl2hwzVEeZe1iuH1E4mtFCB3CaK6MMO1B/pbCM8IQBx86p4/q0yRr6dDJF2SxpMV23NEKBGo=
+X-Received: by 2002:a25:4149:: with SMTP id o70mr13772685yba.290.1598365029285;
+ Tue, 25 Aug 2020 07:17:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJdd5GY+g7M_O05V4id+o-_fN=aAXz4M0zcxNUvQphACHHS-bg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200822152207.32161-1-liu.ming50@gmail.com> <20200822152207.32161-4-liu.ming50@gmail.com>
+ <ad755709393c57c583a79c8b9d2308f2f2c3fafa.camel@intel.com> <CALatG=4yamjD-WJAS5WsS8s6UATJx=5jb_4ACXB3afU6MWQrHw@mail.gmail.com>
+In-Reply-To: <CALatG=4yamjD-WJAS5WsS8s6UATJx=5jb_4ACXB3afU6MWQrHw@mail.gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Tue, 25 Aug 2020 04:16:58 -1000
+Message-ID: <CAGDS+nn-QUSAP1n9i5oncgXM8i+PMziQnDx2yu+o1ftmXeB2pw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] [dunfell 3/3] libubootenv: uprev to v0.3
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"sergio.prado@toradex.com" <sergio.prado@toradex.com>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"stefan.agner@toradex.com" <stefan.agner@toradex.com>, 
+	"max.krummenacher@toradex.com" <max.krummenacher@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Aug 23, 2020 at 8:56 PM Ming Liu <liu.ming50@gmail.com> wrote:
+>
+> Hi, Anuj:
+>
+> Thanks for the review, I think this is a good suggestion, maybe we can l=
+et it inherit uboot-config bbclass. Will send a patch to master.
+
+Yes, good suggestion! I'll hold off on taking this patch series for
+dunfell until I can cherry-pick your new patch from master.
+
+Steve
 
 
-
-On 8/25/20 7:50 AM, Joshua Watt wrote:
-> On Mon, Aug 24, 2020 at 6:29 PM Mark Hatle
-> <mark.hatle@kernel.crashing.org> wrote:
+> //Ming Liu
+>
+> Mittal, Anuj <anuj.mittal@intel.com> =E6=96=BC 2020=E5=B9=B48=E6=9C=8824=
+=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=882:03=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >>
->> When the PR service is enabled a number of small changes happen to variables.
+>> On Sat, 2020-08-22 at 17:22 +0200, Ming Liu wrote:
+>> > From: Ming Liu <liu.ming50@gmail.com>
+>> >
+>> > Update libubootenv to the latest 0.3 release, which comprises the
+>> > following commits:
+>> >
+>> > ```
+>> > 1efed83 Increase max length for device name
+>> > 6f4fc1c uboot_env: Use canonicalized pathname when reading device
+>> > 23b3086 Fix bug introduced by commit 52a70114
+>> > ed1a53e Dont store to device if no value changes
+>> > 4a0a466 Merge pull request #7 from TomzBench/cmake-fix
+>> > 6117831 Added Coverity badge
+>> > 49372a1 Fix coverity #293496
+>> > 69a6819 Fix coverity #293503 and #293507
+>> > 258bf52 Fix coverity #293501
+>> > aa52e61 Fix coverity #293505
+>> > 52a7011 Fix coverity #293504 and #293506
+>> > e822218 Fix coverity #293495 and #293497
+>> > 23b305f Fix coverity #293499
+>> > 25ef1f6 Add coverity setup for Travis
+>> > 41b5188 fixed install for static target, fixed BUILD_DOC
+>> > acknowledgement
+>> > 86bd30a Restore ability to feed script file via stdin, using `-s -`.
+>> > c91dcca ubi, write: fix invalid envsize ptr to UBI_IOCVOLUP
+>> > f4b9cde Allow negative offsets
+>> > 45bf92a Detect sector size if not found in config
+>> > 9f59db6 uboot_env: remove unused variables
+>> > 65d243e README: libubootenv is now in oe-core
+>> > ba952d0 BUG: variable lists not released in close()
+>> > 690f868 Variables are not removed when loading from file
+>> > 9e3586a Make sure there's no file descriptor leakage in case of error
+>> > 03647c4 Check config file defines a non-zero Sector size
+>> > 3b2d4f1 Check environment size from fw_env.config
+>> > 879c073 Do not hardcode path for install
+>> > d9c639b libubootenv: add pkg-config support
+>> > cc628ee libuboot: wrap libuboot in extern "C" for C++
+>> > ```
+>> >
+>> > Also add u-boot-default-env to RRECOMMENDS since
+>> > /etc/u-boot-initial-env is being referred in libubootenv source, and
+>> > turns libubootenv's PACKAGE_ARCH to be MACHINE_ARCH since
+>> > u-boot-default-env is a machine-arch package.
+>> >
+>> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+>> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> > (cherry picked from commit 02d55cd35aac15095fc44f0cf8f9e7a71638f485)
+>> > ---
+>> >  .../u-boot/{libubootenv_0.2.bb =3D> libubootenv_0.3.bb}      | 7
+>> > +++++--
+>> >  1 file changed, 5 insertions(+), 2 deletions(-)
+>> >  rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb =3D>
+>> > libubootenv_0.3.bb} (82%)
+>> >
+>> > diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+>> > b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+>> > similarity index 82%
+>> > rename from meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+>> > rename to meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+>> > index ea29b668e8..47e64f9114 100644
+>> > --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+>> > +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
+>> > @@ -10,9 +10,8 @@ LICENSE =3D "LGPL-2.1"
+>> >  LIC_FILES_CHKSUM =3D "file://Licenses/lgpl-
+>> > 2.1.txt;md5=3D4fbd65380cdd255951079008b364516c"
+>> >  SECTION =3D "libs"
+>> >
+>> > -PV =3D "0.2+git${SRCPV}"
+>> >  SRC_URI =3D "git://github.com/sbabic/libubootenv;protocol=3Dhttps"
+>> > -SRCREV =3D "f4b9cde3815abe84a98079cedd515283ea08c16b"
+>> > +SRCREV =3D "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
+>> >
+>> >  S =3D "${WORKDIR}/git"
+>> >
+>> > @@ -24,4 +23,8 @@ DEPENDS =3D "zlib"
+>> >  PROVIDES +=3D "u-boot-fw-utils"
+>> >  RPROVIDES_${PN}-bin +=3D "u-boot-fw-utils"
+>> >
+>> > +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>> > +
+>> > +RRECOMMENDS_${PN}-bin_append_class-target =3D " u-boot-default-env"
+>> > +
 >>
->> During the do_package task, EXTENDPRAUTO will get a value placed into it that
->> is intended to be used to extend the PR.  This value will get written to
->> various intermediate files and will result in the computed hash never being
->> equivalent.
+>> This causes world builds to fail when uboot build is skipped for a
+>> MACHINE value for example when UBOOT_CONFIG or UBOOT_MACHINE is not
+>> defined. Perhaps this recipe should also be skipped in those cases?
 >>
->> To resolve this issue, we create a new file with the extension ".oe_nohash".
->> This extension contains various values that need to be passed from task to
->> task, but NOT calculated within the scope of the task hash.  The items
->> placed into the nohash are captured in package.bbclass in PKGDATA_VAR_NOHASH.
+>> Thanks,
 >>
->> The PKGDATA_VAR_NOHASH is also used to prevent expansion of the value when
->> users are written to the various pkgdata files.  This expansion is prevented
->> by removeing the variables, resulting in the system printing the literal
->> ${VAR} when used.
->>
->> Additionally package dependencies rely on variables that also eventually
->> include EXTENDPRAUTO.  So instead of resolving the variable at getVar time,
->> we keep them as references by using the same technique as above.
->>
->> Due to this change, buildhistory needs a few minor modifications to
->> know how to deal with EXTENDPRAUTO not always being available for comparison.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
->> ---
->>  meta/classes/buildhistory.bbclass | 29 ++++++++++----
->>  meta/classes/package.bbclass      | 63 ++++++++++++++++++++++++-------
->>  meta/lib/oe/packagedata.py        |  8 +++-
->>  meta/lib/oe/sstatesig.py          |  2 +
->>  4 files changed, 80 insertions(+), 22 deletions(-)
->>
->> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
->> index 805e976ac5..2bccdfc953 100644
->> --- a/meta/classes/buildhistory.bbclass
->> +++ b/meta/classes/buildhistory.bbclass
->> @@ -99,6 +99,7 @@ python buildhistory_emit_pkghistory() {
->>      import json
->>      import shlex
->>      import errno
->> +    import oe.packagedata
->>
->>      pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
->>      oldpkghistdir = d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
->> @@ -127,6 +128,7 @@ python buildhistory_emit_pkghistory() {
->>              self.pkge = ""
->>              self.pkgv = ""
->>              self.pkgr = ""
->> +            self.extendprauto = ""
->>              self.size = 0
->>              self.depends = ""
->>              self.rprovides = ""
->> @@ -163,6 +165,8 @@ python buildhistory_emit_pkghistory() {
->>                      pkginfo.pkgv = value
->>                  elif name == "PKGR":
->>                      pkginfo.pkgr = value
->> +                elif name == "EXTENDPRAUTO":
->> +                    pkginfo.extendprauto = value
->>                  elif name == "RPROVIDES":
->>                      pkginfo.rprovides = value
->>                  elif name == "RDEPENDS":
->> @@ -260,18 +264,24 @@ python buildhistory_emit_pkghistory() {
->>
->>      pkgdest = d.getVar('PKGDEST')
->>      for pkg in packagelist:
->> -        pkgdata = {}
->> -        with open(os.path.join(pkgdata_dir, 'runtime', pkg)) as f:
->> -            for line in f.readlines():
->> -                item = line.rstrip('\n').split(': ', 1)
->> -                key = item[0]
->> -                if key.endswith('_' + pkg):
->> -                    key = key[:-len(pkg)-1]
->> -                pkgdata[key] = item[1].encode('latin-1').decode('unicode_escape')
->> +        pkgdata = oe.packagedata.read_pkgdatafile(os.path.join(pkgdata_dir, 'runtime', pkg))
->> +
->> +        npkgdata = {}
->> +        for key in pkgdata.keys():
->> +            if key.endswith('_' + pkg):
->> +                nkey = key[:-len(pkg)-1]
->> +                npkgdata[nkey] = pkgdata[key]
->> +
->> +        for key in npkgdata.keys():
->> +          pkgdata[key] = npkgdata[key]
->>
->>          pkge = pkgdata.get('PKGE', '0')
->>          pkgv = pkgdata['PKGV']
->>          pkgr = pkgdata['PKGR']
->> +        try:
->> +            extendprauto = pkgdata['EXTENDPRAUTO']
->> +        except IndexError:
->> +            extendprauto = d.getVar('EXTENDPRAUTO')
->>          #
->>          # Find out what the last version was
->>          # Make sure the version did not decrease
->> @@ -295,6 +305,7 @@ python buildhistory_emit_pkghistory() {
->>          pkginfo.pkge = pkge
->>          pkginfo.pkgv = pkgv
->>          pkginfo.pkgr = pkgr
->> +        pkginfo.extendprauto = extendprauto
->>          pkginfo.rprovides = sortpkglist(oe.utils.squashspaces(pkgdata.get('RPROVIDES', "")))
->>          pkginfo.rdepends = sortpkglist(oe.utils.squashspaces(pkgdata.get('RDEPENDS', "")))
->>          pkginfo.rrecommends = sortpkglist(oe.utils.squashspaces(pkgdata.get('RRECOMMENDS', "")))
->> @@ -398,6 +409,8 @@ def write_pkghistory(pkginfo, d):
->>              f.write(u"PKGV = %s\n" % pkginfo.pkgv)
->>          if pkginfo.pkgr != pkginfo.pr:
->>              f.write(u"PKGR = %s\n" % pkginfo.pkgr)
->> +        if pkginfo.extendprauto:
->> +            f.write(u"EXTENDPRAUTO = %s\n" % pkginfo.extendprauto)
->>          f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
->>          f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
->>          f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 7a36262eb6..5fa96eb331 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -652,7 +652,12 @@ def runtime_mapping_rename (varname, pkg, d):
->>      #bb.note("%s before: %s" % (varname, d.getVar(varname)))
->>
->>      new_depends = {}
->> -    deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
->> +    localdata = d.createCopy()
->> +    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +        # Remove the variable so it expands fully
->> +        localdata.delVar(exclude_var)
->> +
->> +    deps = bb.utils.explode_dep_versions2(localdata.getVar(varname) or "")
->>      for depend, depversions in deps.items():
->>          new_depend = get_package_mapping(depend, pkg, d, depversions)
->>          if depend != new_depend:
->> @@ -1486,8 +1491,13 @@ python package_fixsymlinks () {
->>              if found == False:
->>                  bb.note("%s contains dangling symlink to %s" % (pkg, l))
->>
->> +    localdata = d.createCopy()
->> +    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +        # Remove the variable so it expands fully
->> +        localdata.delVar(exclude_var)
->> +
->>      for pkg in newrdepends:
->> -        rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg) or "")
->> +        rdepends = bb.utils.explode_dep_versions2(localdata.getVar('RDEPENDS_' + pkg) or "")
->>          for p in newrdepends[pkg]:
->>              if p not in rdepends:
->>                  rdepends[p] = []
->> @@ -1510,6 +1520,8 @@ PKGDESTWORK = "${WORKDIR}/pkgdata"
->>
->>  PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
->>
->> +PKGDATA_VARS_NOHASH = "EXTENDPRAUTO"
-> 
-> There are so many hashes to keep track of, can we make it more
-> specific than just "HASH"? How about "PKGDATA_VARS_NOOUTHASH" ?
-
-After talking with RP, I'm getting rid of the oe_nohash file completely.  It's
-not needed any longer (after the second part of the patch.)
-
-We still need a way to do this clearing of the variable and such -- and I'm not
-particular about the name.. but NOTOUTHASH doesn't seem to be any better to me
-then NOHASH in this case.
-
---Mark
-
->> +
->>  python emit_pkgdata() {
->>      from glob import glob
->>      import json
->> @@ -1548,7 +1560,7 @@ fi
->>                      scriptlet = "set -e\n" + "\n".join(scriptlet_split[0:])
->>              d.setVar('%s_%s' % (scriptlet_name, pkg), scriptlet)
->>
->> -    def write_if_exists(f, pkg, var):
->> +    def write_if_exists(d, f, pkg, var):
->>          def encode(str):
->>              import codecs
->>              c = codecs.getencoder("unicode_escape")
->> @@ -1621,17 +1633,29 @@ fi
->>          add_set_e_to_scriptlets(pkg)
->>
->>          subdata_file = pkgdatadir + "/runtime/%s" % pkg
->> +
->> +        # Write out nohash variables first
->> +        with open("%s.oe_nohash" % subdata_file, 'w') as sf:
->> +            for var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +                write_if_exists(d, sf, pkg, var)
->> +
->> +        # Write out regular variables, but sanitize nohash values
->>          with open(subdata_file, 'w') as sf:
->> +            localdata = d.createCopy()
->> +            for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +                # Remove the variable so it expands fully
->> +                localdata.delVar(exclude_var)
->> +
->>              for var in (d.getVar('PKGDATA_VARS') or "").split():
->> -                val = write_if_exists(sf, pkg, var)
->> +                write_if_exists(localdata, sf, pkg, var)
->>
->> -            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
->> -            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
->> -                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
->> +            write_if_exists(localdata, sf, pkg, 'FILERPROVIDESFLIST')
->> +            for dfile in (localdata.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
->> +                write_if_exists(localdata, sf, pkg, 'FILERPROVIDES_' + dfile)
->>
->> -            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
->> -            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
->> -                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
->> +            write_if_exists(localdata, sf, pkg, 'FILERDEPENDSFLIST')
->> +            for dfile in (localdata.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
->> +                write_if_exists(localdata, sf, pkg, 'FILERDEPENDS_' + dfile)
->>
->>              sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
->>
->> @@ -2126,9 +2150,14 @@ def read_libdep_files(d):
->>  python read_shlibdeps () {
->>      pkglibdeps = read_libdep_files(d)
->>
->> +    localdata = d.createCopy()
->> +    for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +        # Remove the variable so it expands fully
->> +        localdata.delVar(exclude_var)
->> +
->>      packages = d.getVar('PACKAGES').split()
->>      for pkg in packages:
->> -        rdepends = bb.utils.explode_dep_versions2(d.getVar('RDEPENDS_' + pkg) or "")
->> +        rdepends = bb.utils.explode_dep_versions2(localdata.getVar('RDEPENDS_' + pkg) or "")
->>          for dep in sorted(pkglibdeps[pkg]):
->>              # Add the dep if it's not already there, or if no comparison is set
->>              if dep not in rdepends:
->> @@ -2158,9 +2187,13 @@ python package_depchains() {
->>      prefixes  = (d.getVar('DEPCHAIN_PRE') or '').split()
->>
->>      def pkg_adddeprrecs(pkg, base, suffix, getname, depends, d):
->> +        localdata = d.createCopy()
->> +        for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +            # Remove the variable so it expands fully
->> +            localdata.delVar(exclude_var)
->>
->>          #bb.note('depends for %s is %s' % (base, depends))
->> -        rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
->> +        rreclist = bb.utils.explode_dep_versions2(localdata.getVar('RRECOMMENDS_' + pkg) or "")
->>
->>          for depend in sorted(depends):
->>              if depend.find('-native') != -1 or depend.find('-cross') != -1 or depend.startswith('virtual/'):
->> @@ -2179,9 +2212,13 @@ python package_depchains() {
->>          d.setVar('RRECOMMENDS_%s' % pkg, bb.utils.join_deps(rreclist, commasep=False))
->>
->>      def pkg_addrrecs(pkg, base, suffix, getname, rdepends, d):
->> +        localdata = d.createCopy()
->> +        for exclude_var in (d.getVar('PKGDATA_VARS_NOHASH') or "").split():
->> +            # Remove the variable so it expands fully
->> +            localdata.delVar(exclude_var)
->>
->>          #bb.note('rdepends for %s is %s' % (base, rdepends))
->> -        rreclist = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
->> +        rreclist = bb.utils.explode_dep_versions2(localdata.getVar('RRECOMMENDS_' + pkg) or "")
->>
->>          for depend in sorted(rdepends):
->>              if depend.find('virtual-locale-') != -1:
->> diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
->> index a82085a792..8f82f0fb60 100644
->> --- a/meta/lib/oe/packagedata.py
->> +++ b/meta/lib/oe/packagedata.py
->> @@ -15,7 +15,7 @@ def read_pkgdatafile(fn):
->>          c = codecs.getdecoder("unicode_escape")
->>          return c(str)[0]
->>
->> -    if os.access(fn, os.R_OK):
->> +    def load_file(fn):
->>          import re
->>          with open(fn, 'r') as f:
->>              lines = f.readlines()
->> @@ -25,6 +25,12 @@ def read_pkgdatafile(fn):
->>              if m:
->>                  pkgdata[m.group(1)] = decode(m.group(2))
->>
->> +    if os.access("%s.oe_nohash" % fn, os.R_OK):
->> +        load_file("%s.oe_nohash" % fn)
->> +
->> +    if os.access(fn, os.R_OK):
->> +        load_file(fn)
->> +
->>      return pkgdata
->>
->>  def get_subpkgedata_fn(pkg, d):
->> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
->> index 21ae0a7657..f96b96e261 100644
->> --- a/meta/lib/oe/sstatesig.py
->> +++ b/meta/lib/oe/sstatesig.py
->> @@ -589,6 +589,8 @@ def OEOuthashBasic(path, sigfile, task, d):
->>              # Process this directory and all its child files
->>              process(root)
->>              for f in files:
->> +                if f.endswith('.oe_nohash'):
-> 
-> Can we use ".oe_noouthash"?
-> 
->> +                    continue
->>                  if f == 'fixmepath':
->>                      continue
->>                  process(os.path.join(root, f))
->> --
->> 2.17.1
->>
->> 
+>> Anuj
+>
+>=20
