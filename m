@@ -1,166 +1,113 @@
-Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com [209.85.219.195])
- by mx.groups.io with SMTP id smtpd.web10.14683.1598365030214152162
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.91])
+ by mx.groups.io with SMTP id smtpd.web11.14982.1598366126154348851
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 07:17:10 -0700
+ Tue, 25 Aug 2020 07:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hqXN2z8a;
- spf=pass (domain: gmail.com, ip: 209.85.219.195, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f195.google.com with SMTP id i10so7222657ybt.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 07:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=h8rU4NpuncYH5Dw3g/YqyBatLXmAM5ffxh3L0bbrK+E=;
-        b=hqXN2z8aoLolHzPOptrVNIL4AGFgDhYxYW/v5keB/ggkD8gheY5H+qm/FeQ1I1ECEz
-         vh9zaTQ8knC/XiG3rOeU04vZq8TNMa0/m9+r7tX8iX4zJ8EbBjRpL6ffDDqO7C3VElZw
-         70P4NiLNO+M6IY4Tu3zfs9QgGHSRVb553UkdJc318nJfMMdybfbVu6HWFL4LO+fXyjpy
-         FdDSL+f3jFLg+89beAotLVxDKUojj1My4saQ/BMYdz7Mici1/bNhrweYoyAEnvjEgT1F
-         pSsEZn9JvOv0z4XdZrs2MF0RKdazS3zsjsLM6BdNpvjgt8w4rshlExcCz7HUbqpJckrs
-         8KZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=h8rU4NpuncYH5Dw3g/YqyBatLXmAM5ffxh3L0bbrK+E=;
-        b=QSzOAXnmTlhpST6DPG6IVhZo9aaWArUt5QP+i5N49Cs090GBv5UogEuBx8LLtscG2S
-         ASQJAyOSNktvNmkXZpY23QE4XmdqDPAXWoREmDsicwS9WagUVr0zyS0mf6hrvJjNVtrs
-         +VkA2lvG9Rn2q1FlwJKjiuVBPVywEzD32aiDimbkjZn3MtZI8X68ktBFFc5O3E6rW32S
-         mbrZA19NiA58qyG+cN6IWcETl0qvKhtAwDmpGUz9sfdZvq87HVqOYvJQ7RJDAvas2qn3
-         m5MIKqP/29pGqsAXq3pTfokhxUHNUgTKvUlNUfyDOj5DrJCbhX/1au1PBV4YvBDMFMRy
-         UWkA==
-X-Gm-Message-State: AOAM53176yRcyfAQ+4N6iYlHhYhGdaxlhvFdv+kSUe1KG/B8OoaUXjzB
-	TYFFcq9WqwRlIZyU3ZfrPGmcQzEgVJVf4KZlFF0=
-X-Google-Smtp-Source: ABdhPJw3b1GYeG6Otz4pl2hwzVEeZe1iuH1E4mtFCB3CaK6MMO1B/pbCM8IQBx86p4/q0yRr6dDJF2SxpMV23NEKBGo=
-X-Received: by 2002:a25:4149:: with SMTP id o70mr13772685yba.290.1598365029285;
- Tue, 25 Aug 2020 07:17:09 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=G8SA1I/s;
+ spf=pass (domain: prevas.dk, ip: 40.107.5.91, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SF0K1NuE/mzwX4ISQLrTlgvfNxyPx9uyb79zRaHONe2l2bhzP0nlrWZKS3h33cOTJS2ssKifYFrebGYg1bwmqG80Rf5sFmxhhJgQmP3TTrMKG6Q69GblTPLLNdb15ENHaA1vELcxv+Lh1+JBQwEQh8olcRXTHfKl8Yu8qwljadQcXyS4FHQ7h6wj5mXg9XiME1GS4d9HC1lnuHwaKiX5ShE5wMNNBycVcHAxrt08agJb6y3epG4a4H0prcxDCnu1FwJE7TtKxyqFM5bq8/rdt/1eiIVf0j6gWPem/N3RAte/Lm4PIBXoYSbgOv0WAqyrtvaLsB+MGwQWQtHDoMvu0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wZDBwF7XslEmReyEOmExEWl5WZHocthy4esAU21OQYA=;
+ b=YTdLyXbx9PYTuczQ+DkYj6e9+/tmrXFZ/xGnBaD5ir8WzkbScMBpG1eNqqsJQjcadPI0n1l5A1GBqUcJnp6JVKYYj52DlBL3oBja7OyuXsLAytL9bQS3ww6QNBiw0+POpJYKpgWVNtxer5fdaz2vZ7Etl0TrKVNuLs63XRrSv/VpLC4v0OIa2PqLhlYEp3Vu7v3qiGGLi/7ECNtRS1yjST2McQ+3DV3e0tZNr4q40SRcwqJ659G6zhcrI6SXJ/5CGCfQ3K9c3VLg+7+DvCiA6whMZmAeRqp20H4nRW1ZhFI3NKDSWrua2Zwp3nUh8jFRHejUyIXDCp1nib0lvX9iGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wZDBwF7XslEmReyEOmExEWl5WZHocthy4esAU21OQYA=;
+ b=G8SA1I/s2TEuZffzRUIrhHtm+Z0VNZ8XpOSUK956sWmZt4313HTAkqdYiANJYOsTByblDaCJUJc68yU06XpIBinosPBG3LGOJqNbunWwLg3ALl9bvE6Ayp4ENRlu4D0EUeX8VK2fZCAkl4S6HfZXzbWTxBV5Tk16bIykjjJCEgw=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=prevas.dk;
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
+ by AM0PR10MB2579.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:12f::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Tue, 25 Aug
+ 2020 14:35:22 +0000
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3cfb:a3e6:dfc0:37ec]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::3cfb:a3e6:dfc0:37ec%3]) with mapi id 15.20.3305.026; Tue, 25 Aug 2020
+ 14:35:22 +0000
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH] kernel.bbclass: run do_symlink_kernsrc before do_patch
+Date: Tue, 25 Aug 2020 16:35:15 +0200
+Message-ID: <20200825143515.12227-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.23.0
+X-ClientProxiedBy: AM5PR0602CA0017.eurprd06.prod.outlook.com
+ (2603:10a6:203:a3::27) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:3f::10)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
-References: <20200822152207.32161-1-liu.ming50@gmail.com> <20200822152207.32161-4-liu.ming50@gmail.com>
- <ad755709393c57c583a79c8b9d2308f2f2c3fafa.camel@intel.com> <CALatG=4yamjD-WJAS5WsS8s6UATJx=5jb_4ACXB3afU6MWQrHw@mail.gmail.com>
-In-Reply-To: <CALatG=4yamjD-WJAS5WsS8s6UATJx=5jb_4ACXB3afU6MWQrHw@mail.gmail.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Tue, 25 Aug 2020 04:16:58 -1000
-Message-ID: <CAGDS+nn-QUSAP1n9i5oncgXM8i+PMziQnDx2yu+o1ftmXeB2pw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [dunfell 3/3] libubootenv: uprev to v0.3
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"sergio.prado@toradex.com" <sergio.prado@toradex.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"stefan.agner@toradex.com" <stefan.agner@toradex.com>, 
-	"max.krummenacher@toradex.com" <max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from prevas-ravi.prevas.se (5.186.112.31) by AM5PR0602CA0017.eurprd06.prod.outlook.com (2603:10a6:203:a3::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.25 via Frontend Transport; Tue, 25 Aug 2020 14:35:22 +0000
+X-Mailer: git-send-email 2.23.0
+X-Originating-IP: [5.186.112.31]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3f44a32b-229e-45a3-f1e7-08d8490418ff
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2579:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR10MB2579D3EC60D6C8CA5AABFB8293570@AM0PR10MB2579.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	YUxPkpzVGqfAQhT4D87K+Z6tJ18tbM8ipiJrSk2TMa0EJN6PRc1lBFMmMpzVa2Ew0tX+iJOn09tKhuAo323rUy3FGBPskkrU1RN7ciEXGpErvNqqSi18+9LCQ1EoNoJ6kYsvf4K9QEYHiw2bbI5iLOlR55fm8ttTX9semhcibnZH112PJ1tA7bXhUwDuPVH0IbhIzm9lHEdLt9NUjMqDZ7rLKFfcOR0jbsH7sRO4vJqPIoOXvgV4HXrUFouqG0rw7xQthuT3Ne8dTlVfPCcNWkwBPgl2P7rrLJN8CJyHnX19ReGWAzAYFcAipryR2YT/Ru107oPT3BnFBOYQuo9/mg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(346002)(136003)(39850400004)(366004)(396003)(6506007)(6666004)(316002)(54906003)(5660300002)(66946007)(8676002)(66476007)(86362001)(66556008)(6916009)(26005)(36756003)(83380400001)(4326008)(8976002)(2616005)(956004)(2906002)(478600001)(6512007)(186003)(16526019)(6486002)(107886003)(1076003)(52116002)(8936002)(44832011);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	nBX7vVLV2dhkMPbgOFOdV73R/hmteA18F0OMO6cMsNfhJnP3hg7P4dwScfOnDX2tl//XgbFrK2dUXxobZ770dSn1jejXo24euRumpMbuhBQh8B31X/LsAzW1tzs720Zk9ptm4iyzztyxZ3tLdORv2O5E3vblmPYGbFklQODFD76hOP6FHMpk3McSkZ7Uw/DvcwtPTcgkKEWOOGJ1R3eACiH9C1pGDzvkFy6aItY0eoay5Hz+ZxtihxhXkR5wL69veY87mDUupNty0qdd0v5A6XMHNVIp+yJmczzig43UWtbRGZS7Is+Ki3F1LVA7uvzSlV11f7Rk2QKER9hjGMIYz0sHacX+opYqCEi9zRBHUiZD6y+npQuCEjQ0aGDTOgGhaCnW948FkIk51ZBkZFnB4kCWEk0eXGQ/zMaoVObbJUx9T4OCssdw2YRgVz30EL03LWj9/32Hlk9voKyIzQ/6JO/UVFeAUItT8M4j2ycqCCVgWdzy/9OjTVWd1Z3y+Q8J040uCEv5yBH4USwlsSLxnP8O/Vcg9al+7m/Jty09bhfFxvlheqCv3QwCQsNWr746c2JXcBVHWs8Wf0sqjOl5/c0/iUBP66prVHAvoCQvhJjQ14fauRjq5ednIjJcL0zXL0Plzyp0gaVaWBnQSsLrnA==
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f44a32b-229e-45a3-f1e7-08d8490418ff
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2020 14:35:22.3127
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ldM0E849Qk5Gu+1r1t2LaXslU23coNlIyWYINWN1v02F5VXdY5kkqXckhHlhxXwGRwESsX/kUynfrdAwpLxmWtu2qZUrTIz2v8mbQhvdlZE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2579
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, Aug 23, 2020 at 8:56 PM Ming Liu <liu.ming50@gmail.com> wrote:
->
-> Hi, Anuj:
->
-> Thanks for the review, I think this is a good suggestion, maybe we can l=
-et it inherit uboot-config bbclass. Will send a patch to master.
+There's a race between do_symlink_kernsrc and do_populate_lic, since
+the latter is ordered "after do_patch"; so the two may run in
+parallel. In some cases, that actually causes do_populate_lic to fail
+if it happens to look for a license file somewhere under ${S} in the
+short window after shutil.move and before the symlink has been
+created.
 
-Yes, good suggestion! I'll hold off on taking this patch series for
-dunfell until I can cherry-pick your new patch from master.
+Fix that by simply ordering symlink_kernsrc before do_patch. Any task
+that pokes around in ${S} looking for files should be ordered after
+do_patch, so this should also fix similar latent races with other ad
+hoc tasks.
 
-Steve
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e2ceb6a333..cba77daa7a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -172,7 +172,7 @@ python do_symlink_kernsrc () {
+             shutil.move(s, kernsrc)
+             os.symlink(kernsrc, s)
+ }
+-addtask symlink_kernsrc before do_configure after do_unpack
++addtask symlink_kernsrc before do_patch after do_unpack
+=20
+ inherit kernel-arch deploy
+=20
+--=20
+2.23.0
 
-> //Ming Liu
->
-> Mittal, Anuj <anuj.mittal@intel.com> =E6=96=BC 2020=E5=B9=B48=E6=9C=8824=
-=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=882:03=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->>
->> On Sat, 2020-08-22 at 17:22 +0200, Ming Liu wrote:
->> > From: Ming Liu <liu.ming50@gmail.com>
->> >
->> > Update libubootenv to the latest 0.3 release, which comprises the
->> > following commits:
->> >
->> > ```
->> > 1efed83 Increase max length for device name
->> > 6f4fc1c uboot_env: Use canonicalized pathname when reading device
->> > 23b3086 Fix bug introduced by commit 52a70114
->> > ed1a53e Dont store to device if no value changes
->> > 4a0a466 Merge pull request #7 from TomzBench/cmake-fix
->> > 6117831 Added Coverity badge
->> > 49372a1 Fix coverity #293496
->> > 69a6819 Fix coverity #293503 and #293507
->> > 258bf52 Fix coverity #293501
->> > aa52e61 Fix coverity #293505
->> > 52a7011 Fix coverity #293504 and #293506
->> > e822218 Fix coverity #293495 and #293497
->> > 23b305f Fix coverity #293499
->> > 25ef1f6 Add coverity setup for Travis
->> > 41b5188 fixed install for static target, fixed BUILD_DOC
->> > acknowledgement
->> > 86bd30a Restore ability to feed script file via stdin, using `-s -`.
->> > c91dcca ubi, write: fix invalid envsize ptr to UBI_IOCVOLUP
->> > f4b9cde Allow negative offsets
->> > 45bf92a Detect sector size if not found in config
->> > 9f59db6 uboot_env: remove unused variables
->> > 65d243e README: libubootenv is now in oe-core
->> > ba952d0 BUG: variable lists not released in close()
->> > 690f868 Variables are not removed when loading from file
->> > 9e3586a Make sure there's no file descriptor leakage in case of error
->> > 03647c4 Check config file defines a non-zero Sector size
->> > 3b2d4f1 Check environment size from fw_env.config
->> > 879c073 Do not hardcode path for install
->> > d9c639b libubootenv: add pkg-config support
->> > cc628ee libuboot: wrap libuboot in extern "C" for C++
->> > ```
->> >
->> > Also add u-boot-default-env to RRECOMMENDS since
->> > /etc/u-boot-initial-env is being referred in libubootenv source, and
->> > turns libubootenv's PACKAGE_ARCH to be MACHINE_ARCH since
->> > u-boot-default-env is a machine-arch package.
->> >
->> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
->> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> > (cherry picked from commit 02d55cd35aac15095fc44f0cf8f9e7a71638f485)
->> > ---
->> >  .../u-boot/{libubootenv_0.2.bb =3D> libubootenv_0.3.bb}      | 7
->> > +++++--
->> >  1 file changed, 5 insertions(+), 2 deletions(-)
->> >  rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb =3D>
->> > libubootenv_0.3.bb} (82%)
->> >
->> > diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> > b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
->> > similarity index 82%
->> > rename from meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> > rename to meta/recipes-bsp/u-boot/libubootenv_0.3.bb
->> > index ea29b668e8..47e64f9114 100644
->> > --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> > +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
->> > @@ -10,9 +10,8 @@ LICENSE =3D "LGPL-2.1"
->> >  LIC_FILES_CHKSUM =3D "file://Licenses/lgpl-
->> > 2.1.txt;md5=3D4fbd65380cdd255951079008b364516c"
->> >  SECTION =3D "libs"
->> >
->> > -PV =3D "0.2+git${SRCPV}"
->> >  SRC_URI =3D "git://github.com/sbabic/libubootenv;protocol=3Dhttps"
->> > -SRCREV =3D "f4b9cde3815abe84a98079cedd515283ea08c16b"
->> > +SRCREV =3D "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
->> >
->> >  S =3D "${WORKDIR}/git"
->> >
->> > @@ -24,4 +23,8 @@ DEPENDS =3D "zlib"
->> >  PROVIDES +=3D "u-boot-fw-utils"
->> >  RPROVIDES_${PN}-bin +=3D "u-boot-fw-utils"
->> >
->> > +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
->> > +
->> > +RRECOMMENDS_${PN}-bin_append_class-target =3D " u-boot-default-env"
->> > +
->>
->> This causes world builds to fail when uboot build is skipped for a
->> MACHINE value for example when UBOOT_CONFIG or UBOOT_MACHINE is not
->> defined. Perhaps this recipe should also be skipped in those cases?
->>
->> Thanks,
->>
->> Anuj
->
->=20
