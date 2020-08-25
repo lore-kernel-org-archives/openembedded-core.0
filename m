@@ -1,81 +1,80 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web10.909.1598378887030519027
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.1535.1598380570180230869
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 11:08:07 -0700
+ Tue, 25 Aug 2020 11:36:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lHvyPh/4;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: liu.ming50@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id a21so1803076ejp.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 11:08:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SiPQQHD8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id f7so13883538wrw.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 11:36:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MrJURVwO4K7jumnV5eHngzi8BsED7dmrUaL7yhEu2vE=;
-        b=lHvyPh/4ALctYNnzmQi5MaPhJ3dObtY1SLomkM6uVERdrFanrKLgL5kMmvmaAk6mOM
-         O6MoSNnDVLJAeqOfYyyUlFP6kM1BUvP9/F1Iq3l8EJjva8s6/UimclaFJDvgZ1QmBmhz
-         xiYi6GLUAWsPrqKJyguzXthtN9hMPH1dScI85k4UHfOkhAThdb1hu4rwNnw/VQSpg3Xy
-         SVuOx3zI6MTXd68bJne/PIVRpKbu4iFkidqdbHehlS6jeRiDWeYQMAvQaXZtefjX2u/+
-         Wm4be8wfMIuNojDKUWAWFXB6Zu7DRVZAcFv77z2PQto+aq2rOoTfW+ONPBFgOxVG7ZYl
-         x2IA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=qyNm66JOTRn8op1z+1ymHIgH6wjjSMOtuVRBrwcT8iM=;
+        b=SiPQQHD89Ltqc6yjlwbv94s7+7TonaynVC8oDdNSkLedEI+223DNRLOfz1+E/2M/Yt
+         ljQI8TCpaLz0MG3bnQAE7za+Horunk4aJRT4vi+IfEYIr5QJ4zxrjxytu3RPMhk9Qsa+
+         uPUd8N8xepSjfcsTgSphtpVmKzzvMkNZvb7vk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MrJURVwO4K7jumnV5eHngzi8BsED7dmrUaL7yhEu2vE=;
-        b=l/VhhLmSNS2FtvP+KO6+PHQwn4rFPZim84KcwuYjfppXrmO/a803KrA5j/kv2YijMs
-         B5aZndR8qGgBsKLiNiJ7Ytbwh6b3kTKFjlrRKO5zsbpbrplTDvDGYjq86usO17Ua9DiO
-         wvHOJaNmEPjMxdKT16Xbktn5TKuTg63fBG+TY+2nwNzYu8BzhlImsh+7Q3inwx7cfNZe
-         esVTIPejzTOWmlsjerOfv8E49Fwdd7g7EQz2LTcdRi5Qkl0tQYp7ylcXAdw84NY1Oc5K
-         L59baocCm6Dtv2OzqgObIMbroqT+SG6RDe22SmVM2tvNEYCPKRP1gBRQbuPYUeEQTMFP
-         gH1Q==
-X-Gm-Message-State: AOAM532RaxOy3he0VSRrG8IjycGf/tcLWEz0GzVCPHofHm/le40RtH37
-	C36mvu0PYBhr3XQPuPStxrZLtcGaS9nGCg==
-X-Google-Smtp-Source: ABdhPJyV87du7re8rqwb6X/TayGgBri2biTYL2d/lUhHdRgo4iIUIxkHL+Bt7xDYQ6+fKidX0JiIFA==
-X-Received: by 2002:a17:906:a1d7:: with SMTP id bx23mr12092339ejb.273.1598378885197;
-        Tue, 25 Aug 2020 11:08:05 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id r26sm12875089ejb.102.2020.08.25.11.08.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Aug 2020 11:08:04 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: stefan.agner@toradex.com,
-	sergio.prado@toradex.com,
-	max.krummenacher@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] libubootenv: inherit uboot-config
-Date: Tue, 25 Aug 2020 20:08:01 +0200
-Message-Id: <20200825180801.2470-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=qyNm66JOTRn8op1z+1ymHIgH6wjjSMOtuVRBrwcT8iM=;
+        b=Vh2pdgUH7rfh8YigKhTEeqAX3jUZTis7RZ3u1cn6E0DKVkVpluWFP4KQJ9Ik6IdAFZ
+         XdBsIswMpuxN6NaibJmBHlQZSobEJyfbnpvfzl14wu4FvwnLY7HuO+GHHl/vGXNYvar2
+         N6OBgHvR+7zmihRdYdMA4PjaLJvkiC7DRtY0heQE2RpsRF7EcOtO2JuM7CK5d2GHI08+
+         TwWnqmQjFDr7Kjq8fv58CEABz7mpCTaaCWSA0786ECxM4xzTA5W/zFoDilhXDELB7OZ2
+         jWCAddJhYMilZTiZUge42whEfH34oi3mIFbFa8WWF7AToNXxiGlIjY5GmX8kXUu3oaeF
+         /bTw==
+X-Gm-Message-State: AOAM531oj1BLUMGYcrV/pN6OiBWOfPeOreZ8p56qiz3Yc99ug9AXIjdF
+	z8PjKHjk/ExMks5JhGVaUpPpMA==
+X-Google-Smtp-Source: ABdhPJzxbMzS4RCALMaMHpr2MQ/+U0G4uAcDsgvBwkzE8JAJL9I8zPL8cRTvDE7Kte98beLTS+7VpA==
+X-Received: by 2002:a05:6000:11ca:: with SMTP id i10mr11145009wrx.252.1598380568527;
+        Tue, 25 Aug 2020 11:36:08 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
+        by smtp.gmail.com with ESMTPSA id x14sm7400241wmc.5.2020.08.25.11.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2020 11:36:07 -0700 (PDT)
+Message-ID: <5ba9cc01116c68eb18204c8c7c120904be8d2097.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [master][PATCH 2/5] hash equivalency and pr service
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>, Joshua Watt
+	 <jpewhacker@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Aug 2020 19:36:05 +0100
+In-Reply-To: <ecc18b89-6291-4292-9421-16a9340380c7@kernel.crashing.org>
+References: <20200824232930.150388-1-mark.hatle@kernel.crashing.org>
+	 <20200824232930.150388-3-mark.hatle@kernel.crashing.org>
+	 <CAJdd5GY+g7M_O05V4id+o-_fN=aAXz4M0zcxNUvQphACHHS-bg@mail.gmail.com>
+	 <ecc18b89-6291-4292-9421-16a9340380c7@kernel.crashing.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Tue, 2020-08-25 at 09:16 -0500, Mark Hatle wrote:
+> On 8/25/20 7:50 AM, Joshua Watt wrote:
+> > On Mon, Aug 24, 2020 at 6:29 PM Mark Hatle
+> > <mark.hatle@kernel.crashing.org> wrote:
+> > > +PKGDATA_VARS_NOHASH = "EXTENDPRAUTO"
+> > 
+> > There are so many hashes to keep track of, can we make it more
+> > specific than just "HASH"? How about "PKGDATA_VARS_NOOUTHASH" ?
+> 
+> After talking with RP, I'm getting rid of the oe_nohash file
+> completely.  It's
+> not needed any longer (after the second part of the patch.)
+> 
+> We still need a way to do this clearing of the variable and such --
+> and I'm not
+> particular about the name.. but NOTOUTHASH doesn't seem to be any
+> better to me
+> then NOHASH in this case.
 
-This mainly aims to involve in the sanity check of UBOOT_CONFIG and
-UBOOT_MACHINE, it will throw a error message at recipe parsing time if
-neither of them is set, and libubootenv would be skipped.
+Except we do call this "outhash" in various places...
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-bsp/u-boot/libubootenv_0.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-index 47e64f9114..07711484ac 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-@@ -15,7 +15,7 @@ SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
- 
- S = "${WORKDIR}/git"
- 
--inherit cmake lib_package
-+inherit uboot-config cmake lib_package
- 
- EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release"
- 
--- 
-2.28.0
+Richard
 
