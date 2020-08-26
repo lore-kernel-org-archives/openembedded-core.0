@@ -1,133 +1,57 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.2134.1598468342150231078
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2946.1598470681411749388
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 11:59:02 -0700
+ Wed, 26 Aug 2020 12:38:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: joe.slater@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ssajal@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 07QIx0gP024102
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07QJbdjM025357
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 11:59:01 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Wed, 26 Aug 2020
- 11:59:00 -0700
-From: "Joe Slater" <joe.slater@windriver.com>
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 12:37:50 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 26 Aug 2020
+ 12:37:29 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id C16F8201B6;
+ Wed, 26 Aug 2020 15:37:28 -0400 (EDT)
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] pseudo: fix renaming to self
-Date: Wed, 26 Aug 2020 11:58:57 -0700
-Message-ID: <20200826185857.24292-2-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200826185857.24292-1-joe.slater@windriver.com>
-References: <20200826185857.24292-1-joe.slater@windriver.com>
+Subject: [meta-webserver][PATCH] apache2: upgrade v2.4.43 -> v2.4.46
+Date: Wed, 26 Aug 2020 15:37:22 -0400
+Message-ID: <20200826193722.33720-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Pseudo tests for an item being renamed to itself only after
-information about it has been deleted.  Move the test to before
-we change the database.
+Minor upgrade inluding bug and CVE fixes, namely:
+  - CVE-2020-9490
+  - CVE-2020-11984
+  - CVE-2020-11993
 
-Note that pseudo does not support renameat2(), but neither does
-glibc.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- .../pseudo/files/rename.patch                 | 73 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/rename.patch
+ .../apache2/{apache2_2.4.43.bb => apache2_2.4.46.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-webserver/recipes-httpd/apache2/{apache2_2.4.43.bb => apache2_2.4.46.bb} (98%)
 
-diff --git a/meta/recipes-devtools/pseudo/files/rename.patch b/meta/recipes-devtools/pseudo/files/rename.patch
-new file mode 100644
-index 0000000000..bc344db3b5
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/rename.patch
-@@ -0,0 +1,73 @@
-+pseudo: fix renaming to self
-+
-+The pseudo rename guts test for an item being renamed to
-+itself, only after information about it has been deleted.
-+We move the test to before we play with the database.
-+
-+Note that pseudo does not support renameat2().
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+--- a/ports/unix/guts/rename.c
-++++ b/ports/unix/guts/rename.c
-+@@ -29,6 +29,14 @@
-+ 	newrc = base_lstat(newpath, &newbuf);
-+ 	oldrc = base_lstat(oldpath, &oldbuf);
-+ 
-++	/* nothing to do for a "rename" of a link to itself */
-++	if (newrc != -1 && oldrc != -1 &&
-++	    newbuf.st_dev == oldbuf.st_dev &&
-++	    newbuf.st_ino == oldbuf.st_ino) {
-++		pseudo_debug(PDBGF_OP, "rename: paths are the same\n");
-++		return real_rename(oldpath, newpath);
-++        }
-++
-+ 	errno = save_errno;
-+ 
-+ 	/* newpath must be removed. */
-+@@ -58,12 +66,6 @@
-+ 		return rc;
-+ 	}
-+ 	save_errno = errno;
-+-	/* nothing to do for a "rename" of a link to itself */
-+-	if (newrc != -1 && oldrc != -1 &&
-+-	    newbuf.st_dev == oldbuf.st_dev &&
-+-	    newbuf.st_ino == oldbuf.st_ino) {
-+-		return rc;
-+-        }
-+ 
-+ 	/* rename(3) is not mv(1).  rename(file, dir) fails; you must provide
-+ 	 * the corrected path yourself.  You can rename over a directory only
-+--- a/ports/unix/guts/renameat.c
-++++ b/ports/unix/guts/renameat.c
-+@@ -41,6 +41,14 @@
-+ 	newrc = base_fstatat(newdirfd, newpath, &newbuf, AT_SYMLINK_NOFOLLOW);
-+ #endif
-+ 
-++	/* nothing to do for a "rename" of a link to itself */
-++	if (newrc != -1 && oldrc != -1 &&
-++	    newbuf.st_dev == oldbuf.st_dev &&
-++	    newbuf.st_ino == oldbuf.st_ino) {
-++		pseudo_debug(PDBGF_OP, "renameat: paths are the same\n");
-++		return real_renameat(olddirfd, oldpath, newdirfd, newpath);
-++        }
-++
-+ 	errno = save_errno;
-+ 
-+ 	/* newpath must be removed. */
-+@@ -71,12 +79,6 @@
-+ 		return rc;
-+ 	}
-+ 	save_errno = errno;
-+-	/* nothing to do for a "rename" of a link to itself */
-+-	if (newrc != -1 && oldrc != -1 &&
-+-	    newbuf.st_dev == oldbuf.st_dev &&
-+-	    newbuf.st_ino == oldbuf.st_ino) {
-+-		return rc;
-+-        }
-+ 
-+ 	/* rename(3) is not mv(1).  rename(file, dir) fails; you must provide
-+ 	 * the corrected path yourself.  You can rename over a directory only
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 9a22304bba..8d8cf8d523 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -4,6 +4,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://0001-configure-Prune-PIE-flags.patch \
-            file://fallback-passwd \
-            file://fallback-group \
-+           file://rename.patch \
+diff --git a/meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb b/meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
+similarity index 98%
+rename from meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb
+rename to meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
+index a7083d80e..197cb83e6 100644
+--- a/meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb
++++ b/meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
+@@ -26,8 +26,8 @@ SRC_URI_append_class-target = " \
             "
  
- SRCREV = "8efb082863ff0ceec7b7e46f9a44750e12f48039"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
+-SRC_URI[md5sum] = "791c986b1e70fe61eb44060aacc89a64"
+-SRC_URI[sha256sum] = "a497652ab3fc81318cdc2a203090a999150d86461acff97c1065dc910fe10f43"
++SRC_URI[md5sum] = "7d661ea5e736dac5e2761d9f49fe8361"
++SRC_URI[sha256sum] = "740eddf6e1c641992b22359cabc66e6325868c3c5e2e3f98faf349b61ecf41ea"
+ 
+ S = "${WORKDIR}/httpd-${PV}"
+ 
 -- 
-2.17.1
+2.26.2
 
