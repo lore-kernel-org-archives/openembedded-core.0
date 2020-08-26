@@ -1,66 +1,162 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.8212.1598430314375259944
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web11.10285.1598441257955491515
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 01:25:14 -0700
+ Wed, 26 Aug 2020 04:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e3dSYKMx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id x7so881865wro.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 01:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=GzN4gn/ozOLAX7mBQlvaRFfoKIOAXMtglhg1vvmXhG0=;
-        b=e3dSYKMx1+YrNl1hyLBvS5x2Wm4HCLqC379PdBbup/5PdRv46SWy8lluYaKFHyvXYW
-         TLiKghSArtgNg1GehnmuuLFaFSf5fnsX7edK3U3JDZAMqw9Z3R/3T+7pybNkIaknTTSC
-         6sDnve5dH1scFUszD/jIow/MhX2TGWx9ZmRko=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=GzN4gn/ozOLAX7mBQlvaRFfoKIOAXMtglhg1vvmXhG0=;
-        b=WkbC7Guu9lZPI3CDcYyE2hqBzSGZG8kz1CRu7EmG2l6ZnpxTvxiaQ4JBFoG34vHu9R
-         9hmmgSpOZrGj/eOjlurujL5Mx5Oq85Uor9MXhe+a4C90OLORLLMx9Dg2ajynVU44O5CC
-         XSjZWlEOE703C6wpdE8iHCV7/3P68cSoyeWdk9wFlwF3c6cbUqUU0sirDJDEPMufdbqM
-         mqCPduyp6CjNWtkSqApqRxhofnFwV2kQ+ptzeqOHkz7YPmoOajC7XwoYlcyVdkoCh2Qk
-         vjVsVTABaRWFabyrdcNSk2S8w6lmzoDo+DF/CFJi339Z/5bUYtUwaRYLY6Tyh0NBtJNH
-         PV8w==
-X-Gm-Message-State: AOAM533IGXexc+No81/fqePFxSvFYYjl9N9nvhlQY4ZxsXG1fEEpHDiC
-	+KUZKYTnXU6SDiMYkoiwwJX4LnSXxFjCNTZd
-X-Google-Smtp-Source: ABdhPJx7lwj2lke6jtZMUUuqNtryotvcmt4i8fWmhd5oJWF172jxIG0fWMIAHieznDzb0O63Wi7uHA==
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr14077897wrl.129.1598430312393;
-        Wed, 26 Aug 2020 01:25:12 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
-        by smtp.gmail.com with ESMTPSA id y24sm3481732wmi.17.2020.08.26.01.25.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 01:25:11 -0700 (PDT)
-Message-ID: <1afbc09b96e9a67f0523b58c990db6575efa1aa8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] runqqemu: Show an error for conflicing graphics options
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07QBRY5c018314
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 06:27:36 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Aug 2020 09:25:09 +0100
-In-Reply-To: <162EC39E629DF7EB.27554@lists.openembedded.org>
-References: <162EC39E629DF7EB.27554@lists.openembedded.org>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Subject: [master][PATCH v2 4/6] package.bbclass: Move package_get_auto_pr to packagedata.bbclass
+Date: Wed, 26 Aug 2020 06:27:31 -0500
+Message-Id: <20200826112733.52492-5-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200826112733.52492-1-mark.hatle@kernel.crashing.org>
+References: <20200826112733.52492-1-mark.hatle@kernel.crashing.org>
 
-On Wed, 2020-08-26 at 09:19 +0100, Richard Purdie via lists.openembedded.org wrote:
-> The autobuilder managed to pass the nographic option with "sdl gl"
-> due
-> to a problem elsewhere. It would have been useful for runqemu to have
-> errored rather than passing conflicting options to qemu. Add an
-> error for this invalid usecase.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Running package_get_auto_pr during do_package is 'too early' when we need
+to evaluate the do_package output to get it's unihash to look up the
+right value in the PR database.
 
-Two typos in the subject line fixed in -next.
+Move this function packagedata.bbclass (no changes yet), as subsequent
+patches will refactor this function and the order in which it's called.
 
-Cheers,
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ meta/classes/package.bbclass     | 50 ---------------------------
+ meta/classes/packagedata.bbclass | 59 ++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 50 deletions(-)
 
-Richard
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7a36262eb6..d44c359e94 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -667,56 +667,6 @@ def runtime_mapping_rename (varname, pkg, d):
+ # Package functions suitable for inclusion in PACKAGEFUNCS
+ #
+ 
+-python package_get_auto_pr() {
+-    import oe.prservice
+-    import re
+-
+-    # Support per recipe PRSERV_HOST
+-    pn = d.getVar('PN')
+-    host = d.getVar("PRSERV_HOST_" + pn)
+-    if not (host is None):
+-        d.setVar("PRSERV_HOST", host)
+-
+-    pkgv = d.getVar("PKGV")
+-
+-    # PR Server not active, handle AUTOINC
+-    if not d.getVar('PRSERV_HOST'):
+-        if 'AUTOINC' in pkgv:
+-            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
+-        return
+-
+-    auto_pr = None
+-    pv = d.getVar("PV")
+-    version = d.getVar("PRAUTOINX")
+-    pkgarch = d.getVar("PACKAGE_ARCH")
+-    checksum = d.getVar("BB_TASKHASH")
+-
+-    if d.getVar('PRSERV_LOCKDOWN'):
+-        auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
+-        if auto_pr is None:
+-            bb.fatal("Can NOT get PRAUTO from lockdown exported file")
+-        d.setVar('PRAUTO',str(auto_pr))
+-        return
+-
+-    try:
+-        conn = d.getVar("__PRSERV_CONN")
+-        if conn is None:
+-            conn = oe.prservice.prserv_make_conn(d)
+-        if conn is not None:
+-            if "AUTOINC" in pkgv:
+-                srcpv = bb.fetch2.get_srcrev(d)
+-                base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
+-                value = conn.getPR(base_ver, pkgarch, srcpv)
+-                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
+-
+-            auto_pr = conn.getPR(version, pkgarch, checksum)
+-    except Exception as e:
+-        bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
+-    if auto_pr is None:
+-        bb.fatal("Can NOT get PRAUTO from remote PR service")
+-    d.setVar('PRAUTO',str(auto_pr))
+-}
+-
+ LOCALEBASEPN ??= "${PN}"
+ 
+ python package_do_split_locales() {
+diff --git a/meta/classes/packagedata.bbclass b/meta/classes/packagedata.bbclass
+index a903e5cfd2..5475d5c0da 100644
+--- a/meta/classes/packagedata.bbclass
++++ b/meta/classes/packagedata.bbclass
+@@ -32,3 +32,62 @@ python read_subpackage_metadata () {
+             else:
+                 d.setVar(key, sdata[key], parsing=True)
+ }
++
++package_get_auto_pr[vardepsexclude] = "BB_TASKDEPDATA"
++python package_get_auto_pr() {
++    import oe.prservice
++    import re
++
++    def get_do_package_hash(pn):
++        if d.getVar("BB_RUNTASK") != "do_package":
++            taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++            for dep in taskdepdata:
++                if taskdepdata[dep][1] == "do_package" and taskdepdata[dep][0] == pn:
++                    return taskdepdata[dep][6]
++        return d.getVar("BB_TASKHASH")
++
++    # Support per recipe PRSERV_HOST
++    pn = d.getVar('PN')
++    host = d.getVar("PRSERV_HOST_" + pn)
++    if not (host is None):
++        d.setVar("PRSERV_HOST", host)
++
++    pkgv = d.getVar("PKGV")
++
++    # PR Server not active, handle AUTOINC
++    if not d.getVar('PRSERV_HOST'):
++        if 'AUTOINC' in pkgv:
++            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
++        return
++
++    auto_pr = None
++    pv = d.getVar("PV")
++    version = d.getVar("PRAUTOINX")
++    pkgarch = d.getVar("PACKAGE_ARCH")
++    checksum = get_do_package_hash(pn)
++
++    if d.getVar('PRSERV_LOCKDOWN'):
++        auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
++        if auto_pr is None:
++            bb.fatal("Can NOT get PRAUTO from lockdown exported file")
++        d.setVar('PRAUTO',str(auto_pr))
++        return
++
++    try:
++        conn = d.getVar("__PRSERV_CONN")
++        if conn is None:
++            conn = oe.prservice.prserv_make_conn(d)
++        if conn is not None:
++            if "AUTOINC" in pkgv:
++                srcpv = bb.fetch2.get_srcrev(d)
++                base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
++                value = conn.getPR(base_ver, pkgarch, srcpv)
++                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
++
++            auto_pr = conn.getPR(version, pkgarch, checksum)
++    except Exception as e:
++        bb.fatal("Can NOT get PRAUTO, exception %s" %  str(e))
++    if auto_pr is None:
++        bb.fatal("Can NOT get PRAUTO from remote PR service")
++    d.setVar('PRAUTO',str(auto_pr))
++}
+-- 
+2.17.1
 
