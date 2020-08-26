@@ -1,112 +1,100 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web11.12993.1598450261047302548
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+ by mx.groups.io with SMTP id smtpd.web12.13096.1598450447572009768
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 06:57:41 -0700
+ Wed, 26 Aug 2020 07:00:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Tie11GJU;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id z3so1888633qkz.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 06:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RycifukV5oyNhuz64zelfvruoYQunUEyEAtz8zhHUKE=;
-        b=Tie11GJU9bG6tun+R/arsuqyU7Y72VNwhvdepsr6SPoHumci8d/Le5KRyh8/oGJOjn
-         2xPBOpNY8ivfQywRQMc0NB8GwtmSuqB+1hhgw5E3pllo+9LjERmw5/P+yiGStj7fxata
-         n+MCzBXMtAt87Z73m88M5KeTfsZqj0nNrQ/pjgwH9QhYMnS6MjHk3T9qC3eEGtTtyQnj
-         eQZ00n+Anm9WUJjTPGtnKrwEBXykukqI4n5X4R98JL2evdVSEqEcMlirRA5VlE93i9LU
-         vl4jo7mCzJb1BABb62lPhTvOivR7vbzXz4UF4eyR5zdA2Xt+7zCKuE1Nof670fGkSEvC
-         nM2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RycifukV5oyNhuz64zelfvruoYQunUEyEAtz8zhHUKE=;
-        b=VdBe0bYMIhS29i6a9X8z7c1wSQieeJ3rDN1+MxAUFxWwi8mOLgHHGXIACm/Cry+Ut/
-         bsOHuPCybYjKEg4fTsSSWoOZ5ordvZHWxp+mHmNWTEhQVETPMDnUT/t7CeXwhC560DCw
-         61zfGHojP8v6VbiBnhLg5bH24okijYvnnuPrMUgoM4ZpjlphE3GhmYpPu2e8GtEnFHc+
-         fuONb7prPZ65mogTQv1j5DRCCYTY837jr5odpreNBbIvjr/WWteWS4rh78iPwBP5P5tr
-         jh5pqWiOwPRce/v8LJNQiJjipz6tJNlz120dSm91cOD5CHzOvyKVFdZ/ntAuo7qoYHHL
-         rQUw==
-X-Gm-Message-State: AOAM530jFmV67YWZ94UYG6jHwDxYFy7DacsFsrkPotHeFtgDGCQSK3Jo
-	d6/k0eqKHiPPq72/R6FvbwUqWxVdXmC1EiEU
-X-Google-Smtp-Source: ABdhPJxWsLbF+DtFDj3oIjOqsYBKSz2Rjp93WWb7yibBi/tXwy2Y+oY/gso0pjLjgLq7C26xQmhSRw==
-X-Received: by 2002:a37:64c8:: with SMTP id y191mr14625758qkb.231.1598450260127;
-        Wed, 26 Aug 2020 06:57:40 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id a52sm1371737qtc.22.2020.08.26.06.57.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 06:57:38 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
+ dkim=pass header.i=@efficios.com header.s=default header.b=Qkcl4UtQ;
+ spf=pass (domain: efficios.com, ip: 167.114.26.124, mailfrom: jonathan.rajotte-julien@efficios.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id DE6DC9E466;
+	Wed, 26 Aug 2020 10:00:46 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id iajiMCIrivIO; Wed, 26 Aug 2020 10:00:46 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 5EB029E463;
+	Wed, 26 Aug 2020 10:00:46 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5EB029E463
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1598450446;
+	bh=SCoEbIgtMk6LYSHdi7y6Jl8c3uOuVY+lQi8TMeiQbzE=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=Qkcl4UtQgjm/oi+5cfvChHJSCPtSQrkCGO+SfFPFD3Ncebso0cppj39xwgs6oGCsO
+	 3WqaDEeMEMPVRyBuglZHs9PM1AemrTdIAleP0Qljsu9xWAQlPRlUB9FeLsJz15m3Ih
+	 eT7PdfqzJmyw1t8TAGitE5JrKNpQZPneMj7fqqjzzc2XAgksbWS+wDjHAH3DWgOsv0
+	 jGm7CveeM3vMNhZrO8UZf8oguKIlidarRF2dXI0pr8e7vrhhXgrmWHnyoCdrfapHRQ
+	 yqAXNEEBvxsEF+QZZn2W1H0UDVgWTF/Nmmc7G4OXYuNh/osFo7dLB3WfoVQZivftSB
+	 0Fr8oDdQ+hV8g==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id TEwIqNUFnKGH; Wed, 26 Aug 2020 10:00:46 -0400 (EDT)
+Received: from joraj-alpa (unknown [107.159.43.215])
+	by mail.efficios.com (Postfix) with ESMTPSA id 3F4EF9E462;
+	Wed, 26 Aug 2020 10:00:46 -0400 (EDT)
+Date: Wed, 26 Aug 2020 10:00:46 -0400
+From: "Jonathan Rajotte-Julien" <jonathan.rajotte-julien@efficios.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kernel: config cleanups for 5.8+
-Date: Wed, 26 Aug 2020 09:57:31 -0400
-Message-Id: <292c77c77a27643ef17364375547975be842c8cc.1598450136.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1598450136.git.bruce.ashfield@gmail.com>
-References: <cover.1598450136.git.bruce.ashfield@gmail.com>
+Subject: Re: [OE-core] [PATCH] lttng-tools: Do not build for riscv64
+Message-ID: <20200826140046.GJ1638231@joraj-alpa>
+References: <20200826054101.856417-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200826054101.856417-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Hi,
 
-Integrating the following configuration tweaks to fixup warnings and
-remove obselete configs for 5.8+:
+LTTng does not have a hard requirement on lttng-modules (on paper), when kernel modules
+(tracer) is not present kernel tracing is disabled and only userspace tracing is
+available.
 
-   84377c2c723 features: rename INTEL_PMC_IPC to MFD_INTEL_PMC_BXT
-   89b30487d09 features/inline: remove
-   0d357ccb3f3 intel-tco: switch ITCO_WDT to loadable module
-   0baed75c082 bsp: Drop the stale USB_MUSB_AM335X_CHILD
+Was there any report that lttng-ust (userspace tracing) is not working as
+intended on riscv64?
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.8.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Cheers
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-index 8397567996..363b771967 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "34702049e3c1a4bb927e5f8d1cbe5f134afb4036"
--SRCREV_meta ?= "da09024fed6c2d350ad69d400d4faaf4f2b623de"
-+SRCREV_meta ?= "84377c2c723fe121d041f8fcfc99b8c244dcd6b0"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-index 8d95d5f589..6c18a6178f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "e5992f87f18d3e99f7448111f99bb1769dc718c7"
- SRCREV_machine ?= "34702049e3c1a4bb927e5f8d1cbe5f134afb4036"
--SRCREV_meta ?= "da09024fed6c2d350ad69d400d4faaf4f2b623de"
-+SRCREV_meta ?= "84377c2c723fe121d041f8fcfc99b8c244dcd6b0"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-index 4e2043baef..283c74694d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "34702049e3c1a4bb927e5f8d1cbe5f134afb4036"
- SRCREV_machine_qemux86-64 ?= "34702049e3c1a4bb927e5f8d1cbe5f134afb4036"
- SRCREV_machine_qemumips64 ?= "f8266b2a44053579c3bb0bde59552b30091ddb83"
- SRCREV_machine ?= "34702049e3c1a4bb927e5f8d1cbe5f134afb4036"
--SRCREV_meta ?= "da09024fed6c2d350ad69d400d4faaf4f2b623de"
-+SRCREV_meta ?= "84377c2c723fe121d041f8fcfc99b8c244dcd6b0"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+On Tue, Aug 25, 2020 at 10:41:01PM -0700, Khem Raj wrote:
+> Since lttng-modules are not buildable, there is no point of building
+> tools either
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../packagegroups/packagegroup-core-tools-profile.bb           | 1 +
+>  meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb                | 3 +++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> index ca35af1ec3..608e406f83 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> @@ -41,6 +41,7 @@ LTTNGUST_arc = ""
+>  
+>  LTTNGTOOLS = "lttng-tools"
+>  LTTNGTOOLS_arc = ""
+> +LTTNGTOOLS_riscv64 = ""
+>  
+>  LTTNGMODULES = "lttng-modules"
+>  LTTNGMODULES_arc = ""
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+> index e9c8e18e22..0614e86713 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+> @@ -162,3 +162,6 @@ do_install_ptest () {
+>          esac
+>      done
+>  }
+> +
+> +COMPATIBLE_HOST_riscv64 = "null"
+> +
+> -- 
+> 2.28.0
+> 
+
+> 
+
+
 -- 
-2.19.1
-
+Jonathan Rajotte-Julien
+EfficiOS
