@@ -1,86 +1,134 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web10.6466.1598420465571225648
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web10.7711.1598427963920826990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2020 22:41:05 -0700
+ Wed, 26 Aug 2020 00:46:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=a2FcoiFy;
- spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f193.google.com with SMTP id 17so381505pfw.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2020 22:41:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p9c1ilb+msHaiDWmyqWap76zl0AxCZAygeYbFjquK6w=;
-        b=a2FcoiFygh4b7flFDbbE/NKUfwGylJeEAOxF07GTPKH6vf2/+q4KJ/AMZMdcwSMCl3
-         ZsaI/HNJUFuoqcf7pF8+RZ4O1yPGqWudBdgfkkMK3ITQiDnH4K+TLMkgeRSEvnpS4zXa
-         viJAAgItDwEQUvabrxfJjrncJN3f2MIMw+KhGJwfHylmCYBdfUnvC2mjBe7xtrFIh4hi
-         EL8Xl1BihLJYgdmY4LBOSmr0Rm8Sxru35X6PJQkMHKXSgnWUyCDOvk9hujJjQMvkdUPn
-         DJr7rYTxIy7K/vcp/SCfGlg8F4eBo4YCVTRGpHO/kevQ2gwI6MF08ksXphU5lXRzBTcJ
-         XKkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p9c1ilb+msHaiDWmyqWap76zl0AxCZAygeYbFjquK6w=;
-        b=g7xcTZXZ18IW2tsgC40emseXoGsoteMQVDOtcQtZ9/fCUX4ndwRaFDaQp4NgbNKyX7
-         bwTO6JHTtl8Fkfc46JmYA0VCalC5l+WV7Lwq+SRcOivlufjQNXpblK3efCUOBLtmcsq6
-         rLZ5NbWAaRfljvnG3sY5zDrkv5wLApU/PjZBRf0Gcc74kvq3rLBfiJ7v2pMPw9Rs3V32
-         hNgCg8NvfwmWLcK4LBXoWTlfFwj0Z5eF2nbLliL2rfxgaOYr2/6S8TJg8UAzmd+q4+Sb
-         7SdUkuy4C9pP3DdnffNYKJKVaGm5t4TT56NoU7QtIegUpGVZaL0QymKI85EGI4FclP/l
-         872g==
-X-Gm-Message-State: AOAM532DRTPxqyaJIpQak6KW59OoynT4mGNQpc11gY6xpK+Bat2wlmvS
-	6e3oYFUntS3wLydii5RuOm/3qC4kVrkyuA==
-X-Google-Smtp-Source: ABdhPJyVRx9naW/Xpkgz+o3i+wmF7JHaJTr+VoUaiccs4Qs6AbIoCRqO6OUcOSo+PTymXG8Q6d1ezg==
-X-Received: by 2002:a62:178d:: with SMTP id 135mr10840276pfx.192.1598420464686;
-        Tue, 25 Aug 2020 22:41:04 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4fbd])
-        by smtp.gmail.com with ESMTPSA id r91sm817809pja.56.2020.08.25.22.41.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 22:41:04 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: gEL8ixdW2GlqSwtXmtNK1vLxu5CQ782sRtCzajn2bljXTlZbwLRbCleUXO+juykbKiOLNeln7t
+ 5/pSRrjsYHUA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="157288919"
+X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
+   d="scan'208";a="157288919"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 00:46:02 -0700
+IronPort-SDR: B+2NMSkQU/qICCURMWZUAt89Kuj7NIwwT653LXVF+IEQEoIaWZOBc/R/j7LgcoAy96+ldzcLz9
+ lAh9WT4XBIDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
+   d="scan'208";a="402991998"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2020 00:46:01 -0700
+From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] lttng-tools: Do not build for riscv64
-Date: Tue, 25 Aug 2020 22:41:01 -0700
-Message-Id: <20200826054101.856417-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: randy.e.witt@linux.intel.com
+Subject: [PATCH] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES variable added to separate bootimg-efi and bootimg-partition
+Date: Wed, 26 Aug 2020 15:45:59 +0800
+Message-Id: <1598427959-10736-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-Since lttng-modules are not buildable, there is no point of building
-tools either
+From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Due to recent changes in bootimg-efi to include IMAGE_BOOT_FILES,
+when both bootimg-partition and bootimg-efi occur in a single .wks
+and IMAGE_BOOT_FILES are defined, files listed in IMAGE_BOOT_FILES
+will be duplicated in both partition.
+Since IMAGE_BOOT_FILES are crucial for bootimg-partition, but
+optional for bootimg-efi, hence allowing bootimg-efi to have the option
+to ignore it.
+
+Added a new variable, IMAGE_EFI_BOOT_FILES, to handle this
+issue. Its basic usage is the same as IMAGE_BOOT_FILES.
+Usage example:
+        IMAGE_EFI_BOOT_FILES = "u-boot.img uImage;kernel"
+        IMAGE_EFI_BOOT_FILES = "u-boot.${UBOOT_SUFFIX} ${KERNEL_IMAGETYPE}"
+
+This commit is also squashed with the updated testcase to cover for this change.
+
+[YOCTO #14011]
+
+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 ---
- .../packagegroups/packagegroup-core-tools-profile.bb           | 1 +
- meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb                | 3 +++
- 2 files changed, 4 insertions(+)
+ meta/classes/image_types_wic.bbclass          |  2 +-
+ meta/lib/oeqa/selftest/cases/wic.py           | 10 +++++++++-
+ scripts/lib/wic/plugins/source/bootimg-efi.py |  8 ++++----
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index ca35af1ec3..608e406f83 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -41,6 +41,7 @@ LTTNGUST_arc = ""
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 7b1db50..def44bb 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -1,7 +1,7 @@
+ # The WICVARS variable is used to define list of bitbake variables used in wic code
+ # variables from this list is written to <image>.env file
+ WICVARS ?= "\
+-           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
++           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_EFI_BOOT_FILES IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
+            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index e6b23c6..1149ae0 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -235,6 +235,14 @@ class Wic(WicTestCase):
+         runCmd(cmd)
+         self.assertEqual(1, len(glob(self.resultdir + "systemd-bootdisk-*direct")))
  
- LTTNGTOOLS = "lttng-tools"
- LTTNGTOOLS_arc = ""
-+LTTNGTOOLS_riscv64 = ""
++    def test_efi_bootpart(self):
++        """Test creation of efi-bootpart image"""
++        cmd = "wic create efi-bootpart -e core-image-minimal -o %s" % self.resultdir
++        kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
++        self.write_config('IMAGE_EFI_BOOT_FILES = "%s"\n' % kimgtype)
++        runCmd(cmd)
++        self.assertEqual(1, len(glob(self.resultdir + "efi-bootpart-*direct")))
++
+     def test_sdimage_bootpart(self):
+         """Test creation of sdimage-bootpart image"""
+         cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
+@@ -689,7 +697,7 @@ class Wic2(WicTestCase):
+         wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
+                                       'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
+                                       'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME',
+-                                      'APPEND'))
++                                      'APPEND', 'IMAGE_EFI_BOOT_FILES'))
+         with open(path) as envfile:
+             content = dict(line.split("=", 1) for line in envfile)
+             # test if variables used by wic present in the .env file
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 14c1723..cdc7254 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -212,8 +212,8 @@ class BootimgEFIPlugin(SourcePlugin):
+         except KeyError:
+             raise WicError("bootimg-efi requires a loader, none specified")
  
- LTTNGMODULES = "lttng-modules"
- LTTNGMODULES_arc = ""
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-index e9c8e18e22..0614e86713 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-@@ -162,3 +162,6 @@ do_install_ptest () {
-         esac
-     done
- }
-+
-+COMPATIBLE_HOST_riscv64 = "null"
-+
+-        if get_bitbake_var("IMAGE_BOOT_FILES") is None:
+-            logger.debug('No boot files defined in IMAGE_BOOT_FILES')
++        if get_bitbake_var("IMAGE_EFI_BOOT_FILES") is None:
++            logger.debug('No boot files defined in IMAGE_EFI_BOOT_FILES')
+         else:
+             boot_files = None
+             for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), (None, None)):
+@@ -222,7 +222,7 @@ class BootimgEFIPlugin(SourcePlugin):
+                 else:
+                     var = ""
+ 
+-                boot_files = get_bitbake_var("IMAGE_BOOT_FILES" + var)
++                boot_files = get_bitbake_var("IMAGE_EFI_BOOT_FILES" + var)
+                 if boot_files:
+                     break
+ 
+@@ -292,7 +292,7 @@ class BootimgEFIPlugin(SourcePlugin):
+             (staging_kernel_dir, kernel, hdddir, kernel)
+         exec_cmd(install_cmd)
+ 
+-        if get_bitbake_var("IMAGE_BOOT_FILES"):
++        if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+             for src_path, dst_path in cls.install_task:
+                 install_cmd = "install -m 0644 -D %s %s" \
+                               % (os.path.join(kernel_dir, src_path),
 -- 
-2.28.0
+2.7.4
 
