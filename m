@@ -1,57 +1,61 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.2946.1598470681411749388
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.3454.1598472165363694968
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 12:38:06 -0700
+ Wed, 26 Aug 2020 13:02:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ssajal@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07QJbdjM025357
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 12:37:50 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 26 Aug 2020
- 12:37:29 -0700
-Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id C16F8201B6;
- Wed, 26 Aug 2020 15:37:28 -0400 (EDT)
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [meta-webserver][PATCH] apache2: upgrade v2.4.43 -> v2.4.46
-Date: Wed, 26 Aug 2020 15:37:22 -0400
-Message-ID: <20200826193722.33720-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3854C60C18;
+	Wed, 26 Aug 2020 20:02:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXBhY2hlMjogdXBncmFkZSB2Mi40LjQzIC0+IHYyLjQuNDY=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Aug 2020 20:02:44 -0000
+Message-ID: <20200826200244.2264.27313@do>
+References: <20200826193722.33720-1-sakib.sajal@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200826193722.33720-1-sakib.sajal@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Minor upgrade inluding bug and CVE fixes, namely:
-  - CVE-2020-9490
-  - CVE-2020-11984
-  - CVE-2020-11993
+== Series Details ==
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Series: apache2: upgrade v2.4.43 -> v2.4.46
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25801/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-webserver] apache2: upgrade v2.4.43 -> v2.4.46
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-webserver) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 377a6ffbcb)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../apache2/{apache2_2.4.43.bb => apache2_2.4.46.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-webserver/recipes-httpd/apache2/{apache2_2.4.43.bb => apache2_2.4.46.bb} (98%)
-
-diff --git a/meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb b/meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
-similarity index 98%
-rename from meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb
-rename to meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
-index a7083d80e..197cb83e6 100644
---- a/meta-webserver/recipes-httpd/apache2/apache2_2.4.43.bb
-+++ b/meta-webserver/recipes-httpd/apache2/apache2_2.4.46.bb
-@@ -26,8 +26,8 @@ SRC_URI_append_class-target = " \
-            "
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
--SRC_URI[md5sum] = "791c986b1e70fe61eb44060aacc89a64"
--SRC_URI[sha256sum] = "a497652ab3fc81318cdc2a203090a999150d86461acff97c1065dc910fe10f43"
-+SRC_URI[md5sum] = "7d661ea5e736dac5e2761d9f49fe8361"
-+SRC_URI[sha256sum] = "740eddf6e1c641992b22359cabc66e6325868c3c5e2e3f98faf349b61ecf41ea"
- 
- S = "${WORKDIR}/httpd-${PV}"
- 
--- 
-2.26.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
