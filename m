@@ -1,171 +1,157 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.59])
- by mx.groups.io with SMTP id smtpd.web10.7378.1598484394913593815
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.7432.1598484597528535193
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 16:26:35 -0700
+ Wed, 26 Aug 2020 16:29:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=S8TBBn6L;
- spf=pass (domain: windriver.com, ip: 40.107.236.59, mailfrom: joe.slater@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OjCugvcCYEIP9PO3PoR8J5JBld/iA/SBLW9JmDYhkQtuyJKyWcb67EXI0tukPt5hQ2e4H0UuX4bVu8qYMDUHt9EsVygkCwAod4ZPWgZAsONzt16q5ARrWUTkLSjwFpbrVFB5e910r2laiDm3DcgaAMGWCqKmtIE1ZiOqqsu/n4F7SdOkfoYof5Ro1C7g8PSJvpITsRgtcFtG6+qlvLWrWaVpTWFt9M+weF2qm2XUEUUqZ73qokzGTxZyoyQn/YxDo9zAMhq4Qkhne/xucIPxg4fLXfiDo4V+NMwPQEyk+rrsNfg5kWmraNSkqKIa1QpWyaLUYZwTTGCn2zLf8ukpKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywYMD7Q8DkcJyagK7o8GoshGREWtu1u0xP/uw0rmBec=;
- b=KgIweOSa4B+ANgOTG7ZEuS8Zxt8hW9M7/hoH0N6FDTqea/t73X7h5Cq08cJQzLKfZAQ8uRUGCxMFstndFsu7ArbnTbSgIALQQqiQiVGsQ/bEUiPpvotvAJGa+ZS6GwIrjEPaQ5atMXvTO6vwqZ8xhtzdNMrCu4dQcvh2Lxfi/0FTbFyzPwiks1lVC0ghGZ998+qN/gdRJI85kPAm+Nv5fTpfDkbXNP1g79C2z1/KBex/K9Scek9p6L/PhJkDZzKPTFGDpL3NpNsNV/MYhXHDPUyxQcPAmr84LW5dKUN9ObBRKYcPGXDbQsArTNEe/gE1CZKouiTDH+uySTjW626ubw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wTYQu625;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id 17so1991019pfw.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 16:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywYMD7Q8DkcJyagK7o8GoshGREWtu1u0xP/uw0rmBec=;
- b=S8TBBn6LNkxmhqBuD6bGuzn588sawS1qle5SWS/6FSbo2lwO9vU6juTz0PEi226X5rmLYxRPqrNTDGEIaJ3y2wYBQPoHWJLh62+c7WEldGebdQSC/Z/cS4wr+73PzN1tid61EGOE6c8VITve2LDGYeURRjql6WZzh+pI0Wg8gfs=
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by BYAPR11MB3544.namprd11.prod.outlook.com (2603:10b6:a03:b5::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Wed, 26 Aug
- 2020 23:26:32 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::d93e:4c0f:e4a9:dfc6]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::d93e:4c0f:e4a9:dfc6%2]) with mapi id 15.20.3326.019; Wed, 26 Aug 2020
- 23:26:32 +0000
-From: "Joe Slater" <joe.slater@windriver.com>
-To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Seebs <seebs@seebs.net>
-Subject: Re: [oe-core][PATCH 1/1] pseudo: fix renaming to self
-Thread-Topic: [oe-core][PATCH 1/1] pseudo: fix renaming to self
-Thread-Index: AQHWe9r4hK1wPpTeS0S7eNTe+weCl6lK0IyAgAA16bA=
-Date: Wed, 26 Aug 2020 23:26:32 +0000
-Message-ID: 
- <BY5PR11MB3992899611074C073F82885588540@BY5PR11MB3992.namprd11.prod.outlook.com>
-References: <20200826185857.24292-1-joe.slater@windriver.com>
- <20200826185857.24292-2-joe.slater@windriver.com>
- <ef96587f-41d7-d285-27e8-cd6f78737028@windriver.com>
-In-Reply-To: <ef96587f-41d7-d285-27e8-cd6f78737028@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
- header.from=windriver.com;
-x-originating-ip: [24.4.218.114]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fc1b8d83-0b65-4dbe-7261-08d84a1777dc
-x-ms-traffictypediagnostic: BYAPR11MB3544:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <BYAPR11MB3544828BFDFCB81457959FB788540@BYAPR11MB3544.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- An/GqibH/h5adsxnGKlE1nabP7ddM46tL6dNijqsGsYPypjJ/2KFprITVIQddICCdd+0fCudpseZlSTfq9NAAdvvKnD32VLYG7eDdwxmye7UL+9B8LlrHqisUNlbYGWIZ4f2REdRyDNaf7SO81ZwtxkAyaXJdFoSybWyD/iOecjJAcVTM4jmXE+1WWt1tOu74+M6XF80LnhXwvYGCJ9pfr9dV/ahCOIFDl9ON/GHgkXo9YWmRKALheiQD5uhIvg06pxLarGvEhP28v7P0u7ckKJpp6t/4FJa8sjCX/OdkPXC6ZvP5bgS/Qo19q0uoIWh5EhPdOBjsnXMyOAjdBO5zg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(396003)(376002)(346002)(366004)(136003)(8676002)(71200400001)(55016002)(52536014)(5660300002)(86362001)(76116006)(66946007)(64756008)(9686003)(66476007)(478600001)(66556008)(66446008)(6506007)(83380400001)(53546011)(2906002)(7696005)(8936002)(33656002)(110136005)(26005)(186003)(316002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- acPdJHT7TRV+NVaxJAv9N68Hq4BuJXanZDQ9+kVoGtiCJ2lyyC+twP8GxrL5gNWJcCWWr27KF/2V+bA26vAyrC0dMUi2b6zc2pC+Ig+CNIuYFQB4DZHdl63pvSkSKYNI+EgOWbPFCFAWBUgNr5BjRMPom+bzffQGgBb27tT4GvIaNUFD6mP7gws/2JEpdIEGA8xzfUoBtdNT5/TL5MrhJMKjo65Qz7+fXxZ6sZxHM2mx9xCxm64bPvLzgSFcBZkItueUAbzBZ+yLEpMwnr8KzCD6HO5GIhVSG59REQp8eDWqPuASK2hYESmzl62tlVcwg4vCWaKiLnAHzoMmPC1LPGRgXchP0onM39HAsQr2etxdUTjaOIxsCOI/nIVHPC0iKjnBCOJLtRM0anYGtz6EBzBQiKZthZHVQi/L2EbCeKoBBa+NA/iuM0rgax7ag14wnhDr9g6KBr+9bxcJuwqSBwwm7xH9PgFiTcoAxmwaULrnX+gcdfuT7JmKqUesWVI/XuYOw2SeS5BMx5INSWOA93INiECuBWHxEg1Qx3kmRK203sUIVmkC4bvBUNmPcjoHkFZ36Yfbe9TaojE04TdCK2W2GlQU3H1syA4DeBXLVGpOoNnPMcvvo2rkFkKHAv9osQkymdHhCastMje63rOWXA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bTDjGNSOWRXhpcoSeL4f8TSruADzl2pbeD7wFQLUepo=;
+        b=wTYQu625vqIYgOF8EoAbr6B6VLRwl0YK9wonw+QJmJxRgi04C5vAJ+PoiKyQXdKi4b
+         6F7srMBhI9G/FxP+4pbVnWCq8NK/XSZajEjEpWCThv0CqEfs8AHa3QlCLy3u3gbGhOh4
+         xlKgsmt204kMWmZ1EGeiVYCrdU07DRczfciLiJ57Qi18J/D8txHIopWqMoY02jW+DChN
+         99qBTNy21d3iz1N80wrNiBqctx2n8Xor7RUGV3flxNZaj49p8h8FvLQ9FZ7v9Ec7JESr
+         FEt00428A6RMfbh5rkyiVTUohBqlDZizVvKIcebGx1VFwspdheAfNOI9/oc1YrOvSVGq
+         jHZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bTDjGNSOWRXhpcoSeL4f8TSruADzl2pbeD7wFQLUepo=;
+        b=QU+X+GKZU4nA2/LQQOPAoEU1BErUsQWpMTZunuKDRU/SycdyFYjrlpRU3mXByzxoKS
+         dJYWFzrf7mBkMJdU0ROSxHObnhO3Pv7cjftKN6Tw8of5oRc/iM3BG4OWQicZ651fUgpv
+         9G3bySuN0Mh+e9rvweJvl4ej0YJcCA4Jzv71W/zh80xwP2gpiOKQH0Aro1r0GjG9KVNQ
+         5gVft5Koq0Z3fNRDcyv9MfGecRANVCJkzrfxZLiSMW6kVe7/GCxMXk5XQ/5qZFRHLGvv
+         abLLzrttI3YIVXnNrAv4QtS64cC2Ts6tGoWIhPHYSmm6/R5k9Dt/kPwH58Qx9GTVA7I3
+         BSxg==
+X-Gm-Message-State: AOAM531QWqDJ1lLEMYruGrUGABjqJPD/0Zp453DgvAmM6ZsxxmIts5Of
+	eUP0L+QspTvZwFiA/rckVHfd67eHSwQdx5Oq41o=
+X-Google-Smtp-Source: ABdhPJxhOCcVWgx/Khv2VI+I+SPdx3Tfu0TFAazbiNv3XURE9DE0SKBTRFGun7frD50OzmkNTL/jqg==
+X-Received: by 2002:a62:4c7:: with SMTP id 190mr14377300pfe.103.1598484596461;
+        Wed, 26 Aug 2020 16:29:56 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id a5sm122227pgb.23.2020.08.26.16.29.55
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 16:29:55 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/12] Pull request (cover letter only)
+Date: Wed, 26 Aug 2020 13:29:45 -1000
+Message-Id: <cover.1598484478.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc1b8d83-0b65-4dbe-7261-08d84a1777dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 23:26:32.6545
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Td1jDi67XTEFGwf66z/u/XMAyQ0oDgXcIbni3sgGapIr7fPb0l3nYUTcOvqU8SRLzWCbrFmiVh0vk1g38OHfB6fvEWz4V8s8TWBoG5XG6MI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3544
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-U2luY2UgSSAoYWNjaWRlbnRseSkgZW5hYmxlZCB0aGUgcGF0Y2ggZm9yIHBzZXVkby1uYXRpdmUg
-YXMgd2VsbCBhcyB0YXJnZXQsIHRoZSBmYWN0IHRoYXQgYnVpbGRzIHN0aWxsIHdvcmsgYW5kIHRh
-cmdldHMgYm9vdCBpcyBhIGdvb2Qgc2lnbi4gIEJleW9uZCB0aGF0LCBJIHB1dCBwc2V1ZG8gb24g
-YSB0YXJnZXQgYW5kIHZlcmlmaWVkIHRoZSBweXRob24zIHJlbmFtZS4NCg0KRm9yIHJlbmFtZWF0
-KCksIEkgd3JvdGUgYSB0ZXN0IEkndmUgYXR0YWNoZWQgdG8gdGhlIEJ1Z3ppbGxhIGNhc2UgYW5k
-IGNvbXBpbGVkIGl0IGluIGEgZGV2c2hlbGwgZm9yIHBzZXVkby1uYXRpdmUuICBUaGVuLCBJIHVz
-ZWQgYmluL3BzZXVkbyBpbiB0aGF0IGRldnNoZWxsIHRvIHZlcmlmeSBwc2V1ZG8gZG9lcyBub3Qg
-Zm9yZ2V0IGFib3V0IHJlbmFtZXMgdG8gc2VsZi4NCg0KQXNzdW1pbmcgdGhlcmUgaXMgbm8gZ290
-Y2hhLCB0ZXN0aW5nIGZvciByZW5hbWUgaWRlbnRpdHkgYmVmb3JlIGFjY2Vzc2luZyB0aGUgcHNl
-dWRvIHNlcnZlciBzYXZlcyBtYW55IGN5Y2xlcy4gIFRvbyBiYWQgcmVuYW1pbmcgc29tZXRoaW5n
-IHRvIGl0c2VsZiBuZXZlciBoYXBwZW5zLg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
-RnJvbTogTWFjTGVvZCwgUmFuZHkgPFJhbmR5Lk1hY0xlb2RAd2luZHJpdmVyLmNvbT4gDQpTZW50
-OiBXZWRuZXNkYXksIEF1Z3VzdCAyNiwgMjAyMCAxOjA1IFBNDQpUbzogU2xhdGVyLCBKb3NlcGgg
-PGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc7IFNlZWJzIDxzZWVic0BzZWVicy5uZXQ+DQpTdWJqZWN0OiBSZTogW29lLWNv
-cmVdW1BBVENIIDEvMV0gcHNldWRvOiBmaXggcmVuYW1pbmcgdG8gc2VsZg0KDQoNCkFkZCBTZWVi
-cy4NCg0KSm9lLA0KSG93IGRpZCB5b3UgdGVzdCB0aGlzIGNoYW5nZT8NCg0KLi4vUmFuZHkNCg0K
-T24gMjAyMC0wOC0yNiAyOjU4IHAubS4sIEpvZSBTbGF0ZXIgd3JvdGU6DQo+IFBzZXVkbyB0ZXN0
-cyBmb3IgYW4gaXRlbSBiZWluZyByZW5hbWVkIHRvIGl0c2VsZiBvbmx5IGFmdGVyIA0KPiBpbmZv
-cm1hdGlvbiBhYm91dCBpdCBoYXMgYmVlbiBkZWxldGVkLiAgTW92ZSB0aGUgdGVzdCB0byBiZWZv
-cmUgd2UgDQo+IGNoYW5nZSB0aGUgZGF0YWJhc2UuDQo+DQo+IE5vdGUgdGhhdCBwc2V1ZG8gZG9l
-cyBub3Qgc3VwcG9ydCByZW5hbWVhdDIoKSwgYnV0IG5laXRoZXIgZG9lcyBnbGliYy4NCj4NCj4g
-U2lnbmVkLW9mZi1ieTogSm9lIFNsYXRlciA8am9lLnNsYXRlckB3aW5kcml2ZXIuY29tPg0KPiAt
-LS0NCj4gICAuLi4vcHNldWRvL2ZpbGVzL3JlbmFtZS5wYXRjaCAgICAgICAgICAgICAgICAgfCA3
-MyArKysrKysrKysrKysrKysrKysrDQo+ICAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BzZXVkby9w
-c2V1ZG9fZ2l0LmJiICAgIHwgIDEgKw0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgNzQgaW5zZXJ0aW9u
-cygrKQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHNldWRv
-L2ZpbGVzL3JlbmFtZS5wYXRjaA0KPg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BzZXVkby9maWxlcy9yZW5hbWUucGF0Y2ggDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3BzZXVkby9maWxlcy9yZW5hbWUucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5k
-ZXggMDAwMDAwMDAwMC4uYmMzNDRkYjNiNQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vZmlsZXMvcmVuYW1lLnBhdGNoDQo+IEBAIC0wLDAgKzEs
-NzMgQEANCj4gK3BzZXVkbzogZml4IHJlbmFtaW5nIHRvIHNlbGYNCj4gKw0KPiArVGhlIHBzZXVk
-byByZW5hbWUgZ3V0cyB0ZXN0IGZvciBhbiBpdGVtIGJlaW5nIHJlbmFtZWQgdG8gaXRzZWxmLCBv
-bmx5IA0KPiArYWZ0ZXIgaW5mb3JtYXRpb24gYWJvdXQgaXQgaGFzIGJlZW4gZGVsZXRlZC4NCj4g
-K1dlIG1vdmUgdGhlIHRlc3QgdG8gYmVmb3JlIHdlIHBsYXkgd2l0aCB0aGUgZGF0YWJhc2UuDQo+
-ICsNCj4gK05vdGUgdGhhdCBwc2V1ZG8gZG9lcyBub3Qgc3VwcG9ydCByZW5hbWVhdDIoKS4NCj4g
-Kw0KPiArVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IEpv
-ZSBTbGF0ZXIgPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT4NCj4gKw0KPiArDQo+ICstLS0gYS9w
-b3J0cy91bml4L2d1dHMvcmVuYW1lLmMNCj4gKysrKyBiL3BvcnRzL3VuaXgvZ3V0cy9yZW5hbWUu
-Yw0KPiArQEAgLTI5LDYgKzI5LDE0IEBADQo+ICsgCW5ld3JjID0gYmFzZV9sc3RhdChuZXdwYXRo
-LCAmbmV3YnVmKTsNCj4gKyAJb2xkcmMgPSBiYXNlX2xzdGF0KG9sZHBhdGgsICZvbGRidWYpOw0K
-PiArDQo+ICsrCS8qIG5vdGhpbmcgdG8gZG8gZm9yIGEgInJlbmFtZSIgb2YgYSBsaW5rIHRvIGl0
-c2VsZiAqLw0KPiArKwlpZiAobmV3cmMgIT0gLTEgJiYgb2xkcmMgIT0gLTEgJiYNCj4gKysJICAg
-IG5ld2J1Zi5zdF9kZXYgPT0gb2xkYnVmLnN0X2RldiAmJg0KPiArKwkgICAgbmV3YnVmLnN0X2lu
-byA9PSBvbGRidWYuc3RfaW5vKSB7DQo+ICsrCQlwc2V1ZG9fZGVidWcoUERCR0ZfT1AsICJyZW5h
-bWU6IHBhdGhzIGFyZSB0aGUgc2FtZVxuIik7DQo+ICsrCQlyZXR1cm4gcmVhbF9yZW5hbWUob2xk
-cGF0aCwgbmV3cGF0aCk7DQo+ICsrICAgICAgICB9DQo+ICsrDQo+ICsgCWVycm5vID0gc2F2ZV9l
-cnJubzsNCj4gKw0KPiArIAkvKiBuZXdwYXRoIG11c3QgYmUgcmVtb3ZlZC4gKi8NCj4gK0BAIC01
-OCwxMiArNjYsNiBAQA0KPiArIAkJcmV0dXJuIHJjOw0KPiArIAl9DQo+ICsgCXNhdmVfZXJybm8g
-PSBlcnJubzsNCj4gKy0JLyogbm90aGluZyB0byBkbyBmb3IgYSAicmVuYW1lIiBvZiBhIGxpbmsg
-dG8gaXRzZWxmICovDQo+ICstCWlmIChuZXdyYyAhPSAtMSAmJiBvbGRyYyAhPSAtMSAmJg0KPiAr
-LQkgICAgbmV3YnVmLnN0X2RldiA9PSBvbGRidWYuc3RfZGV2ICYmDQo+ICstCSAgICBuZXdidWYu
-c3RfaW5vID09IG9sZGJ1Zi5zdF9pbm8pIHsNCj4gKy0JCXJldHVybiByYzsNCj4gKy0gICAgICAg
-IH0NCj4gKw0KPiArIAkvKiByZW5hbWUoMykgaXMgbm90IG12KDEpLiAgcmVuYW1lKGZpbGUsIGRp
-cikgZmFpbHM7IHlvdSBtdXN0IHByb3ZpZGUNCj4gKyAJICogdGhlIGNvcnJlY3RlZCBwYXRoIHlv
-dXJzZWxmLiAgWW91IGNhbiByZW5hbWUgb3ZlciBhIGRpcmVjdG9yeSANCj4gK29ubHkNCj4gKy0t
-LSBhL3BvcnRzL3VuaXgvZ3V0cy9yZW5hbWVhdC5jDQo+ICsrKysgYi9wb3J0cy91bml4L2d1dHMv
-cmVuYW1lYXQuYw0KPiArQEAgLTQxLDYgKzQxLDE0IEBADQo+ICsgCW5ld3JjID0gYmFzZV9mc3Rh
-dGF0KG5ld2RpcmZkLCBuZXdwYXRoLCAmbmV3YnVmLCANCj4gK0FUX1NZTUxJTktfTk9GT0xMT1cp
-OyAgI2VuZGlmDQo+ICsNCj4gKysJLyogbm90aGluZyB0byBkbyBmb3IgYSAicmVuYW1lIiBvZiBh
-IGxpbmsgdG8gaXRzZWxmICovDQo+ICsrCWlmIChuZXdyYyAhPSAtMSAmJiBvbGRyYyAhPSAtMSAm
-Jg0KPiArKwkgICAgbmV3YnVmLnN0X2RldiA9PSBvbGRidWYuc3RfZGV2ICYmDQo+ICsrCSAgICBu
-ZXdidWYuc3RfaW5vID09IG9sZGJ1Zi5zdF9pbm8pIHsNCj4gKysJCXBzZXVkb19kZWJ1ZyhQREJH
-Rl9PUCwgInJlbmFtZWF0OiBwYXRocyBhcmUgdGhlIHNhbWVcbiIpOw0KPiArKwkJcmV0dXJuIHJl
-YWxfcmVuYW1lYXQob2xkZGlyZmQsIG9sZHBhdGgsIG5ld2RpcmZkLCBuZXdwYXRoKTsNCj4gKysg
-ICAgICAgIH0NCj4gKysNCj4gKyAJZXJybm8gPSBzYXZlX2Vycm5vOw0KPiArDQo+ICsgCS8qIG5l
-d3BhdGggbXVzdCBiZSByZW1vdmVkLiAqLw0KPiArQEAgLTcxLDEyICs3OSw2IEBADQo+ICsgCQly
-ZXR1cm4gcmM7DQo+ICsgCX0NCj4gKyAJc2F2ZV9lcnJubyA9IGVycm5vOw0KPiArLQkvKiBub3Ro
-aW5nIHRvIGRvIGZvciBhICJyZW5hbWUiIG9mIGEgbGluayB0byBpdHNlbGYgKi8NCj4gKy0JaWYg
-KG5ld3JjICE9IC0xICYmIG9sZHJjICE9IC0xICYmDQo+ICstCSAgICBuZXdidWYuc3RfZGV2ID09
-IG9sZGJ1Zi5zdF9kZXYgJiYNCj4gKy0JICAgIG5ld2J1Zi5zdF9pbm8gPT0gb2xkYnVmLnN0X2lu
-bykgew0KPiArLQkJcmV0dXJuIHJjOw0KPiArLSAgICAgICAgfQ0KPiArDQo+ICsgCS8qIHJlbmFt
-ZSgzKSBpcyBub3QgbXYoMSkuICByZW5hbWUoZmlsZSwgZGlyKSBmYWlsczsgeW91IG11c3QgcHJv
-dmlkZQ0KPiArIAkgKiB0aGUgY29ycmVjdGVkIHBhdGggeW91cnNlbGYuICBZb3UgY2FuIHJlbmFt
-ZSBvdmVyIGEgZGlyZWN0b3J5IA0KPiArIG9ubHkNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9wc2V1ZG8vcHNldWRvX2dpdC5iYiANCj4gYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHNldWRvL3BzZXVkb19naXQuYmINCj4gaW5kZXggOWEyMjMwNGJiYS4uOGQ4Y2Y4ZDUyMyAx
-MDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BzZXVkby9wc2V1ZG9fZ2l0LmJi
-DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vcHNldWRvX2dpdC5iYg0KPiBA
-QCAtNCw2ICs0LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9wc2V1
-ZG87YnJhbmNoPW9lLWNvcmUgXA0KPiAgICAgICAgICAgICAgZmlsZTovLzAwMDEtY29uZmlndXJl
-LVBydW5lLVBJRS1mbGFncy5wYXRjaCBcDQo+ICAgICAgICAgICAgICBmaWxlOi8vZmFsbGJhY2st
-cGFzc3dkIFwNCj4gICAgICAgICAgICAgIGZpbGU6Ly9mYWxsYmFjay1ncm91cCBcDQo+ICsgICAg
-ICAgICAgIGZpbGU6Ly9yZW5hbWUucGF0Y2ggXA0KPiAgICAgICAgICAgICAgIg0KPiAgIA0KPiAg
-IFNSQ1JFViA9ICI4ZWZiMDgyODYzZmYwY2VlYzdiN2U0NmY5YTQ0NzUwZTEyZjQ4MDM5Ig0KDQoN
-Ci0tDQojIFJhbmR5IE1hY0xlb2QNCiMgV2luZCBSaXZlciBMaW51eA0KDQo=
+The following changes since commit 553a96644957ca6ad0f13b75a6e3a596357d1d52:
+
+  linux-yocto/5.4: update to v5.4.57 (2020-08-13 04:47:52 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Adrian Bunk (1):
+  librsvg: Upgrade 2.40.20 -> 2.40.21
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.58
+  linux-yocto/5.4: perf cs-etm: Move definition of 'traceid_list' global
+    variable from header file
+
+Changqing Li (1):
+  libffi: fix multilib header conflict
+
+Chen Qi (1):
+  fribidi: extend CVE_PRODUCT to include fribidi
+
+Lee Chee Yang (2):
+  ghostscript: update to 9.52
+  perl: fix CVE-2020-12723
+
+Mikko Rapeli (2):
+  alsa-topology-conf: use ${datadir} in do_install()
+  alsa-ucm-conf: use ${datadir} in do_install()
+
+Richard Purdie (1):
+  selftest/tinfoil: Increase wait event timeout
+
+Vasyl Vavrychuk (1):
+  runqemu: Check gtk or sdl option is passed together with gl or gl-es
+    options.
+
+Wang Mingyu (1):
+  xserver-xorg: upgrade 1.20.7 -> 1.20.8
+
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |   5 +-
+ .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
+ .../do-not-check-local-libpng-source.patch    |  37 +--
+ .../ghostscript/CVE-2019-14869-0001.patch     |  70 ----
+ .../ghostscript/ghostscript/aarch64/objarch.h |  40 ---
+ .../ghostscript/ghostscript/arm/objarch.h     |  40 ---
+ .../ghostscript/ghostscript/armeb/objarch.h   |  40 ---
+ .../ghostscript-9.02-genarch.patch            |  38 ---
+ .../ghostscript/ghostscript/i586/objarch.h    |  41 ---
+ .../ghostscript/ghostscript/i686              |   1 -
+ .../ghostscript/microblaze/objarch.h          |  40 ---
+ .../ghostscript/microblazeel/objarch.h        |  40 ---
+ .../ghostscript/mipsarchn32eb/objarch.h       |  40 ---
+ .../ghostscript/mipsarchn32el/objarch.h       |  40 ---
+ .../ghostscript/mipsarchn64eb/objarch.h       |  40 ---
+ .../ghostscript/mipsarchn64el/objarch.h       |  40 ---
+ .../ghostscript/mipsarcho32eb/objarch.h       |  40 ---
+ .../ghostscript/mipsarcho32el/objarch.h       |  40 ---
+ .../ghostscript/ghostscript/nios2/objarch.h   |  40 ---
+ .../ghostscript/ghostscript/powerpc/objarch.h |  40 ---
+ .../ghostscript/powerpc64/objarch.h           |  40 ---
+ .../ghostscript/powerpc64le/objarch.h         |  40 ---
+ .../ghostscript/ghostscript/x86-64/objarch.h  |  40 ---
+ ...hostscript_9.50.bb => ghostscript_9.52.bb} |  27 +-
+ ...{librsvg_2.40.20.bb => librsvg_2.40.21.bb} |   3 +-
+ ...-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} |   4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../alsa/alsa-topology-conf_1.2.1.bb          |   4 +-
+ .../alsa/alsa-ucm-conf_1.2.1.2.bb             |   6 +-
+ meta/recipes-support/fribidi/fribidi_1.0.9.bb |   2 +-
+ meta/recipes-support/libffi/libffi_3.3.bb     |   2 +-
+ scripts/runqemu                               |   3 +-
+ 35 files changed, 361 insertions(+), 861 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
+ delete mode 120000 meta/recipes-extended/ghostscript/ghostscript/i686
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
+ delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.50.bb => ghostscript_9.52.bb} (87%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb} (92%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} (89%)
+
+-- 
+2.17.1
+
