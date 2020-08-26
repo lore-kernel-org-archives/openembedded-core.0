@@ -1,63 +1,91 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web10.11870.1598447229440670262
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web11.12988.1598450255736491559
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 06:07:09 -0700
+ Wed, 26 Aug 2020 06:57:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=E3oEXo6B;
- spf=pass (domain: burtonini.com, ip: 209.85.208.193, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f193.google.com with SMTP id w25so2239607ljo.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 06:07:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QHDIzE+y;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id b14so1909597qkn.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 06:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=V9Tj/qVEZ5Kd+ebiTOJiBemVpnCtfMIz5JQnViRBfyY=;
-        b=E3oEXo6Bl4goC36+24a1Uh1ncChp0jNj6gJbeJYXRn5igo/J0IGbFR5Z74MgwAwtTf
-         gFKEa3YRX68HazKhEG/ZVGk4agwE7p25zWCSIwXdkaDTEF7hR05vQRtVFCkm2sJ/QIBl
-         0dB1P1+co2KN+VwvhPFVeuQWo83VqEcbCKxbyoODv7rzVEiDydLIzPWXJASPdnFWRIqp
-         9evgleEHj7gBjXOZZIMnk6a7e5nT5e0RpjpwBt1Uy4Xt6B8sTt31vga87TTCf4f8kMVv
-         x/AepiAUStmA1zMzzJ+BIRU0u2DsKTJM0M09lbh0h2LLAjumukthzaPq5aZaflZzOwBL
-         9TBQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T2RIBnRtcbcU0V/ieLQSULm9Ak/1lfd9Yv+d4Nx543E=;
+        b=QHDIzE+y0TJ3lcrfrpiACGaGCID1yE0Z2OAoY9T/K6sF1Z3PlrWJTIwUCjJNDFLL1b
+         dz6nuyDdTL3GWsAjmAJLr/HifKUvcHA7Kcdz8ymThVjwBhk9Jo+2/FrNlQVMSmyJtR4q
+         KFyi25jPLarbKHcjms1S7Po+kxx/e7BYTnsBaGluvscpUwBEl5lCXwIPWy2NdsrLgUc1
+         uMz0zIJrgFcuZ1zcrxDpsxo7enO+Kk6+8OXPbt2QrRCG3opUOfX8olz600VAw9OsQpfV
+         qlDvYIkVyVJmyphf5/lbwGEAdH/IkhCjqvXpFmyd72waIbdllBYmgMFO4OU1+q4c1DJI
+         4oRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=V9Tj/qVEZ5Kd+ebiTOJiBemVpnCtfMIz5JQnViRBfyY=;
-        b=IhfvYdUIWnqzRcHYke9Rztki5fa5ONuqMFh95WBrBP8ZDYcEFnmQVKOiC6jOhiKZiR
-         XF3Z9dfHVKRB9Xbv6XrHHmzTiG4nAWvb0aQKSr2InFzgz8/fv0ZhSsf/lcdHJ7FOaVGH
-         GuS8BjLkkXhNEZdlSyH/geQf8sffJWNT8QksjZgI4q9muK/tKARggJCuDoGiD0aXdpaw
-         AgxmGuFA1ApoSpza3mc54NztupHF5NjKe3fRo+wfIBcS7045ZfzIRDAKXjDZGSZrAPVu
-         dKNxb8FVr3uhsEHcV+UeKE9lyiYF6USk7G4oEDmYCEndxjPsJxYgTKnMy/KpjhzEQuUA
-         Pftw==
-X-Gm-Message-State: AOAM531njSCw+hhnPNzYMVlcq/HW+gFjdyz4utp7h0tIgune5tKAmMTt
-	GLdfMiVkbIxqe8Fl3EJb9r5douPu253F9xqmPcuKng==
-X-Google-Smtp-Source: ABdhPJyZgcw5mGITf6Sm7qfG0Z3EMxdQVBU6zGasF73ydQxF1UtwmtXzbu5cE/bLGZCnt9q6tznixX1FIXbA+DcVeBI=
-X-Received: by 2002:a2e:a369:: with SMTP id i9mr664464ljn.397.1598447227362;
- Wed, 26 Aug 2020 06:07:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T2RIBnRtcbcU0V/ieLQSULm9Ak/1lfd9Yv+d4Nx543E=;
+        b=jJCRY4grkDzUAenq3TjIxFYlAhjFO5ZnrF28lhJOh82D+u/rovoZYOkaPp7fHWl5UU
+         98+DZ9eFIuIPEOALmy6l53aMxQOOkKGxr0T3E0kzHQidbvp1+ARdB5UsNRln+nP08fT7
+         wZYzBHTBq2VE2yx/aKKYvPAGNloZjRwxHpyab6VwgSvr18YwXVwU3Oe77R+ggit4/C+B
+         P4ifjooETnS7u0cTMboXpSK8h1uNyIBQ/CBfwKNFHPMysr3nytwIf/Sh9TOetAhh3Fnd
+         n1BqXQmF3rrxFVzD0skjbniapwuNDNXzSvyvAwn8hywEg8bwFLdikIXTMi8LKDJfMDcS
+         DA9g==
+X-Gm-Message-State: AOAM53349bCQ6MTLdXkve/oXXSg+1I50pqP1a17nc34oRDxg8SiVz2Af
+	Zgkg7DFxgBMUpYPqYDPdg30=
+X-Google-Smtp-Source: ABdhPJylGiIdvRANNguBNJss4eb3OK8DwZnlpDxbEJJrzE6omEu9i+KDSKrBcyf8FKqtasauFuvzrw==
+X-Received: by 2002:a05:620a:144b:: with SMTP id i11mr13744159qkl.485.1598450254756;
+        Wed, 26 Aug 2020 06:57:34 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id a52sm1371737qtc.22.2020.08.26.06.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 06:57:33 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] kernel-yocto: -stable bumps and config cleanup
+Date: Wed, 26 Aug 2020 09:57:28 -0400
+Message-Id: <cover.1598450136.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <1597978383-189322-1-git-send-email-li.zhou@windriver.com> <CA+chaQfKoniG=ErQ9iN34xa5GvtQgrzpANnGG_1CfhC3_gCQ_w@mail.gmail.com>
-In-Reply-To: <CA+chaQfKoniG=ErQ9iN34xa5GvtQgrzpANnGG_1CfhC3_gCQ_w@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 26 Aug 2020 14:06:55 +0100
-Message-ID: <CAAnfSTt8c=fiQkXCDqMKZ4ibbKCBSFCmxPenH+CFhLJoyu_0iQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V2] connman-conf: make connman-conf only available for qemuall
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Li Zhou <li.zhou@windriver.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Aug 2020 at 09:07, Martin Jansa <Martin.Jansa@gmail.com> wrote:
-> We're using connman-conf to configure networking on various target machin=
-es - not only on qemu*. If this is merged I'll just undo this in our layer =
-- and that's fine, but if there are more people using connman-conf like thi=
-s, then we should re-consider this commit (or at least better explain why i=
-t's needed in commit message).
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Same here, please don't do this.
+Richard,
 
-Concrete use-case: building for a real machine (say, intel-corei7-64)
-that is supported by runqemu.  If you want testimage to work, you need
-the networking configuration from connman-conf.
+Here's the next set of -stable bumps and the collected configuration cleanups
+over the past few days.
 
-Ross
+With these, we have no warnings on the newly uprev'd yocto-bsps.
+
+Note: that the yocto-bsps configs are stacked on top of my already queued
+-stable update. So on the off chance we have issues with those stable updates,
+we'll have to jiggle the SRCREVs a bit to just take the config cleanups.
+
+Bruce
+
+The following changes since commit 2b3bd34f9b1f6db9651918532ff5a68de13a93b4:
+
+  bitbake: server/process: Fix typo in code causing tracebacks (2020-08-26 11:28:54 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/5.8: update to v5.8.3
+  linux-yocto/5.4: update to v5.4.60
+  kernel: config cleanups for 5.8+
+
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-rt_5.8.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ .../linux/linux-yocto-tiny_5.8.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 22 +++++++++----------
+ 6 files changed, 36 insertions(+), 36 deletions(-)
+
+-- 
+2.19.1
+
