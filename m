@@ -1,83 +1,84 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.16161.1598458832387311861
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.583.1598464142180634355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 09:20:32 -0700
+ Wed, 26 Aug 2020 10:49:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KwwCEuBQ;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: vijaikumar.kanagarajan@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id t9so1229261pfq.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 09:20:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cmda/GXu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id y3so2708312wrl.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 10:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=X33O/qo20BhnLlN6k2MMLPsmPyNZb9REUq0VOnIGTAY=;
-        b=KwwCEuBQVM21+y2OqaC2RZMAiLqpwGKrDSPgdkOKj+cXqoXVVkaEXl8eqcoyiBw7z4
-         luBaAxRJxlTNMkO0a86XA8PkLbzV2xHzhsgwcEMJEFjvTbPVBpLBuqaubmc8NXA28fqN
-         HC2dPXxr4tvZMzbjW5D6eud2LToCVSFtmWjZTkcHNltG+XZy7424GTwwd5kZ6XbjRXA3
-         Bz5kt/pU1BlrPV8v0SEka6bmCM4XCmHQnmDGxNmNnieqoR9BZH3RE3uIuXPT+5Doi1Hk
-         YMBDOefZXJLBreffQvofUcuENGIM+wEV9WdwbGnErQMo7/9vLQJzhkPKkCHExzt2GDrz
-         fU3A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nXoWzo8qpHf+bIy7l+6XUmxMULHhHPBeuPQy2ggoDbQ=;
+        b=cmda/GXuxo1JYj3QJbSCTlnMp4Zz6iTifwmE7OAoAUIwKpNVRXSKaUZlSowHxrKog6
+         iYB4cvyEiaKE1l3QKchJDs9XDOwCVPkpH6wa9ioWy0y/rkMYeMk4XY7MXPIR0JCQKzrx
+         rjXyfYscTy/6Demlc/4mPFM5QndQNs3QBtv6elq1yjAyTmBKfsl6RzCH1iTyNbC1Elur
+         lRWWC9eoLkgCB3DXQi+9VM12cS5UrBAbsEh4OcCpcSUh2jMeCxu9otBnWsvuli9hfvam
+         xHyJHc26VZFYFCbQW1YQ96YjN3PA/qt9IzspAp6rBa6RfcV/ezW9KoQ5UrUjrtKBsvWA
+         HE/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=X33O/qo20BhnLlN6k2MMLPsmPyNZb9REUq0VOnIGTAY=;
-        b=VZK6Juf8llNWSiStAL4AuRX0fgi5TlxfS9/a1lOZgWbPX16fylwC8r/WlqDrxG2+EX
-         R1L6Yo7NTMH60bEXQeWQaVFbXJYtAFNnfmII7lRKgmjxorYtbqVICFZqQ7S46+i3nWIG
-         /qnbNKcgz5/Hypcq3ySS56NIPVZvlxsZn2LAZs9P/m1z6Pkf5NQaA2OVQIaQUcKl5YvR
-         JfaFJnIhDKRlQy7JgbP1JH/IGHffiRixubeqtV+r0Li0HTSZg98mjlJIsbblntp1ldrM
-         k+SH3aBUWA7vFZ8EBEc+o9YqOywAx2YzEhv5aw5iWNqBTJYpwBSdkgoL3vCv+/NGYw0D
-         Kjgg==
-X-Gm-Message-State: AOAM531iOJK57Aai0JOZOUhKo8AX8nF3vGg7tfW+G8ovWqqFlUfMIMKr
-	yKLt2SC3Aea2hPPnRAUP7VqcNWlNdZjHMA==
-X-Google-Smtp-Source: ABdhPJzAPu6UsCNJOwOBF8n/d2BjQzqzrXs9rGEl0B4Jxaa76R+dUn7oL2R2nVLaZfHHivfwXbp9Hg==
-X-Received: by 2002:a63:1b12:: with SMTP id b18mr11190183pgb.21.1598458831687;
-        Wed, 26 Aug 2020 09:20:31 -0700 (PDT)
-Return-Path: <vijaikumar.kanagarajan@gmail.com>
-Received: from oxygen.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
-        by smtp.gmail.com with ESMTPSA id o9sm2411897pjs.47.2020.08.26.09.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 09:20:31 -0700 (PDT)
-From: "Vijai Kumar K" <vijaikumar.kanagarajan@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nXoWzo8qpHf+bIy7l+6XUmxMULHhHPBeuPQy2ggoDbQ=;
+        b=LlOCON+JSYO77snRfv1e8ictsFNRXh98/cb7KrXQb7iKwyz59/cdBS2ABYO7HlegRu
+         ngg/Z0N38S23E72evzmQTk7mnZXPV241uOr1LtOQgvnudNvUKzTehyC3+jZcZAXv+ke4
+         wuqhUdmId6uVEVp96HBktPIOoVSYbouy/0CmTB85jTIlFgOiy9WSHqkxWGBLOoVxTlbu
+         kOdOOU15Kffr0O7BTPjj/4YILBlvotYucoYRO3j7sDUhaIxhMglDRJ8ihJC5RZiF7fhi
+         345bJKCJnj9NVG8Tge+jHrhAlhCLGlw89S55uck3YvjB/FTHuXE0XD8o8XHU8tl55sqf
+         322Q==
+X-Gm-Message-State: AOAM532d3F4ko0nxYlNADJALIUr4PbOmYy7vDRiBJZlFqe0RcMHe23l1
+	6t8bFzMFFZQYvFoR9jFfvcowQj3G3nLb7A==
+X-Google-Smtp-Source: ABdhPJybzysAfqgDTht8eOhJH78pSHfW5PmXXP53KSruiwmOXiz+30s7tpfFKGl1YEMYFMkNInrs1A==
+X-Received: by 2002:adf:f442:: with SMTP id f2mr6059110wrp.184.1598464140365;
+        Wed, 26 Aug 2020 10:49:00 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id u17sm9168529wrp.81.2020.08.26.10.48.59
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Aug 2020 10:48:59 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijai Kumar K <vijaikumar.kanagarajan@gmail.com>
-Subject: [PATCH] image_types_wic: Add ASSUME_PROVIDED to WICVARS
-Date: Wed, 26 Aug 2020 21:50:25 +0530
-Message-Id: <20200826162025.11638-1-vijaikumar.kanagarajan@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc: stefan.agner@toradex.com,
+	sergio.prado@toradex.com,
+	max.krummenacher@toradex.com,
+	anuj.mittal@intel.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [dunfell] [PATCH V2 0/4] libubootenv: uprev to v0.3
+Date: Wed, 26 Aug 2020 19:48:49 +0200
+Message-Id: <20200826174853.8838-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add ASSUME_PROVIDED to WICVARS so that wic can use that
-when running on bitbake environment.
+From: Ming Liu <liu.ming50@gmail.com>
 
-This fixes the below build failure in do_image_wic
-when --include-path is used in wks file.
----
-| DEBUG: Executing shell function do_image_wic
-| INFO: Creating image(s)...
-|
-| ERROR: A native program tar required to build the image was not found (see details above).
-|
-| Please make sure wic-tools have tar-native in its DEPENDS, build it with 'bitbake wic-tools' and try again.
----
+Cherry pick the patches from master to upgrade libubootenv 0.2 -> 0.3.
 
-Signed-off-by: Vijai Kumar K <vijaikumar.kanagarajan@gmail.com>
----
- meta/classes/image_types_wic.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Since libubootenv 0.2 is sort of buggy, it lacks of a lot of
+bug/regression/security fixes which has been included in 0.3.
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 7b1db50a28..2a1feed60d 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -4,7 +4,8 @@ WICVARS ?= "\
-            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
--           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND"
-+           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
-+           ASSUME_PROVIDED"
- 
- inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
- 
+Changes in patch set V2:
+
+1 Let libubootenv inherit uboot-config to get
+  UBOOT_MAECHINE/UBOOT_CONFIG sanity check.
+
+
+Ming Liu (4):
+  conf/machine: set UBOOT_MACHINE for qemumips and qemumips64
+  multilib.conf: add u-boot to NON_MULTILIB_RECIPES
+  libubootenv: uprev to v0.3
+  libubootenv: inherit uboot-config
+
+ meta/conf/machine/qemumips.conf                          | 2 ++
+ meta/conf/machine/qemumips64.conf                        | 2 ++
+ meta/conf/multilib.conf                                  | 2 +-
+ .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}    | 9 ++++++---
+ 4 files changed, 11 insertions(+), 4 deletions(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (78%)
+
 -- 
-2.17.1
+2.28.0
 
