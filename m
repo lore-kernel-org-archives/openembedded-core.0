@@ -1,134 +1,76 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.7950.1598429596475389370
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.8162.1598430002271856748
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 01:13:16 -0700
+ Wed, 26 Aug 2020 01:20:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: qRM6lUUSUqVdIukH57Bx/ZvTvbkHCuxGoJNNkDfUlCMA/8Tw+UEWeIQpahTgbuns7UVA900wVn
- 4PxwTAlHLEJg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="153675531"
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
-   d="scan'208";a="153675531"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 01:13:15 -0700
-IronPort-SDR: r4EN2LwprOdCEu/SvEm2vIrod+E29CBFT5JTHZILV2jg+OdS3qpeFYyzvJScBfObXay3VNDt/1
- XvO+7zvpGVYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; 
-   d="scan'208";a="299392699"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga006.jf.intel.com with ESMTP; 26 Aug 2020 01:13:14 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z5JxTudC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id y8so1026676wma.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 01:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EETQPNhM7oo5ZPNmCuYUaS7NU0e+WtKXX3suhoQnMF0=;
+        b=Z5JxTudC3J5xaXoHD5B35VJ0KdDFmGmQ9sUqtn3AHs9doMgeBllH+pgiEqnE58MLJX
+         uReqOd9gRqoVeUErd+nWezt/bpuGAqBv1pPEpMpk9CMuYiJ6ZWsPkVJodkbjI/byoX4O
+         Zdciid48ajVmER6bzofel6e+EiPQbdrqowCSw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EETQPNhM7oo5ZPNmCuYUaS7NU0e+WtKXX3suhoQnMF0=;
+        b=P85huHyEZlhea3zjixQafkZEGgKCJqtSnr0iSBIjOm2K2C52fSDrxnPamLvcjajF1P
+         GQKFDoS4GNNkBlfdxBRn7QoVKO/b8ePw5AOIZ9LEmvGeDojCjWVYmO4RTgSbEsLKykxv
+         Y/jmTB7dieU5HzsfsPc997CgD+Rrd4FKsGfnYvTPssLij8yVrowfYviXn3mppRkD6sgU
+         fKc6nzIOb23Lr16eDXBfrjnfOpWaalew0Yy2bF+etIInzz7C3oPyuyf+Z3+8OxuaWQEL
+         bVHWd5+eCZFFlSexGblGZWi5RXc1q1ZgUeiM+G0rftq0AsE4NsYnMdRBJzDvWqvZVYiA
+         gcfA==
+X-Gm-Message-State: AOAM532DXp+OLyyThTurW9oiEMxSM77MC79iXQiv+l43AeYoD0wHxrGx
+	CbJvrE5vhoYR1ttEUVgicBKpuMpLmmt8dNgc
+X-Google-Smtp-Source: ABdhPJyghkGznPHf0lUyMm0ogLW63DS+401HFYirwv/zftZjoQkBClNSM+HlbXRCjMJwynJOxLU4Xw==
+X-Received: by 2002:a1c:8:: with SMTP id 8mr6152418wma.40.1598430000208;
+        Wed, 26 Aug 2020 01:20:00 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
+        by smtp.gmail.com with ESMTPSA id z6sm3644714wml.41.2020.08.26.01.19.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 01:19:59 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: randy.e.witt@linux.intel.com
-Subject: [PATCH v2] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES added to separate bootimg-efi and bootimg-partition
-Date: Wed, 26 Aug 2020 16:13:13 +0800
-Message-Id: <1598429593-16162-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] runqqemu: Show an error for conflicing graphics options
+Date: Wed, 26 Aug 2020 09:19:58 +0100
+Message-Id: <20200826081958.1462616-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+The autobuilder managed to pass the nographic option with "sdl gl" due
+to a problem elsewhere. It would have been useful for runqemu to have
+errored rather than passing conflicting options to qemu. Add an
+error for this invalid usecase.
 
-Due to recent changes in bootimg-efi to include IMAGE_BOOT_FILES,
-when both bootimg-partition and bootimg-efi occur in a single .wks
-and IMAGE_BOOT_FILES are defined, files listed in IMAGE_BOOT_FILES
-will be duplicated in both partition.
-Since IMAGE_BOOT_FILES are crucial for bootimg-partition, but
-optional for bootimg-efi, hence allowing bootimg-efi to have the option
-to ignore it.
-
-Added a new variable, IMAGE_EFI_BOOT_FILES, to handle this
-issue. Its basic usage is the same as IMAGE_BOOT_FILES.
-Usage example:
-        IMAGE_EFI_BOOT_FILES = "u-boot.img uImage;kernel"
-        IMAGE_EFI_BOOT_FILES = "u-boot.${UBOOT_SUFFIX} ${KERNEL_IMAGETYPE}"
-
-This commit is also squashed with the updated testcase to cover for this change.
-
-[YOCTO #14011]
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image_types_wic.bbclass          |  2 +-
- meta/lib/oeqa/selftest/cases/wic.py           | 10 +++++++++-
- scripts/lib/wic/plugins/source/bootimg-efi.py |  8 ++++----
- 3 files changed, 14 insertions(+), 6 deletions(-)
+ scripts/runqemu | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 7b1db50..def44bb 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -1,7 +1,7 @@
- # The WICVARS variable is used to define list of bitbake variables used in wic code
- # variables from this list is written to <image>.env file
- WICVARS ?= "\
--           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
-+           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_EFI_BOOT_FILES IMAGE_BOOT_FILES \
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
-            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index e6b23c6..1149ae0 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -235,6 +235,14 @@ class Wic(WicTestCase):
-         runCmd(cmd)
-         self.assertEqual(1, len(glob(self.resultdir + "systemd-bootdisk-*direct")))
- 
-+    def test_efi_bootpart(self):
-+        """Test creation of efi-bootpart image"""
-+        cmd = "wic create efi-bootpart -e core-image-minimal -o %s" % self.resultdir
-+        kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
-+        self.write_config('IMAGE_EFI_BOOT_FILES = "%s"\n' % kimgtype)
-+        runCmd(cmd)
-+        self.assertEqual(1, len(glob(self.resultdir + "efi-bootpart-*direct")))
-+
-     def test_sdimage_bootpart(self):
-         """Test creation of sdimage-bootpart image"""
-         cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
-@@ -689,7 +697,7 @@ class Wic2(WicTestCase):
-         wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
-                                       'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
-                                       'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME',
--                                      'APPEND'))
-+                                      'APPEND', 'IMAGE_EFI_BOOT_FILES'))
-         with open(path) as envfile:
-             content = dict(line.split("=", 1) for line in envfile)
-             # test if variables used by wic present in the .env file
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 14c1723..cdc7254 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -212,8 +212,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         except KeyError:
-             raise WicError("bootimg-efi requires a loader, none specified")
- 
--        if get_bitbake_var("IMAGE_BOOT_FILES") is None:
--            logger.debug('No boot files defined in IMAGE_BOOT_FILES')
-+        if get_bitbake_var("IMAGE_EFI_BOOT_FILES") is None:
-+            logger.debug('No boot files defined in IMAGE_EFI_BOOT_FILES')
-         else:
-             boot_files = None
-             for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), (None, None)):
-@@ -222,7 +222,7 @@ class BootimgEFIPlugin(SourcePlugin):
-                 else:
-                     var = ""
- 
--                boot_files = get_bitbake_var("IMAGE_BOOT_FILES" + var)
-+                boot_files = get_bitbake_var("IMAGE_EFI_BOOT_FILES" + var)
-                 if boot_files:
-                     break
- 
-@@ -292,7 +292,7 @@ class BootimgEFIPlugin(SourcePlugin):
-             (staging_kernel_dir, kernel, hdddir, kernel)
-         exec_cmd(install_cmd)
- 
--        if get_bitbake_var("IMAGE_BOOT_FILES"):
-+        if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
-             for src_path, dst_path in cls.install_task:
-                 install_cmd = "install -m 0644 -D %s %s" \
-                               % (os.path.join(kernel_dir, src_path),
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 7fb5f7db57b..c71f3c4df57 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -456,6 +456,10 @@ class BaseConfig(object):
+             if arg in self.fstypes + self.vmtypes + self.wictypes:
+                 self.check_arg_fstype(arg)
+             elif arg == 'nographic':
++                if ('sdl' in sys.argv):
++                    raise RunQemuError('Option nographic makes no sense alongside the sdl option.' % (arg))
++                if ('gtk' in sys.argv):
++                    raise RunQemuError('Option nographic makes no sense alongside the gtk option.' % (arg))
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
+             elif arg == 'sdl':
 -- 
-2.7.4
+2.25.1
 
