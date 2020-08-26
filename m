@@ -1,76 +1,66 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.8162.1598430002271856748
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.8212.1598430314375259944
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 01:20:02 -0700
+ Wed, 26 Aug 2020 01:25:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z5JxTudC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id y8so1026676wma.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 01:20:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e3dSYKMx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id x7so881865wro.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 01:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EETQPNhM7oo5ZPNmCuYUaS7NU0e+WtKXX3suhoQnMF0=;
-        b=Z5JxTudC3J5xaXoHD5B35VJ0KdDFmGmQ9sUqtn3AHs9doMgeBllH+pgiEqnE58MLJX
-         uReqOd9gRqoVeUErd+nWezt/bpuGAqBv1pPEpMpk9CMuYiJ6ZWsPkVJodkbjI/byoX4O
-         Zdciid48ajVmER6bzofel6e+EiPQbdrqowCSw=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=GzN4gn/ozOLAX7mBQlvaRFfoKIOAXMtglhg1vvmXhG0=;
+        b=e3dSYKMx1+YrNl1hyLBvS5x2Wm4HCLqC379PdBbup/5PdRv46SWy8lluYaKFHyvXYW
+         TLiKghSArtgNg1GehnmuuLFaFSf5fnsX7edK3U3JDZAMqw9Z3R/3T+7pybNkIaknTTSC
+         6sDnve5dH1scFUszD/jIow/MhX2TGWx9ZmRko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EETQPNhM7oo5ZPNmCuYUaS7NU0e+WtKXX3suhoQnMF0=;
-        b=P85huHyEZlhea3zjixQafkZEGgKCJqtSnr0iSBIjOm2K2C52fSDrxnPamLvcjajF1P
-         GQKFDoS4GNNkBlfdxBRn7QoVKO/b8ePw5AOIZ9LEmvGeDojCjWVYmO4RTgSbEsLKykxv
-         Y/jmTB7dieU5HzsfsPc997CgD+Rrd4FKsGfnYvTPssLij8yVrowfYviXn3mppRkD6sgU
-         fKc6nzIOb23Lr16eDXBfrjnfOpWaalew0Yy2bF+etIInzz7C3oPyuyf+Z3+8OxuaWQEL
-         bVHWd5+eCZFFlSexGblGZWi5RXc1q1ZgUeiM+G0rftq0AsE4NsYnMdRBJzDvWqvZVYiA
-         gcfA==
-X-Gm-Message-State: AOAM532DXp+OLyyThTurW9oiEMxSM77MC79iXQiv+l43AeYoD0wHxrGx
-	CbJvrE5vhoYR1ttEUVgicBKpuMpLmmt8dNgc
-X-Google-Smtp-Source: ABdhPJyghkGznPHf0lUyMm0ogLW63DS+401HFYirwv/zftZjoQkBClNSM+HlbXRCjMJwynJOxLU4Xw==
-X-Received: by 2002:a1c:8:: with SMTP id 8mr6152418wma.40.1598430000208;
-        Wed, 26 Aug 2020 01:20:00 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=GzN4gn/ozOLAX7mBQlvaRFfoKIOAXMtglhg1vvmXhG0=;
+        b=WkbC7Guu9lZPI3CDcYyE2hqBzSGZG8kz1CRu7EmG2l6ZnpxTvxiaQ4JBFoG34vHu9R
+         9hmmgSpOZrGj/eOjlurujL5Mx5Oq85Uor9MXhe+a4C90OLORLLMx9Dg2ajynVU44O5CC
+         XSjZWlEOE703C6wpdE8iHCV7/3P68cSoyeWdk9wFlwF3c6cbUqUU0sirDJDEPMufdbqM
+         mqCPduyp6CjNWtkSqApqRxhofnFwV2kQ+ptzeqOHkz7YPmoOajC7XwoYlcyVdkoCh2Qk
+         vjVsVTABaRWFabyrdcNSk2S8w6lmzoDo+DF/CFJi339Z/5bUYtUwaRYLY6Tyh0NBtJNH
+         PV8w==
+X-Gm-Message-State: AOAM533IGXexc+No81/fqePFxSvFYYjl9N9nvhlQY4ZxsXG1fEEpHDiC
+	+KUZKYTnXU6SDiMYkoiwwJX4LnSXxFjCNTZd
+X-Google-Smtp-Source: ABdhPJx7lwj2lke6jtZMUUuqNtryotvcmt4i8fWmhd5oJWF172jxIG0fWMIAHieznDzb0O63Wi7uHA==
+X-Received: by 2002:adf:de8d:: with SMTP id w13mr14077897wrl.129.1598430312393;
+        Wed, 26 Aug 2020 01:25:12 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
-        by smtp.gmail.com with ESMTPSA id z6sm3644714wml.41.2020.08.26.01.19.59
+Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
+        by smtp.gmail.com with ESMTPSA id y24sm3481732wmi.17.2020.08.26.01.25.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 01:19:59 -0700 (PDT)
+        Wed, 26 Aug 2020 01:25:11 -0700 (PDT)
+Message-ID: <1afbc09b96e9a67f0523b58c990db6575efa1aa8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] runqqemu: Show an error for conflicing graphics options
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] runqqemu: Show an error for conflicing graphics options
-Date: Wed, 26 Aug 2020 09:19:58 +0100
-Message-Id: <20200826081958.1462616-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+Date: Wed, 26 Aug 2020 09:25:09 +0100
+In-Reply-To: <162EC39E629DF7EB.27554@lists.openembedded.org>
+References: <162EC39E629DF7EB.27554@lists.openembedded.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The autobuilder managed to pass the nographic option with "sdl gl" due
-to a problem elsewhere. It would have been useful for runqemu to have
-errored rather than passing conflicting options to qemu. Add an
-error for this invalid usecase.
+On Wed, 2020-08-26 at 09:19 +0100, Richard Purdie via lists.openembedded.org wrote:
+> The autobuilder managed to pass the nographic option with "sdl gl"
+> due
+> to a problem elsewhere. It would have been useful for runqemu to have
+> errored rather than passing conflicting options to qemu. Add an
+> error for this invalid usecase.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/runqemu | 4 ++++
- 1 file changed, 4 insertions(+)
+Two typos in the subject line fixed in -next.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 7fb5f7db57b..c71f3c4df57 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -456,6 +456,10 @@ class BaseConfig(object):
-             if arg in self.fstypes + self.vmtypes + self.wictypes:
-                 self.check_arg_fstype(arg)
-             elif arg == 'nographic':
-+                if ('sdl' in sys.argv):
-+                    raise RunQemuError('Option nographic makes no sense alongside the sdl option.' % (arg))
-+                if ('gtk' in sys.argv):
-+                    raise RunQemuError('Option nographic makes no sense alongside the gtk option.' % (arg))
-                 self.qemu_opt_script += ' -nographic'
-                 self.kernel_cmdline_script += ' console=ttyS0'
-             elif arg == 'sdl':
--- 
-2.25.1
+Cheers,
+
+Richard
 
