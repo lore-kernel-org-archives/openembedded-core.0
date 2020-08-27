@@ -1,81 +1,78 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.16775.1598527740356102548
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.16771.1598528219606353441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 04:29:00 -0700
+ Thu, 27 Aug 2020 04:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kYX9bQY4;
- spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f68.google.com with SMTP id c15so5001386wrs.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:29:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DFued/9H;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id u18so4847590wmc.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yDCpueOljvu2o4S0dl2gxH+KbvkYP3za/D5pkZZBQzY=;
-        b=kYX9bQY4DBB1qf8jn5nPehUAPZlzcE+dyXDrUwe2S/RO2i0U7ztqStqImhYz3Vm9Mj
-         WVjZ5K+VNEQyPkNRhjAW4IHLucb3FbuJWqFKVfyX4TsYomz3exQNY6LvtAiv2fthJci8
-         joG4YAKe01gBR9tfPKoe7GA+bxVfWRgQk7pW0PDOKzWOI4lcNcnDq/UJEB0gxVqEV4d3
-         SBQYxpA8jHy8zrLGJ8jXk2cXy/FrS9VFo2j12Mfdg5RZL5I2LqiHGWojNE8HqPJ46luo
-         yMgVlb5QuliVlNhQx9kkSB4ycFMd1zF83AjL+7ZHwSz2MP5v5QP1mww0059CzVcY18E1
-         pOeQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Y9LF6oDcDNem6qVyf3zE24aIwPB8wr3Ph95h42niUNc=;
+        b=DFued/9HfuXosd1in9QeXVqiwKrVt5pxiI86AJGQsjsUZk6FIMDHpLIkpJg4ua4sbM
+         fnOTyU2cwmmIUYfrB8pGIownAqSlN573g/CraPTX2t4YI3FcRAKVQmIvebM4fzKdKry5
+         teitp53Ac77qe2D2GFnSlHGmrFltbsWQB5ttI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yDCpueOljvu2o4S0dl2gxH+KbvkYP3za/D5pkZZBQzY=;
-        b=LJ8CB0O7gZM1FKoCyEu86YtC5l0SE7lsgfhugchJbZBNojqr+4nocTGgS/kujFiFR8
-         30FPBvOYtnsmaO/rWxEDM57rJLRmVuLqWMhxz3M82XlZe7Aw/ILvVm1V0tfzbP0Co3f+
-         ZdZZY9iZ8v6GiavvsCSq+i+2VnORiif77iNCNcIU6f/M6z4bQ4QCYHwnYbP4xShKl07u
-         4SYqjaKHRk+5FUl4EqWXIcol6DnaBecL+qtPHDMk9k3tmQqkNIHvwwNQMT0xh6v6K8Jv
-         IElzibh4+ROAto8HJ6zW955PzbqwRSDFMJVPQebdcHsQuPOYEhxfyX4at5qYXPjEM8Mg
-         IDaQ==
-X-Gm-Message-State: AOAM530X0np4wYzFrwtifWVyFNgH87krTSaREaXHK1QeM9AVxaF33qMF
-	xDYYwGgjph62IiBgpW+mFgdPnRCAjPpuCg==
-X-Google-Smtp-Source: ABdhPJybwbavvY+7V8gmQdLgKReuuXxRF6pT/SY4yumHd3RwAoOPLx++R25FySxLVkc3Rz7FMxvasg==
-X-Received: by 2002:a5d:4642:: with SMTP id j2mr19323693wrs.82.1598527738594;
-        Thu, 27 Aug 2020 04:28:58 -0700 (PDT)
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from md2ramxc.ad001.siemens.net (c-82-192-240-69.customer.ggaweb.ch. [82.192.240.69])
-        by smtp.gmail.com with ESMTPSA id k11sm5326133wrq.85.2020.08.27.04.28.57
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Y9LF6oDcDNem6qVyf3zE24aIwPB8wr3Ph95h42niUNc=;
+        b=LTjnMey+1s3nZ89/omHh4R99JfYI503sNY9pzxktT3p1NTGrs3M8QJJo4TISmzF/v3
+         OdqmcA4sbVlYzptPSk07LzO1iawfY3taphhUVGxebksbGTo0skw3GVdKL5hMCQgGbeqY
+         1kOZccrNLHEYxu/qdCDo4zsC/B40wFRcv4Eax4Yc5F9TdLAByD1i/F1ZnvBp4oI3o6LX
+         S9rqdGsa3p3yNSeR3Bygo9vxKAW8JfBJsl7tC9QUFmjHe4VZYyeoQS9NyRHmODXzoG9A
+         kAtN5c7ZKeK28qeQiw2LSUrot02iYscn3FW06rFo77laDAPtTcXpSKz3Zw3XpFmqBxaO
+         JOMQ==
+X-Gm-Message-State: AOAM530qyJY+FpxVXGRZuIh7gHKSNLc40vJ8sbSrWZRB3qlYXrrKFaKQ
+	4IrMTbxZt4K4WFcNM9wtZCyAHg==
+X-Google-Smtp-Source: ABdhPJz3xK6EB726rm04+Ak+lHEwt32w7XUHFsQv4CwYyFrDDiuMa0hq1kuYKINMT4Mpma8jk93oXw==
+X-Received: by 2002:a7b:c011:: with SMTP id c17mr11291757wmb.63.1598528217881;
+        Thu, 27 Aug 2020 04:36:57 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
+        by smtp.gmail.com with ESMTPSA id i12sm4726084wrm.46.2020.08.27.04.36.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 04:28:58 -0700 (PDT)
-From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [meta-gplv2][PATCH 1/1] util-linux: remove GPLv3 and pylibmount
-Date: Thu, 27 Aug 2020 13:28:16 +0200
-Message-Id: <20200827112816.2138122-2-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200827112816.2138122-1-adrian.freihofer@siemens.com>
-References: <20200827112816.2138122-1-adrian.freihofer@siemens.com>
+        Thu, 27 Aug 2020 04:36:57 -0700 (PDT)
+Message-ID: <24104bbec782fc24a0f827a9e26d3977b7028446.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 6/6] oeqa/multilib: un-skip the connman test
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Aug 2020 12:36:56 +0100
+In-Reply-To: <CANNYZj9kX8td0hAPyWtT=Jyd5+5fkoneX-j9btxU3OYEowUseA@mail.gmail.com>
+References: <20200827105933.3575-1-alex.kanavin@gmail.com>
+	 <20200827105933.3575-6-alex.kanavin@gmail.com>
+	 <7c38e0ce946af6c0f1075b95c5f41e6f772c9241.camel@linuxfoundation.org>
+	 <CANNYZj9kX8td0hAPyWtT=Jyd5+5fkoneX-j9btxU3OYEowUseA@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-python bindings are GPLv3+.
+On Thu, 2020-08-27 at 13:25 +0200, Alexander Kanavin wrote:
+> On Thu, 27 Aug 2020 at 13:06, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > Hmm. I think this test is only meant to trigger in a lib32-core-image-
+> > sato where lib32-connman would be present and connman would not?
+> > 
+> > The test name could certainly be clearer as its not a generic connman
+> > test...
+> 
+> There is no lib32-core-image-sato anywhere in config.json  - and I think 
+> RPM_PREFER_ELF_ARCH in existing tests should ensure that 32 bit connman package takes precedence.
+> 
+> Also note that those same tests install lib32-connman, which can only be for the purpose of the test:
+> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json#n495
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- recipes-core/util-linux/util-linux_%.bbappend | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- create mode 100644 recipes-core/util-linux/util-linux_%.bbappend
+Right, those are the tests I was thinking this test is related to. It
+looks like its only those tests that enable this TEST_SUITE so your
+patch is probably correct. Its a shame this test suite is so tied to
+the configuration in ab-helper though. Not sure how we could improve
+that...
 
-diff --git a/recipes-core/util-linux/util-linux_%.bbappend b/recipes-core/util-linux/util-linux_%.bbappend
-new file mode 100644
-index 0000000..abd31c5
---- /dev/null
-+++ b/recipes-core/util-linux/util-linux_%.bbappend
-@@ -0,0 +1,10 @@
-+# pylibmount is GPLv3 -> remove
-+LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-+
-+PACKAGECONFIG_remove = "pylibmount"
-+
-+do_install_append() {
-+    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
-+    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.*
-+    rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__
-+}
--- 
-2.25.4
+Cheers,
+
+Richard
 
