@@ -1,214 +1,68 @@
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
- by mx.groups.io with SMTP id smtpd.web12.20860.1598540387519488542
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.20957.1598540481136553354
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 07:59:47 -0700
+ Thu, 27 Aug 2020 08:01:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RjZQuk+j;
- spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f66.google.com with SMTP id d20so1741982ual.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 07:59:47 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=xbLuIR0X;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.194, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f194.google.com with SMTP id w14so6809965ljj.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 08:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hwMnzyQVTNN0OP5AhJH8bgyCoadTxDIlnRYoouBcULo=;
-        b=RjZQuk+jWDgtLe2fMBZyMfrvsMLLdWdnU3STznLEAXztmP/ZPC+H7stK0xstt0k4GP
-         tPLQ4aQhOfBu4+RA/krfUVf/sxmgbaxwvLI1bzDtf2khfe9T1yEvJQ13uPHYP5YTvT6D
-         NAtkYlux3ldou1R8Us/plFfQLfsHxi6eF6SlG6j2LJzntOoczTWpDHvJ23Nz976BOPb1
-         t8YYZzB259ao4LCOqpOK0DKg/iSIlcl6FCqW1TY4lsiummpc5/un2WSwG9gt7GqinIh/
-         D3CbeEPcp38MI/1zyLvZGdQC8jjtirQM57g9dc+4y6XOvExtP6UYs1Gv6zF+IJYnZvBg
-         uHaQ==
+        bh=2wnRqfLVsOspsQnOGMgBIzbte2gkIoZib9DPlykxCkM=;
+        b=xbLuIR0X5pX4xlzojriOq1u2+B9qVcBTr2v5+VumrM0rC6ifaX+WinP8OTzg9fV0dP
+         Ao0W065EUGk5C8fMXGhXjzKQ0JFaVWB13mlbas769OO723QbUbFbB9wXCqtmBHSLc7ke
+         YsLUC7+mwjEzZdFU975KFmTZiPf3/lTVYw8mJCc7q2usVB04aLUbJBT07PZkeejz//hG
+         BJOMxcNC/700ifMuzgfe2Z/WLkgQAt481NNTv/if5PmIC705+Owm4pJiwfc+WtWdyq2Y
+         Lst3Jfq63xCarAq237cMMhM9FanfypNhXzHpcLNADDW0OUulnWqjOKJjZdJeZ//nQEVQ
+         yKww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hwMnzyQVTNN0OP5AhJH8bgyCoadTxDIlnRYoouBcULo=;
-        b=Ttm3v6NzuRM7QXzlpFWwOSl73QsOpEpRhZjh32Hdbl+RGC+5IEo01bXnq5BcFALwoM
-         tvQw1vjn4q6msvaQs5mvfQt6uoCeFgKdc333bgMgmdGjgZgjtCi9lFESGCCuO984Ken/
-         czsxtIX1Z7nHKdySTGkBkCjfMBmCtqQ5M3GYjLSrLyWWPY5dgKIktJ+iygz8vGA+Pr66
-         xXS4Qkg849Q4nZMC+2Vu2yFRhYNbLSmbfBA5w1yN6VflKIfWs8e4v//M4TB+7vIeUwHb
-         O+qjOwTzsCscB0vrONE7tvN+LdVxdO2myr5jMwwzZECz7Mu/qw1CfIU1WGBpuwHjFSs7
-         8uwA==
-X-Gm-Message-State: AOAM531qjIXFUEtspxL2Ehc1ePyR0la+LD3Z0Z0RCB/WEHEngzAlTI3L
-	3P6IVDOkSmX41XQJSszHdp3eaelLQ08Qsr7Qn/0=
-X-Google-Smtp-Source: ABdhPJxVn02fcij72XROGeTNIjlkS/GNhz89EMg9ckAWnSvHNQOXoASj7l2ITiT9YCISGBmn+QDR+UYr1GsxXESqta8=
-X-Received: by 2002:ab0:7204:: with SMTP id u4mr4162935uao.71.1598540386558;
- Thu, 27 Aug 2020 07:59:46 -0700 (PDT)
+        bh=2wnRqfLVsOspsQnOGMgBIzbte2gkIoZib9DPlykxCkM=;
+        b=ra2YsrjHgq7D3yCTPZqc4ZujBCSvuPk4ZnHOe2f7IXzrAaSdj5Ig6ThO/u3Av4GQB3
+         uuovrSCpNER6RfT3OL9m1zdiL3I5QrLrndi8iAlNDyuyR8uSm3nKfz237HuoMNjIDtnI
+         ZC5wQgSuL0j4QbrE+aeZXfJwLKoZS2034QDVjpBwyIajT1NCX75qLOZh0MtIayfTumcL
+         /VPx0q32PO7SZ6nUiHYCrMDpItgdavykdaNltQ4FXmnXbprXNMCO0I/VmwgoTsIjfk44
+         2GjqZAS4+4B0wcdLuvrDbJt+vFK/1rjJDGhzKFTbmQjVYgw1AVjohzwWGo8rEMNvs4nL
+         Z52Q==
+X-Gm-Message-State: AOAM530Eci18y3Jeu3vkVWinyYBCWOVcvp5jxpLn+L5N7mVdmnXbSFbY
+	2+Z/vMRJwsHF6543x09GyfYod9mPWjqHUwceoUAx5g==
+X-Google-Smtp-Source: ABdhPJyTM0Wgbz+L1iawzQzJGarl0QC5AaIWaJOpaGz+C47+llB06ttp8u5FQDqX0FBL0eg9W/o3jGEGuFpcCuMQIqg=
+X-Received: by 2002:a05:651c:1122:: with SMTP id e2mr9774494ljo.36.1598540479066;
+ Thu, 27 Aug 2020 08:01:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
-In-Reply-To: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 27 Aug 2020 16:59:35 +0200
-Message-ID: <CANNYZj9v3sY-XcvS3Xy1G6+789BUV3PvxWxy_W2_O1XSRfRaAg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] devtool: unset _PYTHON_SYSCONFIGDATA_NAME
-To: gr embeter <grembeter@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
-Content-Type: multipart/alternative; boundary="000000000000e669e305addd2f31"
-
---000000000000e669e305addd2f31
+References: <20200827021251.14310-1-hongxu.jia@windriver.com>
+In-Reply-To: <20200827021251.14310-1-hongxu.jia@windriver.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Thu, 27 Aug 2020 16:01:08 +0100
+Message-ID: <CAAnfSTv6VvF9nZPojVWNHw5RfZgZj4aL=PWZ5zdbMGMfxJhKZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sysstat: fix installed-vs-shipped QA Issue in systemd
+To: hongxu <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-I am able to execute that exact same command without any errors. How can
-this be reproduced?
+On Thu, 27 Aug 2020 at 03:12, hongxu <hongxu.jia@windriver.com> wrote:
+>
+> While enabling systemd, there is QA issue:
+> ...
+> |ERROR: sysstat-12.4.0-r0 do_package: QA Issue: sysstat: Files/directories
+> were installed but not shipped in any package:
+> |  /lib/systemd/system-sleep
+> |  /lib/systemd/system-sleep/sysstat.sleep
+> ...
+>
+> Set --with-systemdsleepdir to fix
 
-Note that we already had the same patch proposed earlier and it was
-rejected, as the problem pops up in various different places and needs to
-be understood and solved properly.
+Is this actually right though?
 
-Alex
+https://www.freedesktop.org/software/systemd/man/systemd-sleep.html
+says the files should be dropped into /usr/lib/systemd/system-sleep
+(that would be /lib/systemd/system-sleep in our configuration).  By
+moving the files to another directory they'll be packaged but not
+loaded by systemd.
 
-On Thu, 27 Aug 2020 at 15:11, gr embeter <grembeter@gmail.com> wrote:
-
-> On Ubuntu 20.04.1 LTS with Python 3.8.2 "devtool modify" fails with
-> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
->
-> e.g.: devtool modify --no-same-dir --branch fit u-boot
-> ~/ws/w/dtool/u-boot-fit
->
-> ERROR: Error executing a python function in exec_python_func()
-> autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure
-> was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:devtool_post_unpack(d)
->      0003:
->  [...]
-> File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: _init_posix
->      0417:def _init_posix(vars):
->      0418:    """Initialize the module as appropriate for POSIX systems."""
->      0419:    # _sysconfigdata is generated at build time, see
-> _generate_posix_vars()
->      0420:    name = _get_sysconfigdata_name()
->  *** 0421:    _temp = __import__(name, globals(), locals(),
-> ['build_time_vars'], 0)
->      0422:    build_time_vars = _temp.build_time_vars
->      0423:    vars.update(build_time_vars)
->      0424:
->      0425:def _init_non_posix(vars):
-> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
->
-> It happens because u-boot (and likely other recipes) eventually inherits
-> python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-> and this affects host Python.
->
-> Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.
->
-> Signed-off-by: Grygorii Tertychnyi <
-> grygorii.tertychnyi@leica-geosystems.com>
-> ---
->  meta/classes/devtool-source.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/devtool-source.bbclass
-> b/meta/classes/devtool-source.bbclass
-> index 280d6009f3c2..95d6fe7a29e8 100644
-> --- a/meta/classes/devtool-source.bbclass
-> +++ b/meta/classes/devtool-source.bbclass
-> @@ -22,6 +22,8 @@
->  DEVTOOL_TEMPDIR ?= ""
->  DEVTOOL_PATCH_SRCDIR = "${DEVTOOL_TEMPDIR}/patchworkdir"
->
-> +# host Python fails to import correct _sysconfigdata if this variable is
-> set
-> +_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
->
->  python() {
->      tempdir = d.getVar('DEVTOOL_TEMPDIR')
-> --
-> 2.25.1
->
-> 
->
-
---000000000000e669e305addd2f31
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I am able to execute that exact same command without =
-any errors. How can this be reproduced?</div><div><br></div><div>Note that =
-we already had the same patch proposed earlier and it was rejected, as the =
-problem pops up in various different places and needs to be understood and =
-solved properly.</div><div><br></div><div>Alex<br></div></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 27 Aug 2020=
- at 15:11, gr embeter &lt;<a href=3D"mailto:grembeter@gmail.com" target=3D"=
-_blank">grembeter@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">On Ubuntu 20.04.1 LTS with Python 3.8.2 &quot;de=
-vtool modify&quot; fails with<br>
-Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<b=
-r>
-<br>
-e.g.: devtool modify --no-same-dir --branch fit u-boot ~/ws/w/dtool/u-boot=
--fit<br>
-<br>
-ERROR: Error executing a python function in exec_python_func() autogenerat=
-ed:<br>
-<br>
-The stack trace of python calls that resulted in this exception/failure wa=
-s:<br>
-File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function: &lt=
-;module&gt;<br>
-=C2=A0 =C2=A0 =C2=A00001:<br>
-=C2=A0*** 0002:devtool_post_unpack(d)<br>
-=C2=A0 =C2=A0 =C2=A00003:<br>
-=C2=A0[...]<br>
-File: &#39;/usr/lib/python3.8/sysconfig.py&#39;, lineno: 421, function: _i=
-nit_posix<br>
-=C2=A0 =C2=A0 =C2=A00417:def _init_posix(vars):<br>
-=C2=A0 =C2=A0 =C2=A00418:=C2=A0 =C2=A0 &quot;&quot;&quot;Initialize the mo=
-dule as appropriate for POSIX systems.&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A00419:=C2=A0 =C2=A0 # _sysconfigdata is generated at bu=
-ild time, see _generate_posix_vars()<br>
-=C2=A0 =C2=A0 =C2=A00420:=C2=A0 =C2=A0 name =3D _get_sysconfigdata_name()<=
-br>
-=C2=A0*** 0421:=C2=A0 =C2=A0 _temp =3D __import__(name, globals(), locals(=
-), [&#39;build_time_vars&#39;], 0)<br>
-=C2=A0 =C2=A0 =C2=A00422:=C2=A0 =C2=A0 build_time_vars =3D _temp.build_tim=
-e_vars<br>
-=C2=A0 =C2=A0 =C2=A00423:=C2=A0 =C2=A0 vars.update(build_time_vars)<br>
-=C2=A0 =C2=A0 =C2=A00424:<br>
-=C2=A0 =C2=A0 =C2=A00425:def _init_non_posix(vars):<br>
-Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<b=
-r>
-<br>
-It happens because u-boot (and likely other recipes) eventually inherits<b=
-r>
-python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME=3D&quot;_syscon=
-figdata&quot;<br>
-and this affects host Python.<br>
-<br>
-Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.<br>
-<br>
-Signed-off-by: Grygorii Tertychnyi &lt;<a href=3D"mailto:grygorii.tertychn=
-yi@leica-geosystems.com" target=3D"_blank">grygorii.tertychnyi@leica-geosys=
-tems.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/devtool-source.bbclass | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-so=
-urce.bbclass<br>
-index 280d6009f3c2..95d6fe7a29e8 100644<br>
---- a/meta/classes/devtool-source.bbclass<br>
-+++ b/meta/classes/devtool-source.bbclass<br>
-@@ -22,6 +22,8 @@<br>
-=C2=A0DEVTOOL_TEMPDIR ?=3D &quot;&quot;<br>
-=C2=A0DEVTOOL_PATCH_SRCDIR =3D &quot;${DEVTOOL_TEMPDIR}/patchworkdir&quot;=
-<br>
-<br>
-+# host Python fails to import correct _sysconfigdata if this variable is =
-set<br>
-+_PYTHON_SYSCONFIGDATA_NAME[unexport] =3D &quot;1&quot;<br>
-<br>
-=C2=A0python() {<br>
-=C2=A0 =C2=A0 =C2=A0tempdir =3D d.getVar(&#39;DEVTOOL_TEMPDIR&#39;)<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e669e305addd2f31--
+Ross
