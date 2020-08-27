@@ -1,70 +1,66 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web10.15735.1598523070413682046
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web12.16371.1598526017916712388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 03:11:11 -0700
+ Thu, 27 Aug 2020 04:00:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=C3brxsSF;
- spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f196.google.com with SMTP id y2so5780328ljc.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 03:11:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=d7iJyB4B;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id oz20so7068643ejb.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+9fiIsjvFaYmy5TFdWpB7BGhATVoTM3JNHIaqVKYrZc=;
-        b=C3brxsSFo1UfOa0Z6k7wceObGLqJaMG7P9dzayGKaUFzlced89IDdO6eauQJfMFpV0
-         6+fsKkvzzpqH0NMeRc3qWG9TSSdW12h91zURluVcpiOaDV+9DXlsIiPn8daF72nvMkGn
-         VSlG0iRSHfnGoXBzQ9pIt2xhQlbIz5S8eMQNwjtMpNon25ZGQTC4uR0b5q4r/llWFMHN
-         Ws5I1mKpfz0z+ijM2sxkCHOi8djysM4KDLm43rOUncLI8jY/t1gvMVZ9lbugNuKw4Tl/
-         AR/9Xh0DAWh7LmkzguabCjLTLh2exiSgwqmS5/HdbUEWuFnGMFXeswl89QlnlU/XNm64
-         Z6Yw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zTTMKnSORLtOqsYR9C8K0sfQb1ZNi0uW+c8VInUpy9o=;
+        b=d7iJyB4BG3Yog/V290Tc8wHT7E7twg7K/47MnIcquuKoT6jSgOuAZSSZbNJScQsIjA
+         tl1cSIwqfQlhPoAhJzfmRVYId2VJAScuSFUbLPTuVKKzVRRIHJIsWbCdJxrprnnmvou6
+         UogmG98pTtYmRSteIBsAooLVbLYzeRcaOEbinujlhGBRjVVGA6yZhcGI86YvIs7ZUT5H
+         /dQmlwyrOXgSwEuS2SdgIL9I9u1m5hUpkR1tCCsJD43U/02UxVvbBuWHCV84vBDxxqHk
+         5nxIitSPU1gbfDmbBfAaSJIDvcfGc8R1SxPcul/BwI/fwyPwbQ6OcPDg90aq+3WbRCsg
+         WObw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+9fiIsjvFaYmy5TFdWpB7BGhATVoTM3JNHIaqVKYrZc=;
-        b=VQxTRxpszMtLiuSbUcgSXPwKdtwJbWss3aOTB9D9JkJ2sbKRzikz9tELWcVIB+iOdy
-         d68eq/zEMM0ovi7fOb66rhnvassLHeRXln/usz9+SsJoGaHl0TssiB4D+txeWkjHhCZo
-         EiyLPXv7ETg0faMwAZkAfUmSCNQX2Gj0THOQC2mKXo+ECB9UxVgGJOKs2uWI/GUDQcDy
-         hgkusBckEDm0gePwkuTOU54jkLt7AbeeVtGYsFcaTao2gCSLKJV/9dDRvUPR74t18HzP
-         TkK6eM+4mVfqYN0nerHUSpsqTE9pbojvHEHQJOrW7rearnk9NFYg4qmNRkJENvDAXyUh
-         2tyw==
-X-Gm-Message-State: AOAM531iXOZ6QaYgnzKfc6A/i1QBS1ek53gTYyEFJnENA1ZRL60xqPYM
-	58PRR29M8t/h/aBvQaxamxws0b+4RVwjzHfxKZfv3A==
-X-Google-Smtp-Source: ABdhPJw3MCWJ9YVSa24yhn7ogCVh4rzwjJyvSQ4GkBDQtEfn139ngUMjI/Qx7sF//zDev9eAdFNXtCUJouctUuJbhGA=
-X-Received: by 2002:a2e:9a0b:: with SMTP id o11mr8737626lji.352.1598523068269;
- Thu, 27 Aug 2020 03:11:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zTTMKnSORLtOqsYR9C8K0sfQb1ZNi0uW+c8VInUpy9o=;
+        b=uPW4K9t5OoY/ekMtHoyef027tKtifucbdj7psNG5tBzwnMdFll0N9m4jIgLiTvyJG1
+         zn1r26ZocVxluMp+PMagcmWJkGsdbuXExjjYe93Fz4HtRAi/DzLHkeEL6nfwYEKdeBET
+         TbRBRHNPe9gHHCTF25mM0dUMpN0cVDwXjhvgaJ80R7n3kwfrUs3IfQDa7qd56q546Qvu
+         ige4u+g4pzatX/jkUtsimKsUhT1wX1EBpJDisAkYSpUyPJf/Jsgqy5zq2CtV2O5Ykczq
+         1afhtRBKgXlg5oG3oX74TU2NZByrJiAC+pVaUhPEYQDN9lKLLqwJPeVfO0LxTWzibtct
+         /OuA==
+X-Gm-Message-State: AOAM532oRkTeHNVcn8iY2HNcicDxSPTMamlsErgOocBRwHdBb3Os+Po1
+	gODAzaVz4R1C2lAbMPGvId3VIMy8i08=
+X-Google-Smtp-Source: ABdhPJxlWCT/CghP6uypmoAmSOWu0E+JK8VhZviEFKllUy5aFsY9WcAKMs7sCH90ygnWzVDTAN4tBg==
+X-Received: by 2002:a17:906:34d9:: with SMTP id h25mr17656845ejb.80.1598526015888;
+        Thu, 27 Aug 2020 04:00:15 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
+        by smtp.gmail.com with ESMTPSA id eb5sm1623132ejc.94.2020.08.27.04.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2020 04:00:15 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/6] systemd-boot: bump version to 246.2
+Date: Thu, 27 Aug 2020 12:59:28 +0200
+Message-Id: <20200827105933.3575-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <1597978383-189322-1-git-send-email-li.zhou@windriver.com>
- <CA+chaQfKoniG=ErQ9iN34xa5GvtQgrzpANnGG_1CfhC3_gCQ_w@mail.gmail.com>
- <CAAnfSTt8c=fiQkXCDqMKZ4ibbKCBSFCmxPenH+CFhLJoyu_0iQ@mail.gmail.com> <69e18a93-e2f6-f17c-4624-a51693e0c279@windriver.com>
-In-Reply-To: <69e18a93-e2f6-f17c-4624-a51693e0c279@windriver.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Thu, 27 Aug 2020 11:10:56 +0100
-Message-ID: <CAAnfSTv-w9Hyno+GK30gtnFORBQJGciWx+6J=0ReMswcBuXG5w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V2] connman-conf: make connman-conf only available for qemuall
-To: zhou li <li.zhou@windriver.com>
-Cc: Martin Jansa <Martin.Jansa@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 27 Aug 2020 at 09:48, zhou li <li.zhou@windriver.com> wrote:
->          I have a question here:
-> building for a real machine (say, intel-corei7-64): MACHINE ?=
-> intel-corei7-64
->
-> While in connman-conf.bb:
-> SRC_URI_append_qemuall = " file://wired.config \
->                             file://wired-setup \
->                             file://wired-connection.service \
->
-> So there is no connman-conf package generated by default because it's null.
-> Building error occurs if want to install connman-conf to rootfs.
-> So how to make things work?
->
-> If I misunderstand anything, please let me know. Thanks.
+The recipe includes systemd.inc and so shares SRCREV with the main systemd.
 
-I also have a patch to remove that _qemuall override that I've been
-meaning to post for a long time...
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../systemd/{systemd-boot_246.1.bb => systemd-boot_246.2.bb}      | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_246.1.bb => systemd-boot_246.2.bb} (100%)
 
-Ross
+diff --git a/meta/recipes-core/systemd/systemd-boot_246.1.bb b/meta/recipes-core/systemd/systemd-boot_246.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_246.1.bb
+rename to meta/recipes-core/systemd/systemd-boot_246.2.bb
+-- 
+2.28.0
+
