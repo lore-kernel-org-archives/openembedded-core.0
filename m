@@ -1,104 +1,214 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.18537.1598533875352511627
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
+ by mx.groups.io with SMTP id smtpd.web12.20860.1598540387519488542
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 06:11:15 -0700
+ Thu, 27 Aug 2020 07:59:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VGO8CL03;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: grembeter@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id d26so7609250ejr.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 06:11:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RjZQuk+j;
+ spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f66.google.com with SMTP id d20so1741982ual.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 07:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dr0PbgfPUYNXMUSoP7avCUfFe0xMJPYUK2vKIDfZVqQ=;
-        b=VGO8CL03LfzYoG1MNDon/kThgtS7Z1bEPRbWYxCBXsNoDhucwpL7YkpUQvKdSFpkrr
-         Juhi+8BpdTr0luGyf/1cr91mzhUjrvs2UBO2RvcX7UaNeuRoV9JQJ2Flf/rbs+1zYt8F
-         w7Q68i5GpnM79ml4ODxLSAy419joQg6F1pWQv3/8TRDa86k/TvhDlV2HuuVBhGDpt7fk
-         BfvFW0umELelV1MwyB33ofECyqWRbcA2rSPvnOg4ruO3rFys6lZAj47BKeLAXDM6fV/v
-         vYfTM8bSS/oEtIHuYvNpKmTngRFOLIM7VL7JWZLI0jzjD0KL+z2j9IP58/DUgUL7Buhi
-         uiew==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hwMnzyQVTNN0OP5AhJH8bgyCoadTxDIlnRYoouBcULo=;
+        b=RjZQuk+jWDgtLe2fMBZyMfrvsMLLdWdnU3STznLEAXztmP/ZPC+H7stK0xstt0k4GP
+         tPLQ4aQhOfBu4+RA/krfUVf/sxmgbaxwvLI1bzDtf2khfe9T1yEvJQ13uPHYP5YTvT6D
+         NAtkYlux3ldou1R8Us/plFfQLfsHxi6eF6SlG6j2LJzntOoczTWpDHvJ23Nz976BOPb1
+         t8YYZzB259ao4LCOqpOK0DKg/iSIlcl6FCqW1TY4lsiummpc5/un2WSwG9gt7GqinIh/
+         D3CbeEPcp38MI/1zyLvZGdQC8jjtirQM57g9dc+4y6XOvExtP6UYs1Gv6zF+IJYnZvBg
+         uHaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dr0PbgfPUYNXMUSoP7avCUfFe0xMJPYUK2vKIDfZVqQ=;
-        b=Vp2eo1iSHFZHbFPilJMUZoouCIRIx/xUSvJy5lf5EK+Lj3hT65R87KPpFf3ohbpMIc
-         AA2KRjeEmKLQ4jGnCb7qi5n+ioB9UEgXbcc0P62fOCDYkjEFaK7tGneXuN0o3uUCOttQ
-         A2vDyzOxTfoYjuBwxymvTukr7gRds2E/G+hd0k48kuiN+gaZk0Q3hhWGv14W2ww9D93K
-         imKVSb/ykZCdY+uRbZGfs3nseKzmt5ch6YMwAtztNB8V2qsWUNcO5R1JTs3PT/KJG48N
-         clvpDp4xmKVlnspNyqED6rpXB7RF9WhNEZhht8t/NK/b3DpaUCcQJmZgD5s0QMVJeTrf
-         8L+Q==
-X-Gm-Message-State: AOAM5313HpBrp0tpA7ilL/Eys62yHHb0cJ/vtvCArANgUTPILpvmpIvn
-	VeNuMnZrKbvUDI9T2DOKN334fVFNA15DIg==
-X-Google-Smtp-Source: ABdhPJz7OnSO4WTo0VRw2MEbNGY+18w5yAPUm7dtI+nrevFhlqHs7gy64q87k45keWClTtb4mzHSsA==
-X-Received: by 2002:a17:906:386:: with SMTP id b6mr20321963eja.538.1598533873376;
-        Thu, 27 Aug 2020 06:11:13 -0700 (PDT)
-Return-Path: <grembeter@gmail.com>
-Received: from AHERLNXTGRY01.lgs-net.com ([193.8.40.126])
-        by smtp.gmail.com with ESMTPSA id v23sm1821973ejh.84.2020.08.27.06.11.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 06:11:12 -0700 (PDT)
-From: "gr embeter" <grembeter@gmail.com>
-X-Google-Original-From: Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
-Subject: [PATCH] devtool: unset _PYTHON_SYSCONFIGDATA_NAME
-Date: Thu, 27 Aug 2020 15:10:40 +0200
-Message-Id: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hwMnzyQVTNN0OP5AhJH8bgyCoadTxDIlnRYoouBcULo=;
+        b=Ttm3v6NzuRM7QXzlpFWwOSl73QsOpEpRhZjh32Hdbl+RGC+5IEo01bXnq5BcFALwoM
+         tvQw1vjn4q6msvaQs5mvfQt6uoCeFgKdc333bgMgmdGjgZgjtCi9lFESGCCuO984Ken/
+         czsxtIX1Z7nHKdySTGkBkCjfMBmCtqQ5M3GYjLSrLyWWPY5dgKIktJ+iygz8vGA+Pr66
+         xXS4Qkg849Q4nZMC+2Vu2yFRhYNbLSmbfBA5w1yN6VflKIfWs8e4v//M4TB+7vIeUwHb
+         O+qjOwTzsCscB0vrONE7tvN+LdVxdO2myr5jMwwzZECz7Mu/qw1CfIU1WGBpuwHjFSs7
+         8uwA==
+X-Gm-Message-State: AOAM531qjIXFUEtspxL2Ehc1ePyR0la+LD3Z0Z0RCB/WEHEngzAlTI3L
+	3P6IVDOkSmX41XQJSszHdp3eaelLQ08Qsr7Qn/0=
+X-Google-Smtp-Source: ABdhPJxVn02fcij72XROGeTNIjlkS/GNhz89EMg9ckAWnSvHNQOXoASj7l2ITiT9YCISGBmn+QDR+UYr1GsxXESqta8=
+X-Received: by 2002:ab0:7204:: with SMTP id u4mr4162935uao.71.1598540386558;
+ Thu, 27 Aug 2020 07:59:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
+In-Reply-To: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 27 Aug 2020 16:59:35 +0200
+Message-ID: <CANNYZj9v3sY-XcvS3Xy1G6+789BUV3PvxWxy_W2_O1XSRfRaAg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: unset _PYTHON_SYSCONFIGDATA_NAME
+To: gr embeter <grembeter@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
+Content-Type: multipart/alternative; boundary="000000000000e669e305addd2f31"
 
-On Ubuntu 20.04.1 LTS with Python 3.8.2 "devtool modify" fails with
-Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+--000000000000e669e305addd2f31
+Content-Type: text/plain; charset="UTF-8"
 
-e.g.: devtool modify --no-same-dir --branch fit u-boot ~/ws/w/dtool/u-boot-fit
+I am able to execute that exact same command without any errors. How can
+this be reproduced?
 
-ERROR: Error executing a python function in exec_python_func() autogenerated:
+Note that we already had the same patch proposed earlier and it was
+rejected, as the problem pops up in various different places and needs to
+be understood and solved properly.
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:devtool_post_unpack(d)
-     0003:
- [...]
-File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: _init_posix
-     0417:def _init_posix(vars):
-     0418:    """Initialize the module as appropriate for POSIX systems."""
-     0419:    # _sysconfigdata is generated at build time, see _generate_posix_vars()
-     0420:    name = _get_sysconfigdata_name()
- *** 0421:    _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
-     0422:    build_time_vars = _temp.build_time_vars
-     0423:    vars.update(build_time_vars)
-     0424:
-     0425:def _init_non_posix(vars):
-Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+Alex
 
-It happens because u-boot (and likely other recipes) eventually inherits
-python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-and this affects host Python.
+On Thu, 27 Aug 2020 at 15:11, gr embeter <grembeter@gmail.com> wrote:
 
-Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.
+> On Ubuntu 20.04.1 LTS with Python 3.8.2 "devtool modify" fails with
+> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+>
+> e.g.: devtool modify --no-same-dir --branch fit u-boot
+> ~/ws/w/dtool/u-boot-fit
+>
+> ERROR: Error executing a python function in exec_python_func()
+> autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:devtool_post_unpack(d)
+>      0003:
+>  [...]
+> File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: _init_posix
+>      0417:def _init_posix(vars):
+>      0418:    """Initialize the module as appropriate for POSIX systems."""
+>      0419:    # _sysconfigdata is generated at build time, see
+> _generate_posix_vars()
+>      0420:    name = _get_sysconfigdata_name()
+>  *** 0421:    _temp = __import__(name, globals(), locals(),
+> ['build_time_vars'], 0)
+>      0422:    build_time_vars = _temp.build_time_vars
+>      0423:    vars.update(build_time_vars)
+>      0424:
+>      0425:def _init_non_posix(vars):
+> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+>
+> It happens because u-boot (and likely other recipes) eventually inherits
+> python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+> and this affects host Python.
+>
+> Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.
+>
+> Signed-off-by: Grygorii Tertychnyi <
+> grygorii.tertychnyi@leica-geosystems.com>
+> ---
+>  meta/classes/devtool-source.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/devtool-source.bbclass
+> b/meta/classes/devtool-source.bbclass
+> index 280d6009f3c2..95d6fe7a29e8 100644
+> --- a/meta/classes/devtool-source.bbclass
+> +++ b/meta/classes/devtool-source.bbclass
+> @@ -22,6 +22,8 @@
+>  DEVTOOL_TEMPDIR ?= ""
+>  DEVTOOL_PATCH_SRCDIR = "${DEVTOOL_TEMPDIR}/patchworkdir"
+>
+> +# host Python fails to import correct _sysconfigdata if this variable is
+> set
+> +_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
+>
+>  python() {
+>      tempdir = d.getVar('DEVTOOL_TEMPDIR')
+> --
+> 2.25.1
+>
+> 
+>
 
-Signed-off-by: Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
----
- meta/classes/devtool-source.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+--000000000000e669e305addd2f31
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
-index 280d6009f3c2..95d6fe7a29e8 100644
---- a/meta/classes/devtool-source.bbclass
-+++ b/meta/classes/devtool-source.bbclass
-@@ -22,6 +22,8 @@
- DEVTOOL_TEMPDIR ?= ""
- DEVTOOL_PATCH_SRCDIR = "${DEVTOOL_TEMPDIR}/patchworkdir"
- 
-+# host Python fails to import correct _sysconfigdata if this variable is set
-+_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
- 
- python() {
-     tempdir = d.getVar('DEVTOOL_TEMPDIR')
--- 
-2.25.1
+<div dir=3D"ltr"><div>I am able to execute that exact same command without =
+any errors. How can this be reproduced?</div><div><br></div><div>Note that =
+we already had the same patch proposed earlier and it was rejected, as the =
+problem pops up in various different places and needs to be understood and =
+solved properly.</div><div><br></div><div>Alex<br></div></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 27 Aug 2020=
+ at 15:11, gr embeter &lt;<a href=3D"mailto:grembeter@gmail.com" target=3D"=
+_blank">grembeter@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">On Ubuntu 20.04.1 LTS with Python 3.8.2 &quot;de=
+vtool modify&quot; fails with<br>
+Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<b=
+r>
+<br>
+e.g.: devtool modify --no-same-dir --branch fit u-boot ~/ws/w/dtool/u-boot=
+-fit<br>
+<br>
+ERROR: Error executing a python function in exec_python_func() autogenerat=
+ed:<br>
+<br>
+The stack trace of python calls that resulted in this exception/failure wa=
+s:<br>
+File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function: &lt=
+;module&gt;<br>
+=C2=A0 =C2=A0 =C2=A00001:<br>
+=C2=A0*** 0002:devtool_post_unpack(d)<br>
+=C2=A0 =C2=A0 =C2=A00003:<br>
+=C2=A0[...]<br>
+File: &#39;/usr/lib/python3.8/sysconfig.py&#39;, lineno: 421, function: _i=
+nit_posix<br>
+=C2=A0 =C2=A0 =C2=A00417:def _init_posix(vars):<br>
+=C2=A0 =C2=A0 =C2=A00418:=C2=A0 =C2=A0 &quot;&quot;&quot;Initialize the mo=
+dule as appropriate for POSIX systems.&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A00419:=C2=A0 =C2=A0 # _sysconfigdata is generated at bu=
+ild time, see _generate_posix_vars()<br>
+=C2=A0 =C2=A0 =C2=A00420:=C2=A0 =C2=A0 name =3D _get_sysconfigdata_name()<=
+br>
+=C2=A0*** 0421:=C2=A0 =C2=A0 _temp =3D __import__(name, globals(), locals(=
+), [&#39;build_time_vars&#39;], 0)<br>
+=C2=A0 =C2=A0 =C2=A00422:=C2=A0 =C2=A0 build_time_vars =3D _temp.build_tim=
+e_vars<br>
+=C2=A0 =C2=A0 =C2=A00423:=C2=A0 =C2=A0 vars.update(build_time_vars)<br>
+=C2=A0 =C2=A0 =C2=A00424:<br>
+=C2=A0 =C2=A0 =C2=A00425:def _init_non_posix(vars):<br>
+Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#39;<b=
+r>
+<br>
+It happens because u-boot (and likely other recipes) eventually inherits<b=
+r>
+python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME=3D&quot;_syscon=
+figdata&quot;<br>
+and this affects host Python.<br>
+<br>
+Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.<br>
+<br>
+Signed-off-by: Grygorii Tertychnyi &lt;<a href=3D"mailto:grygorii.tertychn=
+yi@leica-geosystems.com" target=3D"_blank">grygorii.tertychnyi@leica-geosys=
+tems.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/devtool-source.bbclass | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-so=
+urce.bbclass<br>
+index 280d6009f3c2..95d6fe7a29e8 100644<br>
+--- a/meta/classes/devtool-source.bbclass<br>
++++ b/meta/classes/devtool-source.bbclass<br>
+@@ -22,6 +22,8 @@<br>
+=C2=A0DEVTOOL_TEMPDIR ?=3D &quot;&quot;<br>
+=C2=A0DEVTOOL_PATCH_SRCDIR =3D &quot;${DEVTOOL_TEMPDIR}/patchworkdir&quot;=
+<br>
+<br>
++# host Python fails to import correct _sysconfigdata if this variable is =
+set<br>
++_PYTHON_SYSCONFIGDATA_NAME[unexport] =3D &quot;1&quot;<br>
+<br>
+=C2=A0python() {<br>
+=C2=A0 =C2=A0 =C2=A0tempdir =3D d.getVar(&#39;DEVTOOL_TEMPDIR&#39;)<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div>
 
+--000000000000e669e305addd2f31--
