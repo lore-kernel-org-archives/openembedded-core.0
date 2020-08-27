@@ -1,76 +1,150 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.29898.1598564390302830466
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web12.30500.1598566360474571318
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 14:39:50 -0700
+ Thu, 27 Aug 2020 15:12:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RhoslyrV;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id n18so5908462qtw.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 14:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hv49CM3sfz7Ii+tl3lD2a3w6iMJ+woKYfS4zXDmDE+w=;
-        b=RhoslyrVp152Hu7I0gGO7kOA6mbaIf7u3kvWTcDB1zzV+a1s/Et7PhW7H2hgr71ZJD
-         dVhd942fxFeH2QpPJXvcxxA2gte+5PhZydBr+glxzwiBvHoazanbs4+xoBPe1ilxVnO7
-         jC8A18VZq+MP3SEzpPTZIMl+VEpixczL5v9wV++n7Q5l4AAWA823rFX/5gtZFhjBFKya
-         jFyqj6FbZH4kr3EmfAgDDhSw3r6vLT+02n4i+MiylHuL4mUs3q3JOlikR1RhG7gGmRB8
-         scVs99kJGsbOuB56bhrzgysmhGo4xfYksn3VTxYhK4oumUwUsbQSKv7cZBFFcbxC9xFj
-         sMsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hv49CM3sfz7Ii+tl3lD2a3w6iMJ+woKYfS4zXDmDE+w=;
-        b=UV3GZFLBsBAkotseF3+tt5/d98XhR+aj9wmCJ/hh9EFTEnrvBh9SUdxXpkEiIIT2+y
-         lcR2svg/rcG5OZKOGa85fQDjGrN+LJgOdGovYXCtfTCmDa3E17G4CVJz76x5Gr3owqNX
-         OmiKn293yGjgHd0omoNuMYnlwKY8GAE3/ePj0xfeJhxwPf3SBmiLwNl33Q4Oax1806tK
-         UUJlBwKqPLFplTACkegZ9ArN7pIh3LM3qkOeIvZVkG5goaI7ImsjUPB6AT3h9nRbMRN2
-         Kdj60m670hLYO1IsS59nltBHs8DTZJ/CaZgs/8c07df9S7euO/slCs6IN1a6AqtXQfZq
-         AZlg==
-X-Gm-Message-State: AOAM533NQ11BuIFDFvOQii7wKKObqzSWNQcUbz/4hrDxzW5LEJnue9In
-	dfB09Kvg5utIYVA4cePcrgV4mE0WSbnzMj+IWUM=
-X-Google-Smtp-Source: ABdhPJz4Srk2iAh7HnU1//4BnddqsEcm0dgj+T85W6vrkQxe02eCZVNpm+ZDns7kHjAgIO6lDlq0pgQOFwv64SgNPlM=
-X-Received: by 2002:ac8:4d0c:: with SMTP id w12mr20402865qtv.194.1598564389422;
- Thu, 27 Aug 2020 14:39:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200827105933.3575-1-alex.kanavin@gmail.com> <20200827105933.3575-4-alex.kanavin@gmail.com>
- <CAMKF1sp8-t1KascRyh9KF3zYM5-3BDWcPHB-hQJ5bVZDCyaBuw@mail.gmail.com> <CANNYZj_COviOHYu8bgbOhfrP9xOzc8UeDdOP+dPxj0BNdKnqpg@mail.gmail.com>
-In-Reply-To: <CANNYZj_COviOHYu8bgbOhfrP9xOzc8UeDdOP+dPxj0BNdKnqpg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 27 Aug 2020 14:39:23 -0700
-Message-ID: <CAMKF1soU90C1e9a+KRCWgHhP9bbXQ1P_eDMU9oOvD4ju1fwPUQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/6] oeqa/x32lib: rework to use readelf from the host
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07RMCbnW001766
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 17:12:39 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [master][PATCH v7 0/3] Allow PR Service and hash equiv together
+Date: Thu, 27 Aug 2020 17:12:34 -0500
+Message-Id: <20200827221237.143692-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, Aug 27, 2020 at 2:36 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Thu, 27 Aug 2020 at 23:31, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Thu, Aug 27, 2020 at 4:00 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > It is difficult and error-prone to ensure binutils gets
->> > installed into target images where this test may run;
->> > on the other hand readelf is always present on the
->> > host, as it is a part of HOSTTOOLS.
->> >
->>
->> this would mean that we are relying on build host provided binutils to
->> be compiled with all bfd support
->> since now we also have aarch64 build hosts it spreads he risk a bit
->> more. maybe we can
->> ignore this test if target does not have binutils installed or depend
->> on binutils-native for providing readelf
->
->
-> The test needs to be explicitly enabled, and requires a very specific build configuration (see config.json from the AB); it is unlikely someone will stumble upon it randomly.
->
+v7:
 
-that makes it less frequent but the logic problem still remains isn't it.
+Update packagedata_translate_pr_autoinc function to handle when there is no
+pkgdata to process.
 
-> Alex
+Exception: bb.process.ExecutionError: Execution of '/mnt/b/yoe/master/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/libtool-cross/2.4.6-r0/temp/run.packagedata_translate_pr_autoinc.2499440' failed with exit code 123:
+sed: no input files
+WARNING: /mnt/b/yoe/master/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/libtool-cross/2.4.6-r0/temp/run.packagedata_translate_pr_autoinc.2499440:151 exit 123 from 'xargs sed -e 's,@PRSERV_PV_AUTOINC@,AUTOINC,g' -e 's,@EXTENDPRAUTO@,.0,g' -i'
+
+Uses the --no-run-if-empty options for xargs.
+
+v6:
+
+Refactor do_packagedata to use existing copy routine, and then sed "inline" to
+translate EXTENDPRAUTO and AUTOINC parts.
+
+v5 (not sent to mailing list):
+
+Refactor do_packagedata and create a custom copy routine.  The routine also
+uses sed to translate EXTENDPRAUTO and AUTOINC.  This also introduces changes
+to the new package_convert_pr_autoinc to always translate PRSERV_PV_AUTOINC
+and EXTENDPRAUTO to @PRSERV_PV_AUTOINC@ and @EXTENDPRAUTO@.  So all users of
+the do_package components will see this translated version.
+
+Remove the commit that moved package_get_auto_pr into the packagedata.bbclass.
+
+v4 (not sent to mailing list):
+
+rename package_convert_autoinc to package_convert_pr_autoinc.
+
+Revert the creation of 'exclude_pkgdata_vars', and all of the custom 
+processing of the excluded variables.
+
+(prior patch 1 and 2 were merged, so no longer part of this.
+
+v3 (not sent to mailing list):
+
+Address all patch comments from the list, except for the 'sed' refactor
+items.
+
+v2:
+
+Most comments have been addressed to create a v2 version.  I've refactored
+the commits to make a few things more clear, basically moving code around
+and fixing minor issues BEFORE the big patch.
+
+Before there were two patches that together implemented the PR Serv/Hash
+work.  This has been combined into a single patch and the oe_nohash stuff
+has simply been removed as no longer applicable.
+
+The only comment that was NOT addressed in this was the suggestion to
+sed the pkgdata files in do_packagedata.  I'm hesitent to do this as
+sed with ${...} in them has proven to be fragile for me in the past.  If
+we decide that is necessary, I'd suggest we start with this set and then
+sed with ${...} in them has proven to be fragile for me in the past.  If
+we decide that is necessary, I'd suggest we start with this set and then
+make that change after this proves to work (or not).
+
+v1:
+
+Before PR service didn't work reliably with hash equivalency.  Generally
+you ended up with results that may not be reproducible, even if you
+started with the same PR service database and hash equivalency database. 
+
+Overtime, intermediate PR values would be created that would cause thing
+to get out of sync in the case of certain rebuilds or other corner cases.
+
+The set refactors the PR service to work along side the new hash equiv
+system.  It moves the PR and AUTOINC lookup to AFTER the do_package task
+is complete.  This allows us to use the do_package unihash for lookup.
+
+Additionally this fixed a small issue with the kernel, where the PR value
+could get incremented twice.  The fix is an artifact of the other changes
+that cause us to only run the PR service work once per recipe.
+
+This has been tested with the following workflow, which covers one of
+the critical corner cases for me:
+
+configure local.conf with:
+
+   BB_HASHSERVE = "auto"
+   BB_SIGNATURE_HANDLER = "OEEquivHash"
+   
+   PRSERV_HOST ??= "localhost:0"
+   
+   INHERIT += "reproducible_build"
+   INHERIT += "buildhistory"
+
+bitbake glibc linux-yocto
+
+# Modify meta/recipes-core/glibc/glibc_2.32.bb, add a comment 
+# to the do_patch_append().  This will taint the hash of this
+# function.
+
+bitbake glibc linux-yocto
+
+# The system should have detected the output was the same, and
+# no proceed past do_package in glibc.  The kernel should not
+# have built at all.
+
+# Store/mv the tmp and sstate-cache from that build elsewhere
+# repeat the run
+
+bitbake glibc linux-yocto   
+
+# Compare the results of tmp/deploy/<package>/* between last
+# and current run.
+# 
+# The contents should be the same (filenames specifically).  
+# 
+# Also the kernel should be r0.0, not r0.1.
+
+Note: if the hash equivalency database or PR server database (located
+in the cache directory) is removed, the values may not be the same
+as the previous run.
+
+Additionally while testing the various package_*.bbclass files, it
+was noted that package_tar.bbclass was not working the same way as
+the others.  This was correct as a standalone patch.
+
+Mark Hatle (3):
+  buildhistory.bbclass: Rework to use read_subpackage_metadata
+  kernel.bbclass: Move away from calling package_get_auto_pr
+  package.bbclass: hash equivalency and pr service
+
+ meta/classes/buildhistory.bbclass | 49 ++++++++++++--------------
+ meta/classes/kernel.bbclass       |  5 ++-
+ meta/classes/package.bbclass      | 58 ++++++++++++++++++++++++++-----
+ meta/conf/bitbake.conf            |  1 +
+ 4 files changed, 77 insertions(+), 36 deletions(-)
+
+-- 
+2.17.1
+
