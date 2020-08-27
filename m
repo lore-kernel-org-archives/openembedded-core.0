@@ -1,100 +1,76 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web12.16373.1598526021105315808
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web12.16374.1598526021818702254
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 04:00:21 -0700
+ Thu, 27 Aug 2020 04:00:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZPF644mR;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id l2so7060856eji.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:00:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mqH3CZIs;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id a26so7071213ejc.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ADU3VY1RLZ/8xKJO228J5XQV5SPk1vp+GAXLrZVVn1c=;
-        b=ZPF644mRyRxAZVdbX3hxe2GJer5z4EXwGyKJNw0jySyBQSd3OYRG6M+mOk9XH04QC6
-         EruvSN15EUryr1JrxuloReTewy999XOWRGgZiEFEmzFVcUD5LXz2G3mGM69311P11raN
-         1qJ11/OAIQBdEPKDuoq0hVgDP2LiYMEufEmwlqP1YADTIW8zZZzUp/kHgoG9ENTs0Qfv
-         P+DN2Vb0eBI+WV8PQiY6vYvEBzuXLzS/wvuMnqj3+HbEzbHPMT+n205EgVW3PVtsqDxd
-         QFSLGiYlCsxl7usF4xiYZmQf63G+YIBcVeCrurWrN1HYPrWe3NBLQaHL1xbKU6uNfPNb
-         2mFA==
+        bh=ZekodDemZYJY4Y29d0P6wb/8bnr/rxZdRUPgdAWCj1s=;
+        b=mqH3CZIsRyUdeheYRJRaFTI60Hntq54vansRlh9gqFsfgQzZpFR7GQZSg14wQLGEVF
+         hSUlUqEB1xWH1YQYffC/J27ljvQXJ5TpCVkfiKi9HtSwVyFJv+HGZImEEfF/p4eHDoDJ
+         yYV/mJFZEGM8vft0Ti/zsCHzp3f6ZpS1voEJ690oSwIzDsY1PRfQAFHVcWcRONcicyI0
+         Fu6Lez9se8WmSM2xTGn2aDR2QgUzgQMlG9RkGFlZJOH7Vs16OcCS6Ow/zLP6molgczJO
+         UMq+UitvsmIGc3YoFztvxqwd3ImCEv17C19WxiZzNOc0JYDQFanuo967tb3ccWZZojBj
+         Y3Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ADU3VY1RLZ/8xKJO228J5XQV5SPk1vp+GAXLrZVVn1c=;
-        b=b4vNl9zRKdpI5yGXLaYfR+hq/LHzV23PVqBd+kvlEVK5RB+z6js8i9C9v3sladHY9V
-         wJQfuM4Up78ytvFisM9vXrvcH7uOLUq7Xmc1dr/dsWEPxuR8hVTUy4t71wAOwknX87MX
-         T3I1vTerRVPll05NK5ojjpOQ7tvnxSKqnNBm42K4dumVKnulIZmmKGmF0rwrowJzY3gl
-         ZLGGmU4Yc5qcl8iJ/q7w8cnAigXHWB/YmbULFmigdysLRrp6DQUnETpxLHLv1/wAeNkg
-         uYapNtfGDPBQe8CtlKtJDK6DF215ClEkQ0wHVlG9N5pjyYyPDbkTXrrzkPZ33RX+e+rt
-         Z2+A==
-X-Gm-Message-State: AOAM531rtEFynauj8sCAGTKWsPbyl956irfBOy/Vy4o0HGtXWA4XBlvh
-	EYdtn8EszIvX5kPq4RUVFHXjKxMAYkQ=
-X-Google-Smtp-Source: ABdhPJySZOAsWN2bWeUcg2cRA1inh1P5FMvwlwumevlX9R//r0S27FRYtmjYHysJjZOl1yJTwUdfVg==
-X-Received: by 2002:a17:906:4ad5:: with SMTP id u21mr12577152ejt.468.1598526019353;
-        Thu, 27 Aug 2020 04:00:19 -0700 (PDT)
+        bh=ZekodDemZYJY4Y29d0P6wb/8bnr/rxZdRUPgdAWCj1s=;
+        b=D00O0/Ep/1acSh1/VAdh2YDrBvfXT9lTU3U3pzBXR618RAkRNizuFqrXJgGUrZEUwd
+         VZj09CNc3rgsBlrew+gLN8angwRio75ZZm2v9Q+z5TrR8CtJfHqCPV2ZC4SGJjrOFQzn
+         8sPWVOqjePkIiSCb3uwJafQZywrTw9wdcym08rJvYxlpIJDzA/6LOfbJiT86zchlHiRE
+         rEfvTgyZRU24bA+YM2oWVUMbxjdL4e8H40xt60ibWMODhgGCQt60LGUTbzgu7xoMQEiW
+         s3eBNyM9VQIU6nrcomGr+Y4o8g8YSxqZHiYcHEf0pbaPbFuaDOuD8dcJgldVnNM+eKxu
+         h0VQ==
+X-Gm-Message-State: AOAM531K3QxLUyRnAy5rrdDzl8/956JoJ6tnfjQCF2AjIieYFKQL/IEf
+	liyVU87P2nAQnz4KpSEvb5J3WPPa6hM=
+X-Google-Smtp-Source: ABdhPJzvnWJzInZAHLZM6Z6T27Yov+T69saXopHMQfQ/2Gw57P3bTyPk+gu+BI3U8fDf4VhmBGwCIA==
+X-Received: by 2002:a17:907:7090:: with SMTP id yj16mr19871558ejb.73.1598526020121;
+        Thu, 27 Aug 2020 04:00:20 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id eb5sm1623132ejc.94.2020.08.27.04.00.18
+        by smtp.gmail.com with ESMTPSA id eb5sm1623132ejc.94.2020.08.27.04.00.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 04:00:18 -0700 (PDT)
+        Thu, 27 Aug 2020 04:00:19 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 5/6] oeqa/multilib: rework to use readelf from the host
-Date: Thu, 27 Aug 2020 12:59:32 +0200
-Message-Id: <20200827105933.3575-5-alex.kanavin@gmail.com>
+Subject: [PATCH 6/6] oeqa/multilib: un-skip the connman test
+Date: Thu, 27 Aug 2020 12:59:33 +0200
+Message-Id: <20200827105933.3575-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200827105933.3575-1-alex.kanavin@gmail.com>
 References: <20200827105933.3575-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It is difficult and error-prone to ensure binutils gets
-installed into target images where this test may run;
-on the other hand readelf is always present on the
-host, as it is a part of HOSTTOOLS.
+It was previously skipped as it was expecting plain connman
+to not be in the image, and for core-image-sato connman is always there.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/multilib.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/runtime/cases/multilib.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/runtime/cases/multilib.py b/meta/lib/oeqa/runtime/cases/multilib.py
-index 62e662b01c..56aed62eea 100644
+index 56aed62eea..0d1b9ae2c9 100644
 --- a/meta/lib/oeqa/runtime/cases/multilib.py
 +++ b/meta/lib/oeqa/runtime/cases/multilib.py
-@@ -7,6 +7,8 @@ from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfNotInDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
+@@ -42,6 +42,6 @@ class MultilibTest(OERuntimeTestCase):
+         self.archtest("/lib64/libc.so.6", "ELF64")
  
-+import subprocess
-+
- class MultilibTest(OERuntimeTestCase):
- 
-     def archtest(self, binary, arch):
-@@ -14,8 +16,10 @@ class MultilibTest(OERuntimeTestCase):
-         Check that ``binary`` has the ELF class ``arch`` (e.g. ELF32/ELF64).
-         """
- 
--        status, output = self.target.run('readelf -h %s' % binary)
--        self.assertEqual(status, 0, 'Failed to readelf %s' % binary)
-+        dest = "{}/test_binary".format(self.td.get('T', ''))
-+        self.target.copyFrom(binary, dest)
-+        output = subprocess.check_output("readelf -h {}".format(dest), shell=True).decode()
-+        os.remove(dest)
- 
-         l = [l.split()[1] for l in output.split('\n') if "Class:" in l]
-         if l:
-@@ -29,7 +33,6 @@ class MultilibTest(OERuntimeTestCase):
-     @skipIfNotInDataVar('MULTILIBS', 'multilib:lib32',
-                         "This isn't a multilib:lib32 image")
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['binutils'])
-     @OEHasPackage(['lib32-libc6'])
-     def test_check_multilib_libc(self):
-         """
+     @OETestDepends(['multilib.MultilibTest.test_check_multilib_libc'])
+-    @OEHasPackage(['lib32-connman', '!connman'])
++    @OEHasPackage(['lib32-connman'])
+     def test_file_connman(self):
+         self.archtest("/usr/sbin/connmand", "ELF32")
 -- 
 2.28.0
 
