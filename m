@@ -1,124 +1,185 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.25057.1598550853162019564
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web12.26539.1598555231501306117
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 10:54:13 -0700
+ Thu, 27 Aug 2020 12:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QCO0TfSo;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id x12so5239561qtp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 10:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oSuMNXRXqw8Z4FOa0XTR9d42840rpF1Fw4HcQy0fZg0=;
-        b=QCO0TfSodZOGs2fQWrQTqn9zfKBeWxeAq5YUauTzSvzrmf0kQZY0NEGT/+4J+mupy6
-         suH88B6LdPPR0AqinQN+ddUjuC24Zv4TZRpWC3b/sXWEDbVIAd8Q7wWdiKxDzZ27GyRT
-         PptqY2myx4wwjKXxq6Ki/mJYajOAbhY8cnbRgDUQt804lwOc7Q6aKOGTd2FYwNJLXLYq
-         8L39u6nAxid7nPtl1cHRHtljltSGfcW2TgUiOIfuIvVjoy/6ntgB+Rmw+xizOHHLAS1L
-         F8NFHWo8IjNkJdpniykI8UlNhb0bO6FChZjYTsEQVCAbf4Xq5x54fbpgrB6t+ZFt5JPC
-         KK1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oSuMNXRXqw8Z4FOa0XTR9d42840rpF1Fw4HcQy0fZg0=;
-        b=U91XXeiOMY+pQGd6k4j4ROecVUjDgdyN/uI7nOJTyJI18223tnsqx/J7rcwB0VAFDc
-         rsfi5ve8/iLMpKmH3BUTRIS7p6Cg83qoKDgNB4NyBmCIwQRgQxjHwfEDElu1oPy8b9z4
-         A0N8d5AiEuAheRsatkztR+tqyxG3QGD8T1AEGHCUwkPt05Ch1eR1Wa9EZOCL9A/LOxEU
-         p0xbq6aq0fZprNI4eT9BoliNQWKBY5YM7xttiSlNZEUBYrSWe+WZ8F6Qx/JWKRopQ8tj
-         3TfyLRH7Ja3v3UTA6q50nw8nuHhjj4wjYoIK8QY9kFrwGB9PsQtZmk6OFHN8bv+NvcuV
-         TsqQ==
-X-Gm-Message-State: AOAM533nsI74hF/GuaLSjpVKfzKzFuSJR3LB5ZqX+raEcUS4a+ImN2Vc
-	CObalI9F8RF/p+552ngSay4=
-X-Google-Smtp-Source: ABdhPJw7o5eNVg6nbZAxFA/rmcXnSbmUYLHglF8EW1ypiqDu5CXntoZ4XfeAj3Ryxo/N7KjzCLUXrA==
-X-Received: by 2002:ac8:3876:: with SMTP id r51mr9214064qtb.181.1598550852262;
-        Thu, 27 Aug 2020 10:54:12 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id f4sm2339963qtp.38.2020.08.27.10.54.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 10:54:11 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] kernel-yocto: allow promotion of configuration warnings to errors
-Date: Thu, 27 Aug 2020 13:54:03 -0400
-Message-Id: <871d8aa098f82e7319b7d54df32a1623f72fbe74.1598550535.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1598550535.git.bruce.ashfield@gmail.com>
-References: <cover.1598550535.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 07RJ77lD032508
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 14:07:09 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [master][PATCH v6 3/3] package.bbclass: hash equivalency and pr service
+Date: Thu, 27 Aug 2020 14:07:06 -0500
+Message-Id: <20200827190706.121027-4-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200827190706.121027-1-mark.hatle@kernel.crashing.org>
+References: <20200827190706.121027-1-mark.hatle@kernel.crashing.org>
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+When the PR service is enabled a number of small changes may happen
+to variables.  In the do_package step a call to package_get_auto_pr
+will end up setting PRAUTO and modifying PKGV (if AUTOINC is there).
 
-It was requested to add the ability to upgrade configuration warnings
-to errors, so that they can't be missed in a build.
+PRAUTO is then used by EXTENDPRAUTO, which is then used to generate
+PKGR.
 
-Add a flag KMETA_AUDIT_WERROR, that when set, triggers a bb.fatal at
-the end of configuration checking if any warnings are found.
+Since this behavior typically happens BEFORE the BB_UNIHASH is
+calculated for do_package, we need a way to defer the expansion
+until after we have the unihash value.
 
-This is off by default, but is available for those that want to enable
-it in their kernel recipe or bbappend.
+Writing out the pkgdata files w/o AUTOPR and PKGV (AUTOINC) expanded
+to placeholder values is the easiest way to deal with this.  All other
+variables are expanded as expected.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+In the next task, typically do_packagedata, we will then use the
+UNIHASH from the do_package to get the PR (AUTOPR) as well as
+generate the AUTOINC replacement value (now PRSERV_PV_AUTOINC).
+
+The do_packagedata then translates the placeholders to the final values
+when copying the data from pkgdata to pkgdata-pdata-input.
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/classes/kernel-yocto.bbclass | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass | 58 +++++++++++++++++++++++++++++++-----
+ meta/conf/bitbake.conf       |  1 +
+ 2 files changed, 51 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 34a0ff8f84..4f6698135b 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -18,6 +18,7 @@ SRCREV_FORMAT ?= "meta_machine"
- KCONF_AUDIT_LEVEL ?= "1"
- KCONF_BSP_AUDIT_LEVEL ?= "0"
- KMETA_AUDIT ?= "yes"
-+KMETA_AUDIT_WERROR ?= ""
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7a36262eb6..0a4e9d13fa 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -7,7 +7,7 @@
+ #
+ # There are the following default steps but PACKAGEFUNCS can be extended:
+ #
+-# a) package_get_auto_pr - get PRAUTO from remote PR service
++# a) package_convert_pr_autoinc - convert AUTOINC in PKGV to ${PRSERV_PV_AUTOINC}
+ #
+ # b) perform_packagecopy - Copy D into PKGD
+ #
+@@ -664,12 +664,20 @@ def runtime_mapping_rename (varname, pkg, d):
+     #bb.note("%s after: %s" % (varname, d.getVar(varname)))
  
- # returns local (absolute) path names for all valid patches in the
- # src_uri
-@@ -546,6 +547,8 @@ python do_kernel_configcheck() {
+ #
+-# Package functions suitable for inclusion in PACKAGEFUNCS
++# Used by do_packagedata (and possibly other routines post do_package)
+ #
  
-     config_check_visibility = int(d.getVar("KCONF_AUDIT_LEVEL") or 0)
-     bsp_check_visibility = int(d.getVar("KCONF_BSP_AUDIT_LEVEL") or 0)
-+    kmeta_audit_werror = d.getVar("KMETA_AUDIT_WERROR") or ""
-+    warnings_detected = False
- 
-     # if config check visibility is "1", that's the lowest level of audit. So
-     # we add the --classify option to the run, since classification will
-@@ -572,6 +575,7 @@ python do_kernel_configcheck() {
-             with open (outfile, "r") as myfile:
-                 results = myfile.read()
-                 bb.warn( "[kernel config]: specified values did not make it into the kernel's final configuration:\n\n%s" % results)
-+                warnings_detected = True
- 
-     # category #2: invalid fragment elements
-     extra_params = ""
-@@ -591,8 +595,9 @@ python do_kernel_configcheck() {
- 
-         if bsp_check_visibility and os.stat(outfile).st_size > 0:
-             with open (outfile, "r") as myfile:
--               results = myfile.read()
--               bb.warn( "[kernel config]: This BSP contains fragments with warnings:\n\n%s" % results)
-+                results = myfile.read()
-+                bb.warn( "[kernel config]: This BSP contains fragments with warnings:\n\n%s" % results)
-+                warnings_detected = True
- 
-     # category #3: redefined options (this is pretty verbose and is debug only)
-     try:
-@@ -613,6 +618,10 @@ python do_kernel_configcheck() {
-             with open (outfile, "r") as myfile:
-                 results = myfile.read()
-                 bb.warn( "[kernel config]: This BSP has configuration options defined in more than one config, with differing values:\n\n%s" % results)
-+                warnings_detected = True
++package_get_auto_pr[vardepsexclude] = "BB_TASKDEPDATA"
+ python package_get_auto_pr() {
+     import oe.prservice
+-    import re
 +
-+    if warnings_detected and kmeta_audit_werror:
-+        bb.fatal( "configuration warnings detected, werror is set, promoting to fatal" )
++    def get_do_package_hash(pn):
++        if d.getVar("BB_RUNTASK") != "do_package":
++            taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++            for dep in taskdepdata:
++                if taskdepdata[dep][1] == "do_package" and taskdepdata[dep][0] == pn:
++                    return taskdepdata[dep][6]
++        return None
+ 
+     # Support per recipe PRSERV_HOST
+     pn = d.getVar('PN')
+@@ -681,15 +689,22 @@ python package_get_auto_pr() {
+ 
+     # PR Server not active, handle AUTOINC
+     if not d.getVar('PRSERV_HOST'):
+-        if 'AUTOINC' in pkgv:
+-            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
++        d.setVar("PRSERV_PV_AUTOINC", "0")
+         return
+ 
+     auto_pr = None
+     pv = d.getVar("PV")
+     version = d.getVar("PRAUTOINX")
+     pkgarch = d.getVar("PACKAGE_ARCH")
+-    checksum = d.getVar("BB_TASKHASH")
++    checksum = get_do_package_hash(pn)
++
++    # If do_package isn't in the dependencies, we can't get the checksum...
++    if not checksum:
++        bb.warn('Task %s requested do_package unihash, but it was not available.' % d.getVar('BB_RUNTASK'))
++        #taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++        #for dep in taskdepdata:
++        #    bb.warn('%s:%s = %s' % (taskdepdata[dep][0], taskdepdata[dep][1], taskdepdata[dep][6]))
++        return
+ 
+     if d.getVar('PRSERV_LOCKDOWN'):
+         auto_pr = d.getVar('PRAUTO_' + version + '_' + pkgarch) or d.getVar('PRAUTO_' + version) or None
+@@ -707,7 +722,7 @@ python package_get_auto_pr() {
+                 srcpv = bb.fetch2.get_srcrev(d)
+                 base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
+                 value = conn.getPR(base_ver, pkgarch, srcpv)
+-                d.setVar("PKGV", pkgv.replace("AUTOINC", str(value)))
++                d.setVar("PRSERV_PV_AUTOINC", str(value))
+ 
+             auto_pr = conn.getPR(version, pkgarch, checksum)
+     except Exception as e:
+@@ -717,6 +732,22 @@ python package_get_auto_pr() {
+     d.setVar('PRAUTO',str(auto_pr))
  }
  
- # Ensure that the branches (BSP and meta) are on the locations specified by
++#
++# Package functions suitable for inclusion in PACKAGEFUNCS
++#
++
++python package_convert_pr_autoinc() {
++    pkgv = d.getVar("PKGV")
++
++    # Adjust pkgv as necessary...
++    if 'AUTOINC' in pkgv:
++        d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
++
++    # Change PRSERV_PV_AUTOINC and EXTENDPRAUTO usage to special values
++    d.setVar('PRSERV_PV_AUTOINC', '@PRSERV_PV_AUTOINC@')
++    d.setVar('EXTENDPRAUTO', '@EXTENDPRAUTO@')
++}
++
+ LOCALEBASEPN ??= "${PN}"
+ 
+ python package_do_split_locales() {
+@@ -2335,7 +2366,7 @@ python do_package () {
+         package_qa_handle_error("var-undefined", msg, d)
+         return
+ 
+-    bb.build.exec_func("package_get_auto_pr", d)
++    bb.build.exec_func("package_convert_pr_autoinc", d)
+ 
+     ###########################################################################
+     # Optimisations
+@@ -2407,9 +2438,20 @@ addtask do_package_setscene
+ # Copy from PKGDESTWORK to tempdirectory as tempdirectory can be cleaned at both
+ # do_package_setscene and do_packagedata_setscene leading to races
+ python do_packagedata () {
++    bb.build.exec_func("package_get_auto_pr", d)
++
+     src = d.expand("${PKGDESTWORK}")
+     dest = d.expand("${WORKDIR}/pkgdata-pdata-input")
+     oe.path.copyhardlinktree(src, dest)
++
++    bb.build.exec_func("packagedata_translate_pr_autoinc", d)
++}
++
++# Translate the EXTENDPRAUTO and AUTOINC to the final values
++packagedata_translate_pr_autoinc() {
++    find ${WORKDIR}/pkgdata-pdata-input -type f | xargs \
++        sed -e 's,@PRSERV_PV_AUTOINC@,${PRSERV_PV_AUTOINC},g' \
++            -e 's,@EXTENDPRAUTO@,${EXTENDPRAUTO},g' -i
+ }
+ 
+ addtask packagedata before do_build after do_package
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 353caacef9..65b4432c63 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -208,6 +208,7 @@ PF = "${PN}-${EXTENDPE}${PV}-${PR}"
+ EXTENDPE = "${@['','${PE}_'][int(d.getVar('PE') or 0) > 0]}"
+ P = "${PN}-${PV}"
+ 
++PRSERV_PV_AUTOINC = "AUTOINC"
+ PRAUTO = ""
+ EXTENDPRAUTO = "${@['.${PRAUTO}', ''][not d.getVar('PRAUTO')]}"
+ PRAUTOINX = "${PF}"
 -- 
-2.19.1
+2.17.1
 
