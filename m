@@ -1,157 +1,59 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.7432.1598484597528535193
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.9255.1598490994888552984
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2020 16:29:57 -0700
+ Wed, 26 Aug 2020 18:16:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wTYQu625;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id 17so1991019pfw.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2020 16:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bTDjGNSOWRXhpcoSeL4f8TSruADzl2pbeD7wFQLUepo=;
-        b=wTYQu625vqIYgOF8EoAbr6B6VLRwl0YK9wonw+QJmJxRgi04C5vAJ+PoiKyQXdKi4b
-         6F7srMBhI9G/FxP+4pbVnWCq8NK/XSZajEjEpWCThv0CqEfs8AHa3QlCLy3u3gbGhOh4
-         xlKgsmt204kMWmZ1EGeiVYCrdU07DRczfciLiJ57Qi18J/D8txHIopWqMoY02jW+DChN
-         99qBTNy21d3iz1N80wrNiBqctx2n8Xor7RUGV3flxNZaj49p8h8FvLQ9FZ7v9Ec7JESr
-         FEt00428A6RMfbh5rkyiVTUohBqlDZizVvKIcebGx1VFwspdheAfNOI9/oc1YrOvSVGq
-         jHZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bTDjGNSOWRXhpcoSeL4f8TSruADzl2pbeD7wFQLUepo=;
-        b=QU+X+GKZU4nA2/LQQOPAoEU1BErUsQWpMTZunuKDRU/SycdyFYjrlpRU3mXByzxoKS
-         dJYWFzrf7mBkMJdU0ROSxHObnhO3Pv7cjftKN6Tw8of5oRc/iM3BG4OWQicZ651fUgpv
-         9G3bySuN0Mh+e9rvweJvl4ej0YJcCA4Jzv71W/zh80xwP2gpiOKQH0Aro1r0GjG9KVNQ
-         5gVft5Koq0Z3fNRDcyv9MfGecRANVCJkzrfxZLiSMW6kVe7/GCxMXk5XQ/5qZFRHLGvv
-         abLLzrttI3YIVXnNrAv4QtS64cC2Ts6tGoWIhPHYSmm6/R5k9Dt/kPwH58Qx9GTVA7I3
-         BSxg==
-X-Gm-Message-State: AOAM531QWqDJ1lLEMYruGrUGABjqJPD/0Zp453DgvAmM6ZsxxmIts5Of
-	eUP0L+QspTvZwFiA/rckVHfd67eHSwQdx5Oq41o=
-X-Google-Smtp-Source: ABdhPJxhOCcVWgx/Khv2VI+I+SPdx3Tfu0TFAazbiNv3XURE9DE0SKBTRFGun7frD50OzmkNTL/jqg==
-X-Received: by 2002:a62:4c7:: with SMTP id 190mr14377300pfe.103.1598484596461;
-        Wed, 26 Aug 2020 16:29:56 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id a5sm122227pgb.23.2020.08.26.16.29.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 16:29:55 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Pull request (cover letter only)
-Date: Wed, 26 Aug 2020 13:29:45 -1000
-Message-Id: <cover.1598484478.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.76,357,1592841600"; 
+   d="scan'208";a="98596670"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 27 Aug 2020 09:16:30 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id D4DFB48990D9
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 09:16:24 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 27 Aug 2020 09:16:24 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] libcap:upgrade 2.42 -> 2.43
+Date: Thu, 27 Aug 2020 21:16:22 +0800
+Message-ID: <1598534184-115749-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: D4DFB48990D9.A5EE8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-The following changes since commit 553a96644957ca6ad0f13b75a6e3a596357d1d52:
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/libcap/{libcap_2.42.bb => libcap_2.43.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcap/{libcap_2.42.bb => libcap_2.43.bb} (96%)
 
-  linux-yocto/5.4: update to v5.4.57 (2020-08-13 04:47:52 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Adrian Bunk (1):
-  librsvg: Upgrade 2.40.20 -> 2.40.21
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.58
-  linux-yocto/5.4: perf cs-etm: Move definition of 'traceid_list' global
-    variable from header file
-
-Changqing Li (1):
-  libffi: fix multilib header conflict
-
-Chen Qi (1):
-  fribidi: extend CVE_PRODUCT to include fribidi
-
-Lee Chee Yang (2):
-  ghostscript: update to 9.52
-  perl: fix CVE-2020-12723
-
-Mikko Rapeli (2):
-  alsa-topology-conf: use ${datadir} in do_install()
-  alsa-ucm-conf: use ${datadir} in do_install()
-
-Richard Purdie (1):
-  selftest/tinfoil: Increase wait event timeout
-
-Vasyl Vavrychuk (1):
-  runqemu: Check gtk or sdl option is passed together with gl or gl-es
-    options.
-
-Wang Mingyu (1):
-  xserver-xorg: upgrade 1.20.7 -> 1.20.8
-
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   5 +-
- .../perl/files/CVE-2020-12723.patch           | 302 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   1 +
- .../do-not-check-local-libpng-source.patch    |  37 +--
- .../ghostscript/CVE-2019-14869-0001.patch     |  70 ----
- .../ghostscript/ghostscript/aarch64/objarch.h |  40 ---
- .../ghostscript/ghostscript/arm/objarch.h     |  40 ---
- .../ghostscript/ghostscript/armeb/objarch.h   |  40 ---
- .../ghostscript-9.02-genarch.patch            |  38 ---
- .../ghostscript/ghostscript/i586/objarch.h    |  41 ---
- .../ghostscript/ghostscript/i686              |   1 -
- .../ghostscript/microblaze/objarch.h          |  40 ---
- .../ghostscript/microblazeel/objarch.h        |  40 ---
- .../ghostscript/mipsarchn32eb/objarch.h       |  40 ---
- .../ghostscript/mipsarchn32el/objarch.h       |  40 ---
- .../ghostscript/mipsarchn64eb/objarch.h       |  40 ---
- .../ghostscript/mipsarchn64el/objarch.h       |  40 ---
- .../ghostscript/mipsarcho32eb/objarch.h       |  40 ---
- .../ghostscript/mipsarcho32el/objarch.h       |  40 ---
- .../ghostscript/ghostscript/nios2/objarch.h   |  40 ---
- .../ghostscript/ghostscript/powerpc/objarch.h |  40 ---
- .../ghostscript/powerpc64/objarch.h           |  40 ---
- .../ghostscript/powerpc64le/objarch.h         |  40 ---
- .../ghostscript/ghostscript/x86-64/objarch.h  |  40 ---
- ...hostscript_9.50.bb => ghostscript_9.52.bb} |  27 +-
- ...{librsvg_2.40.20.bb => librsvg_2.40.21.bb} |   3 +-
- ...-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../alsa/alsa-topology-conf_1.2.1.bb          |   4 +-
- .../alsa/alsa-ucm-conf_1.2.1.2.bb             |   6 +-
- meta/recipes-support/fribidi/fribidi_1.0.9.bb |   2 +-
- meta/recipes-support/libffi/libffi_3.3.bb     |   2 +-
- scripts/runqemu                               |   3 +-
- 35 files changed, 361 insertions(+), 861 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2020-12723.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/armeb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-genarch.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
- delete mode 120000 meta/recipes-extended/ghostscript/ghostscript/i686
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/microblazeel/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn32el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarchn64el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32eb/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mipsarcho32el/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/x86-64/objarch.h
- rename meta/recipes-extended/ghostscript/{ghostscript_9.50.bb => ghostscript_9.52.bb} (87%)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.20.bb => librsvg_2.40.21.bb} (92%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.7.bb => xserver-xorg_1.20.8.bb} (89%)
-
+diff --git a/meta/recipes-support/libcap/libcap_2.42.bb b/meta/recipes-support/libcap/libcap_2.43.bb
+similarity index 96%
+rename from meta/recipes-support/libcap/libcap_2.42.bb
+rename to meta/recipes-support/libcap/libcap_2.43.bb
+index 48f8f92628..c712c25947 100644
+--- a/meta/recipes-support/libcap/libcap_2.42.bb
++++ b/meta/recipes-support/libcap/libcap_2.43.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+            file://0002-tests-do-not-run-target-executables.patch \
+            file://0001-tests-do-not-statically-link-a-test.patch \
+            "
+-SRC_URI[sha256sum] = "3605a9cb60076547ea9f64989e0ba576da9508e4653e8dc40ae54c0d6f443dfd"
++SRC_URI[sha256sum] = "512a0e5fc4c1e06d472a20da26aa96a9b9bf2a26b23f094f77f1b8da56cc427f"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+ 
 -- 
-2.17.1
+2.25.1
+
+
 
