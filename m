@@ -1,164 +1,122 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web11.27259.1598557158120167710
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web12.27817.1598558695616135824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 12:39:18 -0700
+ Thu, 27 Aug 2020 13:04:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.100, mailfrom: randy.e.witt@linux.intel.com)
-IronPort-SDR: lzvDYZFQdV8vTht7ZtelPJUmMMkcyY9VgBxeokX9vbYncEGFwv4GbPcp7EIVMoBHnuBWdve0IQ
- vtVDRO9w/+tw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="220805390"
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; 
-   d="scan'208";a="220805390"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2020 12:39:11 -0700
-IronPort-SDR: 5Vrykh5AEmGFPWDsS4nrHoPALnsuxt3SPfFjdH1OioWZYN7nlWUGAms+EzgFjv4Gpb18ceuTni
- f5DyrvNE3c3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,360,1592895600"; 
-   d="scan'208";a="329699807"
-Received: from rewitt-desk0.jf.intel.com (HELO [10.7.159.145]) ([10.7.159.145])
-  by orsmga008.jf.intel.com with ESMTP; 27 Aug 2020 12:39:11 -0700
-Subject: Re: [OE-core] [PATCH v2] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES added to separate bootimg-efi and bootimg-partition
-To: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
- openembedded-core@lists.openembedded.org
-References: <1598429593-16162-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-From: "Randy Witt" <randy.e.witt@linux.intel.com>
-Message-ID: <eb3245c7-b8a8-f060-cf10-ee13496e34e7@linux.intel.com>
-Date: Thu, 27 Aug 2020 12:39:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hHSW21F0;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id o12so7213821qki.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 13:04:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kROvrdhubfyT2JlmRXRkCqMv2vqem5/187nBLEH1Oa4=;
+        b=hHSW21F02YtJWSRdqSVV4VEbimVpaEq2gx7KvhfGS2DiVNIi8F+VhO2d9SrWWgynLo
+         W5M9HZ6XggLIjjHf6X4/ujNFTiamQKCCXjDuQLONm82FI7cargz82nJdBhClZkjcESed
+         otmEBWC038Q7g9cA5SINjtrwNU7l5Fxg8lbKiCR1TjKSR33d5kVuNzj2/qcWLU8I8oSE
+         Q0N0Rro8HnSlfz7OorUgeJU5n5Ix/IWPDnR9BUZxnaVPiis7eqxWMmYmQhM/4DtfvwwH
+         9AfXqcXSOldzwPNSYhZtTHme7dstCh3NyeoBG00RPjVmZsJjloCLxUvy/3KwnCQACnfc
+         J6NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kROvrdhubfyT2JlmRXRkCqMv2vqem5/187nBLEH1Oa4=;
+        b=lYA1bG6S74D/TfIlJ2q/BNArO+P2TyXzed33nVbCGHVW2va+mJRuElwp0mHkOwtj6D
+         PmurvNhqnRe+/exhL04zhfHcUEs5ySQlpJDOGlBqPSq8jbBJe7MagkgiIkxs9wmRTeA2
+         Yy5zaTmECa0HeGBy6eGp2bEldk54T88XgvC+43I0DYmSKWFwNDwDEas2BparmRQx702d
+         aSEbaukvZTAbdXa3ihkt/HFgv3LVwXTF6+ypNiYEp8hLUoid+frLG9w+m80A9u0NKL/W
+         SwWQ9IhndQfcm7TO/ouQBD69sFkQ2VzpWG07rQltOVTstgcqWNWU8EwxROTCxDodj6l0
+         FeRQ==
+X-Gm-Message-State: AOAM530dnCBS6z7HmTJz+xr+vfv69/+ZYnYRNHb4Z1odBUwyyIL4/E+k
+	OzTMC0c/fxkJ5f1gO1UnDIk=
+X-Google-Smtp-Source: ABdhPJxCm9ew7kxa4HuEnUWj6nXI+Hp75jKR2gIczRBxz0TKkMmS1tRV8wpjpmXdlmZ05CXNSXE63g==
+X-Received: by 2002:a05:620a:c99:: with SMTP id q25mr19784277qki.19.1598558694611;
+        Thu, 27 Aug 2020 13:04:54 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id b23sm2651966qtp.41.2020.08.27.13.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2020 13:04:53 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] kernel-yocto: checksum all modifications to available kernel fragments directories
+Date: Thu, 27 Aug 2020 16:04:47 -0400
+Message-Id: <20200827200447.36436-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <1598429593-16162-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/26/20 1:13 AM, Jamaluddin, Khairul Rohaizzat wrote:
-> From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-> 
-> Due to recent changes in bootimg-efi to include IMAGE_BOOT_FILES,
-> when both bootimg-partition and bootimg-efi occur in a single .wks
-> and IMAGE_BOOT_FILES are defined, files listed in IMAGE_BOOT_FILES
-> will be duplicated in both partition.
-> Since IMAGE_BOOT_FILES are crucial for bootimg-partition, but
-> optional for bootimg-efi, hence allowing bootimg-efi to have the option
-> to ignore it.
-> 
-> Added a new variable, IMAGE_EFI_BOOT_FILES, to handle this
-> issue. Its basic usage is the same as IMAGE_BOOT_FILES.
-> Usage example:
->          IMAGE_EFI_BOOT_FILES = "u-boot.img uImage;kernel"
->          IMAGE_EFI_BOOT_FILES = "u-boot.${UBOOT_SUFFIX} ${KERNEL_IMAGETYPE}"
-> 
-> This commit is also squashed with the updated testcase to cover for this change.
-> 
-> [YOCTO #14011]
-> 
-> Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-> ---
->   meta/classes/image_types_wic.bbclass          |  2 +-
->   meta/lib/oeqa/selftest/cases/wic.py           | 10 +++++++++-
->   scripts/lib/wic/plugins/source/bootimg-efi.py |  8 ++++----
->   3 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> index 7b1db50..def44bb 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -1,7 +1,7 @@
->   # The WICVARS variable is used to define list of bitbake variables used in wic code
->   # variables from this list is written to <image>.env file
->   WICVARS ?= "\
-> -           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
-> +           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_EFI_BOOT_FILES IMAGE_BOOT_FILES \
->              IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
->              ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
->              KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND"
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-> index e6b23c6..1149ae0 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -235,6 +235,14 @@ class Wic(WicTestCase):
->           runCmd(cmd)
->           self.assertEqual(1, len(glob(self.resultdir + "systemd-bootdisk-*direct")))
->   
-> +    def test_efi_bootpart(self):
-> +        """Test creation of efi-bootpart image"""
-> +        cmd = "wic create efi-bootpart -e core-image-minimal -o %s" % self.resultdir
-> +        kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
-> +        self.write_config('IMAGE_EFI_BOOT_FILES = "%s"\n' % kimgtype)
-> +        runCmd(cmd)
-> +        self.assertEqual(1, len(glob(self.resultdir + "efi-bootpart-*direct")))
-> +
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The test fails because "efi-bootpart" is not a wks file like 
-"sdimage-bootpart"(which this appears to be copied from). There is an existing 
-wks file ./scripts/lib/wic/canned-wks/mkefidisk.wks which uses the "bootimg-efi" 
-plugin and there is already a test, test_mkefidisk(), for that wks file.
+This is based on the patch from Zhaolong Zhang <zhangzl2013@126.com>
+[kernel-yocto: checksum indirect cfg and scc files]
 
-This new test, test_efi_bootpart(), doesn't actually verify the files in 
-IMAGE_EFI_BOOT_FILES exist in the partition created, it only checks that the wic 
-command ran successfully. So there isn't really any utility in this test over 
-what already exists in test_mkefidisk().
+While the recommended manner to share/reuse feature fragments is to
+maintain them in a kernel-meta repository and track the changes via the
+standard SRCREV fetcher mechanism, that method is not always practical
+for small sets of features or for quick testing of changes.
 
-Also, the file being added in IMAGE_EFI_BOOT_FILES in this test ends up being 
-"bzImage", which is already added by default when using bootimage-efi.py.
+These other flows use .scc files on the SRC_URI. It has been noted that
+config fragments or other features indirectly included by those .scc
+files will not trigger the kernel meta-data to be re-run and hence a
+build can continue with stale data (or not be triggered at all).
 
-For this test to actually test the IMAGE_EFI_BOOT_FILES functionality, it would 
-need to do something similar to test_include_path() which actually verifies that 
-files exist in the partition created. In this case it would need to verify that 
-the files in IMAGE_EFI_BOOT_FILES exist in the partition. If we assume "wic ls" 
-works, it could probably be used instead of debugfs.
+To solve this issue, we can collect the directories that are searchable
+via FILESEXTRAPATHS and add them to the do_kernel_metadata task
+checksum.
 
->       def test_sdimage_bootpart(self):
->           """Test creation of sdimage-bootpart image"""
->           cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
-> @@ -689,7 +697,7 @@ class Wic2(WicTestCase):
->           wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
->                                         'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
->                                         'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME',
-> -                                      'APPEND'))
-> +                                      'APPEND', 'IMAGE_EFI_BOOT_FILES'))
->           with open(path) as envfile:
->               content = dict(line.split("=", 1) for line in envfile)
->               # test if variables used by wic present in the .env file
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index 14c1723..cdc7254 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -212,8 +212,8 @@ class BootimgEFIPlugin(SourcePlugin):
->           except KeyError:
->               raise WicError("bootimg-efi requires a loader, none specified")
->   
-> -        if get_bitbake_var("IMAGE_BOOT_FILES") is None:
-> -            logger.debug('No boot files defined in IMAGE_BOOT_FILES')
-> +        if get_bitbake_var("IMAGE_EFI_BOOT_FILES") is None:
-> +            logger.debug('No boot files defined in IMAGE_EFI_BOOT_FILES')
->           else:
->               boot_files = None
->               for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), (None, None)):
-> @@ -222,7 +222,7 @@ class BootimgEFIPlugin(SourcePlugin):
->                   else:
->                       var = ""
->   
-> -                boot_files = get_bitbake_var("IMAGE_BOOT_FILES" + var)
-> +                boot_files = get_bitbake_var("IMAGE_EFI_BOOT_FILES" + var)
->                   if boot_files:
->                       break
->   
-> @@ -292,7 +292,7 @@ class BootimgEFIPlugin(SourcePlugin):
->               (staging_kernel_dir, kernel, hdddir, kernel)
->           exec_cmd(install_cmd)
->   
-> -        if get_bitbake_var("IMAGE_BOOT_FILES"):
-> +        if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
->               for src_path, dst_path in cls.install_task:
->                   install_cmd = "install -m 0644 -D %s %s" \
->                                 % (os.path.join(kernel_dir, src_path),
-> 
-> 
-> 
-> 
+This allows modifications, additions and removals from the potential
+kernel feature directories to trigger a re-execution of the meta data
+task.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+
+v2: at Richard's suggestion, the searching function is simplified to
+    not use os.walk(). This has the potential of adding some directories
+    that don't have .cfg and .scc files to the checksum, but that won't
+    add signficant re-executions of the task.
+
+ meta/classes/kernel-yocto.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 96ea612258..c6a128ebfe 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -85,6 +85,21 @@ def get_machine_branch(d, default):
+ 	    
+     return default
+ 
++# returns a list of all directories that are on FILESEXTRAPATHS (and
++# hence available to the build) that contain .scc or .cfg files
++def get_dirs_with_fragments(d):
++    extrapaths = []
++    extrafiles = []
++    extrapathsvalue = (d.getVar("FILESEXTRAPATHS") or "")
++    # Remove default flag which was used for checking
++    extrapathsvalue = extrapathsvalue.replace("__default:", "")
++    extrapaths = extrapathsvalue.split(":")
++    for path in extrapaths:
++        if path + ":True" not in extrafiles:
++            extrafiles.append(path + ":" + str(os.path.exists(path)))
++
++    return " ".join(extrafiles)
++
+ do_kernel_metadata() {
+ 	set +e
+ 
+@@ -367,6 +382,7 @@ do_kernel_checkout[dirs] = "${S}"
+ addtask kernel_checkout before do_kernel_metadata after do_symlink_kernsrc
+ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
+ do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
++do_kernel_metadata[file-checksums] = " ${@get_dirs_with_fragments(d)}"
+ do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ 
+ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+-- 
+2.19.1
 
