@@ -1,76 +1,91 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.16771.1598528219606353441
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.16952.1598528403467222468
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 04:37:00 -0700
+ Thu, 27 Aug 2020 04:40:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DFued/9H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id u18so4847590wmc.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:36:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E0M7D8E9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id d10so4131003wrw.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 04:40:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=Y9LF6oDcDNem6qVyf3zE24aIwPB8wr3Ph95h42niUNc=;
-        b=DFued/9HfuXosd1in9QeXVqiwKrVt5pxiI86AJGQsjsUZk6FIMDHpLIkpJg4ua4sbM
-         fnOTyU2cwmmIUYfrB8pGIownAqSlN573g/CraPTX2t4YI3FcRAKVQmIvebM4fzKdKry5
-         teitp53Ac77qe2D2GFnSlHGmrFltbsWQB5ttI=
+        bh=1FEaPT/TWPYPGX4I+NYWeSj8T+nU0hTnReYEQW+pzbo=;
+        b=E0M7D8E9jgJyz5c28/ZFN+0fudFnZjBsti4RLanFoCORvf3efB3NS0cNLr+UkjiILA
+         xdXnER0xVorQy25oTd/lSceYLc9fwqQxhuyN5XQaZjPXlVOheJGbfS6uvuCSjBvx+tVK
+         ulsH9RSnruojanOAoScMKf8laWUgIt+l5Jlrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Y9LF6oDcDNem6qVyf3zE24aIwPB8wr3Ph95h42niUNc=;
-        b=LTjnMey+1s3nZ89/omHh4R99JfYI503sNY9pzxktT3p1NTGrs3M8QJJo4TISmzF/v3
-         OdqmcA4sbVlYzptPSk07LzO1iawfY3taphhUVGxebksbGTo0skw3GVdKL5hMCQgGbeqY
-         1kOZccrNLHEYxu/qdCDo4zsC/B40wFRcv4Eax4Yc5F9TdLAByD1i/F1ZnvBp4oI3o6LX
-         S9rqdGsa3p3yNSeR3Bygo9vxKAW8JfBJsl7tC9QUFmjHe4VZYyeoQS9NyRHmODXzoG9A
-         kAtN5c7ZKeK28qeQiw2LSUrot02iYscn3FW06rFo77laDAPtTcXpSKz3Zw3XpFmqBxaO
-         JOMQ==
-X-Gm-Message-State: AOAM530qyJY+FpxVXGRZuIh7gHKSNLc40vJ8sbSrWZRB3qlYXrrKFaKQ
-	4IrMTbxZt4K4WFcNM9wtZCyAHg==
-X-Google-Smtp-Source: ABdhPJz3xK6EB726rm04+Ak+lHEwt32w7XUHFsQv4CwYyFrDDiuMa0hq1kuYKINMT4Mpma8jk93oXw==
-X-Received: by 2002:a7b:c011:: with SMTP id c17mr11291757wmb.63.1598528217881;
-        Thu, 27 Aug 2020 04:36:57 -0700 (PDT)
+        bh=1FEaPT/TWPYPGX4I+NYWeSj8T+nU0hTnReYEQW+pzbo=;
+        b=ZMK4wi4ikMw3LM2m+UyT/adNUw7LRUJu6MA3/I/8BqS1cO2rmOy2ABiw+HgNrzgvtL
+         yx3ByKfP+LHMcKHFrxIrX9t54JAbHJQhWbxW743WZrENssrDwf8x6d0fzuet5+vj1J75
+         +I/qtqRcc/ghb82wa+5dpqabuECGod5sWGF5bKXrBIPCsjgLH6YSP7EzrRU+C2e6DNwG
+         5Q6g+VfO9+PoRLv0fmDqYja/2ZZO9edZjFyYK3ANIDK4n4O6NYPHyOWa14KrvS65z3TO
+         UW7Ldt/BEvWlwlXwXhCQzAyAhn2AympWcBUotogjdRRksvygRlVQv+ZlZBCAsbmvA/a2
+         CvUw==
+X-Gm-Message-State: AOAM530zu8M/0UggjkY7KEXRZL9TmgwcwxjS2LIwQSJ9ebzoY205BqHa
+	8j8D48j32mfmADQF8gie4zr2KA==
+X-Google-Smtp-Source: ABdhPJwRpjXeEOSEfXu7eU0V89VJSZCi4FGZ5O2hlSpWO7APfVE7fN0sCvisleNPfX8lCuOZ1ZrDqw==
+X-Received: by 2002:adf:ca06:: with SMTP id o6mr19077916wrh.181.1598528401749;
+        Thu, 27 Aug 2020 04:40:01 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.9.b.8.7.0.d.0.8.3.5.0.7.0.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c407:538:d07:8b9d])
-        by smtp.gmail.com with ESMTPSA id i12sm4726084wrm.46.2020.08.27.04.36.57
+        by smtp.gmail.com with ESMTPSA id v16sm4418875wmj.14.2020.08.27.04.40.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 04:36:57 -0700 (PDT)
-Message-ID: <24104bbec782fc24a0f827a9e26d3977b7028446.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 6/6] oeqa/multilib: un-skip the connman test
+        Thu, 27 Aug 2020 04:40:01 -0700 (PDT)
+Message-ID: <e0e03fe18f60cc219a8ec5176b77fcdd5de73f18.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-gplv2][PATCH 1/1] util-linux: remove GPLv3 and pylibmount
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Aug 2020 12:36:56 +0100
-In-Reply-To: <CANNYZj9kX8td0hAPyWtT=Jyd5+5fkoneX-j9btxU3OYEowUseA@mail.gmail.com>
-References: <20200827105933.3575-1-alex.kanavin@gmail.com>
-	 <20200827105933.3575-6-alex.kanavin@gmail.com>
-	 <7c38e0ce946af6c0f1075b95c5f41e6f772c9241.camel@linuxfoundation.org>
-	 <CANNYZj9kX8td0hAPyWtT=Jyd5+5fkoneX-j9btxU3OYEowUseA@mail.gmail.com>
+To: Adrian Freihofer <adrian.freihofer@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Date: Thu, 27 Aug 2020 12:40:00 +0100
+In-Reply-To: <20200827112816.2138122-2-adrian.freihofer@siemens.com>
+References: <20200827112816.2138122-1-adrian.freihofer@siemens.com>
+	 <20200827112816.2138122-2-adrian.freihofer@siemens.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-08-27 at 13:25 +0200, Alexander Kanavin wrote:
-> On Thu, 27 Aug 2020 at 13:06, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > Hmm. I think this test is only meant to trigger in a lib32-core-image-
-> > sato where lib32-connman would be present and connman would not?
-> > 
-> > The test name could certainly be clearer as its not a generic connman
-> > test...
+On Thu, 2020-08-27 at 13:28 +0200, Adrian Freihofer wrote:
+> python bindings are GPLv3+.
 > 
-> There is no lib32-core-image-sato anywhere in config.json  - and I think 
-> RPM_PREFER_ELF_ARCH in existing tests should ensure that 32 bit connman package takes precedence.
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  recipes-core/util-linux/util-linux_%.bbappend | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>  create mode 100644 recipes-core/util-linux/util-linux_%.bbappend
 > 
-> Also note that those same tests install lib32-connman, which can only be for the purpose of the test:
-> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json#n495
+> diff --git a/recipes-core/util-linux/util-linux_%.bbappend b/recipes-
+> core/util-linux/util-linux_%.bbappend
+> new file mode 100644
+> index 0000000..abd31c5
+> --- /dev/null
+> +++ b/recipes-core/util-linux/util-linux_%.bbappend
+> @@ -0,0 +1,10 @@
+> +# pylibmount is GPLv3 -> remove
+> +LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> +
+> +PACKAGECONFIG_remove = "pylibmount"
+> +
+> +do_install_append() {
+> +    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so
+> +    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.*
+> +    rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__
+> +}
 
-Right, those are the tests I was thinking this test is related to. It
-looks like its only those tests that enable this TEST_SUITE so your
-patch is probably correct. Its a shame this test suite is so tied to
-the configuration in ab-helper though. Not sure how we could improve
-that...
+I think this change unconditionally changes the recipe and means
+including the layer adds the change. That will break YP Compatibility
+and means meta-gplv2 isn't YP Compatible. I think (but haven't
+confirmed) this will break the yocto-check-layer tests on the
+autobuilder.
+
+Also, resetting LICENSE is a really bad idea as if someone adds a new
+license, this will hide/override it. A remove there may be better too.
 
 Cheers,
 
