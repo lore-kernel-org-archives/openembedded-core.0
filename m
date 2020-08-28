@@ -1,70 +1,58 @@
-Received: from outbound.soverin.net (outbound.soverin.net [116.202.65.218])
- by mx.groups.io with SMTP id smtpd.web10.3355.1598646049910237060
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web10.113.1598646754600455307
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2020 13:20:50 -0700
+ Fri, 28 Aug 2020 13:32:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: embed.me.uk, ip: 116.202.65.218, mailfrom: ml@embed.me.uk)
-Received: from smtp.soverin.net (unknown [10.10.3.24])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by outbound.soverin.net (Postfix) with ESMTPS id BC94260901
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2020 20:20:42 +0000 (UTC)
-Received: from smtp.soverin.net (smtp.soverin.net [159.69.232.138]) by soverin.net
-To: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Cc: bruce.ashfield@gmail.com
-From: "Jack Mitchell" <ml@embed.me.uk>
-Subject: Linux v5.8 modules, exec format error
-Message-ID: <6e070a3d-a5f3-46bf-ac33-d7d6daf05b4f@embed.me.uk>
-Date: Fri, 28 Aug 2020 21:20:40 +0100
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 95D3C60BDF;
+	Fri, 28 Aug 2020 20:32:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInhpbnB1dC1jYWxpYnJhdG9yOiBhdm9pZCBkZWZ1bi4uLiIgYW5kIDEgbW9yZQ==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Aug 2020 20:32:34 -0000
+Message-ID: <20200828203234.2265.23987@do>
+References: <20200828200823.13630-1-mark.asselstine@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200828200823.13630-1-mark.asselstine@windriver.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Having just upgraded my mainline kernel recipe to a v5.8/v5.9-rc2 kernel
-from v5.5.8 I've found that modules have somehow broken. I've flicked
-between the two and confirmed that the old kernel build works, and the
-5.8/5.9 build doesn't. I haven't changed anything bar the git commit
-hash. It's a very simple kernel recipe basically just inheriting the
-kernel bbclass and setting SRCREV. Running on current tip of master.
+== Series Details ==
 
-I assume it's something symver related but wanted to ask if anybody
-knows anything before I dig too deep.
+Series: "xinput-calibrator: avoid defun..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25842/
+State : failure
 
-Cheers,
-Jack.
+== Summary ==
 
-root@rk3399:~# uname  -a
-Linux rk3399 5.9.0-rc2 #1 SMP PREEMPT Fri Aug 28 18:47:44 UTC 2020
-aarch64 GNU/Linux
 
-root@rk3399:~# modprobe g_ether
-modprobe: ERROR: could not insert 'g_ether': Exec format error
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-root@rk3399:~# modinfo
-/lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
-filename:
-/lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
-license:        GPL
-author:         David Brownell, Benedikt Spanger
-description:    RNDIS/Ethernet Gadget
-depends:        libcomposite,u_ether,usb_f_rndis
-intree:         Y
-name:           g_ether
-vermagic:       5.9.0-rc2 SMP preempt mod_unload aarch64
-parm:           idVendor:USB Vendor ID (ushort)
-parm:           idProduct:USB Product ID (ushort)
-parm:           bcdDevice:USB Device version (BCD) (ushort)
-parm:           iSerialNumber:SerialNumber string (charp)
-parm:           iManufacturer:USB Manufacturer string (charp)
-parm:           iProduct:USB Product string (charp)
-parm:           qmult:queue length multiplier at high/super speed (uint)
-parm:           dev_addr:Device Ethernet Address (charp)
-parm:           host_addr:Host Ethernet Address (charp)
-parm:           use_eem:use CDC EEM mode (bool)
 
-[jack@arch-corsair ~]$ file g_ether.ko
-g_ether.ko: ELF 64-bit LSB relocatable, ARM aarch64, version 1 (SYSV),
-BuildID[sha1]=375c0485cb8c4b013dc0694725457bd111899f8c, not stripped
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-graphics/xinput-calibrator/xinput-calibrator/xinput_calibrator_pointercal.sh-allow-skipping-calib.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
