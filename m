@@ -1,56 +1,52 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.37413.1598595648959964367
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.3133.1598645311477026113
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2020 23:20:49 -0700
+ Fri, 28 Aug 2020 13:08:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mark.asselstine@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07S6Ju6H028292
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 07SK8Tr4012140
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2020 23:20:38 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 27 Aug 2020 23:20:01 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
+	for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2020 13:08:30 -0700 (PDT)
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Fri, 28 Aug 2020
+ 13:08:29 -0700
+From: "Mark Asselstine" <mark.asselstine@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] libpcre: fix occasionally do_package_write_rpm error
-Date: Fri, 28 Aug 2020 14:14:34 +0800
-Message-ID: <20200828061434.2943665-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] xinput-calibrator: avoid defunct process
+Date: Fri, 28 Aug 2020 16:08:22 -0400
+Message-ID: <20200828200823.13630-1-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+The xinput_calibrator_once.sh script produces output on stdout and
+stderr which the current 'Exec' doesn't consume. This results in a
+[xinput_calibrator_once.sh] defunct process which will remain around
+until we exit the X11 session.
 
-Error info:
-ERROR: libpcre-8.44-r0 do_package_write_rpm: Failure expanding variable
-SUMMARY_libpcrecpp, expression was ${SUMMARY} - C++ wrapper functions
-which triggered exception RecursionError: maximum recursion depth
-exceeded while calling a Python object
+Add a redirect to the Exec which will consume this output and avoid
+the defunct process.
 
-this error is hard to reproduce, only met one time. Seems expand SUMMARY
-with reference to SUMMARY cause a dead loop.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- meta/recipes-support/libpcre/libpcre_8.44.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.44.bb b/meta/recipes-support/libpcre/libpcre_8.44.bb
-index e5471e81da..102b92b4dd 100644
---- a/meta/recipes-support/libpcre/libpcre_8.44.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.44.bb
-@@ -40,8 +40,8 @@ EXTRA_OECONF = "--enable-utf"
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index 4f831932e7..c59f97895c 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -31,7 +31,7 @@ do_install_append() {
+     install -m 0755 ${WORKDIR}/30xinput_calibrate.sh ${D}${sysconfdir}/X11/Xsession.d/
  
- PACKAGES =+ "libpcrecpp libpcreposix pcregrep pcregrep-doc pcretest pcretest-doc"
+     install -d ${D}${sysconfdir}/xdg/autostart
+-    sed -e 's,^Exec=.*,Exec=${bindir}/xinput_calibrator_once.sh,' ${S}/scripts/xinput_calibrator.desktop > ${D}${sysconfdir}/xdg/autostart/xinput_calibrator.desktop
++    sed -e 's,^Exec=.*,Exec=${bindir}/sh -c "${bindir}/xinput_calibrator_once.sh 2>\&1 > /dev/null",' ${S}/scripts/xinput_calibrator.desktop > ${D}${sysconfdir}/xdg/autostart/xinput_calibrator.desktop
+ }
  
--SUMMARY_libpcrecpp = "${SUMMARY} - C++ wrapper functions"
--SUMMARY_libpcreposix = "${SUMMARY} - C wrapper functions based on the POSIX regex API"
-+SUMMARY_libpcrecpp = "Perl Compatible Regular Expressions - C++ wrapper functions"
-+SUMMARY_libpcreposix = "Perl Compatible Regular Expressions - C wrapper functions based on the POSIX regex API"
- SUMMARY_pcregrep = "grep utility that uses perl 5 compatible regexes"
- SUMMARY_pcregrep-doc = "grep utility that uses perl 5 compatible regexes - docs"
- SUMMARY_pcretest = "program for testing Perl-comatible regular expressions"
+ FILES_${PN} += "${sysconfdir}/xdg/autostart"
 -- 
-2.17.1
+2.27.0
 
