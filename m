@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.16457.1598724130261254271
+ by mx.groups.io with SMTP id smtpd.web10.16611.1598724131275014953
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Aug 2020 11:02:10 -0700
+ Sat, 29 Aug 2020 11:02:11 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 23DD1E020D1; Sat, 29 Aug 2020 11:02:10 -0700 (PDT)
+	id 24370E020D5; Sat, 29 Aug 2020 11:02:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E7771E020D2
-	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:55 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 44BBAE020CD
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:56 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster@mvista.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libuv: upgrading to 1.39.0 SUCCEEDED
-Message-Id: <20200829180210.23DD1E020D1@yocto-www.yoctoproject.org>
-Date: Sat, 29 Aug 2020 11:02:10 -0700 (PDT)
-X-Groupsio-MsgNum: 141949
-Content-Type: multipart/mixed; boundary="===============5068537798502690524=="
+Subject: [AUH] resolvconf: upgrading to 1.83 SUCCEEDED
+Message-Id: <20200829180211.24370E020D5@yocto-www.yoctoproject.org>
+Date: Sat, 29 Aug 2020 11:02:11 -0700 (PDT)
+X-Groupsio-MsgNum: 141950
+Content-Type: multipart/mixed; boundary="===============1267030650398506610=="
 
---===============5068537798502690524==
+--===============1267030650398506610==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libuv* to *1.39.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *resolvconf* to *1.83* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libuv-upgrade-1.38.1-1.39.0.patch
+    - apply the patch: git am 0001-resolvconf-upgrade-1.82-1.83.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,7 +59,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5068537798502690524==
+--===============1267030650398506610==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1632,69 +1632,65 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============5068537798502690524==
+--===============1267030650398506610==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libuv-upgrade-1.38.1-1.39.0.patch"
+ filename="0001-resolvconf-upgrade-1.82-1.83.patch"
 
-From 031f6a2d6df012460d89c57a2e4cd12cf2ca4338 Mon Sep 17 00:00:00 2001
+From 21316e9599b76f76c3031f449e6ccff328a98b04 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 29 Aug 2020 10:33:16 +0000
-Subject: [PATCH] libuv: upgrade 1.38.1 -> 1.39.0
+Date: Sat, 29 Aug 2020 12:00:40 +0000
+Subject: [PATCH] resolvconf: upgrade 1.82 -> 1.83
 
 ---
- .../libuv/{libuv_1.38.1.bb => libuv_1.39.0.bb}                  | 2 +-
+ .../resolvconf/{resolvconf_1.82.bb => resolvconf_1.83.bb}       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.38.1.bb => libuv_1.39.0.bb} (90%)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.82.bb => resolvconf_1.83.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.38.1.bb b/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-similarity index 90%
-rename from meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-index 874546373a..b6ce4757fd 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.82.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+similarity index 97%
+rename from meta/recipes-connectivity/resolvconf/resolvconf_1.82.bb
+rename to meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+index 67959576e8..f0ffc82241 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.82.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https \
+            file://99_resolvconf \
+           "
  
--SRCREV = "e8b989ea1f7f9d4083511a2caec7791e9abd1871"
-+SRCREV = "25f4b8b8a3c0f934158cd37a37b0525d75ca488e"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
+-SRCREV = "cb19bbfbe7e52174332f68bf2f295b39d119fad3"
++SRCREV = "d001dd2b7ce4c854eaa29e46b9640ab66c6e70bb"
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.17.1
 
 
---===============5068537798502690524==
+--===============1267030650398506610==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libuv: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-dbg: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-dbg: PKGSIZE changed from 599124 to 606052 (+1%)
-packages/core2-32-poky-linux/libuv/libuv-dbg: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-dev: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-dev: PKGSIZE changed from 100378 to 100601 (+0%)
-packages/core2-32-poky-linux/libuv/libuv-dev: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-doc: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-doc: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-locale: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-locale: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-src: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-src: PKGSIZE changed from 532420 to 544799 (+2%)
-packages/core2-32-poky-linux/libuv/libuv-src: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv-staticdev: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv-staticdev: PV changed from "1.38.1" to "1.39.0"
-packages/core2-32-poky-linux/libuv/libuv: PKGV changed from 1.38.1 [default] to 1.39.0 [default]
-packages/core2-32-poky-linux/libuv/libuv: PKGSIZE changed from 210202 to 218398 (+4%)
-packages/core2-32-poky-linux/libuv/libuv: PV changed from "1.38.1" to "1.39.0"
+packages/all-poky-linux/resolvconf: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-dbg: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-dbg: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-dev: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-dev: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-doc: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-doc: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-locale: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-locale: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-src: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-src: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf-staticdev: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf-staticdev: PV changed from "1.82" to "1.83"
+packages/all-poky-linux/resolvconf/resolvconf: PKGV changed from 1.82 [default] to 1.83 [default]
+packages/all-poky-linux/resolvconf/resolvconf: PV changed from "1.82" to "1.83"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3262,4 +3258,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============5068537798502690524==--
+--===============1267030650398506610==--
