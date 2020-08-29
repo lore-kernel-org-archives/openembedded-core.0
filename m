@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.16464.1598724144569020258
+ by mx.groups.io with SMTP id smtpd.web10.16614.1598724144871854754
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6A7C4E020DC; Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
+	id B4DE9E020D3; Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5DB0FE020E5
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 733EFE020E6
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] librepo: upgrading to 1.12.1 SUCCEEDED
-Message-Id: <20200829180224.6A7C4E020DC@yocto-www.yoctoproject.org>
+Subject: [AUH] nasm: upgrading to 2.15.05 FAILED
+Message-Id: <20200829180224.B4DE9E020D3@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
-X-Groupsio-MsgNum: 141955
-Content-Type: multipart/mixed; boundary="===============5002637624775620587=="
+Content-Type: multipart/mixed; boundary="===============3651710573962245409=="
 
---===============5002637624775620587==
+--===============3651710573962245409==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,19 +38,110 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *librepo* to *1.12.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *nasm* to *2.15.05* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-librepo-upgrade-1.12.0-1.12.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe nasm failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1341 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200829"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:418dd0a4bbe3ad7b865648a8064e0818892272ad"
+workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching http://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.bz2...
+Loading cache...done.
+Loaded 1341 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 780 .bb files complete (778 cached, 2 parsed). 1342 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20200829"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:418dd0a4bbe3ad7b865648a8064e0818892272ad"
+workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase a8c73a99ac03e5d5f96d4a3ddbf6aa0656a71a55' failed:
+First, rewinding head to replay your work on top of it...
+Applying: stdlib: Add strlcat
+Applying: Add --debug-prefix-map option
+.git/rebase-apply/patch:239: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+Using index info to reconstruct a base tree...
+M	asm/nasm.c
+M	include/nasmlib.h
+M	output/outcoff.c
+M	output/outieee.c
+M	output/outobj.c
+Falling back to patching base and 3-way merge...
+Auto-merging output/outobj.c
+Auto-merging output/outieee.c
+Auto-merging output/outcoff.c
+Auto-merging include/nasmlib.h
+Auto-merging asm/nasm.c
+CONFLICT (content): Merge conflict in asm/nasm.c
+error: Failed to merge in the changes.
+Patch failed at 0002 Add --debug-prefix-map option
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/nasm
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/nasm/nasm_2.15.05.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -59,66 +149,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5002637624775620587==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-librepo-upgrade-1.12.0-1.12.1.patch"
-
-From 32325e053ed3ce383ab7cc7fa6b3000c5cb6bac8 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 29 Aug 2020 13:07:30 +0000
-Subject: [PATCH] librepo: upgrade 1.12.0 -> 1.12.1
-
----
- .../librepo/{librepo_1.12.0.bb => librepo_1.12.1.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/librepo/{librepo_1.12.0.bb => librepo_1.12.1.bb} (93%)
-
-diff --git a/meta/recipes-devtools/librepo/librepo_1.12.0.bb b/meta/recipes-devtools/librepo/librepo_1.12.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/librepo/librepo_1.12.0.bb
-rename to meta/recipes-devtools/librepo/librepo_1.12.1.bb
-index 2d9cac830e..0597351052 100644
---- a/meta/recipes-devtools/librepo/librepo_1.12.0.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.12.1.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
-            "
- 
--SRCREV = "9c173f1110bb30f4ae842a8e3532b275966c2d83"
-+SRCREV = "d4ad350291f2937c0b6a3eea9e1d0c8e1051fc32"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.17.1
-
-
---===============5002637624775620587==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/librepo: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-dbg: PKGSIZE changed from 680216 to 681156 (+0%)
-packages/core2-32-poky-linux/librepo/librepo-dbg: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-dbg: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-dev: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-dev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-doc: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-doc: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-locale: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-locale: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-src: PKGSIZE changed from 692497 to 693184 (+0%)
-packages/core2-32-poky-linux/librepo/librepo-src: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-src: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo-staticdev: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-packages/core2-32-poky-linux/librepo/librepo: PV changed from "1.12.0" to "1.12.1"
-packages/core2-32-poky-linux/librepo/librepo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
-
---===============5002637624775620587==--
+--===============3651710573962245409==--
