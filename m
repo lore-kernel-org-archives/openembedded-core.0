@@ -1,11 +1,11 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.16482.1598724170627404257
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web12.16480.1598724169140302000
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7F0E4E020E3; Sat, 29 Aug 2020 11:02:50 -0700 (PDT)
+	id C257BE020E4; Sat, 29 Aug 2020 11:02:50 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,18 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EE1A6E02110
-	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:02:00 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 058D4E02112
+	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:02:01 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.2.22 FAILED
-Message-Id: <20200829180250.7F0E4E020E3@yocto-www.yoctoproject.org>
+Subject: [AUH] libmpc: upgrading to 1.2.0 SUCCEEDED
+Message-Id: <20200829180250.C257BE020E4@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:50 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============6699710923263922860=="
+X-Groupsio-MsgNum: 141976
+Content-Type: multipart/mixed; boundary="===============7950228627877822702=="
 
---===============6699710923263922860==
+--===============7950228627877822702==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,101 +39,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnupg* to *2.2.22* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libmpc* to *1.2.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libmpc-upgrade-1.1.0-1.2.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe gnupg failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1341 entries from dependency cache.
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200829"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:86fe323af47a0d8d7373c7b604bb2a933987ed22"
-workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.22.tar.bz2...
-Loading cache...done.
-Loaded 1341 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 780 .bb files complete (778 cached, 2 parsed). 1342 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200829"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:86fe323af47a0d8d7373c7b604bb2a933987ed22"
-workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  64% |#######################             | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 649e04369deafb37bfd754c567eacb3ad38dfaf5' failed:
-First, rewinding head to replay your work on top of it...
-Applying: Use pkg-config to find pth instead of pth-config.
-Applying: use pkgconfig instead of npth config
-Applying: dirmngr uses libgpg error
-Using index info to reconstruct a base tree...
-M	dirmngr/Makefile.am
-Falling back to patching base and 3-way merge...
-Auto-merging dirmngr/Makefile.am
-CONFLICT (content): Merge conflict in dirmngr/Makefile.am
-error: Failed to merge in the changes.
-Patch failed at 0003 dirmngr uses libgpg error
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gnupg
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gnupg/gnupg_2.2.22.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -140,4 +59,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6699710923263922860==--
+--===============7950228627877822702==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/libmpc (sysroot):
+  /usr/lib/libmpc.so.3 changed symlink target from libmpc.so.3.1.0 to libmpc.so.3.2.0
+  /usr/lib/libmpc.so changed symlink target from libmpc.so.3.1.0 to libmpc.so.3.2.0
+  /usr/lib/libmpc.so.3.1.0 moved to /usr/lib/libmpc.so.3.2.0
+
+--===============7950228627877822702==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+Changes to packages/core2-32-poky-linux/libmpc (sysroot):
+  /usr/lib/libmpc.so.3 changed symlink target from libmpc.so.3.1.0 to libmpc.so.3.2.0
+  /usr/lib/libmpc.so changed symlink target from libmpc.so.3.1.0 to libmpc.so.3.2.0
+  /usr/lib/libmpc.so.3.1.0 moved to /usr/lib/libmpc.so.3.2.0
+
+--===============7950228627877822702==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libmpc-upgrade-1.1.0-1.2.0.patch"
+
+From 6763e29e449590aa9746255548aebc7404684bd2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 29 Aug 2020 17:41:00 +0000
+Subject: [PATCH] libmpc: upgrade 1.1.0 -> 1.2.0
+
+---
+ .../libmpc/{libmpc_1.1.0.bb => libmpc_1.2.0.bb}                | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/libmpc/{libmpc_1.1.0.bb => libmpc_1.2.0.bb} (62%)
+
+diff --git a/meta/recipes-support/libmpc/libmpc_1.1.0.bb b/meta/recipes-support/libmpc/libmpc_1.2.0.bb
+similarity index 62%
+rename from meta/recipes-support/libmpc/libmpc_1.1.0.bb
+rename to meta/recipes-support/libmpc/libmpc_1.2.0.bb
+index bbc673ff38..b51ec6ad14 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.1.0.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.2.0.bb
+@@ -5,8 +5,7 @@ DEPENDS = "gmp mpfr"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ SRC_URI = "${GNU_MIRROR}/mpc/mpc-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "4125404e41e482ec68282a2e687f6c73"
+-SRC_URI[sha256sum] = "6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e"
++SRC_URI[sha256sum] = "e90f2d99553a9c19911abdb4305bf8217106a957e3994436428572c8dfe8fda6"
+ 
+ S = "${WORKDIR}/mpc-${PV}"
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
+
+
+--===============7950228627877822702==--
