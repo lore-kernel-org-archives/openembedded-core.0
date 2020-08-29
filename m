@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.16621.1598724158772208164
+ by mx.groups.io with SMTP id smtpd.web10.16622.1598724159055053438
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9E845E020D9; Sat, 29 Aug 2020 11:02:38 -0700 (PDT)
+	id E3B8DE020DC; Sat, 29 Aug 2020 11:02:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1DCDE020E9
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E4A98E020EF
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] patchelf: upgrading to 0.12 SUCCEEDED
-Message-Id: <20200829180238.9E845E020D9@yocto-www.yoctoproject.org>
+Subject: [AUH] stress-ng: upgrading to 0.11.19 SUCCEEDED
+Message-Id: <20200829180238.E3B8DE020DC@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:38 -0700 (PDT)
-X-Groupsio-MsgNum: 141960
-Content-Type: multipart/mixed; boundary="===============6497628200959730592=="
+X-Groupsio-MsgNum: 141961
+Content-Type: multipart/mixed; boundary="===============7883152719840214820=="
 
---===============6497628200959730592==
+--===============7883152719840214820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *patchelf* to *0.12* has Succeeded.
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.11.19* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-patchelf-upgrade-0.11-0.12.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.11.18-0.11.19.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,51 +59,49 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6497628200959730592==
+--===============7883152719840214820==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-patchelf-upgrade-0.11-0.12.patch"
+ filename="0001-stress-ng-upgrade-0.11.18-0.11.19.patch"
 
-From ad774d42e568d9ca4425648f50b3b5cfc6a3e109 Mon Sep 17 00:00:00 2001
+From a0c61f5a3e5820b9dd6d8d0cf77c1591674f6bb2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 29 Aug 2020 13:19:13 +0000
-Subject: [PATCH] patchelf: upgrade 0.11 -> 0.12
+Date: Sat, 29 Aug 2020 13:34:47 +0000
+Subject: [PATCH] stress-ng: upgrade 0.11.18 -> 0.11.19
 
 ---
- .../patchelf/{patchelf_0.11.bb => patchelf_0.12.bb}             | 2 +-
+ .../stress-ng/{stress-ng_0.11.18.bb => stress-ng_0.11.19.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/patchelf/{patchelf_0.11.bb => patchelf_0.12.bb} (87%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.18.bb => stress-ng_0.11.19.bb} (90%)
 
-diff --git a/meta/recipes-devtools/patchelf/patchelf_0.11.bb b/meta/recipes-devtools/patchelf/patchelf_0.12.bb
-similarity index 87%
-rename from meta/recipes-devtools/patchelf/patchelf_0.11.bb
-rename to meta/recipes-devtools/patchelf/patchelf_0.12.bb
-index ba7ad404e9..43de90877c 100644
---- a/meta/recipes-devtools/patchelf/patchelf_0.11.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_0.12.bb
-@@ -5,7 +5,7 @@ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https \
- LICENSE = "GPLv3"
- SUMMARY = "Tool to allow editing of RPATH and interpreter fields in ELF binaries"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.19.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.11.19.bb
+index c668d8cbde..f1af99e512 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.18.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.19.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "07c82a5c89538b5b696a79192faa70d0232352004c9e532946f7f3613d0adf23"
++SRC_URI[sha256sum] = "a50b753f00a9c880eda4f9d72bb82e37149ac24fab4265212e101926a1c20868"
  
--SRCREV = "d6b2a72d9ec3bdfde4b1aacdada823ce388968bb"
-+SRCREV = "8d3a16e97294e3c5521c61b4c8835499c9918264"
- 
- S = "${WORKDIR}/git"
+ DEPENDS = "coreutils-native"
  
 -- 
 2.17.1
 
 
---===============6497628200959730592==
+--===============7883152719840214820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/patchelf/patchelf-dbg: PKGSIZE changed from 2048776 to 2359620 (+15%)
-packages/core2-32-poky-linux/patchelf/patchelf: PKGSIZE changed from 173508 to 202180 (+17%)
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -1671,32 +1669,33 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============6497628200959730592==
+--===============7883152719840214820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/patchelf: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-dbg: PKGSIZE changed from 2048776 to 2359620 (+15%)
-packages/core2-32-poky-linux/patchelf/patchelf-dbg: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-dbg: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-dev: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-dev: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-doc: PKGSIZE changed from 7906 to 8264 (+5%)
-packages/core2-32-poky-linux/patchelf/patchelf-doc: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-doc: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-locale: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-locale: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-src: PKGSIZE changed from 210277 to 216684 (+3%)
-packages/core2-32-poky-linux/patchelf/patchelf-src: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-src: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf-staticdev: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf-staticdev: PKGV changed from 0.11 [default] to 0.12 [default]
-packages/core2-32-poky-linux/patchelf/patchelf: PKGSIZE changed from 173508 to 202180 (+17%)
-packages/core2-32-poky-linux/patchelf/patchelf: PV changed from "0.11" to "0.12"
-packages/core2-32-poky-linux/patchelf/patchelf: PKGV changed from 0.11 [default] to 0.12 [default]
+packages/core2-32-poky-linux/stress-ng: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5454232 to 5468780 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 48360 to 48403 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2572532 to 2583037 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.11.18" to "0.11.19"
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.11.18 [default] to 0.11.19 [default]
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3264,4 +3263,4 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============6497628200959730592==--
+--===============7883152719840214820==--
