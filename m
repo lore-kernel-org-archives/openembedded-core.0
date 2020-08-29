@@ -1,37 +1,37 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.16599.1598724116843092521
+ by mx.groups.io with SMTP id smtpd.web12.16450.1598724117286430671
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:01:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 69DDDE020D6; Sat, 29 Aug 2020 11:01:56 -0700 (PDT)
+	id 28F5FE020D6; Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,HELO_MISC_IP,
-	MISSING_DATE,MISSING_MID,RDNS_NONE,WEIRD_PORT autolearn=no version=3.3.1
+	MISSING_DATE,MISSING_MID,RDNS_NONE autolearn=no version=3.3.1
 X-Spam-HAM-Report: 
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 WEIRD_PORT URI: Uses non-standard port number for HTTP
 	*  0.5 MISSING_MID Missing Message-Id: header
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2BECE020CE
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2930E020D0
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:55 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bind: upgrading to 9.16.6 FAILED
-Message-Id: <20200829180156.69DDDE020D6@yocto-www.yoctoproject.org>
-Date: Sat, 29 Aug 2020 11:01:56 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============8906690307731962023=="
+Subject: [AUH] iw: upgrading to 5.8 SUCCEEDED
+Message-Id: <20200829180157.28F5FE020D6@yocto-www.yoctoproject.org>
+Date: Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
+X-Groupsio-MsgNum: 141944
+Content-Type: multipart/mixed; boundary="===============3681722956587452250=="
 
---===============8906690307731962023==
+--===============3681722956587452250==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,89 +39,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bind* to *9.16.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *iw* to *5.8* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-iw-upgrade-5.4-5.8.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade bind -V 9.16.6
-NOTE: Starting bitbake server...
-INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 35 skipped, 0 masked, 0 errors.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200829"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz...
-Loading cache...done.
-Loaded 1341 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 780 .bb files complete (778 cached, 2 parsed). 1342 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20200829"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-workspace            = "master:104ff3c834d9ea60de4600fca374c0bdc9ca843d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz, attempting MIRRORS if available
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; unset _PYTHON_SYSCONFIGDATA_NAME; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/
- build/build/build/tmp/work/recipetool-gr9jgbvg/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz' --progress=dot -v failed with exit code 8, output:
---2020-08-29 10:20:16--  https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz
-Resolving ftp.isc.org (ftp.isc.org)... 2001:4f8:1:f::49, 149.20.1.49
-Connecting to ftp.isc.org (ftp.isc.org)|2001:4f8:1:f::49|:443... connected.
-HTTP request sent, awaiting response... 404 Not Found
-2020-08-29 10:20:16 ERROR 404: Not Found.
-
-
-ERROR: Fetcher failure for URL: 'https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz'. Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-gr9jgbvg/work/temp/log.do_fetch.18217
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-ERROR: Failed to fetch URL https://ftp.isc.org/isc/bind9/9.16.6/bind-9.16.6.tar.gz
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -129,4 +59,67 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8906690307731962023==--
+--===============3681722956587452250==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="0001-iw-upgrade-5.4-5.8.patch"
+
+From 215428241be800120d963c9287502e0b175e852e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 29 Aug 2020 10:29:27 +0000
+Subject: [PATCH] iw: upgrade 5.4 -> 5.8
+
+---
+ meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} (85%)
+
+diff --git a/meta/recipes-connectivity/iw/iw_5.4.bb b/meta/recipes-connectivity/iw/iw_5.8.bb
+similarity index 85%
+rename from meta/recipes-connectivity/iw/iw_5.4.bb
+rename to meta/recipes-connectivity/iw/iw_5.8.bb
+index 9f58e49709..6bce21d945 100644
+--- a/meta/recipes-connectivity/iw/iw_5.4.bb
++++ b/meta/recipes-connectivity/iw/iw_5.8.bb
+@@ -14,8 +14,7 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
+ 
+-SRC_URI[md5sum] = "08a4f581a39dc62fa85d3af796d844b6"
+-SRC_URI[sha256sum] = "943cd2446a6c7242fded3766d054ab2a214a3514b9a8b7e942fed8fb13c1370c"
++SRC_URI[sha256sum] = "cd9125c7e560926d66b09977fe0f75e5365ffd05a15df67d86a421dc76f96a96"
+ 
+ inherit pkgconfig
+ 
+-- 
+2.17.1
+
+
+--===============3681722956587452250==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/iw/iw-dbg: PKGSIZE changed from 769960 to 818128 (+6%)
+packages/core2-32-poky-linux/iw/iw-dbg: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-dbg: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw-dev: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-dev: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw-doc: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-doc: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw-locale: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-locale: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw-src: PKGSIZE changed from 666573 to 709727 (+6%)
+packages/core2-32-poky-linux/iw/iw-src: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-src: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw-staticdev: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw-staticdev: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw/iw: PKGSIZE changed from 288088 to 304628 (+6%)
+packages/core2-32-poky-linux/iw/iw: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw/iw: PKGV changed from 5.4 [default] to 5.8 [default]
+packages/core2-32-poky-linux/iw: PV changed from "5.4" to "5.8"
+packages/core2-32-poky-linux/iw: PKGV changed from 5.4 [default] to 5.8 [default]
+
+--===============3681722956587452250==--
