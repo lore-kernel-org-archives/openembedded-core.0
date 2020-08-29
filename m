@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.16605.1598724122127143584
+ by mx.groups.io with SMTP id smtpd.web10.16606.1598724122757411172
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 00BE4E02116; Sat, 29 Aug 2020 11:02:02 -0700 (PDT)
+	id 9A8EBE020D8; Sat, 29 Aug 2020 11:02:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AED8CE020D8
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C35A2E020DA
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:56 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt-compat: upgrading to 4.4.17 SUCCEEDED
-Message-Id: <20200829180202.00BE4E02116@yocto-www.yoctoproject.org>
+Subject: [AUH] libxcrypt: upgrading to 4.4.17 FAILED
+Message-Id: <20200829180202.9A8EBE020D8@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:02 -0700 (PDT)
-X-Groupsio-MsgNum: 141946
-Content-Type: multipart/mixed; boundary="===============3152252810803150571=="
+X-Groupsio-MsgNum: 141947
+Content-Type: multipart/mixed; boundary="===============2638821005403845989=="
 
---===============3152252810803150571==
+--===============2638821005403845989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt-compat* to *4.4.17* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxcrypt* to *4.4.17* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libxcrypt-compat-upgrade-4.4.16-4.4.17.patch
+    - apply the patch: git am 0001-libxcrypt-upgrade-4.4.16-4.4.17.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,85 +65,79 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3152252810803150571==
+--===============2638821005403845989==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 46 skipped, 0 masked, 0 errors.
+Removing 6 recipes from the core2-32 sysroot...done.
+Removing 6 recipes from the qemux86 sysroot...done.
+ERROR: Nothing PROVIDES 'libxcrypt'
+libxcrypt was skipped: PREFERRED_PROVIDER_virtual/crypt set to musl, not libxcrypt
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============2638821005403845989==
 Content-Type: text/x-diff; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxcrypt-compat-upgrade-4.4.16-4.4.17.patch"
+ filename="0001-libxcrypt-upgrade-4.4.16-4.4.17.patch"
 
-RnJvbSAxMTQ0ZDY0MDkwNWEzZTM0YmZmZjhiYjk1YzhlMDg1MWFjNDI5NTBkIE1vbiBTZXAgMTcg
+RnJvbSBiYWYwZmYxMGVhMDA4NTBjYWUxNDhjNTZmZDE1Nzg4MDZjYTQ0ODgwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQGF1aC55b2N0b3Byb2plY3Qu
-b3JnPgpEYXRlOiBTYXQsIDI5IEF1ZyAyMDIwIDEyOjA4OjE4ICswMDAwClN1YmplY3Q6IFtQQVRD
-SF0gbGlieGNyeXB0LWNvbXBhdDogdXBncmFkZSA0LjQuMTYgLT4gNC40LjE3CgotLS0KIC4uLnRf
-NC40LjE2LmJiID0+IGxpYnhjcnlwdC1jb21wYXRfNC40LjE3LmJifSB8IDIyICsrKysrKysrKysr
-KysrKysrKysKIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jICAgICB8
-ICA2ICsrKystCiAyIGZpbGVzIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQve2xpYnhjcnlwdC1jb21wYXRf
-NC40LjE2LmJiID0+IGxpYnhjcnlwdC1jb21wYXRfNC40LjE3LmJifSAoMzAlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQtY29tcGF0XzQuNC4xNi5i
-YiBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQtY29tcGF0XzQuNC4xNy5i
-YgpzaW1pbGFyaXR5IGluZGV4IDMwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9saWJ4
-Y3J5cHQvbGlieGNyeXB0LWNvbXBhdF80LjQuMTYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1j
-b3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQtY29tcGF0XzQuNC4xNy5iYgppbmRleCBiYTc0ZWIxZjk0
-Li5kMDY0NjMzNDFlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGli
-eGNyeXB0LWNvbXBhdF80LjQuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0
-L2xpYnhjcnlwdC1jb21wYXRfNC40LjE3LmJiCkBAIC0xLDMgKzEsMjUgQEAKKyMgRklYTUU6IHRo
-ZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1
-cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBv
-bGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNF
-IHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29t
-bWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNl
-bnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6
-CisjCisjIC0tLSBMSUNFTlNJTkcKKyMgKysrIExJQ0VOU0lORworIyBAQCAtNTUsNyArNTUsNyBA
-QAorIyAgCisjICAgKiBDb3B5cmlnaHQgQmrDtnJuIEVzc2VyOyAwLWNsYXVzZSBCU0Q6CisjICAg
-ICBjcnlwdC1jb21tb24uYywgdGVzdC1jaGVja3NhbHQuYywgdGVzdC1jb21waWxlLXN0cm9uZy1h
-bGlhcy5jLAorIyAtICAgdGVzdC1nZW5zYWx0LW50aGFzaC5jLCB0ZXN0LXNob3J0LW91dGJ1Zi5j
-CisjICsgICB0ZXN0LWdlbnNhbHQtbnRoYXNoLmMsIHRlc3Qtc2hvcnQtb3V0YnVmLmMsIHRlc3Qt
-c3BlY2lhbC1jaGFyLXNhbHQuYworIyAgCisjICAgKiBDb3B5cmlnaHQgTWljaGFlbCBCcmV0dGVy
-a2xpZWJlciwgQmrDtnJuIEVzc2VyIGV0IGFsLjsgMi1jbGF1c2UgQlNEOgorIyAgICAgY3J5cHQt
-bnRoYXNoLmMKKyMgCisjCisKICMKICMgVGhpcyBwcm92aWRlcyBsaWJjcnlwdG8uc28uMSB3aGlj
-aCBjb250YWlucyBvYnNvbGV0ZSBBUElzLCBuZWVkZWQgZm9yIHVuaW5hdGl2ZSBpbiBwYXJ0aWN1
-bGFyCiAjCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0
-LmluYyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jCmluZGV4IGRh
-NzYwN2FlZjMuLjAzODhmNWFjNmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhj
-cnlwdC9saWJ4Y3J5cHQuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4
-Y3J5cHQuaW5jCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPz0gImZpbGU6Ly9M
-SUNFTlNJTkc7bWQ1PTNiYjY2MTRjZjU4ODBjYmYxYjlkYmQ5ZTNkMTQ1ZTJjIFwKIGluaGVyaXQg
-YXV0b3Rvb2xzIHBrZ2NvbmZpZwogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vYmVzc2Vy
-ODIvbGlieGNyeXB0LmdpdDticmFuY2g9JHtTUkNCUkFOQ0h9IgotU1JDUkVWID0gIjRmZmE0ZDM4
-Mzk2YzMzNGExZTAwMjQyN2MyMjI4MWIwNDdhM2Q2YTYiCitTUkNSRVYgPSAiNmIxMTBiY2Q0ZjRj
-YWE2MWZjMzljNzMzOWQzMGFkYzIwYTdkZDE3NyIKIFNSQ0JSQU5DSCA/PSAiZGV2ZWxvcCIKIAog
-UFJPVklERVMgPSAidmlydHVhbC9jcnlwdCIKQEAgLTMxLDMgKzMxLDcgQEAgQVBJID0gIi0tZGlz
-YWJsZS1vYnNvbGV0ZS1hcGkiCiBFWFRSQV9PRUNPTkYgKz0gIiR7QVBJfSIKIAogQkJDTEFTU0VY
-VEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgorCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNJTkc7bWQ1PTEwMjkyM2I2ZTFiMDJhODVjNWExMjAzZmE4N2QxNTFkIFwKKyAgICAgICAg
-ICAgICAgICAgICAgZmlsZTovL0NPUFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkw
-MDhiMzY0NTE2YyBcCisgICAgICAgICAgICAgICAgICAgICIKLS0gCjIuMTcuMQoK
+b3JnPgpEYXRlOiBTYXQsIDI5IEF1ZyAyMDIwIDEyOjEyOjA4ICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gbGlieGNyeXB0OiB1cGdyYWRlIDQuNC4xNiAtPiA0LjQuMTcKCi0tLQogbWV0YS9yZWNpcGVz
+LWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5pbmMgICAgIHwgIDYgKysrKy0KIC4uLi9saWJ4Y3J5
+cHQvbGlieGNyeXB0XzQuNC4xNi5iYiAgICAgICAgICAgICB8ICAyIC0tCiAuLi4vbGlieGNyeXB0
+L2xpYnhjcnlwdF80LjQuMTcuYmIgICAgICAgICAgICAgfCAyNCArKysrKysrKysrKysrKysrKysr
+CiAzIGZpbGVzIGNoYW5nZWQsIDI5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBkZWxl
+dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQu
+MTYuYmIKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGli
+eGNyeXB0XzQuNC4xNy5iYgoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlw
+dC9saWJ4Y3J5cHQuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5p
+bmMKaW5kZXggZGE3NjA3YWVmMy4uMDM4OGY1YWM2YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGli
+eGNyeXB0L2xpYnhjcnlwdC5pbmMKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA/
+PSAiZmlsZTovL0xJQ0VOU0lORzttZDU9M2JiNjYxNGNmNTg4MGNiZjFiOWRiZDllM2QxNDVlMmMg
+XAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHVi
+LmNvbS9iZXNzZXI4Mi9saWJ4Y3J5cHQuZ2l0O2JyYW5jaD0ke1NSQ0JSQU5DSH0iCi1TUkNSRVYg
+PSAiNGZmYTRkMzgzOTZjMzM0YTFlMDAyNDI3YzIyMjgxYjA0N2EzZDZhNiIKK1NSQ1JFViA9ICI2
+YjExMGJjZDRmNGNhYTYxZmMzOWM3MzM5ZDMwYWRjMjBhN2RkMTc3IgogU1JDQlJBTkNIID89ICJk
+ZXZlbG9wIgogCiBQUk9WSURFUyA9ICJ2aXJ0dWFsL2NyeXB0IgpAQCAtMzEsMyArMzEsNyBAQCBB
+UEkgPSAiLS1kaXNhYmxlLW9ic29sZXRlLWFwaSIKIEVYVFJBX09FQ09ORiArPSAiJHtBUEl9Igog
+CiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCisKK0xJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0lORzttZDU9MTAyOTIzYjZlMWIwMmE4NWM1YTEyMDNmYTg3ZDE1MWQg
+XAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5MSUI7bWQ1PTRmYmQ2NTM4MGNk
+ZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIFwKKyAgICAgICAgICAgICAgICAgICAgIgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMTYuYmIgYi9tZXRh
+L3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0XzQuNC4xNi5iYgpkZWxldGVkIGZpbGUg
+bW9kZSAxMDA2NDQKaW5kZXggNzlkYmEyZjZkYy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lw
+ZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0XzQuNC4xNi5iYgorKysgL2Rldi9udWxsCkBAIC0x
+LDIgKzAsMCBAQAotcmVxdWlyZSBsaWJ4Y3J5cHQuaW5jCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRfNC40LjE3LmJiIGIvbWV0YS9yZWNpcGVzLWNv
+cmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMTcuYmIKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggMDAwMDAwMDAwMC4uZTBlMTM5NzIwNgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBl
+cy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRfNC40LjE3LmJiCkBAIC0wLDAgKzEsMjQgQEAKKyMg
+RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
+ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
+ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
+ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
+IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
+bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
+IGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNJTkcKKyMgKysrIExJQ0VOU0lORworIyBAQCAtNTUs
+NyArNTUsNyBAQAorIyAgCisjICAgKiBDb3B5cmlnaHQgQmrDtnJuIEVzc2VyOyAwLWNsYXVzZSBC
+U0Q6CisjICAgICBjcnlwdC1jb21tb24uYywgdGVzdC1jaGVja3NhbHQuYywgdGVzdC1jb21waWxl
+LXN0cm9uZy1hbGlhcy5jLAorIyAtICAgdGVzdC1nZW5zYWx0LW50aGFzaC5jLCB0ZXN0LXNob3J0
+LW91dGJ1Zi5jCisjICsgICB0ZXN0LWdlbnNhbHQtbnRoYXNoLmMsIHRlc3Qtc2hvcnQtb3V0YnVm
+LmMsIHRlc3Qtc3BlY2lhbC1jaGFyLXNhbHQuYworIyAgCisjICAgKiBDb3B5cmlnaHQgTWljaGFl
+bCBCcmV0dGVya2xpZWJlciwgQmrDtnJuIEVzc2VyIGV0IGFsLjsgMi1jbGF1c2UgQlNEOgorIyAg
+ICAgY3J5cHQtbnRoYXNoLmMKKyMgCisjCisKK3JlcXVpcmUgbGlieGNyeXB0LmluYworCi0tIAoy
+LjE3LjEKCg==
 
---===============3152252810803150571==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libxcrypt-compat: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-dbg: PKGSIZE changed from 626424 to 627276 (+0%)
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-dbg: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-dbg: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-dev: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-dev: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-doc: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-doc: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-locale: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-locale: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-src: PKGSIZE changed from 747629 to 748810 (+0%)
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-src: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-src: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-staticdev: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat-staticdev: PV changed from "4.4.16" to "4.4.17"
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat: PKGV changed from 4.4.16 [default] to 4.4.17 [default]
-packages/core2-32-poky-linux/libxcrypt-compat/libxcrypt-compat: PV changed from "4.4.16" to "4.4.17"
-
---===============3152252810803150571==--
+--===============2638821005403845989==--
