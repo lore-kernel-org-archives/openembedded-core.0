@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.16390.1598724168729538773
+ by mx.groups.io with SMTP id smtpd.web12.16478.1598724168855910965
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 94DA7E020D1; Sat, 29 Aug 2020 11:02:48 -0700 (PDT)
+	id B380CE020E1; Sat, 29 Aug 2020 11:02:48 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,18 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AC1B8E02106
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B7DBCE02108
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:02:00 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libx11: upgrading to 1.6.12 FAILED
-Message-Id: <20200829180248.94DA7E020D1@yocto-www.yoctoproject.org>
+Subject: [AUH] xserver-xorg: upgrading to 1.20.9 FAILED
+Message-Id: <20200829180248.B380CE020E1@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:48 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============8433260814254521870=="
+Content-Type: multipart/mixed; boundary="===============7059444240690749542=="
 
---===============8433260814254521870==
+--===============7059444240690749542==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,7 +38,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libx11* to *1.6.12* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *xserver-xorg* to *1.20.9* has Failed(other errors).
 
 Detailed error information:
 
@@ -55,4 +55,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8433260814254521870==--
+--===============7059444240690749542==--
