@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.16402.1598724184802513582
+ by mx.groups.io with SMTP id smtpd.web11.16403.1598724189531621197
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Aug 2020 11:03:05 -0700
+ Sat, 29 Aug 2020 11:03:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A7D16E020D5; Sat, 29 Aug 2020 11:03:04 -0700 (PDT)
+	id 61DDDE020D3; Sat, 29 Aug 2020 11:03:09 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 27FA7E02114
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D346E020D4
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:02:01 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] p11-kit: upgrading to 0.23.21 SUCCEEDED
-Message-Id: <20200829180304.A7D16E020D5@yocto-www.yoctoproject.org>
-Date: Sat, 29 Aug 2020 11:03:04 -0700 (PDT)
-X-Groupsio-MsgNum: 141980
-Content-Type: multipart/mixed; boundary="===============0632641379480500031=="
+Subject: [AUH] re2c: upgrading to 2.0.3 SUCCEEDED
+Message-Id: <20200829180309.61DDDE020D3@yocto-www.yoctoproject.org>
+Date: Sat, 29 Aug 2020 11:03:09 -0700 (PDT)
+X-Groupsio-MsgNum: 141981
+Content-Type: multipart/mixed; boundary="===============4108588124043998008=="
 
---===============0632641379480500031==
+--===============4108588124043998008==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,10 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *p11-kit* to *0.23.21* has Succeeded.
+that the automatic attempt to upgrade the recipe *re2c* to *2.0.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-p11-kit-upgrade-0.23.20-0.23.21.patch
+    - apply the patch: git am 0001-re2c-upgrade-2.0.2-2.0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -59,44 +59,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0632641379480500031==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-p11-kit-upgrade-0.23.20-0.23.21.patch"
-
-From f5e2d5ac8ce74b247806a324a31c808842d8b7d8 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sat, 29 Aug 2020 17:52:59 +0000
-Subject: [PATCH] p11-kit: upgrade 0.23.20 -> 0.23.21
-
----
- .../p11-kit/{p11-kit_0.23.20.bb => p11-kit_0.23.21.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.20.bb => p11-kit_0.23.21.bb} (94%)
-
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.20.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
-similarity index 94%
-rename from meta/recipes-support/p11-kit/p11-kit_0.23.20.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
-index 4ba93f998a..b1fd2334b2 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.20.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
-@@ -9,7 +9,7 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
- DEPENDS_append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
- SRC_URI = "git://github.com/p11-glue/p11-kit"
--SRCREV = "762cdaa2cd5c5ec09cc844f9a6bdc551c7f6c8ed"
-+SRCREV = "fd8b56f3ee971f94dc6fc95411fc01e1c12153ab"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= ""
--- 
-2.17.1
-
-
---===============0632641379480500031==
+--===============4108588124043998008==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1669,171 +1632,28 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============0632641379480500031==
+--===============4108588124043998008==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/p11-kit: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-bash-completion: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-bash-completion: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-dbg: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-dbg: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-dbg: PKGSIZE changed from 7398104 to 7405784 (+0%)
-packages/core2-32-poky-linux/p11-kit/p11-kit-dev: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-dev: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-dev: PKGSIZE changed from 94610 to 94713 (+0%)
-packages/core2-32-poky-linux/p11-kit/p11-kit-doc: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-doc: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ar: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ar: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-as: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-as: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ast: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ast: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-az: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-az: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-bg: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-bg: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-bn-in: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-bn-in: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ca+valencia: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ca+valencia: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ca: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ca: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-cs: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-cs: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-cy: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-cy: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-da: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-da: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-de: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-de: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-el: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-el: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-en-gb: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-en-gb: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-eo: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-eo: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-es: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-es: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-et: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-et: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-eu: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-eu: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fa: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fa: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fi: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fi: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fo: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fo: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fr: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fr: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fur: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-fur: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ga: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ga: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-gl: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-gl: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-gu: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-gu: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-he: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-he: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hi: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hi: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hr: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hr: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hu: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-hu: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ia: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ia: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-id: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-id: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-it: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-it: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ja: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ja: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ka: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ka: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-kk: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-kk: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-kn: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-kn: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ko: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ko: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-lt: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-lt: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-lv: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-lv: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ml: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ml: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-mr: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-mr: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ms: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ms: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nb: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nb: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nl: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nl: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nn: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-nn: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-oc: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-oc: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-or: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-or: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pa: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pa: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pl: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pl: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pt-br: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pt-br: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pt: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-pt: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ro: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ro: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ru: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ru: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sk: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sk: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sl: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sl: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sq: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sq: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sr+latin: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sr+latin: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sr: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sr: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sv: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-sv: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ta: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-ta: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-te: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-te: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-th: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-th: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-tr: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-tr: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-uk: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-uk: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-vi: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-vi: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-wa: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-wa: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-cn: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-cn: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-hk: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-hk: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-tw: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-locale-zh-tw: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-src: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-src: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit-src: PKGSIZE changed from 1470251 to 1470733 (+0%)
-packages/core2-32-poky-linux/p11-kit/p11-kit-staticdev: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit-staticdev: PV changed from "0.23.20" to "0.23.21"
-packages/core2-32-poky-linux/p11-kit/p11-kit: PKGV changed from 0.23.20 [default] to 0.23.21 [default]
-packages/core2-32-poky-linux/p11-kit/p11-kit: PV changed from "0.23.20" to "0.23.21"
+packages/core2-32-poky-linux/re2c: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-dbg: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-dbg: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-dev: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-dev: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-doc: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-doc: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-locale: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-locale: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-src: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-src: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c-staticdev: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c-staticdev: PV changed from "2.0.2" to "2.0.3"
+packages/core2-32-poky-linux/re2c/re2c: PKGV changed from 2.0.2 [default] to 2.0.3 [default]
+packages/core2-32-poky-linux/re2c/re2c: PV changed from "2.0.2" to "2.0.3"
 Changes to packages/x86_64-linux/binutils-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-musl-binutils was added
   /usr/bin/i686-poky-linux-musl was added
@@ -3401,4 +3221,41 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was removed
 
---===============0632641379480500031==--
+--===============4108588124043998008==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-re2c-upgrade-2.0.2-2.0.3.patch"
+
+From cce6a72824729482798b6c19b97b9f1be369e953 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 29 Aug 2020 18:01:55 +0000
+Subject: [PATCH] re2c: upgrade 2.0.2 -> 2.0.3
+
+---
+ meta/recipes-support/re2c/{re2c_2.0.2.bb => re2c_2.0.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/re2c/{re2c_2.0.2.bb => re2c_2.0.3.bb} (84%)
+
+diff --git a/meta/recipes-support/re2c/re2c_2.0.2.bb b/meta/recipes-support/re2c/re2c_2.0.3.bb
+similarity index 84%
+rename from meta/recipes-support/re2c/re2c_2.0.2.bb
+rename to meta/recipes-support/re2c/re2c_2.0.3.bb
+index db26b02b84..a0b521ce56 100644
+--- a/meta/recipes-support/re2c/re2c_2.0.2.bb
++++ b/meta/recipes-support/re2c/re2c_2.0.3.bb
+@@ -6,7 +6,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+ 
+ SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6cddbb558dbfd697a729cb4fd3f095524480283b89911ca5221835d8a67ae5e0"
++SRC_URI[sha256sum] = "b2bc1eb8aaaa21ff2fcd26507b7e6e72c5e3d887e58aa515c2155fb17d744278"
+ UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
+
+
+--===============4108588124043998008==--
