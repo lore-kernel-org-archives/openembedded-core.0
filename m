@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.16606.1598724122757411172
+ by mx.groups.io with SMTP id smtpd.web10.16609.1598724128016620263
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Aug 2020 11:02:02 -0700
+ Sat, 29 Aug 2020 11:02:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9A8EBE020D8; Sat, 29 Aug 2020 11:02:02 -0700 (PDT)
+	id DE24FE020DD; Sat, 29 Aug 2020 11:02:07 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,19 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C35A2E020DA
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D9561E020DC
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:56 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt: upgrading to 4.4.17 FAILED
-Message-Id: <20200829180202.9A8EBE020D8@yocto-www.yoctoproject.org>
-Date: Sat, 29 Aug 2020 11:02:02 -0700 (PDT)
-X-Groupsio-MsgNum: 141947
-Content-Type: multipart/mixed; boundary="===============2638821005403845989=="
+Subject: [AUH] systemd-boot: upgrading to 246.3 SUCCEEDED
+Message-Id: <20200829180207.DE24FE020DD@yocto-www.yoctoproject.org>
+Date: Sat, 29 Aug 2020 11:02:07 -0700 (PDT)
+X-Groupsio-MsgNum: 141948
+Content-Type: multipart/mixed; boundary="===============5314254746258094344=="
 
---===============2638821005403845989==
+--===============5314254746258094344==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -39,16 +39,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt* to *4.4.17* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *systemd-boot* to *246.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcrypt-upgrade-4.4.16-4.4.17.patch
+    - apply the patch: git am 0001-systemd-boot-upgrade-246.2-246.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -65,79 +59,117 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2638821005403845989==
+--===============5314254746258094344==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
 
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 46 skipped, 0 masked, 0 errors.
-Removing 6 recipes from the core2-32 sysroot...done.
-Removing 6 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'libxcrypt'
-libxcrypt was skipped: PREFERRED_PROVIDER_virtual/crypt set to musl, not libxcrypt
+Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 61 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
 
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============2638821005403845989==
-Content-Type: text/x-diff; charset="utf-8"
+--===============5314254746258094344==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 53 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the armv7vet2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host arm-poky-linux-gnueabi (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============5314254746258094344==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 779 .bb files complete (0 cached, 779 parsed). 1341 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============5314254746258094344==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/systemd-boot: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PV changed from "246.2" to "246.3"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PKGV changed from 246.2 [default] to 246.3 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PV changed from "246.2" to "246.3"
+
+--===============5314254746258094344==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libxcrypt-upgrade-4.4.16-4.4.17.patch"
+ filename="0001-systemd-boot-upgrade-246.2-246.3.patch"
 
-RnJvbSBiYWYwZmYxMGVhMDA4NTBjYWUxNDhjNTZmZDE1Nzg4MDZjYTQ0ODgwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQGF1aC55b2N0b3Byb2plY3Qu
-b3JnPgpEYXRlOiBTYXQsIDI5IEF1ZyAyMDIwIDEyOjEyOjA4ICswMDAwClN1YmplY3Q6IFtQQVRD
-SF0gbGlieGNyeXB0OiB1cGdyYWRlIDQuNC4xNiAtPiA0LjQuMTcKCi0tLQogbWV0YS9yZWNpcGVz
-LWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5pbmMgICAgIHwgIDYgKysrKy0KIC4uLi9saWJ4Y3J5
-cHQvbGlieGNyeXB0XzQuNC4xNi5iYiAgICAgICAgICAgICB8ICAyIC0tCiAuLi4vbGlieGNyeXB0
-L2xpYnhjcnlwdF80LjQuMTcuYmIgICAgICAgICAgICAgfCAyNCArKysrKysrKysrKysrKysrKysr
-CiAzIGZpbGVzIGNoYW5nZWQsIDI5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBkZWxl
-dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQu
-MTYuYmIKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGli
-eGNyeXB0XzQuNC4xNy5iYgoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlw
-dC9saWJ4Y3J5cHQuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5p
-bmMKaW5kZXggZGE3NjA3YWVmMy4uMDM4OGY1YWM2YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGli
-eGNyeXB0L2xpYnhjcnlwdC5pbmMKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA/
-PSAiZmlsZTovL0xJQ0VOU0lORzttZDU9M2JiNjYxNGNmNTg4MGNiZjFiOWRiZDllM2QxNDVlMmMg
-XAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHVi
-LmNvbS9iZXNzZXI4Mi9saWJ4Y3J5cHQuZ2l0O2JyYW5jaD0ke1NSQ0JSQU5DSH0iCi1TUkNSRVYg
-PSAiNGZmYTRkMzgzOTZjMzM0YTFlMDAyNDI3YzIyMjgxYjA0N2EzZDZhNiIKK1NSQ1JFViA9ICI2
-YjExMGJjZDRmNGNhYTYxZmMzOWM3MzM5ZDMwYWRjMjBhN2RkMTc3IgogU1JDQlJBTkNIID89ICJk
-ZXZlbG9wIgogCiBQUk9WSURFUyA9ICJ2aXJ0dWFsL2NyeXB0IgpAQCAtMzEsMyArMzEsNyBAQCBB
-UEkgPSAiLS1kaXNhYmxlLW9ic29sZXRlLWFwaSIKIEVYVFJBX09FQ09ORiArPSAiJHtBUEl9Igog
-CiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCisKK0xJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0lORzttZDU9MTAyOTIzYjZlMWIwMmE4NWM1YTEyMDNmYTg3ZDE1MWQg
-XAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vQ09QWUlORy5MSUI7bWQ1PTRmYmQ2NTM4MGNk
-ZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIFwKKyAgICAgICAgICAgICAgICAgICAgIgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMTYuYmIgYi9tZXRh
-L3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0XzQuNC4xNi5iYgpkZWxldGVkIGZpbGUg
-bW9kZSAxMDA2NDQKaW5kZXggNzlkYmEyZjZkYy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lw
-ZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0XzQuNC4xNi5iYgorKysgL2Rldi9udWxsCkBAIC0x
-LDIgKzAsMCBAQAotcmVxdWlyZSBsaWJ4Y3J5cHQuaW5jCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRfNC40LjE3LmJiIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMTcuYmIKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggMDAwMDAwMDAwMC4uZTBlMTM5NzIwNgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBl
-cy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRfNC40LjE3LmJiCkBAIC0wLDAgKzEsMjQgQEAKKyMg
-RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
-ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
-ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
-ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
-IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
-bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
-IGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNJTkcKKyMgKysrIExJQ0VOU0lORworIyBAQCAtNTUs
-NyArNTUsNyBAQAorIyAgCisjICAgKiBDb3B5cmlnaHQgQmrDtnJuIEVzc2VyOyAwLWNsYXVzZSBC
-U0Q6CisjICAgICBjcnlwdC1jb21tb24uYywgdGVzdC1jaGVja3NhbHQuYywgdGVzdC1jb21waWxl
-LXN0cm9uZy1hbGlhcy5jLAorIyAtICAgdGVzdC1nZW5zYWx0LW50aGFzaC5jLCB0ZXN0LXNob3J0
-LW91dGJ1Zi5jCisjICsgICB0ZXN0LWdlbnNhbHQtbnRoYXNoLmMsIHRlc3Qtc2hvcnQtb3V0YnVm
-LmMsIHRlc3Qtc3BlY2lhbC1jaGFyLXNhbHQuYworIyAgCisjICAgKiBDb3B5cmlnaHQgTWljaGFl
-bCBCcmV0dGVya2xpZWJlciwgQmrDtnJuIEVzc2VyIGV0IGFsLjsgMi1jbGF1c2UgQlNEOgorIyAg
-ICAgY3J5cHQtbnRoYXNoLmMKKyMgCisjCisKK3JlcXVpcmUgbGlieGNyeXB0LmluYworCi0tIAoy
-LjE3LjEKCg==
+From c6ca2b774da6c6a7ed158ccf6ecdd76f91fedc6b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 29 Aug 2020 12:17:02 +0000
+Subject: [PATCH] systemd-boot: upgrade 246.2 -> 246.3
 
---===============2638821005403845989==--
+---
+ .../systemd/{systemd-boot_246.2.bb => systemd-boot_246.3.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot_246.2.bb => systemd-boot_246.3.bb} (100%)
+
+diff --git a/meta/recipes-core/systemd/systemd-boot_246.2.bb b/meta/recipes-core/systemd/systemd-boot_246.3.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_246.2.bb
+rename to meta/recipes-core/systemd/systemd-boot_246.3.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index b0d4fe4033..6b7aa7a73d 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "91b37e6f0982e1e64c63017000248d7441a83a2e"
++SRCREV = "b7cef386bd1bc810f5bb12d84c2ec4d6428231e3"
+ SRCBRANCH = "v246-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+-- 
+2.17.1
+
+
+--===============5314254746258094344==--
