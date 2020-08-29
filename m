@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.16378.1598724144279528421
+ by mx.groups.io with SMTP id smtpd.web12.16464.1598724144569020258
  for <openembedded-core@lists.openembedded.org>;
  Sat, 29 Aug 2020 11:02:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 26644E020D5; Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
+	id 6A7C4E020DC; Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,18 +19,19 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D4B3E020E3
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5DB0FE020E5
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.15 FAILED
-Message-Id: <20200829180224.26644E020D5@yocto-www.yoctoproject.org>
+Subject: [AUH] librepo: upgrading to 1.12.1 SUCCEEDED
+Message-Id: <20200829180224.6A7C4E020DC@yocto-www.yoctoproject.org>
 Date: Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============8514749074271757061=="
+X-Groupsio-MsgNum: 141955
+Content-Type: multipart/mixed; boundary="===============5002637624775620587=="
 
---===============8514749074271757061==
+--===============5002637624775620587==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,35 +39,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.15* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *librepo* to *1.12.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-librepo-upgrade-1.12.0-1.12.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  finish -f go /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1341 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 780 .bb files complete (778 cached, 2 parsed). 1343 targets, 35 skipped, 0 masked, 0 errors.
-INFO: Handling main branch (devtool)...
-ERROR: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
-    return func(fn, *args)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 131, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/conf/layer.conf not found
-
-ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/conf/layer.conf not found
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -74,4 +59,66 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8514749074271757061==--
+--===============5002637624775620587==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-librepo-upgrade-1.12.0-1.12.1.patch"
+
+From 32325e053ed3ce383ab7cc7fa6b3000c5cb6bac8 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 29 Aug 2020 13:07:30 +0000
+Subject: [PATCH] librepo: upgrade 1.12.0 -> 1.12.1
+
+---
+ .../librepo/{librepo_1.12.0.bb => librepo_1.12.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.12.0.bb => librepo_1.12.1.bb} (93%)
+
+diff --git a/meta/recipes-devtools/librepo/librepo_1.12.0.bb b/meta/recipes-devtools/librepo/librepo_1.12.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/librepo/librepo_1.12.0.bb
+rename to meta/recipes-devtools/librepo/librepo_1.12.1.bb
+index 2d9cac830e..0597351052 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.12.0.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.12.1.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+            "
+ 
+-SRCREV = "9c173f1110bb30f4ae842a8e3532b275966c2d83"
++SRCREV = "d4ad350291f2937c0b6a3eea9e1d0c8e1051fc32"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.17.1
+
+
+--===============5002637624775620587==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/librepo: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-dbg: PKGSIZE changed from 680216 to 681156 (+0%)
+packages/core2-32-poky-linux/librepo/librepo-dbg: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-dbg: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-dev: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-dev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-doc: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-doc: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-locale: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-locale: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-src: PKGSIZE changed from 692497 to 693184 (+0%)
+packages/core2-32-poky-linux/librepo/librepo-src: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-src: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+packages/core2-32-poky-linux/librepo/librepo: PV changed from "1.12.0" to "1.12.1"
+packages/core2-32-poky-linux/librepo/librepo: PKGV changed from 1.12.0 [default] to 1.12.1 [default]
+
+--===============5002637624775620587==--
