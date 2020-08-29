@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.16372.1598724137208567512
+ by mx.groups.io with SMTP id smtpd.web11.16378.1598724144279528421
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Aug 2020 11:02:17 -0700
+ Sat, 29 Aug 2020 11:02:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15573E020D1; Sat, 29 Aug 2020 11:02:17 -0700 (PDT)
+	id 26644E020D5; Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,18 +19,18 @@ X-Spam-HAM-Report:
 	*  1.4 MISSING_DATE Missing Date: header
 	*  0.0 HELO_MISC_IP Looking for more Dynamic IP Relays
 Received: from [172.29.10.113] (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 40C53E020E1
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D4B3E020E3
 	for <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2020 11:01:57 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-runtime: upgrading to 1.15 FAILED
-Message-Id: <20200829180217.15573E020D1@yocto-www.yoctoproject.org>
-Date: Sat, 29 Aug 2020 11:02:17 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============5369927167662865909=="
+Subject: [AUH] go: upgrading to 1.15 FAILED
+Message-Id: <20200829180224.26644E020D5@yocto-www.yoctoproject.org>
+Date: Sat, 29 Aug 2020 11:02:24 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============8514749074271757061=="
 
---===============5369927167662865909==
+--===============8514749074271757061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -38,11 +38,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-runtime* to *1.15* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *go* to *1.15* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  finish -f go-runtime /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go
+The following devtool command failed:  finish -f go /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -74,4 +74,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5369927167662865909==--
+--===============8514749074271757061==--
