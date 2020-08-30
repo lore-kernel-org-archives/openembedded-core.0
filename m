@@ -1,79 +1,82 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web11.36638.1598811476803642213
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+ by mx.groups.io with SMTP id smtpd.web10.37067.1598811480513718852
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 11:17:57 -0700
+ Sun, 30 Aug 2020 11:18:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VCC3+W3s;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.176, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f176.google.com with SMTP id y2so4715739ilp.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:17:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=a2dSWyOt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.171, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f171.google.com with SMTP id y2so4715798ilp.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=1xEiOOLumgrtwq0Au8JWb2w+b77aVOq4I6SadFFlF7Q=;
-        b=VCC3+W3sljdJAex7pbhNbfnXAt7PT08JByRpay5tPclNMB8I5ceiO87UOcoWsyRVoa
-         /qglmgcmi8X7NoNiyce88PLEBSVg9BIHxsz2vO90p3hBFHgVkrvP4GSdpeBm24wDT4Zj
-         Qxb5V/pMHAGVCZUiURxXgOrIwez7iaNImYegIG8jhUVoHk7vVDMlw9wvsg+UyCLRyiNT
-         M8wXDgamLdKQQ5OrFrH8yGRSbol9UxWm35BkEu51ODzzHaKE2Vtpr0K3uG6e5jGE3juH
-         JWHXGbauKzIeb9B3UNhRNMLgC/0r5q+CsEzrOKVDwBEsX7axXAPULVC2z3EfCWAu55Pv
-         i0VQ==
+        bh=oJdiFbytqEhZ/LQTgDiICGsWRFIZHx/o/qT6zFKp8+o=;
+        b=a2dSWyOtZlZjfjXZlXjoLpiiQatpcWP6Iqfs0pYhD+Vvyc5mb745zUhzg4ADpGKjUG
+         5C47vNmW+axIO26NrYj1O9kucrb3RW/jx52bOysMRCfFLpt6GbngIzuPwOVfvV75qkkG
+         yRE3KqlIPZj/zFqLOt9SwZknzXosfklk0Bk/VfrslyzRWxVgmazO27QUdT28m4jWbKUE
+         U0jZTgTWx0GFyg+gBKyXz5TnBV1cj4Yj41hZn5RseL/r1xKPpRTwbz9bWbSPHxU4ndsd
+         jhS2ryJ5gzY+hFtCnsFVsuF81eQcJcM1IUCEwOlFasc319iIxxfhkYQIENfNvqrUpJPr
+         PHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=1xEiOOLumgrtwq0Au8JWb2w+b77aVOq4I6SadFFlF7Q=;
-        b=m7wDck4bwmE/EImJrnGlc1guEE23n04tPSRWYsQYtpGuZgDgj04zFrnyMI/DSj5lcB
-         QXcxeWUcQ12awYqkr3r6yIRpGBw8ZdJALXgSspCbl3TvxZjaB1v03fOGLEGLS66djad4
-         lyDjQayJlrPi8W9iZKuduZ7Etk10JNbKDL4czHR1zY9VR6VuEKvMGgMJ6tFF3ZEMGDDa
-         xBAM+hk8euKNMIvyYzTMHfwdM0vUwwLCKNnUm/eJ6JiNB0B6BwUNXllLmtw5za7Q0Qhs
-         LFxU+/gggnVpiMzRw1xzOLB8JZJzuAnekKBN05WNxWyTgQIYVYZ+hNTa2RZpgG//6ZWa
-         MZkA==
-X-Gm-Message-State: AOAM531YgbWUp8O3wT2wge9uSFQUP6bPXU3PdaLzxiSQkq3S/6ExZvip
-	Am6AnAAnR2K9bWmpCmO7lrjyTfoQeFZ2vZS6M4M=
-X-Google-Smtp-Source: ABdhPJylF9QB3vzsomx3g6mZSW82QfKSDBqK4/KYA5vmzJBvzVi3HzBloC0XVbRDOK91cT7nOU1D2w==
-X-Received: by 2002:a92:7f0f:: with SMTP id a15mr219522ild.186.1598811475726;
-        Sun, 30 Aug 2020 11:17:55 -0700 (PDT)
+        bh=oJdiFbytqEhZ/LQTgDiICGsWRFIZHx/o/qT6zFKp8+o=;
+        b=ikFR0QjaiAp6Oh7dXBAz6ZmYT14k+5HkT8NLZ0YjUYurEL6hze9Z8Eh3ptGwRbcylI
+         p4U5u19mYL474LbLp630o1iAmBqRWiMzZ6lMU/EBdK9mDeUGGHS+GtjYyAsmVFfJfTs/
+         oPS35Ef5JF3yu+7gv5un3qDmcUrECNoC6wabuDTF3XYt18rRlsnGTmmBJ+1pMpBz/IB3
+         n5UTrydERhizV7O9GTvGIuqehbOI0Q569IgQRpevWJYw5cxXfOXe8NPsvbmZc9BQTheH
+         GgOGNSIT77xKbs99VbizDyrHeXpXQhuoFx6ezGuAPFX5+mpn5vK0MwA3NhZ/L/znvptm
+         GbbQ==
+X-Gm-Message-State: AOAM531/fwZt7hUdCBdYAkeNltS9wlgbvYxV0JzZNXErNtwpDtNVcchf
+	V0rOzjFSqnbvDAG+mYqyvFXPArF0sASSw9HcVjk=
+X-Google-Smtp-Source: ABdhPJw9CIa00dHdFTQWIhVD5Dy13c5LeEQFlUtlYt/I9wjdCYrRu4lXvbLx+GDiBsMD85kzKqaczg==
+X-Received: by 2002:a92:7991:: with SMTP id u139mr5606184ilc.62.1598811479484;
+        Sun, 30 Aug 2020 11:17:59 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.17.54
+        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.17.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 11:17:55 -0700 (PDT)
+        Sun, 30 Aug 2020 11:17:58 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/25] oeqa: runtime_tests: Extra GPG debugging
-Date: Sun, 30 Aug 2020 08:15:55 -1000
-Message-Id: <b1fa60c791e759f7171862db68dbad2687e83812.1598810890.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/25] runqemu: Show an error for conflicting graphics options
+Date: Sun, 30 Aug 2020 08:15:56 -1000
+Message-Id: <e62c8207fa47ff4e325529ea84e0d51710deaa3c.1598810890.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598810890.git.steve@sakoman.com>
 References: <cover.1598810890.git.steve@sakoman.com>
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This patch enables extra debugging for gpg to try and get more debugging
-information when [YOCTO #14003] occurs
+The autobuilder managed to pass the nographic option with "sdl gl" due
+to a problem elsewhere. It would have been useful for runqemu to have
+errored rather than passing conflicting options to qemu. Add an
+error for this invalid usecase.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f24d7be1fb863006b5414fa8f9c9a37bb48d5a6f)
+(cherry picked from commit 377a6ffbcba0d3c5ede470c989756c4d1636873f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 60cb2e01a6..cd03069340 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -156,7 +156,7 @@ class TestImage(OESelftestTestCase):
-         self.gpg_home = tempfile.mkdtemp(prefix="oeqa-feed-sign-")
-         self.track_for_cleanup(self.gpg_home)
-         signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
--        runCmd('gpg --batch --homedir %s --import %s' % (self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"))
-+        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --homedir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"), shell=True)
-         features += 'INHERIT += "sign_package_feed"\n'
-         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 398f0a0910..b24ac1c804 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -436,6 +436,10 @@ class BaseConfig(object):
+             if arg in self.fstypes + self.vmtypes + self.wictypes:
+                 self.check_arg_fstype(arg)
+             elif arg == 'nographic':
++                if ('sdl' in sys.argv):
++                    raise RunQemuError('Option nographic makes no sense alongside the sdl option.' % (arg))
++                if ('gtk' in sys.argv):
++                    raise RunQemuError('Option nographic makes no sense alongside the gtk option.' % (arg))
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
+             elif arg == 'sdl':
 -- 
 2.17.1
 
