@@ -1,116 +1,105 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web12.36669.1598811508887264070
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web11.36654.1598811511268126382
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 11:18:29 -0700
+ Sun, 30 Aug 2020 11:18:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uNsM5A7x;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.50, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f50.google.com with SMTP id j2so3816065ioj.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:18:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Aren+ZsY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.176, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f176.google.com with SMTP id c6so4682452ilo.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=RRROta47OY5TPZiqiXiWXouywtW6yxfqf8LOdulJPKk=;
-        b=uNsM5A7xidZI7CDrp7r6ShNBkiNqjP8slavAtaVrl4LLcDu3LrBD1UxS2EUD0A8sQh
-         SBLZoU3icUsBNgSTmFsCRpyX8sRSEOH4eJYMaHQgke3tcZg0HcFubZnZhutKzeqrqIj6
-         aY9rEfBu3J1pX0v2FnUsq7xAM5tlZunzhs+B0shP4jxwLUkMOBGjx4lcPr+cQHSrr9r5
-         8bxyS7su9xFfUfKiaBgd7njJYKMnbrrPZssjqj3cRIfyBogSHrpeLLB3+vjTjT37CoRb
-         fS84lcq2/WaF7QPc6blv7XQhX5+2LSFVLDaienWSnmdaGuahXoeJoohUbzTQDHGLChd+
-         R4GQ==
+        bh=RyCYNGQbY1kWN2oRCR/bXYwe78d/kXT+SE0pK+SapTw=;
+        b=Aren+ZsYowkakf2fG1nmhhKtEuUMD5t8j4BlO82aAuxFw3G/1NuODqkOSpk1Jljb6k
+         NJB5qe+RV7J3nk/hvOdDHdAdB32Ua6d4PEnIFj2JLV2arC1OPstyTA6FVejIse6kUx8v
+         fiR1WEMmp8CHlk7293FImA72WVE5+zC4HF3QPwxrnWVpDtQlFwny09FSZm1JFR00Rtr1
+         Iac3FdGr5TXwXYBf7mc6y7KQJLJi1whXEo3VxPXxqKK5uKb//2ybn9kglcXZCGygl93F
+         8FfH5A0RUX1LOHNZ4xaJellCfjZLH6futRvIIIcE4k+K+KZs3W03OFPbsbQp/2nN8QGK
+         L4RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=RRROta47OY5TPZiqiXiWXouywtW6yxfqf8LOdulJPKk=;
-        b=Y4E1vdIsXJCEIbYNRMuxVvpiXtwWToWHRSSKmH9+1Qi0iW36ASs+xNqUv/Jp57q8z2
-         n2I+QAGHxBYFdR1CNiJ//oh4kOjDdTCyiOmLuKhOyV1Oj/GGVI+nf/4Qcy3JYih0UC++
-         lE6DPchwgVUwGyLmsAa13n9ipCIl/Cuw92c1oMbOLWxm+wQuJwS8qaEk7uUjOiBoIXJn
-         K8/1vtdYIF2NchyHB04qEoxL1j3Ot1eqVaqJX2Bhdpow+mXCT9GhJhWbVxH/r+WIOHTQ
-         uoDFUKNmy1GoLswS+o3Zmyn65r66L3L4FOd2ZHoagcx4hdGgp4Lh/DFKsOo5sEUQjEeD
-         +AvA==
-X-Gm-Message-State: AOAM531PX+mgTh0MiHok6vWjTmz4eEplFfS5cXCs/70LLP1y4JRNon/U
-	xiqog39axMN6+AkF9Tnk953PWcJSFfFO2+RD4YQ=
-X-Google-Smtp-Source: ABdhPJwUJ65AaDYreKtq+o0dQFoM0sJ0BtFdW//edNlRiyX4rvItSccLxK1tmUhPqNd8cZQpMpoK+A==
-X-Received: by 2002:a02:7106:: with SMTP id n6mr8552927jac.11.1598811507787;
-        Sun, 30 Aug 2020 11:18:27 -0700 (PDT)
+        bh=RyCYNGQbY1kWN2oRCR/bXYwe78d/kXT+SE0pK+SapTw=;
+        b=pPg1MVF5yskdPktdQJdEx9sqSjANfii/qszBxCoqrFVYBg8Aef3ZErkkhfbCSiPa98
+         mzL+OYEFazYDq51oRd1zGM8VxNzkp6IPPu3m1aXJnrCvHrk2YVBk8Ft9PJpKqa5peNHF
+         xOmKbRQV4rTW534Kes986J+Yf8NlT6pZ+1EFtkLUAmB3cMUyDOfecWMMkTlTWGtVRDQM
+         hN/05nbfRW7gzdE8buNNQWGRzG7NtpoWGp3BcHeR0b9WvpYSDLcUIwnIfMef7Cmb6R04
+         dfnaQPXhyvmbOwytjdAyMO10YL3nZVlbktOGzdZf33TIuqKzPQcrGZgHdaN9RqfMNKBY
+         0kzg==
+X-Gm-Message-State: AOAM530E3BqoKjROA4Rli7Ht1dHeyu+59hetkWY9+gXQ2nFXetZcPIiE
+	OOGTNykdzSREwoGiEiIZsTE3xBHOT71v+msvCac=
+X-Google-Smtp-Source: ABdhPJzGz2LpC+VIXoyFXcO2uBcqiDmrEevc9nIH9lbQGAnUHbLM/OJDb+sZmoGhK47MO1ZIwtbrhQ==
+X-Received: by 2002:a05:6e02:1343:: with SMTP id k3mr6061834ilr.217.1598811510218;
+        Sun, 30 Aug 2020 11:18:30 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.18.26
+        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.18.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 11:18:27 -0700 (PDT)
+        Sun, 30 Aug 2020 11:18:29 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/25] weston: add missing packageconfigs
-Date: Sun, 30 Aug 2020 08:16:04 -1000
-Message-Id: <f9137fab67b3a13d569b70ca0596e2fd873a39a8.1598810890.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/25] gpgme: fix multilib header conflict
+Date: Sun, 30 Aug 2020 08:16:05 -1000
+Message-Id: <70831ab10dd9e3241d0304a9fe6a5fb1a2024a6e.1598810890.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598810890.git.steve@sakoman.com>
 References: <cover.1598810890.git.steve@sakoman.com>
 
-From: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Add missing package configs to:
-	- Select shell integration
-	- Disable screen sharing module (independent from backend)
-	- Disable jpeg image support
+fix error:
+file /usr/include/gpgme.h conflicts between attempted installs of gpgme-dev-1.13.1-r0.core2_64 and lib32-gpgme-dev-1.13.1-r0.core2_32
 
-`PACKAGECONFIG` default value is updated to enable these configs, since
-they were previously implicitly enabled.
+part of diff:
+-#if 64
++#if 0
+ #ifndef _FILE_OFFSET_BITS
+-#error GPGME was compiled with _FILE_OFFSET_BITS = 64, please see the section "Largefile support (LFS)" in the GPGME manual.
++#error GPGME was compiled with _FILE_OFFSET_BITS = 0, please see the section "Largefile support (LFS)" in the GPGME manual.
+ #else
+-#if (_FILE_OFFSET_BITS) != (64)
+-#error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 64, please see the section "Largefile support (LFS)" in the GPGME manual.
++#if (_FILE_OFFSET_BITS) != (0)
++#error GPGME was compiled with a different value for _FILE_OFFSET_BITS, namely 0, please see the section "Largefile support (LFS)" in the GPGME manual.
+ #endif
+ #endif
+ #endif
 
-Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+LFS support is enabled by default, and this header is generated during
+build according to current configure
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f883413b2bc6e7d0bd44ce8324cd36a8fe918e5f)
+(cherry picked from commit bd056f9c4c22740a4f7ede00c758a21037eae5ca)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/wayland/weston_8.0.0.bb | 20 +++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ meta/recipes-support/gpgme/gpgme_1.13.1.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-index f8e9e15f84..8fef864827 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-@@ -20,7 +20,7 @@ inherit meson pkgconfig useradd features_check
- # depends on virtual/egl
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+index 9fc1ae24a4..b51534351d 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+@@ -59,7 +59,7 @@ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-lang-python-test \
+ '
  
--DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
-+DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0"
- DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+-inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT}
++inherit autotools texinfo binconfig-disabled pkgconfig distutils-common-base ${PYTHON_INHERIT} multilib_header
  
- WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
-@@ -31,7 +31,13 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
-                    ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland x11', '', 'headless', d)} \
--                   launch"
-+                   launch \
-+                   image-jpeg \
-+                   screenshare \
-+                   shell-desktop \
-+                   shell-fullscreen \
-+                   shell-ivi"
+ export PKG_CONFIG='pkg-config'
+ 
+@@ -83,3 +83,7 @@ do_configure_prepend () {
+ 	rm -f ${S}/m4/libassuan.m4
+ 	rm -f ${S}/m4/python.m4
+ }
 +
- #
- # Compositor choices
- #
-@@ -67,6 +73,16 @@ PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clie
- PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
- # Weston with PAM support
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
-+# Weston with screen-share support
-+PACKAGECONFIG[screenshare] = "-Dscreenshare=true,-Dscreenshare=false"
-+# Traditional desktop shell
-+PACKAGECONFIG[shell-desktop] = "-Dshell-desktop=true,-Dshell-desktop=false"
-+# Fullscreen shell
-+PACKAGECONFIG[shell-fullscreen] = "-Dshell-fullscreen=true,-Dshell-fullscreen=false"
-+# In-Vehicle Infotainment (IVI) shell
-+PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
-+# JPEG image loading support
-+PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
++do_install_append() {
++       oe_multilib_header gpgme.h
++}
 -- 
 2.17.1
 
