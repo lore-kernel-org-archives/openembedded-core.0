@@ -1,89 +1,100 @@
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web12.36689.1598811556808076695
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web11.38882.1598818529414337649
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 11:19:16 -0700
+ Sun, 30 Aug 2020 13:15:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cBSKF2hV;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.54, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f54.google.com with SMTP id m23so3809087iol.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:19:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AD8bke9u;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: vvavrychuk@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id w5so3951959wrp.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 13:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=gvvoPOBfVWkykAqyUtky1NyUi4HfTicdIiRWwyYPhrc=;
-        b=cBSKF2hVYrF0HZxuKqBLRwAWPwsLPFlxzDyifHVTkuHJhfZ1o56Lp83BuaADA9LZhp
-         cr0h3lXgGmjusi+eYc58HcQ3tnpD6uDZ3aknx/KvGxP+GEDofBPVDTjsLz+e8F/nvUpX
-         XtUn8440PCpG4v+LZ5/QJb542zAh28Hc37Eo5HsAvHN8wRZ9Oy5BEyB4Eg/pkqZhzeoQ
-         LeKiMtGLRXZoVhrphX7756w5KVWi51WnTXfLLrawLJsM0oZtijsWy0S4gweEMzdf3eWk
-         9CeL4K/omSlB+2cBrp57F0R0E+8VasPI/Bl561tr9uQxtO2mYEaJAatjmmaWcEfhzMsP
-         zdnw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VvqJ9+ON4xXDpAwoPDouj++c5bqCO8iuhUt2qqImzXQ=;
+        b=AD8bke9uiHjXVGcMsjsjLyUeW2lAlJNAo9Ympan3Z1yh3vcFOx0//3AkjFycGp+bUc
+         ttjne0Ue0a4C+cCktXsi8+5Sw21qhHVQA6UD+tAqDXaPe6E5/k4U7lj5vyefFnkRBG0T
+         4dlOCafXDnjWK56EHqiY3RJ54UXsgQyUpfc7kZjxRufGc5jClHpLjWuohlVsEgbjWWi4
+         D0a2NSg8U0w0Et5oJxhOX1wBqyBoLCq+k/Ozeqxa0+dfzxt3j5xQpDG76JQBZ1m8zIbm
+         flZEyBVhzfqCtlnCEd7ukwmOWseZ8Y3d2HU7dUECxnzDMwH0uAvHgNyKD0ZhP+4RY/qz
+         JeoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=gvvoPOBfVWkykAqyUtky1NyUi4HfTicdIiRWwyYPhrc=;
-        b=A8KdUR+kF3q57wsxU0imBr501NDQhDjL7pGqSTtK/kGR69kSOsFcR/Rv8wauzgBK5S
-         HrgF8Fs/1C2df4Q1TgzDadnyAR7dBqozpIuXncEG5w9WEMrQGu5ZQNHEMCrTKRgn8gxq
-         4z16mxwBCmQZfvKAAkldNXSqm4PVT3oxhopDG8oBUXm9cIW+H1MuTMRI4RVS6gwIblLc
-         AHzifLXO4fsX/1KFb8gwzIjtFUql/neTV+8bchQbEu8nlmhihj/Ae0F1GNpOwEVTmf4M
-         NXRurfuVML1l2zjz1ls7u6rfiJUmBzKgnC/ZxnQw4S2jsdhvJuQN74r4kFNPmkDJo26U
-         C9+Q==
-X-Gm-Message-State: AOAM532YEpG9DhH3Zh7hXGESfhhMmBfMhysMIOzThpZ88aFe/HHKOav0
-	rgjzGsPdaAsEOZneAIlQon5oCGN+JulPCi3+Nhg=
-X-Google-Smtp-Source: ABdhPJw47oRqHTNklJdRjSn/Sg+gRs6SMe/ECuNuC83iWyhQv8CBMrAwIR5J2ZAk5FNhxx4Bb1GsRA==
-X-Received: by 2002:a02:3003:: with SMTP id q3mr8892403jaq.4.1598811555544;
-        Sun, 30 Aug 2020 11:19:15 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.19.14
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VvqJ9+ON4xXDpAwoPDouj++c5bqCO8iuhUt2qqImzXQ=;
+        b=jnbBItge2q3/mUfZuctRss4v7qnP0EduygNxV3SVwXwnj/ya0oDt0vp3jHOFzcrhfw
+         opm9ysgwa67C5bDERdN5qPsUM3fGAUH6q4qSHR3NG0NBlyJvWo+GxgiixJUl7Q3Rv5WI
+         xMEdjV7vuFGlNJyIHISsd83ykdwqab3jz0/NzuPUCbPJQ6sym/v9A0LcBPPR536LaHKM
+         3i/cjVorXk9zo/Pl+hJ4YtWSlCxGHMXO5qrvK1HWKcuhIsvQ1jLPNWjJnXpp8JJlf1U6
+         zJwLo0e8HaHPWMJ+xZPzPEVE0zzuoeU/5ZkVmcXI7r1tHmCeTm5fFIk9WL0PfbaLZJ8L
+         LPwA==
+X-Gm-Message-State: AOAM530EKEaVmd4EGkHC4qW6DFe61Pit+a85JlrbNbFUVrsFGJTYT941
+	HDdzIyyzQ6uQN+jtzBy8qTB6fp9m0YPiyw==
+X-Google-Smtp-Source: ABdhPJyfYNY/usooa/4upcS7g9szwl2Um8WvgsjOyy4goN1euBKkMhPlZKcREda3Apu4Af/bufl2Ag==
+X-Received: by 2002:adf:fb87:: with SMTP id a7mr9015860wrr.390.1598818527474;
+        Sun, 30 Aug 2020 13:15:27 -0700 (PDT)
+Return-Path: <vvavrychuk@gmail.com>
+Received: from localhost.localdomain ([213.174.17.69])
+        by smtp.gmail.com with ESMTPSA id h5sm6969516wrc.45.2020.08.30.13.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 11:19:15 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Sun, 30 Aug 2020 13:15:26 -0700 (PDT)
+From: "Vasyl Vavrychuk" <vvavrychuk@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/25] linux-firmware: update 20200721 -> 20200817
-Date: Sun, 30 Aug 2020 08:16:19 -1000
-Message-Id: <af9564a49b12e8c7bc4fc4d1fa6c7a0df76e4c04.1598810890.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1598810890.git.steve@sakoman.com>
-References: <cover.1598810890.git.steve@sakoman.com>
+Cc: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+Subject: [PATCH] runqemu: Change virtio-vga to virtio-gpu.
+Date: Sun, 30 Aug 2020 23:15:22 +0300
+Message-Id: <20200830201522.23701-1-vvavrychuk@gmail.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+virtio-vga is available in QEMU only for hppa, i386, and ppc
+architectures. On the other hand, virtio-gpu is available for all
+architectures.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 16f2e190ef55e349512b8f70fe437b46ef1dc142)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Vasyl Vavrychuk <vvavrychuk@gmail.com>
 ---
- ...{linux-firmware_20200721.bb => linux-firmware_20200817.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200721.bb => linux-firmware_20200817.bb} (99%)
+ scripts/runqemu | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200721.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200721.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-index 659534521e..22e71059d8 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200721.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-@@ -126,7 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=7627a0ba9a78e7e556afcf15b0971016 \
-+                    file://WHENCE;md5=4d229f79f8770b5b2c4aac655b9fabef \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -198,7 +198,7 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "898c334b0da7de6ea173899beb696fad647dce0c06960d7368ba4d4e802fb860"
-+SRC_URI[sha256sum] = "76d05d5f1eff268d3b80675245fa596f557bd55ee2e16ddd54d18ffeae943887"
- 
- inherit allarch
- 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 7fb5f7db57..5d6b35ffe4 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -461,19 +461,19 @@ class BaseConfig(object):
+             elif arg == 'sdl':
+                 if 'gl' in sys.argv[1:]:
+                     self.set_dri_path()
+-                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on,show-cursor=on'
++                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=on,show-cursor=on'
+                 elif 'gl-es' in sys.argv[1:]:
+                     self.set_dri_path()
+-                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es,show-cursor=on'
++                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=es,show-cursor=on'
+                 else:
+                     self.qemu_opt_script += ' -display sdl,show-cursor=on'
+             elif arg == 'gtk':
+                 if 'gl' in sys.argv[1:]:
+                     self.set_dri_path()
+-                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=on,show-cursor=on'
++                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=on,show-cursor=on'
+                 elif 'gl-es' in sys.argv[1:]:
+                     self.set_dri_path()
+-                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=es,show-cursor=on'
++                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=es,show-cursor=on'
+                 else:
+                     self.qemu_opt_script += ' -display gtk,show-cursor=on'
+             elif arg == 'gl' or arg == 'gl-es':
+@@ -482,7 +482,7 @@ class BaseConfig(object):
+                     raise RunQemuError('Option %s also needs gtk or sdl option.' % (arg))
+             elif arg == 'egl-headless':
+                 self.set_dri_path()
+-                self.qemu_opt_script += ' -vga virtio -display egl-headless,show-cursor=on'
++                self.qemu_opt_script += ' -device virtio-gpu -display egl-headless,show-cursor=on'
+             elif arg == 'serial':
+                 self.kernel_cmdline_script += ' console=ttyS0'
+                 self.serialconsole = True
 -- 
-2.17.1
+2.23.0
 
