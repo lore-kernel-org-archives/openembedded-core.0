@@ -1,98 +1,101 @@
 Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web11.36645.1598811487159407295
+ by mx.groups.io with SMTP id smtpd.web11.36648.1598811491108555348
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 11:18:07 -0700
+ Sun, 30 Aug 2020 11:18:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ZV6JWV/C;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HrRcFtbo;
  spf=softfail (domain: sakoman.com, ip: 209.85.166.43, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f43.google.com with SMTP id d18so3784466iop.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:18:07 -0700 (PDT)
+Received: by mail-io1-f43.google.com with SMTP id g14so3854846iom.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=7DZezd9J8qioE/6wuSv51QLHiDwyQzv5Q0lptmP1aPk=;
-        b=ZV6JWV/CWruuOihbc+mJsuKoKNvlwpAOuVI1v7VPCFg1JS2IdaU+RCvY/pXTf2fZE7
-         +JjDiMea0MgR9pF1IgPnKkmQzika1uq664eJpSRSe4VtOOwxXxAmkm3SibD+hZVZzDx7
-         weA0Vnqrs4KuJrmeQgjweBTiie1FH5j4bD6UkpcdRIlJHyRIFvG0rLJO51sHv++rnpye
-         sSFwy4RORgJJVVlJkN+nxg1+Jhbpf3r3lsaQ1JlbmMkbfuVVg0ZWtOeO87B0txaX5Ku4
-         A7BkNZW4wQkAUSSjTD1N452oLlqzDUNMmWGZb54PMbO8fgiEjwTZpiO9vKeYUSab28jy
-         TTYQ==
+        bh=184Fyujj+sbaSB9wnw6tSnTkAksZpPMVSju4ywGsyYU=;
+        b=HrRcFtboBbDv6s3RkHCOG+bqJvjD1K9+O3M05rYykCmFj+biYSpkeFbXW/Udt0MtS8
+         IWny6B25YGsRlHL/RCEVrqN0k6HDOlsDIKv+zjACmJBaRlGvJzdOkzzbWR4yyadv+dwV
+         Jo1RyVduNuj2s2Thwotus/B3vvNlhxfVYDFPO+8xAeejrusS4NM7oBqS/rPGYsrKQgP/
+         f/tl4bl583sviqs1kGSKPb8oQacuTpWCWk+09OOUgvs1MwVoVC0Gv/rVqP6eQFe5HMFB
+         gqmfJiEF9KK8Nmd6usdfofOHwjiI93pG1Y2CQy4FYzZLDYv0VlEied3TrUsJOOffC/D5
+         dWrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=7DZezd9J8qioE/6wuSv51QLHiDwyQzv5Q0lptmP1aPk=;
-        b=lIDkqI1FIzfAgA0/y3i4KBJNInAwIXga0ahWpXFKyG9zkYsRmyB9J9kIceqwUfdEVk
-         b7xp7PSoh07IMqPJHICZF2L+3jq6a0LhBorGREzT6RJ+LhYJ4wjsysZpJvFHngenSZqK
-         Rn3D7ljCmGm/Zhvv1Qsg3c5cijxuWR2VZfxPVUz7xPanditV73aNI7+x04V8A8hI/+X8
-         oNd9dYS4kEVpwhhCInBUZsilfRYFZ8AV91RDD8nvL6AKXnz8reJxTlKhuB91YfnhOVVf
-         60+yYsMk48HTv/oedOBtrNABr8owoRQ9MeduKGwhhZxJHJqYIFQj8VCFNO5PHicUbiXf
-         I7Dg==
-X-Gm-Message-State: AOAM532PNhWxkve+yATVd2fC5AdPc3mH2pGcRosQDbniSMXmUCiR/moX
-	VawxeAJb/Q6vjn7CWvlbiWaqu0VzTie9vnqEo8c=
-X-Google-Smtp-Source: ABdhPJwD9Dce1l0jfwZWAzxm/5N5imB9lYxzwKCv/drtutQcjG+3btPasPbqaTAGg/Ss83KZwVI4dw==
-X-Received: by 2002:a05:6638:218a:: with SMTP id s10mr8945811jaj.117.1598811486080;
-        Sun, 30 Aug 2020 11:18:06 -0700 (PDT)
+        bh=184Fyujj+sbaSB9wnw6tSnTkAksZpPMVSju4ywGsyYU=;
+        b=FecpbQ7Zn6dsjBLbaogJR2qi8n38oR022ERRBvpBAYgJGWSWkD52BrpsGxBY/UHYen
+         KuQ/nNCFnNVrML7N2q82fMcQaYNUXXuBUebbq11/KAZy2dmSJxa9svY6WgvVET71cOz2
+         lG2dS9Dq3Myh6hwl9tCDMHEpdECttZiFStT6YohRdeVxEPpsnNL8QiBmreUW9ij3FBhm
+         6ySr7kYHpImRPntbhPPSGcRJ6gzPPZBfMpOIktg3GqDmixKtJ/76hzz9fC4DiLCfXX0n
+         TKGqBEDUTuqO4JWTc3V5Q+sDQwHCE2df1c5b60PIP9gm252Xxp4OUTOWlHDt3os/lNcm
+         QaDg==
+X-Gm-Message-State: AOAM530V07pt0sKfoMhzFogvX/YRktrpDnxgBq/cYXI1Isrv8QcN1O8B
+	Oi9SjN1WeJlJVveBnpWMK6gj5gC9/EIc6WUcy9Y=
+X-Google-Smtp-Source: ABdhPJxCbqR6sMEOtoXaljdPn5dhQTIzTdBZ93EqtVnqPbbDdYRJf3Ec8HV5XlUiSj+fn6D2jz208Q==
+X-Received: by 2002:a5d:9ed3:: with SMTP id a19mr1247385ioe.28.1598811490088;
+        Sun, 30 Aug 2020 11:18:10 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.18.03
+        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.18.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 11:18:05 -0700 (PDT)
+        Sun, 30 Aug 2020 11:18:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/25] oeqa/manual/bsp-hw.json : remove X_server_can_start_up_with_runlevel_5_boot test
-Date: Sun, 30 Aug 2020 08:15:58 -1000
-Message-Id: <2de541adc2dfc11be72446d3f80a9874f8be86c1.1598810890.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/25] package_tar.bbclass: Sync to the other package_* classes
+Date: Sun, 30 Aug 2020 08:15:59 -1000
+Message-Id: <2ac25329fd2efbfdcc2b97948cdcb3402ee497e0.1598810890.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598810890.git.steve@sakoman.com>
 References: <cover.1598810890.git.steve@sakoman.com>
 
-From: TeohJayShen <jay.shen.teoh@intel.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 
-remove the test as graphical mode is already being validated
+Sync up the anonymous python definition with the other package_*.bbclass
+files.  This should make future maintenance easier, even though it has
+no difference in behavior from what was there.
 
-Signed-off-by: TeohJayShen <jay.shen.teoh@intel.com>
+Additional, there was a missing deltask in the nopackages.bbclass related
+to the package_tar which has been corrected.  This could cause problems on
+native recipes when package_tar was enabled.
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ad5b5ca9ec1d9106911a610bb36fb98e3f17748d)
+(cherry picked from commit f87452942f6391a239b50e3f3f9fa100e74a78fa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/manual/bsp-hw.json | 22 ----------------------
- 1 file changed, 22 deletions(-)
+ meta/classes/nopackages.bbclass  | 1 +
+ meta/classes/package_tar.bbclass | 6 ++----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
-index 08132c0f97..75b89758cb 100644
---- a/meta/lib/oeqa/manual/bsp-hw.json
-+++ b/meta/lib/oeqa/manual/bsp-hw.json
-@@ -239,28 +239,6 @@
-             "summary": "connman_offline_mode_in_connman-gnome"
-         }
-     },
--    {
--        "test": {
--            "@alias": "bsps-hw.bsps-hw.X_server_can_start_up_with_runlevel_5_boot",
--            "author": [
--                {
--                    "email": "alexandru.c.georgescu@intel.com",
--                    "name": "alexandru.c.georgescu@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "boot up system with default runlevel  \n\n",
--                    "expected_results": "X server can start up well and desktop display has no problem .  \n\n"
--                },
--                "2": {
--                    "action": "type runlevel at command prompt",
--                    "expected_results": "Output:N 5"
--                }
--            },
--            "summary": "X_server_can_start_up_with_runlevel_5_boot"
--        }
--    },
-     {
-         "test": {
-             "@alias": "bsps-hw.bsps-hw.standby",
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f5078bd..7a4f632d71 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -2,6 +2,7 @@ deltask do_package
+ deltask do_package_write_rpm
+ deltask do_package_write_ipk
+ deltask do_package_write_deb
++deltask do_package_write_tar
+ deltask do_package_qa
+ deltask do_packagedata
+ deltask do_package_setscene
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
+index ce3ab4c8e2..d6c1b306fc 100644
+--- a/meta/classes/package_tar.bbclass
++++ b/meta/classes/package_tar.bbclass
+@@ -57,10 +57,8 @@ python do_package_tar () {
+ 
+ python () {
+     if d.getVar('PACKAGES') != '':
+-        deps = (d.getVarFlag('do_package_write_tar', 'depends') or "").split()
+-        deps.append('tar-native:do_populate_sysroot')
+-        deps.append('virtual/fakeroot-native:do_populate_sysroot')
+-        d.setVarFlag('do_package_write_tar', 'depends', " ".join(deps))
++        deps = ' tar-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot'
++        d.appendVarFlag('do_package_write_tar', 'depends', deps)
+         d.setVarFlag('do_package_write_tar', 'fakeroot', "1")
+ }
+ 
 -- 
 2.17.1
 
