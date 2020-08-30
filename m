@@ -1,118 +1,88 @@
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
- by mx.groups.io with SMTP id smtpd.web10.37099.1598811548368627131
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web10.37101.1598811550685766733
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 11:19:08 -0700
+ Sun, 30 Aug 2020 11:19:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qXSX7f6z;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.196, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f196.google.com with SMTP id m1so4704596ilj.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:19:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sEb1UThm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.193, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f193.google.com with SMTP id o16so4739191ilq.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 11:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=NKNgzPakwEFt58jziq5mxMyBF8f+s4J1t1JUqxxw0UI=;
-        b=qXSX7f6z3zEEK/LdxUFUG2YHEj+k+W/oQfd1BxkLRUcTqI23tTSGYroflynxLxVBFP
-         OV/2wAHg8PhSGDZkiblGsvRLz2DhATLfj2CWoCDG+rHYyjPG/SuzGKsHp/Gno2mKL6rk
-         l1EdrWECkie/w/Ih8UtwCZ7tBQh3RhoxWWDsJy0wnJPjRshXanmDkaYQdE+0cZ1KtDXk
-         4bWLi2KnxrsWkr9b6cKHPRAFu8ZMml+2gbj4mUJM5YC/8DMNuAGGDiFh05fM+6hqRUXZ
-         hFHmH9rM6jTM4RS1rb0JsKTPRYJaADMuPP53tdNyNG5Khgfqib1F2FaryJvq0Xp7T/yg
-         y3+g==
+        bh=eS9oKnjVzcO23oEmcCDGa7P4BQJ17zh9OI47ry+gbMA=;
+        b=sEb1UThmYpJdhqp1pwaFbehlf5qo7oWdcSj9BXVBiQWKFdoO23nnLDFYlua942CI+g
+         LUPlT7/8/sjTOUngYP5VnflfgZHkkmtLDT9z72yHyiuJefKdFKQdH9Z9otvd7cLAJpFd
+         xcgmjapGPCh6B6B/TtBoaZwZHuocqFjW9fXUSAGwYHMOzFYxuGLSzBGwt+o0WcrLa9eO
+         0TATqb+6CudEE0uTWd3V/GJlxvukVzz9KgVXwyy8JZ9l6d+NkDzeQDDqXTImUgWpmFNy
+         kku+SQ2jhyZNKfOgneuYHnopIwFjump7Ng7OwC0lDvVze51Fd+VPoYOCXvzDCJyPW6SJ
+         A/SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=NKNgzPakwEFt58jziq5mxMyBF8f+s4J1t1JUqxxw0UI=;
-        b=URxC3uXUdptavyFxxNs2ZCfJ0K4jugWngTe3CksJct+ylsUmumEuK+tJH4hOcORf2v
-         Fs+xk5NjkmRqoW4bSMxBbdn3Qfyclkj3LsPtLLU5aZbrFtdk1bzNb2+54L3/9xUr4qp5
-         9rsjh8hdPOmKdUe01FoJI4KJv06pkeCt6E4sVdnuasjNtAzV5AgZqlVbrGbrY8IqL++z
-         G0Rw4VY2Hu/z9Iq2eReFif/CgOwwJ6MT6WcwHRTJvX5/S9fdgYlMGzBSr+w/wtnT2hOQ
-         cw64fUWxPFwWfqnaJkzazska6p/YZU9vduDHxSxdH1tvGq4tm3EMZ8UIJFK4+g9bdr7s
-         lzvw==
-X-Gm-Message-State: AOAM533ONqvwZUvBmMG5tkdLSTx+jcJDnpzuHdirO9bOXu0J9Xk3wmKY
-	AKEZP+6JZa5/3Mk5jD6MFtvAJuBn3fiQKWUQkQU=
-X-Google-Smtp-Source: ABdhPJz7uMOYu/2UUcJpT9gPR7DZpGmDUdeiSuE2DFujJsEv1i28GJcP0/+asTmt0A2G/CyCsGuSxA==
-X-Received: by 2002:a92:a302:: with SMTP id a2mr6250017ili.116.1598811547237;
-        Sun, 30 Aug 2020 11:19:07 -0700 (PDT)
+        bh=eS9oKnjVzcO23oEmcCDGa7P4BQJ17zh9OI47ry+gbMA=;
+        b=s4JA0Q3inHt+NDqDc0gO01INb926xlI1q8l1ekDpc+gHbVXvEQWO/9ASHdJ/c5Wfx4
+         gXdOiYprzN5fnyN+zqd/sBqkBeFHQ2sF/A/PqI9KDmXjyvANPnWnv0ojtQP56mhoEogf
+         N1EaH+Sc7NdAIWvgvLsJWzyxunGEBsvpmfgweWpnPVNfyhi8kCs7NjbtcV+IvyDY8UT0
+         QOtcNre4n5lEW/KyiboVD+IAulbOFu/cUJdmDLBwOuK0GSJxVL6YCMjxS8in94HcrIrH
+         Fi0PbHlHJs6IDNhE1ULXGXkHLJxqOkD1wGhnjAa4Lxa9qZvN0ZhBT8AUdOn0DXkD+Dng
+         zYNQ==
+X-Gm-Message-State: AOAM531jo6JBTcXdfm8VwcALKWnN4KP/oyiItfqG+23n36cbE93CLFat
+	Gl3sa+RROB1nlRYgs8CjZ9jnMpyYj8gurybtZ1U=
+X-Google-Smtp-Source: ABdhPJzHhtiiUMb+wpfop2AeaO5TzTgKj9QTsVX1Ixe9/PrmZr6LkRDcDn7WASXxTS53es2DCXy2Bw==
+X-Received: by 2002:a05:6e02:e04:: with SMTP id a4mr6054076ilk.189.1598811549650;
+        Sun, 30 Aug 2020 11:19:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.19.05
+        by smtp.gmail.com with ESMTPSA id j62sm2884768iof.53.2020.08.30.11.19.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 11:19:06 -0700 (PDT)
+        Sun, 30 Aug 2020 11:19:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 22/25] kernel-yocto: checksum all modifications to available kernel fragments directories
-Date: Sun, 30 Aug 2020 08:16:16 -1000
-Message-Id: <828aa360dc91f7a22d5ab50bac145274b3ba8220.1598810890.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 23/25] kernel.bbclass: run do_symlink_kernsrc before do_patch
+Date: Sun, 30 Aug 2020 08:16:17 -1000
+Message-Id: <4425ddd70d77fa0b45ee08e405937ab5f31f16f8.1598810890.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1598810890.git.steve@sakoman.com>
 References: <cover.1598810890.git.steve@sakoman.com>
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-This is based on the patch from Zhaolong Zhang <zhangzl2013@126.com>
-[kernel-yocto: checksum indirect cfg and scc files]
+There's a race between do_symlink_kernsrc and do_populate_lic, since
+the latter is ordered "after do_patch"; so the two may run in
+parallel. In some cases, that actually causes do_populate_lic to fail
+if it happens to look for a license file somewhere under ${S} in the
+short window after shutil.move and before the symlink has been
+created.
 
-While the recommended manner to share/reuse feature fragments is to
-maintain them in a kernel-meta repository and track the changes via the
-standard SRCREV fetcher mechanism, that method is not always practical
-for small sets of features or for quick testing of changes.
+Fix that by simply ordering symlink_kernsrc before do_patch. Any task
+that pokes around in ${S} looking for files should be ordered after
+do_patch, so this should also fix similar latent races with other ad
+hoc tasks.
 
-These other flows use .scc files on the SRC_URI. It has been noted that
-config fragments or other features indirectly included by those .scc
-files will not trigger the kernel meta-data to be re-run and hence a
-build can continue with stale data (or not be triggered at all).
-
-To solve this issue, we can collect the directories that are searchable
-via FILESEXTRAPATHS and add them to the do_kernel_metadata task
-checksum.
-
-This allows modifications, additions and removals from the potential
-kernel feature directories to trigger a re-execution of the meta data
-task.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 09f4db415fb6a1398e9e9b359630043c833f6118)
+(cherry picked from commit c5dfc2586b4135cc86e91bb04fed837daf505676)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 3311f6e84e..cc8bcb909a 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -85,6 +85,21 @@ def get_machine_branch(d, default):
- 	    
-     return default
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 9e3c34ad48..9eb9bd2844 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -152,7 +152,7 @@ python do_symlink_kernsrc () {
+             shutil.move(s, kernsrc)
+             os.symlink(kernsrc, s)
+ }
+-addtask symlink_kernsrc before do_configure after do_unpack
++addtask symlink_kernsrc before do_patch after do_unpack
  
-+# returns a list of all directories that are on FILESEXTRAPATHS (and
-+# hence available to the build) that contain .scc or .cfg files
-+def get_dirs_with_fragments(d):
-+    extrapaths = []
-+    extrafiles = []
-+    extrapathsvalue = (d.getVar("FILESEXTRAPATHS") or "")
-+    # Remove default flag which was used for checking
-+    extrapathsvalue = extrapathsvalue.replace("__default:", "")
-+    extrapaths = extrapathsvalue.split(":")
-+    for path in extrapaths:
-+        if path + ":True" not in extrafiles:
-+            extrafiles.append(path + ":" + str(os.path.exists(path)))
-+
-+    return " ".join(extrafiles)
-+
- do_kernel_metadata() {
- 	set +e
- 	cd ${S}
-@@ -330,6 +345,7 @@ do_kernel_checkout[dirs] = "${S}"
- addtask kernel_checkout before do_kernel_metadata after do_symlink_kernsrc
- addtask kernel_metadata after do_validate_branches do_unpack before do_patch
- do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
-+do_kernel_metadata[file-checksums] = " ${@get_dirs_with_fragments(d)}"
- do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ inherit kernel-arch deploy
  
- do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
 -- 
 2.17.1
 
