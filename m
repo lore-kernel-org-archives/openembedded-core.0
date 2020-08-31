@@ -1,78 +1,82 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web10.57538.1598891675957084726
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.59201.1598896845311043589
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2020 09:34:36 -0700
+ Mon, 31 Aug 2020 11:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ipXXhfUk;
- spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f65.google.com with SMTP id j10so2931024qvk.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 09:34:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kjJdsdpP;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id i13so215155pjv.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 11:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LiXuKc69PaFjzYlyN3vTeVoH6LCHfzJnroe6MvZXYCo=;
-        b=ipXXhfUkDH9OTLtArVQYZTs0TW9i8da+CcscmIspd/DZ5XdEy6Oz6HqjX4hn1gtLgx
-         hCljVnS6oF97TDguyQ4jU0siZXVHGCuZmLftB+uiae0CoMk3DYCtl2F69ShjbvPJnzPw
-         8Z0pXrnTJsK4suybn7qhxiZIY1Tmk0uYLz7qbf2yYRSfSEX7zHlJOYetbJqXYejwHLND
-         IqQKIgd9xCYkUGkLGvDvH6ahjgqU09guP3GZGsEgsda8dCBafI9V5MEe14FdHGOT9LtT
-         +U/5QpYsLsWB7VpUU/vTiYQNZ4T1Lt2Ac4K/BRPl9SPKv4Bxulw0dhdofFXqmWIA8qw8
-         M9pA==
+        bh=0k9EDrxgohsS6IUb7Kgt16Z4oEoV2HmYn3ubUzwfKUs=;
+        b=kjJdsdpPEi4kIEnCwg9PzEO/XenBVVTtTyjhDYhEeYq1CNUtADF7ISZoPzVLc1A/89
+         YhYtrZQFO7gYxGJDoZAqxLx8kFXN1S8nz35vBhlQPlP+IycUX2LgkQhcB/I3fWpGi2HH
+         RY7uKEfSrsaWgHMRtcqjaxPqa6N1qSR2X0yJu003KpKHE8svSCYjVoTi1j0xKlcUmdDV
+         72be3qbaJ/I/9OZAXlp6/1ffo3WtyM4U3hduHH+LuU0o3Zk5ByPiLg2DsGCfrGbMGVEO
+         GUsHw7RH+lSnRGLR9IieDYaRXHOi2+qqxX3/gXix6zrctFJbNET6oGG/YGEWaYhQnMze
+         ncEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LiXuKc69PaFjzYlyN3vTeVoH6LCHfzJnroe6MvZXYCo=;
-        b=t7o6oHI1ZQXRqw1ZGYfsLwz3/ofJWxQGXZNA9y0aszDsY8MFxI09gX/fIiokXvJ8t9
-         YvIwPbjB1CiVdWsgTetgyZhHiyQO0d6sri+4cHiExDp7mAByhFq+nLd3f47zDKOTAUwx
-         W3AGrAhrQa3vU5Ib8pCco8ulsSAAybev33MjQ2jdEexCsL+hoUWTt08Wtn4d8C53VcWp
-         Aai/4btfBWNQTFlOeQkIC8JJ+jPV9D9QAaNyTwzLl1dBI3Zq4zeeOpjz5O+h/ddiWyxH
-         /VXtGQRgNc/KpQW3I7tiXLQuBC1MZ6Y1jvK90rqAtCxmmecF2nkXOlauzP2uBGjZJCCA
-         7/lg==
-X-Gm-Message-State: AOAM530OBetvGh/mR0QQHXCbDC7CEhu6atlV5Ekk+3TKBaAMa+JeIZ/k
-	jhmrxMfENIM9GYkXfHfPqksINmUvG1pHLw==
-X-Google-Smtp-Source: ABdhPJzZalVnUykAQzpbYCRcWl0Oze7nBUMSbWbON4Kpa4HyXHBc1exuVjXpvTTvsZ2rayJbX1qjuw==
-X-Received: by 2002:a05:6214:94c:: with SMTP id dn12mr1871278qvb.156.1598891675026;
-        Mon, 31 Aug 2020 09:34:35 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id 82sm10294472qko.106.2020.08.31.09.34.34
+        bh=0k9EDrxgohsS6IUb7Kgt16Z4oEoV2HmYn3ubUzwfKUs=;
+        b=rGbh8/j4Vo4S8CuHTci4O8tUe0qkQdhbcZrpLq65NVck9zKyAee6ro7ZKrwGOicvDc
+         jelA7seFVNAabGE4+GTztyOtL5Yj56P883PWqjVdqJql67Gfys2OOa/EJBN91pHsLT9P
+         RtVqarsL/4zY9a0XmmcHF3iE4PEF+yW9Iu9s28HnBhxK0nuL4oV52ZRWDB6m6bk2nKyA
+         rl4z2VotlOql8YD5MflWnTnyharLlcKeVBMKUyU2KnacZ+yZQkk0T1z01whe//J5zopb
+         EEhKQjA1FWplssKbEJ9kQvLi0kD8F4NrVMoZl8oIJYJb4utTzpbo3SMuIG5h8UFhCChJ
+         IzBw==
+X-Gm-Message-State: AOAM531z1Sm4KCE9kgslfys8mEHjpx36HEwf/gZdCxkchB+LjXFkdRn4
+	B2YtO8vny/67+DNzig+r7PjzbC6YoQdTMQ==
+X-Google-Smtp-Source: ABdhPJypfscQhi/QECc/Bu2DA6jiDVRWAOLmjS/ZVxbImgo2RHYtqSla/8B12aVh+BTZwImBk6UEbg==
+X-Received: by 2002:a17:90a:1910:: with SMTP id 16mr488868pjg.76.1598896844477;
+        Mon, 31 Aug 2020 11:00:44 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
+        by smtp.gmail.com with ESMTPSA id o2sm248180pjh.4.2020.08.31.11.00.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2020 09:34:34 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lttng-modules/devupstream: bump to latest 2.12 commits
-Date: Mon, 31 Aug 2020 12:34:32 -0400
-Message-Id: <20200831163432.45373-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Mon, 31 Aug 2020 11:00:44 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] util-linux: Allow update alternatives for mcookie/prlimit
+Date: Mon, 31 Aug 2020 11:00:42 -0700
+Message-Id: <20200831180042.2853986-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+mcookie is also provided by toybox
 
-Updating lttng-devupstream so we can build against kernel
-5.9+
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: Also create symlink for prlimit
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-index c2fc65e019..0e1a209ce8 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-@@ -36,7 +36,7 @@ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.1
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "11441f8f17f7825f529e2f6c54d3605771709260"
--PV_class-devupstream = "2.12.1+git${SRCPV}"
-+SRCREV_class-devupstream = "57ccbfa6a8a79c7b84394c2097efaf7935607aa5"
-+PV_class-devupstream = "2.12.2+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
+ meta/recipes-core/util-linux/util-linux_2.36.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
+index 2fac9793a2..841fa25378 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
+@@ -263,12 +263,14 @@ ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
+ ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+ ALTERNATIVE_LINK_NAME[mesg] = "${bindir}/mesg"
+ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
++ALTERNATIVE_LINK_NAME[mcookie] = "${bindir}/mcookie"
+ ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+ ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
+ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+ ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ ALTERNATIVE_LINK_NAME[nsenter] = "${bindir}/nsenter"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
++ALTERNATIVE_LINK_NAME[prlimit] = "${bindir}/prlimit"
+ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
+ ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
 -- 
-2.19.1
+2.28.0
 
