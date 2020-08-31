@@ -1,93 +1,91 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
- by mx.groups.io with SMTP id smtpd.web12.60437.1598899747293245082
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.60827.1598900241168677710
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2020 11:49:07 -0700
+ Mon, 31 Aug 2020 11:57:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=tzHic54R;
- spf=pass (domain: linaro.org, ip: 209.85.167.195, mailfrom: anibal.limon@linaro.org)
-Received: by mail-oi1-f195.google.com with SMTP id d189so1846632oig.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 11:49:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OxySsG4z;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id j11so3533052plk.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 11:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zc3XMpAwW14GPO8TcU8M5AO5NZ/6iF3xlmrR86qxUCQ=;
-        b=tzHic54RZrzFY87/nkq5UP3x8pD1682oM4OT8zN48Q4hRu+Y5NoYuOBhwyeOOwcNZn
-         F3QGwQ+mmhH275NZrTYe5ZHGy32RgWrevyoK2T2ZqGRvPJC74mgYAulF2Y9dzEkBxYEz
-         CWiRMNm3h5eMQESuIu/QIfsoZ/vakhXhOTdiCsXu0wMuvKA69Z5LIkUMU0GpTE/20Bge
-         GxCnA5Aw+OdIAMecoVGRU3UB6mmXRk5+twKTD/2j/t5TG9Wv+/TMSTW2w79ln10kzvL4
-         f16L59cP817CLW20J3Z0PaztmNSDY0KWC75r5fMAQhgkiMzDT4uSYOXnCKFxcsl9R/25
-         Ceng==
+        bh=+gi720D0USqU3ZAFRYN5BX2/egurbhuJst+05XDQqFA=;
+        b=OxySsG4zffUkr9/2LyUMWQMZNDVO0StXMa+zhJ5NYAtH/EazT5usWMMURkQyETeSDq
+         KW9eaEZNp6o08TsBc7fAEwmak7jEF7a16kk5VvjES1qQA6yVa0ygdpbWFxYLGE91juWc
+         k2eTqVCDcb9QL9tB0HAbrNfhJMnMJke2tmfiyunOHBHk3bmmLFJkHHvEZSKYQXVRyAn0
+         gVnDnzB9l+f+mgveap/+kKU6bSAgQtFZNFosc1vuL0oubcCXfSvFOk1AfDLgYLDWeCfS
+         ansS7bGIKXacKj+XPE0nF3kTv7iV0tta1ND1H9Mv/0JKAVB+0Im2NfzD7Ft4dbJWbeLp
+         GfuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zc3XMpAwW14GPO8TcU8M5AO5NZ/6iF3xlmrR86qxUCQ=;
-        b=ixEAzchMhChpjhZXmW5wCNaw744Ql/A69ibpuM6AfXohsheHydtmHBUNDHFoLE6vt6
-         n0MlJZAHp/2PgsRRR3pzmkmK0viFohvBlZW4aIt2lOBvvcQ6N1iLs9DCkNvwYkYOsn2h
-         NoLmh/y2nSI0eF4m6i9v9Gw1mGyxSFjy7XnwoPwCu+LCSFzdjMSSLqNe6Nqh/b7naGQC
-         4u6tWbfOkB2KsfAR4MKFhEFJd8413Q/elrSm2Aow2u2s/7kSOz2d1peANsE+EZeZcfSz
-         jlwbnKfnSdqwIsYjGABwfI/hrWpfnAO+4jT8grKFCLdypYRJ/evAMUH/ruHyKuHzOk7Q
-         hgFA==
-X-Gm-Message-State: AOAM531FlqVlUOzgf/glFSFr1HSAg/hu0KNwPP4raAhdWBzUW3CJFQkO
-	Hc9Z/uOAsiWO/C7EHot9Kv6OVYGQntX+Pg==
-X-Google-Smtp-Source: ABdhPJy/Ick6B5EC34H31/5r+DjiKbRRRZkXESGWaLae09BJ/PQ72kXRSwWKhU9tRYXDVEEGmLaHng==
-X-Received: by 2002:aca:1016:: with SMTP id 22mr430750oiq.63.1598899746203;
-        Mon, 31 Aug 2020 11:49:06 -0700 (PDT)
-Return-Path: <anibal.limon@linaro.org>
-Received: from blackbox.rga.ip ([2806:109f:4:c88e:908a:c7ff:fe6a:e9f5])
-        by smtp.gmail.com with ESMTPSA id r33sm800109ooi.48.2020.08.31.11.49.05
+        bh=+gi720D0USqU3ZAFRYN5BX2/egurbhuJst+05XDQqFA=;
+        b=OOcShVv1YSDHp0JW0WsdVOs89mpu9hTLxWGqrlIt/f2Ir2pzz/XOReVkJAlX7/3HZU
+         BL5CLg2nTRx/9iaYJJXZPnKveD0sIxJYkf48O5ybh2xL7PSjGceHbgFARJtsP8lrscO8
+         cWWCRN8DIugmYu+D6gDjFypBU50kTeugH2k2UKXMLHOzd0E/JdiBOruNmzI5FwfpBNI9
+         jqL9FkXOFLiXWvhOy1/f3yc/U7NLyZT4PmaGOiY26DJcf07EdZ2Rsjgb8hnlnex3Qz22
+         k5WZkEdtPP5tRU+zX0R++rI8t0DD8GKIPeYEp13B7k3Bgw4IG32Uo25tknlTb2hGNHR8
+         MgRA==
+X-Gm-Message-State: AOAM532DXyTS0UXe0wNcEz1pVsttlnXMsDv46zYw8asmCQqXRLdGuZUr
+	YmHT173TbcsMbVZBIlu9fWIynv1D7zZgiA==
+X-Google-Smtp-Source: ABdhPJwKUii1/mIPN2Z9LFXT275T2Y3p9uGV0UZ0IlL5OyPQvxbUABEYdgh1fp3JH4BlCjBYQ4XCIA==
+X-Received: by 2002:a17:90b:18e:: with SMTP id t14mr673691pjs.69.1598900240250;
+        Mon, 31 Aug 2020 11:57:20 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
+        by smtp.gmail.com with ESMTPSA id 1sm8875741pfe.70.2020.08.31.11.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2020 11:49:05 -0700 (PDT)
-From: "Anibal Limon" <anibal.limon@linaro.org>
+        Mon, 31 Aug 2020 11:57:19 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nicolas.dechesne@linaro.org,
-	alex.kanavin@gmail.com,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCH] recipes-kernel: linux-firmware add qcom-venus-{5.2,5.4} packages
-Date: Mon, 31 Aug 2020 13:49:02 -0500
-Message-Id: <20200831184903.118295-1-anibal.limon@linaro.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3] util-linux: Allow update alternatives for additional apps
+Date: Mon, 31 Aug 2020 11:57:17 -0700
+Message-Id: <20200831185717.3567273-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- .../linux-firmware/linux-firmware_20200817.bb               | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+mcookie/prlimit/uuidgen are also provided by toybox
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-index 22e71059d8..ffeb8e6926 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-@@ -291,7 +291,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-netronome-license ${PN}-netronome \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qcom-license \
--             ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
-+             ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
-              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-whence-license \
-@@ -860,6 +860,8 @@ LICENSE_${PN}-qcom-license = "Firmware-qcom"
- FILES_${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
- FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
-+FILES_${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
-+FILES_${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
- FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
- FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
-@@ -868,6 +870,8 @@ FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/c
- FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
- RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Also create symlink for prlimit
+v3: Add uuidgen
+
+ meta/recipes-core/util-linux/util-linux_2.36.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
+index 2fac9793a2..2ad00ff0a5 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
+@@ -263,12 +263,14 @@ ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
+ ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
+ ALTERNATIVE_LINK_NAME[mesg] = "${bindir}/mesg"
+ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
++ALTERNATIVE_LINK_NAME[mcookie] = "${bindir}/mcookie"
+ ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+ ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
+ ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+ ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+ ALTERNATIVE_LINK_NAME[nsenter] = "${bindir}/nsenter"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
++ALTERNATIVE_LINK_NAME[prlimit] = "${bindir}/prlimit"
+ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
+ ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
+@@ -285,6 +287,7 @@ ALTERNATIVE_LINK_NAME[taskset] = "${bindir}/taskset"
+ ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
+ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
++ALTERNATIVE_LINK_NAME[uuidgen] = "${bindir}/uuidgen"
+ ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
+ 
+ ALTERNATIVE_${PN}-doc = "\
 -- 
 2.28.0
 
