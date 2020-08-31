@@ -1,81 +1,78 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.49777.1598864926321267196
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web12.50000.1598867887019702825
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2020 02:08:46 -0700
+ Mon, 31 Aug 2020 02:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07V98EhB008133
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 02:08:35 -0700
-Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 31 Aug
- 2020 02:08:04 -0700
-From: "Yi Zhao" <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] glib-networking: add ptest
-Date: Mon, 31 Aug 2020 17:08:01 +0800
-Message-ID: <20200831090801.17033-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AYtzGFMl;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id a26so7707983ejc.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 02:58:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LyU9s3a1PVM4KVUe4j5Bjrrj0XC41BZ/9cmrdne+9q0=;
+        b=AYtzGFMlVpu/yxLluqm7rY3QLgWdRgrgXuAZgN633XKkhFVKhIiHeIMPHZvy6Rkz+K
+         ylFLryTXWA+3C9/XkjBLrqZcf6KPWBCT0rBCRYCmoJTw1RN4VGWP7YmkEc/TCP7//xFr
+         3MgE3K/PEG2l2uY5aPnmEU+G1wzNwmDaesZQ6Zbv5sWO/o7LMQD8HSy/WJYIIJiPxGTy
+         xEbjRgrxtOrmiOYXpKDhs/01qTI6w4dKyYJCaQSRNWKk9SwVeeoX0e50lOFeo2OOmgd3
+         2ywsIM4FW62JWU5RPpnFga5wuPez4KSEi8kXXn5GwDNS8wEzBdeS3rCiJTO8A9xftIk0
+         HcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LyU9s3a1PVM4KVUe4j5Bjrrj0XC41BZ/9cmrdne+9q0=;
+        b=SsPKApflcBUlpU/CrWdE88UyYKxIteKgMGPlpaBpAxyClibr/ERpBij4k14dz20EM0
+         KxwLKA/oIDgmtkU7G7Nc9xfhsfNVJVU/Lau1IZ/IBAYctLO6hYB3V8MnhsH2Gek9PyF7
+         igc6gIiBhmRlF8CbaPMGi8aZzNwjL6VxScb6LK9kew9Rq4WsGo+OW2hx81u2lTn47SNY
+         /pR9ZvFRZyK6aKsEwkMsoH9LR2Xeas2Vi/8HYHBZEehjMvkyvfAMMfhrLwUnq1DbuW8r
+         y4uvt5dXNrbvYWIS12xbs0/AtRp33oUi7rYvGu/sr8lK9l0XVxAkwak46HwdkJwZDBTc
+         pPxw==
+X-Gm-Message-State: AOAM532yrkGqJw7T2dWz1OubxBdpkuTaSpWTRrPVFuhjo3JNd2Hk3EZv
+	gIs4E5refaYbxUiRQWozG7IP2Jj2k94=
+X-Google-Smtp-Source: ABdhPJxHS3DUcqOFBa/quYkOm/DMsX0komfDg9ZwThFVpyhnhHs6rsDPTLFJSA04vbFK6ctAMfXj5Q==
+X-Received: by 2002:a17:906:fa81:: with SMTP id lt1mr335915ejb.459.1598867885127;
+        Mon, 31 Aug 2020 02:58:05 -0700 (PDT)
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from cmtcleu60844809.rd.corpintra.net ([2a02:8109:b5c0:8990:b114:707f:d9f1:179])
+        by smtp.gmail.com with ESMTPSA id n15sm7233241eja.26.2020.08.31.02.58.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2020 02:58:04 -0700 (PDT)
+From: "Changhyeok Bae" <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-Core][PATCH 1/2] iw: upgrade 5.4 -> 5.8
+Date: Mon, 31 Aug 2020 11:59:47 +0200
+Message-Id: <20200831095948.15750-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.174]
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Results:
-$ ./run-ptest
-Running test: glib-networking/connection-gnutls.test
-[snip]
-PASS: glib-networking/connection-gnutls.test
-Running test: glib-networking/file-database-gnutls.test
-[snip]
-PASS: glib-networking/file-database-gnutls.test
-Running test: glib-networking/certificate-gnutls.test
-[snip]
-PASS: glib-networking/certificate-gnutls.test
-SUMMARY: total=3; passed=3; skipped=0; failed=0; user=0.2s; system=0.0s; maxrss=12896
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- .../recipes-core/glib-networking/glib-networking/run-ptest | 3 +++
- .../recipes-core/glib-networking/glib-networking_2.64.3.bb | 7 +++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/run-ptest
+ meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} (85%)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking/run-ptest b/meta/recipes-core/glib-networking/glib-networking/run-ptest
-new file mode 100644
-index 0000000000..6d520f94f6
---- /dev/null
-+++ b/meta/recipes-core/glib-networking/glib-networking/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+gnome-desktop-testing-runner glib-networking
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-index c34ae508f6..074389f552 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-@@ -12,16 +12,19 @@ DEPENDS = "glib-2.0"
- SRC_URI[archive.md5sum] = "eb382907ec941fe2fb1a9676b75acf7a"
- SRC_URI[archive.sha256sum] = "937a06b124052813bfc0b0b86bff42016ff01067582e1aca65bb6dbe0845a168"
+diff --git a/meta/recipes-connectivity/iw/iw_5.4.bb b/meta/recipes-connectivity/iw/iw_5.8.bb
+similarity index 85%
+rename from meta/recipes-connectivity/iw/iw_5.4.bb
+rename to meta/recipes-connectivity/iw/iw_5.8.bb
+index 9f58e49709..97ca66d66f 100644
+--- a/meta/recipes-connectivity/iw/iw_5.4.bb
++++ b/meta/recipes-connectivity/iw/iw_5.8.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
--PACKAGECONFIG ??= "gnutls"
-+PACKAGECONFIG ??= "gnutls ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+-SRC_URI[md5sum] = "08a4f581a39dc62fa85d3af796d844b6"
+-SRC_URI[sha256sum] = "943cd2446a6c7242fded3766d054ab2a214a3514b9a8b7e942fed8fb13c1370c"
++SRC_URI[md5sum] = "98129d64212bdbb408f009c56ed5c62a"
++SRC_URI[sha256sum] = "cd9125c7e560926d66b09977fe0f75e5365ffd05a15df67d86a421dc76f96a96"
  
- PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
- PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
- PACKAGECONFIG[libproxy] = "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
-+PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ inherit pkgconfig
  
- EXTRA_OEMESON = "-Dgnome_proxy=disabled"
- 
- GNOMEBASEBUILDCLASS = "meson"
--inherit gnomebase gettext upstream-version-is-even gio-module-cache
-+inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
-+
-+SRC_URI += "file://run-ptest"
- 
- FILES_${PN} += "\
-                 ${libdir}/gio/modules/libgio*.so \
 -- 
-2.17.1
+2.23.0
 
