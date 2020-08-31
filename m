@@ -1,61 +1,254 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.62352.1598904193292911419
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
+ by mx.groups.io with SMTP id smtpd.web11.62116.1598904375281012305
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2020 13:03:13 -0700
+ Mon, 31 Aug 2020 13:06:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F14360C16;
-	Mon, 31 Aug 2020 20:03:11 +0000 (UTC)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Eq+Qr9fq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f67.google.com with SMTP id s29so2432469uae.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 13:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=u/BHZ1SIq96nx5TLJyOd+PWVCeOoNw4MJXy4RmYIlxw=;
+        b=Eq+Qr9fqmHpxL+ljIJ51U0dw5amrr+1CBgfx9OBX2Yf5U0ib+R5QTNhswYKflfPMKz
+         NFFKpEAu1ExwXZocTnFesuu1PWAQNAGUd20+EmPzEM+mjJUNqlShmrMTlTYHEav8TFQ7
+         ZanBoX3pHBGBJZbJoganaYJCxcDLAgyPF3UwGAa0vDjVmNiRQWidGxEnqhoEOJtV/UbH
+         ED54vNkGyzGrUGzMUCpIdnv3PilOTIs+mnH3PpMQncj5Zj/iWMs0h2lOfIt1adzwErpZ
+         moI3mw8I2YLbfHXYilRwAUpKguQ7px7WuDiM2rElXlRS25JrWIxmjO5ZCkS5fQlOA48d
+         PeRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=u/BHZ1SIq96nx5TLJyOd+PWVCeOoNw4MJXy4RmYIlxw=;
+        b=ELQ7ubYJYUVT9saHEQPrdxdcxhe7UQu6seFo85k9g0m8ssDVz2eEBSHui+8Db8ITp1
+         pfv4OwtR9/njfoBnmCEmCT64/hD7L19FnM1RwAYJ/uEabkvBFizwVPaC0cXjTZRsPtcO
+         kqhnAx9CxR9tdTJ6d3FLZQcskOIrnFEDkdp8bZSn/0VbT+7tV6uUt19OPvSFFHbCtuTO
+         DnJFzi9wZhmeqY0dyT8N4cFeMldkxPTN+UMf9clUFk1PojdCU2vTKCutHVNIpVWc/z5q
+         l2MllzY5H93Yf/lZhRG+7ZRyumwIzhjoYkmlqi6rUoCr4/LIBSFjPzA3UJ/ZhWLUq87K
+         HV0A==
+X-Gm-Message-State: AOAM531WkDK6qXPwHreGAhnWdTxcwzgZy1a9uwWj+3eNdR25i4Fsei24
+	k2IAz0jfYT0bLHWezHuMAD+lzij10UlFipBFypw=
+X-Google-Smtp-Source: ABdhPJwV0qRPfih9fQYEDRR5ipEgwzao8olXkJyckvnguxYpGben6xjoGOt3gIGtnK8WqQIeCFKPBUrsK8sDst48wiI=
+X-Received: by 2002:ab0:5396:: with SMTP id k22mr49649uaa.22.1598904374404;
+ Mon, 31 Aug 2020 13:06:14 -0700 (PDT)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IganNvbi1jOiBGaXggQ1ZFLTIwMjAtMTI3NjIgKHJldjIp?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2020 20:03:12 -0000
-Message-ID: <20200831200312.2265.52388@do>
-References: <20200831195854.3585669-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200831195854.3585669-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+References: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
+ <CANNYZj9v3sY-XcvS3Xy1G6+789BUV3PvxWxy_W2_O1XSRfRaAg@mail.gmail.com>
+ <CAGFuAuw9USqrHR0Gzskq_4HycMK-699nG6curEqA3v++wseBKA@mail.gmail.com> <CAGFuAuzhLcrN5TP0brvC29SXb6Uor=GPzsu7FMKM_LESAHtHGA@mail.gmail.com>
+In-Reply-To: <CAGFuAuzhLcrN5TP0brvC29SXb6Uor=GPzsu7FMKM_LESAHtHGA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 31 Aug 2020 22:06:02 +0200
+Message-ID: <CANNYZj9FTytpu2OWg9DKODX0UmAuucHh0tNuekaXrthxoS2Abg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: unset _PYTHON_SYSCONFIGDATA_NAME
+To: gr embeter <grembeter@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
+Content-Type: multipart/alternative; boundary="000000000000442a0f05ae31efad"
 
-== Series Details ==
+--000000000000442a0f05ae31efad
+Content-Type: text/plain; charset="UTF-8"
 
-Series: json-c: Fix CVE-2020-12762 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/25857/
-State : failure
+I just ran this on opensuse tumbleweed which has 3.8.5 - no issues.
 
-== Summary ==
+Alex
 
+On Mon, 31 Aug 2020 at 21:55, gr embeter <grembeter@gmail.com> wrote:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+> Hi
+>
+> > On Thu, Aug 27, 2020 at 4:59 PM Alexander Kanavin <
+> alex.kanavin@gmail.com> wrote:
+>
+> > Note that we already had the same patch proposed earlier and it was
+> rejected, as the problem
+> > pops up in various different places and needs to be understood and
+> solved properly.
+>
+> I did not find any patches for devtool. The patch for python3-native
+> wrapper does not look "the same".
+>
+> Does anyone else experience the same issue with devtool?
+>
+> >
+> > > Alex
+> > >
+> > > On Thu, 27 Aug 2020 at 15:11, gr embeter <grembeter@gmail.com> wrote:
+> > >>
+> > >> On Ubuntu 20.04.1 LTS with Python 3.8.2 "devtool modify" fails with
+> > >> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+> > >>
+> > >> e.g.: devtool modify --no-same-dir --branch fit u-boot
+> ~/ws/w/dtool/u-boot-fit
+> > >>
+> > >> ERROR: Error executing a python function in exec_python_func()
+> autogenerated:
+> > >>
+> > >> The stack trace of python calls that resulted in this
+> exception/failure was:
+> > >> File: 'exec_python_func() autogenerated', lineno: 2, function:
+> <module>
+> > >>      0001:
+> > >>  *** 0002:devtool_post_unpack(d)
+> > >>      0003:
+> > >>  [...]
+> > >> File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function:
+> _init_posix
+> > >>      0417:def _init_posix(vars):
+> > >>      0418:    """Initialize the module as appropriate for POSIX
+> systems."""
+> > >>      0419:    # _sysconfigdata is generated at build time, see
+> _generate_posix_vars()
+> > >>      0420:    name = _get_sysconfigdata_name()
+> > >>  *** 0421:    _temp = __import__(name, globals(), locals(),
+> ['build_time_vars'], 0)
+> > >>      0422:    build_time_vars = _temp.build_time_vars
+> > >>      0423:    vars.update(build_time_vars)
+> > >>      0424:
+> > >>      0425:def _init_non_posix(vars):
+> > >> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+> > >>
+> > >> It happens because u-boot (and likely other recipes) eventually
+> inherits
+> > >> python3native.bbclass that sets
+> _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+> > >> and this affects host Python.
+> > >>
+> > >> Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.
+> > >>
+> > >> Signed-off-by: Grygorii Tertychnyi <
+> grygorii.tertychnyi@leica-geosystems.com>
+> > >> ---
+> > >>  meta/classes/devtool-source.bbclass | 2 ++
+> > >>  1 file changed, 2 insertions(+)
+> > >>
+> > >> diff --git a/meta/classes/devtool-source.bbclass
+> b/meta/classes/devtool-source.bbclass
+> > >> index 280d6009f3c2..95d6fe7a29e8 100644
+> > >> --- a/meta/classes/devtool-source.bbclass
+> > >> +++ b/meta/classes/devtool-source.bbclass
+> > >> @@ -22,6 +22,8 @@
+> > >>  DEVTOOL_TEMPDIR ?= ""
+> > >>  DEVTOOL_PATCH_SRCDIR = "${DEVTOOL_TEMPDIR}/patchworkdir"
+> > >>
+> > >> +# host Python fails to import correct _sysconfigdata if this
+> variable is set
+> > >> +_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
+> > >>
+> > >>  python() {
+> > >>      tempdir = d.getVar('DEVTOOL_TEMPDIR')
+> > >> --
+> > >> 2.25.1
+>
 
+--000000000000442a0f05ae31efad
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>I just ran this on opensuse tumbleweed which has 3.8.=
+5 - no issues.</div><div><br></div><div>Alex<br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 31 Aug 2020 =
+at 21:55, gr embeter &lt;<a href=3D"mailto:grembeter@gmail.com">grembeter@g=
+mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Hi<br>
+<br>
+&gt; On Thu, Aug 27, 2020 at 4:59 PM Alexander Kanavin &lt;<a href=3D"mailt=
+o:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; =
+wrote:<br>
+<br>
+&gt; Note that we already had the same patch proposed earlier and it was re=
+jected, as the problem<br>
+&gt; pops up in various different places and needs to be understood and sol=
+ved properly.<br>
+<br>
+I did not find any patches for devtool. The patch for python3-native<br>
+wrapper does not look &quot;the same&quot;.<br>
+<br>
+Does anyone else experience the same issue with devtool?<br>
+<br>
+&gt;<br>
+&gt; &gt; Alex<br>
+&gt; &gt;<br>
+&gt; &gt; On Thu, 27 Aug 2020 at 15:11, gr embeter &lt;<a href=3D"mailto:gr=
+embeter@gmail.com" target=3D"_blank">grembeter@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On Ubuntu 20.04.1 LTS with Python 3.8.2 &quot;devtool modify&=
+quot; fails with<br>
+&gt; &gt;&gt; Exception: ModuleNotFoundError: No module named &#39;_sysconf=
+igdata&#39;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; e.g.: devtool modify --no-same-dir --branch fit u-boot ~/ws/w=
+/dtool/u-boot-fit<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; ERROR: Error executing a python function in exec_python_func(=
+) autogenerated:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; The stack trace of python calls that resulted in this excepti=
+on/failure was:<br>
+&gt; &gt;&gt; File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, =
+function: &lt;module&gt;<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
+&gt; &gt;&gt;=C2=A0 *** 0002:devtool_post_unpack(d)<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
+&gt; &gt;&gt;=C2=A0 [...]<br>
+&gt; &gt;&gt; File: &#39;/usr/lib/python3.8/sysconfig.py&#39;, lineno: 421,=
+ function: _init_posix<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0417:def _init_posix(vars):<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0418:=C2=A0 =C2=A0 &quot;&quot;&quot;Init=
+ialize the module as appropriate for POSIX systems.&quot;&quot;&quot;<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0419:=C2=A0 =C2=A0 # _sysconfigdata is ge=
+nerated at build time, see _generate_posix_vars()<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0420:=C2=A0 =C2=A0 name =3D _get_sysconfi=
+gdata_name()<br>
+&gt; &gt;&gt;=C2=A0 *** 0421:=C2=A0 =C2=A0 _temp =3D __import__(name, globa=
+ls(), locals(), [&#39;build_time_vars&#39;], 0)<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0422:=C2=A0 =C2=A0 build_time_vars =3D _t=
+emp.build_time_vars<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0423:=C2=A0 =C2=A0 vars.update(build_time=
+_vars)<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0424:<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 0425:def _init_non_posix(vars):<br>
+&gt; &gt;&gt; Exception: ModuleNotFoundError: No module named &#39;_sysconf=
+igdata&#39;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; It happens because u-boot (and likely other recipes) eventual=
+ly inherits<br>
+&gt; &gt;&gt; python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME=3D=
+&quot;_sysconfigdata&quot;<br>
+&gt; &gt;&gt; and this affects host Python.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completel=
+y.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Signed-off-by: Grygorii Tertychnyi &lt;<a href=3D"mailto:gryg=
+orii.tertychnyi@leica-geosystems.com" target=3D"_blank">grygorii.tertychnyi=
+@leica-geosystems.com</a>&gt;<br>
+&gt; &gt;&gt; ---<br>
+&gt; &gt;&gt;=C2=A0 meta/classes/devtool-source.bbclass | 2 ++<br>
+&gt; &gt;&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; diff --git a/meta/classes/devtool-source.bbclass b/meta/class=
+es/devtool-source.bbclass<br>
+&gt; &gt;&gt; index 280d6009f3c2..95d6fe7a29e8 100644<br>
+&gt; &gt;&gt; --- a/meta/classes/devtool-source.bbclass<br>
+&gt; &gt;&gt; +++ b/meta/classes/devtool-source.bbclass<br>
+&gt; &gt;&gt; @@ -22,6 +22,8 @@<br>
+&gt; &gt;&gt;=C2=A0 DEVTOOL_TEMPDIR ?=3D &quot;&quot;<br>
+&gt; &gt;&gt;=C2=A0 DEVTOOL_PATCH_SRCDIR =3D &quot;${DEVTOOL_TEMPDIR}/patch=
+workdir&quot;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; +# host Python fails to import correct _sysconfigdata if this=
+ variable is set<br>
+&gt; &gt;&gt; +_PYTHON_SYSCONFIGDATA_NAME[unexport] =3D &quot;1&quot;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;=C2=A0 python() {<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 tempdir =3D d.getVar(&#39;DEVTOOL_TEMPDIR=
+&#39;)<br>
+&gt; &gt;&gt; --<br>
+&gt; &gt;&gt; 2.25.1<br>
+</blockquote></div>
 
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        Hunk is shorter than expected
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  dunfell (currently at bec0a45393)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--000000000000442a0f05ae31efad--
