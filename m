@@ -1,91 +1,117 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.60827.1598900241168677710
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web10.62159.1598903703248276667
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2020 11:57:21 -0700
+ Mon, 31 Aug 2020 12:55:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OxySsG4z;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id j11so3533052plk.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 11:57:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=U+wm5uIx;
+ spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: grembeter@gmail.com)
+Received: by mail-qv1-f68.google.com with SMTP id h1so1685590qvo.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 12:55:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+gi720D0USqU3ZAFRYN5BX2/egurbhuJst+05XDQqFA=;
-        b=OxySsG4zffUkr9/2LyUMWQMZNDVO0StXMa+zhJ5NYAtH/EazT5usWMMURkQyETeSDq
-         KW9eaEZNp6o08TsBc7fAEwmak7jEF7a16kk5VvjES1qQA6yVa0ygdpbWFxYLGE91juWc
-         k2eTqVCDcb9QL9tB0HAbrNfhJMnMJke2tmfiyunOHBHk3bmmLFJkHHvEZSKYQXVRyAn0
-         gVnDnzB9l+f+mgveap/+kKU6bSAgQtFZNFosc1vuL0oubcCXfSvFOk1AfDLgYLDWeCfS
-         ansS7bGIKXacKj+XPE0nF3kTv7iV0tta1ND1H9Mv/0JKAVB+0Im2NfzD7Ft4dbJWbeLp
-         GfuQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EXNjP6c7UegfT4eZVo561ilXUg3VNIxroNhIelg48A4=;
+        b=U+wm5uIxO3lN2EUqAguTl1IK4OokSwqwEzqWaJ7HsAotLfb1/8pOjPwkuOnypy4/Gw
+         YWOWBZ8ZeisccqcmusY329PdcEYrCvNsr1i59rSwxeVHv7GMk3wCgDWTxro5uYXPzS8m
+         LniJzhKilY97TPEmip0MOOhp9XwiiBi6v0hNlCx4imLtdI/dOA4YZYZAeP9LoSoEDUpE
+         E5scWhjXEB9N6YAMMqItBYlTUrnEM3BeiO5WL6eVr+FVKtcdhVTwJ2PmglO570VDHq7g
+         QOHIfR4t77xxpjuQ9vnWMVCACgZ5p2JV0409TwXBubaxAsz2FYTtB+FTdWJ+/Z8zYnEN
+         AgXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+gi720D0USqU3ZAFRYN5BX2/egurbhuJst+05XDQqFA=;
-        b=OOcShVv1YSDHp0JW0WsdVOs89mpu9hTLxWGqrlIt/f2Ir2pzz/XOReVkJAlX7/3HZU
-         BL5CLg2nTRx/9iaYJJXZPnKveD0sIxJYkf48O5ybh2xL7PSjGceHbgFARJtsP8lrscO8
-         cWWCRN8DIugmYu+D6gDjFypBU50kTeugH2k2UKXMLHOzd0E/JdiBOruNmzI5FwfpBNI9
-         jqL9FkXOFLiXWvhOy1/f3yc/U7NLyZT4PmaGOiY26DJcf07EdZ2Rsjgb8hnlnex3Qz22
-         k5WZkEdtPP5tRU+zX0R++rI8t0DD8GKIPeYEp13B7k3Bgw4IG32Uo25tknlTb2hGNHR8
-         MgRA==
-X-Gm-Message-State: AOAM532DXyTS0UXe0wNcEz1pVsttlnXMsDv46zYw8asmCQqXRLdGuZUr
-	YmHT173TbcsMbVZBIlu9fWIynv1D7zZgiA==
-X-Google-Smtp-Source: ABdhPJwKUii1/mIPN2Z9LFXT275T2Y3p9uGV0UZ0IlL5OyPQvxbUABEYdgh1fp3JH4BlCjBYQ4XCIA==
-X-Received: by 2002:a17:90b:18e:: with SMTP id t14mr673691pjs.69.1598900240250;
-        Mon, 31 Aug 2020 11:57:20 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
-        by smtp.gmail.com with ESMTPSA id 1sm8875741pfe.70.2020.08.31.11.57.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2020 11:57:19 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3] util-linux: Allow update alternatives for additional apps
-Date: Mon, 31 Aug 2020 11:57:17 -0700
-Message-Id: <20200831185717.3567273-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EXNjP6c7UegfT4eZVo561ilXUg3VNIxroNhIelg48A4=;
+        b=XZEtY0W5tDs0z+38WiQT3xLRvCpwfuQjBsZJpphqb4rFVyF8D+5CtTnVtMqEzFuU98
+         rUyuGIv3eDY6Mbie1hVa6DySb3KMYF9s3N0OYhZqlHZImO5LL0w4yq2KOmwWsBPfYWbv
+         TPlYlFrq4VagW11Yp4aoXfQODBog5QntFv9yG9Ga6BXfpYTu/JJub0vkShWGjQb2v4PR
+         dY75vrSYHbkp7Qbx/MLxtpsnr5NoO+hs8j6sTo7BJsKSp5azBxQQhvIYi8JuU6fBQjgW
+         a+oEQ4PdMbd4cUb56+zN9+XptGYnoCup7rQRhd2zFHbsSPUaL2lCg7xMBH+sjfQT09rq
+         1Y2w==
+X-Gm-Message-State: AOAM532M+2gdIrhXuFhfP4bvSGHAmGMuQNzovzOgKLMajOXHY+TocCP0
+	p5oyyhTk8xxxNDPxQYjm556U1ECV97kL4QXXqH4=
+X-Google-Smtp-Source: ABdhPJy3ka+4RVPnuNV/C2uV0ZrmWkGDa4t7zgZzh5MynjUyoqi4R9RLsnH4lW6vv7w9cn/uFJEpAoXk8rOm9Lj1PKY=
+X-Received: by 2002:a0c:db09:: with SMTP id d9mr2768600qvk.142.1598903702442;
+ Mon, 31 Aug 2020 12:55:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200827131040.439308-1-grygorii.tertychnyi@leica-geosystems.com>
+ <CANNYZj9v3sY-XcvS3Xy1G6+789BUV3PvxWxy_W2_O1XSRfRaAg@mail.gmail.com> <CAGFuAuw9USqrHR0Gzskq_4HycMK-699nG6curEqA3v++wseBKA@mail.gmail.com>
+In-Reply-To: <CAGFuAuw9USqrHR0Gzskq_4HycMK-699nG6curEqA3v++wseBKA@mail.gmail.com>
+From: "gr embeter" <grembeter@gmail.com>
+Date: Mon, 31 Aug 2020 21:54:51 +0200
+Message-ID: <CAGFuAuzhLcrN5TP0brvC29SXb6Uor=GPzsu7FMKM_LESAHtHGA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: unset _PYTHON_SYSCONFIGDATA_NAME
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
+Content-Type: text/plain; charset="UTF-8"
 
-mcookie/prlimit/uuidgen are also provided by toybox
+Hi
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Also create symlink for prlimit
-v3: Add uuidgen
+> On Thu, Aug 27, 2020 at 4:59 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 
- meta/recipes-core/util-linux/util-linux_2.36.bb | 3 +++
- 1 file changed, 3 insertions(+)
+> Note that we already had the same patch proposed earlier and it was rejected, as the problem
+> pops up in various different places and needs to be understood and solved properly.
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
-index 2fac9793a2..2ad00ff0a5 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
-@@ -263,12 +263,14 @@ ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
- ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
- ALTERNATIVE_LINK_NAME[mesg] = "${bindir}/mesg"
- ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
-+ALTERNATIVE_LINK_NAME[mcookie] = "${bindir}/mcookie"
- ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
- ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
- ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
- ALTERNATIVE_LINK_NAME[nsenter] = "${bindir}/nsenter"
- ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
-+ALTERNATIVE_LINK_NAME[prlimit] = "${bindir}/prlimit"
- ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
- ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
- ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
-@@ -285,6 +287,7 @@ ALTERNATIVE_LINK_NAME[taskset] = "${bindir}/taskset"
- ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
- ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
- ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
-+ALTERNATIVE_LINK_NAME[uuidgen] = "${bindir}/uuidgen"
- ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
- 
- ALTERNATIVE_${PN}-doc = "\
--- 
-2.28.0
+I did not find any patches for devtool. The patch for python3-native
+wrapper does not look "the same".
 
+Does anyone else experience the same issue with devtool?
+
+>
+> > Alex
+> >
+> > On Thu, 27 Aug 2020 at 15:11, gr embeter <grembeter@gmail.com> wrote:
+> >>
+> >> On Ubuntu 20.04.1 LTS with Python 3.8.2 "devtool modify" fails with
+> >> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+> >>
+> >> e.g.: devtool modify --no-same-dir --branch fit u-boot ~/ws/w/dtool/u-boot-fit
+> >>
+> >> ERROR: Error executing a python function in exec_python_func() autogenerated:
+> >>
+> >> The stack trace of python calls that resulted in this exception/failure was:
+> >> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+> >>      0001:
+> >>  *** 0002:devtool_post_unpack(d)
+> >>      0003:
+> >>  [...]
+> >> File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: _init_posix
+> >>      0417:def _init_posix(vars):
+> >>      0418:    """Initialize the module as appropriate for POSIX systems."""
+> >>      0419:    # _sysconfigdata is generated at build time, see _generate_posix_vars()
+> >>      0420:    name = _get_sysconfigdata_name()
+> >>  *** 0421:    _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+> >>      0422:    build_time_vars = _temp.build_time_vars
+> >>      0423:    vars.update(build_time_vars)
+> >>      0424:
+> >>      0425:def _init_non_posix(vars):
+> >> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+> >>
+> >> It happens because u-boot (and likely other recipes) eventually inherits
+> >> python3native.bbclass that sets _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+> >> and this affects host Python.
+> >>
+> >> Hence, unset _PYTHON_SYSCONFIGDATA_NAME for devtool completely.
+> >>
+> >> Signed-off-by: Grygorii Tertychnyi <grygorii.tertychnyi@leica-geosystems.com>
+> >> ---
+> >>  meta/classes/devtool-source.bbclass | 2 ++
+> >>  1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/meta/classes/devtool-source.bbclass b/meta/classes/devtool-source.bbclass
+> >> index 280d6009f3c2..95d6fe7a29e8 100644
+> >> --- a/meta/classes/devtool-source.bbclass
+> >> +++ b/meta/classes/devtool-source.bbclass
+> >> @@ -22,6 +22,8 @@
+> >>  DEVTOOL_TEMPDIR ?= ""
+> >>  DEVTOOL_PATCH_SRCDIR = "${DEVTOOL_TEMPDIR}/patchworkdir"
+> >>
+> >> +# host Python fails to import correct _sysconfigdata if this variable is set
+> >> +_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
+> >>
+> >>  python() {
+> >>      tempdir = d.getVar('DEVTOOL_TEMPDIR')
+> >> --
+> >> 2.25.1
