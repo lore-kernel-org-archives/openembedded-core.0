@@ -1,75 +1,81 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.47180.1598851217724469933
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.49777.1598864926321267196
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 22:20:17 -0700
+ Mon, 31 Aug 2020 02:08:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vLlS4UJQ;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 5so5086pgl.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 22:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4+E++Wwnmd8aX2P04+isl18OnSp0tti4EFcp/Pnu3xY=;
-        b=vLlS4UJQHr4YzYpYjZzqWJkvjpijymUFAPtR9wTcIYUpCYK5BaJwwxGav5EGwHEh+t
-         pd66N1V814fdXbJN9MLmchcwMrL1co32WXOYY8Jnlsa794V2kG2N+qEcaVJDnt9Ub+6F
-         8QiJKvB496oJgpV7YetZFwWnJbleaZ/qJ1E1rYKaismrygdEdQTEvG1ufKbbDSsF7hft
-         hZQ68C2vCPgZut5Ei+VdaXIjFTws79KhhqG9uiOiWpjRI3D/K2Kznhg+8Eo80GgsGrX6
-         iJ2Pq6FSqimHw6SKX7I6Voi84q/nSXA6cFrI1xmjeQV5NqkfOgBY8d8Gj49F0hGM5xDE
-         tOUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4+E++Wwnmd8aX2P04+isl18OnSp0tti4EFcp/Pnu3xY=;
-        b=r9EXmrSwEBmfipLkzS23HX2IA9QsxGaM48tJGb48pH07/0Z8CkzXtezpDJ3bFqJ0tj
-         PeVC7Gh4X5TynaWqqqasVPJ9fePMclp5qnaAR2psCDTXo8uPVjid+EfCgpQJ4WKxTnlu
-         a1QVW2PDuie/MdKQC5KI4gm2l9OU4vkDZkKtxQ/4WalQwvnUI4pLR96G0W4fUPplqP9Q
-         Gbx4ueS+7fyQhaBYv1SahwZSFHodMGyToHIpmYbdr7KHOu3F2Kl9b6kY05+rJHOOTE3E
-         nXKZnfwxDftNBfCpXRXufUMrdC87OrOe7GlRWYi1WBR3HBz695iiTBGEH32WWFxb6xQf
-         mhjw==
-X-Gm-Message-State: AOAM533MD9xIkqZmYjjwyd1LRPutcguRT3v+FDNS3Vaf5XaAeXiOD2wP
-	Lp6Q0J06c+XEpzMKaZ6cDa3uhO2VStJa3A==
-X-Google-Smtp-Source: ABdhPJzJjJcY2Lw+EBrn7yKOg4AkkZkeI6/Z/4/tqDsUyM3oZb9D4vkkTM3JqIK97gxXB2IXLpCJZQ==
-X-Received: by 2002:a63:490f:: with SMTP id w15mr3839061pga.323.1598851216993;
-        Sun, 30 Aug 2020 22:20:16 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
-        by smtp.gmail.com with ESMTPSA id r123sm2779674pfc.187.2020.08.30.22.20.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 22:20:16 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] util-linux: Allow update alternatives for mcookie
-Date: Sun, 30 Aug 2020 22:20:11 -0700
-Message-Id: <20200831052011.955722-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200831052011.955722-1-raj.khem@gmail.com>
-References: <20200831052011.955722-1-raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07V98EhB008133
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2020 02:08:35 -0700
+Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 31 Aug
+ 2020 02:08:04 -0700
+From: "Yi Zhao" <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] glib-networking: add ptest
+Date: Mon, 31 Aug 2020 17:08:01 +0800
+Message-ID: <20200831090801.17033-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [128.224.162.174]
+Content-Type: text/plain
 
-mcookie is also provided by toybox
+Results:
+$ ./run-ptest
+Running test: glib-networking/connection-gnutls.test
+[snip]
+PASS: glib-networking/connection-gnutls.test
+Running test: glib-networking/file-database-gnutls.test
+[snip]
+PASS: glib-networking/file-database-gnutls.test
+Running test: glib-networking/certificate-gnutls.test
+[snip]
+PASS: glib-networking/certificate-gnutls.test
+SUMMARY: total=3; passed=3; skipped=0; failed=0; user=0.2s; system=0.0s; maxrss=12896
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux_2.36.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../recipes-core/glib-networking/glib-networking/run-ptest | 3 +++
+ .../recipes-core/glib-networking/glib-networking_2.64.3.bb | 7 +++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/glib-networking/glib-networking/run-ptest
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
-index 2fac9793a2..7a88285fbf 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
-@@ -263,6 +263,7 @@ ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
- ALTERNATIVE_LINK_NAME[losetup] = "${base_sbindir}/losetup"
- ALTERNATIVE_LINK_NAME[mesg] = "${bindir}/mesg"
- ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
-+ALTERNATIVE_LINK_NAME[mcookie] = "${bindir}/mcookie"
- ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
- ALTERNATIVE_LINK_NAME[mount] = "${base_bindir}/mount"
- ALTERNATIVE_LINK_NAME[mountpoint] = "${base_bindir}/mountpoint"
+diff --git a/meta/recipes-core/glib-networking/glib-networking/run-ptest b/meta/recipes-core/glib-networking/glib-networking/run-ptest
+new file mode 100644
+index 0000000000..6d520f94f6
+--- /dev/null
++++ b/meta/recipes-core/glib-networking/glib-networking/run-ptest
+@@ -0,0 +1,3 @@
++#! /bin/sh
++
++gnome-desktop-testing-runner glib-networking
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
+index c34ae508f6..074389f552 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
+@@ -12,16 +12,19 @@ DEPENDS = "glib-2.0"
+ SRC_URI[archive.md5sum] = "eb382907ec941fe2fb1a9676b75acf7a"
+ SRC_URI[archive.sha256sum] = "937a06b124052813bfc0b0b86bff42016ff01067582e1aca65bb6dbe0845a168"
+ 
+-PACKAGECONFIG ??= "gnutls"
++PACKAGECONFIG ??= "gnutls ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ 
+ PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
+ PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
+ PACKAGECONFIG[libproxy] = "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
++PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+ EXTRA_OEMESON = "-Dgnome_proxy=disabled"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+-inherit gnomebase gettext upstream-version-is-even gio-module-cache
++inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
++
++SRC_URI += "file://run-ptest"
+ 
+ FILES_${PN} += "\
+                 ${libdir}/gio/modules/libgio*.so \
 -- 
-2.28.0
+2.17.1
 
