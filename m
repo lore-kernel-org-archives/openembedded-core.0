@@ -1,91 +1,72 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web10.47468.1598851215867686339
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.47179.1598851216909629775
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 22:20:15 -0700
+ Sun, 30 Aug 2020 22:20:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7BHZk5R;
- spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f195.google.com with SMTP id o20so1075726pfp.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 22:20:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PknWLtgg;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id j11so2467767plk.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 22:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0JuFoWuDelorsbISvFSdzHufosVggB37/IFOpY72OiA=;
-        b=J7BHZk5RxO0zsOx4bUkI85kF2jNjqLkK9kxfkQwD7E+I2EDjtndJpMm95Y4q8IFws0
-         0/zpO/QzCF8ki3hc/CWtdxBGzw0Ng1Nu1Zh5pRQcqtQKBORhbkZGQX9LEfb9Qk1yT2PR
-         ObUqrlatz3l9XU3J2J0+I9B9jIW12Xkxt+7XaxFJiydOQM/dKkyzUiHVGpiGOXJ7DCK7
-         jKuSwipP63YTLk1LKVoMk1O83YGrFyze/V62Zj5+hwbiFSOnsHGn0xHQy4XOzVOMn/Y7
-         L8A3acQgOXiUyRFKup3OVrNI8R1dDCcrHoQMveOQtJrFz5d1a0cZ1JqzIsMBopj6ZUCW
-         5xrw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=OpdttxHl26pdEEqwZgvCl4Xgl0RF6K+vnte9+q1cnts=;
+        b=PknWLtggHDX9sSaal7v2HV7uwp0fEsi8eMYUIJWQnrVLfTs+3hI7Wo9jUYFh9En8mz
+         YGKXO6sYzIts+T4kVYbzvRpJMcSo86X/E8i1VMYFM3VM7G2+50qZL6jFPLl7LtMkPxYs
+         unMwUQgFqxheDOMwOUfq0au5Kn2iutyPKdIybcRD4iJ+01eqIjDRfiZWjWmKmBEyzBJD
+         eSrAXGw1w5FnGUR6be7O8ulTVTu779eonZiRU9szBzRfLBh2CLSOVOraF2OU54dyyUwf
+         APOJloEu6sRpljhQntjdYMq2iYSOLvrUj641IR8yHzfomIfSTOBOe200btevuAewPelj
+         A8aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0JuFoWuDelorsbISvFSdzHufosVggB37/IFOpY72OiA=;
-        b=LT4rDLDuD8swIOLJZQfZOPXILhLee2loPGAzUrgIn8QrRo2sI9oKd2HSFpFHJwEVPP
-         xk8WbDUz4zvqhU3578/MKY0jAOH75q7SDd3s4bDLmF0ohtoTc+xjnMve+j8yNrWkPN6+
-         0MKOZtkW5Rtn++Kv3vlTxWlldcwFkcleOhifJEKFJO9MdSlrNrquAazcjhDZeBTsh8pG
-         2uukx34lEiFs4B4yI0umst9XSORTcSlgpxfzClnpSvHAI+WJGPpNMVLwQ1DhnjEkXMJ5
-         9LzOzcgZoZua3ZsAd3EHfAQcTJzsyF6d+ja0gQHj37oYbCge6igRMYELJ823iE6xv/Gt
-         dkLw==
-X-Gm-Message-State: AOAM532QIV8oMufS/KDIFZ2khBAxCFgDMB2k2n1cqJxeao4D+qT2d97p
-	nq7yWGYp9o53QV5dHk9kZyOQFL0jGOimXQ==
-X-Google-Smtp-Source: ABdhPJyLP45Wj6CmBCFAtqRqUpk0rwY6RKSL5Gqg6OjyABoN/u32uCZfk9hCMSUvz1BCRF33ygqdkA==
-X-Received: by 2002:a63:4e10:: with SMTP id c16mr28952pgb.54.1598851214987;
-        Sun, 30 Aug 2020 22:20:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OpdttxHl26pdEEqwZgvCl4Xgl0RF6K+vnte9+q1cnts=;
+        b=bvcv3aGiiydarA7KO4FS7NfDOhS+5OvW4W5fLUgfZ1rRRq+UFzM/fbgg/UGwoYzWe4
+         F64ui1wMwWG9W+109yveFvYPylrv6Da0iTlcBJwjc6NnWmHoquRpl0mF9Fs6pLw1wBit
+         urfrlS/JECga1qNZ4xNY1N5Z6ZmRARRDqY5CxkdsdjoKADadPtQ0aajRyOHmQEQMBn8r
+         YqxWIvdsyCUre6Kn0Wk9t8DFQyMtbAlAOkt3rJqKoojywRKkDfppQAwF387j5t3HYfaI
+         MCzLeBOQ+Xh+c3zhQLpaA4nQh7bOJId1kcOqQIJgITjid8aDBfR2x2Bsi+ZOFdY4pBsn
+         XltQ==
+X-Gm-Message-State: AOAM5329h78HeFN50BDhd9Nrgol1TT7MoC6ZjKtsKCPE4lapFFr/HYWP
+	QcnomCL95fkVNUZCiFqWARRQ4Rr9O2EhuA==
+X-Google-Smtp-Source: ABdhPJwL2NL9UQ9SLnStsS69AVqQHkXnDE4YRLsqaWjq/kkN+AxgYrR8jN9XGHsmgUq41Ta8eobq7w==
+X-Received: by 2002:a17:902:9a92:: with SMTP id w18mr7464077plp.169.1598851216067;
+        Sun, 30 Aug 2020 22:20:16 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
-        by smtp.gmail.com with ESMTPSA id r123sm2779674pfc.187.2020.08.30.22.20.13
+        by smtp.gmail.com with ESMTPSA id r123sm2779674pfc.187.2020.08.30.22.20.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 22:20:14 -0700 (PDT)
+        Sun, 30 Aug 2020 22:20:15 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH 1/3] gtk+3: Revert "gtk+3: fix reproducible build failure"
-Date: Sun, 30 Aug 2020 22:20:09 -0700
-Message-Id: <20200831052011.955722-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/3] lttng-tools: lttng-ust works on riscv64
+Date: Sun, 30 Aug 2020 22:20:10 -0700
+Message-Id: <20200831052011.955722-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200831052011.955722-1-raj.khem@gmail.com>
+References: <20200831052011.955722-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that we have updated to 3.24.22, the needed fix [1] is in and this
-change is no longer needed
-
-This reverts commit c2e0b0785b8098dbe562e88f54b679ca87626937.
-
-[1] https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc | 8 --------
- 1 file changed, 8 deletions(-)
+ meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 8d5edb7ee8..e1ecf504a0 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -1,4 +1,3 @@
--
- SUMMARY = "Multi-platform toolkit for creating GUIs"
- DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
- set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
-@@ -32,13 +31,6 @@ do_configure_prepend() {
-     ln -s ${TARGET_PREFIX}libtool libtool
-     #delete a file that will get confused with generated one in ${B}
-     rm -f ${S}/gtk/gtktypefuncs.c
--
--    # These files are generated by wayland-scanner but will race over modification
--    # time between the copies in the sysroot from wayland-protocols and the copy
--    # in the source tree. Solve the race by deleting so they need to be regenerated.
--    # 3.24.22 will not be shipping these files so this can be deleted then:
--    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
--    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+index f7e6ec2cba..0787e04d19 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+@@ -164,6 +164,3 @@ do_install_ptest () {
+         esac
+     done
  }
- 
- EXTRA_OECONF += " \
+-
+-COMPATIBLE_HOST_riscv64 = "null"
+-
 -- 
 2.28.0
 
