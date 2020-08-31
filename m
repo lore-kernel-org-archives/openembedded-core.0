@@ -1,61 +1,91 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.44304.1598837558037913520
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web10.47468.1598851215867686339
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2020 18:32:38 -0700
+ Sun, 30 Aug 2020 22:20:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B7BF160B71;
-	Mon, 31 Aug 2020 01:32:35 +0000 (UTC)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J7BHZk5R;
+ spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f195.google.com with SMTP id o20so1075726pfp.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2020 22:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0JuFoWuDelorsbISvFSdzHufosVggB37/IFOpY72OiA=;
+        b=J7BHZk5RxO0zsOx4bUkI85kF2jNjqLkK9kxfkQwD7E+I2EDjtndJpMm95Y4q8IFws0
+         0/zpO/QzCF8ki3hc/CWtdxBGzw0Ng1Nu1Zh5pRQcqtQKBORhbkZGQX9LEfb9Qk1yT2PR
+         ObUqrlatz3l9XU3J2J0+I9B9jIW12Xkxt+7XaxFJiydOQM/dKkyzUiHVGpiGOXJ7DCK7
+         jKuSwipP63YTLk1LKVoMk1O83YGrFyze/V62Zj5+hwbiFSOnsHGn0xHQy4XOzVOMn/Y7
+         L8A3acQgOXiUyRFKup3OVrNI8R1dDCcrHoQMveOQtJrFz5d1a0cZ1JqzIsMBopj6ZUCW
+         5xrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0JuFoWuDelorsbISvFSdzHufosVggB37/IFOpY72OiA=;
+        b=LT4rDLDuD8swIOLJZQfZOPXILhLee2loPGAzUrgIn8QrRo2sI9oKd2HSFpFHJwEVPP
+         xk8WbDUz4zvqhU3578/MKY0jAOH75q7SDd3s4bDLmF0ohtoTc+xjnMve+j8yNrWkPN6+
+         0MKOZtkW5Rtn++Kv3vlTxWlldcwFkcleOhifJEKFJO9MdSlrNrquAazcjhDZeBTsh8pG
+         2uukx34lEiFs4B4yI0umst9XSORTcSlgpxfzClnpSvHAI+WJGPpNMVLwQ1DhnjEkXMJ5
+         9LzOzcgZoZua3ZsAd3EHfAQcTJzsyF6d+ja0gQHj37oYbCge6igRMYELJ823iE6xv/Gt
+         dkLw==
+X-Gm-Message-State: AOAM532QIV8oMufS/KDIFZ2khBAxCFgDMB2k2n1cqJxeao4D+qT2d97p
+	nq7yWGYp9o53QV5dHk9kZyOQFL0jGOimXQ==
+X-Google-Smtp-Source: ABdhPJyLP45Wj6CmBCFAtqRqUpk0rwY6RKSL5Gqg6OjyABoN/u32uCZfk9hCMSUvz1BCRF33ygqdkA==
+X-Received: by 2002:a63:4e10:: with SMTP id c16mr28952pgb.54.1598851214987;
+        Sun, 30 Aug 2020 22:20:14 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
+        by smtp.gmail.com with ESMTPSA id r123sm2779674pfc.187.2020.08.30.22.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2020 22:20:14 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH 1/3] gtk+3: Revert "gtk+3: fix reproducible build failure"
+Date: Sun, 30 Aug 2020 22:20:09 -0700
+Message-Id: <20200831052011.955722-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IganNvbi1jOiBGaXggQ1ZFLTIwMjAtMTI3NjI=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2020 01:32:37 -0000
-Message-ID: <20200831013237.2262.22321@do>
-References: <20200831012446.622194-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200831012446.622194-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+Now that we have updated to 3.24.22, the needed fix [1] is in and this
+change is no longer needed
 
-Series: json-c: Fix CVE-2020-12762
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/25857/
-State : failure
+This reverts commit c2e0b0785b8098dbe562e88f54b679ca87626937.
 
-== Summary ==
+[1] https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        Hunk is shorter than expected
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  dunfell (currently at bec0a45393)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-gnome/gtk+/gtk+3.inc | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 8d5edb7ee8..e1ecf504a0 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -1,4 +1,3 @@
+-
+ SUMMARY = "Multi-platform toolkit for creating GUIs"
+ DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
+ set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
+@@ -32,13 +31,6 @@ do_configure_prepend() {
+     ln -s ${TARGET_PREFIX}libtool libtool
+     #delete a file that will get confused with generated one in ${B}
+     rm -f ${S}/gtk/gtktypefuncs.c
+-
+-    # These files are generated by wayland-scanner but will race over modification
+-    # time between the copies in the sysroot from wayland-protocols and the copy
+-    # in the source tree. Solve the race by deleting so they need to be regenerated.
+-    # 3.24.22 will not be shipping these files so this can be deleted then:
+-    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
+-    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
+ }
+ 
+ EXTRA_OECONF += " \
+-- 
+2.28.0
 
