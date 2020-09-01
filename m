@@ -1,223 +1,136 @@
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
- by mx.groups.io with SMTP id smtpd.web10.5979.1598993320318437608
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.46])
+ by mx.groups.io with SMTP id smtpd.web10.6466.1598994575077068164
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 13:48:40 -0700
+ Tue, 01 Sep 2020 14:09:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vJzoOQFh;
- spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f66.google.com with SMTP id s29so883901uae.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 13:48:40 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=M66Li5P0;
+ spf=pass (domain: windriver.com, ip: 40.107.94.46, mailfrom: mark.asselstine@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lHQUpt8+fQ/tjc60TbL89zw296Th7YP2QeNM8T7x70yQIfq1LmZiv8EbPcj8LnfKVuwqp952zMSpzZDkuZu132SRq3FWypk6ExPUYLlWzwD7F66N/7XD2HFUNrA4RIvPUchF4sCErajFSGRty+In5bkZzctAC7T90CVeuEAN81ACRU0P+R21sX7QxQSZa2+Jjsanb7nDBCU8iiIEBFU8ApIn9h/j7rwr3UOkkJWeRo2dFQ48oOQahVi4w9R96Un+I+QsjLZvQ7bCl8gVAY1c+7VzxqivhxmQJOLvhxcNPwZUVNkez1j7RslN3dd8VAFUtIteugkQ5o7+DnMNhOJ+nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xcoAyoohPsJQCoz5IGRUDGQZwjNvtrw+ccGNrOh47x8=;
+ b=NUXyR3dLqy8DAE/IRWwOGfr1VAQBqr+QTQOkw38LtT2FyAl1TrB7mXXvU7AqjXBviFkJagbHp6Pi54NWADP3OvhDjPLSoyfnlqHkL4NwjUoXJCQ3L9RgzKVf13W/LSiuiy6oSpjnLFqdHf7/SRie3Vxk3iWFxKix3Ph0MA1WlbBXEwxHPR372Bl+79lfX2p0skQ4knpNVhb+LAz9mgoW/BaavEWq4W0m4t80X7dO7ubeZ6bHc+vzAxifiYj5uXT94c0C9T6HAgCdqftmhOXYSTfxmvFSYCwZuuJ8vPmnPwWuVAoNKWqTyo3Fg5DKkVrA3ZMACwqw+VbDXMRq4nan/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H4Jy37VeACls/bfwkzmXFFdHRFl0KL9ZA4Bwz4jTv6Q=;
-        b=vJzoOQFhLC0LZhSTbqRPBL/wCKV5cnYmZu3XjsxTkI4k8+rDpu1HsbdexTzq5VXZ1u
-         o3HpErWXrv/ALjKw8NAyNY4YzoiTO5K38QR2mnDPRd/d498sNRynL3zevcjTcTTLjnkF
-         44vxhOBnAkTWBQttS9lVUJHNJYZdR9/s/W4RH2GVHZ2MIP7zz7ihj0akhXa8xwP0Beds
-         sR28lVLgw9hJia6MLLccX1AJJywtn/Y4ItUhQL5jMaB3RhctSEBCrwxs9T/1p0Y7VBzF
-         7qCNy7ZMrn+tRVOggfYkzcvys2CO3OLrwB6VEz9H3vBNluA66+Mv+uY4XQHtvpbSJ8ET
-         qKmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H4Jy37VeACls/bfwkzmXFFdHRFl0KL9ZA4Bwz4jTv6Q=;
-        b=alAIxUTLjaKo8RSnaxuufujFbUOFbfBpclTErK9vIU3YcGyC+2NdsrL7VIlk69JrZT
-         nWCAwpN0WKo64eUGUefFR0GnffsWXy/44/QDC9J0Tlu5djhhD9RplFYlrLK6rFmBBhUi
-         SWIXRmhoVT1a2Ms+sHmEuJ/0rAlDaOK5j2C6PCv/XWOPVx3hf8iAI/G1yUpnMfgrbr6e
-         1CTlXWUH/L2r3cSsVhcH5GgWp0gxrIkMU+/PPZ+r1hqEypjfJH5GBlsrY1v9tsj/dXBo
-         Y4WZbzv3k/+jwSLsm97EFOFUfs5sL1FGrHCjQjl4MypObfM9kYYstFrsFnTjtNTnmxjJ
-         Vzlw==
-X-Gm-Message-State: AOAM531Nd6bIPI7OncFLiW0QH7zPiJwh6YEdd2KZK+aJAGZPPQYhoPkV
-	oclg6VpihTbCFZRMEjHRiCdN38yql4nNLGZdIkM=
-X-Google-Smtp-Source: ABdhPJwcCvWEOe2c/jO9/5+1uBUZ0k0OMtdMzZyw+C6UYFjrebWRX6AeAZoPegP1JftZXrnCH+nOIUegOv15PavyjA4=
-X-Received: by 2002:a9f:2c9a:: with SMTP id w26mr3057488uaj.89.1598993319414;
- Tue, 01 Sep 2020 13:48:39 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xcoAyoohPsJQCoz5IGRUDGQZwjNvtrw+ccGNrOh47x8=;
+ b=M66Li5P0bfrPfqGCNeTpmYa/CNsQ92OUfAzgWcwFvKomvH6duYoOXQLS76/eRaN7RlPTgDy0AFCQHj3qF8IcIWOgLkhaJ7KpwhCqfMdow2Ro03LJbZgBxURj0niiTDGmjzIZ1b+epKHe2PXHgrf32fCcXRGY48ZtEXJM6oiBTqw=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB4347.namprd11.prod.outlook.com (2603:10b6:5:200::15)
+ by DM5PR1101MB2105.namprd11.prod.outlook.com (2603:10b6:4:51::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.25; Tue, 1 Sep
+ 2020 21:09:33 +0000
+Received: from DM6PR11MB4347.namprd11.prod.outlook.com
+ ([fe80::5b8:e591:c798:6446]) by DM6PR11MB4347.namprd11.prod.outlook.com
+ ([fe80::5b8:e591:c798:6446%6]) with mapi id 15.20.3326.025; Tue, 1 Sep 2020
+ 21:09:32 +0000
+From: "Mark Asselstine" <mark.asselstine@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mark Asselstine <mark.asselstine@windriver.com>
+Subject: Re: [OE-core][Patch v2 1/2] xinput-calibrator: avoid defunct process
+Date: Tue, 01 Sep 2020 17:09:30 -0400
+Message-ID: <2823092.BEx9A2HvPv@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <162F8BE25BC47348.17615@lists.openembedded.org>
+References: <162F8BE25BC47348.17615@lists.openembedded.org>
+X-ClientProxiedBy: YT1PR01CA0059.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::28) To DM6PR11MB4347.namprd11.prod.outlook.com
+ (2603:10b6:5:200::15)
+Return-Path: mark.asselstine@windriver.com
 MIME-Version: 1.0
-References: <20200831095948.15750-1-changhyeok.bae@gmail.com>
- <20200831095948.15750-2-changhyeok.bae@gmail.com> <b2d48e4fdb1020a36aed221b472014cbf41735b3.camel@linuxfoundation.org>
- <CACrLJgBmqCx+SeCuaPSEXHaCt_7YpSQY7aJzRiJB3N9uXUSqvA@mail.gmail.com>
-In-Reply-To: <CACrLJgBmqCx+SeCuaPSEXHaCt_7YpSQY7aJzRiJB3N9uXUSqvA@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 1 Sep 2020 22:48:28 +0200
-Message-ID: <CANNYZj8P2iHG4o3ke96kNxpcXL6YzpqeKSL=cB9ggsiBKY5byQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 2/2] iputils: upgrade s20190709 -> s20200821
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cd4ea005ae46a413"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by YT1PR01CA0059.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2e::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.19 via Frontend Transport; Tue, 1 Sep 2020 21:09:32 +0000
+X-Originating-IP: [198.84.181.245]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bfb5e1c8-7e4d-4d4d-fad6-08d84ebb5275
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2105:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR1101MB210556F7BF142CCC85F4BA7FED2E0@DM5PR1101MB2105.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	OTGFzvMoKwNbO/AA9EAMpGSJr7rSfoHfyAUH7ivgEHxamt0iRLaAfJ6Pw1X8tu4fHbMkf8Rv3oQ0MAybic9bpG3n65hyzKJsbe7pnT0DhRoDxc9ITPjYzPpcQI1l/J/kA69bWryb7l2QejzAmWVJUyk3aOTBk8IUeQUWg6BTrhuNH39dIizpKHW/5rl25HYHyxgz3fJ/XTipQ2ILhVDZjwxxi2klb2XGlTmusVJhmfLYrNCgg0YLEZ9kCZXJMHrhlRUAmkrE81BSngJTqt6+EN0FBCPK9JY6DXsojyeEcCXgFr15kT87V2IriduFBHHSMLHbz8vD3ArNLG5m6aaRNESM+UYInUbziuK9QqUHfG5n+ND/Hw6jdH8m5WMKAzyq
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4347.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(376002)(136003)(39850400004)(396003)(346002)(366004)(4326008)(86362001)(66556008)(478600001)(53546011)(66946007)(8936002)(33716001)(6916009)(316002)(83380400001)(52116002)(16576012)(36916002)(66476007)(107886003)(2906002)(44832011)(9686003)(956004)(6486002)(5660300002)(26005)(8676002)(186003)(39026012);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	0BS0rsUYWYT7O5+MqkYIgkqooiQFCR6wZhByaCxK9p1onOuKkIeqyTxFbSn5OpENesUtRxqvUtwp0gUHP6518HQTQNtuCe//gjUCJYZWM4NcAQClluv9+mReDidNiq0jVns3UWXeRhfyKSlBhzU/QlXgilBPuSDaxS0BOn0LQcBlr13N8CzOOvUXIul4HGsL2p0g0TnnH70Cacy4kZyPd/hHQZEsZLXuYgRmYgAHZCU23OdGXB6oM2Xq0/gS3WHu9rIb4l6gfQoQL35BdKaVhd2Y8SP5i5T0txEh/XTmxGFMzPy4OPw429MhWTt3KSJtObmZCAX7AYmSKSSu9S3gwz93+2Xu0UBHwUdRwB9MzPpa/ciOfJqC5ZaUIupLBn5EKZ4xO4kktJn18GeheEp1JMmIivHUQ+lrJOvUtdn3Pm15gBllpyx4ihArEsrfzPT4QlRbXgCcMTdH0qmqTBFlOtcIZb1Nl0/KuWSy25dAotNOgNtl2czYZyiuDs0/PT1WrJGU5P4K+GsJg5l/G3qewEHh3aXJ4bMun7FFxljqb9lh4cN/QTUDG9mr016X+RVyCkypfX0RefY7S9WiVaCOPrUs6pBE5HKZ9TLuJgUQPNdDoM5sAQ7gpSBQVZgCH44ZlITX0omXx2EoZomxGEY8/A==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfb5e1c8-7e4d-4d4d-fad6-08d84ebb5275
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4347.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2020 21:09:32.8236
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JiKq2RW4gaRlFISkSOQFpuzrmfegCg1ce9jVvtQsTU1whUPXFY0C5GZtQ1Ki0SO1Ij0olMW9RqQhZWq1zoGZx6hxkiBt3MYlYSOniOWKv4U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2105
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---000000000000cd4ea005ae46a413
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Friday, August 28, 2020 5:29:19 P.M. EDT Mark Asselstine wrote:
+> The xinput_calibrator_once.sh script produces output on stdout and
+> stderr which the current 'Exec' doesn't consume. This results in a
+> [xinput_calibrator_once.sh] defunct process which will remain around
+> until we exit the X11 session.
+> 
+> Add a redirect to the Exec which will consume this output and avoid
+> the defunct process.
 
-I think tftpd option is now off by default, and we probably should disable
-it as well:
+Hold off on reviewing or merging this. Looking into another .desktop file 
+which is causing yet another zombie process we are pretty sure there is a 
+deeper issue at play here. I want to confirm and address what we are seeing 
+before this is merged as it may not be needed.
 
-https://github.com/iputils/iputils/commit/737d8a91e394518d2ccdaf398bb16283=
-eb8e4a81
+Sorry about the churn. Things were only clear once the multiple issues were 
+looked at.
 
-Alex
+2/2 is still valid, so if you want to take that one on its own, then go for 
+it.
 
-On Tue, 1 Sep 2020 at 22:14, Changhyeok Bae <changhyeok.bae@gmail.com>
-wrote:
+Thanks,
+Mark Asselstine
 
-> Hi Richard
->
-> Thank you for the report. I will look into it.
->
-> Best regards,
-> Changhyeok
->
-> 2020=EB=85=84 9=EC=9B=94 1=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 2:32,=
- Richard Purdie <
-> richard.purdie@linuxfoundation.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
-:
->
->> On Mon, 2020-08-31 at 11:59 +0200, Changhyeok Bae wrote:
->> > - libgcrypt is not required anymore because the md5 implementation wa=
-s
->> >   part of this project.
->> > - ninfod patches are upstreamed and other patch is not required anymo=
-re.
->> >
->> > Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
->> > ---
->> >  .../0001-iputils-Initialize-libgcrypt.patch   | 55 -----------------=
---
->> >  ...riable-name-to-avoid-colliding-with-.patch | 51 -----------------
->> >  ...-fix-systemd-Documentation-url-error.patch | 28 ----------
->> >  ...tils_s20190709.bb =3D> iputils_s20200821.bb} |  8 +--
->> >  4 files changed, 2 insertions(+), 140 deletions(-)
->> >  delete mode 100644
->> meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt=
-.patch
->> >  delete mode 100644
->> meta/recipes-extended/iputils/iputils/0001-ninfod-change-variable-name-=
-to-avoid-colliding-with-.patch
->> >  delete mode 100644
->> meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documenta=
-tion-url-error.patch
->> >  rename meta/recipes-extended/iputils/{iputils_s20190709.bb =3D>
->> iputils_s20200821.bb} (87%)
->>
->> Hi,
->>
->> Thanks for the upgrade. There seems to be an issue with tftpd:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/2389
->>
->> Error:
->>  Problem: package packagegroup-core-full-cmdline-1.0-r6.noarch requires
->> packagegroup-core-full-cmdline-extended, but none of the providers can =
-be
->> installed
->>   - package packagegroup-core-full-cmdline-extended-1.0-r6.noarch
->> requires iputils, but none of the providers can be installed
->>   - conflicting requests
->>   - nothing provides iputils-tftpd needed by iputils-s20200821-r0.core2=
-_32
->> (try to add '--skip-broken' to skip uninstallable packages)
->>
->> Any ideas what changed?
->>
->> Cheers,
->>
->> Richard
->>
->>
->
-> --
-> Thanks
-> Changhyeok
->=20
->
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+> 
+> V2: * no changes
+> 
+>  .../recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git
+> a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+> b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb index
+> 4f831932e7..c59f97895c 100644
+> --- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+> +++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+> @@ -31,7 +31,7 @@ do_install_append() {
+>      install -m 0755 ${WORKDIR}/30xinput_calibrate.sh
+> ${D}${sysconfdir}/X11/Xsession.d/
+> 
+>      install -d ${D}${sysconfdir}/xdg/autostart
+> -    sed -e 's,^Exec=.*,Exec=${bindir}/xinput_calibrator_once.sh,'
+> ${S}/scripts/xinput_calibrator.desktop >
+> ${D}${sysconfdir}/xdg/autostart/xinput_calibrator.desktop +    sed -e
+> 's,^Exec=.*,Exec=${bindir}/sh -c "${bindir}/xinput_calibrator_once.sh 2>\&1
+> > /dev/null",' ${S}/scripts/xinput_calibrator.desktop >
+> ${D}${sysconfdir}/xdg/autostart/xinput_calibrator.desktop }
+> 
+>  FILES_${PN} += "${sysconfdir}/xdg/autostart"
 
---000000000000cd4ea005ae46a413
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I think tftpd option is now off by default, and we pr=
-obably should disable it as well:</div><div><br></div><div><a href=3D"https=
-://github.com/iputils/iputils/commit/737d8a91e394518d2ccdaf398bb16283eb8e4a=
-81">https://github.com/iputils/iputils/commit/737d8a91e394518d2ccdaf398bb16=
-283eb8e4a81</a></div><br><div>Alex<br></div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 1 Sep 2020 at 22:14, Ch=
-anghyeok Bae &lt;<a href=3D"mailto:changhyeok.bae@gmail.com">changhyeok.bae=
-@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><div dir=3D"ltr">Hi Richard<div><br></div><div>Thank you for th=
-e report. I will look into it.</div><div><br></div><div>Best regards,</div>=
-<div>Changhyeok</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">2020=EB=85=84 9=EC=9B=94 1=EC=9D=BC (=ED=99=94) =EC=98=
-=
-=A4=ED=9B=84 2:32, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
-uxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
-gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Mon, 2020-08-31 at 11:59 +0200, Changhyeok Bae=
- wrote:<br>
-&gt; - libgcrypt is not required anymore because the md5 implementation wa=
-s<br>
-&gt;=C2=A0 =C2=A0part of this project.<br>
-&gt; - ninfod patches are upstreamed and other patch is not required anymo=
-re.<br>
-&gt; <br>
-&gt; Signed-off-by: Changhyeok Bae &lt;<a href=3D"mailto:changhyeok.bae@gm=
-ail.com" target=3D"_blank">changhyeok.bae@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../0001-iputils-Initialize-libgcrypt.patch=C2=A0 =C2=A0| 55 --=
------------------<br>
-&gt;=C2=A0 ...riable-name-to-avoid-colliding-with-.patch | 51 ------------=
------<br>
-&gt;=C2=A0 ...-fix-systemd-Documentation-url-error.patch | 28 ----------<b=
-r>
-&gt;=C2=A0 ...<a href=3D"http://tils_s20190709.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">tils_s20190709.bb</a> =3D&gt; <a href=3D"http://iputils_s2020=
-0821.bb" rel=3D"noreferrer" target=3D"_blank">iputils_s20200821.bb</a>} |=
-=C2=A0 8 +--<br>
-&gt;=C2=A0 4 files changed, 2 insertions(+), 140 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-extended/iputils/iputils/0001-i=
-putils-Initialize-libgcrypt.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-extended/iputils/iputils/0001-n=
-infod-change-variable-name-to-avoid-colliding-with-.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-extended/iputils/iputils/0001-n=
-infod-fix-systemd-Documentation-url-error.patch<br>
-&gt;=C2=A0 rename meta/recipes-extended/iputils/{<a href=3D"http://iputils=
-_s20190709.bb" rel=3D"noreferrer" target=3D"_blank">iputils_s20190709.bb</a=
-> =3D&gt; <a href=3D"http://iputils_s20200821.bb" rel=3D"noreferrer" target=
-=
-=3D"_blank">iputils_s20200821.bb</a>} (87%)<br>
-<br>
-Hi,<br>
-<br>
-Thanks for the upgrade. There seems to be an issue with tftpd:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/75/buil=
-ds/2389" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/typhoon/#/builders/75/builds/2389</a><br>
-<br>
-Error: <br>
-=C2=A0Problem: package packagegroup-core-full-cmdline-1.0-r6.noarch requir=
-es packagegroup-core-full-cmdline-extended, but none of the providers can b=
-e installed<br>
-=C2=A0 - package packagegroup-core-full-cmdline-extended-1.0-r6.noarch req=
-uires iputils, but none of the providers can be installed<br>
-=C2=A0 - conflicting requests<br>
-=C2=A0 - nothing provides iputils-tftpd needed by iputils-s20200821-r0.cor=
-e2_32<br>
-(try to add &#39;--skip-broken&#39; to skip uninstallable packages)<br>
-<br>
-Any ideas what changed?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-"><div dir=3D"ltr">Thanks<div>Changhyeok</div></div></div>
-<br>
-</blockquote></div>
 
---000000000000cd4ea005ae46a413--
+
