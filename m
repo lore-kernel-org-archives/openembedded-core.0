@@ -1,88 +1,127 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.11812.1598963545254204738
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.11851.1598963760426358816
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 05:32:25 -0700
+ Tue, 01 Sep 2020 05:36:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eprdGova;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id c18so1317685wrm.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 05:32:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EEmwhI2I;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id i22so1391816eja.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 05:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=1RIXDJPb4wBdzqPkyBhNNV2NWuF9+PA+HNkGSrjLWtA=;
-        b=eprdGovasIWr/u9euYFcYYUTaFMDDPb/SS81/wbM+AXjCSTwsuTODl+Blfm8uVbAGg
-         lI2v3QZKBL/2CliwQpVflx5TIMg4OaJptOhEx/KcJRDffmg8UlbH9wCrwA/RrBMJnzV0
-         b01I+QLANee4jdMA4B57Hv8xewYL31GJ+4QPE=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ks/XJM+b6lPK6cXvfGh1Zp10jtJ1jCJa/n1w0jA1VhU=;
+        b=EEmwhI2I2bsPGEridj7n/euVKfwG+DhkdwZB8CHdLDjQVz/DWP5b0Hz6VI7pGPwnuu
+         bfRXr6tg5qoM542WC4ys5DfmcjgUWD8aDj2pSYb+372L6Os62kPnx2qQ4KOLyMnqdJuG
+         RQpP/TqwleLoNoOQGqvcgHRebK+VGu8gEsQtOfOVC/OIxjvxRzL12y/pnPXf2T2EMuGe
+         Izc/D66zI73AF4es5fYH3I5zeSWI/EymRJHCSfUbuVz++vhuLz6emfk37XxTkkHMmZ3j
+         LfV+KHOzoAJXcefgKk7zwCRSSx1gM1u7n8+UGHgebvulLJvahJwX/LhUIaRYTpdkR4+Z
+         4HWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=1RIXDJPb4wBdzqPkyBhNNV2NWuF9+PA+HNkGSrjLWtA=;
-        b=OKQ0FboKelKjCQa4QjOPreQvjZpGesmshzYGDJRxZMlzOyVVyfPB4txnORbu8NhnvW
-         UqG/2ExD619RAetvSs6TbGHeL1IV/OzbxbSU/kL4FRJ1MXtmA7CIrtddhrK+oibk9E3O
-         Q+QcuZNULpLz3HV0ojzWNc654cMkrhe+0gMb7Sr2P/JKbBP+OoKAXKxHZZ5cDpTGA4Fc
-         VwkjQAcoZbix4ccvdqd199aXPKv8kJCn1dhKTLFIJJWYGtpnz6jCHlO0ZPfDRGRsT+Id
-         ddGOZuAb0M4LPGw/vo7xfe3+Y0RKADMYfKwHyW/CMF2itwSQnfakqxuzjYus2Wpnx+3P
-         xVPA==
-X-Gm-Message-State: AOAM5303zy8Hxrc3fP2UsYeZP2C5yFt9sUzyhVeizmKOIbLUgcoPYQ5E
-	nLChLxmshE3P7Oj4RfGtnC3fWw==
-X-Google-Smtp-Source: ABdhPJwW+eoQ20G2OTO+p5Rl4YW9cqE4XV3n4CMIgGj3Mz4+HGYgdwUs78QwyutAt5WkmVYJKw4VNQ==
-X-Received: by 2002:adf:80cb:: with SMTP id 69mr1738483wrl.313.1598963543540;
-        Tue, 01 Sep 2020 05:32:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.d.2.7.a.9.f.9.6.8.f.0.2.a.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.d.2.7.a.9.f.9.6.8.f.0.2.a.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d5a2:f86:9f9a:72df])
-        by smtp.gmail.com with ESMTPSA id c9sm1695275wmf.3.2020.09.01.05.32.22
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ks/XJM+b6lPK6cXvfGh1Zp10jtJ1jCJa/n1w0jA1VhU=;
+        b=G7oHJRIGqnhQXDL+R7PWdbg32R/zj273AG+TKtlxL4VNi4DWx6cDQmnz4xxmw448sZ
+         sijTW1TR4kUfmKRMHVAtMIf411Hpdq8S37B042uFjyXpMIEF1JaTbYSvDvBrS8sR7jiT
+         nrDARVNN7fip333cwQoq8gfqKjFPzwZhgxwmgL4r2JCDXBZ7a4a2E4GlXCKqZAYa4piU
+         wmNZja+1MPuWzf7NSbF3Wrt4cWATWtszExJfd83c/1X26fkwVoxhrUG3C9hAdP3TdQVg
+         /+yuWUio36EVHMWBunPKqrqQ9Ecsj01BF9hcrib0GdhiHymQzJYR7kI9b0+uvTj7xI32
+         naqg==
+X-Gm-Message-State: AOAM5339htKYJY+L0D22M4gMyPgxdqxVNF6TH3r/WHcWWAT7g909JgH3
+	JkM4nnfk9/ClLqHG8cJg5UinXIt3cgs=
+X-Google-Smtp-Source: ABdhPJzQdF/O3r519g2KjLAwAEbWdElSToL8rZfEMsGKEL79VmcAIPsOlNPsnSGa/qJvd3RoOWJAtw==
+X-Received: by 2002:a17:906:9443:: with SMTP id z3mr1364111ejx.156.1598963758542;
+        Tue, 01 Sep 2020 05:35:58 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
+        by smtp.gmail.com with ESMTPSA id oi24sm1105963ejb.69.2020.09.01.05.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 05:32:22 -0700 (PDT)
-Message-ID: <b2d48e4fdb1020a36aed221b472014cbf41735b3.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH 2/2] iputils: upgrade s20190709 -> s20200821
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changhyeok Bae <changhyeok.bae@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 01 Sep 2020 13:32:20 +0100
-In-Reply-To: <20200831095948.15750-2-changhyeok.bae@gmail.com>
-References: <20200831095948.15750-1-changhyeok.bae@gmail.com>
-	 <20200831095948.15750-2-changhyeok.bae@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Tue, 01 Sep 2020 05:35:58 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Yann Dirson <yann@blade-group.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] package: get_package_mapping: avoid dependency mapping if renamed package provides original name
+Date: Tue,  1 Sep 2020 14:35:12 +0200
+Message-Id: <20200901123513.29912-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-08-31 at 11:59 +0200, Changhyeok Bae wrote:
-> - libgcrypt is not required anymore because the md5 implementation was
->   part of this project.
-> - ninfod patches are upstreamed and other patch is not required anymore.
-> 
-> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
-> ---
->  .../0001-iputils-Initialize-libgcrypt.patch   | 55 -------------------
->  ...riable-name-to-avoid-colliding-with-.patch | 51 -----------------
->  ...-fix-systemd-Documentation-url-error.patch | 28 ----------
->  ...tils_s20190709.bb => iputils_s20200821.bb} |  8 +--
->  4 files changed, 2 insertions(+), 140 deletions(-)
->  delete mode 100644 meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
->  delete mode 100644 meta/recipes-extended/iputils/iputils/0001-ninfod-change-variable-name-to-avoid-colliding-with-.patch
->  delete mode 100644 meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
->  rename meta/recipes-extended/iputils/{iputils_s20190709.bb => iputils_s20200821.bb} (87%)
+From: Yann Dirson <yann@blade-group.com>
 
-Hi,
+Packages with a runtime dependency on a target package whose name is
+changed by the PKG_* mechanism must rebuild when that mapping changes,
+but we have no way of tracking this today, so
+eg. packagegroup-machine-base ends up with a relationship on a
+versioned kernel-image, and does not get rebuilt when that version
+changes, leading to unsatisfiable dependency and reproducibility
+issue.
 
-Thanks for the upgrade. There seems to be an issue with tftpd:
+OTOH there is no reason for the dependency to get rewritten if the
+renamed package already has a RPROVIDES on the non-rewritten package
+name, and if the dependency relationship is an unversionned one.  This
+is what this patch prevents.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/2389
+Note that this may not cover all cases of rewritten package names.
 
-Error: 
- Problem: package packagegroup-core-full-cmdline-1.0-r6.noarch requires packagegroup-core-full-cmdline-extended, but none of the providers can be installed
-  - package packagegroup-core-full-cmdline-extended-1.0-r6.noarch requires iputils, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides iputils-tftpd needed by iputils-s20200821-r0.core2_32
-(try to add '--skip-broken' to skip uninstallable packages)
+Notably I had to let the rewrite be done in the case of versionned
+dependencies, as package managers usually can follow "Provides" in
+such case; this includes many dependencies against shared-lib packages
+renamed to their soname, and those at least are OK, since the
+dependent recipe should explicitly depend on the target recipe.
 
-Any ideas what changed?
+(From OE-Core rev: 920beaaeef62b558e046f32c8ef0332250969ef1)
 
-Cheers,
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package.bbclass | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Richard
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 099d0459f3..686b412394 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -535,7 +535,7 @@ def copydebugsources(debugsrcdir, sources, d):
+ # Package data handling routines
+ #
+ 
+-def get_package_mapping (pkg, basepkg, d):
++def get_package_mapping (pkg, basepkg, d, depversions=None):
+     import oe.packagedata
+ 
+     data = oe.packagedata.read_subpkgdata(pkg, d)
+@@ -546,6 +546,14 @@ def get_package_mapping (pkg, basepkg, d):
+         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+             and data[key] == basepkg:
+             return pkg
++        if depversions == []:
++            # Avoid returning a mapping if the renamed package rprovides its original name
++            rprovkey = "RPROVIDES_%s" % pkg
++            if rprovkey in data:
++                if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
++                    bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
++                    return pkg
++        # Do map to rewritten package name
+         return data[key]
+ 
+     return pkg
+@@ -566,8 +574,10 @@ def runtime_mapping_rename (varname, pkg, d):
+ 
+     new_depends = {}
+     deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
+-    for depend in deps:
+-        new_depend = get_package_mapping(depend, pkg, d)
++    for depend, depversions in deps.items():
++        new_depend = get_package_mapping(depend, pkg, d, depversions)
++        if depend != new_depend:
++            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
+         new_depends[new_depend] = deps[depend]
+ 
+     d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
+-- 
+2.28.0
 
