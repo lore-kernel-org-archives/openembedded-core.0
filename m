@@ -1,57 +1,105 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.8873.1599001359828769396
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web10.9275.1599002645672412468
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 16:02:39 -0700
+ Tue, 01 Sep 2020 16:24:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B185960AE3;
-	Tue,  1 Sep 2020 23:02:37 +0000 (UTC)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 081NO233027370
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO)
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Sep 2020 18:24:04 -0500
+Subject: Re: [OE-core] [master][PATCH v7 3/3] package.bbclass: hash equivalency and pr service
+To: openembedded-core@lists.openembedded.org
+References: <20200827221237.143692-1-mark.hatle@kernel.crashing.org>
+ <20200827221237.143692-4-mark.hatle@kernel.crashing.org>
+ <4c41acd31147f3bce1424199f619692918cf8388.camel@linuxfoundation.org>
+ <1630C3BD464433A0.30204@lists.openembedded.org>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Message-ID: <3dc406fc-5065-5cc1-b650-6cc05bb0d58e@kernel.crashing.org>
+Date: Tue, 1 Sep 2020 18:24:02 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.11.0
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJ1aWxkLWFwcGxpYW5jZS9wYWNrYWdlZ3JvdXAtYy4uLiIgYW5kIDEgbW9yZQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 01 Sep 2020 23:02:39 -0000
-Message-ID: <20200901230239.2266.44026@do>
-References: <20200901224218.1677415-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200901224218.1677415-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1630C3BD464433A0.30204@lists.openembedded.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Just an FYI.. To reproduce the failure you HAVE to use the 'poky' distro.  I had
+switched to 'nodistro' because the system complained about "SANITY_TESTED_DISTROS"..
 
-Series: "build-appliance/packagegroup-c..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/25898/
-State : failure
+Working on this now...
 
-== Summary ==
+--Mark
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/2] build-appliance/packagegroup-core-base-utils: Replace dhcp-client/dhcp-server with dhcpcd/kea
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 93 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+On 9/1/20 3:44 PM, Mark Hatle wrote:
+> 
+> 
+> On 8/28/20 1:05 AM, Richard Purdie wrote:
+>> On Thu, 2020-08-27 at 17:12 -0500, Mark Hatle wrote:
+>>> When the PR service is enabled a number of small changes may happen
+>>> to variables.  In the do_package step a call to package_get_auto_pr
+>>> will end up setting PRAUTO and modifying PKGV (if AUTOINC is there).
+>>>
+>>> PRAUTO is then used by EXTENDPRAUTO, which is then used to generate
+>>> PKGR.
+>>>
+>>> Since this behavior typically happens BEFORE the BB_UNIHASH is
+>>> calculated for do_package, we need a way to defer the expansion
+>>> until after we have the unihash value.
+>>>
+>>> Writing out the pkgdata files w/o AUTOPR and PKGV (AUTOINC) expanded
+>>> to placeholder values is the easiest way to deal with this.  All
+>>> other
+>>> variables are expanded as expected.
+>>>
+>>> In the next task, typically do_packagedata, we will then use the
+>>> UNIHASH from the do_package to get the PR (AUTOPR) as well as
+>>> generate the AUTOINC replacement value (now PRSERV_PV_AUTOINC).
+>>>
+>>> The do_packagedata then translates the placeholders to the final
+>>> values
+>>> when copying the data from pkgdata to pkgdata-pdata-input.
+>>>
+>>> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+>>> ---
+>>>  meta/classes/package.bbclass | 58 +++++++++++++++++++++++++++++++---
+>>> --
+>>>  meta/conf/bitbake.conf       |  1 +
+>>>  2 files changed, 51 insertions(+), 8 deletions(-)
+>>
+>> This looked ok in testing apart from:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1289
+>> (and similar)
+>>
+>> which should reproduce with:
+>>
+>> oe-selftest -r prservice.BitbakePrTests
+>>
+>> basically the PRServ tests need updating to match the code changes.
+> 
+> I see the error in the logs, but I'm not able to reproduce this.  No errors are
+> reported on my system.  I added some additional debugging and I'm seeing that
+> it's reading from
+> 
+> .../tmp-glibc/pkgdata/qemux86-64/runtime/m4
+> 
+> This is the correct one, as it should have the complete value of PKGR as it was
+> the one transferred by do_packagedata.
+> 
+> Is there a standard way to keep the temp files around so that I can see what the
+> values actually are?
+> 
+> --Mark
+> 
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>>
+>>
+>> 
