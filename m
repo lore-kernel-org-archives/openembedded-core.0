@@ -1,83 +1,78 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.8478.1599000141852159620
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web10.8666.1599000766247192572
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 15:42:22 -0700
+ Tue, 01 Sep 2020 15:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eSu6kFc4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id c15so3174112wrs.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 15:42:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hBZzN3pO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id nw23so3949102ejb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 15:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=y/XtUZuMmOgW+LgUN3OZq3CripgbzNVGyZU/Fw4pfss=;
-        b=eSu6kFc4AaVKVpoKDnbxRMFxR1hVIdmos1jMRcRJhOnvaV00Xj/1bJjbs0M8fWo4zS
-         Xsy6uMRqwjhKHpsHV6vxZXAM8zhLCXJLwzU+1VQhgZgb9Ny7St8Fhw01P63BKl+w2t24
-         3kKvMeybRnTZ5YIgfZ9eatACiFPbewplv31s0=
+        bh=LyU9s3a1PVM4KVUe4j5Bjrrj0XC41BZ/9cmrdne+9q0=;
+        b=hBZzN3pOpRC6HjIwk6X7T7Cca10MzhCWxTCSqFUQ9Eu0AKf1oS5LfktQDujBY/4ZEY
+         8l2qZze9zMHtRbH68yJ/8YLcNL2e4NJGuqzbpTwxVnJnPq67iKZjkT9bSAQCzrGi5jXy
+         KWmVqMZ2ffMGfeb7M25jFyxgYI6hPjC+tyi2UZUV6gcIb3N6h6Ajq1S7044xtsB2icgT
+         3hJ9IRRHrxLAwUyEqP7mfyIj8AVQnKKguLxBBSclJ0nJ1xceG4LK1jJADUly1oPGIvzY
+         NVGNuVaiIPhaVnwJfDgLKKIleBZP5jDL10W88GWmZrjicFuQMMPPWkbRtIv8iVE2u2NT
+         20EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y/XtUZuMmOgW+LgUN3OZq3CripgbzNVGyZU/Fw4pfss=;
-        b=t6wHwvYoZrcJf5M0cgVQan5beiStx9xrIddUIjzDvvU37Krn8EMXq8kQ9H6dW7/YL1
-         RzFJ+/crdYn+SQ76MpGmRAgs+O0lNmSxbbMYD4/t2o5jGCU4sMrNJIknQ3Eg1Khp5/H3
-         z0/js9RXLeEaUFThHl/dodbfudp2OxASMe3rVgQSX5yYHPsIg8IUzz2SLhIxYPC7eEPL
-         OYdARTfxiMw78mKi2z1f6/d0pM4JYSmd1C9O4yDuhmO2YB0kveQ6Zc0hQxEgj7PS7euY
-         BjhYK8pOXDgZw6s7uurZq8YvRHa5Ks5dZAa8pYm2j3T3iUhC/z/hoGwl82vxx61uRmtJ
-         9zWg==
-X-Gm-Message-State: AOAM531BRiHe8394pD0ci0GtxUyxq5dNIjWoH6glTqeyiDu3+dqt4jw6
-	W321LZpvLaLAD1sZQcoiD0whpikYdM2oYh4Q
-X-Google-Smtp-Source: ABdhPJySJIpSeCOpS9rOB18LT/0eLNxpT076pashkCMg7CzVNE9vXthVmj/HAgbf0CiYFQv/uwm2zA==
-X-Received: by 2002:adf:f0c3:: with SMTP id x3mr3972037wro.163.1599000140116;
-        Tue, 01 Sep 2020 15:42:20 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (f.d.2.7.a.9.f.9.6.8.f.0.2.a.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d5a2:f86:9f9a:72df])
-        by smtp.gmail.com with ESMTPSA id t13sm4091540wru.65.2020.09.01.15.42.19
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LyU9s3a1PVM4KVUe4j5Bjrrj0XC41BZ/9cmrdne+9q0=;
+        b=XzmfKBHv6ttjIGyowKyzAXuQBVyqswNyu/RbQtqikiwoeZWyW3QQemh3jPVyejHf2Z
+         kuAPCrYvJllL6BH4uTDzEy97Brhh/xZ58ImF+KbVGtLMGarhdpFbGjVDe8xKK3HrKK1A
+         zSOc2B3sHXnuhSU7faAwYqCMAOQINR6OdwncEJvYtk/gL5UttqhtjvWNnDH84LbfUjy+
+         cogPpcDrZFDmXQXUb+JDgLIbTXwJ2xvwfmiviHkkMc9RaeXZAMOP4d5KTbL/se5zy5rY
+         KN0kDx+jLgEGGS0z3IQH99Ff1d+o2py1bIIeptXaGapuIlZKxWjq0BgzYnTj45g06xeo
+         M7dQ==
+X-Gm-Message-State: AOAM531rR6NZN0B/9BEpE5h0pZr2nLD5v4PZ4W8xsBcfky+P34zS3/UU
+	pA1QYRus73RjjsNdy12mvWzMIjGh0Zw=
+X-Google-Smtp-Source: ABdhPJzg+SD/G+uC4SviVGizLEuA/5QRccfsVKofHAxkb/2iuiOD4WJsOwv7A1S88+ZSPF0ncWsPRg==
+X-Received: by 2002:a17:906:1106:: with SMTP id h6mr3624843eja.200.1599000764369;
+        Tue, 01 Sep 2020 15:52:44 -0700 (PDT)
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from cmtcleu60844809.rd.corpintra.net ([2a02:8109:b5c0:8990:b114:707f:d9f1:179])
+        by smtp.gmail.com with ESMTPSA id v5sm2417333ejv.114.2020.09.01.15.52.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 15:42:19 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 01 Sep 2020 15:52:43 -0700 (PDT)
+From: "Changhyeok Bae" <changhyeok.bae@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] selftest/prservice: Improve test failure message
-Date: Tue,  1 Sep 2020 23:42:18 +0100
-Message-Id: <20200901224218.1677415-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200901224218.1677415-1-richard.purdie@linuxfoundation.org>
-References: <20200901224218.1677415-1-richard.purdie@linuxfoundation.org>
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-Core][PATCH v2 1/3] iw: upgrade 5.4 -> 5.8
+Date: Wed,  2 Sep 2020 00:53:22 +0200
+Message-Id: <20200901225324.17870-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When failing, give more information about why exactly a failure is
-happening such as the PR values in question.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/prservice.py | 4 ++--
+ meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iw/{iw_5.4.bb => iw_5.8.bb} (85%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index fe1f24ea6d6..85b534963db 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -63,7 +63,7 @@ class BitbakePrTests(OESelftestTestCase):
-         pr_2 = self.get_pr_version(package_name)
-         stamp_2 = self.get_task_stamp(package_name, track_task)
+diff --git a/meta/recipes-connectivity/iw/iw_5.4.bb b/meta/recipes-connectivity/iw/iw_5.8.bb
+similarity index 85%
+rename from meta/recipes-connectivity/iw/iw_5.4.bb
+rename to meta/recipes-connectivity/iw/iw_5.8.bb
+index 9f58e49709..97ca66d66f 100644
+--- a/meta/recipes-connectivity/iw/iw_5.4.bb
++++ b/meta/recipes-connectivity/iw/iw_5.8.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
--        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
-+        self.assertTrue(pr_2 - pr_1 == 1, "Step between pkg revisions is not 1 (was %s - %s)" % (pr_2, pr_1))
-         self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
+-SRC_URI[md5sum] = "08a4f581a39dc62fa85d3af796d844b6"
+-SRC_URI[sha256sum] = "943cd2446a6c7242fded3766d054ab2a214a3514b9a8b7e942fed8fb13c1370c"
++SRC_URI[md5sum] = "98129d64212bdbb408f009c56ed5c62a"
++SRC_URI[sha256sum] = "cd9125c7e560926d66b09977fe0f75e5365ffd05a15df67d86a421dc76f96a96"
  
-     def run_test_pr_export_import(self, package_name, replace_current_db=True):
-@@ -89,7 +89,7 @@ class BitbakePrTests(OESelftestTestCase):
-         self.increment_package_pr(package_name)
-         pr_2 = self.get_pr_version(package_name)
+ inherit pkgconfig
  
--        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
-+        self.assertTrue(pr_2 - pr_1 == 1, "Step between pkg revisions is not 1 (was %s - %s)" % (pr_2, pr_1))
- 
-     def test_import_export_replace_db(self):
-         self.run_test_pr_export_import('m4')
 -- 
-2.25.1
+2.23.0
 
