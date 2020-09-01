@@ -1,83 +1,65 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web10.12946.1598966945758301963
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.13949.1598969199990503043
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 06:29:06 -0700
+ Tue, 01 Sep 2020 07:06:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: mtr@pengutronix.de)
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1kD6LP-0002zy-Fm; Tue, 01 Sep 2020 15:29:04 +0200
-Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mtr@dude03.red.stw.pengutronix.de>)
-	id 1kD6LO-005Qhl-2T; Tue, 01 Sep 2020 15:29:02 +0200
-From: "Michael Tretter" <m.tretter@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Michael Tretter <m.tretter@pengutronix.de>
-Date: Tue,  1 Sep 2020 15:29:00 +0200
-Message-Id: <20200901132900.1294251-1-m.tretter@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Q4E7davL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.41, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f41.google.com with SMTP id i26so1811453ejb.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 07:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=78jnhxbTqEdanQwDW1XLIHoescbG3P00vN/O6FYbT4c=;
+        b=Q4E7davLYARZhypMu+iB4oE4glD171FJsIsTzOupquXiE1WiJ6QsPGZSRzrn+MA2Xr
+         K2wSVGtFEsvzbZEHA86Kl6j7VaaCkFkV/z2jm//c3TUYarj8vSKT2Rx/G/VBbxoOEou7
+         2lRfL64yN+eRhwBkl0Mr5Ko90VAiJZTt85KfkxMqDmD4yKj8wQGng28sISp1lg+YC1WB
+         0R/j36UCubGchML+3oGC3XCLJIGAGYPS8c19jgSEXKn+JzXEc0ifLf88C7OrC0P28soP
+         H6DnLjdHqjRu/PiNsr8a/D9j6G6UWlxk7NCKOKviEh54g2nVcXa1sqWzTBV1GFZ4DIvS
+         YD9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=78jnhxbTqEdanQwDW1XLIHoescbG3P00vN/O6FYbT4c=;
+        b=OCcn/WK5uxMtkqzYqpXSM1PqLD4pggBwyoNcybr1ksF/2jgW8MxesXf5H0yJM/vK/2
+         M/B6HVoGsveczN9/aP1cMM7Uw4WbSJ6+I6uiWNX4fdJ+4Pp7k3eN2VyFeUDpuYw4fDtn
+         s2+XPYEnwxtzU9oxUhAjlMuVfTtiHG24TMeoF3c2kWfCSn9uXvjGrxSIOQZfn5KohfYo
+         MbRBTTsojZqc9GaxStsQyqHVdrhhvOa1/L9BOxSEYHEj1G58WQsoIo3mPAC8iPZxk3qT
+         R7uPXhLvvpyws3yo0BF4yll2IpLUOE/5svP0gh4PZeFVpjZYmkOdoDIXZ9uju3m4k3Di
+         TcCA==
+X-Gm-Message-State: AOAM530XILOH7LqcvOZRWXG0rQjIPOmQUkdPGg0bwdt5mt0bzmzxYEUc
+	OfJyPUVJRp+V+S5LuGbk08yyKzt8ud7h2jhrijAUoA==
+X-Google-Smtp-Source: ABdhPJzoCjUoYvK3ubpsEKF8UObTiSH3saLUTparY7Qgnw1sSjUx5qqWs/RgBItBSPkA2TWzB9DI/0WZqvbDu0M2PM0=
+X-Received: by 2002:a17:906:6055:: with SMTP id p21mr1696721ejj.173.1598969198156;
+ Tue, 01 Sep 2020 07:06:38 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
-	metis.ext.pengutronix.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.4 required=4.0 tests=BAYES_00,RDNS_NONE,
-	SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
-	version=3.4.2
-Subject: [PATCH] devtool: deploy-target: Fix size calculation for hard links
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Content-Transfer-Encoding: 8bit
+References: <cover.1598810890.git.steve@sakoman.com> <19d9787f362e8ee4460964768ca9b5f093bd4f0f.camel@linuxfoundation.org>
+In-Reply-To: <19d9787f362e8ee4460964768ca9b5f093bd4f0f.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 1 Sep 2020 04:06:27 -1000
+Message-ID: <CAOSpxdZ97Z3FwgE2G6Sd3gxbpnSBpi6U2Je_XNV7BfNJUg9Xwg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/25] Patch review
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-If a package contains hard links to a file, the file size is added for
-each hard link instead of once for the file. Therefore, the calculated
-size may be much larger than the actual package size.
+On Tue, Sep 1, 2020 at 1:07 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Steve,
+>
+> On Sun, 2020-08-30 at 08:15 -1000, Steve Sakoman wrote:
+> > Please review this next set of patches for dunfell and have comments
+> > back by end of day Tuesday.
+>
+> A few of these (e.g. devtool, RPROVIDES, kernel fragments) are what I'd
+> consider slightly riskier patches which only really just made master.
+> I'm not sure if we want to give a little extra time for some of those
+> in master before we backport?
 
-For example, the mesa-megadriver package contains several hard links to
-the same library.
+Certainly, I'll drop those patches from the pull request and let them
+bake for another week.
 
-Keep track of the inode numbers when listing the files that are
-installed and use the actual size only for the first occurrence of an
-inode. All further hard links to the same inode are added to the file
-list, but accounted with size 0.
-
-All file names need to be added to the file list, because the list is
-used for preserving the files/hard links on the target.
-
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
- scripts/lib/devtool/deploy.py | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index b1749ce67298..e5af2c95aec1 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -177,13 +177,19 @@ def deploy(args, config, basepath, workspace):
-                         rd.getVar('base_libdir'), rd)
- 
-         filelist = []
-+        inodes = set({})
-         ftotalsize = 0
-         for root, _, files in os.walk(recipe_outdir):
-             for fn in files:
-+                fstat = os.lstat(os.path.join(root, fn))
-                 # Get the size in kiB (since we'll be comparing it to the output of du -k)
-                 # MUST use lstat() here not stat() or getfilesize() since we don't want to
-                 # dereference symlinks
--                fsize = int(math.ceil(float(os.lstat(os.path.join(root, fn)).st_size)/1024))
-+                if fstat.st_ino in inodes:
-+                    fsize = 0
-+                else:
-+                    fsize = int(math.ceil(float(fstat.st_size)/1024))
-+                inodes.add(fstat.st_ino)
-                 ftotalsize += fsize
-                 # The path as it would appear on the target
-                 fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
--- 
-2.20.1
-
+Steve
