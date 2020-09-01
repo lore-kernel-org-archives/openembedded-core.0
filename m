@@ -1,74 +1,57 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
- by mx.groups.io with SMTP id smtpd.web10.12322.1598965201985764145
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.12358.1598965341523102677
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 06:00:02 -0700
+ Tue, 01 Sep 2020 06:02:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=denkSL9W;
- spf=pass (domain: linaro.org, ip: 209.85.210.196, mailfrom: sumit.garg@linaro.org)
-Received: by mail-pf1-f196.google.com with SMTP id m8so750654pfh.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 06:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=GxSTkRoVdSyena9c30HLZxU/fvszq57iE7I/Tx4ZtWM=;
-        b=denkSL9WyrtnPwfSfLBVgT+Gs9E3PRKKOVBF9R8KkmxFeQBTf8Nu5o5Ig0ptZRRLpc
-         UTTmOfrF4IPoGsvaoK0QZMg0UrAOjHiJTGGM6b6609tcTYlK639rvf+87c5r9eHSRXuW
-         FdVltY3E4gsiCV7+bNtXERGN8rzlYnI/VbZ/06mBILEZEXrLLWAqCCnPN618A/BCC9rY
-         07fLhrva+9yQV8VtJQ/AOlcy7iph0pda7IEbNaYmV3HRZ43wbrTwB6hz6/YyuQmXNV2h
-         cUpTI4gmxUQ7yDx5UyZkAnev+F6vTWnofkR8XEjZX4GrLbmSiz2epqRSZr+c0sxcRVQc
-         xDvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=GxSTkRoVdSyena9c30HLZxU/fvszq57iE7I/Tx4ZtWM=;
-        b=i5y2gkzgmn/CZF2phGYwC2Xv5Ud77TyWao8SZwavfuX2pqL54/RlPawDLEb1DPRlHy
-         tVX9W75tiGEjM84bXRJR2HQeJE0eqHc5vRF/iHrjmVn37REP1X4XJsyR4hmgzpyDBhz7
-         y8o6er9Dl4xnJHJTVtuAlyOkU09XhIatsmwtqS1eW6uNUK9O5CdJCt5KHWXi90NXf61o
-         uqXTuKCtK6ssSfb+pvr3JoC5Z6wawp5/H2MCVlCwsAx5fOMEFnBkYnRzgsrpc3gc/eU7
-         Vy6DMSV9GvdyyKrgOiQZoCvRXJFIAOWJ67ujkzBhyRnx1wZ7bYdcXOSxEyv9XPpGenMb
-         Ra6w==
-X-Gm-Message-State: AOAM533VC0Kl/fCGZZbDpfW1JqhUjmrXmC48dQigX87jI+Ih9yXU8NIn
-	n9IzpvKGnz2Bst4g6qrS6UGj4lfzLepLKw==
-X-Google-Smtp-Source: ABdhPJxffXFQGgpAiiFEhzxrgM4N5BDicZB/cWRJ6FZB3VF/TPNrygiK11ac9ff0sqVxj2/A9A3FKQ==
-X-Received: by 2002:aa7:984e:: with SMTP id n14mr1805591pfq.272.1598965201026;
-        Tue, 01 Sep 2020 06:00:01 -0700 (PDT)
-Return-Path: <sumit.garg@linaro.org>
-Received: from localhost.localdomain ([2409:4051:4e9c:e68a:656c:53ba:1ec9:d63c])
-        by smtp.gmail.com with ESMTPSA id u62sm1931041pfb.4.2020.09.01.05.59.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Sep 2020 06:00:00 -0700 (PDT)
-From: "Sumit Garg" <sumit.garg@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	daniel.thompson@linaro.org,
-	Sumit Garg <sumit.garg@linaro.org>
-Subject: [PATCH] insane: fix gnu-hash-style check
-Date: Tue,  1 Sep 2020 18:29:23 +0530
-Message-Id: <1598965163-14017-1-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E41160AE3;
+	Tue,  1 Sep 2020 13:02:19 +0000 (UTC)
+MIME-Version: 1.0
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZTogZ2V0X3BhY2thZ2VfbWFwcGluZzogYXZvaWQgZGVwZW5kZW5jeSBtYXBwaW5nIGlmIHJlbmFtZWQgcGFja2FnZSBwcm92aWRlcyBvcmlnaW5hbCBuYW1l?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 01 Sep 2020 13:02:20 -0000
+Message-ID: <20200901130220.2263.92120@do>
+References: <20200901123513.29912-1-alex.kanavin@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200901123513.29912-1-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Fix gnu-hash-style check that always returned True after commit [1]
-leading to false positive presence of "GNU_HASH" in objdump output.
+== Series Details ==
 
-Fixes: 9ff90bf04a4c ("mips: Enable gnu-hash-style on glibc") [1]
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+Series: package: get_package_mapping: avoid dependency mapping if renamed package provides original name
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/25886/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [dunfell] package: get_package_mapping: avoid dependency mapping if renamed package provides original name
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 96 characters)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index ee19ef6..c32bf25 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -438,7 +438,7 @@ def package_qa_hash_style(path, name, d, elf, messages):
-     for line in phdrs.split("\n"):
-         if "SYMTAB" in line:
-             has_syms = True
--        if "GNU_HASH" or "DT_MIPS_XHASH" in line:
-+        if "GNU_HASH" in line or "DT_MIPS_XHASH" in line:
-             sane = True
-         if ("[mips32]" in line or "[mips64]" in line) and d.getVar('TCLIBC') == "musl":
-             sane = True
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
