@@ -1,150 +1,96 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web11.1911.1599030666216675032
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.1997.1599031040136270224
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 00:11:06 -0700
+ Wed, 02 Sep 2020 00:17:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f3w0gyPH;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id s62so182691vsc.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 00:11:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NdLp/eFH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id s13so3313831wmh.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 00:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UG6o4fGZXRUkN7C+T1BWnXdkcoTCMeCOFsVjPn/U3Cw=;
-        b=f3w0gyPHN+1p8rms81nJEgjrqrbv6uGdyBTrbd6UM2/NdXErmRXQKPn9w3A9k56bm5
-         2yGeqk7nNNg+gAZPbWcjWnN/QZO3+9z9B9tuHinKD9CHVe5tjl7h9lcMoP2VcOJu+oRN
-         aGEmtJZZ+GoBaHX3sJhqYlMWlZbrBnFVOnzrRZLF7sKBgm+e8SmEwuCToYKq1x5aYJuy
-         5lfAgki+pIuOuI3lUoSQ9v8PyNQ4djPEaHsmM7MSxQpIBwI8e7t69JDrO9c/s111mCY3
-         V9GwPodbPCMBb6YHoHnmMp2+XHt/gFZwqYbHnU+D5v7ZQAeEc2k6CGtf280kzns/+wPX
-         qfVQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=iFEjA6XycRjzhwrBhZQZbM16tgis/01PpVlHYs+ICe8=;
+        b=NdLp/eFHxERbEAlma0GXlWGPJopG93F312Q+Ok+dSv5RRZmOVKVJNPxCRHmJNRtuHt
+         EJ373E+PjF2CJdqDDElXrTU1bc/hmle2snC4HwnhW2cZl4GJa2I8Bi1CjmdX4n2Rg+dZ
+         gzPd9t9p7yQ/RG0xz2iNSQn5wAlPATBIy/Zps=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UG6o4fGZXRUkN7C+T1BWnXdkcoTCMeCOFsVjPn/U3Cw=;
-        b=ltqHnFtSX+xbK8FChpSu0nsi7qRoYq7uFRvMTxaJSINhl77sdX+LNLL73ORwH963xt
-         ccJHizu70glPc0GG7rquseJhVBKtHyZGxXFSz0nLD2fqm3inlcZKXb0+ffLadhrZ1vC4
-         Sx5a6y72RTrjUwhaLqdeTwXXxXoi8zSpsrOA0qt79HGbYkYKlb9qmNr0dDVnhN2+nG5v
-         AkVFi+nqM/WOd0t12os2fD6VujIeje8gONXGytN7PeFxbX7wPCMvoA1M3JRMPBDAsQo/
-         xH87mo+S7W4mlqoUlaKUwDFX1yyPVSzcPGjSVJuRU8aGePQSfUtCEXO388fXbCDMVU7b
-         mU6w==
-X-Gm-Message-State: AOAM531jRGodKowo75/aftvsiq2nbIsnRG6EhQs6iC+ugj8OJrlIBrCs
-	JCrDVq2YohCFCrReEutBpGpeJPNgYIEe1XYrRBU=
-X-Google-Smtp-Source: ABdhPJzb9wISaRRfwCRR7lcQLV6LOHzGCJqrfK8OHZ6xvFHwIhqQbVx3dCYL+gtHHcmVDaYJG1WpOgtwTY07nLIy7FQ=
-X-Received: by 2002:a67:8e88:: with SMTP id q130mr4197904vsd.197.1599030665228;
- Wed, 02 Sep 2020 00:11:05 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=iFEjA6XycRjzhwrBhZQZbM16tgis/01PpVlHYs+ICe8=;
+        b=G+KrnSItJUIdnZm0ziTsqf7L2Ymp+x7jY/hW3N+B8QvEWaYE5ITBjiEkZkwI6regxq
+         gX35Knd99rge8kNKw0qMoJT2h10jg6qBq2N9oH4njgVENd8rr5pWwosfWsjJHGTM2K62
+         +lhhC7TIkQb993wZV48js+pzezQq+ecfbq7HDC2+39RjzmI7dRn5wU7eMDjRimcnfv4D
+         yB3lu1CfwnI339/4dTGh/33/ANvegFznkNPEy6rba6E0hzNhMSiY/Y6gcijJ1kfFwHgm
+         7Wqq+2Qc/XwfLbh20RZdwid4sDDmZJgaz7Wc56jPKLoNDALdCnPHEawFWjgXWRPPogem
+         wgVg==
+X-Gm-Message-State: AOAM532hFUPTtLk9v9xRHbrt4+nl75vJVXODEiM6wuVik9yhuGOCHqVe
+	+HH0iKaeyaeLHhD/bE0psxqdqA==
+X-Google-Smtp-Source: ABdhPJz8s68zUWE8r5Fnp8SQD/WIKJH3w8qM1mAA5C2YZ326nQJCf77ccQdj4BKeULrQ6/R7fyXrFQ==
+X-Received: by 2002:a1c:f709:: with SMTP id v9mr5565660wmh.165.1599031038502;
+        Wed, 02 Sep 2020 00:17:18 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.d.2.7.a.9.f.9.6.8.f.0.2.a.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.d.2.7.a.9.f.9.6.8.f.0.2.a.5.d.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:d5a2:f86:9f9a:72df])
+        by smtp.gmail.com with ESMTPSA id v128sm5254282wme.2.2020.09.02.00.17.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 00:17:17 -0700 (PDT)
+Message-ID: <974f2e0195871d18ce60b3ed2472ab634f100642.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libpcre: fix occasionally do_package_write_rpm error
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: "MacLeod, Randy (Wind River)" <randy.macleod@windriver.com>
+Date: Wed, 02 Sep 2020 08:17:14 +0100
+In-Reply-To: <61b74cbe-c228-c206-9155-0e3a0d866e4f@windriver.com>
+References: <20200828061434.2943665-1-changqing.li@windriver.com>
+	 <389322665bc193ed7bace452717e02dd80aa675d.camel@linuxfoundation.org>
+	 <61b74cbe-c228-c206-9155-0e3a0d866e4f@windriver.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20200901225324.17870-1-changhyeok.bae@gmail.com> <20200901225324.17870-3-changhyeok.bae@gmail.com>
-In-Reply-To: <20200901225324.17870-3-changhyeok.bae@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 2 Sep 2020 09:10:54 +0200
-Message-ID: <CANNYZj9Z+766uE7cg8_gSaVX2BoOmRfN2rGQrWPGc5Kwy3FKkw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2 3/3] packagegroup-core-full-cmdline: remove iputils
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c935ad05ae4f5664"
-
---000000000000c935ad05ae4f5664
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-This doesn=E2=80=99t seem correct to me. Iputils is an empty package but it=
- pulls
-in all the sub-packages with individual utilities.
+On Wed, 2020-09-02 at 10:36 +0800, Changqing Li wrote:
+> 
+> On 9/1/20 7:08 PM, Richard Purdie wrote:
+> > On Fri, 2020-08-28 at 14:14 +0800, Changqing Li wrote:
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > > 
+> > > Error info:
+> > > ERROR: libpcre-8.44-r0 do_package_write_rpm: Failure expanding
+> > > variable
+> > > SUMMARY_libpcrecpp, expression was ${SUMMARY} - C++ wrapper
+> > > functions
+> > > which triggered exception RecursionError: maximum recursion depth
+> > > exceeded while calling a Python object
+> > > 
+> > > this error is hard to reproduce, only met one time. Seems expand
+> > > SUMMARY with reference to SUMMARY cause a dead loop.
+> > > 
+> > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > 
+> > What is worrying me is why we can't reproduce this. It should fail
+> > or
+> > not fail, why do we only sometimes see this?
+> > 
+> > I'd like to understand the cause as it sounds like a determinism
+> > problem somewhere.
+> > 
+> > Is there a sequence we can reproduce it with?
+> 
+> Unfortunately no, we also hard to reproduce this, only met one time
+> on 08 Jul when build a wrlinux image.
+> 
+> And don't see it for about 2 months.
 
-Alex
+I'd like to have a better understanding of the issue before we merge
+potential fixes as there are probably other recipes which also
+reference SUMMARY like this and I don't want to patch them all without
+understanding the problem.
 
-On Wed 2. Sep 2020 at 0.52, Changhyeok Bae <changhyeok.bae@gmail.com> wrot=
-e:
+Cheers,
 
-> iputils package doesn't have anything.
->
->
->
-> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
->
-> ---
->
->  .../packagegroups/packagegroup-core-full-cmdline.bb              | 1 -
->
->  1 file changed, 1 deletion(-)
->
->
->
-> diff --git a/meta/recipes-extended/packagegroups/
-> packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/
-> packagegroup-core-full-cmdline.bb
->
-> index 16c2f9f2aa..f38577b043 100644
->
-> --- a/meta/recipes-extended/packagegroups/
-> packagegroup-core-full-cmdline.bb
->
-> +++ b/meta/recipes-extended/packagegroups/
-> packagegroup-core-full-cmdline.bb
->
-> @@ -101,7 +101,6 @@ RDEPENDS_packagegroup-core-full-cmdline-utils =3D "\
->
->
->
->  RDEPENDS_packagegroup-core-full-cmdline-extended =3D "\
->
->      iproute2 \
->
-> -    iputils \
->
->      iptables \
->
->      module-init-tools \
->
->      openssl \
->
-> --
->
-> 2.23.0
->
->
->
->=20
->
->
+Richard
 
---000000000000c935ad05ae4f5664
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">This doesn=E2=80=99t seem correct to me. Iputils is an em=
-pty package but it pulls in all the sub-packages with individual utilities.=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 2. Sep =
-2020 at 0.52, Changhyeok Bae &lt;<a href=3D"mailto:changhyeok.bae@gmail.com=
-">changhyeok.bae@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-le=
-ft-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">iputils=
- package doesn&#39;t have anything.<br><br><br><br>Signed-off-by: Changhyeo=
-k Bae &lt;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">cha=
-nghyeok.bae@gmail.com</a>&gt;<br><br>---<br><br>=C2=A0.../packagegroups/<a =
-href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" target=
-=
-=3D"_blank">packagegroup-core-full-cmdline.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br><br>=C2=A01 file changed, 1 deletion(-)<=
-br><br><br><br>diff --git a/meta/recipes-extended/packagegroups/<a href=3D"=
-http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">packagegroup-core-full-cmdline.bb</a> b/meta/recipes-extended/packagegr=
-oups/<a href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer=
-" target=3D"_blank">packagegroup-core-full-cmdline.bb</a><br><br>index 16c2=
-f9f2aa..f38577b043 100644<br><br>--- a/meta/recipes-extended/packagegroups/=
-<a href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">packagegroup-core-full-cmdline.bb</a><br><br>+++ b/meta/reci=
-pes-extended/packagegroups/<a href=3D"http://packagegroup-core-full-cmdline=
-.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-full-cmdline.bb=
-</a><br><br>@@ -101,7 +101,6 @@ RDEPENDS_packagegroup-core-full-cmdline-uti=
-ls =3D &quot;\<br><br><br><br>=C2=A0RDEPENDS_packagegroup-core-full-cmdline=
--extended =3D &quot;\<br><br>=C2=A0 =C2=A0 =C2=A0iproute2 \<br><br>-=C2=A0 =
-=
-=C2=A0 iputils \<br><br>=C2=A0 =C2=A0 =C2=A0iptables \<br><br>=C2=A0 =C2=
-=A0 =C2=A0module-init-tools \<br><br>=C2=A0 =C2=A0 =C2=A0openssl \<br><br>=
--- <br><br>2.23.0<br><br><br><br><br><br></blockquote></div></div>
-
---000000000000c935ad05ae4f5664--
