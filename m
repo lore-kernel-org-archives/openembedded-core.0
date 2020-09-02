@@ -1,115 +1,150 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.1606.1599028987337528081
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
+ by mx.groups.io with SMTP id smtpd.web11.1911.1599030666216675032
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 23:43:07 -0700
+ Wed, 02 Sep 2020 00:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LJBnlrK7;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id s10so1378588plp.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 23:43:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f3w0gyPH;
+ spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f66.google.com with SMTP id s62so182691vsc.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 00:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RGCtXQBq5qF8gJiNsygs6udRSQ60CPmugxiigG4rSp8=;
-        b=LJBnlrK7f00faYR8dH59rg2YSHqhDS4oysqai8g8tAcx4NgU/stNmpdF8cqYU/VCjD
-         Plwm8IHvy6W6DBT30dhYQCpbLyPw6m1zmz9onJuijJf1tf7kM9H9y5yLc48taHQxVpCz
-         qXUe86EoAkcv/z+m34LEWs6xIUVy6wr+ciccAhBVoMiem1Sv/uVJpm1QqFugT0ZRSTkP
-         QtmkFwf4ivSkJs+IGbKx0HFqIdU2pZqFvELmWG+gtXT55Nt4nCiQ3CaMh05opy9Hy6oO
-         Mg5CheAutlncvmlqmvtkZKpr/VbwIPFtrmv6q7Zq++UaWgBjaSMxNGb2lyMA35zCjRdN
-         7c4w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UG6o4fGZXRUkN7C+T1BWnXdkcoTCMeCOFsVjPn/U3Cw=;
+        b=f3w0gyPHN+1p8rms81nJEgjrqrbv6uGdyBTrbd6UM2/NdXErmRXQKPn9w3A9k56bm5
+         2yGeqk7nNNg+gAZPbWcjWnN/QZO3+9z9B9tuHinKD9CHVe5tjl7h9lcMoP2VcOJu+oRN
+         aGEmtJZZ+GoBaHX3sJhqYlMWlZbrBnFVOnzrRZLF7sKBgm+e8SmEwuCToYKq1x5aYJuy
+         5lfAgki+pIuOuI3lUoSQ9v8PyNQ4djPEaHsmM7MSxQpIBwI8e7t69JDrO9c/s111mCY3
+         V9GwPodbPCMBb6YHoHnmMp2+XHt/gFZwqYbHnU+D5v7ZQAeEc2k6CGtf280kzns/+wPX
+         qfVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RGCtXQBq5qF8gJiNsygs6udRSQ60CPmugxiigG4rSp8=;
-        b=T55AwCirWDMLpGSyAra10ej4qx/OA2+Ihvh0+iSDwBgVtJqSuILmF5RKlbYdZjCdUz
-         FT4FPwCpbTrw2EcXBSWBe0oYaUA4wOt6F52Sx12gt3ebiMAlewNuywqLg5nzvErprPCz
-         yn1CSIETm3wXBTreyDtN1i+J3Wwgu2hTjWgFhyiWXe4aQvcw7cJ8hzZI9p1AXaSLGaBG
-         rTpzDfPl9I9LaiLr4nKPg7IagjTSC0bDT2kHyWdib/yH2sfxcvzniG10qIbF2LW+GoNu
-         NnWSmiHB2S7Wm7TCpA3xfvMpnBgyn3kuxLGjdVNq8m6WjD0bK9YduRiXQRK0NfSZZtMp
-         CDeA==
-X-Gm-Message-State: AOAM5327VwJkcMd3wy5xXqQVXZAoH67YKfqK2bqih3HxueIKTtgT1OxZ
-	snFcVw/5QMOntuEz2UTyLZZek5KEEq+C0g==
-X-Google-Smtp-Source: ABdhPJxy4BqWULHbZYQsCwrPvvKThSTZokhSmVy9RMjPG6eCmZmk7LGh1wDOaHquwXsRiDT+SEBnJA==
-X-Received: by 2002:a17:90b:208b:: with SMTP id hb11mr970164pjb.201.1599028986526;
-        Tue, 01 Sep 2020 23:43:06 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
-        by smtp.gmail.com with ESMTPSA id o23sm4591431pgm.18.2020.09.01.23.43.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 23:43:06 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] json-glib: Backport a build fix with clang
-Date: Tue,  1 Sep 2020 23:43:02 -0700
-Message-Id: <20200902064302.3265030-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UG6o4fGZXRUkN7C+T1BWnXdkcoTCMeCOFsVjPn/U3Cw=;
+        b=ltqHnFtSX+xbK8FChpSu0nsi7qRoYq7uFRvMTxaJSINhl77sdX+LNLL73ORwH963xt
+         ccJHizu70glPc0GG7rquseJhVBKtHyZGxXFSz0nLD2fqm3inlcZKXb0+ffLadhrZ1vC4
+         Sx5a6y72RTrjUwhaLqdeTwXXxXoi8zSpsrOA0qt79HGbYkYKlb9qmNr0dDVnhN2+nG5v
+         AkVFi+nqM/WOd0t12os2fD6VujIeje8gONXGytN7PeFxbX7wPCMvoA1M3JRMPBDAsQo/
+         xH87mo+S7W4mlqoUlaKUwDFX1yyPVSzcPGjSVJuRU8aGePQSfUtCEXO388fXbCDMVU7b
+         mU6w==
+X-Gm-Message-State: AOAM531jRGodKowo75/aftvsiq2nbIsnRG6EhQs6iC+ugj8OJrlIBrCs
+	JCrDVq2YohCFCrReEutBpGpeJPNgYIEe1XYrRBU=
+X-Google-Smtp-Source: ABdhPJzb9wISaRRfwCRR7lcQLV6LOHzGCJqrfK8OHZ6xvFHwIhqQbVx3dCYL+gtHHcmVDaYJG1WpOgtwTY07nLIy7FQ=
+X-Received: by 2002:a67:8e88:: with SMTP id q130mr4197904vsd.197.1599030665228;
+ Wed, 02 Sep 2020 00:11:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200901225324.17870-1-changhyeok.bae@gmail.com> <20200901225324.17870-3-changhyeok.bae@gmail.com>
+In-Reply-To: <20200901225324.17870-3-changhyeok.bae@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 2 Sep 2020 09:10:54 +0200
+Message-ID: <CANNYZj9Z+766uE7cg8_gSaVX2BoOmRfN2rGQrWPGc5Kwy3FKkw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v2 3/3] packagegroup-core-full-cmdline: remove iputils
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c935ad05ae4f5664"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...o-instead-of-cast-to-convert-pointer.patch | 33 +++++++++++++++++++
- .../json-glib/json-glib_1.4.4.bb              |  4 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
+--000000000000c935ad05ae4f5664
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch b/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
-new file mode 100644
-index 0000000000..2a834b674d
---- /dev/null
-+++ b/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
-@@ -0,0 +1,33 @@
-+From d60fcd5bd5c2675e4342775b910a2ea48ec0eccb Mon Sep 17 00:00:00 2001
-+From: Dimitry Andric <dim@FreeBSD.org>
-+Date: Wed, 19 Aug 2020 03:35:16 +0000
-+Subject: [PATCH] scanner: use macro instead of cast to convert pointer to integer
-+
-+Clang 11 build failed due to a new warning (part of -Werror=pointer-to-int-cast):
-+../json-glib/json-scanner.c:928:13: error: cast to smaller integer type 'GTokenType' from 'gpointer' (aka 'void *') [-Werror,-Wvoid-pointer-to-enum-cast]
-+        *token_p = (GTokenType) value_p->v_symbol;
-+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/json-glib/-/commit/8c5fabe962b7337066dac7a697d23fce257a5d64]
-+Signed-off-by: Jan Beich <jbeich@FreeBSD.org>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ json-glib/json-scanner.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/json-glib/json-scanner.c b/json-glib/json-scanner.c
-+index 0c9919f..59dd29c 100644
-+--- a/json-glib/json-scanner.c
-++++ b/json-glib/json-scanner.c
-+@@ -925,7 +925,7 @@ json_scanner_get_token_i (JsonScanner	*scanner,
-+       
-+     case G_TOKEN_SYMBOL:
-+       if (scanner->config->symbol_2_token)
-+-	*token_p = (GTokenType) value_p->v_symbol;
-++	*token_p = GPOINTER_TO_INT (value_p->v_symbol);
-+       break;
-+       
-+     case G_TOKEN_BINARY:
-+-- 
-+2.28.0
-+
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-index c999d761bd..add9ff41a1 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-@@ -14,7 +14,9 @@ DEPENDS = "glib-2.0"
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase lib_package gobject-introspection gtk-doc gettext ptest-gnome manpages upstream-version-is-even
- 
--SRC_URI += "file://run-ptest"
-+SRC_URI += "file://run-ptest \
-+            file://0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch \
-+"
- SRC_URI[archive.md5sum] = "4d4bb9837f6d31e32d0ce658ae135f68"
- SRC_URI[archive.sha256sum] = "720c5f4379513dc11fd97dc75336eb0c0d3338c53128044d9fabec4374f4bc47"
- 
--- 
-2.28.0
+This doesn=E2=80=99t seem correct to me. Iputils is an empty package but it=
+ pulls
+in all the sub-packages with individual utilities.
 
+Alex
+
+On Wed 2. Sep 2020 at 0.52, Changhyeok Bae <changhyeok.bae@gmail.com> wrot=
+e:
+
+> iputils package doesn't have anything.
+>
+>
+>
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+>
+> ---
+>
+>  .../packagegroups/packagegroup-core-full-cmdline.bb              | 1 -
+>
+>  1 file changed, 1 deletion(-)
+>
+>
+>
+> diff --git a/meta/recipes-extended/packagegroups/
+> packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/
+> packagegroup-core-full-cmdline.bb
+>
+> index 16c2f9f2aa..f38577b043 100644
+>
+> --- a/meta/recipes-extended/packagegroups/
+> packagegroup-core-full-cmdline.bb
+>
+> +++ b/meta/recipes-extended/packagegroups/
+> packagegroup-core-full-cmdline.bb
+>
+> @@ -101,7 +101,6 @@ RDEPENDS_packagegroup-core-full-cmdline-utils =3D "\
+>
+>
+>
+>  RDEPENDS_packagegroup-core-full-cmdline-extended =3D "\
+>
+>      iproute2 \
+>
+> -    iputils \
+>
+>      iptables \
+>
+>      module-init-tools \
+>
+>      openssl \
+>
+> --
+>
+> 2.23.0
+>
+>
+>
+>=20
+>
+>
+
+--000000000000c935ad05ae4f5664
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">This doesn=E2=80=99t seem correct to me. Iputils is an em=
+pty package but it pulls in all the sub-packages with individual utilities.=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 2. Sep =
+2020 at 0.52, Changhyeok Bae &lt;<a href=3D"mailto:changhyeok.bae@gmail.com=
+">changhyeok.bae@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-le=
+ft-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">iputils=
+ package doesn&#39;t have anything.<br><br><br><br>Signed-off-by: Changhyeo=
+k Bae &lt;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">cha=
+nghyeok.bae@gmail.com</a>&gt;<br><br>---<br><br>=C2=A0.../packagegroups/<a =
+href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" target=
+=
+=3D"_blank">packagegroup-core-full-cmdline.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br><br>=C2=A01 file changed, 1 deletion(-)<=
+br><br><br><br>diff --git a/meta/recipes-extended/packagegroups/<a href=3D"=
+http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">packagegroup-core-full-cmdline.bb</a> b/meta/recipes-extended/packagegr=
+oups/<a href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer=
+" target=3D"_blank">packagegroup-core-full-cmdline.bb</a><br><br>index 16c2=
+f9f2aa..f38577b043 100644<br><br>--- a/meta/recipes-extended/packagegroups/=
+<a href=3D"http://packagegroup-core-full-cmdline.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">packagegroup-core-full-cmdline.bb</a><br><br>+++ b/meta/reci=
+pes-extended/packagegroups/<a href=3D"http://packagegroup-core-full-cmdline=
+.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-full-cmdline.bb=
+</a><br><br>@@ -101,7 +101,6 @@ RDEPENDS_packagegroup-core-full-cmdline-uti=
+ls =3D &quot;\<br><br><br><br>=C2=A0RDEPENDS_packagegroup-core-full-cmdline=
+-extended =3D &quot;\<br><br>=C2=A0 =C2=A0 =C2=A0iproute2 \<br><br>-=C2=A0 =
+=
+=C2=A0 iputils \<br><br>=C2=A0 =C2=A0 =C2=A0iptables \<br><br>=C2=A0 =C2=
+=A0 =C2=A0module-init-tools \<br><br>=C2=A0 =C2=A0 =C2=A0openssl \<br><br>=
+-- <br><br>2.23.0<br><br><br><br><br><br></blockquote></div></div>
+
+--000000000000c935ad05ae4f5664--
