@@ -1,360 +1,166 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web10.7055.1599052410345512886
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web11.8803.1599057187912595149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 06:13:30 -0700
+ Wed, 02 Sep 2020 07:33:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NNadFly7;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id n13so4854732edo.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 06:13:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XWuuYiVe;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id n10so3700851qtv.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 07:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nPoeTXcqT5uNx82LR4ZKxT/DXqJomwiBZ23c4XiJGHg=;
-        b=NNadFly7wlICP6uTHZD6Laj3/pq8c3Y2s/vuhkLD5kOkL90z9GtzHvA2BlpcYI7bsZ
-         zXZnaCvfKkcTiFUkGcC7pkFzdvB9p54ywMD0/TaeUivcipOUhqWUdZoKZPwGOJBRQFCr
-         9YlLb86cAgEgFg5rfpD1JeHD88Zb3PjuPQvJTOwcq84Wye7jKdjOngDPA18SqMyVstsh
-         KvhO9Kw1NnBsl35Of2u6AGPKc0jWoLeiC4fburnZJADBD3iy/42BSW+Wqr7y4QKPhyiu
-         WF24x0XFtT6i7ri/cUT5FnlfmzrwmyvrLgQwNFM3OA00e17CmLi422w4Tgfs2YXDtxd/
-         XPTg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ktG5+US5L7O9sbRY4H3PwEzbnyBNJ45Kdz4yzLz9A6U=;
+        b=XWuuYiVeGwB6+BoZ9Egcdso2AQXAhBGyxhmvbGQwmDR4aoCp7anfX9zpZ5fqdk8KRT
+         NJzpaKT6IcAEzS0P4tc0GmuKLKm12j6mp4elzxebcXURw/b3dsOQRNrPD0kuVUiAIO55
+         EK+i1nLSLT2LKj9ngYWjp5XokeZfmkVYHsL/9aYec/vB1QGIIvdEdOgKk/8PR7v+L7ed
+         T0sEzGbzCEYWjkgL4VKLJZbrj+57CVzonI6QwgqXDy8kZg49D68l605uScN0hH/WTmGP
+         q0dmVh0Cf3ZkIPjpHUNehOWUe0j5ytTaytiM8HOlHNmS2Oed8zUCSic19uc3n6Gxfezj
+         7Ksw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nPoeTXcqT5uNx82LR4ZKxT/DXqJomwiBZ23c4XiJGHg=;
-        b=D5nEBFqxmtaFh+qaIRdbx6nuALC8d9REbTAmYJJBVfABq2RkMkcun1M5kS7XSgrqbb
-         OscvOXwKQ8YBHYaDTg0m2ihhbVCYEDzf2JhSB8pfum8NErUO5b5pOrhLMZqzwzQ18glK
-         FClgUGVrNJQ519f9aePbIYkuwmzwMOQnNNrI4lZJJDj+DIjsJVrjG+ae4JoWbFLtgThV
-         uUW4ZK3bpRjFOurRBwFy431LhAcQmjNYwT7JgIESs7hELLY1xDQV78nDstunW3K8t8w4
-         pQAjm+ei048EyqIOyl+lm0oyh+Gqu23q8U65Z0AiSl/JLiyxh0QFTwJ1IdBshIETYYEo
-         PzEg==
-X-Gm-Message-State: AOAM531+n0H3cKzcXuLP/aznuJk24APOErLc0z9ToeD/H74v1oYWYjvK
-	aAzwlZk/QlNxrjb39kAuNqXt1CRIelcLW5wq0cI=
-X-Google-Smtp-Source: ABdhPJzE1wpQmlQs+HFe/uAOGaW9Z0ytgzKmJ+oZm3p/5q5fyZs77NPXDKDA5cO/EeQBMsEgoQOdB0EXND/Xpv1TKv4=
-X-Received: by 2002:aa7:c383:: with SMTP id k3mr3361edq.164.1599052408508;
- Wed, 02 Sep 2020 06:13:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <6e070a3d-a5f3-46bf-ac33-d7d6daf05b4f@embed.me.uk>
- <CADkTA4Ob=JpTsenFdNcKzB_5-8xQ+OGm_eQK_QPOPWeizz89QA@mail.gmail.com>
- <162F8C343CCB5CF7.17615@lists.openembedded.org> <ab4878e3-da65-2410-eb3a-d815483f085b@embed.me.uk>
- <162F9C3326351CDB.18810@lists.openembedded.org> <CADkTA4PRJxj5KdhouVV1h99maCCPwGRTNcaUw2WO4-awKkRD9Q@mail.gmail.com>
- <1a844286-9b72-95c9-56be-979b59d42266@linux.intel.com> <2da2a00d-13a5-1f3f-c541-ecc40cc27934@embed.me.uk>
- <CADkTA4OarooZ4markDTDCGS8Lk_TYxqnwfumYni98MwB2aaAtg@mail.gmail.com> <0d336b24-cdc7-f621-acf4-2777609aab26@embed.me.uk>
-In-Reply-To: <0d336b24-cdc7-f621-acf4-2777609aab26@embed.me.uk>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ktG5+US5L7O9sbRY4H3PwEzbnyBNJ45Kdz4yzLz9A6U=;
+        b=TjyZFgc/cMEU+GeoqiJR51f1n1u33BNTwXhAjuvQkmtdm2bR4IhUaUEMyorHwxQoFY
+         KfSDs4DkvryThnRUAg4cP3qJWYmYyDQEjbz6c+VwqDjcd15S24OnUSLFBVNkierUvEh8
+         T+i1cAwfWHH7+X1DLGzyTsgHC3XB93itcluXSzM70dIem/edSCvhHhEgTMcimEfRFkIK
+         jdLK1/O8Yszks0IaUGaDNY/wEo4orGvKA67eQuA9WJ/PhhKFKmKQq73MMhBHl3KGrkWh
+         pGe3aq4+BgAikVGXjsweD6bRwqA6yh2g4v5t1X/Mk1v+kDXGQ0M7EbQI46mdA/iVAWSN
+         Iarg==
+X-Gm-Message-State: AOAM530v2dtFaCmlkTiA6+8zIIiHCXMlWz6FB142mohvC5QDytV7suqg
+	BlL2Go35p6oNrTsqj4yoqPE=
+X-Google-Smtp-Source: ABdhPJy3DqCVHLyRl8po9PMMiEndmyE7HR7OLOIpw+N3G8/Qcjmt0r9C90Q0UmhYe4UMMDFy/W64ew==
+X-Received: by 2002:ac8:691:: with SMTP id f17mr4390753qth.241.1599057186906;
+        Wed, 02 Sep 2020 07:33:06 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id v14sm4589461qto.81.2020.09.02.07.33.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 07:33:06 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 2 Sep 2020 09:11:34 -0400
-Message-ID: <CADkTA4MZS2BqD2RFSu6JZh8xzxF12+wP-nWpKETKGuJ5J6Sd8w@mail.gmail.com>
-Subject: Re: [OE-core] Linux v5.8 modules, exec format error
-To: Jack Mitchell <ml@embed.me.uk>
-Cc: Randy Witt <randy.e.witt@linux.intel.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] linux-yocto/5.8: update to v5.8.5
+Date: Wed,  2 Sep 2020 10:33:03 -0400
+Message-Id: <20200902143304.22364-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 2, 2020 at 8:34 AM Jack Mitchell <ml@embed.me.uk> wrote:
->
-> On 02/09/2020 13:14, Bruce Ashfield wrote:
-> > On Wed, Sep 2, 2020 at 3:39 AM Jack Mitchell <ml@embed.me.uk> wrote:
-> >>
-> >>
-> >>
-> >> On 29/08/2020 20:13, Randy Witt wrote:
-> >>> On 8/29/20 11:41 AM, Bruce Ashfield wrote:
-> >>>> On Fri, Aug 28, 2020 at 10:28 PM Bruce Ashfield via
-> >>>> lists.openembedded.org
-> >>>> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> >>>>>
-> >>>>> On Fri, Aug 28, 2020 at 7:15 PM Jack Mitchell <jack@embed.me.uk> wrote:
-> >>>>>>
-> >>>>>> Quick update, I just did an armv7 build with exactly the same codebase
-> >>>>>> and everything worked fine. Do you have an aarch64 build could test and
-> >>>>>> confirm working?
-> >>>>>
-> >>>>> qemuarm64 was working fine here with -rc1. I've started a new build,
-> >>>>> but it'll be several hours before I know more (so sometime saturday).
-> >>>>>
-> >>>
-> >>> I saw this on linux-modules today,
-> >>> https://lore.kernel.org/linux-modules/20200829100334.GK1362448@hirez.programming.kicks-ass.net/T/#t
-> >>> which references
-> >>> https://lore.kernel.org/lkml/20200808101222.5103093e@coco.lan/ saying it
-> >>> is a bug in binutils.
-> >>>
-> >>> I haven't looked at it anymore other than seeing this email and that
-> >>> issue are both exec format errors on arm. I have to leave and can't
-> >>> investigate anymore, but figured this might be useful. If not feel free
-> >>> to ignore, and sorry for the noise.
-> >>
-> >> Hi Randy,
-> >>
-> >> Thanks for the heads up, this was indeed was the issue. I'm not sure why
-> >> it's not manifesting itself on Bruces builds. It seems to be arm64
-> >> specific and directly correlated to the binutils version. There is a
-> >> patch coming which will make it in before the release and I assume be
-> >> backported to v5.8 stable which is also affected.
-> >
-> > Are you seeing that out of the latest master SRCREVs ?
-> >
-> > It isn't just me that isn't seeing this, it is our entire autobuilder
-> > infrastructure, and everyone else using 5.8/ARM on master.
-> >
-> > Cheers,
-> >
-> > Bruce
-> >
->
-> Hi Bruce,
->
-> Yes, standard mainline kernel at both the v5.8 tag and v5.9-rc2 with a
-> dozen or so custom patches on top covering dts/driver changes targeting
-> a rk3399 soc.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I wasn't clear, sorry about that.
+Updating linux-yocto/5.8 to the latest korg -stable release that comprises
+the following commits:
 
-For the "master" question, I was asking about oe-core master, and
-hence the up to date reference kernel. Those are the SRCREVs that we
-test, so those are the ones I'm most concerned about.
+    9ece50d8a470 Linux 5.8.5
+    c05dea7c0f3f binfmt_flat: revert "binfmt_flat: don't offset the data start"
+    44f639d5aeda io_uring: fix missing ->mm on exit
+    3f4be7a7db9f netlink: fix state reallocation in policy export
+    1c0be9a99c9c ethtool: Don't omit the netlink reply if no features were changed
+    507d7ac63fad ethtool: Account for hw_features in netlink interface
+    e53140320193 ethtool: Fix preserving of wanted feature bits in netlink interface
+    da995e0a6dac net: ena: Make missed_tx stat incremental
+    3942262b7499 tipc: fix uninit skb->data in tipc_nl_compat_dumpit()
+    828fd2e892b0 tipc: call rcu_read_lock() in tipc_aead_encrypt_done()
+    22f2be57784e net/smc: Prevent kernel-infoleak in __smc_diag_dump()
+    df805b956877 net: sctp: Fix negotiation of the number of data streams.
+    4c1fc05e5d6a net/sched: act_ct: Fix skb double-free in tcf_ct_handle_fragments() error flow
+    351366ffef2c net: qrtr: fix usage of idr in port assignment to socket
+    c4c76ec584a7 net: nexthop: don't allow empty NHA_GROUP
+    a75f8a60c415 net: Fix potential wrong skb->protocol in skb_vlan_untag()
+    3f13223bb0b1 gre6: Fix reception with IP6_TNL_F_RCV_DSCP_COPY
 
-There's an infinite number of other combinations, so we have to focus
-on that set.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.8.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_5.8.bb             |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 20 +++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-And yes, that's the mainline patch that is being talked about, but it
-still hasn't shown up in any of linus' official trees yet, so I'm in a
-holding pattern on that front (again, for the reference kernels).
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+index f956f04d53..a87cad962e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
++SRCREV_machine ?= "ded3e9afb3262feb367227c63da1f762f893b192"
+ SRCREV_meta ?= "0a4bef3856894e8bca3c74c97e7924ad262c0dc8"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.8.4"
++LINUX_VERSION ?= "5.8.5"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+index ae3b82b86a..3661072a48 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.8.4"
++LINUX_VERSION ?= "5.8.5"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "657076afb65e40e322bcc3b2bb8eeca590e20912"
+-SRCREV_machine ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
++SRCREV_machine_qemuarm ?= "5bc60299c57b6dd6d88cd3196e1a3949a4365214"
++SRCREV_machine ?= "ded3e9afb3262feb367227c63da1f762f893b192"
+ SRCREV_meta ?= "0a4bef3856894e8bca3c74c97e7924ad262c0dc8"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+index 0f162f87be..91a4873fc9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+@@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.8/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.8/standard/base"
+ KBRANCH_qemumips64 ?= "v5.8/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "a23a3757322d01974a65285aefcf7fdbbcde9aa8"
+-SRCREV_machine_qemuarm64 ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
+-SRCREV_machine_qemumips ?= "1f31484dac3aaf69f06a07d8869bd04d1d0377b7"
+-SRCREV_machine_qemuppc ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
+-SRCREV_machine_qemuriscv64 ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
+-SRCREV_machine_qemux86 ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
+-SRCREV_machine_qemux86-64 ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
+-SRCREV_machine_qemumips64 ?= "768aed7c0609f38222ee7672981a9b60c943f4fb"
+-SRCREV_machine ?= "6a095b50f83adc33b07bd1b3dbbcca8bec66849f"
++SRCREV_machine_qemuarm ?= "683da0bfdf000de0d65dc4a3c66bdc9906735144"
++SRCREV_machine_qemuarm64 ?= "ded3e9afb3262feb367227c63da1f762f893b192"
++SRCREV_machine_qemumips ?= "a86380b2bc78d8a40af8608569fe8d7f88f1bfd7"
++SRCREV_machine_qemuppc ?= "ded3e9afb3262feb367227c63da1f762f893b192"
++SRCREV_machine_qemuriscv64 ?= "ded3e9afb3262feb367227c63da1f762f893b192"
++SRCREV_machine_qemux86 ?= "ded3e9afb3262feb367227c63da1f762f893b192"
++SRCREV_machine_qemux86-64 ?= "ded3e9afb3262feb367227c63da1f762f893b192"
++SRCREV_machine_qemumips64 ?= "c0568a8edccef3a9bb29c2c4911b8200892c23f2"
++SRCREV_machine ?= "ded3e9afb3262feb367227c63da1f762f893b192"
+ SRCREV_meta ?= "0a4bef3856894e8bca3c74c97e7924ad262c0dc8"
+ 
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.8.4"
++LINUX_VERSION ?= "5.8.5"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+-- 
+2.19.1
 
-It is more than just that patch, since it also impacts certain modules
-and configurations differently.
-
-Cheers,
-
-Bruce
-
-
->
-> Build Configuration:
-> BB_VERSION           = "1.47.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "arch"
-> TARGET_SYS           = "aarch64-oe-linux"
-> TUNE_FEATURES        = "aarch64 armv8a crc"
-> TARGET_FPU           = ""
-> meta                 = "master:09f4db415fb6a1398e9e9b359630043c833f6118"
->
-> and the patch which to cover it in the meantime.
->
-> commit fc439f22c8cf71689a905ff25e326b14f57bdab7
-> Author: Jack Mitchell <ml@embed.me.uk>
-> Date:   Tue Sep 1 09:47:19 2020 +0100
->
->     TEMP: fixup aarch64 module loading with new binutils
->
-> diff --git a/arch/arm64/kernel/module-plts.c
-> b/arch/arm64/kernel/module-plts.c
-> index 0ce3a28e3347..2e224435c024 100644
-> --- a/arch/arm64/kernel/module-plts.c
-> +++ b/arch/arm64/kernel/module-plts.c
-> @@ -305,8 +305,7 @@ int module_frob_arch_sections(Elf_Ehdr *ehdr,
-> Elf_Shdr *sechdrs,
->                         mod->arch.core.plt_shndx = i;
->                 else if (!strcmp(secstrings + sechdrs[i].sh_name,
-> ".init.plt"))
->                         mod->arch.init.plt_shndx = i;
-> -               else if (IS_ENABLED(CONFIG_DYNAMIC_FTRACE) &&
-> -                        !strcmp(secstrings + sechdrs[i].sh_name,
-> +               else if (!strcmp(secstrings + sechdrs[i].sh_name,
->                                  ".text.ftrace_trampoline"))
->                         tramp = sechdrs + i;
->                 else if (sechdrs[i].sh_type == SHT_SYMTAB)
->
-> Cheers,
-> Jack.
->
-> >>
-> >> Cheers,
-> >> Jack.
-> >>
-> >>>>
-> >>>> still working here:
-> >>>>
-> >>>> qemuarm64 login: root
-> >>>> root@qemuarm64:~# uname -a
-> >>>> Linux qemuarm64 5.9.0-rc2-yoctodev-standard #1 SMP PREEMPT Sat Aug 29
-> >>>> 14:26:30 UTC 2020 aarch64 aarch64 aarch64 GNU/Linux
-> >>>> root@qemuarm64:~# lsmod
-> >>>> Module                  Size  Used by
-> >>>> sch_fq_codel           20480  1
-> >>>> openvswitch           155648  0
-> >>>> nsh                    16384  1 openvswitch
-> >>>> nf_conncount           20480  1 openvswitch
-> >>>> nf_nat                 40960  1 openvswitch
-> >>>> nf_conntrack          110592  3 nf_nat,openvswitch,nf_conncount
-> >>>> nf_defrag_ipv6         20480  2 nf_conntrack,openvswitch
-> >>>> nf_defrag_ipv4         16384  1 nf_conntrack
-> >>>> root@qemuarm64:~#
-> >>>>
-> >>>> Bruce
-> >>>>
-> >>>>> Cheers,
-> >>>>>
-> >>>>> Bruce
-> >>>>>
-> >>>>>>
-> >>>>>> Regards,
-> >>>>>> Jack.
-> >>>>>>
-> >>>>>> On 28/08/2020 22:35, Jack Mitchell wrote:
-> >>>>>>> Hi Bruce,
-> >>>>>>>
-> >>>>>>> All built in-tree, the same recipe builds an armv7h kernel so I'll
-> >>>>>>> try a
-> >>>>>>> build for that and see if it's something aarch64 specific. All the
-> >>>>>>> modules are failing to load so it's not something specific to g_ether.
-> >>>>>>> Please see kernel recipe below for reference.
-> >>>>>>>
-> >>>>>>> LICENSE = "GPLv2"
-> >>>>>>> LIC_FILES_CHKSUM =
-> >>>>>>> "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-> >>>>>>>
-> >>>>>>> inherit kernel
-> >>>>>>>
-> >>>>>>> S = "${WORKDIR}/git"
-> >>>>>>>
-> >>>>>>> SRCREV = "redacted"
-> >>>>>>> KBRANCH = "v5.9-rc2"
-> >>>>>>>
-> >>>>>>> LINUX_VERSION ?= "${KBRANCH}-g${SRCREV}"
-> >>>>>>> PV = "${LINUX_VERSION}"
-> >>>>>>>
-> >>>>>>> SRC_URI = " \
-> >>>>>>>
-> >>>>>>> git://git@github.com/redacted/linux.git;name=kernel;branch=${KBRANCH};protocol=ssh
-> >>>>>>>
-> >>>>>>> \
-> >>>>>>> "
-> >>>>>>>
-> >>>>>>> do_configure_prepend() {
-> >>>>>>>          if [ -n "${KBUILD_DEFCONFIG}" ] && [ -f
-> >>>>>>> "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}" ]; then
-> >>>>>>>                  oe_runmake_call -C ${S} CC="${KERNEL_CC}"
-> >>>>>>> LD="${KERNEL_LD}" O=${B} ${KBUILD_DEFCONFIG}
-> >>>>>>>          fi
-> >>>>>>> }
-> >>>>>>>
-> >>>>>>> Cheers,
-> >>>>>>> Jack.
-> >>>>>>>
-> >>>>>>> On 28/08/2020 21:55, Bruce Ashfield wrote:
-> >>>>>>>> On Fri, Aug 28, 2020 at 4:20 PM Jack Mitchell <ml@embed.me.uk> wrote:
-> >>>>>>>>>
-> >>>>>>>>> Having just upgraded my mainline kernel recipe to a v5.8/v5.9-rc2
-> >>>>>>>>> kernel
-> >>>>>>>>> from v5.5.8 I've found that modules have somehow broken. I've
-> >>>>>>>>> flicked
-> >>>>>>>>> between the two and confirmed that the old kernel build works,
-> >>>>>>>>> and the
-> >>>>>>>>> 5.8/5.9 build doesn't. I haven't changed anything bar the git commit
-> >>>>>>>>> hash. It's a very simple kernel recipe basically just inheriting the
-> >>>>>>>>> kernel bbclass and setting SRCREV. Running on current tip of master.
-> >>>>>>>>>
-> >>>>>>>>> I assume it's something symver related but wanted to ask if anybody
-> >>>>>>>>> knows anything before I dig too deep.
-> >>>>>>>>
-> >>>>>>>> I can say that it is working for me on 5.8 and 5.9-rcX on the
-> >>>>>>>> reference kernels.
-> >>>>>>>>
-> >>>>>>>> qemux86-64 login: root
-> >>>>>>>> root@qemux86-64:~# uname -a
-> >>>>>>>> Linux qemux86-64 5.8.4-yocto-standard #1 SMP PREEMPT Wed Aug 26
-> >>>>>>>> 16:07:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-> >>>>>>>> root@qemux86-64:~# lsmod
-> >>>>>>>> Module                  Size  Used by
-> >>>>>>>> parport_pc             24576
-> >>>>>>>> parport                28672  1 parport_pc
-> >>>>>>>> ata_piix               36864  0
-> >>>>>>>> floppy                 77824  0
-> >>>>>>>> sch_fq_codel           20480  1
-> >>>>>>>>
-> >>>>>>>> my 5.9-rc is rebuilding right now, so I can double check it over
-> >>>>>>>> the weekend.
-> >>>>>>>>
-> >>>>>>>> Not super useful, but there shouldn't be anything fundamentally
-> >>>>>>>> broken, since we've been following along with the latest as usual.
-> >>>>>>>>
-> >>>>>>>> Is your g_ether built in-tree, or out of tree ?
-> >>>>>>>>
-> >>>>>>>> Bruce
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> Cheers,
-> >>>>>>>>> Jack.
-> >>>>>>>>>
-> >>>>>>>>> root@rk3399:~# uname  -a
-> >>>>>>>>> Linux rk3399 5.9.0-rc2 #1 SMP PREEMPT Fri Aug 28 18:47:44 UTC 2020
-> >>>>>>>>> aarch64 GNU/Linux
-> >>>>>>>>>
-> >>>>>>>>> root@rk3399:~# modprobe g_ether
-> >>>>>>>>> modprobe: ERROR: could not insert 'g_ether': Exec format error
-> >>>>>>>>>
-> >>>>>>>>> root@rk3399:~# modinfo
-> >>>>>>>>> /lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
-> >>>>>>>>> filename:
-> >>>>>>>>> /lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
-> >>>>>>>>> license:        GPL
-> >>>>>>>>> author:         David Brownell, Benedikt Spanger
-> >>>>>>>>> description:    RNDIS/Ethernet Gadget
-> >>>>>>>>> depends:        libcomposite,u_ether,usb_f_rndis
-> >>>>>>>>> intree:         Y
-> >>>>>>>>> name:           g_ether
-> >>>>>>>>> vermagic:       5.9.0-rc2 SMP preempt mod_unload aarch64
-> >>>>>>>>> parm:           idVendor:USB Vendor ID (ushort)
-> >>>>>>>>> parm:           idProduct:USB Product ID (ushort)
-> >>>>>>>>> parm:           bcdDevice:USB Device version (BCD) (ushort)
-> >>>>>>>>> parm:           iSerialNumber:SerialNumber string (charp)
-> >>>>>>>>> parm:           iManufacturer:USB Manufacturer string (charp)
-> >>>>>>>>> parm:           iProduct:USB Product string (charp)
-> >>>>>>>>> parm:           qmult:queue length multiplier at high/super speed
-> >>>>>>>>> (uint)
-> >>>>>>>>> parm:           dev_addr:Device Ethernet Address (charp)
-> >>>>>>>>> parm:           host_addr:Host Ethernet Address (charp)
-> >>>>>>>>> parm:           use_eem:use CDC EEM mode (bool)
-> >>>>>>>>>
-> >>>>>>>>> [jack@arch-corsair ~]$ file g_ether.ko
-> >>>>>>>>> g_ether.ko: ELF 64-bit LSB relocatable, ARM aarch64, version 1
-> >>>>>>>>> (SYSV),
-> >>>>>>>>> BuildID[sha1]=375c0485cb8c4b013dc0694725457bd111899f8c, not stripped
-> >>>>>>>>>
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> --
-> >>>>> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >>>>> thee at its end
-> >>>>> - "Use the force Harry" - Gandalf, Star Trek II
-> >>>>>
-> >>>>
-> >>>>
-> >>>>
-> >>>>
-> >>>>
-> >>>>
-> >>>
-> >>>
-> >>> 
-> >>>
-> >
-> >
-> >
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
