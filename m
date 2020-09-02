@@ -1,50 +1,50 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.961.1599081249440190725
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.918.1599081250381096605
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 14:14:09 -0700
+ Wed, 02 Sep 2020 14:14:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KbbECNzC;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id p9so700027ejf.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l7bzD+JB;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id d26so753883ejr.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L/QbwgAdWxol90nWh1QOX1EwUUUlObiR0k4cmK4Uwtk=;
-        b=KbbECNzCbsPfzISua/Ri6nKTmxDyvqvz/YK056WwcojBc0HdMZjY6knvZ4kvOrn2Dk
-         TGoilYmObi6CWs4sM3+QVZdaaNhL1erj603laeCB/VNRwhgouhSv6dBta6qw279VZ6yE
-         kWIy9ryj1Sq2qPS998jQwj/98317DOGExnkM21WhqkkC5laGIhTL7hVmkb/U7N5xvcsm
-         NVJ44q1MVrHgj565sNIqwgVVEfZAWKTys1DPtS8YSHNaK/p1Jst/fP9NX8s0sNE6LdSV
-         Uo41jjehg5lrHWCJWRL2/Dj3ncGYFNq0XXmfFrw+CIre8OskXxX0VaQQ1aIxHBG4FRfX
-         Sk8w==
+        bh=kl2fXwzR8wuK8GRtc0O4cHQJQgAbMIl23n95QeOgXG8=;
+        b=l7bzD+JBHYOW4qk6zeYj/dOpcr9GAZpjS9J4XTM33Tx+8p+tbzn7+JwKgTaamwxSkc
+         yqY2sJtqvPVMpgwF1t+Uy9hG0KRE28XXbJqjRyvgP2Lx1hg8P1gjJCdDnarvmh0qPlyo
+         nBNG96XJS02UC0U1QcsphN4A8P5pjUjv57TkMI4qc4mhRa073V5WDB/v47D4XXoRkfaO
+         f19PStRDox3qGlTGoh93sKBJoYG8bKdNlg14cGXYV1n4GpmlzGFYC1xQ+GfUYrsHaXi5
+         EjQxVRt89jTbp7PPFnC6iDHuOiuC/r+Xi0XbKFO//YyC4ZWswv6hYyvns6T3PcB3VYA3
+         3x8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L/QbwgAdWxol90nWh1QOX1EwUUUlObiR0k4cmK4Uwtk=;
-        b=FnhZLk3xxBGZXaI8dBXuFViFknEiV8l3wewOuVafyQiaiYgfBd+u8dCp6XawGDWTqy
-         i0pD1TtdoR68jhCp4/mFDfH7fOCcBhWfrLiMUuw0mzzCEvl1C9RTxpjS8/a5d9ncTRyy
-         QFV4ctEXE5CPGKLuRDJQWEiweYks0lt/zfQrbPgA4hbSAGdDafaU0TPfwAuvupcqgF3C
-         V++K0XKDPvRUOkdo5maZXSH0fEpvznpGRxk2chWqC4vIVOAr2QKyqfNt6Lp3In36iTbJ
-         t+EwKK9xLaGez/D5qsw9MoqlTGL/M2jU1C3rYfwqxmvvSGFyWDo5U4BjR7ctNKiHaKO9
-         c0/g==
-X-Gm-Message-State: AOAM532SnolTgw8Ch0XyjbrvdvLQOYGohTqECgYcoUjprbOUQbum6NbU
-	78a8ssG+K3K75Mz+XxM0nnmASn5Tnz0=
-X-Google-Smtp-Source: ABdhPJz0/J3dBRZEsqF+K4pzBQnStBfEOB0Eze2QlgYXLPr4eFQ6RBuuI1JaXvYCXwCRwSq9Bz0o1A==
-X-Received: by 2002:a17:906:9353:: with SMTP id p19mr12620ejw.403.1599081247708;
-        Wed, 02 Sep 2020 14:14:07 -0700 (PDT)
+        bh=kl2fXwzR8wuK8GRtc0O4cHQJQgAbMIl23n95QeOgXG8=;
+        b=TTr6KuPLc6zG3DQB6UoYL12sYV1vm8igOzJ5XKqd5isQnCYah8fKnSXqv5D3wn1Wi4
+         zH9Sa+kWIzekcocCnyJiLJau4oZT8BdfOCd3cTMw2lf6yCFbkJSbL1mjl3/KjRz84lY/
+         j0It+AorwN4NcZQkFUIZ4OfUQK+NZ7yoDJmhOEDiu9SM+NtFLM7WCz+A2jQn9sDYqURU
+         22ydDN31fw94YMb7WOp+xsqTz8ZYgHmG1RbNDE8OlTZk36vBGYMz+dnD/nOKQKPy7oSf
+         uJ20dSigC5yLElRUbuWlFq9tZVVmGhY5MrC+4hQpzlOV8qk9US9iyWYi+18BF31W0v2T
+         O9FA==
+X-Gm-Message-State: AOAM530xphIbzOueHnRbCPPW5SCxi2aNxsvx0J90t7vOAiUZQOxt03nO
+	yeVUK3zY1sqcTFRfWhcDQ6/MX/AuxQ4=
+X-Google-Smtp-Source: ABdhPJzw417vRZmWaPEsRSycDQ3giAQi8VtBdbmGKxEDhKtca4McgbO0Qw9X4WMonsadnDug4q5EwA==
+X-Received: by 2002:a17:906:b0c2:: with SMTP id bk2mr85864ejb.20.1599081248645;
+        Wed, 02 Sep 2020 14:14:08 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
-        by smtp.gmail.com with ESMTPSA id ch29sm631607edb.74.2020.09.02.14.14.06
+        by smtp.gmail.com with ESMTPSA id ch29sm631607edb.74.2020.09.02.14.14.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 14:14:06 -0700 (PDT)
+        Wed, 02 Sep 2020 14:14:08 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/23] pango: upgrade 1.46.0 -> 1.46.1
-Date: Wed,  2 Sep 2020 23:13:20 +0200
-Message-Id: <20200902211330.4853-13-alex.kanavin@gmail.com>
+Subject: [PATCH 14/23] re2c: upgrade 2.0.2 -> 2.0.3
+Date: Wed,  2 Sep 2020 23:13:21 +0200
+Message-Id: <20200902211330.4853-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200902211330.4853-1-alex.kanavin@gmail.com>
 References: <20200902211330.4853-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../recipes-graphics/pango/{pango_1.46.0.bb => pango_1.46.1.bb} | 2 +-
+ meta/recipes-support/re2c/{re2c_2.0.2.bb => re2c_2.0.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.46.0.bb => pango_1.46.1.bb} (94%)
+ rename meta/recipes-support/re2c/{re2c_2.0.2.bb => re2c_2.0.3.bb} (84%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.46.0.bb b/meta/recipes-graphics/pango/pango_1.46.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.46.0.bb
-rename to meta/recipes-graphics/pango/pango_1.46.1.bb
-index 54440ea786..cc6cc1e35c 100644
---- a/meta/recipes-graphics/pango/pango_1.46.0.bb
-+++ b/meta/recipes-graphics/pango/pango_1.46.1.bb
-@@ -16,7 +16,7 @@ GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
+diff --git a/meta/recipes-support/re2c/re2c_2.0.2.bb b/meta/recipes-support/re2c/re2c_2.0.3.bb
+similarity index 84%
+rename from meta/recipes-support/re2c/re2c_2.0.2.bb
+rename to meta/recipes-support/re2c/re2c_2.0.3.bb
+index db26b02b84..a0b521ce56 100644
+--- a/meta/recipes-support/re2c/re2c_2.0.2.bb
++++ b/meta/recipes-support/re2c/re2c_2.0.3.bb
+@@ -6,7 +6,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
  
- SRC_URI += " file://run-ptest"
--SRC_URI[archive.sha256sum] = "9a81572ebb946187fbdd69d5ffc57e2f7a1f768cd8d2fd89dbb03fb9002a99b5"
-+SRC_URI[archive.sha256sum] = "fe516b10711bbb6fd75011d66dd08fabfce18f7931aed7415136d53c4aadf1c5"
+ SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6cddbb558dbfd697a729cb4fd3f095524480283b89911ca5221835d8a67ae5e0"
++SRC_URI[sha256sum] = "b2bc1eb8aaaa21ff2fcd26507b7e6e72c5e3d887e58aa515c2155fb17d744278"
+ UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.28.0
 
