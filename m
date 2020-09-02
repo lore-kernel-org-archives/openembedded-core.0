@@ -1,50 +1,50 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.952.1599081242582066034
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.953.1599081243276926503
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 14:14:02 -0700
+ Wed, 02 Sep 2020 14:14:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f6QbrO5i;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id p9so699628ejf.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PrxIfpv1;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id p9so699670ejf.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/Lp/Zi0X4AbTVH2syjUtpDcaO3M/1XlbycOqsc4Z0SU=;
-        b=f6QbrO5iK+3SSv3EbTYUpD/0uOH/BNghsnfVZBWYKlTtuWh2LPHgZdPAjHGG82LUpU
-         Y5SyZnJiDttWcxRiARqcCA2TJwn0I05lEr5bbr+02yrnp3xCXD2IUGFdG2hrDb1xoVi2
-         jQhxZJ4kYATgN1yhSPbLiCpdmtK5OM1mUX3eQPKrJVhbCq9OqckPHhEXhNQaYK3a3x58
-         /o/rJYyl5OQtRUmCwOcZ9rIKZAmgcvBzAmNJksA/O/xipeqzIGnmO+k3PhsiFxUNjCjp
-         RMH0yyWmoDY6AHNJLC9HsvqmfFg2ze9SjtlqwsjOASU7Z2j4f7h8B4tejLEWhU59OwKW
-         PJIw==
+        bh=Z0FQdOa12mF9znN1txQYM4w8jTjhST7kqj7FN47C/YI=;
+        b=PrxIfpv1h8bG0aNAMl4g3I8Lvz3qR5WXACblS8XwpVuYZXxy2AdOWyeeRPzRv+zcwF
+         tA4xv4Wq9NLAQOF5HGq+eyiArhn/B3PRX/65T67ZognaW+u4Oo8IIcH4NwDL3IilctOZ
+         /nYjlH/oBfAAZO2qJHp2brQE/X878OJ7IhmgAA6btwW9KA/qf/8po0big2l5hr096qw0
+         TOmcAVS/Eg9tsm7LQFV+dwovPBhwIL3s7EHgXuOuZoBZRBiDKcMh9NjSFCr4OAEgkQau
+         gufFgB/6cLyx5b0lS7xTUHgfHpLsscgi6Zv+h5m28nQLQrLr+3ZJ7zXhFS1tDdeU3QaA
+         LleQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/Lp/Zi0X4AbTVH2syjUtpDcaO3M/1XlbycOqsc4Z0SU=;
-        b=A1xMGN+w92lrcpZT1/tAP5VTQ7b3rPi42ogMmF7kAbV3LSdZHhZTSw6Gvysdbihhg+
-         c1r022KeaSyAB5jURVXWkkZAMjSQ/BctHWTLzHJfqE8YaGVd7dNy6FRzDKVMCqQOrt+I
-         DNTLR4wWbqWaiSdPREdSLlKXC3dDMUKZ8eYKrqQnGqMO4N7U07nPB4Fjrh1BQg9pOiwl
-         aeW1EbiXLu5lC5lm/J4obCk0JLTMaUF4KGNneOevMUZqjeZl0CXVIlHS2roCGkxilNFR
-         xj43qDtrNqpcmgfkZofz70t+fq2vGfm4xzUhgDy3mDsutli1vIrXNEAQh8Gw9+RBfcF0
-         7U3Q==
-X-Gm-Message-State: AOAM533wI1sJZx8es0IjazibpK5kkdqVJ0IOxjVYPN9PHoF815mcHjpy
-	qTCTv/NIo3+ogz9CfcYutV0cF+bQOvQ=
-X-Google-Smtp-Source: ABdhPJxXTKytSL6mNapc0JCdhukV1foOqrKoHJUp/TyngVtnwqpk3Z3nqDf5btaR6iGDIjww/35DAA==
-X-Received: by 2002:a17:906:2a0d:: with SMTP id j13mr53339eje.474.1599081240790;
-        Wed, 02 Sep 2020 14:14:00 -0700 (PDT)
+        bh=Z0FQdOa12mF9znN1txQYM4w8jTjhST7kqj7FN47C/YI=;
+        b=dcNNvsuwQxs+M8nqFn8K8/FuYuO1UJdmHyeSgG3dzhmRzRTELMVsLkhAw5hZ2T8J4x
+         Eve5PQ2lbCxiYY+QWpiUWMS6D98Oppa6DyNTm0AsTWMC+N+SFk4Jtqg11+RW+Bs4Pxhy
+         04nZUiP7v6TKNT7XtucGnmAimn+KFFxH9eSGmmrHbfI5qL9UjbZAl9NRYymrn01OwHZx
+         qIfsNCdQhxhm3RH2EE+zV5D9FwlRe75ULN4L2tzPNrxr5/txuiULEhCjDOYPzi/K2Rft
+         lzd2vxRBYv1qCsZY/PUjYLBP13m2LwKHkdHko2x4RPh3L4C2sAGUoXnKjz5QeeBW9T4n
+         6j3g==
+X-Gm-Message-State: AOAM531BHIs8DrGH7DVU1osEIC2KWdKikXlfqJbMueBaXEEpkcmuJBYw
+	8YrMnKtQ6jcTd/nbfh2NFf08gDe1SGY=
+X-Google-Smtp-Source: ABdhPJzuMT5zfleetZfOjrO7J1oYRDNQtXirUcVHhU4fXSf6+yrjZTy8vHLhn5imCRCzQ+DT9CVA7Q==
+X-Received: by 2002:a17:906:e08f:: with SMTP id gh15mr10711ejb.443.1599081241533;
+        Wed, 02 Sep 2020 14:14:01 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
         by smtp.gmail.com with ESMTPSA id ch29sm631607edb.74.2020.09.02.14.14.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 14:14:00 -0700 (PDT)
+        Wed, 02 Sep 2020 14:14:01 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 05/23] enchant2: upgrade 2.2.8 -> 2.2.9
-Date: Wed,  2 Sep 2020 23:13:12 +0200
-Message-Id: <20200902211330.4853-5-alex.kanavin@gmail.com>
+Subject: [PATCH 06/23] harfbuzz: upgrade 2.7.1 -> 2.7.2
+Date: Wed,  2 Sep 2020 23:13:13 +0200
+Message-Id: <20200902211330.4853-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200902211330.4853-1-alex.kanavin@gmail.com>
 References: <20200902211330.4853-1-alex.kanavin@gmail.com>
@@ -53,26 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../enchant/{enchant2_2.2.8.bb => enchant2_2.2.9.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/enchant/{enchant2_2.2.8.bb => enchant2_2.2.9.bb} (85%)
+ .../harfbuzz/{harfbuzz_2.7.1.bb => harfbuzz_2.7.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.7.1.bb => harfbuzz_2.7.2.bb} (96%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.2.8.bb b/meta/recipes-support/enchant/enchant2_2.2.9.bb
-similarity index 85%
-rename from meta/recipes-support/enchant/enchant2_2.2.8.bb
-rename to meta/recipes-support/enchant/enchant2_2.2.9.bb
-index 4ddbe55da5..784fd14ee1 100644
---- a/meta/recipes-support/enchant/enchant2_2.2.8.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.2.9.bb
-@@ -9,8 +9,7 @@ DEPENDS = "glib-2.0"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
+similarity index 96%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
+index 42b3af1ff0..8416eb93d8 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}
+            file://0001-Do-not-disable-introspection-in-cross-builds.patch \
+            file://0001-src-hb-gobject-enums.cc.tmpl-write-out-only-the-file.patch \
+            "
+-SRC_URI[sha256sum] = "e95ee43b6bd0d3d1307e2aacf0f9c0050e5baceb21988b367b833028114aa569"
++SRC_URI[sha256sum] = "b8c048d7c2964a12f2c80deb6634dfc836b603dd12bf0d0a3df1627698e220ce"
  
- SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[md5sum] = "c7b9d6a392ecb8758e499f783e8dc883"
--SRC_URI[sha256sum] = "c7b5e2853f0dd0b1aafea2f9e071941affeec3a76df8e3f6d67a718c89293555"
-+SRC_URI[sha256sum] = "b29a3d2273f5edcbdbbb565e94bfd8ea3f9526886fcb6327b4b0f72f0d722f3c"
- 
- UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
  
 -- 
 2.28.0
