@@ -1,112 +1,155 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web12.10207.1599060588758721375
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web10.10490.1599060804842243006
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 08:29:49 -0700
+ Wed, 02 Sep 2020 08:33:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=rlx6704s;
- spf=pass (domain: burtonini.com, ip: 209.85.208.193, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f193.google.com with SMTP id b19so6412695lji.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 08:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=evhEUlu5F0gXfhZOlyRKlU303qeBaCso9HhuEDB2eNE=;
-        b=rlx6704sW4+EbAmad/JjJZ3qncYP82feFf3YtC9pAgMnqVSsOL4EZk83li+YVyRhMj
-         Z+OmIMM2HGaPBgfYqv+FjxXQrxJZFx4wyJnXFKXBes3DddUGb7aZf7z80X5S1D0+0GnG
-         GdJco4KWxS0BRakKWarexLg5odE1wMdhDcMzAD/2V9cS3TMWNDeACcx9Pn8JZMGeTwFZ
-         L1XYU4kSNm/M7TRFUc8+C6iHHEWrmGai/Bi8PjqyRrSR4NSbCyk/sOjM2pFLVHxULRfD
-         27scIeoXqWrFap70RRnNFV6bcKgyTWaOe31YRaizHGQTdrTbXeTZsl/MVu4ZYxGtxguE
-         8OPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=evhEUlu5F0gXfhZOlyRKlU303qeBaCso9HhuEDB2eNE=;
-        b=qpXEFuqA/BePbI0yCq/ARMjHCZtG4urr5/KXIThnsjifSgmzdm1YUQVUs54ulnwwnK
-         a0SUQ9AnyVe2NlvrG8LOKNDWZCLGvciLyhdERH26U12YZ+nTh6I4ADEf9nIQzm0K6dUH
-         1UdTMOkBJFjm8XU1RV5qzmLE+61nIxW4J1wakslGYj2OQf1eQt+Kb97CXze0ZfAv5h6z
-         q+nzWsSOP4Qs/mOQrX9lJvV7+Ic15gDc91YTDpeA5sLHDcW26yPQU40FgDTehoZLbUHE
-         XkE/3oAPeuth7OvVWt4bbzgD6ohiIz8O4IFLYjn+dfF7zxYsiGjiaEtdZYbRPcHj/zZg
-         fZEw==
-X-Gm-Message-State: AOAM533qW8QmfqjQz9asz2lx8d5ldh61JoILbWOscnaCiRrg2vaUtWPp
-	zuTQn40NqfHax2WnkrhJsDL2YQUrL7njBXnTQdDq8A==
-X-Google-Smtp-Source: ABdhPJzSousHWtpszpvTpBlGUPMqMt0vGI4bt62vDEKHjfitM78JftQPiYtaTlObUqMXfYuvxVjOcDPf7Wc1uHAQ9g8=
-X-Received: by 2002:a2e:1311:: with SMTP id 17mr3556542ljt.397.1599060586391;
- Wed, 02 Sep 2020 08:29:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200831052011.955722-1-raj.khem@gmail.com> <2de966cb368097a83b3d83a1d48e5ff5b58f4c12.camel@linuxfoundation.org>
- <CAMKF1so7ChNJT_3viKGOfvSb2-H0DhxH1Zh2cCYcqnDB9T566w@mail.gmail.com>
-In-Reply-To: <CAMKF1so7ChNJT_3viKGOfvSb2-H0DhxH1Zh2cCYcqnDB9T566w@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 2 Sep 2020 16:29:35 +0100
-Message-ID: <CAAnfSTu58aZPjZdFLF=uE1_=rKdoqZ1bgJpmUMOmJgsMoLevmw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] gtk+3: Revert "gtk+3: fix reproducible build failure"
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 082FXM9n003166
+	for <openembedded-core@lists.openembedded.org>; Wed, 2 Sep 2020 10:33:23 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [master][PATCH v8 0/1]
+Date: Wed,  2 Sep 2020 10:33:21 -0500
+Message-Id: <20200902153322.55112-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-Looks like my fix didn't quite work. Drop this and I'll fix again.
+v8:
 
-Ross
+Only one patch left...  Was found that in some configurations the
+prservice oe-selftest (prservice.BitbakePrTests) was failing.  Fix
+the issue, by changing the way the test case configures itself to ensure
+it will work with both unihash on and off.  (Before it only worked with
+it off.)
 
-On Wed, 2 Sep 2020 at 16:17, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Wed, Sep 2, 2020 at 5:48 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Sun, 2020-08-30 at 22:20 -0700, Khem Raj wrote:
-> > > Now that we have updated to 3.24.22, the needed fix [1] is in and this
-> > > change is no longer needed
-> > >
-> > > This reverts commit c2e0b0785b8098dbe562e88f54b679ca87626937.
-> > >
-> > > [1] https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > Cc: Ross Burton <ross.burton@arm.com>
-> > > ---
-> > >  meta/recipes-gnome/gtk+/gtk+3.inc | 8 --------
-> > >  1 file changed, 8 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > index 8d5edb7ee8..e1ecf504a0 100644
-> > > --- a/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > @@ -1,4 +1,3 @@
-> > > -
-> > >  SUMMARY = "Multi-platform toolkit for creating GUIs"
-> > >  DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
-> > >  set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
-> > > @@ -32,13 +31,6 @@ do_configure_prepend() {
-> > >      ln -s ${TARGET_PREFIX}libtool libtool
-> > >      #delete a file that will get confused with generated one in ${B}
-> > >      rm -f ${S}/gtk/gtktypefuncs.c
-> > > -
-> > > -    # These files are generated by wayland-scanner but will race over modification
-> > > -    # time between the copies in the sysroot from wayland-protocols and the copy
-> > > -    # in the source tree. Solve the race by deleting so they need to be regenerated.
-> > > -    # 3.24.22 will not be shipping these files so this can be deleted then:
-> > > -    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
-> > > -    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
-> > >  }
-> > >
-> >
-> > I did try this, we see:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1315/steps/8/logs/step2d
-> >
-> > so it seems there is more to this.
-> >
-> > Sadly, this means I'll now have to rerun yet another set of testing as
-> > this aborts the current build's validity :(.
->
-> ok. I think the comment perhaps should be fixed then Ross ?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> 
+v7:
+
+Update packagedata_translate_pr_autoinc function to handle when there is no
+pkgdata to process.
+
+Exception: bb.process.ExecutionError: Execution of '/mnt/b/yoe/master/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/libtool-cross/2.4.6-r0/temp/run.packagedata_translate_pr_autoinc.2499440' failed with exit code 123:
+sed: no input files
+WARNING: /mnt/b/yoe/master/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/libtool-cross/2.4.6-r0/temp/run.packagedata_translate_pr_autoinc.2499440:151 exit 123 from 'xargs sed -e 's,@PRSERV_PV_AUTOINC@,AUTOINC,g' -e 's,@EXTENDPRAUTO@,.0,g' -i'
+
+Uses the --no-run-if-empty options for xargs.
+
+v6:
+
+Refactor do_packagedata to use existing copy routine, and then sed "inline" to
+translate EXTENDPRAUTO and AUTOINC parts.
+
+v5 (not sent to mailing list):
+
+Refactor do_packagedata and create a custom copy routine.  The routine also
+uses sed to translate EXTENDPRAUTO and AUTOINC.  This also introduces changes
+to the new package_convert_pr_autoinc to always translate PRSERV_PV_AUTOINC
+and EXTENDPRAUTO to @PRSERV_PV_AUTOINC@ and @EXTENDPRAUTO@.  So all users of
+the do_package components will see this translated version.
+
+Remove the commit that moved package_get_auto_pr into the packagedata.bbclass.
+
+v4 (not sent to mailing list):
+
+rename package_convert_autoinc to package_convert_pr_autoinc.
+
+Revert the creation of 'exclude_pkgdata_vars', and all of the custom 
+processing of the excluded variables.
+
+(prior patch 1 and 2 were merged, so no longer part of this.
+
+v3 (not sent to mailing list):
+
+Address all patch comments from the list, except for the 'sed' refactor
+items.
+
+v2:
+
+Most comments have been addressed to create a v2 version.  I've refactored
+the commits to make a few things more clear, basically moving code around
+and fixing minor issues BEFORE the big patch.
+
+Before there were two patches that together implemented the PR Serv/Hash
+work.  This has been combined into a single patch and the oe_nohash stuff
+has simply been removed as no longer applicable.
+
+The only comment that was NOT addressed in this was the suggestion to
+sed the pkgdata files in do_packagedata.  I'm hesitent to do this as
+sed with ${...} in them has proven to be fragile for me in the past.  If
+we decide that is necessary, I'd suggest we start with this set and then
+sed with ${...} in them has proven to be fragile for me in the past.  If
+we decide that is necessary, I'd suggest we start with this set and then
+make that change after this proves to work (or not).
+
+v1:
+
+Before PR service didn't work reliably with hash equivalency.  Generally
+you ended up with results that may not be reproducible, even if you
+started with the same PR service database and hash equivalency database. 
+
+Overtime, intermediate PR values would be created that would cause thing
+to get out of sync in the case of certain rebuilds or other corner cases.
+
+The set refactors the PR service to work along side the new hash equiv
+system.  It moves the PR and AUTOINC lookup to AFTER the do_package task
+is complete.  This allows us to use the do_package unihash for lookup.
+
+Additionally this fixed a small issue with the kernel, where the PR value
+could get incremented twice.  The fix is an artifact of the other changes
+that cause us to only run the PR service work once per recipe.
+
+This has been tested with the following workflow, which covers one of
+the critical corner cases for me:
+
+configure local.conf with:
+
+   BB_HASHSERVE = "auto"
+   BB_SIGNATURE_HANDLER = "OEEquivHash"
+   
+   PRSERV_HOST ??= "localhost:0"
+   
+   INHERIT += "reproducible_build"
+   INHERIT += "buildhistory"
+
+bitbake glibc linux-yocto
+
+# Modify meta/recipes-core/glibc/glibc_2.32.bb, add a comment 
+# to the do_patch_append().  This will taint the hash of this
+# function.
+
+bitbake glibc linux-yocto
+
+# The system should have detected the output was the same, and
+# no proceed past do_package in glibc.  The kernel should not
+# have built at all.
+
+# Store/mv the tmp and sstate-cache from that build elsewhere
+# repeat the run
+
+bitbake glibc linux-yocto   
+
+# Compare the results of tmp/deploy/<package>/* between last
+# and current run.
+# 
+# The contents should be the same (filenames specifically).  
+# 
+# Also the kernel should be r0.0, not r0.1.
+
+Note: if the hash equivalency database or PR server database (located
+in the cache directory) is removed, the values may not be the same
+as the previous run.
+
+Additionally while testing the various package_*.bbclass files, it
+was noted that package_tar.bbclass was not working the same way as
+the others.  This was correct as a standalone patch.
+
+Mark Hatle (1):
+  package.bbclass: hash equivalency and pr service
+
+ meta/classes/package.bbclass              | 58 +++++++++++++++++++----
+ meta/conf/bitbake.conf                    |  1 +
+ meta/lib/oeqa/selftest/cases/prservice.py |  8 ++--
+ 3 files changed, 55 insertions(+), 12 deletions(-)
+
+-- 
+2.17.1
+
