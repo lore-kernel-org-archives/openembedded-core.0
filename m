@@ -1,73 +1,76 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.4468.1599043327958879964
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.4533.1599043686325238837
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 03:42:08 -0700
+ Wed, 02 Sep 2020 03:48:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YEDqClWr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id l9so4002348wme.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 03:42:07 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=VRPRPGZl;
+ spf=pass (domain: linaro.org, ip: 209.85.221.66, mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-wr1-f66.google.com with SMTP id e16so4724147wrm.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 03:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=E3DrxrvXy28q0TLWbDO3H7RhVJqLIKHW9dEEH/2jQls=;
-        b=YEDqClWrUSegOpovMaBjDTZtBgu+iwsZ26j9uTLVJfsH/eXOw7p7T8l81YFM2EAhlG
-         a39tl2u3lGhVuahZcgUTYdZsZQD4fJ5Tz7OZHnUvzFg9lbB8O9nPBrvoW50DRgKyX4We
-         5iZwgyuAjpG9jsGr7f8bemQe5AK0l0P5EgMHI=
+        bh=9B1trdK5JbKONXlUaRkeijoTCZDmQB1M+gEQmZeH+p8=;
+        b=VRPRPGZlXfk0UVsRE9Qc5xc3OT8qrT/EQRoRNGS3hxV/Be0FY8W9Qsa51qVQy5clyK
+         UW3js1+Q9L4XSIY3aPZlulkMZuf9bYnew3oyLT52iu6mqc1JGHWKGQLpBSbCaPZ8pv08
+         LgnKgJ7yvWezHaxJTyCQwyrNq507tX+WjNfhLfgRIob9huSgwIUXCgj+p6yCWeV+pTPZ
+         yroZswsTnSoGPDKCefeybAJ5+YD7ueSciiqC46iIqyiFmffKJnDk2M1UFRYghJThBEmO
+         DiXNYo7mzaO0/ObvJNBgj6KCkeg+hRaaS6n9tKUk8tKTFFDmwuuSMWXmHXlKlQscOMui
+         VBfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=E3DrxrvXy28q0TLWbDO3H7RhVJqLIKHW9dEEH/2jQls=;
-        b=SuCJMaicsQ3BxP0rUqRNiKlUmn78L/ml+fVk4FGowENXGJ0p75szhQsj8Wk6UN4e++
-         YLRkU22XqqDyNEkxlcekp71pB/7Xlm9MGlqYRAYCsfDA0/Z7sHMtg0h1guFzR3GHFX79
-         9jl6Bu3Zz+wTUsHpBfWtRtOnnXbsf0auIh30jAwrVZ2c5onC9sVDwkWLclWekV5GcrFW
-         mL4QOwOlACflZ0I42qNwOVHVLWT9kQrmuMzST7Vz1C9oi3PmOXyfjsfmajmr1Qsu9IVD
-         AFK7sE9iQcUJyiuJdXK53YeLtIDD9AHynP6dUz5yoE5kGJQq4pGkliaRBpgRzB7bHZau
-         o11A==
-X-Gm-Message-State: AOAM531Yd3rhu2/BmIOTDiG77OBlGHBJxavgcofcr5HpdARPe4Xa7KM6
-	PDJZn1QpAXkBCnqlyVtwx25CZ3kCdj0o3vcB
-X-Google-Smtp-Source: ABdhPJxMSZS9Q5MjqGs3Znk9C51Qezc0Vja+CwEpy3S4rDdSL8DhsioCzOSl2ECEZOQhhra9dxNC0Q==
-X-Received: by 2002:a05:600c:210a:: with SMTP id u10mr51520wml.16.1599043326253;
-        Wed, 02 Sep 2020 03:42:06 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (4.a.9.e.c.f.e.5.5.1.2.c.8.4.d.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:9d48:c215:5efc:e9a4])
-        by smtp.gmail.com with ESMTPSA id l7sm5730759wmh.15.2020.09.02.03.42.05
+        bh=9B1trdK5JbKONXlUaRkeijoTCZDmQB1M+gEQmZeH+p8=;
+        b=EiIYYDJ8btlPkoh3anAF+0jkPBZwIKMhKT0HuBAQGQnibZCFMty7W7iyCNohsjO7dg
+         LqH4zMHXStz74z4THFJRWYCrFShQJf+O1Rs3vp8i61wPUa/UT3S0oXq8fwcT+gQmVc3l
+         3TCpaj2Q4ma2kag3sOrCON7QrpmlIoDU76/N8AQI5TDrV0ZpNHncCB3v+5xF53TIx50w
+         d3YGy/DP6eCrK9VuqLFOKRMn7IimBeiaDt7WHA2TAjmzehbmszNZn5r57K03mb/N8CdM
+         LIeMtR8PJjdCFWlEvL0WdUY4qgKC5J06kAWfxO92qv8iMRXjuCquNG5TEiM9LT4tAkp7
+         KJUA==
+X-Gm-Message-State: AOAM530aj+vupR3dJsMKC2sf54VVfpcB4X1PWBTT3gcrzqQ25x4rCNWz
+	6Mh6nSNLc0CZZq6VgXmVUjS/p15zblA/tA==
+X-Google-Smtp-Source: ABdhPJwvGABlyFvnBfrhC+ewgXwwB3wBP8al4S93MH30RxnrYphvdcGYURWGRgEHAV25kc+KGEM7NA==
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr6402004wrv.318.1599043683889;
+        Wed, 02 Sep 2020 03:48:03 -0700 (PDT)
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from nikaia.localdomain ([2a01:e0a:1b9:3e10:d6af:c5d9:8b6e:b994])
+        by smtp.gmail.com with ESMTPSA id v17sm4389002wrr.60.2020.09.02.03.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 03:42:05 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Wed, 02 Sep 2020 03:48:03 -0700 (PDT)
+From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [PATCH] iputils: Adapt ${PN}-tftpd package dependency to PACKAGECONFIG
-Date: Wed,  2 Sep 2020 11:42:03 +0100
-Message-Id: <20200902104203.1730906-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] linux-libc-headers: kernel headers are installed in STAGING_KERNEL_BUILDDIR
+Date: Wed,  2 Sep 2020 12:47:44 +0200
+Message-Id: <20200902104744.378272-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This avoids failures when recipes try and use the iptuils package.
+Since 'fido', kernel headers are installed in STAGING_KERNEL_BUILDDIR,
+not STAGING_KERNEL_DIR. So this message in the linux-libc-headers
+recipe is slightly misleading.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 ---
- meta/recipes-extended/iputils/iputils_s20200821.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/iputils/iputils_s20200821.bb b/meta/recipes-extended/iputils/iputils_s20200821.bb
-index 87891140e7e..28dd194a12b 100644
---- a/meta/recipes-extended/iputils/iputils_s20200821.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20200821.bb
-@@ -46,8 +46,9 @@ ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN}-ping = "ping"
- ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
- 
--SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-tftpd ${PN}-rdisc \
-+SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-rdisc \
-              ${@bb.utils.contains('PACKAGECONFIG', 'rarpd', '${PN}-rarpd', '', d)} \
-+             ${@bb.utils.contains('PACKAGECONFIG', 'tftpd', '${PN}-tftpd', '', d)} \
-              ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-traceroute6 ${PN}-ninfod', '', d)}"
- PACKAGES += "${SPLITPKGS}"
- 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index b1cb553c75..3bceac40cc 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -16,7 +16,7 @@ LICENSE = "GPLv2"
+ # and have a machine specific libc.
+ #
+ # But you have some kernel headers you need for some driver? That is fine
+-# but get them from STAGING_KERNEL_DIR where the kernel installs itself.
++# but get them from STAGING_KERNEL_BUILDDIR where the kernel installs itself.
+ # This will make the package using them machine specific but this is much
+ # better than having a machine specific C library. This does mean your
+ # recipe needs a
 -- 
-2.25.1
+2.28.0
 
