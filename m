@@ -1,92 +1,115 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.13502.1599017306339002233
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.1606.1599028987337528081
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 20:28:26 -0700
+ Tue, 01 Sep 2020 23:43:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bh4t4TQo;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 109so3082131otv.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 20:28:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LJBnlrK7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id s10so1378588plp.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 23:43:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JU6nocUsxPnyVJhXya7EprohksESLAD5eDJWExQXDWk=;
-        b=bh4t4TQov3A9wjPvEg1BZ+D/msXCjrcuqQZq11v/1xwHb6F7Hi9yYyU7jnZXBGned3
-         kKkR5eSnkhSr42hAp37JVw9A5SFZ6qO4UPjDeZUd3fpoqNLbVUA1pHbnUjkNdbJjR+G6
-         0S9I6NkqQJBS5WiZgWreAa4aBgF0BjF7xLt3u8Vx5HioFNDTVDr8dp3KJaO0GIihygWx
-         p51N3QBQnGE/YvgQL94yKXrwXdb627fBRK9CaDpigLxS/Jm0W8+z0beSOVJrBsZXYLzb
-         q7Ez0GvAr7PK9qpzKY6+ANz7yXabk2nSs8XTT7HgNwjelDfUs3OL7u0Ij2htJUXiPsTP
-         ZWIQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RGCtXQBq5qF8gJiNsygs6udRSQ60CPmugxiigG4rSp8=;
+        b=LJBnlrK7f00faYR8dH59rg2YSHqhDS4oysqai8g8tAcx4NgU/stNmpdF8cqYU/VCjD
+         Plwm8IHvy6W6DBT30dhYQCpbLyPw6m1zmz9onJuijJf1tf7kM9H9y5yLc48taHQxVpCz
+         qXUe86EoAkcv/z+m34LEWs6xIUVy6wr+ciccAhBVoMiem1Sv/uVJpm1QqFugT0ZRSTkP
+         QtmkFwf4ivSkJs+IGbKx0HFqIdU2pZqFvELmWG+gtXT55Nt4nCiQ3CaMh05opy9Hy6oO
+         Mg5CheAutlncvmlqmvtkZKpr/VbwIPFtrmv6q7Zq++UaWgBjaSMxNGb2lyMA35zCjRdN
+         7c4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JU6nocUsxPnyVJhXya7EprohksESLAD5eDJWExQXDWk=;
-        b=PeNWb7a+gxhEBA6Kph59JEsTzCkgVUQhY8t+RHIo63F7F+MT2mdeUoIYmToZGb+tmw
-         aDpbNbhscD/8biXQEzddidvqvm2Vla7L8WqPndPqJriGeQFe5JosQC+0l+BX8vo4MwU4
-         m3falz3v4WL1s9UGpLfuJr8KwmHly05Bloa1H2wShw/8CvMt1GsDqNo1+TQqigVpfQNU
-         +yWtpA7TshSXb0Den6nI6ClFnwSVD3sCnv4AZYXOAq8k5RlmGyun+kbrEr6lFLV5Wmc2
-         xNtnqbnUIeFN2iUcyn0pqTP/S4KBVUw+CUKDTEwMzNMBiyk86445OKmPxTnPH/OniJoq
-         /Gww==
-X-Gm-Message-State: AOAM531fGOBRoRCbFrDM9keerR/smq7T7xpxao18ZF+CF08ta50ykyVb
-	NSv4WwgtDTi9VOk0BrELnwxwT2mevb2rgl2BkQI=
-X-Google-Smtp-Source: ABdhPJx+If26IhptuN3B6jgkYJPXpYtVjP+ubmZLXN70TeCjMDo4dQKzw6kKMeyxYH78rc73UIzkw+6FjCgF4thSiZI=
-X-Received: by 2002:a9d:7f84:: with SMTP id t4mr3872267otp.192.1599017305607;
- Tue, 01 Sep 2020 20:28:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RGCtXQBq5qF8gJiNsygs6udRSQ60CPmugxiigG4rSp8=;
+        b=T55AwCirWDMLpGSyAra10ej4qx/OA2+Ihvh0+iSDwBgVtJqSuILmF5RKlbYdZjCdUz
+         FT4FPwCpbTrw2EcXBSWBe0oYaUA4wOt6F52Sx12gt3ebiMAlewNuywqLg5nzvErprPCz
+         yn1CSIETm3wXBTreyDtN1i+J3Wwgu2hTjWgFhyiWXe4aQvcw7cJ8hzZI9p1AXaSLGaBG
+         rTpzDfPl9I9LaiLr4nKPg7IagjTSC0bDT2kHyWdib/yH2sfxcvzniG10qIbF2LW+GoNu
+         NnWSmiHB2S7Wm7TCpA3xfvMpnBgyn3kuxLGjdVNq8m6WjD0bK9YduRiXQRK0NfSZZtMp
+         CDeA==
+X-Gm-Message-State: AOAM5327VwJkcMd3wy5xXqQVXZAoH67YKfqK2bqih3HxueIKTtgT1OxZ
+	snFcVw/5QMOntuEz2UTyLZZek5KEEq+C0g==
+X-Google-Smtp-Source: ABdhPJxy4BqWULHbZYQsCwrPvvKThSTZokhSmVy9RMjPG6eCmZmk7LGh1wDOaHquwXsRiDT+SEBnJA==
+X-Received: by 2002:a17:90b:208b:: with SMTP id hb11mr970164pjb.201.1599028986526;
+        Tue, 01 Sep 2020 23:43:06 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
+        by smtp.gmail.com with ESMTPSA id o23sm4591431pgm.18.2020.09.01.23.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2020 23:43:06 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] json-glib: Backport a build fix with clang
+Date: Tue,  1 Sep 2020 23:43:02 -0700
+Message-Id: <20200902064302.3265030-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <cover.1598810890.git.steve@sakoman.com> <19d9787f362e8ee4460964768ca9b5f093bd4f0f.camel@linuxfoundation.org>
- <CAOSpxdZ97Z3FwgE2G6Sd3gxbpnSBpi6U2Je_XNV7BfNJUg9Xwg@mail.gmail.com>
-In-Reply-To: <CAOSpxdZ97Z3FwgE2G6Sd3gxbpnSBpi6U2Je_XNV7BfNJUg9Xwg@mail.gmail.com>
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Tue, 1 Sep 2020 20:28:14 -0700
-Message-ID: <CACMJ4GbJSsU5hWnphDammJmirJk9+0DYyhYnyU43B7XMMt7gWg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/25] Patch review
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 1, 2020 at 7:06 AM Steve Sakoman <steve@sakoman.com> wrote:
->
-> On Tue, Sep 1, 2020 at 1:07 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > Hi Steve,
-> >
-> > On Sun, 2020-08-30 at 08:15 -1000, Steve Sakoman wrote:
-> > > Please review this next set of patches for dunfell and have comments
-> > > back by end of day Tuesday.
-> >
-> > A few of these (e.g. devtool, RPROVIDES, kernel fragments) are what I'd
-> > consider slightly riskier patches which only really just made master.
-> > I'm not sure if we want to give a little extra time for some of those
-> > in master before we backport?
->
-> Certainly, I'll drop those patches from the pull request and let them
-> bake for another week.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...o-instead-of-cast-to-convert-pointer.patch | 33 +++++++++++++++++++
+ .../json-glib/json-glib_1.4.4.bb              |  4 ++-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
 
-Steve: since you're looking at pulling in kernel fragment patches to
-dunfell, please could you add this patch to your next round:
+diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch b/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
+new file mode 100644
+index 0000000000..2a834b674d
+--- /dev/null
++++ b/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
+@@ -0,0 +1,33 @@
++From d60fcd5bd5c2675e4342775b910a2ea48ec0eccb Mon Sep 17 00:00:00 2001
++From: Dimitry Andric <dim@FreeBSD.org>
++Date: Wed, 19 Aug 2020 03:35:16 +0000
++Subject: [PATCH] scanner: use macro instead of cast to convert pointer to integer
++
++Clang 11 build failed due to a new warning (part of -Werror=pointer-to-int-cast):
++../json-glib/json-scanner.c:928:13: error: cast to smaller integer type 'GTokenType' from 'gpointer' (aka 'void *') [-Werror,-Wvoid-pointer-to-enum-cast]
++        *token_p = (GTokenType) value_p->v_symbol;
++                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/json-glib/-/commit/8c5fabe962b7337066dac7a697d23fce257a5d64]
++Signed-off-by: Jan Beich <jbeich@FreeBSD.org>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ json-glib/json-scanner.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/json-glib/json-scanner.c b/json-glib/json-scanner.c
++index 0c9919f..59dd29c 100644
++--- a/json-glib/json-scanner.c
+++++ b/json-glib/json-scanner.c
++@@ -925,7 +925,7 @@ json_scanner_get_token_i (JsonScanner	*scanner,
++       
++     case G_TOKEN_SYMBOL:
++       if (scanner->config->symbol_2_token)
++-	*token_p = (GTokenType) value_p->v_symbol;
+++	*token_p = GPOINTER_TO_INT (value_p->v_symbol);
++       break;
++       
++     case G_TOKEN_BINARY:
++-- 
++2.28.0
++
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
+index c999d761bd..add9ff41a1 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
+@@ -14,7 +14,9 @@ DEPENDS = "glib-2.0"
+ GNOMEBASEBUILDCLASS = "meson"
+ inherit gnomebase lib_package gobject-introspection gtk-doc gettext ptest-gnome manpages upstream-version-is-even
+ 
+-SRC_URI += "file://run-ptest"
++SRC_URI += "file://run-ptest \
++            file://0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch \
++"
+ SRC_URI[archive.md5sum] = "4d4bb9837f6d31e32d0ce658ae135f68"
+ SRC_URI[archive.sha256sum] = "720c5f4379513dc11fd97dc75336eb0c0d3338c53128044d9fabec4374f4bc47"
+ 
+-- 
+2.28.0
 
-commit af687c9137a3e8efe48afa6fd12866cf656ae913
-cml1: Move find_cfgs() helper to cml1.bbclass
-
-https://lists.openembedded.org/g/openembedded-core/message/140493
-
-It's needed in dunfell of oe-core to fix compatibility with
-post-dunfell meta-virtualization, where the Xen recipe now inherits
-cml1.bbclass to support config fragments. Without this patch applied,
-parsing of meta-virtualization fails since find_cfgs is missing; with
-it applied, the current master branch of meta-virtualization is
-compatible with dunfell of oe-core, which enables use of newer Xen
-versions with the stable dunfell core -- enabling this combination is
-useful and would be appreciated.
-
-thanks,
-
-Christopher
-
->
-> Steve
-> 
