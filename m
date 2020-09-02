@@ -1,295 +1,458 @@
-Received: from outbound.soverin.net (outbound.soverin.net [116.202.65.218])
- by mx.groups.io with SMTP id smtpd.web11.2244.1599032398821533533
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.2722.1599034864890315742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 00:39:59 -0700
+ Wed, 02 Sep 2020 01:21:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: embed.me.uk, ip: 116.202.65.218, mailfrom: ml@embed.me.uk)
-Received: from smtp.soverin.net (unknown [10.10.3.24])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by outbound.soverin.net (Postfix) with ESMTPS id 0402C60275;
-	Wed,  2 Sep 2020 07:39:56 +0000 (UTC)
-Received: from smtp.soverin.net (smtp.soverin.net [159.69.232.138]) by soverin.net
-Subject: Re: [OE-core] Linux v5.8 modules, exec format error
-To: Randy Witt <randy.e.witt@linux.intel.com>,
- Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <6e070a3d-a5f3-46bf-ac33-d7d6daf05b4f@embed.me.uk>
- <CADkTA4Ob=JpTsenFdNcKzB_5-8xQ+OGm_eQK_QPOPWeizz89QA@mail.gmail.com>
- <162F8C343CCB5CF7.17615@lists.openembedded.org>
- <ab4878e3-da65-2410-eb3a-d815483f085b@embed.me.uk>
- <162F9C3326351CDB.18810@lists.openembedded.org>
- <CADkTA4PRJxj5KdhouVV1h99maCCPwGRTNcaUw2WO4-awKkRD9Q@mail.gmail.com>
- <1a844286-9b72-95c9-56be-979b59d42266@linux.intel.com>
-From: "Jack Mitchell" <ml@embed.me.uk>
-Message-ID: <2da2a00d-13a5-1f3f-c541-ecc40cc27934@embed.me.uk>
-Date: Wed, 2 Sep 2020 08:39:52 +0100
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: li.zhou@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0828L33c008670
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 2 Sep 2020 01:21:03 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 2 Sep
+ 2020 01:21:02 -0700
+From: "Li Zhou" <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe][zeus][PATCH 2/3] bind: Security Advisory - bind - CVE-2020-8623
+Date: Wed, 2 Sep 2020 16:19:30 +0800
+Message-ID: <1599034771-87010-2-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1599034771-87010-1-git-send-email-li.zhou@windriver.com>
+References: <1599034771-87010-1-git-send-email-li.zhou@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1a844286-9b72-95c9-56be-979b59d42266@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [128.224.153.75]
+Content-Type: text/plain
 
+Backport patch from <https://gitlab.isc.org/isc-projects/bind9/
+commit/8d807cc21655eaa6e6a08afafeec3682c0f3f2ab> to solve CVE-2020-8623.
 
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ .../bind/bind/CVE-2020-8623.patch                  | 402 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.11.19.bb     |   1 +
+ 2 files changed, 403 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8623.patch
 
-On 29/08/2020 20:13, Randy Witt wrote:
-> On 8/29/20 11:41 AM, Bruce Ashfield wrote:
->> On Fri, Aug 28, 2020 at 10:28 PM Bruce Ashfield via
->> lists.openembedded.org
->> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->>>
->>> On Fri, Aug 28, 2020 at 7:15 PM Jack Mitchell <jack@embed.me.uk> wrote=
-:
->>>>
->>>> Quick update, I just did an armv7 build with exactly the same codebas=
-e
->>>> and everything worked fine. Do you have an aarch64 build could test a=
-nd
->>>> confirm working?
->>>
->>> qemuarm64 was working fine here with -rc1. I've started a new build,
->>> but it'll be several hours before I know more (so sometime saturday).
->>>
->=20
-> I saw this on linux-modules today,
-> https://lore.kernel.org/linux-modules/20200829100334.GK1362448@hirez.pro=
-gramming.kicks-ass.net/T/#t
-> which references
-> https://lore.kernel.org/lkml/20200808101222.5103093e@coco.lan/ saying it
-> is a bug in binutils.
->=20
-> I haven't looked at it anymore other than seeing this email and that
-> issue are both exec format errors on arm. I have to leave and can't
-> investigate anymore, but figured this might be useful. If not feel free
-> to ignore, and sorry for the noise.
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8623.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8623.patch
+new file mode 100644
+index 0000000..8e5412a
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8623.patch
+@@ -0,0 +1,402 @@
++From 8d807cc21655eaa6e6a08afafeec3682c0f3f2ab Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
++Date: Tue, 21 Jul 2020 14:42:47 +0200
++Subject: [PATCH] Fix crash in pk11_numbits() when native-pkcs11 is used
++
++When pk11_numbits() is passed a user provided input that contains all
++zeroes (via crafted DNS message), it would crash with assertion
++failure.  Fix that by properly handling such input.
++
++Upstream-Status: Backport
++CVE: CVE-2020-8623
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ lib/dns/pkcs11dh_link.c         | 15 ++++++-
++ lib/dns/pkcs11dsa_link.c        |  8 +++-
++ lib/dns/pkcs11rsa_link.c        | 79 +++++++++++++++++++++++++--------
++ lib/isc/include/pk11/internal.h |  3 +-
++ lib/isc/pk11.c                  | 61 ++++++++++++++++---------
++ 5 files changed, 121 insertions(+), 45 deletions(-)
++
++diff --git a/lib/dns/pkcs11dh_link.c b/lib/dns/pkcs11dh_link.c
++index e2b60ea7c5..4cd8e32d60 100644
++--- a/lib/dns/pkcs11dh_link.c
+++++ b/lib/dns/pkcs11dh_link.c
++@@ -748,6 +748,7 @@ pkcs11dh_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 	CK_BYTE *prime = NULL, *base = NULL, *pub = NULL;
++ 	CK_ATTRIBUTE *attr;
++ 	int special = 0;
+++	unsigned int bits;
++ 	isc_result_t result;
++ 
++ 	isc_buffer_remainingregion(data, &r);
++@@ -852,7 +853,11 @@ pkcs11dh_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 	pub = r.base;
++ 	isc_region_consume(&r, publen);
++ 
++-	key->key_size = pk11_numbits(prime, plen_);
+++	result = pk11_numbits(prime, plen_, &bits);
+++	if (result != ISC_R_SUCCESS) {
+++		goto cleanup;
+++	}
+++	key->key_size = bits;
++ 
++ 	dh->repr = (CK_ATTRIBUTE *) isc_mem_get(key->mctx, sizeof(*attr) * 3);
++ 	if (dh->repr == NULL)
++@@ -1012,6 +1017,7 @@ pkcs11dh_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 	dst_private_t priv;
++ 	isc_result_t ret;
++ 	int i;
+++	unsigned int bits;
++ 	pk11_object_t *dh = NULL;
++ 	CK_ATTRIBUTE *attr;
++ 	isc_mem_t *mctx;
++@@ -1082,7 +1088,12 @@ pkcs11dh_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 
++ 	attr = pk11_attribute_bytype(dh, CKA_PRIME);
++ 	INSIST(attr != NULL);
++-	key->key_size = pk11_numbits(attr->pValue, attr->ulValueLen);
+++
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	return (ISC_R_SUCCESS);
++ 
++diff --git a/lib/dns/pkcs11dsa_link.c b/lib/dns/pkcs11dsa_link.c
++index 12d707a112..24d4c149ff 100644
++--- a/lib/dns/pkcs11dsa_link.c
+++++ b/lib/dns/pkcs11dsa_link.c
++@@ -983,6 +983,7 @@ pkcs11dsa_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 	dst_private_t priv;
++ 	isc_result_t ret;
++ 	int i;
+++	unsigned int bits;
++ 	pk11_object_t *dsa = NULL;
++ 	CK_ATTRIBUTE *attr;
++ 	isc_mem_t *mctx = key->mctx;
++@@ -1072,7 +1073,12 @@ pkcs11dsa_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 
++ 	attr = pk11_attribute_bytype(dsa, CKA_PRIME);
++ 	INSIST(attr != NULL);
++-	key->key_size = pk11_numbits(attr->pValue, attr->ulValueLen);
+++
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	return (ISC_R_SUCCESS);
++ 
++diff --git a/lib/dns/pkcs11rsa_link.c b/lib/dns/pkcs11rsa_link.c
++index 096c1a8e91..1d10d26564 100644
++--- a/lib/dns/pkcs11rsa_link.c
+++++ b/lib/dns/pkcs11rsa_link.c
++@@ -332,6 +332,7 @@ pkcs11rsa_createctx_verify(dst_key_t *key, unsigned int maxbits,
++ 		key->key_alg == DST_ALG_RSASHA256 ||
++ 		key->key_alg == DST_ALG_RSASHA512);
++ #endif
+++	REQUIRE(maxbits <= RSA_MAX_PUBEXP_BITS);
++ 
++ 	/*
++ 	 * Reject incorrect RSA key lengths.
++@@ -376,6 +377,7 @@ pkcs11rsa_createctx_verify(dst_key_t *key, unsigned int maxbits,
++ 	for (attr = pk11_attribute_first(rsa);
++ 	     attr != NULL;
++ 	     attr = pk11_attribute_next(rsa, attr))
+++	{
++ 		switch (attr->type) {
++ 		case CKA_MODULUS:
++ 			INSIST(keyTemplate[5].type == attr->type);
++@@ -396,12 +398,16 @@ pkcs11rsa_createctx_verify(dst_key_t *key, unsigned int maxbits,
++ 			memmove(keyTemplate[6].pValue, attr->pValue,
++ 				attr->ulValueLen);
++ 			keyTemplate[6].ulValueLen = attr->ulValueLen;
++-			if (pk11_numbits(attr->pValue,
++-					 attr->ulValueLen) > maxbits &&
++-			    maxbits != 0)
+++			unsigned int bits;
+++			ret = pk11_numbits(attr->pValue, attr->ulValueLen,
+++					   &bits);
+++			if (ret != ISC_R_SUCCESS ||
+++			    (bits > maxbits && maxbits != 0)) {
++ 				DST_RET(DST_R_VERIFYFAILURE);
+++			}
++ 			break;
++ 		}
+++	}
++ 	pk11_ctx->object = CK_INVALID_HANDLE;
++ 	pk11_ctx->ontoken = false;
++ 	PK11_RET(pkcs_C_CreateObject,
++@@ -1072,6 +1078,7 @@ pkcs11rsa_verify(dst_context_t *dctx, const isc_region_t *sig) {
++ 			keyTemplate[5].ulValueLen = attr->ulValueLen;
++ 			break;
++ 		case CKA_PUBLIC_EXPONENT:
+++			unsigned int bits;
++ 			INSIST(keyTemplate[6].type == attr->type);
++ 			keyTemplate[6].pValue = isc_mem_get(dctx->mctx,
++ 							    attr->ulValueLen);
++@@ -1080,10 +1087,12 @@ pkcs11rsa_verify(dst_context_t *dctx, const isc_region_t *sig) {
++ 			memmove(keyTemplate[6].pValue, attr->pValue,
++ 				attr->ulValueLen);
++ 			keyTemplate[6].ulValueLen = attr->ulValueLen;
++-			if (pk11_numbits(attr->pValue,
++-					 attr->ulValueLen)
++-				> RSA_MAX_PUBEXP_BITS)
+++			ret = pk11_numbits(attr->pValue, attr->ulValueLen,
+++					   &bits);
+++			if (ret != ISC_R_SUCCESS || bits > RSA_MAX_PUBEXP_BITS)
+++			{
++ 				DST_RET(DST_R_VERIFYFAILURE);
+++			}
++ 			break;
++ 		}
++ 	pk11_ctx->object = CK_INVALID_HANDLE;
++@@ -1461,6 +1470,8 @@ pkcs11rsa_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 	CK_BYTE *exponent = NULL, *modulus = NULL;
++ 	CK_ATTRIBUTE *attr;
++ 	unsigned int length;
+++	unsigned int bits;
+++	isc_result_t ret = ISC_R_SUCCESS;
++ 
++ 	isc_buffer_remainingregion(data, &r);
++ 	if (r.length == 0)
++@@ -1478,9 +1489,7 @@ pkcs11rsa_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 
++ 	if (e_bytes == 0) {
++ 		if (r.length < 2) {
++-			isc_safe_memwipe(rsa, sizeof(*rsa));
++-			isc_mem_put(key->mctx, rsa, sizeof(*rsa));
++-			return (DST_R_INVALIDPUBLICKEY);
+++			DST_RET(DST_R_INVALIDPUBLICKEY);
++ 		}
++ 		e_bytes = (*r.base) << 8;
++ 		isc_region_consume(&r, 1);
++@@ -1489,16 +1498,18 @@ pkcs11rsa_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 	}
++ 
++ 	if (r.length < e_bytes) {
++-		isc_safe_memwipe(rsa, sizeof(*rsa));
++-		isc_mem_put(key->mctx, rsa, sizeof(*rsa));
++-		return (DST_R_INVALIDPUBLICKEY);
+++		DST_RET(DST_R_INVALIDPUBLICKEY);
++ 	}
++ 	exponent = r.base;
++ 	isc_region_consume(&r, e_bytes);
++ 	modulus = r.base;
++ 	mod_bytes = r.length;
++ 
++-	key->key_size = pk11_numbits(modulus, mod_bytes);
+++	ret = pk11_numbits(modulus, mod_bytes, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	isc_buffer_forward(data, length);
++ 
++@@ -1548,9 +1559,12 @@ pkcs11rsa_fromdns(dst_key_t *key, isc_buffer_t *data) {
++ 			    rsa->repr,
++ 			    rsa->attrcnt * sizeof(*attr));
++ 	}
+++	ret = ISC_R_NOMEMORY;
+++
+++    err:
++ 	isc_safe_memwipe(rsa, sizeof(*rsa));
++ 	isc_mem_put(key->mctx, rsa, sizeof(*rsa));
++-	return (ISC_R_NOMEMORY);
+++	return (ret);
++ }
++ 
++ static isc_result_t
++@@ -1729,6 +1743,7 @@ pkcs11rsa_fetch(dst_key_t *key, const char *engine, const char *label,
++ 	pk11_object_t *pubrsa;
++ 	pk11_context_t *pk11_ctx = NULL;
++ 	isc_result_t ret;
+++	unsigned int bits;
++ 
++ 	if (label == NULL)
++ 		return (DST_R_NOENGINE);
++@@ -1815,7 +1830,11 @@ pkcs11rsa_fetch(dst_key_t *key, const char *engine, const char *label,
++ 
++ 	attr = pk11_attribute_bytype(rsa, CKA_MODULUS);
++ 	INSIST(attr != NULL);
++-	key->key_size = pk11_numbits(attr->pValue, attr->ulValueLen);
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	return (ISC_R_SUCCESS);
++ 
++@@ -1901,6 +1920,7 @@ pkcs11rsa_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 	CK_ATTRIBUTE *attr;
++ 	isc_mem_t *mctx = key->mctx;
++ 	const char *engine = NULL, *label = NULL;
+++	unsigned int bits;
++ 
++ 	/* read private key file */
++ 	ret = dst__privstruct_parse(key, DST_ALG_RSA, lexer, mctx, &priv);
++@@ -2044,12 +2064,22 @@ pkcs11rsa_parse(dst_key_t *key, isc_lex_t *lexer, dst_key_t *pub) {
++ 
++ 	attr = pk11_attribute_bytype(rsa, CKA_MODULUS);
++ 	INSIST(attr != NULL);
++-	key->key_size = pk11_numbits(attr->pValue, attr->ulValueLen);
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	attr = pk11_attribute_bytype(rsa, CKA_PUBLIC_EXPONENT);
++ 	INSIST(attr != NULL);
++-	if (pk11_numbits(attr->pValue, attr->ulValueLen) > RSA_MAX_PUBEXP_BITS)
+++
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	if (bits > RSA_MAX_PUBEXP_BITS) {
++ 		DST_RET(ISC_R_RANGE);
+++	}
++ 
++ 	dst__privstruct_free(&priv, mctx);
++ 	isc_safe_memwipe(&priv, sizeof(priv));
++@@ -2084,6 +2114,7 @@ pkcs11rsa_fromlabel(dst_key_t *key, const char *engine, const char *label,
++ 	pk11_context_t *pk11_ctx = NULL;
++ 	isc_result_t ret;
++ 	unsigned int i;
+++	unsigned int bits;
++ 
++ 	UNUSED(pin);
++ 
++@@ -2178,12 +2209,22 @@ pkcs11rsa_fromlabel(dst_key_t *key, const char *engine, const char *label,
++ 
++ 	attr = pk11_attribute_bytype(rsa, CKA_PUBLIC_EXPONENT);
++ 	INSIST(attr != NULL);
++-	if (pk11_numbits(attr->pValue, attr->ulValueLen) > RSA_MAX_PUBEXP_BITS)
+++
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	if (bits > RSA_MAX_PUBEXP_BITS) {
++ 		DST_RET(ISC_R_RANGE);
+++	}
++ 
++ 	attr = pk11_attribute_bytype(rsa, CKA_MODULUS);
++ 	INSIST(attr != NULL);
++-	key->key_size = pk11_numbits(attr->pValue, attr->ulValueLen);
+++	ret = pk11_numbits(attr->pValue, attr->ulValueLen, &bits);
+++	if (ret != ISC_R_SUCCESS) {
+++		goto err;
+++	}
+++	key->key_size = bits;
++ 
++ 	pk11_return_session(pk11_ctx);
++ 	isc_safe_memwipe(pk11_ctx, sizeof(*pk11_ctx));
++diff --git a/lib/isc/include/pk11/internal.h b/lib/isc/include/pk11/internal.h
++index aa8907ab08..7cc8ec812b 100644
++--- a/lib/isc/include/pk11/internal.h
+++++ b/lib/isc/include/pk11/internal.h
++@@ -25,7 +25,8 @@ void pk11_mem_put(void *ptr, size_t size);
++ 
++ CK_SLOT_ID pk11_get_best_token(pk11_optype_t optype);
++ 
++-unsigned int pk11_numbits(CK_BYTE_PTR data, unsigned int bytecnt);
+++isc_result_t
+++pk11_numbits(CK_BYTE_PTR data, unsigned int bytecnt, unsigned int *bits);
++ 
++ CK_ATTRIBUTE *pk11_attribute_first(const pk11_object_t *obj);
++ 
++diff --git a/lib/isc/pk11.c b/lib/isc/pk11.c
++index 012afd968a..4e4052044b 100644
++--- a/lib/isc/pk11.c
+++++ b/lib/isc/pk11.c
++@@ -962,13 +962,15 @@ pk11_get_best_token(pk11_optype_t optype) {
++ 	return (token->slotid);
++ }
++ 
++-unsigned int
++-pk11_numbits(CK_BYTE_PTR data, unsigned int bytecnt) {
+++isc_result_t
+++pk11_numbits(CK_BYTE_PTR data, unsigned int bytecnt, unsigned int *bits) {
++ 	unsigned int bitcnt, i;
++ 	CK_BYTE top;
++ 
++-	if (bytecnt == 0)
++-		return (0);
+++	if (bytecnt == 0) {
+++		*bits = 0;
+++		return (ISC_R_SUCCESS);
+++	}
++ 	bitcnt = bytecnt * 8;
++ 	for (i = 0; i < bytecnt; i++) {
++ 		top = data[i];
++@@ -976,26 +978,41 @@ pk11_numbits(CK_BYTE_PTR data, unsigned int bytecnt) {
++ 			bitcnt -= 8;
++ 			continue;
++ 		}
++-		if (top & 0x80)
++-			return (bitcnt);
++-		if (top & 0x40)
++-			return (bitcnt - 1);
++-		if (top & 0x20)
++-			return (bitcnt - 2);
++-		if (top & 0x10)
++-			return (bitcnt - 3);
++-		if (top & 0x08)
++-			return (bitcnt - 4);
++-		if (top & 0x04)
++-			return (bitcnt - 5);
++-		if (top & 0x02)
++-			return (bitcnt - 6);
++-		if (top & 0x01)
++-			return (bitcnt - 7);
+++		if (top & 0x80) {
+++			*bits = bitcnt;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x40) {
+++			*bits = bitcnt - 1;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x20) {
+++			*bits = bitcnt - 2;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x10) {
+++			*bits = bitcnt - 3;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x08) {
+++			*bits = bitcnt - 4;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x04) {
+++			*bits = bitcnt - 5;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x02) {
+++			*bits = bitcnt - 6;
+++			return (ISC_R_SUCCESS);
+++		}
+++		if (top & 0x01) {
+++			*bits = bitcnt - 7;
+++			return (ISC_R_SUCCESS);
+++		}
++ 		break;
++ 	}
++-	INSIST(0);
++-	ISC_UNREACHABLE();
+++	return (ISC_R_RANGE);
++ }
++ 
++ CK_ATTRIBUTE *
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.19.bb b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+index 0bfd579..aed1a73 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.19.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+@@ -19,6 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            file://CVE-2020-8622.patch \
++           file://CVE-2020-8623.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0dee554a4caa368948b32da9a0c97b516c19103bc13ff5b3762c5d8552f52329"
+-- 
+1.9.1
 
-Hi Randy,
-
-Thanks for the heads up, this was indeed was the issue. I'm not sure why
-it's not manifesting itself on Bruces builds. It seems to be arm64
-specific and directly correlated to the binutils version. There is a
-patch coming which will make it in before the release and I assume be
-backported to v5.8 stable which is also affected.
-
-Cheers,
-Jack.
-
->>
->> still working here:
->>
->> qemuarm64 login: root
->> root@qemuarm64:~# uname -a
->> Linux qemuarm64 5.9.0-rc2-yoctodev-standard #1 SMP PREEMPT Sat Aug 29
->> 14:26:30 UTC 2020 aarch64 aarch64 aarch64 GNU/Linux
->> root@qemuarm64:~# lsmod
->> Module=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Size=C2=A0 Used by
->> sch_fq_codel=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 20480=C2=A0 1
->> openvswitch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- 155648=C2=A0 0
->> nsh=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 16384=C2=A0 1 openvswitch
->> nf_conncount=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 20480=C2=A0 1 openvswitch
->> nf_nat=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 40960=C2=A0 1 openvswitch
->> nf_conntrack=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1105=
-92=C2=A0 3 nf_nat,openvswitch,nf_conncount
->> nf_defrag_ipv6=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 20480=C2=
-=
-=A0 2 nf_conntrack,openvswitch
->> nf_defrag_ipv4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 16384=C2=
-=
-=A0 1 nf_conntrack
->> root@qemuarm64:~#
->>
->> Bruce
->>
->>> Cheers,
->>>
->>> Bruce
->>>
->>>>
->>>> Regards,
->>>> Jack.
->>>>
->>>> On 28/08/2020 22:35, Jack Mitchell wrote:
->>>>> Hi Bruce,
->>>>>
->>>>> All built in-tree, the same recipe builds an armv7h kernel so I'll
->>>>> try a
->>>>> build for that and see if it's something aarch64 specific. All the
->>>>> modules are failing to load so it's not something specific to g_ethe=
-r.
->>>>> Please see kernel recipe below for reference.
->>>>>
->>>>> LICENSE =3D "GPLv2"
->>>>> LIC_FILES_CHKSUM =3D
->>>>> "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e46"
->>>>>
->>>>> inherit kernel
->>>>>
->>>>> S =3D "${WORKDIR}/git"
->>>>>
->>>>> SRCREV =3D "redacted"
->>>>> KBRANCH =3D "v5.9-rc2"
->>>>>
->>>>> LINUX_VERSION ?=3D "${KBRANCH}-g${SRCREV}"
->>>>> PV =3D "${LINUX_VERSION}"
->>>>>
->>>>> SRC_URI =3D " \
->>>>>
->>>>> git://git@github.com/redacted/linux.git;name=3Dkernel;branch=3D${KBR=
-ANCH};protocol=3Dssh
->>>>>
->>>>> \
->>>>> "
->>>>>
->>>>> do_configure_prepend() {
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ -n "${KBUILD_D=
-EFCONFIG}" ] && [ -f
->>>>> "${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}" ]; then
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 oe_runmake_call -C ${S} CC=3D"${KERNEL_CC}"
->>>>> LD=3D"${KERNEL_LD}" O=3D${B} ${KBUILD_DEFCONFIG}
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
->>>>> }
->>>>>
->>>>> Cheers,
->>>>> Jack.
->>>>>
->>>>> On 28/08/2020 21:55, Bruce Ashfield wrote:
->>>>>> On Fri, Aug 28, 2020 at 4:20 PM Jack Mitchell <ml@embed.me.uk> wrot=
-e:
->>>>>>>
->>>>>>> Having just upgraded my mainline kernel recipe to a v5.8/v5.9-rc2
->>>>>>> kernel
->>>>>>> from v5.5.8 I've found that modules have somehow broken. I've
->>>>>>> flicked
->>>>>>> between the two and confirmed that the old kernel build works,
->>>>>>> and the
->>>>>>> 5.8/5.9 build doesn't. I haven't changed anything bar the git comm=
-it
->>>>>>> hash. It's a very simple kernel recipe basically just inheriting t=
-he
->>>>>>> kernel bbclass and setting SRCREV. Running on current tip of maste=
-r.
->>>>>>>
->>>>>>> I assume it's something symver related but wanted to ask if anybod=
-y
->>>>>>> knows anything before I dig too deep.
->>>>>>
->>>>>> I can say that it is working for me on 5.8 and 5.9-rcX on the
->>>>>> reference kernels.
->>>>>>
->>>>>> qemux86-64 login: root
->>>>>> root@qemux86-64:~# uname -a
->>>>>> Linux qemux86-64 5.8.4-yocto-standard #1 SMP PREEMPT Wed Aug 26
->>>>>> 16:07:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
->>>>>> root@qemux86-64:~# lsmod
->>>>>> Module=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Size=C2=A0 Used by
->>>>>> parport_pc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=
-=A0=C2=A0=C2=A0 24576
->>>>>> parport=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 28672=C2=A0 1 parport_pc
->>>>>> ata_piix=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 36864=C2=A0 0
->>>>>> floppy=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 77824=C2=A0 0
->>>>>> sch_fq_codel=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 20480=C2=A0 1
->>>>>>
->>>>>> my 5.9-rc is rebuilding right now, so I can double check it over
->>>>>> the weekend.
->>>>>>
->>>>>> Not super useful, but there shouldn't be anything fundamentally
->>>>>> broken, since we've been following along with the latest as usual.
->>>>>>
->>>>>> Is your g_ether built in-tree, or out of tree ?
->>>>>>
->>>>>> Bruce
->>>>>>
->>>>>>
->>>>>>>
->>>>>>> Cheers,
->>>>>>> Jack.
->>>>>>>
->>>>>>> root@rk3399:~# uname=C2=A0 -a
->>>>>>> Linux rk3399 5.9.0-rc2 #1 SMP PREEMPT Fri Aug 28 18:47:44 UTC 2020
->>>>>>> aarch64 GNU/Linux
->>>>>>>
->>>>>>> root@rk3399:~# modprobe g_ether
->>>>>>> modprobe: ERROR: could not insert 'g_ether': Exec format error
->>>>>>>
->>>>>>> root@rk3399:~# modinfo
->>>>>>> /lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
->>>>>>> filename:
->>>>>>> /lib/modules/5.9.0-rc2/kernel/drivers/usb/gadget/legacy/g_ether.ko
->>>>>>> license:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GPL
->>>>>>> author:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 David Brow=
-nell, Benedikt Spanger
->>>>>>> description:=C2=A0=C2=A0=C2=A0 RNDIS/Ethernet Gadget
->>>>>>> depends:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 libcomposite,u_=
-ether,usb_f_rndis
->>>>>>> intree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Y
->>>>>>> name:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-g_ether
->>>>>>> vermagic:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5.9.0-rc2 SMP preemp=
-t mod_unload aarch64
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-idVendor:USB Vendor ID (ushort)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-idProduct:USB Product ID (ushort)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-bcdDevice:USB Device version (BCD) (ushort)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-iSerialNumber:SerialNumber string (charp)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-iManufacturer:USB Manufacturer string (charp)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-iProduct:USB Product string (charp)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-qmult:queue length multiplier at high/super speed
->>>>>>> (uint)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-dev_addr:Device Ethernet Address (charp)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-host_addr:Host Ethernet Address (charp)
->>>>>>> parm:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-use_eem:use CDC EEM mode (bool)
->>>>>>>
->>>>>>> [jack@arch-corsair ~]$ file g_ether.ko
->>>>>>> g_ether.ko: ELF 64-bit LSB relocatable, ARM aarch64, version 1
->>>>>>> (SYSV),
->>>>>>> BuildID[sha1]=3D375c0485cb8c4b013dc0694725457bd111899f8c, not stri=
-pped
->>>>>>>
->>>>>>
->>>>>>
->>>>>
->>>>>
->>>>>
->>>>>
->>>
->>>
->>>
->>> --=20
->>> - Thou shalt not follow the NULL pointer, for chaos and madness await
->>> thee at its end
->>> - "Use the force Harry" - Gandalf, Star Trek II
->>>
->>
->>
->>
->>
->>
->>
->=20
->=20
->=20
->=20
