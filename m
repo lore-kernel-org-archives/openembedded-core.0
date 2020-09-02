@@ -1,48 +1,96 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.13384.1599016809269060803
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+ by mx.groups.io with SMTP id smtpd.web10.13411.1599016966371965372
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 20:20:09 -0700
+ Tue, 01 Sep 2020 20:22:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yanfei.xu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0823JmTM026963
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Sep 2020 20:19:58 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Tue, 1 Sep 2020
- 20:19:38 -0700
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] kernel-yocto: Fix an inappropriate process with include path
-Date: Wed, 2 Sep 2020 11:19:36 +0800
-Message-ID: <20200902031936.3804-1-yanfei.xu@windriver.com>
-X-Mailer: git-send-email 2.18.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iGxo9Qp2;
+ spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f195.google.com with SMTP id z15so1611151plo.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 20:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8kYjA0Hu161iF2+CIV6sv0FvTZ+9+pBUGzk7lPNaAgU=;
+        b=iGxo9Qp2XKk5nrfEWUr+GS8PR1+HwDUaoOkmV+8osbLNiIYBFD1x99iufIxqdrNFP/
+         FGQI5M2/2lpTRAvkZtlS0A6E61NP8vGdYmJbsI1jl30n+61jnZHjA25+l2JOhJ9J9kV+
+         7l9epBSmgoD2G4A6IcieQyAPFIQJLoMb6eZJVQyZSpi5DvTU83D8QDNTvxuNdJS4bRSQ
+         EvwxXTfMqAFT02ujnAeNz275X/zOOETk3IzSg9trMit25/aftFQZmrIyeXXM8d1wPi5F
+         cx1aYq81q2IFWjCSRcRTycYZ/l9l3t5m1j2ADyWCQGMMhNUcDKrMrBNEWNKFlbdN91Uh
+         x07g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8kYjA0Hu161iF2+CIV6sv0FvTZ+9+pBUGzk7lPNaAgU=;
+        b=ee91Ydhjfazinkq8UOQfcWAQBOG7gLdpWwb2vfw1EYmta0NFpdzdoZk55rD/lZqx22
+         B8HB0mNh7o+VYIo0X7db8JSgK2X6U3opfEc744CHi3tQgIzUv9JmTfFvJZ9Uyjsa8G5a
+         vZUFhL7pSi17JnCry3Hokca5EghpAN+wTDHIXuY8RaQ4WXTGTuLUWryMFYtoOxI7v+48
+         Y79HFmldY7c+BJPgtHietFDIP20fEyK9ItPA3BgfuTaoiM2PTjrdFp56Nhkv/5NwYBys
+         lE0nDEYTs35EKUeRMDY5P1PXiCf1UGbxHDkt5YLTrpCh2SNDAVfFHQorBegTN8K8ZV9D
+         JxDw==
+X-Gm-Message-State: AOAM532UbKGRWlBk88BCFqzgVzLmLEBAaLOZVWtvy2y6vQEhGnMbntu8
+	0WgzF5/JUISFgyL7e9QBZdn0A98M4yNjww==
+X-Google-Smtp-Source: ABdhPJy1xxAcVqTRTTs6Xz7d0ZBLAmQdb7dsVmhe40ZbS0kddOOtaS90RKaudYsLuw/bEwWpPBzKHg==
+X-Received: by 2002:a17:902:aa4c:: with SMTP id c12mr316833plr.183.1599016965434;
+        Tue, 01 Sep 2020 20:22:45 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
+        by smtp.gmail.com with ESMTPSA id p9sm3587544pgb.48.2020.09.01.20.22.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2020 20:22:44 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] elfutils: Fix GNU_HASH QA Issue
+Date: Tue,  1 Sep 2020 20:22:41 -0700
+Message-Id: <20200902032241.3586810-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Yanfei Xu <yanfei.xu@windriver.com>
-
-We just want to remove the first '-I' in $d, hence removing the
-'g' of sed avoid changing the real path which is include '-I'
-
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/kernel-yocto.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-devtools/elfutils/elfutils_0.180.bb |  1 +
+ .../elfutils/files/ldflags.patch                | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/ldflags.patch
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 96ea612258..b672a1143a 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -225,7 +225,7 @@ do_kernel_metadata() {
- 		for feature in ${KERNEL_FEATURES}; do
- 			feature_found=f
- 			for d in $includes; do
--				path_to_check=$(echo $d | sed 's/-I//g')
-+				path_to_check=$(echo $d | sed 's/-I//')
- 				if [ "$feature_found" = "f" ] && [ -e "$path_to_check/$feature" ]; then
- 				    feature_found=t
- 				fi
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.180.bb b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
+index 9f8bfc24f3..d3ee750725 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.180.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
+@@ -20,6 +20,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
++           file://ldflags.patch \
+            "
+ SRC_URI_append_libc-musl = " \
+            file://0001-musl-obstack-fts.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/ldflags.patch b/meta/recipes-devtools/elfutils/files/ldflags.patch
+new file mode 100644
+index 0000000000..ef1d65e2c3
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/ldflags.patch
+@@ -0,0 +1,17 @@
++Pass linker flags along to CCLD, this ensures proper linking
++w.r.t. hash_style selection during cross-compile
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -86,7 +86,7 @@ backtrace-child-biarch$(EXEEXT): backtra
++ test-nlist$(EXEEXT): test-nlist.c
++ 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
++ 	  $(AM_CPPFLAGS) $(CPPFLAGS) \
++-	  $(CFLAGS) $(test_nlist_LDADD) -o $@ $<
+++	  $(CFLAGS) $(test_nlist_LDADD) $(LDFLAGS) -o $@ $<
++ 
++ TESTS = run-arextract.sh run-arsymtest.sh run-ar.sh newfile test-nlist \
++ 	update1 update2 update3 update4 \
 -- 
-2.18.2
+2.28.0
 
