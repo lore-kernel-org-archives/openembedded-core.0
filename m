@@ -1,96 +1,92 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web10.13411.1599016966371965372
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web11.13502.1599017306339002233
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2020 20:22:46 -0700
+ Tue, 01 Sep 2020 20:28:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iGxo9Qp2;
- spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f195.google.com with SMTP id z15so1611151plo.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 20:22:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bh4t4TQo;
+ spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f41.google.com with SMTP id 109so3082131otv.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2020 20:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8kYjA0Hu161iF2+CIV6sv0FvTZ+9+pBUGzk7lPNaAgU=;
-        b=iGxo9Qp2XKk5nrfEWUr+GS8PR1+HwDUaoOkmV+8osbLNiIYBFD1x99iufIxqdrNFP/
-         FGQI5M2/2lpTRAvkZtlS0A6E61NP8vGdYmJbsI1jl30n+61jnZHjA25+l2JOhJ9J9kV+
-         7l9epBSmgoD2G4A6IcieQyAPFIQJLoMb6eZJVQyZSpi5DvTU83D8QDNTvxuNdJS4bRSQ
-         EvwxXTfMqAFT02ujnAeNz275X/zOOETk3IzSg9trMit25/aftFQZmrIyeXXM8d1wPi5F
-         cx1aYq81q2IFWjCSRcRTycYZ/l9l3t5m1j2ADyWCQGMMhNUcDKrMrBNEWNKFlbdN91Uh
-         x07g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JU6nocUsxPnyVJhXya7EprohksESLAD5eDJWExQXDWk=;
+        b=bh4t4TQov3A9wjPvEg1BZ+D/msXCjrcuqQZq11v/1xwHb6F7Hi9yYyU7jnZXBGned3
+         kKkR5eSnkhSr42hAp37JVw9A5SFZ6qO4UPjDeZUd3fpoqNLbVUA1pHbnUjkNdbJjR+G6
+         0S9I6NkqQJBS5WiZgWreAa4aBgF0BjF7xLt3u8Vx5HioFNDTVDr8dp3KJaO0GIihygWx
+         p51N3QBQnGE/YvgQL94yKXrwXdb627fBRK9CaDpigLxS/Jm0W8+z0beSOVJrBsZXYLzb
+         q7Ez0GvAr7PK9qpzKY6+ANz7yXabk2nSs8XTT7HgNwjelDfUs3OL7u0Ij2htJUXiPsTP
+         ZWIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8kYjA0Hu161iF2+CIV6sv0FvTZ+9+pBUGzk7lPNaAgU=;
-        b=ee91Ydhjfazinkq8UOQfcWAQBOG7gLdpWwb2vfw1EYmta0NFpdzdoZk55rD/lZqx22
-         B8HB0mNh7o+VYIo0X7db8JSgK2X6U3opfEc744CHi3tQgIzUv9JmTfFvJZ9Uyjsa8G5a
-         vZUFhL7pSi17JnCry3Hokca5EghpAN+wTDHIXuY8RaQ4WXTGTuLUWryMFYtoOxI7v+48
-         Y79HFmldY7c+BJPgtHietFDIP20fEyK9ItPA3BgfuTaoiM2PTjrdFp56Nhkv/5NwYBys
-         lE0nDEYTs35EKUeRMDY5P1PXiCf1UGbxHDkt5YLTrpCh2SNDAVfFHQorBegTN8K8ZV9D
-         JxDw==
-X-Gm-Message-State: AOAM532UbKGRWlBk88BCFqzgVzLmLEBAaLOZVWtvy2y6vQEhGnMbntu8
-	0WgzF5/JUISFgyL7e9QBZdn0A98M4yNjww==
-X-Google-Smtp-Source: ABdhPJy1xxAcVqTRTTs6Xz7d0ZBLAmQdb7dsVmhe40ZbS0kddOOtaS90RKaudYsLuw/bEwWpPBzKHg==
-X-Received: by 2002:a17:902:aa4c:: with SMTP id c12mr316833plr.183.1599016965434;
-        Tue, 01 Sep 2020 20:22:45 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e89d])
-        by smtp.gmail.com with ESMTPSA id p9sm3587544pgb.48.2020.09.01.20.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2020 20:22:44 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] elfutils: Fix GNU_HASH QA Issue
-Date: Tue,  1 Sep 2020 20:22:41 -0700
-Message-Id: <20200902032241.3586810-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JU6nocUsxPnyVJhXya7EprohksESLAD5eDJWExQXDWk=;
+        b=PeNWb7a+gxhEBA6Kph59JEsTzCkgVUQhY8t+RHIo63F7F+MT2mdeUoIYmToZGb+tmw
+         aDpbNbhscD/8biXQEzddidvqvm2Vla7L8WqPndPqJriGeQFe5JosQC+0l+BX8vo4MwU4
+         m3falz3v4WL1s9UGpLfuJr8KwmHly05Bloa1H2wShw/8CvMt1GsDqNo1+TQqigVpfQNU
+         +yWtpA7TshSXb0Den6nI6ClFnwSVD3sCnv4AZYXOAq8k5RlmGyun+kbrEr6lFLV5Wmc2
+         xNtnqbnUIeFN2iUcyn0pqTP/S4KBVUw+CUKDTEwMzNMBiyk86445OKmPxTnPH/OniJoq
+         /Gww==
+X-Gm-Message-State: AOAM531fGOBRoRCbFrDM9keerR/smq7T7xpxao18ZF+CF08ta50ykyVb
+	NSv4WwgtDTi9VOk0BrELnwxwT2mevb2rgl2BkQI=
+X-Google-Smtp-Source: ABdhPJx+If26IhptuN3B6jgkYJPXpYtVjP+ubmZLXN70TeCjMDo4dQKzw6kKMeyxYH78rc73UIzkw+6FjCgF4thSiZI=
+X-Received: by 2002:a9d:7f84:: with SMTP id t4mr3872267otp.192.1599017305607;
+ Tue, 01 Sep 2020 20:28:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1598810890.git.steve@sakoman.com> <19d9787f362e8ee4460964768ca9b5f093bd4f0f.camel@linuxfoundation.org>
+ <CAOSpxdZ97Z3FwgE2G6Sd3gxbpnSBpi6U2Je_XNV7BfNJUg9Xwg@mail.gmail.com>
+In-Reply-To: <CAOSpxdZ97Z3FwgE2G6Sd3gxbpnSBpi6U2Je_XNV7BfNJUg9Xwg@mail.gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Tue, 1 Sep 2020 20:28:14 -0700
+Message-ID: <CACMJ4GbJSsU5hWnphDammJmirJk9+0DYyhYnyU43B7XMMt7gWg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/25] Patch review
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../recipes-devtools/elfutils/elfutils_0.180.bb |  1 +
- .../elfutils/files/ldflags.patch                | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/ldflags.patch
+On Tue, Sep 1, 2020 at 7:06 AM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> On Tue, Sep 1, 2020 at 1:07 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > Hi Steve,
+> >
+> > On Sun, 2020-08-30 at 08:15 -1000, Steve Sakoman wrote:
+> > > Please review this next set of patches for dunfell and have comments
+> > > back by end of day Tuesday.
+> >
+> > A few of these (e.g. devtool, RPROVIDES, kernel fragments) are what I'd
+> > consider slightly riskier patches which only really just made master.
+> > I'm not sure if we want to give a little extra time for some of those
+> > in master before we backport?
+>
+> Certainly, I'll drop those patches from the pull request and let them
+> bake for another week.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.180.bb b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
-index 9f8bfc24f3..d3ee750725 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.180.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-+           file://ldflags.patch \
-            "
- SRC_URI_append_libc-musl = " \
-            file://0001-musl-obstack-fts.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/ldflags.patch b/meta/recipes-devtools/elfutils/files/ldflags.patch
-new file mode 100644
-index 0000000000..ef1d65e2c3
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/ldflags.patch
-@@ -0,0 +1,17 @@
-+Pass linker flags along to CCLD, this ensures proper linking
-+w.r.t. hash_style selection during cross-compile
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -86,7 +86,7 @@ backtrace-child-biarch$(EXEEXT): backtra
-+ test-nlist$(EXEEXT): test-nlist.c
-+ 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-+ 	  $(AM_CPPFLAGS) $(CPPFLAGS) \
-+-	  $(CFLAGS) $(test_nlist_LDADD) -o $@ $<
-++	  $(CFLAGS) $(test_nlist_LDADD) $(LDFLAGS) -o $@ $<
-+ 
-+ TESTS = run-arextract.sh run-arsymtest.sh run-ar.sh newfile test-nlist \
-+ 	update1 update2 update3 update4 \
--- 
-2.28.0
+Steve: since you're looking at pulling in kernel fragment patches to
+dunfell, please could you add this patch to your next round:
 
+commit af687c9137a3e8efe48afa6fd12866cf656ae913
+cml1: Move find_cfgs() helper to cml1.bbclass
+
+https://lists.openembedded.org/g/openembedded-core/message/140493
+
+It's needed in dunfell of oe-core to fix compatibility with
+post-dunfell meta-virtualization, where the Xen recipe now inherits
+cml1.bbclass to support config fragments. Without this patch applied,
+parsing of meta-virtualization fails since find_cfgs is missing; with
+it applied, the current master branch of meta-virtualization is
+compatible with dunfell of oe-core, which enables use of newer Xen
+versions with the stable dunfell core -- enabling this combination is
+useful and would be appreciated.
+
+thanks,
+
+Christopher
+
+>
+> Steve
+> 
