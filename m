@@ -1,50 +1,50 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web12.955.1599081245628926799
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.906.1599081246451768161
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Sep 2020 14:14:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UvEiOJWz;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id lo4so686653ejb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VXI7ot6A;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id l21so444744eds.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 14:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RbXJLNZCLZ/WGKONBqQ9sw+247l5vCAYETa/bhX2llI=;
-        b=UvEiOJWzhJpZZ/ny4RnrOwIu3TTzrT/692bofKWlZPBrOiEPXu6H/SRAIQKcj66W24
-         DvqIVRdfZU/LObUNkWfy8MUq6i6jhUfDsQsmA2RfSG6HuLXV3zVFIDbFrDSQCoEjdiH2
-         J+dU5wYCoNihWjB7H5WoHViW4p7kWx+ZmLUK52RjguuelJFLoKda+wxASQkHyIkqqS7L
-         9hHNotpumETiMLg7pqYROtbHFrmdGNuOys9V4Tsdg7v1B/vBhbSWQJaD7nGmu918oMQ9
-         8HTi/uB4f7ZmbbRdh3T+dcf7M2QK11vD9O6FWixR8I/kaTVAsEUjJ74o+M1u/SD2uIwq
-         vCSQ==
+        bh=fAgj9Y+BP5Yqpc6zmkgY8RK2JwNzVKRPF3NtHWRSftA=;
+        b=VXI7ot6ARBOioElnpbUq/Bf9avguf+1ZyZ/SqJwQ+jRCrnKvmkmrUi0plpMwG10Tuh
+         JecDp40gIJzfR+w/XCx2VRyPdd6b+PsOprj2wWLcw7Hro1J6hCPJWOHcCDPeC9cohWf1
+         y7/+DAYCJD1ByNmTSWkcbX6OeCzEsE7J+3hfxRzBCs6DHSJUoMfMnLgkiDCDbPrFFbCi
+         SmLBqZdap6pOuo7srMcSpXYAIF8fc7YgDkYXPsfzgBuubyQg0opoOU36EMCzJ3MEn2hy
+         ioFuJAyuc4M7CEwU+I37fwh3afpKRH63qzCzJfgAAPj0uYPxdd15ma1v+2PZMZpkemzZ
+         DKSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RbXJLNZCLZ/WGKONBqQ9sw+247l5vCAYETa/bhX2llI=;
-        b=UaivAYAMzABTiv+4NWVqpPoYz6aSXIGWDurZVTHG/m5U5a1YbrSOS7QD8LO25lPgTW
-         BPqxBAx1G9ZtT9mC3rmdF+wg7k30wk/rk1nijhk/YPqXKyHCGtu4BsG/aavNyKRaq7aK
-         ecWXqGhxImjCRC6J9MpJW1xiSDUB+uM/5c/tsFmo3rQhsMXUKTgoImyh9v8y0FJFvde9
-         No+WjSARE2JN8w7+Nnt9ihwlbzWpr/8h5hrQZdd4OHlv6zh9o+2lOO5kYrfmTaKimShi
-         V6kN+LX7ELSxV5b2cYe0UfHJCKAJArqQ+SHaXA8mDAcn8ohkqSf+tjwQSXZcsBIiA6Nk
-         3Qqw==
-X-Gm-Message-State: AOAM530j4/nLsMPc4Bb3JuPhMEPiPNZvdnRecjXqKf8Y7xENQlJu63Sk
-	9x506itkrQkqfIlmfmmOV8VBziW9St8=
-X-Google-Smtp-Source: ABdhPJyvpTnfxqSP0qQDNmESVampO2hGiQK7IfNRMHtX2BFJf5y8VJYgOyZaVnR84TUuS2NCWuMbsg==
-X-Received: by 2002:a17:906:2717:: with SMTP id z23mr44452ejc.19.1599081243818;
-        Wed, 02 Sep 2020 14:14:03 -0700 (PDT)
+        bh=fAgj9Y+BP5Yqpc6zmkgY8RK2JwNzVKRPF3NtHWRSftA=;
+        b=JDb05R8sdb2tFZgjvDib6NuEEirQ4IZQk1Q5t9TbnhF27/IpLKIpt/y9csoG0vFKLK
+         cMaHwtpBxhm80E5qnxMZfyrTYoH3Gn+NXUYcbnLG5gpa5/RpeMI4mNA+psBkEIb9vbtM
+         WpCwpURHtw/AF9pvyHQ6Z8I7Bl+uqEYh5c3xPFJ7NFOlRzxKQxnX6Y+aBOCiXrBuvfd3
+         5lwlK7PGcQusZwtqlD6WXTnSHvZaAJk6epP4Su4D9KLMNXv7WYH6ru1+2T4Kl8JaEFAV
+         Y/zpue/xTcUJHk13iAynYrFlBNXFoYEP1ht4Ui4HFmp3qQ9pjeYzy7R4AD6oSXH0N9Nd
+         Q06g==
+X-Gm-Message-State: AOAM533sVVm3TGOESpYVDVx/GU6Qtuiw2/OYi3PHfvx2rCCTXxyZKYCW
+	YXAmUpkjnJYF6mqOnCNymi3+cuKA0UQ=
+X-Google-Smtp-Source: ABdhPJwDtaFAu1SWB9quhAWXLhnWJ0KgS45x9Ct6+tBEacVeJIy+eafScFZ9IcQTRw7jn6MW16fjfw==
+X-Received: by 2002:a50:de04:: with SMTP id z4mr2122147edk.10.1599081244715;
+        Wed, 02 Sep 2020 14:14:04 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:b652:c378:b428:fdf])
         by smtp.gmail.com with ESMTPSA id ch29sm631607edb.74.2020.09.02.14.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 14:14:03 -0700 (PDT)
+        Wed, 02 Sep 2020 14:14:04 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/23] libuv: upgrade 1.38.1 -> 1.39.0
-Date: Wed,  2 Sep 2020 23:13:16 +0200
-Message-Id: <20200902211330.4853-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/23] msmtp: upgrade 1.8.11 -> 1.8.12
+Date: Wed,  2 Sep 2020 23:13:17 +0200
+Message-Id: <20200902211330.4853-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200902211330.4853-1-alex.kanavin@gmail.com>
 References: <20200902211330.4853-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libuv/{libuv_1.38.1.bb => libuv_1.39.0.bb}                  | 2 +-
+ .../recipes-extended/msmtp/{msmtp_1.8.11.bb => msmtp_1.8.12.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.38.1.bb => libuv_1.39.0.bb} (90%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.11.bb => msmtp_1.8.12.bb} (91%)
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.38.1.bb b/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-similarity index 90%
-rename from meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-index 874546373a..b6ce4757fd 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.38.1.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.11.bb b/meta/recipes-extended/msmtp/msmtp_1.8.12.bb
+similarity index 91%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.11.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.12.bb
+index 804ed59b4e..54798f9e6f 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.11.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.12.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
  
--SRCREV = "e8b989ea1f7f9d4083511a2caec7791e9abd1871"
-+SRCREV = "25f4b8b8a3c0f934158cd37a37b0525d75ca488e"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "f25f0fa177ce9e0ad65c127e790a37f35fb64fee9e33d90345844c5c86780e60"
++SRC_URI[sha256sum] = "a86fef9477339923afefe974988a38e32d0feb90dfeeb88f7f55aac356a96354"
  
- S = "${WORKDIR}/git"
+ inherit gettext autotools update-alternatives pkgconfig
+ 
 -- 
 2.28.0
 
