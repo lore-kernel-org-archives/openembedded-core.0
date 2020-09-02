@@ -1,103 +1,89 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web10.10096.1599059853568263778
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.10212.1599060149111681830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 08:17:33 -0700
+ Wed, 02 Sep 2020 08:22:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oEfAdjTt;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id u3so4671862qkd.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 08:17:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B/iVZscK;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id p65so3842792qtd.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 08:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c3i9Xc9fl8TKkMPq/xzzMQRE87RJGLSs/5BrPtptPuw=;
-        b=oEfAdjTtExUSSj4/3SGo/1oVjZJVHtlEbQ9svAI9BMXTGd9ASQahTOY3oM/ZzssEtV
-         DmwJ77ERQ5KD6WlHNkKQVuInko9Jqt0RZq6Wt+1Rdt7c4940beVw24zJdK2BvmH8TZcf
-         6jjRnGELyXvJLchTxE0O8Z+UCB4JuPbt0SfDJ7WnRGvTTM5LmeleIF7LncqNvl0g41/E
-         cdGllJh85kc5eCDNFKLa6U7KxJs5eRgz8HI9ES62XUjcDY9hN7zzngTwfK27WpO+/YV8
-         erfAu2XJ5UeDg7NDCalFu2QwPyovjIYuQDsDyk13anvOHa7vCNI8n1L7z1fr35tVk3zH
-         Jrpw==
+        bh=rQm0IRGlTrpI9aER4oD17OOzQQcshsosQUd/67wqq5w=;
+        b=B/iVZscKlngHyvVU2F+2Jhmw7JpICNu8ngej65391V9LR3VWOrlvuLl4o3EurHSCCl
+         lUeZh/viVb0887zM7FzQopBpzJLajZPsj3BOx7zD2GMWnNAgOND0oq3mgbf8uxxI/fZj
+         3mu9MV6v2xlnrXMwkN29pj3XRHxuWpWY6szJyLhWKjMGSWcID39xgMy+zA1rb1OPIVnE
+         U6/cd9ijicj6NEQiOP0be1KCEtTxkUKCQke3Qy+sSW+OlHnN9mhicqSlkGWknJWpWB+/
+         o4bCj89UrKgK5QWiyEZyv+6LHmuaTJcrxHro2gWH7igZUzH1kSe4MTzzE9wX2IweA6Ux
+         f6SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c3i9Xc9fl8TKkMPq/xzzMQRE87RJGLSs/5BrPtptPuw=;
-        b=HHtjuU3Exq8G8LJxSHWsj1oc6inOUmQRU04l4mmsL9V14GCQsoDZ7b2M/P7ATIhqms
-         6OpxYmDJWHGVKA6L47jFPPfckknmkQLJ9rzLU5yxjiVDhKdq3PSQL6IFaHuWfL9sAvee
-         AmLE5NnlKzdQUtgJwCqCvAYvzitchRe1tjIZ2hrgcC0QPr42UNl2YebCNFywEMuMvqFa
-         gQYMcLX21kpZowsinn6sTY9tPyP5ksWuDuN7qN6+j0KVW161r4Vv8RPOuHaQs7Y/qj+G
-         ywmef3UGaJhOowXtsFaCjJuyh86G+X6/cmeJUJ1pmBoey7J03ZYhkd1sPyRsZE5w6KDx
-         pgNg==
-X-Gm-Message-State: AOAM530ckcIMJ/yasO3pnRbEim1T1oolgI27ZeN2qz1beoW89000bSyN
-	dLrwu5vj8+GyG8yNI6/bEqK0rhLuUx5z7M3Vl9A=
-X-Google-Smtp-Source: ABdhPJwp3ZCgCu+91rVeYTMHnq34RqtSntMkYGKUa1sGjcRA3r1ooa66Jq8H/oJbCKSgPwkfWtIPGsk0PiWDO7MaKlc=
-X-Received: by 2002:a05:620a:7f6:: with SMTP id k22mr7200712qkk.337.1599059852567;
- Wed, 02 Sep 2020 08:17:32 -0700 (PDT)
+        bh=rQm0IRGlTrpI9aER4oD17OOzQQcshsosQUd/67wqq5w=;
+        b=BvWLNYnLOXncjUR6hAuJjVAk+QpXiOBKsni+YkS96At1qONfoYJdWIfGCiBdT49TC0
+         gfG8SUxcgp81gFfcznCBEDHmGgnF74vG+yZOEzFFEPrPCP0MGReWYMzw0RElQJMA3LAf
+         LvSp1w6IdA6jdVdwoKTa2NkQJwoF/WT/lDJs1HHRh+RHA82owWA5RlrSvV8MqKbyab/m
+         PZVxjpxyV7+HMHfZTPFTK4nl6vy01NUZUfKvn7TvT9E3pf72a1+smmy1s2vLQf146KAW
+         DEz1nY2bmHHNte/0WfuCotn73o9BRzGqo5yW/0PuVPodF1x5Z+ypXPA94KDojb5djY2g
+         Dq/A==
+X-Gm-Message-State: AOAM5335CxGDFxRQJwG4xyypmgMmD5bTwOnNyCBQGO9EmyH9BDmyAgx+
+	JyFz0PDhOGBToKgC5CHJ7XjTXSFmdgxIh+zXvq9pR4UfC2A=
+X-Google-Smtp-Source: ABdhPJwACRN6ce1iRixe4iSGritvKTelXpPJL5b9hpGDREKCW2WgT8BH7s3W9/0pbHoe1KXt9agvdhnOLwPI+sl8PAg=
+X-Received: by 2002:ac8:72d6:: with SMTP id o22mr7317609qtp.53.1599060148142;
+ Wed, 02 Sep 2020 08:22:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200831052011.955722-1-raj.khem@gmail.com> <2de966cb368097a83b3d83a1d48e5ff5b58f4c12.camel@linuxfoundation.org>
-In-Reply-To: <2de966cb368097a83b3d83a1d48e5ff5b58f4c12.camel@linuxfoundation.org>
+References: <20200902032241.3586810-1-raj.khem@gmail.com> <6711e35c-0bf2-2f17-482a-d85eae508dc0@burtonini.com>
+In-Reply-To: <6711e35c-0bf2-2f17-482a-d85eae508dc0@burtonini.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 2 Sep 2020 08:17:05 -0700
-Message-ID: <CAMKF1so7ChNJT_3viKGOfvSb2-H0DhxH1Zh2cCYcqnDB9T566w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] gtk+3: Revert "gtk+3: fix reproducible build failure"
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@arm.com>
+Date: Wed, 2 Sep 2020 08:22:02 -0700
+Message-ID: <CAMKF1spB696VjCFDCeFgSCfNN0krMdo-+TtzPtJeTD2wayT2xQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] elfutils: Fix GNU_HASH QA Issue
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 2, 2020 at 5:48 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed, Sep 2, 2020 at 2:41 AM Ross Burton <ross@burtonini.com> wrote:
 >
-> On Sun, 2020-08-30 at 22:20 -0700, Khem Raj wrote:
-> > Now that we have updated to 3.24.22, the needed fix [1] is in and this
-> > change is no longer needed
-> >
-> > This reverts commit c2e0b0785b8098dbe562e88f54b679ca87626937.
-> >
-> > [1] https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
-> >
+> On 02/09/2020 04:22, Khem Raj wrote:
 > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Ross Burton <ross.burton@arm.com>
 > > ---
-> >  meta/recipes-gnome/gtk+/gtk+3.inc | 8 --------
-> >  1 file changed, 8 deletions(-)
+> >   .../recipes-devtools/elfutils/elfutils_0.180.bb |  1 +
+> >   .../elfutils/files/ldflags.patch                | 17 +++++++++++++++++
+> >   2 files changed, 18 insertions(+)
+> >   create mode 100644 meta/recipes-devtools/elfutils/files/ldflags.patch
 > >
-> > diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > index 8d5edb7ee8..e1ecf504a0 100644
-> > --- a/meta/recipes-gnome/gtk+/gtk+3.inc
-> > +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > @@ -1,4 +1,3 @@
-> > -
-> >  SUMMARY = "Multi-platform toolkit for creating GUIs"
-> >  DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
-> >  set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
-> > @@ -32,13 +31,6 @@ do_configure_prepend() {
-> >      ln -s ${TARGET_PREFIX}libtool libtool
-> >      #delete a file that will get confused with generated one in ${B}
-> >      rm -f ${S}/gtk/gtktypefuncs.c
-> > -
-> > -    # These files are generated by wayland-scanner but will race over modification
-> > -    # time between the copies in the sysroot from wayland-protocols and the copy
-> > -    # in the source tree. Solve the race by deleting so they need to be regenerated.
-> > -    # 3.24.22 will not be shipping these files so this can be deleted then:
-> > -    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
-> > -    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
-> >  }
-> >
+> > diff --git a/meta/recipes-devtools/elfutils/elfutils_0.180.bb b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
+> > index 9f8bfc24f3..d3ee750725 100644
+> > --- a/meta/recipes-devtools/elfutils/elfutils_0.180.bb
+> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.180.bb
+> > @@ -20,6 +20,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+> >              file://run-ptest \
+> >              file://ptest.patch \
+> >              file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+> > +           file://ldflags.patch \
+> >              "
+> >   SRC_URI_append_libc-musl = " \
+> >              file://0001-musl-obstack-fts.patch \
+> > diff --git a/meta/recipes-devtools/elfutils/files/ldflags.patch b/meta/recipes-devtools/elfutils/files/ldflags.patch
+> > new file mode 100644
+> > index 0000000000..ef1d65e2c3
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/elfutils/files/ldflags.patch
+> > @@ -0,0 +1,17 @@
+> > +Pass linker flags along to CCLD, this ensures proper linking
+> > +w.r.t. hash_style selection during cross-compile
 >
-> I did try this, we see:
+> Did you re-run the test suite?  That binary is explicitly compiled with
+> minimal flags, so adding the LDFLAGS might actually break the test.  For
+> the same reason, you can set Upstream-Status to Inappropriate.
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1315/steps/8/logs/step2d
->
-> so it seems there is more to this.
->
-> Sadly, this means I'll now have to rerun yet another set of testing as
-> this aborts the current build's validity :(.
 
-ok. I think the comment perhaps should be fixed then Ross ?
+I have executed on qemu and it worked ok.
+
+> I've a fix here for the same issue that uses INSANE_SKIP instead.
 >
-> Cheers,
->
-> Richard
+> Ross
 >
