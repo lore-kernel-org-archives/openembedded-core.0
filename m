@@ -1,68 +1,103 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web11.9627.1599059186211032399
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.10096.1599059853568263778
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 08:06:26 -0700
+ Wed, 02 Sep 2020 08:17:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CrLzdguK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id w5so5619176wrp.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 08:06:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oEfAdjTt;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id u3so4671862qkd.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 08:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=byY35K0viL7OmRo39hpMEskZebSHL20Grc/WdxsS51Y=;
-        b=CrLzdguKxWbOCyj0TUdh5uM25JedP1XnEcbZYUFLLLorz3doZCLq0CnRynjYECWfma
-         8ax5t6a7lqPbfp4WdUQ6tOG6dOrPm07vv/f9USk0qyj6kvAN5XlwHyFXW+iC4xYq5ZhJ
-         eIgceTIJnuTWufOtdTGpsTTP1ZD6KMiADpBeY=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c3i9Xc9fl8TKkMPq/xzzMQRE87RJGLSs/5BrPtptPuw=;
+        b=oEfAdjTtExUSSj4/3SGo/1oVjZJVHtlEbQ9svAI9BMXTGd9ASQahTOY3oM/ZzssEtV
+         DmwJ77ERQ5KD6WlHNkKQVuInko9Jqt0RZq6Wt+1Rdt7c4940beVw24zJdK2BvmH8TZcf
+         6jjRnGELyXvJLchTxE0O8Z+UCB4JuPbt0SfDJ7WnRGvTTM5LmeleIF7LncqNvl0g41/E
+         cdGllJh85kc5eCDNFKLa6U7KxJs5eRgz8HI9ES62XUjcDY9hN7zzngTwfK27WpO+/YV8
+         erfAu2XJ5UeDg7NDCalFu2QwPyovjIYuQDsDyk13anvOHa7vCNI8n1L7z1fr35tVk3zH
+         Jrpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=byY35K0viL7OmRo39hpMEskZebSHL20Grc/WdxsS51Y=;
-        b=bfYBrPcL0SStDo+/mt2RQZB67NYzF+/SJNaX3On1tGMSTfjKG1fe8PjV3uITo3POtD
-         zSInVVslDRAEz85RFqvic3ebiRdqaJq8MpKsoBDWY1EUro9b+YaniN/6hxer35qKabIr
-         litbmwThKhtttKYB3FaJI2TiyvBBuEojVEYkY9PXu1pxslijCm14OaU1GZvvofoiTSf6
-         N8Zz4RQ4dTx2YflQDWqh/0U5wa+BYx+qahq6XaJpN1Hfg1gvTptelWpXcqdae/U/EqvL
-         EF23xEVk72eeFfeCiRiCNaAWSWtZpM77JGdYMt6EXtfc0q4JIRXYxxEGoYPWM2BYz+dM
-         IK+A==
-X-Gm-Message-State: AOAM530iRQmBW05wU/SfH5ohaFTy5VTzh5mLmxgDEXGaP5mF3DYgm3fn
-	eekP+KzRmrJU0GvCPo2gFBuQAA==
-X-Google-Smtp-Source: ABdhPJxNK9b79atieeghTGZY9VXsvJhrZkCBimH11+DFhborsVII/zdKVubI7AiXPO8CU3/R23pYYQ==
-X-Received: by 2002:adf:ce85:: with SMTP id r5mr3688150wrn.205.1599059184522;
-        Wed, 02 Sep 2020 08:06:24 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.a.9.e.c.f.e.5.5.1.2.c.8.4.d.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.a.9.e.c.f.e.5.5.1.2.c.8.4.d.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:9d48:c215:5efc:e9a4])
-        by smtp.gmail.com with ESMTPSA id l21sm6734677wmj.25.2020.09.02.08.06.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2020 08:06:24 -0700 (PDT)
-Message-ID: <64138ca6bde750284eeb6ea6db429ae5137ff780.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/8] dhcpd: move from meta-network need a client
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, akuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 02 Sep 2020 16:06:23 +0100
-In-Reply-To: <46ac639e-669e-7b36-1770-9d2049ea1904@windriver.com>
-References: <20200901152236.9377-1-akuster808@gmail.com>
-	 <20200901152236.9377-4-akuster808@gmail.com>
-	 <46ac639e-669e-7b36-1770-9d2049ea1904@windriver.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c3i9Xc9fl8TKkMPq/xzzMQRE87RJGLSs/5BrPtptPuw=;
+        b=HHtjuU3Exq8G8LJxSHWsj1oc6inOUmQRU04l4mmsL9V14GCQsoDZ7b2M/P7ATIhqms
+         6OpxYmDJWHGVKA6L47jFPPfckknmkQLJ9rzLU5yxjiVDhKdq3PSQL6IFaHuWfL9sAvee
+         AmLE5NnlKzdQUtgJwCqCvAYvzitchRe1tjIZ2hrgcC0QPr42UNl2YebCNFywEMuMvqFa
+         gQYMcLX21kpZowsinn6sTY9tPyP5ksWuDuN7qN6+j0KVW161r4Vv8RPOuHaQs7Y/qj+G
+         ywmef3UGaJhOowXtsFaCjJuyh86G+X6/cmeJUJ1pmBoey7J03ZYhkd1sPyRsZE5w6KDx
+         pgNg==
+X-Gm-Message-State: AOAM530ckcIMJ/yasO3pnRbEim1T1oolgI27ZeN2qz1beoW89000bSyN
+	dLrwu5vj8+GyG8yNI6/bEqK0rhLuUx5z7M3Vl9A=
+X-Google-Smtp-Source: ABdhPJwp3ZCgCu+91rVeYTMHnq34RqtSntMkYGKUa1sGjcRA3r1ooa66Jq8H/oJbCKSgPwkfWtIPGsk0PiWDO7MaKlc=
+X-Received: by 2002:a05:620a:7f6:: with SMTP id k22mr7200712qkk.337.1599059852567;
+ Wed, 02 Sep 2020 08:17:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200831052011.955722-1-raj.khem@gmail.com> <2de966cb368097a83b3d83a1d48e5ff5b58f4c12.camel@linuxfoundation.org>
+In-Reply-To: <2de966cb368097a83b3d83a1d48e5ff5b58f4c12.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 2 Sep 2020 08:17:05 -0700
+Message-ID: <CAMKF1so7ChNJT_3viKGOfvSb2-H0DhxH1Zh2cCYcqnDB9T566w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] gtk+3: Revert "gtk+3: fix reproducible build failure"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Ross Burton <ross.burton@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-09-02 at 09:38 +0800, Chen Qi wrote:
-> The title uses 'dhcpd' but the recipe's name is 'dhcpcd'. [Patch 5/8]
-> also uses 'dhcpd'.
-> 
-> One more thing to confirm. We are using dhcpcd to replace dhcp,
-> right?
+On Wed, Sep 2, 2020 at 5:48 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2020-08-30 at 22:20 -0700, Khem Raj wrote:
+> > Now that we have updated to 3.24.22, the needed fix [1] is in and this
+> > change is no longer needed
+> >
+> > This reverts commit c2e0b0785b8098dbe562e88f54b679ca87626937.
+> >
+> > [1] https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-gnome/gtk+/gtk+3.inc | 8 --------
+> >  1 file changed, 8 deletions(-)
+> >
+> > diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+> > index 8d5edb7ee8..e1ecf504a0 100644
+> > --- a/meta/recipes-gnome/gtk+/gtk+3.inc
+> > +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+> > @@ -1,4 +1,3 @@
+> > -
+> >  SUMMARY = "Multi-platform toolkit for creating GUIs"
+> >  DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
+> >  set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
+> > @@ -32,13 +31,6 @@ do_configure_prepend() {
+> >      ln -s ${TARGET_PREFIX}libtool libtool
+> >      #delete a file that will get confused with generated one in ${B}
+> >      rm -f ${S}/gtk/gtktypefuncs.c
+> > -
+> > -    # These files are generated by wayland-scanner but will race over modification
+> > -    # time between the copies in the sysroot from wayland-protocols and the copy
+> > -    # in the source tree. Solve the race by deleting so they need to be regenerated.
+> > -    # 3.24.22 will not be shipping these files so this can be deleted then:
+> > -    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
+> > -    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
+> >  }
+> >
+>
+> I did try this, we see:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1315/steps/8/logs/step2d
+>
+> so it seems there is more to this.
+>
+> Sadly, this means I'll now have to rerun yet another set of testing as
+> this aborts the current build's validity :(.
 
-kea replaces dhcp-server, dhcpcd replaces dhcp-client.
-
-I tried to fix the naming in the patches that merged.
-
-Cheers,
-
-Richard
-
+ok. I think the comment perhaps should be fixed then Ross ?
+>
+> Cheers,
+>
+> Richard
+>
