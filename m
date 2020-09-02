@@ -1,90 +1,99 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web11.12803.1599066344273084686
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+ by mx.groups.io with SMTP id smtpd.web11.17495.1599078050529735140
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 10:05:44 -0700
+ Wed, 02 Sep 2020 13:20:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UL50H80Q;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id n10so4140599qtv.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 10:05:44 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=LWmXXpYg;
+ spf=pass (domain: linaro.org, ip: 209.85.210.68, mailfrom: anibal.limon@linaro.org)
+Received: by mail-ot1-f68.google.com with SMTP id k20so481457otr.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2020 13:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zfp7dYhG24XxCTiddFxsFSCRQvrl99e2a4KtV8tdpWw=;
-        b=UL50H80Qbcm6tWcoC/6i4zIiehsJDXuVVtwgyyWjT29Jg5RL8Eogk3ajq9+N1hMjFs
-         3zp+zWBNhm1jwOKZuJ8shSPuSdpg6L8Xr2y4wePLsc+YBLAFa/ZBbeEYDabp3b06iKNh
-         MM8QavcB21wD7nslNOfvw1PsunG3QCv05ifQCWTb0KPuGUchxBZU2E2+kJO2rGj37oOs
-         5glJBC2lUOltD+bI2HbA1CsBRNClUbCjVnaG4nczYTCzLlRZSflVeS5BYEB3uDEtHB35
-         xr+tPzOZZygnR8yXr04sNPynfyOOpPMtBINGSmgfdL/kXkZw2iutHE8P3f0gL4bHoIOr
-         GjTA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P2XDIk8NhSGdEPSA5TpbOPDI17tED40p+LEmYin5eq0=;
+        b=LWmXXpYg4cxWqKqbtFfatjEU670fYjRxnQ6VdsupN05yEc4ug72b1I3dpGBxWp2uY9
+         +yHJBF7zVixuuuM201sOWS+/bMjl1EMTXi9CMtl90BNm+Eoyl9xaOF1IFX725c1EM/P4
+         BtybhED8JqCaVgkq36O0w9CAKLR/k5kUWm2fnI6kBdmBBQD2Off97d+7DoH4iXE+EAsP
+         Ar8DzR2hmk1P4ekaKTyVlxO7Vqw6QTYZOc4Bh9D2hoSlL0vR0XgOMrpUymdnIrxj8Z+J
+         l61IqVjdBDDtCtP89ZHK7bzxWnwefgDNTfOLhvNFZ5dYmCHxs13HfseRjsYLSx8gy8KN
+         JPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zfp7dYhG24XxCTiddFxsFSCRQvrl99e2a4KtV8tdpWw=;
-        b=lvbBR6wvYa8ql3BFd37aY7V2iTpUTzvuyKq4YW+DI88Nc01Td+GYRSFgHFp4m7ygve
-         GpFIMKaLuZbRfhSo45MDFyY7C4nQtVGsCABMqhDim9JcH7ku+lX0n+T3yZ3IHJys5Yvq
-         SMJ5XEfuflVmMV6AstyDiCkxkQe0+YEbPEI/NCJrK3qa41JjzPYlAeyP6SKZbqfOtQiP
-         ddYSIFpAtotmSCWIrWNe+JiNxQBgvPigrI10eRDllPKws0dTe7ljna30gRcTZpvQt3ga
-         NalCE8mX5Tt3m+TweHW+DTXLrezuPdVIAg91OiEWAFOculq+jnj13dScZH1eDQWNur8X
-         tudg==
-X-Gm-Message-State: AOAM5338AWzCEgbwD76Am+WfOBCg371pjUN+0Qtgttu85b/HlGbXL8KI
-	6MWs+o6/O1lVKlqy40c/9c9AAolZC1ryPBFKOI0=
-X-Google-Smtp-Source: ABdhPJw+hingl1GL7Cy3SKUKiUWliHx4eHTygQ7TGoGYRa7WudfSfpvEjoVLwPpJ7OJD1VVxcz9DkzQSZUG/5UYDEaY=
-X-Received: by 2002:ac8:72d6:: with SMTP id o22mr7774696qtp.53.1599066343205;
- Wed, 02 Sep 2020 10:05:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P2XDIk8NhSGdEPSA5TpbOPDI17tED40p+LEmYin5eq0=;
+        b=ATaeWLZGPUYj9zlKww0iZkqMSj1WofNgGD++5CrJDsgrAXglr2Tz+9bXaoIir4Z+Ce
+         nyGZAGM/Mn2xQxL04cTZz97JI+mFnBcn18HdIgI+aDwHPC8UNgfAE9aK0Sv6pqdOkiZv
+         o8oAB+ep32v7A34uW9VpZae2tDD4838XMEs3IC6TxIXRntWLod1J2VdLMUcJ43LrplKU
+         TAhBsttgXjdxxGqvkJB7ILg+plVdfu/BIi21RNbHxaiS+Na5bukup/4H3tBl/0zJV9xX
+         +WrMxGeUnp829NG7xNcOTVSPNi1bFL1fSvUm5wEX7jEclpnqF6QzapOFNmxFgp3nASxR
+         U15g==
+X-Gm-Message-State: AOAM533gDOIG25dhNdKrwDmOl9PX5SGwaeCAKwJQcyk8Hy3VPiHppKxK
+	Awx//UFAAn9rZRKyWNPAi/GTv3SGM4MJAQ==
+X-Google-Smtp-Source: ABdhPJwQes4PuDpe44bwGuiRqblsl1RVwyRNIJtzjCis8D/EHfRKflgzLMybdU6bcL0xw0CC1/7aTQ==
+X-Received: by 2002:a9d:7a96:: with SMTP id l22mr37988otn.220.1599078049523;
+        Wed, 02 Sep 2020 13:20:49 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.rga.ip ([2806:109f:4:c88e:908a:c7ff:fe6a:e9f5])
+        by smtp.gmail.com with ESMTPSA id f194sm74893oib.44.2020.09.02.13.20.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 13:20:48 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	nicolas.dechesne@linaro.org,
+	Anibal Limon <anibal.limon@linaro.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] recipes-kernel: linux-firmware add qcom-venus-{5.2,5.4} packages
+Date: Wed,  2 Sep 2020 15:20:45 -0500
+Message-Id: <20200902202045.256129-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <AM0PR09MB25294C0942836994769068BB922F0@AM0PR09MB2529.eurprd09.prod.outlook.com>
-In-Reply-To: <AM0PR09MB25294C0942836994769068BB922F0@AM0PR09MB2529.eurprd09.prod.outlook.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 2 Sep 2020 10:05:17 -0700
-Message-ID: <CAMKF1sqXK0ABEZX4bXe9=VjbJD5WsapJ+HuKKQKW4LDUtUZA5w@mail.gmail.com>
-Subject: Re: [OE-core] BUILDNAME issue
-To: "Groeting, Claus" <claus.groeting@gigaset.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 2, 2020 at 1:31 AM Groeting, Claus
-<claus.groeting@gigaset.com> wrote:
->
-> Hi All!
->
-> We are currently migrating towards dunfell and have an issue with our BU=
-ILDNAME handling. We observe that the BUILDNAME is overwritten by rootfs_re=
-producible function which is added to the ROOTFS_POSTPROCESS_COMMAND list i=
-n the rootfs-postcommands.bbclass file with the timestamp.
-> Why is the /etc/version file hardly coded here and why is the REPRODUCIB=
-LE_TIMESTAMP_ROOTFS set from inside OE code and not configurable from outsi=
-de?
-> We still want to make usage of the BUILDNAME variable which results in t=
-he /etc/version file of the rootfs. What did I miss?
->
+From: Anibal Limon <anibal.limon@linaro.org>
 
-if you are doing reproducible builds then BUILDNAME is not ideal for
-reproducibility because BUILDNAME contains data and time. Maybe look
-into REPRODUCIBLE_TIMESTAMP_ROOTFS settings.
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e20c1e07a807f66f028104d8491d974a36734192)
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ .../linux-firmware/linux-firmware_20200817.bb               | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> Thx,
-> Claus
->
-> Mit freundlichen Gr=C3=BC=C3=9Fen
-> Claus Gr=C3=B6ting
-> Senior Software Developer
->
->
-> Gigaset Communications GmbH | Frankenstra=C3=9Fe 2 | 46395 Bocholt
-> t: +49 (0)2871 91 1901
-> claus.groeting@gigaset.com | www.gigaset.com
->
-> Besuchen Sie uns auf Facebook | Twitter | YouTube | Instagram | Blog | X=
-ing | LinkedIn
->
-> Gesch=C3=A4ftsf=C3=BChrer: Klaus We=C3=9Fing | Aufsichtsrat: N.N. (Vorsi=
-tzender).
-> Sitz der Gesellschaft: Bocholt | Registergericht: Coesfeld, HRB 16595 | =
-WEEE-Reg. Nr. DE 96349612.
->
->
->=20
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+index 22e71059d8..ffeb8e6926 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+@@ -291,7 +291,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-netronome-license ${PN}-netronome \
+              ${PN}-qat ${PN}-qat-license \
+              ${PN}-qcom-license \
+-             ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
++             ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
+              ${PN}-whence-license \
+@@ -860,6 +860,8 @@ LICENSE_${PN}-qcom-license = "Firmware-qcom"
+ FILES_${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+ FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
++FILES_${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
++FILES_${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
+ FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
+ FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+ FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
+@@ -868,6 +870,8 @@ FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/c
+ FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
+ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+-- 
+2.28.0
+
