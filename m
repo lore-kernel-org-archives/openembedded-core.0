@@ -1,62 +1,105 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.13023.1599137005282085994
+ by mx.groups.io with SMTP id smtpd.web11.13267.1599138142773677732
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 05:43:25 -0700
+ Thu, 03 Sep 2020 06:02:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DB13D6E
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 05:43:24 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1828BD6E
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 06:02:22 -0700 (PDT)
 Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E395F3F66F
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 05:43:23 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE2C73F66F
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 06:02:21 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] insane: only load real files as ELF
-Date: Thu,  3 Sep 2020 13:43:19 +0100
-Message-Id: <20200903124319.489104-1-ross.burton@arm.com>
+Subject: [PATCH] help2man: rewrite recipe
+Date: Thu,  3 Sep 2020 14:02:18 +0100
+Message-Id: <20200903130218.496275-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The file path checks are passed an ELF object if the file is an ELF. It
-doesn't make a lot of sense to load symlinks to ELFs as if they're in
-the same package then the real file will be checked too.
+This recipe was originally explicitly minimal because it was needed to
+bootstrap autotools, but that isn't the case anymore.
 
-This should speed up do_package_qa slightly as libraries won't be
-scanned repeatedly.
+Instead of being explicitly native, use BBCLASSEXTEND.
+
+No need to explicitly depend on autoconf-native automake-native, because
+the autotools class does that.
+
+Don't explicitly disable NLS, but use the gettext class.
+
+As this recipe isn't needed in early build anymore there's no need to
+avoid reconfiguring.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/insane.bbclass | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ meta/conf/distro/include/maintainers.inc          |  2 +-
+ ...2man-native_1.47.15.bb =3D> help2man_1.47.15.bb} | 15 ++++++---------
+ 2 files changed, 7 insertions(+), 10 deletions(-)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.47.15.bb =3D> h=
+elp2man_1.47.15.bb} (66%)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index d7f8f919c3..c38720afdb 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -709,12 +709,13 @@ def package_qa_walk(warnfuncs, errorfuncs, package,=
- d):
-     warnings =3D {}
-     errors =3D {}
-     for path in pkgfiles[package]:
--            elf =3D oe.qa.ELFFile(path)
--            try:
--                elf.open()
--            except (IOError, oe.qa.NotELFFileError):
--                # IOError can happen if the packaging control files disa=
-ppear,
--                elf =3D None
-+            elf =3D None
-+            if os.path.isfile(path):
-+                elf =3D oe.qa.ELFFile(path)
-+                try:
-+                    elf.open()
-+                except oe.qa.NotELFFileError:
-+                    elf =3D None
-             for func in warnfuncs:
-                 func(path, package, d, elf, warnings)
-             for func in errorfuncs:
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index 9f80970309..a094b39b2a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -255,7 +255,7 @@ RECIPE_MAINTAINER_pn-gtk-doc =3D "Alexander Kanavin <=
+alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-gzip =3D "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-harfbuzz =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-hdparm =3D "Denys Dmytriyenko <denys@ti.com>"
+-RECIPE_MAINTAINER_pn-help2man-native =3D "Hongxu Jia <hongxu.jia@windriv=
+er.com>"
++RECIPE_MAINTAINER_pn-help2man =3D "Hongxu Jia <hongxu.jia@windriver.com>=
+"
+ RECIPE_MAINTAINER_pn-hicolor-icon-theme =3D "Anuj Mittal <anuj.mittal@in=
+tel.com>"
+ RECIPE_MAINTAINER_pn-hwlatdetect =3D "Alexander Kanavin <alex.kanavin@gm=
+ail.com>"
+ RECIPE_MAINTAINER_pn-i2c-tools =3D "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb b/=
+meta/recipes-devtools/help2man/help2man_1.47.15.bb
+similarity index 66%
+rename from meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
+rename to meta/recipes-devtools/help2man/help2man_1.47.15.bb
+index 4f80a2bdb1..7a913507a3 100644
+--- a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
++++ b/meta/recipes-devtools/help2man/help2man_1.47.15.bb
+@@ -2,22 +2,19 @@ SUMMARY =3D "Program for creating simple man pages"
+ SECTION =3D "devel"
+ LICENSE =3D "GPLv3"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
+464"
+-DEPENDS =3D "autoconf-native automake-native"
+=20
+ SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+ SRC_URI[sha256sum] =3D "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f=
+1ee762f001dbcd1c"
+=20
+-inherit autotools native
++inherit autotools gettext
+=20
+-EXTRA_OECONF =3D "--disable-nls"
+-
+-# We don't want to reconfigure things as it would require 'perlnative' t=
+o be
+-# used.
+-do_configure() {
+-	oe_runconf
+-}
++# This is a hand-maintained aclocal.m4 but our autotools class currently=
+ deletes
++# aclocal.m4.
++EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+=20
+ do_install_append () {
+ 	# Make sure we use /usr/bin/env perl
+ 	sed -i -e "1s:#!.*:#! /usr/bin/env perl:" ${D}${bindir}/help2man
+ }
++
++BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.28.0
 
