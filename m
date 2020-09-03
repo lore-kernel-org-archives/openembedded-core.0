@@ -1,82 +1,90 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.15128.1599143163239837353
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.15532.1599143972879257123
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 07:26:03 -0700
+ Thu, 03 Sep 2020 07:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fp3tJcec;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id m6so3501880wrn.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 07:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=cTD4rPFPni+4dowuX5Dzsujs7bImZzQi4b93uYcB+ek=;
-        b=Fp3tJcecXnfR/Fv/TClSOzPn+qGksb+lKFOAcDOmzyXEalXoeUJGWnOWHWvOZe3ote
-         /uS9QgZSTQKnP8UEt7nE0HXqIUz7HiCPw/FSWfnl9BDHkaU+GaYfro2xw0Q44WxD6Puu
-         5s6NsIg+eNjorIRcUFQh2pL3qBgiHrpJnF/bQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=cTD4rPFPni+4dowuX5Dzsujs7bImZzQi4b93uYcB+ek=;
-        b=VBq0lFToVnJuI0zacg4d9hDP9bwhrbTu0Q4XjJCzKK5/hsZh0dISlti488jV1NSoAX
-         er7iHbykpGLaKs8hzRjxY8mQybkvsNL/vuYdvz7TG2cNyQ3ll/N+jsZPUwGJ0HqPIPRG
-         eiAG6ps8tDQPvy0ZgTD1RsCze9NgjTFITbDhFKxRB5CcoAg1hpY565xWXAFgAgaOha+W
-         UcQ25ZOSEO3aWe3iF0ir6BG3XyDrtRyhJ1TI143BQGgYb5UDM0sFjvjOKdS624v18y/u
-         AxD54i1csjAXZ34m3XtfLlD/KDxdARfFmHj3D2gDRQA+fRkGVOhpPncT6mkrhVbHEJxq
-         Rp/g==
-X-Gm-Message-State: AOAM531mjaa0Cp5shPceE+Suaco+SKQWGFU+oAcRyMCW709Cvm0TEfFT
-	2m+TW5+y2/qj2uIOkhqu6srjP06nG/kTQw==
-X-Google-Smtp-Source: ABdhPJxVOcd5XkaHG4tTSCuHFutw5FXuauCAhS8TOS0eTf3hVbcyHBFehDCDQTNIlhDCWaj6+3sdmw==
-X-Received: by 2002:adf:ff90:: with SMTP id j16mr2990022wrr.105.1599143161710;
-        Thu, 03 Sep 2020 07:26:01 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7cb6:1620:605:fdfd])
-        by smtp.gmail.com with ESMTPSA id v2sm5166600wrn.44.2020.09.03.07.26.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 07:26:01 -0700 (PDT)
-Message-ID: <99f978db8be189ea4e397abbdd5e4330ab3c2095.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] kea: no need to depend on kea-native
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 03 Sep 2020 15:26:00 +0100
-In-Reply-To: <20200903104731.4165-1-ross.burton@arm.com>
-References: <20200903104731.4165-1-ross.burton@arm.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D69B1045
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 07:39:32 -0700 (PDT)
+Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B5EDE3F71F
+	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 07:39:31 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] autoconf: consolidate SRC_URI
+Date: Thu,  3 Sep 2020 15:39:24 +0100
+Message-Id: <20200903143925.1076908-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-09-03 at 11:47 +0100, Ross Burton wrote:
-> kea-msg-compiler is only needed if you alter the messages and the
-> generated sources need to be rebuilt.  When this is the case, there
-> are
-> better ways to build kea-msg-compiler that don't involve building all
-> of
-> Kea.
-> 
-> Don't depend on kea-native, remove BBCLASSEXTEND=native, and the
-> target
-> overrides.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-connectivity/kea/kea_1.7.7.bb | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+There's no point splitting SRC_URI between the .inc and the .bb when
+there's just one recipe and the splitting appeared to be arbitrary.
 
-Sorry, but:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/autoconf/autoconf.inc   |  5 ----
+ .../autoconf/autoconf_2.69.bb                 | 25 +++++++++++--------
+ 2 files changed, 14 insertions(+), 16 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2400
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/2380
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/869
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2401
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/2402
-
-(basically all the world builds)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-d=
+evtools/autoconf/autoconf.inc
+index 2c87bf8296..fa28d2c9a3 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -62,11 +62,6 @@ RDEPENDS_${PN}_class-nativesdk =3D "\
+ 		  nativesdk-perl-module-threads \
+                   "
+=20
+-
+-
+-SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
+-	   file://program_prefix.patch"
+-
+ inherit autotools texinfo
+=20
+ PERL =3D "${USRBINPATH}/perl"
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb b/meta/recip=
+es-devtools/autoconf/autoconf_2.69.bb
+index 8e67f4b829..2e1b9bdc90 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+@@ -5,17 +5,20 @@ PR =3D "r11"
+ LICENSE =3D "GPLv2 & GPLv3"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe \
+ 		    file://COPYINGv3;md5=3Dd32239bcb673463ab874e80d47fae504"
+-SRC_URI +=3D "file://check-automake-cross-warning.patch \
+-	    file://autoreconf-exclude.patch \
+-	    file://autoreconf-gnuconfigize.patch \
+-            file://config_site.patch \
+-            file://remove-usr-local-lib-from-m4.patch \
+-            file://preferbash.patch \
+-            file://autotest-automake-result-format.patch \
+-            file://add_musl_config.patch \
+-            file://performance.patch \
+-            file://AC_HEADER_MAJOR-port-to-glibc-2.25.patch \
+-            file://autoconf-replace-w-option-in-shebangs-with-modern-use=
+-warnings.patch \
++
++SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
++           file://program_prefix.patch \
++           file://check-automake-cross-warning.patch \
++           file://autoreconf-exclude.patch \
++           file://autoreconf-gnuconfigize.patch \
++           file://config_site.patch \
++           file://remove-usr-local-lib-from-m4.patch \
++           file://preferbash.patch \
++           file://autotest-automake-result-format.patch \
++           file://add_musl_config.patch \
++           file://performance.patch \
++           file://AC_HEADER_MAJOR-port-to-glibc-2.25.patch \
++           file://autoconf-replace-w-option-in-shebangs-with-modern-use-=
+warnings.patch \
+            "
+=20
+ SRC_URI[md5sum] =3D "82d05e03b93e45f5a39b828dc9c6c29b"
+--=20
+2.28.0
 
