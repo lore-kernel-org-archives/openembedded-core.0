@@ -1,153 +1,104 @@
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
- by mx.groups.io with SMTP id smtpd.web10.14242.1599140571289634837
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.15151.1599143082185394000
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 06:42:51 -0700
+ Thu, 03 Sep 2020 07:24:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HTliqhIO;
- spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f67.google.com with SMTP id o184so1771489vsc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 06:42:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZmNsqZai;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id z1so3489432wrt.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 07:24:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rK+8WybMB/pTgnRcdx3rxCmA0MJWPczPQ9zUQffIwTA=;
-        b=HTliqhIOrkLQ21UF++2YeD9TC16SWdOIIDsCtxcbHCc/vktz8S0KbChNun+Qpm5jHM
-         DtTQIpqIjVepI7Rpiub4cLn6ZQOwLM1RrJAN1Qd1bZIadM1MkYhMOTTJ8q3FcUrLTmMI
-         6heVpLrpEOLIHHGE+Vn2G0Fv4LUiv21eOP086LTfaYnFkBqqjJ9hoFnPjAMo+j6sVZjk
-         EF5/0+5Yqp8xAeSJeBYxaEJnQHd18zVpuXhRbx5FV3snOXs0yvQerDsmC6CZCR8P9wc4
-         ejmR7QcWoJVvGpx8qSWILtwNW24FqeQIqjyLWmgKxcVnx+x088q2/MOLookQHTwKrLsR
-         bA6w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Jw4hL+qTqvc776UpzoEazpgICuDcl3zAiQkGYRpbBJ0=;
+        b=ZmNsqZaiUurE2BViZsomlBn+gDKijrPFsQjJf8C11VyPXE/Ri2cwpqtsW0qK8G7hNK
+         wK3zJuunTTmt7MgQBsckG4hk2YJbE0Uh1RGhwUCm0QwP0I3Ue+D4xO4b1J0GQXf/Qiee
+         7g/H18bURfu3VDMro+W5KaPfmr2dCsw58giAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rK+8WybMB/pTgnRcdx3rxCmA0MJWPczPQ9zUQffIwTA=;
-        b=f+yVXnqemarj063gpsvl9IncOAFpocIiwurhTiOuI4lKz1qB0GoukxkYjy2sk6PIjJ
-         yR7E3eyxpzcb9+mcWeKf21T5YZGEFGIf0d6KyZhTpugxaQW8J7FvnUOYZTfjjFA9IeKD
-         Hf/uyGdrCVGkVbQoT006lj3CCLvDAuuoXim5F6oT8iDthZCClD6S0EGRl8CFPT7a21iK
-         g/nlJPV4cPIN5a9XFsipwcHuzvBsoaTKPEdE2X/k3aCFyvawY6j3pi8gFY980+b7RU8G
-         NUhKHnqiJgF2n1Vghpu3Ia7kdZWLz1K0oHK5FNvR7S/xc0aS3PJqD+MQy2vsq9nGoxhN
-         s1Ig==
-X-Gm-Message-State: AOAM531pQCK2Mpes8puADHZ6w2W5sy4ROpPgXVuBzcOjXNCHjU1oZbv9
-	tf/J6u6FiZpTTn3YbVkUjV8uND9l6hK00QA4lRdywGYj
-X-Google-Smtp-Source: ABdhPJx5T7Y9sI2x5jpD6oep+RW2jB8HIeoKm0ALonusR+LM05+qew8EhxAUm143HzPYURDKmP07CPoqJNpXkjOjmFQ=
-X-Received: by 2002:a67:8783:: with SMTP id j125mr1706016vsd.174.1599140570361;
- Thu, 03 Sep 2020 06:42:50 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Jw4hL+qTqvc776UpzoEazpgICuDcl3zAiQkGYRpbBJ0=;
+        b=rDGlAk+J3bwhX0AcbKYpJ88m/gFSolT28HO1CKe5l0u41lRWhFlzIq0CgGPUuYy9XF
+         kekkf6cvumlBLOLztF9z9kCn9A2/aoHm5NfToFy/B5ICr0iSG8EgeX+kwAFymB4e5sB0
+         MxMDYPJddykrELAziZVZGiiEWXZIsnEMd8/0rne9HHqQBZPvpZ4F2lSlEMnl704N60yW
+         vmiPZdDdIB75YlvrRpwOuowY8nt1/kwo2WK5Pt2+FVHF+9IwA54hQ0r/4ujygBsPX0X6
+         y6D8aKGi/JBX2FZwHu3ZR34fyKu0W2aVLJYT82LeCgiWdniyO/FRwgrIraKe4j8ulUen
+         TJSg==
+X-Gm-Message-State: AOAM532MNTprAqYnUbzEgpMYH/zK/surTkpOI5UJ6VbFpqy8Uf2KCqq4
+	Gp7z3TPUIprrPsj4zv6e/7f33g==
+X-Google-Smtp-Source: ABdhPJyYC1Cg/dj9XO+4JlIxsLpHVgtfqW4p+gHQe9NlPBBdH9E7nPVgao/MoFJ9m6k7/VikogEb4g==
+X-Received: by 2002:a5d:40c7:: with SMTP id b7mr2759270wrq.300.1599143080448;
+        Thu, 03 Sep 2020 07:24:40 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7cb6:1620:605:fdfd])
+        by smtp.gmail.com with ESMTPSA id v2sm2762218wrm.16.2020.09.03.07.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2020 07:24:39 -0700 (PDT)
+Message-ID: <1ad62c452ca661237401689e81c0ac4a1b182288.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] go: Upgrade to 1.15 major release
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 03 Sep 2020 15:24:37 +0100
+In-Reply-To: <20200903013403.345340-1-raj.khem@gmail.com>
+References: <20200903013403.345340-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20200903105448.4736-1-ross.burton@arm.com>
-In-Reply-To: <20200903105448.4736-1-ross.burton@arm.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Sep 2020 15:42:38 +0200
-Message-ID: <CANNYZj-nq1nkOPC06R5raivSuO8_1u+7xCUaerNiAthLfTKj8g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] debianutils: change SRC_URI to use snapshot.debian.org
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a4725a05ae68edfe"
-
---000000000000a4725a05ae68edfe
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This breaks automated upgrades unfortunately (upstream check works, but
-upgrade itself won't figure out a newer snapshot URI).
-
-Is it possible to convert this to fetch from git instead?
-
-Alex
-
-On Thu, 3 Sep 2020 at 12:54, Ross Burton <ross@burtonini.com> wrote:
-
-> The primary Debian archive only contains tarballs which are currently
-> shipped in a release, so it's easy for a tarball we need to disappear.
-> Instead, point at snapshot.debian.org to ensure the link remains valid.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-support/debianutils/debianutils_4.11.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-> b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-> index 71fc99e29b..ef7aa50408 100644
-> --- a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-> +++ b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-> @@ -3,7 +3,7 @@ SECTION = "base"
->  LICENSE = "GPLv2 & SMAIL_GPL"
->  LIC_FILES_CHKSUM =
-> "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
->
-> -SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-> +SRC_URI = "
-> http://snapshot.debian.org/archive/debian/20200525T145753Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz
-> "
->  # the package is taken from snapshots.debian.org; that source is static
-> and goes stale
->  # so we check the latest upstream from a directory that does get updated
->  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
-> --
-> 2.25.1
->
+On Wed, 2020-09-02 at 18:34 -0700, Khem Raj wrote:
+> 1.15 is latest major release changelog is [1] and detailed blog is [2]
 > 
->
+> [1] https://golang.org/doc/go1.15
+> [2] https://blog.golang.org/go1.15
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc   |  2 +-
+>  .../go/{go-1.14.inc => go-1.15.inc}           |  6 ++---
+>  ...ow-CC-and-CXX-to-have-multiple-words.patch |  2 +-
+>  ...ent-based-hash-generation-less-pedan.patch | 22 +++++++++----------
+>  ...-to-be-overridden-in-the-environment.patch |  0
+>  ...4-ld-add-soname-to-shareable-objects.patch |  6 ++---
+>  ...de-CC-when-building-dist-and-go_boot.patch |  0
+>  ...dist-separate-host-and-target-builds.patch |  0
+>  ...d-go-make-GOROOT-precious-by-default.patch |  6 ++---
+>  ...008-use-GOBUILDMODE-to-set-buildmode.patch |  2 +-
+>  ...place-glibc-dynamic-linker-with-musl.patch | 16 +++++++-------
+>  ...e_1.14.7.bb => go-binary-native_1.15.1.bb} |  4 ++--
+>  ...dian_1.14.bb => go-cross-canadian_1.15.bb} |  0
+>  .../go/{go-cross_1.14.bb => go-cross_1.15.bb} |  0
+>  ...o-crosssdk_1.14.bb => go-crosssdk_1.15.bb} |  0
+>  .../{go-native_1.14.bb => go-native_1.15.bb}  |  1 -
+>  ...{go-runtime_1.14.bb => go-runtime_1.15.bb} |  0
+>  .../go/{go_1.14.bb => go_1.15.bb}             |  0
+>  18 files changed, 33 insertions(+), 34 deletions(-)
+>  rename meta/recipes-devtools/go/{go-1.14.inc => go-1.15.inc} (86%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0001-allow-CC-and-CXX-to-have-multiple-words.patch (95%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch (93%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0004-ld-add-soname-to-shareable-objects.patch (89%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0006-cmd-dist-separate-host-and-target-builds.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0007-cmd-go-make-GOROOT-precious-by-default.patch (95%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0008-use-GOBUILDMODE-to-set-buildmode.patch (96%)
+>  rename meta/recipes-devtools/go/{go-1.14 => go-1.15}/0009-ld-replace-glibc-dynamic-linker-with-musl.patch (91%)
+>  rename meta/recipes-devtools/go/{go-binary-native_1.14.7.bb => go-binary-native_1.15.1.bb} (83%)
+>  rename meta/recipes-devtools/go/{go-cross-canadian_1.14.bb => go-cross-canadian_1.15.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-cross_1.14.bb => go-cross_1.15.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-crosssdk_1.14.bb => go-crosssdk_1.15.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-native_1.14.bb => go-native_1.15.bb} (96%)
+>  rename meta/recipes-devtools/go/{go-runtime_1.14.bb => go-runtime_1.15.bb} (100%)
+>  rename meta/recipes-devtools/go/{go_1.14.bb => go_1.15.bb} (100%)
 
---000000000000a4725a05ae68edfe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Seems to fail on musl:
 
-<div dir=3D"ltr"><div>This breaks automated upgrades unfortunately (upstrea=
-m check works, but upgrade itself won&#39;t figure out a newer snapshot URI=
-).</div><div><br></div><div>Is it possible to convert this to fetch from gi=
-t instead?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3 Sep 2020 at 12:=
-54, Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com">ross@burtonini.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->The primary Debian archive only contains tarballs which are currently<br>
-shipped in a release, so it&#39;s easy for a tarball we need to disappear.=
-<br>
-Instead, point at <a href=3D"http://snapshot.debian.org" rel=3D"noreferrer=
-" target=3D"_blank">snapshot.debian.org</a> to ensure the link remains vali=
-d.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
-et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a> | 2 +-=
-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-support/debianutils/<a href=3D"http://debianutil=
-s_4.11.1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a>=
- b/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
-index 71fc99e29b..ef7aa50408 100644<br>
---- a/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
-+++ b/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
-@@ -3,7 +3,7 @@ SECTION =3D &quot;base&quot;<br>
-=C2=A0LICENSE =3D &quot;GPLv2 &amp; SMAIL_GPL&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://debian/copyright;md5=3D9b912cd0cc6=
-54134c0ef3424a0705b94&quot;<br>
-<br>
--SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz&quot=
-;<br>
-+SRC_URI =3D &quot;<a href=3D"http://snapshot.debian.org/archive/debian/20=
-200525T145753Z/pool/main/d/$%7BBPN%7D/$%7BBPN%7D_$%7BPV%7D.tar.xz" rel=3D"n=
-oreferrer" target=3D"_blank">http://snapshot.debian.org/archive/debian/2020=
-0525T145753Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz</a>&quot;<br>
-=C2=A0# the package is taken from <a href=3D"http://snapshots.debian.org" =
-rel=3D"noreferrer" target=3D"_blank">snapshots.debian.org</a>; that source =
-is static and goes stale<br>
-=C2=A0# so we check the latest upstream from a directory that does get upd=
-ated<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;${DEBIAN_MIRROR}/main/d/${BPN}/&quot;<b=
-r>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2401
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/2402
 
---000000000000a4725a05ae68edfe--
+Cheers,
+
+Richard
+
