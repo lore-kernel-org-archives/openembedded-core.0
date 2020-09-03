@@ -1,131 +1,92 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.11030.1599130063968655100
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.11167.1599130483901466466
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 03:47:44 -0700
+ Thu, 03 Sep 2020 03:54:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=SWHMWOS9;
- spf=pass (domain: burtonini.com, ip: 209.85.128.66, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f66.google.com with SMTP id q9so2380812wmj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 03:47:43 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=eo/yP7pV;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.67, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f67.google.com with SMTP id g4so2711780wrs.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 03:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZGcGMX/m3qqcq2Excqodvi42gc3DJvN/Jo4iVbvBjh0=;
-        b=SWHMWOS9McqmHERcxTR9wTmUD8uBUNIcFB5+b8bpv8Gi+Bh4A1cII9FLTScdbXrAlo
-         aCooiSHYg3EOMnk6enVGWuilZTMKwHeTVKkPqgtJsIdg28qOwQZT6PTfwcduxuS5LnAI
-         qOSOW1mRHfEIaddCi2A6xfkMpwcDTg7t73VnhYVvlQ1YpCaq6dGXT8eEM+EGEItRLpPB
-         dTEqAy+xZiLVtJMz4XSN0G9REqz2TJxs3mdJj6aJj9lgs1HH+GpW8LrJ0OT2iN1/7vQB
-         DBcHyFyJcVLPZV2R++S9FwS0cg/Zy4UEMHuyCNIpL0/vqWRwcptXN774xFrRAWNIxEqh
-         O/vA==
+        bh=ft5gKt1UUwU8Ju2AIPaX+AbjpVYb7+rS2XwV4BXGcUE=;
+        b=eo/yP7pVhoORF07/y9RSxJDeONEHOtRXOxBcaVQoOdNXRbrHuw7l8lURwonkFOJbDU
+         ylxFKir9xlHQAhGNG7hvHm7RXFZAPOIQHZ42sfuhW93YI0aeOA17iyECA9Z5dAjsCzsc
+         ng+mNHHtgm/WDzsVASj9uGpSNw0z5KjRdwgO6sBswadvRPz9Tjf0WirVJPmJ8S5Ekdcs
+         XwVKJCzvnAu0fmirfDpx7pV3Vv+MoT+TmP1Cx2olQAkHzZNnJxPdIgJnz3uouatIzxN3
+         HKWKvDz4TS1EVq1Hk2qlBq9nmvY5xm9E7OlLb2SRla/viDoQ72un/wj5ht+/YPrnEqXL
+         jPmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZGcGMX/m3qqcq2Excqodvi42gc3DJvN/Jo4iVbvBjh0=;
-        b=NnxWSlwVg1BFVZ60plhRMXvgrLtIyXz1Ezn+q25QXBackz1/hDvDUkHa/Vc0knGc/s
-         Ax0ZbrezrX+Mq1GRRFmLy3oyn2PuitzgjhGTq/gmlnP0OKUD2H3eA9vBFXRIWCuEigUV
-         eXe7I9SQ5lQTZLu9aaxq56Nva3hAGXGIMF08GTl5kjTNG1ug00F+7sGVl2FnKStxeKhT
-         95m2VX9EsNeYCLRPwg3aEtffMDcPC+bUAhi99liCuhHKY50NT57RbOWcrzQQScdwir7R
-         pghIhPOvXs3boCaClTEzGM8HgWHgr3BqNg8zHAM1zEDoeFKmdF2UcLwF3dySB0Vkm+rt
-         kIJg==
-X-Gm-Message-State: AOAM531Gbeb73yg/LR3Jy9pAs57Ee6ut1CIZxbJEgy5T/MjDa69aLlSL
-	K0tBsn0Ud/OKKxRWKtzGkUEDv/Px/RYIggQR
-X-Google-Smtp-Source: ABdhPJyIeuo+AKWEANlWXOJeB9eDs64KqqrsIp1voAd0UN2fYANyxtH7d3u5VFA47KbhIfRFBa7Mnw==
-X-Received: by 2002:a1c:1b43:: with SMTP id b64mr1940903wmb.6.1599130061846;
-        Thu, 03 Sep 2020 03:47:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ft5gKt1UUwU8Ju2AIPaX+AbjpVYb7+rS2XwV4BXGcUE=;
+        b=RhgsPP+lw3xtD3qQ+qy4oOERaQUAr/B0i/qGK29ooDU1/9iEBF+2/n/G8SmttR9LLj
+         0wmHNGjCg7rvPFt4vz8VEj5hQb6m4fP0wAXIrKxFXuJ2nLqDrcESOQCc1FoTxfKa1PWz
+         zk+8pEGww6k2rqztlsZZiJN2mli0PnOYdinYsMsr9SPwvT+VLbGg4TQNahKptZEuNL0D
+         eZxYEi641eLkm6uqpufPjUbdku/plLt26nJFHWgl8iTh27WsoYqMeYbxcE39D9U+/ww/
+         99LZitvSMZPNa3N6Y/OCUoZkHfu9CnseXEAL5/1gM/op16hp9GG5eyjI/8dcQodUvWaY
+         6EfQ==
+X-Gm-Message-State: AOAM532GMY1on18Sn+Jc6v0uJD7tWAiQWwDfu7cneWLpnrioQ9z/Yi5C
+	8D6fF2A4SMOcQxIZkWn4wie4K+HyCKDWIQvF
+X-Google-Smtp-Source: ABdhPJyKEsR2pi9HeoiZWXl6QDqNDtlIohOQnWHrk152VaSJJmM4AFLBAWuTuAO9E1ILlmPWjQOrHw==
+X-Received: by 2002:adf:fbc3:: with SMTP id d3mr1794741wrs.331.1599130481923;
+        Thu, 03 Sep 2020 03:54:41 -0700 (PDT)
 Return-Path: <ross@burtonini.com>
 Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
-        by smtp.gmail.com with ESMTPSA id 5sm3668895wmz.22.2020.09.03.03.47.41
+        by smtp.gmail.com with ESMTPSA id t4sm3748764wre.30.2020.09.03.03.54.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 03:47:41 -0700 (PDT)
+        Thu, 03 Sep 2020 03:54:41 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 X-Google-Original-From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] kea: bump to 1.7.10
-Date: Thu,  3 Sep 2020 11:47:31 +0100
-Message-Id: <20200903104731.4165-3-ross.burton@arm.com>
+Subject: [PATCH] gdk-pixbuf: add tests PACKAGECONFIG
+Date: Thu,  3 Sep 2020 11:54:39 +0100
+Message-Id: <20200903105439.4668-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200903104731.4165-1-ross.burton@arm.com>
-References: <20200903104731.4165-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is the latest release in the 1.7.x series so should be a safe
-upgrade, and means we can drop a patch as the AC_TRY_RUN has an
-optimistic fallback for cross-compiling now.
+Convert the installed-tests toggle from simply respecting PTEST_ENABLED
+to a PACKAGECONFIG, so that it can be turned on/off in the usual manner.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../kea/files/0001-remove-AC_TRY_RUN.patch    | 34 -------------------
- .../kea/{kea_1.7.7.bb => kea_1.7.10.bb}       |  4 +--
- 2 files changed, 1 insertion(+), 37 deletions(-)
- delete mode 100644 meta/recipes-connectivity/kea/files/0001-remove-AC_TRY_RUN.patch
- rename meta/recipes-connectivity/kea/{kea_1.7.7.bb => kea_1.7.10.bb} (92%)
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-remove-AC_TRY_RUN.patch b/meta/recipes-connectivity/kea/files/0001-remove-AC_TRY_RUN.patch
-deleted file mode 100644
-index d7ca9ff8fa..0000000000
---- a/meta/recipes-connectivity/kea/files/0001-remove-AC_TRY_RUN.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 9d6b8321c5b46199baca907f3d42bdcaaf1958a8 Mon Sep 17 00:00:00 2001
--From: Mingli Yu <mingli.yu@windriver.com>
--Date: Thu, 23 May 2019 23:59:42 -0700
--Subject: [PATCH] remove AC_TRY_RUN
--
--AC_TRY_RUN doesn't work in cross compile env,
--use AC_COMPILE_IFELSE instead to fix below configure
--error:
-- | checking for usuable C++11 regex... configure: error: in `/builddir/tmp/work/core2-64-poky-linux/kea/1.5.0-r0/build':
-- | configure: error: cannot run test program while cross compiling
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index c880b77..dd40c7c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -580,7 +580,7 @@ AC_TRY_COMPILE([
--         AC_MSG_RESULT(no))
-- 
-- AC_MSG_CHECKING(for usuable C++11 regex)
---AC_TRY_RUN([
--+AC_COMPILE_IFELSE([
-- #include <regex>
-- #include <iostream>
-- int main() {
---- 
--2.21.0
--
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.7.bb b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-similarity index 92%
-rename from meta/recipes-connectivity/kea/kea_1.7.7.bb
-rename to meta/recipes-connectivity/kea/kea_1.7.10.bb
-index c72ebff056..78e0a0e979 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.7.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-@@ -9,13 +9,11 @@ DEPENDS = "boost log4cplus openssl"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+index d0df5015a5..0405fa78b5 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+@@ -40,20 +40,20 @@ inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even
  
- SRC_URI = "\
-     http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
--    file://0001-remove-AC_TRY_RUN.patch \
-     file://kea-dhcp4.service \
-     file://kea-dhcp6.service \
-     file://kea-dhcp-ddns.service \
- "
--SRC_URI[md5sum] = "4f8d1251fd41ef2e822a4eb3f0797d46"
--SRC_URI[sha256sum] = "0bba8b045672884a928ff4b2a8575ac5ba420eb6ba47a9338f1932bc38dcf866"
-+SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
+ GIR_MESON_OPTION = 'gir'
  
- inherit autotools systemd
+-EXTRA_OEMESON_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', '-Dinstalled_tests=true', '-Dinstalled_tests=false', d)}"
+-
+ LIBV = "2.10.0"
  
+ GDK_PIXBUF_LOADERS ?= "png jpeg"
+ 
+-PACKAGECONFIG = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} ${GDK_PIXBUF_LOADERS}"
++PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
++                 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
++                 ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
+ 
+ PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
+ PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
+ PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
+ PACKAGECONFIG[jpeg2000] = "-Djasper=true,-Djasper=false,jasper"
+-
++PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
+ 
+ PACKAGES =+ "${PN}-xlib"
 -- 
 2.25.1
 
