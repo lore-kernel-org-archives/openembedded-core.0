@@ -1,125 +1,127 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.41])
- by mx.groups.io with SMTP id smtpd.web11.5853.1599102921705832065
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.7493.1599111643714414224
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2020 20:15:22 -0700
+ Wed, 02 Sep 2020 22:40:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=PVVwOO/M;
- spf=pass (domain: windriver.com, ip: 40.107.223.41, mailfrom: li.zhou@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n+q0v12J3gZB/ZYqzHSmN/g3MqOLDpAV8lx5sgOslSl4G0Jesq2RidWoWg2S3uAIWwyqp8Oaugfes2x7T5mghr4pnLs9dpTOYwfu4KQ9wzxgAoQj+2wfeNznMQBrB415kPyB0SMGiUvTK7o29cRdB+xUpjQ/Lfj5r7XTIqH/JiUWtYOX7fYrZCVMbgRfB3yGA33AetDkW9rxll23iaCugq/oLaBzeOlgMq+DrJjsu12+oKF/M+/LW3n5xpd9QIZHXiKiUmy5liHAkL8nYRaTrLuqVC+Mkg5C5hVrG28eQpBVoAj/nP9WK2OHlzgrPyfqen2q1pRTxTGVvABsyw408Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CS8gdEI57apdGW1AGumENPUoo77g07aZgi91QxTeD/w=;
- b=ZDWHw9ToKwOa2/pK2eVElPwZepRSenfqVVq9uMnRdkcc/C54WovyENTK+iFYTs6B4WtrMC6kGkTUNHFPYLo4mZ6IKfC0XANt7xsllh1cvHDEPxv2VXWpRukeI4ywLqDxcJwpykb6lPPEAaLelx5tuxaZQK1uxnOB7XKyu5b+RREEqiBaOIAk6nJGs7MbcTtUY4FnG9BEJiT9pzgteYOwfJaPPcV+kZbfZbocFSLrNnCS5+zj29BUHxPfsE41BuHC0e/Oe4iPDBqsB6RX5NP2gWVCVRnVafvnAkpJfMfmlWwn7mXvSCWjUYot5P4yaJHtVdHMha+jOSDeyBjASvqJuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CS8gdEI57apdGW1AGumENPUoo77g07aZgi91QxTeD/w=;
- b=PVVwOO/MLT2MiR5Q5cNv0Lq+swr2cu8YRpyrK9JbRaTuZaF0KEzkNK0fnJtSwkNkbrdU8MbgsERt6v1PSCg2rTdms4b89YJXx0eYetDpMWGYA0dv8DFS2wJcnnQZEngC5mv1qtsjEw6vt7eJljxqltNAszLzW1GFwSWQ8DpAEEU=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from MWHPR1101MB2318.namprd11.prod.outlook.com
- (2603:10b6:301:4e::14) by MWHPR11MB1488.namprd11.prod.outlook.com
- (2603:10b6:301:c::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.22; Thu, 3 Sep
- 2020 03:15:20 +0000
-Received: from MWHPR1101MB2318.namprd11.prod.outlook.com
- ([fe80::f44f:12f4:ecff:1400]) by MWHPR1101MB2318.namprd11.prod.outlook.com
- ([fe80::f44f:12f4:ecff:1400%12]) with mapi id 15.20.3326.025; Thu, 3 Sep 2020
- 03:15:20 +0000
-Subject: Re: [OE-core][PATCH V2] connman-conf: make connman-conf only available for qemuall
-To: Ross Burton <ross@burtonini.com>
-CC: Martin Jansa <Martin.Jansa@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <1597978383-189322-1-git-send-email-li.zhou@windriver.com>
- <CA+chaQfKoniG=ErQ9iN34xa5GvtQgrzpANnGG_1CfhC3_gCQ_w@mail.gmail.com>
- <CAAnfSTt8c=fiQkXCDqMKZ4ibbKCBSFCmxPenH+CFhLJoyu_0iQ@mail.gmail.com>
- <69e18a93-e2f6-f17c-4624-a51693e0c279@windriver.com>
- <CAAnfSTv-w9Hyno+GK30gtnFORBQJGciWx+6J=0ReMswcBuXG5w@mail.gmail.com>
-From: "Li Zhou" <li.zhou@windriver.com>
-Message-ID: <8599a83d-cf10-8848-689b-252c4058c296@windriver.com>
-Date: Thu, 3 Sep 2020 11:15:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
-In-Reply-To: <CAAnfSTv-w9Hyno+GK30gtnFORBQJGciWx+6J=0ReMswcBuXG5w@mail.gmail.com>
-X-ClientProxiedBy: HK2P15301CA0012.APCP153.PROD.OUTLOOK.COM
- (2603:1096:202:1::22) To MWHPR1101MB2318.namprd11.prod.outlook.com
- (2603:10b6:301:4e::14)
-Return-Path: li.zhou@windriver.com
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: leimaohui@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.76,385,1592841600"; 
+   d="scan'208";a="98862738"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 03 Sep 2020 13:40:34 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6961D48990D2;
+	Thu,  3 Sep 2020 13:40:33 +0800 (CST)
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 3 Sep 2020 13:40:32 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::9e9:bb8f:d60e:bb94])
+ by G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::9e9:bb8f:d60e:bb94%14]) with
+ mapi id 15.00.1497.006; Thu, 3 Sep 2020 13:40:33 +0800
+From: "leimaohui" <leimaohui@cn.fujitsu.com>
+To: Chen Qi <Qi.Chen@windriver.com>, "Richard Purdie
+ (richard.purdie@linuxfoundation.org)" <richard.purdie@linuxfoundation.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] rpm: fix nativesdk's default var location
+Thread-Topic: [OE-core][PATCH] rpm: fix nativesdk's default var location
+Thread-Index: AQHWWz5YJNaYuhiTF0yaVuN1wj1/5alWf/6g
+Date: Thu, 3 Sep 2020 05:40:32 +0000
+Message-ID: <a3f71396a0fa4f298cecd67fb3240e09@G08CNEXMBPEKD05.g08.fujitsu.local>
+References: <20200716065632.33861-1-Qi.Chen@windriver.com>
+In-Reply-To: <20200716065632.33861-1-Qi.Chen@windriver.com>
+Accept-Language: en-AU, zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.167.225.227]
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by HK2P15301CA0012.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.2 via Frontend Transport; Thu, 3 Sep 2020 03:15:17 +0000
-X-Originating-IP: [147.11.103.217]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d1e3c2ef-51c7-468c-6e4f-08d84fb796e4
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1488:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB1488E541F8EDF515715F309CF82C0@MWHPR11MB1488.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	mC/XoIA+aKXZ8tV0jyXwfP97+QI5pPe19cqYIq9oPb5oFvB4KilIj644zGMM4O0hCpd7zCtRaubQNp9iUnprbIiwbwb1fMQ1FTeWDskumaQhRB0Ag50hZFAdpAhGeKqi7kcYUISNO6FF+xX7ORwwJV9B4iZKGCEPAhzHCR88NLwew4PAnmsHA4xLYZEmRH8ES64YjFQ2unj6GXX6HM+hrgtpt70Yvxtw790uPMPPSZlG/rPK2hSz92fIoUKjbSP7nC+9SYwerRrrV0bfxr6TU1mFbAWFQGt1GVl0KWEIrV/iGcYP1N12YhLC0WsEYYAwKWMa/s0ygETeiKDqjfLXJoKPy4mo9YfUsZQqnHWYRz/imrcLoELaF4U1KonrczRE
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1101MB2318.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39840400004)(366004)(346002)(136003)(396003)(2616005)(66946007)(53546011)(5660300002)(186003)(66476007)(36756003)(6916009)(66556008)(26005)(956004)(52116002)(316002)(54906003)(8936002)(4744005)(86362001)(6486002)(2906002)(8676002)(31696002)(83380400001)(31686004)(4326008)(478600001)(6666004)(16576012)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	2IBw7STfwFp4x07dEGW1eqdZ86Xy+QKsw49YRidL6E5cc5Dn+USlvJ7BmTcCYrqw+1iSuvRGbVxkeUIadLHtFpxeMGRYanG7YGLrUzW/GRkLjQBGu8kb5TBccVaG4rr9awUgVFgmqjoVkGWOzqeLlwOvJ1SWqQgIB4VUaEPedP3fOX1Wq4gdxB7WwPSfUTxYfkLsGkI1cR/8H6Qq7Ni6KOiBKrgomU4WsID86ZrqPhBu0mUp4uLKc/MKt54mRJOdtrHqpRchaBFv7mz+ODbrwWZvPEkB3iHy9oiW8Vz4ZAqpqfI1zsU0cp3PafHvwZ6NavVyRtm319V1uncE61Ew2HHZrn8NjP4jlurG2tMIwdGyk+G+TvYyHZb4hRReO9oLd/ADBELMTtWQ/Ps/+T9moobr33ReJLVDyeV2gOrRe44ibtOkn0jA114qUrD6GH3xhtjS6sEZfUdBHIsaQV9iDDu02H0fWQacbil8pA7tO9/y6GWfQAOwL1bw/y6eCT9rr7rRsThk/WGLj4xnVrwhvNc5iITyKCk9cx3s4dHxf3XWzoGB6JWQwTR9PN9HlnJyeG1lfaO92231c8yXviGB+Lw0KruwPyDAMLm9+UPHlTq7bzen9m3ePepgxNQy7jGl3WFWCzdOOsU2UDMdEt2DCw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1e3c2ef-51c7-468c-6e4f-08d84fb796e4
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2318.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 03:15:20.4256
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eAMInYOpu04EJ/3jNrV57SZalH+Vj0yr4hxpFVsAfb9EF1A+39i8qj1Mij75t3vdeeZQUwfQXZgSAcMOBfR++w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1488
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-yoursite-MailScanner-ID: 6961D48990D2.A9159
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-Hi, Ross:
-
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Do you have any plan to do this=
- patch?
-
-I think my issue can disappear with your planned patch.
-
-Thanks.
-
-
-On 8/27/20 6:10 PM, Ross Burton wrote:
-> On Thu, 27 Aug 2020 at 09:48, zhou li <li.zhou@windriver.com> wrote:
->>           I have a question here:
->> building for a real machine (say, intel-corei7-64): MACHINE ?=3D
->> intel-corei7-64
->>
->> While in connman-conf.bb:
->> SRC_URI_append_qemuall =3D " file://wired.config \
->>                              file://wired-setup \
->>                              file://wired-connection.service \
->>
->> So there is no connman-conf package generated by default because it's nu=
-ll.
->> Building error occurs if want to install connman-conf to rootfs.
->> So how to make things work?
->>
->> If I misunderstand anything, please let me know. Thanks.
-> I also have a patch to remove that _qemuall override that I've been
-> meaning to post for a long time...
->
-> Ross
->
---=20
-Best Regards!
-Zhou Li
-Phone number: 86-10-84778511
-
+SGksDQoNCkknbSBzb3JyeSBidXQgSSBkb24ndCB1bmRlcnN0YW5kIHRoaXMg
+cGF0Y2guIA0KDQo+ICAgIGVycm9yOiBjYW5ub3Qgb3BlbiBQYWNrYWdlcyBp
+bmRleCB1c2luZyBkYjUgLSBQZXJtaXNzaW9uIGRlbmllZCAoMTMpDQo+ICAg
+IGVycm9yOiBjYW5ub3Qgb3BlbiBQYWNrYWdlcyBkYXRhYmFzZSBpbiAvdmFy
+L2xpYi9ycG0NCg0KSSB0aGluayB0aGVzZSB0d28gZXJyb3IgbWVzc2FnZXMg
+aXMganVzdCBiZWNhdXNlIGludm9raW5nIG5hdGl2ZXNkay1ycG0gd2l0aG91
+dCAiLS1yb290PSI6DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQokIC9vcHQvcG9reS8zLjErc25hcHNob3Qv
+c3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgvdXNyL2Jpbi9ycG0gLXFw
+bHYgYXR0ci0yLjQuNDgtcjAuY29yZTJfNjQucnBtDQplcnJvcjogY2Fubm90
+IG9wZW4gUGFja2FnZXMgaW5kZXggdXNpbmcgZGI1IC0gUGVybWlzc2lvbiBk
+ZW5pZWQgKDEzKQ0KZXJyb3I6IGNhbm5vdCBvcGVuIFBhY2thZ2VzIGRhdGFi
+YXNlIGluIC9vcHQvcG9reS8zLjErc25hcHNob3Qvc3lzcm9vdHMveDg2XzY0
+LXBva3lzZGstbGludXgvdmFyL2xpYi9ycG0NCmRyd3hyLXhyLXggICAgMiBy
+b290ICAgICByb290ICAgICAgICAgICAgICAgICAgICAgICAgMCBKdW4gMTkg
+IDIwMTggL2V0Yw0KLXJ3LXItLXItLSAgICAxIHJvb3QgICAgIHJvb3QgICAg
+ICAgICAgICAgICAgICAgICAgNjQyIEp1biAxOSAgMjAxOCAvZXRjL3hhdHRy
+LmNvbmYNCi4uLg0KDQpTYW1lIGFzIG5hdGl2ZXNkay1nY2MgYWRkaW5nICIt
+LXN5c3Jvb3Q9IiwgbmF0aXZlc2RrLXJwbSBzaG91bGQgYmUgaW52b2tlZCB3
+aXRoICItLXJvb3Q9IjoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQokIC9vcHQvcG9reS8zLjErc25hcHNo
+b3Qvc3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgvdXNyL2Jpbi9ycG0g
+LXFwbHYgYXR0ci0yLjQuNDgtcjAuY29yZTJfNjQucnBtIC0tcm9vdD0vaG9t
+ZS9sZWltaC90ZXN0LXJvb3Rmcy8NCmRyd3hyLXhyLXggICAgMiByb290ICAg
+ICByb290ICAgICAgICAgICAgICAgICAgICAgICAgMCBKdW4gMTkgIDIwMTgg
+L2V0Yw0KLXJ3LXItLXItLSAgICAxIHJvb3QgICAgIHJvb3QgICAgICAgICAg
+ICAgICAgICAgICAgNjQyIEp1biAxOSAgMjAxOCAvZXRjL3hhdHRyLmNvbmYN
+Ci4uLi4uLg0KDQpCdXQgbm93IHdpdGggdGhpcyBwYXRjaCwgIi0tcm9vdD0i
+IGRvZXNuJ3Qgd29yayBmb3IgbmF0aXZlc2RrLXJwbS4gRXZlbiBJIHVzZSBu
+YXRpdmVzZGstcnBtIHdpdGggIi0tcm9vdD0iLCB0aGUgZGF0YWJhc2Ugb2Yg
+bmF0aXZlc2RrLXJwbSBzdGlsbCBpcyB3cml0dGVuIHRvICR7U0RLX0lOVEFM
+TF9ESVJ9L3Zhci9saWIvcnBtLywgIG5vdCB0aGUgZGlyZWN0b3J5IHRoYXQg
+SSBzZXQgYnkgIi0tcm9vdD0iLg0KDQoNCkJlc3QgcmVnYXJkcw0KTGVpDQoN
+Cg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5l
+bWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBC
+ZWhhbGYgT2YgQ2hlbiBRaQ0KPiBTZW50OiBUaHVyc2RheSwgSnVseSAxNiwg
+MjAyMCAyOjU3IFBNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXVtQQVRDSF0g
+cnBtOiBmaXggbmF0aXZlc2RrJ3MgZGVmYXVsdCB2YXIgbG9jYXRpb24NCj4g
+DQo+IEZvciBub3csIHRoZSBuYXRpdmVzZGstcnBtJ3MgJV92YXIgaW4gL3Vz
+ci9saWIvcnBtL21hY3JvcyBpcyAnL3ZhcicuIFRoaXMgaXMNCj4gY2F1c2lu
+ZyBlcnJvciB3aGVuIHJ1bm5pbmcgYHJwbSAtcXBsdiBBLnJwbScuDQo+IA0K
+PiAgICBlcnJvcjogY2Fubm90IG9wZW4gUGFja2FnZXMgaW5kZXggdXNpbmcg
+ZGI1IC0gUGVybWlzc2lvbiBkZW5pZWQgKDEzKQ0KPiAgICBlcnJvcjogY2Fu
+bm90IG9wZW4gUGFja2FnZXMgZGF0YWJhc2UgaW4gL3Zhci9saWIvcnBtDQo+
+IA0KPiBUaGUgcnBtIGluIFNESyBzaG91bGQgYmUgdXNpbmcgaXRzIG93biBk
+YXRhYmFzZS4gU28gd2Ugc2hvdWxkIHJlbW92ZSB0aGlzDQo+IGNvbmZpZ3Vy
+ZSBvcHRpb24sIGxldHRpbmcgdGhlIFNESydzIG5hdGl2ZSBzeXNyb290IHBy
+ZWZpeCB0byBiZSB0aGVyZSBpbiAlX3Zhci4gSW4NCj4gZmFjdCwgJyVfdXNy
+JyBpbiBtYWNyb3MgaGFzIGFscmVhZHkgZ290IHRoZSBwcmVmaXguDQo+IEFm
+dGVyIHRoaXMgY2hhbmdlLCB3ZSBoYXZlIGluIHRoZSBtYWNyb3MgZmlsZSBs
+aW5lcyBsaWtlIGJlbG93Lg0KPiANCj4gIiIiDQo+ICVfdXNyICAgICAgICAg
+ICAgICAgICAgIC9vcHQvd2luZHJpdmVyL3dybGludXgvMjAuMjkvc3lzcm9v
+dHMveDg2XzY0LXdybGludXhzZGstDQo+IGxpbnV4L3Vzcg0KPiAlX3VzcnNy
+YyAgICAgICAgICAgICAgICAle191c3J9L3NyYw0KPiAlX3ZhciAgICAgICAg
+ICAgICAgICAgICAvb3B0L3dpbmRyaXZlci93cmxpbnV4LzIwLjI5L3N5c3Jv
+b3RzL3g4Nl82NC13cmxpbnV4c2RrLQ0KPiBsaW51eC92YXINCj4gIiIiDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZl
+ci5jb20+DQo+IC0tLQ0KPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9y
+cG1fNC4xNS4xLmJiIHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9ycG1fNC4xNS4xLmJiIGIvbWV0
+YS9yZWNpcGVzLQ0KPiBkZXZ0b29scy9ycG0vcnBtXzQuMTUuMS5iYg0KPiBp
+bmRleCBjYmUxYWNmZmUyLi5iNWEwYWM5MzgyIDEwMDY0NA0KPiAtLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL3JwbV80LjE1LjEuYmINCj4gKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9ycG1fNC4xNS4xLmJiDQo+
+IEBAIC02Nyw3ICs2Nyw3IEBAIEVYVFJBX09FQ09ORl9hcHBlbmRfbGliYy1t
+dXNsID0gIiAtLWRpc2FibGUtbmxzIC0tDQo+IGRpc2FibGUtb3Blbm1wIg0K
+PiAgIyBEaXNhYmxlIGRidXMgZm9yIG5hdGl2ZSwgc28gdGhhdCBycG0gZG9l
+c24ndCBhdHRlbXB0IHRvIGluaGliaXQgc2h1dGRvd24gdmlhDQo+IHNlc3Np
+b24gZGJ1cyBldmVuIHdoZW4gcGx1Z2lucyBzdXBwb3J0IGlzIGVuYWJsZWQu
+DQo+ICAjIEFsc28gZGlzYWJsZSBwbHVnaW5zIGJ5IGRlZmF1bHQgZm9yIG5h
+dGl2ZS4NCj4gIEVYVFJBX09FQ09ORl9hcHBlbmRfY2xhc3MtbmF0aXZlID0g
+IiAtLXN5c2NvbmZkaXI9L2V0YyAtLQ0KPiBsb2NhbHN0YXRlZGlyPS92YXIg
+LS1kaXNhYmxlLXBsdWdpbnMiDQo+IC1FWFRSQV9PRUNPTkZfYXBwZW5kX2Ns
+YXNzLW5hdGl2ZXNkayA9ICIgLS1zeXNjb25mZGlyPS9ldGMgLS0NCj4gbG9j
+YWxzdGF0ZWRpcj0vdmFyIC0tZGlzYWJsZS1wbHVnaW5zIg0KPiArRVhUUkFf
+T0VDT05GX2FwcGVuZF9jbGFzcy1uYXRpdmVzZGsgPSAiIC0tc3lzY29uZmRp
+cj0vZXRjIC0tZGlzYWJsZS0NCj4gcGx1Z2lucyINCj4gDQo+ICBCQkNMQVNT
+RVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiDQo+IA0KPiAtLQ0KPiAyLjE3
+LjENCj4gDQo+IA0KDQoKCg==
