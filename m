@@ -1,77 +1,104 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.11254.1599130492820216794
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web10.11535.1599131551801138195
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 03:54:53 -0700
+ Thu, 03 Sep 2020 04:12:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=yIsTSPRu;
- spf=pass (domain: burtonini.com, ip: 209.85.128.65, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f65.google.com with SMTP id w2so2416388wmi.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 03:54:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M9dDgHBk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id w5so2756411wrp.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 04:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WGM6NYm8/HElAMxhWYl867zF1LNQVY8TjqUX+++t25g=;
-        b=yIsTSPRuNoiXXBIF64xtX7j8IT56VMyA0Qn1FS65+HRz+xOUOzEZAGKCJhJakn6P/1
-         Vnm+7ePEAUx0Fp1kBuvbULShjzxh3RJfnzghnKMc7+SEsnWDK0yklR4W1zMguXWT5y7D
-         seia4qCGGXrU8gXFvl4XxP5g5q5nAk208SkypBtMVXwFp71r8ODmnmxOLf7yLePgr3o/
-         1Iv14Re5mywG1LkQ/NbSFgSwPspMznnop/MWKsyQYz1C59P96ByszdG7CEFrSUnN2if1
-         ol1SUpKhbE6PZ6WW3E40wAlXhb8smAtyGHkboZSxCKGS1QFko1VKWh8TDEEsErswLAt2
-         81/w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=byYu1T4aaGai1e43f7uhP0hjObIbr9vbumC44GV1Ge8=;
+        b=M9dDgHBkfK4znYJ5REhp9hgW6ZVzL/rpEyZfEKp2Y+x4mb+JFtWYW522zPQ+ZzVHgE
+         7E5Sb0/oRMALx6ndsoDQcLHlM2iC56863pXAhdD2VneTr05FffralJ2dFIffSeYd39Qv
+         h+wlSHLzXjQZ07Nd61kgwrrh0DUX+0KE2z57o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WGM6NYm8/HElAMxhWYl867zF1LNQVY8TjqUX+++t25g=;
-        b=uRV8OO0D5ldOI7dEQOJQ/Iv/tg/Ccea/m61zv4DivdJz2qNxW0SKbadwFff48pjhv+
-         e/AJecbDPF9rSHoAmv5ImAVxnAxwc8uBKeDvws0k06YZmwHa3irRHQ7M8nq+9iZiDVvv
-         vcHvfmoomiIr3ISiSm6ZefmgZP1N2bcJTgqSb45k3/d+Z8ztNYcEwVNuatjKBokOtkDL
-         EVcqacUwylXaXi2J1RMWxkbPRfoTmikh1NJWwdWVw2flJNZ4e4HoGCvXpprM10C4rwR+
-         qzQ/7PyRrM6WJ26pVrulE7dH5duO/1VdhIAk2+wRhmAiOcKGtF4Y8i8cBdCpWV7Pr8bm
-         RL0w==
-X-Gm-Message-State: AOAM531l/F5rj5ZRmOYWBUXl8ChTh510SrOudtccOkjtsM+hV0rhrkPX
-	gE40p9uh1zzUebQiEXbSe2EzijyYUmsYdH/h
-X-Google-Smtp-Source: ABdhPJyL8HKgCcM+bACAAp0kPWA2bH/jxONRtHTL3kiL8alo2EwSY7/Jtl6pR901EG/1m7bTbZSvZA==
-X-Received: by 2002:a1c:2b04:: with SMTP id r4mr1779142wmr.76.1599130490876;
-        Thu, 03 Sep 2020 03:54:50 -0700 (PDT)
-Return-Path: <ross@burtonini.com>
-Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
-        by smtp.gmail.com with ESMTPSA id p9sm3566012wma.42.2020.09.03.03.54.50
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=byYu1T4aaGai1e43f7uhP0hjObIbr9vbumC44GV1Ge8=;
+        b=bpMVMY6JVcXof5lxa5xraDlTiNAgGDgC7Qo/lhEZZigQNreR0AbqXYQ6H3LbaXGjM9
+         lL3wPtlkEcVcneaQ4MrLcuO/3B3eoBVMQqPGlstcpUIL8C4l+2BMUnUbPGO1qLehliVz
+         uX3yxQ+a13BtcLfA+I1EoCHj2PlIGrYBkvMENnct/g16yJjBEZZr0eQjwoNsKVSGD0ab
+         bOkL7107IB2+jzUrk4u2qRdMwEuYz4amHACblCMvOKmUg8cWWW8OfJd/Q730qPfGSddD
+         1SpRub0yNDfsVQODIa0v12qbFSOJbj96lj2YjgH634ZdNawLkNWtuiPqjaA1ho6kIR3C
+         Z5nw==
+X-Gm-Message-State: AOAM5313e5bOC9pyUeqqsUbL0aFq1lrhN3LboL7/Ker5c3D/ehIBImzI
+	YyWpjXrmZrsQB6/5XjM1+H4stg==
+X-Google-Smtp-Source: ABdhPJzuCycD+y11zj8HQ8pzHb+knF1HnzME8aqgu+zZV2p9kDVdW2C7BAPvSY/3Hq0fYe+y0qo2Cw==
+X-Received: by 2002:a5d:4bc6:: with SMTP id l6mr2042608wrt.132.1599131550066;
+        Thu, 03 Sep 2020 04:12:30 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7cb6:1620:605:fdfd])
+        by smtp.gmail.com with ESMTPSA id z203sm4017132wmc.31.2020.09.03.04.12.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 03:54:50 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-X-Google-Original-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] debianutils: change SRC_URI to use snapshot.debian.org
-Date: Thu,  3 Sep 2020 11:54:48 +0100
-Message-Id: <20200903105448.4736-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 03 Sep 2020 04:12:29 -0700 (PDT)
+Message-ID: <029196ff18a0d039ea41d70db9497c0a8c0db1d0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python2: fix segmentation fault in ptest test_bigrepeat
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Heng Guo <heng.guo@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Sep 2020 12:12:28 +0100
+In-Reply-To: <20200903092448.26165-1-heng.guo@windriver.com>
+References: <20200903092448.26165-1-heng.guo@windriver.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The primary Debian archive only contains tarballs which are currently
-shipped in a release, so it's easy for a tarball we need to disappear.
-Instead, point at snapshot.debian.org to ensure the link remains valid.
+On Thu, 2020-09-03 at 17:24 +0800, Heng Guo wrote:
+> Segmentation fault at case test_bigrepeat of python ptest. a similar
+> bug
+> can be found at https://bugs.python.org/issue33153.
+> 
+> tuplerepeat() in Objects/tupleobject.c uses a questionable check that
+> relies on signed integer overflow. A singed integer overflow is
+> triggered by ptest case: test_bigrepeat.
+> 
+> Python2 is out of maintainus, so backport the related patch from
+> python3
+> commit:
+> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748525fb76b5b
+> 
+> Signed-off-by: Heng Guo <heng.guo@windriver.com>
+> ---
+>  ...segmentation-fault-in-test_bigrepeat.patch | 33
+> +++++++++++++++++++
+>  meta/recipes-devtools/python/python_2.7.18.bb |  1 +
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python/0001-python2-
+> fix-segmentation-fault-in-test_bigrepeat.patch
+> 
+> diff --git a/meta/recipes-devtools/python/python/0001-python2-fix-
+> segmentation-fault-in-test_bigrepeat.patch b/meta/recipes-
+> devtools/python/python/0001-python2-fix-segmentation-fault-in-
+> test_bigrepeat.patch
+> new file mode 100644
+> index 0000000000..45087bfb8d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python/0001-python2-fix-
+> segmentation-fault-in-test_bigrepeat.patch
+> @@ -0,0 +1,33 @@
+> +From 031d06e1e670d40b6500cce4134ab35ec8858a8b Mon Sep 17 00:00:00
+> 2001
+> +From: Heng Guo <heng.guo@windriver.com>
+> +Date: Wed, 15 Jul 2020 15:42:13 +0800
+> +Subject: [PATCH] python2: fix segmentation fault in test_bigrepeat
+> +
+> +Port from:
+> +
+> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748525fb76b5b
+> +Only merge codes related to tuplerepeat() in tupleobject.c.
+> +
+> +Signed-off-by: Heng Guo <heng.guo@windriver.com>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-support/debianutils/debianutils_4.11.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Missing Upstream-Status tag, also which branch is this against? The
+recipe no longer exists in OE-Core.
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.11.1.bb b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-index 71fc99e29b..ef7aa50408 100644
---- a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-@@ -3,7 +3,7 @@ SECTION = "base"
- LICENSE = "GPLv2 & SMAIL_GPL"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20200525T145753Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
- # the package is taken from snapshots.debian.org; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
--- 
-2.25.1
+Cheers,
+
+Richard
 
