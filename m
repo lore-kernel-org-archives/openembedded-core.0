@@ -1,105 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.13267.1599138142773677732
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
+ by mx.groups.io with SMTP id smtpd.web10.14242.1599140571289634837
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 06:02:23 -0700
+ Thu, 03 Sep 2020 06:42:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1828BD6E
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 06:02:22 -0700 (PDT)
-Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE2C73F66F
-	for <openembedded-core@lists.openembedded.org>; Thu,  3 Sep 2020 06:02:21 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] help2man: rewrite recipe
-Date: Thu,  3 Sep 2020 14:02:18 +0100
-Message-Id: <20200903130218.496275-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HTliqhIO;
+ spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f67.google.com with SMTP id o184so1771489vsc.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2020 06:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rK+8WybMB/pTgnRcdx3rxCmA0MJWPczPQ9zUQffIwTA=;
+        b=HTliqhIOrkLQ21UF++2YeD9TC16SWdOIIDsCtxcbHCc/vktz8S0KbChNun+Qpm5jHM
+         DtTQIpqIjVepI7Rpiub4cLn6ZQOwLM1RrJAN1Qd1bZIadM1MkYhMOTTJ8q3FcUrLTmMI
+         6heVpLrpEOLIHHGE+Vn2G0Fv4LUiv21eOP086LTfaYnFkBqqjJ9hoFnPjAMo+j6sVZjk
+         EF5/0+5Yqp8xAeSJeBYxaEJnQHd18zVpuXhRbx5FV3snOXs0yvQerDsmC6CZCR8P9wc4
+         ejmR7QcWoJVvGpx8qSWILtwNW24FqeQIqjyLWmgKxcVnx+x088q2/MOLookQHTwKrLsR
+         bA6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rK+8WybMB/pTgnRcdx3rxCmA0MJWPczPQ9zUQffIwTA=;
+        b=f+yVXnqemarj063gpsvl9IncOAFpocIiwurhTiOuI4lKz1qB0GoukxkYjy2sk6PIjJ
+         yR7E3eyxpzcb9+mcWeKf21T5YZGEFGIf0d6KyZhTpugxaQW8J7FvnUOYZTfjjFA9IeKD
+         Hf/uyGdrCVGkVbQoT006lj3CCLvDAuuoXim5F6oT8iDthZCClD6S0EGRl8CFPT7a21iK
+         g/nlJPV4cPIN5a9XFsipwcHuzvBsoaTKPEdE2X/k3aCFyvawY6j3pi8gFY980+b7RU8G
+         NUhKHnqiJgF2n1Vghpu3Ia7kdZWLz1K0oHK5FNvR7S/xc0aS3PJqD+MQy2vsq9nGoxhN
+         s1Ig==
+X-Gm-Message-State: AOAM531pQCK2Mpes8puADHZ6w2W5sy4ROpPgXVuBzcOjXNCHjU1oZbv9
+	tf/J6u6FiZpTTn3YbVkUjV8uND9l6hK00QA4lRdywGYj
+X-Google-Smtp-Source: ABdhPJx5T7Y9sI2x5jpD6oep+RW2jB8HIeoKm0ALonusR+LM05+qew8EhxAUm143HzPYURDKmP07CPoqJNpXkjOjmFQ=
+X-Received: by 2002:a67:8783:: with SMTP id j125mr1706016vsd.174.1599140570361;
+ Thu, 03 Sep 2020 06:42:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200903105448.4736-1-ross.burton@arm.com>
+In-Reply-To: <20200903105448.4736-1-ross.burton@arm.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 3 Sep 2020 15:42:38 +0200
+Message-ID: <CANNYZj-nq1nkOPC06R5raivSuO8_1u+7xCUaerNiAthLfTKj8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] debianutils: change SRC_URI to use snapshot.debian.org
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a4725a05ae68edfe"
+
+--000000000000a4725a05ae68edfe
+Content-Type: text/plain; charset="UTF-8"
+
+This breaks automated upgrades unfortunately (upstream check works, but
+upgrade itself won't figure out a newer snapshot URI).
+
+Is it possible to convert this to fetch from git instead?
+
+Alex
+
+On Thu, 3 Sep 2020 at 12:54, Ross Burton <ross@burtonini.com> wrote:
+
+> The primary Debian archive only contains tarballs which are currently
+> shipped in a release, so it's easy for a tarball we need to disappear.
+> Instead, point at snapshot.debian.org to ensure the link remains valid.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-support/debianutils/debianutils_4.11.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
+> b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
+> index 71fc99e29b..ef7aa50408 100644
+> --- a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
+> +++ b/meta/recipes-support/debianutils/debianutils_4.11.1.bb
+> @@ -3,7 +3,7 @@ SECTION = "base"
+>  LICENSE = "GPLv2 & SMAIL_GPL"
+>  LIC_FILES_CHKSUM =
+> "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
+>
+> -SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+> +SRC_URI = "
+> http://snapshot.debian.org/archive/debian/20200525T145753Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz
+> "
+>  # the package is taken from snapshots.debian.org; that source is static
+> and goes stale
+>  # so we check the latest upstream from a directory that does get updated
+>  UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+> --
+> 2.25.1
+>
+> 
+>
+
+--000000000000a4725a05ae68edfe
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-This recipe was originally explicitly minimal because it was needed to
-bootstrap autotools, but that isn't the case anymore.
+<div dir=3D"ltr"><div>This breaks automated upgrades unfortunately (upstrea=
+m check works, but upgrade itself won&#39;t figure out a newer snapshot URI=
+).</div><div><br></div><div>Is it possible to convert this to fetch from gi=
+t instead?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3 Sep 2020 at 12:=
+54, Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com">ross@burtonini.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>The primary Debian archive only contains tarballs which are currently<br>
+shipped in a release, so it&#39;s easy for a tarball we need to disappear.=
+<br>
+Instead, point at <a href=3D"http://snapshot.debian.org" rel=3D"noreferrer=
+" target=3D"_blank">snapshot.debian.org</a> to ensure the link remains vali=
+d.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
+et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a> | 2 +-=
+<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/debianutils/<a href=3D"http://debianutil=
+s_4.11.1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a>=
+ b/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
+index 71fc99e29b..ef7aa50408 100644<br>
+--- a/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
++++ b/meta/recipes-support/debianutils/<a href=3D"http://debianutils_4.11.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">debianutils_4.11.1.bb</a><br>
+@@ -3,7 +3,7 @@ SECTION =3D &quot;base&quot;<br>
+=C2=A0LICENSE =3D &quot;GPLv2 &amp; SMAIL_GPL&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://debian/copyright;md5=3D9b912cd0cc6=
+54134c0ef3424a0705b94&quot;<br>
+<br>
+-SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz&quot=
+;<br>
++SRC_URI =3D &quot;<a href=3D"http://snapshot.debian.org/archive/debian/20=
+200525T145753Z/pool/main/d/$%7BBPN%7D/$%7BBPN%7D_$%7BPV%7D.tar.xz" rel=3D"n=
+oreferrer" target=3D"_blank">http://snapshot.debian.org/archive/debian/2020=
+0525T145753Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz</a>&quot;<br>
+=C2=A0# the package is taken from <a href=3D"http://snapshots.debian.org" =
+rel=3D"noreferrer" target=3D"_blank">snapshots.debian.org</a>; that source =
+is static and goes stale<br>
+=C2=A0# so we check the latest upstream from a directory that does get upd=
+ated<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;${DEBIAN_MIRROR}/main/d/${BPN}/&quot;<b=
+r>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div>
 
-Instead of being explicitly native, use BBCLASSEXTEND.
-
-No need to explicitly depend on autoconf-native automake-native, because
-the autotools class does that.
-
-Don't explicitly disable NLS, but use the gettext class.
-
-As this recipe isn't needed in early build anymore there's no need to
-avoid reconfiguring.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/conf/distro/include/maintainers.inc          |  2 +-
- ...2man-native_1.47.15.bb =3D> help2man_1.47.15.bb} | 15 ++++++---------
- 2 files changed, 7 insertions(+), 10 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.15.bb =3D> h=
-elp2man_1.47.15.bb} (66%)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 9f80970309..a094b39b2a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -255,7 +255,7 @@ RECIPE_MAINTAINER_pn-gtk-doc =3D "Alexander Kanavin <=
-alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-gzip =3D "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-harfbuzz =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-hdparm =3D "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-help2man-native =3D "Hongxu Jia <hongxu.jia@windriv=
-er.com>"
-+RECIPE_MAINTAINER_pn-help2man =3D "Hongxu Jia <hongxu.jia@windriver.com>=
-"
- RECIPE_MAINTAINER_pn-hicolor-icon-theme =3D "Anuj Mittal <anuj.mittal@in=
-tel.com>"
- RECIPE_MAINTAINER_pn-hwlatdetect =3D "Alexander Kanavin <alex.kanavin@gm=
-ail.com>"
- RECIPE_MAINTAINER_pn-i2c-tools =3D "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb b/=
-meta/recipes-devtools/help2man/help2man_1.47.15.bb
-similarity index 66%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-rename to meta/recipes-devtools/help2man/help2man_1.47.15.bb
-index 4f80a2bdb1..7a913507a3 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.47.15.bb
-@@ -2,22 +2,19 @@ SUMMARY =3D "Program for creating simple man pages"
- SECTION =3D "devel"
- LICENSE =3D "GPLv3"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
-464"
--DEPENDS =3D "autoconf-native automake-native"
-=20
- SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
- SRC_URI[sha256sum] =3D "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f=
-1ee762f001dbcd1c"
-=20
--inherit autotools native
-+inherit autotools gettext
-=20
--EXTRA_OECONF =3D "--disable-nls"
--
--# We don't want to reconfigure things as it would require 'perlnative' t=
-o be
--# used.
--do_configure() {
--	oe_runconf
--}
-+# This is a hand-maintained aclocal.m4 but our autotools class currently=
- deletes
-+# aclocal.m4.
-+EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
-=20
- do_install_append () {
- 	# Make sure we use /usr/bin/env perl
- 	sed -i -e "1s:#!.*:#! /usr/bin/env perl:" ${D}${bindir}/help2man
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.28.0
-
+--000000000000a4725a05ae68edfe--
