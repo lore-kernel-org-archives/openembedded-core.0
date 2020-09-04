@@ -1,142 +1,146 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.66])
- by mx.groups.io with SMTP id smtpd.web11.29562.1599184778909388266
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.29866.1599185985584201680
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2020 18:59:39 -0700
+ Thu, 03 Sep 2020 19:19:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=pfmLuh5c;
- spf=pass (domain: windriver.com, ip: 40.107.220.66, mailfrom: heng.guo@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HvfOMXTmD/ObtwJh21m2f96yJqZu6VVxbVgFZEUlWpUk857jvMV6UVkO2M1G/j2Guagqsp1Z+fSX7Z5xur5SLC2J4qnp8vWShDcfKTiHzialoWjUSRvPzFMQm5km0Dyu7y8cz55Gxdx8OKj9yEnsfP+ngXGhj7WC4Wy6HuvjiB61ITnOFh/mGpmTB30LCVBXUyYg92G27Kj7A2ws2oIUTjoLQhcLLriA0BKBE4zyW6K3i8z8Hp+UiANbYtelsfCla9OM1XtDEj6E4wlqS4pAxSLjl/Tmap8bn6GZJm0QxAd6U/6MIuvUVWp/AOU2oPaVmAz/tKltnMhGlAEurZB5Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bn3sU1/ej5IUBcpe1ZPrys4sx5OdAODE3LwDPfGAkY0=;
- b=FNrW07O6CvphZANBcEdaargO1VK0eyKwyEQDTvTPhxaZF5fACVmL286ndAgrB8nVQ2f4SbR7LJNfbOoVXNqOnlPdavW0M9NDc1aE1mFM7OrwzdUZCWc57K7vNhN70ucle+uvXU+KHTH8hlMlM4YbVMzUd/1vianYaZ9Tmvf50XDzs33mkDSdAw+DAJ4KEeZtREinmubenhKu47t3sBXushzhwTWzCT7+PRNK/VIV/3wZILW9jd3a1jIL9tZbonkG82Qa19ckeBfT/bk1KqyRAP1dOnc1NqI6QcNLjqDpg4LFC4KWGaj/LT61jcTw6HLZnpN2Klmj69zpwBOk0YdBZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bn3sU1/ej5IUBcpe1ZPrys4sx5OdAODE3LwDPfGAkY0=;
- b=pfmLuh5cK8ih72VLMq75n70deqbfQSjTnYuPHmF6Edoxx4Jef/JhSZv/SuL+IRdMBQrlZoTQDPTBUqaZtYt6gUdtxh7Ql66PoS9HwASXoM3fxtN5p1PgnTg0K4ODKhPyyojzCUO3NB1eIIxJ5JUnS/hW4QrZPLE7VGfLg0aviqQ=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB3404.namprd11.prod.outlook.com (2603:10b6:5:59::29) by
- DM6PR11MB2668.namprd11.prod.outlook.com (2603:10b6:5:c7::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3326.23; Fri, 4 Sep 2020 01:59:37 +0000
-Received: from DM6PR11MB3404.namprd11.prod.outlook.com
- ([fe80::a9ce:cc5b:a5b1:6e35]) by DM6PR11MB3404.namprd11.prod.outlook.com
- ([fe80::a9ce:cc5b:a5b1:6e35%4]) with mapi id 15.20.3348.015; Fri, 4 Sep 2020
- 01:59:37 +0000
-Subject: Re: [OE-core] [PATCH] python2: fix segmentation fault in ptest test_bigrepeat
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200903092448.26165-1-heng.guo@windriver.com>
- <029196ff18a0d039ea41d70db9497c0a8c0db1d0.camel@linuxfoundation.org>
-From: "Heng Guo" <heng.guo@windriver.com>
-Message-ID: <c549a7ab-0b5d-3763-c745-70c7abf4eb92@windriver.com>
-Date: Fri, 4 Sep 2020 09:59:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-In-Reply-To: <029196ff18a0d039ea41d70db9497c0a8c0db1d0.camel@linuxfoundation.org>
-X-ClientProxiedBy: HK2PR0302CA0002.apcprd03.prod.outlook.com
- (2603:1096:202::12) To DM6PR11MB3404.namprd11.prod.outlook.com
- (2603:10b6:5:59::29)
-Return-Path: heng.guo@windriver.com
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: li.wang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0842JDqg021078
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Sep 2020 19:19:34 -0700
+Received: from bfbf5eb70dd2.wrs.com (128.224.162.178) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 3 Sep 2020 19:19:19 -0700
+From: "Li Wang" <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][zeus][PATCH] qemu: CVE-2020-14364
+Date: Fri, 4 Sep 2020 02:16:08 +0000
+Message-ID: <20200904021608.653-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.155.91] (60.247.85.82) by HK2PR0302CA0002.apcprd03.prod.outlook.com (2603:1096:202::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.9 via Frontend Transport; Fri, 4 Sep 2020 01:59:35 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a5aa5697-f04b-4454-a18c-08d850762d51
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2668:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB26689ECAE314F6BFA59F89398C2D0@DM6PR11MB2668.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	RLkYrVzbwLKBgK7SFNU+brrxtbQervKjDrFa69thriS6YYfsXq54/KDJ+zl8Epe5vpM/3RC+jVw4g/+Tj0RISajm8WuNtgsaemIRWWDJ8OAx2u5idi/6jzUbvW/PR5bxavs7Mu1UNsHaqzlUaTvgZacUPITTnEaGlIP3YLoEN+JNRBxeNXTsbBH0radXeNxLKwIvYWz+MzldOR/6VHsWqNidpG+RtaJAuiF1PEJSefG1md9PUhfT92wD3XylEHlVu/Zk3C07x45hZ/a9iQT+Ad+v8PvVg3h+G33RhsMROqqPlSZ4X03iKMUSo7HfQrC32yPz0DCNO/aiXsN4ESf5APcCZmfd9NJoEVaWEhZOAlAsjqR8Zn+uGjycfmCGfxMerN4wBCsRl2+1z07jQPdMy6eBvnPJyk1/ujyJ/WfQ782Ll67pFbTYcABMtdMqklWkNMuOfs2Z/9OA6MBNJYbi1TKekVa/ljyILl9bEKI4eu4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3404.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(39850400004)(396003)(136003)(52116002)(66476007)(5660300002)(66556008)(2906002)(2616005)(956004)(26005)(6486002)(16526019)(6706004)(16576012)(316002)(186003)(478600001)(6666004)(966005)(31686004)(8676002)(8936002)(53546011)(86362001)(36756003)(66946007)(31696002)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	+22fPciolHiDHeTSI9O71T8bVx/llNNrO1E6I7y3pkgwI9eopwfVt8rGi/y2lZXj1KkQSfz0CQwvB562fCN6mbeHGL8bkpwXJpsdhWZR05Sa3DcGnzp8l6iCNGvfBks6sYnIbScFWwpgBUmeFSyAFVOq8jHCPlW59mkbaG8MgAHUgM8vObH8Srb8zZkpcVoKn81MekUkQ6ar+BawxYpmgZl6BpFvgQ4iWj76un0RG8fvJs3wH/54DMIoeujQ7G1n9pg8UYFK8rHCYbtMPBILFDaGnXtWw6K7/SsoK02aPnZdKE32A9QWHL+QBN36julBDZty77TgqJGwYPIiOnJJ+xoINZpYhdyeyP+kbkOOcQCPCWtAq7M9Jxv1Kzj53poDC+A1aebVJge2MA8IfXwVJnCodbC48GWMUdQFUINUtydEjrDb7bT9IDAi2a8VAcwQ0sFVZCIwygd7hEA/jgYY2x/nAYJOqLhmG1a681wDyTHy/cP7JD321Tb6HdSLOdjGQd5WRzHkAdoKYNUV3KlEWh6GZQ04suMcY4kDsThi36D5eeTheApRjwQA3PQcozSucHITYQgs4+upM09XYKqfrCyphzHlxI6X6QxaMkcPLbf97ooYFlCroot+b+9be7cZVBv4BUQK+fFIFNHF6Z/AfQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5aa5697-f04b-4454-a18c-08d850762d51
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3404.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 01:59:37.3640
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z179UrarQNN31JOZC+DBaufKECFLbRp6JqHkf/vcDoHAQYVXMUkDtezMUxTGcX3NQRos3jQxdXg6iR7b0oCQTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2668
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Backport patch from:
+https://git.qemu.org/?p=qemu.git;a=patch;h=b946434f2659a182afc17e155be6791ebfb302eb
 
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-14364.patch            | 93 +++++++++++++++++++
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
 
-On 9/3/20 7:12 PM, Richard Purdie wrote:
-> On Thu, 2020-09-03 at 17:24 +0800, Heng Guo wrote:
->> Segmentation fault at case test_bigrepeat of python ptest. a similar
->> bug
->> can be found at https://bugs.python.org/issue33153.
->>
->> tuplerepeat() in Objects/tupleobject.c uses a questionable check that
->> relies on signed integer overflow. A singed integer overflow is
->> triggered by ptest case: test_bigrepeat.
->>
->> Python2 is out of maintainus, so backport the related patch from
->> python3
->> commit:
->> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748525fb76b5b
->>
->> Signed-off-by: Heng Guo <heng.guo@windriver.com>
->> ---
->>   ...segmentation-fault-in-test_bigrepeat.patch | 33
->> +++++++++++++++++++
->>   meta/recipes-devtools/python/python_2.7.18.bb |  1 +
->>   2 files changed, 34 insertions(+)
->>   create mode 100644 meta/recipes-devtools/python/python/0001-python2-
->> fix-segmentation-fault-in-test_bigrepeat.patch
->>
->> diff --git a/meta/recipes-devtools/python/python/0001-python2-fix-
->> segmentation-fault-in-test_bigrepeat.patch b/meta/recipes-
->> devtools/python/python/0001-python2-fix-segmentation-fault-in-
->> test_bigrepeat.patch
->> new file mode 100644
->> index 0000000000..45087bfb8d
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python/0001-python2-fix-
->> segmentation-fault-in-test_bigrepeat.patch
->> @@ -0,0 +1,33 @@
->> +From 031d06e1e670d40b6500cce4134ab35ec8858a8b Mon Sep 17 00:00:00
->> 2001
->> +From: Heng Guo <heng.guo@windriver.com>
->> +Date: Wed, 15 Jul 2020 15:42:13 +0800
->> +Subject: [PATCH] python2: fix segmentation fault in test_bigrepeat
->> +
->> +Port from:
->> +
->> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748525fb76b5b
->> +Only merge codes related to tuplerepeat() in tupleobject.c.
->> +
->> +Signed-off-by: Heng Guo <heng.guo@windriver.com>
-> 
-> Missing Upstream-Status tag, also which branch is this against? The
-> recipe no longer exists in OE-Core.
-[Heng]: https://bugs.python.org/issue33153 the same bug is reported to 
-python2 over 2 years and on hold over 1 year.
-For python branch: remotes/origin/2.7.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5cdba1f02c..59f6932b3d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -39,6 +39,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2020-11869.patch \
+            file://CVE-2020-13765.patch \
+            file://CVE-2020-10702.patch \
++	   file://CVE-2020-14364.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
+new file mode 100644
+index 0000000000..a109ac08d6
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
+@@ -0,0 +1,93 @@
++From b946434f2659a182afc17e155be6791ebfb302eb Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Tue, 25 Aug 2020 07:36:36 +0200
++Subject: [PATCH] usb: fix setup_len init (CVE-2020-14364)
++
++Store calculated setup_len in a local variable, verify it, and only
++write it to the struct (USBDevice->setup_len) in case it passed the
++sanity checks.
++
++This prevents other code (do_token_{in,out} functions specifically)
++from working with invalid USBDevice->setup_len values and overrunning
++the USBDevice->setup_buf[] buffer.
++
++Fixes: CVE-2020-14364
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Tested-by: Gonglei <arei.gonglei@huawei.com>
++Reviewed-by: Li Qiang <liq3ea@gmail.com>
++Message-id: 20200825053636.29648-1-kraxel@redhat.com
++
++Upstream-Status: Backport
++CVE: CVE-2020-14364
++[https://git.qemu.org/?p=qemu.git;a=patch;h=b946434f2659a182afc17e155be6791ebfb302eb]
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ hw/usb/core.c | 16 ++++++++++------
++ 1 file changed, 10 insertions(+), 6 deletions(-)
++
++diff --git a/hw/usb/core.c b/hw/usb/core.c
++index 5abd128..5234dcc 100644
++--- a/hw/usb/core.c
+++++ b/hw/usb/core.c
++@@ -129,6 +129,7 @@ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
++ static void do_token_setup(USBDevice *s, USBPacket *p)
++ {
++     int request, value, index;
+++    unsigned int setup_len;
++ 
++     if (p->iov.size != 8) {
++         p->status = USB_RET_STALL;
++@@ -138,14 +139,15 @@ static void do_token_setup(USBDevice *s, USBPacket *p)
++     usb_packet_copy(p, s->setup_buf, p->iov.size);
++     s->setup_index = 0;
++     p->actual_length = 0;
++-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
++-    if (s->setup_len > sizeof(s->data_buf)) {
+++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
+++    if (setup_len > sizeof(s->data_buf)) {
++         fprintf(stderr,
++                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
++-                s->setup_len, sizeof(s->data_buf));
+++                setup_len, sizeof(s->data_buf));
++         p->status = USB_RET_STALL;
++         return;
++     }
+++    s->setup_len = setup_len;
++ 
++     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
++     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
++@@ -259,26 +261,28 @@ static void do_token_out(USBDevice *s, USBPacket *p)
++ static void do_parameter(USBDevice *s, USBPacket *p)
++ {
++     int i, request, value, index;
+++    unsigned int setup_len;
++ 
++     for (i = 0; i < 8; i++) {
++         s->setup_buf[i] = p->parameter >> (i*8);
++     }
++ 
++     s->setup_state = SETUP_STATE_PARAM;
++-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
++     s->setup_index = 0;
++ 
++     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
++     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
++     index   = (s->setup_buf[5] << 8) | s->setup_buf[4];
++ 
++-    if (s->setup_len > sizeof(s->data_buf)) {
+++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
+++    if (setup_len > sizeof(s->data_buf)) {
++         fprintf(stderr,
++                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
++-                s->setup_len, sizeof(s->data_buf));
+++                setup_len, sizeof(s->data_buf));
++         p->status = USB_RET_STALL;
++         return;
++     }
+++    s->setup_len = setup_len;
++ 
++     if (p->pid == USB_TOKEN_OUT) {
++         usb_packet_copy(p, s->data_buf, s->setup_len);
++-- 
++2.17.1
++
+-- 
+2.17.1
 
-> 
-> Cheers,
-> 
-> Richard
-> 
