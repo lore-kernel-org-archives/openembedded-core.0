@@ -1,104 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.553.1599234165986939993
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web12.12821.1599283053405562354
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2020 08:42:46 -0700
+ Fri, 04 Sep 2020 22:17:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E24E0113E
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2020 08:42:44 -0700 (PDT)
-Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 853A63F66F
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2020 08:42:44 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] help2man: rewrite recipe
-Date: Fri,  4 Sep 2020 16:42:36 +0100
-Message-Id: <20200904154236.2112029-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qbg//ifj;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id 19so4909387qtp.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2020 22:17:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=SStGdl3HkhLajmVcxQ89FKkFa1eq4QRyE/4A35JuEZw=;
+        b=Qbg//ifjrfg0Ii3trTv9HrVmHqFVlhxIleJZj5SP9BfNQtQivLy5dtD5btAbg21RoQ
+         ZRnkixidAXSEJ8Npk1CDbmjftZ1kRa9o/TwJufa1E/spa2hGnQEZ1noz87C3PvqVogWX
+         MdCiy4+EZFOkEs+KUPeyesYnNnExUNlvjrxK4ooursvkkzaizH4TeBLIRSXZviaRIO9K
+         GUpHDfe9z81+pUMxL09UtiTuB2WA3QlpB6dgQjHgXTCxa72952pOJDVA4S8j45qAbYSe
+         9CzJ3gdV+ZS0B0H9PmoCmLPTQvKE1iGzOywL4uTeKzRB3B6GqGUY06QvPMgRmZu7IquM
+         tCsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=SStGdl3HkhLajmVcxQ89FKkFa1eq4QRyE/4A35JuEZw=;
+        b=EQ5FCiqcid6xa8dyv2EiA2LjvuRUKHsGJ9u/5fk3Mg+czMRqCbqhmCZ5wEuWENPzHn
+         Vo5UDjAvOuAtIfq5ywMNIj2EdZqRij2OrfZSa/IcIHpoahdyBQYUOl2XaDoR1hntMyXY
+         ZjFo+Ymtcz8nIHaCiITKHRLHQCGu8k2MVC/V/ftlw9SViLpraue3RolCqDflk7eZUrHx
+         9nZB2egeZuVx8dbot8SF9GI0l5Lmwo3MwVRxDA1WvenHVMt2iohsY0zQ859DDYdHu1nT
+         6tSokycwTXp2EFxfhamrq7I4rWepKO4GCwy5kWVXq/kvR/xKDCT2vsfIjR+mDa+qpwJE
+         Utzg==
+X-Gm-Message-State: AOAM530UKW7FZJx5G7nnalt6098ZGvMw5sAVuPyqpqsOelZac5+IEt4Q
+	pf9Z8tKX4UvkcFTvVuSq0ce6yN3rTjDdRH3q3UL4OrojatsGUQ==
+X-Google-Smtp-Source: ABdhPJxTQ8GKB3+/68NCH04LUHYujifM2wRJ93Vy5as7MbhQ7n2Ky+b2uNr34YSk3ofvDUf8LAgkFrk9teZduLoZneA=
+X-Received: by 2002:ac8:120a:: with SMTP id x10mr3618093qti.88.1599283052197;
+ Fri, 04 Sep 2020 22:17:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 4 Sep 2020 22:17:06 -0700
+Message-ID: <CAMKF1srFUkD9s+5628fb_xeRTy9KQEwWQT8esK5dsQOqDL1MiA@mail.gmail.com>
+Subject: core-image-weston testimage fails
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This recipe was originally explicitly minimal because it was needed to
-bootstrap autotools, but that isn't the case anymore.
+Hi Alex
 
-Instead of being explicitly native, use BBCLASSEXTEND.
+I am seeing below error with core-image-weston/qemuarm64 using oe-core
+master. Any ideas before I debug this?
 
-No need to explicitly depend on autoconf-native automake-native, because
-the autotools class does that.
-
-As this recipe isn't needed in early build anymore there's no need to
-avoid reconfiguring.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/conf/distro/include/maintainers.inc          |  2 +-
- ...2man-native_1.47.15.bb =3D> help2man_1.47.15.bb} | 15 +++++++--------
- 2 files changed, 8 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.15.bb =3D> h=
-elp2man_1.47.15.bb} (71%)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 9f80970309..a094b39b2a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -255,7 +255,7 @@ RECIPE_MAINTAINER_pn-gtk-doc =3D "Alexander Kanavin <=
-alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-gzip =3D "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-harfbuzz =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-hdparm =3D "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-help2man-native =3D "Hongxu Jia <hongxu.jia@windriv=
-er.com>"
-+RECIPE_MAINTAINER_pn-help2man =3D "Hongxu Jia <hongxu.jia@windriver.com>=
-"
- RECIPE_MAINTAINER_pn-hicolor-icon-theme =3D "Anuj Mittal <anuj.mittal@in=
-tel.com>"
- RECIPE_MAINTAINER_pn-hwlatdetect =3D "Alexander Kanavin <alex.kanavin@gm=
-ail.com>"
- RECIPE_MAINTAINER_pn-i2c-tools =3D "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb b/=
-meta/recipes-devtools/help2man/help2man_1.47.15.bb
-similarity index 71%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-rename to meta/recipes-devtools/help2man/help2man_1.47.15.bb
-index 4f80a2bdb1..6ab9f6cbe7 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.47.15.bb
-@@ -2,22 +2,21 @@ SUMMARY =3D "Program for creating simple man pages"
- SECTION =3D "devel"
- LICENSE =3D "GPLv3"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440=
-464"
--DEPENDS =3D "autoconf-native automake-native"
-=20
- SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
- SRC_URI[sha256sum] =3D "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f=
-1ee762f001dbcd1c"
-=20
--inherit autotools native
-+inherit autotools
-=20
--EXTRA_OECONF =3D "--disable-nls"
-+# This is a hand-maintained aclocal.m4 but our autotools class currently=
- deletes
-+# aclocal.m4.
-+EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
-=20
--# We don't want to reconfigure things as it would require 'perlnative' t=
-o be
--# used.
--do_configure() {
--	oe_runconf
--}
-+EXTRA_OECONF =3D "--disable-nls"
-=20
- do_install_append () {
- 	# Make sure we use /usr/bin/env perl
- 	sed -i -e "1s:#!.*:#! /usr/bin/env perl:" ${D}${bindir}/help2man
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.28.0
-
+NOTE: ======================================================================
+NOTE: FAIL: test_weston_can_initialize_new_wayland_compositor
+(weston.WestonTest)
+NOTE: ----------------------------------------------------------------------
+NOTE: Traceback (most recent call last):
+  File "/mnt/b/yoe/master/sources/openembedded-core/meta/lib/oeqa/core/decorator/__init__.py",
+line 36, in wrapped_f
+    return func(*args, **kwargs)
+  File "/mnt/b/yoe/master/sources/openembedded-core/meta/lib/oeqa/runtime/cases/weston.py",
+line 69, in test_weston_can_initialize_new_wayland_compositor
+    self.assertTrue(new_wl_processes, msg='Could not get new
+weston-desktop-shell processes (%s, try_cnt:%s) weston log: %s' %
+(new_wl_processes, try_cnt, weston_log))
+AssertionError: [] is not true : Could not get new
+weston-desktop-shell processes ([], try_cnt:5) weston log: Date:
+2020-09-05 UTC
+[05:06:35.986] weston 8.0.0
+               https://wayland.freedesktop.org
+               Bug reports to:
+https://gitlab.freedesktop.org/wayland/weston/issues/
+               Build: 8.0.0
+[05:06:35.988] Command line: weston --log=/tmp/weston.log
+[05:06:35.989] OS: Linux, 5.8.5-yocto-standard, #1 SMP PREEMPT Thu Sep
+3 20:37:49 UTC 2020, aarch64
+[05:06:35.991] Using config file '/etc/xdg/weston/weston.ini'
+[05:06:35.994] Output repaint window is 7 ms maximum.
+[05:06:35.997] Loading module '/usr/lib/libweston-8/fbdev-backend.so'
+[05:06:36.004] initializing fbdev backend
+[05:06:36.029] logind: not running in a systemd session
+[05:06:36.029] logind: cannot setup systemd-logind helper (-61), using
+legacy fallback
+[05:06:36.029] <stdin> not a vt
+[05:06:36.029] if running weston from ssh, use --tty to specify a tty
+[05:06:36.030] fatal: fbdev backend should be run using weston-launch
+binary, or your system should provide the logind D-Bus API.
+[05:06:36.030] fatal: failed to create compositor backend
