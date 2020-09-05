@@ -1,176 +1,85 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web11.14142.1599291719859186100
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.17120.1599308756505778260
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2020 00:42:00 -0700
+ Sat, 05 Sep 2020 05:25:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 2500740BAB;
-	Sat,  5 Sep 2020 07:41:59 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gzYPuF5YLyzc; Sat,  5 Sep 2020 07:41:59 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 04AAC40AB7;
-	Sat,  5 Sep 2020 07:41:57 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 60F4D173085;
-	Sat,  5 Sep 2020 03:41:57 -0400 (EDT)
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] weston: upgrade 8.0.0 -> 9.0.0
-Date: Sat,  5 Sep 2020 03:41:47 -0400
-Message-Id: <1599291707-36225-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FYDzG29p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id o21so9173217wmc.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2020 05:25:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=z9ldmg6GQPKJzRUzoNZuZyIx4qB7jyjVJn/tKftbKEk=;
+        b=FYDzG29pvjqmCex8znwXve4M1rY9vH5vUstwwSNQ+GjYedzox/YoB2kbbCI6NgKTYA
+         dWldN9kTrygskWSmx/ympwSUFvGAgRDwkHAPUiX8u2dtJW/XGh4JpuDaWakW6OVtV+Ej
+         eQjCEStPxM0vKhBN+n1RsndOakefNZeQ6jctE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=z9ldmg6GQPKJzRUzoNZuZyIx4qB7jyjVJn/tKftbKEk=;
+        b=ZM5dwL6dALuK1bOAiJcqygW1mYPMHOWZs9jLZU5uHjWKk+QGNQMvKJwUQ5dderTw7t
+         HkBVssiHmnhw34fwu8rZeZie2scku1CSJEx22yWnuumVNpz3c7Mh+ogRijYJLSvcCTLn
+         U+hXwdlwYgh7kQYYRL+4o/CetPz338p08ptEoXO8dAtNRvT061TKbosDvRYfmTFOy4HI
+         GztDagCSpQCNYvRPdO8+9NHaMl5MRf2KhM7vFvs2WWcDxLKbwoZuXeaCWd445VTM2iNS
+         id5HD1UPj3XhZdZQP/0kTZWTsfCFGtzpGxYPCoJrMb7tEU3268a2oUeztxF1odqcXkdC
+         1cbg==
+X-Gm-Message-State: AOAM532eT0M0hmMwBmkjTsA86/v8qtUu9IwAondNkwxk3jpxVDn6F3c3
+	kQNWyft0YyohUcAdctm9GB7PcqSKtw2OrQ==
+X-Google-Smtp-Source: ABdhPJxhVVfzXhNwDcXOO0PyWS6V3coF5MIe2RRy/pOkUWTytiPyTgJtSSJ7lpamM64OJAHI+Dk50w==
+X-Received: by 2002:a7b:c095:: with SMTP id r21mr12780570wmh.133.1599308754521;
+        Sat, 05 Sep 2020 05:25:54 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.f.d.f.5.0.6.0.0.2.6.1.6.b.c.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7cb6:1620:605:fdfd])
+        by smtp.gmail.com with ESMTPSA id w15sm17042510wro.46.2020.09.05.05.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2020 05:25:54 -0700 (PDT)
+Message-ID: <07b8b687efaf8b72a23210d44292acbe9a36a066.camel@linuxfoundation.org>
+Subject: Autobuilder qemu process nice/ionice levels
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	yocto-infrastructure <yocto-infrastructure@lists.yoctoproject.org>
+Cc: Michael Halstead <mhalstead@linuxfoundation.org>, "MacLeod, Randy
+	(Wind River)" <randy.macleod@windriver.com>
+Date: Sat, 05 Sep 2020 13:25:49 +0100
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+Hi All,
 
-Weston 9.0.0 is released! This release cycle has been pretty quiet,
-with just a few new features:
+As many will know we're having issues with the qemu processes seeming
+to suffer resource starvation on the autobuilder. We currently try and
+lower the nice/ionice of builds but watching iotop during a build shows
+there are a lot of things which don't see that, including:
 
-- A new kiosk shell allows to display regular desktop apps in an
-  always-fullscreen mode
-- Improved testing infrastructure: the test harness has been
-  redesigned, DRM tests are now supported, DRM and OpenGL tests are now
-  enabled in our CI
-- DRM panel orientation property support
+* devtool kernel test builds
+* bitbake parsing
+* oe-selftest outside of the actual bitbake task execution
 
-As always, a number of bug fixes are included as well.
-https://lists.freedesktop.org/archives/wayland-devel/2020-September/041595.html
+We're simply not going to be able to renice in all these cases.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- ...ch-Provide-a-default-version-that-doesn-t.patch | 27 +++++++++++-----------
- .../wayland/{weston_8.0.0.bb => weston_9.0.0.bb}   |  3 +--
- 2 files changed, 15 insertions(+), 15 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_8.0.0.bb => weston_9.0.0.bb} (97%)
+In case people aren't familiar, you can "nice" down but once down, you
+can't nice back up. This means we can't just raise the priority of qemu
+and lower everything else at startup.
 
-diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-index 62b864c..3279a72 100644
---- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-@@ -1,7 +1,8 @@
--From 5f2d71998eb77068cbaee2d468cbb296a42d5739 Mon Sep 17 00:00:00 2001
-+From a1548c742bf2dedbb47282d8a00407b60bbab669 Mon Sep 17 00:00:00 2001
- From: Tom Hochstein <tom.hochstein@nxp.com>
- Date: Wed, 22 Feb 2017 15:53:30 +0200
- Subject: [PATCH] weston-launch: Provide a default version that doesn't require
-+
-  PAM
- 
- weston-launch requires PAM for starting weston as a non-root user.
-@@ -57,7 +58,7 @@ index 08d23ec..cb9fd3f 100644
-  		install: true
-  	)
- diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
--index 8a711b4..54c567a 100644
-+index 521cb2c..2d42d33 100644
- --- a/libweston/weston-launch.c
- +++ b/libweston/weston-launch.c
- @@ -51,7 +51,9 @@
-@@ -97,7 +98,7 @@ index 8a711b4..54c567a 100644
-  
-  static int
-  setup_launcher_socket(struct weston_launch *wl)
--@@ -431,6 +437,7 @@ quit(struct weston_launch *wl, int status)
-+@@ -466,6 +472,7 @@ quit(struct weston_launch *wl, int status)
-  	close(wl->signalfd);
-  	close(wl->sock[0]);
-  
-@@ -105,15 +106,15 @@ index 8a711b4..54c567a 100644
-  	if (wl->new_user) {
-  		err = pam_close_session(wl->ph, 0);
-  		if (err)
--@@ -438,6 +445,7 @@ quit(struct weston_launch *wl, int status)
-+@@ -473,6 +480,7 @@ quit(struct weston_launch *wl, int status)
-  				err, pam_strerror(wl->ph, err));
-  		pam_end(wl->ph, err);
-  	}
- +#endif
-  
-- 	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
-- 	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
--@@ -666,6 +674,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-+ 	/*
-+ 	 * Get a fresh handle to the tty as the previous one is in
-+@@ -710,6 +718,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-  	setenv("HOME", wl->pw->pw_dir, 1);
-  	setenv("SHELL", wl->pw->pw_shell, 1);
-  
-@@ -121,7 +122,7 @@ index 8a711b4..54c567a 100644
-  	env = pam_getenvlist(wl->ph);
-  	if (env) {
-  		for (i = 0; env[i]; ++i) {
--@@ -674,6 +683,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-+@@ -718,6 +727,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-  		}
-  		free(env);
-  	}
-@@ -129,7 +130,7 @@ index 8a711b4..54c567a 100644
-  
-  	/*
-  	 * We open a new session, so it makes sense
--@@ -745,8 +755,10 @@ static void
-+@@ -789,8 +799,10 @@ static void
-  help(const char *name)
-  {
-  	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
-@@ -140,7 +141,7 @@ index 8a711b4..54c567a 100644
-  	fprintf(stderr, "  -t, --tty       Start session on alternative tty,\n"
-  			"                  e.g. -t /dev/tty4, requires -u option.\n");
-  	fprintf(stderr, "  -v, --verbose   Be verbose\n");
--@@ -760,7 +772,9 @@ main(int argc, char *argv[])
-+@@ -804,7 +816,9 @@ main(int argc, char *argv[])
-  	int i, c;
-  	char *tty = NULL;
-  	struct option opts[] = {
-@@ -150,7 +151,7 @@ index 8a711b4..54c567a 100644
-  		{ "tty",     required_argument, NULL, 't' },
-  		{ "verbose", no_argument,       NULL, 'v' },
-  		{ "help",    no_argument,       NULL, 'h' },
--@@ -772,11 +786,16 @@ main(int argc, char *argv[])
-+@@ -816,11 +830,16 @@ main(int argc, char *argv[])
-  	while ((c = getopt_long(argc, argv, "u:t:vh", opts, &i)) != -1) {
-  		switch (c) {
-  		case 'u':
-@@ -167,7 +168,7 @@ index 8a711b4..54c567a 100644
-  			break;
-  		case 't':
-  			tty = optarg;
--@@ -828,8 +847,10 @@ main(int argc, char *argv[])
-+@@ -872,8 +891,10 @@ main(int argc, char *argv[])
-  	if (setup_tty(&wl, tty) < 0)
-  		exit(EXIT_FAILURE);
-  
-@@ -179,7 +180,7 @@ index 8a711b4..54c567a 100644
-  	if (setup_launcher_socket(&wl) < 0)
-  		exit(EXIT_FAILURE);
- diff --git a/meson_options.txt b/meson_options.txt
--index c862ecc..73ef2c3 100644
-+index 239bd2d..99e4ec3 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
- @@ -73,6 +73,13 @@ option(
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/weston_8.0.0.bb
-rename to meta/recipes-graphics/wayland/weston_9.0.0.bb
-index 8fef864..7b38688 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -11,8 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
--SRC_URI[md5sum] = "53e4810d852df0601d01fd986a5b22b3"
--SRC_URI[sha256sum] = "7518b49b2eaa1c3091f24671bdcc124fd49fc8f1af51161927afa4329c027848"
-+SRC_URI[sha256sum] = "5cf5d6ce192e0eb15c1fc861a436bf21b5bb3b91dbdabbdebe83e1f83aa098fe"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
--- 
-2.7.4
+I have a new proposal. I think we should install a file onto the
+autobuilder workers as ~/runqemu-renice and on that, run "sudo setcap
+'cap_sys_nice=eip'". We then add in some code to runqemu such that if
+this file exists, it runs it as "runqemu-renice <runqemu pid>".
+
+This file will renice/ionice the specified process to -10 nice and 1/be
+ionice, probably as a python script.
+
+It should be simple, minimally invasive, backportable, as secure as it
+can be and hopefully not too much trouble for Michael to setup.
+
+Any concerns/comments (particularly from Michael)?
+
+Cheers,
+
+Richard
 
