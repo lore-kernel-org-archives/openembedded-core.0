@@ -1,203 +1,176 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web12.13932.1599290418029949315
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.14142.1599291719859186100
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2020 00:20:18 -0700
+ Sat, 05 Sep 2020 00:42:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tEz+kwTJ;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id y194so4867397vsc.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2020 00:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bemalbLWm1NkDPkWf+PpOqrG8yD39b3vFoYZ9f42TpI=;
-        b=tEz+kwTJzBsiSRbnnKzvK0yslBfXSuC0IbwRlYEUJ+kP1iNUB7OG4JvyDyHJ0YtnhO
-         ScNSDUYk6YtpMYnQXkIPkLnRhzkp6U0f+nGIrTFfoXE3mBf0fyCSWUHS/ag5cIC8GaWq
-         eHQpXC+1WYZ0ZJgUMLMGceT7NGIFf6EUaqej/g5tLMm3Jl1OWz1guy1RKfX1tBbPbqnX
-         z5ql9c6cFHd6vCuOEH8Ugp1j8giojDTvISzvgwZ+VlvSQrEtUYYtGhIqq+zIWub7c/MN
-         iIqeyV2NByb8cPO6SqsG8OpQc9dEK2xGmk6MCTDCq8ta+DS28RazY5KKq8SosHNhdZCL
-         HWow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bemalbLWm1NkDPkWf+PpOqrG8yD39b3vFoYZ9f42TpI=;
-        b=CH0eGixLQF+FlE7ioWhGAkkoYzvb7qODXqOb9AGTHTk8plcNGTW3PQamK1AvzRq4ch
-         zqMtInAiBoBnJSibPgj2qQLeSFqQrtnmdZG1bYXSB9Zpk4EUVop08xlzJTRWarNUadgj
-         xWfvxwkOY3BBOHAU8j1rsDmME9+VuX4L4tcbM+nsL+F8MMSFJxZCVtOsheXO8GDd5Fcl
-         lXchIGlnP4uH5o54siq1ii5m6xFTgdMUei6mNmdxy73MsMrVV+zRUwGnrOJc7h2rWeDU
-         0XVDdGo8HoWVd6zjyCc7kX6iyMlykdrkuBctUdhh6X+aPjUQcNaiCrCtvDJrQQ1vuXr5
-         eMvg==
-X-Gm-Message-State: AOAM532SdhI2LkJLw0dLsfEJ/he5bH+O4NSizkUIiK18daAsau+HysZr
-	RuA0BrIQm9xBk0MOdGWVxp1q7TlVnza4aHAv88c=
-X-Google-Smtp-Source: ABdhPJx2VGZJtXtuxDnNXs3dZeMEHFC4fw/hCSOJeaR7Zu8BVwqBz4GgvMVSnymmEvPL44AkdTyu9imTNdu4/4H7dRc=
-X-Received: by 2002:a67:6bc7:: with SMTP id g190mr8461866vsc.145.1599290417025;
- Sat, 05 Sep 2020 00:20:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAMKF1srFUkD9s+5628fb_xeRTy9KQEwWQT8esK5dsQOqDL1MiA@mail.gmail.com>
-In-Reply-To: <CAMKF1srFUkD9s+5628fb_xeRTy9KQEwWQT8esK5dsQOqDL1MiA@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 5 Sep 2020 09:20:06 +0200
-Message-ID: <CANNYZj-vBN0cT+R5ry700Hb4apCV8R6=y_RT_4b09xPB3xTFQw@mail.gmail.com>
-Subject: Re: core-image-weston testimage fails
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003316dd05ae8bd183"
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2500740BAB;
+	Sat,  5 Sep 2020 07:41:59 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gzYPuF5YLyzc; Sat,  5 Sep 2020 07:41:59 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 04AAC40AB7;
+	Sat,  5 Sep 2020 07:41:57 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id 60F4D173085;
+	Sat,  5 Sep 2020 03:41:57 -0400 (EDT)
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] weston: upgrade 8.0.0 -> 9.0.0
+Date: Sat,  5 Sep 2020 03:41:47 -0400
+Message-Id: <1599291707-36225-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
 
---0000000000003316dd05ae8bd183
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Denys Dmytriyenko <denys@ti.com>
 
-Hello Khem,
+Weston 9.0.0 is released! This release cycle has been pretty quiet,
+with just a few new features:
 
-No idea, other than maybe it=E2=80=99s a out of memory situation?
+- A new kiosk shell allows to display regular desktop apps in an
+  always-fullscreen mode
+- Improved testing infrastructure: the test harness has been
+  redesigned, DRM tests are now supported, DRM and OpenGL tests are now
+  enabled in our CI
+- DRM panel orientation property support
 
-Alex
+As always, a number of bug fixes are included as well.
+https://lists.freedesktop.org/archives/wayland-devel/2020-September/041595.html
 
-On Sat 5. Sep 2020 at 7.17, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 27 +++++++++++-----------
+ .../wayland/{weston_8.0.0.bb => weston_9.0.0.bb}   |  3 +--
+ 2 files changed, 15 insertions(+), 15 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_8.0.0.bb => weston_9.0.0.bb} (97%)
 
-> Hi Alex
->
->
->
-> I am seeing below error with core-image-weston/qemuarm64 using oe-core
->
-> master. Any ideas before I debug this?
->
->
->
-> NOTE:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> NOTE: FAIL: test_weston_can_initialize_new_wayland_compositor
->
-> (weston.WestonTest)
->
-> NOTE:
-> ----------------------------------------------------------------------
->
-> NOTE: Traceback (most recent call last):
->
->   File
-> "/mnt/b/yoe/master/sources/openembedded-core/meta/lib/oeqa/core/decorator=
-/__init__.py",
->
-> line 36, in wrapped_f
->
->     return func(*args, **kwargs)
->
->   File
-> "/mnt/b/yoe/master/sources/openembedded-core/meta/lib/oeqa/runtime/cases/=
-weston.py",
->
-> line 69, in test_weston_can_initialize_new_wayland_compositor
->
->     self.assertTrue(new_wl_processes, msg=3D'Could not get new
->
-> weston-desktop-shell processes (%s, try_cnt:%s) weston log: %s' %
->
-> (new_wl_processes, try_cnt, weston_log))
->
-> AssertionError: [] is not true : Could not get new
->
-> weston-desktop-shell processes ([], try_cnt:5) weston log: Date:
->
-> 2020-09-05 UTC
->
-> [05:06:35.986] weston 8.0.0
->
->                https://wayland.freedesktop.org
->
->                Bug reports to:
->
-> https://gitlab.freedesktop.org/wayland/weston/issues/
->
->                Build: 8.0.0
->
-> [05:06:35.988] Command line: weston --log=3D/tmp/weston.log
->
-> [05:06:35.989] OS: Linux, 5.8.5-yocto-standard, #1 SMP PREEMPT Thu Sep
->
-> 3 20:37:49 UTC 2020, aarch64
->
-> [05:06:35.991] Using config file '/etc/xdg/weston/weston.ini'
->
-> [05:06:35.994] Output repaint window is 7 ms maximum.
->
-> [05:06:35.997] Loading module '/usr/lib/libweston-8/fbdev-backend.so'
->
-> [05:06:36.004] initializing fbdev backend
->
-> [05:06:36.029] logind: not running in a systemd session
->
-> [05:06:36.029] logind: cannot setup systemd-logind helper (-61), using
->
-> legacy fallback
->
-> [05:06:36.029] <stdin> not a vt
->
-> [05:06:36.029] if running weston from ssh, use --tty to specify a tty
->
-> [05:06:36.030] fatal: fbdev backend should be run using weston-launch
->
-> binary, or your system should provide the logind D-Bus API.
->
-> [05:06:36.030] fatal: failed to create compositor backend
->
->
+diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+index 62b864c..3279a72 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+@@ -1,7 +1,8 @@
+-From 5f2d71998eb77068cbaee2d468cbb296a42d5739 Mon Sep 17 00:00:00 2001
++From a1548c742bf2dedbb47282d8a00407b60bbab669 Mon Sep 17 00:00:00 2001
+ From: Tom Hochstein <tom.hochstein@nxp.com>
+ Date: Wed, 22 Feb 2017 15:53:30 +0200
+ Subject: [PATCH] weston-launch: Provide a default version that doesn't require
++
+  PAM
+ 
+ weston-launch requires PAM for starting weston as a non-root user.
+@@ -57,7 +58,7 @@ index 08d23ec..cb9fd3f 100644
+  		install: true
+  	)
+ diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
+-index 8a711b4..54c567a 100644
++index 521cb2c..2d42d33 100644
+ --- a/libweston/weston-launch.c
+ +++ b/libweston/weston-launch.c
+ @@ -51,7 +51,9 @@
+@@ -97,7 +98,7 @@ index 8a711b4..54c567a 100644
+  
+  static int
+  setup_launcher_socket(struct weston_launch *wl)
+-@@ -431,6 +437,7 @@ quit(struct weston_launch *wl, int status)
++@@ -466,6 +472,7 @@ quit(struct weston_launch *wl, int status)
+  	close(wl->signalfd);
+  	close(wl->sock[0]);
+  
+@@ -105,15 +106,15 @@ index 8a711b4..54c567a 100644
+  	if (wl->new_user) {
+  		err = pam_close_session(wl->ph, 0);
+  		if (err)
+-@@ -438,6 +445,7 @@ quit(struct weston_launch *wl, int status)
++@@ -473,6 +480,7 @@ quit(struct weston_launch *wl, int status)
+  				err, pam_strerror(wl->ph, err));
+  		pam_end(wl->ph, err);
+  	}
+ +#endif
+  
+- 	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
+- 	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
+-@@ -666,6 +674,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++ 	/*
++ 	 * Get a fresh handle to the tty as the previous one is in
++@@ -710,6 +718,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  	setenv("HOME", wl->pw->pw_dir, 1);
+  	setenv("SHELL", wl->pw->pw_shell, 1);
+  
+@@ -121,7 +122,7 @@ index 8a711b4..54c567a 100644
+  	env = pam_getenvlist(wl->ph);
+  	if (env) {
+  		for (i = 0; env[i]; ++i) {
+-@@ -674,6 +683,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++@@ -718,6 +727,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  		}
+  		free(env);
+  	}
+@@ -129,7 +130,7 @@ index 8a711b4..54c567a 100644
+  
+  	/*
+  	 * We open a new session, so it makes sense
+-@@ -745,8 +755,10 @@ static void
++@@ -789,8 +799,10 @@ static void
+  help(const char *name)
+  {
+  	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
+@@ -140,7 +141,7 @@ index 8a711b4..54c567a 100644
+  	fprintf(stderr, "  -t, --tty       Start session on alternative tty,\n"
+  			"                  e.g. -t /dev/tty4, requires -u option.\n");
+  	fprintf(stderr, "  -v, --verbose   Be verbose\n");
+-@@ -760,7 +772,9 @@ main(int argc, char *argv[])
++@@ -804,7 +816,9 @@ main(int argc, char *argv[])
+  	int i, c;
+  	char *tty = NULL;
+  	struct option opts[] = {
+@@ -150,7 +151,7 @@ index 8a711b4..54c567a 100644
+  		{ "tty",     required_argument, NULL, 't' },
+  		{ "verbose", no_argument,       NULL, 'v' },
+  		{ "help",    no_argument,       NULL, 'h' },
+-@@ -772,11 +786,16 @@ main(int argc, char *argv[])
++@@ -816,11 +830,16 @@ main(int argc, char *argv[])
+  	while ((c = getopt_long(argc, argv, "u:t:vh", opts, &i)) != -1) {
+  		switch (c) {
+  		case 'u':
+@@ -167,7 +168,7 @@ index 8a711b4..54c567a 100644
+  			break;
+  		case 't':
+  			tty = optarg;
+-@@ -828,8 +847,10 @@ main(int argc, char *argv[])
++@@ -872,8 +891,10 @@ main(int argc, char *argv[])
+  	if (setup_tty(&wl, tty) < 0)
+  		exit(EXIT_FAILURE);
+  
+@@ -179,7 +180,7 @@ index 8a711b4..54c567a 100644
+  	if (setup_launcher_socket(&wl) < 0)
+  		exit(EXIT_FAILURE);
+ diff --git a/meson_options.txt b/meson_options.txt
+-index c862ecc..73ef2c3 100644
++index 239bd2d..99e4ec3 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+ @@ -73,6 +73,13 @@ option(
+diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/weston_8.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_9.0.0.bb
+index 8fef864..7b38688 100644
+--- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -11,8 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+ "
+-SRC_URI[md5sum] = "53e4810d852df0601d01fd986a5b22b3"
+-SRC_URI[sha256sum] = "7518b49b2eaa1c3091f24671bdcc124fd49fc8f1af51161927afa4329c027848"
++SRC_URI[sha256sum] = "5cf5d6ce192e0eb15c1fc861a436bf21b5bb3b91dbdabbdebe83e1f83aa098fe"
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-- 
+2.7.4
 
---0000000000003316dd05ae8bd183
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hello Khem,</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">No idea, other than maybe it=E2=80=99s a out of memory situation?</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat 5. Sep 2020=
- at 7.17, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding=
--left:1ex;border-left-color:rgb(204,204,204)">Hi Alex<br><br><br><br>I am s=
-eeing below error with core-image-weston/qemuarm64 using oe-core<br><br>mas=
-ter. Any ideas before I debug this?<br><br><br><br>NOTE: =3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br><br>NOTE: FAIL: test_weston_c=
-an_initialize_new_wayland_compositor<br><br>(weston.WestonTest)<br><br>NOTE=
-: ----------------------------------------------------------------------<br=
-><br>NOTE: Traceback (most recent call last):<br><br>=C2=A0 File &quot;/mnt=
-/b/yoe/master/sources/openembedded-core/meta/lib/oeqa/core/decorator/__init=
-__.py&quot;,<br><br>line 36, in wrapped_f<br><br>=C2=A0 =C2=A0 return func(=
-*args, **kwargs)<br><br>=C2=A0 File &quot;/mnt/b/yoe/master/sources/openemb=
-edded-core/meta/lib/oeqa/runtime/cases/weston.py&quot;,<br><br>line 69, in =
-test_weston_can_initialize_new_wayland_compositor<br><br>=C2=A0 =C2=A0 self=
-.assertTrue(new_wl_processes, msg=3D&#39;Could not get new<br><br>weston-de=
-sktop-shell processes (%s, try_cnt:%s) weston log: %s&#39; %<br><br>(new_wl=
-_processes, try_cnt, weston_log))<br><br>AssertionError: [] is not true : C=
-ould not get new<br><br>weston-desktop-shell processes ([], try_cnt:5) west=
-on log: Date:<br><br>2020-09-05 UTC<br><br>[05:06:35.986] weston 8.0.0<br><=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https:=
-//wayland.freedesktop.org" rel=3D"noreferrer" target=3D"_blank">https://way=
-land.freedesktop.org</a><br><br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0Bug reports to:<br><br><a href=3D"https://gitlab.freedesktop.o=
-rg/wayland/weston/issues/" rel=3D"noreferrer" target=3D"_blank">https://git=
-lab.freedesktop.org/wayland/weston/issues/</a><br><br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Build: 8.0.0<br><br>[05:06:35.988] Comman=
-d line: weston --log=3D/tmp/weston.log<br><br>[05:06:35.989] OS: Linux, 5.8=
-.5-yocto-standard, #1 SMP PREEMPT Thu Sep<br><br>3 20:37:49 UTC 2020, aarch=
-64<br><br>[05:06:35.991] Using config file &#39;/etc/xdg/weston/weston.ini&=
-#39;<br><br>[05:06:35.994] Output repaint window is 7 ms maximum.<br><br>[0=
-5:06:35.997] Loading module &#39;/usr/lib/libweston-8/fbdev-backend.so&#39;=
-<br><br>[05:06:36.004] initializing fbdev backend<br><br>[05:06:36.029] log=
-ind: not running in a systemd session<br><br>[05:06:36.029] logind: cannot =
-setup systemd-logind helper (-61), using<br><br>legacy fallback<br><br>[05:=
-06:36.029] &lt;stdin&gt; not a vt<br><br>[05:06:36.029] if running weston f=
-rom ssh, use --tty to specify a tty<br><br>[05:06:36.030] fatal: fbdev back=
-end should be run using weston-launch<br><br>binary, or your system should =
-provide the logind D-Bus API.<br><br>[05:06:36.030] fatal: failed to create=
- compositor backend<br><br></blockquote></div></div>
-
---0000000000003316dd05ae8bd183--
