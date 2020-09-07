@@ -1,72 +1,107 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.6535.1599512013352875712
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.6541.1599512014398408928
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 13:53:33 -0700
+ Mon, 07 Sep 2020 13:53:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gGPviOZp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id w5so16956296wrp.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OLN+LSJx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id t10so17004170wrv.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PGaE7t9IfBlMcs52rksmlzr9mAK5FZyZ1vx42FlN5Hs=;
-        b=gGPviOZp9rLgSWXo8/Ls3kpqJSu4VCUIm3APD7WIhxAlb5Wzt4GnxmZIWPP0NtltQN
-         67pBofP1CZbDbW4ZnZ6eajgNfS0ceOYL2fLUZ/TXlF2G4vIOWpODQOjubHEiw9ShKANT
-         5A7NCjooOcpTUFPR6C8jLPC1LARbHWEuIKFjE=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=HQha8kV0Xv+L/DMvOCIxautxlAWP5X+VjQkaeu1gPZM=;
+        b=OLN+LSJxUF4DKOoC4im4beChtYD3V6gzMES/aZMvDC61pX6ND6mOB9aoC09SrnHUqW
+         PWWJb80m+Wyw87w+q5k0WnvJtbP4WHyvVUKZSWyW/TEFY2pXF8t3vKN+MdYuzg/VY6om
+         zZLlJ7uEQZPOy4/2Udx2nr91I9HXNoW8cNefs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PGaE7t9IfBlMcs52rksmlzr9mAK5FZyZ1vx42FlN5Hs=;
-        b=H8QNHKW9Y3ypOUfIXri4MOm/4Se12kxarVL9/3MC2JW3qW2rMLBYayjvOuJSqCR6Xc
-         bAuOvfhZFOFclVxtyF1qijVZaMJPFLcIbGXxHWz/PoyEUvK7PfDPxyIiFDNuDS8z2xJz
-         C8wMbqCXa4+RxadZYIjjHdKVO3WfS1dbyly2R4DxoP5g4Zb+4ZC18fhs3hO/eXr2UGcy
-         aMOwlGQspXOqKsU27v9rZjVc2TdCZ14gaqeAEJBSCMv3wLhOL5cSIjMmexgGBge/GJGG
-         H302fP7tAl7hpds8afspcnVVa/wYLHYM4aW4SSSGy9eaCjFhxtg5g2wKNInNTm3rjQLx
-         Q9sQ==
-X-Gm-Message-State: AOAM530nvc+Inn4DsqH8YVpBW7Nk2LEFpaavIAFOGn8c6VJ0fg07VpIB
-	ZSjV0XCdcwGtFH0wLu0+EVZPKZZcRktrQA==
-X-Google-Smtp-Source: ABdhPJzvO09qJOURoeE1S1l7+PAa0bTQgpFSNpvyEuLmCaswTIj7UmiFxXgHBw1W13SgbkUob1eSmQ==
-X-Received: by 2002:a5d:6caf:: with SMTP id a15mr23432458wra.344.1599512011654;
-        Mon, 07 Sep 2020 13:53:31 -0700 (PDT)
+        bh=HQha8kV0Xv+L/DMvOCIxautxlAWP5X+VjQkaeu1gPZM=;
+        b=c4mGAedIQS7T7o61GWsKNziU+C9NbIdAXOMoA7AoobLM9tmcCyShXh1AamIlwhzisQ
+         zcXj+RIpnv+9JA1RaB3NoAwJJvYjpvoNGXHEW4TYuLl4TemevVizcTzIHkQ2U5GEk4VI
+         kH6LAxyArf/P6SpbqwnS/BElJ1X81hbk+rXE7YZ4+LeYg2qkEmpV/jG/NIEy5dMsV3zK
+         fnlZ4dqgZ0mNY5CneGl6MYUC9k2/x2IfBfuavZVtL+sUH0/g6IMaAgynuK7SsTzxIevR
+         zW+t9AFL69bcl1B+30uU++PEOQVOorxb2br81R9Gh98uHzjXSlDzWjRefinNH222AXUx
+         QWjg==
+X-Gm-Message-State: AOAM530GnguYWtKM2zR/nWcyXJF0u7UncoZmsoJVyJ0tFouzOP5WxYN2
+	QKiom9k27tM5SEV7Cl7s2NoD8HZP9xF/FA==
+X-Google-Smtp-Source: ABdhPJy2RL15mUFSt6OH0+rATlW0ucgu+JxUIB3iggENqli4SYuYIOa0kdp2g47Imy8kXlpgB+Y15w==
+X-Received: by 2002:adf:f852:: with SMTP id d18mr23381706wrq.245.1599512012689;
+        Mon, 07 Sep 2020 13:53:32 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.30
+        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 13:53:31 -0700 (PDT)
+        Mon, 07 Sep 2020 13:53:32 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH][zeus 11/19] buildtools-tarball: add nativesdk-python
-Date: Mon,  7 Sep 2020 21:53:13 +0100
-Message-Id: <20200907205321.1941682-12-richard.purdie@linuxfoundation.org>
+Subject: [PATCH][zeus 12/19] glibc: Update nativesdk locale relocation patch
+Date: Mon,  7 Sep 2020 21:53:14 +0100
+Message-Id: <20200907205321.1941682-13-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 References: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+The locale binary reported incorrect locale lists in relocated toolchains
+as some path references were not relocated by this patch. Fix this missing
+relocations so the locale binary correctly reports the locales.
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+(From OE-Core rev: f7a6a72880009380ae81bc7fc863921a26811c8c)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...Make-relocatable-install-for-locales.patch | 35 +++++++++++++++++--
+ 1 file changed, 32 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-index 37f97056139..32a10198c93 100644
---- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -27,6 +27,7 @@ TOOLCHAIN_HOST_TASK += "\
-     nativesdk-libtool \
-     nativesdk-pkgconfig \
-     nativesdk-glibc-utils \
-+    nativesdk-python \
-     "
- 
- TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
+diff --git a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch b/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch
+index 3aad603ada9..5cd235f6ac9 100644
+--- a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch
++++ b/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Make-relocatable-install-for-locales.patch
+@@ -65,6 +65,35 @@ index 7c1cc3eecb..53cb8bfc59 100644
+  
+  /* Load the locale data for CATEGORY from the file specified by *NAME.
+     If *NAME is "", use environment variables as specified by POSIX, and
+--- 
+-2.22.0
+-
++Index: git/locale/programs/locale.c
++===================================================================
++--- git.orig/locale/programs/locale.c
+++++ git/locale/programs/locale.c
++@@ -632,6 +632,7 @@ nameentcmp (const void *a, const void *b
++ 		  ((const struct nameent *) b)->name);
++ }
++ 
+++static char _write_archive_locales_path[4096] attribute_hidden __attribute__ ((section (".gccrelocprefix"))) = ARCHIVE_NAME;
++ 
++ static int
++ write_archive_locales (void **all_datap, char *linebuf)
++@@ -645,7 +646,7 @@ write_archive_locales (void **all_datap,
++   int fd, ret = 0;
++   uint32_t cnt;
++ 
++-  fd = open64 (ARCHIVE_NAME, O_RDONLY);
+++  fd = open64 (_write_archive_locales_path, O_RDONLY);
++   if (fd < 0)
++     return 0;
++ 
++@@ -700,8 +701,8 @@ write_archive_locales (void **all_datap,
++ 	  if (cnt)
++ 	    putchar_unlocked ('\n');
++ 
++-	  printf ("locale: %-15.15s archive: " ARCHIVE_NAME "\n%s\n",
++-		  names[cnt].name, linebuf);
+++	  printf ("locale: %-15.15s archive: %s\n%s\n",
+++		  names[cnt].name, _write_archive_locales_path, linebuf);
++ 
++ 	  locrec = (struct locrecent *) (addr + names[cnt].locrec_offset);
++ 
 -- 
 2.25.1
 
