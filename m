@@ -1,112 +1,78 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web12.6535.1599512005127239605
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.6527.1599512005690703439
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 13:53:25 -0700
+ Mon, 07 Sep 2020 13:53:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BGP5cOHC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id a9so15229906wmm.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P/cQABeL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id c18so16929031wrm.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aiFrxQSj0zfDH1YR5WjOavirPVp1eyOVdvCPaf7D+6Y=;
-        b=BGP5cOHCtoWqbAjVvSagEyL9GPexXVCmUswrgnmGuOoqiOkNmS0HxRqoMnMe7TNzeu
-         66D2ty22e4+da1+sAq7xtPxcMOZvetSRCzksQgec1tVB4P6sxOQqBIJt1kK2o3Q6MI6N
-         2YdqNqo5n5QWyQ8SFM8PfK701PKhYmwZ79JrY=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=ugDmZhFctWWVSjyPNheUluMAzzGsmhMp7G+8jpQ03xI=;
+        b=P/cQABeLZmNfK2G9UtOWDg8GiR/7zqSxw+7pwrx6U5vAff9hKb9UHu36GUok1/7ZAP
+         Fy16gHmpuUcmiCi7NZ6Vly8x7jl3oQi/UUtFEdpxvZAEGll38KyhJyR11YX9PGjmQ3D2
+         taR3TWBA7k/n+GRqObAwjq6ATAqVfNlikCIQY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aiFrxQSj0zfDH1YR5WjOavirPVp1eyOVdvCPaf7D+6Y=;
-        b=VTC3mXi7vvVHPhPEtLfdi3IsBLtsw+XQA/4kt9DvAGTwDxjrQwD6GZjYWNz3KOSmrD
-         68GCCMU+0UaQaN5ouXfspEJBYKZdI6KIBTdI2dPkdrYa2RMqa04B3ZDhbwg3S6cudfQj
-         j073pjwL4SiNReIJhpssHmLdJtWXO3Y2uXoIFjHtLs7b8CtpOZID50/MX6Ca7wwSqDtt
-         v2TWr0sp9e33mtHYAUkWfaMYGUYZ4yr4pBKAt+DGUWsjt1kt8KQKhGg6/qQiQxAj4Txl
-         pk4AUXKRoFfLPQOWW9pTiMe+8C4Lsrc04xcNkfeHjMcEu9YJ1naPPvtclcwEIIljsG4q
-         X6hg==
-X-Gm-Message-State: AOAM530yQNLAOoe4xT4/95EyYreilxb14vHvjuqcHGp+GXf+v9J2zB5Z
-	iuU7QZ5hmuPwALxm2bj5P1wFo5RIN7NmIQ==
-X-Google-Smtp-Source: ABdhPJwBwAkuo/jeDO/MJc9QBE/R3rjUTTe1oyZsMAYfyIgWEs0okJ4pY+3Vy6zU95kqT1Cv3AEaiQ==
-X-Received: by 2002:a1c:e256:: with SMTP id z83mr1084099wmg.137.1599512002962;
-        Mon, 07 Sep 2020 13:53:22 -0700 (PDT)
+        bh=ugDmZhFctWWVSjyPNheUluMAzzGsmhMp7G+8jpQ03xI=;
+        b=rKVcbGfwTraZTX5lSErf5tzj2p00GsfEfhAfv0nKdmktiFuMuzHM5OLmUWILeOeHpR
+         VnLdjpfS0W8y7nT85vwGHx3jYklFv871jUZ0xkABtrUtnY9+vJKw1hNipSDENRVwOEdE
+         QTLpGgj6pQ4APJMuXHFahRzoTlAQLBhci1C7oXPf90buWYfL2TRlD25qKPGUfvO/rJE2
+         hFgAAj75USaPFhYdy5T01X3it1x27hT1qjBv1tpEDRI1FPXEP480SDqlDg6jiGSlfrUt
+         ppHVpThebtlfzC034M1x+6bYPgLISrFVnKWsXYVE+HV20dwb6E0HRWGZWwZX8B9IJZwt
+         JnnA==
+X-Gm-Message-State: AOAM530QsxELl5uVCz8pU22wcFspKNfyS6NbFmTEv6WDaPc84Dn9Vrcw
+	JHqry4K09MFW83zuz8MOrSFWvrsbH5ozmA==
+X-Google-Smtp-Source: ABdhPJyNcK1p9Dmp/oUDb9MKip10v/zSC9+HpkfzXldguWb1oMt7K/IgB+jFzH+3V4USNqSNQW3KXg==
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr4387526wrs.227.1599512003665;
+        Mon, 07 Sep 2020 13:53:23 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.22
+        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 13:53:22 -0700 (PDT)
+        Mon, 07 Sep 2020 13:53:23 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH][zeus 01/19] buildtools-extended-tarball: add recipe with build-essentials
-Date: Mon,  7 Sep 2020 21:53:03 +0100
-Message-Id: <20200907205321.1941682-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH][zeus 02/19] buildtools-tarball: Add an ld.so.conf for nativesdk-binutils
+Date: Mon,  7 Sep 2020 21:53:04 +0100
+Message-Id: <20200907205321.1941682-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 References: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+We need to search our own libdirs, then fall back to the system ones as our
+customised dynamic loader will. Have ld.so.conf reflect that.
 
-* For some aging distros, such as CentOS 7, the native version
-  of gcc is simply too ancient and is a constant source of
-  headaches for moving forward.
+This ensures that binutils finds libraries here when linking too.
 
-* Add an extended version of buildtools-tarball which adds all
-  of build-essential, so that the host is now modernized and
-  capable of compiling the latest versions of components.
-
-Fixes [YOCTO #13714]
-
-(From OE-Core rev: f0377af2325613b63716b0bb4db1ab253d79f388)
-
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../meta/buildtools-extended-tarball.bb       | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/meta/buildtools-extended-tarball.bb
+ meta/recipes-core/meta/buildtools-tarball.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-new file mode 100644
-index 00000000000..d756036373e
---- /dev/null
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -0,0 +1,32 @@
-+require recipes-core/meta/buildtools-tarball.bb
-+
-+DESCRIPTION = "SDK type target for building a standalone tarball containing build-essentials, python3, chrpath, \
-+               make, git and tar. The tarball can be used to run bitbake builds on systems which don't meet the \
-+               usual version requirements and have ancient compilers."
-+SUMMARY = "Standalone tarball for running builds on systems with inadequate software and ancient compilers"
-+LICENSE = "MIT"
-+
-+# Add nativesdk equivalent of build-essentials
-+TOOLCHAIN_HOST_TASK += "\
-+    nativesdk-automake \
-+    nativesdk-autoconf \
-+    nativesdk-binutils \
-+    nativesdk-binutils-symlinks \
-+    nativesdk-cpp \
-+    nativesdk-cpp-symlinks \
-+    nativesdk-gcc \
-+    nativesdk-gcc-symlinks \
-+    nativesdk-g++ \
-+    nativesdk-g++-symlinks \
-+    nativesdk-gettext \
-+    nativesdk-libatomic \
-+    nativesdk-libgcc \
-+    nativesdk-libstdc++ \
-+    nativesdk-libstdc++-dev \
-+    nativesdk-libtool \
-+    nativesdk-pkgconfig \
-+    "
-+
-+TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
-+
-+SDK_TITLE = "Extended Build tools"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 66201514d79..006c724bbda 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -74,6 +74,10 @@ create_sdk_files_append () {
+ 
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 
++	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
++	echo '${SDKPATHNATIVE}${libdir}
++${SDKPATHNATIVE}${base_libdir}
++include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+ 	if [ "${SDKMACHINE}" = "i686" ]; then
+ 		echo 'export NO32LIBS="0"' >>$script
+ 		echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
 -- 
 2.25.1
 
