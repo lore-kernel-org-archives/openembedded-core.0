@@ -1,101 +1,118 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web11.1748.1599498153647093649
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web10.1769.1599498155604946604
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 10:02:33 -0700
+ Mon, 07 Sep 2020 10:02:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=B6WPuMcA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.194, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f194.google.com with SMTP id d19so1266988pld.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 10:02:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yBBIIUKb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f194.google.com with SMTP id b124so8864585pfg.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 10:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=JmwCoyu8XMtkTUPDkn7ofgaRxjdWPAOptjtgbxvQ1y8=;
-        b=B6WPuMcAX3WSJax9izQcVdYfam9OfFxqUN6ZBCCougV+DcdrqfzVKQn9C8fLJu/3UD
-         34pSa1v1fvKMOw7PUX7wDWH+/LW2Kq4f5n1PWPauyk8kljeyfBdauLJUm0Ud0kjNZudp
-         04zmY8yMjiB7BXbXUed+NVymKr71T5372t/OLbYBZUoLOVmzNe32tk5GOFllW/L/adm5
-         YwpyTCI7lTEjTnE9nAhkEemWoOlgErk2jx44WVRAlcZ25QohH/UM7tshAQO6SBapVC3U
-         +LuZojkfLVPhvMhYxckQvHSdkOJ5Xq48qN2EKkTz0BoLyfmKL2bMCSyQeGnZoto+580+
-         1DZA==
+        bh=NKNgzPakwEFt58jziq5mxMyBF8f+s4J1t1JUqxxw0UI=;
+        b=yBBIIUKb2xz4fZwZhCiM+r72cZogJ99ATxXnBv+5InScLSrHgkaTPzeSqVRCbsaJS3
+         xRW/PI9ess5BXejCyHTVQfAY7cw3q1j/ciiMAeGqAUXFlcpzHZb7v4pr+RV+bbqO2P3J
+         Hw33gdsW6wJtgv+fvHJPQBEzYyZGNPvMsk9zo2SwDEYWzxaEp0rT+c/Z4MRiPvLu9gjp
+         kDmQyjpX6dJUsc6F6aifvrc/HPQ8TMQKFOJVAL1zBDzWrOZ7moqGGo3avEtfXxMh1hMZ
+         LxieulA966Q/eygBvgpZ0/X7LIkFXJGZvRj19vPVJ8DctXtQ+whuT7zqnZWj0840ql2u
+         t7Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=JmwCoyu8XMtkTUPDkn7ofgaRxjdWPAOptjtgbxvQ1y8=;
-        b=hyDKLsNF/5Xg0lnsDS+ZJmjfj4HD6exqAtzsX6FsKq0KnCQXvV6ZVbg1Y15YSNdM3W
-         exBkmM06BZQazpX+c3QwabZLOj0hJZq94H/y/WOLV0ul996H5QbbOUYacUwt9wR8wZAO
-         ylE8heN7WHZ+/DhCzkFlSCpu3lUhJebanmvXqcwkVcyg75uLx3XKH7qSXsyDFDPQUkjP
-         YJcxZj/nLhWFsKpBoiu8wc5NOEsf0ja0wU0JnInd4rGG5pEEG3VrqiZC8MPHvm1yvLrx
-         AZ54yVrw8y6KSFO/yeaB2pksh7wfocecRcQeq8sjG89gI47QpZdLooqqjQD1Zr6/nSNI
-         I0cw==
-X-Gm-Message-State: AOAM530Dr2+6T+6+H0OotmLH4/vyJpZZVR7DSonMkm+Z0Alr+2y/0azQ
-	mqyijYQfyZIYBAuMxUaZabevMF8qW+g5DsHb
-X-Google-Smtp-Source: ABdhPJzCLAm0kkVpyAvWRyrwk1l7rQxk9cvRDR29U7WA5KKMa1s4R5IieBanWXviULSAwGCmv1ZaUg==
-X-Received: by 2002:a17:90b:1988:: with SMTP id mv8mr216020pjb.23.1599498152641;
-        Mon, 07 Sep 2020 10:02:32 -0700 (PDT)
+        bh=NKNgzPakwEFt58jziq5mxMyBF8f+s4J1t1JUqxxw0UI=;
+        b=ia0kyQbs+UZu93JHjaVy+jzX94BP+m4PiTPvhNNaoz0c1bQ/vHYJTSk5RFt5ncFSTv
+         I+dXgILKN3Xp5IdJohoNuXHGz4OOfYxERIlYiKSr+08VW6hL+LK20eVZltCw4zRAUXW1
+         UqPXdGPBOfarcCW++/wnkfw4L1kzlIAYgV09Bnvb5EQ+Zy2xMLGovEFqMfoDzMPzgJh0
+         6oVjHGbJaasYKT5aZFWSgq69n86GhojG0jH7MsL+AVAKtNpgCV+zhmxu7emyBcpjEVLQ
+         KSSDDql7kmheRygNreik64Es+wHfB04jg7mpiuUlRcwBamZBjhO8kZOGLEp6tR/lvwDj
+         Slwg==
+X-Gm-Message-State: AOAM532zYWiCT7pa6KcYrQT6ybwlY/2ixCCuQCuk25NKgvzNYph3a11Q
+	UfhP5Iq557tK9HTZ9i3/ROvC84BOo9FBqxk3
+X-Google-Smtp-Source: ABdhPJyU08bLRkUNw764jsAaKj4SOJvOEtn6qY5iynvXStQ76TLmAugoK4Tp5wMrL5j39RKm4nL9gw==
+X-Received: by 2002:a05:6a00:792:b029:13c:1611:652d with SMTP id g18-20020a056a000792b029013c1611652dmr19546764pfu.13.1599498154701;
+        Mon, 07 Sep 2020 10:02:34 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s8sm16525902pfm.180.2020.09.07.10.02.31
+        by smtp.gmail.com with ESMTPSA id s8sm16525902pfm.180.2020.09.07.10.02.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 10:02:32 -0700 (PDT)
+        Mon, 07 Sep 2020 10:02:34 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/18] devtool: expand SRC_URI when guessing recipe update mode
-Date: Mon,  7 Sep 2020 07:02:01 -1000
-Message-Id: <2de84e6e767d4c3e517d7413a37700bf1991a460.1599495862.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/18] kernel-yocto: checksum all modifications to available kernel fragments directories
+Date: Mon,  7 Sep 2020 07:02:02 -1000
+Message-Id: <e397859ceac42d926134d5cb7828526d8d649c95.1599495862.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1599495862.git.steve@sakoman.com>
 References: <cover.1599495862.git.steve@sakoman.com>
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-* I have recipes which use variable inside SRC_URI, e.g.:
-  ROS_BRANCH ?= "branch=release/melodic/swri_nodelet"
-  SRC_URI = "git://github.com/swri-robotics-gbp/marti_common-release;${ROS_BRANCH};protocol=https"
+This is based on the patch from Zhaolong Zhang <zhangzl2013@126.com>
+[kernel-yocto: checksum indirect cfg and scc files]
 
-  and devtool modify works fine, but devtool finish fails with:
+While the recommended manner to share/reuse feature fragments is to
+maintain them in a kernel-meta repository and track the changes via the
+standard SRCREV fetcher mechanism, that method is not always practical
+for small sets of features or for quick testing of changes.
 
-  $ devtool finish --force-patch-refresh swri-nodelet meta-ros/meta-ros1-melodic/
-  ...
-  Traceback (most recent call last):
-    File "/OE/openembedded-core/scripts/devtool", line 334, in <module>
-      ret = main()
-    File "/OE/openembedded-core/scripts/devtool", line 321, in main
-      ret = args.func(args, config, basepath, workspace)
-    File "/OE/openembedded-core/scripts/lib/devtool/standard.py", line 2082, in finish
-      updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-    File "/OE/openembedded-core/scripts/lib/devtool/standard.py", line 1737, in _update_recipe
-      mode = _guess_recipe_update_mode(srctree, rd)
-    File "/OE/openembedded-core/scripts/lib/devtool/standard.py", line 1721, in _guess_recipe_update_mode
-      params = bb.fetch.decodeurl(uri)[5]
-    File "/OE/bitbake/lib/bb/fetch2/__init__.py", line 390, in decodeurl
-      raise MalformedUrl(url, "The URL: '%s' is invalid: parameter %s does not specify a value (missing '=')" % (url, s))
-  bb.fetch2.MalformedUrl: The URL: 'git://github.com/swri-robotics-gbp/marti_common-release;${ROS_BRANCH};protocol=https' is invalid: parameter ${ROS_BRANCH} does not specify a value (missing '=')
+These other flows use .scc files on the SRC_URI. It has been noted that
+config fragments or other features indirectly included by those .scc
+files will not trigger the kernel meta-data to be re-run and hence a
+build can continue with stale data (or not be triggered at all).
 
-  let it expand the SRC_URI before trying to decode it.
+To solve this issue, we can collect the directories that are searchable
+via FILESEXTRAPATHS and add them to the do_kernel_metadata task
+checksum.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This allows modifications, additions and removals from the potential
+kernel feature directories to trigger a re-execution of the meta data
+task.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3535cfdbf3d77f550b804276f957acf859da484f)
+(cherry picked from commit 09f4db415fb6a1398e9e9b359630043c833f6118)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/standard.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel-yocto.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index bab644b83a..d140b97de1 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1711,7 +1711,7 @@ def _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wil
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 3311f6e84e..cc8bcb909a 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -85,6 +85,21 @@ def get_machine_branch(d, default):
+ 	    
+     return default
  
- def _guess_recipe_update_mode(srctree, rdata):
-     """Guess the recipe update mode to use"""
--    src_uri = (rdata.getVar('SRC_URI', False) or '').split()
-+    src_uri = (rdata.getVar('SRC_URI') or '').split()
-     git_uris = [uri for uri in src_uri if uri.startswith('git://')]
-     if not git_uris:
-         return 'patch'
++# returns a list of all directories that are on FILESEXTRAPATHS (and
++# hence available to the build) that contain .scc or .cfg files
++def get_dirs_with_fragments(d):
++    extrapaths = []
++    extrafiles = []
++    extrapathsvalue = (d.getVar("FILESEXTRAPATHS") or "")
++    # Remove default flag which was used for checking
++    extrapathsvalue = extrapathsvalue.replace("__default:", "")
++    extrapaths = extrapathsvalue.split(":")
++    for path in extrapaths:
++        if path + ":True" not in extrafiles:
++            extrafiles.append(path + ":" + str(os.path.exists(path)))
++
++    return " ".join(extrafiles)
++
+ do_kernel_metadata() {
+ 	set +e
+ 	cd ${S}
+@@ -330,6 +345,7 @@ do_kernel_checkout[dirs] = "${S}"
+ addtask kernel_checkout before do_kernel_metadata after do_symlink_kernsrc
+ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
+ do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
++do_kernel_metadata[file-checksums] = " ${@get_dirs_with_fragments(d)}"
+ do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ 
+ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
 -- 
 2.17.1
 
