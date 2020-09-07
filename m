@@ -1,157 +1,84 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.1766.1599498148881268003
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.1746.1599498151497365067
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 10:02:29 -0700
+ Mon, 07 Sep 2020 10:02:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=u1kQdrqi;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id jw11so825183pjb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 10:02:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pRAlgZWm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id u13so8294927pgh.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 10:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cAoPIcv8u/r68qrQ1gkNX5DEETs9JL2D/lW5U8oTocU=;
-        b=u1kQdrqib1mSb/seoLSwU5sYSW67WO0UCLvqD/J7lGF4PUb1f+t6KuUR/3T8RsV0SJ
-         +m35xcu/aII1cnJ0w1ECehMOuVJTj3UCGPqkaAulSjoHb952dVETfoKC6mxLEb0ImBFH
-         l3GgAVjy4gT2AnXtTGf/3GkPCJyyRzhILuqt3YmLz6dXd6Qdlmo5FQSnsXLtua8HIUUL
-         WGlN/OC3x5vqAF3SLhpqSLarXO8nLC5taH9HvVnvaz9H0+20z2iNSrT3GRfbhsQ2ouqE
-         pPzzuhyITxtiS0/aDoqPXlc+KLAVA9NOKQA99oOFIlKOh1Bhtp6NnzNjrceeCWVN/K66
-         B56w==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=2iNBujT0gTgf5eZhw7brpiI3DYc2V3K0lYiszrKJNKA=;
+        b=pRAlgZWmvEw1uuJ1c0Eliooi9lTTBlS1KD6QJUuZE+ut3fReeUyvwCx+zvagPgkSDb
+         LSE4stej1DnMGDzIvsLCNl3VeKfxk3MxPSNkyOIfLZgDEBZxR6N/bei3RHV7CgESIyfs
+         e3VSiFKRAjJIj+2N/OldEM0ECe34qb/71TH+fvUNQga8GWle66AeOLNhf0jFysGkZnmH
+         xGuaCrpxLI74F6BQ9ov6Gj5amKdsYOAjb9JeczkTSgTsihgH05yxaGCy3aKIGhxMjJ5X
+         h372JUoNOALpmVRFWqa7QXHEYW6DzNI9erqyK9/P9CDy8Rrh/My6MeeeltUXuhzQ7sPI
+         dL7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cAoPIcv8u/r68qrQ1gkNX5DEETs9JL2D/lW5U8oTocU=;
-        b=EWcr/lZE6NowJGSEjyqSLE2xTJHzPHeVQOW/A9MeQUE1yplpS5CnXt1jGYF9GtQXcB
-         09u18K7mgulXY+iLViELPbzPsflnZT7U3VPmhj+cw/oVIgQ5pKLhxJ8g2I2Hu1nJ3De0
-         ALEQPeXnEsKRoBVFEGX+7dKVVlFCQ8kQznS6+AVClVA49zEPNPfZHmIic7AymOY/zydz
-         +xxtHbsEU1kyc0LVnwBvoNuViIePYTkIt9TVZMmDfJx57HG4u2qexFGsbUnyVx/vQ1Sh
-         XuzLYe55HvW2N6v8Z/RZVIutJJCcMRVFt8FDZH4YFOLYkzILf4CgdBffgdVBl2iQ93zE
-         Wp4w==
-X-Gm-Message-State: AOAM533x2HzrBkgUbmfj+CzhRLx6HcKmUjLlNIKlR3rqzcXMc6J5F89v
-	fkxaT6a/+Cc8Z29cBMbnRlqAOJsTna3GkpIb
-X-Google-Smtp-Source: ABdhPJz+xpVFQGDWpwJwD6B7JBs1dWl6tPtRK3OTjQ+4poHJ7Ydv0B6H+7RD6VoksP7pG4QYgclXzQ==
-X-Received: by 2002:a17:902:8bc3:: with SMTP id r3mr19966208plo.238.1599498147620;
-        Mon, 07 Sep 2020 10:02:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=2iNBujT0gTgf5eZhw7brpiI3DYc2V3K0lYiszrKJNKA=;
+        b=FjeX57znlyG5BO8ZiP4A74kYtcpjQL4s+q4wNY88YrUclgEONOewVCk4EeO6mxVFWy
+         wxNNlJzQpMWjY7cRY/rTTt8ks4pfINVvu5INLpKaf4oot8fMTaK5meaAERFW3BC6bdEz
+         y8X8LYEkMOhsG5p3K68TSfy/Mtf827pwbvIn88w3YuAerQQi20BU8DG6C1BGvInmP9oi
+         rfAJa48mTjRDrTQN1IKm6t0UJZFEPzYpiUXwhpaSIGi9yw6uT1zOhkMPITlaV3iID+9N
+         JIJd3ILGC2QZOb2NeANrhT0OjfDKq8FLx4fW5c6lHphqHHI3ZQogCvZUP2OoieqbLmbG
+         4jIA==
+X-Gm-Message-State: AOAM530GrlGJY/S92zfwSDci+37bm+xWq5CQyckRhC6Zj8ddS0wGpNO/
+	d88WXDUPR3CiYC76DpZylZF+M34Q3Ak2n9jo
+X-Google-Smtp-Source: ABdhPJybJya+HbrZc7pjI2/87kQn7deRsdPMuPCdEyUkdrHFkHH1vYivncw+jyZ/X/S8GhbGP/9jGA==
+X-Received: by 2002:a62:1984:: with SMTP id 126mr20560681pfz.17.1599498150441;
+        Mon, 07 Sep 2020 10:02:30 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s8sm16525902pfm.180.2020.09.07.10.02.26
+        by smtp.gmail.com with ESMTPSA id s8sm16525902pfm.180.2020.09.07.10.02.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 10:02:26 -0700 (PDT)
+        Mon, 07 Sep 2020 10:02:29 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/18] Patch review
-Date: Mon,  7 Sep 2020 07:01:59 -1000
-Message-Id: <cover.1599495862.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/18] package.bbclass: explode the RPROVIDES so we don't think the versions are provides
+Date: Mon,  7 Sep 2020 07:02:00 -1000
+Message-Id: <be88ca5c4bd0dd98d172a53727c7104d46349fdd.1599495862.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1599495862.git.steve@sakoman.com>
+References: <cover.1599495862.git.steve@sakoman.com>
 
-Please review this next set of changes for dunfell and have comments back
-by end of day Wednesday.
+From: Ross Burton <ross.burton@arm.com>
 
-Passed a-full on autobuilder:
+emit_pkgdata() creates symlinks for each of the RPROVIDES in
+pkgdata/MACHINE/runtime-rprovides.  However this string can contain
+versions which results in directories called (=2.32), so pass the
+RPROVIDES string through bb.utils.explode_deps() to strip the versions
+out.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1350
+Helps mitigate - but not solve - #13999.
 
-NOTE: json-c: Fix CVE-2020-12762 has a line longer than 988 characters and thus
-breaks send-pull-request.  I've truncated that line and tagged it with a <snip>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 6a5395dec34192db233bfb2a060e5ccc99708f03)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The full patch is of course  available in the git repo linked below.
-
-The following changes since commit 0d4d0df6084cce3c3d9051db88f3199a030d3352:
-
-  linux-firmware: update 20200721 -> 20200817 (2020-09-01 05:45:54 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Anibal Limon (1):
-  recipes-kernel: linux-firmware add qcom-venus-{5.2,5.4} packages
-
-Bruce Ashfield (1):
-  kernel-yocto: checksum all modifications to available kernel fragments
-    directories
-
-Joshua Watt (1):
-  oeqa: sdk: Capture stderr output
-
-Khem Raj (3):
-  json-c: Fix CVE-2020-12762
-  util-linux: Allow update alternatives for additional apps
-  json-glib: Backport a build fix with clang
-
-Martin Jansa (1):
-  devtool: expand SRC_URI when guessing recipe update mode
-
-Michael Tretter (1):
-  devtool: deploy-target: Fix size calculation for hard links
-
-Nicolas Dechesne (1):
-  linux-libc-headers: kernel headers are installed in
-    STAGING_KERNEL_BUILDDIR
-
-Rasmus Villemoes (1):
-  cml1: Move find_cfgs() helper to cml1.bbclass
-
-Richard Purdie (1):
-  selftest/prservice: Improve test failure message
-
-Ross Burton (2):
-  package.bbclass: explode the RPROVIDES so we don't think the versions
-    are provides
-  insane: improve gnu-hash-style warning
-
-Steve Sakoman (1):
-  sanity.conf: update BB_MIN_VERSION to 1.46.0
-
-Sumit Garg (1):
-  insane: fix gnu-hash-style check
-
-Vijai Kumar K (1):
-  wic: misc: Add /bin to the list of searchpaths
-
-Yann Dirson (1):
-  package: get_package_mapping: avoid dependency mapping if renamed
-    package provides original name
-
-hongxu (1):
-  sysstat: fix installed-vs-shipped QA Issue in systemd
-
- meta/classes/cml1.bbclass                     |  10 +
- meta/classes/insane.bbclass                   |   5 +-
- meta/classes/kernel-yocto.bbclass             |  16 ++
- meta/classes/package.bbclass                  |  18 +-
- meta/conf/sanity.conf                         |   2 +-
- meta/lib/oeqa/sdk/case.py                     |   2 +-
- meta/lib/oeqa/sdk/cases/assimp.py             |   2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py          |   2 +-
- meta/lib/oeqa/sdk/cases/buildepoxy.py         |   2 +-
- meta/lib/oeqa/sdk/cases/buildgalculator.py    |   2 +-
- meta/lib/oeqa/sdk/cases/buildlzip.py          |   2 +-
- meta/lib/oeqa/selftest/cases/prservice.py     |   4 +-
- meta/recipes-bsp/u-boot/u-boot.inc            |  10 -
- meta/recipes-core/busybox/busybox.inc         |  10 -
- meta/recipes-core/util-linux/util-linux.inc   |   3 +
- .../json-c/json-c/CVE-2020-12762.patch        | 231 ++++++++++++++++++
- meta/recipes-devtools/json-c/json-c_0.13.1.bb |   1 +
- meta/recipes-extended/sysstat/sysstat.inc     |   2 +-
- ...o-instead-of-cast-to-convert-pointer.patch |  33 +++
- .../json-glib/json-glib_1.4.4.bb              |   4 +-
- .../linux-firmware/linux-firmware_20200817.bb |   6 +-
- .../linux-libc-headers/linux-libc-headers.inc |   2 +-
- scripts/lib/devtool/deploy.py                 |   8 +-
- scripts/lib/devtool/standard.py               |   2 +-
- scripts/lib/wic/misc.py                       |   5 +-
- 25 files changed, 341 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
- create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2d96e646da..23ff4772fa 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1544,7 +1544,7 @@ fi
+         # Symlinks needed for rprovides lookup
+         rprov = d.getVar('RPROVIDES_%s' % pkg) or d.getVar('RPROVIDES')
+         if rprov:
+-            for p in rprov.strip().split():
++            for p in bb.utils.explode_deps(rprov):
+                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
+                 bb.utils.mkdirhier(os.path.dirname(subdata_sym))
+                 oe.path.symlink("../../runtime/%s" % pkg, subdata_sym, True)
 -- 
 2.17.1
 
