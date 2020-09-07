@@ -1,126 +1,267 @@
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
- by mx.groups.io with SMTP id smtpd.web12.1720.1599498190940071236
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.4096.1599504666131232603
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 10:03:11 -0700
+ Mon, 07 Sep 2020 11:51:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dRyS5VEj;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.67, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f67.google.com with SMTP id o16so6981871pjr.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 10:03:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TJlutfZ1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id np15so7692856pjb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 11:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=YOOMt3yGBD9RhrJym4FXEJ3oSK86HNWPpvHApfics9E=;
-        b=dRyS5VEjjvdpXWFymHIA/Eev9LyJUCh8AKKSguiPWJlr+sWBAOIvbDFZm0ckJQ6o6Y
-         jDEwogXynFreP9WIV0kwHz+B7HIdIuxDfT6CpEvHPxQ8eRBxMmzRyIzv+Y9ReKRYUQL3
-         M+CghHqhhTtT3puZy2RBKBbWh3uERo2nsKqfFb3SMtxVGdRmX4Ouj3lfjewMiGa78ISh
-         wjSSp6+wLdIclAYkfKGFeN9WoeGilfFPUbuKG0SYFNmJeH42Dqr051zqU6l8BBVb0pfB
-         rdOoYJ6yVAyq1MkxYPIl1Snko8md1PDYVwopcORPX5mZvrWBHq8oxpyhDPeUEWX54xHt
-         F15g==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=PJWX0Z2yd2Nr5xeJmsvZ62K8G/j7fy6KMcSaOXzZpys=;
+        b=TJlutfZ17SxCdqdzplZoO2Q6e83lweT5G5bxEGGeMxNeh5nT//whyq2nliZvMLdiD6
+         X78v2M2CPbUgfOoDIAs8a/wMgJfxEa9/p0om6EiUwKRo5PpNRaJ8+80zG63vzJRsRFKD
+         B2sKSB7vHKv/Wni5u4fmr5K2SBVMwEmfiQLzy3OZPgeR+F6z8P2UwBh5pmktW+BwyqRM
+         ZVqU9LsIyduucLUQNc+GG0kzE0NdGjN9JMGkucEKhZlcBJUglCYnizeQsMhKjaYffRba
+         pdObBNKhRI1oPsqnqBIs9va/LuhZEP04PYpBSsnGY2OgqI3LI2WoAR6rc7zscUUx5oGL
+         fapQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=YOOMt3yGBD9RhrJym4FXEJ3oSK86HNWPpvHApfics9E=;
-        b=mqlosLx5NWmaq3QEiyf/hK6MGpuDlXrxaI5aQC8HAcamAkW+LRi5l9Jk4VBxSZoyJ2
-         vPR39ZD6oQieJIuz8+HQge4INBxLqB8UiQbhzLXhsQKXsaNytp+qA6uFxZHHMtBXeWZB
-         s3iHyxLrdpJnU+vDEjTcGARrwE84GA38S0vwW9eayUGfogr4gLGVzVg+HLQP7kFG30SK
-         Dy7VEIlkDueczKldqmByj3x9SCasbssb38jtIPCemS480igFy6ZHUyqWHMelEulaz/qY
-         YP3xg+Br1C45D6nMnYraNPAoMe9yLulCjj8EYyx8uFVjA35PNsFm5yhra4dg7i5deDBz
-         f21A==
-X-Gm-Message-State: AOAM532a72XzLwr2NKiHe4WO7kXmke0eeEuTncmgYWDsdl9Nj5/Xqbfl
-	LS3BrDMI/TJ1qiuqmPPmj1RZJ8RD+bRoCY8L
-X-Google-Smtp-Source: ABdhPJz4VkLLFSZuYiziU/Etp1MK2p+rSLgnM7dZijrwGGzf0sFgXmVmNtc0C1n44ws+OtF8zg6vDA==
-X-Received: by 2002:a17:90a:67c7:: with SMTP id g7mr230180pjm.42.1599498190008;
-        Mon, 07 Sep 2020 10:03:10 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s8sm16525902pfm.180.2020.09.07.10.03.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 10:03:09 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 18/18] package: get_package_mapping: avoid dependency mapping if renamed package provides original name
-Date: Mon,  7 Sep 2020 07:02:17 -1000
-Message-Id: <210ebed1e9c2285d6e457bf03d1f1a1f3ddc7fda.1599495862.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1599495862.git.steve@sakoman.com>
-References: <cover.1599495862.git.steve@sakoman.com>
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=PJWX0Z2yd2Nr5xeJmsvZ62K8G/j7fy6KMcSaOXzZpys=;
+        b=Q9ax4MAHm7ZgOIZNZsCo20BGUp3jkctQ7It/wUTk9QYPNRDpMzgfUAXFf19NGg2Krv
+         opBRh7Z6SHEiNl/MLF7dC6jA2qZFcSw60Cb9uHOkeYudtH0QkhO+Bg/fIhS8dFyPGb7u
+         KpzhCeX8CafXlJ39Xqj9lKZUXfDgi9iU/EAY7W2mjCKpj1MvZD59x+88WMXxwJ2chuNX
+         zNLF70yI33ZGxhcY/MOVFuVaaCdBiTdhl087pPN/CrDSYfA73fe5+4UXOH6RVH3TB1IE
+         kqHoA/lRwGAnKdzmymmz9uVDAOMSHsIlD9i6saZvvtjOBFJFIcMGlGWbOcwYGA3nBKeN
+         qB+Q==
+X-Gm-Message-State: AOAM531OQbKaWUOPMg3Hedr/8DBM9Vy5GH4f3h9btnYiaSmFjxPTRk4O
+	IReBHzd0C9g14KNy8qFW26qAKhOdOGs=
+X-Google-Smtp-Source: ABdhPJwOPhM20by2wESQMchjC/DXNWWv/OymarK/z25JuCt5lj0utbQkLbSlBZaVCaIgR0Ljy1v9Mg==
+X-Received: by 2002:a17:90a:fb52:: with SMTP id iq18mr541065pjb.207.1599504665500;
+        Mon, 07 Sep 2020 11:51:05 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id v18sm15435367pfu.15.2020.09.07.11.51.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Sep 2020 11:51:05 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 7 Sep 2020 11:51:05 -0700
+Message-ID: <03a701d68547$d7514c90$85f3e5b0$@gmail.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQExbqWCTAlvASZxZMyjPVpXbdI+KQ==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_03A8_01D6850D.2AF44950"
+Content-Language: en-us
 
-From: Yann Dirson <yann@blade-group.com>
+------=_NextPart_000_03A8_01D6850D.2AF44950
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Packages with a runtime dependency on a target package whose name is
-changed by the PKG_* mechanism must rebuild when that mapping changes,
-but we have no way of tracking this today, so
-eg. packagegroup-machine-base ends up with a relationship on a
-versioned kernel-image, and does not get rebuilt when that version
-changes, leading to unsatisfiable dependency and reproducibility
-issue.
+All,
 
-OTOH there is no reason for the dependency to get rewritten if the
-renamed package already has a RPROVIDES on the non-rewritten package
-name, and if the dependency relationship is an unversionned one.  This
-is what this patch prevents.
-
-Note that this may not cover all cases of rewritten package names.
-
-Notably I had to let the rewrite be done in the case of versionned
-dependencies, as package managers usually can follow "Provides" in
-such case; this includes many dependencies against shared-lib packages
-renamed to their soname, and those at least are OK, since the
-dependent recipe should explicitly depend on the target recipe.
-
-(From OE-Core rev: 920beaaeef62b558e046f32c8ef0332250969ef1)
-
-Signed-off-by: Yann Dirson <yann@blade-group.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/package.bbclass | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 23ff4772fa..cc64ddffc3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -535,7 +535,7 @@ def copydebugsources(debugsrcdir, sources, d):
- # Package data handling routines
- #
  
--def get_package_mapping (pkg, basepkg, d):
-+def get_package_mapping (pkg, basepkg, d, depversions=None):
-     import oe.packagedata
- 
-     data = oe.packagedata.read_subpkgdata(pkg, d)
-@@ -546,6 +546,14 @@ def get_package_mapping (pkg, basepkg, d):
-         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
-             and data[key] == basepkg:
-             return pkg
-+        if depversions == []:
-+            # Avoid returning a mapping if the renamed package rprovides its original name
-+            rprovkey = "RPROVIDES_%s" % pkg
-+            if rprovkey in data:
-+                if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
-+                    bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
-+                    return pkg
-+        # Do map to rewritten package name
-         return data[key]
- 
-     return pkg
-@@ -566,8 +574,10 @@ def runtime_mapping_rename (varname, pkg, d):
- 
-     new_depends = {}
-     deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
--    for depend in deps:
--        new_depend = get_package_mapping(depend, pkg, d)
-+    for depend, depversions in deps.items():
-+        new_depend = get_package_mapping(depend, pkg, d, depversions)
-+        if depend != new_depend:
-+            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
-         new_depends[new_depend] = deps[depend]
- 
-     d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
--- 
-2.17.1
 
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 339
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_03A8_01D6850D.2AF44950
+Content-Type: text/html;
+	boundary="----=_NextPart_000_04CF_01D67FAB.465FB1A0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 339 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_03A8_01D6850D.2AF44950--
