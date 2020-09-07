@@ -1,86 +1,78 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.6542.1599512018131421194
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.6541.1599512019180582062
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2020 13:53:38 -0700
+ Mon, 07 Sep 2020 13:53:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I20dG/bn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id o5so16917903wrn.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AHEbNCNE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id x14so16911765wrl.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2020 13:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=JgGJnEL3LtePT8Uf5Hfu3UcT6Xh1tbvisJXIPMVrN8U=;
-        b=I20dG/bnftynYFgpXowH9rD+7yb++sQTBpYNfblgZ1yXDAMCp8fa31rfCByfWrAGgs
-         Z52lKnLe6+r/D2+Xb2PxREO40YMQmBOZe1LWuX1LeG/fA5gr6dTUlCNmZvO+E2OXU5sf
-         XW4caLaLmAhomjkfhdx0GgjZCnpCX7lsykJwk=
+        bh=stCvZRvo733srl9Ik+BmvisWs9IDtq9aghvxuH6i7iU=;
+        b=AHEbNCNEgwnirV4w/hgKB3viryrsyQRMSgYBzeWjnqGJ8uj7iRee7kyI32f+A9II8q
+         Td2dyM5fPMCpI1oCLayV/IWO66SDJGRzHImP6M+Gn9GrjEzbHu3GPSGWwnI8SORtFaTJ
+         nMmDMLVpPbWqwrNOB6z2kno4ASVfEqpuuCyzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JgGJnEL3LtePT8Uf5Hfu3UcT6Xh1tbvisJXIPMVrN8U=;
-        b=V5KHNnOTYawyW7FOYxXYYKe8LqPbLhz4+U5F/fBx08oLAVQSEc4JkXU+/DOGP1SOjt
-         tXD3qrCuCmxhhdTgxKL9As7XJ5t8UeQoGLf6hMuiSvV6ZI3CJcU6rC36HFfyGhqrVwFJ
-         aaO+dIk9vGZukMA4HrtxucXxQrCaRe6mHzwOk7UQN3HNjYeFbVEPTxJSj/JK0jMRyyGB
-         pvEg/piXctQWeXturns1w2NDdV4AU7Jnu233qled46CzdZoHRArweP6bxmWLxMW0MVwR
-         NFde0dmSGZC8spHQngG7luFZoSG6l1kkJXsNaNQSzmBIvFV5mt2x6Q8tAhh0UFQQZO3N
-         EcOQ==
-X-Gm-Message-State: AOAM533orZnealNIAbmvVJGJZGqqajs2J55NFeKZqHH6gKpPI1X/7egd
-	FT9ZzD/tLrGOEYwZ7p4q5ebdK17TGS3iOQ==
-X-Google-Smtp-Source: ABdhPJzeSXJ01hUCOhaArDkM2j8PniJQi35tvQ4iHDvqSRy29QdjnJv7yhq6iuME5pQCpWYG+yKbzg==
-X-Received: by 2002:a5d:494b:: with SMTP id r11mr4388125wrs.227.1599512016378;
-        Mon, 07 Sep 2020 13:53:36 -0700 (PDT)
+        bh=stCvZRvo733srl9Ik+BmvisWs9IDtq9aghvxuH6i7iU=;
+        b=VGm6ccPoABueFTnFGiTNVEW42M4bd5snQjSLVNKM5nuXYAXguMbdLulZBLPo6dnUII
+         v9oAOlPJI5CGJt/2IIB9Ymt4VkxTeNVlIAlCvfuDYp5T/R0q9z18HRonKjaa7S38sUsm
+         DjiPHD63TmXE2oBWxdryrH64W6qIPkzUzbehToXz+UgWD3y6qk0iqPJpqNv4vk83AEOf
+         0FxqYDk5oL8OpHKVtCaGGUseAwoUiWDSjgjxnwi66hP0KWleFiIWZhyA5fbsV/HI6lBr
+         dCPMaC8+uAxGsD1NimkdznyflAfkABkpiIf+E3asWD8/Q3bbcsh6l9xanGMsItHrd296
+         f1Og==
+X-Gm-Message-State: AOAM531WZkhl+vAyfYZ6qFWH3u42+RVJzEzQ6bX577t3o2/oSzsJJ+3v
+	pulWx0aB+gck/WUxaVncIZ4WsWDJiJRvTQ==
+X-Google-Smtp-Source: ABdhPJxdHXULbNnXXH+c/hjoFFWt1qGlnTB5/CjsXAzgIy6+cfgzq1yJ6ONxJp9Xcf7AjTgxNFe4OA==
+X-Received: by 2002:a5d:4d8a:: with SMTP id b10mr17634088wru.82.1599512017427;
+        Mon, 07 Sep 2020 13:53:37 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.35
+        by smtp.gmail.com with ESMTPSA id 92sm32888299wra.19.2020.09.07.13.53.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 13:53:35 -0700 (PDT)
+        Mon, 07 Sep 2020 13:53:37 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus 15/19] oeqa/testsdk: Use original PATH
-Date: Mon,  7 Sep 2020 21:53:17 +0100
-Message-Id: <20200907205321.1941682-16-richard.purdie@linuxfoundation.org>
+Subject: [PATCH][zeus 16/19] oeqa/selftest: Ensure buildtools in environment variables isn't replaced
+Date: Mon,  7 Sep 2020 21:53:18 +0100
+Message-Id: <20200907205321.1941682-17-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 References: <20200907205321.1941682-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We want to test the SDK with PATH from the original host, not with our own
-tools injected via HOSTTOOLS. It even uses some tools which aren't in
-HOSTTOOLS.
+This avoids the seeing broken replacements like:
+oe-selftest-centos/build/build-st-926tools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt
+which understandably break builds.
 
-This is necessary after changing the SDK to not reset PATH to the system
-default which is bad for other reasons and brings the testing into sync
-with that change.
+(From OE-Core rev: 04ee0e8b95cd8ed890374e0007f976684206b630)
 
-(From OE-Core rev: 87c9602fd0dedc7bcf75b822aaf5f6ebfc17737c)
-
+(Cherry-picked from f930e2cadb9ee69759720b6c49aeeb6dd43a7edd but adjusted for thud)
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/sdkext/testsdk.py | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/core/utils/concurrencytest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/sdkext/testsdk.py b/meta/lib/oeqa/sdkext/testsdk.py
-index 785b5dda53a..c5c46df6cda 100644
---- a/meta/lib/oeqa/sdkext/testsdk.py
-+++ b/meta/lib/oeqa/sdkext/testsdk.py
-@@ -25,11 +25,8 @@ class TestSDKExt(TestSDKBase):
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index 0f7b3dcc113..e6b14da89d1 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -261,7 +261,7 @@ def fork_for_tests(concurrency_num, suite):
+                     oe.path.copytree(selftestdir, newselftestdir)
  
-         subprocesstweak.errors_have_output()
+                     for e in os.environ:
+-                        if builddir in os.environ[e]:
++                        if builddir + "/" in os.environ[e] or os.environ[e].endswith(builddir):
+                             os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
  
--        # extensible sdk can be contaminated if native programs are
--        # in PATH, i.e. use perl-native instead of eSDK one.
--        paths_to_avoid = [d.getVar('STAGING_DIR'),
--                        d.getVar('BASE_WORKDIR')]
--        os.environ['PATH'] = avoid_paths_in_environ(paths_to_avoid)
-+        # We need the original PATH for testing the eSDK, not with our manipulations
-+        os.environ['PATH'] = d.getVar("BB_ORIGENV", False).getVar("PATH")
- 
-         tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.sh")
-         if not os.path.exists(tcname):
+                     subprocess.check_output("git init; git add *; git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
 -- 
 2.25.1
 
