@@ -1,187 +1,128 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.20591.1599573444416258242
+Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com [209.85.161.68])
+ by mx.groups.io with SMTP id smtpd.web10.23958.1599581759491115597
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 06:57:24 -0700
+ Tue, 08 Sep 2020 09:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C13251684
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2020 06:57:23 -0700 (PDT)
-Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 64D413F73C
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2020 06:57:23 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=lSdF2oh2;
+ spf=pass (domain: linaro.org, ip: 209.85.161.68, mailfrom: anibal.limon@linaro.org)
+Received: by mail-oo1-f68.google.com with SMTP id k13so4083521oor.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 09:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tBecD3iX1u/o0r9QbCrrRqUBd9eqnLtWtnXCWpwbrLo=;
+        b=lSdF2oh2r3m79xvgR+kT6ymd1/P+EqsoGeyJpa0ymqqeBZqdygMD80xDHSmLZXC8bf
+         W/QYD9MnRu2kuibmAp4dBNjdYeL/gHzCB7Y2epb4j4AWMmr++2/wJF+p3eDfTgWvmQlO
+         h3Tg1NNxRc+/DlcYqO50znF0TtT4xklCJH4Grs/1abUXVP515tqEuMFPHXxUuvkE3xkQ
+         BYmoatinm4UXMxK+v50lTKS4338OVb7uqWT+R4qUE7KS1sMQh80CqRvC09D8LIz/XPT1
+         tRV4kobJayN4rm+gs7AHSeKC83NRsNiJr/EJKobNSwxa8NeZ+uSRUIVz+MXBZ25x/3Uq
+         ZR9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tBecD3iX1u/o0r9QbCrrRqUBd9eqnLtWtnXCWpwbrLo=;
+        b=tahb4zoGnX0ZjjddYwiycnv5UVdM3faGmhtLj9VXSHRWY4Zz3mOoOldKlwcBLqOy6x
+         OsRlUxnFFrzpf93tU0H4cxtsqR2PP3a6TX+JcLZaab5EprPqs0ewnJai77qxDu1jcvGq
+         HCK+Zf8/wRleePkv9i2sGa+QzMhidPShrqrI6dFyg/Ha2UqP8YQsSNsER3/7l/XnsMbI
+         GCxngNhGVkkqTxs40n812JPvbIdHvVPQYXkfqx1iwi0kXvWaM51jqYiLI548Tvvg958g
+         FwEB+LSQx1Pt+SKFkhEFuhJQWcZfD9pnmjPDXgRPsurX3dkQzFpBUSFes8NTjVqy86x2
+         nVYA==
+X-Gm-Message-State: AOAM53047/it59bIOkbkkkShh7h9cWHppDOUATAkbKJ4+MhIHJ/ztMja
+	bYY8Xym7QSxIwYjynQgJdWfhVi7xdmwsCw==
+X-Google-Smtp-Source: ABdhPJxoBZcSSVMMzSBGnHF4YSAF1DiVRn/0R0mse6hK0G1BkMkcBvIQGhDGNRernjM6cD2zkYkijg==
+X-Received: by 2002:a4a:3516:: with SMTP id l22mr18954565ooa.6.1599581758482;
+        Tue, 08 Sep 2020 09:15:58 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.rga.ip ([2806:109f:4:8e64:908a:c7ff:fe6a:e9f5])
+        by smtp.gmail.com with ESMTPSA id m1sm3299618oih.3.2020.09.08.09.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 09:15:57 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] harfbuzz: fix a build race around hb-version.h
-Date: Tue,  8 Sep 2020 14:57:17 +0100
-Message-Id: <20200908135717.3781613-2-ross.burton@arm.com>
+Cc: nicolas.dechesne@linaro.org,
+	richard.purdie@linuxfoundation.org,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCH] recipes-graphics/xorg-xserver: Add patch to fix segfault when probe
+Date: Tue,  8 Sep 2020 11:15:55 -0500
+Message-Id: <20200908161555.10039-1-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200908135717.3781613-1-ross.burton@arm.com>
-References: <20200908135717.3781613-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Fix segfault on probing a non-PCI platform device on a system with PCI.
+
+...
+    at ../../xorg-server-1.20.9/os/log.c:1017
+    at ../../xorg-server-1.20.9/os/osinit.c:156
+    at ../../xorg-server-1.20.9/os/osinit.c:110
+    at ../../../../xorg-server-1.20.9/hw/xfree86/common/xf86platformBus.c:292
+    argv=argv@entry=0xffffca43c7c8) at ../../../../xorg-server-1.20.9/hw/xfree86/common/xf86Init.c:388
+    at ../../xorg-server-1.20.9/dix/main.c:193
+    init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=<optimized out>)
+    at ../csu/libc-start.c:314
+...
+
+From upstream rev e50c85f4e.
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- .../harfbuzz/harfbuzz/version-race.patch      | 121 ++++++++++++++++++
- .../harfbuzz/harfbuzz_2.7.2.bb                |   1 +
- 2 files changed, 122 insertions(+)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/version-race.=
-patch
+ ...probing-a-non-PCI-platform-device-on.patch | 31 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.9.bb       |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch b=
-/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
 new file mode 100644
-index 0000000000..2d692f36b5
+index 0000000000..d66059d116
 --- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
-@@ -0,0 +1,121 @@
-+Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/5=
-aff83104e03d6d2617987d24a51e490ab7a5cd1]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch
+@@ -0,0 +1,31 @@
++From e50c85f4ebf559a3bac4817b41074c43d4691779 Mon Sep 17 00:00:00 2001
++From: Eric Anholt <eric@anholt.net>
++Date: Fri, 26 Oct 2018 17:47:30 -0700
++Subject: [PATCH] Fix segfault on probing a non-PCI platform device on a system
++ with PCI.
 +
-+From bc1c93fbe04459a4b12c76c713ba1b750d2d9108 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 7 Sep 2020 17:11:17 +0100
-+Subject: [PATCH 1/2] [build] No need to pass source directory to
-+ gen-hb-version
++Some Broadcom set-top-box boards have PCI busses, but the GPU is still
++probed through DT.  We would dereference a null busid here in that
++case.
 +
-+The input file is by definition in the source directory, so dirname()
-+that instead of needing the directory to be passed.
-+
-+Needed because a follow-up commit will change when this is called, and t=
-he
-+source directory isn't trivially available at that point.
++Signed-off-by: Eric Anholt <eric@anholt.net>
 +---
-+ src/gen-hb-version.py | 6 +++---
-+ src/meson.build       | 2 +-
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
++ hw/xfree86/common/xf86platformBus.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/gen-hb-version.py b/src/gen-hb-version.py
-+index 15e56b93..bf16f88a 100755
-+--- a/src/gen-hb-version.py
-++++ b/src/gen-hb-version.py
-+@@ -4,15 +4,15 @@
-+=20
-+ import os, sys, shutil
-+=20
-+-if len (sys.argv) < 5:
-++if len (sys.argv) < 4:
-+ 	sys.exit(__doc__)
-+=20
-+ version =3D sys.argv[1]
-+ major, minor, micro =3D version.split (".")
-+=20
-+ OUTPUT =3D sys.argv[2]
-+-CURRENT_SOURCE_DIR =3D sys.argv[3]
-+-INPUT =3D sys.argv[4]
-++INPUT =3D sys.argv[3]
-++CURRENT_SOURCE_DIR =3D os.path.dirname(INPUT)
-+=20
-+ with open (INPUT, "r", encoding=3D'utf-8') as template:
-+ 	with open (OUTPUT, "wb") as output:
-+diff --git a/src/meson.build b/src/meson.build
-+index 5d7cd578..2d78c992 100644
-+--- a/src/meson.build
-++++ b/src/meson.build
-+@@ -286,7 +286,7 @@ custom_target('hb-version.h',
-+   input: 'hb-version.h.in',
-+   output: 'hb-version.h',
-+   command: [find_program('gen-hb-version.py'), meson.project_version(),
-+-            '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
-++            '@OUTPUT@', '@INPUT@'],
-+ )
-+=20
-+ ragel =3D find_program('ragel', required: false)
-+--=20
++diff --git a/hw/xfree86/common/xf86platformBus.c b/hw/xfree86/common/xf86platformBus.c
++index cef47da03..dadbac6c8 100644
++--- a/hw/xfree86/common/xf86platformBus.c
+++++ b/hw/xfree86/common/xf86platformBus.c
++@@ -289,7 +289,7 @@ xf86platformProbe(void)
++     for (i = 0; i < xf86_num_platform_devices; i++) {
++         char *busid = xf86_platform_odev_attributes(i)->busid;
++ 
++-        if (pci && (strncmp(busid, "pci:", 4) == 0)) {
+++        if (pci && busid && (strncmp(busid, "pci:", 4) == 0)) {
++             platform_find_pci_info(&xf86_platform_devices[i], busid);
++         }
++ 
++-- 
 +2.28.0
 +
-+
-+From 5aff83104e03d6d2617987d24a51e490ab7a5cd1 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 7 Sep 2020 10:55:33 +0100
-+Subject: [PATCH 2/2] [build] generate hb-version.h once at configure tim=
-e with
-+ Meson
-+
-+Currently with Meson hb-version.h is generated during the build without
-+any explicit dependencies which can result in build failures due races
-+over the file.
-+
-+Change this to be generated at configure time, so that the file is alway=
-s
-+generated once before the build itself.
-+
-+Closes #2667
-+---
-+ src/meson.build | 17 ++++++++---------
-+ 1 file changed, 8 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/meson.build b/src/meson.build
-+index 2d78c992..19290245 100644
-+--- a/src/meson.build
-++++ b/src/meson.build
-+@@ -1,3 +1,10 @@
-++hb_version_h =3D configure_file(
-++               command: [find_program('gen-hb-version.py'), meson.proje=
-ct_version(), '@OUTPUT@', '@INPUT@'],
-++               input: 'hb-version.h.in',
-++               output: 'hb-version.h',
-++               install: true,
-++               install_dir: join_paths(get_option('includedir'), meson.=
-project_name()))
-++
-+ # Base and default-included sources and headers
-+ hb_base_sources =3D files(
-+   'hb-aat-layout-ankr-table.hh',
-+@@ -214,9 +221,9 @@ hb_base_headers =3D files(
-+   'hb-shape.h',
-+   'hb-style.h',
-+   'hb-unicode.h',
-+-  'hb-version.h',
-+   'hb.h',
-+ )
-++hb_base_headers +=3D hb_version_h
-+=20
-+ # Optional Sources and Headers with external deps
-+=20
-+@@ -281,14 +288,6 @@ hb_gobject_headers =3D files(
-+   'hb-gobject-structs.h',
-+ )
-+=20
-+-custom_target('hb-version.h',
-+-  build_by_default: true,
-+-  input: 'hb-version.h.in',
-+-  output: 'hb-version.h',
-+-  command: [find_program('gen-hb-version.py'), meson.project_version(),
-+-            '@OUTPUT@', '@INPUT@'],
-+-)
-+-
-+ ragel =3D find_program('ragel', required: false)
-+ if not ragel.found()
-+   warning('You have to install ragel if you are going to develop HarfBu=
-zz itself')
-+--=20
-+2.28.0
-+
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb b/meta/reci=
-pes-graphics/harfbuzz/harfbuzz_2.7.2.bb
-index 8416eb93d8..f95273f686 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
-@@ -13,6 +13,7 @@ UPSTREAM_CHECK_REGEX =3D "harfbuzz-(?P<pver>\d+(\.\d+)+=
-).tar"
- SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${=
-BPN}-${PV}.tar.xz \
-            file://0001-Do-not-disable-introspection-in-cross-builds.patc=
-h \
-            file://0001-src-hb-gobject-enums.cc.tmpl-write-out-only-the-f=
-ile.patch \
-+           file://version-race.patch \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.9.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.9.bb
+index 86d432a7c4..c83e43ed99 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.9.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.9.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
++           file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
             "
- SRC_URI[sha256sum] =3D "b8c048d7c2964a12f2c80deb6634dfc836b603dd12bf0d0a=
-3df1627698e220ce"
-=20
---=20
+ SRC_URI[sha256sum] = "e219f2e0dfe455467939149d7cd2ee53b79b512cc1d2094ae4f5c9ed9ccd3571"
+ 
+-- 
 2.28.0
 
