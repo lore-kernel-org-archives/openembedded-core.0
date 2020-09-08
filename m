@@ -1,98 +1,52 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.18815.1599566930128517925
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.18806.1599567807407511772
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 05:08:50 -0700
+ Tue, 08 Sep 2020 05:23:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OzfY2x6g;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id o5so18801869wrn.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 05:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=B5BTkFO6LGT9UaXtdVMlDYM298dkwBtIZcZAf3omMBA=;
-        b=OzfY2x6g+xQMIHswOqr6QnklHMaWH3XBvqcuFs0NKP3DrkGmJORqfSpv4uRJ50BuQ8
-         aWkN2sSdL4PZBijolXO9O0jPj30ZI61NudCTfhW8ozQEMWBi649Bn6lSpqQCXMOcxrEL
-         1Bax7qWFA4h1rJyZanhiLIKq7FyhgNP7hSGn8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=B5BTkFO6LGT9UaXtdVMlDYM298dkwBtIZcZAf3omMBA=;
-        b=IBwnMPNNa22ZfnqytVqXg1LQORMlsxYFq3HX3EE0QDzIEoTwmyxx9HFyBU7/g2Wwq+
-         WL7+y+I4VJ5bYKyKhuXUgeHV7ctjP7E+dpLyyXe581LVp78kQgHXxesc40Lp4akiYERv
-         pieanIMxQS2Ia74qZsYsZSa6qiB1mssQ55ym7bAbsSolELsFRe8oh1EsOzfJUbGHeDR8
-         N/HavPz9ZZpjdgCpKlR9Hyq1wxUUO7mjoshRXgvgW2M6dkHHOk0ZMnA6Ox4sVj/iw2jw
-         HvmxtRcpUTPot2De28FinS9hkK+I/oiT2qmBraKaAyX/M8+tZQG0e4CWNHx7udLPvur3
-         uyyg==
-X-Gm-Message-State: AOAM5318jQQesd1rszDXa8Q6dq8FEKM3IeuadQhCviDETPEsorJ5U1pm
-	qCHEeWGKN4AH1xgCQBU3wdFExg==
-X-Google-Smtp-Source: ABdhPJxsmnLuOi/VkB47q1Hiwlf4OcMfEmL1x5O2G6WSIYoRuxa0R1Zfat8sv218P00Kdil1fqI7VQ==
-X-Received: by 2002:adf:ef48:: with SMTP id c8mr26937394wrp.370.1599566928458;
-        Tue, 08 Sep 2020 05:08:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id r13sm35078962wrj.83.2020.09.08.05.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 05:08:47 -0700 (PDT)
-Message-ID: <b58a594638ba6eee29528077831a52ad05dbab4a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES variable added to separate bootimg-efi and bootimg-partition
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Jamaluddin, Khairul Rohaizzat"
- <khairul.rohaizzat.jamaluddin@intel.com>, 
- openembedded-core@lists.openembedded.org
-Date: Tue, 08 Sep 2020 13:08:46 +0100
-In-Reply-To: <1599539307-52761-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-References: 
-	<1599539307-52761-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 884DB31B
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2020 05:23:26 -0700 (PDT)
+Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C7B23F73C
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2020 05:23:26 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] curl: add vendors to CVE_PRODUCT to exclude false positives
+Date: Tue,  8 Sep 2020 13:23:24 +0100
+Message-Id: <20200908122324.3780668-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2020-09-08 at 12:28 +0800, Jamaluddin, Khairul Rohaizzat wrote:
-> From: Khairul Rohaizzat Jamaluddin <
-> khairul.rohaizzat.jamaluddin@intel.com>
-> 
-> Due to recent changes in bootimg-efi to include IMAGE_BOOT_FILES,
-> when both bootimg-partition and bootimg-efi occur in a single .wks
-> and IMAGE_BOOT_FILES are defined, files listed in IMAGE_BOOT_FILES
-> will be duplicated in both partition.
-> Since IMAGE_BOOT_FILES are crucial for bootimg-partition, but
-> optional for bootimg-efi, hence allowing bootimg-efi to have the
-> option
-> to ignore it.
-> 
-> The new variable, IMAGE_EFI_BOOT_FILES, was added to help handle this
-> issue. Its basic usage is the same as IMAGE_BOOT_FILES.
-> Usage example:
->         ${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.ext4;rootfs.img
-> \
-> 
-> This commit is also squashed with the updated testcase to cover for
-> this change.
-> 
-> [YOCTO #14011]
-> 
-> Signed-off-by: Khairul Rohaizzat Jamaluddin <
-> khairul.rohaizzat.jamaluddin@intel.com>
-> ---
->  meta/classes/image_types_wic.bbclass          |  2 +-
->  meta/lib/oeqa/selftest/cases/wic.py           | 12 +++++++++++-
->  scripts/lib/wic/plugins/source/bootimg-efi.py |  8 ++++----
->  3 files changed, 16 insertions(+), 6 deletions(-)
+To avoid false positives (such as CVE-2010-0734, rubygems:curl), expand
+the CVE_PRODUCT list to include all the vendors that have been used.
 
-The autobuilder still isn't convinced about this patch unfortunately:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-support/curl/curl_7.72.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1338
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1334
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1355
-and probably
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1350
-which it finishes.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/curl/curl_7.72.0.bb b/meta/recipes-supp=
+ort/curl/curl_7.72.0.bb
+index e7f5492694..a2ae0b6901 100644
+--- a/meta/recipes-support/curl/curl_7.72.0.bb
++++ b/meta/recipes-support/curl/curl_7.72.0.bb
+@@ -11,7 +11,9 @@ SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.ta=
+r.bz2 \
+=20
+ SRC_URI[sha256sum] =3D "ad91970864102a59765e20ce16216efc9d6ad381471f7acc=
+ceceab7d905703ef"
+=20
+-CVE_PRODUCT =3D "curl libcurl"
++# Curl has used many names over the years...
++CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
+ibcurl daniel_stenberg:curl"
++
+ inherit autotools pkgconfig binconfig multilib_header
+=20
+ PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} g=
+nutls libidn proxy threaded-resolver verbose zlib"
+--=20
+2.28.0
 
