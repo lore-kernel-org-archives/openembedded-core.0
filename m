@@ -1,93 +1,75 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web12.31340.1599599367964520794
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.294.1599602903196973055
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 14:09:28 -0700
+ Tue, 08 Sep 2020 15:08:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=V5CjDCrd;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id d20so521503qka.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 14:09:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hv7+sD/8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id s12so757498wrw.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 15:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FsPK6Umil1COORSAC0iw2jjgcCGNvIyxFn7HJQDbBII=;
-        b=V5CjDCrdQmbQD159R8iHZSA91buPiGOtNBYhZOJyNDgTgAkb2IGkCxOFCu9ZwuiZxR
-         OlfpiCZMDg1tgr2dDzilj5aid2mL2S7ovYLwKD3VnZB+X1blZMPLgykHuXUnr6GcZjBG
-         QIPIknagT645XJXX6/r9HBnzKhh5xp3PCr41fs2OPGX1w0LI1i/hDvWX7bVT9qjv+I5W
-         2e+6g/fRZnJS6uJxVVeaCGyVHpV2TbuNA4wxv26t4qV1wT/ohEcmVSpoXTPPNKWBQo67
-         NsjfXfKCND/KceNlZ+C/l0vCXN2eHaDmCL/zk9UxtN6ul5y2MmadcfwiH0YlWDoP0UsJ
-         eSEA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZEMYgwiX7/b/EA2Lx3Y1Be3rN+0R4ybiPfPWlCbMoXo=;
+        b=Hv7+sD/88xmZLDRIuV3LZwYHxTW+DeGwAwGAwUABv7k2cT7ENbg+xFbV6BRZz/Jmtv
+         Kw41tgyxObLumfxShgpNPMg715CG1oLJPWdQzFDyB31mzccxUPqMTIPAMJ98UjvttpAt
+         ePRxQGSDJ4KTdG/kCJQ7TZ4+EPiowbkckx7qA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FsPK6Umil1COORSAC0iw2jjgcCGNvIyxFn7HJQDbBII=;
-        b=QB5bXUuM2eP919OaHQ5U/VnvJoaZa1t0HterD2y/SVXtrB5zYvluE/cwntXCa6lXvD
-         ST/D+PjjpZIqvVuI0vOHk8+6dz8x3BUmhEGkKAIwRXJfYq8LC9c9e81XyoDC9fXqLBEx
-         PkHNLVCAlQHN+3+xmTq+gbFDx15XUnB/OaZSUA3taXBvqbqQw80YYRokOYEWJTSuA/HB
-         DP+IIPzzeQnihxEeMhfwAwBpiJr9SwAHMFNKZ1uZoZ9trrI10VKiXatsZyYCpkNKOZhf
-         rYmclxLrxEP7CO+EEprBDzFidfIZqJCCa2ud8FI6lQ30BGuyQ/hHm27+ZMFoKHpNDBDG
-         kMWQ==
-X-Gm-Message-State: AOAM531ehwH6MHQiAC3QbQjZg0F0kykY15ZAu+yGby/kfQ5ZP4/j4oLK
-	zl2XoLkY9DHWvzzpIH8SHbJcVrXbVJzUzfPK/Fs=
-X-Google-Smtp-Source: ABdhPJzcdCDHsQRWmmujsqTcXbdFsfDpeSu/m0K8Zp6EGsIP094zbzXRoJMRF/vvFaIxzliTmNp1QkftFIBWOTIHo9U=
-X-Received: by 2002:a05:620a:7f6:: with SMTP id k22mr462129qkk.337.1599599366891;
- Tue, 08 Sep 2020 14:09:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZEMYgwiX7/b/EA2Lx3Y1Be3rN+0R4ybiPfPWlCbMoXo=;
+        b=Hr3kOz97wkub7Z9SWp5tPpn+fhIM8U/YQ6IGsfubP7/pzcbB3oktgEFVC0sRRtnXK1
+         rw82lq7S+bB2hvlnjtK2vTXDYV1LKncb0p/u6ZSCylhUDfiYZuMy9kS0LlcaIjXcGhHx
+         56egSUgtXCP+h3LMoKQ2s+iTKoh/ndaP9VTCQ6AW6T6vDmxvkxr0wIazl8LHXem3k9mc
+         ddI9Kwv0EN1qHOkg4zvSQAAZSDzbKCgWxX36KnvBRW79Pf2I1tXZVBbw7LyJqt7YHwqs
+         V2pfzD3M7tlYpZ4cnnA2yyo3HQ1YX6FjNoToCRQmzyiMpWOamABmtQ2HI7ONRtbMcuAn
+         M/Vg==
+X-Gm-Message-State: AOAM530LnP+HhRwE79HXHkHUtcsgkKkaDDKYaPs88uxwoNx0X9P4q1hd
+	FO2Tsdy8qjZVxVT094CqwCEdbp+qgi5b/g==
+X-Google-Smtp-Source: ABdhPJwjJmacVOhmI5vr78qp0sMIClCdDLAUt1HbrBv/XZaWS9eEHb99YyCoMf01aXtM7+ipMiLv0g==
+X-Received: by 2002:a5d:430d:: with SMTP id h13mr595049wrq.41.1599602901171;
+        Tue, 08 Sep 2020 15:08:21 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
+        by smtp.gmail.com with ESMTPSA id r14sm1070325wrn.56.2020.09.08.15.08.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 15:08:20 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][zeus] oeqa/runtime_test: Disable test_testimage_virgl_gtk
+Date: Tue,  8 Sep 2020 23:08:19 +0100
+Message-Id: <20200908220819.1992119-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200908065723.39858-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20200908065723.39858-1-open.source@oleksandr-kravchuk.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 8 Sep 2020 14:09:01 -0700
-Message-ID: <CAMKF1sr5DPAvA-=DHswiwsa_sps9H_XfrKnRwLOHXbHJM=_GTQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ell: updte to 0.33
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 7, 2020 at 11:57 PM Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> Changelog
-> - Fix issue with uintset and number of bytes copied.
-> - Fix issue with overflow in DHCP lease T2 computation.
-> - Fix issue with side channel leak in l_ecc_scalar_new.
-> - Fix issue with missing MSG_MORE in l_cipher_set_iv.
-> - Add support for DHCP v6 client implementation.
->
+This test keeps failing on the autobuilder and is proving extremely
+annoying. It works much better in later releases but for zeus and
+earlier, lets just stop running it as it doesn't really tell us
+anything useful at this point, nobody has any plans to improve
+the distro exclusions or otherwise fix it in the older releases.
 
-I think it has obsoleted certain symbols which are used by iwd e.g.
-https://errors.yoctoproject.org/Errors/Details/498748/
-https://errors.yoctoproject.org/Errors/Details/498747/
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-here is the patch which is doing it in ell
-https://lists.01.org/hyperkitty/list/ell@lists.01.org/message/KQLABKGASRCRWEXKJBDWJV5IXLL4CJ5X/
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 7d3922ce448..d4fea913502 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -166,7 +166,7 @@ class TestImage(OESelftestTestCase):
+         bitbake('core-image-full-cmdline socat')
+         bitbake('-c testimage core-image-full-cmdline')
+ 
+-    def test_testimage_virgl_gtk(self):
++    def disabled_test_testimage_virgl_gtk(self):
+         """
+         Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
+         Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
+-- 
+2.25.1
 
-For now I have sent a patch to upgrade iwd to 1.9 and hope that fixes it
-
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  meta/recipes-core/ell/{ell_0.32.bb => ell_0.33.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/ell/{ell_0.32.bb => ell_0.33.bb} (89%)
->
-> diff --git a/meta/recipes-core/ell/ell_0.32.bb b/meta/recipes-core/ell/ell_0.33.bb
-> similarity index 89%
-> rename from meta/recipes-core/ell/ell_0.32.bb
-> rename to meta/recipes-core/ell/ell_0.33.bb
-> index 07dc4d4cbb..2fa05104fb 100644
-> --- a/meta/recipes-core/ell/ell_0.32.bb
-> +++ b/meta/recipes-core/ell/ell_0.33.bb
-> @@ -14,7 +14,7 @@ DEPENDS = "dbus"
->  inherit autotools pkgconfig
->
->  SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
-> -SRC_URI[sha256sum] = "42fdb9e24ff561a101389d51445cab1ff7d55f5385dc22a05b0493088cf99e30"
-> +SRC_URI[sha256sum] = "d9e40e641164150394b74b719b9726fc734f24b2cde679cf5f3be6915c34eded"
->
->  do_configure_prepend () {
->      mkdir -p ${S}/build-aux
-> --
-> 2.25.1
->
-> 
