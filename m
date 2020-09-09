@@ -1,93 +1,102 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.64])
- by mx.groups.io with SMTP id smtpd.web11.6433.1599684414451915544
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.79])
+ by mx.groups.io with SMTP id smtpd.web10.6598.1599684700592758838
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 13:46:54 -0700
+ Wed, 09 Sep 2020 13:51:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=UjQlEmfN;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.236.64, mailfrom: chris.laplante@agilent.com)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=Zoy9LEM2;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.76.79, mailfrom: chris.laplante@agilent.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PEStIoidFw6+KUzfEMRUkQY+gbuSe5Dk/oSXhwOjF8nTMiPDJ7FQq1hf5foG7TISJYLi2nNeWw6gDl+BiLFFyUnADB4yZhGwdHA/356vBCWnbj6Mg2Co7q/vE3UBTxUqeCxzl04u7kdEcqr+7J971+RYDtk71HmWbnmBl1MqIGiyrh0a7v+7VQGtg+NvnPEIrFz3LNZBQx0ZxNaP7I/E5ySLxnHLV6ipYXD5xWX8C9It4fdIAJWigTeAgd4Nkz4IEYuEQBiT9KCIudbiNZxsJp5q4Ddn+xgaNnYZilvSuSaBjvCwQr5C7mo4Rt1Kttz0t8GY0tlXsPYdntlYJdGe0g==
+ b=gbqRTd42r5RMQ0kDYWpDJZgXrUs+zKCYX3iqwt2veXsVwH3wA3em8mOcpTT+YjJG63kxffcxrb1Xz+64YNgt69wBpLPqMNpX4293rr9FAfoq3JmrhTgrRC3wJO7GqjrtTl4Mw321vy1boqAeH6E/9xREdzFt33XgAIqDpEr0DdN++mc0+IuBFdRDomJ/hZt9cUHWlKejtJ/KMoMzDmFZeTiwEgC4pSf+DRnR8+b4FlTK35t812cTn4KM9GCqwn172OAm+iOzCoWFayYcDbLzFI+5UO9t93Ycg6+7NEsKi9h8boFBFpbfLA9NdsFKBJuiTT+aZ8B6+PpiG9EoQ7P3Wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XrFczzdLRpInOcBn1OK8OEiEab0o65jejrYYsBwi9Ws=;
- b=ANcliasfq/2tV/jd7PnnPaXjV3OXHUs/yB3hxKd43PizsqxEYKlmL+zQwTs6Wb+Xkktfyel5Gg+y1CzilCpl05ybasGKadnRf6bA2RkhHHykLBvoVB3ofPetrrM43l8ey7m4aWdxanqPNseVoTih3pn4ZEj3RUKn7Ho75Ygoq2AkvHOU3kDwU9tGElB8lXhImkE29DkJKapIPmjZI0yEGOtTsMNg2DizT0atTZznDJczK5Vr9fOkOWZtBSIfnOTsWvncyNpuC1oh9XecJQINhrtlNRLUyRyj9PPhOByKgMEOlTkbeAygwcwcJb3+fsNhRM1Zm80R7uAO7hMux0l/Xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
- dkim=pass header.d=agilent.com; arc=none
+ bh=xsil6wO2c39yWAG26fDqtg9WpgVNWiQ1Jy9hP8G+MNU=;
+ b=KngKowBiCcgQb3jJ3LshTdPe1XsdnM/ffkMh5i1TCSCfNi+JlmlsfGNxq1PudxiDHqDinSOwEOqAkIBqPq35trHs3eF8xdtomEKzBx2ZDjQq+Q2jg1BylzK6CH3hIMQMAuaJlI1VRs1HtVZPQKUng+ubHcRKFU0m41yHrWv7hDpLIn+tDCJxdGr4OA4tva/wZAEI1OlXOXwaccQrQnm2AqcxozP+X+AacbsVkjSgtRARsGYJJMRKmp3GGysX+v4FL2xm4Pclxlg3LIPNv3bBrQ/abaWtfNIwz6xV5gbXGAzQmfQ7Cz6E4SVa3MEDhp+TYpM3v3YpTCR6bDYnpJYNuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.25.218.41) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=agilent.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XrFczzdLRpInOcBn1OK8OEiEab0o65jejrYYsBwi9Ws=;
- b=UjQlEmfNrFVUbL7Cuu3CusQBGl4oKae8QHcz52uohe6wizjem1XgvPuCnVjtxakzLShFJHJGhangWF7UTH1PHoTO2Dw+i10eLZLaCChChM90EUD5OTXGUg1OXZ9kcsTKHFRbczXb+DXGC12yzcaVOvBpg3wVCdKkHllAeBaUZl8YeAoId1j9TqelE5RFEtcTR+cvEG7qQNq3dY3I+kN6mijYbKyWs3Qy+f6AQHPysmszGvi2OoS23Avhhjif7+8NGzjnC/NXWMkfPP3ovekE6soeUKRsjJj1anOfyT8z5fdGpVmq2SRXRKzMWBipKj4KH663nGRqEMcof9hxcaYexA==
-Received: from SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21)
- by SA0PR12MB4494.namprd12.prod.outlook.com (2603:10b6:806:94::20) with
+ bh=xsil6wO2c39yWAG26fDqtg9WpgVNWiQ1Jy9hP8G+MNU=;
+ b=Zoy9LEM2zwBOV1hhQRZNEVvmzH4zZ5gkXBObmr9JOJ5vudT+eWjQpRakm624B5MH4ApYHVWjkq7dgg7XSlNZF8ZIRH0MdP9Hpq1RFeBBKkjap+YiTgCioNDPopZ9FX6zIIKDrsERXUkfzajzSAJ8KcrvxqmwdzD2Je/9udt7bPPGnYL1Dzirv4VLfRe0/4lpaUA+gAGRG0AYHimbn0O8/eUmzvh/C1UWWinHtOwrPETeEAqxL/xWCBuFiiCC+yWIzVwU/3cNtT/GCdcYMwWbgkbE2Cb/rmHeyXTcgb+w6cqBdtH3LB1Ddtfvnm8E74Fl/5zKUq0cvvLE5K/N2Q3HrQ==
+Received: from BN6PR13CA0026.namprd13.prod.outlook.com (2603:10b6:404:13e::12)
+ by DM6PR12MB4315.namprd12.prod.outlook.com (2603:10b6:5:223::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 9 Sep
- 2020 20:46:52 +0000
-Received: from SN1PR12MB2480.namprd12.prod.outlook.com
- ([fe80::d9f4:7430:8c64:d2d]) by SN1PR12MB2480.namprd12.prod.outlook.com
- ([fe80::d9f4:7430:8c64:d2d%7]) with mapi id 15.20.3370.016; Wed, 9 Sep 2020
- 20:46:52 +0000
+ 2020 20:51:39 +0000
+Received: from BN8NAM12FT039.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:404:13e:cafe::76) by BN6PR13CA0026.outlook.office365.com
+ (2603:10b6:404:13e::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.9 via Frontend
+ Transport; Wed, 9 Sep 2020 20:51:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.41)
+ smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
+ signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
+ header.from=agilent.com;
+Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
+ 192.25.218.41 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.25.218.41; helo=edgeappmail.agilent.com;
+Received: from edgeappmail.agilent.com (192.25.218.41) by
+ BN8NAM12FT039.mail.protection.outlook.com (10.13.182.234) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.8 via Frontend Transport; Wed, 9 Sep 2020 20:51:38 +0000
+Received: from laplante-lm-19.localdomain (192.25.126.27) by
+ edgeappmail.agilent.com (192.25.218.41) with Microsoft SMTP Server id
+ 15.1.2044.4; Wed, 9 Sep 2020 14:51:26 -0600
 From: "Chris Laplante" <chris.laplante@agilent.com>
-To: Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 2/4] cve-check/cve-update-db-native: fix under multiconfig
-Thread-Topic: [OE-core] [PATCH 2/4] cve-check/cve-update-db-native: fix under
- multiconfig
-Thread-Index: AQHWhs+ce3cEfbaSDkagVkODTXL5Sqlgv2SAgAAC9HCAAASFoA==
-Date: Wed, 9 Sep 2020 20:46:52 +0000
-Message-ID: 
- <SN1PR12MB248086350406CEA62DFE61278B260@SN1PR12MB2480.namprd12.prod.outlook.com>
-References: <20200909173510.114925-1-chris.laplante@agilent.com>
- <20200909173510.114925-2-chris.laplante@agilent.com>
- <CAAnfSTufbRYeTjS4ovx=5Bj1jqYsheYzJcysCo7j-1PqmD+x-A@mail.gmail.com>
- <SN1PR12MB24802B0C1DBDBC6FF5C4AA188B260@SN1PR12MB2480.namprd12.prod.outlook.com>
-In-Reply-To: 
- <SN1PR12MB24802B0C1DBDBC6FF5C4AA188B260@SN1PR12MB2480.namprd12.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: burtonini.com; dkim=none (message not signed)
- header.d=none;burtonini.com; dmarc=none action=none header.from=agilent.com;
-x-originating-ip: [76.99.179.205]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b7ea0059-0310-41f0-478c-08d855017b6d
-x-ms-traffictypediagnostic: SA0PR12MB4494:
-x-microsoft-antispam-prvs: 
- <SA0PR12MB4494784E70EC4CD815660BBB8B260@SA0PR12MB4494.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- szTIUTdcmB+GM2x/uN81sJ5dlMvyuazptIGtbKz/FRG6njUeIMsGjaXaFtbl0Th6CcFRGkQ/wxFb/weWyBJ6OnwIo8cDd6H1ZVdcNnmyoWxZOPdAB2qOE3XEHVlDv6OmL8+dnifsmfhZKvl8FIrdjoIILXuDrnjqvsDLmKXQ/csMl9UxXN4P/RmwAFg/7EBCO6SuLW3ErJ0e4ikfg05V17D+qaHChuxZmOqLUQGe4Mg1myHavQL00nOT5WEuvS7/aPnB57FuliXO1Re8SRFldJxNzrDrqsUtajTI7x4wVfwUY7L0nRd/RDz6aQz5S7ymfX93ATs+4SZZBXG6dSE1Yzdb4S8yFWm+y97bZPXfPkMbOpu2D3HK7hiQP26UmXwC
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2480.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(366004)(39860400002)(396003)(346002)(29502001)(9686003)(2906002)(26005)(52536014)(2940100002)(316002)(8936002)(71200400001)(83380400001)(4326008)(8676002)(6506007)(55016002)(33656002)(5660300002)(7696005)(4744005)(186003)(66556008)(64756008)(76116006)(66446008)(478600001)(6916009)(66946007)(66476007)(86362001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- scrEeLgxrtnS/EmV4dJwvb1QaJp0vULq/35vh2q34BstgZ4zGLfyEQisD0Oxiwn7yqAylPSx+K3gjWA7sS5LKrCTNoI+STyX0KLoisNzDoCgSMEOLDej1au97hcCxX1k3yOnpjrrlt6xVW4RW2G1ztFqFeNfcP42aFr/AGtY5ZTILqVVFZgfF20vJn+FCMYy3u5QHTDu+OAjg/XcWB+Hra1YvJwF/H3DtjL5QzMT7pgmX2TLWFSwMWnpxzQk5SwAm84HKtDjoXR3Y/XzaJV+9EeGoKvxqvEeowZeCeglc/BcmKt0a022WPF1z1YYn/CGnGo628v83WqiRX2izJS6dmExRoGG85KaVT5AkTTKdjnEBOMFlpJyyT2i9NnKEm7pqR14jyIGkeiLeyJ1Ae/geLT2Y4jPDzMh2t9tN/r6pQrsPkbA8CpTVSeacmVFCBfL3RFJyzKuDD6alzVDlypGzPbUdCOofkXlaCI0sI72P2hxqNO3A0fZHqTe1lxtc8SPyM9sfJCHJKpggnta/Q31WQR5veyuc3ZG78DE7mAy3MqaPNJeeFlwuZJ1KP9/x45KUPdqWQg2VXFDUglyri6atrEHyIysdQLFUsvcqoAVppuEgX++DaMOyQ0wL0pjMC004Nf1YFwqVTTISr6VU+SOIQ==
-x-ms-exchange-transport-forked: True
+To: <openembedded-core@lists.openembedded.org>
+CC: Chris Laplante <chris.laplante@agilent.com>
+Subject: [PATCH v2 0/4] cve-check fixes/enhancements
+Date: Wed, 9 Sep 2020 16:51:05 -0400
+Message-ID: <20200909205109.120033-1-chris.laplante@agilent.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Return-Path: chris.laplante@agilent.com
+Received-SPF: SoftFail (wpcosapexchedg2.windmz.agilent.com: domain of
+ transitioning chris.laplante@agilent.com discourages use of 192.25.126.27 as
+ permitted sender)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5892a66-f279-4180-b756-08d85502261a
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4315:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR12MB4315C37E037B4B0C6FCAEC2C8B260@DM6PR12MB4315.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZGjFRiJNKLmUZybnCnU7bY07FlQCkW041siWBRfg5+1yAQlym7Mc+RhSNb/2gpP6I1XHxQrVYj7CoN0jefFJ+3eOVpCvBiBUYCSchQnr0AYcdQL5+kQB1mbOhz94F/wJ5+Zlpv+Wxgap8ne/fj2kbrRUNfVrbf3eUDWU8DHCoaVcncauYkOneP4AAQ5u1GpXxcajT3HCxkhgpT01qainJm5CVCxlnOE2dl/4CBojbOfSVMGhaY7X4cIVLkF0+UkaEOTk7KIXNhDK0HKoV3TxXbilONofGejmvwDuhSly68v9iXu/gvpKpfx+voY1lYp9E8CrzO0ZT0LOg72CuZ62Lno2cQudEcmUDG2anxFQptKtl5Ob1DqH2JfVCofqcqWHtAB4rhQ2HKuKqqKSGGXnj19bFgtsHcTtTilDdt0mqyA=
+X-Forefront-Antispam-Report: 
+	CIP:192.25.218.41;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:exch.smtp.agilent.com;CAT:NONE;SFS:(4636009)(376002)(39860400002)(346002)(136003)(396003)(29502001)(46966005)(70206006)(86362001)(82310400003)(336012)(186003)(107886003)(4744005)(2906002)(26005)(4326008)(44832011)(5660300002)(478600001)(6916009)(36756003)(47076004)(356005)(426003)(6666004)(1076003)(36906005)(7636003)(316002)(8676002)(956004)(8936002)(2616005)(83380400001)(82740400003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2480.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7ea0059-0310-41f0-478c-08d855017b6d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2020 20:46:52.6083
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 20:51:38.8227
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ekXDF+gxg4x3FJK4bV71zYTVQv9cX/f5FmaC1aIwY+pkNcQhRyAV9usOCzZbyvnQ+Z61pHWiPX/BXjxVxMme4gAqmGPFKEVmvS7QxMW+TQQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4494
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5892a66-f279-4180-b756-08d85502261a
+X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.41];Helo=[edgeappmail.agilent.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN8NAM12FT039.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4315
+Content-Type: text/plain
 
-PiA+IEJ1dCB0aGUgZGF0YWJhc2VzIHdpbGwgYmUgaWRlbnRpY2FsIHNvIHRoYXQncyBiYXNpY2Fs
-bHkgYSB3YXN0ZSBvZg0KPiA+IHRpbWUuICBIb3cgYWJvdXQgYWRkaW5nIGEgbG9jayBmaWxlIHNv
-IHRoZSBzZWNvbmQgdGFzayB3YWl0cyBmb3IgdGhlDQo+ID4gZmlyc3QgdG8gY29tcGxldGUsIGFu
-ZCB0aGVuIGRvZXMgbm90aGluZyBhcyB0aGUgZGF0YWJhc2UgaXMgdXAgdG8gZGF0ZT8NCj4gDQo+
-IFRoYXQncyBhIGdvb2QgcG9pbnQuIEkgYWxzbyBjb25zaWRlcmVkIGp1c3QgbWFraW5nIGl0IGEg
-YmIuZXZlbnQuQnVpbGRTdGFydGVkDQo+IGV2ZW50IGhhbmRsZXIsIGxpa2UgaG93IHVuaW5hdGl2
-ZSB3b3Jrcy4NCg0KU2hvdWxkIGhhdmUgbWVudGlvbmVkLCBJIGxpa2UgeW91ciBhcHByb2FjaCBi
-ZXR0ZXIgYW5kIGFtIHdvcmtpbmcgb24gYSB2MiBwYXRjaCBzZXJpZXMuIA0KDQpUaGFua3MsDQpD
-aHJpcyANCg==
+v1: initial
+v2: use lockfile in cve-update-db-native as suggested by Ross Burton
+
+Chris Laplante (4):
+  cve-update-db-native: add progress handler
+  cve-check/cve-update-db-native: use lockfile to fix usage under
+    multiconfig
+  cve-update-db-native: use context manager for cve_f
+  cve-check: avoid FileNotFoundError if no do_cve_check task has run
+
+ meta/classes/cve-check.bbclass                | 14 +--
+ .../recipes-core/meta/cve-update-db-native.bb | 96 ++++++++++---------
+ 2 files changed, 57 insertions(+), 53 deletions(-)
+
+--
+2.17.1
+
