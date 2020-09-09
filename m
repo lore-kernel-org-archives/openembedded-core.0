@@ -1,237 +1,155 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.4861.1599618119476184636
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.6737.1599626887728288696
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 19:22:00 -0700
+ Tue, 08 Sep 2020 21:48:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A1FD240BBF;
-	Wed,  9 Sep 2020 02:21:58 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ldDzx_snH2jo; Wed,  9 Sep 2020 02:21:58 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8008040A28;
-	Wed,  9 Sep 2020 02:21:57 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id C7F0917446E;
-	Tue,  8 Sep 2020 22:21:56 -0400 (EDT)
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH v2] weston: upgrade 8.0.0 -> 9.0.0
-Date: Tue,  8 Sep 2020 22:21:56 -0400
-Message-Id: <1599618116-55708-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uxXQ4+H1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id s2so719166pjr.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 21:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:references:to:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=IJ6HMQkGHzvhYDDrdSK/QUN12bzsw7nfypPWT5vQ35E=;
+        b=uxXQ4+H128+E89r6we6/HJTOUv7SaafJEt7KI6boM7kLCXBBMzQD3kEeci3UlPIUxY
+         ilAvc6jrIa/OqPcDarQn2q0DzwZHH9AJ/iHeUukvgnPd4K9Vo32O/HqIV1VlVMlocG9e
+         IUs6Qn0iFk3VvfRvgR3whLj37kCqWMXSoR8WJNCCg6wUyI3hk0Ozz08VclqKAhh7K39O
+         av+Xx+a1h4Mx07CggqFHW7XRdxCpGUj/FXVCjxZRQh4DrGLOwECu4WCBlEXlhfgY6uSD
+         UoRDlV9ut2bZ0Mp5vb/7+yup6iJ7KlmEKS+Lzlb2TjqrCGwGOhtVV3z8F7PEGAqs4bB6
+         v+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:references:to:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language;
+        bh=IJ6HMQkGHzvhYDDrdSK/QUN12bzsw7nfypPWT5vQ35E=;
+        b=ZU0/fs2BDHor8kvYZ09RxyUcOzKHWZW2UZAL2k2Rwq4d+VVW4OslCwe5szK/AJvLjQ
+         3r5KrMvY1r45hRjBBrw4dozSyT0NMtrSUr/f0kMmou+RXVMAnJ3Fm/wvcWixBiKOLmaO
+         Q3r2nTClBZtfsz/ttnzH4rxV0BENwzbyBqgy403Vq0OYQiRKDWQPCq9HjZM0Nk0dxA8x
+         qOLy6vmDdM6vz7suL3e8+eKC03Jy3zCa26jaOMU8KU2jAdlCNIuTDDa54IluLZgt4S8X
+         033mHOpr07rONLmWm3jqhnrxF7aifj7ZkdeJrGW/lQqeTXf8sJguxtoBVvA0lQTl+Vwe
+         QzoA==
+X-Gm-Message-State: AOAM530kWKTArLhBeDCIa5Wk0Jc/jS+OWS/JJ1BfSV883KU3G/uAqxUm
+	5DAFfGi7u+fvwSpdLOGPch0bierFYfM=
+X-Google-Smtp-Source: ABdhPJzFGwCQUoaX69+uY6/8Sp2H5LXV9UPZ0iEHLoUuak09jKD72MQbVPSo57AcI4sqjaMVI3p+zg==
+X-Received: by 2002:a17:90a:8d85:: with SMTP id d5mr1874454pjo.45.1599626887002;
+        Tue, 08 Sep 2020 21:48:07 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:812e:2d2f:a669:186f? ([2601:202:4180:a5c0:812e:2d2f:a669:186f])
+        by smtp.gmail.com with ESMTPSA id p29sm771608pgl.34.2020.09.08.21.48.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Sep 2020 21:48:06 -0700 (PDT)
+Subject: [yocto] Warrior and Thud stable branches
+References: <163303B5AC80ABDA.6229@lists.yoctoproject.org>
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8CS2NxU=
+X-Forwarded-Message-Id: <163303B5AC80ABDA.6229@lists.yoctoproject.org>
+Message-ID: <3fa28ecd-8696-ca8f-f47f-99696917d0a2@gmail.com>
+Date: Tue, 8 Sep 2020 21:48:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <163303B5AC80ABDA.6229@lists.yoctoproject.org>
+X-Groupsio-MsgNum: 142280
+Content-Type: multipart/mixed;
+ boundary="------------476902608704D7F4E8AFE132"
+Content-Language: en-US
 
-From: Denys Dmytriyenko <denys@ti.com>
+--------------476902608704D7F4E8AFE132
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Weston 9.0.0 is released! This release cycle has been pretty quiet,
-with just a few new features:
 
-- A new kiosk shell allows to display regular desktop apps in an
-  always-fullscreen mode
-- Improved testing infrastructure: the test harness has been
-  redesigned, DRM tests are now supported, DRM and OpenGL tests are now
-  enabled in our CI
-- DRM panel orientation property support
+Sorry. still have the old email address in my contacts.
 
-As always, a number of bug fixes are included as well.
-https://lists.freedesktop.org/archives/wayland-devel/2020-September/041595.html
+re-sending.
 
-Add a patch to fix building of tests/weston-test-fixture-compositor.c on musl.
+-------- Forwarded Message --------
+Subject: 	[yocto] Warrior and Thud stable branches
+Date: 	Tue, 8 Sep 2020 21:39:28 -0700
+From: 	akuster via lists.yoctoproject.org
+<akuster808=gmail.com@lists.yoctoproject.org>
+Reply-To: 	akuster808@gmail.com
+To: 	openembedded-core@openembedded.org
+<openembedded-core@openembedded.org>, yocto@yoctoproject.org
+<yocto@yoctoproject.org>, OpenEmbedded Devel List
+<openembedded-devel@lists.openembedded.org>,
+bitbake-devel@lists.openembedded.org <bitbake-devel@lists.openembedded.org>
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-v2 - patch tests/weston-test-fixture-compositor.c for musl
 
- ...de-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch | 47 ++++++++++++++++++++++
- ...ch-Provide-a-default-version-that-doesn-t.patch | 27 +++++++------
- .../wayland/{weston_8.0.0.bb => weston_9.0.0.bb}   |  4 +-
- 3 files changed, 63 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
- rename meta/recipes-graphics/wayland/{weston_8.0.0.bb => weston_9.0.0.bb} (97%)
 
-diff --git a/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch b/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
-new file mode 100644
-index 0000000..6fe86ff
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
-@@ -0,0 +1,47 @@
-+From 58760e09eed662a72da939ff4802d605489cff8e Mon Sep 17 00:00:00 2001
-+From: Denys Dmytriyenko <denys@ti.com>
-+Date: Tue, 8 Sep 2020 19:37:42 -0400
-+Subject: [PATCH] tests: include fcntl.h for open(), O_RDWR, O_CLOEXEC and
-+ O_CREAT
-+
-+musl libc (unlike glibc) requires explicitly incuding fcntl.h to define open(),
-+O_RDWR, O_CLOEXEC and O_CREAT. Otherwise the build fails with the errors:
-+
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c: In function 'wait_for_lock':
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:7: warning: implicit declaration of function 'open'; did you mean 'popen'? [-Wimplicit-function-declaration]
-+|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
-+|       |       ^~~~
-+|       |       popen
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:23: error: 'O_RDWR' undeclared (first use in this function)
-+|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
-+|       |                       ^~~~~~
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:23: note: each undeclared identifier is reported only once for each function it appears in
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:32: error: 'O_CLOEXEC' undeclared (first use in this function)
-+|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
-+|       |                                ^~~~~~~~~
-+| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:44: error: 'O_CREAT' undeclared (first use in this function)
-+|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
-+|       |                                            ^~~~~~~
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/493/diffs?commit_id=b10c0e843dcb8148bbe869bb15261955b94ac98c]
-+
-+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-+---
-+ tests/weston-test-fixture-compositor.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/weston-test-fixture-compositor.c b/tests/weston-test-fixture-compositor.c
-+index 0c9855f..e0e32c9 100644
-+--- a/tests/weston-test-fixture-compositor.c
-++++ b/tests/weston-test-fixture-compositor.c
-+@@ -31,6 +31,7 @@
-+ #include <unistd.h>
-+ #include <sys/file.h>
-+ #include <errno.h>
-++#include <fcntl.h>
-+ 
-+ #include "shared/helpers.h"
-+ #include "weston-test-fixture-compositor.h"
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-index 62b864c..3279a72 100644
---- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-@@ -1,7 +1,8 @@
--From 5f2d71998eb77068cbaee2d468cbb296a42d5739 Mon Sep 17 00:00:00 2001
-+From a1548c742bf2dedbb47282d8a00407b60bbab669 Mon Sep 17 00:00:00 2001
- From: Tom Hochstein <tom.hochstein@nxp.com>
- Date: Wed, 22 Feb 2017 15:53:30 +0200
- Subject: [PATCH] weston-launch: Provide a default version that doesn't require
-+
-  PAM
- 
- weston-launch requires PAM for starting weston as a non-root user.
-@@ -57,7 +58,7 @@ index 08d23ec..cb9fd3f 100644
-  		install: true
-  	)
- diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
--index 8a711b4..54c567a 100644
-+index 521cb2c..2d42d33 100644
- --- a/libweston/weston-launch.c
- +++ b/libweston/weston-launch.c
- @@ -51,7 +51,9 @@
-@@ -97,7 +98,7 @@ index 8a711b4..54c567a 100644
-  
-  static int
-  setup_launcher_socket(struct weston_launch *wl)
--@@ -431,6 +437,7 @@ quit(struct weston_launch *wl, int status)
-+@@ -466,6 +472,7 @@ quit(struct weston_launch *wl, int status)
-  	close(wl->signalfd);
-  	close(wl->sock[0]);
-  
-@@ -105,15 +106,15 @@ index 8a711b4..54c567a 100644
-  	if (wl->new_user) {
-  		err = pam_close_session(wl->ph, 0);
-  		if (err)
--@@ -438,6 +445,7 @@ quit(struct weston_launch *wl, int status)
-+@@ -473,6 +480,7 @@ quit(struct weston_launch *wl, int status)
-  				err, pam_strerror(wl->ph, err));
-  		pam_end(wl->ph, err);
-  	}
- +#endif
-  
-- 	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
-- 	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
--@@ -666,6 +674,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-+ 	/*
-+ 	 * Get a fresh handle to the tty as the previous one is in
-+@@ -710,6 +718,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-  	setenv("HOME", wl->pw->pw_dir, 1);
-  	setenv("SHELL", wl->pw->pw_shell, 1);
-  
-@@ -121,7 +122,7 @@ index 8a711b4..54c567a 100644
-  	env = pam_getenvlist(wl->ph);
-  	if (env) {
-  		for (i = 0; env[i]; ++i) {
--@@ -674,6 +683,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-+@@ -718,6 +727,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
-  		}
-  		free(env);
-  	}
-@@ -129,7 +130,7 @@ index 8a711b4..54c567a 100644
-  
-  	/*
-  	 * We open a new session, so it makes sense
--@@ -745,8 +755,10 @@ static void
-+@@ -789,8 +799,10 @@ static void
-  help(const char *name)
-  {
-  	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
-@@ -140,7 +141,7 @@ index 8a711b4..54c567a 100644
-  	fprintf(stderr, "  -t, --tty       Start session on alternative tty,\n"
-  			"                  e.g. -t /dev/tty4, requires -u option.\n");
-  	fprintf(stderr, "  -v, --verbose   Be verbose\n");
--@@ -760,7 +772,9 @@ main(int argc, char *argv[])
-+@@ -804,7 +816,9 @@ main(int argc, char *argv[])
-  	int i, c;
-  	char *tty = NULL;
-  	struct option opts[] = {
-@@ -150,7 +151,7 @@ index 8a711b4..54c567a 100644
-  		{ "tty",     required_argument, NULL, 't' },
-  		{ "verbose", no_argument,       NULL, 'v' },
-  		{ "help",    no_argument,       NULL, 'h' },
--@@ -772,11 +786,16 @@ main(int argc, char *argv[])
-+@@ -816,11 +830,16 @@ main(int argc, char *argv[])
-  	while ((c = getopt_long(argc, argv, "u:t:vh", opts, &i)) != -1) {
-  		switch (c) {
-  		case 'u':
-@@ -167,7 +168,7 @@ index 8a711b4..54c567a 100644
-  			break;
-  		case 't':
-  			tty = optarg;
--@@ -828,8 +847,10 @@ main(int argc, char *argv[])
-+@@ -872,8 +891,10 @@ main(int argc, char *argv[])
-  	if (setup_tty(&wl, tty) < 0)
-  		exit(EXIT_FAILURE);
-  
-@@ -179,7 +180,7 @@ index 8a711b4..54c567a 100644
-  	if (setup_launcher_socket(&wl) < 0)
-  		exit(EXIT_FAILURE);
- diff --git a/meson_options.txt b/meson_options.txt
--index c862ecc..73ef2c3 100644
-+index 239bd2d..99e4ec3 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
- @@ -73,6 +73,13 @@ option(
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/weston_8.0.0.bb
-rename to meta/recipes-graphics/wayland/weston_9.0.0.bb
-index 8fef864..2c526e3 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -10,9 +10,9 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.desktop \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-+           file://0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch \
- "
--SRC_URI[md5sum] = "53e4810d852df0601d01fd986a5b22b3"
--SRC_URI[sha256sum] = "7518b49b2eaa1c3091f24671bdcc124fd49fc8f1af51161927afa4329c027848"
-+SRC_URI[sha256sum] = "5cf5d6ce192e0eb15c1fc861a436bf21b5bb3b91dbdabbdebe83e1f83aa098fe"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
--- 
-2.7.4
+Hello,
 
+A few words regarding the older stable releases, Thud and Warrior.
+
+Thud no longer has an active Community Maintainer so this release with
+be move to the  EOL state.  Warrior did have a volunteer but no activity
+to date and this branch will also move to the EOL state. This will take
+affect tomorrow (Wednesday PST).
+
+regards,
+Armin
+
+
+
+--------------476902608704D7F4E8AFE132
+Content-Type: text/plain; charset=UTF-8;
+ name="Attached Message Part"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="Attached Message Part"
+
+LT0tPS09LT0tPS09LT0tPS09LT0tPS0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBz
+ZW50IHRvIHRoaXMgZ3JvdXAuCgpWaWV3L1JlcGx5IE9ubGluZSAoIzUwNTIxKTogaHR0cHM6Ly9s
+aXN0cy55b2N0b3Byb2plY3Qub3JnL2cveW9jdG8vbWVzc2FnZS81MDUyMQpNdXRlIFRoaXMgVG9w
+aWM6IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9tdC83NjcyNjM4OS8zNjE2Njk4Ckdy
+b3VwIE93bmVyOiB5b2N0bytvd25lckBsaXN0cy55b2N0b3Byb2plY3Qub3JnClVuc3Vic2NyaWJl
+OiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy95b2N0by91bnN1YiAgW2FrdXN0ZXI4
+MDhAZ21haWwuY29tXQotPS09LT0tPS09LT0tPS09LT0tPS09LQoK
+
+--------------476902608704D7F4E8AFE132--
