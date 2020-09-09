@@ -1,75 +1,237 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.306.1599602943857231349
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.4861.1599618119476184636
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 15:09:04 -0700
+ Tue, 08 Sep 2020 19:22:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FfOhGK1R;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id x14so746298wrl.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 15:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RlOlwqccm7Vg838s7d2QT690Azh7vr/cpzwrz/SWYkQ=;
-        b=FfOhGK1RoqaxP09I+ukIOOKY5JqIJHBg7sWFIlTXN2jgtsyyMCnLnZJmTeg3aoiHBE
-         oCOkH5XLyKV7SJ3gYVAhkkklsP8hzqgtzjXC6I4myjoyxU2oXG5PwygTffHROzUFNxAi
-         wz6YQQCgSI2vMMgtIvf4C0cuK1knEUGwCkBPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RlOlwqccm7Vg838s7d2QT690Azh7vr/cpzwrz/SWYkQ=;
-        b=E6tSR2ko8O0wt4yX+UlgX72q6iHdodvPcDclWUnv2NvC3BzgRAZIh4K0qpNWb6BFPb
-         fTKX9fW3ZxiLDE3q1Qf/Tx7DUXUAJY5Shee0QlvQTUkh3889InTm1v91nUXRF6v9thq4
-         Dgtmk+fy5VBWtaCOwlBDruSk1jrv+mcFmRArsaaJNkCsPEWMRgreVwmq8ixs76l76pAZ
-         w2BcXtK0QoJhRErA7gFZ3U7zwKfIKoLfQzxHknS5P1EyqyLktYwOtNQ1h99hvU1QJc3d
-         1jUUj5pZFA6fHOqmdXABJMCDfWWbpWJawo+yALZc0FuLtvhGmboDGCBMe3AqRVvNWanZ
-         rQHw==
-X-Gm-Message-State: AOAM533pWNhikoSDSGQI3R6L8fN+8MoLxnAOlh3lMydhQxASaOj4v4Tn
-	ARBTNIHs7qUXZiFoiDDIGSGY1ip5mD7clQ==
-X-Google-Smtp-Source: ABdhPJxU/AOrDFHQ6JVN2RHQGL6dBvw75N0nwRg+N5bEm2n2B4/c5veCVmAK5TErbyKF6bqi+B+sXw==
-X-Received: by 2002:adf:e7c8:: with SMTP id e8mr607992wrn.358.1599602941654;
-        Tue, 08 Sep 2020 15:09:01 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id v9sm1094397wru.37.2020.09.08.15.09.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 15:09:01 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A1FD240BBF;
+	Wed,  9 Sep 2020 02:21:58 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ldDzx_snH2jo; Wed,  9 Sep 2020 02:21:58 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8008040A28;
+	Wed,  9 Sep 2020 02:21:57 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id C7F0917446E;
+	Tue,  8 Sep 2020 22:21:56 -0400 (EDT)
+From: "Denys Dmytriyenko" <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][warrior] oeqa/runtime_test: Disable test_testimage_virgl_gtk
-Date: Tue,  8 Sep 2020 23:09:00 +0100
-Message-Id: <20200908220900.1992263-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v2] weston: upgrade 8.0.0 -> 9.0.0
+Date: Tue,  8 Sep 2020 22:21:56 -0400
+Message-Id: <1599618116-55708-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
 
-This test keeps failing on the autobuilder and is proving extremely
-annoying. It works much better in later releases but for zeus and
-earlier, lets just stop running it as it doesn't really tell us
-anything useful at this point, nobody has any plans to improve
-the distro exclusions or otherwise fix it in the older releases.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Weston 9.0.0 is released! This release cycle has been pretty quiet,
+with just a few new features:
+
+- A new kiosk shell allows to display regular desktop apps in an
+  always-fullscreen mode
+- Improved testing infrastructure: the test harness has been
+  redesigned, DRM tests are now supported, DRM and OpenGL tests are now
+  enabled in our CI
+- DRM panel orientation property support
+
+As always, a number of bug fixes are included as well.
+https://lists.freedesktop.org/archives/wayland-devel/2020-September/041595.html
+
+Add a patch to fix building of tests/weston-test-fixture-compositor.c on musl.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2 - patch tests/weston-test-fixture-compositor.c for musl
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index d817b755fed..5149583bd49 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -168,7 +168,7 @@ class TestImage(OESelftestTestCase):
-         # remove the oeqa-feed-sign temporal directory
-         shutil.rmtree(self.gpg_home, ignore_errors=True)
+ ...de-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch | 47 ++++++++++++++++++++++
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 27 +++++++------
+ .../wayland/{weston_8.0.0.bb => weston_9.0.0.bb}   |  4 +-
+ 3 files changed, 63 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
+ rename meta/recipes-graphics/wayland/{weston_8.0.0.bb => weston_9.0.0.bb} (97%)
+
+diff --git a/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch b/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
+new file mode 100644
+index 0000000..6fe86ff
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch
+@@ -0,0 +1,47 @@
++From 58760e09eed662a72da939ff4802d605489cff8e Mon Sep 17 00:00:00 2001
++From: Denys Dmytriyenko <denys@ti.com>
++Date: Tue, 8 Sep 2020 19:37:42 -0400
++Subject: [PATCH] tests: include fcntl.h for open(), O_RDWR, O_CLOEXEC and
++ O_CREAT
++
++musl libc (unlike glibc) requires explicitly incuding fcntl.h to define open(),
++O_RDWR, O_CLOEXEC and O_CREAT. Otherwise the build fails with the errors:
++
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c: In function 'wait_for_lock':
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:7: warning: implicit declaration of function 'open'; did you mean 'popen'? [-Wimplicit-function-declaration]
++|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
++|       |       ^~~~
++|       |       popen
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:23: error: 'O_RDWR' undeclared (first use in this function)
++|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
++|       |                       ^~~~~~
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:23: note: each undeclared identifier is reported only once for each function it appears in
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:32: error: 'O_CLOEXEC' undeclared (first use in this function)
++|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
++|       |                                ^~~~~~~~~
++| ../weston-9.0.0/tests/weston-test-fixture-compositor.c:135:44: error: 'O_CREAT' undeclared (first use in this function)
++|   135 |  fd = open(lock_path, O_RDWR | O_CLOEXEC | O_CREAT, 00700);
++|       |                                            ^~~~~~~
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/493/diffs?commit_id=b10c0e843dcb8148bbe869bb15261955b94ac98c]
++
++Signed-off-by: Denys Dmytriyenko <denys@ti.com>
++---
++ tests/weston-test-fixture-compositor.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/weston-test-fixture-compositor.c b/tests/weston-test-fixture-compositor.c
++index 0c9855f..e0e32c9 100644
++--- a/tests/weston-test-fixture-compositor.c
+++++ b/tests/weston-test-fixture-compositor.c
++@@ -31,6 +31,7 @@
++ #include <unistd.h>
++ #include <sys/file.h>
++ #include <errno.h>
+++#include <fcntl.h>
++ 
++ #include "shared/helpers.h"
++ #include "weston-test-fixture-compositor.h"
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+index 62b864c..3279a72 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+@@ -1,7 +1,8 @@
+-From 5f2d71998eb77068cbaee2d468cbb296a42d5739 Mon Sep 17 00:00:00 2001
++From a1548c742bf2dedbb47282d8a00407b60bbab669 Mon Sep 17 00:00:00 2001
+ From: Tom Hochstein <tom.hochstein@nxp.com>
+ Date: Wed, 22 Feb 2017 15:53:30 +0200
+ Subject: [PATCH] weston-launch: Provide a default version that doesn't require
++
+  PAM
  
--    def test_testimage_virgl_gtk(self):
-+    def disabled_test_testimage_virgl_gtk(self):
-         """
-         Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-         Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
+ weston-launch requires PAM for starting weston as a non-root user.
+@@ -57,7 +58,7 @@ index 08d23ec..cb9fd3f 100644
+  		install: true
+  	)
+ diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
+-index 8a711b4..54c567a 100644
++index 521cb2c..2d42d33 100644
+ --- a/libweston/weston-launch.c
+ +++ b/libweston/weston-launch.c
+ @@ -51,7 +51,9 @@
+@@ -97,7 +98,7 @@ index 8a711b4..54c567a 100644
+  
+  static int
+  setup_launcher_socket(struct weston_launch *wl)
+-@@ -431,6 +437,7 @@ quit(struct weston_launch *wl, int status)
++@@ -466,6 +472,7 @@ quit(struct weston_launch *wl, int status)
+  	close(wl->signalfd);
+  	close(wl->sock[0]);
+  
+@@ -105,15 +106,15 @@ index 8a711b4..54c567a 100644
+  	if (wl->new_user) {
+  		err = pam_close_session(wl->ph, 0);
+  		if (err)
+-@@ -438,6 +445,7 @@ quit(struct weston_launch *wl, int status)
++@@ -473,6 +480,7 @@ quit(struct weston_launch *wl, int status)
+  				err, pam_strerror(wl->ph, err));
+  		pam_end(wl->ph, err);
+  	}
+ +#endif
+  
+- 	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
+- 	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
+-@@ -666,6 +674,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++ 	/*
++ 	 * Get a fresh handle to the tty as the previous one is in
++@@ -710,6 +718,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  	setenv("HOME", wl->pw->pw_dir, 1);
+  	setenv("SHELL", wl->pw->pw_shell, 1);
+  
+@@ -121,7 +122,7 @@ index 8a711b4..54c567a 100644
+  	env = pam_getenvlist(wl->ph);
+  	if (env) {
+  		for (i = 0; env[i]; ++i) {
+-@@ -674,6 +683,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++@@ -718,6 +727,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  		}
+  		free(env);
+  	}
+@@ -129,7 +130,7 @@ index 8a711b4..54c567a 100644
+  
+  	/*
+  	 * We open a new session, so it makes sense
+-@@ -745,8 +755,10 @@ static void
++@@ -789,8 +799,10 @@ static void
+  help(const char *name)
+  {
+  	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
+@@ -140,7 +141,7 @@ index 8a711b4..54c567a 100644
+  	fprintf(stderr, "  -t, --tty       Start session on alternative tty,\n"
+  			"                  e.g. -t /dev/tty4, requires -u option.\n");
+  	fprintf(stderr, "  -v, --verbose   Be verbose\n");
+-@@ -760,7 +772,9 @@ main(int argc, char *argv[])
++@@ -804,7 +816,9 @@ main(int argc, char *argv[])
+  	int i, c;
+  	char *tty = NULL;
+  	struct option opts[] = {
+@@ -150,7 +151,7 @@ index 8a711b4..54c567a 100644
+  		{ "tty",     required_argument, NULL, 't' },
+  		{ "verbose", no_argument,       NULL, 'v' },
+  		{ "help",    no_argument,       NULL, 'h' },
+-@@ -772,11 +786,16 @@ main(int argc, char *argv[])
++@@ -816,11 +830,16 @@ main(int argc, char *argv[])
+  	while ((c = getopt_long(argc, argv, "u:t:vh", opts, &i)) != -1) {
+  		switch (c) {
+  		case 'u':
+@@ -167,7 +168,7 @@ index 8a711b4..54c567a 100644
+  			break;
+  		case 't':
+  			tty = optarg;
+-@@ -828,8 +847,10 @@ main(int argc, char *argv[])
++@@ -872,8 +891,10 @@ main(int argc, char *argv[])
+  	if (setup_tty(&wl, tty) < 0)
+  		exit(EXIT_FAILURE);
+  
+@@ -179,7 +180,7 @@ index 8a711b4..54c567a 100644
+  	if (setup_launcher_socket(&wl) < 0)
+  		exit(EXIT_FAILURE);
+ diff --git a/meson_options.txt b/meson_options.txt
+-index c862ecc..73ef2c3 100644
++index 239bd2d..99e4ec3 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+ @@ -73,6 +73,13 @@ option(
+diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/weston_8.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_9.0.0.bb
+index 8fef864..2c526e3 100644
+--- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -10,9 +10,9 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.desktop \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
++           file://0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch \
+ "
+-SRC_URI[md5sum] = "53e4810d852df0601d01fd986a5b22b3"
+-SRC_URI[sha256sum] = "7518b49b2eaa1c3091f24671bdcc124fd49fc8f1af51161927afa4329c027848"
++SRC_URI[sha256sum] = "5cf5d6ce192e0eb15c1fc861a436bf21b5bb3b91dbdabbdebe83e1f83aa098fe"
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
 -- 
-2.25.1
+2.7.4
 
