@@ -1,83 +1,83 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.9324.1599641243006263071
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web11.9399.1599641955580005830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 01:47:23 -0700
+ Wed, 09 Sep 2020 01:59:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NG5hpXLq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id y15so1514531wmi.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 01:47:22 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=AjvZsSD3;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f195.google.com with SMTP id c2so2459325ljj.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 01:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=IU6iwsJUZK77BD3OdtjeTl+5YDCILmHuFKB5mUCURcM=;
-        b=NG5hpXLqgVeGSi2GW3ySICrSStUOkdX0G3ul7pq/GOCXfQHeovOaaO/fMiDm+eXMYC
-         fKWqbU9mRSRHZFvVUdj6DCpdj+NpW5LNBWOj6Qkfw5o0LMMi775+cnXkxi7W1HlEQKPr
-         iufE+4zk9U1ZVyvbTTfgkFo+pbLhLCDMrb7pg=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0R4kUJpbPPUiC/ByW9ibA9raWbp3sj0k6V4yASsE/dw=;
+        b=AjvZsSD3yI0UVDasd+ewWb+M2uMicbsEJz9S8EYBgEjeHj2t3P5yG6XqHJJ2JwryJG
+         oUJBpItbIOY5PLFdTbYn7G1hKBjec1odxf2OG3oSLQgoTATiWdmOdprJflbBOvQYTFTy
+         QMMB+qMj9f/A9mQMIO8bYmdy+dFO0Sgq0SMWl0UocwHgxwjW/AoxKb8w7PBj2Wkr2upH
+         xfvRprO2HjM9fktxHVZlOXxhhbImV01LNM+E0b9RVMpJL/Z+jt7GQOulsP1cG/qQ40L7
+         6wCkaqt6FQbuM+doT5Xd/SDcthrY9iTHH/AqtiVd/rkvro86SHqXJlbBM2NWAQljzSKl
+         P4dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=IU6iwsJUZK77BD3OdtjeTl+5YDCILmHuFKB5mUCURcM=;
-        b=Ls7YaBpOnwQmhLrKDY7BJI163UxGD1Im+FtEzkHYgmOShaXasWXsyNlS79hUoZmbiB
-         Y8H9+w5HUkS4waU8ZWfjNoH+lpvRoNtMK3zAUEZHZfEPKMaSfQwZGrR9vq6eqWAz7wKr
-         ztQP/6vznCiNSXErAoHtLpFQicGwZSeFTFdddsIMhrp6UA6rjfiMEsVNyh+zOx1vcMTG
-         DgbKn5TILEuUk0Es+P8VESUeIfADXTTQsZ8Xgli9wRIUbzROjyJ2sny/6c4A3KBpdyBE
-         jG7AuU3n6I2ksFr899FxEBasEX1LWdcrFuhskpZ86HZC2Rtbo/U+4ydKm63YdHxifGWw
-         1uWg==
-X-Gm-Message-State: AOAM531fSbo3i6R2kpFK94s4Qz5Z4Wa3jRAweW3Ndrh6Z85Vk3DDFab2
-	Ar1eCvIeVtV9bOwY3DEQRiSj1g==
-X-Google-Smtp-Source: ABdhPJxDltiWuM+qZcZG/03slUL66KE+Rbdui6jn9mu3Fa0MB1n46TnaKYoTWMgubgM/ZYbOWnPKQg==
-X-Received: by 2002:a1c:a707:: with SMTP id q7mr2642972wme.152.1599641241449;
-        Wed, 09 Sep 2020 01:47:21 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
-        by smtp.gmail.com with ESMTPSA id i6sm3536180wra.1.2020.09.09.01.47.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 01:47:20 -0700 (PDT)
-Message-ID: <cdc8f6a2df6c531e0e7c67414bcc03c6a76da6d8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [zeus][PATCH 00/11] zeus review request
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Anuj Mittal <anuj.mittal@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 09 Sep 2020 09:47:17 +0100
-In-Reply-To: <cover.1599638315.git.anuj.mittal@intel.com>
-References: <cover.1599638315.git.anuj.mittal@intel.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0R4kUJpbPPUiC/ByW9ibA9raWbp3sj0k6V4yASsE/dw=;
+        b=ubKjYp5NVExZVqL/Pn8DZWqOYs7c6hoVrHwFYQ1/KwmgCCQ5S9j2mDJB2ozaylX2Pb
+         vKUz1P3a30v3xAPNX54UOaDt0FgBgAf5tPpIijb5HE1wPZBtvZElcPpqFF5QC1ngoeTY
+         cYngF8lJ5ZS7s4HVkG9plYhUPvpWPWDH4J5fnF9XypJnROY/CazOLopIqHy01Hj/yIGV
+         icZepynY/voHr9XbmMKGHYMIUyC9C9luaXRbjZcvRJh7wMzNGTtKmkjWUt64w2JcHaD4
+         pJ+Sn1ls3g7TngWQ2hhLbibCzn/3RcHB6Kw494igvaArQDpdcUIsfSAUm6wZXOQdTZRJ
+         XeQg==
+X-Gm-Message-State: AOAM533tPctDO4qNuhH+dBafAKfg0n/bni0aroE/pyU+yGLhV74XQ+XA
+	8XeQ8oiubOP2p7SRhTJ3HqXEX/MmgohxIZxIA6mZ3w==
+X-Google-Smtp-Source: ABdhPJwVwB/COaDUtQzqx6vIBX/RQ954sMvHIXyVhrAz233jp4XsmqQhtQo+equs0QUgP6/3ArKQxRvra1ytsTfK55A=
+X-Received: by 2002:a2e:83d7:: with SMTP id s23mr1447584ljh.340.1599641953255;
+ Wed, 09 Sep 2020 01:59:13 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200908164744.3791001-1-ross.burton@arm.com> <CAOSpxdbsWa4c9cb9gXHds9W0=mRC0DAhJE+KRw5NGeDicDYqag@mail.gmail.com>
+In-Reply-To: <CAOSpxdbsWa4c9cb9gXHds9W0=mRC0DAhJE+KRw5NGeDicDYqag@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 9 Sep 2020 09:59:02 +0100
+Message-ID: <CAAnfSTupJ3+ODNK-1kW3cdpLXp_d7mYsvXXKg6rDLMmRmTOh7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cmake: whitelist CVE-2016-10642
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-09-09 at 16:11 +0800, Anuj Mittal wrote:
-> A set of CVE fixes for zeus. Please review.
-> 
-> I have rebased these on top of current zeus-next and have run the
-> entire
-> set through autobuilder using the contrib/rpurdie/zeus helper
-> branch. 
-> 
-> There's one failure while compiling acl (for reproducibility
-> test) which probably happened because of memory availability and is
-> unrelated:
-> 
-> > make: *** read jobs pipe: Resource temporarily unavailable.  Stop.
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1358/steps/8/logs/step2d
+Absolutely.
 
-Thanks Anuj!
+Ross
 
-One of the selftest failures wasn't this but was failures in bitbake-
-selftest due to fetcher url stability issues. I've backported the
-bitbake change which fixes that to 1.44.
-
-The issue above isn't resource but is related to the attr fix I made in
-thud-next. Its caused by issues with newer versions of make and the
-rather weird makefile attr/acl has. The fix is to do what I did for
-attr, disable parallel make during install. Newer verisons of acl/attr
-don't have the problem so this is zeus specific.
-
-Cheers,
-
-Richard
-
+On Tue, 8 Sep 2020 at 19:25, Steve Sakoman <steve@sakoman.com> wrote:
+>
+> Is this also suitable for dunfell?
+>
+> Steve
+>
+> On Tue, Sep 8, 2020 at 6:47 AM Ross Burton <ross@burtonini.com> wrote:
+> >
+> > This CVE is specific to the npm package that can install cmake, so isn't
+> > relevant to our cmake recipe.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-devtools/cmake/cmake.inc | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+> > index 1334977225..fa1b818ae4 100644
+> > --- a/meta/recipes-devtools/cmake/cmake.inc
+> > +++ b/meta/recipes-devtools/cmake/cmake.inc
+> > @@ -25,3 +25,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+> >  SRC_URI[sha256sum] = "5d4e40fc775d3d828c72e5c45906b4d9b59003c9433ff1b36a1cb552bbd51d7e"
+> >
+> >  UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+> > +
+> > +# This is specific to the npm package that installs cmake, so isn't
+> > +# relevant to OpenEmbedded
+> > +CVE_CHECK_WHITELIST += "CVE-2016-10642"
+> > --
+> > 2.28.0
+> >
+> > 
