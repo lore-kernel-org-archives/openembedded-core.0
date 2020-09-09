@@ -1,77 +1,68 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web10.8335.1599689825281674510
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+ by mx.groups.io with SMTP id smtpd.web12.8175.1599689829326115922
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 15:17:05 -0700
+ Wed, 09 Sep 2020 15:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=kT3N0BpH;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.181, mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f181.google.com with SMTP id n18so3320595qtw.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:17:05 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=yVk+H00R;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.67, mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f67.google.com with SMTP id di5so2380786qvb.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4MSbMc9N8tfZZxAbCjzeHAzFG7PzKu+vZg+pj0GOgoE=;
-        b=kT3N0BpHCh1gUDp8KtzP7SWklTdeR2Uf/Zbfj9uhJBQQPqJt91vkJ1pgTXzk+zc2mD
-         8M0m3ukgCmEBmZQrkzi5AGvJb8Q6fSI6gFMtNm0Y7yHquWXi4oHIvlojlv7C11k8+/Av
-         McFjJN9YnbH5sAKNKOc3vmwhAg4lVPBh+RM2LI5ywD2xn5M8s/PTGc8yN4ka9EprM6cs
-         6FWQ1z56dadKnW5UAa/w3kFSYbO+a8Loz+u4Bc7TlGTkFbvsfeidBl6wfHFovn8Omw25
-         3eV0GGMR3Bu9mZL3H/xdtIdhnTNXN0w3YSTgA/iuo44rnuBFuI4APon5qNJ0RQ59Dn0N
-         +QUQ==
+        bh=c3hF9gEk5m+6rkYYyl++cR1P/A+EO7I53nPqRiV7sQ0=;
+        b=yVk+H00RoECyiX8V1BMgq+qzJo/rn3cCOUkUpfYo2A8+P5Q6fWF6TQX1ELNQvmH4Wg
+         Cwalp+dRysKhxHatZ3nvSfLutOaeN//Ju5phJjRAqlH0rxHI6FCTdwCFq6KRlPjAf8Bt
+         zwmROsq/NpCz027cvzP+wHmipqS5xqwUpOe4TAEhB+DlB5ieVSqCY7KmS3i/LNGAdqna
+         jMauVvWmEa6EtMS5I26KjO0BzSOaFPvWM5AzkRaZm908Ljs3ETCGFg+E+Ctbuigusanc
+         oB4qWRxGFOrIKDYRUavWpws1pXeEpU0/eriPuD00gIqemuV35VC/gHmX/ZcNAIEXwRs1
+         6uZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4MSbMc9N8tfZZxAbCjzeHAzFG7PzKu+vZg+pj0GOgoE=;
-        b=bSnFKNVC//XeRPprijmTmvY98BEadfdeCWCkD6REsQjlFLUCXkFVfJtm+WjZX5QtoX
-         iN6MvV9cBbDIGR3NPqHkDKUbhc16uWkvBb9XmIL/ICbdraY0p8Q0SU8BbLnbegt4Xr7X
-         /KJbQVkGQWNql/IHAFVHyM308aP4lUI4NuQdqfxz/MKucc/C5SCJdMCy1JBmaevKVat+
-         jXaLm2oDpIyBSx6+yeWUrUU2EoNjJpVgxb9D067WNMZ0aBEbzx3ngzJamyF65wTJRixf
-         jGw13W5p0j0jJZeM7oY2fOvV1fAkO9+ijgtqP9vfwtVB0OxEkYOsHe/PGlbPAHUexTyg
-         4DGw==
-X-Gm-Message-State: AOAM533mBwCeoOeRCGQssmOytsyAZxkvUTNWOQvqIX0zCme3sFtIcJrZ
-	U6UVRvhmBKGOnAs1FgJwqBbCZ8Ywa7ZKyXXr
-X-Google-Smtp-Source: ABdhPJz3CN/miKB3oQZECbQH3tBWSYwycgl/s3u5E+qCes1vY5sZ0IJ4dlgZaaWqUHLkz7ravoXsDw==
-X-Received: by 2002:ac8:411c:: with SMTP id q28mr5362257qtl.254.1599689824151;
-        Wed, 09 Sep 2020 15:17:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=c3hF9gEk5m+6rkYYyl++cR1P/A+EO7I53nPqRiV7sQ0=;
+        b=LyxezA+59X3A9bvX1KEFA11JPf6HWP1vnDjZR3O/yWhc7yirjGfDq8WT/yUkg/HO6y
+         MQx1dy+JWNZ9YPw6tnz5jCRZZSEb79tA0O9ZS+b6+d9ZfLkKQqItxJagCzliIRy5OMmF
+         X8afJcZbSQJGW2JLfwduLhdb1BY+6q8XuwKZrzxTybfRadkvURgRWeOsTaNLNzVjSPu7
+         4mDWSIlxDt7CnlNlNkcTtTrXQZXSB4ky94IgLwRgazgWL+Vm6XUF+Pr25N0cjm+Rm9UJ
+         qeJDd1XArWfwKhWf146QaTQ2VzBf+I7KH1B+h0WlDAjqpf96HPv9gOtRiPT9r6IKOYca
+         vaKQ==
+X-Gm-Message-State: AOAM531gX0SjLvKZcS32P2vnb5lEqYQKpbPprXtYwXM1VhoTLzWcnwat
+	6P81s7WzbDGCmOqGiKbchZ7Tvr0qFvoYpbqZ
+X-Google-Smtp-Source: ABdhPJxeUJR7UkIwEB/AmLv16v9MExPzWTq4OKkCLSnXyX3YqWJQCcSoRfulg9F9bgn+6aWsJ34yLg==
+X-Received: by 2002:a05:6214:292:: with SMTP id l18mr6038359qvv.11.1599689828274;
+        Wed, 09 Sep 2020 15:17:08 -0700 (PDT)
 Return-Path: <jdmason@kudzu.us>
 Received: from localhost ([136.56.1.171])
-        by smtp.gmail.com with ESMTPSA id 196sm3843604qkm.49.2020.09.09.15.17.03
+        by smtp.gmail.com with ESMTPSA id b43sm4882906qtk.84.2020.09.09.15.17.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 15:17:03 -0700 (PDT)
+        Wed, 09 Sep 2020 15:17:07 -0700 (PDT)
 From: "Jon Mason" <jdmason@kudzu.us>
 X-Google-Original-From: Jon Mason <jon.mason@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe][PATCH 0/4] Arm Tune Clean-Ups
-Date: Wed,  9 Sep 2020 18:16:48 -0400
-Message-Id: <20200909221652.6750-1-jon.mason@arm.com>
+Subject: [meta-oe][PATCH 1/4] cortex-m0plus.inc: change file permissions
+Date: Wed,  9 Sep 2020 18:16:49 -0400
+Message-Id: <20200909221652.6750-2-jon.mason@arm.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200909221652.6750-1-jon.mason@arm.com>
+References: <20200909221652.6750-1-jon.mason@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A few clean-ups and fixes for Arm tune files found while working on the 
-follow-on series.  Since the changes are needed and not necessarily 
-part of that series, I'm sending it as a separate series.
+File is executable, and should be read/write.
 
-Jon Mason (4):
-  cortex-m0plus.inc: change file permissions
-  tune-cortexa55.inc: clean-up ARMv8.2a uses
-  tune-cortexa57-cortexa53.inc: add CRC and set march
-  tune-cortexa*: Cleanups
-
- meta/conf/machine/include/tune-cortex-m0plus.inc       | 0
- meta/conf/machine/include/tune-cortexa32.inc           | 2 +-
- meta/conf/machine/include/tune-cortexa35.inc           | 2 +-
- meta/conf/machine/include/tune-cortexa53.inc           | 2 +-
- meta/conf/machine/include/tune-cortexa55.inc           | 4 ++--
- meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 4 ++--
- meta/conf/machine/include/tune-cortexa57.inc           | 2 +-
- meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 2 +-
- meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 2 +-
- 9 files changed, 10 insertions(+), 10 deletions(-)
+Signed-off-by: Jon Mason <jon.mason@arm.com>
+---
+ meta/conf/machine/include/tune-cortex-m0plus.inc | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
  mode change 100755 => 100644 meta/conf/machine/include/tune-cortex-m0plus.inc
 
+diff --git a/meta/conf/machine/include/tune-cortex-m0plus.inc b/meta/conf/machine/include/tune-cortex-m0plus.inc
+old mode 100755
+new mode 100644
 -- 
 2.20.1
 
