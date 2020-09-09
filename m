@@ -1,229 +1,206 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.570.1599668828860415374
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.52])
+ by mx.groups.io with SMTP id smtpd.web12.2131.1599672929022486371
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 09:27:08 -0700
+ Wed, 09 Sep 2020 10:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hoinAKOV;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id 34so2416492pgo.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 09:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yGBEu3L0E3IUzvoi6oE3AMUJqYyOXQy85QU9lKcnxss=;
-        b=hoinAKOV2ngG0HPwHnLkSqxMAPKHTL1SazoqCWNoiOUszKgC+44KAbXvIGVMtUHt7O
-         u5ZDRNAhF/h2FEHDJaunEwAILQFMyx1bK+5zdJEjtY+MfTW8DF62QJtxyAStE5VJDOZo
-         YagHWOXF42qlEE0QFZaDfbM6VFMFCCySE4ypQd3BdlDmKm9lHtE7b05vUhWpJ4LX6A/j
-         gHnIYpRFjaPldWdSY+G4lPeHLHD/+23Aqreqk7PhsHlZuC8GAy/9nbpS3fAlluPb0Tjh
-         zEzAnWd1jJfvdrF8HP2XBY/Z/iPMWzF89pcTUpt96NQag3cwG/OqWRSTPVzecXblwnfh
-         mkmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yGBEu3L0E3IUzvoi6oE3AMUJqYyOXQy85QU9lKcnxss=;
-        b=qgGKWwV0jFcf39dBwCEVd27cu83eFz1HviLI6QOQXMYNrsaHKM4k+WS7CNLf+TqdBu
-         wPWy2uogrWTHW+NSqJrxk0Y9ahfZMXXkhVZTC2kIIppnouMvieVWY6ax6GVBhls3cdZY
-         IFgNKKRMpBzVT3Qnl0Y6H1JRsPdGM0vlKmnxqCP7NWSZK8K50m7mFUgnlq5CTkfGgW2A
-         5IySsCyjMly2VL2dvXMOp5VJYTNaQakCIxRF9+NRthW3m+zzGiL+SIlwsvcLUCJgWIJV
-         2Gp0FCzqs19K4vrEsTFwpeZzuxX+4QT0OFrW2D2bf1vINSxB8xvz7uV6SNst07cF/O3T
-         2vYw==
-X-Gm-Message-State: AOAM530TD73PkXtn6pOxjibmpH4fkIZp4N3ZRfizzU93b7RzcvqcmQdk
-	G5bf6RL/9j/hAJC1w2A17ZHKVs/JjVMNxw==
-X-Google-Smtp-Source: ABdhPJxTI0ZTCS8qRRMqSdc/icnTkI8dwVWfE4vYcfpbZuAq0uSb0WRdPW6m+o/vnxlmwUEpxrHZuQ==
-X-Received: by 2002:a63:8e4a:: with SMTP id k71mr1161943pge.326.1599668827828;
-        Wed, 09 Sep 2020 09:27:07 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
-        by smtp.gmail.com with ESMTPSA id v91sm2813980pjv.12.2020.09.09.09.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 09:27:07 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Marek Vasut <marex@denx.de>,
-	Henning Heinold <henning@itconsulting-heinold.de>
-Subject: [PATCH v2] weston-init: Redefine weston service and add socket activation option
-Date: Wed,  9 Sep 2020 09:27:04 -0700
-Message-Id: <20200909162704.2362862-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=fyY3iO2A;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.237.52, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A7AmCIY92Ew8rBYA+XpZotRTpy6AjTZqbLwHckFLK3VDSPR6nPZ0awCjmxYOrFR2uQUwVuQ/oEY/Jt7mw3x5dpJcjsT8UvvcZR7uObJPOPIUps1QjdrCWiHct/m/QCgNocMRZEXSGRijoEcegA2iZeH8bovbNmpdVOWLqPF/X5s2xAnqAurIk0T+aNySzZnmmoYJG3IL6BWjThn2vesNLvdWMsuRAqybJx8WvtwSyTV6jVj9DdsIRYpIZVv3tWbVaBSAngJYzTXB6LW1+SrzVCOpztAnWAiLDdyfOEVsGmOCEt6XTtMjpbNCnU58IVw8yq2lp7xlUro3zDyyrw2OZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iBJ1R5vl8N2Nmp6r0IvYFWujq17V3+HVGzX/9ogiV+4=;
+ b=PHHME9vr82EOBtR/hx7O97ZkIU88avDrIKjBOalt7ad2Alo9laByH5jSrZ59yuFfPW5r185nSxqV0SLb3xP22kiDzU3LgC3UXZt6vFQwPcUNmdl83gSguray7IeO0pyYQLak7a9ojL7D15cUJ/7T80gVPteKbBOJ6IGr6Xx1pt9mzg1yKEQlCDv9MJtmydz9BiNJc65P/HhKXPdRXRBA+gGGoovjuZtdNujfJRO7eswNbIdbwxAR29zoa9uz96g3YDldqemv7NgIKv1kW3yidYr0p6VtZE3tZcxqpb5KYdMZnbAGFA3zXdyOfo9LHtkuEWaHF4YTTyd5QxhUlhqu5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.25.218.41) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=agilent.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iBJ1R5vl8N2Nmp6r0IvYFWujq17V3+HVGzX/9ogiV+4=;
+ b=fyY3iO2ASOteUtnRMVfUIx58f08tdAV+RDHvrhqAC1wzimrqkt/IJ0UtIMGLQ1kEcXZyPj3uBnQGB+AJiqZJYPp89gReDE8kDvzZiXS4yNM6maC49R0q33Lr5JiUJW9R4LtcSQZ782af7MwSZAU312dq/gUdtaTdRMcMmru/eR7V+EzhL00ELd1irC4QqbSVDqEj14ZVoIOn2LFK31OVo0zo+8HHXV/eHqFjP2h/sT2UX1rmaPq63gTzi3J46Zw5yPqJdCgca2yfyaFWEbtN22lZUUWpwVJhlbrtQ2Qb9ZUUVBUhfheP6yAI///ig8h6uEhguwHd7Jx0dsH1WN4t0A==
+Received: from BN1PR13CA0030.namprd13.prod.outlook.com (2603:10b6:408:e2::35)
+ by MN2PR12MB3390.namprd12.prod.outlook.com (2603:10b6:208:c9::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 9 Sep
+ 2020 17:35:27 +0000
+Received: from BN8NAM12FT058.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:e2:cafe::62) by BN1PR13CA0030.outlook.office365.com
+ (2603:10b6:408:e2::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.10 via Frontend
+ Transport; Wed, 9 Sep 2020 17:35:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.41)
+ smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
+ signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
+ header.from=agilent.com;
+Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
+ 192.25.218.41 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.25.218.41; helo=edgeappmail.agilent.com;
+Received: from edgeappmail.agilent.com (192.25.218.41) by
+ BN8NAM12FT058.mail.protection.outlook.com (10.13.182.188) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.8 via Frontend Transport; Wed, 9 Sep 2020 17:35:27 +0000
+Received: from laplante-lm-19.localdomain (192.25.126.27) by
+ edgeappmail.agilent.com (192.25.218.41) with Microsoft SMTP Server id
+ 15.1.2044.4; Wed, 9 Sep 2020 11:35:25 -0600
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Chris Laplante <chris.laplante@agilent.com>
+Subject: [PATCH 1/4] cve-update-db-native: add progress handler
+Date: Wed, 9 Sep 2020 13:35:07 -0400
+Message-ID: <20200909173510.114925-1-chris.laplante@agilent.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: chris.laplante@agilent.com
+Received-SPF: SoftFail (wpcosapexchedg2.windmz.agilent.com: domain of
+ transitioning chris.laplante@agilent.com discourages use of 192.25.126.27 as
+ permitted sender)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d9390623-ea8c-4c18-e6c0-08d854e6bda9
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3390:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR12MB3390B82891372F915E1051248B260@MN2PR12MB3390.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:118;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VyRMaZcJQQ4soT8J99HrQ+dfgi0pOqgjENINIImwWZBDj13ZuFUjDCqOTeTyTSkz4YDav6bCnKozRPVeoglqRvhv8IZqnRPDJvLjAMPpmYuvLLbD4/JadFn45EGjKVCOdzgFJ+fCDfVweMhzkNaYGi+tnWRdNRJJSotFYKGqs7B2M/C12XEBWgOsFuJH6DyMDte9/ifrzB8CzUt979Xu8GoAJDbElM5ZfMFCtQjBF908gymH70rubdI8eS7kYejMGRZwYVZg47prRmIKneiAphQN1d+Q0gW3juOi/T+HEOcfizP/+g97PJiJkMFz5VcDtSVNk9vYJNE7AaV2/K7MBZlHxGqOuPIvC3EmgWvuu3X0c0DwBl/JNlNtFNK/edIcumYMyt/FQdUEe6lGr0CPRTAnzljWTMbVNY8OucaSTQ0=
+X-Forefront-Antispam-Report: 
+	CIP:192.25.218.41;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:exch.smtp.agilent.com;CAT:NONE;SFS:(4636009)(346002)(396003)(136003)(376002)(39860400002)(29502001)(46966005)(82310400003)(478600001)(426003)(316002)(107886003)(36906005)(83380400001)(70206006)(26005)(44832011)(1076003)(6666004)(186003)(2906002)(86362001)(956004)(82740400003)(2616005)(356005)(5660300002)(7636003)(47076004)(36756003)(8676002)(4326008)(6916009)(15650500001)(8936002)(336012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2020 17:35:27.2785
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9390623-ea8c-4c18-e6c0-08d854e6bda9
+X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.41];Helo=[edgeappmail.agilent.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN8NAM12FT058.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3390
+Content-Type: text/plain
 
-Currently, weston when autolauched with systemd ends up with seat0
-related errors because its launched before seat0 is assigned.
-
-Fixes
-[05:16:09.357] logind: failed to get session seat
-[05:16:09.358] logind: cannot setup systemd-logind helper (-61), using legacy fallback
-
-The above error results in ptest failures in parselogs, even though
-weston has started ok using fallback methods, these errors are still seen in logs
-
-Also fixes weston ptests
-RESULTS - weston.WestonTest.test_weston_can_initialize_new_wayland_compositor: PASSED (8.58s)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Henning Heinold <henning@itconsulting-heinold.de>
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 ---
-v2: Improve commit msg
+ .../recipes-core/meta/cve-update-db-native.bb | 90 ++++++++++---------
+ 1 file changed, 47 insertions(+), 43 deletions(-)
 
- meta/recipes-graphics/wayland/weston-init.bb  |  8 ++-
- .../wayland/weston-init/weston-autologin      | 11 +++
- .../wayland/weston-init/weston@.service       | 69 ++++++++++++++++---
- .../wayland/weston-init/weston@.socket        | 10 +++
- 4 files changed, 87 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.socket
-
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 40aa76295f..95d75556dc 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -8,7 +8,9 @@ SRC_URI = "file://init \
-            file://weston.env \
-            file://weston.ini \
-            file://weston@.service \
-+           file://weston@.socket \
-            file://71-weston-drm.rules \
-+           file://weston-autologin \
-            file://weston-start"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 32d6dbdffc..2221825bf8 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -29,6 +29,7 @@ python do_populate_cve_db() {
+     Update NVD database with json data feed
+     """
+     import bb.utils
++    import bb.progress
+     import sqlite3, urllib, urllib.parse, shutil, gzip
+     from datetime import date
  
- S = "${WORKDIR}"
-@@ -20,6 +22,10 @@ do_install() {
+@@ -60,54 +61,57 @@ python do_populate_cve_db() {
  
- 	# Install Weston systemd service and accompanying udev rule
- 	install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
-+	install -D -p -m0644 ${WORKDIR}/weston@.socket ${D}${systemd_system_unitdir}/weston@.socket
-+        if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
-+		install -D -p -m0644 ${WORKDIR}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
-+        fi
- 	sed -i -e s:/etc:${sysconfdir}:g \
- 		-e s:/usr/bin:${bindir}:g \
- 		-e s:/var:${localstatedir}:g \
-@@ -50,7 +56,7 @@ RDEPENDS_${PN} = "weston kbd"
- INITSCRIPT_NAME = "weston"
- INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+     initialize_db(c)
  
--FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${sysconfdir}/default/weston"
-+FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${systemd_system_unitdir}/weston@.socket ${sysconfdir}/default/weston ${sysconfdir}/pam.d/"
+-    for year in range(YEAR_START, date.today().year + 1):
+-        year_url = BASE_URL + str(year)
+-        meta_url = year_url + ".meta"
+-        json_url = year_url + ".json.gz"
++    with bb.progress.ProgressHandler(d) as ph:
++        total_years = date.today().year + 1 - YEAR_START
++        for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
++            ph.update((float(i + 1) / total_years) * 100)
++            year_url = BASE_URL + str(year)
++            meta_url = year_url + ".meta"
++            json_url = year_url + ".json.gz"
  
- CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
+-        # Retrieve meta last modified date
+-        try:
+-            response = urllib.request.urlopen(meta_url)
+-        except urllib.error.URLError as e:
+-            cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
+-            bb.warn("Failed to fetch CVE data (%s)" % e.reason)
+-            return
+-
+-        if response:
+-            for l in response.read().decode("utf-8").splitlines():
+-                key, value = l.split(":", 1)
+-                if key == "lastModifiedDate":
+-                    last_modified = value
+-                    break
+-            else:
+-                bb.warn("Cannot parse CVE metadata, update failed")
+-                return
+-
+-        # Compare with current db last modified date
+-        c.execute("select DATE from META where YEAR = ?", (year,))
+-        meta = c.fetchone()
+-        if not meta or meta[0] != last_modified:
+-            # Clear products table entries corresponding to current year
+-            c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
+-
+-            # Update db with current year json file
++            # Retrieve meta last modified date
+             try:
+-                response = urllib.request.urlopen(json_url)
+-                if response:
+-                    update_db(c, gzip.decompress(response.read()).decode('utf-8'))
+-                c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++                response = urllib.request.urlopen(meta_url)
+             except urllib.error.URLError as e:
+-                cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-                bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
++                cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
++                bb.warn("Failed to fetch CVE data (%s)" % e.reason)
+                 return
  
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/meta/recipes-graphics/wayland/weston-init/weston-autologin
-new file mode 100644
-index 0000000000..f6e6d106de
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-autologin
-@@ -0,0 +1,11 @@
-+auth      required  pam_nologin.so
-+auth      required  pam_unix.so     try_first_pass nullok
+-        # Update success, set the date to cve_check file.
+-        if year == date.today().year:
+-            cve_f.write('CVE database update : %s\n\n' % date.today())
+-
+-    cve_f.close()
+-    conn.commit()
+-    conn.close()
++            if response:
++                for l in response.read().decode("utf-8").splitlines():
++                    key, value = l.split(":", 1)
++                    if key == "lastModifiedDate":
++                        last_modified = value
++                        break
++                else:
++                    bb.warn("Cannot parse CVE metadata, update failed")
++                    return
 +
-+account   required  pam_nologin.so
-+account   required  pam_unix.so
++            # Compare with current db last modified date
++            c.execute("select DATE from META where YEAR = ?", (year,))
++            meta = c.fetchone()
++            if not meta or meta[0] != last_modified:
++                # Clear products table entries corresponding to current year
++                c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
 +
-+session   required  pam_env.so
-+session   required  pam_unix.so
-+-session  optional  pam_systemd.so type=wayland class=user desktop=weston
-+-session  optional  pam_loginuid.so
++                # Update db with current year json file
++                try:
++                    response = urllib.request.urlopen(json_url)
++                    if response:
++                        update_db(c, gzip.decompress(response.read()).decode('utf-8'))
++                    c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++                except urllib.error.URLError as e:
++                    cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
++                    bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
++                    return
 +
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
-index 39e193014a..0a1df15bdf 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-@@ -1,15 +1,64 @@
-+# This is a system unit for launching Weston with auto-login as the
-+# user configured here.
-+#
-+# Weston must be built with systemd support, and your weston.ini must load
-+# the plugin systemd-notify.so.
- [Unit]
--Description=Weston Wayland Compositor
--RequiresMountsFor=/run
--Conflicts=plymouth-quit.service
--After=systemd-user-sessions.service plymouth-quit-wait.service
-+Description=Weston, a Wayland compositor, as a system service
-+Documentation=man:weston(1) man:weston.ini(5)
-+Documentation=http://wayland.freedesktop.org/
++            # Update success, set the date to cve_check file.
++            if year == date.today().year:
++                cve_f.write('CVE database update : %s\n\n' % date.today())
 +
-+# Make sure we are started after logins are permitted.
-+After=systemd-user-sessions.service
-+
-+# If Plymouth is used, we want to start when it is on its way out.
-+After=plymouth-quit-wait.service
-+
-+# D-Bus is necessary for contacting logind. Logind is required.
-+Wants=dbus.socket
-+After=dbus.socket
-+
-+# Since we are part of the graphical session, make sure we are started before
-+# it is complete.
-+Before=graphical.target
-+
-+# Prevent starting on systems without virtual consoles, Weston requires one
-+# for now.
-+ConditionPathExists=/dev/tty0
++        cve_f.close()
++        conn.commit()
++        conn.close()
+ }
  
- [Service]
--User=%i
--PAMName=login
--EnvironmentFile=-/etc/default/weston
-+# Requires systemd-notify.so Weston plugin.
-+Type=notify
-+ExecStart=/usr/bin/weston --modules=systemd-notify.so
-+
-+# Optional watchdog setup
-+TimeoutStartSec=60
-+WatchdogSec=20
-+
-+# The user to run Weston as.
-+User=%I
-+
-+# Make sure working directory is users home directory
-+WorkingDirectory=/home/%i
-+
-+# Set up a full user session for the user, required by Weston.
-+PAMName=weston-autologin
-+
-+# A virtual terminal is needed.
-+TTYPath=/dev/tty7
-+TTYReset=yes
-+TTYVHangup=yes
-+TTYVTDisallocate=yes
-+
-+# Fail to start if not controlling the tty.
-+StandardInput=tty-fail
-+StandardOutput=journal
- StandardError=journal
--PermissionsStartOnly=true
--IgnoreSIGPIPE=no
- 
--ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
-+# Log this user with utmp, letting it show up with commands 'w' and 'who'.
-+UtmpIdentifier=tty7
-+UtmpMode=user
-+
-+[Install]
-+WantedBy=graphical.target
-+DefaultInstance=tty7
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.socket b/meta/recipes-graphics/wayland/weston-init/weston@.socket
-new file mode 100644
-index 0000000000..f1790d74a8
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.socket
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=Weston Wayland socket
-+After=user-runtime-dir@1000.service
-+
-+[Socket]
-+ListenStream=/run/user/1000/wayland-%I
-+
-+[Install]
-+WantedBy=sockets.target
-+
+ def initialize_db(c):
 -- 
-2.28.0
+2.17.1
 
