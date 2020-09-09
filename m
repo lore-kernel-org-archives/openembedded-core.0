@@ -1,129 +1,126 @@
 Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.8877.1599639105300676967
+ by mx.groups.io with SMTP id smtpd.web12.8957.1599639107362172797
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Sep 2020 01:11:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: SgXp3Xxf0MhEqbMBTuKsmO9XoFkFhZabsGQAsYrt1t1haTxfxcb3u2LAmTJr46RaOAMT0eb9dQ
- ZXpfeAPkn0ZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155767017"
+IronPort-SDR: 4sdH5bZjdoqqSUfnw86IB+vIb3T6RO41RcTHS75gkNzXpMu+uSKWwN48puN3UyP3Qqwnb+4pFE
+ GPubTnuHfskA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155767021"
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="155767017"
+   d="scan'208";a="155767021"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:29 -0700
-IronPort-SDR: caKYFWXs1WhlrzxrhgBFcHd+M8zvl7U5rSAIXgWqfpev7QZk2g7Eiv5U5AWytTSeu3BpOz4RAE
- D1/7rPF1Kb6A==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:31 -0700
+IronPort-SDR: zrHsF7DHcifDm3OF4KAMMjb2PVIntKl27iT02v4dKZeHoNyWQv9CvX4WkDLvUCqp+JmNHttIgj
+ HMVtvplsC8xg==
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="480371059"
+   d="scan'208";a="480371063"
 Received: from rbint21-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.66.132])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:28 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:30 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 05/11] qemu : fix CVE-2020-15863
-Date: Wed,  9 Sep 2020 16:11:07 +0800
-Message-Id: <ca40a5840e384acd214356088a31f0f8c55b8da7.1599638315.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 06/11] bind: Security Advisory - bind - CVE-2020-8622
+Date: Wed,  9 Sep 2020 16:11:08 +0800
+Message-Id: <b663e78f76965b228e1f91dda01c84158ff3756a.1599638315.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599638315.git.anuj.mittal@intel.com>
 References: <cover.1599638315.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Li Wang <Li.Wang@windriver.com>
+From: Li Zhou <li.zhou@windriver.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Li Wang <Li.Wang@windriver.com>
+Backport patch from <https://gitlab.isc.org/isc-projects/bind9/
+commit/6ed167ad0a647dff20c8cb08c944a7967df2d415> to solve CVE-2020-8622.
+
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-15863.patch            | 64 +++++++++++++++++++
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-15863.patch
+ .../bind/bind/CVE-2020-8622.patch             | 60 +++++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.11.19.bb |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8622.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 702a817988..012be74855 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -41,6 +41,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-10702.patch \
-            file://CVE-2020-16092.patch \
-            file://CVE-2020-10756.patch \
-+           file://CVE-2020-15863.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-15863.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-15863.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8622.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8622.patch
 new file mode 100644
-index 0000000000..9927584d11
+index 0000000000..dec5672657
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-15863.patch
-@@ -0,0 +1,64 @@
-+From 5519724a13664b43e225ca05351c60b4468e4555 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Fri, 10 Jul 2020 11:19:41 +0200
-+Subject: [PATCH] hw/net/xgmac: Fix buffer overflow in xgmac_enet_send()
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8622.patch
+@@ -0,0 +1,60 @@
++From ca543240380475d888d660ea3296fc880ce52f35 Mon Sep 17 00:00:00 2001
++From: Mark Andrews <marka@isc.org>
++Date: Wed, 15 Jul 2020 16:07:51 +1000
++Subject: [PATCH] bind: Always keep a copy of the message
 +
-+A buffer overflow issue was reported by Mr. Ziming Zhang, CC'd here. It
-+occurs while sending an Ethernet frame due to missing break statements
-+and improper checking of the buffer size.
++this allows it to be available even when dns_message_parse()
++returns a error.
 +
-+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+CVE: CVE-2020-15863
 +Upstream-Status: Backport
-+[https://git.qemu.org/?p=qemu.git;a=commit;h=5519724a13664b43e225ca05351c60b4468e4555]
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+Signed-off-by: Li Wang <li.wang@windriver.com>
++CVE: CVE-2020-8622
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
 +---
-+ hw/net/xgmac.c | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
++ lib/dns/message.c | 24 +++++++++++++-----------
++ 1 file changed, 13 insertions(+), 11 deletions(-)
 +
-+diff --git a/hw/net/xgmac.c b/hw/net/xgmac.c
-+index f49df95..f496f7e 100644
-+--- a/hw/net/xgmac.c
-++++ b/hw/net/xgmac.c
-+@@ -217,21 +217,31 @@ static void xgmac_enet_send(XgmacState *s)
-+         }
-+         len = (bd.buffer1_size & 0xfff) + (bd.buffer2_size & 0xfff);
++diff --git a/lib/dns/message.c b/lib/dns/message.c
++index ac637a2..39ed80f 100644
++--- a/lib/dns/message.c
+++++ b/lib/dns/message.c
++@@ -1679,6 +1679,19 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
++ 	msg->header_ok = 0;
++ 	msg->question_ok = 0;
 + 
-++        /*
-++         * FIXME: these cases of malformed tx descriptors (bad sizes)
-++         * should probably be reported back to the guest somehow
-++         * rather than simply silently stopping processing, but we
-++         * don't know what the hardware does in this situation.
-++         * This will only happen for buggy guests anyway.
-++         */
-+         if ((bd.buffer1_size & 0xfff) > 2048) {
-+             DEBUGF_BRK("qemu:%s:ERROR...ERROR...ERROR... -- "
-+                         "xgmac buffer 1 len on send > 2048 (0x%x)\n",
-+                          __func__, bd.buffer1_size & 0xfff);
-++            break;
-+         }
-+         if ((bd.buffer2_size & 0xfff) != 0) {
-+             DEBUGF_BRK("qemu:%s:ERROR...ERROR...ERROR... -- "
-+                         "xgmac buffer 2 len on send != 0 (0x%x)\n",
-+                         __func__, bd.buffer2_size & 0xfff);
-++            break;
-+         }
-+-        if (len >= sizeof(frame)) {
-++        if (frame_size + len >= sizeof(frame)) {
-+             DEBUGF_BRK("qemu:%s: buffer overflow %d read into %zu "
-+-                        "buffer\n" , __func__, len, sizeof(frame));
-++                        "buffer\n" , __func__, frame_size + len, sizeof(frame));
-+             DEBUGF_BRK("qemu:%s: buffer1.size=%d; buffer2.size=%d\n",
-+                         __func__, bd.buffer1_size, bd.buffer2_size);
-++            break;
-+         }
+++	if ((options & DNS_MESSAGEPARSE_CLONEBUFFER) == 0) {
+++		isc_buffer_usedregion(&origsource, &msg->saved);
+++	} else {
+++		msg->saved.length = isc_buffer_usedlength(&origsource);
+++		msg->saved.base = isc_mem_get(msg->mctx, msg->saved.length);
+++		if (msg->saved.base == NULL) {
+++			return (ISC_R_NOMEMORY);
+++		}
+++		memmove(msg->saved.base, isc_buffer_base(&origsource),
+++			msg->saved.length);
+++		msg->free_saved = 1;
+++	}
+++
++ 	isc_buffer_remainingregion(source, &r);
++ 	if (r.length < DNS_MESSAGE_HEADERLEN)
++ 		return (ISC_R_UNEXPECTEDEND);
++@@ -1754,17 +1767,6 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
++ 	}
 + 
-+         cpu_physical_memory_read(bd.buffer1_addr, ptr, len);
++  truncated:
++-	if ((options & DNS_MESSAGEPARSE_CLONEBUFFER) == 0)
++-		isc_buffer_usedregion(&origsource, &msg->saved);
++-	else {
++-		msg->saved.length = isc_buffer_usedlength(&origsource);
++-		msg->saved.base = isc_mem_get(msg->mctx, msg->saved.length);
++-		if (msg->saved.base == NULL)
++-			return (ISC_R_NOMEMORY);
++-		memmove(msg->saved.base, isc_buffer_base(&origsource),
++-			msg->saved.length);
++-		msg->free_saved = 1;
++-	}
++ 
++ 	if (ret == ISC_R_UNEXPECTEDEND && ignore_tc)
++ 		return (DNS_R_RECOVERABLE);
 +-- 
 +1.9.1
 +
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.19.bb b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+index a77be8678f..0bfd5799b3 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.19.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.19.bb
+@@ -18,6 +18,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8622.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0dee554a4caa368948b32da9a0c97b516c19103bc13ff5b3762c5d8552f52329"
 -- 
 2.26.2
 
