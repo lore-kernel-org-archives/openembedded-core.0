@@ -1,532 +1,184 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga11.intel.com (mga11.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.8819.1599639108595533702
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 01:11:48 -0700
+ Wed, 09 Sep 2020 01:11:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: dsw4rMe6PRVQLksQ7VeNi0FBch3ipmy6LrPv4edfTFDd2TjQfU4sO8xbtVYwZ+K8HA48jO0FZ6
- GeM7p7Hv/LZw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155767034"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: /VBt3RaSgFJwM8aSq7rZVYcrZNidt/yTSGN4hTptKZsc0nSqzOh/XabGuFmGsx1QwMCcJ9Oyiz
+ 6IFyBbNgAsKA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9738"; a="155767040"
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="155767034"
+   d="scan'208";a="155767040"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:38 -0700
-IronPort-SDR: 9vHyRHLPU1NwLH6VO90gKwUu/G7D6TTjyRh12q03DHMQP2LMYKdpLM4bki1QonftxHVylOe/fz
- FnBJQMvOpOFw==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:41 -0700
+IronPort-SDR: /AXzISiBl8KIiWhK95nX6npC1i6A2hImsh0gefKoDO7QU2sYSOKFlcIrHoWfq1mMPSHZQK6zUA
+ wVecUa9PhiAw==
 X-IronPort-AV: E=Sophos;i="5.76,409,1592895600"; 
-   d="scan'208";a="480371094"
+   d="scan'208";a="480371110"
 Received: from rbint21-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.66.132])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:36 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2020 01:11:38 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 10/11] go: Security Advisory - go - CVE-2020-24553
-Date: Wed,  9 Sep 2020 16:11:12 +0800
-Message-Id: <5a9cb40c40183b44e7115b34beaaaeaac647b617.1599638315.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 11/11] gnutls: CVE-2020-24659
+Date: Wed,  9 Sep 2020 16:11:13 +0800
+Message-Id: <d3c46c74880c0fb0e569bc228f1ba1c0cb498ebc.1599638315.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1599638315.git.anuj.mittal@intel.com>
 References: <cover.1599638315.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Li Zhou <li.zhou@windriver.com>
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
 
-Backport the patch from <https://github.com/golang/go/commit/
-eb07103a083237414145a45f029c873d57037e06> to solve CVE-2020-24553.
+Backport the CVE patch from the usptream:
+https://gitlab.com/gnutls/gnutls.git
+commit 29ee67c205855e848a0a26e6d0e4f65b6b943e0a
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/go-1.12.inc          |   2 +
- ...i-rename-a-test-file-to-be-less-cute.patch |  28 ++
- .../go/go-1.12/CVE-2020-24553.patch           | 429 ++++++++++++++++++
- 3 files changed, 459 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.12/0001-net-http-cgi-rename-a-test-file-to-be-less-cute.patch
- create mode 100644 meta/recipes-devtools/go/go-1.12/CVE-2020-24553.patch
+ .../gnutls/gnutls/CVE-2020-24659.patch        | 117 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.6.13.bb  |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-24659.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index fd2d641554..2a0680aeaa 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -20,6 +20,8 @@ SRC_URI += "\
-     file://0010-fix-CVE-2019-17596.patch \
-     file://CVE-2020-15586.patch \
-     file://CVE-2020-16845.patch \
-+    file://0001-net-http-cgi-rename-a-test-file-to-be-less-cute.patch \
-+    file://CVE-2020-24553.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
-diff --git a/meta/recipes-devtools/go/go-1.12/0001-net-http-cgi-rename-a-test-file-to-be-less-cute.patch b/meta/recipes-devtools/go/go-1.12/0001-net-http-cgi-rename-a-test-file-to-be-less-cute.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2020-24659.patch b/meta/recipes-support/gnutls/gnutls/CVE-2020-24659.patch
 new file mode 100644
-index 0000000000..7c07961c03
+index 0000000000..1702325e66
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/0001-net-http-cgi-rename-a-test-file-to-be-less-cute.patch
-@@ -0,0 +1,28 @@
-+From 8390c478600b852392cb116741b3cb239c94d123 Mon Sep 17 00:00:00 2001
-+From: Brad Fitzpatrick <bradfitz@golang.org>
-+Date: Wed, 15 Jan 2020 18:08:10 +0000
-+Subject: [PATCH] net/http/cgi: rename a test file to be less cute
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2020-24659.patch
+@@ -0,0 +1,117 @@
++From 29ee67c205855e848a0a26e6d0e4f65b6b943e0a Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Sat, 22 Aug 2020 17:19:39 +0200
++Subject: [PATCH] handshake: reject no_renegotiation alert if handshake is
++ incomplete
 +
-+My fault (from CL 4245070), sorry.
++If the initial handshake is incomplete and the server sends a
++no_renegotiation alert, the client should treat it as a fatal error
++even if its level is warning.  Otherwise the same handshake
++state (e.g., DHE parameters) are reused in the next gnutls_handshake
++call, if it is called in the loop idiom:
 +
-+Change-Id: Ib95d3170dc326e74aa74c22421c4e44a8b00f577
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/214920
-+Run-TryBot: Brad Fitzpatrick <bradfitz@golang.org>
-+TryBot-Result: Gobot Gobot <gobot@golang.org>
-+Reviewed-by: Emmanuel Odeke <emm.odeke@gmail.com>
++  do {
++          ret = gnutls_handshake(session);
++  } while (ret < 0 && gnutls_error_is_fatal(ret) == 0);
 +
-+Upstream-Status: Backport
-+[lz: Add this patch for merging the patch for CVE-2020-24553]
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
++CVE: CVE-2020-24659
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls.git]
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 +---
-+ src/net/http/cgi/{matryoshka_test.go => integration_test.go} | 0
-+ 1 file changed, 0 insertions(+), 0 deletions(-)
-+ rename src/net/http/cgi/{matryoshka_test.go => integration_test.go} (100%)
++ lib/gnutls_int.h                              |   1 +
++ lib/handshake.c                               |  48 +++++++++++++-----
++ 2 files changed, 36 insertions(+), 13 deletions(-)
 +
-+diff --git a/src/net/http/cgi/matryoshka_test.go b/src/net/http/cgi/integration_test.go
-+similarity index 100%
-+rename from src/net/http/cgi/matryoshka_test.go
-+rename to src/net/http/cgi/integration_test.go
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/go/go-1.12/CVE-2020-24553.patch b/meta/recipes-devtools/go/go-1.12/CVE-2020-24553.patch
-new file mode 100644
-index 0000000000..18a218bc9a
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/CVE-2020-24553.patch
-@@ -0,0 +1,429 @@
-+From eb07103a083237414145a45f029c873d57037e06 Mon Sep 17 00:00:00 2001
-+From: Roberto Clapis <roberto@golang.org>
-+Date: Wed, 26 Aug 2020 08:53:03 +0200
-+Subject: [PATCH] [release-branch.go1.15-security] net/http/cgi,net/http/fcgi:
-+ add Content-Type detection
-+
-+This CL ensures that responses served via CGI and FastCGI
-+have a Content-Type header based on the content of the
-+response if not explicitly set by handlers.
-+
-+If the implementers of the handler did not explicitly
-+specify a Content-Type both CGI implementations would default
-+to "text/html", potentially causing cross-site scripting.
-+
-+Thanks to RedTeam Pentesting GmbH for reporting this.
-+
-+Fixes CVE-2020-24553
-+
-+Change-Id: I82cfc396309b5ab2e8d6e9a87eda8ea7e3799473
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/823217
-+Reviewed-by: Russ Cox <rsc@google.com>
-+(cherry picked from commit 23d675d07fdc56aafd67c0a0b63d5b7e14708ff0)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/835311
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-24553
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ src/net/http/cgi/child.go            | 36 ++++++++++-----
-+ src/net/http/cgi/child_test.go       | 69 ++++++++++++++++++++++++++++
-+ src/net/http/cgi/integration_test.go | 53 ++++++++++++++++++++-
-+ src/net/http/fcgi/child.go           | 39 ++++++++++++----
-+ src/net/http/fcgi/fcgi_test.go       | 52 +++++++++++++++++++++
-+ 5 files changed, 227 insertions(+), 22 deletions(-)
-+
-+diff --git a/src/net/http/cgi/child.go b/src/net/http/cgi/child.go
-+index 9474175f17..61de6165f6 100644
-+--- a/src/net/http/cgi/child.go
-++++ b/src/net/http/cgi/child.go
-+@@ -163,10 +163,12 @@ func Serve(handler http.Handler) error {
-+ }
++diff --git a/lib/gnutls_int.h b/lib/gnutls_int.h
++index bb6c19713..31cec5c0c 100644
++--- a/lib/gnutls_int.h
+++++ b/lib/gnutls_int.h
++@@ -1370,6 +1370,7 @@ typedef struct {
++ #define HSK_RECORD_SIZE_LIMIT_RECEIVED (1<<26) /* server: record_size_limit extension was seen but not accepted yet */
++ #define HSK_OCSP_REQUESTED (1<<27) /* server: client requested OCSP stapling */
++ #define HSK_CLIENT_OCSP_REQUESTED (1<<28) /* client: server requested OCSP stapling */
+++#define HSK_SERVER_HELLO_RECEIVED (1<<29) /* client: Server Hello message has been received */
 + 
-+ type response struct {
-+-	req        *http.Request
-+-	header     http.Header
-+-	bufw       *bufio.Writer
-+-	headerSent bool
-++	req            *http.Request
-++	header         http.Header
-++	code           int
-++	wroteHeader    bool
-++	wroteCGIHeader bool
-++	bufw           *bufio.Writer
-+ }
++ 	/* The hsk_flags are for use within the ongoing handshake;
++ 	 * they are reset to zero prior to handshake start by gnutls_handshake. */
++diff --git a/lib/handshake.c b/lib/handshake.c
++index b40f84b3d..ce2d160e2 100644
++--- a/lib/handshake.c
+++++ b/lib/handshake.c
++@@ -2051,6 +2051,8 @@ read_server_hello(gnutls_session_t session,
++ 	if (ret < 0)
++ 		return gnutls_assert_val(ret);
 + 
-+ func (r *response) Flush() {
-+@@ -178,26 +180,38 @@ func (r *response) Header() http.Header {
-+ }
-+ 
-+ func (r *response) Write(p []byte) (n int, err error) {
-+-	if !r.headerSent {
-++	if !r.wroteHeader {
-+ 		r.WriteHeader(http.StatusOK)
-+ 	}
-++	if !r.wroteCGIHeader {
-++		r.writeCGIHeader(p)
-++	}
-+ 	return r.bufw.Write(p)
-+ }
-+ 
-+ func (r *response) WriteHeader(code int) {
-+-	if r.headerSent {
-++	if r.wroteHeader {
-+ 		// Note: explicitly using Stderr, as Stdout is our HTTP output.
-+ 		fmt.Fprintf(os.Stderr, "CGI attempted to write header twice on request for %s", r.req.URL)
-+ 		return
-+ 	}
-+-	r.headerSent = true
-+-	fmt.Fprintf(r.bufw, "Status: %d %s\r\n", code, http.StatusText(code))
-++	r.wroteHeader = true
-++	r.code = code
-++}
-+ 
-+-	// Set a default Content-Type
-++// writeCGIHeader finalizes the header sent to the client and writes it to the output.
-++// p is not written by writeHeader, but is the first chunk of the body
-++// that will be written. It is sniffed for a Content-Type if none is
-++// set explicitly.
-++func (r *response) writeCGIHeader(p []byte) {
-++	if r.wroteCGIHeader {
-++		return
-++	}
-++	r.wroteCGIHeader = true
-++	fmt.Fprintf(r.bufw, "Status: %d %s\r\n", r.code, http.StatusText(r.code))
-+ 	if _, hasType := r.header["Content-Type"]; !hasType {
-+-		r.header.Add("Content-Type", "text/html; charset=utf-8")
-++		r.header.Set("Content-Type", http.DetectContentType(p))
-+ 	}
-+-
-+ 	r.header.Write(r.bufw)
-+ 	r.bufw.WriteString("\r\n")
-+ 	r.bufw.Flush()
-+diff --git a/src/net/http/cgi/child_test.go b/src/net/http/cgi/child_test.go
-+index 14e0af475f..f6ecb6eb80 100644
-+--- a/src/net/http/cgi/child_test.go
-++++ b/src/net/http/cgi/child_test.go
-+@@ -7,6 +7,11 @@
-+ package cgi
-+ 
-+ import (
-++	"bufio"
-++	"bytes"
-++	"net/http"
-++	"net/http/httptest"
-++	"strings"
-+ 	"testing"
-+ )
-+ 
-+@@ -148,3 +153,67 @@ func TestRequestWithoutRemotePort(t *testing.T) {
-+ 		t.Errorf("RemoteAddr: got %q; want %q", g, e)
-+ 	}
-+ }
+++	session->internals.hsk_flags |= HSK_SERVER_HELLO_RECEIVED;
 ++
-++type countingWriter int
-++
-++func (c *countingWriter) Write(p []byte) (int, error) {
-++	*c += countingWriter(len(p))
-++	return len(p), nil
-++}
-++func (c *countingWriter) WriteString(p string) (int, error) {
-++	*c += countingWriter(len(p))
-++	return len(p), nil
-++}
-++
-++func TestResponse(t *testing.T) {
-++	var tests = []struct {
-++		name   string
-++		body   string
-++		wantCT string
-++	}{
-++		{
-++			name:   "no body",
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "html",
-++			body:   "<html><head><title>test page</title></head><body>This is a body</body></html>",
-++			wantCT: "text/html; charset=utf-8",
-++		},
-++		{
-++			name:   "text",
-++			body:   strings.Repeat("gopher", 86),
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "jpg",
-++			body:   "\xFF\xD8\xFF" + strings.Repeat("B", 1024),
-++			wantCT: "image/jpeg",
-++		},
-++	}
-++	for _, tt := range tests {
-++		t.Run(tt.name, func(t *testing.T) {
-++			var buf bytes.Buffer
-++			resp := response{
-++				req:    httptest.NewRequest("GET", "/", nil),
-++				header: http.Header{},
-++				bufw:   bufio.NewWriter(&buf),
-++			}
-++			n, err := resp.Write([]byte(tt.body))
-++			if err != nil {
-++				t.Errorf("Write: unexpected %v", err)
-++			}
-++			if want := len(tt.body); n != want {
-++				t.Errorf("reported short Write: got %v want %v", n, want)
-++			}
-++			resp.writeCGIHeader(nil)
-++			resp.Flush()
-++			if got := resp.Header().Get("Content-Type"); got != tt.wantCT {
-++				t.Errorf("wrong content-type: got %q, want %q", got, tt.wantCT)
-++			}
-++			if !bytes.HasSuffix(buf.Bytes(), []byte(tt.body)) {
-++				t.Errorf("body was not correctly written")
-++			}
-++		})
-++	}
-++}
-+diff --git a/src/net/http/cgi/integration_test.go b/src/net/http/cgi/integration_test.go
-+index 32d59c09a3..295c3b82d4 100644
-+--- a/src/net/http/cgi/integration_test.go
-++++ b/src/net/http/cgi/integration_test.go
-+@@ -16,7 +16,9 @@ import (
-+ 	"io"
-+ 	"net/http"
-+ 	"net/http/httptest"
-++	"net/url"
-+ 	"os"
-++	"strings"
-+ 	"testing"
-+ 	"time"
-+ )
-+@@ -52,7 +54,7 @@ func TestHostingOurselves(t *testing.T) {
-+ 	}
-+ 	replay := runCgiTest(t, h, "GET /test.go?foo=bar&a=b HTTP/1.0\nHost: example.com\n\n", expectedMap)
-+ 
-+-	if expected, got := "text/html; charset=utf-8", replay.Header().Get("Content-Type"); got != expected {
-++	if expected, got := "text/plain; charset=utf-8", replay.Header().Get("Content-Type"); got != expected {
-+ 		t.Errorf("got a Content-Type of %q; expected %q", got, expected)
-+ 	}
-+ 	if expected, got := "X-Test-Value", replay.Header().Get("X-Test-Header"); got != expected {
-+@@ -152,6 +154,51 @@ func TestChildOnlyHeaders(t *testing.T) {
-+ 	}
++ 	return 0;
 + }
 + 
-++func TestChildContentType(t *testing.T) {
-++	testenv.MustHaveExec(t)
-++
-++	h := &Handler{
-++		Path: os.Args[0],
-++		Root: "/test.go",
-++		Args: []string{"-test.run=TestBeChildCGIProcess"},
-++	}
-++	var tests = []struct {
-++		name   string
-++		body   string
-++		wantCT string
-++	}{
-++		{
-++			name:   "no body",
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "html",
-++			body:   "<html><head><title>test page</title></head><body>This is a body</body></html>",
-++			wantCT: "text/html; charset=utf-8",
-++		},
-++		{
-++			name:   "text",
-++			body:   strings.Repeat("gopher", 86),
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "jpg",
-++			body:   "\xFF\xD8\xFF" + strings.Repeat("B", 1024),
-++			wantCT: "image/jpeg",
-++		},
-++	}
-++	for _, tt := range tests {
-++		t.Run(tt.name, func(t *testing.T) {
-++			expectedMap := map[string]string{"_body": tt.body}
-++			req := fmt.Sprintf("GET /test.go?exact-body=%s HTTP/1.0\nHost: example.com\n\n", url.QueryEscape(tt.body))
-++			replay := runCgiTest(t, h, req, expectedMap)
-++			if got := replay.Header().Get("Content-Type"); got != tt.wantCT {
-++				t.Errorf("got a Content-Type of %q; expected it to start with %q", got, tt.wantCT)
++@@ -2575,16 +2577,42 @@ int gnutls_rehandshake(gnutls_session_t session)
++ 	return 0;
++ }
++ 
+++/* This function checks whether the error code should be treated fatal
+++ * or not, and also does the necessary state transition.  In
+++ * particular, in the case of a rehandshake abort it resets the
+++ * handshake's internal state.
+++ */
++ inline static int
++ _gnutls_abort_handshake(gnutls_session_t session, int ret)
++ {
++-	if (((ret == GNUTLS_E_WARNING_ALERT_RECEIVED) &&
++-	     (gnutls_alert_get(session) == GNUTLS_A_NO_RENEGOTIATION))
++-	    || ret == GNUTLS_E_GOT_APPLICATION_DATA)
++-		return 0;
+++	switch (ret) {
+++	case GNUTLS_E_WARNING_ALERT_RECEIVED:
+++		if (gnutls_alert_get(session) == GNUTLS_A_NO_RENEGOTIATION) {
+++			/* The server always toleretes a "no_renegotiation" alert. */
+++			if (session->security_parameters.entity == GNUTLS_SERVER) {
+++				STATE = STATE0;
+++				return ret;
 ++			}
-++		})
-++	}
-++}
 ++
-+ // golang.org/issue/7198
-+ func Test500WithNoHeaders(t *testing.T)     { want500Test(t, "/immediate-disconnect") }
-+ func Test500WithNoContentType(t *testing.T) { want500Test(t, "/no-content-type") }
-+@@ -203,6 +250,10 @@ func TestBeChildCGIProcess(t *testing.T) {
-+ 		if req.FormValue("no-body") == "1" {
-+ 			return
-+ 		}
-++		if eb, ok := req.Form["exact-body"]; ok {
-++			io.WriteString(rw, eb[0])
-++			return
+++			/* The client should tolerete a "no_renegotiation" alert only if:
+++			 * - the initial handshake has completed, or
+++			 * - a Server Hello is not yet received
+++			 */
+++			if (session->internals.initial_negotiation_completed ||
+++			    !(session->internals.hsk_flags & HSK_SERVER_HELLO_RECEIVED)) {
+++				STATE = STATE0;
+++				return ret;
+++			}
++ 
++-	/* this doesn't matter */
++-	return GNUTLS_E_INTERNAL_ERROR;
+++			return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET);
 ++		}
-+ 		if req.FormValue("write-forever") == "1" {
-+ 			io.Copy(rw, neverEnding('a'))
-+ 			for {
-+diff --git a/src/net/http/fcgi/child.go b/src/net/http/fcgi/child.go
-+index 30a6b2ce2d..a31273b3ec 100644
-+--- a/src/net/http/fcgi/child.go
-++++ b/src/net/http/fcgi/child.go
-+@@ -74,10 +74,12 @@ func (r *request) parseParams() {
-+ 
-+ // response implements http.ResponseWriter.
-+ type response struct {
-+-	req         *request
-+-	header      http.Header
-+-	w           *bufWriter
-+-	wroteHeader bool
-++	req            *request
-++	header         http.Header
-++	code           int
-++	wroteHeader    bool
-++	wroteCGIHeader bool
-++	w              *bufWriter
-+ }
-+ 
-+ func newResponse(c *child, req *request) *response {
-+@@ -92,11 +94,14 @@ func (r *response) Header() http.Header {
-+ 	return r.header
-+ }
-+ 
-+-func (r *response) Write(data []byte) (int, error) {
-++func (r *response) Write(p []byte) (n int, err error) {
-+ 	if !r.wroteHeader {
-+ 		r.WriteHeader(http.StatusOK)
-+ 	}
-+-	return r.w.Write(data)
-++	if !r.wroteCGIHeader {
-++		r.writeCGIHeader(p)
+++		return ret;
+++	case GNUTLS_E_GOT_APPLICATION_DATA:
+++		STATE = STATE0;
+++		return ret;
+++	default:
+++		return ret;
 ++	}
-++	return r.w.Write(p)
 + }
 + 
-+ func (r *response) WriteHeader(code int) {
-+@@ -104,22 +109,34 @@ func (r *response) WriteHeader(code int) {
-+ 		return
++ 
++@@ -2747,13 +2774,7 @@ int gnutls_handshake(gnutls_session_t session)
 + 	}
-+ 	r.wroteHeader = true
-++	r.code = code
-+ 	if code == http.StatusNotModified {
-+ 		// Must not have body.
-+ 		r.header.Del("Content-Type")
-+ 		r.header.Del("Content-Length")
-+ 		r.header.Del("Transfer-Encoding")
-+-	} else if r.header.Get("Content-Type") == "" {
-+-		r.header.Set("Content-Type", "text/html; charset=utf-8")
-+ 	}
++ 
++ 	if (ret < 0) {
++-		/* In the case of a rehandshake abort
++-		 * we should reset the handshake's internal state.
++-		 */
++-		if (_gnutls_abort_handshake(session, ret) == 0)
++-			STATE = STATE0;
 +-
-+ 	if r.header.Get("Date") == "" {
-+ 		r.header.Set("Date", time.Now().UTC().Format(http.TimeFormat))
++-		return ret;
+++		return _gnutls_abort_handshake(session, ret);
 + 	}
-++}
 + 
-+-	fmt.Fprintf(r.w, "Status: %d %s\r\n", code, http.StatusText(code))
-++// writeCGIHeader finalizes the header sent to the client and writes it to the output.
-++// p is not written by writeHeader, but is the first chunk of the body
-++// that will be written. It is sniffed for a Content-Type if none is
-++// set explicitly.
-++func (r *response) writeCGIHeader(p []byte) {
-++	if r.wroteCGIHeader {
-++		return
-++	}
-++	r.wroteCGIHeader = true
-++	fmt.Fprintf(r.w, "Status: %d %s\r\n", r.code, http.StatusText(r.code))
-++	if _, hasType := r.header["Content-Type"]; r.code != http.StatusNotModified && !hasType {
-++		r.header.Set("Content-Type", http.DetectContentType(p))
-++	}
-+ 	r.header.Write(r.w)
-+ 	r.w.WriteString("\r\n")
-++	r.w.Flush()
-+ }
-+ 
-+ func (r *response) Flush() {
-+@@ -290,6 +307,8 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
-+ 		httpReq = httpReq.WithContext(envVarCtx)
-+ 		c.handler.ServeHTTP(r, httpReq)
-+ 	}
-++	// Make sure we serve something even if nothing was written to r
-++	r.Write(nil)
-+ 	r.Close()
-+ 	c.mu.Lock()
-+ 	delete(c.requests, req.reqId)
-+diff --git a/src/net/http/fcgi/fcgi_test.go b/src/net/http/fcgi/fcgi_test.go
-+index e9d2b34023..4a27a12c35 100644
-+--- a/src/net/http/fcgi/fcgi_test.go
-++++ b/src/net/http/fcgi/fcgi_test.go
-+@@ -10,6 +10,7 @@ import (
-+ 	"io"
-+ 	"io/ioutil"
-+ 	"net/http"
-++	"strings"
-+ 	"testing"
-+ )
-+ 
-+@@ -344,3 +345,54 @@ func TestChildServeReadsEnvVars(t *testing.T) {
-+ 		<-done
-+ 	}
-+ }
-++
-++func TestResponseWriterSniffsContentType(t *testing.T) {
-++	var tests = []struct {
-++		name   string
-++		body   string
-++		wantCT string
-++	}{
-++		{
-++			name:   "no body",
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "html",
-++			body:   "<html><head><title>test page</title></head><body>This is a body</body></html>",
-++			wantCT: "text/html; charset=utf-8",
-++		},
-++		{
-++			name:   "text",
-++			body:   strings.Repeat("gopher", 86),
-++			wantCT: "text/plain; charset=utf-8",
-++		},
-++		{
-++			name:   "jpg",
-++			body:   "\xFF\xD8\xFF" + strings.Repeat("B", 1024),
-++			wantCT: "image/jpeg",
-++		},
-++	}
-++	for _, tt := range tests {
-++		t.Run(tt.name, func(t *testing.T) {
-++			input := make([]byte, len(streamFullRequestStdin))
-++			copy(input, streamFullRequestStdin)
-++			rc := nopWriteCloser{bytes.NewBuffer(input)}
-++			done := make(chan bool)
-++			var resp *response
-++			c := newChild(rc, http.HandlerFunc(func(
-++				w http.ResponseWriter,
-++				r *http.Request,
-++			) {
-++				io.WriteString(w, tt.body)
-++				resp = w.(*response)
-++				done <- true
-++			}))
-++			defer c.cleanUp()
-++			go c.serve()
-++			<-done
-++			if got := resp.Header().Get("Content-Type"); got != tt.wantCT {
-++				t.Errorf("got a Content-Type of %q; expected it to start with %q", got, tt.wantCT)
-++			}
-++		})
-++	}
-++}
++ 	/* clear handshake buffer */
 +-- 
-+2.17.1
++2.17.0
 +
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.13.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+index ab537981ac..2ed012f9d6 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2020-13777-a.patch \
+            file://CVE-2020-13777-b.patch \
+            file://CVE-2020-13777-c.patch \
++           file://CVE-2020-24659.patch \
+ "
+ 
+ SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
 -- 
 2.26.2
 
