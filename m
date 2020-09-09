@@ -1,132 +1,204 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.8840.1599691579426360463
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web10.8883.1599691583311510974
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 15:46:19 -0700
+ Wed, 09 Sep 2020 15:46:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=lFHJw66F;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.179, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f179.google.com with SMTP id p4so4177365qkf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:46:19 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=G3EgN4wH;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.193, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f193.google.com with SMTP id 19so3376316qtp.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vT6E/zHPvruOK6ontthAGo2GFBo9LysGobzc89Jj/sA=;
-        b=lFHJw66FiVNuBcCU7rMJlbNRzXscb9SuJU197uULCkZ63i/MYW7IE/vAMNdr38+oBY
-         IUn4VDxCfs4ukhS6Nj5hH+c6LRqN/Y4Cot66Ch/MJymkA4+R/ZuWp5jJv2BLU8iDIUGd
-         7SY7wqDioDuUxwWuhM5apxrQq/E6qhoKcNmCRqDRGVIAg4/0R4TZ9u+5vfpyWNuG+lI0
-         lysEt+VeteGMEA2RIvtyfNllpBVCmNJl5oWGFFbGIckn4OG/DNjOGDYSJ9CgbAKqvIRj
-         A3xqaM11HvGzPxivmVJ8SbEDUsTGUbgActWNvGTy6fe2MSrTjUANxr1VCfNd3DI3q7JA
-         eyzg==
+        bh=azcpzum9FiM74+YksfoQb+j1y2JCbKv2FFv14KFIhp0=;
+        b=G3EgN4wHFbnlTyyWIQQLTZ0qOIFTpLm4qBs1mpEGeeC6jxEoW2ANPr6+T8+oOFaBrq
+         aWShShg7ykqK+rmrflDjPTeCoFJF+G3EJQOlTBSKojXDlOSQ9mdsskkv9FWou0eGUS/7
+         xyRjdhgsBg/sA5w+pdzDwdKNsX+Z3SqWmzZ/ogYc5O38dg/R+3BimrtwJ+hcMZoo0FP2
+         gNBK6dy96aKQSqR9/a4r1R2sVxx0lo10Qdi5tqgY2dsHixOYq7Aw/oZ6YkBSOSEPtf90
+         7c/68jGT5f3UJoZUZILpmh2zRdnXDZe41jE22O51CeN6ULR0XVEJ4uzwjMKkNhxAchqQ
+         sn1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vT6E/zHPvruOK6ontthAGo2GFBo9LysGobzc89Jj/sA=;
-        b=Z3H9RytvEcpc0sQSLRdM63f0ll48flKuTZr3mOc7WGgBxZeax00aXp3fVcaVtkvXkx
-         zTUnlVFsApPnMqW1VHICdWGLDObsStNsSHCo79/pBz0M7wdsBUD9eZHlp5Ad8vMvKHM6
-         FkLbZQrv1nKx4R7Ou8S1cGxSMMQcz2Vty2vJqsFKEN6ibH3WMMQYbkPLzu1YEQmnGSiL
-         oHGojOtqqmWr7vzCQu9Nq4wyd07bpFIYa/ysG/Q+GbncCEy36ro3ETp9PV5188GxnfiE
-         jH67aoJFlX6ly0i59juslwlJ7JxSFTJkq3kUz9c7Y+Kus4qYnUZwyH+5bhQgUsV6dlaG
-         WdyQ==
-X-Gm-Message-State: AOAM530RY+JbC9EOMJUlqFrZu4YPIeUn73GdVZBMDQJM87pp0ud/I9Gj
-	u8qZcLl4OaSeikCskH5Ron8IVF//H4obLrhO
-X-Google-Smtp-Source: ABdhPJwQ+hIOxVeOGWc9o56+fcj2Hj6vr5KafVH9OV+hRMLNURrZTuy++7ovxZIB7Bl6kEqKzei9xg==
-X-Received: by 2002:a05:620a:2404:: with SMTP id d4mr4937006qkn.284.1599691576824;
-        Wed, 09 Sep 2020 15:46:16 -0700 (PDT)
+        bh=azcpzum9FiM74+YksfoQb+j1y2JCbKv2FFv14KFIhp0=;
+        b=imJShtiPQuwgZJXdEE7g1uwDCOpFzz3p4O43dRFijb/RVIvM97ZryUXDd+cktTy7VJ
+         5FIdSxdN9eOatHgh1iS4tcKCKKrt9I++YYqMWy2YW0VFHJrHx5uKsSRpjFmwkeKGzW5M
+         ThiuSUSvjt6ol4HN/9el/CaaGK/QeKAm9DeM6GOSnIlm+qaBdQOeVZuUoMfXHEX1N4EJ
+         s/r7z93xC289yHBEpfnd9w6MmCRid5oNkOlLeGg76cFxtEWUjrHRtFCjgQO9yWq01wyv
+         VLH29glRYb+AU6wfay4E8Hs6YLHLlMl18r4WQJXrfZYlvI1QZvDmi7Gx/tdBVSPas/1x
+         LJKg==
+X-Gm-Message-State: AOAM532bIYKjjETQoSEfbGEAnk/+AWOskfg5sbAgOo4kr4n2tF6Ly+bm
+	pTAZ21+9wjm1O5QezMRpTe3aofyFYSjhwzuv
+X-Google-Smtp-Source: ABdhPJzVMngc/CY2HZEqQPpS2uyKmYWmvVgf6TvKMLNjyHtlh4JwAPQlC1Zbt+Eqolij3KUAfbBhKQ==
+X-Received: by 2002:ac8:1aae:: with SMTP id x43mr5354401qtj.30.1599691581940;
+        Wed, 09 Sep 2020 15:46:21 -0700 (PDT)
 Return-Path: <jdmason@kudzu.us>
 Received: from localhost ([136.56.1.171])
-        by smtp.gmail.com with ESMTPSA id l19sm4850781qtu.16.2020.09.09.15.46.16
+        by smtp.gmail.com with ESMTPSA id v56sm4907431qtc.49.2020.09.09.15.46.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 15:46:16 -0700 (PDT)
+        Wed, 09 Sep 2020 15:46:21 -0700 (PDT)
 From: "Jon Mason" <jdmason@kudzu.us>
 X-Google-Original-From: Jon Mason <jon.mason@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe][RFC 5/6] arch-armv8a.inc: Add tunes for supported ARMv8a cores
-Date: Wed,  9 Sep 2020 18:45:34 -0400
-Message-Id: <20200909224535.27164-6-jon.mason@arm.com>
+Subject: [meta-oe][RFC 6/6] arch-armv8-2a.inc: Add tunes for supported ARMv8.2a cores
+Date: Wed,  9 Sep 2020 18:45:35 -0400
+Message-Id: <20200909224535.27164-7-jon.mason@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200909224535.27164-1-jon.mason@arm.com>
 References: <20200909224535.27164-1-jon.mason@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add tunes for all the ARMv8a cores currently supported in GCC.  This
-is: Cortex-A34, Cortex-A73, and Cortex-A73-Cortex-A35.
+Add tunes for all the ARMv8.2a cores currently supported in GCC.  This
+is: Cortex-A65, Cortex-A65AE, Cortex-A75, Cortex-A76, Cortex-A76AE,
+Cortex-A77, Neoverse-E1, Neoverse-N1, Cortex-A75-Cortex-A55, and
+Cortex-A76-Cortex-A55.
 
 Signed-off-by: Jon Mason <jon.mason@arm.com>
 ---
- meta/conf/machine/include/arm/arch-armv8a.inc | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ .../machine/include/arm/arch-armv8-2a.inc     | 127 ++++++++++++++++++
+ 1 file changed, 127 insertions(+)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-index 0d01a8f49f88..db22d5ac69f9 100644
---- a/meta/conf/machine/include/arm/arch-armv8a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -15,6 +15,21 @@ PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-
- BASE_LIB_tune-cortexa32                    = "lib"
- BASE_LIB_tune-cortexa32-crypto             = "lib"
+diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+index 38564a17d98b..6e46b9104813 100644
+--- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
++++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+@@ -10,6 +10,133 @@ ARMPKGARCH_tune-cortexa55                           = "cortexa55"
+ TUNE_FEATURES_tune-cortexa55                        = "aarch64 cortexa55 crypto"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa55                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa55"
  
 +#
-+# Tune Settings for Cortex-A34
++# Tune Settings for Cortex-A65
 +#
-+TUNEVALID[cortexa34] = "Enable Cortex-A34 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa34', ' -mcpu=cortex-a34', '', d)}"
++TUNEVALID[cortexa65] = "Enable Cortex-A65 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa65', ' -mcpu=cortex-a65', '', d)}"
 +
 +# Little Endian base configs
-+AVAILTUNES                                += "cortexa34 cortexa34-crypto"
-+ARMPKGARCH_tune-cortexa34                  = "cortexa34"
-+ARMPKGARCH_tune-cortexa34-crypto           = "cortexa34"
-+TUNE_FEATURES_tune-cortexa34               = "aarch64 cortexa34 crc"
-+TUNE_FEATURES_tune-cortexa34-crypto        = "${TUNE_FEATURES_tune-cortexa34} crypto"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa34         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa34"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa34-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa34 cortexa34-crypto"
++AVAILTUNES                                         += "cortexa65"
++ARMPKGARCH_tune-cortexa65                           = "cortexa65"
++TUNE_FEATURES_tune-cortexa65                        = "aarch64 cortexa65 crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa65                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa65"
 +
- #
- # Tune Settings for Cortex-A35
- #
-@@ -72,6 +87,18 @@ ARMPKGARCH_tune-cortexa72                  = "cortexa72"
- TUNE_FEATURES_tune-cortexa72               = "aarch64 cortexa72 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
- 
 +#
-+# Tune Settings for Cortex-A73
++# Tune Settings for Cortex-A65AE
 +#
-+TUNEVALID[cortexa73] = "Enable Cortex-A73 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa73', ' -mcpu=cortex-a73', '', d)}"
++TUNEVALID[cortexa65ae] = "Enable Cortex-A65AE specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa65ae', ' -mcpu=cortex-a65ae', '', d)}"
 +
 +# Little Endian base configs
-+AVAILTUNES                                += "cortexa73"
-+ARMPKGARCH_tune-cortexa73                  = "cortexa73"
-+TUNE_FEATURES_tune-cortexa73               = "aarch64 cortexa73 crc crypto"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa73         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73"
++AVAILTUNES                                         += "cortexa65ae"
++ARMPKGARCH_tune-cortexa65ae                         = "cortexa65ae"
++TUNE_FEATURES_tune-cortexa65ae                      = "aarch64 cortexa65ae crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa65ae                = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa65ae"
 +
- #
- # Tune Settings for ThunderX
- #
-@@ -115,6 +142,22 @@ TUNE_FEATURES_tune-cortexa72-cortexa53-crypto = "${TUNE_FEATURES_tune-cortexa72-
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa72-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
- 
 +#
-+# Tune Settings for big.LITTLE Cortex-A73 - Cortex-A35
++# Tune Settings for Cortex-A75
 +#
-+TUNEVALID[cortexa73-cortexa35] = "Enable big.LITTLE Cortex-A73.Cortex-A35 specific processor optimizations"
-+MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-cortexa35", "cortexa73-cortexa35:", "" ,d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-cortexa35", " -mcpu=cortex-a73.cortex-a35", "", d)}"
++TUNEVALID[cortexa75] = "Enable Cortex-A75 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa75', ' -mcpu=cortex-a75', '', d)}"
 +
-+# cortexa73.cortexa35 implies crc support
-+AVAILTUNES                                += "cortexa73-cortexa35 cortexa73-cortexa35-crypto"
-+ARMPKGARCH_tune-cortexa73-cortexa35        = "cortexa73-cortexa35"
-+ARMPKGARCH_tune-cortexa73-cortexa35-crypto = "cortexa73-cortexa35-crypto"
-+TUNE_FEATURES_tune-cortexa73-cortexa35     = "aarch64 crc cortexa73-cortexa35"
-+TUNE_FEATURES_tune-cortexa73-cortexa35-crypto = "${TUNE_FEATURES_tune-cortexa73-cortexa35} crypto"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa35  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa73-cortexa35"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa35-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa35 cortexa73-cortexa35-crypto"
++# Little Endian base configs
++AVAILTUNES                                         += "cortexa75"
++ARMPKGARCH_tune-cortexa75                           = "cortexa75"
++TUNE_FEATURES_tune-cortexa75                        = "aarch64 cortexa75 crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa75                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa75"
++
++#
++# Tune Settings for Cortex-A76
++#
++TUNEVALID[cortexa76] = "Enable Cortex-A76 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa76', ' -mcpu=cortex-a76', '', d)}"
++
++# Little Endian base configs
++AVAILTUNES                                         += "cortexa76"
++ARMPKGARCH_tune-cortexa76                           = "cortexa76"
++TUNE_FEATURES_tune-cortexa76                        = "aarch64 cortexa76 crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa76                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa76"
++
++#
++# Tune Settings for Cortex-A76AE
++#
++TUNEVALID[cortexa76ae] = "Enable Cortex-A76AE specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa76ae', ' -mcpu=cortex-a76ae', '', d)}"
++
++# Little Endian base configs
++AVAILTUNES                                         += "cortexa76ae"
++ARMPKGARCH_tune-cortexa76ae                         = "cortexa76ae"
++TUNE_FEATURES_tune-cortexa76ae                      = "aarch64 cortexa76ae crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa76ae                = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa76ae"
++
++#
++# Tune Settings for Cortex-A77
++#
++TUNEVALID[cortexa77] = "Enable Cortex-A77 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa77', ' -mcpu=cortex-a77', '', d)}"
++
++# Little Endian base configs
++AVAILTUNES                                         += "cortexa77"
++ARMPKGARCH_tune-cortexa77                           = "cortexa77"
++TUNE_FEATURES_tune-cortexa77                        = "aarch64 cortexa77 crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa77                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa77"
++
++#
++# Tune Settings for Neoverse-E1
++#
++TUNEVALID[neoversee1] = "Enable Neoverse-E1 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'neoversee1', ' -mcpu=neoverse-e1', '', d)}"
++
++# Little Endian base configs
++AVAILTUNES                                         += "neoversee1"
++ARMPKGARCH_tune-neoversee1                          = "neoversee1"
++TUNE_FEATURES_tune-neoversee1                       = "aarch64 neoversee1 crypto"
++PACKAGE_EXTRA_ARCHS_tune-neoversee1                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} neoversee1"
++
++#
++# Tune Settings for Neoverse-N1
++#
++TUNEVALID[neoversen1] = "Enable Neoverse-N1 specific processor optimizations"
++# Note: Neoverse was called Ares, and GCC will accept "ares" in place of "neoverse-n1"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'neoversen1', ' -mcpu=neoverse-n1', '', d)}"
++
++# Little Endian base configs
++AVAILTUNES                                         += "neoversen1"
++ARMPKGARCH_tune-neoversen1                          = "neoversen1"
++TUNE_FEATURES_tune-neoversen1                       = "aarch64 neoversen1 crypto"
++PACKAGE_EXTRA_ARCHS_tune-neoversen1                 = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} neoversen1"
++
++#
++# Tune Settings for big.LITTLE Cortex-A75 - Cortex-A55
++#
++TUNEVALID[cortexa75-cortexa55] = "Enable big.LITTLE Cortex-A75.Cortex-A55 specific processor optimizations"
++MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa75-cortexa55", "cortexa75-cortexa55:", "" ,d)}"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa75-cortexa55", " -mcpu=cortex-a75.cortex-a55", "", d)}"
++
++AVAILTUNES                                         += "cortexa75-cortexa55 cortexa75-cortexa55-crypto"
++ARMPKGARCH_tune-cortexa75-cortexa55                 = "cortexa75-cortexa55"
++ARMPKGARCH_tune-cortexa75-cortexa55-crypto          = "cortexa75-cortexa55-crypto"
++TUNE_FEATURES_tune-cortexa75-cortexa55              = "aarch64 cortexa75-cortexa55"
++TUNE_FEATURES_tune-cortexa75-cortexa55-crypto       = "${TUNE_FEATURES_tune-cortexa75-cortexa55} crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa75-cortexa55        = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} cortexa75-cortexa55"
++PACKAGE_EXTRA_ARCHS_tune-cortexa75-cortexa55-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa75-cortexa55 cortexa75-cortexa55-crypto"
++
++#
++# Tune Settings for big.LITTLE Cortex-A76 - Cortex-A55
++#
++TUNEVALID[cortexa76-cortexa55] = "Enable big.LITTLE Cortex-A76.Cortex-A55 specific processor optimizations"
++MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa76-cortexa55", "cortexa76-cortexa55:", "" ,d)}"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa76-cortexa55", " -mcpu=cortex-a76.cortex-a55", "", d)}"
++
++AVAILTUNES                                         += "cortexa76-cortexa55 cortexa76-cortexa55-crypto"
++ARMPKGARCH_tune-cortexa76-cortexa55                 = "cortexa76-cortexa55"
++ARMPKGARCH_tune-cortexa76-cortexa55-crypto          = "cortexa76-cortexa55-crypto"
++TUNE_FEATURES_tune-cortexa76-cortexa55              = "aarch64 cortexa76-cortexa55"
++TUNE_FEATURES_tune-cortexa76-cortexa55-crypto       = "${TUNE_FEATURES_tune-cortexa76-cortexa55} crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa76-cortexa55        = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} cortexa76-cortexa55"
++PACKAGE_EXTRA_ARCHS_tune-cortexa76-cortexa55-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa76-cortexa55 cortexa76-cortexa55-crypto"
 +
  #
- # Tune Settings for big.LITTLE Cortex-A73 - Cortex-A53
+ # Defaults for ARMv8-a
  #
 -- 
 2.20.1
