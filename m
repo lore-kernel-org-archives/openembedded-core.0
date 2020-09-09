@@ -1,116 +1,225 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web12.7034.1599628533503094888
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.7598.1599632348382388042
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2020 22:15:33 -0700
+ Tue, 08 Sep 2020 23:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tQXY/Okb;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id x123so1112154pfc.7;
-        Tue, 08 Sep 2020 22:15:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BT3qMsrs;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id t7so815794pjd.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2020 23:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=dyeS0aLX9EEf/2b5r0cgtIAKSTZXZGCGj+z5HNzXsb4=;
-        b=tQXY/Okbl8qEQA3gt93N+pQ4T9/+qvJgrUATBN5bz7vinfdo0MZ1MMTlZESzSvfSvV
-         bwku8MpRJqKMi1BMdzF8z3jbKiJhz4Z79bmXcr41Ailcas0m255TTgNWIcYUzI5FLvsC
-         G5fuTP1AR8gqnlQr4BWAaK7MHfJsEoFfkyiZEyWho3m/cbjtigVaKlcydtnJZIREhUDm
-         1mBLoOyOKZzgW3eHHuC0Ys7trCzXbrFePMZCIbaoYuVThNDaPoVfZc3dCbAT6R+JYvaz
-         Ld0UHxAmQAkxH54hhiBbw1cV1+qNFrqiM6DCsTqyksqJ8zVwS8aEMT/srGOJRBoQcb8s
-         nxIA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yKYh2Rs8IbRaxFc+Mzcnn5P4Q8RMAmX6xoz8xKz2WXU=;
+        b=BT3qMsrsBc3zgIVeNO/IT0imv326zRO5nvDDDmY9neyknGcGkc9Y9rTmFw8dXX+keV
+         BNOoKrPGmxz2Aqqnnro6zDtDYae+/z6AWx4D+bxsTPKTxoVcha91j4ohXuJdU8YnkYpS
+         hiJvVqRJ1/gNFKFHDKLZ0bKTUPHhai2YheHsKXFfOWhWpcFT76E8PEu5bXUWgt3rB0Kv
+         R1yn8tubv5vAEy1AdtiKjWjNLJfOSl7ALCEV3mwQq9E0u3S9CR/6ISv74KV8grV+oT17
+         JajLiZPnhm4rfa98tgBCa16LmH4WWB5v0BvKbcfiGPZ8J1q4lHH9YskRaukH8aNIL1t5
+         z8WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
-         :user-agent:mime-version:content-transfer-encoding:content-language;
-        bh=dyeS0aLX9EEf/2b5r0cgtIAKSTZXZGCGj+z5HNzXsb4=;
-        b=TJrcMnOnDvVIModjZVzop9srPO/J4ahEaEM/Y/bddOazKSp3SKujpLsQDNIMOzOuf8
-         GASJWbZTGYD2qKPMIn2qOsZ9nOAVZy9uWW1Q3c6WjUNWrCirfpBCBKbzhfzB4pmL2P2X
-         YAOGzYE3/iiScFAvUAc7HpTPmjwZhmxldRw+mnWwhawHae5BbEPC4bC/qS6Rp0OZhUq4
-         XWe9zsXH8EtlhGTCnHHmRTmyIIIhLHiFrH8rx9Du4S25uHcAO5n5XgqHebw7GzfSbu9X
-         N/WJZTQk22f7lgIl60Mo7DGxqCqaljlaYGiOKCEleCTxlzXynWUIB4pJyzQDJy1XsHnZ
-         XeHw==
-X-Gm-Message-State: AOAM530LXA9fcvFcMFQZiQ2TDJMNWfnyEJWzZUChwtl/wUZLs7WfWrq9
-	F0et0dWWh0/sbEHTHIXZTvEzVSqZ6rw=
-X-Google-Smtp-Source: ABdhPJyjOYZB1RRLaxxcYNnzB2k8rDSFKr6YfrEIbeWXPdkvEml/YnTUu/BqUydfgrhC5CmJWL50Dg==
-X-Received: by 2002:a17:902:d203:b029:d0:cbe1:e715 with SMTP id t3-20020a170902d203b02900d0cbe1e715mr2489743ply.35.1599628532626;
-        Tue, 08 Sep 2020 22:15:32 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:812e:2d2f:a669:186f? ([2601:202:4180:a5c0:812e:2d2f:a669:186f])
-        by smtp.gmail.com with ESMTPSA id d17sm898283pgn.56.2020.09.08.22.15.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 22:15:32 -0700 (PDT)
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- "bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>
-From: "akuster" <akuster808@gmail.com>
-Subject: Yocto Zeus stable branch
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <d6e3e4e1-f26d-fea9-b0fe-5de02f0390e2@gmail.com>
-Date: Tue, 8 Sep 2020 22:15:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yKYh2Rs8IbRaxFc+Mzcnn5P4Q8RMAmX6xoz8xKz2WXU=;
+        b=N72F8EWjy690xEcxpM+tjQnU5GsxZazK4iZKzEZXfkX7vLlPeKn0WoJb/6RI/MB8dg
+         4ywQtJyipQA/6xO4kU7vpuvmGhtZcJb+M5VVnwzcZ5FXds5eO6ERyzLOnY+0Q6OxRyna
+         Ob24244rg0VTHm7eGHo2sdC22rtSz6IhqJMCA+R2L9IOugR1PX8PYGQPn+S5gN7onViP
+         M6OaQnIcu5MtABU5pLvP9gE4+GzaJYu2mjV2cRklQrKqgp1qAXHpAyQNyEcJwdPI8NX7
+         g0JPe7RA7aOdDLGJimN+aQUjxjsB2OCPmbzdYrCG7fkJjX8AfXlmKC8TBDJC6nsV34hO
+         jDMA==
+X-Gm-Message-State: AOAM533GJwl1ySRiFpcXo5dX/ar0tlM/84mLd4Ic15lwvrXfACmv4zXA
+	Za9COcZod0WokAT7FmyxCJNNNUKAY6qCLg==
+X-Google-Smtp-Source: ABdhPJwYvBc+IFejU3TA768uI02zBS8plVlRB3TbVjwp2QoBucVt43jPvtHjTzCcex+C+0BxULufvg==
+X-Received: by 2002:a17:90a:e795:: with SMTP id iz21mr2247144pjb.8.1599632347429;
+        Tue, 08 Sep 2020 23:19:07 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id l21sm1030270pgb.35.2020.09.08.23.19.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 23:19:06 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Marek Vasut <marex@denx.de>
+Subject: [PATCH] weston-init: Run drm udev rule after systemd multi-seat setup
+Date: Tue,  8 Sep 2020 23:19:05 -0700
+Message-Id: <20200909061905.724541-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Currently, weston when autolauched with systemd ends up with seat0
+related errors because its launched before seat0 is assigned. The udev
+rule to install the seat is called 72-seat-drm-pci-0000_00_02_0.rules
+which sorts after 71-weston-drm.rules, renaming it to
+73-weston-drm.rules ensures the right sequence
 
-The Zeus branch was defined as a transitional branch with a 9 month
-stable cycle since LTS was created. The 3.0.4 was the last Zeus dot
-release. We have since added several Build stabilization changes and
-last minute backports . We intend on doing on last formal build cycle
-but no QA so no formal dot release. After this action is complete, =C2=A0=
+Fixes
+[05:16:09.357] logind: failed to get session seat
+[05:16:09.358] logind: cannot setup systemd-logind helper (-61), using legacy fallback
 
-this branch will most like transition to Community Support and we will
-see where it goes from there.
+Also fixes weston ptests
+RESULTS - weston.WestonTest.test_weston_can_initialize_new_wayland_compositor: PASSED (8.58s)
 
-regards,
-Armin
-( On behalf of the Yocto Project=C2=AE TSC)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
+---
+ meta/recipes-graphics/wayland/weston-init.bb  |  8 ++-
+ .../wayland/weston-init/weston-autologin      | 11 +++
+ .../wayland/weston-init/weston@.service       | 69 ++++++++++++++++---
+ .../wayland/weston-init/weston@.socket        | 10 +++
+ 4 files changed, 87 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.socket
 
-Yocto Project=C2=AE are registered trademark of the Linux Foundation.
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 40aa76295f..95d75556dc 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -8,7 +8,9 @@ SRC_URI = "file://init \
+            file://weston.env \
+            file://weston.ini \
+            file://weston@.service \
++           file://weston@.socket \
+            file://71-weston-drm.rules \
++           file://weston-autologin \
+            file://weston-start"
+ 
+ S = "${WORKDIR}"
+@@ -20,6 +22,10 @@ do_install() {
+ 
+ 	# Install Weston systemd service and accompanying udev rule
+ 	install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
++	install -D -p -m0644 ${WORKDIR}/weston@.socket ${D}${systemd_system_unitdir}/weston@.socket
++        if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
++		install -D -p -m0644 ${WORKDIR}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
++        fi
+ 	sed -i -e s:/etc:${sysconfdir}:g \
+ 		-e s:/usr/bin:${bindir}:g \
+ 		-e s:/var:${localstatedir}:g \
+@@ -50,7 +56,7 @@ RDEPENDS_${PN} = "weston kbd"
+ INITSCRIPT_NAME = "weston"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+ 
+-FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${sysconfdir}/default/weston"
++FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${systemd_system_unitdir}/weston@.socket ${sysconfdir}/default/weston ${sysconfdir}/pam.d/"
+ 
+ CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
+ 
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/meta/recipes-graphics/wayland/weston-init/weston-autologin
+new file mode 100644
+index 0000000000..f6e6d106de
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston-autologin
+@@ -0,0 +1,11 @@
++auth      required  pam_nologin.so
++auth      required  pam_unix.so     try_first_pass nullok
++
++account   required  pam_nologin.so
++account   required  pam_unix.so
++
++session   required  pam_env.so
++session   required  pam_unix.so
++-session  optional  pam_systemd.so type=wayland class=user desktop=weston
++-session  optional  pam_loginuid.so
++
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
+index 39e193014a..0a1df15bdf 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston@.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
+@@ -1,15 +1,64 @@
++# This is a system unit for launching Weston with auto-login as the
++# user configured here.
++#
++# Weston must be built with systemd support, and your weston.ini must load
++# the plugin systemd-notify.so.
+ [Unit]
+-Description=Weston Wayland Compositor
+-RequiresMountsFor=/run
+-Conflicts=plymouth-quit.service
+-After=systemd-user-sessions.service plymouth-quit-wait.service
++Description=Weston, a Wayland compositor, as a system service
++Documentation=man:weston(1) man:weston.ini(5)
++Documentation=http://wayland.freedesktop.org/
++
++# Make sure we are started after logins are permitted.
++After=systemd-user-sessions.service
++
++# If Plymouth is used, we want to start when it is on its way out.
++After=plymouth-quit-wait.service
++
++# D-Bus is necessary for contacting logind. Logind is required.
++Wants=dbus.socket
++After=dbus.socket
++
++# Since we are part of the graphical session, make sure we are started before
++# it is complete.
++Before=graphical.target
++
++# Prevent starting on systems without virtual consoles, Weston requires one
++# for now.
++ConditionPathExists=/dev/tty0
+ 
+ [Service]
+-User=%i
+-PAMName=login
+-EnvironmentFile=-/etc/default/weston
++# Requires systemd-notify.so Weston plugin.
++Type=notify
++ExecStart=/usr/bin/weston --modules=systemd-notify.so
++
++# Optional watchdog setup
++TimeoutStartSec=60
++WatchdogSec=20
++
++# The user to run Weston as.
++User=%I
++
++# Make sure working directory is users home directory
++WorkingDirectory=/home/%i
++
++# Set up a full user session for the user, required by Weston.
++PAMName=weston-autologin
++
++# A virtual terminal is needed.
++TTYPath=/dev/tty7
++TTYReset=yes
++TTYVHangup=yes
++TTYVTDisallocate=yes
++
++# Fail to start if not controlling the tty.
++StandardInput=tty-fail
++StandardOutput=journal
+ StandardError=journal
+-PermissionsStartOnly=true
+-IgnoreSIGPIPE=no
+ 
+-ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
++# Log this user with utmp, letting it show up with commands 'w' and 'who'.
++UtmpIdentifier=tty7
++UtmpMode=user
++
++[Install]
++WantedBy=graphical.target
++DefaultInstance=tty7
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.socket b/meta/recipes-graphics/wayland/weston-init/weston@.socket
+new file mode 100644
+index 0000000000..f1790d74a8
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston@.socket
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Weston Wayland socket
++After=user-runtime-dir@1000.service
++
++[Socket]
++ListenStream=/run/user/1000/wayland-%I
++
++[Install]
++WantedBy=sockets.target
++
+-- 
+2.28.0
 
