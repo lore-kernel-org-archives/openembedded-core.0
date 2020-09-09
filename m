@@ -1,174 +1,237 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web12.13625.1599658023335788736
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web12.16302.1599665610743186414
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 06:27:04 -0700
+ Wed, 09 Sep 2020 08:33:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: sbabic@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4BmjVD5mCTz1rvBb;
-	Wed,  9 Sep 2020 15:27:00 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4BmjVD5TPMz1qyY3;
-	Wed,  9 Sep 2020 15:27:00 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id iFVA55bFGra1; Wed,  9 Sep 2020 15:26:59 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net [88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Wed,  9 Sep 2020 15:26:58 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 9E2754540547;
-	Wed,  9 Sep 2020 15:26:58 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FjJaU_NnT2Si; Wed,  9 Sep 2020 15:26:55 +0200 (CEST)
-Received: from [192.168.178.64] (paperino.fritz.box [192.168.178.64])
-	by babic.homelinux.org (Postfix) with ESMTP id 9690645404D8;
-	Wed,  9 Sep 2020 15:26:55 +0200 (CEST)
-Subject: Re: [OE-core][dunfell 17/25] libubootenv: uprev to v0.3
-To: Steve Sakoman <steve@sakoman.com>,
- openembedded-core@lists.openembedded.org
-References: <cover.1598810890.git.steve@sakoman.com>
- <0fa520f479d83cb35a5c9c1d0b468ab5e1928c98.1598810890.git.steve@sakoman.com>
-From: "Stefano Babic" <sbabic@denx.de>
-Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
- mQGiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
- ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
- LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
- /iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
- 8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
- yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
- knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
- 7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj7QeU3RlZmFubyBC
- YWJpYyA8c2JhYmljQGRlbnguZGU+iGMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
- gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
- R1ofs2wGLHNtXousyL25Ag0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
- N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
- SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
- bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
- Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
- kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
- jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
- wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
- XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
- bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
- tMeISQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
- qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
-Message-ID: <3a071f02-6a1c-fead-0eac-b6076639dba2@denx.de>
-Date: Wed, 9 Sep 2020 15:26:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AoAtxWqd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id n133so2775203qkn.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 08:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/l+bJp6ZMVb1MyRWR19PMh+NyRnJg6oGi2e0tP2GcJ8=;
+        b=AoAtxWqdg/cFJYAVxynFCPOftwl5oz61+lnMQcNFModKiZucwJn5XNERhEV9/GGug0
+         e+Ke9NM4h1MC01F4rh0isSSBr9ceJ6iHQzqlVb8CW2L3kmtt2nRMwiFe3KpsaDKw9hf/
+         cLshlHtFg6fnQZwILPThRAJiFpB0zttmmoeT1Ovdo4NF3SdDy2A+k35iuqGdddfX7FK+
+         viYJ72YK8cR+uAMnUPVz0FPvvvkxJOIic7JcjNNKYezjsATydp5nFNkoMXHkUzA7HR4/
+         ZE+xm4FjhWtynhs5CFVntgK1jbusYcXmU+qQqbzLunH1I/OcjCGOOo7JeV9OLRTkFVuV
+         f/uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/l+bJp6ZMVb1MyRWR19PMh+NyRnJg6oGi2e0tP2GcJ8=;
+        b=VFIGXY01wJDeOqSY/IgrlwF4QeD2yi1WVPONtLMTXwE0MLc+o0Db1mU9S1kl/eKHT/
+         ZFrDi6tLXLP+tTRn8YU6p7X+/g99rvce/4+BeJoFHez20jPOWb8i/DeH88RvodNFDxTE
+         g8kXI6u7dRzOPsgtnE4+I8FFwjTdHTf1WqJCduhVyb4/772XjjVabz1nUEhm8xy9yZlO
+         3ccOMnuJkoLz4x/NquJ7VxoWIu8oNf32hGl06kqvyjnevdvx8gsZmyog4S9d4niK0Rur
+         xzQSoADO9vN4omKzFXc24BSd/32PGy/7XYG9yhn5InYkX+lOmUBnswoaER/FfAxgiK0K
+         BBKA==
+X-Gm-Message-State: AOAM532/qU94Fc8k2Kd8dEeA8CeJxIkV87WUbVRp4iohNFRovajTJBU/
+	BXdwB3U7Fbu4GjieLbyIPUlTKhXxbzVghQdCdWo=
+X-Google-Smtp-Source: ABdhPJwPSOuUEQCx91t+VoTEIhj0PaDor315n05j6rzyRaQ1EIPVUXQM3IVTBP16WOQ9NGj5ty1ntTRsxAD2Ll1+C0E=
+X-Received: by 2002:a37:6347:: with SMTP id x68mr3774160qkb.474.1599665609541;
+ Wed, 09 Sep 2020 08:33:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0fa520f479d83cb35a5c9c1d0b468ab5e1928c98.1598810890.git.steve@sakoman.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+References: <20200909061905.724541-1-raj.khem@gmail.com> <20200909062325.GA12119@mail.itconsulting-heinold.de>
+In-Reply-To: <20200909062325.GA12119@mail.itconsulting-heinold.de>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 9 Sep 2020 08:33:03 -0700
+Message-ID: <CAMKF1sphhBMFiq4vcP2t9_JgFikCEMhfvcbL29pNLqjFZS+=BQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] weston-init: Run drm udev rule after systemd multi-seat setup
+To: Henning Heinold <henning@itconsulting-heinold.de>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ming,
+On Tue, Sep 8, 2020 at 11:23 PM Henning Heinold
+<henning@itconsulting-heinold.de> wrote:
+>
+> On Tue, Sep 08, 2020 at 11:19:05PM -0700, Khem Raj wrote:
+> > Currently, weston when autolauched with systemd ends up with seat0
+> > related errors because its launched before seat0 is assigned. The udev
+> > rule to install the seat is called 72-seat-drm-pci-0000_00_02_0.rules
+> > which sorts after 71-weston-drm.rules, renaming it to
+> > 73-weston-drm.rules ensures the right sequence
+>
+> Hi,
+>
+> I can not see any renaming of 71-weston-drm.rules to 73-weston-drm.rules
+> in this patch.
 
-On 30.08.20 20:16, Steve Sakoman wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
+That was tried in between so perhaps should have updated commit msg.
+>
+> Bye Henning
+>
+> >
+> > Fixes
+> > [05:16:09.357] logind: failed to get session seat
+> > [05:16:09.358] logind: cannot setup systemd-logind helper (-61), using legacy fallback
+> >
+> > Also fixes weston ptests
+> > RESULTS - weston.WestonTest.test_weston_can_initialize_new_wayland_compositor: PASSED (8.58s)
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > ---
+> >  meta/recipes-graphics/wayland/weston-init.bb  |  8 ++-
+> >  .../wayland/weston-init/weston-autologin      | 11 +++
+> >  .../wayland/weston-init/weston@.service       | 69 ++++++++++++++++---
+> >  .../wayland/weston-init/weston@.socket        | 10 +++
+> >  4 files changed, 87 insertions(+), 11 deletions(-)
+> >  create mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
+> >  create mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.socket
+> >
+> > diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+> > index 40aa76295f..95d75556dc 100644
+> > --- a/meta/recipes-graphics/wayland/weston-init.bb
+> > +++ b/meta/recipes-graphics/wayland/weston-init.bb
+> > @@ -8,7 +8,9 @@ SRC_URI = "file://init \
+> >             file://weston.env \
+> >             file://weston.ini \
+> >             file://weston@.service \
+> > +           file://weston@.socket \
+> >             file://71-weston-drm.rules \
+> > +           file://weston-autologin \
+> >             file://weston-start"
+> >
+> >  S = "${WORKDIR}"
+> > @@ -20,6 +22,10 @@ do_install() {
+> >
+> >       # Install Weston systemd service and accompanying udev rule
+> >       install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
+> > +     install -D -p -m0644 ${WORKDIR}/weston@.socket ${D}${systemd_system_unitdir}/weston@.socket
+> > +        if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+> > +             install -D -p -m0644 ${WORKDIR}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
+> > +        fi
+> >       sed -i -e s:/etc:${sysconfdir}:g \
+> >               -e s:/usr/bin:${bindir}:g \
+> >               -e s:/var:${localstatedir}:g \
+> > @@ -50,7 +56,7 @@ RDEPENDS_${PN} = "weston kbd"
+> >  INITSCRIPT_NAME = "weston"
+> >  INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+> >
+> > -FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${sysconfdir}/default/weston"
+> > +FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${systemd_system_unitdir}/weston@.socket ${sysconfdir}/default/weston ${sysconfdir}/pam.d/"
+> >
+> >  CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
+> >
+> > diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/meta/recipes-graphics/wayland/weston-init/weston-autologin
+> > new file mode 100644
+> > index 0000000000..f6e6d106de
+> > --- /dev/null
+> > +++ b/meta/recipes-graphics/wayland/weston-init/weston-autologin
+> > @@ -0,0 +1,11 @@
+> > +auth      required  pam_nologin.so
+> > +auth      required  pam_unix.so     try_first_pass nullok
+> > +
+> > +account   required  pam_nologin.so
+> > +account   required  pam_unix.so
+> > +
+> > +session   required  pam_env.so
+> > +session   required  pam_unix.so
+> > +-session  optional  pam_systemd.so type=wayland class=user desktop=weston
+> > +-session  optional  pam_loginuid.so
+> > +
+> > diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
+> > index 39e193014a..0a1df15bdf 100644
+> > --- a/meta/recipes-graphics/wayland/weston-init/weston@.service
+> > +++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
+> > @@ -1,15 +1,64 @@
+> > +# This is a system unit for launching Weston with auto-login as the
+> > +# user configured here.
+> > +#
+> > +# Weston must be built with systemd support, and your weston.ini must load
+> > +# the plugin systemd-notify.so.
+> >  [Unit]
+> > -Description=Weston Wayland Compositor
+> > -RequiresMountsFor=/run
+> > -Conflicts=plymouth-quit.service
+> > -After=systemd-user-sessions.service plymouth-quit-wait.service
+> > +Description=Weston, a Wayland compositor, as a system service
+> > +Documentation=man:weston(1) man:weston.ini(5)
+> > +Documentation=http://wayland.freedesktop.org/
+> > +
+> > +# Make sure we are started after logins are permitted.
+> > +After=systemd-user-sessions.service
+> > +
+> > +# If Plymouth is used, we want to start when it is on its way out.
+> > +After=plymouth-quit-wait.service
+> > +
+> > +# D-Bus is necessary for contacting logind. Logind is required.
+> > +Wants=dbus.socket
+> > +After=dbus.socket
+> > +
+> > +# Since we are part of the graphical session, make sure we are started before
+> > +# it is complete.
+> > +Before=graphical.target
+> > +
+> > +# Prevent starting on systems without virtual consoles, Weston requires one
+> > +# for now.
+> > +ConditionPathExists=/dev/tty0
+> >
+> >  [Service]
+> > -User=%i
+> > -PAMName=login
+> > -EnvironmentFile=-/etc/default/weston
+> > +# Requires systemd-notify.so Weston plugin.
+> > +Type=notify
+> > +ExecStart=/usr/bin/weston --modules=systemd-notify.so
+> > +
+> > +# Optional watchdog setup
+> > +TimeoutStartSec=60
+> > +WatchdogSec=20
+> > +
+> > +# The user to run Weston as.
+> > +User=%I
+> > +
+> > +# Make sure working directory is users home directory
+> > +WorkingDirectory=/home/%i
+> > +
+> > +# Set up a full user session for the user, required by Weston.
+> > +PAMName=weston-autologin
+> > +
+> > +# A virtual terminal is needed.
+> > +TTYPath=/dev/tty7
+> > +TTYReset=yes
+> > +TTYVHangup=yes
+> > +TTYVTDisallocate=yes
+> > +
+> > +# Fail to start if not controlling the tty.
+> > +StandardInput=tty-fail
+> > +StandardOutput=journal
+> >  StandardError=journal
+> > -PermissionsStartOnly=true
+> > -IgnoreSIGPIPE=no
+> >
+> > -ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
+> > +# Log this user with utmp, letting it show up with commands 'w' and 'who'.
+> > +UtmpIdentifier=tty7
+> > +UtmpMode=user
+> > +
+> > +[Install]
+> > +WantedBy=graphical.target
+> > +DefaultInstance=tty7
+> > diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.socket b/meta/recipes-graphics/wayland/weston-init/weston@.socket
+> > new file mode 100644
+> > index 0000000000..f1790d74a8
+> > --- /dev/null
+> > +++ b/meta/recipes-graphics/wayland/weston-init/weston@.socket
+> > @@ -0,0 +1,10 @@
+> > +[Unit]
+> > +Description=Weston Wayland socket
+> > +After=user-runtime-dir@1000.service
+> > +
+> > +[Socket]
+> > +ListenStream=/run/user/1000/wayland-%I
+> > +
+> > +[Install]
+> > +WantedBy=sockets.target
+> > +
+> > --
+> > 2.28.0
+> >
+>
+> >
 > 
-> Update libubootenv to the latest 0.3 release, which comprises the
-> following commits:
-> 
-
-Thanks for this, but I released a 0.3.1 afterwards to include somefixes:
-
-- Fix file reading/writing when the environment is in EEPROM
-- Fix regression in UBI volume support
-
-Please update to this version, thanks !
-
-Best regards,
-Stefano Babic
-
-> ```
-> 1efed83 Increase max length for device name
-> 6f4fc1c uboot_env: Use canonicalized pathname when reading device
-> 23b3086 Fix bug introduced by commit 52a70114
-> ed1a53e Dont store to device if no value changes
-> 4a0a466 Merge pull request #7 from TomzBench/cmake-fix
-> 6117831 Added Coverity badge
-> 49372a1 Fix coverity #293496
-> 69a6819 Fix coverity #293503 and #293507
-> 258bf52 Fix coverity #293501
-> aa52e61 Fix coverity #293505
-> 52a7011 Fix coverity #293504 and #293506
-> e822218 Fix coverity #293495 and #293497
-> 23b305f Fix coverity #293499
-> 25ef1f6 Add coverity setup for Travis
-> 41b5188 fixed install for static target, fixed BUILD_DOC acknowledgement
-> 86bd30a Restore ability to feed script file via stdin, using `-s -`.
-> c91dcca ubi, write: fix invalid envsize ptr to UBI_IOCVOLUP
-> f4b9cde Allow negative offsets
-> 45bf92a Detect sector size if not found in config
-> 9f59db6 uboot_env: remove unused variables
-> 65d243e README: libubootenv is now in oe-core
-> ba952d0 BUG: variable lists not released in close()
-> 690f868 Variables are not removed when loading from file
-> 9e3586a Make sure there's no file descriptor leakage in case of error
-> 03647c4 Check config file defines a non-zero Sector size
-> 3b2d4f1 Check environment size from fw_env.config
-> 879c073 Do not hardcode path for install
-> d9c639b libubootenv: add pkg-config support
-> cc628ee libuboot: wrap libuboot in extern "C" for C++
-> ```
-> 
-> Also add u-boot-default-env to RRECOMMENDS since
-> /etc/u-boot-initial-env is being referred in libubootenv source, and
-> turns libubootenv's PACKAGE_ARCH to be MACHINE_ARCH since
-> u-boot-default-env is a machine-arch package.
-> 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 02d55cd35aac15095fc44f0cf8f9e7a71638f485)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  .../u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb}      | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->  rename meta/recipes-bsp/u-boot/{libubootenv_0.2.bb => libubootenv_0.3.bb} (82%)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-> similarity index 82%
-> rename from meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> rename to meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-> index ea29b668e8..47e64f9114 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-> @@ -10,9 +10,8 @@ LICENSE = "LGPL-2.1"
->  LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
->  SECTION = "libs"
->  
-> -PV = "0.2+git${SRCPV}"
->  SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
-> -SRCREV = "f4b9cde3815abe84a98079cedd515283ea08c16b"
-> +SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
->  
->  S = "${WORKDIR}/git"
->  
-> @@ -24,4 +23,8 @@ DEPENDS = "zlib"
->  PROVIDES += "u-boot-fw-utils"
->  RPROVIDES_${PN}-bin += "u-boot-fw-utils"
->  
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +
-> +RRECOMMENDS_${PN}-bin_append_class-target = " u-boot-default-env"
-> +
->  BBCLASSEXTEND = "native"
-> 
-> 
-> 
-> 
-
-
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
