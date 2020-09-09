@@ -1,68 +1,81 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web12.8175.1599689829326115922
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web12.8177.1599689833639881403
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 15:17:09 -0700
+ Wed, 09 Sep 2020 15:17:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=yVk+H00R;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.67, mailfrom: jdmason@kudzu.us)
-Received: by mail-qv1-f67.google.com with SMTP id di5so2380786qvb.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:17:09 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=qT/Dtwyv;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.66, mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f66.google.com with SMTP id cv8so2387392qvb.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 15:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=c3hF9gEk5m+6rkYYyl++cR1P/A+EO7I53nPqRiV7sQ0=;
-        b=yVk+H00RoECyiX8V1BMgq+qzJo/rn3cCOUkUpfYo2A8+P5Q6fWF6TQX1ELNQvmH4Wg
-         Cwalp+dRysKhxHatZ3nvSfLutOaeN//Ju5phJjRAqlH0rxHI6FCTdwCFq6KRlPjAf8Bt
-         zwmROsq/NpCz027cvzP+wHmipqS5xqwUpOe4TAEhB+DlB5ieVSqCY7KmS3i/LNGAdqna
-         jMauVvWmEa6EtMS5I26KjO0BzSOaFPvWM5AzkRaZm908Ljs3ETCGFg+E+Ctbuigusanc
-         oB4qWRxGFOrIKDYRUavWpws1pXeEpU0/eriPuD00gIqemuV35VC/gHmX/ZcNAIEXwRs1
-         6uZw==
+        bh=GecFEHaeTomUMmg73mFUSb1Df0qL16y0DyD8ShzA1rI=;
+        b=qT/Dtwyv4+S0obQZK25PycfEJt+4l8/YO+gVy4r+Qp6Q+rLzEw0MNvNgsxGKbKTM+i
+         yTLcvloVohTL4p46gwBOgwR5ahNep/Awt68tk2smHXivvIymZ/wGlO30httTZLxNOjdG
+         Qrd7EfaQN19rNGkzRy5lx3xfEN6ecKpXgbTUeHo8O2JKGmf0dH9UtynJivAHohi2LoBi
+         82wAzEhCLKf8IrS4KK7aRB6y6msh5gAmcBXEsKFHwqURmNqlIQhX/BFdgnCU924jjFpY
+         1VmWSdKUI1G9/JQ5B23tHk7eJIIdZPRkOrEAOkz0WTFNt8LQpgeW77s/cBUOj7RkA5Nv
+         oGVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=c3hF9gEk5m+6rkYYyl++cR1P/A+EO7I53nPqRiV7sQ0=;
-        b=LyxezA+59X3A9bvX1KEFA11JPf6HWP1vnDjZR3O/yWhc7yirjGfDq8WT/yUkg/HO6y
-         MQx1dy+JWNZ9YPw6tnz5jCRZZSEb79tA0O9ZS+b6+d9ZfLkKQqItxJagCzliIRy5OMmF
-         X8afJcZbSQJGW2JLfwduLhdb1BY+6q8XuwKZrzxTybfRadkvURgRWeOsTaNLNzVjSPu7
-         4mDWSIlxDt7CnlNlNkcTtTrXQZXSB4ky94IgLwRgazgWL+Vm6XUF+Pr25N0cjm+Rm9UJ
-         qeJDd1XArWfwKhWf146QaTQ2VzBf+I7KH1B+h0WlDAjqpf96HPv9gOtRiPT9r6IKOYca
-         vaKQ==
-X-Gm-Message-State: AOAM531gX0SjLvKZcS32P2vnb5lEqYQKpbPprXtYwXM1VhoTLzWcnwat
-	6P81s7WzbDGCmOqGiKbchZ7Tvr0qFvoYpbqZ
-X-Google-Smtp-Source: ABdhPJxeUJR7UkIwEB/AmLv16v9MExPzWTq4OKkCLSnXyX3YqWJQCcSoRfulg9F9bgn+6aWsJ34yLg==
-X-Received: by 2002:a05:6214:292:: with SMTP id l18mr6038359qvv.11.1599689828274;
-        Wed, 09 Sep 2020 15:17:08 -0700 (PDT)
+        bh=GecFEHaeTomUMmg73mFUSb1Df0qL16y0DyD8ShzA1rI=;
+        b=Tc6TErE0xbz/D6DnQVsIJh+2/HM5ek3Bi5xz7OtcKo5dTJvrvSvvVXRZvT+EXCf9IV
+         Sv5JCyjjQekHq6TVVMPd0M5y+u3ADhrhljsF5sxauAatkRpMWsJotqRdeeHGP4tsbrBP
+         G0trcspPLiXoPc1uQwanabUoVs1pO9rjgTkURMTr2QL6CmWqgKYCz8iHlSgJJh8bTS2X
+         v9Vzi5dB+vHkH1WZPWlT2hOw7FbzxCZuuhliz1Wl6B7qe8o4xMF1RBD8e4XDykIPFBVj
+         oLTlOP6vLy7yTpmTegXg1xkNlZU/CgqwC12SMpL1Wn84OUpE6JXcH3v+6f9Inkj35yt2
+         F/cg==
+X-Gm-Message-State: AOAM533tlzcQdqna8JLYdggJ3tt61//8toGgfqHG5nhS1UEbpwpFeub/
+	nYtsRcxiTRJRoDiFNYfccFZC2DgudBEzhUQM
+X-Google-Smtp-Source: ABdhPJx21y/mtUnAD9kw3THrXK4Cv60YumD9Gh+6/U5Ij/GIj3p27UU/6L+r7do2M2Pns1AagnMxkw==
+X-Received: by 2002:a0c:c24a:: with SMTP id w10mr5996130qvh.99.1599689832585;
+        Wed, 09 Sep 2020 15:17:12 -0700 (PDT)
 Return-Path: <jdmason@kudzu.us>
 Received: from localhost ([136.56.1.171])
-        by smtp.gmail.com with ESMTPSA id b43sm4882906qtk.84.2020.09.09.15.17.07
+        by smtp.gmail.com with ESMTPSA id f8sm4136220qkb.123.2020.09.09.15.17.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 15:17:07 -0700 (PDT)
+        Wed, 09 Sep 2020 15:17:11 -0700 (PDT)
 From: "Jon Mason" <jdmason@kudzu.us>
 X-Google-Original-From: Jon Mason <jon.mason@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe][PATCH 1/4] cortex-m0plus.inc: change file permissions
-Date: Wed,  9 Sep 2020 18:16:49 -0400
-Message-Id: <20200909221652.6750-2-jon.mason@arm.com>
+Subject: [meta-oe][PATCH 2/4] tune-cortexa55.inc: clean-up ARMv8.2a uses
+Date: Wed,  9 Sep 2020 18:16:50 -0400
+Message-Id: <20200909221652.6750-3-jon.mason@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200909221652.6750-1-jon.mason@arm.com>
 References: <20200909221652.6750-1-jon.mason@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-File is executable, and should be read/write.
+Remove 'crc', as that is implied by 8.2 (per GCC
+https://gcc.gnu.org/onlinedocs/gcc/AArch64-Options.html#AArch64-Options).
+
+Also, the PACKAGE_EXTRA_ARCHS should refer to the ARMv8.2a version, not
+the more generic ARMv8 version.
 
 Signed-off-by: Jon Mason <jon.mason@arm.com>
 ---
- meta/conf/machine/include/tune-cortex-m0plus.inc | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- mode change 100755 => 100644 meta/conf/machine/include/tune-cortex-m0plus.inc
+ meta/conf/machine/include/tune-cortexa55.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-cortex-m0plus.inc b/meta/conf/machine/include/tune-cortex-m0plus.inc
-old mode 100755
-new mode 100644
+diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
+index b383eb733b72..66a5d0c437ee 100644
+--- a/meta/conf/machine/include/tune-cortexa55.inc
++++ b/meta/conf/machine/include/tune-cortexa55.inc
+@@ -8,6 +8,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc
+ # Little Endian base configs
+ AVAILTUNES += "cortexa55"
+ ARMPKGARCH_tune-cortexa55             = "cortexa55"
+-TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc crypto"
+-PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55"
++TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa55"
+ BASE_LIB_tune-cortexa55               = "lib64"
 -- 
 2.20.1
 
