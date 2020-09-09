@@ -1,83 +1,74 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web11.9399.1599641955580005830
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.9672.1599642981723828662
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 01:59:16 -0700
+ Wed, 09 Sep 2020 02:16:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=AjvZsSD3;
- spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f195.google.com with SMTP id c2so2459325ljj.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 01:59:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eFPT3B1K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id k15so2081938wrn.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 02:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0R4kUJpbPPUiC/ByW9ibA9raWbp3sj0k6V4yASsE/dw=;
-        b=AjvZsSD3yI0UVDasd+ewWb+M2uMicbsEJz9S8EYBgEjeHj2t3P5yG6XqHJJ2JwryJG
-         oUJBpItbIOY5PLFdTbYn7G1hKBjec1odxf2OG3oSLQgoTATiWdmOdprJflbBOvQYTFTy
-         QMMB+qMj9f/A9mQMIO8bYmdy+dFO0Sgq0SMWl0UocwHgxwjW/AoxKb8w7PBj2Wkr2upH
-         xfvRprO2HjM9fktxHVZlOXxhhbImV01LNM+E0b9RVMpJL/Z+jt7GQOulsP1cG/qQ40L7
-         6wCkaqt6FQbuM+doT5Xd/SDcthrY9iTHH/AqtiVd/rkvro86SHqXJlbBM2NWAQljzSKl
-         P4dg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WApRT4cxsEeNZ2GEkG+c8/Md89DE1mybwE44zwzCpsM=;
+        b=eFPT3B1KHSDG00m5GqPl2yJNCBe79zthe3TcHCGOkzpIh1UwPhYK+LgvJYQ4UanqgJ
+         sa0Gz1HyVmosoMzENhC5WF5aY2+GCJDIKqUt1zFNmJtibU7fu8y8m0gIPhyAqgePaf1K
+         riOrdnw7QjAhkPdAB+H3tgzneHk27zDoqf54A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0R4kUJpbPPUiC/ByW9ibA9raWbp3sj0k6V4yASsE/dw=;
-        b=ubKjYp5NVExZVqL/Pn8DZWqOYs7c6hoVrHwFYQ1/KwmgCCQ5S9j2mDJB2ozaylX2Pb
-         vKUz1P3a30v3xAPNX54UOaDt0FgBgAf5tPpIijb5HE1wPZBtvZElcPpqFF5QC1ngoeTY
-         cYngF8lJ5ZS7s4HVkG9plYhUPvpWPWDH4J5fnF9XypJnROY/CazOLopIqHy01Hj/yIGV
-         icZepynY/voHr9XbmMKGHYMIUyC9C9luaXRbjZcvRJh7wMzNGTtKmkjWUt64w2JcHaD4
-         pJ+Sn1ls3g7TngWQ2hhLbibCzn/3RcHB6Kw494igvaArQDpdcUIsfSAUm6wZXOQdTZRJ
-         XeQg==
-X-Gm-Message-State: AOAM533tPctDO4qNuhH+dBafAKfg0n/bni0aroE/pyU+yGLhV74XQ+XA
-	8XeQ8oiubOP2p7SRhTJ3HqXEX/MmgohxIZxIA6mZ3w==
-X-Google-Smtp-Source: ABdhPJwVwB/COaDUtQzqx6vIBX/RQ954sMvHIXyVhrAz233jp4XsmqQhtQo+equs0QUgP6/3ArKQxRvra1ytsTfK55A=
-X-Received: by 2002:a2e:83d7:: with SMTP id s23mr1447584ljh.340.1599641953255;
- Wed, 09 Sep 2020 01:59:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WApRT4cxsEeNZ2GEkG+c8/Md89DE1mybwE44zwzCpsM=;
+        b=O+w1NXH5uKiGD7g3qoYm3Hhy51/Y0xJsV8g9FF6VCldfW6Mj9ORoL57P+IjE1YcC83
+         YYcODJp9r4grWZ7pSwyq3c9SldMTeyYbWmrcgVkAX7MRbAhVK7Kbcq+1orfA5ogvuDW0
+         hXdzC5yOBV/jhM6fF9dSkM+VIGQxf0znlc1S4UNRgkitYFREtt67AOCwb8UAEImWdNJ5
+         N6B7xghD9ddu9oyQoj44n1E3kPNZlgGsZIecWQ832hB0JTCcE8d0R/hQ9QJQAdb/TGk8
+         VBTnUi/Rnwa+yZtTbton5Q2j78owIWpZXOvpBqFPjd7VFfqFs8OqmPEWlWHPFoghk3gJ
+         h62A==
+X-Gm-Message-State: AOAM5304BPHay3IaUqpvjKVuiJetwm/gMkZ+N9c1bdU/9KUoMqpXoJBg
+	HEdrDjqaEdz7tHPNFSJE0TFOhzR+UfnfOQ==
+X-Google-Smtp-Source: ABdhPJxXC1IC8FdQ9OIymaBUXDEx0XxaFsVoXMlarLFcbc1xWcGMxpvqK7j67srSwdLXP5xN9ek45Q==
+X-Received: by 2002:a5d:60c6:: with SMTP id x6mr2968804wrt.26.1599642979730;
+        Wed, 09 Sep 2020 02:16:19 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (e.4.4.b.0.8.f.4.f.c.f.0.9.0.5.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8509:fcf:4f80:b44e])
+        by smtp.gmail.com with ESMTPSA id y5sm3136403wrh.6.2020.09.09.02.16.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2020 02:16:19 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][zeus] acl: Disable parallel make install
+Date: Wed,  9 Sep 2020 10:16:18 +0100
+Message-Id: <20200909091618.2007950-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200908164744.3791001-1-ross.burton@arm.com> <CAOSpxdbsWa4c9cb9gXHds9W0=mRC0DAhJE+KRw5NGeDicDYqag@mail.gmail.com>
-In-Reply-To: <CAOSpxdbsWa4c9cb9gXHds9W0=mRC0DAhJE+KRw5NGeDicDYqag@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 9 Sep 2020 09:59:02 +0100
-Message-ID: <CAAnfSTupJ3+ODNK-1kW3cdpLXp_d7mYsvXXKg6rDLMmRmTOh7g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake: whitelist CVE-2016-10642
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Absolutely.
+Similiarly to attr, do_install fails on newer versions of make with interesting
+and hard to debug errors. Disablle parallle make install as a workaround.
+Later verisons of acl in newer releases don't have the issue.
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-support/attr/acl_2.2.52.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Tue, 8 Sep 2020 at 19:25, Steve Sakoman <steve@sakoman.com> wrote:
->
-> Is this also suitable for dunfell?
->
-> Steve
->
-> On Tue, Sep 8, 2020 at 6:47 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > This CVE is specific to the npm package that can install cmake, so isn't
-> > relevant to our cmake recipe.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/recipes-devtools/cmake/cmake.inc | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-> > index 1334977225..fa1b818ae4 100644
-> > --- a/meta/recipes-devtools/cmake/cmake.inc
-> > +++ b/meta/recipes-devtools/cmake/cmake.inc
-> > @@ -25,3 +25,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-> >  SRC_URI[sha256sum] = "5d4e40fc775d3d828c72e5c45906b4d9b59003c9433ff1b36a1cb552bbd51d7e"
-> >
-> >  UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-> > +
-> > +# This is specific to the npm package that installs cmake, so isn't
-> > +# relevant to OpenEmbedded
-> > +CVE_CHECK_WHITELIST += "CVE-2016-10642"
-> > --
-> > 2.28.0
-> >
-> > 
+diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
+index 6bc77d868d5..31ec64a43d4 100644
+--- a/meta/recipes-support/attr/acl_2.2.52.bb
++++ b/meta/recipes-support/attr/acl_2.2.52.bb
+@@ -25,6 +25,9 @@ SRC_URI[sha256sum] = "179074bb0580c06c4b4137be4c5a92a701583277967acdb5546043c787
+ 
+ require ea-acl.inc
+ 
++# Has issues with newer versions of make
++PARALLEL_MAKEINST = ""
++
+ # avoid RPATH hardcode to staging dir
+ do_configure_append() {
+ 	sed -i ${S}/config.status -e s,^\\\(hardcode_into_libs=\\\).*$,\\1\'no\',
+-- 
+2.25.1
+
