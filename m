@@ -1,84 +1,81 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web12.20450.1599740689845818407
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web12.20451.1599740690896168169
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 05:24:50 -0700
+ Thu, 10 Sep 2020 05:24:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B2jdZlAq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id t10so6503562wrv.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:24:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X6CHieWF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id a65so5424266wme.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wICKzHEBZokP0QEjvARFLtBM0oZdhufXcl0tayt1Qe8=;
-        b=B2jdZlAqO1/dq2AkYo6vhy2/vcDRQgfpQYebMqXm1qxIi65+LNHYj9ohjhJ8mSLeOo
-         JeT3lLh7gcXFmZjmLZaN+PBcRfhW46aVl03NJIj0iCURFfCzklkY0dbWRxYQ9o8/B/70
-         QfenzRriBCox93ikn2pHhM/LtCskEznqRGmGU=
+        bh=Df6Nf632Twjl8d3AbHwCHUCtcC/CR8LQ8AsnhU2WkeA=;
+        b=X6CHieWFvuzqEsBJihd1gQwSE4vj0NGhzD8JYJVa2gWNxTvp/OpEiyOi0Ad3S2BQpA
+         wVOFmgGuh2WvJFmfHeEl260ftU2ioQOFr9tbjHuku++Sn9XPN8oGsAsKpIexSrcK6iIf
+         7jh7la3I2RkaxFzbbUcQXtqg/suRODZLL/+/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wICKzHEBZokP0QEjvARFLtBM0oZdhufXcl0tayt1Qe8=;
-        b=SedNysWlgycriGWWgiMOZzlspbRANLP8SZ+KIv9TU80bpsdUrCqAUgQxy8rzZzmPI/
-         lKd5Ch2wSsMw3QLNHnCSpH+qP4t8Pe+BPEleiB5G3NX4uud0M2Eyten94+FC2x6M3S2L
-         R+3lXJxdH+pGxlPTh3KkeSQpESJUS7B618PqsEJJi1d//KR7+79XT5JvWiqRIrAe9nLX
-         f/QcIStSiius1aJd4Z5SqAHg7gvvI9e7R4KuxBzBFBjMSyrb6/H8KqnMDp7l/+y3xdIr
-         8+RplwbPzWu3uYnQLyd/M44qJCddCBvRDCX49Gsep2F/OXo7VXipRSoWuM/o03ktzF8+
-         yLfA==
-X-Gm-Message-State: AOAM530eYm6MlwhNBRZAh3UKG5SqOdWsnwaL5t08TxOIxwcAbOT34Bu7
-	5XFbvxYXuG8SBb/1HIDkBcBINCQFZBeNfA==
-X-Google-Smtp-Source: ABdhPJzDZdbPGn+R54Kl1/u47ONPCs8IrvC9amUYnmHo0lPJHCPpTwiZAUVXgug5ad3BowdzfiwySQ==
-X-Received: by 2002:a5d:4d01:: with SMTP id z1mr8621734wrt.366.1599740688167;
-        Thu, 10 Sep 2020 05:24:48 -0700 (PDT)
+        bh=Df6Nf632Twjl8d3AbHwCHUCtcC/CR8LQ8AsnhU2WkeA=;
+        b=dBAe4IhpoSyY9nyJGtiahGU+i4K4Ni9N7bpNn+j1A0LfMm2LrTOVbviBpjN78D7gXI
+         N/HP0D7L48ajdCEIP6CJ9F7Q3o74SD2WUhnX7EAZiRztxE9ongsh4ztJJ4DcLA5SBj6b
+         DOXM/ECfNvhSg2xH+y/BY/5tyH0NHNkT8J0uyQMpXlm+guGxeaS2RA+d95lAZLuJgVaw
+         AmjkiJC60VRu2VaQ+kEaLdtXZMCmWV9/vjC95OpnaEJTWQO3OYdJYgicdPVaNqw+v3e/
+         I1h++eu4pul+JH7McRzXhntdTdTok580ZLzj+t+kNaFPZp/rk2oZ3aIhpoe2/A31tD/M
+         uGCw==
+X-Gm-Message-State: AOAM531VieiLpTK6PHcaBS188eA3sJNfEs+xO7sL6LuiTXGFUNSJbC5e
+	vOPbIvkBcfZJsVwb2w0ZA/uGsL8ENavFrg==
+X-Google-Smtp-Source: ABdhPJwG3XHun5OU82ztuFp6cBTESw3PIiH9Nakan6GfOSBg5f0cHPEH+NF3alifA0Y26OYwfEWDwQ==
+X-Received: by 2002:a1c:a90a:: with SMTP id s10mr8232163wme.11.1599740689133;
+        Thu, 10 Sep 2020 05:24:49 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (2.f.a.6.5.4.b.4.5.7.2.f.a.5.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:605a:f275:4b45:6af2])
-        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.24.47
+        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.24.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 05:24:47 -0700 (PDT)
+        Thu, 10 Sep 2020 05:24:48 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH][thud 15/29] buildtools-extended-tarball: Add libstc++.a
-Date: Thu, 10 Sep 2020 13:24:19 +0100
-Message-Id: <20200910122433.2040293-15-richard.purdie@linuxfoundation.org>
+Cc: Liwei Song <liwei.song@windriver.com>
+Subject: [PATCH][thud 16/29] buildtools-tarball: export OPENSSL_CONF for openssl
+Date: Thu, 10 Sep 2020 13:24:20 +0100
+Message-Id: <20200910122433.2040293-16-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 References: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+From: Liwei Song <liwei.song@windriver.com>
 
-Builds like native-openjdk, really wants a to link
-some tools against the static version. Since when
-using the extended tarball, its the only place to
-get it, add the library.
+export OPENSSL_CONF to aviod SDK openssl can not find openssl.cnf.
 
-(From OE-Core rev: 59c4a3fdbbfd5a6aaba7e0a1675dcd5866a7f3a4)
+(From OE-Core rev: 0aaf3dd17dcde959e9c0d62543cb91c9b33551b4)
 
-(From OE-Core rev: 152709dec03bbac582ca63b65f2efb835e0b33fb)
+(From OE-Core rev: 63d8569b2c9f66e8123e2672a7f8fb8e7cc1f0b4)
 
-(From OE-Core rev: 5e3664e5f9a0dde07b0f8a56cdce1321456abaa5)
+(From OE-Core rev: e733a5f3b0e3c3b8a830db5ae99b3fc6b7e56921)
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-index 5a781730ed7..37f97056139 100644
---- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -23,6 +23,7 @@ TOOLCHAIN_HOST_TASK += "\
-     nativesdk-libgcc \
-     nativesdk-libstdc++ \
-     nativesdk-libstdc++-dev \
-+    nativesdk-libstdc++-staticdev \
-     nativesdk-libtool \
-     nativesdk-pkgconfig \
-     nativesdk-glibc-utils \
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index eca9f1c0e1f..95ebda7fa15 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -72,6 +72,7 @@ create_sdk_files_append () {
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ 
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
+ 
+ 	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+ 	echo '${SDKPATHNATIVE}${libdir}
 -- 
 2.25.1
 
