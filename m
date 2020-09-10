@@ -1,126 +1,93 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.10497.1599696946845158925
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web11.10705.1599697447800800925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 17:15:46 -0700
+ Wed, 09 Sep 2020 17:24:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WfC1MRsm;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id 67so3246641pgd.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 17:15:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uM3Hs3sg;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id g29so3294165pgl.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 17:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iCo4BTzstuI+Rcfe0wzXWhi2KU0N7Re2Vb6I3ziGmEo=;
-        b=WfC1MRsm4GJwoB3pbdkGnPNI0j7MQYQ45Kn4n1PInA5ec3yWNhpuLmowwofL1WcfDB
-         WMBGidf/ef7d5K1Oa5XVEluxvt6v4tIqctfM7mA0jkIYXhVr7y0R/py/MMNXuuEdqR2y
-         XKclsip+56k7Q9GGe6JmZPiY5n9ZNdh9wiVfBXGFkkilESx5g6MGDqncthJgDtT5fgka
-         FDud5IJRTdZ3iplEgbU+AXiEHm7JNpKZ1eMt+5e8JyZip0+oCX8DAWp308zcqFbQCLqQ
-         0Rs8Ye3+X2+09uepN3CCg+zmZO2GilEhMH3wtA2UxyNWTghk58Wv2enY7xXRmgWfuy8c
-         e++A==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HI+0fwe79G2+kb5e+Jm2WU9fiAgNqT9hs7KiI/bIn9Q=;
+        b=uM3Hs3sgZWNc3W5tY01UDBnrIKlgvEfSnpnnjk2pUzS/frSbiw/vTKwa8zL+fWbN9V
+         yJ5+rQOpRy/FXDYmK/i/pqGU4XacrRXq7WU+vj6ZBR3iRg1re1bXx+sYstet66ROsjwZ
+         OzLq6p+fdQNV9RCfL7VbqG+GnWkIt+Ng6ekoGoCp5DmOZoQKxi8p37Eu01amH/CI5dRJ
+         L1JpE1MZrF1qbzpdECBjIF5cVtlECZKhplRDJWUVcVN1P0lFL8l7NOV4kG7T2/yFOtAW
+         e2BHpMyt8/idP1pFFLtfk5KL5q3ouxj09+PrqbQyQzzgasozgcgZP94g/7PQ3TC2d0Nt
+         9Ycw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
+        h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=iCo4BTzstuI+Rcfe0wzXWhi2KU0N7Re2Vb6I3ziGmEo=;
-        b=Op+dyHBj8uAB9vB4havpYI9GWdXbeINt1apC4ARBKNsh+QfNiH+5ScDb5XZ2hm2yWe
-         T6d5O/7ch259sxrYZNESPwefdbjXA4NJUPQqVlPQGc5mM5DmTBqMKVVhj77+U26PyIcm
-         3zUXtuYX7t1cow3q+dyWzYCsDylRrJe77M3j7dDLCLSeS0aQQiEiXTJ82Yn7cJT0JBoD
-         euRYlZFU2TayQENw897dM36acCQTp0d6uhN4GqNOJzuDQmb55bsgYQKQmuSctaUc55ja
-         rS9p3LoTGskp+dTxUFuLtMNAOdmjht1oLaaIckgjVl3uAwMEFC6GJYqRa29BcaoNmZ6c
-         SVzg==
-X-Gm-Message-State: AOAM532tZZMqsO70qEKiJDIxanhhMOMQe0rmJw2Yc4LprOwZQY9ynh9N
-	JPViHKXOf3AnBHoCM2rgL/g5OcRGcTW1wg==
-X-Google-Smtp-Source: ABdhPJwWZXCe4NTPOPB0WwNwv0x4T0yq31/I+Qj4WiDOeTcc3kbV0wWhEer57BPR95v+ck80OWp4fQ==
-X-Received: by 2002:a65:6808:: with SMTP id l8mr2450106pgt.207.1599696946077;
-        Wed, 09 Sep 2020 17:15:46 -0700 (PDT)
+        bh=HI+0fwe79G2+kb5e+Jm2WU9fiAgNqT9hs7KiI/bIn9Q=;
+        b=XXPqf7UXG3vNPdc6RGxnvzkMKovb4IqmgoWDTsvXtVE5ufNn+LsNoLkEbNVivxZNjC
+         ng6UA457oVVZHYKR8syPCgJs4T4wr3w2N6mQFr6igLRamxiLgXtE0P2MchgHqSFDAMHY
+         O7cUhUtGp4veFEhfs3Fl8iNRTHsBjq8ekfXnGXyPDBZ2XVm3OUd1aLh/KRmRHBQtt4QZ
+         nrw+JTtUhqQoXExsK7ua5RZvL9q9/v/2fUxQA5lkvkX8AjFR0tTUdcu2GZXFoNgX9PQX
+         mAyQaVEUcOQAL8mxB/L2gm/aKR7Sc7sL5oBGH83Q5KfgL24rNTR0WZEYfcPHWwYrCGtN
+         0jlw==
+X-Gm-Message-State: AOAM530xlgahO7g7DYQz/FYjxXPNHA3JUO7esqyfohNrgZ9ot4cvbLHA
+	ouhWK2lwxRc7BmdKncLv1As=
+X-Google-Smtp-Source: ABdhPJxNkCIBhpwawtns3nKj3HabaSo82MNedYh1Qaq+yZlQV5Ro4iCqtdnYu763HbFR9VogsHtnEw==
+X-Received: by 2002:a63:6b08:: with SMTP id g8mr2507781pgc.325.1599697447287;
+        Wed, 09 Sep 2020 17:24:07 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::ff6e? ([2601:646:9200:4e0::ff6e])
-        by smtp.gmail.com with ESMTPSA id k5sm469332pjl.3.2020.09.09.17.15.45
+        by smtp.gmail.com with ESMTPSA id a16sm3193813pgh.48.2020.09.09.17.24.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2020 17:15:45 -0700 (PDT)
-Subject: Re: [OE-core] Application depending on gRPC not linking properly
-To: Goran Broeckaert <broeckaert.goran@gmail.com>,
+        Wed, 09 Sep 2020 17:24:06 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] cryptodev: bump 1 commit past 1.11 to fix 5.9-rc1+
+To: Denys Dmytriyenko <denis@denix.org>,
  openembedded-core@lists.openembedded.org
-References: <CANq43+EQnPYiWxqFBK6Zb6j99ot_ZUNVkE69EHYfcLv2DefvHA@mail.gmail.com>
+Cc: Denys Dmytriyenko <denys@ti.com>
+References: <1599688063-38109-1-git-send-email-denis@denix.org>
 From: "Khem Raj" <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <b50e6ff8-5fb9-e654-f895-7e6a494f564b@gmail.com>
-Date: Wed, 9 Sep 2020 17:15:44 -0700
+Message-ID: <a1c03ca8-5c09-ee52-7912-42c560ca689c@gmail.com>
+Date: Wed, 9 Sep 2020 17:24:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CANq43+EQnPYiWxqFBK6Zb6j99ot_ZUNVkE69EHYfcLv2DefvHA@mail.gmail.com>
+In-Reply-To: <1599688063-38109-1-git-send-email-denis@denix.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 9/9/20 5:56 AM, Goran Broeckaert wrote:
-> Hello,
+On 9/9/20 2:47 PM, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
 > 
-> I have a simple application which depends on grpc. I'm using Yocto Zeus
-> for my project and I've written the following recipe:
-> 
-> DESCRIPTION = "Test Application"
-> LICENSE = "CLOSED"
-> LIC_FILES_CHKSUM = ""
-> 
-> SRC_URI = "\
-> git://git/dev/test-application.git;protocol=ssh;branch=yocto;name=testapp \
-> "
-> 
-> inherit cmake qmake5_paths
-> 
-> DEPENDS = "\
-> qtbase \
-> qtbase-native \
-> grpc \
-> grpc-native \
-> "
-> 
-> PV = "1.0+git${SRVPV}"
-> 
-> SRCREV_testapp = "c1dd51dd6c812a99f6af3e5b1c367a3155e5e96f"
-> 
-> S = "${WORKDIR}/git"
-> 
-> EXTRA_OECMAKE = "\
-> -DCMAKE_PREFIX_PATH=${WORKDIR}/recipe-sysroot/usr/ \
-> -DOE_QMAKE_PATH_EXTERNAL_HOST_BINS=${OE_QMAKE_PATH_EXTERNAL_HOST_BINS} \
-> -DCMAKE_CROSSCOMPILING=ON \
-> "
-> 
-> The linker tries to link with the -native version of gRPC instead of the
-> target one. Can be seen in the following line from the output:
-> 
-> recipe-sysroot-native/usr/lib/libgrpc++.so.1.24.1: error adding symbols:
-> file in wrong format
-> 
-> When checking the recipe-sysroot, the grpc libraries are properly
-> installed. There has been an issue opened on the grpc github, but it got
-> closed without specifying a
-> solution: https://github.com/grpc/grpc/issues/17708
+> There's one commit on top of 1.11 release that fixes builds against kernel 5.9-rc1+.
 
-
-Can you take a look at
-https://github.com/grpc/grpc/blob/master/test/distrib/cpp/run_distrib_test_raspberry_pi.sh
-and see if some of those options are useful either compiling gRPC or
-your app ?
-
-also check this patch
-https://git.openembedded.org/meta-openembedded/commit/?id=38f6ef9b1432cbafd416ec162b0a30366311095b
-
-especially how it looks for libcares, might give some ideas how to solve
-this issue perhaps.
+since we call the recipe as 1.11, perhaps its better to explcitly apply
+this patch via SRC_URI or alter PV to reflect this SRCREV changes,
 
 > 
-> Thanks for the help,
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Kind regards,
-> Goran Broeckaert
+> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+> index 906f4fc..c050eda 100644
+> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  
+>  SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
+>             "
+> -SRCREV = "2299d39475e91392abd050ea09f2d20feecb4adf"
+> +SRCREV = "fabe5989a3dc9fba0cd0a40b612247cdde351c01"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> 
 > 
 > 
 > 
