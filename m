@@ -1,100 +1,145 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [91.207.212.93])
- by mx.groups.io with SMTP id smtpd.web10.22910.1599746796003031761
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.23215.1599747463173153121
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 07:06:37 -0700
+ Thu, 10 Sep 2020 07:17:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@st.com header.s=stmicroelectronics header.b=rXhxj+oQ;
- spf=pass (domain: st.com, ip: 91.207.212.93, mailfrom: christophe.guibout@st.com)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08AE3Zb1017219
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=STMicroelectronics;
- bh=cvRrUbjmi/FiGuReUUkN/W+SIwBgF0FO1O2X8mKh7NU=;
- b=rXhxj+oQl8fDZIlfask8Au+BthPlIDhRk2iQHKMv+AU6XKn9JL4tYlap7Lm2KiyOLfvc
- EMopLIshawIL88CCrzmCEOT9zCO4cPJuioW84xezd81/9ge8JNPbEHhqCKdm6EjeINjL
- XZEs77JJGKi+uVxeMjeiSaUfbDKJorw0J2rIF3xY84DQxlWPBwGoqAK8qW9eK0BH+ZP2
- 7OZIUN56XW/C0i9Qh/Trvvp2zlxzjb2gxAo4sIRxi8IJgviuYAHlvIeMKjkHP3fZ38zI
- g97cVibuwfdA8Y4TlCX0hMNLqcBJyADo9zxdVVO9VNYDH/2NU2ONPequfDSLdHTlFtGF Ag== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 33c1jfbwy7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:33 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E1A9510002A
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (gpxdag6node4.st.com [10.75.127.80])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2D6F62ADA18
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:32 +0200 (CEST)
-Received: from GPXDAG6NODE5.st.com (10.75.127.81) by GPXDAG6NODE4.st.com
- (10.75.127.80) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 10 Sep
- 2020 16:06:31 +0200
-Received: from GPXDAG6NODE5.st.com ([fe80::1512:89:fa19:a556]) by
- GPXDAG6NODE5.st.com ([fe80::1512:89:fa19:a556%19]) with mapi id
- 15.00.1473.003; Thu, 10 Sep 2020 16:06:31 +0200
-From: christophe.guibout@st.com
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Christophe GUIBOUT <christophe.guibout@st.com>
-Subject: [PATCH] initramfs-framework: support kernel cmdline with double quotes
-Thread-Topic: [PATCH] initramfs-framework: support kernel cmdline with double
- quotes
-Thread-Index: AQHWh3uVOQabfj079k66eKJesFD/Fw==
-Date: Thu, 10 Sep 2020 14:06:31 +0000
-Message-ID: <20200910140622.20040-1-christophe.guibout@st.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.48]
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Rp3HluUc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id u3so85998pjr.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 07:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eduQYbyVukeHFADfXnw0Qku51fJbny58Lx0QI4fuNIM=;
+        b=Rp3HluUcJL0AwNIie1rn36KvLSX9HaUhLTahKhg2IB1joK78V3pM23SkgmgWiysBqK
+         K9F04u1FIZAqFo8D2JomQ0tVdpEZauu+uzZpMstLN6mR2EUhhZnUinvwvFBGwKHJciAQ
+         gfBeO9vi9hr/CqZCEcmKkFV79mM9128E0rIko7eAMzs4DegAKIttLbnZduy3qEXw4hk6
+         fJBLrvv5VqwXyhLR7vApd2ecC6wDhSUYWOMUnZcFvSpxeOW34dX5N3QQk8gaxgFRTAtB
+         uSQZoTpN1WkvrBuLcqWNmnKa5zBJmaD9DtmFV6MMIyurFAIYfdzf5nXWNxT/lERQEuIk
+         ahgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eduQYbyVukeHFADfXnw0Qku51fJbny58Lx0QI4fuNIM=;
+        b=EL5m0qKtYeNauWC1RA6qn1eVx+6VEiJL4S/nXpOKHtEVokIJJwzhsEeC7P27TGp0kG
+         9NwP54DedLIexPWg1zESdytRu4Cvl37S2rRdIJkywwqge0SiQIoYZ/aZyag3E9W2u+I5
+         Cj5mzb31nVbMd1K4Eoiuq5mj0n8VwfOYzMeK6V1kofkd5FVZhEzzyFaHtD06zH+BwLqt
+         ggOuuemiB0pK/ingYE00O/ObIqKGu0Q4wF78pQNPVRvyd3db9vu5K41RFBLQojriKP70
+         OvIBZxw5o9wUItnWNPqzPoWzHHtPNp/9+o4gjK2hpN5p97K1Jwj0Tw7ZcKV3QFBofWN7
+         h+YQ==
+X-Gm-Message-State: AOAM531sPFPvA2IlrGML6vVlusbxw69A55ay50LknZGSCtpxScbD7ltq
+	No626iQy4/JEG3TbonsfAHpOpdNPrAmxa810
+X-Google-Smtp-Source: ABdhPJzHLd4to6UzCX/EgtfLIu/Kf8LS4EUiTMM3XTzjd5AGCS14zkMCRQXrIiIGySo7Yf28g8G2pg==
+X-Received: by 2002:a17:90b:364c:: with SMTP id nh12mr163012pjb.182.1599747461864;
+        Thu, 10 Sep 2020 07:17:41 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id nl10sm2100362pjb.11.2020.09.10.07.17.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 07:17:41 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/18] Pull request (cover letter only)
+Date: Thu, 10 Sep 2020 04:17:24 -1000
+Message-Id: <cover.1599747323.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-10_03:2020-09-10,2020-09-10 signatures=0
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-It avoids init to crash when kernel cmdline contains a string with
-spaces inside, like that:
-dyndbg=3D"file drivers/usb/core/hub.c +pltf"
+The following changes since commit 0d4d0df6084cce3c3d9051db88f3199a030d3352:
 
-Signed-off-by: Christophe Guibout <christophe.guibout@st.com>
----
- .../initrdscripts/initramfs-framework/init          | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+  linux-firmware: update 20200721 -> 20200817 (2020-09-01 05:45:54 -1000)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/met=
-a/recipes-core/initrdscripts/initramfs-framework/init
-index c71ce0ce8c..567694aff7 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-@@ -88,12 +88,25 @@ fi
-=20
- # populate bootparam environment
- for p in `cat /proc/cmdline`; do
-+	if [ -n "$quoted" ]; then
-+		value=3D"$value $p"
-+		if [ "`echo $p | sed -e 's/\"$//'`" !=3D "$p" ]; then
-+			eval "bootparam_${quoted}=3D${value}"
-+			unset quoted
-+		fi
-+		continue
-+	fi
-+
- 	opt=3D`echo $p | cut -d'=3D' -f1`
- 	opt=3D`echo $opt | sed -e 'y/.-/__/'`
- 	if [ "`echo $p | cut -d'=3D' -f1`" =3D "$p" ]; then
- 		eval "bootparam_${opt}=3Dtrue"
- 	else
- 		value=3D"`echo $p | cut -d'=3D' -f2-`"
-+		if [ "`echo $value | sed -e 's/^\"//'`" !=3D "$value" ]; then
-+			quoted=3D${opt}
-+			continue
-+		fi
- 		eval "bootparam_${opt}=3D\"${value}\""
- 	fi
- done
---=20
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Anibal Limon (1):
+  recipes-kernel: linux-firmware add qcom-venus-{5.2,5.4} packages
+
+Bruce Ashfield (1):
+  kernel-yocto: checksum all modifications to available kernel fragments
+    directories
+
+Joshua Watt (1):
+  oeqa: sdk: Capture stderr output
+
+Khem Raj (3):
+  json-c: Fix CVE-2020-12762
+  util-linux: Allow update alternatives for additional apps
+  json-glib: Backport a build fix with clang
+
+Martin Jansa (1):
+  devtool: expand SRC_URI when guessing recipe update mode
+
+Michael Tretter (1):
+  devtool: deploy-target: Fix size calculation for hard links
+
+Nicolas Dechesne (1):
+  linux-libc-headers: kernel headers are installed in
+    STAGING_KERNEL_BUILDDIR
+
+Rasmus Villemoes (1):
+  cml1: Move find_cfgs() helper to cml1.bbclass
+
+Richard Purdie (1):
+  selftest/prservice: Improve test failure message
+
+Ross Burton (2):
+  package.bbclass: explode the RPROVIDES so we don't think the versions
+    are provides
+  insane: improve gnu-hash-style warning
+
+Steve Sakoman (1):
+  sanity.conf: update BB_MIN_VERSION to 1.46.0
+
+Sumit Garg (1):
+  insane: fix gnu-hash-style check
+
+Vijai Kumar K (1):
+  wic: misc: Add /bin to the list of searchpaths
+
+Yann Dirson (1):
+  package: get_package_mapping: avoid dependency mapping if renamed
+    package provides original name
+
+hongxu (1):
+  sysstat: fix installed-vs-shipped QA Issue in systemd
+
+ meta/classes/cml1.bbclass                     |  10 +
+ meta/classes/insane.bbclass                   |   5 +-
+ meta/classes/kernel-yocto.bbclass             |  16 ++
+ meta/classes/package.bbclass                  |  18 +-
+ meta/conf/sanity.conf                         |   2 +-
+ meta/lib/oeqa/sdk/case.py                     |   2 +-
+ meta/lib/oeqa/sdk/cases/assimp.py             |   2 +-
+ meta/lib/oeqa/sdk/cases/buildcpio.py          |   2 +-
+ meta/lib/oeqa/sdk/cases/buildepoxy.py         |   2 +-
+ meta/lib/oeqa/sdk/cases/buildgalculator.py    |   2 +-
+ meta/lib/oeqa/sdk/cases/buildlzip.py          |   2 +-
+ meta/lib/oeqa/selftest/cases/prservice.py     |   4 +-
+ meta/recipes-bsp/u-boot/u-boot.inc            |  10 -
+ meta/recipes-core/busybox/busybox.inc         |  10 -
+ meta/recipes-core/util-linux/util-linux.inc   |   3 +
+ .../json-c/json-c/CVE-2020-12762.patch        | 231 ++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb |   1 +
+ meta/recipes-extended/sysstat/sysstat.inc     |   2 +-
+ ...o-instead-of-cast-to-convert-pointer.patch |  33 +++
+ .../json-glib/json-glib_1.4.4.bb              |   4 +-
+ .../linux-firmware/linux-firmware_20200817.bb |   6 +-
+ .../linux-libc-headers/linux-libc-headers.inc |   2 +-
+ scripts/lib/devtool/deploy.py                 |   8 +-
+ scripts/lib/devtool/standard.py               |   2 +-
+ scripts/lib/wic/misc.py                       |   5 +-
+ 25 files changed, 341 insertions(+), 43 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2020-12762.patch
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
+
+-- 
 2.17.1
+
