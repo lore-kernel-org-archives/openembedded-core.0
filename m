@@ -1,171 +1,256 @@
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web10.14723.1599713332854851275
+ by mx.groups.io with SMTP id smtpd.web12.14691.1599713863105957538
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 21:48:53 -0700
+ Wed, 09 Sep 2020 21:57:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
 	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 08A4meBi023385
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 08A4vV9n023444
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Wed, 9 Sep 2020 23:48:49 -0500
-Subject: Re: [OE-core] [meta-oe][RFC 2/6] arch-armv8-2a.inc: Add Cortex-A55 tunings
+	Wed, 9 Sep 2020 23:57:40 -0500
+Subject: Re: [OE-core] [meta-oe][RFC 1/6] arm64: set BASE_LIB to lib64
 To: Jon Mason <jdmason@kudzu.us>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
 References: <20200909224535.27164-1-jon.mason@arm.com>
- <20200909224535.27164-3-jon.mason@arm.com>
- <46623150-db60-1948-c669-0abe72fdc122@kernel.crashing.org>
- <CAPoiz9y_Afu5ieVg49HgX5rzhrsdDRN1BWDMgykhrOfxfVgRWQ@mail.gmail.com>
+ <20200909224535.27164-2-jon.mason@arm.com>
+ <0990a4f9-96c8-4b1a-9068-ba3760512f0c@kernel.crashing.org>
+ <CAPoiz9woev9k4cccExxyds6C2POvNmracp9awJgwvZJxqxYHSA@mail.gmail.com>
 From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <95cd842f-0ca0-123e-8e79-b646b7aafafe@kernel.crashing.org>
-Date: Wed, 9 Sep 2020 23:48:37 -0500
+Message-ID: <e947e9f7-92f7-d6bc-7d80-467411e18cf9@kernel.crashing.org>
+Date: Wed, 9 Sep 2020 23:57:31 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAPoiz9y_Afu5ieVg49HgX5rzhrsdDRN1BWDMgykhrOfxfVgRWQ@mail.gmail.com>
+In-Reply-To: <CAPoiz9woev9k4cccExxyds6C2POvNmracp9awJgwvZJxqxYHSA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/9/20 6:21 PM, Jon Mason wrote:
-> On Wed, Sep 9, 2020 at 6:59 PM Mark Hatle
+On 9/9/20 6:29 PM, Jon Mason wrote:
+> On Wed, Sep 9, 2020 at 6:55 PM Mark Hatle
 > <mark.hatle@kernel.crashing.org> wrote:
 >>
->> I like the direction of this work, but one comment.. (down below)
+>>
 >>
 >> On 9/9/20 5:45 PM, Jon Mason wrote:
->>> Migrate the settings in tune-cortexa55.inc to arch-armv8-2a.inc.  This
->>> will allow for a single file to include all of the tunings of a family
->>> of processors.  This will reduce the proliferation of unique files per
->>> processor currently occuring in conf/machine/include/
+>>> Set BASE_LIB for all arm64 systems to be lib64 by default.  This can be
+>>> overridden for those that want something else (see tune-cortexa32.inc).
 >>>
 >>> Signed-off-by: Jon Mason <jon.mason@arm.com>
 >>> ---
->>>  .../machine/include/arm/arch-armv8-2a.inc     | 31 ++++++++++++++-----
->>>  meta/conf/machine/include/tune-cortexa55.inc  | 12 -------
->>>  2 files changed, 23 insertions(+), 20 deletions(-)
->>>  delete mode 100644 meta/conf/machine/include/tune-cortexa55.inc
+>>>  meta/conf/machine/include/arm/arch-arm64.inc           | 3 +--
+>>>  meta/conf/machine/include/arm/arch-armv8-2a.inc        | 2 --
+>>>  meta/conf/machine/include/arm/arch-armv8a.inc          | 4 ----
+>>>  meta/conf/machine/include/tune-cortexa32.inc           | 1 +
+>>>  meta/conf/machine/include/tune-cortexa35.inc           | 2 --
+>>>  meta/conf/machine/include/tune-cortexa53.inc           | 2 --
+>>>  meta/conf/machine/include/tune-cortexa55.inc           | 1 -
+>>>  meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 1 -
+>>>  meta/conf/machine/include/tune-cortexa57.inc           | 2 --
+>>>  meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 2 --
+>>>  meta/conf/machine/include/tune-cortexa72.inc           | 1 -
+>>>  meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 2 --
+>>>  12 files changed, 2 insertions(+), 21 deletions(-)
 >>>
->>> diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
->>> index b40ebf176e43..38564a17d98b 100644
->>> --- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
->>> +++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
->>> @@ -1,4 +1,19 @@
->>> -DEFAULTTUNE ?= "armv8-2a"
->>> +#
->>> +# Tune Settings for Cortex-A55
->>> +#
->>> +TUNEVALID[cortexa55] = "Enable Cortex-A55 specific processor optimizations"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa55', ' -mcpu=cortex-a55', '', d)}"
->>> +
->>> +# Little Endian base configs
->>> +AVAILTUNES                                         += "cortexa55"
->>> +ARMPKGARCH_tune-cortexa55                           = "cortexa55"
->>> +TUNE_FEATURES_tune-cortexa55                        = "aarch64 cortexa55 crypto"
->>> +PACKAGE_EXTRA_ARCHS_tune-cortexa55                  = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa55"
->>> +
->>> +#
->>> +# Defaults for ARMv8-a
->>> +#
->>> +DEFAULTTUNE                                        ?= "armv8-2a"
->>>
->>>  TUNEVALID[armv8-2a] = "Enable instructions for ARMv8-a"
->>>  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', ' -march=armv8.2-a', '', d)}"
->>> @@ -8,10 +23,10 @@ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', 'armv8-2a
->>>  require conf/machine/include/arm/arch-armv8a.inc
->>>
->>>  # Little Endian base configs
->>> -AVAILTUNES += "armv8-2a armv8-2a-crypto"
->>> -ARMPKGARCH_tune-armv8-2a                    ?= "armv8-2a"
->>> -ARMPKGARCH_tune-armv8-2a-crypto             ?= "armv8-2a"
->>> -TUNE_FEATURES_tune-armv8-2a                  = "aarch64 armv8-2a"
->>> -TUNE_FEATURES_tune-armv8-2a-crypto           = "${TUNE_FEATURES_tune-armv8-2a} crypto"
->>> -PACKAGE_EXTRA_ARCHS_tune-armv8-2a            = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8-2a"
->>> -PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} armv8-2a-crypto"
->>> +AVAILTUNES                                         += "armv8-2a armv8-2a-crypto"
->>> +ARMPKGARCH_tune-armv8-2a                           ?= "armv8-2a"
->>> +ARMPKGARCH_tune-armv8-2a-crypto                    ?= "armv8-2a"
->>> +TUNE_FEATURES_tune-armv8-2a                         = "aarch64 armv8-2a"
->>> +TUNE_FEATURES_tune-armv8-2a-crypto                  = "${TUNE_FEATURES_tune-armv8-2a} crypto"
->>> +PACKAGE_EXTRA_ARCHS_tune-armv8-2a                   = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8-2a"
->>> +PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto            = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} armv8-2a-crypto"
+>>> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+>>> index 6d5b22fff081..8c3764186ec4 100644
+>>> --- a/meta/conf/machine/include/arm/arch-arm64.inc
+>>> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
+>>> @@ -1,4 +1,5 @@
+>>>  DEFAULTTUNE ?= "aarch64"
+>>> +BASE_LIB ?= "lib64"
 >>
->> It may make sense, instead of deleting it, to have just the 'require
->> conf/machine/include/arm/arch-armv8-2a.inc' file for transition.  (If a
->> transition period is NOT required or desired, then this isn't necessary!)
+>> Does this work?  The default multilib behavior is:
 >>
->> Tricky part is how to notify someone they're in the midst of the transition
->> period, and using the deprecated behavior.
+>> multilib.conf:baselib = "${@d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE')
+>> or 'INVALID')) or d.getVar('BASELIB')}"
 >>
->> (In past work, I've had a class that looked for a variable to exist, if it did
->> it printed the contents as warning messages to the console after parsing.  I'd
->> love to see something like this as standard behavior for future cases like this.)
+>> bitbake.conf:baselib = "${BASELIB}"
+>> bitbake.conf:BASELIB = "lib"
+>> bitbake.conf:BASELIB_powerpc64 = "lib64"
+>> bitbake.conf:BASELIB_powerpc64le = "lib64"
+>>
+>> is what has been defined in the bitbake.conf file.
+>>
+>> Idea being in the 'normal' (not-multilib) case, 'baselib' (which what is used)
+>> gets set to 'BASELIB'.  Only PowerPC 64 has a hard coded 'lib64'.  Every other
+>> architecture is considered to be variable, unless defined in the tune.  (The two
+>> PowerPC settings really should be in a PPC tune file.)
+>>
+>> So IF the multilib.conf is enabled, it's going to look for BASE_LIB_tune-....
+>> and then BASELIB, but it won't look at 'BASE_LIB'.
 > 
-> Fantastic idea.  I hate the idea of breaking backward compat.  Any
-> newly added tunes would not need this, so no extra files for my new
-> 13.
-> 
-> Question 1.  How can we do this warning?  Is there something I can
-> steal from as a basis?
+> It depends on what "work" is defined as :)
+> I did build, boot, and run testimage on it (with issue).  But I'm
+> probably not hitting the multilib issue you are describing.  Honestly,
+> I don't understand it and needed to spend more time than I did (based
+> on your comments).  I like the removal of lines to simplify it, but I
+> need to do some more reading on it.  I'll drop this patch and come
+> back to the underlying problem at some point in the future.
 
-https://github.com/WindRiver-Labs/wr-template/blob/WRLINUX_10_19_BASE/classes/wrlbanner.bbclass
+(This is from memory, so it may not be right)
 
-I would love to see this type of thing become standard for OE.
+In your local.conf:
 
-The way it works, an event is added after ParseStarted and BuildStarted.
+MULTILIBS = "multilib:lib32"
+require conf/multilib.conf
 
-Three special variables are consulted: CONFIG_BANNER, FATAL_CONFIG_BANNER and
-BANNER.  The system will iterate over the 'flags', ignoring doc, vardeps and
-vardepsexp.
+DEFAULTTUNE_virtclass-multilib-lib32 = "armv7vethf"
+MACHINE = "qemuarm64"
 
-Remember ParseStarted only runs if a parse is required!  So these items won't be
-displayed after the initial parse.  BuildStarted runs each time.
-
-(Note this class does a few other things which would not be necessary in the
-general case.  Really it's just a way to collect configuration or other
-information to display early, and allow config files to 'halt' the build when
-the config is obviously broken in some way.)
-
-But the idea is that any config file, layer, etc could add a CONFIG_BANNER[name]
-or BANNER[name]
-
-So you could do:
-
-CONFIG_BANNER[tune-cortexa55] = "The machine is including the tune-cortexa55.inc
-file, this file has been deprecated and should be replaced by arch-armv8-2a.inc"
-
-> Question 2.  How long do we keep this compat around?
-
-1 to 2 releases, I'd say no more then that.  (A LOT of people only upgrade every
-other release -- thus the 2 releases might be a better guide.)
+Then add something like "lib32-glibc" as a dependency to your image.
 
 --Mark
 
 > Thanks,
 > Jon
 > 
+>>>  require conf/machine/include/arm/arch-armv7ve.inc
+>>>
+>>> @@ -14,8 +15,6 @@ TUNE_FEATURES_tune-aarch64 = "aarch64"
+>>>  TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
+>>>  TUNE_PKGARCH_64_tune-aarch64 = "aarch64"
+>>>  TUNE_PKGARCH_64_tune-aarch64_be = "aarch64_be"
+>>> -BASE_LIB_tune-aarch64 = "lib64"
+>>> -BASE_LIB_tune-aarch64_be = "lib64"
 >>
+>> This was originally done like this to enable multilib, as BASE_LIB needs to be
+>> configured per multilib.  (I don't know if it's really necessary any longer.)
+>>
+>> Note the other 32/64 bit architecture are still implemented like this.
+>>
+>> There was also talk at the time of different lib dirs for little and big endian,
+>> but I never saw that actually happen.
+>>
+>> We also wanted a way to build optimized libraries, like some distributions, that
+>> are optimized for specific tunings and place those into non-conflicting
+>> directories.  But again, AFAIK nobody actually did it and I' not sure it
+>> actually works.
+>>
+>> And for the record BASE_LIB is documented in the tune README as:
+>>
+>> BASE_LIB_tune-<tune> - The "/lib" location for a specific ABI.  This is
+>> used in a multilib configuration to place the libraries in the correct,
+>> non-conflicting locations.
+>>
+>>>  PACKAGE_EXTRA_ARCHS_tune-aarch64 = "aarch64"
+>>>  PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
+>>> diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+>>> index 1c095256d185..b40ebf176e43 100644
+>>> --- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
+>>> +++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+>>> @@ -15,5 +15,3 @@ TUNE_FEATURES_tune-armv8-2a                  = "aarch64 armv8-2a"
+>>>  TUNE_FEATURES_tune-armv8-2a-crypto           = "${TUNE_FEATURES_tune-armv8-2a} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-armv8-2a            = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8-2a"
+>>>  PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a} armv8-2a-crypto"
+>>> -BASE_LIB_tune-armv8-2a                       = "lib64"
+>>> -BASE_LIB_tune-armv8-2a-crypto                = "lib64"
+>>> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+>>> index f810a1e8fc98..5584005f7009 100644
+>>> --- a/meta/conf/machine/include/arm/arch-armv8a.inc
+>>> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+>>> @@ -24,7 +24,3 @@ PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a"
+>>>  PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crc"
+>>>  PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} armv8a-crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} armv8a-crypto armv8a-crc-crypto"
+>>> -BASE_LIB_tune-armv8a                       = "lib64"
+>>> -BASE_LIB_tune-armv8a-crc                   = "lib64"
+>>> -BASE_LIB_tune-armv8a-crypto                = "lib64"
+>>> -BASE_LIB_tune-armv8a-crc-crypto            = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
+>>> index 0ffb3e068855..78dab8bed6e1 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa32.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa32.inc
+>>> @@ -14,5 +14,6 @@ TUNE_FEATURES_tune-cortexa32          = "armv8a cortexa32 crc"
+>>>  TUNE_FEATURES_tune-cortexa32-crypto   = "${TUNE_FEATURES_tune-cortexa32} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
+>>> +# Cortex-A32 is 32bit only
+>>>  BASE_LIB_tune-cortexa32               = "lib"
+>>>  BASE_LIB_tune-cortexa32-crypto        = "lib"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/tune-cortexa35.inc
+>>> index 61696da540cc..80825972b612 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa35.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa35.inc
+>>> @@ -13,5 +13,3 @@ TUNE_FEATURES_tune-cortexa35          = "aarch64 cortexa35 crc"
+>>>  TUNE_FEATURES_tune-cortexa35-crypto   = "${TUNE_FEATURES_tune-cortexa35} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa35             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa35"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa35-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa35 cortexa35-crypto"
+>>> -BASE_LIB_tune-cortexa35               = "lib64"
+>>> -BASE_LIB_tune-cortexa35-crypto        = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+>>> index 79ce7c4b1c21..385c2d225777 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa53.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa53.inc
+>>> @@ -14,5 +14,3 @@ TUNE_FEATURES_tune-cortexa53-crypto   = "${TUNE_FEATURES_tune-cortexa53} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
+>>>
+>>> -BASE_LIB_tune-cortexa53               = "lib64"
+>>> -BASE_LIB_tune-cortexa53-crypto        = "lib64"
 >>> diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
->>> deleted file mode 100644
->>> index 099b6d72851a..000000000000
+>>> index 66a5d0c437ee..099b6d72851a 100644
 >>> --- a/meta/conf/machine/include/tune-cortexa55.inc
->>> +++ /dev/null
->>> @@ -1,12 +0,0 @@
->>> -DEFAULTTUNE ?= "cortexa55"
->>> -
->>> -TUNEVALID[cortexa55] = "Enable Cortex-A55 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa55', ' -mcpu=cortex-a55', '', d)}"
->>> -
->>> -require conf/machine/include/arm/arch-armv8-2a.inc
->>> -
->>> -# Little Endian base configs
->>> -AVAILTUNES += "cortexa55"
->>> -ARMPKGARCH_tune-cortexa55             = "cortexa55"
->>> -TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crypto"
->>> -PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa55"
+>>> +++ b/meta/conf/machine/include/tune-cortexa55.inc
+>>> @@ -10,4 +10,3 @@ AVAILTUNES += "cortexa55"
+>>>  ARMPKGARCH_tune-cortexa55             = "cortexa55"
+>>>  TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa55"
+>>> -BASE_LIB_tune-cortexa55               = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>>> index 5880bf203231..02691d0deee2 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>>> @@ -12,4 +12,3 @@ AVAILTUNES += "cortexa57-cortexa53"
+>>>  ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
+>>>  TUNE_FEATURES_tune-cortexa57-cortexa53 = "aarch64 crc cortexa57-cortexa53"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57-cortexa53"
+>>> -BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/tune-cortexa57.inc
+>>> index 3206ce75a6b6..868939ca10c7 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa57.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa57.inc
+>>> @@ -13,5 +13,3 @@ TUNE_FEATURES_tune-cortexa57          = "aarch64 cortexa57 crc"
+>>>  TUNE_FEATURES_tune-cortexa57-crypto   = "${TUNE_FEATURES_tune-cortexa57} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa57 cortexa57-crypto"
+>>> -BASE_LIB_tune-cortexa57               = "lib64"
+>>> -BASE_LIB_tune-cortexa57-crypto        = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>>> index feb1df5c178d..34aaa6cc72a7 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>>> @@ -15,6 +15,4 @@ TUNE_FEATURES_tune-cortexa72-cortexa53               = "aarch64 crc cortexa72-co
+>>>  TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "${TUNE_FEATURES_tune-cortexa72-cortexa53} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+>>> -BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
+>>> -BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
+>>>
+>>> diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
+>>> index 00f7745a22fd..f0f76cad14db 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa72.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa72.inc
+>>> @@ -10,4 +10,3 @@ AVAILTUNES += "cortexa72"
+>>>  ARMPKGARCH_tune-cortexa72             = "cortexa72"
+>>>  TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
+>>> -BASE_LIB_tune-cortexa72               = "lib64"
+>>> diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>>> index 1c221999f408..6da93ffac0b7 100644
+>>> --- a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>>> +++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>>> @@ -15,6 +15,4 @@ TUNE_FEATURES_tune-cortexa73-cortexa53               = "aarch64 crc cortexa73-co
+>>>  TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "${TUNE_FEATURES_tune-cortexa73-cortexa53} crypto"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
+>>>  PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
+>>> -BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
+>>> -BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
+>>>
 >>>
 >>>
 >>> 
