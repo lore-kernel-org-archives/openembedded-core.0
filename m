@@ -1,87 +1,56 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.1120.1599771240512296862
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web11.1302.1599771838654526775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 13:54:00 -0700
+ Thu, 10 Sep 2020 14:03:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDB6E113E
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 13:53:58 -0700 (PDT)
-Received: from rossb-vm.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 813A23F73C
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 13:53:58 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ncurses: remove config.cache
-Date: Thu, 10 Sep 2020 21:53:54 +0100
-Message-Id: <20200910205354.900504-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=R3RGoZRM;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f195.google.com with SMTP id w3so10015091ljo.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 14:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I3qgggogVgxq/KhdwWD8BsWf0mkYIhShlVM4AfWVekA=;
+        b=R3RGoZRMDf9JUiNiAyOeAVWzfLTtxkN4P+0emxLz0BjGBUvFIEzlW9xjVtZGf1/a/Y
+         1/CXNiwOxMmu5XsYfkfkc0LrCvni51s+q2iVwHdUKLLkNk+UfSYDtp2RWFfaLS2Xq2fy
+         yFOAzwmDjl64UdavlEEQoam3eGWMZhu1OF+lZO334iZLa6qBwCrTL5N2nMLqNkHRjGSF
+         2KOP/uQBu4oTtsf7RhTRrJC7B1pZHFFfcY4Lg3/01dRciAv5I6VUBdGSnJIO5Sj2jHkC
+         jQL4SxegMCmeFKzy0Yvt71h4vr7TSqWwB0+M64GjqXiiR/tLFIEWeMgALIhMJMjRyEpY
+         YdVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I3qgggogVgxq/KhdwWD8BsWf0mkYIhShlVM4AfWVekA=;
+        b=s8MrlHviDryikNwjhFW3s1EEXEA3+pghEn3osvkEzYHx7PbHyQHpbO7U8XlesMGKmV
+         HZSpDiDRIBDMlMjEvQKlCFnVnkh3CSN+i74WXZt4+gZ1hr3HlHuYO3KtNLhevXj4EDkr
+         6SWb8bzmatL24MxCvADlk7G7G1XMnEWhsOeStqGo2CyyAfrDPUkD2vit1LwcEVIvlBLA
+         fo5z/tCCT0KoSD9pnToczczdm2tYf6X1pbn/a2O7LAQ1iAMD7YGIifVQiZypd255uPf5
+         imm5GHDjRDijnB/8GBbaDpw8/DvZBof1pgrIWeLQgbCWz+XqZok8zBp2iAbBdbp1YpU/
+         zX3Q==
+X-Gm-Message-State: AOAM533MBnTs2wXuW9CuXD62Bhk5J1uHkE0grBmAyLztyR+zfPw6ouCc
+	+1KT4SLJN3Q7nujdUdadwuh2xqwcTgvAVhAE7Bo44Q==
+X-Google-Smtp-Source: ABdhPJzvFK2QyFl3ddCvItpvvbRvaLbgcnRHQ4Ku7xobX3+fLxQMEioPdg/qU+KdbIlKYjzdkUSDRORATko6+R4rtK0=
+X-Received: by 2002:a2e:b386:: with SMTP id f6mr5433592lje.186.1599771836639;
+ Thu, 10 Sep 2020 14:03:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20200910200128.32995-1-sakib.sajal@windriver.com>
+In-Reply-To: <20200910200128.32995-1-sakib.sajal@windriver.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Thu, 10 Sep 2020 22:03:45 +0100
+Message-ID: <CAAnfSTtdSF+Ybw0jrTkUH58fGHB9g9qMWnwEP8WnNh1zfjOWUA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemu: fix CVE-2020-14364
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ross Burton <ross.burton@intel.com>
+On Thu, 10 Sep 2020 at 21:01, Sakib Sajal <sakib.sajal@windriver.com> wrote:
+> Upstream-Status: Backport [b946434f2659a182afc17e155be6791ebfb302eb]
+>
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 
-Instead of having a config.cache that overrides the system site files,
-simply set the values in CACHED_CONFIGUREVARS. We can also drop the
-mkstemp check as the configure.ac assumes it works, leaving just
-nanosleep.
+The commit message needs your SOB, but the US and another SOB of yours
+need to be in the patch header.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-core/ncurses/files/config.cache | 4 ----
- meta/recipes-core/ncurses/ncurses.inc        | 3 ++-
- meta/recipes-core/ncurses/ncurses_6.2.bb     | 3 +--
- 3 files changed, 3 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-core/ncurses/files/config.cache
-
-diff --git a/meta/recipes-core/ncurses/files/config.cache b/meta/recipes-=
-core/ncurses/files/config.cache
-deleted file mode 100644
-index 6a9217d5bb..0000000000
---- a/meta/recipes-core/ncurses/files/config.cache
-+++ /dev/null
-@@ -1,4 +0,0 @@
--#! /bin/sh
--
--cf_cv_func_nanosleep=3Dyes
--cf_cv_func_mkstemp=3Dyes
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/nc=
-urses/ncurses.inc
-index 4156bf4f7d..1627fb91d3 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -16,7 +16,8 @@ inherit autotools binconfig-disabled multilib_header pk=
-gconfig
- SRC_URI =3D "git://salsa.debian.org/debian/ncurses.git;protocol=3Dhttps"
-=20
- EXTRA_AUTORECONF =3D "-I m4"
--CONFIG_SITE =3D+ "${WORKDIR}/config.cache"
-+
-+CACHED_CONFIGUREVARS =3D "cf_cv_func_nanosleep=3Dyes"
-=20
- EXTRASITECONFIG =3D "CFLAGS=3D'${CFLAGS} -I${SYSROOT_DESTDIR}${includedi=
-r}'"
-=20
-diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core=
-/ncurses/ncurses_6.2.bb
-index 723e685a9b..5c02db8541 100644
---- a/meta/recipes-core/ncurses/ncurses_6.2.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-@@ -2,12 +2,11 @@ require ncurses.inc
-=20
- SRC_URI +=3D "file://0001-tic-hang.patch \
-            file://0002-configure-reproducible.patch \
--           file://config.cache \
-            "
- # commit id corresponds to the revision in package version
- SRCREV =3D "a669013cd5e9d6434e5301348ea51baf306c93c4"
- S =3D "${WORKDIR}/git"
--EXTRA_OECONF +=3D "--with-abi-version=3D5 --cache-file=3D${B}/config.cac=
-he"
-+EXTRA_OECONF +=3D "--with-abi-version=3D5"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
-=20
- # This is needed when using patchlevel versions like 6.1+20181013
---=20
-2.28.0
-
+Ross
