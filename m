@@ -1,78 +1,96 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.20777.1599740702168668000
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.20779.1599740703440097867
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 05:25:02 -0700
+ Thu, 10 Sep 2020 05:25:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KZNnDexM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id a17so6481398wrn.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:25:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PniqPsIb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id x14so6445101wrl.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=9bs6XBdBVL+85NRzmOVAino/C+Wp4kLqdkb2mJ0G0Wk=;
-        b=KZNnDexMDr9Ybnlqh5gTdaex2dbbQeYYugRBOeiNeKUDyITtOq/yodUD0aMV5IBORw
-         S0G4GNxMKjkjSl0s9Atpu2x+orCMDiBexZgieR8VlFGZ6AaEuKmp1vjmhvegHpBmFtZI
-         L/v5WpUVhJByVJvYRR6xAP6NYM3TyrZuSZpMc=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2ObKJagjqBGLvYZoH3Zl4LvbwzVpOlztErUeweAz+2E=;
+        b=PniqPsIbrMFXwdO9D6kXIqEHpCmvPdQkn9GfhQmYVPoXcpVwnb01LMPRJwVptdWNMI
+         buQeC2j55lo+wVMilTGHLqpDyaJKbPUFZTuo0vkcuTAV8h1FQCchPD8+ggfwd0ojwvoR
+         WnwLuixhkvoX7j87DIn8CxazIESlHv0b0hmMQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9bs6XBdBVL+85NRzmOVAino/C+Wp4kLqdkb2mJ0G0Wk=;
-        b=Cpw2YTsBfDftJDuEjNYGXgYtjVwLOVUjOKH8fnnkB7obAK/M9C4V/Eyg1NtsH9Fimx
-         Loc8IRnQRrsCEvEAG/SlPEVAa+5fGqqmOxf2ItA0CcUbPy4l1Vhoqkd6B4IkWUZhZWiH
-         CFwhIu1Ay6BuYynjuyBW1pYTPW/b+ATlrqlyLhcnbFSZGlF+k7M6NgDdcuYM43Vg39OE
-         noM+OAzyLESXfgR5DWGdSgepkKAW2aHMVkXvOAoBhPycCi2qRkK8WRdYrritNqFQRBXW
-         UAOwj8HZXMA3m1+kd23qM+vLVk3RsRiw1R7X5smhuIaLFXBe38SGexAWWNH0BAuzveVa
-         XT1Q==
-X-Gm-Message-State: AOAM530b4tWuycwyYV4fhhBhslr69m43NJ++mMyTB8ZSLRH30Tm4HwMb
-	bdG6kUmyx19fy8EuSXICZRevRwKUZHWC1Q==
-X-Google-Smtp-Source: ABdhPJwhPjrf7b3fcBlp0ybS/F43DLTn1opKFpQKT47z7tte9h8hENDDjPXrDoQ/HK+ThSt4Mdl2GA==
-X-Received: by 2002:a5d:668b:: with SMTP id l11mr8455638wru.89.1599740700434;
-        Thu, 10 Sep 2020 05:25:00 -0700 (PDT)
+        bh=2ObKJagjqBGLvYZoH3Zl4LvbwzVpOlztErUeweAz+2E=;
+        b=gbzC1VOpr5V1L1la0plIrW4TKJIVaDv9JtNd+LfvlyyUQsvgtcoPsMASJev7gBtJsY
+         KdTteFo+xBrmm0SKanZY9cTMkutEov0EykZUzmOSfLE7nd2GMmaVa2KIRDKLOAtxDt+P
+         TWVFKz/vFFKZ/2Mwww+Qfpyih62jGVygYI1AeeHxRSShNSJJtenewCuVckEfQGedQfhe
+         b5tjQsPP8Z20whLBKjEnjExVayJ+WzuWfk3o7D0uSQKrle9cYF7gIxuJSAyiVhE9GPGc
+         iFzkkSEfJ/3QB97TxlgevswgwhuYLCDktAK8PcMVBoFJI3p4qmdJHlhh3jOTqExVXqFD
+         juFw==
+X-Gm-Message-State: AOAM531BE5c/4KUeAK+hx9hkl427EWHQc8+8oAg4UyEbit6hmutFfKdJ
+	HiRqIt76I8yPtQMyK38Mi64H1En9Lvt0AA==
+X-Google-Smtp-Source: ABdhPJyCBRyMq4B580yO25r1dU8hxKNmwAN9mnf2c7ZjSo8+m/bPWv0SvZrL7BxIYuqeuxMyD6VOeQ==
+X-Received: by 2002:adf:ef45:: with SMTP id c5mr8405878wrp.37.1599740701763;
+        Thu, 10 Sep 2020 05:25:01 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (2.f.a.6.5.4.b.4.5.7.2.f.a.5.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:605a:f275:4b45:6af2])
-        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.24.59
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.25.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 05:24:59 -0700 (PDT)
+        Thu, 10 Sep 2020 05:25:01 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][thud 25/29] selftest/signing: Ensure build path relocation is safe
-Date: Thu, 10 Sep 2020 13:24:29 +0100
-Message-Id: <20200910122433.2040293-25-richard.purdie@linuxfoundation.org>
+Cc: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH][thud 26/29] cve-update: handle baseMetricV2 as optional
+Date: Thu, 10 Sep 2020 13:24:30 +0100
+Message-Id: <20200910122433.2040293-26-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 References: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Similarly to 04ee0e8b95cd8ed890374e0007f976684206b630, ensure only full
-build paths are replaced in the environment to avoid breaking buildtools.
+From: Konrad Weihmann <kweihmann@outlook.com>
 
-(From OE-Core rev: be07d93a4f59d4563f2d064be1997b39f05e9f0e)
+Currently in NVD DB an item popped up, which hasn't set baseMetricV2.
+Let the parser handle it as an optional item.
+In case use baseMetricV2 before baseMetricV3
 
+(From OE-Core rev: 77f119baf6f4b85194a9b26d8442ddc7fb3bb97c)
+
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/signing.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
-index 4fa99acbc94..8d585430be0 100644
---- a/meta/lib/oeqa/selftest/cases/signing.py
-+++ b/meta/lib/oeqa/selftest/cases/signing.py
-@@ -40,7 +40,9 @@ class Signing(OESelftestTestCase):
-         origenv = os.environ.copy()
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index db1d69a28e5..e9a023e9bd6 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -160,15 +160,20 @@ def update_db(c, jsondata):
+         if not elt['impact']:
+             continue
  
-         for e in os.environ:
--            if builddir in os.environ[e]:
-+            if builddir + "/" in os.environ[e]:
-+                os.environ[e] = os.environ[e].replace(builddir + "/", newbuilddir + "/")
-+            if os.environ[e].endswith(builddir):
-                 os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
++        accessVector = None
+         cveId = elt['cve']['CVE_data_meta']['ID']
+         cveDesc = elt['cve']['description']['description_data'][0]['value']
+         date = elt['lastModifiedDate']
+-        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
+-        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
+-
+         try:
++            accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
++            cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
++        except KeyError:
++            cvssv2 = 0.0
++        try:
++            accessVector = accessVector or elt['impact']['baseMetricV3']['cvssV3']['attackVector']
+             cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
+-        except:
++        except KeyError:
++            accessVector = accessVector or "UNKNOWN"
+             cvssv3 = 0.0
  
-         os.chdir(newbuilddir)
+         c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
 -- 
 2.25.1
 
