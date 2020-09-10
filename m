@@ -1,88 +1,77 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.20663.1599740592738545808
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.20706.1599740593406566840
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Sep 2020 05:23:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O6Fna9oX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id c19so1778759wmd.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:23:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SzjQ4KRe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id x14so6438986wrl.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vzKXFygvbX27ZhgTstdA1wYSsIYY0ZwQVwQ5eGYccNk=;
-        b=O6Fna9oX0F8L1WEhOQm2Mkd2u1lHe54KuEjktOhlIOstB14/Md3yI4DBU0l049a2jy
-         QTzIDIdub3BvTGNBYHCeWUvR65qSJiJb4znKXLG/daG5EBvRhfrNOlj1ACOxHs9bEppK
-         HfLmovN6Iir5x93k7Qepm1ar2URcnFuhqVWDk=
+        bh=I7bl1r86K087iaaVYye3MgfOHOavC4bD7Xz+/G8ekGo=;
+        b=SzjQ4KRemNdSgAnYjaEwYmYHCKk2C5axIUgW+BV+r8KWt6AyEFf6+s3ZsitmLVKm3u
+         8V7VFSR9QMHHrpm0e3lDj4F3ChmQMoK4cg/xoTZCsM+aEhw+fb6/0h9jjE01SjXf8gcu
+         1JQs/KJzBbxvuJ5FLT4NKWqcfavKF2Lx6LJRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vzKXFygvbX27ZhgTstdA1wYSsIYY0ZwQVwQ5eGYccNk=;
-        b=PcuzGyT3yIB6i1+DoPktqpi9JaCiP3eM36GwDS+TrR8RdlzX3Vv+n9AMtFCfLnZ8ZC
-         hc7zCgc8QrVB4ggvE/6rA0Ln3X9Q2M1YtSUCG+/bF6ySCjRy6afZrQZCn4n0ZqzlZYS0
-         whdRGQSlwZBiV9CKXIegYSCBM8yLDrFu2g1okPTkUkM/B1rmijE0fvz2h0vEghq6awRu
-         a7QmpILi1lRdA7YrO3vSxYJwCwLnVFGD6srYp6H3XubnC4achbqPTrAIZwd5pbZECOtt
-         FnovfUwl7fHX6pQOHnkE/PZ0YtdH5sduL7RjizyuDzq5ypaidF6jaHoVtCGBwvFWYS/q
-         +mtA==
-X-Gm-Message-State: AOAM531oSH//+0fdgG8N90IaSR05B8IxwoNbPKSjFNvEW2NXyw2caCy3
-	+51RMzlDo0HYob5yyN0Gr7jQB/BpWsrnYA==
-X-Google-Smtp-Source: ABdhPJwuiQ7EjH26pbergyoJbHNYV78/Wx5JDbOE8shSlD/e/UpWYO/T0HhHGDcS6X3hQyQwjG7WQg==
-X-Received: by 2002:a1c:23c8:: with SMTP id j191mr7906253wmj.64.1599740591019;
+        bh=I7bl1r86K087iaaVYye3MgfOHOavC4bD7Xz+/G8ekGo=;
+        b=Wuq8CkpiUbvzLQWdsTu0z9821PZVxl09Fybd9rS33gEU0k7rL6FGC2ddrsuhFtewnF
+         WebvR7Grb2jB/0oGxwiOUqGCw8FOxdzc0dnACP7Y4TU4t2L5XzmVZb/QIejcOT55mNFc
+         kja4qyUGxxfd/xP7TXdMWbDxi2U1mArko8xGf+/fQsOdLDe8MgyI28AOMUukUGioi+Cv
+         syUZSXL5nCYYGQ1k7pSs6k32HaKkFI5HceljnrUPdJkA9DcmtUOUAuWN9gE9bWeCup4k
+         dehkSdAaRmlJK7K4vHyaUBTYrko/w2ytU6r8AM437AMsHeFP+/t7Nylnfq/Hft2qXCfs
+         fS3Q==
+X-Gm-Message-State: AOAM531xiaPJxMc6pSEeZdkoFrG7nHF9x4gNHnmHCnnwTlD8CVPiN0XV
+	fJzVyirin+gHeRGRfpV+85tkU/7AOYX43w==
+X-Google-Smtp-Source: ABdhPJzzv0fW6wCvHsIhJZLffTBi0ry+te0bgZ2BVsf5E1W10Kz2M7jzooHM2qcjwQZqbWXaY4RRIQ==
+X-Received: by 2002:a5d:4311:: with SMTP id h17mr8937112wrq.398.1599740591693;
         Thu, 10 Sep 2020 05:23:11 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (2.f.a.6.5.4.b.4.5.7.2.f.a.5.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:605a:f275:4b45:6af2])
-        by smtp.gmail.com with ESMTPSA id v17sm8810794wrr.60.2020.09.10.05.23.10
+        by smtp.gmail.com with ESMTPSA id v17sm8810794wrr.60.2020.09.10.05.23.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 05:23:10 -0700 (PDT)
+        Thu, 10 Sep 2020 05:23:11 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][warrior 05/22] files/toolchain-shar-extract.sh: Rework PATH cleaning
-Date: Thu, 10 Sep 2020 13:22:49 +0100
-Message-Id: <20200910122306.2040194-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH][warrior 06/22] buildtools-extended-tarball: Add locale command
+Date: Thu, 10 Sep 2020 13:22:50 +0100
+Message-Id: <20200910122306.2040194-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910122306.2040194-1-richard.purdie@linuxfoundation.org>
 References: <20200910122306.2040194-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Trying to create a clean PATH breaks cases where we install a buildtools tarball
-on hosts to provide newer versions of gcc. Rework the fix for #8698 to clean up
-directories in PATH which don't exist isntead. Do it with python as the shell
-version was too fraught with corner cases.
+The eSDK installation code checks installed locales with the locale command which is
+from glibc-utils. Add this so that we find the correct locales from the buildtools.
 
-(From OE-Core rev: 7674b63819aa7ca95ca5ca5477a5cce32e9691eb)
+(From OE-Core rev: 7d35e4bc6ff94a2d03c48827d7d60a6855c9029d)
 
-(From OE-Core rev: 9825236deacf6eb311121d233435a46288c02cdb)
+(From OE-Core rev: d99b6432decec0964ac0e08698abc782c9b114f5)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/files/toolchain-shar-extract.sh | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 156085b5003..d9112eab72b 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -1,13 +1,8 @@
- #!/bin/sh
+diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
+index d756036373e..5a781730ed7 100644
+--- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
+@@ -25,6 +25,7 @@ TOOLCHAIN_HOST_TASK += "\
+     nativesdk-libstdc++-dev \
+     nativesdk-libtool \
+     nativesdk-pkgconfig \
++    nativesdk-glibc-utils \
+     "
  
--[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" \
--	LC_ALL=en_US.UTF-8 \
--	TERM=$TERM \
--	ICECC_PATH="$ICECC_PATH" \
--	http_proxy="$http_proxy" https_proxy="$https_proxy" ftp_proxy="$ftp_proxy" \
--	no_proxy="$no_proxy" all_proxy="$all_proxy" GIT_PROXY_COMMAND="$GIT_PROXY_COMMAND" "$0" "$@"
--[ -f /etc/environment ] && . /etc/environment
--export PATH=`echo "$PATH" | sed -e 's/:\.//' -e 's/::/:/'`
-+export LC_ALL=en_US.UTF-8
-+# Remove invalid PATH elements first (maybe from a previously setup toolchain now deleted
-+PATH=`python3 -c 'import os; print(":".join(e for e in os.environ["PATH"].split(":") if os.path.exists(e)))'`
- 
- tweakpath () {
-     case ":${PATH}:" in
+ TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
 -- 
 2.25.1
 
