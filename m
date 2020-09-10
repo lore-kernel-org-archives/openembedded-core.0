@@ -1,24 +1,22 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.16933.1599725444938724898
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.16935.1599725453752661996
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 01:10:45 -0700
+ Thu, 10 Sep 2020 01:10:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ovidiu.panait@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ovidiu.panait@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08A8Ahxs014016
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08A8ALHZ018844
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 01:10:44 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 01:10:42 -0700
 Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Sep 2020
- 01:10:43 -0700
+ 01:10:23 -0700
 From: "Ovidiu Panait" <ovidiu.panait@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [zeus][PATCH] libxml2: Fix CVE-2020-24977
-Date: Thu, 10 Sep 2020 11:10:07 +0300
-Message-ID: <20200910081007.24685-2-ovidiu.panait@windriver.com>
+Subject: [dunfell][PATCH] libxml2: Fix CVE-2020-24977
+Date: Thu, 10 Sep 2020 11:10:06 +0300
+Message-ID: <20200910081007.24685-1-ovidiu.panait@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200910081007.24685-1-ovidiu.panait@windriver.com>
-References: <20200910081007.24685-1-ovidiu.panait@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 
@@ -35,7 +33,7 @@ https://gitlab.gnome.org/GNOME/libxml2/-/commit/50f06b3efb638efb0abd95dc62dca05a
 Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 ---
  .../libxml/libxml2/CVE-2020-24977.patch       | 41 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.9.bb     |  1 +
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
  2 files changed, 42 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2020-24977.patch
 
@@ -86,18 +84,18 @@ index 0000000000..8224346660
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.9.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-index 1d898ab020..ff496ccfaf 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.9.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://Fix-CVE-2019-19956.patch \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 097aceb2c0..4ebfb9e556 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://fix-execution-of-ptests.patch \
             file://CVE-2020-7595.patch \
             file://CVE-2019-20388.patch \
 +           file://CVE-2020-24977.patch \
             "
  
- SRC_URI[libtar.md5sum] = "c04a5a0a042eaa157e8e8c9eabe76bd6"
+ SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
 -- 
 2.17.1
 
