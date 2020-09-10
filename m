@@ -1,82 +1,128 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web12.12268.1599703453975457360
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.13227.1599707024435650241
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2020 19:04:14 -0700
+ Wed, 09 Sep 2020 20:03:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lvWEK9Ah;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id q5so4570062qkc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2020 19:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wo7BRVxVvxgaN+Ud2fNgHHw21yfkYJC6m2W1BufW2pw=;
-        b=lvWEK9Ah6lgofMyN65f0sM/y2MpTopbd2K5AjKhEJXVz0sqW9cI3RbZwf2c41pOahf
-         RXX6FNcvAlv7A+24c1FTx7OTTxtKn3buEkF1FTNK9KDGcqnMr6eVlVhe6oz9bDZuQlTG
-         AW7lE8pfHjtlRL9OKHCJ4LIBf1O7ezDzR+5uYS0/T+Z26WXaSQUeZrJn4DkIT8A6ywrk
-         4Q9e7B0LG/q6MU2xL5cfEfzFKsXVRnwL/HOW9EWSr4VxhtiPTTKraqx3tEvd6BB6sLNR
-         ab2YAJ9UVUFNOlRexOIOdCQPOM9yZFoGvIqmVDD4dy8WqFuva0U/W7K18mkIS+vd02ms
-         /F1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wo7BRVxVvxgaN+Ud2fNgHHw21yfkYJC6m2W1BufW2pw=;
-        b=ayftw3Au13VV4Pti+YHisEkP2JnyLoc6S1H3D75lSKKUHe3J+gfsegP8fcYk8mgIXt
-         DkxYQuOEm7FOomNKVL4S7ol2ljJozpJXAb/2Mi+sXIzxqpKTYUXmf16M3L/coI+9POH6
-         +75XZpdMRFLyczh6L6ZSOS3n3WitoYppieNg/PrYdIRcKH+wV6wNs6uZMbdY1DNONSDA
-         hVoGf7u/KT/iwobkdJSmmuMiuRHf4LqX8EYLmjYWFaZYzByAc1JQScFAtdx+9cuxIPR1
-         mEeLne6KNotJwoEsmkbYEbUNTFn+moZVaybk387ec8SXqbVgWKeKa0Ix+bOvnkrexvGm
-         Xrlw==
-X-Gm-Message-State: AOAM533QtJc2GpqJdUz7V3cSxYnGQFnax2geCdPjNBSZ46NLfR9GU5Qn
-	PIzUrj+HUu24pSx8V3yfMVQ=
-X-Google-Smtp-Source: ABdhPJyl5qExQWcWC9v2cahMKZ+o0pRbHaUyF/mjpBf5PYtL9ckFbk16PAw6AwO8qm8ZKQj+8npRAg==
-X-Received: by 2002:a05:620a:145:: with SMTP id e5mr5796318qkn.479.1599703452994;
-        Wed, 09 Sep 2020 19:04:12 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id f76sm4530568qke.19.2020.09.09.19.04.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2020 19:04:12 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-devsrc: account for HOSTCC and HOSTCXX
-Date: Wed,  9 Sep 2020 22:04:10 -0400
-Message-Id: <20200910020410.41095-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08A33djt010145
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Sep 2020 20:03:40 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 9 Sep 2020 20:03:34 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] qemu: always define unknown_lock_type
+Date: Thu, 10 Sep 2020 10:57:28 +0800
+Message-ID: <20200910025728.3868717-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Since commit 740d87766cb87f75c477 [kernel.bbclass: Configuration
-for environment with HOSTCXX], both HOSTCC and HOSTCXX are pickedup
-by the kernel build system as triggers to reconfigure if changed.
+When use gcc 10.1.0 and debug build is enabled, there comes
+below build failure:
+| /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:25: undefined reference to `unknown_lock_type'
+ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o: in function `fsdev_co_throttle_request':
+ | /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: undefined reference to `unknown_lock_type'
+ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o:/mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: more undefined references to `unknown_lock_type' follow
+ | collect2: error: ld returned 1 exit status
 
-As with previous changes to devsrc, we replace the cross build
-variant, with what will be on target, so operations such as
-'make scripts prepare' won't trigger a reconfiguration.
+So always define unknown_lock_type to fix the above error.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...le.h-always-define-unknown_lock_type.patch | 48 +++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_5.1.0.bb      |  5 --
+ 3 files changed, 49 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-lockable.h-always-define-unknown_lock_type.patch
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 1482faa3be..81b1e36041 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -275,6 +275,8 @@ do_install() {
-     if [ -e "$kerneldir/build/include/config/auto.conf.cmd" ]; then
-         sed -i 's/ifneq "$(CC)" ".*-linux-.*gcc.*$/ifneq "$(CC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(LD)" ".*-linux-.*ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        sed -i 's/ifneq "$(HOSTCXX)" ".*$/ifneq "$(HOSTCXX)" "g++"/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        sed -i 's/ifneq "$(HOSTCC)" ".*$/ifneq "$(HOSTCC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(CC_VERSION_TEXT)".*\(gcc.*\)"/ifneq "$(CC_VERSION_TEXT)" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(srctree)" ".*"/ifneq "$(srctree)" "."/' "$kerneldir/build/include/config/auto.conf.cmd"
-         # we don't build against the defconfig, so make sure it isn't the trigger for syncconfig
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5599382a92..d0d4cb7add 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0001-Add-enable-disable-udev.patch \
+ 	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
+ 	   file://find_datadir.patch \
++	   file://0001-lockable.h-always-define-unknown_lock_type.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-lockable.h-always-define-unknown_lock_type.patch b/meta/recipes-devtools/qemu/qemu/0001-lockable.h-always-define-unknown_lock_type.patch
+new file mode 100644
+index 0000000000..053ddd4fcc
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-lockable.h-always-define-unknown_lock_type.patch
+@@ -0,0 +1,48 @@
++From 8c234bb39eb293a44ca58e15303a359bb782931f Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Wed, 9 Sep 2020 08:41:27 +0000
++Subject: [PATCH] lockable.h: always define unknown_lock_type
++
++There comes below build failure when use gcc 10.1.0 and
++"-Og" passed to compiler.
++ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:25: undefined reference to `unknown_lock_type'
++ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o: in function `fsdev_co_throttle_request':
++ | /mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: undefined reference to `unknown_lock_type'
++ | /usr/lib/gcc/x86_64-wrs-linux/10.1.0/../../../../x86_64-wrs-linux/bin/ld.bfd: ../fsdev/qemu-fsdev-throttle.o:/mnt/build/tmp/work/x86_64-linux/qemu-system-native/5.1.0-r0/qemu-5.1.0/fsdev/qemu-fsdev-throttle.c:103: more undefined references to `unknown_lock_type' follow
++ | collect2: error: ld returned 1 exit status
++
++So always define unknown_lock_type to fix the above error.
++
++Upstream-Status: Submitted [qemu-devel mailing list]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ include/qemu/lockable.h | 7 +------
++ 1 file changed, 1 insertion(+), 6 deletions(-)
++
++diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
++index b620023141..e792ed9a69 100644
++--- a/include/qemu/lockable.h
+++++ b/include/qemu/lockable.h
++@@ -25,17 +25,12 @@ struct QemuLockable {
++ };
++ 
++ /* This function gives an error if an invalid, non-NULL pointer type is passed
++- * to QEMU_MAKE_LOCKABLE.  For optimized builds, we can rely on dead-code elimination
++- * from the compiler, and give the errors already at link time.
+++ * to QEMU_MAKE_LOCKABLE.
++  */
++-#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
++-void unknown_lock_type(void *);
++-#else
++ static inline void unknown_lock_type(void *unused)
++ {
++     abort();
++ }
++-#endif
++ 
++ static inline __attribute__((__always_inline__)) QemuLockable *
++ qemu_make_lockable(void *x, QemuLockable *lockable)
++-- 
++2.26.2
++
+diff --git a/meta/recipes-devtools/qemu/qemu_5.1.0.bb b/meta/recipes-devtools/qemu/qemu_5.1.0.bb
+index 9b09490269..a4018cc448 100644
+--- a/meta/recipes-devtools/qemu/qemu_5.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_5.1.0.bb
+@@ -10,11 +10,6 @@ DEPENDS = "glib-2.0 zlib pixman bison-native"
+ 
+ RDEPENDS_${PN}_class-target += "bash"
+ 
+-# Does not compile for -Og because that level does not clean up dead-code.
+-# See lockable.h.
+-#
+-DEBUG_BUILD = "0"
+-
+ EXTRA_OECONF_append_class-target = " --target-list=${@get_qemu_target_list(d)}"
+ EXTRA_OECONF_append_class-target_mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
+ EXTRA_OECONF_append_class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
 -- 
-2.19.1
+2.26.2
 
