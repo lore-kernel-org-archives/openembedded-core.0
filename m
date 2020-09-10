@@ -1,157 +1,145 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.20740.1599740706051203615
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.20742.1599740707271931287
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 05:25:06 -0700
+ Thu, 10 Sep 2020 05:25:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xr4k9Wpn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id z4so6501251wrr.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:25:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fpj5UTNQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id e11so1788742wme.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OJ1lTMnxhyuzNsg2CJzZBFuZ0IsmsjZBVtPVqWZlg70=;
-        b=Xr4k9WpnjOTpuIWlxzrB36GY67JjscaFU+gpztKDDhLQa4vKRnNdP30nYwrPoyCjpc
-         hPrDObarBpqMAnC/VsVmdTF4wjJ2eRKRr5Il2ekAuF216zHTfusMnXBYrNglXKyDKt6u
-         MwnZ+EyKzqq9DnPqUfz+RXf4X8J3Crs1sWAGs=
+        bh=GZOGqgCF6s0P8kXolawC3siWCjbiMvATcQrQ6CSEVfw=;
+        b=fpj5UTNQtJ53VaY49SuCelUM3thjGM8e6v4ijLDN/PgM6cGsSn0cwfNgEOY9hMJFX0
+         Ch+rVH4KeGdQgE+FUY/pLsnfAw2iq5Hk6vHFsfMTnxQSjbzVk2HaNG+X1xxZVPaWg2AF
+         BmZO0PKAyZTID6EIRv8VK04CCXOYOW1pejBT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OJ1lTMnxhyuzNsg2CJzZBFuZ0IsmsjZBVtPVqWZlg70=;
-        b=GZI+mYtr0+ZZPRUTPAERiRDh06lgXEPO3b02zOZZe1Myy25EM9+XWjxMajv+Ezkzat
-         w1sR8PXREz1125X1yvTacfpUWxa2t83FBfM7Ip64GuO6jr7k8qnHU5PmBaV6Uron3oFv
-         C++3gp9QasBdVjamhjr49NXLoX1IUv3sNNxvTSktWJCi/ij+v4hjOlJLAUPNYBkfDk0N
-         cElOkC+fGxXQ4zBQQKKvLAekiPghm6TOIWNSmQMRR6nZsms49qH/c909qTeo3ZHsDTBz
-         AX0+TSpLmB1cf05IRrmgw/KKqCAbJpufPn1nKHdWyNu1R5/lsSdGc2YcUhcRi43wYnGI
-         nfaQ==
-X-Gm-Message-State: AOAM533oZxLILExfJPaChn/CBhJsdmpGlLaJBk/mISFTo9ot4nkyPwkX
-	EmLDRQlkpeXYCiAMMrPB/ImABg2OdK8Kug==
-X-Google-Smtp-Source: ABdhPJyEE/1c64CchEXnAVmcvBy4cYKE200NflYNnc5osebPKH9hlqf2f3b1dT6A+OBz1dmJ3i9AuA==
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr8579389wrt.267.1599740704183;
-        Thu, 10 Sep 2020 05:25:04 -0700 (PDT)
+        bh=GZOGqgCF6s0P8kXolawC3siWCjbiMvATcQrQ6CSEVfw=;
+        b=KoDMGz2M0TBkqa9jIYQazOSnyha7H/kAybFgS18jIiMF/YJxCfL1mM8YzCpH8KpkLh
+         2u7fkwG3YhvagS1UdZe7eaZ4sm/EzVA6/3Aa8GeJFMxZq5derx2HpvXd1qggYnAsvubo
+         bJupBC8Gxb2K1Loryp2XTo53npSPAtwd4SO4igZiCIlm543V0OP7L2i58ZwOnvwT4buz
+         R3SoBWmFnGZQMM9ZomGkOs0GDyrqfax5/9MWJ/pk+oXVk/b/W6PYZrqCVIJC2xPei/Zj
+         5nQcoU0dsQQZMnG+4JOlYXgijze+FJETouBw5nqm/sea3ErQ/GNUEQtWL+lDu4D6EsME
+         Gy+A==
+X-Gm-Message-State: AOAM532j3uigipymMs5R5I3cfeomgs7+Co5L6chLgfWUT9Y5AhvCU025
+	5UD5q/kZ1gqbrFEwslfqdwWbS9NSWc3uhw==
+X-Google-Smtp-Source: ABdhPJyn4YTgwGolkYS4H1qF8e7kuycSOmlgj2K53AH5wzT9sdPXgxYGcsu2WoJkS0GeHG6jI+f5bA==
+X-Received: by 2002:a1c:a90a:: with SMTP id s10mr8233274wme.11.1599740705510;
+        Thu, 10 Sep 2020 05:25:05 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (2.f.a.6.5.4.b.4.5.7.2.f.a.5.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:605a:f275:4b45:6af2])
-        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.25.03
+        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.25.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 05:25:03 -0700 (PDT)
+        Thu, 10 Sep 2020 05:25:04 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jaewon Lee <jaewon.lee@xilinx.com>,
-	Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-Subject: [PATCH][thud 28/29] Adding back wrapper and using OEPYTHON3HOME variable for python3
-Date: Thu, 10 Sep 2020 13:24:32 +0100
-Message-Id: <20200910122433.2040293-28-richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH][thud 29/29] qemu: Replace stime() API with clock_settime
+Date: Thu, 10 Sep 2020 13:24:33 +0100
+Message-Id: <20200910122433.2040293-29-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 References: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jaewon Lee <jaewon.lee@xilinx.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Adding back the python wrapper and adding a patch to use OEPYTHON3HOME
-instead of PYTHONHOME if set, for python3.
+(From OE-Core rev: 2cca75155baec8358939e2aae822e256bed4cfe0)
 
-If we add back the wrapper as is, we would see the following error that
-we also see in Thud:
-
-ImportError: No module named site
-OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python
-v3.
-Please upgrade your python v2
-
-This is because python3 would've set PYTHONHOME to use nativesdk
-python3 libraries but when the oe-buildenv-internal script tries to call
-python2 for the py_v27_check, there will be no python2 libraries in the
-PYTHONHOME directory.
-In other words, bitbake needs host python2 and the env variable set from
-the wrapper contaminates the env and host python2 won't be able to find
-its libraries
-
-Creating another variable OEPYTHON3HOME and using this in the python3
-wrapper to allow for a way to set a different paths for python3 and
-python2
-
-[YOCTO #13208]
-
-(From OE-Core rev: 75d2a85e24ef9a2bf0e218521944523f0ff281e0)
-
-Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...ON3HOME-is-set-use-instead-of-PYTHON.patch | 35 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.6.bb |  6 +++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+ ...linux-user-remove-host-stime-syscall.patch | 62 +++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb      |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
 
-diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch b/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
 new file mode 100644
-index 00000000000..48d4f73e9c6
+index 00000000000..618ebcdc818
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-@@ -0,0 +1,35 @@
-+From ffe7797637f08cd6ee4c82e2d67462c5e194d30a Mon Sep 17 00:00:00 2001
-+From: Jaewon Lee <jaewon.lee@xilinx.com>
-+Date: Thu, 25 Apr 2019 15:34:26 -0700
-+Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
++++ b/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
+@@ -0,0 +1,62 @@
++From 0f1f2d4596aee037d3ccbcf10592466daa54107f Mon Sep 17 00:00:00 2001
++From: Laurent Vivier <laurent@vivier.eu>
++Date: Tue, 12 Nov 2019 15:25:56 +0100
++Subject: [PATCH] linux-user: remove host stime() syscall
 +
-+There is one variable PYTHONHOME to determine where libraries are coming
-+from for both python2 and python3. This becomes an issue if only one has
-+libraries in the specified PYTHONHOME path, but they are using the same
-+PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
-+to set a different path for python3
++stime() has been withdrawn from glibc
++(12cbde1dae6f "Use clock_settime to implement stime; withdraw stime.")
 +
-+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-+RP: Backported to 3.5.6 (code totally different to original path for 
-+later python versions)
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Implement the target stime() syscall using host
++clock_settime(CLOCK_REALTIME, ...) as it is done internally in glibc.
 +
++Tested qemu-ppc/x86_64 with:
++
++	#include <time.h>
++	#include <stdio.h>
++
++	int main(void)
++	{
++		time_t t;
++		int ret;
++
++		/* date -u -d"2019-11-12T15:11:00" "+%s" */
++		t = 1573571460;
++		ret = stime(&t);
++		printf("ret %d\n", ret);
++		return 0;
++	}
++
++        # date; ./stime; date
++        Tue Nov 12 14:18:32 UTC 2019
++        ret 0
++        Tue Nov 12 15:11:00 UTC 2019
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=0f1f2d4596aee037d3ccbcf10592466daa54107f]
++Buglink: https://bugs.launchpad.net/qemu/+bug/1852115
++Reported-by: Cole Robinson <crobinso@redhat.com>
++Signed-off-by: Laurent Vivier <laurent@vivier.eu>
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Message-Id: <20191112142556.6335-1-laurent@vivier.eu>
 +---
-+ Modules/main.c | 17 +++++++++++++----
-+ 1 file changed, 13 insertions(+), 4 deletions(-)
++ linux-user/syscall.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+Index: Python-3.5.6/Python/pylifecycle.c
++Index: qemu-3.0.0/linux-user/syscall.c
 +===================================================================
-+--- Python-3.5.6.orig/Python/pylifecycle.c
-++++ Python-3.5.6/Python/pylifecycle.c
-+@@ -864,7 +864,9 @@ Py_GetPythonHome(void)
-+ {
-+     wchar_t *home = default_home;
-+     if (home == NULL && !Py_IgnoreEnvironmentFlag) {
-+-        char* chome = Py_GETENV("PYTHONHOME");
-++        char* chome = Py_GETENV("OEPYTHON3HOME");
-++        if (!chome)
-++            chome = Py_GETENV("PYTHONHOME");
-+         if (chome) {
-+             size_t size = Py_ARRAY_LENGTH(env_home);
-+             size_t r = mbstowcs(env_home, chome, size);
-diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-index b2f8a3d034f..4633a3d239e 100644
---- a/meta/recipes-devtools/python/python3_3.5.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-@@ -50,6 +50,10 @@ SRC_URI += "\
-             file://CVE-2019-9636.patch \
++--- qemu-3.0.0.orig/linux-user/syscall.c
+++++ qemu-3.0.0/linux-user/syscall.c
++@@ -8520,10 +8520,11 @@ abi_long do_syscall(void *cpu_env, int n
++ #ifdef TARGET_NR_stime /* not on alpha */
++     case TARGET_NR_stime:
++         {
++-            time_t host_time;
++-            if (get_user_sal(host_time, arg1))
+++            struct timespec ts;
+++            ts.tv_nsec = 0;
+++            if (get_user_sal(ts.tv_sec, arg1))
++                 goto efault;
++-            ret = get_errno(stime(&host_time));
+++            ret = get_errno(clock_settime(CLOCK_REALTIME, &ts));
++         }
++         break;
++ #endif
+diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+index e483acab55d..1daee7211f8 100644
+--- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+@@ -42,6 +42,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2019-8934.patch \
+            file://0001-linux-user-assume-__NR_gettid-always-exists.patch \
+            file://0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch \
++           file://0011-linux-user-remove-host-stime-syscall.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-+SRC_URI_append_class-nativesdk = " \
-+           file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-+           "
-+
- inherit multilib_header python3native update-alternatives qemu ptest
- 
- MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
-@@ -184,7 +188,7 @@ do_install() {
- }
- 
- do_install_append_class-nativesdk () {
--	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} PYTHONHOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
-+	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} OEPYTHON3HOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
- }
- 
- SSTATE_SCAN_FILES += "Makefile"
 -- 
 2.25.1
 
