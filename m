@@ -1,145 +1,100 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.20742.1599740707271931287
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [91.207.212.93])
+ by mx.groups.io with SMTP id smtpd.web10.22910.1599746796003031761
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 05:25:07 -0700
+ Thu, 10 Sep 2020 07:06:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fpj5UTNQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id e11so1788742wme.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 05:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GZOGqgCF6s0P8kXolawC3siWCjbiMvATcQrQ6CSEVfw=;
-        b=fpj5UTNQtJ53VaY49SuCelUM3thjGM8e6v4ijLDN/PgM6cGsSn0cwfNgEOY9hMJFX0
-         Ch+rVH4KeGdQgE+FUY/pLsnfAw2iq5Hk6vHFsfMTnxQSjbzVk2HaNG+X1xxZVPaWg2AF
-         BmZO0PKAyZTID6EIRv8VK04CCXOYOW1pejBT8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GZOGqgCF6s0P8kXolawC3siWCjbiMvATcQrQ6CSEVfw=;
-        b=KoDMGz2M0TBkqa9jIYQazOSnyha7H/kAybFgS18jIiMF/YJxCfL1mM8YzCpH8KpkLh
-         2u7fkwG3YhvagS1UdZe7eaZ4sm/EzVA6/3Aa8GeJFMxZq5derx2HpvXd1qggYnAsvubo
-         bJupBC8Gxb2K1Loryp2XTo53npSPAtwd4SO4igZiCIlm543V0OP7L2i58ZwOnvwT4buz
-         R3SoBWmFnGZQMM9ZomGkOs0GDyrqfax5/9MWJ/pk+oXVk/b/W6PYZrqCVIJC2xPei/Zj
-         5nQcoU0dsQQZMnG+4JOlYXgijze+FJETouBw5nqm/sea3ErQ/GNUEQtWL+lDu4D6EsME
-         Gy+A==
-X-Gm-Message-State: AOAM532j3uigipymMs5R5I3cfeomgs7+Co5L6chLgfWUT9Y5AhvCU025
-	5UD5q/kZ1gqbrFEwslfqdwWbS9NSWc3uhw==
-X-Google-Smtp-Source: ABdhPJyn4YTgwGolkYS4H1qF8e7kuycSOmlgj2K53AH5wzT9sdPXgxYGcsu2WoJkS0GeHG6jI+f5bA==
-X-Received: by 2002:a1c:a90a:: with SMTP id s10mr8233274wme.11.1599740705510;
-        Thu, 10 Sep 2020 05:25:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (2.f.a.6.5.4.b.4.5.7.2.f.a.5.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:605a:f275:4b45:6af2])
-        by smtp.gmail.com with ESMTPSA id j7sm8590498wrs.11.2020.09.10.05.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 05:25:04 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH][thud 29/29] qemu: Replace stime() API with clock_settime
-Date: Thu, 10 Sep 2020 13:24:33 +0100
-Message-Id: <20200910122433.2040293-29-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
-References: <20200910122433.2040293-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@st.com header.s=stmicroelectronics header.b=rXhxj+oQ;
+ spf=pass (domain: st.com, ip: 91.207.212.93, mailfrom: christophe.guibout@st.com)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08AE3Zb1017219
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=STMicroelectronics;
+ bh=cvRrUbjmi/FiGuReUUkN/W+SIwBgF0FO1O2X8mKh7NU=;
+ b=rXhxj+oQl8fDZIlfask8Au+BthPlIDhRk2iQHKMv+AU6XKn9JL4tYlap7Lm2KiyOLfvc
+ EMopLIshawIL88CCrzmCEOT9zCO4cPJuioW84xezd81/9ge8JNPbEHhqCKdm6EjeINjL
+ XZEs77JJGKi+uVxeMjeiSaUfbDKJorw0J2rIF3xY84DQxlWPBwGoqAK8qW9eK0BH+ZP2
+ 7OZIUN56XW/C0i9Qh/Trvvp2zlxzjb2gxAo4sIRxi8IJgviuYAHlvIeMKjkHP3fZ38zI
+ g97cVibuwfdA8Y4TlCX0hMNLqcBJyADo9zxdVVO9VNYDH/2NU2ONPequfDSLdHTlFtGF Ag== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com with ESMTP id 33c1jfbwy7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:33 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E1A9510002A
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:32 +0200 (CEST)
+Received: from Webmail-eu.st.com (gpxdag6node4.st.com [10.75.127.80])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2D6F62ADA18
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 16:06:32 +0200 (CEST)
+Received: from GPXDAG6NODE5.st.com (10.75.127.81) by GPXDAG6NODE4.st.com
+ (10.75.127.80) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 10 Sep
+ 2020 16:06:31 +0200
+Received: from GPXDAG6NODE5.st.com ([fe80::1512:89:fa19:a556]) by
+ GPXDAG6NODE5.st.com ([fe80::1512:89:fa19:a556%19]) with mapi id
+ 15.00.1473.003; Thu, 10 Sep 2020 16:06:31 +0200
+From: christophe.guibout@st.com
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Christophe GUIBOUT <christophe.guibout@st.com>
+Subject: [PATCH] initramfs-framework: support kernel cmdline with double quotes
+Thread-Topic: [PATCH] initramfs-framework: support kernel cmdline with double
+ quotes
+Thread-Index: AQHWh3uVOQabfj079k66eKJesFD/Fw==
+Date: Thu, 10 Sep 2020 14:06:31 +0000
+Message-ID: <20200910140622.20040-1-christophe.guibout@st.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.48]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-10_03:2020-09-10,2020-09-10 signatures=0
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Khem Raj <raj.khem@gmail.com>
+It avoids init to crash when kernel cmdline contains a string with
+spaces inside, like that:
+dyndbg=3D"file drivers/usb/core/hub.c +pltf"
 
-(From OE-Core rev: 2cca75155baec8358939e2aae822e256bed4cfe0)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Christophe Guibout <christophe.guibout@st.com>
 ---
- ...linux-user-remove-host-stime-syscall.patch | 62 +++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb      |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
+ .../initrdscripts/initramfs-framework/init          | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch b/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
-new file mode 100644
-index 00000000000..618ebcdc818
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
-@@ -0,0 +1,62 @@
-+From 0f1f2d4596aee037d3ccbcf10592466daa54107f Mon Sep 17 00:00:00 2001
-+From: Laurent Vivier <laurent@vivier.eu>
-+Date: Tue, 12 Nov 2019 15:25:56 +0100
-+Subject: [PATCH] linux-user: remove host stime() syscall
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/met=
+a/recipes-core/initrdscripts/initramfs-framework/init
+index c71ce0ce8c..567694aff7 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -88,12 +88,25 @@ fi
+=20
+ # populate bootparam environment
+ for p in `cat /proc/cmdline`; do
++	if [ -n "$quoted" ]; then
++		value=3D"$value $p"
++		if [ "`echo $p | sed -e 's/\"$//'`" !=3D "$p" ]; then
++			eval "bootparam_${quoted}=3D${value}"
++			unset quoted
++		fi
++		continue
++	fi
 +
-+stime() has been withdrawn from glibc
-+(12cbde1dae6f "Use clock_settime to implement stime; withdraw stime.")
-+
-+Implement the target stime() syscall using host
-+clock_settime(CLOCK_REALTIME, ...) as it is done internally in glibc.
-+
-+Tested qemu-ppc/x86_64 with:
-+
-+	#include <time.h>
-+	#include <stdio.h>
-+
-+	int main(void)
-+	{
-+		time_t t;
-+		int ret;
-+
-+		/* date -u -d"2019-11-12T15:11:00" "+%s" */
-+		t = 1573571460;
-+		ret = stime(&t);
-+		printf("ret %d\n", ret);
-+		return 0;
-+	}
-+
-+        # date; ./stime; date
-+        Tue Nov 12 14:18:32 UTC 2019
-+        ret 0
-+        Tue Nov 12 15:11:00 UTC 2019
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=0f1f2d4596aee037d3ccbcf10592466daa54107f]
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1852115
-+Reported-by: Cole Robinson <crobinso@redhat.com>
-+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Message-Id: <20191112142556.6335-1-laurent@vivier.eu>
-+---
-+ linux-user/syscall.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+Index: qemu-3.0.0/linux-user/syscall.c
-+===================================================================
-+--- qemu-3.0.0.orig/linux-user/syscall.c
-++++ qemu-3.0.0/linux-user/syscall.c
-+@@ -8520,10 +8520,11 @@ abi_long do_syscall(void *cpu_env, int n
-+ #ifdef TARGET_NR_stime /* not on alpha */
-+     case TARGET_NR_stime:
-+         {
-+-            time_t host_time;
-+-            if (get_user_sal(host_time, arg1))
-++            struct timespec ts;
-++            ts.tv_nsec = 0;
-++            if (get_user_sal(ts.tv_sec, arg1))
-+                 goto efault;
-+-            ret = get_errno(stime(&host_time));
-++            ret = get_errno(clock_settime(CLOCK_REALTIME, &ts));
-+         }
-+         break;
-+ #endif
-diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-index e483acab55d..1daee7211f8 100644
---- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2019-8934.patch \
-            file://0001-linux-user-assume-__NR_gettid-always-exists.patch \
-            file://0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch \
-+           file://0011-linux-user-remove-host-stime-syscall.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-2.25.1
-
+ 	opt=3D`echo $p | cut -d'=3D' -f1`
+ 	opt=3D`echo $opt | sed -e 'y/.-/__/'`
+ 	if [ "`echo $p | cut -d'=3D' -f1`" =3D "$p" ]; then
+ 		eval "bootparam_${opt}=3Dtrue"
+ 	else
+ 		value=3D"`echo $p | cut -d'=3D' -f2-`"
++		if [ "`echo $value | sed -e 's/^\"//'`" !=3D "$value" ]; then
++			quoted=3D${opt}
++			continue
++		fi
+ 		eval "bootparam_${opt}=3D\"${value}\""
+ 	fi
+ done
+--=20
+2.17.1
