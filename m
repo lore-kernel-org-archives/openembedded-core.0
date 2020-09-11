@@ -1,55 +1,101 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web12.309.1599844382240666090
+ by mx.groups.io with SMTP id smtpd.web11.176.1599844873569703608
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 10:13:02 -0700
+ Fri, 11 Sep 2020 10:21:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=fT5udujU;
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=RCa0CuPv;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pemorrow@linux.microsoft.com)
-Received: by linux.microsoft.com (Postfix, from userid 1045)
-	id 7844820716FE; Fri, 11 Sep 2020 10:13:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7844820716FE
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E678F20716FC
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 10:21:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E678F20716FC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1599844381;
-	bh=LQBLqKG41yKJjWb7+6TInJBi85IObSlUSAm7gFQBz/k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fT5udujUw9s9tPc1Ms5VzV7LvetAZkDJ6eyzRTVURSeu6aVNpeW9hJMHELWcrDatJ
-	 BF8nBgnwI7mmdK0wqjzs1T1pLtNvCFaw7M8lb6onVUrMOp0cAI5bTeFqWYseGQzG/R
-	 3LTlfDq4M6P6f2eXiHK4hHr4e0XbVe7Br4g+zB2A=
-Date: Fri, 11 Sep 2020 10:13:01 -0700
+	s=default; t=1599844872;
+	bh=g5NrQZ3t262pvSMRzDRF/MWVzIe89dhDxrG0eRXQFEs=;
+	h=From:To:Subject:Date:From;
+	b=RCa0CuPvgFE/xCD/dnqu6AD12qseYjYFNj9M2ugCZjjYf2HM8TTTi58Yoa/uhVnLi
+	 3bWVM1UhdU0ACK8RWA6GeS01AVjnnksSwOg6iPv6JF/8lJ/uC0YGppBYUBOafRDw/s
+	 yi8Stmkz5VD9nNLjxvOh0idt9XZFLHpMCkO7LvYk=
 From: "Peter Morrow" <pemorrow@linux.microsoft.com>
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] squashfs-tools: Allow COMP_DEFAULT to be changed easily at build time
-Message-ID: <20200911171301.GA14636@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1599821817-27585-1-git-send-email-pemorrow@linux.microsoft.com>
- <CAAnfSTu-0GDByMD3-H1OewWzMGisha8nJ4dGGZTYcR-J2y0jXQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAAnfSTu-0GDByMD3-H1OewWzMGisha8nJ4dGGZTYcR-J2y0jXQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] squashfs-tools: Allow COMP_DEFAULT to be changed easily at build time
+Date: Fri, 11 Sep 2020 10:21:02 -0700
+Message-Id: <1599844862-15857-1-git-send-email-pemorrow@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 
-On Fri, Sep 11, 2020 at 12:47:44PM +0100, Ross Burton wrote:
-> > +python () {
-> > +    # Change the default compression algorithm if requested.
-> > +    comp_default = d.getVar('SQUASHFS_TOOLS_COMP_DEFAULT')
-> > +    if comp_default != None:
-> > +        d.appendVar('EXTRA_OEMAKE', ' COMP_DEFAULT=%s' % comp_default)
-> > +}
-> > +
-> 
-> This is overcomplicated.  Just do:
-> 
-> SQUASHFS_TOOLS_COMP_DEFAULT ?= "gzip"
-> EXTRA_OEMAKE += "COMP_DEFAULT=${SQUASHFS_TOOLS_COMP_DEFAULT}"
-> 
-> This way the default is documented in the recipe, and we can change
-> the default easily too.
+The default compression algorithm is gzip, this patch allows the default
+to be changed via a bbappend file by setting SQUASHFS_TOOLS_COMP_DEFAULT
+to a valid compression algorithm.
 
-ACK. V2 coming.
+Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
+---
+ ...ols-Allow-COMP_DEFAULT-to-be-overridden-v.patch | 34 ++++++++++++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb           |  4 +++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/squashfs-tools/files/0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch
 
-Thanks,
-Peter.
+diff --git a/meta/recipes-devtools/squashfs-tools/files/0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch b/meta/recipes-devtools/squashfs-tools/files/0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch
+new file mode 100644
+index 0000000..5f12c42
+--- /dev/null
++++ b/meta/recipes-devtools/squashfs-tools/files/0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch
+@@ -0,0 +1,34 @@
++From d2d9b517696f5950597f5b60ae8fdade5b7c14a9 Mon Sep 17 00:00:00 2001
++From: Peter Morrow <pemorrow@linux.microsoft.com>
++Date: Fri, 4 Sep 2020 15:43:15 +0100
++Subject: [PATCH] squashfs-tools: Allow COMP_DEFAULT to be overridden via make
++ cmdline
++
++Currently the only way to modify the default compression algorithm is to
++modify the Makefile. It is useful to be able to set the default compression
++algorithm via the make command line since otherwise a build time search
++replace operation needs to be performed on the Makefile.
++
++Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/pull/93 ]
++
++Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
++---
++ squashfs-tools/Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
++index aee4b96..7425605 100644
++--- a/squashfs-tools/Makefile
+++++ b/squashfs-tools/Makefile
++@@ -85,7 +85,7 @@ GZIP_SUPPORT = 1
++ # in Mksquashfs.  Obviously the compression algorithm must have been
++ # selected to be built
++ #
++-COMP_DEFAULT = gzip
+++COMP_DEFAULT ?= gzip
++ 
++ 
++ ###############################################
++-- 
++2.20.1
++
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index b06951d..df025d4 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -9,6 +9,7 @@ PV = "4.4"
+ SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+            file://0001-squashfs-tools-fix-build-failure-against-gcc-10.patch;striplevel=2 \
++           file://0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch;striplevel=2 \
+ "
+ 
+ S = "${WORKDIR}/git/squashfs-tools"
+@@ -25,6 +26,9 @@ PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
+ PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
+ PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+ 
++SQUASHFS_TOOLS_COMP_DEFAULT ?= "gzip"
++EXTRA_OEMAKE += "COMP_DEFAULT=${SQUASHFS_TOOLS_COMP_DEFAULT}"
++
+ do_compile() {
+ 	oe_runmake all
+ }
+-- 
+1.8.3.1
 
-> 
-> Ross
