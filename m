@@ -1,123 +1,72 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.6283.1599825130752430714
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.8121.1599831166431898788
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 04:52:11 -0700
+ Fri, 11 Sep 2020 06:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=R5QnGeHd;
- spf=pass (domain: burtonini.com, ip: 209.85.208.171, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f171.google.com with SMTP id a22so12130545ljp.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 04:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rt2/He4KsUsu7g0rbIuWNtwhpaM+sM0FeoEjai1RqJ8=;
-        b=R5QnGeHdfRhu8oWcwu5dUmPsPB/mpv2bvSpgLLZ/G0+VUT3S1A7dvJxvCPhU+2wi1P
-         BaU2n24dSEo0pWEfxeOcyKJB864x46G/QjXWE+yg9ZHnQ6S429pzF7jx/EseF9w/18Mz
-         in1wJdHK5eEfVudMd7DCWsuUB/W0jV0b0puyJSwZXjOoaqo/W2RrnMQXv4958hbV/Jft
-         R8CW3464jaOcq/R5Bwt/XleTCbxpNrCcq6hAgk7xcFD09iACHd1ZjvlNo3JFmzFRGJ6B
-         Jh5PMekBDG6uRg3aNq0Wa+0ecjsQACAqKZTVfQcUd87Qzu0fmAx1/HV1yEUbgs1nR7Sn
-         Id6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rt2/He4KsUsu7g0rbIuWNtwhpaM+sM0FeoEjai1RqJ8=;
-        b=nCcSJULFHESEv3mY+ah1e64kngvDF2neXfowHDDgZ9k+7WpTi0fJO05KRc713Dd9n6
-         gAkokj8rIHiY6xC6bd0GwSR210M3O/owFHoFCOmUI14Nvl3oWNs5KwXlY9XEiLU5FnFa
-         QLEmRuuoNtaeZmcwLk/r0YKlUBIxkFAOhPEx7R41H/PA+z1x0BkFqDvKNg0aOXDt8KUZ
-         r4HsEh4YTNjk3pjUTaajHMhjvONdiIP/+WOO2OtCN3NCWCXpBS0H1E2SY2SEnN0WB0Yp
-         +1wQXGY6zTRTKJrBCS3bTJtzqfhch2mp7PVawcIiHASCmuDr9IYAoaKUP5A/99ToCY/l
-         ip8g==
-X-Gm-Message-State: AOAM5302qYE1OTi+0+t4ENGOWQcfIL79ZIc7EGpFK4zPxyVdJcY64VGi
-	/fzBZYZJ0OaII1rqMyyO+t/KihajPjWBp8G5VLMsRov/C9UAR1W2
-X-Google-Smtp-Source: ABdhPJzaJh9b0polToJx4iRfjb/zBHHYV8EnL2z2w04veIplVDv1CmHMixRMPZ7uryoj5wrufIRmtV5+JrIvgYAwjRQ=
-X-Received: by 2002:a2e:b704:: with SMTP id j4mr660199ljo.329.1599825128659;
- Fri, 11 Sep 2020 04:52:08 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: stacy.gaikovaia@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08BDWOFu011916
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 06:32:35 -0700
+Received: from yow-sgaikova-lx.wrs.com (128.224.141.57) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 11 Sep 2020 06:32:14 -0700
+From: Stacy.Gaikovaia@windriver.com
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bison: uprev from 3.7.1 to 3.7.2
+Date: Fri, 11 Sep 2020 09:32:13 -0400
+Message-ID: <20200911133213.2647567-1-stacy.gaikovaia@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAFimOt4qqUBom3vGpgdquC61oao4gppraibinztAzY8FUB0vsA@mail.gmail.com>
-In-Reply-To: <CAFimOt4qqUBom3vGpgdquC61oao4gppraibinztAzY8FUB0vsA@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Fri, 11 Sep 2020 12:51:57 +0100
-Message-ID: <CAAnfSTuW_UQ0KCWd_zjEa9CJs8WKD4WLKkdf4H9y1fg3xHkapQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tcmode-default: Drop gcc-cross-initial, gcc-crosssdk-initial references
-To: douglas.royds@taitradio.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Can you resend using git-send-email, as that patch has been corrupted.
+a0bc06b7 (tag: v3.7.2) version 3.7.2
+5e33dfe5 build: disable syntax-check warning
+2a4e9a35 gnulib: update
+f7b642cf build: fix incorrect dependencies
+3da17724 doc: updates
+68e3e442 gnulib: update
+e432619d tests: beware of sed portability issues
+a1b7fef0 c: always use YYMALLOC/YYFREE
+067e35a8 build: beware of POSIX mode
+0522047c doc: history of api.prefix
+3724b50e CI: intel moved the script for ICC
+b801b7b6 fix: unterminated \-escape
+b7aab2db fix: crash when redefining the EOF token
+89e42ffb style: fix missing space before paren
+6aae4a73 style: fix comments and more debug trace
+7d4a4300 style: more uses of const
+31d4ec28 bench: fix support for pure parser
+0a5bfb4f portability: multiple typedefs
+12d0b156 style: revert "avoid warnings with GCC 4.6"
+cb7dcb01 maint: post-release administrivia
 
-Ross
+CVE: CVE-2020-24980 fixed by b801b7b6
+CVE: CVE-2020-24979 fixed by b7aab2db
 
-On Fri, 11 Sep 2020 at 01:19, Douglas via lists.openembedded.org
-<douglas.royds=taitradio.com@lists.openembedded.org> wrote:
->
-> Further to 5b2fd1c724
->
-> Also a few remaining references (DISTRO_PN_ALIAS, RECIPE_MAINTAINER).
->
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
-> meta/conf/distro/include/distro_alias.inc | 4 ----
-> meta/conf/distro/include/tcmode-default.inc | 2 --
-> meta/conf/layer.conf | 2 +-
-> 3 files changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/meta/conf/distro/include/distro_alias.inc
-> b/meta/conf/distro/include/distro_alias.inc
-> index 56055f7798..b4dfcfc5f5 100644
-> --- a/meta/conf/distro/include/distro_alias.inc
-> +++ b/meta/conf/distro/include/distro_alias.inc
-> @@ -81,10 +81,6 @@ DISTRO_PN_ALIAS_pn-encodings =
-> "Ubuntu=xfonts-encodings Mandriva=x11-font-encodi
-> DISTRO_PN_ALIAS_pn-font-alias = "Fedora=xorg-x11-fonts-base
-> Mandriva=x11-font-alias Meego=xorg-x11-fonts"
-> DISTRO_PN_ALIAS_pn-font-util = "Meego=xorg-x11-font-utils
-> Fedora=xorg-x11-font-utils Ubuntu=xfonts-utils Mandriva=x11-font-util
-> Debian=xfonts-utils"
-> DISTRO_PN_ALIAS_pn-formfactor = "OE-Core"
-> -DISTRO_PN_ALIAS_pn-gcc-cross-initial = "OE-Core"
-> -DISTRO_PN_ALIAS_pn-gcc-cross-initial-i586 = "OE-Core"
-> -DISTRO_PN_ALIAS_pn-gcc-crosssdk-initial = "OE-Core"
-> -DISTRO_PN_ALIAS_pn-gcc-crosssdk-initial-x86_64 = "OE-Core"
-> DISTRO_PN_ALIAS_pn-gccmakedep = "Mandriva=gccmakedep Ubuntu=xutils-dev"
-> DISTRO_PN_ALIAS_pn-gcc-runtime = "Ubuntu=gcc Fedora=gcc"
-> DISTRO_PN_ALIAS_pn-gcc-sanitizers = "Ubuntu=gcc Fedora=gcc"
-> diff --git a/meta/conf/distro/include/tcmode-default.inc
-> b/meta/conf/distro/include/tcmode-default.inc
-> index 1bc95ec675..50e8a20f35 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -30,9 +30,7 @@ LLVMVERSION ?= "10.0.1"
-> PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
-> PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-> -PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
-> PREFERRED_VERSION_gcc-crosssdk-${SDK_SYS} ?= "${SDKGCCVERSION}"
-> -PREFERRED_VERSION_gcc-crosssdk-initial-${SDK_SYS} ?= "${SDKGCCVERSION}"
-> PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?=
-> "${GCCVERSION}"
-> PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
-> PREFERRED_VERSION_gcc-sanitizers ?= "${GCCVERSION}"
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 1a01d02fef..38df0f3aff 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -91,7 +91,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-> # dependency incidentally. This improves determinism and avoids build
-> # failures when people switch to external toolchains.
-> SSTATE_EXCLUDEDEPS_SYSROOT += ".*->bison-native"
-> -# Nothing needs to depend on libc-initial/gcc-cross-initial
-> +# Nothing needs to depend on libc-initial
-> # base-passwd/shadow-sysroot don't need their dependencies
-> SSTATE_EXCLUDEDEPS_SYSROOT += "\
-> .*->.*-initial.* \
->
-> --
-> 2.17.1
->
-> --
-> This Communication is Confidential. We only send and receive email on the
->
-> basis of the terms set out at www.taitradio.com/email_disclaimer
-> <http://www.taitradio.com/email_disclaimer>
-> 
+Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+---
+ meta/recipes-devtools/bison/{bison_3.7.1.bb => bison_3.7.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/bison/{bison_3.7.1.bb => bison_3.7.2.bb} (94%)
+
+diff --git a/meta/recipes-devtools/bison/bison_3.7.1.bb b/meta/recipes-devtools/bison/bison_3.7.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/bison/bison_3.7.1.bb
+rename to meta/recipes-devtools/bison/bison_3.7.2.bb
+index a765a2380d..f7bf70fff3 100644
+--- a/meta/recipes-devtools/bison/bison_3.7.1.bb
++++ b/meta/recipes-devtools/bison/bison_3.7.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://add-with-bisonlocaledir.patch \
+            file://0001-bison-fix-the-parallel-build.patch \
+            "
+-SRC_URI[sha256sum] = "55c215521a13982a9bee68cd42eed51a65713f96c530a739a57de4438ac1bb69"
++SRC_URI[sha256sum] = "7948d193104d979c0fb0294a1854c73c89d72ae41acfc081826142578a78a91b"
+ 
+ # No point in hardcoding path to m4, just use PATH
+ EXTRA_OECONF += "M4=m4"
+-- 
+2.25.1
+
