@@ -1,52 +1,55 @@
-Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
- by mx.groups.io with SMTP id smtpd.web10.9185.1599833834812729811
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.309.1599844382240666090
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 07:17:15 -0700
+ Fri, 11 Sep 2020 10:13:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: herbrechtsmeier.net, ip: 85.13.157.12, mailfrom: stefan@herbrechtsmeier.net)
-Received: from [192.168.178.42] (unknown [94.134.94.122])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id 9612D11A072B;
-	Fri, 11 Sep 2020 16:17:11 +0200 (CEST)
-Subject: Re: [OE-core] Application depending on gRPC not linking properly
-To: Goran Broeckaert <broeckaert.goran@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <CANq43+EQnPYiWxqFBK6Zb6j99ot_ZUNVkE69EHYfcLv2DefvHA@mail.gmail.com>
-From: "Stefan Herbrechtsmeier" <stefan@herbrechtsmeier.net>
-Message-ID: <dcbff17f-e051-0c85-7bfc-da4099049230@herbrechtsmeier.net>
-Date: Fri, 11 Sep 2020 16:17:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=fT5udujU;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pemorrow@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1045)
+	id 7844820716FE; Fri, 11 Sep 2020 10:13:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7844820716FE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1599844381;
+	bh=LQBLqKG41yKJjWb7+6TInJBi85IObSlUSAm7gFQBz/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fT5udujUw9s9tPc1Ms5VzV7LvetAZkDJ6eyzRTVURSeu6aVNpeW9hJMHELWcrDatJ
+	 BF8nBgnwI7mmdK0wqjzs1T1pLtNvCFaw7M8lb6onVUrMOp0cAI5bTeFqWYseGQzG/R
+	 3LTlfDq4M6P6f2eXiHK4hHr4e0XbVe7Br4g+zB2A=
+Date: Fri, 11 Sep 2020 10:13:01 -0700
+From: "Peter Morrow" <pemorrow@linux.microsoft.com>
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] squashfs-tools: Allow COMP_DEFAULT to be changed easily at build time
+Message-ID: <20200911171301.GA14636@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1599821817-27585-1-git-send-email-pemorrow@linux.microsoft.com>
+ <CAAnfSTu-0GDByMD3-H1OewWzMGisha8nJ4dGGZTYcR-J2y0jXQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CANq43+EQnPYiWxqFBK6Zb6j99ot_ZUNVkE69EHYfcLv2DefvHA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAAnfSTu-0GDByMD3-H1OewWzMGisha8nJ4dGGZTYcR-J2y0jXQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
-
-Am 09.09.20 um 14:56 schrieb Goran Broeckaert:
-> I have a simple application which depends on grpc. I'm using Yocto Zeus 
-> for my project and I've written the following recipe:
-
-[snip]
-
-> The linker tries to link with the -native version of gRPC instead of the 
-> target one. Can be seen in the following line from the output:
+On Fri, Sep 11, 2020 at 12:47:44PM +0100, Ross Burton wrote:
+> > +python () {
+> > +    # Change the default compression algorithm if requested.
+> > +    comp_default = d.getVar('SQUASHFS_TOOLS_COMP_DEFAULT')
+> > +    if comp_default != None:
+> > +        d.appendVar('EXTRA_OEMAKE', ' COMP_DEFAULT=%s' % comp_default)
+> > +}
+> > +
 > 
-> recipe-sysroot-native/usr/lib/libgrpc++.so.1.24.1: error adding symbols: 
-> file in wrong format
+> This is overcomplicated.  Just do:
+> 
+> SQUASHFS_TOOLS_COMP_DEFAULT ?= "gzip"
+> EXTRA_OEMAKE += "COMP_DEFAULT=${SQUASHFS_TOOLS_COMP_DEFAULT}"
+> 
+> This way the default is documented in the recipe, and we can change
+> the default easily too.
 
-The grpc cmake config requires the binaries and Yocto doesn't install 
-cross compile binaries into the sysroot. Therefore the grcp recipe has a 
-bad hack and install the cmake files from the native package:
+ACK. V2 coming.
 
-SYSROOT_DIRS_BLACKLIST_append_class-target = "${baselib}/cmake/grpc"
+Thanks,
+Peter.
 
-I have try to fix the root cause in grpc but the pull request was closed 
-by the developers because 'Yocto is not a platform we [grpc] officially 
-support':
-
-https://github.com/grpc/grpc/pull/22498
-
-Regards
-   Stefan
+> 
+> Ross
