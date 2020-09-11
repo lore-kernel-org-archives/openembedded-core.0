@@ -1,114 +1,96 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web12.2529.1599783778780409236
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web10.2838.1599784722647893775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2020 17:22:58 -0700
+ Thu, 10 Sep 2020 17:38:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=afXm6Ql9;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id v54so6434879qtj.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2020 17:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rmo7ynUBlNL0ZgwcHWX1xApCBCZxnYO33ZlSCjJUY+o=;
-        b=afXm6Ql9bMpJrCqDcHnuTGMyTsQL53zlMHXHOsCL+NQ7RcSvhHciVAWbZNF1j8DsAd
-         zhIPnoaxzp+muv574GHAdGBOkJ2CqHGAOAoNBE0Lq64ukl2mBFEx+sW/wK97KTm6ZvnQ
-         3bJp0ljPg9npIqBOWdlvgpQZ0oXBLsDJiyZa8rtXz/BvjABQoqO9zJIKLZGFRayF8gHO
-         X6KV69M/OpbEFFUL2XNY+kiljf1of8pmiKLEb8dnZ6btBIhLRV3bOmDonHcRPORsIlnx
-         p3GGqiYmxMAkR8XgZ/XOnaerrcdT+36Rq3gt+jQBcXa3ZmIH8Gz5Y7dmunJddF+8QMS9
-         5Phw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rmo7ynUBlNL0ZgwcHWX1xApCBCZxnYO33ZlSCjJUY+o=;
-        b=oPNEAy8oMp5/dd4Q3NsksSQZlnpc+Mftrq6YDCqr/XY+BsEdzNJfGXgU6vD2GOW2i/
-         D+UnAa2ZirAZN0j6TcezrdqtvORrd1R5wPZeB4RAHtB9Y2VBSmntaiVHb4gK7L05qm0U
-         T806w0JLuzHcyJecgsAt88dCYFihFo1qUG9fl69JncO0hYXV3CtLHEpnJTyCZpMpu+en
-         Xkjc9KJ2384B4KZu7hN9aB8PWVE4jxw9o0FT9n2CxBCwpzl8rYbGFJ4Ud4b7pwM3UB5J
-         cnBD11pBcROZwgmJzgif0brlOptlEaudILDnF5kvPFWXGJv/dgwWURbvr46Zyt+knd/Z
-         Rnvg==
-X-Gm-Message-State: AOAM5327eu5A9iVHRKiSGe7LGib+TGfDiEaVdp3NKd4uTNrrsqCKnjEF
-	e1HmYICCEdsh2VaAWGmPTOG/m79x3a2WWXkKebs=
-X-Google-Smtp-Source: ABdhPJx4qZg8ixD579jpjL2g8xSrMywbOcFJ3CpBSEBo6dRJEytcWgqPGm1P0GvtDsZVKu1yFCyUct0WjKK9uP4hNH8=
-X-Received: by 2002:aed:2646:: with SMTP id z64mr8500978qtc.194.1599783777771;
- Thu, 10 Sep 2020 17:22:57 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: FgbWK3wucnACPCCBokQuWer/ZiqKimEC7ZvIdCh1zlyytBkGXx4/iUv+CFJHvIePqBy1TNbO11
+ AegMdFzUmxSg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9740"; a="222864860"
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
+   d="scan'208";a="222864860"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2020 17:38:41 -0700
+IronPort-SDR: oxE69ykHRNK7BU5NKaefJLVZTkUA5n8qQ5rIQzB8v3DstnPiaxyjUCopsh/cLmIz9FVbYyIdxj
+ 3eWmCheXreVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; 
+   d="scan'208";a="305071847"
+Received: from pgsmsx602.gar.corp.intel.com ([10.108.199.137])
+  by orsmga006.jf.intel.com with ESMTP; 10 Sep 2020 17:38:41 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx602.gar.corp.intel.com (10.108.199.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 11 Sep 2020 08:38:40 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Fri, 11 Sep 2020 08:38:40 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "ross@burtonini.com" <ross@burtonini.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] ncurses: remove config.cache
+Thread-Topic: [OE-core] [PATCH] ncurses: remove config.cache
+Thread-Index: AQHWh7SGcomjffs6JkOzsCCq+79nDqliEkOA
+Date: Fri, 11 Sep 2020 00:38:40 +0000
+Message-ID: <8d9b72ddf28d2ddf4bc0d0744b69e5690fd75b98.camel@intel.com>
 References: <20200910205354.900504-1-ross.burton@arm.com>
 In-Reply-To: <20200910205354.900504-1-ross.burton@arm.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 10 Sep 2020 17:22:31 -0700
-Message-ID: <CAMKF1srCDwA4zozhqMV5V1hYfw+7Rr0ikvpe2jXWtC8xUtuwJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ncurses: remove config.cache
-To: Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <229CAB274BD9CF4691C7147F4BF8811F@intel.com>
+Content-Transfer-Encoding: base64
 
-On Thu, Sep 10, 2020 at 1:54 PM Ross Burton <ross@burtonini.com> wrote:
->
-> From: Ross Burton <ross.burton@intel.com>
->
-> Instead of having a config.cache that overrides the system site files,
-> simply set the values in CACHED_CONFIGUREVARS. We can also drop the
-> mkstemp check as the configure.ac assumes it works, leaving just
-> nanosleep.
->
-
-this is a good improvement. Perhaps one downside with cache files is
-that they are hardly refreshed as you have seen
-
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-core/ncurses/files/config.cache | 4 ----
->  meta/recipes-core/ncurses/ncurses.inc        | 3 ++-
->  meta/recipes-core/ncurses/ncurses_6.2.bb     | 3 +--
->  3 files changed, 3 insertions(+), 7 deletions(-)
->  delete mode 100644 meta/recipes-core/ncurses/files/config.cache
->
-> diff --git a/meta/recipes-core/ncurses/files/config.cache b/meta/recipes-core/ncurses/files/config.cache
-> deleted file mode 100644
-> index 6a9217d5bb..0000000000
-> --- a/meta/recipes-core/ncurses/files/config.cache
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -#! /bin/sh
-> -
-> -cf_cv_func_nanosleep=yes
-> -cf_cv_func_mkstemp=yes
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> index 4156bf4f7d..1627fb91d3 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -16,7 +16,8 @@ inherit autotools binconfig-disabled multilib_header pkgconfig
->  SRC_URI = "git://salsa.debian.org/debian/ncurses.git;protocol=https"
->
->  EXTRA_AUTORECONF = "-I m4"
-> -CONFIG_SITE =+ "${WORKDIR}/config.cache"
-> +
-> +CACHED_CONFIGUREVARS = "cf_cv_func_nanosleep=yes"
->
->  EXTRASITECONFIG = "CFLAGS='${CFLAGS} -I${SYSROOT_DESTDIR}${includedir}'"
->
-> diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
-> index 723e685a9b..5c02db8541 100644
-> --- a/meta/recipes-core/ncurses/ncurses_6.2.bb
-> +++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-> @@ -2,12 +2,11 @@ require ncurses.inc
->
->  SRC_URI += "file://0001-tic-hang.patch \
->             file://0002-configure-reproducible.patch \
-> -           file://config.cache \
->             "
->  # commit id corresponds to the revision in package version
->  SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
->  S = "${WORKDIR}/git"
-> -EXTRA_OECONF += "--with-abi-version=5 --cache-file=${B}/config.cache"
-> +EXTRA_OECONF += "--with-abi-version=5"
->  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
->
->  # This is needed when using patchlevel versions like 6.1+20181013
-> --
-> 2.28.0
->
-> 
+T24gVGh1LCAyMDIwLTA5LTEwIGF0IDIxOjUzICswMTAwLCBSb3NzIEJ1cnRvbiB3cm90ZToNCj4g
+RnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4NCg0KWW91IGZvcmdvdCB0
+byB1cGRhdGUgeW91ciBlbWFpbCBzb21ld2hlcmU/IDopDQoNClRoYW5rcywNCg0KQW51ag0KDQo+
+IA0KPiBJbnN0ZWFkIG9mIGhhdmluZyBhIGNvbmZpZy5jYWNoZSB0aGF0IG92ZXJyaWRlcyB0aGUg
+c3lzdGVtIHNpdGUNCj4gZmlsZXMsDQo+IHNpbXBseSBzZXQgdGhlIHZhbHVlcyBpbiBDQUNIRURf
+Q09ORklHVVJFVkFSUy4gV2UgY2FuIGFsc28gZHJvcCB0aGUNCj4gbWtzdGVtcCBjaGVjayBhcyB0
+aGUgY29uZmlndXJlLmFjIGFzc3VtZXMgaXQgd29ya3MsIGxlYXZpbmcganVzdA0KPiBuYW5vc2xl
+ZXAuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNv
+bT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9uY3Vyc2VzL2ZpbGVzL2NvbmZpZy5jYWNo
+ZSB8IDQgLS0tLQ0KPiAgbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy9uY3Vyc2VzLmluYyAgICAg
+ICAgfCAzICsrLQ0KPiAgbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy9uY3Vyc2VzXzYuMi5iYiAg
+ICAgfCAzICstLQ0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDcgZGVsZXRp
+b25zKC0pDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy9m
+aWxlcy9jb25maWcuY2FjaGUNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9u
+Y3Vyc2VzL2ZpbGVzL2NvbmZpZy5jYWNoZQ0KPiBiL21ldGEvcmVjaXBlcy1jb3JlL25jdXJzZXMv
+ZmlsZXMvY29uZmlnLmNhY2hlDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCA2
+YTkyMTdkNWJiLi4wMDAwMDAwMDAwDQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL25jdXJzZXMv
+ZmlsZXMvY29uZmlnLmNhY2hlDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsNCArMCwwIEBADQo+
+IC0jISAvYmluL3NoDQo+IC0NCj4gLWNmX2N2X2Z1bmNfbmFub3NsZWVwPXllcw0KPiAtY2ZfY3Zf
+ZnVuY19ta3N0ZW1wPXllcw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNl
+cy9uY3Vyc2VzLmluYyBiL21ldGEvcmVjaXBlcy0NCj4gY29yZS9uY3Vyc2VzL25jdXJzZXMuaW5j
+DQo+IGluZGV4IDQxNTZiZjRmN2QuLjE2MjdmYjkxZDMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
+aXBlcy1jb3JlL25jdXJzZXMvbmN1cnNlcy5pbmMNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUv
+bmN1cnNlcy9uY3Vyc2VzLmluYw0KPiBAQCAtMTYsNyArMTYsOCBAQCBpbmhlcml0IGF1dG90b29s
+cyBiaW5jb25maWctZGlzYWJsZWQNCj4gbXVsdGlsaWJfaGVhZGVyIHBrZ2NvbmZpZw0KPiAgU1JD
+X1VSSSA9ICJnaXQ6Ly9zYWxzYS5kZWJpYW4ub3JnL2RlYmlhbi9uY3Vyc2VzLmdpdDtwcm90b2Nv
+bD1odHRwcyINCj4gIA0KPiAgRVhUUkFfQVVUT1JFQ09ORiA9ICItSSBtNCINCj4gLUNPTkZJR19T
+SVRFID0rICIke1dPUktESVJ9L2NvbmZpZy5jYWNoZSINCj4gKw0KPiArQ0FDSEVEX0NPTkZJR1VS
+RVZBUlMgPSAiY2ZfY3ZfZnVuY19uYW5vc2xlZXA9eWVzIg0KPiAgDQo+ICBFWFRSQVNJVEVDT05G
+SUcgPSAiQ0ZMQUdTPScke0NGTEFHU30NCj4gLUkke1NZU1JPT1RfREVTVERJUn0ke2luY2x1ZGVk
+aXJ9JyINCj4gIA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy9uY3Vy
+c2VzXzYuMi5iYiBiL21ldGEvcmVjaXBlcy0NCj4gY29yZS9uY3Vyc2VzL25jdXJzZXNfNi4yLmJi
+DQo+IGluZGV4IDcyM2U2ODVhOWIuLjVjMDJkYjg1NDEgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
+aXBlcy1jb3JlL25jdXJzZXMvbmN1cnNlc182LjIuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNv
+cmUvbmN1cnNlcy9uY3Vyc2VzXzYuMi5iYg0KPiBAQCAtMiwxMiArMiwxMSBAQCByZXF1aXJlIG5j
+dXJzZXMuaW5jDQo+ICANCj4gIFNSQ19VUkkgKz0gImZpbGU6Ly8wMDAxLXRpYy1oYW5nLnBhdGNo
+IFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDItY29uZmlndXJlLXJlcHJvZHVjaWJsZS5wYXRj
+aCBcDQo+IC0gICAgICAgICAgIGZpbGU6Ly9jb25maWcuY2FjaGUgXA0KPiAgICAgICAgICAgICAi
+DQo+ICAjIGNvbW1pdCBpZCBjb3JyZXNwb25kcyB0byB0aGUgcmV2aXNpb24gaW4gcGFja2FnZSB2
+ZXJzaW9uDQo+ICBTUkNSRVYgPSAiYTY2OTAxM2NkNWU5ZDY0MzRlNTMwMTM0OGVhNTFiYWYzMDZj
+OTNjNCINCj4gIFMgPSAiJHtXT1JLRElSfS9naXQiDQo+IC1FWFRSQV9PRUNPTkYgKz0gIi0td2l0
+aC1hYmktdmVyc2lvbj01IC0tY2FjaGUtDQo+IGZpbGU9JHtCfS9jb25maWcuY2FjaGUiDQo+ICtF
+WFRSQV9PRUNPTkYgKz0gIi0td2l0aC1hYmktdmVyc2lvbj01Ig0KPiAgVVBTVFJFQU1fQ0hFQ0tf
+R0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSsoXCtcZCspKikiDQo+ICANCj4gICMg
+VGhpcyBpcyBuZWVkZWQgd2hlbiB1c2luZyBwYXRjaGxldmVsIHZlcnNpb25zIGxpa2UgNi4xKzIw
+MTgxMDEzDQo+IA0K
