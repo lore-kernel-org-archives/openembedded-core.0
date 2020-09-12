@@ -1,161 +1,97 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web11.9941.1599875293679529712
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.11018.1599880049852310360
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 18:48:13 -0700
+ Fri, 11 Sep 2020 20:07:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oE5eND7A;
- spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f195.google.com with SMTP id 34so7715109pgo.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 18:48:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Eq2a1a32;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: geoffhp@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id w7so8658396pfi.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 20:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language;
-        bh=vAT1WVdF802s8B84+VaPEtQv9Z8DMOOcWwZVChulFM4=;
-        b=oE5eND7AE/CzbJRUtSZCW/0aeR43PRLqS2me5ikZNEisY0s3s3Z49eZlNDnUxig8vp
-         4J8NH0yy9AWCFROpavzPJOaTJ9XyTuyYy6dgQQHFOvDaeMX65Lw/VHL+wP1UAuvehKAD
-         Fg5R0G1JhsI5qJrkXw99RW/NgdDjKNa5wj9FP8UI1NC2KJdZhACMUJowhmJVg8at/wq6
-         +ZyMCcwwRUmaOZbR5uGo6o0gpsyUtlms3ZtPcyK2Z8A5GfYWjRDfRBe8JLKahTFW0IiE
-         PHZVTbn5MVTWxkWoUqvZe0fFcMOd/jnIC5JgzzA4yl/iGrpCvmZJrlZHPDJQn2UdRDjH
-         f5Ew==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AxZ0j94ZiDxxLVq9o95530HNzGsLE0cX7TNZu8Ov1v4=;
+        b=Eq2a1a324C0imuDHrz1jfk83yr8KTcplM8xyqIxzxrnRVDP9cDku2bHIid9BmWX/Mw
+         16WNnSxpJpNrqNhc6KuNnmds8DNDWUE586Q8XKpVYqOsWbtAvzzfdDG9Bm0z2bCN/D7s
+         iFNIQZJ9KAmaOZXO+tIR3IFyTRvUbehX4jM2ceCC7N3SnZqEBfdb7/OX4Gg87zIo72/c
+         3guKy6KpO5RmAjGAYK4bK5wrduG8X266QO6DMPPDtVSW7WVRaKCYWsKzczLc683m4YJq
+         j7jkLOuhAxlumIQlck46XdarmwiZQs8w/ra+5X/gxEyR0rZonnhJqD6sywX4lVXiV4Uk
+         joaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language;
-        bh=vAT1WVdF802s8B84+VaPEtQv9Z8DMOOcWwZVChulFM4=;
-        b=WIw5IPIHoM+eGcqGaNlAojYgOYMHaRtnUyDEaD28US2lvR6+31Y8gqPXh/uyE5vckq
-         ngra7ekZDejKgR8rn2mvKqpRsl+gmcD5M3zNPhQ2y7xgAwqY8yFqg6QQe23ikM2nD0Ud
-         Tj8SAaVz5wdQHI3cQt05HMMgC0f5KVsR5tDKsm15ed+BN/0t+1mp+bSFtQtRCCbDjhJd
-         eNF12gVxPL+gXl6oEezqvtTnJF3dUI//dqy9y82pKoRzOkh5VRCd76eeg2c2oxIpvqfa
-         yQTUFBMBKIuHW49xQomRXuRHXOPNTa6FvJTum/hyYYOCCzF95X16nkuzmyrYmaK/ETz+
-         6nPQ==
-X-Gm-Message-State: AOAM533dSUuk68DpDMg3P+eLfn8ciT4kMCpvtPGE1B7EesfNE4B3AdS3
-	hxORYqBs5LqpbJgkPvsmCiPpp4G4NNuQBQ==
-X-Google-Smtp-Source: ABdhPJx7ILq0RduliZe85ZKqiBKR8Awd8nkw5fEoO4clIVJKDDoKjiy5lvgsuam+NfBgyMCoQed/Vg==
-X-Received: by 2002:a63:510d:: with SMTP id f13mr3644036pgb.21.1599875292925;
-        Fri, 11 Sep 2020 18:48:12 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0::6014? ([2601:646:9200:4e0::6014])
-        by smtp.gmail.com with ESMTPSA id fu11sm2851092pjb.47.2020.09.11.18.48.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 18:48:12 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] Revert "systemd-serialgetty: Fix sed expression quoting"
-To: Geoff Parker <geoffhp@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20200912001721.12801-1-geoffhp@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-X-Pep-Version: 2.0
-Organization: HIMVIS LLC
-Message-ID: <60325573-f2e2-0776-ceea-49d79043a6e9@gmail.com>
-Date: Fri, 11 Sep 2020 18:48:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AxZ0j94ZiDxxLVq9o95530HNzGsLE0cX7TNZu8Ov1v4=;
+        b=T9zk9bSmDq4TeNfAxL8hg8IqSpyucNovKxMRDDbgwl511rOV96Ygd4YO1coHSMEiqE
+         sLSXbIJv4b9AVS7KuVMD+zsbsIRq4Z5fVU2Z0NS/Q8srWVjVCEZvTwQZ+1T1BX14q1L6
+         o7UulN0Pvn0u23EeKf/PBwSsYaGCgIqw6NFoG7RVQ3dTu9o9t3BA78XIHocK9D9wR8KG
+         gql3eVy4zzvRwQV3q4Vn7v/RPl0UtnWevQBCaeuaz8uE1gYfnFUgZrTVQ12R93m6MXEO
+         oSFzGX+fZIxDk05Rk/77UW5uh2sZDLpD/vBWwvHbPbWjrgdYghtapIaA2PT92xFD1nUa
+         sOKg==
+X-Gm-Message-State: AOAM5304lNVAd3JqGeCl3AAbBByYkCojikVpZe/wHdxlxGL8B/imrvot
+	7wK7jmvLxy5/pi9LFxX453H9x9zvd3zb+A==
+X-Google-Smtp-Source: ABdhPJwRGuvAS2bS8gQ3rUgO6WXoXD3nq4KNFanR8fczdETRJxz+9DMkEtPFYL0zc8mZAUHn6Q2qKw==
+X-Received: by 2002:a62:17cd:0:b029:13c:1611:652b with SMTP id 196-20020a6217cd0000b029013c1611652bmr4872305pfx.11.1599880048921;
+        Fri, 11 Sep 2020 20:07:28 -0700 (PDT)
+Return-Path: <geoffhp@gmail.com>
+Received: from localhost.localdomain (cpe-23-241-71-171.socal.res.rr.com. [23.241.71.171])
+        by smtp.gmail.com with ESMTPSA id q34sm2716789pgl.28.2020.09.11.20.07.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2020 20:07:28 -0700 (PDT)
+From: "Geoff Parker" <geoffhp@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Geoff Parker <geoffhp@gmail.com>
+Subject: [PATCH] systemd-serialgetty: Replace sed quoting using ' with " to allow var expansion
+Date: Fri, 11 Sep 2020 20:07:05 -0700
+Message-Id: <20200912030705.16235-1-geoffhp@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200912001721.12801-1-geoffhp@gmail.com>
-X-Groupsio-MsgNum: 142448
-Content-Type: multipart/mixed;
- boundary="------------A04D5EC169D2261922E355B1"
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---------------A04D5EC169D2261922E355B1
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: Geoff Parker <geoffhp@gmail.com>
 
-instead of revert can you try double quotes?
+A recent commit added single quotes around the sed regex's. This prevented the
+expansion of $default_baudrate in do_install(), and ended up with systemd's'
+serial-getty@.service file having a literal $default_baudrate.
 
-e.g.
-sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ....
+This broke the serial console getty service.
 
-On 9/11/20 5:17 PM, Geoff Parker wrote:
-> From: Geoff Parker <geoffhp@gmail.com>
->=20
-> This reverts commit 12d0fdd9c990bdc67bf6c8fd2d269cb766069ea5.
->=20
-> Adding quotes around sed string treats $default_baudrate as a literal
-> rather than a variable substitution in the do_install function.
-> Breaks the systemd serial-getty@.service file and
-> serial console getty.
->=20
-> serial-getty@.service was getting a line which looked like this:
->=20
->   ExecStart=3D-/sbin/agetty -8 -L %I $default_baudrate $TERM
->=20
-> Rather than:
->=20
->   ExecStart=3D-/sbin/agetty -8 -L %I 115200 $TERM
->=20
-> Signed-off-by: Geoff Parker <geoffhp@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd-serialgetty.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/rec=
-ipes-core/systemd/systemd-serialgetty.bb
-> index 059fccc2b6..044c6c5b67 100644
-> --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> @@ -21,7 +21,7 @@ do_install() {
->  	=09install -d ${D}${systemd_unitdir}/system/
->  	=09install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
->  	=09install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unit=
-dir}/system/
-> -	=09sed -i -e 's/\@BAUDRATE\@/$default_baudrate/g' ${D}${systemd_unitdi=
-r}/system/serial-getty@.service
-> +	=09sed -i -e s/\@BAUDRATE\@/$default_baudrate/g ${D}${systemd_unitdir}=
-/system/serial-getty@.service
->  
->  	=09tmp=3D"${SERIAL_CONSOLES}"
->  	=09for entry in $tmp ; do
->=20
->=20
->=20
->=20
+serial-getty@.service was getting a line which looked like this:
 
---------------A04D5EC169D2261922E355B1
-Content-Type: application/pgp-keys;
- name="pEpkey.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="pEpkey.asc"
+  ExecStart=-/sbin/agetty -8 -L %I $default_baudrate $TERM
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Rather than:
 
-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
-=3Dsj8j
------END PGP PUBLIC KEY BLOCK-----
+  ExecStart=-/sbin/agetty -8 -L %I 115200 $TERM
 
---------------A04D5EC169D2261922E355B1--
+Fixed by repacing the single quotes with double quotes in the sed expressions.
+---
+ meta/recipes-core/systemd/systemd-serialgetty.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 059fccc2b6..0cc0dc8c79 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -21,7 +21,7 @@ do_install() {
+ 		install -d ${D}${systemd_unitdir}/system/
+ 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
+ 		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/
+-		sed -i -e 's/\@BAUDRATE\@/$default_baudrate/g' ${D}${systemd_unitdir}/system/serial-getty@.service
++		sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ${D}${systemd_unitdir}/system/serial-getty@.service
+ 
+ 		tmp="${SERIAL_CONSOLES}"
+ 		for entry in $tmp ; do
+@@ -34,7 +34,7 @@ do_install() {
+ 			else
+ 				# install custom service file for the non-default baudrate
+ 				install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/serial-getty$baudrate@.service
+-				sed -i -e s/\@BAUDRATE\@/$baudrate/g ${D}${systemd_unitdir}/system/serial-getty$baudrate@.service
++				sed -i -e "s/\@BAUDRATE\@/$baudrate/g" ${D}${systemd_unitdir}/system/serial-getty$baudrate@.service
+ 				# enable the service
+ 				ln -sf ${systemd_unitdir}/system/serial-getty$baudrate@.service \
+ 					${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty$baudrate@$ttydev.service
+-- 
+2.20.1
+
