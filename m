@@ -1,102 +1,238 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.26488.1599944652382234053
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
+ by mx.groups.io with SMTP id smtpd.web11.27883.1599949485821262175
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2020 14:04:12 -0700
+ Sat, 12 Sep 2020 15:24:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f9CStTEr;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id g21so1272288plq.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 14:04:12 -0700 (PDT)
+ dkim=pass header.i=@emacinc-com.20150623.gappssmtp.com header.s=20150623 header.b=OMM1VAlP;
+ spf=pass (domain: emacinc.com, ip: 209.85.167.193, mailfrom: mgloff@emacinc.com)
+Received: by mail-oi1-f193.google.com with SMTP id i17so13427656oig.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 15:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QnlzJJ6iwFGQLXu7WcY5dBsiei71Bgd2UoFCOW+W+xg=;
-        b=f9CStTErnK1Z7RDEQ8Q/pY+g7ZztKWoC3SFi+0/oBB1bGpYMh7rU3dIaC8lc9JhNSI
-         +iZ5kPv9kBttlvUekqt5+NCvnkYJIfnJUnGPn6MkW1rgiAhseaLuytBdllz25lRhZsjJ
-         cxteG76I0iITY3pC6TzL2FJNxGOvTGxpxIG5ycvV4FLBKdpHHYUIYD4oJKenWE0tvZQL
-         tFOLUi72mBbMGezICJLY0Rfeo4mj9lcxqn3zCquQ0cqE7cL9wRYb0PSy2BYFwdOg9CN8
-         xtUoWETuorQNYrgtkILighpAgZqmKTkLSi8Y4QBuNdkXlI9Ao29LwQV8d2qiX+HVSLE3
-         GHoA==
+        d=emacinc-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SnwUnrrelS2bY3zdnl2dS2LhvS/+deiP2T90y0Lt2k0=;
+        b=OMM1VAlPfu928ySXmYODX2hYZB8FrEgoZnnvBL2cAX/alGkky0oWbRGcusxDbU+3nt
+         cLRZfo7xkDovJr3o43d959IQzbyql+cWgMgkyL/Ryd/DH0EePGr+fYmNzIK3clBtsj35
+         6aMWVmwdV04dogvob+s6H2f2PlA2ljk/psPzSo/131DTG86a7jnCj9jHFaFlMmFOTL9b
+         mCS1ClUUMZw4i479XWplxX/eZfzgvtvAnbDN429f9UXE0Xi9XaT55qrD+x/AXtqyV0rH
+         +OZbP1MdO2VHVmGXBrQdrDzufaZLzhicV570k+WA04rrTn5dZDQ7MlF+8oqP1sVo2BR+
+         iNBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QnlzJJ6iwFGQLXu7WcY5dBsiei71Bgd2UoFCOW+W+xg=;
-        b=Dc/Kps2WLFGwK5tZmYhQX/Gxf1tcGu7O6/ySpDo1pv/dgtGq8aR6kM2jDQa9UJ3hJA
-         31Mlcjy3PvJfCmUaultJuliGH3zVGtoPhhAuJvtORN2bS21nrl4ox1dTz4QNaM4Ejpe1
-         UiwPhSBrkATGxfTsMq9JpRF+OWMTuOzc3qd/jASon/dIzlH1Yzks7QbcA/0F6gBLrbMX
-         w4brD3rlJ6K6d0LirbvaCHWtyJKA/mM7P2mHEfjmG2+tQMYZG4bn1PzL2piWSskCx0yj
-         /BztSOdF/JShuXAW7oNvxm5OHf0SXyC0Uq7LVgqEY5orAtMfwCXRftqe51fredT09O2o
-         9YAw==
-X-Gm-Message-State: AOAM531k4VucpdjvK9fZVPZnhlWeGpAWjn1lGidvvvykE1WHrWULXBtk
-	Jev2wkQhLpNK0kcXqYIa6ewWU4lrzLrlkg==
-X-Google-Smtp-Source: ABdhPJzQIICqThEpMwRYBq0eSrMwDcCqr+49GDx0w9AWmBljRlhQLjaY1Rywp4oDVNPysMRx608WKA==
-X-Received: by 2002:a17:90a:528a:: with SMTP id w10mr7418196pjh.107.1599944651638;
-        Sat, 12 Sep 2020 14:04:11 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
-        by smtp.gmail.com with ESMTPSA id 64sm6271787pfz.204.2020.09.12.14.04.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2020 14:04:11 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/4] weston-init: Select drm/fbdev backends for qemu machines
-Date: Sat, 12 Sep 2020 14:04:06 -0700
-Message-Id: <20200912210406.3328090-4-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200912210406.3328090-1-raj.khem@gmail.com>
-References: <20200912210406.3328090-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SnwUnrrelS2bY3zdnl2dS2LhvS/+deiP2T90y0Lt2k0=;
+        b=C4UcQ4ypAN+l6uqMusb/C3UKh+dc6BHa3gLtYElAOymHfWNrcyAfzkT4PIHhc/tfG7
+         zLTjgkBMdsGRsJuCw/+zdmnM1W/jbZ81DTGJtFJAErg4KcZejvXKlBJFFTQldHlBtam9
+         GZ51TG8QZW+JuYLIHIzpPxyCH8Gf5ivHzxXGCxwNjP61ToqSPsiwUh+JFT6X2FeZ1xuS
+         RobasyVbBYLTqLnGgjNybBVlFod3DgzxVg4U9RGCywgfRYsIKDdLGv5uJWSbct5rE+JZ
+         2IJxdsp9ENlqWp1QwUrs53RfnxqdW/+K1tn0UknSD6360FDWJsMW078yksVW0kvy9P4J
+         cNOA==
+X-Gm-Message-State: AOAM5316GUD5kZ4Xoz+R1RmKUbyavPPbno6fYz6OhPPum7GL57iA/Ouy
+	Xme0ZaPhbJYKr+G57U6Z4jW25+D58UaIiFoQG+z2eA==
+X-Google-Smtp-Source: ABdhPJzM2NGiwYP3IOGMbhZe8FgPHE7pNFytYM3Z3ype65eHVJSofbvd6uIn/GRefmQO4i3r5uGTG/nyEmFHVVgv2j0=
+X-Received: by 2002:aca:bec5:: with SMTP id o188mr4909207oif.21.1599949485164;
+ Sat, 12 Sep 2020 15:24:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200912164811.978100-1-mgloff@emacinc.com> <84342cda07aa41fb6f03a1dda815c22e1609bd44.camel@linuxfoundation.org>
+ <CALXw4G7G6MghUtVr+po2JQDKCvF5SZksd-_8NCjasGUuPSjRzw@mail.gmail.com> <CAJ86T=UnPaXyzXQNZ7j7nLYVSAMs-rhfkepksRZnzQh1qLAbRQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=UnPaXyzXQNZ7j7nLYVSAMs-rhfkepksRZnzQh1qLAbRQ@mail.gmail.com>
+From: "Michael Gloff" <mgloff@emacinc.com>
+Date: Sat, 12 Sep 2020 17:24:09 -0500
+Message-ID: <CALXw4G6ff1Gii_sQDeG13dGRm5053SFO+8q=v602=bi=j96_9Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] sysvinit: Remove ${B} assignment
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE Core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b8e08105af254406"
 
-qemux86/x86_64/aarch64 supports drm backend well, therefore enable it on
-these qemu machines, other qemu machines should be defaulting to fbdev,
-if its not qemu then leave it empty
+--000000000000b8e08105af254406
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/wayland/weston-init.bb             | 9 +++++++++
- .../wayland/weston-init/qemux86-64/weston.ini            | 0
- .../wayland/weston-init/qemux86/weston.ini               | 0
- 3 files changed, 9 insertions(+)
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
+On Sat, Sep 12, 2020 at 3:11 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 113f0ff599..07cec75fb3 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -15,6 +15,12 @@ SRC_URI = "file://init \
- 
- S = "${WORKDIR}"
- 
-+DEFAULTBACKEND ??= ""
-+DEFAULTBACKEND_qemuall ?= "fbdev"
-+DEFAULTBACKEND_qemuarm64 = "drm"
-+DEFAULTBACKEND_qemux86 = "drm"
-+DEFAULTBACKEND_qemux86-64 = "drm"
-+
- do_install() {
- 	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
- 	install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
-@@ -36,6 +42,9 @@ do_install() {
- 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
- 	sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
- 	sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
-+        if [ -n "${DEFAULTBACKEND}" ]; then
-+		sed -i -e "/^\[core\]/a backend=${DEFAULTBACKEND}-backend.so" ${D}${sysconfdir}/xdg/weston/weston.ini
-+	fi
- }
- 
- inherit update-rc.d features_check systemd
-diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini
-deleted file mode 100644
-index e69de29bb2..0000000000
-diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
-deleted file mode 100644
-index e69de29bb2..0000000000
--- 
-2.28.0
+> On Sat, Sep 12, 2020 at 12:46 PM Michael Gloff <mgloff@emacinc.com> wrote:
+> >
+> > On Sat, Sep 12, 2020 at 2:11 PM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> >>
+> >> On Sat, 2020-09-12 at 11:48 -0500, Michael Gloff wrote:
+> >> > In order for the VERSION variable to be set, the
+> >> > top level Makefile should be used, which only
+> >> > builds the code in /src anyway.
+> >> >
+> >> > Signed-off-by: Michael Gloff <mgloff@emacinc.com>
+> >> > ---
+> >> >  meta/recipes-core/sysvinit/sysvinit_2.97.bb | 1 -
+> >> >  1 file changed, 1 deletion(-)
+> >> >
+> >> > diff --git a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
+> >> > b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
+> >> > index 80ab9d70e7..98916f7f19 100644
+> >> > --- a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
+> >> > +++ b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
+> >> > @@ -24,7 +24,6 @@ SRC_URI =
+> >> > "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+> >> >  SRC_URI[sha256sum] =
+> >> > "2d5996857519bfd8634d2e1debabb3238fb38440f65fbfdc46420ee8bdf25110"
+> >> >
+> >> >  S = "${WORKDIR}/sysvinit-${PV}"
+> >> > -B = "${S}/src"
+> >> >
+> >> >  inherit update-alternatives features_check
+> >> >  DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
+> >>
+> >> I don't understand what you're saying. Why do we need the VERSION
+> >> variable to be set? Does sysvinit not support a separate build
+> >> directory?
+> >>
+> >> Can you rewrite the commit message so that someone who hasn't looked at
+> >> the code can understand what the problem is we're fixing, why its a
+> >> problem and why this is the correct solution.
+> >>
+> >> Thanks!
+> >>
+> >> Richard
+> >
+> > This issue is seeing no version on boot up since the switch from 2.88:
+> > INIT: version  booting
+> > instead of:
+> > INIT: version 2.96 booting
+> > with this change.
+> >
+> > The VERSION variable that is used for all of the binaries of sysvinit is
+> defined in the top level Makefile.
+> >
+> > VERSION=$(shell sed -rn '1s/.*[[:blank:]]\((.*)\)[[:blank:]].*/\1/p'
+> doc/Changelog)
+> >
+> > I'm not sure about the separate build directory. Any tips?
+> > Thanks,
+>
+> A separate build directory typically only applies for components which
+> build with autotools, cmake, etc. For components such as this one
+> which build with handwritten Makefiles the default is to build in the
+> source directory.
+>
+> Anyway, the patch looks fine. Key point is that you want to run make
+> in the top level source directory rather than the "src" subdirectory
+> to ensure that variables set by the top level Makefile are correctly
+> defined.
+>
+> Thanks Andre,
+I kind of thought we couldn't do a separate build directory, but wanted to
+try.
+I'll amend the  commit message
 
+> > Michael
+> >
+> > 
+>
+
+--000000000000b8e08105af254406
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Sep 12, 2020 at 3:11 PM Andre=
+ McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On S=
+at, Sep 12, 2020 at 12:46 PM Michael Gloff &lt;<a href=3D"mailto:mgloff@ema=
+cinc.com" target=3D"_blank">mgloff@emacinc.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sat, Sep 12, 2020 at 2:11 PM Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxf=
+oundation.org</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Sat, 2020-09-12 at 11:48 -0500, Michael Gloff wrote:<br>
+&gt;&gt; &gt; In order for the VERSION variable to be set, the<br>
+&gt;&gt; &gt; top level Makefile should be used, which only<br>
+&gt;&gt; &gt; builds the code in /src anyway.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Michael Gloff &lt;<a href=3D"mailto:mgloff@em=
+acinc.com" target=3D"_blank">mgloff@emacinc.com</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-core/sysvinit/<a href=3D"http://sysvinit_=
+2.97.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit_2.97.bb</a> | 1 -<br=
+>
+&gt;&gt; &gt;=C2=A0 1 file changed, 1 deletion(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/recipes-core/sysvinit/<a href=3D"http://sy=
+svinit_2.97.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit_2.97.bb</a><b=
+r>
+&gt;&gt; &gt; b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit_2.97=
+.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit_2.97.bb</a><br>
+&gt;&gt; &gt; index 80ab9d70e7..98916f7f19 100644<br>
+&gt;&gt; &gt; --- a/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit_=
+2.97.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit_2.97.bb</a><br>
+&gt;&gt; &gt; +++ b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit_=
+2.97.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit_2.97.bb</a><br>
+&gt;&gt; &gt; @@ -24,7 +24,6 @@ SRC_URI =3D<br>
+&gt;&gt; &gt; &quot;${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz =
+\<br>
+&gt;&gt; &gt;=C2=A0 SRC_URI[sha256sum] =3D<br>
+&gt;&gt; &gt; &quot;2d5996857519bfd8634d2e1debabb3238fb38440f65fbfdc46420e=
+e8bdf25110&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/sysvinit-${PV}&quot;<br>
+&gt;&gt; &gt; -B =3D &quot;${S}/src&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 inherit update-alternatives features_check<br>
+&gt;&gt; &gt;=C2=A0 DEPENDS_append =3D &quot; update-rc.d-native base-pass=
+wd virtual/crypt&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; I don&#39;t understand what you&#39;re saying. Why do we need the=
+ VERSION<br>
+&gt;&gt; variable to be set? Does sysvinit not support a separate build<br=
+>
+&gt;&gt; directory?<br>
+&gt;&gt;<br>
+&gt;&gt; Can you rewrite the commit message so that someone who hasn&#39;t=
+ looked at<br>
+&gt;&gt; the code can understand what the problem is we&#39;re fixing, why=
+ its a<br>
+&gt;&gt; problem and why this is the correct solution.<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks!<br>
+&gt;&gt;<br>
+&gt;&gt; Richard<br>
+&gt;<br>
+&gt; This issue is seeing no version on boot up since the switch from 2.88=
+:<br>
+&gt; INIT: version=C2=A0 booting<br>
+&gt; instead of:<br>
+&gt; INIT: version 2.96 booting<br>
+&gt; with this change.<br>
+&gt;<br>
+&gt; The VERSION variable that is used for all of the binaries of sysvinit=
+ is defined in the top level Makefile.<br>
+&gt;<br>
+&gt; VERSION=3D$(shell sed -rn &#39;1s/.*[[:blank:]]\((.*)\)[[:blank:]].*/=
+\1/p&#39; doc/Changelog)<br>
+&gt;<br>
+&gt; I&#39;m not sure about the separate build directory. Any tips?<br>
+&gt; Thanks,<br>
+<br>
+A separate build directory typically only applies for components which<br>
+build with autotools, cmake, etc. For components such as this one<br>
+which build with handwritten Makefiles the default is to build in the<br>
+source directory.<br>
+<br>
+Anyway, the patch looks fine. Key point is that you want to run make<br>
+in the top level source directory rather than the &quot;src&quot; subdirec=
+tory<br>
+to ensure that variables set by the top level Makefile are correctly<br>
+defined.<br>
+<br></blockquote><div>Thanks Andre, <br></div><div>I kind of thought we co=
+uldn&#39;t do a separate build directory, but wanted to try.</div><div> I&#=
+39;ll amend the=C2=A0 commit message <br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+&gt; Michael<br>
+&gt;<br>
+&gt; <br>
+</blockquote></div></div>
+
+--000000000000b8e08105af254406--
