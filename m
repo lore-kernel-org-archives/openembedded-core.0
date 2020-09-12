@@ -1,70 +1,70 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web11.9938.1599875283499175761
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web11.9941.1599875293679529712
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 18:48:03 -0700
+ Fri, 11 Sep 2020 18:48:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C02KbE7m;
- spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f66.google.com with SMTP id b17so2517208pji.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 18:48:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oE5eND7A;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id 34so7715109pgo.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 18:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:organization:message-id:date:user-agent
          :mime-version:in-reply-to:content-language;
-        bh=9itwu29XcbiQHyPqmyDnkriRh4dJFilVHJfGbOiNfmk=;
-        b=C02KbE7mqK/FF4tQ8wuTUvWWNA97gmqVLeC+tgc3Ah+6PWSjxz/RG6X7l/zJN2AeMP
-         25cGwkErrxb3h1a/acqXHMxhKcwC0fl/o6uBY/+ol07EavFBMOQuHHeXklCf164XFyrP
-         ql22GULFDCjzcmScooaeENEj8PjGgzv/2q4sbvJioPISC3Itc9y9x3C7vwI2FRkqKOwK
-         0Tve87v3JQfBfGpkPH8kLbQqUesSjoxVUn4tTjouNlWBNCxid/rAe64ZeAsFw7i+xqQx
-         u95HM4Lj7yetDISk4Hz/D6NgZw0A15sguQbRwIxYIYsnpMfv4FX8Hjhb1Nxf9b6F9kHn
-         47lg==
+        bh=vAT1WVdF802s8B84+VaPEtQv9Z8DMOOcWwZVChulFM4=;
+        b=oE5eND7AE/CzbJRUtSZCW/0aeR43PRLqS2me5ikZNEisY0s3s3Z49eZlNDnUxig8vp
+         4J8NH0yy9AWCFROpavzPJOaTJ9XyTuyYy6dgQQHFOvDaeMX65Lw/VHL+wP1UAuvehKAD
+         Fg5R0G1JhsI5qJrkXw99RW/NgdDjKNa5wj9FP8UI1NC2KJdZhACMUJowhmJVg8at/wq6
+         +ZyMCcwwRUmaOZbR5uGo6o0gpsyUtlms3ZtPcyK2Z8A5GfYWjRDfRBe8JLKahTFW0IiE
+         PHZVTbn5MVTWxkWoUqvZe0fFcMOd/jnIC5JgzzA4yl/iGrpCvmZJrlZHPDJQn2UdRDjH
+         f5Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language;
-        bh=9itwu29XcbiQHyPqmyDnkriRh4dJFilVHJfGbOiNfmk=;
-        b=RH+stXVRyzPIAKfQxoKy9I0qUbKK16sr/Q7+jIpAdPxpV4gDCj7vKY2u2SCPzbB+Qp
-         DJ+CmbecWsKMFr7oHQTQ8mUeAunKlEmkGkMuOuvPKeG7bG1rn63g6hshj7fJmK3ayJU+
-         +eSeTEqyl5HPMcMBSmVDxNPyoMXOOKKd2U93JWjYAIS9eFJGZtJAlPT3HIIMyV3IBDo9
-         z4sYd7rH3nE1sOJDuzfhVG8FOPLSmDpQDNM6+XpCcSo33RarChF501JwtcH/BKfqcsIc
-         BAA2u9kxvZlpijYAAs6FSYdEAePWimOg+fOlQ9e6C8YEqVj56XEa9dekXrK4gVEU/tC5
-         aIjQ==
-X-Gm-Message-State: AOAM533vRZpYMPAFgafcOV+CIq/Wrpy4S3Lc9sQXDpybNtU5u+/albni
-	d9SYKLWsYN+WwsSiXWA8G9ep9odTfuF3PQ==
-X-Google-Smtp-Source: ABdhPJykzYxg/ZUzRLaU9zv/xnVc4d9cWsjjOW1Phk7hyv1pSvpUumG638EhgdzEJp6Uw2ulbh4ALg==
-X-Received: by 2002:a17:902:7085:b029:d1:9bd3:676e with SMTP id z5-20020a1709027085b02900d19bd3676emr4786734plk.24.1599875282558;
-        Fri, 11 Sep 2020 18:48:02 -0700 (PDT)
+        bh=vAT1WVdF802s8B84+VaPEtQv9Z8DMOOcWwZVChulFM4=;
+        b=WIw5IPIHoM+eGcqGaNlAojYgOYMHaRtnUyDEaD28US2lvR6+31Y8gqPXh/uyE5vckq
+         ngra7ekZDejKgR8rn2mvKqpRsl+gmcD5M3zNPhQ2y7xgAwqY8yFqg6QQe23ikM2nD0Ud
+         Tj8SAaVz5wdQHI3cQt05HMMgC0f5KVsR5tDKsm15ed+BN/0t+1mp+bSFtQtRCCbDjhJd
+         eNF12gVxPL+gXl6oEezqvtTnJF3dUI//dqy9y82pKoRzOkh5VRCd76eeg2c2oxIpvqfa
+         yQTUFBMBKIuHW49xQomRXuRHXOPNTa6FvJTum/hyYYOCCzF95X16nkuzmyrYmaK/ETz+
+         6nPQ==
+X-Gm-Message-State: AOAM533dSUuk68DpDMg3P+eLfn8ciT4kMCpvtPGE1B7EesfNE4B3AdS3
+	hxORYqBs5LqpbJgkPvsmCiPpp4G4NNuQBQ==
+X-Google-Smtp-Source: ABdhPJx7ILq0RduliZe85ZKqiBKR8Awd8nkw5fEoO4clIVJKDDoKjiy5lvgsuam+NfBgyMCoQed/Vg==
+X-Received: by 2002:a63:510d:: with SMTP id f13mr3644036pgb.21.1599875292925;
+        Fri, 11 Sep 2020 18:48:12 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::6014? ([2601:646:9200:4e0::6014])
-        by smtp.gmail.com with ESMTPSA id p68sm3338208pfb.40.2020.09.11.18.48.01
+        by smtp.gmail.com with ESMTPSA id fu11sm2851092pjb.47.2020.09.11.18.48.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 18:48:02 -0700 (PDT)
+        Fri, 11 Sep 2020 18:48:12 -0700 (PDT)
 Subject: Re: [OE-core] [PATCH] Revert "systemd-serialgetty: Fix sed expression quoting"
 To: Geoff Parker <geoffhp@gmail.com>, openembedded-core@lists.openembedded.org
 References: <20200912001721.12801-1-geoffhp@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 X-Pep-Version: 2.0
 Organization: HIMVIS LLC
-Message-ID: <b8c653ee-12e4-5212-3cb4-446446f3ab92@gmail.com>
-Date: Fri, 11 Sep 2020 18:48:00 -0700
+Message-ID: <60325573-f2e2-0776-ceea-49d79043a6e9@gmail.com>
+Date: Fri, 11 Sep 2020 18:48:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
 In-Reply-To: <20200912001721.12801-1-geoffhp@gmail.com>
-X-Groupsio-MsgNum: 142447
+X-Groupsio-MsgNum: 142448
 Content-Type: multipart/mixed;
- boundary="------------B577C67C7A5D10E487880772"
+ boundary="------------A04D5EC169D2261922E355B1"
 Content-Language: en-US
 
---------------B577C67C7A5D10E487880772
+--------------A04D5EC169D2261922E355B1
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 instead of revert can you try double quotes?
 
 e.g.
-sed  -e "s/\@BAUDRATE\@/$default_baudrate/g" ....
+sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ....
 
 On 9/11/20 5:17 PM, Geoff Parker wrote:
 > From: Geoff Parker <geoffhp@gmail.com>
@@ -111,7 +111,7 @@ r}/system/serial-getty@.service
 >=20
 >=20
 
---------------B577C67C7A5D10E487880772
+--------------A04D5EC169D2261922E355B1
 Content-Type: application/pgp-keys;
  name="pEpkey.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -158,4 +158,4 @@ prldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 =3Dsj8j
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------B577C67C7A5D10E487880772--
+--------------A04D5EC169D2261922E355B1--
