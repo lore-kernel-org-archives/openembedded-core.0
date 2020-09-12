@@ -1,190 +1,387 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web11.12312.1599887043796959605
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web12.12355.1599889519260182889
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2020 22:04:03 -0700
+ Fri, 11 Sep 2020 22:45:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=D44favU/;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id f2so5879791pgd.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 22:04:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DTda0L74;
+ spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f196.google.com with SMTP id m15so1894639pls.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2020 22:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=sTyLa4niD8wOb7u3WTYJmm4F08TZ3nafX34MK7DV6kM=;
-        b=D44favU/S8YZ6kGjiDL1PXzpcR8Ydkc/4A9zZRlCYgAqG0Gn0noopnxa6wA+QM81+B
-         /ZL61DCJ1IlexEx8AmY+65owMVb3knl0njLROsoVm5truO/cYy+ULCiNaU68SXWaKioW
-         EDAwUVLv6Halv4dnJdf8aqhhqiXcb+AVd7HsAROSU/E4QP4MHjgwBXhKURpaZjQurZPJ
-         LtyNWRWiqS9hN4+ZITDEBeoedczCvW1qkyAqmScvnaSnFXmKWMAzU8vVS9pECvLavPhI
-         5x2KM4c1EzawUyPVHKdm7EVT5yWu6bg/hRP1NTWYKlJSfOzm2eBw4FD3aIW5bjHvUv+a
-         3vYg==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=V/gtF3h/hM+MQC7DV31+NPsOLWQVwg1F65ocs0rGoBQ=;
+        b=DTda0L74lrh7VSKT19oKZRtP2UA6+jwSh36fwC5w1OVZ5ajqKv/jV9GzdX470qugFw
+         xNhc+uHKcBtLKRPrIDrEBMUSJIsh5pd9rbQAxtZ9zhIGiNtoHQixSB6i+leJorggPp4H
+         /8S4GknWXM3NOWN7NQitSCjwaKW5Pp0DM3v9OySXUXK2XkZ7VO9BzDAsbaO9/PoOSdyg
+         4j/Xg5wjFVTX/8yX6CEZSP5s6H1wm+58GHZYHootepaNw3I3OXrlX1AmNhved6nt7COW
+         e9YI70iokCwrmNsVaaYqQy0/KiPxDAjnh+cVVvwA7Oqg3IBMV4ANQPfyzJfALb7W/LUI
+         0oCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
+        h=x-gm-message-state:subject:to:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language;
-        bh=sTyLa4niD8wOb7u3WTYJmm4F08TZ3nafX34MK7DV6kM=;
-        b=oQxWRkLNEFmkOgDvY3yTkAvNQksOEiV9yxsGP/PhO14ynK2Cf6qVEzH0aVxGyIb5jc
-         1rOtOY9ZCBf3D7LI2GaXitWjNxfjiSQWbvTGHb9Rr53rOTo8pxi/74BS1NgsPSoXnkqz
-         W9iqawSirPy1InDYwUX5vVlJfkno/n6lvcXr5+e7xjbgt5Tgi/sH/dGMjxpafCLs0ah9
-         NkwaiU6m3ymHp2AHYcviMzU7hE/ZepbRq6pJY5ZwxF5BzHQ2bZB9aoqZPy0uRJXPK5d5
-         cDRp3z7E5KWx13Jqs/W+/Av9/sQYvoCvGO8HhhHFAouU1M9Ip8kL/wWhvB3YNPgYOhGh
-         BzeQ==
-X-Gm-Message-State: AOAM532lNNIj2aUe7FUOeKLO5OSULSViveBlKm/Pde/0QJaCKShXzlQm
-	xWWrv6Pj1o2ahbOZKatBM2oN086Alrw8JA==
-X-Google-Smtp-Source: ABdhPJzrtxGrrlK3p9TCGgl5ShPe7Vudi8p/g+cQtC6YA1Ht3zfmKgqegZeepHlK0hO5J5YEdhInhQ==
-X-Received: by 2002:a62:2f03:: with SMTP id v3mr5077742pfv.123.1599887042836;
-        Fri, 11 Sep 2020 22:04:02 -0700 (PDT)
+        bh=V/gtF3h/hM+MQC7DV31+NPsOLWQVwg1F65ocs0rGoBQ=;
+        b=OvpkMBMgLZrnKS788oeZjJm1RsK2t3xFs4bGjJR+xi6PPO4onqym2JwASBQ8l790m2
+         zn5cnTKLwNFT8kDudwge8zzfqM92gdCDdkZx6GoCATwaWNuQVgEZi3500ZRy1ei/OQSb
+         0HXXGmWbpt9odA1vriei/0jCvseoqqQd8v4tB4FAsiozJLnkqlwr27EMjxNeg1ve5YT6
+         0RocdL4QzYD0mnnNdNydqgJGko8MaF33+dTYh68GtC+Y3Xz6pRpYeVmnbfnwE65fR+ZC
+         E9ocCBeoxOaYb5V2sKXUmv/AZ1V4fE+0HuhQUqg4ACCp3LzoUPOCr+ua88TluQazOm83
+         Yw+Q==
+X-Gm-Message-State: AOAM531LBTa4UEQomMbqjZ1h+gYMJPHvgMPNJZloT6O75065JYZZmapF
+	tpn9+lJ1Cp4p+MwAF4rqfQV4fjakjcsrKA==
+X-Google-Smtp-Source: ABdhPJxuuDa6u3/2pzJ5ob6CE+dax+feGOOcuXoquqFrgot7JRVhDC7C+ogRI4uw0UlSptL9LObGSA==
+X-Received: by 2002:a17:902:9685:: with SMTP id n5mr5115001plp.73.1599889518235;
+        Fri, 11 Sep 2020 22:45:18 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2dcb? ([2601:646:9200:4e0::2dcb])
-        by smtp.gmail.com with ESMTPSA id c127sm3767882pfa.165.2020.09.11.22.04.01
+        by smtp.gmail.com with ESMTPSA id v69sm3131463pgd.61.2020.09.11.22.45.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 22:04:01 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH v2] squashfs-tools: Allow COMP_DEFAULT to be changed easily at build time
-To: Andre McCurdy <armccurdy@gmail.com>,
- Peter Morrow <pemorrow@linux.microsoft.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <1599844862-15857-1-git-send-email-pemorrow@linux.microsoft.com>
- <CAJ86T=UPhup8G+e6yt2X9=smV9Y3oMQ=kvZB0K_ivp5ZwKDDCg@mail.gmail.com>
+        Fri, 11 Sep 2020 22:45:17 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] cve-check: use SAFELIST
+To: akuster <akuster808@gmail.com>, Lee Chee Yang <chee.yang.lee@intel.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200911073712.25524-1-chee.yang.lee@intel.com>
+ <214da994-90e8-4879-3e52-fddd74577782@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 X-Pep-Version: 2.0
 Organization: HIMVIS LLC
-Message-ID: <4f31caab-3148-c719-32ae-55d84d4bbf8c@gmail.com>
-Date: Fri, 11 Sep 2020 22:04:00 -0700
+Message-ID: <a2462451-ec7b-1e73-1a5f-1bba3093cf62@gmail.com>
+Date: Fri, 11 Sep 2020 22:45:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UPhup8G+e6yt2X9=smV9Y3oMQ=kvZB0K_ivp5ZwKDDCg@mail.gmail.com>
-X-Groupsio-MsgNum: 142450
+In-Reply-To: <214da994-90e8-4879-3e52-fddd74577782@gmail.com>
+X-Groupsio-MsgNum: 142451
 Content-Type: multipart/mixed;
- boundary="------------A568A94A37ECACF3868E6153"
+ boundary="------------E82E28D6A3A6574500E0FF41"
 Content-Language: en-US
 
---------------A568A94A37ECACF3868E6153
+--------------E82E28D6A3A6574500E0FF41
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 9/11/20 10:33 AM, Andre McCurdy wrote:
-> On Fri, Sep 11, 2020 at 10:21 AM Peter Morrow
-> <pemorrow@linux.microsoft.com> wrote:
+On 9/11/20 3:20 PM, akuster wrote:
+>=20
+>=20
+> On 9/11/20 12:37 AM, Lee Chee Yang wrote:
+>> From: Lee Chee Yang <chee.yang.lee@intel.com>
 >>
->> The default compression algorithm is gzip, this patch allows the defaul=
-t
->> to be changed via a bbappend file by setting SQUASHFS_TOOLS_COMP_DEFAUL=
-T
->> to a valid compression algorithm.
+>> use safelist instead of whitelist.
+> Thanks for sending the patch. There is some unfinished conclusions for
+> renaming various variables to be more inclusive. I am personally fine
+> with this word choice.
+>=20
+> Is this what other open source projects are rename to ?=C2=A0
+>=20
+> So would "blacklist" become "unsafelist"
+
+I think, BLOCKLIST/ALLOWLIST would be better here.
+
+>=20
+> Do you have an idea if other layers would be affected by this change?
+>=20
+> -armin
+>=20
+>=20
+>> Replace CVE_CHECK_PN_WHITELIST with CVE_CHECK_PN_SAFELIST.
+>> Replace CVE_CHECK_WHITELIST with CVE_CHECK_SAFELIST.
 >>
->> Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
+>> Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 >> ---
->>  ...ols-Allow-COMP_DEFAULT-to-be-overridden-v.patch | 34 ++++++++++++++=
-++++++++
->>  .../squashfs-tools/squashfs-tools_git.bb           |  4 +++
->>  2 files changed, 38 insertions(+)
->>  create mode 100644 meta/recipes-devtools/squashfs-tools/files/0001-squ=
-ashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-v.patch
+>>  meta/classes/cve-check.bbclass                | 47 ++++++++++---------
+>>  .../openssl/openssl_1.1.1g.bb                 |  2 +-
+>>  meta/recipes-core/glibc/glibc_2.32.bb         |  2 +-
+>>  meta/recipes-devtools/cmake/cmake.inc         |  2 +-
+>>  meta/recipes-devtools/python/python3_3.8.5.bb |  2 +-
+>>  meta/recipes-devtools/rsync/rsync_3.2.3.bb    |  2 +-
+>>  .../iputils/iputils_s20200821.bb              |  2 +-
+>>  meta/recipes-extended/procps/procps_3.3.16.bb |  2 +-
+>>  .../libpng/libpng_1.6.37.bb                   |  2 +-
+>>  .../libsndfile/libsndfile1_1.0.28.bb          |  2 +-
+>>  meta/recipes-support/lz4/lz4_1.9.2.bb         |  2 +-
+>>  meta/recipes-support/sqlite/sqlite3_3.33.0.bb |  2 +-
+>>  12 files changed, 35 insertions(+), 34 deletions(-)
 >>
->> diff --git a/meta/recipes-devtools/squashfs-tools/files/0001-squashfs-t=
-ools-Allow-COMP_DEFAULT-to-be-overridden-v.patch b/meta/recipes-devtools/sq=
-uashfs-tools/files/0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overridden-=
-v.patch
->> new file mode 100644
->> index 0000000..5f12c42
->> --- /dev/null
->> +++ b/meta/recipes-devtools/squashfs-tools/files/0001-squashfs-tools-Al=
-low-COMP_DEFAULT-to-be-overridden-v.patch
->> @@ -0,0 +1,34 @@
->> +From d2d9b517696f5950597f5b60ae8fdade5b7c14a9 Mon Sep 17 00:00:00 2001
->> +From: Peter Morrow <pemorrow@linux.microsoft.com>
->> +Date: Fri, 4 Sep 2020 15:43:15 +0100
->> +Subject: [PATCH] squashfs-tools: Allow COMP_DEFAULT to be overridden v=
-ia make
->> + cmdline
->> +
->> +Currently the only way to modify the default compression algorithm is =
-to
->> +modify the Makefile. It is useful to be able to set the default compre=
-ssion
->> +algorithm via the make command line since otherwise a build time searc=
-h
->> +replace operation needs to be performed on the Makefile.
+>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bb=
+class
+>> index 17f64a8a9c..82b2b40da0 100644
+>> --- a/meta/classes/cve-check.bbclass
+>> +++ b/meta/classes/cve-check.bbclass
+>> @@ -40,15 +40,15 @@ CVE_CHECK_MANIFEST ?=3D "${DEPLOY_DIR_IMAGE}/${IMAG=
+E_NAME}${IMAGE_NAME_SUFFIX}.cve
+>>  CVE_CHECK_COPY_FILES ??=3D "1"
+>>  CVE_CHECK_CREATE_MANIFEST ??=3D "1"
+>>  
+>> -# Whitelist for packages (PN)
+>> -CVE_CHECK_PN_WHITELIST ?=3D ""
+>> +# Safelist for packages (PN)
+>> +CVE_CHECK_PN_SAFELIST ?=3D ""
+>>  
+>> -# Whitelist for CVE. If a CVE is found, then it is considered patched.
+>> +# Safelist for CVE. If a CVE is found, then it is considered patched.
+>>  # The value is a string containing space separated CVE values:
+>> -#=20
+>> -# CVE_CHECK_WHITELIST =3D 'CVE-2014-2524 CVE-2018-1234'
+>> -#=20
+>> -CVE_CHECK_WHITELIST ?=3D ""
+>> +#
+>> +# CVE_CHECK_SAFELIST =3D 'CVE-2014-2524 CVE-2018-1234'
+>> +#
+>> +CVE_CHECK_SAFELIST ?=3D ""
+>>  
+>>  python cve_save_summary_handler () {
+>>      import shutil
+>> @@ -87,10 +87,10 @@ python do_cve_check () {
+>>              patched_cves =3D get_patches_cves(d)
+>>          except FileNotFoundError:
+>>              bb.fatal("Failure in searching patches")
+>> -        whitelisted, patched, unpatched =3D check_cves(d, patched_cves=
+)
+>> +        safelisted, patched, unpatched =3D check_cves(d, patched_cves)
+>>          if patched or unpatched:
+>>              cve_data =3D get_cve_info(d, patched + unpatched)
+>> -            cve_write_data(d, patched, unpatched, whitelisted, cve_dat=
+a)
+>> +            cve_write_data(d, patched, unpatched, safelisted, cve_data=
+)
+>>      else:
+>>          bb.note("No CVE database found, skipping CVE check")
+>>  
+>> @@ -213,15 +213,16 @@ def check_cves(d, patched_cves):
+>>          return ([], [], [])
+>>      pv =3D d.getVar("CVE_VERSION").split("+git")[0]
+>>  
+>> -    # If the recipe has been whitlisted we return empty lists
+>> -    if d.getVar("PN") in d.getVar("CVE_CHECK_PN_WHITELIST").split():
+>> -        bb.note("Recipe has been whitelisted, skipping check")
+>> +    if d.getVar("CVE_CHECK_PN_WHITELIST"):
+>> +        bb.warn("CVE_CHECK_PN_WHITELIST is deprecated, please use CVE_=
+CHECK_PN_SAFELIST.")
+>> +    # If the recipe has been safelisted we return empty lists
+>> +    if d.getVar("PN") in d.getVar("CVE_CHECK_PN_SAFELIST").split():
+>> +        bb.note("Recipe has been safelisted, skipping check")
+>>          return ([], [], [])
+>>  
+>> -    old_cve_whitelist =3D  d.getVar("CVE_CHECK_CVE_WHITELIST")
+>> -    if old_cve_whitelist:
+>> -        bb.warn("CVE_CHECK_CVE_WHITELIST is deprecated, please use CVE=
+_CHECK_WHITELIST.")
+>> -    cve_whitelist =3D d.getVar("CVE_CHECK_WHITELIST").split()
+>> +    if d.getVar("CVE_CHECK_CVE_WHITELIST") or d.getVar("CVE_CHECK_WHIT=
+ELIST"):
+>> +        bb.warn("CVE_CHECK_CVE_WHITELIST and CVE_CHECK_WHITELIST is de=
+precated, please use CVE_CHECK_SAFELIST.")
+>> +    cve_safelist =3D d.getVar("CVE_CHECK_SAFELIST").split()
+>>  
+>>      import sqlite3
+>>      db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
+>> @@ -238,9 +239,9 @@ def check_cves(d, patched_cves):
+>>          for cverow in conn.execute("SELECT DISTINCT ID FROM PRODUCTS W=
+HERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
+>>              cve =3D cverow[0]
+>>  
+>> -            if cve in cve_whitelist:
+>> -                bb.note("%s-%s has been whitelisted for %s" % (product=
+, pv, cve))
+>> -                # TODO: this should be in the report as 'whitelisted'
+>> +            if cve in cve_safelist:
+>> +                bb.note("%s-%s has been safelisted for %s" % (product,=
+ pv, cve))
+>> +                # TODO: this should be in the report as 'safelisted'
+>>                  patched_cves.add(cve)
+>>                  continue
+>>              elif cve in patched_cves:
+>> @@ -294,7 +295,7 @@ def check_cves(d, patched_cves):
+>>  
+>>      conn.close()
+>>  
+>> -    return (list(cve_whitelist), list(patched_cves), cves_unpatched)
+>> +    return (list(cve_safelist), list(patched_cves), cves_unpatched)
+>>  
+>>  def get_cve_info(d, cves):
+>>      """
+>> @@ -318,7 +319,7 @@ def get_cve_info(d, cves):
+>>      conn.close()
+>>      return cve_data
+>>  
+>> -def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+>> +def cve_write_data(d, patched, unpatched, safelisted, cve_data):
+>>      """
+>>      Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+>>      CVE manifest if enabled.
+>> @@ -334,8 +335,8 @@ def cve_write_data(d, patched, unpatched, whitelist=
+ed, cve_data):
+>>          write_string +=3D "PACKAGE NAME: %s\n" % d.getVar("PN")
+>>          write_string +=3D "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTEN=
+DPE"), d.getVar("PV"))
+>>          write_string +=3D "CVE: %s\n" % cve
+>> -        if cve in whitelisted:
+>> -            write_string +=3D "CVE STATUS: Whitelisted\n"
+>> +        if cve in safelisted:
+>> +            write_string +=3D "CVE STATUS: Safelisted\n"
+>>          elif cve in patched:
+>>              write_string +=3D "CVE STATUS: Patched\n"
+>>          else:
+>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb b/meta=
+/recipes-connectivity/openssl/openssl_1.1.1g.bb
+>> index 815955837b..c74538fa99 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+>> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+>> @@ -212,4 +212,4 @@ CVE_PRODUCT =3D "openssl:openssl"
+>>  
+>>  # Only affects OpenSSL >=3D 1.1.1 in combination with Apache < 2.4.37
+>>  # Apache in meta-webserver is already recent enough
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2019-0190"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2019-0190"
+>> diff --git a/meta/recipes-core/glibc/glibc_2.32.bb b/meta/recipes-core/=
+glibc/glibc_2.32.bb
+>> index 7049e61625..9e29904e85 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.32.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.32.bb
+>> @@ -1,7 +1,7 @@
+>>  require glibc.inc
+>>  require glibc-version.inc
+>>  
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2020-10029"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2020-10029"
+>>  
+>>  DEPENDS +=3D "gperf-native bison-native make-native"
+>>  
+>> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devto=
+ols/cmake/cmake.inc
+>> index fa1b818ae4..418845a597 100644
+>> --- a/meta/recipes-devtools/cmake/cmake.inc
+>> +++ b/meta/recipes-devtools/cmake/cmake.inc
+>> @@ -28,4 +28,4 @@ UPSTREAM_CHECK_REGEX =3D "cmake-(?P<pver>\d+(\.\d+)+)=
+\.tar"
+>>  
+>>  # This is specific to the npm package that installs cmake, so isn't
+>>  # relevant to OpenEmbedded
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2016-10642"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2016-10642"
+>> diff --git a/meta/recipes-devtools/python/python3_3.8.5.bb b/meta/recip=
+es-devtools/python/python3_3.8.5.bb
+>> index cabe5dc075..edbfc634ab 100644
+>> --- a/meta/recipes-devtools/python/python3_3.8.5.bb
+>> +++ b/meta/recipes-devtools/python/python3_3.8.5.bb
+>> @@ -49,7 +49,7 @@ UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d=
++)+).tar"
+>>  CVE_PRODUCT =3D "python"
+>>  
+>>  # This is not exploitable when glibc has CVE-2016-10739 fixed.
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2019-18348"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2019-18348"
+>>  
+>>  PYTHON_MAJMIN =3D "3.8"
+>>  
+>> diff --git a/meta/recipes-devtools/rsync/rsync_3.2.3.bb b/meta/recipes-=
+devtools/rsync/rsync_3.2.3.bb
+>> index 375efa0dea..1e52c48b5d 100644
+>> --- a/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+>> +++ b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+>> @@ -17,7 +17,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/sr=
+c/${BP}.tar.gz \
+>>  SRC_URI[sha256sum] =3D "becc3c504ceea499f4167a260040ccf4d9f2ef9499ad56=
+83c179a697146ce50e"
+>>  
+>>  # -16548 required for v3.1.3pre1. Already in v3.1.3.
+>> -CVE_CHECK_WHITELIST +=3D " CVE-2017-16548 "
+>> +CVE_CHECK_SAFELIST +=3D " CVE-2017-16548 "
+>>  
+>>  inherit autotools-brokensep
+>>  
+>> diff --git a/meta/recipes-extended/iputils/iputils_s20200821.bb b/meta/=
+recipes-extended/iputils/iputils_s20200821.bb
+>> index 28dd194a12..073af6777c 100644
+>> --- a/meta/recipes-extended/iputils/iputils_s20200821.bb
+>> +++ b/meta/recipes-extended/iputils/iputils_s20200821.bb
+>> @@ -21,7 +21,7 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>s\d+)"
+>>  
+>>  # Fixed in 2000-10-10, but the versioning of iputils
+>>  # breaks the version order.
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2000-1213 CVE-2000-1214"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2000-1213 CVE-2000-1214"
+>>  
+>>  PACKAGECONFIG ??=3D "libcap rarpd \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ni=
+nfod traceroute6', '', d)} \
+>> diff --git a/meta/recipes-extended/procps/procps_3.3.16.bb b/meta/recip=
+es-extended/procps/procps_3.3.16.bb
+>> index 2810ebd285..d0d7195e17 100644
+>> --- a/meta/recipes-extended/procps/procps_3.3.16.bb
+>> +++ b/meta/recipes-extended/procps/procps_3.3.16.bb
+>> @@ -73,4 +73,4 @@ python __anonymous() {
+>>  
+>>  # 'ps' isn't suitable for use as a security tool so whitelist this CVE=
+.
+>>  # https://bugzilla.redhat.com/show_bug.cgi?id=3D1575473#c3
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2018-1121"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2018-1121"
+>> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/rec=
+ipes-multimedia/libpng/libpng_1.6.37.bb
+>> index 8c53d11642..ac1901f5a4 100644
+>> --- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+>> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+>> @@ -29,4 +29,4 @@ FILES_${PN}-tools =3D "${bindir}/png-fix-itxt ${bindi=
+r}/pngfix ${bindir}/pngcp"
+>>  BBCLASSEXTEND =3D "native nativesdk"
+>>  
+>>  # CVE-2019-17371 is actually a memory leak in gif2png 2.x
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2019-17371"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2019-17371"
+>> diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b=
+/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+>> index b100108766..7e32d0e3f6 100644
+>> --- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+>> +++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+>> @@ -40,4 +40,4 @@ do_install_append() {
+>>  
+>>  # This can't be replicated and is just a memory leak.
+>>  # https://github.com/erikd/libsndfile/issues/398
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2018-13419"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2018-13419"
+>> diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-suppo=
+rt/lz4/lz4_1.9.2.bb
+>> index 6510156ed0..a9adb174b9 100644
+>> --- a/meta/recipes-support/lz4/lz4_1.9.2.bb
+>> +++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
+>> @@ -19,7 +19,7 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>.*)"
+>>  S =3D "${WORKDIR}/git"
+>>  
+>>  # Fixed in r118, which is larger than the current version.
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2014-4715"
+>>  
+>>  EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' DESTDIR=3D${D} LIBDI=
+R=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3Dno"
+>>  
+>> diff --git a/meta/recipes-support/sqlite/sqlite3_3.33.0.bb b/meta/recip=
+es-support/sqlite/sqlite3_3.33.0.bb
+>> index 611a1bd923..097d7ec0d9 100644
+>> --- a/meta/recipes-support/sqlite/sqlite3_3.33.0.bb
+>> +++ b/meta/recipes-support/sqlite/sqlite3_3.33.0.bb
+>> @@ -7,4 +7,4 @@ SRC_URI =3D "http://www.sqlite.org/2020/sqlite-autoconf=
+-${SQLITE_PV}.tar.gz"
+>>  SRC_URI[sha256sum] =3D "106a2c48c7f75a298a7557bcc0d5f4f454e5b43811cc73=
+8b7ca294d6956bbb15"
+>>  
+>>  # -19242 is only an issue in specific development branch commits
+>> -CVE_CHECK_WHITELIST +=3D "CVE-2019-19242"
+>> +CVE_CHECK_SAFELIST +=3D "CVE-2019-19242"
+>>
+>>
 >=20
-> That's not how Makefiles normally work. Options set via the command
-> line over-ride variables set with =3D in the Makefile.
 >=20
-> Does setting your chosen value for COMP_DEFAULT on the make command
-> line really not work?
+>=20
+>=20
+>=20
 
-that works if make is invoked with -e option, We do not use make -e with
-bare makefile based recipes.
-
->=20
->> +Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools=
-/pull/93 ]
->> +
->> +Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
->> +---
->> + squashfs-tools/Makefile | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
->> +index aee4b96..7425605 100644
->> +--- a/squashfs-tools/Makefile
->> ++++ b/squashfs-tools/Makefile
->> +@@ -85,7 +85,7 @@ GZIP_SUPPORT =3D 1
->> + # in Mksquashfs.  Obviously the compression algorithm must have been
->> + # selected to be built
->> + #
->> +-COMP_DEFAULT =3D gzip
->> ++COMP_DEFAULT ?=3D gzip
->> +
->> +
->> + ###############################################
->> +--
->> +2.20.1
->> +
->> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb=
- b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
->> index b06951d..df025d4 100644
->> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
->> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
->> @@ -9,6 +9,7 @@ PV =3D "4.4"
->>  SRCREV =3D "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
->>  SRC_URI =3D "git://github.com/plougher/squashfs-tools.git;protocol=3Dh=
-ttps \
->>             file://0001-squashfs-tools-fix-build-failure-against-gcc-10=
-.patch;striplevel=3D2 \
->> +           file://0001-squashfs-tools-Allow-COMP_DEFAULT-to-be-overrid=
-den-v.patch;striplevel=3D2 \
->>  "
->>
->>  S =3D "${WORKDIR}/git/squashfs-tools"
->> @@ -25,6 +26,9 @@ PACKAGECONFIG[xattr] =3D "XATTR_SUPPORT=3D1,XATTR_SUP=
-PORT=3D0,attr"
->>  PACKAGECONFIG[zstd] =3D "ZSTD_SUPPORT=3D1,ZSTD_SUPPORT=3D0,zstd"
->>  PACKAGECONFIG[reproducible] =3D "REPRODUCIBLE_DEFAULT=3D1,REPRODUCIBLE=
-_DEFAULT=3D0,"
->>
->> +SQUASHFS_TOOLS_COMP_DEFAULT ?=3D "gzip"
->> +EXTRA_OEMAKE +=3D "COMP_DEFAULT=3D${SQUASHFS_TOOLS_COMP_DEFAULT}"
->=20
-> Note that this will force the recipe's default value even if upstream
-> squashfs-tools changes. Not a problem now as the two are the same, but
-> something which will need to be checked each time squashfs-tools is
-> updated.
->=20
->>  do_compile() {
->>         oe_runmake all
->>  }
->> --
->> 1.8.3.1
->>
->>
->>
->>=20
-
---------------A568A94A37ECACF3868E6153
+--------------E82E28D6A3A6574500E0FF41
 Content-Type: application/pgp-keys;
  name="pEpkey.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -231,4 +428,4 @@ prldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 =3Dsj8j
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------A568A94A37ECACF3868E6153--
+--------------E82E28D6A3A6574500E0FF41--
