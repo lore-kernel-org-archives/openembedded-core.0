@@ -1,117 +1,70 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web12.24964.1599941498630064157
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web12.25935.1599944649424338154
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2020 13:11:38 -0700
+ Sat, 12 Sep 2020 14:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uex/8KAx;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id e2so2390436vsr.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 13:11:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=L1ZCPNXv;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id v14so2033190pjd.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 14:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9X08gQv8mkN+g/FkjiIfbN9MFhN4x8V1UUVwGGxi05c=;
-        b=Uex/8KAx8HGz0Kvzp6rOkv0eFXCxr2DC09GdoXg1PaTAAAtcWekdBo2E+YzSFgtO5z
-         zc+lwQg0MRrMW8w7OoGdWaRItBihEbIdulQ373Co/cHDsuTuDkC1k5XyYDnYKId4V+8E
-         3D9PvkPSDJETD3gD+lNFAEVVfSMfcnujMqQ8DPmCyV8Vvwl0O6LBiDGX2OebinGcVPfL
-         3MU+rrQcIStVEbkFWIdQYSiXbRJX1qONw2ckhobLaYNHsHVdHNjcpaktkWwucf+NtKqF
-         nbQUqOX8mxx3Z7vmZioKP0Xeay0w6v2/gZph9ykltKwda8jXaIDkhv0ep6GZNhP8f9d0
-         WpIw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d/G0PpIlmfpVO/1o+vzPuHdsXaDaeyf1F7zZeUwwH+k=;
+        b=L1ZCPNXvkMKOyCMi9I99Qfu0+J1ParkJ8Ij13hhQQpNzd49MC14UQpdze94MCT5yNi
+         OwS3Cum3MCtRs0bXxxpgizrrfgogYL1HugsNTqcE1uIbgifDR+Rv7EFuW7tf/vUMClcD
+         /SoUWOiqPlPwFrQsVLcBy/zmTbnzMU9Pzx7oBX4oEvqOADfZFF4gwrN0T4UrNpB5ri62
+         FIbVJhFeq/HyJ1YH3UCghc5VSS3Bzaz2XBDMpMMOn67c8auZuRADbiuTMa9J0TY5YFhN
+         EM9LJrgvSg+OV0yCBYLLaxf41ZhSOgqHkSepVobiMbjuBot10lgEoP6KUUnEiIXeAYVc
+         0U+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9X08gQv8mkN+g/FkjiIfbN9MFhN4x8V1UUVwGGxi05c=;
-        b=jjzIs0ccKAO56d7Q1U0wsj3eVxXPe/OPne3TdP6wH3wVmsUNM0ol3kFR2YezabduO6
-         ZQI7xLoi9y725QUlwS2yCp04hDWQIdmaIW0ZzWeJ5GEbpBWmjYEDDGEQYPhdBelsI11G
-         k8A4+XZ6ejYw4s7pWKHQcaohf0RUJ2hxpjTwHnDGHf2IH+LbhSJbw0ixAuOah0WRVWic
-         2kTSqWSiW1fceWKOhBYMwrYtFFW7aX5NWbJ+i0v15wNUW0b+iPBcNuxucu29xzUT1fee
-         diYhUaqLgA8y6OYISasXjpoZsI7Xje1t5wNRhC9smAyBa8voi8LeyU7A/yDrIBtsfTwi
-         6/Jg==
-X-Gm-Message-State: AOAM531builo0HO6CpBLd1eyi6GW6eJVETzJM3cfvmJM8xZWbnGeHZSR
-	CxrvNleZxWCjISkvG8HqRugdxC+gApfalCXD07s=
-X-Google-Smtp-Source: ABdhPJwsQ5Uhyttw6g3VRigEh0ZfdJI15hLQMhwbX6c+R71yR+ChDHeuL5iBgKf/o0YwnsKTYdJEEiun3u3LFTdsQ5g=
-X-Received: by 2002:a67:dd85:: with SMTP id i5mr3854641vsk.30.1599941497628;
- Sat, 12 Sep 2020 13:11:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d/G0PpIlmfpVO/1o+vzPuHdsXaDaeyf1F7zZeUwwH+k=;
+        b=mfsRxg/HDRZnIg0d6skkH88xs1OvWHSKjeic26xEhry+//8lrZaA3q68TTU8Hv94V0
+         o9pVrVRXZnYZWfKCiWzgSzM6cy8T18ERvMXkoWa1DC6XXVlQliwN9YyI9CC/beku8iL1
+         ZaDZ/vgi+Q4/h3KgVb+ybVk7rd/6LXwhLS/3gqGCDWYdHIqNgkeQLYAWaY77cr9I25eY
+         ug7QBvS9FLtfYjH7YATbc6vDQrZgRjl7BB9GSWtJaFVy7B43TUnPEtQPX3Jx9fpmKoyg
+         f0YQn9AngPW6nHmlAxg4/9kkeyLTuoNzIAnGQ3+9x0VDpeZSoBaFraydAKjePXzKLKry
+         y1RA==
+X-Gm-Message-State: AOAM532BrQx4Wm75yxcPRvSUt5sg/kzrfbgnsZ4ks1RE5Dp+a8H2rfLt
+	2ZPXGIGNe7Iz/uft8vuifd/WFIfi/ABWeg==
+X-Google-Smtp-Source: ABdhPJwvcR4jAs1bzsJeHNEvksPrrrXr91CfLneCsQBnWoo9DsEiMIPt3jx16oN1WvH6KVLt3d3Eow==
+X-Received: by 2002:a17:902:c3d2:b029:d1:9bc8:15f8 with SMTP id j18-20020a170902c3d2b02900d19bc815f8mr7700044plj.29.1599944648676;
+        Sat, 12 Sep 2020 14:04:08 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id 64sm6271787pfz.204.2020.09.12.14.04.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Sep 2020 14:04:08 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/4] weston-init: Do not use fbdev backend
+Date: Sat, 12 Sep 2020 14:04:03 -0700
+Message-Id: <20200912210406.3328090-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200912164811.978100-1-mgloff@emacinc.com> <84342cda07aa41fb6f03a1dda815c22e1609bd44.camel@linuxfoundation.org>
- <CALXw4G7G6MghUtVr+po2JQDKCvF5SZksd-_8NCjasGUuPSjRzw@mail.gmail.com>
-In-Reply-To: <CALXw4G7G6MghUtVr+po2JQDKCvF5SZksd-_8NCjasGUuPSjRzw@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Sat, 12 Sep 2020 13:11:26 -0700
-Message-ID: <CAJ86T=UnPaXyzXQNZ7j7nLYVSAMs-rhfkepksRZnzQh1qLAbRQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] sysvinit: Remove ${B} assignment
-To: Michael Gloff <mgloff@emacinc.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE Core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 12, 2020 at 12:46 PM Michael Gloff <mgloff@emacinc.com> wrote:
->
-> On Sat, Sep 12, 2020 at 2:11 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Sat, 2020-09-12 at 11:48 -0500, Michael Gloff wrote:
->> > In order for the VERSION variable to be set, the
->> > top level Makefile should be used, which only
->> > builds the code in /src anyway.
->> >
->> > Signed-off-by: Michael Gloff <mgloff@emacinc.com>
->> > ---
->> >  meta/recipes-core/sysvinit/sysvinit_2.97.bb | 1 -
->> >  1 file changed, 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
->> > b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
->> > index 80ab9d70e7..98916f7f19 100644
->> > --- a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
->> > +++ b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
->> > @@ -24,7 +24,6 @@ SRC_URI =
->> > "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
->> >  SRC_URI[sha256sum] =
->> > "2d5996857519bfd8634d2e1debabb3238fb38440f65fbfdc46420ee8bdf25110"
->> >
->> >  S = "${WORKDIR}/sysvinit-${PV}"
->> > -B = "${S}/src"
->> >
->> >  inherit update-alternatives features_check
->> >  DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
->>
->> I don't understand what you're saying. Why do we need the VERSION
->> variable to be set? Does sysvinit not support a separate build
->> directory?
->>
->> Can you rewrite the commit message so that someone who hasn't looked at
->> the code can understand what the problem is we're fixing, why its a
->> problem and why this is the correct solution.
->>
->> Thanks!
->>
->> Richard
->
-> This issue is seeing no version on boot up since the switch from 2.88:
-> INIT: version  booting
-> instead of:
-> INIT: version 2.96 booting
-> with this change.
->
-> The VERSION variable that is used for all of the binaries of sysvinit is defined in the top level Makefile.
->
-> VERSION=$(shell sed -rn '1s/.*[[:blank:]]\((.*)\)[[:blank:]].*/\1/p' doc/Changelog)
->
-> I'm not sure about the separate build directory. Any tips?
-> Thanks,
+This works ok with latest weston/kernel to use drm backend
 
-A separate build directory typically only applies for components which
-build with autotools, cmake, etc. For components such as this one
-which build with handwritten Makefiles the default is to build in the
-source directory.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini | 2 --
+ 1 file changed, 2 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
 
-Anyway, the patch looks fine. Key point is that you want to run make
-in the top level source directory rather than the "src" subdirectory
-to ensure that variables set by the top level Makefile are correctly
-defined.
+diff --git a/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
+deleted file mode 100644
+index 17ebd7fdab..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
++++ /dev/null
+@@ -1,2 +0,0 @@
+-[core]
+-backend=fbdev-backend.so
+-- 
+2.28.0
 
-> Michael
->
-> 
