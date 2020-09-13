@@ -1,98 +1,76 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.48353.1600033970169350643
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.47613.1600033971139894320
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 14:52:50 -0700
+ Sun, 13 Sep 2020 14:52:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A6DTedr9;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id z19so10867029pfn.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 14:52:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q0nyFrQv;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id gf14so4327259pjb.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 14:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8S/4eIRepEMjS2raCyHuE9RrqvCVP2r4gAyHET3zoCM=;
-        b=A6DTedr9xrSv2YLEfFJEBf4QRkilvOU8Vbnw8j4a48y1rnGUkcXxmoza2oUBuZWq6l
-         m9J6NDQmHsN9g3bbSKRg/jBg1ZLJAxnYLHX/vul7IXgsoTCz23Br5VNEX2TwVmmdphPJ
-         TR4VG1nnakbLi9mWn2a5EdyVEU5GRg0/2so2S7I5BM1XsCd04tKUP2keRH7QNqp1HFr5
-         Dujg96Qk4Uxx+4vseqHXse34wSm8bhM+i5XQgMBoUoYGYgV6Ra4ymM0R7pndW903uQ7S
-         LTgmvo+l4kP0QC82dLnNZhpJtUQzVL2oboXSsew5R3urRk4qK6cOJhslfShj/IjznqUk
-         KdjQ==
+        bh=n6QHo/ybEEBIbgFkjjqJ+7BKys/Jy+Ftd7YgLRTQB9Q=;
+        b=Q0nyFrQvjUefaeSfk5qB1JCHuWpkEI4OI0k1eUse7AAnkP0zpRHBOHwNP1sgITsMTv
+         FhKU3ZztR1K4Fn686b2IOotrRN6q5FauCWT14BJ+ZXz9MVhuzvCgs8KRiPYCuIEn0HQr
+         2rlu04YHF9QtuDgiPg0jyxMBYroHPXG6hf71j+ZQZQ2C0xr70ydF65fV49z9w4RWp05s
+         kYIHWji+nk2wl54Vdtjmq4ojPl3X1SzPafYfyK28RNGd9gi7TPf4ureQ0sQlXiYxWclX
+         lUXTW0GJ6NuGUQjiGOfJqIJ/SMh3gn9N4GhuYWtylRBXbB9CPngs9ETilBFnUA7/GKpz
+         bfjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8S/4eIRepEMjS2raCyHuE9RrqvCVP2r4gAyHET3zoCM=;
-        b=pANsUijl593C4/zkbyMnsHMcLKIIofTKVAxo9a9R0XK9HXVDpQ86c31cTjfaAMw/sj
-         71qvGWFbRoa9mGDUD6LafwRogBaBInHnEXZUW2TNmMaLHhGSsXgZsSoEsgFVtNP6BkRr
-         LxuKuZNHZqzsXilYt8b2A5CjLEGN200nm63Ea7ZLIj79vljPYY1uwBG3pSxdQl8jVzjG
-         NLLNGkpBTr8gglKzvRQz3C6u4VZiuCvsEibnoeu+LHMZSSav7cLQUN5FKVNVJkfAjppu
-         fYIatbLyoeb6Kx+Z8m3rE3BaJ8SCGJg0tL+g4Ua6q5eqfnrO+1QMUPSkcttChZ5+Z43N
-         sW0g==
-X-Gm-Message-State: AOAM530SfZql7uH7aedHHkIdsuybMOtOaKzw9bKYLmzb9J6G+YxqkWD4
-	xeNEbe3HIMaMSfbQe0hNXodZ+w3mWyR2/w==
-X-Google-Smtp-Source: ABdhPJzQHldwExMa6us1pajNMXrS6j50b9AQldQO0KO/tvsmrbSWDie5XJ0Xedic6wTHn1LGgx0jUg==
-X-Received: by 2002:aa7:8b0c:: with SMTP id f12mr10915834pfd.58.1600033969422;
-        Sun, 13 Sep 2020 14:52:49 -0700 (PDT)
+        bh=n6QHo/ybEEBIbgFkjjqJ+7BKys/Jy+Ftd7YgLRTQB9Q=;
+        b=de14zF6YtxXS4AgSpEGKxNy3ESCUXUSCIiYSMUA2AcKICxEK3p0aS37mvxZxOJaULI
+         C/uNErk50eaOKxEqNGpWPoXVJRh6ZUuhQ6xi0A5VOSGdUkoJVIlzlpOLgvVGXmIWF6IF
+         zT27R+LLlv+KJtyu/6pE9X4S765hU9mQuwyQJHsCfR6mGm0ElD3Kf+Q5FBh2khHLqvJq
+         025ixBqhClPwEDkFWToHNqd7Ey/O6q6fDdxTfjeIyuTBqzHV1+rtSnTuIwFmmMTBMFsu
+         v8wzZSOBvzq5Ac7k+4jMGPnaAiBQRe+D7dquItveGpeEHtI0Q2hhT6oSS8k1pnqUr/pg
+         Q7GA==
+X-Gm-Message-State: AOAM532ejP7Ry4F7evyeR6B0LQXaH12FmSKZkBFrYZ+gVUJkJTg/oK9s
+	LncHdXJH3UffPORzNOQ3yZykzuo8+F0G6Q==
+X-Google-Smtp-Source: ABdhPJzrq0iRqLoU8vQ3pJzHPaKGR78gpmcrBORA/U/p5sZUkTkVSg4rM4ji7MRZmiqe75fgM6uPVg==
+X-Received: by 2002:a17:90a:e517:: with SMTP id t23mr10873031pjy.25.1600033970448;
+        Sun, 13 Sep 2020 14:52:50 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1759])
-        by smtp.gmail.com with ESMTPSA id n7sm7997364pfq.114.2020.09.13.14.52.48
+        by smtp.gmail.com with ESMTPSA id n7sm7997364pfq.114.2020.09.13.14.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2020 14:52:48 -0700 (PDT)
+        Sun, 13 Sep 2020 14:52:49 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 3/4] oeqa/weston: Fix tests to run with systemd
-Date: Sun, 13 Sep 2020 14:52:43 -0700
-Message-Id: <20200913215244.3825034-3-raj.khem@gmail.com>
+Subject: [PATCH v2 4/4] core-image-weston: Bump qemu memory to 512M
+Date: Sun, 13 Sep 2020 14:52:44 -0700
+Message-Id: <20200913215244.3825034-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200913215244.3825034-1-raj.khem@gmail.com>
 References: <20200913215244.3825034-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, weston tests fail when using systemd, fix it by providing
-transient unit file and inject it via systemd-run, which generates a
-service file automatically and launches another weston instance to test
-if it can launch a nested instance. Use systemctl stop to end the
-service and cleanup, instead of brutal kill
+It needs openGL and launching two weston instances during weston ptest
+needs > 256M ram to work
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Fix non-systemd run of weston with drm backend
+v2: No change
 
- meta/lib/oeqa/runtime/cases/weston.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/images/core-image-weston.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/cases/weston.py
-index ac29eca6e4..36b4f9e375 100644
---- a/meta/lib/oeqa/runtime/cases/weston.py
-+++ b/meta/lib/oeqa/runtime/cases/weston.py
-@@ -34,7 +34,10 @@ class WestonTest(OERuntimeTestCase):
-         return 'export XDG_RUNTIME_DIR=/run/user/0; export WAYLAND_DISPLAY=wayland-0; %s' % cmd
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
+index f5102e1989..fa7e9ef421 100644
+--- a/meta/recipes-graphics/images/core-image-weston.bb
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -10,3 +10,5 @@ REQUIRED_DISTRO_FEATURES = "wayland"
  
-     def run_weston_init(self):
--        self.target.run(self.get_weston_command('weston --log=%s' % self.weston_log_file))
-+        if 'systemd' in self.tc.td['DISTRO_FEATURES']:
-+            self.target.run('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR=/tmp -E WAYLAND_DISPLAY=wayland-0 /usr/bin/weston --socket=wayland-1 --log=%s' % self.weston_log_file)
-+        else:
-+            self.target.run(self.get_weston_command('openvt -- weston --socket=wayland-1 --log=%s' % self.weston_log_file))
- 
-     def get_new_wayland_processes(self, existing_wl_processes):
-         try_cnt = 0
-@@ -63,7 +66,10 @@ class WestonTest(OERuntimeTestCase):
-         new_wl_processes, try_cnt = self.get_new_wayland_processes(existing_wl_processes)
-         existing_and_new_weston_processes = self.get_processes_of('weston', 'existing and new')
-         new_weston_processes = [x for x in existing_and_new_weston_processes if x not in existing_weston_processes]
--        for w in new_weston_processes:
--            self.target.run('kill -9 %s' % w)
-+        if 'systemd' in self.tc.td['DISTRO_FEATURES']:
-+            self.target.run('systemctl stop weston-ptest.service')
-+        else:
-+            for w in new_weston_processes:
-+                self.target.run('kill -9 %s' % w)
-         __, weston_log = self.target.run('cat %s' % self.weston_log_file)
-         self.assertTrue(new_wl_processes, msg='Could not get new weston-desktop-shell processes (%s, try_cnt:%s) weston log: %s' % (new_wl_processes, try_cnt, weston_log))
+ CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
+ CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
++
++QB_MEM = "-m 512"
 -- 
 2.28.0
 
