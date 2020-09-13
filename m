@@ -1,74 +1,103 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.32927.1599972565319372702
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web10.32569.1599972755664319837
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2020 21:49:25 -0700
+ Sat, 12 Sep 2020 21:52:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MaXiDimW;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id g21so1561598plq.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 21:49:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wirp5sGH;
+ spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f65.google.com with SMTP id t7so3711544pjd.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 21:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6grAgoouPmHG+S6azFhZefmn+7sALu8Rchfe4o+izTk=;
-        b=MaXiDimWl+f+1UOpWY06SgLoScQQHu0LHewy9RMjlKmLrFUK1Mi7jK9ohSPPnvJjDM
-         FefhqaGyT66+RJGHpU8RPJ+UZ6MqLM+36oFyC8yJUIh+FBRJYz5xbxrB4WzWA2e7HVJl
-         q4a81otEpU9JXaVd8+RPNNcJbt8EbA1dHb5qdHq72GIc5xytQXF/gaM+oGQ5kfou2ZDR
-         hnwHAZB0mhbUeClVOXRzqYEN7YEX9Tmf+zu0mDhh4ZqVml3lAiQnFWs94UWzxa57ro1B
-         LDy5ecNQWjh0YfdGEAYzq+aH/WLi6WY+pjObBgPOF6wRCoVzS/spzuP9JaFs84d4ft+d
-         YmvQ==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bw3nfaFRleazCs2+L0H53+t481VFnO6p/0r0qx++0bQ=;
+        b=Wirp5sGHbxkJ4cEUpmPqg58mnLOSF1/uGGEskjzGfrAAINJymb6Bz3RJpiOwbA/SKo
+         P1TporV6glEhILNUQoDqlOKw9k3SzAlstw+2O7JN7cGBoXBfmZ/07sYuaMog4JdN48/o
+         89Wo/YvXKWSEyI58g++nnOq8kL/suy+Udjt7YjLFc+8X73t/XwOCgkb+cowVD7xgHVho
+         NiZyAgQvkAHCg6BAlgktBoqaCd0TSo/JMQQOr6QxTE68t9gXfYrveQ0agT0MmorvK6Ce
+         QQpOHN05bfoE3pi6UAFQiHBF3w4QTea722Sd99SwWx771hzUGJaVcOiW5vAhGsE1xRYd
+         Jtew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6grAgoouPmHG+S6azFhZefmn+7sALu8Rchfe4o+izTk=;
-        b=swB2RUBYBwXECu1Br3nEII7iC+IYCLMHnjfE4kfSVnraWX7vcKh1U6z3fpgmeLMA6i
-         t4rDC25bz5q02G9xfXZwEiTAzOB4MOKPsc8YTGhmIAf5wrvcs8yLudZg8sp1OSsZ4XG4
-         Uv4sJIDuF1RdxWhPxYqTWaCdldbcIpo/N9Vxe6ishRNweaeI8cJmjp9NwIeOrnQq+PuB
-         Jhg0+Bu1ODRCa2VTLITZpJp8UG6UZiTS1zgThtMMW15GJuoA/nVqisl5uIX5BnmyV+yJ
-         X+yI2jZUYYZ5jujk0BV/31o4HAEBgdEbGrHQwJbcKQDI/MA5iNw9134Em9hgBvN3Lhr/
-         FfoQ==
-X-Gm-Message-State: AOAM5332C8DsRKsAaY4JxZ52GmSYzvVEWQaBOEsJPATfAePO2UO8GNo4
-	4IAauc0YV2CgjPP/RVMdPnchMi/H6s+y0g==
-X-Google-Smtp-Source: ABdhPJwIcNqT1Rai1P61dYF9vm2Fl9rq8JPpJzg0FYxXuRuU48gLUeycgjZPF4LZncoTyxdVVNMCrA==
-X-Received: by 2002:a17:902:be11:b029:d1:bb21:4c9c with SMTP id r17-20020a170902be11b02900d1bb214c9cmr5362859pls.8.1599972564496;
-        Sat, 12 Sep 2020 21:49:24 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=bw3nfaFRleazCs2+L0H53+t481VFnO6p/0r0qx++0bQ=;
+        b=fz6PJ+5Wvi1t8Dp/bc9U+G3Gf2xk7h1tH7eKZLdhRfVCfA8rhngn3hp0qAgPRHdUbH
+         0O0FH+mQ12OyBJ39U69eRxFyIjhYmraZt06i02rsGtwS4zGxjmpvClqMqav+/8Yjt7h0
+         ozMVozZwZnha3riJojdgEI/VIZfxL/tscBXcgqOs8Z6IGipgXV+rj+C0u41XrY0qeQPV
+         vN0J8x1bMB4i32t0LAL0apIctTzaFx+AOgCw1yQWKwWstXirEhu+yWlay+xnPRt0IGEs
+         gwIEfI1h1cIl0ATqiIoP1yxzV3fErxqC5facwG1xBo84SXuYHqp+9uy1Q5vRtAZMTBeF
+         3zSQ==
+X-Gm-Message-State: AOAM533lktUCorvitn0wlmbWnoy9Y1pHzurnDMQqo+nbqql+WoRusFiq
+	qwPMNzYmE69FFfGwuqa8SCg=
+X-Google-Smtp-Source: ABdhPJzEbK4QPMLQ5JtgiNt6xTeoBV96XWjiDIkLfPPdhp/cLU8eHUHKFCviloe7KLuEBt+V8IDB9w==
+X-Received: by 2002:a17:90a:e981:: with SMTP id v1mr8634673pjy.177.1599972755107;
+        Sat, 12 Sep 2020 21:52:35 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
-        by smtp.gmail.com with ESMTPSA id gq14sm5341693pjb.44.2020.09.12.21.49.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2020 21:49:23 -0700 (PDT)
+Received: from ?IPv6:2601:646:9200:4e0:75a2:d73b:aa9:a0b3? ([2601:646:9200:4e0:75a2:d73b:aa9:a0b3])
+        by smtp.gmail.com with ESMTPSA id a74sm6555824pfa.16.2020.09.12.21.52.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Sep 2020 21:52:34 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] core-image-sato: qemumips use 512 mem
+To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster808@gmail.comt>
+References: <20200913035916.24165-1-akuster808@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] core-image-weston: Bump qemu memory to 512M
-Date: Sat, 12 Sep 2020 21:49:21 -0700
-Message-Id: <20200913044921.3457893-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200913044921.3457893-1-raj.khem@gmail.com>
-References: <20200913044921.3457893-1-raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <0bc412be-9d07-643b-4fbf-a22c57fd9d40@gmail.com>
+Date: Sat, 12 Sep 2020 21:52:33 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200913035916.24165-1-akuster808@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-It needs openGL and launching two weston instances during weston ptest
-needs > 256M ram to work
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/images/core-image-weston.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index f5102e1989..fa7e9ef421 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -10,3 +10,5 @@ REQUIRED_DISTRO_FEATURES = "wayland"
- 
- CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
- CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
-+
-+QB_MEM = "-m 512"
--- 
-2.28.0
+On 9/12/20 8:59 PM, akuster wrote:
+> From: Armin Kuster <akuster808@gmail.comt>
+> 
+> Fixes:
+> 
+> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
+> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: The output:
+> root
+> <<< run_serial(): command timed out after 60 seconds without output >>>
+> 
+> In another run, this error was seen:
+> 
+> Failed to reload daemon: Refusing to reload, not enough space available on /run/systemd. Currently, 14.3M are free, but a safety buffer of 16.0M is enforced.
+> 
+> With updates to systemd and Qemu we should revert: 499a31cf06 core-image-sato: don't use 512MB in qemumips
+> 
+> Signed-off-by: Armin Kuster  <akuster808@gmail.com>
+> ---
+>   meta/recipes-sato/images/core-image-sato.bb | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
+> index 673106eb6d..878e0eaa8d 100644
+> --- a/meta/recipes-sato/images/core-image-sato.bb
+> +++ b/meta/recipes-sato/images/core-image-sato.bb
+> @@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
+>   TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
+>   
+>   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
+> -QB_MEM_qemumips = "-m 256"
 
+Incidently, I was testing similar patch, which essentially is a revert 
+of [1], I think we have to ensure that these issues seen by Ross a year 
+ago are hopefully gone with time
+
+[1] 
+https://git.openembedded.org/openembedded-core/commit/?id=499a31cf06c934b40b5866d5eb77c9ad20c9a15f
+
+> 
+> 
+> 
+> 
