@@ -1,91 +1,88 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web12.36696.1599998198560292092
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.36760.1599998328373799800
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 04:56:39 -0700
+ Sun, 13 Sep 2020 04:58:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: sbabic@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4Bq7J44Z2Xz1rsXY;
-	Sun, 13 Sep 2020 13:56:36 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4Bq7J44Cy1z1qrg1;
-	Sun, 13 Sep 2020 13:56:36 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id 1IozNouXOcob; Sun, 13 Sep 2020 13:56:35 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net [88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Sun, 13 Sep 2020 13:56:35 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 0D4144540606;
-	Sun, 13 Sep 2020 13:56:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([IPv6:::1])
-	by localhost (mail.babic.homelinux.org [IPv6:::1]) (amavisd-new, port 10024)
-	with ESMTP id Z9fDVQUabx7n; Sun, 13 Sep 2020 13:56:32 +0200 (CEST)
-Received: from [192.168.178.47] (stefano-MacBookPro.fritz.box [192.168.178.47])
-	by babic.homelinux.org (Postfix) with ESMTPS id 0F4FD454022F;
-	Sun, 13 Sep 2020 13:56:32 +0200 (CEST)
-Subject: Re: [OE-core] [PATCH] libubootenv: upgrade 0.3 -> 0.3.1
-To: pjtexier@koncepto.io, openembedded-core@lists.openembedded.org
-Cc: sbabic@denx.de
-References: <1599917828-7283-1-git-send-email-pjtexier@koncepto.io>
-From: "Stefano Babic" <sbabic@denx.de>
-Message-ID: <c5ea68a2-8c13-5d5e-8915-99c7c8d6eaa5@denx.de>
-Date: Sun, 13 Sep 2020 13:56:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MWUQysRX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id x14so15673200wrl.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 04:58:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=eC3d6abHcZfOhX/p2+TFTInQIJLz6/6FkZ8JNYi7/AQ=;
+        b=MWUQysRXeOkZiAqhG7AoCaTcVWNtG4o1ATjwVCsfo123XRAE+C5cpWnlVweXjHZ7xv
+         75+PdHqnzwtU9A0Hl4P41+YuZZPpB6ndhjWR4Bh90gkAbqSLpfuNmZwIdau/50u3G18p
+         YargRXuRNYD90BeaPXbyUQLnONSAewK0BJ3Z8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=eC3d6abHcZfOhX/p2+TFTInQIJLz6/6FkZ8JNYi7/AQ=;
+        b=pxPdleRvK0pb2ZGFN8GryWZoQkaER8qMEOEpyYDBR8axVn+PGsVypkSKI7lhKolK+S
+         PEpcFkGyobzXkLIdndD71u2U+yowwbsjvIUwGYPgyJa2ddO7/nlnuEEKz+QAry9bjbki
+         Ix6rJSq664WsJCcYXELkA4FTMw39B8H7BIpLag2dJ7bILjxZ6RJvEUaCb4KTDhmlj3js
+         yHj+jLeHAxzseP08CroFeYQj6VIRe1jKv2161Qy05ud/qlE+s4/INZ/4vEmKiSm67/8Z
+         vqnFzxnF9WyhEu1ShzI9x5sDVs4QZ3hg12/cjBAXKwye5dYDIuj05Htn7cEiT7dyDQdW
+         4V3w==
+X-Gm-Message-State: AOAM533+kBM9tpa1CpdasK8vk8aoo9L7GTXIdgcvsiGQtySvdGfrqlot
+	RWfeqSGt0w3fCaJXgmwhx6OMEA==
+X-Google-Smtp-Source: ABdhPJx5dQDyzZhoAM7HWN16hlAFz+nydsjDguQavE8E/ljaxepQlZWVtbyZgWbxlJsbL62vexHFJg==
+X-Received: by 2002:adf:e601:: with SMTP id p1mr11785487wrm.172.1599998326577;
+        Sun, 13 Sep 2020 04:58:46 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6142:eacd:f73a:2991])
+        by smtp.gmail.com with ESMTPSA id p3sm13559570wmm.40.2020.09.13.04.58.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2020 04:58:46 -0700 (PDT)
+Message-ID: <75ceaf59e29205d3c9f5fdd2eab767f2aadb5278.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] core-image-weston: Bump qemu memory to 512M
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 13 Sep 2020 12:58:43 +0100
+In-Reply-To: <20200913044921.3457893-2-raj.khem@gmail.com>
+References: <20200913044921.3457893-1-raj.khem@gmail.com>
+	 <20200913044921.3457893-2-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <1599917828-7283-1-git-send-email-pjtexier@koncepto.io>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+Hi Khem,
 
 
-On 12.09.20 15:37, Pierre-Jean Texier via lists.openembedded.org wrote:
-> This is a bugfix release which includes the following changes:
+On Sat, 2020-09-12 at 21:49 -0700, Khem Raj wrote:
+> It needs openGL and launching two weston instances during weston
+> ptest
+> needs > 256M ram to work
 > 
-> 824551a Prepare 0.3.1
-> ca6aaa1 Fix file reading/writing when the environment is in EEPROM
-> a031dea Fix regression in UBI volume support
-> c91c150 Define SOVERSION to indicate API version
-> 
-> Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->   meta/recipes-bsp/u-boot/{libubootenv_0.3.bb => libubootenv_0.3.1.bb} | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->   rename meta/recipes-bsp/u-boot/{libubootenv_0.3.bb => libubootenv_0.3.1.bb} (94%)
+>  meta/recipes-graphics/images/core-image-weston.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb
-> similarity index 94%
-> rename from meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-> rename to meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb
-> index 0771148..613e316 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b36
->   SECTION = "libs"
->   
->   SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
-> -SRCREV = "ad253cfdb07c8492f2ee46a52fbc607ad0b96414"
-> +SRCREV = "824551ac77bab1d0f7ae34d7a7c77b155240e754"
->   
->   S = "${WORKDIR}/git"
->   
+> diff --git a/meta/recipes-graphics/images/core-image-weston.bb
+> b/meta/recipes-graphics/images/core-image-weston.bb
+> index f5102e1989..fa7e9ef421 100644
+> --- a/meta/recipes-graphics/images/core-image-weston.bb
+> +++ b/meta/recipes-graphics/images/core-image-weston.bb
+> @@ -10,3 +10,5 @@ REQUIRED_DISTRO_FEATURES = "wayland"
+>  
+>  CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples
+> gtk+3-demo clutter-1.0-examples"
+>  CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES',
+> 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
+> +
+> +QB_MEM = "-m 512"
 
+One of the weston patches seems to be causing:
 
-Reviewed-by: Stefano Babic <sbabic@denx.de>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2458
 
-Best regards,
-Stefano Babic
+(no-x11 build)
 
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+Cheers,
+
+Richard
+
