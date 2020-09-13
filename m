@@ -1,103 +1,79 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
- by mx.groups.io with SMTP id smtpd.web10.32569.1599972755664319837
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.34540.1599983045447534937
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2020 21:52:35 -0700
+ Sun, 13 Sep 2020 00:44:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wirp5sGH;
- spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f65.google.com with SMTP id t7so3711544pjd.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 21:52:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ffwKXx5b;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id l126so10098813pfd.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 00:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=bw3nfaFRleazCs2+L0H53+t481VFnO6p/0r0qx++0bQ=;
-        b=Wirp5sGHbxkJ4cEUpmPqg58mnLOSF1/uGGEskjzGfrAAINJymb6Bz3RJpiOwbA/SKo
-         P1TporV6glEhILNUQoDqlOKw9k3SzAlstw+2O7JN7cGBoXBfmZ/07sYuaMog4JdN48/o
-         89Wo/YvXKWSEyI58g++nnOq8kL/suy+Udjt7YjLFc+8X73t/XwOCgkb+cowVD7xgHVho
-         NiZyAgQvkAHCg6BAlgktBoqaCd0TSo/JMQQOr6QxTE68t9gXfYrveQ0agT0MmorvK6Ce
-         QQpOHN05bfoE3pi6UAFQiHBF3w4QTea722Sd99SwWx771hzUGJaVcOiW5vAhGsE1xRYd
-         Jtew==
+        bh=o8ZDSCZ0AGf85FQo7htQEbyo3232mTCYISYadTCu524=;
+        b=ffwKXx5bIknbarOAZraMIYCdVJLR5Q549SD79zliT49d5QnpwqDxQXYAgAiFDNAoFO
+         tW3cG1+xt9FMldhDovDhGSosUoPecLRtUmWPGqXCjYAWWD/oqLWZwErE8hOKdXD5uZrE
+         POo0Faaxjwt8kNoipko6Tscw3ZElSQ9edbVRd2Hv463OJSPJiOQV+Sj1+wJA0SiE9Unx
+         1mIpAbrFf4N+CeP3aYzIrQchBmfPOTYq0dgPlsJG8uMcd2UHJaayYpUOSW/zWuPGhmwn
+         68Ai/c+3Tve7S5rqdafNdjCgXDnembz29f+kie8ko8w6WMCV30f/OmRFF0el6pMSZHL1
+         wx6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=bw3nfaFRleazCs2+L0H53+t481VFnO6p/0r0qx++0bQ=;
-        b=fz6PJ+5Wvi1t8Dp/bc9U+G3Gf2xk7h1tH7eKZLdhRfVCfA8rhngn3hp0qAgPRHdUbH
-         0O0FH+mQ12OyBJ39U69eRxFyIjhYmraZt06i02rsGtwS4zGxjmpvClqMqav+/8Yjt7h0
-         ozMVozZwZnha3riJojdgEI/VIZfxL/tscBXcgqOs8Z6IGipgXV+rj+C0u41XrY0qeQPV
-         vN0J8x1bMB4i32t0LAL0apIctTzaFx+AOgCw1yQWKwWstXirEhu+yWlay+xnPRt0IGEs
-         gwIEfI1h1cIl0ATqiIoP1yxzV3fErxqC5facwG1xBo84SXuYHqp+9uy1Q5vRtAZMTBeF
-         3zSQ==
-X-Gm-Message-State: AOAM533lktUCorvitn0wlmbWnoy9Y1pHzurnDMQqo+nbqql+WoRusFiq
-	qwPMNzYmE69FFfGwuqa8SCg=
-X-Google-Smtp-Source: ABdhPJzEbK4QPMLQ5JtgiNt6xTeoBV96XWjiDIkLfPPdhp/cLU8eHUHKFCviloe7KLuEBt+V8IDB9w==
-X-Received: by 2002:a17:90a:e981:: with SMTP id v1mr8634673pjy.177.1599972755107;
-        Sat, 12 Sep 2020 21:52:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o8ZDSCZ0AGf85FQo7htQEbyo3232mTCYISYadTCu524=;
+        b=KoXDbiDOHAnicDDzuribTYLwcwOtZlA/LYCwiVBZfsf65xpR87Wx26UhrWj1aMHRwh
+         kUlDqaUBgo+YnSwm/675ksy75z/oeiRHyjWbPTo6IkDfpNQoVhY2HoAHo8AAdPNXb3Wj
+         BY5/RpOQGkWQFKjRgU5tjgEpbKpNwkuO64xnvIoP+KM7YaKghy4Dul9tJLVOM5qlSR0J
+         guw21h6NGGxh3QFqUMjmATUj8nvR/ZCvgd1IzOItp7nQ0MvlEBhdHutVJTLbLNK4kNZS
+         OPcz52xGtoEh7TC2X+M7GR5E6Lw2H1TmFFYr29njPcEXsf+RWTFvanBrXyCr7BU6a25I
+         zHpQ==
+X-Gm-Message-State: AOAM533PJgcwqVNFx1QlDjegmTrg2HF51+70YSsyTlLuQvtJQwniISfL
+	zmZC40vEZylSMY2aPphi8xoWgsHB5oUBtw==
+X-Google-Smtp-Source: ABdhPJzcjg0UXGJA0QiUOKq9kXFsT3Qa6Dru39AL6n6g48py6MO50XUzwVGiuUfP8hgqqOTzWulIyg==
+X-Received: by 2002:a63:3046:: with SMTP id w67mr7024551pgw.45.1599983044381;
+        Sun, 13 Sep 2020 00:44:04 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:75a2:d73b:aa9:a0b3? ([2601:646:9200:4e0:75a2:d73b:aa9:a0b3])
-        by smtp.gmail.com with ESMTPSA id a74sm6555824pfa.16.2020.09.12.21.52.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Sep 2020 21:52:34 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] core-image-sato: qemumips use 512 mem
-To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster808@gmail.comt>
-References: <20200913035916.24165-1-akuster808@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1759])
+        by smtp.gmail.com with ESMTPSA id a13sm2726671pfl.184.2020.09.13.00.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2020 00:44:03 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <0bc412be-9d07-643b-4fbf-a22c57fd9d40@gmail.com>
-Date: Sat, 12 Sep 2020 21:52:33 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] populate_sdk_ext: Do not assume local.conf will always exist
+Date: Sun, 13 Sep 2020 00:44:00 -0700
+Message-Id: <20200913074400.1691397-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200913035916.24165-1-akuster808@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Some distros may not have local.conf, and use auto.conf or site.conf
+alone to describe distro config metadata, therefore make code robust
+to not fail eSDK builds for such setups
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On 9/12/20 8:59 PM, akuster wrote:
-> From: Armin Kuster <akuster808@gmail.comt>
-> 
-> Fixes:
-> 
-> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
-> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: The output:
-> root
-> <<< run_serial(): command timed out after 60 seconds without output >>>
-> 
-> In another run, this error was seen:
-> 
-> Failed to reload daemon: Refusing to reload, not enough space available on /run/systemd. Currently, 14.3M are free, but a safety buffer of 16.0M is enforced.
-> 
-> With updates to systemd and Qemu we should revert: 499a31cf06 core-image-sato: don't use 512MB in qemumips
-> 
-> Signed-off-by: Armin Kuster  <akuster808@gmail.com>
-> ---
->   meta/recipes-sato/images/core-image-sato.bb | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-> index 673106eb6d..878e0eaa8d 100644
-> --- a/meta/recipes-sato/images/core-image-sato.bb
-> +++ b/meta/recipes-sato/images/core-image-sato.bb
-> @@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
->   TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
->   
->   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
-> -QB_MEM_qemumips = "-m 256"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 44d99cfb97..d659b6940a 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -310,8 +310,9 @@ python copy_buildsystem () {
+         if os.path.exists(builddir + '/conf/auto.conf'):
+             with open(builddir + '/conf/auto.conf', 'r') as f:
+                 oldlines += f.readlines()
+-        with open(builddir + '/conf/local.conf', 'r') as f:
+-            oldlines += f.readlines()
++        if os.path.exists(builddir + '/conf/local.conf'):
++            with open(builddir + '/conf/local.conf', 'r') as f:
++                oldlines += f.readlines()
+         (updated, newlines) = bb.utils.edit_metadata(oldlines, varlist, handle_var)
+ 
+         with open(baseoutpath + '/conf/local.conf', 'w') as f:
+-- 
+2.28.0
 
-Incidently, I was testing similar patch, which essentially is a revert 
-of [1], I think we have to ensure that these issues seen by Ross a year 
-ago are hopefully gone with time
-
-[1] 
-https://git.openembedded.org/openembedded-core/commit/?id=499a31cf06c934b40b5866d5eb77c9ad20c9a15f
-
-> 
-> 
-> 
-> 
