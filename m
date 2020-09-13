@@ -1,85 +1,79 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web12.27525.1599950413795384001
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web12.31875.1599969558989749402
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2020 15:40:13 -0700
+ Sat, 12 Sep 2020 20:59:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@emacinc-com.20150623.gappssmtp.com header.s=20150623 header.b=16+3pdT7;
- spf=pass (domain: emacinc.com, ip: 209.85.166.66, mailfrom: mgloff@emacinc.com)
-Received: by mail-io1-f66.google.com with SMTP id d190so14875141iof.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 15:40:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mif9lokq;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id j34so8994692pgi.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2020 20:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=emacinc-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LdSJGQmpon1OsBYagldJJNHtJXsB0SRtmDPMTp7Em/k=;
-        b=16+3pdT7oHyT8hbTNxtk3PIhGK++elER1e4B5dnFKQ5I5VcrqOXqBx72kozWwdYkVB
-         xfPntLK1BvYsk2Ilr6Om5iQnBGbOsYRDt8Xo5M+oUHKsMxUk/tZtSctOvXbzy9w3r2Er
-         PQT8frFM1jYzCzDzkElipphZc8uDMb4qur84OYA1lNQ1+xefoEkrxUyx+tF2BsE0Vy+h
-         amHCUo20YwS9zQZZiXaPfO8X52YuRgTbMLaEDSK/cRn2fMBbzPcEpRNTDR/0XI0lRS4d
-         oBtb1aQ+Ldd459yH4AJudY59MGCIclA6neIDMyhIX7O32QxNrD8JxPLB8cmpLUE4xUEK
-         1fyA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=rK7G86VRoI1Nr7mxLDInzIbBkKkIYW2orJD45RRHs4w=;
+        b=mif9lokqP1I7wlyWjujq/pNLzs+3HlhiM8pWq1f0wO3t+8ap1XTqV1tkxT58va9ff2
+         onzMQzVkzlR34MPJfjbg99Yxp/GokjxEMdcl4yeEl2SMZJcIHuyjk2Tj5HwqhTrd9iKU
+         UT6wCqy2XG+7Pf+HC2TZeZoIO57w5cm7ODUYb0EpO4jZmwJtnn/9Hyslyh/zHlXKJEDr
+         e/elCU07xz1j4K4aQ6Qrrbg1BptQ+InMFUukyseZu5akWfqrM6nrSaENBV4xaP1MWwaw
+         DkBVxYoCgBJsWv4BWxRSfWLMIysNyyufygtmUcgHd0F+wSR7qVEwKKiqAaG11aJEwzeR
+         gROQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LdSJGQmpon1OsBYagldJJNHtJXsB0SRtmDPMTp7Em/k=;
-        b=O3lOEzTiU4V8Aux3Y1V6E6PZttQ/0Scci8eDWkBj4koobA2GzXZ1rK/IL0VFcKBvaF
-         y9IXNhogkpX756E7Wx0KnkaSLHIF4n8hEM8S3kIIQxAXKRtBH6x2hlB+aSrlKWTSSlAt
-         UcQazi235eRuITliwRgohv26D8v23x5+WxZmmlPis+Vp0OvM9UodiJe2PWkve42z3HA3
-         HPVhAmjV3vgz2AP/w0voMJZBdTiZxy2x4Yaz7/Q9PDuH8xn75ZXYGUAewt8u0+XqnEq7
-         Sk4xqctjoiYEtLdVGE+xqCP9nwPBowKhm1xd+Er4WXMy1Cq5MUAbQoqZy7JUwDcwqtEK
-         G92g==
-X-Gm-Message-State: AOAM530qOI1VA0/b1EN6xVY9ZW5o6P5bygpD73hiS0wYRPHgpPgnUPcZ
-	kamSKpsUwLBuKIGOXDeqBHiSeaESjyh59RFt
-X-Google-Smtp-Source: ABdhPJyLUwGlHSEicHtMAQzq4GttmGty04enUZExz2IULsUZQx2QORf3WVDU6Cd8AlUhnHBVoB69JA==
-X-Received: by 2002:a5d:840a:: with SMTP id i10mr6342451ion.4.1599950412928;
-        Sat, 12 Sep 2020 15:40:12 -0700 (PDT)
-Return-Path: <mgloff@emacinc.com>
-Received: from Shuttle.mediacom.info ([2604:2d80:9f80:9700:dbc1:b947:539f:e0])
-        by smtp.gmail.com with ESMTPSA id a23sm3296595ioc.54.2020.09.12.15.40.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=rK7G86VRoI1Nr7mxLDInzIbBkKkIYW2orJD45RRHs4w=;
+        b=fXNSfRpK2asER3E0xxBsMCW58qMpAXPzGLKnyz6YhRJDSWx4MZoHhvayNWBb40n/6a
+         LlrD00hy8ThupVCbVpinFYJmumQDsqbYVJS1dMPP+k/AXH9oUZlXwA43LT2zDWDFDeRi
+         1SYcs3IfyxAa8nwbU/lJfrdECxiUlCvNwDVkkn/KArd0SwjENPGE71ndgE9Qo8QEd4YI
+         UWsnO/pXPxVxkRojFeDplH+ebwPQg7DqFCQXdioRQdmSM5NfAKrbmXT3rOkKM1pAKtaS
+         WxRBP02JsBuKH4J2QPE7K7TIqpZbh9Z5jLvG1bhgOU7O6tAhAwKwTSxHlcczqMw1oXuf
+         0i5w==
+X-Gm-Message-State: AOAM530lUnphjHV3/JMCJUKxIbgTfv5Qcg9MQOw74BS36wmBieXzbBxt
+	WJLttnNRux0YacBM3N/JJDNfTC9rp9M=
+X-Google-Smtp-Source: ABdhPJxIoxeGPJ4rPrVEWp6Uzl7ACB5ZOxL+5ry7dXMifjhOWLSOtECH2+SBGQd4l80MzA8gEg6MUA==
+X-Received: by 2002:aa7:94a4:: with SMTP id a4mr8573756pfl.49.1599969558234;
+        Sat, 12 Sep 2020 20:59:18 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:e1aa:69c3:1411:f726])
+        by smtp.gmail.com with ESMTPSA id il14sm5313771pjb.54.2020.09.12.20.59.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2020 15:40:12 -0700 (PDT)
-From: "Michael Gloff" <mgloff@emacinc.com>
+        Sat, 12 Sep 2020 20:59:17 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Gloff <mgloff@emacinc.com>
-Subject: [OE-core][dunfell][PATCH V2] sysvinit: Remove ${B} assignment
-Date: Sat, 12 Sep 2020 17:39:58 -0500
-Message-Id: <20200912223958.985123-1-mgloff@emacinc.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Armin Kuster <akuster808@gmail.comt>
+Subject: [PATCH] core-image-sato: qemumips use 512 mem
+Date: Sat, 12 Sep 2020 20:59:16 -0700
+Message-Id: <20200913035916.24165-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-The VERSION variable is not set unless the
-top level Makefile is used as the version is
-derived from the Changelog.
-If VERSION is not set, none of the binaries built
-in the sysvinit recipe will have a valid version
-output.
-Before:
-INIT: version  booting
-After:
-INIT: version 2.96 booting
+From: Armin Kuster <akuster808@gmail.comt>
 
-Using the top level Makefile does not cause any
-additional builds to occur.
+Fixes:
 
-Signed-off-by: Michael Gloff <mgloff@emacinc.com>
+WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
+WARNING: core-image-sato-sdk-1.0-r0 do_testimage: The output:
+root
+<<< run_serial(): command timed out after 60 seconds without output >>>
+
+In another run, this error was seen:
+
+Failed to reload daemon: Refusing to reload, not enough space available on /run/systemd. Currently, 14.3M are free, but a safety buffer of 16.0M is enforced.
+
+With updates to systemd and Qemu we should revert: 499a31cf06 core-image-sato: don't use 512MB in qemumips
+
+Signed-off-by: Armin Kuster  <akuster808@gmail.com>
 ---
- meta/recipes-core/sysvinit/sysvinit_2.96.bb | 1 -
+ meta/recipes-sato/images/core-image-sato.bb | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.96.bb b/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-index d2b85ed9c0..7358f02385 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-@@ -25,7 +25,6 @@ SRC_URI[md5sum] = "48cebffebf2a96ab09bec14bf9976016"
- SRC_URI[sha256sum] = "2a2e26b72aa235a23ab1c8471005f890309ce1196c83fbc9413c57b9ab62b587"
+diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
+index 673106eb6d..878e0eaa8d 100644
+--- a/meta/recipes-sato/images/core-image-sato.bb
++++ b/meta/recipes-sato/images/core-image-sato.bb
+@@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
+ TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
  
- S = "${WORKDIR}/sysvinit-${PV}"
--B = "${S}/src"
- 
- inherit update-alternatives features_check
- DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
+ QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
+-QB_MEM_qemumips = "-m 256"
 -- 
-2.28.0
+2.17.1
 
