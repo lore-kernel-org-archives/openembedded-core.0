@@ -1,87 +1,151 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web11.60289.1600087536785957869
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.62217.1600092722500190747
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 05:45:37 -0700
+ Mon, 14 Sep 2020 07:12:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iS+xKdUS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id k15so18554770wrn.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 05:45:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KrqYCLY3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id o20so12719198pfp.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=cbMOSke++6vait3XBdoKtWDhGDEdCTjOUWY3Y2Kmlxk=;
-        b=iS+xKdUSTXtUPYUPjdQiBLuhnlIggMB6T/RaYO7kqhYRhzJd1p+ERVBUzporth1oaI
-         d3jffc3RbbmfDBUEiPpCjpcIuIUGpaA+XhwuiXoXl40vsKIlBKvDzZmuAiE8KtT8sbgX
-         1VxFboyjHLqPHA3hbw/hdIf0EijkkeHI8a8A8=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=Dj27e6DIrUPKjiZGbwSNBFK8ynAzB5JcJ0m2bO+UaOk=;
+        b=KrqYCLY3YfoCjYpgI6avke6D5Wk7luCziERVhKySL8WUsnKaK2/08cFiBuv5/EEkDE
+         AzYudFBuePCUhBXqf+Yg/loiuWLVm9Qgq97c1cf8X5XlT6anxZrRRtgQmxp58U80xhxn
+         mImWU8Jr8xGpiP9v4DG00ScBFf9Qzcb1o8ahWTdHPimKYRlNrfo0H14k1lwMPi22s9F8
+         93QI1A2YKiPMHPIIZmA5WlpyPcFfrkmPEbveeYw6gZtRltfrp/V7C+zt1BM/i6GwU+41
+         rxbI6q6hTcwQvnJX9vXlhOpOnhYjM6fyi+08ivfJ1SSQyOyu+VKppWnQu4juzhHxeIrp
+         QC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=cbMOSke++6vait3XBdoKtWDhGDEdCTjOUWY3Y2Kmlxk=;
-        b=BCuDZgUqlwAw8ozJm1RWx5ehF+BBA7pBOmImijMzI0oeS3+jyJ7HAUBN3lAs/DAfnx
-         OBtYjamfIn8RwRvkSRNl4+18T8CFQiVzQ5rW3nXW7KRG7Ri10NOs2LWS86kJkcj4zCEU
-         G+AnA0U0+d3O7h3diFuy5Mn0xWWSa0tVKpQJ68YpOOOZFI8Ppo0rwKSTNZb5Xj4I3oka
-         RbA/D0YS+XUNfJRa6Rc04EhPClboEufSDhjNvmfXw/rzfpYoC1HIGMh7nhWWyBMll7As
-         /+L6GZtfsNzVeJMxF+6L0D6/Od0R4jZaqo2uTxGmuiqzQo5HaWvDltDxbnNRS7UXSGgV
-         wdTQ==
-X-Gm-Message-State: AOAM533uiOrlyAOsuntMI0R1mHu0q6hOVmo510j0NyTS3jnUpRT2CEil
-	GhVRSfy5t+AH06BwhouUIEwQwg==
-X-Google-Smtp-Source: ABdhPJzEHieJfTEhH53ph/kG03tB1+pjR4LGufNpSmiu8DmWLMR84DkD9mzSa13fdnaYqh/pVCjqpg==
-X-Received: by 2002:adf:fc0a:: with SMTP id i10mr15462574wrr.111.1600087535022;
-        Mon, 14 Sep 2020 05:45:35 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6142:eacd:f73a:2991])
-        by smtp.gmail.com with ESMTPSA id m13sm19860851wrr.74.2020.09.14.05.45.33
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=Dj27e6DIrUPKjiZGbwSNBFK8ynAzB5JcJ0m2bO+UaOk=;
+        b=d1ooV2pKLCOzQgkuY+NOS+pNqdI/nSj6aKefE1yLaRFOp754E6to3ucd+mKXg2JUjk
+         F6InG4iUJdfxl5EWim+k0Wp+FjrFeZVwH6aJkYH4B20hd3lyGDy+o0QHYZmfZAW7/+Z9
+         HR16P76ffChBJsz+NBNdbywMVehS3oCP4g67oT8+SONbONsetTH1UDM+aXe9mUzOgIfE
+         rON9OfWD/5JBh5e5uoD4bSTJ/eZSj5/E9yQ/PAgoEr45lbj00cQ6ElPXWEetKmqaPpny
+         SmzwVBDk2Z105q2oU8qY3GFke4djJduUPNf1Hl/JppwtLbINKCIQPY7/hlPhJUYYvE9K
+         /Eqg==
+X-Gm-Message-State: AOAM530Mr6RHR48C9fx7ZT61dZ0CwJTmOh20sUALlOTHuMZ5ksiKcixS
+	l9bL8GkZwB4LGzpL/GrT4C1bIObmoMlV/6KBQWE=
+X-Google-Smtp-Source: ABdhPJyY4qEAO/U9pAQsSG3VIX+lt49+AHZivDiSZa50wtj3t5P3q+XjDXJdcFm5fr0g2BySH0asYA==
+X-Received: by 2002:a63:c9:: with SMTP id 192mr11214001pga.37.1600092721245;
+        Mon, 14 Sep 2020 07:12:01 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.11.59
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 05:45:34 -0700 (PDT)
-Message-ID: <af41d5614ae98ab9a993bbbb8f7feb2ee0e96adc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] cve-check: use ALLOWLIST
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, Lee Chee Yang <chee.yang.lee@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Sep 2020 13:45:33 +0100
-In-Reply-To: <CAAnfSTuxVhcA1P_-efXbSL5X5i8_RkP_ruVEoY571pOwhTvdCw@mail.gmail.com>
-References: <20200914033421.48381-1-chee.yang.lee@intel.com>
-	 <CAAnfSTuxVhcA1P_-efXbSL5X5i8_RkP_ruVEoY571pOwhTvdCw@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        Mon, 14 Sep 2020 07:12:00 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/24] Patch review
+Date: Mon, 14 Sep 2020 04:11:18 -1000
+Message-Id: <cover.1600092418.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, 2020-09-14 at 11:42 +0100, Ross Burton wrote:
-> On Mon, 14 Sep 2020 at 04:34, Lee Chee Yang <chee.yang.lee@intel.com>
-> wrote:
-> > use allowlist instead of whitelist.
-> > Replace CVE_CHECK_PN_WHITELIST with CVE_CHECK_PN_ALLOWLIST.
-> 
-> This is a deprecated variable already, I wouldn't bother changing it.
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-If its deprecated, lets remove it.
+Passed a-full on autobuilder:
 
-> > Replace CVE_CHECK_WHITELIST with CVE_CHECK_ALLOWLIST.
-> 
-> ALLOWLIST really is a horrible word as this isn't a list of CVEs
-> being
-> allowed, it's a list of CVEs being not considered.  CVE_CHECK_IGNORE?
-> CVE_CHECK_EXCLUDE?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1381
 
-My preference is for CVE_CHECK_IGNORE which is basically what it causes
-the tool to do.
+The following changes since commit 210ebed1e9c2285d6e457bf03d1f1a1f3ddc7fda:
 
-> I do also think that we should do these variable renames in one go,
-> instead of piecemeal either side of a release.
+  package: get_package_mapping: avoid dependency mapping if renamed package provides original name (2020-09-04 04:31:45 -1000)
 
-I am worried about the timing of this, and the documentation
-implications. We still haven't built M3 as we decided to do the sphinx
-transition but we're not getting anywhere need the volume of patches to
-make it happen :(
+are available in the Git repository at:
 
-That means I don't have time to start handling piecemeal patches to
-variable names, handling the fallout as things break.
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-Cheers,
+Adrian Freihofer (1):
+  oe-publish-sdk: fix layers init via ssh
 
-Richard
+Chris Laplante (4):
+  cve-update-db-native: add progress handler
+  cve-check/cve-update-db-native: use lockfile to fix usage under
+    multiconfig
+  cve-update-db-native: use context manager for cve_f
+  cve-check: avoid FileNotFoundError if no do_cve_check task has run
+
+Khem Raj (2):
+  uninative: Upgrade to 2.9
+  rpcbind: Use update-alternatives for rpcinfo
+
+Lee Chee Yang (3):
+  xserver-xorg: fix CVE-2020-14347
+  qemu: fix CVE-2020-14364 CVE-2020-14415
+  libx11 : fix CVE-2020-14344
+
+Matt Madison (1):
+  image.bbclass: fix REPRODUCIBLE_TIMESTAMP_ROOTFS reference
+
+Oleksandr Kravchuk (1):
+  ell: update to 0.33
+
+Ovidiu Panait (1):
+  libxml2: Fix CVE-2020-24977
+
+Rahul Kumar (1):
+  systemd-serialgetty: Fix sed expression quoting
+
+Richard Purdie (3):
+  runqemu: Add a hook to allow it to renice
+  selftest/signing: Ensure build path relocation is safe
+  oeqa/concurrencytest: Improve builddir path manipulations
+
+Ross Burton (5):
+  gdk-pixbuf: add tests PACKAGECONFIG
+  insane: only load real files as ELF
+  autoconf: consolidate DEPENDS
+  curl: add vendors to CVE_PRODUCT to exclude false positives
+  cmake: whitelist CVE-2016-10642
+
+Zhixiong Chi (1):
+  gnutls: CVE-2020-24659
+
+akuster (1):
+  cve-check.bbclass: always save cve report
+
+ meta/classes/cve-check.bbclass                |  34 ++
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/insane.bbclass                   |  13 +-
+ meta/conf/distro/include/yocto-uninative.inc  |  10 +-
+ meta/lib/oeqa/selftest/cases/signing.py       |   4 +-
+ meta/lib/oeqa/selftest/context.py             |   4 +-
+ .../ell/{ell_0.32.bb => ell_0.33.bb}          |   2 +-
+ .../libxml/libxml2/CVE-2020-24977.patch       |  41 +++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |   1 +
+ .../recipes-core/meta/cve-update-db-native.bb |  96 +++---
+ .../systemd/systemd-serialgetty.bb            |   2 +-
+ meta/recipes-devtools/autoconf/autoconf.inc   |   5 +-
+ meta/recipes-devtools/cmake/cmake.inc         |   4 +
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-14364.patch            |  93 +++++
+ .../qemu/qemu/CVE-2020-14415.patch            |  37 ++
+ .../recipes-extended/rpcbind/rpcbind_1.2.5.bb |   5 +-
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   8 +-
+ .../xorg-lib/libx11/CVE-2020-14344.patch      | 321 ++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |   4 +-
+ .../xserver-xorg/CVE-2020-14347.patch         |  38 +++
+ .../xorg-xserver/xserver-xorg_1.20.8.bb       |   1 +
+ meta/recipes-support/curl/curl_7.69.1.bb      |   4 +-
+ .../gnutls/gnutls/CVE-2020-24659.patch        | 117 +++++++
+ meta/recipes-support/gnutls/gnutls_3.6.14.bb  |   1 +
+ scripts/oe-publish-sdk                        |   2 +-
+ scripts/runqemu                               |   5 +
+ 27 files changed, 782 insertions(+), 74 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.32.bb => ell_0.33.bb} (89%)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2020-24977.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-14415.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2020-14344.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14347.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2020-24659.patch
+
+-- 
+2.17.1
 
