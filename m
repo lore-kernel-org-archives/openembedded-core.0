@@ -1,92 +1,92 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.61409.1600092784187248083
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web11.62252.1600092785417707423
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:13:04 -0700
+ Mon, 14 Sep 2020 07:13:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WFB/T523;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id w7so12756931pfi.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:13:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=q/zwBZwq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id d13so3422666pgl.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=fsPqZ9KjxDbdNiRmEUFhjHWwcV6yMMo9CofGkr9eCtU=;
-        b=WFB/T5231sWk6X+ixhw2ZQRXnTP9kV3FFuffpebZTCnDUjhnArHNd1CRtqoan0EXRD
-         vfYnb47MBoh3EL994WcMqJwzxmMTXHlCbcJy5K/Hd59p/55fb13i1V2EA1ZGNt8m2ZwD
-         x/atbHFUaApJ0uDWYUbrYgprDBuSYtrTEj94xm/Tq0PjpU2lzTMGNAsNZWXaSv102bD1
-         ATMYhioRQ5xTBXvV9ux2SisKP1WmsGsdVijjK8w0Bnn4rAq9fOYJdlalKdW9yFZH9/hv
-         Tqjv+i54GIcr30gc+pN2couEhCP9TyNyDPMQqWpX1pqjGvzbIWQOPS7UIv0bubNEvb9X
-         cuVA==
+        bh=0JhK8in6q2F/5da9drCDgv544H5X6iTqOt6nknCDkWY=;
+        b=q/zwBZwqrOqt4949cNJZ9erBVFQdU0MgwEajohxhs9k8hmH3H1gbBFOZCC8AC1KdTr
+         6DGL59Dr7Dtw5Hx0GZnL5C69VRLyEdxg39PSDPABvKaF+DX+sBRT+nIgFuovioC926Gl
+         engX7aolrfP1Dft3GF/ukJUKiecpt7P0oEewqfR2jrMZgRoAcuJZv2pn9QBkJ7RSPfgg
+         EQrSXuR6cVtyXREQXsBR38y+ykfR2qAKSFayBNFp0XRLD5HVde5Xu7mXP4nuP7yryxUs
+         54LG9zipF0bzllNtc2pi3FU0sPlq7/VOSaW+3p6grK9ZiM3qfbtT/ktnqR+kl26MF06G
+         zBtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=fsPqZ9KjxDbdNiRmEUFhjHWwcV6yMMo9CofGkr9eCtU=;
-        b=Y2EAS4SvG6Ioxo8q6sNef8qZogO1FFOfUsL5Nu7TP5GRjXTVfEgv/Qx7Nh0EH5PYuU
-         MGJ22UPt9cYE5g7VrARqPcnbIPfRq3mDoK/TxadOIJRRLX7OLRAZVWUB1/oOAjLmKXqO
-         QkvOueJy7RLNXO7j6P5iTgzX1f1S5eotDpQKdFyzaE6di80abDPaZChBrvFjk2rIRSQb
-         rAecpv5sZVzlydDYIM2sp2a7bLSyMdymWjljiM1yCBVb9JZgVoYXGJJPVYCghfqcG19V
-         1DiHl7RFNq6jcM5yZERqJNGRZePhv2eT/WaACAWYoFnlyyMn4STltExWGlBnp/yiNgBp
-         i+MA==
-X-Gm-Message-State: AOAM5322vrFvp9+YiFPL0TRFQ2WKLPP9oXlBuKvQy8ErZRM5Sx+eLrUv
-	k+aR8HM/b5QIY+F2q4n9DAstYHy3c4hR8TIjlEc=
-X-Google-Smtp-Source: ABdhPJwbGqwK7QCtxQqYZRTlAa5cjXt2TL+9s45zwTCcbtW0ZxEoddOQ40s56kkpCpVMKcLxocpkEg==
-X-Received: by 2002:a17:902:a715:b029:d0:89f3:28cf with SMTP id w21-20020a170902a715b02900d089f328cfmr14570011plq.11.1600092781927;
-        Mon, 14 Sep 2020 07:13:01 -0700 (PDT)
+        bh=0JhK8in6q2F/5da9drCDgv544H5X6iTqOt6nknCDkWY=;
+        b=i9yBpoCCt2Cg0dqqYrf6yKTK/RPQzt0KEEqpr/zRRu8W9kVT57vErMj8jM0q5N7HK4
+         wF6qBq/j38vLFiejoDyWTDbLGddK/CN/Rscb+gX56yzzyocZw5Nd4gOl382ib4XnlVf/
+         yNb95znweU9jAhXUWFfMi5T3ve8NiAQbSLb6bzLjwFt6oudBIoaYRedunh+8k+jj67e1
+         nzmxXvwCpRmfYc8KCFZNSx6ykCRV+OE/07TZpEe0BVDhLTOWr7QSrXJJzveYhsHa9ZhX
+         9tQdGLpI7ootBamYtXqQnXIPg7kOAXLt+vBnsGiiev1XXm6tJKZ7B+TYFrotSE5el4wq
+         dZUw==
+X-Gm-Message-State: AOAM531np2Ql88A0fsrp0hu0PIvAFFj1Scn4aiNEh2n6M7Y+KcG0HgFB
+	gJW+hDA55Ulv2rcGBcFhpKhJvfKhli8eGwX7yB0=
+X-Google-Smtp-Source: ABdhPJzNfvN2CbZBwL+0/p85mN94RKMxn4D5wwpeoD2uWiEyU7UZQotimSGkiPe+vmRRP44CMC+udw==
+X-Received: by 2002:a63:5663:: with SMTP id g35mr11270747pgm.163.1600092784378;
+        Mon, 14 Sep 2020 07:13:04 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.13.00
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.13.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:13:01 -0700 (PDT)
+        Mon, 14 Sep 2020 07:13:03 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 23/24] cve-update-db-native: use context manager for cve_f
-Date: Mon, 14 Sep 2020 04:11:41 -1000
-Message-Id: <be2f8a26b46a413a1821eeab906e66c6cda4a47f.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 24/24] cve-check: avoid FileNotFoundError if no do_cve_check task has run
+Date: Mon, 14 Sep 2020 04:11:42 -1000
+Message-Id: <bc613b8d05930b9aef847bf96c1068b33138d86b.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
 
 From: Chris Laplante <chris.laplante@agilent.com>
 
+For example, if you just run 'bitbake cve-update-db-native' in a clean
+build system, |cve_tmp_file| won't exist yet.
+
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ff422652e1b5db62205fafc75ce56bb5951d478d)
+(cherry picked from commit dd4473f3d8e1c1a587b6de660775e4b46ddc5fad)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/classes/cve-check.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index d22b66f6c7..328f6ab364 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -50,8 +50,6 @@ python do_populate_cve_db() {
-     except OSError:
-         pass
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 35b7d0f298..17f64a8a9c 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -63,14 +63,15 @@ python cve_save_summary_handler () {
+     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+     cve_summary_file = os.path.join(cvelogpath, "%s-%s.txt" % (cve_summary_name, timestamp))
  
--    cve_f = open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a')
--
-     bb.utils.mkdirhier(db_dir)
+-    shutil.copyfile(cve_tmp_file, cve_summary_file)
++    if os.path.exists(cve_tmp_file):
++        shutil.copyfile(cve_tmp_file, cve_summary_file)
  
-     # Connect to database
-@@ -60,7 +58,7 @@ python do_populate_cve_db() {
+-    if cve_summary_file and os.path.exists(cve_summary_file):
+-        cvefile_link = os.path.join(cvelogpath, cve_summary_name)
++        if cve_summary_file and os.path.exists(cve_summary_file):
++            cvefile_link = os.path.join(cvelogpath, cve_summary_name)
  
-     initialize_db(c)
- 
--    with bb.progress.ProgressHandler(d) as ph:
-+    with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
-         total_years = date.today().year + 1 - YEAR_START
-         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
-             ph.update((float(i + 1) / total_years) * 100)
-@@ -108,7 +106,6 @@ python do_populate_cve_db() {
-             if year == date.today().year:
-                 cve_f.write('CVE database update : %s\n\n' % date.today())
- 
--        cve_f.close()
-         conn.commit()
-         conn.close()
+-        if os.path.exists(os.path.realpath(cvefile_link)):
+-            os.remove(cvefile_link)
+-        os.symlink(os.path.basename(cve_summary_file), cvefile_link)
++            if os.path.exists(os.path.realpath(cvefile_link)):
++                os.remove(cvefile_link)
++            os.symlink(os.path.basename(cve_summary_file), cvefile_link)
  }
+ 
+ addhandler cve_save_summary_handler
 -- 
 2.17.1
 
