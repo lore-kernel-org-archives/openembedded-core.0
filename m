@@ -1,156 +1,125 @@
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com [209.85.221.196])
- by mx.groups.io with SMTP id smtpd.web10.65469.1600102718357861531
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web10.66135.1600104444685770480
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 09:58:38 -0700
+ Mon, 14 Sep 2020 10:27:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=syHhgpqj;
- spf=pass (domain: gmail.com, ip: 209.85.221.196, mailfrom: armccurdy@gmail.com)
-Received: by mail-vk1-f196.google.com with SMTP id n7so127735vkq.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 09:58:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XMhPFbhF;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id t14so321853pgl.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 10:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x5WGVht4VX33wuTy/kxGXJnKkhmbyrhe2dI4MWfohh4=;
-        b=syHhgpqjMy2Qprrdu/9GnjiFuR/+KUbq8YRaJ7Hfkvx53cLRWXsgrA/ZJdUS1m4hw3
-         H+UEtgKg/AnJPpZD9NCF8eHggfEcM/XhiwurdIN1M/oHoBljhNctzYbCqXfOZk7TdiMS
-         /SbPT+id1XUFZ6bVIJbn+ANfyD8MEfMikkkjPW4fUHRrHtXcxnt5i/QDXaHQoc7eeBD6
-         QR9fAKpHkLvtUNz0J0MkenKzlHrEyEWk/jUj6tqUDaQgwakUebbxd7CuEN0TscQmYNGV
-         qLxBiidu5ff2+aOqNzbQRA2l+gQ6pcfSoCxh+fm7cuNXNGXKQRDFZK49Dwhvoq7uiikp
-         pXwA==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QFodIFfl/afphgxXf96pzpq0BGw6ZHIe0C5NLBeWQvs=;
+        b=XMhPFbhF66Qk78ZopMLZRGi0hfz8IF6+cpZTpOA7cTbaYR4VNgwxH53qSzUfXeG9uQ
+         iGdui82B4631yB35lnFFStNPtkxJMlfjTmRoUpOT78EfmlHXB4N3NqzwfFdcfwN7gUe9
+         bVRVuLq1WhErJQjEMYNmOp2QVwRtcYEqOvyX3lmaN86HN7ULbkPMdOdevjcutVUY5Hbp
+         9ao20U7trBXiMavbuVHz05IrViRZJinVttgKwb/Ny2yDSgnGw4EiWxXq7cPPXN+V98E4
+         QHbh3/Khp+2mQRL/RmQBSrf1X5Yr4tmg9VHZjBM/NBtRQePImFZZSp9E0hXFbpqCs4Y+
+         vvPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x5WGVht4VX33wuTy/kxGXJnKkhmbyrhe2dI4MWfohh4=;
-        b=DRnxhLXdNnGMAxFcGnNWfs9uGqFDsaiM/5vI0B2ER3vDTWVOAJoBPU3pm3XPzHHAEv
-         U9YLCEc3gpiKJ0PjqPDezjrDQH4XPyP/uXaPe2tclfCPd+BKo6N+8RVt5x+aCcgWR/f0
-         q3uAASQrMnxNpCyc+ICLJQmRlyytCKoR5C+I9NQozKPeHnNWGwRRvn+A6/ps94KHLMAp
-         gN3JeMV/kU1PGTm/C1QtVW1iLfK7TeH74MGM6Yt87C54RWsXNtVsGa3l58SlVxDxH6/1
-         zk5CZVRfZiGOmzGG+Z57yXrrFLNlMJ31l+OY7yvbr81JfoJNVbTmh27M1DBa1SeQgaQX
-         KlMA==
-X-Gm-Message-State: AOAM533/gOSMmgAogKBcLT/qfy3H33Br7yBMyFmIRr22IIEQ0/l2awzu
-	10SHb8qHs/JJ8J4NhbLJ4k8gHmbLYCMQFDyZm80=
-X-Google-Smtp-Source: ABdhPJwjwL7bz6hd3mHtk7wemJ7j+UhYddnYzn2oMDuemg+o9Yn4xv95dd+ivp2l57lLHVSVJTdxfY7Qjyi6P4cwuWc=
-X-Received: by 2002:a1f:284e:: with SMTP id o75mr7583664vko.19.1600102717329;
- Mon, 14 Sep 2020 09:58:37 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=QFodIFfl/afphgxXf96pzpq0BGw6ZHIe0C5NLBeWQvs=;
+        b=CUcaQb90DqANAJqbk0Ui/QuHF6TTthZNBujFx15xx/ld++i+PIX1zFJIs9pmKFcKz5
+         CHeexBXVI8l53mxjVFnC+i8aNy8eVQA0k4RcNuz9eew10TVY7qJXvQK5cfM3mtafv7GF
+         m3ApwUbG0noLIxoqcJYPNy50shzuOSzK20VaIEnu+CF3rAXxxzXNR2BCMM9PrzAyn64i
+         I0ebcjoytP1x39ZWvmuzQ6yN9AZ5JqjiOy6N8KvpCQGPMZV9mKzGIl3BRrLCNV45naKy
+         r6yQowvGqyjpzMxAcLScw0dqkwMhake1fj4NaF9Vlf/M568JAiSQo50qjI+d8cAT7YMt
+         ffiA==
+X-Gm-Message-State: AOAM53015/eID09IQn+XzVIFYA/0hZn90b6VIU05WCjbC86/I+CYgqAq
+	ZV/cNEghAYtaw9BiStPxswQ=
+X-Google-Smtp-Source: ABdhPJznpC2R28ZFPgw5U6ETf8ehYe8WU0sDLYny7ipHx9uYNYz7fY3x/SFQEj0xYLG5RYNmpbJGjw==
+X-Received: by 2002:a17:902:e903:b029:d1:8c50:b1a9 with SMTP id k3-20020a170902e903b02900d18c50b1a9mr15758693pld.31.1600104444020;
+        Mon, 14 Sep 2020 10:27:24 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:65be:52e2:459a:b2e1? ([2601:646:9200:4e0:65be:52e2:459a:b2e1])
+        by smtp.gmail.com with ESMTPSA id z23sm10992835pfj.177.2020.09.14.10.27.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2020 10:27:23 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] core-image-sato: qemumips use 512 mem
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster808@gmail.comt>
+References: <20200913035916.24165-1-akuster808@gmail.com>
+ <82df031010def40bb2f2f1bfe160cbbb8330353d.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <3889316c-3fb2-e100-468d-9ba2b77e69ad@gmail.com>
+Date: Mon, 14 Sep 2020 10:27:22 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200914083507.36978-1-mingli.yu@windriver.com>
-In-Reply-To: <20200914083507.36978-1-mingli.yu@windriver.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 14 Sep 2020 09:58:27 -0700
-Message-ID: <CAJ86T=XPi8SKOi6N=sTwZL12SpNLeLAzVZivfDCN43VCNbtUNA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bison: remove the parallel build patch
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <82df031010def40bb2f2f1bfe160cbbb8330353d.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 14, 2020 at 1:35 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> Remove the parallel build patch as the issue have already been
-> fixed in bison 3.7.2(f7b642cf build: fix incorrect dependencies).
 
-If parallel make issues have been fixed upstream then this workaround
-should be removed from the recipe too:
 
- # Reset any loadavg set via environment, it breaks parallel build
- # | ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error:
-uniwidth.h: No such file or directory
- # |  #include "uniwidth.h"
- # |           ^~~~~~~~~~~~
- EXTRA_OEMAKE_append = " -l"
+On 9/14/20 12:13 AM, Richard Purdie wrote:
+> On Sat, 2020-09-12 at 20:59 -0700, akuster wrote:
+>> From: Armin Kuster <akuster808@gmail.comt>
+>>
+>> Fixes:
+>>
+>> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Couldn't login into
+>> serial console as root using blank password
+>> WARNING: core-image-sato-sdk-1.0-r0 do_testimage: The output:
+>> root
+>> <<< run_serial(): command timed out after 60 seconds without output
+>>>>>
+>>
+>> In another run, this error was seen:
+>>
+>> Failed to reload daemon: Refusing to reload, not enough space
+>> available on /run/systemd. Currently, 14.3M are free, but a safety
+>> buffer of 16.0M is enforced.
+>>
+>> With updates to systemd and Qemu we should revert: 499a31cf06 core-
+>> image-sato: don't use 512MB in qemumips
+>>
+>> Signed-off-by: Armin Kuster  <akuster808@gmail.com>
+>> ---
+>>   meta/recipes-sato/images/core-image-sato.bb | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-sato/images/core-image-sato.bb
+>> b/meta/recipes-sato/images/core-image-sato.bb
+>> index 673106eb6d..878e0eaa8d 100644
+>> --- a/meta/recipes-sato/images/core-image-sato.bb
+>> +++ b/meta/recipes-sato/images/core-image-sato.bb
+>> @@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool
+>> nativesdk-glib-2.0"
+>>   TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-
+>> intltool nativesdk-glib-2.0"
+>>   
+>>   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m
+>> 512", "-m 256", d)}'
+>> -QB_MEM_qemumips = "-m 256"
+> 
+> 
+> We have now seen:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/2452
+> 
+> with this applied, not sure if its related. We have seen this kind of
+> network dropout elsewhere but we don't seem to have good debug when it
+> happens.
+> 
 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  .../0001-bison-fix-the-parallel-build.patch   | 63 -------------------
->  meta/recipes-devtools/bison/bison_3.7.2.bb    |  1 -
->  2 files changed, 64 deletions(-)
->  delete mode 100644 meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
->
-> diff --git a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> deleted file mode 100644
-> index c3be91a109..0000000000
-> --- a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> +++ /dev/null
-> @@ -1,63 +0,0 @@
-> -From e0dbcee6e25b3c0cb11a627bbfe3af45ef67ec30 Mon Sep 17 00:00:00 2001
-> -From: Mingli Yu <mingli.yu@windriver.com>
-> -Date: Thu, 14 May 2020 15:23:16 +0800
-> -Subject: [PATCH] bison: fix the parallel build
-> -
-> -Explicitly make the BUILT_SOURCES which
-> -are the generated headers such as stdio.h,
-> -fcntl.h and etc to be the dependencies of
-> -the gl_LIBOBJS such as libbison_a-sprintf.o,
-> -libbison_a-printf.o and etc to guarantee the
-> -BUILT_SOURCES is generated before begin to
-> -compile EXTRA_lib_libbison_a_SOURCES such as
-> -fprintf.c in parallel builid, otherwise there
-> -may come below error:
-> - | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
-> -
-> -It does the same for src_bison_OBJECTS and
-> -lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
-> -generated before begin to compile src_bison_SOURCES
-> -which contains AnnotationList.c and etc.
-> -
-> -BTW, the MOSTLYCLEANFILES also contains the
-> -generated header needs to be created early
-> -in the build process, so add it also in to
-> -avoid below error:
-> - | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
-> -
-> -Upstream-Status: Submitted [bison-patches@gnu.org maillist]
-> -
-> -Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ----
-> - lib/gnulib.mk | 2 ++
-> - src/local.mk  | 1 +
-> - 2 files changed, 3 insertions(+)
-> -
-> -diff --git a/lib/gnulib.mk b/lib/gnulib.mk
-> -index c21c656..27fb3dc 100644
-> ---- a/lib/gnulib.mk
-> -+++ b/lib/gnulib.mk
-> -@@ -120,6 +120,8 @@ lib_libbison_a_SOURCES =
-> - lib_libbison_a_LIBADD = $(gl_LIBOBJS)
-> - lib_libbison_a_DEPENDENCIES = $(gl_LIBOBJS)
-> - EXTRA_lib_libbison_a_SOURCES =
-> -+$(lib_libbison_a_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-> -+$(gl_LIBOBJS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-> -
-> - lib_libbison_a_CPPFLAGS = $(AM_CPPFLAGS) -DDEFAULT_TEXT_DOMAIN=\"bison-gnulib\"
-> -
-> -diff --git a/src/local.mk b/src/local.mk
-> -index 61dc573..b5b9079 100644
-> ---- a/src/local.mk
-> -+++ b/src/local.mk
-> -@@ -24,6 +24,7 @@ if RELOCATABLE_VIA_LD
-> -   src_bison_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
-> - endif
-> -
-> -+$(src_bison_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-> - src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
-> - src_bison_SOURCES =                             \
-> -   src/AnnotationList.c                          \
-> ---
-> -2.17.1
-> -
-> diff --git a/meta/recipes-devtools/bison/bison_3.7.2.bb b/meta/recipes-devtools/bison/bison_3.7.2.bb
-> index f7bf70fff3..efc426376d 100644
-> --- a/meta/recipes-devtools/bison/bison_3.7.2.bb
-> +++ b/meta/recipes-devtools/bison/bison_3.7.2.bb
-> @@ -11,7 +11,6 @@ DEPENDS = "bison-native flex-native"
->
->  SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
->             file://add-with-bisonlocaledir.patch \
-> -           file://0001-bison-fix-the-parallel-build.patch \
->             "
->  SRC_URI[sha256sum] = "7948d193104d979c0fb0294a1854c73c89d72ae41acfc081826142578a78a91b"
->
-> --
-> 2.17.1
->
+I wonder if ssh daemon is dead in this case. I also see its invoking 
+compilers on target( kernelmodule case), are they usign -jX during make 
+?, 512M might not be enough to run parallel compiles
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
 > 
