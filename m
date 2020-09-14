@@ -1,100 +1,164 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web10.54080.1600060765905310570
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.54094.1600060895420672177
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 22:19:26 -0700
+ Sun, 13 Sep 2020 22:21:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GUl7ifet;
- spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f195.google.com with SMTP id v196so11733674pfc.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 22:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=90lsw4oVDD+g/GNS+CBYsXFrufVsfaXdaLUgLrWEFcc=;
-        b=GUl7ifet8KdCLa7/AwXrSkQBeq6B3+d8twuRD1Bt0sA9z3SsvD2GZsVtWeK68OCDLG
-         mBFg0i22kAtV2XpaSQGDhlGLTJ1gM0w+xvv8wbkYfp58jeH4KZop/yV/Zif8q0jCvL1B
-         gdwRrkePIs9TFbGvI9eq/NOkA7EnBWcS+588dOjyblD7Aq3TUIB4tlm+1496yp5fxUpA
-         sbzoH9CGyRCGrPbXKVOHlT8Hkvc2jCl0GaJB+Nfoo+rnmVqo4D6dksp1vIUJafKiuhTO
-         yOxKlSg9FX5gs1gHOmkieO3AasD0AQ3CKmG4b2Cm2yqLv6IWTTHpRS7X0WfhuBAYPRFI
-         v6Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=90lsw4oVDD+g/GNS+CBYsXFrufVsfaXdaLUgLrWEFcc=;
-        b=Xo2Zi15oSK5YCIoMa10HebKV3r1KfzQ9npmM9xGrlvnRUIsT69ZZ7ua4Oiy4VGcHOj
-         C9ESCI9qt8JHn46sjCSk6niQYtiA1Zy+goWEu8cDO4yS0w+7P1a+LQoxJpzrgLkF1A7a
-         /WtijePuCDuNk6N+EwZ3LeImgIW1tNeeAiqWj/k2AGJo6KCw4IqyK3JJ7mQERTkqco44
-         xd/4+Rh3dBndnu9k8ygtaxk67b3AN4ESUA4bCpenwSIT7Td8Ld7DpzQNUcmrNdm5yj8Q
-         Xf6QWPThZbC9vDl0XRdDQwyXZ9aTiK0yUtHElDLA4FyTiFKELGFa7M7XiI/wdRPLPVfC
-         Yzmg==
-X-Gm-Message-State: AOAM531C31U+zAdi1hrUzpv82K6BqFx0UX7lSlghA6gCVX3HAjToKmqo
-	FvXG3IeJSMpc5F1bFzRnqJgJK9rAdwn4Cw==
-X-Google-Smtp-Source: ABdhPJznOtHE3rq4Jc02DA4DRS0FroiPAmHmk5YlxROkEIPitNXX73dRWtZK9kJy7JmOtOYW3EyygA==
-X-Received: by 2002:a63:413:: with SMTP id 19mr9855738pge.310.1600060764871;
-        Sun, 13 Sep 2020 22:19:24 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1759])
-        by smtp.gmail.com with ESMTPSA id kf10sm7680187pjb.2.2020.09.13.22.19.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2020 22:19:24 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] go: Update to 1.15.2 minor release
-Date: Sun, 13 Sep 2020 22:19:21 -0700
-Message-Id: <20200914051921.3913331-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: zhixiong.chi@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08E5LU1I000403
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 22:21:31 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Sun, 13 Sep 2020
+ 22:21:30 -0700
+From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][zeus][PATCH V2] procps: fix the top command crash issue
+Date: Sun, 13 Sep 2020 22:21:30 -0700
+Message-ID: <20200914052130.118133-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This is bug fix release on 1.15 stable version
+Avoid a potential SEGV during program termination.
+Backported the patch form:
+https://gitlab.com/procps-ng/procps.git
+commit d37f85c269fbb6e905802ffdbce0ba4173ba21a9
+commit ed34b1228ed08fbfdbf6f1a61ca7ca62448ccd86
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- meta/recipes-devtools/go/go-1.15.inc                          | 4 ++--
- ...{go-binary-native_1.15.1.bb => go-binary-native_1.15.2.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.15.1.bb => go-binary-native_1.15.2.bb} (83%)
+ ...ntial-SEGV-during-program-terminatio.patch | 61 +++++++++++++++++++
+ ...-line-of-code-to-sig_endpgm-function.patch | 38 ++++++++++++
+ meta/recipes-extended/procps/procps_3.3.15.bb |  2 +
+ 3 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
+ create mode 100644 meta/recipes-extended/procps/procps/0001-top-restore-one-line-of-code-to-sig_endpgm-function.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
-index 48f523bb50..97d748b922 100644
---- a/meta/recipes-devtools/go/go-1.15.inc
-+++ b/meta/recipes-devtools/go/go-1.15.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+diff --git a/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
+new file mode 100644
+index 0000000000..4f7a01e41b
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
+@@ -0,0 +1,61 @@
++From d37f85c269fbb6e905802ffdbce0ba4173ba21a9 Mon Sep 17 00:00:00 2001
++From: Jim Warner <james.warner@comcast.net>
++Date: Tue, 6 Aug 2019 00:00:00 -0500
++Subject: [PATCH] top: avoid a potential SEGV during program termination
++
++The backtrace shown in the bug report referenced below
++illustrates a 'normal' program termination interrupted
++with some signal, ultimately then causing a top crash.
++
++So this commit just rearranges a little code such that
++all signals will be blocked during that rather lengthy
++end of program processing regardless of how initiated.
++
++[ in that report, ignore the assertion regarding the ]
++[ '-n' option. it obviously was not '1' since do_key ]
++[ had been called, which otherwise wouldn't be true. ]
++
++[ and when it is '1' the -d option would be ignored. ]
++
++Reference(s):
++https://bugzilla.redhat.com/show_bug.cgi?id=1737552
++
++Signed-off-by: Jim Warner <james.warner@comcast.net>
++Upstream-Status: Backport[https://gitlab.com/procps-ng/procps.git]
++Signed-off-by: Shaohua Zhan <shaohua.zhan@windriver.com>
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ top/top.c | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/top/top.c b/top/top.c
++index b01907a..73598e2 100644
++--- a/top/top.c
+++++ b/top/top.c
++@@ -404,6 +404,11 @@ static void at_eoj (void) {
++          * The real program end */
++ static void bye_bye (const char *str) NORETURN;
++ static void bye_bye (const char *str) {
+++   sigset_t ss;
+++
+++// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
+++   sigfillset(&ss);
+++   sigprocmask(SIG_BLOCK, &ss, NULL);
++    at_eoj();                 // restore tty in preparation for exit
++ #ifdef ATEOJ_RPTSTD
++ {  proc_t *p;
++@@ -595,12 +600,6 @@ static void sig_abexit (int sig) {
++          *    SIGUSR1 and SIGUSR2 */
++ static void sig_endpgm (int dont_care_sig) NORETURN;
++ static void sig_endpgm (int dont_care_sig) {
++-   sigset_t ss;
++-
++-// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
++-   sigfillset(&ss);
++-   sigprocmask(SIG_BLOCK, &ss, NULL);
++-   Frames_signal = BREAK_sig;
++    bye_bye(NULL);
++    (void)dont_care_sig;
++ } // end: sig_endpgm
++-- 
++GitLab
+diff --git a/meta/recipes-extended/procps/procps/0001-top-restore-one-line-of-code-to-sig_endpgm-function.patch b/meta/recipes-extended/procps/procps/0001-top-restore-one-line-of-code-to-sig_endpgm-function.patch
+new file mode 100644
+index 0000000000..9fe11b898d
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/0001-top-restore-one-line-of-code-to-sig_endpgm-function.patch
+@@ -0,0 +1,38 @@
++From ed34b1228ed08fbfdbf6f1a61ca7ca62448ccd86 Mon Sep 17 00:00:00 2001
++From: Jim Warner <james.warner@comcast.net>
++Date: Wed, 22 Jan 2020 00:00:00 -0600
++Subject: [PATCH] top: restore one line of code to sig_endpgm() function
++
++When that potential abend at program end was addressed
++in the patch shown below, one line of code was removed
++in error. That line served to suppress some end-of-job
++reports should ATEOJ_RPTSTD or ATEOJ_RPTHSH be active.
++
++So, this patch restores that previously deleted logic.
++
++Reference(s):
++. potential SEGV fix, master branch
++commit d37f85c269fbb6e905802ffdbce0ba4173ba21a9
++
++Signed-off-by: Jim Warner <james.warner@comcast.net>
++Upstream-Status: Backport[https://gitlab.com/procps-ng/procps.git]
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ top/top.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/top/top.c b/top/top.c
++index 8e8c7d9..63ec5fe 100644
++--- a/top/top.c
+++++ b/top/top.c
++@@ -604,6 +604,7 @@ static void sig_abexit (int sig) {
++          *    SIGUSR1 and SIGUSR2 */
++ static void sig_endpgm (int dont_care_sig) NORETURN;
++ static void sig_endpgm (int dont_care_sig) {
+++   Frames_signal = BREAK_sig;
++    bye_bye(NULL);
++    (void)dont_care_sig;
++ } // end: sig_endpgm
++-- 
++2.17.0
++
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
+index f240e54fd8..bf7ee63775 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -15,6 +15,8 @@ inherit autotools gettext pkgconfig update-alternatives
+ SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+            file://sysctl.conf \
+            file://0001-Fix-out-of-tree-builds.patch \
++           file://0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch \
++           file://0001-top-restore-one-line-of-code-to-sig_endpgm-function.patch \
+            "
  
- GO_BASEVERSION = "1.15"
--GO_MINOR = ".1"
-+GO_MINOR = ".2"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
--SRC_URI[main.sha256sum] = "d3743752a421881b5cc007c76b4b68becc3ad053e61275567edab1c99e154d30"
-+SRC_URI[main.sha256sum] = "28bf9d0bcde251011caae230a4a05d917b172ea203f2a62f2c2f9533589d4b4d"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.15.1.bb b/meta/recipes-devtools/go/go-binary-native_1.15.2.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.15.1.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.15.2.bb
-index a4eca7f4c1..ccd2d5ebad 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.15.1.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.15.2.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "70ac0dbf60a8ee9236f337ed0daa7a4c3b98f6186d4497826f68e97c0c0413f6"
--SRC_URI[go_linux_arm64.sha256sum] = "ca21c771d906fbba8840b3a4831b1aa118f6e09b5d028323592faba382787a03"
-+SRC_URI[go_linux_amd64.sha256sum] = "b49fda1ca29a1946d6bb2a5a6982cf07ccd2aba849289508ee0f9918f6bb4552"
-+SRC_URI[go_linux_arm64.sha256sum] = "c8ec460cc82d61604b048f9439c06bd591722efce5cd48f49e19b5f6226bd36d"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ SRC_URI[md5sum] = "2b0717a7cb474b3d6dfdeedfbad2eccc"
 -- 
-2.28.0
+2.17.1
 
