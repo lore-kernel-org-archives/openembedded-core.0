@@ -1,124 +1,121 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.70994.1600117334124667323
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.555.1600122865251979271
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 14:02:14 -0700
+ Mon, 14 Sep 2020 15:34:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IjOvkpOh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id a17so1069972wrn.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 14:02:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VXMu3ifL;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id t20so1608816qtr.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 15:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=K2DJVjOl55kLuw7UTg9naErQucouoN+jPAZ51OmwEKQ=;
-        b=IjOvkpOhJAoBxAKQDj41BBDoDEy+uxXxcohTQvkJ4XO6ytVCf9+BPrNGwpLVqg4mes
-         ES72HIE2lw3ANdo3QVGMzEh7JzXKpsiv/3drYUWL2WvuSXveWE9T2YV5dY4n/bvxsy8X
-         XzG9iUSuVJ5bIjHGea6jXkUsQwjsocQi8ZUzo=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qwh6EddIf0nrc1ZAxGAgL+BgrQmpIziS4/RCkgXvx24=;
+        b=VXMu3ifLdjTip00v2+VbjYU1yQo+x8yYMYuC8hdnFQnK/yFqvR61b/ot2LuaCi51WA
+         FQc6sanwO+jG2DzW/e/BrZT2OnGZA0c1dXeA7uGDrWLGTSElg8Qu/YAixXy0v6G8d7aj
+         mgrfBdHHvSyuV0Lr/zjtmS2kY702YESg6xTp0gvWw970MHxvLr/B+5wzv/RvgYV8oxXK
+         /vhVvGoUqwsguMtbMxhVAizYVIY7Z31i2Xs5HCco1nKVc8OeGYmbRaQLIYXPHh7UlGU0
+         Pur3aEkAMPWMOSLMbq4QSFNB8QLRoYxawdhCO4ln3FEULSjnbLycOSmoZwwSPflkDxqV
+         Aqsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=K2DJVjOl55kLuw7UTg9naErQucouoN+jPAZ51OmwEKQ=;
-        b=jz1y2Pr2Alzf0Eg3MtCUmehAMDRvkYqCll+pMv16At5//g+R0E9EC8Fwk74bFI0fnm
-         MSwfnoCcHa55TNaUwwNfnUVMiAozjsPsjcAuFEl5INJVb3xL358DP1k9gXfhk4VpDUWY
-         W3g432JufWC+xhLnhqW+T2Yi66AYpYJSSIKI2l+5LgWFWhcHgHyzN+0idW/1Z01p735j
-         0saWLXZuwrBN8RGauDahC4OnmU1Pp+lSmiKQRZa/7VYYy+twGCerNPbzNFVNmHPumrNO
-         5ZRFGACXBHVJwnB6tsEj+S9m3U55ZCF6Q393qu5XMdYv7ksdEe+hgi1kR6PQ6b6FOv55
-         mynw==
-X-Gm-Message-State: AOAM531G/ppgEZp9R+VWNj2jusKuZ3OXS/tPNpmMm1hy2LHvAp2kDsf/
-	+4WRNRI9PrIhZXzfnC/7mtdZWA==
-X-Google-Smtp-Source: ABdhPJzmdoeHWKaoAwEqob3KdpcoEbSKgXOprXvbR3sy9Y07cw+OuMUnvn3RugjiCer4xvrBI2mx/w==
-X-Received: by 2002:adf:e6c7:: with SMTP id y7mr16733092wrm.147.1600117332376;
-        Mon, 14 Sep 2020 14:02:12 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6142:eacd:f73a:2991])
-        by smtp.gmail.com with ESMTPSA id m23sm5097314wmi.19.2020.09.14.14.02.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qwh6EddIf0nrc1ZAxGAgL+BgrQmpIziS4/RCkgXvx24=;
+        b=BzVoBaplrmb3aOw6mcGbYbYCN01ih2a2kXMeQZUVC1r5YA8MGP2wYI2jWgoWScNSDs
+         sKIrlodovPhhnifz0fIjpzM0RYCMDPAnoRA9TNfnlpiZme7dzmDLW8t2UCJijsNisPSW
+         uQbvh0MZ6yLGxALYoThnXJiSUYk+vOeIF6XaVLngnjUcLtwmkit0nl1lKD6XIdbqVyLj
+         O8VReSrREhy8zxy9hlHzQHqqZy8Cvh4lGbs8RKOUjMbZY8b2uVPLRxg8OdnrHLEG3riZ
+         bNTENf5XBjBAwNO7xeY5htTMfi+XD/Wwq6CSY87xTjWHdlJa9VUG5AYr+PcWS2HB4RY0
+         iSWQ==
+X-Gm-Message-State: AOAM530nIWDbXvwm9GASXQPfh6O1HaznRMYS+QAk9/nK3ADwXEwpVBWJ
+	3pL437es0Z4GzYnL5UHy8SQ=
+X-Google-Smtp-Source: ABdhPJxLnSxl64ez6LvAyo1tEXinlj10Gegpln2ozHgu2D6g5XAmMse1up6ntC76a54KN9RHdsPZrA==
+X-Received: by 2002:ac8:6b81:: with SMTP id z1mr15431110qts.382.1600122864175;
+        Mon, 14 Sep 2020 15:34:24 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id v131sm16355770qka.97.2020.09.14.15.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 14:02:11 -0700 (PDT)
-Message-ID: <f754af26c0b738b1fcc51da92ca82304e35e47a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] core-image-sato: qemumips use 512 mem
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, akuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster808@gmail.comt>
-Date: Mon, 14 Sep 2020 22:02:10 +0100
-In-Reply-To: <3889316c-3fb2-e100-468d-9ba2b77e69ad@gmail.com>
-References: <20200913035916.24165-1-akuster808@gmail.com>
-	 <82df031010def40bb2f2f1bfe160cbbb8330353d.camel@linuxfoundation.org>
-	 <3889316c-3fb2-e100-468d-9ba2b77e69ad@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Mon, 14 Sep 2020 15:34:23 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/6] linux-yocto: consolidated pull request
+Date: Mon, 14 Sep 2020 18:34:15 -0400
+Message-Id: <cover.1600122415.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-09-14 at 10:27 -0700, Khem Raj wrote:
-> 
-> On 9/14/20 12:13 AM, Richard Purdie wrote:
-> > On Sat, 2020-09-12 at 20:59 -0700, akuster wrote:
-> > > From: Armin Kuster <akuster808@gmail.comt>
-> > > 
-> > > Fixes:
-> > > 
-> > > WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Couldn't login
-> > > into
-> > > serial console as root using blank password
-> > > WARNING: core-image-sato-sdk-1.0-r0 do_testimage: The output:
-> > > root
-> > > <<< run_serial(): command timed out after 60 seconds without
-> > > output
-> > > 
-> > > In another run, this error was seen:
-> > > 
-> > > Failed to reload daemon: Refusing to reload, not enough space
-> > > available on /run/systemd. Currently, 14.3M are free, but a
-> > > safety
-> > > buffer of 16.0M is enforced.
-> > > 
-> > > With updates to systemd and Qemu we should revert: 499a31cf06
-> > > core-
-> > > image-sato: don't use 512MB in qemumips
-> > > 
-> > > Signed-off-by: Armin Kuster  <akuster808@gmail.com>
-> > > ---
-> > >   meta/recipes-sato/images/core-image-sato.bb | 1 -
-> > >   1 file changed, 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-sato/images/core-image-sato.bb
-> > > b/meta/recipes-sato/images/core-image-sato.bb
-> > > index 673106eb6d..878e0eaa8d 100644
-> > > --- a/meta/recipes-sato/images/core-image-sato.bb
-> > > +++ b/meta/recipes-sato/images/core-image-sato.bb
-> > > @@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-
-> > > intltool
-> > > nativesdk-glib-2.0"
-> > >   TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-
-> > > intltool nativesdk-glib-2.0"
-> > >   
-> > >   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m
-> > > 512", "-m 256", d)}'
-> > > -QB_MEM_qemumips = "-m 256"
-> > 
-> > We have now seen:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/2452
-> > 
-> > with this applied, not sure if its related. We have seen this kind
-> > of
-> > network dropout elsewhere but we don't seem to have good debug when
-> > it
-> > happens.
-> > 
-> 
-> I wonder if ssh daemon is dead in this case. I also see its invoking 
-> compilers on target( kernelmodule case), are they usign -jX during
-> make 
-> ?, 512M might not be enough to run parallel compiles
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Shouldn't be using -j for these tests. I think we need better debugging
-using the serial console when these failures occur...
+Richard,
+
+Here's the latest round of -stable updates for the active kernels in
+master.
+
+My first runs ran into the lttng-modules issues, and I've included a
+10 patch backport of changes from lttng 2.12.x to address the various
+build issues I found against 5.4 and 5.8.
+
+There's a different lttng patch on the list, but it didn't address all
+of my build failures, so I generated this full backport change.
 
 Cheers,
 
-Richard
+Bruce
+
+The following changes since commit 070d9b8f5e753e8928d2d7048e0c7bd9adbb3c29:
+
+  linux-yocto/config: netfilter: Enable nat for ipv4 and ipv6 (2020-09-14 12:13:47 -0400)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/5.8: update to v5.8.8
+  linux-yocto/5.4: update to v5.4.64
+  linux-yocto/config: configuration warning cleanup
+  linux-yocto/5.8: update to v5.8.9
+  linux-yocto/5.4: update to v5.4.65
+
+Jens Rehsack (1):
+  lttng-modules: backport patches from 2.12.x to fix 5.4.64+ and 5.8.9+
+    builds
+
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-rt_5.8.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ .../linux/linux-yocto-tiny_5.8.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  |  22 +-
+ ...ndency-issue-when-building-in-tree-w.patch |  54 ++
+ ...ce.h-into-the-mmu-sub-directory-v5.9.patch |  41 +
+ ...Make-kvm_mmu_page-definition-and-acc.patch |  39 +
+ ...he-length-of-per-inode-prealloc-list.patch |  84 ++
+ ...e-via-a-block-bitmap-read-is-prefetc.patch |  63 ++
+ ...al-of-smp_-read_barrier_depends-v5.9.patch | 391 ++++++++
+ ...teback-Drop-I_DIRTY_TIME_EXPIRE-v5.9.patch |  59 ++
+ ...x-sync-livelock-due-to-b_dirty_time-.patch | 117 +++
+ ...es-for-ext4_discard_preallocations-a.patch |  52 +
+ .../0010-Fix-system-call-filter-table.patch   | 918 ++++++++++++++++++
+ .../lttng/lttng-modules_2.12.2.bb             |  12 +-
+ 17 files changed, 1865 insertions(+), 37 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Kconfig-fix-dependency-issue-when-building-in-tree-w.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-Move-mmutrace.h-into-the-mmu-sub-directory-v5.9.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-KVM-x86-mmu-Make-kvm_mmu_page-definition-and-acc.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-ext4-limit-the-length-of-per-inode-prealloc-list.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-indicate-via-a-block-bitmap-read-is-prefetc.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-removal-of-smp_-read_barrier_depends-v5.9.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-writeback-Drop-I_DIRTY_TIME_EXPIRE-v5.9.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-version-ranges-for-ext4_discard_preallocations-a.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-Fix-system-call-filter-table.patch
+
+-- 
+2.19.1
 
