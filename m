@@ -1,125 +1,92 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web12.61439.1600092779861774980
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.61409.1600092784187248083
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:12:59 -0700
+ Mon, 14 Sep 2020 07:13:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Mbh2Ttkf;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id d13so3422460pgl.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WFB/T523;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id w7so12756931pfi.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=wZ6nGMcm4HZkcbCS8cdN34DjMK3DZX3ZJfeeWeBJhj8=;
-        b=Mbh2TtkfkYHZgfQWX7MyMcp8p28qrRlP7ZvWDA1gF4ADp5V2cWGDoz1N5W0IMVMwgX
-         H0W4rt+XAhhx64gVLEYKqZWCW+twyiZpvT6XnVHeGIJGASVIEbyVbZtFzhRqrAucKvld
-         mubFcitGCeUTcJEyjF3U8MEM/GSmdotwzbgRmGoTesLMaURYU0h9FptIOQueX2ptLcmt
-         u5SZN6/WZDW4eL43KbR9RpfGtrS2QsceC1hkJMia2ewfBGwAjThn8v43UMqcGdRC4Eb5
-         qQo8FkyR6SSKzR/mF72BvRM+VM+2TggHkJKPWQsXOfQmSYqoiVJzFHBFhxEaenDukc/A
-         sBRg==
+        bh=fsPqZ9KjxDbdNiRmEUFhjHWwcV6yMMo9CofGkr9eCtU=;
+        b=WFB/T5231sWk6X+ixhw2ZQRXnTP9kV3FFuffpebZTCnDUjhnArHNd1CRtqoan0EXRD
+         vfYnb47MBoh3EL994WcMqJwzxmMTXHlCbcJy5K/Hd59p/55fb13i1V2EA1ZGNt8m2ZwD
+         x/atbHFUaApJ0uDWYUbrYgprDBuSYtrTEj94xm/Tq0PjpU2lzTMGNAsNZWXaSv102bD1
+         ATMYhioRQ5xTBXvV9ux2SisKP1WmsGsdVijjK8w0Bnn4rAq9fOYJdlalKdW9yFZH9/hv
+         Tqjv+i54GIcr30gc+pN2couEhCP9TyNyDPMQqWpX1pqjGvzbIWQOPS7UIv0bubNEvb9X
+         cuVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=wZ6nGMcm4HZkcbCS8cdN34DjMK3DZX3ZJfeeWeBJhj8=;
-        b=lWUnAYv1N2o0JDeEFqzevsB1h6CV4iPC3jMUJljVSbQWWWGS5BP5dm28jk7J6GQzSw
-         0Tp/aP5oeLD6V0EAYFt4BgSKcCfArBPTpXGLnLy9wwNWxwpvNEid2C4RU0xnI90f79X0
-         JxrcU4gNJwje4xWxElkOnx5r8NLJncBDSOru7L9ykIZ/iyBFYS+aJW/OTTwOxELpXhYx
-         +Mq5KniRbReHlI711EHCP/HM630IfW4TOEirK07XpNCwQE+vx7K1sjYAIvCVkWbLk1dX
-         1S8auiGn+1vR2qQVMeBq9fELYqgxEAgRpiF2GODlTf44TX7mM30QKaKjq4JNvR/mClHp
-         UsdQ==
-X-Gm-Message-State: AOAM531ntvAIwtAEFFwT2lx325ZuAvRYdqHAUa5zd3n1EwR1ZkVasdfV
-	OYbe3S72tS/mgl81WzoFx9FbXeHwVmPaKVyxssc=
-X-Google-Smtp-Source: ABdhPJw1N9oIZgc5FBs8C1F9oHO+sW5ZueA7bxzliSCvnImxGaAIHw7tOpAqSqsUEwrUMU1b5kbF+Q==
-X-Received: by 2002:a63:6d7:: with SMTP id 206mr11312011pgg.167.1600092779002;
-        Mon, 14 Sep 2020 07:12:59 -0700 (PDT)
+        bh=fsPqZ9KjxDbdNiRmEUFhjHWwcV6yMMo9CofGkr9eCtU=;
+        b=Y2EAS4SvG6Ioxo8q6sNef8qZogO1FFOfUsL5Nu7TP5GRjXTVfEgv/Qx7Nh0EH5PYuU
+         MGJ22UPt9cYE5g7VrARqPcnbIPfRq3mDoK/TxadOIJRRLX7OLRAZVWUB1/oOAjLmKXqO
+         QkvOueJy7RLNXO7j6P5iTgzX1f1S5eotDpQKdFyzaE6di80abDPaZChBrvFjk2rIRSQb
+         rAecpv5sZVzlydDYIM2sp2a7bLSyMdymWjljiM1yCBVb9JZgVoYXGJJPVYCghfqcG19V
+         1DiHl7RFNq6jcM5yZERqJNGRZePhv2eT/WaACAWYoFnlyyMn4STltExWGlBnp/yiNgBp
+         i+MA==
+X-Gm-Message-State: AOAM5322vrFvp9+YiFPL0TRFQ2WKLPP9oXlBuKvQy8ErZRM5Sx+eLrUv
+	k+aR8HM/b5QIY+F2q4n9DAstYHy3c4hR8TIjlEc=
+X-Google-Smtp-Source: ABdhPJwbGqwK7QCtxQqYZRTlAa5cjXt2TL+9s45zwTCcbtW0ZxEoddOQ40s56kkpCpVMKcLxocpkEg==
+X-Received: by 2002:a17:902:a715:b029:d0:89f3:28cf with SMTP id w21-20020a170902a715b02900d089f328cfmr14570011plq.11.1600092781927;
+        Mon, 14 Sep 2020 07:13:01 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.57
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.13.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:12:58 -0700 (PDT)
+        Mon, 14 Sep 2020 07:13:01 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 22/24] cve-check/cve-update-db-native: use lockfile to fix usage under multiconfig
-Date: Mon, 14 Sep 2020 04:11:40 -1000
-Message-Id: <a1492cd8975dd5d133be4853cef593d9aa6dff33.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 23/24] cve-update-db-native: use context manager for cve_f
+Date: Mon, 14 Sep 2020 04:11:41 -1000
+Message-Id: <be2f8a26b46a413a1821eeab906e66c6cda4a47f.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
 
 From: Chris Laplante <chris.laplante@agilent.com>
 
-Previously CVE_CHECK_DB_FILE / CVE_CHECK_DB_DIR was the same across
-multiconfigs which led to a race condition wherein multiple
-cve-update-db-native:do_populate_cve_db tasks could attempt to write to
-the same sqlite database. This led to the following task failure:
-
-    Error executing a python function in exec_python_func() autogenerated:
-
-    The stack trace of python calls that resulted in this exception/failure was:
-    File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-         0001:
-     *** 0002:do_populate_cve_db(d)
-         0003:
-    File: '/mnt/data/agent/work/74f119cccb44f133/yocto/sources/poky/meta/recipes-core/meta/cve-update-db-native.bb', lineno: 103, function: do_populate_cve_db
-         0099:        if year == date.today().year:
-         0100:            cve_f.write('CVE database update : %s\n\n' % date.today())
-         0101:
-         0102:    cve_f.close()
-     *** 0103:    conn.commit()
-         0104:    conn.close()
-         0105:}
-         0106:
-         0107:def initialize_db(c):
-    Exception: sqlite3.OperationalError: disk I/O error
-
-Use a lockfile to ensure multiple tasks don't step over each other.
-
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 24e9380643a2ae3fcae193519cb64aedaf682153)
+(cherry picked from commit ff422652e1b5db62205fafc75ce56bb5951d478d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass                 | 1 +
- meta/recipes-core/meta/cve-update-db-native.bb | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 0889e7544a..35b7d0f298 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -27,6 +27,7 @@ CVE_VERSION ??= "${PV}"
- 
- CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
-+CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
- 
- CVE_CHECK_LOG ?= "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 2221825bf8..d22b66f6c7 100644
+index d22b66f6c7..328f6ab364 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -52,8 +52,7 @@ python do_populate_cve_db() {
+@@ -50,8 +50,6 @@ python do_populate_cve_db() {
+     except OSError:
+         pass
  
-     cve_f = open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a')
- 
--    if not os.path.isdir(db_dir):
--        os.mkdir(db_dir)
-+    bb.utils.mkdirhier(db_dir)
+-    cve_f = open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a')
+-
+     bb.utils.mkdirhier(db_dir)
  
      # Connect to database
-     conn = sqlite3.connect(db_file)
-@@ -114,6 +113,8 @@ python do_populate_cve_db() {
+@@ -60,7 +58,7 @@ python do_populate_cve_db() {
+ 
+     initialize_db(c)
+ 
+-    with bb.progress.ProgressHandler(d) as ph:
++    with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
+         total_years = date.today().year + 1 - YEAR_START
+         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
+             ph.update((float(i + 1) / total_years) * 100)
+@@ -108,7 +106,6 @@ python do_populate_cve_db() {
+             if year == date.today().year:
+                 cve_f.write('CVE database update : %s\n\n' % date.today())
+ 
+-        cve_f.close()
+         conn.commit()
          conn.close()
  }
- 
-+do_populate_cve_db[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
-+
- def initialize_db(c):
-     c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
- 
 -- 
 2.17.1
 
