@@ -1,81 +1,78 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
- by mx.groups.io with SMTP id smtpd.web12.61430.1600092767078256650
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web10.61405.1600092769525562659
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:12:47 -0700
+ Mon, 14 Sep 2020 07:12:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qcbh6D9R;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.196, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f196.google.com with SMTP id c196so12890896pfc.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=buf7Prh2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.194, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f194.google.com with SMTP id z17so3892818pgc.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=P3IIMv4Tt8M+JcnUFS/PFAq8ZsBEVFVEWdFAZXJlD+o=;
-        b=qcbh6D9R9viy46ir85KI+hbPadp10KjGbgtm/Se+ZgFuxTjpex8QUmcyKXzJPDlAI0
-         855sRU8QGa6+2dWWFX5tu6JaY1Zgu1cK1YCd4bEzxVqo0jexSMzi5ByCFj7PAoj7DIoI
-         35KI+hhgn5iDtJ+cjeqNc5Id8Ni12I10dqk7tGnLok3HJV/Qhupk80dQd+AJ7G8rEK26
-         VbwrPWqV5xPDsewuN9m+CBggSVUlK8hRFhGMXPpotd019PY15FY1Q7zYV7kgY70pvYP9
-         79GYSeJ6iyh+gDujSvMs3iyIC2hMiISoYtbfUWMLOroLgHeB+XErc/Oj1lfIMQEg/Wm4
-         LUdA==
+        bh=Nbz/ZYthZJFg/CEB724Cn/nf9eiHuNT1owSmOCsIV4c=;
+        b=buf7Prh2reRRke/U4jyl0K7V5sXVg5D/1VfI5j18EZflismTnICTtylGs2GvwMgRMn
+         p290zH1DDZNFAtvQU6PLRzR2O/rC+Th4h1rStMwLckky84QP42h2AlWQ0nwqCcpniuZC
+         Ro3FZbhTNCKoaQqoa9VVlMFKgjtaIwK7o+LLPotcDvbX75qx8j/p4KyFioYikvw2g4GX
+         ZOAqpY2+YcfYrS5ozFabMmZ5yXfnHOC9sl+3iOE3YtUWQ9pmW4e6FFhvRoc6nnnS1c7D
+         mRIxiDtxzoSJJ8w4jLJNbVj8IMstKdYlAwdIiqb2B0majwN7J6ku6Re6fysDNLNH7X7c
+         9H4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=P3IIMv4Tt8M+JcnUFS/PFAq8ZsBEVFVEWdFAZXJlD+o=;
-        b=lrgI5etlqo/wS4VOXajLb8vH6uqqAws7TXOR8+DtITOuvqayF+QEII7wTwfIy2eXuu
-         QODoZ+X30DeTCTPKzoq3d1/uY09q7zCgrojBs1o6CthQDXfB+aZpqaq95cFC8CwHyVYJ
-         TZeehz4fJoBw7l2m1Yoswf24dptXMQjD2MdKgOvfh9HXqIh3o8/QH/rIaaM622O3WsSe
-         8FK0SzR+LHD3yfB0soBYwjarVeaYELCBJfDVcutnHl6XsZfPSm7Wz8vPokLfQFNrJ86K
-         znY/HrYklrfDuH9UQM6f3P9MZOJPtkytW7ZxYXB0Nr6q6BpX6of2Ib9oQn1M/ofJlyzn
-         fAdQ==
-X-Gm-Message-State: AOAM5313f7dTAneopq1PAFahuWeqipXUSi2ZqfgBCA/PniY7w/m3nc+c
-	Biw/09FHtIY+Ybk6EZvetcNk8r1ljA/44UK9GRc=
-X-Google-Smtp-Source: ABdhPJy6BbbpHDeKGDq53G/4D9dYstU4NXivodBBT6D6EeeB8JrqNpmdiOiYQKlB4ylB1hUeiaOhQw==
-X-Received: by 2002:a63:801:: with SMTP id 1mr11253886pgi.48.1600092766258;
-        Mon, 14 Sep 2020 07:12:46 -0700 (PDT)
+        bh=Nbz/ZYthZJFg/CEB724Cn/nf9eiHuNT1owSmOCsIV4c=;
+        b=ohh3bcqS7U8waXdE1JFiS3S8IMMKKRBZIjTJ6V8oLa5CpirSR71Y7Jz88cAi3xNb46
+         hhJXgtsldvhGVo5CIa4/0yXYE3JUdoLCRDkcrE3ktm+nSJd5VZ62IhZg5mVOpayWurVF
+         GW18bg+93NgidgIqr0gCJAZE/roDLm6P0imEtWQefg4i0BWzBbLgd7PxkQi26uznf6AV
+         PgBZSepQGhfjDGnmNVMok+tTxwg7GoR3NXSRDivAAYqx21f9lyZpQ3x0LtsEEIHzvR+C
+         JkoX7ad3MQ/fET3XOQQGCliAHP9DivE+n8Qj1eGo0cIyFpX1eF4mQAD0qwMm/REGbQ04
+         sU8A==
+X-Gm-Message-State: AOAM533BC+oQCULPNex3giXQh4ntEqjn7geCQx2niACGJXDHP56D6rpk
+	wZocheUVjnWwnnTh52DSfCMN9pgIhr5TJRndJes=
+X-Google-Smtp-Source: ABdhPJxm6oZAsqFQLMzYLOuipaZ0qQvvOkslncuMs6V82/NBLh6UYAh9NQhaO9Zddq1Zxm3QcAQojw==
+X-Received: by 2002:a05:6a00:8c5:b029:13e:ce2c:88bd with SMTP id s5-20020a056a0008c5b029013ece2c88bdmr13473546pfu.0.1600092768708;
+        Mon, 14 Sep 2020 07:12:48 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.45
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:12:45 -0700 (PDT)
+        Mon, 14 Sep 2020 07:12:48 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/24] curl: add vendors to CVE_PRODUCT to exclude false positives
-Date: Mon, 14 Sep 2020 04:11:35 -1000
-Message-Id: <f43a1bd9e4ae2f652e14d6b6d04e3e81d6062b47.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 18/24] cmake: whitelist CVE-2016-10642
+Date: Mon, 14 Sep 2020 04:11:36 -1000
+Message-Id: <46fadf2008b59278f09aa7fdd4f94da7bd098c4a.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
 
 From: Ross Burton <ross@burtonini.com>
 
-To avoid false positives (such as CVE-2010-0734, rubygems:curl), expand
-the CVE_PRODUCT list to include all the vendors that have been used.
+This CVE is specific to the npm package that can install cmake, so isn't
+relevant to our cmake recipe.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bb265122cccea9466405fdd924ad10ce8cda0dec)
+(cherry picked from commit 8e74ed809ec4c1f61264ecf5be4bc319e5e07766)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/curl/curl_7.69.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/cmake/cmake.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 8b5170f021..dfcd533c80 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -14,7 +14,9 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
- SRC_URI[sha256sum] = "2ff5e5bd507adf6aa88ff4bbafd4c7af464867ffb688be93b9930717a56c4de8"
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 09949b566c..a2c7d513b3 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -26,3 +26,7 @@ SRC_URI[md5sum] = "d86ccaf3d2462b6b5947919abe5b9f15"
+ SRC_URI[sha256sum] = "5f760b50b8ecc9c0c37135fae5fbf00a2fef617059aa9d61c1bb91653e5a8bfc"
  
--CVE_PRODUCT = "curl libcurl"
-+# Curl has used many names over the years...
-+CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
 +
- inherit autotools pkgconfig binconfig multilib_header
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls libidn proxy threaded-resolver verbose zlib"
++# This is specific to the npm package that installs cmake, so isn't
++# relevant to OpenEmbedded
++CVE_CHECK_WHITELIST += "CVE-2016-10642"
 -- 
 2.17.1
 
