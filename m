@@ -1,224 +1,416 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web12.61406.1600092731003019454
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.62219.1600092733651958671
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:12:11 -0700
+ Mon, 14 Sep 2020 07:12:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KUONe0O+;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id b124so12704031pfg.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HBkYi240;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id l191so11651230pgd.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-         :content-transfer-encoding;
-        bh=kiMh6+xrW/MpGpoH9PuZG491I+KOIcoWnY0gaHcuO7o=;
-        b=KUONe0O+txf8kXGu9vu9WtxVKQuN27A0pMO4i7R1zTJeeYtDEdPxTN00mvyXc9uvUq
-         t1JCS1BnpP4/S7VqDFFkJEBY98/OeNAusMl6MzJFyHbWKkIduRmjODAq8WWL24aUE2pu
-         RgtHXl8+VQdzTdgrtCr0MN7Emy6gu7DNTfqeP980gSVWnVL27dOy8hsIl4J7CKgT75wn
-         t280K+vguZmM+TqkgZJU3TNuawftYYXyCTLwf+FFg0lrqaeNF/bFyDRxNK8OiJVXLhr3
-         GIDCU0rkHSD8lQ8uPjA846Cu6ng7f8ZpizGAhZOyCvcIXImO+JIZv64rpQ8nqxVgz2Tj
-         q85w==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=Jh2l2MtfUeLxEidqJGJ5eRKqv4pC3JNbgIDxHq3P4zE=;
+        b=HBkYi240bBYVoHFnArRksEDIQVkdkVN6T8MViiqjcKTHiJ7mCp6hkzrGF7Obo4MFTg
+         EjNgj/NnazVXrGEaRnNkDGcqlRa4PRH3k/D2U6hpqbPhIcdhEAjMOorZPgwidLLhv29C
+         b3tLo+8BJipN4/PCeXF2uZah6y6Dr5dQ4w+miBZT0bvHMgmz/o1thqoenl0tHo1m3JEe
+         P4WIeuCzKvAmOEeC66Rb51scpxLs76cy5spk+XnyHGYwT4CsEb0lz5i0IuhTUrLDmput
+         95TVN+jJiU0/LkGPY/Coxynr2a6BOt3r0JhlBp2EOG1h3sV5Tek/AqNX3Tt6VlzIPwiJ
+         nr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :in-reply-to:references:content-transfer-encoding;
-        bh=kiMh6+xrW/MpGpoH9PuZG491I+KOIcoWnY0gaHcuO7o=;
-        b=cLwlTT+UoEXKKAPYsbwSZlbTV/GI6N7i2BODXC1wTK9+i97jYDRifH9xVGB2uO8sh+
-         gDSMHv9bDLWfU7U393kQfMiU/d1Yz9oAX7QO8w0sDBxOn4xcumWFBgL46B3La3GY/hrM
-         QFhmaF7fmJyfKLT+0EXXNDnJeHYDqSKkXz1RWFF1ebdjcdKwtjswhTeJ6ptPre1cW4V/
-         Nazx9GNrizz4URypgl7b1phWAbPltWHnQR2ZFiq1EUCdcx8OHwS4izGjJld04YErxXe7
-         1sP6mz+HHJhUpPPPcJi9eY8yIXOBfuValhywwrrX+i4d3AiPoqIwb4DXPQ1HM0yWoJ1K
-         4KAQ==
-X-Gm-Message-State: AOAM533KmHYfUH80Hw2f1GTx1Q124SKZQuMlHcsC5s2UbS+q3lPtVN5S
-	5q1q7HYnrfe69AnpGhGU4mCYe72/ksMFLMPqynE=
-X-Google-Smtp-Source: ABdhPJxTDdcvWpqd88H8u0h5XjV8mvyHnOVCVLB+yInrf8hUOEWpwMp9lAN26WB5K1w/joJvRU59+A==
-X-Received: by 2002:a17:902:aa8d:: with SMTP id d13mr14714939plr.124.1600092730082;
-        Mon, 14 Sep 2020 07:12:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=Jh2l2MtfUeLxEidqJGJ5eRKqv4pC3JNbgIDxHq3P4zE=;
+        b=P4xhRn1oxbu6iSCdOY9zYwYxkH47+qi30DVE/wFxz5Z60EUlImS8HRToyiLJISGpU0
+         TnqHaWBsh0+6tmhYji1BIiSRkXYA0HQ3PR5kmOAnfj9v9TFN3PcDVI4dXiuPONZEPZKV
+         CH+MU0Ggrwfzs0+Mp7DLax+fwLMUhaGPE7k5tlsjz5ZdJ5kWm46efSeDq7Ck5t5MYLE+
+         d1CI8AnPeVHLkWwAWrXgzHY7lYd7bjjif+D765kQJDMEh6HuEiExGshQH5XwkVjpdRav
+         iqEnBMPThzeHQiXc9hWVGPLe7jZcfsJ8QFtQct7TIy4+SVS+RJ941lVa/MNfHV9pZZT4
+         ExaA==
+X-Gm-Message-State: AOAM533aXM7myRNoKCbeZRbxIIb1YdI/GaMrgM+ZXaXo7jEHcL0KmqJj
+	v8Eaar6LvpQaVh1of+VEQMHnRxmeNfOpw0my3Yo=
+X-Google-Smtp-Source: ABdhPJy9Y5BUo4I+c8b+E26S5iuhsW9VWhejAhBEO4PN2vqU09NqF/SoaeWbo6V++gnDCHC5E/wilw==
+X-Received: by 2002:a17:902:be16:: with SMTP id r22mr3533551pls.156.1600092732532;
+        Mon, 14 Sep 2020 07:12:12 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.08
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:12:09 -0700 (PDT)
+        Mon, 14 Sep 2020 07:12:11 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/24] qemu: fix CVE-2020-14364 CVE-2020-14415
-Date: Mon, 14 Sep 2020 04:11:21 -1000
-Message-Id: <1a150f0df36892283686e3e1afb30a7742c8e252.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/24] libx11 : fix CVE-2020-14344
+Date: Mon, 14 Sep 2020 04:11:22 -1000
+Message-Id: <b68ded7dee5e6e8b8f23840e3118edcdee7e5c7e.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
+
+fix CVE-2020-14344 with squashed patch.
+squashed patch include below patch,
+https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1703b9f3435079d3c6021e1ee2ec34fd4978103d
+https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1a566c9e00e5f35c1f9e7f3d741a02e5170852b2
+https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/2fcfcc49f3b1be854bb9085993a01d17c62acf60
+https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/388b303c62aa35a245f1704211a023440ad2c488
+
+also include fix to issue introduced in above patch
+(388b303c62aa35a245f1704211a023440ad2c488)
+https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/93fce3f4e79cbc737d6468a4f68ba3de1b83953b
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../qemu/qemu/CVE-2020-14364.patch            | 93 +++++++++++++++++++
- .../qemu/qemu/CVE-2020-14415.patch            | 37 ++++++++
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-14415.patch
+ .../xorg-lib/libx11/CVE-2020-14344.patch      | 321 ++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |   4 +-
+ 2 files changed, 324 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2020-14344.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 49dbb1c13d..e0ea5ad477 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -45,6 +45,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-13800.patch \
- 	   file://CVE-2020-13362.patch \
- 	   file://CVE-2020-15863.patch \
-+	   file://CVE-2020-14364.patch \
-+	   file://CVE-2020-14415.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2020-14344.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2020-14344.patch
 new file mode 100644
-index 0000000000..8333025a32
+index 0000000000..9d07202b06
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-14364.patch
-@@ -0,0 +1,93 @@
-+From b946434f2659a182afc17e155be6791ebfb302eb Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Tue, 25 Aug 2020 07:36:36 +0200
-+Subject: [PATCH] usb: fix setup_len init (CVE-2020-14364)
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2020-14344.patch
+@@ -0,0 +1,321 @@
++From f64388ed036b6668686ad5448bc7d4f73b35e1c7 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Fri, 24 Jul 2020 21:09:10 +0200
++Subject: [PATCH] Fix CVE-2020-14344
 +
-+Store calculated setup_len in a local variable, verify it, and only
-+write it to the struct (USBDevice->setup_len) in case it passed the
-+sanity checks.
++This is a squashed of below commit:
 +
-+This prevents other code (do_token_{in,out} functions specifically)
-+from working with invalid USBDevice->setup_len values and overrunning
-+the USBDevice->setup_buf[] buffer.
++commit 1 :-
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1703b9f3435079d3c6021e1ee2ec34fd4978103d
++Change the data_len parameter of _XimAttributeToValue() to CARD16
 +
-+Fixes: CVE-2020-14364
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Tested-by: Gonglei <arei.gonglei@huawei.com>
-+Reviewed-by: Li Qiang <liq3ea@gmail.com>
-+Message-id: 20200825053636.29648-1-kraxel@redhat.com
++It's coming from a length in the protocol (unsigned) and passed
++to functions that expect unsigned int parameters (_XCopyToArg()
++and memcpy()).
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++Reviewed-by: Todd Carson <toc@daybefore.net>
++
++commit 2 :-
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1a566c9e00e5f35c1f9e7f3d741a02e5170852b2
++Zero out buffers in functions
++
++It looks like uninitialized stack or heap memory can leak
++out via padding bytes.
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++Reviewed-by: Matthieu Herrb <matthieu@herrb.eu>
++
++commit 3 :-
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/2fcfcc49f3b1be854bb9085993a01d17c62acf60
++Fix more unchecked lengths
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++Reviewed-by: Matthieu Herrb <matthieu@herrb.eu>
++
++commit 4 :-
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/388b303c62aa35a245f1704211a023440ad2c488
++fix integer overflows in _XimAttributeToValue()
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++Reviewed-by: Matthieu Herrb <matthieu@herrb.eu>
++
++commit 5 :-
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/93fce3f4e79cbc737d6468a4f68ba3de1b83953b
++Fix size calculation in `_XimAttributeToValue`.
++
++The check here guards the read below.
++For `XimType_XIMStyles`, these are `num` of `CARD32` and for `XimType_XIMHotKeyTriggers`
++these are `num` of `XIMTRIGGERKEY` ref[1] which is defined as 3 x `CARD32`.
++(There are data after the `XIMTRIGGERKEY` according to the spec but they are not read by this
++function and doesn't need to be checked.)
++
++The old code here used the native datatype size instead of the wire protocol size causing
++the check to always fail.
++
++Also fix the size calculation for the header (size). It is 2 x CARD16 for both types
++despite the unused `CARD16` for `XimType_XIMStyles`.
++
++[1] https://www.x.org/releases/X11R7.6/doc/libX11/specs/XIM/xim.html#Input_Method_Styles
++
++This fixes a regression caused by 388b303c62aa35a245f1704211a023440ad2c488 in 1.6.10.
++
++Fix #116
 +
 +Upstream-Status: Backport
-+[https://git.qemu.org/?p=qemu.git;a=patch;h=b946434f2659a182afc17e155be6791ebfb302eb]
-+CVE: CVE-2020-14364
++[ https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1703b9f3435079d3c6021e1ee2ec34fd4978103d
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/1a566c9e00e5f35c1f9e7f3d741a02e5170852b2
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/2fcfcc49f3b1be854bb9085993a01d17c62acf60
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/388b303c62aa35a245f1704211a023440ad2c488
++https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/93fce3f4e79cbc737d6468a4f68ba3de1b83953b ]
++CVE: CVE-2020-14344
 +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +---
-+ hw/usb/core.c | 16 ++++++++++------
-+ 1 file changed, 10 insertions(+), 6 deletions(-)
++ modules/im/ximcp/imDefIc.c  |  6 ++++--
++ modules/im/ximcp/imDefIm.c  | 25 +++++++++++++++++--------
++ modules/im/ximcp/imRmAttr.c | 31 +++++++++++++++++++++++--------
++ 3 files changed, 44 insertions(+), 18 deletions(-)
 +
-+diff --git a/hw/usb/core.c b/hw/usb/core.c
-+index 5abd128..5234dcc 100644
-+--- a/hw/usb/core.c
-++++ b/hw/usb/core.c
-+@@ -129,6 +129,7 @@ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
-+ static void do_token_setup(USBDevice *s, USBPacket *p)
++diff --git a/modules/im/ximcp/imDefIc.c b/modules/im/ximcp/imDefIc.c
++index 7564dbad..d552aa9e 100644
++--- a/modules/im/ximcp/imDefIc.c
+++++ b/modules/im/ximcp/imDefIc.c
++@@ -350,7 +350,7 @@ _XimProtoGetICValues(
++ 	     + sizeof(INT16)
++ 	     + XIM_PAD(2 + buf_size);
++ 
++-    if (!(buf = Xmalloc(buf_size)))
+++    if (!(buf = Xcalloc(buf_size, 1)))
++ 	return arg->name;
++     buf_s = (CARD16 *)&buf[XIM_HEADER_SIZE];
++ 
++@@ -708,6 +708,7 @@ _XimProtoSetICValues(
++ #endif /* XIM_CONNECTABLE */
++ 
++     _XimGetCurrentICValues(ic, &ic_values);
+++    memset(tmp_buf, 0, sizeof(tmp_buf32));
++     buf = tmp_buf;
++     buf_size = XIM_HEADER_SIZE
++ 	+ sizeof(CARD16) + sizeof(CARD16) + sizeof(INT16) + sizeof(CARD16);
++@@ -730,7 +731,7 @@ _XimProtoSetICValues(
++ 
++ 	buf_size += ret_len;
++ 	if (buf == tmp_buf) {
++-	    if (!(tmp = Xmalloc(buf_size + data_len))) {
+++	    if (!(tmp = Xcalloc(buf_size + data_len, 1))) {
++ 		return tmp_name;
++ 	    }
++ 	    memcpy(tmp, buf, buf_size);
++@@ -740,6 +741,7 @@ _XimProtoSetICValues(
++ 		Xfree(buf);
++ 		return tmp_name;
++ 	    }
+++            memset(&tmp[buf_size], 0, data_len);
++ 	    buf = tmp;
++ 	}
++     }
++diff --git a/modules/im/ximcp/imDefIm.c b/modules/im/ximcp/imDefIm.c
++index cf922e48..d0329b54 100644
++--- a/modules/im/ximcp/imDefIm.c
+++++ b/modules/im/ximcp/imDefIm.c
++@@ -62,6 +62,7 @@ PERFORMANCE OF THIS SOFTWARE.
++ #include "XimTrInt.h"
++ #include "Ximint.h"
++ 
+++#include <limits.h>
++ 
++ int
++ _XimCheckDataSize(
++@@ -807,12 +808,16 @@ _XimOpen(
++     int			 buf_size;
++     int			 ret_code;
++     char		*locale_name;
+++    size_t		 locale_len;
++ 
++     locale_name = im->private.proto.locale_name;
++-    len = strlen(locale_name);
++-    buf_b[0] = (BYTE)len;			   /* length of locale name */
++-    (void)strcpy((char *)&buf_b[1], locale_name);  /* locale name */
++-    len += sizeof(BYTE);			   /* sizeof length */
+++    locale_len = strlen(locale_name);
+++    if (locale_len > UCHAR_MAX)
+++      return False;
+++    memset(buf32, 0, sizeof(buf32));
+++    buf_b[0] = (BYTE)locale_len;		/* length of locale name */
+++    memcpy(&buf_b[1], locale_name, locale_len);	   /* locale name */
+++    len = (INT16)(locale_len + sizeof(BYTE));	   /* sizeof length */
++     XIM_SET_PAD(buf_b, len);			   /* pad */
++ 
++     _XimSetHeader((XPointer)buf, XIM_OPEN, 0, &len);
++@@ -1287,6 +1292,7 @@ _XimProtoSetIMValues(
++ #endif /* XIM_CONNECTABLE */
++ 
++     _XimGetCurrentIMValues(im, &im_values);
+++    memset(tmp_buf, 0, sizeof(tmp_buf32));
++     buf = tmp_buf;
++     buf_size = XIM_HEADER_SIZE + sizeof(CARD16) + sizeof(INT16);
++     data_len = BUFSIZE - buf_size;
++@@ -1307,7 +1313,7 @@ _XimProtoSetIMValues(
++ 
++ 	buf_size += ret_len;
++ 	if (buf == tmp_buf) {
++-	    if (!(tmp = Xmalloc(buf_size + data_len))) {
+++	    if (!(tmp = Xcalloc(buf_size + data_len, 1))) {
++ 		return arg->name;
++ 	    }
++ 	    memcpy(tmp, buf, buf_size);
++@@ -1317,6 +1323,7 @@ _XimProtoSetIMValues(
++ 		Xfree(buf);
++ 		return arg->name;
++ 	    }
+++            memset(&tmp[buf_size], 0, data_len);
++ 	    buf = tmp;
++ 	}
++     }
++@@ -1458,7 +1465,7 @@ _XimProtoGetIMValues(
++ 	     + sizeof(INT16)
++ 	     + XIM_PAD(buf_size);
++ 
++-    if (!(buf = Xmalloc(buf_size)))
+++    if (!(buf = Xcalloc(buf_size, 1)))
++ 	return arg->name;
++     buf_s = (CARD16 *)&buf[XIM_HEADER_SIZE];
++ 
++@@ -1720,7 +1727,7 @@ _XimEncodingNegotiation(
++ 	+ sizeof(CARD16)
++ 	+ detail_len;
++ 
++-    if (!(buf = Xmalloc(XIM_HEADER_SIZE + len)))
+++    if (!(buf = Xcalloc(XIM_HEADER_SIZE + len, 1)))
++ 	goto free_detail_ptr;
++ 
++     buf_s = (CARD16 *)&buf[XIM_HEADER_SIZE];
++@@ -1816,6 +1823,7 @@ _XimSendSavedIMValues(
++     int			 ret_code;
++ 
++     _XimGetCurrentIMValues(im, &im_values);
+++    memset(tmp_buf, 0, sizeof(tmp_buf32));
++     buf = tmp_buf;
++     buf_size = XIM_HEADER_SIZE + sizeof(CARD16) + sizeof(INT16);
++     data_len = BUFSIZE - buf_size;
++@@ -1838,7 +1846,7 @@ _XimSendSavedIMValues(
++ 
++ 	buf_size += ret_len;
++ 	if (buf == tmp_buf) {
++-	    if (!(tmp = Xmalloc(buf_size + data_len))) {
+++	    if (!(tmp = Xcalloc(buf_size + data_len, 1))) {
++ 		return False;
++ 	    }
++ 	    memcpy(tmp, buf, buf_size);
++@@ -1848,6 +1856,7 @@ _XimSendSavedIMValues(
++ 		Xfree(buf);
++ 		return False;
++ 	    }
+++            memset(&tmp[buf_size], 0, data_len);
++ 	    buf = tmp;
++ 	}
++     }
++diff --git a/modules/im/ximcp/imRmAttr.c b/modules/im/ximcp/imRmAttr.c
++index 9d4e4625..118f191d 100644
++--- a/modules/im/ximcp/imRmAttr.c
+++++ b/modules/im/ximcp/imRmAttr.c
++@@ -29,6 +29,8 @@ PERFORMANCE OF THIS SOFTWARE.
++ #ifdef HAVE_CONFIG_H
++ #include <config.h>
++ #endif
+++#include <limits.h>
+++
++ #include "Xlibint.h"
++ #include "Xlcint.h"
++ #include "Ximint.h"
++@@ -214,7 +216,7 @@ _XimAttributeToValue(
++     Xic			  ic,
++     XIMResourceList	  res,
++     CARD16		 *data,
++-    INT16		  data_len,
+++    CARD16		  data_len,
++     XPointer		  value,
++     BITMASK32		  mode)
 + {
-+     int request, value, index;
-++    unsigned int setup_len;
++@@ -250,18 +252,24 @@ _XimAttributeToValue(
 + 
-+     if (p->iov.size != 8) {
-+         p->status = USB_RET_STALL;
-+@@ -138,14 +139,15 @@ static void do_token_setup(USBDevice *s, USBPacket *p)
-+     usb_packet_copy(p, s->setup_buf, p->iov.size);
-+     s->setup_index = 0;
-+     p->actual_length = 0;
-+-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
-+-    if (s->setup_len > sizeof(s->data_buf)) {
-++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
-++    if (setup_len > sizeof(s->data_buf)) {
-+         fprintf(stderr,
-+                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
-+-                s->setup_len, sizeof(s->data_buf));
-++                setup_len, sizeof(s->data_buf));
-+         p->status = USB_RET_STALL;
-+         return;
-+     }
-++    s->setup_len = setup_len;
++     case XimType_XIMStyles:
++ 	{
++-	    INT16		 num = data[0];
+++	    CARD16		 num = data[0];
++ 	    register CARD32	*style_list = (CARD32 *)&data[2];
++ 	    XIMStyle		*style;
++ 	    XIMStyles		*rep;
++ 	    register int	 i;
++ 	    char		*p;
++-	    int			 alloc_len;
+++	    unsigned int         alloc_len;
 + 
-+     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
-+     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
-+@@ -259,26 +261,28 @@ static void do_token_out(USBDevice *s, USBPacket *p)
-+ static void do_parameter(USBDevice *s, USBPacket *p)
-+ {
-+     int i, request, value, index;
-++    unsigned int setup_len;
++ 	    if (!(value))
++ 		return False;
 + 
-+     for (i = 0; i < 8; i++) {
-+         s->setup_buf[i] = p->parameter >> (i*8);
-+     }
+++	    if (num > (USHRT_MAX / sizeof(XIMStyle)))
+++		return False;
+++	    if ((2 * sizeof(CARD16) + (num * sizeof(CARD32))) > data_len)
+++		return False;
++ 	    alloc_len = sizeof(XIMStyles) + sizeof(XIMStyle) * num;
+++	    if (alloc_len < sizeof(XIMStyles))
+++		return False;
++ 	    if (!(p = Xmalloc(alloc_len)))
++ 		return False;
 + 
-+     s->setup_state = SETUP_STATE_PARAM;
-+-    s->setup_len   = (s->setup_buf[7] << 8) | s->setup_buf[6];
-+     s->setup_index = 0;
++@@ -313,7 +321,7 @@ _XimAttributeToValue(
 + 
-+     request = (s->setup_buf[0] << 8) | s->setup_buf[1];
-+     value   = (s->setup_buf[3] << 8) | s->setup_buf[2];
-+     index   = (s->setup_buf[5] << 8) | s->setup_buf[4];
++     case XimType_XFontSet:
++ 	{
++-	    INT16	 len = data[0];
+++	    CARD16	 len = data[0];
++ 	    char	*base_name;
++ 	    XFontSet	 rep = (XFontSet)NULL;
++ 	    char	**missing_list = NULL;
++@@ -324,11 +332,12 @@ _XimAttributeToValue(
++ 		return False;
++ 	    if (!ic)
++ 		return False;
++-
+++	    if (len > data_len)
+++		return False;
++ 	    if (!(base_name = Xmalloc(len + 1)))
++ 		return False;
 + 
-+-    if (s->setup_len > sizeof(s->data_buf)) {
-++    setup_len = (s->setup_buf[7] << 8) | s->setup_buf[6];
-++    if (setup_len > sizeof(s->data_buf)) {
-+         fprintf(stderr,
-+                 "usb_generic_handle_packet: ctrl buffer too small (%d > %zu)\n",
-+-                s->setup_len, sizeof(s->data_buf));
-++                setup_len, sizeof(s->data_buf));
-+         p->status = USB_RET_STALL;
-+         return;
-+     }
-++    s->setup_len = setup_len;
++-	    (void)strncpy(base_name, (char *)&data[1], (int)len);
+++	    (void)strncpy(base_name, (char *)&data[1], (size_t)len);
++ 	    base_name[len] = '\0';
 + 
-+     if (p->pid == USB_TOKEN_OUT) {
-+         usb_packet_copy(p, s->data_buf, s->setup_len);
++ 	    if (mode & XIM_PREEDIT_ATTR) {
++@@ -357,19 +366,25 @@ _XimAttributeToValue(
++ 
++     case XimType_XIMHotKeyTriggers:
++ 	{
++-	    INT32			 num = *((CARD32 *)data);
+++	    CARD32			 num = *((CARD32 *)data);
++ 	    register CARD32		*key_list = (CARD32 *)&data[2];
++ 	    XIMHotKeyTrigger		*key;
++ 	    XIMHotKeyTriggers		*rep;
++ 	    register int		 i;
++ 	    char			*p;
++-	    int				 alloc_len;
+++	    unsigned int		 alloc_len;
++ 
++ 	    if (!(value))
++ 		return False;
++ 
+++	    if (num > (UINT_MAX / sizeof(XIMHotKeyTrigger)))
+++		return False;
+++	    if ((2 * sizeof(CARD16) + (num * 3 * sizeof(CARD32))) > data_len)
+++		return False;
++ 	    alloc_len = sizeof(XIMHotKeyTriggers)
++ 		      + sizeof(XIMHotKeyTrigger) * num;
+++	    if (alloc_len < sizeof(XIMHotKeyTriggers))
+++		return False;
++ 	    if (!(p = Xmalloc(alloc_len)))
++ 		return False;
++ 
 +-- 
-+1.8.3.1
++2.17.1
 +
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-14415.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-14415.patch
-new file mode 100644
-index 0000000000..dca2f90a49
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-14415.patch
-@@ -0,0 +1,37 @@
-+From 7a4ede0047a8613b0e3b72c9d351038f013dd357 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 20 Jan 2020 11:18:04 +0100
-+Subject: [PATCH] audio/oss: fix buffer pos calculation
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+Fixes: 3ba4066d085f ("ossaudio: port to the new audio backend api")
-+Reported-by: ziming zhang <ezrakiez@gmail.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Message-Id: <20200120101804.29578-1-kraxel@redhat.com>
-+Reviewed-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=7a4ede0047a8613b0e3b72c9d351038f013dd357]
-+CVE: CVE-2020-14415
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ audio/ossaudio.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-+index c43faee..9456491 100644
-+--- a/audio/ossaudio.c
-++++ b/audio/ossaudio.c
-+@@ -420,7 +420,7 @@ static size_t oss_write(HWVoiceOut *hw, void *buf, size_t len)
-+             size_t to_copy = MIN(len, hw->size_emul - hw->pos_emul);
-+             memcpy(hw->buf_emul + hw->pos_emul, buf, to_copy);
-+ 
-+-            hw->pos_emul = (hw->pos_emul + to_copy) % hw->pos_emul;
-++            hw->pos_emul = (hw->pos_emul + to_copy) % hw->size_emul;
-+             buf += to_copy;
-+             len -= to_copy;
-+         }
-+-- 
-+1.8.3.1
-+
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+index ff60a4240c..84e0e4457e 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+@@ -12,7 +12,9 @@ PE = "1"
+ 
+ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
+             file://disable_tests.patch \
+-            file://libx11-whitespace.patch"
++            file://libx11-whitespace.patch \
++            file://CVE-2020-14344.patch \
++"
+ 
+ SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
+ SRC_URI[sha256sum] = "9cc7e8d000d6193fa5af580d50d689380b8287052270f5bb26a5fb6b58b2bed1"
 -- 
 2.17.1
 
