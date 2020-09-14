@@ -1,103 +1,295 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.65])
- by mx.groups.io with SMTP id smtpd.web12.51516.1600048452220888682
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.52768.1600050283451972887
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 18:54:12 -0700
+ Sun, 13 Sep 2020 19:24:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Mln16/78;
- spf=pass (domain: windriver.com, ip: 40.107.220.65, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=guN5uiEJ3jmMahbgN1Td7D/cAOs/V7no4tE4JOgAzcF79daEfipetEhtfUG9LHiuBjSJWeD7bK+cmUN9yZ9EHufXNyVOiNWNWlIWQmFWRs2lFX71PbRH2Cgrwer5mwwfD6qJAMnmXN4NRGzl2iWAmm60ssTrqadnnSkcAnJ1sol6U3RzMCBNr3/rSAsAh3wxeJLIkx6DZNYKIFnEtm2waBZfjwGBb3hbss/rQHkLAkbYFL5rooAeCigA8sVLq/YtUZsnMLQ+TjL/UeMEHrntcLu/Pe7pHfH6kI3rxZ+j7ayZooyBDT3VRAzM5CvuBeznl0miXaySKZKRHyev5puYkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zCqJnAi6jS6uwq4n5bjuZZPdB3OryaT4eY19+b+lZ4=;
- b=im3ztHygV23Deyy90bQWtukWWjWS8nq44D6rM0vRb8Mo502aFukrvtWxC+I7yaT4zJx2hc4EJ/pgcC9sYPm2Gg+mHIKqDekyKBhPVBmioBjueJjgKsoCaTMFSiy4u0lUi5QfkyPGUelCaJGWbi3CpbdqQGNcDPQdUtaxjonNlbDLsMeztao/NqM8hm+ITF2LbGw7xKrU9H8nLhBWiWrdkdVI7mrG8GqZ1CbCtTIkb6cQe2FVPFvEMhxFFtGVSG8UsomQh/CBxczO/fedu9FrXwJhxwGKVP8LSQ9R4bZU70mhErLjmzKtv+sNson08Fs1YhZb6J382OFRt+ZwgOJSmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zCqJnAi6jS6uwq4n5bjuZZPdB3OryaT4eY19+b+lZ4=;
- b=Mln16/78wlGwk8APOdbvXI4Du1vE6bfUJH+nem0EB0qZdsTfBaqQ7azthf6YPVZ/+QOcvYS5sc7ZogD/NAYsFT1OoB9scUX5TVicEJ73gv4awPnw2b+AT3zAsH9dPzf6CWcBDoB03zMRXTd3rePxrVgu1m5w+SmflPE3tsh8eVg=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BYAPR11MB2808.namprd11.prod.outlook.com (2603:10b6:a02:c8::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
- 2020 01:54:09 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::fc6b:8198:e199:c0dc]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::fc6b:8198:e199:c0dc%7]) with mapi id 15.20.3370.019; Mon, 14 Sep 2020
- 01:54:09 +0000
-Subject: Re: [OE-core] [PATCH] qemu: always define unknown_lock_type
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20200910025728.3868717-1-mingli.yu@windriver.com>
- <CAAnfSTsTmAE5fbvTck6m9rsQGa_FebUMWmAXEvKkCfq2TWjiZw@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <26851540-6c95-c58e-7ae9-87d2ba546478@windriver.com>
-Date: Mon, 14 Sep 2020 09:50:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAAnfSTsTmAE5fbvTck6m9rsQGa_FebUMWmAXEvKkCfq2TWjiZw@mail.gmail.com>
-X-ClientProxiedBy: HK2PR03CA0054.apcprd03.prod.outlook.com
- (2603:1096:202:17::24) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: zhixiong.chi@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08E2OBLO028391
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 19:24:32 -0700
+Received: from [128.224.162.237] (128.224.162.237) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Sun, 13 Sep 2020
+ 19:24:19 -0700
+Subject: Re: [OE-core][zeus][PATCH] procps: fix the top command crash issue
+To: <openembedded-core@lists.openembedded.org>
+References: <1633A8718261FDB3.22811@lists.openembedded.org>
+From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
+Message-ID: <caa88809-bbee-d1d8-4eda-c851a57c8bdc@windriver.com>
+Date: Mon, 14 Sep 2020 10:25:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.138] (60.247.85.82) by HK2PR03CA0054.apcprd03.prod.outlook.com (2603:1096:202:17::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.5 via Frontend Transport; Mon, 14 Sep 2020 01:54:07 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dacc009f-0a0c-4e60-06a9-08d8585111c1
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2808:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB280826AB3C7797FCD64F5C60F1230@BYAPR11MB2808.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	TC69AoM5w3YEneznoylt6d47owEmPiUcYtiGDtXJSoF2rNf/h3Plx4GXACfsI7sNDuQxuC7kTpRIxdcYvE3c3xnuTmtF3vHJRi8BuoCv+TZbBJhP75JN+V5C4xLyGzEjTrJNEwFd8D0H4f16nwT4g02ObgrHFkcczIjNg+j4lnL48sB6oNYoV7XLK0DeI4x0jeU922U6NQKFcBEai4OJSyBcuE+xV7NwvYmNpjTLNRPJf3Em8DWkTVoNHWKAcEm7w3iHcvZhGDLnm8Gb6dLKONg+Ytbv27gj3FeYh0kOhMeUNrlIB42JzmSqPcKryhsjpLbobPNjMtMq7qrN7H36HTEPCJX+sPSB3us7fM6Xg18P5zk64u7UFRuYrbKJ74KDRCA/tK8UhgdIf6t1NZg3T6Xo8c5UcyYL1iAHjvjIiLjY2FR9A50jKSuy7ZUG9N7IyNeQBAFoN7ONTb9708LizHPT4y1rcsJ8xKkv/EE7H5U=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39830400003)(366004)(136003)(36756003)(8676002)(6486002)(53546011)(316002)(186003)(83380400001)(956004)(16526019)(26005)(2616005)(478600001)(66556008)(66946007)(66476007)(31686004)(52116002)(6666004)(8936002)(16576012)(6916009)(966005)(86362001)(6706004)(4744005)(31696002)(2906002)(5660300002)(4326008)(78286007)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	k4KZ4triZToa/wPV9YQ5iwoiZ+aQn2Y0pMwK+YHLCzibJiwKO1W6a5+eedPLKh84QVC6s6WYx0jYQib00sUCfMGei08hrHqh3MsnPxeC8rlVy32kJYj/+BCj/irouGSq2J/eU52Elw6kQsVSC5DBmmwpFXacpIh2fFYtNribDEZSNwlr69DdTtX5PexmNvMkEeOUlbkUPRpDiuIuZRs3bwa7mtQx7spmHFs+u+vnss1SjmZvgLNGe0dLpFagwbCuJNGuoGF22oqhgNOOPqdhNygcBXs/lgkmaalYBax0TK1MvS83SM6GRHT0kIc84+Qu2TTtN+8FOEUzH3y89HJ4iwo8BlD1qKeTZi8FdGIl8TEy0adujoLGoFkk7hHixLb7vIJvHq+RhL9Y5/0G12VQzRNcbhAuD+DD6HYmUPhJo47Ch4zlJJOsMRD/nKz8NNyXUZwEAdKONjLREpLwSGc+TElhs3OHoP7JOHJmS8czuhphmSKWLvIzjhQ0gZzqKy37zUWyuKtVPP393wYLJR7YMNXjlJWrfCwVPoFxiCwKdZdGd6VjGoAFXPhfHJNyVjCA/46vnxg6X0PZVP6WRIMpbwmxClZM1FxLdlB8tEZeht3/sD1Xx8EdHXc7b9VBxpwgEEPBIOKrdOOzqtboEjl5vw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dacc009f-0a0c-4e60-06a9-08d8585111c1
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2598.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 01:54:08.8172
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2s0Wj6ESjeowKb2syJcXBK48b4vux1Q0P96deUxzhpxG2bGAS0r24kTHhPr6/AxB3sT/QxNuvzIa8cbNI9ap3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2808
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1633A8718261FDB3.22811@lists.openembedded.org>
+Content-Type: multipart/alternative;
+	boundary="------------A2B97D4A6B715231FECEB287"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
+--------------A2B97D4A6B715231FECEB287
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 08E2OBLO028391
 
+Hi,
 
-On 9/10/20 6:41 PM, Ross Burton wrote:
-> On Thu, 10 Sep 2020 at 04:03, Yu, Mingli <mingli.yu@windriver.com> wrote:
->> +Upstream-Status: Submitted [qemu-devel mailing list]
-> 
-> https://lists.nongnu.org/archive/cgi-bin/namazu.cgi?query=unknown_lock_type&submit=Search%21&idxname=qemu-devel&max=20&result=normal&sort=score
-> doesn't find this patch, can you link to it please?
-> 
+Please ignore this rr, I will resend the V2.
 
-Hi Ross,
+Thanks.
 
-The link is 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html, 
-will include the link in V2.
+On 2020/9/11 =E4=B8=8B=E5=8D=882:58, Zhixiong Chi wrote:
+> Avoid a potential SEGV during program termination.
+> Backported the patch form:
+> https://gitlab.com/procps-ng/procps/-/commit/d37f85c269fbb6e905802ffdbce=
+0ba4173ba21a9
+>
+> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> ---
+>  ...ntial-SEGV-during-program-terminatio.patch | 61 +++++++++++++++++++
+>  meta/recipes-extended/procps/procps_3.3.15.bb |  1 +
+>  2 files changed, 62 insertions(+)
+>  create mode 100644 meta/recipes-extended/procps/procps/0001-top-avoid-a=
+-potential-SEGV-during-program-terminatio.patch
+>
+> diff --git a/meta/recipes-extended/procps/procps/0001-top-avoid-a-potent=
+ial-SEGV-during-program-terminatio.patch b/meta/recipes-extended/procps/pro=
+cps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
+> new file mode 100644
+> index 0000000000..4f7a01e41b
+> --- /dev/null
+> +++ b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEG=
+V-during-program-terminatio.patch
+> @@ -0,0 +1,61 @@
+> +From d37f85c269fbb6e905802ffdbce0ba4173ba21a9 Mon Sep 17 00:00:00 2001
+> +From: Jim Warner <james.warner@comcast.net>
+> +Date: Tue, 6 Aug 2019 00:00:00 -0500
+> +Subject: [PATCH] top: avoid a potential SEGV during program termination
+> +
+> +The backtrace shown in the bug report referenced below
+> +illustrates a 'normal' program termination interrupted
+> +with some signal, ultimately then causing a top crash.
+> +
+> +So this commit just rearranges a little code such that
+> +all signals will be blocked during that rather lengthy
+> +end of program processing regardless of how initiated.
+> +
+> +[ in that report, ignore the assertion regarding the ]
+> +[ '-n' option. it obviously was not '1' since do_key ]
+> +[ had been called, which otherwise wouldn't be true. ]
+> +
+> +[ and when it is '1' the -d option would be ignored. ]
+> +
+> +Reference(s):
+> +https://bugzilla.redhat.com/show_bug.cgi?id=3D1737552
+> +
+> +Signed-off-by: Jim Warner <james.warner@comcast.net>
+> +Upstream-Status: Backport[https://gitlab.com/procps-ng/procps.git]
+> +Signed-off-by: Shaohua Zhan <shaohua.zhan@windriver.com>
+> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+> +---
+> + top/top.c | 11 +++++------
+> + 1 file changed, 5 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/top/top.c b/top/top.c
+> +index b01907a..73598e2 100644
+> +--- a/top/top.c
+> ++++ b/top/top.c
+> +@@ -404,6 +404,11 @@ static void at_eoj (void) {
+> +          * The real program end */
+> + static void bye_bye (const char *str) NORETURN;
+> + static void bye_bye (const char *str) {
+> ++   sigset_t ss;
+> ++
+> ++// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
+> ++   sigfillset(&ss);
+> ++   sigprocmask(SIG_BLOCK, &ss, NULL);
+> +    at_eoj();                 // restore tty in preparation for exit
+> + #ifdef ATEOJ_RPTSTD
+> + {  proc_t *p;
+> +@@ -595,12 +600,6 @@ static void sig_abexit (int sig) {
+> +          *    SIGUSR1 and SIGUSR2 */
+> + static void sig_endpgm (int dont_care_sig) NORETURN;
+> + static void sig_endpgm (int dont_care_sig) {
+> +-   sigset_t ss;
+> +-
+> +-// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
+> +-   sigfillset(&ss);
+> +-   sigprocmask(SIG_BLOCK, &ss, NULL);
+> +-   Frames_signal =3D BREAK_sig;
+> +    bye_bye(NULL);
+> +    (void)dont_care_sig;
+> + } // end: sig_endpgm
+> +--=20
+> +GitLab
+> diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipe=
+s-extended/procps/procps_3.3.15.bb
+> index f240e54fd8..b299779253 100644
+> --- a/meta/recipes-extended/procps/procps_3.3.15.bb
+> +++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+> @@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternative=
+s
+>  SRC_URI =3D "http://downloads.sourceforge.net/project/procps-ng/Product=
+ion/procps-ng-${PV}.tar.xz \
+>             file://sysctl.conf \
+>             file://0001-Fix-out-of-tree-builds.patch \
+> +           file://0001-top-avoid-a-potential-SEGV-during-program-termin=
+atio.patch \
+>             "
+>  
+>  SRC_URI[md5sum] =3D "2b0717a7cb474b3d6dfdeedfbad2eccc"
+>
+>=20
 
+--=20
+---------------------
 Thanks,
+Zhixiong Chi
+Tel: +86-10-8477-7036
 
-> Ross
-> 
+
+--------------A2B97D4A6B715231FECEB287
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 08E2OBLO028391
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>Hi,</p>
+    <p>Please ignore this rr, I will resend the V2.</p>
+    <p>Thanks.<br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 2020/9/11 =E4=B8=8B=E5=8D=882:58, Zh=
+ixiong Chi
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:1633A8718261FDB3.22811@lists.openembedded.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">Avoid a potential SEGV during=
+ program termination.
+Backported the patch form:
+<a class=3D"moz-txt-link-freetext" href=3D"https://gitlab.com/procps-ng/pr=
+ocps/-/commit/d37f85c269fbb6e905802ffdbce0ba4173ba21a9">https://gitlab.com/=
+procps-ng/procps/-/commit/d37f85c269fbb6e905802ffdbce0ba4173ba21a9</a>
+
+Signed-off-by: Zhixiong Chi <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:zhixiong.chi@windriver.com">&lt;zhixiong.chi@windriver.com&gt;</a>
+---
+ ...ntial-SEGV-during-program-terminatio.patch | 61 +++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.3.15.bb |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/0001-top-avoid-a-p=
+otential-SEGV-during-program-terminatio.patch
+
+diff --git a/meta/recipes-extended/procps/procps/0001-top-avoid-a-potentia=
+l-SEGV-during-program-terminatio.patch b/meta/recipes-extended/procps/procp=
+s/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
+new file mode 100644
+index 0000000000..4f7a01e41b
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-=
+during-program-terminatio.patch
+@@ -0,0 +1,61 @@
++From d37f85c269fbb6e905802ffdbce0ba4173ba21a9 Mon Sep 17 00:00:00 2001
++From: Jim Warner <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:james.=
+warner@comcast.net">&lt;james.warner@comcast.net&gt;</a>
++Date: Tue, 6 Aug 2019 00:00:00 -0500
++Subject: [PATCH] top: avoid a potential SEGV during program termination
++
++The backtrace shown in the bug report referenced below
++illustrates a 'normal' program termination interrupted
++with some signal, ultimately then causing a top crash.
++
++So this commit just rearranges a little code such that
++all signals will be blocked during that rather lengthy
++end of program processing regardless of how initiated.
++
++[ in that report, ignore the assertion regarding the ]
++[ '-n' option. it obviously was not '1' since do_key ]
++[ had been called, which otherwise wouldn't be true. ]
++
++[ and when it is '1' the -d option would be ignored. ]
++
++Reference(s):
++https://bugzilla.redhat.com/show_bug.cgi?id=3D1737552
++
++Signed-off-by: Jim Warner <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
+to:james.warner@comcast.net">&lt;james.warner@comcast.net&gt;</a>
++Upstream-Status: Backport[<a class=3D"moz-txt-link-freetext" href=3D"http=
+s://gitlab.com/procps-ng/procps.git">https://gitlab.com/procps-ng/procps.gi=
+t</a>]
++Signed-off-by: Shaohua Zhan <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:shaohua.zhan@windriver.com">&lt;shaohua.zhan@windriver.com&gt;</a>
++Signed-off-by: Zhixiong Chi <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:zhixiong.chi@windriver.com">&lt;zhixiong.chi@windriver.com&gt;</a>
++---
++ top/top.c | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/top/top.c b/top/top.c
++index b01907a..73598e2 100644
++--- a/top/top.c
+++++ b/top/top.c
++@@ -404,6 +404,11 @@ static void at_eoj (void) {
++          * The real program end */
++ static void bye_bye (const char *str) NORETURN;
++ static void bye_bye (const char *str) {
+++   sigset_t ss;
+++
+++// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
+++   sigfillset(&amp;ss);
+++   sigprocmask(SIG_BLOCK, &amp;ss, NULL);
++    at_eoj();                 // restore tty in preparation for exit
++ #ifdef ATEOJ_RPTSTD
++ {  proc_t *p;
++@@ -595,12 +600,6 @@ static void sig_abexit (int sig) {
++          *    SIGUSR1 and SIGUSR2 */
++ static void sig_endpgm (int dont_care_sig) NORETURN;
++ static void sig_endpgm (int dont_care_sig) {
++-   sigset_t ss;
++-
++-// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
++-   sigfillset(&amp;ss);
++-   sigprocmask(SIG_BLOCK, &amp;ss, NULL);
++-   Frames_signal =3D BREAK_sig;
++    bye_bye(NULL);
++    (void)dont_care_sig;
++ } // end: sig_endpgm
++--=20
++GitLab
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-=
+extended/procps/procps_3.3.15.bb
+index f240e54fd8..b299779253 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternatives
+ SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"http://downloads.s=
+ourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz\file://s=
+ysctl.conf\file://0001-Fix-out-of-tree-builds.patch\+file://0001-top-avoid-=
+a-potential-SEGV-during-program-terminatio.patch\">"http://downloads.source=
+forge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+            file://sysctl.conf \
+            file://0001-Fix-out-of-tree-builds.patch \
++           file://0001-top-avoid-a-potential-SEGV-during-program-terminat=
+io.patch \
+            "</a>
+=20
+ SRC_URI[md5sum] =3D "2b0717a7cb474b3d6dfdeedfbad2eccc"
+</pre>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+</pre>
+    </blockquote>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+---------------------
+Thanks,
+Zhixiong Chi
+Tel: +86-10-8477-7036
+</pre>
+  </body>
+</html>
+
+--------------A2B97D4A6B715231FECEB287--
