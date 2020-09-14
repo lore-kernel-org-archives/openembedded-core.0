@@ -1,143 +1,63 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.57264.1600078230447928662
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web11.58467.1600080173898195040
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 03:10:30 -0700
+ Mon, 14 Sep 2020 03:42:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: Yd1rA7ETznRGPyVxE+bZHnPhK5UdfLbNAggsuNwS0DDQW1F8SKBIc3u8hltj2ENrJN9MxoDdSy
- HfiMZpjb1onw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="223238531"
-X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="223238531"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 03:10:29 -0700
-IronPort-SDR: Q/oAb9gXAf6uY3maFwDvUbIkAzMr5NDow9pXQHKS5R1mAN4nf/QgwLWHRf8QKCOywPnaqhLJC6
- BxSbiA2aXV0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="379341550"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2020 03:10:28 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: randy.e.witt@linux.intel.com
-Subject: [PATCH v4] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES variable added to separate bootimg-efi and bootimg-partition
-Date: Mon, 14 Sep 2020 18:10:27 +0800
-Message-Id: <1600078227-80655-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=R4C5wcnY;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.193, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f193.google.com with SMTP id w3so18175862ljo.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 03:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0bE13n8W0xT+p9gGZf7rlXTDk7x3XlZVZN97yIsxPdo=;
+        b=R4C5wcnYfFnVX+Nf1FsaCjtTC7gR6J1M1PVk7R5DLXY/488t/LddAH/swQI1nda+tm
+         nToavsigiln6gHt/+vBCcvfXnpnr0vUDE96F42ZpkIi9OoPlhYrI2v9hMs2bPfFTZrfR
+         1JjPaRaCPDznHiKMGVm5Qc4B+6wf9e957jxegep4wC4RUIR00eDLUdNm8/J0UcWKV4OY
+         n4vbkcrCkWBlkKYomSt+5E8FdsFm3oRz7BjSjK3dajE3Y/YGS7QMK5jaSN27r/kzY03P
+         fZSAX0r7aq+To2vkGCtQPQaF0Hucut5ImScpqzfUoohkuAbdn2UQQoi32vxB8qoZ2KCw
+         BhjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0bE13n8W0xT+p9gGZf7rlXTDk7x3XlZVZN97yIsxPdo=;
+        b=BGqdEuNeHLklaTfCC7my/K6nMMfrYFneJpUvQvIaXdgIZKu/f33m6wJLyKiSDAmVpC
+         aPqSUKwjeyrmciMMvYnrf8Vn6d04MWT7jm/1GEgBshdfbEa42eP9IYDX/+Xhnt0YNFqK
+         JeA9zdCRunUY5zYJp3hH5r/zYfDDMT2xmROJIE8OVKEryk5VahJX2V5rqINk5ahjEKJd
+         g0WoZFaL6dmtj4XQKYM/toXCqx1mwhFnfMYEu/5biYrLJGFGMmSrUoEyel4MeqdmwGZV
+         lA1myu7KJ4uD1XLO0mhVDp8Amm3mFsDuFFbRRPAK5hZS/mH57B1TwemBM2GlJyjXlZA5
+         P2Zw==
+X-Gm-Message-State: AOAM531ZNpgeEdFIs+/ecbWWwdZPo9yFPNP2DIF9AKbjOJri2zoqZ9V2
+	Dne26/Kg/QvzqbwQHjfcN9dE0Pw/bJZ0H8ZdInlX1w==
+X-Google-Smtp-Source: ABdhPJxLRS9U9H1TYvVj6cHzsVxt4/5anM/G/5qIIsPSz2z01Vh6azlNGINzFPoogbTA62EhD59WEtaCbDRmRnNIPSM=
+X-Received: by 2002:a05:651c:23c:: with SMTP id z28mr4725586ljn.36.1600080171659;
+ Mon, 14 Sep 2020 03:42:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200914033421.48381-1-chee.yang.lee@intel.com>
+In-Reply-To: <20200914033421.48381-1-chee.yang.lee@intel.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 14 Sep 2020 11:42:40 +0100
+Message-ID: <CAAnfSTuxVhcA1P_-efXbSL5X5i8_RkP_ruVEoY571pOwhTvdCw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] cve-check: use ALLOWLIST
+To: Lee Chee Yang <chee.yang.lee@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+On Mon, 14 Sep 2020 at 04:34, Lee Chee Yang <chee.yang.lee@intel.com> wrote:
+> use allowlist instead of whitelist.
+> Replace CVE_CHECK_PN_WHITELIST with CVE_CHECK_PN_ALLOWLIST.
 
-Due to recent changes in bootimg-efi to include IMAGE_BOOT_FILES,
-when both bootimg-partition and bootimg-efi occur in a single .wks
-and IMAGE_BOOT_FILES are defined, files listed in IMAGE_BOOT_FILES
-will be duplicated in both partition.
-Since IMAGE_BOOT_FILES are crucial for bootimg-partition, but
-optional for bootimg-efi, hence allowing bootimg-efi to have the option
-to ignore it.
+This is a deprecated variable already, I wouldn't bother changing it.
 
-The new variable, IMAGE_EFI_BOOT_FILES, was added to help handle this
-issue. Its basic usage is the same as IMAGE_BOOT_FILES.
-Usage example:
-        ${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.ext4;rootfs.img \
+> Replace CVE_CHECK_WHITELIST with CVE_CHECK_ALLOWLIST.
 
-This commit is also squashed with the updated testcase to cover for
-this change.
+ALLOWLIST really is a horrible word as this isn't a list of CVEs being
+allowed, it's a list of CVEs being not considered.  CVE_CHECK_IGNORE?
+CVE_CHECK_EXCLUDE?
 
-[YOCTO #14011]
+I do also think that we should do these variable renames in one go,
+instead of piecemeal either side of a release.
 
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-
----
-
-v4: Added fix
-sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
----
- meta/classes/image_types_wic.bbclass          |  2 +-
- meta/lib/oeqa/selftest/cases/wic.py           | 13 ++++++++++++-
- scripts/lib/wic/plugins/source/bootimg-efi.py |  8 ++++----
- 3 files changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 2a1feed..4f888ef 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -1,7 +1,7 @@
- # The WICVARS variable is used to define list of bitbake variables used in wic code
- # variables from this list is written to <image>.env file
- WICVARS ?= "\
--           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
-+           BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_EFI_BOOT_FILES IMAGE_BOOT_FILES \
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
-            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index e6b23c6..714637e 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -235,6 +235,17 @@ class Wic(WicTestCase):
-         runCmd(cmd)
-         self.assertEqual(1, len(glob(self.resultdir + "systemd-bootdisk-*direct")))
- 
-+    def test_efi_bootpart(self):
-+        """Test creation of efi-bootpart image"""
-+        cmd = "wic create mkefidisk -e core-image-minimal -o %s" % self.resultdir
-+        kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
-+        self.append_config('IMAGE_EFI_BOOT_FILES = "%s;kernel"\n' % kimgtype)
-+        runCmd(cmd)
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+        images = glob(self.resultdir + "mkefidisk-*.direct")
-+        result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))       
-+        self.assertIn("kernel",result.output)
-+
-     def test_sdimage_bootpart(self):
-         """Test creation of sdimage-bootpart image"""
-         cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
-@@ -689,7 +700,7 @@ class Wic2(WicTestCase):
-         wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
-                                       'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
-                                       'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME',
--                                      'APPEND'))
-+                                      'APPEND', 'IMAGE_EFI_BOOT_FILES'))
-         with open(path) as envfile:
-             content = dict(line.split("=", 1) for line in envfile)
-             # test if variables used by wic present in the .env file
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 14c1723..cdc7254 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -212,8 +212,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         except KeyError:
-             raise WicError("bootimg-efi requires a loader, none specified")
- 
--        if get_bitbake_var("IMAGE_BOOT_FILES") is None:
--            logger.debug('No boot files defined in IMAGE_BOOT_FILES')
-+        if get_bitbake_var("IMAGE_EFI_BOOT_FILES") is None:
-+            logger.debug('No boot files defined in IMAGE_EFI_BOOT_FILES')
-         else:
-             boot_files = None
-             for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s", part.label), (None, None)):
-@@ -222,7 +222,7 @@ class BootimgEFIPlugin(SourcePlugin):
-                 else:
-                     var = ""
- 
--                boot_files = get_bitbake_var("IMAGE_BOOT_FILES" + var)
-+                boot_files = get_bitbake_var("IMAGE_EFI_BOOT_FILES" + var)
-                 if boot_files:
-                     break
- 
-@@ -292,7 +292,7 @@ class BootimgEFIPlugin(SourcePlugin):
-             (staging_kernel_dir, kernel, hdddir, kernel)
-         exec_cmd(install_cmd)
- 
--        if get_bitbake_var("IMAGE_BOOT_FILES"):
-+        if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
-             for src_path, dst_path in cls.install_task:
-                 install_cmd = "install -m 0644 -D %s %s" \
-                               % (os.path.join(kernel_dir, src_path),
--- 
-2.7.4
-
+Ross
