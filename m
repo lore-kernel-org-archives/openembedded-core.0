@@ -1,125 +1,176 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.62244.1600092773799835929
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.62245.1600092777021060068
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:12:53 -0700
+ Mon, 14 Sep 2020 07:12:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nwKvl1D0;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id k14so1280575pgi.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fX8ECfmO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id w7so12756632pfi.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=AULVbXkCKr+wzpzSLT+Jgy4CS8LCONvCJnwMadg43DA=;
-        b=nwKvl1D0Ni/Sq+Zp7s9LFaNAOEiuIS62LqiOrPd1PjEAwHF5Gc/rD6lTZf3GoQozwW
-         v1cZb3LXhYhys1CoWBKue+B25jOMrhBV1aKCUVeL8Jkbbor7FuCK65MXRHBk/mEf9mB7
-         xuhABfq/OAbzzDzQeELryDCD28IJb8RJBGqd9/vnPob4MFsGrqkMg1rEq0hOIwce+ya9
-         nRB7xLMxJIkBMUgZqaQ8HSf6DGh0qikCwu4pXw3mGGm0actGyuchPaKK1SuAZRn1aEUi
-         Fp1RUpMOHqan0cA5/i2q1kWXW8G1abdKCe1omBfqwbkIOfNOFXDqDQvLUYf/9lrpJDF2
-         mG1A==
+        bh=sMzbOX4LHZtqKOF0bekaX9PidyTa8FigbW3wUn7AYZ0=;
+        b=fX8ECfmOvWhctnab3q+TSA4wdbBzwEUKl0n2TD1CgGZ2q+/Lzi+UXtyiQZdDhw7MiL
+         J5h8RM8jkSpeQ767o5UwVm1NqP/MHG0/yxH68eVKna3O5E/moSvDuF9mhlJPI7geFU9S
+         aER7rgeivJZW3LKOUbIha+Ba8tG2AFpY6PQCx9xpWmRG91kSo/GpP6gUEMqE1RFRUc91
+         5Oiz2v++r/PTZ4eAIrk0gS9m10oEIHhs56qFAy7w3sSC6vr2H/8+nb5BhCi78ycwriAj
+         /H3/xg0oALkkWsxBQTp9LYQCMbiTxE7hz3belqWCJcaqU2tQj+wL+T9OE2+IATZoL4ww
+         ywVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=AULVbXkCKr+wzpzSLT+Jgy4CS8LCONvCJnwMadg43DA=;
-        b=OB7a+SyXD2H9QEP9KPeL6ga5crvCjpOgwOb0cBfoqTh2sZJ4FiJSFvdmuDVTrNtOOv
-         HUc2yOYpDR3V0wnhQUfrzlPUdba9ubbcrHfISBA7ptpKloGxhKqFqNER7CMFk9ZRM1aY
-         ww54MPQyhx2mpLmVxlNBQPmTTDNIkGbMTEKDN0zRa3F13ZRKoTItAoCJtK9QvvBh7nYK
-         H9jA6wJc8FDcsicnOW8JMTzT+n61VklXJZcm+awt4IkcYYmB8FGtNL/dMDUPAmSFeXay
-         Ax09Ahu6wlnbXTdjko/EVSWZx0yfI8MGEMB1IiCCPrNDuDv6oFv03VBu4ctAdaowWOZG
-         F+3Q==
-X-Gm-Message-State: AOAM53251yVgGr48iuFFNTf9C/9ZIqbrASF7wNsc8V4shhQBMt1O/rp2
-	igTkY773ZW2SJSa2yzHYKnusFJLjqHjZU9Ok7Vg=
-X-Google-Smtp-Source: ABdhPJwnbTKwym9qxR3x48Ygct3WbS5rs6LxJjA9p1eDj2Yxx8DbWzXGPUcAlchPJEd/EgsJXuDNBQ==
-X-Received: by 2002:a17:902:c38a:: with SMTP id g10mr14790358plg.23.1600092772970;
-        Mon, 14 Sep 2020 07:12:52 -0700 (PDT)
+        bh=sMzbOX4LHZtqKOF0bekaX9PidyTa8FigbW3wUn7AYZ0=;
+        b=is1BVfZJeqU+unJJHubawEUuFeD7RRuo9I1D5aChhZObYzbxcK1O+nIwF8e7v6vh+b
+         /PuxwcV7BrXOXLEa6PXeawbCUaEybyAuSFMdhsBlu6zjm37tkGQL/zGt1Cr4VbOdO388
+         PD48XWb7h7NdL8PfKz36kWa3tKr5nTVI3ObxLR2+TTUtlUsG8xHat1U224zIj31RTy9P
+         cN4+GT9ZG+/Db2zioKnoPdW13RnXECOsgATJRG8UD1/brXZNwpWqBBR68suL8JYY58KI
+         al+UNrTd8jUrDSmejeRKCT7UvE9fBYFPKXaN049Uy8deEOhNfB57Hs8LZvIJrUmmy+I+
+         XDWg==
+X-Gm-Message-State: AOAM533aA5bIVmvFeHUSZ65/ISwzmTetDOBpyXK9gXuF//R+0pmJAf7c
+	ECJAy4Toduzq9KU04/RF1RkSjLAN66OGCaJF/s8=
+X-Google-Smtp-Source: ABdhPJxDw6H8Po9LqJWNxgXKGFCeTu46X5JJxDqjTB0uVUieB0/ucHCcL6QTCVdMwoRxCKPIfDUNyA==
+X-Received: by 2002:a63:1925:: with SMTP id z37mr3995697pgl.23.1600092776063;
+        Mon, 14 Sep 2020 07:12:56 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.51
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:12:52 -0700 (PDT)
+        Mon, 14 Sep 2020 07:12:55 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/24] cve-check.bbclass: always save cve report
-Date: Mon, 14 Sep 2020 04:11:38 -1000
-Message-Id: <7e03d104a2919ca20b5a35ad58755b0268168042.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/24] cve-update-db-native: add progress handler
+Date: Mon, 14 Sep 2020 04:11:39 -1000
+Message-Id: <10822d186f7e17fd4b780412c1669673a2613363.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
 
-From: akuster <akuster808@gmail.com>
+From: Chris Laplante <chris.laplante@agilent.com>
 
-The cve-check file should be saved always, it has good info.
-
-Put a copy in the log dir as cve-summary with symlinks to latest run.
-
-[Yocto #13974]
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 859849c7b594d844819ad8c3f7d8325388d94b93)
+(cherry picked from commit 79ae2e82b8ec11578177f428060b568d6c7d44ca)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../recipes-core/meta/cve-update-db-native.bb | 90 ++++++++++---------
+ 1 file changed, 47 insertions(+), 43 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 514897e8b8..0889e7544a 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -30,6 +30,9 @@ CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
- 
- CVE_CHECK_LOG ?= "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
-+CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
-+CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
-+CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-@@ -46,6 +49,32 @@ CVE_CHECK_PN_WHITELIST ?= ""
- # 
- CVE_CHECK_WHITELIST ?= ""
- 
-+python cve_save_summary_handler () {
-+    import shutil
-+    import datetime
-+
-+    cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
-+
-+    cve_summary_name = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME")
-+    cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+    bb.utils.mkdirhier(cvelogpath)
-+
-+    timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-+    cve_summary_file = os.path.join(cvelogpath, "%s-%s.txt" % (cve_summary_name, timestamp))
-+
-+    shutil.copyfile(cve_tmp_file, cve_summary_file)
-+
-+    if cve_summary_file and os.path.exists(cve_summary_file):
-+        cvefile_link = os.path.join(cvelogpath, cve_summary_name)
-+
-+        if os.path.exists(os.path.realpath(cvefile_link)):
-+            os.remove(cvefile_link)
-+        os.symlink(os.path.basename(cve_summary_file), cvefile_link)
-+}
-+
-+addhandler cve_save_summary_handler
-+cve_save_summary_handler[eventmask] = "bb.event.BuildCompleted"
-+
- python do_cve_check () {
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 32d6dbdffc..2221825bf8 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -29,6 +29,7 @@ python do_populate_cve_db() {
+     Update NVD database with json data feed
      """
-     Check recipe for patched and unpatched CVEs
-@@ -331,5 +360,8 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
-             f.write(write_string)
+     import bb.utils
++    import bb.progress
+     import sqlite3, urllib, urllib.parse, shutil, gzip
+     from datetime import date
  
-     if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
-+        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+        bb.utils.mkdirhier(cvelogpath)
+@@ -60,54 +61,57 @@ python do_populate_cve_db() {
+ 
+     initialize_db(c)
+ 
+-    for year in range(YEAR_START, date.today().year + 1):
+-        year_url = BASE_URL + str(year)
+-        meta_url = year_url + ".meta"
+-        json_url = year_url + ".json.gz"
++    with bb.progress.ProgressHandler(d) as ph:
++        total_years = date.today().year + 1 - YEAR_START
++        for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
++            ph.update((float(i + 1) / total_years) * 100)
++            year_url = BASE_URL + str(year)
++            meta_url = year_url + ".meta"
++            json_url = year_url + ".json.gz"
+ 
+-        # Retrieve meta last modified date
+-        try:
+-            response = urllib.request.urlopen(meta_url)
+-        except urllib.error.URLError as e:
+-            cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
+-            bb.warn("Failed to fetch CVE data (%s)" % e.reason)
+-            return
+-
+-        if response:
+-            for l in response.read().decode("utf-8").splitlines():
+-                key, value = l.split(":", 1)
+-                if key == "lastModifiedDate":
+-                    last_modified = value
+-                    break
+-            else:
+-                bb.warn("Cannot parse CVE metadata, update failed")
+-                return
+-
+-        # Compare with current db last modified date
+-        c.execute("select DATE from META where YEAR = ?", (year,))
+-        meta = c.fetchone()
+-        if not meta or meta[0] != last_modified:
+-            # Clear products table entries corresponding to current year
+-            c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
+-
+-            # Update db with current year json file
++            # Retrieve meta last modified date
+             try:
+-                response = urllib.request.urlopen(json_url)
+-                if response:
+-                    update_db(c, gzip.decompress(response.read()).decode('utf-8'))
+-                c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++                response = urllib.request.urlopen(meta_url)
+             except urllib.error.URLError as e:
+-                cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-                bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
++                cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
++                bb.warn("Failed to fetch CVE data (%s)" % e.reason)
+                 return
+ 
+-        # Update success, set the date to cve_check file.
+-        if year == date.today().year:
+-            cve_f.write('CVE database update : %s\n\n' % date.today())
+-
+-    cve_f.close()
+-    conn.commit()
+-    conn.close()
++            if response:
++                for l in response.read().decode("utf-8").splitlines():
++                    key, value = l.split(":", 1)
++                    if key == "lastModifiedDate":
++                        last_modified = value
++                        break
++                else:
++                    bb.warn("Cannot parse CVE metadata, update failed")
++                    return
 +
-         with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
-             f.write("%s" % write_string)
++            # Compare with current db last modified date
++            c.execute("select DATE from META where YEAR = ?", (year,))
++            meta = c.fetchone()
++            if not meta or meta[0] != last_modified:
++                # Clear products table entries corresponding to current year
++                c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
++
++                # Update db with current year json file
++                try:
++                    response = urllib.request.urlopen(json_url)
++                    if response:
++                        update_db(c, gzip.decompress(response.read()).decode('utf-8'))
++                    c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++                except urllib.error.URLError as e:
++                    cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
++                    bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
++                    return
++
++            # Update success, set the date to cve_check file.
++            if year == date.today().year:
++                cve_f.write('CVE database update : %s\n\n' % date.today())
++
++        cve_f.close()
++        conn.commit()
++        conn.close()
+ }
+ 
+ def initialize_db(c):
 -- 
 2.17.1
 
