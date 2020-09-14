@@ -1,81 +1,156 @@
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com [209.85.222.68])
- by mx.groups.io with SMTP id smtpd.web12.65143.1600102455352523567
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com [209.85.221.196])
+ by mx.groups.io with SMTP id smtpd.web10.65469.1600102718357861531
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 09:54:15 -0700
+ Mon, 14 Sep 2020 09:58:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KZp8WP5a;
- spf=pass (domain: gmail.com, ip: 209.85.222.68, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f68.google.com with SMTP id u14so83034uaq.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 09:54:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=syHhgpqj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.196, mailfrom: armccurdy@gmail.com)
+Received: by mail-vk1-f196.google.com with SMTP id n7so127735vkq.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 09:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=K/mCxBGywB2hW0lhNJicgqM/caXGYnWeVfwph4TFoKM=;
-        b=KZp8WP5aUY6mnrewSdv1te40869jHyqSNAXgCgQLrl18rT1a2JqMTszmo29m0Cl2ST
-         e+Ubp3ZltnfKhCuzfDYih6v1rZSdLENKrwQwUXGMUYnqd50N4ltIwrYyuixjten/IBy2
-         xoiF7i4gJ/FviqRpewpWJhU+qUexZf68/fINw+SSIFMfTIQaUZwySKYTDJUbwhHK/tAw
-         wgHgtfkC4DFBwpjIxfnsdt/2YdvJB0R5c6b1hl3tl8hQg7gJ4D6pQRSb4ZILlrOqK0NK
-         HnM46LqJKedHE6E7Ya0suK/RJSytOa4FeYcBrBY4CbEPQJLYWjnbldSrdfC+JP1PCadF
-         QGXg==
+        bh=x5WGVht4VX33wuTy/kxGXJnKkhmbyrhe2dI4MWfohh4=;
+        b=syHhgpqjMy2Qprrdu/9GnjiFuR/+KUbq8YRaJ7Hfkvx53cLRWXsgrA/ZJdUS1m4hw3
+         H+UEtgKg/AnJPpZD9NCF8eHggfEcM/XhiwurdIN1M/oHoBljhNctzYbCqXfOZk7TdiMS
+         /SbPT+id1XUFZ6bVIJbn+ANfyD8MEfMikkkjPW4fUHRrHtXcxnt5i/QDXaHQoc7eeBD6
+         QR9fAKpHkLvtUNz0J0MkenKzlHrEyEWk/jUj6tqUDaQgwakUebbxd7CuEN0TscQmYNGV
+         qLxBiidu5ff2+aOqNzbQRA2l+gQ6pcfSoCxh+fm7cuNXNGXKQRDFZK49Dwhvoq7uiikp
+         pXwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=K/mCxBGywB2hW0lhNJicgqM/caXGYnWeVfwph4TFoKM=;
-        b=iVhyi3lZGmVG9JXNOM3O9i63eXk+zeCoGgMxtgO3hSoCyivsxwQdTRRljDtnI0AZnV
-         1NUzbJ6q2B0OYWf41yjOKaa/+Da+dqaDNhUIvWP0RHPmaIGtcMhJFQfT2XXl1ILWOUaW
-         qjraAWhPGdM2W1JxPfuodsrmG2+qRqRv/6J1hJWPdn4WM2pxRi1p1An8PxMF1eGcqMUc
-         DQ5zZ4xA7zhXQ7FDQYYQqEi7rVzoaAklmt3FQ0vMkz6mCMghyIz/EHvIhEoKzpW/tZb5
-         WU/PgQsozqEkKUssiYSUYUETXzwDq9589w9zaZqER5YJgQNNzgnCeY7JkVekyP06hD2I
-         VoWw==
-X-Gm-Message-State: AOAM532Q/nXz6I2vpyM/J087nhH7FpwnQnKSu5kJiEK9fsq9WF0G+O0T
-	q6dXXjezxWS4VHKlZkR2xLPDCbOzs+zFNLyjIDo=
-X-Google-Smtp-Source: ABdhPJx0QgZ2VnKn+mcael0AKfmIuPCUWe1wZ6ETjk1gL/qUIDAeooNpl/uX9mfMLwFHbLi/s2mOTiZTBe8TV46wi4U=
-X-Received: by 2002:ab0:208d:: with SMTP id r13mr7466038uak.81.1600102454395;
- Mon, 14 Sep 2020 09:54:14 -0700 (PDT)
+        bh=x5WGVht4VX33wuTy/kxGXJnKkhmbyrhe2dI4MWfohh4=;
+        b=DRnxhLXdNnGMAxFcGnNWfs9uGqFDsaiM/5vI0B2ER3vDTWVOAJoBPU3pm3XPzHHAEv
+         U9YLCEc3gpiKJ0PjqPDezjrDQH4XPyP/uXaPe2tclfCPd+BKo6N+8RVt5x+aCcgWR/f0
+         q3uAASQrMnxNpCyc+ICLJQmRlyytCKoR5C+I9NQozKPeHnNWGwRRvn+A6/ps94KHLMAp
+         gN3JeMV/kU1PGTm/C1QtVW1iLfK7TeH74MGM6Yt87C54RWsXNtVsGa3l58SlVxDxH6/1
+         zk5CZVRfZiGOmzGG+Z57yXrrFLNlMJ31l+OY7yvbr81JfoJNVbTmh27M1DBa1SeQgaQX
+         KlMA==
+X-Gm-Message-State: AOAM533/gOSMmgAogKBcLT/qfy3H33Br7yBMyFmIRr22IIEQ0/l2awzu
+	10SHb8qHs/JJ8J4NhbLJ4k8gHmbLYCMQFDyZm80=
+X-Google-Smtp-Source: ABdhPJwjwL7bz6hd3mHtk7wemJ7j+UhYddnYzn2oMDuemg+o9Yn4xv95dd+ivp2l57lLHVSVJTdxfY7Qjyi6P4cwuWc=
+X-Received: by 2002:a1f:284e:: with SMTP id o75mr7583664vko.19.1600102717329;
+ Mon, 14 Sep 2020 09:58:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <1600077571-7368-1-git-send-email-pemorrow@linux.microsoft.com>
-In-Reply-To: <1600077571-7368-1-git-send-email-pemorrow@linux.microsoft.com>
+References: <20200914083507.36978-1-mingli.yu@windriver.com>
+In-Reply-To: <20200914083507.36978-1-mingli.yu@windriver.com>
 From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 14 Sep 2020 09:54:04 -0700
-Message-ID: <CAJ86T=USuVr9p9Zyuw49a2TcJVA3nGvANzNt2w1mA+sHMUSY9A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] squashfs-tools: Allow COMP_DEFAULT to be changed easily at build time
-To: Peter Morrow <pemorrow@linux.microsoft.com>
+Date: Mon, 14 Sep 2020 09:58:27 -0700
+Message-ID: <CAJ86T=XPi8SKOi6N=sTwZL12SpNLeLAzVZivfDCN43VCNbtUNA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bison: remove the parallel build patch
+To: "Yu, Mingli" <mingli.yu@windriver.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 14, 2020 at 2:59 AM Peter Morrow
-<pemorrow@linux.microsoft.com> wrote:
+On Mon, Sep 14, 2020 at 1:35 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
 >
-> The default compression algorithm is currently gzip, this patch allows the
-> default to be changed by setting SQUASHFS_TOOLS_COMP_DEFAULT to a valid
-> compression algorithm.
+> From: Mingli Yu <mingli.yu@windriver.com>
 >
-> Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
+> Remove the parallel build patch as the issue have already been
+> fixed in bison 3.7.2(f7b642cf build: fix incorrect dependencies).
+
+If parallel make issues have been fixed upstream then this workaround
+should be removed from the recipe too:
+
+ # Reset any loadavg set via environment, it breaks parallel build
+ # | ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error:
+uniwidth.h: No such file or directory
+ # |  #include "uniwidth.h"
+ # |           ^~~~~~~~~~~~
+ EXTRA_OEMAKE_append = " -l"
+
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 > ---
->  meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../0001-bison-fix-the-parallel-build.patch   | 63 -------------------
+>  meta/recipes-devtools/bison/bison_3.7.2.bb    |  1 -
+>  2 files changed, 64 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
 >
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> index b06951d..42fae28 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> @@ -25,6 +25,9 @@ PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
->  PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
->  PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+> diff --git a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
+> deleted file mode 100644
+> index c3be91a109..0000000000
+> --- a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
+> +++ /dev/null
+> @@ -1,63 +0,0 @@
+> -From e0dbcee6e25b3c0cb11a627bbfe3af45ef67ec30 Mon Sep 17 00:00:00 2001
+> -From: Mingli Yu <mingli.yu@windriver.com>
+> -Date: Thu, 14 May 2020 15:23:16 +0800
+> -Subject: [PATCH] bison: fix the parallel build
+> -
+> -Explicitly make the BUILT_SOURCES which
+> -are the generated headers such as stdio.h,
+> -fcntl.h and etc to be the dependencies of
+> -the gl_LIBOBJS such as libbison_a-sprintf.o,
+> -libbison_a-printf.o and etc to guarantee the
+> -BUILT_SOURCES is generated before begin to
+> -compile EXTRA_lib_libbison_a_SOURCES such as
+> -fprintf.c in parallel builid, otherwise there
+> -may come below error:
+> - | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
+> -
+> -It does the same for src_bison_OBJECTS and
+> -lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
+> -generated before begin to compile src_bison_SOURCES
+> -which contains AnnotationList.c and etc.
+> -
+> -BTW, the MOSTLYCLEANFILES also contains the
+> -generated header needs to be created early
+> -in the build process, so add it also in to
+> -avoid below error:
+> - | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
+> -
+> -Upstream-Status: Submitted [bison-patches@gnu.org maillist]
+> -
+> -Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ----
+> - lib/gnulib.mk | 2 ++
+> - src/local.mk  | 1 +
+> - 2 files changed, 3 insertions(+)
+> -
+> -diff --git a/lib/gnulib.mk b/lib/gnulib.mk
+> -index c21c656..27fb3dc 100644
+> ---- a/lib/gnulib.mk
+> -+++ b/lib/gnulib.mk
+> -@@ -120,6 +120,8 @@ lib_libbison_a_SOURCES =
+> - lib_libbison_a_LIBADD = $(gl_LIBOBJS)
+> - lib_libbison_a_DEPENDENCIES = $(gl_LIBOBJS)
+> - EXTRA_lib_libbison_a_SOURCES =
+> -+$(lib_libbison_a_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+> -+$(gl_LIBOBJS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+> -
+> - lib_libbison_a_CPPFLAGS = $(AM_CPPFLAGS) -DDEFAULT_TEXT_DOMAIN=\"bison-gnulib\"
+> -
+> -diff --git a/src/local.mk b/src/local.mk
+> -index 61dc573..b5b9079 100644
+> ---- a/src/local.mk
+> -+++ b/src/local.mk
+> -@@ -24,6 +24,7 @@ if RELOCATABLE_VIA_LD
+> -   src_bison_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
+> - endif
+> -
+> -+$(src_bison_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+> - src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
+> - src_bison_SOURCES =                             \
+> -   src/AnnotationList.c                          \
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/bison/bison_3.7.2.bb b/meta/recipes-devtools/bison/bison_3.7.2.bb
+> index f7bf70fff3..efc426376d 100644
+> --- a/meta/recipes-devtools/bison/bison_3.7.2.bb
+> +++ b/meta/recipes-devtools/bison/bison_3.7.2.bb
+> @@ -11,7 +11,6 @@ DEPENDS = "bison-native flex-native"
 >
-> +SQUASHFS_TOOLS_COMP_DEFAULT ?= "gzip"
-> +EXTRA_OEMAKE += "COMP_DEFAULT=${SQUASHFS_TOOLS_COMP_DEFAULT}"
-
-Since you can easily override COMP_DEFAULT by setting EXTRA_OEMAKE
-from a .bbappend, I don't think it's necessary to add this to the main
-recipe.
-
->  do_compile() {
->         oe_runmake all
->  }
+>  SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+>             file://add-with-bisonlocaledir.patch \
+> -           file://0001-bison-fix-the-parallel-build.patch \
+>             "
+>  SRC_URI[sha256sum] = "7948d193104d979c0fb0294a1854c73c89d72ae41acfc081826142578a78a91b"
+>
 > --
-> 1.8.3.1
+> 2.17.1
 >
 > 
