@@ -1,301 +1,107 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.63251.1600097570736673904
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.87])
+ by mx.groups.io with SMTP id smtpd.web10.63294.1600097629303292946
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 08:32:51 -0700
+ Mon, 14 Sep 2020 08:33:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VePm50/c;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id o8so545529ejb.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 08:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=md73isGjguq78GtgIYACwNYuBsjtWEEl+mNZ9t4fUtQ=;
-        b=VePm50/c5QKbv/dh2HQ2YA5Z9Cn5Iq1R7AZtks4CEGKiG+2ANsdUCSpavDaGQYid+A
-         dE0JzbVFuv3GRp/kj1ji5WskyX7x8MZvJAOb+wG6oTYX653AmLVJ/NnRBMRbCPlI1N8Q
-         vzD9XxmENfkTnb3ociQpgzsukmaHIJr8nAcp8ZAzFOXRzSwR9nOWOIVYZ+3Mv5ERGIZs
-         SBBTdgUcN1h7/Z986xI542DiZciQVtVIw+T4NAoNwnm2zhB1N4cXDlJz6WkoScF5LzLd
-         HMCm6Nb5XBAnzLbPqgsYg48zsmEw09RX+TdvSz/sXvWgbXowHXRwP198g4PDUWYLJ9KQ
-         DYXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=md73isGjguq78GtgIYACwNYuBsjtWEEl+mNZ9t4fUtQ=;
-        b=En8Nlgv7CoSuQJqfJDa4THQj66oG62shoVfyfCcIJ1n50u7MW6j+BSWdiDjnVq3xfX
-         uNj7x/ZuhXojboz5WXfyGxhn79S7NmNumL5p3oRFnuqCfmrm0cr+SfLsVzRcfy9V5T+d
-         o7VEarcGEHwnNtlNLxKniiIWhqrKvCbeTXcUT2ZhJ6EOdGls3KuyNNHqBtQ+3JzXlX5o
-         TWfXdP8r1s0ailX6+CenpRRhaDtx9W/lBGv9/d69R0qhP8fBL+rbqh8KMo3ebr4dkMNK
-         h3Wx/9IrRaa1NjuwnAYSYZJ2V6ryz8FBjV0+CUQenTLoPjyDdYe+MRQMBJYG6FUl18bg
-         9MMQ==
-X-Gm-Message-State: AOAM53103DwousmHrhqYjodcXGOjHDIIdvODwuAVyZ5pgCxLvFPSMrdS
-	Q8IVvEY3z8nx4DJXRxPo+ep71csTysF4Cf72uVc=
-X-Google-Smtp-Source: ABdhPJxAH3ob3Dt0dDFWFLY3107c31e/Q8l8b811Lc0jZ342aoE2uNGQodhlJixn8OoKfxpS9VzXp2ez7T7VpnW7Qek=
-X-Received: by 2002:a17:906:4b18:: with SMTP id y24mr15092312eju.471.1600097569059;
- Mon, 14 Sep 2020 08:32:49 -0700 (PDT)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=eXZ06cgD;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.223.87, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q+J+/PG+EnqvRjq/E10KWxzdl9RPdx7BqhLitEUrJlIyh2XH9gMFHhr8dWyAvLdbN97M+VGHcvNEO+kMhfbCZYj+livdceJeCjZHmEqCXq+PXwPzLqEIwKAfybX+Ry7PO1BKrMB/4jzZK7jobfn+oA7lHyJRwP9taipMy9YLMwQ1OBYxVOAo08uZeR7goiNWCpWuMxgHxAyJ/jmez4yBTIToiFLBoYzRV8BBk40SLMalVUr0t6g9IG2Lqpj49cvucPZIAryZ2Sm9s7WQ/dKsxyIXqS13f5pCDEdSPzj89QKeO0Oz3Rmve5RTGSVNDn1DJdRzX0oPPFT1Rmr9TshhKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9cisOF8xjLUnZX5x6BAgckKU+PeHLpq/2DBa9lpEuLY=;
+ b=dkdqtDVbGa8R8THOrRcH9xTgfLJrHOQOwY8hBIVuq8MyB2rFeamJZXbjXeWvtUhvhD34K7E7qqfYwDBhc5S8lGmac/Y/WC+Zam4Rnm0Tr+twVZFrufamtKfRAGuoWuLZPACo09Xwgs9C0T6zSKYKPDviOunbYvXJfdAeFPA0CuWx+6zAq1qLf3IT5i8oWNdJdrtn0ir9FYWgRkVoTiAB+TeuWz7614+It17/rrB761SPdIT6j4oMK5nE2Unt4wRKiSaQnX71iiShRF4EKhDDIUb4+D6D6Y4z8Pph5BgiuZsL1b9F80vkKGzyRtsR5ru5m9GYQEwxWJsYGFh0+8uupg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.25.218.37) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=agilent.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9cisOF8xjLUnZX5x6BAgckKU+PeHLpq/2DBa9lpEuLY=;
+ b=eXZ06cgDB84d07qUkfKCxnIXVDmsQk3eO3FRAzVTEjjYNIrwnL0nfZpR92uR+dukXLb3QWNaIK+APYeKRtytb5ytgX4OOQHHTPQjtxgp4eJ3sSOrO+W7bPgEInVQXbQqXn0VcsJRe11T6fscYhUfitE25ofK3pctHUKPQ8E708t8o6Pc0P75X1xYeWEUx7rpKzKKHUHxPwvUPThxXBhSCCW8DHZGx1HCBQQatXYP/ncHvYEhbo+8+9dxd8m8C/iYD6NLvBltlnukJ+PUclICFJ0/pfOQFYb8hvrS9eG1V23W09PdBj5FZKybn/iHqBxsAemKB/rs29/vhGTGuzyL7w==
+Received: from DM6PR17CA0028.namprd17.prod.outlook.com (2603:10b6:5:1b3::41)
+ by BYAPR12MB2742.namprd12.prod.outlook.com (2603:10b6:a03:6a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Mon, 14 Sep
+ 2020 15:33:48 +0000
+Received: from DM6NAM12FT059.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:5:1b3:cafe::b2) by DM6PR17CA0028.outlook.office365.com
+ (2603:10b6:5:1b3::41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Mon, 14 Sep 2020 15:33:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.37)
+ smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
+ signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
+ header.from=agilent.com;
+Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
+ 192.25.218.37 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.25.218.37; helo=edgeappmail.agilent.com;
+Received: from edgeappmail.agilent.com (192.25.218.37) by
+ DM6NAM12FT059.mail.protection.outlook.com (10.13.179.1) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.8 via Frontend Transport; Mon, 14 Sep 2020 15:33:47 +0000
+Received: from laplante-lm-19.localdomain (192.25.126.27) by
+ edgeappmail.agilent.com (192.25.218.37) with Microsoft SMTP Server id
+ 15.1.2044.4; Mon, 14 Sep 2020 09:33:39 -0600
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Chris Laplante <chris.laplante@agilent.com>
+Subject: [PATCH 1/3] cve-update-db-native: be less magical about checking whether the cve-check class is enabled
+Date: Mon, 14 Sep 2020 11:33:18 -0400
+Message-ID: <20200914153320.64383-1-chris.laplante@agilent.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200914151359.11240-1-jon.mason@arm.com>
-In-Reply-To: <20200914151359.11240-1-jon.mason@arm.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Mon, 14 Sep 2020 17:32:37 +0200
-Message-ID: <CA+chaQfAL+mvyG7smtku8za+6fvubybjjpOfu+g6dGfrJSoWJA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000035b87305af47bf6e"
+Return-Path: chris.laplante@agilent.com
+Received-SPF: SoftFail (wpcosapexchedg1.windmz.agilent.com: domain of
+ transitioning chris.laplante@agilent.com discourages use of 192.25.126.27 as
+ permitted sender)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 126a0d5e-9584-4980-04a7-08d858c392dc
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2742:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR12MB2742CF114BD513B49A64FBCE8B230@BYAPR12MB2742.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:639;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nISHlP7Sf8kSTEDH4VL07+4Kp/bt7LOFYkwD17TNfFx8RzsN5A+3A51NS8IgqMQ03mcGPDemSvhUhVuhx0mQYySU9rK9Alm3Jf40i7xzXgi6cm0tu/SjT1X8Da4n7bCptGL4pnnx6VjfoAlhS+SDDMjAXqUg9siynH08QubntH0FT+MWlSsC4cSMo+/xRPow79XzHRZ1ACkiDN+wrJ0ecUZb1bH0zZIDq2dvZeJC89+MolTE/brZfpTuXikOKisN8pn22dVUHdmnB4YKXQtHNMxP/dIsNzq/hXgQkTDXTpKHBRkI4/sgeIqtIuHYUAqFduNslAvuRk8XOIfEM0E6EdiLx0FIBYdkijHz35WyZdUqDO7ot11egug31Cstdwig0IQEgDUwclVHHMdBqn6HhxlZitTK5A+EC3Cb27IP+4Y=
+X-Forefront-Antispam-Report: 
+	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFS:(4636009)(376002)(39860400002)(346002)(136003)(396003)(29502001)(46966005)(6916009)(4326008)(82310400003)(47076004)(316002)(82740400003)(8676002)(186003)(336012)(6666004)(2906002)(36756003)(107886003)(26005)(86362001)(15650500001)(8936002)(70206006)(5660300002)(956004)(1076003)(478600001)(4744005)(356005)(83380400001)(426003)(7636003)(2616005)(44832011);DIR:OUT;SFP:1101;
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 15:33:47.7575
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 126a0d5e-9584-4980-04a7-08d858c392dc
+X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.37];Helo=[edgeappmail.agilent.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM6NAM12FT059.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2742
+Content-Type: text/plain
 
---00000000000035b87305af47bf6e
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+---
+ meta/recipes-core/meta/cve-update-db-native.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> This reduces the number of files from 12 to 2 for ARMv8a, and that is
-excluding the 13 I am adding in this series that would otherwise be unique
-files.
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index e4e2451bfd..c2f713312f 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -13,8 +13,7 @@ deltask do_install
+ deltask do_populate_sysroot
+ 
+ python () {
+-    cve_check_db_file = d.getVar("CVE_CHECK_DB_FILE")
+-    if not cve_check_db_file:
++    if not bb.data.inherits_class("cve-check", d):
+         raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
+ 
+     if os.path.exists("%s-journal" % cve_check_db_file ):
+-- 
+2.17.1
 
-I don't have a strong opinion on this anymore, but is the number of the
-include files the issue here?
-
-I think the issue is the number of possible combinations and using the same
-TUNE_PKGARCH for different tunes (unlike 32bit arm tune files which use
-different). Bundling all these combinations in fewer include files doesn't
-IMHO improve it.
-
-With 32bit arm include files it was useful to be able to compare various
-include files to check that they follow the same "structure" (or to add new
-cortexa* one by copying existing and regex-replace).
-
-Also AVAILTUNES will now contain all possible tunes from given family
-(which makes it almost useless for aarch64 tunes). So instead of BSP
-including .inc file corresponding with the core used in the MACHINE and
-getting some "sane" default DEFAULTTUNE (plus some other possible options
-listed in AVAILTUNES) we now force every BSP to set more
-specific DEFAULTTUNE and then let user figure out what other DEFAULTTUNEs
-might be compatible with it, e.g. when someone is doing multi MACHINE
-builds and wants to share TUNE_PKGARCH between them (to save build time,
-package feed size etc).
-
-Cheers,
-
-On Mon, Sep 14, 2020 at 5:14 PM Jon Mason <jdmason@kudzu.us> wrote:
-
-> There is a large number of Arm Tune files located in
-> meta/conf/machine/include/, and to support the current and upcoming Arm
-> cores, more are needed.  Adding more files is simply going to make it
-> harder to find the relevant ones for an OE/YP developer/user.  Also,
-> there are problems with stale and erroneous configs (see my previous
-> series), which will only be exacerbated by having more files.
->
-> I am proposing a reorganization of the existing tune files by including
-> them in the generic family include file.  For example, the
-> tune-cortexa55.inc would be moved into arch-armv8-2a.inc, and
-> tune-cortexa57.inc would be moved into arch-armv8a.inc.  This reduces
-> the number of files from 12 to 2 for ARMv8a, and that is excluding the
-> 13 I am adding in this series that would otherwise be unique files.
->
-> To use, simply add
-> ...
-> DEFAULTTUNE ?= "neoversen1"
-> require conf/machine/include/arm/arch-armv8-2a.inc
-> ...
->
-> Which is arguably what should be done anyway (instead of taking the
-> default of the tune include file).
-> See the qemuarm64 patch in the series for a working example.
->
-> Of course, by removing the existing tune files, current users are going
-> to break.  A simple script can be written to use sed (or similar) to
-> replace the relevant parts for those users that would be affected (at
-> least for those that are in the layer index and update regularly).
->
-> Thanks,
-> Jon
->
-> ---
->
-> Originally sent as a RFC in
-> https://lists.openembedded.org/g/openembedded-core/message/142324
->
-> Given the generally positive feedback, sending as a patch series.
-> Keeping the "hard fail" of the file removal (per Richards comment in
-> https://lists.openembedded.org/g/openembedded-core/message/142356).
-> Only difference of note is the removal of the "arm64: set BASE_LIB to
-> lib64", as there needs to be more investigation (see
-> https://lists.openembedded.org/g/openembedded-core/message/142414).
->
->
-> Jon Mason (5):
->   arch-armv8-2a.inc: Add Cortex-A55 tunings
->   arch-armv8a.inc: Add existing tunings
->   qemuarm64: change tuning
->   arch-armv8a.inc: Add tunes for supported ARMv8a cores
->   arch-armv8-2a.inc: Add tunes for supported ARMv8.2a cores
->
->  .../machine/include/arm/arch-armv8-2a.inc     | 175 ++++++++++++++-
->  meta/conf/machine/include/arm/arch-armv8a.inc | 206 +++++++++++++++++-
->  meta/conf/machine/include/tune-cortexa32.inc  |  18 --
->  meta/conf/machine/include/tune-cortexa35.inc  |  17 --
->  meta/conf/machine/include/tune-cortexa53.inc  |  18 --
->  meta/conf/machine/include/tune-cortexa55.inc  |  13 --
->  .../include/tune-cortexa57-cortexa53.inc      |  15 --
->  meta/conf/machine/include/tune-cortexa57.inc  |  17 --
->  .../include/tune-cortexa72-cortexa53.inc      |  20 --
->  meta/conf/machine/include/tune-cortexa72.inc  |  13 --
->  .../include/tune-cortexa73-cortexa53.inc      |  20 --
->  meta/conf/machine/include/tune-thunderx.inc   |  19 --
->  meta/conf/machine/qemuarm64.conf              |   3 +-
->  13 files changed, 371 insertions(+), 183 deletions(-)
->  delete mode 100644 meta/conf/machine/include/tune-cortexa32.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa35.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa53.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa55.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa57-cortexa53.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa57.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa53.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa72.inc
->  delete mode 100644 meta/conf/machine/include/tune-cortexa73-cortexa53.inc
->  delete mode 100644 meta/conf/machine/include/tune-thunderx.inc
->
-> --
-> 2.20.1
->
-> 
->
-
---00000000000035b87305af47bf6e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>&gt; This reduces the number of files from 12 to 2 fo=
-r ARMv8a, and that is excluding the 13 I am adding in this series that woul=
-d otherwise be unique files.</div><div><br></div><div>I don&#39;t have a st=
-rong opinion on this anymore, but is the number of the include files the is=
-sue here?</div><div><br></div><div>I think the issue is the number of possi=
-ble combinations and using the same TUNE_PKGARCH for different tunes (unlik=
-e 32bit arm tune files which use different). Bundling all these combination=
-s in fewer include files doesn&#39;t IMHO improve it.</div><div><br></div><=
-div>With 32bit arm include files it was useful to be able to compare variou=
-s include files to check that they follow the same &quot;structure&quot; (o=
-r to add new cortexa* one by copying existing and regex-replace).</div><div=
-><br></div><div>Also AVAILTUNES will now contain all possible tunes from gi=
-ven family (which makes it almost useless for aarch64 tunes). So instead=C2=
-=
-=A0of BSP including .inc file corresponding with the core used in the MACH=
-INE and getting some &quot;sane&quot; default DEFAULTTUNE (plus some other =
-possible options listed in AVAILTUNES) we now force every BSP to set more s=
-pecific=C2=A0DEFAULTTUNE and then let user figure out what other DEFAULTTUN=
-Es might be compatible with it, e.g. when someone is doing multi MACHINE bu=
-ilds and wants to share TUNE_PKGARCH between them (to save build time, pack=
-age feed size etc).</div><div><br></div><div>Cheers,</div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 14, 2=
-020 at 5:14 PM Jon Mason &lt;<a href=3D"mailto:jdmason@kudzu.us">jdmason@ku=
-dzu.us</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">There is a large number of Arm Tune files located in<br>
-meta/conf/machine/include/, and to support the current and upcoming Arm<br=
->
-cores, more are needed.=C2=A0 Adding more files is simply going to make it=
-<br>
-harder to find the relevant ones for an OE/YP developer/user.=C2=A0 Also,<=
-br>
-there are problems with stale and erroneous configs (see my previous<br>
-series), which will only be exacerbated by having more files.<br>
-<br>
-I am proposing a reorganization of the existing tune files by including<br=
->
-them in the generic family include file.=C2=A0 For example, the<br>
-tune-cortexa55.inc would be moved into arch-armv8-2a.inc, and<br>
-tune-cortexa57.inc would be moved into arch-armv8a.inc.=C2=A0 This reduces=
-<br>
-the number of files from 12 to 2 for ARMv8a, and that is excluding the<br>
-13 I am adding in this series that would otherwise be unique files.<br>
-<br>
-To use, simply add<br>
-...<br>
-DEFAULTTUNE ?=3D &quot;neoversen1&quot;<br>
-require conf/machine/include/arm/arch-armv8-2a.inc<br>
-...<br>
-<br>
-Which is arguably what should be done anyway (instead of taking the<br>
-default of the tune include file).<br>
-See the qemuarm64 patch in the series for a working example.<br>
-<br>
-Of course, by removing the existing tune files, current users are going<br=
->
-to break.=C2=A0 A simple script can be written to use sed (or similar) to<=
-br>
-replace the relevant parts for those users that would be affected (at<br>
-least for those that are in the layer index and update regularly).<br>
-<br>
-Thanks,<br>
-Jon<br>
-<br>
----<br>
-<br>
-Originally sent as a RFC in<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/1423=
-24" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
-penembedded-core/message/142324</a><br>
-<br>
-Given the generally positive feedback, sending as a patch series.<br>
-Keeping the &quot;hard fail&quot; of the file removal (per Richards commen=
-t in<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/1423=
-56" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
-penembedded-core/message/142356</a>).<br>
-Only difference of note is the removal of the &quot;arm64: set BASE_LIB to=
-<br>
-lib64&quot;, as there needs to be more investigation (see<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/1424=
-14" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/o=
-penembedded-core/message/142414</a>).<br>
-<br>
-<br>
-Jon Mason (5):<br>
-=C2=A0 arch-armv8-2a.inc: Add Cortex-A55 tunings<br>
-=C2=A0 arch-armv8a.inc: Add existing tunings<br>
-=C2=A0 qemuarm64: change tuning<br>
-=C2=A0 arch-armv8a.inc: Add tunes for supported ARMv8a cores<br>
-=C2=A0 arch-armv8-2a.inc: Add tunes for supported ARMv8.2a cores<br>
-<br>
-=C2=A0.../machine/include/arm/arch-armv8-2a.inc=C2=A0 =C2=A0 =C2=A0| 175 +=
-+++++++++++++-<br>
-=C2=A0meta/conf/machine/include/arm/arch-armv8a.inc | 206 ++++++++++++++++=
-+-<br>
-=C2=A0meta/conf/machine/include/tune-cortexa32.inc=C2=A0 |=C2=A0 18 --<br>
-=C2=A0meta/conf/machine/include/tune-cortexa35.inc=C2=A0 |=C2=A0 17 --<br>
-=C2=A0meta/conf/machine/include/tune-cortexa53.inc=C2=A0 |=C2=A0 18 --<br>
-=C2=A0meta/conf/machine/include/tune-cortexa55.inc=C2=A0 |=C2=A0 13 --<br>
-=C2=A0.../include/tune-cortexa57-cortexa53.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- 15 --<br>
-=C2=A0meta/conf/machine/include/tune-cortexa57.inc=C2=A0 |=C2=A0 17 --<br>
-=C2=A0.../include/tune-cortexa72-cortexa53.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- 20 --<br>
-=C2=A0meta/conf/machine/include/tune-cortexa72.inc=C2=A0 |=C2=A0 13 --<br>
-=C2=A0.../include/tune-cortexa73-cortexa53.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- 20 --<br>
-=C2=A0meta/conf/machine/include/tune-thunderx.inc=C2=A0 =C2=A0|=C2=A0 19 -=
--<br>
-=C2=A0meta/conf/machine/qemuarm64.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
-=C2=A013 files changed, 371 insertions(+), 183 deletions(-)<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa32.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa35.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa53.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa55.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa57-cortexa5=
-3.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa57.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa5=
-3.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa72.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-cortexa73-cortexa5=
-3.inc<br>
-=C2=A0delete mode 100644 meta/conf/machine/include/tune-thunderx.inc<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000035b87305af47bf6e--
