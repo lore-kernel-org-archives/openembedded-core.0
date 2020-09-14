@@ -1,85 +1,119 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web10.61386.1600092725991273085
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.61403.1600092728773570399
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 07:12:06 -0700
+ Mon, 14 Sep 2020 07:12:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SZKDZGPc;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f194.google.com with SMTP id l126so12744698pfd.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qpLNE3vB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id b17so5446728pji.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 07:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=+SN0nf1vwXfa5HSiAmjOjbB7fUf2QUufkhdDjq+seh8=;
-        b=SZKDZGPcM83oFWy1hbP6taq26RU8+HnTrxIf8q4Z4cBpQx+hudTSFjnxUBaggS+tI6
-         lNg8QZihpZRyqUbH6+wl1HVFkava025VHtkyhJZVDxvzbIGBV9YWtKuAwZ0TjoXM0dIh
-         ackokXK7uonvKP3/CQ3LLsb//od2l7YCuC2BEVK3HFveSn+foVXAuQTgOPy0an4kREVW
-         0Rn3ThdVA9d/nSXzVL3mv9S2+txLwbiHM34FFCVq/cEjIUu0vg/EIBOx4URRZaCLYWQV
-         6hkcs9crBwzUeemeJYRxfLmBHQDHSDqPHKcjylxlXGff3BvIIuSRetmwO6tOslWyfPrA
-         DCTQ==
+        bh=GaY7wbWtYuaa8Zzwgu++dvk6Ib5VEetNPqrDN/iWtb4=;
+        b=qpLNE3vBoc0mmm/hTkDqE9FXl8gPc5MILVFJceZD5rUyEuUaP+eJgmghUIoxyGd1Gf
+         RZe+aOThhmDB72OFkIS3sh7eseKcocuT7LNTRBUg9mtyE/Rb+6m5yq+TnUeLV/jT2iBc
+         YsA6O57AGFvxT/3Ga/up29YpSHWev3qyJMAx+kUrQ3/kXZj45Ad5TmefVwiv5a7k+9wv
+         IdflhTEbZHae+rVPOG2zfGf2VDYhLG0N9PNnEhnazrcFkYtzlUL83WHz8DqrXUHmfO2W
+         auohPWvCPJvI6MbkmiBlfnGrDI10Zu6LDv55gw3bqFx8/fGC3W5SrTGPfHlvgDg2oC6d
+         agPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=+SN0nf1vwXfa5HSiAmjOjbB7fUf2QUufkhdDjq+seh8=;
-        b=Y3w0VO8fGhc51yGTaRHkhnssRmKlOVOnq6hFg+hEE1lkTqJC/qaSOHofnvn5l1pg3e
-         eDsBhvmXsuZLRMikkcskTlfFYrVhrK+lVh7Vh8jwyR1ojp1AfhEb+qrVLCvF1MrdDbJw
-         tbOcDVJhEgHk2HTK2I8yI4lGAwwePHYgWVp+2yWPp+B+mHd5WoLWi/WGe0WLkrhpDwUg
-         Ztin3rXpG2jrKeRFc4xfyIH/v3/2YwFJazxmiTN8qZ4JIAlSUBU0bxtA88mV10Gzwfhw
-         RLnNQ0h5ETi8CsZI60/CSJWJk8CVS2IlwhbIavPwAk7n/owkNQo0Xto6aWgKS3wzFOG0
-         S3Yg==
-X-Gm-Message-State: AOAM530GmtvHOjqIb86A2BTLG1wYoPwPsCSLWOUP5EW2graE9awPmxrK
-	i0hf6SM6iKHsSbUGN5F4I9XOGQrSE/qKfiDJZLc=
-X-Google-Smtp-Source: ABdhPJx81CpufN9hlLLRkEvrF5nzpFlq9tnk5AGGmlhrV7YIbA9ytZ79nUBhBZ3OGYHWbv/71ADI8w==
-X-Received: by 2002:aa7:97a8:0:b029:13e:d13d:a105 with SMTP id d8-20020aa797a80000b029013ed13da105mr13465356pfq.33.1600092725119;
-        Mon, 14 Sep 2020 07:12:05 -0700 (PDT)
+        bh=GaY7wbWtYuaa8Zzwgu++dvk6Ib5VEetNPqrDN/iWtb4=;
+        b=VA4oWiwkOEGT5YU2HJbhyqpbG90PMU7Y0FBSKQ4ft4seWX9OHY5348XkwA1I9YuoPU
+         NalCMD4LrtI8sUBGj27si1k4sdWlEAgyC4SL7ykOm9dxy+5OmCJnMUmyZ7Or/f7pK6+S
+         hGQsVZ4kyM9mxS+96uRkwuFffG+5EpnUFQrJ4Y06iC4F6df1HQi/zsr2nXrDYs5iICVf
+         Htfpw+NcJ6f/eW9TzO9AnJVigYv8Xq3+EsVla2Y9F3cZjZglPJCuL1jwlFCDMz6cjVE9
+         Y0s2utW/KHxPhOlIQjTb3tsGv2jfDNiEheHAFeHgYsKLpg/GTi6daH7KQpGOqoqmyy+W
+         kbWg==
+X-Gm-Message-State: AOAM53044GN7RXNEbpoQj/un1gUwdCEXPimnVHIYDCd2mpPry7ZAfZua
+	tUI9TnB2YZw/rvfM3pcJqSBIxSYdQdXIPs49Tzg=
+X-Google-Smtp-Source: ABdhPJzRRowJouKzArUekUtazMzmvxNAnXNTRDHlpWX18nuwISdi332vIZ3unEnjsVGke1pBWaOJBA==
+X-Received: by 2002:a17:90a:9d82:: with SMTP id k2mr14319182pjp.197.1600092727767;
+        Mon, 14 Sep 2020 07:12:07 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.03
+        by smtp.gmail.com with ESMTPSA id z22sm11053183pjq.2.2020.09.14.07.12.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 07:12:04 -0700 (PDT)
+        Mon, 14 Sep 2020 07:12:07 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/24] uninative: Upgrade to 2.9
-Date: Mon, 14 Sep 2020 04:11:19 -1000
-Message-Id: <0f01fb2286335dd0da0c7be3f56c36a0fced3e42.1600092418.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/24] xserver-xorg: fix CVE-2020-14347
+Date: Mon, 14 Sep 2020 04:11:20 -1000
+Message-Id: <02484c21042fcbd31d2982fc1cf60d565ae035e4.1600092418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600092418.git.steve@sakoman.com>
 References: <cover.1600092418.git.steve@sakoman.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-This supports glibc upto 2.32 which is now rolling into distributions
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5cda8c7d642cfb72242c95f450e3391bd6537709)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../xserver-xorg/CVE-2020-14347.patch         | 38 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.8.bb       |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14347.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 889695eae3..69b6edee5f 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,9 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.31"
-+UNINATIVE_MAXGLIBCVERSION = "2.32"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.8/"
--UNINATIVE_CHECKSUM[aarch64] ?= "989187344bf9539b464fb7ed9c223e51f4bdb4c7a677d2c314e6fed393176efe"
--UNINATIVE_CHECKSUM[i686] ?= "cc3e45bc8594488b407363e3fa9af5a099279dab2703c64342098719bd674990"
--UNINATIVE_CHECKSUM[x86_64] ?= "a09922172c3a439105e0ae6b943daad2d83505b17da0aba97961ff433b8c21ab"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.9/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "9f25a667aee225b1dd65c4aea73e01983e825b1cb9b56937932a1ee328b45f81"
-+UNINATIVE_CHECKSUM[i686] ?= "cae5d73245d95b07cf133b780ba3f6c8d0adca3ffc4e7e7fab999961d5e24d36"
-+UNINATIVE_CHECKSUM[x86_64] ?= "d07916b95c419c81541a19c8ef0ed8cbd78ae18437ff28a4c8a60ef40518e423"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14347.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14347.patch
+new file mode 100644
+index 0000000000..cf3f5f9417
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14347.patch
+@@ -0,0 +1,38 @@
++From aac28e162e5108510065ad4c323affd6deffd816 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Sat, 25 Jul 2020 19:33:50 +0200
++Subject: [PATCH] fix for ZDI-11426
++
++Avoid leaking un-initalized memory to clients by zeroing the
++whole pixmap on initial allocation.
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
++
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/aac28e162e5108510065ad4c323affd6deffd816]
++CVE: CVE-2020-14347
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ dix/pixmap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/dix/pixmap.c b/dix/pixmap.c
++index 1186d7dbbf..5a0146bbb6 100644
++--- a/dix/pixmap.c
+++++ b/dix/pixmap.c
++@@ -116,7 +116,7 @@ AllocatePixmap(ScreenPtr pScreen, int pixDataSize)
++     if (pScreen->totalPixmapSize > ((size_t) - 1) - pixDataSize)
++         return NullPixmap;
++ 
++-    pPixmap = malloc(pScreen->totalPixmapSize + pixDataSize);
+++    pPixmap = calloc(1, pScreen->totalPixmapSize + pixDataSize);
++     if (!pPixmap)
++         return NullPixmap;
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+index 3f7fbe85b8..5101134538 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+@@ -5,6 +5,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://0001-test-xtest-Initialize-array-with-braces.patch \
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
++           file://CVE-2020-14347.patch \
+            "
+ SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
+ SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
 -- 
 2.17.1
 
