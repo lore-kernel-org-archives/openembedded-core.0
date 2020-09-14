@@ -1,31 +1,31 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web12.57219.1600078101050498141
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web12.57264.1600078230447928662
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 03:08:21 -0700
+ Mon, 14 Sep 2020 03:10:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: VXTODGcPGOfKWYz1QqtJW0d6fpkvXVD3wJZIvJ+YsYB/29wpxlMo68xF+wq7pVDuOt0DFRFo+8
- ipBeZqVQ12TQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="156494961"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: Yd1rA7ETznRGPyVxE+bZHnPhK5UdfLbNAggsuNwS0DDQW1F8SKBIc3u8hltj2ENrJN9MxoDdSy
+ HfiMZpjb1onw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="223238531"
 X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="156494961"
+   d="scan'208";a="223238531"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 03:08:20 -0700
-IronPort-SDR: GfwZ+hkYoQ5RDSN9xrLXcLEB7ahxMkCerFWspTLrzAICOW+IqAYuBlj2eZpRGuugCGLulZkwC6
- Rp7vvcsnI8Og==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2020 03:10:29 -0700
+IronPort-SDR: Q/oAb9gXAf6uY3maFwDvUbIkAzMr5NDow9pXQHKS5R1mAN4nf/QgwLWHRf8QKCOywPnaqhLJC6
+ BxSbiA2aXV0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="330671921"
+   d="scan'208";a="379341550"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Sep 2020 03:08:19 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Sep 2020 03:10:28 -0700
 From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: khairul.rohaizzat.jamaluddin@intel.com
+Cc: randy.e.witt@linux.intel.com
 Subject: [PATCH v4] wic/bootimg-efi: IMAGE_EFI_BOOT_FILES variable added to separate bootimg-efi and bootimg-partition
-Date: Mon, 14 Sep 2020 18:08:18 +0800
-Message-Id: <1600078098-80227-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
+Date: Mon, 14 Sep 2020 18:10:27 +0800
+Message-Id: <1600078227-80655-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
 X-Mailer: git-send-email 2.7.4
 
 From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
