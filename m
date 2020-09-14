@@ -1,295 +1,75 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.52768.1600050283451972887
+Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
+ by mx.groups.io with SMTP id smtpd.web11.53383.1600052935804616562
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 19:24:43 -0700
+ Sun, 13 Sep 2020 20:08:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: zhixiong.chi@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08E2OBLO028391
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 19:24:32 -0700
-Received: from [128.224.162.237] (128.224.162.237) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Sun, 13 Sep 2020
- 19:24:19 -0700
-Subject: Re: [OE-core][zeus][PATCH] procps: fix the top command crash issue
-To: <openembedded-core@lists.openembedded.org>
-References: <1633A8718261FDB3.22811@lists.openembedded.org>
-From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
-Message-ID: <caa88809-bbee-d1d8-4eda-c851a57c8bdc@windriver.com>
-Date: Mon, 14 Sep 2020 10:25:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1633A8718261FDB3.22811@lists.openembedded.org>
-Content-Type: multipart/alternative;
-	boundary="------------A2B97D4A6B715231FECEB287"
-Content-Language: en-US
+ dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
+Received: from acheron.taitradio.net (unknown [10.200.20.196])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 942FE22027A;
+	Mon, 14 Sep 2020 15:08:52 +1200 (NZST)
+From: "Douglas" <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Douglas Royds <douglas.royds@taitradio.com>
+Subject: [PATCH v2] tcmode-default: Drop gcc-cross-initial, gcc-crosssdk-initial references
+Date: Mon, 14 Sep 2020 15:08:49 +1200
+Message-Id: <20200914030849.15681-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAFimOt4qqUBom3vGpgdquC61oao4gppraibinztAzY8FUB0vsA@mail.gmail.com>
+References: <CAFimOt4qqUBom3vGpgdquC61oao4gppraibinztAzY8FUB0vsA@mail.gmail.com>
 
---------------A2B97D4A6B715231FECEB287
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 08E2OBLO028391
+Further to 5b2fd1c724
 
-Hi,
+Also a few remaining references in comments and in distro_alias.inc
 
-Please ignore this rr, I will resend the V2.
-
-Thanks.
-
-On 2020/9/11 =E4=B8=8B=E5=8D=882:58, Zhixiong Chi wrote:
-> Avoid a potential SEGV during program termination.
-> Backported the patch form:
-> https://gitlab.com/procps-ng/procps/-/commit/d37f85c269fbb6e905802ffdbce=
-0ba4173ba21a9
->
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->  ...ntial-SEGV-during-program-terminatio.patch | 61 +++++++++++++++++++
->  meta/recipes-extended/procps/procps_3.3.15.bb |  1 +
->  2 files changed, 62 insertions(+)
->  create mode 100644 meta/recipes-extended/procps/procps/0001-top-avoid-a=
--potential-SEGV-during-program-terminatio.patch
->
-> diff --git a/meta/recipes-extended/procps/procps/0001-top-avoid-a-potent=
-ial-SEGV-during-program-terminatio.patch b/meta/recipes-extended/procps/pro=
-cps/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
-> new file mode 100644
-> index 0000000000..4f7a01e41b
-> --- /dev/null
-> +++ b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEG=
-V-during-program-terminatio.patch
-> @@ -0,0 +1,61 @@
-> +From d37f85c269fbb6e905802ffdbce0ba4173ba21a9 Mon Sep 17 00:00:00 2001
-> +From: Jim Warner <james.warner@comcast.net>
-> +Date: Tue, 6 Aug 2019 00:00:00 -0500
-> +Subject: [PATCH] top: avoid a potential SEGV during program termination
-> +
-> +The backtrace shown in the bug report referenced below
-> +illustrates a 'normal' program termination interrupted
-> +with some signal, ultimately then causing a top crash.
-> +
-> +So this commit just rearranges a little code such that
-> +all signals will be blocked during that rather lengthy
-> +end of program processing regardless of how initiated.
-> +
-> +[ in that report, ignore the assertion regarding the ]
-> +[ '-n' option. it obviously was not '1' since do_key ]
-> +[ had been called, which otherwise wouldn't be true. ]
-> +
-> +[ and when it is '1' the -d option would be ignored. ]
-> +
-> +Reference(s):
-> +https://bugzilla.redhat.com/show_bug.cgi?id=3D1737552
-> +
-> +Signed-off-by: Jim Warner <james.warner@comcast.net>
-> +Upstream-Status: Backport[https://gitlab.com/procps-ng/procps.git]
-> +Signed-off-by: Shaohua Zhan <shaohua.zhan@windriver.com>
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +---
-> + top/top.c | 11 +++++------
-> + 1 file changed, 5 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/top/top.c b/top/top.c
-> +index b01907a..73598e2 100644
-> +--- a/top/top.c
-> ++++ b/top/top.c
-> +@@ -404,6 +404,11 @@ static void at_eoj (void) {
-> +          * The real program end */
-> + static void bye_bye (const char *str) NORETURN;
-> + static void bye_bye (const char *str) {
-> ++   sigset_t ss;
-> ++
-> ++// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
-> ++   sigfillset(&ss);
-> ++   sigprocmask(SIG_BLOCK, &ss, NULL);
-> +    at_eoj();                 // restore tty in preparation for exit
-> + #ifdef ATEOJ_RPTSTD
-> + {  proc_t *p;
-> +@@ -595,12 +600,6 @@ static void sig_abexit (int sig) {
-> +          *    SIGUSR1 and SIGUSR2 */
-> + static void sig_endpgm (int dont_care_sig) NORETURN;
-> + static void sig_endpgm (int dont_care_sig) {
-> +-   sigset_t ss;
-> +-
-> +-// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
-> +-   sigfillset(&ss);
-> +-   sigprocmask(SIG_BLOCK, &ss, NULL);
-> +-   Frames_signal =3D BREAK_sig;
-> +    bye_bye(NULL);
-> +    (void)dont_care_sig;
-> + } // end: sig_endpgm
-> +--=20
-> +GitLab
-> diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipe=
-s-extended/procps/procps_3.3.15.bb
-> index f240e54fd8..b299779253 100644
-> --- a/meta/recipes-extended/procps/procps_3.3.15.bb
-> +++ b/meta/recipes-extended/procps/procps_3.3.15.bb
-> @@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternative=
-s
->  SRC_URI =3D "http://downloads.sourceforge.net/project/procps-ng/Product=
-ion/procps-ng-${PV}.tar.xz \
->             file://sysctl.conf \
->             file://0001-Fix-out-of-tree-builds.patch \
-> +           file://0001-top-avoid-a-potential-SEGV-during-program-termin=
-atio.patch \
->             "
->  
->  SRC_URI[md5sum] =3D "2b0717a7cb474b3d6dfdeedfbad2eccc"
->
->=20
-
---=20
----------------------
-Thanks,
-Zhixiong Chi
-Tel: +86-10-8477-7036
-
-
---------------A2B97D4A6B715231FECEB287
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 08E2OBLO028391
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
-8">
-  </head>
-  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <p>Hi,</p>
-    <p>Please ignore this rr, I will resend the V2.</p>
-    <p>Thanks.<br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 2020/9/11 =E4=B8=8B=E5=8D=882:58, Zh=
-ixiong Chi
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:1633A8718261FDB3.22811@lists.openembedded.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">Avoid a potential SEGV during=
- program termination.
-Backported the patch form:
-<a class=3D"moz-txt-link-freetext" href=3D"https://gitlab.com/procps-ng/pr=
-ocps/-/commit/d37f85c269fbb6e905802ffdbce0ba4173ba21a9">https://gitlab.com/=
-procps-ng/procps/-/commit/d37f85c269fbb6e905802ffdbce0ba4173ba21a9</a>
-
-Signed-off-by: Zhixiong Chi <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
-lto:zhixiong.chi@windriver.com">&lt;zhixiong.chi@windriver.com&gt;</a>
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- ...ntial-SEGV-during-program-terminatio.patch | 61 +++++++++++++++++++
- meta/recipes-extended/procps/procps_3.3.15.bb |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-extended/procps/procps/0001-top-avoid-a-p=
-otential-SEGV-during-program-terminatio.patch
+ meta/conf/distro/include/distro_alias.inc   | 4 ----
+ meta/conf/distro/include/tcmode-default.inc | 2 --
+ meta/conf/layer.conf                        | 2 +-
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/recipes-extended/procps/procps/0001-top-avoid-a-potentia=
-l-SEGV-during-program-terminatio.patch b/meta/recipes-extended/procps/procp=
-s/0001-top-avoid-a-potential-SEGV-during-program-terminatio.patch
-new file mode 100644
-index 0000000000..4f7a01e41b
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/0001-top-avoid-a-potential-SEGV-=
-during-program-terminatio.patch
-@@ -0,0 +1,61 @@
-+From d37f85c269fbb6e905802ffdbce0ba4173ba21a9 Mon Sep 17 00:00:00 2001
-+From: Jim Warner <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:james.=
-warner@comcast.net">&lt;james.warner@comcast.net&gt;</a>
-+Date: Tue, 6 Aug 2019 00:00:00 -0500
-+Subject: [PATCH] top: avoid a potential SEGV during program termination
-+
-+The backtrace shown in the bug report referenced below
-+illustrates a 'normal' program termination interrupted
-+with some signal, ultimately then causing a top crash.
-+
-+So this commit just rearranges a little code such that
-+all signals will be blocked during that rather lengthy
-+end of program processing regardless of how initiated.
-+
-+[ in that report, ignore the assertion regarding the ]
-+[ '-n' option. it obviously was not '1' since do_key ]
-+[ had been called, which otherwise wouldn't be true. ]
-+
-+[ and when it is '1' the -d option would be ignored. ]
-+
-+Reference(s):
-+https://bugzilla.redhat.com/show_bug.cgi?id=3D1737552
-+
-+Signed-off-by: Jim Warner <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
-to:james.warner@comcast.net">&lt;james.warner@comcast.net&gt;</a>
-+Upstream-Status: Backport[<a class=3D"moz-txt-link-freetext" href=3D"http=
-s://gitlab.com/procps-ng/procps.git">https://gitlab.com/procps-ng/procps.gi=
-t</a>]
-+Signed-off-by: Shaohua Zhan <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:shaohua.zhan@windriver.com">&lt;shaohua.zhan@windriver.com&gt;</a>
-+Signed-off-by: Zhixiong Chi <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:zhixiong.chi@windriver.com">&lt;zhixiong.chi@windriver.com&gt;</a>
-+---
-+ top/top.c | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/top/top.c b/top/top.c
-+index b01907a..73598e2 100644
-+--- a/top/top.c
-++++ b/top/top.c
-+@@ -404,6 +404,11 @@ static void at_eoj (void) {
-+          * The real program end */
-+ static void bye_bye (const char *str) NORETURN;
-+ static void bye_bye (const char *str) {
-++   sigset_t ss;
-++
-++// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
-++   sigfillset(&amp;ss);
-++   sigprocmask(SIG_BLOCK, &amp;ss, NULL);
-+    at_eoj();                 // restore tty in preparation for exit
-+ #ifdef ATEOJ_RPTSTD
-+ {  proc_t *p;
-+@@ -595,12 +600,6 @@ static void sig_abexit (int sig) {
-+          *    SIGUSR1 and SIGUSR2 */
-+ static void sig_endpgm (int dont_care_sig) NORETURN;
-+ static void sig_endpgm (int dont_care_sig) {
-+-   sigset_t ss;
-+-
-+-// POSIX.1-2004 async-signal-safe: sigfillset, sigprocmask
-+-   sigfillset(&amp;ss);
-+-   sigprocmask(SIG_BLOCK, &amp;ss, NULL);
-+-   Frames_signal =3D BREAK_sig;
-+    bye_bye(NULL);
-+    (void)dont_care_sig;
-+ } // end: sig_endpgm
-+--=20
-+GitLab
-diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-=
-extended/procps/procps_3.3.15.bb
-index f240e54fd8..b299779253 100644
---- a/meta/recipes-extended/procps/procps_3.3.15.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.15.bb
-@@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternatives
- SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"http://downloads.s=
-ourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz\file://s=
-ysctl.conf\file://0001-Fix-out-of-tree-builds.patch\+file://0001-top-avoid-=
-a-potential-SEGV-during-program-terminatio.patch\">"http://downloads.source=
-forge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
-            file://sysctl.conf \
-            file://0001-Fix-out-of-tree-builds.patch \
-+           file://0001-top-avoid-a-potential-SEGV-during-program-terminat=
-io.patch \
-            "</a>
-=20
- SRC_URI[md5sum] =3D "2b0717a7cb474b3d6dfdeedfbad2eccc"
-</pre>
-      <br>
-      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-</pre>
-    </blockquote>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
----------------------
-Thanks,
-Zhixiong Chi
-Tel: +86-10-8477-7036
-</pre>
-  </body>
-</html>
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 56055f7798..b4dfcfc5f5 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -81,10 +81,6 @@ DISTRO_PN_ALIAS_pn-encodings = "Ubuntu=xfonts-encodings Mandriva=x11-font-encodi
+ DISTRO_PN_ALIAS_pn-font-alias = "Fedora=xorg-x11-fonts-base Mandriva=x11-font-alias Meego=xorg-x11-fonts"
+ DISTRO_PN_ALIAS_pn-font-util = "Meego=xorg-x11-font-utils Fedora=xorg-x11-font-utils Ubuntu=xfonts-utils Mandriva=x11-font-util Debian=xfonts-utils"
+ DISTRO_PN_ALIAS_pn-formfactor = "OE-Core"
+-DISTRO_PN_ALIAS_pn-gcc-cross-initial = "OE-Core"
+-DISTRO_PN_ALIAS_pn-gcc-cross-initial-i586 = "OE-Core"
+-DISTRO_PN_ALIAS_pn-gcc-crosssdk-initial = "OE-Core"
+-DISTRO_PN_ALIAS_pn-gcc-crosssdk-initial-x86_64 = "OE-Core"
+ DISTRO_PN_ALIAS_pn-gccmakedep = "Mandriva=gccmakedep Ubuntu=xutils-dev"
+ DISTRO_PN_ALIAS_pn-gcc-runtime = "Ubuntu=gcc Fedora=gcc"
+ DISTRO_PN_ALIAS_pn-gcc-sanitizers = "Ubuntu=gcc Fedora=gcc"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 1bc95ec675..50e8a20f35 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -30,9 +30,7 @@ LLVMVERSION ?= "10.0.1"
+ 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+-PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-${SDK_SYS} ?= "${SDKGCCVERSION}"
+-PREFERRED_VERSION_gcc-crosssdk-initial-${SDK_SYS} ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-sanitizers ?= "${GCCVERSION}"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 1a01d02fef..38df0f3aff 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -91,7 +91,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+ # dependency incidentally. This improves determinism and avoids build
+ # failures when people switch to external toolchains.
+ SSTATE_EXCLUDEDEPS_SYSROOT += ".*->bison-native"
+-# Nothing needs to depend on libc-initial/gcc-cross-initial
++# Nothing needs to depend on libc-initial
+ # base-passwd/shadow-sysroot don't need their dependencies
+ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+     .*->.*-initial.* \
+-- 
+2.17.1
 
---------------A2B97D4A6B715231FECEB287--
