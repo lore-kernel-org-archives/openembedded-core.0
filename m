@@ -1,540 +1,1000 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web10.70659.1600116371997285746
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
+ by mx.groups.io with SMTP id smtpd.web11.71372.1600116542613338927
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 13:46:12 -0700
+ Mon, 14 Sep 2020 13:49:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=d+4G9s8v;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id p9so1885177ejf.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 13:46:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XjQsOt+s;
+ spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: andrey.z@gmail.com)
+Received: by mail-vs1-f65.google.com with SMTP id e2so670768vsr.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 13:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TGeeE4uUn5oKw8Fl/Y8VM2aeQvuLAgAlhNf7efiQU7c=;
-        b=d+4G9s8vHEn3RPCXvieZ0maP+usCTfKUjYwtqkCfn/39GKWmKGji8Vx+scOccqkTyY
-         Ld6WdIxfyGNUBEg90M9ceMYSmt30trCWLstluKdwN/fmbawYBtcYZxxbOtTfhDNM6YG7
-         aQSk4Z/4x3tl/2N5Vch49bSAhlD/bB51OS/YBpf9SeWSp4xfd+Mzj6t2ZELf7OzDI2hf
-         Th2vEw1kJIBvLgpyJyR0H5YOC27Qmfxiu2NymPgKfmW2L3vvnZ0HFAhQn5VFDq56PnJ8
-         kDw2qxb9A8Av3Un3NsXmjshkBRrIMa7v/MNhQ4O6gd1RmAnTofvnkw1OM3FG8ZfAAVDW
-         AnrQ==
+        bh=an9b5jmZduDI9hUBQKHGoIHPr1Pi6UCXfaxG6xDfWcw=;
+        b=XjQsOt+sqHwyC3HP48GKMwDwQUplitTQ7x5NnijZP+ocv7kLuh/qyQIbtcrVJF9l7s
+         KenOOsAX2EC/izGtS9hSk1ckjYRJ6USWG6yQaT6j4nsehe9LKwMPnaeGrgxB9aGhl1PR
+         VRjiTh+FpDvjFanrOtiX28+H4MZIIJvFX3Z/0Kvroox0m73ByXyATxRyyWxr5nwXRIjS
+         rVfhOnMgSybiYorIS7QpWRXFz5pzXWzVsY8W+SrWgr3q8dBbFWaJ5HaDBjOh5Pi+Lnwy
+         DoVUranmhOQ13IzQPuMAzEsvMwMob0bMgYFSH60pDUjnWLU98qCjj98QPaIw/8rQwGAD
+         zoHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TGeeE4uUn5oKw8Fl/Y8VM2aeQvuLAgAlhNf7efiQU7c=;
-        b=sSDNVfblEsYOF6AJHBLyCRBm3cF0k6JfPWku+72bK7oK1nJcTUDns7jFeoSi6a6wd7
-         E4ZOqo5QF/8k/R+8sD/cTHdai3Lo5JVWl6HSIj4dJEuKcH+8VaJZSoYEv5r2M3Q0gPJY
-         OLO1nR89PykTO69QOdvX8ztV4NjChrIuMaSFkMTH+YrDJ3EQngHiEe6DEpDP3l8EEx9i
-         XvpYiZF/r5qomt9ryG6sO1oAvFCv8gUKrdPXOmKaZ5LM31t0M4BDOi2itHqo87fhtZ6c
-         b9m2nuC35ztWjUlPFEWv0VlidjTr6S8mUjaP6HYQjVUIb2+lEtOV1ddPLWSzIYahiAJ6
-         lVgA==
-X-Gm-Message-State: AOAM5331ew6iIf1trPdBQLVljqDXEeXewzpqZMwhz3IdflGgDYDWNvDh
-	zG7C9oq974Tiw9cdRpR4u0ea4erfUNZs4D8cgM4=
-X-Google-Smtp-Source: ABdhPJwZSTfqS75b8H4dsAMXqjKwXQGhihbwyh3kOlZ7Pq6JSUYKljlWTh1ys48spXLSm9FEPZhR+YNg9eR7H6kIczw=
-X-Received: by 2002:a17:906:4a81:: with SMTP id x1mr12651076eju.541.1600116370368;
- Mon, 14 Sep 2020 13:46:10 -0700 (PDT)
+        bh=an9b5jmZduDI9hUBQKHGoIHPr1Pi6UCXfaxG6xDfWcw=;
+        b=qHoLBuYrqa788asu9m2bHpMXyBKi/wE9QKppmroOKBtIW7GbfmmFeeUNXMjpZQ0gzT
+         kfvJHyrssnVBspbALtTnGMPLnP6ZpjYaD62AkiekzO7CUCb4uEmz5CWo3UvTR/ycQN+j
+         bbfd+RfAd+jjpU+Yko96hUvoBEUTjx4V1pofsSPAXFB9M23+MLFq0rwiaK3KS5GmLcX9
+         JTjr5pz/wRerS51jAQQm3xWhniq94BsO1Z38UKRwAb9iUY2U4CA+AHGzLDGaSzv67EZz
+         e23MP1iTt5ckXv4NJmzbNT4q8YK5gQjG021lYffFWaXBERubeo9lP6KDe+8LoGUYiQOg
+         Z8Pw==
+X-Gm-Message-State: AOAM532Jj8uMov6mwz8wq71nS4abVbtyuTr5pq2gCVj8CTOAWcZDOiEK
+	c6xhCF3EhPPZRt+Vhkea0+U97IbewYgXIYgxgjg=
+X-Google-Smtp-Source: ABdhPJxZ+JGxz2lEd0L6ITP7c602RrGJPf0S6I1fXqheGKI/GlQaVoPFacB4kiUx9wvJLP8AGb8epipIc7t7TeYs9Ac=
+X-Received: by 2002:a05:6102:2132:: with SMTP id f18mr9125489vsg.0.1600116541016;
+ Mon, 14 Sep 2020 13:49:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200914075222.22226-1-sno@NetBSD.org> <CADkTA4PZBd-1O8tNPzFSj=2sD9o8z3kWDrP=vXM4d8rWSM+tnw@mail.gmail.com>
-In-Reply-To: <CADkTA4PZBd-1O8tNPzFSj=2sD9o8z3kWDrP=vXM4d8rWSM+tnw@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Mon, 14 Sep 2020 22:45:59 +0200
-Message-ID: <CA+chaQeDVYaXeeZgxvbk60R4Ewq2SOpsf565=wOQrLpxL4Z19w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] lttng-modules: backport patch to fix build for linux-5.4.62+
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Jens Rehsack <rehsack@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Jens Rehsack <sno@netbsd.org>
-Content-Type: multipart/alternative; boundary="000000000000daedba05af4c1f64"
-
---000000000000daedba05af4c1f64
+References: <20200901152236.9377-1-akuster808@gmail.com> <20200901152236.9377-7-akuster808@gmail.com>
+ <CAHtQpK7cr7Ht109e_V+Qwy8nb3R3bOthLPq=yr3VBB4vG0XLvA@mail.gmail.com>
+ <f5ae90fe-02e7-47b5-2166-fe89488678ca@gmail.com> <CAHtQpK5V9nm5+woTpPM-p-Rtzj5sjc+pJ0X-fSf4BCaSD0Vc1w@mail.gmail.com>
+ <fb3a5e6d-bae5-7b33-b1e7-61205b130b14@gmail.com> <CAHtQpK4oTRcKp9VcK4a8eWYb9Ni7=Xhgr9X1V=_=jc0=dfqgHQ@mail.gmail.com>
+ <CAHtQpK7aYdSmkPZ4yu0cpQ+0QkOccTAHVFP5_jJPP5006SxTSQ@mail.gmail.com> <16e181db-60f0-c56d-e327-1f09125682f5@gmail.com>
+In-Reply-To: <16e181db-60f0-c56d-e327-1f09125682f5@gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Mon, 14 Sep 2020 22:48:49 +0200
+Message-ID: <CAHtQpK7CUc7=xEe9VXeQp8AnUsHSC-k890M4L45p_M7mCnejSg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/8] bind: Add 9.16.x
+To: Khem Raj <raj.khem@gmail.com>
+Cc: akuster808 <akuster808@gmail.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Is this exact backport from lttng-modules repo?
+On Mon, Sep 14, 2020 at 9:04 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On 9/14/20 10:55 AM, Andrey Zhizhikin wrote:
+> > Gentle ping here regarding this issue.
+> >
+> > Is thre anyone else experiencing this with IPK packages?
+>
+> Alright thanks for being persist it has paid off :) I have taken a look
+> at it and sent a fix to ml
 
-I came across this issue in
-https://github.com/agherzan/meta-raspberrypi/pull/722
-and
-https://github.com/lttng/lttng-modules/commit/817e02f9e256b8f2cbb9e3125eb061757b83bd4a
-+
-https://github.com/lttng/lttng-modules/commit/b6af46d166c48c9e59600a60b5a2a7ead10f179a
-look a bit different than this one (and are more correct with fixed kernel
-ranges as not every > 5.4.62 kernel had this change).
+Thanks a lot! :)
 
-On Mon, Sep 14, 2020 at 10:11 PM Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+Actually, it was such an obvious thing that I managed to overlook - it
+didn't cross my eye that update-alternative inheritance was missing in
+the first place! :)
 
-> In my latest round of linux-yocto reference updates, I ran into these
-> same issues, but I needed to pull in more of the fixes on the 2.12
-> branch than just this to get things building against 5.8.9.
->
-> I didn't need to tweak any of the patches for v5.4.64+ here.
->
-> I have 10 backported patches and confirmed my 5.8.9 and 5.4.65 both
-> build with the changes.
->
-> I can submit that patch along with my reference kernel bumps later today.
->
-> Bruce
->
->
-> On Mon, Sep 14, 2020 at 3:52 AM Jens Rehsack <rehsack@gmail.com> wrote:
-> >
-> > From: Jens Rehsack <sno@netbsd.org>
-> >
-> > Backport patch from lttng-modules/stable-2.12
-> >     87b2aff fix: writeback: Fix sync livelock due to b_dirty_time
-> processing (v5.9)
-> >
-> > with minor modfication to catch
-> >     6623c19042b6 writeback: Fix sync livelock due to b_dirty_time
-> processing
-> >
-> > from linux/stable-5.4 v5.4.62+
-> >
-> > Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> > ---
-> >  ...x-sync-livelock-due-to-b_dirty_time-.patch | 117 ++++++++++++++++++
-> >  .../lttng/lttng-modules_2.12.2.bb             |   1 +
-> >  2 files changed, 118 insertions(+)
-> >  create mode 100644
-> meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
-> >
-> > diff --git
-> a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
-> b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
-> > new file mode 100644
-> > index 0000000000..96a1c486ef
-> > --- /dev/null
-> > +++
-> b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
-> > @@ -0,0 +1,117 @@
-> > +From 87b2affc3eb06f3fb2d0923f18af37713eb6814b Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Mon, 31 Aug 2020 14:16:01 -0400
-> > +Subject: [PATCH] fix: writeback: Fix sync livelock due to b_dirty_time
-> > + processing (v5.9)
-> > +
-> > +See upstream commit:
-> > +
-> > +  commit f9cae926f35e8230330f28c7b743ad088611a8de
-> > +  Author: Jan Kara <jack@suse.cz>
-> > +  Date:   Fri May 29 16:08:58 2020 +0200
-> > +
-> > +    writeback: Fix sync livelock due to b_dirty_time processing
-> > +
-> > +    When we are processing writeback for sync(2), move_expired_inodes()
-> > +    didn't set any inode expiry value (older_than_this). This can
-> result in
-> > +    writeback never completing if there's steady stream of inodes added
-> to
-> > +    b_dirty_time list as writeback rechecks dirty lists after each
-> writeback
-> > +    round whether there's more work to be done. Fix the problem by using
-> > +    sync(2) start time is inode expiry value when processing
-> b_dirty_time
-> > +    list similarly as for ordinarily dirtied inodes. This requires some
-> > +    refactoring of older_than_this handling which simplifies the code
-> > +    noticeably as a bonus.
-> > +
-> > +Change-Id: I8b894b13ccc14d9b8983ee4c2810a927c319560b
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +---
-> > + .../events/lttng-module/writeback.h           | 39 ++++++++++++-------
-> > + 1 file changed, 26 insertions(+), 13 deletions(-)
-> > +
-> > +Upstream Status: Backport
-> > +
-> > +diff --git a/instrumentation/events/lttng-module/writeback.h
-> b/instrumentation/events/lttng-module/writeback.h
-> > +index ece67ad..e9018dd 100644
-> > +--- a/instrumentation/events/lttng-module/writeback.h
-> > ++++ b/instrumentation/events/lttng-module/writeback.h
-> > +@@ -384,34 +384,48 @@
-> LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_balance_dirty_wait,
-> writeback_wbc_balanc
-> > + #endif
-> > + LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_writepage,
-> writeback_wbc_writepage)
-> > +
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,9,0)) ||
-> (LINUX_VERSION_CODE >= KERNEL_VERSION(5,4,62))
-> > ++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-> > ++      TP_PROTO(struct bdi_writeback *wb,
-> > ++               struct wb_writeback_work *work,
-> > ++               unsigned long dirtied_before,
-> > ++               int moved),
-> > ++      TP_ARGS(wb, work, dirtied_before, moved),
-> > ++      TP_FIELDS(
-> > ++              ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-> > ++              ctf_integer(unsigned long, older, dirtied_before)
-> > ++              ctf_integer(int, moved, moved)
-> > ++      )
-> > ++)
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-> > + LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-> > +       TP_PROTO(struct bdi_writeback *wb,
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-> > +                struct wb_writeback_work *work,
-> > +-#else
-> > +-               unsigned long *older_than_this,
-> > +-#endif
-> > +                int moved),
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-> > +       TP_ARGS(wb, work, moved),
-> > +-#else
-> > ++      TP_FIELDS(
-> > ++              ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-> > ++              ctf_integer(int, moved, moved)
-> > ++      )
-> > ++)
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-> > ++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-> > ++      TP_PROTO(struct bdi_writeback *wb,
-> > ++               unsigned long *older_than_this,
-> > ++               int moved),
-> > +       TP_ARGS(wb, older_than_this, moved),
-> > +-#endif
-> > +       TP_FIELDS(
-> > +               ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-> > +-#else
-> > +               ctf_integer(unsigned long, older,
-> > +                       older_than_this ? *older_than_this : 0)
-> > +               ctf_integer(long, age,
-> > +                       older_than_this ?
-> > +                               (jiffies - *older_than_this) * 1000 / HZ
-> > +                               : -1)
-> > +-#endif
-> > +               ctf_integer(int, moved, moved)
-> > +       )
-> > + )
-> > ++#endif
-> > +
-> > + #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,8,0))
-> > + LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-> > +@@ -460,7 +474,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-> > +               ctf_integer(unsigned long, dirty_limit,
-> global_dirty_limit)
-> > +       )
-> > + )
-> > +-#else
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-> > + LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-> > +
-> > +       writeback_global_dirty_state,
-> > +@@ -485,7 +499,6 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-> > +       )
-> > + )
-> > + #endif
-> > +-#endif
-> > +
-> > + #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-> > +
-> > +--
-> > +2.17.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-> b/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-> > index 0e1a209ce8..f58b3bf0d7 100644
-> > --- a/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.2.bb
-> > @@ -10,6 +10,7 @@ include lttng-platforms.inc
-> >
-> >  SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-> >
->  file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-> > +
->  file://0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch \
-> >             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> >             "
-> >
-> > --
-> > 2.17.1
-> >
-> >
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> 
->
+The mystery that still remains however: why did it work for RPM
+package types? Is there a check that is missing somewhere, or
+update-alternatives are inherited implicitly?
 
---000000000000daedba05af4c1f64
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I guess if not because of the fact that it did work out for RPM in the
+first place - those kinds of obvious failures could be avoided at the
+very start.
 
-<div dir=3D"ltr">Is this exact backport from lttng-modules repo?<div><br></=
-div><div>I came across this issue in=C2=A0<a href=3D"https://github.com/agh=
-erzan/meta-raspberrypi/pull/722">https://github.com/agherzan/meta-raspberry=
-pi/pull/722</a></div><div>and</div><div><a href=3D"https://github.com/lttng=
-/lttng-modules/commit/817e02f9e256b8f2cbb9e3125eb061757b83bd4a">https://git=
-hub.com/lttng/lttng-modules/commit/817e02f9e256b8f2cbb9e3125eb061757b83bd4a=
-</a><br></div><div>+<br></div><div><a href=3D"https://github.com/lttng/lttn=
-g-modules/commit/b6af46d166c48c9e59600a60b5a2a7ead10f179a">https://github.c=
-om/lttng/lttng-modules/commit/b6af46d166c48c9e59600a60b5a2a7ead10f179a</a><=
-br></div><div>look a bit different than this one (and are more correct with=
- fixed kernel ranges as not every &gt; 5.4.62 kernel had this change).</div=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Mon, Sep 14, 2020 at 10:11 PM Bruce Ashfield &lt;<a href=3D"mailto:bruc=
-e.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">In my latest round of linux-y=
-octo reference updates, I ran into these<br>
-same issues, but I needed to pull in more of the fixes on the 2.12<br>
-branch than just this to get things building against 5.8.9.<br>
-<br>
-I didn&#39;t need to tweak any of the patches for v5.4.64+ here.<br>
-<br>
-I have 10 backported patches and confirmed my 5.8.9 and 5.4.65 both<br>
-build with the changes.<br>
-<br>
-I can submit that patch along with my reference kernel bumps later today.<=
-br>
-<br>
-Bruce<br>
-<br>
-<br>
-On Mon, Sep 14, 2020 at 3:52 AM Jens Rehsack &lt;<a href=3D"mailto:rehsack=
-@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Jens Rehsack &lt;<a href=3D"mailto:sno@netbsd.org" target=3D"_b=
-lank">sno@netbsd.org</a>&gt;<br>
-&gt;<br>
-&gt; Backport patch from lttng-modules/stable-2.12<br>
-&gt;=C2=A0 =C2=A0 =C2=A087b2aff fix: writeback: Fix sync livelock due to b=
-_dirty_time processing (v5.9)<br>
-&gt;<br>
-&gt; with minor modfication to catch<br>
-&gt;=C2=A0 =C2=A0 =C2=A06623c19042b6 writeback: Fix sync livelock due to b=
-_dirty_time processing<br>
-&gt;<br>
-&gt; from linux/stable-5.4 v5.4.62+<br>
-&gt;<br>
-&gt; Signed-off-by: Jens Rehsack &lt;<a href=3D"mailto:sno@netbsd.org" tar=
-get=3D"_blank">sno@netbsd.org</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...x-sync-livelock-due-to-b_dirty_time-.patch | 117 +++++++++++=
-+++++++<br>
-&gt;=C2=A0 .../lttng/<a href=3D"http://lttng-modules_2.12.2.bb" rel=3D"nor=
-eferrer" target=3D"_blank">lttng-modules_2.12.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 2 files changed, 118 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001=
--fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeba=
-ck-Fix-sync-livelock-due-to-b_dirty_time-.patch b/meta/recipes-kernel/lttng=
-/lttng-modules/0001-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.pa=
-tch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..96a1c486ef<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-writeback-Fix-=
-sync-livelock-due-to-b_dirty_time-.patch<br>
-&gt; @@ -0,0 +1,117 @@<br>
-&gt; +From 87b2affc3eb06f3fb2d0923f18af37713eb6814b Mon Sep 17 00:00:00 20=
-01<br>
-&gt; +From: Michael Jeanson &lt;<a href=3D"mailto:mjeanson@efficios.com" t=
-arget=3D"_blank">mjeanson@efficios.com</a>&gt;<br>
-&gt; +Date: Mon, 31 Aug 2020 14:16:01 -0400<br>
-&gt; +Subject: [PATCH] fix: writeback: Fix sync livelock due to b_dirty_ti=
-me<br>
-&gt; + processing (v5.9)<br>
-&gt; +<br>
-&gt; +See upstream commit:<br>
-&gt; +<br>
-&gt; +=C2=A0 commit f9cae926f35e8230330f28c7b743ad088611a8de<br>
-&gt; +=C2=A0 Author: Jan Kara &lt;<a href=3D"mailto:jack@suse.cz" target=
-=3D"_blank">jack@suse.cz</a>&gt;<br>
-&gt; +=C2=A0 Date:=C2=A0 =C2=A0Fri May 29 16:08:58 2020 +0200<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 writeback: Fix sync livelock due to b_dirty_time proce=
-ssing<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 When we are processing writeback for sync(2), move_exp=
-ired_inodes()<br>
-&gt; +=C2=A0 =C2=A0 didn&#39;t set any inode expiry value (older_than_this=
-). This can result in<br>
-&gt; +=C2=A0 =C2=A0 writeback never completing if there&#39;s steady strea=
-m of inodes added to<br>
-&gt; +=C2=A0 =C2=A0 b_dirty_time list as writeback rechecks dirty lists af=
-ter each writeback<br>
-&gt; +=C2=A0 =C2=A0 round whether there&#39;s more work to be done. Fix th=
-e problem by using<br>
-&gt; +=C2=A0 =C2=A0 sync(2) start time is inode expiry value when processi=
-ng b_dirty_time<br>
-&gt; +=C2=A0 =C2=A0 list similarly as for ordinarily dirtied inodes. This =
-requires some<br>
-&gt; +=C2=A0 =C2=A0 refactoring of older_than_this handling which simplifi=
-es the code<br>
-&gt; +=C2=A0 =C2=A0 noticeably as a bonus.<br>
-&gt; +<br>
-&gt; +Change-Id: I8b894b13ccc14d9b8983ee4c2810a927c319560b<br>
-&gt; +Signed-off-by: Michael Jeanson &lt;<a href=3D"mailto:mjeanson@effici=
-os.com" target=3D"_blank">mjeanson@efficios.com</a>&gt;<br>
-&gt; +Signed-off-by: Mathieu Desnoyers &lt;<a href=3D"mailto:mathieu.desno=
-yers@efficios.com" target=3D"_blank">mathieu.desnoyers@efficios.com</a>&gt;=
-<br>
-&gt; +---<br>
-&gt; + .../events/lttng-module/writeback.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 39 ++++++++++++-------<br>
-&gt; + 1 file changed, 26 insertions(+), 13 deletions(-)<br>
-&gt; +<br>
-&gt; +Upstream Status: Backport<br>
-&gt; +<br>
-&gt; +diff --git a/instrumentation/events/lttng-module/writeback.h b/instr=
-umentation/events/lttng-module/writeback.h<br>
-&gt; +index ece67ad..e9018dd 100644<br>
-&gt; +--- a/instrumentation/events/lttng-module/writeback.h<br>
-&gt; ++++ b/instrumentation/events/lttng-module/writeback.h<br>
-&gt; +@@ -384,34 +384,48 @@ LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_balanc=
-e_dirty_wait, writeback_wbc_balanc<br>
-&gt; + #endif<br>
-&gt; + LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_writepage, writeback_wbc_wr=
-itepage)<br>
-&gt; +<br>
-&gt; +-#if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,1,0))<br>
-&gt; ++#if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(5,9,0)) || (LINUX_VE=
-RSION_CODE &gt;=3D KERNEL_VERSION(5,4,62))<br>
-&gt; ++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 TP_PROTO(struct bdi_writeback *wb,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct wb_wr=
-iteback_work *work,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned lon=
-g dirtied_before,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int moved),<=
-br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 TP_ARGS(wb, work, dirtied_before, moved),<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 TP_FIELDS(<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctf_array_text(cha=
-r, name, dev_name(wb-&gt;bdi-&gt;dev), 32)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctf_integer(unsign=
-ed long, older, dirtied_before)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctf_integer(int, m=
-oved, moved)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 )<br>
-&gt; ++)<br>
-&gt; ++#elif (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,2,0))<br>
-&gt; + LTTNG_TRACEPOINT_EVENT(writeback_queue_io,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0TP_PROTO(struct bdi_writeback *wb,<br>
-&gt; +-#if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,2,0))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct wb_wr=
-iteback_work *work,<br>
-&gt; +-#else<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned lon=
-g *older_than_this,<br>
-&gt; +-#endif<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int moved),<=
-br>
-&gt; +-#if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,2,0))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0TP_ARGS(wb, work, moved),<br>
-&gt; +-#else<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 TP_FIELDS(<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctf_array_text(cha=
-r, name, dev_name(wb-&gt;bdi-&gt;dev), 32)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ctf_integer(int, m=
-oved, moved)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 )<br>
-&gt; ++)<br>
-&gt; ++#elif (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,1,0))<br>
-&gt; ++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 TP_PROTO(struct bdi_writeback *wb,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned lon=
-g *older_than_this,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int moved),<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0TP_ARGS(wb, older_than_this, moved),<br>
-&gt; +-#endif<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0TP_FIELDS(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctf_array_tex=
-t(char, name, dev_name(wb-&gt;bdi-&gt;dev), 32)<br>
-&gt; +-#if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,2,0))<br>
-&gt; +-#else<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctf_integer(u=
-nsigned long, older,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0older_than_this ? *older_than_this : 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctf_integer(l=
-ong, age,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0older_than_this ?<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(jiffies - *older_than_this) =
-* 1000 / HZ<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: -1)<br>
-&gt; +-#endif<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctf_integer(i=
-nt, moved, moved)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-&gt; + )<br>
-&gt; ++#endif<br>
-&gt; +<br>
-&gt; + #if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(5,8,0))<br>
-&gt; + LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,<br>
-&gt; +@@ -460,7 +474,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctf_integer(u=
-nsigned long, dirty_limit, global_dirty_limit)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-&gt; + )<br>
-&gt; +-#else<br>
-&gt; ++#elif (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,1,0))<br>
-&gt; + LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0writeback_global_dirty_state,<br>
-&gt; +@@ -485,7 +499,6 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-&gt; + )<br>
-&gt; + #endif<br>
-&gt; +-#endif<br>
-&gt; +<br>
-&gt; + #if (LINUX_VERSION_CODE &gt;=3D KERNEL_VERSION(3,2,0))<br>
-&gt; +<br>
-&gt; +--<br>
-&gt; +2.17.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-module=
-s_2.12.2.bb" rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.12.2.bb</=
-a> b/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.12.2.bb" r=
-el=3D"noreferrer" target=3D"_blank">lttng-modules_2.12.2.bb</a><br>
-&gt; index 0e1a209ce8..f58b3bf0d7 100644<br>
-&gt; --- a/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.12.=
-2.bb" rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.12.2.bb</a><br>
-&gt; +++ b/meta/recipes-kernel/lttng/<a href=3D"http://lttng-modules_2.12.=
-2.bb" rel=3D"noreferrer" target=3D"_blank">lttng-modules_2.12.2.bb</a><br>
-&gt; @@ -10,6 +10,7 @@ include lttng-platforms.inc<br>
-&gt;<br>
-&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://lttng.org/files/$%7BBPN%7D=
-/$%7BBPN%7D-$%7BPV%7D.tar.bz2" rel=3D"noreferrer" target=3D"_blank">https:/=
-/lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://Makefile-Do-not=
--fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-fix-writeback-F=
-ix-sync-livelock-due-to-b_dirty_time-.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://BUILD_RUNTIME_B=
-UG_ON-vs-gcc7.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt; <br>
-<br>
-<br>
-<br>
---<br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-<br>
-</blockquote></div>
+>
+>
+> >
+> > On Thu, Sep 10, 2020 at 9:12 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+> >>
+> >> On Thu, Sep 10, 2020 at 1:53 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >>>
+> >>>
+> >>>
+> >>> On 9/7/20 2:17 PM, Andrey Zhizhikin wrote:
+> >>>> On Mon, Sep 7, 2020 at 5:28 PM akuster808 <akuster808@gmail.com> wrote:
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>> On 9/4/20 1:39 AM, Andrey Zhizhikin wrote:
+> >>>>>> Hello Armin,
+> >>>>>>
+> >>>>>> On Tue, Sep 1, 2020 at 5:23 PM akuster <akuster808@gmail.com> wrote:
+> >>>>>>> Removed obsolete packageconfig options
+> >>>>>>>
+> >>>>>>> License change to MPL-2.0
+> >>>>>>> https://gitlab.isc.org/isc-projects/bind9/blob/master/LICENSE
+> >>>>>>>
+> >>>>>>> Refreshed:
+> >>>>>>> bind-ensure-searching-for-json-headers-searches-sysr.patch
+> >>>>>>> 0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> >>>>>>> bind-ensure-searching-for-json-headers-searches-sysr.patch
+> >>>>>>>
+> >>>>>>> Drop obsolete patch: 0001-configure.in-remove-useless-L-use_openssl-lib.patch
+> >>>>>>>
+> >>>>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> >>>>>>> ---
+> >>>>>>>   ...1-avoid-start-failure-with-bind-user.patch |  27 ++
+> >>>>>>>   ...d-V-and-start-log-hide-build-options.patch |  35 ++
+> >>>>>>>   ...ching-for-json-headers-searches-sysr.patch |  47 +++
+> >>>>>>>   .../bind/bind-9.16.5/bind9                    |   2 +
+> >>>>>>>   .../bind/bind-9.16.5/conf.patch               | 330 ++++++++++++++++++
+> >>>>>>>   .../bind/bind-9.16.5/generate-rndc-key.sh     |   8 +
+> >>>>>>>   ...t.d-add-support-for-read-only-rootfs.patch |  65 ++++
+> >>>>>>>   .../make-etc-initd-bind-stop-work.patch       |  42 +++
+> >>>>>>>   .../bind/bind-9.16.5/named.service            |  22 ++
+> >>>>>>>   meta/recipes-connectivity/bind/bind_9.16.5.bb | 125 +++++++
+> >>>>>>>   10 files changed, 703 insertions(+)
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/0001-avoid-start-failure-with-bind-user.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/bind9
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/conf.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/init.d-add-support-for-read-only-rootfs.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/make-etc-initd-bind-stop-work.patch
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind-9.16.5/named.service
+> >>>>>>>   create mode 100644 meta/recipes-connectivity/bind/bind_9.16.5.bb
+> >>>>>>>
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.5/0001-avoid-start-failure-with-bind-user.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..8db96ec049c
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/0001-avoid-start-failure-with-bind-user.patch
+> >>>>>>> @@ -0,0 +1,27 @@
+> >>>>>>> +From 31dde3562f287429eea94b77250d184818b49063 Mon Sep 17 00:00:00 2001
+> >>>>>>> +From: Chen Qi <Qi.Chen@windriver.com>
+> >>>>>>> +Date: Mon, 15 Oct 2018 16:55:09 +0800
+> >>>>>>> +Subject: [PATCH] avoid start failure with bind user
+> >>>>>>> +
+> >>>>>>> +Upstream-Status: Pending
+> >>>>>>> +
+> >>>>>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >>>>>>> +---
+> >>>>>>> + init.d | 1 +
+> >>>>>>> + 1 file changed, 1 insertion(+)
+> >>>>>>> +
+> >>>>>>> +diff --git a/init.d b/init.d
+> >>>>>>> +index b2eec60..6e03936 100644
+> >>>>>>> +--- a/init.d
+> >>>>>>> ++++ b/init.d
+> >>>>>>> +@@ -57,6 +57,7 @@ case "$1" in
+> >>>>>>> +       modprobe capability >/dev/null 2>&1 || true
+> >>>>>>> +       if [ ! -f /etc/bind/rndc.key ]; then
+> >>>>>>> +           /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+> >>>>>>> ++          chown root:bind /etc/bind/rndc.key >/dev/null 2>&1 || true
+> >>>>>>> +           chmod 0640 /etc/bind/rndc.key
+> >>>>>>> +       fi
+> >>>>>>> +       if [ -f /var/run/named/named.pid ]; then
+> >>>>>>> +--
+> >>>>>>> +2.7.4
+> >>>>>>> +
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..5bcc16c9b2b
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> >>>>>>> @@ -0,0 +1,35 @@
+> >>>>>>> +From a3af4a405baf5ff582e82aaba392dd9667d94bdc Mon Sep 17 00:00:00 2001
+> >>>>>>> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> >>>>>>> +Date: Mon, 27 Aug 2018 21:24:20 +0800
+> >>>>>>> +Subject: [PATCH] `named/lwresd -V' and start log hide build options
+> >>>>>>> +
+> >>>>>>> +The build options expose build path directories, so hide them.
+> >>>>>>> +[snip]
+> >>>>>>> +$ named -V
+> >>>>>>> +|built by make with *** (options are hidden)
+> >>>>>>> +[snip]
+> >>>>>>> +
+> >>>>>>> +Upstream-Status: Inappropriate [oe-core specific]
+> >>>>>>> +
+> >>>>>>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> >>>>>>> +
+> >>>>>>> +Refreshed for 9.16.0
+> >>>>>>> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> >>>>>>> +
+> >>>>>>> +---
+> >>>>>>> + bin/named/include/named/globals.h | 2 +-
+> >>>>>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>> +
+> >>>>>>> +Index: bind-9.16.0/bin/named/include/named/globals.h
+> >>>>>>> +===================================================================
+> >>>>>>> +--- bind-9.16.0.orig/bin/named/include/named/globals.h
+> >>>>>>> ++++ bind-9.16.0/bin/named/include/named/globals.h
+> >>>>>>> +@@ -69,7 +69,7 @@ EXTERN const char *named_g_version     I
+> >>>>>>> + EXTERN const char *named_g_product     INIT(PRODUCT);
+> >>>>>>> + EXTERN const char *named_g_description INIT(DESCRIPTION);
+> >>>>>>> + EXTERN const char *named_g_srcid       INIT(SRCID);
+> >>>>>>> +-EXTERN const char *named_g_configargs  INIT(CONFIGARGS);
+> >>>>>>> ++EXTERN const char *named_g_configargs  INIT("*** (options are hidden)");
+> >>>>>>> + EXTERN const char *named_g_builder     INIT(BUILDER);
+> >>>>>>> + EXTERN in_port_t named_g_port        INIT(0);
+> >>>>>>> + EXTERN isc_dscp_t named_g_dscp               INIT(-1);
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.5/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..f9cdc7ca4df
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> >>>>>>> @@ -0,0 +1,47 @@
+> >>>>>>> +From edda20fb5a6e88548f85e39d34d6c074306e15bc Mon Sep 17 00:00:00 2001
+> >>>>>>> +From: Paul Gortmaker <paul.gortmaker@windriver.com>
+> >>>>>>> +Date: Tue, 9 Jun 2015 11:22:00 -0400
+> >>>>>>> +Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+> >>>>>>> +
+> >>>>>>> +Bind can fail configure by detecting headers w/o libs[1], or
+> >>>>>>> +it can fail the host contamination check as per below:
+> >>>>>>> +
+> >>>>>>> +ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
+> >>>>>>> +Rerun configure task after fixing this. The path was 'build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/build'
+> >>>>>>> +ERROR: Function failed: do_qa_configure
+> >>>>>>> +ERROR: Logfile of failure stored in: build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/temp/log.do_configure.5242
+> >>>>>>> +ERROR: Task 5 (meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure) failed with exit code '1'
+> >>>>>>> +NOTE: Tasks Summary: Attempted 773 tasks of which 768 didn't need to be rerun and 1 failed.
+> >>>>>>> +No currently running tasks (773 of 781)
+> >>>>>>> +
+> >>>>>>> +Summary: 1 task failed:
+> >>>>>>> +  /meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure
+> >>>>>>> +
+> >>>>>>> +One way to fix it would be to unconditionally disable json in bind
+> >>>>>>> +configure[2] but here we fix it by using the path to where we would
+> >>>>>>> +put the header if we had json in the sysroot, in case someone wants
+> >>>>>>> +to make use of the combination some day.
+> >>>>>>> +
+> >>>>>>> +[1] https://trac.macports.org/ticket/45305
+> >>>>>>> +[2] https://trac.macports.org/changeset/126406
+> >>>>>>> +
+> >>>>>>> +Upstream-Status: Inappropriate [OE Specific]
+> >>>>>>> +Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> >>>>>>> +
+> >>>>>>> +---
+> >>>>>>> + configure.ac | 2 +-
+> >>>>>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>> +
+> >>>>>>> +Index: bind-9.16.4/configure.ac
+> >>>>>>> +===================================================================
+> >>>>>>> +--- bind-9.16.4.orig/configure.ac
+> >>>>>>> ++++ bind-9.16.4/configure.ac
+> >>>>>>> +@@ -1232,7 +1232,7 @@ case "$use_lmdb" in
+> >>>>>>> +               LMDB_LIBS=""
+> >>>>>>> +               ;;
+> >>>>>>> +       auto|yes)
+> >>>>>>> +-              for d in /usr /usr/local /opt/local
+> >>>>>>> ++              for d in "${STAGING_INCDIR}"
+> >>>>>>> +               do
+> >>>>>>> +                       if test -f "${d}/include/lmdb.h"
+> >>>>>>> +                       then
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/bind9 b/meta/recipes-connectivity/bind/bind-9.16.5/bind9
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..968679ff7f7
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/bind9
+> >>>>>>> @@ -0,0 +1,2 @@
+> >>>>>>> +# startup options for the server
+> >>>>>>> +OPTIONS="-u bind"
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.5/conf.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..aad345f9fcf
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/conf.patch
+> >>>>>>> @@ -0,0 +1,330 @@
+> >>>>>>> +Upstream-Status: Inappropriate [configuration]
+> >>>>>>> +
+> >>>>>>> +the patch is imported from openembedded project
+> >>>>>>> +
+> >>>>>>> +11/30/2010 - Qing He <qing.he@intel.com>
+> >>>>>>> +
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.0 bind-9.3.1/conf/db.0
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.0  1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.0       2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,12 @@
+> >>>>>>> ++;
+> >>>>>>> ++; BIND reverse data file for broadcast zone
+> >>>>>>> ++;
+> >>>>>>> ++$TTL  604800
+> >>>>>>> ++@     IN      SOA     localhost. root.localhost. (
+> >>>>>>> ++                            1         ; Serial
+> >>>>>>> ++                       604800         ; Refresh
+> >>>>>>> ++                        86400         ; Retry
+> >>>>>>> ++                      2419200         ; Expire
+> >>>>>>> ++                       604800 )       ; Negative Cache TTL
+> >>>>>>> ++;
+> >>>>>>> ++@     IN      NS      localhost.
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.127 bind-9.3.1/conf/db.127
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.127        1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.127     2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,13 @@
+> >>>>>>> ++;
+> >>>>>>> ++; BIND reverse data file for local loopback interface
+> >>>>>>> ++;
+> >>>>>>> ++$TTL  604800
+> >>>>>>> ++@     IN      SOA     localhost. root.localhost. (
+> >>>>>>> ++                            1         ; Serial
+> >>>>>>> ++                       604800         ; Refresh
+> >>>>>>> ++                        86400         ; Retry
+> >>>>>>> ++                      2419200         ; Expire
+> >>>>>>> ++                       604800 )       ; Negative Cache TTL
+> >>>>>>> ++;
+> >>>>>>> ++@     IN      NS      localhost.
+> >>>>>>> ++1.0.0 IN      PTR     localhost.
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.empty bind-9.3.1/conf/db.empty
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.empty      1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.empty   2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,14 @@
+> >>>>>>> ++; BIND reverse data file for empty rfc1918 zone
+> >>>>>>> ++;
+> >>>>>>> ++; DO NOT EDIT THIS FILE - it is used for multiple zones.
+> >>>>>>> ++; Instead, copy it, edit named.conf, and use that copy.
+> >>>>>>> ++;
+> >>>>>>> ++$TTL  86400
+> >>>>>>> ++@     IN      SOA     localhost. root.localhost. (
+> >>>>>>> ++                            1         ; Serial
+> >>>>>>> ++                       604800         ; Refresh
+> >>>>>>> ++                        86400         ; Retry
+> >>>>>>> ++                      2419200         ; Expire
+> >>>>>>> ++                        86400 )       ; Negative Cache TTL
+> >>>>>>> ++;
+> >>>>>>> ++@     IN      NS      localhost.
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.255 bind-9.3.1/conf/db.255
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.255        1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.255     2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,12 @@
+> >>>>>>> ++;
+> >>>>>>> ++; BIND reserve data file for broadcast zone
+> >>>>>>> ++;
+> >>>>>>> ++$TTL  604800
+> >>>>>>> ++@     IN      SOA     localhost. root.localhost. (
+> >>>>>>> ++                            1         ; Serial
+> >>>>>>> ++                       604800         ; Refresh
+> >>>>>>> ++                        86400         ; Retry
+> >>>>>>> ++                      2419200         ; Expire
+> >>>>>>> ++                       604800 )       ; Negative Cache TTL
+> >>>>>>> ++;
+> >>>>>>> ++@     IN      NS      localhost.
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.local bind-9.3.1/conf/db.local
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.local      1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.local   2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,13 @@
+> >>>>>>> ++;
+> >>>>>>> ++; BIND data file for local loopback interface
+> >>>>>>> ++;
+> >>>>>>> ++$TTL  604800
+> >>>>>>> ++@     IN      SOA     localhost. root.localhost. (
+> >>>>>>> ++                            1         ; Serial
+> >>>>>>> ++                       604800         ; Refresh
+> >>>>>>> ++                        86400         ; Retry
+> >>>>>>> ++                      2419200         ; Expire
+> >>>>>>> ++                       604800 )       ; Negative Cache TTL
+> >>>>>>> ++;
+> >>>>>>> ++@     IN      NS      localhost.
+> >>>>>>> ++@     IN      A       127.0.0.1
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/db.root bind-9.3.1/conf/db.root
+> >>>>>>> +--- bind-9.3.1.orig/conf/db.root       1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/db.root    2005-07-10 22:14:00.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,45 @@
+> >>>>>>> ++
+> >>>>>>> ++; <<>> DiG 9.2.3 <<>> ns . @a.root-servers.net.
+> >>>>>>> ++;; global options:  printcmd
+> >>>>>>> ++;; Got answer:
+> >>>>>>> ++;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18944
+> >>>>>>> ++;; flags: qr aa rd; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 13
+> >>>>>>> ++
+> >>>>>>> ++;; QUESTION SECTION:
+> >>>>>>> ++;.                            IN      NS
+> >>>>>>> ++
+> >>>>>>> ++;; ANSWER SECTION:
+> >>>>>>> ++.                     518400  IN      NS      A.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      B.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      C.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      D.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      E.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      F.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      G.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      H.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      I.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      J.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      K.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      L.ROOT-SERVERS.NET.
+> >>>>>>> ++.                     518400  IN      NS      M.ROOT-SERVERS.NET.
+> >>>>>>> ++
+> >>>>>>> ++;; ADDITIONAL SECTION:
+> >>>>>>> ++A.ROOT-SERVERS.NET.   3600000 IN      A       198.41.0.4
+> >>>>>>> ++B.ROOT-SERVERS.NET.   3600000 IN      A       192.228.79.201
+> >>>>>>> ++C.ROOT-SERVERS.NET.   3600000 IN      A       192.33.4.12
+> >>>>>>> ++D.ROOT-SERVERS.NET.   3600000 IN      A       128.8.10.90
+> >>>>>>> ++E.ROOT-SERVERS.NET.   3600000 IN      A       192.203.230.10
+> >>>>>>> ++F.ROOT-SERVERS.NET.   3600000 IN      A       192.5.5.241
+> >>>>>>> ++G.ROOT-SERVERS.NET.   3600000 IN      A       192.112.36.4
+> >>>>>>> ++H.ROOT-SERVERS.NET.   3600000 IN      A       128.63.2.53
+> >>>>>>> ++I.ROOT-SERVERS.NET.   3600000 IN      A       192.36.148.17
+> >>>>>>> ++J.ROOT-SERVERS.NET.   3600000 IN      A       192.58.128.30
+> >>>>>>> ++K.ROOT-SERVERS.NET.   3600000 IN      A       193.0.14.129
+> >>>>>>> ++L.ROOT-SERVERS.NET.   3600000 IN      A       198.32.64.12
+> >>>>>>> ++M.ROOT-SERVERS.NET.   3600000 IN      A       202.12.27.33
+> >>>>>>> ++
+> >>>>>>> ++;; Query time: 81 msec
+> >>>>>>> ++;; SERVER: 198.41.0.4#53(a.root-servers.net.)
+> >>>>>>> ++;; WHEN: Sun Feb  1 11:27:14 2004
+> >>>>>>> ++;; MSG SIZE  rcvd: 436
+> >>>>>>> ++
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/named.conf bind-9.3.1/conf/named.conf
+> >>>>>>> +--- bind-9.3.1.orig/conf/named.conf    1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/named.conf 2005-07-10 22:33:46.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,49 @@
+> >>>>>>> ++// This is the primary configuration file for the BIND DNS server named.
+> >>>>>>> ++//
+> >>>>>>> ++// If you are just adding zones, please do that in /etc/bind/named.conf.local
+> >>>>>>> ++
+> >>>>>>> ++include "/etc/bind/named.conf.options";
+> >>>>>>> ++
+> >>>>>>> ++// prime the server with knowledge of the root servers
+> >>>>>>> ++zone "." {
+> >>>>>>> ++      type hint;
+> >>>>>>> ++      file "/etc/bind/db.root";
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> ++// be authoritative for the localhost forward and reverse zones, and for
+> >>>>>>> ++// broadcast zones as per RFC 1912
+> >>>>>>> ++
+> >>>>>>> ++zone "localhost" {
+> >>>>>>> ++      type master;
+> >>>>>>> ++      file "/etc/bind/db.local";
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> ++zone "127.in-addr.arpa" {
+> >>>>>>> ++      type master;
+> >>>>>>> ++      file "/etc/bind/db.127";
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> ++zone "0.in-addr.arpa" {
+> >>>>>>> ++      type master;
+> >>>>>>> ++      file "/etc/bind/db.0";
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> ++zone "255.in-addr.arpa" {
+> >>>>>>> ++      type master;
+> >>>>>>> ++      file "/etc/bind/db.255";
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> ++// zone "com" { type delegation-only; };
+> >>>>>>> ++// zone "net" { type delegation-only; };
+> >>>>>>> ++
+> >>>>>>> ++// From the release notes:
+> >>>>>>> ++//  Because many of our users are uncomfortable receiving undelegated answers
+> >>>>>>> ++//  from root or top level domains, other than a few for whom that behaviour
+> >>>>>>> ++//  has been trusted and expected for quite some length of time, we have now
+> >>>>>>> ++//  introduced the "root-delegations-only" feature which applies delegation-only
+> >>>>>>> ++//  logic to all top level domains, and to the root domain.  An exception list
+> >>>>>>> ++//  should be specified, including "MUSEUM" and "DE", and any other top level
+> >>>>>>> ++//  domains from whom undelegated responses are expected and trusted.
+> >>>>>>> ++// root-delegation-only exclude { "DE"; "MUSEUM"; };
+> >>>>>>> ++
+> >>>>>>> ++include "/etc/bind/named.conf.local";
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/named.conf.local bind-9.3.1/conf/named.conf.local
+> >>>>>>> +--- bind-9.3.1.orig/conf/named.conf.local      1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/named.conf.local   2005-07-10 22:14:06.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,8 @@
+> >>>>>>> ++//
+> >>>>>>> ++// Do any local configuration here
+> >>>>>>> ++//
+> >>>>>>> ++
+> >>>>>>> ++// Consider adding the 1918 zones here, if they are not used in your
+> >>>>>>> ++// organization
+> >>>>>>> ++//include "/etc/bind/zones.rfc1918";
+> >>>>>>> ++
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/named.conf.options bind-9.3.1/conf/named.conf.options
+> >>>>>>> +--- bind-9.3.1.orig/conf/named.conf.options    1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/named.conf.options 2005-07-10 22:14:06.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,24 @@
+> >>>>>>> ++options {
+> >>>>>>> ++      directory "/var/cache/bind";
+> >>>>>>> ++
+> >>>>>>> ++      // If there is a firewall between you and nameservers you want
+> >>>>>>> ++      // to talk to, you might need to uncomment the query-source
+> >>>>>>> ++      // directive below.  Previous versions of BIND always asked
+> >>>>>>> ++      // questions using port 53, but BIND 8.1 and later use an unprivileged
+> >>>>>>> ++      // port by default.
+> >>>>>>> ++
+> >>>>>>> ++      // query-source address * port 53;
+> >>>>>>> ++
+> >>>>>>> ++      // If your ISP provided one or more IP addresses for stable
+> >>>>>>> ++      // nameservers, you probably want to use them as forwarders.
+> >>>>>>> ++      // Uncomment the following block, and insert the addresses replacing
+> >>>>>>> ++      // the all-0's placeholder.
+> >>>>>>> ++
+> >>>>>>> ++      // forwarders {
+> >>>>>>> ++      //      0.0.0.0;
+> >>>>>>> ++      // };
+> >>>>>>> ++
+> >>>>>>> ++      auth-nxdomain no;    # conform to RFC1035
+> >>>>>>> ++
+> >>>>>>> ++};
+> >>>>>>> ++
+> >>>>>>> +diff -urN bind-9.3.1.orig/conf/zones.rfc1918 bind-9.3.1/conf/zones.rfc1918
+> >>>>>>> +--- bind-9.3.1.orig/conf/zones.rfc1918 1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/conf/zones.rfc1918      2005-07-10 22:14:10.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,20 @@
+> >>>>>>> ++zone "10.in-addr.arpa"      { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++
+> >>>>>>> ++zone "16.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "17.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "18.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "19.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "21.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "22.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "23.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "24.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "25.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "26.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "27.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "28.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "29.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "30.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++zone "31.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> ++
+> >>>>>>> ++zone "168.192.in-addr.arpa" { type master; file "/etc/bind/db.empty"; };
+> >>>>>>> +diff -urN bind-9.3.1.orig/init.d bind-9.3.1/init.d
+> >>>>>>> +--- bind-9.3.1.orig/init.d     1970-01-01 01:00:00.000000000 +0100
+> >>>>>>> ++++ bind-9.3.1/init.d  2005-07-10 23:09:58.000000000 +0200
+> >>>>>>> +@@ -0,0 +1,70 @@
+> >>>>>>> ++#!/bin/sh
+> >>>>>>> ++
+> >>>>>>> ++PATH=/sbin:/bin:/usr/sbin:/usr/bin
+> >>>>>>> ++
+> >>>>>>> ++# for a chrooted server: "-u bind -t /var/lib/named"
+> >>>>>>> ++# Don't modify this line, change or create /etc/default/bind9.
+> >>>>>>> ++OPTIONS=""
+> >>>>>>> ++
+> >>>>>>> ++test -f /etc/default/bind9 && . /etc/default/bind9
+> >>>>>>> ++
+> >>>>>>> ++test -x /usr/sbin/rndc || exit 0
+> >>>>>>> ++
+> >>>>>>> ++case "$1" in
+> >>>>>>> ++    start)
+> >>>>>>> ++      echo -n "Starting domain name service: named"
+> >>>>>>> ++
+> >>>>>>> ++      modprobe capability >/dev/null 2>&1 || true
+> >>>>>>> ++      if [ ! -f /etc/bind/rndc.key ]; then
+> >>>>>>> ++          /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+> >>>>>>> ++          chmod 0640 /etc/bind/rndc.key
+> >>>>>>> ++      fi
+> >>>>>>> ++      if [ -f /var/run/named/named.pid ]; then
+> >>>>>>> ++          ps `cat /var/run/named/named.pid` > /dev/null && exit 1
+> >>>>>>> ++      fi
+> >>>>>>> ++
+> >>>>>>> ++      # dirs under /var/run can go away on reboots.
+> >>>>>>> ++      mkdir -p /var/run/named
+> >>>>>>> ++      mkdir -p /var/cache/bind
+> >>>>>>> ++      chmod 775 /var/run/named
+> >>>>>>> ++      chown root:bind /var/run/named >/dev/null 2>&1 || true
+> >>>>>>> ++
+> >>>>>>> ++      if [ ! -x /usr/sbin/named ]; then
+> >>>>>>> ++          echo "named binary missing - not starting"
+> >>>>>>> ++          exit 1
+> >>>>>>> ++      fi
+> >>>>>>> ++      if start-stop-daemon --start --quiet --exec /usr/sbin/named \
+> >>>>>>> ++              --pidfile /var/run/named/named.pid -- $OPTIONS; then
+> >>>>>>> ++          if [ -x /sbin/resolvconf ] ; then
+> >>>>>>> ++              echo "nameserver 127.0.0.1" | /sbin/resolvconf -a lo
+> >>>>>>> ++          fi
+> >>>>>>> ++      fi
+> >>>>>>> ++      echo "."
+> >>>>>>> ++    ;;
+> >>>>>>> ++
+> >>>>>>> ++    stop)
+> >>>>>>> ++      echo -n "Stopping domain name service: named"
+> >>>>>>> ++      if [ -x /sbin/resolvconf ]; then
+> >>>>>>> ++          /sbin/resolvconf -d lo
+> >>>>>>> ++      fi
+> >>>>>>> ++      /usr/sbin/rndc stop >/dev/null 2>&1
+> >>>>>>> ++      echo "."
+> >>>>>>> ++    ;;
+> >>>>>>> ++
+> >>>>>>> ++    reload)
+> >>>>>>> ++      /usr/sbin/rndc reload
+> >>>>>>> ++    ;;
+> >>>>>>> ++
+> >>>>>>> ++    restart|force-reload)
+> >>>>>>> ++      $0 stop
+> >>>>>>> ++      sleep 2
+> >>>>>>> ++      $0 start
+> >>>>>>> ++    ;;
+> >>>>>>> ++
+> >>>>>>> ++    *)
+> >>>>>>> ++      echo "Usage: /etc/init.d/bind {start|stop|reload|restart|force-reload}" >&2
+> >>>>>>> ++      exit 1
+> >>>>>>> ++    ;;
+> >>>>>>> ++esac
+> >>>>>>> ++
+> >>>>>>> ++exit 0
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..ef915c0ae5a
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
+> >>>>>>> @@ -0,0 +1,8 @@
+> >>>>>>> +#!/bin/sh
+> >>>>>>> +
+> >>>>>>> +if [ ! -s /etc/bind/rndc.key ]; then
+> >>>>>>> +    echo -n "Generating /etc/bind/rndc.key:"
+> >>>>>>> +    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+> >>>>>>> +    chown root:bind /etc/bind/rndc.key
+> >>>>>>> +    chmod 0640 /etc/bind/rndc.key
+> >>>>>>> +fi
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.5/init.d-add-support-for-read-only-rootfs.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..11db95ede12
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/init.d-add-support-for-read-only-rootfs.patch
+> >>>>>>> @@ -0,0 +1,65 @@
+> >>>>>>> +Subject: init.d: add support for read-only rootfs
+> >>>>>>> +
+> >>>>>>> +Upstream-Status: Inappropriate [oe specific]
+> >>>>>>> +
+> >>>>>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >>>>>>> +---
+> >>>>>>> + init.d |   40 ++++++++++++++++++++++++++++++++++++++++
+> >>>>>>> + 1 file changed, 40 insertions(+)
+> >>>>>>> +
+> >>>>>>> +diff --git a/init.d b/init.d
+> >>>>>>> +index 0111ed4..24677c8 100644
+> >>>>>>> +--- a/init.d
+> >>>>>>> ++++ b/init.d
+> >>>>>>> +@@ -6,8 +6,48 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
+> >>>>>>> + # Don't modify this line, change or create /etc/default/bind9.
+> >>>>>>> + OPTIONS=""
+> >>>>>>> +
+> >>>>>>> ++test -f /etc/default/rcS && . /etc/default/rcS
+> >>>>>>> + test -f /etc/default/bind9 && . /etc/default/bind9
+> >>>>>>> +
+> >>>>>>> ++# This function is here because it's possible that /var and / are on different partitions.
+> >>>>>>> ++is_on_read_only_partition () {
+> >>>>>>> ++    DIRECTORY=$1
+> >>>>>>> ++    dir=`readlink -f $DIRECTORY`
+> >>>>>>> ++    while true; do
+> >>>>>>> ++      if [ ! -d "$dir" ]; then
+> >>>>>>> ++          echo "ERROR: $dir is not a directory"
+> >>>>>>> ++          exit 1
+> >>>>>>> ++      else
+> >>>>>>> ++          for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; \
+> >>>>>>> ++              END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
+> >>>>>>> ++              [ "$flag" = "FOUND" ] && partition="read-write"
+> >>>>>>> ++              [ "$flag" = "ro" ] && { partition="read-only"; break; }
+> >>>>>>> ++          done
+> >>>>>>> ++          if [ "$dir" = "/" -o -n "$partition" ]; then
+> >>>>>>> ++              break
+> >>>>>>> ++          else
+> >>>>>>> ++              dir=`dirname $dir`
+> >>>>>>> ++          fi
+> >>>>>>> ++      fi
+> >>>>>>> ++    done
+> >>>>>>> ++    [ "$partition" = "read-only" ] && echo "yes" || echo "no"
+> >>>>>>> ++}
+> >>>>>>> ++
+> >>>>>>> ++bind_mount () {
+> >>>>>>> ++    olddir=$1
+> >>>>>>> ++    newdir=$2
+> >>>>>>> ++    mkdir -p $olddir
+> >>>>>>> ++    cp -a $newdir/* $olddir
+> >>>>>>> ++    mount --bind $olddir $newdir
+> >>>>>>> ++}
+> >>>>>>> ++
+> >>>>>>> ++# Deal with read-only rootfs
+> >>>>>>> ++if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
+> >>>>>>> ++    [ "$VERBOSE" != "no" ] && echo "WARN: start bind service in read-only rootfs"
+> >>>>>>> ++    [ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
+> >>>>>>> ++    [ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
+> >>>>>>> ++fi
+> >>>>>>> ++
+> >>>>>>> + test -x /usr/sbin/rndc || exit 0
+> >>>>>>> +
+> >>>>>>> + case "$1" in
+> >>>>>>> +--
+> >>>>>>> +1.7.9.5
+> >>>>>>> +
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.5/make-etc-initd-bind-stop-work.patch
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..146f3e35db6
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/make-etc-initd-bind-stop-work.patch
+> >>>>>>> @@ -0,0 +1,42 @@
+> >>>>>>> +bind: make "/etc/init.d/bind stop" work
+> >>>>>>> +
+> >>>>>>> +Upstream-Status: Inappropriate [configuration]
+> >>>>>>> +
+> >>>>>>> +Add some configurations, make rndc command be able to controls
+> >>>>>>> +the named daemon.
+> >>>>>>> +
+> >>>>>>> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> >>>>>>> +---
+> >>>>>>> + conf/named.conf |    5 +++++
+> >>>>>>> + conf/rndc.conf  |    5 +++++
+> >>>>>>> + 2 files changed, 10 insertions(+), 0 deletions(-)
+> >>>>>>> + create mode 100644 conf/rndc.conf
+> >>>>>>> +
+> >>>>>>> +diff --git a/conf/named.conf b/conf/named.conf
+> >>>>>>> +index 95829cf..c8899e7 100644
+> >>>>>>> +--- a/conf/named.conf
+> >>>>>>> ++++ b/conf/named.conf
+> >>>>>>> +@@ -47,3 +47,8 @@ zone "255.in-addr.arpa" {
+> >>>>>>> + // root-delegation-only exclude { "DE"; "MUSEUM"; };
+> >>>>>>> +
+> >>>>>>> + include "/etc/bind/named.conf.local";
+> >>>>>>> ++include "/etc/bind/rndc.key" ;
+> >>>>>>> ++controls {
+> >>>>>>> ++      inet 127.0.0.1 allow { localhost; }
+> >>>>>>> ++      keys { rndc-key; };
+> >>>>>>> ++};
+> >>>>>>> +diff --git a/conf/rndc.conf b/conf/rndc.conf
+> >>>>>>> +new file mode 100644
+> >>>>>>> +index 0000000..a0b481d
+> >>>>>>> +--- /dev/null
+> >>>>>>> ++++ b/conf/rndc.conf
+> >>>>>>> +@@ -0,0 +1,5 @@
+> >>>>>>> ++include "/etc/bind/rndc.key";
+> >>>>>>> ++options {
+> >>>>>>> ++      default-server  localhost;
+> >>>>>>> ++      default-key     rndc-key;
+> >>>>>>> ++};
+> >>>>>>> +
+> >>>>>>> +--
+> >>>>>>> +1.7.5.4
+> >>>>>>> +
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/named.service b/meta/recipes-connectivity/bind/bind-9.16.5/named.service
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..cda56ef0150
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind-9.16.5/named.service
+> >>>>>>> @@ -0,0 +1,22 @@
+> >>>>>>> +[Unit]
+> >>>>>>> +Description=Berkeley Internet Name Domain (DNS)
+> >>>>>>> +Wants=nss-lookup.target
+> >>>>>>> +Before=nss-lookup.target
+> >>>>>>> +After=network.target
+> >>>>>>> +
+> >>>>>>> +[Service]
+> >>>>>>> +Type=forking
+> >>>>>>> +EnvironmentFile=-/etc/default/bind9
+> >>>>>>> +PIDFile=/run/named/named.pid
+> >>>>>>> +
+> >>>>>>> +ExecStartPre=@SBINDIR@/generate-rndc-key.sh
+> >>>>>>> +ExecStart=@SBINDIR@/named $OPTIONS
+> >>>>>>> +
+> >>>>>>> +ExecReload=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc reload > /dev/null 2>&1 || @BASE_BINDIR@/kill -HUP $MAINPID'
+> >>>>>>> +
+> >>>>>>> +ExecStop=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc stop > /dev/null 2>&1 || @BASE_BINDIR@/kill -TERM $MAINPID'
+> >>>>>>> +
+> >>>>>>> +PrivateTmp=true
+> >>>>>>> +
+> >>>>>>> +[Install]
+> >>>>>>> +WantedBy=multi-user.target
+> >>>>>>> diff --git a/meta/recipes-connectivity/bind/bind_9.16.5.bb b/meta/recipes-connectivity/bind/bind_9.16.5.bb
+> >>>>>>> new file mode 100644
+> >>>>>>> index 00000000000..9c20ccc6fa2
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/meta/recipes-connectivity/bind/bind_9.16.5.bb
+> >>>>>>> @@ -0,0 +1,125 @@
+> >>>>>>> +SUMMARY = "ISC Internet Domain Name Server"
+> >>>>>>> +HOMEPAGE = "http://www.isc.org/sw/bind/"
+> >>>>>>> +SECTION = "console/network"
+> >>>>>>> +
+> >>>>>>> +LICENSE = "MPL-2.0"
+> >>>>>>> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=188b8d0644bd6835df43b84e3f180be1"
+> >>>>>>> +
+> >>>>>>> +DEPENDS = "openssl libcap zlib libuv"
+> >>>>>>> +
+> >>>>>>> +SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+> >>>>>>> +           file://conf.patch \
+> >>>>>>> +           file://named.service \
+> >>>>>>> +           file://bind9 \
+> >>>>>>> +           file://generate-rndc-key.sh \
+> >>>>>>> +           file://make-etc-initd-bind-stop-work.patch \
+> >>>>>>> +           file://init.d-add-support-for-read-only-rootfs.patch \
+> >>>>>>> +           file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+> >>>>>>> +           file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+> >>>>>>> +           file://0001-avoid-start-failure-with-bind-user.patch \
+> >>>>>>> +           "
+> >>>>>>> +
+> >>>>>>> +SRC_URI[sha256sum] = "6378b3e51fef11a8be4794dc48e8111ba92d211c0dfd129a0c296ed06a3dc075"
+> >>>>>>> +
+> >>>>>>> +UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+> >>>>>>> +# stay at 9.16 follow the ESV versions divisible by 4
+> >>>>>>> +UPSTREAM_CHECK_REGEX = "(?P<pver>9.(16|20|24|28)(\.\d+)+(-P\d+)*)/"
+> >>>>>>> +
+> >>>>>>> +inherit autotools update-rc.d systemd useradd pkgconfig multilib_script multilib_header
+> >>>>>>> +
+> >>>>>>> +MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
+> >>>>>>> +
+> >>>>>>> +# PACKAGECONFIGs readline and libedit should NOT be set at same time
+> >>>>>>> +PACKAGECONFIG ?= "readline"
+> >>>>>>> +PACKAGECONFIG[httpstats] = "--with-libxml2=${STAGING_DIR_HOST}${prefix},--without-libxml2,libxml2"
+> >>>>>>> +PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
+> >>>>>>> +PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
+> >>>>>>> +PACKAGECONFIG[python3] = "--with-python=yes --with-python-install-dir=${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
+> >>>>>>> +
+> >>>>>>> +EXTRA_OECONF = " --with-libtool --disable-devpoll --enable-epoll \
+> >>>>>>> +                 --with-gssapi=no --with-lmdb=no --with-zlib \
+> >>>>>>> +                 --sysconfdir=${sysconfdir}/bind \
+> >>>>>>> +                 --with-openssl=${STAGING_DIR_HOST}${prefix} \
+> >>>>>>> +               "
+> >>>>>>> +LDFLAGS_append = " -lz"
+> >>>>>>> +
+> >>>>>>> +inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native distutils3-base', '', d)}
+> >>>>>>> +
+> >>>>>>> +# dhcp needs .la so keep them
+> >>>>>>> +REMOVE_LIBTOOL_LA = "0"
+> >>>>>>> +
+> >>>>>>> +USERADD_PACKAGES = "${PN}"
+> >>>>>>> +USERADD_PARAM_${PN} = "--system --home ${localstatedir}/cache/bind --no-create-home \
+> >>>>>>> +                       --user-group bind"
+> >>>>>>> +
+> >>>>>>> +INITSCRIPT_NAME = "bind"
+> >>>>>>> +INITSCRIPT_PARAMS = "defaults"
+> >>>>>>> +
+> >>>>>>> +SYSTEMD_SERVICE_${PN} = "named.service"
+> >>>>>>> +
+> >>>>>>> +do_install_append() {
+> >>>>>>> +
+> >>>>>>> +       rmdir "${D}${localstatedir}/run"
+> >>>>>>> +       rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+> >>>>>>> +       install -d -o bind "${D}${localstatedir}/cache/bind"
+> >>>>>>> +       install -d "${D}${sysconfdir}/bind"
+> >>>>>>> +       install -d "${D}${sysconfdir}/init.d"
+> >>>>>>> +       install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+> >>>>>>> +       install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+> >>>>>>> +        if ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'true', 'false', d)}; then
+> >>>>>>> +               sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' \
+> >>>>>>> +               ${D}${sbindir}/dnssec-coverage \
+> >>>>>>> +               ${D}${sbindir}/dnssec-checkds \
+> >>>>>>> +               ${D}${sbindir}/dnssec-keymgr
+> >>>>>>> +       fi
+> >>>>>>> +
+> >>>>>>> +       # Install systemd related files
+> >>>>>>> +       install -d ${D}${sbindir}
+> >>>>>>> +       install -m 755 ${WORKDIR}/generate-rndc-key.sh ${D}${sbindir}
+> >>>>>>> +       install -d ${D}${systemd_unitdir}/system
+> >>>>>>> +       install -m 0644 ${WORKDIR}/named.service ${D}${systemd_unitdir}/system
+> >>>>>>> +       sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+> >>>>>>> +              -e 's,@SBINDIR@,${sbindir},g' \
+> >>>>>>> +              ${D}${systemd_unitdir}/system/named.service
+> >>>>>>> +
+> >>>>>>> +       install -d ${D}${sysconfdir}/default
+> >>>>>>> +       install -m 0644 ${WORKDIR}/bind9 ${D}${sysconfdir}/default
+> >>>>>>> +
+> >>>>>>> +       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+> >>>>>>> +               install -d ${D}${sysconfdir}/tmpfiles.d
+> >>>>>>> +               echo "d /run/named 0755 bind bind - -" > ${D}${sysconfdir}/tmpfiles.d/bind.conf
+> >>>>>>> +       fi
+> >>>>>>> +
+> >>>>>>> +    oe_multilib_header isc/platform.h
+> >>>>>>> +}
+> >>>>>>> +
+> >>>>>>> +CONFFILES_${PN} = " \
+> >>>>>>> +       ${sysconfdir}/bind/named.conf \
+> >>>>>>> +       ${sysconfdir}/bind/named.conf.local \
+> >>>>>>> +       ${sysconfdir}/bind/named.conf.options \
+> >>>>>>> +       ${sysconfdir}/bind/db.0 \
+> >>>>>>> +       ${sysconfdir}/bind/db.127 \
+> >>>>>>> +       ${sysconfdir}/bind/db.empty \
+> >>>>>>> +       ${sysconfdir}/bind/db.local \
+> >>>>>>> +       ${sysconfdir}/bind/db.root \
+> >>>>>>> +       "
+> >>>>>>> +
+> >>>>>>> +ALTERNATIVE_${PN}-utils = "nslookup"
+> >>>>>>> +ALTERNATIVE_LINK_NAME[nslookup] = "${bindir}/nslookup"
+> >>>>>>> +ALTERNATIVE_PRIORITY = "100"
+> >>>>>> I'm seeing this failing with busybox:
+> >>>>>> update-alternatives: Error: not linking
+> >>>>>> /development/yocto-master/build-output/work/imx8mmevk-fsl-linux/image-cmdline-validation/1.0-r0/rootfs/usr/bin/nslookup
+> >>>>>> to /bin/busybox.nosuid since
+> >>>>>> /development/yocto-master/build-output/work/imx8mmevk-fsl-linux/image-cmdline-validation/1.0-r0/rootfs/usr/bin/nslookup
+> >>>>>> exists and is not a link
+> >>>>>>
+> >>>>>> busybox sets ALTERNATIVE_PRIORITY = "50". Can this be the issue?
+> >>>>>
+> >>>>> That is weird. I would have expected that to be an issue with the old
+> >>>>> version too.
+> >>>>>
+> >>>>> Got any steps to reproduce this?
+> >>>>
+> >>>> Sorry for delayed response here, it took me some time but I've finally
+> >>>> figured the setup to reproduce the issue.
+> >>>>
+> >>>> I've used the "vanilla" Poky from master, added IMAGE_INSTALL +=
+> >>>> "bind-utils" to core-image-minimal and switched from RPM to IPK
+> >>>> format. The last thing turned out to be the trigger for the issue, as
+> >>>> with RPM package format I was not able to reproduce the issue, and
+> >>>> this was cause of the delay here.
+> >>>>
+> >>>> After the above is done - following error is produced:
+> >>>> WARNING: core-image-minimal-1.0-r0 do_rootfs: busybox.postinst
+> >>>> returned 1, marking as unpacked only, configuration required on
+> >>>> target.
+> >>>> ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of
+> >>>> ['busybox'] have failed. If the intention is to defer them to first
+> >>>> boot,
+> >>>> then please place them into pkg_postinst_ontarget_${PN} ().
+> >>>> Deferring to first boot via 'exit 1' is no longer supported.
+> >>>> Details of the failure are in
+> >>>> /development/projects/poky-vanilla/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.
+> >>>> ERROR: Logfile of failure stored in:
+> >>>> /development/projects/poky-vanilla/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.6423
+> >>>> ERROR: Task (/development/projects/poky-vanilla/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs)
+> >>>> failed with exit code '1'
+> >>>> NOTE: Tasks Summary: Attempted 3554 tasks of which 3552 didn't need to
+> >>>> be rerun and 1 failed.
+> >>>>
+> >>>> Summary: 1 task failed:
+> >>>>    /development/projects/poky-vanilla/poky/meta/recipes-core/images/core-image-minimal.bb:do_rootfs
+> >>>> ed:
+> >>>>
+> >>>> 'nslookup' is definitely comming from the bind-utils package, and the
+> >>>> only thing I've noted so far it that in bind-9.11.22 result binary
+> >>>> name in ${D} is [nslookup.bind], which is different from the one
+> >>>> provided in bind-9.16.5 - [nslookup].
+> >>>>
+> >>>> In case of previous bind version - both versions seems to be
+> >>>> installed, and the symlink is fixed onto the nslookup.bind. In the
+> >>>> current version though - I guess that the real binary is installed
+> >>>> instead, making symlink operation to fail during update-alternative.
+> >>>
+> >>> If it is competing with busybox then perhaps priority for bind to
+> >>> provide nslookup should be higher than busybox. Can you try that ?
+> >>
+> >> busybox has ALTERNATIVE_PRIORITY = "50" while bind is set to
+> >> ALTERNATIVE_PRIORITY = "100". IIRC higher number means higher priority
+> >> which is already the case...
+> >>
+> >> Nevertheless, I've tried to set 50 and even 40 for 'bind' and had the
+> >> same failure...
+> >>
+> >>>
+> >>>>
+> >>>>
+> >>>>
+> >>>>>
+> >>>>> -armin
+> >>>>>>
+> >>>>>> Going back to bind 9.11.22 seems to solve it...
+> >>>>>>
+> >>>>>>> +
+> >>>>>>> +PACKAGE_BEFORE_PN += "${PN}-utils"
+> >>>>>>> +FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig ${bindir}/nslookup ${bindir}/nsupdate"
+> >>>>>>> +FILES_${PN}-dev += "${bindir}/isc-config.h"
+> >>>>>>> +FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
+> >>>>>>> +
+> >>>>>>> +PACKAGE_BEFORE_PN += "${PN}-libs"
+> >>>>>>> +FILES_${PN}-libs = "${libdir}/*.so* ${libdir}/named/*.so*"
+> >>>>>>> +FILES_${PN}-staticdev += "${libdir}/*.la"
+> >>>>>>> +
+> >>>>>>> +PACKAGE_BEFORE_PN += "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-bind', '', d)}"
+> >>>>>>> +FILES_python3-bind = "${sbindir}/dnssec-coverage ${sbindir}/dnssec-checkds \
+> >>>>>>> +                ${sbindir}/dnssec-keymgr ${PYTHON_SITEPACKAGES_DIR}"
+> >>>>>>> +
+> >>>>>>> +RDEPENDS_${PN}-dev = ""
+> >>>>>>> +RDEPENDS_python3-bind = "python3-core python3-ply"
+> >>>>>>> --
+> >>>>>>> 2.17.1
+> >>>>>>>
+> >>>>>>>
+> >>>>>>
+> >>>>>>
+> >>>>>
+> >>>>
+> >>>>
+> >>>> --
+> >>>> Regards,
+> >>>> Andrey.
+> >>>>
+> >>>>
+> >>>> 
+> >>>>
+> >>>
+> >>
+> >>
+> >> --
+> >> Regards,
+> >> Andrey.
+> >
+> >
+> >
 
---000000000000daedba05af4c1f64--
+
+
+-- 
+Regards,
+Andrey.
