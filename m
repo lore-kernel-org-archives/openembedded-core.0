@@ -1,149 +1,127 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web12.54084.1600061186599448631
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.84])
+ by mx.groups.io with SMTP id smtpd.web11.55053.1600062491631600302
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2020 22:26:26 -0700
+ Sun, 13 Sep 2020 22:48:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lNjMWhEm;
- spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f193.google.com with SMTP id f18so11607822pfa.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2020 22:26:26 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ohkioZbZ;
+ spf=pass (domain: windriver.com, ip: 40.107.220.84, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gY/rHaR04GJkiafJltZ9xjBAC19SpKVbrjr7CoCPqcTFp9XUBsXxWLfILMPkqdlNKA+D56aItJEB6KUCWEJUm3E9dAmXu2wChlfOncn7xNMdGwV7zPADQXR3u4xEC+/uZQEXQxRP9gePjOs0oU7dAnOVz7+ZBmZcB0zsYEXCi5+KQ3scT9ZFOng0BcbjAe/+vIPlGNE0CiYYACjpNDLSPQ2lR6X8j30Z/uz8LInE2VrTm/gN2dYHb9MzEqrULIldLY2QpB+3hJE8qSHokkaQlgr2A99vNRx5qPeRfnmTPKY0OAXhrv9fu5REkt4zvnreudEUYOPN3/Xi96LEHMGvnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V0hHhttW2tPypxMntmMtpHp5qgt+kkvqyZx6SFpoMWg=;
+ b=N3QylW3IMX7SrVLgcFcGs+Y8LXiqAaSkpOBKK3Y3Ap71MI0LnvpbimY5KQLMfhlxTwRk6IRbw4LGWMatXNsvdgzpAgnCmY+MRtWPpdAgb4RL5CjxwQ+Yx9k5vsO2IEYXHDYN+4YtWIKE4M7YeGQN0z1JZoaxP1wMFootxK5hu1O7KWV0ATJwwnWsvYa8Zyzka1TXQGQgTI2WpXOYhbQrcej8nt2ExWtkDzeGHX1Tcfx7lqmehHDN0+YD3xgdZ/iG0Gqk39XAql+kQLZzjCNfdQhEXhqvf4HZP6051Y5ecwZCglqMMCif8fVtVBtEbpwBCa7DbBePVPk45yi8gtFQQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=Y/uxGlXpajAVNpDJq5NkfAnDuzOIavP4x4oVMXyAA4g=;
-        b=lNjMWhEm7UdMJnmm1L3gCDY9MBjVifxcIVElGLYUwqu3LI+TexQliNkMzt5ZrFIzBr
-         xxVtyevKfMkbh3TwrHcEfvzo8xdaK17vreU43Tqofoj/hySOqEdIL73yEij0CBimNHwO
-         iReOLTVSKQTo5YcBCmIe5/xEY/Ae7r6i36hfN/kGqUYALBRda+4v/TVlcJvqGidHFHBv
-         8W1ND/K5gWuZ5G+y+Pjt4b3DY4EI6NH0DN2A7sjSgkmLjnCd9LU5/Skf9MD16UMD4cSw
-         zUL3CsCBOzaPAVLtk42GEBty2kSbzYE4rIYjVhZBnYHp5G/BQwxetC0wQFz+clLul0QM
-         QbcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language;
-        bh=Y/uxGlXpajAVNpDJq5NkfAnDuzOIavP4x4oVMXyAA4g=;
-        b=Qo/2z+SN5Rux5iJcRR8V5Jin3FvzeriSmQxlrBAwYaSOzAxi8ZSqaQCelL3fu9hYIr
-         nWvtxV0ayjC5d7u3H580S7cGb0ib4vALKYSWmljQl5+MGlGB/yRSYSRteArwi+Y9FQ2B
-         FxS1CYn+cKIQWDU6ANjDD0SCiDvB+TsCsN1aShlJCdFyDfZB5OVK5ivdwDKRiYVz8LpE
-         HigTNcWw6ZFa9Lr/P3altIPRiQBq7Dr4bgeTJ7Fr76kRY0r+kmWkYS2pb0LSF+dJpJ56
-         C//626VCBiM6nPq6B0vbbtoG9Ix2QrxmwHf0/DIaHtblgMQe8V749f93pDaUywsV/aro
-         7Z1g==
-X-Gm-Message-State: AOAM532NjWQQSrEd67maieCfyuj4rfKByCR01Xgr760PXt8QottGep3V
-	4C7Qfd1i9jtQKqzHnTR60f7a+qZrU1EeWQ==
-X-Google-Smtp-Source: ABdhPJw4quXSXb5m9vPpkudSTAqdXtYcHS1JaFcRCrlN9e7c1sexlXiVjJ7WDlyA9ZWA2lbe9zRNNA==
-X-Received: by 2002:a63:a4d:: with SMTP id z13mr3078422pgk.247.1600061185834;
-        Sun, 13 Sep 2020 22:26:25 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0::cafc? ([2601:646:9200:4e0::cafc])
-        by smtp.gmail.com with ESMTPSA id h6sm9069387pfb.217.2020.09.13.22.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Sep 2020 22:26:25 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V0hHhttW2tPypxMntmMtpHp5qgt+kkvqyZx6SFpoMWg=;
+ b=ohkioZbZE/nNUBJiW+39frrjgj2l63NV4CyNiGkRL2uZP4Ug0UwhnM1mfZwttpvQy0Peg64WDDCbLbzCYloyCtnddR2RppsPHPwReLVWYgxII1Ru5KJZ1JKopS5aXbDAX6cTUXUJTaOeu5XcEpYmqmkeNnGmwFhH0uJWzEZxr08=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
+ by BYAPR11MB3670.namprd11.prod.outlook.com (2603:10b6:a03:f8::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.18; Mon, 14 Sep
+ 2020 05:48:09 +0000
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::fc6b:8198:e199:c0dc]) by BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::fc6b:8198:e199:c0dc%7]) with mapi id 15.20.3370.019; Mon, 14 Sep 2020
+ 05:48:08 +0000
 Subject: Re: [OE-core] [PATCH] qemu: always define unknown_lock_type
-To: "Yu, Mingli" <mingli.yu@windriver.com>, Ross Burton <ross@burtonini.com>
+To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 References: <20200910025728.3868717-1-mingli.yu@windriver.com>
  <CAAnfSTsTmAE5fbvTck6m9rsQGa_FebUMWmAXEvKkCfq2TWjiZw@mail.gmail.com>
  <26851540-6c95-c58e-7ae9-87d2ba546478@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-X-Pep-Version: 2.0
-Organization: HIMVIS LLC
-Message-ID: <236780a1-589b-589e-3e76-00d829868a0a@gmail.com>
-Date: Sun, 13 Sep 2020 22:26:24 -0700
+ <236780a1-589b-589e-3e76-00d829868a0a@gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <3d6f9248-f819-debb-0d71-de29ee312ead@windriver.com>
+Date: Mon, 14 Sep 2020 13:44:38 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
+In-Reply-To: <236780a1-589b-589e-3e76-00d829868a0a@gmail.com>
+X-ClientProxiedBy: YTXPR0101CA0022.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00::35) To BYAPR11MB2598.namprd11.prod.outlook.com
+ (2603:10b6:a02:cb::17)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
-In-Reply-To: <26851540-6c95-c58e-7ae9-87d2ba546478@windriver.com>
-X-Groupsio-MsgNum: 142491
-Content-Type: multipart/mixed;
- boundary="------------882F1AA8BA93BB28E04B6553"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.138] (60.247.85.82) by YTXPR0101CA0022.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.20 via Frontend Transport; Mon, 14 Sep 2020 05:48:07 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ce5c9f27-50dc-4a4c-8583-08d85871c243
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3670:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB3670D63593D02267FFF6BFA9F1230@BYAPR11MB3670.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	JD37Jn+j8Y5LWqPT0ADa6F9Kjtyg4e3vC567dkSjWIbcD0bdvL14kA9XyykW8R+Mke50QR4eRO1rqT0fkRaiHFnf+JRqeTLPR0zz8CCfWvtmM5iXMq8m9pxY7N/9IhBXy+3dFxrm2fHVy7mCuX/eiXPldbgtmTvg7gFTIpuPAsoH/it/zuaSz07VzOfPkJbPwCanRpFBA/ZTBVJNTyBX4bd/4TyONuVimPaaKkCReSrGUE+ofzdfw9p++AU7iYTiHBPPKGVhdlh8YdAED2BiIKa5JfJclnubh3SyXRyGxhgmOIlPPTwWxoHecD8cDD94/co0OJBhaTL0TIC/uCXaiaqQJxuWczdRy2en04w0pUDw84biBIG/LYhSD07wBkyUNkZVaypGWYlHZhSpoKbf2cKyPWSF0KxwnqdM3xuvIYiXHRnbaMnJ0rrGps1rtJqJ5uzplI98ZSrTaMD/kZ6MmlL0EKdqfMMH9x84E3ffXU8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(376002)(366004)(346002)(136003)(396003)(16576012)(316002)(26005)(186003)(31686004)(16526019)(966005)(6666004)(8936002)(8676002)(2906002)(86362001)(4326008)(31696002)(110136005)(52116002)(478600001)(83380400001)(66476007)(66556008)(36756003)(53546011)(2616005)(956004)(6486002)(66946007)(5660300002)(6706004)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	vSkcG08voTSsEzhu1Q+Pcxuo1z2F8/7mZDGpGJ6UrIH624r7WrPqMUThiju9TLnfDF8k+AskaTEuQBTU5y1phv0iWb6jJNS3095+sMvDs0ni7n8QwKQiWxZ1BwwVfsu4mlUUTKsmhH4d1x/aKotJgYrrej7TET7QXpKGrjImrFpro6Di/UluJczM2zzpTn7kd0q5E3eYW3TtU3E2rebRqMJbczw3hZ1+KWCfT1XaeqUdQ1FqNUGnY9/xTRxrwiVwZ98i8WTOPvRl3PIwhLu6F9YUHiAKNUSyvPT5rV35MNJOaSHa/fMQNmTVpYqSW0ENILOZCYOKCzmsdzSIL23gMCb6oToC/s4veKfdtjSgQOYas6Mvq7mytQYmkmoM3Fm70KkrDVlEO6sH7OWv+nNK2tOIPAxP83hrxyxvVDMA6uOb187wUHOvZwNPovXa3zwPBvDWYWW+pScWgEA0LBFmbGUKXxdL9pkXQYYKgaTf0YgMzmZpdVZ7c823qu9O48Qp1Fd5hvGCeuhdxCeeakmYfA+eGQ7ajCPq4RtLjlLhIIAH+K/rFXYPy1WH3Kbws6U1XHcJAlLJ1F2TYFpP5tHJZw1TZyis9A+6s1B2UL/5Q5IGuecRCuOpr+HfxC/MaOSz8VuMDZAX6s3CpWfvKiFUPQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce5c9f27-50dc-4a4c-8583-08d85871c243
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2598.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 05:48:08.9097
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZsZbTScbI1dL6L6iizpxKH+yoJCao30m5qddLuIZyqY0dhbkyAxZZBseodgOebJtvmyLUbz8s5Vtp0c+wKUQqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3670
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-
---------------882F1AA8BA93BB28E04B6553
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
 
 
-On 9/13/20 6:50 PM, Yu, Mingli wrote:
->=20
->=20
-> On 9/10/20 6:41 PM, Ross Burton wrote:
->> On Thu, 10 Sep 2020 at 04:03, Yu, Mingli <mingli.yu@windriver.com> wrot=
-e:
->>> +Upstream-Status: Submitted [qemu-devel mailing list]
+On 9/14/20 1:26 PM, Khem Raj wrote:
+> 
+> 
+> On 9/13/20 6:50 PM, Yu, Mingli wrote:
 >>
->> https://lists.nongnu.org/archive/cgi-bin/namazu.cgi?query=3Dunknown_loc=
-k_type&submit=3DSearch%21&idxname=3Dqemu-devel&max=3D20&result=3Dnormal&sor=
-t=3Dscore
 >>
->> doesn't find this patch, can you link to it please?
+>> On 9/10/20 6:41 PM, Ross Burton wrote:
+>>> On Thu, 10 Sep 2020 at 04:03, Yu, Mingli <mingli.yu@windriver.com> wrote:
+>>>> +Upstream-Status: Submitted [qemu-devel mailing list]
+>>>
+>>> https://lists.nongnu.org/archive/cgi-bin/namazu.cgi?query=unknown_lock_type&submit=Search%21&idxname=qemu-devel&max=20&result=normal&sort=score
+>>>
+>>> doesn't find this patch, can you link to it please?
+>>>
 >>
->=20
-> Hi Ross,
->=20
-> The link is
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html,
-> will include the link in V2.
-
-are you compiling without __OPTIMIZE__ defined ? qemu may not work
-without it.
-
->=20
-> Thanks,
->=20
->> Ross
+>> Hi Ross,
 >>
->=20
->=20
->=20
+>> The link is
+>> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html,
+>> will include the link in V2.
+> 
+> are you compiling without __OPTIMIZE__ defined ? qemu may not work
 
---------------882F1AA8BA93BB28E04B6553
-Content-Type: application/pgp-keys;
- name="pEpkey.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="pEpkey.asc"
+Hi Khem,
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+I didn't especially customize something for __OPTIMIZE__,  could you 
+help guide where to define it?
 
-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
-=3Dsj8j
------END PGP PUBLIC KEY BLOCK-----
+Thanks,
 
---------------882F1AA8BA93BB28E04B6553--
+> without it.
+> 
+>>
+>> Thanks,
+>>
+>>> Ross
+>>>
+>>
+>> 
+>>
