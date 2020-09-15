@@ -1,112 +1,96 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web10.7032.1600148693980014272
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.7944.1600153761433902975
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 22:44:54 -0700
+ Tue, 15 Sep 2020 00:09:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hStkSaFn;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: rehsack@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id i22so3212887eja.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 22:44:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dRzB7rTv;
+ spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: oecore.mailinglist@gmail.com)
+Received: by mail-wr1-f65.google.com with SMTP id z4so2085752wrr.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 00:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=UrGRTHdc5v4PsNxDQSNrRbrBXOURVyji8RUSyDcm/aE=;
-        b=hStkSaFncQjtL9KGD753k7qLjtggHUYcf1UUiX/5Jj5cK+rUBwtebT09wgRaVa5+h0
-         a9oKhM57sbblTJAzAuq41fS9lIn3EQDfnQVOi4lj7ZNjcsb0In/f4PayPebQg2Z5/U42
-         d5NtY9FDuLZH+VnDeDMhH2jTAs+qv2JuiHeRhfMzpn/q477oUMe4V2w97l10l+2yh3Mm
-         +5UMKlPDlAkhoLae0afUx5KGROvUDgkNEmFTbd4cADzAsPEzF0aieAEvXkQA/tRzfw2P
-         F0PnjspvNGYuMWAc/JC1Ksbe8p46qXMQkfAxAy7/V01UXp6egiB7Xywscr1Kit+1Ivv9
-         7K6Q==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=rghLeEEfH0IHxE7lc5FwV3aW4gBuZjAyfrGVykCaRpo=;
+        b=dRzB7rTvoYOBlN/PMFWnx79WDNDz/18IGc84hgRN0BC24nN4tTG8p9VBxWWDnzUbPr
+         aj2IEzxJfIhSAR05A26b5Jme1o2cXcQxFFM/MGFpdvNu/xQq8FV4MxNzUu0nE1upzBeK
+         4zkSBBIFc7kR0j+k0/j1fmOODoKzoT8DoEfUBSS41Iumllf8VMaY0x5zwIyC4v9nSa18
+         pwgY/ol1ea680bI1rN26bnRITdRYuJl9tu1tJ77KCFrBTh8IXx2lxZPUDwIVrTpXLwH/
+         djZt8FqetOKBXjkq4o8dvC4CypaRmlL0S99UajlAWl8hdwnONiwFQIARloMG7sijAsD3
+         Rp2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=UrGRTHdc5v4PsNxDQSNrRbrBXOURVyji8RUSyDcm/aE=;
-        b=p+/ExRAR1N33Cb2p1YdXI/6cqIDGXDduj/cW7mPp3Xtp+oruP+jj4etpEDNwMnj5qD
-         i3MBcSsGtyK0TWZGf3lCC1CNAcc3eNieQpSSWzOcbFLBjtOYXTMZTjNcPsY9dlS3i0mP
-         ADqxNZmluXihDJrX0gjCViNuQCbAcSNGn+2wd+b5tiQvhGqznNBVLYRPODJl9qBDaGNS
-         r2fQW7ihI2nRjtrhDXMuiWzd944U7tXpmQZ3UX3v46h1wpG5FSIu3hEggNLA3SxTGDHB
-         PE7wcRZjNYnnHCCvjKW96HeDnI7AGRl8kcbXSp8h1W7KL9ukqlcfLA30W45FZBWq5a3A
-         IL0g==
-X-Gm-Message-State: AOAM5338O603rGIRVvMPkYzFCVGJxa8STx93ctHmatR1a+VFrDSppbWj
-	SblTnfKeYQajvGkNP+loPyM=
-X-Google-Smtp-Source: ABdhPJwq897VC6dbs+73Lt3/7bx21SS7/+Z/4BNeLbLUoMvtS6LaVh5bqr+7CJX3n7/us8x7PgjMuA==
-X-Received: by 2002:a17:906:390d:: with SMTP id f13mr17937015eje.86.1600148692214;
-        Mon, 14 Sep 2020 22:44:52 -0700 (PDT)
-Return-Path: <rehsack@gmail.com>
-Received: from [10.42.8.217] (p5b25b0d4.dip0.t-ipconnect.de. [91.37.176.212])
-        by smtp.gmail.com with ESMTPSA id x6sm9341726ejf.59.2020.09.14.22.44.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 14 Sep 2020 22:44:51 -0700 (PDT)
-From: "Jens Rehsack" <rehsack@gmail.com>
-Message-Id: <486E178E-DCB8-4B23-B199-63231267196E@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [OE-core] [PATCH 6/6] lttng-modules: backport patches from 2.12.x to fix 5.4.64+ and 5.8.9+ builds
-Date: Tue, 15 Sep 2020 07:44:50 +0200
-In-Reply-To: <ced4f4ad5252bcc989f40b54341c0d7a5835bfce.1600122415.git.bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1600122415.git.bruce.ashfield@gmail.com>
- <ced4f4ad5252bcc989f40b54341c0d7a5835bfce.1600122415.git.bruce.ashfield@gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-X-Groupsio-MsgNum: 142575
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_9D1670F4-3FD7-4DBB-836A-E4D76CFEF17F";
-	protocol="application/pgp-signature";
-	micalg=pgp-sha512
-
---Apple-Mail=_9D1670F4-3FD7-4DBB-836A-E4D76CFEF17F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-
-> Am 15.09.2020 um 00:34 schrieb Bruce Ashfield =
-<bruce.ashfield@gmail.com>:
->=20
-> From: Jens Rehsack <sno@netbsd.org>
->=20
-> Backporting the 10 patches since the lttng 2.12.2 release. We'll drop
-> them once .3 is released, but for now, we need the fixes to build
-
-Yet another question: there is a stable-2.12 branch ... wouldn't it be =
-reasonable to use this one as upstream source instead of the tarball?
-
-> against the latest 5.4, 5.8 and 5.9 kernels.
->=20
-> We also bump the devupstream SRCREV to pickup the same changes.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_9D1670F4-3FD7-4DBB-836A-E4D76CFEF17F
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rghLeEEfH0IHxE7lc5FwV3aW4gBuZjAyfrGVykCaRpo=;
+        b=SN33eeL5+uPcW1itpBg4BNlAwEsvbJUCdvq6ATRvPps7iWM2Qo2ELcBdgPpSwLKXrf
+         2dpU09SMyTRjcudPWLDjPzt6PRmJSgtBgGXgFsOAXmy3HiZl9FDzAybVA00As4ZlrA+n
+         ETU+4iQukEVIZES6bSVcGVqrJuesHGDxBUvcIghD1Vnear95VBYpDOgTMgKU7TPvppAx
+         VokZ2SHanQUFi7KaqY3TBs7owDMMZ/u6fZ6sZfrnVbG8wfBJQSIgnjKtUByNLk3pYYyF
+         iF4n32PJ8dm3m8yovos62PrRUMos+zSf4j0feMqh9UbijgK/ZFfzKHuz/PBqs+ZGsMP6
+         Kztg==
+X-Gm-Message-State: AOAM532X7sdnUsFXfG24ygikFup0ee2gPyKtJgOOTSgbHNm4JExSCV3K
+	OUiuShNreU80oKV8CX3ZS70OEE3xkSw=
+X-Google-Smtp-Source: ABdhPJzFNPYznDM2peyAxW5vS9+h5JKDrtuDO0y8vho6wZpX9LNnWHfDYNj/cC6A7w/NWx6L/vqCKw==
+X-Received: by 2002:a5d:414b:: with SMTP id c11mr19059715wrq.181.1600153759532;
+        Tue, 15 Sep 2020 00:09:19 -0700 (PDT)
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from [192.168.42.52] (ppp-2-86-237-227.home.otenet.gr. [2.86.237.227])
+        by smtp.gmail.com with ESMTPSA id x16sm24369509wrq.62.2020.09.15.00.09.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2020 00:09:18 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
+To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
+References: <20200914151359.11240-1-jon.mason@arm.com>
+From: "Robert Berger" <oecore.mailinglist@gmail.com>
+Message-ID: <442cfca7-9e64-c161-3f7e-af858472e910@gmail.com>
+Date: Tue, 15 Sep 2020 10:09:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200914151359.11240-1-jon.mason@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
 
------BEGIN PGP SIGNATURE-----
+Hi Jon,
 
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl9gVNIACgkQRJmWrtzl
-Cp0ARRAAguJGBHutOkXAXRSnyLNU+mdYte/Z5zTikSLFbHBjoOb//xsbtf/J5Qbn
-zKfuWRCml19GWoJLD72tlxZoADKTCk7/0tdMgoAyXuUEQL/OaV6s4XE9BatLiJ7m
-W0CmEc+ODsObjtFSaDQBcVN/3L1Txnh8DIoxsZRviMRgjTfDeLIj4wRXcyS2x/6D
-a512IduMwamqDBjnHAbeUiwrrv8/jpThZn31tKWJV7ZQs50yVCmAiVNdgVPeAFQE
-n8+tkMa+W5VXibyLa7Z3yHOAg6P5GizSPS9nedHhj1YrE0T3FCUmaTffkhpO3Q6M
-gWj/4TvEIuEjU6wK4UrKG9yvv9UDJezyX41a/ZhRnghN5JKdJhWGaP/1SHhhmxwz
-k2br0+Es77aF0oSXJWHMpNxTqL3jB3b9W9+iaPPDNYc4e93v0xh+7zTKk5mHRvQ1
-6NamyZQbrBNyH/uBh7vpf4W0EThFNPqvgfCKdRwcMk7njlSlYmsZ6BYDefOllgTv
-jCRmlVfUpmtZhNJnR4Pf0fkLmwy4w0/amyIgRa3OVVPfLj+3t4Y1hODWYEgqRPNg
-D90CYeUTp4c51nMknoYnwrAYZy28bYuyPdPwXsHkglDMQnFKQlEBOfOyEVjCat1i
-C59JQ/FreGvORnFs+JAI+zH+x7wRc5WKzhuo2i2LZK3N7PGZQgI=
-=dazU
------END PGP SIGNATURE-----
+That's not really a comment on the reorganization of compiler tunes, but 
+more like "Do they actually do something meaningful?"
 
---Apple-Mail=_9D1670F4-3FD7-4DBB-836A-E4D76CFEF17F--
+I posted here[1] some benchmarks and at least with the benchmarks I 
+tried on the chips I tried there is no obvious impact.
+
+i.mx6q:
+
+TUNE_FEATURES        = "arm armv7a vfp thumb callconvention-hard"
+TARGET_FPU           = "hard"
+
+vs.
+
+TUNE_FEATURES        = "arm vfp cortexa9 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+
+
+i.m8mm:
+
+TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
+TARGET_FPU           = ""
+
+vs.
+
+TUNE_FEATURES        = "aarch64 armv8a crc crypto"
+TARGET_FPU           = ""
+
+
+[1] 
+https://yoctoproject.blogspot.com/2020/09/compiler-tunes-benchmarks-with-yocto.html
+
+Should we expect so see differences?
+
+If so can you suggest benchmarks which show those differences?
+
+Regards,
+
+Robert
