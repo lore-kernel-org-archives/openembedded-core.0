@@ -1,96 +1,116 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.7944.1600153761433902975
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web10.9223.1600160324364303863
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2020 00:09:21 -0700
+ Tue, 15 Sep 2020 01:58:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dRzB7rTv;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id z4so2085752wrr.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 00:09:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O/aK1aT7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id l9so2602948wme.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 01:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=rghLeEEfH0IHxE7lc5FwV3aW4gBuZjAyfrGVykCaRpo=;
-        b=dRzB7rTvoYOBlN/PMFWnx79WDNDz/18IGc84hgRN0BC24nN4tTG8p9VBxWWDnzUbPr
-         aj2IEzxJfIhSAR05A26b5Jme1o2cXcQxFFM/MGFpdvNu/xQq8FV4MxNzUu0nE1upzBeK
-         4zkSBBIFc7kR0j+k0/j1fmOODoKzoT8DoEfUBSS41Iumllf8VMaY0x5zwIyC4v9nSa18
-         pwgY/ol1ea680bI1rN26bnRITdRYuJl9tu1tJ77KCFrBTh8IXx2lxZPUDwIVrTpXLwH/
-         djZt8FqetOKBXjkq4o8dvC4CypaRmlL0S99UajlAWl8hdwnONiwFQIARloMG7sijAsD3
-         Rp2w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=zSFD6fX+3XBfitSgb0p23KK+dKk2dKbPgcgTFF9GRwY=;
+        b=O/aK1aT7IuIeepf0A1LwVjL1+YVrjzPbi+PZakLr4mcK1paJGKAJiFHPcMrrfROUy/
+         i5iPyaD3EUMpz4qd/y0pWJM4CxkIHqxBegEOpaW9nJeynJRauzIZVS5NRlRlb+YxPvFd
+         YvGnDO/VIDt+qD5PwoiB1UTVPTXixuWxEGNXk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rghLeEEfH0IHxE7lc5FwV3aW4gBuZjAyfrGVykCaRpo=;
-        b=SN33eeL5+uPcW1itpBg4BNlAwEsvbJUCdvq6ATRvPps7iWM2Qo2ELcBdgPpSwLKXrf
-         2dpU09SMyTRjcudPWLDjPzt6PRmJSgtBgGXgFsOAXmy3HiZl9FDzAybVA00As4ZlrA+n
-         ETU+4iQukEVIZES6bSVcGVqrJuesHGDxBUvcIghD1Vnear95VBYpDOgTMgKU7TPvppAx
-         VokZ2SHanQUFi7KaqY3TBs7owDMMZ/u6fZ6sZfrnVbG8wfBJQSIgnjKtUByNLk3pYYyF
-         iF4n32PJ8dm3m8yovos62PrRUMos+zSf4j0feMqh9UbijgK/ZFfzKHuz/PBqs+ZGsMP6
-         Kztg==
-X-Gm-Message-State: AOAM532X7sdnUsFXfG24ygikFup0ee2gPyKtJgOOTSgbHNm4JExSCV3K
-	OUiuShNreU80oKV8CX3ZS70OEE3xkSw=
-X-Google-Smtp-Source: ABdhPJzFNPYznDM2peyAxW5vS9+h5JKDrtuDO0y8vho6wZpX9LNnWHfDYNj/cC6A7w/NWx6L/vqCKw==
-X-Received: by 2002:a5d:414b:: with SMTP id c11mr19059715wrq.181.1600153759532;
-        Tue, 15 Sep 2020 00:09:19 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-237-227.home.otenet.gr. [2.86.237.227])
-        by smtp.gmail.com with ESMTPSA id x16sm24369509wrq.62.2020.09.15.00.09.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2020 00:09:18 -0700 (PDT)
-Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
-To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
-References: <20200914151359.11240-1-jon.mason@arm.com>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <442cfca7-9e64-c161-3f7e-af858472e910@gmail.com>
-Date: Tue, 15 Sep 2020 10:09:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=zSFD6fX+3XBfitSgb0p23KK+dKk2dKbPgcgTFF9GRwY=;
+        b=D9yNBfXsboigyYx4sKLcxQiYVMFob45eyGY37zeKj9R6Bc/2TzSMLQ70CYoU1LGSKc
+         IJe5kcFHd6Hb6H+q1Xa6mPQ2LE6AKdg0WRc2GPqedsHVs2EAXE7E7iVWimZunwWmZuni
+         uD2jsjqtDh0gE0eHPNGtlxknb7TR9vLx0NDxXWR0AA/yYFyf6cY22ZLd2N9XLwnbKg33
+         tXfslAoDhwQHzM8Z+81dxUXmjvVdUVBaJj4WizT0YjsUoV+UU4/ID6qx5RcPBvXA2K2D
+         s3JaYfDe6hKSyLFIanpcIASBjFElAnhbAsHDRbncobbly1sEqxDwmWvEQjdXuoEuQPUP
+         rKKw==
+X-Gm-Message-State: AOAM531t6ZBz4dJYcztoU8NBx4oxR0nSpty3M8U9R2Ws61lP9KZR0Qa5
+	HIAqpZ7CYA81WKIvmjXnYhGb+g==
+X-Google-Smtp-Source: ABdhPJwYllPeZYqLeoY7xBwxGXzTXBlkSf1RQzlHCWhyJJjayXg1Re42ER+6aAatpit4wVCqkjsNAA==
+X-Received: by 2002:a1c:9e0e:: with SMTP id h14mr3530050wme.18.1600160322631;
+        Tue, 15 Sep 2020 01:58:42 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.9.9.2.a.3.7.f.d.c.a.e.2.4.1.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6142:eacd:f73a:2991])
+        by smtp.gmail.com with ESMTPSA id a17sm26671536wra.24.2020.09.15.01.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 01:58:42 -0700 (PDT)
+Message-ID: <352127433a1b0fae6cc7b8edef1476c307655816.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] core-image-sato: qemumips use 512 mem
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, akuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster808@gmail.comt>
+Date: Tue, 15 Sep 2020 09:58:39 +0100
+In-Reply-To: <1634C23CFDB6D44F.7642@lists.openembedded.org>
+References: <20200913035916.24165-1-akuster808@gmail.com>
+	 <82df031010def40bb2f2f1bfe160cbbb8330353d.camel@linuxfoundation.org>
+	 <3889316c-3fb2-e100-468d-9ba2b77e69ad@gmail.com>
+	 <1634C23CFDB6D44F.7642@lists.openembedded.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <20200914151359.11240-1-jon.mason@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Jon,
+On Mon, 2020-09-14 at 22:02 +0100, Richard Purdie via lists.openembedded.org wrote:
+> On Mon, 2020-09-14 at 10:27 -0700, Khem Raj wrote:
+> > On 9/14/20 12:13 AM, Richard Purdie wrote:
+> > > On Sat, 2020-09-12 at 20:59 -0700, akuster wrote:
+> > > > diff --git a/meta/recipes-sato/images/core-image-sato.bb
+> > > > b/meta/recipes-sato/images/core-image-sato.bb
+> > > > index 673106eb6d..878e0eaa8d 100644
+> > > > --- a/meta/recipes-sato/images/core-image-sato.bb
+> > > > +++ b/meta/recipes-sato/images/core-image-sato.bb
+> > > > @@ -12,4 +12,3 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-
+> > > > intltool
+> > > > nativesdk-glib-2.0"
+> > > >   TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-
+> > > > intltool nativesdk-glib-2.0"
+> > > >   
+> > > >   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m
+> > > > 512", "-m 256", d)}'
+> > > > -QB_MEM_qemumips = "-m 256"
+> > > 
+> > > We have now seen:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/2452
+> > > 
+> > > with this applied, not sure if its related. We have seen this kind
+> > > of
+> > > network dropout elsewhere but we don't seem to have good debug when
+> > > it
+> > > happens.
+> > > 
+> > 
+> > I wonder if ssh daemon is dead in this case. I also see its invoking 
+> > compilers on target( kernelmodule case), are they usign -jX during
+> > make 
+> > ?, 512M might not be enough to run parallel compiles
+> 
+> Shouldn't be using -j for these tests. I think we need better debugging
+> using the serial console when these failures occur...
 
-That's not really a comment on the reorganization of compiler tunes, but 
-more like "Do they actually do something meaningful?"
+We now also have:
 
-I posted here[1] some benchmarks and at least with the benchmarks I 
-tried on the chips I tried there is no obvious impact.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/2460
 
-i.mx6q:
+which is hanging in a dnf command.
 
-TUNE_FEATURES        = "arm armv7a vfp thumb callconvention-hard"
-TARGET_FPU           = "hard"
+From the autobuilder, I couldn't ssh into the image, it hangs but
+tantalisingly, it would show me the time of the last login. I was
+therefore able to run dmesg and confirm there is nothing in the logs
+relating to this hang. I can't get a shell (bash or ash), top won't
+run. Not sure what else to try but I am pretty sure this is our 512MB
+memory bug, its still there. I'll leave it running for now in case
+anyone has better ideas about debugging.
 
-vs.
+Cheers,
 
-TUNE_FEATURES        = "arm vfp cortexa9 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-
-
-i.m8mm:
-
-TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
-TARGET_FPU           = ""
-
-vs.
-
-TUNE_FEATURES        = "aarch64 armv8a crc crypto"
-TARGET_FPU           = ""
+Richard
 
 
-[1] 
-https://yoctoproject.blogspot.com/2020/09/compiler-tunes-benchmarks-with-yocto.html
 
-Should we expect so see differences?
 
-If so can you suggest benchmarks which show those differences?
 
-Regards,
 
-Robert
