@@ -1,77 +1,68 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web12.10391.1600165278246270828
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web11.10244.1600165604667122181
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2020 03:21:18 -0700
+ Tue, 15 Sep 2020 03:26:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=LH99/5oW;
- spf=pass (domain: burtonini.com, ip: 209.85.167.65, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f65.google.com with SMTP id b12so2485535lfp.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 03:21:17 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=UwaDwfMs;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f195.google.com with SMTP id u4so2294699ljd.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 03:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=CnsZLTsMzv8BdVe2JuCF2tama6ni5LE25cmEO/S58Vc=;
-        b=LH99/5oW2yJ6a8z+jHCQVorJtY92cwNHDHHV7zqvqAyh5V+OOKjoPTobbbed6uSAPd
-         bfbHURX3f0hCETFKXOgEXZp3V9l+MLR9v9ZOeHJqZf6qUW2VCCWuG2Dvxu2sqTo/rOfa
-         NK06N35xI67wDF8WjvXk7ld0wy9a1ER3SF3HHvydrIl1/+E3A1frNlo0eK4jazR1e0Rh
-         V7ITSRrgLwQYyu8gwW/N2i/u+zsTteN5b68/NJC+1ngcTHhdp01l2Pi00bq4dHQ0U23Q
-         JYsiWFwAIXD7jbb/FaLbZANGlFWoOxULAOxwR6GRj0brVsgbrG2KHq2sZJ2z8NSD/7fZ
-         09MQ==
+        bh=l2BnzAvS9MGh/28UeyjOSLU26HGjlijtS20wpxl75C8=;
+        b=UwaDwfMsb8GR0UnHjsAIN3A45ukvscdmaOxW2Wd/G1zjKGEEALI/FYhsvmvDoHmczb
+         n4xqc8+t71phVeKom9vy2mJ1r4jevZ8t1thwTUeCSdz7cXLG2gFT/6vYiBspx3x448tZ
+         EeJ0mATrchugCgCK6oxuOZGTCoeAJH8JDVEdhXQqeyEawznBceYZcweD5Z6XLEx0Avt3
+         icZ3Lorq+5lGjlGSdZvWE/+Oh2NzV8rqn6JpTIy3UsbqQDTIpTQA+4ynkQmlY7XxjsbF
+         k0NvpkzALYlo/3hOp0fSpWxxaVaerpDO7yQaDuUyZWcgs9cnbNdTxfsC25OcR88Krb8V
+         jI+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CnsZLTsMzv8BdVe2JuCF2tama6ni5LE25cmEO/S58Vc=;
-        b=XuFbPTqp02zd353OnfMSOZdlcf1CN5j3rCeQew/zuJUVMwf0QmGPSWwxcWiuYV8CfQ
-         88HUg03Q4Xw9nT1UKyNsM/bvJ8+SoXeDaRDudpWEBiCe6iD7Nvu3iWh6RcvMsgUvpB6C
-         c4VVH8+DlXGAr2nhGTt/5X93VRAKwzQXo/+r2G6Kpke2/ykugyVxzYnkpOrphAWwWCiw
-         ZBE8iKXaq6UoUfIub12sRxMnQHfKA+5CForb3AyPQ9atwTnt6iRWxPq0NQ7c0d4w0RwJ
-         sttwdyPGlbxr2Gg9x+eDCmFWFKwaVdYHkzo6HMKyjOR5bIS/sIt7HAVEMhxMKfQWFzcZ
-         z8kQ==
-X-Gm-Message-State: AOAM530GnhqD6TgtlTD+MHqZUQodF6GNfJVv66xJIcerey3SIDpQ5rmx
-	tpzX/UagyvjO2fK/Zbp8aLrmbAcN+CyrQG5EC9GNAA==
-X-Google-Smtp-Source: ABdhPJztUJ8bV7Pwb2t/NhrqTdZ1eu370Yk/jHr1a//P+O83Htn4o7KacMFaHDL96Hs7Y4YW0WXjaoO1iTVpNXImyMY=
-X-Received: by 2002:a19:457:: with SMTP id 84mr5844006lfe.205.1600165275937;
- Tue, 15 Sep 2020 03:21:15 -0700 (PDT)
+        bh=l2BnzAvS9MGh/28UeyjOSLU26HGjlijtS20wpxl75C8=;
+        b=IPmtDFOXkOFaXdQh/Uiv1a1kBzw9HGT9a2NGW9FCrIK4CS4q1tWbehwvP4gYj47MLv
+         E7xAi0JK9+M3w9lh+cCw5PQyKefbnu+yk+G/2brEdzvdXOlMKbiDEH3uH6lgTOl/FVRH
+         UtPvX7gQ7aEdAp5FF70dBw1F8DNMlzjzM+D4+9Le0aVFYJVOSgcME8dRFq5OhemKRTWO
+         AJs3v7GMHeM4Q4po5Im9cwOUf0n2RxY3ZHK37xI9DkAT09WavVxDFjWOkUTtMazW+JT8
+         0cJHcgl8MUXduoHyVuRxRRnlypUZ9tAOLBPbRFsEm/OQKuwF/znc30HaULIp2ncenwim
+         /83g==
+X-Gm-Message-State: AOAM532Y3hYGco6GwJ3Y1ziD/6gU961/1WFRNjFnBZIlGttVepMzhf0I
+	ZwJhXVUC//D/zfjg+3hHWEwnuvAFPiiz+iQGSkUWKA==
+X-Google-Smtp-Source: ABdhPJzPNYQ/aSTA9VtO+OKThZ59HGyfSdTaVSgn7lKiqhrFDp+9Iquuo8ATHvOULpd4v7j6OlUZcJw8yxFP6F6dr8E=
+X-Received: by 2002:a2e:5c89:: with SMTP id q131mr6256765ljb.352.1600165602412;
+ Tue, 15 Sep 2020 03:26:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200912210406.3328090-1-raj.khem@gmail.com> <20200912210406.3328090-3-raj.khem@gmail.com>
-In-Reply-To: <20200912210406.3328090-3-raj.khem@gmail.com>
+References: <20200910025728.3868717-1-mingli.yu@windriver.com>
+ <CAAnfSTsTmAE5fbvTck6m9rsQGa_FebUMWmAXEvKkCfq2TWjiZw@mail.gmail.com>
+ <26851540-6c95-c58e-7ae9-87d2ba546478@windriver.com> <236780a1-589b-589e-3e76-00d829868a0a@gmail.com>
+ <3d6f9248-f819-debb-0d71-de29ee312ead@windriver.com> <eabcd7ed-88a8-8453-18dc-af4fcc92c9d8@gmail.com>
+ <dc5035a2-5051-ceb5-310e-ed6d7dff8fd1@windriver.com> <CAMKF1srYA5s5et4j7HbX6BQ0+zY4WXciagffTh2X3yMKy2vUZQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srYA5s5et4j7HbX6BQ0+zY4WXciagffTh2X3yMKy2vUZQ@mail.gmail.com>
 From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 15 Sep 2020 11:21:05 +0100
-Message-ID: <CAAnfSTtv9uqkKKddk2PNxK=j-p=-zH0g-1tcvePmADhaCSg7KA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] weston-init: Enable RDP screen share
+Date: Tue, 15 Sep 2020 11:26:31 +0100
+Message-ID: <CAAnfSTvE_wrt6DUGxPGQefJ4uF_0CZaPvpAtUsBJzoVUqbfjRA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] qemu: always define unknown_lock_type
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Cc: "Yu, Mingli" <mingli.yu@windriver.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Is this really something we want on by default?
+On Mon, 14 Sep 2020 at 16:23, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > > perhaps you are not using one of -O<n> option ?
+> >
+> > -Og passed to the compiler as DEBUG_BUILD = "1" defined in local.conf.
+>
+> Does qemu work when built with -Og
+
+This is the pertinent question.  If qemu doesn't run after
+un-upstreamable patches when built with -Og, what's the point?
+Debuggable code that you can't execute serves no purpose.
+
+If qemu *needs* to be optimised to actually execute then override
+DEBUG_BUILD to optimise at the lowest usable level.
 
 Ross
-
-On Sat, 12 Sep 2020 at 22:04, Khem Raj <raj.khem@gmail.com> wrote:
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-graphics/wayland/weston-init/weston.ini | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> index 1e6dff68fd..b48726d59c 100644
-> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> @@ -68,8 +68,8 @@ require-input=false
->  #min_accel_factor = 0.16
->  #max_accel_factor = 1.0
->
-> -#[screen-share]
-> -#command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-clients-resize
-> +[screen-share]
-> +command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-clients-resize
->
->  #[xwayland]
->  #path=/usr/bin/Xwayland
-> --
-> 2.28.0
->
-> 
