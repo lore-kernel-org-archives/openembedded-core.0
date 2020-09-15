@@ -1,68 +1,55 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web11.10244.1600165604667122181
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web10.10414.1600165831470509987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2020 03:26:45 -0700
+ Tue, 15 Sep 2020 03:30:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=UwaDwfMs;
- spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f195.google.com with SMTP id u4so2294699ljd.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 03:26:44 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=yM4mvNcb;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f196.google.com with SMTP id k25so2375694ljk.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 03:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=l2BnzAvS9MGh/28UeyjOSLU26HGjlijtS20wpxl75C8=;
-        b=UwaDwfMsb8GR0UnHjsAIN3A45ukvscdmaOxW2Wd/G1zjKGEEALI/FYhsvmvDoHmczb
-         n4xqc8+t71phVeKom9vy2mJ1r4jevZ8t1thwTUeCSdz7cXLG2gFT/6vYiBspx3x448tZ
-         EeJ0mATrchugCgCK6oxuOZGTCoeAJH8JDVEdhXQqeyEawznBceYZcweD5Z6XLEx0Avt3
-         icZ3Lorq+5lGjlGSdZvWE/+Oh2NzV8rqn6JpTIy3UsbqQDTIpTQA+4ynkQmlY7XxjsbF
-         k0NvpkzALYlo/3hOp0fSpWxxaVaerpDO7yQaDuUyZWcgs9cnbNdTxfsC25OcR88Krb8V
-         jI+A==
+        bh=bBgtsl/y5IKyuAPHEqO6mP0zFlO+749RGogx8cDsWtE=;
+        b=yM4mvNcbKAqFFEW8YQJVKtooGwAt5V9ZdVS/WMjcAJeJyn2rF82QDb2KH166Oq53l3
+         MkLSaDEWdHV3pjaKiHWUaDetHMOGnS+/st5KsNQsnJtFhRsN+mh+j3LeOf8E9EEQBwY2
+         CMCBPhnzd5mVVz1+QaKRdoQxUmO3x5MFOaMSBneU3X+1CDBWolmRmnfqgFJ5IWdZUSzq
+         fuF7m1fmhWiqS257CdqLB3b84Xbpsvq4R76tODrHtyFS6U/404nx/VrxYp9LdIqRATAh
+         KtOsH2Ouhyt7nwJmdeP6wQ4Wp8ZYwrtLkNAmXqosd7+aI+wkcKU8w6p9FOkiv8d49Rul
+         UwzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=l2BnzAvS9MGh/28UeyjOSLU26HGjlijtS20wpxl75C8=;
-        b=IPmtDFOXkOFaXdQh/Uiv1a1kBzw9HGT9a2NGW9FCrIK4CS4q1tWbehwvP4gYj47MLv
-         E7xAi0JK9+M3w9lh+cCw5PQyKefbnu+yk+G/2brEdzvdXOlMKbiDEH3uH6lgTOl/FVRH
-         UtPvX7gQ7aEdAp5FF70dBw1F8DNMlzjzM+D4+9Le0aVFYJVOSgcME8dRFq5OhemKRTWO
-         AJs3v7GMHeM4Q4po5Im9cwOUf0n2RxY3ZHK37xI9DkAT09WavVxDFjWOkUTtMazW+JT8
-         0cJHcgl8MUXduoHyVuRxRRnlypUZ9tAOLBPbRFsEm/OQKuwF/znc30HaULIp2ncenwim
-         /83g==
-X-Gm-Message-State: AOAM532Y3hYGco6GwJ3Y1ziD/6gU961/1WFRNjFnBZIlGttVepMzhf0I
-	ZwJhXVUC//D/zfjg+3hHWEwnuvAFPiiz+iQGSkUWKA==
-X-Google-Smtp-Source: ABdhPJzPNYQ/aSTA9VtO+OKThZ59HGyfSdTaVSgn7lKiqhrFDp+9Iquuo8ATHvOULpd4v7j6OlUZcJw8yxFP6F6dr8E=
-X-Received: by 2002:a2e:5c89:: with SMTP id q131mr6256765ljb.352.1600165602412;
- Tue, 15 Sep 2020 03:26:42 -0700 (PDT)
+        bh=bBgtsl/y5IKyuAPHEqO6mP0zFlO+749RGogx8cDsWtE=;
+        b=j6oi1op3tlGXDxOQYeaU79fIz4GpCyzIMGkLRp4jwcUCZBr1ks4j/8//o/JrHVcM1D
+         38+PO19dicIK3w6YzVrisfGJ5ZsnxxJbYKxxX1rdcHSEJlued53B4YulajzMIfuwGqxF
+         kP5AsAB8CcVmUGX6F9ZKVoBrCFAetH5MFjIoGesOWbj5oc5lOIwufxNNsUVpC1O1oyPM
+         WKNo+PdVVkSgpV8F+xqBioOeCPOFyw2AH4q3ItxmrqtuOc8NtKxCwWs7npJOZYTpVmz4
+         mBBdl+OD2+nh3CXeVW4W4SmzVdZ8aZEtH6hDNnoEmxRPbLcT9W+0nf9ZQj/t+95EY9t0
+         limw==
+X-Gm-Message-State: AOAM531U4ZHaooNkrTSDjfZNLtJ/OdArPiB6Jll7naX9o8m+rhkv2KgR
+	rw23E4NRPgMi3yC72C8oHXYDziyCBOKWPTu/86drcQ==
+X-Google-Smtp-Source: ABdhPJzutN2kmV9Ni49rqhJvdEhwS1Uyg7oUZBHSPs5lxS4V2bL6ETK/GOBxo4vDZZwFsj9c/KBm3XXZa/YgoWu85BQ=
+X-Received: by 2002:a2e:b80a:: with SMTP id u10mr6949583ljo.22.1600165829591;
+ Tue, 15 Sep 2020 03:30:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200910025728.3868717-1-mingli.yu@windriver.com>
- <CAAnfSTsTmAE5fbvTck6m9rsQGa_FebUMWmAXEvKkCfq2TWjiZw@mail.gmail.com>
- <26851540-6c95-c58e-7ae9-87d2ba546478@windriver.com> <236780a1-589b-589e-3e76-00d829868a0a@gmail.com>
- <3d6f9248-f819-debb-0d71-de29ee312ead@windriver.com> <eabcd7ed-88a8-8453-18dc-af4fcc92c9d8@gmail.com>
- <dc5035a2-5051-ceb5-310e-ed6d7dff8fd1@windriver.com> <CAMKF1srYA5s5et4j7HbX6BQ0+zY4WXciagffTh2X3yMKy2vUZQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srYA5s5et4j7HbX6BQ0+zY4WXciagffTh2X3yMKy2vUZQ@mail.gmail.com>
+References: <20200912210406.3328090-1-raj.khem@gmail.com> <20200912210406.3328090-2-raj.khem@gmail.com>
+In-Reply-To: <20200912210406.3328090-2-raj.khem@gmail.com>
 From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 15 Sep 2020 11:26:31 +0100
-Message-ID: <CAAnfSTvE_wrt6DUGxPGQefJ4uF_0CZaPvpAtUsBJzoVUqbfjRA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: always define unknown_lock_type
+Date: Tue, 15 Sep 2020 11:30:18 +0100
+Message-ID: <CAAnfSTvfQ=oEnN0H3R6K7NrFFpE3_qfq5PUb=ZVStF5DjGYjhw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] weston: plane_add_prop() calls break musl atomic modesetting
 To: Khem Raj <raj.khem@gmail.com>
-Cc: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 14 Sep 2020 at 16:23, Khem Raj <raj.khem@gmail.com> wrote:
+On Sat, 12 Sep 2020 at 22:04, Khem Raj <raj.khem@gmail.com> wrote:
+> +Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/issues/158]
 
-> > > perhaps you are not using one of -O<n> option ?
-> >
-> > -Og passed to the compiler as DEBUG_BUILD = "1" defined in local.conf.
->
-> Does qemu work when built with -Og
+But that issue is closed so Rejected is a better status...
 
-This is the pertinent question.  If qemu doesn't run after
-un-upstreamable patches when built with -Og, what's the point?
-Debuggable code that you can't execute serves no purpose.
-
-If qemu *needs* to be optimised to actually execute then override
-DEBUG_BUILD to optimise at the lowest usable level.
+Very much a workaround.  Do you plan on debugging this?
 
 Ross
