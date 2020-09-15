@@ -1,87 +1,146 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web12.1606.1600126334020357204
+Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
+ by mx.groups.io with SMTP id smtpd.web12.2367.1600128781048045119
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2020 16:32:14 -0700
+ Mon, 14 Sep 2020 17:13:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WViPtt5L;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: andrey.z@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id i26so2294606ejb.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2020 16:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=SjYwUMhqYOCWoiux9gC5vSLnSyl0g69dp4oXTCSpguk=;
-        b=WViPtt5LWhZNt1Oi5eAkxgBjyctlxkA2G6WxnUnq99hxzbED5w+808rVHSORrBMTkJ
-         gcu4m9SyqISoEKYrPWD2L7xSVeY3+qqWUtB6iS8YA4bQMkEI7P1gYvsXhb2PQLtsVbkV
-         nDs6Rnp55fb3NkFy2or2r5xTiPDfJlAfyawX4LLnYgKYoISLDJE0DgqByvMTftMeJXFh
-         mqt0s9bdW/JwYP2j4OQq43TTz3j6Q7ts7FMIwCoogFw0YXoZVILE/vHrf271NKgZ9iUg
-         X897mQPxBpKxSp5Rh8+r2YrudHD/DTpZ33W72HhE28pC+FCKoJDBaOTBZ1LDPlQbSVKf
-         bdTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SjYwUMhqYOCWoiux9gC5vSLnSyl0g69dp4oXTCSpguk=;
-        b=Fi/vwgH/uzIKr+CZLLXra6n3HWf8tC/qSkSkIJ+hrOjB5YRGw8GON98kULT4zSChbG
-         I5i8I7UQReC2BrkTlYkerdYkXTY1MLNj+0BpdMMmgJCguPQTHI+40MBb/J/OF1qZHrAc
-         T2hBO+hGkjlTnnNuAYTyQ+K5amAgB8NUB5/cvPSfRu+d4BqaC06XqedxXuNHoHjMUF/C
-         POU5xfzUTttSLjU2fXmw3subdSpbJq/NkuUk1dH6utEeNDEnvYMtZyxPR/7zXyG7Jld1
-         AHgKW5P7YDbjeev642HDa7LI54CMBMbbkzZow9urXzVrLliXIhtAzpib2Lxd8TQH2a9G
-         fizg==
-X-Gm-Message-State: AOAM532tofSc6J6itt4IAluHrGoqd7P0ZERMTzsUcLfv8d27qBU6y9uz
-	wUYIACSBhY3mNcpUxaqz0IAzjqcHT+M=
-X-Google-Smtp-Source: ABdhPJzfst/CFL1UApnf+IdWeRoXjqGFifpa9B/41GvWsNyeczGtX1TmVO06WiZqxS2ISoC5d3+coA==
-X-Received: by 2002:a17:906:4154:: with SMTP id l20mr18265462ejk.68.1600126332077;
-        Mon, 14 Sep 2020 16:32:12 -0700 (PDT)
-Return-Path: <andrey.z@gmail.com>
-Received: from aherlnxbspsrv01.lgs-net.com ([193.8.40.126])
-        by smtp.gmail.com with ESMTPSA id o11sm10211421edr.2.2020.09.14.16.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 16:32:11 -0700 (PDT)
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrey Zhizhikin <andrey.z@gmail.com>
-Subject: [PATCH] insane: check for missing update-alternatives inherit
-Date: Mon, 14 Sep 2020 23:31:59 +0000
-Message-Id: <20200914233159.3771-1-andrey.z@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
+Received: from [10.200.20.196] (unknown [10.200.20.196])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 5D45122027A
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 12:12:58 +1200 (NZST)
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: "Douglas" <douglas.royds@taitradio.com>
+Subject: nativesdk-linux-libc-headers with two different MACHINEs
+Message-ID: <08f090d6-65c6-da98-ac7f-a2bc803c805a@taitradio.com>
+Date: Tue, 15 Sep 2020 12:12:58 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="------------C9662ACA01BD5053D26606C6"
+Content-Language: en-GB
 
-Add a package QA check to test if the recipe sets ALTERNATIVE variable
-for any of its packages, and does not inherit update-alternatives class.
-This causes the do_rootfs to fail since a proper alternative cannot be
-created.
+--------------C9662ACA01BD5053D26606C6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
----
- meta/classes/insane.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+For the experiment, I wanted to see whether I could achieve no task=20
+signature change when building nativesdk-glibc for two different=20
+MACHINEs, but I found that the do_install sigdata for=20
+nativesdk-linux-libc-headers changed. We're installing the=20
+linux-libc-headers for the build machine, so it seems to make sense to=20
+take control of the TARGET_CC_KERNEL_ARCH:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c38720afdb..c6dff9659c 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -27,6 +27,7 @@ WARN_QA ?= " libdir xorg-driver-abi \
-             infodir build-deps src-uri-bad symlink-to-sysroot multilib \
-             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
-             mime mime-xdg unlisted-pkg-lics unhandled-features-check \
-+            missing-update-alternatives \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -989,6 +990,14 @@ def package_qa_check_unhandled_features_check(pn, d, messages):
-         if var_set:
-             package_qa_handle_error("unhandled-features-check", "%s: recipe doesn't inherit features_check" % pn, d)
- 
-+QARECIPETEST[missing-update-alternatives] = "package_qa_check_missing_update_alternatives"
-+def package_qa_check_missing_update_alternatives(pn, d, messages):
-+    # Look at all packages and find out if any of those sets ALTERNATIVE variable
-+    # without inheriting update-alternatives class
-+    for pkg in (d.getVar('PACKAGES') or '').split():
-+        if d.getVar('ALTERNATIVE_%s' % pkg) and not bb.data.inherits_class('update-alternatives', d):
-+            package_qa_handle_error("missing-update-alternatives", "%s: recipe defines ALTERNATIVE_%s but doesn't inherit update-alternatives. This might fail during do_rootfs later!" % (pn, pkg), d)
-+
- # The PACKAGE FUNC to scan each package
- python do_package_qa () {
-     import subprocess
--- 
-2.17.1
+    diff --git a/meta/classes/nativesdk.bbclass
+    b/meta/classes/nativesdk.bbclass
+    index 32c3aa32ad..655439dd73 100644
+    --- a/meta/classes/nativesdk.bbclass
+    +++ b/meta/classes/nativesdk.bbclass
+    @@ -47,6 +47,7 @@ TARGET_VENDOR =3D "${SDK_VENDOR}"
+     =C2=A0TARGET_OS =3D "${SDK_OS}"
+     =C2=A0TARGET_PREFIX =3D "${SDK_PREFIX}"
+     =C2=A0TARGET_CC_ARCH =3D "${SDK_CC_ARCH}"
+    +TARGET_CC_KERNEL_ARCH =3D "${SDK_CC_ARCH}"
+     =C2=A0TARGET_LD_ARCH =3D "${SDK_LD_ARCH}"
 
+Which leaves me with:
+
+    basehash changed from 42ed3480096bb7ea53b60dc876da0613 to
+    38ea60bdac041673f2c491d7bbabe17c
+    Variable MACHINE value changed from 'qemuarm' to 'qemux86-64'
+    runtaskdeps changed:
+    linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:nati=
+vesdk
+    with hash cbb186fe33cd69cb0b06384e4d50a244
+     =C2=A0changed to
+    linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:nati=
+vesdk
+    with hash 4d34d6981b79d0fccc768566bf2fa533
+    Hash for dependent task
+    linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:nati=
+vesdk
+    changed from cbb186fe33cd69cb0b06384e4d50a244 to
+    4d34d6981b79d0fccc768566bf2fa533
+
+The configure and compile tasks for linux-libc-headers are both set to=20
+noexec. For the experiment, I added an empty do_configure task, with=20
+this result on the do_configure sigdata:
+
+    basehash changed from f13c2a2066fa48f0ccac35c085537c71 to
+    bb13f2b1b1e7e6666376f3fb5a8ec888
+    Variable MACHINE value changed from 'qemux86-64' to 'qemuarm'
+
+What to do? Why is the MACHINE variable included in the task signature=20
+(it is unset in run.do_configure)? Adding it to BB_HASHBASE_WHITELIST=20
+had no effect. What am I missing here?
+
+
+--------------C9662ACA01BD5053D26606C6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p>For the experiment, I wanted to see whether I could achieve no
+      task signature change when building nativesdk-glibc for two
+      different MACHINEs, but I found that the do_install sigdata for
+      nativesdk-linux-libc-headers changed. We're installing the
+      linux-libc-headers for the build machine, so it seems to make
+      sense to take control of the TARGET_CC_KERNEL_ARCH:</p>
+    <blockquote>
+      <p><tt>diff --git a/meta/classes/nativesdk.bbclass
+          b/meta/classes/nativesdk.bbclass</tt><tt><br>
+        </tt><tt>index 32c3aa32ad..655439dd73 100644</tt><tt><br>
+        </tt><tt>--- a/meta/classes/nativesdk.bbclass</tt><tt><br>
+        </tt><tt>+++ b/meta/classes/nativesdk.bbclass</tt><tt><br>
+        </tt><tt>@@ -47,6 +47,7 @@ TARGET_VENDOR =3D "${SDK_VENDOR}"</tt>=
+<tt><br>
+        </tt><tt>=C2=A0TARGET_OS =3D "${SDK_OS}"</tt><tt><br>
+        </tt><tt>=C2=A0TARGET_PREFIX =3D "${SDK_PREFIX}"</tt><tt><br>
+        </tt><tt>=C2=A0TARGET_CC_ARCH =3D "${SDK_CC_ARCH}"</tt><tt><br>
+        </tt><tt>+TARGET_CC_KERNEL_ARCH =3D "${SDK_CC_ARCH}"</tt><tt><br>
+        </tt><tt>=C2=A0TARGET_LD_ARCH =3D "${SDK_LD_ARCH}"</tt><br>
+      </p>
+    </blockquote>
+    <p>Which leaves me with:</p>
+    <blockquote>
+      <p><tt>basehash changed from 42ed3480096bb7ea53b60dc876da0613 to
+          38ea60bdac041673f2c491d7bbabe17c</tt><tt><br>
+        </tt><tt>Variable MACHINE value changed from 'qemuarm' to
+          'qemux86-64'</tt><tt><br>
+        </tt><tt>runtaskdeps changed:</tt><tt><br>
+        </tt><tt>linux-libc-headers/linux-libc-headers_4.18.bb.do_compile=
+:virtual:nativesdk
+          with hash cbb186fe33cd69cb0b06384e4d50a244</tt><tt><br>
+        </tt><tt>=C2=A0changed to</tt><tt><br>
+        </tt><tt>linux-libc-headers/linux-libc-headers_4.18.bb.do_compile=
+:virtual:nativesdk
+          with hash 4d34d6981b79d0fccc768566bf2fa533</tt><tt><br>
+        </tt><tt>Hash for dependent task
+linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:nativesd=
+k
+          changed from cbb186fe33cd69cb0b06384e4d50a244 to
+          4d34d6981b79d0fccc768566bf2fa533</tt><br>
+      </p>
+    </blockquote>
+    <p>The configure and compile tasks for linux-libc-headers are both
+      set to noexec. For the experiment, I added an empty do_configure
+      task, with this result on the do_configure sigdata:</p>
+    <blockquote>
+      <p><tt>basehash changed from f13c2a2066fa48f0ccac35c085537c71 to
+          bb13f2b1b1e7e6666376f3fb5a8ec888</tt><tt><br>
+        </tt><tt>Variable MACHINE value changed from 'qemux86-64' to
+          'qemuarm'</tt></p>
+    </blockquote>
+    <p>What to do? Why is the MACHINE variable included in the task
+      signature (it is unset in run.do_configure)? Adding it to
+      BB_HASHBASE_WHITELIST had no effect. What am I missing here?<br>
+    </p>
+  </body>
+</html>
+
+--------------C9662ACA01BD5053D26606C6--
