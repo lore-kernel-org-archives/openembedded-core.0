@@ -1,123 +1,107 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.21730.1600260902000661122
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.22155.1600262811695248949
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 05:55:02 -0700
+ Wed, 16 Sep 2020 06:26:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=U5nLxSaU;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id lo4so10176551ejb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 05:55:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JbjzgSU8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id t10so6960476wrv.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 06:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=6TGPq/wq/KtjyWD0cjyKmSezL59qMO6DAiztIrA2rcU=;
-        b=U5nLxSaUR49P1IFgzgPWy6YNAhoydVEpgxaF5IOSHbRpOXzja4dgo1Rf9lF8xYLkCV
-         BT8026MPh0gBVAQNP5qJ1C2Syp6yZ1SwVSvjZbPTcUD3brimlPnOK3lOua84n6NBEepF
-         JVMTyINUFzGh2BOeS9TDfc1s05njGRcp4C7E6WWQaaBTub3c3KjbQ7wSHoncrjHBODIR
-         jbaZ/C3LzIXNx0fWVZBuOog1u631o4Ve8TmCYhdkbJl5o+CyQxoRFFdcOw8ASOpilh1q
-         YOzLMfK5WIY3Vi4Vcqgd2oUktWnTrQVDbBS1sfX0vfHJLDDs7mCbe8Bda7XyxvFQqCay
-         NM3Q==
+        bh=T++0GWXJiTwNbjfyz7fhlE0kxfiNPL4MiCow/F6AYXc=;
+        b=JbjzgSU8qd5UIZHKc9fPjOO5YJkY9DGY/4fMo8w8CZTYtBH0CkDorJpGb9U0F0+Bv4
+         sduCWPGTpu1Zdc5uwfLoA9OZ9osN+NUS1mtk0GUJtGEyZFxCAL+ij9rh/levE2R9aEJ/
+         lXsyFvcGcIHyvgL9LEGWh8ZdBY7c6kFTr9jDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6TGPq/wq/KtjyWD0cjyKmSezL59qMO6DAiztIrA2rcU=;
-        b=YyYyBidDz6IQN3qIQ3owSq6sZmTxARWaJTI3UEpb08xpY8Bu8CkfqPVaurQFSSNasx
-         hKckkeLvYWca63y+iNsBBuuwOo8dPYRaxhXvfDZc8fP5WmXsCjXmJkrCBVVP3MTL7gUm
-         KCRWSjc0aH7vM6TXV02LF7rkpSRdPKO+ymb3COYnEvlvMdxgu5JENhmkkijP3vtWYqrm
-         bl2+69m8AZ9U1gJ9fIWFu3oA31tjce20N2+TNthPm13euuTJGtWvD3LGKx+UzeCiGNTu
-         cMUPV2Xw1gDK7ilB0skuDeZwN232ICWJA70VGbPWKLw94bUfVjnVt25GmiMqi6I7byv+
-         XZsw==
-X-Gm-Message-State: AOAM531+aGl/mwKJZK9mMHYEngutTc7SUVAPfXfI0jAXH/6/rK3Ofqaa
-	TU60Gp3rMJtmMPa4jZprcDDC5JbJExg=
-X-Google-Smtp-Source: ABdhPJzzBZMr6dRLXUmOlkbfveNNj+h39o9HjKv9U+Sjiau20N4bpXZlOYBOBicd9OukyAlIjsKT8g==
-X-Received: by 2002:a17:906:71cc:: with SMTP id i12mr25022739ejk.507.1600260900097;
-        Wed, 16 Sep 2020 05:55:00 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id ce14sm14168700edb.25.2020.09.16.05.54.59
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=T++0GWXJiTwNbjfyz7fhlE0kxfiNPL4MiCow/F6AYXc=;
+        b=ZUXn6l8mcScoDPDsaCAoXre0K2kVmj2Bvmn8rbPMRGWGSh+fsmP3gbMEtX1iXm4+3j
+         yC6pNcWo3NMfqZGUZ8YqQ0rfQJaPiN+IfqgUCr48krmpZJ1MPpL+6Tflgmyl8P0yU+sK
+         /wXfHIWsqwh7O+sZ5agbh22j+gIZXx8vWo7sLrnZYoUH5ZNtxA4jaT5LoUDb+JbGAkhn
+         XP705sKLnhEnrOCwTY6idAY+j2oVwN8iidtG/VJFN8MWa8v6RH/bMEv+7/ZNpjS4IctH
+         v/XZ06TtOKruJoJyLSruF87Kp4L6a+fNHcXvIidIRW2dBsH17e/1FiatU5SKhz6O69j1
+         uatQ==
+X-Gm-Message-State: AOAM5326NxR+Z7zJMkOk4zXuNGmRcfahllhsxHRPmbBJMLffWAqFiotV
+	QLO4pfBETZ4sGRIwdmU9SVIYHw==
+X-Google-Smtp-Source: ABdhPJxqT8fCwJm3TGQeWFZfwSnGEUy5tqLKX/7VQXqwkF95PjltGt2oKo7w8HTyxzp5S8zDej7bTw==
+X-Received: by 2002:adf:f50a:: with SMTP id q10mr26573734wro.319.1600262809984;
+        Wed, 16 Sep 2020 06:26:49 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from c.6.3.c.1.5.9.4.8.7.9.7.2.3.5.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (c.6.3.c.1.5.9.4.8.7.9.7.2.3.5.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:532:7978:4951:c36c])
+        by smtp.gmail.com with ESMTPSA id h16sm35093596wre.87.2020.09.16.06.26.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 05:54:59 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 5/5] *-initramfs: don't use .rootfs IMAGE_NAME_SUFFIX
-Date: Wed, 16 Sep 2020 14:54:49 +0200
-Message-Id: <20200916125449.1564380-5-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200916125449.1564380-1-Martin.Jansa@gmail.com>
-References: <20200916125449.1564380-1-Martin.Jansa@gmail.com>
+        Wed, 16 Sep 2020 06:26:47 -0700 (PDT)
+Message-ID: <8c3f76c48201397cc3f90fa89cda85a4fa739b76.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
+Date: Wed, 16 Sep 2020 14:26:46 +0100
+In-Reply-To: <20200914151359.11240-1-jon.mason@arm.com>
+References: <20200914151359.11240-1-jon.mason@arm.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* fixes the issue when image-live.bbclass expects the image
-  ending with just INITRAMFS_FSTYPES:
-  image-live.bbclass:INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}"
-  while by default it now was with .rootfs suffix:
-  -rw-r--r-- 2 bitbake bitbake 1.5K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs.env
-  -rw-r--r-- 4 bitbake bitbake  11M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.cpio.gz
-  -rw-r--r-- 4 bitbake bitbake 1.2K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.manifest
-  -rw-r--r-- 4 bitbake bitbake 1.3K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.qemuboot.conf
-  -rw-r--r-- 4 bitbake bitbake 196K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.testdata.json
-  -rw-r--r-- 4 bitbake bitbake 118M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.wic
-  -rw-r--r-- 4 bitbake bitbake 3.1K Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.wic.bmap
-  -rw-r--r-- 4 bitbake bitbake 1.3K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.qemuboot.conf
-  -rw-r--r-- 4 bitbake bitbake  11M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.cpio.gz
-  -rw-r--r-- 4 bitbake bitbake 1.2K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.manifest
-  -rw-r--r-- 4 bitbake bitbake 118M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.wic
-  -rw-r--r-- 4 bitbake bitbake 3.1K Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.wic.bmap
-  -rw-r--r-- 4 bitbake bitbake 196K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.testdata.json
+On Mon, 2020-09-14 at 11:13 -0400, Jon Mason wrote:
+> There is a large number of Arm Tune files located in
+> meta/conf/machine/include/, and to support the current and upcoming Arm
+> cores, more are needed.  Adding more files is simply going to make it
+> harder to find the relevant ones for an OE/YP developer/user.  Also,
+> there are problems with stale and erroneous configs (see my previous
+> series), which will only be exacerbated by having more files.
+> 
+> I am proposing a reorganization of the existing tune files by including
+> them in the generic family include file.  For example, the
+> tune-cortexa55.inc would be moved into arch-armv8-2a.inc, and
+> tune-cortexa57.inc would be moved into arch-armv8a.inc.  This reduces
+> the number of files from 12 to 2 for ARMv8a, and that is excluding the
+> 13 I am adding in this series that would otherwise be unique files.
+> 
+> To use, simply add
+> ...
+> DEFAULTTUNE ?= "neoversen1"
+> require conf/machine/include/arm/arch-armv8-2a.inc
+> ...
+> 
+> Which is arguably what should be done anyway (instead of taking the
+> default of the tune include file).
+> See the qemuarm64 patch in the series for a working example.
+> 
+> Of course, by removing the existing tune files, current users are going
+> to break.  A simple script can be written to use sed (or similar) to
+> replace the relevant parts for those users that would be affected (at
+> least for those that are in the layer index and update regularly).
 
-  initramfs images aren't normally used for rootfs, so just set
-  the suffix to empty, people using different artifact names might
-  still need to set INITRD_LIVE (e.g. when their images don't end
-  with "-${MACHINE}" as well)
+I've just looked at this in a bit more details and I'm worried.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb        | 1 +
- meta/recipes-core/images/core-image-tiny-initramfs.bb           | 1 +
- meta/recipes-extended/images/core-image-testmaster-initramfs.bb | 1 +
- 3 files changed, 3 insertions(+)
+The intent is the BSP includes the processor/core tune file that its
+based upon. The BSP should usually know which one is present.
 
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 83d0eaa8df..664fe7310e 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -17,6 +17,7 @@ PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-
- IMAGE_FEATURES = ""
- 
- export IMAGE_BASENAME = "${MLPREFIX}core-image-minimal-initramfs"
-+IMAGE_NAME_SUFFIX ?= ""
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-index 0eca6d9944..5849900742 100644
---- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-@@ -13,6 +13,7 @@ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VI
- IMAGE_FEATURES = ""
- 
- export IMAGE_BASENAME = "core-image-tiny-initramfs"
-+IMAGE_NAME_SUFFIX ?= ""
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-index 09a6d16042..1a2e0af27b 100644
---- a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-+++ b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-@@ -8,6 +8,7 @@ PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install-testfs initramfs-l
- IMAGE_FEATURES = ""
- 
- export IMAGE_BASENAME = "core-image-testmaster-initramfs"
-+IMAGE_NAME_SUFFIX ?= ""
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
--- 
-2.25.1
+That tune then presents the possible options which the BSPs selects
+from but the end user or distro can override.
+
+With this change, you get all tunes and you don't know which are
+compatible with a given core/processor. I'm not sure that is an
+improvement.
+
+I appreciate not wanting "lots of files" but we need to consider the
+usability too.
+
+As others have mentioned, the errors are fairly obvious with diff
+between the files (or a GUI like meld).
+
+What are the advantages this brings other than fewer files? Am I
+missing something?
+
+Cheers,
+
+Richard
+
+
 
