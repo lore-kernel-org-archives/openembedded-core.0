@@ -1,156 +1,281 @@
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.73])
- by mx.groups.io with SMTP id smtpd.web12.18108.1600245445929590397
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
+ by mx.groups.io with SMTP id smtpd.web10.18171.1600246340889362475
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 01:37:26 -0700
+ Wed, 16 Sep 2020 01:52:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ojAFenzK;
- spf=pass (domain: windriver.com, ip: 40.107.76.73, mailfrom: heng.guo@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J+nk09BrO+goEKAgHXoSRZ4Zmx8V3VAfPZ1KFP/cbPTQDRV4JAcoysN41f04YjYILB5eXStD5Ko7QvO4ElWsgPeAstffvs4zfZ8FJzxH6nWF6c/Pno8xsbMJROk6akriWvIYblKU9CiuWvVl+i9T7xQdn3KQ1BeAnWsZEwmTv3rnP/T1t7uCAX3ZUDb7qX41zZmqmEaHIX8Nwiij6rcvtvuMNqBeXtrjettXwrtfMYXcZR6BHp72DSUE6JOnM4EWFT7ZRTeFaUYH51rCC1/dfyvn1SXYgXF5Mazi56UaLtDKj7Mo/eFVjmIpgYv9fQ+0o3woBxLD+RvyYc5GMjisPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLmDEvZW5ryIMklIXruyhBCoCRChIFMzI2zIsr8wR3U=;
- b=cSeUrTgEV0QJo99WVGD5tOW+jDmHSd3drHbXHP+swtYc4fYuuyyUmuioInS2BN+6AKnGXoJzbVcs7L4oKPYnQAic/1cKQ5NpFK0VRoCKpga8eIKHbE2UDMqFkLTUvQJcCuN84Pz4De2tu9YGNeBT5Wu6m2QxGwGr8m6E+nbxGeQPyMQw0UHwRo6xV2auQCM/bYnzkBUarHBbiulmP6cJ2uEuO8gItRvwRnsC8ATa1gk1IJgcpD4FVoVZLiRJfBbQnmh3i9ZO28gj0vB/59xQWUpWsIB5N/J00mxIMZmh7O4e0CCnDlDDPt56u2e9b6Z1m+EWb7/k6M6Bg6eFkFbXEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iUSBSQ5e;
+ spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: samuli.piippo@gmail.com)
+Received: by mail-il1-f194.google.com with SMTP id y2so5722967ilp.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 01:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLmDEvZW5ryIMklIXruyhBCoCRChIFMzI2zIsr8wR3U=;
- b=ojAFenzK+QiVwDknjJMaf1P7VHvLfhy9Qd6uQJRMQ+u7xllNYS0+AJvI7lupVvGLh+K3y3X+vgBCgNmS6PVI6W9+7ZFVBUyHTVbhuh8y8o3URquvtozQwFaLL8CoGBVGt86JmPcn+LLcNmfHc3tkSPwj6Cd2ja2EGwD3xeqzBYg=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB3404.namprd11.prod.outlook.com (2603:10b6:5:59::29) by
- DM6PR11MB4644.namprd11.prod.outlook.com (2603:10b6:5:28f::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.14; Wed, 16 Sep 2020 08:37:24 +0000
-Received: from DM6PR11MB3404.namprd11.prod.outlook.com
- ([fe80::a9ce:cc5b:a5b1:6e35]) by DM6PR11MB3404.namprd11.prod.outlook.com
- ([fe80::a9ce:cc5b:a5b1:6e35%4]) with mapi id 15.20.3391.011; Wed, 16 Sep 2020
- 08:37:24 +0000
-Subject: Re: [OE-core] [PATCH] python2: fix segmentation fault in ptest test_bigrepeat
-From: "Heng Guo" <heng.guo@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200903092448.26165-1-heng.guo@windriver.com>
- <029196ff18a0d039ea41d70db9497c0a8c0db1d0.camel@linuxfoundation.org>
- <c549a7ab-0b5d-3763-c745-70c7abf4eb92@windriver.com>
-Message-ID: <b4806c79-9f1c-6fdc-07bd-91af19fdb23d@windriver.com>
-Date: Wed, 16 Sep 2020 16:37:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-In-Reply-To: <c549a7ab-0b5d-3763-c745-70c7abf4eb92@windriver.com>
-X-ClientProxiedBy: HK2PR03CA0045.apcprd03.prod.outlook.com
- (2603:1096:202:17::15) To DM6PR11MB3404.namprd11.prod.outlook.com
- (2603:10b6:5:59::29)
-Return-Path: heng.guo@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SLoaHitvLIkGALp0+pcX4P4TcMgvuQDmFB/bfkCXnaA=;
+        b=iUSBSQ5e70BLDisH9Qs/U8XRv+t36SAPsdZvcPos3pNnRtEl/CR8vsU+6tz0ITlyun
+         edJ6nZGVLoh8YvL99TulyJm9/UGEujrVoQHjETHWI7b9zgXekLbIB7JV+6gQCrVzXQ8/
+         ijZLG03oZ0h72sfNOXETm4xoK1OhoDLuKaKThfHZ1k6kFpzr6BABcgo99SJjWiUcnkhK
+         DbsEsSlSsqKS4AFTpbkkCr2BGz+R/ythqpHm6nhzPOhbUVRlctVGQBAFgfpseUF4/1dY
+         jpZa9gcszzW0Zzs9gcSJiEo19lW1c6I+rL55igPjTvfTuUhWpt+YgUokztOWYLFzI3Jv
+         S6JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SLoaHitvLIkGALp0+pcX4P4TcMgvuQDmFB/bfkCXnaA=;
+        b=gBHcQoj3oYNa0kNuW2JebYwufINZ6vZRZEdcEhScKhGov6Cr4NFDnpHPCxsE1QSOf9
+         w+J8yoUBribUY6M1/flQhPEa0N4XUsqLIn/AZbMv+MPEfK2jYJ4ThIIKAxZprGHnP66k
+         jsZZnGEogmHJDD4bd9zSa6QY3UruUnD3yQzelNfCQPNP1s/vDXFrRPKypq0vG6NshrNi
+         VZJT8s3i3igT7D/W0DpqsufRSJftMnuPyke9MfQ4UEkcJZZLdbtAhhq2bIpLNDNf79t2
+         YkstYocNkygQhr9WZtuK4EsJ401NgTz9F9B6ZwBjm+A7p9S48THX01QQbrQgKqzQrQir
+         swgA==
+X-Gm-Message-State: AOAM533Nk/7h3iamWDuPdqwG9fgKYn20yZx4g3auK8xXmHgTA9NH7j8v
+	sQswiX3upH6SIvG1q3Wa0sG4Wh9gf0J8J+n6z38=
+X-Google-Smtp-Source: ABdhPJykl/B2PWB7FqXB0le43uImDYhETdNyK5HpOwXXoSvH3v0yvJhxvVxOnzTyr3g055JB8JwrUSgjt5j5JtBbFAw=
+X-Received: by 2002:a05:6e02:1114:: with SMTP id u20mr10892781ilk.1.1600246340160;
+ Wed, 16 Sep 2020 01:52:20 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.155.91] (60.247.85.82) by HK2PR03CA0045.apcprd03.prod.outlook.com (2603:1096:202:17::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.5 via Frontend Transport; Wed, 16 Sep 2020 08:37:22 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f5582b84-3500-45de-baff-08d85a1bbbd1
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4644:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB46446FE341BBEA01FE04CFCC8C210@DM6PR11MB4644.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:785;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	2ISHC26wOmR1zxWh2OCZ+mMW4NLjaCnbuoRevrEc7BD9fP/Eedjp7LwOLBkZu6ASaWabDpZVowQQIbp60yGB/3c3uAOQCVA8aAsC9CjNFboZ7L5tIOZQ0dkytBvg8ISoOoq/W6gVxUTEt90pm85SgDHU1YMBe28r9n+INLGDN6m8OenSEaqgfqaEGZF3TPt7QTYOETHPcDWPHFSBiDzBJqUJBRwcrte6HetapVOYEN/qrFYdyO10u1jxDRW6f/5ridw3YeDySY4e+hp2sgaGfiQ/tcgB9C4nKANMp9GOGMlrTM/oTXP6jQzpnCTP/OWpBbAnXjxJ6KMpV2LYfnwd+EpYgSaUm0UPNzsI8sgSmlENcwz06IkpsnYUBKN+OifI9y9xDCCV3ulDPicrgFrH3aSomQKZ/mdxCoTQkIhp4EatKVbD260nvSzDPQaxX4Et3Mkb+fcUHTsv0vbGu9f8bag5kDS+lxGKqm2NyQx3lyo=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3404.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(136003)(346002)(376002)(316002)(16576012)(8676002)(6706004)(956004)(2616005)(31696002)(5660300002)(966005)(478600001)(66556008)(66476007)(16526019)(6486002)(86362001)(66946007)(52116002)(26005)(53546011)(2906002)(6666004)(31686004)(36756003)(8936002)(186003)(78286007)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	ClLO5KKfj5wss/t2N9lpen3B48CzsI0i7rM4JawQSa4TmzsKIAsvzRir1y0QSbbSSy74F8n46Ko1GslCZ29yl8OC6Zjdzuxq7iUnK3xK+PpdXpQLl7uiatd/chTdkQA7tlPju4M+/ineCMOPUy5v76Wy/wTAGRsMEpkUd+1DycMQz8Nv3+08s61kz768rDZLtcD3Kht6tz1xCXGJoDqAEXsIWyhMPKS0zu6NQB8ryqDjaP+bn33/jISaJFDTghusEEPieU6ZdnBpIzrpkP1Jb/wgQO6mmdbsTMjHtQvNseXkv6uOG8JW8xffKP8xUupVMylXPOKIkNAJSvnxE8IRzR6l46zKM5KdFUoMHz9Tqvhy2x34qvkB4drA73x77hqi0JqIJqQC4q9PhYx5SCed8ZwyAo12Oyx0At3Hl1bxim9uP1uFWNlPQAfRvhtNcezigWJ8OKjCkbl9ARdfznPfNGgh9wwYtm3DjN2o9HEng+9rducMAXUJLIuwYa4lizl3fCK9fMus2UfYRJ2DW++d9+9ZfDiZ3wPImcaLx4coLgAGPXVSPfRH80sd3rWEbxMxEEALz7AMnZe0hvULGV9pWqArIfDBf1p8FAErlZ8N8+ycjvzFRR5lm2rVNVNf9zpGgwFwvT83+Xvr8aZgzUoJRQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5582b84-3500-45de-baff-08d85a1bbbd1
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3404.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 08:37:23.8094
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AjzfG+c5niiFKeUBLS0NUBL4aWQsLClgo8rU27oT9Vjp+NOOLZCQ1/1LXkBTVCyckFGChQ8/yHiEjoBPYLYpng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4644
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <20200506084629.120567-1-wenlin.kang@windriver.com>
+ <2bad1f8d88656b45f7776d7124bd59ea0629e7f8.camel@intel.com> <d2ab7e09-e870-7382-f218-a1fdbe66840a@windriver.com>
+In-Reply-To: <d2ab7e09-e870-7382-f218-a1fdbe66840a@windriver.com>
+From: "Samuli Piippo" <samuli.piippo@gmail.com>
+Date: Wed, 16 Sep 2020 11:52:09 +0300
+Message-ID: <CABXoSoWGOd92K1un+Losec5f0VSVwo+V_AFzpoAf-rgQesAiXA@mail.gmail.com>
+Subject: Re: [OE-core][zeus][PATCH] populate_sdk_base.bbclass: fix warning: name not matched
+To: "wenlin.kang@windriver.com" <wenlin.kang@windriver.com>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a890b805af6a62fe"
+
+--000000000000a890b805af6a62fe
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+Hi,
 
-The patch is for zeus branch.
+As I understand it, the original zip format support was done so that there
+wouldn't be any symlinks in the sdk package.
+https://git.openembedded.org/openembedded-core/commit/?id=3D57a33048a89a42=
+2cfdc986d3489c67b2d297e1e7
 
+With this change the symlinks are now back again which leads to broken SDK
+when extracted with 7Zip.
+Both commits were contributed from windriver, are you now using something
+else to extract the zip?
+
+-samuli
+
+On Fri, 8 May 2020 at 07:34, wenlin.kang@windriver.com <
+wenlin.kang@windriver.com> wrote:
+
+> On 2020/5/8 =E4=B8=8A=E5=8D=8811:04, Mittal, Anuj wrote:
+>
+> Hi,
+>
+> On Wed, 2020-05-06 at 01:46 -0700, wenlin.kang@windriver.com wrote:
+>
+> Fix below warning:
+> zip warning: name not matched: sysroots/aarch64-wrs-
+> linux/etc/udev/rules.d/80-net-setup-link.rules
+> zip warning: name not matched: sysroots/aarch64-wrs-
+> linux/etc/tmpfiles.d/etc.conf
+> zip warning: name not matched: sysroots/aarch64-wrs-
+> linux/etc/tmpfiles.d/home.conf
+> zip warning: name not matched: sysroots/aarch64-wrs-
+> linux/etc/systemd/network/80-wired.network
+> zip warning: name not matched: sysroots/aarch64-wrs-
+> linux/etc/resolv.conf
+> zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/mtab
+> zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/resolv-
+> conf.systemd
+> zip warning: name not matched: sysroots/aarch64-wrs-linux/var/lock
+>
+>
+> Is this specific to zeus? I don't see this change in master/dunfell.
+> It'd be great if you could include more details in commit message
+> explaining what is happening.
+>
+>
+> No, this issue can be seen in master too, but this patch is only to zeus=
+,
+> for master, I have sent patch too.
+>
+> Steps:
+>
+> 1. Setup poky[zeus] project
+>
+> 2. In local.conf, add:
+> SDK_ARCHIVE_TYPE =3D "zip"
+>
+> 3. bitbake core-image-minimal -c populate_sdk
+>
+> 4.  check log file log.do_populate_sdk
+>
+>
+> Thanks,
+>
+> Anuj
+>
+>
+> Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com> <wenlin.kang@wind=
+river.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass
+> b/meta/classes/populate_sdk_base.bbclass
+> index d03465b6fc..b5c004d832 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -55,7 +55,7 @@ python () {
+>         d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
+>         # SDK_ARCHIVE_CMD used to generate archived sdk
+> ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir
+> ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
+>         # recommand to cd into input dir first to avoid archive with
+> buildpath
+> -       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip
+> -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
+> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip
+> -r -y ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
+>      else:
+>         d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
+>         d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar
+> ${SDKTAROPTS} -cf - . | xz -T 0 -9 >
+> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+>
+>
+>
+> --
+> Thanks,
+> Wenlin Kang
+>
+>=20
+>
+
+--000000000000a890b805af6a62fe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div>As I understand it, the origi=
+nal zip format support was done so that there wouldn&#39;t be any symlinks =
+in the sdk package.=C2=A0<div><a href=3D"https://git.openembedded.org/opene=
+mbedded-core/commit/?id=3D57a33048a89a422cfdc986d3489c67b2d297e1e7">https:/=
+/git.openembedded.org/openembedded-core/commit/?id=3D57a33048a89a422cfdc986=
+d3489c67b2d297e1e7</a></div><div><br><div>With this change the symlinks are=
+ now=20
+
+back
+
+again  which leads to broken SDK when extracted with 7Zip.=C2=A0</div><div=
+>Both commits were contributed from windriver, are you now using something =
+else to extract the zip?</div><div><br></div><div>-samuli</div></div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri=
+, 8 May 2020 at 07:34, <a href=3D"mailto:wenlin.kang@windriver.com">wenlin.=
+kang@windriver.com</a> &lt;<a href=3D"mailto:wenlin.kang@windriver.com">wen=
+lin.kang@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+
+  
+  <div>
+    <div>On 2020/5/8 =E4=B8=8A=E5=8D=8811:04, Mittal, Anuj
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>Hi,
+
+On Wed, 2020-05-06 at 01:46 -0700, <a href=3D"mailto:wenlin.kang@windriver=
+.com" target=3D"_blank">wenlin.kang@windriver.com</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre>Fix below warning:
+zip warning: name not matched: sysroots/aarch64-wrs-
+linux/etc/udev/rules.d/80-net-setup-link.rules
+zip warning: name not matched: sysroots/aarch64-wrs-
+linux/etc/tmpfiles.d/etc.conf
+zip warning: name not matched: sysroots/aarch64-wrs-
+linux/etc/tmpfiles.d/home.conf
+zip warning: name not matched: sysroots/aarch64-wrs-
+linux/etc/systemd/network/80-wired.network
+zip warning: name not matched: sysroots/aarch64-wrs-
+linux/etc/resolv.conf
+zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/mtab
+zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/resolv-
+conf.systemd
+zip warning: name not matched: sysroots/aarch64-wrs-linux/var/lock
+
+</pre>
+      </blockquote>
+      <pre>Is this specific to zeus? I don&#39;t see this change in master=
+/dunfell.
+It&#39;d be great if you could include more details in commit message
+explaining what is happening.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>No, this issue can be seen in master too, but this patch is only
+      to zeus, for master, I have sent patch too.</p>
+    <p>Steps:</p>
+    <p>1. Setup poky<span>[zeus]</span><span>=C2=A0</span>project</p>
+    <p>2. In local.conf, add:<br>
+      SDK_ARCHIVE_TYPE =3D &quot;zip&quot;</p>
+    <p>3. bitbake
+      core-image-minimal -c populate_sdk</p>
+    <p>4.=C2=A0 check log file
+      log.do_populate_sdk</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite">
+      <pre>Thanks,
+
+Anuj
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre>Signed-off-by: Wenlin Kang <a href=3D"mailto:wenlin.kang@wind=
+river.com" target=3D"_blank">&lt;wenlin.kang@windriver.com&gt;</a>
+---
+ meta/classes/populate_sdk_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass
+b/meta/classes/populate_sdk_base.bbclass
+index d03465b6fc..b5c004d832 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -55,7 +55,7 @@ python () {
+        d.setVar(&#39;SDK_ARCHIVE_DEPENDS&#39;, &#39;zip-native&#39;)
+        # SDK_ARCHIVE_CMD used to generate archived sdk
+${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir
+${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
+        # recommand to cd into input dir first to avoid archive with
+buildpath
+-       d.setVar(&#39;SDK_ARCHIVE_CMD&#39;, &#39;cd ${SDK_OUTPUT}/${SDKPAT=
+H}; zip
+-r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .&#39;)
++       d.setVar(&#39;SDK_ARCHIVE_CMD&#39;, &#39;cd ${SDK_OUTPUT}/${SDKPAT=
+H}; zip
+-r -y ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .&#39;)
+     else:
+        d.setVar(&#39;SDK_ARCHIVE_DEPENDS&#39;, &#39;xz-native&#39;)
+        d.setVar(&#39;SDK_ARCHIVE_CMD&#39;, &#39;cd ${SDK_OUTPUT}/${SDKPAT=
+H}; tar
+${SDKTAROPTS} -cf - . | xz -T 0 -9 &gt;
+${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}&#39;)
+
+</pre>
+      </blockquote>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre cols=3D"72">--=20
 Thanks,
-Heng
+Wenlin Kang</pre>
+  </div>
 
-On 9/4/20 9:59 AM, heng guo wrote:
->=20
->=20
-> On 9/3/20 7:12 PM, Richard Purdie wrote:
->> On Thu, 2020-09-03 at 17:24 +0800, Heng Guo wrote:
->>> Segmentation fault at case test_bigrepeat of python ptest. a similar
->>> bug
->>> can be found at https://bugs.python.org/issue33153.
->>>
->>> tuplerepeat() in Objects/tupleobject.c uses a questionable check that
->>> relies on signed integer overflow. A singed integer overflow is
->>> triggered by ptest case: test_bigrepeat.
->>>
->>> Python2 is out of maintainus, so backport the related patch from
->>> python3
->>> commit:
->>> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748=
-525fb76b5b=20
->>>
->>>
->>> Signed-off-by: Heng Guo <heng.guo@windriver.com>
->>> ---
->>> =C2=A0 ...segmentation-fault-in-test_bigrepeat.patch | 33
->>> +++++++++++++++++++
->>> =C2=A0 meta/recipes-devtools/python/python_2.7.18.bb |=C2=A0 1 +
->>> =C2=A0 2 files changed, 34 insertions(+)
->>> =C2=A0 create mode 100644 meta/recipes-devtools/python/python/0001-pyth=
-on2-
->>> fix-segmentation-fault-in-test_bigrepeat.patch
->>>
->>> diff --git a/meta/recipes-devtools/python/python/0001-python2-fix-
->>> segmentation-fault-in-test_bigrepeat.patch b/meta/recipes-
->>> devtools/python/python/0001-python2-fix-segmentation-fault-in-
->>> test_bigrepeat.patch
->>> new file mode 100644
->>> index 0000000000..45087bfb8d
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/python/python/0001-python2-fix-
->>> segmentation-fault-in-test_bigrepeat.patch
->>> @@ -0,0 +1,33 @@
->>> +From 031d06e1e670d40b6500cce4134ab35ec8858a8b Mon Sep 17 00:00:00
->>> 2001
->>> +From: Heng Guo <heng.guo@windriver.com>
->>> +Date: Wed, 15 Jul 2020 15:42:13 +0800
->>> +Subject: [PATCH] python2: fix segmentation fault in test_bigrepeat
->>> +
->>> +Port from:
->>> +
->>> https://github.com/python/cpython/commit/c04ddff290fc203d05b75c8569b748=
-525fb76b5b=20
->>>
->>> +Only merge codes related to tuplerepeat() in tupleobject.c.
->>> +
->>> +Signed-off-by: Heng Guo <heng.guo@windriver.com>
->>
->> Missing Upstream-Status tag, also which branch is this against? The
->> recipe no longer exists in OE-Core.
-> [Heng]: https://bugs.python.org/issue33153 the same bug is reported to=20
-> python2 over 2 years and on hold over 1 year.
-> For python branch: remotes/origin/2.7.
->=20
->>
->> Cheers,
->>
->> Richard
->>
+<br>
+</blockquote></div>
+
+--000000000000a890b805af6a62fe--
