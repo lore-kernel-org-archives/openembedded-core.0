@@ -1,161 +1,81 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.663.1600270251190589101
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.1887.1600273072195164341
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 08:30:51 -0700
+ Wed, 16 Sep 2020 09:17:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S/a/56PC;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: kergoth@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id p9so10941124ejf.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 08:30:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QmsiXEjh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id t7so1866983pjd.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 09:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D9eaPvk16IiMY2KsMp6o2mx8wv4QdyqEIfJK8rboBZQ=;
-        b=S/a/56PC3olCq+A4J0NQyFICNSj8WnhLY8V3PleFBziWDeP+In0I17PLsGrUYBXOPX
-         ARrVpVlzR4zZTg5Zzqq8xfu7Xz3OrhfM1k+iBRx/AMXbOiwDRI7swPEGnqAEfo7Dj+r1
-         Sa2MeecJXoSX4N/48PrUjyj12hUucVfjGO00fAnWQSNu6u0zP7quiPKnuTS/ChvXCOED
-         hcXjjw/VO5J2T/K5f/vVWx7Qe93YOIzGaXv14ZNO8oQI5GBwe3lfkxwPW7OiNgm3sTGU
-         usH5CiA5Bio8HJxJL/m7gPsN8y/+CJlmXuLNolFPuiXBBEjJvUyrf5EYxTrFGpZ04bqM
-         TRAA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=SSbECz/C3dFoNf40pKXFZOwPzD6iBOnLu5jax+J9pD0=;
+        b=QmsiXEjhBqAGtHAkjBMe7i/LM9BCcMxUWdDqjz4Tob2H65WCNnYMNAWQP6bDz74N3L
+         xI3IBR5X1d+L4PoIQl62zC77yhaC219umMT3OtXMv8qQV95r21AAVOFoqlRxGMaCpzAd
+         da1J5xtGelQdG5ZD1/V7bsAsPd0EvB0HbWceUg7FtYKpP3RORqEc5dhRaVyzb2D/QIzg
+         pBun48aaJNjNGGQ80O0XmCE+ZkvXPEUcdBEfAvfgcX7INrYS4ekA8DXD9FjyrmaaYTlr
+         2aaVk2hQ9FIR/T1mwH9KMlO4nWhebqf9MeRTJo53QZzwbTR4lkU6AtwyQeuruzRT0GEZ
+         QCUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D9eaPvk16IiMY2KsMp6o2mx8wv4QdyqEIfJK8rboBZQ=;
-        b=c7Pzt2dPoIetLd9ln0eL9d3nG3aBEc8BDnwG9WhOWTwQRn608GQFldozPx/PQaoNb3
-         Qbg3OTe6GcCTkRA95fvaIUQttyEZsGHaYXzg/QyZpPNzfnxG6iNBwkmWva2amIvzv9tC
-         qXEphuq5vYeT/qEHoEZ9RRyUYsizM7BV4ozr36V88llHJG7o/8Fso7yH7VTabZiDstKZ
-         ykavqWseSGiBeMrLv2abFiyiJOcrC+qJtwlrMZay/+bWzzQCk35a6EwjM+jikqzr7cv8
-         MrJUAhJj8EQeo/3gPZansDkboQPmwdL5kfIoY9ciNbuH9x2PuyB/K18l5M6F5+f0jB33
-         Sq+w==
-X-Gm-Message-State: AOAM53392jYxHFThRECHT6wQs/rncwhUgwKCw4/bFVbkN7xzOGRobZIt
-	h/TgM9bHvYedM0NckyYlaqbKQLZQV65EkwDNIE0=
-X-Google-Smtp-Source: ABdhPJxAdKEJGuANMl74YIDgNHKwg4GUhdt5upDS5l1eKmpFH7ITFRq8agy/f7/95qgfQeImwtg7+vHtT52KYOv9TCw=
-X-Received: by 2002:a17:907:70cb:: with SMTP id yk11mr25626745ejb.312.1600270249553;
- Wed, 16 Sep 2020 08:30:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGFuAuz+8M62V2qkc5HutJZDDLXxacF2ajr-4wuZaOKqZ1i-nw@mail.gmail.com>
-In-Reply-To: <CAGFuAuz+8M62V2qkc5HutJZDDLXxacF2ajr-4wuZaOKqZ1i-nw@mail.gmail.com>
-From: "Christopher Larson" <kergoth@gmail.com>
-Date: Wed, 16 Sep 2020 08:30:38 -0700
-Message-ID: <CABcZAN=LCFfzCi=RVqggOno1sxcsC=F9SEj2hDL7MQHu=SM=yQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oe-setup-builddir: create conf/multiconfig/ from TEMPLATECONF
-To: gr embeter <grembeter@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c4f33a05af6ff3e6"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=SSbECz/C3dFoNf40pKXFZOwPzD6iBOnLu5jax+J9pD0=;
+        b=HFF0z8gxeykHQQTO8A43WXf/5GZ5Av0EwVEIw5tV8I0e/cPW3nn4jr3oAJ2kM6HiMq
+         6YvtPLN+ty3ewDyNJf6mCQhaJRlxbBbxKkf3+umAYC8bC+Ux4ve1nt22YlDLm4/Y3Lnn
+         4Vcd8BUzXI2FMUr2n8O86P9lNTNSub6GHeTUamEoTWmWnOlcUJFjAxbCKkAq3azlCJXW
+         nqjpppGOJV9+iZNu/k9lHphs+oXLcQN9zEbnfW1RIR5n3Phhm8qlzgY9NeYhhtrH4UuA
+         580/QE7oPf3/veGyqpCHlNO78YRWfHWhLbZf+TZ0HuUDPUrxJXE5drNosFDTO1Hn88FG
+         rumg==
+X-Gm-Message-State: AOAM532BboZTyOHIE30zTcGwl4rmvLWhhr6XCqMZUKC/pFFs2MNdWxYJ
+	XY7ze9I5EN0hLDbalJzw/9pQ2f+stG6n560meqw=
+X-Google-Smtp-Source: ABdhPJziH9fjtH8cxZJdMpgO6PmKT44IDl74gMnRL1Z3Y+ol7vEl5uiYISLPxHeEPG48IiIJ7PSXOw==
+X-Received: by 2002:a17:90a:c795:: with SMTP id gn21mr4312063pjb.27.1600273070891;
+        Wed, 16 Sep 2020 09:17:50 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id j1sm15598630pgp.93.2020.09.16.09.17.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 09:17:50 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][master][dunfell] xinput-calibrator: change SRC_URI to branch with libinput support
+Date: Wed, 16 Sep 2020 06:17:31 -1000
+Message-Id: <20200916161731.32701-1-steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
---000000000000c4f33a05af6ff3e6
-Content-Type: text/plain; charset="UTF-8"
+Since "conf: Use xf86-input-libinput by default" [1] there are
+reports [2] of xinput-calibrator failing because it expects
+xf86-input-evdev and with the above patch xf86-input-libinput
+takes precedence.
 
-Why copy this from TEMPLATECONF when they can be supplied by any layer in
-your BBLAYERS?
+Fix this issue by using a branch of xinput calibrator which supports
+xf86-input-libinput.
 
-On Wed, Sep 16, 2020 at 8:10 AM gr embeter <grembeter@gmail.com> wrote:
+[1] https://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc?id=2d005faff6341a81a2afae28860101ba9db51ae8
+[2] https://www.yoctoproject.org/pipermail/yocto/2018-December/043487.html
 
-> Retrieve multiconfig automatically from meta-layer if it exists,
-> so that it is possible to use it "out-of-the-box".
->
-> Signed-off-by: Grygorii Tertychnyi <
-> grygorii.tertychnyi@leica-geosystems.com>
-> ---
->  scripts/oe-setup-builddir | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-> index 30eaa8efbe1f..0077c13110b9 100755
-> --- a/scripts/oe-setup-builddir
-> +++ b/scripts/oe-setup-builddir
-> @@ -65,6 +65,7 @@ if [ -n "$TEMPLATECONF" ]; then
->      OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
->      OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
->      OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
-> +    OECOREMULTICONF="$TEMPLATECONF/multiconfig"
->  fi
->
->  unset SHOWYPDOC
-> @@ -80,6 +81,9 @@ for more information as common configuration options
-> are commented.
->
->  EOM
->      cp -f $OECORELOCALCONF "$BUILDDIR/conf/local.conf"
-> +    if [ -d "$OECOREMULTICONF" ]; then
-> +        cp -af -t "$BUILDDIR/conf" "$OECOREMULTICONF"
-> +    fi
->      SHOWYPDOC=yes
->  fi
->
-> --
-> 2.25.1
->
-> 
->
->
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../xinput-calibrator/xinput-calibrator_git.bb                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index 4f831932e7..d2a16643fe 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -11,8 +11,8 @@ inherit autotools pkgconfig features_check
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
+-SRC_URI = "git://github.com/tias/xinput_calibrator.git \
++SRCREV = "18ec53f1cada39f905614ebfaffed5c7754ecf46"
++SRC_URI = "git://github.com/kreijack/xinput_calibrator.git;branch=libinput \
+            file://30xinput_calibrate.sh \
+            file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
+            file://0001-calibrator.hh-Include-string-to-get-std-string.patch \
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+2.17.1
 
---000000000000c4f33a05af6ff3e6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Why copy this from TEMPLATECONF when they can be supplied =
-by any layer in your BBLAYERS?</div><br><div class=3D"gmail_quote"><div dir=
-=
-=3D"ltr" class=3D"gmail_attr">On Wed, Sep 16, 2020 at 8:10 AM gr embeter &=
-lt;<a href=3D"mailto:grembeter@gmail.com">grembeter@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Retrieve multi=
-config automatically from meta-layer if it exists,<br>
-so that it is possible to use it &quot;out-of-the-box&quot;.<br>
-<br>
-Signed-off-by: Grygorii Tertychnyi &lt;<a href=3D"mailto:grygorii.tertychn=
-yi@leica-geosystems.com" target=3D"_blank">grygorii.tertychnyi@leica-geosys=
-tems.com</a>&gt;<br>
----<br>
-=C2=A0scripts/oe-setup-builddir | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir<br>
-index 30eaa8efbe1f..0077c13110b9 100755<br>
---- a/scripts/oe-setup-builddir<br>
-+++ b/scripts/oe-setup-builddir<br>
-@@ -65,6 +65,7 @@ if [ -n &quot;$TEMPLATECONF&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0OECORELAYERCONF=3D&quot;$TEMPLATECONF/bblayers.conf.sa=
-mple&quot;<br>
-=C2=A0 =C2=A0 =C2=A0OECORELOCALCONF=3D&quot;$TEMPLATECONF/local.conf.sampl=
-e&quot;<br>
-=C2=A0 =C2=A0 =C2=A0OECORENOTESCONF=3D&quot;$TEMPLATECONF/conf-notes.txt&q=
-uot;<br>
-+=C2=A0 =C2=A0 OECOREMULTICONF=3D&quot;$TEMPLATECONF/multiconfig&quot;<br>
-=C2=A0fi<br>
-<br>
-=C2=A0unset SHOWYPDOC<br>
-@@ -80,6 +81,9 @@ for more information as common configuration options<br>
-are commented.<br>
-<br>
-=C2=A0EOM<br>
-=C2=A0 =C2=A0 =C2=A0cp -f $OECORELOCALCONF &quot;$BUILDDIR/conf/local.conf=
-&quot;<br>
-+=C2=A0 =C2=A0 if [ -d &quot;$OECOREMULTICONF&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -af -t &quot;$BUILDDIR/conf&quot; &quot;$O=
-ECOREMULTICONF&quot;<br>
-+=C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0SHOWYPDOC=3Dyes<br>
-=C2=A0fi<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christop=
-her Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, =
-OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></=
-div>
-
---000000000000c4f33a05af6ff3e6--
