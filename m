@@ -1,138 +1,133 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web12.11997.1600216990837935404
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.13890.1600224106298672916
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2020 17:43:11 -0700
+ Tue, 15 Sep 2020 19:41:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@taitradio.com header.s=google header.b=Ez+5hbl+;
- spf=pass (domain: taitradio.com, ip: 209.85.166.41, mailfrom: douglas.royds@taitradio.com)
-Received: by mail-io1-f41.google.com with SMTP id y74so6249994iof.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 17:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=taitradio.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3LE1IUkzY/mP/8ST+Ex4Pp4qhqEBrZ/VpdZMdubvV/o=;
-        b=Ez+5hbl+rjVCOjKJUi/jFbNcp+uSKqScME3i2U9O7q2PhprfFxtjdd0nXsXRHlfRZX
-         cJfqsDD7tqL1KsnRizTivAa3RpuXpV6MEk+b6wpBhp4qgivUc3kNdfiymtbd/H9Z8aqM
-         x6UdbaIHyj139f/xTy3U7Tye/cY+sAnrgPNEc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3LE1IUkzY/mP/8ST+Ex4Pp4qhqEBrZ/VpdZMdubvV/o=;
-        b=SMg4y3Rry73WzH8cZVmxwamsVRN6B4wfOl/mhaBV5yA25B5LKRmXZ9utxNDl3jxtMZ
-         hyOrIJ4dYYGhTVlgS+oFLLYUExl6rQU8rXHYaipzNrrw7ZX42VViO9O6+bdeJisinXEF
-         egci09IPjlwKN8PQ2u0SBt9Nlkq1X2ygpNa1y6gMpOH9K7bY6Ap1tlFYYs7HyKu0SFwZ
-         e021ZmciD6nRfa5sX1dSXsyuJyJYm/2eK1vkuiRXV8gkf0h/Zgd5JFKOi/wa156zBcUX
-         n6zdwtUazTk1E1FEnd881DxuMGA+9/WRnm+RJDweVGE0iFfkZiYzfuseI7omxFn8V4zO
-         mxcQ==
-X-Gm-Message-State: AOAM531bvOZzL7VxVcmZK0qRP2WIIpcutgs99+DP7l06tK2pWz1xzbch
-	K6uv9+RRujtAAuvJcaVdpbZMo/O1ja07umwffhWnV8UVIhU5z5RSlsTbG9QMeguaGnAtzFmtrwx
-	QCFlGfqxTYTOALsW/DseLteKyAP83VqAVBFBCVbxLHIYAPuiV
-X-Google-Smtp-Source: ABdhPJyCH4EkiZxqHWi5SYNeCyWqvYPtAyTbca41O+dTb13gbaaQPB0+uPICxGJYtnOIqxPsRnXENU8obas7eJJMYw8=
-X-Received: by 2002:a6b:e718:: with SMTP id b24mr18045665ioh.9.1600216990026;
- Tue, 15 Sep 2020 17:43:10 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08G2fiBW008368
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2020 19:41:44 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Tue, 15 Sep 2020
+ 19:41:31 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] bison: remove the parallel build patch
+Date: Tue, 15 Sep 2020 19:41:31 -0700
+Message-ID: <20200916024131.42348-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAJ86T=XPi8SKOi6N=sTwZL12SpNLeLAzVZivfDCN43VCNbtUNA@mail.gmail.com>
+References: <CAJ86T=XPi8SKOi6N=sTwZL12SpNLeLAzVZivfDCN43VCNbtUNA@mail.gmail.com>
 MIME-Version: 1.0
-References: <08f090d6-65c6-da98-ac7f-a2bc803c805a@taitradio.com>
- <CAMKF1soFHoBkMBQTtp7YXjxgzy1uyQQS=CePsOrOf_9BWV5chA@mail.gmail.com>
- <2bc4eb24-82e0-2638-f204-1be9fa9c3aac@taitradio.com> <CAMKF1sr=zQ8Wctqv7JyUh0YT_u-M7e=pJnFrnLKPjQ-eK7Ky_A@mail.gmail.com>
-In-Reply-To: <CAMKF1sr=zQ8Wctqv7JyUh0YT_u-M7e=pJnFrnLKPjQ-eK7Ky_A@mail.gmail.com>
-From: "Douglas" <douglas.royds@taitradio.com>
-Date: Wed, 16 Sep 2020 12:42:58 +1200
-Message-ID: <CAFimOt6s3Ci-13D8pa+1PbWfxFehYabWbtDkgw0mEjRxSks4Yg@mail.gmail.com>
-Subject: Re: [OE-core] nativesdk-linux-libc-headers with two different MACHINEs
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Built a core-image-minimal sdk fine, and also our proprietary sdk.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Tue, 15 Sep 2020 at 13:14, Khem Raj <raj.khem@gmail.com> wrote:
->
-> OK please test this patch for full SDK builds and any other testing
-> you do and report back if it works in all cases.
->
-> On Mon, Sep 14, 2020 at 5:42 PM Douglas Royds
-> <douglas.royds@taitradio.com> wrote:
-> >
-> > Yes it did, thanks!
-> >
-> >
-> > On 15/09/20 12:31 pm, Khem Raj wrote:
-> >
-> > > I think MACHINE should not matter for nativesdk packages. Does
-> > > something like this work
-> > >
-> > > diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk=
-.bbclass
-> > > index 7f2692c51a..bb1dfd84c0 100644
-> > > --- a/meta/classes/nativesdk.bbclass
-> > > +++ b/meta/classes/nativesdk.bbclass
-> > > @@ -10,7 +10,7 @@ LIBCOVERRIDE =3D ":${NATIVESDKLIBC}"
-> > >   CLASSOVERRIDE =3D "class-nativesdk"
-> > >   MACHINEOVERRIDES =3D ""
-> > >   MACHINE_FEATURES =3D ""
-> > > -
-> > > +MACHINE =3D "${SDKMACHINE}"
-> > >   MULTILIBS =3D ""
-> > >
-> > >   # we need consistent staging dir whether or not multilib is enable=
-d
-> > >
-> > > On Mon, Sep 14, 2020 at 5:13 PM Douglas via lists.openembedded.org
-> > > <douglas.royds=3Dtaitradio.com@lists.openembedded.org> wrote:
-> > >> For the experiment, I wanted to see whether I could achieve no task=
- signature change when building nativesdk-glibc for two different MACHINEs,=
- but I found that the do_install sigdata for nativesdk-linux-libc-headers c=
-hanged. We're installing the linux-libc-headers for the build machine, so i=
-t seems to make sense to take control of the TARGET_CC_KERNEL_ARCH:
-> > >>
-> > >> diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesd=
-k.bbclass
-> > >> index 32c3aa32ad..655439dd73 100644
-> > >> --- a/meta/classes/nativesdk.bbclass
-> > >> +++ b/meta/classes/nativesdk.bbclass
-> > >> @@ -47,6 +47,7 @@ TARGET_VENDOR =3D "${SDK_VENDOR}"
-> > >>   TARGET_OS =3D "${SDK_OS}"
-> > >>   TARGET_PREFIX =3D "${SDK_PREFIX}"
-> > >>   TARGET_CC_ARCH =3D "${SDK_CC_ARCH}"
-> > >> +TARGET_CC_KERNEL_ARCH =3D "${SDK_CC_ARCH}"
-> > >>   TARGET_LD_ARCH =3D "${SDK_LD_ARCH}"
-> > >>
-> > >> Which leaves me with:
-> > >>
-> > >> basehash changed from 42ed3480096bb7ea53b60dc876da0613 to 38ea60bda=
-c041673f2c491d7bbabe17c
-> > >> Variable MACHINE value changed from 'qemuarm' to 'qemux86-64'
-> > >> runtaskdeps changed:
-> > >> linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:na=
-tivesdk with hash cbb186fe33cd69cb0b06384e4d50a244
-> > >>   changed to
-> > >> linux-libc-headers/linux-libc-headers_4.18.bb.do_compile:virtual:na=
-tivesdk with hash 4d34d6981b79d0fccc768566bf2fa533
-> > >> Hash for dependent task linux-libc-headers/linux-libc-headers_4.18.=
-bb.do_compile:virtual:nativesdk changed from cbb186fe33cd69cb0b06384e4d50a2=
-44 to 4d34d6981b79d0fccc768566bf2fa533
-> > >>
-> > >> The configure and compile tasks for linux-libc-headers are both set=
- to noexec. For the experiment, I added an empty do_configure task, with th=
-is result on the do_configure sigdata:
-> > >>
-> > >> basehash changed from f13c2a2066fa48f0ccac35c085537c71 to bb13f2b1b=
-1e7e6666376f3fb5a8ec888
-> > >> Variable MACHINE value changed from 'qemux86-64' to 'qemuarm'
-> > >>
-> > >> What to do? Why is the MACHINE variable included in the task signat=
-ure (it is unset in run.do_configure)? Adding it to BB_HASHBASE_WHITELIST h=
-ad no effect. What am I missing here?
-> > >>
-> > >>=20
-> >
-> >
+Remove the parallel build patch and related fix for parallel
+build as the issue have already been fixed in bison 3.7.2
+(f7b642cf build: fix incorrect dependencies).
 
---=20
-This Communication is Confidential. We only send and receive email on the
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../0001-bison-fix-the-parallel-build.patch   | 63 -------------------
+ meta/recipes-devtools/bison/bison_3.7.2.bb    |  7 ---
+ 2 files changed, 70 deletions(-)
+ delete mode 100644 meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
 
-basis of the terms set out at www.taitradio.com/email_disclaimer=20
-<http://www.taitradio.com/email_disclaimer>
+diff --git a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
+deleted file mode 100644
+index c3be91a109..0000000000
+--- a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From e0dbcee6e25b3c0cb11a627bbfe3af45ef67ec30 Mon Sep 17 00:00:00 2001
+-From: Mingli Yu <mingli.yu@windriver.com>
+-Date: Thu, 14 May 2020 15:23:16 +0800
+-Subject: [PATCH] bison: fix the parallel build
+-
+-Explicitly make the BUILT_SOURCES which
+-are the generated headers such as stdio.h,
+-fcntl.h and etc to be the dependencies of
+-the gl_LIBOBJS such as libbison_a-sprintf.o,
+-libbison_a-printf.o and etc to guarantee the
+-BUILT_SOURCES is generated before begin to
+-compile EXTRA_lib_libbison_a_SOURCES such as
+-fprintf.c in parallel builid, otherwise there
+-may come below error:
+- | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
+-
+-It does the same for src_bison_OBJECTS and
+-lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
+-generated before begin to compile src_bison_SOURCES
+-which contains AnnotationList.c and etc.
+-
+-BTW, the MOSTLYCLEANFILES also contains the
+-generated header needs to be created early
+-in the build process, so add it also in to
+-avoid below error:
+- | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
+-
+-Upstream-Status: Submitted [bison-patches@gnu.org maillist]
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+----
+- lib/gnulib.mk | 2 ++
+- src/local.mk  | 1 +
+- 2 files changed, 3 insertions(+)
+-
+-diff --git a/lib/gnulib.mk b/lib/gnulib.mk
+-index c21c656..27fb3dc 100644
+---- a/lib/gnulib.mk
+-+++ b/lib/gnulib.mk
+-@@ -120,6 +120,8 @@ lib_libbison_a_SOURCES =
+- lib_libbison_a_LIBADD = $(gl_LIBOBJS)
+- lib_libbison_a_DEPENDENCIES = $(gl_LIBOBJS)
+- EXTRA_lib_libbison_a_SOURCES =
+-+$(lib_libbison_a_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+-+$(gl_LIBOBJS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+- 
+- lib_libbison_a_CPPFLAGS = $(AM_CPPFLAGS) -DDEFAULT_TEXT_DOMAIN=\"bison-gnulib\"
+- 
+-diff --git a/src/local.mk b/src/local.mk
+-index 61dc573..b5b9079 100644
+---- a/src/local.mk
+-+++ b/src/local.mk
+-@@ -24,6 +24,7 @@ if RELOCATABLE_VIA_LD
+-   src_bison_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
+- endif
+- 
+-+$(src_bison_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
+- src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
+- src_bison_SOURCES =                             \
+-   src/AnnotationList.c                          \
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/bison/bison_3.7.2.bb b/meta/recipes-devtools/bison/bison_3.7.2.bb
+index f7bf70fff3..ace4ea5c3f 100644
+--- a/meta/recipes-devtools/bison/bison_3.7.2.bb
++++ b/meta/recipes-devtools/bison/bison_3.7.2.bb
+@@ -11,19 +11,12 @@ DEPENDS = "bison-native flex-native"
+ 
+ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://add-with-bisonlocaledir.patch \
+-           file://0001-bison-fix-the-parallel-build.patch \
+            "
+ SRC_URI[sha256sum] = "7948d193104d979c0fb0294a1854c73c89d72ae41acfc081826142578a78a91b"
+ 
+ # No point in hardcoding path to m4, just use PATH
+ EXTRA_OECONF += "M4=m4"
+ 
+-# Reset any loadavg set via environment, it breaks parallel build
+-# | ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
+-# |  #include "uniwidth.h"
+-# |           ^~~~~~~~~~~~
+-EXTRA_OEMAKE_append = " -l"
+-
+ inherit autotools gettext texinfo
+ 
+ # The automatic m4 path detection gets confused, so force the right value
+-- 
+2.17.1
+
