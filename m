@@ -1,81 +1,52 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web12.1887.1600273072195164341
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web11.2973.1600276136877336175
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 09:17:52 -0700
+ Wed, 16 Sep 2020 10:08:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QmsiXEjh;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id t7so1866983pjd.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 09:17:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=M0OYxrEb;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: grembeter@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id w16so8938155qkj.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 10:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=SSbECz/C3dFoNf40pKXFZOwPzD6iBOnLu5jax+J9pD0=;
-        b=QmsiXEjhBqAGtHAkjBMe7i/LM9BCcMxUWdDqjz4Tob2H65WCNnYMNAWQP6bDz74N3L
-         xI3IBR5X1d+L4PoIQl62zC77yhaC219umMT3OtXMv8qQV95r21AAVOFoqlRxGMaCpzAd
-         da1J5xtGelQdG5ZD1/V7bsAsPd0EvB0HbWceUg7FtYKpP3RORqEc5dhRaVyzb2D/QIzg
-         pBun48aaJNjNGGQ80O0XmCE+ZkvXPEUcdBEfAvfgcX7INrYS4ekA8DXD9FjyrmaaYTlr
-         2aaVk2hQ9FIR/T1mwH9KMlO4nWhebqf9MeRTJo53QZzwbTR4lkU6AtwyQeuruzRT0GEZ
-         QCUQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=09e9xY1AGTMyXpkQWZw8Vj1Lmv72i6rpU0s0jpDvoA8=;
+        b=M0OYxrEbIFk5ZIYRjil4lmjjobxddAxzJh/2kosjdnb+nXgtBmTqAcsn/nJQYZnUfj
+         cxEWmAxwPrDPOH9UQSiAoxY6QKzxyDHTB0LQwatqWif+Ss8SdjbNrobxEBdGHkE+2rDz
+         tXaCp9LZGsSb3m+geiwTdQ7DKLTtduBVjERgvNwl3dxM5OvbgrzQB0lV/L9cGe8OndJ1
+         Y3ub/WZ0/sEIHzlNvS5Zn60lwg7boV783E2wRW91EX2HLrSpsSwN4kQp9fcRPMflNdLF
+         UrtEiyu8PFUnqtu7me36TKxRJerNwiT9WI0jmWd0s0Rb+MDeC/uR0Ka4cIrSxgRS93uc
+         STqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=SSbECz/C3dFoNf40pKXFZOwPzD6iBOnLu5jax+J9pD0=;
-        b=HFF0z8gxeykHQQTO8A43WXf/5GZ5Av0EwVEIw5tV8I0e/cPW3nn4jr3oAJ2kM6HiMq
-         6YvtPLN+ty3ewDyNJf6mCQhaJRlxbBbxKkf3+umAYC8bC+Ux4ve1nt22YlDLm4/Y3Lnn
-         4Vcd8BUzXI2FMUr2n8O86P9lNTNSub6GHeTUamEoTWmWnOlcUJFjAxbCKkAq3azlCJXW
-         nqjpppGOJV9+iZNu/k9lHphs+oXLcQN9zEbnfW1RIR5n3Phhm8qlzgY9NeYhhtrH4UuA
-         580/QE7oPf3/veGyqpCHlNO78YRWfHWhLbZf+TZ0HuUDPUrxJXE5drNosFDTO1Hn88FG
-         rumg==
-X-Gm-Message-State: AOAM532BboZTyOHIE30zTcGwl4rmvLWhhr6XCqMZUKC/pFFs2MNdWxYJ
-	XY7ze9I5EN0hLDbalJzw/9pQ2f+stG6n560meqw=
-X-Google-Smtp-Source: ABdhPJziH9fjtH8cxZJdMpgO6PmKT44IDl74gMnRL1Z3Y+ol7vEl5uiYISLPxHeEPG48IiIJ7PSXOw==
-X-Received: by 2002:a17:90a:c795:: with SMTP id gn21mr4312063pjb.27.1600273070891;
-        Wed, 16 Sep 2020 09:17:50 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id j1sm15598630pgp.93.2020.09.16.09.17.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 09:17:50 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][dunfell] xinput-calibrator: change SRC_URI to branch with libinput support
-Date: Wed, 16 Sep 2020 06:17:31 -1000
-Message-Id: <20200916161731.32701-1-steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=09e9xY1AGTMyXpkQWZw8Vj1Lmv72i6rpU0s0jpDvoA8=;
+        b=VaKO4/MRzkJF2/hq5BmgvvaVp4GleBmGoBoAPRce05iidaRqxc7dUuUsSLSqntLe2W
+         ppsHa9PS4ZNf5wbUUqt/a1AZlcgIIUoVjeqPkW44lRXvqhvURziqeaD9OZtnxEa77Ddc
+         0jwGKvBefZfJJd56ToRdCb89JoTvC6Zme/simNTHx2JRtdi5yrDQuOu76nZ+8nnRuYBd
+         RlY2q8NExCPxDnryKm2DHv993OFByCfI/Yuz69e/JfK3gd3s586uwPDpBBIwdwesUVBs
+         Xeb8+M4+Bb/ifn9HWBxLDov5x2Q5KLT5/1dL80EcxDIlewGAHlyst5xBKB07b7URgS9U
+         WLwA==
+X-Gm-Message-State: AOAM531UyPU5MNZoWtPDc2frum4T7yOvVlh0AnBjNnXcXojfp/G/YLaA
+	xAVlxfpnHH5GLiErmWNmrbSo26FGLrDQSPrVuTg=
+X-Google-Smtp-Source: ABdhPJzRqTvJrQqPj8mjxZKOCSNq/WzjKTS+6iZDW9srqwjyHAn8ns+j7QhexMUchvolKdvoaXC27neG//skVksgXeA=
+X-Received: by 2002:a37:4496:: with SMTP id r144mr23167710qka.230.1600276136122;
+ Wed, 16 Sep 2020 10:08:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAGFuAuz+8M62V2qkc5HutJZDDLXxacF2ajr-4wuZaOKqZ1i-nw@mail.gmail.com>
+ <CABcZAN=LCFfzCi=RVqggOno1sxcsC=F9SEj2hDL7MQHu=SM=yQ@mail.gmail.com>
+In-Reply-To: <CABcZAN=LCFfzCi=RVqggOno1sxcsC=F9SEj2hDL7MQHu=SM=yQ@mail.gmail.com>
+From: "gr embeter" <grembeter@gmail.com>
+Date: Wed, 16 Sep 2020 19:08:45 +0200
+Message-ID: <CAGFuAuyc3TdWx_a1EwgnvMxjXh7+Nj4w+bTrZ_yJa+KBxbEgCw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oe-setup-builddir: create conf/multiconfig/ from TEMPLATECONF
+To: Christopher Larson <kergoth@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Since "conf: Use xf86-input-libinput by default" [1] there are
-reports [2] of xinput-calibrator failing because it expects
-xf86-input-evdev and with the above patch xf86-input-libinput
-takes precedence.
+> Why copy this from TEMPLATECONF when they can be supplied by any layer in your BBLAYERS?
 
-Fix this issue by using a branch of xinput calibrator which supports
-xf86-input-libinput.
-
-[1] https://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc?id=2d005faff6341a81a2afae28860101ba9db51ae8
-[2] https://www.yoctoproject.org/pipermail/yocto/2018-December/043487.html
-
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../xinput-calibrator/xinput-calibrator_git.bb                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-index 4f831932e7..d2a16643fe 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-@@ -11,8 +11,8 @@ inherit autotools pkgconfig features_check
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRCREV = "03dadf55109bd43d3380f040debe9f82f66f2f35"
--SRC_URI = "git://github.com/tias/xinput_calibrator.git \
-+SRCREV = "18ec53f1cada39f905614ebfaffed5c7754ecf46"
-+SRC_URI = "git://github.com/kreijack/xinput_calibrator.git;branch=libinput \
-            file://30xinput_calibrate.sh \
-            file://Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch \
-            file://0001-calibrator.hh-Include-string-to-get-std-string.patch \
--- 
-2.17.1
-
+At the stage of creating build directory I think it is logically to
+use TEMPLATECONF both for "local.conf" and "multiconfig"
