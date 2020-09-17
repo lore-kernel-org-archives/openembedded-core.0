@@ -1,109 +1,86 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.13868.1600344334546497807
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web11.496.1600353954275222432
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2020 05:05:34 -0700
+ Thu, 17 Sep 2020 07:45:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OOFLKDhg;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: oecore.mailinglist@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id c18so1773433wrm.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 05:05:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZTPy/wnX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: rehsack@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id lo4so3646726ejb.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 07:45:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JD6A1AqTfmD2uaLaYj/gjOMD53VOhQ6V2s08s0wCGDk=;
-        b=OOFLKDhgreNqBaKMvLsoEiJt6ZTnPAHVBOzrxLO8SvTJwTR7B5oITK3A0DK66zwA9c
-         kWlVl9xarKybGej4OPmoSEUvDVA7u0itEFdwo9pknKOf32yh+I49PeaJ/DjNGPuA7+Mc
-         I5mx7R3ZN6gJPEATaARrkKVWeJ5VViSL0uKtR7rZSs1Z6EA0kFWZvIdoEsG8njxzt3DT
-         M/VxQJ3z/0FfFtcDZQacdGKxYVnNavLXvT5dzW2SR0745eox4iq5kb/+6ZLiHUlqrjdx
-         wzLE0haizvL2cBp6ja+7SfBBpW+U2qXt8Z1OkXYxGiNyUJqhWe17Q2SQHRkM9Aey9enn
-         KQzw==
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=w3ULTGJ85lDfJrIivFja2kShz7rx/gB4i7rz60gWNAE=;
+        b=ZTPy/wnXQVOS0G/T2XvWzoeyFlQwm4klc9lCbBFTPnAX1jBTH3A2KK01t2wseqXjPb
+         lNLEp6JrUVBzyo+sDfaPHJesBgHFkCc/XUt87F39IflevBgs7v9UFIU8tiRQJF9cWCmJ
+         IOh5wj0J1IGuBCg6X1IonbZ0nTJGT92mUGf8TrH0+IMS/ca2bokpBLPvmBvvhqOvjgy4
+         htcx+RoKI9z5TkNOVKhbsOscTZyZap5GdKVOgwgOFxenXqLJYLVzoEJ9aZUYmcH7nd82
+         G10yJePPkXFjdV+c/7jASQ1U1ZMGD6DdKxidvPj8UEksfeQOi6AU/+hv3C7966G6iEoa
+         DTJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JD6A1AqTfmD2uaLaYj/gjOMD53VOhQ6V2s08s0wCGDk=;
-        b=Fs4Ed740qsfoRtJkaGgy3KlaskILMs1dydRMVpnuCrjMOth+81i2B1zhAOteYQnNza
-         WSHGiDTTleW9lBwLXvSfAouXCKZnqiHZHNQxXDYqY874+a9G28knCC/OaKmtitdKKEha
-         qI3zUIC3fMTHM5Yb04MEmX/KPzE8ECFkH+DznmRDnTESyP1f5OJrxLtxd/GPjOviCXRK
-         gqq5HOlzSmdizirXkP2kYh9wTuCiucsnWjRJHsnxtITj5INxu07kRGXb6ePcN8QME4zW
-         fCOeBEzdp2DKPhRQfP6aoeAg350IiCl2qWLnU36fz5ndmz037qLKNWewAKgRF+Lbypmn
-         M2vQ==
-X-Gm-Message-State: AOAM533oqIskU116+5zEVD7ov+C13u2GGdMT3430H2+a+ZHN03PNedod
-	GNnY8nxvpgo/bqBSkTDiSmoyk60gNCg=
-X-Google-Smtp-Source: ABdhPJzaufXXhiP2cL3fkxpb/TF94qzDLPoiM89UymJWdSMaIf80r83Cl21RdTIhjT/YGEULawQ/Vw==
-X-Received: by 2002:adf:91e1:: with SMTP id 88mr31351954wri.305.1600344332656;
-        Thu, 17 Sep 2020 05:05:32 -0700 (PDT)
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from [192.168.42.52] (ppp-2-86-237-227.home.otenet.gr. [2.86.237.227])
-        by smtp.gmail.com with ESMTPSA id a81sm11532899wmf.32.2020.09.17.05.05.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 05:05:32 -0700 (PDT)
-Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20200914151359.11240-1-jon.mason@arm.com>
- <442cfca7-9e64-c161-3f7e-af858472e910@gmail.com>
- <CAPoiz9wRF+A4UntZeE=OieVkYeAxts5iLqRUpwfg8MJTTWx_Yg@mail.gmail.com>
-From: "Robert Berger" <oecore.mailinglist@gmail.com>
-Message-ID: <f7fb890c-e200-19db-297c-efb38af5e361@gmail.com>
-Date: Thu, 17 Sep 2020 15:05:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAPoiz9wRF+A4UntZeE=OieVkYeAxts5iLqRUpwfg8MJTTWx_Yg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=w3ULTGJ85lDfJrIivFja2kShz7rx/gB4i7rz60gWNAE=;
+        b=OpIkUQU/DzGZVmW2dI3D8tDlMQwIjg2enK61jKfQDRw1c8xigijBoF4rwRPA7wFtH1
+         O/ds7kpsLsdpBVs2k8nYvRfQRLZO5ExG2txvjK/5rz6KKG+A3lfQX3fuW6IYdIJpPJiV
+         bai4R6+83/tadpbX6GnxWlOIH8gjB7nBI+b1RV/Ng4JsS7dhXcrsybFzm0FtTZGI3GN3
+         lzQmW9nqP4I6rvtZXi+NgO1yxm0uPVHnVp8sQcMoWucskJb4K9LxQbyBTZJLCv4xKXWG
+         iWJW+uUAjUpHeXx6+OdxMzi/kOFYG3nmWBBI6stvVKyoQZCtBJBPsTZzp5peIC4JwS7F
+         xTNg==
+X-Gm-Message-State: AOAM530Lo09r/yrzTcSfEwL19cc0msDT2qFkgY75gcrW49QkU719xDtc
+	4D/KaHOK17WPgsOTnpzwStyFKorDFUk=
+X-Google-Smtp-Source: ABdhPJzdv3URIMST0VfBUS6w6sXuGjMU4z4hL2mCRPa2AbhOXN9YZJoFiqqVoof3lNw8JVA1D7RXsg==
+X-Received: by 2002:a17:906:49cd:: with SMTP id w13mr30563729ejv.151.1600353952290;
+        Thu, 17 Sep 2020 07:45:52 -0700 (PDT)
+Return-Path: <rehsack@gmail.com>
+Received: from beaker.muppets.liwing.de (p5b25b0d4.dip0.t-ipconnect.de. [91.37.176.212])
+        by smtp.gmail.com with ESMTPSA id v17sm75898ejj.55.2020.09.17.07.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 07:45:51 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: "Jens Rehsack" <rehsack@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	Jens Rehsack <sno@netbsd.org>
+Subject: [OE-core][PATCH] image-artifact-names: make variables overridable
+Date: Thu, 17 Sep 2020 16:45:34 +0200
+Message-Id: <20200917144534.17549-1-sno@NetBSD.org>
+X-Mailer: git-send-email 2.17.1
 
-Hi,
+From: Jens Rehsack <sno@netbsd.org>
 
-Please see my comments in-line.
+Since the newly introduced image-artifact-names class is inherited at later
+processing stage, individual IMAGE_NAME settings are overridden (hopefully
+by accident instead on purpose).
 
-On 16/09/2020 16:38, Jon Mason wrote:
->> [1]
->> https://yoctoproject.blogspot.com/2020/09/compiler-tunes-benchmarks-with-yocto.html
->>
->> Should we expect so see differences?
-> 
-> There are more things at play here than simply performance.  
+Allow derived distributions define their own name schema by setting defaults
+iwth question mark.
 
-Hmm interesting. This did not cross my mind at all;)
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ meta/classes/image-artifact-names.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> But
-> speaking of performance, there might not be much of a benefit between
-> a generic ARMv8.0 and a ARMv8 based core (like A53), but I do expect
-> to see a performance bump for a ARMv8.2 based core (like A76).  The
-> delta between the former is much smaller than the latter.
+diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes/image-artifact-names.bbclass
+index 5ab8f1b7aa..3ac8dd731a 100644
+--- a/meta/classes/image-artifact-names.bbclass
++++ b/meta/classes/image-artifact-names.bbclass
+@@ -2,11 +2,11 @@
+ # Specific image creation and rootfs population info.
+ ##################################################################
+ 
+-IMAGE_BASENAME = "${PN}"
+-IMAGE_VERSION_SUFFIX = "-${DATETIME}"
++IMAGE_BASENAME ?= "${PN}"
++IMAGE_VERSION_SUFFIX ?= "-${DATETIME}"
+ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
+-IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+-IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
++IMAGE_NAME ?= "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
++IMAGE_LINK_NAME ?= "${IMAGE_BASENAME}-${MACHINE}"
+ 
+ # IMAGE_NAME is the base name for everything produced when building images.
+ # The actual image that contains the rootfs has an additional suffix (.rootfs
+-- 
+2.17.1
 
-I guess you mean between ARMv8.0/A53 and ARMv8.2/A76. I'll need some 
-toys to run tests/benchmarks there;)
-
-> 
-> The differences are not only performance.  Tuning for A76 versus a
-> more generic armv8a allows for security features like
-> branch-protection to be enabled (as it isn't supported in older
-> versions).  You get these kind of things "by default" when tuning for
-> the specific model.
-
-OK - This is a very good point I completely ignored so far. I guess this 
-will be tricky to test.
-
-> 
-> Thanks,
-> Jon
-> 
->> If so can you suggest benchmarks which show those differences?
->>
->>
->> Regards,
->>
->> Robert
-
-Thanks - I updated my Blog post.
-
-Regards,
-
-Robert
