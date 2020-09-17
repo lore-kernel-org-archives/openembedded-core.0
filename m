@@ -1,82 +1,92 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.9806.1600324947433000791
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web10.9868.1600325320500377191
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 23:42:27 -0700
+ Wed, 16 Sep 2020 23:48:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 08H6gQGh008402
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 23:42:26 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Wed, 16 Sep 2020
- 23:42:25 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] bind: remove -r option for rndc-confgen
-Date: Wed, 16 Sep 2020 23:42:25 -0700
-Message-ID: <20200917064225.58759-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WjonHgeH;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id k14so782496pgi.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 23:48:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eWDY9y3zhX5vXAdxLRDTqlqglKnwdB/O8al1G0XC3pk=;
+        b=WjonHgeHDhLa5CFZ0PU2uXfkfcYtiIbe4pKr1k1Db4CZ2tPTpUPc39gAxqIWt6QHhJ
+         nQ4SeSLZJ+u4dRZdC7K0u258Wti1fO5j+g8fCvWcwAsfMX6MbMbdMD5Ly7FdynM5usm8
+         sWG6MPv7x5fwYgm5dTjoGdZ/Qcr/MT7yrJqiEJR7+DxeAq/BK4LvfZjlxZ5jXx5crw7G
+         pn7BTPfpQuiLGDw7i6niIEkc2raxceupiKcab/VkkZAKSN8c+hx6BQwZcSWuonUd4Dyz
+         FqITmCqgHZl1O6twofG928HRU0AKHwxM6l3g2BSqfe0/zKBauhkoGBJyH5Mga9qwAR1J
+         ogUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eWDY9y3zhX5vXAdxLRDTqlqglKnwdB/O8al1G0XC3pk=;
+        b=o3904ZEpWy8cCWARXRa0b302t+pkbsFEcY3rG4Qv3cGsV08d0sab5haTD9up3O/PJX
+         dtiSumlBGkuwkGmDIzvHF3mYNsqaS9kUGWC+3+TISZsPDjBTMhpsFSZOaSOxliMwrISO
+         XZaK1DrUgpg20++ULpqC6G/QzwCOi57GRHezd6cm8hCyaA5XJUInL4/Hz/9M8TmUH8VN
+         6bWMqR+y3/nv5Rvs4CBE2AkqD4L2btaVWy3sEc3LipMd8UWplL2TQlmxRLqOR6bIh3mR
+         fWPMtg9omVuiSJCe9fhrBS4kxW4/um82RYFsTh+uuW0aWojRHm6WH5Ns7zIYrJxSr7/R
+         rpKQ==
+X-Gm-Message-State: AOAM5332KHRB0vW49XuhJKyT6ac5KuXBe/aBkuilrjFNG5a0Pqa0cBKX
+	YQFw77LWbojt2qBJsfvjfenVVTub22NiuA==
+X-Google-Smtp-Source: ABdhPJzj/cH2hty7NaLTMOrrPraDjrjlnu62rQ0UJK2zwdgdQIsHJmsspas7OU4pOdiEMUOHs/IZDg==
+X-Received: by 2002:a63:441a:: with SMTP id r26mr21845311pga.290.1600325319655;
+        Wed, 16 Sep 2020 23:48:39 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id z4sm19509062pfr.197.2020.09.16.23.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 23:48:39 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] packagegroups: remove strace and lttng-tools for rv32/musl
+Date: Wed, 16 Sep 2020 23:48:37 -0700
+Message-Id: <20200917064837.400325-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 08H6gQGh008402
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+These tools are not yet ported to rv32/musl
 
-The named service fail to start as below:
- # systemctl  status  named.service
-=E2=97=8F named.service - Berkeley Internet Name Domain (DNS)
-     Loaded: loaded (/lib/systemd/system/named.service; enabled; vendor p=
-reset: enabled)
-     Active: failed (Result: exit-code) since Wed 2020-09-16 06:07:49 UTC=
-; 9s ago
-    Process: 134206 ExecStartPre=3D/usr/sbin/generate-rndc-key.sh (code=3D=
-exited, status=3D1/FAILURE)
-
-Sep 16 06:07:49 intel-x86-64 systemd[1]: Starting Berkeley Internet Name =
-Domain (DNS)...
-Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134206]: Generating /et=
-c/bind/rndc.key:
-Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134207]: rndc-confgen: =
-The -r option has been deprecated.
-Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134208]: chown: cannot =
-access '/etc/bind/rndc.key': No such file or directory
-Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134209]: chmod: cannot =
-access '/etc/bind/rndc.key': No such file or directory
-Sep 16 06:07:49 intel-x86-64 systemd[1]: named.service: Control process e=
-xited, code=3Dexited, status=3D1/FAILURE
-Sep 16 06:07:49 intel-x86-64 systemd[1]: named.service: Failed with resul=
-t 'exit-code'.
-Sep 16 06:07:49 intel-x86-64 systemd[1]: Failed to start Berkeley Interne=
-t Name Domain (DNS).
-
-It is because fail to execute "/usr/sbin/generate-rndc-key.sh" as
--r is deprecated since bind 9.13.x and the random function changes
-in [1], so remove -r option to fix the above issue.
-
-[1]: https://gitlab.isc.org/isc-projects/bind9/-/commit/3a4f820d625c214cf=
-b21f5e6d18ce9160d2a193b
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../packagegroups/packagegroup-core-tools-debug.bb           | 5 ++++-
+ .../packagegroups/packagegroup-core-tools-profile.bb         | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key=
-.sh b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
-index ef915c0ae5..633e29c0e6 100644
---- a/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
-+++ b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
-@@ -2,7 +2,7 @@
-=20
- if [ ! -s /etc/bind/rndc.key ]; then
-     echo -n "Generating /etc/bind/rndc.key:"
--    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
-+    /usr/sbin/rndc-confgen -a -b 512
-     chown root:bind /etc/bind/rndc.key
-     chmod 0640 /etc/bind/rndc.key
- fi
---=20
-2.17.1
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+index 81fbdf4608..283c1f1a35 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+@@ -13,9 +13,12 @@ PR = "r3"
+ MTRACE = ""
+ MTRACE_libc-glibc = "libc-mtrace"
+ 
++STRACE = "strace"
++STRACE_riscv32_libc-musl = ""
++
+ RDEPENDS_${PN} = "\
+     gdb \
+     gdbserver \
+-    strace \
+     ${MTRACE} \
++    ${STRACE} \
+     "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 17b1391a47..1c94653d72 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -37,6 +37,7 @@ SYSTEMTAP_riscv64 = ""
+ 
+ LTTNGTOOLS = "lttng-tools"
+ LTTNGTOOLS_arc = ""
++LTTNGTOOLS_riscv32_libc-musl = ""
+ 
+ BABELTRACE = "babeltrace"
+ BABELTRACE2 = "babeltrace2"
+-- 
+2.28.0
 
