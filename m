@@ -1,77 +1,59 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.4415.1600302184830496794
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.5311.1600305342254460285
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2020 17:23:04 -0700
+ Wed, 16 Sep 2020 18:15:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cSbk5BY8;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id 67so292301pgd.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2020 17:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkjcscgNVTmUguQIzGNqmtsWrWiCkG98uhwbhxLbg0c=;
-        b=cSbk5BY8lBJbMVQ3hHgj6IWeR14qNwvDhHmrr8GPp3PW8xb6hWNKzxZQlPgak8/4Ct
-         vELDEEjgimClG0oeK0PnGpXIIpb7dHl+ikoSqXbG866QhJp25V/VtMquYAPc4fBXkZBW
-         AzvqDEYcpU05XNXk7urtrNnHdRAb+OSCA213tN+cNLCXWV0Z0P2gQsFBrtc+7KmOzthJ
-         HbUxnXr+CWfJPY5TpKtjq/HoIYYB7u4dhd42/JgUzNVsb/wmrlYXBLIzSwMplP4zrU0m
-         MW8D7Af8EcTd6MTiFUVDjLhcto6cWzTenNrlm261XsQwNa6kiy6vzxsQB8mOB0fDsyAa
-         FNXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkjcscgNVTmUguQIzGNqmtsWrWiCkG98uhwbhxLbg0c=;
-        b=bnqBKuz6UJx3YEoHMrVJpxXVowWlFMyglcenwEJ9Md+LmElXqZoRbmxnX4/Vi6PviF
-         BgD/hr+qcekjtVB/9v0mlQtX5+onHwHFjqkeKB7jPBj0Q6pKzF5aemARAhX3NZS+8+if
-         zhoZA6ckdrrzvxjVWUg6YzJD1Iob3aG/14KQwJeL2VtfhKTl/f8wM1e2v9sXlJyCdis/
-         29AL7KmCKoDHGD5zFFgns3VBbJYaCKqA2PMP4GITxk3F92avDrb0Wjy8fAIYsnKVqKnd
-         ZN6RECgJcbXv73ItmqMe3YQ55SdIgE8ephp90hniRv1+TK7sz3VdXOHhmdZQlYfWgCnp
-         ZM3A==
-X-Gm-Message-State: AOAM5308o/y2RYl6dlFOhUE/k1oDTFNyuRYAcNnABbDyKmpkPjVgHfnl
-	S51VTlycpvY66jMLe2kLvKeHzgGbOMRmtA==
-X-Google-Smtp-Source: ABdhPJw3DZbGftioRp2iZT2LEmeQ7irR1LOTttcPxFGTIlQBzpNmbD4YsL5URm3FuRADeBzEMYo2Qg==
-X-Received: by 2002:a63:29c8:: with SMTP id p191mr3040424pgp.45.1600302184025;
-        Wed, 16 Sep 2020 17:23:04 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
-        by smtp.gmail.com with ESMTPSA id a1sm18148028pfr.12.2020.09.16.17.23.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 17:23:03 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ncurses: Create alternative symlinks for st and st-256color
-Date: Wed, 16 Sep 2020 17:23:01 -0700
-Message-Id: <20200917002301.220605-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.76,434,1592841600"; 
+   d="scan'208";a="99331411"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 17 Sep 2020 09:15:40 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 20D5F48990D9
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 09:15:36 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 17 Sep 2020 09:15:35 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] enchant2:upgrade 2.2.9 -> 2.2.11
+Date: Thu, 17 Sep 2020 21:15:32 +0800
+Message-ID: <1600348532-4282-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 20D5F48990D9.AF1FE
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Adjust for other st implementations
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../enchant/{enchant2_2.2.9.bb => enchant2_2.2.11.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.2.9.bb => enchant2_2.2.11.bb} (90%)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 1627fb91d3..4b61889668 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -273,6 +273,11 @@ inherit update-alternatives
- ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-support/enchant/enchant2_2.2.9.bb b/meta/recipes-support/enchant/enchant2_2.2.11.bb
+similarity index 90%
+rename from meta/recipes-support/enchant/enchant2_2.2.9.bb
+rename to meta/recipes-support/enchant/enchant2_2.2.11.bb
+index 784fd14ee1..fac8bca0b1 100644
+--- a/meta/recipes-support/enchant/enchant2_2.2.9.bb
++++ b/meta/recipes-support/enchant/enchant2_2.2.11.bb
+@@ -9,7 +9,7 @@ DEPENDS = "glib-2.0"
+ inherit autotools pkgconfig
  
- ALTERNATIVE_ncurses-tools_class-target = "clear reset"
-+ALTERNATIVE_ncurses-terminfo_class-target = "st st-256color"
-+
-+ALTERNATIVE_LINK_NAME[st] = "${datadir}/terminfo/s/st"
-+
-+ALTERNATIVE_LINK_NAME[st-256color] = "${datadir}/terminfo/s/st-256color"
+ SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "b29a3d2273f5edcbdbbb565e94bfd8ea3f9526886fcb6327b4b0f72f0d722f3c"
++SRC_URI[sha256sum] = "a29c5777c4e45fcac2595c15c49d6d2aa434fa5e7c993dff3f9f367b65fe472a"
  
- BBCLASSEXTEND = "native nativesdk"
+ UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
  
 -- 
-2.28.0
+2.25.1
+
+
 
