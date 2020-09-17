@@ -1,109 +1,109 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.13763.1600344138726317879
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web11.13868.1600344334546497807
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2020 05:02:19 -0700
+ Thu, 17 Sep 2020 05:05:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: BA/OuGiDqoYjAwIN8xv5pm9E/p2PVtXoIodgUDqi1/vryogqXdyNjOnhvrHzmetGslSeK1mtLP
- 1eq8FTSWgt9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="158981806"
-X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
-   d="scan'208";a="158981806"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 05:02:17 -0700
-IronPort-SDR: MRaTemNQU8Njws/cdD4oCqodfPEHkOgNKCh7pkEMQfFXf7dPaPGbdmjQqg3iX7d+1bgROKM0Iw
- +TXly5mp/WNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
-   d="scan'208";a="339410857"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2020 05:02:16 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: khairul.rohaizzat.jamaluddin@intel.com
-Subject: [PATCH] documentation/ref-manual/ref-variables.xml: Added IMAGE_EFI_BOOT_FILES variable entry
-Date: Thu, 17 Sep 2020 20:02:15 +0800
-Message-Id: <1600344135-21738-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OOFLKDhg;
+ spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: oecore.mailinglist@gmail.com)
+Received: by mail-wr1-f67.google.com with SMTP id c18so1773433wrm.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 05:05:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JD6A1AqTfmD2uaLaYj/gjOMD53VOhQ6V2s08s0wCGDk=;
+        b=OOFLKDhgreNqBaKMvLsoEiJt6ZTnPAHVBOzrxLO8SvTJwTR7B5oITK3A0DK66zwA9c
+         kWlVl9xarKybGej4OPmoSEUvDVA7u0itEFdwo9pknKOf32yh+I49PeaJ/DjNGPuA7+Mc
+         I5mx7R3ZN6gJPEATaARrkKVWeJ5VViSL0uKtR7rZSs1Z6EA0kFWZvIdoEsG8njxzt3DT
+         M/VxQJ3z/0FfFtcDZQacdGKxYVnNavLXvT5dzW2SR0745eox4iq5kb/+6ZLiHUlqrjdx
+         wzLE0haizvL2cBp6ja+7SfBBpW+U2qXt8Z1OkXYxGiNyUJqhWe17Q2SQHRkM9Aey9enn
+         KQzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JD6A1AqTfmD2uaLaYj/gjOMD53VOhQ6V2s08s0wCGDk=;
+        b=Fs4Ed740qsfoRtJkaGgy3KlaskILMs1dydRMVpnuCrjMOth+81i2B1zhAOteYQnNza
+         WSHGiDTTleW9lBwLXvSfAouXCKZnqiHZHNQxXDYqY874+a9G28knCC/OaKmtitdKKEha
+         qI3zUIC3fMTHM5Yb04MEmX/KPzE8ECFkH+DznmRDnTESyP1f5OJrxLtxd/GPjOviCXRK
+         gqq5HOlzSmdizirXkP2kYh9wTuCiucsnWjRJHsnxtITj5INxu07kRGXb6ePcN8QME4zW
+         fCOeBEzdp2DKPhRQfP6aoeAg350IiCl2qWLnU36fz5ndmz037qLKNWewAKgRF+Lbypmn
+         M2vQ==
+X-Gm-Message-State: AOAM533oqIskU116+5zEVD7ov+C13u2GGdMT3430H2+a+ZHN03PNedod
+	GNnY8nxvpgo/bqBSkTDiSmoyk60gNCg=
+X-Google-Smtp-Source: ABdhPJzaufXXhiP2cL3fkxpb/TF94qzDLPoiM89UymJWdSMaIf80r83Cl21RdTIhjT/YGEULawQ/Vw==
+X-Received: by 2002:adf:91e1:: with SMTP id 88mr31351954wri.305.1600344332656;
+        Thu, 17 Sep 2020 05:05:32 -0700 (PDT)
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from [192.168.42.52] (ppp-2-86-237-227.home.otenet.gr. [2.86.237.227])
+        by smtp.gmail.com with ESMTPSA id a81sm11532899wmf.32.2020.09.17.05.05.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2020 05:05:32 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][PATCH 0/5] ARMv8 Tune reorg
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20200914151359.11240-1-jon.mason@arm.com>
+ <442cfca7-9e64-c161-3f7e-af858472e910@gmail.com>
+ <CAPoiz9wRF+A4UntZeE=OieVkYeAxts5iLqRUpwfg8MJTTWx_Yg@mail.gmail.com>
+From: "Robert Berger" <oecore.mailinglist@gmail.com>
+Message-ID: <f7fb890c-e200-19db-297c-efb38af5e361@gmail.com>
+Date: Thu, 17 Sep 2020 15:05:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAPoiz9wRF+A4UntZeE=OieVkYeAxts5iLqRUpwfg8MJTTWx_Yg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+Hi,
 
-IMAGE_EFI_BOOT_FILES created to help differentiate files needed between
-bootimg-efi and bootimg-partition when creating the installer/.wic file.
+Please see my comments in-line.
 
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
----
- documentation/ref-manual/ref-variables.xml | 55 ++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+On 16/09/2020 16:38, Jon Mason wrote:
+>> [1]
+>> https://yoctoproject.blogspot.com/2020/09/compiler-tunes-benchmarks-with-yocto.html
+>>
+>> Should we expect so see differences?
+> 
+> There are more things at play here than simply performance.  
 
-diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
-index a506480..6e438e8 100644
---- a/documentation/ref-manual/ref-variables.xml
-+++ b/documentation/ref-manual/ref-variables.xml
-@@ -5719,6 +5719,61 @@
-             </glossdef>
-         </glossentry>
- 
-+        <glossentry id='var-IMAGE_EFI_BOOT_FILES'><glossterm>IMAGE_EFI_BOOT_FILES</glossterm>
-+            <info>
-+                IMAGE_EFI_BOOT_FILES[doc] = "A space-separated list of files from ${DEPLOY_DIR_IMAGE} to place in EFI boot partition."
-+            </info>
-+            <glossdef>
-+                <para role="glossdeffirst">
-+                    A space-separated list of files installed into the
-+                    EFI boot partition when preparing an image using the Wic tool
-+                    with the <filename>bootimg-efi</filename> source
-+                    plugin.
-+                    By default, the files are installed under the same name as
-+                    the source files.
-+                    To change the installed name, separate it from the
-+                    original name with a semi-colon (;).
-+                    Source files need to be located in
-+                    <link linkend='var-DEPLOY_DIR_IMAGE'><filename>DEPLOY_DIR_IMAGE</filename></link>.
-+                    Here are two examples:
-+
-+                    <literallayout class="monospaced">
-+     IMAGE_EFI_BOOT_FILES = ${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.ext4;rootfs.img
-+                    </literallayout>
-+                </para>
-+
-+                <para>
-+                    Alternatively, source files can be picked up using
-+                    a glob pattern.
-+                    In this case, the destination file must have the same name
-+                    as the base name of the source file path.
-+                    To install files into a directory within the
-+                    target location, pass its name after a semi-colon
-+                    (;).
-+                    Here are two examples:
-+                    <literallayout class="monospaced">
-+     IMAGE_BOOT_FILES = "boot/loader/*"
-+     IMAGE_BOOT_FILES = "boot/loader/*;boot/"
-+                    </literallayout>
-+                    The first example installs all files from
-+                    <filename>${DEPLOY_DIR_IMAGE}/bcm2835-bootfiles</filename>
-+                    into the root of the target partition.
-+                    The second example installs the same files into a
-+                    <filename>boot</filename> directory within the
-+                    target partition.
-+                </para>
-+
-+                <para>
-+                    You can find information on how to use the Wic tool in the
-+                    "<ulink url='&YOCTO_DOCS_DEV_URL;#creating-partitioned-images-using-wic'>Creating Partitioned Images Using Wic</ulink>"
-+                    section of the Yocto Project Development Tasks Manual.
-+                    Reference material for Wic is located in the
-+                    "<ulink url='&YOCTO_DOCS_REF_URL;#ref-kickstart'>OpenEmbedded Kickstart (.wks) Reference</ulink>"
-+                    chapter.
-+                </para>
-+            </glossdef>
-+        </glossentry>
-+
-         <glossentry id='var-IMAGE_BOOT_FILES'><glossterm>IMAGE_BOOT_FILES</glossterm>
-             <info>
-                 IMAGE_BOOT_FILES[doc] = "A space-separated list of files from ${DEPLOY_DIR_IMAGE} to place in boot partition."
--- 
-2.7.4
+Hmm interesting. This did not cross my mind at all;)
 
+> But
+> speaking of performance, there might not be much of a benefit between
+> a generic ARMv8.0 and a ARMv8 based core (like A53), but I do expect
+> to see a performance bump for a ARMv8.2 based core (like A76).  The
+> delta between the former is much smaller than the latter.
+
+I guess you mean between ARMv8.0/A53 and ARMv8.2/A76. I'll need some 
+toys to run tests/benchmarks there;)
+
+> 
+> The differences are not only performance.  Tuning for A76 versus a
+> more generic armv8a allows for security features like
+> branch-protection to be enabled (as it isn't supported in older
+> versions).  You get these kind of things "by default" when tuning for
+> the specific model.
+
+OK - This is a very good point I completely ignored so far. I guess this 
+will be tricky to test.
+
+> 
+> Thanks,
+> Jon
+> 
+>> If so can you suggest benchmarks which show those differences?
+>>
+>>
+>> Regards,
+>>
+>> Robert
+
+Thanks - I updated my Blog post.
+
+Regards,
+
+Robert
