@@ -1,64 +1,59 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.7591.1600413505108578337
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web11.8832.1600420357661378474
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 00:18:25 -0700
+ Fri, 18 Sep 2020 02:12:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: oUDwNhnMv0I/G1woxh1Ep4T+F52BdXZ/hEZWx6E1hRJmBa89tK31Yl7k24hJNOk9WMt/mUJwzE
- DWu542RdcFuQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="224043162"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="224043162"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 00:18:22 -0700
-IronPort-SDR: xnwPKr97Pvo3/xjpuKv5GuTUAppXHZMwRvrNQlkKUiOAJjBPw7JqlcDgOEqHvFQ1xfFuluV6Mt
- 8d+4UJMSgYag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="344651577"
-Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2020 00:18:21 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bash : inlcude patch 17 & 18
-Date: Fri, 18 Sep 2020 15:18:19 +0800
-Message-Id: <20200918071819.28679-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=pILsX4YL;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f195.google.com with SMTP id b19so4455498lji.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 02:12:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wTT2iJwDTZBSaZM7QXrl1BBzYp5Cn5IvgFfFJJDSCQY=;
+        b=pILsX4YLfQtpFSZvpUqP/PUEKl76ssYXGDWG4Mlme4mHIF5KKJ0TAQnZJ3ooUeaXQf
+         e94oSOurhvGR977Du8wyUsDhwcJTJjHn8Gwc+wGTfQAYbEVNTvvMRNnsC9YTvdR6Bqtz
+         +pzP+W0a3/VDRn6GBy+LleAsfZHheWksCGoO51FW0f9/Gy2WsdfDSXUWsBubNHnEKGDa
+         1hlrXuH7r+LaEaRMS32nHq2nVTm5bg30KFyw0w2fGZgsVdnsrK9KkBemB2c/alv4kLde
+         x/HVARHARkGv0q1nZsiJiNqYiAiwuy7ZyK6VJDZORej8YCw0TA/+bX990U7HOAaDekhq
+         s7Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wTT2iJwDTZBSaZM7QXrl1BBzYp5Cn5IvgFfFJJDSCQY=;
+        b=HDqB27DpEvWoWpH42h9TBXmjH3FkiKzw1yWXD5hqDsAIXZYwLpuAmVl2aUb73EgliT
+         y/a8AFy4JwLkSpHhYY/VgtcrUZGFI/sY/vodXOfUUVJeHWWBU/LOjyj9JVXfKOVKJXiy
+         za2bKBMNXdQUfDpSsMTGa+CEcfwsJDAFN3eqa+VJRzUPbRm4wm7CvTyrUFa7PcZUzbIN
+         5K5VkN3qyzHPZ1hlOzwCPiBSdyQ1sNiBfAIm+2jC1bRRnf41lcCsFO9NWar0Be1+WsWm
+         BiqaKD53MWDAOxHkO/6F0i/ftPaYdvtWd9FFjIN2LV0fc70+C1aivEE0x5EroSQt3ZYP
+         ZBTg==
+X-Gm-Message-State: AOAM530isz2fv48Fk5dgto/qrc+rbfBKpSQksrhmTg7uS4/yDKOezBZq
+	5qhnfz7t8XL1X0hsk25YpWef6AfkTP03yIJ5kII3yQ==
+X-Google-Smtp-Source: ABdhPJwNOaYzmU5MrdZVZRhj1b3VssegDEEt5/FuCaFV+foMop1Cbowwt/EheQvZRkxIkpH3HWd+Y84y2NWexcLcqIE=
+X-Received: by 2002:a2e:b704:: with SMTP id j4mr10674528ljo.329.1600420355433;
+ Fri, 18 Sep 2020 02:12:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200915091523.31005-1-yi.zhao@windriver.com>
+In-Reply-To: <20200915091523.31005-1-yi.zhao@windriver.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 18 Sep 2020 10:12:24 +0100
+Message-ID: <CAAnfSTvAdEas2SRJwW=qSqrkby=GoObZyrqY3zVf-SJDs_6T+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] dhcpcd: add --dbdir and --disable-privesp to EXTRA_OECONF
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+On Tue, 15 Sep 2020 at 10:15, Yi Zhao <yi.zhao@windriver.com> wrote:
+> * Disable service start at boot time. This may conflict with connman.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- meta/recipes-extended/bash/bash_5.0.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+Maybe we should just stop people installing multiple DHCP clients at
+the same time.
 
-diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
-index 8ff9e6edaf..12d472be57 100644
---- a/meta/recipes-extended/bash/bash_5.0.bb
-+++ b/meta/recipes-extended/bash/bash_5.0.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-014;apply=yes;striplevel=0;name=patch014 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-015;apply=yes;striplevel=0;name=patch015 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-016;apply=yes;striplevel=0;name=patch016 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-017;apply=yes;striplevel=0;name=patch017 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-018;apply=yes;striplevel=0;name=patch018 \
-            file://execute_cmd.patch \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -65,6 +67,11 @@ SRC_URI[patch015.md5sum] = "c4c6ea23d09a74eaa9385438e48fdf02"
- SRC_URI[patch015.sha256sum] = "a517df2dda93b26d5cbf00effefea93e3a4ccd6652f152f4109170544ebfa05e"
- SRC_URI[patch016.md5sum] = "a682ed6fa2c2e7a7c3ba6bdeada07fb5"
- SRC_URI[patch016.sha256sum] = "ffd1d7a54a99fa7f5b1825e4f7e95d8c8876bc2ca151f150e751d429c650b06d"
-+SRC_URI[patch017.md5sum] = "d9dcaa1d8e7a24850449a1aac43a12a9"
-+SRC_URI[patch017.sha256sum] = "4cf3b9fafb8a66d411dd5fc9120032533a4012df1dc6ee024c7833373e2ddc31"
-+SRC_URI[patch018.md5sum] = "a64d950d5de72ae590455b13e6afefcb"
-+SRC_URI[patch018.sha256sum] = "7c314e375a105a6642e8ed44f3808b9def89d15f7492fe2029a21ba9c0de81d3"
-+
- 
- DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
- DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--- 
-2.17.1
+> * Pass --disable-privsep to configure to eliminate dhcpcd start warning:
+>   no such user dhcpcd.
 
+Create the user instead please.
+
+Ross
