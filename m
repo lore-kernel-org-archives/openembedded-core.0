@@ -1,59 +1,112 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web11.8832.1600420357661378474
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.9010.1600420898434470906
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 02:12:38 -0700
+ Fri, 18 Sep 2020 02:21:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=pILsX4YL;
- spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f195.google.com with SMTP id b19so4455498lji.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 02:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wTT2iJwDTZBSaZM7QXrl1BBzYp5Cn5IvgFfFJJDSCQY=;
-        b=pILsX4YLfQtpFSZvpUqP/PUEKl76ssYXGDWG4Mlme4mHIF5KKJ0TAQnZJ3ooUeaXQf
-         e94oSOurhvGR977Du8wyUsDhwcJTJjHn8Gwc+wGTfQAYbEVNTvvMRNnsC9YTvdR6Bqtz
-         +pzP+W0a3/VDRn6GBy+LleAsfZHheWksCGoO51FW0f9/Gy2WsdfDSXUWsBubNHnEKGDa
-         1hlrXuH7r+LaEaRMS32nHq2nVTm5bg30KFyw0w2fGZgsVdnsrK9KkBemB2c/alv4kLde
-         x/HVARHARkGv0q1nZsiJiNqYiAiwuy7ZyK6VJDZORej8YCw0TA/+bX990U7HOAaDekhq
-         s7Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wTT2iJwDTZBSaZM7QXrl1BBzYp5Cn5IvgFfFJJDSCQY=;
-        b=HDqB27DpEvWoWpH42h9TBXmjH3FkiKzw1yWXD5hqDsAIXZYwLpuAmVl2aUb73EgliT
-         y/a8AFy4JwLkSpHhYY/VgtcrUZGFI/sY/vodXOfUUVJeHWWBU/LOjyj9JVXfKOVKJXiy
-         za2bKBMNXdQUfDpSsMTGa+CEcfwsJDAFN3eqa+VJRzUPbRm4wm7CvTyrUFa7PcZUzbIN
-         5K5VkN3qyzHPZ1hlOzwCPiBSdyQ1sNiBfAIm+2jC1bRRnf41lcCsFO9NWar0Be1+WsWm
-         BiqaKD53MWDAOxHkO/6F0i/ftPaYdvtWd9FFjIN2LV0fc70+C1aivEE0x5EroSQt3ZYP
-         ZBTg==
-X-Gm-Message-State: AOAM530isz2fv48Fk5dgto/qrc+rbfBKpSQksrhmTg7uS4/yDKOezBZq
-	5qhnfz7t8XL1X0hsk25YpWef6AfkTP03yIJ5kII3yQ==
-X-Google-Smtp-Source: ABdhPJwNOaYzmU5MrdZVZRhj1b3VssegDEEt5/FuCaFV+foMop1Cbowwt/EheQvZRkxIkpH3HWd+Y84y2NWexcLcqIE=
-X-Received: by 2002:a2e:b704:: with SMTP id j4mr10674528ljo.329.1600420355433;
- Fri, 18 Sep 2020 02:12:35 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 08I9La2C008030
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 02:21:37 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Fri, 18 Sep 2020
+ 02:21:35 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] kea: create /var/lib/kea and /var/run/kea folder
+Date: Fri, 18 Sep 2020 02:21:35 -0700
+Message-ID: <20200918092135.93519-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200915091523.31005-1-yi.zhao@windriver.com>
-In-Reply-To: <20200915091523.31005-1-yi.zhao@windriver.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Fri, 18 Sep 2020 10:12:24 +0100
-Message-ID: <CAAnfSTvAdEas2SRJwW=qSqrkby=GoObZyrqY3zVf-SJDs_6T+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] dhcpcd: add --dbdir and --disable-privesp to EXTRA_OECONF
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Tue, 15 Sep 2020 at 10:15, Yi Zhao <yi.zhao@windriver.com> wrote:
-> * Disable service start at boot time. This may conflict with connman.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Maybe we should just stop people installing multiple DHCP clients at
-the same time.
+Create /var/lib/kea and /var/run/kea folder if they doesn't
+exist to fix below error:
+ # keactrl start
+ INFO/keactrl: Starting /usr/sbin/kea-dhcp4 -c /etc/kea/kea-dhcp4.conf
+ INFO/keactrl: Starting /usr/sbin/kea-dhcp6 -c /etc/kea/kea-dhcp6.conf
+ INFO/keactrl: Starting /usr/sbin/kea-ctrl-agent -c /etc/kea/kea-ctrl-agent.conf
+ Unable to use interprocess sync lockfile (No such file or directory): /var/run/kea/logger_lockfile
+ Service failed: Launch failed: Unable to open PID file '/var/run/kea/kea-ctrl-agent.kea-ctrl-agent.pid' for write
+ [snip]
+ ERROR [kea-dhcp4.dhcp4/615.140641792751488] DHCP4_CONFIG_LOAD_FAIL configuration error using file: /etc/kea/kea-dhcp4.conf, reason: Unable to open database: unable to open '/var/lib/kea/kea-leases4.csv'
+ [snip]
 
-> * Pass --disable-privsep to configure to eliminate dhcpcd start warning:
->   no such user dhcpcd.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...e-var-lib-kea-and-var-run-kea-folder.patch | 39 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_1.7.10.bb   |  3 +-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch
 
-Create the user instead please.
+diff --git a/meta/recipes-connectivity/kea/files/0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch b/meta/recipes-connectivity/kea/files/0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch
+new file mode 100644
+index 0000000000..ab3fd83946
+--- /dev/null
++++ b/meta/recipes-connectivity/kea/files/0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch
+@@ -0,0 +1,39 @@
++From 639dc25cdabc9d1846000a542c8cc19158b69994 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Fri, 18 Sep 2020 08:18:08 +0000
++Subject: [PATCH] keactrl.in: create /var/lib/kea and /var/run/kea folder
++
++Create /var/lib/kea and /var/run/kea folder to fix below error:
++ # keactrl start
++ INFO/keactrl: Starting /usr/sbin/kea-dhcp4 -c /etc/kea/kea-dhcp4.conf
++ INFO/keactrl: Starting /usr/sbin/kea-dhcp6 -c /etc/kea/kea-dhcp6.conf
++ INFO/keactrl: Starting /usr/sbin/kea-ctrl-agent -c /etc/kea/kea-ctrl-agent.conf
++ Unable to use interprocess sync lockfile (No such file or directory): /var/run/kea/logger_lockfile
++ Service failed: Launch failed: Unable to open PID file '/var/run/kea/kea-ctrl-agent.kea-ctrl-agent.pid' for write
++ [snip]
++ ERROR [kea-dhcp4.dhcp4/615.140641792751488] DHCP4_CONFIG_LOAD_FAIL configuration error using file: /etc/kea/kea-dhcp4.conf, reason: Unable to open database: unable to open '/var/lib/kea/kea-leases4.csv'
++ [snip]
++
++Upstream-Status: Inappropriate [config specific]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ src/bin/keactrl/keactrl.in | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/bin/keactrl/keactrl.in b/src/bin/keactrl/keactrl.in
++index 12b2b3f..47cf6f9 100644
++--- a/src/bin/keactrl/keactrl.in
+++++ b/src/bin/keactrl/keactrl.in
++@@ -482,6 +482,8 @@ case ${command} in
++         # The variables (dhcp4_srv, dhcp6_serv, dhcp_ddns_srv etc) are set in the
++         # keactrl.conf file that shellcheck is unable to read.
++         # shellcheck disable=SC2154
+++        [ -d @LOCALSTATEDIR@/run/kea ] || mkdir -p @LOCALSTATEDIR@/run/kea
+++        [ -d @LOCALSTATEDIR@/lib/kea ] || mkdir -p @LOCALSTATEDIR@/lib/kea
++         run_conditional "dhcp4" "start_server ${dhcp4_srv} -c ${kea_dhcp4_config_file} ${args}" 1
++         run_conditional "dhcp6" "start_server ${dhcp6_srv} -c ${kea_dhcp6_config_file} ${args}" 1
++         # shellcheck disable=SC2154
++-- 
++2.26.2
++
+diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.7.10.bb
+index e2560b2399..d3c8834b46 100644
+--- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
++++ b/meta/recipes-connectivity/kea/kea_1.7.10.bb
+@@ -9,6 +9,7 @@ DEPENDS = "boost log4cplus openssl"
+ 
+ SRC_URI = "\
+     http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
++    file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch \
+     file://kea-dhcp4.service \
+     file://kea-dhcp6.service \
+     file://kea-dhcp-ddns.service \
+@@ -46,7 +47,7 @@ do_install_append() {
+     install -m 0644 ${WORKDIR}/kea-dhcp*service ${D}${systemd_system_unitdir}
+     sed -i -e 's,@SBINDIR@,${sbindir},g' -e 's,@BASE_BINDIR@,${base_bindir},g' \
+            -e 's,@LOCALSTATEDIR@,${localstatedir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-           ${D}${systemd_system_unitdir}/kea-dhcp*service
++           ${D}${systemd_system_unitdir}/kea-dhcp*service ${D}${sbindir}/keactrl
+ }
+ 
+ do_install_append() {
+-- 
+2.17.1
 
-Ross
