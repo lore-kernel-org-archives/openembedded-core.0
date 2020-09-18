@@ -1,94 +1,84 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web12.2715.1600391683665128134
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.6766.1600408838649619849
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2020 18:14:43 -0700
+ Thu, 17 Sep 2020 23:00:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries-io.20150623.gappssmtp.com header.s=20150623 header.b=0/aLzbkI;
- spf=softfail (domain: foundries.io, ip: 209.85.210.51, mailfrom: ricardo@foundries.io)
-Received: by mail-ot1-f51.google.com with SMTP id h17so3898007otr.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 18:14:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hOVt59tO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id k18so4268356wmj.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 23:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries-io.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SHAV4kQv2U0PqMuI4tkBGBU1RUe9F+6uDn6ZqXM9YPQ=;
-        b=0/aLzbkI/J2Ytd0sW+jZtaNi5veHxomWzznhSYcQgQQrrGwjyaBDqQYA1tnUd1r+xq
-         ak1fv03P4A+4OmZ2W8wlRC50YkakIj8+44S6ki00rTHGxVIG/5Zl+WrQ9gFHLC8YBd6S
-         BmbzqaMAsxC6QXIjWBWeIC+JEAltsPI9mbq8NzgOlgBKcoUz15YJXpdxQaixCIrByUeT
-         c5OK6rp4EX4stdUL1kMA77BmZdB91eVpC3+h02tBxFWrJG7177SH4lOjElTyUVPSJ1fg
-         KbiF/WZ48ALNfa8gUuPIWFD0WvaLrvf7795c2xSWskvf7/FnmcOOlehsm25D4ExqR09g
-         xsFg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cV/vYyte1KecGYs1GOqDNOWJEYBLJxMuUdpM+bjNbdM=;
+        b=hOVt59tOFG051oWsUiqIyob+/J2FhBlGHDgR/dKMtAqlvvQ8EP3o/z2MkC/JhEdLP+
+         14W0FvZtdIMqSA7FpoZno9YyvLWuZxwLpVGzZ8UZC9yH0kxfwx0A6vRTvroQGvmHxpIz
+         8GnpnZSVNWL568N5CE6dlMpCd4qKgABSS2CC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SHAV4kQv2U0PqMuI4tkBGBU1RUe9F+6uDn6ZqXM9YPQ=;
-        b=ou89JDfpsGwCzwjpqnOXaHP/ggls8Dll7apMUQKOr2L4/cy55JspN6zpcnMWhfLHA1
-         kNIyxo53MIVfCzUzm+nS5Cp3bmuFj8nDDrPQ58ILE4ARcIcd6pZukk6ce8knIqHLR8Pg
-         2quY01OALzHWka56XQiCo1ob64NqbHvmOtMRbu5zrSUkI4GgYXtGRDspD14E5lryRsKp
-         nXf43N/Rvfa6lnW99Wud1rVfcdmeBcKC7PeZPT/CIudYOamm3zE+Ppx7yx1ZbLpwgiPh
-         6Xl+7ni+ZkgmyQ0pFaMe3MUVwrz/NAbbFV/jJ49XDriikJRKEZLY+Z4Knpy7h5F/tGhF
-         RyQw==
-X-Gm-Message-State: AOAM532xxrh7vkhYgFLhZtGuP/O9XFHw1KPEmg87D8zwRgsgKJcIa6QE
-	lLGMQa/yA+Tp1yWW75p9eYD/TgcKEfsTvxLobNN1
-X-Google-Smtp-Source: ABdhPJwTWI3yE2xemFmHJsArVMp0frDZ4/7FiEoxRlqSyDqpiEttEfgIw/bHh8NdwC7LDhuAtczwAgyoG4D6FtTOP+w=
-X-Received: by 2002:a9d:140a:: with SMTP id h10mr21133816oth.46.1600391682829;
- Thu, 17 Sep 2020 18:14:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cV/vYyte1KecGYs1GOqDNOWJEYBLJxMuUdpM+bjNbdM=;
+        b=Wk/GhIidGDR16QMZYZKDdIkGTp/IAbxUS4hXmWuh9BBEKLxU2fofjJEdAch6fTZLva
+         TAJ9AByipZaMuXRkIH7Qw6taCsbck/7Hvv5WbrZIfkyx/GGezF1seLXC7zAdQBz6Iu4B
+         JCtSKfDas6EjlwlixVeRRTeV02d/1QXsqi0oCy73MQxoHw8M83zZNFNIp0O9ItE8tinz
+         C13J8RR+rwypcvCOzs9i/5BnllgdYGUoh1bOgC0Z/fk0x6oQUySgjs5mN8FW/A1ZIEIA
+         Bj0pjbRD8IXfQXosAw78TLXRGduBe4VpoRZ9C9nLaCyJOBYz9mibW2sY4YLe9mVfaIuz
+         Ty5Q==
+X-Gm-Message-State: AOAM530q/jNNqqZovDcqyoU5Wz/nZcxgAzNRfTehtOOiNc2ubiHeFN+g
+	AFHcvz+uCmqgHijW8hBNCYYrxf2j2ENWRw==
+X-Google-Smtp-Source: ABdhPJw2K6pKVKYXhXl9oBVsM3BHPPQMIkW9iVDGmVPFA3ZKKe51M1N8W44C6tUrNWiVaxkLAUHcSQ==
+X-Received: by 2002:a1c:9cd3:: with SMTP id f202mr13607715wme.148.1600408836515;
+        Thu, 17 Sep 2020 23:00:36 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c89a:97f7:466b:4a17])
+        by smtp.gmail.com with ESMTPSA id o16sm3039943wrp.52.2020.09.17.23.00.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 23:00:36 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] dropbear/openssh: Lower priority of key generation
+Date: Fri, 18 Sep 2020 07:00:33 +0100
+Message-Id: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200915091523.31005-1-yi.zhao@windriver.com>
-In-Reply-To: <20200915091523.31005-1-yi.zhao@windriver.com>
-From: "Ricardo Salveti" <ricardo@foundries.io>
-Date: Thu, 17 Sep 2020 22:14:07 -0300
-Message-ID: <CAAaKDhEPBDY-MXbhjjJ816ssRFuwQVSJSoA8RWGvg=pU=qUtQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] dhcpcd: add --dbdir and --disable-privesp to EXTRA_OECONF
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 15, 2020 at 6:15 AM Yi Zhao <yi.zhao@windriver.com> wrote:
->
-> * Disable service start at boot time. This may conflict with connman.
-> * Set --dbdir to /var/lib/dhcpcd rather than /var/db/dhcpcd to satisfy
->   FHS compliance.
-> * Pass --disable-privsep to configure to eliminate dhcpcd start warning:
->   no such user dhcpcd.
+Where we have images with PAM+systemd, serial login can be extremely
+slow. The load generated by key generation does slow down the rest
+of the boot process.
 
-Isn't it better to just create the missing user at the system level?
+Lower the priority level of these systemd services, since we'd
+prefer to have the rest of the system boot more effectively.
 
-You could leverage systemd sysusers.d as done by arch at
-https://github.com/archlinux/svntogit-packages/blob/packages/dhcpcd/trunk/dhcpcd.sysusers
-(in case systemd is enabled).
+This doesn't "solve" the slow systemd boot issues but does help.
 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-> index 292cb5b008..4b5f4d7766 100644
-> --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-> +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-> @@ -22,13 +22,14 @@ SRC_URI[sha256sum] = "fcb2d19672d445bbfd38678fdee4f556ef967a3ea6bd81092d10545df2
->  inherit pkgconfig autotools-brokensep systemd
->
->  SYSTEMD_SERVICE_${PN} = "dhcpcd.service"
-> +SYSTEMD_AUTO_ENABLE_${PN} = "disable"
->
->  PACKAGECONFIG ?= "udev ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
->
->  PACKAGECONFIG[udev] = "--with-udev,--without-udev,udev,udev"
->  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
->
-> -EXTRA_OECONF = "--enable-ipv4"
-> +EXTRA_OECONF = "--enable-ipv4 --disable-privsep --dbdir=${localstatedir}/lib/${BPN}"
->
->  do_install_append () {
->      # install systemd unit files
-> --
-> 2.17.1
->
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service | 1 +
+ meta/recipes-core/dropbear/dropbear/dropbearkey.service       | 1 +
+ 2 files changed, 2 insertions(+)
 
-Cheers,
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+index 603c33787f1..fd81793d511 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+@@ -6,3 +6,4 @@ RequiresMountsFor=/var /run
+ ExecStart=@LIBEXECDIR@/sshd_check_keys
+ Type=oneshot
+ RemainAfterExit=yes
++Nice=10
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+index c49053d57c7..71a12a6110c 100644
+--- a/meta/recipes-core/dropbear/dropbear/dropbearkey.service
++++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+@@ -11,3 +11,4 @@ Type=oneshot
+ ExecStart=@BASE_BINDIR@/mkdir -p ${DROPBEAR_RSAKEY_DIR}
+ ExecStart=@SBINDIR@/dropbearkey -t rsa -f ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key
+ RemainAfterExit=yes
++Nice=10
 -- 
-Ricardo Salveti
+2.25.1
+
