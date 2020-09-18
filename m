@@ -1,164 +1,92 @@
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.114])
- by mx.groups.io with SMTP id smtpd.web12.9354.1600422625840969898
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web12.9910.1600425072789339275
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 02:50:26 -0700
+ Fri, 18 Sep 2020 03:31:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@sigmatek.at header.s=selector2 header.b=CbL9lb2l;
- spf=pass (domain: sigmatek.at, ip: 40.107.3.114, mailfrom: christian.perkonig@sigmatek.at)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NLAtEawVn2qrHEkrYNXOr1OgrdnLnJUxaNCjEEdPd5ye8PaxI31N+FVJ9HO/PHbcMW6Lb0JmaD675ez2of4BUo+5tFOY6TXFsWNJ213Ab2Bva5C/8U1+GBZl0t7zzNEZ4y2Z2j+BmAwH1GxPaFu872korotho21xLwnZa0XxESMzbZDGW1iV2ljIW0oCptGuuIeCkWR/l5rsR5B4HniewQeiX1XLWRgarGvAa45BHRw3bEwtrnLmFt5nW+mGsTSp1gOOXPmJvS/vRSMWgj/35DE0Ni+5xi5EfcUGnCnXBlu7Pq97eQLZ40YP1TCXgCB3xTxeJjJPduxYjYFqM+o/Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9ZiL4fmSjoQKxMDseob4ZgQKACavJbHWaR+uTtweXJ8=;
- b=E7+PoWhCzEfO36jeEoirLRhASm135euSWu6bwgiyTCvsG4JkfEnFT4wCb1WOeWaDzuj7OLl0D3a97A8Zi35oBNSH+BP0Cs6BFJ118Eg03MoaXKrynXt1ODbUmIrR8rscVkjMC/lyQk4pIakH6fwcfMJEIYiE6jPnfQegmCxLpVglnQfdpoj5k2W8OUnoLbDlsmMgUbOvEgcqHFTM6DE9CAWmBIVmIfI8KlrCgz0X7DlOLrd5t6tOzxd081a6uJ/wzMk7u2ltbOr2HVxS0Pp/LtYGyrvmpI8QYHw0SFRSMl8DNanVu9zD/G2t3QwuyYDjncfoeGNC44sDD4PoZ13gqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sigmatek.at; dmarc=pass action=none header.from=sigmatek.at;
- dkim=pass header.d=sigmatek.at; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigmatek.at;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9ZiL4fmSjoQKxMDseob4ZgQKACavJbHWaR+uTtweXJ8=;
- b=CbL9lb2l9d0i+09+i9B/EHwAImopEa8u5a1m067Xg9P3xuh9+UnhlTznVYidOBgMHe3+IAvnvdZePl7ngVVKviCqxjPQUM/1ln2jGFqNzLjSU5qdCHv+hPmPNRVcSpt4H+cz7zG3nDtcwZSd2GZR5GEu5iuRpSCebGuueloeuGU=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=sigmatek.at;
-Received: from AM0PR08MB3443.eurprd08.prod.outlook.com (2603:10a6:208:d4::14)
- by AM0PR08MB5490.eurprd08.prod.outlook.com (2603:10a6:208:184::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Fri, 18 Sep
- 2020 09:50:23 +0000
-Received: from AM0PR08MB3443.eurprd08.prod.outlook.com
- ([fe80::2427:aa74:d67d:7072]) by AM0PR08MB3443.eurprd08.prod.outlook.com
- ([fe80::2427:aa74:d67d:7072%5]) with mapi id 15.20.3391.011; Fri, 18 Sep 2020
- 09:50:23 +0000
-From: "Christian Perkonig" <christian.perkonig@sigmatek.at>
-To: openembedded-core@lists.openembedded.org
-CC: Christian Perkonig <christian.perkonig@sigmatek.at>
-Subject: [PATCH 2/2] meson: set correct cpu and cpu-family for multilib SDKs
-Date: Fri, 18 Sep 2020 11:50:04 +0200
-Message-ID: <20200918095004.34894-2-christian.perkonig@sigmatek.at>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918095004.34894-1-christian.perkonig@sigmatek.at>
-References: <20200918095004.34894-1-christian.perkonig@sigmatek.at>
-X-ClientProxiedBy: VI1PR07CA0167.eurprd07.prod.outlook.com
- (2603:10a6:802:3e::15) To AM0PR08MB3443.eurprd08.prod.outlook.com
- (2603:10a6:208:d4::14)
-Return-Path: christian.perkonig@sigmatek.at
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=aT4SwXDd;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f67.google.com with SMTP id q8so5570626lfb.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 03:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kKZC+ZK1tg1QdaytoRv9WENQH95h7xpekYcJROvt4Ss=;
+        b=aT4SwXDdi3irwhR48+gsnhgD4nrUunCwvYctMXyG4WEQdG9u3tgyIhppqhPnFDj+et
+         1QC5nhEE7C4PfYbUS1nSPvZ9F+dzkSm24+sGdX9IBFY/Nv4bO3HSa+Gux8fO5lSPkyMk
+         IldCjYJrDInWTanIiCCwq9q95cK07eXFF/Yb7A1P0iRj7YMiNoe3tzFVpBkhJZEWG8xj
+         GLgkQq04w2Zecxp1yqK9SN7IwGysxprUZrUAcoh0WwDlXIqY8w82xs/xydcZnkEkKARO
+         OgmlENPAwMZmhuQYJDi3MfTNBSbjtZm9PEFADJriAn2u5oYGEIwE/q5vVxIRhRgktmui
+         vv5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kKZC+ZK1tg1QdaytoRv9WENQH95h7xpekYcJROvt4Ss=;
+        b=iHDuV/pZ9ndl5tosRWBNejqZneJ7pVDuJVMdCEqIPIMp9RQOD2QLooE4nsuw6FC5Xz
+         sL6nHltAjOzHya7yE14N2vOSCsG/6zC7nJG6Oo5iqRIsRTOcHeBAXsQ2k1tUqq/noyyn
+         gBPBEd9xsvcpwe5dYj3AWR1BC3nWyGaSHr+kOxoeQX/v48vcICKyBw1JCHIDbyzt4r6G
+         O78SAChphrxe7v1ZHiCtvrZNLlTK3/iE253I2Q7qKL6uEGY2HOWTlEvIfO85PZeLxgcl
+         Y0AMpwONcl8KsLT1z7r4BPPci2EvOqO84aQwsszPQLg5nVGIMhGLOkE+LGn6yqigl7/W
+         PneQ==
+X-Gm-Message-State: AOAM530k78AcRQTVFs9y7vc85UHoEviMuq5gsyXDFz5km0ff396ZhIt/
+	sJFPvo4WX89jxIaCG3HapJS52wNtsLf8vnfiDdRlcg==
+X-Google-Smtp-Source: ABdhPJzSSouGrXgVG1HFS/0WJKWki2nlm6c2kF5a6r7ffIYmBvd72yJesPz0b9iqBYvOb9R7pJHMVSFCPjoKtXzZvt4=
+X-Received: by 2002:a19:c8c6:: with SMTP id y189mr10704314lff.125.1600425070532;
+ Fri, 18 Sep 2020 03:31:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from LWIUB005.wien.sigaut.org (217.175.200.226) by VI1PR07CA0167.eurprd07.prod.outlook.com (2603:10a6:802:3e::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.7 via Frontend Transport; Fri, 18 Sep 2020 09:50:23 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [217.175.200.226]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b3d1b8c-a6f1-4ef8-c7e1-08d85bb8434f
-X-MS-TrafficTypeDiagnostic: AM0PR08MB5490:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR08MB549056AC489033FCD7106949963F0@AM0PR08MB5490.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	H3K6F/bTQ5Cs/SgKplNk0s4LBenOj5yJoaDjQ4m7Dy+r1+9rVy+NU0HHZf/Wb+8RVZhMQjdppgrG0fGQemEhRRRYk2FXuWGavBFeHxL8FjY9F+SsOvrKFKHV5sfhK3E6HELeO9REPYp9Uihwb/0PdELXLdzxtfWG01kyBYxx+ArP+ScJpHgpkcsC2dQHlEC1b2e9OsbBKaS1IdN19CZ42sH3n+wADG/gokmvtawdK7gZkcTuYj3l3La/UV3h6Fr4zN34luvX4jYvlLGdZG9NiIuc3lMPZcwKj86r8oVvOa7HT16+fwhXSjRqc+0diQ2DfIO8OKgJc1V3/FC6iWk13w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR08MB3443.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(136003)(39840400004)(376002)(346002)(8676002)(8936002)(5660300002)(478600001)(6666004)(36756003)(1076003)(6916009)(6486002)(66476007)(186003)(6512007)(86362001)(66946007)(66556008)(26005)(316002)(107886003)(956004)(2616005)(2906002)(44832011)(52116002)(4326008)(16526019)(6506007)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	y5p9x9O6GUYONLbLqW9oJ1Nn3bCdHYvKRh1HIB9bciWw2ptlzRiKRPvYgiKN8zoY+LVmeP5NHLFZZ7Kf+BfJlpv2epr63GYlH5Omy/IWeoL3ffaA1Ctj6tccGM/ZpgCiYaVMCsWXXJly3e4+FDZzTzIIb9F5sYpoEqJA17uhB8P0WJ1Jqm9T3wniBL0ZNR6fA6z4QQlGmSUfMZh85ePwvk5wF1T2b/L720bXD2gnqGHQf4E3WK/d4LHqGzDUFv5kvteA4Y8huCfaxoZSJnBluEUD1e6O4qqoXplgKB/GHfmIoWkf8UDARmxWA7b9SVLZOT3GGwJFNJCh/g92N+VeRE3JYE5e5LJJGO+5F5ScfmFnxINrNPR1sUl10aaP9JiC9vBDtsM8TOWuy8mrjKZjRWADrutw2XM1YTzRymQN48WHD0mmELSqKy0MwAb5X7MlBxds1WKSgHkb0rVyNAcLsyVGyCd7MxZnyJ2naylbIE17DzEZ7Yc5V+/n1X20yqCDJ2Sw7Z2fc9MGY/Hlhn1MmT35lgEYvSkbQEnN9iXIYBtoexcqevTOWpp4idLlL5uesFI+SkeKMkrIvNYc3Y3A47N0q4MQS03d2+Ajq7VS+MRjX5rMCeHhn1tMsibvStCR02B3hj/JpEdXearMHEz+Pg==
-X-OriginatorOrg: sigmatek.at
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b3d1b8c-a6f1-4ef8-c7e1-08d85bb8434f
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3443.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2020 09:50:23.5546
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bcb1d87a-d2bc-486e-a62b-9ac9c746bc1b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CwJ2Xd+vMpj4V22Sott39C7khlnsLkOAShc6jME1gfTrdZgp9YgueOhUcblJdZZpOED+55oP3USqAN1esuQAN4W6v6kaB9Ww4Er0a2jf30Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5490
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <20200918071819.28679-1-chee.yang.lee@intel.com>
+In-Reply-To: <20200918071819.28679-1-chee.yang.lee@intel.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 18 Sep 2020 11:30:59 +0100
+Message-ID: <CAAnfSTszCH_xxqLR+JJQ+MfgomNME9dg-opEVhD79Tpg1GH99w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bash : inlcude patch 17 & 18
+To: Lee Chee Yang <chee.yang.lee@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-meson use to cross compile a cross-file. This file is special for
-every build environment. So if you have a multilib SDK for aarch64
-and arm the cpu_family and the cpu variable in the [HOST]-section
-of the cross-file must be set correctly.
+Typo in subject, and can you summarise what these patches are doing?
+(especially if they are CVE related).
 
-Currently these variables are statically set to TARGET_ARCH during
-generation of the meson.cross.template file. Now the post-relocate
-scripts sets these variable for every environment.
+Ross
 
-Signed-off-by: Christian Perkonig <christian.perkonig@sigmatek.at>
----
- meta/recipes-devtools/meson/meson/meson-setup.py      | 11 ++++++++++-
- meta/recipes-devtools/meson/nativesdk-meson_0.55.1.bb |  8 +++++---
- 2 files changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/meson/meson/meson-setup.py b/meta/recipe=
-s-devtools/meson/meson/meson-setup.py
-index 808e2a062f..a6b716c731 100755
---- a/meta/recipes-devtools/meson/meson/meson-setup.py
-+++ b/meta/recipes-devtools/meson/meson/meson-setup.py
-@@ -7,6 +7,10 @@ import sys
- class Template(string.Template):
-     delimiter =3D "@"
-=20
-+
-+class TemplateSingle(string.Template):
-+    delimiter =3D "@@"
-+
- class Environ():
-     def __getitem__(self, name):
-         val =3D os.environ[name]
-@@ -15,6 +19,10 @@ class Environ():
-         val =3D '[%s]' % val
-         return val
-=20
-+class SingleEnv():
-+    def __getitem__(self, name):
-+        return '%s' % os.environ[name]
-+
- try:
-     sysroot =3D os.environ['OECORE_NATIVE_SYSROOT']
- except KeyError:
-@@ -26,6 +34,7 @@ cross_file =3D os.path.join(sysroot, 'usr/share/meson/%sm=
-eson.cross' % os.environ[
-=20
- with open(template_file) as in_file:
-     template =3D in_file.read()
--    output =3D Template(template).substitute(Environ())
-+    s =3D TemplateSingle(template).substitute(SingleEnv())
-+    output =3D Template(s).substitute(Environ())
-     with open(cross_file, "w") as out_file:
-         out_file.write(output)
-diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.55.1.bb b/meta/r=
-ecipes-devtools/meson/nativesdk-meson_0.55.1.bb
-index 3c8c4fbc37..67fdd2235d 100644
---- a/meta/recipes-devtools/meson/nativesdk-meson_0.55.1.bb
-+++ b/meta/recipes-devtools/meson/nativesdk-meson_0.55.1.bb
-@@ -30,6 +30,7 @@ c =3D @CC
- cpp =3D @CXX
- ar =3D @AR
- nm =3D @NM
-+ld =3D @LD
- strip =3D @STRIP
- pkgconfig =3D 'pkg-config'
-=20
-@@ -40,10 +41,11 @@ c_link_args =3D @LDFLAGS
- cpp_args =3D @CPPFLAGS
- cpp_link_args =3D @LDFLAGS
-=20
-+# Host configuration form the meson point of view=20
- [host_machine]
--system =3D '${SDK_OS}'
--cpu_family =3D '${SDK_ARCH}'
--cpu =3D '${SDK_ARCH}'
-+system =3D '${TARGET_OS}'
-+cpu_family =3D '@@ARCH'
-+cpu =3D '@@OECORE_TARGET_ARCH'
- endian =3D '${@meson_endian("SDK", d)}'
- EOF
-=20
---=20
-2.25.1
-
+On Fri, 18 Sep 2020 at 08:18, Lee Chee Yang <chee.yang.lee@intel.com> wrote:
+>
+> From: Chee Yang Lee <chee.yang.lee@intel.com>
+>
+> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+> ---
+>  meta/recipes-extended/bash/bash_5.0.bb | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
+> index 8ff9e6edaf..12d472be57 100644
+> --- a/meta/recipes-extended/bash/bash_5.0.bb
+> +++ b/meta/recipes-extended/bash/bash_5.0.bb
+> @@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+>             ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-014;apply=yes;striplevel=0;name=patch014 \
+>             ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-015;apply=yes;striplevel=0;name=patch015 \
+>             ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-016;apply=yes;striplevel=0;name=patch016 \
+> +           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-017;apply=yes;striplevel=0;name=patch017 \
+> +           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-018;apply=yes;striplevel=0;name=patch018 \
+>             file://execute_cmd.patch \
+>             file://mkbuiltins_have_stringize.patch \
+>             file://build-tests.patch \
+> @@ -65,6 +67,11 @@ SRC_URI[patch015.md5sum] = "c4c6ea23d09a74eaa9385438e48fdf02"
+>  SRC_URI[patch015.sha256sum] = "a517df2dda93b26d5cbf00effefea93e3a4ccd6652f152f4109170544ebfa05e"
+>  SRC_URI[patch016.md5sum] = "a682ed6fa2c2e7a7c3ba6bdeada07fb5"
+>  SRC_URI[patch016.sha256sum] = "ffd1d7a54a99fa7f5b1825e4f7e95d8c8876bc2ca151f150e751d429c650b06d"
+> +SRC_URI[patch017.md5sum] = "d9dcaa1d8e7a24850449a1aac43a12a9"
+> +SRC_URI[patch017.sha256sum] = "4cf3b9fafb8a66d411dd5fc9120032533a4012df1dc6ee024c7833373e2ddc31"
+> +SRC_URI[patch018.md5sum] = "a64d950d5de72ae590455b13e6afefcb"
+> +SRC_URI[patch018.sha256sum] = "7c314e375a105a6642e8ed44f3808b9def89d15f7492fe2029a21ba9c0de81d3"
+> +
+>
+>  DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+>  DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+> --
+> 2.17.1
+>
+>
+> 
+>
