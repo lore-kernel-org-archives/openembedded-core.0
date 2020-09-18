@@ -1,84 +1,82 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.6766.1600408838649619849
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.6759.1600408839217523537
  for <openembedded-core@lists.openembedded.org>;
  Thu, 17 Sep 2020 23:00:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hOVt59tO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id k18so4268356wmj.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gR2axdwN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id x14so4298087wrl.12
         for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2020 23:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=cV/vYyte1KecGYs1GOqDNOWJEYBLJxMuUdpM+bjNbdM=;
-        b=hOVt59tOFG051oWsUiqIyob+/J2FhBlGHDgR/dKMtAqlvvQ8EP3o/z2MkC/JhEdLP+
-         14W0FvZtdIMqSA7FpoZno9YyvLWuZxwLpVGzZ8UZC9yH0kxfwx0A6vRTvroQGvmHxpIz
-         8GnpnZSVNWL568N5CE6dlMpCd4qKgABSS2CC8=
+        bh=ODJC02OuEtboLTw6IuZ5f4x1jKT8eQDCb7ARPzZPxU4=;
+        b=gR2axdwNKlXvxv3yUYFlpHoEbArkKv/aepYIhMXy1UlEzCy/l/UMuiE0umeMf1226p
+         a1eehFE50p4QpxnijMBFjkPjUxb8oHSok62WfauicQ+57Oh40bIQfUfyyeaC3oDSvlRV
+         JjM30Owr1pm4t8fEN69I2AZvHFntJGoUlUn6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cV/vYyte1KecGYs1GOqDNOWJEYBLJxMuUdpM+bjNbdM=;
-        b=Wk/GhIidGDR16QMZYZKDdIkGTp/IAbxUS4hXmWuh9BBEKLxU2fofjJEdAch6fTZLva
-         TAJ9AByipZaMuXRkIH7Qw6taCsbck/7Hvv5WbrZIfkyx/GGezF1seLXC7zAdQBz6Iu4B
-         JCtSKfDas6EjlwlixVeRRTeV02d/1QXsqi0oCy73MQxoHw8M83zZNFNIp0O9ItE8tinz
-         C13J8RR+rwypcvCOzs9i/5BnllgdYGUoh1bOgC0Z/fk0x6oQUySgjs5mN8FW/A1ZIEIA
-         Bj0pjbRD8IXfQXosAw78TLXRGduBe4VpoRZ9C9nLaCyJOBYz9mibW2sY4YLe9mVfaIuz
-         Ty5Q==
-X-Gm-Message-State: AOAM530q/jNNqqZovDcqyoU5Wz/nZcxgAzNRfTehtOOiNc2ubiHeFN+g
-	AFHcvz+uCmqgHijW8hBNCYYrxf2j2ENWRw==
-X-Google-Smtp-Source: ABdhPJw2K6pKVKYXhXl9oBVsM3BHPPQMIkW9iVDGmVPFA3ZKKe51M1N8W44C6tUrNWiVaxkLAUHcSQ==
-X-Received: by 2002:a1c:9cd3:: with SMTP id f202mr13607715wme.148.1600408836515;
-        Thu, 17 Sep 2020 23:00:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ODJC02OuEtboLTw6IuZ5f4x1jKT8eQDCb7ARPzZPxU4=;
+        b=El0ACOif9Y4tnfGTxv4ZuuV4twV6m0dObFNhZaVXARwPA+Uru9XB1tIXwzDAEEX1TP
+         ec3SJZAt+gB9xN50qpX54vVoR3nLZbD8AABP2kj3pfElgn1JAYNLnlJZzuhqOYvf+eNq
+         t90LTfj449sp/15oh9oRjQVi/X+nWQ+dXfG4ohSSDU0MpL2bu0YfZnsxdarxwnLXWJdv
+         MQINqpLMMnPiRPvTMq+HiebNbje78z72y5/iHtdB48ZdZhKMIawzQvTGSqK6UftJUCQ+
+         f0VPkn3gnSJuWwZFEUNEWjUNgqpV7VqyDbkshzEq6FXK5KuevSCJi8TBdqBbZFuqi1Dn
+         nZ8A==
+X-Gm-Message-State: AOAM532NbWorFAt/DWnzXvF6rYk5YBem4OymY2Zay0uBjFGLO/nyxown
+	DjgVJwc6rlImfQEkk6OA0ZHMQPWqm8U6eA==
+X-Google-Smtp-Source: ABdhPJxe2hNZTqr2Wel0dvTPv1cUIFaW8VD3HrzS0Yl29ATiVo7MYL723eSAPNV6X1f+dKd6cDaeeg==
+X-Received: by 2002:adf:eacf:: with SMTP id o15mr38077975wrn.12.1600408837296;
+        Thu, 17 Sep 2020 23:00:37 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c89a:97f7:466b:4a17])
-        by smtp.gmail.com with ESMTPSA id o16sm3039943wrp.52.2020.09.17.23.00.35
+        by smtp.gmail.com with ESMTPSA id o16sm3039943wrp.52.2020.09.17.23.00.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Sep 2020 23:00:36 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] dropbear/openssh: Lower priority of key generation
-Date: Fri, 18 Sep 2020 07:00:33 +0100
-Message-Id: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] oeqa/qemurunner: Increase serial timeout
+Date: Fri, 18 Sep 2020 07:00:34 +0100
+Message-Id: <20200918060034.2327283-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
+References: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Where we have images with PAM+systemd, serial login can be extremely
-slow. The load generated by key generation does slow down the rest
-of the boot process.
+Increase the serial login timeout from 60 to 120s. This seems like a
+long time, however for a qemumips image with systemd+PAM and openssh,
+(e.g. core-image-sato-sdk + DISTRO=poky-altcfg), the getty connects
+to systemd's pam module which waits on logind and 45s for all this
+to happen at the same time as things like ssh key generation happens
+is not unknown.
 
-Lower the priority level of these systemd services, since we'd
-prefer to have the rest of the system boot more effectively.
-
-This doesn't "solve" the slow systemd boot issues but does help.
+Increase the timeout to match the longer times we know these things
+can take in the worst case scenarios since we're tired of intermittent
+issues related to the serial login affecting the autobuilder.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service | 1 +
- meta/recipes-core/dropbear/dropbear/dropbearkey.service       | 1 +
- 2 files changed, 2 insertions(+)
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-index 603c33787f1..fd81793d511 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-@@ -6,3 +6,4 @@ RequiresMountsFor=/var /run
- ExecStart=@LIBEXECDIR@/sshd_check_keys
- Type=oneshot
- RemainAfterExit=yes
-+Nice=10
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-index c49053d57c7..71a12a6110c 100644
---- a/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-+++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-@@ -11,3 +11,4 @@ Type=oneshot
- ExecStart=@BASE_BINDIR@/mkdir -p ${DROPBEAR_RSAKEY_DIR}
- ExecStart=@SBINDIR@/dropbearkey -t rsa -f ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key
- RemainAfterExit=yes
-+Nice=10
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 519aa9aa1e5..77ec939ad72 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -393,7 +393,7 @@ class QemuRunner:
+ 
+         # If we are not able to login the tests can continue
+         try:
+-            (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True)
++            (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True, timeout=120)
+             if re.search(self.boot_patterns['search_login_succeeded'], output):
+                 self.logged = True
+                 self.logger.debug("Logged as root in serial console")
 -- 
 2.25.1
 
