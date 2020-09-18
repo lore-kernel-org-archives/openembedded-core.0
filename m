@@ -1,77 +1,104 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web12.428.1600445746422245678
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web11.2383.1600451158779780655
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 09:15:46 -0700
+ Fri, 18 Sep 2020 10:45:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VmUgj/HW;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id l126so3753388pfd.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=igLgEKsG;
+ spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f193.google.com with SMTP id x123so3900365pfc.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 10:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=QpAPm26ryCSvMb2lhV0bp0S4uC7nMvC1uje0BEx2E5k=;
-        b=VmUgj/HWTRge5OebU4Ai9ZpluRRnZfUIqWD4mSs2f130C/pdfHjmQv3aqxCitd7bVz
-         3DDuyQVkrxEcXv87LJKXzEtol2b2p2At96yUUFsEKPGOiEEw+/a1OTsdQotcW2ZARb6i
-         jjXvXWbHrjtVZxCwnOxz3aSANKgxALGp3yNq+0xoO8v/K5HgNwq5jaQ6jWZJyfjj23J6
-         B7SOURW6yIGUVPe91IjVfQqgCvqxEMU/WDKVjwe9YzHjlcg57dFqiVvu5wNqqyBW9bPV
-         JVQwcKBy/SnJHB1WORrEhWbSFkLnMAvV5b2K/T87BwVimoANBpVjiGn5J1KczKA7/HmS
-         qiGQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=KNc8EZwKIbmO5I2I3xY39eAitUM0jLntvjCmvu4Ah/w=;
+        b=igLgEKsGqYlVKYd05vhodeMZ/Sbkrt41iSfpWvMYfX5pPF8vda8uiKQTZLdFmIog1w
+         0rtwOfTUHa3zOipoNHgeIV9J475hEe/WmoURlBKxe2D2OG++D/us3kTvqhTBgOHEouyZ
+         yu8+Yhg04DhJDsjh0gXudtMH1UHcPUVJMGdyu150eVAM052KKCKzRW6OE1l5Nocc2+B1
+         EGNSKSjnfar5YL2L5AZhn6xwNo95S7uhjR/pWhtXQ/tffRPUsYD/b5DpKwxmgrbrrMBA
+         qU++NqDF/DBN7e1wrgGTGA8tFKT/vpx2+R55GNJkEh+6Szksy2x9KVR6qD9FQt3YTffC
+         4nyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=QpAPm26ryCSvMb2lhV0bp0S4uC7nMvC1uje0BEx2E5k=;
-        b=nD+smJ3xy1AU7rcibK2tZcrig/Lm2f+eenmZ3ItA40VJbPzXAyhDHhroy97SYBMD8s
-         DcW8oxm5fIzVIb8geGHxQyy3zDczh0qfzU14f5T1Q2v37a2z/3xcNY4mJxQynRrY3nit
-         spCP1K2/djRoy+xE1kCMz2IMeyxKBjd7yHSv/gSRDohSYtQixbvNvtAnD3WBPk9fLAxT
-         dJwagcZ4FnyM1OfyogHimIcAV2Q86mVmoUVojwDPTZ3Yj7lmJYaWcbsIKjTg+hjQwwRQ
-         8VhPAQ8Iy5kMHoe+BNDq0ZTVItRAw+MSkjr57GEhPw0tEh3/srecC39PwYZtG4MWhJax
-         F8kA==
-X-Gm-Message-State: AOAM532MWbW2UUo6rZsKwuPJgrcnqAOcE1jeciJ0JeVgxt+BwNQ6N1Vy
-	+FC6HsSeUWNLfPe6wanuRUEfvXHUdcOn0AJeIXU=
-X-Google-Smtp-Source: ABdhPJybTqoC5ou2YpHkgoPC27eGFiixuFh7qzq5hz8M3erZ1l5ogo3dHHXYhH08b9eqCC9hnxEkVQ==
-X-Received: by 2002:aa7:93a2:0:b029:142:2501:39f4 with SMTP id x2-20020aa793a20000b0290142250139f4mr16380017pff.67.1600445745509;
-        Fri, 18 Sep 2020 09:15:45 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 09:15:44 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 7/7] Revert "kernel.bbclass: run do_symlink_kernsrc before do_patch"
-Date: Fri, 18 Sep 2020 06:15:15 -1000
-Message-Id: <a6a9913575aab96f4347bdf979e26115aa0fd716.1600445624.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1600445624.git.steve@sakoman.com>
-References: <cover.1600445624.git.steve@sakoman.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KNc8EZwKIbmO5I2I3xY39eAitUM0jLntvjCmvu4Ah/w=;
+        b=cVFNLN7ovpBB7cZnPDEL3xY1zCggIyz8cMDB/HxrlXZkLeBF+QeejbULMy/XCyPmcQ
+         KkkGXAX6kpW6r6lmI5quZxgH0n/w1+Gr0/x/1U23y3+G2JasLWvamR/EJ3WgzifwNxvq
+         bmTH7QgfOO2NmxZLYRT/b+V190tA9niHw7VYIvyutBXWQQs2UaUAKpTI5AE+Taq8+Xyc
+         po76suvDDQasZj2hhkHPI166GTUa+e+qEb7WaNdvu4o3aPgEj3MUE0wH4lytXuHtbGhD
+         2iMDxf3oUk4PvXLIPnrEoqMdJ7v2Xc/M0JYqah8fQoiYJnWXFzlllQ+2Ul2LfYas5lA+
+         qZWg==
+X-Gm-Message-State: AOAM532b1+GrqBVikhZjM7taNmMNdQqSm1nhjK9WMofLtYZOycyMy73A
+	hVlBsJnYbH7i7MBhzgTNTvU+5h1xFH2IRQ==
+X-Google-Smtp-Source: ABdhPJzOgCl3bfTBNISup8JTtfsAf6HGl5cIMKlpvthjqqKq2cjyUT9LBmoHYzxHN9BdNSr0Jz4KbA==
+X-Received: by 2002:a05:6a00:2283:b029:142:2501:35e0 with SMTP id f3-20020a056a002283b0290142250135e0mr17336501pfe.64.1600451157747;
+        Fri, 18 Sep 2020 10:45:57 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::d92c? ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id d7sm3674560pgg.1.2020.09.18.10.45.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2020 10:45:57 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 1/2] dropbear/openssh: Lower priority of key generation
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <9a49493f-2eab-d94a-a344-cf7a8ec5ad1a@gmail.com>
+Date: Fri, 18 Sep 2020 10:45:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 914d8a00e34a8edf75a349da6f5978e4ed60e6d5.
 
-Due to bug introduced for externalsrc
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14044
+On 9/17/20 11:00 PM, Richard Purdie wrote:
+> Where we have images with PAM+systemd, serial login can be extremely
+> slow. The load generated by key generation does slow down the rest
+> of the boot process.
+> 
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is a good find. So I wonder if its because we have entropy 
+starvation. I see that we do enable virtio-rng while launching qemu so 
+something to look in this area perhaps.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 9eb9bd2844..9e3c34ad48 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -152,7 +152,7 @@ python do_symlink_kernsrc () {
-             shutil.move(s, kernsrc)
-             os.symlink(kernsrc, s)
- }
--addtask symlink_kernsrc before do_patch after do_unpack
-+addtask symlink_kernsrc before do_configure after do_unpack
- 
- inherit kernel-arch deploy
- 
--- 
-2.17.1
 
+> Lower the priority level of these systemd services, since we'd
+> prefer to have the rest of the system boot more effectively.
+> 
+> This doesn't "solve" the slow systemd boot issues but does help.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service | 1 +
+>   meta/recipes-core/dropbear/dropbear/dropbearkey.service       | 1 +
+>   2 files changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> index 603c33787f1..fd81793d511 100644
+> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
+> @@ -6,3 +6,4 @@ RequiresMountsFor=/var /run
+>   ExecStart=@LIBEXECDIR@/sshd_check_keys
+>   Type=oneshot
+>   RemainAfterExit=yes
+> +Nice=10
+> diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+> index c49053d57c7..71a12a6110c 100644
+> --- a/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+> +++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+> @@ -11,3 +11,4 @@ Type=oneshot
+>   ExecStart=@BASE_BINDIR@/mkdir -p ${DROPBEAR_RSAKEY_DIR}
+>   ExecStart=@SBINDIR@/dropbearkey -t rsa -f ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key
+>   RemainAfterExit=yes
+> +Nice=10
+> 
+> 
+> 
+> 
+> 
