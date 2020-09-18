@@ -1,89 +1,83 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.421.1600445741285451687
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.395.1600445744034211989
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 09:15:41 -0700
+ Fri, 18 Sep 2020 09:15:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=c0LEODd6;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id l191so3754856pgd.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tJVeUv7B;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id l126so3753319pfd.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=veYj3rnqs76M8e2m9tclcZ7FtQRHvFUHC9NNvFGCQl4=;
-        b=c0LEODd6KPpHu/12H3Nxq67f/WaJHg/4JdZmZXlkOodQHlfQDt1J4fEIUzl0b4qtzN
-         yaW/DFHyy7E1kv1J/ijQEBhmupjWus8vPBx6kSVeEaRb68dIF3XTQjwC+IPsidqUHI82
-         hXmURj+R15XUAYWbzyNc2UZIPMjlmv4aPlOGIYW3uuFEH313xGSTjRpmaz86kXJZV8Ep
-         Fp34m5muM9pKd38gf2XzfhUWl5j5T3yM40WM2xcbSoq/kV98fn5iHRMGFRVgCbmnpbs/
-         lb452G+rpchXIlS/erweYeM+ixl67wamxlWz3rDiM4sAuMMAfgTq24hbIiHGZ9/+kuNs
-         sJ6g==
+        bh=0X5kIVcKrZp10X25CBaVRZFEZ562YKh8adX3gGyP/mI=;
+        b=tJVeUv7BXA911n26ItnN0wIDxMIeiWPKiBTwHH2XdstfKiz+M9LuQ4v/zfcFcA4no7
+         +H5KM50KZZc3J2hMru6M9Q6zjEcS6twNzYq/d31sDWj4K37B7ojgENfDsdDAAxvZUNh6
+         30oH6EEXAdusTRgGBzGiaIxuop6yL9nUSXw6R1E4RMX4cu1myhsok5lbVWWkLGRlk6rR
+         ewsiPUQYh6REX8WiowkUC8a5xUSw4Xb/Mjr5Yl0XCsuOyswvVLQbUPZx8+BwfPJNspsk
+         lFjL6crVRJgSmozpdqvzUVddtN4zyxBhSu4H/PR+6Lnv1H/9Eab1zzVJ1tM+qAnv5gQo
+         qjzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=veYj3rnqs76M8e2m9tclcZ7FtQRHvFUHC9NNvFGCQl4=;
-        b=NKcOuDWc6EuhdP7w/AzByBwwQTlyogFiUoN0f3CAKBNyYZn8/rXJoeTKhB2I/l/n8g
-         44KKy7tVmchFJm8S76+KtWQGJ0oDB8lNG2FpAh003WB1uVP95O3GylNigvj5DqR3QAi3
-         MOIC8+G2/dcX7EQFiATVerAdpSQgXz4cC+O28yFSqTsiFXfyvcT/CAN6L8nPX4JEcL9h
-         hAY/GASvcKaisDhXnIg0BC4yPNvH6bW6LBoyQ0o6l4r11m1FJLtpPXg8d5AYGnvef8X1
-         +R5oXGWVVXPe9oiBE6jp1yjjq/w0zY2E8yGqCWacGGvh2uJDnhUE/2x0C7AFBmes6GeF
-         edHg==
-X-Gm-Message-State: AOAM533Z2rLHDvGEnIHFejl/zL3f05r1ESQJIyO2Pelogpxw8L6HWro6
-	t7dHSzFoGIXfsb6QwGKU+yykfLQV52L4rOK8yxc=
-X-Google-Smtp-Source: ABdhPJzeLByu691gu2LsCgw6bbck+nR8PMRBwL+UXQlD3aXEuV/3PctLw/YjrPbxoT7pjUMdDgjHbw==
-X-Received: by 2002:a62:3207:0:b029:142:6a8f:c40e with SMTP id y7-20020a6232070000b02901426a8fc40emr5695779pfy.69.1600445740391;
-        Fri, 18 Sep 2020 09:15:40 -0700 (PDT)
+        bh=0X5kIVcKrZp10X25CBaVRZFEZ562YKh8adX3gGyP/mI=;
+        b=HISQRxsG15KjPcBvEDYyVjsr5NJsjDl9+0ASt0OuIneYYOe9mbKX+uvtj45/NM70AE
+         43PEfsn8IUUVbPSRCGh9Ftnvu2jR7k3MZu6vsITFAGnJaOuJOLqz3A2kIvlqJUkJdc1q
+         b5Akt8h1aDPEqvoLFjJJkKduR3GiiJwz9n3ZPUs9UjKR2K4VxludkIe9HIpNVG+fN7Dt
+         YlhQFsdUP5v4hyw7WW8+2nPD1uJo5wRlvUSfORttlhHpj9HLYW0kRIz5UMS3aQOW1v/g
+         Mr9/hHzGo0yaxe4RIYbfAY1UMRI+FnE65WMJcZASR0rAGttRy1CuQlR5HOhuGnlOr7aq
+         aDlg==
+X-Gm-Message-State: AOAM532sFJo2J07l1DwIIVCTBMV9uG0M+ouujbQJdgNjU6itWVy0/XoZ
+	rmmUtwBKBnVanH/Lh0q425MVfB6GGedAdxDcXz0=
+X-Google-Smtp-Source: ABdhPJyD9xTtV23UBO4G9I2XOVDA8jL2sLU1976ZyB5Zm0NIEfXZloTfELopUTKAHZyedYlbHNwreg==
+X-Received: by 2002:a65:6707:: with SMTP id u7mr26823239pgf.449.1600445743143;
+        Fri, 18 Sep 2020 09:15:43 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.38
+        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 09:15:39 -0700 (PDT)
+        Fri, 18 Sep 2020 09:15:42 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/7] sysvinit: Remove ${B} assignment
-Date: Fri, 18 Sep 2020 06:15:13 -1000
-Message-Id: <c8ad554db100b9fd16097fc8616b2af5390772e7.1600445624.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 6/7] populate_sdk_ext: Do not assume local.conf will always exist
+Date: Fri, 18 Sep 2020 06:15:14 -1000
+Message-Id: <554dba802108c91b79acf81c046e6a47815404fb.1600445624.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1600445624.git.steve@sakoman.com>
 References: <cover.1600445624.git.steve@sakoman.com>
 
-From: Michael Gloff <mgloff@emacinc.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-The VERSION variable is not set unless the
-top level Makefile is used as the version is
-derived from the Changelog.
-If VERSION is not set, none of the binaries built
-in the sysvinit recipe will have a valid version
-output.
-Before:
-INIT: version  booting
-After:
-INIT: version 2.96 booting
+Some distros may not have local.conf, and use auto.conf or site.conf
+alone to describe distro config metadata, therefore make code robust
+to not fail eSDK builds for such setups
 
-Using the top level Makefile does not cause any
-additional builds to occur.
-
-Signed-off-by: Michael Gloff <mgloff@emacinc.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 10992ad4f343d0f92d9d6246cc2e58effd3f3eeb)
+(cherry picked from commit 6379f951ba92b2b86a55de5fc267bacf8c6095d2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/sysvinit/sysvinit_2.96.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.96.bb b/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-index d2b85ed9c0..7358f02385 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.96.bb
-@@ -25,7 +25,6 @@ SRC_URI[md5sum] = "48cebffebf2a96ab09bec14bf9976016"
- SRC_URI[sha256sum] = "2a2e26b72aa235a23ab1c8471005f890309ce1196c83fbc9413c57b9ab62b587"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index fd0da16e7e..71686bc993 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -310,8 +310,9 @@ python copy_buildsystem () {
+         if os.path.exists(builddir + '/conf/auto.conf'):
+             with open(builddir + '/conf/auto.conf', 'r') as f:
+                 oldlines += f.readlines()
+-        with open(builddir + '/conf/local.conf', 'r') as f:
+-            oldlines += f.readlines()
++        if os.path.exists(builddir + '/conf/local.conf'):
++            with open(builddir + '/conf/local.conf', 'r') as f:
++                oldlines += f.readlines()
+         (updated, newlines) = bb.utils.edit_metadata(oldlines, varlist, handle_var)
  
- S = "${WORKDIR}/sysvinit-${PV}"
--B = "${S}/src"
- 
- inherit update-alternatives features_check
- DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
+         with open(baseoutpath + '/conf/local.conf', 'w') as f:
 -- 
 2.17.1
 
