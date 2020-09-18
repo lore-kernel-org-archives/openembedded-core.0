@@ -1,93 +1,93 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.410.1600445726199595299
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.417.1600445731552731553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 09:15:26 -0700
+ Fri, 18 Sep 2020 09:15:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=U13/Xz4E;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id d13so3748509pgl.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DsVuZVhr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id w7so3753864pfi.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=dpMFjcwQw3oyysMaHEcEgZGQduGCJxxfug93+OgViK0=;
-        b=U13/Xz4EhITLe/VEUjZiP9VEE1fJ2rayBaUrZSXOAF50zXSq4us1ViZ7JtfTQzVJBc
-         7W3nBHNCW19Fgmew9xaQGAE//mxwhAE8aIBWVXmAGE0yEZAsP6IDRAC8EdrZaiEakOyt
-         Z9RIUbqWNWoy/j+4k2/Ltf/aRs9Uh5udhltzAEnKd5wdPHZI4V3LdNQ3YV2FAxgi/Kzy
-         pCH1ItBi88q7Ba2katlCpy/5rqCKzb1Ftr++fJU7sRSoxP01Ljf/essdF9EMT/gtLkBN
-         fuETK9U+rLtVOT3H+StNBnYCm9auCmWS6UoCSAye613SiVnTXYIZmcVRDoUKM9FZuBPu
-         briA==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=CPPTCTRn3aoS1jIBwQ/Il2/Y8lSlJ3NFsJ48aEZvNx4=;
+        b=DsVuZVhr/eiF44n4qOW14Js2/yPOlWxKt2WXtD83/muQ5HonBuX/JP7zingk81u8qH
+         kJmDEC5J+26S6CkXQjU5MDRSha4ktgd3/3eJqs8ITpV10QzxlZaowmIkfbnicSTE8ss/
+         NtEvOsjFQK/rFBxzVAhZIfGDzpu/OJWVI4ExdBvOPNtqHshjc+7oqubb8lm4NA/bgzmn
+         ae1dhOxl2qofmmDAIJ30u+owYdyW29zkq9jBE1wbsQma3qZiiLZCW/D0jiL/suG6cM9Y
+         pYW9WL3JhDc8+n9+6Q4zanXFd1KLVWYfUpobDaBiqGEd1nMMshuhogzHcNIlAn6wiJJ4
+         obXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=dpMFjcwQw3oyysMaHEcEgZGQduGCJxxfug93+OgViK0=;
-        b=EF3q58tveTx8gXQKsMgsb30zBrXsuJKh2II4xbCqmt3Y77mW22NTHURPfrQXUMdbt0
-         b1edHZ9QZCQhyribMeuz1PRCJJVZrgEx1KQxE76xa3wtHK+2UPYJ4+HKg2PseOo33nrE
-         1Cq8ujHOVGptccHJWrp3mHXFUBaqaZqcXx/CIoDoUptPY0WtvDkOuHLV2rtr3gLkpGwU
-         iR/eTYpXhYp4ew9uZbG0Ab1EuDpmryuMBZYLsXLiebUuPJzUkyvrv+hc78egRxodLJU8
-         Ig+FId4u1vAKGat13b2+tsS+zVWm4ueYZk8YlyvVupMkIJd1Xayq19qezb07dngJjvBz
-         dW4g==
-X-Gm-Message-State: AOAM530tIDjUpgMU7lof2RIrDo7NiKQq3J+XxcpXjJOQCm1lJ/5vN3B2
-	xUq0SNNuhWwzBoQW4IODpOhw+xNwspm8JQwiL7M=
-X-Google-Smtp-Source: ABdhPJxKrk5MpbGLWMSt5fTjl1hXWazOsUweyjsrmGhmcVr/gJBS87rWKYrd0WZPIiTO7yOAOjBXbw==
-X-Received: by 2002:a63:4810:: with SMTP id v16mr28261209pga.374.1600445725258;
-        Fri, 18 Sep 2020 09:15:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=CPPTCTRn3aoS1jIBwQ/Il2/Y8lSlJ3NFsJ48aEZvNx4=;
+        b=fKgkqwO0hMIb07NP8IIwtj0Klgo0nWsLYZJC/Ub+q4eFVVG1cYOnZDrAo8VWw/0Br0
+         39Ql08cDyfb3SUHCZ8HfWyU54zsvGrWMdGXSDOyysY2KmD0T1OgW99C4bxeA+qujK657
+         QnyzubA8OjTFHKTAKHbehVzmzg/up8BkIJQ+p5cEZEwu05kt5MjFlfk4yG/HVhwrglyo
+         mYeqT7LXV/FXnPLvPJJrREb7JjU/H1skRP0nyNzWFZ1xGZeqEEpPUJSkUUH/b0RjALod
+         EhIK+F37C+LkqhmAA82rmIUpyMlvgFbL14qIhySB8VgIMJW8k9HRx7pdHCy321ukPbKY
+         Zsgw==
+X-Gm-Message-State: AOAM531jlHujyP7ih/SuRkSGG5hcj68UyMxxUKuf2E4zjx+Os9pmjzuR
+	qcqmwCdlnrGXfIQGM3r/+cf/xCknI2UHOaSbGao=
+X-Google-Smtp-Source: ABdhPJxHdo7K7+w0YmPkENk1QoFSPwTu5EQ/q7s2aF3/FtogzNK2EqFjJUq/089QGScDin1FyonI0Q==
+X-Received: by 2002:aa7:95a6:0:b029:13c:1611:6524 with SMTP id a6-20020aa795a60000b029013c16116524mr33118590pfk.4.1600445730516;
+        Fri, 18 Sep 2020 09:15:30 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.23
+        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 09:15:24 -0700 (PDT)
+        Fri, 18 Sep 2020 09:15:29 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Patch review
-Date: Fri, 18 Sep 2020 06:15:08 -1000
-Message-Id: <cover.1600445624.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/7] systemd-serialgetty: Fix sed expression quoting
+Date: Fri, 18 Sep 2020 06:15:09 -1000
+Message-Id: <edaecac74210ae201dc5eea5758bcf4e85cb14cb.1600445624.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1600445624.git.steve@sakoman.com>
+References: <cover.1600445624.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Monday.
+From: Rahul Kumar <rahulk@mvista.com>
 
-The following changes since commit b98e50f08b2bcf61fbc75ea1b0ad83a17c0a736a:
+Fix sed: -e expression #1, char 13: unterminated `s' command
 
-  cve-check: avoid FileNotFoundError if no do_cve_check task has run (2020-09-14 04:26:37 -1000)
+Error Message:
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['pseudo-native', 'glibc', 'patch-native', 'quilt-native', 'gcc-cross-arm', 'gcc-runtime', 'linux-libc-headers', 'libgcc', 'flex-native', 'xz-native', 'libtool-native', 'automake-native', 'binutils-cross-arm', 'zlib-native', 'mpfr-native', 'texinfo-dummy-native', 'autoconf-native', 'libmpc-native', 'gnu-config-native', 'gmp-native', 'attr-native', 'm4-native', 'gettext-minimal-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_install
+| sed: -e expression #1, char 13: unterminated `s' command
+| WARNING: exit code 1 from a shell command.
+| ERROR: Execution of '/opt/Projects/poky/build/tmp/work/qemux86_64-poky-linux/systemd-serialgetty/1.0-r5/temp/run.do_install.11228' failed with exit code 1:
+| sed: -e expression #1, char 13: unterminated `s' command
+| WARNING: exit code 1 from a shell command.
+|
 
-are available in the Git repository at:
+To Fix this Issue using the strong (single quote) character in sed command.
+It is recommend to use quotes. If we have meta-characters in the command, quotes are necessary.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e2fea05e150dcfec4b7dfbd8edddb53897026bf9)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-core/systemd/systemd-serialgetty.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Christophe GUIBOUT (1):
-  initramfs-framework: support kernel cmdline with double quotes
-
-Geoff Parker (1):
-  systemd-serialgetty: Replace sed quoting using ' with " to allow var
-    expansion
-
-Khem Raj (1):
-  populate_sdk_ext: Do not assume local.conf will always exist
-
-Michael Gloff (1):
-  sysvinit: Remove ${B} assignment
-
-Pierre-Jean Texier (1):
-  libubootenv: upgrade 0.3 -> 0.3.1
-
-Rahul Kumar (1):
-  systemd-serialgetty: Fix sed expression quoting
-
-Steve Sakoman (1):
-  Revert "kernel.bbclass: run do_symlink_kernsrc before do_patch"
-
- meta/classes/kernel.bbclass                         |  2 +-
- meta/classes/populate_sdk_ext.bbclass               |  5 +++--
- .../{libubootenv_0.3.bb => libubootenv_0.3.1.bb}    |  2 +-
- .../initrdscripts/initramfs-framework/init          | 13 +++++++++++++
- meta/recipes-core/systemd/systemd-serialgetty.bb    |  4 ++--
- meta/recipes-core/sysvinit/sysvinit_2.96.bb         |  1 -
- 6 files changed, 20 insertions(+), 7 deletions(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.3.bb => libubootenv_0.3.1.bb} (94%)
-
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 044c6c5b67..059fccc2b6 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -21,7 +21,7 @@ do_install() {
+ 		install -d ${D}${systemd_unitdir}/system/
+ 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
+ 		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/
+-		sed -i -e s/\@BAUDRATE\@/$default_baudrate/g ${D}${systemd_unitdir}/system/serial-getty@.service
++		sed -i -e 's/\@BAUDRATE\@/$default_baudrate/g' ${D}${systemd_unitdir}/system/serial-getty@.service
+ 
+ 		tmp="${SERIAL_CONSOLES}"
+ 		for entry in $tmp ; do
 -- 
 2.17.1
 
