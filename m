@@ -1,76 +1,93 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web12.14289.1600439843541212338
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.410.1600445726199595299
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 07:37:23 -0700
+ Fri, 18 Sep 2020 09:15:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 75ixhcRZ2qzh2JZfkgvoNVktxPLS6nNoluAMLsmSbKsU9B4Zd/AtPtM8r/gEGypRQhFoQr0nE+
- niimeKzieB6Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="159253107"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="159253107"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 07:37:22 -0700
-IronPort-SDR: k5S/kDq/QAmYW/Pjsr1Vn+K/MQQi3CgsTHESfCWQdo+XhEgLOP5cyfQZMpxehTJXak06a70TKF
- n2lkdgrKOlSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="344761401"
-Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2020 07:37:21 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=U13/Xz4E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id d13so3748509pgl.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 09:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=dpMFjcwQw3oyysMaHEcEgZGQduGCJxxfug93+OgViK0=;
+        b=U13/Xz4EhITLe/VEUjZiP9VEE1fJ2rayBaUrZSXOAF50zXSq4us1ViZ7JtfTQzVJBc
+         7W3nBHNCW19Fgmew9xaQGAE//mxwhAE8aIBWVXmAGE0yEZAsP6IDRAC8EdrZaiEakOyt
+         Z9RIUbqWNWoy/j+4k2/Ltf/aRs9Uh5udhltzAEnKd5wdPHZI4V3LdNQ3YV2FAxgi/Kzy
+         pCH1ItBi88q7Ba2katlCpy/5rqCKzb1Ftr++fJU7sRSoxP01Ljf/essdF9EMT/gtLkBN
+         fuETK9U+rLtVOT3H+StNBnYCm9auCmWS6UoCSAye613SiVnTXYIZmcVRDoUKM9FZuBPu
+         briA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=dpMFjcwQw3oyysMaHEcEgZGQduGCJxxfug93+OgViK0=;
+        b=EF3q58tveTx8gXQKsMgsb30zBrXsuJKh2II4xbCqmt3Y77mW22NTHURPfrQXUMdbt0
+         b1edHZ9QZCQhyribMeuz1PRCJJVZrgEx1KQxE76xa3wtHK+2UPYJ4+HKg2PseOo33nrE
+         1Cq8ujHOVGptccHJWrp3mHXFUBaqaZqcXx/CIoDoUptPY0WtvDkOuHLV2rtr3gLkpGwU
+         iR/eTYpXhYp4ew9uZbG0Ab1EuDpmryuMBZYLsXLiebUuPJzUkyvrv+hc78egRxodLJU8
+         Ig+FId4u1vAKGat13b2+tsS+zVWm4ueYZk8YlyvVupMkIJd1Xayq19qezb07dngJjvBz
+         dW4g==
+X-Gm-Message-State: AOAM530tIDjUpgMU7lof2RIrDo7NiKQq3J+XxcpXjJOQCm1lJ/5vN3B2
+	xUq0SNNuhWwzBoQW4IODpOhw+xNwspm8JQwiL7M=
+X-Google-Smtp-Source: ABdhPJxKrk5MpbGLWMSt5fTjl1hXWazOsUweyjsrmGhmcVr/gJBS87rWKYrd0WZPIiTO7yOAOjBXbw==
+X-Received: by 2002:a63:4810:: with SMTP id v16mr28261209pga.374.1600445725258;
+        Fri, 18 Sep 2020 09:15:25 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id q15sm3260100pje.29.2020.09.18.09.15.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 09:15:24 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] bash : include patch 17 & 18
-Date: Fri, 18 Sep 2020 22:37:21 +0800
-Message-Id: <20200918143721.31877-1-chee.yang.lee@intel.com>
+Subject: [OE-core][dunfell 0/7] Patch review
+Date: Fri, 18 Sep 2020 06:15:08 -1000
+Message-Id: <cover.1600445624.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Please review this next set of patches for dunfell and have comments back
+by end of day Monday.
 
-patch 17 :-
-https://ftp.gnu.org/gnu/bash/bash-5.0-patches/bash50-017
-There were cases where patch 16 reaped process substitution file
-descriptors (or FIFOs) and processes to early. This is a better
-fix for the problem that bash50-016 attempted to solve.
+The following changes since commit b98e50f08b2bcf61fbc75ea1b0ad83a17c0a736a:
 
-path 18 :-
-https://ftp.gnu.org/gnu/bash/bash-5.0-patches/bash50-018
-In certain cases, bash does not perform quoted null removal on
-patterns that are used as part of word expansions such as
-${parameter##pattern}, so empty patterns are treated as non-empty.
+  cve-check: avoid FileNotFoundError if no do_cve_check task has run (2020-09-14 04:26:37 -1000)
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- meta/recipes-extended/bash/bash_5.0.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+are available in the Git repository at:
 
-diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
-index 8ff9e6edaf..12d472be57 100644
---- a/meta/recipes-extended/bash/bash_5.0.bb
-+++ b/meta/recipes-extended/bash/bash_5.0.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-014;apply=yes;striplevel=0;name=patch014 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-015;apply=yes;striplevel=0;name=patch015 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-016;apply=yes;striplevel=0;name=patch016 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-017;apply=yes;striplevel=0;name=patch017 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-018;apply=yes;striplevel=0;name=patch018 \
-            file://execute_cmd.patch \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -65,6 +67,11 @@ SRC_URI[patch015.md5sum] = "c4c6ea23d09a74eaa9385438e48fdf02"
- SRC_URI[patch015.sha256sum] = "a517df2dda93b26d5cbf00effefea93e3a4ccd6652f152f4109170544ebfa05e"
- SRC_URI[patch016.md5sum] = "a682ed6fa2c2e7a7c3ba6bdeada07fb5"
- SRC_URI[patch016.sha256sum] = "ffd1d7a54a99fa7f5b1825e4f7e95d8c8876bc2ca151f150e751d429c650b06d"
-+SRC_URI[patch017.md5sum] = "d9dcaa1d8e7a24850449a1aac43a12a9"
-+SRC_URI[patch017.sha256sum] = "4cf3b9fafb8a66d411dd5fc9120032533a4012df1dc6ee024c7833373e2ddc31"
-+SRC_URI[patch018.md5sum] = "a64d950d5de72ae590455b13e6afefcb"
-+SRC_URI[patch018.sha256sum] = "7c314e375a105a6642e8ed44f3808b9def89d15f7492fe2029a21ba9c0de81d3"
-+
- 
- DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
- DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Christophe GUIBOUT (1):
+  initramfs-framework: support kernel cmdline with double quotes
+
+Geoff Parker (1):
+  systemd-serialgetty: Replace sed quoting using ' with " to allow var
+    expansion
+
+Khem Raj (1):
+  populate_sdk_ext: Do not assume local.conf will always exist
+
+Michael Gloff (1):
+  sysvinit: Remove ${B} assignment
+
+Pierre-Jean Texier (1):
+  libubootenv: upgrade 0.3 -> 0.3.1
+
+Rahul Kumar (1):
+  systemd-serialgetty: Fix sed expression quoting
+
+Steve Sakoman (1):
+  Revert "kernel.bbclass: run do_symlink_kernsrc before do_patch"
+
+ meta/classes/kernel.bbclass                         |  2 +-
+ meta/classes/populate_sdk_ext.bbclass               |  5 +++--
+ .../{libubootenv_0.3.bb => libubootenv_0.3.1.bb}    |  2 +-
+ .../initrdscripts/initramfs-framework/init          | 13 +++++++++++++
+ meta/recipes-core/systemd/systemd-serialgetty.bb    |  4 ++--
+ meta/recipes-core/sysvinit/sysvinit_2.96.bb         |  1 -
+ 6 files changed, 20 insertions(+), 7 deletions(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.3.bb => libubootenv_0.3.1.bb} (94%)
+
 -- 
 2.17.1
 
