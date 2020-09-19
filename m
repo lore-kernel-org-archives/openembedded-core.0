@@ -1,71 +1,85 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.2614.1600451731924242775
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web12.1306.1600474577106452779
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2020 10:55:32 -0700
+ Fri, 18 Sep 2020 17:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EcWe3DPg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id g4so6478724wrs.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 10:55:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LivbtdOk;
+ spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f65.google.com with SMTP id md22so4873693pjb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2020 17:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ojWln5dzoDl0Xt4U0gF4pUkFgf9AnugCZ6VLQ5Lwg4A=;
-        b=EcWe3DPgaVMWLh23/t8hrzUqPrcyqP/ZIv/gAEeZVjvI+hIkop4J7mqrKsB72IopmS
-         neLkLarxM2IzGilGvv0I9/g+mz2FaHHFftJugdQtQg9IvK9CXkJd6C2VQU8xQ2yKwhhV
-         SsdzZEucZxvLUjkyOfIrG+kKr2MZr90t5xbLo=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hju4ERAAS7mG5e475B5I/HrFYsM4Thll3eV5VerwV0Q=;
+        b=LivbtdOka6oyVWH0ubtRyYANceX0ep+/MhQzG4sQq1tB3K0jFJf7S+eaBo82miftpT
+         iz1Ld/JZtqR7MPwhFd2HWv59/7vm3Kx/i643fHTmoZQJx47abfW8Nl8PUJLgqj4Ik/h6
+         NEmLaPJ4B60OY7748fman+5g4+R6wjfgt4rIU7vPm/SWPsvFxj7tiaabe7LI5zvsGKtm
+         cRfWQ9FJGZmh5Z/l8lhLmYPUYGhCvRB7odVzHjvRnVA7FzK3Ot/FJ9pENFcylrdZH1wn
+         71nOV845la6bvPAuw+gEn7vrgCceyuVWbLPgAa0VuDZ1LQ7Vliu6aRidpciVHhdo4H1t
+         NnEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ojWln5dzoDl0Xt4U0gF4pUkFgf9AnugCZ6VLQ5Lwg4A=;
-        b=Z+HX6SCuax+zgjaDbZadlXnf0vhlshDLx3sfzv2iikH/Q6YIzs/YpDgCD8YSu5EEzp
-         WVHsxEmz5OE7vC12/VMZn7NqPLH15mGkfWBzbFXONyBC6DkaK/WtFBdpW8E69MrVTRWO
-         wp6Nv+kctytWUftS2y5fch+rNlKotBQ1trOgUPWl0CnNywBpnnM4QBZJWvY4BKsQQiMU
-         CsMNBGE952LU1kzsu7KGCJVvQWeEu1848bXYKNTiXP36ycZjTlrkaDD3+pUfdAisLDwn
-         1NIXgrOZ6fX0XmDm6SA7FkWp0neg32jerl1Is9Vi6u8Cup+f/qsC3YoI09tiH59/HxZX
-         gc2g==
-X-Gm-Message-State: AOAM530BQuSRE1HNjyARNLlpuZaT36dihlaDXHkU8ZqwdBVNxHZIJTBU
-	LJZEZT7otcie+S15FOtCCGfkow==
-X-Google-Smtp-Source: ABdhPJyUMB+JXYr+Y5ZLyj9Adh/8iblLNQO5D6WkXgqaum3LQZpRXI4AABcl9XICx1LhvRwuFmpXBA==
-X-Received: by 2002:adf:ea0f:: with SMTP id q15mr23044052wrm.371.1600451730238;
-        Fri, 18 Sep 2020 10:55:30 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c89a:97f7:466b:4a17])
-        by smtp.gmail.com with ESMTPSA id h3sm6553134wrq.0.2020.09.18.10.55.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hju4ERAAS7mG5e475B5I/HrFYsM4Thll3eV5VerwV0Q=;
+        b=Rv+1RJGQDtV4NRLiAC4UqbjQDkmThZnUsl7XC1/3iVGoU8OQCeNF0oCkHUuO5lza47
+         gFAZkBoeF39zfpXV3TI2kvv+lHXRfoWWBOrsv+JzsnfFChsarpCayuYRL7PXWadsYJO1
+         dqE2pL/PzYENqJiEqIQ3Sg5Sb2otue0HBy2vS/gRQpuMRm/PQsQHfg2Y0EocjABxasXg
+         PDyii4BeREcU6T1IuV1oRjQNsAxdCwoGX+fN+oDtqFAUYhjU9NfRAvC5YKAS+prfEy+w
+         sQl1scf1RURfr5m1DKn2jRbxBAEwtDc4R80jVLLM/KHmYs1DFP1i2E+p/3FoMp0ogasJ
+         8wUA==
+X-Gm-Message-State: AOAM533z5Ask6K/TQAmMFhnk9vFmaNHCBFUTdtk4M4ugzYJYnHUugTsM
+	l1hHdNarwFEPdSIbPWizXA3lnJu/X/s3Uw==
+X-Google-Smtp-Source: ABdhPJyo6jioAOyk08qWolVRRL0hFT4V8qgC7If/M8sNS6biT/O6Lrjsj9bLWdJYCkmQWz6jaJyNkQ==
+X-Received: by 2002:a17:902:ee0c:b029:d1:8c50:aa63 with SMTP id z12-20020a170902ee0cb02900d18c50aa63mr34945793plb.21.1600474576061;
+        Fri, 18 Sep 2020 17:16:16 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id i25sm4651521pgi.9.2020.09.18.17.16.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 10:55:29 -0700 (PDT)
-Message-ID: <7f5f0536114fefe76166a0d901c82837278b1fbb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] dropbear/openssh: Lower priority of key generation
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2020 18:55:26 +0100
-In-Reply-To: <9a49493f-2eab-d94a-a344-cf7a8ec5ad1a@gmail.com>
-References: <20200918060034.2327283-1-richard.purdie@linuxfoundation.org>
-	 <9a49493f-2eab-d94a-a344-cf7a8ec5ad1a@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Fri, 18 Sep 2020 17:16:15 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] systemd: Disable support for shadow group
+Date: Fri, 18 Sep 2020 17:16:08 -0700
+Message-Id: <20200919001608.1241434-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-09-18 at 10:45 -0700, Khem Raj wrote:
-> 
-> On 9/17/20 11:00 PM, Richard Purdie wrote:
-> > Where we have images with PAM+systemd, serial login can be
-> > extremely
-> > slow. The load generated by key generation does slow down the rest
-> > of the boot process.
-> > 
-> 
-> this is a good find. So I wonder if its because we have entropy 
-> starvation. I see that we do enable virtio-rng while launching qemu
-> so something to look in this area perhaps.
+enabling shadow drags sshd key generation service into boot path and
+serial console launch over getty gets delayed until ssh key generation
+is done, on slowers platforms eg. non-kvm qemu this can take minutes to
+get ssh keys service to finish on first boot.
 
-I did check and the virtio rng is alive and well in the image. Its the
-CPU usage of the key generation that partly causes the issue.
+On qemumips
+56.963s sshdgenkeys.service
 
-Cheers,
+Disabling shadow, pulls this out of boot chain, and ssh keys are still
+generated but this time it will happen when ssh'ing first time into the
+machine.
 
-Richard
+[YOCTO #13646]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_246.2.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_246.2.bb b/meta/recipes-core/systemd/systemd_246.2.bb
+index af10e4212b..e3a7cd4971 100644
+--- a/meta/recipes-core/systemd/systemd_246.2.bb
++++ b/meta/recipes-core/systemd/systemd_246.2.bb
+@@ -66,7 +66,6 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+     backlight \
+     binfmt \
+-    gshadow \
+     hibernate \
+     hostnamed \
+     idn \
+-- 
+2.28.0
 
