@@ -1,165 +1,178 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.11098.1600521198263037417
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.16340.1600596202392122053
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Sep 2020 06:13:18 -0700
+ Sun, 20 Sep 2020 03:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HmVfvbxM;
- spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wm1-f67.google.com with SMTP id y15so8139792wmi.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2020 06:13:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DYqoseRN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id k13so5958770pfg.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2020 03:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YrkIKzzPQ1qgUIkBza+IcuL0PGWqYsPeShuNqpB3BdQ=;
-        b=HmVfvbxMzOyWPCwwTHpmCpyGX0IhBB3anHcSisxjk0X+9G50Q3V5kMoy27RgWu44Cf
-         F2EHaSxZJ4yzkjs9rx2wKlstjSAJLUcAXssyfVv6rwIpmRvT2eVDWs+u2NJsyXpdKNLX
-         cDSC+VPLC/iFsJNUvab51Bw62eLs2HdxELD0gLUgMpU0lXjx59LGHtxh8iTatQg3T49m
-         kjlgNRmiBgpmafLS0/gbFYoiiWXVjurY818mLCoXfNUuRs4e7AsU8b1oe/IaXkS83HpB
-         uNdd4GuID9YB4r5du5oZcjXnALDhGet83ihF54fNhqmCRLN2UWLATBeVbF+b6eifDyzq
-         GXYw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=jTRk9eU7768Rp/Gi+5UdYRlqf7peeO3S7hiHdZmY3Uo=;
+        b=DYqoseRNAKW059to53tIAiessRRtoS4qgsB40O1LrPk9RDuE/wZbjdU0oGVSyT9I7/
+         G8uU8goRwDPV8ce17Q1MB/rFgwRLBDaw4eeXlDKYv7BJ6RBMP5URHGIDM85v4yWEuTl4
+         KdiTRzBcvYtXqPxxKymDcxWIcZ7DNujbGONjDScZfEwcnLwN4d+NI/6IaUUwoFV8kCeD
+         lY9QJIuF6ygIglTRs9kHlhQiplZfg0ysos4MGdSRE85T2rFd+X6cgSGTjZH8j0KPxGmU
+         12vdzIMZf/LAtKVQNWtOFGAN37dS6w7y2fHLq7QvRZuxAGR0pfEdUQIc2uxkfn+zuRXY
+         Vkdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YrkIKzzPQ1qgUIkBza+IcuL0PGWqYsPeShuNqpB3BdQ=;
-        b=gNmbej9dMHB8zrsLnDBy7MMkOYh9hJKo+d/3517K43wzaUY7hYAgjecJ0UE1ynzWPR
-         6WmRcTAkSv0r8qAuIRfrvOAGKJiSMZXwawU5FWt5P/1/ULs85Yv0seNxh8ghMhT0S3cK
-         CTAntauKV9M69gp8tJ7dasrV7z8pVXzhiS1xeP86MurczWR2qI3Z3Idi6XksBZezzWLE
-         qhP4DpJf1xw422uaN1guPZt2SyKmuzJdCZEW7V0jqnzbrlh0/mSN9Vcij9Bq/7flULni
-         XafT9bxTQ0caRqAWPIUWs2/vLbmpGYhik7Qzygt4l3ThXkFndOUbq0qZFBTRW005PhYz
-         pX+w==
-X-Gm-Message-State: AOAM532XY23F7Ixosrn7Vg5KfLHPqI3RQh/Vx8eApza9/LLKt8GNtPGy
-	uYkY5HJghqKtsj6GmLheC7LUGSYyfjiPXNaD41E=
-X-Google-Smtp-Source: ABdhPJwDF/Ij0gTNzI31V1BVoTI7z6mEqZf0T6PPJdNiSPmq7J5npUM4OI6pXS3g6PtPfn31VfWqcEQlKAthTIpgt5Q=
-X-Received: by 2002:a1c:bad5:: with SMTP id k204mr21285135wmf.111.1600521196653;
- Sat, 19 Sep 2020 06:13:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200919001608.1241434-1-raj.khem@gmail.com>
-In-Reply-To: <20200919001608.1241434-1-raj.khem@gmail.com>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Sat, 19 Sep 2020 08:13:07 -0500
-Message-ID: <CAJdd5GYZ2yfjLLPrYwNjBrmV_Bvbi9U51NPFk+uW3-stVG8-BA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: Disable support for shadow group
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000061d06705afaa618a"
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=jTRk9eU7768Rp/Gi+5UdYRlqf7peeO3S7hiHdZmY3Uo=;
+        b=Dqt175XDSlX/9VIe7p+looiAhkW12NQh0YZnJ41hcBeZbvKDHi4OX71j3BW5aUfgQb
+         RRZuAR5t0dTb1mwEOIZ5lLeKDRefkv26UF2mSMvwEWm7WDUEAuMIOqc1MMLNIvo6zMrF
+         jBVNS0DCgv1giiZbfVaM0bFqBFotCmgk00d8sZymYkBy6i5E2YdtnRUs7cU1jltncjmo
+         UXazbkxL8tY3HD8/kXwvhYTjdMvnrObfoQPCqE30Tgy+Ibcezgj785goYPT1wtBtflJu
+         xKU2lqw++GD+fyzT3cc9FKoPkZpCIS9FnxQjboMz+iszOR3HedlXoFuzpagnfz99V8ea
+         xwpA==
+X-Gm-Message-State: AOAM531INx8M6GlvXiGkwpO8/Va4/knScbdlcEiPigrBPsW93U+essE1
+	BuHXNxcj8NM1hzBqsus6hU3bNyKzqeIR9MIoOiw=
+X-Google-Smtp-Source: ABdhPJykZ/JCj3/oJAEUhpTtiBbmsvtl3X1JdDikOk0AR1GF/MgbcLjybjKz/pfURIWPYZ0sC11/pg==
+X-Received: by 2002:a63:5f03:: with SMTP id t3mr33208036pgb.258.1600596201198;
+        Sun, 20 Sep 2020 03:03:21 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id w203sm8879284pfc.97.2020.09.20.03.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2020 03:03:20 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 2F17E96033D; Sun, 20 Sep 2020 00:03:18 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 20 Sep 2020 12:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20200920100318.2F17E96033D@nuc.router0800d9.com>
+Date: Sun, 20 Sep 2020 00:03:18 -1000 (HST)
 
---00000000000061d06705afaa618a
-Content-Type: text/plain; charset="UTF-8"
+Branch: master
 
-On Fri, Sep 18, 2020, 7:16 PM Khem Raj <raj.khem@gmail.com> wrote:
+New this week:
 
-> enabling shadow drags sshd key generation service into boot path and
-> serial console launch over getty gets delayed until ssh key generation
-> is done, on slowers platforms eg. non-kvm qemu this can take minutes to
-> get ssh keys service to finish on first boot.
->
+Removed this week:
 
-Hmm, I don't recall this being the case, particularly after we reniced ssh
-key generation, but maybe I need to try again
-
-
-> On qemumips
-> 56.963s sshdgenkeys.service
->
-> Disabling shadow, pulls this out of boot chain, and ssh keys are still
-> generated but this time it will happen when ssh'ing first time into the
-> machine.
->
-> [YOCTO #13646]
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd_246.2.bb | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_246.2.bb
-> b/meta/recipes-core/systemd/systemd_246.2.bb
-> index af10e4212b..e3a7cd4971 100644
-> --- a/meta/recipes-core/systemd/systemd_246.2.bb
-> +++ b/meta/recipes-core/systemd/systemd_246.2.bb
-> @@ -66,7 +66,6 @@ PACKAGECONFIG ??= " \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->      backlight \
->      binfmt \
-> -    gshadow \
->      hibernate \
->      hostnamed \
->      idn \
-> --
-> 2.28.0
->
->
-> 
->
->
-
---00000000000061d06705afaa618a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Sep 18, 2020, 7:16 PM Khem Raj &lt;<a href=3D"=
-mailto:raj.khem@gmail.com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gm=
-ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">enabling sha=
-dow drags sshd key generation service into boot path and<br>
-serial console launch over getty gets delayed until ssh key generation<br>
-is done, on slowers platforms eg. non-kvm qemu this can take minutes to<br=
->
-get ssh keys service to finish on first boot.<br></blockquote></div></div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Hmm, I don&#39;t recall this =
-being the case, particularly after we reniced ssh key generation, but maybe=
- I need to try again</div><div dir=3D"auto"><br></div><div dir=3D"auto"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-On qemumips<br>
-56.963s sshdgenkeys.service<br>
-<br>
-Disabling shadow, pulls this out of boot chain, and ssh keys are still<br>
-generated but this time it will happen when ssh&#39;ing first time into th=
-e<br>
-machine.<br>
-<br>
-[YOCTO #13646]<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_246.2.bb" rel=3D=
-"noreferrer noreferrer noreferrer" target=3D"_blank">systemd_246.2.bb</a> |=
- 1 -<br>
-=C2=A01 file changed, 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_246.2.bb"=
- rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">systemd_246.2.b=
-b</a> b/meta/recipes-core/systemd/<a href=3D"http://systemd_246.2.bb" rel=
-=3D"noreferrer noreferrer noreferrer" target=3D"_blank">systemd_246.2.bb</=
-a><br>
-index af10e4212b..e3a7cd4971 100644<br>
---- a/meta/recipes-core/systemd/<a href=3D"http://systemd_246.2.bb" rel=3D=
-"noreferrer noreferrer noreferrer" target=3D"_blank">systemd_246.2.bb</a><b=
-r>
-+++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_246.2.bb" rel=3D=
-"noreferrer noreferrer noreferrer" target=3D"_blank">systemd_246.2.bb</a><b=
-r>
-@@ -66,7 +66,6 @@ PACKAGECONFIG ??=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x=
-11&#39;, &#39;xkbcommon&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0backlight \<br>
-=C2=A0 =C2=A0 =C2=A0binfmt \<br>
--=C2=A0 =C2=A0 gshadow \<br>
-=C2=A0 =C2=A0 =C2=A0hibernate \<br>
-=C2=A0 =C2=A0 =C2=A0hostnamed \<br>
-=C2=A0 =C2=A0 =C2=A0idn \<br>
--- <br>
-2.28.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000061d06705afaa618a--
+Full list:  Found 123 unpatched CVEs
+CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
+CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
+CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6425: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6425 *
+CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-8166: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8166 *
+CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
+CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
+CVE-2015-8666: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8666 *
+CVE-2016-1568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1568 *
+CVE-2016-2391: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2391 *
+CVE-2016-2857: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2857 *
+CVE-2016-2858: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2858 *
+CVE-2016-4001: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4001 *
+CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
+CVE-2016-4020: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4020 *
+CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
+CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
+CVE-2016-4964: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4964 *
+CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
+CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
+CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
+CVE-2016-5126: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5126 *
+CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
+CVE-2016-5337: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5337 *
+CVE-2016-5338: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5338 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2016-6351: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6351 *
+CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
+CVE-2016-6490: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6490 *
+CVE-2016-6833: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6833 *
+CVE-2016-6834: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6834 *
+CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
+CVE-2016-6836: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6836 *
+CVE-2016-6888: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6888 *
+CVE-2016-7116: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7116 *
+CVE-2016-7155: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7155 *
+CVE-2016-7156: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7156 *
+CVE-2016-7157: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7157 *
+CVE-2016-7170: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7170 *
+CVE-2016-7421: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7421 *
+CVE-2016-7422: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7422 *
+CVE-2016-7423: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7423 *
+CVE-2016-7466: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7466 *
+CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
+CVE-2016-7995: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7995 *
+CVE-2016-8576: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8576 *
+CVE-2016-8577: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8577 *
+CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
+CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
+CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
+CVE-2016-8669: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8669 *
+CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
+CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
+CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
+CVE-2016-9102: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9102 *
+CVE-2016-9103: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9103 *
+CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
+CVE-2016-9105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9105 *
+CVE-2016-9106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9106 *
+CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
+CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
+CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
+CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
+CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
+CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
+CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
+CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2017-6386: virglrenderer-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6386 *
+CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-1000205: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000205 *
+CVE-2018-10844: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10844 *
+CVE-2018-10845: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10845 *
+CVE-2018-10846: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10846 *
+CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
+CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
+CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
+CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
+CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
+CVE-2018-18073: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18073 *
+CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-10216: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-10216 *
+CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
+CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
+CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-10713: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
+CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
+CVE-2020-14308: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15706: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
+CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
+CVE-2020-25219: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25219 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2020-8620: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8620 *
+CVE-2020-8621: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8621 *
+CVE-2020-8622: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8622 *
+CVE-2020-8623: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8623 *
+CVE-2020-8624: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8624 *
