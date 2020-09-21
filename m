@@ -1,120 +1,229 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.116])
- by mx.groups.io with SMTP id smtpd.web11.37824.1600678743333074586
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web12.38196.1600680548454292188
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 01:59:05 -0700
+ Mon, 21 Sep 2020 02:29:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=V8V37/IU;
- spf=pass (domain: prevas.dk, ip: 40.107.22.116, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IUNUdAWMTj7jXxz/5mkQaKI7otg4sWVuVMduXw/5ONrynMryrc1vOoVw4+u6Z+XeQwefcZ386AGzkbYSEyPfcB36GXmdWC3ufizCEqmC8iwjX8FQ3GcymkfpqTRfjSAlgolC5yicDpX1jIYftptW+7d26GifvF7s7r8hdwhO5bvpR4BRmDI/mqzr8ZkFi0q2mfaWIfLymxxK/J/hAzZ8FM03tJGl3cjxL6lWfJy+6aoC2eZQfr+8LBhGcROPKYI6M+x2plYVhSocmLKgA4raozbmCyhe/JyYSNAIWVaKucN9cPd8toFOwwpsDYAYQ8ZHoQUKIYoSgAPHeKe+gYnv+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b59v+5ZUrBJzOYxyhKhxSTLNfuPpefdNtqka/HuCvcc=;
- b=ibBoi5xXwDUdNSwSlcChVX1CtAOSItfhn/9t4QkVMWfrYec03ML5PrERMu+YhlFC35ORXr18vunwPQIxXFGrMTVBTwUcZ6oepHJWs/9iVIlhrrinjP2eiH0mXmUtSov8W5QP6nT2MpPydUoPcrNtiOqq5A8FRt++DPa0iGNfeQwMJkX4cx4U3ss8/0uuPvs5RmhVUNw+/d7sl7R6FqiFkktK2ImVl5H57XPk69TqGngRJMOLIYgJ+GdaEJC6Ea6LOPi9DxT5DJqKai1Fxg9l2q05u1rZgwQRUv3Mr8LgzwuZTGgJGIJ+1Vi3DHleaU9mRa75eteGFZtwghAO91xhIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b59v+5ZUrBJzOYxyhKhxSTLNfuPpefdNtqka/HuCvcc=;
- b=V8V37/IU144dlpPSaSXiYpQ3BKspwk0vpH1zUg0V04DhUoqRILWyGIb8UJ2RoDMMvO7A29JYhSRNqrc4Rw8kdDdjC+tnRAWCqLW+WjPRGt0gwqGoc6ekaNlJQJiGIqZwCF1d8eNO7J/5u/UoYBeFfX64124XgQP9/eYOtI4lqvk=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=prevas.dk;
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
- by AM8PR10MB4100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1eb::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13; Mon, 21 Sep
- 2020 08:59:01 +0000
-Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::19ee:8c9b:b371:abb2]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::19ee:8c9b:b371:abb2%2]) with mapi id 15.20.3391.014; Mon, 21 Sep 2020
- 08:59:01 +0000
-Subject: Re: [OE-core][dunfell 23/25] kernel.bbclass: run do_symlink_kernsrc before do_patch
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Chanho Park
- <parkch98@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1598810890.git.steve@sakoman.com>
- <4425ddd70d77fa0b45ee08e405937ab5f31f16f8.1598810890.git.steve@sakoman.com>
- <CAPTzV15cU7POhAMFoPhqkCBT-9jsHJ_6z3XKWMPHF81dJcBz3A@mail.gmail.com>
- <16341EFF0D914A74.16354@lists.openembedded.org>
- <CAOSpxdZDfGUw_0b6DXpcfrhSUvMabYZjvV05P6UCEcXFJbQHHA@mail.gmail.com>
-From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-Message-ID: <0ecef1fc-578b-d22e-8790-bdbf41f0dfa5@prevas.dk>
-Date: Mon, 21 Sep 2020 10:58:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAOSpxdZDfGUw_0b6DXpcfrhSUvMabYZjvV05P6UCEcXFJbQHHA@mail.gmail.com>
-X-ClientProxiedBy: AM0PR01CA0073.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::14) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:3f::10)
-Return-Path: rasmus.villemoes@prevas.dk
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.11.132] (81.216.59.226) by AM0PR01CA0073.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend Transport; Mon, 21 Sep 2020 08:59:00 +0000
-X-Originating-IP: [81.216.59.226]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c51a8fd6-3068-4858-bad1-08d85e0c9534
-X-MS-TrafficTypeDiagnostic: AM8PR10MB4100:
-X-Microsoft-Antispam-PRVS: 
-	<AM8PR10MB4100772E6AAA2BDF63C51111933A0@AM8PR10MB4100.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:369;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	f8ztRGty3+geccadi0hWEXJXbRFpJ6GLb+2WE2N7qADYnE6kGIHYNnmFEy6wHDyQC4ASPIll/dPHOhzsTJsqkZ0N2eazKKYj7Kz1OC244OOHuqRaCTuO40dXykSCVDXTLjqdS/A6FHOjZkQpKhiaBPt6l5Se96mFtc/HfC87jewD0ZC9RwRy4Eojv5EQWjR7+JYcatAm73eUaCEY9X4fG8Q/YNUjEOYMXp0JbdqnfvK7R1pmYa5fMjDlyNa60K4kqmePDfM6Ey9FUWoQ55MFkdxkExWMCcCAROeGDMdfE9a/B3BoV6Kb+QLf5LQw8IGT/7VxNxkPe61bLJJ/Lw69OhOTYl/HjPXmKyFMduL4PPbUCMPZMoJRWJYwtpq4WEl1
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(39840400004)(396003)(136003)(366004)(376002)(346002)(16576012)(6916009)(52116002)(2906002)(26005)(186003)(4326008)(36756003)(66476007)(8936002)(316002)(66946007)(66556008)(8976002)(83380400001)(54906003)(956004)(16526019)(478600001)(6486002)(31686004)(31696002)(5660300002)(2616005)(86362001)(8676002)(44832011)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	zL52g/+emZ/WO3dBcO6SkF9PTptbaroTW/1w126KSZvScCfCEGHXj4mT8fJQdKWmwaQTTNGWEVfDp6dTfSvf6sc9gQD3rvTeXu1EBm18VElmfQ2zID/RfCIOIza9Xd1En85Vt4C3PfCxdpqeLXeWQKziR2h8WtdJ4Cv6AxZF7p6FJmiGMlYhSVlCj6Ccw+CNjop0uacFnybggTRtmJNHdOsm7nzGi+kw0DZHV4ije9wKuaKR2s+njGjcJ9gDYKhXHQf2Ccm6TFBqcNgqwUSIHFH1L1JL1M/Kxbk0bj/3sk31uGEFjEzzrIe9b0SWiJg+G5XU62KPUprbcAYxbjxqLIF5ree+uveVzvhBt4fYb9kLIePPsDoymx6L8EbGGYF0dUGRquQF46S/mfRoJvPtXvN6P/plu/vN1BM6XGY3SFCdUrYjv+N6vngZojT4Dw0tH8zMSLal63l5lK2hVsosB4aVq5pQ3M5HDBtiZEJXhzWOOQ0tqw5O51XlH5bkvOL4Q8GtG+cLHTH1mH5AAZetAepTXRQ4RLec18qhw1D2gPgNSFzciNR2ucig7vtg86s351AOob3Ij0rEFvgwGbHHwapnmHPt0yBHUdle7antbWZZkwpFvBdapURAXQQvBzOfO/QOQj9Zq+ubHTBmdr89cg==
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: c51a8fd6-3068-4858-bad1-08d85e0c9534
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2020 08:59:01.0333
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mshH28MDLq/chBo9xuUanfGEhXTwZ6VfQUDtEj/8Lmk3+99ByfMQlQDkc4mhcrILU1F5eDt7CQu+QrIdMP4/DVcdUrVzWObdNTSrEiYWfqA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR10MB4100
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: wsFdxoPxU6WgExVraMtuv9574z/6IOHcfQ4aBfa3EXPCyDj9GybSaEA8h7D2OcJ4O1D/g3WECh
+ Fz9Q2IhiK1lQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9750"; a="157725337"
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
+   d="scan'208";a="157725337"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 02:29:06 -0700
+IronPort-SDR: FxfNMofdu9K31kGiLj4qqerb24wPNyE3x7D1mbtf4f5lS0RA6Aj7bl/YPNmD7iikHEZYKLNK69
+ eR5kmbpG6DNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
+   d="scan'208";a="304430156"
+Received: from andromeda01.png.intel.com (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.10])
+  by orsmga003.jf.intel.com with ESMTP; 21 Sep 2020 02:29:05 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 1/2] xserver-xorg: fix CVE-2020-14346/14361/14362
+Date: Mon, 21 Sep 2020 17:29:03 +0800
+Message-Id: <20200921092904.1350-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On 16/09/2020 17.18, Steve Sakoman wrote:
-> Since there is an upcoming dunfell release and we don't have a fix for
-> this issue I am going to revert this patch.
-> 
-> When it is fixed in master I will reconsider taking this patch and the
-> fix for dunfell.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Sorry for not seeing this sooner, and for the bug in the first place.
+fix :
+CVE-2020-14346
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/c940cc8b6c0a2983c1ec974f1b3f019795dd4cff
 
-However, looking into externalsrc.bbclass, isn't the bug there,
-considering the "if we delete do_patch, do_unpack doesn't run" fixup
-done - kernel-yocto.bbclass has a similar fixup for do_kernel_configme.
-Why doesn't that class just set [noexec]=1 instead of deleting the tasks
-outright, killing all those random fixups?
+CVE-2020-14361
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/144849ea27230962227e62a943b399e2ab304787
 
-But if that's too invasive, I suppose just ordering the symlink task
-before both patch and configure should work, i.e.
+CVE-2020-14362
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/2902b78535ecc6821cc027351818b28a5c7fdbdc
 
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -172,7 +172,7 @@ python do_symlink_kernsrc () {
-             shutil.move(s, kernsrc)
-             os.symlink(kernsrc, s)
- }
--addtask symlink_kernsrc before do_patch after do_unpack
-+addtask symlink_kernsrc before do_patch do_configure after do_unpack
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../xserver-xorg/CVE-2020-14346.patch         | 36 ++++++++++
+ .../xserver-xorg/CVE-2020-14361.patch         | 36 ++++++++++
+ .../xserver-xorg/CVE-2020-14362.patch         | 70 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.8.bb       |  3 +
+ 4 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14346.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14361.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14362.patch
 
- inherit kernel-arch deploy
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14346.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14346.patch
+new file mode 100644
+index 0000000000..4994a21d33
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14346.patch
+@@ -0,0 +1,36 @@
++From c940cc8b6c0a2983c1ec974f1b3f019795dd4cff Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Tue, 18 Aug 2020 14:49:04 +0200
++Subject: [PATCH] Fix XIChangeHierarchy() integer underflow
++
++CVE-2020-14346 / ZDI-CAN-11429
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/xorg/xserver/-/commit/c940cc8b6c0a2983c1ec974f1b3f019795dd4cff]
++CVE: CVE-2020-14346
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ Xi/xichangehierarchy.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Xi/xichangehierarchy.c b/Xi/xichangehierarchy.c
++index cbdd91258..504defe56 100644
++--- a/Xi/xichangehierarchy.c
+++++ b/Xi/xichangehierarchy.c
++@@ -423,7 +423,7 @@ ProcXIChangeHierarchy(ClientPtr client)
++     if (!stuff->num_changes)
++         return rc;
++ 
++-    len = ((size_t)stuff->length << 2) - sizeof(xXIChangeHierarchyReq);
+++    len = ((size_t)client->req_len << 2) - sizeof(xXIChangeHierarchyReq);
++ 
++     any = (xXIAnyHierarchyChangeInfo *) &stuff[1];
++     while (stuff->num_changes--) {
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14361.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14361.patch
+new file mode 100644
+index 0000000000..710cc3873c
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14361.patch
+@@ -0,0 +1,36 @@
++From 144849ea27230962227e62a943b399e2ab304787 Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Tue, 18 Aug 2020 14:52:29 +0200
++Subject: [PATCH] Fix XkbSelectEvents() integer underflow
++
++CVE-2020-14361 ZDI-CAN 11573
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/xorg/xserver/-/commit/144849ea27230962227e62a943b399e2ab304787]
++CVE: CVE-2020-14361
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ xkb/xkbSwap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/xkb/xkbSwap.c b/xkb/xkbSwap.c
++index 1c1ed5ff4..50cabb90e 100644
++--- a/xkb/xkbSwap.c
+++++ b/xkb/xkbSwap.c
++@@ -76,7 +76,7 @@ SProcXkbSelectEvents(ClientPtr client)
++         register unsigned bit, ndx, maskLeft, dataLeft, size;
++ 
++         from.c8 = (CARD8 *) &stuff[1];
++-        dataLeft = (stuff->length * 4) - SIZEOF(xkbSelectEventsReq);
+++        dataLeft = (client->req_len * 4) - SIZEOF(xkbSelectEventsReq);
++         maskLeft = (stuff->affectWhich & (~XkbMapNotifyMask));
++         for (ndx = 0, bit = 1; (maskLeft != 0); ndx++, bit <<= 1) {
++             if (((bit & maskLeft) == 0) || (ndx == XkbMapNotify))
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14362.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14362.patch
+new file mode 100644
+index 0000000000..2103e9c198
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14362.patch
+@@ -0,0 +1,70 @@
++From 2902b78535ecc6821cc027351818b28a5c7fdbdc Mon Sep 17 00:00:00 2001
++From: Matthieu Herrb <matthieu@herrb.eu>
++Date: Tue, 18 Aug 2020 14:55:01 +0200
++Subject: [PATCH] Fix XRecordRegisterClients() Integer underflow
++
++CVE-2020-14362 ZDI-CAN-11574
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/xorg/xserver/-/commit/2902b78535ecc6821cc027351818b28a5c7fdbdc]
++CVE: CVE-2020-14362
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ record/record.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/record/record.c b/record/record.c
++index f2d38c877..be154525d 100644
++--- a/record/record.c
+++++ b/record/record.c
++@@ -2500,7 +2500,7 @@ SProcRecordQueryVersion(ClientPtr client)
++ }                               /* SProcRecordQueryVersion */
++ 
++ static int _X_COLD
++-SwapCreateRegister(xRecordRegisterClientsReq * stuff)
+++SwapCreateRegister(ClientPtr client, xRecordRegisterClientsReq * stuff)
++ {
++     int i;
++     XID *pClientID;
++@@ -2510,13 +2510,13 @@ SwapCreateRegister(xRecordRegisterClientsReq * stuff)
++     swapl(&stuff->nRanges);
++     pClientID = (XID *) &stuff[1];
++     if (stuff->nClients >
++-        stuff->length - bytes_to_int32(sz_xRecordRegisterClientsReq))
+++        client->req_len - bytes_to_int32(sz_xRecordRegisterClientsReq))
++         return BadLength;
++     for (i = 0; i < stuff->nClients; i++, pClientID++) {
++         swapl(pClientID);
++     }
++     if (stuff->nRanges >
++-        stuff->length - bytes_to_int32(sz_xRecordRegisterClientsReq)
+++        client->req_len - bytes_to_int32(sz_xRecordRegisterClientsReq)
++         - stuff->nClients)
++         return BadLength;
++     RecordSwapRanges((xRecordRange *) pClientID, stuff->nRanges);
++@@ -2531,7 +2531,7 @@ SProcRecordCreateContext(ClientPtr client)
++ 
++     swaps(&stuff->length);
++     REQUEST_AT_LEAST_SIZE(xRecordCreateContextReq);
++-    if ((status = SwapCreateRegister((void *) stuff)) != Success)
+++    if ((status = SwapCreateRegister(client, (void *) stuff)) != Success)
++         return status;
++     return ProcRecordCreateContext(client);
++ }                               /* SProcRecordCreateContext */
++@@ -2544,7 +2544,7 @@ SProcRecordRegisterClients(ClientPtr client)
++ 
++     swaps(&stuff->length);
++     REQUEST_AT_LEAST_SIZE(xRecordRegisterClientsReq);
++-    if ((status = SwapCreateRegister((void *) stuff)) != Success)
+++    if ((status = SwapCreateRegister(client, (void *) stuff)) != Success)
++         return status;
++     return ProcRecordRegisterClients(client);
++ }                               /* SProcRecordRegisterClients */
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+index 5101134538..51d959f86c 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
+@@ -6,6 +6,9 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
+            file://CVE-2020-14347.patch \
++           file://CVE-2020-14346.patch \
++           file://CVE-2020-14361.patch \
++           file://CVE-2020-14362.patch \
+            "
+ SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
+ SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
+-- 
+2.17.1
 
-
-
-
-Rasmus
