@@ -1,51 +1,51 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.43291.1600697792919840700
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.43293.1600697793862772102
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 07:16:33 -0700
+ Mon, 21 Sep 2020 07:16:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=r1yd7BhZ;
- spf=pass (domain: blade-group.com, ip: 209.85.221.41, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-wr1-f41.google.com with SMTP id z1so12965355wrt.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 07:16:32 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=VipyDZc1;
+ spf=pass (domain: blade-group.com, ip: 209.85.128.50, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-wm1-f50.google.com with SMTP id l9so12902505wme.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 07:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=blade-group.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aKegGgEdjye5LQN9BjIHjJIcGdGxpg76TlWYeZ8wgew=;
-        b=r1yd7BhZwGw2Ib28zt04+S44s0Jlp6RRtu8gdzXFJOSb0T6wtwnzcP1ucQ/BDjXSfb
-         1Jgas0z5FIcdPbLyWxQBZjKHWNIEzVYpXugUzYAetecF77Y6AV69HeII2JGQaOwVVcmW
-         gjoaSd+esdl8eYo+DRLHz6fKAmRgpjXC4HPefZp4MSSFxhePZhdf7WCSi+l+4mMYd5DA
-         F46QVlsNLvtAVzXqksFRw+3Q38OWu6rmWEL94L1PAfOUg625pWbaJ5YCYacI9fEjV1OT
-         s8xTmElwKGYwmGVKqiH9+1qRDPiYqMHyldEmvK/CQp8xasVgU1X0rLdDoIQ8Kl4ykL/Z
-         8gSg==
+        bh=kRVW/LUInonD+bWISadisV86CjJnr4AKqxwj51SAu+w=;
+        b=VipyDZc1hPRBYzL3HHf2f/3bYxcGeemvvGeuhIP0CHH9IZA5zlWCOOgC/jwlexVofJ
+         becPyt+iWcHriHk5H3ulDqaR9U05XHuwvdBBS9bPTsE2a3llk9qjazxCtsOX5B7NQ49t
+         Yqr+eRZKrgydls0bOTOVKgbYaaoa4f5gbe+BxQTQq9xH5CgAKmjfcIElenOamHOgAlv2
+         gJ9xmmvPNEN5gmx/0nW9mOAS5Lfu8jOP7Tn8ya0mEfEcdBFzRkcCCs2m2bQoSNsjk0oB
+         QeyjfMgf5PTC01olZ2T5grQD6ALScsErDoGzwyK9NqkedJ+5tCl1zgQevpBiCFblbjAr
+         T9Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aKegGgEdjye5LQN9BjIHjJIcGdGxpg76TlWYeZ8wgew=;
-        b=sKA9MFYUzFysIs4cSnxJtF0ijapFilH5Kv2PmECZT59qjFmzwStRx7gPZMWprj3qLd
-         R9qSJs0DaKHoK+99n9VD7GPMZYMLU5fzRYleqMlsaiFm7kV+4yXu2d2BS1E2dcP4kKhR
-         kdYrigzGwrDX7NV2ygFNltzoKYPqd/vg8eZsrvXcdpASs0GE4X8dVRtOMfS1zAeia8w9
-         5jnNCKM8Qhwj+kuDlJ5HJurjph1e5mo7qQ0SL17xCuOcFdPoXRAnVt3bU6mXTPcmoTeS
-         ytf4GTonI1Pzm/tr37rEJUYxHJ9uNtvoWFsV75kIMi6tX12UTU8ODVVE+jyGNZKtJFFD
-         PGLQ==
-X-Gm-Message-State: AOAM531qiQrT4YUtayKrIblpUWMoR82G4sOQqJIe/ZjJEdqKGi++hWsL
-	sIQZEnZT5liyal8XEbR1Qm0SlYzyNjYNR/3r
-X-Google-Smtp-Source: ABdhPJxapwexlhu72ha6KizrAqXo2b149IUDRa7P15AWedsssBq2n1mQMySA4RSPElLM55H6LmcoKg==
-X-Received: by 2002:a5d:4448:: with SMTP id x8mr56077853wrr.207.1600697791068;
-        Mon, 21 Sep 2020 07:16:31 -0700 (PDT)
+        bh=kRVW/LUInonD+bWISadisV86CjJnr4AKqxwj51SAu+w=;
+        b=eFCtsZiWl9J0/PAmzrgjS+YaJ6W7IfcGI7IKkdBTuSi3V9eqUJBN11/jCkZORwnt0C
+         QhEJM6KhO+K5YQ5HSdEY1hgPFrD98caw1JFQEUJwemHxG4uzWvXrhkl7WRm2yAGJRTsM
+         y6eo2cM0OKDGnaG5sh+sinTBJHSwYGGisfCxx8ntnhj59sG9Q0T6Tlu2che89Qq9lWBC
+         Cq66iOc5DFSXzqebk5gfxxqbPiJ89lZq8PC1sjNRy5kdCr8LfdnwOxO8+WkdjFcPCasE
+         N5PqoJIgTQl+qjngrUs8ndCLt+QMTHy3Us46c+EOwcPCNBmy4o+avRwois1XBGlgV0H+
+         QpBg==
+X-Gm-Message-State: AOAM5307OlkQKlYXSh0cyCMU0BGcCYS7NAQY9zaIS50RtxDOObBhCd3w
+	s9qG3dYHtQgjWqTWfEwW+0Lpqt+VUFvICz+y
+X-Google-Smtp-Source: ABdhPJznsgRepIyBCbDuMPCu4wv+Q5kjlc0nyaz/XMiBHJXmJtwrPArEeSTouS1VvTyhahkbI+ohSQ==
+X-Received: by 2002:a05:600c:2182:: with SMTP id e2mr106955wme.102.1600697792030;
+        Mon, 21 Sep 2020 07:16:32 -0700 (PDT)
 Return-Path: <yann.dirson@blade-group.com>
 Received: from blanquette.lan ([88.120.44.86])
-        by smtp.gmail.com with ESMTPSA id f14sm22524804wrt.53.2020.09.21.07.16.30
+        by smtp.gmail.com with ESMTPSA id f14sm22524804wrt.53.2020.09.21.07.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 07:16:30 -0700 (PDT)
+        Mon, 21 Sep 2020 07:16:31 -0700 (PDT)
 From: "Yann Dirson" <yann.dirson@blade-group.com>
 X-Google-Original-From: yann@blade-group.com
 To: openembedded-core@lists.openembedded.org
 Cc: Yann Dirson <yann@blade-group.com>
-Subject: [PATCH 4/8] systemtap: fix install when python3-probes is disabled in PACKAGECONFIG
-Date: Mon, 21 Sep 2020 16:15:40 +0200
-Message-Id: <20200921141544.3145189-5-yann@blade-group.com>
+Subject: [PATCH 5/8] systemtap: split runtime material in its own package
+Date: Mon, 21 Sep 2020 16:15:41 +0200
+Message-Id: <20200921141544.3145189-6-yann@blade-group.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200921141544.3145189-1-yann@blade-group.com>
 References: <20200921141544.3145189-1-yann@blade-group.com>
@@ -54,34 +54,33 @@ Content-Transfer-Encoding: 8bit
 
 From: Yann Dirson <yann@blade-group.com>
 
+Note the _class-target qualifier, here to prevent a funky dependency of
+systemtap-native on systemtap-native-runtime-native.  This possibly hints
+to something deeper ?
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/systemtap/systemtap_git.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 89f550c859..74bf7cb35c 100644
+index 74bf7cb35c..8dad5b15f0 100644
 --- a/meta/recipes-kernel/systemtap/systemtap_git.bb
 +++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -66,7 +66,7 @@ do_install_append () {
-       rm ${D}${libexecdir}/${PN}/stap-env
-    fi
+@@ -36,6 +36,15 @@ FILES_${PN}-exporter = "${sysconfdir}/stap-exporter/* \
+ RDEPENDS_${PN}-exporter = "${PN} python3-core python3-netclient"
+ SYSTEMD_SERVICE_${PN}-exporter = "stap-exporter.service"
  
--   if [ ${D}${prefix}/lib != `dirname ${D}${systemd_unitdir}` ]; then
-+   if [ -d ${D}${prefix}/lib/systemd -a ${D}${prefix}/lib != `dirname ${D}${systemd_unitdir}` ]; then
-       # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
-       # without usrmerge distro feature enabled
-       install -d `dirname ${D}${systemd_unitdir}`
-@@ -75,7 +75,9 @@ do_install_append () {
-    fi
- 
-    # Ensure correct ownership for files copied in
--   chown root:root ${D}${sysconfdir}/stap-exporter/* -R
-+   if [ -d ${D}${sysconfdir}/stap-exporter ]; then
-+       chown root:root ${D}${sysconfdir}/stap-exporter/* -R
-+   fi
- }
- 
- BBCLASSEXTEND = "nativesdk"
++PACKAGES =+ "${PN}-runtime"
++FILES_${PN}-runtime = "\
++ ${bindir}/staprun \
++ ${bindir}/stap-merge \
++ ${bindir}/stapsh \
++ ${libexecdir}/${BPN}/stapio \
++"
++RDEPENDS_${PN}_class-target += "${PN}-runtime"
++
+ PACKAGES =+ "${PN}-examples"
+ FILES_${PN}-examples = "${datadir}/${BPN}/examples/"
+ RDEPENDS_${PN}-examples += "${PN}"
 -- 
 2.28.0
 
