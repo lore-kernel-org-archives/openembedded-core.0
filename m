@@ -1,149 +1,178 @@
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
- by mx.groups.io with SMTP id smtpd.web12.51986.1600723408575916596
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
+ by mx.groups.io with SMTP id smtpd.web10.53787.1600726733962573463
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 14:23:28 -0700
+ Mon, 21 Sep 2020 15:18:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=HgCNdXBQ;
- spf=pass (domain: blade-group.com, ip: 209.85.167.193, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-oi1-f193.google.com with SMTP id 185so18598690oie.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 14:23:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oOg/4/4q;
+ spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: ticotimo@gmail.com)
+Received: by mail-io1-f65.google.com with SMTP id v8so10562820iom.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 15:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WJohIAmf3mZO4ZEbtgRY2dbJSuAni79/59Oj9gu0QkM=;
-        b=HgCNdXBQa7MdC5f4ckq2Hv65IRjsDyJV2gXGkMdz2uGl3jAPH38/T1KNFl7DdSwDpr
-         hvIJQQs9L64DEHbqRxWScG5RVrPSzfpuGBipSPykc4OILhE11sx3SSI/TlstA9Oa9xpX
-         r0b6Q6fmVCrEzzeaBDG7IPR1hx9Q8Ifg5Me8M3gbl3L14DWW4xm3Sf3o5DE5YzpTnLBj
-         jW+cHt6OpinJjB1ADr/+/PIk6GIdIqwoMUztqvIKPQ3Dk9QvGr7/BQfJ+oEcacexDGYY
-         rt7U4Z9ZndKRvy9MbTY5gafuKQBFDBwnQHvEW9KrrhBgtpOJjOn8Llh2JxnA2bwvtd1H
-         8VuQ==
+        bh=HWkMvpFP/IG4sIZk/TngLMmH542qcDgqx+iYyLWYBy0=;
+        b=oOg/4/4qalQEVzU6oPcy4M03hwLSuEV61GUd70Vb/nGx9pqOPUeNv+f5Ysg14SjIKz
+         iU9t7++fKwRtU+nda8gjKngCmmkH2PzPcvAyf3wKnYY0bBuqtpBssCJ1/m524T6cdr9+
+         mibX+rT0X5WD/yT/zE6urs37o2ZF4CnP2ivA7YfeV/yO3srJxWYsZCottFLpD2dWylox
+         Z3TDX7HyV8FiRFwPZa2EwGfVRTCkplRdfxB0N2y6ZYsSQdrsuAvIasUANSPyiE4n9pfl
+         4uyIriiC497WznXl4iwOBCcug1OK6VGmuxt9TPiGvH4MhaxAAOpdpGrBUCeLyfLLGqYP
+         bsVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WJohIAmf3mZO4ZEbtgRY2dbJSuAni79/59Oj9gu0QkM=;
-        b=Xnccdbraf9NGLLXtF+Ub/3SAP7+6GKLZpgBDYHtw5zQY/45vTWidgoyaYPt0d10FFa
-         mgNw0FBc5oKSguywzbAo+Ib/57ArH1DTFVVCFymxUqHMuCkSYPqkcXnmFshj4CWpRbx7
-         h7J8Suoi4XTlk4vNbH7yeR/5cIt0xSOR3z+oM/L09VCVEv2S9svdnGtYRVaqYMwM29IF
-         KJhmaZE4+AYib6kkrK2a5vmMxSB98Ng2kEaXOQd+TgmRSbPJbzY8mPaED31e0BJpw2rW
-         OoCv13QnSRc8cidkfABdh+zmz9dB7PIi644e1C0HdHXfBTYQ3N7yrKiNh8q1n5iTB2iB
-         8eWA==
-X-Gm-Message-State: AOAM533ktzkDy/mWiJj/4l03dFvJSYKbVGX76X8qK7bF4erqoS1XVZmW
-	nOP+tUEoWAoOxdd37+JygiDE01BAPVzW8hcUGpuG1w==
-X-Google-Smtp-Source: ABdhPJyVMmrMjIfZ9JC1GT2EGXuelJKP027LFcSfkqSa0QQa1RkfxGpIMJWEgo06Iep34WRyPqHjleGPJV5gxc16Cp0=
-X-Received: by 2002:a05:6808:491:: with SMTP id z17mr848048oid.110.1600723407942;
- Mon, 21 Sep 2020 14:23:27 -0700 (PDT)
+        bh=HWkMvpFP/IG4sIZk/TngLMmH542qcDgqx+iYyLWYBy0=;
+        b=EXvNiNCaTyCw18D58CokiNYZG4S796BEzd7lXwHi8Kd0ZPOqhR2u633z0yUleLCtCT
+         EIbepzaqFdaefTsTLSDitVMqwXcWoa9Job1bqYcv4x+nNxiVgRAM/qEuA+N42PvxZzPA
+         uhjf35SCmrZY58oumUVrsIWK8zsxrxbx3cfeE7rxZt1nDkT1XbyL9orBhcC0o5bLzme/
+         vbYQtJ65ua9lOKx8W9dFXlerB0Ftea25JaLrIPHxfKpWP1MRDsj7BenQMkFSZGtAW83d
+         0zVh8xAvW/y1h4HOqpsoQJq07zjl6x+qlIW6a6Aa8ZdTlAg2XnroLI5RLeXrlBV6Wz7j
+         6LTA==
+X-Gm-Message-State: AOAM5313/NSdRZPQPnUNGRasNh/Vak4I80AzvfF1QDbztiSuBZMraKGr
+	t1VXT/BhyslQw9s/cShIHKj0V4oE0E/7pEG3+c0=
+X-Google-Smtp-Source: ABdhPJzkO7scNWBRAPcPLclWLxwNP06QbmmezJr/eW1adHvuYKCrG+JV7ClcnONd5u0Ye2LYaD12/UGhCcJ9Q/wMPMQ=
+X-Received: by 2002:a02:9a0e:: with SMTP id b14mr1855653jal.22.1600726733130;
+ Mon, 21 Sep 2020 15:18:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200921141544.3145189-1-yann@blade-group.com>
- <20200921141544.3145189-9-yann@blade-group.com> <1c41fc0d0f0928baeacb628812cafd66de745b75.camel@linuxfoundation.org>
-In-Reply-To: <1c41fc0d0f0928baeacb628812cafd66de745b75.camel@linuxfoundation.org>
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-Date: Mon, 21 Sep 2020 23:23:16 +0200
-Message-ID: <CA+4=imb9n8r-taOxj68JagEVJkisUFk3vHVbKOru8Td24kLHdg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 8/8] New systemtap.bb class, and systemtap-demo.bb to illustrate it.
+References: <20200921121204.2443466-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200921121204.2443466-1-richard.purdie@linuxfoundation.org>
+From: "Tim Orling" <ticotimo@gmail.com>
+Date: Mon, 21 Sep 2020 15:18:42 -0700
+Message-ID: <CANx9H-C+JH7Dm1JcuC2-4JBOXSr0XqAqO=xCkfjfL-yan0ucyA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Import two python recipes from meta-oe/meta-python
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Yann Dirson <yann@blade-group.com>
-Content-Type: multipart/alternative; boundary="0000000000001d4b6505afd976cd"
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004f905805afda3cab"
 
---0000000000001d4b6505afd976cd
+--0000000000004f905805afda3cab
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Le lun. 21 sept. 2020 =C3=A0 21:46, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+On Mon, Sep 21, 2020 at 5:12 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Mon, 2020-09-21 at 16:15 +0200, Yann Dirson wrote:
-> > From: Yann Dirson <yann@blade-group.com>
-> >
-> > ---
-> >  meta/classes/systemtap.bbclass                | 74 +++++++++++++++++++
-> >  .../systemtap/systemtap-demo_git.bb           | 71 ++++++++++++++++++
-> >  2 files changed, 145 insertions(+)
-> >  create mode 100644 meta/classes/systemtap.bbclass
-> >  create mode 100644 meta/recipes-kernel/systemtap/systemtap-demo_git.bb
+> We have a slightly pressing situation where the performance test builds
+> are failing after we cleaned up the system installs on those machines
+> and tried to switch over to buildtools entirely.
 >
-> I'm afraid this patch is going to throw warnings all over the
-> autobuilder, e.g.:
+> The issue is the need for jinja2, complicated by the recipe's ptest
+> dependencies. This series imports them with ptest not inherited, the
+> idea being meta-python can bbappend and add the inherit.
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2488
+> The alternatives are either to try and solve this on the performace
+> test machines using horrible hacks and revert my earlier attempted fix
+> (which is correct but makes the situation worse), or import pytest
+> over too which we may ultimately end up doing but probably should
+> do right now?
 >
-> (and there will be more).
 >
-> We are trying to ensure all warnings are solved so that any that do
-> show are real issues and this patch would significantly distract from
-> that.
+While bringing pytest into oe-core may ultimately make sense, the shear
+number of dependencies
+should not be brought in lightly. Given the urgency of the situation, I
+agree with the approach to only
+bring in what is necessary and disable ptest for these recipes. I will work
+on .bbappends for meta-python.
+Trevor G and I will fix any collateral damage in meta-python.
+
+Richard Purdie (3):
+>   python3-markupsafe: Import from meta-oe/meta-python
+>   python3-jinja2: Import from meta-oe/meta-python
+>   buildtools-tarball: Add python3-jinja2
+>
+>  meta/conf/distro/include/maintainers.inc      |  2 +
+>  meta/recipes-core/meta/buildtools-tarball.bb  |  1 +
+>  .../python/python3-jinja2/run-ptest           |  3 ++
+>  .../python/python3-jinja2_2.11.2.bb           | 45 +++++++++++++++++++
+>  .../python/python3-markupsafe/run-ptest       |  3 ++
+>  .../python/python3-markupsafe_1.1.1.bb        | 28 ++++++++++++
+>  6 files changed, 82 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-jinja2/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
+>  create mode 100644
+> meta/recipes-devtools/python/python3-markupsafe/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/
+> python3-markupsafe_1.1.1.bb
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
 >
 
-OK, we could default to built just the handful of probes that should always
-build,
-and give instructions for those willing to use the current behaviour.
-
-I'm also wary that we're now in feature freeze for release so perhaps
-> these changes should wait until 3.3?
->
-
-OK, I can reroll a series with just the fixes.
-
-For the rest should I just wait for the gatesgarth branch to be created and
-resubmit then ?
-
---=20
-Yann Dirson <yann@blade-group.com>
-Blade / Shadow -- http://shadow.tech
-
---0000000000001d4b6505afd976cd
+--0000000000004f905805afda3cab
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 21 sept. 2020 =C3=A0=C2=
-=A021:46, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
-on.org">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2020-09-21 a=
-t 16:15 +0200, Yann Dirson wrote:<br>
-&gt; From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=
-=3D"_blank">yann@blade-group.com</a>&gt;<br>
-&gt; <br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/systemtap.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 74 +++++++++++++++++++<br>
-&gt;=C2=A0 .../systemtap/<a href=3D"http://systemtap-demo_git.bb" rel=3D"no=
-referrer" target=3D"_blank">systemtap-demo_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 71 ++++++++++++++++++<br>
-&gt;=C2=A0 2 files changed, 145 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/classes/systemtap.bbclass<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-kernel/systemtap/<a href=3D"http=
-://systemtap-demo_git.bb" rel=3D"noreferrer" target=3D"_blank">systemtap-de=
-mo_git.bb</a><br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 21, 2020 at 5:12 AM Richa=
+rd Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard=
+.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-l=
+eft-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">We hav=
+e a slightly pressing situation where the performance test builds<br>
+are failing after we cleaned up the system installs on those machines<br>
+and tried to switch over to buildtools entirely.<br>
 <br>
-I&#39;m afraid this patch is going to throw warnings all over the<br>
-autobuilder, e.g.:<br>
+The issue is the need for jinja2, complicated by the recipe&#39;s ptest<br=
+>
+dependencies. This series imports them with ptest not inherited, the<br>
+idea being meta-python can bbappend and add the inherit.<br>
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/40/build=
-s/2488" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/40/builds/2488</a><br>
+The alternatives are either to try and solve this on the performace<br>
+test machines using horrible hacks and revert my earlier attempted fix<br>
+(which is correct but makes the situation worse), or import pytest <br>
+over too which we may ultimately end up doing but probably should <br>
+do right now?<br>
+<br></blockquote><div><br></div><div>While bringing pytest into oe-core ma=
+y ultimately make sense, the shear number of dependencies</div><div>should =
+not be brought in lightly. Given the urgency of the situation, I agree with=
+ the approach to only</div><div>bring in what is necessary and disable ptes=
+t for these recipes. I will work on .bbappends for meta-python.</div><div>T=
+revor G and I will fix any collateral damage in meta-python.</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,=
+204);padding-left:1ex">
+Richard Purdie (3):<br>
+=C2=A0 python3-markupsafe: Import from meta-oe/meta-python<br>
+=C2=A0 python3-jinja2: Import from meta-oe/meta-python<br>
+=C2=A0 buildtools-tarball: Add python3-jinja2<br>
 <br>
-(and there will be more).<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
+ 2 +<br>
+=C2=A0meta/recipes-core/meta/<a href=3D"http://buildtools-tarball.bb" rel=
+=3D"noreferrer" target=3D"_blank">buildtools-tarball.bb</a>=C2=A0 |=C2=A0 =
+1 +<br>
+=C2=A0.../python/python3-jinja2/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 3 ++<br>
+=C2=A0.../python/<a href=3D"http://python3-jinja2_2.11.2.bb" rel=3D"norefe=
+rrer" target=3D"_blank">python3-jinja2_2.11.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 45 +++++++++++++++++++<br>
+=C2=A0.../python/python3-markupsafe/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 3 ++<br>
+=C2=A0.../python/<a href=3D"http://python3-markupsafe_1.1.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">python3-markupsafe_1.1.1.bb</a>=C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 | 28 ++++++++++++<br>
+=C2=A06 files changed, 82 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-jinja2/run-p=
+test<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://py=
+thon3-jinja2_2.11.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-jinja2=
+_2.11.2.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-markupsafe/r=
+un-ptest<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://py=
+thon3-markupsafe_1.1.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-mar=
+kupsafe_1.1.1.bb</a><br>
 <br>
-We are trying to ensure all warnings are solved so that any that do<br>
-show are real issues and this patch would significantly distract from<br>
-that.<br></blockquote><div><br></div><div>OK, we could default to built jus=
-t the handful of probes that should always build,</div><div>and give instru=
-ctions for those willing to use the current behaviour.</div><div> <br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-I&#39;m also wary that we&#39;re now in feature freeze for release so perha=
-ps<br>
-these changes should wait until 3.3?<br></blockquote><div><br></div><div>OK=
-, I can reroll a series with just the fixes.</div></div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">For the rest should I just wai=
-t for the gatesgarth branch to be created and resubmit then ?<br clear=3D"a=
-ll"></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Yann Dirson=
- &lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_blank">yann@blade-g=
-roup.com</a>&gt;<br>Blade / Shadow -- <a href=3D"http://shadow.tech" target=
-=3D"_blank">http://shadow.tech</a><br><br></div></div>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
---0000000000001d4b6505afd976cd--
+--0000000000004f905805afda3cab--
