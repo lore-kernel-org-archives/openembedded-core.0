@@ -1,82 +1,86 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.19411.1600609376358789711
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.36229.1600670284347348050
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Sep 2020 06:42:56 -0700
+ Sun, 20 Sep 2020 23:38:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Btx9MrBt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id z1so10083085wrt.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2020 06:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=DX9ejDxFYPrK4LUm42raSzVraaA7OO8jFN7SY990drc=;
-        b=Btx9MrBtTjIpONPbpc/xpuzIQf8dreiqzqInQpR8mr9wQXpljQuwuXgSxUc/ZxyIrx
-         /feaQ3cTTzq5FKOPSeVZOBx7S0gxHz7sIe7J8Yd8PhjRfZGcpEkz8JoqSGudGWoYHprJ
-         jpEFfFKJ4ghEe0yJ42HrTHdUxRk3/H2DE2hZA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DX9ejDxFYPrK4LUm42raSzVraaA7OO8jFN7SY990drc=;
-        b=iaZVbPTPzlHZaskyV3t7qiaWcFWL0y55TLxRp8SH0SVB0uoRhmESyFluOzprf4NJkL
-         WepzDFPNrbOd28+DyLW+qXjopM48bgyrg0Lq+N/+DuPe3XychGxn2IWZGntDEftJghV2
-         DjnF1BQPIfVTtB2hTBLG8B3veP1RiA3+Zlw2VUmoSYMtjIyFIdoLnhmnrqGIWlx8iz7Z
-         EmM0IlRvdG1y2otbwOjXR5yjF8cjS/cpt1kuRrOHWtlDWZWAYTJ6m65+xAEofDSmXIH7
-         epC5k/9nwvvN8wEG1/4pwyEZO9EutkSx8lPBm0qelvK6gAypfvDRhRfJOB1LxrRYBQ36
-         kPEg==
-X-Gm-Message-State: AOAM532nIXEcwhuFLw5iPQzBC2UMwVeHajD/xGIMyjUH/3K6XPSy071V
-	HYNKZGMzF6nu6s/NSSKL9aJGlw==
-X-Google-Smtp-Source: ABdhPJxgU6FE+iFf5tOQ138adzQcITf2hqLr1s5sphF5lU/1vS4ZyddYOA/Kf95Oc2jN1pVTAqNw+A==
-X-Received: by 2002:adf:fcd2:: with SMTP id f18mr47157272wrs.78.1600609374700;
-        Sun, 20 Sep 2020 06:42:54 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.1.a.4.b.6.6.4.7.f.7.9.a.9.8.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c89a:97f7:466b:4a17])
-        by smtp.gmail.com with ESMTPSA id q12sm14958550wrs.48.2020.09.20.06.42.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2020 06:42:53 -0700 (PDT)
-Message-ID: <190055f95ca61297ef4c524d0c15578457d46703.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: Disable support for shadow group
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sun, 20 Sep 2020 14:42:50 +0100
-In-Reply-To: <20200919001608.1241434-1-raj.khem@gmail.com>
-References: <20200919001608.1241434-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08L6bxvu022012
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2020 23:37:59 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Sun, 20 Sep 2020
+ 23:37:58 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] bind: remove -r option for rndc-confgen
+Date: Sun, 20 Sep 2020 23:37:58 -0700
+Message-ID: <20200921063758.16983-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Fri, 2020-09-18 at 17:16 -0700, Khem Raj wrote:
-> enabling shadow drags sshd key generation service into boot path and
-> serial console launch over getty gets delayed until ssh key
-> generation
-> is done, on slowers platforms eg. non-kvm qemu this can take minutes
-> to
-> get ssh keys service to finish on first boot.
-> 
-> On qemumips
-> 56.963s sshdgenkeys.service
-> 
-> Disabling shadow, pulls this out of boot chain, and ssh keys are
-> still
-> generated but this time it will happen when ssh'ing first time into
-> the
-> machine.
-> 
-> [YOCTO #13646]
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd_246.2.bb | 1 -
->  1 file changed, 1 deletion(-)
+From: Mingli Yu <mingli.yu@windriver.com>
 
-I tested this locally and disabling gshadow didn't seem to affect the
-qemumips serial login time. That matches the fact we didn't see it
-blocking on ssh keygen in the traces :/.
+The named service fail to start as below:
+ # systemctl  status  named.service
+   named.service - Berkeley Internet Name Domain (DNS)
+     Loaded: loaded (/lib/systemd/system/named.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Wed 2020-09-16 06:07:49 UTC; 9s ago
+    Process: 134206 ExecStartPre=/usr/sbin/generate-rndc-key.sh (code=exited, status=1/FAILURE)
 
-Cheers,
+Sep 16 06:07:49 intel-x86-64 systemd[1]: Starting Berkeley Internet Name Domain (DNS)...
+Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134206]: Generating /etc/bind/rndc.key:
+Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134207]: rndc-confgen: The -r option has been deprecated.
+Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134208]: chown: cannot access '/etc/bind/rndc.key': No such file or directory
+Sep 16 06:07:49 intel-x86-64 generate-rndc-key.sh[134209]: chmod: cannot access '/etc/bind/rndc.key': No such file or directory
+Sep 16 06:07:49 intel-x86-64 systemd[1]: named.service: Control process exited, code=exited, status=1/FAILURE
+Sep 16 06:07:49 intel-x86-64 systemd[1]: named.service: Failed with result 'exit-code'.
+Sep 16 06:07:49 intel-x86-64 systemd[1]: Failed to start Berkeley Internet Name Domain (DNS).
 
-Richard
+It is because fail to execute "/usr/sbin/generate-rndc-key.sh" as
+-r is deprecated since bind 9.13.x and the random function changes
+in [1], so remove -r option to fix the above issue.
+
+DNSSEC validation is now active by default after bind upgrade to 9.16.x,
+but it is not in 9.11.x. So disable DNSSEC validation explicitly to
+silence below message.
+Sep 18 03:21:37 intel-x86-64 named[23272]: managed-keys-zone: Unable to fetch DNSKEY set '.': timed out
+
+[1]: https://gitlab.isc.org/isc-projects/bind9/-/commit/3a4f820d625c214cfb21f5e6d18ce9160d2a193b
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh | 2 +-
+ meta/recipes-connectivity/bind/bind_9.16.5.bb                   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
+index ef915c0ae5..633e29c0e6 100644
+--- a/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
++++ b/meta/recipes-connectivity/bind/bind-9.16.5/generate-rndc-key.sh
+@@ -2,7 +2,7 @@
+ 
+ if [ ! -s /etc/bind/rndc.key ]; then
+     echo -n "Generating /etc/bind/rndc.key:"
+-    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
++    /usr/sbin/rndc-confgen -a -b 512
+     chown root:bind /etc/bind/rndc.key
+     chmod 0640 /etc/bind/rndc.key
+ fi
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.5.bb b/meta/recipes-connectivity/bind/bind_9.16.5.bb
+index 103192490a..eb263c2eda 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.5.bb
+@@ -34,7 +34,7 @@ PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
+ PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
+ PACKAGECONFIG[python3] = "--with-python=yes --with-python-install-dir=${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
+ 
+-EXTRA_OECONF = " --with-libtool --disable-devpoll --enable-epoll \
++EXTRA_OECONF = " --with-libtool --disable-devpoll --disable-auto-validation --enable-epoll \
+                  --with-gssapi=no --with-lmdb=no --with-zlib \
+                  --sysconfdir=${sysconfdir}/bind \
+                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
+-- 
+2.17.1
 
