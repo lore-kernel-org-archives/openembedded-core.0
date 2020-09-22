@@ -1,90 +1,139 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.1929.1600733027732140786
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web12.2699.1600735293511436483
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 17:03:48 -0700
+ Mon, 21 Sep 2020 17:41:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jxRM1PXH;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id a9so614633pjg.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 17:03:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mOYoZb1D;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id gr14so20416113ejb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 17:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=y4dLY8juH1FXdLF/hGmk3HFnQbI5EroDI4yBI1Fgcpo=;
-        b=jxRM1PXH3BOSqJMAQ0DGBo162SLykFLYBAx1ogG4/YVotuvB0DD1M+nMGi5GECIKh4
-         aAikX40pjAeq4VUWWMhXbqteR+qcT/wUSLXH+15PXGq88AtyERoiMPw8Mv+GnUBHdewi
-         UlqWTuzUGFLtbnwBHaiKlgLTLRp+W++SVtJzAaMttypesf76svP4aOSUXwE2XCpiUKXk
-         82txWsrUV/GpIL2GFTm4d/buGYg8a8jyp/YxgkbICFrhYmdCkHkNFpd3MTwXLREBfNVN
-         bs7empD6dmaWJZSqkHri5SiCpW42h5Q+Mj0ta4zI+nrQRgUiw5uUx4M9R2VvVaOyZQ9c
-         5iyQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=fh9Vk6XxC7U3koA3pxZqag+uxxpmx/qCAm7ZyXMYJZQ=;
+        b=mOYoZb1Db05UoqH6xaCOQkEGWFx1i/4VA8fFkEiYzeparRdLgW3/1P5JuOw+IdDkI9
+         MWdgvpUr5bdl0tnn0m0HuQOBQQU0UWySjGOji8Kf1bd1PH/xiZwsPk7zY51eR6xaHiUg
+         4QkMTNadSzLhUb4fi1zaZWDQH1gsuXd9WhSDGrmjPZZ0hMVndNui2RRy/GGCSvV7UD70
+         3YeDHslz14tCaIeV9PCw83jDiu8M4WBOussR4Sl8vaM4KMA/R7ZCKOfFURizD1+yYDFX
+         +smHicG2zKxNf1hIKguY2oPZ+SP9SXQmgtVqoqU2+muDCkfsqgiqzhCfWL1cjM0gUxhJ
+         wV+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=y4dLY8juH1FXdLF/hGmk3HFnQbI5EroDI4yBI1Fgcpo=;
-        b=stVrGFqw3PrYPhmxMv8m2L1r2N/thBZqkY6x4OKnXZgK9W4eou2hmvWKNI1/HiJCv5
-         8QifLnhRGUEl3oPXOSO6wyW899L/1hkJgUYAOTKzgO5m5udclcHADSbysMhmjx731X1z
-         bJsiBWt9nZxQ7HqqwAJ+ErzJJYpkEOPYcj2uzLVTOOFROatfdzfHq56f/48ktirWM3g0
-         FMihneG6SBGh1070PY52NmdBGwBN6sjtqUNthWm4X57TklcFui+X9KK9yi2IMEVrftq/
-         IH180p/UfAtEyHWwvL3JUyPWFrf8h64wQ3Wbze1kSeDLg84MJgL6nFFqjswXUfCyGbKv
-         TubQ==
-X-Gm-Message-State: AOAM532tJf3Zsv4+nRHgId33UrTzYpyN6pHpysrLGj2bPQ7UW7do+9Sl
-	pxI6mWlysmWlsFK7i+m9GX0C45Es3/GxJc2rRl4=
-X-Google-Smtp-Source: ABdhPJw3F7S2kJ6iM2b0+EzPpZ+IDVcLM0gB5mfIml32rCSYi2eDlS6ZA8shrj2AMZZ2kiXVCEQaTQ==
-X-Received: by 2002:a17:90a:ca03:: with SMTP id x3mr1547572pjt.92.1600733026631;
-        Mon, 21 Sep 2020 17:03:46 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s24sm468931pjp.53.2020.09.21.17.03.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 17:03:45 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Pull request (cover letter only)
-Date: Mon, 21 Sep 2020 14:03:37 -1000
-Message-Id: <cover.1600732964.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=fh9Vk6XxC7U3koA3pxZqag+uxxpmx/qCAm7ZyXMYJZQ=;
+        b=MsCTuoEEBLijzoP5vbOiifbP0m0C+OnjC7AUWCrOJvPGsMJfdPr/sBwl8T3ZVNIA8r
+         zXu35p0qYUY4ygC0Asm3RL8/FwN2yf8YeH8XjNDuvmrqeuaweLz7S0YxG5bXzIXNzHMx
+         dCxI+EyGKE8b11ESh1571uGDXZC620htA7NO3VxVdbPp7GSVqqKktrenOdBVry0u51I4
+         OMCdUN5tZafF99V0XsW8R9CEYXumf9Hemo1eBQNbHtUBqT77DN13r2vb50oEAWSnaMfi
+         cINPuY9WIp4hfY5MTGqE0ipgXJAW7ujX6V5/PKZlmv+oB90lDQ/vuCoo62zSp3koU6/b
+         E+vw==
+X-Gm-Message-State: AOAM532uKQ0APaoVKVW+6l8uyOugijgn8OYpl+0As6W5J8GHRPNpcylb
+	hfWrZIy0KV7G/rVTRtgsVHei861qVoAJsHxdG88=
+X-Google-Smtp-Source: ABdhPJw25qpuEsFNqYsRC27auelhtWUhhDGp9Qv9RBAmJGfM2o5UUW7bFKfkiNl5exut5a3HK9nJ8uJR6graHQkA8Eo=
+X-Received: by 2002:a17:906:e18:: with SMTP id l24mr2226133eji.334.1600735291546;
+ Mon, 21 Sep 2020 17:41:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200921141544.3145189-1-yann@blade-group.com>
+ <20200921141544.3145189-9-yann@blade-group.com> <1c41fc0d0f0928baeacb628812cafd66de745b75.camel@linuxfoundation.org>
+ <CA+4=imb9n8r-taOxj68JagEVJkisUFk3vHVbKOru8Td24kLHdg@mail.gmail.com> <581392d58d402cf3b79f8bd36f8d5d5f7fa4c1bd.camel@linuxfoundation.org>
+In-Reply-To: <581392d58d402cf3b79f8bd36f8d5d5f7fa4c1bd.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 21 Sep 2020 20:41:20 -0400
+Message-ID: <CADkTA4M4nAke3L=GPseCHGT=rmqVnKbNWGd8QEyzz_saeKt3pQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 8/8] New systemtap.bb class, and systemtap-demo.bb to illustrate it.
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Yann Dirson <yann.dirson@blade-group.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Yann Dirson <yann@blade-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit b98e50f08b2bcf61fbc75ea1b0ad83a17c0a736a:
+On Mon, Sep 21, 2020 at 6:51 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-09-21 at 23:23 +0200, Yann Dirson wrote:
+> >
+> >
+> > Le lun. 21 sept. 2020 =C3=A0 21:46, Richard Purdie <
+> > richard.purdie@linuxfoundation.org> a =C3=A9crit :
+> > > On Mon, 2020-09-21 at 16:15 +0200, Yann Dirson wrote:
+> > > > From: Yann Dirson <yann@blade-group.com>
+> > > >
+> > > > ---
+> > > >  meta/classes/systemtap.bbclass                | 74
+> > > +++++++++++++++++++
+> > > >  .../systemtap/systemtap-demo_git.bb           | 71
+> > > ++++++++++++++++++
+> > > >  2 files changed, 145 insertions(+)
+> > > >  create mode 100644 meta/classes/systemtap.bbclass
+> > > >  create mode 100644 meta/recipes-kernel/systemtap/systemtap-
+> > > demo_git.bb
+> > >
+> > > I'm afraid this patch is going to throw warnings all over the
+> > > autobuilder, e.g.:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/24=
+88
+> > >
+> > > (and there will be more).
+> > >
+> > > We are trying to ensure all warnings are solved so that any that do
+> > > show are real issues and this patch would significantly distract
+> > > from
+> > > that.
+> >
+> > OK, we could default to built just the handful of probes that should
+> > always build, and give instructions for those willing to use the
+> > current behaviour.
+>
+> I think that is going to be safer and we could grow into more examples
+> if/as/when we van build them.
 
-  cve-check: avoid FileNotFoundError if no do_cve_check task has run (2020-09-14 04:26:37 -1000)
+Also, as the person that usually picks up systemtap breakage first
+on our new kernel versions .. we need to make sure that the reworked
+recipe and class pass the oe-selftest for stap.
 
-are available in the Git repository at:
+It is doing on target compilation, so ideally, that test should be expande=
+d
+to test bot the cross and on-target variants.
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+Cheers,
 
-Christophe GUIBOUT (1):
-  initramfs-framework: support kernel cmdline with double quotes
+Bruce
 
-Geoff Parker (1):
-  systemd-serialgetty: Replace sed quoting using ' with " to allow var
-    expansion
+>
+> >
+> > > I'm also wary that we're now in feature freeze for release so
+> > > perhaps
+> > > these changes should wait until 3.3?
+> >
+> > OK, I can reroll a series with just the fixes.
+>
+> That would be great.
+>
+> > For the rest should I just wait for the gatesgarth branch to be
+> > created and resubmit then ?
+>
+> Once we start taking new work on master, yes.
+>
+> Also, for a new recipe like this we need a maintainers entry, else we
+> see:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1377
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>=20
+>
 
-Khem Raj (1):
-  populate_sdk_ext: Do not assume local.conf will always exist
 
-Michael Gloff (1):
-  sysvinit: Remove ${B} assignment
-
-Pierre-Jean Texier (1):
-  libubootenv: upgrade 0.3 -> 0.3.1
-
-Rahul Kumar (1):
-  systemd-serialgetty: Fix sed expression quoting
-
-Steve Sakoman (1):
-  Revert "kernel.bbclass: run do_symlink_kernsrc before do_patch"
-
- meta/classes/kernel.bbclass                         |  2 +-
- meta/classes/populate_sdk_ext.bbclass               |  5 +++--
- .../{libubootenv_0.3.bb => libubootenv_0.3.1.bb}    |  2 +-
- .../initrdscripts/initramfs-framework/init          | 13 +++++++++++++
- meta/recipes-core/systemd/systemd-serialgetty.bb    |  4 ++--
- meta/recipes-core/sysvinit/sysvinit_2.96.bb         |  1 -
- 6 files changed, 20 insertions(+), 7 deletions(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.3.bb => libubootenv_0.3.1.bb} (94%)
-
--- 
-2.17.1
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
