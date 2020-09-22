@@ -1,106 +1,115 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web10.8170.1600780296426221644
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.8109.1600780708341754862
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2020 06:11:36 -0700
+ Tue, 22 Sep 2020 06:18:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CVF+CVpy;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id z18so9444945qvp.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2020 06:11:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZXHq6HZc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id s13so3296523wmh.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2020 06:18:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=koF/+wyTocpeFw7cdpCcO4Z1z/RveLeLYjWPgCoOnl4=;
-        b=CVF+CVpyNRTWpFf6qQL4MADiq2Y59EPheqDVqp9ssXVsekBrd4csukOaPhV48RzMHk
-         U50EOlseVj46i1e0cD9jCGqzDwkMcTL0BlUNoJgHNsE0c8BKc3Si2n13CrEdvVuhMiB7
-         7AlyEnMuUGLFNCY7JwlfnfZd277NL3SZcKfqUPaoMt1qVlL1k39yBf7gylihsVJ1owPV
-         elICNWxJvgcRuLX0TWj2YbJdUhvpqieUZgkH98QqCwaS7Fhi64VufbG20f6djLvbmSiZ
-         25nKniddeX8Ciw8ZsPiTaVXBxCylSyozuEQ2EMxsUS3dP1E/P916jOPt7gIhR4+Wcn1O
-         sBSA==
+        bh=acza1Pn4wctmfUiUV0UMKa/4v9EbjYjW4De5gKCyO2I=;
+        b=ZXHq6HZclxgtolksxDaw2hWjGk/wYZPRRIg85IhTStc9rT82bFfhF7sojKcTpuOsLG
+         UwDMmpIuMQGeTjmFbGU+YCuNAZxrsRw9vZLaourF4SHgkbmpAL/TTemTMMntYHoZreba
+         KmZNi16kANDk+bGQzizNeRGlCJP9tY1ZNxb5s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=koF/+wyTocpeFw7cdpCcO4Z1z/RveLeLYjWPgCoOnl4=;
-        b=H/Xfg2V+e/1H8Sc3k6UayIKaV9ruDI9Fxu+DMC0p225322pNwZB1qLr6SrCQ0c3Jo3
-         sYO+tKVAsxKJBGJupixjtuPpgQXymFE6mbgI2olQ6lmfiBNiZcpW1+354aRuw8/Zl8n+
-         XQvA9OCWKOJ8AEpTpSr1Lu6d0z1Bj2ZyJSEW0MqBUAtwrLWLuqwUe1eU2Nl0HBxcwA6k
-         nuLYw6WKHfnbYpuOg4/mKk5KzFFHzko8jcE5SsCHf1uK29fatoy8lQZQLDKqhlCQdkSo
-         P7tMhTQS7JBfsUSqqwcmwUfW4ZFfExe2bwWvpv6hxVKWgcg1yf7jMXPKnRu+DIVBCb+V
-         hOrA==
-X-Gm-Message-State: AOAM531l/QhN/daKhCFJzbQqEXg3PMDteLWdbiEikWk0JDswf7S2X6dw
-	SomluQv3+gMsK1fohg+y1Ko=
-X-Google-Smtp-Source: ABdhPJwPS3Ofe4F3CdlN+i7yi/JVNsK1axyE8CZXX7zHhJl5ehfXoBByPsNltovARTzQSeeX3Mv1bQ==
-X-Received: by 2002:a0c:e2c9:: with SMTP id t9mr5958748qvl.48.1600780295501;
-        Tue, 22 Sep 2020 06:11:35 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id z7sm2595269qtc.10.2020.09.22.06.11.34
+        bh=acza1Pn4wctmfUiUV0UMKa/4v9EbjYjW4De5gKCyO2I=;
+        b=JZWM68+6fsRnLGixluhI/gp03joKL7oongEUncpj8sPxOmAcN/CUQns8ZS2JY7jIVA
+         kin4JNbjx3y2VDEOTl2WmZETrZNAMp7kl0FIlcfyXBALScneR6Fu424inHbr7hL1lvyh
+         QCHxkk2QTio/FTUPCIph0FQtkIP2KpJMyqzLWRT5kW8AuZOVApnjSse9qs1lMi0PErUM
+         hVflVulSX3LAD38X/hKrMlZ4fWmpdEvFsJ1OuKkK9xw+9u7TT7pL5oLHuJIQMl9lLjON
+         B6y3FgRt5R9C84la6U0/Z9LgiwrjFAx24SP9nryPa9qWLzTUS6+kLGakzX40q+rR+8t5
+         NUKg==
+X-Gm-Message-State: AOAM530D+7a0w0z/9fkPC99L70i2Q37/s6wGzfhgF8tHC0KlbBijobs5
+	pZQLOVP24kgR7rYgbk1ylYt5l99pMT8SWg==
+X-Google-Smtp-Source: ABdhPJym26AEraSfplW+4rQmmK4OhGgdbPUJw/FeuGNurYNbu2+xK+J6XL4Idk2K1BpiaR42FM7O1g==
+X-Received: by 2002:a1c:1983:: with SMTP id 125mr977274wmz.29.1600780706344;
+        Tue, 22 Sep 2020 06:18:26 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (d.4.9.1.b.0.3.3.1.2.9.4.4.4.0.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b044:4921:330b:194d])
+        by smtp.gmail.com with ESMTPSA id d23sm4418222wmb.6.2020.09.22.06.18.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 06:11:34 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/beaglebone: Switch to sdhci-omap driver
-Date: Tue, 22 Sep 2020 09:11:33 -0400
-Message-Id: <20200922131133.50990-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Tue, 22 Sep 2020 06:18:25 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pseudo: Remove mismatched inodes from the db
+Date: Tue, 22 Sep 2020 14:18:24 +0100
+Message-Id: <20200922131825.2496981-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Currently, where pseudo finds a database entry for an inode but the path
+doesn't match, it reuses that database entry metadata. This is causing
+real world "corruption" of file attributes.
 
-Integrating the following commit(s) to linux-yocto/.:
+See [YOCTO #14057] for an example of this.
 
-    541066c5b1e beaglebone: Switch to sdhci-omap driver
+This can happen when files are deleted outside of pseudo context and the
+inode is reused by a new file which pseduo then "sees".
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Its possible the opposite could happen, it needs to reuse attributes
+but this change would prevent it. As far as I can tell, we don't want
+pseuod to reuse these attributes though so this code should be safer
+and avoid bugs like the above.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.8.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../pseudo/files/delete_mismatches.patch      | 25 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/delete_mismatches.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-index d29c5985cd..bc9040a3d8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-devtools/pseudo/files/delete_mismatches.patch b/meta/recipes-devtools/pseudo/files/delete_mismatches.patch
+new file mode 100644
+index 00000000000..59241671767
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/delete_mismatches.patch
+@@ -0,0 +1,25 @@
++When we see cases where the inode no longer matches the file path, pseudo notices
++but currently reuses the database entry for the file.
++
++Change this to delete the likely stale database entry instead. We're
++seeing bugs where inode reuse for deleted files causes permission corruption.
++(See bug #14057 for example).
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending
++
++Index: git/pseudo.c
++===================================================================
++--- git.orig/pseudo.c
+++++ git/pseudo.c
++@@ -705,6 +705,10 @@ pseudo_op(pseudo_msg_t *msg, const char
++ 						(unsigned long long) msg_header.ino,
++ 						path_by_ino ? path_by_ino : "no path",
++ 						msg->path);
+++					if (msg->nlink == 1) {
+++						pdb_unlink_file_dev(msg);
+++						found_ino = 0;
+++					}
++ 				}
++ 			}
++ 		} else {
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 3b623d8bd77..7eb72f0eab3 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -2,6 +2,7 @@ require pseudo.inc
  
- SRCREV_machine ?= "31fafe701e2adec65d2b2a74a3e592a358915c67"
--SRCREV_meta ?= "a933cb2f91915dceb138775c3878212e228d3eff"
-+SRCREV_meta ?= "ffbfe61a194537689c782b20da185e7e4daa9ef9"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-index d32e5d372b..76b61222a8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "830cb9af40e856615b7a435a4fac57b748ba56d6"
- SRCREV_machine ?= "31fafe701e2adec65d2b2a74a3e592a358915c67"
--SRCREV_meta ?= "a933cb2f91915dceb138775c3878212e228d3eff"
-+SRCREV_meta ?= "ffbfe61a194537689c782b20da185e7e4daa9ef9"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-index 9ff1d5da80..8a0b142c00 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "31fafe701e2adec65d2b2a74a3e592a358915c67"
- SRCREV_machine_qemux86-64 ?= "31fafe701e2adec65d2b2a74a3e592a358915c67"
- SRCREV_machine_qemumips64 ?= "4faa049b6b7b51c5d12d20c5e9fcf8e0a3ba8d42"
- SRCREV_machine ?= "31fafe701e2adec65d2b2a74a3e592a358915c67"
--SRCREV_meta ?= "a933cb2f91915dceb138775c3878212e228d3eff"
-+SRCREV_meta ?= "ffbfe61a194537689c782b20da185e7e4daa9ef9"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://0001-configure-Prune-PIE-flags.patch \
++           file://delete_mismatches.patch \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
 -- 
-2.19.1
+2.25.1
 
