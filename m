@@ -1,113 +1,107 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web12.1268.1600751652399653004
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web12.2413.1600757858495987657
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 22:14:12 -0700
+ Mon, 21 Sep 2020 23:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oLooWHkV;
- spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id b2so14613568qtp.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 22:14:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=c7ecEtoo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id l71so11175314pge.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 23:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6XJMLd/3ZoF7gm+gFNxb79OlkT8TqzvJZhqWax9qGs8=;
-        b=oLooWHkVgu1LUn77Rjuw2LBwpBXNSYLU6eHyGDcj2wISPqbteQf4Vgt71Pd+McYMRU
-         2y68PmN/49q2Gg6VHavZ7Vqnt4vdcChF7i/WMoPksH8YLkmRtBm0trqGGt9+OEcqIvFr
-         BTsze6NfrY/aUDqTQEaRSEs44IK4E2sJmoq67SZxdYOOacW8BGxb8DIwmQ9V7pb2u4O2
-         xguRfBwrucN0HOvhbFK1/PuYcEVDTMIkyXHalguK2ZvGzvU2i3pZKnlwNtD2Ur745KPG
-         Atd3BZI9npwV6Tp00tAX7rTP9eWFrXrlxhfh22ICHmFCnhwlc3oBJckIoeTLspeKdOJ2
-         JAgA==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hv+VONamNnzHNJhmWoPPdDAV6gK7StzPF4RTLvdlYd8=;
+        b=c7ecEtooqFvoMezZgyrX5GjacSg85pv9N1CvblfcEaclikgTz/hZMKQD7UKzLKXtYa
+         pSYbT6ILxQMLXO5hDD+Au3MPBqP+/42fBorDwi0e07YkgU9Miz2Q/VsvxHdq1Kw/r7Uy
+         qkMGi/nFs6MG6EtCaYavpF9WaLZvbCF2xlQdlweA4kt7gd4+mReKGtDRMe+zeYbvaZqY
+         XQ6tsYO34JpUIeJrHDPQfPsilCItgyfTxp7CVcTwL23hj2L+aswHExuwo+OjEIKn/E5d
+         n5Z2opo9ONJVpNvlPbl5ZxbhS7z6HBaPYw5AnlN7yxcLL6cgb3dYhLHLq/aYQFkoQqBA
+         e0NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6XJMLd/3ZoF7gm+gFNxb79OlkT8TqzvJZhqWax9qGs8=;
-        b=OF2SB6I4ExgCNi8r/3tM2TI+W9WBPnxP0/uw9A5Q5oqM1C8sYoYQDcDusQ4xf/xFCT
-         5vS1+LYMvQGRt2dgsGPUIHBCjxsP0FORtcy246xsZ6XLfUrPRQTFu5fjppkE/RxDWNlC
-         mcfwlShYCSyNtulWvTi4iyYrOarDM7mXAD9z/aryATGlP6g+OmdVOkpxIH56DsSYozvq
-         cqKJGJd4FIPR5om7uJlJHxLkr6VFx7VaBGD+QRyA/oulFh9ChvQ6aUmX+QgkwSPBh6bQ
-         seqiUXyt/UkTWdpPADtIzw0i93qSrdgHebgxd02JhN3vCh/i/D7qJKnMEhI8MeqRH5p8
-         eIfQ==
-X-Gm-Message-State: AOAM530groqy5+ymvoNmk9cKY4Gy1x96PJNCb4+0O0KJ37phcPulQjC7
-	ujxrh+st1AJoVL9tWIBw+MVsrpWlfX0OT5slxAs=
-X-Google-Smtp-Source: ABdhPJyOIY/FYc+oZBs2Nm2AJvVUSJNBZPsl8fnGAfVMQ3NVr0yEd4Lq0PfI85aZMpyTQ97D9b47ikGiMN+lvWl94kU=
-X-Received: by 2002:aed:2646:: with SMTP id z64mr3061829qtc.194.1600751651491;
- Mon, 21 Sep 2020 22:14:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200922004455.21335-1-JPEWhacker@gmail.com>
-In-Reply-To: <20200922004455.21335-1-JPEWhacker@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=hv+VONamNnzHNJhmWoPPdDAV6gK7StzPF4RTLvdlYd8=;
+        b=PZrXjWh0uSK/KlMipU0RiyWHr0/QxSAiy47j+ZseF0UvzV6PRJNusME+Nsm+PFr7DM
+         OFch2JGFevVsBUVkjmgrdPJjOv2pfD0+8iac42xCBZVpX897nCzBodfE6DX1EH+E4EVN
+         Egp0eLCaZhprvd9uN/1A9R0gndoYINx+9cfF0oE/ucB0Z0daQviqW3q0x57n2mmwQc1G
+         ltOY9/ATo7zh0DYq32wzDQBM23GhWAJjIcJT8uhqwNHV0Ij1wX7h0U+x5OrpayA2wBPQ
+         nhiL+1QoJ8Nctq9RaJHdM0otHJJ1qw9dxz9aKytXiZhYcHFhqxhum09is/EOmWAX5xel
+         JiJA==
+X-Gm-Message-State: AOAM5325XVqwzxR5WqHB0qMhzZ98LLSFj4tlwIFbT37ysNSKvKcqOOD1
+	ppzbevj5T1nt8hKC1qjbS8pBHnCEDdjOdA==
+X-Google-Smtp-Source: ABdhPJwwuEKaRqiAEkhlSss6OVw93gmntRBC+L+3TByP9RhqhLwQyAE0xoNUjo+6xKNYuTb7SZ/anQ==
+X-Received: by 2002:a17:902:7d8e:b029:d1:f2df:ad4 with SMTP id a14-20020a1709027d8eb02900d1f2df0ad4mr3475980plm.44.1600757857435;
+        Mon, 21 Sep 2020 23:57:37 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:28e0:938b:f1c2:a4a6? ([2601:646:9200:4e0:28e0:938b:f1c2:a4a6])
+        by smtp.gmail.com with ESMTPSA id 194sm13105100pfy.44.2020.09.21.23.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2020 23:57:37 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 0/3] Import two python recipes from meta-oe/meta-python
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200921121204.2443466-1-richard.purdie@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 21 Sep 2020 22:13:45 -0700
-Message-ID: <CAMKF1spi8rWm5J4URo+iM5r8A_AgEDXLgiXdOhZxVFR7=KdB_w@mail.gmail.com>
-Subject: Re: [OE-core][RFC] openssh: Start key generation in multi-user mode
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alex Kiernan <alex.kiernan@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: HIMVIS LLC
+Message-ID: <d8f4dfd2-7a48-6f96-bcfd-0b17989886a8@gmail.com>
+Date: Mon, 21 Sep 2020 23:57:36 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200921121204.2443466-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 21, 2020 at 5:45 PM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> The sshkeygen uses a lot of CPU time which delays booting (especially in
-> the case where no SSH connection is going to happen), but we also want
-> to be proactive about generating it early so that the first SSH login
-> doesn't have to wait a long time.
->
-> Starting the key generation when the sockets are created (which is
-> pretty early in the boot process) slows down the boot due to high CPU
-> usage, so as a compromise start it no later than multi-user mode when
-> things have typically settled down. Note that if an SSH connection comes
-> in before multi-user.target is reached, key generation will be started
-> immediately.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-connectivity/openssh/openssh/sshd.socket        | 1 -
->  meta/recipes-connectivity/openssh/openssh/sshd@.service      | 1 +
->  .../recipes-connectivity/openssh/openssh/sshdgenkeys.service | 5 +++++
->  3 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.socket b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> index 8d76d62309..12c39b26b5 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> @@ -1,6 +1,5 @@
->  [Unit]
->  Conflicts=sshd.service
-> -Wants=sshdgenkeys.service
->
->  [Socket]
->  ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> index 9d9965e624..40fd38730a 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> @@ -1,5 +1,6 @@
->  [Unit]
->  Description=OpenSSH Per-Connection Daemon
-> +Wants=sshdgenkeys.service
->  After=sshdgenkeys.service
->
->  [Service]
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> index fd81793d51..52617ec275 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-> @@ -7,3 +7,8 @@ ExecStart=@LIBEXECDIR@/sshd_check_keys
->  Type=oneshot
->  RemainAfterExit=yes
->  Nice=10
-> +
-> +[Install]
-> +# Start key generation no later than multi-user mode so that we can hopefully
-> +# have it generated before the first SSH connection
-> +WantedBy=multi-user.target
 
-This looks better than what we have. Please do something similar for
-dropbearkey.service as well.
-I also wonder if we need After anchor but I would not worry too much about it.
 
-> --
-> 2.28.0
->
+On 9/21/20 5:12 AM, Richard Purdie wrote:
+> We have a slightly pressing situation where the performance test builds
+> are failing after we cleaned up the system installs on those machines
+> and tried to switch over to buildtools entirely.
+> 
+> The issue is the need for jinja2, complicated by the recipe's ptest
+> dependencies. This series imports them with ptest not inherited, the
+> idea being meta-python can bbappend and add the inherit.
+> 
+
+this seems to make this recipes inferior to what they currently are, 
+IMO, while it solves the OE-Core usecase, it is ignoring wider usecase 
+it has already been addressing all along. So either bring them in full
+or leave some bbappends in meta-python to keep features working for 
+users who are using it.
+
+
+> The alternatives are either to try and solve this on the performace
+> test machines using horrible hacks and revert my earlier attempted fix
+> (which is correct but makes the situation worse), or import pytest
+> over too which we may ultimately end up doing but probably should
+> do right now?
+
+
+
+> 
+> Richard Purdie (3):
+>    python3-markupsafe: Import from meta-oe/meta-python
+>    python3-jinja2: Import from meta-oe/meta-python
+>    buildtools-tarball: Add python3-jinja2
+> 
+>   meta/conf/distro/include/maintainers.inc      |  2 +
+>   meta/recipes-core/meta/buildtools-tarball.bb  |  1 +
+>   .../python/python3-jinja2/run-ptest           |  3 ++
+>   .../python/python3-jinja2_2.11.2.bb           | 45 +++++++++++++++++++
+>   .../python/python3-markupsafe/run-ptest       |  3 ++
+>   .../python/python3-markupsafe_1.1.1.bb        | 28 ++++++++++++
+>   6 files changed, 82 insertions(+)
+>   create mode 100644 meta/recipes-devtools/python/python3-jinja2/run-ptest
+>   create mode 100644 meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
+>   create mode 100644 meta/recipes-devtools/python/python3-markupsafe/run-ptest
+>   create mode 100644 meta/recipes-devtools/python/python3-markupsafe_1.1.1.bb
+> 
+> 
+> 
+> 
+> 
