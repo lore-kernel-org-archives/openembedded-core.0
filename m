@@ -1,212 +1,109 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.845.1600787479165100300
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.120])
+ by mx.groups.io with SMTP id smtpd.web12.952.1600787728540473183
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2020 08:11:19 -0700
+ Tue, 22 Sep 2020 08:15:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mepH+78d;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id j11so23475573ejk.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2020 08:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=n2AwFJn6XhG+hu2zZ1mvU5HP4gmV+IIK8bp/rCOsiTI=;
-        b=mepH+78d03nUjYB1AICsjwUb0s5MgecSOY9FoC/mh1Dd5FHLSBLnyCb49zAPNd7OE1
-         U3K0EQtLgCo6zNy0WYFGAP99k2AwwSOUo7bjd3Hrm56rcsXmF97VwhD5v7nJNwwDKCVp
-         T30U1TpD5pfemqheauv+1bqcV3twtSx3ut+63PwOlwG4l/fWk+CPmOJq0YV9leXhTPms
-         gb/DjAiIF4lMi/QoREmmSsIxqYwjE7dY04MwLv0Dd/OaOEpOxVu78kVsFuPU9XqD0P1M
-         ULuEpKQPC2q/Jb9h8Ra4Y7bfUJNgDBvTvuCRaMg0NcAZS3Im90scCv/D/XPZ+xzdkvOL
-         sCQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n2AwFJn6XhG+hu2zZ1mvU5HP4gmV+IIK8bp/rCOsiTI=;
-        b=Uk1BsPU0MKWIFitomMsGaHlJDoS9tmcpNOMW+W9eyBTIycY3vpbWbQqqBMirGBocRM
-         9nF2Spbr5FiGhLgnhIWXk/jf4QYeIx20ek14DJwX86ayJ8IWorpJMZxKcAgIIDV1dgwa
-         KEGl0hFynhFA9fDp0dY759W9UuJN0NbI1T6jgd2oYHyg4i7lJMh2jFyGxnLswNbh2QGD
-         zHK9QqAETCqGnvcx/XdqpduPYMkvqLApa5YTSf79q/OFmKF7BYZzhk1WxzrQTByK0Omk
-         3yJSijnaMAQ6G0RH17jEOWfF0g3sqA0RXoGW7HoY8yJ5hJ7kt5cJu0Oa7JcylE7NIo+L
-         UcFA==
-X-Gm-Message-State: AOAM530LTJU73/SEXL1rzm4p9+lniAudyOA9CxQ+BVRaSgLSq0hm8vda
-	213k6lpiNz3yu8A02DZZTMP07wUtR8uGCnKogKY=
-X-Google-Smtp-Source: ABdhPJwQ1HIjZ3iBMGrpYxHCBi5Yj4wl5lBSNWbbUuTcdSPDZLqvJZvGHKDOasyNZO/hWIYSrOnczt92seQK8v7EXPE=
-X-Received: by 2002:a17:906:7f15:: with SMTP id d21mr5566137ejr.470.1600787477366;
- Tue, 22 Sep 2020 08:11:17 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=In9cR0Tn;
+ spf=pass (domain: prevas.dk, ip: 40.107.8.120, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P0lEqcDaxE0NkG2neyNl3YErf8jlTtxFeglc1Cr+m00TEFj0p0JWkCtlQtH9J8FdHjemjp3SQYzLQSGhdehuSBmwoGAIATNWBJnv2AsGghEZ0Zp0zBRi/CheiUjv8HB/WPwaZtX6zaJ/qEg/3i8pJcVRpImVZ8vx8KMNXM9XOUwkiUnKNE8tNjV/jMrO8gsiQGqUlXriwjQdQO+QPG6wu15IRPVWRdC91VrtVmNlOCeqViesK5CMrx8L4m/1nY6RUz3JHcZkc9o0wRwammbyJXPPi58Z8ejAfs1gA1orpyLUOSUcRp4kVH4Iwb3c1akqjsOiELJlq+DLcZLNgDIMGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVvOsZuCj/YZKkA54iWl9/y6YBwMTeMqvX56bFfZ2oI=;
+ b=Bc1aP1Kk5Q1ikaDR5uz7Q5/FEtPIh1qYpSfbL6ZwlrPQx++aZez4FD0ecuy5Aot5PN7w0Crk5B3Q0trUbESQXPmwsmE2HApw7ckNaXYckx0zvqUD1/3Pb8FSSq8Wg24A8G5b71SGZQnfj4Hy2ZAPbq1XRWzXynY/nTmgHivuHj6NiO1t8YvmurzejcHKY5ccInNbzjp9dn0Z0eN+/pvTCiFCgfKERUoyQuIf3F4UtCACBaVQ7dBCDQLrWENC2czY2bZuuG4uvVp4/l+ZIxRq4dpC+L0mIxPnxYu1eg2/0tZ9aOFwK1L8NkVmy8q9Q/LtlEYaP1fEO/CvTALWLE8aSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVvOsZuCj/YZKkA54iWl9/y6YBwMTeMqvX56bFfZ2oI=;
+ b=In9cR0Tn7ElsUoVoULGYcpdX4OMqufxCM5UxGZWHnj3eyMFDo6lzIloPUnPjR5dY05Fp3VuPijSFIhjepF6mR3D6lsyzz4b2DRED3r83CCOxnMigaahD3ODVVIREwF+l1YPOg5+cSDdEynX26EcW0029k30lABa10vkVb/zR2Ns=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=prevas.dk;
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
+ by AM0PR10MB3441.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Tue, 22 Sep
+ 2020 15:15:25 +0000
+Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::19ee:8c9b:b371:abb2]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::19ee:8c9b:b371:abb2%2]) with mapi id 15.20.3391.027; Tue, 22 Sep 2020
+ 15:15:25 +0000
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+CC: parkch98@gmail.com,
+	Steve Sakoman <steve@sakoman.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [RFC PATCH 0/4] fix externalsrc task dependency issues
+Date: Tue, 22 Sep 2020 17:15:14 +0200
+Message-ID: <20200922151518.1615-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.23.0
+X-ClientProxiedBy: AM0PR01CA0131.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::36) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:3f::10)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
-References: <1573778407-13250-1-git-send-email-denis@denix.org>
- <CALbNGRQFFrkNuv8---ck=16VLaN09_9G+=r1Ppb-yAerQYEbEw@mail.gmail.com>
- <6396b0dfd5c33ac1633eecd3a2f6d519d87438df.camel@linuxfoundation.org>
- <20191122231639.GN4735@denix.org> <20191122233810.GO4735@denix.org>
-In-Reply-To: <20191122233810.GO4735@denix.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 22 Sep 2020 17:11:06 +0200
-Message-ID: <CA+chaQfC8YAWgfBsbMm_8yFasP6iVt04FSYbjQrN8QKJSvAZMw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] distro_features_check: expand with MACHINE_FEATURES and COMBINED_FEATURES, rename
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f30d6705afe860f9"
-
---000000000000f30d6705afe860f9
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from prevas-ravi.prevas.se (81.216.59.226) by AM0PR01CA0131.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend Transport; Tue, 22 Sep 2020 15:15:25 +0000
+X-Mailer: git-send-email 2.23.0
+X-Originating-IP: [81.216.59.226]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 002bf971-1e52-416a-b326-08d85f0a5530
+X-MS-TrafficTypeDiagnostic: AM0PR10MB3441:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR10MB3441C4284D4A5C2BC673F69B933B0@AM0PR10MB3441.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	zRpO1es2YrOZeXKaLksrSRfA5hfzU3DFsW1jxoplHE10cDTKzJfIeujczZKoPF4KAHpxLoE8Oi7Gg4e0YvEt5gYJIoTIUi1i2dAVzJn27EGuT+YYryrmjTbavCZD6CJ6R6BhUXkWwcI4f8LU+/pd+OAw0pZ20kPGW6AC95x4Hr6/x6XVxxnxVgDqqWIQYOXNeJlmi6Lm97ToAc95MlhmAj1f1ZFo7TPdhziUsZ8KJNnsoZUGxBm8darGNbBIm4S3NdjYBGqS9iyQeWvJoLfBF/K1mrPmZp2xbFTByIhgDlQSyK3SZy7xsvNCjbwlOgT0x0VvoI5Mw1r3oXGlvb6/L1MwH1pV50p7XR8g25m+FgkDg7lKf6L18sW4HJ/Zf6S3
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(39850400004)(396003)(376002)(346002)(366004)(136003)(6506007)(36756003)(186003)(4744005)(8976002)(6666004)(2906002)(107886003)(5660300002)(1076003)(66556008)(6916009)(8676002)(66476007)(6512007)(478600001)(26005)(66946007)(83380400001)(956004)(86362001)(52116002)(8936002)(44832011)(54906003)(4326008)(6486002)(2616005)(16526019)(316002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	lnxoAfqtyeAdMgbW1dkF/jmUwukZUBxx/i56RERWcZu4SKtQkvHQspjKcNpejejhYU0cbWSNsl88k7Pg1hcZ0zCdJ7QqMSyPB9OzTVYD2eRvfOgx4uqcvRQuZbvlkbseLMi+WuiPQ7aAmPprd7ydJ6VN4XU8Hp5hijYggG+SvHq8hExDUa7Tm8ae+SBJRuGcrM1JCnXaZbJH6KVZBMovVnlQPCOdPLTIWIGr9osTLGb8wut9wddtulm4mbsAwnOn9dF0nfHxJCflvJJVw2Xsj30E78OBji9mb2zkjItErfcif2Q2s2auZVAQ/DhJJB1Vc3U2lsQ3L0Ojs4yL+ry2a5gwgMRyNJ2ytgIDiavkVZyXlSS/SfQGXOVBNatI2P5ykDf7ToDBf0vD5J3Ts/mveOyGAyTps3UgVpvqJAUjmlgW/hA+8VOogY7PL1OjuhByw+Iw0Ck6qVqk+lW1sHt+At0kgOAc4xhyqAtVy6I+pq/KkdaM0RuHK+bPUqhx1RQp0bMoofyPLXv8TpAqMWyeU2hLcb7Dfpn7OchTdW369j2cRTXyOSmwEBPRQ8WW6stj5nAZe3DGiL3FOJhfB9LLmNjlI7pz7C4PcFnVcUCQJeOPmtKtcVpGDFhZVch578Tn49MSnrdNi6eKd97fMnCWwA==
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 002bf971-1e52-416a-b326-08d85f0a5530
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2020 15:15:25.8190
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: it3aTpYaAP5U/fQbXWwG2LS3enwVYL70WpOWReuV+7cJpj2VqYfU8U97Pqhk5apZdnH/kvJ2HOz7IW2KEV3x5kADzi9ncT+RCWuCU8kaAx0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3441
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Can you please update the documentation to reflect this bbclass rename?
+This is all entirely untested, hence RFC. But if this doesn't work for
+some reason, I think externalsrc.bbclass should grow some comments as
+to why deltask is used instead of the noexec flag.
 
-Patrick Vacek maintainer of meta-updater mentioned in one PR that the
-documentation doesn't mention features_check.bbclass:
-https://github.com/advancedtelematic/meta-updater/pull/771#issuecomment-683=
-618949
+Patch 4 is a revert of patch 1, but I did it that way to facilitate
+backporting, in case patch 2 is too dangerous for backporting. If that
+is considered safe enough, it should be enough to apply patch 2 to
+avoid the churn. In any case, patch 3 is just a little simplification
+made possible by patch 2.
 
-It's mentioned in the "Moving to the Yocto Project 3.1 Release" section:
-https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manual.html#migrat=
-ion-3.1-features-check
 
-but then all related variables and class reference only mention the old
-distro_features_check name
-https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manual.html#var-RE=
-QUIRED_DISTRO_FEATURES
-https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manual.html#var-CO=
-NFLICT_DISTRO_FEATURES
-https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manual.html#ref-cl=
-asses-distro_features_check
+Rasmus Villemoes (4):
+  kernel.bbclass: ensure symlink_kernsrc task gets run even with
+    externalsrc
+  externalsrc.bbclass: make SRCTREECOVEREDTASKS noexec instead of
+    deleting them
+  kernel-yocto.bbclass: remove now unnecessary externalsrc workaround
+  Revert "kernel.bbclass: ensure symlink_kernsrc task gets run even with
+    externalsrc"
 
-Not sure how this looks in the new sphinx generated documentation.
+ meta/classes/externalsrc.bbclass  | 5 +----
+ meta/classes/kernel-yocto.bbclass | 6 ------
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
-Thanks
+--=20
+2.23.0
 
-On Sat, Nov 23, 2019 at 12:38 AM Denys Dmytriyenko <denis@denix.org> wrote:
-
-> On Fri, Nov 22, 2019 at 06:16:39PM -0500, Denys Dmytriyenko wrote:
-> > On Fri, Nov 22, 2019 at 11:10:14PM +0000, Richard Purdie wrote:
-> > > On Fri, 2019-11-22 at 23:58 +0100, Andreas M=C3=BCller wrote:
-> > > > Whatever this patch does renaming does nothing but causing me lots =
-of
-> > > > useles (rebasing) efforts. To me ist is simlpy the worst patch of
-> > > > this
-> > > > year and thanks for blocking me with this. I am really really
-> > > > upset!!!!!!!
-> > >
-> > > FWIW you can probably unblock yourself by adding a local copy of the
-> > > compatibility bbclass with the warning removed. That will then let yo=
-u
-> > > fix the fallout at a time of your choosing.
-> >
-> > I thought warning would be relatively harmless... Why would it be
-> blocking?
-> > Do you want this to be a notice instead?
-> >
-> >
-> > > I was in two minds about the change to be honest but nobody commented
-> > > in review and I get really tired of a reputation for saying "no" to
-> > > "everything". What probably swung the balance is the ways you can wor=
-k
-> > > around the change at least temporarily.
-> >
-> > I was also surprised by relative silence in review. Plus, it was in
-> > master-next for over a week and nobody complained either...
->
-> And to be fair, this is almost right after the release, so is the best
-> time
-> for such invasive changes - I did wait and held off submitting it for
-> several
-> months to not disrupt the release process!
-> So such overreaction is rather unwarranted...
->
-> --
-> Denys
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000f30d6705afe860f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Can you please update the documentation to reflect this bb=
-class rename?<div><br></div><div>Patrick Vacek maintainer of meta-updater m=
-entioned=C2=A0in one PR that the documentation doesn&#39;t mention features=
-_check.bbclass:</div><div><a href=3D"https://github.com/advancedtelematic/m=
-eta-updater/pull/771#issuecomment-683618949">https://github.com/advancedtel=
-ematic/meta-updater/pull/771#issuecomment-683618949</a><br><div><br></div><=
-div>It&#39;s mentioned in the &quot;Moving to the Yocto Project 3.1 Release=
-&quot; section:</div><div><a href=3D"https://www.yoctoproject.org/docs/3.1.=
-2/mega-manual/mega-manual.html#migration-3.1-features-check">https://www.yo=
-ctoproject.org/docs/3.1.2/mega-manual/mega-manual.html#migration-3.1-featur=
-es-check</a><br></div><div><br></div><div>but then all related variables an=
-d class reference only mention the old distro_features_check name</div><div=
-><a href=3D"https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manual=
-.html#var-REQUIRED_DISTRO_FEATURES">https://www.yoctoproject.org/docs/3.1.2=
-/mega-manual/mega-manual.html#var-REQUIRED_DISTRO_FEATURES</a><br></div><di=
-v><a href=3D"https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manua=
-l.html#var-CONFLICT_DISTRO_FEATURES">https://www.yoctoproject.org/docs/3.1.=
-2/mega-manual/mega-manual.html#var-CONFLICT_DISTRO_FEATURES</a><br></div><d=
-iv><a href=3D"https://www.yoctoproject.org/docs/3.1.2/mega-manual/mega-manu=
-al.html#ref-classes-distro_features_check">https://www.yoctoproject.org/doc=
-s/3.1.2/mega-manual/mega-manual.html#ref-classes-distro_features_check</a><=
-br></div><div><br></div><div>Not sure how this looks in the new sphinx gene=
-rated documentation.</div></div><div><br></div><div>Thanks</div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov=
- 23, 2019 at 12:38 AM Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.o=
-rg">denis@denix.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On Fri, Nov 22, 2019 at 06:16:39PM -0500, Denys Dmytriye=
-nko wrote:<br>
-&gt; On Fri, Nov 22, 2019 at 11:10:14PM +0000, Richard Purdie wrote:<br>
-&gt; &gt; On Fri, 2019-11-22 at 23:58 +0100, Andreas M=C3=BCller wrote:<br>
-&gt; &gt; &gt; Whatever this patch does renaming does nothing but causing m=
-e lots of<br>
-&gt; &gt; &gt; useles (rebasing) efforts. To me ist is simlpy the worst pat=
-ch of<br>
-&gt; &gt; &gt; this<br>
-&gt; &gt; &gt; year and thanks for blocking me with this. I am really reall=
-y<br>
-&gt; &gt; &gt; upset!!!!!!!<br>
-&gt; &gt; <br>
-&gt; &gt; FWIW you can probably unblock yourself by adding a local copy of =
-the<br>
-&gt; &gt; compatibility bbclass with the warning removed. That will then le=
-t you<br>
-&gt; &gt; fix the fallout at a time of your choosing.<br>
-&gt; <br>
-&gt; I thought warning would be relatively harmless... Why would it be bloc=
-king?<br>
-&gt; Do you want this to be a notice instead?<br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; I was in two minds about the change to be honest but nobody comme=
-nted<br>
-&gt; &gt; in review and I get really tired of a reputation for saying &quot=
-;no&quot; to<br>
-&gt; &gt; &quot;everything&quot;. What probably swung the balance is the wa=
-ys you can work<br>
-&gt; &gt; around the change at least temporarily.<br>
-&gt; <br>
-&gt; I was also surprised by relative silence in review. Plus, it was in <b=
-r>
-&gt; master-next for over a week and nobody complained either...<br>
-<br>
-And to be fair, this is almost right after the release, so is the best time=
- <br>
-for such invasive changes - I did wait and held off submitting it for sever=
-al <br>
-months to not disrupt the release process!<br>
-So such overreaction is rather unwarranted...<br>
-<br>
--- <br>
-Denys<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000f30d6705afe860f9--
