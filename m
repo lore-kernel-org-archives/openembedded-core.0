@@ -1,112 +1,320 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.2781.1600735507068243806
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.4719.1600742314660337440
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2020 17:45:07 -0700
+ Mon, 21 Sep 2020 19:38:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pIgWmMAt;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id z26so19100222oih.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 17:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=USLDguo3xxMQR7EH1n908VfVpybtRULAfESxEewCb/w=;
-        b=pIgWmMAtYhdYxDCSkXl0E2zTZ3Rbukqw/ZRl3wSXHBl1rtrAGIGN4h/dphLKKeMuEz
-         eF4hfRbT4Dpwuz7EawzCBoPEPyunmYYzDVtovBQvFfI0x1jqzww0TjnMy3Dc5n1BBN56
-         gUGlE0nHURR/VXiypa72SjO16zLLIrpiO/NypHPrCDsxcTS+I+DIBZtn2ztjfk+JWtoG
-         fKW6HBSOxawEowuDxqze1hil9u/CX2kDaNEC7MIJt6MQ19vto0VfOvfiU4j5WkLcHX4N
-         E3Z/7SaLoiEoCetRoQKbNuE0H8R0Z2f1L2HVxtVgjqbcTFWi5ZMWt24EzO3kn1Cn9Fei
-         VyVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=USLDguo3xxMQR7EH1n908VfVpybtRULAfESxEewCb/w=;
-        b=gEkDw24Y0fIEL8eZ4nte77a3AQ/9qv9oPvAeAXSktP6n5oGOY5fMcomi/wjpPTttDy
-         QrRoQRhP5yWD26fbBw7UtHP241Yo1nrIRymOhS+DtsfcsYGkuGElU801/F840U3uUmA8
-         UdJbtLq1jJUuCHPAqQULnAa30++mearP5vmvcbTG7ccBig8mU/SqnY/+T+Bz24dcStUK
-         81VDrSiYiQ67cHS+0zLJtM6v3SyzwcUNjGAkXWfNjUrM9pxZTxNWKZAlbtlh3JExxqsm
-         WANEgcDgo+gC1gsyuYLUi9tQAkmIet6myC459/fx3hCRd9KDJrlHN8G1Savv0EXIMhEE
-         pZuQ==
-X-Gm-Message-State: AOAM5322Lrx9fk8Uzt+pO/BkPEz/M0752vGQq/nJvznGz3sWJZ1xQfcC
-	h9HsCpO7Mu7x2LSh3+25Q+1bCvhVfSs=
-X-Google-Smtp-Source: ABdhPJwswrFlnNpvEYJpbb6MHYDFtlzvu2IDwjZJwEQTAlgH88JW54Suo5BpNMHqswTRZsFtvxA7GA==
-X-Received: by 2002:aca:4203:: with SMTP id p3mr1149453oia.50.1600735506116;
-        Mon, 21 Sep 2020 17:45:06 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id a13sm7075369oib.35.2020.09.21.17.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2020 17:45:05 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kiernan@gmail.com,
-	raj.khem@gmail.com,
-	richard.purdie@linuxfoundation.org,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][RFC] openssh: Start key generation in multi-user mode
-Date: Mon, 21 Sep 2020 19:44:55 -0500
-Message-Id: <20200922004455.21335-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: li.wang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 08M2cW5K004178
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2020 19:38:33 -0700 (PDT)
+Received: from bfbf5eb70dd2.wrs.com (128.224.162.178) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 21 Sep 2020 19:38:31 -0700
+From: "Li Wang" <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][poky][zeus][PATCH] qemu: CVE-2020-12829
+Date: Tue, 22 Sep 2020 02:35:18 +0000
+Message-ID: <20200922023518.9926-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The sshkeygen uses a lot of CPU time which delays booting (especially in
-the case where no SSH connection is going to happen), but we also want
-to be proactive about generating it early so that the first SSH login
-doesn't have to wait a long time.
+Backport CVE patch from the upstream:
+https://git.qemu.org/?p=qemu.git;a=commit;h=b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4
 
-Starting the key generation when the sockets are created (which is
-pretty early in the boot process) slows down the boot due to high CPU
-usage, so as a compromise start it no later than multi-user mode when
-things have typically settled down. Note that if an SSH connection comes
-in before multi-user.target is reached, key generation will be started
-immediately.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Li Wang <li.wang@windriver.com>
 ---
- meta/recipes-connectivity/openssh/openssh/sshd.socket        | 1 -
- meta/recipes-connectivity/openssh/openssh/sshd@.service      | 1 +
- .../recipes-connectivity/openssh/openssh/sshdgenkeys.service | 5 +++++
- 3 files changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2020-12829.patch            | 267 ++++++++++++++++++
+ 2 files changed, 268 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-12829.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.socket b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-index 8d76d62309..12c39b26b5 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd.socket
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-@@ -1,6 +1,5 @@
- [Unit]
- Conflicts=sshd.service
--Wants=sshdgenkeys.service
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ec32c90ad5..cbade92ac9 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -43,6 +43,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-10756.patch \
+            file://CVE-2020-15863.patch \
+            file://CVE-2020-14364.patch \
++           file://CVE-2020-12829.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- [Socket]
- ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-index 9d9965e624..40fd38730a 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-@@ -1,5 +1,6 @@
- [Unit]
- Description=OpenSSH Per-Connection Daemon
-+Wants=sshdgenkeys.service
- After=sshdgenkeys.service
- 
- [Service]
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-index fd81793d51..52617ec275 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-@@ -7,3 +7,8 @@ ExecStart=@LIBEXECDIR@/sshd_check_keys
- Type=oneshot
- RemainAfterExit=yes
- Nice=10
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-12829.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829.patch
+new file mode 100644
+index 0000000000..46e494dec0
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-12829.patch
+@@ -0,0 +1,267 @@
++From b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4 Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Thu, 21 May 2020 21:39:44 +0200
++Subject: [PATCH] sm501: Replace hand written implementation with pixman
++where possible
 +
-+[Install]
-+# Start key generation no later than multi-user mode so that we can hopefully
-+# have it generated before the first SSH connection
-+WantedBy=multi-user.target
++Besides being faster this should also prevent malicious guests to
++abuse 2D engine to overwrite data or cause a crash.
++
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Message-id:
++58666389b6cae256e4e972a32c05cf8aa51bffc0.1590089984.git.balaton@eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-12829
++[https://git.qemu.org/?p=qemu.git;a=commit;h=b15a22bbcbe6a78dc3d88fe3134985e4cdd87de4]
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ hw/display/sm501.c | 205 ++++++++++++++++++++++++++-------------------
++ 1 file changed, 118 insertions(+), 87 deletions(-)
++
++diff --git a/hw/display/sm501.c b/hw/display/sm501.c
++index 5918f59..b52c7e8 100644
++--- a/hw/display/sm501.c
+++++ b/hw/display/sm501.c
++@@ -702,12 +702,12 @@ static void sm501_2d_operation(SM501State *s)
++     /* obtain operation parameters */
++     int operation = (s->twoD_control >> 16) & 0x1f;
++     int rtl = s->twoD_control & 0x8000000;
++-    int src_x = (s->twoD_source >> 16) & 0x01FFF;
++-    int src_y = s->twoD_source & 0xFFFF;
++-    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
++-    int dst_y = s->twoD_destination & 0xFFFF;
++-    int operation_width = (s->twoD_dimension >> 16) & 0x1FFF;
++-    int operation_height = s->twoD_dimension & 0xFFFF;
+++    unsigned int src_x = (s->twoD_source >> 16) & 0x01FFF;
+++    unsigned int src_y = s->twoD_source & 0xFFFF;
+++    unsigned int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
+++    unsigned int dst_y = s->twoD_destination & 0xFFFF;
+++    unsigned int operation_width = (s->twoD_dimension >> 16) & 0x1FFF;
+++    unsigned int operation_height = s->twoD_dimension & 0xFFFF;
++     uint32_t color = s->twoD_foreground;
++     int format_flags = (s->twoD_stretch >> 20) & 0x3;
++     int addressing = (s->twoD_stretch >> 16) & 0xF;
++@@ -719,10 +719,8 @@ static void sm501_2d_operation(SM501State *s)
++     uint32_t dst_base = s->twoD_destination_base & 0x03FFFFFF;
++ 
++     /* get frame buffer info */
++-    uint8_t *src = s->local_mem + src_base;
++-    uint8_t *dst = s->local_mem + dst_base;
++-    int src_width = s->twoD_pitch & 0x1FFF;
++-    int dst_width = (s->twoD_pitch >> 16) & 0x1FFF;
+++    unsigned int src_width = s->twoD_pitch & 0x1FFF;
+++    unsigned int dst_width = (s->twoD_pitch >> 16) & 0x1FFF;
++     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
++     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++ 
++@@ -731,95 +729,128 @@ static void sm501_2d_operation(SM501State *s)
++         abort();
++     }
++ 
++-    if (rop_mode == 0) {
++-        if (rop != 0xcc) {
++-            /* Anything other than plain copies are not supported */
++-            qemu_log_mask(LOG_UNIMP, "sm501: rop3 mode with rop %x is not "
++-                          "supported.\n", rop);
++-        }
++-    } else {
++-        if (rop2_source_is_pattern && rop != 0x5) {
++-            /* For pattern source, we support only inverse dest */
++-            qemu_log_mask(LOG_UNIMP, "sm501: rop2 source being the pattern and "
++-                          "rop %x is not supported.\n", rop);
++-        } else {
++-            if (rop != 0x5 && rop != 0xc) {
++-                /* Anything other than plain copies or inverse dest is not
++-                 * supported */
++-                qemu_log_mask(LOG_UNIMP, "sm501: rop mode %x is not "
++-                              "supported.\n", rop);
++-            }
++-        }
++-    }
++-
++     if ((s->twoD_source_base & 0x08000000) ||
++         (s->twoD_destination_base & 0x08000000)) {
++         printf("%s: only local memory is supported.\n", __func__);
++         abort();
++     }
++ 
++-    switch (operation) {
++-    case 0x00: /* copy area */
++-#define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
++-        int y, x, index_d, index_s;                                           \
++-        for (y = 0; y < operation_height; y++) {                              \
++-            for (x = 0; x < operation_width; x++) {                           \
++-                _pixel_type val;                                              \
++-                                                                              \
++-                if (rtl) {                                                    \
++-                    index_s = ((src_y - y) * src_width + src_x - x) * _bpp;   \
++-                    index_d = ((dst_y - y) * dst_width + dst_x - x) * _bpp;   \
++-                } else {                                                      \
++-                    index_s = ((src_y + y) * src_width + src_x + x) * _bpp;   \
++-                    index_d = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
++-                }                                                             \
++-                if (rop_mode == 1 && rop == 5) {                              \
++-                    /* Invert dest */                                         \
++-                    val = ~*(_pixel_type *)&dst[index_d];                     \
++-                } else {                                                      \
++-                    val = *(_pixel_type *)&src[index_s];                      \
++-                }                                                             \
++-                *(_pixel_type *)&dst[index_d] = val;                          \
++-            }                                                                 \
++-        }                                                                     \
+++    if (!dst_width) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero dest pitch.\n");
+++        return;
++     }
++-        switch (format_flags) {
++-        case 0:
++-            COPY_AREA(1, uint8_t, rtl);
++-            break;
++-        case 1:
++-            COPY_AREA(2, uint16_t, rtl);
++-            break;
++-        case 2:
++-            COPY_AREA(4, uint32_t, rtl);
++-            break;
++-        }
++-        break;
++ 
++-    case 0x01: /* fill rectangle */
++-#define FILL_RECT(_bpp, _pixel_type) {                                      \
++-        int y, x;                                                           \
++-        for (y = 0; y < operation_height; y++) {                            \
++-            for (x = 0; x < operation_width; x++) {                         \
++-                int index = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
++-                *(_pixel_type *)&dst[index] = (_pixel_type)color;           \
++-            }                                                               \
++-        }                                                                   \
+++    if (!operation_width || !operation_height) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero size 2D op.\n");
+++        return;
++     }
++ 
++-        switch (format_flags) {
++-        case 0:
++-            FILL_RECT(1, uint8_t);
++-            break;
++-        case 1:
++-            color = cpu_to_le16(color);
++-            FILL_RECT(2, uint16_t);
++-            break;
++-        case 2:
+++    if (rtl) {
+++        dst_x -= operation_width - 1;
+++        dst_y -= operation_height - 1;
+++    }
+++
+++    if (dst_base >= get_local_mem_size(s) || dst_base +
+++        (dst_x + operation_width + (dst_y + operation_height) * (dst_width + operation_width)) *
+++        (1 << format_flags) >= get_local_mem_size(s)) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: 2D op dest is outside vram.\n");
+++        return;
+++    }
+++
+++    switch (operation) {
+++    case 0: /* BitBlt */
+++        if (!src_width) {
+++            qemu_log_mask(LOG_GUEST_ERROR, "sm501: Zero src pitch.\n");
+++            return;
+++        }
+++
+++        if (rtl) {
+++            src_x -= operation_width - 1;
+++            src_y -= operation_height - 1;
+++        }
+++
+++        if (src_base >= get_local_mem_size(s) || src_base +
+++            (src_x + operation_width + (src_y + operation_height) * (src_width + operation_width)) *
+++            (1 << format_flags) >= get_local_mem_size(s)) {
+++            qemu_log_mask(LOG_GUEST_ERROR,
+++                          "sm501: 2D op src is outside vram.\n");
+++            return;
+++        }
+++
+++        if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
+++            /* Invert dest, is there a way to do this with pixman? */
+++            unsigned int x, y, i;
+++            uint8_t *d = s->local_mem + dst_base;
+++
+++            for (y = 0; y < operation_height; y++) {
+++                i = (dst_x + (dst_y + y) * dst_width) * (1 << format_flags);
+++                for (x = 0; x < operation_width; x++, i += (1 << format_flags)) {
+++                    switch (format_flags) {
+++                    case 0:
+++                        d[i] = ~d[i];
+++                        break;
+++                    case 1:
+++                        *(uint16_t *)&d[i] = ~*(uint16_t *)&d[i];
+++                        break;
+++                    case 2:
+++                        *(uint32_t *)&d[i] = ~*(uint32_t *)&d[i];
+++                        break;
+++                    }
+++                }
+++            }
+++        } else {
+++            /* Do copy src for unimplemented ops, better than unpainted area */
+++            if ((rop_mode && (rop != 0xc || rop2_source_is_pattern)) ||
+++                (!rop_mode && rop != 0xcc)) {
+++                qemu_log_mask(LOG_UNIMP,
+++                              "sm501: rop%d op %x%s not implemented\n",
+++                              (rop_mode ? 2 : 3), rop,
+++                              (rop2_source_is_pattern ?
+++                                  " with pattern source" : ""));
+++            }
+++            /* Check for overlaps, this could be made more exact */
+++            uint32_t sb, se, db, de;
+++            sb = src_base + src_x + src_y * (operation_width + src_width);
+++            se = sb + operation_width + operation_height * (operation_width + src_width);
+++            db = dst_base + dst_x + dst_y * (operation_width + dst_width);
+++            de = db + operation_width + operation_height * (operation_width + dst_width);
+++            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+++                /* regions may overlap: copy via temporary */
+++                int llb = operation_width * (1 << format_flags);
+++                int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
+++                uint32_t *tmp = g_malloc(tmp_stride * sizeof(uint32_t) *
+++                                         operation_height);
+++                pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
+++                           src_width * (1 << format_flags) / sizeof(uint32_t),
+++                           tmp_stride, 8 * (1 << format_flags), 8 * (1 << format_flags),
+++                           src_x, src_y, 0, 0, operation_width, operation_height);
+++                pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
+++                           tmp_stride,
+++                           dst_width * (1 << format_flags) / sizeof(uint32_t),
+++                           8 * (1 << format_flags), 8 * (1 << format_flags),
+++                           0, 0, dst_x, dst_y, operation_width, operation_height);
+++                g_free(tmp);
+++            } else {
+++                pixman_blt((uint32_t *)&s->local_mem[src_base],
+++                           (uint32_t *)&s->local_mem[dst_base],
+++                           src_width * (1 << format_flags) / sizeof(uint32_t),
+++                           dst_width * (1 << format_flags) / sizeof(uint32_t),
+++                           8 * (1 << format_flags), 8 * (1 << format_flags),
+++                           src_x, src_y, dst_x, dst_y, operation_width, operation_height);
+++            }
+++        }
+++        break;
+++
+++    case 1: /* Rectangle Fill */
+++        if (format_flags == 2) {
++             color = cpu_to_le32(color);
++-            FILL_RECT(4, uint32_t);
++-            break;
+++        } else if (format_flags == 1) {
+++            color = cpu_to_le16(color);
++         }
+++
+++        pixman_fill((uint32_t *)&s->local_mem[dst_base],
+++                    dst_width * (1 << format_flags) / sizeof(uint32_t),
+++                    8 * (1 << format_flags), dst_x, dst_y, operation_width, operation_height, color);
++         break;
++ 
++     default:
++-- 
++2.17.1
++
 -- 
-2.28.0
+2.17.1
 
