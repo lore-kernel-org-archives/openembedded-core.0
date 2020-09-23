@@ -1,94 +1,71 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web10.90.1600879114008081621
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.115.1600879151330936573
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2020 09:38:34 -0700
+ Wed, 23 Sep 2020 09:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jRrPJuFk;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id f142so240405qke.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2020 09:38:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hLfOg3MP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id l15so4918070wmh.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2020 09:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F1Ap+FKghHxN+mO9XgkIOpBbtMciWXVjF9DrsQcMrzs=;
-        b=jRrPJuFktfd7fSqPEWFXHaEhadLdaPzTgtE9uVdL/vFckKFAxdi3xJGExEOom8ltWy
-         1iK3n3KCIKgTix8WLWOVgJoX0btRpyV3Qg9i5LOLWIn7OZqxvlL1tQl2chEyiutwdY/U
-         tTe0r+iTvfityAMpIV71bibqyy+3P+O7TnA/2YA0l4oBa3i6OA/0QtKc9J/SssokpP4Y
-         TptCheZI1gRzmF/DQBqVuUBX0+aT1K2gIjZBCI0RYYDhiGHhEZVTyN9uLzNWyTrHgz89
-         URIynIsCMvx3AzDO0U0qwqdgYvZMfFDd18jT5BWi0uuAtBrX39dR8t6XK+ie2xePMHu2
-         Q/1w==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hNunGGsExh7ffdNuKa8gT/GdktM5ibcEDnkrb0gTYz8=;
+        b=hLfOg3MPQzzzPtRMcWVNvp6e0L2unOEFB/Y38Z2cZJHpWuo1N8eHqqyW3Iy6D4ILY6
+         OW7WgRhoBjJmGjTZUthZQEKcnWqEagAxFJM9c01gIgFpqbUD0RNaFHYZdJEdswcPE47U
+         z+vRztpRDZLX4dqk709ND43A/8PFLB92ikEvA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F1Ap+FKghHxN+mO9XgkIOpBbtMciWXVjF9DrsQcMrzs=;
-        b=RZpOFeHdLjsPThN5LfZKz44kIRSWUHCEQNEsPCm66FOU2zDA1vhOH7f/THkXhQ5Ns0
-         JG8HI44HX+cX0S5+5Ss9uqwEhdnrrt2Rwd2+k1UGi2XbKlQtdGRR9+GlSFy19BLYWmq3
-         xlRkggrE2ObfpcCiNHSUdzNou87Agv55mMNsScHYMMGg8bSpqY2BeduWOkRWhpJ1QsMG
-         CTlcLI0EY6nWGuaawCV+tdYHjUm2Hak4VrdH3AHhQ2oObPwpKu+4KHwi/MIB/Ln/wiaK
-         HIl8c7wD3Dgf7Jl+ebjMjfMnC5dY54QTyu/i6DRUT9tw/Brh3AANYwwudpUdvb49fs0y
-         ASRQ==
-X-Gm-Message-State: AOAM532R8SEeCiBQRtOhGs4BG+XgbL2WKYUdWT6ykOOaKgXK/EuMCn2r
-	M3WHv5ua3i+xNzgMmidb1vWfdNHMcTf5FZyFexUS9mgrjjU=
-X-Google-Smtp-Source: ABdhPJwgWOU+GXIrhEciftWRaMFqeW7zK+xWhVDYOfGdOb8OEq+kfMw8WkzSeitPe1XkCM56Gk1QPRweiOS8D2FWlhc=
-X-Received: by 2002:a05:620a:1670:: with SMTP id d16mr726178qko.474.1600879112987;
- Wed, 23 Sep 2020 09:38:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hNunGGsExh7ffdNuKa8gT/GdktM5ibcEDnkrb0gTYz8=;
+        b=gQ7jwqJla4bNRChP156bnP5EeOvthy1VO1FXnpjZJiJT4ZtTFSoHHnJj6BOlv2OER6
+         bR4YJ+oJZAJeyoX8D/8dWHvNeEU5ag09D6xhVHM+EndhtE2ghB0eu+jFPQR5b5PHr6pU
+         bl0A82Wwh+5yMsUBJfSJB/ijEYFBPAUGCgAyk3ZxLCkUmJT/2JGydOqhgEf6tlTw5Cwj
+         OiTOnB9R3BhlHBLi5V/6FK0BDJu688dXwq346etwwPLy6uz4u7YRbVKSENsu81a5gUlV
+         x6/+vvH6cWZpQcRzS2LKgjsEX7IOJF+KOpy2/b3kuFAhrAWr3bP9o/PkNoxxvxqF5Dl3
+         Wpyw==
+X-Gm-Message-State: AOAM5328TI9ZrRN2+lwjD2T1EnMtMgc4vJpxC/fQvdh6F7+mf8n784RO
+	P2M78bt9BuQaoKGciY/rSAnOBfvj4166NA==
+X-Google-Smtp-Source: ABdhPJzgeqTMhnhUR8LUHIzPWsaKYxKJ7Yfrwwyoi5LZufb2m2zKFMkFDRf0kqph61Qu4J4XljW6Ig==
+X-Received: by 2002:a1c:7302:: with SMTP id d2mr402822wmb.133.1600879149237;
+        Wed, 23 Sep 2020 09:39:09 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (3.5.b.6.d.4.1.e.4.a.2.6.1.0.d.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:4d01:62a4:e14d:6b53])
+        by smtp.gmail.com with ESMTPSA id y68sm304896wmd.39.2020.09.23.09.39.08
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2020 09:39:08 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/selftest/incompatible_lib: Fix append usage
+Date: Wed, 23 Sep 2020 17:39:07 +0100
+Message-Id: <20200923163907.2552406-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200923084544.32128-1-ceggers@arri.de>
-In-Reply-To: <20200923084544.32128-1-ceggers@arri.de>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 23 Sep 2020 09:38:06 -0700
-Message-ID: <CAMKF1sqTT==wZ7a_HzzvsETmJeYAzX16E3y+RrnZF_kw92HuMg@mail.gmail.com>
-Subject: Re: [PATCH] packagegroup: rrecommend perf also for musl
-To: Christian Eggers <ceggers@arri.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2020 at 1:46 AM Christian Eggers <ceggers@arri.de> wrote:
->
-> The perf recipe builds fine for musl.
+It's pure luck this has worked so far, add a missing space to the append.
 
-which all architectures did you build on musl ?
-Regardless of that we should still use PERF var so non-core
-architectures can still override it
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/incompatible_lic.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Fixes: d758a4445a ("packagegroup: Disable packages not available on musl")
-> Signed-off-by: Christian Eggers <ceggers@arri.de>
-> ---
->  .../packagegroups/packagegroup-core-tools-profile.bb          | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> index 1c94653d72..a5dca95c2a 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> @@ -17,7 +17,7 @@ PROFILE_TOOLS_X_nios2 = ""
->  PROFILE_TOOLS_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd-analyze', '', d)}"
->
->  RRECOMMENDS_${PN} = "\
-> -    ${PERF} \
-> +    perf \
->      blktrace \
->      ${PROFILE_TOOLS_X} \
->      ${PROFILE_TOOLS_SYSTEMD} \
-> @@ -26,8 +26,6 @@ RRECOMMENDS_${PN} = "\
->  PROFILETOOLS = "\
->      powertop \
->      "
-> -PERF = "perf"
-> -PERF_libc-musl = ""
->
->  # systemtap needs elfutils which is not fully buildable on some arches/libcs
->  SYSTEMTAP = "systemtap"
-> --
-> Christian Eggers
-> Embedded software developer
->
-> Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-> Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregisternummer: HRA 57918
-> Persoenlich haftender Gesellschafter: Arnold & Richter Cine Technik GmbH
-> Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregisternummer: HRB 54477
-> Geschaeftsfuehrer: Dr. Michael Neuhaeuser; Stephan Schenk; Walter Trauninger; Markus Zeiler
->
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index 3eabd79097c..2a6382a1a85 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -85,7 +85,7 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+ class IncompatibleLicensePerImageTests(OESelftestTestCase):
+     def default_config(self):
+         return """
+-IMAGE_INSTALL_append = "bash"
++IMAGE_INSTALL_append = " bash"
+ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+ """
+ 
+-- 
+2.25.1
+
