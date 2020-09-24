@@ -1,164 +1,192 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.2924.1600900277860838693
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.6238.1600910711260051859
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2020 15:31:18 -0700
+ Wed, 23 Sep 2020 18:25:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@broadcom.com header.s=google header.b=Ft5KlEJn;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.210.169, mailfrom: jonathan.richardson@broadcom.com)
-Received: by mail-pf1-f169.google.com with SMTP id d9so565061pfd.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2020 15:31:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BYeVoHAw;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id o20so813435pfp.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2020 18:25:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version;
-        bh=aZDaZRA5GAtm+fcqgrcLYVy4eCyPjEuAg5EYYeXxxRs=;
-        b=Ft5KlEJn5BgGXSqGN+LDLLxB9ZZoJRSh55WZvzkANGlSV7ID6QsBZM70ERJy2e1/H/
-         EIRR9rTld7VSVoa/BTenOjDfy/WvPlo7H/eFPESs3RPl0EXtkxT5Pz/zdeOt1gVRlP97
-         dNbeOfZDfy2KqOqI0XWuSVB8ryEEZ26uR8XiE=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YxMeyfHnIQV1ro+Rlf+6QI32E1Mh9MR9nGVErFU0IHw=;
+        b=BYeVoHAwCSz8669G/nNlE0OFvQB+tX+pWkH5VLLmpYlIUI7oN67Q0A07cToOpOMsQB
+         xKVLNGEBTw8F+44bzccb2HdhsobYBK51cMhkxLMvaF6RgBbBOVMBe73hdJvCqcXJBPVp
+         Dq6qBiSCM4NOIPRXVnqd1O4ckGD1MDs2zG6QXxyTFIePbGRWjqj98WwnkXHuKItcDMt0
+         7s5UDsjUBvFG0FfWFahe6pHIQNtHBT8EObcyjzAmO1rcupuIklxkATBlWFpBOfH4lWrg
+         8+ta+MmfLO+/AqNHVVMWy46O4Fw3i7JEi9yobm2ewMkjJFuuoJsRS+EsuU4qn2i8VtHi
+         nrfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
-        bh=aZDaZRA5GAtm+fcqgrcLYVy4eCyPjEuAg5EYYeXxxRs=;
-        b=du7J9wBQfMHkcHV2vNn9X18pJnBkhMNDs9KNVbmh9VG2u0cLUQbbwjkuXor5Oj5+jX
-         DuS+663mR03p8nuZRSew17LHl5H+lXM0TjOjd00FPjpB/cyFGff+kaIBbONa7ZzsPAjq
-         8HZEm31i48xhRorTUmjPBQfh2sYiMP7RL5hDtuuc0jgauEGBKOlcOVPlowQFUjXii6PY
-         uic9cRpa6GEGz8jGhzhWI8xhrUZQJxcxxoDsE9xbuq1oI4IpghsEnWgmZPqPyHO1YgPS
-         bO/aI0nxzWjajc2fww6Xo46wfUySwKHZ/qJlSqzzzEC/bP7IraKFtPSkSDA+YrL9kMiI
-         G4FA==
-X-Gm-Message-State: AOAM530TVhKG23aVcEEJA9+kT/iYAulqOIiVAmUGhwt2qeYzwa9RWfiR
-	5MlBOf/rYdEHzGoHsh5u1H0eVM5hun50WnPg9fNUJTAeqcmXv+1NTt2xkAT2bRHpz1LKDySWSRW
-	qWXl/fLEI1o+8HPaZIggmqrArYbKG2kT5r3BEkrOF6mYz8rGioXFRYrdzdw/51mAnCmS/Cq8sef
-	cy6eOxnt4LdDb/+nbHjV3JujuWXQ1NDVo4Bsg=
-X-Google-Smtp-Source: ABdhPJxZTIwdZ9igAnmPes/DhBxyk/0SH68wohfVR2NNGhaSAtzKnkvcg5kQE7Ea94p0DdwFdU+jzg==
-X-Received: by 2002:a05:6a00:792:b029:13c:1611:652d with SMTP id g18-20020a056a000792b029013c1611652dmr1697892pfu.13.1600900276846;
-        Wed, 23 Sep 2020 15:31:16 -0700 (PDT)
-Return-Path: <jonathan.richardson@broadcom.com>
-Received: from lbrmn-lnxub108.ric.broadcom.net ([192.19.228.250])
-        by smtp.gmail.com with ESMTPSA id a1sm614934pfr.12.2020.09.23.15.31.15
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YxMeyfHnIQV1ro+Rlf+6QI32E1Mh9MR9nGVErFU0IHw=;
+        b=ZpoZpJqo3DqGWCzQuiwZ6/YFcjxA+QgT1EhqlI7Lq0HbmTWqVfbCJCYwnAHgJky9mw
+         df+2A9yWWWHVQxKqgVJVAVcs8qoMTG6AIXJ8MSEYz3m6TZu2OGU4Xnow4pWrjQY662F3
+         +GLq3MXDNKC9Cz07BWOaMRzQUUH7YE5jyQraiUshM6WMglgke1HzWw6nFeVzNTXXRha4
+         UlfdrqNDz/aVVgwidda4acNe1yE+gvsRvVLGtDHvSPUC2A7oviztvpumU1lTNctHAUAP
+         xAlFUkynMj+9PBClH1Ci8xK9fJwHRIqrPC4ndhfjHhSEGNwhdxNBmAXIO0GHq7uzVVtO
+         mcfA==
+X-Gm-Message-State: AOAM533NWI3gd+c/HapWYH939w1i4am8ZiCOuUdBMCgH/vDh1rUXR6XC
+	QxlubAP2+pv+a/uMceR/A5IP+Eoi6JjJXQ==
+X-Google-Smtp-Source: ABdhPJx1sFdXBg+Ydsxj6XInqS012AbD6sDEHvGB9jc0l6npcxKxac1nk+wbePcLIipXNpYJJBz30A==
+X-Received: by 2002:a63:e057:: with SMTP id n23mr1866957pgj.87.1600910710317;
+        Wed, 23 Sep 2020 18:25:10 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5470])
+        by smtp.gmail.com with ESMTPSA id l21sm539273pjq.54.2020.09.23.18.25.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2020 15:31:16 -0700 (PDT)
-From: "Jonathan Richardson" <jonathan.richardson@broadcom.com>
+        Wed, 23 Sep 2020 18:25:09 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jonathan Richardson <jonathan.richardson@broadcom.com>
-Subject: [OE-core][PATCH 1/1] cortex-m0.inc: Add tuning for cortex-m0
-Date: Wed, 23 Sep 2020 15:31:09 -0700
-Message-Id: <20200923223109.39388-1-jonathan.richardson@broadcom.com>
-X-Mailer: git-send-email 2.20.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemuboot: Add QB_RNG variable
+Date: Wed, 23 Sep 2020 18:25:06 -0700
+Message-Id: <20200924012506.1007542-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Groupsio-MsgNum: 142745
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005a11c305b002a4f6"
-
---0000000000005a11c305b002a4f6
 Content-Transfer-Encoding: 8bit
 
-Add tuning or ARM cortex-m0.
+RNG passthru has been enabled on all qemu machines but its being added
+to each one of them, with this patch its turned into QB variables which
+defaults to host passthru, yet it can be overridden if needed via
+machine or config metadata if needed.
 
-Signed-off-by: Jonathan Richardson <jonathan.richardson@broadcom.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/machine/include/tune-cortex-m0.inc | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-cortex-m0.inc
+ meta/classes/qemuboot.bbclass                 | 4 ++++
+ meta/conf/machine/include/qemuboot-mips.inc   | 2 --
+ meta/conf/machine/include/qemuboot-x86.inc    | 2 --
+ meta/conf/machine/include/riscv/qemuriscv.inc | 3 ---
+ meta/conf/machine/qemuarm.conf                | 2 --
+ meta/conf/machine/qemuarm64.conf              | 2 --
+ meta/conf/machine/qemuarmv5.conf              | 2 --
+ meta/conf/machine/qemuppc.conf                | 2 --
+ scripts/runqemu                               | 2 +-
+ 9 files changed, 5 insertions(+), 16 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-cortex-m0.inc b/meta/conf/machine/include/tune-cortex-m0.inc
-new file mode 100644
-index 0000000000..a59c8af941
---- /dev/null
-+++ b/meta/conf/machine/include/tune-cortex-m0.inc
-@@ -0,0 +1,11 @@
-+DEFAULTTUNE ?= "cortexm0"
-+require conf/machine/include/arm/arch-armv6m.inc
-+
-+TUNEVALID[cortexm0] = "Enable Cortex-M0 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexm0', ' -mcpu=cortex-m0', '', d)}"
-+AVAILTUNES += "cortexm0"
-+
-+ARMPKGARCH_tune-cortexm0 = "cortexm0"
-+TUNE_FEATURES_tune-cortexm0 = "${TUNE_FEATURES_tune-armv6m} cortexm0"
-+
-+PACKAGE_EXTRA_ARCHS_tune-cortexm0 = "${PACKAGE_EXTRA_ARCHS_tune-armv6m} cortexm0"
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index d8f62ef6ea..824676216e 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -29,6 +29,9 @@
+ # QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
+ #               when QB_AUDIO_DRV is set.
+ #
++# QB_RNG: Pass-through for host random number generator, it can speedup boot
++#         in system mode, where system is experiencing entropy starvation
++#
+ # QB_KERNEL_ROOT: kernel's root, e.g., /dev/vda
+ #
+ # QB_NETWORK_DEVICE: network device, e.g., "-device virtio-net-pci,netdev=net0,mac=@MAC@",
+@@ -77,6 +80,7 @@ QB_MEM ?= "-m 256"
+ QB_SERIAL_OPT ?= "-serial mon:stdio -serial null"
+ QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
+ QB_DEFAULT_FSTYPE ?= "ext4"
++QB_RNG ?= "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ QB_OPT_APPEND ?= ""
+ QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+ QB_CMDLINE_IP_SLIRP ?= "ip=dhcp"
+diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
+index e99bade2e3..230f032c53 100644
+--- a/meta/conf/machine/include/qemuboot-mips.inc
++++ b/meta/conf/machine/include/qemuboot-mips.inc
+@@ -3,8 +3,6 @@ IMAGE_CLASSES += "qemuboot"
+ QB_MACHINE = "-machine malta"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ 
+ # For graphics to work we need to define the VGA device as well as the necessary USB devices
+ QB_OPT_APPEND += "-vga std"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index ccc6dcd3bf..2a4760c717 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -10,6 +10,4 @@ QB_AUDIO_DRV = "alsa"
+ QB_AUDIO_OPT = "-soundhw ac97,es1370"
+ QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ 
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index 759c8a196e..0e88c91aa6 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -33,6 +33,3 @@ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+ QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND = " -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0"
+-
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 3364dcf042..702b850cbb 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -21,8 +21,6 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
+ # For graphics to work we need to define the VGA device as well as the necessary USB devices
+ QB_OPT_APPEND = "-device VGA,edid=on"
+ QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
+-# Add the virtio RNG
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ # Virtio Networking support
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index fdd464d708..2f61eb0aed 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -22,8 +22,6 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
+ # For graphics to work we need to define the VGA device as well as the necessary USB devices
+ QB_OPT_APPEND = "-device VGA,edid=on"
+ QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ # Virtio Networking support
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+index 48e83f13e1..7e8c9e1fa6 100644
+--- a/meta/conf/machine/qemuarmv5.conf
++++ b/meta/conf/machine/qemuarmv5.conf
+@@ -14,8 +14,6 @@ QB_SYSTEM_NAME = "qemu-system-arm"
+ QB_MACHINE = "-machine versatilepb"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0,115200 console=tty"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ PREFERRED_VERSION_linux-yocto ??= "5.8%"
+ QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+ 
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index 9733b5e85b..a84594f335 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -17,6 +17,4 @@ QB_MACHINE = "-machine mac99"
+ QB_CPU = "-cpu G4"
+ QB_KERNEL_CMDLINE_APPEND = "console=tty console=ttyS0"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e62d869c20..e5e66f3453 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1336,7 +1336,7 @@ class BaseConfig(object):
+         if not os.access(qemu_bin, os.X_OK):
+             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
+ 
+-        self.qemu_opt = "%s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
++        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('QB_RNG'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND'))
+ 
+         for ovmf in self.ovmf_bios:
+             format = ovmf.rsplit('.', 1)[-1]
 -- 
-2.20.1
+2.28.0
 
-
---0000000000005a11c305b002a4f6
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-vHaK84VoWnHQcLUkaMiN0X7XM5C6vIo8yhBhA6BaVus/5I1NTLPbKuo/kWuFjk2Fpoe66YLtTn3h
-RoVB1OA8ItIQN/sCAwEAAaOCAdcwggHTMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEw
-gY4wTQYIKwYBBQUHMAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVy
-c29uYWxzaWduMnNoYTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFs
-c2lnbi5jb20vZ3NwZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0
-MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNV
-HRMEAjAAMEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJz
-b25hbHNpZ24yc2hhMmczLmNybDArBgNVHREEJDAigSBqb25hdGhhbi5yaWNoYXJkc29uQGJyb2Fk
-Y29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJ
-nXsLYTAdBgNVHQ4EFgQUa5kon5XwHZRSZkX5IOJpNb4vbw8wDQYJKoZIhvcNAQELBQADggEBAAaL
-wxrc2inAZlHxB3cfK6JxuQI5tZBg5stkNrv4jQ//mOyUsTYCAOip2b/YYrczxaRRBGrSAh7mNVfS
-pKyxl2zd/0jj5nwLv9xy78GL89xD/mVvd1gXADqQDTFjHNH3Hqg1lu3vtWq1tOFxdyrDsX8cYkUv
-8MIM4iHV5TYM99qNGxKbj/ZNdcHYBO45IIFNG/nqe7nPkQ7ikilr/Y1+DGpVwesuxm9x2ZiRPlBN
-MtXVWdVK2QyHMXHbJoENTaUb8qPrzI4gwF9C9nrQBYIJx45s9AMLn/xozqDMyJXqFluyQjJdwv2+
-BdZUGnCAtzSgrEru5ffGcSvpzK+qArTc7UYxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkw
-FwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2ln
-biAyIENBIC0gU0hBMjU2IC0gRzMCDH8hIsPI4q59Cxj1yjANBglghkgBZQMEAgEFAKCB1DAvBgkq
-hkiG9w0BCQQxIgQgBqevV9vLTs9DTcKaugYJB0w+7uKiNBqaqGEPmVhL61EwGAYJKoZIhvcNAQkD
-MQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAwOTIzMjIzMTE3WjBpBgkqhkiG9w0BCQ8x
-XDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsG
-CSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFUs
-R6SgO88fezHjyKskSZqpYct063janfvFPC2YX8VKdLwQkt+FdGJVuRDyRRoAS6bW8T3czfMy+73a
-c0IZAM+m/1oGLAgC8Qq9SlzCabCJffSkdJe7OuQDeK0TY4XWeerTGU+iAyB0VrTfGBymP0zuBNg3
-oQ5Xh3bTaLZYhOtEcr8bGyLYQVHfDEszCgDt0AqPgkbps1PZB98u9SIlvcjzRU92dOZhs3ep2Ya5
-dQb73BQ92PSzbUQxZlMeydeUBg3ov4geqTmPWbf9gRodKEeTVSkhsGEkOdC/1IvYfEETJTNVpZ3v
-wWMlBtOfCFv+80RMN/knKKDgs+1IKOsoNgA=
-
---0000000000005a11c305b002a4f6--
