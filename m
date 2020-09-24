@@ -1,192 +1,455 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.7061.1600913756538099516
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.7451.1600915244356871311
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2020 19:15:57 -0700
+ Wed, 23 Sep 2020 19:40:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,296,1596470400"; 
-   d="scan'208";a="99560810"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 24 Sep 2020 10:15:50 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9575A48990EB
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2020 10:15:47 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 24 Sep 2020 10:15:46 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08O2ego8019772
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2020 19:40:43 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 23 Sep 2020 19:40:29 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] Add Zang Ruochen and Wang Mingyu to maintainers.inc.
-Date: Thu, 24 Sep 2020 22:15:50 +0800
-Message-ID: <1600956950-15056-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] bash: fix CVE-2019-18276
+Date: Thu, 24 Sep 2020 10:39:44 +0800
+Message-ID: <20200924023944.48941-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 9575A48990EB.ABC54
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Zang Ruochen is responsible for the maintenance as follows:
-elfutils
-libvorbis
-ell
-python3-dbus
-python3-pbr
-python3-pip
-python3-pycairo
-python3-pygobject
-python3-six
+From: De Huo <De.Huo@windriver.com>
 
-Wang Mingyu is responsible for the maintenance as follows:
-btrfs-tools
-dtc
-iso-codes
-libpciaccess
-libpipeline
-librepo
-liburcu
-libyaml
-msmtp
+An issue was discovered in disable_priv_mode in shell.c in GNU Bash
+through 5.0 patch 11. By default, if Bash is run with its effective UID
+not equal to its real UID, it will drop privileges by setting its
+effective UID to its real UID. However, it does so incorrectly. On Linux
+and other systems that support "saved UID" functionality, the saved UID
+is not dropped. An attacker with command execution in the shell can use
+"enable -f" for runtime loading of a new builtin, which can be a shared
+object that calls setuid() and therefore regains privileges. However,
+binaries running with an effective UID of 0 are unaffected.
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Get the patch from [1] to fix the issue.
+
+[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+
+Signed-off-by: De Huo <De.Huo@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/conf/distro/include/maintainers.inc | 36 ++++++++++++------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ .../bash/bash/bash-CVE-2019-18276.patch       | 386 ++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.0.bb        |   1 +
+ 2 files changed, 387 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index d349382cb9..c381ba70a3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -78,7 +78,7 @@ RECIPE_MAINTAINER_pn-bmap-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-boost = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bootchart2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bsd-headers = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER_pn-btrfs-tools = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-btrfs-tools = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-build-appliance-image = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -157,14 +157,14 @@ RECIPE_MAINTAINER_pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dpkg = "Aníbal Limón <limon.anibal@gmail.com>"
- RECIPE_MAINTAINER_pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-dtc = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-efivar = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-elfutils = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-ell = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -279,7 +279,7 @@ RECIPE_MAINTAINER_pn-intltool = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-iptables = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-iputils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
--RECIPE_MAINTAINER_pn-iso-codes = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-iso-codes = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-itstool = "Andreas Müller <schnitzeltony@gmail.com>"
- RECIPE_MAINTAINER_pn-iw = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-libjpeg-turbo = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -362,15 +362,15 @@ RECIPE_MAINTAINER_pn-libogg = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libomxil = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpam = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpcap = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-libpciaccess = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-libpciaccess = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libpcre2 = "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-libpipeline = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-libpipeline = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libpsl = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-librepo = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-librepo = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-librsvg = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libsamplerate0 = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -391,7 +391,7 @@ RECIPE_MAINTAINER_pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-libucontext = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libunistring = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libunwind = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-liburcu = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libusb1 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libubootenv = "Stefano Babic <sbabic@denx.de>"
-@@ -399,7 +399,7 @@ RECIPE_MAINTAINER_pn-libuv = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-initial = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
-+RECIPE_MAINTAINER_pn-libvorbis = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-libwebp = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libwpe = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libx11 = "Armin Kuster <akuster808@gmail.com>"
-@@ -440,7 +440,7 @@ RECIPE_MAINTAINER_pn-libxtst = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxv = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxvmc = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxxf86vm = "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-libyaml = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-libyaml = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-lighttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-linux-dummy = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-linux-firmware = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
-@@ -505,7 +505,7 @@ RECIPE_MAINTAINER_pn-modutils-initscripts = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-mpeg2dec = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-mpfr = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-mpg123 = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-msmtp = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-msmtp = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-mtd-utils = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mtools = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -580,7 +580,7 @@ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-cython = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-dbus = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-dbus = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-dbusmock = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-docutils = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-pycryptodome = "Joshua Watt <JPEWhacker@gmail.com>"
-@@ -596,17 +596,17 @@ RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-k
- RECIPE_MAINTAINER_pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-pbr = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-pip = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-pycairo = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pbr = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pip = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pycairo = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-pygments = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-pygobject = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pygobject = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-scons = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-six = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-six = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch b/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
+new file mode 100644
+index 0000000000..7b2073201e
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
+@@ -0,0 +1,386 @@
++From 951bdaad7a18cc0dc1036bba86b18b90874d39ff Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Mon, 1 Jul 2019 09:03:53 -0400
++Subject: [PATCH] commit bash-20190628 snapshot
++
++An issue was discovered in disable_priv_mode in shell.c in GNU Bash through 5.0 patch 11.
++By default, if Bash is run with its effective UID not equal to its real UID,
++it will drop privileges by setting its effective UID to its real UID.
++However, it does so incorrectly. On Linux and other systems that support "saved UID" functionality,
++the saved UID is not dropped. An attacker with command execution in the shell can use "enable -f" for
++runtime loading of a new builtin, which can be a shared object that calls setuid() and therefore
++regains privileges. However, binaries running with an effective UID of 0 are unaffected.
++
++Get the patch from [1] to fix the issue.
++
++Upstream-Status: Inappropriate [the upstream thinks it doesn't increase the credibility of CVEs in general]
++CVE: CVE-2019-18276
++
++[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
++
++Signed-off-by: De Huo <De.Huo@windriver.com>
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ MANIFEST          |  2 ++
++ bashline.c        | 50 +-------------------------------------------------
++ builtins/help.def |  2 +-
++ config.h.in       | 10 +++++++++-
++ configure.ac      |  1 +
++ doc/bash.1        |  3 ++-
++ doc/bashref.texi  |  3 ++-
++ lib/glob/glob.c   |  5 ++++-
++ pathexp.c         | 16 ++++++++++++++--
++ shell.c           |  8 ++++++++
++ tests/glob.tests  |  2 ++
++ tests/glob6.sub   | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ tests/glob7.sub   | 11 +++++++++++
++ 14 files changed, 122 insertions(+), 56 deletions(-)
++ create mode 100644 tests/glob6.sub
++ create mode 100644 tests/glob7.sub
++
++diff --git a/MANIFEST b/MANIFEST
++index 03de221..f9ccad7 100644
++--- a/MANIFEST
+++++ b/MANIFEST
++@@ -1037,6 +1037,8 @@ tests/extglob3.tests	f
++ tests/extglob3.right	f
++ tests/extglob4.sub	f
++ tests/extglob5.sub	f
+++tests/glob6.sub		f
+++tests/glob7.sub		f
++ tests/func.tests	f
++ tests/func.right	f
++ tests/func1.sub		f
++diff --git a/bashline.c b/bashline.c
++index 824ea9d..d86b47d 100644
++--- a/bashline.c
+++++ b/bashline.c
++@@ -3718,55 +3718,7 @@ static int
++ completion_glob_pattern (string)
++      char *string;
++ {
++-  register int c;
++-  char *send;
++-  int open;
++-
++-  DECLARE_MBSTATE;
++-
++-  open = 0;
++-  send = string + strlen (string);
++-
++-  while (c = *string++)
++-    {
++-      switch (c)
++-	{
++-	case '?':
++-	case '*':
++-	  return (1);
++-
++-	case '[':
++-	  open++;
++-	  continue;
++-
++-	case ']':
++-	  if (open)
++-	    return (1);
++-	  continue;
++-
++-	case '+':
++-	case '@':
++-	case '!':
++-	  if (*string == '(')	/*)*/
++-	    return (1);
++-	  continue;
++-
++-	case '\\':
++-	  if (*string++ == 0)
++-	    return (0);	 	  
++-	}
++-
++-      /* Advance one fewer byte than an entire multibyte character to
++-	 account for the auto-increment in the loop above. */
++-#ifdef HANDLE_MULTIBYTE
++-      string--;
++-      ADVANCE_CHAR_P (string, send - string);
++-      string++;
++-#else
++-      ADVANCE_CHAR_P (string, send - string);
++-#endif
++-    }
++-  return (0);
+++  return (glob_pattern_p (string) == 1);
++ }
++ 
++ static char *globtext;
++diff --git a/builtins/help.def b/builtins/help.def
++index 006c4b5..92f9b38 100644
++--- a/builtins/help.def
+++++ b/builtins/help.def
++@@ -128,7 +128,7 @@ help_builtin (list)
++ 
++   /* We should consider making `help bash' do something. */
++ 
++-  if (glob_pattern_p (list->word->word))
+++  if (glob_pattern_p (list->word->word) == 1)
++     {
++       printf ("%s", ngettext ("Shell commands matching keyword `", "Shell commands matching keywords `", (list->next ? 2 : 1)));
++       print_word_list (list, ", ");
++diff --git a/config.h.in b/config.h.in
++index 8554aec..ad4b1e8 100644
++--- a/config.h.in
+++++ b/config.h.in
++@@ -1,6 +1,6 @@
++ /* config.h -- Configuration file for bash. */
++ 
++-/* Copyright (C) 1987-2009,2011-2012 Free Software Foundation, Inc.
+++/* Copyright (C) 1987-2009,2011-2012,2013-2019 Free Software Foundation, Inc.
++ 
++    This file is part of GNU Bash, the Bourne Again SHell.
++ 
++@@ -807,6 +807,14 @@
++ #undef HAVE_SETREGID
++ #undef HAVE_DECL_SETREGID
++ 
+++/* Define if you have the setregid function.  */
+++#undef HAVE_SETRESGID
+++#undef HAVE_DECL_SETRESGID
+++
+++/* Define if you have the setresuid function.  */
+++#undef HAVE_SETRESUID
+++#undef HAVE_DECL_SETRESUID
+++
++ /* Define if you have the setvbuf function.  */
++ #undef HAVE_SETVBUF
++ 
++diff --git a/configure.ac b/configure.ac
++index 52b4cdb..549adef 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -810,6 +810,7 @@ AC_CHECK_DECLS([confstr])
++ AC_CHECK_DECLS([printf])
++ AC_CHECK_DECLS([sbrk])
++ AC_CHECK_DECLS([setregid])
+++AC_CHECK_DECLS[(setresuid, setresgid])
++ AC_CHECK_DECLS([strcpy])
++ AC_CHECK_DECLS([strsignal])
++ 
++diff --git a/doc/bash.1 b/doc/bash.1
++index e6cd08d..9e58a0b 100644
++--- a/doc/bash.1
+++++ b/doc/bash.1
++@@ -4681,7 +4681,8 @@ above).
++ .PD
++ .SH "SIMPLE COMMAND EXPANSION"
++ When a simple command is executed, the shell performs the following
++-expansions, assignments, and redirections, from left to right.
+++expansions, assignments, and redirections, from left to right, in
+++the following order.
++ .IP 1.
++ The words that the parser has marked as variable assignments (those
++ preceding the command name) and redirections are saved for later
++diff --git a/doc/bashref.texi b/doc/bashref.texi
++index d33cd57..3065126 100644
++--- a/doc/bashref.texi
+++++ b/doc/bashref.texi
++@@ -2964,7 +2964,8 @@ is not specified.  If the file does not exist, it is created.
++ @cindex command expansion
++ 
++ When a simple command is executed, the shell performs the following
++-expansions, assignments, and redirections, from left to right.
+++expansions, assignments, and redirections, from left to right, in
+++the following order.
++ 
++ @enumerate
++ @item
++diff --git a/lib/glob/glob.c b/lib/glob/glob.c
++index 398253b..2eaa33e 100644
++--- a/lib/glob/glob.c
+++++ b/lib/glob/glob.c
++@@ -607,6 +607,7 @@ glob_vector (pat, dir, flags)
++   register unsigned int i;
++   int mflags;		/* Flags passed to strmatch (). */
++   int pflags;		/* flags passed to sh_makepath () */
+++  int hasglob;		/* return value from glob_pattern_p */
++   int nalloca;
++   struct globval *firstmalloc, *tmplink;
++   char *convfn;
++@@ -648,10 +649,12 @@ glob_vector (pat, dir, flags)
++   patlen = (pat && *pat) ? strlen (pat) : 0;
++ 
++   /* If the filename pattern (PAT) does not contain any globbing characters,
+++     or contains a pattern with only backslash escapes (hasglob == 2),
++      we can dispense with reading the directory, and just see if there is
++      a filename `DIR/PAT'.  If there is, and we can access it, just make the
++      vector to return and bail immediately. */
++-  if (skip == 0 && glob_pattern_p (pat) == 0)
+++  hasglob = 0;
+++  if (skip == 0 && (hasglob = glob_pattern_p (pat)) == 0 || hasglob == 2)
++     {
++       int dirlen;
++       struct stat finfo;
++diff --git a/pathexp.c b/pathexp.c
++index c1bf2d8..e6c5392 100644
++--- a/pathexp.c
+++++ b/pathexp.c
++@@ -58,7 +58,10 @@ int extended_glob = EXTGLOB_DEFAULT;
++ /* Control enabling special handling of `**' */
++ int glob_star = 0;
++ 
++-/* Return nonzero if STRING has any unquoted special globbing chars in it.  */
+++/* Return nonzero if STRING has any unquoted special globbing chars in it.
+++   This is supposed to be called when pathname expansion is performed, so
+++   it implements the rules in Posix 2.13.3, specifically that an unquoted
+++   slash cannot appear in a bracket expression. */
++ int
++ unquoted_glob_pattern_p (string)
++      register char *string;
++@@ -85,10 +88,14 @@ unquoted_glob_pattern_p (string)
++ 	  continue;
++ 
++ 	case ']':
++-	  if (open)
+++	  if (open)		/* XXX - if --open == 0? */
++ 	    return (1);
++ 	  continue;
++ 
+++	case '/':
+++	  if (open)
+++	    open = 0;
+++
++ 	case '+':
++ 	case '@':
++ 	case '!':
++@@ -106,6 +113,11 @@ unquoted_glob_pattern_p (string)
++ 	      string++;
++ 	      continue;
++ 	    }
+++	  else if (open && *string == '/')
+++	    {
+++	      string++;		/* quoted slashes in bracket expressions are ok */
+++	      continue;
+++	    }
++ 	  else if (*string == 0)
++ 	    return (0);
++ 	 	  
++diff --git a/shell.c b/shell.c
++index a2b2a55..6adabc8 100644
++--- a/shell.c
+++++ b/shell.c
++@@ -1293,7 +1293,11 @@ disable_priv_mode ()
++ {
++   int e;
++ 
+++#if HAVE_DECL_SETRESUID
+++  if (setresuid (current_user.uid, current_user.uid, current_user.uid) < 0)
+++#else
++   if (setuid (current_user.uid) < 0)
+++#endif
++     {
++       e = errno;
++       sys_error (_("cannot set uid to %d: effective uid %d"), current_user.uid, current_user.euid);
++@@ -1302,7 +1306,11 @@ disable_priv_mode ()
++ 	exit (e);
++ #endif
++     }
+++#if HAVE_DECL_SETRESGID
+++  if (setresgid (current_user.gid, current_user.gid, current_user.gid) < 0)
+++#else
++   if (setgid (current_user.gid) < 0)
+++#endif
++     sys_error (_("cannot set gid to %d: effective gid %d"), current_user.gid, current_user.egid);
++ 
++   current_user.euid = current_user.uid;
++diff --git a/tests/glob.tests b/tests/glob.tests
++index 01913bb..fb012f7 100644
++--- a/tests/glob.tests
+++++ b/tests/glob.tests
++@@ -12,6 +12,8 @@ ${THIS_SH} ./glob1.sub
++ ${THIS_SH} ./glob2.sub
++ ${THIS_SH} ./glob3.sub
++ ${THIS_SH} ./glob4.sub
+++${THIS_SH} ./glob6.sub
+++${THIS_SH} ./glob7.sub
++ 
++ MYDIR=$PWD	# save where we are
++ 
++diff --git a/tests/glob6.sub b/tests/glob6.sub
++new file mode 100644
++index 0000000..b099811
++--- /dev/null
+++++ b/tests/glob6.sub
++@@ -0,0 +1,54 @@
+++# tests of the backslash-in-glob-patterns discussion on the austin-group ML
+++
+++: ${TMPDIR:=/var/tmp}
+++
+++ORIG=$PWD
+++GLOBDIR=$TMPDIR/bash-glob-$$
+++mkdir $GLOBDIR && cd $GLOBDIR
+++
+++# does the pattern matcher allow backslashes as escape characters and remove
+++# them as part of matching?
+++touch abcdefg
+++pat='ab\cd*'
+++printf '<%s>\n' $pat
+++pat='\.'
+++printf '<%s>\n' $pat
+++rm abcdefg
+++
+++# how about when escaping pattern characters?
+++touch '*abc.c'
+++a='\**.c'
+++printf '%s\n' $a
+++rm -f '*abc.c'
+++
+++# how about when making the distinction between readable and searchable path
+++# components?
+++mkdir -m a=x searchable
+++mkdir -m a=r readable
+++
+++p='searchable/\.'
+++printf "%s\n" $p
+++
+++p='searchable/\./.'
+++printf "%s\n" $p
+++
+++p='readable/\.'
+++printf "%s\n" $p
+++
+++p='readable/\./.'
+++printf "%s\n" $p
+++
+++printf "%s\n" 'searchable/\.'
+++printf "%s\n" 'readable/\.'
+++
+++echo */.
+++
+++p='*/\.'
+++echo $p
+++
+++echo */'.'
+++
+++rmdir searchable readable
+++
+++cd $ORIG
+++rmdir $GLOBDIR
++diff --git a/tests/glob7.sub b/tests/glob7.sub
++new file mode 100644
++index 0000000..0212b8e
++--- /dev/null
+++++ b/tests/glob7.sub
++@@ -0,0 +1,11 @@
+++# according to Posix 2.13.3, a slash in a bracket expression renders that
+++# bracket expression invalid
+++shopt -s nullglob
+++
+++echo 1: [qwe/qwe]
+++echo 2: [qwe/
+++echo 3: [qwe/]
+++
+++echo 4: [qwe\/qwe]
+++echo 5: [qwe\/
+++echo 6: [qwe\/]
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
+index 12d472be57..257a03bd8b 100644
+--- a/meta/recipes-extended/bash/bash_5.0.bb
++++ b/meta/recipes-extended/bash/bash_5.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://run-ptest \
+            file://run-bash-ptests \
+            file://fix-run-builtins.patch \
++           file://bash-CVE-2019-18276.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "2b44b47b905be16f45709648f671820b"
 -- 
-2.25.1
-
-
+2.26.2
 
