@@ -1,125 +1,97 @@
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.105])
- by mx.groups.io with SMTP id smtpd.web12.8783.1601042755530673584
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.132])
+ by mx.groups.io with SMTP id smtpd.web10.8843.1601042869820762285
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2020 07:05:56 -0700
+ Fri, 25 Sep 2020 07:07:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=jEodwH4z;
- spf=pass (domain: prevas.dk, ip: 40.107.3.105, mailfrom: rasmus.villemoes@prevas.dk)
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=J7BCZ+T2;
+ spf=pass (domain: prevas.dk, ip: 40.107.8.132, mailfrom: rasmus.villemoes@prevas.dk)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SY2SOh0HYeLhvQLHJSTbnqkcfPkYM/pK/PbOvV6H5ByFqsWrgfQVCLEA4X+RCo9NgLHNO7z2f9Eed1osa5QQoGNk2zr5YMQjwKeafA9Dk1Gwl5+hTLHyRJbtOXPrMNFl1idsms0tit/aIt0dcKoJkZQGDOIJFqiKIWWuSH+siAwPMOxiXVB8RLL9YTuwPe/iRdMptyASHUwI8SLQZO9vaV7wsiEgHj5ZXFhRWyN1vplUbbMq5BG7hG9rJ1LjRt9G8DUDjBmDqCEDcC5kvdKaG43Bjnp+4erBI/cPziE0gCgcdQz8asrVjpbnjE/4thMWFe8ZXHmynbEuVlxP990TXw==
+ b=YjdCUQdCFfkZgdJdqroA8bcUc1LQ8vHvQXK4K5tu5fYKP7L5GQLF/v3kbYkKQIXigKe4NjqHfT3GfU6kk6X+KTuY9w1dm27Vi+3x79GsmF+UsxPBeLFfg3U/ST7niwl0TPU5Eyhcs7Z5SMyJ/YVA8DeOXCYecQzcoYURJnpR7O//CdW+glDtDVpL5resxh//eqROmaylEdzdqCrlHcTSOqLnXsB11jKidFRmLACsw/s+CR1007TetYFjb6fpEyEpbqDXi13t1wW5SV/dHA8hoj5Y5tEyL9YuIpZD9066DhgDXBTYuyGGPs4csmiv/bzBls2XZafllXwvoZ3q5d/fTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P6fzhR7Tdw8Ya4kw8TJDK+EHufWVTeZSQF7+NBDZfwo=;
- b=TPIM9kSa+MwfiqoKbPNYOA7Wwo7Ro6wdFrIEdDbGhrG5PkI4X6pjSj8icm4ThnrBWAt23NMtkay9SA+rPufn+/71JmXTiVxFtZilysvfLWeHUTsQRVdaJ1dbVrgM3STs/4p5DbAvv8iGpLVqXOgwPO9J9AEeuRenFO5wVYnlKywQpZKlZHXFMPShJjPhbiPgTdvmRfkMsCWe+Vx9vhM/Ycob2KOEhsZ05Py9hnOo5ayqaQ8/JGTjkmbNq7zGa35W7y4bPWxgsib+bmsBkVAtuA2SXH6vjrXZQTEp/T5DtTUSvjXakqS2ikV7oAoh+VA+VYvFQHr9PMtSR2dnB/woCA==
+ bh=uX5W3Ua3RvPsW0Z+lqzLUJV0Or5zGGd0ctSUW1zzEZE=;
+ b=Tx6LkdcZSZdcNiayVon+VPezoqE2+tn+shCZlAN0HFeklhf+T0E5D5/3YLr7KxOOT6uAiwaqYm8nHZoxOqqCZRW3+34/7Xz27GNFNUYuNEQf2FOp2nWOPx4Yvl944+2lMqRqaR60YfO/9mxTZ/u4ObGxgIWORU6DBCXscv7sRVpsPWW0LtTo0R5OQkvz12G4yCZteSJKiOMSBg28W7H5TQeXJKwv+8XNE8F1HOMSxQsNCu010nc4n4nul50V6FLR0Kc4lE/pMYGgOVyn7AhlLivLV6C8n/m6krG11Wtrg9nWNhGnA9Qr95dHAs8JoqEq4z1abmMrN2r0qONy30gwKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
  dkim=pass header.d=prevas.dk; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P6fzhR7Tdw8Ya4kw8TJDK+EHufWVTeZSQF7+NBDZfwo=;
- b=jEodwH4zfaZfuDn6KXMBdOtxhBmOWQP0NN2i/r/DuiHEvZonkbQb2vcoQg5n16+8ZzyASXg7O0VLfLpLKnItciWswL47USmtJo7CMeEOzR5Rlb+l9fME5pODWK9JYAtwqIQAefkXTEf45jOsFmqOyxEA6/sQcjt2WeBg6Y12sPY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=prevas.dk;
+ bh=uX5W3Ua3RvPsW0Z+lqzLUJV0Or5zGGd0ctSUW1zzEZE=;
+ b=J7BCZ+T2jdllaitTssYY01DTzrAzLolYFyJEuyZtEb5w+nn2vykAEy2N8SsdkopzTjsVeylKGlU8FEqYWrnPauAJd8MRiVIrSy97tLrtI15SewFLIWHSg8Bm5soyJ16XLeb6HzfRs/0J/QJ4WpaaZKyo/oP46V1JtPLqHuhPoYo=
+Authentication-Results: sakoman.com; dkim=none (message not signed)
+ header.d=none;sakoman.com; dmarc=none action=none header.from=prevas.dk;
 Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:3f::10)
- by AM9PR10MB4183.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fd::13) with
+ by AM0PR10MB2530.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:dd::28) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Fri, 25 Sep
- 2020 14:05:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.24; Fri, 25 Sep
+ 2020 14:07:47 +0000
 Received: from AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::acf4:4f51:6c3a:8cbc]) by AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::acf4:4f51:6c3a:8cbc%5]) with mapi id 15.20.3412.020; Fri, 25 Sep 2020
- 14:05:53 +0000
+ 14:07:47 +0000
+Subject: Re: [OE-core] [RFC PATCH 0/4] fix externalsrc task dependency issues
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: parkch98@gmail.com, Steve Sakoman <steve@sakoman.com>
+References: <20200922151518.1615-1-rasmus.villemoes@prevas.dk>
+ <bf1062de-a95d-591c-151d-b25e55d7a3cf@prevas.dk>
+ <4a415c1606881f5f2786a51405c46b978443ba73.camel@linuxfoundation.org>
+ <e923307a-eb4d-d716-82b9-ca420a317eee@prevas.dk>
+ <3bcf67c6bbef25101b2f8b6bef4948b222a0fb64.camel@linuxfoundation.org>
+ <1638091737A0620E.1347@lists.openembedded.org>
 From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-To: openembedded-core@lists.openembedded.org
-CC: parkch98@gmail.com,
-	Steve Sakoman <steve@sakoman.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: [PATCH v2] kernel.bbclass: ensure symlink_kernsrc task gets run even with externalsrc
-Date: Fri, 25 Sep 2020 16:05:44 +0200
-Message-ID: <20200925140544.13741-1-rasmus.villemoes@prevas.dk>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <163723F633ECC6FD.8126@lists.openembedded.org>
-References: <163723F633ECC6FD.8126@lists.openembedded.org>
-X-ClientProxiedBy: BE0P281CA0006.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:a::16) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
+Message-ID: <f8daacb4-319a-580d-eac8-22b418bdfe23@prevas.dk>
+Date: Fri, 25 Sep 2020 16:07:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1638091737A0620E.1347@lists.openembedded.org>
+X-ClientProxiedBy: AM6PR0202CA0039.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3a::16) To AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:3f::10)
 Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from prevas-ravi.prevas.se (5.186.115.188) by BE0P281CA0006.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:a::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.14 via Frontend Transport; Fri, 25 Sep 2020 14:05:53 +0000
-X-Mailer: git-send-email 2.23.0
+Received: from [192.168.1.149] (5.186.115.188) by AM6PR0202CA0039.eurprd02.prod.outlook.com (2603:10a6:20b:3a::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend Transport; Fri, 25 Sep 2020 14:07:45 +0000
 X-Originating-IP: [5.186.115.188]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 14c83193-f58f-4af1-675d-08d8615c1d81
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4183:
-X-MS-Exchange-Transport-Forked: True
+X-MS-Office365-Filtering-Correlation-Id: cf608b50-c3c5-4903-e3bf-08d8615c6067
+X-MS-TrafficTypeDiagnostic: AM0PR10MB2530:
 X-Microsoft-Antispam-PRVS: 
-	<AM9PR10MB41835A7706A17C4FB52D36CE93360@AM9PR10MB4183.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:206;
+	<AM0PR10MB253092B9D043657338FDA27B93360@AM0PR10MB2530.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	4H0ATj0yOtu4MEXAsYm1AY0F0NBGHrVzFSree8ayU9W9t/UNuS4BPs4h91y8JGZg0oL3GfotxAVY7CROhSUf5SauL6Zk64yXiQn3B8Ri609PVXDpvftGyEWJCrSSIm1ipkN7f/P3Z9CiIWyHNgDUGEZtk8ujUw5J3NpNykY/uM2tLAqy7pMtLbDxtOGw00YfHoEinRDatFJcJEm9rv7RYPXTL7hGOhGEiZfJnnP+vWSPwX1LNUnt4s+U0iY/WzCmpmhQiEahwL6tSSoHnpfq7CUccH0w3uPRLEa3RrMaUc/wLMgpksJaQfD1c1XQIpUA73WKqp9Yikf5nf7bas4g3EIJx/M/zC/KCefM8YSHjCni+s3+OMvyyUNyz9CqNfUc
+	SPAJNBS+lw2z4JsPwc2S0tGz7Rnbq1/s9laHKqJInabzDOsJIlMMCR+iMx9om/rHPfnI4ZB0CgF/kewlUxjVL7ZKBa1J0WeJzxGkDndGcPwjX0g2AjHzKx0CLfctT2KACvsXrutXT3CbTPwFIrhR28pkHhV/0mhjIdx2BckWa9pgLiwogeeF8xM7Ct+vimqsW3LE8uYU4Jz1EsqkWkTYBzFEHyd5eGbCtoY7UPsceE4Rxz+iMcmkOS4/r8FhIswYVXOmFeAUPTqhqqki78DiAtWRF7okyDQbRi+lWq+kzL8POHecEH9FRwqdSNGv++MyeEdlJKWeV/T38qfZFY25kvsTILdg5hW6sREnc9Vf90K6oR3KKiY5KjSXOQRTqAh/+Ibhejv9zbJ6WAVCVQeJ4GjG8yw1m3paXdr05sb22pss+lJIjOBG9PUjngD1jOU5
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(136003)(396003)(39840400004)(346002)(376002)(366004)(44832011)(6506007)(8676002)(66946007)(6512007)(6916009)(66476007)(86362001)(54906003)(66556008)(4326008)(36756003)(1076003)(186003)(2906002)(316002)(83380400001)(6666004)(5660300002)(52116002)(107886003)(956004)(6486002)(8976002)(478600001)(2616005)(16526019)(8936002)(26005);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(366004)(376002)(39840400004)(346002)(396003)(136003)(8936002)(8976002)(8676002)(478600001)(36756003)(316002)(186003)(16526019)(16576012)(66946007)(956004)(2616005)(52116002)(86362001)(44832011)(26005)(31686004)(31696002)(4326008)(6486002)(2906002)(83380400001)(4744005)(66556008)(66476007)(5660300002)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData: 
-	qdwsX+6S4ajIgxeSaJ/0ub5l2cThHNvDXitahtqYPirsfqjG+rE9sQHvA4DpuZEHmNVgSQ/NEyxUkPd5uGKddaYE4U1ty1QnowD+przJUGJooM6dF/Ik2Ef6VEO/Gu0RQ+2rXvpmprkJuZ7GKnP2HmQaD0tNRLmcBTkqtE47TNlNSlvOfx7P+ICIJybGJZx1uPA83EdAkaeN/QxE73NdUYltMmXHouwzKIoyfxmAAYZ53W6ayQGDH+Zm2Jc9vL5qws/b60mAu7CcLSuYlI73tOZHhBhPnA9ufPjhw2HPgZZUh8bxT52nW+pCOpWKxkco9ZqAPg+nnMNTzNPtOjZHQD0/qYqOqqM29RVrY1hLV5qDag2fDTgac9FHobtr4D6t/2CtKM8wBucCqUVTtrS8tIWv6mljGOmwDNCd+MQsqt4Sk3kcOZmdjOPyQY2MPnHgXx9WyRGBrDUh3KyyQeNZZoADW4HfRRzSkD1VMTnro9b98VR1tvGBcTBOtkAWrB3xXdgOySILLNX6EAJ7qKaX0bp7elveFYPFbuf2Vt4n2tJApKneEb/63c+XfDZNGuqKTH7Wy707pplOfSP0mdGTeGT+RxVD4gin3ZNkepv8S1J76SnV0ImrGvYfooQ3o4AopY82zxV1shZ2gLqJVmg49w==
+	2pPx4kRvTGyxKeC34ETnRLMsRAt/vQgFrVOAY3ixnVeq5/BkmrVDcKrnEi3Tgbb5m1C0Je8APuQ0bXUmGSrKw9wZXMADmmZHL1fhjENrjphgPp588D7Czj7IcoigBCMAkHEELWPsIKua/xKvFMFBxtHzDKjTQ22jhCLIOGEtSwBFYKXyEXTjJaComRa/CDN6NlH+XVGeEVm67ATbNl9RNRuA+hvKLZW8C4nqYO7G13EINrqVY6qaOF3GriLjKV2/67pKNqC7QK00R6USaqPFnEv0InXMoBMCWWKVtc3yRPLsPizfAA6TzHtQaYQZm/uI23ld9xe6MItjLvM3PXDXT8W4CUSLWphVgb+6JjGHqRIbW7a9+lnBGMvfaXgHeYwopUuwgjO8P46yGeL0wMQ6IK+VhAKWqPqxNYMYDSGJ18zRamwnVcALEC3yaiSyIODi6rXobCeVAFkwxdCQqxKRworJXw2/gdyw4HuPNtV0fPHtSnG8y2d56JLkALFGK2ozcaUbbm2YK6HWMavqAUHPTtXzLFm6yRiL4ki86Peph2Kh90R44IJLl040zKib+Jv2N9lCTtlD6WKJQmi5MiO6kuakOEyS5rmbNCr4U+1sRz2IUT0JfdSmIUOj7A82fYStkLLqqEXKaHDyrTDoXB9DDw==
 X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14c83193-f58f-4af1-675d-08d8615c1d81
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf608b50-c3c5-4903-e3bf-08d8615c6067
 X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1874.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 14:05:53.4519
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 14:07:46.7804
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+kL0UK2mYmFUmczrxksm2ysLmZzr9DG/p49t1kPcnFxl0AwWYv5m5HFX/lg+nd8JemL3mG4GJTWsCLG0KNSgKH4Wpx4ty5SwgdXTru+jgM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB4183
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gt0Or6NsnvH7r3KP4XthNo6cLIamtPb4HY4kCrWJe7ZCbpbYz0Fr0S52FCm19wa1DZA1H99zJp7LrsAhQJLnKwMcBoQAdJjBMVYaoyK1zZc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2530
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Commit c5dfc2586b41 (kernel.bbclass: run do_symlink_kernsrc before
-do_patch) fixed a race between do_symlink_kernsrc and
-do_populate_lic. However, I missed the fact that when
-externalsrc.bbclass is in use, the do_patch task doesn't exist,
-meaning that do_symlink_kernsrc now doesn't get run at all, breaking
-the build.
+On 25/09/2020 15.14, Rasmus Villemoes via lists.openembedded.org wrote:
 
-We need this task to run regardless of whether do_patch exists or not,
-so reinstate the configure->symlink_kernsrc dependency explicitly.
+> You've convinced me that changing deltask to noexec is too
+> wide-reaching, which means that I think just patch 1/4 should be
+> applied. Please consider doing that.
 
-Fixes: c5dfc2586b41 (kernel.bbclass: run do_symlink_kernsrc before
-do_patch)
-Reported-by: Chanho Park <parkch98@gmail.com>
+Or rather, please apply the v2 I just sent to update the commit log to
+reflect my new understanding.
 
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
----
-v2: update commit log to not say that externalsrc.bbclass is at fault
-for using deltask over [noexec]. Rest of the series is dropped.
-
- meta/classes/kernel.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 48135b3d41..78def5bbc1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -172,7 +172,10 @@ python do_symlink_kernsrc () {
-             shutil.move(s, kernsrc)
-             os.symlink(kernsrc, s)
- }
--addtask symlink_kernsrc before do_patch after do_unpack
-+# do_patch is normally ordered before do_configure, but
-+# externalsrc.bbclass deletes do_patch, breaking the dependency of
-+# do_configure on do_symlink_kernsrc.
-+addtask symlink_kernsrc before do_patch do_configure after do_unpack
-=20
- inherit kernel-arch deploy
-=20
---=20
-2.23.0
-
+Thanks,
+Rasmus
