@@ -1,77 +1,53 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.10117.1601045731739691960
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.10120.1601045737178337181
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2020 07:55:32 -0700
+ Fri, 25 Sep 2020 07:55:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: saul.wold@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: saul.wold@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 08PEtUjm022438
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08PEtWbA021053
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 07:55:31 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 07:55:32 -0700 (PDT)
 Received: from soho-swold-l2.corp.ad.wrs.com (147.11.14.224) by
  ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 25 Sep 2020 07:55:30 -0700
+ 14.3.487.0; Fri, 25 Sep 2020 07:55:31 -0700
 From: "Saul Wold" <Saul.Wold@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [RFC PATCH 1/2] testimage: Add testimage_dump_target to kwargs
-Date: Fri, 25 Sep 2020 07:55:28 -0700
-Message-ID: <20200925145529.588234-1-saul.wold@windriver.com>
+Subject: [RFC PATCH 2/2] target/ssh.py: Add dump_target support
+Date: Fri, 25 Sep 2020 07:55:29 -0700
+Message-ID: <20200925145529.588234-2-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200925145529.588234-1-saul.wold@windriver.com>
+References: <20200925145529.588234-1-saul.wold@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-This passes the list of commands to run on the OEQemuTarget when
-the TargetDumper needs to run in a test context due to a failure
-on the target.
+This adds the dump_target support when the ssh command fails with
+a 'No route to host'. This is will provide additional data when a
+Qemu target fails to respond during autobuilder testing. This does
+not fix 14002 [0], but may help track down why qemu looses networking
 
-This is added here as a kwargs because the 'd' dictionary is not
-available in the staticmethod getTarget in the
-OERuntimeTestContextExecutor class. The OEQemuTarget is different
-from the QemuTarget which already uses the list of commands from
-testimage_dump_target from 'd'. The create_dir() is needed to
-initialize the TargetDumper's dump_dir variable.
+[0] https://bugzilla.yoctoproject.org/show_bug.cgi?id=14002
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/classes/testimage.bbclass    | 1 +
- meta/lib/oeqa/core/target/qemu.py | 4 ++++
- 2 files changed, 5 insertions(+)
+ meta/lib/oeqa/core/target/ssh.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 00f0c29836..5a733dd8db 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -317,6 +317,7 @@ def testimage_main(d):
-     target_kwargs['powercontrol_extra_args'] = d.getVar("TEST_POWERCONTROL_EXTRA_ARGS") or ""
-     target_kwargs['serialcontrol_cmd'] = d.getVar("TEST_SERIALCONTROL_CMD") or None
-     target_kwargs['serialcontrol_extra_args'] = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
-+    target_kwargs['testimage_dump_target'] = d.getVar("testimage_dump_target") or ""
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index aefb576805..49ce28ea34 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -88,6 +88,8 @@ class OESSHTarget(OETarget):
  
-     def export_ssh_agent(d):
-         import os
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
-index 295e8765e9..0f29414df5 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -12,6 +12,7 @@ from collections import defaultdict
+         status, output = self._run(sshCmd, processTimeout, True)
+         self.logger.debug('Command: %s\nOutput:  %s\n' % (command, output))
++        if status and output in ('No route to host'):
++            self.target.target_dumper.dump_target()
+         return (status, output)
  
- from .ssh import OESSHTarget
- from oeqa.utils.qemurunner import QemuRunner
-+from oeqa.utils.dump import TargetDumper
- 
- supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
-@@ -42,6 +43,9 @@ class OEQemuTarget(OESSHTarget):
-                                  dump_host_cmds=dump_host_cmds, logger=logger,
-                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
-                                  use_ovmf=ovmf)
-+        dump_target_cmds = kwargs.get("testimage_dump_target")
-+        self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-+        self.target_dumper.create_dir("qemu")
- 
-     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
-         if self.use_slirp and not self.server_ip:
+     def copyTo(self, localSrc, remoteDst):
 -- 
 2.25.1
 
