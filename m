@@ -1,96 +1,85 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web11.6784.1601036805903388090
+Received: from mailout-afstr39.mailout.artfiles.de (mailout-afstr39.mailout.artfiles.de [212.72.187.39])
+ by mx.groups.io with SMTP id smtpd.web11.6884.1601037199776185847
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2020 05:26:46 -0700
+ Fri, 25 Sep 2020 05:33:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uHnSnBXQ;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: andrey.z@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id y194so1277666vsc.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 05:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VfUc8FUmd+x4bj+t0PV5RGPeYrfsg9FQ8u3ZDvJYM8s=;
-        b=uHnSnBXQp0N9InmKGpFFx8lK5EztZHPRNgxEKDew6kRQpYav4CPaEuRC7csK5ebHHw
-         63JJcRX9+VOpoKViI34vc+ecJVCTHLAzHCr72TJpIH+fC/BcgAh6sdsfnNQrsa5h4T1E
-         VMhVVChfRsrVlOpiRigtF3Z6/gWJp63XHm8kdbudYiU+kVgVM2UneXUMsdPFTsLTW1yr
-         fMFeZVWBlLccLcK/dS22jn/DQdOTUrBTxamNwei9I8h8bUcZyjgXQaE28QTQ8tdsJdeQ
-         ocERKciFNLF/7rRUxeZER321Fth/BXbEKCbZAL1PX0p/m6zU9PVevxl9l1KvGGuJM7+I
-         I/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VfUc8FUmd+x4bj+t0PV5RGPeYrfsg9FQ8u3ZDvJYM8s=;
-        b=OGfSmIUDhErlnu/+JtQWIcJyRvGhoc4v3ATQgdnKA5a2mEJgyRIOIyeoJVYYfVuS2u
-         Q1qyufUgvEy/A53eggI6emKntgihEpDxydsSetTrlm5CKRh3nQqwv/20/AQTE6Y+ucDj
-         +oM2luaAsDMcSVjsTElF6Q1JwBukdC3++N7hE3jF+7aMmWZ0U1AGLvSMPsXo6g8059Vh
-         6r/Ma5CQtMItZE4MynMAcDH++gaXjBILe5Sg8jO0nreDdGg/Hg0tIXbVeEyGIBchsS/y
-         FeaB4/MWETvQOfxweir7pYdx0NNFccrhErJ9p0wT7R38BCo3V+2fOByeJUn4Qb6KMlfR
-         5wpw==
-X-Gm-Message-State: AOAM5307URy60Gf4v7NdEv2DrR65gk/S374Uj0rw/2FmkcK73EiKxR3q
-	RNPF3YIY2suBbymqYhxFW/L9A/d4p5nQecoLFlYBxG+G
-X-Google-Smtp-Source: ABdhPJw0w9PR/w12FFUBm4L9t3VvKG28C7CwVxCuMinZwTUFEY1sSCwLzojhvNgwyf0ZpVZZI8Oe3U0BSJFyIUznAJA=
-X-Received: by 2002:a67:8e08:: with SMTP id q8mr2380193vsd.56.1601036805049;
- Fri, 25 Sep 2020 05:26:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
-In-Reply-To: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Fri, 25 Sep 2020 14:26:34 +0200
-Message-ID: <CAHtQpK7FZk6ZxmkiX30Mm2hg654rw=w9Wpb7-Sgvok+BwWEFPg@mail.gmail.com>
+ dkim=missing; spf=pass (domain: garz-fricke.com, ip: 212.72.187.39, mailfrom: norman.stetter@garz-fricke.com)
+Received: from [176.95.71.124] (helo=mail.garz-fricke.com)
+	auth=mx@garz-fricke.com
+	by mailout.artfiles.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.86_2)
+	id 1kLmua-0003fU-PK; Fri, 25 Sep 2020 14:33:16 +0200
+Received: from SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188]) by
+ SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188%12]) with mapi id
+ 14.03.0487.000; Fri, 25 Sep 2020 14:33:16 +0200
+From: "Norman" <norman.stetter@garz-fricke.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core][Patch] sstate.bbclass: Check file ownership before doing 'touch -a'
-To: Norman <norman.stetter@garz-fricke.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [OE-core][Patch] sstate.bbclass: Check file ownership before
+ doing 'touch -a'
+Thread-Index: AQHWkzciVmIjSmPP6kKePntvEsv/Xql5SHPQ
+Date: Fri, 25 Sep 2020 12:33:15 +0000
+Message-ID: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA1A2@SRV24.hamburg.garz-fricke.de>
+References: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
+ <CAHtQpK7FZk6ZxmkiX30Mm2hg654rw=w9Wpb7-Sgvok+BwWEFPg@mail.gmail.com>
+In-Reply-To: <CAHtQpK7FZk6ZxmkiX30Mm2hg654rw=w9Wpb7-Sgvok+BwWEFPg@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.56.33]
+x-esetresult: clean, is OK
+x-esetid: 37303A29B687C86B6C7464
+MIME-Version: 1.0
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Sep 25, 2020 at 2:19 PM Norman <norman.stetter@garz-fricke.com> wrote:
->
-> From cd51db253c1a81e47532f1afacce385e422d9a73 Mon Sep 17 00:00:00 2001
-> From: Norman Stetter <norman.stetter@garz-fricke.com>
-> Date: Fri, 25 Sep 2020 13:49:43 +0200
-> Subject: sstate.bbclass: Check file ownership before doing 'touch -a'
->
-> In contrast to 'touching' a file without parameters 'touch -a' can only be
-> performed by the file owner. In case of a shared sstate-cache served
-> locally (e.g. over NFS),  where the user running bitbake is not the
-> owner of sstate-cache files, even if he has write access on group level,
-> the sstate_unpack_package task will fail.
-
-Isn't the whole intention of using SSTATE_MIRROR to cover exactly
-those cases? I do not think that reusing sstate between different
-builders via NFS is a proper way to go.
-
-> Checking if the file is owned by the user before attempting to run
-> 'touch -a' on it solves this.
->
-> Signed-off-by: Norman Stetter <norman.stetter@garz-fricke.com>
-> ---
->  meta/classes/sstate.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 375196ef21..66a96a7603 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -847,7 +847,7 @@ python sstate_report_unihash() {
->  sstate_unpack_package () {
->         tar -xvzf ${SSTATE_PKG}
->         # update .siginfo atime on local/NFS mirror
-> -       [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
-> +       [ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
->         # Use "! -w ||" to return true for read only files
->         [ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
->         [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
-> --
-> 2.17.1
->
->
-> 
->
-
-
--- 
-Regards,
-Andrey.
+V2UgZG8gdXNlIFNTVEFURV9NSVJST1IsIHBvaW50aW5nIHRvIGEgbG9jYWxseSBtb3VudGVkIGRy
+aXZlIHRoYXQgZ2V0cyBwb3B1bGF0ZWQgYnkgQ0ktYnVpbGRzOg0KDQpTU1RBVEVfTUlSUk9SUyA9
+ICJmaWxlOi8vLiogZmlsZTovLy92YXIvY2FjaGUveW9jdG8vc3N0YXRlLWNhY2hlL1BBVEgiDQoN
+Cg0KDQo+IC0tLS0tVXJzcHLDvG5nbGljaGUgTmFjaHJpY2h0LS0tLS0NCj4gVm9uOiBBbmRyZXkg
+Wmhpemhpa2luIFttYWlsdG86YW5kcmV5LnpAZ21haWwuY29tXQ0KPiBHZXNlbmRldDogRnJpZGF5
+LCBTZXB0ZW1iZXIgMjUsIDIwMjAgMjoyNyBQTQ0KPiBBbjogTm9ybWFuIFN0ZXR0ZXIgPE5vcm1h
+bi5TdGV0dGVyQGdhcnotZnJpY2tlLmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gQmV0cmVmZjogUmU6IFtPRS1jb3JlXVtQYXRjaF0gc3N0YXRl
+LmJiY2xhc3M6IENoZWNrIGZpbGUgb3duZXJzaGlwIGJlZm9yZQ0KPiBkb2luZyAndG91Y2ggLWEn
+DQo+IA0KPiBPbiBGcmksIFNlcCAyNSwgMjAyMCBhdCAyOjE5IFBNIE5vcm1hbiA8bm9ybWFuLnN0
+ZXR0ZXJAZ2Fyei1mcmlja2UuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEZyb20gY2Q1MWRiMjUz
+YzFhODFlNDc1MzJmMWFmYWNjZTM4NWU0MjJkOWE3MyBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIw
+MDENCj4gPiBGcm9tOiBOb3JtYW4gU3RldHRlciA8bm9ybWFuLnN0ZXR0ZXJAZ2Fyei1mcmlja2Uu
+Y29tPg0KPiA+IERhdGU6IEZyaSwgMjUgU2VwIDIwMjAgMTM6NDk6NDMgKzAyMDANCj4gPiBTdWJq
+ZWN0OiBzc3RhdGUuYmJjbGFzczogQ2hlY2sgZmlsZSBvd25lcnNoaXAgYmVmb3JlIGRvaW5nICd0
+b3VjaCAtYScNCj4gPg0KPiA+IEluIGNvbnRyYXN0IHRvICd0b3VjaGluZycgYSBmaWxlIHdpdGhv
+dXQgcGFyYW1ldGVycyAndG91Y2ggLWEnIGNhbg0KPiA+IG9ubHkgYmUgcGVyZm9ybWVkIGJ5IHRo
+ZSBmaWxlIG93bmVyLiBJbiBjYXNlIG9mIGEgc2hhcmVkIHNzdGF0ZS1jYWNoZQ0KPiA+IHNlcnZl
+ZCBsb2NhbGx5IChlLmcuIG92ZXIgTkZTKSwgIHdoZXJlIHRoZSB1c2VyIHJ1bm5pbmcgYml0YmFr
+ZSBpcyBub3QNCj4gPiB0aGUgb3duZXIgb2Ygc3N0YXRlLWNhY2hlIGZpbGVzLCBldmVuIGlmIGhl
+IGhhcyB3cml0ZSBhY2Nlc3Mgb24gZ3JvdXANCj4gPiBsZXZlbCwgdGhlIHNzdGF0ZV91bnBhY2tf
+cGFja2FnZSB0YXNrIHdpbGwgZmFpbC4NCj4gDQo+IElzbid0IHRoZSB3aG9sZSBpbnRlbnRpb24g
+b2YgdXNpbmcgU1NUQVRFX01JUlJPUiB0byBjb3ZlciBleGFjdGx5IHRob3NlDQo+IGNhc2VzPyBJ
+IGRvIG5vdCB0aGluayB0aGF0IHJldXNpbmcgc3N0YXRlIGJldHdlZW4gZGlmZmVyZW50IGJ1aWxk
+ZXJzIHZpYSBORlMgaXMNCj4gYSBwcm9wZXIgd2F5IHRvIGdvLg0KPiANCj4gPiBDaGVja2luZyBp
+ZiB0aGUgZmlsZSBpcyBvd25lZCBieSB0aGUgdXNlciBiZWZvcmUgYXR0ZW1wdGluZyB0byBydW4N
+Cj4gPiAndG91Y2ggLWEnIG9uIGl0IHNvbHZlcyB0aGlzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1i
+eTogTm9ybWFuIFN0ZXR0ZXIgPG5vcm1hbi5zdGV0dGVyQGdhcnotZnJpY2tlLmNvbT4NCj4gPiAt
+LS0NCj4gPiAgbWV0YS9jbGFzc2VzL3NzdGF0ZS5iYmNsYXNzIHwgMiArLQ0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1n
+aXQgYS9tZXRhL2NsYXNzZXMvc3N0YXRlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvc3N0YXRlLmJi
+Y2xhc3MNCj4gPiBpbmRleCAzNzUxOTZlZjIxLi42NmE5NmE3NjAzIDEwMDY0NA0KPiA+IC0tLSBh
+L21ldGEvY2xhc3Nlcy9zc3RhdGUuYmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9zc3Rh
+dGUuYmJjbGFzcw0KPiA+IEBAIC04NDcsNyArODQ3LDcgQEAgcHl0aG9uIHNzdGF0ZV9yZXBvcnRf
+dW5paGFzaCgpIHsNCj4gPiBzc3RhdGVfdW5wYWNrX3BhY2thZ2UgKCkgew0KPiA+ICAgICAgICAg
+dGFyIC14dnpmICR7U1NUQVRFX1BLR30NCj4gPiAgICAgICAgICMgdXBkYXRlIC5zaWdpbmZvIGF0
+aW1lIG9uIGxvY2FsL05GUyBtaXJyb3INCj4gPiAtICAgICAgIFsgLXcgJHtTU1RBVEVfUEtHfS5z
+aWdpbmZvIF0gJiYgWyAtaCAke1NTVEFURV9QS0d9LnNpZ2luZm8gXSAmJiB0b3VjaA0KPiAtYSAk
+e1NTVEFURV9QS0d9LnNpZ2luZm8NCj4gPiArICAgICAgIFsgLU8gJHtTU1RBVEVfUEtHfS5zaWdp
+bmZvIF0gJiYgWyAtdyAke1NTVEFURV9QS0d9LnNpZ2luZm8gXQ0KPiA+ICsgJiYgWyAtaCAke1NT
+VEFURV9QS0d9LnNpZ2luZm8gXSAmJiB0b3VjaCAtYSAke1NTVEFURV9QS0d9LnNpZ2luZm8NCj4g
+PiAgICAgICAgICMgVXNlICIhIC13IHx8IiB0byByZXR1cm4gdHJ1ZSBmb3IgcmVhZCBvbmx5IGZp
+bGVzDQo+ID4gICAgICAgICBbICEgLXcgJHtTU1RBVEVfUEtHfSBdIHx8IHRvdWNoIC0tbm8tZGVy
+ZWZlcmVuY2UgJHtTU1RBVEVfUEtHfQ0KPiA+ICAgICAgICAgWyAhIC13ICR7U1NUQVRFX1BLR30u
+c2lnIF0gfHwgWyAhIC1lICR7U1NUQVRFX1BLR30uc2lnIF0gfHwNCj4gPiB0b3VjaCAtLW5vLWRl
+cmVmZXJlbmNlICR7U1NUQVRFX1BLR30uc2lnDQo+ID4gLS0NCj4gPiAyLjE3LjENCj4gPg0KPiA+
+DQo+ID4gDQo+ID4NCj4gDQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiBBbmRyZXkuDQo=
