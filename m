@@ -1,95 +1,62 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.3883.1601025732633782364
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.4250.1601027451958095633
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2020 02:22:13 -0700
+ Fri, 25 Sep 2020 02:50:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VOHR0ze8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id q9so2312148wmj.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 02:22:12 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=WDvTmCeN;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.194, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f194.google.com with SMTP id s205so1931969lja.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 02:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=trNzcRV66pcZg+Pd1NKlYpo0YKOaDiGdMfGi8bA0c2g=;
-        b=VOHR0ze8b6JTJt0S56LxdhWOsPFOyjesmaAqkg0Dc3hW46ZpCtyzKykaIECB3iNZqA
-         yAKbP2VEOKET/VUbxxDSiN8j9kLS2alRcEqDKBdzy0qj4jUNIbpNHv9ayicdjZg+N12M
-         6k+3P42CqpGk7hi07UcBeClmrpTtYtkiWt0U8=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gTaTDOU/Ycz1LOWAV/iAiiFGbq+EGxBniUdOEnphR/I=;
+        b=WDvTmCeNL2mfOGcUPUzlpevKu9+AqBzTSgffEbBjj24iRnJB0l0NrNyqlWjMOTtxV2
+         z9gpRZldosZ9adyrFSOcS7eMGpUwqMY6by2RmG7nSJO7V5EPnFQ7d5YumCjCDYdd+ybm
+         ZP9l8XHtPHYt5/EKBaql8VsnlPj5j6EIzvsh5P6K9fZt2ktL8VXhBEsVnuRF9oYHnqod
+         +fR6/PMpCBHvw6n3JMTsgx+fZbRx80rf/+wUB6T6ZC/w5xxpfP3WKZGh2VMJeD6w1/ig
+         Zxty/QBHiG7pGP9edheUOtha8Jlc0vRO3EeMo4HJKe6LntTxJBenKvxQQjMLkNBLi5wC
+         nuIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=trNzcRV66pcZg+Pd1NKlYpo0YKOaDiGdMfGi8bA0c2g=;
-        b=GF/sunqmyohc+ars7vMYuu+aZooI01SU7BlFgjubo8TpNZoOkEX1RPZrQWo5PrjWFx
-         uItxUjWjdX8w4Cg08VN2hQKTkBIlef5CBz1SdoeJNu4p0r2wbBxXEgxgVeHmNGH6od2k
-         mxDLXMiVZ36gVGuQyPMRk8+lTBpABhTghKsxbzpt9vM9rzsr+/1bcqXqT+pepHlXl0Yc
-         w/cmkds60dmGsWKk0xTozmx+GmQdMuvF6cqKr1myauC9fLQryxB9WcK628I96/sfErMS
-         rgEeXSj6axrUt47LSke+R1W6HHwDGel3W/k2t0r1J2SmAs4TPwFUwS3x7upTQ642mjOo
-         gAzA==
-X-Gm-Message-State: AOAM532HVVMnBUR/j+qT/VmP44rbwE6mnGrdAX59rToMfiFIzSwOeY7S
-	fjgftcQ+xLzPfgjlVw4yDdPsLg==
-X-Google-Smtp-Source: ABdhPJy3ZIP40qF39aO0M/N0Gnq/d5w6m2z6Yc82/np7+/g3iLhU1q0XYGoWMeLzcDtO/kuSBR/fbw==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr2166029wmb.155.1601025730869;
-        Fri, 25 Sep 2020 02:22:10 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.2.7.5.8.3.b.f.6.2.f.6.c.b.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.2.7.5.8.3.b.f.6.2.f.6.c.b.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:90bc:6f26:fb38:5724])
-        by smtp.gmail.com with ESMTPSA id 70sm2240815wmb.41.2020.09.25.02.22.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 02:22:10 -0700 (PDT)
-Message-ID: <4a415c1606881f5f2786a51405c46b978443ba73.camel@linuxfoundation.org>
-Subject: Re: [RFC PATCH 0/4] fix externalsrc task dependency issues
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
-	openembedded-core@lists.openembedded.org
-Cc: parkch98@gmail.com, Steve Sakoman <steve@sakoman.com>
-Date: Fri, 25 Sep 2020 10:22:07 +0100
-In-Reply-To: <bf1062de-a95d-591c-151d-b25e55d7a3cf@prevas.dk>
-References: <20200922151518.1615-1-rasmus.villemoes@prevas.dk>
-	 <bf1062de-a95d-591c-151d-b25e55d7a3cf@prevas.dk>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gTaTDOU/Ycz1LOWAV/iAiiFGbq+EGxBniUdOEnphR/I=;
+        b=ajoBRAvoMTim8ewun46OC89XHZwFNjrLcm7MKodFsBkqv2j5xQsztz2YkNyBsj2RG8
+         hBgkN8a4d3nLoQy/h07wYIX+y5MuRG16EPjcBwrYpT4v+rHk1EGytWo2DdXXooTf8S1u
+         zIv5CiZYz4Heh6lFgt19C2a/KHXWCaHNF+1tGbQYVM727xk2Qq43OEnQNslqw7Lo5GqP
+         1ju/dY1q9lgb3Dg7kpXfHkSs+mHzshMIOTJbqOSOU/wPtJnappAEtJVfj2DjQgLCTMF3
+         hGD5gLRgbCaLaSLn1J3Wk7nERP0GSzFjS4UtoAtYFNDbhhlhZnjAxxrZEo4Kbq/YzKhD
+         K49Q==
+X-Gm-Message-State: AOAM530A+aO6snqlXnKdkn4jaw4803FD9OPMfQWdcViajhHWNJzRZtMq
+	zuZybpiDIgTepIfOgaQqqELJ8PsOBGIGYle8kka++Q==
+X-Google-Smtp-Source: ABdhPJwPe09oSaKLYMdUnlo1+4xfFT5wjs49ykDxfta9KnZFvfyEf2ex9YuRyvPDTUeIOq8gypTaGJIwKitYTv3qRz8=
+X-Received: by 2002:a2e:b386:: with SMTP id f6mr1128523lje.186.1601027449857;
+ Fri, 25 Sep 2020 02:50:49 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200924195800.4164634-1-otavio@ossystems.com.br> <ca282af3-dcce-5d2a-3d4f-96068ec33ec7@embed.me.uk>
+In-Reply-To: <ca282af3-dcce-5d2a-3d4f-96068ec33ec7@embed.me.uk>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 25 Sep 2020 10:50:39 +0100
+Message-ID: <CAAnfSTutBRBc7aoSPe0+CTUSW=aVP1t_EEJmdFDiy+iZ8UOfmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] openssh: Allow enable/disable of rng-tools recommendation on sshd
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Otavio Salvador <otavio.salvador@gmail.com>, 
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio@ossystems.com.br>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-09-25 at 11:06 +0200, Rasmus Villemoes wrote:
-> On 22/09/2020 17.15, Rasmus Villemoes wrote:
-> > This is all entirely untested, hence RFC. But if this doesn't work
-> > for
-> > some reason, I think externalsrc.bbclass should grow some comments
-> > as
-> > to why deltask is used instead of the noexec flag.
-> > 
-> > Patch 4 is a revert of patch 1, but I did it that way to facilitate
-> > backporting, in case patch 2 is too dangerous for backporting. If
-> > that
-> > is considered safe enough, it should be enough to apply patch 2 to
-> > avoid the churn. In any case, patch 3 is just a little
-> > simplification
-> > made possible by patch 2.
-> > 
-> > 
-> 
-> Ping. Chanho, can you tell if this would fix the externalsrc problem?
-> Richard, any comments on the deltask vs noexec usage?
+On Fri, 25 Sep 2020 at 09:51, Jack Mitchell <ml@embed.me.uk> wrote:
+> While rng-tools has also been causing havoc with my images as it seems
+> ARM soc support for whatever underlying generator it uses is spotty,
+> this seems to be an abuse of packageconfig. Would something like:
+>
+> BAD_RECOMMENDATIONS_pn-openssh = "rng-tools"
+>
+> Not perform the same function?
 
-You started this patchset with "This is all entirely untested" which
-I'm afraid made me rather nervous. Much as I'd love to, I don't have
-time to debug every patch series people send.
+It would, but I don't see this being an abuse of PACKAGECONFIG at all.
+It's a configuration option that is configuring the package.
 
-I'm fairly sure the deltask vs. noexec was deliberate and Paul and I
-went around in circles on this several times.
-
-I have some memory that at least part of the problem was usability. If
-someone can "see" the task in listtasks and trys to run it but nothing
-happens, its very confusing for the user. By deleting it, we make it
-very clear its not there.
-
-I think there were technical issues as well, such as recipes which
-inject other tasks between unpack and patch. We needed to stop those
-other tasks running too which deltasks does effectively, noexec would
-not.
-
-Cheers,
-
-Richard
-
+Ross
