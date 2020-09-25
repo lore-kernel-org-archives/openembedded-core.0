@@ -1,94 +1,72 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.6367.1601035806057429040
+Received: from mailout-afstr39.mailout.artfiles.de (mailout-afstr39.mailout.artfiles.de [212.72.187.39])
+ by mx.groups.io with SMTP id smtpd.web11.6638.1601036347720136600
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2020 05:10:06 -0700
+ Fri, 25 Sep 2020 05:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=QTfe9NBQ;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f195.google.com with SMTP id b2so1589330qtp.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 05:10:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NVz5wv1JUD+C/8CK4nT8Svyt68IcwUQ0JUNHUfoolJI=;
-        b=QTfe9NBQU5Xvt3r80T8XjHXtWbcrGALIE4wFCDoRs+rtlz6jZYDfc9Dckb4pVZRz4a
-         uLuulaPtIJRma2IU2klqRx9w8cyxZK0Y9U8RxBVHvl+qBgOumthKZS/nbJW6xeK6eSlN
-         s/+2ItnBvWlvvx382Qtrvdf87MyTunKgW9yKbrq5BqvuSF2gGQ9OHct6K3wROJkS1MG+
-         T/OYCmELTKCapWH7R7g/D+8EVRiP1KCP1s8wYXT+IddVujYVwbcFGAHNWp/hs4PlV6aK
-         0ohgtBMf76sUf9kr/a9cZcn2dsa320htwUOugI0xko2SrsreePhEo/xlZkn+5sd/CRc9
-         bvUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NVz5wv1JUD+C/8CK4nT8Svyt68IcwUQ0JUNHUfoolJI=;
-        b=hFEifa+RTn7HrRfPJaWoNrZLsHr01tTrF3LrrJGcnwCkN6Un8B90RQQYSEXWpVCkrl
-         HoQiCTA46u+2MfQTSyt6cvkcaWgoxMmrqV1uJw6jhW7eKK2+OTH5FhdG2RvBS0z7+xJ0
-         36sX4CLFzsybLFhAEiTfKJlHMsavpLTSptEHzXiAxzbRHjhgZnDnTLtTnWAU+Ed32O62
-         DMUWbwfZSrq146gSgKkl98GB7h0j8Lo3RHawBa17QKd6N/o+TTSaF0eVxx2UWEjKFr1v
-         oWLDoU5grGiZejPHilcZL9tBPHJwQZ/0NBYO5bKth4rtkDRdg5zudajimXY6WUA4+wDo
-         NejQ==
-X-Gm-Message-State: AOAM530uJp04dklO3/yWnOXHdFKGh7P71FsQ3fpkphAluY+uafarjjlp
-	FiAjorvzyfqpU0cbc4plGpLc6pYqT3NJ6lyB
-X-Google-Smtp-Source: ABdhPJxNTKnAFixw20/y0X4BSL1oYSq8kD7+e4oeB9zn5SDU/KMZXzlfvCkQaShd17zSzIVbI+u47w==
-X-Received: by 2002:ac8:35ee:: with SMTP id l43mr3989740qtb.169.1601035804560;
-        Fri, 25 Sep 2020 05:10:04 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
-        by smtp.gmail.com with ESMTPSA id j6sm1703503qtn.97.2020.09.25.05.10.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2020 05:10:03 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f171.google.com with SMTP id e7so1576841qtj.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2020 05:10:03 -0700 (PDT)
-X-Received: by 2002:aed:3442:: with SMTP id w60mr4103829qtd.100.1601035803055;
- Fri, 25 Sep 2020 05:10:03 -0700 (PDT)
+ dkim=missing; spf=pass (domain: garz-fricke.com, ip: 212.72.187.39, mailfrom: norman.stetter@garz-fricke.com)
+Received: from [176.95.71.124] (helo=mail.garz-fricke.com)
+	auth=mx@garz-fricke.com
+	by mailout.artfiles.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.86_2)
+	id 1kLmgr-0001UU-88
+	for openembedded-core@lists.openembedded.org; Fri, 25 Sep 2020 14:19:05 +0200
+Received: from SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188]) by
+ SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188%12]) with mapi id
+ 14.03.0487.000; Fri, 25 Sep 2020 14:19:04 +0200
+From: "Norman" <norman.stetter@garz-fricke.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [OE-core][Patch] sstate.bbclass: Check file ownership before doing 'touch -a'
+Thread-Topic: [OE-core][Patch] sstate.bbclass: Check file ownership before
+ doing 'touch -a'
+Thread-Index: AdaTNg6KmGWdkYBDQgCFbiasobrQEw==
+Date: Fri, 25 Sep 2020 12:19:04 +0000
+Message-ID: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.56.33]
+x-esetresult: clean, is OK
+x-esetid: 37303A29B687C86B6C7464
 MIME-Version: 1.0
-References: <20200924195800.4164634-1-otavio@ossystems.com.br> <CAAnfSTvrT7_40JPPpeNM7eJouLK7e0VELGRMHgd-VjKSfa+y5Q@mail.gmail.com>
-In-Reply-To: <CAAnfSTvrT7_40JPPpeNM7eJouLK7e0VELGRMHgd-VjKSfa+y5Q@mail.gmail.com>
-Date: Fri, 25 Sep 2020 09:09:50 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrN1AyavUxUqEW0HaGGMVZ1SygLVy88zrFFEKUScELoGg@mail.gmail.com>
-Message-ID: <CAP9ODKrN1AyavUxUqEW0HaGGMVZ1SygLVy88zrFFEKUScELoGg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssh: Allow enable/disable of rng-tools recommendation on sshd
-To: Ross Burton <ross@burtonini.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: de-DE
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Em sex., 25 de set. de 2020 =C3=A0s 06:58, Ross Burton <ross@burtonini.com>=
- escreveu:
-> On Thu, 24 Sep 2020 at 20:58, Otavio Salvador <otavio.salvador@gmail.com>=
- wrote:
-> > We are adding a new PACKAGECONFIG option ('rng-tools') to control if we
-> > wish the openssh-sshd to RRECOMMENDS the 'rng-tools' package. We are
-> > enabling it by default so there is no behavior change.
->
-> Is this fundamentally because many targets now have hardware RNGs that
-> the kernel is using, and so rng-tools serves no purpose?
->
-> This was originally added with data from iMX6 (oe-core
-> 9b01375236e19e3366c58877c4154d7c71632984) and I'm curious if this
-> followup is related to other improvements that have been made to iMX6
-> since. Is there a better user space tool, or is the kernel using the
-> hardware RNG out of the box?
+From cd51db253c1a81e47532f1afacce385e422d9a73 Mon Sep 17 00:00:00 2001
+From: Norman Stetter <norman.stetter@garz-fricke.com>
+Date: Fri, 25 Sep 2020 13:49:43 +0200
+Subject: sstate.bbclass: Check file ownership before doing 'touch -a'
 
-Exactly, we can use it from the kernel and most of time it is of no-use.
+In contrast to 'touching' a file without parameters 'touch -a' can only be
+performed by the file owner. In case of a shared sstate-cache served
+locally (e.g. over NFS),  where the user running bitbake is not the
+owner of sstate-cache files, even if he has write access on group level,
+the sstate_unpack_package task will fail.
+Checking if the file is owned by the user before attempting to run
+'touch -a' on it solves this.
 
-> I ask because I'm strongly tempted to argue that we should be assuming
-> that a RNG is available and let BSPs turn this on if required.
+Signed-off-by: Norman Stetter <norman.stetter@garz-fricke.com>
+---
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I added this enabled by default so we can backport it to Dunfell (as
-it won't change the current behavior). For master, we can turn it off
-and let distro to enable it if need.
-
-I'd like to get this one merged first (and send the backport request)
-and then I can send a patch to disable it.
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 375196ef21..66a96a7603 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -847,7 +847,7 @@ python sstate_report_unihash() {
+ sstate_unpack_package () {
+ 	tar -xvzf ${SSTATE_PKG}
+ 	# update .siginfo atime on local/NFS mirror
+-	[ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a =
+${SSTATE_PKG}.siginfo
++	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SS=
+TATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+ 	# Use "! -w ||" to return true for read only files
+ 	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
+ 	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-de=
+reference ${SSTATE_PKG}.sig
 --=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.17.1
+
