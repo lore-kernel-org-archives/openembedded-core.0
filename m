@@ -1,77 +1,81 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web10.11819.1601128064432266271
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web12.12205.1601129312531739606
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Sep 2020 06:47:45 -0700
+ Sat, 26 Sep 2020 07:08:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=qsOn3ROQ;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.193, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f193.google.com with SMTP id 16so5941461qkf.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2020 06:47:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=b7y+GTYp;
+ spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f67.google.com with SMTP id q4so999648pjh.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2020 07:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zrl3gszFSBdgcnah4V1olAXenEyfJ51qR5/c9sI2qDE=;
-        b=qsOn3ROQ9kh6Qx1jPJFgSOPJUJuOQoixMlJbkbY/zzgV6HzmPAgad73C9cGjgmu+Iy
-         crMDAqTb7MZIl/d+h8BoPUcJ7jtAEtiVC9CZgrtv5zIm7i5TAlLoxyG4PjjdIg8V9Yqx
-         8X0ZG9JI5LlPnOkoSM/XURJzpXYlsOvcC8+0RmZMmZX4oBvt9HTapVQ4ac+2Iw/U3ga/
-         arFiBQ0OyYWg29pAvsZCJG2ag+eQ4st4EKJTUzWU1SPQ9ZjpQP6t01MYHIk/bqvK5miU
-         jqyClUoQA33GFGRCo2Dnu1p/t+T0tYKUmiRjkVA3xIDO5GpmcSyMh6a8aTwY2v6eaNm3
-         S72Q==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vtn3BtTQV2TQ5jzBKweEAVSYGylpguLtW4ocz1sFNt8=;
+        b=b7y+GTYp/x8S/ZfMLPBjC2xxe2Z//qbdztWp2Llyjh8RzkQsWCl7liPVHChn3pP9d8
+         KO7KP1WSJF5K6GiB4bNZ5ivjUmWp4viPECM153WmGyzoo1xkQOV391+naqJWzjw9LXUm
+         qtOctH3/8cX2YpL00AS2XVeiYg8X2rfkvCiwbZzDzkQBWksYtGCWND88d7t/imNxMbGF
+         5tetaw2dfRaYP7btH0IHt3BFlpOSO1lvpaROytw1ZvPLyYY+NCVC5uwSDMp2XgAs3cn2
+         Q3sejlKEL1Sjvg9LvhswtuXqW4yaC+0yycaO50xhXl3D1Q8/VAjE5wDA4iUuJpkCBB/z
+         0Z9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zrl3gszFSBdgcnah4V1olAXenEyfJ51qR5/c9sI2qDE=;
-        b=ewBpF7Oq9+57nRbgZTZcNxJmaan7/g9dWMAn62sjPEHAAbVDXbs27kjykabL+J+oGu
-         11I/RP+McZAu1d72H6DvauyfLu03QNGw090ehPbw9XgYN7ep8EKGVtpExjWYx2TXe4ql
-         vsxQ30LGcYHC91VrgPiZSw8+Yv2x/UzebCKbcGKZm23NA9LMw4Amuf8jKAzvy16vUAEr
-         Lz9BxWWllxDNKfev5CoYc1lInadsv3CON8vRLsb43kEIFFi538JPMLLdjTAfq6KiFqW+
-         jJzwtYxKV009muwd7VIKFk93MQQk7YAUZIb5LEATQexHVt6c3Qm7T51936yo5cGqFcWA
-         nfVA==
-X-Gm-Message-State: AOAM531ruCf2yyeV/wolScjWa9QCNlyAorCE5rkb6+LOrBL4N0p+HYVn
-	HKt7ygxUi3/mMSb9y9dn/AxvLcN3VfUXyAsg
-X-Google-Smtp-Source: ABdhPJzENTDWnpVs2w0d0lUsV4uW1mqurdEZST6K4uM7AkEBwBGOfFMRkEoy9Yyma9VlsJP+4hsmuQ==
-X-Received: by 2002:a05:620a:5b8:: with SMTP id q24mr4586468qkq.492.1601128063362;
-        Sat, 26 Sep 2020 06:47:43 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
-        by smtp.gmail.com with ESMTPSA id f127sm4038911qke.133.2020.09.26.06.47.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2020 06:47:42 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f177.google.com with SMTP id q5so5965515qkc.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2020 06:47:42 -0700 (PDT)
-X-Received: by 2002:a37:5008:: with SMTP id e8mr4672647qkb.247.1601128061821;
- Sat, 26 Sep 2020 06:47:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vtn3BtTQV2TQ5jzBKweEAVSYGylpguLtW4ocz1sFNt8=;
+        b=YZwL4tSe5dnxaZbKsCwWqP6CYO14unk+r6ELuw9PiK+vdy81xsUH0V8PSQY2lT/v88
+         MDLM0EDB9YvivyX6Q9RsxbSfPtbafHo+fcQ5JTW/WO8iaYRkQVEjFKC0xZFAHfrLCsTM
+         /ifm7ESU8BSw0VApTuATZTQXTb6oVXXO37nLGdfw6brM6BVdG9zl2DTzByhSLTGRMn3e
+         p+DcX7MPg9oxJc7iiihjw3nIhNbBtMDc/ZN3+j7JT3YqxopnNEzYbgdrF/PA8MGZieK8
+         a2x9QsvfWTzJfvpH5knnRu5bvohA3f4/m+sXTVqtiwcB6qvoLP6CXPA9Lj4l8ZabIULc
+         uRbg==
+X-Gm-Message-State: AOAM533oLOqqarg06S1s+bh9m6QN6c1iNQ4bL8VilHSnl6+jrZya1Xdv
+	2MLBPsDQuEAFP1SiezTdr7F5kdsTdtlL6A==
+X-Google-Smtp-Source: ABdhPJyCprVlAbXAQcM70kyq6s6ntJBk9rAZ7hUlF9+ZZTqcBqb8Uwl+6nxnZ1mvh5K4jp2fMqgOcQ==
+X-Received: by 2002:a17:90b:117:: with SMTP id p23mr2215541pjz.67.1601129311549;
+        Sat, 26 Sep 2020 07:08:31 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d92c])
+        by smtp.gmail.com with ESMTPSA id d6sm2145709pjw.0.2020.09.26.07.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2020 07:08:31 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ptest-runner: Backport patch to fix inappropriate ioctl error
+Date: Sat, 26 Sep 2020 07:08:26 -0700
+Message-Id: <20200926140826.2546826-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200926105309.2288615-1-pab@pabigot.com>
-In-Reply-To: <20200926105309.2288615-1-pab@pabigot.com>
-Date: Sat, 26 Sep 2020 10:47:30 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrJ8TRuTUXqJw9hNGwVrLMeVJfFKiA0CkkNMyePE9NfFA@mail.gmail.com>
-Message-ID: <CAP9ODKrJ8TRuTUXqJw9hNGwVrLMeVJfFKiA0CkkNMyePE9NfFA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] go-mod.bbclass: use append to add `modcacherw`
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em s=C3=A1b., 26 de set. de 2020 =C3=A0s 07:53, Peter A. Bigot <pab@pabigot=
-.com> escreveu:
->
-> This class provided default build flags but includes the base go class
-> which also provides default flags.  Use a different mechanism to
-> extend the default flags without discarding `-trimpath` from the base
-> class.
->
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+The srcrev bump is actually bring single commit [1] on top of 2.4.0 which fixes ptest
+runs with messges like
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+ERROR: Unable to detach from controlling tty, Inappropriate ioctl for device
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+[1] https://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/commit/?id=834670317bd3f6e427e1ac461c07ada6b8936dfd
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+index 0a3186dac4..10b4c5b6a4 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "1e9a84585909b970cc8850d3ea02a7215dcfa5a3"
+-PV = "2.4.0+git${SRCPV}"
++SRCREV = "834670317bd3f6e427e1ac461c07ada6b8936dfd"
++PV .= "+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+ "
+-- 
+2.28.0
+
