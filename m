@@ -1,53 +1,72 @@
-Received: from p3plsmtpa11-10.prod.phx3.secureserver.net (p3plsmtpa11-10.prod.phx3.secureserver.net [68.178.252.111])
- by mx.groups.io with SMTP id smtpd.web10.9172.1601117620383929068
- for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Sep 2020 03:53:40 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pabigot.com, ip: 68.178.252.111, mailfrom: pab@pabigot.com)
-Received: from tirzah.pab ([73.65.46.39])
-	by :SMTPAUTH: with ESMTPSA
-	id M7pikCXpi39zVM7pjkpZt9; Sat, 26 Sep 2020 03:53:39 -0700
-X-CMAE-Analysis: v=2.3 cv=AfHP4EfG c=1 sm=1 tr=0
- a=G5fDw918NYv3KufUwDvNPg==:117 a=G5fDw918NYv3KufUwDvNPg==:17 a=tR03Z30jAAAA:8
- a=w8xWLukNAOQrsqd2yfAA:9 a=KfdqL2KK0gLj6ZZCE6RX:22
-X-SECURESERVER-ACCT: pab@pabigot.com
-From: "Peter A. Bigot" <pab@pabigot.com>
+Subject: Re: [PATCH] sysvinit rc: Use PSPLASH_FIFO_DIR for progress fifo
 To: openembedded-core@lists.openembedded.org
-Cc: otavio@ossystems.com.br,
-	"Peter A. Bigot" <pab@pabigot.com>
-Subject: [PATCH] go-mod.bbclass: use append to add `modcacherw`
-Date: Sat, 26 Sep 2020 05:53:09 -0500
-Message-Id: <20200926105309.2288615-1-pab@pabigot.com>
-X-Mailer: git-send-email 2.25.1
+From: mihai.lindner@gmail.com
+X-Originating-Location: Bucharest, Bucuresti, RO (86.121.199.28)
+X-Originating-Platform: Linux Chrome 85
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfILczbs9eb/KMqIlt3GixfuQ3XfKdwk4zlt8ltbNK8YX265x6RDm7Ezg5IwKrqJC55UwTIRUbKu+oLUl/8tKC92GKqnSpjv4MG1u4OwwSd6ff4xSRKqE
- MEJOu6e9db4MgckA1midZCgS+xM7ooe4Wy9pYL7+t+ZJR/9NDzuY/GCAIOx0NqbJrZ8NpbOOQShKXOIboLxRQUfY2Pq++rnGcga7RjajmiUXJAamR9XwoHMW
- yhVkaygkhaBw1bZPFcFDKg==
-Content-Transfer-Encoding: 8bit
+Date: Sat, 26 Sep 2020 04:27:52 -0700
+References: <20200829030901.488431-1-mgloff@emacinc.com>
+In-Reply-To: <20200829030901.488431-1-mgloff@emacinc.com>
+Message-ID: <27286.1601119672816825649@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This class provided default build flags but includes the base go class
-which also provides default flags.  Use a different mechanism to
-extend the default flags without discarding `-trimpath` from the base
-class.
+Please backport this to dunfell.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- meta/classes/go-mod.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
+Mihai
 
-diff --git a/meta/classes/go-mod.bbclass b/meta/classes/go-mod.bbclass
-index 5871d025067..cabb04d0ec0 100644
---- a/meta/classes/go-mod.bbclass
-+++ b/meta/classes/go-mod.bbclass
-@@ -12,7 +12,7 @@
- 
- # The '-modcacherw' option ensures we have write access to the cached objects so
- # we avoid errors during clean task as well as when removing the TMPDIR.
--export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -modcacherw"
-+GOBUILDFLAGS_append = " -modcacherw"
- 
- inherit go
- 
--- 
-2.25.1
+On Sat, Aug 29, 2020 at 06:09 AM, Michael Gloff wrote:
 
+>
+> psplash expects the fifo to be in /run or specified
+> by PSPLASH_FIFO_DIR. This patch allows psplash to
+> quit normally. Also, fix the work around of using
+> echo directly into the fifo and use psplash-write.
+>=20
+> Signed-off-by: Michael Gloff <mgloff@emacinc.com>
+> ---
+>  meta/recipes-core/sysvinit/sysvinit/rc | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/sysvinit/sysvinit/rc
+> b/meta/recipes-core/sysvinit/sysvinit/rc
+> index 7ca41ae1ae..fd1fdd26ba 100755
+> --- a/meta/recipes-core/sysvinit/sysvinit/rc
+> +++ b/meta/recipes-core/sysvinit/sysvinit/rc
+> @@ -26,11 +26,8 @@ startup_progress() {
+>          progress=3D$progress_size
+>      fi
+>      #echo "PROGRESS is $progress $runlevel $first_step + ($step of
+> $num_steps) $step_change $progress_size"
+> -    #if type psplash-write >/dev/null 2>&1; then
+> -    #    TMPDIR=3D/mnt/.psplash psplash-write "PROGRESS $progress" || t=
+rue
+> -    #fi
+> -    if [ -e /mnt/.psplash/psplash_fifo ]; then
+> -        echo "PROGRESS $progress" > /mnt/.psplash/psplash_fifo
+> +    if type psplash-write >/dev/null 2>&1; then
+> +        PSPLASH_FIFO_DIR=3D/mnt/.psplash psplash-write "PROGRESS $progr=
+ess" ||
+> true
+>      fi
+>  }
+>  
+> @@ -176,7 +173,7 @@ startup() {
+>  #Uncomment to cause psplash to exit manually, otherwise it exits when i=
+t sees
+> a VC switch
+>  if [ "x$runlevel" !=3D "xS" ] && [ ! -x /etc/rc${runlevel}.d/S??xserver=
+-nodm ];
+> then
+>      if type psplash-write >/dev/null 2>&1; then
+> -        TMPDIR=3D/mnt/.psplash psplash-write "QUIT" || true
+> +        PSPLASH_FIFO_DIR=3D/mnt/.psplash psplash-write "QUIT" || true
+>      	umount -l /mnt/.psplash
+>      fi
+>  fi
+> --=20
+> 2.28.0
+>=20
+>
