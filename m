@@ -1,128 +1,59 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.41682.1601311884487442190
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+ by mx.groups.io with SMTP id smtpd.web10.41538.1601312168757204665
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2020 09:51:24 -0700
+ Mon, 28 Sep 2020 09:56:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jg6RfbEC;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id p9so9509090ejf.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:51:24 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=o94/lPuC;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.66, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f66.google.com with SMTP id y2so2086560lfy.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Ok2GIPaSl6NpqxKvxf7fAjrIBDeTxGgoYfFxoFSi4Q=;
-        b=Jg6RfbEC0isW0I+mhAwbD0hP1h3nBzvvEax3zbCRTvqDRPvSwlJWnXZpC+H1Mdjouw
-         Au5HER1Y1h/rhQ+f3GanG2ROx4aOV5FrSIb41vg5vr0ACEOrmGqhek9qeBHiLzHueLJN
-         qP0mys4C6PrXZQUryxDYQ48auAgE3AXdQ0RHdjlDMKNn58IL6Up70ZC1L/vT+AeTKv4K
-         Be8/cwWe27WYZsC5Hs2jnrQ5liNse5dfhfB01XgCGenWW+pRPcuKm4ImiCW0ReTiDiak
-         R15ABK4pC9LvpMl951u8Ke0ybDH3dJmGKsP6FWe4AYf6QUxitCZ2eXP1xGDl/gQEsb0C
-         MVFw==
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BDjVqJqVb0eVby39PMCzl3GUehDx7jRuumwoVAWIlgk=;
+        b=o94/lPuCquJQD4WL/nTFWkvOJGrDsy/NrA4RdT8USDKWiipEIdcm9h5yysbfLTKZAo
+         hgJpZ4wlonTGKfNj0NzTj07Ajw7DgBmbHC3i5InkjyblSJ/+rT043tZWoD74o+JDmgZF
+         LnNZZQMVHahcY92pndiTJg0toIOOVkb+XwV9UJkMZjSOHZR9j/Flkq5dq6gEo0N6ymjM
+         wUpNpw/s/vCnbOusWZvBkQdJXjFbKBpClGoNf5djW/BHIhk+nc2XTvMA3Xiq3M/ikVxI
+         Z4IV2iWLkoobly7ODQEoC6rEMGnkwLEYML/3eiH3hMk44qh8xgdNkXoSrGUN6FNa2nPM
+         8fbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Ok2GIPaSl6NpqxKvxf7fAjrIBDeTxGgoYfFxoFSi4Q=;
-        b=EC/DyvumNRyTK+nK5GOAyj8YGn+V3Ur/6NzjBtcV6VR+8KHhDLN6ZkGGBhxGeSMXeZ
-         zHji7MpDzOIawiW1ECmpaEg7xuZykE79ABN9EoiNvr0mhJ62RsDD4cx+M/qPk7Me9wQ3
-         K+0ZyQXLPhkrTQpLqxUimEuW4WQFBXnYplOpNopNsqyF9odW7ioEce0+dSqXSI0S+YLu
-         2l1rVn0dqdbAPF7xSSYsLjGyv2LR3nMke1Xuw73KIV7cc+vKhBQXS0MYbGeKZvp+wAtr
-         vxJY2CpyqK2O5oMIKtEYBVXMP4a4joFGtSarX7dHbbATLkmRKrCsgobA7YIbrlg7TBwv
-         vlYQ==
-X-Gm-Message-State: AOAM531EvzliZUtPh7Y6VDW7A+1ZSk8R+o8NZle5dDC/TDN2ywbn+FxY
-	ymzexotm42TrptB1zKXZPgyw6NVCctU=
-X-Google-Smtp-Source: ABdhPJzGvVG5wd89vlACBbW3yU08cgThN3zz9Zy7LoqQRifd1ev3+bSxEdwy/wjNvCvJOFRrkCWjeQ==
-X-Received: by 2002:a17:906:4d57:: with SMTP id b23mr2460467ejv.496.1601311882537;
-        Mon, 28 Sep 2020 09:51:22 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id q12sm2476393edj.19.2020.09.28.09.51.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 09:51:21 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH] site: Make sys_siglist default to no
-Date: Mon, 28 Sep 2020 18:51:13 +0200
-Message-Id: <20200928165113.210944-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BDjVqJqVb0eVby39PMCzl3GUehDx7jRuumwoVAWIlgk=;
+        b=WJ4kIfKIQtX6bY+XauQBj9cYpx/Mm2FuGDm3TgqD2r8rnnh6cBPYtgrtScCrBbG3NF
+         yTLow/X6PQbo1x1oN+WT4BVmXgV6irdmuoCI3jYz25XKJQ/KgM/ZyPGlgPSBXP64dKPe
+         XQs8v/t/5IP/0yg7SLZ8OO9J8DWRhycC9FLOx7aYC5KSIfsscKBML+h9tPHnThNzfmG8
+         DAHLwx2WJYI7QW1H4yqcORLtw6NqDFL4qnrWNOUsQPIVPcgDcinBtvXwi0tUCFJSEPrW
+         CF++wks7asgo0L8NCPGmj4xtEsb7RMyzfZdlnU80ItG56tY+fnTdCx1XQx5CxSYrCQaD
+         kVug==
+X-Gm-Message-State: AOAM530AhUdcXtHC8jJvk2oGu135sstO+T9dC2MHMQ6XersUqC0Gp/Py
+	4E6xK/VHG7Ma/hYEmQ1AQqkKm2OFiRl2EGI2RcgAbw==
+X-Google-Smtp-Source: ABdhPJx3IjpRpEG5S7oFvDuVsP4wKuviKsrOwWtHL2Zy0pk4Y5u9PHuawtg9m9al3TbCDxBI3nnLrl2a/bpSl1dMN5I=
+X-Received: by 2002:a05:6512:304a:: with SMTP id b10mr739120lfb.475.1601312166726;
+ Mon, 28 Sep 2020 09:56:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200928161900.452970-1-ross.burton@arm.com> <20200928161900.452970-7-ross.burton@arm.com>
+ <817c9c37-3036-5be3-4934-db1dfe56985d@kernel.crashing.org>
+In-Reply-To: <817c9c37-3036-5be3-4934-db1dfe56985d@kernel.crashing.org>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 28 Sep 2020 17:55:56 +0100
+Message-ID: <CAAnfSTsimMKLGx7ZcLNcCSZwdKFg3Hbf3W1uGbWY5Q9+1dkmFw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/7] sstate: set mode explicitly when creating directories in sstate-cache
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Khem Raj <raj.khem@gmail.com>
+On Mon, 28 Sep 2020 at 17:40, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+> I worry that this could be problematic for other ways.  Security requirements
+> for an org or even users who want to share the sstate case 0777 etc.
+>
+> Wouldn't it be better to warn the user that their umask won't allow them to
+> share this with others, and give them instructions and opening the umask?
 
-glibc 2.32 has deprecated sys_siglist [1]
+FWIW, ten lines lower we chmod 664 the actual data, so this is just in
+keeping with existing behaviour.
 
-since no is default for musl as well, therefore elevate it to common
-site file for all
-
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=b1ccfc061feee9ce616444ded8e1cd5acf9fa97f
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/site/common       | 7 +++++++
- meta/site/common-glibc | 3 ---
- meta/site/common-musl  | 5 -----
- 3 files changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/meta/site/common b/meta/site/common
-index ff552329bd..62907274d7 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -19,3 +19,10 @@ shadow_cv_passwd_dir=${bindir}
- ac_cv_buggy_getaddrinfo=no
- 
- ac_cv_path_SED=${ac_cv_path_SED=sed}
-+
-+# General
-+ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
-+
-+# bash
-+bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
-+bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index a0680bc44c..0a665658fb 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -18,8 +17,6 @@ ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- ac_cv_func_strtod=${ac_cv_func_strtod=yes}
- 
- # bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=yes}
- bash_cv_getcwd_malloc=${bash_cv_getcwd_malloc=yes}
- 
- # clamav
-diff --git a/meta/site/common-musl b/meta/site/common-musl
-index 4be8d002d6..44a7a1aea9 100644
---- a/meta/site/common-musl
-+++ b/meta/site/common-musl
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -29,10 +28,6 @@ glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- 
--# bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
--
- # coreutils
- fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
--- 
-2.25.1
-
+Ross
