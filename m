@@ -1,48 +1,58 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.40658.1601309951113409062
+ by mx.groups.io with SMTP id smtpd.web11.40848.1601309951752186770
  for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Sep 2020 09:19:11 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4E7F31B
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C47714F6
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:09 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6156E3F6CF
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:10 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48A9A3F6CF
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:09 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] sstate: set mode explicitly when creating directories in sstate-cache
-Date: Mon, 28 Sep 2020 17:19:00 +0100
-Message-Id: <20200928161900.452970-7-ross.burton@arm.com>
+Subject: [PATCH 5/7] utils: add umask changing context manager
+Date: Mon, 28 Sep 2020 17:18:58 +0100
+Message-Id: <20200928161900.452970-5-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200928161900.452970-1-ross.burton@arm.com>
 References: <20200928161900.452970-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-When creating directories in the sstate-cache, explicitly set the mode
-passed to mkdir to 0775 so that the directories are group writable, as
-otherwise they cannot be shared with other users.
+Add a umask context manager which can be used to temporarily change the
+umask in a 'with' block.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bitbake/lib/bb/utils.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 66a96a7603..a8ae75101d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -787,7 +787,7 @@ sstate_create_package () {
- 		return
- 	fi
+diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+index 0b79f92e25..f73d31fb73 100644
+--- a/bitbake/lib/bb/utils.py
++++ b/bitbake/lib/bb/utils.py
+@@ -944,6 +944,17 @@ def which(path, item, direction =3D 0, history =3D F=
+alse, executable=3DFalse):
+         return "", hist
+     return ""
 =20
--	mkdir -p `dirname ${SSTATE_PKG}`
-+	mkdir --mode=3D0775 -p `dirname ${SSTATE_PKG}`
- 	TFILE=3D`mktemp ${SSTATE_PKG}.XXXXXXXX`
-=20
- 	# Use pigz if available
++@contextmanager
++def umask(new_mask):
++    """
++    Context manager to set the umask to a specific mask, and restore it =
+afterwards.
++    """
++    current_mask =3D os.umask(new_mask)
++    try:
++        yield
++    finally:
++        os.umask(current_mask)
++
+ def to_boolean(string, default=3DNone):
+     if not string:
+         return default
 --=20
 2.25.1
 
