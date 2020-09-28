@@ -1,54 +1,60 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.40594.1601309950147017200
+ by mx.groups.io with SMTP id smtpd.web10.40593.1601309950146722008
  for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Sep 2020 09:19:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1035113E
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AC5331B
 	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:07 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9CB2E3F6CF
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:07 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15B613F6CF
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 09:19:06 -0700 (PDT)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/7] utils: respect scheduler affinity in cpu_count()
-Date: Mon, 28 Sep 2020 17:18:55 +0100
-Message-Id: <20200928161900.452970-2-ross.burton@arm.com>
+Subject: [PATCH 1/7] glibc: make nscd optional
+Date: Mon, 28 Sep 2020 17:18:54 +0100
+Message-Id: <20200928161900.452970-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200928161900.452970-1-ross.burton@arm.com>
-References: <20200928161900.452970-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-cpu_count() returns multiprocessing.cpu_count() but that is simply return=
-s
-os.cpu_count() so we could use that directly.
+NSCD itself is already packaged into its own package, but if it is never
+going to be needed then it can be disabled and it won't be called from
+glibc at all.  Add a PACKAGECONFIG for NSCD that is enabled by default.
 
-However this returns the number of CPUs on the host, not the number of
-usable CPUs on the host. If the user is using scheduler affinity then
-the number of usable CPUs may be less, so when determining how many cores
-we can use check the affinity instead.
+As a side effect if NSCD is disable, glibc with and without systemd is
+binary identical, which helps sstate reuse.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oe/utils.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-core/glibc/glibc_2.32.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 13f4271da0..468c76f30f 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -249,8 +249,7 @@ def trim_version(version, num_parts=3D2):
-     return trimmed
+diff --git a/meta/recipes-core/glibc/glibc_2.32.bb b/meta/recipes-core/gl=
+ibc/glibc_2.32.bb
+index 7049e61625..2a0e464385 100644
+--- a/meta/recipes-core/glibc/glibc_2.32.bb
++++ b/meta/recipes-core/glibc/glibc_2.32.bb
+@@ -69,13 +69,15 @@ EXTRA_OECONF =3D "--enable-kernel=3D${OLDEST_KERNEL} =
+\
+                 --enable-stackguard-randomization \
+                 --disable-crypt \
+                 --with-default-link \
+-                --enable-nscd \
+                 ${@bb.utils.contains_any('SELECTED_OPTIMIZATION', '-O0 -=
+Og', '--disable-werror', '', d)} \
+                 ${GLIBCPIE} \
+                 ${GLIBC_EXTRA_OECONF}"
 =20
- def cpu_count(at_least=3D1):
--    import multiprocessing
--    cpus =3D multiprocessing.cpu_count()
-+    cpus =3D len(os.sched_getaffinity(0))
-     return max(cpus, at_least)
+ EXTRA_OECONF +=3D "${@get_libc_fpu_setting(bb, d)}"
 =20
- def execute_pre_post_process(d, cmds):
++PACKAGECONFIG ??=3D "nscd"
++PACKAGECONFIG[nscd] =3D "--enable-nscd,--disable-nscd"
++
+ do_patch_append() {
+     bb.build.exec_func('do_fix_readlib_c', d)
+ }
 --=20
 2.25.1
 
