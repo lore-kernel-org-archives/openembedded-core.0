@@ -1,106 +1,571 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.41])
- by mx.groups.io with SMTP id smtpd.web11.39261.1601306354074404643
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web12.39338.1601306882730139176
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2020 08:19:14 -0700
+ Mon, 28 Sep 2020 08:28:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=v5uBuGmO;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.237.41, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bSraaj6gptxDUkvnVcr4zVg+xVcIcUMJFzV4EJCtQH/7wnoiZXCrtMj6Dcma/VRNrMy/eoAy/vTgNPLrvCOefPVlBKgXUqFUlvgpqIOkVmiN8f/GFXEZVN+Pt0OuPNH98E8AEPZF6iJQ42IPT+JxVu5llbPlTX71Over9Cas7oj9b0FBD3fGWxdsCNmNO90Nao67p9YX/QD9HL5B/WlC2vqr43+uWTs0DP98YXqTSRZV6JQubA0BgFH5NBbEPis1ceLnpuwD+iQLUapQRiCcCr81CN+ofBluP3ijzn05YGuelZEACxbKgaqxXRgYYCA9Ejlnfa5QACGUHZh7THfUcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1s+OzpNAKWzxFP0DwTR48wwJp4Uy1WWIjyYqgFraLoc=;
- b=dn9XzkY5OYojuvmKM8ja4eKvHJ089FXRNfPxJdfRhlDW5M78ZY59czDfc+Cv5eYC2S4MWQnobzglMmZ7yrbXVl+yfxOw1HpW2VpCKDkulzzzo+tiYSp06jSnfjvYwJ7hB1yoNdjkEyMXOygjEIUDBbisih2DD4y3kaZ43zTv7zzc2av7nV3sh9/brI8x5xdAFm8RaZ57Ebsxe4irqkAvAd3v7zMrwxMxRiwPNAxhg74WdS/BCkuseWh0e2bO2oav9MIXFmhLmWFXxecLBe3P8bhGNOK7J4f8ZSJxvZaXT2ybO21TxXvahqC+o23vjStBOXRyPo0jOHyo5ExTIt3bZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.37) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1s+OzpNAKWzxFP0DwTR48wwJp4Uy1WWIjyYqgFraLoc=;
- b=v5uBuGmOe8gPthO6nzpiurxGN8t04cmqDQEqhUpixzsNbtQXl/1IO1OJPuRP6wwyApEfNuQPF5iF2ha2FU23lX/X+kKZqFCUM5Xqjy78r45o72j7D4hGuyUTyrF/HMc/n3Fci18YL6sVdUcYlaMlo3Xzj6KY8zrURMN30inDBf1Jd50Hk+vMu0HhuSUSiUQM5vYOFTKnBV5FgZefVq7twi237FUSCzBwwxQtjsH6+GMxbTdR1SmP1xydOxhUP/TIoiBjoC78zXXU7nb4ZBnVU2712MAETDb8NsBwoG9C/PiOBDZamTqoiSnz6VvmV8Yln3/suSe/6YS6QUiwhwgkEg==
-Received: from BN3PR05CA0040.namprd05.prod.outlook.com (2603:10b6:400::50) by
- BN6PR1201MB2481.namprd12.prod.outlook.com (2603:10b6:404:a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.26; Mon, 28 Sep
- 2020 15:19:13 +0000
-Received: from BN8NAM12FT046.eop-nam12.prod.protection.outlook.com
- (2603:10b6:400::4) by BN3PR05CA0040.outlook.office365.com (2603:10b6:400::50)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.16 via Frontend
- Transport; Mon, 28 Sep 2020 15:19:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.37)
- smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.37 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.37; helo=edgeappmail.agilent.com;
-Received: from edgeappmail.agilent.com (192.25.218.37) by
- BN8NAM12FT046.mail.protection.outlook.com (10.13.183.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.14 via Frontend Transport; Mon, 28 Sep 2020 15:19:12 +0000
-Received: from laplante-lm-19.localdomain (192.25.126.27) by
- edgeappmail.agilent.com (192.25.218.37) with Microsoft SMTP Server id
- 15.1.2044.4; Mon, 28 Sep 2020 09:18:28 -0600
-From: "Chris Laplante" <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH] bitbake.conf: add name of multiconfig to BUILDCFG_HEADER when multiconfig is active
-Date: Mon, 28 Sep 2020 11:18:53 -0400
-Message-ID: <20200928151853.24367-1-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uQctv3ZL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f68.google.com with SMTP id b13so654939qvl.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 08:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jOBb9hI+fyxUoU6slaieYiajpCoMgLu4/TiEPqaS1Fg=;
+        b=uQctv3ZLDnnNEG8hg/icrxs5aPyEgv4PUN6K9m9Yl3ZwAmzVr5eVmbQeCowASRnbv0
+         IqX5WUcZLXYOo1yow+JQVaugof7V76emdj/DZo3IqqzaBKT2FTHevVdsc475IRAPDxF7
+         NlxqwDRgQ6W6mNYEiK9IF8/n5eMXf9YVSBIWS9JqeVe+ABu2+80itQ/CnwuEEZBCO30+
+         OO9u+r6dpbpWvqrjKeDTZt+gT9zrcFEkXxImMiNsfuRT/BVlDJd8ZiS8mESFC3Qhdvka
+         Gl8iIlGdER4ZlB4OQ1b817llEajgHuv4w7jtyw3vL3WEx6eiMFg9vocYK7S0IvsZQM+3
+         DOGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jOBb9hI+fyxUoU6slaieYiajpCoMgLu4/TiEPqaS1Fg=;
+        b=bbaO9CFiLSFSrywefzAFN7yJhxw8i6ShrYKhcZ/+XuDUrAag6obHX7nu96u0cd2T2V
+         bF8bDsn5lUkCRYgUhywvdDfn9lhagx/nkotpM6wm2spxWHma6IZcD1iqIsShHgWITLQV
+         CtSrEoWE1uc0efxAdRph0OpEtzWWSAUV1GoHlSt3BGGHKOXHk/v2Dx8Utc5JoE3C8kQr
+         +VYEEvabbu44WXYPwVDaNzRDnDQgO4LrLrtCsaOx/l5UKAtsEFGgV7UfxgBM95eTATSh
+         koxmbOz0756msPMNOQ4A2IVQ881m38/WYXSjeVvxNf9qiGIKqNXj7rI7cRrWA65KmuOs
+         05fA==
+X-Gm-Message-State: AOAM533IZ9S/txSFMn2/sXIKpKZLB6rWvht1K2Ec+EzVux+ZAKHEQ9BY
+	Fs0F5RU/u0fm1EHrcaqAY4R0xGgNnUU5YidiUo8=
+X-Google-Smtp-Source: ABdhPJzULFxkHJHDb/H8Tn906MUi9v35hheUqd04QLEPKlPpkR2TYSXmOtX0TztLaVLFBsNeNwfZBwjmc4X9c6n7ifc=
+X-Received: by 2002:a05:6214:7a1:: with SMTP id v1mr12379859qvz.19.1601306881505;
+ Mon, 28 Sep 2020 08:28:01 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: chris.laplante@agilent.com
-Received-SPF: SoftFail (wpcosapexchedg1.windmz.agilent.com: domain of
- transitioning chris.laplante@agilent.com discourages use of 192.25.126.27 as
- permitted sender)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 663eeb55-93d4-4602-3707-08d863c1db18
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB2481:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BN6PR1201MB24819491BE0DA40D113865248B350@BN6PR1201MB2481.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:346;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Xk9fMwxG+tSeoMJhmbsvdzcXwO6XinUOBd9E74rRf1+f9ZDWjZGgdldgroTs0qe5EKP+B4H2I440/WcXQjLti4Zo713nxEpiILIi9yVsP3lZfP6sQk4drDiJCEEo/Z9g9RBemm/INArM7+K7E3sgcetG33aYCM/UssJgQ/0MFLgF0CF3zgekG9OGLNpo5F/QNhe3i1eHEy8y4/v3F/9e2DNRfMwi8fwjJeOWWQ3/xA8MMjIU8T20Ij6+AYBAi7nyU15Ul/VjQfT0jFtd/dzthoEDK3GPBThtnKCHO63+rvOPrjnuzXh2+xDCp4eMbMjN0mI53gAk4vog7wRN07Othk9gvh+fjRFDFVTC/sxDVtFH8lT1hQjHgw5/ujYyb2ZkYEIeOKbbAajUcWKdS6GSuu25nNLFe6WtMz9ZnDsnmZj11IYP1r3K5fduTBj/lDsAOE8cH1rfMpYX9Rh/rLhRD0t3LNpBrBEFUl5F5Isfvas=
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(29502001)(46966005)(6916009)(26005)(5660300002)(8676002)(956004)(2616005)(2906002)(86362001)(336012)(478600001)(6666004)(316002)(36756003)(4744005)(186003)(8936002)(426003)(1076003)(4326008)(83380400001)(44832011)(82310400003)(107886003)(82740400003)(356005)(7636003)(70206006)(47076004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 15:19:12.7031
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 663eeb55-93d4-4602-3707-08d863c1db18
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.37];Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN8NAM12FT046.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB2481
-Content-Type: text/plain
+References: <20200924023944.48941-1-mingli.yu@windriver.com>
+ <25e019e30ea0a91d4c6f9d85a9beeb21f4470953.camel@intel.com> <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com>
+In-Reply-To: <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 28 Sep 2020 08:27:35 -0700
+Message-ID: <CAMKF1spOERv6f00A=zrEzOAT_+heXx=rs3x09S8DnorcMqDPpQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bash: fix CVE-2019-18276
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Sep 23, 2020 at 11:00 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>
+> Hi Anuj,
+>
+> On 9/24/20 10:50 AM, Anuj Mittal wrote:
+> > Hi Mingli,
+> >
+> > On Thu, 2020-09-24 at 10:39 +0800, Yu, Mingli wrote:
+> >> From: De Huo <De.Huo@windriver.com>
+> >>
+> >> An issue was discovered in disable_priv_mode in shell.c in GNU Bash
+> >> through 5.0 patch 11. By default, if Bash is run with its effective
+> >> UID
+> >> not equal to its real UID, it will drop privileges by setting its
+> >> effective UID to its real UID. However, it does so incorrectly. On
+> >> Linux
+> >> and other systems that support "saved UID" functionality, the saved
+> >> UID
+> >> is not dropped. An attacker with command execution in the shell can
+> >> use
+> >> "enable -f" for runtime loading of a new builtin, which can be a
+> >> shared
+> >> object that calls setuid() and therefore regains privileges. However,
+> >> binaries running with an effective UID of 0 are unaffected.
+> >>
+> >> Get the patch from [1] to fix the issue.
+> >>
+> >> [1]
+> >> https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+> >
+> > Has something changed from last time this patch was submitted and later
+> > reverted because of the failing ptest? I remember the author saying
+> > this isn't a real security bug and there were also changes in the patch
+> > that weren't related to the CVE ...
+>
+> Changed the patch a little to remove the configure file part to fix the
+> reconfigure issue in v1 patch.
+>
+> Yes, the author saying the patch did fix the issue stated in
+> CVE-2019-18276 though the issue actually is't a big deal.
+>
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a318d1ca58..e6338b0c75 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -701,7 +701,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
- ##################################################################
- 
- # Pre-build configuration output
--BUILDCFG_HEADER = "Build Configuration:"
-+BUILDCFG_HEADER = "Build Configuration${@" (mc:${BB_CURRENT_MC})" if d.getVar("BBMULTICONFIG") else ""}:"
- BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
- BUILDCFG_VARS[type] = "list"
- BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
--- 
-2.17.1
+This seems to be regressing bash ptests now.
 
+    ptestresult.bash.run-glob-test
+    ptestresult.bash.run-read
+    ptestresult.bash.run-trap
+
+
+If its not a real security bug then perhaps its better to revert it.
+
+
+> Thanks,
+>
+> >
+> > Thanks,
+> >
+> > Anuj
+> >
+> >>
+> >> Signed-off-by: De Huo <De.Huo@windriver.com>
+> >> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> >> ---
+> >>   .../bash/bash/bash-CVE-2019-18276.patch       | 386
+> >> ++++++++++++++++++
+> >>   meta/recipes-extended/bash/bash_5.0.bb        |   1 +
+> >>   2 files changed, 387 insertions(+)
+> >>   create mode 100644 meta/recipes-extended/bash/bash/bash-CVE-2019-
+> >> 18276.patch
+> >>
+> >> diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-
+> >> 18276.patch b/meta/recipes-extended/bash/bash/bash-CVE-2019-
+> >> 18276.patch
+> >> new file mode 100644
+> >> index 0000000000..7b2073201e
+> >> --- /dev/null
+> >> +++ b/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
+> >> @@ -0,0 +1,386 @@
+> >> +From 951bdaad7a18cc0dc1036bba86b18b90874d39ff Mon Sep 17 00:00:00
+> >> 2001
+> >> +From: Chet Ramey <chet.ramey@case.edu>
+> >> +Date: Mon, 1 Jul 2019 09:03:53 -0400
+> >> +Subject: [PATCH] commit bash-20190628 snapshot
+> >> +
+> >> +An issue was discovered in disable_priv_mode in shell.c in GNU Bash
+> >> through 5.0 patch 11.
+> >> +By default, if Bash is run with its effective UID not equal to its
+> >> real UID,
+> >> +it will drop privileges by setting its effective UID to its real
+> >> UID.
+> >> +However, it does so incorrectly. On Linux and other systems that
+> >> support "saved UID" functionality,
+> >> +the saved UID is not dropped. An attacker with command execution in
+> >> the shell can use "enable -f" for
+> >> +runtime loading of a new builtin, which can be a shared object that
+> >> calls setuid() and therefore
+> >> +regains privileges. However, binaries running with an effective UID
+> >> of 0 are unaffected.
+> >> +
+> >> +Get the patch from [1] to fix the issue.
+> >> +
+> >> +Upstream-Status: Inappropriate [the upstream thinks it doesn't
+> >> increase the credibility of CVEs in general]
+> >> +CVE: CVE-2019-18276
+> >> +
+> >> +[1]
+> >> https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+> >> +
+> >> +Signed-off-by: De Huo <De.Huo@windriver.com>
+> >> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> >> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> >> +---
+> >> + MANIFEST          |  2 ++
+> >> + bashline.c        | 50 +-------------------------------------------
+> >> ------
+> >> + builtins/help.def |  2 +-
+> >> + config.h.in       | 10 +++++++++-
+> >> + configure.ac      |  1 +
+> >> + doc/bash.1        |  3 ++-
+> >> + doc/bashref.texi  |  3 ++-
+> >> + lib/glob/glob.c   |  5 ++++-
+> >> + pathexp.c         | 16 ++++++++++++++--
+> >> + shell.c           |  8 ++++++++
+> >> + tests/glob.tests  |  2 ++
+> >> + tests/glob6.sub   | 54
+> >> ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >> + tests/glob7.sub   | 11 +++++++++++
+> >> + 14 files changed, 122 insertions(+), 56 deletions(-)
+> >> + create mode 100644 tests/glob6.sub
+> >> + create mode 100644 tests/glob7.sub
+> >> +
+> >> +diff --git a/MANIFEST b/MANIFEST
+> >> +index 03de221..f9ccad7 100644
+> >> +--- a/MANIFEST
+> >> ++++ b/MANIFEST
+> >> +@@ -1037,6 +1037,8 @@ tests/extglob3.tests  f
+> >> + tests/extglob3.right       f
+> >> + tests/extglob4.sub f
+> >> + tests/extglob5.sub f
+> >> ++tests/glob6.sub            f
+> >> ++tests/glob7.sub            f
+> >> + tests/func.tests   f
+> >> + tests/func.right   f
+> >> + tests/func1.sub            f
+> >> +diff --git a/bashline.c b/bashline.c
+> >> +index 824ea9d..d86b47d 100644
+> >> +--- a/bashline.c
+> >> ++++ b/bashline.c
+> >> +@@ -3718,55 +3718,7 @@ static int
+> >> + completion_glob_pattern (string)
+> >> +      char *string;
+> >> + {
+> >> +-  register int c;
+> >> +-  char *send;
+> >> +-  int open;
+> >> +-
+> >> +-  DECLARE_MBSTATE;
+> >> +-
+> >> +-  open = 0;
+> >> +-  send = string + strlen (string);
+> >> +-
+> >> +-  while (c = *string++)
+> >> +-    {
+> >> +-      switch (c)
+> >> +-   {
+> >> +-   case '?':
+> >> +-   case '*':
+> >> +-     return (1);
+> >> +-
+> >> +-   case '[':
+> >> +-     open++;
+> >> +-     continue;
+> >> +-
+> >> +-   case ']':
+> >> +-     if (open)
+> >> +-       return (1);
+> >> +-     continue;
+> >> +-
+> >> +-   case '+':
+> >> +-   case '@':
+> >> +-   case '!':
+> >> +-     if (*string == '(')   /*)*/
+> >> +-       return (1);
+> >> +-     continue;
+> >> +-
+> >> +-   case '\\':
+> >> +-     if (*string++ == 0)
+> >> +-       return (0);
+> >> +-   }
+> >> +-
+> >> +-      /* Advance one fewer byte than an entire multibyte character
+> >> to
+> >> +-    account for the auto-increment in the loop above. */
+> >> +-#ifdef HANDLE_MULTIBYTE
+> >> +-      string--;
+> >> +-      ADVANCE_CHAR_P (string, send - string);
+> >> +-      string++;
+> >> +-#else
+> >> +-      ADVANCE_CHAR_P (string, send - string);
+> >> +-#endif
+> >> +-    }
+> >> +-  return (0);
+> >> ++  return (glob_pattern_p (string) == 1);
+> >> + }
+> >> +
+> >> + static char *globtext;
+> >> +diff --git a/builtins/help.def b/builtins/help.def
+> >> +index 006c4b5..92f9b38 100644
+> >> +--- a/builtins/help.def
+> >> ++++ b/builtins/help.def
+> >> +@@ -128,7 +128,7 @@ help_builtin (list)
+> >> +
+> >> +   /* We should consider making `help bash' do something. */
+> >> +
+> >> +-  if (glob_pattern_p (list->word->word))
+> >> ++  if (glob_pattern_p (list->word->word) == 1)
+> >> +     {
+> >> +       printf ("%s", ngettext ("Shell commands matching keyword `",
+> >> "Shell commands matching keywords `", (list->next ? 2 : 1)));
+> >> +       print_word_list (list, ", ");
+> >> +diff --git a/config.h.in b/config.h.in
+> >> +index 8554aec..ad4b1e8 100644
+> >> +--- a/config.h.in
+> >> ++++ b/config.h.in
+> >> +@@ -1,6 +1,6 @@
+> >> + /* config.h -- Configuration file for bash. */
+> >> +
+> >> +-/* Copyright (C) 1987-2009,2011-2012 Free Software Foundation, Inc.
+> >> ++/* Copyright (C) 1987-2009,2011-2012,2013-2019 Free Software
+> >> Foundation, Inc.
+> >> +
+> >> +    This file is part of GNU Bash, the Bourne Again SHell.
+> >> +
+> >> +@@ -807,6 +807,14 @@
+> >> + #undef HAVE_SETREGID
+> >> + #undef HAVE_DECL_SETREGID
+> >> +
+> >> ++/* Define if you have the setregid function.  */
+> >> ++#undef HAVE_SETRESGID
+> >> ++#undef HAVE_DECL_SETRESGID
+> >> ++
+> >> ++/* Define if you have the setresuid function.  */
+> >> ++#undef HAVE_SETRESUID
+> >> ++#undef HAVE_DECL_SETRESUID
+> >> ++
+> >> + /* Define if you have the setvbuf function.  */
+> >> + #undef HAVE_SETVBUF
+> >> +
+> >> +diff --git a/configure.ac b/configure.ac
+> >> +index 52b4cdb..549adef 100644
+> >> +--- a/configure.ac
+> >> ++++ b/configure.ac
+> >> +@@ -810,6 +810,7 @@ AC_CHECK_DECLS([confstr])
+> >> + AC_CHECK_DECLS([printf])
+> >> + AC_CHECK_DECLS([sbrk])
+> >> + AC_CHECK_DECLS([setregid])
+> >> ++AC_CHECK_DECLS[(setresuid, setresgid])
+> >> + AC_CHECK_DECLS([strcpy])
+> >> + AC_CHECK_DECLS([strsignal])
+> >> +
+> >> +diff --git a/doc/bash.1 b/doc/bash.1
+> >> +index e6cd08d..9e58a0b 100644
+> >> +--- a/doc/bash.1
+> >> ++++ b/doc/bash.1
+> >> +@@ -4681,7 +4681,8 @@ above).
+> >> + .PD
+> >> + .SH "SIMPLE COMMAND EXPANSION"
+> >> + When a simple command is executed, the shell performs the following
+> >> +-expansions, assignments, and redirections, from left to right.
+> >> ++expansions, assignments, and redirections, from left to right, in
+> >> ++the following order.
+> >> + .IP 1.
+> >> + The words that the parser has marked as variable assignments (those
+> >> + preceding the command name) and redirections are saved for later
+> >> +diff --git a/doc/bashref.texi b/doc/bashref.texi
+> >> +index d33cd57..3065126 100644
+> >> +--- a/doc/bashref.texi
+> >> ++++ b/doc/bashref.texi
+> >> +@@ -2964,7 +2964,8 @@ is not specified.  If the file does not exist,
+> >> it is created.
+> >> + @cindex command expansion
+> >> +
+> >> + When a simple command is executed, the shell performs the following
+> >> +-expansions, assignments, and redirections, from left to right.
+> >> ++expansions, assignments, and redirections, from left to right, in
+> >> ++the following order.
+> >> +
+> >> + @enumerate
+> >> + @item
+> >> +diff --git a/lib/glob/glob.c b/lib/glob/glob.c
+> >> +index 398253b..2eaa33e 100644
+> >> +--- a/lib/glob/glob.c
+> >> ++++ b/lib/glob/glob.c
+> >> +@@ -607,6 +607,7 @@ glob_vector (pat, dir, flags)
+> >> +   register unsigned int i;
+> >> +   int mflags;              /* Flags passed to strmatch (). */
+> >> +   int pflags;              /* flags passed to sh_makepath () */
+> >> ++  int hasglob;             /* return value from glob_pattern_p */
+> >> +   int nalloca;
+> >> +   struct globval *firstmalloc, *tmplink;
+> >> +   char *convfn;
+> >> +@@ -648,10 +649,12 @@ glob_vector (pat, dir, flags)
+> >> +   patlen = (pat && *pat) ? strlen (pat) : 0;
+> >> +
+> >> +   /* If the filename pattern (PAT) does not contain any globbing
+> >> characters,
+> >> ++     or contains a pattern with only backslash escapes (hasglob ==
+> >> 2),
+> >> +      we can dispense with reading the directory, and just see if
+> >> there is
+> >> +      a filename `DIR/PAT'.  If there is, and we can access it, just
+> >> make the
+> >> +      vector to return and bail immediately. */
+> >> +-  if (skip == 0 && glob_pattern_p (pat) == 0)
+> >> ++  hasglob = 0;
+> >> ++  if (skip == 0 && (hasglob = glob_pattern_p (pat)) == 0 || hasglob
+> >> == 2)
+> >> +     {
+> >> +       int dirlen;
+> >> +       struct stat finfo;
+> >> +diff --git a/pathexp.c b/pathexp.c
+> >> +index c1bf2d8..e6c5392 100644
+> >> +--- a/pathexp.c
+> >> ++++ b/pathexp.c
+> >> +@@ -58,7 +58,10 @@ int extended_glob = EXTGLOB_DEFAULT;
+> >> + /* Control enabling special handling of `**' */
+> >> + int glob_star = 0;
+> >> +
+> >> +-/* Return nonzero if STRING has any unquoted special globbing chars
+> >> in it.  */
+> >> ++/* Return nonzero if STRING has any unquoted special globbing chars
+> >> in it.
+> >> ++   This is supposed to be called when pathname expansion is
+> >> performed, so
+> >> ++   it implements the rules in Posix 2.13.3, specifically that an
+> >> unquoted
+> >> ++   slash cannot appear in a bracket expression. */
+> >> + int
+> >> + unquoted_glob_pattern_p (string)
+> >> +      register char *string;
+> >> +@@ -85,10 +88,14 @@ unquoted_glob_pattern_p (string)
+> >> +      continue;
+> >> +
+> >> +    case ']':
+> >> +-     if (open)
+> >> ++     if (open)             /* XXX - if --open == 0? */
+> >> +        return (1);
+> >> +      continue;
+> >> +
+> >> ++   case '/':
+> >> ++     if (open)
+> >> ++       open = 0;
+> >> ++
+> >> +    case '+':
+> >> +    case '@':
+> >> +    case '!':
+> >> +@@ -106,6 +113,11 @@ unquoted_glob_pattern_p (string)
+> >> +          string++;
+> >> +          continue;
+> >> +        }
+> >> ++     else if (open && *string == '/')
+> >> ++       {
+> >> ++         string++;         /* quoted slashes in bracket
+> >> expressions are ok */
+> >> ++         continue;
+> >> ++       }
+> >> +      else if (*string == 0)
+> >> +        return (0);
+> >> +
+> >> +diff --git a/shell.c b/shell.c
+> >> +index a2b2a55..6adabc8 100644
+> >> +--- a/shell.c
+> >> ++++ b/shell.c
+> >> +@@ -1293,7 +1293,11 @@ disable_priv_mode ()
+> >> + {
+> >> +   int e;
+> >> +
+> >> ++#if HAVE_DECL_SETRESUID
+> >> ++  if (setresuid (current_user.uid, current_user.uid,
+> >> current_user.uid) < 0)
+> >> ++#else
+> >> +   if (setuid (current_user.uid) < 0)
+> >> ++#endif
+> >> +     {
+> >> +       e = errno;
+> >> +       sys_error (_("cannot set uid to %d: effective uid %d"),
+> >> current_user.uid, current_user.euid);
+> >> +@@ -1302,7 +1306,11 @@ disable_priv_mode ()
+> >> +    exit (e);
+> >> + #endif
+> >> +     }
+> >> ++#if HAVE_DECL_SETRESGID
+> >> ++  if (setresgid (current_user.gid, current_user.gid,
+> >> current_user.gid) < 0)
+> >> ++#else
+> >> +   if (setgid (current_user.gid) < 0)
+> >> ++#endif
+> >> +     sys_error (_("cannot set gid to %d: effective gid %d"),
+> >> current_user.gid, current_user.egid);
+> >> +
+> >> +   current_user.euid = current_user.uid;
+> >> +diff --git a/tests/glob.tests b/tests/glob.tests
+> >> +index 01913bb..fb012f7 100644
+> >> +--- a/tests/glob.tests
+> >> ++++ b/tests/glob.tests
+> >> +@@ -12,6 +12,8 @@ ${THIS_SH} ./glob1.sub
+> >> + ${THIS_SH} ./glob2.sub
+> >> + ${THIS_SH} ./glob3.sub
+> >> + ${THIS_SH} ./glob4.sub
+> >> ++${THIS_SH} ./glob6.sub
+> >> ++${THIS_SH} ./glob7.sub
+> >> +
+> >> + MYDIR=$PWD # save where we are
+> >> +
+> >> +diff --git a/tests/glob6.sub b/tests/glob6.sub
+> >> +new file mode 100644
+> >> +index 0000000..b099811
+> >> +--- /dev/null
+> >> ++++ b/tests/glob6.sub
+> >> +@@ -0,0 +1,54 @@
+> >> ++# tests of the backslash-in-glob-patterns discussion on the austin-
+> >> group ML
+> >> ++
+> >> ++: ${TMPDIR:=/var/tmp}
+> >> ++
+> >> ++ORIG=$PWD
+> >> ++GLOBDIR=$TMPDIR/bash-glob-$$
+> >> ++mkdir $GLOBDIR && cd $GLOBDIR
+> >> ++
+> >> ++# does the pattern matcher allow backslashes as escape characters
+> >> and remove
+> >> ++# them as part of matching?
+> >> ++touch abcdefg
+> >> ++pat='ab\cd*'
+> >> ++printf '<%s>\n' $pat
+> >> ++pat='\.'
+> >> ++printf '<%s>\n' $pat
+> >> ++rm abcdefg
+> >> ++
+> >> ++# how about when escaping pattern characters?
+> >> ++touch '*abc.c'
+> >> ++a='\**.c'
+> >> ++printf '%s\n' $a
+> >> ++rm -f '*abc.c'
+> >> ++
+> >> ++# how about when making the distinction between readable and
+> >> searchable path
+> >> ++# components?
+> >> ++mkdir -m a=x searchable
+> >> ++mkdir -m a=r readable
+> >> ++
+> >> ++p='searchable/\.'
+> >> ++printf "%s\n" $p
+> >> ++
+> >> ++p='searchable/\./.'
+> >> ++printf "%s\n" $p
+> >> ++
+> >> ++p='readable/\.'
+> >> ++printf "%s\n" $p
+> >> ++
+> >> ++p='readable/\./.'
+> >> ++printf "%s\n" $p
+> >> ++
+> >> ++printf "%s\n" 'searchable/\.'
+> >> ++printf "%s\n" 'readable/\.'
+> >> ++
+> >> ++echo */.
+> >> ++
+> >> ++p='*/\.'
+> >> ++echo $p
+> >> ++
+> >> ++echo */'.'
+> >> ++
+> >> ++rmdir searchable readable
+> >> ++
+> >> ++cd $ORIG
+> >> ++rmdir $GLOBDIR
+> >> +diff --git a/tests/glob7.sub b/tests/glob7.sub
+> >> +new file mode 100644
+> >> +index 0000000..0212b8e
+> >> +--- /dev/null
+> >> ++++ b/tests/glob7.sub
+> >> +@@ -0,0 +1,11 @@
+> >> ++# according to Posix 2.13.3, a slash in a bracket expression
+> >> renders that
+> >> ++# bracket expression invalid
+> >> ++shopt -s nullglob
+> >> ++
+> >> ++echo 1: [qwe/qwe]
+> >> ++echo 2: [qwe/
+> >> ++echo 3: [qwe/]
+> >> ++
+> >> ++echo 4: [qwe\/qwe]
+> >> ++echo 5: [qwe\/
+> >> ++echo 6: [qwe\/]
+> >> +--
+> >> +1.9.1
+> >> +
+> >> diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-
+> >> extended/bash/bash_5.0.bb
+> >> index 12d472be57..257a03bd8b 100644
+> >> --- a/meta/recipes-extended/bash/bash_5.0.bb
+> >> +++ b/meta/recipes-extended/bash/bash_5.0.bb
+> >> @@ -30,6 +30,7 @@ SRC_URI =
+> >> "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+> >>              file://run-ptest \
+> >>              file://run-bash-ptests \
+> >>              file://fix-run-builtins.patch \
+> >> +           file://bash-CVE-2019-18276.patch \
+> >>              "
+> >>
+> >>   SRC_URI[tarball.md5sum] = "2b44b47b905be16f45709648f671820b"
+> >>
+> >>
+> >>
+> >>
+> >>
+> >>
+>
+> 
+>
