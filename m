@@ -1,198 +1,285 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web11.27489.1601258547926239888
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web10.27502.1601259075984481505
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2020 19:02:28 -0700
+ Sun, 27 Sep 2020 19:11:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=Qn3E+71q;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.193, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f193.google.com with SMTP id q63so8742669qkf.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2020 19:02:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=R6Z+dlK0;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id gx22so6353026ejb.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2020 19:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=7KoN6bMkszI6OB+8+m2a/CYY5YudDvZMGBSU3I9riCY=;
-        b=Qn3E+71qCdELLmUIpEZ9tVnJwpFW+TBHgPH9NWa1M00nQy0fWPHQFa50MKAZ2ourfG
-         vaWCvYu52KwBoRq/F+gC67mG7zOUCK2tfyaEHoBvoqno6xB0jbaeWtj85yv/8so51fCa
-         eupUFlatyebtSTYHbHmX6xHwBYVanYzbBjyU1Vz1BEfeVgper9YswBNJjoWjXUq5F8DH
-         18SOKI0odFj2oHfc7x7+lf99TtCJ31JbvlYaSnDxtmv0lwzNXi8ndtlj5BVWKivzUbjG
-         NhdV3BfLd9JR8l0eVnmYFTGd/ByIoTeiwUQspZSUirf55UL2ONf2HvAzmROLPgeVZjsn
-         G0LA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nu5UlbXablzGpuNXhkgJZSt9KYc7mLpmlqUS+QFQcDE=;
+        b=R6Z+dlK0hWXGiCyFRhXVxjtORZsgHbMEEYrHniVIWq07BFxarn6iPKDwQe8bpQctx9
+         n6kYqFOHOZzT1mNCNU4wRWzyqhyh0MLRZTJIZFlaLt+bQwM08Zq0utSNBAAodBLRE4xB
+         yZV9Kw7PnFVK3Xuu4vFAB7DGldpOq2vjvYJd+Be7LQkB7a8e7+QWgIf04wa42oqy4HFJ
+         tLJmCQ6mG2lXpwdgd9z0k9mJaSagkFbDc72pzBcGysPUKEbkvYeLL0ik/WpnZ8B5t8f7
+         WYtokSbfpARVnbcNVkLT/KJ2GEPcC9P49ncFlxdUcS7r7F7tqlcfsD2OpaEoi4cvkyRx
+         N78A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7KoN6bMkszI6OB+8+m2a/CYY5YudDvZMGBSU3I9riCY=;
-        b=ac8p4+qnzT6rBPCRgR5RXfma1kQYk20KN1ctHIo4f0qjqq80c7Q1wJFhAiOpeTw4en
-         5evNcTGlFap159V6HOwRu/grbDyQdfrnShTpMtJFfoVHlAWBTJYSsBucj3SM7WIRAQO3
-         KrgSM93tpFu3B3LoiXSVZHmcVL08uHlHrpFaOZrmYkAQ1UK9D24lS/8yw1hn+6dfUxxx
-         8yT2l61DYrNR5NeOrqSK1r1IfKKX+V4vYVgBK1dl66dM8dwLaxgcIk4fO/joGv5JzCo8
-         ciWOw8w74TzS5DxocyvTzBUTeWnm+Vx7S1jV93fTNMlBbFTUOCBV6CUJsKxO+gK4iOC8
-         4e9A==
-X-Gm-Message-State: AOAM532bxHRHpgGB0Q/HaPwo1ODpAC2+55zUQjnyDieXbEPcChZ48n+O
-	DLJmmQGMpO3HmyLW+tavZhw6c6f5GPc7eKG+
-X-Google-Smtp-Source: ABdhPJxuhiPnt1CceLZNs6Zlzo+bBkks+E2JfBn1UUebSVzfnAJbjRfT99h3g8DCc1eY1rmdKaywOg==
-X-Received: by 2002:ae9:c310:: with SMTP id n16mr10231425qkg.318.1601258546735;
-        Sun, 27 Sep 2020 19:02:26 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([136.56.1.171])
-        by smtp.gmail.com with ESMTPSA id 206sm8058970qkk.27.2020.09.27.19.02.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2020 19:02:26 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
-X-Google-Original-From: Jon Mason <jon.mason@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe][PATCH v3 6/6] tunes/armv8: move to a new location
-Date: Sun, 27 Sep 2020 22:01:42 -0400
-Message-Id: <20200928020142.5706-7-jon.mason@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200928020142.5706-1-jon.mason@arm.com>
-References: <20200928020142.5706-1-jon.mason@arm.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nu5UlbXablzGpuNXhkgJZSt9KYc7mLpmlqUS+QFQcDE=;
+        b=BQ8sKu1Kpx86xPGmM2Taseq72r9AEcehzk5vqG1Ily2oLo0DiwFMcFbdh3mwinNjEm
+         7GiIHroZK5NsHLFGNdmgxPwQaMJg6RPPuJ2XzIgvORboz9lypc+ulb435ZVLtARbI5S2
+         a93jhfPNjwA9LyzKwJ0mtR7+3xykaTztqHt7EeMdoCrJNZGbfX6WOPOpv+ZXFuBEh+E2
+         KNjheuoowPXECzDusIkLkafB42B95PjF/upmSKC6X6OpI2y9frwF2NAperMUmkAl+by3
+         YAa7hPTHXR1vLQh+LzzCvAfAk8Ie0gvj4D6pReQJFYOvOgeRWmKAo9SxFXWKMFOg1fMx
+         k8fA==
+X-Gm-Message-State: AOAM5300H9MOpnq5Q4rAzX6DeJlvmOwLMyMl0iVZRyaO9xqM3w18UYIo
+	Z0KRBMivQ8rec24NW5PPzFiSbMmtYorlFUH66fE=
+X-Google-Smtp-Source: ABdhPJwAAuE72QS/ZRy2WMGh9G6YQTyRV4FqPb3IDzUFtPyAGltY2w9mZPMZ6Y93VUISeBebHUfJjh/QLe9H7BICCe4=
+X-Received: by 2002:a17:906:4a81:: with SMTP id x1mr13896083eju.541.1601259074299;
+ Sun, 27 Sep 2020 19:11:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200925192810.1372-1-jon.mason@arm.com> <20200925192810.1372-2-jon.mason@arm.com>
+ <6a248843f00759ecac0785cea187d8724bd362aa.camel@linuxfoundation.org> <CAPoiz9zS8sXVb6iFh3Yndtej_toUXKNw4nOGdUx5WpaeevQADA@mail.gmail.com>
+In-Reply-To: <CAPoiz9zS8sXVb6iFh3Yndtej_toUXKNw4nOGdUx5WpaeevQADA@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Mon, 28 Sep 2020 04:11:03 +0200
+Message-ID: <CA+chaQdk+xnnVMuc-MVmnKTBmtXA15av3Jv6zG6w2pNSHyjx8g@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v2 1/6] Space-comma Cleanups
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000512b9605b0562e13"
 
-Move the ARMv8a tunes into a separate location (per generation).  This
-should help reduce the number of tunes in the more generic location.
+--000000000000512b9605b0562e13
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Jon Mason <jon.mason@arm.com>
----
- meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc | 0
- meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc | 0
- .../machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc     | 0
- .../include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc     | 0
- meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc | 0
- .../include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc     | 0
- meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc | 0
- .../machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc     | 0
- meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc   | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc   | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc   | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc   | 0
- .../include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc       | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc   | 0
- .../include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc       | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc   | 0
- .../include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc       | 0
- .../include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc       | 0
- meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc   | 0
- meta/conf/machine/qemuarm64.conf                                | 2 +-
- 21 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc (100%)
- rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc (100%)
+The last one is a symlink and sed -i doesn't follow symlinks as you haven't
+used --follow-symlinks.
 
-diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa55.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-diff --git a/meta/conf/machine/include/tune-cortexa65.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa65.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-diff --git a/meta/conf/machine/include/tune-cortexa65ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa65ae.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-diff --git a/meta/conf/machine/include/tune-cortexa75-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa75-cortexa55.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-diff --git a/meta/conf/machine/include/tune-cortexa75.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa75.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-diff --git a/meta/conf/machine/include/tune-cortexa76-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa76-cortexa55.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-diff --git a/meta/conf/machine/include/tune-cortexa76.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa76.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-diff --git a/meta/conf/machine/include/tune-cortexa76ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa76ae.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-diff --git a/meta/conf/machine/include/tune-cortexa77.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa77.inc
-rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa32.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-diff --git a/meta/conf/machine/include/tune-cortexa34.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa34.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa35.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa53.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa57.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa72.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa73-cortexa35.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-diff --git a/meta/conf/machine/include/tune-cortexa73.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-similarity index 100%
-rename from meta/conf/machine/include/tune-cortexa73.inc
-rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index 2f61eb0aed5f..c4096d0eeea4 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -2,7 +2,7 @@
- #@NAME: QEMU ARMv8 machine
- #@DESCRIPTION: Machine configuration for running an ARMv8 system on QEMU
- 
--require conf/machine/include/tune-cortexa57.inc
-+require conf/machine/include/arm/armv8a/tune-cortexa57.inc
- require conf/machine/include/qemu.inc
- 
- KERNEL_IMAGETYPE = "Image"
--- 
-2.20.1
+On Mon, Sep 28, 2020 at 3:48 AM Jon Mason <jdmason@kudzu.us> wrote:
 
+> On Fri, Sep 25, 2020 at 5:29 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Fri, 2020-09-25 at 15:28 -0400, Jon Mason wrote:
+> > > Multiple files have " ," instead of ", " in expressions.  This
+> > > changes
+> > > them to conform to the way the rest of them are done.
+> > >
+> > > Found and corrected via:
+> > > git ls-files | xargs sed -i 's/ ,d/, d/g'
+> > >
+> > > Signed-off-by: Jon Mason <jon.mason@arm.com>
+> > > ---
+> > >  meta/classes/linuxloader.bbclass              |   2 +-
+> > >  meta/classes/rootfs_rpm.bbclass               |   2 +-
+> > >  meta/conf/machine/include/arm/arch-arm64.inc  |  10 +-
+> > >  meta/conf/machine/include/arm/arch-armv4.inc  |   2 +-
+> > >  meta/conf/machine/include/arm/arch-armv5.inc  |   2 +-
+> > >  meta/conf/machine/include/arm/arch-armv6.inc  |   2 +-
+> > >  meta/conf/machine/include/arm/arch-armv6m.inc |   2 +-
+> > >  meta/conf/machine/include/arm/arch-armv7a.inc |   2 +-
+> > >  .../conf/machine/include/arm/arch-armv7ve.inc |   2 +-
+> > >  .../machine/include/arm/arch-armv8-2a.inc     |   2 +-
+> > >  meta/conf/machine/include/arm/arch-armv8a.inc |   2 +-
+> > >  meta/conf/machine/include/mips/arch-mips.inc  |  16 +-
+> > >  .../conf/machine/include/tune-arm1136jf-s.inc |   2 +-
+> > >  .../conf/machine/include/tune-arm1176jz-s.inc |   2 +-
+> > >  meta/conf/machine/include/tune-arm920t.inc    |   2 +-
+> > >  meta/conf/machine/include/tune-arm926ejs.inc  |   2 +-
+> > >  meta/conf/machine/include/tune-arm9tdmi.inc   |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa15.inc  |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa17.inc  |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa5.inc   |   2 +-
+> > >  .../include/tune-cortexa57-cortexa53.inc      |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa7.inc   |   2 +-
+> > >  .../include/tune-cortexa72-cortexa53.inc      |   2 +-
+> > >  .../include/tune-cortexa73-cortexa53.inc      |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa8.inc   |   2 +-
+> > >  meta/conf/machine/include/tune-cortexa9.inc   |   2 +-
+> > >  meta/conf/machine/include/tune-ep9312.inc     |   2 +-
+> > >  meta/conf/machine/include/tune-iwmmxt.inc     |   2 +-
+> > >  .../machine/include/tune-strongarm1100.inc    |   2 +-
+> > >  meta/conf/machine/include/tune-xscale.inc     |   2 +-
+> > >  meta/conf/machine/include/x86/arch-x86.inc    |  12 +-
+> > >  .../recipes-core/images/core-image-minimal.bb |   2 +-
+> > >  .../qemu/qemu-system-native_5.1.0.bb          |   2 +-
+> > >  meta/recipes-devtools/qemu/qemu_5.1.0.bb      |   4 +-
+> > >  .../vulkan/vulkan-demos_git.bb                |   2 +-
+> > >  meta/recipes-kernel/linux/linux-yocto-dev.bb  |   2 +-
+> > >  .../linux/linux-yocto-rt_5.4.bb               |   2 +-
+> > >  .../linux/linux-yocto-rt_5.8.bb               |   2 +-
+> > >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   4 +-
+> > >  meta/recipes-kernel/linux/linux-yocto_5.8.bb  |   4 +-
+> > >  .../libpng/libpng_1.6.37.bb                   |   2 +-
+> > >  scripts/pybootchartgui/pybootchartgui/main.py | 184
+> > > +++++++++++++++++-
+> >
+> > Cleanup is good but this last bit doesn't look quite right!
+>
+> I 100% agree, but it is from the the command I mentioned in the commit
+> message.  In fact, I ran it again just to be sure it wasn't an
+> accident.  I have no idea why that file is being so heavily modified
+> perhaps the sed regex is having some unforeseen side effect.  I'll
+> remove it by hand from the commit and push a v3.
+>
+> Thanks,
+> Jon
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+> 
+>
+>
+
+--000000000000512b9605b0562e13
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The last one is a symlink and sed -i doesn&#39;t follow sy=
+mlinks as you haven&#39;t used=C2=A0--follow-symlinks.</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 28, 202=
+0 at 3:48 AM Jon Mason &lt;<a href=3D"mailto:jdmason@kudzu.us">jdmason@kudz=
+u.us</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Fri, Sep 25, 2020 at 5:29 PM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
+">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Fri, 2020-09-25 at 15:28 -0400, Jon Mason wrote:<br>
+&gt; &gt; Multiple files have &quot; ,&quot; instead of &quot;, &quot; in =
+expressions.=C2=A0 This<br>
+&gt; &gt; changes<br>
+&gt; &gt; them to conform to the way the rest of them are done.<br>
+&gt; &gt;<br>
+&gt; &gt; Found and corrected via:<br>
+&gt; &gt; git ls-files | xargs sed -i &#39;s/ ,d/, d/g&#39;<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Jon Mason &lt;<a href=3D"mailto:jon.mason@arm.com=
+" target=3D"_blank">jon.mason@arm.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/classes/linuxloader.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/classes/rootfs_rpm.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-arm64.inc=C2=A0 |=C2=A0=
+ 10 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv4.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv5.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv6.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv6m.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv7a.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 .../conf/machine/include/arm/arch-armv7ve.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 .../machine/include/arm/arch-armv8-2a.inc=C2=A0 =C2=A0 =C2=
+=
+=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/arm/arch-armv8a.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/mips/arch-mips.inc=C2=A0 |=C2=A0=
+ 16 +-<br>
+&gt; &gt;=C2=A0 .../conf/machine/include/tune-arm1136jf-s.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 .../conf/machine/include/tune-arm1176jz-s.inc |=C2=A0 =C2=
+=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-arm920t.inc=C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-arm926ejs.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-arm9tdmi.inc=C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa15.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa17.inc=C2=A0 |=C2=A0=
+ =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa5.inc=C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../include/tune-cortexa57-cortexa53.inc=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa7.inc=C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../include/tune-cortexa72-cortexa53.inc=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../include/tune-cortexa73-cortexa53.inc=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa8.inc=C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-cortexa9.inc=C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-ep9312.inc=C2=A0 =C2=A0 =C2=
+=
+=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-iwmmxt.inc=C2=A0 =C2=A0 =C2=
+=
+=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../machine/include/tune-strongarm1100.inc=C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/tune-xscale.inc=C2=A0 =C2=A0 =C2=
+=
+=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/conf/machine/include/x86/arch-x86.inc=C2=A0 =C2=A0 |=
+=C2=A0 12 +-<br>
+&gt; &gt;=C2=A0 .../recipes-core/images/<a href=3D"http://core-image-minim=
+al.bb" rel=3D"noreferrer" target=3D"_blank">core-image-minimal.bb</a> |=C2=
+=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../qemu/<a href=3D"http://qemu-system-native_5.1.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">qemu-system-native_5.1.0.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-devtools/qemu/<a href=3D"http://qemu_5.1.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">qemu_5.1.0.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A04 +-<br>
+&gt; &gt;=C2=A0 .../vulkan/<a href=3D"http://vulkan-demos_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">vulkan-demos_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-de=
+v.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a>=C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../linux/<a href=3D"http://linux-yocto-rt_5.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">linux-yocto-rt_5.4.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 .../linux/<a href=3D"http://linux-yocto-rt_5.8.bb" rel=3D"=
+noreferrer" target=3D"_blank">linux-yocto-rt_5.8.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.4.bb</a>=C2=A0 |=
+=C2=A0 =C2=A04 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.=
+8.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.8.bb</a>=C2=A0 |=
+=C2=A0 =C2=A04 +-<br>
+&gt; &gt;=C2=A0 .../libpng/<a href=3D"http://libpng_1.6.37.bb" rel=3D"nore=
+ferrer" target=3D"_blank">libpng_1.6.37.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt; &gt;=C2=A0 scripts/pybootchartgui/pybootchartgui/main.py | 184<br>
+&gt; &gt; +++++++++++++++++-<br>
+&gt;<br>
+&gt; Cleanup is good but this last bit doesn&#39;t look quite right!<br>
+<br>
+I 100% agree, but it is from the the command I mentioned in the commit<br>
+message.=C2=A0 In fact, I ran it again just to be sure it wasn&#39;t an<br=
+>
+accident.=C2=A0 I have no idea why that file is being so heavily modified<=
+br>
+perhaps the sed regex is having some unforeseen side effect.=C2=A0 I&#39;l=
+l<br>
+remove it by hand from the commit and push a v3.<br>
+<br>
+Thanks,<br>
+Jon<br>
+<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000512b9605b0562e13--
