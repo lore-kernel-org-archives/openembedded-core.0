@@ -1,91 +1,104 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.6060.1601328517251576728
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web11.6312.1601329351537127693
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2020 14:28:37 -0700
+ Mon, 28 Sep 2020 14:42:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.100, mailfrom: randy.e.witt@linux.intel.com)
-IronPort-SDR: eSrPZqUU12jWmVjZZWMaaNrdgLJ3kNVN2o0t/Bsu53JLkgmR0BBtPQK+t2MMBeN7PKZlFG5t+3
- XZDR3W+1RRDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="226212840"
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; 
-   d="scan'208";a="226212840"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 14:28:36 -0700
-IronPort-SDR: SfGYRZTYnj8Ou4lVS2J2XL2/1KaAFFfSBEMAfGzBooH5G2ZtaEKJMN02LA80FxW4DdAuw6apzu
- 6yBS2GM1+OTw==
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; 
-   d="scan'208";a="345028061"
-Received: from wraymatt-mobl1.amr.corp.intel.com ([10.251.18.70])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 14:28:36 -0700
-Subject: Re: [OE-core] RFC: Upgrading rt-tests requires numactl
-To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-References: <711dd8de-1ea7-e3cd-d606-5f69faa7c8a3@linux.intel.com>
- <CAAnfSTsTXqEXVcoL+bdCU8wyRRSs_XL2HqQ0jiMCLrRNPOWEdg@mail.gmail.com>
- <CAMKF1spFrLCVpwqeWkhys5K4r8vav6GFpFNobwkRZW3Mt=NOUA@mail.gmail.com>
-From: "Randy Witt" <randy.e.witt@linux.intel.com>
-Message-ID: <ca04f6ae-b377-9295-5764-169f10200cf3@linux.intel.com>
-Date: Mon, 28 Sep 2020 14:28:35 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dpR8Nlqt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id b79so2605230wmb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 14:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=t84A1sFVgCNnq/vN/ngPm21zoWNmO9hGt+zJpjL2cTY=;
+        b=dpR8NlqtpJz3N3dPsM9fff14Ja+dPky3mPf/MPx95z/4bBiU23rruC3uOihSKynN+B
+         GIO2hdt/z8enno5mgkV1mtU+CsYKnfzrIzABWiJha/WQGUBMi6rMynKvNN1pCafQf3YH
+         VlZeXBv5uo2g02sx0U6snZOwgbyxufuvzp9ls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=t84A1sFVgCNnq/vN/ngPm21zoWNmO9hGt+zJpjL2cTY=;
+        b=Qh9Br/IO9Nn8PvpNBLVUwJMPqEHRArm9bZDUvhBTdLVe0riNEnxFMFsl62NUYSB9pS
+         e67DHgsrDQzFpO8W1sRIdldJsJmDcpioyxXqpvkxCA4AQA7MWFUdgfIDA4gHks0uidZ/
+         ztHfAfRmQXFvAiBVnWB22K2SX0AGMnkBPcGfAWOgJQ5yrmaGD7R7LgzrdEjE4FaGXZ8T
+         Eo7b5duA9fq++Vump/3Lvt10hOaJqr99lTzlssQVNL8eg+48R9sY+9AWNaQqU39HLTn9
+         T9b6RjV8atjg+Uqm+esuCzLGzLc4bDaC7fWeIEtVzhyK1eR5XYPpNjjWaeIr2osJ1vqQ
+         EAqA==
+X-Gm-Message-State: AOAM533dDfyUt5niSKrovrm8hzFAhysdtF9ouj4wdSS9KMxEX1QZ50xK
+	resZVh0O/o6YE+DewLN/B0z51A==
+X-Google-Smtp-Source: ABdhPJyEvzv+d1RKciH/7ylzxgYDIt9K8vfVykUz1VpJWNDpKzTmkvb/ui8BoJrs3Y8fHdZLljPu+A==
+X-Received: by 2002:a7b:cd05:: with SMTP id f5mr1117269wmj.116.1601329349744;
+        Mon, 28 Sep 2020 14:42:29 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 1.d.f.d.8.7.4.c.e.3.5.3.c.6.0.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.d.f.d.8.7.4.c.e.3.5.3.c.6.0.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6c:353e:c478:dfd1])
+        by smtp.gmail.com with ESMTPSA id q68sm580390wme.25.2020.09.28.14.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 14:42:21 -0700 (PDT)
+Message-ID: <cef99332d290dc2fb0c39b8fa3ee022b64674ee6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/4] pseudo: Ignore mismatched inodes from the db
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Seebs <seebs@seebs.net>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Sep 2020 22:42:18 +0100
+In-Reply-To: <20200928105617.11183951@seebsdell>
+References: <20200928133803.2741507-1-richard.purdie@linuxfoundation.org>
+	 <20200928133803.2741507-2-richard.purdie@linuxfoundation.org>
+	 <20200928091341.3eebf87c@seebsdell>
+	 <19cfd5621921a2cf1f19be76bf216c7ac42b2e4e.camel@linuxfoundation.org>
+	 <20200928105617.11183951@seebsdell>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spFrLCVpwqeWkhys5K4r8vav6GFpFNobwkRZW3Mt=NOUA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 9/23/20 11:00 PM, Khem Raj wrote:
-> On Wed, Sep 23, 2020 at 2:40 PM Ross Burton <ross@burtonini.com> wrote:
->>
->> On Wed, 23 Sep 2020 at 18:23, Randy Witt <randy.e.witt@linux.intel.com> wrote:
->>> Another issue is that ARM is removed from COMPATIBLE_HOST in
->>> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support/numactl/numactl_git.bb?h=master#n27.
->>> This may be for legacy reasons, but libnuma can be installed on most
->>> distributions running on an ARM host. Regardless, it would need to be changed to
->>> allow for rt-tests on ARM.
->>
->> Yeah, that's probably very old.
->>
->> $ lscpu
->> Architecture:                    aarch64
->> CPU op-mode(s):                  64-bit
->> Byte Order:                      Little Endian
->> CPU(s):                          256
->> On-line CPU(s) list:             0-255
->> Thread(s) per core:              4
->> Core(s) per socket:              32
->> Socket(s):                       2
->> NUMA node(s):                    2
->>
->> The recipe has done that since it was added, so I'd call this
->> historical and just delete it.
+On Mon, 2020-09-28 at 10:56 -0500, Seebs wrote:
+> On Mon, 28 Sep 2020 15:51:53 +0100
+> "Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
 > 
-> question is not aarch64 but arm (32bit) and I think answer is still no for arm.
+> > I understand. I have strong evidence that the current handling of
+> > such
+> > a case does the wrong thing though as copying the data from the
+> > original inode leads to pretty bad corruption in its own right.
 > 
+> Yes.
+> 
+> But if you had to choose between (1) discard the possibly-bad data,
+> and (2) abort(), 2 would be a MUCH better fix.
+> 
+> Don't treat this as a thing to be worked around. Treat it as a giant
+> red flag that *we no longer have a sound reason to think that the
+> database is valid*.
 
-I compiled numactl on arm, and v1.8 of rt-tests. While the ptests for numactl 
-fail, due to there being no actual numa support, the libraries and headers still 
-work.
+Ultimately I agree.
 
-cyclictest from rt-tests seems to still set affinity appropriately and work. 
-Should we make the ptests aware of the expected results when numa isn't 
-supported? For example:
+Lets plan that we need to put an abort() here. We're not quite at the
+point we can do that and I think changing the behaviour is a reasonable
+first step so I do plan to add this patch however I will plan some
+further patches to turn it into an abort(). How quickly I can do that
+will depend upon what kind of issues it throws up.
 
-      root@qemuarm:/# /usr/lib/numactl/ptest/test/distance
-      no numa support in kernel
+> > In many ways I'd like to make these corner cases hard errors. In
+> > order
+> > to do that we need to ensure we're not hitting them though and to
+> > do
+> > that we need the next patch.
+> 
+> Yeah.
+> 
+> > Once we have the ability to ignore subtrees, we could just hard
+> > error
+> > for the potential corruption cases and force those issues to be
+> > addressed properly.
+> 
+> I think that is the right path.
 
-I also tried v1.9 of rt-tests, but it fails due to the following 
-https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/tree/src/oslat/oslat.c?h=v1.9#n72. 
-I'm going to email the maintainer about that, since there is no way to disable 
-any of the tests, outside of manually specifying each one. And it will break any 
-architecture that isn't x86_64, i386, or PPC64.
+It helps to know that! I wasn't sure if you'd hate the path filtering.
 
->> Ross
->>
->> 
->>
+Cheers,
+
+Richard
+
+
 
