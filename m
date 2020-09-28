@@ -1,77 +1,169 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.2180.1601318865039599263
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+ by mx.groups.io with SMTP id smtpd.web11.2787.1601320254032725820
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2020 11:47:45 -0700
+ Mon, 28 Sep 2020 12:10:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: saul.wold@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08SIlC0H031907
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 11:47:33 -0700
-Received: from soho-swold-l2.corp.ad.wrs.com (147.11.14.244) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 28 Sep 2020 11:47:21 -0700
-From: "Saul Wold" <Saul.Wold@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [RFC v2 1/2] testimage: Add testimage_dump_target to kwargs
-Date: Mon, 28 Sep 2020 11:47:19 -0700
-Message-ID: <20200928184720.1195777-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VDO6LsmT;
+ spf=pass (domain: gmail.com, ip: 209.85.210.68, mailfrom: akuster808@gmail.com)
+Received: by mail-ot1-f68.google.com with SMTP id u25so2042336otq.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 12:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=cC7tiVkZq9z01bxoL+U5T4U8qiCTNWq78OGU2QZBBlA=;
+        b=VDO6LsmTe/13AH1UCg31UE8ecgz9uGW/bJ8wLTXg1OUOmBjZd+dyuuKu87Tvh3RqP0
+         PUmbAcgXyeCF9mG0kQF0zR8pQKvrsgT+32N2SWUzBZV0KrfaWDKVJlL6zMl9mjGfdJTn
+         MjzaF/nXgbjfAykQEd/7w4Sp2eGiQ97+hLAI0mxH3C835iZ3YJzmH2N0DzLVMewawqlB
+         VaCkWmDRCt2A/77+7+f7ndsTTLaixcuyHn2Wa8nIXm2mkN+6nErK2NzUXnQAIgCzPfCa
+         Ug3kKLy/PiGJcaa07mY0ne+TeJUMrbkkCNcSpJENTURsTPp7i1G5wgs44EQ22pmq9D70
+         gHuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=cC7tiVkZq9z01bxoL+U5T4U8qiCTNWq78OGU2QZBBlA=;
+        b=eADja5opuLFMq+vo/cCprxF9isAGZePRtx8JrPkLNflgajVw/rV+SXdf/pwFCnx0Fv
+         dpyZAYrgV18MCuvCgysK/OLevu+kPKaeB4JpNNnjl06SprcLNaAjnjb8usugJRDR07Ws
+         bzSSrplxW6UH94j53Ixwl0D0y1fgT64LIE1KxuQtMNY9F6YexjMgdQoCFAG5ub+BCDrr
+         cJ3A9W30S0OIR4VPkr8G48blnFtqI5VDJcGB0mj/tdr/O8PMeypjT1wk/dLhUPrl9jDx
+         8UOUrXldvjnRqIOJlr7TATFlvGvctvsFR9VdezEAhmUT26XTedFm6WaXmbE9J+GdWcoo
+         jQSQ==
+X-Gm-Message-State: AOAM531Coz3CHzytljO7jCRiprKnSU0dxLHsatKLjex5gjb+0cuPnHMD
+	RIfDCapzlwWTVVCqa6IQfPDMXaovSPg=
+X-Google-Smtp-Source: ABdhPJyufk1ksXwFKqJ3CgRPpt3WZEJ6Sn7tBYyRMJ7imy9dMocfz6RcxoyGwJ0bXlfULZGWtt7S8w==
+X-Received: by 2002:a9d:62c3:: with SMTP id z3mr292771otk.321.1601320252946;
+        Mon, 28 Sep 2020 12:10:52 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9d97:e0e:5802:c8f4])
+        by smtp.gmail.com with ESMTPSA id z20sm2301184oor.3.2020.09.28.12.10.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 12:10:52 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: akuster <akuster@mvista.com>
+Subject: [PATCH] libdrm: fix build failure
+Date: Mon, 28 Sep 2020 12:10:51 -0700
+Message-Id: <20200928191051.26865-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-This passes the list of commands to run on the OEQemuTarget when
-the TargetDumper needs to run in a test context due to a failure
-on the target.
+From: akuster <akuster@mvista.com>
 
-This is added here as a kwargs because the 'd' dictionary is not
-available in the staticmethod getTarget in the
-OERuntimeTestContextExecutor class. The OEQemuTarget is different
-from the QemuTarget which already uses the list of commands from
-testimage_dump_target from 'd'. The create_dir() is needed to
-initialize the TargetDumper's dump_dir variable.
+Failure seen on my CentOS7 build host
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
+Signed-off-by: akuster <akuster@mvista.com>
 ---
- meta/classes/testimage.bbclass    | 1 +
- meta/lib/oeqa/core/target/qemu.py | 4 ++++
- 2 files changed, 5 insertions(+)
+ .../0001-xf86drm.c-fix-build-failure.patch    | 87 +++++++++++++++++++
+ meta/recipes-graphics/drm/libdrm_2.4.102.bb   |  4 +-
+ 2 files changed, 90 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 6c8bedcd65..e3feef02f8 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -319,6 +319,7 @@ def testimage_main(d):
-     target_kwargs['powercontrol_extra_args'] = d.getVar("TEST_POWERCONTROL_EXTRA_ARGS") or ""
-     target_kwargs['serialcontrol_cmd'] = d.getVar("TEST_SERIALCONTROL_CMD") or None
-     target_kwargs['serialcontrol_extra_args'] = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
-+    target_kwargs['testimage_dump_target'] = d.getVar("testimage_dump_target") or ""
+diff --git a/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch b/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
+new file mode 100644
+index 00000000000..60c996ca855
+--- /dev/null
++++ b/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
+@@ -0,0 +1,87 @@
++From c7d89412884de2dbfa543720d185027377e62f21 Mon Sep 17 00:00:00 2001
++From: Heiko Thiery <heiko.thiery@gmail.com>
++Date: Fri, 5 Jun 2020 23:46:52 +0200
++Subject: [PATCH] xf86drm.c: fix build failure
++
++./xf86drm.c: In function 'drmNodeIsDRM':
++../xf86drm.c:2825:7: error: "__FreeBSD__" is not defined [-Werror=undef]
++ #elif __FreeBSD__
++       ^
++../xf86drm.c: In function 'drmGetMinorNameForFD':
++../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
++ #elif __FreeBSD__
++       ^
++../xf86drm.c: In function 'drmParsePciBusInfo':
++../xf86drm.c:3258:7: error: "__FreeBSD__" is not defined [-Werror=undef]
++ #elif __FreeBSD__
++       ^
++../xf86drm.c: In function 'drmParsePciDeviceInfo':
++../xf86drm.c:3427:7: error: "__FreeBSD__" is not defined [-Werror=undef]
++ #elif __FreeBSD__
++       ^
++../xf86drm.c: In function 'drmGetDeviceNameFromFd2':
++../xf86drm.c:4305:7: error: "__FreeBSD__" is not defined [-Werror=undef]
++ #elif __FreeBSD__
++       ^
++
++Signed-off-by: Heiko Thiery <heiko.thiery@gmail.com>
++
++Upstream-Status: Backport
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ xf86drm.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/xf86drm.c b/xf86drm.c
++index 07a18c4..50a6f09 100644
++--- a/xf86drm.c
+++++ b/xf86drm.c
++@@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
++     snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
++              maj, min);
++     return stat(path, &sbuf) == 0;
++-#elif __FreeBSD__
+++#elif defined(__FreeBSD__)
++     char name[SPECNAMELEN];
++ 
++     if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
++@@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
++ 
++     closedir(sysdir);
++     return NULL;
++-#elif __FreeBSD__
+++#elif defined(__FreeBSD__)
++     struct stat sbuf;
++     char dname[SPECNAMELEN];
++     const char *mname;
++@@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
++     info->func = pinfo.func;
++ 
++     return 0;
++-#elif __FreeBSD__
+++#elif defined(__FreeBSD__)
++     return get_sysctl_pci_bus_info(maj, min, info);
++ #else
++ #warning "Missing implementation of drmParsePciBusInfo"
++@@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
++     device->subdevice_id = pinfo.subdevice_id;
++ 
++     return 0;
++-#elif __FreeBSD__
+++#elif defined(__FreeBSD__)
++     drmPciBusInfo info;
++     struct pci_conf_io pc;
++     struct pci_match_conf patterns[1];
++@@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
++     free(value);
++ 
++     return strdup(path);
++-#elif __FreeBSD__
+++#elif defined(__FreeBSD__)
++     return drmGetDeviceNameFromFd(fd);
++ #else
++     struct stat      sbuf;
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.102.bb b/meta/recipes-graphics/drm/libdrm_2.4.102.bb
+index fb9a94207f9..ad512d14a90 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.102.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.102.bb
+@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs"
  
-     def export_ssh_agent(d):
-         import os
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
-index 295e8765e9..0f29414df5 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -12,6 +12,7 @@ from collections import defaultdict
+-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \ 
++           file://0001-xf86drm.c-fix-build-failure.patch "
++
+ SRC_URI[sha256sum] = "8bcbf9336c28e393d76c1f16d7e79e394a7fce8a2e929d52d3ad7ad8525ba05b"
  
- from .ssh import OESSHTarget
- from oeqa.utils.qemurunner import QemuRunner
-+from oeqa.utils.dump import TargetDumper
- 
- supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
-@@ -42,6 +43,9 @@ class OEQemuTarget(OESSHTarget):
-                                  dump_host_cmds=dump_host_cmds, logger=logger,
-                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
-                                  use_ovmf=ovmf)
-+        dump_target_cmds = kwargs.get("testimage_dump_target")
-+        self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-+        self.target_dumper.create_dir("qemu")
- 
-     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
-         if self.use_slirp and not self.server_ip:
+ inherit meson pkgconfig manpages
 -- 
-2.25.1
+2.17.1
 
