@@ -1,94 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.1855.1601417805103094379
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.1882.1601418075456803149
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 15:16:45 -0700
+ Tue, 29 Sep 2020 15:21:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32AA412FC
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:16:44 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D29D43F70D
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:16:43 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] boost: move the build directory outside of S
-Date: Tue, 29 Sep 2020 23:16:38 +0100
-Message-Id: <20200929221638.2114178-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IBmGeY5B;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id v12so6431505wmh.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=mUKFvWfo+PUVL7VYaorFc5b71mPjO4G7R4zq7qOLODc=;
+        b=IBmGeY5BzCPueUKJP8VYOjURpIYVPfx2NCu+hQaMcU2BtbK6QqoqENpY6/KUo8o2mJ
+         PQU9oRXJl/s5oFnFXnxiDTNEKXHKKh5XZG1hyfWql07ulqaJecZvEjK3M7xNKnyIC8Yo
+         JbOrqQt03nwPgO4Dt6d1c1fMbX5UdWpKuqg9M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mUKFvWfo+PUVL7VYaorFc5b71mPjO4G7R4zq7qOLODc=;
+        b=YCcXVqFftiPyZSpgkb0CR2lkqIUBy70o/90tsW4HvXcTXomRrW07J8hOKsMNmkkijB
+         VYhmaXHTBjqLuEFoSgDYhccJgreoGe62P6YmtcxlEAa9Ig3gEbj+UjwpHfQfwL77AY9E
+         SvGT+hWmMOvcyUrdltKXwtw75HbmN4rFZ8aoBN1q6NiO5ZrdwIoKBAA34xOIPjYtcyPh
+         nlknMeWfe2toXf5dtCUX/3moOOI5DMwQo1FJwGVMosn02mqVc/D+gJ4bjn6AV0yP7/Ig
+         z6kBcE1fQaz9tdEsDghNh//sFdPlmW5wsKe87G5y8A6OD/UxHcPdWvN+sp20q4ezmjcu
+         tlTw==
+X-Gm-Message-State: AOAM533RMZxdOSxRYeBR/kQbhcIbIjCqVjKHlqF1+3rdSaV4MAnrjpLo
+	l1pBRoelfC1CZTrsnTqLRt/N/A==
+X-Google-Smtp-Source: ABdhPJzdScDWgtdkrANaQ0cerUuH5uLLmBGkQKHI4fZy8ouGBciJeXE4fzPhl7CoyjCExwONUyfX6g==
+X-Received: by 2002:a1c:3588:: with SMTP id c130mr6583365wma.94.1601418073795;
+        Tue, 29 Sep 2020 15:21:13 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.f.c.3.4.0.2.3.2.2.3.7.e.3.c.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.f.c.3.4.0.2.3.2.2.3.7.e.3.c.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:9c3e:7322:3204:3cf7])
+        by smtp.gmail.com with ESMTPSA id m12sm6877060wml.38.2020.09.29.15.21.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2020 15:21:13 -0700 (PDT)
+Message-ID: <b4990a266f48396e83a13279b3c557e9d8b8d3bc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] bjam-native: don't do debug builds
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross@burtonini.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 29 Sep 2020 23:21:10 +0100
 In-Reply-To: <20200929221638.2114178-1-ross.burton@arm.com>
 References: <20200929221638.2114178-1-ross.burton@arm.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Instead of manually creating and deleting build directories, follow the i=
-dioms
-by setting B to WORKDIR/build, setting do_configure[cleandirs], and using=
- ${B}
-where appropriate.
+On Tue, 2020-09-29 at 23:16 +0100, Ross Burton wrote:
+> Previously this recipe was changed to do debug builds because
+> otherwise insane
+> warns that the binary is already stripped.
+> 
+> However, debug builds for boost.build also pass -O0.  It turns out
+> that given
+> how large Boost is (or, how bad boost.build is) doing a release build
+> with -O3
+> knocks a third off the walltime for a Boost package in my test,
+> mainly by reducing
+> how long it spends deciding that nothing needs to be rebuilt in
+> do_install:
+> 
+>   PKG      TASK        ABSDIFF  RELDIFF  WALLTIME1 -> WALLTIME2
+>   boost    do_install  -330.7s   -69.2%     477.6s -> 146.9s
+>   boost    do_compile    -7.1s    -2.7%     269.3s -> 262.2s
+> 
+> Replace debug mode with INSANE_SKIP=already-stripped.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-support/boost/boost.inc | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+This isn't so simple unfortunately. If the binaries are stripped, we
+can't do the debug symbols processing, the src packages are empty and
+so on, it has knock on repercussions. 
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/=
-boost/boost.inc
-index ca140d595f..ea1bc123b8 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -7,6 +7,9 @@ CVE_PRODUCT =3D "boost:boost"
- ARM_INSTRUCTION_SET_armv4 =3D "arm"
- ARM_INSTRUCTION_SET_armv5 =3D "arm"
-=20
-+B =3D "${WORKDIR}/build"
-+do_configure[cleandirs] =3D "${B}"
-+
- BOOST_LIBS =3D "\
- 	atomic \
- 	chrono \
-@@ -146,7 +149,7 @@ BOOST_PARALLEL_MAKE =3D "${@oe.utils.parallel_make_ar=
-gument(d, '-j%d')}"
- BJAM_OPTS    =3D '${BOOST_PARALLEL_MAKE} -d+2 -q \
- 		${BJAM_TOOLS} \
- 		-sBOOST_BUILD_USER_CONFIG=3D${WORKDIR}/user-config.jam \
--		--build-dir=3D${S}/${TARGET_SYS} \
-+		--build-dir=3D${B} \
- 		--disable-icu \
- 		${BJAM_EXTRA}'
-=20
-@@ -161,6 +164,7 @@ BJAM_OPTS_append_arm =3D " abi=3Daapcs architecture=3D=
-arm"
- BJAM_OPTS_append_aarch64 =3D " abi=3Daapcs address-model=3D64 architectu=
-re=3Darm"
-=20
- do_configure() {
-+	cd ${S}
- 	cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/l=
-inux-gnueabi.hpp
-=20
- 	# D2194:Fixing the failure of "error: duplicate initialization of gcc w=
-ith the following parameters" during compilation.
-@@ -184,8 +188,9 @@ do_configure() {
- }
-=20
- do_compile() {
--	rm -rf ${S}/${TARGET_SYS}
--	bjam ${BJAM_OPTS} --prefix=3D${prefix} \
-+	cd ${S}
-+	bjam ${BJAM_OPTS} \
-+		--prefix=3D${prefix} \
- 		--exec-prefix=3D${exec_prefix} \
- 		--libdir=3D${libdir} \
- 		--includedir=3D${includedir} \
-@@ -193,6 +198,7 @@ do_compile() {
- }
-=20
- do_install() {
-+	cd ${S}
- 	bjam ${BJAM_OPTS} \
- 		--libdir=3D${D}${libdir} \
- 		--includedir=3D${D}${includedir} \
---=20
-2.25.1
+Can we stop the -O0 in debug builds somehow?
+
+Cheers,
+
+Richard
 
