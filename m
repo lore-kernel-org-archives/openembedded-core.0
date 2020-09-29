@@ -1,204 +1,168 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.1462.1601416730239678719
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.1854.1601417804758946254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 14:58:50 -0700
+ Tue, 29 Sep 2020 15:16:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=q2bS45C0;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id a4so4985494qth.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 14:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rsemm9BsPPCc9zWNEcB/qOkL5SlfgVOndx9/37bdsBI=;
-        b=q2bS45C0+JgYYQhp7zFTlEkEPGmFufCTkbyYH82XZmrF9/HdNC1jaw70kQsF03xmkW
-         uETAPLq15L2Pr12mXTbuaPgnQv79aNw/6iv/lRDamc6+tu84Srmh7Wr09dgLjTN3DWlW
-         VqJmUoqBBlKOCsKx0bE/qhbae/R1dVLlJ+pKOX603ZIyNyut27+SXaQ8V83fwqULvmKz
-         kDQEfHU8GidP6f5dy+9KBPFLxrdWlLkL4gSj3VTGX1Pn2KGHkNwTVz8zKDwivPuac+xb
-         bo0YSp9b/iJeGu4TnJ/lTyq/D+gZwP28tw2/lpUp6QbT/H8SPLHIp7Un12KrSwm8qEIa
-         lvZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rsemm9BsPPCc9zWNEcB/qOkL5SlfgVOndx9/37bdsBI=;
-        b=a8xVk0q7CS4bLqhjRmldS5wiEcCgh3HxkiWvxECiQOobjo+6cEh5wp5cRVm0bjf9l/
-         Cwct6Cs3ce67MnhQkuxWVtSslraqmaIWxqRJTvHeqQ/M+ZpS/ZzY8LpdqFf1TCyHGxaR
-         x2d5iNDuMAJBQsHj8Z/4BYvGqiOC3NOIjHeDX+YMB/wRdeGTVZRWH7JGlTdfIJ03jRoS
-         2kPVgTnbb0Zg0ezBt62UZCite7ZziLgJWNOTsGc3wtOBkzKE4fkznvV6L5qhUZmokBzm
-         rtNTdSFalued20iRJCp6UzG0A6qECNGLX2/xOD9xVpmqXF6sKBwuqt92dCglcxtD2DrN
-         oskw==
-X-Gm-Message-State: AOAM531oaFaGJHwvJJ7ESfyJu2lOQyi+pcUy5QN/yRelnzjWoEZxAM8C
-	brttvrtLM/G2p92YecqYha7Xb5d6iMr/c0aBLUA=
-X-Google-Smtp-Source: ABdhPJwEr7Ui/3clPXJMU5fzMjCZ+7R0OD9cC0/g88+PQy69ax/f3te7awx8To+0DiHIJv7ZCdQNeDK4hacG74QmjJE=
-X-Received: by 2002:ac8:544f:: with SMTP id d15mr5735298qtq.378.1601416729132;
- Tue, 29 Sep 2020 14:58:49 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A110931B
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:16:43 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BC5B3F70D
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:16:43 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] bjam-native: don't do debug builds
+Date: Tue, 29 Sep 2020 23:16:37 +0100
+Message-Id: <20200929221638.2114178-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200928130551.21346-1-jon.mason@arm.com> <20200928130551.21346-7-jon.mason@arm.com>
-In-Reply-To: <20200928130551.21346-7-jon.mason@arm.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 29 Sep 2020 14:58:22 -0700
-Message-ID: <CAMKF1spUKBY8ff3zphQ--H_9__jTKgs=hkHH7maMVJ4ZktjsHw@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v4 6/6] tunes/armv8: move to a new location
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Lets not do it. For couple of reasons,
+Previously this recipe was changed to do debug builds because otherwise i=
+nsane
+warns that the binary is already stripped.
 
-There are BSPs including these include files which are using same
-branch across multiple yocto releases, this will break them
-files under include/<ARCH> are common at arch level, this moved the
-CPU implementation ( cortex* ) under it, seems odd and even more odd
-when you consider arm32 tunes.
+However, debug builds for boost.build also pass -O0.  It turns out that g=
+iven
+how large Boost is (or, how bad boost.build is) doing a release build wit=
+h -O3
+knocks a third off the walltime for a Boost package in my test, mainly by=
+ reducing
+how long it spends deciding that nothing needs to be rebuilt in do_instal=
+l:
 
-On Mon, Sep 28, 2020 at 6:06 AM Jon Mason <jdmason@kudzu.us> wrote:
->
-> Move the ARMv8a tunes into a separate location (per generation).  This
-> should help reduce the number of tunes in the more generic location.
->
-> Signed-off-by: Jon Mason <jon.mason@arm.com>
-> ---
->  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc | 0
->  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc | 0
->  .../machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc     | 0
->  .../include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc     | 0
->  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc | 0
->  .../include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc     | 0
->  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc | 0
->  .../machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc     | 0
->  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc   | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc   | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc   | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc   | 0
->  .../include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc       | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc   | 0
->  .../include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc       | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc   | 0
->  .../include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc       | 0
->  .../include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc       | 0
->  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc   | 0
->  meta/conf/machine/qemuarm64.conf                                | 2 +-
->  21 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc (100%)
->  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc (100%)
->
-> diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa55.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa65.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa65.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa65ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa65ae.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa75-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa75-cortexa55.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa75.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa75.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa76-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa76-cortexa55.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa76.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa76.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa76ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa76ae.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa77.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa77.inc
-> rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa32.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa34.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa34.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa35.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa53.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa57.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa72.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa73-cortexa35.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-> diff --git a/meta/conf/machine/include/tune-cortexa73.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-> similarity index 100%
-> rename from meta/conf/machine/include/tune-cortexa73.inc
-> rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-> index 2f61eb0aed5f..c4096d0eeea4 100644
-> --- a/meta/conf/machine/qemuarm64.conf
-> +++ b/meta/conf/machine/qemuarm64.conf
-> @@ -2,7 +2,7 @@
->  #@NAME: QEMU ARMv8 machine
->  #@DESCRIPTION: Machine configuration for running an ARMv8 system on QEMU
->
-> -require conf/machine/include/tune-cortexa57.inc
-> +require conf/machine/include/arm/armv8a/tune-cortexa57.inc
->  require conf/machine/include/qemu.inc
->
->  KERNEL_IMAGETYPE = "Image"
-> --
-> 2.20.1
->
->
-> 
->
+  PKG      TASK        ABSDIFF  RELDIFF  WALLTIME1 -> WALLTIME2
+  boost    do_install  -330.7s   -69.2%     477.6s -> 146.9s
+  boost    do_compile    -7.1s    -2.7%     269.3s -> 262.2s
+
+Replace debug mode with INSANE_SKIP=3Dalready-stripped.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../boost/bjam-native_1.74.0.bb               | 10 ++---
+ .../0001-Build-debug-version-of-bjam.patch    | 38 -------------------
+ ....sh-use-DNDEBUG-also-in-debug-builds.patch | 27 -------------
+ 3 files changed, 4 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-support/boost/files/0001-Build-debug-ver=
+sion-of-bjam.patch
+ delete mode 100644 meta/recipes-support/boost/files/0001-build.sh-use-DN=
+DEBUG-also-in-debug-builds.patch
+
+diff --git a/meta/recipes-support/boost/bjam-native_1.74.0.bb b/meta/reci=
+pes-support/boost/bjam-native_1.74.0.bb
+index d843eb038c..c0eeed60b0 100644
+--- a/meta/recipes-support/boost/bjam-native_1.74.0.bb
++++ b/meta/recipes-support/boost/bjam-native_1.74.0.bb
+@@ -5,16 +5,14 @@ SECTION =3D "devel"
+=20
+ inherit native
+=20
+-SRC_URI +=3D "file://0001-Build-debug-version-of-bjam.patch \
+-            file://0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch =
+\
+-           "
+-
+ do_compile() {
+     ./bootstrap.sh --with-toolset=3Dgcc
+ }
+=20
+ do_install() {
+     install -d ${D}${bindir}/
+-    # install unstripped version for bjam
+-    install -c -m 755 b2 ${D}${bindir}/bjam
++    install b2 ${D}${bindir}/bjam
+ }
++
++# The build is either release mode (pre-stripped) or debug (-O0).
++INSANE_SKIP_${PN} =3D "already-stripped"
+diff --git a/meta/recipes-support/boost/files/0001-Build-debug-version-of=
+-bjam.patch b/meta/recipes-support/boost/files/0001-Build-debug-version-o=
+f-bjam.patch
+deleted file mode 100644
+index c6dcee915e..0000000000
+--- a/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.p=
+atch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 19c117c3d1388654da484e26afb3fb6c3e4181a9 Mon Sep 17 00:00:00 2001
+-From: Daniel Klauer <daniel.klauer@gin.de>
+-Date: Tue, 30 Jul 2019 11:39:09 +0200
+-Subject: [PATCH] Build debug version of bjam
+-
+-bjam is stripped by default, this causes QA warning while stripping it
+-from do_populate_sysroot():
+-
+-  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+-    from bjam-native was already stripped, \
+-    this will prevent future debugging!
+-
+-The JAM scripts allow to build unstripped version with '--debug'. Just
+-build and install the bjam.debug to stop bjam from being stripped in
+-compile step.
+-
+-Upstream-Status: Inappropriate [configuration]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- bootstrap.sh | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/bootstrap.sh b/bootstrap.sh
+-index ca0b08d58..87f38dcf2 100755
+---- a/bootstrap.sh
+-+++ b/bootstrap.sh
+-@@ -223,7 +223,7 @@ rm -f config.log
+- if test "x$BJAM" =3D x; then
+-   $ECHO -n "Building Boost.Build engine with toolset $TOOLSET... "
+-   pwd=3D`pwd`
+--  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET") > boot=
+strap.log 2>&1
+-+  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET" --debug=
+) > bootstrap.log 2>&1
+-   if [ $? -ne 0 ]; then
+-       echo
+-       echo "Failed to build Boost.Build build engine"=20
+---=20
+-2.17.1
+-
+diff --git a/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-a=
+lso-in-debug-builds.patch b/meta/recipes-support/boost/files/0001-build.s=
+h-use-DNDEBUG-also-in-debug-builds.patch
+deleted file mode 100644
+index 4c6ef2ed84..0000000000
+--- a/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-=
+debug-builds.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 2afd025997a57794ce24e07e914b461dfea6ba5f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Mon, 26 Aug 2019 16:04:16 +0200
+-Subject: [PATCH] build.sh: use -DNDEBUG also in debug builds
+-
+-Without it, there is a significant performance regression
+-when running 'bjam install'.
+-
+-Upstream-Status: Inappropriate [configuration]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- tools/build/src/engine/build.sh | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/bu=
+ild.sh
+-index a1e4cd335..64e0a4c80 100755
+---- a/tools/build/src/engine/build.sh
+-+++ b/tools/build/src/engine/build.sh
+-@@ -436,7 +436,7 @@ case $B2_OS in
+-     ;;
+- esac
+-=20
+--if check_debug_build "$@" ; then B2_CXXFLAGS=3D"${B2_CXXFLAGS_DEBUG}"
+-+if check_debug_build "$@" ; then B2_CXXFLAGS=3D"${B2_CXXFLAGS_DEBUG} -D=
+NDEBUG"
+- else B2_CXXFLAGS=3D"${B2_CXXFLAGS_RELEASE} -DNDEBUG"
+- fi
+- echo_run ${B2_CXX} ${CXXFLAGS} ${B2_CXXFLAGS} ${B2_SOURCES} -o b2
+--=20
+2.25.1
+
