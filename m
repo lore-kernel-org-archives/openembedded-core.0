@@ -1,348 +1,267 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web11.9379.1601338298824103501
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web12.10499.1601342160314094795
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2020 17:11:39 -0700
+ Mon, 28 Sep 2020 18:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rr4gmJ/w;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id v123so2799583qkd.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 17:11:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kEssqgMM;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id t14so2441501pgl.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2020 18:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mu4916quLecYtLq+FdTcystjSHc87t2owKAWPJurcwY=;
-        b=Rr4gmJ/w6r/Px/5t4TrUB/t2wI3LSCdq/OYG+/2C6meDfcJ4dHKO4hSB4Hc7Xt6HJr
-         38Ia41Vuj+7nOrSGV9IgE/Obnf09suOL4cS9DeneEjumv63eMdZIEAMFTjuUBLYaiG+0
-         ZFDuAgFZrOTHNhozd9pifDXDDoFY/CJV0K0g3NZpkzi+Ez3ZkBEpRc3/QatMlQjd3W55
-         JORaniN4Dk2fxerJDRgtuhZObDFhB5/wnZaX4RenbOL7SKB5iUPNjpL95C/KVEmBg60M
-         Y8vSemX72nxDYDr8hX7qskFwBuHZKrVMhJQfZei7A+5chpVQYhyMPV6WOf6bQhvlPKjt
-         F1wg==
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=pt9yWm9lulqT1+i85hmDEKJwAxryp2hSpQrodIZzv9Q=;
+        b=kEssqgMMAzcGsaqcbJaH1nq8j6bQldAvXR5A7mcMGBWXizQUTIE9Lo+BjOorPuzhgQ
+         Iu9uu68UtUfwQ46P2RlUUgyTGkOfZCMKAC8sHDzgNk4zLiYqhESFNJFF5J7DDVsDLqJK
+         WlfYhtkPSx+VVhOYp3VSNhSBXshg22LHiOUFsIJiaV2x0LQSbtDqYBRSP6fqx+mKb0CW
+         qXqzqR9SpqrrK1UhF9Cjz2rUA93V/Eh+r2f9H2C020iVmeEwG9Qnys/XeU2Lqbko4kZi
+         ZbG8sbYh1z13v9mlx7gFWWhr2RLDdiJYUFIN7LdTgAa/7L7gddW+M/n09FMY7n6SBUIK
+         gF1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mu4916quLecYtLq+FdTcystjSHc87t2owKAWPJurcwY=;
-        b=hd8+zmER5lhxVb4KIwnxgAepGzhy9iD0LPuY0kSCxFC1uVsUm6OL7N5aPDlMGjgPeD
-         2B6CYt5EmC272Dwnj7dDVGoCDKE/dguAJ0Y6ZBxBWjrSHZKtg83HeLvWcS1KKTLiYaU4
-         xLDr2otAhhlQJsiGGaFyTB9fnMwBTbdTA+6ZPq+GHi2QHuk0SR8G9bdekpu0xOwlDqkr
-         K0/mpb6vO2AqJMAXc/USFt68ejgT7RLNcxG7qo3OVFP0wGjY80+YaxN0sbwOEM4BBc5S
-         K7oxBPfPJ58gMNXuyeYdk2vGKNNQtS6AwTLLSjX32ia17w35kdCMrHCOzXZYY8oHc5gx
-         rULA==
-X-Gm-Message-State: AOAM533SwRQQO14CvUlcCKSD6/paQWAr8SAN25Pyng+Tnkub2ND4/O7Y
-	sA1QOSwwekbgBKrRWBdXK6pxdPi8J6UykRADVyU=
-X-Google-Smtp-Source: ABdhPJzhz0bSiR2xYIdb27z0cKhmDD1pNRJRW6d0jAYqb3oWaMlGdAdgGZ/TUdkpfMACMiwLrwta0o1Ilu1vFKXX99M=
-X-Received: by 2002:a05:620a:13f6:: with SMTP id h22mr2085373qkl.9.1601338297785;
- Mon, 28 Sep 2020 17:11:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=pt9yWm9lulqT1+i85hmDEKJwAxryp2hSpQrodIZzv9Q=;
+        b=rSVw1Q0chMPfK5yOvl5EP7bwGEyRDc6GKj5tEGsrL2P1UIK+ALScBqSA4CJt6dYCWc
+         X2Cex89pj5cAKT+6BnCwRIzjy/lA3oFnF03coPKTUFjCCkyXBRnqi+UioidR4A7puVVV
+         iyODb7bSZZgZvK2O90KjqjIzg1p4MGCjUUZx5ZhJB1qsM8ZWWBgXw05QY16i5DDtNduV
+         viTg4XNu0Sv7W5oFz927cZSy7Z6OemsJI7XJEbQSVFK52U21my76ycvGt/I0VDW9Tgpx
+         8tof0vS3kg41hPH9gNnlUD0ksbwSm9fLh9rKHcfOE89c5sMVb6rNn5DQCF1hd7I55/8K
+         RuKw==
+X-Gm-Message-State: AOAM533qjY6umuqTJYFcZgfEC+mTGrgHqfFymWtKWPtq6t5423fP208t
+	NrZjv6S7JHGyDXyjfjNVK73WHeu5h6YVdw==
+X-Google-Smtp-Source: ABdhPJzeYIdfEio3o4CHCqv8BMF1kouQoZK8x/QF67yjPci4O30obc1niFmXBC/hvZaczew3RtbeGQ==
+X-Received: by 2002:a62:1e81:0:b029:142:2dad:a68 with SMTP id e123-20020a621e810000b02901422dad0a68mr1771479pfe.5.1601342158919;
+        Mon, 28 Sep 2020 18:15:58 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (wsip-184-183-149-66.ph.ph.cox.net. [184.183.149.66])
+        by smtp.gmail.com with ESMTPSA id e62sm3003858pfh.76.2020.09.28.18.15.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Sep 2020 18:15:58 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 28 Sep 2020 18:15:57 -0700
+Message-ID: <0c4b01d695fe$165417d0$42fc4770$@gmail.com>
 MIME-Version: 1.0
-References: <20200923150515.2548741-1-richard.purdie@linuxfoundation.org>
- <20200923150515.2548741-2-richard.purdie@linuxfoundation.org> <dbbdf39c-6565-b461-a973-b58a21513826@kernel.crashing.org>
-In-Reply-To: <dbbdf39c-6565-b461-a973-b58a21513826@kernel.crashing.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 28 Sep 2020 17:11:11 -0700
-Message-ID: <CAMKF1srDUGSi8qFGQmE5Hm3xQU=_YSyzBYKbq2RXoc=ebBacBA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] ssh-regen-hostkeys: Add a recipe with pregenerated ssh host keys
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKS7fidGzT5VQ8HnILNpjn3dEn94w==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0C4C_01D695C3.69F67850"
+Content-Language: en-us
+
+------=_NextPart_000_0C4C_01D695C3.69F67850
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 334
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0C4C_01D695C3.69F67850
+Content-Type: text/html;
+	boundary="----=_NextPart_000_04A4_01D690B2.C4526180";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 28, 2020 at 8:39 AM Mark Hatle
-<mark.hatle@kernel.crashing.org> wrote:
->
-> I'm worried about this from a product security perspective.
->
-> I think this is very valid case for an autobuilder/autotest infrastructu=
-re,
-> however if this ends up in a release product it will lead to huge proble=
-ms.
->
-> Is there a way we can ensure this can only be used for the autobuilder/a=
-utotest
-> infrastructure, and never provided by accident in an image.  (If a user =
-decided
-> they must do something like this, we can't stop them -- but we should al=
-low it
-> to happene either by accident or make it look like it's good practice.)
->
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 334 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-
-its in same class as debug-tweaks in IMAGE_FEATURES, so if we can tie
-it to debug tweaks we should be offering a good
-balanced solution.
-
-> --Mark
->
-> On 9/23/20 10:05 AM, Richard Purdie wrote:
-> > Host keys are getting bigger and taking an ever increasing amount of t=
-ime
-> > to generate. Whilst we do need to test that works, we don't need to te=
-st
-> > it in every image. Add a recipe which can be added to images with
-> > pre-generated keys, allowing us to speed up tests on the autobuilder
-> > where it makes sense to.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  .../ssh-pregen-hostkeys/dropbear_rsa_host_key | Bin 0 -> 805 bytes
-> >  .../openssh/ssh_host_ecdsa_key                |   9 +++++
-> >  .../openssh/ssh_host_ecdsa_key.pub            |   1 +
-> >  .../openssh/ssh_host_ed25519_key              |   7 ++++
-> >  .../openssh/ssh_host_ed25519_key.pub          |   1 +
-> >  .../openssh/ssh_host_rsa_key                  |  38 +++++++++++++++++=
-+
-> >  .../openssh/ssh_host_rsa_key.pub              |   1 +
-> >  .../ssh-pregen-hostkeys_1.0.bb                |  19 +++++++++
-> >  8 files changed, 76 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/dropbear_rsa_host_key
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_ecdsa_key
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_ed25519_key
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_rsa_key
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys/openssh/ssh_host_rsa_key.pub
-> >  create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-=
-pregen-hostkeys_1.0.bb
-> >
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/dropbear_rsa_host_key b/meta/recipes-connectivity/ssh-pregen-hostk=
-eys/ssh-pregen-hostkeys/dropbear_rsa_host_key
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..30443c94388530f82308f4=
-1517839c8932026eec
-> > GIT binary patch
-> > literal 805
-> > zcmV+=3D1KRum000Mbb7(Dcb724g00RL40RR920RW_9o<Q`&RLY?p;cQBYl_0xM7ker@
-> > z#>e=3DVPY-g{TMU)xikgot*E3d4mq}vnGGMFK&?`3lQuzp%&bLmM?!~`G;T{U;4Y_oX
-> > ztW&5pYa=3D!AY~l?MU+0l28E$@8(~zi5Bd|IC1+@_wEtWbRYFyfC@g&!whp05e8cXIs
-> > zAO2$|o3V1#D_vFi`9{vpf^~zgpZ#hwyW(^VKuj<OzgVE^XFF~}ce5HLEhMA_A#DjB
-> > zr|?tGWY(1vcP3@X_D<(~^_D`?%NDne77p}AN|!y909XYC`_sATu*WrQf(gmixEp2-
-> > z>$8a#0)WG<q}MUu|8+c0X4jT;_QU9xX=3D4BY0RR*iF07uNPP`KH&1{G<hh4xnn%0dY
-> > zP#Ae@xR_Z!^$9gP{n3QwBhy^nPrHKA9b%3xtLoGy16TJlVr!|nt%cHREwUHDBZ)#&
-> > zIuv0};sB&0b(1XUZ=3DR#^gKw)AJ->viB+c<qch4BVT!3pT)F^ZFH1vHt`w`Y0@D@##
-> > z@@ZGZ%D<}4p}ve0)Xwh;edfrl=3D)p&V9UGh~&x8Yu)sWosd`Y;+BqJ~l)2TH)09_+3
-> > zZ4`?ekchIl<e1h>_qjZCYr4Lp0K;iIPX5{`t64nTmV(|FuFJ&BZ$BAyJg?pxXg<a)
-> > zbV^FhSAdt5<k_}IRCaywz#yJWqIS6&l<@!n0D%Ccn(fVgheZMOMklNB@_0x97I^c(
-> > z)g%(nv9r;~j;->7$f}g_o>)88b=3Dv%Es_PL7V(*H}r1F5#*9l3)Gfn<ql<Ti$LHrEj
-> > zS-L{YkFoPvZ(fHzZ3tgU=3D!A>JlT_mL2YLkdI4|&EdH&9vMig5l?U-%Rc`5EN%eoyF
-> > zuVc{w004mi|Ec<oe#A0Q9VqAgVm(o9sLt1ZfurNgFvIvhY0&q8+JQroO#OAF8r-iY
-> > zN-Z{|f9K{)ifw^eNk}eKb<KvqcQ0#>dX6Z%1|5s(MS`eaRn9_0H4of0ISncPXCoP&
-> > jnu6P-g&8cZCSpI?z=3D;2?Sr97OqIjGUAl>AZv%QM*=3D5vR&
-> >
-> > literal 0
-> > HcmV?d00001
-> >
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_ecdsa_key b/meta/recipes-connectivity/ssh-pregen-=
-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key
-> > new file mode 100644
-> > index 00000000000..86c2104ec8a
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_ecdsa_key
-> > @@ -0,0 +1,9 @@
-> > +-----BEGIN OPENSSH PRIVATE KEY-----
-> > +b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAaAAAABNlY2RzY=
-S
-> > +1zaGEyLW5pc3RwMjU2AAAACG5pc3RwMjU2AAAAQQRJR6iZxr/NTqQN9NOwV+WPtu42r2e=
-F
-> > +rJ0xsnlqw5bpmfz6aDR8RQvVHUZjRGQfR/RXPbQ5x+bjjdm176TuXNhHAAAAqAoE27MKB=
-N
-> > +uzAAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBElHqJnGv81OpA3=
-0
-> > +07BX5Y+27javZ4WsnTGyeWrDlumZ/PpoNHxFC9UdRmNEZB9H9Fc9tDnH5uON2bXvpO5c2=
-E
-> > +cAAAAgLiHv/IWhxwosz9BiNILOOPlXaueL5hVTBKUJkpOi48sAAAANcm9vdEBxZW11bWl=
-w
-> > +cwECAw=3D=3D
-> > +-----END OPENSSH PRIVATE KEY-----
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_ecdsa_key.pub b/meta/recipes-connectivity/ssh-pre=
-gen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub
-> > new file mode 100644
-> > index 00000000000..a358aeb88a7
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_ecdsa_key.pub
-> > @@ -0,0 +1 @@
-> > +ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAA=
-ABBBElHqJnGv81OpA3007BX5Y+27javZ4WsnTGyeWrDlumZ/PpoNHxFC9UdRmNEZB9H9Fc9tDnH=
-5uON2bXvpO5c2Ec=3D root@qemupregen
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_ed25519_key b/meta/recipes-connectivity/ssh-prege=
-n-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key
-> > new file mode 100644
-> > index 00000000000..00ed9adae2f
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_ed25519_key
-> > @@ -0,0 +1,7 @@
-> > +-----BEGIN OPENSSH PRIVATE KEY-----
-> > +b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZ=
-W
-> > +QyNTUxOQAAACDHSFTAbJ3OTd1r1E8G5JleCmsJEpQHmdTGtMcYqwWbbwAAAJChFtV0oRb=
-V
-> > +dAAAAAtzc2gtZWQyNTUxOQAAACDHSFTAbJ3OTd1r1E8G5JleCmsJEpQHmdTGtMcYqwWbb=
-w
-> > +AAAEA8UiUsygsTbP0HkDi5leXpQaVXihDyCHeitkBCItJGhcdIVMBsnc5N3WvUTwbkmV4=
-K
-> > +awkSlAeZ1Ma0xxirBZtvAAAADXJvb3RAcWVtdW1pcHM=3D
-> > +-----END OPENSSH PRIVATE KEY-----
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_ed25519_key.pub b/meta/recipes-connectivity/ssh-p=
-regen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub
-> > new file mode 100644
-> > index 00000000000..cc0e2f43ed2
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_ed25519_key.pub
-> > @@ -0,0 +1 @@
-> > +ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMdIVMBsnc5N3WvUTwbkmV4KawkSlAeZ1=
-Ma0xxirBZtv root@qemupregen
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_rsa_key b/meta/recipes-connectivity/ssh-pregen-ho=
-stkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key
-> > new file mode 100644
-> > index 00000000000..a8e4406ba34
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_rsa_key
-> > @@ -0,0 +1,38 @@
-> > +-----BEGIN OPENSSH PRIVATE KEY-----
-> > +b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtc=
-n
-> > +NhAAAAAwEAAQAAAYEA2Q6dzF1xziCQCFq+e+Fv6w0607gNlyKnkhuoRq8G7/HEqXU2eEt=
-C
-> > +i3AMUrAP8k7s9kP5vI5CyfSgFuC9MxDV2YL2bsmvRxBSKgg6KbNxkoTaFBqyqHopuWQca=
-8
-> > +KRahvzt5dh9fsmeqamIwgMWKTSwtDHcsbyt84nmO2Z2ZrNXobgueMIj+HiJVgmWn86FQF=
-L
-> > +EoONAA+qb4SciPsxvmTlaQ/DMAh3llVo/IMLD9oyAyAI2kbHNnZttlYv5TmY7ICd3yCW8=
-z
-> > +PXrxNcEF3Qs1d68gVJxLjLKTlYGzJW2J+RwY+1DJZ0w4lozeQiZXTXVtzcJB0tm2DcvQM=
-z
-> > +kqyARmncSUwcPbEClEW6Y2xQnLeSHjexzlCCndiUbBTeG5iRl4OL6DN40iI9Lw2VROtj2=
-Y
-> > +59n9PCfaoUs08dsgJLaNrDbRHrCRLSdZJ6OQFiC/nAx/t4e4+wdUgNOqLyJqomdNdaLXP=
-q
-> > +tzr9ssrcY5j1DmmwKtzfTI5VM9LRQo+REIiUCNTFAAAFiFh232tYdt9rAAAAB3NzaC1yc=
-2
-> > +EAAAGBANkOncxdcc4gkAhavnvhb+sNOtO4DZcip5IbqEavBu/xxKl1NnhLQotwDFKwD/J=
-O
-> > +7PZD+byOQsn0oBbgvTMQ1dmC9m7Jr0cQUioIOimzcZKE2hQasqh6KblkHGvCkWob87eXY=
-f
-> > +X7JnqmpiMIDFik0sLQx3LG8rfOJ5jtmdmazV6G4LnjCI/h4iVYJlp/OhUBSxKDjQAPqm+=
-E
-> > +nIj7Mb5k5WkPwzAId5ZVaPyDCw/aMgMgCNpGxzZ2bbZWL+U5mOyAnd8glvMz168TXBBd0=
-L
-> > +NXevIFScS4yyk5WBsyVtifkcGPtQyWdMOJaM3kImV011bc3CQdLZtg3L0DM5KsgEZp3El=
-M
-> > +HD2xApRFumNsUJy3kh43sc5Qgp3YlGwU3huYkZeDi+gzeNIiPS8NlUTrY9mOfZ/Twn2qF=
-L
-> > +NPHbICS2jaw20R6wkS0nWSejkBYgv5wMf7eHuPsHVIDTqi8iaqJnTXWi1z6rc6/bLK3GO=
-Y
-> > +9Q5psCrc30yOVTPS0UKPkRCIlAjUxQAAAAMBAAEAAAGAGIj+bUtiwdoMbeVUAszIydkE/=
-U
-> > +mgv6S7LFjT/KlsL1M017LYJWDcdMaFnhMouksRngSxBg9OnWV5cxyURmFwytVy5bMGjRH=
-b
-> > +N8UWTgBqphU+UWdzKngkn0AhtkyYA1aFhgsml5d8EgEkZnFSc/KtoDfZU7AJX519/FtfO=
-K
-> > +m27Shx3pE7Nohh97avHyuidR1gTwdvuMIMke57g0BhrxPYmredaKCMZAHjjCeD6JbRcGj=
-+
-> > +ly3I9u8MF8BGSbLpBlLDUFCwP8G5CdmMua8bPJYhPSRqMLQhclI7hc6FaYk+gZV9B74Iv=
-/
-> > +SAxcCwI97dNbE0IAsbbWoUdoKGpAYQ5gOdhu5ioqZwKWjNjB3Xx48mq8xtmIR9HEnYzEn=
-k
-> > +b/tDWNRWrGkvNK7vpLvnbsSSKBqOAbMzmQdJxogTgjE5doSmu2/krIMR6KUcUox2ZrR8O=
-t
-> > +JM6bXyNFBviiXmYvw/SZTDrVJu8BPMu5EMS5pBl8jPFBGI/ePk4qg7lWAJeQ89ThtBAAA=
-A
-> > +wQDEU4HjomWwJsn9UWdoodXTV5aPY9B1OPkmYnRPtsjSAcXgtBzUXMEOsmXODOK3aQjsE=
-0
-> > +jQKpWDAUcUf6KKZKRehxUN4MlwujCG9czn65S6B8BsP1YUfZQjpNyub8vDBfeKzlxKBEE=
-M
-> > +lb4iBT+LEGkihK13H5CbqRg1GDAThZzwrV4pj3S40zgyHhn8JjK4x4djEY6NwkWH8E2Dg=
-D
-> > +8vYG/FKh5E/VIZtCgtAHa4QNAgGB4VMRn1VpSJzxjCxb1wancAAADBAPT7F34WYEI3Vc5=
-2
-> > +p1U5rPa6dZtg5QM14V0+KtMlb3frd0/F+JVj4t6COQ8J9pkOuD0YjOYJuFXIWAAYIjCdW=
-t
-> > +cbTi/sSERawOWxrgSwJo2vjt5izrBQtr3N8tiB6KDGa5sdgJl5XzJ0SsdStfBbyhcJO4R=
-V
-> > +p9lc+X8OsUfFsClmyIs45vlxBRH06DP6/zmYCAmqvlrfZJKqlpKAEWDDObRy/3+mSNhZ0=
-J
-> > +BdmncASiASRlPPIoIHznyA1COUn6+TnwAAAMEA4tH89Dez2JauyPVeCyHAC680vrBKjmM=
-x
-> > +WYdpq2Xzd/LNl2L9oc0IEZzerLTuaCh6qsbbk2wWj1nrYXvefz/xUtDR427tvRXckcsWh=
-P
-> > +2HYohdYBkwTpp9QuscIV76GdwbTImuNEzvABH1hpTG6DSzqeyf/EVmSq07nptJIs5lpU4=
-9
-> > +tW2aWraSvswHR9xfts1U79w9f4BNDy1rTmfuLERTRNF/T9CIFsk9tArLUNT64mhHtoEs8=
-F
-> > +9AyGuq6v49bN0bAAAADXJvb3RAcWVtdW1pcHMBAgMEBQ=3D=3D
-> > +-----END OPENSSH PRIVATE KEY-----
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys/openssh/ssh_host_rsa_key.pub b/meta/recipes-connectivity/ssh-prege=
-n-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key.pub
-> > new file mode 100644
-> > index 00000000000..9eb8c3838fb
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s/openssh/ssh_host_rsa_key.pub
-> > @@ -0,0 +1 @@
-> > +ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZDp3MXXHOIJAIWr574W/rDTrTuA2XI=
-qeSG6hGrwbv8cSpdTZ4S0KLcAxSsA/yTuz2Q/m8jkLJ9KAW4L0zENXZgvZuya9HEFIqCDops3GS=
-hNoUGrKoeim5ZBxrwpFqG/O3l2H1+yZ6pqYjCAxYpNLC0MdyxvK3zieY7ZnZms1ehuC54wiP4eI=
-lWCZafzoVAUsSg40AD6pvhJyI+zG+ZOVpD8MwCHeWVWj8gwsP2jIDIAjaRsc2dm22Vi/lOZjsgJ=
-3fIJbzM9evE1wQXdCzV3ryBUnEuMspOVgbMlbYn5HBj7UMlnTDiWjN5CJldNdW3NwkHS2bYNy9A=
-zOSrIBGadxJTBw9sQKURbpjbFCct5IeN7HOUIKd2JRsFN4bmJGXg4voM3jSIj0vDZVE62PZjn2f=
-08J9qhSzTx2yAkto2sNtEesJEtJ1kno5AWIL+cDH+3h7j7B1SA06ovImqiZ011otc+q3Ov2yytx=
-jmPUOabAq3N9MjlUz0tFCj5EQiJQI1MU=3D root@qemupregen
-> > diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys_1.0.bb b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-=
-hostkeys_1.0.bb
-> > new file mode 100644
-> > index 00000000000..ddd10e6eeba
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkey=
-s_1.0.bb
-> > @@ -0,0 +1,19 @@
-> > +SUMMARY =3D "Pre generated host keys mainly for speeding up our qemu =
-tests"
-> > +
-> > +SRC_URI =3D "file://dropbear_rsa_host_key \
-> > +           file://openssh"
-> > +
-> > +LICENSE =3D "MIT"
-> > +LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade6=
-98e0bcf8506ecda2f7b4f302"
-> > +
-> > +INHIBIT_DEFAULT_DEPS =3D "1"
-> > +
-> > +do_install () {
-> > +     install -d ${D}${sysconfdir}/dropbear
-> > +     install ${WORKDIR}/dropbear_rsa_host_key -m 0600 ${D}${sysconfdi=
-r}/dropbear/
-> > +
-> > +     install -d ${D}${sysconfdir}/ssh
-> > +     install ${WORKDIR}/openssh/* ${D}${sysconfdir}/ssh/
-> > +     chmod 0600 ${D}${sysconfdir}/ssh/*
-> > +     chmod 0644 ${D}${sysconfdir}/ssh/*.pub
-> > +}
-> > \ No newline at end of file
-> >
-> >
-> >
-> >
-> >
->
->=20
->
+------=_NextPart_000_0C4C_01D695C3.69F67850--
