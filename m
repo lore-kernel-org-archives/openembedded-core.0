@@ -1,17 +1,17 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.83])
- by mx.groups.io with SMTP id smtpd.web12.1866.1601395087361379149
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.45])
+ by mx.groups.io with SMTP id smtpd.web11.1868.1601395088212561749
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 08:58:07 -0700
+ Tue, 29 Sep 2020 08:58:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=ZxIKJTB3;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.237.83, mailfrom: chris.laplante@agilent.com)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=EqcerHBc;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.92.45, mailfrom: chris.laplante@agilent.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IVsL4pknUkPrYJMOX3LnVqIRhWSwf4wEpVDvxLSfLSpierNThZELcLsCm09EjtS7mERNArjOv7uBXQ937hv5WdcrXVCKGWu94p0EPPdf6fAECAVxXiHO0mNDeqgJ3FhVg/p0ofer1DWyoA94ROClj2rEGGoFq6ix4GxjlWlfhN8BqKTma+Gnowa7jpJ+p0Pm2uN/HpryL0l7Sbf4iwOz5O5mnJM4KdXCE1W8TNw5C0Jwx2wYTIhH8OD0D01DKpxpHBqxo9hcqRuP3r/B+xQ5vs+37fdsm1kvUo6w0VrSBPJ7wZ7xuWWL/Xr269khG78sdVCeN1b75I3HteTtDVkcOg==
+ b=LE49HAClH3NhzVd13ouML2u86WoJnakB4A1KAYB8HbnpEiuyg56jSfnlMMWy1TUpyCKjq3lVoi5h1k6ix+gLCUyARYuiYNYnMM3FhLgV6bOrQacLiUxdCd58V0mWBHwKX7IPAyny9pr2j3hC3jt9dLGkXQb1TMAFZwiD7hBIhYKuChIiHIp9q4Jgfc4Vb0qiUg3fMYp1uOUDV/xrp9lIJXCvzk2Aq3lGyvAy/46E+9isoL25k+oKvOBcZB46or/jIi04yCJeZbOZfseXp5xryyaocUy6SfQkE8yYfU3Icmp7tBdCHDJPJULF9WM+1kz+gASK6iquofFYrYKPFKJWOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IyBttsOz4mDQrz1ZzVlK+7dCxIFh11+z4c+T0JvXhKQ=;
- b=jdfH8f6zNbw5P089L7pDfLn1+EoaOl0EI/XMzTWm2JVc6+hy16lUvEXub6S4gSRyXC4O7eEuSvBGBXxWF+8Cy2qELbJtMfelOLtnNIOLtmuCqsxLfH1G+CmWm77vXl0IxXUf/ON5K2dv8/0NAFLx9/feen6iJTgqjXtfHJdk1PZBJ/+WjG21slseuvSZ/4FIhoE2F3m09S12KJwnn23YLQ9ig4qgQKimeoqu/WMHAMZ4RT87mbaAak3/NTbW6qRmeZKm5wo6z+o1OLK6I3RFEHLRgNa8EK3Nc9Ffiu/bRA6saqkNoZdukH0zcL0uCQIP8JWkNCLuytpGhNs63YGvAg==
+ bh=T3QIkGruzd1eiGm2ku33xtsT+zn9JophHSVDaHXiXis=;
+ b=JzDORMMEjOhemUCq28mBbDiS83BNwN38hH5otEg3eRKl0s/8FTP5tC0EebvwtLaXE14DYijwiwSF7Rgf0vIMji/4Xi71bZ5SyYuZijW0iFvKJuxZOCw/bZJShIzMRwfiUfvL9ec4KFPbniSR9dIAWetUTVfRCNM2I0xmsqpNHlxCTjbEGZdGZobMm8+XHqBwGTX/QbIW9ZEppkU39cEuy5r9ZZF+CMFGifL59+4TrvwbcmfU5ByrMYsdLXbtnMXIvkh5vboVa3BO874zbIHyvcSJIxQsVTarfXYI0+59CUwVOg7OqlIwhWx/8kDFvSS1v0BwJZL2y0lG3cFQs//Zbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.25.218.34) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -19,17 +19,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IyBttsOz4mDQrz1ZzVlK+7dCxIFh11+z4c+T0JvXhKQ=;
- b=ZxIKJTB3WWxBiLyW/o8PcZMTQL0nP7sxqxEbjN0FiZykd+UNFYN+ttwH502JhQhVIA93FbCN/x4sISItpuB96jKOtjPRClfz/ZxYRMzGgob+MqvSvCrBjyW/iXY+sunBYvNnw384yJT4HnRMVCo2fEUMtwVDEcqHX30/CO+BwxxLv+ik6vftc4lL2lNHztTURyBfjNXydqvRdNhViJgb0ESgveSk7CSwYG73u1JXESjmDx8+GVK4G0881NzX9n6vRV48ndSYhxM/De9wa0h4vZfo/TfAXD9h9QHRpbsVwPCd3TlxLU5Akdl1UgV4QNNq+eeo6BEkICcPKAQXtZX8Zw==
-Received: from DM5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:3:23::32) by
- BYAPR12MB2838.namprd12.prod.outlook.com (2603:10b6:a03:6f::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.25; Tue, 29 Sep 2020 15:58:06 +0000
-Received: from DM6NAM12FT043.eop-nam12.prod.protection.outlook.com
- (2603:10b6:3:23:cafe::3d) by DM5PR13CA0022.outlook.office365.com
- (2603:10b6:3:23::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.18 via Frontend
- Transport; Tue, 29 Sep 2020 15:58:05 +0000
+ bh=T3QIkGruzd1eiGm2ku33xtsT+zn9JophHSVDaHXiXis=;
+ b=EqcerHBc57wdF/hWSGg2OYuIoslEYIcSarxD8jrL0Uk2MLPHV0BZYSsYskLpyHHNc2EXVzZjyFehbH5cw4EFy1qRw1WVPpTjGjRcCse/G1Hqj/BNm5n4IEPYam29/tJYl9sdvkv6VnSzEwnmnU5dfXsTmrj3NCwohScS3h/EPfOjHoQSzFxxj0bvSjT8W+rQui8klavJlBXdvUeGy/xECCutj90M8HnAK7pBGMyyarm4/o8y1WD/fzBpSGjerfXxKBSXxn3vOM5pSXhUycMpwGwxk39DqsomWETXhXdVLDxNX4ArJva3880q7MRD/PdgbfzbiPGDDAKOlPL9wpT8Qw==
+Received: from DM6PR11CA0021.namprd11.prod.outlook.com (2603:10b6:5:190::34)
+ by MN2PR12MB3709.namprd12.prod.outlook.com (2603:10b6:208:167::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Tue, 29 Sep
+ 2020 15:58:06 +0000
+Received: from DM6NAM12FT013.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:5:190:cafe::3b) by DM6PR11CA0021.outlook.office365.com
+ (2603:10b6:5:190::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21 via Frontend
+ Transport; Tue, 29 Sep 2020 15:58:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.34)
  smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
  signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
@@ -38,19 +39,21 @@ Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
  192.25.218.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.25.218.34; helo=edgeappmail.agilent.com;
 Received: from edgeappmail.agilent.com (192.25.218.34) by
- DM6NAM12FT043.mail.protection.outlook.com (10.13.179.162) with Microsoft SMTP
+ DM6NAM12FT013.mail.protection.outlook.com (10.13.178.66) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.14 via Frontend Transport; Tue, 29 Sep 2020 15:58:05 +0000
+ 15.20.3433.14 via Frontend Transport; Tue, 29 Sep 2020 15:58:06 +0000
 Received: from laplante-lm-19.localdomain (192.25.126.27) by
  edgeappmail.agilent.com (192.25.218.34) with Microsoft SMTP Server id
- 15.1.2044.4; Tue, 29 Sep 2020 09:57:52 -0600
+ 15.1.2044.4; Tue, 29 Sep 2020 09:57:53 -0600
 From: "Chris Laplante" <chris.laplante@agilent.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH 1/2] cve-check: introduce CVE_CHECK_RECIPE_FILE variable to allow changing of per-recipe check file
-Date: Tue, 29 Sep 2020 11:57:45 -0400
-Message-ID: <20200929155746.101021-1-chris.laplante@agilent.com>
+Subject: [PATCH 2/2] cve-check: add CVE_CHECK_REPORT_PATCHED variable to suppress reporting of patched CVEs
+Date: Tue, 29 Sep 2020 11:57:46 -0400
+Message-ID: <20200929155746.101021-2-chris.laplante@agilent.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200929155746.101021-1-chris.laplante@agilent.com>
+References: <20200929155746.101021-1-chris.laplante@agilent.com>
 MIME-Version: 1.0
 Return-Path: chris.laplante@agilent.com
 Received-SPF: SoftFail (wpcosapexchedg3.windmz.agilent.com: domain of
@@ -58,74 +61,113 @@ Received-SPF: SoftFail (wpcosapexchedg3.windmz.agilent.com: domain of
  permitted sender)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3acf97c9-0882-4ccb-b8ed-08d864907400
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2838:
+X-MS-Office365-Filtering-Correlation-Id: 2bff6f2e-419b-4b0d-001f-08d86490745d
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3709:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR12MB2838FAE503FA82E47609A37F8B320@BYAPR12MB2838.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+	<MN2PR12MB3709789C586CB99F11270A2A8B320@MN2PR12MB3709.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	1GzGPLFvTjOTAOiDcGtgt1umS1g9jvUFkrL17SxxxyN7k726OHGVrUjKYxTIoytHH235pPGl0s/mC3Pr51uStSoohNzd566lpERql4kIoj0lYv6jz6JoaQ6pnPva8SBy9RaCLRhL2aE+Hen/JhdiwxWPjGDYt9z0USTrbTzE0hvYz0KCi3ydUyVvI1siErKA4Jqqy6c2Ibmw6vKrofiUYwGJ+E67R2zX5Vt7sowTML2Espa+ePYL3QxvApgAtjVGDR/JiVkOwCTZco5c2CVJ5mZQSU6DViV1BTe17G6YC5/qm7/FggLwA+HvpR/CMztwRTaYdbifmgG4z4GwTS8zzJWFOsRh+nj+6wMslIFPq7I/OyOzvaHa8fYk7OdonKfvKjrYmx2GH9qzWd16J3cirA+iM8sU8lU5nWwPbra2X6DHkMbgZdCqhJn1LKqI8NJAYFJJzbP7btWluaY2WtCEat/CEoNy+n4MvGCaLB4TIdY=
+	bmyNzTOazo8HfIkL0LpJLxVWiKCV5IMl6GTbKK4Wxk9jlgKEMJDcA1LpsLLQ3w3WQELG0qibWIsF/+qxp3sQFsIdf/VFLJAhNsISW4kCGnyiv5qysnHpfpVZry3UNB17CTMyffkDpG3FTvoifnnoXJ+4M4gsfQAXAtcNVtTh7b4f6ZLvHc0XJrjttRLNDMs0SF9SDVIU0K501l53xPuhztYNc7V458OJ8EAbGJQub72pN61BLWWLmC5wN2/mBtFl3xSeZcH0nwn49CX6uM2DDUU8C0Cqk64GQbd42yaTmmLmiajxkkOTVwUY9Z29dquI2553jPtxm+Wr+SVZeMtVybBkRQ1Y2atkESxNexTJ5XarutuUF137BPJ7KVNlJ4ZS0G87AZM0RJ4fFOc0CvOK+awcoqIZD3p0NIalu1NRip7F3VGTSj2EyM30xAf/IuFm+VrohkqFwlbQtJRzXBPykT+86ceE2NJxJ6Sm88GGNg4=
 X-Forefront-Antispam-Report: 
-	CIP:192.25.218.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg3.windmz.agilent.com;CAT:NONE;SFS:(4636009)(346002)(39860400002)(136003)(376002)(396003)(29502001)(46966005)(83380400001)(86362001)(44832011)(356005)(7636003)(47076004)(82310400003)(70206006)(82740400003)(5660300002)(1076003)(6916009)(8676002)(107886003)(426003)(336012)(316002)(4326008)(2906002)(36906005)(26005)(186003)(36756003)(6666004)(956004)(2616005)(8936002)(478600001);DIR:OUT;SFP:1101;
+	CIP:192.25.218.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg3.windmz.agilent.com;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(346002)(29502001)(46966005)(478600001)(5660300002)(4326008)(107886003)(426003)(336012)(956004)(2616005)(186003)(8676002)(8936002)(26005)(36906005)(2906002)(6916009)(86362001)(316002)(36756003)(70206006)(82310400003)(7636003)(356005)(44832011)(6666004)(83380400001)(47076004)(82740400003)(1076003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2020 15:58:05.6008
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2020 15:58:06.2046
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3acf97c9-0882-4ccb-b8ed-08d864907400
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bff6f2e-419b-4b0d-001f-08d86490745d
 X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.34];Helo=[edgeappmail.agilent.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM6NAM12FT043.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM6NAM12FT013.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2838
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3709
 Content-Type: text/plain
 
-The addition of this variable also makes it possible to change the
-output suffix of the check files, e.g. in local.conf:
+Default behavior is not changed. To suppress patched CVEs, set:
 
-CVE_CHECK_MANIFEST_append = ".txt"
-CVE_CHECK_RECIPE_FILE_append = ".txt"
+        CVE_CHECK_REPORT_PATCHED = ""
 
 Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 ---
- meta/classes/cve-check.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/cve-check.bbclass | 38 ++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 02fef7c205..df28a93687 100644
+index df28a93687..25cefda92e 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -36,6 +36,7 @@ CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
- CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
-+CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
- CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
+@@ -41,14 +41,16 @@ CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve
  CVE_CHECK_COPY_FILES ??= "1"
  CVE_CHECK_CREATE_MANIFEST ??= "1"
-@@ -118,7 +119,7 @@ python cve_check_write_rootfs_manifest () {
-     import shutil
  
-     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
--        deploy_file = os.path.join(d.getVar("CVE_CHECK_DIR"), d.getVar("PN"))
-+        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
-         if os.path.exists(deploy_file):
-             bb.utils.remove(deploy_file)
++CVE_CHECK_REPORT_PATCHED ??= "1"
++
+ # Whitelist for packages (PN)
+ CVE_CHECK_PN_WHITELIST ?= ""
  
-@@ -355,9 +356,8 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
-         f.write(write_string)
+ # Whitelist for CVE. If a CVE is found, then it is considered patched.
+ # The value is a string containing space separated CVE values:
+-# 
++#
+ # CVE_CHECK_WHITELIST = 'CVE-2014-2524 CVE-2018-1234'
+-# 
++#
+ CVE_CHECK_WHITELIST ?= ""
  
-     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
--        cve_dir = d.getVar("CVE_CHECK_DIR")
--        bb.utils.mkdirhier(cve_dir)
--        deploy_file = os.path.join(cve_dir, d.getVar("PN"))
-+        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
-+        bb.utils.mkdirhier(os.path.dirname(deploy_file))
-         with open(deploy_file, "w") as f:
+ python cve_save_summary_handler () {
+@@ -332,12 +334,15 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+     bb.utils.mkdirhier(os.path.dirname(cve_file))
+ 
+     for cve in sorted(cve_data):
++        is_patched = cve in patched
++        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
++            continue
+         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
+         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
+         write_string += "CVE: %s\n" % cve
+         if cve in whitelisted:
+             write_string += "CVE STATUS: Whitelisted\n"
+-        elif cve in patched:
++        elif is_patched:
+             write_string += "CVE STATUS: Patched\n"
+         else:
+             unpatched_cves.append(cve)
+@@ -351,19 +356,20 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+     if unpatched_cves:
+         bb.warn("Found unpatched CVE (%s), for more information check %s" % (" ".join(unpatched_cves),cve_file))
+ 
+-    with open(cve_file, "w") as f:
+-        bb.note("Writing file %s with CVE information" % cve_file)
+-        f.write(write_string)
+-
+-    if d.getVar("CVE_CHECK_COPY_FILES") == "1":
+-        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
+-        bb.utils.mkdirhier(os.path.dirname(deploy_file))
+-        with open(deploy_file, "w") as f:
++    if write_string:
++        with open(cve_file, "w") as f:
++            bb.note("Writing file %s with CVE information" % cve_file)
              f.write(write_string)
  
+-    if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
+-        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
+-        bb.utils.mkdirhier(cvelogpath)
++        if d.getVar("CVE_CHECK_COPY_FILES") == "1":
++            deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
++            bb.utils.mkdirhier(os.path.dirname(deploy_file))
++            with open(deploy_file, "w") as f:
++                f.write(write_string)
++
++        if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
++            cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
++            bb.utils.mkdirhier(cvelogpath)
+ 
+-        with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
+-            f.write("%s" % write_string)
++            with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
++                f.write("%s" % write_string)
 -- 
 2.17.1
 
