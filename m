@@ -1,78 +1,41 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.2031.1601418330735716181
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.3722.1601423381768931765
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 15:25:31 -0700
+ Tue, 29 Sep 2020 16:49:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=feCOTO1H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id g4so7180796wrs.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 15:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CSN50BxN5WmYMLvOlleHQagJkIYhGAje3m+jQJOohdk=;
-        b=feCOTO1HEnNowqGTk8mp0voWkyY+AZYP/O9+4uDo3RAKK2MvD+P+td4KN7AcvMf3Ag
-         z8YgW4gArc0T+FARFYqVm8vdsTvLlN71hKqzF3bJ/ih3lTV/0/FA2Z4Jwl6w5X4bEtMy
-         LzitNv1pRYUpTQTg6RQhA4EpsBpVXayu3eaVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CSN50BxN5WmYMLvOlleHQagJkIYhGAje3m+jQJOohdk=;
-        b=R0HiZKYr0XKZpyqHGdmyT4ZHezYDwMqc1G3gDN8XSdHvu/suM/ffqbKx31nrBjwCwp
-         Nafye+e6Deri87qX0HPCB9bdYXcsmqrmquJ53tALY1wJ6G5ya2r/hmU7kOH+FGIk3PR7
-         Aj5J7k0reOJZao0wC+AziLJOLZK2Tpf5VMXgk6E2YSYHCYPF7oRhJdMAYlUb6pdY6qTX
-         5/gakDHm+8B3TPmKGMZrAui3UAF56rENzEyXeVudxJ+TNa5xri/ycde9Y/7o2ihmCUrE
-         WkKN9G5AI4PrsfyvMFdtv084tvJhctjEqbGu21ZzbqWJzMYdOugEJT3GEm7bo6jdkj3A
-         K0mA==
-X-Gm-Message-State: AOAM530yEJoYw10vujEYbcNB8CI56H7I7ptIGuBKXCQXECtqhbysGtss
-	3vEWUPy2Uk8Xk4yDKglzwasfDcrF/fB15Q==
-X-Google-Smtp-Source: ABdhPJy3t/2ceLf5+gGRj5g5El1PdJXTDZq6HDbrHkVrFVG1tijZ76Y6XzXgqq+MIoODR65J6bux8w==
-X-Received: by 2002:adf:ec4d:: with SMTP id w13mr6873007wrn.334.1601418328473;
-        Tue, 29 Sep 2020 15:25:28 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (7.f.c.3.4.0.2.3.2.2.3.7.e.3.c.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:9c3e:7322:3204:3cf7])
-        by smtp.gmail.com with ESMTPSA id x16sm7914572wrq.62.2020.09.29.15.25.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 15:25:22 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest/devtool: Add sync call to test teardown
-Date: Tue, 29 Sep 2020 23:25:22 +0100
-Message-Id: <20200929222522.2796655-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CEE0540C1F;
+	Tue, 29 Sep 2020 23:49:40 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dNgq95zhhVks; Tue, 29 Sep 2020 23:49:40 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6AEAF40B96;
+	Tue, 29 Sep 2020 23:49:36 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id BC7BB17447E; Tue, 29 Sep 2020 19:49:35 -0400 (EDT)
+Date: Tue, 29 Sep 2020 19:49:35 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour September 30 9pm/2100 UTC
+Message-ID: <20200929234935.GW19155@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Devtool tests are heavy on IO and if bitbake can't write out its caches, we see
-timeouts. Call "sync" around the tests to ensure the IO queue doesn't get too
-large, taking any IO hit here rather than in bitbake shutdown.
+Just a reminder about our upcoming OpenEmbedded Happy Hour on September 30 for 
+Oceania/Asia timezones @ 2100/9pm UTC (5pm EDT):
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+https://www.openembedded.org/wiki/Calendar
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+September+30&iso=20200930T21
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index a3d2e9ea7cc..4a791ff40e0 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -107,6 +107,13 @@ class DevtoolBase(OESelftestTestCase):
-                         'under the build directory')
-         self.append_config(self.sstate_conf)
- 
-+    def tearDown(self):
-+        # devtools tests are heavy on IO and if bitbake can't write out its caches, we see timeouts.
-+        # call sync around the tests to ensure the IO queue doesn't get too large, taking any IO
-+        # hit here rather than in bitbake shutdown.
-+        super().tearDown()
-+        os.system("sync")
-+
-     def _check_src_repo(self, repo_dir):
-         """Check srctree git repository"""
-         self.assertTrue(os.path.isdir(os.path.join(repo_dir, '.git')),
 -- 
-2.25.1
-
+Denys
