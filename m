@@ -1,42 +1,75 @@
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
- by mx.groups.io with SMTP id smtpd.web10.121.1601399134032495373
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web10.557.1601400196187793944
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 10:05:34 -0700
+ Tue, 29 Sep 2020 10:23:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 0A9672E8936;
-	Tue, 29 Sep 2020 12:05:32 -0500 (CDT)
-Date: Tue, 29 Sep 2020 12:05:29 -0500
-From: "Seebs" <seebs@seebs.net>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/4] pseudo: Ignore mismatched inodes from the db
-Message-ID: <20200929120529.2bac3172@seebsdell>
-In-Reply-To: <cef99332d290dc2fb0c39b8fa3ee022b64674ee6.camel@linuxfoundation.org>
-References: <20200928133803.2741507-1-richard.purdie@linuxfoundation.org>
-	<20200928133803.2741507-2-richard.purdie@linuxfoundation.org>
-	<20200928091341.3eebf87c@seebsdell>
-	<19cfd5621921a2cf1f19be76bf216c7ac42b2e4e.camel@linuxfoundation.org>
-	<20200928105617.11183951@seebsdell>
-	<cef99332d290dc2fb0c39b8fa3ee022b64674ee6.camel@linuxfoundation.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MZV8X3Up;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.66, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f66.google.com with SMTP id j11so16195312ejk.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 10:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yeiYsBe+XmqTxtcJq9ddXefVj8qs7M9BGN6/TcbEKb4=;
+        b=MZV8X3UpdI0VomDxATonMqpb6FDQjco7XyBW8eaSzAWEftIkomH6QaUA1tSJBR9Y5u
+         PO/1413PFI/N6RP+g+/ZLtBd6MEKOLbVooPgrJTWiFMQu4sKLrjp8Wdt3SKRtZ7VAqDw
+         Fq9Pf9tLKkCwVyrrYDMJy3SXYeHrDlmPZW3L9g2h/4o1GX+Mi0slzkf7gu3HekSVMwKx
+         JEF5ZSKWKV9o9d84TT4qnqTiVoKD9MjfEIqlqNwKUu4UsQyopx4ndfUR9xz9aeCksyRW
+         WEZWR2EgWkf9pH1t4hSYkqfhAZj/SJ5X66j8zzIOkcAoRsM7KW+e23TGwAlycfand4tG
+         liwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yeiYsBe+XmqTxtcJq9ddXefVj8qs7M9BGN6/TcbEKb4=;
+        b=t2IM+qqAXsjv0zXB7t393oClxMQjIcZ00J9k+jBHjpWRwOiEqEO/8WQ/vzpuJ/KtHq
+         PO9NA/ZCZUQ356neqy/rPQFGTU/QXVyGg5kIRsuc0Xvat9Klnv9RVU6ZqqGTUB+u4MKl
+         axHv+FAQXygEIVPwo2PqG4J99Vda3OH2lKF+6Wp1nSgEQ5bcqWnr9NLMu0JVXrTL3E21
+         lNGSsnGIXxdlJETsqPD7h4OkEgGoQDmoccleYVL4tKhHlVkXnCZalngdR3zNp6rYMN1R
+         RHkw5Lk0slUw8Ov9uNvVlEpoNFY5GcQhp2v6IbaEQHrJo+6f23vIqg9afBAkviM8KtCK
+         JYvw==
+X-Gm-Message-State: AOAM530LoDNQLDUQvfGuYKzSN0c+DOZ9NvOtGCOoS3g+dl5cNFh83dH5
+	HABdJy5rPvaBsQcnDof2gBle4Bfd4LHlLfMMwfzSWg==
+X-Google-Smtp-Source: ABdhPJw5UrobC173Yv2Pp6PTMma4BswjSw62iZ9FcBHdWMgN2S/Fi+MtCM1EAV87VdWYEowzgdu+z8SmupcF2BOJL6U=
+X-Received: by 2002:a17:906:e05:: with SMTP id l5mr5130630eji.173.1601400194463;
+ Tue, 29 Sep 2020 10:23:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1600122415.git.bruce.ashfield@gmail.com>
+ <ced4f4ad5252bcc989f40b54341c0d7a5835bfce.1600122415.git.bruce.ashfield@gmail.com>
+ <CAOSpxdYTk_t5EWiSydN9-bLPvs-JnsM8LJZgEuJw8oTNOWVitw@mail.gmail.com>
+ <CADkTA4M+00ziJmy53FYH+cs302+9eGEqw--=Zc_stwQzKC0pHA@mail.gmail.com>
+ <CAOSpxdYTy=PAgsQXwuk8ujGebdxB9NRqYDzykxcEkQgy8t0JPg@mail.gmail.com>
+ <1638C0AFDA43827E.8201@lists.openembedded.org> <CADkTA4Oqnt_69n=1Vp2BF39Wj=ZeaY6kWVW+PP+up=xRQ24+NQ@mail.gmail.com>
+ <CAOSpxdaf8i_9QZQ5GT++HAEKU7FkkpABBhGVBzsNbYJwN-jdAA@mail.gmail.com>
+ <16391475BC3C80C8.17908@lists.openembedded.org> <CADkTA4M-kTQAbauvmf2tSA9F39i1F5fBKkMNsZHkc1NnxbWfiQ@mail.gmail.com>
+In-Reply-To: <CADkTA4M-kTQAbauvmf2tSA9F39i1F5fBKkMNsZHkc1NnxbWfiQ@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 29 Sep 2020 07:23:02 -1000
+Message-ID: <CAOSpxdb6eS3Xqpt4ObB2bxQ-ebqwEJZWpv50c82MaezaQv8ojg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 6/6] lttng-modules: backport patches from 2.12.x to fix 5.4.64+ and 5.8.9+ builds
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 28 Sep 2020 22:42:18 +0100
-"Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
+On Tue, Sep 29, 2020 at 4:55 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> Steve,
+>
+> Attached is the minimal backport that I was able to pull together.
+> Chuck that in the queue and you can take the latest 5.4.x -stable
+> updates.
+>
+> So it looks like we can get away without a version bump for now.
+>
+> It passed all my local testing, but let me know if it causes you issues.
 
-> It helps to know that! I wasn't sure if you'd hate the path filtering.
+Autobuilder test is in process, but preliminary results look good -
+one of the five builds that failed before has passed with your patch.
 
-It was on my to-do list at one point to be able to denote "the pseudo
-filesystem" in some way and just politely ignore everything outside it.
-And, possibly, switch to keeping paths relative to it in some way.
+Fingers crossed . . .
 
-But it looked very expensive, and honestly one of the things it was
-waiting on was my vague belief that what pseudo really needs is to
-switch to using length-prefixed strings so it can stop constantly
-calling strlen.
+Thanks!
 
--s
+Steve
