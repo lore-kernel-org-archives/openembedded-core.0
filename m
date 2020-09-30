@@ -1,658 +1,88 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web12.5603.1601429920920949597
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+ by mx.groups.io with SMTP id smtpd.web11.6636.1601434009666741639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 18:38:41 -0700
+ Tue, 29 Sep 2020 19:46:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=g3Eq9yZ6;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id cy2so127687qvb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 18:38:40 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=cTZXxVKd;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.65, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f65.google.com with SMTP id f11so180399qvw.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 19:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gEru8u5Xzy4zqqK9TNhnR+dMEL00Suo1q6pFIPlW1vA=;
-        b=g3Eq9yZ6aadHriSBR6mSsZja7gqYepDwNnbaThcbCJ7IXJJ08COTvxXENzf8vsL7uv
-         N9szI+/H4UCSxK3Vw7K/y4kaNb+ZTWTrvpt8SVMt9+G8NOD999QxOLbKh21KQ0ZQ/++Q
-         Dp6MhXhWK1WEIY51c7mSV2BV40VtY9gcyfgafJ/E3eDD1NU3wvbRrFAqyG6ZeATGyz5M
-         xGgi4apCGbI50h6/F+3FQ+xSBGW/0AqYBAIKbKEB2CEIkPl5hseraxuExrKBj+GZfS5a
-         ZV6UFrDesOQqB2XPYguJGMEMnEmYh12/v1Uxwh0jhy4klh+EHCbdXpygAixq+d1bl9Ud
-         fIkA==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=3TrUhDv+uxQZVm9dWLEvwkcEuLDfG3fW8E+1pJ3L07E=;
+        b=cTZXxVKdpZDUOxaQ0Qr/MMAcosdOfqHvJssVO6ytGZms/MeOeDHz868btvdK/Yls1n
+         qdGmU7QVSiEMO3OpmJ3VliaTnnVtTnLRnKU9eutZaKtLiZfNrxEJAwOWSXKwOT2vw1Nt
+         R5z60wqw1wqJOT2nPpnygYP+lD7ITzhW0i5J9Zn6ESP5Mf9z+lPSPpkmTugcUJHs8H0a
+         I3riWZz8nToAZqIXS5mjpZCM2KBYzZz9ut8rBhcsBSI2r48MdL7vrB5a1JDMFlPhZR1Y
+         bMK0RlgUc3jyaN+aUGH+J/WZvgvhWFRCy/iMxQ8X1Tv5dsLpFegkI2W2U35Ln4KVDBwo
+         CwnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gEru8u5Xzy4zqqK9TNhnR+dMEL00Suo1q6pFIPlW1vA=;
-        b=EUYPXpCr4uaf8SQJNdv94Hn38lejIDkiJzXV+B8IrVmnoGPPumyyOJjuyDzBGAkb2G
-         Gu7ROW8kE4Pg38bELQK0Vdtr5bctwEW7iEj6BunqOwCkRHHRkdi9Au7XZPCqPUzAB6wG
-         rw6Zm429X1wm3XkJts4zT0UP9Tv8DjdbTkhRnuV846aYbs+XB+O63zp48ZWVjDSmGcWh
-         GY0OLwcXi9tkeeqz1LJ5dG39Hh5zr+diUeA8g92GD0NAIMVngPbxtdNgQAwHKzekU/Sb
-         Mdf1l0kS3bq+AmwLn+niiqnlcnfmm3KWN97sepCbTSQChcgaUdbIgfVvctCcREMdKuBL
-         vu1g==
-X-Gm-Message-State: AOAM531HA49yCgf8OnW892b3kyBOLATTwR97U5ajn9+k3iOV63LA1Ls/
-	V6NH8cNuqFSAFpy9ne4qk3JTzJ0phKijRAQ8Kn0=
-X-Google-Smtp-Source: ABdhPJzbrTXt+gH0bZBnhhiF+ftkf7r3hJ2ea57WWENm8yMiFdFU5iV3U0SqAsZHe5ZEPTkypOx5gZ1SlmLA1/lKGj8=
-X-Received: by 2002:a0c:e188:: with SMTP id p8mr155174qvl.8.1601429919678;
- Tue, 29 Sep 2020 18:38:39 -0700 (PDT)
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=3TrUhDv+uxQZVm9dWLEvwkcEuLDfG3fW8E+1pJ3L07E=;
+        b=issW+8PtINYi84iVNMjrH8336FiAsscvaJwyZs4zkXqInRtAr7a20q8qOQXjxNLpM7
+         ZPpG7fCLm+h7jBdKHhkCoPME1byR8huaWPWEsM7PW7kGYLTxxxvx22lNG1n/jhSj6jIE
+         pskg4eRv+JRGWp4f1JYBJ4Y2R/oHDPPr1SuRbOZBuGpF45nF5aV4EE5b/MOUd9l8tarz
+         60XFrORw0mqUvZecLNQ60aLUis+rJGfnK+cIWzaoLDZaitAbbUV0UqYsDjIJkb3FV03V
+         wOUFuevqkSALSRatFwV/84rkHtilELnHVV+PSs9jRt9vmbuqqAwsnDQcoTp+lu9BBKg5
+         9KLA==
+X-Gm-Message-State: AOAM533TAYlhpEumWwGepdjlg2kGLFmx8wvm7dgRhZ/lQnJ776xiKs03
+	gJCklSN5P2LS3mClV1eFk+wf8dUTHE1dzG7B
+X-Google-Smtp-Source: ABdhPJyo3kQAgB3Pm89SwhnU+81pqRm3ygvVZ9RSLubn+oFVrzR881tzy0+Ix8ThqiEMbnPJBOXvlw==
+X-Received: by 2002:a0c:e28b:: with SMTP id r11mr387255qvl.23.1601434008559;
+        Tue, 29 Sep 2020 19:46:48 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com. [209.85.160.179])
+        by smtp.gmail.com with ESMTPSA id w44sm637773qth.9.2020.09.29.19.46.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f179.google.com with SMTP id b2so114020qtp.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
+X-Received: by 2002:ac8:24b9:: with SMTP id s54mr229800qts.138.1601434007151;
+ Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200924023944.48941-1-mingli.yu@windriver.com>
- <25e019e30ea0a91d4c6f9d85a9beeb21f4470953.camel@intel.com>
- <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com> <CAMKF1spOERv6f00A=zrEzOAT_+heXx=rs3x09S8DnorcMqDPpQ@mail.gmail.com>
- <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com> <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
-In-Reply-To: <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 29 Sep 2020 18:38:13 -0700
-Message-ID: <CAMKF1soOHd+qMKAu8iajL+0wRaKg=ZGmo7APRJyJ-jUHdQ5Jbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bash: fix CVE-2019-18276
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "mingli.yu@windriver.com" <mingli.yu@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20200928130551.21346-1-jon.mason@arm.com> <20200928130551.21346-7-jon.mason@arm.com>
+ <CAMKF1spUKBY8ff3zphQ--H_9__jTKgs=hkHH7maMVJ4ZktjsHw@mail.gmail.com> <CAPoiz9w4iYci=mQPSEveAymTPDwLwspM22KQNH+wsLO0NC_7ew@mail.gmail.com>
+In-Reply-To: <CAPoiz9w4iYci=mQPSEveAymTPDwLwspM22KQNH+wsLO0NC_7ew@mail.gmail.com>
+Date: Tue, 29 Sep 2020 23:46:35 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKprwu+-D3yMzbd1=f7m1PM50c-Exxv3gYxTE=F87jGMiA@mail.gmail.com>
+Message-ID: <CAP9ODKprwu+-D3yMzbd1=f7m1PM50c-Exxv3gYxTE=F87jGMiA@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v4 6/6] tunes/armv8: move to a new location
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2020 at 6:21 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+Em ter., 29 de set. de 2020 =C3=A0s 21:38, Jon Mason <jdmason@kudzu.us> esc=
+reveu:
 >
-> On Mon, 2020-09-28 at 20:45 -0700, Khem Raj wrote:
-> > On Mon, Sep 28, 2020 at 8:27 AM Khem Raj <raj.khem@gmail.com> wrote:
-> > > On Wed, Sep 23, 2020 at 11:00 PM Yu, Mingli <
-> > > mingli.yu@windriver.com> wrote:
-> > > > Hi Anuj,
-> > > >
-> > > > On 9/24/20 10:50 AM, Anuj Mittal wrote:
-> > > > > Hi Mingli,
-> > > > >
-> > > > > On Thu, 2020-09-24 at 10:39 +0800, Yu, Mingli wrote:
-> > > > > > From: De Huo <De.Huo@windriver.com>
-> > > > > >
-> > > > > > An issue was discovered in disable_priv_mode in shell.c in
-> > > > > > GNU Bash
-> > > > > > through 5.0 patch 11. By default, if Bash is run with its
-> > > > > > effective
-> > > > > > UID
-> > > > > > not equal to its real UID, it will drop privileges by setting
-> > > > > > its
-> > > > > > effective UID to its real UID. However, it does so
-> > > > > > incorrectly. On
-> > > > > > Linux
-> > > > > > and other systems that support "saved UID" functionality, the
-> > > > > > saved
-> > > > > > UID
-> > > > > > is not dropped. An attacker with command execution in the
-> > > > > > shell can
-> > > > > > use
-> > > > > > "enable -f" for runtime loading of a new builtin, which can
-> > > > > > be a
-> > > > > > shared
-> > > > > > object that calls setuid() and therefore regains privileges.
-> > > > > > However,
-> > > > > > binaries running with an effective UID of 0 are unaffected.
-> > > > > >
-> > > > > > Get the patch from [1] to fix the issue.
-> > > > > >
-> > > > > > [1]
-> > > > > > https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
-> > > > >
-> > > > > Has something changed from last time this patch was submitted
-> > > > > and later
-> > > > > reverted because of the failing ptest? I remember the author
-> > > > > saying
-> > > > > this isn't a real security bug and there were also changes in
-> > > > > the patch
-> > > > > that weren't related to the CVE ...
-> > > >
-> > > > Changed the patch a little to remove the configure file part to
-> > > > fix the
-> > > > reconfigure issue in v1 patch.
-> > > >
-> > > > Yes, the author saying the patch did fix the issue stated in
-> > > > CVE-2019-18276 though the issue actually is't a big deal.
-> > > >
-> > >
-> > > This seems to be regressing bash ptests now.
-> > >
-> > >     ptestresult.bash.run-glob-test
-> > >     ptestresult.bash.run-read
-> > >     ptestresult.bash.run-trap
-> > >
+> On Tue, Sep 29, 2020 at 5:58 PM Khem Raj <raj.khem@gmail.com> wrote:
 > >
-> > These failures are happening without this patch too, so perhaps
-> > something else has caused it, could be perhaps setup related too.
+> > Lets not do it. For couple of reasons,
 > >
-> >     ptestresult.bash.run-builtins
-> >     ptestresult.bash.run-glob-test
-> >     ptestresult.bash.run-intl
-> >     ptestresult.bash.run-printf
-> >     ptestresult.bash.run-read
-> >     ptestresult.bash.run-trap
-> >
-> >
+> > There are BSPs including these include files which are using same
+> > branch across multiple yocto releases, this will break them
+> > files under include/<ARCH> are common at arch level, this moved the
+> > CPU implementation ( cortex* ) under it, seems odd and even more odd
+> > when you consider arm32 tunes.
 >
-> Last time this was applied, it had introduced:
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13795
->
-> because of the unrelated glob changes in this patch. Are you seeing
-> this failure?
->
+> There are so many specific files and I'm about to add even more
+> (cortex-m).  I agree that it should be done uniformly, instead of
+> doing just the armv8 ones.  So, let's drop this patch (not the
+> series), and I'll address it after the gatesgarth release.
 
-glob failures are seen without this patch as well as it seems
+Could those tune files be generated? This could allow a hierarchical
+structure but easy maintenance. This might be a way to reduce the
+maintenance burden and avoid breaking old BSPs.
 
-> Thanks,
->
-> Anuj
->
-> >
-> > > If its not a real security bug then perhaps its better to revert
-> > > it.
-> > >
-> > >
-> > > > Thanks,
-> > > >
-> > > > > Thanks,
-> > > > >
-> > > > > Anuj
-> > > > >
-> > > > > > Signed-off-by: De Huo <De.Huo@windriver.com>
-> > > > > > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > > > > > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > > > > > ---
-> > > > > >   .../bash/bash/bash-CVE-2019-18276.patch       | 386
-> > > > > > ++++++++++++++++++
-> > > > > >   meta/recipes-extended/bash/bash_5.0.bb        |   1 +
-> > > > > >   2 files changed, 387 insertions(+)
-> > > > > >   create mode 100644 meta/recipes-extended/bash/bash/bash-
-> > > > > > CVE-2019-
-> > > > > > 18276.patch
-> > > > > >
-> > > > > > diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-
-> > > > > > 18276.patch b/meta/recipes-extended/bash/bash/bash-CVE-2019-
-> > > > > > 18276.patch
-> > > > > > new file mode 100644
-> > > > > > index 0000000000..7b2073201e
-> > > > > > --- /dev/null
-> > > > > > +++ b/meta/recipes-extended/bash/bash/bash-CVE-2019-
-> > > > > > 18276.patch
-> > > > > > @@ -0,0 +1,386 @@
-> > > > > > +From 951bdaad7a18cc0dc1036bba86b18b90874d39ff Mon Sep 17
-> > > > > > 00:00:00
-> > > > > > 2001
-> > > > > > +From: Chet Ramey <chet.ramey@case.edu>
-> > > > > > +Date: Mon, 1 Jul 2019 09:03:53 -0400
-> > > > > > +Subject: [PATCH] commit bash-20190628 snapshot
-> > > > > > +
-> > > > > > +An issue was discovered in disable_priv_mode in shell.c in
-> > > > > > GNU Bash
-> > > > > > through 5.0 patch 11.
-> > > > > > +By default, if Bash is run with its effective UID not equal
-> > > > > > to its
-> > > > > > real UID,
-> > > > > > +it will drop privileges by setting its effective UID to its
-> > > > > > real
-> > > > > > UID.
-> > > > > > +However, it does so incorrectly. On Linux and other systems
-> > > > > > that
-> > > > > > support "saved UID" functionality,
-> > > > > > +the saved UID is not dropped. An attacker with command
-> > > > > > execution in
-> > > > > > the shell can use "enable -f" for
-> > > > > > +runtime loading of a new builtin, which can be a shared
-> > > > > > object that
-> > > > > > calls setuid() and therefore
-> > > > > > +regains privileges. However, binaries running with an
-> > > > > > effective UID
-> > > > > > of 0 are unaffected.
-> > > > > > +
-> > > > > > +Get the patch from [1] to fix the issue.
-> > > > > > +
-> > > > > > +Upstream-Status: Inappropriate [the upstream thinks it
-> > > > > > doesn't
-> > > > > > increase the credibility of CVEs in general]
-> > > > > > +CVE: CVE-2019-18276
-> > > > > > +
-> > > > > > +[1]
-> > > > > > https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
-> > > > > > +
-> > > > > > +Signed-off-by: De Huo <De.Huo@windriver.com>
-> > > > > > +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > > > > > +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > > > > > +---
-> > > > > > + MANIFEST          |  2 ++
-> > > > > > + bashline.c        | 50 +-----------------------------------
-> > > > > > --------
-> > > > > > ------
-> > > > > > + builtins/help.def |  2 +-
-> > > > > > + config.h.in       | 10 +++++++++-
-> > > > > > + configure.ac      |  1 +
-> > > > > > + doc/bash.1        |  3 ++-
-> > > > > > + doc/bashref.texi  |  3 ++-
-> > > > > > + lib/glob/glob.c   |  5 ++++-
-> > > > > > + pathexp.c         | 16 ++++++++++++++--
-> > > > > > + shell.c           |  8 ++++++++
-> > > > > > + tests/glob.tests  |  2 ++
-> > > > > > + tests/glob6.sub   | 54
-> > > > > > ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > > > > > + tests/glob7.sub   | 11 +++++++++++
-> > > > > > + 14 files changed, 122 insertions(+), 56 deletions(-)
-> > > > > > + create mode 100644 tests/glob6.sub
-> > > > > > + create mode 100644 tests/glob7.sub
-> > > > > > +
-> > > > > > +diff --git a/MANIFEST b/MANIFEST
-> > > > > > +index 03de221..f9ccad7 100644
-> > > > > > +--- a/MANIFEST
-> > > > > > ++++ b/MANIFEST
-> > > > > > +@@ -1037,6 +1037,8 @@ tests/extglob3.tests  f
-> > > > > > + tests/extglob3.right       f
-> > > > > > + tests/extglob4.sub f
-> > > > > > + tests/extglob5.sub f
-> > > > > > ++tests/glob6.sub            f
-> > > > > > ++tests/glob7.sub            f
-> > > > > > + tests/func.tests   f
-> > > > > > + tests/func.right   f
-> > > > > > + tests/func1.sub            f
-> > > > > > +diff --git a/bashline.c b/bashline.c
-> > > > > > +index 824ea9d..d86b47d 100644
-> > > > > > +--- a/bashline.c
-> > > > > > ++++ b/bashline.c
-> > > > > > +@@ -3718,55 +3718,7 @@ static int
-> > > > > > + completion_glob_pattern (string)
-> > > > > > +      char *string;
-> > > > > > + {
-> > > > > > +-  register int c;
-> > > > > > +-  char *send;
-> > > > > > +-  int open;
-> > > > > > +-
-> > > > > > +-  DECLARE_MBSTATE;
-> > > > > > +-
-> > > > > > +-  open = 0;
-> > > > > > +-  send = string + strlen (string);
-> > > > > > +-
-> > > > > > +-  while (c = *string++)
-> > > > > > +-    {
-> > > > > > +-      switch (c)
-> > > > > > +-   {
-> > > > > > +-   case '?':
-> > > > > > +-   case '*':
-> > > > > > +-     return (1);
-> > > > > > +-
-> > > > > > +-   case '[':
-> > > > > > +-     open++;
-> > > > > > +-     continue;
-> > > > > > +-
-> > > > > > +-   case ']':
-> > > > > > +-     if (open)
-> > > > > > +-       return (1);
-> > > > > > +-     continue;
-> > > > > > +-
-> > > > > > +-   case '+':
-> > > > > > +-   case '@':
-> > > > > > +-   case '!':
-> > > > > > +-     if (*string == '(')   /*)*/
-> > > > > > +-       return (1);
-> > > > > > +-     continue;
-> > > > > > +-
-> > > > > > +-   case '\\':
-> > > > > > +-     if (*string++ == 0)
-> > > > > > +-       return (0);
-> > > > > > +-   }
-> > > > > > +-
-> > > > > > +-      /* Advance one fewer byte than an entire multibyte
-> > > > > > character
-> > > > > > to
-> > > > > > +-    account for the auto-increment in the loop above. */
-> > > > > > +-#ifdef HANDLE_MULTIBYTE
-> > > > > > +-      string--;
-> > > > > > +-      ADVANCE_CHAR_P (string, send - string);
-> > > > > > +-      string++;
-> > > > > > +-#else
-> > > > > > +-      ADVANCE_CHAR_P (string, send - string);
-> > > > > > +-#endif
-> > > > > > +-    }
-> > > > > > +-  return (0);
-> > > > > > ++  return (glob_pattern_p (string) == 1);
-> > > > > > + }
-> > > > > > +
-> > > > > > + static char *globtext;
-> > > > > > +diff --git a/builtins/help.def b/builtins/help.def
-> > > > > > +index 006c4b5..92f9b38 100644
-> > > > > > +--- a/builtins/help.def
-> > > > > > ++++ b/builtins/help.def
-> > > > > > +@@ -128,7 +128,7 @@ help_builtin (list)
-> > > > > > +
-> > > > > > +   /* We should consider making `help bash' do something. */
-> > > > > > +
-> > > > > > +-  if (glob_pattern_p (list->word->word))
-> > > > > > ++  if (glob_pattern_p (list->word->word) == 1)
-> > > > > > +     {
-> > > > > > +       printf ("%s", ngettext ("Shell commands matching
-> > > > > > keyword `",
-> > > > > > "Shell commands matching keywords `", (list->next ? 2 : 1)));
-> > > > > > +       print_word_list (list, ", ");
-> > > > > > +diff --git a/config.h.in b/config.h.in
-> > > > > > +index 8554aec..ad4b1e8 100644
-> > > > > > +--- a/config.h.in
-> > > > > > ++++ b/config.h.in
-> > > > > > +@@ -1,6 +1,6 @@
-> > > > > > + /* config.h -- Configuration file for bash. */
-> > > > > > +
-> > > > > > +-/* Copyright (C) 1987-2009,2011-2012 Free Software
-> > > > > > Foundation, Inc.
-> > > > > > ++/* Copyright (C) 1987-2009,2011-2012,2013-2019 Free
-> > > > > > Software
-> > > > > > Foundation, Inc.
-> > > > > > +
-> > > > > > +    This file is part of GNU Bash, the Bourne Again SHell.
-> > > > > > +
-> > > > > > +@@ -807,6 +807,14 @@
-> > > > > > + #undef HAVE_SETREGID
-> > > > > > + #undef HAVE_DECL_SETREGID
-> > > > > > +
-> > > > > > ++/* Define if you have the setregid function.  */
-> > > > > > ++#undef HAVE_SETRESGID
-> > > > > > ++#undef HAVE_DECL_SETRESGID
-> > > > > > ++
-> > > > > > ++/* Define if you have the setresuid function.  */
-> > > > > > ++#undef HAVE_SETRESUID
-> > > > > > ++#undef HAVE_DECL_SETRESUID
-> > > > > > ++
-> > > > > > + /* Define if you have the setvbuf function.  */
-> > > > > > + #undef HAVE_SETVBUF
-> > > > > > +
-> > > > > > +diff --git a/configure.ac b/configure.ac
-> > > > > > +index 52b4cdb..549adef 100644
-> > > > > > +--- a/configure.ac
-> > > > > > ++++ b/configure.ac
-> > > > > > +@@ -810,6 +810,7 @@ AC_CHECK_DECLS([confstr])
-> > > > > > + AC_CHECK_DECLS([printf])
-> > > > > > + AC_CHECK_DECLS([sbrk])
-> > > > > > + AC_CHECK_DECLS([setregid])
-> > > > > > ++AC_CHECK_DECLS[(setresuid, setresgid])
-> > > > > > + AC_CHECK_DECLS([strcpy])
-> > > > > > + AC_CHECK_DECLS([strsignal])
-> > > > > > +
-> > > > > > +diff --git a/doc/bash.1 b/doc/bash.1
-> > > > > > +index e6cd08d..9e58a0b 100644
-> > > > > > +--- a/doc/bash.1
-> > > > > > ++++ b/doc/bash.1
-> > > > > > +@@ -4681,7 +4681,8 @@ above).
-> > > > > > + .PD
-> > > > > > + .SH "SIMPLE COMMAND EXPANSION"
-> > > > > > + When a simple command is executed, the shell performs the
-> > > > > > following
-> > > > > > +-expansions, assignments, and redirections, from left to
-> > > > > > right.
-> > > > > > ++expansions, assignments, and redirections, from left to
-> > > > > > right, in
-> > > > > > ++the following order.
-> > > > > > + .IP 1.
-> > > > > > + The words that the parser has marked as variable
-> > > > > > assignments (those
-> > > > > > + preceding the command name) and redirections are saved for
-> > > > > > later
-> > > > > > +diff --git a/doc/bashref.texi b/doc/bashref.texi
-> > > > > > +index d33cd57..3065126 100644
-> > > > > > +--- a/doc/bashref.texi
-> > > > > > ++++ b/doc/bashref.texi
-> > > > > > +@@ -2964,7 +2964,8 @@ is not specified.  If the file does
-> > > > > > not exist,
-> > > > > > it is created.
-> > > > > > + @cindex command expansion
-> > > > > > +
-> > > > > > + When a simple command is executed, the shell performs the
-> > > > > > following
-> > > > > > +-expansions, assignments, and redirections, from left to
-> > > > > > right.
-> > > > > > ++expansions, assignments, and redirections, from left to
-> > > > > > right, in
-> > > > > > ++the following order.
-> > > > > > +
-> > > > > > + @enumerate
-> > > > > > + @item
-> > > > > > +diff --git a/lib/glob/glob.c b/lib/glob/glob.c
-> > > > > > +index 398253b..2eaa33e 100644
-> > > > > > +--- a/lib/glob/glob.c
-> > > > > > ++++ b/lib/glob/glob.c
-> > > > > > +@@ -607,6 +607,7 @@ glob_vector (pat, dir, flags)
-> > > > > > +   register unsigned int i;
-> > > > > > +   int mflags;              /* Flags passed to strmatch ().
-> > > > > > */
-> > > > > > +   int pflags;              /* flags passed to sh_makepath
-> > > > > > () */
-> > > > > > ++  int hasglob;             /* return value from
-> > > > > > glob_pattern_p */
-> > > > > > +   int nalloca;
-> > > > > > +   struct globval *firstmalloc, *tmplink;
-> > > > > > +   char *convfn;
-> > > > > > +@@ -648,10 +649,12 @@ glob_vector (pat, dir, flags)
-> > > > > > +   patlen = (pat && *pat) ? strlen (pat) : 0;
-> > > > > > +
-> > > > > > +   /* If the filename pattern (PAT) does not contain any
-> > > > > > globbing
-> > > > > > characters,
-> > > > > > ++     or contains a pattern with only backslash escapes
-> > > > > > (hasglob ==
-> > > > > > 2),
-> > > > > > +      we can dispense with reading the directory, and just
-> > > > > > see if
-> > > > > > there is
-> > > > > > +      a filename `DIR/PAT'.  If there is, and we can access
-> > > > > > it, just
-> > > > > > make the
-> > > > > > +      vector to return and bail immediately. */
-> > > > > > +-  if (skip == 0 && glob_pattern_p (pat) == 0)
-> > > > > > ++  hasglob = 0;
-> > > > > > ++  if (skip == 0 && (hasglob = glob_pattern_p (pat)) == 0 ||
-> > > > > > hasglob
-> > > > > > == 2)
-> > > > > > +     {
-> > > > > > +       int dirlen;
-> > > > > > +       struct stat finfo;
-> > > > > > +diff --git a/pathexp.c b/pathexp.c
-> > > > > > +index c1bf2d8..e6c5392 100644
-> > > > > > +--- a/pathexp.c
-> > > > > > ++++ b/pathexp.c
-> > > > > > +@@ -58,7 +58,10 @@ int extended_glob = EXTGLOB_DEFAULT;
-> > > > > > + /* Control enabling special handling of `**' */
-> > > > > > + int glob_star = 0;
-> > > > > > +
-> > > > > > +-/* Return nonzero if STRING has any unquoted special
-> > > > > > globbing chars
-> > > > > > in it.  */
-> > > > > > ++/* Return nonzero if STRING has any unquoted special
-> > > > > > globbing chars
-> > > > > > in it.
-> > > > > > ++   This is supposed to be called when pathname expansion is
-> > > > > > performed, so
-> > > > > > ++   it implements the rules in Posix 2.13.3, specifically
-> > > > > > that an
-> > > > > > unquoted
-> > > > > > ++   slash cannot appear in a bracket expression. */
-> > > > > > + int
-> > > > > > + unquoted_glob_pattern_p (string)
-> > > > > > +      register char *string;
-> > > > > > +@@ -85,10 +88,14 @@ unquoted_glob_pattern_p (string)
-> > > > > > +      continue;
-> > > > > > +
-> > > > > > +    case ']':
-> > > > > > +-     if (open)
-> > > > > > ++     if (open)             /* XXX - if --open == 0? */
-> > > > > > +        return (1);
-> > > > > > +      continue;
-> > > > > > +
-> > > > > > ++   case '/':
-> > > > > > ++     if (open)
-> > > > > > ++       open = 0;
-> > > > > > ++
-> > > > > > +    case '+':
-> > > > > > +    case '@':
-> > > > > > +    case '!':
-> > > > > > +@@ -106,6 +113,11 @@ unquoted_glob_pattern_p (string)
-> > > > > > +          string++;
-> > > > > > +          continue;
-> > > > > > +        }
-> > > > > > ++     else if (open && *string == '/')
-> > > > > > ++       {
-> > > > > > ++         string++;         /* quoted slashes in bracket
-> > > > > > expressions are ok */
-> > > > > > ++         continue;
-> > > > > > ++       }
-> > > > > > +      else if (*string == 0)
-> > > > > > +        return (0);
-> > > > > > +
-> > > > > > +diff --git a/shell.c b/shell.c
-> > > > > > +index a2b2a55..6adabc8 100644
-> > > > > > +--- a/shell.c
-> > > > > > ++++ b/shell.c
-> > > > > > +@@ -1293,7 +1293,11 @@ disable_priv_mode ()
-> > > > > > + {
-> > > > > > +   int e;
-> > > > > > +
-> > > > > > ++#if HAVE_DECL_SETRESUID
-> > > > > > ++  if (setresuid (current_user.uid, current_user.uid,
-> > > > > > current_user.uid) < 0)
-> > > > > > ++#else
-> > > > > > +   if (setuid (current_user.uid) < 0)
-> > > > > > ++#endif
-> > > > > > +     {
-> > > > > > +       e = errno;
-> > > > > > +       sys_error (_("cannot set uid to %d: effective uid
-> > > > > > %d"),
-> > > > > > current_user.uid, current_user.euid);
-> > > > > > +@@ -1302,7 +1306,11 @@ disable_priv_mode ()
-> > > > > > +    exit (e);
-> > > > > > + #endif
-> > > > > > +     }
-> > > > > > ++#if HAVE_DECL_SETRESGID
-> > > > > > ++  if (setresgid (current_user.gid, current_user.gid,
-> > > > > > current_user.gid) < 0)
-> > > > > > ++#else
-> > > > > > +   if (setgid (current_user.gid) < 0)
-> > > > > > ++#endif
-> > > > > > +     sys_error (_("cannot set gid to %d: effective gid %d"),
-> > > > > > current_user.gid, current_user.egid);
-> > > > > > +
-> > > > > > +   current_user.euid = current_user.uid;
-> > > > > > +diff --git a/tests/glob.tests b/tests/glob.tests
-> > > > > > +index 01913bb..fb012f7 100644
-> > > > > > +--- a/tests/glob.tests
-> > > > > > ++++ b/tests/glob.tests
-> > > > > > +@@ -12,6 +12,8 @@ ${THIS_SH} ./glob1.sub
-> > > > > > + ${THIS_SH} ./glob2.sub
-> > > > > > + ${THIS_SH} ./glob3.sub
-> > > > > > + ${THIS_SH} ./glob4.sub
-> > > > > > ++${THIS_SH} ./glob6.sub
-> > > > > > ++${THIS_SH} ./glob7.sub
-> > > > > > +
-> > > > > > + MYDIR=$PWD # save where we are
-> > > > > > +
-> > > > > > +diff --git a/tests/glob6.sub b/tests/glob6.sub
-> > > > > > +new file mode 100644
-> > > > > > +index 0000000..b099811
-> > > > > > +--- /dev/null
-> > > > > > ++++ b/tests/glob6.sub
-> > > > > > +@@ -0,0 +1,54 @@
-> > > > > > ++# tests of the backslash-in-glob-patterns discussion on the
-> > > > > > austin-
-> > > > > > group ML
-> > > > > > ++
-> > > > > > ++: ${TMPDIR:=/var/tmp}
-> > > > > > ++
-> > > > > > ++ORIG=$PWD
-> > > > > > ++GLOBDIR=$TMPDIR/bash-glob-$$
-> > > > > > ++mkdir $GLOBDIR && cd $GLOBDIR
-> > > > > > ++
-> > > > > > ++# does the pattern matcher allow backslashes as escape
-> > > > > > characters
-> > > > > > and remove
-> > > > > > ++# them as part of matching?
-> > > > > > ++touch abcdefg
-> > > > > > ++pat='ab\cd*'
-> > > > > > ++printf '<%s>\n' $pat
-> > > > > > ++pat='\.'
-> > > > > > ++printf '<%s>\n' $pat
-> > > > > > ++rm abcdefg
-> > > > > > ++
-> > > > > > ++# how about when escaping pattern characters?
-> > > > > > ++touch '*abc.c'
-> > > > > > ++a='\**.c'
-> > > > > > ++printf '%s\n' $a
-> > > > > > ++rm -f '*abc.c'
-> > > > > > ++
-> > > > > > ++# how about when making the distinction between readable
-> > > > > > and
-> > > > > > searchable path
-> > > > > > ++# components?
-> > > > > > ++mkdir -m a=x searchable
-> > > > > > ++mkdir -m a=r readable
-> > > > > > ++
-> > > > > > ++p='searchable/\.'
-> > > > > > ++printf "%s\n" $p
-> > > > > > ++
-> > > > > > ++p='searchable/\./.'
-> > > > > > ++printf "%s\n" $p
-> > > > > > ++
-> > > > > > ++p='readable/\.'
-> > > > > > ++printf "%s\n" $p
-> > > > > > ++
-> > > > > > ++p='readable/\./.'
-> > > > > > ++printf "%s\n" $p
-> > > > > > ++
-> > > > > > ++printf "%s\n" 'searchable/\.'
-> > > > > > ++printf "%s\n" 'readable/\.'
-> > > > > > ++
-> > > > > > ++echo */.
-> > > > > > ++
-> > > > > > ++p='*/\.'
-> > > > > > ++echo $p
-> > > > > > ++
-> > > > > > ++echo */'.'
-> > > > > > ++
-> > > > > > ++rmdir searchable readable
-> > > > > > ++
-> > > > > > ++cd $ORIG
-> > > > > > ++rmdir $GLOBDIR
-> > > > > > +diff --git a/tests/glob7.sub b/tests/glob7.sub
-> > > > > > +new file mode 100644
-> > > > > > +index 0000000..0212b8e
-> > > > > > +--- /dev/null
-> > > > > > ++++ b/tests/glob7.sub
-> > > > > > +@@ -0,0 +1,11 @@
-> > > > > > ++# according to Posix 2.13.3, a slash in a bracket
-> > > > > > expression
-> > > > > > renders that
-> > > > > > ++# bracket expression invalid
-> > > > > > ++shopt -s nullglob
-> > > > > > ++
-> > > > > > ++echo 1: [qwe/qwe]
-> > > > > > ++echo 2: [qwe/
-> > > > > > ++echo 3: [qwe/]
-> > > > > > ++
-> > > > > > ++echo 4: [qwe\/qwe]
-> > > > > > ++echo 5: [qwe\/
-> > > > > > ++echo 6: [qwe\/]
-> > > > > > +--
-> > > > > > +1.9.1
-> > > > > > +
-> > > > > > diff --git a/meta/recipes-extended/bash/bash_5.0.bb
-> > > > > > b/meta/recipes-
-> > > > > > extended/bash/bash_5.0.bb
-> > > > > > index 12d472be57..257a03bd8b 100644
-> > > > > > --- a/meta/recipes-extended/bash/bash_5.0.bb
-> > > > > > +++ b/meta/recipes-extended/bash/bash_5.0.bb
-> > > > > > @@ -30,6 +30,7 @@ SRC_URI =
-> > > > > > "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-> > > > > >              file://run-ptest \
-> > > > > >              file://run-bash-ptests \
-> > > > > >              file://fix-run-builtins.patch \
-> > > > > > +           file://bash-CVE-2019-18276.patch \
-> > > > > >              "
-> > > > > >
-> > > > > >   SRC_URI[tarball.md5sum] =
-> > > > > > "2b44b47b905be16f45709648f671820b"
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > >
-> > > > 
-> > > >
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
