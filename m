@@ -1,103 +1,82 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web11.6526.1601504065904487133
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.6565.1601504068188400983
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:14:26 -0700
+ Wed, 30 Sep 2020 15:14:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=06xegRLi;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id m34so2106991pgl.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:14:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DEB+dmpW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id o20so2324712pfp.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ny3CoK0gu6TQpRFfLLEgBZ47Pl8g5KbzNggo0XqSASc=;
-        b=06xegRLi3llZpsVCxs2y1n6OrHs4syDYqNXH054HQxYRPoNnRW8T0bKBfT3J9mIRhQ
-         xa3Qc+dFjmJP93eRAbA1mpj6QkQqcvQ1CSYXbXE9zojhuxM12qsttGtq0aHbH87V1Q9H
-         ATBiPhmvi1next0l+uf1infytfkBUq25y1NJiGbtEtAHCA6Owy6iA9pgZKVrOPbyxz/2
-         Pk+tMoFvCeTyrgdeFgFtFAB5GjBBzr4sSiDPpfVJhgCdRl8U9x12FvruWr7+AIzMviDW
-         DLDB2NKAMGfj4E1gvReFlA1C4HRMHRQZyUV2tUqhFj/Tnh6zKN5v1fgtD0Ke0KE2pqPu
-         FGHg==
+        bh=KEPdoekR8ceffGxnHwyOph9A3hWzYByL+wy63UTqSPE=;
+        b=DEB+dmpWBp0Dnh1bmeMTVF2Q74xJyagfMNWAJNAvaBHrGNR4KLYcq5JlrNuiDy8hv1
+         a9yGTkdqLM5/wr61j+hCJBALWv95ldyO5uHeFheNV0rW2lODliYaJNxGvUldKjmg73CU
+         b1NkskXSH7LnfKF8XZNF0LbFv0G6X4q68Ixy/TzmgUhzQwbHLS1eOifPf5smM3Tfn37B
+         IejPBT/+hadm+ZWYKUXdUfFx7gKgpiOhfM09z4ax1jdxYJVV54SUAndQIP6Ynhz+uoVJ
+         6RIzD6UHo42BS982XUaAJuKK3caUmvWjAhZA2onY9Z1EnQDygVBT9WAjkp5FZv06enTP
+         BqxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ny3CoK0gu6TQpRFfLLEgBZ47Pl8g5KbzNggo0XqSASc=;
-        b=IvejRIXv9LoPePvaCUpyHWUoJDRu+oxy/gQo1nfs7HmTf0n9jgpJmZmoubRCmr9LbL
-         HyG6lavBaYVYgT9JTgxKmX/Dktv+sYzh1676eVHM9iAlK9f7gAkgtDIks5BD9DrKh9c5
-         AthsnKhQ5KgOn76m+yDc7sjmvjO5BzS0NxkQUdjDlSY3A3/wEg2Nf+ftnU9JyUtBBStc
-         Amo4fIoB2gWYQe9nW+tzPfjirccZSDRvt5o69eC1cMptufunKuN8EDZYDbMu49DrN1PZ
-         SLzd4mE0m7clHqxFm839z1BCuVnRX2IM/CZCgqef/XTSpOaWVCDQXb/oBU8OM4qH+PAm
-         7oPA==
-X-Gm-Message-State: AOAM530HhmLTYzCEiWsb8vcf0I4FtKySbCPSrmwdYR0BQzejHiEq4Y7c
-	Afs7OeHZYFAG9hSaZXUjMTyR5d8AV2Hh8rzGH1U=
-X-Google-Smtp-Source: ABdhPJyvAdBjqXefSDSwn/Tk78za5LZi5648FZ96VC0VDOKJDsO5OdDXGiwlNVmvnECv3SMgeckKpQ==
-X-Received: by 2002:a63:5c19:: with SMTP id q25mr3587506pgb.17.1601504065026;
-        Wed, 30 Sep 2020 15:14:25 -0700 (PDT)
+        bh=KEPdoekR8ceffGxnHwyOph9A3hWzYByL+wy63UTqSPE=;
+        b=L6j0MeSUltngLNHawJei7wXTGLO4Sft5n+cuRLkKS1nqNtcyE6dolnEN8yeKbGdAqL
+         /66AwndLzT7LhL5CGqbIyBj8i/4gdt51BsRtVcruhhLfq8Wu0UfiGh7zRFvGKMzIYPH3
+         wUo1r+rYDQKpOJfNvr6HyIb6qoe/dxpDs3e4axhcwHd5G4XICtoy2mhSuqd4AyEoBgGB
+         bQM/zZtx5zQzXCrk3MCAh+qWs9fapuPRZmU4xfsF47SPKbcs7sxA2hdW65DTR27960t1
+         KrkMbFtRfLy6lWX89wmo7lwmoTqrj3VrBn7u52/tkfavhPdnxF50R9+ggZ/UgfxMOM0q
+         RNiA==
+X-Gm-Message-State: AOAM530XG1NuWHUN6zwBELG70cM8Qe5wSeWzjWmocR6djJelU0H+sFod
+	uHJyCykcJDQ2/qKpHripgKkPHgcfRqvI9wZNsfo=
+X-Google-Smtp-Source: ABdhPJw2Jp/CNzSBQzi4WQ8/VcR7oNOiuXdkNgBaIM1kkpyr8sShR5tlczcnA/NGlxVViuKocpZFvA==
+X-Received: by 2002:a63:c153:: with SMTP id p19mr3567349pgi.55.1601504066577;
+        Wed, 30 Sep 2020 15:14:26 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.55
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.14.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:14:24 -0700 (PDT)
+        Wed, 30 Sep 2020 15:14:25 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 22/41] buildtools: Handle generic environment setup injection
-Date: Wed, 30 Sep 2020 12:11:24 -1000
-Message-Id: <b62ced32772d21c689998c5995f31550db51466d.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 23/41] buildtools-tarball: Fix conflicts with oe-selftest and other tooling
+Date: Wed, 30 Sep 2020 12:11:25 -1000
+Message-Id: <d00bab16aefb3f200b01ad6baee15bc9cca7b6ce.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Currently buildtools has its own hacked environment setup. We added
-capability for generic script fragements but this code was never updated
-to use it even if several components it contains needs it.
+OECORE_NATIVE_SYSROOT is used by tools like oe-run-native and hence
+we were seeing selftest failures when newer buildtools-tarballs that
+use this were run on the autobuilder.
 
-Remove a hardcoded variable in favour of the generic scripts to
-avoid bugs in this area in future. The others should probably be
-migrated to environment files in future too but there isn't such
-a file for those at present.
+Unset the variable after use to avoid these issues.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eb210cee4bd71614dd108027e6d5aa8f8d451b27)
+(cherry picked from commit ea5128fde10eb9be7fefbbb87ae6181edd2bcdff)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 77e1fa23cb..44d658687d 100644
+index 44d658687d..434ffdc334 100644
 --- a/meta/recipes-core/meta/buildtools-tarball.bb
 +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -67,16 +67,19 @@ create_sdk_files_append () {
- 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
- 	touch $script
- 	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
--	# In order for the self-extraction script to correctly extract and set up things,
--	# we need a 'OECORE_NATIVE_SYSROOT=xxx' line in environment setup script.
--	# However, buildtools-tarball is inherently a tool set instead of a fully functional SDK,
--	# so instead of exporting the variable, we use a comment here.
--	echo '#OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
--	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
--
-+	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
- 	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
--	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
-+
-+	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
-+
-+	cat >> $script <<EOF
-+if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
-+	for envfile in \$OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
-+		. \$envfile
-+	done
-+fi
-+EOF
+@@ -79,6 +79,9 @@ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+ 		. \$envfile
+ 	done
+ fi
++# We have to unset this else it can confuse oe-selftest and other tools
++# which may also use the overlapping namespace.
++unset OECORE_NATIVE_SYSROOT
+ EOF
  
  	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
- 	echo '${SDKPATHNATIVE}${libdir}
 -- 
 2.17.1
 
