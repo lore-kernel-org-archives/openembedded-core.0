@@ -1,51 +1,51 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web11.5712.1601501965579806811
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web12.5751.1601502051800090044
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 14:39:25 -0700
+ Wed, 30 Sep 2020 14:40:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O8eOcCAN;
- spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f66.google.com with SMTP id p21so316563pju.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 14:39:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RYfHkGaT;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id s31so2017692pga.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 14:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sSVNHvrbk1q6GHfoEXTZqLWBChoG7Jg2aLOOtM/zenk=;
-        b=O8eOcCANtmbyb0QlQF3FbUArnZTWSPUJsPgGZAY0GX4Ri1yJkueZ7G+rH8i2jPjhkr
-         iM3oq0oBHdKMG+EHwwudPPZzmh0/nj8iN5Rkg1EK6MMd9EbZknlYm5Wuzf7yGTnYlkVc
-         Ma8CTfFdxuWC34Hw0tuKPLSOPrVyS/jtEXsINPbKeCIOj6OKZ2Ca8midujp13TL1WIST
-         V1HaY4U76qVnt5ZOsxopdQ0WTljkO7bBJi8w47sNmRshXg3FLyGRn7DHykyrZLV4LB7v
-         Poix80MKJxt7BmUMCFnxgPdfwS1BbB6wxh4pYYjxoQvEYxTPvvRJLwmEDCCCyMcMYJ+/
-         37IA==
+        bh=QzvdtiXAE+X0V7sLLT5LN7l6b5x/XvNMdbLI6HuwzO4=;
+        b=RYfHkGaTLFlNCJKVB1DoxZHynsSVBk0gZIsxppGAuHSd4YO2z9N+hPzkkThVCtn3by
+         xhqbYl3lh/phQ+c9DPhfffCoD3xonXd4x/CZ86z5rkg+GpaiVsJC1AlnjIm/Jjdx3tIG
+         ZUPU8J9F+O3p+LlY7W2CL5b9qNUEwfs6s5i1Oh9GDEvmXyfinpEGEPXhiPF4gnWcjvKi
+         uB5VXt6V1ZFjy7K3+SXy623F1N2DrZcwmW+FcxVFaWMGW9VLAsVWlpMeCIbLjqA+47WS
+         oa7lu+HBvWRl0cF/w0frDlnbaLc75Tblk4JJAwdx6o4dtOG1KgQ5xhbPCB670EshIjyL
+         F8nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sSVNHvrbk1q6GHfoEXTZqLWBChoG7Jg2aLOOtM/zenk=;
-        b=baN+i//mw1hXTwhHhUUJbmTN69zsa5nXuvsBDKxIiIju9cjpYDHbZ/5ALBfjJWXNG9
-         tUUNdlwHxiPagXgKKOJ0uQ9m58nFeXIOjoVy5pUIMrwdfOjYTqH8J5B2CMEJ/3ugMFEt
-         R1Kc7r5mGFifOedRCvUgBsmAkZMRF17yaiWOOBMPGxkEdXYBBhr4hHKPVYKjRMaHWlnU
-         79QZvk6A47d4M4fqQeEUW70jnVvIZORCh+y/GgSmCQvbOOlPiQbWy4XDeT7qknnj8/Yh
-         Yfz8MGsMgwUGPNohhfzk5uPTPqy++gMNnhxOVZh+ltSpdzgVzVQxEoAh9yxdGeY3OpKJ
-         6Mrg==
-X-Gm-Message-State: AOAM530NwzSqbb9cZbPX221Fs3cVPwJfV0ZL161aXAE4R6TkLJt7oDiF
-	HdF6Sdz5aTyh+ff2p80Y8T/7+pUoy7p5tg==
-X-Google-Smtp-Source: ABdhPJwl/7qiTZABAhIYBmR9Z/GKhjoQJXonsgqmhFCscWPTUhzTgjKGsTbM8Mqgoh+4URnMpNYnAA==
-X-Received: by 2002:a17:90a:f187:: with SMTP id bv7mr3881844pjb.63.1601501964885;
-        Wed, 30 Sep 2020 14:39:24 -0700 (PDT)
+        bh=QzvdtiXAE+X0V7sLLT5LN7l6b5x/XvNMdbLI6HuwzO4=;
+        b=IM1hX4ws02iP1wqW/4KiBEtfeC46LLuPA5oYLemfjemd9kO10OPBaBXDSMwvWcXpxY
+         l2HmBu02rIZq85amhZNStz5dO+s/XxgHKBLSUWrturnmjdWXA5oTTt1yZCHtJKuFmE+H
+         XaAcfU1x4coYTfSKYvqLkJkSWlJqAgj4JjT1/3SZpRBdrrgRMW5CF1F4A5fn+OYGCQGo
+         eCJX2CgZY6IalYrn2P+9R9EJbO+wuptIBZeeBk9HFZEHg2TRB5e9D4cO2TS7YrAHgnlO
+         NudL4xn1jB9wZWCrjkwZyomsGvUTlFj/u54ZilXdxG+faCV5RC+ouogtj8l0lNyc6OMw
+         1AeA==
+X-Gm-Message-State: AOAM5302EJxdATYCEVq1Q993G2h4cJZFEkGO5nmRxpBOjj9eUXYnnGbg
+	ve9/3HZJAd6ImaKhMwAHhKh9xPCzfoASew==
+X-Google-Smtp-Source: ABdhPJz3UDHvFz9BWnJ40RwRc9Zq+zjMsO3wiXtTrQuvycCafzYIJZwgFTLSwS3FQYfE/4QM+wbFJg==
+X-Received: by 2002:a17:902:8a96:b029:d2:8cdd:d8f5 with SMTP id p22-20020a1709028a96b02900d28cddd8f5mr4147612plo.69.1601502051023;
+        Wed, 30 Sep 2020 14:40:51 -0700 (PDT)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.hsd1.or.comcast.net ([2601:1c0:6000:9640:d879:d540:4522:d2a1])
-        by smtp.gmail.com with ESMTPSA id s20sm3389524pfu.112.2020.09.30.14.39.24
+        by smtp.gmail.com with ESMTPSA id n28sm3064222pgb.51.2020.09.30.14.40.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 14:39:24 -0700 (PDT)
+        Wed, 30 Sep 2020 14:40:50 -0700 (PDT)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH] oeqa/selftest/cases/devtool.py: avoid .pyc race
-Date: Wed, 30 Sep 2020 14:39:18 -0700
-Message-Id: <20200930213918.30229-1-ticotimo@gmail.com>
+Subject: [dunfell][PATCH v2] oeqa/selftest/cases/devtool.py: avoid .pyc race
+Date: Wed, 30 Sep 2020 14:40:47 -0700
+Message-Id: <20200930214047.30864-1-ticotimo@gmail.com>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,8 +65,7 @@ YOCTO#13803
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
 
-This has already been merged to 3.2 tree and as a bug fix
-qualifies for backport to dunfell/3.1
+v2: actually use dunfell in subject line
 
  meta/lib/oeqa/selftest/cases/devtool.py | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
