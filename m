@@ -1,88 +1,155 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web11.6636.1601434009666741639
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.7742.1601438734457087875
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 19:46:50 -0700
+ Tue, 29 Sep 2020 21:05:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=cTZXxVKd;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.65, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f65.google.com with SMTP id f11so180399qvw.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 19:46:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3TrUhDv+uxQZVm9dWLEvwkcEuLDfG3fW8E+1pJ3L07E=;
-        b=cTZXxVKdpZDUOxaQ0Qr/MMAcosdOfqHvJssVO6ytGZms/MeOeDHz868btvdK/Yls1n
-         qdGmU7QVSiEMO3OpmJ3VliaTnnVtTnLRnKU9eutZaKtLiZfNrxEJAwOWSXKwOT2vw1Nt
-         R5z60wqw1wqJOT2nPpnygYP+lD7ITzhW0i5J9Zn6ESP5Mf9z+lPSPpkmTugcUJHs8H0a
-         I3riWZz8nToAZqIXS5mjpZCM2KBYzZz9ut8rBhcsBSI2r48MdL7vrB5a1JDMFlPhZR1Y
-         bMK0RlgUc3jyaN+aUGH+J/WZvgvhWFRCy/iMxQ8X1Tv5dsLpFegkI2W2U35Ln4KVDBwo
-         CwnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3TrUhDv+uxQZVm9dWLEvwkcEuLDfG3fW8E+1pJ3L07E=;
-        b=issW+8PtINYi84iVNMjrH8336FiAsscvaJwyZs4zkXqInRtAr7a20q8qOQXjxNLpM7
-         ZPpG7fCLm+h7jBdKHhkCoPME1byR8huaWPWEsM7PW7kGYLTxxxvx22lNG1n/jhSj6jIE
-         pskg4eRv+JRGWp4f1JYBJ4Y2R/oHDPPr1SuRbOZBuGpF45nF5aV4EE5b/MOUd9l8tarz
-         60XFrORw0mqUvZecLNQ60aLUis+rJGfnK+cIWzaoLDZaitAbbUV0UqYsDjIJkb3FV03V
-         wOUFuevqkSALSRatFwV/84rkHtilELnHVV+PSs9jRt9vmbuqqAwsnDQcoTp+lu9BBKg5
-         9KLA==
-X-Gm-Message-State: AOAM533TAYlhpEumWwGepdjlg2kGLFmx8wvm7dgRhZ/lQnJ776xiKs03
-	gJCklSN5P2LS3mClV1eFk+wf8dUTHE1dzG7B
-X-Google-Smtp-Source: ABdhPJyo3kQAgB3Pm89SwhnU+81pqRm3ygvVZ9RSLubn+oFVrzR881tzy0+Ix8ThqiEMbnPJBOXvlw==
-X-Received: by 2002:a0c:e28b:: with SMTP id r11mr387255qvl.23.1601434008559;
-        Tue, 29 Sep 2020 19:46:48 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com. [209.85.160.179])
-        by smtp.gmail.com with ESMTPSA id w44sm637773qth.9.2020.09.29.19.46.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f179.google.com with SMTP id b2so114020qtp.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
-X-Received: by 2002:ac8:24b9:: with SMTP id s54mr229800qts.138.1601434007151;
- Tue, 29 Sep 2020 19:46:47 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.77,320,1596470400"; 
+   d="scan'208";a="99767411"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 30 Sep 2020 12:05:28 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id E40C448990E8
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 12:05:23 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 30 Sep 2020 12:05:23 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] harfbuzz: Refresh patch
+Date: Wed, 30 Sep 2020 12:05:15 +0800
+Message-ID: <1601438715-10650-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20200928130551.21346-1-jon.mason@arm.com> <20200928130551.21346-7-jon.mason@arm.com>
- <CAMKF1spUKBY8ff3zphQ--H_9__jTKgs=hkHH7maMVJ4ZktjsHw@mail.gmail.com> <CAPoiz9w4iYci=mQPSEveAymTPDwLwspM22KQNH+wsLO0NC_7ew@mail.gmail.com>
-In-Reply-To: <CAPoiz9w4iYci=mQPSEveAymTPDwLwspM22KQNH+wsLO0NC_7ew@mail.gmail.com>
-Date: Tue, 29 Sep 2020 23:46:35 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKprwu+-D3yMzbd1=f7m1PM50c-Exxv3gYxTE=F87jGMiA@mail.gmail.com>
-Message-ID: <CAP9ODKprwu+-D3yMzbd1=f7m1PM50c-Exxv3gYxTE=F87jGMiA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v4 6/6] tunes/armv8: move to a new location
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: E40C448990E8.A0713
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Em ter., 29 de set. de 2020 =C3=A0s 21:38, Jon Mason <jdmason@kudzu.us> esc=
-reveu:
->
-> On Tue, Sep 29, 2020 at 5:58 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Lets not do it. For couple of reasons,
-> >
-> > There are BSPs including these include files which are using same
-> > branch across multiple yocto releases, this will break them
-> > files under include/<ARCH> are common at arch level, this moved the
-> > CPU implementation ( cortex* ) under it, seems odd and even more odd
-> > when you consider arm32 tunes.
->
-> There are so many specific files and I'm about to add even more
-> (cortex-m).  I agree that it should be done uniformly, instead of
-> doing just the armv8 ones.  So, let's drop this patch (not the
-> series), and I'll address it after the gatesgarth release.
+Because two modifications conflict in the patch, do_patch will make an error when using patch as a patchtool.
 
-Could those tune files be generated? This could allow a hierarchical
-structure but easy maintenance. This might be a way to reduce the
-maintenance burden and avoid breaking old BSPs.
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../harfbuzz/harfbuzz/version-race.patch      | 76 +++++++------------
+ 1 file changed, 26 insertions(+), 50 deletions(-)
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
+index 2d692f36b5..934bfb8737 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
+@@ -1,24 +1,35 @@
+-Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/5aff83104e03d6d2617987d24a51e490ab7a5cd1]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From bc1c93fbe04459a4b12c76c713ba1b750d2d9108 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Mon, 7 Sep 2020 17:11:17 +0100
+-Subject: [PATCH 1/2] [build] No need to pass source directory to
+- gen-hb-version
++From 6ccadec1fae6a73749b7dfe2311f71d0e610e812 Mon Sep 17 00:00:00 2001
++From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++Date: Wed, 30 Sep 2020 10:30:08 +0900
++Subject: [PATCH] No need to pass source directory to gen-hb-version
+ 
+ The input file is by definition in the source directory, so dirname()
+ that instead of needing the directory to be passed.
+ 
+ Needed because a follow-up commit will change when this is called, and the
+ source directory isn't trivially available at that point.
++
++generate hb-version.h once at configure time with Meson
++
++Currently with Meson hb-version.h is generated during the build without
++any explicit dependencies which can result in build failures due races
++over the file.
++
++Change this to be generated at configure time, so that the file is always
++generated once before the build itself.
++
++Closes #2667
++
++Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/5aff83104e03d6d2617987d24a51e490ab7a5cd1]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+ ---
+- src/gen-hb-version.py | 6 +++---
+- src/meson.build       | 2 +-
+- 2 files changed, 4 insertions(+), 4 deletions(-)
++ src/gen-hb-version.py |  6 +++---
++ src/meson.build       | 17 ++++++++---------
++ 2 files changed, 11 insertions(+), 12 deletions(-)
+ 
+ diff --git a/src/gen-hb-version.py b/src/gen-hb-version.py
+-index 15e56b93..bf16f88a 100755
++index 15e56b9..bf16f88 100755
+ --- a/src/gen-hb-version.py
+ +++ b/src/gen-hb-version.py
+ @@ -4,15 +4,15 @@
+@@ -41,42 +52,7 @@ index 15e56b93..bf16f88a 100755
+  with open (INPUT, "r", encoding='utf-8') as template:
+  	with open (OUTPUT, "wb") as output:
+ diff --git a/src/meson.build b/src/meson.build
+-index 5d7cd578..2d78c992 100644
+---- a/src/meson.build
+-+++ b/src/meson.build
+-@@ -286,7 +286,7 @@ custom_target('hb-version.h',
+-   input: 'hb-version.h.in',
+-   output: 'hb-version.h',
+-   command: [find_program('gen-hb-version.py'), meson.project_version(),
+--            '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+-+            '@OUTPUT@', '@INPUT@'],
+- )
+- 
+- ragel = find_program('ragel', required: false)
+--- 
+-2.28.0
+-
+-
+-From 5aff83104e03d6d2617987d24a51e490ab7a5cd1 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Mon, 7 Sep 2020 10:55:33 +0100
+-Subject: [PATCH 2/2] [build] generate hb-version.h once at configure time with
+- Meson
+-
+-Currently with Meson hb-version.h is generated during the build without
+-any explicit dependencies which can result in build failures due races
+-over the file.
+-
+-Change this to be generated at configure time, so that the file is always
+-generated once before the build itself.
+-
+-Closes #2667
+----
+- src/meson.build | 17 ++++++++---------
+- 1 file changed, 8 insertions(+), 9 deletions(-)
+-
+-diff --git a/src/meson.build b/src/meson.build
+-index 2d78c992..19290245 100644
++index 5e1787c..56d8ae2 100644
+ --- a/src/meson.build
+ +++ b/src/meson.build
+ @@ -1,3 +1,10 @@
+@@ -110,12 +86,12 @@ index 2d78c992..19290245 100644
+ -  input: 'hb-version.h.in',
+ -  output: 'hb-version.h',
+ -  command: [find_program('gen-hb-version.py'), meson.project_version(),
+--            '@OUTPUT@', '@INPUT@'],
++-            '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+ -)
+ -
+  ragel = find_program('ragel', required: false)
+  if not ragel.found()
+    warning('You have to install ragel if you are going to develop HarfBuzz itself')
+ -- 
+-2.28.0
++2.25.1
+ 
+-- 
+2.25.1
+
+
+
