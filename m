@@ -1,217 +1,423 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web10.4516.1601426303941406588
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web12.5345.1601428902267861455
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 17:38:24 -0700
+ Tue, 29 Sep 2020 18:21:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=KTpaUAdL;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.166.193, mailfrom: jdmason@kudzu.us)
-Received: by mail-il1-f193.google.com with SMTP id e5so3871243ils.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 17:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V1V+3zuo1e8G5+ogrBfsrtsr6rHzA46ePvILAaxOEAc=;
-        b=KTpaUAdLDWWf9hxZofoP7Thmk3UX2oTJBfVrYQ+8ePUw6kZgSUePO/kbmIIGnblGsi
-         16YWoCylVvjkPbibSWCD/CnQ/5ZlsxC8oBOJ6QCOSlemcV/IA6Wb2d3GdizQ4MVJ9Xqb
-         VcDrUs3vkSyIZXc+KZCDZEyYC3r2Nci3sSDdEAEW2Fqc5AOs7zx6mHAIGd+8E4enElLE
-         AtK9TX3k/AMZ3WVGenjdnb5l99/+5Tayvep5plSUaJYIIxb+i9CFK9IXxnsKCTb0JIHk
-         TyZNrCBsB9dPEfY/KXTdd0aGiTEEsqYlRVsh0jT+vqVqIIiNQiUDbwGWdFGsoIB9+Yn5
-         dOVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V1V+3zuo1e8G5+ogrBfsrtsr6rHzA46ePvILAaxOEAc=;
-        b=bRj3nSV6USCtmY0QwKPiFIKDBQYdsHaTKpWNuvOZmSi8Gf5IFKHUaHB37lyoTDSU6q
-         oMEQ8FpPFGHcQ2SbF2vJ4eh0z/33SDSgu9TKaISFLPN6sO1PnE2+XoQxdQbtUzyBENP0
-         FiOdIl+Hg8rVUuVIuvWg3stqEvfvaRam7Ew/tIeI2CMPCRdY2AYOJpaQcSvj/4gdn5vt
-         9GONsNvFvNgFGPFdw6DkguzRVeuoFJmQrAaqsoAMy9FdTQvlOGGVOmjCykPbKW1rVoIZ
-         7D0SrddmyQzUsyY0/1rEccuhR2lUj2NCrcbrkgSj56ASBF1Cg4XAF6vqnSs2iWGwxV6l
-         6iYA==
-X-Gm-Message-State: AOAM533NCvjxewv7h0Fw30R0hFeGmB8OHQrerGPrkc5wHvknVyuhpBy7
-	km9xWrAVDhKV20QyqD2aMnZmdUHovW0QUStJps2sPg==
-X-Google-Smtp-Source: ABdhPJyS2wxuowJ1pviuctQU+dnNvzlVlbtLTcMVHuBFHr/fd2uACM1odQpUuLwRkyHAQi7NkN1UXxKcC8CMxFHWFBA=
-X-Received: by 2002:a92:874a:: with SMTP id d10mr5346781ilm.163.1601426303032;
- Tue, 29 Sep 2020 17:38:23 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: DILCScp2/1GysF7peORIUZt+K8kVPSyJ7d01GCAct4oWXk2tvq8GkW0EL8TQB7iBqnB75OdXlD
+ BynD6qxCY1Tg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="162390753"
+X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
+   d="scan'208";a="162390753"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 18:21:39 -0700
+IronPort-SDR: dJJj7KS7r+ZB2VoNmhsaEKhn67oA43R8SKrtFm1skBCDvmWdZtS2sjwOR2u1mz17Rt+76/mF0k
+ Iz5tA+9VMZ+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
+   d="scan'208";a="350497444"
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2020 18:21:37 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 30 Sep 2020 09:21:37 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Wed, 30 Sep 2020 09:21:37 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "mingli.yu@windriver.com" <mingli.yu@windriver.com>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] bash: fix CVE-2019-18276
+Thread-Topic: [OE-core] [PATCH] bash: fix CVE-2019-18276
+Thread-Index: AQHWkhwm0p+4HbZBAUeTwOdw5nhOVal2kISAgAA0yQCABugmgIAAzicAgAFqJIA=
+Date: Wed, 30 Sep 2020 01:21:36 +0000
+Message-ID: <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
+References: <20200924023944.48941-1-mingli.yu@windriver.com>
+	 <25e019e30ea0a91d4c6f9d85a9beeb21f4470953.camel@intel.com>
+	 <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com>
+	 <CAMKF1spOERv6f00A=zrEzOAT_+heXx=rs3x09S8DnorcMqDPpQ@mail.gmail.com>
+	 <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com>
+In-Reply-To: <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-References: <20200928130551.21346-1-jon.mason@arm.com> <20200928130551.21346-7-jon.mason@arm.com>
- <CAMKF1spUKBY8ff3zphQ--H_9__jTKgs=hkHH7maMVJ4ZktjsHw@mail.gmail.com>
-In-Reply-To: <CAMKF1spUKBY8ff3zphQ--H_9__jTKgs=hkHH7maMVJ4ZktjsHw@mail.gmail.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Tue, 29 Sep 2020 20:38:10 -0400
-Message-ID: <CAPoiz9w4iYci=mQPSEveAymTPDwLwspM22KQNH+wsLO0NC_7ew@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v4 6/6] tunes/armv8: move to a new location
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A00DDA779B079F45B565634280F9008B@intel.com>
+Content-Transfer-Encoding: base64
 
-On Tue, Sep 29, 2020 at 5:58 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Lets not do it. For couple of reasons,
->
-> There are BSPs including these include files which are using same
-> branch across multiple yocto releases, this will break them
-> files under include/<ARCH> are common at arch level, this moved the
-> CPU implementation ( cortex* ) under it, seems odd and even more odd
-> when you consider arm32 tunes.
-
-There are so many specific files and I'm about to add even more
-(cortex-m).  I agree that it should be done uniformly, instead of
-doing just the armv8 ones.  So, let's drop this patch (not the
-series), and I'll address it after the gatesgarth release.
-
-Thanks,
-Jon
-
-
->
-> On Mon, Sep 28, 2020 at 6:06 AM Jon Mason <jdmason@kudzu.us> wrote:
-> >
-> > Move the ARMv8a tunes into a separate location (per generation).  This
-> > should help reduce the number of tunes in the more generic location.
-> >
-> > Signed-off-by: Jon Mason <jon.mason@arm.com>
-> > ---
-> >  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc | 0
-> >  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc | 0
-> >  .../machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc     | 0
-> >  .../include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc     | 0
-> >  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc | 0
-> >  .../include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc     | 0
-> >  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc | 0
-> >  .../machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc     | 0
-> >  meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc   | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc   | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc   | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc   | 0
-> >  .../include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc       | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc   | 0
-> >  .../include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc       | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc   | 0
-> >  .../include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc       | 0
-> >  .../include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc       | 0
-> >  meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc   | 0
-> >  meta/conf/machine/qemuarm64.conf                                | 2 +-
-> >  21 files changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa55.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa65ae.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75-cortexa55.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa75.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76-cortexa55.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa76ae.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8-2a}/tune-cortexa77.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa32.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa34.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa35.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa53.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57-cortexa53.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa57.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72-cortexa53.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa72.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa35.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73-cortexa53.inc (100%)
-> >  rename meta/conf/machine/include/{ => arm/armv8a}/tune-cortexa73.inc (100%)
-> >
-> > diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa55.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa65.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa65.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa65ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa65ae.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa75-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa75-cortexa55.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa75.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa75.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa76-cortexa55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa76-cortexa55.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa76.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa76.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa76ae.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa76ae.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa77.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa77.inc
-> > rename to meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa32.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa32.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa34.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa34.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa35.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa35.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa53.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa57.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa57.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa72.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa35.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa73-cortexa35.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
-> > diff --git a/meta/conf/machine/include/tune-cortexa73.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-> > similarity index 100%
-> > rename from meta/conf/machine/include/tune-cortexa73.inc
-> > rename to meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
-> > diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-> > index 2f61eb0aed5f..c4096d0eeea4 100644
-> > --- a/meta/conf/machine/qemuarm64.conf
-> > +++ b/meta/conf/machine/qemuarm64.conf
-> > @@ -2,7 +2,7 @@
-> >  #@NAME: QEMU ARMv8 machine
-> >  #@DESCRIPTION: Machine configuration for running an ARMv8 system on QEMU
-> >
-> > -require conf/machine/include/tune-cortexa57.inc
-> > +require conf/machine/include/arm/armv8a/tune-cortexa57.inc
-> >  require conf/machine/include/qemu.inc
-> >
-> >  KERNEL_IMAGETYPE = "Image"
-> > --
-> > 2.20.1
-> >
-> >
-> > 
-> >
+T24gTW9uLCAyMDIwLTA5LTI4IGF0IDIwOjQ1IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
+TW9uLCBTZXAgMjgsIDIwMjAgYXQgODoyNyBBTSBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29t
+PiB3cm90ZToNCj4gPiBPbiBXZWQsIFNlcCAyMywgMjAyMCBhdCAxMTowMCBQTSBZdSwgTWluZ2xp
+IDwNCj4gPiBtaW5nbGkueXVAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4gPiBIaSBBbnVqLA0K
+PiA+ID4gDQo+ID4gPiBPbiA5LzI0LzIwIDEwOjUwIEFNLCBBbnVqIE1pdHRhbCB3cm90ZToNCj4g
+PiA+ID4gSGkgTWluZ2xpLA0KPiA+ID4gPiANCj4gPiA+ID4gT24gVGh1LCAyMDIwLTA5LTI0IGF0
+IDEwOjM5ICswODAwLCBZdSwgTWluZ2xpIHdyb3RlOg0KPiA+ID4gPiA+IEZyb206IERlIEh1byA8
+RGUuSHVvQHdpbmRyaXZlci5jb20+DQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gQW4gaXNzdWUgd2Fz
+IGRpc2NvdmVyZWQgaW4gZGlzYWJsZV9wcml2X21vZGUgaW4gc2hlbGwuYyBpbg0KPiA+ID4gPiA+
+IEdOVSBCYXNoDQo+ID4gPiA+ID4gdGhyb3VnaCA1LjAgcGF0Y2ggMTEuIEJ5IGRlZmF1bHQsIGlm
+IEJhc2ggaXMgcnVuIHdpdGggaXRzDQo+ID4gPiA+ID4gZWZmZWN0aXZlDQo+ID4gPiA+ID4gVUlE
+DQo+ID4gPiA+ID4gbm90IGVxdWFsIHRvIGl0cyByZWFsIFVJRCwgaXQgd2lsbCBkcm9wIHByaXZp
+bGVnZXMgYnkgc2V0dGluZw0KPiA+ID4gPiA+IGl0cw0KPiA+ID4gPiA+IGVmZmVjdGl2ZSBVSUQg
+dG8gaXRzIHJlYWwgVUlELiBIb3dldmVyLCBpdCBkb2VzIHNvDQo+ID4gPiA+ID4gaW5jb3JyZWN0
+bHkuIE9uDQo+ID4gPiA+ID4gTGludXgNCj4gPiA+ID4gPiBhbmQgb3RoZXIgc3lzdGVtcyB0aGF0
+IHN1cHBvcnQgInNhdmVkIFVJRCIgZnVuY3Rpb25hbGl0eSwgdGhlDQo+ID4gPiA+ID4gc2F2ZWQN
+Cj4gPiA+ID4gPiBVSUQNCj4gPiA+ID4gPiBpcyBub3QgZHJvcHBlZC4gQW4gYXR0YWNrZXIgd2l0
+aCBjb21tYW5kIGV4ZWN1dGlvbiBpbiB0aGUNCj4gPiA+ID4gPiBzaGVsbCBjYW4NCj4gPiA+ID4g
+PiB1c2UNCj4gPiA+ID4gPiAiZW5hYmxlIC1mIiBmb3IgcnVudGltZSBsb2FkaW5nIG9mIGEgbmV3
+IGJ1aWx0aW4sIHdoaWNoIGNhbg0KPiA+ID4gPiA+IGJlIGENCj4gPiA+ID4gPiBzaGFyZWQNCj4g
+PiA+ID4gPiBvYmplY3QgdGhhdCBjYWxscyBzZXR1aWQoKSBhbmQgdGhlcmVmb3JlIHJlZ2FpbnMg
+cHJpdmlsZWdlcy4NCj4gPiA+ID4gPiBIb3dldmVyLA0KPiA+ID4gPiA+IGJpbmFyaWVzIHJ1bm5p
+bmcgd2l0aCBhbiBlZmZlY3RpdmUgVUlEIG9mIDAgYXJlIHVuYWZmZWN0ZWQuDQo+ID4gPiA+ID4g
+DQo+ID4gPiA+ID4gR2V0IHRoZSBwYXRjaCBmcm9tIFsxXSB0byBmaXggdGhlIGlzc3VlLg0KPiA+
+ID4gPiA+IA0KPiA+ID4gPiA+IFsxXQ0KPiA+ID4gPiA+IGh0dHBzOi8vZ2l0LnNhdmFubmFoLmdu
+dS5vcmcvY2dpdC9iYXNoLmdpdC9jb21taXQvP2g9ZGV2ZWwmaWQ9OTUxYmRhYQ0KPiA+ID4gPiAN
+Cj4gPiA+ID4gSGFzIHNvbWV0aGluZyBjaGFuZ2VkIGZyb20gbGFzdCB0aW1lIHRoaXMgcGF0Y2gg
+d2FzIHN1Ym1pdHRlZA0KPiA+ID4gPiBhbmQgbGF0ZXINCj4gPiA+ID4gcmV2ZXJ0ZWQgYmVjYXVz
+ZSBvZiB0aGUgZmFpbGluZyBwdGVzdD8gSSByZW1lbWJlciB0aGUgYXV0aG9yDQo+ID4gPiA+IHNh
+eWluZw0KPiA+ID4gPiB0aGlzIGlzbid0IGEgcmVhbCBzZWN1cml0eSBidWcgYW5kIHRoZXJlIHdl
+cmUgYWxzbyBjaGFuZ2VzIGluDQo+ID4gPiA+IHRoZSBwYXRjaA0KPiA+ID4gPiB0aGF0IHdlcmVu
+J3QgcmVsYXRlZCB0byB0aGUgQ1ZFIC4uLg0KPiA+ID4gDQo+ID4gPiBDaGFuZ2VkIHRoZSBwYXRj
+aCBhIGxpdHRsZSB0byByZW1vdmUgdGhlIGNvbmZpZ3VyZSBmaWxlIHBhcnQgdG8NCj4gPiA+IGZp
+eCB0aGUNCj4gPiA+IHJlY29uZmlndXJlIGlzc3VlIGluIHYxIHBhdGNoLg0KPiA+ID4gDQo+ID4g
+PiBZZXMsIHRoZSBhdXRob3Igc2F5aW5nIHRoZSBwYXRjaCBkaWQgZml4IHRoZSBpc3N1ZSBzdGF0
+ZWQgaW4NCj4gPiA+IENWRS0yMDE5LTE4Mjc2IHRob3VnaCB0aGUgaXNzdWUgYWN0dWFsbHkgaXMn
+dCBhIGJpZyBkZWFsLg0KPiA+ID4gDQo+ID4gDQo+ID4gVGhpcyBzZWVtcyB0byBiZSByZWdyZXNz
+aW5nIGJhc2ggcHRlc3RzIG5vdy4NCj4gPiANCj4gPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4t
+Z2xvYi10ZXN0DQo+ID4gICAgIHB0ZXN0cmVzdWx0LmJhc2gucnVuLXJlYWQNCj4gPiAgICAgcHRl
+c3RyZXN1bHQuYmFzaC5ydW4tdHJhcA0KPiA+IA0KPiANCj4gVGhlc2UgZmFpbHVyZXMgYXJlIGhh
+cHBlbmluZyB3aXRob3V0IHRoaXMgcGF0Y2ggdG9vLCBzbyBwZXJoYXBzDQo+IHNvbWV0aGluZyBl
+bHNlIGhhcyBjYXVzZWQgaXQsIGNvdWxkIGJlIHBlcmhhcHMgc2V0dXAgcmVsYXRlZCB0b28uDQo+
+IA0KPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4tYnVpbHRpbnMNCj4gICAgIHB0ZXN0cmVzdWx0
+LmJhc2gucnVuLWdsb2ItdGVzdA0KPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4taW50bA0KPiAg
+ICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4tcHJpbnRmDQo+ICAgICBwdGVzdHJlc3VsdC5iYXNoLnJ1
+bi1yZWFkDQo+ICAgICBwdGVzdHJlc3VsdC5iYXNoLnJ1bi10cmFwDQo+IA0KPiANCg0KTGFzdCB0
+aW1lIHRoaXMgd2FzIGFwcGxpZWQsIGl0IGhhZCBpbnRyb2R1Y2VkOg0KDQpodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTEzNzk1DQoNCmJlY2F1c2Ugb2Yg
+dGhlIHVucmVsYXRlZCBnbG9iIGNoYW5nZXMgaW4gdGhpcyBwYXRjaC4gQXJlIHlvdSBzZWVpbmcN
+CnRoaXMgZmFpbHVyZT8NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+ID4gSWYgaXRzIG5vdCBh
+IHJlYWwgc2VjdXJpdHkgYnVnIHRoZW4gcGVyaGFwcyBpdHMgYmV0dGVyIHRvIHJldmVydA0KPiA+
+IGl0Lg0KPiA+IA0KPiA+IA0KPiA+ID4gVGhhbmtzLA0KPiA+ID4gDQo+ID4gPiA+IFRoYW5rcywN
+Cj4gPiA+ID4gDQo+ID4gPiA+IEFudWoNCj4gPiA+ID4gDQo+ID4gPiA+ID4gU2lnbmVkLW9mZi1i
+eTogRGUgSHVvIDxEZS5IdW9Ad2luZHJpdmVyLmNvbT4NCj4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5
+OiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4NCj4gPiA+ID4gPiBTaWduZWQtb2Zm
+LWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPg0KPiA+ID4gPiA+IC0tLQ0K
+PiA+ID4gPiA+ICAgLi4uL2Jhc2gvYmFzaC9iYXNoLUNWRS0yMDE5LTE4Mjc2LnBhdGNoICAgICAg
+IHwgMzg2DQo+ID4gPiA+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gICBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoXzUuMC5iYiAgICAgICAgfCAgIDEgKw0KPiA+ID4gPiA+
+ICAgMiBmaWxlcyBjaGFuZ2VkLCAzODcgaW5zZXJ0aW9ucygrKQ0KPiA+ID4gPiA+ICAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9iYXNoL2Jhc2gvYmFzaC0NCj4gPiA+
+ID4gPiBDVkUtMjAxOS0NCj4gPiA+ID4gPiAxODI3Ni5wYXRjaA0KPiA+ID4gPiA+IA0KPiA+ID4g
+PiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoL2Jhc2gtQ1ZF
+LTIwMTktDQo+ID4gPiA+ID4gMTgyNzYucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYmFz
+aC9iYXNoL2Jhc2gtQ1ZFLTIwMTktDQo+ID4gPiA+ID4gMTgyNzYucGF0Y2gNCj4gPiA+ID4gPiBu
+ZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+IGluZGV4IDAwMDAwMDAwMDAuLjdiMjA3MzIw
+MWUNCj4gPiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2Jhc2gvYmFzaC9iYXNoLUNWRS0yMDE5LQ0KPiA+ID4gPiA+IDE4Mjc2LnBhdGNo
+DQo+ID4gPiA+ID4gQEAgLTAsMCArMSwzODYgQEANCj4gPiA+ID4gPiArRnJvbSA5NTFiZGFhZDdh
+MThjYzBkYzEwMzZiYmE4NmIxOGI5MDg3NGQzOWZmIE1vbiBTZXAgMTcNCj4gPiA+ID4gPiAwMDow
+MDowMA0KPiA+ID4gPiA+IDIwMDENCj4gPiA+ID4gPiArRnJvbTogQ2hldCBSYW1leSA8Y2hldC5y
+YW1leUBjYXNlLmVkdT4NCj4gPiA+ID4gPiArRGF0ZTogTW9uLCAxIEp1bCAyMDE5IDA5OjAzOjUz
+IC0wNDAwDQo+ID4gPiA+ID4gK1N1YmplY3Q6IFtQQVRDSF0gY29tbWl0IGJhc2gtMjAxOTA2Mjgg
+c25hcHNob3QNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gK0FuIGlzc3VlIHdhcyBkaXNjb3ZlcmVk
+IGluIGRpc2FibGVfcHJpdl9tb2RlIGluIHNoZWxsLmMgaW4NCj4gPiA+ID4gPiBHTlUgQmFzaA0K
+PiA+ID4gPiA+IHRocm91Z2ggNS4wIHBhdGNoIDExLg0KPiA+ID4gPiA+ICtCeSBkZWZhdWx0LCBp
+ZiBCYXNoIGlzIHJ1biB3aXRoIGl0cyBlZmZlY3RpdmUgVUlEIG5vdCBlcXVhbA0KPiA+ID4gPiA+
+IHRvIGl0cw0KPiA+ID4gPiA+IHJlYWwgVUlELA0KPiA+ID4gPiA+ICtpdCB3aWxsIGRyb3AgcHJp
+dmlsZWdlcyBieSBzZXR0aW5nIGl0cyBlZmZlY3RpdmUgVUlEIHRvIGl0cw0KPiA+ID4gPiA+IHJl
+YWwNCj4gPiA+ID4gPiBVSUQuDQo+ID4gPiA+ID4gK0hvd2V2ZXIsIGl0IGRvZXMgc28gaW5jb3Jy
+ZWN0bHkuIE9uIExpbnV4IGFuZCBvdGhlciBzeXN0ZW1zDQo+ID4gPiA+ID4gdGhhdA0KPiA+ID4g
+PiA+IHN1cHBvcnQgInNhdmVkIFVJRCIgZnVuY3Rpb25hbGl0eSwNCj4gPiA+ID4gPiArdGhlIHNh
+dmVkIFVJRCBpcyBub3QgZHJvcHBlZC4gQW4gYXR0YWNrZXIgd2l0aCBjb21tYW5kDQo+ID4gPiA+
+ID4gZXhlY3V0aW9uIGluDQo+ID4gPiA+ID4gdGhlIHNoZWxsIGNhbiB1c2UgImVuYWJsZSAtZiIg
+Zm9yDQo+ID4gPiA+ID4gK3J1bnRpbWUgbG9hZGluZyBvZiBhIG5ldyBidWlsdGluLCB3aGljaCBj
+YW4gYmUgYSBzaGFyZWQNCj4gPiA+ID4gPiBvYmplY3QgdGhhdA0KPiA+ID4gPiA+IGNhbGxzIHNl
+dHVpZCgpIGFuZCB0aGVyZWZvcmUNCj4gPiA+ID4gPiArcmVnYWlucyBwcml2aWxlZ2VzLiBIb3dl
+dmVyLCBiaW5hcmllcyBydW5uaW5nIHdpdGggYW4NCj4gPiA+ID4gPiBlZmZlY3RpdmUgVUlEDQo+
+ID4gPiA+ID4gb2YgMCBhcmUgdW5hZmZlY3RlZC4NCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gK0dl
+dCB0aGUgcGF0Y2ggZnJvbSBbMV0gdG8gZml4IHRoZSBpc3N1ZS4NCj4gPiA+ID4gPiArDQo+ID4g
+PiA+ID4gK1Vwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbdGhlIHVwc3RyZWFtIHRoaW5r
+cyBpdA0KPiA+ID4gPiA+IGRvZXNuJ3QNCj4gPiA+ID4gPiBpbmNyZWFzZSB0aGUgY3JlZGliaWxp
+dHkgb2YgQ1ZFcyBpbiBnZW5lcmFsXQ0KPiA+ID4gPiA+ICtDVkU6IENWRS0yMDE5LTE4Mjc2DQo+
+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtbMV0NCj4gPiA+ID4gPiBodHRwczovL2dpdC5zYXZhbm5h
+aC5nbnUub3JnL2NnaXQvYmFzaC5naXQvY29tbWl0Lz9oPWRldmVsJmlkPTk1MWJkYWENCj4gPiA+
+ID4gPiArDQo+ID4gPiA+ID4gK1NpZ25lZC1vZmYtYnk6IERlIEh1byA8RGUuSHVvQHdpbmRyaXZl
+ci5jb20+DQo+ID4gPiA+ID4gK1NpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5k
+cml2ZXIuY29tPg0KPiA+ID4gPiA+ICtTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55
+dUB3aW5kcml2ZXIuY29tPg0KPiA+ID4gPiA+ICstLS0NCj4gPiA+ID4gPiArIE1BTklGRVNUICAg
+ICAgICAgIHwgIDIgKysNCj4gPiA+ID4gPiArIGJhc2hsaW5lLmMgICAgICAgIHwgNTAgKy0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ID4gLS0tLS0tLS0NCj4gPiA+
+ID4gPiAtLS0tLS0NCj4gPiA+ID4gPiArIGJ1aWx0aW5zL2hlbHAuZGVmIHwgIDIgKy0NCj4gPiA+
+ID4gPiArIGNvbmZpZy5oLmluICAgICAgIHwgMTAgKysrKysrKysrLQ0KPiA+ID4gPiA+ICsgY29u
+ZmlndXJlLmFjICAgICAgfCAgMSArDQo+ID4gPiA+ID4gKyBkb2MvYmFzaC4xICAgICAgICB8ICAz
+ICsrLQ0KPiA+ID4gPiA+ICsgZG9jL2Jhc2hyZWYudGV4aSAgfCAgMyArKy0NCj4gPiA+ID4gPiAr
+IGxpYi9nbG9iL2dsb2IuYyAgIHwgIDUgKysrKy0NCj4gPiA+ID4gPiArIHBhdGhleHAuYyAgICAg
+ICAgIHwgMTYgKysrKysrKysrKysrKystLQ0KPiA+ID4gPiA+ICsgc2hlbGwuYyAgICAgICAgICAg
+fCAgOCArKysrKysrKw0KPiA+ID4gPiA+ICsgdGVzdHMvZ2xvYi50ZXN0cyAgfCAgMiArKw0KPiA+
+ID4gPiA+ICsgdGVzdHMvZ2xvYjYuc3ViICAgfCA1NA0KPiA+ID4gPiA+ICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ID4gPiA+ICsgdGVz
+dHMvZ2xvYjcuc3ViICAgfCAxMSArKysrKysrKysrKw0KPiA+ID4gPiA+ICsgMTQgZmlsZXMgY2hh
+bmdlZCwgMTIyIGluc2VydGlvbnMoKyksIDU2IGRlbGV0aW9ucygtKQ0KPiA+ID4gPiA+ICsgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IHRlc3RzL2dsb2I2LnN1Yg0KPiA+ID4gPiA+ICsgY3JlYXRlIG1vZGUg
+MTAwNjQ0IHRlc3RzL2dsb2I3LnN1Yg0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArZGlmZiAtLWdp
+dCBhL01BTklGRVNUIGIvTUFOSUZFU1QNCj4gPiA+ID4gPiAraW5kZXggMDNkZTIyMS4uZjljY2Fk
+NyAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvTUFOSUZFU1QNCj4gPiA+ID4gPiArKysrIGIvTUFO
+SUZFU1QNCj4gPiA+ID4gPiArQEAgLTEwMzcsNiArMTAzNyw4IEBAIHRlc3RzL2V4dGdsb2IzLnRl
+c3RzICBmDQo+ID4gPiA+ID4gKyB0ZXN0cy9leHRnbG9iMy5yaWdodCAgICAgICBmDQo+ID4gPiA+
+ID4gKyB0ZXN0cy9leHRnbG9iNC5zdWIgZg0KPiA+ID4gPiA+ICsgdGVzdHMvZXh0Z2xvYjUuc3Vi
+IGYNCj4gPiA+ID4gPiArK3Rlc3RzL2dsb2I2LnN1YiAgICAgICAgICAgIGYNCj4gPiA+ID4gPiAr
+K3Rlc3RzL2dsb2I3LnN1YiAgICAgICAgICAgIGYNCj4gPiA+ID4gPiArIHRlc3RzL2Z1bmMudGVz
+dHMgICBmDQo+ID4gPiA+ID4gKyB0ZXN0cy9mdW5jLnJpZ2h0ICAgZg0KPiA+ID4gPiA+ICsgdGVz
+dHMvZnVuYzEuc3ViICAgICAgICAgICAgZg0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvYmFzaGxp
+bmUuYyBiL2Jhc2hsaW5lLmMNCj4gPiA+ID4gPiAraW5kZXggODI0ZWE5ZC4uZDg2YjQ3ZCAxMDA2
+NDQNCj4gPiA+ID4gPiArLS0tIGEvYmFzaGxpbmUuYw0KPiA+ID4gPiA+ICsrKysgYi9iYXNobGlu
+ZS5jDQo+ID4gPiA+ID4gK0BAIC0zNzE4LDU1ICszNzE4LDcgQEAgc3RhdGljIGludA0KPiA+ID4g
+PiA+ICsgY29tcGxldGlvbl9nbG9iX3BhdHRlcm4gKHN0cmluZykNCj4gPiA+ID4gPiArICAgICAg
+Y2hhciAqc3RyaW5nOw0KPiA+ID4gPiA+ICsgew0KPiA+ID4gPiA+ICstICByZWdpc3RlciBpbnQg
+YzsNCj4gPiA+ID4gPiArLSAgY2hhciAqc2VuZDsNCj4gPiA+ID4gPiArLSAgaW50IG9wZW47DQo+
+ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgREVDTEFSRV9NQlNUQVRFOw0KPiA+ID4gPiA+ICst
+DQo+ID4gPiA+ID4gKy0gIG9wZW4gPSAwOw0KPiA+ID4gPiA+ICstICBzZW5kID0gc3RyaW5nICsg
+c3RybGVuIChzdHJpbmcpOw0KPiA+ID4gPiA+ICstDQo+ID4gPiA+ID4gKy0gIHdoaWxlIChjID0g
+KnN0cmluZysrKQ0KPiA+ID4gPiA+ICstICAgIHsNCj4gPiA+ID4gPiArLSAgICAgIHN3aXRjaCAo
+YykNCj4gPiA+ID4gPiArLSAgIHsNCj4gPiA+ID4gPiArLSAgIGNhc2UgJz8nOg0KPiA+ID4gPiA+
+ICstICAgY2FzZSAnKic6DQo+ID4gPiA+ID4gKy0gICAgIHJldHVybiAoMSk7DQo+ID4gPiA+ID4g
+Ky0NCj4gPiA+ID4gPiArLSAgIGNhc2UgJ1snOg0KPiA+ID4gPiA+ICstICAgICBvcGVuKys7DQo+
+ID4gPiA+ID4gKy0gICAgIGNvbnRpbnVlOw0KPiA+ID4gPiA+ICstDQo+ID4gPiA+ID4gKy0gICBj
+YXNlICddJzoNCj4gPiA+ID4gPiArLSAgICAgaWYgKG9wZW4pDQo+ID4gPiA+ID4gKy0gICAgICAg
+cmV0dXJuICgxKTsNCj4gPiA+ID4gPiArLSAgICAgY29udGludWU7DQo+ID4gPiA+ID4gKy0NCj4g
+PiA+ID4gPiArLSAgIGNhc2UgJysnOg0KPiA+ID4gPiA+ICstICAgY2FzZSAnQCc6DQo+ID4gPiA+
+ID4gKy0gICBjYXNlICchJzoNCj4gPiA+ID4gPiArLSAgICAgaWYgKCpzdHJpbmcgPT0gJygnKSAg
+IC8qKSovDQo+ID4gPiA+ID4gKy0gICAgICAgcmV0dXJuICgxKTsNCj4gPiA+ID4gPiArLSAgICAg
+Y29udGludWU7DQo+ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgIGNhc2UgJ1xcJzoNCj4gPiA+
+ID4gPiArLSAgICAgaWYgKCpzdHJpbmcrKyA9PSAwKQ0KPiA+ID4gPiA+ICstICAgICAgIHJldHVy
+biAoMCk7DQo+ID4gPiA+ID4gKy0gICB9DQo+ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgICAg
+IC8qIEFkdmFuY2Ugb25lIGZld2VyIGJ5dGUgdGhhbiBhbiBlbnRpcmUgbXVsdGlieXRlDQo+ID4g
+PiA+ID4gY2hhcmFjdGVyDQo+ID4gPiA+ID4gdG8NCj4gPiA+ID4gPiArLSAgICBhY2NvdW50IGZv
+ciB0aGUgYXV0by1pbmNyZW1lbnQgaW4gdGhlIGxvb3AgYWJvdmUuICovDQo+ID4gPiA+ID4gKy0j
+aWZkZWYgSEFORExFX01VTFRJQllURQ0KPiA+ID4gPiA+ICstICAgICAgc3RyaW5nLS07DQo+ID4g
+PiA+ID4gKy0gICAgICBBRFZBTkNFX0NIQVJfUCAoc3RyaW5nLCBzZW5kIC0gc3RyaW5nKTsNCj4g
+PiA+ID4gPiArLSAgICAgIHN0cmluZysrOw0KPiA+ID4gPiA+ICstI2Vsc2UNCj4gPiA+ID4gPiAr
+LSAgICAgIEFEVkFOQ0VfQ0hBUl9QIChzdHJpbmcsIHNlbmQgLSBzdHJpbmcpOw0KPiA+ID4gPiA+
+ICstI2VuZGlmDQo+ID4gPiA+ID4gKy0gICAgfQ0KPiA+ID4gPiA+ICstICByZXR1cm4gKDApOw0K
+PiA+ID4gPiA+ICsrICByZXR1cm4gKGdsb2JfcGF0dGVybl9wIChzdHJpbmcpID09IDEpOw0KPiA+
+ID4gPiA+ICsgfQ0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArIHN0YXRpYyBjaGFyICpnbG9idGV4
+dDsNCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL2J1aWx0aW5zL2hlbHAuZGVmIGIvYnVpbHRpbnMv
+aGVscC5kZWYNCj4gPiA+ID4gPiAraW5kZXggMDA2YzRiNS4uOTJmOWIzOCAxMDA2NDQNCj4gPiA+
+ID4gPiArLS0tIGEvYnVpbHRpbnMvaGVscC5kZWYNCj4gPiA+ID4gPiArKysrIGIvYnVpbHRpbnMv
+aGVscC5kZWYNCj4gPiA+ID4gPiArQEAgLTEyOCw3ICsxMjgsNyBAQCBoZWxwX2J1aWx0aW4gKGxp
+c3QpDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICsgICAvKiBXZSBzaG91bGQgY29uc2lkZXIgbWFr
+aW5nIGBoZWxwIGJhc2gnIGRvIHNvbWV0aGluZy4gKi8NCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
+Ky0gIGlmIChnbG9iX3BhdHRlcm5fcCAobGlzdC0+d29yZC0+d29yZCkpDQo+ID4gPiA+ID4gKysg
+IGlmIChnbG9iX3BhdHRlcm5fcCAobGlzdC0+d29yZC0+d29yZCkgPT0gMSkNCj4gPiA+ID4gPiAr
+ICAgICB7DQo+ID4gPiA+ID4gKyAgICAgICBwcmludGYgKCIlcyIsIG5nZXR0ZXh0ICgiU2hlbGwg
+Y29tbWFuZHMgbWF0Y2hpbmcNCj4gPiA+ID4gPiBrZXl3b3JkIGAiLA0KPiA+ID4gPiA+ICJTaGVs
+bCBjb21tYW5kcyBtYXRjaGluZyBrZXl3b3JkcyBgIiwgKGxpc3QtPm5leHQgPyAyIDogMSkpKTsN
+Cj4gPiA+ID4gPiArICAgICAgIHByaW50X3dvcmRfbGlzdCAobGlzdCwgIiwgIik7DQo+ID4gPiA+
+ID4gK2RpZmYgLS1naXQgYS9jb25maWcuaC5pbiBiL2NvbmZpZy5oLmluDQo+ID4gPiA+ID4gK2lu
+ZGV4IDg1NTRhZWMuLmFkNGIxZTggMTAwNjQ0DQo+ID4gPiA+ID4gKy0tLSBhL2NvbmZpZy5oLmlu
+DQo+ID4gPiA+ID4gKysrKyBiL2NvbmZpZy5oLmluDQo+ID4gPiA+ID4gK0BAIC0xLDYgKzEsNiBA
+QA0KPiA+ID4gPiA+ICsgLyogY29uZmlnLmggLS0gQ29uZmlndXJhdGlvbiBmaWxlIGZvciBiYXNo
+LiAqLw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArLS8qIENvcHlyaWdodCAoQykgMTk4Ny0yMDA5
+LDIwMTEtMjAxMiBGcmVlIFNvZnR3YXJlDQo+ID4gPiA+ID4gRm91bmRhdGlvbiwgSW5jLg0KPiA+
+ID4gPiA+ICsrLyogQ29weXJpZ2h0IChDKSAxOTg3LTIwMDksMjAxMS0yMDEyLDIwMTMtMjAxOSBG
+cmVlDQo+ID4gPiA+ID4gU29mdHdhcmUNCj4gPiA+ID4gPiBGb3VuZGF0aW9uLCBJbmMuDQo+ID4g
+PiA+ID4gKw0KPiA+ID4gPiA+ICsgICAgVGhpcyBmaWxlIGlzIHBhcnQgb2YgR05VIEJhc2gsIHRo
+ZSBCb3VybmUgQWdhaW4gU0hlbGwuDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtAQCAtODA3LDYg
+KzgwNywxNCBAQA0KPiA+ID4gPiA+ICsgI3VuZGVmIEhBVkVfU0VUUkVHSUQNCj4gPiA+ID4gPiAr
+ICN1bmRlZiBIQVZFX0RFQ0xfU0VUUkVHSUQNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gKysvKiBE
+ZWZpbmUgaWYgeW91IGhhdmUgdGhlIHNldHJlZ2lkIGZ1bmN0aW9uLiAgKi8NCj4gPiA+ID4gPiAr
+KyN1bmRlZiBIQVZFX1NFVFJFU0dJRA0KPiA+ID4gPiA+ICsrI3VuZGVmIEhBVkVfREVDTF9TRVRS
+RVNHSUQNCj4gPiA+ID4gPiArKw0KPiA+ID4gPiA+ICsrLyogRGVmaW5lIGlmIHlvdSBoYXZlIHRo
+ZSBzZXRyZXN1aWQgZnVuY3Rpb24uICAqLw0KPiA+ID4gPiA+ICsrI3VuZGVmIEhBVkVfU0VUUkVT
+VUlEDQo+ID4gPiA+ID4gKysjdW5kZWYgSEFWRV9ERUNMX1NFVFJFU1VJRA0KPiA+ID4gPiA+ICsr
+DQo+ID4gPiA+ID4gKyAvKiBEZWZpbmUgaWYgeW91IGhhdmUgdGhlIHNldHZidWYgZnVuY3Rpb24u
+ICAqLw0KPiA+ID4gPiA+ICsgI3VuZGVmIEhBVkVfU0VUVkJVRg0KPiA+ID4gPiA+ICsNCj4gPiA+
+ID4gPiArZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYw0KPiA+ID4gPiA+
+ICtpbmRleCA1MmI0Y2RiLi41NDlhZGVmIDEwMDY0NA0KPiA+ID4gPiA+ICstLS0gYS9jb25maWd1
+cmUuYWMNCj4gPiA+ID4gPiArKysrIGIvY29uZmlndXJlLmFjDQo+ID4gPiA+ID4gK0BAIC04MTAs
+NiArODEwLDcgQEAgQUNfQ0hFQ0tfREVDTFMoW2NvbmZzdHJdKQ0KPiA+ID4gPiA+ICsgQUNfQ0hF
+Q0tfREVDTFMoW3ByaW50Zl0pDQo+ID4gPiA+ID4gKyBBQ19DSEVDS19ERUNMUyhbc2Jya10pDQo+
+ID4gPiA+ID4gKyBBQ19DSEVDS19ERUNMUyhbc2V0cmVnaWRdKQ0KPiA+ID4gPiA+ICsrQUNfQ0hF
+Q0tfREVDTFNbKHNldHJlc3VpZCwgc2V0cmVzZ2lkXSkNCj4gPiA+ID4gPiArIEFDX0NIRUNLX0RF
+Q0xTKFtzdHJjcHldKQ0KPiA+ID4gPiA+ICsgQUNfQ0hFQ0tfREVDTFMoW3N0cnNpZ25hbF0pDQo+
+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvZG9jL2Jhc2guMSBiL2RvYy9iYXNo
+LjENCj4gPiA+ID4gPiAraW5kZXggZTZjZDA4ZC4uOWU1OGEwYiAxMDA2NDQNCj4gPiA+ID4gPiAr
+LS0tIGEvZG9jL2Jhc2guMQ0KPiA+ID4gPiA+ICsrKysgYi9kb2MvYmFzaC4xDQo+ID4gPiA+ID4g
+K0BAIC00NjgxLDcgKzQ2ODEsOCBAQCBhYm92ZSkuDQo+ID4gPiA+ID4gKyAuUEQNCj4gPiA+ID4g
+PiArIC5TSCAiU0lNUExFIENPTU1BTkQgRVhQQU5TSU9OIg0KPiA+ID4gPiA+ICsgV2hlbiBhIHNp
+bXBsZSBjb21tYW5kIGlzIGV4ZWN1dGVkLCB0aGUgc2hlbGwgcGVyZm9ybXMgdGhlDQo+ID4gPiA+
+ID4gZm9sbG93aW5nDQo+ID4gPiA+ID4gKy1leHBhbnNpb25zLCBhc3NpZ25tZW50cywgYW5kIHJl
+ZGlyZWN0aW9ucywgZnJvbSBsZWZ0IHRvDQo+ID4gPiA+ID4gcmlnaHQuDQo+ID4gPiA+ID4gKytl
+eHBhbnNpb25zLCBhc3NpZ25tZW50cywgYW5kIHJlZGlyZWN0aW9ucywgZnJvbSBsZWZ0IHRvDQo+
+ID4gPiA+ID4gcmlnaHQsIGluDQo+ID4gPiA+ID4gKyt0aGUgZm9sbG93aW5nIG9yZGVyLg0KPiA+
+ID4gPiA+ICsgLklQIDEuDQo+ID4gPiA+ID4gKyBUaGUgd29yZHMgdGhhdCB0aGUgcGFyc2VyIGhh
+cyBtYXJrZWQgYXMgdmFyaWFibGUNCj4gPiA+ID4gPiBhc3NpZ25tZW50cyAodGhvc2UNCj4gPiA+
+ID4gPiArIHByZWNlZGluZyB0aGUgY29tbWFuZCBuYW1lKSBhbmQgcmVkaXJlY3Rpb25zIGFyZSBz
+YXZlZCBmb3INCj4gPiA+ID4gPiBsYXRlcg0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvZG9jL2Jh
+c2hyZWYudGV4aSBiL2RvYy9iYXNocmVmLnRleGkNCj4gPiA+ID4gPiAraW5kZXggZDMzY2Q1Ny4u
+MzA2NTEyNiAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvZG9jL2Jhc2hyZWYudGV4aQ0KPiA+ID4g
+PiA+ICsrKysgYi9kb2MvYmFzaHJlZi50ZXhpDQo+ID4gPiA+ID4gK0BAIC0yOTY0LDcgKzI5NjQs
+OCBAQCBpcyBub3Qgc3BlY2lmaWVkLiAgSWYgdGhlIGZpbGUgZG9lcw0KPiA+ID4gPiA+IG5vdCBl
+eGlzdCwNCj4gPiA+ID4gPiBpdCBpcyBjcmVhdGVkLg0KPiA+ID4gPiA+ICsgQGNpbmRleCBjb21t
+YW5kIGV4cGFuc2lvbg0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArIFdoZW4gYSBzaW1wbGUgY29t
+bWFuZCBpcyBleGVjdXRlZCwgdGhlIHNoZWxsIHBlcmZvcm1zIHRoZQ0KPiA+ID4gPiA+IGZvbGxv
+d2luZw0KPiA+ID4gPiA+ICstZXhwYW5zaW9ucywgYXNzaWdubWVudHMsIGFuZCByZWRpcmVjdGlv
+bnMsIGZyb20gbGVmdCB0bw0KPiA+ID4gPiA+IHJpZ2h0Lg0KPiA+ID4gPiA+ICsrZXhwYW5zaW9u
+cywgYXNzaWdubWVudHMsIGFuZCByZWRpcmVjdGlvbnMsIGZyb20gbGVmdCB0bw0KPiA+ID4gPiA+
+IHJpZ2h0LCBpbg0KPiA+ID4gPiA+ICsrdGhlIGZvbGxvd2luZyBvcmRlci4NCj4gPiA+ID4gPiAr
+DQo+ID4gPiA+ID4gKyBAZW51bWVyYXRlDQo+ID4gPiA+ID4gKyBAaXRlbQ0KPiA+ID4gPiA+ICtk
+aWZmIC0tZ2l0IGEvbGliL2dsb2IvZ2xvYi5jIGIvbGliL2dsb2IvZ2xvYi5jDQo+ID4gPiA+ID4g
+K2luZGV4IDM5ODI1M2IuLjJlYWEzM2UgMTAwNjQ0DQo+ID4gPiA+ID4gKy0tLSBhL2xpYi9nbG9i
+L2dsb2IuYw0KPiA+ID4gPiA+ICsrKysgYi9saWIvZ2xvYi9nbG9iLmMNCj4gPiA+ID4gPiArQEAg
+LTYwNyw2ICs2MDcsNyBAQCBnbG9iX3ZlY3RvciAocGF0LCBkaXIsIGZsYWdzKQ0KPiA+ID4gPiA+
+ICsgICByZWdpc3RlciB1bnNpZ25lZCBpbnQgaTsNCj4gPiA+ID4gPiArICAgaW50IG1mbGFnczsg
+ICAgICAgICAgICAgIC8qIEZsYWdzIHBhc3NlZCB0byBzdHJtYXRjaCAoKS4NCj4gPiA+ID4gPiAq
+Lw0KPiA+ID4gPiA+ICsgICBpbnQgcGZsYWdzOyAgICAgICAgICAgICAgLyogZmxhZ3MgcGFzc2Vk
+IHRvIHNoX21ha2VwYXRoDQo+ID4gPiA+ID4gKCkgKi8NCj4gPiA+ID4gPiArKyAgaW50IGhhc2ds
+b2I7ICAgICAgICAgICAgIC8qIHJldHVybiB2YWx1ZSBmcm9tDQo+ID4gPiA+ID4gZ2xvYl9wYXR0
+ZXJuX3AgKi8NCj4gPiA+ID4gPiArICAgaW50IG5hbGxvY2E7DQo+ID4gPiA+ID4gKyAgIHN0cnVj
+dCBnbG9idmFsICpmaXJzdG1hbGxvYywgKnRtcGxpbms7DQo+ID4gPiA+ID4gKyAgIGNoYXIgKmNv
+bnZmbjsNCj4gPiA+ID4gPiArQEAgLTY0OCwxMCArNjQ5LDEyIEBAIGdsb2JfdmVjdG9yIChwYXQs
+IGRpciwgZmxhZ3MpDQo+ID4gPiA+ID4gKyAgIHBhdGxlbiA9IChwYXQgJiYgKnBhdCkgPyBzdHJs
+ZW4gKHBhdCkgOiAwOw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArICAgLyogSWYgdGhlIGZpbGVu
+YW1lIHBhdHRlcm4gKFBBVCkgZG9lcyBub3QgY29udGFpbiBhbnkNCj4gPiA+ID4gPiBnbG9iYmlu
+Zw0KPiA+ID4gPiA+IGNoYXJhY3RlcnMsDQo+ID4gPiA+ID4gKysgICAgIG9yIGNvbnRhaW5zIGEg
+cGF0dGVybiB3aXRoIG9ubHkgYmFja3NsYXNoIGVzY2FwZXMNCj4gPiA+ID4gPiAoaGFzZ2xvYiA9
+PQ0KPiA+ID4gPiA+IDIpLA0KPiA+ID4gPiA+ICsgICAgICB3ZSBjYW4gZGlzcGVuc2Ugd2l0aCBy
+ZWFkaW5nIHRoZSBkaXJlY3RvcnksIGFuZCBqdXN0DQo+ID4gPiA+ID4gc2VlIGlmDQo+ID4gPiA+
+ID4gdGhlcmUgaXMNCj4gPiA+ID4gPiArICAgICAgYSBmaWxlbmFtZSBgRElSL1BBVCcuICBJZiB0
+aGVyZSBpcywgYW5kIHdlIGNhbiBhY2Nlc3MNCj4gPiA+ID4gPiBpdCwganVzdA0KPiA+ID4gPiA+
+IG1ha2UgdGhlDQo+ID4gPiA+ID4gKyAgICAgIHZlY3RvciB0byByZXR1cm4gYW5kIGJhaWwgaW1t
+ZWRpYXRlbHkuICovDQo+ID4gPiA+ID4gKy0gIGlmIChza2lwID09IDAgJiYgZ2xvYl9wYXR0ZXJu
+X3AgKHBhdCkgPT0gMCkNCj4gPiA+ID4gPiArKyAgaGFzZ2xvYiA9IDA7DQo+ID4gPiA+ID4gKysg
+IGlmIChza2lwID09IDAgJiYgKGhhc2dsb2IgPSBnbG9iX3BhdHRlcm5fcCAocGF0KSkgPT0gMCB8
+fA0KPiA+ID4gPiA+IGhhc2dsb2INCj4gPiA+ID4gPiA9PSAyKQ0KPiA+ID4gPiA+ICsgICAgIHsN
+Cj4gPiA+ID4gPiArICAgICAgIGludCBkaXJsZW47DQo+ID4gPiA+ID4gKyAgICAgICBzdHJ1Y3Qg
+c3RhdCBmaW5mbzsNCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL3BhdGhleHAuYyBiL3BhdGhleHAu
+Yw0KPiA+ID4gPiA+ICtpbmRleCBjMWJmMmQ4Li5lNmM1MzkyIDEwMDY0NA0KPiA+ID4gPiA+ICst
+LS0gYS9wYXRoZXhwLmMNCj4gPiA+ID4gPiArKysrIGIvcGF0aGV4cC5jDQo+ID4gPiA+ID4gK0BA
+IC01OCw3ICs1OCwxMCBAQCBpbnQgZXh0ZW5kZWRfZ2xvYiA9IEVYVEdMT0JfREVGQVVMVDsNCj4g
+PiA+ID4gPiArIC8qIENvbnRyb2wgZW5hYmxpbmcgc3BlY2lhbCBoYW5kbGluZyBvZiBgKionICov
+DQo+ID4gPiA+ID4gKyBpbnQgZ2xvYl9zdGFyID0gMDsNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
+Ky0vKiBSZXR1cm4gbm9uemVybyBpZiBTVFJJTkcgaGFzIGFueSB1bnF1b3RlZCBzcGVjaWFsDQo+
+ID4gPiA+ID4gZ2xvYmJpbmcgY2hhcnMNCj4gPiA+ID4gPiBpbiBpdC4gICovDQo+ID4gPiA+ID4g
+KysvKiBSZXR1cm4gbm9uemVybyBpZiBTVFJJTkcgaGFzIGFueSB1bnF1b3RlZCBzcGVjaWFsDQo+
+ID4gPiA+ID4gZ2xvYmJpbmcgY2hhcnMNCj4gPiA+ID4gPiBpbiBpdC4NCj4gPiA+ID4gPiArKyAg
+IFRoaXMgaXMgc3VwcG9zZWQgdG8gYmUgY2FsbGVkIHdoZW4gcGF0aG5hbWUgZXhwYW5zaW9uIGlz
+DQo+ID4gPiA+ID4gcGVyZm9ybWVkLCBzbw0KPiA+ID4gPiA+ICsrICAgaXQgaW1wbGVtZW50cyB0
+aGUgcnVsZXMgaW4gUG9zaXggMi4xMy4zLCBzcGVjaWZpY2FsbHkNCj4gPiA+ID4gPiB0aGF0IGFu
+DQo+ID4gPiA+ID4gdW5xdW90ZWQNCj4gPiA+ID4gPiArKyAgIHNsYXNoIGNhbm5vdCBhcHBlYXIg
+aW4gYSBicmFja2V0IGV4cHJlc3Npb24uICovDQo+ID4gPiA+ID4gKyBpbnQNCj4gPiA+ID4gPiAr
+IHVucXVvdGVkX2dsb2JfcGF0dGVybl9wIChzdHJpbmcpDQo+ID4gPiA+ID4gKyAgICAgIHJlZ2lz
+dGVyIGNoYXIgKnN0cmluZzsNCj4gPiA+ID4gPiArQEAgLTg1LDEwICs4OCwxNCBAQCB1bnF1b3Rl
+ZF9nbG9iX3BhdHRlcm5fcCAoc3RyaW5nKQ0KPiA+ID4gPiA+ICsgICAgICBjb250aW51ZTsNCj4g
+PiA+ID4gPiArDQo+ID4gPiA+ID4gKyAgICBjYXNlICddJzoNCj4gPiA+ID4gPiArLSAgICAgaWYg
+KG9wZW4pDQo+ID4gPiA+ID4gKysgICAgIGlmIChvcGVuKSAgICAgICAgICAgICAvKiBYWFggLSBp
+ZiAtLW9wZW4gPT0gMD8gKi8NCj4gPiA+ID4gPiArICAgICAgICByZXR1cm4gKDEpOw0KPiA+ID4g
+PiA+ICsgICAgICBjb250aW51ZTsNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gKysgICBjYXNlICcv
+JzoNCj4gPiA+ID4gPiArKyAgICAgaWYgKG9wZW4pDQo+ID4gPiA+ID4gKysgICAgICAgb3BlbiA9
+IDA7DQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArICAgIGNhc2UgJysnOg0KPiA+ID4gPiA+ICsg
+ICAgY2FzZSAnQCc6DQo+ID4gPiA+ID4gKyAgICBjYXNlICchJzoNCj4gPiA+ID4gPiArQEAgLTEw
+Niw2ICsxMTMsMTEgQEAgdW5xdW90ZWRfZ2xvYl9wYXR0ZXJuX3AgKHN0cmluZykNCj4gPiA+ID4g
+PiArICAgICAgICAgIHN0cmluZysrOw0KPiA+ID4gPiA+ICsgICAgICAgICAgY29udGludWU7DQo+
+ID4gPiA+ID4gKyAgICAgICAgfQ0KPiA+ID4gPiA+ICsrICAgICBlbHNlIGlmIChvcGVuICYmICpz
+dHJpbmcgPT0gJy8nKQ0KPiA+ID4gPiA+ICsrICAgICAgIHsNCj4gPiA+ID4gPiArKyAgICAgICAg
+IHN0cmluZysrOyAgICAgICAgIC8qIHF1b3RlZCBzbGFzaGVzIGluIGJyYWNrZXQNCj4gPiA+ID4g
+PiBleHByZXNzaW9ucyBhcmUgb2sgKi8NCj4gPiA+ID4gPiArKyAgICAgICAgIGNvbnRpbnVlOw0K
+PiA+ID4gPiA+ICsrICAgICAgIH0NCj4gPiA+ID4gPiArICAgICAgZWxzZSBpZiAoKnN0cmluZyA9
+PSAwKQ0KPiA+ID4gPiA+ICsgICAgICAgIHJldHVybiAoMCk7DQo+ID4gPiA+ID4gKw0KPiA+ID4g
+PiA+ICtkaWZmIC0tZ2l0IGEvc2hlbGwuYyBiL3NoZWxsLmMNCj4gPiA+ID4gPiAraW5kZXggYTJi
+MmE1NS4uNmFkYWJjOCAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvc2hlbGwuYw0KPiA+ID4gPiA+
+ICsrKysgYi9zaGVsbC5jDQo+ID4gPiA+ID4gK0BAIC0xMjkzLDcgKzEyOTMsMTEgQEAgZGlzYWJs
+ZV9wcml2X21vZGUgKCkNCj4gPiA+ID4gPiArIHsNCj4gPiA+ID4gPiArICAgaW50IGU7DQo+ID4g
+PiA+ID4gKw0KPiA+ID4gPiA+ICsrI2lmIEhBVkVfREVDTF9TRVRSRVNVSUQNCj4gPiA+ID4gPiAr
+KyAgaWYgKHNldHJlc3VpZCAoY3VycmVudF91c2VyLnVpZCwgY3VycmVudF91c2VyLnVpZCwNCj4g
+PiA+ID4gPiBjdXJyZW50X3VzZXIudWlkKSA8IDApDQo+ID4gPiA+ID4gKysjZWxzZQ0KPiA+ID4g
+PiA+ICsgICBpZiAoc2V0dWlkIChjdXJyZW50X3VzZXIudWlkKSA8IDApDQo+ID4gPiA+ID4gKysj
+ZW5kaWYNCj4gPiA+ID4gPiArICAgICB7DQo+ID4gPiA+ID4gKyAgICAgICBlID0gZXJybm87DQo+
+ID4gPiA+ID4gKyAgICAgICBzeXNfZXJyb3IgKF8oImNhbm5vdCBzZXQgdWlkIHRvICVkOiBlZmZl
+Y3RpdmUgdWlkDQo+ID4gPiA+ID4gJWQiKSwNCj4gPiA+ID4gPiBjdXJyZW50X3VzZXIudWlkLCBj
+dXJyZW50X3VzZXIuZXVpZCk7DQo+ID4gPiA+ID4gK0BAIC0xMzAyLDcgKzEzMDYsMTEgQEAgZGlz
+YWJsZV9wcml2X21vZGUgKCkNCj4gPiA+ID4gPiArICAgIGV4aXQgKGUpOw0KPiA+ID4gPiA+ICsg
+I2VuZGlmDQo+ID4gPiA+ID4gKyAgICAgfQ0KPiA+ID4gPiA+ICsrI2lmIEhBVkVfREVDTF9TRVRS
+RVNHSUQNCj4gPiA+ID4gPiArKyAgaWYgKHNldHJlc2dpZCAoY3VycmVudF91c2VyLmdpZCwgY3Vy
+cmVudF91c2VyLmdpZCwNCj4gPiA+ID4gPiBjdXJyZW50X3VzZXIuZ2lkKSA8IDApDQo+ID4gPiA+
+ID4gKysjZWxzZQ0KPiA+ID4gPiA+ICsgICBpZiAoc2V0Z2lkIChjdXJyZW50X3VzZXIuZ2lkKSA8
+IDApDQo+ID4gPiA+ID4gKysjZW5kaWYNCj4gPiA+ID4gPiArICAgICBzeXNfZXJyb3IgKF8oImNh
+bm5vdCBzZXQgZ2lkIHRvICVkOiBlZmZlY3RpdmUgZ2lkICVkIiksDQo+ID4gPiA+ID4gY3VycmVu
+dF91c2VyLmdpZCwgY3VycmVudF91c2VyLmVnaWQpOw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiAr
+ICAgY3VycmVudF91c2VyLmV1aWQgPSBjdXJyZW50X3VzZXIudWlkOw0KPiA+ID4gPiA+ICtkaWZm
+IC0tZ2l0IGEvdGVzdHMvZ2xvYi50ZXN0cyBiL3Rlc3RzL2dsb2IudGVzdHMNCj4gPiA+ID4gPiAr
+aW5kZXggMDE5MTNiYi4uZmIwMTJmNyAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvdGVzdHMvZ2xv
+Yi50ZXN0cw0KPiA+ID4gPiA+ICsrKysgYi90ZXN0cy9nbG9iLnRlc3RzDQo+ID4gPiA+ID4gK0BA
+IC0xMiw2ICsxMiw4IEBAICR7VEhJU19TSH0gLi9nbG9iMS5zdWINCj4gPiA+ID4gPiArICR7VEhJ
+U19TSH0gLi9nbG9iMi5zdWINCj4gPiA+ID4gPiArICR7VEhJU19TSH0gLi9nbG9iMy5zdWINCj4g
+PiA+ID4gPiArICR7VEhJU19TSH0gLi9nbG9iNC5zdWINCj4gPiA+ID4gPiArKyR7VEhJU19TSH0g
+Li9nbG9iNi5zdWINCj4gPiA+ID4gPiArKyR7VEhJU19TSH0gLi9nbG9iNy5zdWINCj4gPiA+ID4g
+PiArDQo+ID4gPiA+ID4gKyBNWURJUj0kUFdEICMgc2F2ZSB3aGVyZSB3ZSBhcmUNCj4gPiA+ID4g
+PiArDQo+ID4gPiA+ID4gK2RpZmYgLS1naXQgYS90ZXN0cy9nbG9iNi5zdWIgYi90ZXN0cy9nbG9i
+Ni5zdWINCj4gPiA+ID4gPiArbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gPiAraW5kZXgg
+MDAwMDAwMC4uYjA5OTgxMQ0KPiA+ID4gPiA+ICstLS0gL2Rldi9udWxsDQo+ID4gPiA+ID4gKysr
+KyBiL3Rlc3RzL2dsb2I2LnN1Yg0KPiA+ID4gPiA+ICtAQCAtMCwwICsxLDU0IEBADQo+ID4gPiA+
+ID4gKysjIHRlc3RzIG9mIHRoZSBiYWNrc2xhc2gtaW4tZ2xvYi1wYXR0ZXJucyBkaXNjdXNzaW9u
+IG9uIHRoZQ0KPiA+ID4gPiA+IGF1c3Rpbi0NCj4gPiA+ID4gPiBncm91cCBNTA0KPiA+ID4gPiA+
+ICsrDQo+ID4gPiA+ID4gKys6ICR7VE1QRElSOj0vdmFyL3RtcH0NCj4gPiA+ID4gPiArKw0KPiA+
+ID4gPiA+ICsrT1JJRz0kUFdEDQo+ID4gPiA+ID4gKytHTE9CRElSPSRUTVBESVIvYmFzaC1nbG9i
+LSQkDQo+ID4gPiA+ID4gKytta2RpciAkR0xPQkRJUiAmJiBjZCAkR0xPQkRJUg0KPiA+ID4gPiA+
+ICsrDQo+ID4gPiA+ID4gKysjIGRvZXMgdGhlIHBhdHRlcm4gbWF0Y2hlciBhbGxvdyBiYWNrc2xh
+c2hlcyBhcyBlc2NhcGUNCj4gPiA+ID4gPiBjaGFyYWN0ZXJzDQo+ID4gPiA+ID4gYW5kIHJlbW92
+ZQ0KPiA+ID4gPiA+ICsrIyB0aGVtIGFzIHBhcnQgb2YgbWF0Y2hpbmc/DQo+ID4gPiA+ID4gKyt0
+b3VjaCBhYmNkZWZnDQo+ID4gPiA+ID4gKytwYXQ9J2FiXGNkKicNCj4gPiA+ID4gPiArK3ByaW50
+ZiAnPCVzPlxuJyAkcGF0DQo+ID4gPiA+ID4gKytwYXQ9J1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRm
+ICc8JXM+XG4nICRwYXQNCj4gPiA+ID4gPiArK3JtIGFiY2RlZmcNCj4gPiA+ID4gPiArKw0KPiA+
+ID4gPiA+ICsrIyBob3cgYWJvdXQgd2hlbiBlc2NhcGluZyBwYXR0ZXJuIGNoYXJhY3RlcnM/DQo+
+ID4gPiA+ID4gKyt0b3VjaCAnKmFiYy5jJw0KPiA+ID4gPiA+ICsrYT0nXCoqLmMnDQo+ID4gPiA+
+ID4gKytwcmludGYgJyVzXG4nICRhDQo+ID4gPiA+ID4gKytybSAtZiAnKmFiYy5jJw0KPiA+ID4g
+PiA+ICsrDQo+ID4gPiA+ID4gKysjIGhvdyBhYm91dCB3aGVuIG1ha2luZyB0aGUgZGlzdGluY3Rp
+b24gYmV0d2VlbiByZWFkYWJsZQ0KPiA+ID4gPiA+IGFuZA0KPiA+ID4gPiA+IHNlYXJjaGFibGUg
+cGF0aA0KPiA+ID4gPiA+ICsrIyBjb21wb25lbnRzPw0KPiA+ID4gPiA+ICsrbWtkaXIgLW0gYT14
+IHNlYXJjaGFibGUNCj4gPiA+ID4gPiArK21rZGlyIC1tIGE9ciByZWFkYWJsZQ0KPiA+ID4gPiA+
+ICsrDQo+ID4gPiA+ID4gKytwPSdzZWFyY2hhYmxlL1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIl
+c1xuIiAkcA0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytwPSdzZWFyY2hhYmxlL1wuLy4nDQo+
+ID4gPiA+ID4gKytwcmludGYgIiVzXG4iICRwDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK3A9
+J3JlYWRhYmxlL1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xuIiAkcA0KPiA+ID4gPiA+ICsr
+DQo+ID4gPiA+ID4gKytwPSdyZWFkYWJsZS9cLi8uJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xu
+IiAkcA0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytwcmludGYgIiVzXG4iICdzZWFyY2hhYmxl
+L1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xuIiAncmVhZGFibGUvXC4nDQo+ID4gPiA+ID4g
+KysNCj4gPiA+ID4gPiArK2VjaG8gKi8uDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK3A9Jyov
+XC4nDQo+ID4gPiA+ID4gKytlY2hvICRwDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK2VjaG8g
+Ki8nLicNCj4gPiA+ID4gPiArKw0KPiA+ID4gPiA+ICsrcm1kaXIgc2VhcmNoYWJsZSByZWFkYWJs
+ZQ0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytjZCAkT1JJRw0KPiA+ID4gPiA+ICsrcm1kaXIg
+JEdMT0JESVINCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL3Rlc3RzL2dsb2I3LnN1YiBiL3Rlc3Rz
+L2dsb2I3LnN1Yg0KPiA+ID4gPiA+ICtuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ICtp
+bmRleCAwMDAwMDAwLi4wMjEyYjhlDQo+ID4gPiA+ID4gKy0tLSAvZGV2L251bGwNCj4gPiA+ID4g
+PiArKysrIGIvdGVzdHMvZ2xvYjcuc3ViDQo+ID4gPiA+ID4gK0BAIC0wLDAgKzEsMTEgQEANCj4g
+PiA+ID4gPiArKyMgYWNjb3JkaW5nIHRvIFBvc2l4IDIuMTMuMywgYSBzbGFzaCBpbiBhIGJyYWNr
+ZXQNCj4gPiA+ID4gPiBleHByZXNzaW9uDQo+ID4gPiA+ID4gcmVuZGVycyB0aGF0DQo+ID4gPiA+
+ID4gKysjIGJyYWNrZXQgZXhwcmVzc2lvbiBpbnZhbGlkDQo+ID4gPiA+ID4gKytzaG9wdCAtcyBu
+dWxsZ2xvYg0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytlY2hvIDE6IFtxd2UvcXdlXQ0KPiA+
+ID4gPiA+ICsrZWNobyAyOiBbcXdlLw0KPiA+ID4gPiA+ICsrZWNobyAzOiBbcXdlL10NCj4gPiA+
+ID4gPiArKw0KPiA+ID4gPiA+ICsrZWNobyA0OiBbcXdlXC9xd2VdDQo+ID4gPiA+ID4gKytlY2hv
+IDU6IFtxd2VcLw0KPiA+ID4gPiA+ICsrZWNobyA2OiBbcXdlXC9dDQo+ID4gPiA+ID4gKy0tDQo+
+ID4gPiA+ID4gKzEuOS4xDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoXzUuMC5iYg0KPiA+ID4gPiA+IGIvbWV0YS9yZWNp
+cGVzLQ0KPiA+ID4gPiA+IGV4dGVuZGVkL2Jhc2gvYmFzaF81LjAuYmINCj4gPiA+ID4gPiBpbmRl
+eCAxMmQ0NzJiZTU3Li4yNTdhMDNiZDhiIDEwMDY0NA0KPiA+ID4gPiA+IC0tLSBhL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9iYXNoL2Jhc2hfNS4wLmJiDQo+ID4gPiA+ID4gKysrIGIvbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL2Jhc2gvYmFzaF81LjAuYmINCj4gPiA+ID4gPiBAQCAtMzAsNiArMzAsNyBA
+QCBTUkNfVVJJID0NCj4gPiA+ID4gPiAiJHtHTlVfTUlSUk9SfS9iYXNoLyR7QlB9LnRhci5nejtu
+YW1lPXRhcmJhbGwgXA0KPiA+ID4gPiA+ICAgICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwN
+Cj4gPiA+ID4gPiAgICAgICAgICAgICAgZmlsZTovL3J1bi1iYXNoLXB0ZXN0cyBcDQo+ID4gPiA+
+ID4gICAgICAgICAgICAgIGZpbGU6Ly9maXgtcnVuLWJ1aWx0aW5zLnBhdGNoIFwNCj4gPiA+ID4g
+PiArICAgICAgICAgICBmaWxlOi8vYmFzaC1DVkUtMjAxOS0xODI3Ni5wYXRjaCBcDQo+ID4gPiA+
+ID4gICAgICAgICAgICAgICINCj4gPiA+ID4gPiANCj4gPiA+ID4gPiAgIFNSQ19VUklbdGFyYmFs
+bC5tZDVzdW1dID0NCj4gPiA+ID4gPiAiMmI0NGI0N2I5MDViZTE2ZjQ1NzA5NjQ4ZjY3MTgyMGIi
+DQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+
+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiANCj4gPiA+IA0KPiA+ID4gDQo=
