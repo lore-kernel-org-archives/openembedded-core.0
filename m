@@ -1,208 +1,405 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.85])
- by mx.groups.io with SMTP id smtpd.web10.12363.1601462931946742644
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.12673.1601462978195614530
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 03:48:52 -0700
+ Wed, 30 Sep 2020 03:49:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=hW6g+wUR;
- spf=pass (domain: arm.com, ip: 40.107.22.85, mailfrom: usama.arif@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GKWIa4c9Qn6cBap8G5MPIYL+b6TaxrLn9PtVaV9LdDo=;
- b=hW6g+wURwA4bdyoPp4/j4n9gKmx1fgJQyUEnXxwVlmEnWIGE38DT8qfmA6cRrXBRZ70ROFbneBSZJcl+oTQvmfp9JQZNgMZlBNaXWFjpQjMGwlWNOJ1r3wCW9eW7yBkwsImwHT+yV1UnWplfPrrN1wO+TkX20ACXQ0/WHT5FzmE=
-Received: from DB8PR06CA0046.eurprd06.prod.outlook.com (2603:10a6:10:120::20)
- by VI1PR08MB4029.eurprd08.prod.outlook.com (2603:10a6:803:ec::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Wed, 30 Sep
- 2020 10:48:46 +0000
-Received: from DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:120:cafe::42) by DB8PR06CA0046.outlook.office365.com
- (2603:10a6:10:120::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35 via Frontend
- Transport; Wed, 30 Sep 2020 10:48:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.openembedded.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.openembedded.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT057.mail.protection.outlook.com (10.152.20.235) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.34 via Frontend Transport; Wed, 30 Sep 2020 10:48:45 +0000
-Received: ("Tessian outbound 7a6fb63c1e64:v64"); Wed, 30 Sep 2020 10:48:45 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: a1f7a09a70f9a3d2
-X-CR-MTA-TID: 64aa7808
-Received: from 2853658ba50d.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 786EAC05-9B9C-4E24-9230-BF666AF9291C.1;
-	Wed, 30 Sep 2020 10:48:10 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 2853658ba50d.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 30 Sep 2020 10:48:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y761tdNQNEKG97PWfSlTGrUFr3W0QQRiAnhwtgMJ1ZrG3MzGmt9UE+3l+AoAm08HmOuXjv19refmqXwR6pij/k/dlH4qyCSFdPEeZURTVa5TLFjc0AUHX6MbOq2YgBjJCRuSTY2LIdw4fOoBOKNs3AMFB9X3+qc3kIOe7ShD54Fvx08LgoH6uFGK/BotiA4hhx/XjSXavO6afr2q6wkSyoK9DRnK6YLcpBH+Yy2XmblGCN3n0uiwXiuBnzs9FYUsaIIiLoPJnzE0vs4kBmK1ZtwLWQI8mc9tZg7g7dfdYIeQMQTeguhezlONGYjqEdo8CA0RNkRAhWkRYbIuZcPIkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GKWIa4c9Qn6cBap8G5MPIYL+b6TaxrLn9PtVaV9LdDo=;
- b=QgZ4+ksgxeYT7+iTDP7h2sAY58+CDLL+AaknH3QPCk2P8Q1aOaZs+Ul38zt1QXeTI4Z6rqGK7ISYpLEXKvybv46RhA+xLGip4BVfIuSdPrn4a75Jy++Ph7lXmUeyC5dfcngEwQgSWdP/8WBNODHm5kk31HzfV7lHgFRFt33TDPP0qlt2tklx/eXtLcAAVk2b4gP+oErd8Cnce7UoGpQuoFUjfDuxxu9xZZE0pkEcalyXa6NEz1IkW4Mnb9m4SqZk67pt/N/WMDlITALwoaDtiG6JnP2GQ9uw84N7vbRfQgrj/naxM7O8edQdq5ockdfq9caro9AurnsKt1hyaW4meQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GKWIa4c9Qn6cBap8G5MPIYL+b6TaxrLn9PtVaV9LdDo=;
- b=hW6g+wURwA4bdyoPp4/j4n9gKmx1fgJQyUEnXxwVlmEnWIGE38DT8qfmA6cRrXBRZ70ROFbneBSZJcl+oTQvmfp9JQZNgMZlBNaXWFjpQjMGwlWNOJ1r3wCW9eW7yBkwsImwHT+yV1UnWplfPrrN1wO+TkX20ACXQ0/WHT5FzmE=
-Authentication-Results-Original: lists.openembedded.org; dkim=none (message
- not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=arm.com;
-Received: from AM7PR08MB5480.eurprd08.prod.outlook.com (2603:10a6:20b:de::11)
- by AM6PR08MB3064.eurprd08.prod.outlook.com (2603:10a6:209:48::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Wed, 30 Sep
- 2020 10:48:09 +0000
-Received: from AM7PR08MB5480.eurprd08.prod.outlook.com
- ([fe80::4c17:827f:bbbd:bf71]) by AM7PR08MB5480.eurprd08.prod.outlook.com
- ([fe80::4c17:827f:bbbd:bf71%8]) with mapi id 15.20.3412.029; Wed, 30 Sep 2020
- 10:48:09 +0000
-From: "Usama Arif" <usama.arif@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com,
-	Usama Arif <usama.arif@arm.com>
-Subject: [PATCH v2] kernel-fitimage: generate openssl RSA keys for signing fitimage
-Date: Wed, 30 Sep 2020 11:48:00 +0100
-Message-Id: <20200930104800.27569-1-usama.arif@arm.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: LNXP265CA0082.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:76::22) To AM7PR08MB5480.eurprd08.prod.outlook.com
- (2603:10a6:20b:de::11)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OANsF5cq;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id z23so2056798ejr.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 03:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0HjwWvkOEZ2Il6K9AZI5LvdjY2tJWTuAFNv9JnoR6xs=;
+        b=OANsF5cqsKEWYnmEdepehvdyst2kDqbcn7nZUQnxZH7DYwZk1bxZceHRieOJnoa33Y
+         +dSjFzY9nN3+/Ai1hZPlEsIq2FYLqcwc8zWmxYYoO1NJMfVTBuSlRyUH4Ofl3Zc5e9ov
+         LqfyIIcmdcGBIzSET/AjXIJGZS2Cturz9XL+f3H55AN02fO5JBg2VY8ERvJjJ9JYpPzJ
+         f1lm4yfCu763T85aAPv2hi/uIehjY4Uz64IE5j60iTN1XBQ5gLH62a/U5BudAqo2aYVp
+         4wX69h9uvTIfawo115ajDhopvAyiEMLKyrbpe9OYC4/yL5djdnFUFqKPe+nCIVdtWecX
+         jJ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0HjwWvkOEZ2Il6K9AZI5LvdjY2tJWTuAFNv9JnoR6xs=;
+        b=AIY33/jAIZEqxVH8ii5UGSbBidvyCbiwYJ0rCyRk7hgMcKjkZg/6U8XdulPFTQNFWA
+         MIqedxMWoPiz6R92htdapIl9V33dJXiMZsOD1aIHvJjVWtEPF7TdT0sAoxfe5I9T9H7C
+         VPJAgxmZaNDz3F+oIJuPDS6wlQH385Ib+mMiv+WRoqcgDQ7oNSgDXIoFOEb4aZArTNa+
+         9NNDhx9Ihm5Sa/qEIQHCC4djiJhdLchFUyf1v/JgwnakbFy8oWLDVd1JZz2DjLWIqmiS
+         fswfr8E2OE0wsFAxIOmn02M2fseLWdj0KH9UMXJ0/Pp+NHKkaPCZMVjRDSuPWxlpGRWU
+         +hxA==
+X-Gm-Message-State: AOAM532XG4j2kbAHyHT4mHlgoKuwlCmmrkJG1OOSQ/rAeuYnJ2J+E7Kk
+	s63SS5eHojLXcWNFUXxVRQcBv4vRHQFXUn4WiaA=
+X-Google-Smtp-Source: ABdhPJxnYzVBQrLmQI25wt/5DFAnMhXiQoxxgqZTkfcVLhFxf1UUwT/Ak8/bkF3ipKKPg11NLj6Udv2lTyt/lbozoT0=
+X-Received: by 2002:a17:906:9245:: with SMTP id c5mr2284782ejx.54.1601462976549;
+ Wed, 30 Sep 2020 03:49:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from usaari01.cambridge.arm.com (217.140.106.53) by LNXP265CA0082.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:76::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34 via Frontend Transport; Wed, 30 Sep 2020 10:48:09 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [217.140.106.53]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 07a06de5-3b2a-4b04-17a3-08d8652e67df
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3064:|VI1PR08MB4029:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR08MB40293F72F3949E4850AD5EFF92330@VI1PR08MB4029.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- i/wJYH8kMmzD3cqx/jjxOwODV6GLPjptAKBNtFmONrlO+nwHjrF5y8x4aUuMjQo8ItjOlp7RX4h0AGoywxiPkYZC+d1/B8X/9USQcjA6z4yA6w3DAOSMK9BCshr4y6hFLrj5zT6ZvPvppn81BCAm5IAPB1pgiz9TpiDUqu29krYcpd+PkQdS4OaXa59+07TOTH4MSu2/BnS5hCFPVv67oor+PXGAVM9OI42/nMc5NHgtZMR7I6t6e3k8lvVvbwmugXx3TlA0Yy6HrDgrKBuccf6gNopt6jOyYTwGccSZ9DapUgkvX1ZZo7djxa/ADmrHgcVZrONrG73vygNmd23tYdozfuk/jr447c94R6jzGRFZgv+RP44p0+ibcPGQGv1C
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR08MB5480.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(366004)(7696005)(316002)(36756003)(4326008)(186003)(6486002)(16526019)(6916009)(44832011)(66476007)(2616005)(66946007)(956004)(83380400001)(5660300002)(66556008)(8936002)(8676002)(478600001)(52116002)(2906002)(26005)(1076003)(86362001)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
- jvAQ4XVXJvyxhOMPUbuWlRDYSos4/PPhgYwk7zJSFEzPv8gdWNEa8WAmDByC+24X8+IM2n/qtn0PjrNGdFFBGd3yWSytiSslRZauF3uCNiit2DtxCkt3TlNhStZg3sAXnybBeCTVQWVXmmNQyuc0TDi4PG2sBZnHxWi3Mb7Y31nfoKR+bEHPyM0qgWxoF9ZgvpC0Ve59FQ8KUPaX/32at7/eRBGK2KYFz38NdVj8c0wvfPsQHE0bbhgTWObwoqkkM17NC4tA12jxphE+9B+cozeTwcBLSUzoWwvTzmPp+aIcf2uZtshcg/eAkJRZFnyivJB6wTmt28WSzs2+RFuaT8wYsZT1bLxuicW/4QiNHgxtTPKIlXf1se5B1bb5eHaQjvNNxX2e+pUr0+1Pm6Nv5RKFC3sFkoV/pvQRk54wdZROxMCz+8MpoYgMk2iZhibih1YsKwjLdgW0ya5hiw89JiegdE7vv/YOjSx822uFcxtCHDUSFy15OoMC+AV2kBf9gBSgBVbIO1T/SutKePUwa6hgS0qZ1TAy5UH6Rf/D7X5jLGd9jerL+UNFVtbKIQoc4OC69Or7j1VnlN6H+G1AV5/WyoQL7Z6K1qQnXAqPwmGvTxARljGRMX2PYvAFSgd9Ik11oWCKs2m1fLkcAshBdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3064
-Original-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=arm.com;
-Return-Path: Usama.Arif@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	613fed59-67b7-4299-1f0f-08d8652e5222
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	sEEZ7fCdQ67XNOBRmxmHwwhNXgqEPAyjDFfRA0mqxcvobqwDPd4e7PFi6RYX13KdQz5dxkPM5taa6wMtXbupoQ43iMfssJIy/vLCJPRz+Uqdh6GJ2VY6zxYIwUHB+X/j0gkbcYMs+RkthndOLc3nZWZfIWtw8buxRs2yEt91SjbF/0d1VpsrfWiJpYFxzgBBniI+ELGNIjslz6cloNKNf7mQhv5FOdYUqYogR1qLBgaeioy5inkL1knDMDT8JaK8A25WEsSJxI03bc1s/4YDcmapnBCksbjmfl0KwvjQb+jExLmEOTuD6KQ/R80X2wjaP3g6iNi4H7LoWDNeUu3O4+hDmD33aK3JgK+DTHXvtJaYpyHpVJjCjqO16VrLPJleRDkQTTH3+8jLfd3MhwEip5h4Gsz4evXMbcyy+QfFX8CZFdO9PbLGSxIAERNoxiMk
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(346002)(136003)(46966005)(7696005)(2906002)(316002)(36756003)(82740400003)(186003)(82310400003)(6486002)(16526019)(4326008)(336012)(6916009)(81166007)(2616005)(70586007)(83380400001)(5660300002)(70206006)(356005)(956004)(44832011)(47076004)(8936002)(8676002)(478600001)(26005)(1076003)(86362001)(6666004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2020 10:48:45.8430
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07a06de5-3b2a-4b04-17a3-08d8652e67df
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4029
-Content-Type: text/plain
+References: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
+ <CAHtQpK7FZk6ZxmkiX30Mm2hg654rw=w9Wpb7-Sgvok+BwWEFPg@mail.gmail.com>
+ <163806DA121A433C.4559@lists.openembedded.org> <16392EB84BD69824.17908@lists.openembedded.org>
+ <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FAF2C@SRV24.hamburg.garz-fricke.de>
+In-Reply-To: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FAF2C@SRV24.hamburg.garz-fricke.de>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Wed, 30 Sep 2020 12:49:25 +0200
+Message-ID: <CA+chaQdGpAZGYUfa9RXO6PZpREH10jyAhZz-DatKpvwcvsVCjw@mail.gmail.com>
+Subject: Re: [OE-core][Patch] sstate.bbclass: Check file ownership before doing 'touch -a'
+To: Norman <norman.stetter@garz-fricke.com>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d698cd05b085a79b"
 
-The keys are only generated if they dont exist. The key
-generation can be turned off by setting FIT_GENERATE_KEYS to "0".
-The default key length for private keys is 2048 and the default
-format for public key certificate is x.509.
+--000000000000d698cd05b085a79b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Usama Arif <usama.arif@arm.com>
----
- meta/classes/kernel-fitimage.bbclass | 44 ++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+It was merged 2 days ago:
+https://git.openembedded.org/openembedded-core/commit/?id=3Df1554e8bd40c64=
+0fd58daac18ecf7b458e754109
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index fa4ea6feef..bb2f3c4ccc 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -56,6 +56,22 @@ FIT_HASH_ALG ?= "sha256"
- # fitImage Signature Algo
- FIT_SIGN_ALG ?= "rsa2048"
- 
-+# Generate keys for signing fitImage
-+FIT_GENERATE_KEYS ?= "0"
-+
-+# Size of private key in number of bits
-+FIT_SIGN_NUMBITS ?= "2048"
-+
-+# args to openssl genrsa (Default is just the public exponent)
-+FIT_KEY_GENRSA_ARGS ?= "-F4"
-+
-+# args to openssl req (Default is -batch for non interactive mode and
-+# -new for new certificate)
-+FIT_KEY_REQ_ARGS ?= "-batch -new"
-+
-+# Standard format for public key certificate
-+FIT_KEY_SIGN_PKCS ?= "-x509"
-+
- #
- # Emit the fitImage ITS header
- #
-@@ -522,6 +538,34 @@ do_assemble_fitimage_initramfs() {
- 
- addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
- 
-+do_generate_rsa_keys() {
-+	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-+		bbwarn "FIT_GENERATE_KEYS is set to 1 eventhough UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
-+	fi
-+
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
-+
-+		# Generate keys only if they don't already exist
-+		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
-+			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt]; then
-+
-+			# make directory if it does not already exist
-+			mkdir -p "${UBOOT_SIGN_KEYDIR}"
-+
-+			echo "Generating RSA private key for signing fitImage"
-+			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
-+				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
-+				"${FIT_SIGN_NUMBITS}"
-+
-+			echo "Generating certificate for signing fitImage"
-+			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
-+				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
-+				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
-+		fi
-+	fi
-+}
-+
-+addtask generate_rsa_keys before do_assemble_fitimage after do_compile
- 
- kernel_do_deploy[vardepsexclude] = "DATETIME"
- kernel_do_deploy_append() {
--- 
-2.17.1
+On Wed, Sep 30, 2020 at 9:17 AM Norman <norman.stetter@garz-fricke.com>
+wrote:
 
+> I would be happy to get some feedback on this patch.
+>
+> Cheers,
+>
+> Norman
+>
+> > -----Urspr=C3=BCngliche Nachricht-----
+> > Von: openembedded-core@lists.openembedded.org
+> > [mailto:openembedded-core@lists.openembedded.org] Im Auftrag von
+> > Norman
+> > Gesendet: Tuesday, September 29, 2020 8:55 AM
+> > An: Andrey Zhizhikin <andrey.z@gmail.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ownership bef=
+ore
+> > doing 'touch -a'
+> >
+> > I went through it again:
+> >
+> > The SSTATE_DIR is set to my local build dir inside my home dir. All
+> files here
+> > are owned by me.
+> > The SSTATE_MIRRORS is set to a locally mounted shared sstate-cache. Fi=
+les
+> > here are owned by my group, but not my user.
+> >
+> > All *.siginfo files in the SSTATE_DIR are symlinks to the respective
+> files in the
+> > SSTATE_MIRRORS dir.
+> >
+> > The sstate_unpack_package function gets run for every *.siginfo file i=
+n
+> > SSTATE_DIR.
+> > If the ${SSTATE_PKG}.siginfo file already exists and is a symlink it's
+> atime is
+> > updated (line 850), this affects the destination file of the symlink i=
+n
+> > SSTATE_MIRRORS, since the --no-dereference switch is not used. The
+> > comment in line 849 confirms this is meant to set atime for "local/NFS
+> > mirror". But it being a mirror one cannot expect the user running
+> bitbake to
+> > be the file owner.
+> >
+> > So in my opinion the proposed patch makes sense.
+> >
+> >
+> > > -----Urspr=C3=BCngliche Nachricht-----
+> > > Von: openembedded-core@lists.openembedded.org
+> > > [mailto:openembedded-core@lists.openembedded.org] Im Auftrag von
+> > > Norman
+> > > Gesendet: Friday, September 25, 2020 2:33 PM
+> > > An: Andrey Zhizhikin <andrey.z@gmail.com>
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ownership
+> > > before doing 'touch -a'
+> > >
+> > > We do use SSTATE_MIRROR, pointing to a locally mounted drive that ge=
+ts
+> > > populated by CI-builds:
+> > >
+> > > SSTATE_MIRRORS =3D "file://.* file:///var/cache/yocto/sstate-cache/P=
+ATH"
+> > >
+> > >
+> > >
+> > > > -----Urspr=C3=BCngliche Nachricht-----
+> > > > Von: Andrey Zhizhikin [mailto:andrey.z@gmail.com]
+> > > > Gesendet: Friday, September 25, 2020 2:27 PM
+> > > > An: Norman Stetter <Norman.Stetter@garz-fricke.com>
+> > > > Cc: openembedded-core@lists.openembedded.org
+> > > > Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ownership
+> > > > before doing 'touch -a'
+> > > >
+> > > > On Fri, Sep 25, 2020 at 2:19 PM Norman
+> > > > <norman.stetter@garz-fricke.com>
+> > > > wrote:
+> > > > >
+> > > > > From cd51db253c1a81e47532f1afacce385e422d9a73 Mon Sep 17
+> > 00:00:00
+> > > > 2001
+> > > > > From: Norman Stetter <norman.stetter@garz-fricke.com>
+> > > > > Date: Fri, 25 Sep 2020 13:49:43 +0200
+> > > > > Subject: sstate.bbclass: Check file ownership before doing 'touc=
+h
+> -a'
+> > > > >
+> > > > > In contrast to 'touching' a file without parameters 'touch -a' c=
+an
+> > > > > only be performed by the file owner. In case of a shared
+> > > > > sstate-cache served locally (e.g. over NFS),  where the user
+> > > > > running bitbake is not the owner of sstate-cache files, even if =
+he
+> > > > > has write access on group level, the sstate_unpack_package task
+> will
+> > fail.
+> > > >
+> > > > Isn't the whole intention of using SSTATE_MIRROR to cover exactly
+> > > > those cases? I do not think that reusing sstate between different
+> > > > builders via NFS is a proper way to go.
+> > > >
+> > > > > Checking if the file is owned by the user before attempting to r=
+un
+> > > > > 'touch -a' on it solves this.
+> > > > >
+> > > > > Signed-off-by: Norman Stetter <norman.stetter@garz-fricke.com>
+> > > > > ---
+> > > > >  meta/classes/sstate.bbclass | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/meta/classes/sstate.bbclass
+> > > > > b/meta/classes/sstate.bbclass index 375196ef21..66a96a7603 10064=
+4
+> > > > > --- a/meta/classes/sstate.bbclass
+> > > > > +++ b/meta/classes/sstate.bbclass
+> > > > > @@ -847,7 +847,7 @@ python sstate_report_unihash() {
+> > > > > sstate_unpack_package () {
+> > > > >         tar -xvzf ${SSTATE_PKG}
+> > > > >         # update .siginfo atime on local/NFS mirror
+> > > > > -       [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.sigin=
+fo
+> ] &&
+> > > touch
+> > > > -a ${SSTATE_PKG}.siginfo
+> > > > > +       [ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.sigin=
+fo
+> > > > > + ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a
+> > > > > + ${SSTATE_PKG}.siginfo
+> > > > >         # Use "! -w ||" to return true for read only files
+> > > > >         [ ! -w ${SSTATE_PKG} ] || touch --no-dereference
+> ${SSTATE_PKG}
+> > > > >         [ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ]
+> > > > > || touch --no-dereference ${SSTATE_PKG}.sig
+> > > > > --
+> > > > > 2.17.1
+> > > > >
+> > > > >
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Regards,
+> > > > Andrey.
+>
+>=20
+>
+>
+
+--000000000000d698cd05b085a79b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">It was merged 2 days ago:<div><a href=3D"https://git.opene=
+mbedded.org/openembedded-core/commit/?id=3Df1554e8bd40c640fd58daac18ecf7b45=
+8e754109">https://git.openembedded.org/openembedded-core/commit/?id=3Df1554=
+e8bd40c640fd58daac18ecf7b458e754109</a><br></div></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 30, 2020 at 9:=
+17 AM Norman &lt;<a href=3D"mailto:norman.stetter@garz-fricke.com">norman.s=
+tetter@garz-fricke.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">I would be happy to get some feedback on this patch.<=
+br>
+<br>
+Cheers, <br>
+<br>
+Norman<br>
+<br>
+&gt; -----Urspr=C3=BCngliche Nachricht-----<br>
+&gt; Von: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; [mailto:<a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a>] Im Auftrag v=
+on<br>
+&gt; Norman<br>
+&gt; Gesendet: Tuesday, September 29, 2020 8:55 AM<br>
+&gt; An: Andrey Zhizhikin &lt;<a href=3D"mailto:andrey.z@gmail.com" target=
+=
+=3D"_blank">andrey.z@gmail.com</a>&gt;<br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targe=
+t=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ownership be=
+fore<br>
+&gt; doing &#39;touch -a&#39;<br>
+&gt; <br>
+&gt; I went through it again:<br>
+&gt; <br>
+&gt; The SSTATE_DIR is set to my local build dir inside my home dir. All f=
+iles here<br>
+&gt; are owned by me.<br>
+&gt; The SSTATE_MIRRORS is set to a locally mounted shared sstate-cache. F=
+iles<br>
+&gt; here are owned by my group, but not my user.<br>
+&gt; <br>
+&gt; All *.siginfo files in the SSTATE_DIR are symlinks to the respective =
+files in the<br>
+&gt; SSTATE_MIRRORS dir.<br>
+&gt; <br>
+&gt; The sstate_unpack_package function gets run for every *.siginfo file =
+in<br>
+&gt; SSTATE_DIR.<br>
+&gt; If the ${SSTATE_PKG}.siginfo file already exists and is a symlink it&=
+#39;s atime is<br>
+&gt; updated (line 850), this affects the destination file of the symlink =
+in<br>
+&gt; SSTATE_MIRRORS, since the --no-dereference switch is not used. The<br=
+>
+&gt; comment in line 849 confirms this is meant to set atime for &quot;loc=
+al/NFS<br>
+&gt; mirror&quot;. But it being a mirror one cannot expect the user runnin=
+g bitbake to<br>
+&gt; be the file owner.<br>
+&gt; <br>
+&gt; So in my opinion the proposed patch makes sense.<br>
+&gt; <br>
+&gt; <br>
+&gt; &gt; -----Urspr=C3=BCngliche Nachricht-----<br>
+&gt; &gt; Von: <a href=3D"mailto:openembedded-core@lists.openembedded.org"=
+ target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; [mailto:<a href=3D"mailto:openembedded-core@lists.openembedded.o=
+rg" target=3D"_blank">openembedded-core@lists.openembedded.org</a>] Im Auft=
+rag von<br>
+&gt; &gt; Norman<br>
+&gt; &gt; Gesendet: Friday, September 25, 2020 2:33 PM<br>
+&gt; &gt; An: Andrey Zhizhikin &lt;<a href=3D"mailto:andrey.z@gmail.com" t=
+arget=3D"_blank">andrey.z@gmail.com</a>&gt;<br>
+&gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" =
+target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ownersh=
+ip<br>
+&gt; &gt; before doing &#39;touch -a&#39;<br>
+&gt; &gt;<br>
+&gt; &gt; We do use SSTATE_MIRROR, pointing to a locally mounted drive tha=
+t gets<br>
+&gt; &gt; populated by CI-builds:<br>
+&gt; &gt;<br>
+&gt; &gt; SSTATE_MIRRORS =3D &quot;file://.* file:///var/cache/yocto/sstat=
+e-cache/PATH&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; -----Urspr=C3=BCngliche Nachricht-----<br>
+&gt; &gt; &gt; Von: Andrey Zhizhikin [mailto:<a href=3D"mailto:andrey.z@gm=
+ail.com" target=3D"_blank">andrey.z@gmail.com</a>]<br>
+&gt; &gt; &gt; Gesendet: Friday, September 25, 2020 2:27 PM<br>
+&gt; &gt; &gt; An: Norman Stetter &lt;<a href=3D"mailto:Norman.Stetter@gar=
+z-fricke.com" target=3D"_blank">Norman.Stetter@garz-fricke.com</a>&gt;<br>
+&gt; &gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.=
+org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; &gt; Betreff: Re: [OE-core][Patch] sstate.bbclass: Check file ow=
+nership<br>
+&gt; &gt; &gt; before doing &#39;touch -a&#39;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Fri, Sep 25, 2020 at 2:19 PM Norman<br>
+&gt; &gt; &gt; &lt;<a href=3D"mailto:norman.stetter@garz-fricke.com" targe=
+t=3D"_blank">norman.stetter@garz-fricke.com</a>&gt;<br>
+&gt; &gt; &gt; wrote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; From cd51db253c1a81e47532f1afacce385e422d9a73 Mon Sep =
+17<br>
+&gt; 00:00:00<br>
+&gt; &gt; &gt; 2001<br>
+&gt; &gt; &gt; &gt; From: Norman Stetter &lt;<a href=3D"mailto:norman.stet=
+ter@garz-fricke.com" target=3D"_blank">norman.stetter@garz-fricke.com</a>&g=
+t;<br>
+&gt; &gt; &gt; &gt; Date: Fri, 25 Sep 2020 13:49:43 +0200<br>
+&gt; &gt; &gt; &gt; Subject: sstate.bbclass: Check file ownership before d=
+oing &#39;touch -a&#39;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; In contrast to &#39;touching&#39; a file without param=
+eters &#39;touch -a&#39; can<br>
+&gt; &gt; &gt; &gt; only be performed by the file owner. In case of a shar=
+ed<br>
+&gt; &gt; &gt; &gt; sstate-cache served locally (e.g. over NFS),=C2=A0 whe=
+re the user<br>
+&gt; &gt; &gt; &gt; running bitbake is not the owner of sstate-cache files=
+, even if he<br>
+&gt; &gt; &gt; &gt; has write access on group level, the sstate_unpack_pac=
+kage task will<br>
+&gt; fail.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Isn&#39;t the whole intention of using SSTATE_MIRROR to cov=
+er exactly<br>
+&gt; &gt; &gt; those cases? I do not think that reusing sstate between dif=
+ferent<br>
+&gt; &gt; &gt; builders via NFS is a proper way to go.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Checking if the file is owned by the user before attem=
+pting to run<br>
+&gt; &gt; &gt; &gt; &#39;touch -a&#39; on it solves this.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Signed-off-by: Norman Stetter &lt;<a href=3D"mailto:no=
+rman.stetter@garz-fricke.com" target=3D"_blank">norman.stetter@garz-fricke.=
+com</a>&gt;<br>
+&gt; &gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/classes/sstate.bbclass | 2 +-<br>
+&gt; &gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br=
+>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/classes/sstate.bbclass<br>
+&gt; &gt; &gt; &gt; b/meta/classes/sstate.bbclass index 375196ef21..66a96a=
+7603 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/classes/sstate.bbclass<br>
+&gt; &gt; &gt; &gt; +++ b/meta/classes/sstate.bbclass<br>
+&gt; &gt; &gt; &gt; @@ -847,7 +847,7 @@ python sstate_report_unihash() {<b=
+r>
+&gt; &gt; &gt; &gt; sstate_unpack_package () {<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tar -xvzf ${SSTATE_PK=
+G}<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# update .siginfo ati=
+me on local/NFS mirror<br>
+&gt; &gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -w ${SSTATE_PKG}.siginfo=
+ ] &amp;&amp; [ -h ${SSTATE_PKG}.siginfo ] &amp;&amp;<br>
+&gt; &gt; touch<br>
+&gt; &gt; &gt; -a ${SSTATE_PKG}.siginfo<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -O ${SSTATE_PKG}.siginfo=
+ ] &amp;&amp; [ -w ${SSTATE_PKG}.siginfo<br>
+&gt; &gt; &gt; &gt; + ] &amp;&amp; [ -h ${SSTATE_PKG}.siginfo ] &amp;&amp;=
+ touch -a<br>
+&gt; &gt; &gt; &gt; + ${SSTATE_PKG}.siginfo<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Use &quot;! -w ||&q=
+uot; to return true for read only files<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[ ! -w ${SSTATE_PKG} =
+] || touch --no-dereference ${SSTATE_PKG}<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[ ! -w ${SSTATE_PKG}.=
+sig ] || [ ! -e ${SSTATE_PKG}.sig ]<br>
+&gt; &gt; &gt; &gt; || touch --no-dereference ${SSTATE_PKG}.sig<br>
+&gt; &gt; &gt; &gt; --<br>
+&gt; &gt; &gt; &gt; 2.17.1<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; --<br>
+&gt; &gt; &gt; Regards,<br>
+&gt; &gt; &gt; Andrey.<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000d698cd05b085a79b--
