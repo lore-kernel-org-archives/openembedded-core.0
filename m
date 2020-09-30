@@ -1,79 +1,96 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.6514.1601503955673614677
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web12.6498.1601503957980409527
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:12:35 -0700
+ Wed, 30 Sep 2020 15:12:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EZ11/B7J;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id z19so2326865pfn.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ujeVErhI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id gm14so688684pjb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Z3WQ6bqfg08kL5vd2yjM//iFQ0GcRVWho7vtjdv/ARQ=;
-        b=EZ11/B7Jl2YoLrDjX0EoN0QO+5Qk5R68T4HCR/CP9ebBX3WBSUxJhIsnY803r/Xkzk
-         MXd4fSfy/7Ltl5joL3Ff+CYTrfvncqGdQOYZ0/t9k+lFVcQZRYsMw4IuuJ27LAA+mx7v
-         uGDYY2L4m6HGO8w5DWGoQJx4iqTx5pYK66E3vttvhfIn+di/EFYDNukIxZNnw1/dl3D2
-         Xqadk4C7VBylUK9Tb2EoYhosQDqw7+uYs7dX9tVf1toTaFm0C3wJmQ/4KFGcDkFkEIKZ
-         8gfGMQjyaMOMFhHfOV/Goh569zaMA9KzwWUoonXZrwI6u9CwqqrG1NUAf9rcQf/5Zipr
-         /nUw==
+        bh=bw9Kj34id0eaehuZsm1ZvxEspKKnkh9Cn+PO8X44A3w=;
+        b=ujeVErhIi3IottQqkLtA0tOM2+vjZnjyOAee8Drsc4xt8Jy7d/txkfy7lZBa3AFeOz
+         ju8BgGPkqQpBE63vpNYLeh+9B1SWEjtRuaHo3549oI/wyVTrl/ZFwnEBFzPSYIIM3jUU
+         g9WinFfcKcy4JFhtcqA/SvykjEWCTra6bpYCp0/5OheVn/IMxbEZr1hbffj5BdoJRiEm
+         DugGJHULMvXp7xzV47na7hUMLzoVQb/PRb2Y1A9gVFPSop3vGP1MpQ+i+TikP451/nUG
+         tNd8QBELQYrM2r3e5G2EznhAFCHGGzEMccTtn0eVDbNQVPmR6FolOUCIikkmMxJCk0fP
+         cKsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Z3WQ6bqfg08kL5vd2yjM//iFQ0GcRVWho7vtjdv/ARQ=;
-        b=LbTbfYsDiy2FbnsaOdRURJjsGvvvUiiHATkcQL2rd2/OC9THuLPeLacgWzLT/CBTNK
-         zbe82LIf4hlM+NlKdvjXryTPyN/KIasVeCE8YHs/hxqL6dg/yN/b1YufMIid7KKtjPnd
-         CRQqOVCxDYhCwMBXkqEtlUHP3BTGIO5V90ZPJyjuPvWi/1kvOsRuYEE2mGNAqByXk8PB
-         D0+oLGehIv4jM0SbfWYDhl6tL4aeGmhOLnp4AFEipGytEIeQ5lWFveHSiv+nD/czwLlW
-         /iWPMPgJFuWqmXBt1HeU5B1O1hHqydqTDNBDrODjo7hiyu4yoF9WfJBU5BKwyz2TYSv+
-         SP+g==
-X-Gm-Message-State: AOAM5311aHymYWWqGr2zwHaeGfxusEU8QB1vQ/SbgW8+K6fzNz1GBr0Q
-	6Rll6VphrBiDa26bEmUblCiY/KJWsfTcRbuGDOg=
-X-Google-Smtp-Source: ABdhPJxO8Q7oWYDDtFMhUXrmjqmTT5uN+iABkcfA/KmGAqJjFzIyn3CERfKSemVtdeDuhYk3BWhNHg==
-X-Received: by 2002:aa7:9850:0:b029:142:2501:34f0 with SMTP id n16-20020aa798500000b0290142250134f0mr4109377pfq.73.1601503954005;
-        Wed, 30 Sep 2020 15:12:34 -0700 (PDT)
+        bh=bw9Kj34id0eaehuZsm1ZvxEspKKnkh9Cn+PO8X44A3w=;
+        b=ogP+3TWTqUvAtnKSR5K/xDmrJfG39sBooHG1CqwmWGIFH4RK+uo7XFfrMhwmHvNfmy
+         BouvqF5jjxUyyREIuvmx0VI4sNNjXZNemWT9HBxV7qlHIK7AYaLG9aFU1wZHQaHrU4l5
+         tEi3R6ahgUJsQ+GwiKJWdV5exUrlDF0Em8kk2gsBrep2gZbXpDVq7qGFhWkBVIJpMiq2
+         Ly/W7WLjRJgBc6+B/Marh9mo0/NzMCmZgIYZflIXGyspq7HfhgRB5EUKCsYILPvz8gzG
+         H8VX/7sYppceLoaG5SDnP/+Qw2I6dbKG2RG+k6rax5chEOJA9h4BaccXLXW8qmMlGfDu
+         ucrg==
+X-Gm-Message-State: AOAM531EdQHotHBf33jCqls3oWhfjZo+QEO4A2N4BnAbR9mPIrNeotx6
+	MbFOtbeQlCa8xrfIaZFiIyC6Uxfz45MXkYbv1us=
+X-Google-Smtp-Source: ABdhPJz9kbhUucLmGkPRqsH1fpf3wVpT95x0MKW8jh3NgVEEqn/wQdTpZeXjJEcG3HIMVHPRpms71Q==
+X-Received: by 2002:a17:90a:d684:: with SMTP id x4mr4333600pju.57.1601503956342;
+        Wed, 30 Sep 2020 15:12:36 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.32
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:12:33 -0700 (PDT)
+        Wed, 30 Sep 2020 15:12:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/41] sato-screenshot: improve .la removal
-Date: Wed, 30 Sep 2020 12:11:15 -1000
-Message-Id: <07910054c75a084dcfb10c86c1bf69b68989f587.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/41] insane: Check for feature check variables not being used
+Date: Wed, 30 Sep 2020 12:11:16 -1000
+Message-Id: <02fa8637195447f38b4ce96086197490ce814987.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Ross Burton <ross@burtonini.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
 
-Don't assume that the .la files are installed, because some libtool
-alternatives don't install these.
+Add a package QA check for wether any of the variables used by
+features_check.bbclass is set while not inheriting the class itself.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e545ae3a7961111ceb4e2a468e9ec53cebfed721)
+(cherry picked from commit c06489d102682504afe33f9fee3facd9628b3f57)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-index f6dac2cf88..2b1f513f1c 100644
---- a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-+++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-@@ -21,7 +21,7 @@ inherit autotools pkgconfig features_check
- FILES_${PN} += "${libdir}/matchbox-panel/*.so"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 46d386a38b..5b18fadd60 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -28,7 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             pn-overrides infodir build-deps src-uri-bad \
+             unknown-configure-option symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+-            mime mime-xdg unlisted-pkg-lics \
++            mime mime-xdg unlisted-pkg-lics unhandled-features-check \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -977,6 +977,16 @@ def package_qa_check_src_uri(pn, d, messages):
+         if re.search(r"github\.com/.+/.+/archive/.+", url):
+             package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
  
- do_install_append () {
--	rm ${D}${libdir}/matchbox-panel/*.la
-+	rm -f ${D}${libdir}/matchbox-panel/*.la
- }
++QARECIPETEST[unhandled-features-check] = "package_qa_check_unhandled_features_check"
++def package_qa_check_unhandled_features_check(pn, d, messages):
++    if not bb.data.inherits_class('features_check', d):
++        var_set = False
++        for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
++            for var in ['ANY_OF_' + kind + '_FEATURES', 'REQUIRED_' + kind + '_FEATURES', 'CONFLICT_' + kind + '_FEATURES']:
++                if d.getVar(var) is not None or d.overridedata.get(var) is not None:
++                    var_set = True
++        if var_set:
++            package_qa_handle_error("unhandled-features-check", "%s: recipe doesn't inherit features_check" % pn, d)
  
- # The matchbox-panel-2 requires x11 in DISTRO_FEATURES
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
 -- 
 2.17.1
 
