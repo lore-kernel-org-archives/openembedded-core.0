@@ -1,240 +1,485 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.6538.1601504112799901831
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.6586.1601504115611980036
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:15:12 -0700
+ Wed, 30 Sep 2020 15:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HWasVTa5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id y14so2105053pgf.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lohLRetH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id m34so2109260pgl.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=VSppGuu7OVM/OVEKLJeKEiPyngLfajcSKa5zldgh0H0=;
-        b=HWasVTa5x+nXvXB6qQCHpGtaLHe9+FbSJaHceNQ0w10REOr50PBobKXCcYm3XYiz2u
-         e9AKWsDYBwMzQ0LE9YmY+Q/YDenw2BVAkE3EBmLRWz+jnri9wCPRTiELyrtNBQ+9qiIV
-         rV3JCLJgpe/6coOY4aEkLsBuHZHu6TS2Hmir8O+HTKZB7iKk6zvzhRZwNSeKk8Ae2KOh
-         SvHKC0ax8QuvXQwmQHNkB3OCSXTUBN3VJyrhie06Af/iWsPbKVJBxoTvmBzpUW2Y6Y2l
-         JvaU0PoVq6VH509Nz43sI3DlzVqDiMNl7P7fXCzMOU16nBxw9rWsoEQtu3ic1UzYyBYJ
-         3nUQ==
+        bh=RgvrMA9MoFQP8TgFo6ht8Qw3Qj4b6pjMwpJmEQ99Q7o=;
+        b=lohLRetHeABpZ6ii7r4TVU6eLn4yG4wrLpqc6AbmAf+8If85e1AeFqE7gY7SoaNynG
+         t48R8SOiHiwekxGK4UZMaDJH0ieCjKn3t793G02C0yQvjo4tUwWiKuNUpsif6deGcIKl
+         HgudANqmweSJK+CcJ6GC76P1CdUXU8PtyHE46mxxK7JdPlZVhkjp9bAzLltRaIZBrMwG
+         ild0yMpkuMTxyCvZisCQ/SM+zv8NnFP892f1ooyisN0dECjnGTcNhcbPV90vIFPtu+9n
+         yAgB+WCwOKyiSvwbyicuFAZ+Wz548TgED6n7Ve8poEiN7Ayd8wkY0pPAP58kmmbsg3LC
+         4nJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=VSppGuu7OVM/OVEKLJeKEiPyngLfajcSKa5zldgh0H0=;
-        b=eeCh/Z63cqqtOqWU9IBgB8c7gK7+9dJLBx+1s10L5ZLT5ZtR2iV8J5+NnApxG3wcmu
-         S9C8vlQhdRQEinImHC0uHXW8oO5f6pPlrB30gDQIBwjYoDZoZoY8FOi1YBf7ZOsFSe85
-         zWOkwYfEZtLRPH1FyURWhVdZVx9QtO/powDEsFLHwdgn4MuTRQnLnRGsuo8CgaH1TWMh
-         TDlrX8bNcDLrI2V2aW3ID64nn3k1JZiSuQEo+w5l0SUUuJGcx3OpT412xCPgKrgic0HI
-         3yxzsiGa1X2A+dTX/ldANDPrm3BsSYRwXXVa6OrlHAn8T0RW+Z2VX3XkkjlNIluVt4mQ
-         UDsw==
-X-Gm-Message-State: AOAM533lk5ywTE/Y4ufiwfpzYyVqVQ9xloO321tQ1ebBoRrQWEzXOWIv
-	OodgS0a3jwRzgzLkcuTnn8wSlIsMjHKsLa8EC4I=
-X-Google-Smtp-Source: ABdhPJxABdphjUuOpUVystxNy3OtezkRBDLL7OIqqaxEgz0Ut/yWT2QjTBZRQYNxfkFxrJzXmBktXw==
-X-Received: by 2002:a17:902:6bc1:b029:d0:cbe1:e73d with SMTP id m1-20020a1709026bc1b02900d0cbe1e73dmr4492347plt.24.1601504111792;
-        Wed, 30 Sep 2020 15:15:11 -0700 (PDT)
+        bh=RgvrMA9MoFQP8TgFo6ht8Qw3Qj4b6pjMwpJmEQ99Q7o=;
+        b=JdtEOJLP7vspK6riDmRlzNK4T+HkK1tpA7Ok5fxxB5Y+uPKICjiQ9LnrFEvtN+ZqTF
+         lqahd95/hFCN6NrEwYBl8kRSCJMlANXs5aQWAwDDgv3LRs/0VVS68TDz4KThPpfUiBCK
+         HCy3GqG9N+uF/egI7cDCcmLbIpwlenqnfXhaTpdtrA7ND/l7DI6y97ZK5PFUQYOCWmJO
+         qxCc1lJJ0KYOW13dFdnLGk/v5EpjZjk+P7Xw5EGBos32BFJB62RM7PKI334tgYzvjS06
+         XSjCOkfqpmnOnJgOGeR7hNAYlWQy28cyeaYEBg3sQFd5YZy21d5TudEhQngQqlPTv45j
+         EEng==
+X-Gm-Message-State: AOAM532qMjJRcabyCNdCA3b99AjBUQb1OnYNSDiKh4W3aPc8mm7C7TwF
+	+zGSVx6EPi2gS52rwmx87LUnQCHEN7ebZgC/R0c=
+X-Google-Smtp-Source: ABdhPJxG3ON8Lq/RAcfrTTRe5P8Cq0YoR1O92c15FfrXAVdBONml3D+K0AlifRmIIqj4dpkLoUxDcA==
+X-Received: by 2002:a62:dd02:0:b029:142:2501:398c with SMTP id w2-20020a62dd020000b02901422501398cmr4338761pff.81.1601504114479;
+        Wed, 30 Sep 2020 15:15:14 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.09
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:15:11 -0700 (PDT)
+        Wed, 30 Sep 2020 15:15:13 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 27/41] ssh-pregen-hostkeys: Add a recipe with pregenerated ssh host keys
-Date: Wed, 30 Sep 2020 12:11:29 -1000
-Message-Id: <130695364281f62b9e00d311c21f7acb5a1204a1.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 28/41] bash: fix CVE-2019-18276
+Date: Wed, 30 Sep 2020 12:11:30 -1000
+Message-Id: <aee0f56a9b3b510649672d0b4427a0e94a001ec4.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: De Huo <De.Huo@windriver.com>
 
-Host keys are getting bigger and taking an ever increasing amount of time
-to generate. Whilst we do need to test that works, we don't need to test
-it in every image. Add a recipe which can be added to images with
-pre-generated keys, allowing us to speed up tests on the autobuilder
-where it makes sense to.
+An issue was discovered in disable_priv_mode in shell.c in GNU Bash
+through 5.0 patch 11. By default, if Bash is run with its effective UID
+not equal to its real UID, it will drop privileges by setting its
+effective UID to its real UID. However, it does so incorrectly. On Linux
+and other systems that support "saved UID" functionality, the saved UID
+is not dropped. An attacker with command execution in the shell can use
+"enable -f" for runtime loading of a new builtin, which can be a shared
+object that calls setuid() and therefore regains privileges. However,
+binaries running with an effective UID of 0 are unaffected.
 
+Get the patch from [1] to fix the issue.
+
+[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+
+Signed-off-by: De Huo <De.Huo@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c6c7d16437cbd5ccbee1b99a2154c33fdbac9299)
+(cherry picked from commit 6f01acae9c279e0a580f46d1ba4c015caa3f8c2c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc      |   1 +
- .../ssh-pregen-hostkeys/dropbear_rsa_host_key | Bin 0 -> 805 bytes
- .../openssh/ssh_host_ecdsa_key                |   9 +++++
- .../openssh/ssh_host_ecdsa_key.pub            |   1 +
- .../openssh/ssh_host_ed25519_key              |   7 ++++
- .../openssh/ssh_host_ed25519_key.pub          |   1 +
- .../openssh/ssh_host_rsa_key                  |  38 ++++++++++++++++++
- .../openssh/ssh_host_rsa_key.pub              |   1 +
- .../ssh-pregen-hostkeys_1.0.bb                |  19 +++++++++
- 9 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/dropbear_rsa_host_key
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key.pub
- create mode 100644 meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
+ .../bash/bash/bash-CVE-2019-18276.patch       | 386 ++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.0.bb        |   1 +
+ 2 files changed, 387 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 9b0a3997c4..ff962a3be9 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -642,6 +642,7 @@ RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
-+RECIPE_MAINTAINER_pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-startup-notification = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-strace = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-stress-ng = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/dropbear_rsa_host_key b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/dropbear_rsa_host_key
+diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch b/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..30443c94388530f82308f41517839c8932026eec
-GIT binary patch
-literal 805
-zcmV+=1KRum000Mbb7(Dcb724g00RL40RR920RW_9o<Q`&RLY?p;cQBYl_0xM7ker@
-z#>e=VPY-g{TMU)xikgot*E3d4mq}vnGGMFK&?`3lQuzp%&bLmM?!~`G;T{U;4Y_oX
-ztW&5pYa=!AY~l?MU+0l28E$@8(~zi5Bd|IC1+@_wEtWbRYFyfC@g&!whp05e8cXIs
-zAO2$|o3V1#D_vFi`9{vpf^~zgpZ#hwyW(^VKuj<OzgVE^XFF~}ce5HLEhMA_A#DjB
-zr|?tGWY(1vcP3@X_D<(~^_D`?%NDne77p}AN|!y909XYC`_sATu*WrQf(gmixEp2-
-z>$8a#0)WG<q}MUu|8+c0X4jT;_QU9xX=4BY0RR*iF07uNPP`KH&1{G<hh4xnn%0dY
-zP#Ae@xR_Z!^$9gP{n3QwBhy^nPrHKA9b%3xtLoGy16TJlVr!|nt%cHREwUHDBZ)#&
-zIuv0};sB&0b(1XUZ=R#^gKw)AJ->viB+c<qch4BVT!3pT)F^ZFH1vHt`w`Y0@D@##
-z@@ZGZ%D<}4p}ve0)Xwh;edfrl=)p&V9UGh~&x8Yu)sWosd`Y;+BqJ~l)2TH)09_+3
-zZ4`?ekchIl<e1h>_qjZCYr4Lp0K;iIPX5{`t64nTmV(|FuFJ&BZ$BAyJg?pxXg<a)
-zbV^FhSAdt5<k_}IRCaywz#yJWqIS6&l<@!n0D%Ccn(fVgheZMOMklNB@_0x97I^c(
-z)g%(nv9r;~j;->7$f}g_o>)88b=v%Es_PL7V(*H}r1F5#*9l3)Gfn<ql<Ti$LHrEj
-zS-L{YkFoPvZ(fHzZ3tgU=!A>JlT_mL2YLkdI4|&EdH&9vMig5l?U-%Rc`5EN%eoyF
-zuVc{w004mi|Ec<oe#A0Q9VqAgVm(o9sLt1ZfurNgFvIvhY0&q8+JQroO#OAF8r-iY
-zN-Z{|f9K{)ifw^eNk}eKb<KvqcQ0#>dX6Z%1|5s(MS`eaRn9_0H4of0ISncPXCoP&
-jnu6P-g&8cZCSpI?z=;2?Sr97OqIjGUAl>AZv%QM*=5vR&
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key
-new file mode 100644
-index 0000000000..86c2104ec8
+index 0000000000..7b2073201e
 --- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key
-@@ -0,0 +1,9 @@
-+-----BEGIN OPENSSH PRIVATE KEY-----
-+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAaAAAABNlY2RzYS
-+1zaGEyLW5pc3RwMjU2AAAACG5pc3RwMjU2AAAAQQRJR6iZxr/NTqQN9NOwV+WPtu42r2eF
-+rJ0xsnlqw5bpmfz6aDR8RQvVHUZjRGQfR/RXPbQ5x+bjjdm176TuXNhHAAAAqAoE27MKBN
-+uzAAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBElHqJnGv81OpA30
-+07BX5Y+27javZ4WsnTGyeWrDlumZ/PpoNHxFC9UdRmNEZB9H9Fc9tDnH5uON2bXvpO5c2E
-+cAAAAgLiHv/IWhxwosz9BiNILOOPlXaueL5hVTBKUJkpOi48sAAAANcm9vdEBxZW11bWlw
-+cwECAw==
-+-----END OPENSSH PRIVATE KEY-----
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub
-new file mode 100644
-index 0000000000..a358aeb88a
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ecdsa_key.pub
-@@ -0,0 +1 @@
-+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBElHqJnGv81OpA3007BX5Y+27javZ4WsnTGyeWrDlumZ/PpoNHxFC9UdRmNEZB9H9Fc9tDnH5uON2bXvpO5c2Ec= root@qemupregen
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key
-new file mode 100644
-index 0000000000..00ed9adae2
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key
-@@ -0,0 +1,7 @@
-+-----BEGIN OPENSSH PRIVATE KEY-----
-+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-+QyNTUxOQAAACDHSFTAbJ3OTd1r1E8G5JleCmsJEpQHmdTGtMcYqwWbbwAAAJChFtV0oRbV
-+dAAAAAtzc2gtZWQyNTUxOQAAACDHSFTAbJ3OTd1r1E8G5JleCmsJEpQHmdTGtMcYqwWbbw
-+AAAEA8UiUsygsTbP0HkDi5leXpQaVXihDyCHeitkBCItJGhcdIVMBsnc5N3WvUTwbkmV4K
-+awkSlAeZ1Ma0xxirBZtvAAAADXJvb3RAcWVtdW1pcHM=
-+-----END OPENSSH PRIVATE KEY-----
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub
-new file mode 100644
-index 0000000000..cc0e2f43ed
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_ed25519_key.pub
-@@ -0,0 +1 @@
-+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMdIVMBsnc5N3WvUTwbkmV4KawkSlAeZ1Ma0xxirBZtv root@qemupregen
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key
-new file mode 100644
-index 0000000000..a8e4406ba3
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key
-@@ -0,0 +1,38 @@
-+-----BEGIN OPENSSH PRIVATE KEY-----
-+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
-+NhAAAAAwEAAQAAAYEA2Q6dzF1xziCQCFq+e+Fv6w0607gNlyKnkhuoRq8G7/HEqXU2eEtC
-+i3AMUrAP8k7s9kP5vI5CyfSgFuC9MxDV2YL2bsmvRxBSKgg6KbNxkoTaFBqyqHopuWQca8
-+KRahvzt5dh9fsmeqamIwgMWKTSwtDHcsbyt84nmO2Z2ZrNXobgueMIj+HiJVgmWn86FQFL
-+EoONAA+qb4SciPsxvmTlaQ/DMAh3llVo/IMLD9oyAyAI2kbHNnZttlYv5TmY7ICd3yCW8z
-+PXrxNcEF3Qs1d68gVJxLjLKTlYGzJW2J+RwY+1DJZ0w4lozeQiZXTXVtzcJB0tm2DcvQMz
-+kqyARmncSUwcPbEClEW6Y2xQnLeSHjexzlCCndiUbBTeG5iRl4OL6DN40iI9Lw2VROtj2Y
-+59n9PCfaoUs08dsgJLaNrDbRHrCRLSdZJ6OQFiC/nAx/t4e4+wdUgNOqLyJqomdNdaLXPq
-+tzr9ssrcY5j1DmmwKtzfTI5VM9LRQo+REIiUCNTFAAAFiFh232tYdt9rAAAAB3NzaC1yc2
-+EAAAGBANkOncxdcc4gkAhavnvhb+sNOtO4DZcip5IbqEavBu/xxKl1NnhLQotwDFKwD/JO
-+7PZD+byOQsn0oBbgvTMQ1dmC9m7Jr0cQUioIOimzcZKE2hQasqh6KblkHGvCkWob87eXYf
-+X7JnqmpiMIDFik0sLQx3LG8rfOJ5jtmdmazV6G4LnjCI/h4iVYJlp/OhUBSxKDjQAPqm+E
-+nIj7Mb5k5WkPwzAId5ZVaPyDCw/aMgMgCNpGxzZ2bbZWL+U5mOyAnd8glvMz168TXBBd0L
-+NXevIFScS4yyk5WBsyVtifkcGPtQyWdMOJaM3kImV011bc3CQdLZtg3L0DM5KsgEZp3ElM
-+HD2xApRFumNsUJy3kh43sc5Qgp3YlGwU3huYkZeDi+gzeNIiPS8NlUTrY9mOfZ/Twn2qFL
-+NPHbICS2jaw20R6wkS0nWSejkBYgv5wMf7eHuPsHVIDTqi8iaqJnTXWi1z6rc6/bLK3GOY
-+9Q5psCrc30yOVTPS0UKPkRCIlAjUxQAAAAMBAAEAAAGAGIj+bUtiwdoMbeVUAszIydkE/U
-+mgv6S7LFjT/KlsL1M017LYJWDcdMaFnhMouksRngSxBg9OnWV5cxyURmFwytVy5bMGjRHb
-+N8UWTgBqphU+UWdzKngkn0AhtkyYA1aFhgsml5d8EgEkZnFSc/KtoDfZU7AJX519/FtfOK
-+m27Shx3pE7Nohh97avHyuidR1gTwdvuMIMke57g0BhrxPYmredaKCMZAHjjCeD6JbRcGj+
-+ly3I9u8MF8BGSbLpBlLDUFCwP8G5CdmMua8bPJYhPSRqMLQhclI7hc6FaYk+gZV9B74Iv/
-+SAxcCwI97dNbE0IAsbbWoUdoKGpAYQ5gOdhu5ioqZwKWjNjB3Xx48mq8xtmIR9HEnYzEnk
-+b/tDWNRWrGkvNK7vpLvnbsSSKBqOAbMzmQdJxogTgjE5doSmu2/krIMR6KUcUox2ZrR8Ot
-+JM6bXyNFBviiXmYvw/SZTDrVJu8BPMu5EMS5pBl8jPFBGI/ePk4qg7lWAJeQ89ThtBAAAA
-+wQDEU4HjomWwJsn9UWdoodXTV5aPY9B1OPkmYnRPtsjSAcXgtBzUXMEOsmXODOK3aQjsE0
-+jQKpWDAUcUf6KKZKRehxUN4MlwujCG9czn65S6B8BsP1YUfZQjpNyub8vDBfeKzlxKBEEM
-+lb4iBT+LEGkihK13H5CbqRg1GDAThZzwrV4pj3S40zgyHhn8JjK4x4djEY6NwkWH8E2DgD
-+8vYG/FKh5E/VIZtCgtAHa4QNAgGB4VMRn1VpSJzxjCxb1wancAAADBAPT7F34WYEI3Vc52
-+p1U5rPa6dZtg5QM14V0+KtMlb3frd0/F+JVj4t6COQ8J9pkOuD0YjOYJuFXIWAAYIjCdWt
-+cbTi/sSERawOWxrgSwJo2vjt5izrBQtr3N8tiB6KDGa5sdgJl5XzJ0SsdStfBbyhcJO4RV
-+p9lc+X8OsUfFsClmyIs45vlxBRH06DP6/zmYCAmqvlrfZJKqlpKAEWDDObRy/3+mSNhZ0J
-+BdmncASiASRlPPIoIHznyA1COUn6+TnwAAAMEA4tH89Dez2JauyPVeCyHAC680vrBKjmMx
-+WYdpq2Xzd/LNl2L9oc0IEZzerLTuaCh6qsbbk2wWj1nrYXvefz/xUtDR427tvRXckcsWhP
-+2HYohdYBkwTpp9QuscIV76GdwbTImuNEzvABH1hpTG6DSzqeyf/EVmSq07nptJIs5lpU49
-+tW2aWraSvswHR9xfts1U79w9f4BNDy1rTmfuLERTRNF/T9CIFsk9tArLUNT64mhHtoEs8F
-+9AyGuq6v49bN0bAAAADXJvb3RAcWVtdW1pcHMBAgMEBQ==
-+-----END OPENSSH PRIVATE KEY-----
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key.pub b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key.pub
-new file mode 100644
-index 0000000000..9eb8c3838f
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys/openssh/ssh_host_rsa_key.pub
-@@ -0,0 +1 @@
-+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZDp3MXXHOIJAIWr574W/rDTrTuA2XIqeSG6hGrwbv8cSpdTZ4S0KLcAxSsA/yTuz2Q/m8jkLJ9KAW4L0zENXZgvZuya9HEFIqCDops3GShNoUGrKoeim5ZBxrwpFqG/O3l2H1+yZ6pqYjCAxYpNLC0MdyxvK3zieY7ZnZms1ehuC54wiP4eIlWCZafzoVAUsSg40AD6pvhJyI+zG+ZOVpD8MwCHeWVWj8gwsP2jIDIAjaRsc2dm22Vi/lOZjsgJ3fIJbzM9evE1wQXdCzV3ryBUnEuMspOVgbMlbYn5HBj7UMlnTDiWjN5CJldNdW3NwkHS2bYNy9AzOSrIBGadxJTBw9sQKURbpjbFCct5IeN7HOUIKd2JRsFN4bmJGXg4voM3jSIj0vDZVE62PZjn2f08J9qhSzTx2yAkto2sNtEesJEtJ1kno5AWIL+cDH+3h7j7B1SA06ovImqiZ011otc+q3Ov2yytxjmPUOabAq3N9MjlUz0tFCj5EQiJQI1MU= root@qemupregen
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
-new file mode 100644
-index 0000000000..ddd10e6eeb
---- /dev/null
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Pre generated host keys mainly for speeding up our qemu tests"
++++ b/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
+@@ -0,0 +1,386 @@
++From 951bdaad7a18cc0dc1036bba86b18b90874d39ff Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Mon, 1 Jul 2019 09:03:53 -0400
++Subject: [PATCH] commit bash-20190628 snapshot
 +
-+SRC_URI = "file://dropbear_rsa_host_key \
-+           file://openssh"
++An issue was discovered in disable_priv_mode in shell.c in GNU Bash through 5.0 patch 11.
++By default, if Bash is run with its effective UID not equal to its real UID,
++it will drop privileges by setting its effective UID to its real UID.
++However, it does so incorrectly. On Linux and other systems that support "saved UID" functionality,
++the saved UID is not dropped. An attacker with command execution in the shell can use "enable -f" for
++runtime loading of a new builtin, which can be a shared object that calls setuid() and therefore
++regains privileges. However, binaries running with an effective UID of 0 are unaffected.
 +
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++Get the patch from [1] to fix the issue.
 +
-+INHIBIT_DEFAULT_DEPS = "1"
++Upstream-Status: Inappropriate [the upstream thinks it doesn't increase the credibility of CVEs in general]
++CVE: CVE-2019-18276
 +
-+do_install () {
-+	install -d ${D}${sysconfdir}/dropbear
-+	install ${WORKDIR}/dropbear_rsa_host_key -m 0600 ${D}${sysconfdir}/dropbear/
++[1] https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
 +
-+	install -d ${D}${sysconfdir}/ssh
-+	install ${WORKDIR}/openssh/* ${D}${sysconfdir}/ssh/
-+	chmod 0600 ${D}${sysconfdir}/ssh/*
-+	chmod 0644 ${D}${sysconfdir}/ssh/*.pub
-+}
-\ No newline at end of file
++Signed-off-by: De Huo <De.Huo@windriver.com>
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ MANIFEST          |  2 ++
++ bashline.c        | 50 +-------------------------------------------------
++ builtins/help.def |  2 +-
++ config.h.in       | 10 +++++++++-
++ configure.ac      |  1 +
++ doc/bash.1        |  3 ++-
++ doc/bashref.texi  |  3 ++-
++ lib/glob/glob.c   |  5 ++++-
++ pathexp.c         | 16 ++++++++++++++--
++ shell.c           |  8 ++++++++
++ tests/glob.tests  |  2 ++
++ tests/glob6.sub   | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ tests/glob7.sub   | 11 +++++++++++
++ 14 files changed, 122 insertions(+), 56 deletions(-)
++ create mode 100644 tests/glob6.sub
++ create mode 100644 tests/glob7.sub
++
++diff --git a/MANIFEST b/MANIFEST
++index 03de221..f9ccad7 100644
++--- a/MANIFEST
+++++ b/MANIFEST
++@@ -1037,6 +1037,8 @@ tests/extglob3.tests	f
++ tests/extglob3.right	f
++ tests/extglob4.sub	f
++ tests/extglob5.sub	f
+++tests/glob6.sub		f
+++tests/glob7.sub		f
++ tests/func.tests	f
++ tests/func.right	f
++ tests/func1.sub		f
++diff --git a/bashline.c b/bashline.c
++index 824ea9d..d86b47d 100644
++--- a/bashline.c
+++++ b/bashline.c
++@@ -3718,55 +3718,7 @@ static int
++ completion_glob_pattern (string)
++      char *string;
++ {
++-  register int c;
++-  char *send;
++-  int open;
++-
++-  DECLARE_MBSTATE;
++-
++-  open = 0;
++-  send = string + strlen (string);
++-
++-  while (c = *string++)
++-    {
++-      switch (c)
++-	{
++-	case '?':
++-	case '*':
++-	  return (1);
++-
++-	case '[':
++-	  open++;
++-	  continue;
++-
++-	case ']':
++-	  if (open)
++-	    return (1);
++-	  continue;
++-
++-	case '+':
++-	case '@':
++-	case '!':
++-	  if (*string == '(')	/*)*/
++-	    return (1);
++-	  continue;
++-
++-	case '\\':
++-	  if (*string++ == 0)
++-	    return (0);	 	  
++-	}
++-
++-      /* Advance one fewer byte than an entire multibyte character to
++-	 account for the auto-increment in the loop above. */
++-#ifdef HANDLE_MULTIBYTE
++-      string--;
++-      ADVANCE_CHAR_P (string, send - string);
++-      string++;
++-#else
++-      ADVANCE_CHAR_P (string, send - string);
++-#endif
++-    }
++-  return (0);
+++  return (glob_pattern_p (string) == 1);
++ }
++ 
++ static char *globtext;
++diff --git a/builtins/help.def b/builtins/help.def
++index 006c4b5..92f9b38 100644
++--- a/builtins/help.def
+++++ b/builtins/help.def
++@@ -128,7 +128,7 @@ help_builtin (list)
++ 
++   /* We should consider making `help bash' do something. */
++ 
++-  if (glob_pattern_p (list->word->word))
+++  if (glob_pattern_p (list->word->word) == 1)
++     {
++       printf ("%s", ngettext ("Shell commands matching keyword `", "Shell commands matching keywords `", (list->next ? 2 : 1)));
++       print_word_list (list, ", ");
++diff --git a/config.h.in b/config.h.in
++index 8554aec..ad4b1e8 100644
++--- a/config.h.in
+++++ b/config.h.in
++@@ -1,6 +1,6 @@
++ /* config.h -- Configuration file for bash. */
++ 
++-/* Copyright (C) 1987-2009,2011-2012 Free Software Foundation, Inc.
+++/* Copyright (C) 1987-2009,2011-2012,2013-2019 Free Software Foundation, Inc.
++ 
++    This file is part of GNU Bash, the Bourne Again SHell.
++ 
++@@ -807,6 +807,14 @@
++ #undef HAVE_SETREGID
++ #undef HAVE_DECL_SETREGID
++ 
+++/* Define if you have the setregid function.  */
+++#undef HAVE_SETRESGID
+++#undef HAVE_DECL_SETRESGID
+++
+++/* Define if you have the setresuid function.  */
+++#undef HAVE_SETRESUID
+++#undef HAVE_DECL_SETRESUID
+++
++ /* Define if you have the setvbuf function.  */
++ #undef HAVE_SETVBUF
++ 
++diff --git a/configure.ac b/configure.ac
++index 52b4cdb..549adef 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -810,6 +810,7 @@ AC_CHECK_DECLS([confstr])
++ AC_CHECK_DECLS([printf])
++ AC_CHECK_DECLS([sbrk])
++ AC_CHECK_DECLS([setregid])
+++AC_CHECK_DECLS[(setresuid, setresgid])
++ AC_CHECK_DECLS([strcpy])
++ AC_CHECK_DECLS([strsignal])
++ 
++diff --git a/doc/bash.1 b/doc/bash.1
++index e6cd08d..9e58a0b 100644
++--- a/doc/bash.1
+++++ b/doc/bash.1
++@@ -4681,7 +4681,8 @@ above).
++ .PD
++ .SH "SIMPLE COMMAND EXPANSION"
++ When a simple command is executed, the shell performs the following
++-expansions, assignments, and redirections, from left to right.
+++expansions, assignments, and redirections, from left to right, in
+++the following order.
++ .IP 1.
++ The words that the parser has marked as variable assignments (those
++ preceding the command name) and redirections are saved for later
++diff --git a/doc/bashref.texi b/doc/bashref.texi
++index d33cd57..3065126 100644
++--- a/doc/bashref.texi
+++++ b/doc/bashref.texi
++@@ -2964,7 +2964,8 @@ is not specified.  If the file does not exist, it is created.
++ @cindex command expansion
++ 
++ When a simple command is executed, the shell performs the following
++-expansions, assignments, and redirections, from left to right.
+++expansions, assignments, and redirections, from left to right, in
+++the following order.
++ 
++ @enumerate
++ @item
++diff --git a/lib/glob/glob.c b/lib/glob/glob.c
++index 398253b..2eaa33e 100644
++--- a/lib/glob/glob.c
+++++ b/lib/glob/glob.c
++@@ -607,6 +607,7 @@ glob_vector (pat, dir, flags)
++   register unsigned int i;
++   int mflags;		/* Flags passed to strmatch (). */
++   int pflags;		/* flags passed to sh_makepath () */
+++  int hasglob;		/* return value from glob_pattern_p */
++   int nalloca;
++   struct globval *firstmalloc, *tmplink;
++   char *convfn;
++@@ -648,10 +649,12 @@ glob_vector (pat, dir, flags)
++   patlen = (pat && *pat) ? strlen (pat) : 0;
++ 
++   /* If the filename pattern (PAT) does not contain any globbing characters,
+++     or contains a pattern with only backslash escapes (hasglob == 2),
++      we can dispense with reading the directory, and just see if there is
++      a filename `DIR/PAT'.  If there is, and we can access it, just make the
++      vector to return and bail immediately. */
++-  if (skip == 0 && glob_pattern_p (pat) == 0)
+++  hasglob = 0;
+++  if (skip == 0 && (hasglob = glob_pattern_p (pat)) == 0 || hasglob == 2)
++     {
++       int dirlen;
++       struct stat finfo;
++diff --git a/pathexp.c b/pathexp.c
++index c1bf2d8..e6c5392 100644
++--- a/pathexp.c
+++++ b/pathexp.c
++@@ -58,7 +58,10 @@ int extended_glob = EXTGLOB_DEFAULT;
++ /* Control enabling special handling of `**' */
++ int glob_star = 0;
++ 
++-/* Return nonzero if STRING has any unquoted special globbing chars in it.  */
+++/* Return nonzero if STRING has any unquoted special globbing chars in it.
+++   This is supposed to be called when pathname expansion is performed, so
+++   it implements the rules in Posix 2.13.3, specifically that an unquoted
+++   slash cannot appear in a bracket expression. */
++ int
++ unquoted_glob_pattern_p (string)
++      register char *string;
++@@ -85,10 +88,14 @@ unquoted_glob_pattern_p (string)
++ 	  continue;
++ 
++ 	case ']':
++-	  if (open)
+++	  if (open)		/* XXX - if --open == 0? */
++ 	    return (1);
++ 	  continue;
++ 
+++	case '/':
+++	  if (open)
+++	    open = 0;
+++
++ 	case '+':
++ 	case '@':
++ 	case '!':
++@@ -106,6 +113,11 @@ unquoted_glob_pattern_p (string)
++ 	      string++;
++ 	      continue;
++ 	    }
+++	  else if (open && *string == '/')
+++	    {
+++	      string++;		/* quoted slashes in bracket expressions are ok */
+++	      continue;
+++	    }
++ 	  else if (*string == 0)
++ 	    return (0);
++ 	 	  
++diff --git a/shell.c b/shell.c
++index a2b2a55..6adabc8 100644
++--- a/shell.c
+++++ b/shell.c
++@@ -1293,7 +1293,11 @@ disable_priv_mode ()
++ {
++   int e;
++ 
+++#if HAVE_DECL_SETRESUID
+++  if (setresuid (current_user.uid, current_user.uid, current_user.uid) < 0)
+++#else
++   if (setuid (current_user.uid) < 0)
+++#endif
++     {
++       e = errno;
++       sys_error (_("cannot set uid to %d: effective uid %d"), current_user.uid, current_user.euid);
++@@ -1302,7 +1306,11 @@ disable_priv_mode ()
++ 	exit (e);
++ #endif
++     }
+++#if HAVE_DECL_SETRESGID
+++  if (setresgid (current_user.gid, current_user.gid, current_user.gid) < 0)
+++#else
++   if (setgid (current_user.gid) < 0)
+++#endif
++     sys_error (_("cannot set gid to %d: effective gid %d"), current_user.gid, current_user.egid);
++ 
++   current_user.euid = current_user.uid;
++diff --git a/tests/glob.tests b/tests/glob.tests
++index 01913bb..fb012f7 100644
++--- a/tests/glob.tests
+++++ b/tests/glob.tests
++@@ -12,6 +12,8 @@ ${THIS_SH} ./glob1.sub
++ ${THIS_SH} ./glob2.sub
++ ${THIS_SH} ./glob3.sub
++ ${THIS_SH} ./glob4.sub
+++${THIS_SH} ./glob6.sub
+++${THIS_SH} ./glob7.sub
++ 
++ MYDIR=$PWD	# save where we are
++ 
++diff --git a/tests/glob6.sub b/tests/glob6.sub
++new file mode 100644
++index 0000000..b099811
++--- /dev/null
+++++ b/tests/glob6.sub
++@@ -0,0 +1,54 @@
+++# tests of the backslash-in-glob-patterns discussion on the austin-group ML
+++
+++: ${TMPDIR:=/var/tmp}
+++
+++ORIG=$PWD
+++GLOBDIR=$TMPDIR/bash-glob-$$
+++mkdir $GLOBDIR && cd $GLOBDIR
+++
+++# does the pattern matcher allow backslashes as escape characters and remove
+++# them as part of matching?
+++touch abcdefg
+++pat='ab\cd*'
+++printf '<%s>\n' $pat
+++pat='\.'
+++printf '<%s>\n' $pat
+++rm abcdefg
+++
+++# how about when escaping pattern characters?
+++touch '*abc.c'
+++a='\**.c'
+++printf '%s\n' $a
+++rm -f '*abc.c'
+++
+++# how about when making the distinction between readable and searchable path
+++# components?
+++mkdir -m a=x searchable
+++mkdir -m a=r readable
+++
+++p='searchable/\.'
+++printf "%s\n" $p
+++
+++p='searchable/\./.'
+++printf "%s\n" $p
+++
+++p='readable/\.'
+++printf "%s\n" $p
+++
+++p='readable/\./.'
+++printf "%s\n" $p
+++
+++printf "%s\n" 'searchable/\.'
+++printf "%s\n" 'readable/\.'
+++
+++echo */.
+++
+++p='*/\.'
+++echo $p
+++
+++echo */'.'
+++
+++rmdir searchable readable
+++
+++cd $ORIG
+++rmdir $GLOBDIR
++diff --git a/tests/glob7.sub b/tests/glob7.sub
++new file mode 100644
++index 0000000..0212b8e
++--- /dev/null
+++++ b/tests/glob7.sub
++@@ -0,0 +1,11 @@
+++# according to Posix 2.13.3, a slash in a bracket expression renders that
+++# bracket expression invalid
+++shopt -s nullglob
+++
+++echo 1: [qwe/qwe]
+++echo 2: [qwe/
+++echo 3: [qwe/]
+++
+++echo 4: [qwe\/qwe]
+++echo 5: [qwe\/
+++echo 6: [qwe\/]
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
+index 12d472be57..257a03bd8b 100644
+--- a/meta/recipes-extended/bash/bash_5.0.bb
++++ b/meta/recipes-extended/bash/bash_5.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://run-ptest \
+            file://run-bash-ptests \
+            file://fix-run-builtins.patch \
++           file://bash-CVE-2019-18276.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "2b44b47b905be16f45709648f671820b"
 -- 
 2.17.1
 
