@@ -1,100 +1,84 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web11.6544.1601504123047341825
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web12.6583.1601504125293730314
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:15:23 -0700
+ Wed, 30 Sep 2020 15:15:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cbygXE4F;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.193, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f193.google.com with SMTP id b124so2319257pfg.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dCkixsab;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 34so2100767pgo.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=nyJIg6ELRzDmdWbhFurFzVox5QDnbuk7NrQS6MDv2rs=;
-        b=cbygXE4FWp5eUmvIvsdhrtOUzQ9aumDFvVA6cZh4orhrqIetcmaB91weHYBIKhfKVi
-         IMv96U5ZY6jA63HWv+zCCpnFxK1O10ThTuRKmrbY0j6c2i0lPgdAhg7U69Tq9zHIMxBT
-         Cxs0lIqvjIgTGwKhtpCjiVOAb4fvt3rbBp15c7C8a1kYst0+F2cXouxP5gU/q0C0Ntti
-         qJG4ZGn2goM/JgGC4O216AxY0Fbeu3xx1SLjPL6+o1QIcRx8jgckRsMlAVEXq+JHPeTO
-         z1BG3EkzvQ3MBjflV+XcMSkzTG813VviBTudFbvfLDAdbwdfZ/G5cGp702l/9MqPccOp
-         v0YA==
+        bh=46Zj88CfrxKg1pVcDxqJ84vvfg2xnKdqnN8P+xWJITI=;
+        b=dCkixsab+CHc7d7VeKZCMa/bJZMcgVvfdIquYFi5hUQ+JbucU7BPQ+gTNvbyZpZMRh
+         R73QG24N+8AcW6Kmkg4AUEb5inrVyQ43ewYcHOBJxfBj9iJ/Dh8OxyYObucRnQRg/Saz
+         M4LJaKtWeGmaQHO55RoKNj+Mgn/lHO9AzrdmUOfXHLt2hYl9XZH76RGmCobVlWO3mwsK
+         aN88iZ6JAd8kUbtcw3zEY7K7iLoMWxjRW2iLNKmelNz0HVLra/Su7ZP7fcRB0RfUfsAq
+         iO28upyRG8r+wVPD4bCB3YYaB/xPGpqpT3EgF7a8OUYxVRHaupQwyo+iCyVcCrVXix1F
+         AO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=nyJIg6ELRzDmdWbhFurFzVox5QDnbuk7NrQS6MDv2rs=;
-        b=B6K4uHNInxgmdpJIB+aPoHZNf4OdmimhoLrTftIRrn1uSoZOK0IaEezWhKwzoG9+Y7
-         NlLB/z+3IMfbZGNw1tfTe3IcGsHd2UN4bCCI8BGIqCGUv+z925gzsz8VAR/bDPraRgvP
-         q+36b83tRxYkWFP3tb1mFmKLssbC5B5AWBhZ75hvBw14P8Qqv6YZxbsto84mU/sPm5Yz
-         nwNvVATIRXE6P3QXYAE9Hjvn94JjQeN4EeQ89doYr8xae2w95nE9bkLePulIau5/a0uo
-         l6aSS+7FZIUx3VpGMbdfWsrVSqBgWK+rHQ8slu2YLvyP7w8r/VMEnz8aOAuBqgBuxJkX
-         hvCg==
-X-Gm-Message-State: AOAM531WLxuj+JXWJ+sCPWWCXHo5DM78wMLvXI37AEq6D8XfAu+N+JLv
-	HiwdKX66+6ZITXYppNZBtjfYVXjg2n7Z3NnxFM8=
-X-Google-Smtp-Source: ABdhPJyC8pNfqrBWx+EGUY4yveacggC4XjfUo/t2ySO5XreF8VUVpXeLkU1ubrkyV2m3zbZ/MVM8GA==
-X-Received: by 2002:a17:902:ac81:b029:d3:781c:88a4 with SMTP id h1-20020a170902ac81b02900d3781c88a4mr4004174plr.38.1601504122187;
-        Wed, 30 Sep 2020 15:15:22 -0700 (PDT)
+        bh=46Zj88CfrxKg1pVcDxqJ84vvfg2xnKdqnN8P+xWJITI=;
+        b=Rjy/ojgVIyN4go/O8/A41ZfWlTCfPBNn1bQWVqLWpMbZ9RGF7vvv1+AAXqwqhrbVT5
+         eO+2C8U1IkKZCVht+9VB6ZAgCXZLfZExNL2C5cuFdgL0gqAArA/hy61B3tZ84Js0ov7g
+         qU7x5Xzu1CrlmsNGH63wTNrqxsT1MYhDqWi7MHOyiUBL6y3wWQX035UInO82Kv1+clcl
+         YhOA6VeocBuWAYfBB33uc61ySMjOhFaFbnw0o8co+EtPq4H3ykpqc4jI7y3eDG3/8tg9
+         1YXOT82H+FoCxSvrdu+mMokqnRWWgtZGVlt4RxJFFfIabVddXPmKXT+EsHVptm8nVcW+
+         1mxQ==
+X-Gm-Message-State: AOAM5314gm0JRFpa0mJ+gh9X5YJp4jqRK5Ah6i5tijUlr/ezDoDoOshI
+	UmDAlbDw5BThUMklZyQF/SW9eb1Qarit02VVaYE=
+X-Google-Smtp-Source: ABdhPJwFuA/ZvatQau7pUUfKEgkBhNjicKXuEXfImkN1vmQc8flbOUiQlbcMwj/4c2SSu0gbb3c0kA==
+X-Received: by 2002:a62:7c82:0:b029:13c:1611:6525 with SMTP id x124-20020a627c820000b029013c16116525mr4178652pfc.5.1601504124419;
+        Wed, 30 Sep 2020 15:15:24 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.20
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:15:21 -0700 (PDT)
+        Wed, 30 Sep 2020 15:15:23 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 31/41] openssh: Allow enable/disable of rng-tools recommendation on sshd
-Date: Wed, 30 Sep 2020 12:11:33 -1000
-Message-Id: <ff61cf5777c63a7ebecde5ada1cf01d7bafe265d.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 32/41] sstate.bbclass: Check file ownership before doing 'touch -a'
+Date: Wed, 30 Sep 2020 12:11:34 -1000
+Message-Id: <8e7bb01564d5b06bcbda402cf4d29d7a0ff170c5.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Otavio Salvador <otavio.salvador@gmail.com>
+From: Norman Stetter <norman.stetter@garz-fricke.com>
 
-We are adding a new PACKAGECONFIG option ('rng-tools') to control if we
-wish the openssh-sshd to RRECOMMENDS the 'rng-tools' package. We are
-enabling it by default so there is no behavior change.
+In contrast to 'touching' a file without parameters 'touch -a' can only be
+performed by the file owner. In case of a shared sstate-cache served
+locally (e.g. over NFS),  where the user running bitbake is not the
+owner of sstate-cache files, even if he has write access on group level,
+the sstate_unpack_package task will fail.
+Checking if the file is owned by the user before attempting to run
+'touch -a' on it solves this.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Norman Stetter <norman.stetter@garz-fricke.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe99349c1bd72b69d22ab0dc52b8825d3157b8e7)
+(cherry picked from commit f1554e8bd40c640fd58daac18ecf7b458e754109)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/openssh/openssh_8.2p1.bb | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-index d879efc201..17138c0ad8 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-@@ -43,12 +43,15 @@ SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
- 
- inherit autotools-brokensep ptest
- 
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "rng-tools"
- PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
- PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
- PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
- PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
- 
-+# Add RRECOMMENDS to rng-tools for sshd package
-+PACKAGECONFIG[rng-tools] = ""
-+
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
- # login path is hardcoded in sshd
-@@ -150,7 +153,10 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
--RRECOMMENDS_${PN}-sshd_append_class-target = " rng-tools"
-+RRECOMMENDS_${PN}-sshd_append_class-target = "\
-+    ${@bb.utils.filter('PACKAGECONFIG', 'rng-tools', d)} \
-+"
-+
- # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
- RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
- 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 375196ef21..66a96a7603 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -847,7 +847,7 @@ python sstate_report_unihash() {
+ sstate_unpack_package () {
+ 	tar -xvzf ${SSTATE_PKG}
+ 	# update .siginfo atime on local/NFS mirror
+-	[ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
++	[ -O ${SSTATE_PKG}.siginfo ] && [ -w ${SSTATE_PKG}.siginfo ] && [ -h ${SSTATE_PKG}.siginfo ] && touch -a ${SSTATE_PKG}.siginfo
+ 	# Use "! -w ||" to return true for read only files
+ 	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
+ 	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
 -- 
 2.17.1
 
