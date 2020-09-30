@@ -1,94 +1,125 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web12.8801.1601443658461339841
+Received: from mailout-afstr39.mailout.artfiles.de (mailout-afstr39.mailout.artfiles.de [212.72.187.39])
+ by mx.groups.io with SMTP id smtpd.web11.9938.1601450234394909304
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 22:27:38 -0700
+ Wed, 30 Sep 2020 00:17:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iwO/BQCO;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id di5so292874qvb.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 22:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=36HEL+4prTesy2OJJMGTcSDpx2ju32Q6qIXcu3W8Fzg=;
-        b=iwO/BQCOxcNl0Ylf//+zCsIcMXu3G8A/E82JhJqEp4gzvgDAieQ0AyKJZC3atmp7Yw
-         yqlcvJ9GBD1MB0pCgvvI/cIkaqoK0aQM7BzK+zyuh+2ZvHedgVCA+rCpAhyRPV4oTyR1
-         dS6rfhWZJvSwkJErFlTGFpKbnsnwaf/b/9QP2dV2FuBMsKpL+h92R4t5Uau4/FSdY/mT
-         EFHfeOOCwsqcjMaut9B15balJm8NBe6OKy4DxHK9Ha/EJ3ZNRdRYkygquVsmwpPPZvDK
-         RS7xrFBwKy8QYYQeQBV4XkYE1fIzDKy1xuluCJHO0bRsah5aEZ1WSzZKu68gp+/AvCZ0
-         9DuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=36HEL+4prTesy2OJJMGTcSDpx2ju32Q6qIXcu3W8Fzg=;
-        b=O79n8xUvOxd1Uf03xTa0E17qpiJVoOP9ZuexMBVNQJnFDUXZzy7XhfFTz4ktx30QST
-         NR1sNmeqAkOpgAZhmJm22wvYjpOrklYvE6kbiNDDrkKxLdmRwB/mnUoy6itQ6vmgBKbk
-         GfrlAWe2HfQOffl93wJDWbQW/hm1zcL15lqwhRy5WmInSuUuHnkom6HmQ+K6/O1ZPvBr
-         J51czdYUoSrJi84Jwpjo/08zIPtZ+ttTq5IDzc/0YMTGeDRtXqos7WpNSWScBz+y6+gi
-         UC3dJxTv+HatlR/RIoUARxXlKXxU4r5p2kIVSTqSx/8A+73Z6CrgNOFsMzV4WE/V/9mv
-         Pp0g==
-X-Gm-Message-State: AOAM5305kPf18EbqomgTfpFBVTlsitDOBNgbNX+E3gkGNQoAaWqMazr4
-	zmv9mkWXcz5EpT63lDkwTA8hGZOZkF5qZpA3Y34=
-X-Google-Smtp-Source: ABdhPJx0lUFwx4ntdDLaVWQ4OzQHcWeVq6go8AENe2NijdHp+vRcxQc5mFmRSxcpfgAdqMQvQvxSoaaDYicBkPuI3Co=
-X-Received: by 2002:a0c:e188:: with SMTP id p8mr679500qvl.8.1601443657536;
- Tue, 29 Sep 2020 22:27:37 -0700 (PDT)
+ dkim=missing; spf=pass (domain: garz-fricke.com, ip: 212.72.187.39, mailfrom: norman.stetter@garz-fricke.com)
+Received: from [176.95.71.124] (helo=mail.garz-fricke.com)
+	auth=mx@garz-fricke.com
+	by mailout.artfiles.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.86_2)
+	id 1kNWMI-0006cO-1n; Wed, 30 Sep 2020 09:17:02 +0200
+Received: from SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188]) by
+ SRV24.hamburg.garz-fricke.de ([fe80::91bd:d629:787:188%12]) with mapi id
+ 14.03.0487.000; Wed, 30 Sep 2020 09:17:01 +0200
+From: "Norman" <norman.stetter@garz-fricke.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][Patch] sstate.bbclass: Check file ownership before doing 'touch -a'
+Thread-Topic: [OE-core][Patch] sstate.bbclass: Check file ownership before
+ doing 'touch -a'
+Thread-Index: AQHWkzciVmIjSmPP6kKePntvEsv/Xql5SHPQgAXmGYCAAZ4jsA==
+Date: Wed, 30 Sep 2020 07:17:01 +0000
+Message-ID: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FAF2C@SRV24.hamburg.garz-fricke.de>
+References: <A24DC035FE5F8F4BAE7F63FB1B07D7BC392FA16E@SRV24.hamburg.garz-fricke.de>
+ <CAHtQpK7FZk6ZxmkiX30Mm2hg654rw=w9Wpb7-Sgvok+BwWEFPg@mail.gmail.com>
+ <163806DA121A433C.4559@lists.openembedded.org>
+ <16392EB84BD69824.17908@lists.openembedded.org>
+In-Reply-To: <16392EB84BD69824.17908@lists.openembedded.org>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.56.33]
+x-esetresult: clean, is OK
+x-esetid: 37303A29B687C86B6C7365
 MIME-Version: 1.0
-References: <20200929043246.11195-1-ticotimo@gmail.com>
-In-Reply-To: <20200929043246.11195-1-ticotimo@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 29 Sep 2020 22:27:11 -0700
-Message-ID: <CAMKF1sqgMORq1VOHKz_HPy8atGu3vZvpH3dCtyoej=v0WC6sRw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/cases/devtool.py: avoid .pyc race
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Tim Orling <timothy.t.orling@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Sep 28, 2020 at 9:32 PM Tim Orling <ticotimo@gmail.com> wrote:
->
-> From: Tim Orling <timothy.t.orling@linux.intel.com>
->
-> In certain conditions, most likely under heavy load on the
-> AutoBuiler, the prebuilt .pyc files are attempting to be
-> executed before they have been completely copied. Avoid
-> this by not copying the .pyc files (nor the __pycache__
-> directory). The impact of python3-native recreating the .pyc
-> files should hopefully be negligible.
->
-
-pyc makes difference only when loading, execution is still same. So it
-will depend
-if we are invoking the script repeatedly or is it invoked once and
-executed for longer time.
-benefits might be less in later case.
-
-> YOCTO#13421
-> YOCTO#13803
->
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> ---
->  meta/lib/oeqa/selftest/cases/devtool.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-> index b383ed9c50b..a3d2e9ea7cc 100644
-> --- a/meta/lib/oeqa/selftest/cases/devtool.py
-> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-> @@ -56,7 +56,8 @@ def setUpModule():
->                      if pth.startswith(canonical_layerpath):
->                          if relpth.endswith('/'):
->                              destdir = os.path.join(corecopydir, relpth)
-> -                            shutil.copytree(pth, destdir)
-> +                            # avoid race condition by not copying .pyc files YPBZ#13421,13803
-> +                            shutil.copytree(pth, destdir, ignore=ignore_patterns('*.pyc', '__pycache__'))
->                          else:
->                              destdir = os.path.join(corecopydir, os.path.dirname(relpth))
->                              bb.utils.mkdirhier(destdir)
-> --
-> 2.25.0
->
->
-> 
->
+SSB3b3VsZCBiZSBoYXBweSB0byBnZXQgc29tZSBmZWVkYmFjayBvbiB0aGlzIHBhdGNoLg0KDQpD
+aGVlcnMsIA0KDQpOb3JtYW4NCg0KPiAtLS0tLVVyc3Byw7xuZ2xpY2hlIE5hY2hyaWNodC0tLS0t
+DQo+IFZvbjogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBbbWFp
+bHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIEltIEF1ZnRyYWcg
+dm9uDQo+IE5vcm1hbg0KPiBHZXNlbmRldDogVHVlc2RheSwgU2VwdGVtYmVyIDI5LCAyMDIwIDg6
+NTUgQU0NCj4gQW46IEFuZHJleSBaaGl6aGlraW4gPGFuZHJleS56QGdtYWlsLmNvbT4NCj4gQ2M6
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQmV0cmVmZjogUmU6
+IFtPRS1jb3JlXVtQYXRjaF0gc3N0YXRlLmJiY2xhc3M6IENoZWNrIGZpbGUgb3duZXJzaGlwIGJl
+Zm9yZQ0KPiBkb2luZyAndG91Y2ggLWEnDQo+IA0KPiBJIHdlbnQgdGhyb3VnaCBpdCBhZ2FpbjoN
+Cj4gDQo+IFRoZSBTU1RBVEVfRElSIGlzIHNldCB0byBteSBsb2NhbCBidWlsZCBkaXIgaW5zaWRl
+IG15IGhvbWUgZGlyLiBBbGwgZmlsZXMgaGVyZQ0KPiBhcmUgb3duZWQgYnkgbWUuDQo+IFRoZSBT
+U1RBVEVfTUlSUk9SUyBpcyBzZXQgdG8gYSBsb2NhbGx5IG1vdW50ZWQgc2hhcmVkIHNzdGF0ZS1j
+YWNoZS4gRmlsZXMNCj4gaGVyZSBhcmUgb3duZWQgYnkgbXkgZ3JvdXAsIGJ1dCBub3QgbXkgdXNl
+ci4NCj4gDQo+IEFsbCAqLnNpZ2luZm8gZmlsZXMgaW4gdGhlIFNTVEFURV9ESVIgYXJlIHN5bWxp
+bmtzIHRvIHRoZSByZXNwZWN0aXZlIGZpbGVzIGluIHRoZQ0KPiBTU1RBVEVfTUlSUk9SUyBkaXIu
+DQo+IA0KPiBUaGUgc3N0YXRlX3VucGFja19wYWNrYWdlIGZ1bmN0aW9uIGdldHMgcnVuIGZvciBl
+dmVyeSAqLnNpZ2luZm8gZmlsZSBpbg0KPiBTU1RBVEVfRElSLg0KPiBJZiB0aGUgJHtTU1RBVEVf
+UEtHfS5zaWdpbmZvIGZpbGUgYWxyZWFkeSBleGlzdHMgYW5kIGlzIGEgc3ltbGluayBpdCdzIGF0
+aW1lIGlzDQo+IHVwZGF0ZWQgKGxpbmUgODUwKSwgdGhpcyBhZmZlY3RzIHRoZSBkZXN0aW5hdGlv
+biBmaWxlIG9mIHRoZSBzeW1saW5rIGluDQo+IFNTVEFURV9NSVJST1JTLCBzaW5jZSB0aGUgLS1u
+by1kZXJlZmVyZW5jZSBzd2l0Y2ggaXMgbm90IHVzZWQuIFRoZQ0KPiBjb21tZW50IGluIGxpbmUg
+ODQ5IGNvbmZpcm1zIHRoaXMgaXMgbWVhbnQgdG8gc2V0IGF0aW1lIGZvciAibG9jYWwvTkZTDQo+
+IG1pcnJvciIuIEJ1dCBpdCBiZWluZyBhIG1pcnJvciBvbmUgY2Fubm90IGV4cGVjdCB0aGUgdXNl
+ciBydW5uaW5nIGJpdGJha2UgdG8NCj4gYmUgdGhlIGZpbGUgb3duZXIuDQo+IA0KPiBTbyBpbiBt
+eSBvcGluaW9uIHRoZSBwcm9wb3NlZCBwYXRjaCBtYWtlcyBzZW5zZS4NCj4gDQo+IA0KPiA+IC0t
+LS0tVXJzcHLDvG5nbGljaGUgTmFjaHJpY2h0LS0tLS0NCj4gPiBWb246IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIEltIEF1ZnRyYWcgdm9uDQo+ID4gTm9ybWFuDQo+ID4g
+R2VzZW5kZXQ6IEZyaWRheSwgU2VwdGVtYmVyIDI1LCAyMDIwIDI6MzMgUE0NCj4gPiBBbjogQW5k
+cmV5IFpoaXpoaWtpbiA8YW5kcmV5LnpAZ21haWwuY29tPg0KPiA+IENjOiBvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gQmV0cmVmZjogUmU6IFtPRS1jb3JlXVtQ
+YXRjaF0gc3N0YXRlLmJiY2xhc3M6IENoZWNrIGZpbGUgb3duZXJzaGlwDQo+ID4gYmVmb3JlIGRv
+aW5nICd0b3VjaCAtYScNCj4gPg0KPiA+IFdlIGRvIHVzZSBTU1RBVEVfTUlSUk9SLCBwb2ludGlu
+ZyB0byBhIGxvY2FsbHkgbW91bnRlZCBkcml2ZSB0aGF0IGdldHMNCj4gPiBwb3B1bGF0ZWQgYnkg
+Q0ktYnVpbGRzOg0KPiA+DQo+ID4gU1NUQVRFX01JUlJPUlMgPSAiZmlsZTovLy4qIGZpbGU6Ly8v
+dmFyL2NhY2hlL3lvY3RvL3NzdGF0ZS1jYWNoZS9QQVRIIg0KPiA+DQo+ID4NCj4gPg0KPiA+ID4g
+LS0tLS1VcnNwcsO8bmdsaWNoZSBOYWNocmljaHQtLS0tLQ0KPiA+ID4gVm9uOiBBbmRyZXkgWmhp
+emhpa2luIFttYWlsdG86YW5kcmV5LnpAZ21haWwuY29tXQ0KPiA+ID4gR2VzZW5kZXQ6IEZyaWRh
+eSwgU2VwdGVtYmVyIDI1LCAyMDIwIDI6MjcgUE0NCj4gPiA+IEFuOiBOb3JtYW4gU3RldHRlciA8
+Tm9ybWFuLlN0ZXR0ZXJAZ2Fyei1mcmlja2UuY29tPg0KPiA+ID4gQ2M6IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IEJldHJlZmY6IFJlOiBbT0UtY29yZV1b
+UGF0Y2hdIHNzdGF0ZS5iYmNsYXNzOiBDaGVjayBmaWxlIG93bmVyc2hpcA0KPiA+ID4gYmVmb3Jl
+IGRvaW5nICd0b3VjaCAtYScNCj4gPiA+DQo+ID4gPiBPbiBGcmksIFNlcCAyNSwgMjAyMCBhdCAy
+OjE5IFBNIE5vcm1hbg0KPiA+ID4gPG5vcm1hbi5zdGV0dGVyQGdhcnotZnJpY2tlLmNvbT4NCj4g
+PiA+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBGcm9tIGNkNTFkYjI1M2MxYTgxZTQ3NTMyZjFh
+ZmFjY2UzODVlNDIyZDlhNzMgTW9uIFNlcCAxNw0KPiAwMDowMDowMA0KPiA+ID4gMjAwMQ0KPiA+
+ID4gPiBGcm9tOiBOb3JtYW4gU3RldHRlciA8bm9ybWFuLnN0ZXR0ZXJAZ2Fyei1mcmlja2UuY29t
+Pg0KPiA+ID4gPiBEYXRlOiBGcmksIDI1IFNlcCAyMDIwIDEzOjQ5OjQzICswMjAwDQo+ID4gPiA+
+IFN1YmplY3Q6IHNzdGF0ZS5iYmNsYXNzOiBDaGVjayBmaWxlIG93bmVyc2hpcCBiZWZvcmUgZG9p
+bmcgJ3RvdWNoIC1hJw0KPiA+ID4gPg0KPiA+ID4gPiBJbiBjb250cmFzdCB0byAndG91Y2hpbmcn
+IGEgZmlsZSB3aXRob3V0IHBhcmFtZXRlcnMgJ3RvdWNoIC1hJyBjYW4NCj4gPiA+ID4gb25seSBi
+ZSBwZXJmb3JtZWQgYnkgdGhlIGZpbGUgb3duZXIuIEluIGNhc2Ugb2YgYSBzaGFyZWQNCj4gPiA+
+ID4gc3N0YXRlLWNhY2hlIHNlcnZlZCBsb2NhbGx5IChlLmcuIG92ZXIgTkZTKSwgIHdoZXJlIHRo
+ZSB1c2VyDQo+ID4gPiA+IHJ1bm5pbmcgYml0YmFrZSBpcyBub3QgdGhlIG93bmVyIG9mIHNzdGF0
+ZS1jYWNoZSBmaWxlcywgZXZlbiBpZiBoZQ0KPiA+ID4gPiBoYXMgd3JpdGUgYWNjZXNzIG9uIGdy
+b3VwIGxldmVsLCB0aGUgc3N0YXRlX3VucGFja19wYWNrYWdlIHRhc2sgd2lsbA0KPiBmYWlsLg0K
+PiA+ID4NCj4gPiA+IElzbid0IHRoZSB3aG9sZSBpbnRlbnRpb24gb2YgdXNpbmcgU1NUQVRFX01J
+UlJPUiB0byBjb3ZlciBleGFjdGx5DQo+ID4gPiB0aG9zZSBjYXNlcz8gSSBkbyBub3QgdGhpbmsg
+dGhhdCByZXVzaW5nIHNzdGF0ZSBiZXR3ZWVuIGRpZmZlcmVudA0KPiA+ID4gYnVpbGRlcnMgdmlh
+IE5GUyBpcyBhIHByb3BlciB3YXkgdG8gZ28uDQo+ID4gPg0KPiA+ID4gPiBDaGVja2luZyBpZiB0
+aGUgZmlsZSBpcyBvd25lZCBieSB0aGUgdXNlciBiZWZvcmUgYXR0ZW1wdGluZyB0byBydW4NCj4g
+PiA+ID4gJ3RvdWNoIC1hJyBvbiBpdCBzb2x2ZXMgdGhpcy4NCj4gPiA+ID4NCj4gPiA+ID4gU2ln
+bmVkLW9mZi1ieTogTm9ybWFuIFN0ZXR0ZXIgPG5vcm1hbi5zdGV0dGVyQGdhcnotZnJpY2tlLmNv
+bT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICBtZXRhL2NsYXNzZXMvc3N0YXRlLmJiY2xhc3MgfCAy
+ICstDQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkNCj4gPiA+ID4NCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9zc3RhdGUuYmJj
+bGFzcw0KPiA+ID4gPiBiL21ldGEvY2xhc3Nlcy9zc3RhdGUuYmJjbGFzcyBpbmRleCAzNzUxOTZl
+ZjIxLi42NmE5NmE3NjAzIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvc3N0YXRl
+LmJiY2xhc3MNCj4gPiA+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3NzdGF0ZS5iYmNsYXNzDQo+ID4g
+PiA+IEBAIC04NDcsNyArODQ3LDcgQEAgcHl0aG9uIHNzdGF0ZV9yZXBvcnRfdW5paGFzaCgpIHsN
+Cj4gPiA+ID4gc3N0YXRlX3VucGFja19wYWNrYWdlICgpIHsNCj4gPiA+ID4gICAgICAgICB0YXIg
+LXh2emYgJHtTU1RBVEVfUEtHfQ0KPiA+ID4gPiAgICAgICAgICMgdXBkYXRlIC5zaWdpbmZvIGF0
+aW1lIG9uIGxvY2FsL05GUyBtaXJyb3INCj4gPiA+ID4gLSAgICAgICBbIC13ICR7U1NUQVRFX1BL
+R30uc2lnaW5mbyBdICYmIFsgLWggJHtTU1RBVEVfUEtHfS5zaWdpbmZvIF0gJiYNCj4gPiB0b3Vj
+aA0KPiA+ID4gLWEgJHtTU1RBVEVfUEtHfS5zaWdpbmZvDQo+ID4gPiA+ICsgICAgICAgWyAtTyAk
+e1NTVEFURV9QS0d9LnNpZ2luZm8gXSAmJiBbIC13ICR7U1NUQVRFX1BLR30uc2lnaW5mbw0KPiA+
+ID4gPiArIF0gJiYgWyAtaCAke1NTVEFURV9QS0d9LnNpZ2luZm8gXSAmJiB0b3VjaCAtYQ0KPiA+
+ID4gPiArICR7U1NUQVRFX1BLR30uc2lnaW5mbw0KPiA+ID4gPiAgICAgICAgICMgVXNlICIhIC13
+IHx8IiB0byByZXR1cm4gdHJ1ZSBmb3IgcmVhZCBvbmx5IGZpbGVzDQo+ID4gPiA+ICAgICAgICAg
+WyAhIC13ICR7U1NUQVRFX1BLR30gXSB8fCB0b3VjaCAtLW5vLWRlcmVmZXJlbmNlICR7U1NUQVRF
+X1BLR30NCj4gPiA+ID4gICAgICAgICBbICEgLXcgJHtTU1RBVEVfUEtHfS5zaWcgXSB8fCBbICEg
+LWUgJHtTU1RBVEVfUEtHfS5zaWcgXQ0KPiA+ID4gPiB8fCB0b3VjaCAtLW5vLWRlcmVmZXJlbmNl
+ICR7U1NUQVRFX1BLR30uc2lnDQo+ID4gPiA+IC0tDQo+ID4gPiA+IDIuMTcuMQ0KPiA+ID4gPg0K
+PiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4NCj4gPiA+DQo+ID4gPiAtLQ0KPiA+ID4g
+UmVnYXJkcywNCj4gPiA+IEFuZHJleS4NCg==
