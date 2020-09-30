@@ -1,82 +1,86 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.6565.1601504068188400983
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.6534.1601504104862542423
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:14:28 -0700
+ Wed, 30 Sep 2020 15:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DEB+dmpW;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id o20so2324712pfp.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:14:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oGhf7AOs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id x123so2339714pfc.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=KEPdoekR8ceffGxnHwyOph9A3hWzYByL+wy63UTqSPE=;
-        b=DEB+dmpWBp0Dnh1bmeMTVF2Q74xJyagfMNWAJNAvaBHrGNR4KLYcq5JlrNuiDy8hv1
-         a9yGTkdqLM5/wr61j+hCJBALWv95ldyO5uHeFheNV0rW2lODliYaJNxGvUldKjmg73CU
-         b1NkskXSH7LnfKF8XZNF0LbFv0G6X4q68Ixy/TzmgUhzQwbHLS1eOifPf5smM3Tfn37B
-         IejPBT/+hadm+ZWYKUXdUfFx7gKgpiOhfM09z4ax1jdxYJVV54SUAndQIP6Ynhz+uoVJ
-         6RIzD6UHo42BS982XUaAJuKK3caUmvWjAhZA2onY9Z1EnQDygVBT9WAjkp5FZv06enTP
-         BqxA==
+        bh=VKd/dQ5k5+3flnp/MX9sGhE4M+itwLedrZZTkij6gKA=;
+        b=oGhf7AOsydbpJCuQnLepOVbGQLLrweslF9BfHevVh56mOuj0gk/OzvluZWibXrVWsJ
+         34ZP+NfbDKJywzrzHWyWpePtT6VbjzDpzbt2ed61cb1glZGF8+K9JUC5oJio4mhwtACc
+         pBNOJQW2O5HjMLukR3UC9FH1IL0+DKXYpX9TQ2yPO+0MCUl0w0M0i7tKZkYGTYC4Cirb
+         5j3Npoi/FJI+sIfa/qM0UJqN86+EXymPtRiLPggG5Ks19gXElgChvuLs1ktkwjU1e7rA
+         pm9hAX/j0f93h4E5xW29F7bc8k2d/FSvkuhFDss/sC8XSnHCgaMJHgxJymAEUlaNxzSE
+         cGVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=KEPdoekR8ceffGxnHwyOph9A3hWzYByL+wy63UTqSPE=;
-        b=L6j0MeSUltngLNHawJei7wXTGLO4Sft5n+cuRLkKS1nqNtcyE6dolnEN8yeKbGdAqL
-         /66AwndLzT7LhL5CGqbIyBj8i/4gdt51BsRtVcruhhLfq8Wu0UfiGh7zRFvGKMzIYPH3
-         wUo1r+rYDQKpOJfNvr6HyIb6qoe/dxpDs3e4axhcwHd5G4XICtoy2mhSuqd4AyEoBgGB
-         bQM/zZtx5zQzXCrk3MCAh+qWs9fapuPRZmU4xfsF47SPKbcs7sxA2hdW65DTR27960t1
-         KrkMbFtRfLy6lWX89wmo7lwmoTqrj3VrBn7u52/tkfavhPdnxF50R9+ggZ/UgfxMOM0q
-         RNiA==
-X-Gm-Message-State: AOAM530XG1NuWHUN6zwBELG70cM8Qe5wSeWzjWmocR6djJelU0H+sFod
-	uHJyCykcJDQ2/qKpHripgKkPHgcfRqvI9wZNsfo=
-X-Google-Smtp-Source: ABdhPJw2Jp/CNzSBQzi4WQ8/VcR7oNOiuXdkNgBaIM1kkpyr8sShR5tlczcnA/NGlxVViuKocpZFvA==
-X-Received: by 2002:a63:c153:: with SMTP id p19mr3567349pgi.55.1601504066577;
-        Wed, 30 Sep 2020 15:14:26 -0700 (PDT)
+        bh=VKd/dQ5k5+3flnp/MX9sGhE4M+itwLedrZZTkij6gKA=;
+        b=XJ+YMgUCxafM3a0rGIZPl1R67F6vO35WlNaI5pO2UgTg3oEzLgHwHqFtZ4krTR0dGe
+         29hizNN4p+qccQ2fD8Kx3Mo+QaU68VlvSB24GSn77X3B6kXKgAuxj+JJUJqXdBsokBAo
+         +eOikD94grvBOTmJ2D+JvEmxXycYIuL+pq45BelxuABkZ2c10CSA7OeNqcGJVYDYYhwp
+         f9n2Gq5NNIfUg7DitKRV2pkhXyJKSzS2rHpU9+brhKwS9i1G9BzR/zUWpy88dJKzjcuU
+         gvwNyzCs5OLIOCOuef1OrhAiXIXZkN53AKEr4hm5WhKBLLyc+IxTTPTXhObOuDZFrIJq
+         +u5w==
+X-Gm-Message-State: AOAM5307vK+RdmAIpVpUsZrt5mbHMt/FAB9OJlCqAZ/GMzfsIonCQ3h6
+	31RNfsQn4N6SHQYR8KksT1VEdhh9XiGpvgOGzdU=
+X-Google-Smtp-Source: ABdhPJyd9ZslKJBWeorSVUIJWLopbWrJ2DrY8Y7BIJnv/9hZ7QixbzjoZjEf3ziD3ejSei1wGacTrA==
+X-Received: by 2002:a05:6a00:23cc:b029:142:2501:34e5 with SMTP id g12-20020a056a0023ccb0290142250134e5mr4265128pfc.62.1601504103957;
+        Wed, 30 Sep 2020 15:15:03 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.14.25
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:14:25 -0700 (PDT)
+        Wed, 30 Sep 2020 15:15:03 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 23/41] buildtools-tarball: Fix conflicts with oe-selftest and other tooling
-Date: Wed, 30 Sep 2020 12:11:25 -1000
-Message-Id: <d00bab16aefb3f200b01ad6baee15bc9cca7b6ce.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 24/41] oeqa/qemurunner: Increase serial timeout
+Date: Wed, 30 Sep 2020 12:11:26 -1000
+Message-Id: <1c5f304ad8d7d5deb85b3a5135556f9e38a9326b.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-OECORE_NATIVE_SYSROOT is used by tools like oe-run-native and hence
-we were seeing selftest failures when newer buildtools-tarballs that
-use this were run on the autobuilder.
+Increase the serial login timeout from 60 to 120s. This seems like a
+long time, however for a qemumips image with systemd+PAM and openssh,
+(e.g. core-image-sato-sdk + DISTRO=poky-altcfg), the getty connects
+to systemd's pam module which waits on logind and 45s for all this
+to happen at the same time as things like ssh key generation happens
+is not unknown.
 
-Unset the variable after use to avoid these issues.
+Increase the timeout to match the longer times we know these things
+can take in the worst case scenarios since we're tired of intermittent
+issues related to the serial login affecting the autobuilder.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ea5128fde10eb9be7fefbbb87ae6181edd2bcdff)
+(cherry picked from commit d8b4292db741de660f756dfb766210814d587b7a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 44d658687d..434ffdc334 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -79,6 +79,9 @@ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
- 		. \$envfile
- 	done
- fi
-+# We have to unset this else it can confuse oe-selftest and other tools
-+# which may also use the overlapping namespace.
-+unset OECORE_NATIVE_SYSROOT
- EOF
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 519aa9aa1e..77ec939ad7 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -393,7 +393,7 @@ class QemuRunner:
  
- 	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+         # If we are not able to login the tests can continue
+         try:
+-            (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True)
++            (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True, timeout=120)
+             if re.search(self.boot_patterns['search_login_succeeded'], output):
+                 self.logged = True
+                 self.logger.debug("Logged as root in serial console")
 -- 
 2.17.1
 
