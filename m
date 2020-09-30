@@ -1,127 +1,126 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web12.6486.1601503933311887496
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web10.6500.1601503935786250884
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:12:13 -0700
+ Wed, 30 Sep 2020 15:12:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gbRRNuMb;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id k8so2353342pfk.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lMsTSSJw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id j19so683286pjl.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=m9+dGFfm6BC3xG1HeXxWVH+Er3QbQEFxPCr+c/M3elM=;
-        b=gbRRNuMbszoqMx6y0rI11slQVRAwQtzkHx7AV+eOYXjx8fG6CghQtN56/YHUGO7DaG
-         08ru15WL4M9IoNyQHwZe8FUQeLdMChfwf+NqlQdJipNokDzmSfAwelppE41v3c2n4T3L
-         h6fL1/ty+Mepk444kJoHv21kbmUlj2sMmbEXXgIu9nX3haU+1h9ZuR56BjquGpQN2L0t
-         NhTiDN+vpWJm215wBycTkpfQZ3O58aRHseeP24DXFmXPAbP5qCPkXMLlqEl+W9n26MTQ
-         r7c3Hr0bfporeLVOrO3XT9ETZq/ta8PYdu6hiLhZGrNwKaUAVMxidl4ofW1blpTTvoYs
-         LhAA==
+        bh=Xy3/M73x0hgxv9hIY54nvgglKW8vA4sNbkwnONq62Ks=;
+        b=lMsTSSJwmYHds2gSL1rzYJezxLLmDlitESPLbWDprLK0xQIOb6CBi9uXlYtZDrvtnM
+         Kd38G5QGqL755lwTlbIJWKbilxvoMEIFWoX3PW9j4VsurY96PVokKGujf7vdZPJOqDF8
+         0QgV3mdY0tFhIjP/Xz2S2+8KoraNe1soyPINSKC/tKnL0VK5qJRTgs7E1ak7qVqpJ2tG
+         zMrEqRuBQMBxW3siHQfuZQhwFKTYqFN+YmizhHYNG7zl5XYyb6U6/RVHwEQMAnagJdJj
+         22V+/res2lxJ6JcnUyU8bLTzDxZ7ldQ0/DP7Q2txFZRiziVCMTqgLFsFZJSN1JfzIY7n
+         RJbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=m9+dGFfm6BC3xG1HeXxWVH+Er3QbQEFxPCr+c/M3elM=;
-        b=glFjNlcANU5V3mqtd88E0DfotrVZe6VjjJVh7uuD5Q4bnSgoaOA4uqZuUdEJwwPiO+
-         grd3pZMaw67bte/c2F4qt2suA2iyG2B4qq/aAo4hZ2UuyjX3UK/ENjbJ7P8PEM+2ZD24
-         VG/6EJa+EHPiwR49I974rrT8b85SV9b0LcHpVpgoO5LA+R5XZ17GWLnSvkp+Y3AyCZPW
-         JpaXV0Mo2UDIQXBMK+plbO1/Y5pQCzdt/IxLB8/8+RCZ1wsB9k3+smrxCZuw+/bTcwWo
-         LncvQVCsrr+zjlHreOcOMAsKaCYsO/GnK74qN0A+XtHn2HniuHsBX3uGqakmoBKKmwwv
-         JMYQ==
-X-Gm-Message-State: AOAM533XbDU9LcwWZOksXbMbawuhkut+3+6Si8iPFCP69vF1C8tutNbd
-	l/Kacbde95FdTLHYZiUqVc9z3kg1zD5M1udL0CU=
-X-Google-Smtp-Source: ABdhPJzvXEGEyWAUuQad6LcG2YG7Xv2XIvlGLA9fL95IAP+Ov05ryQIuKd+5AXfyDSUAmTrO2FP8TQ==
-X-Received: by 2002:aa7:8249:0:b029:142:2501:3964 with SMTP id e9-20020aa782490000b029014225013964mr4551334pfn.41.1601503932451;
-        Wed, 30 Sep 2020 15:12:12 -0700 (PDT)
+        bh=Xy3/M73x0hgxv9hIY54nvgglKW8vA4sNbkwnONq62Ks=;
+        b=Uvx4oht/36Y17MmqZdlKryt988N2ZwhXF1rO+BfOP+E+VhCN+t65Q0hwj27PJ3Q5R5
+         2UPK+KyBWo4p0A3o3VwKVh8oqob2W1wHc8708KJD+rmyKvACHtmhnIxEKowtosRI5Nly
+         Mg9UTkhLeCopxx3bz20HfVh2HZwxj+C9ICLJM1G7po8mvu/YEt9aN1jvvMwD9IB4Ig7p
+         XmeqNCSF7TUXQ+9zVjsDSCch14e5sPJdFe23K/2xmmG0ceyb+XALFHkxbYCTR8ZRXuvA
+         rNm53oBhQ3uSoxZ15zMDBxCh93DqDSfVWAnhqmWv31pMWgHLZaGl+I/7MIjuav1TTHHQ
+         1oMg==
+X-Gm-Message-State: AOAM531gVQjU/nKVyz9tZZmVtQZuxLwWshTVl+xqRsBrHfy066g/jAht
+	gFjAmSjf/n3XdJwmA6qWv0qNKDZsKYr5EF9wphg=
+X-Google-Smtp-Source: ABdhPJxHxNvpsofIpoBQ3pTrW8US+4bXfVuJ6pvoSGqzVl/Lr+NxtIY9dPc4K5tlgaefC3lv4foSJg==
+X-Received: by 2002:a17:90b:e01:: with SMTP id ge1mr4123222pjb.187.1601503934825;
+        Wed, 30 Sep 2020 15:12:14 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.11
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:12:11 -0700 (PDT)
+        Wed, 30 Sep 2020 15:12:14 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/41] site: Make sys_siglist default to no
-Date: Wed, 30 Sep 2020 12:11:06 -1000
-Message-Id: <766e1565f3d33d9222323076cd57c22994bc25bf.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/41] qemu : fix CVE-2020-16092
+Date: Wed, 30 Sep 2020 12:11:07 -1000
+Message-Id: <6007398a0ff468c0b15c4982d7f04e6186d6d700.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-glibc 2.32 has deprecated sys_siglist [1]
-
-since no is default for musl as well, therefore elevate it to common
-site file for all
-
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=b1ccfc061feee9ce616444ded8e1cd5acf9fa97f
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7c19f30849e9a73a7497d8e6c4719a2e57017086)
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/site/common       | 7 +++++++
- meta/site/common-glibc | 3 ---
- meta/site/common-musl  | 5 -----
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-16092.patch            | 45 +++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
 
-diff --git a/meta/site/common b/meta/site/common
-index ff552329bd..62907274d7 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -19,3 +19,10 @@ shadow_cv_passwd_dir=${bindir}
- ac_cv_buggy_getaddrinfo=no
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e0ea5ad477..7ce89c0023 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -47,6 +47,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2020-15863.patch \
+ 	   file://CVE-2020-14364.patch \
+ 	   file://CVE-2020-14415.patch \
++	   file://CVE-2020-16092.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- ac_cv_path_SED=${ac_cv_path_SED=sed}
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
+new file mode 100644
+index 0000000000..5085a28a4f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-16092.patch
+@@ -0,0 +1,45 @@
++From 035e69b063835a5fd23cacabd63690a3d84532a8 Mon Sep 17 00:00:00 2001
++From: Mauro Matteo Cascella <mcascell@redhat.com>
++Date: Sat, 1 Aug 2020 18:42:38 +0200
++Subject: [PATCH] hw/net/net_tx_pkt: fix assertion failure in
++ net_tx_pkt_add_raw_fragment()
 +
-+# General
-+ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
++An assertion failure issue was found in the code that processes network packets
++while adding data fragments into the packet context. It could be abused by a
++malicious guest to abort the QEMU process on the host. This patch replaces the
++affected assert() with a conditional statement, returning false if the current
++data fragment exceeds max_raw_frags.
 +
-+# bash
-+bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
-+bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index a0680bc44c..0a665658fb 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -18,8 +17,6 @@ ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- ac_cv_func_strtod=${ac_cv_func_strtod=yes}
- 
- # bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=yes}
- bash_cv_getcwd_malloc=${bash_cv_getcwd_malloc=yes}
- 
- # clamav
-diff --git a/meta/site/common-musl b/meta/site/common-musl
-index 4be8d002d6..44a7a1aea9 100644
---- a/meta/site/common-musl
-+++ b/meta/site/common-musl
-@@ -1,5 +1,4 @@
- # general
--ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
- ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
- ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-@@ -29,10 +28,6 @@ glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- 
--# bash
--bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
--bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
--
- # coreutils
- fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Reported-by: Ziming Zhang <ezrakiez@gmail.com>
++Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
++Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=035e69b063835a5fd23cacabd63690a3d84532a8]
++CVE: CVE-2020-16092
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ hw/net/net_tx_pkt.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
++index 9560e4a..da262ed 100644
++--- a/hw/net/net_tx_pkt.c
+++++ b/hw/net/net_tx_pkt.c
++@@ -379,7 +379,10 @@ bool net_tx_pkt_add_raw_fragment(struct NetTxPkt *pkt, hwaddr pa,
++     hwaddr mapped_len = 0;
++     struct iovec *ventry;
++     assert(pkt);
++-    assert(pkt->max_raw_frags > pkt->raw_frags);
+++
+++    if (pkt->raw_frags >= pkt->max_raw_frags) {
+++        return false;
+++    }
++ 
++     if (!len) {
++         return true;
++-- 
++1.8.3.1
++
 -- 
 2.17.1
 
