@@ -1,155 +1,116 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web10.7742.1601438734457087875
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web12.8435.1601441652472632671
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 21:05:34 -0700
+ Tue, 29 Sep 2020 21:54:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,320,1596470400"; 
-   d="scan'208";a="99767411"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 30 Sep 2020 12:05:28 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id E40C448990E8
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 12:05:23 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 30 Sep 2020 12:05:23 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] harfbuzz: Refresh patch
-Date: Wed, 30 Sep 2020 12:05:15 +0800
-Message-ID: <1601438715-10650-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n/TmU/4m;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id o25so354059pgm.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 21:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=05mYwLbsJPrc4/QJyerhRt3xK3FXhTlO2hROemlwzVg=;
+        b=n/TmU/4mJaJDQ5CuBxuV8uJ9oLowCAZAKYDl/lX4h50mQVS1lhyE9ZBkPN/bWJaN0F
+         OCag+OY5pAN42s7BHKOm/FxajvZOOmsDJVbUUlVWAbkqBgBypJwJTTD/0uxdPfml81hp
+         2iANyXBhfnisPQ4I94vMf1jJaVE0M1TYnAKOWYJP3rbG7TbW+Ghx/RIqffoRtkO2fPTx
+         eMWTzFs3LfYj8R7SshMw4zKh0RtH6HV4lghU+nCHZaLVzXS/5rTdOOGkAcwnBc1EzJgs
+         VlLRe6lZuvHDf9c42xcN1KUbicLWfnYF8FOUCPJK8GynsQFCG2fbdDHm0liMlUH5nQYB
+         hZwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=05mYwLbsJPrc4/QJyerhRt3xK3FXhTlO2hROemlwzVg=;
+        b=fwzVyzsP4VYtJJtd+Faa8YCDdEMAcTiFDz2YgQ3K7PD++hZqVvy6ZA4vq3qPvExgEi
+         TMb9H6Reg53C9XMxt+Yi7MgWzRQbn4yP4iICWivip8aXhV6vP2hPRu/SLdOj93c+qqzv
+         l45gQ7H2eEZuebFGo2EFWpfyjcyWI6/onVsC/JtfVBUpJV9em6COV2v2h6rIx0/ETreJ
+         j+NMrRh5JRn8rXd1x7x2Gq2GlfSNIAoPyncOIk81TXO45bVEZ1Y6CiW/LJ/dc3Z/x3ZM
+         eX3ezagcFUSrAziGv75LJ0LMq3xswhv76N/USFBZMelnhA3bvFWbocnadDfqz8kb3e3b
+         Kz0g==
+X-Gm-Message-State: AOAM530FGgU9cQHfrZBEjOq8R7/0rCN8O76YmLEzcIfYN+JmwnWpB4ET
+	RkHbV+NqicEiW6fQz5u/i7LvScQYlKPEsg==
+X-Google-Smtp-Source: ABdhPJzXfr1FhYwxoWDFND+xWd8MscVgF/wJ0+WBYsdjkGhwKZAEwtvHwJqewGpEVHqKeFPV4PCorQ==
+X-Received: by 2002:a65:6106:: with SMTP id z6mr761295pgu.433.1601441651717;
+        Tue, 29 Sep 2020 21:54:11 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0:923a:5c32:ada4:3e27])
+        by smtp.gmail.com with ESMTPSA id b10sm458681pgm.64.2020.09.29.21.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2020 21:54:11 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] systemd: Use ROOTPREFIX without suffixed slash in systemd.pc.in
+Date: Tue, 29 Sep 2020 21:54:09 -0700
+Message-Id: <20200930045409.2301174-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: E40C448990E8.A0713
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Because two modifications conflict in the patch, do_patch will make an error when using patch as a patchtool.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../harfbuzz/harfbuzz/version-race.patch      | 76 +++++++------------
- 1 file changed, 26 insertions(+), 50 deletions(-)
+ ...se-ROOTPREFIX-without-suffixed-slash.patch | 37 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_246.6.bb    |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
-index 2d692f36b5..934bfb8737 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/version-race.patch
-@@ -1,24 +1,35 @@
--Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/5aff83104e03d6d2617987d24a51e490ab7a5cd1]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From bc1c93fbe04459a4b12c76c713ba1b750d2d9108 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 7 Sep 2020 17:11:17 +0100
--Subject: [PATCH 1/2] [build] No need to pass source directory to
-- gen-hb-version
-+From 6ccadec1fae6a73749b7dfe2311f71d0e610e812 Mon Sep 17 00:00:00 2001
-+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-+Date: Wed, 30 Sep 2020 10:30:08 +0900
-+Subject: [PATCH] No need to pass source directory to gen-hb-version
+diff --git a/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch b/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
+new file mode 100644
+index 0000000000..622a4108bb
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
+@@ -0,0 +1,37 @@
++From 58860e0f248576a80ff2af256ba42713c186ae93 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 29 Sep 2020 18:01:41 -0700
++Subject: [PATCH] systemd.pc.in: use ROOTPREFIX without suffixed slash
++
++This complements the commit
++https://github.com/poettering/systemd/commit/b612c26ceb9f56af0271fc9f07c1724d2d260a8a
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/core/systemd.pc.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++--- a/src/core/systemd.pc.in
+++++ b/src/core/systemd.pc.in
++@@ -65,16 +65,16 @@ systemdshutdowndir=${systemd_shutdown_di
++ tmpfiles_dir=${prefix}/lib/tmpfiles.d
++ tmpfilesdir=${tmpfiles_dir}
++ 
++-sysusers_dir=${rootprefix}/lib/sysusers.d
+++sysusers_dir=${prefix}/lib/sysusers.d
++ sysusersdir=${sysusers_dir}
++ 
++-sysctl_dir=${rootprefix}/lib/sysctl.d
+++sysctl_dir=${prefix}/lib/sysctl.d
++ sysctldir=${sysctl_dir}
++ 
++-binfmt_dir=${rootprefix}/lib/binfmt.d
+++binfmt_dir=${prefix}/lib/binfmt.d
++ binfmtdir=${binfmt_dir}
++ 
++-modules_load_dir=${rootprefix}/lib/modules-load.d
+++modules_load_dir=${prefix}/lib/modules-load.d
++ modulesloaddir=${modules_load_dir}
++ 
++ catalog_dir=${prefix}/lib/systemd/catalog
+diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core/systemd/systemd_246.6.bb
+index c1424a1474..9215adf8dc 100644
+--- a/meta/recipes-core/systemd/systemd_246.6.bb
++++ b/meta/recipes-core/systemd/systemd_246.6.bb
+@@ -20,6 +20,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://99-default.preset \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
++           file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
+            "
  
- The input file is by definition in the source directory, so dirname()
- that instead of needing the directory to be passed.
- 
- Needed because a follow-up commit will change when this is called, and the
- source directory isn't trivially available at that point.
-+
-+generate hb-version.h once at configure time with Meson
-+
-+Currently with Meson hb-version.h is generated during the build without
-+any explicit dependencies which can result in build failures due races
-+over the file.
-+
-+Change this to be generated at configure time, so that the file is always
-+generated once before the build itself.
-+
-+Closes #2667
-+
-+Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/5aff83104e03d6d2617987d24a51e490ab7a5cd1]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
- ---
-- src/gen-hb-version.py | 6 +++---
-- src/meson.build       | 2 +-
-- 2 files changed, 4 insertions(+), 4 deletions(-)
-+ src/gen-hb-version.py |  6 +++---
-+ src/meson.build       | 17 ++++++++---------
-+ 2 files changed, 11 insertions(+), 12 deletions(-)
- 
- diff --git a/src/gen-hb-version.py b/src/gen-hb-version.py
--index 15e56b93..bf16f88a 100755
-+index 15e56b9..bf16f88 100755
- --- a/src/gen-hb-version.py
- +++ b/src/gen-hb-version.py
- @@ -4,15 +4,15 @@
-@@ -41,42 +52,7 @@ index 15e56b93..bf16f88a 100755
-  with open (INPUT, "r", encoding='utf-8') as template:
-  	with open (OUTPUT, "wb") as output:
- diff --git a/src/meson.build b/src/meson.build
--index 5d7cd578..2d78c992 100644
----- a/src/meson.build
--+++ b/src/meson.build
--@@ -286,7 +286,7 @@ custom_target('hb-version.h',
--   input: 'hb-version.h.in',
--   output: 'hb-version.h',
--   command: [find_program('gen-hb-version.py'), meson.project_version(),
---            '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
--+            '@OUTPUT@', '@INPUT@'],
-- )
-- 
-- ragel = find_program('ragel', required: false)
---- 
--2.28.0
--
--
--From 5aff83104e03d6d2617987d24a51e490ab7a5cd1 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 7 Sep 2020 10:55:33 +0100
--Subject: [PATCH 2/2] [build] generate hb-version.h once at configure time with
-- Meson
--
--Currently with Meson hb-version.h is generated during the build without
--any explicit dependencies which can result in build failures due races
--over the file.
--
--Change this to be generated at configure time, so that the file is always
--generated once before the build itself.
--
--Closes #2667
-----
-- src/meson.build | 17 ++++++++---------
-- 1 file changed, 8 insertions(+), 9 deletions(-)
--
--diff --git a/src/meson.build b/src/meson.build
--index 2d78c992..19290245 100644
-+index 5e1787c..56d8ae2 100644
- --- a/src/meson.build
- +++ b/src/meson.build
- @@ -1,3 +1,10 @@
-@@ -110,12 +86,12 @@ index 2d78c992..19290245 100644
- -  input: 'hb-version.h.in',
- -  output: 'hb-version.h',
- -  command: [find_program('gen-hb-version.py'), meson.project_version(),
---            '@OUTPUT@', '@INPUT@'],
-+-            '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
- -)
- -
-  ragel = find_program('ragel', required: false)
-  if not ragel.found()
-    warning('You have to install ragel if you are going to develop HarfBuzz itself')
- -- 
--2.28.0
-+2.25.1
- 
+ # patches needed by musl
 -- 
-2.25.1
-
-
+2.28.0
 
