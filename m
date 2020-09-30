@@ -1,423 +1,658 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web12.5345.1601428902267861455
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web12.5603.1601429920920949597
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2020 18:21:42 -0700
+ Tue, 29 Sep 2020 18:38:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: DILCScp2/1GysF7peORIUZt+K8kVPSyJ7d01GCAct4oWXk2tvq8GkW0EL8TQB7iBqnB75OdXlD
- BynD6qxCY1Tg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="162390753"
-X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
-   d="scan'208";a="162390753"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 18:21:39 -0700
-IronPort-SDR: dJJj7KS7r+ZB2VoNmhsaEKhn67oA43R8SKrtFm1skBCDvmWdZtS2sjwOR2u1mz17Rt+76/mF0k
- Iz5tA+9VMZ+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; 
-   d="scan'208";a="350497444"
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2020 18:21:37 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 30 Sep 2020 09:21:37 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
- Wed, 30 Sep 2020 09:21:37 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "mingli.yu@windriver.com" <mingli.yu@windriver.com>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] bash: fix CVE-2019-18276
-Thread-Topic: [OE-core] [PATCH] bash: fix CVE-2019-18276
-Thread-Index: AQHWkhwm0p+4HbZBAUeTwOdw5nhOVal2kISAgAA0yQCABugmgIAAzicAgAFqJIA=
-Date: Wed, 30 Sep 2020 01:21:36 +0000
-Message-ID: <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
-References: <20200924023944.48941-1-mingli.yu@windriver.com>
-	 <25e019e30ea0a91d4c6f9d85a9beeb21f4470953.camel@intel.com>
-	 <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com>
-	 <CAMKF1spOERv6f00A=zrEzOAT_+heXx=rs3x09S8DnorcMqDPpQ@mail.gmail.com>
-	 <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com>
-In-Reply-To: <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g3Eq9yZ6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id cy2so127687qvb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2020 18:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gEru8u5Xzy4zqqK9TNhnR+dMEL00Suo1q6pFIPlW1vA=;
+        b=g3Eq9yZ6aadHriSBR6mSsZja7gqYepDwNnbaThcbCJ7IXJJ08COTvxXENzf8vsL7uv
+         N9szI+/H4UCSxK3Vw7K/y4kaNb+ZTWTrvpt8SVMt9+G8NOD999QxOLbKh21KQ0ZQ/++Q
+         Dp6MhXhWK1WEIY51c7mSV2BV40VtY9gcyfgafJ/E3eDD1NU3wvbRrFAqyG6ZeATGyz5M
+         xGgi4apCGbI50h6/F+3FQ+xSBGW/0AqYBAIKbKEB2CEIkPl5hseraxuExrKBj+GZfS5a
+         ZV6UFrDesOQqB2XPYguJGMEMnEmYh12/v1Uxwh0jhy4klh+EHCbdXpygAixq+d1bl9Ud
+         fIkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gEru8u5Xzy4zqqK9TNhnR+dMEL00Suo1q6pFIPlW1vA=;
+        b=EUYPXpCr4uaf8SQJNdv94Hn38lejIDkiJzXV+B8IrVmnoGPPumyyOJjuyDzBGAkb2G
+         Gu7ROW8kE4Pg38bELQK0Vdtr5bctwEW7iEj6BunqOwCkRHHRkdi9Au7XZPCqPUzAB6wG
+         rw6Zm429X1wm3XkJts4zT0UP9Tv8DjdbTkhRnuV846aYbs+XB+O63zp48ZWVjDSmGcWh
+         GY0OLwcXi9tkeeqz1LJ5dG39Hh5zr+diUeA8g92GD0NAIMVngPbxtdNgQAwHKzekU/Sb
+         Mdf1l0kS3bq+AmwLn+niiqnlcnfmm3KWN97sepCbTSQChcgaUdbIgfVvctCcREMdKuBL
+         vu1g==
+X-Gm-Message-State: AOAM531HA49yCgf8OnW892b3kyBOLATTwR97U5ajn9+k3iOV63LA1Ls/
+	V6NH8cNuqFSAFpy9ne4qk3JTzJ0phKijRAQ8Kn0=
+X-Google-Smtp-Source: ABdhPJzbrTXt+gH0bZBnhhiF+ftkf7r3hJ2ea57WWENm8yMiFdFU5iV3U0SqAsZHe5ZEPTkypOx5gZ1SlmLA1/lKGj8=
+X-Received: by 2002:a0c:e188:: with SMTP id p8mr155174qvl.8.1601429919678;
+ Tue, 29 Sep 2020 18:38:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A00DDA779B079F45B565634280F9008B@intel.com>
-Content-Transfer-Encoding: base64
+References: <20200924023944.48941-1-mingli.yu@windriver.com>
+ <25e019e30ea0a91d4c6f9d85a9beeb21f4470953.camel@intel.com>
+ <a70aa029-fd52-f9a0-1cf8-6403e9370ee1@windriver.com> <CAMKF1spOERv6f00A=zrEzOAT_+heXx=rs3x09S8DnorcMqDPpQ@mail.gmail.com>
+ <CAMKF1speF6tngdPzPkRhAkTC4pxGy=t211k+XLpbeBBifqpvYA@mail.gmail.com> <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
+In-Reply-To: <e4a52736812c1a2a274b0a739cefe79b4108aa94.camel@intel.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 29 Sep 2020 18:38:13 -0700
+Message-ID: <CAMKF1soOHd+qMKAu8iajL+0wRaKg=ZGmo7APRJyJ-jUHdQ5Jbg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bash: fix CVE-2019-18276
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "mingli.yu@windriver.com" <mingli.yu@windriver.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-T24gTW9uLCAyMDIwLTA5LTI4IGF0IDIwOjQ1IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
-TW9uLCBTZXAgMjgsIDIwMjAgYXQgODoyNyBBTSBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29t
-PiB3cm90ZToNCj4gPiBPbiBXZWQsIFNlcCAyMywgMjAyMCBhdCAxMTowMCBQTSBZdSwgTWluZ2xp
-IDwNCj4gPiBtaW5nbGkueXVAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4gPiBIaSBBbnVqLA0K
-PiA+ID4gDQo+ID4gPiBPbiA5LzI0LzIwIDEwOjUwIEFNLCBBbnVqIE1pdHRhbCB3cm90ZToNCj4g
-PiA+ID4gSGkgTWluZ2xpLA0KPiA+ID4gPiANCj4gPiA+ID4gT24gVGh1LCAyMDIwLTA5LTI0IGF0
-IDEwOjM5ICswODAwLCBZdSwgTWluZ2xpIHdyb3RlOg0KPiA+ID4gPiA+IEZyb206IERlIEh1byA8
-RGUuSHVvQHdpbmRyaXZlci5jb20+DQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gQW4gaXNzdWUgd2Fz
-IGRpc2NvdmVyZWQgaW4gZGlzYWJsZV9wcml2X21vZGUgaW4gc2hlbGwuYyBpbg0KPiA+ID4gPiA+
-IEdOVSBCYXNoDQo+ID4gPiA+ID4gdGhyb3VnaCA1LjAgcGF0Y2ggMTEuIEJ5IGRlZmF1bHQsIGlm
-IEJhc2ggaXMgcnVuIHdpdGggaXRzDQo+ID4gPiA+ID4gZWZmZWN0aXZlDQo+ID4gPiA+ID4gVUlE
-DQo+ID4gPiA+ID4gbm90IGVxdWFsIHRvIGl0cyByZWFsIFVJRCwgaXQgd2lsbCBkcm9wIHByaXZp
-bGVnZXMgYnkgc2V0dGluZw0KPiA+ID4gPiA+IGl0cw0KPiA+ID4gPiA+IGVmZmVjdGl2ZSBVSUQg
-dG8gaXRzIHJlYWwgVUlELiBIb3dldmVyLCBpdCBkb2VzIHNvDQo+ID4gPiA+ID4gaW5jb3JyZWN0
-bHkuIE9uDQo+ID4gPiA+ID4gTGludXgNCj4gPiA+ID4gPiBhbmQgb3RoZXIgc3lzdGVtcyB0aGF0
-IHN1cHBvcnQgInNhdmVkIFVJRCIgZnVuY3Rpb25hbGl0eSwgdGhlDQo+ID4gPiA+ID4gc2F2ZWQN
-Cj4gPiA+ID4gPiBVSUQNCj4gPiA+ID4gPiBpcyBub3QgZHJvcHBlZC4gQW4gYXR0YWNrZXIgd2l0
-aCBjb21tYW5kIGV4ZWN1dGlvbiBpbiB0aGUNCj4gPiA+ID4gPiBzaGVsbCBjYW4NCj4gPiA+ID4g
-PiB1c2UNCj4gPiA+ID4gPiAiZW5hYmxlIC1mIiBmb3IgcnVudGltZSBsb2FkaW5nIG9mIGEgbmV3
-IGJ1aWx0aW4sIHdoaWNoIGNhbg0KPiA+ID4gPiA+IGJlIGENCj4gPiA+ID4gPiBzaGFyZWQNCj4g
-PiA+ID4gPiBvYmplY3QgdGhhdCBjYWxscyBzZXR1aWQoKSBhbmQgdGhlcmVmb3JlIHJlZ2FpbnMg
-cHJpdmlsZWdlcy4NCj4gPiA+ID4gPiBIb3dldmVyLA0KPiA+ID4gPiA+IGJpbmFyaWVzIHJ1bm5p
-bmcgd2l0aCBhbiBlZmZlY3RpdmUgVUlEIG9mIDAgYXJlIHVuYWZmZWN0ZWQuDQo+ID4gPiA+ID4g
-DQo+ID4gPiA+ID4gR2V0IHRoZSBwYXRjaCBmcm9tIFsxXSB0byBmaXggdGhlIGlzc3VlLg0KPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+IFsxXQ0KPiA+ID4gPiA+IGh0dHBzOi8vZ2l0LnNhdmFubmFoLmdu
-dS5vcmcvY2dpdC9iYXNoLmdpdC9jb21taXQvP2g9ZGV2ZWwmaWQ9OTUxYmRhYQ0KPiA+ID4gPiAN
-Cj4gPiA+ID4gSGFzIHNvbWV0aGluZyBjaGFuZ2VkIGZyb20gbGFzdCB0aW1lIHRoaXMgcGF0Y2gg
-d2FzIHN1Ym1pdHRlZA0KPiA+ID4gPiBhbmQgbGF0ZXINCj4gPiA+ID4gcmV2ZXJ0ZWQgYmVjYXVz
-ZSBvZiB0aGUgZmFpbGluZyBwdGVzdD8gSSByZW1lbWJlciB0aGUgYXV0aG9yDQo+ID4gPiA+IHNh
-eWluZw0KPiA+ID4gPiB0aGlzIGlzbid0IGEgcmVhbCBzZWN1cml0eSBidWcgYW5kIHRoZXJlIHdl
-cmUgYWxzbyBjaGFuZ2VzIGluDQo+ID4gPiA+IHRoZSBwYXRjaA0KPiA+ID4gPiB0aGF0IHdlcmVu
-J3QgcmVsYXRlZCB0byB0aGUgQ1ZFIC4uLg0KPiA+ID4gDQo+ID4gPiBDaGFuZ2VkIHRoZSBwYXRj
-aCBhIGxpdHRsZSB0byByZW1vdmUgdGhlIGNvbmZpZ3VyZSBmaWxlIHBhcnQgdG8NCj4gPiA+IGZp
-eCB0aGUNCj4gPiA+IHJlY29uZmlndXJlIGlzc3VlIGluIHYxIHBhdGNoLg0KPiA+ID4gDQo+ID4g
-PiBZZXMsIHRoZSBhdXRob3Igc2F5aW5nIHRoZSBwYXRjaCBkaWQgZml4IHRoZSBpc3N1ZSBzdGF0
-ZWQgaW4NCj4gPiA+IENWRS0yMDE5LTE4Mjc2IHRob3VnaCB0aGUgaXNzdWUgYWN0dWFsbHkgaXMn
-dCBhIGJpZyBkZWFsLg0KPiA+ID4gDQo+ID4gDQo+ID4gVGhpcyBzZWVtcyB0byBiZSByZWdyZXNz
-aW5nIGJhc2ggcHRlc3RzIG5vdy4NCj4gPiANCj4gPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4t
-Z2xvYi10ZXN0DQo+ID4gICAgIHB0ZXN0cmVzdWx0LmJhc2gucnVuLXJlYWQNCj4gPiAgICAgcHRl
-c3RyZXN1bHQuYmFzaC5ydW4tdHJhcA0KPiA+IA0KPiANCj4gVGhlc2UgZmFpbHVyZXMgYXJlIGhh
-cHBlbmluZyB3aXRob3V0IHRoaXMgcGF0Y2ggdG9vLCBzbyBwZXJoYXBzDQo+IHNvbWV0aGluZyBl
-bHNlIGhhcyBjYXVzZWQgaXQsIGNvdWxkIGJlIHBlcmhhcHMgc2V0dXAgcmVsYXRlZCB0b28uDQo+
-IA0KPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4tYnVpbHRpbnMNCj4gICAgIHB0ZXN0cmVzdWx0
-LmJhc2gucnVuLWdsb2ItdGVzdA0KPiAgICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4taW50bA0KPiAg
-ICAgcHRlc3RyZXN1bHQuYmFzaC5ydW4tcHJpbnRmDQo+ICAgICBwdGVzdHJlc3VsdC5iYXNoLnJ1
-bi1yZWFkDQo+ICAgICBwdGVzdHJlc3VsdC5iYXNoLnJ1bi10cmFwDQo+IA0KPiANCg0KTGFzdCB0
-aW1lIHRoaXMgd2FzIGFwcGxpZWQsIGl0IGhhZCBpbnRyb2R1Y2VkOg0KDQpodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTEzNzk1DQoNCmJlY2F1c2Ugb2Yg
-dGhlIHVucmVsYXRlZCBnbG9iIGNoYW5nZXMgaW4gdGhpcyBwYXRjaC4gQXJlIHlvdSBzZWVpbmcN
-CnRoaXMgZmFpbHVyZT8NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+ID4gSWYgaXRzIG5vdCBh
-IHJlYWwgc2VjdXJpdHkgYnVnIHRoZW4gcGVyaGFwcyBpdHMgYmV0dGVyIHRvIHJldmVydA0KPiA+
-IGl0Lg0KPiA+IA0KPiA+IA0KPiA+ID4gVGhhbmtzLA0KPiA+ID4gDQo+ID4gPiA+IFRoYW5rcywN
-Cj4gPiA+ID4gDQo+ID4gPiA+IEFudWoNCj4gPiA+ID4gDQo+ID4gPiA+ID4gU2lnbmVkLW9mZi1i
-eTogRGUgSHVvIDxEZS5IdW9Ad2luZHJpdmVyLmNvbT4NCj4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5
-OiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4NCj4gPiA+ID4gPiBTaWduZWQtb2Zm
-LWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPg0KPiA+ID4gPiA+IC0tLQ0K
-PiA+ID4gPiA+ICAgLi4uL2Jhc2gvYmFzaC9iYXNoLUNWRS0yMDE5LTE4Mjc2LnBhdGNoICAgICAg
-IHwgMzg2DQo+ID4gPiA+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gICBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoXzUuMC5iYiAgICAgICAgfCAgIDEgKw0KPiA+ID4gPiA+
-ICAgMiBmaWxlcyBjaGFuZ2VkLCAzODcgaW5zZXJ0aW9ucygrKQ0KPiA+ID4gPiA+ICAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9iYXNoL2Jhc2gvYmFzaC0NCj4gPiA+
-ID4gPiBDVkUtMjAxOS0NCj4gPiA+ID4gPiAxODI3Ni5wYXRjaA0KPiA+ID4gPiA+IA0KPiA+ID4g
-PiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoL2Jhc2gtQ1ZF
-LTIwMTktDQo+ID4gPiA+ID4gMTgyNzYucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYmFz
-aC9iYXNoL2Jhc2gtQ1ZFLTIwMTktDQo+ID4gPiA+ID4gMTgyNzYucGF0Y2gNCj4gPiA+ID4gPiBu
-ZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+IGluZGV4IDAwMDAwMDAwMDAuLjdiMjA3MzIw
-MWUNCj4gPiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL2Jhc2gvYmFzaC9iYXNoLUNWRS0yMDE5LQ0KPiA+ID4gPiA+IDE4Mjc2LnBhdGNo
-DQo+ID4gPiA+ID4gQEAgLTAsMCArMSwzODYgQEANCj4gPiA+ID4gPiArRnJvbSA5NTFiZGFhZDdh
-MThjYzBkYzEwMzZiYmE4NmIxOGI5MDg3NGQzOWZmIE1vbiBTZXAgMTcNCj4gPiA+ID4gPiAwMDow
-MDowMA0KPiA+ID4gPiA+IDIwMDENCj4gPiA+ID4gPiArRnJvbTogQ2hldCBSYW1leSA8Y2hldC5y
-YW1leUBjYXNlLmVkdT4NCj4gPiA+ID4gPiArRGF0ZTogTW9uLCAxIEp1bCAyMDE5IDA5OjAzOjUz
-IC0wNDAwDQo+ID4gPiA+ID4gK1N1YmplY3Q6IFtQQVRDSF0gY29tbWl0IGJhc2gtMjAxOTA2Mjgg
-c25hcHNob3QNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gK0FuIGlzc3VlIHdhcyBkaXNjb3ZlcmVk
-IGluIGRpc2FibGVfcHJpdl9tb2RlIGluIHNoZWxsLmMgaW4NCj4gPiA+ID4gPiBHTlUgQmFzaA0K
-PiA+ID4gPiA+IHRocm91Z2ggNS4wIHBhdGNoIDExLg0KPiA+ID4gPiA+ICtCeSBkZWZhdWx0LCBp
-ZiBCYXNoIGlzIHJ1biB3aXRoIGl0cyBlZmZlY3RpdmUgVUlEIG5vdCBlcXVhbA0KPiA+ID4gPiA+
-IHRvIGl0cw0KPiA+ID4gPiA+IHJlYWwgVUlELA0KPiA+ID4gPiA+ICtpdCB3aWxsIGRyb3AgcHJp
-dmlsZWdlcyBieSBzZXR0aW5nIGl0cyBlZmZlY3RpdmUgVUlEIHRvIGl0cw0KPiA+ID4gPiA+IHJl
-YWwNCj4gPiA+ID4gPiBVSUQuDQo+ID4gPiA+ID4gK0hvd2V2ZXIsIGl0IGRvZXMgc28gaW5jb3Jy
-ZWN0bHkuIE9uIExpbnV4IGFuZCBvdGhlciBzeXN0ZW1zDQo+ID4gPiA+ID4gdGhhdA0KPiA+ID4g
-PiA+IHN1cHBvcnQgInNhdmVkIFVJRCIgZnVuY3Rpb25hbGl0eSwNCj4gPiA+ID4gPiArdGhlIHNh
-dmVkIFVJRCBpcyBub3QgZHJvcHBlZC4gQW4gYXR0YWNrZXIgd2l0aCBjb21tYW5kDQo+ID4gPiA+
-ID4gZXhlY3V0aW9uIGluDQo+ID4gPiA+ID4gdGhlIHNoZWxsIGNhbiB1c2UgImVuYWJsZSAtZiIg
-Zm9yDQo+ID4gPiA+ID4gK3J1bnRpbWUgbG9hZGluZyBvZiBhIG5ldyBidWlsdGluLCB3aGljaCBj
-YW4gYmUgYSBzaGFyZWQNCj4gPiA+ID4gPiBvYmplY3QgdGhhdA0KPiA+ID4gPiA+IGNhbGxzIHNl
-dHVpZCgpIGFuZCB0aGVyZWZvcmUNCj4gPiA+ID4gPiArcmVnYWlucyBwcml2aWxlZ2VzLiBIb3dl
-dmVyLCBiaW5hcmllcyBydW5uaW5nIHdpdGggYW4NCj4gPiA+ID4gPiBlZmZlY3RpdmUgVUlEDQo+
-ID4gPiA+ID4gb2YgMCBhcmUgdW5hZmZlY3RlZC4NCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gK0dl
-dCB0aGUgcGF0Y2ggZnJvbSBbMV0gdG8gZml4IHRoZSBpc3N1ZS4NCj4gPiA+ID4gPiArDQo+ID4g
-PiA+ID4gK1Vwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbdGhlIHVwc3RyZWFtIHRoaW5r
-cyBpdA0KPiA+ID4gPiA+IGRvZXNuJ3QNCj4gPiA+ID4gPiBpbmNyZWFzZSB0aGUgY3JlZGliaWxp
-dHkgb2YgQ1ZFcyBpbiBnZW5lcmFsXQ0KPiA+ID4gPiA+ICtDVkU6IENWRS0yMDE5LTE4Mjc2DQo+
-ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtbMV0NCj4gPiA+ID4gPiBodHRwczovL2dpdC5zYXZhbm5h
-aC5nbnUub3JnL2NnaXQvYmFzaC5naXQvY29tbWl0Lz9oPWRldmVsJmlkPTk1MWJkYWENCj4gPiA+
-ID4gPiArDQo+ID4gPiA+ID4gK1NpZ25lZC1vZmYtYnk6IERlIEh1byA8RGUuSHVvQHdpbmRyaXZl
-ci5jb20+DQo+ID4gPiA+ID4gK1NpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5k
-cml2ZXIuY29tPg0KPiA+ID4gPiA+ICtTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55
-dUB3aW5kcml2ZXIuY29tPg0KPiA+ID4gPiA+ICstLS0NCj4gPiA+ID4gPiArIE1BTklGRVNUICAg
-ICAgICAgIHwgIDIgKysNCj4gPiA+ID4gPiArIGJhc2hsaW5lLmMgICAgICAgIHwgNTAgKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ID4gLS0tLS0tLS0NCj4gPiA+
-ID4gPiAtLS0tLS0NCj4gPiA+ID4gPiArIGJ1aWx0aW5zL2hlbHAuZGVmIHwgIDIgKy0NCj4gPiA+
-ID4gPiArIGNvbmZpZy5oLmluICAgICAgIHwgMTAgKysrKysrKysrLQ0KPiA+ID4gPiA+ICsgY29u
-ZmlndXJlLmFjICAgICAgfCAgMSArDQo+ID4gPiA+ID4gKyBkb2MvYmFzaC4xICAgICAgICB8ICAz
-ICsrLQ0KPiA+ID4gPiA+ICsgZG9jL2Jhc2hyZWYudGV4aSAgfCAgMyArKy0NCj4gPiA+ID4gPiAr
-IGxpYi9nbG9iL2dsb2IuYyAgIHwgIDUgKysrKy0NCj4gPiA+ID4gPiArIHBhdGhleHAuYyAgICAg
-ICAgIHwgMTYgKysrKysrKysrKysrKystLQ0KPiA+ID4gPiA+ICsgc2hlbGwuYyAgICAgICAgICAg
-fCAgOCArKysrKysrKw0KPiA+ID4gPiA+ICsgdGVzdHMvZ2xvYi50ZXN0cyAgfCAgMiArKw0KPiA+
-ID4gPiA+ICsgdGVzdHMvZ2xvYjYuc3ViICAgfCA1NA0KPiA+ID4gPiA+ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ID4gPiA+ICsgdGVz
-dHMvZ2xvYjcuc3ViICAgfCAxMSArKysrKysrKysrKw0KPiA+ID4gPiA+ICsgMTQgZmlsZXMgY2hh
-bmdlZCwgMTIyIGluc2VydGlvbnMoKyksIDU2IGRlbGV0aW9ucygtKQ0KPiA+ID4gPiA+ICsgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IHRlc3RzL2dsb2I2LnN1Yg0KPiA+ID4gPiA+ICsgY3JlYXRlIG1vZGUg
-MTAwNjQ0IHRlc3RzL2dsb2I3LnN1Yg0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArZGlmZiAtLWdp
-dCBhL01BTklGRVNUIGIvTUFOSUZFU1QNCj4gPiA+ID4gPiAraW5kZXggMDNkZTIyMS4uZjljY2Fk
-NyAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvTUFOSUZFU1QNCj4gPiA+ID4gPiArKysrIGIvTUFO
-SUZFU1QNCj4gPiA+ID4gPiArQEAgLTEwMzcsNiArMTAzNyw4IEBAIHRlc3RzL2V4dGdsb2IzLnRl
-c3RzICBmDQo+ID4gPiA+ID4gKyB0ZXN0cy9leHRnbG9iMy5yaWdodCAgICAgICBmDQo+ID4gPiA+
-ID4gKyB0ZXN0cy9leHRnbG9iNC5zdWIgZg0KPiA+ID4gPiA+ICsgdGVzdHMvZXh0Z2xvYjUuc3Vi
-IGYNCj4gPiA+ID4gPiArK3Rlc3RzL2dsb2I2LnN1YiAgICAgICAgICAgIGYNCj4gPiA+ID4gPiAr
-K3Rlc3RzL2dsb2I3LnN1YiAgICAgICAgICAgIGYNCj4gPiA+ID4gPiArIHRlc3RzL2Z1bmMudGVz
-dHMgICBmDQo+ID4gPiA+ID4gKyB0ZXN0cy9mdW5jLnJpZ2h0ICAgZg0KPiA+ID4gPiA+ICsgdGVz
-dHMvZnVuYzEuc3ViICAgICAgICAgICAgZg0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvYmFzaGxp
-bmUuYyBiL2Jhc2hsaW5lLmMNCj4gPiA+ID4gPiAraW5kZXggODI0ZWE5ZC4uZDg2YjQ3ZCAxMDA2
-NDQNCj4gPiA+ID4gPiArLS0tIGEvYmFzaGxpbmUuYw0KPiA+ID4gPiA+ICsrKysgYi9iYXNobGlu
-ZS5jDQo+ID4gPiA+ID4gK0BAIC0zNzE4LDU1ICszNzE4LDcgQEAgc3RhdGljIGludA0KPiA+ID4g
-PiA+ICsgY29tcGxldGlvbl9nbG9iX3BhdHRlcm4gKHN0cmluZykNCj4gPiA+ID4gPiArICAgICAg
-Y2hhciAqc3RyaW5nOw0KPiA+ID4gPiA+ICsgew0KPiA+ID4gPiA+ICstICByZWdpc3RlciBpbnQg
-YzsNCj4gPiA+ID4gPiArLSAgY2hhciAqc2VuZDsNCj4gPiA+ID4gPiArLSAgaW50IG9wZW47DQo+
-ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgREVDTEFSRV9NQlNUQVRFOw0KPiA+ID4gPiA+ICst
-DQo+ID4gPiA+ID4gKy0gIG9wZW4gPSAwOw0KPiA+ID4gPiA+ICstICBzZW5kID0gc3RyaW5nICsg
-c3RybGVuIChzdHJpbmcpOw0KPiA+ID4gPiA+ICstDQo+ID4gPiA+ID4gKy0gIHdoaWxlIChjID0g
-KnN0cmluZysrKQ0KPiA+ID4gPiA+ICstICAgIHsNCj4gPiA+ID4gPiArLSAgICAgIHN3aXRjaCAo
-YykNCj4gPiA+ID4gPiArLSAgIHsNCj4gPiA+ID4gPiArLSAgIGNhc2UgJz8nOg0KPiA+ID4gPiA+
-ICstICAgY2FzZSAnKic6DQo+ID4gPiA+ID4gKy0gICAgIHJldHVybiAoMSk7DQo+ID4gPiA+ID4g
-Ky0NCj4gPiA+ID4gPiArLSAgIGNhc2UgJ1snOg0KPiA+ID4gPiA+ICstICAgICBvcGVuKys7DQo+
-ID4gPiA+ID4gKy0gICAgIGNvbnRpbnVlOw0KPiA+ID4gPiA+ICstDQo+ID4gPiA+ID4gKy0gICBj
-YXNlICddJzoNCj4gPiA+ID4gPiArLSAgICAgaWYgKG9wZW4pDQo+ID4gPiA+ID4gKy0gICAgICAg
-cmV0dXJuICgxKTsNCj4gPiA+ID4gPiArLSAgICAgY29udGludWU7DQo+ID4gPiA+ID4gKy0NCj4g
-PiA+ID4gPiArLSAgIGNhc2UgJysnOg0KPiA+ID4gPiA+ICstICAgY2FzZSAnQCc6DQo+ID4gPiA+
-ID4gKy0gICBjYXNlICchJzoNCj4gPiA+ID4gPiArLSAgICAgaWYgKCpzdHJpbmcgPT0gJygnKSAg
-IC8qKSovDQo+ID4gPiA+ID4gKy0gICAgICAgcmV0dXJuICgxKTsNCj4gPiA+ID4gPiArLSAgICAg
-Y29udGludWU7DQo+ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgIGNhc2UgJ1xcJzoNCj4gPiA+
-ID4gPiArLSAgICAgaWYgKCpzdHJpbmcrKyA9PSAwKQ0KPiA+ID4gPiA+ICstICAgICAgIHJldHVy
-biAoMCk7DQo+ID4gPiA+ID4gKy0gICB9DQo+ID4gPiA+ID4gKy0NCj4gPiA+ID4gPiArLSAgICAg
-IC8qIEFkdmFuY2Ugb25lIGZld2VyIGJ5dGUgdGhhbiBhbiBlbnRpcmUgbXVsdGlieXRlDQo+ID4g
-PiA+ID4gY2hhcmFjdGVyDQo+ID4gPiA+ID4gdG8NCj4gPiA+ID4gPiArLSAgICBhY2NvdW50IGZv
-ciB0aGUgYXV0by1pbmNyZW1lbnQgaW4gdGhlIGxvb3AgYWJvdmUuICovDQo+ID4gPiA+ID4gKy0j
-aWZkZWYgSEFORExFX01VTFRJQllURQ0KPiA+ID4gPiA+ICstICAgICAgc3RyaW5nLS07DQo+ID4g
-PiA+ID4gKy0gICAgICBBRFZBTkNFX0NIQVJfUCAoc3RyaW5nLCBzZW5kIC0gc3RyaW5nKTsNCj4g
-PiA+ID4gPiArLSAgICAgIHN0cmluZysrOw0KPiA+ID4gPiA+ICstI2Vsc2UNCj4gPiA+ID4gPiAr
-LSAgICAgIEFEVkFOQ0VfQ0hBUl9QIChzdHJpbmcsIHNlbmQgLSBzdHJpbmcpOw0KPiA+ID4gPiA+
-ICstI2VuZGlmDQo+ID4gPiA+ID4gKy0gICAgfQ0KPiA+ID4gPiA+ICstICByZXR1cm4gKDApOw0K
-PiA+ID4gPiA+ICsrICByZXR1cm4gKGdsb2JfcGF0dGVybl9wIChzdHJpbmcpID09IDEpOw0KPiA+
-ID4gPiA+ICsgfQ0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArIHN0YXRpYyBjaGFyICpnbG9idGV4
-dDsNCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL2J1aWx0aW5zL2hlbHAuZGVmIGIvYnVpbHRpbnMv
-aGVscC5kZWYNCj4gPiA+ID4gPiAraW5kZXggMDA2YzRiNS4uOTJmOWIzOCAxMDA2NDQNCj4gPiA+
-ID4gPiArLS0tIGEvYnVpbHRpbnMvaGVscC5kZWYNCj4gPiA+ID4gPiArKysrIGIvYnVpbHRpbnMv
-aGVscC5kZWYNCj4gPiA+ID4gPiArQEAgLTEyOCw3ICsxMjgsNyBAQCBoZWxwX2J1aWx0aW4gKGxp
-c3QpDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICsgICAvKiBXZSBzaG91bGQgY29uc2lkZXIgbWFr
-aW5nIGBoZWxwIGJhc2gnIGRvIHNvbWV0aGluZy4gKi8NCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
-Ky0gIGlmIChnbG9iX3BhdHRlcm5fcCAobGlzdC0+d29yZC0+d29yZCkpDQo+ID4gPiA+ID4gKysg
-IGlmIChnbG9iX3BhdHRlcm5fcCAobGlzdC0+d29yZC0+d29yZCkgPT0gMSkNCj4gPiA+ID4gPiAr
-ICAgICB7DQo+ID4gPiA+ID4gKyAgICAgICBwcmludGYgKCIlcyIsIG5nZXR0ZXh0ICgiU2hlbGwg
-Y29tbWFuZHMgbWF0Y2hpbmcNCj4gPiA+ID4gPiBrZXl3b3JkIGAiLA0KPiA+ID4gPiA+ICJTaGVs
-bCBjb21tYW5kcyBtYXRjaGluZyBrZXl3b3JkcyBgIiwgKGxpc3QtPm5leHQgPyAyIDogMSkpKTsN
-Cj4gPiA+ID4gPiArICAgICAgIHByaW50X3dvcmRfbGlzdCAobGlzdCwgIiwgIik7DQo+ID4gPiA+
-ID4gK2RpZmYgLS1naXQgYS9jb25maWcuaC5pbiBiL2NvbmZpZy5oLmluDQo+ID4gPiA+ID4gK2lu
-ZGV4IDg1NTRhZWMuLmFkNGIxZTggMTAwNjQ0DQo+ID4gPiA+ID4gKy0tLSBhL2NvbmZpZy5oLmlu
-DQo+ID4gPiA+ID4gKysrKyBiL2NvbmZpZy5oLmluDQo+ID4gPiA+ID4gK0BAIC0xLDYgKzEsNiBA
-QA0KPiA+ID4gPiA+ICsgLyogY29uZmlnLmggLS0gQ29uZmlndXJhdGlvbiBmaWxlIGZvciBiYXNo
-LiAqLw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArLS8qIENvcHlyaWdodCAoQykgMTk4Ny0yMDA5
-LDIwMTEtMjAxMiBGcmVlIFNvZnR3YXJlDQo+ID4gPiA+ID4gRm91bmRhdGlvbiwgSW5jLg0KPiA+
-ID4gPiA+ICsrLyogQ29weXJpZ2h0IChDKSAxOTg3LTIwMDksMjAxMS0yMDEyLDIwMTMtMjAxOSBG
-cmVlDQo+ID4gPiA+ID4gU29mdHdhcmUNCj4gPiA+ID4gPiBGb3VuZGF0aW9uLCBJbmMuDQo+ID4g
-PiA+ID4gKw0KPiA+ID4gPiA+ICsgICAgVGhpcyBmaWxlIGlzIHBhcnQgb2YgR05VIEJhc2gsIHRo
-ZSBCb3VybmUgQWdhaW4gU0hlbGwuDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtAQCAtODA3LDYg
-KzgwNywxNCBAQA0KPiA+ID4gPiA+ICsgI3VuZGVmIEhBVkVfU0VUUkVHSUQNCj4gPiA+ID4gPiAr
-ICN1bmRlZiBIQVZFX0RFQ0xfU0VUUkVHSUQNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gKysvKiBE
-ZWZpbmUgaWYgeW91IGhhdmUgdGhlIHNldHJlZ2lkIGZ1bmN0aW9uLiAgKi8NCj4gPiA+ID4gPiAr
-KyN1bmRlZiBIQVZFX1NFVFJFU0dJRA0KPiA+ID4gPiA+ICsrI3VuZGVmIEhBVkVfREVDTF9TRVRS
-RVNHSUQNCj4gPiA+ID4gPiArKw0KPiA+ID4gPiA+ICsrLyogRGVmaW5lIGlmIHlvdSBoYXZlIHRo
-ZSBzZXRyZXN1aWQgZnVuY3Rpb24uICAqLw0KPiA+ID4gPiA+ICsrI3VuZGVmIEhBVkVfU0VUUkVT
-VUlEDQo+ID4gPiA+ID4gKysjdW5kZWYgSEFWRV9ERUNMX1NFVFJFU1VJRA0KPiA+ID4gPiA+ICsr
-DQo+ID4gPiA+ID4gKyAvKiBEZWZpbmUgaWYgeW91IGhhdmUgdGhlIHNldHZidWYgZnVuY3Rpb24u
-ICAqLw0KPiA+ID4gPiA+ICsgI3VuZGVmIEhBVkVfU0VUVkJVRg0KPiA+ID4gPiA+ICsNCj4gPiA+
-ID4gPiArZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYw0KPiA+ID4gPiA+
-ICtpbmRleCA1MmI0Y2RiLi41NDlhZGVmIDEwMDY0NA0KPiA+ID4gPiA+ICstLS0gYS9jb25maWd1
-cmUuYWMNCj4gPiA+ID4gPiArKysrIGIvY29uZmlndXJlLmFjDQo+ID4gPiA+ID4gK0BAIC04MTAs
-NiArODEwLDcgQEAgQUNfQ0hFQ0tfREVDTFMoW2NvbmZzdHJdKQ0KPiA+ID4gPiA+ICsgQUNfQ0hF
-Q0tfREVDTFMoW3ByaW50Zl0pDQo+ID4gPiA+ID4gKyBBQ19DSEVDS19ERUNMUyhbc2Jya10pDQo+
-ID4gPiA+ID4gKyBBQ19DSEVDS19ERUNMUyhbc2V0cmVnaWRdKQ0KPiA+ID4gPiA+ICsrQUNfQ0hF
-Q0tfREVDTFNbKHNldHJlc3VpZCwgc2V0cmVzZ2lkXSkNCj4gPiA+ID4gPiArIEFDX0NIRUNLX0RF
-Q0xTKFtzdHJjcHldKQ0KPiA+ID4gPiA+ICsgQUNfQ0hFQ0tfREVDTFMoW3N0cnNpZ25hbF0pDQo+
-ID4gPiA+ID4gKw0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvZG9jL2Jhc2guMSBiL2RvYy9iYXNo
-LjENCj4gPiA+ID4gPiAraW5kZXggZTZjZDA4ZC4uOWU1OGEwYiAxMDA2NDQNCj4gPiA+ID4gPiAr
-LS0tIGEvZG9jL2Jhc2guMQ0KPiA+ID4gPiA+ICsrKysgYi9kb2MvYmFzaC4xDQo+ID4gPiA+ID4g
-K0BAIC00NjgxLDcgKzQ2ODEsOCBAQCBhYm92ZSkuDQo+ID4gPiA+ID4gKyAuUEQNCj4gPiA+ID4g
-PiArIC5TSCAiU0lNUExFIENPTU1BTkQgRVhQQU5TSU9OIg0KPiA+ID4gPiA+ICsgV2hlbiBhIHNp
-bXBsZSBjb21tYW5kIGlzIGV4ZWN1dGVkLCB0aGUgc2hlbGwgcGVyZm9ybXMgdGhlDQo+ID4gPiA+
-ID4gZm9sbG93aW5nDQo+ID4gPiA+ID4gKy1leHBhbnNpb25zLCBhc3NpZ25tZW50cywgYW5kIHJl
-ZGlyZWN0aW9ucywgZnJvbSBsZWZ0IHRvDQo+ID4gPiA+ID4gcmlnaHQuDQo+ID4gPiA+ID4gKytl
-eHBhbnNpb25zLCBhc3NpZ25tZW50cywgYW5kIHJlZGlyZWN0aW9ucywgZnJvbSBsZWZ0IHRvDQo+
-ID4gPiA+ID4gcmlnaHQsIGluDQo+ID4gPiA+ID4gKyt0aGUgZm9sbG93aW5nIG9yZGVyLg0KPiA+
-ID4gPiA+ICsgLklQIDEuDQo+ID4gPiA+ID4gKyBUaGUgd29yZHMgdGhhdCB0aGUgcGFyc2VyIGhh
-cyBtYXJrZWQgYXMgdmFyaWFibGUNCj4gPiA+ID4gPiBhc3NpZ25tZW50cyAodGhvc2UNCj4gPiA+
-ID4gPiArIHByZWNlZGluZyB0aGUgY29tbWFuZCBuYW1lKSBhbmQgcmVkaXJlY3Rpb25zIGFyZSBz
-YXZlZCBmb3INCj4gPiA+ID4gPiBsYXRlcg0KPiA+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvZG9jL2Jh
-c2hyZWYudGV4aSBiL2RvYy9iYXNocmVmLnRleGkNCj4gPiA+ID4gPiAraW5kZXggZDMzY2Q1Ny4u
-MzA2NTEyNiAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvZG9jL2Jhc2hyZWYudGV4aQ0KPiA+ID4g
-PiA+ICsrKysgYi9kb2MvYmFzaHJlZi50ZXhpDQo+ID4gPiA+ID4gK0BAIC0yOTY0LDcgKzI5NjQs
-OCBAQCBpcyBub3Qgc3BlY2lmaWVkLiAgSWYgdGhlIGZpbGUgZG9lcw0KPiA+ID4gPiA+IG5vdCBl
-eGlzdCwNCj4gPiA+ID4gPiBpdCBpcyBjcmVhdGVkLg0KPiA+ID4gPiA+ICsgQGNpbmRleCBjb21t
-YW5kIGV4cGFuc2lvbg0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArIFdoZW4gYSBzaW1wbGUgY29t
-bWFuZCBpcyBleGVjdXRlZCwgdGhlIHNoZWxsIHBlcmZvcm1zIHRoZQ0KPiA+ID4gPiA+IGZvbGxv
-d2luZw0KPiA+ID4gPiA+ICstZXhwYW5zaW9ucywgYXNzaWdubWVudHMsIGFuZCByZWRpcmVjdGlv
-bnMsIGZyb20gbGVmdCB0bw0KPiA+ID4gPiA+IHJpZ2h0Lg0KPiA+ID4gPiA+ICsrZXhwYW5zaW9u
-cywgYXNzaWdubWVudHMsIGFuZCByZWRpcmVjdGlvbnMsIGZyb20gbGVmdCB0bw0KPiA+ID4gPiA+
-IHJpZ2h0LCBpbg0KPiA+ID4gPiA+ICsrdGhlIGZvbGxvd2luZyBvcmRlci4NCj4gPiA+ID4gPiAr
-DQo+ID4gPiA+ID4gKyBAZW51bWVyYXRlDQo+ID4gPiA+ID4gKyBAaXRlbQ0KPiA+ID4gPiA+ICtk
-aWZmIC0tZ2l0IGEvbGliL2dsb2IvZ2xvYi5jIGIvbGliL2dsb2IvZ2xvYi5jDQo+ID4gPiA+ID4g
-K2luZGV4IDM5ODI1M2IuLjJlYWEzM2UgMTAwNjQ0DQo+ID4gPiA+ID4gKy0tLSBhL2xpYi9nbG9i
-L2dsb2IuYw0KPiA+ID4gPiA+ICsrKysgYi9saWIvZ2xvYi9nbG9iLmMNCj4gPiA+ID4gPiArQEAg
-LTYwNyw2ICs2MDcsNyBAQCBnbG9iX3ZlY3RvciAocGF0LCBkaXIsIGZsYWdzKQ0KPiA+ID4gPiA+
-ICsgICByZWdpc3RlciB1bnNpZ25lZCBpbnQgaTsNCj4gPiA+ID4gPiArICAgaW50IG1mbGFnczsg
-ICAgICAgICAgICAgIC8qIEZsYWdzIHBhc3NlZCB0byBzdHJtYXRjaCAoKS4NCj4gPiA+ID4gPiAq
-Lw0KPiA+ID4gPiA+ICsgICBpbnQgcGZsYWdzOyAgICAgICAgICAgICAgLyogZmxhZ3MgcGFzc2Vk
-IHRvIHNoX21ha2VwYXRoDQo+ID4gPiA+ID4gKCkgKi8NCj4gPiA+ID4gPiArKyAgaW50IGhhc2ds
-b2I7ICAgICAgICAgICAgIC8qIHJldHVybiB2YWx1ZSBmcm9tDQo+ID4gPiA+ID4gZ2xvYl9wYXR0
-ZXJuX3AgKi8NCj4gPiA+ID4gPiArICAgaW50IG5hbGxvY2E7DQo+ID4gPiA+ID4gKyAgIHN0cnVj
-dCBnbG9idmFsICpmaXJzdG1hbGxvYywgKnRtcGxpbms7DQo+ID4gPiA+ID4gKyAgIGNoYXIgKmNv
-bnZmbjsNCj4gPiA+ID4gPiArQEAgLTY0OCwxMCArNjQ5LDEyIEBAIGdsb2JfdmVjdG9yIChwYXQs
-IGRpciwgZmxhZ3MpDQo+ID4gPiA+ID4gKyAgIHBhdGxlbiA9IChwYXQgJiYgKnBhdCkgPyBzdHJs
-ZW4gKHBhdCkgOiAwOw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiArICAgLyogSWYgdGhlIGZpbGVu
-YW1lIHBhdHRlcm4gKFBBVCkgZG9lcyBub3QgY29udGFpbiBhbnkNCj4gPiA+ID4gPiBnbG9iYmlu
-Zw0KPiA+ID4gPiA+IGNoYXJhY3RlcnMsDQo+ID4gPiA+ID4gKysgICAgIG9yIGNvbnRhaW5zIGEg
-cGF0dGVybiB3aXRoIG9ubHkgYmFja3NsYXNoIGVzY2FwZXMNCj4gPiA+ID4gPiAoaGFzZ2xvYiA9
-PQ0KPiA+ID4gPiA+IDIpLA0KPiA+ID4gPiA+ICsgICAgICB3ZSBjYW4gZGlzcGVuc2Ugd2l0aCBy
-ZWFkaW5nIHRoZSBkaXJlY3RvcnksIGFuZCBqdXN0DQo+ID4gPiA+ID4gc2VlIGlmDQo+ID4gPiA+
-ID4gdGhlcmUgaXMNCj4gPiA+ID4gPiArICAgICAgYSBmaWxlbmFtZSBgRElSL1BBVCcuICBJZiB0
-aGVyZSBpcywgYW5kIHdlIGNhbiBhY2Nlc3MNCj4gPiA+ID4gPiBpdCwganVzdA0KPiA+ID4gPiA+
-IG1ha2UgdGhlDQo+ID4gPiA+ID4gKyAgICAgIHZlY3RvciB0byByZXR1cm4gYW5kIGJhaWwgaW1t
-ZWRpYXRlbHkuICovDQo+ID4gPiA+ID4gKy0gIGlmIChza2lwID09IDAgJiYgZ2xvYl9wYXR0ZXJu
-X3AgKHBhdCkgPT0gMCkNCj4gPiA+ID4gPiArKyAgaGFzZ2xvYiA9IDA7DQo+ID4gPiA+ID4gKysg
-IGlmIChza2lwID09IDAgJiYgKGhhc2dsb2IgPSBnbG9iX3BhdHRlcm5fcCAocGF0KSkgPT0gMCB8
-fA0KPiA+ID4gPiA+IGhhc2dsb2INCj4gPiA+ID4gPiA9PSAyKQ0KPiA+ID4gPiA+ICsgICAgIHsN
-Cj4gPiA+ID4gPiArICAgICAgIGludCBkaXJsZW47DQo+ID4gPiA+ID4gKyAgICAgICBzdHJ1Y3Qg
-c3RhdCBmaW5mbzsNCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL3BhdGhleHAuYyBiL3BhdGhleHAu
-Yw0KPiA+ID4gPiA+ICtpbmRleCBjMWJmMmQ4Li5lNmM1MzkyIDEwMDY0NA0KPiA+ID4gPiA+ICst
-LS0gYS9wYXRoZXhwLmMNCj4gPiA+ID4gPiArKysrIGIvcGF0aGV4cC5jDQo+ID4gPiA+ID4gK0BA
-IC01OCw3ICs1OCwxMCBAQCBpbnQgZXh0ZW5kZWRfZ2xvYiA9IEVYVEdMT0JfREVGQVVMVDsNCj4g
-PiA+ID4gPiArIC8qIENvbnRyb2wgZW5hYmxpbmcgc3BlY2lhbCBoYW5kbGluZyBvZiBgKionICov
-DQo+ID4gPiA+ID4gKyBpbnQgZ2xvYl9zdGFyID0gMDsNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4g
-Ky0vKiBSZXR1cm4gbm9uemVybyBpZiBTVFJJTkcgaGFzIGFueSB1bnF1b3RlZCBzcGVjaWFsDQo+
-ID4gPiA+ID4gZ2xvYmJpbmcgY2hhcnMNCj4gPiA+ID4gPiBpbiBpdC4gICovDQo+ID4gPiA+ID4g
-KysvKiBSZXR1cm4gbm9uemVybyBpZiBTVFJJTkcgaGFzIGFueSB1bnF1b3RlZCBzcGVjaWFsDQo+
-ID4gPiA+ID4gZ2xvYmJpbmcgY2hhcnMNCj4gPiA+ID4gPiBpbiBpdC4NCj4gPiA+ID4gPiArKyAg
-IFRoaXMgaXMgc3VwcG9zZWQgdG8gYmUgY2FsbGVkIHdoZW4gcGF0aG5hbWUgZXhwYW5zaW9uIGlz
-DQo+ID4gPiA+ID4gcGVyZm9ybWVkLCBzbw0KPiA+ID4gPiA+ICsrICAgaXQgaW1wbGVtZW50cyB0
-aGUgcnVsZXMgaW4gUG9zaXggMi4xMy4zLCBzcGVjaWZpY2FsbHkNCj4gPiA+ID4gPiB0aGF0IGFu
-DQo+ID4gPiA+ID4gdW5xdW90ZWQNCj4gPiA+ID4gPiArKyAgIHNsYXNoIGNhbm5vdCBhcHBlYXIg
-aW4gYSBicmFja2V0IGV4cHJlc3Npb24uICovDQo+ID4gPiA+ID4gKyBpbnQNCj4gPiA+ID4gPiAr
-IHVucXVvdGVkX2dsb2JfcGF0dGVybl9wIChzdHJpbmcpDQo+ID4gPiA+ID4gKyAgICAgIHJlZ2lz
-dGVyIGNoYXIgKnN0cmluZzsNCj4gPiA+ID4gPiArQEAgLTg1LDEwICs4OCwxNCBAQCB1bnF1b3Rl
-ZF9nbG9iX3BhdHRlcm5fcCAoc3RyaW5nKQ0KPiA+ID4gPiA+ICsgICAgICBjb250aW51ZTsNCj4g
-PiA+ID4gPiArDQo+ID4gPiA+ID4gKyAgICBjYXNlICddJzoNCj4gPiA+ID4gPiArLSAgICAgaWYg
-KG9wZW4pDQo+ID4gPiA+ID4gKysgICAgIGlmIChvcGVuKSAgICAgICAgICAgICAvKiBYWFggLSBp
-ZiAtLW9wZW4gPT0gMD8gKi8NCj4gPiA+ID4gPiArICAgICAgICByZXR1cm4gKDEpOw0KPiA+ID4g
-PiA+ICsgICAgICBjb250aW51ZTsNCj4gPiA+ID4gPiArDQo+ID4gPiA+ID4gKysgICBjYXNlICcv
-JzoNCj4gPiA+ID4gPiArKyAgICAgaWYgKG9wZW4pDQo+ID4gPiA+ID4gKysgICAgICAgb3BlbiA9
-IDA7DQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArICAgIGNhc2UgJysnOg0KPiA+ID4gPiA+ICsg
-ICAgY2FzZSAnQCc6DQo+ID4gPiA+ID4gKyAgICBjYXNlICchJzoNCj4gPiA+ID4gPiArQEAgLTEw
-Niw2ICsxMTMsMTEgQEAgdW5xdW90ZWRfZ2xvYl9wYXR0ZXJuX3AgKHN0cmluZykNCj4gPiA+ID4g
-PiArICAgICAgICAgIHN0cmluZysrOw0KPiA+ID4gPiA+ICsgICAgICAgICAgY29udGludWU7DQo+
-ID4gPiA+ID4gKyAgICAgICAgfQ0KPiA+ID4gPiA+ICsrICAgICBlbHNlIGlmIChvcGVuICYmICpz
-dHJpbmcgPT0gJy8nKQ0KPiA+ID4gPiA+ICsrICAgICAgIHsNCj4gPiA+ID4gPiArKyAgICAgICAg
-IHN0cmluZysrOyAgICAgICAgIC8qIHF1b3RlZCBzbGFzaGVzIGluIGJyYWNrZXQNCj4gPiA+ID4g
-PiBleHByZXNzaW9ucyBhcmUgb2sgKi8NCj4gPiA+ID4gPiArKyAgICAgICAgIGNvbnRpbnVlOw0K
-PiA+ID4gPiA+ICsrICAgICAgIH0NCj4gPiA+ID4gPiArICAgICAgZWxzZSBpZiAoKnN0cmluZyA9
-PSAwKQ0KPiA+ID4gPiA+ICsgICAgICAgIHJldHVybiAoMCk7DQo+ID4gPiA+ID4gKw0KPiA+ID4g
-PiA+ICtkaWZmIC0tZ2l0IGEvc2hlbGwuYyBiL3NoZWxsLmMNCj4gPiA+ID4gPiAraW5kZXggYTJi
-MmE1NS4uNmFkYWJjOCAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvc2hlbGwuYw0KPiA+ID4gPiA+
-ICsrKysgYi9zaGVsbC5jDQo+ID4gPiA+ID4gK0BAIC0xMjkzLDcgKzEyOTMsMTEgQEAgZGlzYWJs
-ZV9wcml2X21vZGUgKCkNCj4gPiA+ID4gPiArIHsNCj4gPiA+ID4gPiArICAgaW50IGU7DQo+ID4g
-PiA+ID4gKw0KPiA+ID4gPiA+ICsrI2lmIEhBVkVfREVDTF9TRVRSRVNVSUQNCj4gPiA+ID4gPiAr
-KyAgaWYgKHNldHJlc3VpZCAoY3VycmVudF91c2VyLnVpZCwgY3VycmVudF91c2VyLnVpZCwNCj4g
-PiA+ID4gPiBjdXJyZW50X3VzZXIudWlkKSA8IDApDQo+ID4gPiA+ID4gKysjZWxzZQ0KPiA+ID4g
-PiA+ICsgICBpZiAoc2V0dWlkIChjdXJyZW50X3VzZXIudWlkKSA8IDApDQo+ID4gPiA+ID4gKysj
-ZW5kaWYNCj4gPiA+ID4gPiArICAgICB7DQo+ID4gPiA+ID4gKyAgICAgICBlID0gZXJybm87DQo+
-ID4gPiA+ID4gKyAgICAgICBzeXNfZXJyb3IgKF8oImNhbm5vdCBzZXQgdWlkIHRvICVkOiBlZmZl
-Y3RpdmUgdWlkDQo+ID4gPiA+ID4gJWQiKSwNCj4gPiA+ID4gPiBjdXJyZW50X3VzZXIudWlkLCBj
-dXJyZW50X3VzZXIuZXVpZCk7DQo+ID4gPiA+ID4gK0BAIC0xMzAyLDcgKzEzMDYsMTEgQEAgZGlz
-YWJsZV9wcml2X21vZGUgKCkNCj4gPiA+ID4gPiArICAgIGV4aXQgKGUpOw0KPiA+ID4gPiA+ICsg
-I2VuZGlmDQo+ID4gPiA+ID4gKyAgICAgfQ0KPiA+ID4gPiA+ICsrI2lmIEhBVkVfREVDTF9TRVRS
-RVNHSUQNCj4gPiA+ID4gPiArKyAgaWYgKHNldHJlc2dpZCAoY3VycmVudF91c2VyLmdpZCwgY3Vy
-cmVudF91c2VyLmdpZCwNCj4gPiA+ID4gPiBjdXJyZW50X3VzZXIuZ2lkKSA8IDApDQo+ID4gPiA+
-ID4gKysjZWxzZQ0KPiA+ID4gPiA+ICsgICBpZiAoc2V0Z2lkIChjdXJyZW50X3VzZXIuZ2lkKSA8
-IDApDQo+ID4gPiA+ID4gKysjZW5kaWYNCj4gPiA+ID4gPiArICAgICBzeXNfZXJyb3IgKF8oImNh
-bm5vdCBzZXQgZ2lkIHRvICVkOiBlZmZlY3RpdmUgZ2lkICVkIiksDQo+ID4gPiA+ID4gY3VycmVu
-dF91c2VyLmdpZCwgY3VycmVudF91c2VyLmVnaWQpOw0KPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiAr
-ICAgY3VycmVudF91c2VyLmV1aWQgPSBjdXJyZW50X3VzZXIudWlkOw0KPiA+ID4gPiA+ICtkaWZm
-IC0tZ2l0IGEvdGVzdHMvZ2xvYi50ZXN0cyBiL3Rlc3RzL2dsb2IudGVzdHMNCj4gPiA+ID4gPiAr
-aW5kZXggMDE5MTNiYi4uZmIwMTJmNyAxMDA2NDQNCj4gPiA+ID4gPiArLS0tIGEvdGVzdHMvZ2xv
-Yi50ZXN0cw0KPiA+ID4gPiA+ICsrKysgYi90ZXN0cy9nbG9iLnRlc3RzDQo+ID4gPiA+ID4gK0BA
-IC0xMiw2ICsxMiw4IEBAICR7VEhJU19TSH0gLi9nbG9iMS5zdWINCj4gPiA+ID4gPiArICR7VEhJ
-U19TSH0gLi9nbG9iMi5zdWINCj4gPiA+ID4gPiArICR7VEhJU19TSH0gLi9nbG9iMy5zdWINCj4g
-PiA+ID4gPiArICR7VEhJU19TSH0gLi9nbG9iNC5zdWINCj4gPiA+ID4gPiArKyR7VEhJU19TSH0g
-Li9nbG9iNi5zdWINCj4gPiA+ID4gPiArKyR7VEhJU19TSH0gLi9nbG9iNy5zdWINCj4gPiA+ID4g
-PiArDQo+ID4gPiA+ID4gKyBNWURJUj0kUFdEICMgc2F2ZSB3aGVyZSB3ZSBhcmUNCj4gPiA+ID4g
-PiArDQo+ID4gPiA+ID4gK2RpZmYgLS1naXQgYS90ZXN0cy9nbG9iNi5zdWIgYi90ZXN0cy9nbG9i
-Ni5zdWINCj4gPiA+ID4gPiArbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gPiAraW5kZXgg
-MDAwMDAwMC4uYjA5OTgxMQ0KPiA+ID4gPiA+ICstLS0gL2Rldi9udWxsDQo+ID4gPiA+ID4gKysr
-KyBiL3Rlc3RzL2dsb2I2LnN1Yg0KPiA+ID4gPiA+ICtAQCAtMCwwICsxLDU0IEBADQo+ID4gPiA+
-ID4gKysjIHRlc3RzIG9mIHRoZSBiYWNrc2xhc2gtaW4tZ2xvYi1wYXR0ZXJucyBkaXNjdXNzaW9u
-IG9uIHRoZQ0KPiA+ID4gPiA+IGF1c3Rpbi0NCj4gPiA+ID4gPiBncm91cCBNTA0KPiA+ID4gPiA+
-ICsrDQo+ID4gPiA+ID4gKys6ICR7VE1QRElSOj0vdmFyL3RtcH0NCj4gPiA+ID4gPiArKw0KPiA+
-ID4gPiA+ICsrT1JJRz0kUFdEDQo+ID4gPiA+ID4gKytHTE9CRElSPSRUTVBESVIvYmFzaC1nbG9i
-LSQkDQo+ID4gPiA+ID4gKytta2RpciAkR0xPQkRJUiAmJiBjZCAkR0xPQkRJUg0KPiA+ID4gPiA+
-ICsrDQo+ID4gPiA+ID4gKysjIGRvZXMgdGhlIHBhdHRlcm4gbWF0Y2hlciBhbGxvdyBiYWNrc2xh
-c2hlcyBhcyBlc2NhcGUNCj4gPiA+ID4gPiBjaGFyYWN0ZXJzDQo+ID4gPiA+ID4gYW5kIHJlbW92
-ZQ0KPiA+ID4gPiA+ICsrIyB0aGVtIGFzIHBhcnQgb2YgbWF0Y2hpbmc/DQo+ID4gPiA+ID4gKyt0
-b3VjaCBhYmNkZWZnDQo+ID4gPiA+ID4gKytwYXQ9J2FiXGNkKicNCj4gPiA+ID4gPiArK3ByaW50
-ZiAnPCVzPlxuJyAkcGF0DQo+ID4gPiA+ID4gKytwYXQ9J1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRm
-ICc8JXM+XG4nICRwYXQNCj4gPiA+ID4gPiArK3JtIGFiY2RlZmcNCj4gPiA+ID4gPiArKw0KPiA+
-ID4gPiA+ICsrIyBob3cgYWJvdXQgd2hlbiBlc2NhcGluZyBwYXR0ZXJuIGNoYXJhY3RlcnM/DQo+
-ID4gPiA+ID4gKyt0b3VjaCAnKmFiYy5jJw0KPiA+ID4gPiA+ICsrYT0nXCoqLmMnDQo+ID4gPiA+
-ID4gKytwcmludGYgJyVzXG4nICRhDQo+ID4gPiA+ID4gKytybSAtZiAnKmFiYy5jJw0KPiA+ID4g
-PiA+ICsrDQo+ID4gPiA+ID4gKysjIGhvdyBhYm91dCB3aGVuIG1ha2luZyB0aGUgZGlzdGluY3Rp
-b24gYmV0d2VlbiByZWFkYWJsZQ0KPiA+ID4gPiA+IGFuZA0KPiA+ID4gPiA+IHNlYXJjaGFibGUg
-cGF0aA0KPiA+ID4gPiA+ICsrIyBjb21wb25lbnRzPw0KPiA+ID4gPiA+ICsrbWtkaXIgLW0gYT14
-IHNlYXJjaGFibGUNCj4gPiA+ID4gPiArK21rZGlyIC1tIGE9ciByZWFkYWJsZQ0KPiA+ID4gPiA+
-ICsrDQo+ID4gPiA+ID4gKytwPSdzZWFyY2hhYmxlL1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIl
-c1xuIiAkcA0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytwPSdzZWFyY2hhYmxlL1wuLy4nDQo+
-ID4gPiA+ID4gKytwcmludGYgIiVzXG4iICRwDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK3A9
-J3JlYWRhYmxlL1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xuIiAkcA0KPiA+ID4gPiA+ICsr
-DQo+ID4gPiA+ID4gKytwPSdyZWFkYWJsZS9cLi8uJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xu
-IiAkcA0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytwcmludGYgIiVzXG4iICdzZWFyY2hhYmxl
-L1wuJw0KPiA+ID4gPiA+ICsrcHJpbnRmICIlc1xuIiAncmVhZGFibGUvXC4nDQo+ID4gPiA+ID4g
-KysNCj4gPiA+ID4gPiArK2VjaG8gKi8uDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK3A9Jyov
-XC4nDQo+ID4gPiA+ID4gKytlY2hvICRwDQo+ID4gPiA+ID4gKysNCj4gPiA+ID4gPiArK2VjaG8g
-Ki8nLicNCj4gPiA+ID4gPiArKw0KPiA+ID4gPiA+ICsrcm1kaXIgc2VhcmNoYWJsZSByZWFkYWJs
-ZQ0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytjZCAkT1JJRw0KPiA+ID4gPiA+ICsrcm1kaXIg
-JEdMT0JESVINCj4gPiA+ID4gPiArZGlmZiAtLWdpdCBhL3Rlc3RzL2dsb2I3LnN1YiBiL3Rlc3Rz
-L2dsb2I3LnN1Yg0KPiA+ID4gPiA+ICtuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiA+ICtp
-bmRleCAwMDAwMDAwLi4wMjEyYjhlDQo+ID4gPiA+ID4gKy0tLSAvZGV2L251bGwNCj4gPiA+ID4g
-PiArKysrIGIvdGVzdHMvZ2xvYjcuc3ViDQo+ID4gPiA+ID4gK0BAIC0wLDAgKzEsMTEgQEANCj4g
-PiA+ID4gPiArKyMgYWNjb3JkaW5nIHRvIFBvc2l4IDIuMTMuMywgYSBzbGFzaCBpbiBhIGJyYWNr
-ZXQNCj4gPiA+ID4gPiBleHByZXNzaW9uDQo+ID4gPiA+ID4gcmVuZGVycyB0aGF0DQo+ID4gPiA+
-ID4gKysjIGJyYWNrZXQgZXhwcmVzc2lvbiBpbnZhbGlkDQo+ID4gPiA+ID4gKytzaG9wdCAtcyBu
-dWxsZ2xvYg0KPiA+ID4gPiA+ICsrDQo+ID4gPiA+ID4gKytlY2hvIDE6IFtxd2UvcXdlXQ0KPiA+
-ID4gPiA+ICsrZWNobyAyOiBbcXdlLw0KPiA+ID4gPiA+ICsrZWNobyAzOiBbcXdlL10NCj4gPiA+
-ID4gPiArKw0KPiA+ID4gPiA+ICsrZWNobyA0OiBbcXdlXC9xd2VdDQo+ID4gPiA+ID4gKytlY2hv
-IDU6IFtxd2VcLw0KPiA+ID4gPiA+ICsrZWNobyA2OiBbcXdlXC9dDQo+ID4gPiA+ID4gKy0tDQo+
-ID4gPiA+ID4gKzEuOS4xDQo+ID4gPiA+ID4gKw0KPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvYmFzaC9iYXNoXzUuMC5iYg0KPiA+ID4gPiA+IGIvbWV0YS9yZWNp
-cGVzLQ0KPiA+ID4gPiA+IGV4dGVuZGVkL2Jhc2gvYmFzaF81LjAuYmINCj4gPiA+ID4gPiBpbmRl
-eCAxMmQ0NzJiZTU3Li4yNTdhMDNiZDhiIDEwMDY0NA0KPiA+ID4gPiA+IC0tLSBhL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC9iYXNoL2Jhc2hfNS4wLmJiDQo+ID4gPiA+ID4gKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2Jhc2gvYmFzaF81LjAuYmINCj4gPiA+ID4gPiBAQCAtMzAsNiArMzAsNyBA
-QCBTUkNfVVJJID0NCj4gPiA+ID4gPiAiJHtHTlVfTUlSUk9SfS9iYXNoLyR7QlB9LnRhci5nejtu
-YW1lPXRhcmJhbGwgXA0KPiA+ID4gPiA+ICAgICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwN
-Cj4gPiA+ID4gPiAgICAgICAgICAgICAgZmlsZTovL3J1bi1iYXNoLXB0ZXN0cyBcDQo+ID4gPiA+
-ID4gICAgICAgICAgICAgIGZpbGU6Ly9maXgtcnVuLWJ1aWx0aW5zLnBhdGNoIFwNCj4gPiA+ID4g
-PiArICAgICAgICAgICBmaWxlOi8vYmFzaC1DVkUtMjAxOS0xODI3Ni5wYXRjaCBcDQo+ID4gPiA+
-ID4gICAgICAgICAgICAgICINCj4gPiA+ID4gPiANCj4gPiA+ID4gPiAgIFNSQ19VUklbdGFyYmFs
-bC5tZDVzdW1dID0NCj4gPiA+ID4gPiAiMmI0NGI0N2I5MDViZTE2ZjQ1NzA5NjQ4ZjY3MTgyMGIi
-DQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiA+
-ID4gDQo+ID4gPiA+ID4gDQo+ID4gPiANCj4gPiA+IA0KPiA+ID4gDQo=
+On Tue, Sep 29, 2020 at 6:21 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Mon, 2020-09-28 at 20:45 -0700, Khem Raj wrote:
+> > On Mon, Sep 28, 2020 at 8:27 AM Khem Raj <raj.khem@gmail.com> wrote:
+> > > On Wed, Sep 23, 2020 at 11:00 PM Yu, Mingli <
+> > > mingli.yu@windriver.com> wrote:
+> > > > Hi Anuj,
+> > > >
+> > > > On 9/24/20 10:50 AM, Anuj Mittal wrote:
+> > > > > Hi Mingli,
+> > > > >
+> > > > > On Thu, 2020-09-24 at 10:39 +0800, Yu, Mingli wrote:
+> > > > > > From: De Huo <De.Huo@windriver.com>
+> > > > > >
+> > > > > > An issue was discovered in disable_priv_mode in shell.c in
+> > > > > > GNU Bash
+> > > > > > through 5.0 patch 11. By default, if Bash is run with its
+> > > > > > effective
+> > > > > > UID
+> > > > > > not equal to its real UID, it will drop privileges by setting
+> > > > > > its
+> > > > > > effective UID to its real UID. However, it does so
+> > > > > > incorrectly. On
+> > > > > > Linux
+> > > > > > and other systems that support "saved UID" functionality, the
+> > > > > > saved
+> > > > > > UID
+> > > > > > is not dropped. An attacker with command execution in the
+> > > > > > shell can
+> > > > > > use
+> > > > > > "enable -f" for runtime loading of a new builtin, which can
+> > > > > > be a
+> > > > > > shared
+> > > > > > object that calls setuid() and therefore regains privileges.
+> > > > > > However,
+> > > > > > binaries running with an effective UID of 0 are unaffected.
+> > > > > >
+> > > > > > Get the patch from [1] to fix the issue.
+> > > > > >
+> > > > > > [1]
+> > > > > > https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+> > > > >
+> > > > > Has something changed from last time this patch was submitted
+> > > > > and later
+> > > > > reverted because of the failing ptest? I remember the author
+> > > > > saying
+> > > > > this isn't a real security bug and there were also changes in
+> > > > > the patch
+> > > > > that weren't related to the CVE ...
+> > > >
+> > > > Changed the patch a little to remove the configure file part to
+> > > > fix the
+> > > > reconfigure issue in v1 patch.
+> > > >
+> > > > Yes, the author saying the patch did fix the issue stated in
+> > > > CVE-2019-18276 though the issue actually is't a big deal.
+> > > >
+> > >
+> > > This seems to be regressing bash ptests now.
+> > >
+> > >     ptestresult.bash.run-glob-test
+> > >     ptestresult.bash.run-read
+> > >     ptestresult.bash.run-trap
+> > >
+> >
+> > These failures are happening without this patch too, so perhaps
+> > something else has caused it, could be perhaps setup related too.
+> >
+> >     ptestresult.bash.run-builtins
+> >     ptestresult.bash.run-glob-test
+> >     ptestresult.bash.run-intl
+> >     ptestresult.bash.run-printf
+> >     ptestresult.bash.run-read
+> >     ptestresult.bash.run-trap
+> >
+> >
+>
+> Last time this was applied, it had introduced:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13795
+>
+> because of the unrelated glob changes in this patch. Are you seeing
+> this failure?
+>
+
+glob failures are seen without this patch as well as it seems
+
+> Thanks,
+>
+> Anuj
+>
+> >
+> > > If its not a real security bug then perhaps its better to revert
+> > > it.
+> > >
+> > >
+> > > > Thanks,
+> > > >
+> > > > > Thanks,
+> > > > >
+> > > > > Anuj
+> > > > >
+> > > > > > Signed-off-by: De Huo <De.Huo@windriver.com>
+> > > > > > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > > > > > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> > > > > > ---
+> > > > > >   .../bash/bash/bash-CVE-2019-18276.patch       | 386
+> > > > > > ++++++++++++++++++
+> > > > > >   meta/recipes-extended/bash/bash_5.0.bb        |   1 +
+> > > > > >   2 files changed, 387 insertions(+)
+> > > > > >   create mode 100644 meta/recipes-extended/bash/bash/bash-
+> > > > > > CVE-2019-
+> > > > > > 18276.patch
+> > > > > >
+> > > > > > diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-
+> > > > > > 18276.patch b/meta/recipes-extended/bash/bash/bash-CVE-2019-
+> > > > > > 18276.patch
+> > > > > > new file mode 100644
+> > > > > > index 0000000000..7b2073201e
+> > > > > > --- /dev/null
+> > > > > > +++ b/meta/recipes-extended/bash/bash/bash-CVE-2019-
+> > > > > > 18276.patch
+> > > > > > @@ -0,0 +1,386 @@
+> > > > > > +From 951bdaad7a18cc0dc1036bba86b18b90874d39ff Mon Sep 17
+> > > > > > 00:00:00
+> > > > > > 2001
+> > > > > > +From: Chet Ramey <chet.ramey@case.edu>
+> > > > > > +Date: Mon, 1 Jul 2019 09:03:53 -0400
+> > > > > > +Subject: [PATCH] commit bash-20190628 snapshot
+> > > > > > +
+> > > > > > +An issue was discovered in disable_priv_mode in shell.c in
+> > > > > > GNU Bash
+> > > > > > through 5.0 patch 11.
+> > > > > > +By default, if Bash is run with its effective UID not equal
+> > > > > > to its
+> > > > > > real UID,
+> > > > > > +it will drop privileges by setting its effective UID to its
+> > > > > > real
+> > > > > > UID.
+> > > > > > +However, it does so incorrectly. On Linux and other systems
+> > > > > > that
+> > > > > > support "saved UID" functionality,
+> > > > > > +the saved UID is not dropped. An attacker with command
+> > > > > > execution in
+> > > > > > the shell can use "enable -f" for
+> > > > > > +runtime loading of a new builtin, which can be a shared
+> > > > > > object that
+> > > > > > calls setuid() and therefore
+> > > > > > +regains privileges. However, binaries running with an
+> > > > > > effective UID
+> > > > > > of 0 are unaffected.
+> > > > > > +
+> > > > > > +Get the patch from [1] to fix the issue.
+> > > > > > +
+> > > > > > +Upstream-Status: Inappropriate [the upstream thinks it
+> > > > > > doesn't
+> > > > > > increase the credibility of CVEs in general]
+> > > > > > +CVE: CVE-2019-18276
+> > > > > > +
+> > > > > > +[1]
+> > > > > > https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=951bdaa
+> > > > > > +
+> > > > > > +Signed-off-by: De Huo <De.Huo@windriver.com>
+> > > > > > +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > > > > > +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> > > > > > +---
+> > > > > > + MANIFEST          |  2 ++
+> > > > > > + bashline.c        | 50 +-----------------------------------
+> > > > > > --------
+> > > > > > ------
+> > > > > > + builtins/help.def |  2 +-
+> > > > > > + config.h.in       | 10 +++++++++-
+> > > > > > + configure.ac      |  1 +
+> > > > > > + doc/bash.1        |  3 ++-
+> > > > > > + doc/bashref.texi  |  3 ++-
+> > > > > > + lib/glob/glob.c   |  5 ++++-
+> > > > > > + pathexp.c         | 16 ++++++++++++++--
+> > > > > > + shell.c           |  8 ++++++++
+> > > > > > + tests/glob.tests  |  2 ++
+> > > > > > + tests/glob6.sub   | 54
+> > > > > > ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > > > > + tests/glob7.sub   | 11 +++++++++++
+> > > > > > + 14 files changed, 122 insertions(+), 56 deletions(-)
+> > > > > > + create mode 100644 tests/glob6.sub
+> > > > > > + create mode 100644 tests/glob7.sub
+> > > > > > +
+> > > > > > +diff --git a/MANIFEST b/MANIFEST
+> > > > > > +index 03de221..f9ccad7 100644
+> > > > > > +--- a/MANIFEST
+> > > > > > ++++ b/MANIFEST
+> > > > > > +@@ -1037,6 +1037,8 @@ tests/extglob3.tests  f
+> > > > > > + tests/extglob3.right       f
+> > > > > > + tests/extglob4.sub f
+> > > > > > + tests/extglob5.sub f
+> > > > > > ++tests/glob6.sub            f
+> > > > > > ++tests/glob7.sub            f
+> > > > > > + tests/func.tests   f
+> > > > > > + tests/func.right   f
+> > > > > > + tests/func1.sub            f
+> > > > > > +diff --git a/bashline.c b/bashline.c
+> > > > > > +index 824ea9d..d86b47d 100644
+> > > > > > +--- a/bashline.c
+> > > > > > ++++ b/bashline.c
+> > > > > > +@@ -3718,55 +3718,7 @@ static int
+> > > > > > + completion_glob_pattern (string)
+> > > > > > +      char *string;
+> > > > > > + {
+> > > > > > +-  register int c;
+> > > > > > +-  char *send;
+> > > > > > +-  int open;
+> > > > > > +-
+> > > > > > +-  DECLARE_MBSTATE;
+> > > > > > +-
+> > > > > > +-  open = 0;
+> > > > > > +-  send = string + strlen (string);
+> > > > > > +-
+> > > > > > +-  while (c = *string++)
+> > > > > > +-    {
+> > > > > > +-      switch (c)
+> > > > > > +-   {
+> > > > > > +-   case '?':
+> > > > > > +-   case '*':
+> > > > > > +-     return (1);
+> > > > > > +-
+> > > > > > +-   case '[':
+> > > > > > +-     open++;
+> > > > > > +-     continue;
+> > > > > > +-
+> > > > > > +-   case ']':
+> > > > > > +-     if (open)
+> > > > > > +-       return (1);
+> > > > > > +-     continue;
+> > > > > > +-
+> > > > > > +-   case '+':
+> > > > > > +-   case '@':
+> > > > > > +-   case '!':
+> > > > > > +-     if (*string == '(')   /*)*/
+> > > > > > +-       return (1);
+> > > > > > +-     continue;
+> > > > > > +-
+> > > > > > +-   case '\\':
+> > > > > > +-     if (*string++ == 0)
+> > > > > > +-       return (0);
+> > > > > > +-   }
+> > > > > > +-
+> > > > > > +-      /* Advance one fewer byte than an entire multibyte
+> > > > > > character
+> > > > > > to
+> > > > > > +-    account for the auto-increment in the loop above. */
+> > > > > > +-#ifdef HANDLE_MULTIBYTE
+> > > > > > +-      string--;
+> > > > > > +-      ADVANCE_CHAR_P (string, send - string);
+> > > > > > +-      string++;
+> > > > > > +-#else
+> > > > > > +-      ADVANCE_CHAR_P (string, send - string);
+> > > > > > +-#endif
+> > > > > > +-    }
+> > > > > > +-  return (0);
+> > > > > > ++  return (glob_pattern_p (string) == 1);
+> > > > > > + }
+> > > > > > +
+> > > > > > + static char *globtext;
+> > > > > > +diff --git a/builtins/help.def b/builtins/help.def
+> > > > > > +index 006c4b5..92f9b38 100644
+> > > > > > +--- a/builtins/help.def
+> > > > > > ++++ b/builtins/help.def
+> > > > > > +@@ -128,7 +128,7 @@ help_builtin (list)
+> > > > > > +
+> > > > > > +   /* We should consider making `help bash' do something. */
+> > > > > > +
+> > > > > > +-  if (glob_pattern_p (list->word->word))
+> > > > > > ++  if (glob_pattern_p (list->word->word) == 1)
+> > > > > > +     {
+> > > > > > +       printf ("%s", ngettext ("Shell commands matching
+> > > > > > keyword `",
+> > > > > > "Shell commands matching keywords `", (list->next ? 2 : 1)));
+> > > > > > +       print_word_list (list, ", ");
+> > > > > > +diff --git a/config.h.in b/config.h.in
+> > > > > > +index 8554aec..ad4b1e8 100644
+> > > > > > +--- a/config.h.in
+> > > > > > ++++ b/config.h.in
+> > > > > > +@@ -1,6 +1,6 @@
+> > > > > > + /* config.h -- Configuration file for bash. */
+> > > > > > +
+> > > > > > +-/* Copyright (C) 1987-2009,2011-2012 Free Software
+> > > > > > Foundation, Inc.
+> > > > > > ++/* Copyright (C) 1987-2009,2011-2012,2013-2019 Free
+> > > > > > Software
+> > > > > > Foundation, Inc.
+> > > > > > +
+> > > > > > +    This file is part of GNU Bash, the Bourne Again SHell.
+> > > > > > +
+> > > > > > +@@ -807,6 +807,14 @@
+> > > > > > + #undef HAVE_SETREGID
+> > > > > > + #undef HAVE_DECL_SETREGID
+> > > > > > +
+> > > > > > ++/* Define if you have the setregid function.  */
+> > > > > > ++#undef HAVE_SETRESGID
+> > > > > > ++#undef HAVE_DECL_SETRESGID
+> > > > > > ++
+> > > > > > ++/* Define if you have the setresuid function.  */
+> > > > > > ++#undef HAVE_SETRESUID
+> > > > > > ++#undef HAVE_DECL_SETRESUID
+> > > > > > ++
+> > > > > > + /* Define if you have the setvbuf function.  */
+> > > > > > + #undef HAVE_SETVBUF
+> > > > > > +
+> > > > > > +diff --git a/configure.ac b/configure.ac
+> > > > > > +index 52b4cdb..549adef 100644
+> > > > > > +--- a/configure.ac
+> > > > > > ++++ b/configure.ac
+> > > > > > +@@ -810,6 +810,7 @@ AC_CHECK_DECLS([confstr])
+> > > > > > + AC_CHECK_DECLS([printf])
+> > > > > > + AC_CHECK_DECLS([sbrk])
+> > > > > > + AC_CHECK_DECLS([setregid])
+> > > > > > ++AC_CHECK_DECLS[(setresuid, setresgid])
+> > > > > > + AC_CHECK_DECLS([strcpy])
+> > > > > > + AC_CHECK_DECLS([strsignal])
+> > > > > > +
+> > > > > > +diff --git a/doc/bash.1 b/doc/bash.1
+> > > > > > +index e6cd08d..9e58a0b 100644
+> > > > > > +--- a/doc/bash.1
+> > > > > > ++++ b/doc/bash.1
+> > > > > > +@@ -4681,7 +4681,8 @@ above).
+> > > > > > + .PD
+> > > > > > + .SH "SIMPLE COMMAND EXPANSION"
+> > > > > > + When a simple command is executed, the shell performs the
+> > > > > > following
+> > > > > > +-expansions, assignments, and redirections, from left to
+> > > > > > right.
+> > > > > > ++expansions, assignments, and redirections, from left to
+> > > > > > right, in
+> > > > > > ++the following order.
+> > > > > > + .IP 1.
+> > > > > > + The words that the parser has marked as variable
+> > > > > > assignments (those
+> > > > > > + preceding the command name) and redirections are saved for
+> > > > > > later
+> > > > > > +diff --git a/doc/bashref.texi b/doc/bashref.texi
+> > > > > > +index d33cd57..3065126 100644
+> > > > > > +--- a/doc/bashref.texi
+> > > > > > ++++ b/doc/bashref.texi
+> > > > > > +@@ -2964,7 +2964,8 @@ is not specified.  If the file does
+> > > > > > not exist,
+> > > > > > it is created.
+> > > > > > + @cindex command expansion
+> > > > > > +
+> > > > > > + When a simple command is executed, the shell performs the
+> > > > > > following
+> > > > > > +-expansions, assignments, and redirections, from left to
+> > > > > > right.
+> > > > > > ++expansions, assignments, and redirections, from left to
+> > > > > > right, in
+> > > > > > ++the following order.
+> > > > > > +
+> > > > > > + @enumerate
+> > > > > > + @item
+> > > > > > +diff --git a/lib/glob/glob.c b/lib/glob/glob.c
+> > > > > > +index 398253b..2eaa33e 100644
+> > > > > > +--- a/lib/glob/glob.c
+> > > > > > ++++ b/lib/glob/glob.c
+> > > > > > +@@ -607,6 +607,7 @@ glob_vector (pat, dir, flags)
+> > > > > > +   register unsigned int i;
+> > > > > > +   int mflags;              /* Flags passed to strmatch ().
+> > > > > > */
+> > > > > > +   int pflags;              /* flags passed to sh_makepath
+> > > > > > () */
+> > > > > > ++  int hasglob;             /* return value from
+> > > > > > glob_pattern_p */
+> > > > > > +   int nalloca;
+> > > > > > +   struct globval *firstmalloc, *tmplink;
+> > > > > > +   char *convfn;
+> > > > > > +@@ -648,10 +649,12 @@ glob_vector (pat, dir, flags)
+> > > > > > +   patlen = (pat && *pat) ? strlen (pat) : 0;
+> > > > > > +
+> > > > > > +   /* If the filename pattern (PAT) does not contain any
+> > > > > > globbing
+> > > > > > characters,
+> > > > > > ++     or contains a pattern with only backslash escapes
+> > > > > > (hasglob ==
+> > > > > > 2),
+> > > > > > +      we can dispense with reading the directory, and just
+> > > > > > see if
+> > > > > > there is
+> > > > > > +      a filename `DIR/PAT'.  If there is, and we can access
+> > > > > > it, just
+> > > > > > make the
+> > > > > > +      vector to return and bail immediately. */
+> > > > > > +-  if (skip == 0 && glob_pattern_p (pat) == 0)
+> > > > > > ++  hasglob = 0;
+> > > > > > ++  if (skip == 0 && (hasglob = glob_pattern_p (pat)) == 0 ||
+> > > > > > hasglob
+> > > > > > == 2)
+> > > > > > +     {
+> > > > > > +       int dirlen;
+> > > > > > +       struct stat finfo;
+> > > > > > +diff --git a/pathexp.c b/pathexp.c
+> > > > > > +index c1bf2d8..e6c5392 100644
+> > > > > > +--- a/pathexp.c
+> > > > > > ++++ b/pathexp.c
+> > > > > > +@@ -58,7 +58,10 @@ int extended_glob = EXTGLOB_DEFAULT;
+> > > > > > + /* Control enabling special handling of `**' */
+> > > > > > + int glob_star = 0;
+> > > > > > +
+> > > > > > +-/* Return nonzero if STRING has any unquoted special
+> > > > > > globbing chars
+> > > > > > in it.  */
+> > > > > > ++/* Return nonzero if STRING has any unquoted special
+> > > > > > globbing chars
+> > > > > > in it.
+> > > > > > ++   This is supposed to be called when pathname expansion is
+> > > > > > performed, so
+> > > > > > ++   it implements the rules in Posix 2.13.3, specifically
+> > > > > > that an
+> > > > > > unquoted
+> > > > > > ++   slash cannot appear in a bracket expression. */
+> > > > > > + int
+> > > > > > + unquoted_glob_pattern_p (string)
+> > > > > > +      register char *string;
+> > > > > > +@@ -85,10 +88,14 @@ unquoted_glob_pattern_p (string)
+> > > > > > +      continue;
+> > > > > > +
+> > > > > > +    case ']':
+> > > > > > +-     if (open)
+> > > > > > ++     if (open)             /* XXX - if --open == 0? */
+> > > > > > +        return (1);
+> > > > > > +      continue;
+> > > > > > +
+> > > > > > ++   case '/':
+> > > > > > ++     if (open)
+> > > > > > ++       open = 0;
+> > > > > > ++
+> > > > > > +    case '+':
+> > > > > > +    case '@':
+> > > > > > +    case '!':
+> > > > > > +@@ -106,6 +113,11 @@ unquoted_glob_pattern_p (string)
+> > > > > > +          string++;
+> > > > > > +          continue;
+> > > > > > +        }
+> > > > > > ++     else if (open && *string == '/')
+> > > > > > ++       {
+> > > > > > ++         string++;         /* quoted slashes in bracket
+> > > > > > expressions are ok */
+> > > > > > ++         continue;
+> > > > > > ++       }
+> > > > > > +      else if (*string == 0)
+> > > > > > +        return (0);
+> > > > > > +
+> > > > > > +diff --git a/shell.c b/shell.c
+> > > > > > +index a2b2a55..6adabc8 100644
+> > > > > > +--- a/shell.c
+> > > > > > ++++ b/shell.c
+> > > > > > +@@ -1293,7 +1293,11 @@ disable_priv_mode ()
+> > > > > > + {
+> > > > > > +   int e;
+> > > > > > +
+> > > > > > ++#if HAVE_DECL_SETRESUID
+> > > > > > ++  if (setresuid (current_user.uid, current_user.uid,
+> > > > > > current_user.uid) < 0)
+> > > > > > ++#else
+> > > > > > +   if (setuid (current_user.uid) < 0)
+> > > > > > ++#endif
+> > > > > > +     {
+> > > > > > +       e = errno;
+> > > > > > +       sys_error (_("cannot set uid to %d: effective uid
+> > > > > > %d"),
+> > > > > > current_user.uid, current_user.euid);
+> > > > > > +@@ -1302,7 +1306,11 @@ disable_priv_mode ()
+> > > > > > +    exit (e);
+> > > > > > + #endif
+> > > > > > +     }
+> > > > > > ++#if HAVE_DECL_SETRESGID
+> > > > > > ++  if (setresgid (current_user.gid, current_user.gid,
+> > > > > > current_user.gid) < 0)
+> > > > > > ++#else
+> > > > > > +   if (setgid (current_user.gid) < 0)
+> > > > > > ++#endif
+> > > > > > +     sys_error (_("cannot set gid to %d: effective gid %d"),
+> > > > > > current_user.gid, current_user.egid);
+> > > > > > +
+> > > > > > +   current_user.euid = current_user.uid;
+> > > > > > +diff --git a/tests/glob.tests b/tests/glob.tests
+> > > > > > +index 01913bb..fb012f7 100644
+> > > > > > +--- a/tests/glob.tests
+> > > > > > ++++ b/tests/glob.tests
+> > > > > > +@@ -12,6 +12,8 @@ ${THIS_SH} ./glob1.sub
+> > > > > > + ${THIS_SH} ./glob2.sub
+> > > > > > + ${THIS_SH} ./glob3.sub
+> > > > > > + ${THIS_SH} ./glob4.sub
+> > > > > > ++${THIS_SH} ./glob6.sub
+> > > > > > ++${THIS_SH} ./glob7.sub
+> > > > > > +
+> > > > > > + MYDIR=$PWD # save where we are
+> > > > > > +
+> > > > > > +diff --git a/tests/glob6.sub b/tests/glob6.sub
+> > > > > > +new file mode 100644
+> > > > > > +index 0000000..b099811
+> > > > > > +--- /dev/null
+> > > > > > ++++ b/tests/glob6.sub
+> > > > > > +@@ -0,0 +1,54 @@
+> > > > > > ++# tests of the backslash-in-glob-patterns discussion on the
+> > > > > > austin-
+> > > > > > group ML
+> > > > > > ++
+> > > > > > ++: ${TMPDIR:=/var/tmp}
+> > > > > > ++
+> > > > > > ++ORIG=$PWD
+> > > > > > ++GLOBDIR=$TMPDIR/bash-glob-$$
+> > > > > > ++mkdir $GLOBDIR && cd $GLOBDIR
+> > > > > > ++
+> > > > > > ++# does the pattern matcher allow backslashes as escape
+> > > > > > characters
+> > > > > > and remove
+> > > > > > ++# them as part of matching?
+> > > > > > ++touch abcdefg
+> > > > > > ++pat='ab\cd*'
+> > > > > > ++printf '<%s>\n' $pat
+> > > > > > ++pat='\.'
+> > > > > > ++printf '<%s>\n' $pat
+> > > > > > ++rm abcdefg
+> > > > > > ++
+> > > > > > ++# how about when escaping pattern characters?
+> > > > > > ++touch '*abc.c'
+> > > > > > ++a='\**.c'
+> > > > > > ++printf '%s\n' $a
+> > > > > > ++rm -f '*abc.c'
+> > > > > > ++
+> > > > > > ++# how about when making the distinction between readable
+> > > > > > and
+> > > > > > searchable path
+> > > > > > ++# components?
+> > > > > > ++mkdir -m a=x searchable
+> > > > > > ++mkdir -m a=r readable
+> > > > > > ++
+> > > > > > ++p='searchable/\.'
+> > > > > > ++printf "%s\n" $p
+> > > > > > ++
+> > > > > > ++p='searchable/\./.'
+> > > > > > ++printf "%s\n" $p
+> > > > > > ++
+> > > > > > ++p='readable/\.'
+> > > > > > ++printf "%s\n" $p
+> > > > > > ++
+> > > > > > ++p='readable/\./.'
+> > > > > > ++printf "%s\n" $p
+> > > > > > ++
+> > > > > > ++printf "%s\n" 'searchable/\.'
+> > > > > > ++printf "%s\n" 'readable/\.'
+> > > > > > ++
+> > > > > > ++echo */.
+> > > > > > ++
+> > > > > > ++p='*/\.'
+> > > > > > ++echo $p
+> > > > > > ++
+> > > > > > ++echo */'.'
+> > > > > > ++
+> > > > > > ++rmdir searchable readable
+> > > > > > ++
+> > > > > > ++cd $ORIG
+> > > > > > ++rmdir $GLOBDIR
+> > > > > > +diff --git a/tests/glob7.sub b/tests/glob7.sub
+> > > > > > +new file mode 100644
+> > > > > > +index 0000000..0212b8e
+> > > > > > +--- /dev/null
+> > > > > > ++++ b/tests/glob7.sub
+> > > > > > +@@ -0,0 +1,11 @@
+> > > > > > ++# according to Posix 2.13.3, a slash in a bracket
+> > > > > > expression
+> > > > > > renders that
+> > > > > > ++# bracket expression invalid
+> > > > > > ++shopt -s nullglob
+> > > > > > ++
+> > > > > > ++echo 1: [qwe/qwe]
+> > > > > > ++echo 2: [qwe/
+> > > > > > ++echo 3: [qwe/]
+> > > > > > ++
+> > > > > > ++echo 4: [qwe\/qwe]
+> > > > > > ++echo 5: [qwe\/
+> > > > > > ++echo 6: [qwe\/]
+> > > > > > +--
+> > > > > > +1.9.1
+> > > > > > +
+> > > > > > diff --git a/meta/recipes-extended/bash/bash_5.0.bb
+> > > > > > b/meta/recipes-
+> > > > > > extended/bash/bash_5.0.bb
+> > > > > > index 12d472be57..257a03bd8b 100644
+> > > > > > --- a/meta/recipes-extended/bash/bash_5.0.bb
+> > > > > > +++ b/meta/recipes-extended/bash/bash_5.0.bb
+> > > > > > @@ -30,6 +30,7 @@ SRC_URI =
+> > > > > > "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+> > > > > >              file://run-ptest \
+> > > > > >              file://run-bash-ptests \
+> > > > > >              file://fix-run-builtins.patch \
+> > > > > > +           file://bash-CVE-2019-18276.patch \
+> > > > > >              "
+> > > > > >
+> > > > > >   SRC_URI[tarball.md5sum] =
+> > > > > > "2b44b47b905be16f45709648f671820b"
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > >
+> > > > 
+> > > >
