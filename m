@@ -1,103 +1,96 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.6485.1601503967791156971
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.6490.1601503970466214242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:12:47 -0700
+ Wed, 30 Sep 2020 15:12:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cvMVAMnI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id k13so2364997pfg.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QXUvLrA2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id gm14so689002pjb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=rrbkNg0ohhEVrKqBgzRghq9X/03yg+VJQR2v88TwYGA=;
-        b=cvMVAMnIrL3Jguolu+0ncYrTpPjTqHBkJp2WU6pKcnl+NaJqzWC0sFpacC38bBzOfg
-         AQH4vxu9Nvl6vJvrJPppekfvbAvPjNIhzRvJNDwlVQS/jOizIMo808ZvrFRteru2EhZU
-         8fTabePQTFwCQyz6WSx+9nh+Tv0kzJm2Q0EqxVAqJZMvv4Y+giYVr9aXziK0bfJFPmEx
-         nGTt+4LY48aM+75zR9wpdTCLV5p6XS34cmT/uyOaGzUTxVVFPOngm+pKl7CwKSAp33Ip
-         oYDq2iiIeIYo/PD08xPePePwhYouwQdtBl9gGUlcYUnuIGCZjj0rr7CKRQ859RNi+5/P
-         yTAw==
+        bh=GH4oH2+3Srz+qjRLVkijVqDt9GsKCb+UD+6sX4I7+I8=;
+        b=QXUvLrA2AR/U0mwakcGU3KEcq5L7UHP0uMC+mX35NnDuXdJ9tvRynyy0w3Kc/Ar7Ar
+         qRK1/WERrklV0c8IknK7dog3TXdH/s502Dl9b5gXb8wVnIcR2i1rgImQtWwnKzDIDrN3
+         sv5Xvhqq9KTb6Yy+4coDGv2pyDio44eiiNPTUBKdPqQj1JJpqUyBv8WvHx6qaJlN4w/F
+         DPwqawb9oMBecCjXWVSjTCmmF0Us6lTXFbB2mm2szoVdj0ukB78t0Ze9h5+0zTA8WVqJ
+         3CmkgZljOb65UU20On1N25a1coKOL4lLdZM06wSAFdlxwE13Tlh+RJHtO8Zyhxntgszy
+         py/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=rrbkNg0ohhEVrKqBgzRghq9X/03yg+VJQR2v88TwYGA=;
-        b=KNX7IkSNw9cN8xRTAKZdLmkoi7yfWDwHtaDQE/BQRUmm5ZbMbh1lX59n7aJIdW1R4C
-         h2XGcL0v/8BzAtMpz/2tCixV05sniExT+UvLjk9UT1YP8B+ioSlFRQkxHK570HGy4D7I
-         BvkTIYsmSZNz+ZjoGF4J+54Hb2EakjtUIZIIA2QMbutYu7d3xb2Ttb0TDcTHmjx+mJSK
-         pBUWn6uAGpBigTha5KIrx3MkfQGfJgUZ8thn0dD1yUTGIeTt9BtFgTZ6mJWNwIs6fluZ
-         YXPcbjnmkANTP+E/QzrU7iwbP91LZ3/UWhzJPviMPD3vKVPBHMTrotroYh7ZFP9ylyIU
-         Mibg==
-X-Gm-Message-State: AOAM531sE+9lZOhxlS8rAEchh1c+NwkmXHRn4xDEbmkgdMCijbbH/RYg
-	DylG+g3e82O6FcLtSINfYYCMHJvlSJ+dcqqUXWs=
-X-Google-Smtp-Source: ABdhPJy2M0y8TwrVFhCusFONTsUqn5Jwf5/70IfpAWoZniy2wHB5tW16TjwckQKcaIvbI0y1QWy6nQ==
-X-Received: by 2002:a17:902:bf4b:b029:d1:e5e7:bddd with SMTP id u11-20020a170902bf4bb02900d1e5e7bdddmr4257322pls.61.1601503966427;
-        Wed, 30 Sep 2020 15:12:46 -0700 (PDT)
+        bh=GH4oH2+3Srz+qjRLVkijVqDt9GsKCb+UD+6sX4I7+I8=;
+        b=PSS/Ao14N8wvTTB/Jvn10ezHZtcdBtV8bW/WuHLcU0sy7XnNUcEuyASpmu8s0LdIcK
+         lMGjwCEzGtw1c03+OvwAr4s3fz3Hj2eb2AqOGxnKoRoRRkWkJZv2to339Gqs430G+3Eg
+         ILZs3wJkKiR7vDZTuym+lfMIcrQeaqylcGU52IZMHwNUqygBHv19cOMFmXsCbQKK9Gpl
+         9nwT3AiFFHuZGhwtr1suMIGKYcLww6kGEETZpZEoTreR55gq4zIXGXjR+O8dZ4cPcvQa
+         IFMLmIEOQbs7HIK1XhSsnC0STzzYX+2safTR7TAKbb5u3lI805LgEK1lhbcy6fRnFYv0
+         Hrtg==
+X-Gm-Message-State: AOAM530FwskCPTMIHHpLBkkX1u5cOGqoeGnXSYKaR0PG0rwB+QVhKnJq
+	TsNVCaRZzMTYRDfShpuoQYfLUsHTWikwQvFWxd8=
+X-Google-Smtp-Source: ABdhPJzF+PCap7jxipo5giLpg79dK21E0l4Fpii/yaQ6F63eNRaIf5yhbfuLB6Ab+ZrwKi7UWRXpyA==
+X-Received: by 2002:a17:90a:ab0b:: with SMTP id m11mr4464621pjq.197.1601503969365;
+        Wed, 30 Sep 2020 15:12:49 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.45
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:12:45 -0700 (PDT)
+        Wed, 30 Sep 2020 15:12:48 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 18/41] testexport: rename create_tarball method
-Date: Wed, 30 Sep 2020 12:11:20 -1000
-Message-Id: <fa240a4d8ede066980cec70f479548d5df502ded.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 19/41] packagegroups: remove strace and lttng-tools for rv32/musl
+Date: Wed, 30 Sep 2020 12:11:21 -1000
+Message-Id: <d5173d1fb27d9ed050aa278ed83b28a757248f0d.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Konrad Weihmann <kweihmann@outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-as otherwise when using it in combination with archiver.bbclass we would
-have 2 methods of the same name but with different signatures
-leading to various hard to understand exceptions
+These tools are not yet ported to rv32/musl
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ce0c1cb2fc67881d2edcbe269ea934917ccfb48a)
+(cherry picked from commit cf963ef65d524256c2d00e0588cd3b8b7ef56ff4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/testexport.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../packagegroups/packagegroup-core-tools-debug.bb           | 5 ++++-
+ .../packagegroups/packagegroup-core-tools-profile.bb         | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index 59cbaefbf9..1b0fb44a4a 100644
---- a/meta/classes/testexport.bbclass
-+++ b/meta/classes/testexport.bbclass
-@@ -137,7 +137,7 @@ def copy_needed_files(d, tc):
-                 shutil.rmtree(os.path.join(subdir, dir))
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+index 81fbdf4608..283c1f1a35 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+@@ -13,9 +13,12 @@ PR = "r3"
+ MTRACE = ""
+ MTRACE_libc-glibc = "libc-mtrace"
  
-     # Create tar file for common parts of testexport
--    create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
-+    testexport_create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
++STRACE = "strace"
++STRACE_riscv32_libc-musl = ""
++
+ RDEPENDS_${PN} = "\
+     gdb \
+     gdbserver \
+-    strace \
+     ${MTRACE} \
++    ${STRACE} \
+     "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index ac180b542a..9fd2569a04 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -41,6 +41,7 @@ LTTNGUST_arc = ""
  
-     # Copy packages needed for runtime testing
-     package_extraction(d, tc.suites)
-@@ -146,7 +146,7 @@ def copy_needed_files(d, tc):
-         export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR"), "packages")
-         oe.path.copytree(test_pkg_dir, export_pkg_dir)
-         # Create tar file for packages needed by the DUT
--        create_tarball(d, "testexport_packages_%s.tar.gz" % d.getVar("MACHINE"), export_pkg_dir)
-+        testexport_create_tarball(d, "testexport_packages_%s.tar.gz" % d.getVar("MACHINE"), export_pkg_dir)
+ LTTNGTOOLS = "lttng-tools"
+ LTTNGTOOLS_arc = ""
++LTTNGTOOLS_riscv32_libc-musl = ""
  
-     # Copy SDK
-     if d.getVar("TEST_EXPORT_SDK_ENABLED") == "1":
-@@ -159,11 +159,11 @@ def copy_needed_files(d, tc):
-         shutil.copy2(tarball_path, export_sdk_dir)
- 
-         # Create tar file for the sdk
--        create_tarball(d, "testexport_sdk_%s.tar.gz" % d.getVar("SDK_ARCH"), export_sdk_dir)
-+        testexport_create_tarball(d, "testexport_sdk_%s.tar.gz" % d.getVar("SDK_ARCH"), export_sdk_dir)
- 
-     bb.plain("Exported tests to: %s" % export_path)
- 
--def create_tarball(d, tar_name, src_dir):
-+def testexport_create_tarball(d, tar_name, src_dir):
- 
-     import tarfile
- 
+ LTTNGMODULES = "lttng-modules"
+ LTTNGMODULES_arc = ""
 -- 
 2.17.1
 
