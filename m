@@ -1,234 +1,343 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.6600.1601504137618939570
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.6603.1601504140078261956
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:15:37 -0700
+ Wed, 30 Sep 2020 15:15:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xs0MTR2Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d6so2336527pfn.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hbL3ixRk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 5so2126305pgf.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=yH1UDjlh52vg5M3gZgq6HJmRIMLGfgQ51BvdoTZDbIQ=;
-        b=xs0MTR2Zp3FEeAoTNZjljZSvpPPIZmeqo5L4nZ3HrqBRxRo+1PeQo2hnCzTsH2TMHD
-         ZEFF2nRrGIGPcEEwrH8nVOUfS3IukaiERPpR/1KSg+e/qZSz71oUeB5SSCnRox7V2j5a
-         07Pi7g1hdUYXQe7XiVybs5iyVc2CjI26gWh3uotY0G71XtfPPkiF0YR+I1cQldPIY+k1
-         G6NVueD+GktvfMJT78rk+Rqjc4i0DhofSv2rAFaovMKezIZnuWPONFvQMePE5PkW/+kw
-         8XcOGn1+dGnegeUrFmXQek3MZvMWkCK4WAcmbFT6UYoVBejKB2hs3gnZFRElGtS7HhQi
-         HRww==
+        bh=wpwJi4i94H7+LCN8Mk/Go9HU7PfGiFnxTTtmO5IxqRY=;
+        b=hbL3ixRkj9GeGrXTPO9pCQcDxUAT7JOEV0M0cbuGF6hRNG3uAmZN4SLxMDiNMbvM4i
+         cjJkgy2wvIJdJHxW/ilTzmEDdM0rhWzs9V9OK/8LO5HYenijWq5TpmvnuLIYrz5lRQ9D
+         kQwLdFNWXIIDa+hcybMCtP86bwwfUQIOiOKuS3y0rIZLNxRgIMJioIrBOat3tK77Jw/z
+         DsH6E7QiWbVGPgqpSR5CIgrjjLDd1H0/V2cyo7e8Kroemg2z1ahBUZorkpYcQgeKeEVg
+         AaycTqikyIYj/vP8jdJ42SQqI0P2DyfX592YO58Ec4zi0/rjF+v+FQGe10LgiZ+mauSv
+         IA3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=yH1UDjlh52vg5M3gZgq6HJmRIMLGfgQ51BvdoTZDbIQ=;
-        b=DVeOt5XNQJ5ZTkaC5LjqJZq25TwMqz2MjJ+GbcoFeqJ7Tmks8DCcOXLNVIHJa2ND3t
-         dZILJY7moR3WpwOUNA8HnTrai8RaCpng3rr9RMrfiyq55kzLBIzVOFfVOtdQZLbzD22m
-         oJ8GJ+9U9ZXtGWgo5vbQthw2dX+eJ1gRkKDp0W70WMKNugIPC7B0br5uw0KWdxdHluUJ
-         +gtoMd3hg0YkCg8Fwijngsiz52Lu8eNwTBbLe2sgQzH7qOSsz5nuyEsfb6LRj00O6PKQ
-         msyEhzKoI343FYvCScH/0sdD9bzlDQ561vQYlEA6ga9y7Gp+g0LTinIEnsUvS0+YgKMn
-         74TQ==
-X-Gm-Message-State: AOAM531zJQi29KZd6mUYSDizQv/HkySHRXywnypHVwVcl2nKTyGmBAeb
-	tntMxjZzn7uX/CdYHJjnq5PC+yQEs23jB+/Ciko=
-X-Google-Smtp-Source: ABdhPJz0uBeaXj17p1Rkx506OHSrXy7Nl1yQM8p93/WnVBP5qAva5mrj4/QMGeYXzJWi/t7FXKicQw==
-X-Received: by 2002:a63:77c4:: with SMTP id s187mr3642213pgc.303.1601504136648;
-        Wed, 30 Sep 2020 15:15:36 -0700 (PDT)
+        bh=wpwJi4i94H7+LCN8Mk/Go9HU7PfGiFnxTTtmO5IxqRY=;
+        b=fsl2jj1CQoAD61zeXhBPEFdt/2YXJTDWyHyIf2OgFRSM20zsYzQ2zzef/zW/BB8+2o
+         QwZhidHWcLluTHgIsQShsAFVsrKiN8OwVY0YyAeYXYxwaOghTo3YaVlOIXdOnaVHBCnr
+         njZjJ8dB6yBlqliF/H7g19ojN/Rfi7Fe5GAOq68ST47SmbD5D3sGB8FCWyNL45gb+gUM
+         IcVkLhm9asR2h7IWXASFM3puheXKP/au5EkI1AdGVCAly75HNcvZKizWquEM5ffxUXxp
+         z4qy/cZBwaE0UwJbn3hVNvB3TblaKUlsHj6Aee8DAaLarsLJN+C9EXoX9M5PioG27Lw/
+         FJ5A==
+X-Gm-Message-State: AOAM533s33cE4hUqZYJ1gmPcEWJFRau9g0Yxj5sGtqhi1GW0SxeME2BU
+	QlC8aePEk/5izPVYsCO3amx7K9/fPg+nM4D2PWM=
+X-Google-Smtp-Source: ABdhPJyJuN0Js+hQEsTHTvOZq6fShZ3g64iLXYPWmDiS6EBc1VlCQGc9fpo0qh3gHHo6Hdqg17iXsQ==
+X-Received: by 2002:a17:902:6f08:b029:d2:ab80:4ac4 with SMTP id w8-20020a1709026f08b02900d2ab804ac4mr4135968plk.72.1601504139025;
+        Wed, 30 Sep 2020 15:15:39 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.35
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.15.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:15:36 -0700 (PDT)
+        Wed, 30 Sep 2020 15:15:38 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 37/41] lttng-modules: backport writeback.h changes from 2.12.x to fix kernel 5.4.62+
-Date: Wed, 30 Sep 2020 12:11:39 -1000
-Message-Id: <348c666b2dca230308c8462dac2117b04cca6ae7.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 38/41] wic: Add --offset argument for partitions
+Date: Wed, 30 Sep 2020 12:11:40 -1000
+Message-Id: <897aaff8961f7fe83634a3b0b94e19b43aea5857.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-Backporting the kernel version changes for writeback.h to fix
-compilation against kernel stable versions 5.4.62+
+Add support for an --offset argument when defining a partition. Many
+SoCs require that boot partitions be located at specific offsets. Prior
+to this argument, most WKS files were using the --align attribute to
+specify the location of these fixed partitions but this is not ideal
+because in the event that the partition couldn't be placed in the
+specified location, wic would move it to the next sector with that
+alignment, often preventing the device from booting. Unlike the --align
+argument, wic will fail if a partition cannot be placed at the exact
+offset specified with --offset.
 
-This is a combination of upstream commits:
+Changes in V2:
+* Fixed a small typo that prevented test_fixed_size_error from passing
 
- 87b2aff [fix: writeback: Fix sync livelock due to b_dirty_time processing (v5.9)]
- b74b25f [fix: version ranges for ext4_discard_preallocations and writeback_queue_io
-
-Upstream-status: Backport
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 467f84e12b96bc977d57575023517dd6f8ef7f29)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ckport-writeback.h-changes-from-2.12.patch | 128 ++++++++++++++++++
- .../lttng/lttng-modules_2.11.2.bb             |   7 +-
- 2 files changed, 132 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
+ meta/lib/oeqa/selftest/cases/wic.py      | 118 ++++++++++++++++++-----
+ scripts/lib/wic/ksparser.py              |  46 +++++----
+ scripts/lib/wic/partition.py             |   1 +
+ scripts/lib/wic/plugins/imager/direct.py |  15 +++
+ 4 files changed, 135 insertions(+), 45 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
-new file mode 100644
-index 0000000000..25b0a57bc6
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
-@@ -0,0 +1,128 @@
-+From 66d0869cf54ed79a33345f537dce2f7840e279f0 Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@gmail.com>
-+Date: Tue, 29 Sep 2020 10:28:20 -0400
-+Subject: [PATCH] lttng-modules: backport writeback.h changes from 2.12.x to
-+ fix kernel 5.4.62+
-+
-+Backporting the kernel version changes for writeback.h to fix
-+compilation against kernel stable versions 5.4.62+
-+
-+This is a combination of upstream commits:
-+
-+ 87b2aff [fix: writeback: Fix sync livelock due to b_dirty_time processing (v5.9)]
-+ b74b25f [fix: version ranges for ext4_discard_preallocations and writeback_queue_io
-+
-+Upstream-status: Backport
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-+---
-+ .../events/lttng-module/writeback.h           | 48 +++++++++++++------
-+ 1 file changed, 33 insertions(+), 15 deletions(-)
-+
-+diff --git a/instrumentation/events/lttng-module/writeback.h b/instrumentation/events/lttng-module/writeback.h
-+index 3327a0f..8d2250e 100644
-+--- a/instrumentation/events/lttng-module/writeback.h
-++++ b/instrumentation/events/lttng-module/writeback.h
-+@@ -372,34 +372,55 @@ LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_balance_dirty_wait, writeback_wbc_balanc
-+ #endif
-+ LTTNG_TRACEPOINT_EVENT_WBC_INSTANCE(wbc_writepage, writeback_wbc_writepage)
-+ 
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,9,0) || \
-++	LTTNG_KERNEL_RANGE(5,8,6, 5,9,0) || \
-++	LTTNG_KERNEL_RANGE(5,4,62, 5,5,0) || \
-++	LTTNG_KERNEL_RANGE(4,19,143, 4,20,0) || \
-++	LTTNG_KERNEL_RANGE(4,14,196, 4,15,0) || \
-++	LTTNG_KERNEL_RANGE(4,9,235, 4,10,0) || \
-++	LTTNG_KERNEL_RANGE(4,4,235, 4,5,0) || \
-++	LTTNG_UBUNTU_KERNEL_RANGE(4,15,18,119, 4,16,0,0))
-++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-++	TP_PROTO(struct bdi_writeback *wb,
-++		 struct wb_writeback_work *work,
-++		 unsigned long dirtied_before,
-++		 int moved),
-++	TP_ARGS(wb, work, dirtied_before, moved),
-++	TP_FIELDS(
-++		ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-++		ctf_integer(unsigned long, older, dirtied_before)
-++		ctf_integer(int, moved, moved)
-++	)
-++)
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-+ LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-+ 	TP_PROTO(struct bdi_writeback *wb,
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-+ 		 struct wb_writeback_work *work,
-+-#else
-+-		 unsigned long *older_than_this,
-+-#endif
-+ 		 int moved),
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-+ 	TP_ARGS(wb, work, moved),
-+-#else
-++	TP_FIELDS(
-++		ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-++		ctf_integer(int, moved, moved)
-++	)
-++)
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-++LTTNG_TRACEPOINT_EVENT(writeback_queue_io,
-++	TP_PROTO(struct bdi_writeback *wb,
-++		 unsigned long *older_than_this,
-++		 int moved),
-+ 	TP_ARGS(wb, older_than_this, moved),
-+-#endif
-+ 	TP_FIELDS(
-+ 		ctf_array_text(char, name, dev_name(wb->bdi->dev), 32)
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-+-#else
-+ 		ctf_integer(unsigned long, older,
-+ 			older_than_this ? *older_than_this : 0)
-+ 		ctf_integer(long, age,
-+ 			older_than_this ?
-+ 				(jiffies - *older_than_this) * 1000 / HZ
-+ 				: -1)
-+-#endif
-+ 		ctf_integer(int, moved, moved)
-+ 	)
-+ )
-++#endif
-+ 
-+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-+ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-+@@ -425,7 +446,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-+ 		ctf_integer(unsigned long, dirty_limit, global_dirty_limit)
-+ 	)
-+ )
-+-#else
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-+ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-+ 
-+ 	writeback_global_dirty_state,
-+@@ -450,7 +471,6 @@ LTTNG_TRACEPOINT_EVENT_MAP(global_dirty_state,
-+ 	)
-+ )
-+ #endif
-+-#endif
-+ 
-+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
-+ 
-+@@ -661,7 +681,6 @@ LTTNG_TRACEPOINT_EVENT(writeback_sb_inodes_requeue,
-+ )
-+ #endif
-+ 
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
-+ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_congest_waited_template,
-+ 
-+ 	TP_PROTO(unsigned int usec_timeout, unsigned int usec_delayed),
-+@@ -687,7 +706,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_congest_waited_template, writeback_wai
-+ 
-+ 	TP_ARGS(usec_timeout, usec_delayed)
-+ )
-+-#endif
-+ 
-+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,1,0))
-+ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_single_inode_template,
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-index 6fff096a37..8e56a3c10a 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-@@ -11,6 +11,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           file://0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch \
-            "
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 626a217e69..6d4068a527 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -639,41 +639,50 @@ class Wic2(WicTestCase):
+             tempf.write("part " \
+                      "--source rootfs --ondisk hda --align 4 --fixed-size %d "
+                      "--fstype=ext4\n" % size)
+-        wksname = os.path.splitext(os.path.basename(wkspath))[0]
  
- SRC_URI[md5sum] = "2e3bc8cfb264fa13f374618b46f170e7"
-@@ -33,11 +34,11 @@ python do_package_prepend() {
- BBCLASSEXTEND = "devupstream:target"
- LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
- DEFAULT_PREFERENCE_class-devupstream = "-1"
--SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
-+SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.12 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "17c413953603f063f2a9d6c3788bec914ce6f955"
--PV_class-devupstream = "2.11.2+git${SRCPV}"
-+SRCREV_class-devupstream = "01a12501e0b0395b60c7e392cb7dded51ae572ca"
-+PV_class-devupstream = "2.12.2+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
+-        return wkspath, wksname
++        return wkspath
+ 
+-    def test_fixed_size(self):
+-        """
+-        Test creation of a simple image with partition size controlled through
+-        --fixed-size flag
+-        """
+-        wkspath, wksname = Wic2._make_fixed_size_wks(200)
++    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
++        p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
++                   ignore_status=ignore_status)
++
++        if p.status:
++            return (p, None)
++
++        wksname = os.path.splitext(os.path.basename(wkspath))[0]
+ 
+-        runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                   % (wkspath, self.resultdir))
+-        os.remove(wkspath)
+         wicout = glob(self.resultdir + "%s-*direct" % wksname)
+-        self.assertEqual(1, len(wicout))
++
++        if not wicout:
++            return (p, None)
+ 
+         wicimg = wicout[0]
+ 
+-        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++        if not native_sysroot:
++            native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+ 
+         # verify partition size with wic
+-        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
++        res = runCmd("parted -m %s unit kib p 2>/dev/null" % wicimg,
+                      native_sysroot=native_sysroot)
+ 
+         # parse parted output which looks like this:
+         # BYT;\n
+         # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
+         # 1:0.00MiB:200MiB:200MiB:ext4::;\n
+-        partlns = res.output.splitlines()[2:]
++        return (p, res.output.splitlines()[2:])
+ 
+-        self.assertEqual(1, len(partlns),
+-                         msg="Partition list '%s'" % res.output)
+-        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0],
+-                         msg="Partition list '%s'" % res.output)
++    def test_fixed_size(self):
++        """
++        Test creation of a simple image with partition size controlled through
++        --fixed-size flag
++        """
++        wkspath = Wic2._make_fixed_size_wks(200)
++        _, partlns = self._get_wic_partitions(wkspath)
++        os.remove(wkspath)
++
++        self.assertEqual(partlns, [
++                        "1:4.00kiB:204804kiB:204800kiB:ext4::;",
++                        ])
+ 
+     def test_fixed_size_error(self):
+         """
+@@ -681,13 +690,72 @@ class Wic2(WicTestCase):
+         --fixed-size flag. The size of partition is intentionally set to 1MiB
+         in order to trigger an error in wic.
+         """
+-        wkspath, wksname = Wic2._make_fixed_size_wks(1)
+-
+-        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                   % (wkspath, self.resultdir), ignore_status=True).status)
++        wkspath = Wic2._make_fixed_size_wks(1)
++        p, _ = self._get_wic_partitions(wkspath, ignore_status=True)
+         os.remove(wkspath)
+-        wicout = glob(self.resultdir + "%s-*direct" % wksname)
+-        self.assertEqual(0, len(wicout))
++
++        self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
++
++    def test_offset(self):
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are placed at the correct offsets, default KB
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
++            self.assertEqual(partlns, [
++                "1:32.0kiB:102432kiB:102400kiB:ext4:primary:;",
++                "2:102432kiB:204832kiB:102400kiB:ext4:primary:;",
++                ])
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are placed at the correct offsets, same with explicit KB
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32K     --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 102432K --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
++            self.assertEqual(partlns, [
++                "1:32.0kiB:102432kiB:102400kiB:ext4:primary:;",
++                "2:102432kiB:204832kiB:102400kiB:ext4:primary:;",
++                ])
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are placed at the correct offsets using MB
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32K  --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 101M --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
++            self.assertEqual(partlns, [
++                "1:32.0kiB:102432kiB:102400kiB:ext4:primary:;",
++                "2:103424kiB:205824kiB:102400kiB:ext4:primary:;",
++                ])
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that image creation fails if the partitions would overlap
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 102431 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
++            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are not allowed to overlap with the booloader
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 8 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
++            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
+ 
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     def test_rawcopy_plugin_qemu(self):
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 650b976223..f32315c631 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -51,26 +51,31 @@ class KickStartParser(ArgumentParser):
+     def error(self, message):
+         raise ArgumentError(None, message)
+ 
+-def sizetype(arg):
+-    """
+-    Custom type for ArgumentParser
+-    Converts size string in <num>[K|k|M|G] format into the integer value
+-    """
+-    if arg.isdigit():
+-        return int(arg) * 1024
++def sizetype(default):
++    def f(arg):
++        """
++        Custom type for ArgumentParser
++        Converts size string in <num>[K|k|M|G] format into the integer value
++        """
++        try:
++            suffix = default
++            size = int(arg)
++        except ValueError:
++            try:
++                suffix = arg[-1:]
++                size = int(arg[:-1])
++            except ValueError:
++                raise ArgumentTypeError("Invalid size: %r" % arg)
++
++        if suffix == "k" or suffix == "K":
++            return size
++        if suffix == "M":
++            return size * 1024
++        if suffix == "G":
++            return size * 1024 * 1024
+ 
+-    if not arg[:-1].isdigit():
+         raise ArgumentTypeError("Invalid size: %r" % arg)
+-
+-    size = int(arg[:-1])
+-    if arg.endswith("k") or arg.endswith("K"):
+-        return size
+-    if arg.endswith("M"):
+-        return size * 1024
+-    if arg.endswith("G"):
+-        return size * 1024 * 1024
+-
+-    raise ArgumentTypeError("Invalid size: %r" % arg)
++    return f
+ 
+ def overheadtype(arg):
+     """
+@@ -136,6 +141,7 @@ class KickStart():
+         part.add_argument('mountpoint', nargs='?')
+         part.add_argument('--active', action='store_true')
+         part.add_argument('--align', type=int)
++        part.add_argument('--offset', type=sizetype("K"))
+         part.add_argument('--exclude-path', nargs='+')
+         part.add_argument('--include-path', nargs='+')
+         part.add_argument("--extra-space", type=sizetype)
+@@ -160,8 +166,8 @@ class KickStart():
+         # --error, but since nesting mutually exclusive groups does not work,
+         # ----extra-space/--overhead-factor are handled later
+         sizeexcl = part.add_mutually_exclusive_group()
+-        sizeexcl.add_argument('--size', type=sizetype, default=0)
+-        sizeexcl.add_argument('--fixed-size', type=sizetype, default=0)
++        sizeexcl.add_argument('--size', type=sizetype("M"), default=0)
++        sizeexcl.add_argument('--fixed-size', type=sizetype("M"), default=0)
+ 
+         part.add_argument('--source')
+         part.add_argument('--sourceparams')
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 2d95f78439..3490b4e75d 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -39,6 +39,7 @@ class Partition():
+         self.mountpoint = args.mountpoint
+         self.no_table = args.no_table
+         self.num = None
++        self.offset = args.offset
+         self.overhead_factor = args.overhead_factor
+         self.part_name = args.part_name
+         self.part_type = args.part_type
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 2d06c242b6..1f65a7afe5 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -428,6 +428,21 @@ class PartitionedImage():
+                     # increase the offset so we actually start the partition on right alignment
+                     self.offset += align_sectors
+ 
++            if part.offset is not None:
++                offset = (part.offset * 1024) // self.sector_size
++
++                if offset * self.sector_size != part.offset * 1024:
++                    raise WicError("Could not place %s%s at offset %dK with sector size %d" % (part.disk, self.numpart, part.offset, self.sector_size))
++
++                delta = offset - self.offset
++                if delta < 0:
++                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, offset, delta))
++
++                logger.debug("Skipping %d sectors to place %s%s at offset %dK",
++                             delta, part.disk, self.numpart, part.offset)
++
++                self.offset = offset
++
+             part.start = self.offset
+             self.offset += part.size_sec
+ 
 -- 
 2.17.1
 
