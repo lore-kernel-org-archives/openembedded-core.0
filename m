@@ -1,146 +1,80 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web12.6481.1601503926207400753
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.6468.1601503930766651912
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2020 15:12:06 -0700
+ Wed, 30 Sep 2020 15:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RD/t3+j9;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id z19so2325753pfn.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=eKFpyr0V;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 5so2116618pgf.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2020 15:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=TzF3fF8A2sLyXYJ4g/C4qNSZdwVMGQHAiKSZpq5TU4E=;
-        b=RD/t3+j9OC3nZxy5ye6/l3cSmDW84YzlPRf95F4kBMoNCnFjW8W/LicLndPghfqhCB
-         JtHdN+qyiO8oDumehpC+wG+H+geYw1bvnDoZI49H2aZxnxS+mviycr8HlH1Y7Do+KWRW
-         1TSIfrqhA21j/0DspAGOLhECNxMy8Ws8I6QBFfufMUuCB1uP40QFsLdjoPzEcLSKMDc0
-         UnEg/xI7tPODeipgHXqeGZ/osknezkS7kMicBUyxt3GR2BVCD3Wqx6qCPDHiqZlsWFvi
-         LlBs681ZrEUspoCKh4dY54aLecN59olr3+bBDT/60puBObM/HwHDJtOwDU1d3fjNtrLP
-         kS8Q==
+        bh=Eq9airVuoD0B4zm+n/ncicNq6toUs2IOtkifDnTLxn0=;
+        b=eKFpyr0Veh6vQP0Rsr/VQm7C1FMCIAEhw82npqupuNC/fWbGsHScQqFNFbke5T5XcU
+         MxM308HNQB63GlmEo+lGrs1w/VZfiaByw0TqBE9UW62Ya6oeMSRjUFh6QyHAo14CcqDu
+         GPov0tlcqnguIRg48J2AarsVYoLsvZt29Cmp/7puxYA5qG9lLYY480HDnYyeuY98txhH
+         bmnoBbD+qdkLTe6GguJY33evZETYV8o56qNIKJqEw2L3SYQos3zsfaVNWKekhke2ACzq
+         R+gxhh9SFIjdZjAeGbB9v5LcEKgyqeTTnBFiq3P77L13NffOIO6JSjensOwUezUJT4rH
+         uivA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=TzF3fF8A2sLyXYJ4g/C4qNSZdwVMGQHAiKSZpq5TU4E=;
-        b=DChwkb4oMM9B7D8eGwpU6ri8JVISzZV4LliO6muDXhcW+tTMtdGVNO3uYEC5V/Zfwb
-         JxAY7kwkN3fDF4KaIxirq3MVeBCRa2/3yjLpro0l7dxgJvZMaTRtixOBvx1Txdv+Ny/f
-         KkfN51iRbx/B/q+FgcuaKAI+vdvjOda9sZocS2Fwj7P/s0iaaXoHdEzhR4wpNl79NawT
-         uXszPWMNAfQu3CHFo/ApCssQUX2d5bBCtw56yc+JYQujGQSMF76+8zUeTnoeqP0W/OCV
-         mhujEAHzRSIc1EfEORatsG0l7boyunm03p5ZjgEG8nqXMjdhJdlLHS8LUh0ugdVqM/Of
-         Uq2Q==
-X-Gm-Message-State: AOAM530XBD6i6YpkL9sdekEFI70FQrgydpBGinUqB6a4HoGP2qJbpccI
-	5iSRJ8NTIeTJRGu6r2oVPmMhcyiFwuyEi+pQAXQ=
-X-Google-Smtp-Source: ABdhPJzkVAkDJIsY+8XrUzMurAvjuhaskOMXV6rXy0JWj1O3R/C+lYZMt9odFaI5YaICALgWLgcsWQ==
-X-Received: by 2002:aa7:8084:0:b029:13f:b82a:1725 with SMTP id v4-20020aa780840000b029013fb82a1725mr4274524pff.9.1601503925343;
-        Wed, 30 Sep 2020 15:12:05 -0700 (PDT)
+        bh=Eq9airVuoD0B4zm+n/ncicNq6toUs2IOtkifDnTLxn0=;
+        b=l3gHmUOVTSRaxAswitxquv/+jL+ey5GIK5US0FIg2/HqdIeLYkrRcaO/LGbSbDhZx3
+         O27SSYpc/vy9Eq9iF6T2oLWKRA391dyy02NTkJiTTgGk50Ke2fFUXLa6PO392fZlGmMG
+         aZ7Dl79KJnb7Yd8PMsNL1YlJ4U28eFMCXb2Bn7KTB4NFAdLFST88JB+SOaj5VH1KJnpk
+         BVz26r3Uyl7D/eF+ugWNNe/wc+G/LtfQ/HXAkJs10SJasIAfM4d6jknvAuGUMPsOPctL
+         afzROhgs3lZw7+YLNAwF20Rof6UxgwLccpQlwO3FvLFJfP/f+53k0cKCZDV+fa6WJwK5
+         kDBQ==
+X-Gm-Message-State: AOAM533omtsl0heU06FUHgjq4X2UUFzkQnn8UBjwXvJEae6bgo5elwMW
+	JkIBZRf+4s4qFzujdhIq3LcU0FgOt+cGw/vjAhM=
+X-Google-Smtp-Source: ABdhPJyMCkfCoPGdIiZJQNNg9U4S7Dzyyrg7MSUIg+xMb7O6BKZhYBP/rpKh5QbmUm7c8RuAqAyWKA==
+X-Received: by 2002:a17:902:c394:b029:d2:4ca:2e22 with SMTP id g20-20020a170902c394b02900d204ca2e22mr4499372plg.77.1601503929855;
+        Wed, 30 Sep 2020 15:12:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.03
+        by smtp.gmail.com with ESMTPSA id k6sm3488799pfh.92.2020.09.30.15.12.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 15:12:04 -0700 (PDT)
+        Wed, 30 Sep 2020 15:12:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/41] python3-jinja2: Import from meta-oe/meta-python
-Date: Wed, 30 Sep 2020 12:11:04 -1000
-Message-Id: <cc0f56a788c33ad3fd2bb5402dee497234fb06bb.1601502610.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/41] buildtools-tarball: Add python3-jinja2
+Date: Wed, 30 Sep 2020 12:11:05 -1000
+Message-Id: <5dc390658f0839911d85fe7f3f3ce8bf006e69eb.1601502610.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1601502610.git.steve@sakoman.com>
 References: <cover.1601502610.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This is used by some of the results handling code and needed as part of
-buildtools tarball on various autobuilder worker for testing.
-
-ptest is disabled for OE-Core, at least for now since it depends on
-python3-pytest which in turn has may other dependencies.
+This is used by various pieces of the result handling code, particularly the
+performance testing and we're seeing autobuilder failures that are
+easiest resolved using this.
 
 Acked-by: Tim Orling <ticotimo@gmail.com>
 Signed-off-by: Tim Orling <ticotimo@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b5156e95e9e80e3e0f7eea181cd12f85e03a111d)
+(cherry picked from commit dc6d4d438b71365f5c6f54b8482d4f01f1d0dc8e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../python/python3-jinja2/run-ptest           |  3 ++
- .../python/python3-jinja2_2.11.2.bb           | 45 +++++++++++++++++++
- 3 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-jinja2/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8da0bd32d0..9b0a3997c4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -582,6 +582,7 @@ RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr
- RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-diff --git a/meta/recipes-devtools/python/python3-jinja2/run-ptest b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-new file mode 100644
-index 0000000000..5cec711696
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest
-diff --git a/meta/recipes-devtools/python/python3-jinja2_2.11.2.bb b/meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
-new file mode 100644
-index 0000000000..89538d2f27
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
-@@ -0,0 +1,45 @@
-+DESCRIPTION = "Python Jinja2: A small but fast and easy to use stand-alone template engine written in pure python."
-+
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
-+
-+SRC_URI[sha256sum] = "89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0"
-+
-+PYPI_PACKAGE = "Jinja2"
-+
-+CLEANBROKEN = "1"
-+
-+inherit pypi setuptools3
-+# ptest disabled in OE-Core for now due to missing dependencies
-+
-+
-+SRC_URI += " \
-+	file://run-ptest \
-+"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
-+RDEPENDS_${PN}-ptest += " \
-+	${PYTHON_PN}-pytest \
-+	${PYTHON_PN}-unixadmin \
-+"
-+
-+RDEPENDS_${PN} += " \
-+    ${PYTHON_PN}-asyncio \
-+    ${PYTHON_PN}-crypt \
-+    ${PYTHON_PN}-io \
-+    ${PYTHON_PN}-json \
-+    ${PYTHON_PN}-markupsafe \
-+    ${PYTHON_PN}-math \
-+    ${PYTHON_PN}-netclient \
-+    ${PYTHON_PN}-numbers\
-+    ${PYTHON_PN}-pickle \
-+    ${PYTHON_PN}-pprint \
-+    ${PYTHON_PN}-shell \
-+    ${PYTHON_PN}-threading \
-+"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index edf67ce2ad..77e1fa23cb 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -10,6 +10,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-python3-modules \
+     nativesdk-python3-misc \
+     nativesdk-python3-git \
++    nativesdk-python3-jinja2 \
+     nativesdk-python3-testtools \
+     nativesdk-python3-subunit \
+     nativesdk-ncurses-terminfo-base \
 -- 
 2.17.1
 
