@@ -1,98 +1,94 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web12.8466.1601544129066945838
- for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2020 02:22:09 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b938hErp;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id z13so5827824iom.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2020 02:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p9P89KV0/f6fQ5zdLjtNLLixh2mpYGooozU0dJFcxds=;
-        b=b938hErpkminqE32fzvsrvEmMTJKDpwsrrwRLHDzSD9FHR5kXm8eZW6wbIZVJhcDIX
-         rtYQPl+2EjF310xEByExWqaz/EkmrmD5kPE/2e9A2I/+5bFJ3vUcD9CfBRbZzq+HwBHn
-         C2krNNpNMF0QZr8gUZolIQCYnZ1YCT3xAn9uVK98ull417YIMdwAejZBiqMaLHtuF2eu
-         vzc8kB2bLY0j3lAuuYhggJbdPhPB+ZUe3MlgLx38uuNKrT5OnTOw2SjlHmKZCTlD7OUC
-         2YLYs8L9evZEFsIKJepnu6oW1zRPNgvIlo9Z+STOIxT6wjy/wUZJbAJzD9z8p2fuUsKo
-         UjEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p9P89KV0/f6fQ5zdLjtNLLixh2mpYGooozU0dJFcxds=;
-        b=eb6mVgI9nEobY4ImLdh+mXswToqXGaOH+AOjyoo4iEQt5dBKw9jSSERKl7hxWCIiZC
-         aeY1UC0MzFw8ZpQ8y866/lsN3gC7vOFaSn/aQbIq+p8V7/mrhMWTeDMepIB5SfeXYNrc
-         kbByaJ1IB5I46Jk+tAWSlEazBsEv6RpqbQ4XaGbCZZWRygEF4tEU3tTenkISa+DyXlIf
-         e30ohijVregHHNzPbBCdhaT47l2jbS4vLNDVU6snzoybaB8T7QGpzSOROrwcp4kX9T0Y
-         zVlP1QNw1eHhaHGZio7UquH3r0zeDX/jjVp0Bi89z3C4d3qFbzZ7EQyXpZIqM38BcS6l
-         IJ7g==
-X-Gm-Message-State: AOAM530dBTnYiV9J0yYLBl6K85Hcl6ZXPiCgTLoDN+p01XBVYc+HR7bH
-	gop3q9MsFg6RXFvxu0YBCT+93JFS3zlYhkmRNj8=
-X-Google-Smtp-Source: ABdhPJxzdi9y8PCkF9B3MpjL7yxF/v1YOAwORIdK+1TW5RN/ubMY3owSZGj7NPGFQMh0L3ah77LsuSwc0U4oFRZESZM=
-X-Received: by 2002:a5d:9355:: with SMTP id i21mr4588250ioo.199.1601544128274;
- Thu, 01 Oct 2020 02:22:08 -0700 (PDT)
+Subject: [PATCH] qemuboot: move QB_MEM to default in qemuboot
+To: openembedded-core@lists.openembedded.org
+From: brett.warren@arm.com
+X-Originating-Location: Manchester, England, GB (188.210.212.247)
+X-Originating-Platform: Linux Firefox 81
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20200930150545.3882859-1-ayaka@soulik.info> <CANNYZj85ymSHGvm5E7Axtrs6B6-V4nQGCFzcCVJKCM0=wsPtkg@mail.gmail.com>
- <34ad6791-d6db-4f37-a804-36df55b3472e@soulik.info>
-In-Reply-To: <34ad6791-d6db-4f37-a804-36df55b3472e@soulik.info>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 1 Oct 2020 11:21:57 +0200
-Message-ID: <CANNYZj_o=iZkZc51088ACJXGkDFeaCTCxGoETzCakh3HJZ-snA@mail.gmail.com>
-Subject: Re: [PATCH] meson: add sysroot property
-To: ayaka <ayaka@soulik.info>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000dba32e05b0988c70"
+Date: Thu, 01 Oct 2020 05:46:29 -0700
+Message-ID: <Po14.1601556389979380134.H3Ii@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="juAOgLZP7xdSVRt9D4hh"
 
---000000000000dba32e05b0988c70
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, 1 Oct 2020 at 06:15, ayaka <ayaka@soulik.info> wrote:
-
-> It is the nativesdk meson has this problem, that is what cross build
-> requests for.
->
-> You can try the Intel MediaSDK, I reported this issue to Gstreamer for
-> this but it comes to the issue of OE.
->
-> Or you mean the native meson for the target system ? I don't think they
-> need a cross build file.
->
-
-native meson does use a cross file when building target packages, and
-things work without sysroot property, including using pkg-config:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/meson.bbclass
-
-So I worry that your patch is fixing a symptom and not the problem.
-
-Alex
-
---000000000000dba32e05b0988c70
-Content-Type: text/html; charset="UTF-8"
+--juAOgLZP7xdSVRt9D4hh
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 1 Oct 2020 at 06:15, ayaka &lt;<a=
- href=3D"mailto:ayaka@soulik.info">ayaka@soulik.info</a>&gt; wrote:<br></di=
-v><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">It is the nativesdk meson has this problem, that is what cross build <b=
-r>
-requests for.<br>
-<br>
-You can try the Intel MediaSDK, I reported this issue to Gstreamer for <br>
-this but it comes to the issue of OE.<br>
-<br>
-Or you mean the native meson for the target system ? I don&#39;t think they=
- <br>
-need a cross build file.<br></blockquote><div><br></div><div>native meson d=
-oes use a cross file when building target packages, and things work without=
- sysroot property, including using pkg-config:</div><div><a href=3D"http://=
-git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/meson.bbclass">ht=
-tp://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/meson.bbclas=
-s</a></div><div><br></div><div>So I worry that your patch is fixing a sympt=
-om and not the problem.</div><div><br></div><div>Alex<br> </div></div></div=
->
+Previously, to satisfy opengl's requirement for at least 512MB
+of memory, QB_MEM was overriden by core-image-sato. This made it
+impossible for machine configurations to specify their own values,
+so this clause was moved to qemuboot instead and rewritten as a
+default to allow other recipes to state their own values if
+needed.
 
---000000000000dba32e05b0988c70--
+Signed-off-by: Brett Warren <brett.warren@arm.com>
+---
+meta/classes/qemuboot.bbclass =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| 2 +-
+meta/recipes-sato/images/core-image-sato.bb | 1 -
+2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index d8f62ef6ea..3a51fc5b5e 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -73,7 +73,7 @@
+# IMAGE_CLASSES +=3D "qemuboot"
+# See "runqemu help" for more info
+
+-QB_MEM ?=3D "-m 256"
++QB_MEM ?=3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", =
+"-m 256", d)}'
+QB_SERIAL_OPT ?=3D "-serial mon:stdio -serial null"
+QB_DEFAULT_KERNEL ?=3D "${KERNEL_IMAGETYPE}"
+QB_DEFAULT_FSTYPE ?=3D "ext4"
+diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sa=
+to/images/core-image-sato.bb
+index 673106eb6d..640313d6f7 100644
+--- a/meta/recipes-sato/images/core-image-sato.bb
++++ b/meta/recipes-sato/images/core-image-sato.bb
+@@ -11,5 +11,4 @@ inherit core-image
+TOOLCHAIN_HOST_TASK_append =3D " nativesdk-intltool nativesdk-glib-2.0"
+TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext =3D " nativesdk-intltool =
+nativesdk-glib-2.0"
+
+-QB_MEM =3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "=
+-m 256", d)}'
+QB_MEM_qemumips =3D "-m 256"
+--
+2.17.1
+
+--juAOgLZP7xdSVRt9D4hh
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<span style=3D"font-family: monospace;"><span style=3D"font-family: monospa=
+ce;"><span style=3D"color: #000000; background-color: #ffffff;">Previously,=
+ to satisfy opengl's requirement for at least 512MB </span><br />of memory,=
+ QB_MEM was overriden by core-image-sato. This made it <br />impossible for=
+ machine configurations to specify their own values, <br />so this clause w=
+as moved to qemuboot instead and rewritten as a <br />default to allow othe=
+r recipes to state their own values if <br />needed. <br /><br />Signed-off=
+-by: Brett Warren &lt;brett.warren@arm.com&gt; <br />--- <br />meta/classes=
+/qemuboot.bbclass &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;| 2 +- <br />meta/recipes-sato/images/core-image=
+-sato.bb | 1 - <br />2 files changed, 1 insertion(+), 2 deletions(-) <br />=
+<br />diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bb=
+class <br />index d8f62ef6ea..3a51fc5b5e 100644 <br />--- a/meta/classes/qe=
+muboot.bbclass <br />+++ b/meta/classes/qemuboot.bbclass <br />@@ -73,7 +73=
+,7 @@ <br /># IMAGE_CLASSES +=3D "qemuboot" <br /># See "runqemu help" for =
+more info <br />&nbsp;<br />-QB_MEM ?=3D "-m 256" <br />+QB_MEM ?=3D '${@bb=
+.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}' <br /=
+>QB_SERIAL_OPT ?=3D "-serial mon:stdio -serial null" <br />QB_DEFAULT_KERNE=
+L ?=3D "${KERNEL_IMAGETYPE}" <br />QB_DEFAULT_FSTYPE ?=3D "ext4" <br />diff=
+ --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/im=
+ages/core-image-sato.bb <br />index 673106eb6d..640313d6f7 100644 <br />---=
+ a/meta/recipes-sato/images/core-image-sato.bb <br />+++ b/meta/recipes-sat=
+o/images/core-image-sato.bb <br />@@ -11,5 +11,4 @@ inherit core-image <br =
+/>TOOLCHAIN_HOST_TASK_append =3D " nativesdk-intltool nativesdk-glib-2.0" <=
+br />TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext =3D " nativesdk-intlt=
+ool nativesdk-glib-2.0" <br />&nbsp;<br />-QB_MEM =3D '${@bb.utils.contains=
+("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}' <br />QB_MEM_qemumip=
+s =3D "-m 256" <br />-- &nbsp;<br />2.17.1<br /></span><span style=3D"color=
+: #000000; background-color: #ffffff;"> </span><br /><br /></span>
+
+--juAOgLZP7xdSVRt9D4hh--
