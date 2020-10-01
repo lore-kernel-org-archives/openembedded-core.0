@@ -1,95 +1,74 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.361.1601563029161607936
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web11.574.1601563635087364926
  for <Openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2020 07:37:09 -0700
+ Thu, 01 Oct 2020 07:47:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iUbwc7Qb;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id gr14so8470722ejb.1
-        for <Openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2020 07:37:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TczKInTc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: uvv.mail@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id c62so5568871qke.1
+        for <Openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2020 07:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iLb0Rcv4qeQ+WL/4lWQID3rWY6ahqwve+OklK7ufFm8=;
-        b=iUbwc7QbHLORaMoCVGpizVbttHwoOBUv2jvyir3qe6VOiXKml6Dsv7XpXccZi3D3s3
-         ikgTiFXKFTWmsJuegyX4WGjhIa/jd0YzMYJ2jpHg6KVHpNyv0kxU3oOsn7+Zmg0U+C0+
-         fq4fxp38lCoP5jbTzPyaE9AKI0g1NOBnv/rwEI7gnDyqahit1bD3L/8NEItT1CKHa0m+
-         5rDA2rpX5LV/uXoiJl4Sp2lhAa21vbFGvJLhKuNYQUtrCC55mn/z+9MuqccUNZEuJiYX
-         CHGEl3xeJUPh1k8FYk3E7cQQjsG40yAk4I6Q+PtpEbW6CvvrVmCdzKnLCsmAg3xcQYWJ
-         /RcA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=bI+xfgwPA5GPlTNpBfXrpQA7zcCBzYkMcSfQw8HOhng=;
+        b=TczKInTcLKf4oUQhgyXPZP4ZyADv1a9FBdNNoOJZIB4CAXnoaZr7MasOY/Ti22M3Ju
+         4YwVpIMtQItlU7VB0ZJYEym5wyooPMTf5REwKD95plxnQcrR64Dj78eQHduNb/cMZahx
+         d2qNHs3cOk+6N869ovOe8DBEyzTzarT0lJKCnAx+IBEAMWUUtXQRziPrYCyfqp/9JxsU
+         jvIETkOUIs3bWNNNTrhpiKERCbK0GP+L5bwfnD8dPYYRvx+j/pMzlXzlPVptgx86h0py
+         fV1Ra59xaf3XyY92OJssGudXCMocVRkGTp92U/wGcJDQNlDZN3/yqGXeMkSBHw+3Mo9U
+         4dOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iLb0Rcv4qeQ+WL/4lWQID3rWY6ahqwve+OklK7ufFm8=;
-        b=i2PgBz4rFpfIAc9MNv/lVb2F3E13UHvtm/WqZTIlb+FhGLuyPr3CkeiJnrcM++qdAy
-         pmqiam5n5nhP3c0vGzrmB84eJlQ+2XB1nQl2Sr0N7bYqOuRaOYOIOz24p4abXg1I9glj
-         0hapkq6ymp416n/RX734KEmawsQRQ1YdOson82rA3YKxgBeK1ALu+FXZrzt3jaFnerUU
-         K3Z/84tfvBdYm9WVTcqF9ePs4wbQyKkp3ujy7ArCU2WF4QfCfqOSP43SWMbQ77UlnWDU
-         qVLEWEhgptmESyZx/RIVDlCKpO/5qa5cvQrzCY+dsHdl7cGZ89Wsa+0lMigSsN5W30Hw
-         OFFg==
-X-Gm-Message-State: AOAM5322n6DPOcAMkjIcM1gNxoKmL0MsWDaFzwDoqGGYssi0G/G+g0eE
-	ZRiCdlirRgNk4Bz7Ybg50piQwvTnu/ug/T1zlrk=
-X-Google-Smtp-Source: ABdhPJw2G16JJMwlJ1aqH91BEHE9Z7rXWOW3dDx2slZAFXUnzIABoh+Qxz17/pMedh2pq9QTEdcgk91pJ2FcmrPIDtY=
-X-Received: by 2002:a17:906:359b:: with SMTP id o27mr7535808ejb.247.1601563027498;
- Thu, 01 Oct 2020 07:37:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201001135927.721794-1-uvv.mail@gmail.com>
-In-Reply-To: <20201001135927.721794-1-uvv.mail@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 1 Oct 2020 10:36:56 -0400
-Message-ID: <CADkTA4OZNhbMaykKi_pU_Af49D-wAjeqQ=3L-y241Lcj7TUd2A@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=bI+xfgwPA5GPlTNpBfXrpQA7zcCBzYkMcSfQw8HOhng=;
+        b=av2dhjN8ydmBkYgGcycoUk2ve+/+ARpYI4UhZ+tORQs/a55kBEbLqoT2538gStM6Hf
+         a4OECxyuMEhkd0yaGJSU9Egma9Dl4uFvSCb8090kc/EtYCOZ5j+yTiHUVeqLDS+NHGNF
+         lbaJG2GFy0OFiI/wXwJgkWdIh0r5FRfj8WJfgznIddyjBuJM0ZyurWMoB2A9J3edWJK0
+         Xdr6YPdM/J/e3KSRyI1kwsK7mc6fglHDdecnpUGEY4VX1VKVA+HKk0q4p7HbnaXdVn8W
+         uR01JUd6yoTsMSu5adiiyuINOmgxRwusGUA09/0bJciRWVNx1i9WDq8xtlOl/JDSZ7j1
+         9rYw==
+X-Gm-Message-State: AOAM530QCcKsZFI8D55itwTQvd6NTI9dy+oGhKlNzsctkHEfu/ZsQvox
+	/ITWF5kUPOviBDpAF6sWO44=
+X-Google-Smtp-Source: ABdhPJycGc29D3bZCScPth2RVAPSUlpm74JMYNyAAOwUjtbt5o1ECoO/0Gg7SItFaf7PgR66RnBTzg==
+X-Received: by 2002:a37:5d8:: with SMTP id 207mr8220930qkf.352.1601563634275;
+        Thu, 01 Oct 2020 07:47:14 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from Vyacheslavs-MacBook-Pro.local ([37.120.205.180])
+        by smtp.gmail.com with ESMTPSA id m10sm6856591qti.46.2020.10.01.07.47.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2020 07:47:13 -0700 (PDT)
 Subject: Re: [OE-core] [PATCH] module.bbclass: add HOSTCC for out-of-tree modules
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>, 
-	Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <Openembedded-core@lists.openembedded.org>,
+ Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+References: <20201001135927.721794-1-uvv.mail@gmail.com>
+ <CADkTA4OZNhbMaykKi_pU_Af49D-wAjeqQ=3L-y241Lcj7TUd2A@mail.gmail.com>
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+Message-ID: <c71e99aa-5669-a75c-1e72-81c176ee71fa@gmail.com>
+Date: Thu, 1 Oct 2020 16:47:10 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4OZNhbMaykKi_pU_Af49D-wAjeqQ=3L-y241Lcj7TUd2A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Thu, Oct 1, 2020 at 9:59 AM Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+On 01.10.2020 16:36, Bruce Ashfield wrote:
+> We already ran into this with the main kernel flags, and we don't want
+> to duplicate them here.
 >
-> From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+> Why aren't what we have in kernel.bbclass working in your scenario ?
 >
-> Module build environment should be aware of native C and C++ compiler's
-> environment otherwise kernel Makefile might silently fail for some checks.
-> A particular example is CONFIG_STACK_VALIDATION when CONFIG_UNWINDER_ORC
-> is used, Makefile tries unsuccessfully locate libelf, even though it's
-> already available in recipe sysroot.
+> Bruce
 >
-> Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-> ---
->  meta/classes/module.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index c0dfa35061..8a691922c7 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -1,6 +1,6 @@
->  inherit module-base kernel-module-split pkgconfig
->
-> -EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
-> +EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR} HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
->
+Because kernel.bbclass is not pulled in into the environment of 
+out-of-tree module recipe. Should it be?
+This can easily be checked when you do 'bitbake hello-mod -c devshell' 
+and examine $EXTRA_OEMAKE variable.
 
-We already ran into this with the main kernel flags, and we don't want
-to duplicate them here.
-
-Why aren't what we have in kernel.bbclass working in your scenario ?
-
-Bruce
-
->  MODULES_INSTALL_TARGET ?= "modules_install"
->  MODULES_MODULE_SYMVERS_LOCATION ?= ""
-> --
-> 2.25.1
->
->
-> 
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Vyacheslav
