@@ -1,79 +1,67 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.659.1601560794771430838
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2020 06:59:55 -0700
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.966.1601561561133353984
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 01 Oct 2020 07:12:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WX00ntuh;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id j2so5896772wrx.7
-        for <Openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2020 06:59:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OXGDVWN4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id e2so3283758wme.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2020 07:12:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZkwPCN6REY3QdC4phodRrAdQSCei9408s3FAgd5KuNI=;
-        b=WX00ntuh94mhUn9+Mkn/8a+YYtcG1R+qxLkJBtXDUb3WW/Sm4jBji2DNvoCkZw19VL
-         BrMFauu2AejQvfL0VoAoVIO65xexTf6hnV6t63t68p6fVsYHSMEGy0qLt4T4+x2brRqN
-         PpBnsIUvjrpYivu1xggJoRk1Yh0N+sj+Kz0XWK04zQUCJMZOYmIOb0zqxeMbRTvn3AKo
-         gP3PowJLnJLiKC69c8E7aX68gDai+HoKHw0U5agrNr6MbB4xy/RmrBOWpB1x+x+/yKSX
-         2wsgq+xP0FiPnFcbQAoHXfJFN4IUT+OJ17y/8GcMMVoK1zGk3HcYkdYJ+HF+EIk5OQbN
-         l+gg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=nKiamzua9ewCwA1xU9p1VspVRb4yloN9U+x3Y8JbwdM=;
+        b=OXGDVWN499swwrwdCl6OctOu7g6Ad1qD4fhU2k4ilZrEp6QIEcWgtSYFzSn7mrK+k6
+         2wR1/qAWxo+P4kP/TVlFUZWmodVtEgo12a/VxUY7g1poKDrbTtWkQaqmIrRjGiTtQCfD
+         2+cxOwWv6r/tbR2hQ3f9/QYy/cwVpizWVpQ8o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZkwPCN6REY3QdC4phodRrAdQSCei9408s3FAgd5KuNI=;
-        b=qQ/N6ahtHTLrh4FDLjSaVR68eCr8YedB0AJod25gDhMoZHp8iAo4h/Dgvg0CIkeTFk
-         HHF8jzQnGa4B5qP737uuZcVX+RXoQX5enn6wfzlzdAVXILb87+9hTtM0tsZELfhSBPvF
-         qLid/93ajiHx0hM62aUF2/8IJJUTIZhy0xoMWYTT/Xu9J/jZPUDL179/WyAUdj6Srj0w
-         178iJjQYU2x2IS3Mgwcson/WPt6FK2qFtCHVKtfkgs2cic/KXHoXNA/OvZ+AXO42sZAQ
-         nwE6HaMe0hiSw1YrXM9ctWSv7QmQOsDM3kyrLomNzPlCvcXfY7Dg70jYlyj+q1poMrfz
-         oyFg==
-X-Gm-Message-State: AOAM531OIluv1Kjsegp769ft2tPH3CUx93zb2DpGQUbjptgyD69Sh+Fs
-	AgMOFd5kI0WL7e0F6SMqPOi8qE3se3V1zA==
-X-Google-Smtp-Source: ABdhPJzj55UqDsXZqRnfyTL99Gxyn9sZl3lWdBdhGi/e8DM6Kwhq9BFDFlux1XhMTGo03sfZQpXnsA==
-X-Received: by 2002:adf:d4c1:: with SMTP id w1mr9212235wrk.108.1601560792804;
-        Thu, 01 Oct 2020 06:59:52 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from localhost.localdomain (dslb-002-205-007-068.002.205.pools.vodafone-ip.de. [2.205.7.68])
-        by smtp.gmail.com with ESMTPSA id v204sm99338wmg.20.2020.10.01.06.59.51
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=nKiamzua9ewCwA1xU9p1VspVRb4yloN9U+x3Y8JbwdM=;
+        b=mXgynLwyBfh7uRVShyHYb5mPCYpcy7bPRxagQ0f4oS4lE8djp74EnnC+FvjR32vfNy
+         j45PrGwFY9RQzIGrWKdQqb1aKUPBn3mLq2o2FVqsO7InSuS5hOyRFAAVcizbCQev5qSc
+         grHpbpOKcLYwPkk68aM1o9xIAVIukDlvWK4+GOMb42xllZEDCHKfEJs5cg2J41yeYRLJ
+         bZXummKXxFPrL5QDAAPA1h8l/1lX1rH88tdcpU/YJGwWNnDq4b631Lv9ajOpJrbdvP44
+         YAgacVD/Kpi9ASbd2x4fOD51rBe0KKd5XZst9+DztgKPP1+CQBvPiVX+CaZyU8YESfvf
+         +prw==
+X-Gm-Message-State: AOAM531sTUuWD4iA4iY9RR4pvCyIKSsq8PEAq4xY0hJFv3Ch0OsBN1B7
+	JrgWdr3LKsSDwuZpZOtgkpuJGw==
+X-Google-Smtp-Source: ABdhPJzIHYQW76yWck5ky+rhXOHNCXriZEB4q7sjTh9yrjDYyAmrV8Po2+1INuHs4fjJFPriDZ7vdA==
+X-Received: by 2002:a05:600c:2283:: with SMTP id 3mr195372wmf.37.1601561559502;
+        Thu, 01 Oct 2020 07:12:39 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.f.c.3.4.0.2.3.2.2.3.7.e.3.c.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.f.c.3.4.0.2.3.2.2.3.7.e.3.c.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:9c3e:7322:3204:3cf7])
+        by smtp.gmail.com with ESMTPSA id n66sm120741wmb.35.2020.10.01.07.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 06:59:52 -0700 (PDT)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-Subject: [PATCH] module.bbclass: add HOSTCC for out-of-tree modules
-Date: Thu,  1 Oct 2020 15:59:27 +0200
-Message-Id: <20201001135927.721794-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 01 Oct 2020 07:12:38 -0700 (PDT)
+Message-ID: <2e70af274150b6f2749ead2c567af02c807c42c1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] qemuboot: move QB_MEM to default in qemuboot
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, brett.warren@arm.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Oct 2020 15:12:35 +0100
+In-Reply-To: <CANNYZj9BAUa_JHrUMci_kMOje1_7hsH7pBENW+9TG8u_xVRWtg@mail.gmail.com>
+References: <Po14.1601556389979380134.H3Ii@lists.openembedded.org>
+	 <CANNYZj9BAUa_JHrUMci_kMOje1_7hsH7pBENW+9TG8u_xVRWtg@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+On Thu, 2020-10-01 at 14:50 +0200, Alexander Kanavin wrote:
+> I believe something similar was previously rejected on the grounds
+> that the need for 512M of RAM is not about opengl in general, it's
+> about Xorg failing to start when using glamor unless there's at least
+> 512M. Otherwise, we should continue to verify images with just 256M.
+> 
+> Therefore it is image specific.
 
-Module build environment should be aware of native C and C++ compiler's
-environment otherwise kernel Makefile might silently fail for some checks.
-A particular example is CONFIG_STACK_VALIDATION when CONFIG_UNWINDER_ORC
-is used, Makefile tries unsuccessfully locate libelf, even though it's
-already available in recipe sysroot.
+Right, it makes no sense for example to need/want 512MB for core-image-
+minimal.
 
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
----
- meta/classes/module.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index c0dfa35061..8a691922c7 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -1,6 +1,6 @@
- inherit module-base kernel-module-split pkgconfig
- 
--EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
-+EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR} HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
- 
- MODULES_INSTALL_TARGET ?= "modules_install"
- MODULES_MODULE_SYMVERS_LOCATION ?= ""
--- 
-2.25.1
+Richard
 
