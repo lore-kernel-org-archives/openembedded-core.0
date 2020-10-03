@@ -1,90 +1,84 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by mx.groups.io with SMTP id smtpd.web11.10556.1601742871361339069
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web10.943.1601749898200582038
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2020 09:34:31 -0700
+ Sat, 03 Oct 2020 11:31:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=fc4O4cV6;
- spf=pass (domain: gmx.de, ip: 212.227.17.20, mailfrom: dl9pf@gmx.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1601742869;
-	bh=FRZ+uTYGodWzHGGIkjtRZngFI1jdxjwBKrvEuzoEBpw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=fc4O4cV6apl1zrZkrAiHH1jXFqKOUSLvt2sohvyE9UQ1iKHMxC1cFyVqNRdOHDVtF
-	 0PSQ+a8sDkvZWrYPaeXl3TijqbSJtQQRpskXjK0IYlSUwdPRss8JBBLW3PFhoqxbky
-	 jurwcbXZy+07r5nQT6czTZIhmLK3feTWTDbiSYDA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from gmx.de ([95.88.58.204]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBDnC-1kFMZX0q1W-00CjaH; Sat, 03
- Oct 2020 18:34:29 +0200
-From: =?UTF-8?B?SmFuLVNpbW9uIE3DtmxsZXI=?= <dl9pf@gmx.de>
+ dkim=pass header.i=@koncepto.io header.s=default header.b=raD8deT4;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1148-234.w90-120.abo.wanadoo.fr [90.120.95.234])
+	by koncepto.io (Postfix) with ESMTPSA id CB8BB602F4;
+	Sat,  3 Oct 2020 20:31:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1601749895;
+	bh=nFnlfDAWtgyOUkRe2l4AdY33XvQg7wz/t0D9IIMZWgQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=raD8deT44FIdeq//n06yw8Jtrqe9KzLCuz1Z5797OJNCU2mQx2JEHLaQk6PWs6WTt
+	 4E9ZlUsbgP3+YFXmoRzitQanwDjvClUoasG9G21mEwwXZwvAxo+CsEYR/JwLPGO92Y
+	 HzLN0OjRL6rJ/YYDlFZ1Mu11/P0u5FsbDPPDUZY/C0ADpGXjFJs0ideU8cJY2UaRAS
+	 SIqYJcz/A/i5Xi8IjBR0rzszQjXkogfHZ7fE1iCXCqLEghF5zNFjz/+4UmK0n21W5X
+	 E5pULSByDsyk38OLiNgVPRnFdXBhqMPBc5bI0KFGHL6Jp8EvsBlbKJhKGyAKImNhoz
+	 YNOm5clYvtsfw==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Jan-Simon=20M=C3=B6ller?= <dl9pf@gmx.de>
-Subject: [PATCH] rm_work: Allow pseudo directory to be in the excludes
-Date: Sat,  3 Oct 2020 18:34:17 +0200
-Message-Id: <20201003163417.67950-1-dl9pf@gmx.de>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-X-Provags-ID: V03:K1:i9v4rbQYI3BpyjaF0cE91OQ9W3tWbVpDgH+7T4SXsNQk30zKwp3
- 3JSrJx/3S0THLFOcwRLN+2pbEjlWE3dQl/oiRY5RbIOc0ozu25ERjD4PlMBC8eroFeuiG4b
- 2RG7w6NGsIKpE0M0VAFjGZ7bltQbKJ6nQqdJlVlU4alEjWo1msjz/nWekkTpx2C/njXsPmT
- fyQgOS0FWDx6z2BdnBC/w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PKt8R9cdRDc=:8aN/v5/MwsK+tlwBGrjm5D
- B61Ow15dKM+jB6xOwjl14MkjDR6aDz/HXHN3/V8baIgiA/32bveRCMBmrk4LOMy5Si4KhsIZl
- 0RNGCpGHZRHwi6RiUkruWNrsZXjjbSG6tXHM6O6BskKvDbK3414bOkzA/w771L/AiFlDIjo+D
- Z3TDJxsQhvouM2ifl2gOVSIpNf2dbSor4JuyZXDLZb8bhKA1onq5HKUgeZ+wL9QwlC32FDyvK
- ABjA11SeGvjX3yIj2M6w/ko/HuDIOQ5L/3yLW3HdOIiMfc5YPI2YXzCrl1oH4MUwPJmpWYDQg
- ncN/DSsWkr1hYVSucuJH+MbB6HJt1UflsW8JsZlRZgiz0KzvLkOGTeB0Afls+UKJXu6PkXNsR
- obaP4XLRzmpUlLqv+I2NB9AOBFcmhfA5LUqREFPq/y39E5Vfnu14EvipBktKo4B4tFqCqB8GC
- xTdiCHHMfqnDC2jL8i5YBXGiT6sjb1N1VUTr60rDqRE7zZ1NWs7KTbUSDuYxfnWaWqQ34Kkl0
- MLFktk13gC3wD07ZPZoB70bt1FHs8Zu0HKTUQh2c2CpEZ8MEyx7IJ3Gu8/XV5pkMx3ntgqkrd
- BfOnOcXE73TxqASBnQFAiYHQtGavzEzRiNEZ6m10olet0fKdZJgGsQFaFr3mnBgbWn4NmJlKD
- BwEgt0MpzNwv8287/MVL08Y9nd8iiEtKsqG8PtNeXllu80PoIaqgWQlLL8IoWn1QKv+GDTRhz
- ioR4cog7W/nHWZgjMeh1swjHtL3ynrIV0mVKaoSv9/YBO7KnhzIBMZiTWhoGqbKR8t5q9Qp+o
- k1iA7RLJ9PBbH8qkiWEDx8kkYIE/SAKtxOhCuSFUNb+52oHw+22l4k5R1IaYJ8gBaSR4mXJOf
- RCIYPNyMSCuoDjHXVIwnT7vd3LMSV8Qm0w2U3SyhsQ3tdbtwYSkxJyzbZxl0FtSIe6YBXQyn3
- zgx1AUfrClHvqhL2yosax9mjieWiq/SUreZgEoZCizmCvzmyzqn6HW/rbEND2kl39PAp4dJAo
- g34U9wHBU4XC+OdUfvug+wDV9wSnZj+NLSPdID939kFmJCSdsDecxmLwmmON5x37K4f+vdgOe
- Z/FAMBJPb2oDNrSHuLZgMb9cs1qC/vcQYtYu4t/PaM3/c/kLWN4ANUsjPnhFKhuY+3ZXyWbja
- 4WYpjI0Ii3/8yFkR1Ndo49TAJK8m+AYj5vIAnaC5xmo9piJ/VHbtv1xBeoBiw+j7/xKjp9+nX
- luQWj3VfLPmRw6K1P
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] i2c-tools: upgrade 4.1 -> 4.2
+Date: Sat,  3 Oct 2020 20:30:27 +0200
+Message-Id: <1601749827-13087-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-From: Jan-Simon M=C3=B6ller <dl9pf@gmx.de>
+This includes the following changes:
 
-While debugging the pseudo issues, rm_work was always removing the pseudo =
-folder
-even when it was in the RM_WORK_EXCLUDE_ITEMS variable.
+4.2 (2020-09-22)
+  manpages: Add BUGS section to let people know how to contact us
+  Makefile: Allow to preset all CFLAGS and LDFLAGS variables
+  tools: Consistently use snprintf instead of sprintf
+         Restrict addresses 0x03-0x07, too (defined by I2C standard)
+  decode-dimms: Print SPD revision for DDR3 too
+                Print primary bus width for DDR3 and DDR4
+                List ee1004 as a candidate driver
+                Display MAC for DDR3
+                Add MAC abbreviation for DDR4
+                Round DDR4 speed properly
+                Detect and report truncated input files
+                Print kernel driver used
+                Print DDR memory speed in MT/s
+                Add DDR5 memory types
+                Decode manufacturing data for LPDDR3
+                Fix the version string
+                Point the user to the right drivers
+                Update the list of vendors to Jedec JEP106BB
+  decode-vaio: Add support for the at24 driver
+               Scan more i2c buses
+  i2cset: Fix short writes with mask
+  i2ctransfer: Mention '-a' everywhere in the manpage
+               Support messages using I2C_M_RECV_LEN
+               Add check for returned length from driver
+  i2c-stub-from-dump: Read dumps from hexdump -C
+  library: Add a manual page to document the API
 
-This patch puts the pseudo case within the conditional.
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ meta/recipes-devtools/i2c-tools/{i2c-tools_4.1.bb => i2c-tools_4.2.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/i2c-tools/{i2c-tools_4.1.bb => i2c-tools_4.2.bb} (91%)
 
-Signed-off-by: Jan-Simon M=C3=B6ller <dl9pf@gmx.de>
-=2D--
- meta/classes/rm_work.bbclass | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 01c2ab1c78..0e52fb6ae6 100644
-=2D-- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -99,10 +99,12 @@ do_rm_work () {
-     do
-         # Retain only logs and other files in temp, safely ignore
-         # failures of removing pseudo folers on NFS2/3 server.
--        if [ $dir =3D 'pseudo' ]; then
--            rm -rf $dir 2> /dev/null || true
--        elif ! echo "$excludes" | grep -q -w "$dir"; then
--            rm -rf $dir
-+        if ! echo "$excludes" | grep -q -w "$dir"; then
-+            if [ $dir =3D 'pseudo' ]; then
-+                rm -rf $dir 2> /dev/null || true
-+            else
-+                rm -rf $dir
-+            fi
-         fi
-     done
- }
-=2D-
-2.26.2
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+rename to meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb
+index c576117..7a53151 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.2.bb
+@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
+ "
+ 
+-SRC_URI[md5sum] = "3536237a6b51fb10caacdc3b8a496237"
+-SRC_URI[sha256sum] = "ef8f77afc70e7dbfd1171bfeae87a8a7f10074829370ce8d9ccd585a014e0073"
++SRC_URI[sha256sum] = "7de18ed890e111fa54ab7ea896804d5faa4d1f0462a258aad9fbb7a8cc6b60cc"
+ 
+ inherit update-alternatives
+ 
+-- 
+2.7.4
 
