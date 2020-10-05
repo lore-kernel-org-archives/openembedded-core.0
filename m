@@ -1,76 +1,85 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.1824.1601938651307772336
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web10.1776.1601938654482324623
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2020 15:57:31 -0700
+ Mon, 05 Oct 2020 15:57:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EOCb9XyU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id o8so257013pll.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2020 15:57:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kspXaAzN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f196.google.com with SMTP id m15so257051pls.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2020 15:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=seFHZUvtkbTsXwYTUemnQzPxGlmoHSduqcTPac6RgbU=;
-        b=EOCb9XyU39/vyBIqd9SS92C8Ua8GItpJEfvux56+ybrXhm/A0frcMsJmvqOIiJt9qx
-         wL4ROePNIC9Owg/hcdtWgsOIF5pSjlEGeOD+6L17fJFE4MazsUapRXsAhurrh/f8+G2G
-         P+l6WAV84bcSk1hz1NQgIn7lSJVPoLuRgfe+JoWPO1NSiOuLybH4VQqYXPLCYsg31o+O
-         2vAt412Wx9+YyTFW8RDKTtJr6vUDrgzaJ0rgKoqp4xJligWw6wnxXikdUf6LJO5m/cXe
-         sokoeddAc9qm/ShdmPssnTBwByJ9lI4Iw1ZMhSrHNUszkMpvti2cfvN9xt6R17pHKDPd
-         QvtA==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=E267dWagmBKYRx0z+R+Y3VBUOEjyU+IvLj6QaFDMiUU=;
+        b=kspXaAzNNRAp5AzLh//MQgVe2a+snQQMRPP8WTAsU57P02GglgGX4R/jw4sKOV5EgI
+         RvQxHQ0E5D72i79mVNEBVPtWJHuCLvQT//7cid9xaMfheqop6c7tOytMr2x0DU3HBSp3
+         WUVYX6nK1tdmNzxI3f6VQGVT6UFJIa0YOk/sJ3QOdLHVYfyABwgmXizgUFYr6YmXpBi8
+         5kQ/glbKU+uMZEte+fsayurhjSY0ynXra+rS1zydzXxezVLM4ccr4NkGglls8ZQfS33a
+         ssOLBcglJKoMnp+/IJGLTp/EGZuqb7pRCy9y7SKDc6vbUQY15Z3z2JYorE8T9SYwrNva
+         50iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=seFHZUvtkbTsXwYTUemnQzPxGlmoHSduqcTPac6RgbU=;
-        b=BCepSaQZbBJ1cnNOAQYWSL64uoq86prUym/ufyW6eTpf0fkfAp0O0ISQxgxflVJYaz
-         Lt4ytIhlEQS6DdWN0FKZOJ0VOgkDP5sU3HUlwgrLRhAGUbrygh3M9yaNBXA/HSQjBIaJ
-         tL0NOyU+YCPda0U8S9lJ9hym6MiyQ4io8cfCyiK3Wk1ZfGMAZh6LFSYmOPD/YX2n3Gnz
-         dDYIjpMpXJiN6VkuovqdjhDW4UvWFNU6DUCMbXY/FCP3QW4UXvGkbdZyAKmzBbXd4DfI
-         PLt/i2wDCto0XTm7rVGur7NGuBpkpuAiWDRp0nOkeTGF123PPkTCaU1ULDsOLOSuIPqD
-         bwWQ==
-X-Gm-Message-State: AOAM532OsWvHEp0xCZAoa+cYFlJLbnuKK9RRt7nYaf3qLSlJweXkUM4X
-	FM952gNm5Flz/facIGTCH8JCJoyoszsI3gwnL9E=
-X-Google-Smtp-Source: ABdhPJw3OS7RZj7/bRQum9/WAvQGpGOt4+odgd5OtCnz9mvnjNbEB7GElqvuP5RQQ+BxTD4bro8O8w==
-X-Received: by 2002:a17:902:d716:b029:d3:8e2a:1b5d with SMTP id w22-20020a170902d716b02900d38e2a1b5dmr606701ply.85.1601938650258;
-        Mon, 05 Oct 2020 15:57:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=E267dWagmBKYRx0z+R+Y3VBUOEjyU+IvLj6QaFDMiUU=;
+        b=lfza0cCLNwVR2xYTQlyH5wxdHI6JJZ7k0hR1LdveojSsKX6iik4ap6XOCMhLA1Jodo
+         aU5ed/Ehl2np3TSjM2qS2BIxe6cExMQwLgV4xVdMHiy2ZgtSg/s+DzI9yrVdHRS3UAaM
+         yyT4LjjM2AtsUG4uzXp/3mPVoaFltyPb6LeZL9680YXAeNqKvdjivkUPw73hjX0QYfhO
+         3hSaatTIhMIxULLwOYgKGKMW+X9qVabNHNyP6k3j6FMz50gNLAXfIMQiLYT7nQOTQAku
+         bdKwGEcWAKoKw2upDqvatg/B5MbRXb7qg9k8/+nkYFp459wP84MI71AVpCM9nG2mPNuj
+         tSlA==
+X-Gm-Message-State: AOAM5308ZkD4qg+9ixnLcf7iW3OiRkDb+DHUDjp+9sgKNuZCw6GtTslS
+	B7zigzoJ1+cP6NMhFUOktXY8OXtKm6Ytggct+KY=
+X-Google-Smtp-Source: ABdhPJxknnXU08knRYkxhmCxm33HtbkVXrqTJ7ZX2VtLtMopCZPAoLhEP96gsX+CUJ7WZX0sceEfzA==
+X-Received: by 2002:a17:90a:5292:: with SMTP id w18mr1677704pjh.72.1601938653669;
+        Mon, 05 Oct 2020 15:57:33 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s67sm1038881pfb.35.2020.10.05.15.57.28
+        by smtp.gmail.com with ESMTPSA id s67sm1038881pfb.35.2020.10.05.15.57.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 15:57:29 -0700 (PDT)
+        Mon, 05 Oct 2020 15:57:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/2] Patch review
-Date: Mon,  5 Oct 2020 12:57:17 -1000
-Message-Id: <cover.1601938491.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/2] oeqa/selftest/cases/devtool.py: avoid .pyc race
+Date: Mon,  5 Oct 2020 12:57:18 -1000
+Message-Id: <1facb696140cc95ea3478654aedf1220459c825f.1601938491.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1601938491.git.steve@sakoman.com>
+References: <cover.1601938491.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Thursday.
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Passed a-full test on autobuilder:
+In certain conditions, most likely under heavy load on the
+AutoBuilder, the prebuilt .pyc files are attempting to be
+executed before they have been completely copied. Avoid
+this by not copying the .pyc files (nor the __pycache__
+directory). The impact of python3-native recreating the .pyc
+files should hopefully be negligible.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1449
+YOCTO#13421
+YOCTO#13803
 
-The following changes since commit b9296bdeaacc1dce97aac9c9bf0d70555bb36646:
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  wic: Add 512 Byte alignment to --offset (2020-09-30 05:54:58 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Chee Yang Lee (1):
-  perl: fix ptest test count
-
-Tim Orling (1):
-  oeqa/selftest/cases/devtool.py: avoid .pyc race
-
- meta/lib/oeqa/selftest/cases/devtool.py               | 3 ++-
- meta/recipes-devtools/perl/files/CVE-2020-12723.patch | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 5003f08c75..d8bf4aea08 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -56,7 +56,8 @@ def setUpModule():
+                     if pth.startswith(canonical_layerpath):
+                         if relpth.endswith('/'):
+                             destdir = os.path.join(corecopydir, relpth)
+-                            shutil.copytree(pth, destdir)
++                            # avoid race condition by not copying .pyc files YPBZ#13421,13803
++                            shutil.copytree(pth, destdir, ignore=ignore_patterns('*.pyc', '__pycache__'))
+                         else:
+                             destdir = os.path.join(corecopydir, os.path.dirname(relpth))
+                             bb.utils.mkdirhier(destdir)
 -- 
 2.17.1
 
