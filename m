@@ -1,78 +1,73 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
- by mx.groups.io with SMTP id smtpd.web10.38349.1601912337613393084
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web12.2545.1601925422209234072
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2020 08:38:57 -0700
+ Mon, 05 Oct 2020 12:17:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K0Wb7agx;
- spf=pass (domain: gmail.com, ip: 209.85.167.194, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f194.google.com with SMTP id c13so9111440oiy.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2020 08:38:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=78NrQwbCJDhrkDJLty2RUbeNO7RAMu5fJklAFpGfhoY=;
-        b=K0Wb7agxL2+CH0I1CkcGwgjkMj7NDo8rVspbHfd8mBobPK051Rl7fm5VgCS8mtJJys
-         WCwl8MzxN5nxnq2ahtmwCfpNgnmc/oOhTq2yFex9ObXxY3j0sL1WD0ZsuQItHOWBzQGZ
-         ZBvHq2Plm/CsSRrXADSUbsfScEG5dc4z+ya5hQc3dYVsIfrNwvTYMdeqzE3rRDUUGpGm
-         TwMEhwJmtpUx5E8A8/ic4QVSY+LX3tOhz26zlAYxXEWwsGyV11cxU6uf2RK/nWR+5HC7
-         rdIHTowi/+lpVrGu6BUj8betJ6VZKTiza++cGPOxAQXeJysvsNxHyrzH+sCaKZw9JXfO
-         h6wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=78NrQwbCJDhrkDJLty2RUbeNO7RAMu5fJklAFpGfhoY=;
-        b=Z8sU6nzLQ1TF6LXGFE4iwZB+WxqRJg0Q+nR9CGc4tCSYBPOCKYR//YA10MUSUr46ee
-         71gNamFJ2/fgg3Y30xN4mL+Z/Vosu/77z4hk7fG3gZ9sIBzk9rRcAEeKbTxNlqzoKKP3
-         iNcAySu0HYarrjQgXrYKDnIQ14SZG2YCigVqPqT0jAXugPyQ/uJgSv75tUkhRLh0zq8T
-         aG0M5QFrGNspxY4sS2DGhAvxQLtdVfoRl2zedWwdeEav3tpLCQOGS+QtMvOaDzHtkvGQ
-         skjUonhtC5IRMMWU6QzLrKxCTSdm1Rh23aFGX1hqD3+nklz4udUHbK5oF0nYiZ2i+ml2
-         sy9w==
-X-Gm-Message-State: AOAM5327wpfyPadoux5BWH/KwNlSZ3uRbZxFnKtDUa6BWnFstGpHfi0V
-	9fdq4Ng4lTfuSWRgP3+WbcEeQGJ+H0g=
-X-Google-Smtp-Source: ABdhPJzRFu7T74qh98/qrU/TYAHvK5J6cCwQaqpzW08zvW/Ym8mLAJN6WehlfODdhmsDdbUUdHp2sw==
-X-Received: by 2002:aca:654b:: with SMTP id j11mr104751oiw.77.1601912335101;
-        Mon, 05 Oct 2020 08:38:55 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id k51sm7037otc.46.2020.10.05.08.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 08:38:54 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=pass header.i=@koncepto.io header.s=default header.b=h1Ruk6CK;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1148-234.w90-120.abo.wanadoo.fr [90.120.95.234])
+	by koncepto.io (Postfix) with ESMTPSA id A67F0602B6;
+	Mon,  5 Oct 2020 21:16:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1601925417;
+	bh=pHi54iJoIoIGpYEY5cQah6YYnr782wiYXVOOU3DYTH8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=h1Ruk6CKwzff1TMM6rO85ADPVlbLUxBDwJw17oxQ7Mt5Yun0ByxFXZhgvYsU7TuxM
+	 k77jeDABqyQq1U3EBUUKjmPndx/djIiW/I24cP7UrAyHfeUVczlpsMEUy1JDjgUa/R
+	 xzvZEEL4qZa5/Bsq4XR0tSOeqqmHWVGmj6HVxSx6N/aPuQzycO2S3YaSfJkhupd7I3
+	 5pbKcUAOqc4pFSvLmvtixze+TtbS2O7oqPEYqFFJqgStnyJOVVKRrJtti6CiwaXgTB
+	 zdcuAd1Qapr7RHE0YjdYPe9wm/jskWmlqAvWX2qqKL+5M1kYdMamFW3T70Ucf/HOUW
+	 Otq2uRXlXCnlQ==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/sanity: Bump minimum python version to 3.5
-Date: Mon,  5 Oct 2020 10:38:51 -0500
-Message-Id: <20201005153851.3905-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] u-boot: upgrade 2020.07 -> 2020.10
+Date: Mon,  5 Oct 2020 21:15:28 +0200
+Message-Id: <1601925328-16676-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-Bumps the minimum python version to 3.5 to match bitbake and the test
-matrix
+Announcement: https://lists.denx.de/pipermail/u-boot/2020-October/428516.html
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+License-Update: add MIT License (see [1])
+
+[1] - https://gitlab.com/u-boot/u-boot/-/commit/824ed85b77da741a77fa34c8887c37c5151a15a3
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- meta/classes/sanity.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot-common.inc                             | 4 ++--
+ .../u-boot/{u-boot-tools_2020.07.bb => u-boot-tools_2020.10.bb}       | 0
+ meta/recipes-bsp/u-boot/{u-boot_2020.07.bb => u-boot_2020.10.bb}      | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2020.07.bb => u-boot-tools_2020.10.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2020.07.bb => u-boot_2020.10.bb} (100%)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index e021b9d240..0eee89d71c 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -769,8 +769,8 @@ def check_sanity_everybuild(status, d):
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 9199bbf..cbce408 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -7,12 +7,12 @@ SECTION = "bootloaders"
+ DEPENDS += "flex-native bison-native"
  
-     # Check the Python version, we now have a minimum of Python 3.4
-     import sys
--    if sys.hexversion < 0x03040000:
--        status.addresult('The system requires at least Python 3.4 to run. Please update your Python interpreter.\n')
-+    if sys.hexversion < 0x030500F0:
-+        status.addresult('The system requires at least Python 3.5 to run. Please update your Python interpreter.\n')
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
+ PE = "1"
  
-     # Check the bitbake version meets minimum requirements
-     from distutils.version import LooseVersion
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "2f5fbb5b39f7b67044dda5c35e4a4b31685a3109"
++SRCREV = "050acee119b3757fee3bd128f55d720fdd9bb890"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git \
+           "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2020.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2020.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2020.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2020.10.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2020.07.bb b/meta/recipes-bsp/u-boot/u-boot_2020.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2020.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2020.10.bb
 -- 
-2.28.0
+2.7.4
 
