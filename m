@@ -1,54 +1,73 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web10.2777.1602013564285097903
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.93.1602022461866565832
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2020 12:46:05 -0700
+ Tue, 06 Oct 2020 15:14:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=1GYSa/tv;
- spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f196.google.com with SMTP id c21so3127208ljn.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2020 12:46:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OkgFxofZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id 13so378201wmf.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2020 15:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jB5U+88vmdwMm9/TS6hSgZqIxWu5ub7PdfKO2gaJprw=;
-        b=1GYSa/tvhwUjIWKTEQT7LiQvZtzdhtgAwu/S6GmJk5X87csfDm+1+x31QOBIZrVj18
-         aQKFOpXOmEyIJRSuXPIck8FI9gRv/UzlPrT+zFVkgqG3iL913YChShVWqAyCpq+TWgJ7
-         b+vkYsMx4ZGeMhf7+DuekrfwhYkmC+yK0BUyusBbgLy5BXvtKfJ2toae9n0mz7ex3zBC
-         zb7hjwWxcOP6kbZjmwjUIx6ZT4n20Rw5caF8XmBfUz0oxtHqdSOBGjs/I+noqnklD4YU
-         9pI2IKeqg8FZSn/VzhlR6IOgbrapfyvyEgd4kCdjyrpiNrJEGvJY2Ky0AM9ITtNiaWTh
-         G5lA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fWPOMLQat9fWtUp/NaTc5VP1sXINUEnuxhXHB6cu4cA=;
+        b=OkgFxofZb6QclmajVlS6PhpT95MYysubU4nnhAtsd/JaDHE2k+xfT6ZZ9+pmDnWj7z
+         dSAQ+IXmLTPj6PgdQOtj0vMSIjNxXd6PozP9rN8wU+nRryoA1VmhERLEkAC0SAcjeKNr
+         pJYG6/xV96FMDJCJRGoEdpT7Tqu+stIGITvXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jB5U+88vmdwMm9/TS6hSgZqIxWu5ub7PdfKO2gaJprw=;
-        b=m+KWz0W571QaicMo/7ME4cxPSMo+hb4jZoXlXXvFlIiBxj03uIIdV4S27CML1lo6eH
-         uNkXSYMf92OUEOkmZRfgHhk9uCBsjBCuKF/qzDBnSXtMFGpNquvkdZOIJkmvhONxftkf
-         GcJBy5fEuUPfxyhUiSqJqGpAK7PzlCApqTT1wJ3Ci3K6lo4SPqEq2Ik3XrRJLUkLXsTb
-         TeUm44LBwKCJ8PyYQ7JYSo56faWLuvcRLNEF7bJGCW/oMv+dWsDSMFHlDuo4xrtzDYZn
-         KDohqNqsu1OLBLWLXQ3xnilfHZWlYV9IE9U3V7OfcIdj79h/TABxjI7t3841PoXRXXmj
-         0FzQ==
-X-Gm-Message-State: AOAM533LsiTaKF4rpbXplWLA4Lp8TKzoc9UcTvlVRKbAupID+4uN3Izx
-	YB8sSBPHZeiDmstzi8kVUVudSDl6Hu35T0KoLs0QEQ==
-X-Google-Smtp-Source: ABdhPJzXYRxtQ+eGKcCZ+gC8IFlsMJTT7DSEID4mSj2kJcIRyUtJZMNewBvCpvubV0h0Uo10gwItAPHErjy3WKn3KuU=
-X-Received: by 2002:a2e:b80a:: with SMTP id u10mr2541497ljo.22.1602013562358;
- Tue, 06 Oct 2020 12:46:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fWPOMLQat9fWtUp/NaTc5VP1sXINUEnuxhXHB6cu4cA=;
+        b=TYUY2atQ8Z74mW8vHdPSjoi4ZNEF/kc2R+LjFPgKRMxQPM5zPKXeOAlV2G8eS8bt4/
+         FWPPtMib49pse1Ne26+TNSOxpfSNi9/VLx1OFkFt3Oo6Zf8NC75OWIkVtObIbuNkxony
+         fcvPW29n7agjGGHh35PHaJF9i+Hswr7NkkDBmdQCGulVjsu2NpAYLmRmJ+hizIua49Uf
+         vgEPB2umMZunwrDeuyAit/7n8ga3Enff2O4k0ItDRBopDBiDhTjEjpozOfP9kW5GeoP5
+         H65sOEWAJ7eHk4DVNiVMRd0iDs+wVe7qZ4Tpe3rUMqaeXDAFUavJ4THJx0RlSrdE4IMu
+         AbdA==
+X-Gm-Message-State: AOAM532rn1g/otzrGD6v/4U10lR9wNXB+5uNNQahpvQWVn3OWSA+R5wV
+	yvNvd/i1qmY+QfWThK4SV9T22Ay2YUAgAA==
+X-Google-Smtp-Source: ABdhPJywjNOgVdK/RG64RKnT29LTZpGa1LXIG00hRuEhakoYWaDxoSpbZngvOvPwJqMdFfcOTEGyUA==
+X-Received: by 2002:a1c:9d87:: with SMTP id g129mr93898wme.30.1602022460058;
+        Tue, 06 Oct 2020 15:14:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f8f3:ac6a:4801:78cf])
+        by smtp.gmail.com with ESMTPSA id r14sm178256wrn.56.2020.10.06.15.14.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 15:14:19 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] glibc: do_stash_locale must not delete files from ${D}
+Date: Tue,  6 Oct 2020 23:14:17 +0100
+Message-Id: <20201006221418.3110811-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201006111444.3952584-1-ross.burton@arm.com> <20201006111444.3952584-2-ross.burton@arm.com>
- <CAMKF1spSQo7vi9qVN5TMHJ4QrcLj2sw4VJXMxcM0sSiFf9OvaQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spSQo7vi9qVN5TMHJ4QrcLj2sw4VJXMxcM0sSiFf9OvaQ@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 6 Oct 2020 20:45:51 +0100
-Message-ID: <CAAnfSTv44odADoSgCQXgYRO-yiHXejRwwe47VrhWZiwj7wYL3A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] boost: don't specify gcc version
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 6 Oct 2020 at 17:14, Khem Raj <raj.khem@gmail.com> wrote:
-> does it probe the version from cross compiler now and not the host compiler ?
+do_stash_locale doesn't run in fakeroot context, do_install does. We therefore
+shouldn't delete files that do_install has added or it leaves potentially
+problemtic entries in the fakeroot database. Leaving the files around
+doesn't change or break anything else.
 
-I shall triple check :)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 5f1ab60dc61..f7e4b59a5b8 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -192,7 +192,6 @@ do_stash_locale () {
+ 	fi
+ 
+ 	cp -fpPR ${D}${datadir}/* $dest${datadir}
+-	rm -rf ${D}${datadir}/locale/
+ 	cp -fpPR ${WORKDIR}/SUPPORTED $dest
+ 
+ 	target=$dest/scripts
+-- 
+2.25.1
+
