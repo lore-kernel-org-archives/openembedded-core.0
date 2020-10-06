@@ -1,78 +1,88 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by mx.groups.io with SMTP id smtpd.web12.850.1602002918593509624
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.883.1602002950082207853
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2020 09:48:39 -0700
+ Tue, 06 Oct 2020 09:49:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.9, mailfrom: marex@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4C5NhC1DmZz1qsZw;
-	Tue,  6 Oct 2020 18:48:27 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4C5NhC0NtNz1qyXR;
-	Tue,  6 Oct 2020 18:48:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id pHaBS9XB_oh6; Tue,  6 Oct 2020 18:48:25 +0200 (CEST)
-X-Auth-Info: 3osbuMXoh8nSDjA5Iag4CeChY24u+nUsIcQClxPUS5U=
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue,  6 Oct 2020 18:48:25 +0200 (CEST)
-Subject: Re: [OE-core] [PATCH 1/3] [dunfell] lttng-modules: update to 2.11.6
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Alexander Kanavin <alex.kanavin@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20201006121105.94671-1-marex@denx.de>
- <CAOSpxdbTC-Y9=tJe=gPo8dW=0tMnmD+VdDf2B=sfW38L=obSRQ@mail.gmail.com>
- <CADkTA4N7tPU4cvG0LiyCaWW1ATZPo7YQs=mdk13evXtrzwr-zQ@mail.gmail.com>
- <CAOSpxdYJss9x9axm4E_JMtgCS+Kwpx_F-iiHfn=o24do0g2YKQ@mail.gmail.com>
- <CADkTA4Mb6hD=S-zC8qq=EQaku4FGHLxFpgjk4dJMfyj=X7=pkA@mail.gmail.com>
-From: "Marek Vasut" <marex@denx.de>
-Message-ID: <91e475ca-7e2a-e837-bc49-bf10935c3fa6@denx.de>
-Date: Tue, 6 Oct 2020 18:48:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XupmRJtw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id k10so14253012wru.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2020 09:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=VT8YUpfyY7MKvjdPKphCP51dV7cGK4ASFvPy2+ZCpus=;
+        b=XupmRJtw8tTKsRVndRkm7SnW6xgntOrfVMJ/N2IfExRSoFEv/n6HcgKVxwYcLB/O/I
+         Lsl+a+7MGPoFaLMYyFa/gENSxn6GTDT4A9WZbBP2MCnTxCf1ccMxrjNUk8JF8wHCXl4P
+         Yk7B08zv81uz0WM380NUc9oMG1XFPHtz07HU4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VT8YUpfyY7MKvjdPKphCP51dV7cGK4ASFvPy2+ZCpus=;
+        b=U9wycEuHNTBMkBeoyeIYHpLukjNjcrDG8JpNI6iLAu5ghKs5zi5YqX9hFTZ3v8+PKZ
+         oEUcF2KCrdv1PAaOzhymzpJUsfMNmLMw6bmMz4m79PQ7Pfpa7h9WpCtJMlEk/8l8wWj+
+         bJNvSGbMxVfNvBCRuAzEPDlmfs011K4/YBz+awtj8wvgUxtkZS8+2HXI4bxgbNPDw76d
+         o1o2KCQ8Py4IO0/h72UAFQV5/FXW87tUJxv/VDfkZxz3Quf+F9UBMHlUW+aYYXRoiAX7
+         AL0A/UZMCwU8dzi1Al1cG0VOOpYdSzTarW8kC9LFTQcLEB4v5V3XJBn7Qewehvr2llCU
+         komQ==
+X-Gm-Message-State: AOAM533eyJg3vIG0eYa8ue3DFSREsVnoaubfLeeKhNJLeI0AY/rXdMM+
+	W9mA4prpjT5PQZNJc4HRbjQAJg==
+X-Google-Smtp-Source: ABdhPJy0EFUl6EYnvLpbafr4VK6mQiJwLZNn2VRbjAdWHd517a+2nOcZhB2KIT54Ix93/wMv2szp3A==
+X-Received: by 2002:adf:a28a:: with SMTP id s10mr5998195wra.300.1602002948400;
+        Tue, 06 Oct 2020 09:49:08 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f8f3:ac6a:4801:78cf])
+        by smtp.gmail.com with ESMTPSA id y23sm5510857wra.55.2020.10.06.09.49.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 09:49:07 -0700 (PDT)
+Message-ID: <1ef1432ac36ca2224dea67e2824c5b8f04cc1066.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/4] staging: Ensure cleaned dependencies are added
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 06 Oct 2020 17:49:05 +0100
+In-Reply-To: <SN1PR12MB2480083B16B34A4A0C9119978B0D0@SN1PR12MB2480.namprd12.prod.outlook.com>
+References: <20200928133803.2741507-1-richard.purdie@linuxfoundation.org>
+	 <SN1PR12MB2480083B16B34A4A0C9119978B0D0@SN1PR12MB2480.namprd12.prod.outlook.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4Mb6hD=S-zC8qq=EQaku4FGHLxFpgjk4dJMfyj=X7=pkA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/6/20 6:44 PM, Bruce Ashfield wrote:
-> On Tue, Oct 6, 2020 at 12:42 PM Steve Sakoman <steve@sakoman.com> wrote:
->>
->> On Tue, Oct 6, 2020 at 6:39 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->>>
->>> On Tue, Oct 6, 2020 at 12:30 PM Steve Sakoman <steve@sakoman.com> wrote:
->>>>
->>>> On Tue, Oct 6, 2020 at 2:11 AM Marek Vasut <marex@denx.de> wrote:
->>>>>
->>>>> Update to latest available.
->>>>
->>>> Have you tested these patches with kernel versions 5.4.62+ ?
->>>>
->>>> IIRC, Bruce said that the 2.11.x tree did not have the necessary
->>>> patches to build with recent 5.4 kernels.
->>>>
->>>
->>> Since I did that backport to keep us moving, the lttng project has
->>> added commits to the 2.11.x branch.
->>>
->>> I see changes to the right files in the commits, so it should be good
->>> with this update, but I haven't tested it myself.
->>
->> Thanks for the quick response.  Given that info I'll pull in these
->> patches and start testing.
+On Tue, 2020-10-06 at 16:07 +0000, chris.laplante@agilent.com wrote:
+> Hi Richard,
 > 
-> That being said. I'd expect that we should drop the backport that I
-> did, but I don't see that in this commit. So that is worth checking
-> into ..
+> > Most recipe-sysroot dependencies are handled by these prefuncs.
+> > "configure"
+> > is special with a decidated task, prepare_recipe_sysroot which runs
+> > beforehand.
+> > 
+> > do_prepare_recipe_sysroot does not have to be run before/after
+> > fetch/unpack/patch, they're independent tasks. If
+> > fetch/unpack/patch have
+> > sysroot dependencies and those tasks rerun, stale items from the
+> > sysroot
+> > could be uninstalled and since prepare_recipe_sysroot doesn't re-
+> > run, they
+> > could be missing by the time configure runs.
+> > 
+> > Fix this by adding the prefunc for do_configure which would ensure
+> > the
+> > sysroot is in a good state.
+> 
+> Is this patch something that should be backported to zeus and
+> friends?
 
-I ran into the build issue with 5.4.69, so that's how these patches came
-to be. It could be that I didn't build the tools and ust if they are not
-built as part of the "standard" build run.
+Its fixing a very rare problem that I only ran into whilst doing
+"interesting" things most people don't probably do.
+
+If people were running into those issues I'd backport but for master it
+was more a correctness fix which did fix some weird corner cases I
+debugged...
+
+Cheers,
+
+Richard
+
