@@ -1,197 +1,173 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.11401.1601980883980255270
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.11865.1601982889673043154
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2020 03:41:24 -0700
+ Tue, 06 Oct 2020 04:14:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=Vc1QgiyR;
- spf=pass (domain: blade-group.com, ip: 209.85.128.47, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-wm1-f47.google.com with SMTP id d3so2547314wma.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2020 03:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rd0K6/8wnjbXxmeeAHCtNCU2Fp7SXLKxBLqPcWQUVuo=;
-        b=Vc1QgiyRAbWUriu3MRyUZ1KMKi8c39PRT00TstPVOQ1TnkPufyr69jdTUDDhbaSVkk
-         /E9NFTGgl0b+IrKswj+YVscj3GpygQfMo49zXwxqXRaSAMWSGRn4JSQr279yfotNAvGz
-         LUoKeWyjcsY9DJUwMXW1QSSvLjTTMmvHqiQ3hFAGEjhv/qiIP1HRp5TNltBVs68qj8dd
-         wDK/6d2eHsqd01bqwbsQTOVZbsWbSd9AJtuRsUzPRuT7Q2FkjuQ6TFpGB5pX+Rh8xcO8
-         qclJfHGi+S+7vPzyBwbfsbUKtq89hzGIqNpwXykAzyQta2Y7Y7v0uoWtaP28LWoxH4Nw
-         c/PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rd0K6/8wnjbXxmeeAHCtNCU2Fp7SXLKxBLqPcWQUVuo=;
-        b=mQJFIKD0YALLCXRLh9vyxWNHuUtJ559F4KWbpIAKxq/A/maOLiKG+T5GHxuT/iIBsQ
-         Jdhz4XzdYjGNgMKC9SlFJVy3HRBrkYCF1Ag01RPV0jNPxhLsd9bj+UiIp3Th7ywklFjx
-         lr29iDNQl+gCt2fJiUFXOyTnw1t5CcR9qVJ1+pltnL6ixAJqGGKTcBK0l6qNfYwPAh8D
-         OV9TM/x3HyR/FBfdQsI/jvvTA3OUnU61Lb+0gRF//chEo8Ru+2K8VZVj35NOYIpl7QYv
-         9jH/f3reR8S7xHaPXmxuuKiPzye9Lz/vcjkJgdreiXVcgrMzg9DYt8to1YoNvmQR0Avu
-         4XBQ==
-X-Gm-Message-State: AOAM533A8JoErmiJXThTH6sFvkwCFhhza+udexMjcLKyPoRqHhMIWSQ6
-	f5z9RPjRtJN8qOlVWuRPiRviyXe0+8E8f1g1
-X-Google-Smtp-Source: ABdhPJys9nC4dcsrYeknu0neQyJjI+MZX1+oOcS/PlOrz/s6ml7jDV/+saSM9GTFXCU7kIMKsRvXCQ==
-X-Received: by 2002:a1c:bb84:: with SMTP id l126mr4367156wmf.159.1601980881777;
-        Tue, 06 Oct 2020 03:41:21 -0700 (PDT)
-Return-Path: <yann.dirson@blade-group.com>
-Received: from blanquette.lan ([88.120.44.86])
-        by smtp.gmail.com with ESMTPSA id f12sm3218755wmf.26.2020.10.06.03.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2020 03:41:20 -0700 (PDT)
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-X-Google-Original-From: yann@blade-group.com
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B7AD143D
+	for <openembedded-core@lists.openembedded.org>; Tue,  6 Oct 2020 04:14:48 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2765C3F66B
+	for <openembedded-core@lists.openembedded.org>; Tue,  6 Oct 2020 04:14:48 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Yann Dirson <yann@blade-group.com>
-Subject: [PATCH] llvm: fix llvm-config to work again with multilib
-Date: Tue,  6 Oct 2020 12:40:34 +0200
-Message-Id: <20201006104034.800021-1-yann@blade-group.com>
-X-Mailer: git-send-email 2.28.0
+Subject: [PATCH 1/3] boost: build a standalone boost.build
+Date: Tue,  6 Oct 2020 12:14:42 +0100
+Message-Id: <20201006111444.3952584-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Yann Dirson <yann@blade-group.com>
+Boost is a huge unirepo made from multiple submodules. To bootstrap it we
+need boost.build (previously bjam) which is also available as a solo
+repository. This smaller repository can unpack/build/package faster than
+the Boost unirepo can unpack.
 
-Newer llvm versions have changed the logic for finding libraries,
-which prevents Mesa from building with PACKAGECONFIG[gallium-llvm]:
+Rename the recipe to the current name of Boost.Build that installs a b2
+binary, use the solo repository, and update the Boost recipe to use
+the b2 binary instead of bjam.
 
-See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13937
-
-This patch comes from meta-amd, which exhibits one such situation.
-
-Signed-off-by: Yann Dirson <yann@blade-group.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...-llvm-allow-env-override-of-exe-path.patch | 96 +++++++++++++++++--
- 1 file changed, 87 insertions(+), 9 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  2 +-
+ .../boost/bjam-native_1.74.0.bb               | 18 ---------------
+ .../boost/boost-build-native_4.3.0.bb         | 23 +++++++++++++++++++
+ meta/recipes-support/boost/boost.inc          |  8 +++----
+ 4 files changed, 28 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-support/boost/bjam-native_1.74.0.bb
+ create mode 100644 meta/recipes-support/boost/boost-build-native_4.3.0.b=
+b
 
-
-Note that I took the updated patch from meta-amd without a change, and
-I'm dubious about the [OE-Specific] tag in patch metadata.
-
-
-diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-index b01b8647c9..417eaf0aa1 100644
---- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-@@ -1,27 +1,30 @@
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index 5a3f913b0f..7935f968c7 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -70,12 +70,12 @@ RECIPE_MAINTAINER_pn-binutils-cross-canadian-${TRANSL=
+ATED_TARGET_ARCH} =3D "Khem R
+ RECIPE_MAINTAINER_pn-binutils-cross-testsuite =3D "Khem Raj <raj.khem@gm=
+ail.com>"
+ RECIPE_MAINTAINER_pn-binutils-crosssdk-${SDK_SYS} =3D "Khem Raj <raj.khe=
+m@gmail.com>"
+ RECIPE_MAINTAINER_pn-bison =3D "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER_pn-bjam-native =3D "Alexander Kanavin <alex.kanavin@gm=
+ail.com>"
+ RECIPE_MAINTAINER_pn-blktool =3D "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-blktrace =3D "Alexander Kanavin <alex.kanavin@gmail=
+.com>"
+ RECIPE_MAINTAINER_pn-bluez5 =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-bmap-tools =3D "Anuj Mittal <anuj.mittal@intel.com>=
+"
+ RECIPE_MAINTAINER_pn-boost =3D "Alexander Kanavin <alex.kanavin@gmail.co=
+m>"
++RECIPE_MAINTAINER_pn-boost-build-native =3D "Alexander Kanavin <alex.kan=
+avin@gmail.com>"
+ RECIPE_MAINTAINER_pn-bootchart2 =3D "Alexander Kanavin <alex.kanavin@gma=
+il.com>"
+ RECIPE_MAINTAINER_pn-bsd-headers =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-btrfs-tools =3D "Wang Mingyu <wangmy@cn.fujitsu.com=
+>"
+diff --git a/meta/recipes-support/boost/bjam-native_1.74.0.bb b/meta/reci=
+pes-support/boost/bjam-native_1.74.0.bb
+deleted file mode 100644
+index c0eeed60b0..0000000000
+--- a/meta/recipes-support/boost/bjam-native_1.74.0.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-require boost-${PV}.inc
 -
--From 61b00e1e051e367f5483d7b5253b6c85a9e8a90f Mon Sep 17 00:00:00 2001
-+From 0570fe02c07244a8724c1e6c0437f893c8aa8e93 Mon Sep 17 00:00:00 2001
- From: Martin Kelly <mkelly@xevo.com>
- Date: Fri, 19 May 2017 00:22:57 -0700
--Subject: [PATCH] llvm: allow env override of exe path
-+Subject: [PATCH 2/2] llvm: allow env override of exe path
- 
- When using a native llvm-config from inside a sysroot, we need llvm-config to
- return the libraries, include directories, etc. from inside the sysroot rather
- than from the native sysroot. Thus provide an env override for calling
- llvm-config from a target sysroot.
- 
-+To let it work in multilib environment, we need to provide a knob to supply
-+multilib dirname as well
+-SUMMARY =3D "Portable Boost.Jam build tool for boost"
+-SECTION =3D "devel"
+-
+-inherit native
+-
+-do_compile() {
+-    ./bootstrap.sh --with-toolset=3Dgcc
+-}
+-
+-do_install() {
+-    install -d ${D}${bindir}/
+-    install b2 ${D}${bindir}/bjam
+-}
+-
+-# The build is either release mode (pre-stripped) or debug (-O0).
+-INSANE_SKIP_${PN} =3D "already-stripped"
+diff --git a/meta/recipes-support/boost/boost-build-native_4.3.0.bb b/met=
+a/recipes-support/boost/boost-build-native_4.3.0.bb
+new file mode 100644
+index 0000000000..d8096de5af
+--- /dev/null
++++ b/meta/recipes-support/boost/boost-build-native_4.3.0.bb
+@@ -0,0 +1,23 @@
++SUMMARY =3D "Boost.Build"
++SECTION =3D "devel"
 +
-+Upstream-Status: Inappropriate [OE-Specific]
++LICENSE =3D "BSL-1.0"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3De4224ccaecb14d942c71d31be=
+f20d78c"
 +
- Signed-off-by: Martin Kelly <mkelly@xevo.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
- ---
-- llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
-- 1 file changed, 7 insertions(+)
-+ llvm/tools/llvm-config/llvm-config.cpp | 35 ++++++++++++++++++++++---------
-+ 1 file changed, 25 insertions(+), 10 deletions(-)
- 
- diff --git a/llvm/tools/llvm-config/llvm-config.cpp b/llvm/tools/llvm-config/llvm-config.cpp
--index 7ef7c46a262..a4f7ed82c7b 100644
-+index bec89fef98c..91b4d6e4c43 100644
- --- a/llvm/tools/llvm-config/llvm-config.cpp
- +++ b/llvm/tools/llvm-config/llvm-config.cpp
--@@ -225,6 +225,13 @@ Typical components:\n\
-+@@ -226,6 +226,13 @@ Typical components:\n\
-  
-  /// Compute the path to the main executable.
-  std::string GetExecutablePath(const char *Argv0) {
-@@ -35,3 +38,78 @@ index 7ef7c46a262..a4f7ed82c7b 100644
-    // This just needs to be some symbol in the binary; C++ doesn't
-    // allow taking the address of ::main however.
-    void *P = (void *)(intptr_t)GetExecutablePath;
-+@@ -284,7 +291,7 @@ int main(int argc, char **argv) {
-+   // bin dir).
-+   sys::fs::make_absolute(CurrentPath);
-+   CurrentExecPrefix =
-+-      sys::path::parent_path(sys::path::parent_path(CurrentPath)).str();
-++      sys::path::parent_path(sys::path::parent_path(sys::path::parent_path(CurrentPath))).str();
-+ 
-+   // Check to see if we are inside a development tree by comparing to possible
-+   // locations (prefix style or CMake style).
-+@@ -293,7 +300,7 @@ int main(int argc, char **argv) {
-+     DevelopmentTreeLayout = CMakeStyle;
-+     ActiveObjRoot = LLVM_OBJ_ROOT;
-+   } else if (sys::fs::equivalent(CurrentExecPrefix,
-+-                                 Twine(LLVM_OBJ_ROOT) + "/bin")) {
-++                                 Twine(LLVM_OBJ_ROOT) + "/bin/llvm9.0.1")) {
-+     IsInDevelopmentTree = true;
-+     DevelopmentTreeLayout = CMakeBuildModeStyle;
-+     ActiveObjRoot = LLVM_OBJ_ROOT;
-+@@ -307,37 +314,45 @@ int main(int argc, char **argv) {
-+   std::string ActivePrefix, ActiveBinDir, ActiveIncludeDir, ActiveLibDir,
-+               ActiveCMakeDir;
-+   std::string ActiveIncludeOption;
-++  // Hack for Yocto: we need to override the multilib path when we are using
-++  // llvm-config from within a target sysroot.
-++  std::string Multilibdir = std::getenv("YOCTO_ALTERNATE_MULTILIB_NAME");
-++  if (Multilibdir.empty()) {
-++    Multilibdir = "/lib/llvm9.0.1" LLVM_LIBDIR_SUFFIX;
-++  }
-++
-+   if (IsInDevelopmentTree) {
-+-    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-++    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm9.0.1";
-+     ActivePrefix = CurrentExecPrefix;
-+ 
-+     // CMake organizes the products differently than a normal prefix style
-+     // layout.
-++
-+     switch (DevelopmentTreeLayout) {
-+     case CMakeStyle:
-+-      ActiveBinDir = ActiveObjRoot + "/bin";
-+-      ActiveLibDir = ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX;
-++      ActiveBinDir = ActiveObjRoot + "/bin/llvm9.0.1";
-++      ActiveLibDir = ActiveObjRoot + "/lib/llvm9.0.1" + LLVM_LIBDIR_SUFFIX;
-+       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+       break;
-+     case CMakeBuildModeStyle:
-+       ActivePrefix = ActiveObjRoot;
-+-      ActiveBinDir = ActiveObjRoot + "/bin/" + build_mode;
-++      ActiveBinDir = ActiveObjRoot + "/bin/llvm9.0.1/" + build_mode;
-+       ActiveLibDir =
-+-          ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-++          ActiveObjRoot + "/lib/llvm9.0.1" + LLVM_LIBDIR_SUFFIX + "/" + build_mode;
-+       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+       break;
-+     }
-+ 
-+     // We need to include files from both the source and object trees.
-+     ActiveIncludeOption =
-+-        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
-++        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm9.0.1");
-+   } else {
-+     ActivePrefix = CurrentExecPrefix;
-+-    ActiveIncludeDir = ActivePrefix + "/include";
-++    ActiveIncludeDir = ActivePrefix + "/include/llvm9.0.1";
-+     SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
-+     sys::fs::make_absolute(ActivePrefix, path);
-+     ActiveBinDir = path.str();
-+-    ActiveLibDir = ActivePrefix + "/lib" + LLVM_LIBDIR_SUFFIX;
-++    ActiveLibDir = ActivePrefix + Multilibdir;
-+     ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-+     ActiveIncludeOption = "-I" + ActiveIncludeDir;
-+   }
-+-- 
-+2.20.1
++SRC_URI =3D "git://github.com/boostorg/build;protocol=3Dhttps"
++SRCREV =3D "632ea768f3eb225b4472c5ed6d20afee708724ad"
 +
--- 
-2.28.0
++inherit native
++
++S =3D "${WORKDIR}/git"
++
++do_compile() {
++    ./bootstrap.sh
++}
++
++do_install() {
++    ./b2 install --prefix=3D${prefix} staging-prefix=3D${D}${prefix}
++}
++
++# The build is either release mode (pre-stripped) or debug (-O0).
++INSANE_SKIP_${PN} =3D "already-stripped"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/=
+boost/boost.inc
+index ea1bc123b8..e74c7d6f7d 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -1,6 +1,6 @@
+ SUMMARY =3D "Free peer-reviewed portable C++ source libraries"
+ SECTION =3D "libs"
+-DEPENDS =3D "bjam-native zlib bzip2"
++DEPENDS =3D "boost-build-native zlib bzip2"
+=20
+ CVE_PRODUCT =3D "boost:boost"
+=20
+@@ -180,7 +180,7 @@ do_configure() {
+ 		echo "using mpi : : <find-shared-library>mpi ;" >> ${WORKDIR}/user-con=
+fig.jam
+ 	fi
+=20
+-	CC=3D"${BUILD_CC}" CFLAGS=3D"${BUILD_CFLAGS}" ./bootstrap.sh --with-bja=
+m=3Dbjam --with-toolset=3Dgcc
++	CC=3D"${BUILD_CC}" CFLAGS=3D"${BUILD_CFLAGS}" ./bootstrap.sh --with-bja=
+m=3Db2 --with-toolset=3Dgcc
+=20
+ 	# Boost can't be trusted to find Python on it's own, so remove any ment=
+ion
+ 	# of it from the boost configuration
+@@ -189,7 +189,7 @@ do_configure() {
+=20
+ do_compile() {
+ 	cd ${S}
+-	bjam ${BJAM_OPTS} \
++	b2 ${BJAM_OPTS} \
+ 		--prefix=3D${prefix} \
+ 		--exec-prefix=3D${exec_prefix} \
+ 		--libdir=3D${libdir} \
+@@ -199,7 +199,7 @@ do_compile() {
+=20
+ do_install() {
+ 	cd ${S}
+-	bjam ${BJAM_OPTS} \
++	b2 ${BJAM_OPTS} \
+ 		--libdir=3D${D}${libdir} \
+ 		--includedir=3D${D}${includedir} \
+ 		install
+--=20
+2.25.1
 
