@@ -1,96 +1,99 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
- by mx.groups.io with SMTP id smtpd.web11.879.1602103592725084574
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.1200.1602104466640465227
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2020 13:46:32 -0700
+ Wed, 07 Oct 2020 14:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=Tk7NaN11;
- spf=pass (domain: konsulko.com, ip: 209.85.167.195, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f195.google.com with SMTP id u126so3890504oif.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2020 13:46:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L/dUDEEy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id t10so3952248wrv.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2020 14:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JYk5c2wH5SSa1+JtOKcsePohc7pQPFv83rvNZsiCBfY=;
-        b=Tk7NaN114PXNaa4aBZYboAI6vd1H5MGxMwlgRd6kpuwjILj0JYmTJDQ3ux3q5n6+LR
-         lNfJjM2SAmHY0WmpOfu8wZT58fHsy4RIuiDRpkonkSDCqq45tHoiRqzXDyhUsEHpU5U6
-         lP1iCR7iTSx5iRCJFyScqMq3G7IRiJDfP9eiw=
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=kmbOGP3xLM7btuPx231/yj0yE/mJjgzxRTG19fL9yh0=;
+        b=L/dUDEEy0xV8M3DqWo/s7uBJyKaF6a8Ja1yQNeb3J7pQyoW7MDWd41qZtFUSV+U9LO
+         y4GDmcBI6Hsdbeo+wsmZEHGUeFrG3dIjIShgrBCD77sPfPajtOM90L53PDTbXxgKsgee
+         17S1aEVlGcPuz66WxvPzB7eMCxWjLjw/EMuAc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JYk5c2wH5SSa1+JtOKcsePohc7pQPFv83rvNZsiCBfY=;
-        b=pE9EdxttpSX7knnaUs8b5zQPZHR5u+MxcFzCXuZaIh9IWmpRTaUN2uzzDQWavU08hK
-         zEdS5VAoPlDjEJKyhW58rS+sf9Ckoca59w/p24/4urPFwGoGWznT6a4Cbyp6RkrPcla/
-         +70+z+6SmvFthvQHSdHwU7Jj3HIsHv9XF5wKhhrpeDLHgE5bu2QbJRHGrMqVDbXhmn04
-         R/W0vyW85CWjPgVeDMR5E/KfQJ+LgcoVxgioR9LJAQ6LzdeNVizX6cJbvzglRANcOh02
-         wDRum5i7FkGA7vxIyZHn+KrCiAxeuo1yo6U1FJnFx9zN2QVYuHAa/lzUxIkSKtRx1eqB
-         6R3Q==
-X-Gm-Message-State: AOAM531Cq9nuRr017aJPJJBWk1qrv0c/Hu7MdjME26qlVs6WZXA//VkZ
-	hCDo/u3YiSeDp08Tnd+atlRJr9NSX4Vl35Jfth5JPQ==
-X-Google-Smtp-Source: ABdhPJwC02l8nnAUzBtOS2kZWu7i35a9PwfEN5+PzohuFdmKTYpsJ6T2y61V6aHG1gs8mTCa1BHa/DhJGYxc9nrhjGQ=
-X-Received: by 2002:aca:3e08:: with SMTP id l8mr2869599oia.152.1602103592023;
- Wed, 07 Oct 2020 13:46:32 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=kmbOGP3xLM7btuPx231/yj0yE/mJjgzxRTG19fL9yh0=;
+        b=P8MqC4r+GsxGE0EUhNbvIFWAOyme4GMvLw3MYJM9g+4d1hFvv3OgMg6MQgJlhS0W9k
+         oHZsVgfQNlA9WqaLRmwEhEmjGDt/nlLk6IYMrKrmEwSMwB5+sQUCz2kLxq9DWGNq9cHR
+         2IaK8ZlMhLhH2UeGfo/L18lza1Y33475uVyZOBk+bo0PYz7NykrZ2U9iDoonrFZ4aZGt
+         SrwMeGgSQLYBfAdV389Hfoqkk14laHUoRnIK4WfsR25KCztYGgz4AAA9Gq9jfNH2rpPm
+         MW8Jsj1xFQtC0h1i6J9EpS4wcv7+R6pa8jCk8BElTOeWIcyW6yV6WiXeyUzBkH2YpJvD
+         HvpA==
+X-Gm-Message-State: AOAM531kUrUe6F2kaV/5IB0CMi4kkRKlKErD3EpMOHDO3AAlRDsQFFlY
+	vfS0j2iibIO8pIT6TzEohBvUFA==
+X-Google-Smtp-Source: ABdhPJwcvKtM5jhdS3YsI5r7hMACi454CwY+fgrW+dL6vnzhXzbiIQWgJa4AZr7U8RFCCHwGBlaqKw==
+X-Received: by 2002:adf:f30a:: with SMTP id i10mr5831208wro.296.1602104464877;
+        Wed, 07 Oct 2020 14:01:04 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f8f3:ac6a:4801:78cf])
+        by smtp.gmail.com with ESMTPSA id q9sm4276065wrd.57.2020.10.07.14.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 14:01:04 -0700 (PDT)
+Message-ID: <f4645924503fb12bd092e48a0c0ea7f20de88dbf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] pseudo: do not expand symlinks in /proc
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: seebs@seebs.net, Matt Cowell <matt.cowell@nokia.com>
+Date: Wed, 07 Oct 2020 22:01:03 +0100
+In-Reply-To: <20200925170532.19685-1-sakib.sajal@windriver.com>
+References: <20200925170532.19685-1-sakib.sajal@windriver.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20201007203838.19096-1-kamensky@cisco.com> <20201007203838.19096-2-kamensky@cisco.com>
-In-Reply-To: <20201007203838.19096-2-kamensky@cisco.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Wed, 7 Oct 2020 21:46:21 +0100
-Message-ID: <CAM9ZRVst-JLA3aOa+U2Sd1Cqj8ARsAyVhCu0Yhhk5we+FKsmdQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] qemu: add 34Kf-64tlb fictitious cpu type
-To: kamensky@cisco.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 7 Oct 2020 at 21:39, Victor Kamensky via
-lists.openembedded.org <kamensky=cisco.com@lists.openembedded.org>
-wrote:
->
-> In Yocto Project PR 13992 it was reported that qemumips
-> in autobuilder runs almost twice slower then qemumips64 and
-> some times hit time out.
->
-> Upon investigations of qemu-system with perf, gdb, and
-> SystemTap and comparing qemumips and qemumips64 machines
-> behavior it was noticed that qemu soft mmu code behaves
-> quite different and in case if qemumips tlbwr instruction
-> called 16 times more oftern. It happens that in qemumips64
-> case qemu runs with cpu type that contains 64 TLB, but in case
-> of qemumips qemu runs with cpu type that contains only
-> 16 TLBs.
->
-> The idea of proposed qemu patch is to introduce fictitious
-> 34Kf-64tlb cpu type that defined exactly as 34Kf but has
-> 64 TLBs, instead of original 16 TLBs.
->
-> Testing of core-image-full-cmdline:do_testimage with
-> 34Kf-64tlb shows 40% or so test execution real time
-> improvement.
->
-> Note for future porters of the patch: easiest way to update
-> the patch and be in sync with 34Kf definition is to copy
-> 34Kf machine definition and apply the following changes to
-> it (just change 15 to 63 of CP0C1_MMU bits value)
->
-> [kamensky@coreos-lnx2 qemu]$ diff ~/34Kf.c ~/34Kf-64tlb.c
-> 2c2
-> <         .name = "34Kf",
-> >         .name = "34Kf-64tlb",
-> 6c6
-> <         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-> >         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
->
-> Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+On Fri, 2020-09-25 at 13:05 -0400, Sakib Sajal wrote:
+> From: Matt Cowell <matt.cowell@nokia.com>
+> 
+> Some symlinks in /proc, such as those under /proc/[pid]/fd,
+> /proc/[pid]/cwd, and /proc/[pid]/exe that are not real and should not
+> have readlink called on them.  These look like symlinks, but behave
+> like
+> hardlinks.  Readlink does not return actual paths.  Previously
+> pseudo_fix_path would expand files such as /dev/stdin to paths such
+> as
+> /proc/6680/fd/pipe:[1270830076] which do not exist.
+> 
+> This issue affects:
+> - deleted files
+> - deleted directories
+> - fifos
+> - sockets
+> - anon_inodes (epoll, eventfd, inotify, signalfd, timerfd, etc)
+> 
+> Testing:
+> timed builds before and after applying patch, without significant
+> measurable difference.
+> $ bitbake -c compile <image>; time bitbake <image>
+> 
+> installed pseudo on an image and was unable to reproduce the test
+> on bug report after applying the patch.
+> 
+> FIXES: Bug 13288
+> 
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 
-Forgive my ignorance as to the range of MIPS processors available but
-does any real MIPS CPU have 64 TLBs? If such a CPU model exists
-shouldn't we be using this instead of inventing a new model?
+I added this on top of the other recent pseudo patches and
+unfortunately, it threw a lot of errors. One example:
 
-I'm a bit worried that targeting a unique, fictitious CPU model will
-lead to us wasting time debugging obscure failures that other projects
-have never seen and that would never occur on real hardware.
+path mismatch [2 links]: ino 44446916 db '/home/pokybuild/yocto-worker/edgerouter-alt/build/build/tmp/work/all-poky-linux/volatile-binds/1.0-r0/package/sbin' req '/proc/self/fd/3/./sbin'.
 
--- 
-Paul Barker
-Konsulko Group
+which shows it ended up passing an invalid path into the database.
+
+I'm going to have to back this change out until we can figure out how
+to reconcile this with path mismatch errors now being fatal.
+
+Cheers,
+
+Richard
+
+
+
