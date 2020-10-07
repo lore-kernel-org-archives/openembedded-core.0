@@ -1,265 +1,101 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.2290.1602080516902555412
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.57])
+ by mx.groups.io with SMTP id smtpd.web11.3167.1602082738070313130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2020 07:21:57 -0700
+ Wed, 07 Oct 2020 07:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=C1hhr8Jn;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f66.google.com with SMTP id dn5so2354963edb.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2020 07:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nOYvS7Btn5aWHLc0W09LVzvGtSBGLa7JGnwq9jZ0tlA=;
-        b=C1hhr8JnAqE4oUsCrFvG+FhyNA8hZFdegEJbEPmu66XXB0joxGJHiPzy49wqDaANBy
-         li77cZlfs+IS5vYYRZv9wm4jEMeS2bvteZG8i7urAYWD8BmhLA4oL8iRdwCTslszIgWD
-         zyeFtVM5mga3uJmSrdo72VRP3TGeKIIvjlriD73B38wVspttpCLFHvsoQYmKJzdWm9Xj
-         ifAfhrT6+VZjoXftd9NFXIkAgCTiuyRIa76+0LQ+B1M51vznVFyvRDkGvl1hsxIAXm+Q
-         rPopDm+egFM/qDjmB6wbvAdcoNsF8Et2GNbXj6yeQ5+/NfWO/ZPt6MAX9lnpYMxqJRMK
-         bkaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nOYvS7Btn5aWHLc0W09LVzvGtSBGLa7JGnwq9jZ0tlA=;
-        b=IiIAi4Dilc+mI1X1kAz2XsUDZiA1PBZcgRgq9NZx3gSuN9LkGdmzv3Z/uanBhkhABx
-         dUpCJKZCZY5G3VLokIX4YhHBdnv83+5XVnV9FrF93RZK8fetz4FLBp/RI3DvVGbNZZDZ
-         jeoCB9/aD2HAZT0laCdWZsImrggtqya9XnFRRzZ/Oq7dbErIwm+q99foC57a34UcksQ6
-         DE/G7JITke2qD8aBP7K8tx0dmsmWuTEOxoUy213NTXqgopGlqKKWg710IHT9KF+1r0Wz
-         FASSTztU7KzuWTFe+eZWGCMkCfWQnfjypH93Hc2+dohFOAPD50Xs4pxtRZO4qyAdnonS
-         vBmw==
-X-Gm-Message-State: AOAM532ScSk3yqt6L0GOu0IrTJ231V3U/8JZitVYSu0kvkWpnN3DWSj2
-	t+JNqyKa2IgndQHjcDO7nVDRU3EAReknPm22lr+r6g==
-X-Google-Smtp-Source: ABdhPJzhQclP+Pzkkz34NwG9PeVYKQvIpG95E3Ny5vz6tLofu2SFx/w08ES26ZQf8sPRpCeLbg6iWyFny/7/l2MSXLY=
-X-Received: by 2002:aa7:ca52:: with SMTP id j18mr3660598edt.147.1602080515078;
- Wed, 07 Oct 2020 07:21:55 -0700 (PDT)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=freXf4ia;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.243.57, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CPTaJHgcRpZ9umSlPXV29PmGJJk/zdtzicRPvzOgPAcH8Zejw2JMgNI6nupJZVQ2gzPCsZJ3xLOCGpChOWJ8hF7SiOE0nWNFSjxhGL8Kl2IL3GazCtgZfTyrwN9u+s8N8r6R8TDkzo11/8AzpKTvqLQTUiULGiIrQ3I7hdrXHfaPBjnC3Mbt9rpTmm8OPQDg7oeQCFGNNaR4btdKLzVblKcp5NiWKN7kFIqdce6ugMcnAq/GquDekk4bmbaIVCSfXt/E2EoxAAGAqWfjLlLxA+NDgZ1oK/pty1mhLnA+54xRzP8fdRU8B82tnfB9gpz63ZZgbvaL1V3UInP3igYHfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aM2K9CcZg/wb8X0YZLMVCMKk2kaPijml6hDhnCB6QmM=;
+ b=Vq+HVZ22aIB6jMyP8jIL/UeLP4K8wVdu1tXXC/H/rZJ3IhS8pQYaId+cwNrRJI1zmlmJasDanWSEaEpQH4F9DUt+Wev923avb+bKOkSS0b3b0oWK/ae38NZe0GRS+WiFMHZ2Kz9XzomPZeiLmfbljQlVV7V2XGHy07PwTLpE0gZjMZFCq1Znc4+yWx/FatGN7dzvYd25wMiVDUe71K4jXs8RkcU5DbFUgctRUIdp7FvpQkSiGT8W5gyp48zr8Ynmna/HF6vQFlnHhNGVTdE3eCFVr/KXHKAxnQ44g/0koGjKZC6xKbHNcPWtP3APxoDeP7/pZjTTyq+LUi4Dd2bcCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
+ dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aM2K9CcZg/wb8X0YZLMVCMKk2kaPijml6hDhnCB6QmM=;
+ b=freXf4iaQZRUEo0MYjGpyOMrvBUPKrK94xFyNb5uPBQEwnTvJQEKWc9csCvMQWA/mj6dKc64rNcan+AYouFqZYolejWQNNaqXq3l03LQXjRMPKRP4U6FFgIaUICmCfqpVLhRfI/7QBBosdXPuHrfHLN/pkVxfqdQCABe0GX0R0lMzVjLH3kuR2dSPqbtyah4Iyn2rW3hhKfAtDOcA9KuQkThoNP2cj450Zk24LXFXQBrxjzjBZyKKec1ZilWV6aOZnLQVFz/7wwK5iGaRTbIuGMPrsf4eaoW9AbHVQpL9brG0qFMXlTg1ZNa1jLeLrJjUkmfmpfcRKU9JMcrgP2ueA==
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21)
+ by SN1PR12MB2352.namprd12.prod.outlook.com (2603:10b6:802:25::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.36; Wed, 7 Oct
+ 2020 14:58:57 +0000
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::d9f4:7430:8c64:d2d]) by SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::d9f4:7430:8c64:d2d%7]) with mapi id 15.20.3433.046; Wed, 7 Oct 2020
+ 14:58:57 +0000
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/4] staging: Ensure cleaned dependencies are added
+Thread-Topic: [OE-core] [PATCH 1/4] staging: Ensure cleaned dependencies are
+ added
+Thread-Index: AQHWlZygHIczyD9sPkqHZe4YWbbZnKmKygswgAAL74CAAAJ0IIABJe6AgABLA4A=
+Date: Wed, 7 Oct 2020 14:58:56 +0000
+Message-ID: 
+ <SN1PR12MB24809CB5582CC83DE3D4DE6B8B0A0@SN1PR12MB2480.namprd12.prod.outlook.com>
+References: <20200928133803.2741507-1-richard.purdie@linuxfoundation.org>
+	 <SN1PR12MB2480083B16B34A4A0C9119978B0D0@SN1PR12MB2480.namprd12.prod.outlook.com>
+	 <1ef1432ac36ca2224dea67e2824c5b8f04cc1066.camel@linuxfoundation.org>
+	 <SN1PR12MB2480A99FEE6B179D1A5A76E58B0D0@SN1PR12MB2480.namprd12.prod.outlook.com>
+ <ae93fdcf366f38395f74b0eb6d22f471a57fb0be.camel@linuxfoundation.org>
+In-Reply-To: 
+ <ae93fdcf366f38395f74b0eb6d22f471a57fb0be.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=agilent.com;
+x-originating-ip: [76.99.179.205]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 131e6927-007f-46d8-80a8-08d86ad1841e
+x-ms-traffictypediagnostic: SN1PR12MB2352:
+x-microsoft-antispam-prvs: 
+ <SN1PR12MB2352DF587AFFF4DFD88A53808B0A0@SN1PR12MB2352.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 8fRiCrdxal41bU9e07XP6gDwFJxrbALGSzn+dJv3PAKNjfsDCuNoPOa1ldn08xKpOyFQzvEwOHI/Jb06LDt6Ao0NsJpBy194wyKYl8KTvLEnq20cSccicnbdv0L6pkiH7d3F8I/qN8xpbnnpmVaLDw0bZfctgejT2Sk9qOlRDjJ/eKlOkmxI7YOgjYYnc3KSKmlaSMDWa0oUNU83U48vmkEU94SICa5yNKWbXFdRBizHLnvkwZfucMXXrQmNSc7c0CQ/EhO/phST+/80lijil4r1XLjrwnmS9QfZUUuJBpTaC+48TQNxs8Pq+pOOOx4VSa7UvDtVPsW6GCLa1rTdWeeMXN1/UrEV1vVOER6es/8TQ0TVvc99KMgWDNQ3+8xc
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2480.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(29502001)(4744005)(71200400001)(110136005)(7696005)(316002)(478600001)(6506007)(33656002)(2906002)(8936002)(5660300002)(66556008)(8676002)(9686003)(55016002)(26005)(186003)(66946007)(52536014)(76116006)(64756008)(66446008)(66476007)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ stOpfEJDqqSuE9xuUGybMd1L342V5IHBjV4/3+4UN8UEGWUGU/PRyqb5ReMX4Bwmng2flM1oPCQ7b5Uo8dZyzXD6aMukcagmu9/+KbUGppw8sVIDvptqEsPAaTAmOVIC7dyiCy9sk1xKbnV3/HHA1CO9fCciLnrUPRfZRmQ0LVbuCrGcsA3CoMe8K4ZhWR6gGCe5q6nSUCNRYGjcqrFbCLwcQz1xxgv1JMWOBrhDIwp3jWqKLVuWjYOYKz45qgt3dXWEsqJSFHhYGdO674b/IZlaMgdZGEbr7Js3wCAQa1P1ktoFdlyr737+tnZ4BUOOvH2yO9XgUWMLGd9ocpXl/e6WWDrwsIHWokvl90va2Kykcjl+PIW/S3cc66RfjxtFO2i07tKkIIz8tMTcOoYg5UjS4nYBJ+4p8Qg5SphSAUoD7bSV8/sQhsN1iB5NSqEla4KyfIWTl97VX4TEz4JImNc2RIRO58h3JLFwGfOlMln8uMH5Jw1yCPGEpL7gmFosPylTiDsHMf8gAteK2mrbosO4Kc7i28kcjStPljrg4dhp7ikKMW5Lw07jY3hofk251gYhviu2DWc2lql1PhBXXMBA+5ynp/WNFJgC2T1AjxG4jolO6yhZsQTm86H4BkRlQTxV0wS57zce74JYGdjU9A==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20200729133256.20229-1-viktor.rosendahl@bmw.de> <CA+chaQfJONtwMRxOzStaK+78qCP4vcksoTJD4NxNzEQNWAwa1A@mail.gmail.com>
-In-Reply-To: <CA+chaQfJONtwMRxOzStaK+78qCP4vcksoTJD4NxNzEQNWAwa1A@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 7 Oct 2020 04:21:43 -1000
-Message-ID: <CAOSpxdbqsAqKoMWA=qXxq7bNcZqRZOX=PP_Y5NpLGw4JQ+8NWg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] boost: backport fix to make async_pipes work with asio
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Viktor Rosendahl <viktor.rosendahl@gmail.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2480.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 131e6927-007f-46d8-80a8-08d86ad1841e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2020 14:58:56.8746
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5zvBmKPauNZBv1wB4pVd56u4UZpoqI4tBm6xU1O37+Wktpg7yxA6VIh67FvqVk29BwHmtFNtaQU6PvQnN97+gItEZ/a+PjrwLHI/567KmZA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2352
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Oct 7, 2020 at 2:10 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> It's not caused by this change, but when rebuilding dunfell based build with this change included I've noticed:
-> WARNING: boost-1.72.0-r0 do_fetch: Checksum mismatch for local file downloads/boost_1_72_0.tar.bz2
-> Cleaning and trying again.
-> WARNING: boost-1.72.0-r0 do_fetch: Renaming downloads/boost_1_72_0.tar.bz2 to downloads/boost_1_72_0.tar.bz2_bad-checksum_9df25550eb5a8d5a83dc67be4135d3785ab02b22c6972e5e3da1d79781b03f0b
-
-I checked on two machines here and don't see this issue, the checksums
-for boost_1_72_0.tar.bz2 in the downloads directory matches that in
-the recipe.
-
-I do builds with meta-openembedded, meta-qt5, meta-mender,
-meta-virtualization and bsp's from poky, meta-freescale and
-meta-st-stm32mp.
-
-Are you using other layers that might touch boost?
-
-Steve
-
-> boost-new/boost_1_72_0:
-> INSTALL  Jamroot  LICENSE_1_0.txt  README.md  boost  boost-build.jam  boost.css  boost.png  boostcpp.jam  bootstrap.bat  bootstrap.sh  doc  index.htm  index.html  libs  more  rst.css  status  tools
->
-> boost-old/boost_1_72_0:
-> INSTALL  LICENSE_1_0.txt  boost  boost.css  boost.png  boostcpp.jam  bootstrap.bat  bootstrap.sh  doc  index.htm  libs  status
->
-> $ diff -rq boost-*
-> Only in boost-new/boost_1_72_0: Jamroot
-> Only in boost-new/boost_1_72_0: README.md
-> Only in boost-new/boost_1_72_0/boost: archive
-> Only in boost-new/boost_1_72_0/boost: array.hpp
-> Only in boost-new/boost_1_72_0/boost: assign
-> Only in boost-new/boost_1_72_0/boost: atomic
-> Only in boost-new/boost_1_72_0/boost: beast.hpp
-> Only in boost-new/boost_1_72_0/boost: blank.hpp
-> Only in boost-new/boost_1_72_0/boost: callable_traits
-> Only in boost-new/boost_1_72_0/boost: checked_delete.hpp
-> Only in boost-new/boost_1_72_0/boost: circular_buffer
-> Only in boost-new/boost_1_72_0/boost: compatibility
-> Only in boost-new/boost_1_72_0/boost: compute
-> Only in boost-new/boost_1_72_0/boost: concept
-> Only in boost-new/boost_1_72_0/boost: concept_check.hpp
-> Only in boost-new/boost_1_72_0/boost: container
-> Only in boost-new/boost_1_72_0/boost: convert.hpp
-> Only in boost-new/boost_1_72_0/boost: current_function.hpp
-> Only in boost-new/boost_1_72_0/boost: date_time
-> Only in boost-new/boost_1_72_0/boost: date_time.hpp
-> Only in boost-new/boost_1_72_0/boost: dynamic_bitset
-> Only in boost-new/boost_1_72_0/boost: dynamic_bitset.hpp
-> Only in boost-new/boost_1_72_0/boost: foreach_fwd.hpp
-> Only in boost-new/boost_1_72_0/boost: format
-> Only in boost-new/boost_1_72_0/boost: format.hpp
-> Only in boost-new/boost_1_72_0/boost: function
-> Only in boost-new/boost_1_72_0/boost: functional
-> Only in boost-new/boost_1_72_0/boost: generator_iterator.hpp
-> Only in boost-new/boost_1_72_0/boost/geometry/srs: esri.hpp
-> Files boost-new/boost_1_72_0/boost/geometry/srs/projections/iau2000_traits.hpp and boost-old/boost_1_72_0/boost/geometry/srs/projections/iau2000_traits.hpp differ
-> Only in boost-new/boost_1_72_0/boost/geometry/srs/projections: spar.hpp
-> Only in boost-new/boost_1_72_0/boost/geometry/srs: shared_grids.hpp
-> Only in boost-new/boost_1_72_0/boost/geometry/srs: sphere.hpp
-> Only in boost-new/boost_1_72_0/boost/geometry/srs: spheroid.hpp
-> Only in boost-new/boost_1_72_0/boost: get_pointer.hpp
-> Only in boost-new/boost_1_72_0/boost: gil
-> Only in boost-new/boost_1_72_0/boost: hana
-> Only in boost-new/boost_1_72_0/boost: hana.hpp
-> Only in boost-new/boost_1_72_0/boost: heap
-> Only in boost-new/boost_1_72_0/boost: histogram
-> Only in boost-new/boost_1_72_0/boost: integer
-> Only in boost-new/boost_1_72_0/boost: iostreams
-> Only in boost-new/boost_1_72_0/boost: is_placeholder.hpp
-> Only in boost-new/boost_1_72_0/boost: lambda
-> Only in boost-new/boost_1_72_0/boost: locale
-> Only in boost-new/boost_1_72_0/boost: logic
-> Only in boost-new/boost_1_72_0/boost: make_shared.hpp
-> Only in boost-new/boost_1_72_0/boost: math
-> Only in boost-new/boost_1_72_0/boost: memory_order.hpp
-> Only in boost-new/boost_1_72_0/boost: mp11.hpp
-> Only in boost-new/boost_1_72_0/boost: mpi
-> Only in boost-new/boost_1_72_0/boost: multiprecision
-> Only in boost-new/boost_1_72_0/boost: non_type.hpp
-> Only in boost-new/boost_1_72_0/boost: operators_v1.hpp
-> Only in boost-new/boost_1_72_0/boost: outcome
-> Only in boost-new/boost_1_72_0/boost: outcome.hpp
-> Only in boost-new/boost_1_72_0/boost: pending
-> Only in boost-new/boost_1_72_0/boost: phoenix
-> Only in boost-new/boost_1_72_0/boost: pointee.hpp
-> Only in boost-new/boost_1_72_0/boost: pointer_cast.hpp
-> Only in boost-new/boost_1_72_0/boost: predef.h
-> Only in boost-new/boost_1_72_0/boost: process
-> Only in boost-new/boost_1_72_0/boost: proto
-> Only in boost-new/boost_1_72_0/boost: python
-> Only in boost-new/boost_1_72_0/boost: random.hpp
-> Only in boost-new/boost_1_72_0/boost: regex.hpp
-> Only in boost-new/boost_1_72_0/boost: scope_exit.hpp
-> Only in boost-new/boost_1_72_0/boost: scoped_array.hpp
-> Only in boost-new/boost_1_72_0/boost: serialization
-> Only in boost-new/boost_1_72_0/boost: shared_container_iterator.hpp
-> Only in boost-new/boost_1_72_0/boost: spirit
-> Only in boost-new/boost_1_72_0/boost: stacktrace
-> Only in boost-new/boost_1_72_0/boost: statechart
-> Only in boost-new/boost_1_72_0/boost: token_functions.hpp
-> Only in boost-new/boost_1_72_0/boost: type_traits.hpp
-> Only in boost-new/boost_1_72_0/boost: unordered_map.hpp
-> Only in boost-new/boost_1_72_0/boost: utility
-> Only in boost-new/boost_1_72_0/boost: variant2
-> Only in boost-new/boost_1_72_0/boost: weak_ptr.hpp
-> Only in boost-new/boost_1_72_0: boost-build.jam
-> Only in boost-new/boost_1_72_0: index.html
-> Only in boost-new/boost_1_72_0: more
-> Only in boost-new/boost_1_72_0: rst.css
-> Only in boost-new/boost_1_72_0: tools
->
-> I don't remember any commit updating the checksum from:
-> 9df25550eb5a8d5a83dc67be4135d3785ab02b22c6972e5e3da1d79781b03f0b  downloads/boost_1_72_0.tar.bz2_bad-checksum_9df25550eb5a8d5a83dc67be4135d3785ab02b22c6972e5e3da1d79781b03f0b
-> to
-> 59c9b274bc451cf91a9ba1dd2c7fdcaf5d60b1b3aa83f2c9fa143417cc660722  downloads/boost_1_72_0.tar.bz2
-> currently used in recipe.
->
-> It's possible that there is another recipe somewhere using the same boost_1_72_0.tar.bz2 archive from different URL with different checksums.
->
-> Regards,
->
-> On Wed, Jul 29, 2020 at 3:33 PM Viktor Rosendahl <viktor.rosendahl@gmail.com> wrote:
->>
->> From: Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
->>
->> async_pipe is missing the executor_type type, which is expected by
->> asio in /usr/include/boost/asio/impl/read.hpp. Without this, it's
->> not possible to even compile code that uses constructs such as:
->>
->> boost::asio::io_service foo;
->> boost::process::async_pipe foopipe{ boost::process::async_pipe(foo) };
->>
->> This is only relevant for Dunfell because master has already moved to
->> boost-1.73.0 in which this bug has been fixed. The bug is also not
->> present in Zeus, which uses boost-1.71.0.
->>
->> Signed-off-by: Viktor Rosendahl <Viktor.Rosendahl@bmw.de>
->> ---
->>  .../0001-added-typedef-executor_type.patch    | 53 +++++++++++++++++++
->>  meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
->>  2 files changed, 54 insertions(+)
->>  create mode 100644 meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
->>
->> diff --git a/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch b/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
->> new file mode 100644
->> index 0000000000..83d3749e15
->> --- /dev/null
->> +++ b/meta/recipes-support/boost/boost/0001-added-typedef-executor_type.patch
->> @@ -0,0 +1,53 @@
->> +From 6a4d2ff72114ef47c7afaf92e1042aca3dfa41b0 Mon Sep 17 00:00:00 2001
->> +From: Klemens David Morgenstern <klemens.morgenstern@gmx.net>
->> +Date: Fri, 22 Nov 2019 14:03:22 +0800
->> +Subject: [PATCH] added typedef executor_type;
->> +
->> +Upstream-Status: Backport [https://github.com/boostorg/process/commit/6a4d2ff72114ef47c7afaf92e1042aca3dfa41b0]
->> +
->> +---
->> + include/boost/process/async_pipe.hpp                | 2 ++
->> + include/boost/process/detail/posix/async_pipe.hpp   | 1 +
->> + include/boost/process/detail/windows/async_pipe.hpp | 1 +
->> + 3 files changed, 4 insertions(+)
->> +
->> +diff --git a/include/boost/process/async_pipe.hpp b/include/boost/process/async_pipe.hpp
->> +index 101fe1d..a562432 100644
->> +--- a/boost/process/async_pipe.hpp
->> ++++ b/boost/process/async_pipe.hpp
->> +@@ -47,6 +47,8 @@ public:
->> +      */
->> +     typedef platform_specific handle_type;
->> +
->> ++    typedef typename handle_type::executor_type executor_type;
->> ++
->> +     /** Construct a new async_pipe, does automatically open the pipe.
->> +      * Initializes source and sink with the same io_context.
->> +      * @note Windows creates a named pipe here, where the name is automatically generated.
->> +diff --git a/include/boost/process/detail/posix/async_pipe.hpp b/include/boost/process/detail/posix/async_pipe.hpp
->> +index 725a078..a82c057 100644
->> +--- a/boost/process/detail/posix/async_pipe.hpp
->> ++++ b/boost/process/detail/posix/async_pipe.hpp
->> +@@ -23,6 +23,7 @@ class async_pipe
->> + public:
->> +     typedef int native_handle_type;
->> +     typedef ::boost::asio::posix::stream_descriptor handle_type;
->> ++    typedef typename handle_type::executor_type executor_type;
->> +
->> +     inline async_pipe(boost::asio::io_context & ios) : async_pipe(ios, ios) {}
->> +
->> +diff --git a/include/boost/process/detail/windows/async_pipe.hpp b/include/boost/process/detail/windows/async_pipe.hpp
->> +index 06d5f2d..0b447f9 100644
->> +--- a/boost/process/detail/windows/async_pipe.hpp
->> ++++ b/boost/process/detail/windows/async_pipe.hpp
->> +@@ -48,6 +48,7 @@ class async_pipe
->> + public:
->> +     typedef ::boost::winapi::HANDLE_ native_handle_type;
->> +     typedef ::boost::asio::windows::stream_handle   handle_type;
->> ++    typedef typename handle_type::executor_type executor_type;
->> +
->> +     async_pipe(boost::asio::io_context & ios) : async_pipe(ios, ios, make_pipe_name(), true) {}
->> +     async_pipe(boost::asio::io_context & ios_source, boost::asio::io_context & ios_sink)
->> +--
->> +2.17.1
->> +
->> diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
->> index 0b7badbc76..51c84bc935 100644
->> --- a/meta/recipes-support/boost/boost_1.72.0.bb
->> +++ b/meta/recipes-support/boost/boost_1.72.0.bb
->> @@ -8,4 +8,5 @@ SRC_URI += "file://arm-intrinsics.patch \
->>             file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
->>             file://0001-dont-setup-compiler-flags-m32-m64.patch \
->>             file://0001-revert-cease-dependence-on-range.patch \
->> +           file://0001-added-typedef-executor_type.patch \
->>             "
->> --
->> 2.17.1
->>
->> 
+PiA+IEEgY29sbGVhZ3VlIHRvZGF5IGRpZCBzZWUgc29tZXRoaW5nIHRoYXQgc291bmRlZCB0byBt
+ZSBsaWtlIGl0IG1heSBiZQ0KPiA+IGZpeGVkIGJ5IHRoaXMgcGF0Y2guIEl0IHdhcyBhIG5hdGl2
+ZSB0b29sIHRoYXQgc2hvdWxkIGhhdmUgYmVlbg0KPiA+IGF2YWlsYWJsZSBkdXJpbmcgYSBkb19j
+b25maWd1cmUgdGhhdCB3YXNuJ3QuIFdlIGRpZG4ndCB0YWtlIHRoZSB0aW1lDQo+ID4gdG8gZGln
+IGludG8gaXQgdGhvdWdoIC0gaXQgd2FzIHJlc29sdmVkIHdpdGggYSAtYyBjbGVhbnNzdGF0ZSBv
+ZiB0aGUNCj4gPiAtbmF0aXZlIHJlY2lwZSBhbmQgdGhlIHRhcmdldCByZWNpcGUuDQo+IA0KPiBJ
+IGtpbmQgb2Ygd2lzaCBwZW9wbGUgd291bGQgZGlnIGludG8gdGhlc2UgdGhpbmdzIGFzIGl0cyB0
+aGUgb25seSByZWFsIHdheSB3ZSdsbA0KPiBnZXQgdGhlbSBmaXhlZC4gSWYgaXQgd2FzIHRoaXMg
+aXNzdWUsIHJlbW92aW5nIHRoZSBwcmVwYXJlX3JlY2lwZV9zeXNyb290IHN0YW1wDQo+IHNob3Vs
+ZCBoYXZlIHNvcnRlZCB0aGUgcHJvYmxlbS4NCj4gDQo+IFRoZSBpc3N1ZSBpcyB0aGVyZSBpbiB6
+ZXVzIHNvIEkgZ3Vlc3Mgd2UgY291bGQgbmVlZCB0aGlzIGZpeCB0aGVyZS4NCj4gUXVlc3Rpb24g
+aXMgd2hldGhlciBpdHMgd29ydGggYW55IG90aGVyIGluYWR2ZXJ0ZW50IGJyZWFrYWdlLg0KDQoN
+CkknbGwgZGlnIGluIHRoZSBuZXh0IHRpbWUgaXQgaGFwcGVucyBhbmQgcmVwb3J0IGJhY2suDQoN
+ClRoYW5rcywNCkNocmlzIA0K
