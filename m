@@ -1,112 +1,184 @@
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
- by mx.groups.io with SMTP id smtpd.web12.2871.1602109468703663268
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web10.143.1602112298356567236
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2020 15:24:28 -0700
+ Wed, 07 Oct 2020 16:11:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=qRChygIM;
- spf=pass (domain: konsulko.com, ip: 209.85.210.67, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f67.google.com with SMTP id t15so3817066otk.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2020 15:24:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1xLv698L;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.50, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f50.google.com with SMTP id x1so3944270eds.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2020 16:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lPwos6xl1Z5miUv/OB2/Hs22yfsC8EjtdcCY7Cr64Eg=;
-        b=qRChygIMMntuFeezoWp2X6CWS/FWbMUY/HnK0kyeDG8hJEQ2EWs5oN2Nfbb+foRzZ/
-         ckiCWunQZ9b2vhWi14NhBw+t68SEXyv5mjPQuJyu4wmH+5+zHS9vi6s8GxjP7sh3NuWM
-         h0/SJr6qprDlpabxcwhAbRS5mTUP/qPPJOmTU=
+        bh=2SHhi5iNgUOzVmd4fQpMpuajJSna8XLwMvhvh10DExU=;
+        b=1xLv698LHWnZhkTHFgwbDzo2rqlRYj7VOB/8vb2iQ1YTCE5nQOq6BfUSPc/7PYzmBc
+         /csZdZwHuQlii5BaFikunESLcFj1FnZCuomUi7vtqfLE5nYznyCDrdxPmdRIaT8cJXsf
+         nH7W8FoZCKRHHdj0vZNsPNwgUGnG4ZbOgKG/3KCJsDzHDWJTqc6yoQZ4O9rb06IIDdZ6
+         agjmKeWkbf2NpaZicaia2CuGj0EEn9dFhWM0LRZ7wTYVtCQGzgsF2Nxezi74brPeFo2B
+         d8487rSEjLsU2JNlZcgP9mJQrB4hexagXMMy3qfkS0ngtzrVz8ggiCBlbD0vb2S+fkht
+         UDuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lPwos6xl1Z5miUv/OB2/Hs22yfsC8EjtdcCY7Cr64Eg=;
-        b=prn5GvAs9xk3VBG5yRBxiL0pbZaYHkbjTO8ViuqyOldLZFmwi7Ce9Jfa7vX631L7R6
-         0c1afQtyvGQ5+Z17OEBkL/1ul6eiBEYfLRLwd3Q6qx/yFAgHpfVJDQwhZ7eSJb2tLEpD
-         0JUtv0zcIiSOdWx0pxkVKvYD1cPnWxOk5F/hSjGkNCR03naJVN3Uf/swPdz2IrLVhMYT
-         eeUrk+nTUQlIXJtxPPLuRaNL1awPOfiXOyqjX/QvKNcjwLibB2iJRIIztXI7j6Vjd9l6
-         KSsL7f8HHpzoGCl99Noe38jWJh+cfSWAjqEpTTYdBnhYZ9YmaIcdoVfmb/Qv8t/Nokyo
-         toNg==
-X-Gm-Message-State: AOAM532ZYozsgjFSPS3ic/qQHfFa4uHHmsX9JvjxpGCs+MiOe02uuq6q
-	GnYBvXEtgb61Af+Sc+44M+dS/h6pj240Ou97omcdBg==
-X-Google-Smtp-Source: ABdhPJzSw5WIi2NlLLinWAZdl/dWlyGReE2oLSeXBYwEAvUKHeDInM4Gp8CJ7d2uydC0tXXXRjU3CJPojdoTadH0rQ8=
-X-Received: by 2002:a9d:a24:: with SMTP id 33mr2849498otg.305.1602109467986;
- Wed, 07 Oct 2020 15:24:27 -0700 (PDT)
+        bh=2SHhi5iNgUOzVmd4fQpMpuajJSna8XLwMvhvh10DExU=;
+        b=FzjL+VcjX6J/udUzZN41Km4Ho03T6DnUcKi0g2AAVWXgKbfz5jp3LoYOIdJtxNBVAG
+         BfPa/6zqJhCE2hq8fkn7g1wFL4QnglrH04keTI1dSaKM+ThRs1WVPU6SgU3A/FxQ4lVD
+         RorAZCMghl7sB/K+vo5oYgRmPqs731QPVBBzZIEITBAmGAtZHo50BdHtd/XuiywZITo7
+         NWevibmLCF2pOBUdz78yHw/GXdF+XN8wCGT9GGLADkKjIKiuy1hWY+QpjCFhLKBY83L+
+         19lxSRt6hRgWP+1fCKmXxIfmOEDzGV6CyisInhEn297JEgfc97Dy0cMqEUY0QCcvGL6T
+         wDtw==
+X-Gm-Message-State: AOAM533vKgXQq1e2oAgNmzIf1KJPFo+JpVkE9BI7BlyXhb0WWTAFUlDl
+	O0F6gfLSl/VHU25DyIh9gSgG6yhlWt2cqFxyN0J/7Q==
+X-Google-Smtp-Source: ABdhPJx3ZLZ0D9ssNpNDudxynZi0xo24toXLoxAP2n3JhJxy5G8tqmRLU7iKq+yuS7tFMX7Jk69rkwhiekdx+E12ke0=
+X-Received: by 2002:a05:6402:2076:: with SMTP id bd22mr6255352edb.197.1602112296392;
+ Wed, 07 Oct 2020 16:11:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201007203838.19096-1-kamensky@cisco.com> <20201007203838.19096-2-kamensky@cisco.com>
- <CAM9ZRVst-JLA3aOa+U2Sd1Cqj8ARsAyVhCu0Yhhk5we+FKsmdQ@mail.gmail.com> <b4f13cc3-8698-9186-3d99-2f7017ab9756@gmail.com>
-In-Reply-To: <b4f13cc3-8698-9186-3d99-2f7017ab9756@gmail.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Wed, 7 Oct 2020 23:24:17 +0100
-Message-ID: <CAM9ZRVtvGrK2CH3CTB171Od_+OCMOHROgSixbZOpdKDpgNe13Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] qemu: add 34Kf-64tlb fictitious cpu type
-To: Khem Raj <raj.khem@gmail.com>
-Cc: kamensky@cisco.com, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20200929221638.2114178-1-ross.burton@arm.com>
+In-Reply-To: <20200929221638.2114178-1-ross.burton@arm.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Wed, 7 Oct 2020 13:11:24 -1000
+Message-ID: <CAOSpxda6Whj+z3+SBrWyfk-Ujj78LCm7UByLe3qarx6SeOFX7A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] bjam-native: don't do debug builds
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 7 Oct 2020 at 23:15, Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On 10/7/20 1:46 PM, Paul Barker wrote:
-> > On Wed, 7 Oct 2020 at 21:39, Victor Kamensky via
-> > lists.openembedded.org <kamensky=cisco.com@lists.openembedded.org>
-> > wrote:
-> >>
-> >> In Yocto Project PR 13992 it was reported that qemumips
-> >> in autobuilder runs almost twice slower then qemumips64 and
-> >> some times hit time out.
-> >>
-> >> Upon investigations of qemu-system with perf, gdb, and
-> >> SystemTap and comparing qemumips and qemumips64 machines
-> >> behavior it was noticed that qemu soft mmu code behaves
-> >> quite different and in case if qemumips tlbwr instruction
-> >> called 16 times more oftern. It happens that in qemumips64
-> >> case qemu runs with cpu type that contains 64 TLB, but in case
-> >> of qemumips qemu runs with cpu type that contains only
-> >> 16 TLBs.
-> >>
-> >> The idea of proposed qemu patch is to introduce fictitious
-> >> 34Kf-64tlb cpu type that defined exactly as 34Kf but has
-> >> 64 TLBs, instead of original 16 TLBs.
-> >>
-> >> Testing of core-image-full-cmdline:do_testimage with
-> >> 34Kf-64tlb shows 40% or so test execution real time
-> >> improvement.
-> >>
-> >> Note for future porters of the patch: easiest way to update
-> >> the patch and be in sync with 34Kf definition is to copy
-> >> 34Kf machine definition and apply the following changes to
-> >> it (just change 15 to 63 of CP0C1_MMU bits value)
-> >>
-> >> [kamensky@coreos-lnx2 qemu]$ diff ~/34Kf.c ~/34Kf-64tlb.c
-> >> 2c2
-> >> <         .name = "34Kf",
-> >>>          .name = "34Kf-64tlb",
-> >> 6c6
-> >> <         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-> >>>          .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-> >>
-> >> Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-> >
-> > Forgive my ignorance as to the range of MIPS processors available but
-> > does any real MIPS CPU have 64 TLBs? If such a CPU model exists
-> > shouldn't we be using this instead of inventing a new model?
-> >
-> > I'm a bit worried that targeting a unique, fictitious CPU model will
-> > lead to us wasting time debugging obscure failures that other projects
-> > have never seen and that would never occur on real hardware.
-> >
->
-> there are many assumptions in various qemu machine emulations, this wont
-> be the only one, so I am less worried about that.
+Does this make sense for dunfell too? (adjusted to version 1.72 of course)
 
-I think between Khem, Victor and Richard's responses my concerns have
-been answered.
+Steve
 
-Thanks for the contribution and analysis Victor.
-
--- 
-Paul Barker
-Konsulko Group
+On Tue, Sep 29, 2020 at 12:16 PM Ross Burton <ross@burtonini.com> wrote:
+>
+> Previously this recipe was changed to do debug builds because otherwise insane
+> warns that the binary is already stripped.
+>
+> However, debug builds for boost.build also pass -O0.  It turns out that given
+> how large Boost is (or, how bad boost.build is) doing a release build with -O3
+> knocks a third off the walltime for a Boost package in my test, mainly by reducing
+> how long it spends deciding that nothing needs to be rebuilt in do_install:
+>
+>   PKG      TASK        ABSDIFF  RELDIFF  WALLTIME1 -> WALLTIME2
+>   boost    do_install  -330.7s   -69.2%     477.6s -> 146.9s
+>   boost    do_compile    -7.1s    -2.7%     269.3s -> 262.2s
+>
+> Replace debug mode with INSANE_SKIP=already-stripped.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  .../boost/bjam-native_1.74.0.bb               | 10 ++---
+>  .../0001-Build-debug-version-of-bjam.patch    | 38 -------------------
+>  ....sh-use-DNDEBUG-also-in-debug-builds.patch | 27 -------------
+>  3 files changed, 4 insertions(+), 71 deletions(-)
+>  delete mode 100644 meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+>  delete mode 100644 meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+>
+> diff --git a/meta/recipes-support/boost/bjam-native_1.74.0.bb b/meta/recipes-support/boost/bjam-native_1.74.0.bb
+> index d843eb038c..c0eeed60b0 100644
+> --- a/meta/recipes-support/boost/bjam-native_1.74.0.bb
+> +++ b/meta/recipes-support/boost/bjam-native_1.74.0.bb
+> @@ -5,16 +5,14 @@ SECTION = "devel"
+>
+>  inherit native
+>
+> -SRC_URI += "file://0001-Build-debug-version-of-bjam.patch \
+> -            file://0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch \
+> -           "
+> -
+>  do_compile() {
+>      ./bootstrap.sh --with-toolset=gcc
+>  }
+>
+>  do_install() {
+>      install -d ${D}${bindir}/
+> -    # install unstripped version for bjam
+> -    install -c -m 755 b2 ${D}${bindir}/bjam
+> +    install b2 ${D}${bindir}/bjam
+>  }
+> +
+> +# The build is either release mode (pre-stripped) or debug (-O0).
+> +INSANE_SKIP_${PN} = "already-stripped"
+> diff --git a/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch b/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+> deleted file mode 100644
+> index c6dcee915e..0000000000
+> --- a/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -From 19c117c3d1388654da484e26afb3fb6c3e4181a9 Mon Sep 17 00:00:00 2001
+> -From: Daniel Klauer <daniel.klauer@gin.de>
+> -Date: Tue, 30 Jul 2019 11:39:09 +0200
+> -Subject: [PATCH] Build debug version of bjam
+> -
+> -bjam is stripped by default, this causes QA warning while stripping it
+> -from do_populate_sysroot():
+> -
+> -  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+> -    from bjam-native was already stripped, \
+> -    this will prevent future debugging!
+> -
+> -The JAM scripts allow to build unstripped version with '--debug'. Just
+> -build and install the bjam.debug to stop bjam from being stripped in
+> -compile step.
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - bootstrap.sh | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/bootstrap.sh b/bootstrap.sh
+> -index ca0b08d58..87f38dcf2 100755
+> ---- a/bootstrap.sh
+> -+++ b/bootstrap.sh
+> -@@ -223,7 +223,7 @@ rm -f config.log
+> - if test "x$BJAM" = x; then
+> -   $ECHO -n "Building Boost.Build engine with toolset $TOOLSET... "
+> -   pwd=`pwd`
+> --  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET") > bootstrap.log 2>&1
+> -+  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET" --debug) > bootstrap.log 2>&1
+> -   if [ $? -ne 0 ]; then
+> -       echo
+> -       echo "Failed to build Boost.Build build engine"
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch b/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+> deleted file mode 100644
+> index 4c6ef2ed84..0000000000
+> --- a/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -From 2afd025997a57794ce24e07e914b461dfea6ba5f Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Mon, 26 Aug 2019 16:04:16 +0200
+> -Subject: [PATCH] build.sh: use -DNDEBUG also in debug builds
+> -
+> -Without it, there is a significant performance regression
+> -when running 'bjam install'.
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - tools/build/src/engine/build.sh | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
+> -index a1e4cd335..64e0a4c80 100755
+> ---- a/tools/build/src/engine/build.sh
+> -+++ b/tools/build/src/engine/build.sh
+> -@@ -436,7 +436,7 @@ case $B2_OS in
+> -     ;;
+> - esac
+> -
+> --if check_debug_build "$@" ; then B2_CXXFLAGS="${B2_CXXFLAGS_DEBUG}"
+> -+if check_debug_build "$@" ; then B2_CXXFLAGS="${B2_CXXFLAGS_DEBUG} -DNDEBUG"
+> - else B2_CXXFLAGS="${B2_CXXFLAGS_RELEASE} -DNDEBUG"
+> - fi
+> - echo_run ${B2_CXX} ${CXXFLAGS} ${B2_CXXFLAGS} ${B2_SOURCES} -o b2
+> --
+> 2.25.1
+>
+>
+> 
+>
