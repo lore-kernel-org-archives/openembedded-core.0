@@ -1,198 +1,95 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web10.1996.1602175406628475810
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.86])
+ by mx.groups.io with SMTP id smtpd.web11.2871.1602177752625098260
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 09:43:26 -0700
+ Thu, 08 Oct 2020 10:22:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MSxn9tkJ;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id q63so7712218qkf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 09:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vWn6T9BPlkUW8/Gn2blYo+9sJ07KbjK5u+R1BBMdFC8=;
-        b=MSxn9tkJ+jUYe5WQJEER5TvpuhExLfHe4bnZ9MN9RHmxRVGlMSMf26LsddtrtxZSMu
-         20LSQmSdOXBNat2MmP7IgIjivfGxEpx4UCDo+K4Wr9TEGAZKxsEnFy1/rPAutzgwdRn1
-         o40SmjIkk1f2V9uzhiHdfrIU9O4/OfugXO+XtSDHe/k/mZMfgTksGl4Hp3iOtqmeA+g3
-         ybrg3jDGOcC2RKgwQ11G2ENk9oNkfgoUDYsbBq+wC8tdvOkIc8Ztv5PrKUgSqLjbtF5A
-         v1e5TMQC38+kETw55nlt3cuOmJpJfmTW98FbYGK77fIAVTfKo1ZR/Z4NKQSdV+WT7HY1
-         As4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vWn6T9BPlkUW8/Gn2blYo+9sJ07KbjK5u+R1BBMdFC8=;
-        b=GeVtfv9STzly99XfBosyeY7F5ScRcKn5GENLSoOnGi1G/YPK2Kz8BzhhKObvnpF+hg
-         G5c4+qktisCt/cqxk4WwMrG+ZGc9bht2SjlSRjQ3KxAh8vQv2egfJzlHB1+k9aMx4/OS
-         J4YKREXZEPXSFfyETVkqkYJeiy9jQpv2ZetkfAtjHT9PaeCs1ZgSEfdh7n0aAOlL3I+E
-         nDa2IrO4p7Gzjk0dCLfteHHY578SErV9jC0dBPjHkfT7e/Y3Pkun3/lW/cTL5il0XjvP
-         k7tYC1x/8YvZ/kSCm3rJ40RkKo05+AX0OP/qIj9OJgNtND8TlCCf4hVSkHIYwy95baUh
-         GrNQ==
-X-Gm-Message-State: AOAM533U4czh2whi6B0wFiwv7lDAnyp7ME+zFVUTPzyNDF9t6MGTO+Kf
-	mexHyeqWJS5eCh/gLCOgm85Ru4Znugk8eU/GlVs=
-X-Google-Smtp-Source: ABdhPJyKox5Rjh6xp+lhs6cQgObhT4ATlrKRTznY/0Ld5DNLYiCwRTA/KsHvFieQbBM4Kzj+Dt+wfUadDECV1RuSwnM=
-X-Received: by 2002:a05:620a:c07:: with SMTP id l7mr9528680qki.9.1602175405561;
- Thu, 08 Oct 2020 09:43:25 -0700 (PDT)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=qNbFOS97;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.244.86, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JpPapyr9pxpGWc992wPKpM18CnqQ9koWOdvJAlfpwBPfUSBrPMkqpv/gBjIJW0wUs26GcuhuVoWM3AVlkVKQ7EA1z4Bl+KsB8uscGmjCvc8dbX9fGfidJyuTba0yjm7KiN0n3IGNyE4gBoCGU8ptJLtnK5Lor1HZnilnPHh/9v/0araK76/PZ1Tw+i6poWcPtMSfzlbPRR1AtfogW4i/LSEyr9C7GptXJxfUErjDRyE24K/LAsprqMdo6F8yKAsXcnSbDch6eF75s3Uv4ziT0eHFMCFOwnUXyce0cR5wL9PiL+ywzDI5hLBA7C1M7YH3hL7aotlehGFECyZ77vPjtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A6W3883Qinh4oWpGIoCQgK+3WTMMrIIsaCcq3D7RJtA=;
+ b=cnLRV5JvMINn0sVgXpbbZJgsDp2ghi56LuVcbaIqGdm3DTIrNaUmPDsOPX4cZTToyzDGdWo43dBVwvfTstb+/nYnQex8BaruXNQG5nl4T0LptZ5zj0aD+agTxhNTbgeK+mJ2nt77Sd7IDoLq58BegGsT5UFQAJNPkeLHRGEMI5tpjJTBVFrsYz+CgzE9MOBlFNbY0SInmVBClmueg753mrhS9/HhE0uF5xFq9gEnC6RD8hkigm1J5YgxXBQNGBARvsrck0WFAZXjtT894uzIVZTRIHWC1LGCUkql3W9GSNZZ6xDoaIusdkwhbTz2/LFVlO8/oYSj4AZtnV+LQn0P4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
+ dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A6W3883Qinh4oWpGIoCQgK+3WTMMrIIsaCcq3D7RJtA=;
+ b=qNbFOS97ieEw4tvTSJwgJWLusMNcTRIbNLkrk9I7fMku0ODUblugkLdFn7j5HzjiNUtR+djoW0bUKLWhhdx6KGGX7f4cypeVKV/UK5a7wBaKN3vTLFWIUEKyFhnH6/UPACYbZTp+df0FD98I3ymRd8ABs3ac3tjhuRppr7QsUP6wR5cR+IreAff5o93XDzS/Ir+WX6S6NEU9VyLjwkNqxCDQOErewNN0jrE+FyW7RzWyQ/ja3yAWloDELaFupoG/01NXO0vYneDIa9RGwXrdzgebgVd9TI8Wkig75ZQtQFc+jfkI3JyEvvg4UjQXSy+tw63GjUjA642iTnSAgRtOwA==
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21)
+ by SN1PR12MB2575.namprd12.prod.outlook.com (2603:10b6:802:25::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.36; Thu, 8 Oct
+ 2020 17:22:31 +0000
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::d9f4:7430:8c64:d2d]) by SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::d9f4:7430:8c64:d2d%7]) with mapi id 15.20.3433.046; Thu, 8 Oct 2020
+ 17:22:31 +0000
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: Joshua Watt <jpewhacker@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] meson: ensure out-of-tree build when under externalsrc/devtool
+Thread-Topic: [OE-core] [PATCH] meson: ensure out-of-tree build when under
+ externalsrc/devtool
+Thread-Index: AQHWnMlMgJs8aNiUwUauCVp48BLudamMihCAgAFqNoA=
+Date: Thu, 8 Oct 2020 17:22:31 +0000
+Message-ID: 
+ <SN1PR12MB2480E9CCDB9E862AA6A3700E8B0B0@SN1PR12MB2480.namprd12.prod.outlook.com>
+References: <20201007164534.123373-1-chris.laplante@agilent.com>
+ <15be7caa-aa27-1776-6f41-6ef0bd64a9fb@gmail.com>
+In-Reply-To: <15be7caa-aa27-1776-6f41-6ef0bd64a9fb@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=agilent.com;
+x-originating-ip: [76.99.179.205]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5b6a0cb1-8170-415a-7dce-08d86baebd1d
+x-ms-traffictypediagnostic: SN1PR12MB2575:
+x-microsoft-antispam-prvs: 
+ <SN1PR12MB257520133DED40D23D1A4CE18B0B0@SN1PR12MB2575.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ JNz3rn3pM1jj1UaUGm/ZiAkSDrtvdC5D4XhMsuxnv/sVSIljVP6Gzl7wznURvBE0jWKJexh9GI4eubNOOwdSu3OEiroEUs0x5Oq189eGZeacstRQn8HoKM8WbzLV6nO/uhB0+ovK92I5OwMpMIfVYP7cI0c9SBntOBPI0hTxixb5zM21AZjGJvigP5m0Bq3+EOeWfTLLOx1zsGy9Bz313uyRv6Tb+Le1qLNFPMDiElJsHZc04IbGc/ADc0OlMfXrFSzk06pS/iQkpgeRekkQY5iSdT/JA9Qr+um1wZooClPvamVAchkOKOX0jz/l52CK9jZcDRMXOsE/MuACUpXO8/0bDHqIqxtylTnJrj6925kVTehzPI39pNhjusigB3ZE
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2480.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(29502001)(8676002)(33656002)(55016002)(186003)(86362001)(9686003)(71200400001)(5660300002)(52536014)(4744005)(2906002)(110136005)(7696005)(66446008)(8936002)(64756008)(66556008)(478600001)(66946007)(6506007)(26005)(76116006)(66476007)(316002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ qDkJ5LiPmwdHi2a3mfHjETwpBUCYtqQ9TPXRpNX96NEnZStg/gUH7NcUGnDU/RcyeBL8bSDvaLfBwKRhSDLrfQzvUwOfWJgj5R0B1qCz6E06KoCvhyCImm39eOfqfTAMNVwLKw3Ddu6Nfj6iv2kTV4fkzMupqCkkAmbhI6f9DTLNnKSaQT1OY7/nQElBPui1PAd5mZk8+VhAeXE0P902++5HZbeXP17gZooP6CT4JHa+CErXUegLDE3Vn0Fv+cR55sCMsa69AWHEupAuERqyFvc4VCmwkTS5rgyL36iepZ+Y1jF5UYprh4fVzJoxgrUFqdflv83Xs30XLdvEXSUWjmv0r/6/SpPRS9+g4AQaeCBBm99Y7vkEO+RbtbnJZFzudN8fZ21aPRQRy037/Jw9lUd8sbdBz8hzyEJWcwKFE236ytHNMBdc4mz01NCy9kxlLltPL5JZpqxGVFBB5uKggpaub4UVe5i8Xg2CD748YIpHn4sL/dRP+UCRUbBIsM++YQEkb36iRTScF9URo9W4B5NPnE9xlFoLRIn0RuTGkLfV5dCNeMYJetv95JcfR3ZPRW7dXXzXgfm2q1BjVjek5AGr0zaH/Sbf8eZUo0p/rmjVRUwAP4kBVe8h20khhsPdBDoRKNutVcWZ2e7WGectpQ==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20201008103852.803147-1-yann@blade-group.com>
-In-Reply-To: <20201008103852.803147-1-yann@blade-group.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 8 Oct 2020 09:42:59 -0700
-Message-ID: <CAMKF1so-Aztsdp0z542+ZXk3yN7XZo2ginr5DsRyfaMk-CoGNw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] llvm: fix llvm-config to work again with multilib
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2480.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b6a0cb1-8170-415a-7dce-08d86baebd1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2020 17:22:31.3033
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1YxeC76cFUHp3My2eeR1C8lXAxKeKPk5XQRt2SbQCCsV5vZ6VSlicYJW3SHTO5Y85/juWKT47Ltq49ooNOIen3Za0rxS2Z0P2hVaMmMWzWU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2575
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I do not like the llvm version to the x.y.z accuracy being hardcoded
-in code, this is going to be error prone whenever we update recipe. I
-wonder if we can replace it with LLVM_VERSION_STRING
-
-On Thu, Oct 8, 2020 at 3:39 AM Yann Dirson <yann.dirson@blade-group.com> wrote:
->
-> From: Yann Dirson <yann@blade-group.com>
->
-> Newer llvm versions have changed the logic for finding libraries,
-> which prevents Mesa from building with PACKAGECONFIG[gallium-llvm]:
->
-> The problem is visible in mesa/do_configure with this in local.conf:
->
->     PACKAGECONFIG_append_pn-mesa += " gallium-llvm"
->     require conf/multilib.conf
->     MULTILIBS = "multilib:lib32"
->     DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->
-> See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13937
->
-> This patch comes from meta-amd#dunfell for llvm-9.0.1, adapted for llvm-10.0.1.
->
-> Signed-off-by: Yann Dirson <yann@blade-group.com>
-> ---
->  ...-llvm-allow-env-override-of-exe-path.patch | 87 +++++++++++++++++--
->  1 file changed, 78 insertions(+), 9 deletions(-)
->
-> I'm dubious about the [OE-Specific] tag in patch metadata, although it
-> sure would not be acceptable upstream as-is :)
->
-> diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-> index b01b8647c9..98d85eab5d 100644
-> --- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-> +++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-> @@ -1,27 +1,30 @@
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -From 61b00e1e051e367f5483d7b5253b6c85a9e8a90f Mon Sep 17 00:00:00 2001
-> +From 0570fe02c07244a8724c1e6c0437f893c8aa8e93 Mon Sep 17 00:00:00 2001
->  From: Martin Kelly <mkelly@xevo.com>
->  Date: Fri, 19 May 2017 00:22:57 -0700
-> -Subject: [PATCH] llvm: allow env override of exe path
-> +Subject: [PATCH 2/2] llvm: allow env override of exe path
->
->  When using a native llvm-config from inside a sysroot, we need llvm-config to
->  return the libraries, include directories, etc. from inside the sysroot rather
->  than from the native sysroot. Thus provide an env override for calling
->  llvm-config from a target sysroot.
->
-> +To let it work in multilib environment, we need to provide a knob to supply
-> +multilib dirname as well
-> +
-> +Upstream-Status: Inappropriate [OE-Specific]
-> +
->  Signed-off-by: Martin Kelly <mkelly@xevo.com>
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
->  ---
-> - llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
-> - 1 file changed, 7 insertions(+)
-> + llvm/tools/llvm-config/llvm-config.cpp | 35 ++++++++++++++++++++++---------
-> + 1 file changed, 25 insertions(+), 10 deletions(-)
->
->  diff --git a/llvm/tools/llvm-config/llvm-config.cpp b/llvm/tools/llvm-config/llvm-config.cpp
-> -index 7ef7c46a262..a4f7ed82c7b 100644
-> +index bec89fef98c..91b4d6e4c43 100644
->  --- a/llvm/tools/llvm-config/llvm-config.cpp
->  +++ b/llvm/tools/llvm-config/llvm-config.cpp
-> -@@ -225,6 +225,13 @@ Typical components:\n\
-> +@@ -226,6 +226,13 @@ Typical components:\n\
->
->   /// Compute the path to the main executable.
->   std::string GetExecutablePath(const char *Argv0) {
-> @@ -35,3 +38,69 @@ index 7ef7c46a262..a4f7ed82c7b 100644
->     // This just needs to be some symbol in the binary; C++ doesn't
->     // allow taking the address of ::main however.
->     void *P = (void *)(intptr_t)GetExecutablePath;
-> +@@ -306,7 +313,7 @@ int main(int argc, char **argv) {
-> +   // bin dir).
-> +   sys::fs::make_absolute(CurrentPath);
-> +   CurrentExecPrefix =
-> +-      sys::path::parent_path(sys::path::parent_path(CurrentPath)).str();
-> ++      sys::path::parent_path(sys::path::parent_path(sys::path::parent_path(CurrentPath))).str();
-> +
-> +   // Check to see if we are inside a development tree by comparing to possible
-> +   // locations (prefix style or CMake style).
-> +@@ -329,40 +336,47 @@ int main(int argc, char **argv) {
-> +   std::string ActivePrefix, ActiveBinDir, ActiveIncludeDir, ActiveLibDir,
-> +               ActiveCMakeDir;
-> +   std::string ActiveIncludeOption;
-> ++  // Hack for Yocto: we need to override the multilib path when we are using
-> ++  // llvm-config from within a target sysroot.
-> ++  std::string Multilibdir = std::getenv("YOCTO_ALTERNATE_MULTILIB_NAME");
-> ++  if (Multilibdir.empty()) {
-> ++    Multilibdir = "/lib/llvm10.0.1" LLVM_LIBDIR_SUFFIX;
-> ++  }
-> ++
-> +   if (IsInDevelopmentTree) {
-> +-    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include";
-> ++    ActiveIncludeDir = std::string(LLVM_SRC_ROOT) + "/include/llvm10.0.1";
-> +     ActivePrefix = CurrentExecPrefix;
-> +
-> +     // CMake organizes the products differently than a normal prefix style
-> +     // layout.
-> +     switch (DevelopmentTreeLayout) {
-> +     case CMakeStyle:
-> +-      ActiveBinDir = ActiveObjRoot + "/bin";
-> +-      ActiveLibDir = ActiveObjRoot + "/lib" + LLVM_LIBDIR_SUFFIX;
-> ++      ActiveBinDir = ActiveObjRoot + "/bin/llvm10.0.1";
-> ++      ActiveLibDir = ActiveObjRoot + "/lib/llvm10.0.1" + LLVM_LIBDIR_SUFFIX;
-> +       ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-> +       break;
-> +     case CMakeBuildModeStyle:
-> +       // FIXME: Should we consider the build-mode-specific path as the prefix?
-> +       ActivePrefix = ActiveObjRoot;
-> +-      ActiveBinDir = ActiveObjRoot + "/" + build_mode + "/bin";
-> ++      ActiveBinDir = ActiveObjRoot + "/" + build_mode + "/bin/llvm10.0.1";
-> +       ActiveLibDir =
-> +-          ActiveObjRoot + "/" + build_mode + "/lib" + LLVM_LIBDIR_SUFFIX;
-> ++          ActiveObjRoot + "/" + build_mode + "/lib/llvm10.0.1" + LLVM_LIBDIR_SUFFIX;
-> +       // The CMake directory isn't separated by build mode.
-> +       ActiveCMakeDir =
-> +-          ActivePrefix + "/lib" + LLVM_LIBDIR_SUFFIX + "/cmake/llvm";
-> ++          ActivePrefix + "/lib/llvm10.0.1" + LLVM_LIBDIR_SUFFIX + "/cmake/llvm";
-> +       break;
-> +     }
-> +
-> +     // We need to include files from both the source and object trees.
-> +     ActiveIncludeOption =
-> +-        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include");
-> ++        ("-I" + ActiveIncludeDir + " " + "-I" + ActiveObjRoot + "/include/llvm10.0.1");
-> +   } else {
-> +     ActivePrefix = CurrentExecPrefix;
-> +-    ActiveIncludeDir = ActivePrefix + "/include";
-> ++    ActiveIncludeDir = ActivePrefix + "/include/llvm10.0.1";
-> +     SmallString<256> path(StringRef(LLVM_TOOLS_INSTALL_DIR));
-> +     sys::fs::make_absolute(ActivePrefix, path);
-> +     ActiveBinDir = path.str();
-> +-    ActiveLibDir = ActivePrefix + "/lib" + LLVM_LIBDIR_SUFFIX;
-> ++    ActiveLibDir = ActivePrefix + Multilibdir;
-> +     ActiveCMakeDir = ActiveLibDir + "/cmake/llvm";
-> +     ActiveIncludeOption = "-I" + ActiveIncludeDir;
-> +   }
-> --
-> 2.28.0
->
->
-> 
->
+PiArQ0xBU1NPVkVSUklERSAuPSAiOmNsYXNzLW1lc29uIg0KPiArRVhURVJOQUxTUkNfQlVJTERf
+Y2xhc3MtbWVzb24gPSAiJHtXT1JLRElSfS9idWlsZCINCj4gKw0KPiBXaHkgaXMgZGV2dG9vbCB0
+ZWxsaW5nIHRoZSByZWNpcGUgdG8gZG8gYW4gaW4tdHJlZSBidWlsZD8gSXQgc2VlbXMgbGlrZSBp
+dCBzaG91bGQNCj4gYmUgY29uc2lzdGVudCB3aXRoIGV4dGVybmFsc3JjLmJiY2xhc3MsIHdoaWNo
+IHdvcmtzIGZpbmUgZm9yIG1lc29uIGJlY2F1c2UNCj4gaXQgYWx3YXlzIGRvZXMgYW4gb3V0LW9m
+LXRyZWUgYnVpbGQuIEZXSVcsIHRoaXMgd291bGQgKmFsc28qIGJlIGEgcHJvYmxlbQ0KPiB3aGVu
+IHVzaW5nIHdhZi5iYmNsYXNzLCBidXQgSSBzdXNwZWN0IG5vIG9uZSBjYXJlcyB0b28gbXVjaCBh
+Ym91dCB0aGF0IDopDQoNCkkgaGF2ZSBubyBpZGVhIHdoeSBkZXZ0b29sIGRvZXMgaXQgKGluIGdl
+bmVyYWwpLCBidXQgaXQgZG9lcyAoc2VlIHBva3kvc2NyaXB0cy9saWIvZGV2dG9vbC9fX2luaXRf
+Xy5weSwgdGhlICJ1c2VfZXh0ZXJuYWxfYnVpbGQiIG1ldGhvZCkuIEdyYW50ZWQgSSdtIHVzaW5n
+IHpldXMsIGJ1dCBteSBleHBlcmllbmNlIGlzIG5vdCB0aGUgc2FtZSBhcyB5b3VycyBzbyBmYXIg
+LSBteSBtZXNvbiByZWNpcGUgdHJpZXMgdG8gYnVpbGQgaW4gdGhlIHNvdXJjZSBkaXJlY3Rvcnku
+IA0KDQpDaHJpcw0K
