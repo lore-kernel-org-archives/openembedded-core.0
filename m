@@ -1,81 +1,91 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web11.174.1602186559660792235
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.1209.1602189563972901058
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 12:49:19 -0700
+ Thu, 08 Oct 2020 13:39:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O2UttG5A;
- spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: banerjee.sourabh@gmail.com)
-Received: by mail-pl1-f194.google.com with SMTP id c6so3275208plr.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 12:49:19 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VAUDhxVW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id n15so8023617wrq.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 13:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=4daIfh+2Mgye4g6qlI8iMa7WyOh4JwcDcmI0CZeKqdY=;
-        b=O2UttG5Ab3l746DIRT8hG8FQtBSgf/kh37ObswFB/GoVg1PfEThN8phjq+B4lxPn2R
-         YaK7onVNC3f+L3+eqz+wDOOg7DE+LMrMWTN5ogc2RpAzvEAzMw7bD3Jow+MMgJP8oN8x
-         FGWerdeR5FU8TQ1rfhWd9uG5h0vzaGwJKSXxHOl090Vag21nZtmQOw8XoT5aHIn6CPI3
-         SjDsHUSEXtGvkDWR/bPfpww7AWN4XBbOCfw6j6iP99wo2XmK1jfyTm+ZNfTxF1+VhaQg
-         gCs30i2KwNBsexDM3NCga3lVwowDqnI+rfBibTG8zQcMux+DFH7JGYbpjQrauO6ZGV9h
-         E/2A==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=BM3Mzs/5Ac2hRE6WiLtYwyxBLgOW1c1iQI3fA2/01L8=;
+        b=VAUDhxVWB1JvV2h2h74EUuklBiyxkqq+nyzXSTBV9kIDHXAECg41JEV4Jx0xeaPL53
+         7wd6GFUTDUZJMdUpKGbHYbClhLiblwVTlKC8/a6nAL6IjcrZLDPsAfdrICPPxXTDBm9P
+         zW392YLWxrY0BzGgnFKrUL6bzC73LSghCq4Ks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4daIfh+2Mgye4g6qlI8iMa7WyOh4JwcDcmI0CZeKqdY=;
-        b=k/AkX/XGUh8nnD5LLWSNZkeCBtd8TOP7jGySpXk6/VQ9LT8EO4niNYYR5eGpFbenkt
-         eE7ymPwYGpM2J90uaWIEcz2zNnufuJkbcCQ5TsE7CRm4XwnM0OUg8V4I8xpQE3+++JFG
-         ZEPv9jZ/5Foy8DG7WU+r6tyT8yY84+hJ36brd+pvDqFsBdD+89FMqJPpyIlPKBT+c5h1
-         +y1lOa3ClbToMXSm9J3adJCdwkf9OZCwCchbETVEPfHOGhhBFQmN4HyFu6Z9saBdrMZ7
-         KIktYQQgS+4lg2eZnWfSsd55dghz5hu5Hpi9CB/wYSytgZ2bVsiGdlQCPrLGlU++Gw40
-         +Jcw==
-X-Gm-Message-State: AOAM5325Hm10PRWhDudrBl8s2+qg8aW8G4O/d6cGLfPJag4nsH5q/858
-	/2tWQXkgoHUL36U0sRSiOCMLObGM2JI=
-X-Google-Smtp-Source: ABdhPJxvhuUad/iO9lYTPhvWaPjNEOEb9pHFDDOgantq/RCFkqrwNimlVr0KR07WoGcKdoAGCZhz+A==
-X-Received: by 2002:a17:902:d888:b029:d0:cb2d:f274 with SMTP id b8-20020a170902d888b02900d0cb2df274mr8742958plz.13.1602186558788;
-        Thu, 08 Oct 2020 12:49:18 -0700 (PDT)
-Return-Path: <banerjee.sourabh@gmail.com>
-Received: from hydlnxeng07.qualcomm.com ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id j23sm455067pgm.76.2020.10.08.12.49.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Oct 2020 12:49:17 -0700 (PDT)
-From: banerjee.sourabh@gmail.com
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BM3Mzs/5Ac2hRE6WiLtYwyxBLgOW1c1iQI3fA2/01L8=;
+        b=oexRkzz9iE/eLtIeM6JIn2hqJC5aUPrJHxEPrMkGGzoOiy3UmTxZ80IAiLWrulwDnT
+         MErYReBk8bo68r3OWETNKi2Yp/tV6RwhloLV6NnqrXF0DvJp2tNFSTaAdpa9Xxd73Uja
+         H68EoMgHsiLkk+Xqrct1MfB6Y8xMnBZ9494sriZDxSeBftrMwzXGXyuQsv6/Q/P9fteu
+         Itu7v9ceIae5KWhEzEpYDWcS8aLT/AVipcv9KHfjWrFTxtQpFkuKO/XssKuKhYxpT0AJ
+         BQJ9msPlLLUFY+3KYD/jVqFYZD3NYwhlz8oAMaxbvWcJM3Gote+apDBgR8lBAUQolEfq
+         tM9g==
+X-Gm-Message-State: AOAM533+81Y1zM9G3vNIJnY/rb+yMQLEic9vTnHKeGylmgw8qIBksOc8
+	mBFfq1zWohjdDblH++is5gdskbiYc+j0SA==
+X-Google-Smtp-Source: ABdhPJxpFEN9wr9NDovXa12LHZBeTlPeY8FO5kaJJvFWaLOW31H+AdzVLw0/5KwFAX8z7hUHi+KzbA==
+X-Received: by 2002:adf:a415:: with SMTP id d21mr1968756wra.408.1602189562032;
+        Thu, 08 Oct 2020 13:39:22 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id g144sm8954511wmg.30.2020.10.08.13.39.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2020 13:39:21 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Sourabh Banerjee <banerjee.sourabh@gmail.com>
-Subject: [PATCH] layer.conf: fix sanity error for PATH variable in extensible SDK workflow
-Date: Fri,  9 Oct 2020 01:19:06 +0530
-Message-Id: <1602186546-25220-1-git-send-email-banerjee.sourabh@gmail.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 2/2] abi_version,sanity: Tell users TMPDIR must be clean after pseudo changes
+Date: Thu,  8 Oct 2020 21:39:20 +0100
+Message-Id: <20201008203920.3240279-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201008203920.3240279-1-richard.purdie@linuxfoundation.org>
+References: <20201008203920.3240279-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Sanity checker reports following error for the PATH variable,
-when bitbake -e <recipe> command is run in an extensible SDK workspace.
-   PATH contains '.', './' or '' (empty element), which will break the build
+After the recent path ignore changes, there are invalid entries in exiting
+pseudo databases which will trip up users with the new abort() (proving
+how common the pseudo potential corrpution is!). Inform them a clean TMPDIR
+is needed.
 
-In case of extensible SDK, PATH variable is formed with two consecutive ':'
-as bb.utils.which(d.getVar('PATH'),'bitbake') call returns an empty string.
-
-This change adds the ':' only if the bb.utils.which(d.getVar('PATH'),'bitbake')
-return a valid path.
-
-Signed-off-by: Sourabh Banerjee <banerjee.sourabh@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/layer.conf | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 3 +++
+ meta/conf/abi_version.conf  | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 38df0f3..ff9c004 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -102,4 +102,5 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
- SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 0eee89d71ce..75e188e2209 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -619,6 +619,9 @@ def sanity_handle_abichanges(status, d):
+                 f.write(current_abi)
+         elif int(abi) <= 11 and current_abi == "12":
+             status.addresult("The layout of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn't make sense and this change will rebuild everything so please delete TMPDIR (%s).\n" % d.getVar("TMPDIR"))
++        elif int(abi) <= 14 and current_abi == "14":
++            status.addresult("TMPDIR changed to include path filtering from the pseudo database.\nIt is recommended to use a clean TMPDIR with the new pseudo path filtering so TMPDIR (%s) would need to be removed to continue.\n" % d.getVar("TMPDIR"))
++
+         elif (abi != current_abi):
+             # Code to convert from one ABI to another could go here if possible.
+             status.addresult("Error, TMPDIR has changed its layout version number (%s to %s) and you need to either rebuild, revert or adjust it at your own risk.\n" % (abi, current_abi))
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index e04343b47c1..5318a101902 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -4,7 +4,7 @@
+ # that breaks the format and have been previously discussed on the mailing list 
+ # with general agreement from the core team.
+ #
+-OELAYOUT_ABI = "12"
++OELAYOUT_ABI = "14"
  
- # We need to keep bitbake tools in PATH
--PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
-+PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
-+PATH := "${@('', ':')[d.getVar('PATH').endswith(':')]}${HOSTTOOLS_DIR}"
+ #
+ # HASHEQUIV_HASH_VERSION is injected into the output hash calculation used by
 -- 
-2.7.4
+2.25.1
 
-
-
--- 
-Regards,
-Sourabh
