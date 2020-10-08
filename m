@@ -1,82 +1,129 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.3158.1602178144364635605
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web12.3234.1602178335015170881
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 10:29:04 -0700
+ Thu, 08 Oct 2020 10:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PadOTSAu;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id e2so7347992wme.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 10:29:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jBRlzU00;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id q63so7875203qkf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 10:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xgfismOSrk+MUVsUIWMNLz7O3uTaPbz4jg3sgmcGg4M=;
-        b=PadOTSAunjkFMixJWy7Pv+5nP50bEbhMAnt5Y76EPejh2+YV+mbCf9DeUknGwUGp4t
-         JUGEqMPlUqfrRk4nGEdhIDkxG7vjhNYu2AgQQJqWLtORylwzex1HKFxjcNjmXnIZEB0g
-         45M9M38vilSK1ZyFTHP1MFcJGxllEmp+I6IMMQVqYinKozHjPoKLjfjrJiNUExLK0qVM
-         EqGOCH/oEFJhpWDmhFbQZ4XnpTQ885VXtrfQ5Ve1Jxkv1E6SkLAX1rfdPAzdDwBQ9oI0
-         2s5SuWTwdOZFQlIsqraDqXb3T6DUQUPB0IVrKXWa0mMKBYdkb4ZuFaPb8ayPr0Wb3OGY
-         ynYA==
+         :cc;
+        bh=Ci+fqHmzeCxiNr8Xu4bBnU975EqXfpbMPJAteAHbHHc=;
+        b=jBRlzU00ImM5rlnDSGw2wcCSW/W1heOBatU6ESHYf1YBAxjUZzhXkI9WYVrZZvC7Pi
+         ZVylIfnDgLiM8KsSdvRehRrKJ8+ZkjR5/g0tMCFBJQgx15h6DOKw8EN9Z9mrmvv0olD3
+         q/kolT22tDFcLY3VlCXgOuqSDo4HPTV9n8OUY1gXkEyU4ZHauPkJkMurm2Pd2pNmVt6R
+         IFVTX1IR+D4kdZqOoDwsTHXSyPOIuM4qQuNlOkfKSFh0eRdDsAwe9pXhzgzmkOc80y5d
+         SmgvVeMGn782FXy5XRTXlUF3czIZWqVQX3sUvnIeGe6JNGpczKAZT11ZuFN4n95aPwmQ
+         fiIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xgfismOSrk+MUVsUIWMNLz7O3uTaPbz4jg3sgmcGg4M=;
-        b=EYomdDdx7cQ0yWOPn+R8O09hS3kaMdNl8B2npC2P8oktCG3Bhfz6QFUptHFHOH7T8e
-         JO2mL3wH0WY8hqRS8qMEbLbID/8e6o6zOODEavk8WvyKlT0XtIn2U/BvzniVZnY88Yj4
-         jurNg+fknhXZxv80JPIzct5xYVnH9+t3hEuRKPDDaQF59YRDskcje1pekxW3OEZKxqWO
-         4fsZQHIl3U7Ehxo7dVxoizGSGzYn4Z0UOxHPUDuxPHJp9eOEYSBnc8kZ5hMQbreEyIXT
-         rK2B0KCIh12LlLU3ylBufAfgAkh0CjSlyMwLub4nvxkrVpT3ZQA21iaHg67FL8vwdnOI
-         iZXA==
-X-Gm-Message-State: AOAM5325N6GpqGAk4HemltMw2sRUHGAQozgtf51W75Np1zsJIXXRYq9M
-	7lxgdg9EoOJaGFCeZMWnlPg1MLhcRPxFCGaWBg8=
-X-Google-Smtp-Source: ABdhPJwP1GDFr3cAA7REE4IRvRCeEDpge1kbSRqZ1GrgDXrlboX3Yi4gKixFlhE2BJl2D4l8qf2IyWko9juntVgW0UU=
-X-Received: by 2002:a7b:c307:: with SMTP id k7mr10418325wmj.31.1602178142694;
- Thu, 08 Oct 2020 10:29:02 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Ci+fqHmzeCxiNr8Xu4bBnU975EqXfpbMPJAteAHbHHc=;
+        b=bsvNqXbaxyj0cYGT9MyPJfT65PSinpSTVNFaNbtkTM4vP9F/DFv5+GXTYi8Bz8DAH7
+         frqJONt3RKwcTg3N7W3aEnK0vL40LxPbPiGTOdT3N5GHv5tOaqrpGR0d+bmMiDaXAhgW
+         R6ji4zo5+cWk+mapHGTVVeShQCc5fXi95A/qq+9UhcjxaegpadYLn3sNyjuHlYmVVwqi
+         jKLrkPDiPE0dbMhIlXGLwAzdR4VGK4ejTlWEfRyrnHIrKpRMayRbpUVWDPOnTxqGjaCF
+         O05B7ttw2uvxRflZauLLbQ2aObVBIvUGQ5rLiHGO0CnHv7DuLZZxuYhboiMkdg+SctUG
+         UAHg==
+X-Gm-Message-State: AOAM533iKJtlSlqhNRUoJOYeEj/chyAVL5tLyDqRCDPr5xskgB90WF7A
+	yHU/s2bDDbQEo88/9PBurvTuBXmwdC8wtd10kQTPwMCWDbM=
+X-Google-Smtp-Source: ABdhPJwijbKQReaoWkfQl4J7syeBG8tVl54O71JE5tSjfZWV9pv6EjZ5mObSH7uTNdB8/ipr75YXkuxHEIx3V9wbYqw=
+X-Received: by 2002:a05:620a:7f6:: with SMTP id k22mr9285926qkk.337.1602178333955;
+ Thu, 08 Oct 2020 10:32:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201007164534.123373-1-chris.laplante@agilent.com>
- <15be7caa-aa27-1776-6f41-6ef0bd64a9fb@gmail.com> <SN1PR12MB2480E9CCDB9E862AA6A3700E8B0B0@SN1PR12MB2480.namprd12.prod.outlook.com>
-In-Reply-To: <SN1PR12MB2480E9CCDB9E862AA6A3700E8B0B0@SN1PR12MB2480.namprd12.prod.outlook.com>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Thu, 8 Oct 2020 12:28:51 -0500
-Message-ID: <CAJdd5GZ1q4RaoJeU=omX5kJ2f5OTgJZ3D6Y24aGY+94XMt-8-w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meson: ensure out-of-tree build when under externalsrc/devtool
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20201008143451.18668-1-jon.mason@arm.com>
+In-Reply-To: <20201008143451.18668-1-jon.mason@arm.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 8 Oct 2020 10:31:47 -0700
+Message-ID: <CAMKF1sp0jjxF6UJzMjn0UqA_JeCUJovTANQ2jHMS_-pq0vLQ2w@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v5 0/4] ARMv8 Tune add
+To: Jon Mason <jdmason@kudzu.us>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 8, 2020 at 12:22 PM chris.laplante@agilent.com
-<chris.laplante@agilent.com> wrote:
->
-> > +CLASSOVERRIDE .=3D ":class-meson"
-> > +EXTERNALSRC_BUILD_class-meson =3D "${WORKDIR}/build"
-> > +
-> > Why is devtool telling the recipe to do an in-tree build? It seems like=
- it should
-> > be consistent with externalsrc.bbclass, which works fine for meson beca=
-use
-> > it always does an out-of-tree build. FWIW, this would *also* be a probl=
-em
-> > when using waf.bbclass, but I suspect no one cares too much about that =
-:)
->
-> I have no idea why devtool does it (in general), but it does (see poky/sc=
-ripts/lib/devtool/__init__.py, the "use_external_build" method). Granted I'=
-m using zeus, but my experience is not the same as yours so far - my meson =
-recipe tries to build in the source directory.
+I am happy with this series.
 
-Ah, sorry. I wasn't quite clear in what I was asking :) Yes, what you
-are seeing is the expected behavior because devotol is setting
-EXTERNALSRC_BUILD for the recipe. My question is why devtool is doing
-that at all? The default behavior in externalsrc.bbclass (and thus,
-what you would get if devtool *didn't* set EXTERNALSRC_BUILD), is to
-force an out of tree build by setting B to a subdirectory of
-${WORKDIR}. It seems more and more like out-of-tree builds are the
-norm, so instead of changing everywhere (waf, meson, et al.) to work
-around devtool doing an in-tree build, can we remove devtool setting
-EXTERNALSRC_BUILD so that it defaults to an out-of-tree build?
-
+On Thu, Oct 8, 2020 at 7:38 AM Jon Mason <jdmason@kudzu.us> wrote:
 >
-> Chris
+> Changes since v4:
+>  * rebase to latest master (which includes a aptch from the original
+>    series)
+>  * dropped reorg from this series, but put the newly created files in
+>    the location where the existing will be moved in the future.  This
+>    allows for users of these new files to not need to be modified when
+>    the reorg happens (per request from RP).
+>
+> Changes since v3:
+> * Tweaked commit message to reflect the comma-space patch should've used
+>   --follow-symlinks to get the correct output.
+> * Fixed bug in A55.inc found by Andreas Oberritter
+>
+> Changes since v2:
+> * Removed errant files from the comma-space patch.  Still unknown how
+>   they are pulled in by that command.
+>
+> ---
+>
+> The first 3 are clean-ups, then two to add currently unsupported ARMv8a
+> cores, then the last one is to move them out of the generic tune area to
+> an Arm specific one.  Given how late we are in the gatesgarth cycle, you
+> can leave this last one off and I'll resend after the release.
+>
+> Thanks,
+> Jon
+>
+>
+> Jon Mason (4):
+>   armv8/tunes: Move TUNECONFLICTS
+>   armv8/tunes: reference parent's TUNE_FEATURES
+>   armv8/tunes: Add tunes for supported ARMv8a cores
+>   armv8/tunes: Add tunes for supported ARMv8.2a cores
+>
+>  meta/conf/machine/include/arm/arch-arm64.inc  |  1 +
+>  .../include/arm/armv8-2a/tune-cortexa65.inc   | 16 ++++++++++++++
+>  .../include/arm/armv8-2a/tune-cortexa65ae.inc | 16 ++++++++++++++
+>  .../arm/armv8-2a/tune-cortexa75-cortexa55.inc | 20 ++++++++++++++++++
+>  .../include/arm/armv8-2a/tune-cortexa75.inc   | 16 ++++++++++++++
+>  .../arm/armv8-2a/tune-cortexa76-cortexa55.inc | 20 ++++++++++++++++++
+>  .../include/arm/armv8-2a/tune-cortexa76.inc   | 16 ++++++++++++++
+>  .../include/arm/armv8-2a/tune-cortexa76ae.inc | 16 ++++++++++++++
+>  .../include/arm/armv8-2a/tune-cortexa77.inc   | 16 ++++++++++++++
+>  .../include/arm/armv8-2a/tune-neoversee1.inc  | 16 ++++++++++++++
+>  .../include/arm/armv8-2a/tune-neoversen1.inc  | 17 +++++++++++++++
+>  .../include/arm/armv8a/tune-cortexa34.inc     | 20 ++++++++++++++++++
+>  .../arm/armv8a/tune-cortexa73-cortexa35.inc   | 21 +++++++++++++++++++
+>  .../include/arm/armv8a/tune-cortexa73.inc     | 16 ++++++++++++++
+>  meta/conf/machine/include/tune-cortexa32.inc  |  3 +--
+>  meta/conf/machine/include/tune-cortexa35.inc  |  2 +-
+>  meta/conf/machine/include/tune-cortexa53.inc  |  3 +--
+>  meta/conf/machine/include/tune-cortexa55.inc  |  2 +-
+>  .../include/tune-cortexa57-cortexa53.inc      |  3 +--
+>  meta/conf/machine/include/tune-cortexa57.inc  |  2 +-
+>  .../include/tune-cortexa72-cortexa53.inc      |  3 +--
+>  meta/conf/machine/include/tune-cortexa72.inc  |  2 +-
+>  .../include/tune-cortexa73-cortexa53.inc      |  3 +--
+>  23 files changed, 236 insertions(+), 14 deletions(-)
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-neoversee1.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-neoversen1.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
+>  create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
+>
+> --
+> 2.20.1
+>
+>
+> 
+>
