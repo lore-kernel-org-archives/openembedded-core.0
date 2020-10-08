@@ -1,73 +1,81 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.2146.1602184547444364259
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web11.174.1602186559660792235
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 12:15:47 -0700
+ Thu, 08 Oct 2020 12:49:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DRRkVS2O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id e2so7632159wme.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 12:15:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=O2UttG5A;
+ spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: banerjee.sourabh@gmail.com)
+Received: by mail-pl1-f194.google.com with SMTP id c6so3275208plr.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 12:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=NR/AIhBraG3Sc6aih1lpWGslJVI0RsblMofdr1gtW1Y=;
-        b=DRRkVS2OpO3+b0e2I2xE3984bqVO55xNCznuotBI3Y67rq6f7Eh9dMKyijwEA4LCbn
-         hFnQRPzMC3r2XYeyCtRoZrdKltR0OU222Ivzwas5eqlKKQw4M9K1o5cNZI+12RLA2vgD
-         UHqBrg/IpIp2CZHjd5ZS7LrKtTpM6iuv73FSc=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=4daIfh+2Mgye4g6qlI8iMa7WyOh4JwcDcmI0CZeKqdY=;
+        b=O2UttG5Ab3l746DIRT8hG8FQtBSgf/kh37ObswFB/GoVg1PfEThN8phjq+B4lxPn2R
+         YaK7onVNC3f+L3+eqz+wDOOg7DE+LMrMWTN5ogc2RpAzvEAzMw7bD3Jow+MMgJP8oN8x
+         FGWerdeR5FU8TQ1rfhWd9uG5h0vzaGwJKSXxHOl090Vag21nZtmQOw8XoT5aHIn6CPI3
+         SjDsHUSEXtGvkDWR/bPfpww7AWN4XBbOCfw6j6iP99wo2XmK1jfyTm+ZNfTxF1+VhaQg
+         gCs30i2KwNBsexDM3NCga3lVwowDqnI+rfBibTG8zQcMux+DFH7JGYbpjQrauO6ZGV9h
+         E/2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=NR/AIhBraG3Sc6aih1lpWGslJVI0RsblMofdr1gtW1Y=;
-        b=an/QuQUqv4THpCv0HfsZM7ECnctid1pF1qws54pY4OCdAhIyJMktJh9EpURzD/E7zm
-         ZXo7hH+2+FqQKjFuX1QQ+0Mn4r/w8QoWe8IuXleZwzxT0Szr9baHs/060lyjtVh4vlfk
-         dEiOUEkbLMfzn0ku1aVA4YD7Ws0t43DU+Sud3s8rPZ1pxg5h3QUMAmHRiWmFRrwXwHWP
-         xljFvZi3ugT/2mm1JMFtdLR5HyKlfXA7NgRLxnp+dSd0/WHAprkYA782p+/5axLyPmFz
-         lWfUS9iukuOCq95sVWUwu6j6N+3R6UuaZ8HFI8Ii/KpTWSCf6Mv+xuNADWSIxENoI+5d
-         bICw==
-X-Gm-Message-State: AOAM530vVuGPfEMchDHU4DkzrE0YjAmk5HHBUuea5xI/BNa2vf0rrxaQ
-	xrsy+z2KaLVAv22H9InaN8mX0Q==
-X-Google-Smtp-Source: ABdhPJxqUI9/t2haQnLvCdePtmyAtGnGwn79L+JIWFZmL8e4GwKIpPSUXNP3b+1LQw/QxCXkM/AMqg==
-X-Received: by 2002:a1c:9d90:: with SMTP id g138mr10221927wme.5.1602184545508;
-        Thu, 08 Oct 2020 12:15:45 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.c.8.7.1.0.8.4.a.6.c.a.3.f.8.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f8f3:ac6a:4801:78cf])
-        by smtp.gmail.com with ESMTPSA id j101sm9324997wrj.9.2020.10.08.12.15.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2020 12:15:44 -0700 (PDT)
-Message-ID: <16e3c3331f61997942e612e58cfee6f8f8ab01c5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] waf: explicitly run waf under Python 3
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 08 Oct 2020 20:15:42 +0100
-In-Reply-To: <20201008162359.3098059-1-ross.burton@arm.com>
-References: <20201008162359.3098059-1-ross.burton@arm.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4daIfh+2Mgye4g6qlI8iMa7WyOh4JwcDcmI0CZeKqdY=;
+        b=k/AkX/XGUh8nnD5LLWSNZkeCBtd8TOP7jGySpXk6/VQ9LT8EO4niNYYR5eGpFbenkt
+         eE7ymPwYGpM2J90uaWIEcz2zNnufuJkbcCQ5TsE7CRm4XwnM0OUg8V4I8xpQE3+++JFG
+         ZEPv9jZ/5Foy8DG7WU+r6tyT8yY84+hJ36brd+pvDqFsBdD+89FMqJPpyIlPKBT+c5h1
+         +y1lOa3ClbToMXSm9J3adJCdwkf9OZCwCchbETVEPfHOGhhBFQmN4HyFu6Z9saBdrMZ7
+         KIktYQQgS+4lg2eZnWfSsd55dghz5hu5Hpi9CB/wYSytgZ2bVsiGdlQCPrLGlU++Gw40
+         +Jcw==
+X-Gm-Message-State: AOAM5325Hm10PRWhDudrBl8s2+qg8aW8G4O/d6cGLfPJag4nsH5q/858
+	/2tWQXkgoHUL36U0sRSiOCMLObGM2JI=
+X-Google-Smtp-Source: ABdhPJxvhuUad/iO9lYTPhvWaPjNEOEb9pHFDDOgantq/RCFkqrwNimlVr0KR07WoGcKdoAGCZhz+A==
+X-Received: by 2002:a17:902:d888:b029:d0:cb2d:f274 with SMTP id b8-20020a170902d888b02900d0cb2df274mr8742958plz.13.1602186558788;
+        Thu, 08 Oct 2020 12:49:18 -0700 (PDT)
+Return-Path: <banerjee.sourabh@gmail.com>
+Received: from hydlnxeng07.qualcomm.com ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id j23sm455067pgm.76.2020.10.08.12.49.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Oct 2020 12:49:17 -0700 (PDT)
+From: banerjee.sourabh@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sourabh Banerjee <banerjee.sourabh@gmail.com>
+Subject: [PATCH] layer.conf: fix sanity error for PATH variable in extensible SDK workflow
+Date: Fri,  9 Oct 2020 01:19:06 +0530
+Message-Id: <1602186546-25220-1-git-send-email-banerjee.sourabh@gmail.com>
+X-Mailer: git-send-email 2.7.4
 
-On Thu, 2020-10-08 at 17:23 +0100, Ross Burton wrote:
-> We don't assume Python 2 is on the host and don't expose an
-> unversioned
-> python in HOSTTOOLS, but waf uses the unversion python binary.
-> 
-> Typically this is solved by patching waf (see the glmark2 recipe) but
-> this can be solved centrally by invoking python3 directly.  All
-> wscripts
-> that needed Python 2 would have been fixed by now.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/classes/waf.bbclass | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Sanity checker reports following error for the PATH variable,
+when bitbake -e <recipe> command is run in an extensible SDK workspace.
+   PATH contains '.', './' or '' (empty element), which will break the build
 
-Please rebase against master-next, Joshua beat you in patch submission
-against the class!
+In case of extensible SDK, PATH variable is formed with two consecutive ':'
+as bb.utils.which(d.getVar('PATH'),'bitbake') call returns an empty string.
 
-Cheers,
+This change adds the ':' only if the bb.utils.which(d.getVar('PATH'),'bitbake')
+return a valid path.
 
-Richard
+Signed-off-by: Sourabh Banerjee <banerjee.sourabh@gmail.com>
+---
+ meta/conf/layer.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 38df0f3..ff9c004 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -102,4 +102,5 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+ SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+ 
+ # We need to keep bitbake tools in PATH
+-PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
++PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
++PATH := "${@('', ':')[d.getVar('PATH').endswith(':')]}${HOSTTOOLS_DIR}"
+-- 
+2.7.4
+
+
+
+-- 
+Regards,
+Sourabh
