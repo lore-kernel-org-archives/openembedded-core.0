@@ -1,96 +1,127 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web12.11940.1602163437232235327
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.13681.1602167697608765986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 06:23:57 -0700
+ Thu, 08 Oct 2020 07:34:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W64kU3E+;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id m7so6301746oie.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 06:23:57 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=siSs/Aq4;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.194, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f194.google.com with SMTP id r8so5206899qtp.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 07:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8yJj0zOBO87dXPCnVXlV3aUx5UJiqcvx7BaaN8ATLpk=;
-        b=W64kU3E+dNLmLknWVMyNydVJgk7BlgYbsmGakT+D4HCK44M9d75apyUZFHz6DI7d8Q
-         kpIE8aY3I7Q60fSZyN9n9MZ/gHm2MQNz2KdF4X4kJ38+edflSdLJF2Lzu+K8HOXYL9L4
-         JbfbjvsKCJZhGxReB0OshShKvTFsg1C84qUVf93OLOlnOKF9RfGg3AhKfG+lQvBJKXlT
-         HH+2V6czHCNw8117oy2p45IWz5/vSQXoY3fw2l9z2RJafswMn4sUgfEbS16DdmV6ut/f
-         9UIskgAyxkn3cNB9uUXrr5FjQWuYWQ0Cx4SCIsSWYKTQs/vbRhlcBOZEBxoWHR2r19VF
-         8NEQ==
+        bh=ytO3nza8OnTJVID/4lt5jIw1ecEAsdsb43oFEboKdIw=;
+        b=siSs/Aq4I4drOlWq9GW0LBJ10yxVA4yOW790MxnoXOsw1f7F01Y+N0JotO7q7DXSE8
+         AZfsb/C+qVnjML+4kzhV02DNCs8KBLvNwOqMutliOB4F8zoFkjlJFdlPRvpkErh67rAz
+         zFa8zSxlEOdtfKy9rCWAXH+4koG9hKbl0vesP6CJDUIsjr/OSv4w257uX1jBKSzEZORn
+         C9N5UCn+FEaJRkjq4FF4jjEGdCnEoWcFbff99p1PZGJcFvDpY4IaRus5dvSvk+9Zy3ko
+         8AbHlrjihE27NSoiql98QB3Lgks8+3Ob9Rs75mhRkugznWdsBKXbGnSYwRyPb3zQyz8n
+         rRlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8yJj0zOBO87dXPCnVXlV3aUx5UJiqcvx7BaaN8ATLpk=;
-        b=adzj2E9j3b7fKBNBE6pnMm6Y7urbS8p14yxf5b+MWpjxxl0Mi+AAhJrI2moyOW8dNQ
-         xZNteWS/93ksuEdQFODs4aYLVxKfaMMEc9qAoAySyqLNtbsCHP9Oh0JFykyYY5CrtYBi
-         +nP+LiAIfO8iAyDp4Kj8LFTFO2rWsL/MK2ZxBgyWgkLGP0uOP/HgB9smWo7pHH8tmdPC
-         U0OX5O7iww2FPmV3GmBjDBpFUIoKLGjarHtFW3EQBtRz6wI9gH1F0hhKRZkq8SpiDEvE
-         TJeukmJGxDLnrnCkNGrqXKjhOv+H+Rg0rkNchG4BgoFDdS+fZXIaVwKhOGipAdiDnzAE
-         nfaQ==
-X-Gm-Message-State: AOAM532u/m14IpDXXHxExce4q9+q15A7D3YjOFcjTEWcGeDqRkQfaeZU
-	APklDJbV2yYLcRh/fcrNkfOzf21N0jw=
-X-Google-Smtp-Source: ABdhPJwd7q4e6f4E/108ks017GhmBMurux+yumb56f6+svfeTNy3vdu7N1LrzI4FHqX0HNB4Eh4vow==
-X-Received: by 2002:aca:d17:: with SMTP id 23mr5269572oin.9.1602163436178;
-        Thu, 08 Oct 2020 06:23:56 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id a22sm4639467oie.13.2020.10.08.06.23.55
+        bh=ytO3nza8OnTJVID/4lt5jIw1ecEAsdsb43oFEboKdIw=;
+        b=pcpjAbvDD+J3Aqa/TeMVX47vE+f+XMKlYg7jYD9XB2ll2ut8wd/PYcoxCm6epQsQEe
+         ggnG/rqrITpPXH/rurP9rKVLG1yQWu5GQo58UJCZrRSIrrRELfR3wUhRAG4u+HNNzYVS
+         ObRrcZSBkf3JodrL8EiCc41u6Y3BXTfs+ry9ZXKOIYoQSnkZY0ujdxxLm5VDWcnN5yuH
+         CGB8I37b8Z8SIyVGJAoUwjDsDcSljWD8+6pZnTCibj+bGmP/IiicbK5HBfYVmkCzU+tp
+         AvgEqmyqGBkaHsXTXrBOOaBV8U5t71gAw/7cWnXP0UHmTZlNLRDj0WQZrD31ecxiV63H
+         A+Nw==
+X-Gm-Message-State: AOAM533iLYelctrhQxs3msOhnh4/2cmufr/Ndm6MkaUYijJHZq18sjQD
+	8Tplzz6ybaKuAii9nKs+mHCjCrympzzq/hkV
+X-Google-Smtp-Source: ABdhPJw3cUvo190p4incwGpYCUGbcZUOGSAXdT8Hsk3W7K07Z5yJFODat2o2lQocJTShbM8fzeZMvg==
+X-Received: by 2002:ac8:4e81:: with SMTP id 1mr9225155qtp.62.1602167696321;
+        Thu, 08 Oct 2020 07:34:56 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([136.56.1.171])
+        by smtp.gmail.com with ESMTPSA id a12sm3920018qkh.31.2020.10.08.07.34.54
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2020 06:23:55 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Thu, 08 Oct 2020 07:34:54 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+X-Google-Original-From: Jon Mason <jon.mason@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/waf: Add build and install arguments
-Date: Thu,  8 Oct 2020 08:23:50 -0500
-Message-Id: <20201008132350.1143-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.28.0
+Subject: [meta-oe][PATCH v5 0/4] ARMv8 Tune add
+Date: Thu,  8 Oct 2020 10:34:47 -0400
+Message-Id: <20201008143451.18668-1-jon.mason@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds variables that can be used to allow a recipe to pass extra
-arguments to `waf build` and `waf install`. In most cases, you want to
-pass the same arguments to `build` and `install` (since install is a
-superset of `build`), so by default setting EXTRA_OEWAF_BUILD also
-affects `waf install`, but this can be overridded.
+Changes since v4:
+ * rebase to latest master (which includes a aptch from the original
+   series)
+ * dropped reorg from this series, but put the newly created files in
+   the location where the existing will be moved in the future.  This
+   allows for users of these new files to not need to be modified when
+   the reorg happens (per request from RP).
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Changes since v3:
+* Tweaked commit message to reflect the comma-space patch should've used
+  --follow-symlinks to get the correct output.
+* Fixed bug in A55.inc found by Andreas Oberritter
+
+Changes since v2:
+* Removed errant files from the comma-space patch.  Still unknown how
+  they are pulled in by that command.
+
 ---
- meta/classes/waf.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index 900244004e..309f625a40 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -5,6 +5,11 @@ B = "${WORKDIR}/build"
- 
- EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
- 
-+EXTRA_OEWAF_BUILD ??= ""
-+# In most cases, you want to pass the same arguments to `waf build` and `waf
-+# install`, but you can override it if necessary
-+EXTRA_OEWAF_INSTALL ??= "${EXTRA_OEWAF_BUILD}"
-+
- def waflock_hash(d):
-     # Calculates the hash used for the waf lock file. This should include
-     # all of the user controllable inputs passed to waf configure. Note
-@@ -55,11 +60,11 @@ waf_do_configure() {
- 
- do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
- waf_do_compile()  {
--	(cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)})
-+	(cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)} ${EXTRA_OEWAF_BUILD})
- }
- 
- waf_do_install() {
--	(cd ${S} && ./waf install --destdir=${D})
-+	(cd ${S} && ./waf install --destdir=${D} ${EXTRA_OEWAF_INSTALL})
- }
- 
- EXPORT_FUNCTIONS do_configure do_compile do_install
+The first 3 are clean-ups, then two to add currently unsupported ARMv8a
+cores, then the last one is to move them out of the generic tune area to
+an Arm specific one.  Given how late we are in the gatesgarth cycle, you
+can leave this last one off and I'll resend after the release.
+
+Thanks,
+Jon
+
+
+Jon Mason (4):
+  armv8/tunes: Move TUNECONFLICTS
+  armv8/tunes: reference parent's TUNE_FEATURES
+  armv8/tunes: Add tunes for supported ARMv8a cores
+  armv8/tunes: Add tunes for supported ARMv8.2a cores
+
+ meta/conf/machine/include/arm/arch-arm64.inc  |  1 +
+ .../include/arm/armv8-2a/tune-cortexa65.inc   | 16 ++++++++++++++
+ .../include/arm/armv8-2a/tune-cortexa65ae.inc | 16 ++++++++++++++
+ .../arm/armv8-2a/tune-cortexa75-cortexa55.inc | 20 ++++++++++++++++++
+ .../include/arm/armv8-2a/tune-cortexa75.inc   | 16 ++++++++++++++
+ .../arm/armv8-2a/tune-cortexa76-cortexa55.inc | 20 ++++++++++++++++++
+ .../include/arm/armv8-2a/tune-cortexa76.inc   | 16 ++++++++++++++
+ .../include/arm/armv8-2a/tune-cortexa76ae.inc | 16 ++++++++++++++
+ .../include/arm/armv8-2a/tune-cortexa77.inc   | 16 ++++++++++++++
+ .../include/arm/armv8-2a/tune-neoversee1.inc  | 16 ++++++++++++++
+ .../include/arm/armv8-2a/tune-neoversen1.inc  | 17 +++++++++++++++
+ .../include/arm/armv8a/tune-cortexa34.inc     | 20 ++++++++++++++++++
+ .../arm/armv8a/tune-cortexa73-cortexa35.inc   | 21 +++++++++++++++++++
+ .../include/arm/armv8a/tune-cortexa73.inc     | 16 ++++++++++++++
+ meta/conf/machine/include/tune-cortexa32.inc  |  3 +--
+ meta/conf/machine/include/tune-cortexa35.inc  |  2 +-
+ meta/conf/machine/include/tune-cortexa53.inc  |  3 +--
+ meta/conf/machine/include/tune-cortexa55.inc  |  2 +-
+ .../include/tune-cortexa57-cortexa53.inc      |  3 +--
+ meta/conf/machine/include/tune-cortexa57.inc  |  2 +-
+ .../include/tune-cortexa72-cortexa53.inc      |  3 +--
+ meta/conf/machine/include/tune-cortexa72.inc  |  2 +-
+ .../include/tune-cortexa73-cortexa53.inc      |  3 +--
+ 23 files changed, 236 insertions(+), 14 deletions(-)
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa65ae.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa75.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa76ae.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa77.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-neoversee1.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-neoversen1.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa34.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
+ create mode 100644 meta/conf/machine/include/arm/armv8a/tune-cortexa73.inc
+
 -- 
-2.28.0
+2.20.1
 
