@@ -1,154 +1,69 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.228.1602195102010952187
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.2497.1602202638473319734
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 15:11:42 -0700
+ Thu, 08 Oct 2020 17:17:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=D+H8EUd+;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id 188so8635845qkk.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 15:11:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tAq8tggS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id h2so3574383pll.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 17:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jWAuMFprE5aexHcTAeg4st8dzqqBywjO/8mZM0M+OYU=;
-        b=D+H8EUd+SsRz46g7Ij7Ph+gXzATNGDxII4Nj/De+rLPcDoKE6PKXWnACrQEMPsCiq6
-         awRC9Ychp/Fm418xxXD/j4gu9yGiBBTgCcl8KO2RHZSIvciYVtTXPKPC3e2xA5rRrKwL
-         QUDkdnSU9MVkKK0JSNH/m898FoPHTIugw8NBrxIqxSvOXwtb4XGY5gMt7DUXX9gxTL1s
-         YIC2tQiaBnD9tzVp600rMg1JdcjGtbTuBu6ZHAoJkcEdyAPz+OU5TVVad9RcF9C+Hs3o
-         LXHUJIRKFEcawp+D+8xrs18EtpNlQM8U6C8ZbyuLrHYvNk+OMWfxPQPaB+SMvcIsmCX0
-         CVWA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=fOz7RXW8wSt8TYyyb3MYRByZDqJ2dQ+okQzdupQ0Onc=;
+        b=tAq8tggSNWFn2AS+HDPmcygpS3Um2OJfMNO4z5qkUYyBdsfURYu7/JdAcbkW+GPkxt
+         Vlo40oYm3PcFZ2+vLKsTTKolYcSMwiR4UEkf+VJ2tLdmZoFPWQ0g5JPCH4vAZ7zGwq3X
+         A36uOe9+DjqB69VCK1QueMsQXduhfiryL3edqCdy4NeUwk9cOYDrTEfmTDXKK0AwUbws
+         0SoTbcOvCu5oBoqByYODIjOVf4/PCApuGywE0cEzAf7GRPUI/DWaTrfPx2+ICZLLKqsM
+         j3RRmA2j7mmVAjdOFT3WbMTJ6pD02cPPPIiJTSZ7S66WOTJaJfIp8Ezaae/HGykV0nF+
+         8iDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jWAuMFprE5aexHcTAeg4st8dzqqBywjO/8mZM0M+OYU=;
-        b=WuwS673nWHbGi83N4+sXdL/QDdqVYXA1Er+Nw7GIbY1aBjol02k655Yyy8o7zmUJn4
-         Q+G99X4Qngn1HPpFTw9EG7keLKQhQVbDqyEcNV9yyE6sW+d3ZxaZ+QTLSKUFD+rTzTFP
-         j7cBBGlp2NBpOwuqQUXKXiz3DXYuPynAel8Wqj3fz0kHR1sE1A93/ag2xwUvDWiQmdUN
-         YS+7Zzo5DBUwzlenyNoAP9c9XYpnBTtDoZoBEo13MG1RYQt0ngKReJcc2psPnfg4Kpnb
-         H1bKwGofuB9aQfhwymu07vXSPEJ3Fz+J15RWwIx77xazZPICnnF/EwH/nj6Xl4FD53jO
-         qDMw==
-X-Gm-Message-State: AOAM5332h46Zhc+SL//45KErQvv7oGv9Rrfm6eZaTaVX4CHhDyq9r236
-	RwfbE3PGQ5ZaSVkPsB5ZVw+A+7qacqMWpn5qPrw=
-X-Google-Smtp-Source: ABdhPJxScpede0fEk/RWwo/9RQ9bc041zRpwY06jqVitW5YiazjZTYlMrAX6jQ4fAw2S/wL1sw9wkM+R50Mid7EzqY4=
-X-Received: by 2002:a05:620a:7f6:: with SMTP id k22mr10436341qkk.337.1602195101020;
- Thu, 08 Oct 2020 15:11:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <aNp1.1602154243596831287.CumO@lists.openembedded.org>
- <CANNYZj9oAoE_Se7HPd3y=sce9Mak-6n9zEBqyxikZr8trgJQvw@mail.gmail.com>
- <DB6PR0801MB203898E9E50E203D01B848C98D0B0@DB6PR0801MB2038.eurprd08.prod.outlook.com>
- <CANNYZj_RSJHxOYOWk=LGFKqbS3TH937J3HZtTn79drkM-HpgTQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_RSJHxOYOWk=LGFKqbS3TH937J3HZtTn79drkM-HpgTQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 8 Oct 2020 15:11:15 -0700
-Message-ID: <CAMKF1sqiXdHUDNTknBQMkJd=g28dtSRhSt1KvqxpXDP8r7ibQA@mail.gmail.com>
-Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM default strengths
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Brett Warren <Brett.Warren@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=fOz7RXW8wSt8TYyyb3MYRByZDqJ2dQ+okQzdupQ0Onc=;
+        b=Dgw+A4EErw7NM3dVAFSX7GCwJbGHa7W7rAidK9KLw1Z/ZRNtR+36QO/wXwQMixQncx
+         t5HSWN2Tdbm2eca7HpdioLOuXt8csomYwBeFgmvzsXKp84oPtEZG05FWRtUMV+5pZP1T
+         sy/j6aR1mXPUQJI0aIbnfw7BAzwlIDr54/OJF1AcrDE49NEibD4FHexM26eWZBrxeN8H
+         7RWgJNzYlFqSKQuafAsbPPVssbnC3Pp+YgzK2o9sa1AiC8XR75LSQ7SFPNsQn8+25j4T
+         3cBzjzYHUwCAIndpMlO2VaWiQO3l6j2vIFBgkOafAVKvvfkmLwlkNZYTmqoWe6zdlc+a
+         XF3Q==
+X-Gm-Message-State: AOAM533fYuGAkGMAtuEgfelHOSXsNTQWFCqLOPdp91l55pxJscC30yb3
+	HtEFbBqK1DQKelHVsVrsYZUamZHznc5ufhIjbQY=
+X-Google-Smtp-Source: ABdhPJzeRwo+Ikkm7+3hE5TwrjkSYIFn8ojput7eYiYZ4GAzOB1rRwwBo44YdCJRSBKLisQxCfT18Q==
+X-Received: by 2002:a17:902:b191:b029:d2:6277:3898 with SMTP id s17-20020a170902b191b02900d262773898mr10077622plr.10.1602202637199;
+        Thu, 08 Oct 2020 17:17:17 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id q8sm8251283pfk.207.2020.10.08.17.17.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2020 17:17:16 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/2] Pull request (cover letter only)
+Date: Thu,  8 Oct 2020 14:17:03 -1000
+Message-Id: <cover.1602202569.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-someone may decide to allocate large amount of RAM to the machine as a
-distro policy so images should not be overwriting that unless its less
-than what it requires to run,
+The following changes since commit b9296bdeaacc1dce97aac9c9bf0d70555bb36646:
 
-On Thu, Oct 8, 2020 at 3:01 PM Alexander Kanavin <alex.kanavin@gmail.com> =
-wrote:
->
-> Can you provide a bit more context? Why is that setting desirable to hav=
-e in meta-arm's machine definition?
->
-> The problem with setting QB_MEM in machine configurations is that differ=
-ent images need completely different amounts of memory; for some (such as p=
-test images) even 1024 is not enough, for others (core-image-minimal) 256 i=
-s plenty. The right place to set this is in the image recipes, with qemuboo=
-t class providing the smallest possible default.
->
-> Alex
->
-> On Thu, 8 Oct 2020 at 13:51, Brett Warren <Brett.Warren@arm.com> wrote:
->>
->> Do you mean instead of the machine configuration changing QB_MEM, it sh=
-ould be done via another image recipe?
->>
->> For context, I'm trying to enable the following line in qemuarm.confv (=
-meta-arm):
->>
->> QB_MEM =3D "-m 1024"
->>
->> This is prevented by core-image-sato.bb overriding it instead.
->>
->> Brett
->> ________________________________
->> From: Alexander Kanavin <alex.kanavin@gmail.com>
->> Sent: 08 October 2020 12:36
->> To: Brett Warren <Brett.Warren@arm.com>
->> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org>
->> Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM defau=
-lt strengths
->>
->> Isn=E2=80=99t it better to just make a custom image recipe instead?
->>
->> Alex
->>
->> On Thu 8. Oct 2020 at 12.53, Brett Warren <brett.warren@arm.com> wrote:
->>
->> Previously, to satisfy opengl's requirement for at least 512MB
->> of memory, QB_MEM was overriden by core-image-sato. This made it
->> impossible for machine configurations to specify their own values,
->> so this was changed to a default asssignment. To accomodate this,
->> qemuboot's default assignment of QB_MEM was changed to the week
->> variant.
->>
->> Signed-off-by: Brett Warren <brett.warren@arm.com>
->> ---
->>  meta/classes/qemuboot.bbclass               | 2 +-
->>  meta/recipes-sato/images/core-image-sato.bb | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbcl=
-ass
->> index d8f62ef6ea..8e4ee9e49b 100644
->> --- a/meta/classes/qemuboot.bbclass
->> +++ b/meta/classes/qemuboot.bbclass
->> @@ -73,7 +73,7 @@
->>  # IMAGE_CLASSES +=3D "qemuboot"
->>  # See "runqemu help" for more info
->>
->> -QB_MEM ?=3D "-m 256"
->> +QB_MEM ??=3D "-m 256"
->>  QB_SERIAL_OPT ?=3D "-serial mon:stdio -serial null"
->>  QB_DEFAULT_KERNEL ?=3D "${KERNEL_IMAGETYPE}"
->>  QB_DEFAULT_FSTYPE ?=3D "ext4"
->> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes=
--sato/images/core-image-sato.bb
->> index 673106eb6d..ec5e2e20fc 100644
->> --- a/meta/recipes-sato/images/core-image-sato.bb
->> +++ b/meta/recipes-sato/images/core-image-sato.bb
->> @@ -11,5 +11,5 @@ inherit core-image
->>  TOOLCHAIN_HOST_TASK_append =3D " nativesdk-intltool nativesdk-glib-2.0=
-"
->>  TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext =3D " nativesdk-intlt=
-ool nativesdk-glib-2.0"
->>
->> -QB_MEM =3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512"=
-, "-m 256", d)}'
->> +QB_MEM ?=3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512=
-", "-m 256", d)}'
->>  QB_MEM_qemumips =3D "-m 256"
->> --
->> 2.17.1
->>
->>
->> IMPORTANT NOTICE: The contents of this email and any attachments are co=
-nfidential and may also be privileged. If you are not the intended recipien=
-t, please notify the sender immediately and do not disclose the contents to=
- any other person, use it for any purpose, or store or copy the information=
- in any medium. Thank you.
->
->
->=20
->
+  wic: Add 512 Byte alignment to --offset (2020-09-30 05:54:58 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Chee Yang Lee (1):
+  perl: fix ptest test count
+
+Tim Orling (1):
+  oeqa/selftest/cases/devtool.py: avoid .pyc race
+
+ meta/lib/oeqa/selftest/cases/devtool.py               | 3 ++-
+ meta/recipes-devtools/perl/files/CVE-2020-12723.patch | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
