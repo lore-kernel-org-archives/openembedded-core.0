@@ -1,83 +1,117 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.14722.1602252622312072503
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web12.14841.1602253141204010533
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 07:10:22 -0700
+ Fri, 09 Oct 2020 07:19:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DBuzjiIY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id n18so10459440wrs.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:10:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EwxHmaOt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id x13so4382760pfa.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=dnTUPGWe00uhV8LX+Tnv18qLyC+aHz5mtFVGOo6nIy0=;
-        b=DBuzjiIYSn6cRlL9mmm5yoWr/0ro5SScHwI0Ql5wazfuyFy3ER3yZasTq7Ec0P8npm
-         +eOkYasib0Agcr8GPmVwsF1Vi6NWRPgnuuGYv8YX1CPoO0pNuFK/oVeb2c2v+Dn1ptaf
-         cRtaVSte60bi7/KgvqJuo+DlTxw/flg6eqIaY=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=DVBA59s+ZMNUMsR11hTXoFzS7ubshG8fxs/iLwOAXCQ=;
+        b=EwxHmaOtit5pPAci/is4j53x4Q0G40OC28bCFNi8Thm5COuX127GrhuuEj/Jx40AGB
+         RD6dtftMJlQpDnRN1MAbyQrYdFXdhOLKuqT+2zhN1DTNI9rqy67WY0fWIU0gpzsNXHBo
+         KOKYeG+IoMOcgXt8+Xyi6lG181pRK8NwcO2WGSSJib1FRVrOhqeaj+wcQ0N9L2QAuxN3
+         El3/1JOkNDyYTgUVkYCZ/oWTQfZmnl2Tt5z9iN3Sz8MlEWi+HMLLWWh6h3Bid5ATDsJW
+         P+UP+gkFSn1gU3je6TbTHEFDUQylvF4sZcU4j705svYC+5Bu3U1sG0CDDQNLS/XCqeGO
+         ds3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dnTUPGWe00uhV8LX+Tnv18qLyC+aHz5mtFVGOo6nIy0=;
-        b=M37OBMI1DkmkSXmRD5As5/m5F6fxuTykKZFqft6kSWp0r2ElVSPen+gh5g8y44fqf1
-         QzO2NfIhDPcRWHT05L1qGUQFAyLhmN57SeAUNtn26DVTweEpvw/cEbo2/X1Z3t4gkjv5
-         NO3+3zVBo+C+99yNHkGoIx6XC3+Ei7KFdRRl4JFS1szMGdxTpT+lYovAg87LtpXmz0ev
-         5iB5Oi3GSyTpdljm3LJ/0SAAChOgM3V7YM3VpSMMN3uu98IqEHHIWQolU5wydZVwLTQu
-         Z66VENciIFdcG9V68XcJTPyuoBDIZReA/W2CeILZn4hCdhvy9bOZyl9CHfn5yn3RGdsJ
-         rX/A==
-X-Gm-Message-State: AOAM530KITPkEXRornybYGPT2+O2P5z5R1JlW15uOpH70ThLVmQd/AP9
-	FbKfq6JAM0CzzQM7MgLlh0YKM9Ik7gXRxw==
-X-Google-Smtp-Source: ABdhPJwTRRbS6xa2RLSGAOAJCpjbICa4v35IlEjnA3CKomIvj8mfOi7DMjboZYvzUxPBX+xWkmN2YA==
-X-Received: by 2002:a5d:5387:: with SMTP id d7mr14993413wrv.224.1602252620726;
-        Fri, 09 Oct 2020 07:10:20 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id u81sm11343780wmg.43.2020.10.09.07.10.20
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=DVBA59s+ZMNUMsR11hTXoFzS7ubshG8fxs/iLwOAXCQ=;
+        b=IpYZkVd3FSRkgTHrMpgbwzEgIA+nxWwNzwk87WM5xXi4CJkzePQcopgZVehtTLiERV
+         W7gM43DqISFqGDh8J6xedJ4zVQru7+/NU5v2wcnY8HKP8OVBJi/UUMrwGArEANqeZ4iZ
+         mrEncPtvnntOmXE9dH/LfR2OzOnbTf/cdY4lznGWdvuehHwJCBG6tl9LPGH6Q/24kMMO
+         WAq/j6Sq+zFhFWOzkr8CzoNU6ey513IWl1avm6ih9WsJQbIyhVj4ox9hGyTkjICTAWrC
+         E6K/iD2f5iUOowDnsf4jTVx2yWni+Rxn9j48yLhxva4LGfj+Szv36l1KLDVqnzoxEosF
+         3jUA==
+X-Gm-Message-State: AOAM53078srzZ7OyMLyuWCjkwLRIQFWneHP7hU2WttHUKKfo6756Pn2Q
+	YBtN05Pnt0tZ15p4AUOUH9Q65gv5h/nzY4OO
+X-Google-Smtp-Source: ABdhPJzRHCsiRiwD4qCrdsXCOeag/hk+GAZTX0fjrulaUfZlpoLdWPPSM1Yky+SrQg3jGR6JcJrL/w==
+X-Received: by 2002:a63:171a:: with SMTP id x26mr3556344pgl.382.1602253140185;
+        Fri, 09 Oct 2020 07:19:00 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.18.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 07:10:20 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Fri, 09 Oct 2020 07:18:59 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] oe-build-perf-report: Ensure correct data is shown for multiple branch options
-Date: Fri,  9 Oct 2020 15:10:18 +0100
-Message-Id: <20201009141018.3288420-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201009141018.3288420-1-richard.purdie@linuxfoundation.org>
-References: <20201009141018.3288420-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [OE-core][dunfell 00/14] Patch review
+Date: Fri,  9 Oct 2020 04:18:35 -1000
+Message-Id: <cover.1602253014.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-If --branch and --branch2 are the same, there is extra confusing data plotted
-onto the graph. Only do that if the branches are actually different.
+Please review this next set of patches for dunfell and have comments back
+by end of day Tuesday.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/oe-build-perf-report | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Passed a-full on autobuilder:
 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index b46d61869c0..7812ea45407 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -509,7 +509,7 @@ def main(argv=None):
- 
-     revs = gitarchive.get_test_revs(log, repo, args.tag_name, hostname=args.hostname,
-                                     branch=args.branch, machine=args.machine)
--    if args.branch2:
-+    if args.branch2 and args.branch2 != args.branch:
-         revs2 = gitarchive.get_test_revs(log, repo, args.tag_name, hostname=args.hostname,
-                                          branch=args.branch2, machine=args.machine)
-         if not len(revs2):
-@@ -533,7 +533,7 @@ def main(argv=None):
-     else:
-         index1 = len(revs) - 1
- 
--    if args.branch2:
-+    if args.branch2 and args.branch2 != args.branch:
-         revs2.append(revs[index1])
-         index1 = len(revs2) - 1
-         revs = revs2
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1464
+
+The following changes since commit 552739383321bd9b4780bd0026d6107ece530522:
+
+  perl: fix ptest test count (2020-10-05 04:29:40 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: fix kprobes build warning
+  linux-yocto/5.4: update to v5.4.67
+  linux-yocto/5.4: update to v5.4.68
+  linux-yocto/5.4: update to v5.4.69
+
+Joshua Watt (1):
+  classes/sanity: Bump minimum python version to 3.5
+
+Marek Vasut (4):
+  lttng-modules: update to 2.11.6
+  lttng-tools: update to 2.11.5
+  lttng-ust: update to 2.11.1
+  stress-ng: Upgrade 0.11.01 -> 0.11.17
+
+Richard Purdie (2):
+  glibc: do_stash_locale must not delete files from ${D}
+  libtools-cross/shadow-sysroot: Use nopackages inherit
+
+Steve Sakoman (1):
+  Revert "lttng-modules: backport writeback.h changes from 2.12.x to fix
+    kernel 5.4.62+"
+
+Victor Kamensky (2):
+  qemu: add 34Kf-64tlb fictitious cpu type
+  qemumips: use 34Kf-64tlb CPU emulation
+
+ meta/classes/sanity.bbclass                   |   4 +-
+ meta/conf/machine/qemumips.conf               |   2 +-
+ meta/recipes-core/glibc/glibc-package.inc     |   1 -
+ .../libtool/libtool-cross_2.4.6.bb            |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...tlb-fictitious-cpu-type-like-34Kf-bu.patch | 118 ++++++++++++++++
+ .../shadow/shadow-sysroot_4.6.bb              |   2 +
+ ...ownership-when-installing-example-jo.patch |   2 +-
+ ...ess-ng_0.11.01.bb => stress-ng_0.11.17.bb} |   4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
+ ...ckport-writeback.h-changes-from-2.12.patch | 128 ------------------
+ ...ules_2.11.2.bb => lttng-modules_2.11.6.bb} |  11 +-
+ ...-tools_2.11.2.bb => lttng-tools_2.11.5.bb} |   4 +-
+ ...ttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} |   4 +-
+ 16 files changed, 156 insertions(+), 163 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.17.bb} (83%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.11.2.bb => lttng-modules_2.11.6.bb} (81%)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.11.5.bb} (98%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} (93%)
+
 -- 
-2.25.1
+2.17.1
 
