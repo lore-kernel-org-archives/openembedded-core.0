@@ -1,77 +1,136 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.16439.1602257040787828610
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.17824.1602260458785531074
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 08:24:01 -0700
+ Fri, 09 Oct 2020 09:20:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BpKJyVCQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id k18so10214981wmj.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 08:24:00 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=qx4ZC+AG;
+ spf=pass (domain: blade-group.com, ip: 209.85.128.41, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-wm1-f41.google.com with SMTP id 13so10401011wmf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 09:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=xHQstBQXxvbFEBfWzEAv9S3UuxifA8q19E80l/gULj0=;
-        b=BpKJyVCQaysr+3MKWXGdu4jEqOlXgFUTnM789YoZeIjqyksY+BZP3DCFgl8IM5OczX
-         Qya9BSi9t9M1ohdl3ChepO+xEWlyB8TiFCaS+y/Ovwr9S2vkpYKMrOUAXDORI0AqAPvS
-         o6HMWSx6SctuJzilkVaNBq/Iz5O86I4Di08jw=
+        d=blade-group.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MErJWWRwFMWvcLGt4X86sOqLiS5AY6hAWE7rgkzRy3Q=;
+        b=qx4ZC+AGum3UcM4bzbkCcaa28/kqJqjqHvp3Nye4TaTJZvKlEKK7UQbpbXW8y26isJ
+         0kFeL6ZHdnOzrinV6SB9zFoziPVIKsF1mAkc0KHwZN+iOno6tOqPVj9xA11QIowgPlpG
+         vHhkhEMZFzXtQ6pciQ6qoAKA2LJBLKGC+s6/ymwC0hbHNbswSiblOuJ3ofgo8wsVheae
+         U7wYI98LN6tUB6EcWUxxEDmudOCXqUGawZZcUuhXOLPAMFKgFwhTroaYxwnvVMCJmHCk
+         l1HCeZSOydd4ePe9/qPkSjao//3DrghHh9Sx7wDrcgy2zW6ZueoCr8lEpazQ1uV4tTmY
+         vLOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xHQstBQXxvbFEBfWzEAv9S3UuxifA8q19E80l/gULj0=;
-        b=IsTqN8qWnGOvANTxiYcQ50WmZ7CXLhib8WDzIrmlKy9Nd+clHNpGg+uhdzmRBqS/0N
-         PbvWENejWKnRRhdV5RvTJ1W6mTwrKthCggW5HodLa2hg5sNpIPYBLBPNChAJ+S9H07fd
-         MNJoxfaJQmHXAK+Sw0mUBpj3wWdtE6aZsmbvf1a2G43RF3sL5cYnbfb36Elg8+Hse0Xf
-         IJJCPaeVtikRLNPWAx6JY6DbwGDGiBSKuZw6rhy7O5IrLjGhhIkz20kBDZcKeMBqPyWh
-         WJ+cVTXcyyM7ymkxxr9CfPyGh6blpKVxZb9As7RVeffhkmmb49u5lQO7Fb1728GAzL56
-         AHcg==
-X-Gm-Message-State: AOAM532COn8vZ2V04nGKqGvKi9D7R1EgD5/Ll0Xu3kEGpDbMJmXJesqT
-	AQSmawrz5ailQ7mv/LXiQkagew==
-X-Google-Smtp-Source: ABdhPJzRjyQxf9lgpMxCB+rXkHSyiviqoQ1wsHl0VuhxNVZws8FOuZ+MCy6gSNBRzGRGiq8XMgzfpA==
-X-Received: by 2002:a1c:9c13:: with SMTP id f19mr14104290wme.97.1602257039265;
-        Fri, 09 Oct 2020 08:23:59 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id n9sm11952392wrq.72.2020.10.09.08.23.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MErJWWRwFMWvcLGt4X86sOqLiS5AY6hAWE7rgkzRy3Q=;
+        b=Ih6WoKDGqFtHfgqCsLyNYp9jGsm9vn9cn/AvZrLzr82j//bGZPg+Zz8uhQtxTpcstX
+         cDew3NxhP2vGLo3qdaoEq0MwFPQha5w/CO6YSiqH+0BuhxZQRGxpvQBn28YL9hbJNuf8
+         YZTALdvxmytIYFTU5YKWKWsbnIRXIGaaLy3V2vIPwxgWQ0RJ62rMr9EUte4i4OSnNQQV
+         V4xihAbVu354r1AD2agz+AlzYzaJ6dzdMDU3HmfqbqKFdnTXGdUxPmPbVtKqB9As2mjA
+         C70SguwRsWn/g/kClQ4ZnN8D8CImluOGHViXEvFOS1XvSsudeVIxzNHjgKX+d3TmfAKd
+         I8xw==
+X-Gm-Message-State: AOAM533DVdtQJvYIx6UlAA+JtqKsFDFwj0vvvRCSVYUxVnxNsYEiOhvc
+	PjdKZ0KQIooK3Irzcq3h6NKoGZr0x5IMLhB1
+X-Google-Smtp-Source: ABdhPJx5aRFnmW9YXGcE+clNEvFKQpEScDhYLOffKCFLOVDOYEu/sviOonukqHmjmL6rTnbk9ml6jg==
+X-Received: by 2002:a7b:c3c5:: with SMTP id t5mr15450114wmj.79.1602260456702;
+        Fri, 09 Oct 2020 09:20:56 -0700 (PDT)
+Return-Path: <yann.dirson@blade-group.com>
+Received: from blanquette.lan ([88.120.44.86])
+        by smtp.gmail.com with ESMTPSA id u15sm11815875wml.21.2020.10.09.09.20.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 08:23:58 -0700 (PDT)
-Message-ID: <9e26168866709695b827450ba2e933efdb3077cd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] allarch: Remove MACHINEOVERRIDES
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: douglas.royds@taitradio.com, openembedded-core@lists.openembedded.org
-Date: Fri, 09 Oct 2020 16:23:58 +0100
-In-Reply-To: <20201009043246.20465-1-douglas.royds@taitradio.com>
-References: <20201009043246.20465-1-douglas.royds@taitradio.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Fri, 09 Oct 2020 09:20:55 -0700 (PDT)
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+X-Google-Original-From: yann@blade-group.com
+To: openembedded-core@lists.openembedded.org
+Cc: Yann Dirson <yann@blade-group.com>
+Subject: [PATCH v3] rngd: fix --debug to also filter syslog() calls
+Date: Fri,  9 Oct 2020 18:20:30 +0200
+Message-Id: <20201009162030.2017658-1-yann@blade-group.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-10-09 at 17:32 +1300, Douglas via lists.openembedded.org
-wrote:
-> Avoid machine-specific settings sneaking into allarch tasks.
-> 
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/classes/allarch.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/allarch.bbclass
-> b/meta/classes/allarch.bbclass
-> index 5bd5c44a27..2365691fae 100644
-> --- a/meta/classes/allarch.bbclass
-> +++ b/meta/classes/allarch.bbclass
-> @@ -42,6 +42,7 @@ python () {
->          d.setVar("TARGET_CXXFLAGS", "none")
->          d.setVar("TARGET_LDFLAGS", "none")
->          d.setVar("POPULATESYSROOTDEPS", "")
-> +        d.setVar("MACHINEOVERRIDES", "allarch")
+From: Yann Dirson <yann@blade-group.com>
 
-Why would a recipe which is using allarch be using machine specific
-overrides?
+Debug logs were only controlled by --debug flag while in --foreground mode.
+In --daemon mode (the default for us) /var/log/message got stuffed with
+details of entropy pool refilling, which is useless in production, and
+hamful when log rotation then gets rid of the more useful logs.
 
-Cheers,
+This change makes the two modes consistently only produce debug logs when
+--debug is specified.
 
-Richard
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+---
+ ...ix-debug-to-also-filter-syslog-calls.patch | 46 +++++++++++++++++++
+ .../rng-tools/rng-tools_6.10.bb               |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rngd-fix-debug-to-also-filter-syslog-calls.patch
+
+diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-rngd-fix-debug-to-also-filter-syslog-calls.patch b/meta/recipes-support/rng-tools/rng-tools/0001-rngd-fix-debug-to-also-filter-syslog-calls.patch
+new file mode 100644
+index 0000000000..0733378668
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/0001-rngd-fix-debug-to-also-filter-syslog-calls.patch
+@@ -0,0 +1,46 @@
++From 213a869e8315ead2c739acfcbde712358a842dee Mon Sep 17 00:00:00 2001
++From: Yann Dirson <yann@blade-group.com>
++Date: Fri, 9 Oct 2020 15:12:26 +0200
++Subject: [PATCH] rngd: fix --debug to also filter syslog() calls
++
++Debug logs were only controlled by --debug flag while in --foreground
++mode.  In --daemon mode /var/log/message got stuffed with details of
++entropy pool refilling, which is useless in production, and hamful
++when log rotation then gets rid of the more useful logs.  This is
++especially true for embedded systems.
++
++This change makes the two modes consistently only produce debug logs when
++--debug is specified.
++
++Upstream-Status: Backport [213a869e8315ead2c739acfcbde712358a842dee]
++
++Signed-off-by: Yann Dirson <yann@blade-group.com>
++---
++ rngd.h | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/rngd.h b/rngd.h
++index 901b6f1..a79ea0f 100644
++--- a/rngd.h
+++++ b/rngd.h
++@@ -166,13 +166,13 @@ extern bool quiet;
++ #define message(priority,fmt,args...) do { \
++ 	if (quiet) \
++ 		break;\
+++	if (arguments->debug == false && LOG_PRI(priority) == LOG_DEBUG) \
+++		break;\
++ 	if (am_daemon) { \
++ 		syslog((priority), fmt, ##args); \
++ 	} else if (!msg_squash) { \
++-		if ((LOG_PRI(priority) != LOG_DEBUG) || (arguments->debug == true)) {\
++-			fprintf(stderr, fmt, ##args); \
++-			fflush(stderr); \
++-		} \
+++		fprintf(stderr, fmt, ##args); \
+++		fflush(stderr); \
++ 	} \
++ } while (0)
++ 
++-- 
++2.28.0
++
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.10.bb b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
+index 3f9720e406..40ec5ad671 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.10.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
+@@ -12,6 +12,7 @@ SRC_URI = "\
+     git://github.com/nhorman/rng-tools.git \
+     file://a4b6d9ce64f132e463b9091d0536913ddaf11516.patch \
+     file://dab16a5fd4efde8ef569b358e19b1fcbc7d0d938.patch \
++    file://0001-rngd-fix-debug-to-also-filter-syslog-calls.patch \
+     file://init \
+     file://default \
+     file://rngd.service \
+-- 
+2.28.0
 
