@@ -1,74 +1,86 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.10948.1602240664848176962
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web10.13007.1602248302079847618
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 03:51:05 -0700
+ Fri, 09 Oct 2020 05:58:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fk01eGyC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id e18so9779535wrw.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 03:51:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kTL3zwoC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id t20so2928674edr.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 05:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=g0IGgCq1uU4x1FZ4X5mn2H7niOo//ASa1lo/cZ8UYgo=;
-        b=fk01eGyC1j+h2GK9k+tKaapp41U1FUid+baQ1TqdJhjnSp2GmElpLuLrYvtJdFCuoz
-         43UPdXLcTZWfo3UVOYP0hIIkGYvO9NcP5KwFWjItR1qQXIMcg91Ntw2XFCQp46pExhUs
-         XV2i2Hs2tKghRtaHdXEEwJxsPyE5JXSfRsjC4=
+        bh=i1vb+ykgZv6jThkfPvTCfkbPUDT4C8NwRGKMetRAIKQ=;
+        b=kTL3zwoCnkTZrM8zGBHikePkl0ftVorBNAIWoPUu+umOmh2w035WNBGpDekD3r1u29
+         h/Uw3IEeUuwPAnBs+eYZKUa3OgTjry/wOijL6NBlI0RJ+FUFE9diYMO68iuPLP4FwX8V
+         DVcNbq6epKmcfOn4O8Z9ELvnF2JraTGm4MKeH3FzpEKvYsr9JNDKQuMe6ftTxl6oi3os
+         F0W4L1jX5V7d6QsCv313ROwetg94DqsKIzCZ1bTcpZlhZ8UG6bxNVWwP5HfOE3bWKCRv
+         n4qgqEUwztR2HFFskkhTQ6j5tcXqLJLrLtSNNnVF9mDwyfMIrnKx2UV2wwn4pknTww89
+         vsNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=g0IGgCq1uU4x1FZ4X5mn2H7niOo//ASa1lo/cZ8UYgo=;
-        b=FJ0btrPDdhU9/gU5S3JkxWKDmVa61gQyFRCBwRsbhbF1CBJ7pjohr9g8LuXk1YEoTr
-         E4be4173xkFKFbnvqo5opha6lEwKvRdjoele+A+RxtSNzwhCH1uvv6UZXbC3G9KtiH3p
-         saigp46NP/s04mncl1vSN8lqHhNooHU9dkBbPqFI7t8QD3L8HJOeVRCBb6WN8SmObqRD
-         hMaMctvC4b63BID6BHJf2Z6OK8WYrkkodDGeNfpuV21UINYMB4xTmnaM2XXhgfGOxKX1
-         0snFIntEU35AbZu7U0w4hYmxJmzqtbqfkXgNwXbUD7PStFud/WkG25IKaJaNMmXNP4BU
-         /bRg==
-X-Gm-Message-State: AOAM533ucpNX/eqDnazXFMmrMiQ8CjvRNPlCoY6M6/U6K8gsJBk/OejK
-	Eq0p+KOgc3mcxTMqYJliwUgxtu3dYw29XA==
-X-Google-Smtp-Source: ABdhPJxhHKCyDO8S4EeUzDPIc0SVQAAPGPx3nSpLIfyVjmSjjtpBEhVnqoHJOR2tB1JtmHlIg+wuSQ==
-X-Received: by 2002:adf:f74e:: with SMTP id z14mr14025276wrp.312.1602240663258;
-        Fri, 09 Oct 2020 03:51:03 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id y6sm11678682wrt.80.2020.10.09.03.51.02
-        for <openembedded-core@lists.openembedded.org>
+        bh=i1vb+ykgZv6jThkfPvTCfkbPUDT4C8NwRGKMetRAIKQ=;
+        b=be4JgWYTDUJp1vRQhw/NGfz9ET5hRDFlJO7cDBjmuV7V4v60Zl5cvqCgpaibh1DQk6
+         Aj+mr1Y+10cdXWO4Wmi4wtKoOSSeyEryNlmvqWum8emlk+PdBq5kzLXlEvHcXpM4SQnD
+         8pDiaHSWtu1F/QdhRs9v5vtkpXonxizb1fw+HJulZY0yqQXgNpVEWgQJyipETEPZlV4r
+         E9mx2uoLhzprEOXiJTxOPSuYU663URoDU72zqNsCCpfF6w1ajmRiWPEvYg40dN5MwVlu
+         CjJ7PJksnE/XWa0/YXU08VwBBWZ90PCGxCPZFp8cMRr0+g2S2iAQoWU+uHIigjLl/gmr
+         cpZA==
+X-Gm-Message-State: AOAM531INre25mABcaIjPSCo+iSM9p5AlurnrrILvcwg0GysmLpEv0fC
+	jsZAKXzxPeUVlohVz83Rmw/W4q++Qac=
+X-Google-Smtp-Source: ABdhPJz3I/RNA9orFgNyg+zVmnzWF8EC+neM9TJN1efa/eWFhqpUJkFyLjQVeUWiiy5O4ALFu3HuyQ==
+X-Received: by 2002:a05:6402:21fd:: with SMTP id ce29mr4246272edb.383.1602248300147;
+        Fri, 09 Oct 2020 05:58:20 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id b6sm6651708edu.21.2020.10.09.05.58.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 03:51:02 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Fri, 09 Oct 2020 05:58:18 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Upgrade to include mkostemp64 wrapper
-Date: Fri,  9 Oct 2020 11:51:02 +0100
-Message-Id: <20201009105102.3279914-1-richard.purdie@linuxfoundation.org>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH 1/3] base.bbclass: use os.path.normpath instead of just comparing WORKDIR and S as strings
+Date: Fri,  9 Oct 2020 14:58:12 +0200
+Message-Id: <20201009125814.3035266-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Newer systems are using this currently unwrapped glibc function,
-add it.
+* cannot use os.path.samefile, because S/B might not exist at this time yet
 
-[YOCTO #14080]
+* there is issue with PSEUDO_IGNORE_PATHS when some recipe sets e.g.
+  S = "${WORKDIR}/"
+  whole WORKDIR gets added to PSEUDO_IGNORE_PATHS and then the build
+  can fail with various strange errors, in my case do_package was
+  failing when do_package calls:
+  fix_perms(.../1.0-r0/package/etc, 755, 0, 0, /etc)
+  and fails with "[Errno 1] Operation not permitted:"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/base.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 8df92f3f23c..77207905c21 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -7,7 +7,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-group \
-            "
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 6309d709b8..62e34d0079 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -388,9 +388,9 @@ python () {
+     oe.utils.features_backfill("DISTRO_FEATURES", d)
+     oe.utils.features_backfill("MACHINE_FEATURES", d)
  
--SRCREV = "07141f919dc8582460f984ed1d2fb73e05f82ef3"
-+SRCREV = "cca0d7f15b7197095cd587420d31b187620c3093"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
+-    if d.getVar("WORKDIR") != d.getVar("S"):
++    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("S")):
+         d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
+-    if d.getVar("WORKDIR") != d.getVar("B"):
++    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("B")):
+         d.appendVar("PSEUDO_IGNORE_PATHS", ",${B}")
  
+     # Handle PACKAGECONFIG
 -- 
 2.25.1
 
