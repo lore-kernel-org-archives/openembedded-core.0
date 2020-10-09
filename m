@@ -1,124 +1,156 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.13043.1602248411275589050
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.13461.1602249382821685979
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 06:00:11 -0700
+ Fri, 09 Oct 2020 06:16:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HFwEQEFr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id n18so10206460wrs.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 06:00:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DI2DARWS;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id x7so2859914eje.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 06:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Ygr6r2tzdi6QLbfLPGiMWeYSbZjrL4RvZLkiHDrlMLc=;
-        b=HFwEQEFrw5y/kNVb+AUIwjbMg6at+ycvhAUyzoOmbZwtrsH3Dgv9SAVZC6zI2+dGrT
-         XPbt5gku6Xv8n0yak5P/yjWfKx3ZXlpEuXqtZ3TZGHiIff4dzAvT5zrP0auks5U1cXYn
-         sSYkP2agItlbwT9KR//imjU0UlYldo0cVKfus=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ee9GBG8io6cxPrZNh7UB8y1z1ZofVDp91lAnr6P0r1I=;
+        b=DI2DARWShZKepiw1BwRVG42klFqEjzmFgUZkfL+PJQukp8kp6nJSSF4GbaSlimtPvm
+         R1g3HaQqPq6lyUfDwW3g3FYlrgzc7/RqNtVsOh3l47muQvwlMP57h3Ix5m/ZhnGsMpcs
+         2RYRo3iFGRiPyyuS6UfkpTzAlPdt8i9BvjeLs1djVG5a4PXBP2lIAQ5t9BP99WmQMzi2
+         FQJH3IZQRfEGGDd8s9A9SzQh2c2qj97nSC0eyByaByb7hcyeoFiKHYzLB15wgpwOS23Z
+         d7uiDmPXv5qMM7WjJnM9KX/LCaLm3WBN4B8gZppEgh2W008hoSYNcZga4TtYGQZwNGIl
+         o5/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Ygr6r2tzdi6QLbfLPGiMWeYSbZjrL4RvZLkiHDrlMLc=;
-        b=D4xvH1bWUAQ4RdTB/UQLUtKqXdVqIxnYBYot6z3GUQjnNS709ocARwuec3CVYk/30i
-         VEHz3pCwN+ju6Xul9ny87oqAS6K9TarxSKE9nxKvkgWzunceUiah0Tac2teRkCjzuYl6
-         1yntzvH94s2fQQRDea5ZkSlRXQTh8GSt3LplOyQp55XRZAobQQJ1KUnj8+HvtZfAdRlp
-         22ByE0oVlDXu1oYvA+IA+f/raG4FY+lYG0+TCz0NYCdjfwgTae+ZGzDcyJVWkz/NXSmG
-         lf4/Qu2gOfODIpZG3T6y0V+WcPwRbuxgrdwxkoGJJEvkqJA1X5cmFRkFGL5F74erpV8C
-         5j8w==
-X-Gm-Message-State: AOAM532UDjX9kGOwLIVhr9W4Oj3t0nWIBquUgndYoNrNDRIEIE9pANe7
-	2y9QjC0vSOnXehC+MKP0MmuYeA==
-X-Google-Smtp-Source: ABdhPJwkIxehzKAqRJjf9V0TOt9RyPHRVUo9svtfATju4XXW4AJuiGTeyKNTECaNVP99ot6rKI5eTw==
-X-Received: by 2002:a05:6000:1084:: with SMTP id y4mr14090391wrw.138.1602248409538;
-        Fri, 09 Oct 2020 06:00:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id a127sm13903170wmh.13.2020.10.09.06.00.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ee9GBG8io6cxPrZNh7UB8y1z1ZofVDp91lAnr6P0r1I=;
+        b=Wlthx9KTMiBH/gxroT7Fh8dN3gRgn+IEXH0yVIO5H/Uvovfi9czlPFqjqYp2wwl5o7
+         WNvtGc0Qp8Ol5Qtqg0U/F1UiYWvsb7se3tA+7/Gr6j0BOE7rFhHoMfMK0jjw+yRkm6FS
+         AAP2g5cejhLwSnNnz2VeT50NKEVrhTdgTd3amgHwvM+azlHjo9NLbA4wiMUAp/ChJdF+
+         qocSeId3rzya7fyNpHlB+vNT8IHZV6z6sM97XJjzZe76FG+0JSiWG7e5oP5N8Hklfo9y
+         OLuX+wI4ma6R26LQ7jHtOUnENCHuT6hP1orRrUhcLGpGDG6GZR23Cu2vw7rwoeR258ia
+         8DXw==
+X-Gm-Message-State: AOAM531gE7Rxfb7Y5ovk5w0/feuLoQSkYiXvyGedvN71XZfzOQhOGueO
+	EN4XaGc9cYNoknP6ElDyMmRgu3lJaTs=
+X-Google-Smtp-Source: ABdhPJzNNjIJiNVqrrqnY91LbuOjk67y8fs4nDb0R3/AEhYUYzdt95nOKFdcGtscZvV6ZZzFvS5vtA==
+X-Received: by 2002:a17:906:c0d8:: with SMTP id bn24mr14044636ejb.480.1602249380770;
+        Fri, 09 Oct 2020 06:16:20 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id d1sm1080769ejo.17.2020.10.09.06.16.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 06:00:09 -0700 (PDT)
-Message-ID: <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rngd: fix --debug to also filter syslog() calls
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Yann Dirson <yann.dirson@blade-group.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Yann Dirson <yann@blade-group.com>
-Date: Fri, 09 Oct 2020 14:00:02 +0100
-In-Reply-To: <20201009085527.1993257-1-yann@blade-group.com>
-References: <20201009085527.1993257-1-yann@blade-group.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Fri, 09 Oct 2020 06:16:20 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [RFC][PATCH] meta-skeleton: useradd-dep: add example of recipe using useradd and group created in other recipe
+Date: Fri,  9 Oct 2020 15:16:16 +0200
+Message-Id: <20201009131616.3036495-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-10-09 at 10:55 +0200, Yann Dirson wrote:
-> From: Yann Dirson <yann@blade-group.com>
-> 
-> Debug logs were only controlled by --debug flag while in --foreground mode.
-> In --daemon mode (the default for us) /var/log/message got stuffed with
-> details of entropy pool refilling, which is useless in production, and
-> hamful when log rotation then gets rid of the more useful logs.
-> 
-> This change makes the two modes consistently only produce debug logs when
-> --debug is specified.
-> 
-> Signed-off-by: Yann Dirson <yann@blade-group.com>
-> ---
->  .../rng-tools/rngd-debug-filter.patch         | 22 +++++++++++++++++++
->  .../rng-tools/rng-tools_6.10.bb               |  1 +
->  2 files changed, 23 insertions(+)
->  create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> 
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> new file mode 100644
-> index 0000000000..320f0257e6
-> --- /dev/null
+* maybe this would be better in meta-selftest, I can move it there
+  once we agree how this is supposed to work
 
+* https://www.openembedded.org/pipermail/bitbake-devel/2018-March/009256.html
+  says that RDEPENDS_${PN} should be enough, but in my testing we need
+  built time dependency as well for groups to exist early enough
 
-This patch has no description, author or Upstream-Status: information
-in it. It needs such information to be considered. It would be helpful
-if the change was submitted upstream too, not sure if you've looked at
-that? We try not to carry patches if we can.
+* and unfortunately even with the "useradd dependency" in DEPENDS is see
+  very rare failures (in dunfell but I haven't found any changes in this area
+  in master) when useradd-dep and useradd-example are reused from sstate.
 
-Cheers,
+  In these cases I've noticed that useradd-dep.do_package_setscene is running before useradd-example.do_package_setscene:
 
-Richard
+  NOTE: Running setscene task 268 of 3783 (useradd-dep.bb:do_package_write_ipk_setscene)
+  NOTE: Running setscene task 269 of 3783 (useradd-dep.bb:do_populate_lic_setscene)
+  NOTE: useradd-dep-1.0-r1: task do_package_write_ipk_setscene: Started
+  NOTE: useradd-dep-1.0-r1: task do_populate_lic_setscene: Started
+  NOTE: useradd-dep-1.0-r1: task do_package_write_ipk_setscene: Succeeded
+  NOTE: Running setscene task 279 of 3783 (useradd-dep.bb:do_packagedata_setscene)
+  NOTE: useradd-dep-1.0-r1: task do_populate_lic_setscene: Succeeded
+  NOTE: useradd-dep-1.0-r1: task do_packagedata_setscene: Started
+  NOTE: useradd-dep-1.0-r1: task do_packagedata_setscene: Succeeded
+  NOTE: Running setscene task 3336 of 3783 (useradd-dep.bb:do_package_setscene)
+  NOTE: Running setscene task 3337 of 3783 (useradd-dep.bb:do_populate_sysroot_setscene)
+  NOTE: useradd-dep-1.0-r1: task do_package_setscene: Started
+  NOTE: useradd-dep-1.0-r1: task do_populate_sysroot_setscene: Started
+  ERROR: useradd-dep-1.0-r1 do_package_setscene: useradd-dep: useradd command did not succeed.
+  ERROR: useradd-dep-1.0-r1 do_package_setscene: Error executing a python function in exec_python_func() autogenerated:
+  ...
+  Exception: bb.process.ExecutionError: Execution of 'useradd-dep/1.0-r1/temp/run.useradd_sysroot.8980' failed with exit code 1:
+    useradd-dep/1.0-r1/recipe-sysroot-native/usr/sbin/useradd
+    Running useradd commands...
+    useradd: Warning: missing or non-executable shell '/bin/bash'
+    useradd: group 'group1' does not exist
+    WARNING: exit code 1 from a shell command.
+  ...
+  WARNING: Setscene task (useradd-dep.bb:do_package_setscene) failed with exit code '1' - real task will be run instead
 
-> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> @@ -0,0 +1,22 @@
-> +Index: git/rngd.h
-> +===================================================================
-> +--- git.orig/rngd.h
-> ++++ git/rngd.h
-> +@@ -145,13 +145,13 @@ extern bool quiet;
-> + #define message(priority,fmt,args...) do { \
-> + 	if (quiet) \
-> + 		break;\
-> ++	if (arguments->debug == false && LOG_PRI(priority) == LOG_DEBUG) \
-> ++		break;\
-> + 	if (am_daemon) { \
-> + 		syslog((priority), fmt, ##args); \
-> + 	} else if (!msg_squash) { \
-> +-		if ((LOG_PRI(priority) != LOG_DEBUG) || (arguments->debug == true)) {\
-> +-			fprintf(stderr, fmt, ##args); \
-> +-			fflush(stderr); \
-> +-		} \
-> ++		fprintf(stderr, fmt, ##args); \
-> ++		fflush(stderr); \
-> + 	} \
-> + } while (0)
-> + 
-> diff --git a/meta/recipes-support/rng-tools/rng-tools_6.10.bb b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> index 3f9720e406..98fb7aa775 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> +++ b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> @@ -12,6 +12,7 @@ SRC_URI = "\
->      git://github.com/nhorman/rng-tools.git \
->      file://a4b6d9ce64f132e463b9091d0536913ddaf11516.patch \
->      file://dab16a5fd4efde8ef569b358e19b1fcbc7d0d938.patch \
-> +    file://rngd-debug-filter.patch \
->      file://init \
->      file://default \
->      file://rngd.service \
-> 
-> 
+  NOTE: Running setscene task 3347 of 3783 (useradd-example.bb:do_packagedata_setscene)
+  NOTE: Running setscene task 3348 of 3783 (useradd-example.bb:do_populate_sysroot_setscene)
+  NOTE: recipe useradd-example-1.0-r1: task do_packagedata_setscene: Started
+  NOTE: recipe useradd-example-1.0-r1: task do_populate_sysroot_setscene: Started
+  NOTE: recipe useradd-example-1.0-r1: task do_packagedata_setscene: Succeeded
+  NOTE: Running setscene task 3358 of 3783 (useradd-example.bb:do_package_setscene)
+  NOTE: recipe useradd-example-1.0-r1: task do_populate_sysroot_setscene: Succeeded
+  NOTE: recipe useradd-example-1.0-r1: task do_package_setscene: Started
+  NOTE: recipe useradd-example-1.0-r1: task do_package_setscene: Succeeded
+
+  and then the real task works fine.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../recipes-skeleton/useradd/useradd-dep.bb   | 39 +++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-dep.bb
+
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-dep.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-dep.bb
+new file mode 100644
+index 0000000000..b5cbc5d170
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/useradd/useradd-dep.bb
+@@ -0,0 +1,39 @@
++SUMMARY = "Example recipe for using inherit useradd and reusing group from useradd-example"
++DESCRIPTION = "This recipe serves as an example for using features from useradd.bbclass"
++SECTION = "examples"
++PR = "r1"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++S = "${WORKDIR}"
++
++EXCLUDE_FROM_WORLD = "1"
++
++inherit useradd
++
++# https://www.openembedded.org/pipermail/bitbake-devel/2018-March/009256.html
++# says that RDEPENDS_${PN} should be enough, but in my testing we need
++# built time dependency as well for groups to exist early enough
++DEPENDS = "useradd-example"
++
++RDEPENDS_${PN} = "useradd-example"
++RDEPENDS_${PN}-user3 = "useradd-example-user3"
++
++# You must set USERADD_PACKAGES when you inherit useradd. This
++# lists which output packages will include the user/group
++# creation code.
++USERADD_PACKAGES = "${PN} ${PN}-user3"
++
++# USERADD_PARAM specifies command line options to pass to the
++# useradd command. Multiple users can be created by separating
++# the commands with a semicolon. Here we'll create two users,
++# user1 and user2:
++USERADD_PARAM_${PN} = "-u 2200 -d /home/user1dep -r -s /bin/bash -G group1 user1dep; -u 2201 -d /home/user2dep -r -s /bin/bash -G group2 user2dep"
++
++# user3 will be managed in the useradd-example-user3 pacakge:
++# As an example, we use the -P option to set clear text password for user3
++USERADD_PARAM_${PN}-user3 = "-u 2202 -d /home/user3dep -r -s /bin/bash -P 'user3' -G group3 user3dep"
++
++# Prevents do_package failures with:
++# debugsources.list: No such file or directory:
++INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+-- 
+2.25.1
 
