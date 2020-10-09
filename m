@@ -1,134 +1,84 @@
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
- by mx.groups.io with SMTP id smtpd.web10.7833.1602225659169963671
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web12.8238.1602227757189413439
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2020 23:40:59 -0700
+ Fri, 09 Oct 2020 00:15:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bIpINqM/;
- spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f67.google.com with SMTP id 5so4429772vsu.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2020 23:40:59 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20150623.gappssmtp.com header.s=20150623 header.b=mmV35g5F;
+ spf=pass (domain: smile.fr, ip: 209.85.128.67, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f67.google.com with SMTP id d81so8747298wmc.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 00:15:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RCIVtTYRB/R8AsG7EvHuhDZHHoBv/55IIEx6FLHVPOE=;
-        b=bIpINqM/4ArpBluFF1BMUSqxHOnNqdGGHRNxrBHXkyYRQfoZtHgYpVHqLpcBGCobdL
-         O+JYu7L+pKPHxiVy8l4RliTa2EeBHc+yraaaBeZcKa9qlLtrzgQS5by5VKK3jwp4cwSz
-         N9/ctfzbqz2B7Cp+LluWMtNlhr0PpxtLmbENbeAX+5xDRXGJO5fAtkZyqWUlxpzq5MrR
-         HkaP/IkNvPeJpXMiAjxvPyfPdbWvnHkTyZcBOWGSy0l7o39IuAdS0a2AsDzQYXkDpQym
-         aIPg98VeigfmuzRO6scGY/yLiRbaB87o46u/GCjV/DZPprTNBPEmNbwvpKlQt66F1nIM
-         lWWg==
+        d=smile-fr.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mzfNKkXnc9/ObcdEUES+m/ozYFBqHlpDBh3BpZs2GHQ=;
+        b=mmV35g5FRKfLCqlB7/mKk2ut8VP4pCVgvgkYbGHUImaGdm/fSEd5AcFqtrnYBgb7Fa
+         X9HGSCrB4ls6EEHMdvUzhn0GGuPN+AVPF6qy8Kuvgl7Ma46NORQRJtiYliZrxoJFkU2V
+         S8QBhdXxlWrUFKEcRgXvBn/NqrlO6U6G0QBNKEV+q9Sz4O9rpqnABx1x7lqtEHXoX9xv
+         mZ/xJHar7g904+bbxcRT49M8Ly8s/IL6UvmGPm1UWGC+liNfsk5MrNUP4hoIzfc3LsnQ
+         Op7KiKB84Z/23vmDB95Pz90j0Ev/VqUiao+306BiwpO9QDsBz83UPNhmBF8HznprR2vq
+         OFUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RCIVtTYRB/R8AsG7EvHuhDZHHoBv/55IIEx6FLHVPOE=;
-        b=Zbb0pMkn5BCnSL69svlSe5d3MW1XXYqsgGlIaA+8fGd/tKUFZIH3CecVbKcy5Hp40k
-         FyLpWBdA1G4bMZQM62g+t73Uil9lDBYvntZcahW92l5WfZpJKowmcuplmxh6wuqORl+Z
-         7xPrVUuHV72lcVbuFlGJtL8LODq+K01Y5cS3adB9x61R+Kt9/Eh/9hwjiOrVSKqVzSga
-         GR1N58aDQBXYJSM/+QrE//UdBGtQwblBwguG6KJFhRUY1saZJ18Z4RPUCTC+r9x656ij
-         C5Ew1SeUiz/qPEYS7qTdI6SxIkFo67cV/6ZZp7TwvpSutGlDbxmZ0LIxV2HS1XSLhTyy
-         pzzg==
-X-Gm-Message-State: AOAM533DmLGN+YMir3eK8PQoNsFwP9DGXvxFRiz4IMXwR+ZXyycNQlTl
-	YwlParbmSM0oQ1ixbsnhz7PDs58Z/DEOhUs8E+U=
-X-Google-Smtp-Source: ABdhPJwOC2+ShBBmh074+PppgLBkoGnb9fqeY1SQb/zES1n6xH3feShNk1u2/opfVYesSXgPSVhFXpBnG7wZbEag+uY=
-X-Received: by 2002:a67:504:: with SMTP id 4mr6537299vsf.20.1602225658239;
- Thu, 08 Oct 2020 23:40:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mzfNKkXnc9/ObcdEUES+m/ozYFBqHlpDBh3BpZs2GHQ=;
+        b=LDe1GM+qEwp1Rv8X5cHvMpqlPoaqjsA12n71dZqZHivlE9YNBguWOmx/rwvlXejEUJ
+         QjzeDNUWZg/jHGMtRJu9wfqyAOBcr6VlQfacXe+u+LdQlNWyBbd0KlNAi3T4xW+zCEqv
+         jDiklXmnFMIjWNEDRBUHCTtJOfTCqprgM8i+cCxWStmdnJB8s8jDgtUursib2275CmH9
+         DYfznizUbbEv1M5YEHscqwlIn58ENsY9EG5VUBg7T7mRy0/7cpbucgTrB2xpd3iW5vLv
+         penXlZA/+OOta04q5l0XweXu1ZMc4qlk/7FKp0Nl6D4+85IVhCCZ9e7gPEFR+vL0TzEy
+         a7+g==
+X-Gm-Message-State: AOAM533ltiqUZ/zky9g6sKw4H3nE22Viu9EJ/vdJtxoaxXw0DswEFPzr
+	KM4PtKkomjpk3CS2486UK4QnN8M0dV2b2g==
+X-Google-Smtp-Source: ABdhPJz6Of8jO/ZzKepRw+/f4999iiRN38/vUcE4btKXIXr8A9+J5FHeeVlr29sJRu60DIsX8uu4pQ==
+X-Received: by 2002:a1c:3283:: with SMTP id y125mr12842994wmy.61.1602227755298;
+        Fri, 09 Oct 2020 00:15:55 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from P-ASN-KEVALD.idf.intranet (85-170-108-21.rev.numericable.fr. [85.170.108.21])
+        by smtp.gmail.com with ESMTPSA id s19sm18507708wmc.0.2020.10.09.00.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 00:15:54 -0700 (PDT)
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] bitbake-bblayers/create: Make the example recipe print its message
+Date: Fri,  9 Oct 2020 09:15:45 +0200
+Message-Id: <20201009071545.29875-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201009043246.20465-1-douglas.royds@taitradio.com>
-In-Reply-To: <20201009043246.20465-1-douglas.royds@taitradio.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 9 Oct 2020 08:40:47 +0200
-Message-ID: <CANNYZj9bKH9=6omUiNiO3ekNRP-2poF4jVyhvby-Jp6tCnn3yw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] allarch: Remove MACHINEOVERRIDES
-To: Douglas Royds <douglas.royds@taitradio.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000359e6d05b1373ba8"
+Content-Transfer-Encoding: 8bit
 
---000000000000359e6d05b1373ba8
-Content-Type: text/plain; charset="UTF-8"
+The example recipe is setup to print a message using bb.plain() in the
+"do_build" task but this task is "noexec" so the message never prints.
+This might be confusing.
 
-Wait, I thought this specifically sets MACHINEOVERRIDES to a static value,
-replacing the target specific one.
+This moves the message printing into another "do_display_banner" task
+and add it to the do_build "before" list.
 
-Alex
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/lib/bblayers/templates/example.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Fri, 9 Oct 2020 at 06:36, Douglas via lists.openembedded.org
-<douglas.royds=taitradio.com@lists.openembedded.org> wrote:
+diff --git a/meta/lib/bblayers/templates/example.bb b/meta/lib/bblayers/templates/example.bb
+index c4b873d593..facaae35d2 100644
+--- a/meta/lib/bblayers/templates/example.bb
++++ b/meta/lib/bblayers/templates/example.bb
+@@ -2,10 +2,12 @@ SUMMARY = "bitbake-layers recipe"
+ DESCRIPTION = "Recipe created by bitbake-layers"
+ LICENSE = "MIT"
+ 
+-python do_build() {
++python do_display_banner() {
+     bb.plain("***********************************************");
+     bb.plain("*                                             *");
+     bb.plain("*  Example recipe created by bitbake-layers   *");
+     bb.plain("*                                             *");
+     bb.plain("***********************************************");
+ }
++
++addtask display_banner before do_build
+-- 
+2.20.1
 
-> Avoid machine-specific settings sneaking into allarch tasks.
->
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/classes/allarch.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-> index 5bd5c44a27..2365691fae 100644
-> --- a/meta/classes/allarch.bbclass
-> +++ b/meta/classes/allarch.bbclass
-> @@ -42,6 +42,7 @@ python () {
->          d.setVar("TARGET_CXXFLAGS", "none")
->          d.setVar("TARGET_LDFLAGS", "none")
->          d.setVar("POPULATESYSROOTDEPS", "")
-> +        d.setVar("MACHINEOVERRIDES", "allarch")
->
->          # Avoid this being unnecessarily different due to nuances of
->          # the target machine that aren't important for "all" arch
-> --
-> 2.17.1
->
->
-> 
->
->
-
---000000000000359e6d05b1373ba8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Wait, I thought this specifically sets MACHINEOVERRID=
-ES to a static value, replacing the target specific one.</div><div><br></di=
-v><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, 9 Oct 2020 at 06:36, Douglas via <a href=3D"ht=
-tp://lists.openembedded.org">lists.openembedded.org</a> &lt;douglas.royds=
-=3D<a href=3D"mailto:taitradio.com@lists.openembedded.org">taitradio.com@l=
-ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Avoid machine-specific settings sneaking into allarch =
-tasks.<br>
-<br>
-Signed-off-by: Douglas Royds &lt;<a href=3D"mailto:douglas.royds@taitradio=
-.com" target=3D"_blank">douglas.royds@taitradio.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/allarch.bbclass | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass<b=
-r>
-index 5bd5c44a27..2365691fae 100644<br>
---- a/meta/classes/allarch.bbclass<br>
-+++ b/meta/classes/allarch.bbclass<br>
-@@ -42,6 +42,7 @@ python () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVar(&quot;TARGET_CXXFLAGS&quot;, &q=
-uot;none&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVar(&quot;TARGET_LDFLAGS&quot;, &qu=
-ot;none&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVar(&quot;POPULATESYSROOTDEPS&quot;=
-, &quot;&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;MACHINEOVERRIDES&quot;, &quot;=
-allarch&quot;)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Avoid this being unnecessarily differe=
-nt due to nuances of<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# the target machine that aren&#39;t imp=
-ortant for &quot;all&quot; arch<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000359e6d05b1373ba8--
