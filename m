@@ -1,110 +1,75 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web12.16353.1602256880884053393
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.16439.1602257040787828610
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 08:21:21 -0700
+ Fri, 09 Oct 2020 08:24:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A8ZpShoj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id e18so10697993wrw.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 08:21:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BpKJyVCQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id k18so10214981wmj.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 08:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=EMWUTmGyMh67RAsj7TS4t2ElZ8v3B4/r/33NjGSb36U=;
-        b=A8ZpShojSEaq0jUEhhR13+9daDeT/gy6SlFzgeT5iLwqDEXkWNtsrQla/hpWzj7Zgq
-         bHM+Pui/NHIzhybQBAQUsfaYfgqjBfKsHwaDu1fcEe9gmpUs4RiS07r6TNNz2445E04A
-         i8X7GXW1HWnVtVYI9XYb2NbwxU9DI3/DDhdRE=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=xHQstBQXxvbFEBfWzEAv9S3UuxifA8q19E80l/gULj0=;
+        b=BpKJyVCQaysr+3MKWXGdu4jEqOlXgFUTnM789YoZeIjqyksY+BZP3DCFgl8IM5OczX
+         Qya9BSi9t9M1ohdl3ChepO+xEWlyB8TiFCaS+y/Ovwr9S2vkpYKMrOUAXDORI0AqAPvS
+         o6HMWSx6SctuJzilkVaNBq/Iz5O86I4Di08jw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EMWUTmGyMh67RAsj7TS4t2ElZ8v3B4/r/33NjGSb36U=;
-        b=nQ5XdHq+9bVpe/kuPMOusherN1qgXDj8Q2IyMi2uz0Hl5NZa5069NXwsU6XZBR0/mu
-         qlLzJ+f3gW3B1ACbatw8P+NoqCUSxMKBLjjqiAKRlEu/mzFIurqthOjk1hohA4hHTT2S
-         jhKnihAsRpEhSKKXWdjA+W8HPo/BpG3QaeNrXCu/x12wllqjnbCLApigcM1/w2ikhs/C
-         KGOzblAq5NVzDIEo2XDb2YL8lLnTs2H7zJagKSDoorntgQ0yZ+hvNUaRBmKxu3FN/U0a
-         E0T/n6fZ9xgYBYUnQN0GuBQjLNbkdb0elTipd+ZXDOpz7fVzI6BRcHXWCMw878kzdRIY
-         Zz/Q==
-X-Gm-Message-State: AOAM531KtNFOtk6xjzjn0f0rMzc4HZcJPiLLhCYmC6S3DYDhW5TDUzp9
-	/HRaSQEIg8xTScasl9GCBLB6Kg==
-X-Google-Smtp-Source: ABdhPJxgmXj5uXkvw+nZlEqkMVvqyWjD35YRhcHlcL8fvv1CUieLdSZZOtwn0WgLTSBCocTblNcXCg==
-X-Received: by 2002:adf:a29a:: with SMTP id s26mr15619329wra.197.1602256879219;
-        Fri, 09 Oct 2020 08:21:19 -0700 (PDT)
+        bh=xHQstBQXxvbFEBfWzEAv9S3UuxifA8q19E80l/gULj0=;
+        b=IsTqN8qWnGOvANTxiYcQ50WmZ7CXLhib8WDzIrmlKy9Nd+clHNpGg+uhdzmRBqS/0N
+         PbvWENejWKnRRhdV5RvTJ1W6mTwrKthCggW5HodLa2hg5sNpIPYBLBPNChAJ+S9H07fd
+         MNJoxfaJQmHXAK+Sw0mUBpj3wWdtE6aZsmbvf1a2G43RF3sL5cYnbfb36Elg8+Hse0Xf
+         IJJCPaeVtikRLNPWAx6JY6DbwGDGiBSKuZw6rhy7O5IrLjGhhIkz20kBDZcKeMBqPyWh
+         WJ+cVTXcyyM7ymkxxr9CfPyGh6blpKVxZb9As7RVeffhkmmb49u5lQO7Fb1728GAzL56
+         AHcg==
+X-Gm-Message-State: AOAM532COn8vZ2V04nGKqGvKi9D7R1EgD5/Ll0Xu3kEGpDbMJmXJesqT
+	AQSmawrz5ailQ7mv/LXiQkagew==
+X-Google-Smtp-Source: ABdhPJzRjyQxf9lgpMxCB+rXkHSyiviqoQ1wsHl0VuhxNVZws8FOuZ+MCy6gSNBRzGRGiq8XMgzfpA==
+X-Received: by 2002:a1c:9c13:: with SMTP id f19mr14104290wme.97.1602257039265;
+        Fri, 09 Oct 2020 08:23:59 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id v3sm13251579wre.17.2020.10.09.08.21.18
+        by smtp.gmail.com with ESMTPSA id n9sm11952392wrq.72.2020.10.09.08.23.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 08:21:18 -0700 (PDT)
-Message-ID: <aae716b473615f22ce4c6b8ba4ad5ebc33f7ab30.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rngd: fix --debug to also filter syslog() calls
+        Fri, 09 Oct 2020 08:23:58 -0700 (PDT)
+Message-ID: <9e26168866709695b827450ba2e933efdb3077cd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] allarch: Remove MACHINEOVERRIDES
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Yann Dirson
- <yann@blade-group.com>
-Date: Fri, 09 Oct 2020 16:21:17 +0100
-In-Reply-To: <CA+4=imaZG5EtbwVbei9yCmELA4jDHhJ_DeNAfALKdTbbchOCkg@mail.gmail.com>
-References: <20201009085527.1993257-1-yann@blade-group.com>
-	 <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
-	 <CA+4=imaZG5EtbwVbei9yCmELA4jDHhJ_DeNAfALKdTbbchOCkg@mail.gmail.com>
+To: douglas.royds@taitradio.com, openembedded-core@lists.openembedded.org
+Date: Fri, 09 Oct 2020 16:23:58 +0100
+In-Reply-To: <20201009043246.20465-1-douglas.royds@taitradio.com>
+References: <20201009043246.20465-1-douglas.royds@taitradio.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-10-09 at 16:19 +0200, Yann Dirson wrote:
+On Fri, 2020-10-09 at 17:32 +1300, Douglas via lists.openembedded.org
+wrote:
+> Avoid machine-specific settings sneaking into allarch tasks.
 > 
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/classes/allarch.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Le ven. 9 oct. 2020 à 15:00, Richard Purdie <
-> richard.purdie@linuxfoundation.org> a écrit :
-> > On Fri, 2020-10-09 at 10:55 +0200, Yann Dirson wrote:
-> > > From: Yann Dirson <yann@blade-group.com>
-> > > 
-> > > Debug logs were only controlled by --debug flag while in --
-> > foreground mode.
-> > > In --daemon mode (the default for us) /var/log/message got
-> > stuffed with
-> > > details of entropy pool refilling, which is useless in
-> > production, and
-> > > hamful when log rotation then gets rid of the more useful logs.
-> > > 
-> > > This change makes the two modes consistently only produce debug
-> > logs when
-> > > --debug is specified.
-> > > 
-> > > Signed-off-by: Yann Dirson <yann@blade-group.com>
-> > > ---
-> > >  .../rng-tools/rngd-debug-filter.patch         | 22
-> > +++++++++++++++++++
-> > >  .../rng-tools/rng-tools_6.10.bb               |  1 +
-> > >  2 files changed, 23 insertions(+)
-> > >  create mode 100644 meta/recipes-support/rng-tools/rng-
-> > tools/rngd-debug-filter.patch
-> > > 
-> > > diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-
-> > filter.patch b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-
-> > filter.patch
-> > > new file mode 100644
-> > > index 0000000000..320f0257e6
-> > > --- /dev/null
-> > 
-> > 
-> > This patch has no description, author or Upstream-Status:
-> > information
-> > in it. It needs such information to be considered. It would be
-> > helpful
-> > if the change was submitted upstream too, not sure if you've looked
-> > at
-> > that? We try not to carry patches if we can.
-> 
-> Lignthnig-speed upstream merged the patch after I re-rolled, is it
-> worth a v3 tagged "accepted" ?
+> diff --git a/meta/classes/allarch.bbclass
+> b/meta/classes/allarch.bbclass
+> index 5bd5c44a27..2365691fae 100644
+> --- a/meta/classes/allarch.bbclass
+> +++ b/meta/classes/allarch.bbclass
+> @@ -42,6 +42,7 @@ python () {
+>          d.setVar("TARGET_CXXFLAGS", "none")
+>          d.setVar("TARGET_LDFLAGS", "none")
+>          d.setVar("POPULATESYSROOTDEPS", "")
+> +        d.setVar("MACHINEOVERRIDES", "allarch")
 
-Please, it can be "Backport" now since it is!
-
-Thanks for sending it, saves us carrying the patch and helps upstream
-too.
+Why would a recipe which is using allarch be using machine specific
+overrides?
 
 Cheers,
 
