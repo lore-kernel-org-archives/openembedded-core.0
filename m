@@ -1,239 +1,89 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web11.14882.1602253179350364353
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.14941.1602253181554831162
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 07:19:39 -0700
+ Fri, 09 Oct 2020 07:19:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bnIPikXH;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.195, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f195.google.com with SMTP id h6so7289683pgk.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=AGyDXmGx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id 144so7008851pfb.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=fPiOvjBPjHU2ZukziVrYDwVrHSnr9hYLLSRaD+jSqM0=;
-        b=bnIPikXHuHtMdp9BLhKlww043Kj/6ps6PWXQQsZO8GJKdBtZm2m7mh6SdwlEYVCtDR
-         qTCV1e2Zbu0qwID5e+oCCBWEceg3FlAM1YMOIDyDIoC7y7+tXNiuMFH/m1Z8sHSGGeNT
-         i5QUhVNJ+5oHrTaf6wHx+jy/oQXiGk4mspTsvIUs+s8e82LFh0hhTRKOyLQo48GSGSGd
-         KJxnPXs88OUDn77PcfcGeeUCfnvBeaM9gNbkKIeig8ITNGtvVu1fo8r1pFGpTU/4iE8J
-         yaVzMKkUmhUd04xH6sE04LsBoqhBHEYq6j2jY8lz/dqn/y31wBpC+mGo4V2kGrcZl/Gm
-         6azg==
+        bh=JP0u47ezldPkKvZcf1RQA0VaQK+OWR7SAqbjwEuy2UE=;
+        b=AGyDXmGxuyNuMTEfaALKf2iUW4UpkrlyY9csWQtw2Vp3vSvBKbIPRLyLsd6FZEwyU1
+         Hw4c4WNFvX7YMPDvp74AEvk9Breyl+z6IevezjXkG2ZEa9V2snQI/+SL/joTQompKY8j
+         w96POU1OlP9VpxnRxukYcTNaFV2XgGig3e5tEh+Sc2nTHDVJuYBkxqVZ+cvOVVimhtEY
+         f1N1rh20RqJZPsRa94/EvIud703lyd439uZK88cB/7btcRE+Q4RkrrNFejqyzVozhxdQ
+         +Iq8UQagUkA8vxVKjuaTJdSswsxKOdSXT8fYeFermd8JSa58IW21qGRGsiyzaPDfKR1h
+         l2Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=fPiOvjBPjHU2ZukziVrYDwVrHSnr9hYLLSRaD+jSqM0=;
-        b=T1ZKQ7X5jOnqrUAywi+icen62LwXBaik/4dCh/dUAXpjMjryApIDipDUqslkO23ON5
-         dxBRYfJjosnz+7XwK2s6Y80N2dB1i2AIywabeDNEWaZ4TrcEg5GeEQ4iq5ogsctFSX/0
-         CrWnEFazVvyyxxW75t3CT6fRhSJfSZfxo6EvEtiVaQdBvMCGo3jXiZydPXIo/ihw31mD
-         DrhzDX1mLexp8vx3J4grUX6iD9+86hV54RarsG20KPY0eJAsKtBFZr+w/ydB74j5SUbC
-         lXyCtlVxyYKuV9MFq8XfFil09BgFfZ+9xthtaV2pBQ7hvrbrG6r6hxT+81/o87O90lUG
-         nA7w==
-X-Gm-Message-State: AOAM531ZLMNVfqKufy+tzd5IghB7iyFU+mwLr5dzLTnrfE6QQsAImKLK
-	eSTl1ooOI4exxYKB97ThDzDhsD+q4x60ZHQV
-X-Google-Smtp-Source: ABdhPJxNOHEztJZ5d8IiGPmnBJBsIDr/24quztbhlpnfhBxr1KOVrZec1Lz4L5RRNdTy8dE6Z+lOsw==
-X-Received: by 2002:aa7:8d99:0:b029:155:36de:40fe with SMTP id i25-20020aa78d990000b029015536de40femr9352950pfr.33.1602253178236;
-        Fri, 09 Oct 2020 07:19:38 -0700 (PDT)
+        bh=JP0u47ezldPkKvZcf1RQA0VaQK+OWR7SAqbjwEuy2UE=;
+        b=NNKApU9IrrWQPwl6s2HWEclG81gZ+h6TgkNC+ui6cw87l/nb2xsgfQTMywx5ipSjMK
+         UzhqfZh+DFyS8Nf+vPk/lJh0/V8yiTE+D6Wl2Xs9n1kQxj8aG5yc94CcGvGIo2UsgxRs
+         PRgXuxWrPxBTHaNE6iVAwGkIUQVFFwIzIrRkoGK/pUx7/ar7iWuKp6ATxutaHKvg5oY8
+         kI9riIjtajebWgZGHXB39TmQe49FzAsV/2CSxiyIvCIIpTOBzMeJl3oaX52AmS2eZ+GC
+         s+ZL7X1wX/Yjv1u2gH+bckHhIeKK1KxkMOUlqertWIPTvEYvNmjIKlHtFu1fGAN9aM1O
+         IfRA==
+X-Gm-Message-State: AOAM533giGGF4JMxh2EpSmcWS5YBUHUzobfA2ZJBFp6BHEDmq4FY2fbV
+	YHkuAIa9FDWgSYOWNb0aoOZ1J3O/epwmfT4R
+X-Google-Smtp-Source: ABdhPJx1F2cLgGhAbNbrM171gSyvMrckXgUaw4XLWobE/N2QIIz259BlWctqnmBtmF+dzCCmuapCfQ==
+X-Received: by 2002:a17:90a:62c3:: with SMTP id k3mr4804200pjs.157.1602253180750;
+        Fri, 09 Oct 2020 07:19:40 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.36
+        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 07:19:37 -0700 (PDT)
+        Fri, 09 Oct 2020 07:19:40 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/14] qemu: add 34Kf-64tlb fictitious cpu type
-Date: Fri,  9 Oct 2020 04:18:48 -1000
-Message-Id: <182869203b57860695e818b620e40b398ef4e921.1602253014.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/14] qemumips: use 34Kf-64tlb CPU emulation
+Date: Fri,  9 Oct 2020 04:18:49 -1000
+Message-Id: <f417f4b7aaf9a4470508d22f0122438176a538f4.1602253014.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1602253014.git.steve@sakoman.com>
 References: <cover.1602253014.git.steve@sakoman.com>
 
 From: Victor Kamensky <kamensky@cisco.com>
 
-In Yocto Project PR 13992 it was reported that qemumips
-in autobuilder runs almost twice slower then qemumips64 and
-some times hit time out.
+In order to improve performance of qemumips autobuilder
+test runs, let's use 34Kf-64tlb cpu type that was introduced
+in OE version of qemu. 34Kf-64tlb cpu type is identical to
+34Kf but it has 64 TLBs configure vs original 16 TLBs.
 
-Upon investigations of qemu-system with perf, gdb, and
-SystemTap and comparing qemumips and qemumips64 machines
-behavior it was noticed that qemu soft mmu code behaves
-quite different and in case if qemumips tlbwr instruction
-called 16 times more oftern. It happens that in qemumips64
-case qemu runs with cpu type that contains 64 TLB, but in case
-of qemumips qemu runs with cpu type that contains only
-16 TLBs.
+The change in number of TLBs in emulated CPU reduces
+TLB trash and reduces number of times TLB refill kernel
+code runs, and therefore siginificantly improves tests
+execution time.
 
-The idea of proposed qemu patch is to introduce fictitious
-34Kf-64tlb cpu type that defined exactly as 34Kf but has
-64 TLBs, instead of original 16 TLBs.
-
-Testing of core-image-full-cmdline:do_testimage with
-34Kf-64tlb shows 40% or so test execution real time
-improvement.
-
-Note for future porters of the patch: easiest way to update
-the patch and be in sync with 34Kf definition is to copy
-34Kf machine definition and apply the following changes to
-it (just change 15 to 63 of CP0C1_MMU bits value)
-
-[kamensky@coreos-lnx2 qemu]$ diff ~/34Kf.c ~/34Kf-64tlb.c
-2c2
-<         .name = "34Kf",
->         .name = "34Kf-64tlb",
-6c6
-<         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
->         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
+Note 34Kf-64tlb qemu cpu type does not exist in upstream,
+so far it is added as patch in OE. See qemu 34Kf-64tlb
+cpu addition commit for more details.
 
 Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
 
-Upstream Status: Inappropriate
-
 Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4470a04943352224955f17e004962f0f9e1c9b0c)
+(cherry picked from commit 6a9568401cbf8bed89d1f63dae61a07a83a20b50)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- ...tlb-fictitious-cpu-type-like-34Kf-bu.patch | 118 ++++++++++++++++++
- 2 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+ meta/conf/machine/qemumips.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7ce89c0023..7c21b66a0c 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -48,6 +48,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-14364.patch \
- 	   file://CVE-2020-14415.patch \
- 	   file://CVE-2020-16092.patch \
-+	   file://0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+index 1373e4cba0..b8c80f02ef 100644
+--- a/meta/conf/machine/qemumips.conf
++++ b/meta/conf/machine/qemumips.conf
+@@ -15,4 +15,4 @@ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
-new file mode 100644
-index 0000000000..b6312e1543
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
-@@ -0,0 +1,118 @@
-+From b3fcc7d96523ad8e3ea28c09d495ef08529d01ce Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Wed, 7 Oct 2020 10:19:42 -0700
-+Subject: [PATCH] mips: add 34Kf-64tlb fictitious cpu type like 34Kf but with
-+ 64 TLBs
-+
-+In Yocto Project CI runs it was observed that test run
-+of 32 bit mips image takes almost twice longer than 64 bit
-+mips image with the same logical load and CI execution
-+hits timeout.
-+
-+See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-+
-+Yocto project uses 34Kf cpu type to run 32 bit mips image,
-+and MIPS64R2-generic cpu type to run 64 bit mips64 image.
-+
-+Upon qemu behavior differences investigation between mips
-+and mips64 two prominent observations came up: under
-+logically similar load (same definition and configuration
-+of user-land image) in case of mips get_physical_address
-+function is called almost twice more often, meaning
-+twice more memory accesses involved in this case. Also
-+number of tlbwr instruction executed (r4k_helper_tlbwr
-+qemu function) almost 16 time bigger in mips case than in
-+mips64.
-+
-+It turns out that 34Kf cpu has 16 TLBs, but in case of
-+MIPS64R2-generic it is 64 TLBs. So that explains why
-+some many more tlbwr had to be execute by kernel TLB refill
-+handler in case of 32 bit misp.
-+
-+The idea of the fix is to come up with new 34Kf-64tlb fictitious
-+cpu type, that would behave exactly as 34Kf but it would
-+contain 64 TLBs to reduce TLB trashing. After all, adding
-+more TLBs to soft mmu is easy.
-+
-+Experiment with some significant non-trvial load in Yocto
-+environment by running do_testimage load shows that 34Kf-64tlb
-+cpu performs 40% or so better than original 34Kf cpu wrt test
-+execution real time.
-+
-+It is not ideal to have cpu type that does not exist in the
-+wild but given performance gains it seems to be justified.
-+
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ target/mips/translate_init.inc.c | 55 ++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 55 insertions(+)
-+
-+diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
-+index 637caccd89..b73ab48231 100644
-+--- a/target/mips/translate_init.inc.c
-++++ b/target/mips/translate_init.inc.c
-+@@ -297,6 +297,61 @@ const mips_def_t mips_defs[] =
-+         .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
-+         .mmu_type = MMU_TYPE_R4000,
-+     },
-++    /*
-++     * Verbatim copy of "34Kf" cpu, only bumped up number of TLB entries
-++     * from 16 to 64 (see CP0_Config0 value at CP0C1_MMU bits) to improve
-++     * performance by reducing number of TLB refill exceptions and
-++     * eliminating need to run all corresponding TLB refill handling
-++     * instructions.
-++     */
-++    {
-++        .name = "34Kf-64tlb",
-++        .CP0_PRid = 0x00019500,
-++        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
-++                       (MMU_TYPE_R4000 << CP0C0_MT),
-++        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-++                       (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
-++                       (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
-++                       (1 << CP0C1_CA),
-++        .CP0_Config2 = MIPS_CONFIG2,
-++        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_VInt) | (1 << CP0C3_MT) |
-++                       (1 << CP0C3_DSPP),
-++        .CP0_LLAddr_rw_bitmask = 0,
-++        .CP0_LLAddr_shift = 0,
-++        .SYNCI_Step = 32,
-++        .CCRes = 2,
-++        .CP0_Status_rw_bitmask = 0x3778FF1F,
-++        .CP0_TCStatus_rw_bitmask = (0 << CP0TCSt_TCU3) | (0 << CP0TCSt_TCU2) |
-++                    (1 << CP0TCSt_TCU1) | (1 << CP0TCSt_TCU0) |
-++                    (0 << CP0TCSt_TMX) | (1 << CP0TCSt_DT) |
-++                    (1 << CP0TCSt_DA) | (1 << CP0TCSt_A) |
-++                    (0x3 << CP0TCSt_TKSU) | (1 << CP0TCSt_IXMT) |
-++                    (0xff << CP0TCSt_TASID),
-++        .CP1_fcr0 = (1 << FCR0_F64) | (1 << FCR0_L) | (1 << FCR0_W) |
-++                    (1 << FCR0_D) | (1 << FCR0_S) | (0x95 << FCR0_PRID),
-++        .CP1_fcr31 = 0,
-++        .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-++        .CP0_SRSCtl = (0xf << CP0SRSCtl_HSS),
-++        .CP0_SRSConf0_rw_bitmask = 0x3fffffff,
-++        .CP0_SRSConf0 = (1U << CP0SRSC0_M) | (0x3fe << CP0SRSC0_SRS3) |
-++                    (0x3fe << CP0SRSC0_SRS2) | (0x3fe << CP0SRSC0_SRS1),
-++        .CP0_SRSConf1_rw_bitmask = 0x3fffffff,
-++        .CP0_SRSConf1 = (1U << CP0SRSC1_M) | (0x3fe << CP0SRSC1_SRS6) |
-++                    (0x3fe << CP0SRSC1_SRS5) | (0x3fe << CP0SRSC1_SRS4),
-++        .CP0_SRSConf2_rw_bitmask = 0x3fffffff,
-++        .CP0_SRSConf2 = (1U << CP0SRSC2_M) | (0x3fe << CP0SRSC2_SRS9) |
-++                    (0x3fe << CP0SRSC2_SRS8) | (0x3fe << CP0SRSC2_SRS7),
-++        .CP0_SRSConf3_rw_bitmask = 0x3fffffff,
-++        .CP0_SRSConf3 = (1U << CP0SRSC3_M) | (0x3fe << CP0SRSC3_SRS12) |
-++                    (0x3fe << CP0SRSC3_SRS11) | (0x3fe << CP0SRSC3_SRS10),
-++        .CP0_SRSConf4_rw_bitmask = 0x3fffffff,
-++        .CP0_SRSConf4 = (0x3fe << CP0SRSC4_SRS15) |
-++                    (0x3fe << CP0SRSC4_SRS14) | (0x3fe << CP0SRSC4_SRS13),
-++        .SEGBITS = 32,
-++        .PABITS = 32,
-++        .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
-++        .mmu_type = MMU_TYPE_R4000,
-++    },
-+     {
-+         .name = "74Kf",
-+         .CP0_PRid = 0x00019700,
-+-- 
-+2.14.5
-+
+ QB_SYSTEM_NAME = "qemu-system-mips"
+ 
+-QB_CPU = "-cpu 34Kf"
++QB_CPU = "-cpu 34Kf-64tlb"
 -- 
 2.17.1
 
