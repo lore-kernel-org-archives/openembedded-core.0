@@ -1,276 +1,101 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.14870.1602253159141963554
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.14925.1602253159294504648
  for <openembedded-core@lists.openembedded.org>;
  Fri, 09 Oct 2020 07:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=DNflKyLM;
- spf=pass (domain: blade-group.com, ip: 209.85.210.41, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-ot1-f41.google.com with SMTP id 60so9137024otw.3
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=x3hpeJ2D;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id e10so7016261pfj.1
         for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wr4P3I07vCf5wAu0nACOf45K0rbxZ4mEDaSK7U17yF8=;
-        b=DNflKyLMEZ62ygfCmmQRKT5/xLbOP7GOZk3sB+BPs4iTSlih9JNSUu7zxiM+mjAgUa
-         CKf9geNeC2HVpM8oqAQbx7SydRyxotouRpRYYYf0Kg8J0tTx14zLtJj8wn06HUrZOBm7
-         YKifwYmE3b0h8VQkAwDUIl7BGL9I7yBN4oRkaDpfohWM8HLpMT+WK5Rx295OqSoJEYEm
-         rMvF8PeFJMeskZChUg6Hx5mgDY6bl5zsubpTCrRi3FxLbtd4+wZF649sTei54j1L+Gwy
-         LrGxa7kQJEpZWn5FfB/uSuxh3Bzay4W1g/q7gAN6DIkqi1W/XypwoGOHvb3og62gijWs
-         zU4w==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=mT5QBoWkatynULQsGPeyQ65S/kVgR2IxcR5qIDL2Ms4=;
+        b=x3hpeJ2DYx2JJTLh35oxPC6hC5TtqZ5N7ZUoZMn2E/whNI2i8dmem/xTMVGiEUTdZj
+         WMUXFACmTCST9CeUvWetEjDWox2E/MWY8spZQxExRL/HG6mDEDZNKjVUJBt+OeoScDTP
+         oO9Hi/rre09JcbQVqm3FsqXBA10pOwny7qH0iQNYK90EDL/5cOZa9oICJNvIBXxiHytU
+         Qn2JstrJ7m9dqhMZyZjtDwaPjLE1G85fWvbjG+dQOYWG6jbLHH8iY37LM8vzdLMytUnL
+         KoG6atomvjzz7O2kZJPCaa/7+D84h8/vk6O4l49JnB6GQ+8kTOQGqDy55pp/0KQ1bNOB
+         hHrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wr4P3I07vCf5wAu0nACOf45K0rbxZ4mEDaSK7U17yF8=;
-        b=gH62xh4nGT6GZ9cdCZUVl30eVEvcvg5vUjzzZl81rxkkgjmJ1Mbq8z/G2MDbafIAsM
-         B0pKBZQefPrIGl5eO2oqvNIZ8BRoCNhTj5/lKi+BkyRcBdzjkSJ8uaZGByg5nPUHFqgT
-         GBEmEE2d2yMiDltZmwRDxgEr6OALQ8ePpsAZ3qn82/s5l68Ya5KU2IdYaDHHRL8QtSRj
-         j+eA1QuiNsWNjS6xlW/GjiRMMuX8Rx7ifI0Gn9nd8S6kboy1/L79R/M4iAOa3WD5xOGw
-         +LhanSQq2mTlXu0bgYLYKkbLfrMaCZYNbVTVpMj4Bx+hpyA6W2EGXcVk3IM+VcJQcXVZ
-         ziKQ==
-X-Gm-Message-State: AOAM530QD3shdioSYkCoj5vGZBASUPyYsbTcvvncZqIkSEzTN4DtUxlB
-	AGa0Rsq06u5OmbaiL3JgP/eid26DWJpvjqLBzpoHlw==
-X-Google-Smtp-Source: ABdhPJwIAfyHm7hKPq9ewvAESu94qpqXp9qv+5K/5vBQZkm2X77Flkd/JvINRjj06NaKC+jfbLb8grIPrxBfsSLCtzw=
-X-Received: by 2002:a9d:7384:: with SMTP id j4mr9299875otk.191.1602253158409;
- Fri, 09 Oct 2020 07:19:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201009085527.1993257-1-yann@blade-group.com> <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
-In-Reply-To: <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-Date: Fri, 9 Oct 2020 16:19:06 +0200
-Message-ID: <CA+4=imaZG5EtbwVbei9yCmELA4jDHhJ_DeNAfALKdTbbchOCkg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rngd: fix --debug to also filter syslog() calls
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
-Content-Type: multipart/alternative; boundary="000000000000590e0305b13da29a"
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=mT5QBoWkatynULQsGPeyQ65S/kVgR2IxcR5qIDL2Ms4=;
+        b=TYCfqWRiOrfZwtQcSX6RoQTm+Dal4umt5RLwCqYjtm/aIa98eGy5E7ALpejwfjoZEq
+         RAfZNfkVAIo6+MiqPOyc3KS+njudPiQuMAlO1aGWzTat6YW08ZyH/dO9AkOs22InnviU
+         VkugNaEE8sZCmlN/4xL+otywKppFmLDRVa8PpnlmmYyUSqyMdpIjNDngRoZRl8CbC8dV
+         f2abH36B5M7PlqpCbG+oiQfUb69lWobrVfC9W9hQy6i4HbZ2WVPRMZ2f8MjewzsEO7B/
+         ccZYXZgYgLKmk6EzvIyoucDWa29o2C2onJgctN7/6A3y6F0Hul7vycPDpB2OcNlTdvhs
+         tnZw==
+X-Gm-Message-State: AOAM531utafRgTvP/MzTm9oZ2ENbTTWvJuTHr2w3WjA+Vn90FzbxwLrV
+	wbbwc6FQzrBdbSc/FUdI1UedZacq5d4WaVt5
+X-Google-Smtp-Source: ABdhPJzGZx9aKGv8/K/M8rW9XUvqQl2lc0nEbl5XKMWFKfwPapyJNjh6ZAgoxAFUp8g84ROAT+1QaA==
+X-Received: by 2002:aa7:86ce:0:b029:152:1702:d791 with SMTP id h14-20020aa786ce0000b02901521702d791mr12356194pfo.13.1602253158395;
+        Fri, 09 Oct 2020 07:19:18 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.16
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 07:19:17 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 05/14] stress-ng: Upgrade 0.11.01 -> 0.11.17
+Date: Fri,  9 Oct 2020 04:18:40 -1000
+Message-Id: <f99dc4e49d4ad4383c826dd8f8410c32f408e9bd.1602253014.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1602253014.git.steve@sakoman.com>
+References: <cover.1602253014.git.steve@sakoman.com>
 
---000000000000590e0305b13da29a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Marek Vasut <marex@denx.de>
 
-Le ven. 9 oct. 2020 =C3=A0 15:00, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+Upgrade to the latest upstream version. This fixes at least one build
+error, in which build fails due to undefined FS_IOC_GETFLAGS. See commit
+d7b4301d ("stress-efivar: only exercise FS_IOC_*FLAGS if they are defined")
+in stress-ng for details.
 
-> On Fri, 2020-10-09 at 10:55 +0200, Yann Dirson wrote:
-> > From: Yann Dirson <yann@blade-group.com>
-> >
-> > Debug logs were only controlled by --debug flag while in --foreground
-> mode.
-> > In --daemon mode (the default for us) /var/log/message got stuffed wit=
-h
-> > details of entropy pool refilling, which is useless in production, and
-> > hamful when log rotation then gets rid of the more useful logs.
-> >
-> > This change makes the two modes consistently only produce debug logs w=
-hen
-> > --debug is specified.
-> >
-> > Signed-off-by: Yann Dirson <yann@blade-group.com>
-> > ---
-> >  .../rng-tools/rngd-debug-filter.patch         | 22 ++++++++++++++++++=
-+
-> >  .../rng-tools/rng-tools_6.10.bb               |  1 +
-> >  2 files changed, 23 insertions(+)
-> >  create mode 100644
-> meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> >
-> > diff --git
-> a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> > new file mode 100644
-> > index 0000000000..320f0257e6
-> > --- /dev/null
->
->
-> This patch has no description, author or Upstream-Status: information
-> in it. It needs such information to be considered. It would be helpful
-> if the change was submitted upstream too, not sure if you've looked at
-> that? We try not to carry patches if we can.
->
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...Do-not-preserve-ownership-when-installing-example-jo.patch | 2 +-
+ .../stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.17.bb}  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.17.bb} (83%)
 
-Lignthnig-speed upstream merged the patch after I re-rolled, is it worth a
-v3 tagged "accepted" ?
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
+index c860c717ac..f1911b1d88 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
++++ b/meta/recipes-extended/stress-ng/stress-ng/0001-Do-not-preserve-ownership-when-installing-example-jo.patch
+@@ -13,7 +13,7 @@ diff --git a/Makefile b/Makefile
+ index f36e57e..20488af 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -452,6 +452,6 @@ install: stress-ng stress-ng.1.gz
++@@ -461,6 +461,6 @@ install: stress-ng stress-ng.1.gz
+  	mkdir -p ${DESTDIR}${MANDIR}
+  	cp stress-ng.1.gz ${DESTDIR}${MANDIR}
+  	mkdir -p ${DESTDIR}${JOBDIR}
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
+similarity index 83%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
+index 3486be1b03..9b987c7bde 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.17.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            "
+-SRC_URI[md5sum] = "a558fc7fb9d0a851afe6de09080b5401"
+-SRC_URI[sha256sum] = "9fe19548c87aa1a1b9b2be3b359ec2621b88bcb16998b77527549a7736f65494"
++SRC_URI[md5sum] = "7b89157c838f2bb4bdeba8f46e3c56ae"
++SRC_URI[sha256sum] = "860291dd3a18b985b3483190a627bbede2b5c52113766c1921001b3fb4b83af0"
+ 
+ DEPENDS = "coreutils-native"
+ 
+-- 
+2.17.1
 
-
-> Cheers,
->
-> Richard
->
-> > +++ b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
-> > @@ -0,0 +1,22 @@
-> > +Index: git/rngd.h
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +--- git.orig/rngd.h
-> > ++++ git/rngd.h
-> > +@@ -145,13 +145,13 @@ extern bool quiet;
-> > + #define message(priority,fmt,args...) do { \
-> > +     if (quiet) \
-> > +             break;\
-> > ++    if (arguments->debug =3D=3D false && LOG_PRI(priority) =3D=3D LO=
-G_DEBUG) \
-> > ++            break;\
-> > +     if (am_daemon) { \
-> > +             syslog((priority), fmt, ##args); \
-> > +     } else if (!msg_squash) { \
-> > +-            if ((LOG_PRI(priority) !=3D LOG_DEBUG) || (arguments->de=
-bug
-> =3D=3D true)) {\
-> > +-                    fprintf(stderr, fmt, ##args); \
-> > +-                    fflush(stderr); \
-> > +-            } \
-> > ++            fprintf(stderr, fmt, ##args); \
-> > ++            fflush(stderr); \
-> > +     } \
-> > + } while (0)
-> > +
-> > diff --git a/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> > index 3f9720e406..98fb7aa775 100644
-> > --- a/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> > +++ b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
-> > @@ -12,6 +12,7 @@ SRC_URI =3D "\
-> >      git://github.com/nhorman/rng-tools.git \
-> >      file://a4b6d9ce64f132e463b9091d0536913ddaf11516.patch \
-> >      file://dab16a5fd4efde8ef569b358e19b1fcbc7d0d938.patch \
-> > +    file://rngd-debug-filter.patch \
-> >      file://init \
-> >      file://default \
-> >      file://rngd.service \
-> >=20
-> >
->
->
-
---=20
-Yann Dirson <yann@blade-group.com>
-Blade / Shadow -- http://shadow.tech
-
---000000000000590e0305b13da29a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 9 oct. 2020 =C3=A0=C2=A0=
-15:00, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.=
-org">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2020-10-09 at 1=
-0:55 +0200, Yann Dirson wrote:<br>
-&gt; From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=
-=3D"_blank">yann@blade-group.com</a>&gt;<br>
-&gt; <br>
-&gt; Debug logs were only controlled by --debug flag while in --foreground=
- mode.<br>
-&gt; In --daemon mode (the default for us) /var/log/message got stuffed wi=
-th<br>
-&gt; details of entropy pool refilling, which is useless in production, an=
-d<br>
-&gt; hamful when log rotation then gets rid of the more useful logs.<br>
-&gt; <br>
-&gt; This change makes the two modes consistently only produce debug logs =
-when<br>
-&gt; --debug is specified.<br>
-&gt; <br>
-&gt; Signed-off-by: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com=
-" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../rng-tools/rngd-debug-filter.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 22 +++++++++++++++++++<br>
-&gt;=C2=A0 .../rng-tools/<a href=3D"http://rng-tools_6.10.bb" rel=3D"noref=
-errer" target=3D"_blank">rng-tools_6.10.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 2 files changed, 23 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-support/rng-tools/rng-tools/rng=
-d-debug-filter.patch<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filt=
-er.patch b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch=
-<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..320f0257e6<br>
-&gt; --- /dev/null<br>
-<br>
-<br>
-This patch has no description, author or Upstream-Status: information<br>
-in it. It needs such information to be considered. It would be helpful<br>
-if the change was submitted upstream too, not sure if you&#39;ve looked at=
-<br>
-that? We try not to carry patches if we can.<br></blockquote><div><br></di=
-v><div>Lignthnig-speed upstream merged the patch after I re-rolled, is it w=
-orth a v3 tagged &quot;accepted&quot; ?</div><div><br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-&gt; +++ b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patc=
-h<br>
-&gt; @@ -0,0 +1,22 @@<br>
-&gt; +Index: git/rngd.h<br>
-&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt; +--- git.orig/rngd.h<br>
-&gt; ++++ git/rngd.h<br>
-&gt; +@@ -145,13 +145,13 @@ extern bool quiet;<br>
-&gt; + #define message(priority,fmt,args...) do { \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (quiet) \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;\<br>
-&gt; ++=C2=A0 =C2=A0 if (arguments-&gt;debug =3D=3D false &amp;&amp; LOG_P=
-RI(priority) =3D=3D LOG_DEBUG) \<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;\<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (am_daemon) { \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0syslog((priority), f=
-mt, ##args); \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} else if (!msg_squash) { \<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((LOG_PRI(priority) !=
-=3D LOG_DEBUG) || (arguments-&gt;debug =3D=3D true)) {\<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 fprintf(stderr, fmt, ##args); \<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 fflush(stderr); \<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } \<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, fmt, ##ar=
-gs); \<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fflush(stderr); \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} \<br>
-&gt; + } while (0)<br>
-&gt; + <br>
-&gt; diff --git a/meta/recipes-support/rng-tools/<a href=3D"http://rng-too=
-ls_6.10.bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.10.bb</a> b/me=
-ta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.10.bb" rel=3D"no=
-referrer" target=3D"_blank">rng-tools_6.10.bb</a><br>
-&gt; index 3f9720e406..98fb7aa775 100644<br>
-&gt; --- a/meta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.10=
-.bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.10.bb</a><br>
-&gt; +++ b/meta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.10=
-.bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.10.bb</a><br>
-&gt; @@ -12,6 +12,7 @@ SRC_URI =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://github.com/nhorman/rng-to=
-ols.git" rel=3D"noreferrer" target=3D"_blank">github.com/nhorman/rng-tools.=
-git</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file://a4b6d9ce64f132e463b9091d0536913ddaf11516.p=
-atch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file://dab16a5fd4efde8ef569b358e19b1fcbc7d0d938.p=
-atch \<br>
-&gt; +=C2=A0 =C2=A0 file://rngd-debug-filter.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file://init \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file://default \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file://rngd.service \<br>
-&gt; <br>
-&gt; <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
-rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
-=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
-div></div>
-
---000000000000590e0305b13da29a--
