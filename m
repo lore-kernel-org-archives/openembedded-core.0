@@ -1,91 +1,124 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web11.12968.1602248304408417670
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.13043.1602248411275589050
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 05:58:24 -0700
+ Fri, 09 Oct 2020 06:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LeuX0iUW;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id a3so12868740ejy.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 05:58:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HFwEQEFr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id n18so10206460wrs.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 06:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Vo4aom3vICqeQNs3R1LS8yl1CKDzTiFrSMA6YKTu4ek=;
-        b=LeuX0iUW18pthW1JtFJQxr1dy+xTCKOoyOu8kSU52V1cXfdiSLAGEwkwMKSe02i7XV
-         YIEKNWywpTrqdsc98WurExIkSVoQKlffF4CIV7Z25NLwGps0KX7jKUBK29L+dYEV0rsm
-         UQsXvgEsWbubnwlFRmj2zspCuLCQzNnaw9/Drz55EVR+6UFSQv9IHyhH7PIVuYLf+I/1
-         LKIQL4wYKQ6xlVt/YPIzfgU0wgzRqCLCmgvrPpnpyBpJ0vC0jBLMCGflRbfY+KMMFAzy
-         12dcbfzo2VY8d3bKwXet29JOK8dVL9IpaTAzd3jlcwxax+/e1WYikOV0PYK5pOR4gzSH
-         wbuQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Ygr6r2tzdi6QLbfLPGiMWeYSbZjrL4RvZLkiHDrlMLc=;
+        b=HFwEQEFrw5y/kNVb+AUIwjbMg6at+ycvhAUyzoOmbZwtrsH3Dgv9SAVZC6zI2+dGrT
+         XPbt5gku6Xv8n0yak5P/yjWfKx3ZXlpEuXqtZ3TZGHiIff4dzAvT5zrP0auks5U1cXYn
+         sSYkP2agItlbwT9KR//imjU0UlYldo0cVKfus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Vo4aom3vICqeQNs3R1LS8yl1CKDzTiFrSMA6YKTu4ek=;
-        b=VO7TFEqCj0tKmcIzEME3jsZbQhhGXP+f4NPALg99jg+dO1nzQMbeA19wl+YeeI6UY8
-         cdJzFNqHPix92VJ7bqNvtUZIdRJbIvcE9f1wjhoUvVcWmV2Rr63FAxkvZDfJvK2zaeuv
-         VOBPbfPgQlMLytaNIZ+iSYUkXlosLqTIK20tOYwrtf8CYc/Awog6I5vU+KCRrP+OGu7R
-         07BLIwELa/8iNvPNAmAvFOkoT6AX45OchMLsrMII6+w83ACxmSaBdOml8PGRX1Go1oOc
-         PNl0EJdMsnazTTzqHncwKtmyY602NfcUlElyAdfGzAq6hBSx1kEBnGrPw5Y3VNEuT+LI
-         x4fA==
-X-Gm-Message-State: AOAM532GP4jDDPybbJEV6IV2Ppql12+mKlcOqPwfPm9iZ9MMXPgJn7gH
-	1b+jhY+2xuxT4ufXmiO2dR2p8ptth/M=
-X-Google-Smtp-Source: ABdhPJzizJA0kAYAlLVw7VwbCtoG33XtS9nWIYtO7SH9OxSsemJzeX5Wza8xZ4IkKpHhgYV+8PxZYg==
-X-Received: by 2002:a17:906:2ac5:: with SMTP id m5mr14045971eje.210.1602248302630;
-        Fri, 09 Oct 2020 05:58:22 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id me12sm6275627ejb.108.2020.10.09.05.58.21
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Ygr6r2tzdi6QLbfLPGiMWeYSbZjrL4RvZLkiHDrlMLc=;
+        b=D4xvH1bWUAQ4RdTB/UQLUtKqXdVqIxnYBYot6z3GUQjnNS709ocARwuec3CVYk/30i
+         VEHz3pCwN+ju6Xul9ny87oqAS6K9TarxSKE9nxKvkgWzunceUiah0Tac2teRkCjzuYl6
+         1yntzvH94s2fQQRDea5ZkSlRXQTh8GSt3LplOyQp55XRZAobQQJ1KUnj8+HvtZfAdRlp
+         22ByE0oVlDXu1oYvA+IA+f/raG4FY+lYG0+TCz0NYCdjfwgTae+ZGzDcyJVWkz/NXSmG
+         lf4/Qu2gOfODIpZG3T6y0V+WcPwRbuxgrdwxkoGJJEvkqJA1X5cmFRkFGL5F74erpV8C
+         5j8w==
+X-Gm-Message-State: AOAM532UDjX9kGOwLIVhr9W4Oj3t0nWIBquUgndYoNrNDRIEIE9pANe7
+	2y9QjC0vSOnXehC+MKP0MmuYeA==
+X-Google-Smtp-Source: ABdhPJwkIxehzKAqRJjf9V0TOt9RyPHRVUo9svtfATju4XXW4AJuiGTeyKNTECaNVP99ot6rKI5eTw==
+X-Received: by 2002:a05:6000:1084:: with SMTP id y4mr14090391wrw.138.1602248409538;
+        Fri, 09 Oct 2020 06:00:09 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id a127sm13903170wmh.13.2020.10.09.06.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 05:58:21 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 3/3] base.bbclass: warn when there is trailing slash in S or B variables
-Date: Fri,  9 Oct 2020 14:58:14 +0200
-Message-Id: <20201009125814.3035266-3-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201009125814.3035266-1-Martin.Jansa@gmail.com>
-References: <20201009125814.3035266-1-Martin.Jansa@gmail.com>
+        Fri, 09 Oct 2020 06:00:09 -0700 (PDT)
+Message-ID: <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rngd: fix --debug to also filter syslog() calls
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Yann Dirson <yann.dirson@blade-group.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Yann Dirson <yann@blade-group.com>
+Date: Fri, 09 Oct 2020 14:00:02 +0100
+In-Reply-To: <20201009085527.1993257-1-yann@blade-group.com>
+References: <20201009085527.1993257-1-yann@blade-group.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* to make sure we won't hit such corner cases in future add a warning
-  to prevent trailing slashes and duplicated slashes even when they
-  in most cases don't cause harm
+On Fri, 2020-10-09 at 10:55 +0200, Yann Dirson wrote:
+> From: Yann Dirson <yann@blade-group.com>
+> 
+> Debug logs were only controlled by --debug flag while in --foreground mode.
+> In --daemon mode (the default for us) /var/log/message got stuffed with
+> details of entropy pool refilling, which is useless in production, and
+> hamful when log rotation then gets rid of the more useful logs.
+> 
+> This change makes the two modes consistently only produce debug logs when
+> --debug is specified.
+> 
+> Signed-off-by: Yann Dirson <yann@blade-group.com>
+> ---
+>  .../rng-tools/rngd-debug-filter.patch         | 22 +++++++++++++++++++
+>  .../rng-tools/rng-tools_6.10.bb               |  1 +
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
+> 
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
+> new file mode 100644
+> index 0000000000..320f0257e6
+> --- /dev/null
 
-* only a few cases were found in layers included in my world builds:
-  oe-core: 1
-  meta-oe: 7
-  meta-python2: 1
-  meta-qt5: 1
-  meta-aws: 1
 
-  will send patches for these once this warning is approved for oe-core
+This patch has no description, author or Upstream-Status: information
+in it. It needs such information to be considered. It would be helpful
+if the change was submitted upstream too, not sure if you've looked at
+that? We try not to carry patches if we can.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/base.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+Cheers,
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 62e34d0079..5a0b0c6b3e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -388,6 +388,11 @@ python () {
-     oe.utils.features_backfill("DISTRO_FEATURES", d)
-     oe.utils.features_backfill("MACHINE_FEATURES", d)
- 
-+    if d.getVar("S")[-1] == '/':
-+        bb.warn("Recipe %s sets S variable with trailing slash '%s', remove it" % (d.getVar("PN"), d.getVar("S")))
-+    if d.getVar("B")[-1] == '/':
-+        bb.warn("Recipe %s sets B variable with trailing slash '%s', remove it" % (d.getVar("PN"), d.getVar("B")))
-+
-     if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("S")):
-         d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
-     if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("B")):
--- 
-2.25.1
+Richard
+
+> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-filter.patch
+> @@ -0,0 +1,22 @@
+> +Index: git/rngd.h
+> +===================================================================
+> +--- git.orig/rngd.h
+> ++++ git/rngd.h
+> +@@ -145,13 +145,13 @@ extern bool quiet;
+> + #define message(priority,fmt,args...) do { \
+> + 	if (quiet) \
+> + 		break;\
+> ++	if (arguments->debug == false && LOG_PRI(priority) == LOG_DEBUG) \
+> ++		break;\
+> + 	if (am_daemon) { \
+> + 		syslog((priority), fmt, ##args); \
+> + 	} else if (!msg_squash) { \
+> +-		if ((LOG_PRI(priority) != LOG_DEBUG) || (arguments->debug == true)) {\
+> +-			fprintf(stderr, fmt, ##args); \
+> +-			fflush(stderr); \
+> +-		} \
+> ++		fprintf(stderr, fmt, ##args); \
+> ++		fflush(stderr); \
+> + 	} \
+> + } while (0)
+> + 
+> diff --git a/meta/recipes-support/rng-tools/rng-tools_6.10.bb b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
+> index 3f9720e406..98fb7aa775 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools_6.10.bb
+> +++ b/meta/recipes-support/rng-tools/rng-tools_6.10.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "\
+>      git://github.com/nhorman/rng-tools.git \
+>      file://a4b6d9ce64f132e463b9091d0536913ddaf11516.patch \
+>      file://dab16a5fd4efde8ef569b358e19b1fcbc7d0d938.patch \
+> +    file://rngd-debug-filter.patch \
+>      file://init \
+>      file://default \
+>      file://rngd.service \
+> 
+> 
 
