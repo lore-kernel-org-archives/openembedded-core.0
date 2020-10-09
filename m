@@ -1,81 +1,126 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.14935.1602253166257520791
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.14856.1602253168605628064
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 07:19:26 -0700
+ Fri, 09 Oct 2020 07:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XCccox52;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id y14so7259440pgf.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GeXNj1jn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 7so7269379pgm.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=bPyyT57zFi7mto7WYLN/HpIubFlRGFN8s/7HmvsC9E0=;
-        b=XCccox52D3e6nG8Qay84SZguiXYC6P+/hCPALSd2n7Grs5TEHRrBQEZFVYo6H7y607
-         vYP5rIPdZPQNaP/Xge9sV5r1VO/038SO5Y+FYIZatT3niEOWQ5SgadVWataPJsEdujy9
-         vvOZfEtaFYo4RkA8i2et42DoZk4DsG4nHTB3buL6Car+Ama67di2HDgNHp/R9lHFovrF
-         ufSrhuxobktiy0AgCxfDHJ6UjCFj/XcNrfcciJesCFLh6CwEYfSVLy7yvxZ82/qvMmP4
-         rvv9JcK2voiOu8mTZ/K623anjzKeGWyH+r4pDv7W0aUBSOy0Bgiz+tDphMdgrUvG3lM5
-         4JSA==
+        bh=WLqJz8rfZi56+Ea5glhQ66rFnPOoA+yyYYyw6F+ObHE=;
+        b=GeXNj1jnIU75ZxfrESUubwzl8jlCp1Q4e7zMif0lobFGAPvKvu+kkKS0WKhnkxyAoN
+         MnCAXHkrmIvZR68wVtGCtBvQzuuuo47Sq4uQdMEaSw0Lf3ugHDSE2ccMGEx4iAEZEQJm
+         y79T9GULNPDC8Kl6DPqwtt8E/BUhIhZd7iE3Oj009Zo4L3LiDd0KsWKTDm5pudVjPT6K
+         B3lZ322cFvKdka477wcKjRtJwx9RCYwP7rOA0ZJDaXYbiuXKNYTSRHhUZQlEJCw81WW2
+         OdZdmss96gSamZ4XP8ahpjLiN2VZNDyqyjE9y8foAzDd+BDGdWPGP4ecxqEozQmh65MP
+         d6nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=bPyyT57zFi7mto7WYLN/HpIubFlRGFN8s/7HmvsC9E0=;
-        b=ReQz75tQML5pFiKx6ZRDy0gi3MkmsXXF1UQUa92SNVGAm+S2TIrr9Zu3lFmhrkeyAl
-         a8RprwbRdvbeqET5Ndtl+Zpn9ZIMgoZmMj+y3k7Oca+Yi9O66sSAmAhTWuRic+md9xn9
-         nIi+afjVZyl2NPxoNXqOukm0Jt+Tzd2Nfgt19iJsA/zRjpRlEC888+oYSThGroAFcaAt
-         jeXqAzGwVJB+31CZLhQ0F3rt3tarAEfRI1gl7iQqFrFKwg935TAkGOwtQwwBDnEsgq8c
-         pNAhZBMTqPB3hpKx5gBtum1cyXcVaBAfHgbuK40SnQxnRUf7ej1yGKr/xlrdls3MIV/i
-         uwTw==
-X-Gm-Message-State: AOAM531FHepk2dbKEyWr6QabF+Zo1/GsWguc+lKEhFDdTZAZBlBChD2f
-	YUxrdKAjxmWh2zop710n2u0cliOlZUtJ/U8b
-X-Google-Smtp-Source: ABdhPJy3c+CASZkDvrbEK3iy53QFFrUsS+vKEXxMaVRe/ZytBCaiW+v9F6c4L2Cg+tVD6N7V19/zvQ==
-X-Received: by 2002:a62:503:0:b029:13e:d13d:a0f9 with SMTP id 3-20020a6205030000b029013ed13da0f9mr12463341pff.21.1602253165389;
-        Fri, 09 Oct 2020 07:19:25 -0700 (PDT)
+        bh=WLqJz8rfZi56+Ea5glhQ66rFnPOoA+yyYYyw6F+ObHE=;
+        b=WUrcLcxOhxxuEaUfNJF3LfNmdgWdBpLIr+r2ku7ECJBpyLBbzKVMZu0Qswku35JE/i
+         KM3o6NzGS+4acVMlEC3flYiXfgp5KjhMG936UR6kh3r/MieObheejN2ps+0MSpAPspQR
+         UcV/UcMQs8eVlUPERkvnKoYCc+pk3qj0Y+w3NZfGIq/403048jpXEQb3185rTBwemIAZ
+         ruEGccjrhbjQOVP8pze4MAiBhtWM4y1EutEV1niTRyzNfBvtOI34oLaKltKMI5ttdnJX
+         FJcPWsvHp07Ut8nDHBuonYjog46VPOPE22sXONQGNYd1/2Cl9xKJ+PJCOvsK3eXtqbLt
+         riyg==
+X-Gm-Message-State: AOAM531iCKsFqJL4X5Wl1dTEz6sH+gkw62ccBTOz3AGVlNOzGFIk2dqT
+	Ao7VsbRtNltQN/X0bLa/6YcyZ1gW/b7hWX4q
+X-Google-Smtp-Source: ABdhPJwI/LwhbWKjNX3DEte+UEF735bAeIxGB0Tjgja4R8QQo1eyl87CW3wsUZlzFE3cwtpSJ2nUtQ==
+X-Received: by 2002:a62:8389:0:b029:152:416d:f026 with SMTP id h131-20020a6283890000b0290152416df026mr12682088pfe.64.1602253167716;
+        Fri, 09 Oct 2020 07:19:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.24
+        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 07:19:24 -0700 (PDT)
+        Fri, 09 Oct 2020 07:19:27 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/14] classes/sanity: Bump minimum python version to 3.5
-Date: Fri,  9 Oct 2020 04:18:43 -1000
-Message-Id: <346f0efdecdab81504d181092204e89e85835d4f.1602253014.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/14] linux-yocto/5.4: fix kprobes build warning
+Date: Fri,  9 Oct 2020 04:18:44 -1000
+Message-Id: <350e5bdf0bb79750452bb57c1aba7e0b343c2634.1602253014.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1602253014.git.steve@sakoman.com>
 References: <cover.1602253014.git.steve@sakoman.com>
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Bumps the minimum python version to 3.5 to match bitbake and the test
-matrix
+Integrating the following commit(s) to linux-yocto/5.4:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+    178189d65780 kprobes: Fix compiler warning for !CONFIG_KPROBES_ON_FTRACE
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit df13c0f2348898023fb7ee1b229e9b5ccc893609)
+(cherry picked from commit aa2b309a938f4af5f5d95bc7e7f3c0e9d77f3dd3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sanity.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../recipes-kernel/linux/linux-yocto-rt_5.4.bb |  2 +-
+ .../linux/linux-yocto-tiny_5.4.bb              |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb   | 18 +++++++++---------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 5ddde9cc9c..1486cce357 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -769,8 +769,8 @@ def check_sanity_everybuild(status, d):
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 73876bb99e..22fc6f3881 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
-     # Check the Python version, we now have a minimum of Python 3.4
-     import sys
--    if sys.hexversion < 0x03040000:
--        status.addresult('The system requires at least Python 3.4 to run. Please update your Python interpreter.\n')
-+    if sys.hexversion < 0x030500F0:
-+        status.addresult('The system requires at least Python 3.5 to run. Please update your Python interpreter.\n')
+-SRCREV_machine ?= "1d9e25c4f35155580cef313ff2a76de545124a1d"
++SRCREV_machine ?= "7845a542e9defb056524ac7b362a9fd2eb3fd0c7"
+ SRCREV_meta ?= "0d860e075788a92601dff3eb9b615ee41e465040"
  
-     # Check the bitbake version meets minimum requirements
-     from distutils.version import LooseVersion
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 853fc93694..c6e5bff052 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "bb77791bc00cfa70211dd238d312b4db950c0808"
+-SRCREV_machine ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
++SRCREV_machine_qemuarm ?= "c7da9d62e37698db556ccb45f20b6a7953769793"
++SRCREV_machine ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
+ SRCREV_meta ?= "0d860e075788a92601dff3eb9b615ee41e465040"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 88a582dd4e..ce6188ca6a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "894e63d3256613faa39931a6ae505cfd196df067"
+-SRCREV_machine_qemuarm64 ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
+-SRCREV_machine_qemumips ?= "aa13fdb2c5f8c4e4e432bfee6df9c8f76ec8ac70"
+-SRCREV_machine_qemuppc ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
+-SRCREV_machine_qemuriscv64 ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
+-SRCREV_machine_qemux86 ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
+-SRCREV_machine_qemux86-64 ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
+-SRCREV_machine_qemumips64 ?= "4fb21d604fc54db63221ea28ab90622c29d74202"
+-SRCREV_machine ?= "406008bf3232dfc9e63b6e7bf745ca883c45041e"
++SRCREV_machine_qemuarm ?= "ea89b3a28f6a28c4c158ca3d64c2df4dd68321ed"
++SRCREV_machine_qemuarm64 ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
++SRCREV_machine_qemumips ?= "d1f9cfb34040a4fc2d7a6827a27893aaa6b434e6"
++SRCREV_machine_qemuppc ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
++SRCREV_machine_qemuriscv64 ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
++SRCREV_machine_qemux86 ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
++SRCREV_machine_qemux86-64 ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
++SRCREV_machine_qemumips64 ?= "362db79de010ca86e7e75fa468083ffbd6006e54"
++SRCREV_machine ?= "178189d65780e9526bcd9e47d3cd9ea6ecb8f47a"
+ SRCREV_meta ?= "0d860e075788a92601dff3eb9b615ee41e465040"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
 -- 
 2.17.1
 
