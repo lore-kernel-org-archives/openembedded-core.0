@@ -1,89 +1,112 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.14941.1602253181554831162
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.16353.1602256880884053393
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 07:19:41 -0700
+ Fri, 09 Oct 2020 08:21:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=AGyDXmGx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id 144so7008851pfb.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 07:19:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A8ZpShoj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id e18so10697993wrw.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 08:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=JP0u47ezldPkKvZcf1RQA0VaQK+OWR7SAqbjwEuy2UE=;
-        b=AGyDXmGxuyNuMTEfaALKf2iUW4UpkrlyY9csWQtw2Vp3vSvBKbIPRLyLsd6FZEwyU1
-         Hw4c4WNFvX7YMPDvp74AEvk9Breyl+z6IevezjXkG2ZEa9V2snQI/+SL/joTQompKY8j
-         w96POU1OlP9VpxnRxukYcTNaFV2XgGig3e5tEh+Sc2nTHDVJuYBkxqVZ+cvOVVimhtEY
-         f1N1rh20RqJZPsRa94/EvIud703lyd439uZK88cB/7btcRE+Q4RkrrNFejqyzVozhxdQ
-         +Iq8UQagUkA8vxVKjuaTJdSswsxKOdSXT8fYeFermd8JSa58IW21qGRGsiyzaPDfKR1h
-         l2Gw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EMWUTmGyMh67RAsj7TS4t2ElZ8v3B4/r/33NjGSb36U=;
+        b=A8ZpShojSEaq0jUEhhR13+9daDeT/gy6SlFzgeT5iLwqDEXkWNtsrQla/hpWzj7Zgq
+         bHM+Pui/NHIzhybQBAQUsfaYfgqjBfKsHwaDu1fcEe9gmpUs4RiS07r6TNNz2445E04A
+         i8X7GXW1HWnVtVYI9XYb2NbwxU9DI3/DDhdRE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=JP0u47ezldPkKvZcf1RQA0VaQK+OWR7SAqbjwEuy2UE=;
-        b=NNKApU9IrrWQPwl6s2HWEclG81gZ+h6TgkNC+ui6cw87l/nb2xsgfQTMywx5ipSjMK
-         UzhqfZh+DFyS8Nf+vPk/lJh0/V8yiTE+D6Wl2Xs9n1kQxj8aG5yc94CcGvGIo2UsgxRs
-         PRgXuxWrPxBTHaNE6iVAwGkIUQVFFwIzIrRkoGK/pUx7/ar7iWuKp6ATxutaHKvg5oY8
-         kI9riIjtajebWgZGHXB39TmQe49FzAsV/2CSxiyIvCIIpTOBzMeJl3oaX52AmS2eZ+GC
-         s+ZL7X1wX/Yjv1u2gH+bckHhIeKK1KxkMOUlqertWIPTvEYvNmjIKlHtFu1fGAN9aM1O
-         IfRA==
-X-Gm-Message-State: AOAM533giGGF4JMxh2EpSmcWS5YBUHUzobfA2ZJBFp6BHEDmq4FY2fbV
-	YHkuAIa9FDWgSYOWNb0aoOZ1J3O/epwmfT4R
-X-Google-Smtp-Source: ABdhPJx1F2cLgGhAbNbrM171gSyvMrckXgUaw4XLWobE/N2QIIz259BlWctqnmBtmF+dzCCmuapCfQ==
-X-Received: by 2002:a17:90a:62c3:: with SMTP id k3mr4804200pjs.157.1602253180750;
-        Fri, 09 Oct 2020 07:19:40 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id n127sm10736116pfn.155.2020.10.09.07.19.39
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EMWUTmGyMh67RAsj7TS4t2ElZ8v3B4/r/33NjGSb36U=;
+        b=nQ5XdHq+9bVpe/kuPMOusherN1qgXDj8Q2IyMi2uz0Hl5NZa5069NXwsU6XZBR0/mu
+         qlLzJ+f3gW3B1ACbatw8P+NoqCUSxMKBLjjqiAKRlEu/mzFIurqthOjk1hohA4hHTT2S
+         jhKnihAsRpEhSKKXWdjA+W8HPo/BpG3QaeNrXCu/x12wllqjnbCLApigcM1/w2ikhs/C
+         KGOzblAq5NVzDIEo2XDb2YL8lLnTs2H7zJagKSDoorntgQ0yZ+hvNUaRBmKxu3FN/U0a
+         E0T/n6fZ9xgYBYUnQN0GuBQjLNbkdb0elTipd+ZXDOpz7fVzI6BRcHXWCMw878kzdRIY
+         Zz/Q==
+X-Gm-Message-State: AOAM531KtNFOtk6xjzjn0f0rMzc4HZcJPiLLhCYmC6S3DYDhW5TDUzp9
+	/HRaSQEIg8xTScasl9GCBLB6Kg==
+X-Google-Smtp-Source: ABdhPJxgmXj5uXkvw+nZlEqkMVvqyWjD35YRhcHlcL8fvv1CUieLdSZZOtwn0WgLTSBCocTblNcXCg==
+X-Received: by 2002:adf:a29a:: with SMTP id s26mr15619329wra.197.1602256879219;
+        Fri, 09 Oct 2020 08:21:19 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id v3sm13251579wre.17.2020.10.09.08.21.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 07:19:40 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/14] qemumips: use 34Kf-64tlb CPU emulation
-Date: Fri,  9 Oct 2020 04:18:49 -1000
-Message-Id: <f417f4b7aaf9a4470508d22f0122438176a538f4.1602253014.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1602253014.git.steve@sakoman.com>
-References: <cover.1602253014.git.steve@sakoman.com>
+        Fri, 09 Oct 2020 08:21:18 -0700 (PDT)
+Message-ID: <aae716b473615f22ce4c6b8ba4ad5ebc33f7ab30.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rngd: fix --debug to also filter syslog() calls
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Yann Dirson <yann.dirson@blade-group.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Yann Dirson
+ <yann@blade-group.com>
+Date: Fri, 09 Oct 2020 16:21:17 +0100
+In-Reply-To: <CA+4=imaZG5EtbwVbei9yCmELA4jDHhJ_DeNAfALKdTbbchOCkg@mail.gmail.com>
+References: <20201009085527.1993257-1-yann@blade-group.com>
+	 <9993e144fbf35c6b3231108bc7b23f8ff92b5246.camel@linuxfoundation.org>
+	 <CA+4=imaZG5EtbwVbei9yCmELA4jDHhJ_DeNAfALKdTbbchOCkg@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Victor Kamensky <kamensky@cisco.com>
+On Fri, 2020-10-09 at 16:19 +0200, Yann Dirson wrote:
+> 
+> 
+> Le ven. 9 oct. 2020 à 15:00, Richard Purdie <
+> richard.purdie@linuxfoundation.org> a écrit :
+> > On Fri, 2020-10-09 at 10:55 +0200, Yann Dirson wrote:
+> > > From: Yann Dirson <yann@blade-group.com>
+> > > 
+> > > Debug logs were only controlled by --debug flag while in --
+> > foreground mode.
+> > > In --daemon mode (the default for us) /var/log/message got
+> > stuffed with
+> > > details of entropy pool refilling, which is useless in
+> > production, and
+> > > hamful when log rotation then gets rid of the more useful logs.
+> > > 
+> > > This change makes the two modes consistently only produce debug
+> > logs when
+> > > --debug is specified.
+> > > 
+> > > Signed-off-by: Yann Dirson <yann@blade-group.com>
+> > > ---
+> > >  .../rng-tools/rngd-debug-filter.patch         | 22
+> > +++++++++++++++++++
+> > >  .../rng-tools/rng-tools_6.10.bb               |  1 +
+> > >  2 files changed, 23 insertions(+)
+> > >  create mode 100644 meta/recipes-support/rng-tools/rng-
+> > tools/rngd-debug-filter.patch
+> > > 
+> > > diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd-debug-
+> > filter.patch b/meta/recipes-support/rng-tools/rng-tools/rngd-debug-
+> > filter.patch
+> > > new file mode 100644
+> > > index 0000000000..320f0257e6
+> > > --- /dev/null
+> > 
+> > 
+> > This patch has no description, author or Upstream-Status:
+> > information
+> > in it. It needs such information to be considered. It would be
+> > helpful
+> > if the change was submitted upstream too, not sure if you've looked
+> > at
+> > that? We try not to carry patches if we can.
+> 
+> Lignthnig-speed upstream merged the patch after I re-rolled, is it
+> worth a v3 tagged "accepted" ?
 
-In order to improve performance of qemumips autobuilder
-test runs, let's use 34Kf-64tlb cpu type that was introduced
-in OE version of qemu. 34Kf-64tlb cpu type is identical to
-34Kf but it has 64 TLBs configure vs original 16 TLBs.
+Please, it can be "Backport" now since it is!
 
-The change in number of TLBs in emulated CPU reduces
-TLB trash and reduces number of times TLB refill kernel
-code runs, and therefore siginificantly improves tests
-execution time.
+Thanks for sending it, saves us carrying the patch and helps upstream
+too.
 
-Note 34Kf-64tlb qemu cpu type does not exist in upstream,
-so far it is added as patch in OE. See qemu 34Kf-64tlb
-cpu addition commit for more details.
+Cheers,
 
-Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6a9568401cbf8bed89d1f63dae61a07a83a20b50)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/conf/machine/qemumips.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-index 1373e4cba0..b8c80f02ef 100644
---- a/meta/conf/machine/qemumips.conf
-+++ b/meta/conf/machine/qemumips.conf
-@@ -15,4 +15,4 @@ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
- 
- QB_SYSTEM_NAME = "qemu-system-mips"
- 
--QB_CPU = "-cpu 34Kf"
-+QB_CPU = "-cpu 34Kf-64tlb"
--- 
-2.17.1
+Richard
 
