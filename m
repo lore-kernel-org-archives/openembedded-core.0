@@ -1,182 +1,295 @@
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (NAM04-BN3-obe.outbound.protection.outlook.com [40.107.68.55])
- by mx.groups.io with SMTP id smtpd.web11.165.1602265492371596838
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web12.165.1602271385487762380
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 10:44:52 -0700
+ Fri, 09 Oct 2020 12:23:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Fr31chNV;
- spf=pass (domain: windriver.com, ip: 40.107.68.55, mailfrom: stacy.gaikovaia@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAhovfp83PlvsWm7SwYlAJfkd6/Rih/Lx7vJuHh3+8bd84koiLuCpEckgyxiFhqixxqX6R6Ntjwngfc2CjUYymjR6dc+Zh6uR6Ym4JJ0a3kEL7AhVj+o6JPVBIekw5dIDau/Sb91nEhlrq4LSn4r/c7kSzLZ1OSVE4KqB4100rjIwxEO60lidHcws3/BBjTCH3QghwFO9hzMZkknuxBaf8m1VdjvItP94MnG4EZM1F7yXxV5Bbt0/0GgjPz7TiGR/+koKVBsNnTO1sThrkR7B2P8bwzBXzgHDk13tLC3l0r14djKggwGrZlnaFfDLVuqT0cvVBMgZHaA8noN8oGi+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jDIlXljiAGCNnb0Ygs1YfGhHf6TkIPNKBI7eyqcnFH0=;
- b=IcPN/VSuwsRMKudUoHbhnL3Es8F3Dd/U45bFjD6iXtsAqIAeNlhlafRuF9e5yRhYLJH4YUENgG8OOV8C3EMpt6C5QxSTugGQZn1R4HmCMe93y6NFO7RJCWStNlm++v+VP0dBP+LDN/sAd7dqRu/hyCV4w2zERMOFeNEQVaULl80qgPtJOaqJ8jEULg3wMDBJTrhqHhibvAX5ytQeLRjTSFiuMZws2ushL0qoAL1GApXXmjYtl4PhZjoTnoXzu0Ny6yGRiBecLWvEVaR84eY2jPTrejzhrErzbdb8pdH0T5k/dv1x1BDSK2634RpRdHNr5IPd0Ii8svGecbWWuM9JiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n2vjusKh;
+ spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f193.google.com with SMTP id y14so7658970pfp.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 12:23:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jDIlXljiAGCNnb0Ygs1YfGhHf6TkIPNKBI7eyqcnFH0=;
- b=Fr31chNVreohWLup+am6ID3+2QrTUvVD3ckFSUUV8baZMzulC+NlZN+PjpnnCTSwPnv7v/RnltwOIjQCh3thtiUttQ3QULFCVZzD9MPSMrn2+AIHP1w8lXm0CgrgEU/5NBdjssuGGU7rxyUCJEBINqlBd6glc4Xc2ia3Z88ytYw=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com (20.177.227.224) by
- BYAPR11MB3126.namprd11.prod.outlook.com (20.177.225.212) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.43; Fri, 9 Oct 2020 17:44:50 +0000
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::b1c4:b8ce:3c62:2b94]) by BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::b1c4:b8ce:3c62:2b94%4]) with mapi id 15.20.3455.027; Fri, 9 Oct 2020
- 17:44:49 +0000
-From: "Stacy Gaikovaia" <Stacy.Gaikovaia@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] valgrind: drd: fix pthread intercept test failures
-Date: Fri,  9 Oct 2020 13:44:36 -0400
-Message-ID: <20201009174436.3243814-1-stacy.gaikovaia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YTXPR0101CA0064.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::41) To BYAPR11MB3127.namprd11.prod.outlook.com
- (2603:10b6:a03:91::32)
-Return-Path: stacy.gaikovaia@windriver.com
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=ij6xIqHpmxf0kZ/GRO6QHy7YrG7MJCiBH7SVjL+6HUY=;
+        b=n2vjusKhxIfLFcJo+wlDLKfaK61cFdwiWS/jSatbapSljZSYT2kSR5NcC3fy8aOlJi
+         uOJFYbiMpMIuA3ehShYcFZXQLnB/IrtVQfhFB5AXMkn9gx3N8A11Ud+7bJ2GZ3kYIt/2
+         jXurOwuX+OPUzuVJdhSB58svrs8UsnuSbWZn3iuQsdOxNMKe1SrPNVtHsPtNXbi4ALgw
+         u68i7IbMhZH+SY7ZSMKdTieUIp63gPXZYBgy0rJHfswWsbWeXVlhflWTZMeceZeqe8fI
+         p+rnGZS8+O7gZvaDiqEzmK0NO5vDJpdd4rr0v92JAK2kPZMrZyaM0KarqzuNJ9qpc80h
+         BtCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=ij6xIqHpmxf0kZ/GRO6QHy7YrG7MJCiBH7SVjL+6HUY=;
+        b=D/IeGmwb99OWMPCsKlWBG2idxNt0Uo+fcJqY96yIDlyEoSnmdV/fYrIseWp4aT1XrN
+         2Ehq1WMbxvqhHkixb1FrsuDiy6sfLM4WkkPietF0AGgeTgB87IBMa0SoWHnVAKKrUeQ9
+         xjwPenrWsKtDc6uCWWHay3BwMZPk02ibt2lcGrk6iIfO2iUQ5/2UY1pyOvoa3AHzj6ld
+         qeCUiOsq1MOc92fWhITGUzJA1TffrQVh8sjW025Piu747k7AHBtEQCrwRf2ujypINHhu
+         zCD7MUkEVnfMM9IDIsOxn3NOEMQ/WNj1qF99fU31+C37jSEIBR+iEssqAkH6l0z+avGT
+         dyOw==
+X-Gm-Message-State: AOAM531D2jWNqmaHeMi4aYKPBzLsrpO5fgl+LWfsgn4ft4/y4+Zlegmx
+	Ih0IpeUtoWl5c3Y19EDe+jGWUPRBRPk=
+X-Google-Smtp-Source: ABdhPJxdMkn7Q9neVFxRQPFklaa2lsnzUM84VdIjkoLBJ/YW5ZdOIjxzwkFOg80AUkEmcKK3xymkDg==
+X-Received: by 2002:a62:7744:0:b029:152:4223:1b4e with SMTP id s65-20020a6277440000b029015242231b4emr13033133pfc.60.1602271384252;
+        Fri, 09 Oct 2020 12:23:04 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:5ff:8ee5:b507:b3ff? ([2601:202:4180:a5c0:5ff:8ee5:b507:b3ff])
+        by smtp.gmail.com with ESMTPSA id ge19sm12533392pjb.55.2020.10.09.12.23.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Oct 2020 12:23:03 -0700 (PDT)
+Subject: Re: [OE-core][dunfell 13/14] qemu: add 34Kf-64tlb fictitious cpu type
+To: Steve Sakoman <steve@sakoman.com>,
+ openembedded-core@lists.openembedded.org
+References: <cover.1602253014.git.steve@sakoman.com>
+ <182869203b57860695e818b620e40b398ef4e921.1602253014.git.steve@sakoman.com>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8CS2NxU=
+Message-ID: <1d2bfd98-69d7-2f43-7b6b-7ea5c2b2719e@gmail.com>
+Date: Fri, 9 Oct 2020 12:23:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-sgaikova-lx.wrs.com (128.224.252.2) by YTXPR0101CA0064.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend Transport; Fri, 9 Oct 2020 17:44:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b5e201e7-47da-4704-8440-08d86c7b051b
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3126:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB31266F86A22AD6395B81C209FD080@BYAPR11MB3126.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	LogH93x7Nkp9lFnYQYMir1QeyvqP85qRbwY7dcvm6nDAf2mFPgK1acZFbT1r5rF8EshIYgco8voGXuwRT1SSdxA8tvMCWabhZ1XvGCO9ktKkM19lZWodN7Yz3iVQVeCtwEbkbB+Vw3stSBdkFqukFW413cO7XcjZNz56nSDBax64HAHaPI0qSOUJ2tDg8qHKcQfU3HyeqsF76nV2XaqmFr8iJmNPDVV2Ba8I2CtmZlLURNmZacOQ010RX4BxDWNkrxadU/Qr6lsXq4p7P6dUTfRfixd6kBaT0bnpsxB+N8i0Y/tl/K7EDgToyr4m1eCt3Fq+PrhlvDC44VvbKKa55n9iTzyZHubn+7HQcQH/J9ZM53MFyVYITSOLhNZXCQ9B/KpjHi2VCUyH4UWLyIn7wg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3127.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(366004)(136003)(39850400004)(396003)(66476007)(66556008)(6916009)(66946007)(478600001)(966005)(1076003)(956004)(2616005)(52116002)(83080400001)(19627235002)(8936002)(86362001)(6666004)(6506007)(2906002)(316002)(26005)(6512007)(83380400001)(6486002)(44832011)(5660300002)(8676002)(36756003)(16526019)(186003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	6YWfpFxaUU9IOl3cdS/AyCD0MBqhrYDKDYnNQI/+Yt5/GAUUk+QghoxfV4mYbzNcFzs2zWkyM9i8185Y72SmqtFgTEgfs40NGmtJY/PiAX/Iq8hWb3r4Ha7cseNRcX1fbI3OM35trmFNIJslhVzibfWaMVgJcmGkpPZ17Y9RjMJ1NKPtBH+tkUwd21H0ZMTpdGgg521WSImtOyNXDdbTDQ/fZEUB8Iuv9esWCEF9rjWHGcy8Cdk9o+TFA1D69iGRho3mkT4fQNwu2MSPkujS4HIK9WwpBzejEmRdVjhfMgmtAZHk8kfm0r6H40/GgTfrUpisSDyne6xHV7g35hLRJ4CXMEDvWWndShTtj24Wifpqc+s939xCZp/xEqu6uHUzDYi+v4Sk8GvsmkywFDG8ou5Qm3FBl2PzR9SQohT5UZv8YWp0ndPNVAQWNy7jcO4bquTsHgoqXqxO8J9/osz7DI9+dQpNj++5nlSBFu7zkbwLGeXD/GMsBY1QEfiqprjsyVnPLz3UR4RrEH/rQ2eVGY0GJfnh49YNOK11LIyX7Sf1vxKwvQ+MAsziExXErxXZXyjB6//HjawfnyvvdcaI7/zq0WIgtNrZadcNsMqiYJxXugR+lQDMvEVZ+z7sz+z4DTo0Dv5PcP5NIR3vTBMBJQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5e201e7-47da-4704-8440-08d86c7b051b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3127.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2020 17:44:49.7880
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XClJzpQ5FsCLxw7jKw6qm6DckNa538DtKyKenmRHrl85Ary90kLrW+4l4lmcQFEVbd8ie4j6wOflJ0NjB06xNHSzZIZDIppYDTK5PWHT1xQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3126
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+In-Reply-To: <182869203b57860695e818b620e40b398ef4e921.1602253014.git.steve@sakoman.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+Can we make an  Arch change like this in a stable release?
 
-After glibc uprev 2.32 -> 2.32, the following drd ptests
-fail with the error "condition variable has not been initialized".
+-armin
 
-drd/tests/annotate_hb_err
-drd/tests/annotate_sem
-drd/tests/annotate_rwlock
-drd/tests/annotate_order_2
-drd/tests/annotate_smart_pointer
-drd/tests/annotate_spinlock
-drd/tests/monitor_example
-drd/tests/pth_cond_race
-drd/tests/pth_inconsistent_cond_wait
-
-In glibc 2.32, the POSIX thread functions are in both
-libc and libpthread, causing valgrind to misinterpert
-test behaviour. This patch tells valgrind to intercept
-the pthread functions in libc, resolving these ptest
-failures. Patch can be removed once we uprev valgrind.
-
-Upsteam-Status: Backport
-
-Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
----
- .../valgrind/0001-drd-Port-to-Fedora-33.patch | 46 +++++++++++++++++++
- .../valgrind/valgrind_3.16.1.bb               |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-t=
-o-Fedora-33.patch
-
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedor=
-a-33.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedor=
-a-33.patch
-new file mode 100644
-index 0000000000..bca3d9b892
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.pa=
-tch
-@@ -0,0 +1,46 @@
-+From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001
-+From: Bart Van Assche <bvanassche@acm.org>
-+Date: Sat, 19 Sep 2020 08:08:59 -0700
-+Subject: [PATCH] drd: Port to Fedora 33
-+
-+Apparently on Fedora 33 the POSIX thread functions exist in both libc and
-+libpthread. Hence this patch that intercepts the pthread functions in
-+libc. See also https://bugs.kde.org/show_bug.cgi?id=3D426144 .
-+
-+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-+
-+This patch was imported from the valgrind sourceware server
-+(https://sourceware.org/git/?p=3Dvalgrind.git), commit id
-+15330adf7c2471fbaa6a0818db07078d81dbff97. It was modified to
-+remove the changes to the valgrind NEWS file, as these are difficult to=20
-+maintain and don't impact the valgrind code itself.
-+
-+Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
-+---
-+ drd/drd_pthread_intercepts.c | 9 +++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
-+index 58c45aaec..c2882e5ab 100644
-+--- a/drd/drd_pthread_intercepts.c
-++++ b/drd/drd_pthread_intercepts.c
-+@@ -174,7 +174,16 @@ static int never_true;
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
-+    { return implf argl; }
-+ #else
-++/*
-++ * On Linux, intercept both the libc and the libpthread functions. At
-++ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthread
-++ * functions in both libc and libpthread. Older glibc versions only have =
-an
-++ * implementation of the pthread functions in libpthread.
-++ */
-+ #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
-++   { return implf argl; }                                               \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
-+    { return implf argl; }
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recip=
-es-devtools/valgrind/valgrind_3.16.1.bb
-index d4ca1a7752..7508098b55 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-@@ -40,6 +40,7 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgrind=
--${PV}.tar.bz2 \
-            file://s390x_vec_op_t.patch \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.=
-patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-+           file://0001-drd-Port-to-Fedora-33.patch \
-            "
- SRC_URI[md5sum] =3D "d1b153f1ab17cf1f311705e7a83ef589"
- SRC_URI[sha256sum] =3D "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba=
-918cc6720a33ca"
---=20
-2.25.1
+On 10/9/20 7:18 AM, Steve Sakoman wrote:
+> From: Victor Kamensky <kamensky@cisco.com>
+>
+> In Yocto Project PR 13992 it was reported that qemumips
+> in autobuilder runs almost twice slower then qemumips64 and
+> some times hit time out.
+>
+> Upon investigations of qemu-system with perf, gdb, and
+> SystemTap and comparing qemumips and qemumips64 machines
+> behavior it was noticed that qemu soft mmu code behaves
+> quite different and in case if qemumips tlbwr instruction
+> called 16 times more oftern. It happens that in qemumips64
+> case qemu runs with cpu type that contains 64 TLB, but in case
+> of qemumips qemu runs with cpu type that contains only
+> 16 TLBs.
+>
+> The idea of proposed qemu patch is to introduce fictitious
+> 34Kf-64tlb cpu type that defined exactly as 34Kf but has
+> 64 TLBs, instead of original 16 TLBs.
+>
+> Testing of core-image-full-cmdline:do_testimage with
+> 34Kf-64tlb shows 40% or so test execution real time
+> improvement.
+>
+> Note for future porters of the patch: easiest way to update
+> the patch and be in sync with 34Kf definition is to copy
+> 34Kf machine definition and apply the following changes to
+> it (just change 15 to 63 of CP0C1_MMU bits value)
+>
+> [kamensky@coreos-lnx2 qemu]$ diff ~/34Kf.c ~/34Kf-64tlb.c
+> 2c2
+> <         .name = "34Kf",
+>>         .name = "34Kf-64tlb",
+> 6c6
+> <         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
+>>         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
+> Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+>
+> Upstream Status: Inappropriate
+>
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 4470a04943352224955f17e004962f0f9e1c9b0c)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc           |   1 +
+>  ...tlb-fictitious-cpu-type-like-34Kf-bu.patch | 118 ++++++++++++++++++
+>  2 files changed, 119 insertions(+)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 7ce89c0023..7c21b66a0c 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -48,6 +48,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+>  	   file://CVE-2020-14364.patch \
+>  	   file://CVE-2020-14415.patch \
+>  	   file://CVE-2020-16092.patch \
+> +	   file://0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch \
+>  	   "
+>  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+>  
+> diff --git a/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+> new file mode 100644
+> index 0000000000..b6312e1543
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+> @@ -0,0 +1,118 @@
+> +From b3fcc7d96523ad8e3ea28c09d495ef08529d01ce Mon Sep 17 00:00:00 2001
+> +From: Victor Kamensky <kamensky@cisco.com>
+> +Date: Wed, 7 Oct 2020 10:19:42 -0700
+> +Subject: [PATCH] mips: add 34Kf-64tlb fictitious cpu type like 34Kf but with
+> + 64 TLBs
+> +
+> +In Yocto Project CI runs it was observed that test run
+> +of 32 bit mips image takes almost twice longer than 64 bit
+> +mips image with the same logical load and CI execution
+> +hits timeout.
+> +
+> +See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+> +
+> +Yocto project uses 34Kf cpu type to run 32 bit mips image,
+> +and MIPS64R2-generic cpu type to run 64 bit mips64 image.
+> +
+> +Upon qemu behavior differences investigation between mips
+> +and mips64 two prominent observations came up: under
+> +logically similar load (same definition and configuration
+> +of user-land image) in case of mips get_physical_address
+> +function is called almost twice more often, meaning
+> +twice more memory accesses involved in this case. Also
+> +number of tlbwr instruction executed (r4k_helper_tlbwr
+> +qemu function) almost 16 time bigger in mips case than in
+> +mips64.
+> +
+> +It turns out that 34Kf cpu has 16 TLBs, but in case of
+> +MIPS64R2-generic it is 64 TLBs. So that explains why
+> +some many more tlbwr had to be execute by kernel TLB refill
+> +handler in case of 32 bit misp.
+> +
+> +The idea of the fix is to come up with new 34Kf-64tlb fictitious
+> +cpu type, that would behave exactly as 34Kf but it would
+> +contain 64 TLBs to reduce TLB trashing. After all, adding
+> +more TLBs to soft mmu is easy.
+> +
+> +Experiment with some significant non-trvial load in Yocto
+> +environment by running do_testimage load shows that 34Kf-64tlb
+> +cpu performs 40% or so better than original 34Kf cpu wrt test
+> +execution real time.
+> +
+> +It is not ideal to have cpu type that does not exist in the
+> +wild but given performance gains it seems to be justified.
+> +
+> +Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> +---
+> + target/mips/translate_init.inc.c | 55 ++++++++++++++++++++++++++++++++++++++++
+> + 1 file changed, 55 insertions(+)
+> +
+> +diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
+> +index 637caccd89..b73ab48231 100644
+> +--- a/target/mips/translate_init.inc.c
+> ++++ b/target/mips/translate_init.inc.c
+> +@@ -297,6 +297,61 @@ const mips_def_t mips_defs[] =
+> +         .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
+> +         .mmu_type = MMU_TYPE_R4000,
+> +     },
+> ++    /*
+> ++     * Verbatim copy of "34Kf" cpu, only bumped up number of TLB entries
+> ++     * from 16 to 64 (see CP0_Config0 value at CP0C1_MMU bits) to improve
+> ++     * performance by reducing number of TLB refill exceptions and
+> ++     * eliminating need to run all corresponding TLB refill handling
+> ++     * instructions.
+> ++     */
+> ++    {
+> ++        .name = "34Kf-64tlb",
+> ++        .CP0_PRid = 0x00019500,
+> ++        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
+> ++                       (MMU_TYPE_R4000 << CP0C0_MT),
+> ++        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
+> ++                       (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
+> ++                       (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
+> ++                       (1 << CP0C1_CA),
+> ++        .CP0_Config2 = MIPS_CONFIG2,
+> ++        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_VInt) | (1 << CP0C3_MT) |
+> ++                       (1 << CP0C3_DSPP),
+> ++        .CP0_LLAddr_rw_bitmask = 0,
+> ++        .CP0_LLAddr_shift = 0,
+> ++        .SYNCI_Step = 32,
+> ++        .CCRes = 2,
+> ++        .CP0_Status_rw_bitmask = 0x3778FF1F,
+> ++        .CP0_TCStatus_rw_bitmask = (0 << CP0TCSt_TCU3) | (0 << CP0TCSt_TCU2) |
+> ++                    (1 << CP0TCSt_TCU1) | (1 << CP0TCSt_TCU0) |
+> ++                    (0 << CP0TCSt_TMX) | (1 << CP0TCSt_DT) |
+> ++                    (1 << CP0TCSt_DA) | (1 << CP0TCSt_A) |
+> ++                    (0x3 << CP0TCSt_TKSU) | (1 << CP0TCSt_IXMT) |
+> ++                    (0xff << CP0TCSt_TASID),
+> ++        .CP1_fcr0 = (1 << FCR0_F64) | (1 << FCR0_L) | (1 << FCR0_W) |
+> ++                    (1 << FCR0_D) | (1 << FCR0_S) | (0x95 << FCR0_PRID),
+> ++        .CP1_fcr31 = 0,
+> ++        .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
+> ++        .CP0_SRSCtl = (0xf << CP0SRSCtl_HSS),
+> ++        .CP0_SRSConf0_rw_bitmask = 0x3fffffff,
+> ++        .CP0_SRSConf0 = (1U << CP0SRSC0_M) | (0x3fe << CP0SRSC0_SRS3) |
+> ++                    (0x3fe << CP0SRSC0_SRS2) | (0x3fe << CP0SRSC0_SRS1),
+> ++        .CP0_SRSConf1_rw_bitmask = 0x3fffffff,
+> ++        .CP0_SRSConf1 = (1U << CP0SRSC1_M) | (0x3fe << CP0SRSC1_SRS6) |
+> ++                    (0x3fe << CP0SRSC1_SRS5) | (0x3fe << CP0SRSC1_SRS4),
+> ++        .CP0_SRSConf2_rw_bitmask = 0x3fffffff,
+> ++        .CP0_SRSConf2 = (1U << CP0SRSC2_M) | (0x3fe << CP0SRSC2_SRS9) |
+> ++                    (0x3fe << CP0SRSC2_SRS8) | (0x3fe << CP0SRSC2_SRS7),
+> ++        .CP0_SRSConf3_rw_bitmask = 0x3fffffff,
+> ++        .CP0_SRSConf3 = (1U << CP0SRSC3_M) | (0x3fe << CP0SRSC3_SRS12) |
+> ++                    (0x3fe << CP0SRSC3_SRS11) | (0x3fe << CP0SRSC3_SRS10),
+> ++        .CP0_SRSConf4_rw_bitmask = 0x3fffffff,
+> ++        .CP0_SRSConf4 = (0x3fe << CP0SRSC4_SRS15) |
+> ++                    (0x3fe << CP0SRSC4_SRS14) | (0x3fe << CP0SRSC4_SRS13),
+> ++        .SEGBITS = 32,
+> ++        .PABITS = 32,
+> ++        .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
+> ++        .mmu_type = MMU_TYPE_R4000,
+> ++    },
+> +     {
+> +         .name = "74Kf",
+> +         .CP0_PRid = 0x00019700,
+> +-- 
+> +2.14.5
+> +
+>
+> 
+>
 
