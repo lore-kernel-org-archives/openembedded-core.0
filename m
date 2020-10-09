@@ -1,270 +1,384 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web10.1216.1602274382682769937
+Received: from mail-yb1-f195.google.com (mail-yb1-f195.google.com [209.85.219.195])
+ by mx.groups.io with SMTP id smtpd.web12.1118.1602274505013418203
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2020 13:13:03 -0700
+ Fri, 09 Oct 2020 13:15:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Hc1BW/2R;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id u8so14900113ejg.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 13:13:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uMNa0AvW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.195, mailfrom: rwmacleod@gmail.com)
+Received: by mail-yb1-f195.google.com with SMTP id j76so8171086ybg.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2020 13:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nKHzBqoAxe4aeQoPv4EmGanskurr2YPFJrujE4TULkw=;
-        b=Hc1BW/2Rw+Tbw7ISmCz6vS+HIBYwxO+TDYNg23fQ2jMemxgkMjUt+nTLk9D8sLI037
-         DgqAsIgkzkdXhOs+X7s60JQThkwxfopfoJ9NkyMGRWnWLrVM+TcaCnKyZRT/BG9h7GTj
-         qhcCp0Uh5t7Zp1aB2VsOiqSTRlcja+ioEEwDBid50uVdUK1AxY81NBIAdklUMSIv9vff
-         HwlOuwKYjQ8SUE+MdPSYeeOywLeJb7FWS8VGjzXAI5Vq/dQzN7YCX71nbChJ2fYtvPq2
-         BxAlgqbplRDscrpfDVSASL8HmPAA3vYXaLk5aceG+8r9WAyiUEww+CDZM9tcKxrp0MP1
-         Md3w==
+        bh=/lQAQxaIY/khVJieL9CA48PpAm0WUl5K92WPj9Rj37Q=;
+        b=uMNa0AvWJEynJ0FyMfGs25/1MHldD2wjV7hhklcAjkFVfmfJMfUMK1sqbmMdPrf10A
+         nxdBYSx++dW8upEBbYrOJzkBTwB+4dP44Z1qSEgIV8QB8wE2M0ERU+eyT5/qLwLst6fQ
+         4Hm8yTAGCeW44gbpFMUXSRfA0jtHrAOWNG+n+ZtmJX6yUwPWBgoN2tHwjKb0GUI7MwgP
+         8cd9KUnOHWpSXz6lf5cZGE/IBuCxLwb3EF9rlIsmn0CiAVCX0bP+uOCBNUDRW5/iCWE/
+         UJDYKmUQCjPs/xfCT/qyK/2TOP0RMaLItRzczmQ4aQMNEakFGdwf5FL8Kmiht2q86orf
+         LG5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nKHzBqoAxe4aeQoPv4EmGanskurr2YPFJrujE4TULkw=;
-        b=kwsWAXgdWgIpHgemxJyxZec1PXT0ZScOd0a3fWa8KNsV3G/xjI+YJqFrot8OIrecCh
-         rW5dvPdhsQk0B9gGjNpM8zRgfqcBVG21rVvVamGS7/klKEyFE2DyiVbyABEqU7Z906Np
-         ZZbwTrpwmcAQiRN3ZxCM2/ioGy14vgS0HIrShy5oiMwcuISQaJ1FPFdJcBBKAjRHdp80
-         mDz4d1CopVnDFamjhCXY1UVMzSzVi1de/aOhZYI23cGjoCJgzMdKUF+gCcd0+fS1Xjbf
-         Yc2hCPfoO9AUQGVFxkX+pfJwx/yA/W+AWVq14X/fMKHjPJf2WKyBM27wI7vWtprzjjXL
-         oTSg==
-X-Gm-Message-State: AOAM530hNUb3xIjmKoApkQcskn3ZPZpFJ5EHpR06eQqknKczkg/Kzozz
-	w3EA3hjcpegI6/yiHDOFoI+W5KbYS3E0DmAJD2M=
-X-Google-Smtp-Source: ABdhPJwOgACwZ3TE1Tds2LaGfPV5+fmAxEslvIZE/HA8OadipkiSs9JixDaaKrJvgRQm8aA1ubyd8MAKVUR+CTFh2UI=
-X-Received: by 2002:a17:906:7e53:: with SMTP id z19mr15901582ejr.334.1602274380856;
- Fri, 09 Oct 2020 13:13:00 -0700 (PDT)
+        bh=/lQAQxaIY/khVJieL9CA48PpAm0WUl5K92WPj9Rj37Q=;
+        b=ULRYws+X5+38KyKgnbE9+p4+JC+WuUNxJ/XjYVETg3WbqAavfbzUF1PSWedOc33B4h
+         65e4Z5NQ0wThQ9IETt0Umye8fXd09k7g+OuF8te6maVajiWze19Wc3KQJgeCnwEKNutq
+         3qA7koENJ/nvEIqapeGYINnEUhZgoJN1qt709Ltg9gNmdU4f61UNxEghjl4/+/grwhQZ
+         HyX49DGCVkfDtCAJvxUJLysXhOGXaxeBr35fli/i0TY5B4BkMk88NDCCsoQW29qRBIyw
+         XYznSoDZ14Dyj/W0RSoWDG5pRYuLBmryVXg0zArC/+p+QQcdfr+iUFmd+PpiYt7Fa9bb
+         CsuQ==
+X-Gm-Message-State: AOAM5328Q5soC7Ravf1gy1JtMd2AbDgUbjzOaWULqd9KX8VdIgRwmNH6
+	/FGv512opGfAttCU+XQgTSMkzlASaRFE6Tr9SJw=
+X-Google-Smtp-Source: ABdhPJwWG4sXgy1D1YPv1UIE8g2V3VLg6U7WQAiBub8oAYsYtvbw219aWfgvh/SoPmuD1str7ahlHH0+2XLli6olPBA=
+X-Received: by 2002:a5b:d43:: with SMTP id f3mr18647874ybr.46.1602274504169;
+ Fri, 09 Oct 2020 13:15:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1602253014.git.steve@sakoman.com> <182869203b57860695e818b620e40b398ef4e921.1602253014.git.steve@sakoman.com>
- <1d2bfd98-69d7-2f43-7b6b-7ea5c2b2719e@gmail.com> <CAOSpxdZEuXWm0Ed36nVmC4z8q9-Hzdq+ymCW0AkA4b-oDNeBoA@mail.gmail.com>
-In-Reply-To: <CAOSpxdZEuXWm0Ed36nVmC4z8q9-Hzdq+ymCW0AkA4b-oDNeBoA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 9 Oct 2020 16:12:49 -0400
-Message-ID: <CADkTA4OSQD-oWv5L=ByqTz_gSFG13DHN_JPPK01UuKeCX2MfNw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 13/14] qemu: add 34Kf-64tlb fictitious cpu type
-To: Steve Sakoman <steve@sakoman.com>
-Cc: akuster808 <akuster808@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20201009174436.3243814-1-stacy.gaikovaia@windriver.com>
+In-Reply-To: <20201009174436.3243814-1-stacy.gaikovaia@windriver.com>
+From: "Randy MacLeod" <rwmacleod@gmail.com>
+Date: Fri, 9 Oct 2020 16:14:52 -0400
+Message-ID: <CAK6=ix4Uro_mQyie8ZiMXST5TUMvWcDgwDTsAtYtEtjaBE5vmw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] valgrind: drd: fix pthread intercept test failures
+To: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a75aa305b1429ab2"
+
+--000000000000a75aa305b1429ab2
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 9, 2020 at 3:28 PM Steve Sakoman <steve@sakoman.com> wrote:
+On Fri., Oct. 9, 2020, 13:45 Stacy Gaikovaia, <Stacy.Gaikovaia@windriver.com>
+wrote:
+
+> From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
 >
-> On Fri, Oct 9, 2020 at 9:23 AM akuster808 <akuster808@gmail.com> wrote:
-> >
-> > Can we make an  Arch change like this in a stable release?
+> After glibc uprev 2.32 -> 2.32, the
+
+
+2.31 -> 2.32
+
+following drd ptests
+> fail with the error "condition variable has not been initialized".
 >
-> My vote is yes since it will reduce the number of intermittent
-> autobuilder failures and seems very unlikely to have any side effects
-> for normal users.
+> drd/tests/annotate_hb_err
+> drd/tests/annotate_sem
+> drd/tests/annotate_rwlock
+> drd/tests/annotate_order_2
+> drd/tests/annotate_smart_pointer
+> drd/tests/annotate_spinlock
+> drd/tests/monitor_example
+> drd/tests/pth_cond_race
+> drd/tests/pth_inconsistent_cond_wait
+>
+> In glibc 2.32, the POSIX thread functions are in both
+> libc and libpthread, causing valgrind to misinterpert
+> test behaviour. This patch tells valgrind to intercept
+> the pthread functions in libc,
+
+
+
+It's intercepting both as mentioned in the patch commit:
+
+   "intercept both the libc and the libpthread functions"
+so please make that clear in your commit log.
+
+
+resolving these ptest
+> failures. Patch can be removed once we uprev valgrind.
 >
 
-I'd agree with that.
+Can you add the pass, fail, skip and total counts and mention the test
+system qemux86-64? This will help people track things when there is another
+update.
 
-We haven't seen any regressions from it in master, and the benefits to
--stable maintenance are significant.
 
-Bruce
-
-> Of course if others object I'm willing to bow to the will of the community.
+> Upsteam-Status: Backport
 >
-> Steve
+
+This goes in the body of the patch. Mention the vg commit ID too please.
+
+
+Thanks,
+
+Randy
+
+
+> Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+> ---
+>  .../valgrind/0001-drd-Port-to-Fedora-33.patch | 46 +++++++++++++++++++
+>  .../valgrind/valgrind_3.16.1.bb               |  1 +
+>  2 files changed, 47 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
 >
-> > On 10/9/20 7:18 AM, Steve Sakoman wrote:
-> > > From: Victor Kamensky <kamensky@cisco.com>
-> > >
-> > > In Yocto Project PR 13992 it was reported that qemumips
-> > > in autobuilder runs almost twice slower then qemumips64 and
-> > > some times hit time out.
-> > >
-> > > Upon investigations of qemu-system with perf, gdb, and
-> > > SystemTap and comparing qemumips and qemumips64 machines
-> > > behavior it was noticed that qemu soft mmu code behaves
-> > > quite different and in case if qemumips tlbwr instruction
-> > > called 16 times more oftern. It happens that in qemumips64
-> > > case qemu runs with cpu type that contains 64 TLB, but in case
-> > > of qemumips qemu runs with cpu type that contains only
-> > > 16 TLBs.
-> > >
-> > > The idea of proposed qemu patch is to introduce fictitious
-> > > 34Kf-64tlb cpu type that defined exactly as 34Kf but has
-> > > 64 TLBs, instead of original 16 TLBs.
-> > >
-> > > Testing of core-image-full-cmdline:do_testimage with
-> > > 34Kf-64tlb shows 40% or so test execution real time
-> > > improvement.
-> > >
-> > > Note for future porters of the patch: easiest way to update
-> > > the patch and be in sync with 34Kf definition is to copy
-> > > 34Kf machine definition and apply the following changes to
-> > > it (just change 15 to 63 of CP0C1_MMU bits value)
-> > >
-> > > [kamensky@coreos-lnx2 qemu]$ diff ~/34Kf.c ~/34Kf-64tlb.c
-> > > 2c2
-> > > <         .name = "34Kf",
-> > >>         .name = "34Kf-64tlb",
-> > > 6c6
-> > > <         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-> > >>         .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-> > > Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-> > >
-> > > Upstream Status: Inappropriate
-> > >
-> > > Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > (cherry picked from commit 4470a04943352224955f17e004962f0f9e1c9b0c)
-> > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > > ---
-> > >  meta/recipes-devtools/qemu/qemu.inc           |   1 +
-> > >  ...tlb-fictitious-cpu-type-like-34Kf-bu.patch | 118 ++++++++++++++++++
-> > >  2 files changed, 119 insertions(+)
-> > >  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
-> > >
-> > > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> > > index 7ce89c0023..7c21b66a0c 100644
-> > > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > > @@ -48,6 +48,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-> > >          file://CVE-2020-14364.patch \
-> > >          file://CVE-2020-14415.patch \
-> > >          file://CVE-2020-16092.patch \
-> > > +        file://0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch \
-> > >          "
-> > >  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-> > >
-> > > diff --git a/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
-> > > new file mode 100644
-> > > index 0000000000..b6312e1543
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
-> > > @@ -0,0 +1,118 @@
-> > > +From b3fcc7d96523ad8e3ea28c09d495ef08529d01ce Mon Sep 17 00:00:00 2001
-> > > +From: Victor Kamensky <kamensky@cisco.com>
-> > > +Date: Wed, 7 Oct 2020 10:19:42 -0700
-> > > +Subject: [PATCH] mips: add 34Kf-64tlb fictitious cpu type like 34Kf but with
-> > > + 64 TLBs
-> > > +
-> > > +In Yocto Project CI runs it was observed that test run
-> > > +of 32 bit mips image takes almost twice longer than 64 bit
-> > > +mips image with the same logical load and CI execution
-> > > +hits timeout.
-> > > +
-> > > +See https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-> > > +
-> > > +Yocto project uses 34Kf cpu type to run 32 bit mips image,
-> > > +and MIPS64R2-generic cpu type to run 64 bit mips64 image.
-> > > +
-> > > +Upon qemu behavior differences investigation between mips
-> > > +and mips64 two prominent observations came up: under
-> > > +logically similar load (same definition and configuration
-> > > +of user-land image) in case of mips get_physical_address
-> > > +function is called almost twice more often, meaning
-> > > +twice more memory accesses involved in this case. Also
-> > > +number of tlbwr instruction executed (r4k_helper_tlbwr
-> > > +qemu function) almost 16 time bigger in mips case than in
-> > > +mips64.
-> > > +
-> > > +It turns out that 34Kf cpu has 16 TLBs, but in case of
-> > > +MIPS64R2-generic it is 64 TLBs. So that explains why
-> > > +some many more tlbwr had to be execute by kernel TLB refill
-> > > +handler in case of 32 bit misp.
-> > > +
-> > > +The idea of the fix is to come up with new 34Kf-64tlb fictitious
-> > > +cpu type, that would behave exactly as 34Kf but it would
-> > > +contain 64 TLBs to reduce TLB trashing. After all, adding
-> > > +more TLBs to soft mmu is easy.
-> > > +
-> > > +Experiment with some significant non-trvial load in Yocto
-> > > +environment by running do_testimage load shows that 34Kf-64tlb
-> > > +cpu performs 40% or so better than original 34Kf cpu wrt test
-> > > +execution real time.
-> > > +
-> > > +It is not ideal to have cpu type that does not exist in the
-> > > +wild but given performance gains it seems to be justified.
-> > > +
-> > > +Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-> > > +---
-> > > + target/mips/translate_init.inc.c | 55 ++++++++++++++++++++++++++++++++++++++++
-> > > + 1 file changed, 55 insertions(+)
-> > > +
-> > > +diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
-> > > +index 637caccd89..b73ab48231 100644
-> > > +--- a/target/mips/translate_init.inc.c
-> > > ++++ b/target/mips/translate_init.inc.c
-> > > +@@ -297,6 +297,61 @@ const mips_def_t mips_defs[] =
-> > > +         .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
-> > > +         .mmu_type = MMU_TYPE_R4000,
-> > > +     },
-> > > ++    /*
-> > > ++     * Verbatim copy of "34Kf" cpu, only bumped up number of TLB entries
-> > > ++     * from 16 to 64 (see CP0_Config0 value at CP0C1_MMU bits) to improve
-> > > ++     * performance by reducing number of TLB refill exceptions and
-> > > ++     * eliminating need to run all corresponding TLB refill handling
-> > > ++     * instructions.
-> > > ++     */
-> > > ++    {
-> > > ++        .name = "34Kf-64tlb",
-> > > ++        .CP0_PRid = 0x00019500,
-> > > ++        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
-> > > ++                       (MMU_TYPE_R4000 << CP0C0_MT),
-> > > ++        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-> > > ++                       (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
-> > > ++                       (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
-> > > ++                       (1 << CP0C1_CA),
-> > > ++        .CP0_Config2 = MIPS_CONFIG2,
-> > > ++        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_VInt) | (1 << CP0C3_MT) |
-> > > ++                       (1 << CP0C3_DSPP),
-> > > ++        .CP0_LLAddr_rw_bitmask = 0,
-> > > ++        .CP0_LLAddr_shift = 0,
-> > > ++        .SYNCI_Step = 32,
-> > > ++        .CCRes = 2,
-> > > ++        .CP0_Status_rw_bitmask = 0x3778FF1F,
-> > > ++        .CP0_TCStatus_rw_bitmask = (0 << CP0TCSt_TCU3) | (0 << CP0TCSt_TCU2) |
-> > > ++                    (1 << CP0TCSt_TCU1) | (1 << CP0TCSt_TCU0) |
-> > > ++                    (0 << CP0TCSt_TMX) | (1 << CP0TCSt_DT) |
-> > > ++                    (1 << CP0TCSt_DA) | (1 << CP0TCSt_A) |
-> > > ++                    (0x3 << CP0TCSt_TKSU) | (1 << CP0TCSt_IXMT) |
-> > > ++                    (0xff << CP0TCSt_TASID),
-> > > ++        .CP1_fcr0 = (1 << FCR0_F64) | (1 << FCR0_L) | (1 << FCR0_W) |
-> > > ++                    (1 << FCR0_D) | (1 << FCR0_S) | (0x95 << FCR0_PRID),
-> > > ++        .CP1_fcr31 = 0,
-> > > ++        .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-> > > ++        .CP0_SRSCtl = (0xf << CP0SRSCtl_HSS),
-> > > ++        .CP0_SRSConf0_rw_bitmask = 0x3fffffff,
-> > > ++        .CP0_SRSConf0 = (1U << CP0SRSC0_M) | (0x3fe << CP0SRSC0_SRS3) |
-> > > ++                    (0x3fe << CP0SRSC0_SRS2) | (0x3fe << CP0SRSC0_SRS1),
-> > > ++        .CP0_SRSConf1_rw_bitmask = 0x3fffffff,
-> > > ++        .CP0_SRSConf1 = (1U << CP0SRSC1_M) | (0x3fe << CP0SRSC1_SRS6) |
-> > > ++                    (0x3fe << CP0SRSC1_SRS5) | (0x3fe << CP0SRSC1_SRS4),
-> > > ++        .CP0_SRSConf2_rw_bitmask = 0x3fffffff,
-> > > ++        .CP0_SRSConf2 = (1U << CP0SRSC2_M) | (0x3fe << CP0SRSC2_SRS9) |
-> > > ++                    (0x3fe << CP0SRSC2_SRS8) | (0x3fe << CP0SRSC2_SRS7),
-> > > ++        .CP0_SRSConf3_rw_bitmask = 0x3fffffff,
-> > > ++        .CP0_SRSConf3 = (1U << CP0SRSC3_M) | (0x3fe << CP0SRSC3_SRS12) |
-> > > ++                    (0x3fe << CP0SRSC3_SRS11) | (0x3fe << CP0SRSC3_SRS10),
-> > > ++        .CP0_SRSConf4_rw_bitmask = 0x3fffffff,
-> > > ++        .CP0_SRSConf4 = (0x3fe << CP0SRSC4_SRS15) |
-> > > ++                    (0x3fe << CP0SRSC4_SRS14) | (0x3fe << CP0SRSC4_SRS13),
-> > > ++        .SEGBITS = 32,
-> > > ++        .PABITS = 32,
-> > > ++        .insn_flags = CPU_MIPS32R2 | ASE_MIPS16 | ASE_DSP | ASE_MT,
-> > > ++        .mmu_type = MMU_TYPE_R4000,
-> > > ++    },
-> > > +     {
-> > > +         .name = "74Kf",
-> > > +         .CP0_PRid = 0x00019700,
-> > > +--
-> > > +2.14.5
-> > > +
-> > >
-> > >
-> > >
-> >
+> diff --git
+> a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+> b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+> new file mode 100644
+> index 0000000000..bca3d9b892
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+> @@ -0,0 +1,46 @@
+> +From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001
+> +From: Bart Van Assche <bvanassche@acm.org>
+> +Date: Sat, 19 Sep 2020 08:08:59 -0700
+> +Subject: [PATCH] drd: Port to Fedora 33
+> +
+> +Apparently on Fedora 33 the POSIX thread functions exist in both libc and
+> +libpthread. Hence this patch that intercepts the pthread functions in
+> +libc. See also https://bugs.kde.org/show_bug.cgi?id=426144 .
+> +
+> +Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> +
+> +This patch was imported from the valgrind sourceware server
+> +(https://sourceware.org/git/?p=valgrind.git), commit id
+> +15330adf7c2471fbaa6a0818db07078d81dbff97. It was modified to
+> +remove the changes to the valgrind NEWS file, as these are difficult to
+> +maintain and don't impact the valgrind code itself.
+> +
+> +Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
+> +---
+> + drd/drd_pthread_intercepts.c | 9 +++++++++
+> + 1 file changed, 10 insertions(+)
+> +
+> +diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
+> +index 58c45aaec..c2882e5ab 100644
+> +--- a/drd/drd_pthread_intercepts.c
+> ++++ b/drd/drd_pthread_intercepts.c
+> +@@ -174,7 +174,16 @@ static int never_true;
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
+> +    { return implf argl; }
+> + #else
+> ++/*
+> ++ * On Linux, intercept both the libc and the libpthread functions. At
+> ++ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthread
+> ++ * functions in both libc and libpthread. Older glibc versions only have
+> an
+> ++ * implementation of the pthread functions in libpthread.
+> ++ */
+> + #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
+> ++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
+> ++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
+> ++   { return implf argl; }                                               \
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
+> +    { return implf argl; }
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> index d4ca1a7752..7508098b55 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> @@ -40,6 +40,7 @@ SRC_URI = "
+> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+>             file://s390x_vec_op_t.patch \
+>
+> file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+>             file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+> +           file://0001-drd-Port-to-Fedora-33.patch \
+>             "
+>  SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
+>  SRC_URI[sha256sum] =
+> "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
+> --
+> 2.25.1
+>
 >
 > 
 >
+>
 
+--000000000000a75aa305b1429ab2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri., Oct. 9, 2020, 13:45 Stacy Gaikovaia, &lt;<a h=
+ref=3D"mailto:Stacy.Gaikovaia@windriver.com" target=3D"_blank" rel=3D"noref=
+errer">Stacy.Gaikovaia@windriver.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">From: Stacy Gaikovaia &lt;<a href=3D"mailto:Stacy.Gaikovai=
+a@windriver.com" rel=3D"noreferrer noreferrer" target=3D"_blank">Stacy.Gaik=
+ovaia@windriver.com</a>&gt;<br>
+<br>
+After glibc uprev 2.32 -&gt; 2.32, the </blockquote></div></div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">2.31 -&gt; 2.32</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">following drd ptests<br>
+fail with the error &quot;condition variable has not been initialized&quot=
+;.<br>
+<br>
+drd/tests/annotate_hb_err<br>
+drd/tests/annotate_sem<br>
+drd/tests/annotate_rwlock<br>
+drd/tests/annotate_order_2<br>
+drd/tests/annotate_smart_pointer<br>
+drd/tests/annotate_spinlock<br>
+drd/tests/monitor_example<br>
+drd/tests/pth_cond_race<br>
+drd/tests/pth_inconsistent_cond_wait<br>
+<br>
+In glibc 2.32, the POSIX thread functions are in both<br>
+libc and libpthread, causing valgrind to misinterpert<br>
+test behaviour. This patch tells valgrind to intercept<br>
+the pthread functions in libc, </blockquote></div></div><div dir=3D"auto">=
+<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s intercepti=
+ng both as mentioned in the patch commit:</div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto"><span style=3D"font-family:sans-serif">=C2=A0 =C2=A0&quot=
+;intercept both the libc and the libpthread functions&quot;</span><br></div=
+><div dir=3D"auto"><font face=3D"sans-serif">so please make that clear in y=
+our commit log.</font></div><div dir=3D"auto"><font face=3D"sans-serif"><br=
+></font></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">resolving these ptest<br>
+failures. Patch can be removed once we uprev valgrind.<br></blockquote></d=
+iv></div><div dir=3D"auto"><br></div><div dir=3D"auto">Can you add the pass=
+, fail, skip and total counts and mention the test system qemux86-64? This =
+will help people track things when there is another update.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">
+<br>
+Upsteam-Status: Backport<br></blockquote></div></div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">This goes in the body of the patch. Mention the vg=
+ commit ID too please.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Thanks,</div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">Randy</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Signed-off-by: Stacy Gaikovaia &lt;<a href=3D"mailto:Stacy.Gaikovaia@windr=
+iver.com" rel=3D"noreferrer noreferrer" target=3D"_blank">Stacy.Gaikovaia@w=
+indriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../valgrind/0001-drd-Port-to-Fedora-33.patch | 46 +++++++++++++++++=
+++<br>
+=C2=A0.../valgrind/<a href=3D"http://valgrind_3.16.1.bb" rel=3D"noreferrer=
+ noreferrer noreferrer" target=3D"_blank">valgrind_3.16.1.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 47 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-=
+Port-to-Fedora-33.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedo=
+ra-33.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedo=
+ra-33.patch<br>
+new file mode 100644<br>
+index 0000000000..bca3d9b892<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.p=
+atch<br>
+@@ -0,0 +1,46 @@<br>
++From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001<br=
+>
++From: Bart Van Assche &lt;<a href=3D"mailto:bvanassche@acm.org" rel=3D"no=
+referrer noreferrer" target=3D"_blank">bvanassche@acm.org</a>&gt;<br>
++Date: Sat, 19 Sep 2020 08:08:59 -0700<br>
++Subject: [PATCH] drd: Port to Fedora 33<br>
++<br>
++Apparently on Fedora 33 the POSIX thread functions exist in both libc and=
+<br>
++libpthread. Hence this patch that intercepts the pthread functions in<br>
++libc. See also <a href=3D"https://bugs.kde.org/show_bug.cgi?id=3D426144" =
+rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://bugs.kde=
+.org/show_bug.cgi?id=3D426144</a> .<br>
++<br>
++Signed-off-by: Bart Van Assche &lt;<a href=3D"mailto:bvanassche@acm.org" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">bvanassche@acm.org</a>&gt;<=
+br>
++<br>
++This patch was imported from the valgrind sourceware server<br>
++(<a href=3D"https://sourceware.org/git/?p=3Dvalgrind.git" rel=3D"noreferr=
+er noreferrer noreferrer" target=3D"_blank">https://sourceware.org/git/?p=
+=3Dvalgrind.git</a>), commit id<br>
++15330adf7c2471fbaa6a0818db07078d81dbff97. It was modified to<br>
++remove the changes to the valgrind NEWS file, as these are difficult to <=
+br>
++maintain and don&#39;t impact the valgrind code itself.<br>
++<br>
++Signed-off-by: Stacy Gaikovaia &lt;<a href=3D"mailto:stacy.gaikovaia@wind=
+river.com" rel=3D"noreferrer noreferrer" target=3D"_blank">stacy.gaikovaia@=
+windriver.com</a>&gt;<br>
++---<br>
++ drd/drd_pthread_intercepts.c | 9 +++++++++<br>
++ 1 file changed, 10 insertions(+)<br>
++<br>
++diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c<=
+br>
++index 58c45aaec..c2882e5ab 100644<br>
++--- a/drd/drd_pthread_intercepts.c<br>
+++++ b/drd/drd_pthread_intercepts.c<br>
++@@ -174,7 +174,16 @@ static int never_true;<br>
++=C2=A0 =C2=A0 ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
++=C2=A0 =C2=A0 { return implf argl; }<br>
++ #else<br>
+++/*<br>
+++ * On Linux, intercept both the libc and the libpthread functions. At<br=
+>
+++ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthrea=
+d<br>
+++ * functions in both libc and libpthread. Older glibc versions only have=
+ an<br>
+++ * implementation of the pthread functions in libpthread.<br>
+++ */<br>
++ #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+++=C2=A0 =C2=A0ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+++=C2=A0 =C2=A0ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+++=C2=A0 =C2=A0{ return implf argl; }=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_=
+decl;=C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_=
+decl=C2=A0 =C2=A0 =C2=A0 \<br>
++=C2=A0 =C2=A0 { return implf argl; }<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.1=
+6.1.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">valgrind=
+_3.16.1.bb</a> b/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_=
+3.16.1.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">valgr=
+ind_3.16.1.bb</a><br>
+index d4ca1a7752..7508098b55 100644<br>
+--- a/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.16.1.bb"=
+ rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">valgrind_3.16.1=
+.bb</a><br>
++++ b/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.16.1.bb"=
+ rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">valgrind_3.16.1=
+.bb</a><br>
+@@ -40,6 +40,7 @@ SRC_URI =3D &quot;<a href=3D"https://sourceware.org/pub/=
+valgrind/valgrind-$%7BPV%7D.tar.bz2" rel=3D"noreferrer noreferrer noreferre=
+r" target=3D"_blank">https://sourceware.org/pub/valgrind/valgrind-${PV}.tar=
+.bz2</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://s390x_vec_op_t.patch \<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-none-tests-fdleak_cm=
+sg.stderr.exp-adjust-tmp-paths.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-memcheck-tests-Fix-t=
+imerfd-syscall-test.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-drd-Port-to-Fedora-3=
+3.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;d1b153f1ab17cf1f311705e7a83ef589&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;c91f3a2f7b02db0f3bc99479861656154d241d2=
+fdb265614ba918cc6720a33ca&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000a75aa305b1429ab2--
