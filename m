@@ -1,177 +1,71 @@
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.5565.1602332635960041068
+ by mx.groups.io with SMTP id smtpd.web12.5738.1602333415516140486
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2020 05:23:56 -0700
+ Sat, 10 Oct 2020 05:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QuSGJuQM;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: idadelm@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id s9so904077wro.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2020 05:23:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MEeYPc3D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id t9so13011433wrq.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2020 05:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=xkbZ+w1u7aDENibqanpilPnysScxD7Kf0U2Xw8QTVyM=;
-        b=QuSGJuQMDNwDVHKZeUu6b84kpl1+eyEz2jEICv6xDNRoqZdpP8AKvIJgcDVubA71ew
-         lR7ilN8FV4r/dqhEuMOuinbQfCgAqKkO7snBkcv8kZER3PKwGUgUaLwtHVROMKYqzQ18
-         TNpflRukjyczLqlWDUNvJCp10WYreobte0ZDFRWaHc5xMkSTF7Pfz1i6+G6ZuJT5meAn
-         mIs+FIvJ75borHYFB23ErZLAGDuU/tgsM7ll3NfKrEu3KK7LZN7/SbnJh3qcMXlfbqzL
-         unewvU9vNayimBKYwoIrO1kyHrkP5XVBqHA6KcTzUkxNEUFo8obpUbMq08F0lt1Ny2DY
-         yAyw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bvv8Gt5g2bu5A9UoCk1G9PiBJwnprne/jKmktDXRmZg=;
+        b=MEeYPc3DJ1g93Og4EQDeRhxZ1wtA2d0htc7uWdYQuQkvFSeGlCOUjdOZuw0qIlSuTr
+         6NU3Z/OvcEI0dh1nj60MCMuZ6JnmgLcTYOdRmPF7O3yC5apMzdlBaI2z4bU4vnWr4d++
+         YXHO00xHps/B1k3eTEeYpOHJaOyeOAAZKFNPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=xkbZ+w1u7aDENibqanpilPnysScxD7Kf0U2Xw8QTVyM=;
-        b=M9UomsJVWFNaA355QYuQd//Pa16Llu6g1pOfVmV3nH2dMpJ4JdNqUMDi8YUZAHvts3
-         W+W1sQbH7sr/7vLmaSdv6y9B89o8d24drotlDZZPcZCsrmf+/G5L5j68nB1DHL0GDFZL
-         c3ZUdtmWk4GwB3YoQ+cnnrEYIj7IihQy9LomB3yAz8rA2waFMbFyL/m2JaxYf1/CNG1z
-         4MudKekIZDeKLvMAMsH1Bqx2RgDJsSU32REgzFa+5oMfUMayYPEZydNgKsLsgVhI8i5Z
-         F3Qlsz1IH+1WpO6ZSTq4sTMVfNLdad3eitlrHSn6sH4Xp2y6Q3QE9NoQUEfXZNbS/8OW
-         7zrw==
-X-Gm-Message-State: AOAM533r5NVrvaScBBKFUvGAw9u4btSaeRHi5Q0m4AX9H0c9KN5pvi9O
-	qewvqeKX+LVNRhh12QG6cGjO6NdAoSyeTJz6
-X-Google-Smtp-Source: ABdhPJx7EjJAH3O9L2NLkmQJJ/g3Byd0S/pWo0sctJe4fCDNk8vMGMsEh3hCiXgedyBCeS8KdcLL7w==
-X-Received: by 2002:a05:6000:ce:: with SMTP id q14mr658747wrx.199.1602332633997;
-        Sat, 10 Oct 2020 05:23:53 -0700 (PDT)
-Return-Path: <idadelm@gmail.com>
-Received: from localhost.localdomain ([154.72.153.129])
-        by smtp.gmail.com with ESMTPSA id e15sm15608464wro.13.2020.10.10.05.23.52
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bvv8Gt5g2bu5A9UoCk1G9PiBJwnprne/jKmktDXRmZg=;
+        b=sSE7rpn8ivoUQKjRqdYbYolMcFquzNRl3GT4AqRmtTkqFGVTeJk+lMTkpEk+vkurIb
+         fv4+LChWG3zb0koP3LFiLvJ22HWxb6YO/aYbFbKmj6subFNZI9DROACxo9Q9JDYTTcEx
+         Gcml49JT68UdCgs98ll1MSM/M0htYUlRj3Q+jEUpMx63CY7rf8E12mLPRzSwGRReqAn2
+         h5OrtToo7EglwbiAQUWfKuMRojZfxsbDo4UQoGAuKvS+b+DsoZ1AJqIP4geZqNnHpu66
+         CVlmiajaal7x2Isr0v5xA+MtiT4OKPMtxhq32N1A3BywhGtmuzOo/6cxUPUfNwx400jR
+         +TYA==
+X-Gm-Message-State: AOAM533iwjYBX6zjTP3fN+dqfcB4mJcRDX/ia2UHSMCdArST5+ZybO4K
+	5OTW/wPmdnglxqHAH0/TdaJCfgGUcNTzcA==
+X-Google-Smtp-Source: ABdhPJw63eujN/Eapy6DLT3nffeL3uMwGlLDrpEkPT1ZRqV9knJzyqBwxnHyNTCFlQAtFgsB/WI6tA==
+X-Received: by 2002:adf:a70b:: with SMTP id c11mr14086859wrd.257.1602333413600;
+        Sat, 10 Oct 2020 05:36:53 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id u12sm16478387wrt.81.2020.10.10.05.36.53
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2020 05:23:53 -0700 (PDT)
-From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
+        Sat, 10 Oct 2020 05:36:53 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Subject: [poky][PATCH v3] Update license file to match current SPDX names
-Date: Sat, 10 Oct 2020 13:23:39 +0100
-Message-Id: <20201010122339.9594-1-idadelm@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] skeleton/baremetal-helloworld: Fix trailing slash
+Date: Sat, 10 Oct 2020 13:36:51 +0100
+Message-Id: <20201010123652.3321544-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Updated mappings of license fields of meta/conf/licenses.conf to match latest SPDX naming.
-Added missing mappings.
+This fixes a warning about a trailing slash on ${S}.
 
-Fixes: [YOCTO #13320]
-
-Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+ .../baremetal-examples/baremetal-helloworld_git.bb              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in V3:
- * Added missing mappings to meta/conf/licenses.conf
-
-Changes in V2:
- * Corrected the email subject line.
-
- meta/conf/licenses.conf | 55 ++++++++++++++++++++++++++++-------------
- 1 file changed, 38 insertions(+), 17 deletions(-)
-
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-index 5b309eb385..b45a9d283e 100644
---- a/meta/conf/licenses.conf
-+++ b/meta/conf/licenses.conf
-@@ -10,33 +10,44 @@
- # Any mapping to MPL/LGPL/GPL should be fixed
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+index 3acc523a884..7a580bd885d 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+@@ -8,7 +8,7 @@ PV = "0.1+git${SRCPV}"
  
- # AGPL variations
--SPDXLICENSEMAP[AGPL-3] = "AGPL-3.0"
--SPDXLICENSEMAP[AGPLv3] = "AGPL-3.0"
--SPDXLICENSEMAP[AGPLv3.0] = "AGPL-3.0"
-+SPDXLICENSEMAP[AGPL-3] = "AGPL-3.0-only"
-+SPDXLICENSEMAP[AGPLv3] = "AGPL-3.0-only"
-+SPDXLICENSEMAP[AGPLv3.0] = "AGPL-3.0-only"
-+SPDXLICENSEMAP[AGPL-3.0] = "AGPL-3.0-only"
+ SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
  
- # GPL variations
--SPDXLICENSEMAP[GPL-1] = "GPL-1.0"
--SPDXLICENSEMAP[GPLv1] = "GPL-1.0"
--SPDXLICENSEMAP[GPLv1.0] = "GPL-1.0"
--SPDXLICENSEMAP[GPL-2] = "GPL-2.0"
--SPDXLICENSEMAP[GPLv2] = "GPL-2.0"
--SPDXLICENSEMAP[GPLv2.0] = "GPL-2.0"
--SPDXLICENSEMAP[GPL-3] = "GPL-3.0"
--SPDXLICENSEMAP[GPLv3] = "GPL-3.0"
--SPDXLICENSEMAP[GPLv3.0] = "GPL-3.0"
-+SPDXLICENSEMAP[GPL-1] = "GPL-1.0-only"
-+SPDXLICENSEMAP[GPLv1] = "GPL-1.0-only"
-+SPDXLICENSEMAP[GPLv1.0] = "GPL-1.0-only"
-+SPDXLICENSEMAP[GPL-1.0] = "GPL-2.0-only"
-+SPDXLICENSEMAP[GPL-2] = "GPL-2.0-only"
-+SPDXLICENSEMAP[GPLv2] = "GPL-2.0-only"
-+SPDXLICENSEMAP[GPLv2.0] = "GPL-2.0-only"
-+SPDXLICENSEMAP[GPL-2.0] = "GPL-2.0-only"
-+SPDXLICENSEMAP[GPL-3] = "GPL-3.0-only"
-+SPDXLICENSEMAP[GPLv3] = "GPL-3.0-only"
-+SPDXLICENSEMAP[GPLv3.0] = "GPL-3.0-only"
-+SPDXLICENSEMAP[GPL-3.0] = "GPL-3.0-only"
+-S = "${WORKDIR}/git/"
++S = "${WORKDIR}/git"
  
- #LGPL variations
--SPDXLICENSEMAP[LGPLv2] = "LGPL-2.0"
--SPDXLICENSEMAP[LGPLv2.0] = "LGPL-2.0"
--SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1"
--SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1"
--SPDXLICENSEMAP[LGPLv3] = "LGPL-3.0"
-+SPDXLICENSEMAP[LGPLv2] = "LGPL-2.0-only"
-+SPDXLICENSEMAP[LGPLv2.0] = "LGPL-2.0-only"
-+SPDXLICENSEMAP[LGPL-2.0] = "LGPL-2.0-only"
-+SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1-only"
-+SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1-only"
-+SPDXLICENSEMAP[LGPL-2.1] = "LGPL-2.1-only"
-+SPDXLICENSEMAP[LGPLv3] = "LGPL-3.0-only"
-+SPDXLICENSEMAP[LGPL-3.0] = "LGPL-3.0-only"
- 
- #MPL variations
- SPDXLICENSEMAP[MPL-1] = "MPL-1.0"
- SPDXLICENSEMAP[MPLv1] = "MPL-1.0"
-+SPDXLICENSEMAP[MPL-1.0] = "MPL-1.0"
- SPDXLICENSEMAP[MPLv1.1] = "MPL-1.1"
-+SPDXLICENSEMAP[MPL-1.1] = "MPL-1.1"
- SPDXLICENSEMAP[MPLv2] = "MPL-2.0"
-+SPDXLICENSEMAP[MPL-2.0] = "MPL-2.0"
-+
- 
- #MIT variations
- SPDXLICENSEMAP[MIT-X] = "MIT"
-@@ -48,33 +59,43 @@ SPDXLICENSEMAP[openssl] = "OpenSSL"
- #PSF variations
- SPDXLICENSEMAP[PSF] = "PSF-2.0"
- SPDXLICENSEMAP[PSFv2] = "PSF-2.0"
-+SPDXLICENSEMAP[PSF-2.0] = "PSF-2.0"
- 
- #Python variations
- SPDXLICENSEMAP[Python-2] = "Python-2.0"
-+SPDXLICENSEMAP[Python-2.0] = "Python-2.0"
- 
- #Apache variations
- SPDXLICENSEMAP[Apachev2] = "Apache-2.0"
- SPDXLICENSEMAP[Apache-2] = "Apache-2.0"
-+SPDXLICENSEMAP[Apache-2.0] = "Apache-2.0"
- 
- #Artistic variations
- SPDXLICENSEMAP[Artisticv1] = "Artistic-1.0"
- SPDXLICENSEMAP[Artistic-1] = "Artistic-1.0"
-+SPDXLICENSEMAP[Artistic-1.0] = "Artistic-1.0"
- 
- #Academic variations
- SPDXLICENSEMAP[AFL-2] = "AFL-2.0"
-+SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
- SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
-+SPDXLICENSEMAP[AFL-1.2] = "AFL-1.2"
- SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
-+SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
- SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
- 
- #CDDL variations
- SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
- SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
-+SPDXLICENSEMAP[CDDL-1.0] = "CDDL-1.0"
- 
- #Other variations
- SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
-+SPDXLICENSEMAP[EPL-1.0] = "EPL-1.0"
- 
- #Silicon Graphics variations
- SPDXLICENSEMAP[SGIv1] = "SGI-1"
-+SPDXLICENSEMAP[SGI-1] = "SGI-1"
- 
- # Additional license directories. Add your custom licenses directories this path.
- # LICENSE_PATH += "${COREBASE}/custom-licenses"
+ # The following variables should be set to accomodate each application
+ BAREMETAL_BINNAME ?= "hello_baremetal_${MACHINE}"
 -- 
-2.17.1
+2.25.1
 
