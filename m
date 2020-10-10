@@ -1,48 +1,48 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web12.4708.1602329061933417922
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web11.5037.1602330434789064873
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2020 04:24:22 -0700
+ Sat, 10 Oct 2020 04:47:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bDxzTH53;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: idadelm@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id k18so12199340wmj.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2020 04:24:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iE3aTPsr;
+ spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: idadelm@gmail.com)
+Received: by mail-wr1-f67.google.com with SMTP id i1so6821398wro.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2020 04:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=OQSqUqmhjM/Kl6spVK1zS+vIMVK0iz2ZDxXHZSMFa74=;
-        b=bDxzTH53vHgjckGhzNSXDb89Yj3Yl0cdmgEBx0BN1eHKtdgcF+tqL73A2KN4pm6SrE
-         F80btREKJut3osJOKJNslMCJW1VdRg7sKvqban33IibIGXTr9JsH2KXpg03qjMBKVjVK
-         Jwu1gGfjzvIEdUq9maiIylHJij2adtV8glkfzfYAWgBd4w24POQ+8xnzckBMhUDOwvtk
-         emRXR+tH+PYAEy9URRyQFQYxeXkL/UUd4UrdeJH0Rsrd4YzvLneQtBDkGTqlYmy4ynZA
-         rYvat1jPdOF3HJNR7BLVPGq5WiOaq/0OX+QNlGwwv8hQV8K+WLKUe+3uu/VwReDIPf6z
-         i4DA==
+        bh=r6eYXayMobD4u4+aVGTu8tGVVJOG4Igyo2nDRrRYLLk=;
+        b=iE3aTPsrd/mv7MaASOw2C13XHW46dcZt6JnVgCBbDo2STvFG/Uppaptpy8xkbV8LiQ
+         p5dQ59lQGbEa1h/2BZv+Nfo1Pv8BoA2k2S+49Nz5GJ0CMVpDKoeYubJ3apgx/QYZlL3r
+         f0YfbUfJ4f9Z7YmtPa2v73fN3n72ikpyXrEECRXLMVf2BPcT/jN5cZ/7VyYumvgYZMrO
+         bM2CGqXFKynfWb7bFnG8dDWjPP64kL0eu5P7D3XjDnCybHmT/gXirkTAjVyL92OEUuvd
+         0+sFJRc2O1Z9trFkXv036JXj+8Fj46w5+7pyKTu1oxKjdRD2Zt+PxwvJoHKdkY/vZ/99
+         uzBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=OQSqUqmhjM/Kl6spVK1zS+vIMVK0iz2ZDxXHZSMFa74=;
-        b=KjHfbQEzhaY8njIgLZxQ9y3naN+3NAUxkI/5GKPbXcg1AV6aJm9uEd8w3NaNmvZ0ui
-         mHfbdZnk4oxY67IOa5LX/h9M8t9JH12+TMCe7x9KFOTXz0n9q9DT2mUsiP8hK7oWLfFJ
-         XBS3WNOoA9L4YsEcDEXoG4jVu+IDTYkHgHE4TXHFslW7eCOI5Yc5UsuJWU5W8uAuCVqq
-         C+LdtoLagraPUGGPzQXH2I2ZOIq1LnsebvnkctYOKwMMAi7g2HaQ6Ab+Q3olueL5HoRU
-         gxnYdeEFdqOY1WUlgU+oc97gngI+1zcC+Owcpyb2SayZXwPKbBwk7SszDS/FBP+eNBDU
-         bSyA==
-X-Gm-Message-State: AOAM5336cBjIRXhdvSmalxUIUbcyrYgLwMzEaIh+SJcZ/XcejNwIN5RQ
-	WmB53pY6n6Jg3cBudLCTGnY0MOLM/GJmK0ar
-X-Google-Smtp-Source: ABdhPJz8PnGflSokJ/sf8t5YGdGyw3bGYDtRs85UuprGnVdyArl5Tq5R/32/oDOGEBkPO4W45IGGhw==
-X-Received: by 2002:a1c:4909:: with SMTP id w9mr2521989wma.133.1602329060130;
-        Sat, 10 Oct 2020 04:24:20 -0700 (PDT)
+        bh=r6eYXayMobD4u4+aVGTu8tGVVJOG4Igyo2nDRrRYLLk=;
+        b=XxffZgwKQPfhv3UHm4Y5728LCLHS/KdjcQo+cPsjjJChqcKXt2QtodB80xLDjWtHSS
+         pO4KvdAZX90ifwlhZFP1bKI76lK9WewY5jAlxo6a3Gt3kVMuUt43NxXlHND6pVhtVU/d
+         8Sa6Io13gpAU93RqLBYA0it31JEFvriEu+A6j9ad5VJtMoAx0vAXJ1Ber5uv24XcE+g4
+         pHIzavhCJvG+37yBmCKGWF4308gvXyWUhHCnrct3fv+HcqePmZhrPUxrC93Ek0/Wi65G
+         s13ixTxy45GlM8d4JJWhq13UU17hRt9rZyEFYy2/x07gCJKnCnHkioKhXFMkrSgMvA4n
+         uR9A==
+X-Gm-Message-State: AOAM531zPKUjukHtbbefvpHI/PbGeFdnIXSi1+iEFubLziLzDipFQIhq
+	g8Ere5CbedsRbMGmiHMHzwcTQIZonHl59Ize
+X-Google-Smtp-Source: ABdhPJw6NmkVYAtlNWOJLwkSXd4pp+WxXPOyFlcwO+LTGEmxQj9FK7xT3eZMzYR/7f00sXhFTtJ01w==
+X-Received: by 2002:adf:9f4c:: with SMTP id f12mr7806991wrg.108.1602330432930;
+        Sat, 10 Oct 2020 04:47:12 -0700 (PDT)
 Return-Path: <idadelm@gmail.com>
 Received: from localhost.localdomain ([154.72.153.129])
-        by smtp.gmail.com with ESMTPSA id m3sm18020876wme.3.2020.10.10.04.24.18
+        by smtp.gmail.com with ESMTPSA id j101sm17070326wrj.9.2020.10.10.04.47.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2020 04:24:19 -0700 (PDT)
+        Sat, 10 Oct 2020 04:47:12 -0700 (PDT)
 From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Subject: [poky][PATCH] Update license files to match current SPDX names and license contents
-Date: Sat, 10 Oct 2020 12:23:51 +0100
-Message-Id: <20201010112351.8130-1-idadelm@gmail.com>
+Subject: [poky][PATCH v2] Update license file to match current SPDX names
+Date: Sat, 10 Oct 2020 12:46:57 +0100
+Message-Id: <20201010114657.8685-1-idadelm@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
 Updated mappings of license fields of meta/conf/licenses.conf to match latest SPDX naming.
@@ -51,6 +51,10 @@ Fixes: [YOCTO #13320]
 
 Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
 ---
+
+Changes in V2:
+ * Corrected the email subject line.
+
  meta/conf/licenses.conf | 34 +++++++++++++++++-----------------
  1 file changed, 17 insertions(+), 17 deletions(-)
 
