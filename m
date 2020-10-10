@@ -1,36 +1,36 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web12.5738.1602333415516140486
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.5760.1602333415927400335
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2020 05:36:55 -0700
+ Sat, 10 Oct 2020 05:36:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MEeYPc3D;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id t9so13011433wrq.11
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bUSotu5s;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id x7so4431180wrl.3
         for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2020 05:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bvv8Gt5g2bu5A9UoCk1G9PiBJwnprne/jKmktDXRmZg=;
-        b=MEeYPc3DJ1g93Og4EQDeRhxZ1wtA2d0htc7uWdYQuQkvFSeGlCOUjdOZuw0qIlSuTr
-         6NU3Z/OvcEI0dh1nj60MCMuZ6JnmgLcTYOdRmPF7O3yC5apMzdlBaI2z4bU4vnWr4d++
-         YXHO00xHps/B1k3eTEeYpOHJaOyeOAAZKFNPM=
+        bh=E0TTniQcZiAmZ5rEeD5QNYG2PcZFZdENJbX0kJzEvvE=;
+        b=bUSotu5se6BLBGlXQAxTA5ORI5G4VnPmpuvCwiFzSful8OVKXz6bBFImF73SYvmoJM
+         +dQaPTjZAHr3qg+rj7zS9mywKHOiw/dyDDELFNWAouobDMmiTM+H8eUsgKQD2HltDdWQ
+         hdU3Hs52ikbq0FXtJKa594YOlK3x5mOjwhaos=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bvv8Gt5g2bu5A9UoCk1G9PiBJwnprne/jKmktDXRmZg=;
-        b=sSE7rpn8ivoUQKjRqdYbYolMcFquzNRl3GT4AqRmtTkqFGVTeJk+lMTkpEk+vkurIb
-         fv4+LChWG3zb0koP3LFiLvJ22HWxb6YO/aYbFbKmj6subFNZI9DROACxo9Q9JDYTTcEx
-         Gcml49JT68UdCgs98ll1MSM/M0htYUlRj3Q+jEUpMx63CY7rf8E12mLPRzSwGRReqAn2
-         h5OrtToo7EglwbiAQUWfKuMRojZfxsbDo4UQoGAuKvS+b+DsoZ1AJqIP4geZqNnHpu66
-         CVlmiajaal7x2Isr0v5xA+MtiT4OKPMtxhq32N1A3BywhGtmuzOo/6cxUPUfNwx400jR
-         +TYA==
-X-Gm-Message-State: AOAM533iwjYBX6zjTP3fN+dqfcB4mJcRDX/ia2UHSMCdArST5+ZybO4K
-	5OTW/wPmdnglxqHAH0/TdaJCfgGUcNTzcA==
-X-Google-Smtp-Source: ABdhPJw63eujN/Eapy6DLT3nffeL3uMwGlLDrpEkPT1ZRqV9knJzyqBwxnHyNTCFlQAtFgsB/WI6tA==
-X-Received: by 2002:adf:a70b:: with SMTP id c11mr14086859wrd.257.1602333413600;
-        Sat, 10 Oct 2020 05:36:53 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=E0TTniQcZiAmZ5rEeD5QNYG2PcZFZdENJbX0kJzEvvE=;
+        b=STqj2vbm4qgSCWH6XOpIEXmdcngRuB3YR63wIDSBiPpGo+wu4YHTJmbUX1yQaknXBa
+         JELXzYj+4SIfhcVmD5JmOUIx0mHTkPO2nekJjgU8YPEeUOEqQ6JK7TnJS7zv4pdE9FqM
+         aVX7TMMRimfKB+Y3R1joTRuYMzlpejZrHkxz8u0PQXo9AlcSOyf1XaajTrh/eN4GPd56
+         Pnsz43cn/xtKiiEtfA95PD65wdIgLwERNwTTCenRqEGvm458JmCIwQ0U09jhbxUGBp0i
+         iqQ7weKwkmpmnoSAoI5SZv/gsPuKCxo2khc0co5fWBX3HtHojHPLQG8etZm4B2fyijaE
+         PnjQ==
+X-Gm-Message-State: AOAM531M2H7plLSX2Gh2BeIXWgnKfEDCh5AdL5/p8UIy6I/iSVZYQ7ss
+	GxR7uzBZ6eO1sKg11qgpj2VWkPHSAR8JlQ==
+X-Google-Smtp-Source: ABdhPJxHgxZ1s2VRtWlRs84ukqH57GicaNUQGDt5/YKf32ONpAVoCFcKEWcrTW8QLu++HcZWbz8W/g==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr19912053wrm.295.1602333414239;
+        Sat, 10 Oct 2020 05:36:54 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
         by smtp.gmail.com with ESMTPSA id u12sm16478387wrt.81.2020.10.10.05.36.53
@@ -39,33 +39,35 @@ Received: from hex.int.rpsys.net (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.
         Sat, 10 Oct 2020 05:36:53 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] skeleton/baremetal-helloworld: Fix trailing slash
-Date: Sat, 10 Oct 2020 13:36:51 +0100
-Message-Id: <20201010123652.3321544-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+Date: Sat, 10 Oct 2020 13:36:52 +0100
+Message-Id: <20201010123652.3321544-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201010123652.3321544-1-richard.purdie@linuxfoundation.org>
+References: <20201010123652.3321544-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This fixes a warning about a trailing slash on ${S}.
+Avoid pseudo abort()s like:
+path mismatch [1 link]: ino 6295376 db '/tmp/oeqa-feed-sign-2mw7z81v/S.gpg-agent.yocto-native' req '/tmp/jwkivmu6'.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../baremetal-examples/baremetal-helloworld_git.bb              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-index 3acc523a884..7a580bd885d 100644
---- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-+++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-@@ -8,7 +8,7 @@ PV = "0.1+git${SRCPV}"
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index d89731c6925..1bb1c4bee40 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -161,6 +161,7 @@ class TestImage(OESelftestTestCase):
+         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
+         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
+         features += 'GPG_PATH = "%s"\n' % self.gpg_home
++        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
+         self.write_config(features)
  
- SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
- 
--S = "${WORKDIR}/git/"
-+S = "${WORKDIR}/git"
- 
- # The following variables should be set to accomodate each application
- BAREMETAL_BINNAME ?= "hello_baremetal_${MACHINE}"
+         # Build core-image-sato and testimage
 -- 
 2.25.1
 
