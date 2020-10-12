@@ -1,147 +1,86 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web11.4978.1602525946609198377
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.5138.1602526330932469208
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 11:05:46 -0700
+ Mon, 12 Oct 2020 11:12:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bn9vzzEu;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: andrey.z@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id w25so9611510vsk.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 11:05:46 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cdtV33pq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id k18so18453419wmj.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 11:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DHXSt6iNvdLa365hBBK96hllwWeDzeYUF/q+CYOlrlA=;
-        b=bn9vzzEu1z9WFtNiMp+5woKkNXilNPFRHjfSLez8G8t5wrDiwW4I4vpQV4381zO3oZ
-         96bPYUaoPWLMGWv2Kf2Gf68yxDNlB+pZinZ/BcXmwOO0QzM8s9FJJSaaAyAEqkLkDCj9
-         2te682e66rj8IbKvXVwUGIR0Z/FxmYqNbiQbY50C7oZ6gQCivny60joq4qg7N3Uj+rN3
-         IVMctGNADH764Vdu1kRFwqV0MI5P01OK5FUxweY5VIko8cGIglr+o8wafUlnGTAVLRds
-         zh7uj10djeM0M8IN/xPq5wr+s/wVCG+YmTdy5BGSb4wy2XLLFqnUvTr4KpFMgCKOIJGQ
-         QU/w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=/kBgafezEU8X2jebQQRJIZCWYRH0kh/qF9/vp+hKKQU=;
+        b=cdtV33pq6J2NhgFZbRfmw/UkP7ma3lRLc5k9kpfl2XuDapu77wXyz2JQtlbhE/HbeN
+         9XSpYhIpWAaZB8xZXgcAMWihxf/dfRip3oMvlKOXviJ/Qbd/iPluj12QtCGXMy+xDNmK
+         v0oSEPCWeaRazUBNrl5wkVRUJVOrkVd2rH5vA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DHXSt6iNvdLa365hBBK96hllwWeDzeYUF/q+CYOlrlA=;
-        b=WwIytn8KQvqa2ilvZ6sf9S7fABy892VBshtVe35P3e0MRKipxCu1Mbkgs65xRxkZws
-         rSMsNLSxw90oMBhINrYE3ifdYQIEsXQIniwKgweQAiDSU1zxZT+IkToxuLGU2K+up4a9
-         Z97u/eVAr/t1FlnjEogruKrhNsaBKLKoCOw32TOlY2tRhG0FsZe4s5rYnSj9lfKx3mQD
-         Es09POryaES7+tHZQ47Xoz4loAtI3hHa0Sfw+ghZXJoLSM8F2VesxIc6LEB6dGuK8TiR
-         LmJkjvkIz+qHvek1Tvp0A0/NS/Gf+tvzZ8lVQbwyeQRfmPcyN9gJp6i5q+0hsQ/1u5oR
-         Clcg==
-X-Gm-Message-State: AOAM533eQiIsO8l4ZtOtMs8pgiQlcO6r5GM8NNXeyo0aD6+fokOatlxe
-	40CRFHk1kSZipoEoPgS7kK6YyrmD7kAl3RaKZzc=
-X-Google-Smtp-Source: ABdhPJw2nmXhUJyN3ZCmXVzjuFv6ZEdCjxI9TyGDFb5Pg7ps55Q1dL7WYotkygLC9Rg+V4V7e8RTem6LNGoRM3MYyyU=
-X-Received: by 2002:a67:2bc4:: with SMTP id r187mr10762207vsr.56.1602525945735;
- Mon, 12 Oct 2020 11:05:45 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/kBgafezEU8X2jebQQRJIZCWYRH0kh/qF9/vp+hKKQU=;
+        b=PgOD/aQrvb/2i6hY3527UpBUJ+m8ATu8OYE+eJk4niBhJzbo3TbNWeUoNJTaU9cm+h
+         xuCk9wR9heBbPaN4rl1Tp2ck+uzjouK8r6lUcCpLg4Qeud8DAHWKygM9L3XIGLb6HJev
+         Ku0oykdir6GIegbF62uZcteLw23JM7cBg9l5nadv2CDzGtMo/XjPFvppAsaiTIaZ58PL
+         vfoLh2bplPTO/Cj2M3OFXEmqAFWdUNg6HeaGLs8QofkBz3lgvVCifZJslsnVA75JnRN2
+         q5Lg0/kx4aiiSxcFjAuFscnMr6IyzXgnyJAgSTu5vGJozw9+AFU+FLdu+hRsjalrg+q4
+         FKXA==
+X-Gm-Message-State: AOAM533/C+4W4l6SCnEANZJdxXH70996a8P3oV23/1r9/zZpZwncNZNH
+	LkOsQLLQAsFeKzeRblP1nspZlQ==
+X-Google-Smtp-Source: ABdhPJwAX9w0O3WDDDWW/JpqiyU98kqdbXRcpDdDIX7K60Wvi5afiiC4Neq4mTTCcmPmlM8P47RMCg==
+X-Received: by 2002:a1c:3d86:: with SMTP id k128mr12160887wma.153.1602526329140;
+        Mon, 12 Oct 2020 11:12:09 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id d2sm15901892wrq.34.2020.10.12.11.12.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 11:12:08 -0700 (PDT)
+Message-ID: <5139e0e5374c61913563c9cbc1d4d80fa13bc350.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] externalsrc: No single-task lock if S != B
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Douglas Royds <douglas.royds@gmx.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Douglas Royds <douglas.royds@taitradio.com>
+Date: Mon, 12 Oct 2020 19:12:06 +0100
+In-Reply-To: <20201012013141.473-1-douglas.royds@gmx.com>
+References: 
+	<CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
+	 <20201012013141.473-1-douglas.royds@gmx.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
- <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
- <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com> <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
-In-Reply-To: <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Mon, 12 Oct 2020 20:05:32 +0200
-Message-ID: <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2020 at 7:28 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Right, this is fine then. But please add the information and links to th=
-e commit message, so that anyone who wants to address this knows where to s=
-tart.
->
-> Alex
->
-> On Mon, 12 Oct 2020 at 18:13, Jose Quaresma <quaresma.jose@gmail.com> wr=
-ote:
->>
->> As I understand, the problem is not related with the vulkan package.
->>
->> To build the vulkan gstreamer plugin whe need a native binary that is
->> not provided in OE core.
->> This binary is [glslc]
->>
->> It is provided by the shaderc project
->> https://github.com/google/shaderc
->>
->> Gstreamer upstream also suggests this project.
->> As glslangValidator is the tool coming from Khronos it would probably
->> be good to support it.
->> https://github.com/KhronosGroup/glslang
->>
->> I can try to build a recipe to fix the missing glslc native binary.
->> But it's better if anyone can provide more information on this because
->> I am not expert in this area.
+On Mon, 2020-10-12 at 14:31 +1300, Douglas Royds wrote:
+> From: Douglas Royds <douglas.royds@taitradio.com>
+> 
+> Allow different recipes to build things from the one external source tree in
+> parallel, but only if the build is happening outside the source tree.
+> 
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+> index 3618b99a86..88408add71 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -86,7 +86,7 @@ python () {
+>              if task.endswith("_setscene"):
+>                  # sstate is never going to work for external source trees, disable it
+>                  bb.build.deltask(task, d)
+> -            else:
+> +            elif os.path.realpath(externalsrc) == os.path.realpath(externalsrcbuild):
+>                  # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
+>                  d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
 
-That has been addressed in meta-freescale-distro layer
-(https://github.com/Freescale/meta-freescale-distro/commit/01c87325571e5ee=
-91ecc575c863fb693fc1c9955).
-There has been a similar native dependency required for GPU SDK build
-with Vulkan support, hence the recipe for glslang has been introduced.
+Failed in testing unfortunately, looks like these can be None:
 
-Should this be maybe ported to OE-Core?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/1893/steps/8/logs/step1c
 
->>
->> Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia segunda,
->> 12/10/2020 =C3=A0(s) 16:54:
->> >
->> > On Mon, 12 Oct 2020 at 14:36, Jose Quaresma <quaresma.jose@gmail.com>=
- wrote:
->> >>
->> >> -PACKAGECONFIG[vulkan]          =3D "-Dvulkan=3Denabled,-Dvulkan=3Dd=
-isabled,vulkan-loader"
->> >> +# FIXME: vulkan build fail
->> >> +# to build vulkan, a new package is needed.
->> >> +# add shaderc package as a separate pacth
->> >> +# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues=
-/1349
->> >> +#| Program glslc found: NO
->> >> +#| gst-libs/gst/vulkan/meson.build:273:0: ERROR: Program(s) ['glslc=
-'] not found or not executable
->> >> +#PACKAGECONFIG[vulkan]          =3D "-Dvulkan=3Denabled,-Dvulkan=3D=
-disabled,vulkan-loader shaderc"
->> >
->> >
->> > I think this needs to be addressed, as it's a regression in what prev=
-iously worked. If a newer version of vulkan is required, I have done some w=
-ork towards that here:
->> > http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dak=
-anavin/package-version-updates-later&id=3Dd6715a06317b1799f5380cc8169acfbd0=
-696d498
->> >
->> > but had to put it on hold because gstreamer 1.16 is not compatible wi=
-th it :) Can you cherry-pick that and see if it helps? (there's an even new=
-er vulkan available since, so maybe you need to do additional upgrading)
->>
->> I understand the problem and is because of this that I put it in a
->> separate patch.
->> I will try your work on
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dakan=
-avin/package-version-updates-later&id=3Dd6715a06317b1799f5380cc8169acfbd069=
-6d498
->> But as I mentioned before I think the problem needs to be solved with
->> a new recipe.
->>
->> >
->> > Alex
->>
->>
->>
->> --
->> best regards,
->> Jos=C3=A9 Quaresma
->
->
->=20
->
+Cheers,
 
+Richard
 
---=20
-Regards,
-Andrey.
