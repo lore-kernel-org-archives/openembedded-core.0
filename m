@@ -1,112 +1,123 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.8873.1602535738832347399
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.9497.1602537841909753602
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 13:48:59 -0700
+ Mon, 12 Oct 2020 14:24:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g7ysc3UR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id d81so18435285wmc.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 13:48:58 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=hIEKA3Ry;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=lULggfKXJeKWp++7O7cxTiidWffjOMwazf3fRHXjEIM=;
-        b=g7ysc3URX7hrWSxgTYLr8T3gsdMyBYy/LI9rcRocwdqKYDBCqWz8R73rwfTrcI4rcG
-         qKKZ3CaYfImsRlmfvCd9YIW9+DOvVqT3NlKQTPspdyvwu0Bu3oxskRaoURsr911WrTtE
-         iXVbF6QJMpfb6q4vo/ONIKn9+EOwzNGohDtII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lULggfKXJeKWp++7O7cxTiidWffjOMwazf3fRHXjEIM=;
-        b=mQYjOyKNEc+q5sMbOyAqljA51SOw2Zjn/FJxeC81A7Lwr04yMiLT5zTjuY8fUsNyJE
-         9PS6g4fVpzdiVRyWhqeH1rH3MVimT8DYQRkZX/U9j0596GMHyDz2+NxnrQL1dUkZv3MV
-         nq7eYaGHCVqkt0BZ/TCLOuZdbfbwRITY/xB0MWYArBBBKxsAnpRuGjbDXw83goSudenT
-         ry6zFtefK//yYHRTN6M07/lV8yZTq6/47Nkt1+/6jwa8L6IQeC+U3wW7gPqjxNEBv/6y
-         JYAWvbfwkQGGFbcm2s0sDudUXFPdeDAP0BZvsGnuEMpzRE83vpQ4NGUyyEapEu4T7ptx
-         X/OQ==
-X-Gm-Message-State: AOAM530MBOAyNNUWIiO+7WW9mZlZY33gABIDOzmytv6YL9S0hxwCEYbT
-	1URESq/M/ZTDb8XG/rOgxyrL5Q==
-X-Google-Smtp-Source: ABdhPJy1NuUyz1zVwuO2uicyPEaF6onNcFwItAqzM6BQ0S0X8xoWoDiuU8tAm2SP5bwz92iiLB8DrQ==
-X-Received: by 2002:a1c:b757:: with SMTP id h84mr11943626wmf.108.1602535737038;
-        Mon, 12 Oct 2020 13:48:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id h133sm121679wme.27.2020.10.12.13.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 13:48:56 -0700 (PDT)
-Message-ID: <2523bf7b98d0a897060bba2286c4e7442bb9ee02.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/9] pseudo: Add support for ignoring paths from the pseudo DB
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Seebs <seebs@seebs.net>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Oct 2020 21:48:55 +0100
-In-Reply-To: <20201012143137.6b4cbe34@seebsdell>
-References: <20201007101449.3132127-1-richard.purdie@linuxfoundation.org>
-	 <20201007101449.3132127-2-richard.purdie@linuxfoundation.org>
-	 <20201012143137.6b4cbe34@seebsdell>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+  d=axis.com; l=5650; q=dns/txt; s=axis-central1;
+  t=1602537842; x=1634073842;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=JUtNdrCPRQhX2rsu1KEy4ofgLN8zEIsjd4f0KmhdQKs=;
+  b=hIEKA3RyNSr9gKggwRYh9ircFeqTpCBSlMdIddGBxcHi7KCaCrfgToN7
+   Ef1u82H+Our5gfBDoiEkb4emBhQJ/n3wugED0DbYTcYwXFuGD9IYOFeyr
+   jhq2p2dE7hfPAXYI2tKIPsSlOZdXsnxpCsVingePoHKDc67x52Rx0egkk
+   caWBRjWT1XXJvGJEmxhqXmmBWieHI8n/eYjNRcE03TJQRrK5/ToP9WOls
+   Ay320EdgzclTqkSiBJFoO7WOQW8ZujlOh6cgAEc6OVuNl4tYgwQhw7TJj
+   eKrqsTpgVanueFXgCiplNhIa11CmrAV5N9Xjm8NNbVBLqAMMWPQeyoOII
+   g==;
+IronPort-SDR: BE9SqSCccVqzLOGN8d1QbMWvNPjCvzlap9eJtoIcsEkRGYBGxWBWX/f5UAoPK8gA03+4u3OXFb
+ QQDDrXR5FHmuRRyRztLJJL+9/8CX+aneK68jVQ5BgOqlGvAzVZVF3RjkMEhCOgo8xXXzGSQyBH
+ ZRdl0PltTq24+VjCMWSw3gok+b0182i2LFUQPEUpS6FMuv9qqkImMi4/8pg0Lo7mqppDccyJyn
+ y7tPtu8VbvD0qhqY9PBrW5yHKzOazxgwcil/ZU21MklT6zBblZZrSnjItrRnziiAkddgVPlwAm
+ IhA=
+X-IronPort-AV: E=Sophos;i="5.77,368,1596492000"; 
+   d="scan'208";a="13901134"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Meh Mbeh Ida Delphine
+	<idadelm@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [poky][PATCH v3] Update license file to match current SPDX names
+Thread-Topic: [OE-core] [poky][PATCH v3] Update license file to match current
+ SPDX names
+Thread-Index: AQHWnwA/zLld+YkdakKNTyeS8d/N0KmQpX0AgAPUuKA=
+Date: Mon, 12 Oct 2020 21:23:58 +0000
+Message-ID: <5b2a61996df146de8e86474410e2a31a@XBOX03.axis.com>
+References: <20201010122339.9594-1-idadelm@gmail.com>
+ <d53db65c06b96aa6d8e1ac1edb7f912da78293d3.camel@linuxfoundation.org>
+In-Reply-To: <d53db65c06b96aa6d8e1ac1edb7f912da78293d3.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, 2020-10-12 at 14:31 -0500, Seebs wrote:
-> On Wed,  7 Oct 2020 11:14:42 +0100
-> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> 
-> > ++int pseudo_client_ignore_path_chroot(const char *path, int
-> > ignore_chroot) { ++	char *env;
-> > ++	if (path) {
-> > ++		if (ignore_chroot && pseudo_chroot && strncmp(path,
-> > pseudo_chroot, pseudo_chroot_len) == 0) ++
-> > return 0; ++		env =
-> > pseudo_get_value("PSEUDO_IGNORE_PATHS"); ++		if (env) {
-> > ++			char *p = env;
-> > ++        	        while (*p) {
-> > ++				char *next = strchr(p, ',');
-> > ++				if (!next)
-> > ++				    next = strchr(p, '\0');
-> > ++				if ((next - p) && !strncmp(path, p,
-> > next - p)) { ++
-> > pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n",
-> > path); ++					return 1;
-> > ++				} ++
-> > if (next && *next != '\0') ++
-> > p = next+1; ++				else
-> > ++					break;
-> > ++			}
-> > ++			free(env);
-> > ++		}
-> > ++	}
-> > ++	return 0;
-> 
-> This seems like it might merit caching; parse PSEUDO_IGNORE_PATHS at
-> startup, build a table of paths (and probably their lengths), and use
-> those? Seems like there's gonna be a LOT of hits on this.
-> 
-> Apart from that, this looks plausible. It's certainly a large change,
-> but I do think that reducing the size of the database like this is
-> probably a big win.
-
-I agree caching would be useful, I'm figuring if we can make this work,
-we can make it faster in due course...
-
-The database size win is actually quite surprising. The performance
-isn't too different for builds overall with this change. What is
-noticeable is the ~2GB improvement in size of TMPDIR from around 42GB
-to 40GB. We even have charts to prove it:
-
-https://autobuilder.yocto.io/pub/non-release/20201007-16/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20201007212955_c194e5fac6.html
-
-'59,583' doesn't have the pseudo change, '59,600' does. We had a
-different patch just before it which also knocked 3GB of build
-dependencies off.
-
-https://autobuilder.yocto.io/pub/non-release/20201012-6/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20201012150127_0c0b236b4c.html
-is later data showing it was a step change.
-
-Cheers,
-
-Richard
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxMCBv
+a3RvYmVyIDIwMjAgMTQ6NDANCj4gVG86IE1laCBNYmVoIElkYSBEZWxwaGluZSA8aWRhZGVsbUBn
+bWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5XVtQQVRDSCB2M10gVXBkYXRlIGxpY2Vuc2Ug
+ZmlsZSB0byBtYXRjaA0KPiBjdXJyZW50IFNQRFggbmFtZXMNCj4gDQo+IE9uIFNhdCwgMjAyMC0x
+MC0xMCBhdCAxMzoyMyArMDEwMCwgTWVoIE1iZWggSWRhIERlbHBoaW5lIHdyb3RlOg0KPiA+IFVw
+ZGF0ZWQgbWFwcGluZ3Mgb2YgbGljZW5zZSBmaWVsZHMgb2YgbWV0YS9jb25mL2xpY2Vuc2VzLmNv
+bmYgdG8NCj4gPiBtYXRjaCBsYXRlc3QgU1BEWCBuYW1pbmcuDQo+ID4gQWRkZWQgbWlzc2luZyBt
+YXBwaW5ncy4NCj4gPg0KPiA+IEZpeGVzOiBbWU9DVE8gIzEzMzIwXQ0KPiA+DQo+ID4gU2lnbmVk
+LW9mZi1ieTogTWVoIE1iZWggSWRhIERlbHBoaW5lIDxpZGFkZWxtQGdtYWlsLmNvbT4NCj4gPiAt
+LS0NCj4gPg0KPiA+IENoYW5nZXMgaW4gVjM6DQo+ID4gICogQWRkZWQgbWlzc2luZyBtYXBwaW5n
+cyB0byBtZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+DQo+ID4gQ2hhbmdlcyBpbiBWMjoNCj4g
+PiAgKiBDb3JyZWN0ZWQgdGhlIGVtYWlsIHN1YmplY3QgbGluZS4NCj4gPg0KPiA+ICBtZXRhL2Nv
+bmYvbGljZW5zZXMuY29uZiB8IDU1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0t
+LS0tLQ0KPiA+IC0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzOCBpbnNlcnRpb25zKCspLCAxNyBk
+ZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvbGljZW5zZXMuY29u
+ZiBiL21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gaW5kZXggNWIzMDllYjM4NS4uYjQ1YTlk
+MjgzZSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+ICsrKyBi
+L21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gQEAgLTEwLDMzICsxMCw0NCBAQA0KPiA+ICAj
+IEFueSBtYXBwaW5nIHRvIE1QTC9MR1BML0dQTCBzaG91bGQgYmUgZml4ZWQNCj4gPg0KPiA+ICAj
+IEFHUEwgdmFyaWF0aW9ucw0KPiA+IC1TUERYTElDRU5TRU1BUFtBR1BMLTNdID0gIkFHUEwtMy4w
+Ig0KPiA+IC1TUERYTElDRU5TRU1BUFtBR1BMdjNdID0gIkFHUEwtMy4wIg0KPiA+IC1TUERYTElD
+RU5TRU1BUFtBR1BMdjMuMF0gPSAiQUdQTC0zLjAiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0FHUEwt
+M10gPSAiQUdQTC0zLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbQUdQTHYzXSA9ICJBR1BM
+LTMuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtBR1BMdjMuMF0gPSAiQUdQTC0zLjAtb25s
+eSINCj4gPiArU1BEWExJQ0VOU0VNQVBbQUdQTC0zLjBdID0gIkFHUEwtMy4wLW9ubHkiDQo+ID4N
+Cj4gPiAgIyBHUEwgdmFyaWF0aW9ucw0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEwtMV0gPSAiR1BM
+LTEuMCINCj4gPiAtU1BEWExJQ0VOU0VNQVBbR1BMdjFdID0gIkdQTC0xLjAiDQo+ID4gLVNQRFhM
+SUNFTlNFTUFQW0dQTHYxLjBdID0gIkdQTC0xLjAiDQo+ID4gLVNQRFhMSUNFTlNFTUFQW0dQTC0y
+XSA9ICJHUEwtMi4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEx2Ml0gPSAiR1BMLTIuMCINCj4g
+PiAtU1BEWExJQ0VOU0VNQVBbR1BMdjIuMF0gPSAiR1BMLTIuMCINCj4gPiAtU1BEWExJQ0VOU0VN
+QVBbR1BMLTNdID0gIkdQTC0zLjAiDQo+ID4gLVNQRFhMSUNFTlNFTUFQW0dQTHYzXSA9ICJHUEwt
+My4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEx2My4wXSA9ICJHUEwtMy4wIg0KPiA+ICtTUERY
+TElDRU5TRU1BUFtHUEwtMV0gPSAiR1BMLTEuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtH
+UEx2MV0gPSAiR1BMLTEuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtHUEx2MS4wXSA9ICJH
+UEwtMS4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTC0xLjBdID0gIkdQTC0yLjAtb25s
+eSINCj4gPiArU1BEWExJQ0VOU0VNQVBbR1BMLTJdID0gIkdQTC0yLjAtb25seSINCj4gPiArU1BE
+WExJQ0VOU0VNQVBbR1BMdjJdID0gIkdQTC0yLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBb
+R1BMdjIuMF0gPSAiR1BMLTIuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtHUEwtMi4wXSA9
+ICJHUEwtMi4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTC0zXSA9ICJHUEwtMy4wLW9u
+bHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTHYzXSA9ICJHUEwtMy4wLW9ubHkiDQo+ID4gK1NQ
+RFhMSUNFTlNFTUFQW0dQTHYzLjBdID0gIkdQTC0zLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VN
+QVBbR1BMLTMuMF0gPSAiR1BMLTMuMC1vbmx5Ig0KPiA+DQo+ID4gICNMR1BMIHZhcmlhdGlvbnMN
+Cj4gPiAtU1BEWExJQ0VOU0VNQVBbTEdQTHYyXSA9ICJMR1BMLTIuMCINCj4gPiAtU1BEWExJQ0VO
+U0VNQVBbTEdQTHYyLjBdID0gIkxHUEwtMi4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtMR1BMMi4x
+XSA9ICJMR1BMLTIuMSINCj4gPiAtU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjFdID0gIkxHUEwtMi4x
+Ig0KPiA+IC1TUERYTElDRU5TRU1BUFtMR1BMdjNdID0gIkxHUEwtMy4wIg0KPiA+ICtTUERYTElD
+RU5TRU1BUFtMR1BMdjJdID0gIkxHUEwtMi4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0xH
+UEx2Mi4wXSA9ICJMR1BMLTIuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtMR1BMLTIuMF0g
+PSAiTEdQTC0yLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbTEdQTDIuMV0gPSAiTEdQTC0y
+LjEtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjFdID0gIkxHUEwtMi4xLW9ubHki
+DQo+ID4gK1NQRFhMSUNFTlNFTUFQW0xHUEwtMi4xXSA9ICJMR1BMLTIuMS1vbmx5Ig0KPiA+ICtT
+UERYTElDRU5TRU1BUFtMR1BMdjNdID0gIkxHUEwtMy4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNF
+TUFQW0xHUEwtMy4wXSA9ICJMR1BMLTMuMC1vbmx5Ig0KPiANCj4gVGhlIGFib3ZlIGlzIGFsbCBn
+b29kLCB0aGFua3MuDQoNCkJ1dCBvbmx5IGEgcGFydCBvZiB0aGUgZnVsbCBzb2x1dGlvbi4gSW4g
+YWRkaXRpb24sIHRoZSANCmZvbGxvd2luZyBzaG91bGQgYmUgZG9uZToNCg0KKiBSZW5hbWUgKGFu
+ZCBwb3NzaWJseSB1cGRhdGUpIHRoZSBhY3R1YWwgbGljZW5zZSBmaWxlcyBpbiANCiAgbWV0YS9m
+aWxlcy9jb21tb24tbGljZW5zZXMgdG8gbWF0Y2ggdGhlIG5ldyBjYW5vbmljYWwgbmFtZXMuDQoq
+IEFkZCBsaWNlbnNlIGZpbGVzIGZvciBHUEwtMi4wLW9yLWxhdGVyICYgY28uDQoqIEFkZCBtYXBw
+aW5ncyBmcm9tLCBlLmcuLCAiR1BMLTIuMCsiIHRvICJHUEwtMi4wLW9yLWxhdGVyIiANCiAgdG8g
+U1BEWExJQ0VOU0VNQVAuDQoqIFJlbW92ZSB0aGUgY29kZSB0aGF0IGFkZHMgc3VwcG9ydCBmb3Ig
+dXNpbmcgIjxhbnkgbGljZW5zZT4rIiANCiAgaW4gTElDRU5TRSBhcyBpdCBzaG91bGQgbm8gbG9u
+Z2VyIGJlIG5lZWRlZCB3aXRoIHRoZSBuZXcgDQogIG1hcHBpbmdzLg0KDQo+ID4gICNNUEwgdmFy
+aWF0aW9ucw0KPiA+ICBTUERYTElDRU5TRU1BUFtNUEwtMV0gPSAiTVBMLTEuMCINCj4gPiAgU1BE
+WExJQ0VOU0VNQVBbTVBMdjFdID0gIk1QTC0xLjAiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW01QTC0x
+LjBdID0gIk1QTC0xLjAiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW01QTHYxLjFdID0gIk1QTC0xLjEi
+DQo+ID4gK1NQRFhMSUNFTlNFTUFQW01QTC0xLjFdID0gIk1QTC0xLjEiDQo+ID4gIFNQRFhMSUNF
+TlNFTUFQW01QTHYyXSA9ICJNUEwtMi4wIg0KPiA+ICtTUERYTElDRU5TRU1BUFtNUEwtMi4wXSA9
+ICJNUEwtMi4wIg0KPiA+ICsNCj4gDQo+IEhvd2V2ZXIgd2UgZG9uJ3QgbmVlZCB0byBhZGQgb25l
+cyB3aGVyZSB0aGUgdHdvIHZhbHVlcyBhcmUgdGhlIHNhbWUuDQo+IA0KPiBDaGVlcnMsDQo+IA0K
+PiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
