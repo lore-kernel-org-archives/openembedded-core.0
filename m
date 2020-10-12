@@ -1,273 +1,100 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.7324.1602531598706444118
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by mx.groups.io with SMTP id smtpd.web12.7308.1602531924526977887
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 12:39:58 -0700
+ Mon, 12 Oct 2020 12:45:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mf3T99kA;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id 144so14496345pfb.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 12:39:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q5XIipfz;
+ spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f45.google.com with SMTP id w12so5764033uao.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 12:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=voGl52KkDzm9uTnfFetQJ3bHdb4nu0xuGFYaMWJlBro=;
-        b=mf3T99kAarNGYxIvCPv0FfuRxah4s3KKEo4RAQ5ZpxQQ2WxCH1ARTYre1ff2xvHfAw
-         lC7EGzwXmwYWQ1GOwNSD6yK4FG0n7r+W90NaLcKGZRWSYRUKoona0e/WHm24bxLv/Ukd
-         NlGtZhzk95t4wivJiR0XNgEaySvMmD/0AK4zBehINtrQKsSmw/+16JO9bnApIVQb2C1+
-         2KiT9nkZaWVYiJhggmzff6KYMJrx3JFmo/Wgk3hiQK80ITUf4tJS3eaZzt3pMtDK1F7G
-         ZqT+1i1DDdHBUjyJla3qM+2rVahQCRldpBah9c9dE0tzb/pJEpNcr2xq4roJKQB2xXHi
-         cF2w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ixc9y6Yg10kFrUuPG3oQsx0aSSHb1PWK+zG5kbSQwHE=;
+        b=Q5XIipfzDOHol7X2+oNaE0/RnnDPre7j/RuvoUlaqQqofLIjvMXx9QAS/DxS7kgCXF
+         V3yZRSIuHkw6h8Dd8T2tztyOgutBO5mAqKW+ULFspr1kYSZGrp24LjccvkL+7P6h5hxH
+         Zm0kTNda2X5vL+O3RS8gp4hsQzxqVnGaZ8E7uHevytjh9/VIO1JPDpTBWpXIjGpgsmpF
+         NixHwvAqrOmzf2ZtXVYOJzSXSMYLcDOGNMJRsr8bMbD4lOMqmtj6sDcxnRlWCAIVun8G
+         nMItmLKRaCABPoojs1DCBKLcKRD89gCOOsq4BI7uYnBejtJTM8k2a2uMSRmNrUiBtejI
+         3RnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=voGl52KkDzm9uTnfFetQJ3bHdb4nu0xuGFYaMWJlBro=;
-        b=YlDmqplpCaQgoi8qBumetsg0dkPPbNSDrrLTGSUhdXexFgiClbnjWou32RKZvZfJyn
-         K5cvfBEXQJSdSX9ZY1jC7TiBw1jP9siXtgu6i6K4h1medn92zub0Gxn5kPvg1DLTRKcH
-         UcGnH65YFcQ95wNJFPUxwnGwqaUpzNYUJCe+wjMxyyhx7Uepg1efvLhGi0rf8xWNCM8u
-         QmNPNzu7Ft5s7G2ZljM0Lr92H/fStXNKPRF8j6XNVlLdMxK3PJLTcBkyXrS1IP6nj+sP
-         P4xIuTVkGDR7Rz6HiYXWpYeJbwQKqI0aJ+shiTMRTQzGfXtfi8t8OFsXGyleuUjiW9eD
-         yE7w==
-X-Gm-Message-State: AOAM531k3WHP1cTulebR5Y+Mzkx9nD0qvvYz+jUfrgxWtGrhC3VxlWY/
-	xXMv31JgGkBXyH2PZpIbOkI=
-X-Google-Smtp-Source: ABdhPJyOwWxCktbM5bcxeLLq3ebw5jdjz9q6KZ/gg5OSdYOdmrZmJetn9IAjSl2KBJdJGuYvY8bTdQ==
-X-Received: by 2002:a17:90a:73c9:: with SMTP id n9mr21415727pjk.90.1602531598098;
-        Mon, 12 Oct 2020 12:39:58 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (wsip-184-183-149-66.ph.ph.cox.net. [184.183.149.66])
-        by smtp.gmail.com with ESMTPSA id 20sm4484869pfh.219.2020.10.12.12.39.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Oct 2020 12:39:57 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 12 Oct 2020 12:39:56 -0700
-Message-ID: <114501d6a0cf$778493a0$668dbae0$@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ixc9y6Yg10kFrUuPG3oQsx0aSSHb1PWK+zG5kbSQwHE=;
+        b=t3D8nOt3XPE2P6MvzZYzUhtvB9410OxkuYGOvMgUrXUwR2Nzdj+MVHhGL6oD75aU+i
+         53eCQpPAUEek9kLtAxPSDdv7uzgu80sXrvHXi71p2KBqQuh4P5EHmhzmVTzpOrFAqCRW
+         tvgfSr5/ZX4IYTuLvwCT5lTvAml8cgmDMDFehcSsfR8J4MK5H2GbTE8d5QruY3p+geOR
+         FabYzqBJj2ssbubY6aTXhCGHhAh8i6qCmNOR6/wZPcXOsf0REzuwRixs2tvWil3SyJ3x
+         ZQqa3mAEl9890qyUJofugdLnGQmm5d5GVWzVeOyrMdxu758FgweD401nuBxxIFKxzEoL
+         9THg==
+X-Gm-Message-State: AOAM532C2npkRxf04ND5f73KiUAruVRqexOYJ0tMCywV7AqDbBh82F0T
+	aJp/tXrcm9BUcsh+DnWeOZKiaUel1+C9ejQflGo=
+X-Google-Smtp-Source: ABdhPJxwSL3//Ilez8Z2uO7TVEe6osLGg3aygzYrspf7ArVRkCFh5/AXMJprDideXBFX8SgnKJ2+6zU7fce6t6y4ykw=
+X-Received: by 2002:ab0:7143:: with SMTP id k3mr14160984uao.93.1602531923701;
+ Mon, 12 Oct 2020 12:45:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQErdQkYhTsvThv2PZ9gt6lndAbxAA==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_1146_01D6A094.CB279060"
-Content-Language: en-us
+References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
+ <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
+ <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com>
+ <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
+ <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
+ <CANNYZj9Mr1VLAY5=ubgdYO08KWWUTPfd50CMqT-jcvZ44rPtMw@mail.gmail.com> <CAHtQpK7T7rqfACB7MSnTh701yPbPy2B51Em924-FueriejFXOA@mail.gmail.com>
+In-Reply-To: <CAHtQpK7T7rqfACB7MSnTh701yPbPy2B51Em924-FueriejFXOA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 12 Oct 2020 21:45:11 +0200
+Message-ID: <CANNYZj_AqswY3JJnVu=vtNQPdgfd=tbE89WgRD4Fxm1O=msFFQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000db4cc05b17e8ae6"
 
-------=_NextPart_000_1146_01D6A094.CB279060
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+--0000000000000db4cc05b17e8ae6
+Content-Type: text/plain; charset="UTF-8"
 
-All,
+On Mon, 12 Oct 2020 at 20:20, Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 
- 
+>
+> What I meant to point out was - there is a dependency in Vulkan on
+> glslang, irrespective whether it is compiled standalone or as a
+> dependency of another package. I believe this Vulkan <- glslang
+> dependency should be solved first before Vulkan can be included
+> anywhere further.
+>
+> As I know, it is currently solved locally in meta-freescale-distro
+> layer, hence it was my question on whether it should be moved to
+> OE-Core to solve the Vulkan dependency altogether?
+>
 
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
+Can you please point to where glslang is used in the vulkan source tree? Is
+it something recently added, as vulkan bits and examples have been building
+fine without it in oe-core?
 
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
+Alex
 
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 334
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_1146_01D6A094.CB279060
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0C4C_01D695C3.69F67850";
-	charset="us-ascii"
+--0000000000000db4cc05b17e8ae6
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 334 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 12 Oct 2020 at 20:20, Andrey Zhizhikin &lt;<a href=3D"mailto=
+:andrey.z@gmail.com">andrey.z@gmail.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><br>
+What I meant to point out was - there is a dependency in Vulkan on<br>
+glslang, irrespective whether it is compiled standalone or as a<br>
+dependency of another package. I believe this Vulkan &lt;- glslang<br>
+dependency should be solved first before Vulkan can be included<br>
+anywhere further.<br>
+<br>
+As I know, it is currently solved locally in meta-freescale-distro<br>
+layer, hence it was my question on whether it should be moved to<br>
+OE-Core to solve the Vulkan dependency altogether?<br></blockquote><div><br=
+></div><div>Can you please point to where glslang is used in the vulkan sou=
+rce tree? Is it something recently added, as vulkan bits and examples have =
+been building fine without it in oe-core?</div><div><br></div><div>Alex<br>=
+</div></div></div>
 
-------=_NextPart_000_1146_01D6A094.CB279060--
+--0000000000000db4cc05b17e8ae6--
