@@ -1,162 +1,133 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.39516.1602506210244143724
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web12.39788.1602506211112079499
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 05:36:50 -0700
+ Mon, 12 Oct 2020 05:36:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GHbkXbPv;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id y12so13630585wrp.6
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bj+jKNe9;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id f21so17028180wml.3
         for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 05:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XiiCWx0MTtyPptjEbiPc9of01IhuRhSnPVZuyfrvMlE=;
-        b=GHbkXbPvVYmcTSqyA9vIyAicMOpSy2og2T2hcNQk+9hp9LHcq4p/mN4W6M2FZ19cSM
-         v4lD4c2LZxTTsddI2gBJY0WzZgFMCM1FODyIgly38tcJG9lCPvDpg74LI68/Br/wxRCM
-         n/ij4mYN04em1Li/yJfyOPdZsDAOErEl7XAFITBtumlrkHNWI28E6DBH0pHez40n3hRY
-         DS+K81ffuWMZ7XKWpZ6HET1WuElA23Grx9BaIzboByeu0Llc07fM+uxPV8THjzdRxSti
-         5MV/0I5IMTn2MLHPt6y3z8j7mhh19UbX4Poum/5FCL98e97OeOyOKOUWIYlENKnSjs8p
-         /aAw==
+        bh=p653nTriw7Qs4IpjT601Yslx+JmHnq2VK5xVyiQKj0o=;
+        b=Bj+jKNe9rew7kvss4Q4adO7lrtU78edu0WzsUsfN05wY1Nbtru2txnbrhtVDFCpJon
+         wUd9xduGR54SI7wcApslucIHIsmKxNERqwWY74CW0dvxi5sDsHP14ormKD2QkATVWHpt
+         adSs1MskP+wd05vu+kbPkCLffRTe1W61s7otXV5Zhf772k2+Rc6du1ug3UDVKyHPNwEb
+         fZD/7WR60KXxtocaLi7S4q2zhsAK0M//2x2f7cfer6tmFTQodThbF5jFIu6FFv/YI2m/
+         +U4E/yVQ3pJiWuL19rNDzo2mRpo5iI0n8pauW8fEFe93feHkv5MtOqL1E7hyF5+Qo6kK
+         qQfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XiiCWx0MTtyPptjEbiPc9of01IhuRhSnPVZuyfrvMlE=;
-        b=m3zNC1gGUHIdDiqV9NghrITCRqEw/iZL463vI8Ar7vMYYrGNLk7KL9mYpz92eLfB6p
-         twoSzP86KZ2V1VrxmlJAnROEZoMSo+LU4VJF4azutYAX2gCFCCqQqGVCycTW0GEZu00o
-         sW1RnV00x4iH9OeRRxo+XRBYbHccA0bvu4vIZPVP+BhqJ1iqTvcNVWvoYtaLSVXlUb+I
-         QgOxJM5LsIPXUG1yleQcbaAz5qtsAzi3qPdEjwznUzGL3ipyM08dCrJQb+BmOIZt+Tif
-         7l5+00V7UmTy29V2TQ6G7xeuQOHRY84HMdyKNVJ8UfXICKGEbEyg7GrQlN2FfFMeCgTS
-         TQ3A==
-X-Gm-Message-State: AOAM532MoPaSZpau8jeWuQUvYX/Vgl2lEWLuEi3oR0qXHDwJcU3Xw05I
-	+Ufs7eJiXuyC+9Y1872rFnvbVH6IVtn54A==
-X-Google-Smtp-Source: ABdhPJwMnH3wP1LdD0bnJhNy/9g1rWm7CcwKiJL82TvHXcO8DbANJCOAAIUai8KDXKIGKisFWwktAA==
-X-Received: by 2002:adf:8484:: with SMTP id 4mr30884928wrg.334.1602506208378;
-        Mon, 12 Oct 2020 05:36:48 -0700 (PDT)
+        bh=p653nTriw7Qs4IpjT601Yslx+JmHnq2VK5xVyiQKj0o=;
+        b=f8HWZTDGCRE5vwfhVpUatJK05Pk13vUj6+891EH7TBHwbZLQXgCHsvS44mOR66vdcB
+         I3dOTpVnEzWSiAx2+UC3+dKVoHJDYEQiVibd6V8s5hEBu7QE7Z07YuMzZJuvzU4tX7Al
+         +7/WFASBzshursWvnOfoon2FdFgHULkroc4R+4FXsLn/Jb9fPPR4bxTv79k9YvQx7HSZ
+         64o+jF9PQbI0lHvFDmoNZGdf43iPyKJGGBIj+SzdkjK0t05OHm3lmBPTs+4pK7W55QJ6
+         fp40nT/u9swtuTpMu5Aifq5Hz2ZL+syaZgjqrIySyCRc+1XQHdcsEV1pwsuC3DEWfTAL
+         7Wyg==
+X-Gm-Message-State: AOAM532FXOrr19hPIK7vthmDfPlsh+d6L8dxrTYiZfUHPYuuDJJjgRH1
+	Fs1KZ2Ar6YO0MNpzsNq0dRLhmrJ34FUvOw==
+X-Google-Smtp-Source: ABdhPJyFnqbCKHR13XZyjG3iGbUCCyN2h/7Ak/Tc6mvnVG1kcORI7k6wMOok1Mzyts5Ty3ldIqWQww==
+X-Received: by 2002:a1c:1f12:: with SMTP id f18mr10663512wmf.15.1602506209404;
+        Mon, 12 Oct 2020 05:36:49 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id i14sm23076089wml.24.2020.10.12.05.36.47
+        by smtp.gmail.com with ESMTPSA id i14sm23076089wml.24.2020.10.12.05.36.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 05:36:47 -0700 (PDT)
+        Mon, 12 Oct 2020 05:36:48 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 09/13] gstreamer1.0-vaapi: upgrade to version 1.18.0
-Date: Mon, 12 Oct 2020 13:36:16 +0100
-Message-Id: <20201012123620.2095778-9-quaresma.jose@gmail.com>
+Subject: [PATCH 10/13] gst-examples: upgrade to version 1.18.0
+Date: Mon, 12 Oct 2020 13:36:17 +0100
+Message-Id: <20201012123620.2095778-10-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201012123620.2095778-1-quaresma.jose@gmail.com>
 References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-    * 0001-vaapsink-downgrade-to-marginal.patch
-      Removed since these are included in 1.18.0
-      https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/-/commit/13d090b5660a2e2e2c997db44ba9a391101e8bd6
-
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../0001-vaapsink-downgrade-to-marginal.patch | 46 -------------------
- ...1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} | 16 +++----
- 2 files changed, 6 insertions(+), 56 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} (82%)
+ ...001-Make-player-examples-installable.patch | 24 +++++++++----------
+ ...mples_1.16.0.bb => gst-examples_1.18.0.bb} |  2 +-
+ 2 files changed, 12 insertions(+), 14 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.16.0.bb => gst-examples_1.18.0.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-deleted file mode 100644
-index 7945a923c9..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 0c28cf7bfa90f8947833722cddf23d513490c6c3 Mon Sep 17 00:00:00 2001
--From: Anuj Mittal <anuj.mittal@intel.com>
--Date: Wed, 28 Nov 2018 15:08:48 +0800
--Subject: [PATCH] vaapsink: downgrade to marginal
--
--Using vaapisink with default poky configuration results in an
--unresponsive display as of today because DRI2 rendering is currently broken
--in non composited environments [1] and libva doesn't support DRI3 [2].
--
--Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
--and gtk-play examples) use xvimagesink or others out of box.
--
--[1] https://gitlab.freedesktop.org/xorg/xserver/issues/13
--[2] https://github.com/intel/libva/issues/122
--
--Upstream-Status: Pending
--
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- gst/vaapi/gstvaapi.c | 6 +-----
-- 1 file changed, 1 insertion(+), 5 deletions(-)
--
--diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
--index 9a82454..4d94f2b 100644
----- a/gst/vaapi/gstvaapi.c
--+++ b/gst/vaapi/gstvaapi.c
--@@ -195,7 +195,6 @@ plugin_init (GstPlugin * plugin)
-- {
--   GstVaapiDisplay *display;
--   GArray *decoders;
---  guint rank;
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+index 0338bad1c0..ab93c13244 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+@@ -1,4 +1,4 @@
+-From 755f6dab07565aca7b6aefacad8be65de364ff75 Mon Sep 17 00:00:00 2001
++From 7924016fce2d0b435891a335cdae52fc939c7e3b Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Thu, 17 Aug 2017 11:07:02 +0300
+ Subject: [PATCH] Make player examples installable
+@@ -7,16 +7,17 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Upstream-Status: Denied [Upstream considers these code examples, for now a least]
+ 
+ https://bugzilla.gnome.org/show_bug.cgi?id=777827
++
+ ---
+  playback/player/gst-play/meson.build | 1 +
+  playback/player/gtk/meson.build      | 1 +
+  2 files changed, 2 insertions(+)
+ 
+ diff --git a/playback/player/gst-play/meson.build b/playback/player/gst-play/meson.build
+-index 719b55b..a56fe13 100644
++index 8ec021d..977cc5c 100644
+ --- a/playback/player/gst-play/meson.build
+ +++ b/playback/player/gst-play/meson.build
+-@@ -8,5 +8,6 @@ executable('gst-play',
++@@ -2,5 +2,6 @@ executable('gst-play',
+      ['gst-play.c',
+       'gst-play-kb.c',
+       'gst-play-kb.h'],
+@@ -24,16 +25,13 @@ index 719b55b..a56fe13 100644
+      dependencies : [gst_dep, gstplayer_dep, m_dep])
+  
+ diff --git a/playback/player/gtk/meson.build b/playback/player/gtk/meson.build
+-index 08aae4f..671a65d 100644
++index f7a7419..6281130 100644
+ --- a/playback/player/gtk/meson.build
+ +++ b/playback/player/gtk/meson.build
+-@@ -18,5 +18,6 @@ executable('gtk-play',
+-       gtk_play_resources,
+-      'gtk-video-renderer.h',
+-      'gtk-video-renderer.c'],
++@@ -13,5 +13,6 @@ if gtk_dep.found()
++         gtk_play_resources,
++        'gtk-video-renderer.h',
++        'gtk-video-renderer.c'],
+ +    install: true,
+-     dependencies : [glib_dep, gobject_dep, gmodule_dep, gst_dep, gsttag_dep, gstplayer_dep, gtk_dep, x11_dep])
 - 
--   plugin_add_dependencies (plugin);
-- 
--@@ -220,10 +219,7 @@ plugin_init (GstPlugin * plugin)
--   gst_element_register (plugin, "vaapidecodebin",
--       GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
-- 
---  rank = GST_RANK_PRIMARY;
---  if (g_getenv ("WAYLAND_DISPLAY"))
---    rank = GST_RANK_MARGINAL;
---  gst_element_register (plugin, "vaapisink", rank, GST_TYPE_VAAPISINK);
--+  gst_element_register (plugin, "vaapisink", GST_RANK_MARGINAL, GST_TYPE_VAAPISINK);
-- 
-- #if USE_ENCODERS
--   gst_vaapiencode_register (plugin, display);
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
-similarity index 82%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
-index 1bedf25128..a32da85c4d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
-@@ -8,28 +8,24 @@ REALPN = "gstreamer-vaapi"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
--           file://0001-vaapsink-downgrade-to-marginal.patch \
--           "
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "13f7cb6a64bde24e67f563377487dcce"
--SRC_URI[sha256sum] = "191de7b0ab64a85dd0875c990721e7be95518f60e2a9106beca162004ed7c601"
-+SRC_URI[md5sum] = "079a3739857e0cf4904afe92659d8a18"
-+SRC_URI[sha256sum] = "c6efeb8c736f75bb1b53ab18413c60c4321300e7aee66641bcc07d59c2fe9e31"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
- 
--inherit meson pkgconfig gtk-doc features_check upstream-version-is-even
-+inherit meson pkgconfig features_check upstream-version-is-even
- 
- REQUIRED_DISTRO_FEATURES ?= "opengl"
- 
- EXTRA_OEMESON += " \
-+    -Ddoc=disabled \
-     -Dexamples=disabled \
-+    -Dtests=enable \
- "
- 
--GTKDOC_MESON_OPTION = "gtk_doc"
--GTKDOC_MESON_ENABLE_FLAG = "enabled"
--GTKDOC_MESON_DISABLE_FLAG = "disabled"
+--- 
+-2.13.3
 -
- PACKAGES =+ "${PN}-tests"
++       dependencies : [glib_dep, gobject_dep, gmodule_dep, gst_dep, gsttag_dep, gstplayer_dep, gtk_dep, x11_dep])
++ endif
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
+index e23d23d9ca..bb998f6526 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
+@@ -9,7 +9,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
+            file://gst-player.desktop \
+            "
  
- # OpenGL packageconfig factored out to make it easy for distros
+-SRCREV = "d953c127c1146b50d5676618299933950685dcd7"
++SRCREV = "009290dc8784e6714dc2a29be123110c14a38123"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.28.0
 
