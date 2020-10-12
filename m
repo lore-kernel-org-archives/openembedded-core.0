@@ -1,119 +1,98 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.39506.1602506207802229851
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.39507.1602506208853640884
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 05:36:48 -0700
+ Mon, 12 Oct 2020 05:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tyPzHc3Q;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id j136so17383765wmj.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 05:36:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nbsBNUh2;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id d3so17370691wma.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 05:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x6KSCsbNwlkFJVREc+cKiWL+CEEADvHjPr8OzuBD2Oc=;
-        b=tyPzHc3QNQegrxqdcZDg8kx402jFuNlZCuUWsZGHOVJPcsvCbu8hR6Q6utqz3smoGh
-         /oCLvoBwaHih1Gkuj5xZPJhItLf/2jn4Sby5F2LR67d3JkGOY/3sPbt3SdgcpCyqrgZw
-         /KPVqBzGYT9+kGmi/XVwGWTJOs6ak0bVaF8VSSSH7PHYEt9LZ5U8FflBT7YE/9jPiDih
-         spvB8tpvohbXy+YJq5K/XbY4gUfxrEeP73XLbOizaQjumxXrV5HpapRPvM6GYmz6Qlxw
-         2145q3Vj0tlkurGo3K1VbDulFp+B3YNTWkvsnBcYzADF2+0R5SlqBzd2rGFByQDLvwsT
-         i76g==
+        bh=DKVkhVagdRst7Uqu19XwF6UfNEfU4nw+V1fjeqY9FUM=;
+        b=nbsBNUh2tNm3OB7R3n0i7r2XDIBJxjqL3XOa4phGlpauhLKlZ99iJyLknW2Rnkq6d5
+         EAWNZYExxSuKIrG1xB+ZJ9X4Ie7esUjNZaf9NfH0biJY01G982MEU8osc8kTrbz5ZtEo
+         hWjMeU1fg4+LtOjUF3XCp9+5+jA3cf76a0EaCcHBkzqWiobbZVUapAGTtndK+tcY5GGz
+         Ls0+q1YWZt3mfYr9Iio0oG97JSInjNk7vVFBMQxBcxS9Q21hSjo4bEDdUDBshkVwyOHO
+         7IjGYkNnyyV3JI6Y8fXx5GHA3fL29rhJmQ/sM0p9ahWfaBzY0XE0jgpkVgsg3xmLxpKo
+         V9Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x6KSCsbNwlkFJVREc+cKiWL+CEEADvHjPr8OzuBD2Oc=;
-        b=nD3PAP2ovh+S75OEy0YG+dSggo6fTtTpb8XumBVBCP5j7Sr6jI1fNW04SM24pXs04h
-         aGNa7TMcS0yEITDt2KOUBlUkKnlyVpkQn3PnBO12FmzpWjOSnLtFRHP8OH9HW6WihLcH
-         UKECX18+M+/ZKfCjEQ387CEFnsv7MXBrzbZ0ILlHKgYEz9PnBkCbgl7cdhJn+5ttUX1X
-         6WkR16PFYPHg29WXic1XLNY67OMV+ogMyCC+s3STTyzSygfvxZkO/FFsrckWGVYOUw12
-         KX0BLCt2cW16/YYMDIUGR5+bLaEXTJ1kRB+CBn+MKKx3LhVxL1VWtd29WPKYE5K/u9AQ
-         SxQQ==
-X-Gm-Message-State: AOAM530BFq9/kkhfgzvjSJqSUP+RJmdYK22NQX/YE6EOM2zcnFZ6gAFL
-	OKbRMSkeGtchmu34WswQ+j06YloPtTF9dg==
-X-Google-Smtp-Source: ABdhPJxOXER6Bm/k4ezc5S7uDAtlIVVMJQhx3PnpKP5B0ACmXmskM7Z4lxTC8laC8NAbkeAJpg6i5A==
-X-Received: by 2002:a1c:bbc6:: with SMTP id l189mr11282987wmf.52.1602506206062;
-        Mon, 12 Oct 2020 05:36:46 -0700 (PDT)
+        bh=DKVkhVagdRst7Uqu19XwF6UfNEfU4nw+V1fjeqY9FUM=;
+        b=NLEWhY8lG7job5QBmLdKrw054cmOry4qsyBe2ZDFvKvIfPC1334paiJ3+kQuoxq9Mg
+         FCZxwom1FKhvQrgxc6HovO8LLDgbv3QL8Ai59MJOT8oRl1AZJXtGJcBs+GM9hlxDoLpO
+         LA40pDgE3W4VJ1X34SpekSDAp8840ArJEM0eWgBKrDJNVB6ahZ2ndbIsHwnXW13ydtqP
+         hbvDHW37L7fMwRj4PR806yz/nfBlGmyE2AoDD/qf8buNbJaMOyZPGoHRitXjJohjxAtv
+         LkF1wt6Ko+GaHPxA+K/IytZJoR+524+EUCodt/VMlJCFyt5M9Jnu5Zb/EiXlH/D4NBhH
+         2kcA==
+X-Gm-Message-State: AOAM531K9lRLBoaaOFoNqQfruklHktua+8OwKqN1v2PLkIG2cRHdHJ9X
+	+hFSvBbvMR9ZMTPkzrKPotdkotrPWSn1WA==
+X-Google-Smtp-Source: ABdhPJxSEt9Dxy7e4vgJfUc7F5h9NHBotqqqrRSaQLHDwOm0OHgFujf2Cogx5KBNf1Sq8Oyb4L4VPQ==
+X-Received: by 2002:a7b:c741:: with SMTP id w1mr3372093wmk.67.1602506204163;
+        Mon, 12 Oct 2020 05:36:44 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id i14sm23076089wml.24.2020.10.12.05.36.45
+        by smtp.gmail.com with ESMTPSA id i14sm23076089wml.24.2020.10.12.05.36.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 05:36:45 -0700 (PDT)
+        Mon, 12 Oct 2020 05:36:43 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 07/13] gstreamer1.0-python: upgrade to version 1.18.0
-Date: Mon, 12 Oct 2020 13:36:14 +0100
-Message-Id: <20201012123620.2095778-7-quaresma.jose@gmail.com>
+Subject: [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
+Date: Mon, 12 Oct 2020 13:36:12 +0100
+Message-Id: <20201012123620.2095778-5-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201012123620.2095778-1-quaresma.jose@gmail.com>
 References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-    * 0001-meson.build-fix-builds-with-python-3.8.patch
-      Removed since these are included in 1.18.0
+vulkan build fail
+to build vulkan, a new package is needed.
+add shaderc package as a separate pacth
+
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues/1349
+
+| Program glslc found: NO
+| gst-libs/gst/vulkan/meson.build:273:0: ERROR: Program(s) ['glslc'] not found or not executable
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...son.build-fix-builds-with-python-3.8.patch | 24 -------------------
- ....16.2.bb => gstreamer1.0-python_1.18.0.bb} |  8 +++----
- 2 files changed, 3 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.18.0.bb} (80%)
+ .../gstreamer/gstreamer1.0-plugins-bad_1.18.0.bb       | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
-deleted file mode 100644
-index 053108ad50..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From 61cfd1b49dc82baf14bb36d88b6c5be7b8c3d23a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 2 Dec 2019 18:16:41 +0100
--Subject: [PATCH] meson.build: fix builds with python 3.8
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-python/merge_requests/14]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 1da81d5..3e0db38 100644
----- a/meson.build
--+++ b/meson.build
--@@ -24,7 +24,7 @@ pygobject_dep = dependency('pygobject-3.0', fallback: ['pygobject', 'pygobject_d
-- 
-- pymod = import('python')
-- python = pymod.find_installation(get_option('python'))
---python_dep = python.dependency(required : true)
--+python_dep = dependency('python3-embed', required : true)
-- 
-- python_abi_flags = python.get_variable('ABIFLAGS', '')
-- pylib_loc = get_option('libpython-dir')
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.0.bb
-similarity index 80%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.0.bb
-index 9e024eb9f3..4400a018d4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.0.bb
-@@ -5,11 +5,9 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
--           file://0001-meson.build-fix-builds-with-python-3.8.patch \
--           "
--SRC_URI[md5sum] = "6ac709767334d8d0a71cb4e016f6abeb"
--SRC_URI[sha256sum] = "208df3148d73d9f416d016564737585d8ea763d91201732d44b5fe688c6288a8"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "2d55c22fcd57cae4fad55a07019aa334"
-+SRC_URI[sha256sum] = "76bfe8b85a9c4a6ddfb81874f2635fd0da38c3f39d9d2a0b175213218516dd45"
- 
- DEPENDS = "gstreamer1.0 python3-pygobject"
- RDEPENDS_${PN} += "gstreamer1.0 python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.0.bb
+index 680b9a5cf5..7fc2eec0cb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.0.bb
+@@ -22,7 +22,7 @@ inherit gobject-introspection
+ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+     bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
+@@ -76,7 +76,13 @@ PACKAGECONFIG[uvch264]         = "-Duvch264=enabled,-Duvch264=disabled,libusb1 l
+ PACKAGECONFIG[va]              = "-Dva=enabled,-Dva=disabled,libva"
+ PACKAGECONFIG[voaacenc]        = "-Dvoaacenc=enabled,-Dvoaacenc=disabled,vo-aacenc"
+ PACKAGECONFIG[voamrwbenc]      = "-Dvoamrwbenc=enabled,-Dvoamrwbenc=disabled,vo-amrwbenc"
+-PACKAGECONFIG[vulkan]          = "-Dvulkan=enabled,-Dvulkan=disabled,vulkan-loader"
++# FIXME: vulkan build fail
++# to build vulkan, a new package is needed.
++# add shaderc package as a separate pacth
++# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues/1349
++#| Program glslc found: NO
++#| gst-libs/gst/vulkan/meson.build:273:0: ERROR: Program(s) ['glslc'] not found or not executable
++#PACKAGECONFIG[vulkan]          = "-Dvulkan=enabled,-Dvulkan=disabled,vulkan-loader shaderc"
+ PACKAGECONFIG[wayland]         = "-Dwayland=enabled,-Dwayland=disabled,wayland-native wayland wayland-protocols libdrm"
+ PACKAGECONFIG[webp]            = "-Dwebp=enabled,-Dwebp=disabled,libwebp"
+ PACKAGECONFIG[webrtc]          = "-Dwebrtc=enabled,-Dwebrtc=disabled,libnice"
 -- 
 2.28.0
 
