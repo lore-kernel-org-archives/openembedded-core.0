@@ -1,440 +1,584 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.55])
- by mx.groups.io with SMTP id smtpd.web11.37280.1602497757908303876
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.39785.1602506202186528077
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 03:15:59 -0700
+ Mon, 12 Oct 2020 05:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=k4ej2BcI;
- spf=pass (domain: arm.com, ip: 40.107.15.55, mailfrom: brett.warren@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbosIz+ujXLy/ECGIipAviwHqb39/Gt9aechIyrOkQY=;
- b=k4ej2BcIRT01pb5OHxl8brAot07l+aS4A12jiojLsNE1ZrIViUqPfvyvyifwuFztyQXxCWrBUNebh2fhCphuFtvXNhnDlZ6eSziEHGxPuQvGCOaumH7V6YBUKku53tmNphmz/N45ozhex3xs6d7mX8I/VVwyqxgH9+3NGwstMxY=
-Received: from DBBPR09CA0015.eurprd09.prod.outlook.com (2603:10a6:10:c0::27)
- by AM0PR08MB4499.eurprd08.prod.outlook.com (2603:10a6:208:140::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Mon, 12 Oct
- 2020 10:15:51 +0000
-Received: from DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:c0:cafe::44) by DBBPR09CA0015.outlook.office365.com
- (2603:10a6:10:c0::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22 via Frontend
- Transport; Mon, 12 Oct 2020 10:15:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.openembedded.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.openembedded.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT015.mail.protection.outlook.com (10.152.20.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 10:15:50 +0000
-Received: ("Tessian outbound e8cdb8c6f386:v64"); Mon, 12 Oct 2020 10:15:50 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: f372f9f2a989f64a
-X-CR-MTA-TID: 64aa7808
-Received: from 3ade8397cb49.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id C925DA9D-AE2B-4E65-ACC9-C4D593E3AA87.1;
-	Mon, 12 Oct 2020 10:15:44 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 3ade8397cb49.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 12 Oct 2020 10:15:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fxrRU2ORnGUuIxpIvgB62iomFAkQeaDK2zv/3aFxm9zrVzam0NUA925gQ1Sck4S/BiMMx7pqe0MdeGKERw6vxP/inFWeDgoLkfbrsVXWPxFB2Dh8dXbY74x04BwaPrj+jgXk9nQM8zns4DWY8U9NbZH5Yd9KVHNtf7OHY1+pxpBMaSTEqszz+JLuWxab0pl1evSiGMxuI1bXte95Ceq/JUk8VFpHn3Hgbis3T8vQSIiug1G8DSkqBnKW72vATE+foxXdo7XGumfk4GKaPhks6tUUgj23Bx0LqJTz/M/+UWgbpG4vYRtgstaQhsfDzU8ku+JoV77N9Mttqh5NOW3gtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbosIz+ujXLy/ECGIipAviwHqb39/Gt9aechIyrOkQY=;
- b=GlSokVtUr4C2kW/CE/ay1TdJI8soPyEHyyHSU3rRc3sdb4tT109XK13AQdC1bym3Tudvo+H9LRN7pN4iC6wKCpEGsIC5XjF0tXNfw6DBHh71GN++yRAMprAhOMMdqgrBLJa0QSxTcd8Sr8eCa8QWv9jhXpbOhQVXgb+gqRK0df4wEhN2i5oepnx/B4ytuLS5b1sk6UvsYfodayofqLtywx8X9Itf//c2u3iwXy9hIiYwf6dXwWpWM6D2iIkzn76pxcjtFNWYWhS8rpvchI8F2N8fC7TE2O9sHcvEVVheLyEu8wif8eOrkzuynAxbt+HzVIJwmEWW5OdoF4vT/u21yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbosIz+ujXLy/ECGIipAviwHqb39/Gt9aechIyrOkQY=;
- b=k4ej2BcIRT01pb5OHxl8brAot07l+aS4A12jiojLsNE1ZrIViUqPfvyvyifwuFztyQXxCWrBUNebh2fhCphuFtvXNhnDlZ6eSziEHGxPuQvGCOaumH7V6YBUKku53tmNphmz/N45ozhex3xs6d7mX8I/VVwyqxgH9+3NGwstMxY=
-Received: from DB6PR0801MB2038.eurprd08.prod.outlook.com (2603:10a6:4:76::19)
- by DB6PR0802MB2598.eurprd08.prod.outlook.com (2603:10a6:4:97::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Mon, 12 Oct
- 2020 10:15:43 +0000
-Received: from DB6PR0801MB2038.eurprd08.prod.outlook.com
- ([fe80::446b:7bf2:5b39:f37b]) by DB6PR0801MB2038.eurprd08.prod.outlook.com
- ([fe80::446b:7bf2:5b39:f37b%10]) with mapi id 15.20.3455.030; Mon, 12 Oct
- 2020 10:15:43 +0000
-From: "Brett Warren" <brett.warren@arm.com>
-To: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM default strengths
-Thread-Topic: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM default
- strengths
-Thread-Index: AQHWnWD+D5lzX03DCE2TzJMOyqp5SKmNk6eAgAAB61OAAKypgIAAAuOAgAV4GyU=
-Date: Mon, 12 Oct 2020 10:15:43 +0000
-Message-ID: 
- <DB6PR0801MB2038207620081E154446C8E98D070@DB6PR0801MB2038.eurprd08.prod.outlook.com>
-References: <aNp1.1602154243596831287.CumO@lists.openembedded.org>
- <CANNYZj9oAoE_Se7HPd3y=sce9Mak-6n9zEBqyxikZr8trgJQvw@mail.gmail.com>
- <DB6PR0801MB203898E9E50E203D01B848C98D0B0@DB6PR0801MB2038.eurprd08.prod.outlook.com>
- <CANNYZj_RSJHxOYOWk=LGFKqbS3TH937J3HZtTn79drkM-HpgTQ@mail.gmail.com>,<CAMKF1sqiXdHUDNTknBQMkJd=g28dtSRhSt1KvqxpXDP8r7ibQA@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sqiXdHUDNTknBQMkJd=g28dtSRhSt1KvqxpXDP8r7ibQA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Authentication-Results-Original: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-x-originating-ip: [2a01:4b00:e031:2600:8a5:58c8:f377:83c3]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 97c62e92-dc2c-4acc-6e7c-08d86e97cb9e
-x-ms-traffictypediagnostic: DB6PR0802MB2598:|AM0PR08MB4499:
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR08MB44990D729C4BB782C860FC098D070@AM0PR08MB4499.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- ARcT3GXUk4sFSZGYj2PN/ROV7q0rQ95izMAxRPwuMK4EfNSwoyFG56QTulWC0VsEa1G3SdMXeF3pSdq/+FtQVASr8FbVTGBHwVhoe9dIvgJIbSUp+f++n4U58F9JVg4uII3r4dQ5/E8olherGsPCcOje78ZQitpcZvb2UEChsgzG9ttLc2ioCd2RAwUEfOa/p/Unf/LOHsSDnbkOcPPHNYeib184ZEclw06UA+w3mB7PtzifI107Y0hutofuNdsn7eyMYGUZuWw98/1PZAg3TqyQKGCjIAt2OZAioUC5xml+q+T15g9Gpcg0yukNXUjPF7ulAlaNkv402e+AuEhZl54UDUx3isHq8Z3YZpdaF1+6jZWNnKU1LOcDEzYcDmXlK7U8iGXJkEu26jITtQGDEA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR0801MB2038.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(136003)(376002)(366004)(396003)(186003)(33656002)(66556008)(64756008)(19627405001)(2906002)(71200400001)(55016002)(8936002)(66446008)(66946007)(83080400001)(166002)(8676002)(966005)(91956017)(53546011)(6506007)(316002)(52536014)(4326008)(21615005)(76116006)(66476007)(86362001)(5660300002)(7696005)(9686003)(83380400001)(478600001)(110136005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- 6d8vYHvbYeD+hESkTOHDGf5kASpwAneiCbgXeKMcJhphwxDxQAqoCS2q+TJK23/sGtbaiRfBGfGg5XdsmlpVPOdAmHn0fpYu0YZv+NhxyncS96xmV7qKbbc8RliiQZoD4hVzXFqHGnsmNyiB4FJw8BIDmDLXSVtj1TBcVC+P0ViPMagEqLAzD2mLqM8/m6Z6smzzAOnnZLk3EfCrmmcf+lM9ugAzBemvfNIakwfhR+tPJOlSN5sxtAAK7WrQ+5pZ9jX/DYMQQuwuGALun1QOTkBM/oXAlSDoin6nyJ9ek+5xtGfI7zIlQ0cF1WQOI1dUbgowr2JjDHsWp7v4ldahT7/oyQxIivGq7+AUirqLaGhxJqeVjF/GEahNq0l8kC/kktA+6DTsGHB7cY6/bItDgYi8SUtEQoJbR6I96/GcQzG8k65ic8siJvv4LTM+YzFEjBjZVZGWzm0d8flfnBgQF61t3GOtMH8DU8eTvwLGZ071xktoScf27AoVX1eCOdLEP3mRGi7U2Qm41rWdKqvjSQG3uQQq07pGduOC8dymqttAkiICnV61KrHBmDm9p8i4sUKwWB8jkU1aenZJsg3KMnyfVFFYg/pqjcJq5Yi2OeoKbODO+DY+1rnOe5Bz0GGuIbCHKyh8EhE7FAVvhe4jxQ1HM7Bub2wcYdAxHjd9RfluFIpzPV0aPQ1F/z1KkYyUyE5boKyHLkweZcp2F0sdKA==
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XMvSJ9vy;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id n6so18703780wrm.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 05:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0DCoLcJHsd75qA0W1cyKOm67SKJ5Z+al+3Ggr4UKAE0=;
+        b=XMvSJ9vyN1lKPz7Rle7B5r5gS1EO8VIShTDLv5AI3cVoilyH4+sbAb8YZgDg3+eTR6
+         3bg9cpbEpYfqXuQxbsQdpM830Alp7gLfGOL5nYZipZD8Q0ZygTD69g1bUgUfffQqv85g
+         aTvVqtJuNU/WdR5ti5tV2/kmAMuMaloHvYHH5OBzUij1zQyGa7/Pe1Woy7vBqFreBewQ
+         ST5g+UkTcsnRlNN/N3UIgV8Xzh6ID5R0Ao3iqVLHevzxom6WRMmeQI+YkqO2h8dmSVBB
+         J9wGmaJSgEqPV0UlDTpAgAEdLFv3WqmGi946OW7QyBRCqQZ66WRVOUJ4hz2L+GzauQ4s
+         cx5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0DCoLcJHsd75qA0W1cyKOm67SKJ5Z+al+3Ggr4UKAE0=;
+        b=Xt2D8MDneYPHmCSIentCDS7Q0UVBiyZTtkXElugkNNSWG9lMO9D47/yCY8ZOZLAiBB
+         aMVj40PrsZnmNsZCQvQPlFcRnN7i/6d+tEsDse5Dr+DddJHE2EU4rdYcguE4sqULy59v
+         +J8omuO35CKWAFme9YosavzlC+ckrEt/ZJw2rOVZp6lK3qGlxGKFmLTAe0ujmyJQiMJC
+         WHxX/qdIovMq74oUAGAusUQflpqYyts4jzDgtjI2YTl4hO2fQxbSGfJvZcaSZL4BkVOE
+         uwpfX/eAEEHUDNhA73V4mb3Uv0HPnceTi3QNt7VDMnzZjbUd/ikAZAdl6dmb18BsWpRv
+         LfZw==
+X-Gm-Message-State: AOAM5303m5yLwDvRh7vTCChaYyVXGhM2R1hY6oWaJaBh1jO4z+cZkFmz
+	AHJrmBQUAjqfMTIM7b/YZB3axWPz60XgvQ==
+X-Google-Smtp-Source: ABdhPJwLAWUSkDyHposNXVbc4r0eR82w3HAGwwwB/1xUtP4rf56mcMiZW6QFUzUdk1wsR+ezMc10Vw==
+X-Received: by 2002:a5d:458c:: with SMTP id p12mr8383879wrq.329.1602506199464;
+        Mon, 12 Oct 2020 05:36:39 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id i14sm23076089wml.24.2020.10.12.05.36.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 05:36:38 -0700 (PDT)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 01/13] gstreamer1.0: upgrade to version 1.18.0
+Date: Mon, 12 Oct 2020 13:36:08 +0100
+Message-Id: <20201012123620.2095778-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2598
-Original-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-Return-Path: Brett.Warren@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9053ce4f-62b9-4f70-ffcc-08d86e97c769
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	q19MqqBfjihADE3A16lcV4E+udunDBQ4NhCoS50tECHuReu91jR/CfYWevhdi+QYfn+Rv92nTeTHeZ0g1wxJeMjCWirWHUuiEuKAXsKn68G70EQe4Y8oOKTO0hmRzKHJxdMoefK39yl2xNo0mOhBCUlsQjxgRWPTVSUExmQrk7bjRXr+zgVgQGuzNKEiO21JZLX1pIXB3yic53jn7aHd/ea4HRdNwAmUDRzzu+f04+LrRpTKjoHhfaMD3j1NVcukxDuyt4o0pEZUgkdq4sfsEgpIzfJ2BytXW9ZHq+IMgCbRJnj23qs/K2vgKA5OxBG9oGLFAncbtMCKs64NIseh0jb+l/MDPUlGi4aBJGORd2nS0eaLf7aLrisfwleXTGUqWtNvChUdRg0UYA/tiWeKKeOnNXZvhVhMVZUgXsD6+xcbx885XpnbiCLu5w8U4p43lIi4DlErLOy+/bkALhTLH8S9XCAGTvv5j+z9P1ZSgLo=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(346002)(39860400002)(46966005)(83080400001)(81166007)(21615005)(8936002)(166002)(47076004)(478600001)(5660300002)(82310400003)(356005)(86362001)(33656002)(6506007)(4326008)(8676002)(9686003)(70586007)(7696005)(53546011)(316002)(52536014)(966005)(110136005)(82740400003)(336012)(19627405001)(26005)(186003)(30864003)(55016002)(70206006)(83380400001)(2906002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 10:15:50.8120
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97c62e92-dc2c-4acc-6e7c-08d86e97cb9e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4499
-Content-Language: en-GB
-Content-Type: multipart/alternative;
-	boundary="_000_DB6PR0801MB2038207620081E154446C8E98D070DB6PR0801MB2038_"
+Content-Transfer-Encoding: 8bit
 
---_000_DB6PR0801MB2038207620081E154446C8E98D070DB6PR0801MB2038_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+    * 0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+      Submited
+      https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/669
 
-For qemuarm64-secureboot, trusted-firmware-a needed 1024MB of memory to ope=
-rate when using u-boot, so an override was provided in the machine configur=
-ation. This is because the default BL33 load address is set to 512MB, so u-=
-boot always ends up overflowing without increasing the memory available.
+    * 0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+      Removed since these are included in 1.18.0
 
-There is a possibility that this load address could be set lower later (ht=
-tps://lists.denx.de/pipermail/u-boot/2020-September/427616.html) but for no=
-w this patch is needed to make core-image-sato work on qemuarm64-secureboot=
-.
-________________________________
-From: Khem Raj <raj.khem@gmail.com>
-Sent: 08 October 2020 23:11
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Brett Warren <Brett.Warren@arm.com>; openembedded-core@lists.openembed=
-ded.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM default =
-strengths
+    * 0003-meson-Add-valgrind-feature.patch
+      Removed because upstream don't depend anymore on valgrind
+      https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/595
 
-someone may decide to allocate large amount of RAM to the machine as a
-distro policy so images should not be overwriting that unless its less
-than what it requires to run,
+    * capfix.patch
+      Removed as the new PACKAGECONFIG capabilities can be used instead to achieve the same goals.
+      Fix reproducibility issue around libcap.
 
-On Thu, Oct 8, 2020 at 3:01 PM Alexander Kanavin <alex.kanavin@gmail.com> =
-wrote:
->
-> Can you provide a bit more context? Why is that setting desirable to hav=
-e in meta-arm's machine definition?
->
-> The problem with setting QB_MEM in machine configurations is that differ=
-ent images need completely different amounts of memory; for some (such as p=
-test images) even 1024 is not enough, for others (core-image-minimal) 256 i=
-s plenty. The right place to set this is in the image recipes, with qemuboo=
-t class providing the smallest possible default.
->
-> Alex
->
-> On Thu, 8 Oct 2020 at 13:51, Brett Warren <Brett.Warren@arm.com> wrote:
->>
->> Do you mean instead of the machine configuration changing QB_MEM, it sh=
-ould be done via another image recipe?
->>
->> For context, I'm trying to enable the following line in qemuarm.confv (=
-meta-arm):
->>
->> QB_MEM =3D "-m 1024"
->>
->> This is prevented by core-image-sato.bb overriding it instead.
->>
->> Brett
->> ________________________________
->> From: Alexander Kanavin <alex.kanavin@gmail.com>
->> Sent: 08 October 2020 12:36
->> To: Brett Warren <Brett.Warren@arm.com>
->> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org>
->> Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM defau=
-lt strengths
->>
->> Isn=92t it better to just make a custom image recipe instead?
->>
->> Alex
->>
->> On Thu 8. Oct 2020 at 12.53, Brett Warren <brett.warren@arm.com> wrote:
->>
->> Previously, to satisfy opengl's requirement for at least 512MB
->> of memory, QB_MEM was overriden by core-image-sato. This made it
->> impossible for machine configurations to specify their own values,
->> so this was changed to a default asssignment. To accomodate this,
->> qemuboot's default assignment of QB_MEM was changed to the week
->> variant.
->>
->> Signed-off-by: Brett Warren <brett.warren@arm.com>
->> ---
->>  meta/classes/qemuboot.bbclass               | 2 +-
->>  meta/recipes-sato/images/core-image-sato.bb | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbcl=
-ass
->> index d8f62ef6ea..8e4ee9e49b 100644
->> --- a/meta/classes/qemuboot.bbclass
->> +++ b/meta/classes/qemuboot.bbclass
->> @@ -73,7 +73,7 @@
->>  # IMAGE_CLASSES +=3D "qemuboot"
->>  # See "runqemu help" for more info
->>
->> -QB_MEM ?=3D "-m 256"
->> +QB_MEM ??=3D "-m 256"
->>  QB_SERIAL_OPT ?=3D "-serial mon:stdio -serial null"
->>  QB_DEFAULT_KERNEL ?=3D "${KERNEL_IMAGETYPE}"
->>  QB_DEFAULT_FSTYPE ?=3D "ext4"
->> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes=
--sato/images/core-image-sato.bb
->> index 673106eb6d..ec5e2e20fc 100644
->> --- a/meta/recipes-sato/images/core-image-sato.bb
->> +++ b/meta/recipes-sato/images/core-image-sato.bb
->> @@ -11,5 +11,5 @@ inherit core-image
->>  TOOLCHAIN_HOST_TASK_append =3D " nativesdk-intltool nativesdk-glib-2.0=
-"
->>  TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext =3D " nativesdk-intlt=
-ool nativesdk-glib-2.0"
->>
->> -QB_MEM =3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512"=
-, "-m 256", d)}'
->> +QB_MEM ?=3D '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512=
-", "-m 256", d)}'
->>  QB_MEM_qemumips =3D "-m 256"
->> --
->> 2.17.1
->>
->>
->> IMPORTANT NOTICE: The contents of this email and any attachments are co=
-nfidential and may also be privileged. If you are not the intended recipien=
-t, please notify the sender immediately and do not disclose the contents to=
- any other person, use it for any purpose, or store or copy the information=
- in any medium. Thank you.
->
->
->=20
->
-IMPORTANT NOTICE: The contents of this email and any attachments are confi=
-dential and may also be privileged. If you are not the intended recipient, =
-please notify the sender immediately and do not disclose the contents to an=
-y other person, use it for any purpose, or store or copy the information in=
- any medium. Thank you.
+    * 0002-Remove-unused-valgrind-detection.patch
+      Upstream-Status: Backport [a2cbf75523cdf8a4df1baa7007d86ef455972245]
+      https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/a2cbf75523cdf8a4df1baa7007d86ef455972245
 
---_000_DB6PR0801MB2038207620081E154446C8E98D070DB6PR0801MB2038_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+    API and plugin documentation are no longer built with gtk_doc.
+    The gtk_doc documentation has been removed in favour of a new unified
+    documentation module built with hotdoc.
+    Distributors should use the documentation release tarball instead of trying
+    to package hotdoc and building the documentation from scratch.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-=
-1252">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-b=
-ottom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-For qemuarm64-secureboot, trusted-firmware-a needed 1024MB of memory to op=
-erate when using u-boot, so an override was provided in the machine configu=
-ration. This is because the default BL33 load address is set to 512MB, so u=
--boot always ends up overflowing
- without increasing the memory available.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-There is a possibility that this load address could be set lower later (<a=
- href=3D"https://lists.denx.de/pipermail/u-boot/2020-September/427616.html"=
- id=3D"LPlnk366421">https://lists.denx.de/pipermail/u-boot/2020-September/4=
-27616.html</a>) but for now this patch
- is needed to make core-image-sato work on qemuarm64-secureboot.<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" s=
-tyle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Khem Raj &lt;raj.khe=
-m@gmail.com&gt;<br>
-<b>Sent:</b> 08 October 2020 23:11<br>
-<b>To:</b> Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
-<b>Cc:</b> Brett Warren &lt;Brett.Warren@arm.com&gt;; openembedded-core@li=
-sts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM d=
-efault strengths</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt=
-;">
-<div class=3D"PlainText">someone may decide to allocate large amount of RA=
-M to the machine as a<br>
-distro policy so images should not be overwriting that unless its less<br>
-than what it requires to run,<br>
-<br>
-On Thu, Oct 8, 2020 at 3:01 PM Alexander Kanavin &lt;alex.kanavin@gmail.co=
-m&gt; wrote:<br>
-&gt;<br>
-&gt; Can you provide a bit more context? Why is that setting desirable to =
-have in meta-arm's machine definition?<br>
-&gt;<br>
-&gt; The problem with setting QB_MEM in machine configurations is that dif=
-ferent images need completely different amounts of memory; for some (such a=
-s ptest images) even 1024 is not enough, for others (core-image-minimal) 25=
-6 is plenty. The right place to set
- this is in the image recipes, with qemuboot class providing the smallest =
-possible default.<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt; On Thu, 8 Oct 2020 at 13:51, Brett Warren &lt;Brett.Warren@arm.com&gt=
-; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Do you mean instead of the machine configuration changing QB_MEM,=
- it should be done via another image recipe?<br>
-&gt;&gt;<br>
-&gt;&gt; For context, I'm trying to enable the following line in qemuarm.c=
-onfv (meta-arm):<br>
-&gt;&gt;<br>
-&gt;&gt; QB_MEM =3D &quot;-m 1024&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; This is prevented by core-image-sato.bb overriding it instead.<br=
->
-&gt;&gt;<br>
-&gt;&gt; Brett<br>
-&gt;&gt; ________________________________<br>
-&gt;&gt; From: Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
-&gt;&gt; Sent: 08 October 2020 12:36<br>
-&gt;&gt; To: Brett Warren &lt;Brett.Warren@arm.com&gt;<br>
-&gt;&gt; Cc: openembedded-core@lists.openembedded.org &lt;openembedded-cor=
-e@lists.openembedded.org&gt;<br>
-&gt;&gt; Subject: Re: [OE-core] Subject: [PATCHv2] qemuboot: change QB_MEM=
- default strengths<br>
-&gt;&gt;<br>
-&gt;&gt; Isn=92t it better to just make a custom image recipe instead?<br>
-&gt;&gt;<br>
-&gt;&gt; Alex<br>
-&gt;&gt;<br>
-&gt;&gt; On Thu 8. Oct 2020 at 12.53, Brett Warren &lt;brett.warren@arm.co=
-m&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Previously, to satisfy opengl's requirement for at least 512MB<br=
->
-&gt;&gt; of memory, QB_MEM was overriden by core-image-sato. This made it<=
-br>
-&gt;&gt; impossible for machine configurations to specify their own values=
-,<br>
-&gt;&gt; so this was changed to a default asssignment. To accomodate this,=
-<br>
-&gt;&gt; qemuboot's default assignment of QB_MEM was changed to the week<b=
-r>
-&gt;&gt; variant.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Brett Warren &lt;brett.warren@arm.com&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;&nbsp; meta/classes/qemuboot.bbclass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2 +-<br>
-&gt;&gt;&nbsp; meta/recipes-sato/images/core-image-sato.bb | 2 +-<br>
-&gt;&gt;&nbsp; 2 files changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboo=
-t.bbclass<br>
-&gt;&gt; index d8f62ef6ea..8e4ee9e49b 100644<br>
-&gt;&gt; --- a/meta/classes/qemuboot.bbclass<br>
-&gt;&gt; +++ b/meta/classes/qemuboot.bbclass<br>
-&gt;&gt; @@ -73,7 +73,7 @@<br>
-&gt;&gt;&nbsp; # IMAGE_CLASSES +=3D &quot;qemuboot&quot;<br>
-&gt;&gt;&nbsp; # See &quot;runqemu help&quot; for more info<br>
-&gt;&gt;<br>
-&gt;&gt; -QB_MEM ?=3D &quot;-m 256&quot;<br>
-&gt;&gt; +QB_MEM ??=3D &quot;-m 256&quot;<br>
-&gt;&gt;&nbsp; QB_SERIAL_OPT ?=3D &quot;-serial mon:stdio -serial null&quo=
-t;<br>
-&gt;&gt;&nbsp; QB_DEFAULT_KERNEL ?=3D &quot;${KERNEL_IMAGETYPE}&quot;<br>
-&gt;&gt;&nbsp; QB_DEFAULT_FSTYPE ?=3D &quot;ext4&quot;<br>
-&gt;&gt; diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/r=
-ecipes-sato/images/core-image-sato.bb<br>
-&gt;&gt; index 673106eb6d..ec5e2e20fc 100644<br>
-&gt;&gt; --- a/meta/recipes-sato/images/core-image-sato.bb<br>
-&gt;&gt; +++ b/meta/recipes-sato/images/core-image-sato.bb<br>
-&gt;&gt; @@ -11,5 +11,5 @@ inherit core-image<br>
-&gt;&gt;&nbsp; TOOLCHAIN_HOST_TASK_append =3D &quot; nativesdk-intltool na=
-tivesdk-glib-2.0&quot;<br>
-&gt;&gt;&nbsp; TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext =3D &quot;=
- nativesdk-intltool nativesdk-glib-2.0&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; -QB_MEM =3D '${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &q=
-uot;opengl&quot;, &quot;-m 512&quot;, &quot;-m 256&quot;, d)}'<br>
-&gt;&gt; +QB_MEM ?=3D '${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &=
-quot;opengl&quot;, &quot;-m 512&quot;, &quot;-m 256&quot;, d)}'<br>
-&gt;&gt;&nbsp; QB_MEM_qemumips =3D &quot;-m 256&quot;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.17.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; IMPORTANT NOTICE: The contents of this email and any attachments =
-are confidential and may also be privileged. If you are not the intended re=
-cipient, please notify the sender immediately and do not disclose the conte=
-nts to any other person, use it for any
- purpose, or store or copy the information in any medium. Thank you.<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-</div>
-</span></font></div>
-IMPORTANT NOTICE: The contents of this email and any attachments are confi=
-dential and may also be privileged. If you are not the intended recipient, =
-please notify the sender immediately and do not disclose the contents to an=
-y other person, use it for any purpose,
- or store or copy the information in any medium. Thank you.
-</body>
-</html>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ ...der.c-when-env-var-is-set-do-not-fal.patch |  17 +--
+ ...002-Remove-unused-valgrind-detection.patch | 112 ++++++++++++++++++
+ ...even-when-cross-compiling-if-introsp.patch |  36 ------
+ ...eson-Add-option-for-installed-tests.patch} |  22 ++--
+ .../0003-meson-Add-valgrind-feature.patch     |  74 ------------
+ .../gstreamer/gstreamer1.0/capfix.patch       |  37 ------
+ ...er1.0_1.16.2.bb => gstreamer1.0_1.18.0.bb} |  32 ++---
+ 7 files changed, 147 insertions(+), 183 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unused-valgrind-detection.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0/{0004-meson-Add-option-for-installed-tests.patch => 0003-meson-Add-option-for-installed-tests.patch} (96%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-valgrind-feature.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb => gstreamer1.0_1.18.0.bb} (72%)
 
---_000_DB6PR0801MB2038207620081E154446C8E98D070DB6PR0801MB2038_--
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+index 67a872cddb..5818c628e3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+@@ -1,7 +1,7 @@
+-From a1d7c582392c8bc87fa9411af77b20e011944357 Mon Sep 17 00:00:00 2001
++From a66255ba270dcabd0084b1447239bd51989d446e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 25 Jan 2018 17:55:02 +0200
+-Subject: [PATCH] gst/gstpluginloader.c: when env var is set do not fall
++Subject: [PATCH 1/3] gst/gstpluginloader.c: when env var is set do not fall
+  through to system plugin scanner
+ 
+ If we set a custom GST_PLUGIN_SCANNER env var, then we probably want to use that and only that.
+@@ -9,17 +9,20 @@ If we set a custom GST_PLUGIN_SCANNER env var, then we probably want to use that
+ Falling through to the one installed on the system is problamatic in cross-compilation
+ environemnts, regardless of whether one pointed to by the env var succeeded or failed.
+ 
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/669]
++
++%% original patch: 0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
++
++Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+ ---
+  gst/gstpluginloader.c | 4 +---
+  1 file changed, 1 insertion(+), 3 deletions(-)
+ 
+ diff --git a/gst/gstpluginloader.c b/gst/gstpluginloader.c
+-index 430829d..3a75731 100644
++index d1e404d..2e00c3c 100644
+ --- a/gst/gstpluginloader.c
+ +++ b/gst/gstpluginloader.c
+-@@ -471,9 +471,7 @@ gst_plugin_loader_spawn (GstPluginLoader * loader)
++@@ -475,9 +475,7 @@ gst_plugin_loader_spawn (GstPluginLoader * loader)
+      helper_bin = g_strdup (env);
+      res = gst_plugin_loader_try_helper (loader, helper_bin);
+      g_free (helper_bin);
+@@ -31,5 +34,5 @@ index 430829d..3a75731 100644
+  
+  #ifdef G_OS_WIN32
+ -- 
+-2.15.1
++2.28.0
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unused-valgrind-detection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unused-valgrind-detection.patch
+new file mode 100644
+index 0000000000..31fad265cf
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unused-valgrind-detection.patch
+@@ -0,0 +1,112 @@
++From f9dba782d6ec17df2c14283a4acfcdf8a4246a66 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
++Date: Fri, 14 Aug 2020 16:38:26 +0100
++Subject: [PATCH 2/3] Remove unused valgrind detection
++
++Having this just to log a debug message in case we're
++running inside valgrind doesn't seem very useful, and
++the code that used to use this no longer exists it seems.
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/595>
++
++Upstream-Status: Backport [a2cbf75523cdf8a4df1baa7007d86ef455972245]
++
++Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
++---
++ gst/gst_private.h |  2 --
++ gst/gstinfo.c     | 39 ---------------------------------------
++ meson.build       |  1 -
++ 3 files changed, 42 deletions(-)
++
++diff --git a/gst/gst_private.h b/gst/gst_private.h
++index 1b0f02b..a8897e1 100644
++--- a/gst/gst_private.h
+++++ b/gst/gst_private.h
++@@ -116,8 +116,6 @@ G_GNUC_INTERNAL  gboolean _priv_plugin_deps_env_vars_changed (GstPlugin * plugin
++ 
++ G_GNUC_INTERNAL  gboolean _priv_plugin_deps_files_changed (GstPlugin * plugin);
++ 
++-G_GNUC_INTERNAL  gboolean _priv_gst_in_valgrind (void);
++-
++ /* init functions called from gst_init(). */
++ G_GNUC_INTERNAL  void  _priv_gst_quarks_initialize (void);
++ G_GNUC_INTERNAL  void  _priv_gst_mini_object_initialize (void);
++diff --git a/gst/gstinfo.c b/gst/gstinfo.c
++index 37987d3..15f522e 100644
++--- a/gst/gstinfo.c
+++++ b/gst/gstinfo.c
++@@ -304,36 +304,6 @@ static gboolean pretty_tags = PRETTY_TAGS_DEFAULT;
++ static volatile gint G_GNUC_MAY_ALIAS __default_level = GST_LEVEL_DEFAULT;
++ static volatile gint G_GNUC_MAY_ALIAS __use_color = GST_DEBUG_COLOR_MODE_ON;
++ 
++-/* FIXME: export this? */
++-gboolean
++-_priv_gst_in_valgrind (void)
++-{
++-  static enum
++-  {
++-    GST_VG_UNCHECKED,
++-    GST_VG_NO_VALGRIND,
++-    GST_VG_INSIDE
++-  }
++-  in_valgrind = GST_VG_UNCHECKED;
++-
++-  if (in_valgrind == GST_VG_UNCHECKED) {
++-#ifdef HAVE_VALGRIND_VALGRIND_H
++-    if (RUNNING_ON_VALGRIND) {
++-      GST_CAT_INFO (GST_CAT_GST_INIT, "we're running inside valgrind");
++-      in_valgrind = GST_VG_INSIDE;
++-    } else {
++-      GST_CAT_LOG (GST_CAT_GST_INIT, "not doing extra valgrind stuff");
++-      in_valgrind = GST_VG_NO_VALGRIND;
++-    }
++-#else
++-    in_valgrind = GST_VG_NO_VALGRIND;
++-#endif
++-    g_assert (in_valgrind == GST_VG_NO_VALGRIND ||
++-        in_valgrind == GST_VG_INSIDE);
++-  }
++-  return (in_valgrind == GST_VG_INSIDE);
++-}
++-
++ static gchar *
++ _replace_pattern_in_gst_debug_file_name (gchar * name, const char *token,
++     guint val)
++@@ -462,9 +432,6 @@ _priv_gst_debug_init (void)
++   _priv_GST_CAT_PROTECTION =
++       _gst_debug_category_new ("GST_PROTECTION", 0, "protection");
++ 
++-  /* print out the valgrind message if we're in valgrind */
++-  _priv_gst_in_valgrind ();
++-
++   env = g_getenv ("GST_DEBUG_OPTIONS");
++   if (env != NULL) {
++     if (strstr (env, "full_tags") || strstr (env, "full-tags"))
++@@ -2502,12 +2469,6 @@ gst_debug_construct_win_color (guint colorinfo)
++   return 0;
++ }
++ 
++-gboolean
++-_priv_gst_in_valgrind (void)
++-{
++-  return FALSE;
++-}
++-
++ void
++ _gst_debug_dump_mem (GstDebugCategory * cat, const gchar * file,
++     const gchar * func, gint line, GObject * obj, const gchar * msg,
++diff --git a/meson.build b/meson.build
++index f95b4f7..143c043 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -200,7 +200,6 @@ check_headers = [
++   'sys/wait.h',
++   'ucontext.h',
++   'unistd.h',
++-  'valgrind/valgrind.h',
++   'sys/resource.h',
++   'sys/uio.h',
++ ]
++-- 
++2.28.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+deleted file mode 100644
+index 1ed7198a5c..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 35db4a2433fbdf8612cf98b5aab5b14aeb5372f8 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+-Date: Thu, 17 Oct 2019 12:13:35 +0100
+-Subject: [PATCH] meson: build gir even when cross-compiling if introspection
+- was enabled explicitly
+-
+-This can be made to work in certain circumstances when
+-cross-compiling, so default to not building g-i stuff
+-when cross-compiling, but allow it if introspection was
+-enabled explicitly via -Dintrospection=enabled.
+-
+-Fixes #454 and #381.
+-
+-Upstream-Status: Backport [35db4a2433fbdf8612cf98b5aab5b14aeb5372f8]
+-
+-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+----
+- meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 90d98d8eb..a47e7f34e 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -466,7 +466,7 @@ rt_lib = cc.find_library('rt', required : false)
+- gir = find_program('g-ir-scanner', required : get_option('introspection'))
+- gnome = import('gnome')
+- 
+--build_gir = gir.found() and not meson.is_cross_build()
+-+build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection').enabled())
+- 
+- gir_init_section = [ '--add-init-section=extern void gst_init(gint*,gchar**);' + \
+-     'g_setenv("GST_REGISTRY_DISABLE", "yes", TRUE);' + \
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-option-for-installed-tests.patch
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-option-for-installed-tests.patch
+index 0e6c44ea32..eb8c041e43 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-option-for-installed-tests.patch
+@@ -1,7 +1,7 @@
+-From b843400284751968862751dfe93853f151551c64 Mon Sep 17 00:00:00 2001
++From 705e2b7324bdd163751becdb83435fca862ab6b9 Mon Sep 17 00:00:00 2001
+ From: Carlos Rafael Giani <crg7475@mailbox.org>
+ Date: Fri, 25 Oct 2019 00:06:26 +0200
+-Subject: [PATCH] meson: Add option for installed tests
++Subject: [PATCH 3/3] meson: Add option for installed tests
+ 
+ This adds an option for producing installed versions of the unit tests.
+ These versions don't need meson to run (only a small shell script). This
+@@ -9,6 +9,8 @@ makes it easier to run cross compiled tests on a target machine.
+ 
+ Upstream-Status: Pending
+ 
++%% original patch: 0004-meson-Add-option-for-installed-tests.patch
++
+ Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+ ---
+  build-aux/gen-installed-test-desc.py     | 18 ++++++
+@@ -77,10 +79,10 @@ index 0000000..5da86fb
+ +write_template(args.output, build_template(args.test_execdir, args.testname))
+ +os.chmod(args.output, 0o755)
+ diff --git a/meson_options.txt b/meson_options.txt
+-index 8afde39..8884dcc 100644
++index 72c3997..346c423 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+-@@ -16,6 +16,8 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
++@@ -15,6 +15,8 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
+  option('memory-alignment', type: 'combo',
+         choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
+         value: 'malloc')
+@@ -90,10 +92,10 @@ index 8afde39..8884dcc 100644
+  # Feature options
+  option('check', type : 'feature', value : 'auto', description : 'Build unit test libraries')
+ diff --git a/tests/check/meson.build b/tests/check/meson.build
+-index 04da83f..2db7f76 100644
++index 372ea41..bb0dcfa 100644
+ --- a/tests/check/meson.build
+ +++ b/tests/check/meson.build
+-@@ -118,11 +118,17 @@ if add_languages('cpp', required : false)
++@@ -120,11 +120,17 @@ if add_languages('cpp', native: false, required: false)
+    ]
+  endif
+  
+@@ -109,10 +111,10 @@ index 04da83f..2db7f76 100644
+    '-DGST_CHECK_TEST_ENVIRONMENT_BEACON="GST_STATE_IGNORE_ELEMENTS"',
+ -  '-DTESTFILE="' + meson.current_source_dir() + '/meson.build"',
+ +  '-DTESTFILE="@0@"'.format(test_files_path + '/testfile'),
+-   '-DGST_USE_UNSTABLE_API',
+    '-DGST_DISABLE_DEPRECATED',
+  ]
+-@@ -137,6 +143,14 @@ endif
++ 
++@@ -138,6 +144,14 @@ endif
+  glib_deps = [gio_dep, gobject_dep, gmodule_dep, glib_dep]
+  gst_deps = [gst_dep, gst_base_dep, gst_check_dep, gst_net_dep, gst_controller_dep]
+  
+@@ -127,7 +129,7 @@ index 04da83f..2db7f76 100644
+  foreach t : core_tests
+    fname = t[0]
+    test_name = fname.split('.')[0].underscorify()
+-@@ -150,8 +164,38 @@ foreach t : core_tests
++@@ -151,8 +165,38 @@ foreach t : core_tests
+          include_directories : [configinc],
+          link_with : link_with_libs,
+          dependencies : test_deps + glib_deps + gst_deps,
+@@ -253,5 +255,5 @@ index 0000000..89954e0
+ +................................................................................
+ +................................................................................
+ -- 
+-2.17.1
++2.28.0
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-valgrind-feature.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-valgrind-feature.patch
+deleted file mode 100644
+index f553340f4d..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-valgrind-feature.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From f6c7973c03d9ba7dab60c496e768c5e6c4ee824c Mon Sep 17 00:00:00 2001
+-From: Carlos Rafael Giani <crg7475@mailbox.org>
+-Date: Sun, 20 Oct 2019 10:36:44 +0200
+-Subject: [PATCH] meson: Add valgrind feature
+-
+-This allows for enabling/disabling Valgrind support. Since Valgrind is
+-an external dependency, such a feature is needed by build environemnts
+-such as Yocto to make sure builds are deterministic. These changes also
+-add more Valgrind specific configure log output.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+----
+- meson.build       | 23 ++++++++++++++++++++++-
+- meson_options.txt |  1 +
+- 2 files changed, 23 insertions(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index b55ecc5..4751761 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -199,7 +199,6 @@ check_headers = [
+-   'sys/wait.h',
+-   'ucontext.h',
+-   'unistd.h',
+--  'valgrind/valgrind.h',
+-   'sys/resource.h',
+- ]
+- 
+-@@ -214,6 +213,28 @@ foreach h : check_headers
+-   endif
+- endforeach
+- 
+-+valgrind_option = get_option('valgrind')
+-+if valgrind_option.disabled()
+-+  message('Valgrind support not requested; disabled.')
+-+else
+-+  valgrind_header = 'valgrind/valgrind.h'
+-+  has_valgrind_header = cc.has_header(valgrind_header)
+-+  if has_valgrind_header
+-+    message('Valgrind support requested, and header ' + valgrind_header + \
+-+        ' found. Enabled Valgrind support.')
+-+    define = 'HAVE_' + valgrind_header.underscorify().to_upper()
+-+    cdata.set(define, 1)
+-+  else
+-+    if valgrind_option.enabled()
+-+      error('Valgrind support requested and set as required, but header ' + \
+-+        valgrind_header + ' not found.')
+-+    else
+-+      message('Valgrind support requested, but header ' + valgrind_header + \
+-+        ' not found. Disabling Valgrind support.')
+-+    endif
+-+  endif
+-+endif
+-+
+- if cc.has_member('struct tm', 'tm_gmtoff', prefix : '#include <time.h>')
+-   cdata.set('HAVE_TM_GMTOFF', 1)
+- endif
+-diff --git a/meson_options.txt b/meson_options.txt
+-index e7ff7ba..8afde39 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -19,6 +19,7 @@ option('memory-alignment', type: 'combo',
+- 
+- # Feature options
+- option('check', type : 'feature', value : 'auto', description : 'Build unit test libraries')
+-+option('valgrind', type : 'feature', value : 'auto', description : 'Enable Valgrind support')
+- option('libunwind', type : 'feature', value : 'auto', description : 'Use libunwind to generate backtraces')
+- option('libdw', type : 'feature', value : 'auto', description : 'Use libdw to generate better backtraces from libunwind')
+- option('dbghelp', type : 'feature', value : 'auto', description : 'Use dbghelp to generate backtraces')
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+deleted file mode 100644
+index 7ca3d5ad4a..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Currently gstreamer configuration depends on whether setcap is found on the host
+-system. Turn this into a configure option to make builds deterinistic.
+-
+-RP 2020/2/19
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending
+-
+-Index: gstreamer-1.16.1/libs/gst/helpers/meson.build
+-===================================================================
+---- gstreamer-1.16.1.orig/libs/gst/helpers/meson.build
+-+++ gstreamer-1.16.1/libs/gst/helpers/meson.build
+-@@ -73,7 +73,12 @@ if have_ptp
+-     endif
+-   endif
+- 
+--  setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+-+  setcap_feature = get_option('setcap')
+-+  if setcap_feature.disabled()
+-+    setcap = find_program('dontexist', required : false)
+-+  else
+-+    setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+-+  endif
+- 
+-   # user/group to change to in gst-ptp-helper
+-   ptp_helper_setuid_user = get_option('ptp-helper-setuid-user')
+-Index: gstreamer-1.16.1/meson_options.txt
+-===================================================================
+---- gstreamer-1.16.1.orig/meson_options.txt
+-+++ gstreamer-1.16.1/meson_options.txt
+-@@ -26,6 +26,7 @@ option('libunwind', type : 'feature', va
+- option('libdw', type : 'feature', value : 'auto', description : 'Use libdw to generate better backtraces from libunwind')
+- option('dbghelp', type : 'feature', value : 'auto', description : 'Use dbghelp to generate backtraces')
+- option('bash-completion', type : 'feature', value : 'auto', description : 'Install bash completion files')
+-+option('setcap', type : 'feature', value : 'auto', description : 'Use setcap')
+- 
+- # Common feature options
+- option('examples', type : 'feature', value : 'auto', yield : true)
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
+similarity index 72%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
+index 50a872e292..dc3b6aa39f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
+@@ -6,41 +6,38 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
+ SECTION = "multimedia"
+ LICENSE = "LGPLv2+"
+ 
+-DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
++DEPENDS = "glib-2.0 glib-2.0-native libxml2 bison-native flex-native"
+ 
+-inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc
++inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+                     file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
+ 
+ S = "${WORKDIR}/gstreamer-${PV}"
+ 
+-SRC_URI = " \
+-    https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+-    file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+-    file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+-    file://0003-meson-Add-valgrind-feature.patch \
+-    file://0004-meson-Add-option-for-installed-tests.patch \
+-    file://capfix.patch \
+-"
+-SRC_URI[md5sum] = "0e661ed5bdf1d8996e430228d022628e"
+-SRC_URI[sha256sum] = "e3f044246783fd685439647373fa13ba14f7ab0b346eadd06437092f8419e94e"
++SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
++           file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
++           file://0002-Remove-unused-valgrind-detection.patch \
++           file://0003-meson-Add-option-for-installed-tests.patch \
++           "
++SRC_URI[md5sum] = "25d683630ff8b82b2c878aa3edd3c491"
++SRC_URI[sha256sum] = "0ff09245b06c0aeb5d9a156edcab088a7e8213a0bf9c84a1ff0318f9c00c7805"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
+                    debug \
+-                   tools"
++                   tools \
++                   capabilities"
+ 
+ PACKAGECONFIG[debug] = "-Dgst_debug=true,-Dgst_debug=false"
+ PACKAGECONFIG[tracer-hooks] = "-Dtracer_hooks=true,-Dtracer_hooks=false"
+ PACKAGECONFIG[check] = "-Dcheck=enabled,-Dcheck=disabled"
+ PACKAGECONFIG[tests] = "-Dtests=enabled -Dinstalled-tests=true,-Dtests=disabled -Dinstalled-tests=false"
+-PACKAGECONFIG[valgrind] = "-Dvalgrind=enabled,-Dvalgrind=disabled,valgrind,"
+ PACKAGECONFIG[unwind] = "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
+ PACKAGECONFIG[dw] = "-Dlibdw=enabled,-Dlibdw=disabled,elfutils"
+ PACKAGECONFIG[bash-completion] = "-Dbash-completion=enabled,-Dbash-completion=disabled,bash-completion"
+ PACKAGECONFIG[tools] = "-Dtools=enabled,-Dtools=disabled"
+-PACKAGECONFIG[setcap] = "-Dsetcap=enabled,-Dsetcap=disabled,libcap libcap-native"
++PACKAGECONFIG[capabilities] = "-Dptp-helper-permissions=capabilities,-Dptp-helper-permissions=none,libcap libcap-native"
+ 
+ # TODO: put this in a gettext.bbclass patch
+ def gettext_oemeson(d):
+@@ -52,15 +49,12 @@ def gettext_oemeson(d):
+     return '-Dnls=enabled'
+ 
+ EXTRA_OEMESON += " \
++    -Ddoc=disabled \
+     -Dexamples=disabled \
+     -Ddbghelp=disabled \
+     ${@gettext_oemeson(d)} \
+ "
+ 
+-GTKDOC_MESON_OPTION = "gtk_doc"
+-GTKDOC_MESON_ENABLE_FLAG = "enabled"
+-GTKDOC_MESON_DISABLE_FLAG = "disabled"
+-
+ GIR_MESON_ENABLE_FLAG = "enabled"
+ GIR_MESON_DISABLE_FLAG = "disabled"
+ 
+-- 
+2.28.0
+
