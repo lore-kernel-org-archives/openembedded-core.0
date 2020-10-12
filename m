@@ -1,86 +1,98 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.5138.1602526330932469208
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+ by mx.groups.io with SMTP id smtpd.web11.5178.1602526433686129696
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 11:12:11 -0700
+ Mon, 12 Oct 2020 11:13:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cdtV33pq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id k18so18453419wmj.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 11:12:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TRV3iib4;
+ spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f68.google.com with SMTP id x185so9649187vsb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 11:13:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=/kBgafezEU8X2jebQQRJIZCWYRH0kh/qF9/vp+hKKQU=;
-        b=cdtV33pq6J2NhgFZbRfmw/UkP7ma3lRLc5k9kpfl2XuDapu77wXyz2JQtlbhE/HbeN
-         9XSpYhIpWAaZB8xZXgcAMWihxf/dfRip3oMvlKOXviJ/Qbd/iPluj12QtCGXMy+xDNmK
-         v0oSEPCWeaRazUBNrl5wkVRUJVOrkVd2rH5vA=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=d7rnZI5N6ZswEoIhRhu0bu7YkMo6oGnYZIvFnhYNVXI=;
+        b=TRV3iib49vQaOt2k0Ra19lw0C2nZrGMXa49q7WBGMlaU+zuZKPUx2h15evyEFWa9fE
+         /gs2uLVuPmxBUSz3IaTQIhpOda/Ples1yurZwTtprHnKuquady7l0htgXjlYXJDkDhBr
+         FpGONnTP4k+zjynTCstpOjfD+ux+Y142+0X0616fJ5+iscyQ6JM9/yjdPTDmvxIuFPf2
+         jgOl/VS6JC3PqMjReV+cjXkUPZtKHSbZixbZTpq/cn9L0V6G46J6aJ2oqwKAZ68rOD02
+         LAfTqssBUxwNyWBNSY8Hs0BvRFITb2BxCSWJuxJbv1jz7EWAsoGr7uzx426h6hTaQtNi
+         rwhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/kBgafezEU8X2jebQQRJIZCWYRH0kh/qF9/vp+hKKQU=;
-        b=PgOD/aQrvb/2i6hY3527UpBUJ+m8ATu8OYE+eJk4niBhJzbo3TbNWeUoNJTaU9cm+h
-         xuCk9wR9heBbPaN4rl1Tp2ck+uzjouK8r6lUcCpLg4Qeud8DAHWKygM9L3XIGLb6HJev
-         Ku0oykdir6GIegbF62uZcteLw23JM7cBg9l5nadv2CDzGtMo/XjPFvppAsaiTIaZ58PL
-         vfoLh2bplPTO/Cj2M3OFXEmqAFWdUNg6HeaGLs8QofkBz3lgvVCifZJslsnVA75JnRN2
-         q5Lg0/kx4aiiSxcFjAuFscnMr6IyzXgnyJAgSTu5vGJozw9+AFU+FLdu+hRsjalrg+q4
-         FKXA==
-X-Gm-Message-State: AOAM533/C+4W4l6SCnEANZJdxXH70996a8P3oV23/1r9/zZpZwncNZNH
-	LkOsQLLQAsFeKzeRblP1nspZlQ==
-X-Google-Smtp-Source: ABdhPJwAX9w0O3WDDDWW/JpqiyU98kqdbXRcpDdDIX7K60Wvi5afiiC4Neq4mTTCcmPmlM8P47RMCg==
-X-Received: by 2002:a1c:3d86:: with SMTP id k128mr12160887wma.153.1602526329140;
-        Mon, 12 Oct 2020 11:12:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
-        by smtp.gmail.com with ESMTPSA id d2sm15901892wrq.34.2020.10.12.11.12.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 11:12:08 -0700 (PDT)
-Message-ID: <5139e0e5374c61913563c9cbc1d4d80fa13bc350.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] externalsrc: No single-task lock if S != B
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Douglas Royds <douglas.royds@gmx.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Douglas Royds <douglas.royds@taitradio.com>
-Date: Mon, 12 Oct 2020 19:12:06 +0100
-In-Reply-To: <20201012013141.473-1-douglas.royds@gmx.com>
-References: 
-	<CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
-	 <20201012013141.473-1-douglas.royds@gmx.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d7rnZI5N6ZswEoIhRhu0bu7YkMo6oGnYZIvFnhYNVXI=;
+        b=f7xv6nRSBg1NFwSdM+KbqrVs4n+qfo5uoo8JgfMp/qNBgz7yi4wnskBm2rWFNbwDk5
+         Hxq7zu9FKm+TzFJog8vuoa1lclDERHFEfpkJ+3MnGhCcVes6c1XnHTCC2sHgNqFJ3eo5
+         mJbPTVzOpLM8Ig9pweG5mNBs37TYYo4t8UpU6dmhJ/YhDP1EzlWpaQKoMCQfj1Dr5f02
+         vNQ3rUCPeL0hHhnxTDCNQ6y1w84NUECGN06uK/wQ7XY9sGg9pEDnGWjAKk/gSkR+nGAI
+         L7/VLWW9/RI2bdlh2BsquERypZwfO5sJRcyaNvjIYAa64HNv2t8KBDFAg5hEVmBBq/J8
+         +d/A==
+X-Gm-Message-State: AOAM530ja+9XdQBV544fSPjPTe4R2y6Yi5ZET6kvGFkdYgCPVHl9CLt+
+	Hu2DI2uTc0W3CQYzJR9MYPK7+cxA9mgEg16PQr0=
+X-Google-Smtp-Source: ABdhPJwVdYNx7inIaJISJFI0S2MPlqiB9d3pR7lu2QqqGrljjCyryVsc1AxxQ6DfPxKQDpZYmlkM9X5J1UKZZsN1eg4=
+X-Received: by 2002:a67:1087:: with SMTP id 129mr8347338vsq.41.1602526432765;
+ Mon, 12 Oct 2020 11:13:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
+ <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
+ <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com>
+ <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com> <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
+In-Reply-To: <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 12 Oct 2020 20:13:41 +0200
+Message-ID: <CANNYZj9Mr1VLAY5=ubgdYO08KWWUTPfd50CMqT-jcvZ44rPtMw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c4ad0905b17d4242"
+
+--000000000000c4ad0905b17d4242
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-10-12 at 14:31 +1300, Douglas Royds wrote:
-> From: Douglas Royds <douglas.royds@taitradio.com>
-> 
-> Allow different recipes to build things from the one external source tree in
-> parallel, but only if the build is happening outside the source tree.
-> 
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/classes/externalsrc.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-> index 3618b99a86..88408add71 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -86,7 +86,7 @@ python () {
->              if task.endswith("_setscene"):
->                  # sstate is never going to work for external source trees, disable it
->                  bb.build.deltask(task, d)
-> -            else:
-> +            elif os.path.realpath(externalsrc) == os.path.realpath(externalsrcbuild):
->                  # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
->                  d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+On Mon, 12 Oct 2020 at 20:05, Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 
-Failed in testing unfortunately, looks like these can be None:
+> That has been addressed in meta-freescale-distro layer
+> (
+> https://github.com/Freescale/meta-freescale-distro/commit/01c87325571e5ee91ecc575c863fb693fc1c9955
+> ).
+> There has been a similar native dependency required for GPU SDK build
+> with Vulkan support, hence the recipe for glslang has been introduced.
+>
+> Should this be maybe ported to OE-Core?
+>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/1893/steps/8/logs/step1c
+I think the provided links indicate that gstreamer currently does not
+actually support this, and requires a different tool by google? And
+gstreamer upstream seems to have conflicting opinions on which one they
+want to require.
 
-Cheers,
+Alex
 
-Richard
+--000000000000c4ad0905b17d4242
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 12 Oct 2020 at 20:05, Andrey Zhiz=
+hikin &lt;<a href=3D"mailto:andrey.z@gmail.com">andrey.z@gmail.com</a>&gt; =
+wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">That has been addressed in meta-freescale-distro layer<br=
+>
+(<a href=3D"https://github.com/Freescale/meta-freescale-distro/commit/01c87=
+325571e5ee91ecc575c863fb693fc1c9955" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://github.com/Freescale/meta-freescale-distro/commit/01c87325571e5ee91e=
+cc575c863fb693fc1c9955</a>).<br>
+There has been a similar native dependency required for GPU SDK build<br>
+with Vulkan support, hence the recipe for glslang has been introduced.<br>
+<br>
+Should this be maybe ported to OE-Core?<br></blockquote><div><br></div><div=
+>I think the provided links indicate that gstreamer currently does not actu=
+ally support this, and requires a different tool by google? And gstreamer u=
+pstream seems to have conflicting opinions on which one they want to requir=
+e.<br></div><div><br></div><div>Alex<br></div><div><br></div><div> <br></di=
+v></div></div>
+
+--000000000000c4ad0905b17d4242--
