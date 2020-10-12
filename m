@@ -1,80 +1,74 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
- by mx.groups.io with SMTP id smtpd.web11.29209.1602460182190015883
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web10.29540.1602461258142819970
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2020 16:49:42 -0700
+ Sun, 11 Oct 2020 17:07:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@alistair23.me header.s=fm2 header.b=lWd6l4e6;
- spf=none, err=permanent DNS error (domain: alistair23.me, ip: 64.147.123.24, mailfrom: alistair@alistair23.me)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 2790B3AC;
-	Sun, 11 Oct 2020 19:49:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 11 Oct 2020 19:49:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=jx615iPsCCXLjRahDaLheukYLe
-	a9T9hTg2YH0OuNTVw=; b=lWd6l4e6LY2SZ3fFXz8h+iuDeSRl+W5Zhw8jvoQbDi
-	v3JTPGiOcZIOgO4YZfyqWrCgIpwVTvn5pJ8leCWrfLkSY6m/qN4DMq8YKaK27hUD
-	fiaKyN70C+iOgWVnoD1ypwzHNbMTf0yniWskP5vIFaXKLz0gHrv3QmbwvNBoH8MU
-	cFV1w6Zb/c2r+8MgjLE0Fou6W5jyKmSAXN9dsFTqswCqi8h5JT2Shblc/kBev6dV
-	l6iN7BTf+cplvzJclWpFoLvJp9cPUi1ZE+mqLFQWdmpZ1UTLYqjC05RnRfm4miJ5
-	RF8vsGoScT8kU2KBNDaX0MzqI/VisSmUM7xPIESu+Kpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jx615iPsCCXLjRahD
-	aLheukYLea9T9hTg2YH0OuNTVw=; b=FKMMQo7UG7Ko9YolXlzDWusg/ZoWKGx9R
-	d90uQNrAPNBQvlfjbybc6Wpa3dawzvu92M98Pd3UXJQxCKroNN6CIAfrymhi60vH
-	6wx8vhe3FUulZdWT45ehilkl18CfnbNK/CeGVA8K+h+vljcb4dodrShvUqv30KZr
-	RGEd2DPFq/tYXPsuPnYndIEuZGap/fUqHDfq8J3T/gbVlP9Kg/o94RebMyN2fp6q
-	DYoq6aud+7xkhO0FQX/O0FfyAo9d9HHUrfQ1eC2jVD0c1zfkPMeWDdkO/BjZPUNH
-	PxqB0CJ4g6HrkSeHp0xBXuIheyn9l9vGZFa2NDmgDvgEOEm7XQP7g==
-X-ME-Sender: <xms:FJqDX7mGdMex8QzXdQioga6ehdRVjWmDkw1x0ek3kSTb7LdR54PgaA>
-    <xme:FJqDX-2uKYZQy6LbQo1P6tzMe1p6q_XSydvlbj_7gAU13f6yJVAGTQaBD6Oq2hReA
-    Lb8kaQqQpZNeeLBsUY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrheeigddvjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghirhes
-    rghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepjeeliefhvdetgfdtte
-    fhtdegffdtiefffeejiefffeevueeljeehjeevhfffueeknecukfhppeejfedrleefrdek
-    gedrvddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:FJqDXxrBxFJ8ycYhiN6JjRAdg01pnEDkG05qm9icUH58HyUH8y6d_w>
-    <xmx:FJqDXzkAH9iXDspTwGoBJd1z-LzD9d5QtM_3CgURnm8sVw5ggBLjrg>
-    <xmx:FJqDX50SNr5-cf3Hkqu3nS0udFs-oY2K5mSHbE2U1AOU3LbNzugrxg>
-    <xmx:FJqDX2jyCRrS6ZYWCQiz8T2PZm3oVZKPrPztqVj5m-GnCr_9lYT0IA>
-Received: from alistair-xps-14z.alistair23.me (c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0508A306467D;
-	Sun, 11 Oct 2020 19:49:39 -0400 (EDT)
-From: "Alistair" <alistair@alistair23.me>
-To: openembedded-core@lists.openembedded.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH] wayland: Set idle-time to zero
-Date: Sun, 11 Oct 2020 16:49:37 -0700
-Message-Id: <20201011234937.1041597-1-alistair@alistair23.me>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@taitradio.com header.s=google header.b=ZNH4wMTF;
+ spf=pass (domain: taitradio.com, ip: 209.85.166.193, mailfrom: douglas.royds@taitradio.com)
+Received: by mail-il1-f193.google.com with SMTP id p16so5873469ilq.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2020 17:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=taitradio.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=ZSbwdBqlzZ6qkPPZ0T1MphOjcmQ3JTjTfTAgDwsK63E=;
+        b=ZNH4wMTFW0hbjM3frLjhpVu8oZgMzRMZOIP6OyxMfobXM7CU81uCfaSVwuyLfq5W/N
+         0O0jQzd6P8t6COWsRQRBPtfWhE8brLtxOrNH7N2AgaUD1lYRutGZPqBqA0Q4wlWFFzVw
+         86b2qIaGxmSWckcX49H2BVJHieF73e5/NUHEc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=ZSbwdBqlzZ6qkPPZ0T1MphOjcmQ3JTjTfTAgDwsK63E=;
+        b=krrcq/L2E84Bbh52Og5FjJ+HyyY/sKTpLUO/YBUPS2EOccUwdICBrE2nFivpX5R1Wb
+         wsPD6Pavt7YM2iRCZOLAowyRGLfso9BykmnAYsIWEWvk0VucJEe0M8sKll3Pvk+2icUE
+         BP8jw+eoKNMyB/L9xNz3AmK5R49c6Zo0WwFSNiI/CiRgP5zd8zilybwr5h/CaLcvxQSj
+         2CzSrSrHnyClCl6TOrfB4Of8FdEOTI+m1zRWq9riFhrO+hGoPjFzsHLCSrjT0WN4GNRk
+         7ZyLyPWZotPACypjKaiZ9wt4XWzK2Prp5AdQYSM9if6lH1oiKe8PyLHU4+lF9NfiPEr2
+         8LHQ==
+X-Gm-Message-State: AOAM531rhLab6d5ODdM0MYVXqY4Y8ZkYmP3VD35h5x/gez4sxb+DNr5I
+	Yss6qlHP8UjNhziJ0XGFo9HfWgZAafA8Os/o8Bkbx7/9H9RIb3Rqgcg3uZi0cg3jWkduLJTSHGi
+	VFB/Dz+8pTJXm5d3uZdEz+L6thDTFaVLmyTI3aFhrqZrVB2BOp+rCCcVH
+X-Google-Smtp-Source: ABdhPJw+bXIgpLJrj/tjgA5LDNjiHQgh2H8ZeguKRYUavC03jofGra4pkiWSeaipRh7QdBgBnGG1JjSUs+OdI2aHaG4=
+X-Received: by 2002:a92:de0f:: with SMTP id x15mr3704164ilm.164.1602461257212;
+ Sun, 11 Oct 2020 17:07:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
+In-Reply-To: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
+From: "Douglas" <douglas.royds@taitradio.com>
+Date: Mon, 12 Oct 2020 13:07:26 +1300
+Message-ID: <CAFimOt7ekd6HpQBk9qyyVrk3xGeR3-YTRMQNKiJ05s2n2rxmMA@mail.gmail.com>
+Subject: Re: [PATCH] externalsrc: No single-task lock if S != B
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Allow different recipes to build things from the one external source tree in
+parallel, but only if the build is happening outside the source tree.
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/externalsrc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-index b48726d59c..d1532236af 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -5,6 +5,7 @@
- #shell=desktop-shell.so
- #gbm-format=xrgb2101010
- require-input=false
-+idle-time=0
- 
- #[shell]
- #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 3618b99a86..88408add71 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -86,7 +86,7 @@ python () {
+             if task.endswith("_setscene"):
+                 # sstate is never going to work for external source
+trees, disable it
+                 bb.build.deltask(task, d)
+-            else:
++            elif os.path.realpath(externalsrc) ==
+os.path.realpath(externalsrcbuild):
+                 # Since configure will likely touch ${S}, ensure only
+we lock so one task has access at a time
+                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+
 -- 
-2.28.0
+2.17.1
 
+-- 
+This Communication is Confidential. We only send and receive email on the
+basis of the terms set out at www.taitradio.com/email_disclaimer 
+<http://www.taitradio.com/email_disclaimer>
