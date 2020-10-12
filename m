@@ -1,179 +1,85 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.10931.1602541502411362712
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
+ by mx.groups.io with SMTP id smtpd.web12.35.1602544953242494803
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 15:25:02 -0700
+ Mon, 12 Oct 2020 16:22:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tTm//L3i;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id ce10so25411513ejc.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 15:25:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mw7LZPMz;
+ spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f68.google.com with SMTP id k25so19624493ioh.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 16:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LTXcEfb4d74yD4dBCmbr8p4aE+ZjexZo2i3bzVxyNYs=;
-        b=tTm//L3iKlZBi/Hf4+w7a9wJyTDzQMOEZoeI4KsbewfFiGSsZuIjFQZk2C1omvzGUM
-         ml6K/Ub+sm6Aq9ErQ+jcQyS5IpWlJRXRtHP038a3h9AN/H2fJY/FrDw9cu/zqFqB9JXk
-         zkQcUQ4Uto0P/oq8bA7mSEJLRa3Mr4BukRiLvoceetRy/GhkZnZra8lcKXYIi3rLnWCF
-         dsaW2DNJSYfz+65DOboIRLouaLKzfC7+7MQAlOd1FYzm0SFN8oYDDnv90SbYvA85iFEx
-         GnbcrzwazSy8CzreHs9ZHX2VmUC2MZCuboT6skU7RZdVyH++ukZXRAXAuX+LnMO0iiYj
-         d90g==
+        bh=yZjHGNV4zMcC1chUpjrmY5LNbDSQ1oz8d37RtKMmfjA=;
+        b=Mw7LZPMzYn3pMHcHaeG/MPhI3QTsPZn+BklcZeoXpd5vCnUoEeWj9+cosY0Uhu4fbi
+         JBXVYzCfiOeAhg2APmiYA3HTw1ZWdRqwqmgyGWr5pWRiUNfvlHFS+v8XLxd7wTxolXmb
+         3pCChcPuf9vNZljYFnGGSIZbDfOfroDQTAIU7uKpQNCdbhoRPCfuaboeCqwvjXx1KULc
+         VftjNXr070mfkgWiqZwgtWY6KYMAjXvhPhoFqMOZYLeODW+ZTLrBmnCOodqWqcRtjSHD
+         0BVOJGYcTfw82/ENLMSuQkJmpz2l6C413Ha9+yX85YO64KYCSqKqRQwINNvqKsNUBeQJ
+         tzDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LTXcEfb4d74yD4dBCmbr8p4aE+ZjexZo2i3bzVxyNYs=;
-        b=mcq0pC0M96WRa7bmNVJeonnH1ZXWlrGexCaC5QSE6mjqs45zyr3cgG39i91fAkB8K2
-         TzKdHeoWG44h5v+qfL2xsii+EmsFkd6sIhaD0H1VjZ6M+Kd6qaWRniZmUDw2ME8IQw6a
-         OTRzhcdWN53XyaXnruifGnoBMvY+zlEfymK4LUs2m0th6xl6XkLUrAMQ3vsq/Xm03PkR
-         LMNXprid/ymX1JnkK+NyNKGVoJy6KK7nugujVnsMTMqpmCBuInJ43bxUlDQfVrwPgOzH
-         So0Dk78RGjwqezbOcpz4HSr9/GeN5PNL6hLIrrZJxfUb06UWmt/QHGEOq/C72dTNxLfG
-         RRzA==
-X-Gm-Message-State: AOAM532GJYxymmhRtL3EF4Xt3u6TiDg4AN8WUTiRwUDsRYT5peXCNH+g
-	BABrPpOWnK1rYu8a34WBnb+NbsmxvsY8vKrVbFA=
-X-Google-Smtp-Source: ABdhPJyIJ77S/T1ijxKM7s3n70x9tIaD2mOOpBcLhunJUV16MfyttPUqKOjfRkJMJEt3f0ka/lu88e/FHINTcryxMMQ=
-X-Received: by 2002:a17:906:4a4c:: with SMTP id a12mr29703439ejv.392.1602541500671;
- Mon, 12 Oct 2020 15:25:00 -0700 (PDT)
+        bh=yZjHGNV4zMcC1chUpjrmY5LNbDSQ1oz8d37RtKMmfjA=;
+        b=IA8Pg4Fv3Hs8M3jx/Y4wR+XbQnxNMliZP391n3ArcJ/CJAyH2q+NsEisAp+vXrI6kS
+         3c3sLXrVjoqNIgRxMFD9yb+6vsuN/0RcWb0cLqNM8/8ISkKC1q0d4ktniHVvvKd+jXwK
+         odKJ1LhQDUO1Tbe1p2ovd/VV88+tr9SM4cTlKd047ucAoRoOwNAUNRkF3u6ajiInK0qq
+         e4lW/ZEF2qJxjUplDy8EJ0i112vSDSRQMQBhfDCCyZlHUAK1FF90FeUARty7BKq/1h2D
+         LO+hpo+PIQbvAkqWFiF3Hn60SgU2XVY0x38MKz72LT+7Lr186WjrZeFFs6Sghvep28fB
+         3jnw==
+X-Gm-Message-State: AOAM531ct2cK05BDGCWNXVkhfAH4ctEnU70KEQOhB4POWwOTWjqNL6fc
+	xitR6PRvGLLP0LmQbucPiaQVYMVenXOFHejK4M4=
+X-Google-Smtp-Source: ABdhPJwMzSyIBimsvbI4NUOHER5Gl48bnZtuVpOs/DiIbt68w7FkFJK9X/az4gj82livBkd5vVn81ug6y3auAaTfKkA=
+X-Received: by 2002:a02:c956:: with SMTP id u22mr10686240jao.135.1602544952474;
+ Mon, 12 Oct 2020 16:22:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201012213137.15179-1-pkj@axis.com>
-In-Reply-To: <20201012213137.15179-1-pkj@axis.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 13 Oct 2020 00:24:49 +0200
-Message-ID: <CA+chaQf-4692XTUAiguks3ZmGg7mLXDeFbPsn-mjLRRCMcEfQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tune-cortexa65.inc: Correct TUNE_FEATURES_tune-cortexa65
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Jon Mason <jdmason@kudzu.us>
-Content-Type: multipart/alternative; boundary="000000000000e2acf605b180c487"
-
---000000000000e2acf605b180c487
+References: <20201011234937.1041597-1-alistair@alistair23.me> <CANNYZj82hb4PyrQYd_SWQVkbEvitomqBmkiOpecvM4o=rTyQ7w@mail.gmail.com>
+In-Reply-To: <CANNYZj82hb4PyrQYd_SWQVkbEvitomqBmkiOpecvM4o=rTyQ7w@mail.gmail.com>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Mon, 12 Oct 2020 16:10:57 -0700
+Message-ID: <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wayland: Set idle-time to zero
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alistair <alistair@alistair23.me>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Good catch, maybe we should require tune-test.sh test for all tune
-modifying changes, it catches the issue as the very first tested case:
-
-Testing fake MACHINE fake-cortexa65 for include
-conf/machine/include/arm/armv8-2a/tune-cortexa65.inc (1/76)
-ERROR: something wrong in openembedded-core/scripts/tune/log.fake-cortexa65
-
-martin@jama:/OE/build/oe-core$ cat
-openembedded-core/scripts/tune/log.fake-cortexa65
-NOTE: Started PRServer with DBfile: /OE/build/oe-core/cache/prserv.sqlite3,
-IP: 127.0.0.1, PORT: 44979, PID: 158972
-ERROR:  OE-core's config sanity checker detected a potential
-misconfiguration.
-    Either fix the cause of this error or at your own risk disable the
-checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    Toolchain tunings invalid:
-Tuning 'cortexa65' has the following errors:
-Feature 'cortexa55' is not defined.
-
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
-I'll let it finish in master branch and update
-https://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune-test
-tomorrow.
-
-On Mon, Oct 12, 2020 at 11:31 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> It incorrectly specified "cortexa55" instead of "cortexa65".
+On Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> index ecf17fbbe7..427e58947f 100644
-> --- a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc
-> @@ -11,6 +11,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc
->  # Little Endian base configs
->  AVAILTUNES                                         += "cortexa65"
->  ARMPKGARCH_tune-cortexa65                           = "cortexa65"
-> -TUNE_FEATURES_tune-cortexa65                        =
-> "${TUNE_FEATURES_tune-armv8-2a-crypto} cortexa55"
-> +TUNE_FEATURES_tune-cortexa65                        =
-> "${TUNE_FEATURES_tune-armv8-2a-crypto} cortexa65"
->  PACKAGE_EXTRA_ARCHS_tune-cortexa65                  =
-> "${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-crypto} cortexa65"
->  BASE_LIB_tune-cortexa65                             = "lib64"
->
-> 
->
->
+> Why?
 
---000000000000e2acf605b180c487
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It's really annoying when you are working on something and the screen turns off.
 
-<div dir=3D"ltr">Good catch, maybe we should require tune-test.sh test for =
-all tune modifying changes, it catches the issue as the very first tested c=
-ase:<div><br></div><div>Testing fake MACHINE fake-cortexa65 for include con=
-f/machine/include/arm/armv8-2a/tune-cortexa65.inc (1/76)<br>ERROR: somethin=
-g wrong in openembedded-core/scripts/tune/log.fake-cortexa65<br></div><div>=
-<br></div><div>martin@jama:/OE/build/oe-core$ cat openembedded-core/scripts=
-/tune/log.fake-cortexa65 <br>NOTE: Started PRServer with DBfile: /OE/build/=
-oe-core/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 44979, PID: 158972<br>ER=
-ROR: =C2=A0OE-core&#39;s config sanity checker detected a potential misconf=
-iguration.<br>=C2=A0 =C2=A0 Either fix the cause of this error or at your o=
-wn risk disable the checker (see sanity.conf).<br>=C2=A0 =C2=A0 Following i=
-s the list of potential problems / advisories:<br><br>=C2=A0 =C2=A0 Toolcha=
-in tunings invalid:<br>Tuning &#39;cortexa65&#39; has the following errors:=
-<br>Feature &#39;cortexa55&#39; is not defined.<br><br><br>Summary: There w=
-as 1 ERROR message shown, returning a non-zero exit code.<br></div><div><br=
-></div><div>I&#39;ll let it finish in master branch and update</div><div><a=
- href=3D"https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dja=
-nsa/tune-test">https://git.openembedded.org/openembedded-core-contrib/log/?=
-h=3Djansa/tune-test</a><br></div><div>tomorrow.</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 12, 202=
-0 at 11:31 PM Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@a=
-xis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">It incorrectly specified &quot;cortexa5=
-5&quot; instead of &quot;cortexa65&quot;.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt=
-@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc b/m=
-eta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc<br>
-index ecf17fbbe7..427e58947f 100644<br>
---- a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc<br>
-+++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa65.inc<br>
-@@ -11,6 +11,6 @@ require conf/machine/include/arm/arch-armv8-2a.inc<br>
-=C2=A0# Little Endian base configs<br>
-=C2=A0AVAILTUNES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0+=3D &quot;cortexa65&quot;<br>
-=C2=A0ARMPKGARCH_tune-cortexa65=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;cortexa65=
-&quot;<br>
--TUNE_FEATURES_tune-cortexa65=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;${TUNE_FEATURES_tune-armv=
-8-2a-crypto} cortexa55&quot;<br>
-+TUNE_FEATURES_tune-cortexa65=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;${TUNE_FEATURES_tune-armv=
-8-2a-crypto} cortexa65&quot;<br>
-=C2=A0PACKAGE_EXTRA_ARCHS_tune-cortexa65=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;${PACKAGE_EXTRA_ARCHS_tune-armv8-2a-=
-crypto} cortexa65&quot;<br>
-=C2=A0BASE_LIB_tune-cortexa65=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;lib64=
-&quot;<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+Alistair
 
---000000000000e2acf605b180c487--
+>
+> Alex
+>
+> On Mon, 12 Oct 2020 at 01:49, Alistair <alistair@alistair23.me> wrote:
+>>
+>> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+>> ---
+>>  meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
+>> index b48726d59c..d1532236af 100644
+>> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
+>> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
+>> @@ -5,6 +5,7 @@
+>>  #shell=desktop-shell.so
+>>  #gbm-format=xrgb2101010
+>>  require-input=false
+>> +idle-time=0
+>>
+>>  #[shell]
+>>  #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
+>> --
+>> 2.28.0
+>>
+>>
+>> 
+>>
