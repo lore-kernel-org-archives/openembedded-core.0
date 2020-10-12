@@ -1,123 +1,164 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.9497.1602537841909753602
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.9596.1602538080315519344
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 14:24:03 -0700
+ Mon, 12 Oct 2020 14:28:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=hIEKA3Ry;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MFovNuUB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id j136so19175929wmj.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 14:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=5650; q=dns/txt; s=axis-central1;
-  t=1602537842; x=1634073842;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=JUtNdrCPRQhX2rsu1KEy4ofgLN8zEIsjd4f0KmhdQKs=;
-  b=hIEKA3RyNSr9gKggwRYh9ircFeqTpCBSlMdIddGBxcHi7KCaCrfgToN7
-   Ef1u82H+Our5gfBDoiEkb4emBhQJ/n3wugED0DbYTcYwXFuGD9IYOFeyr
-   jhq2p2dE7hfPAXYI2tKIPsSlOZdXsnxpCsVingePoHKDc67x52Rx0egkk
-   caWBRjWT1XXJvGJEmxhqXmmBWieHI8n/eYjNRcE03TJQRrK5/ToP9WOls
-   Ay320EdgzclTqkSiBJFoO7WOQW8ZujlOh6cgAEc6OVuNl4tYgwQhw7TJj
-   eKrqsTpgVanueFXgCiplNhIa11CmrAV5N9Xjm8NNbVBLqAMMWPQeyoOII
-   g==;
-IronPort-SDR: BE9SqSCccVqzLOGN8d1QbMWvNPjCvzlap9eJtoIcsEkRGYBGxWBWX/f5UAoPK8gA03+4u3OXFb
- QQDDrXR5FHmuRRyRztLJJL+9/8CX+aneK68jVQ5BgOqlGvAzVZVF3RjkMEhCOgo8xXXzGSQyBH
- ZRdl0PltTq24+VjCMWSw3gok+b0182i2LFUQPEUpS6FMuv9qqkImMi4/8pg0Lo7mqppDccyJyn
- y7tPtu8VbvD0qhqY9PBrW5yHKzOazxgwcil/ZU21MklT6zBblZZrSnjItrRnziiAkddgVPlwAm
- IhA=
-X-IronPort-AV: E=Sophos;i="5.77,368,1596492000"; 
-   d="scan'208";a="13901134"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Meh Mbeh Ida Delphine
-	<idadelm@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=s3V+N/zLNR2A/cVPYs7bJ1sfocdpWH2GUDRtHbbrNBY=;
+        b=MFovNuUB6KFDSWGqvva97PMJjBZ0IZWcuBHlRvH5JU/8NVF37j9JbsbCCxoz/I/WSb
+         3jEjfpC4uHjXuph2jIuZkVfWGC0Gbju9eAjyvDz4ZQVZQVxBeCNFeWlYkM9pPdOVbrl+
+         g41b21+fzbdljEth9qQzO5CBTXbbxqwsWyT80=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=s3V+N/zLNR2A/cVPYs7bJ1sfocdpWH2GUDRtHbbrNBY=;
+        b=kv7xMoWe/yahnDUxi7Gj7/nDolPpem/d5VwC6xd1rdIgfDtMEpvYAMnyGkOB0iixK5
+         3Z6ZKpLocm/xhrE5aSedWwXK6l7+o4M0YFeWHLUR31guKDNI1vDa463iugb2cZYbjwHC
+         nhARV3dOXBM/KKBBfHp0w7H12R72LvIk+wT0TsiIBcJSYBl5AkhV7Fl+nC0fNVBBtiS6
+         oJNLq9p6SXkiY9VS4nUu/di6ltyLIKq/bCS1MUVJD+a8/LCiq2Vcn7DXxVyhkTnZWAti
+         3x2MzPFPg71OYwd/vXTWYWkb3UHG+3YCnS0hdJj5+TF+GP8Wt+T7DpOv4jPIB9SYSkHr
+         SxyA==
+X-Gm-Message-State: AOAM532lJvpiUfML5s59KmtURzy21qtSMV5Zl0h0nJUM6CTm941FYd3d
+	ICU9XF20cbTBgv4dm5l4Vnl1oQ==
+X-Google-Smtp-Source: ABdhPJwllFtGpXm52XHXFNlO810b0ZMAx82JmYrzKmFurlXH/BiPswNhN8Ntb5tEaQ2xt+sdgpTbLA==
+X-Received: by 2002:a05:600c:2144:: with SMTP id v4mr12393779wml.172.1602538078568;
+        Mon, 12 Oct 2020 14:27:58 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (0.6.6.4.7.a.b.4.4.1.e.0.e.3.c.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2c3e:e14:4ba7:4660])
+        by smtp.gmail.com with ESMTPSA id p67sm24895367wmp.11.2020.10.12.14.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 14:27:58 -0700 (PDT)
+Message-ID: <f8c6bc9bc02fdf040777fed063972f9ece9f491f.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [poky][PATCH v3] Update license file to match current SPDX names
-Thread-Topic: [OE-core] [poky][PATCH v3] Update license file to match current
- SPDX names
-Thread-Index: AQHWnwA/zLld+YkdakKNTyeS8d/N0KmQpX0AgAPUuKA=
-Date: Mon, 12 Oct 2020 21:23:58 +0000
-Message-ID: <5b2a61996df146de8e86474410e2a31a@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Meh Mbeh Ida Delphine
+	 <idadelm@gmail.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Oct 2020 22:27:55 +0100
+In-Reply-To: <5b2a61996df146de8e86474410e2a31a@XBOX03.axis.com>
 References: <20201010122339.9594-1-idadelm@gmail.com>
- <d53db65c06b96aa6d8e1ac1edb7f912da78293d3.camel@linuxfoundation.org>
-In-Reply-To: <d53db65c06b96aa6d8e1ac1edb7f912da78293d3.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	 <d53db65c06b96aa6d8e1ac1edb7f912da78293d3.camel@linuxfoundation.org>
+	 <5b2a61996df146de8e86474410e2a31a@XBOX03.axis.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxMCBv
-a3RvYmVyIDIwMjAgMTQ6NDANCj4gVG86IE1laCBNYmVoIElkYSBEZWxwaGluZSA8aWRhZGVsbUBn
-bWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
-PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5XVtQQVRDSCB2M10gVXBkYXRlIGxpY2Vuc2Ug
-ZmlsZSB0byBtYXRjaA0KPiBjdXJyZW50IFNQRFggbmFtZXMNCj4gDQo+IE9uIFNhdCwgMjAyMC0x
-MC0xMCBhdCAxMzoyMyArMDEwMCwgTWVoIE1iZWggSWRhIERlbHBoaW5lIHdyb3RlOg0KPiA+IFVw
-ZGF0ZWQgbWFwcGluZ3Mgb2YgbGljZW5zZSBmaWVsZHMgb2YgbWV0YS9jb25mL2xpY2Vuc2VzLmNv
-bmYgdG8NCj4gPiBtYXRjaCBsYXRlc3QgU1BEWCBuYW1pbmcuDQo+ID4gQWRkZWQgbWlzc2luZyBt
-YXBwaW5ncy4NCj4gPg0KPiA+IEZpeGVzOiBbWU9DVE8gIzEzMzIwXQ0KPiA+DQo+ID4gU2lnbmVk
-LW9mZi1ieTogTWVoIE1iZWggSWRhIERlbHBoaW5lIDxpZGFkZWxtQGdtYWlsLmNvbT4NCj4gPiAt
-LS0NCj4gPg0KPiA+IENoYW5nZXMgaW4gVjM6DQo+ID4gICogQWRkZWQgbWlzc2luZyBtYXBwaW5n
-cyB0byBtZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+DQo+ID4gQ2hhbmdlcyBpbiBWMjoNCj4g
-PiAgKiBDb3JyZWN0ZWQgdGhlIGVtYWlsIHN1YmplY3QgbGluZS4NCj4gPg0KPiA+ICBtZXRhL2Nv
-bmYvbGljZW5zZXMuY29uZiB8IDU1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0t
-LS0tLQ0KPiA+IC0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzOCBpbnNlcnRpb25zKCspLCAxNyBk
-ZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvbGljZW5zZXMuY29u
-ZiBiL21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gaW5kZXggNWIzMDllYjM4NS4uYjQ1YTlk
-MjgzZSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiA+ICsrKyBi
-L21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ID4gQEAgLTEwLDMzICsxMCw0NCBAQA0KPiA+ICAj
-IEFueSBtYXBwaW5nIHRvIE1QTC9MR1BML0dQTCBzaG91bGQgYmUgZml4ZWQNCj4gPg0KPiA+ICAj
-IEFHUEwgdmFyaWF0aW9ucw0KPiA+IC1TUERYTElDRU5TRU1BUFtBR1BMLTNdID0gIkFHUEwtMy4w
-Ig0KPiA+IC1TUERYTElDRU5TRU1BUFtBR1BMdjNdID0gIkFHUEwtMy4wIg0KPiA+IC1TUERYTElD
-RU5TRU1BUFtBR1BMdjMuMF0gPSAiQUdQTC0zLjAiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0FHUEwt
-M10gPSAiQUdQTC0zLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbQUdQTHYzXSA9ICJBR1BM
-LTMuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtBR1BMdjMuMF0gPSAiQUdQTC0zLjAtb25s
-eSINCj4gPiArU1BEWExJQ0VOU0VNQVBbQUdQTC0zLjBdID0gIkFHUEwtMy4wLW9ubHkiDQo+ID4N
-Cj4gPiAgIyBHUEwgdmFyaWF0aW9ucw0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEwtMV0gPSAiR1BM
-LTEuMCINCj4gPiAtU1BEWExJQ0VOU0VNQVBbR1BMdjFdID0gIkdQTC0xLjAiDQo+ID4gLVNQRFhM
-SUNFTlNFTUFQW0dQTHYxLjBdID0gIkdQTC0xLjAiDQo+ID4gLVNQRFhMSUNFTlNFTUFQW0dQTC0y
-XSA9ICJHUEwtMi4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEx2Ml0gPSAiR1BMLTIuMCINCj4g
-PiAtU1BEWExJQ0VOU0VNQVBbR1BMdjIuMF0gPSAiR1BMLTIuMCINCj4gPiAtU1BEWExJQ0VOU0VN
-QVBbR1BMLTNdID0gIkdQTC0zLjAiDQo+ID4gLVNQRFhMSUNFTlNFTUFQW0dQTHYzXSA9ICJHUEwt
-My4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtHUEx2My4wXSA9ICJHUEwtMy4wIg0KPiA+ICtTUERY
-TElDRU5TRU1BUFtHUEwtMV0gPSAiR1BMLTEuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtH
-UEx2MV0gPSAiR1BMLTEuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtHUEx2MS4wXSA9ICJH
-UEwtMS4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTC0xLjBdID0gIkdQTC0yLjAtb25s
-eSINCj4gPiArU1BEWExJQ0VOU0VNQVBbR1BMLTJdID0gIkdQTC0yLjAtb25seSINCj4gPiArU1BE
-WExJQ0VOU0VNQVBbR1BMdjJdID0gIkdQTC0yLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBb
-R1BMdjIuMF0gPSAiR1BMLTIuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtHUEwtMi4wXSA9
-ICJHUEwtMi4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTC0zXSA9ICJHUEwtMy4wLW9u
-bHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0dQTHYzXSA9ICJHUEwtMy4wLW9ubHkiDQo+ID4gK1NQ
-RFhMSUNFTlNFTUFQW0dQTHYzLjBdID0gIkdQTC0zLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VN
-QVBbR1BMLTMuMF0gPSAiR1BMLTMuMC1vbmx5Ig0KPiA+DQo+ID4gICNMR1BMIHZhcmlhdGlvbnMN
-Cj4gPiAtU1BEWExJQ0VOU0VNQVBbTEdQTHYyXSA9ICJMR1BMLTIuMCINCj4gPiAtU1BEWExJQ0VO
-U0VNQVBbTEdQTHYyLjBdID0gIkxHUEwtMi4wIg0KPiA+IC1TUERYTElDRU5TRU1BUFtMR1BMMi4x
-XSA9ICJMR1BMLTIuMSINCj4gPiAtU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjFdID0gIkxHUEwtMi4x
-Ig0KPiA+IC1TUERYTElDRU5TRU1BUFtMR1BMdjNdID0gIkxHUEwtMy4wIg0KPiA+ICtTUERYTElD
-RU5TRU1BUFtMR1BMdjJdID0gIkxHUEwtMi4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW0xH
-UEx2Mi4wXSA9ICJMR1BMLTIuMC1vbmx5Ig0KPiA+ICtTUERYTElDRU5TRU1BUFtMR1BMLTIuMF0g
-PSAiTEdQTC0yLjAtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbTEdQTDIuMV0gPSAiTEdQTC0y
-LjEtb25seSINCj4gPiArU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjFdID0gIkxHUEwtMi4xLW9ubHki
-DQo+ID4gK1NQRFhMSUNFTlNFTUFQW0xHUEwtMi4xXSA9ICJMR1BMLTIuMS1vbmx5Ig0KPiA+ICtT
-UERYTElDRU5TRU1BUFtMR1BMdjNdID0gIkxHUEwtMy4wLW9ubHkiDQo+ID4gK1NQRFhMSUNFTlNF
-TUFQW0xHUEwtMy4wXSA9ICJMR1BMLTMuMC1vbmx5Ig0KPiANCj4gVGhlIGFib3ZlIGlzIGFsbCBn
-b29kLCB0aGFua3MuDQoNCkJ1dCBvbmx5IGEgcGFydCBvZiB0aGUgZnVsbCBzb2x1dGlvbi4gSW4g
-YWRkaXRpb24sIHRoZSANCmZvbGxvd2luZyBzaG91bGQgYmUgZG9uZToNCg0KKiBSZW5hbWUgKGFu
-ZCBwb3NzaWJseSB1cGRhdGUpIHRoZSBhY3R1YWwgbGljZW5zZSBmaWxlcyBpbiANCiAgbWV0YS9m
-aWxlcy9jb21tb24tbGljZW5zZXMgdG8gbWF0Y2ggdGhlIG5ldyBjYW5vbmljYWwgbmFtZXMuDQoq
-IEFkZCBsaWNlbnNlIGZpbGVzIGZvciBHUEwtMi4wLW9yLWxhdGVyICYgY28uDQoqIEFkZCBtYXBw
-aW5ncyBmcm9tLCBlLmcuLCAiR1BMLTIuMCsiIHRvICJHUEwtMi4wLW9yLWxhdGVyIiANCiAgdG8g
-U1BEWExJQ0VOU0VNQVAuDQoqIFJlbW92ZSB0aGUgY29kZSB0aGF0IGFkZHMgc3VwcG9ydCBmb3Ig
-dXNpbmcgIjxhbnkgbGljZW5zZT4rIiANCiAgaW4gTElDRU5TRSBhcyBpdCBzaG91bGQgbm8gbG9u
-Z2VyIGJlIG5lZWRlZCB3aXRoIHRoZSBuZXcgDQogIG1hcHBpbmdzLg0KDQo+ID4gICNNUEwgdmFy
-aWF0aW9ucw0KPiA+ICBTUERYTElDRU5TRU1BUFtNUEwtMV0gPSAiTVBMLTEuMCINCj4gPiAgU1BE
-WExJQ0VOU0VNQVBbTVBMdjFdID0gIk1QTC0xLjAiDQo+ID4gK1NQRFhMSUNFTlNFTUFQW01QTC0x
-LjBdID0gIk1QTC0xLjAiDQo+ID4gIFNQRFhMSUNFTlNFTUFQW01QTHYxLjFdID0gIk1QTC0xLjEi
-DQo+ID4gK1NQRFhMSUNFTlNFTUFQW01QTC0xLjFdID0gIk1QTC0xLjEiDQo+ID4gIFNQRFhMSUNF
-TlNFTUFQW01QTHYyXSA9ICJNUEwtMi4wIg0KPiA+ICtTUERYTElDRU5TRU1BUFtNUEwtMi4wXSA9
-ICJNUEwtMi4wIg0KPiA+ICsNCj4gDQo+IEhvd2V2ZXIgd2UgZG9uJ3QgbmVlZCB0byBhZGQgb25l
-cyB3aGVyZSB0aGUgdHdvIHZhbHVlcyBhcmUgdGhlIHNhbWUuDQo+IA0KPiBDaGVlcnMsDQo+IA0K
-PiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
+On Mon, 2020-10-12 at 21:23 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Richard Purdie
+> > Sent: den 10 oktober 2020 14:40
+> > To: Meh Mbeh Ida Delphine <idadelm@gmail.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [poky][PATCH v3] Update license file to
+> > match
+> > current SPDX names
+> > 
+> > On Sat, 2020-10-10 at 13:23 +0100, Meh Mbeh Ida Delphine wrote:
+> > > Updated mappings of license fields of meta/conf/licenses.conf to
+> > > match latest SPDX naming.
+> > > Added missing mappings.
+> > > 
+> > > Fixes: [YOCTO #13320]
+> > > 
+> > > Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
+> > > ---
+> > > 
+> > > Changes in V3:
+> > >  * Added missing mappings to meta/conf/licenses.conf
+> > > 
+> > > Changes in V2:
+> > >  * Corrected the email subject line.
+> > > 
+> > >  meta/conf/licenses.conf | 55 ++++++++++++++++++++++++++++-------
+> > > ----
+> > > --
+> > >  1 file changed, 38 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+> > > index 5b309eb385..b45a9d283e 100644
+> > > --- a/meta/conf/licenses.conf
+> > > +++ b/meta/conf/licenses.conf
+> > > @@ -10,33 +10,44 @@
+> > >  # Any mapping to MPL/LGPL/GPL should be fixed
+> > > 
+> > >  # AGPL variations
+> > > -SPDXLICENSEMAP[AGPL-3] = "AGPL-3.0"
+> > > -SPDXLICENSEMAP[AGPLv3] = "AGPL-3.0"
+> > > -SPDXLICENSEMAP[AGPLv3.0] = "AGPL-3.0"
+> > > +SPDXLICENSEMAP[AGPL-3] = "AGPL-3.0-only"
+> > > +SPDXLICENSEMAP[AGPLv3] = "AGPL-3.0-only"
+> > > +SPDXLICENSEMAP[AGPLv3.0] = "AGPL-3.0-only"
+> > > +SPDXLICENSEMAP[AGPL-3.0] = "AGPL-3.0-only"
+> > > 
+> > >  # GPL variations
+> > > -SPDXLICENSEMAP[GPL-1] = "GPL-1.0"
+> > > -SPDXLICENSEMAP[GPLv1] = "GPL-1.0"
+> > > -SPDXLICENSEMAP[GPLv1.0] = "GPL-1.0"
+> > > -SPDXLICENSEMAP[GPL-2] = "GPL-2.0"
+> > > -SPDXLICENSEMAP[GPLv2] = "GPL-2.0"
+> > > -SPDXLICENSEMAP[GPLv2.0] = "GPL-2.0"
+> > > -SPDXLICENSEMAP[GPL-3] = "GPL-3.0"
+> > > -SPDXLICENSEMAP[GPLv3] = "GPL-3.0"
+> > > -SPDXLICENSEMAP[GPLv3.0] = "GPL-3.0"
+> > > +SPDXLICENSEMAP[GPL-1] = "GPL-1.0-only"
+> > > +SPDXLICENSEMAP[GPLv1] = "GPL-1.0-only"
+> > > +SPDXLICENSEMAP[GPLv1.0] = "GPL-1.0-only"
+> > > +SPDXLICENSEMAP[GPL-1.0] = "GPL-2.0-only"
+> > > +SPDXLICENSEMAP[GPL-2] = "GPL-2.0-only"
+> > > +SPDXLICENSEMAP[GPLv2] = "GPL-2.0-only"
+> > > +SPDXLICENSEMAP[GPLv2.0] = "GPL-2.0-only"
+> > > +SPDXLICENSEMAP[GPL-2.0] = "GPL-2.0-only"
+> > > +SPDXLICENSEMAP[GPL-3] = "GPL-3.0-only"
+> > > +SPDXLICENSEMAP[GPLv3] = "GPL-3.0-only"
+> > > +SPDXLICENSEMAP[GPLv3.0] = "GPL-3.0-only"
+> > > +SPDXLICENSEMAP[GPL-3.0] = "GPL-3.0-only"
+> > > 
+> > >  #LGPL variations
+> > > -SPDXLICENSEMAP[LGPLv2] = "LGPL-2.0"
+> > > -SPDXLICENSEMAP[LGPLv2.0] = "LGPL-2.0"
+> > > -SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1"
+> > > -SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1"
+> > > -SPDXLICENSEMAP[LGPLv3] = "LGPL-3.0"
+> > > +SPDXLICENSEMAP[LGPLv2] = "LGPL-2.0-only"
+> > > +SPDXLICENSEMAP[LGPLv2.0] = "LGPL-2.0-only"
+> > > +SPDXLICENSEMAP[LGPL-2.0] = "LGPL-2.0-only"
+> > > +SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1-only"
+> > > +SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1-only"
+> > > +SPDXLICENSEMAP[LGPL-2.1] = "LGPL-2.1-only"
+> > > +SPDXLICENSEMAP[LGPLv3] = "LGPL-3.0-only"
+> > > +SPDXLICENSEMAP[LGPL-3.0] = "LGPL-3.0-only"
+> > 
+> > The above is all good, thanks.
+> 
+> But only a part of the full solution. In addition, the 
+> following should be done:
+> 
+> * Rename (and possibly update) the actual license files in 
+>   meta/files/common-licenses to match the new canonical names.
+
+Thanks, you're right, the patch does need to include the above.
+
+> * Add license files for GPL-2.0-or-later & co.
+> * Add mappings from, e.g., "GPL-2.0+" to "GPL-2.0-or-later" 
+>   to SPDXLICENSEMAP.
+> * Remove the code that adds support for using "<any license>+" 
+>   in LICENSE as it should no longer be needed with the new 
+>   mappings.
+
+I think handling the "+" versions, whilst something definitely need,
+would be a separate patch building upon this one.
+
+Cheers,
+
+Richard
+
