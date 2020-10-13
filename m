@@ -1,159 +1,91 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web10.6868.1602575996316409715
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web12.6998.1602576677235915375
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 00:59:56 -0700
+ Tue, 13 Oct 2020 01:11:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bn+VxdI5;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id l6so9681275vsr.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 00:59:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rEtniNtH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id cq12so19934185edb.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 01:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+lq5gTq+DXRgLABjNz6WUfwqIDwF2OHO2h7zsQQB0NY=;
-        b=Bn+VxdI5uiRjOOTm9keemEpR5lebmKioTYCki3Ju7y4G8LyOtGWrjhdF6Rfq+pIP0f
-         klmkyDVV0J6tAXF8CgxVXSetHmK5mYXUGhKZhTq5XdAtBrVx9JrGiP/OuyO2jJVaEUkE
-         KHXuRKOatjzFh0qnWQkQV6LKbrjYPI/B62fFxQieq4qgaqMWBuczFv3knvfz+j7g891r
-         v/Xa5pyx76powyy1qkjt2CBt5YMtRqVpv51CzwS3JaK1eVpaPOrfM7VjWyUNH7UDCzcU
-         HcY3mlXBmdDjQP+pzWywgxhnpsbxOXGMVE3+tfhBjKp5YhtxvfjMbvt3wQ4X7Jd81YOp
-         PD5Q==
+         :cc:content-transfer-encoding;
+        bh=oZj6qkIzmFK6rDdr/Ae2ThDUZj1aRMNZT19Rfi7B9Ck=;
+        b=rEtniNtHdpwNDv3T9h4wZDYPMnKHx0kTIWAW6hSTBvLtb7rM5tJaIuwU/gC9tlcR+1
+         MSGfzuFZQBZXxpdQd4qGHNYJ7jo8IuX/bWISjH4OpCONMm18JD1bpHxxoP3Pdsj4INEz
+         2eRerGOILaJ0IQfeJ/1Z9z/zeTFaR3vh61AWbq5pls6NPP1GYK6bI4Vjf/qNNO1HzM8q
+         4svw5j/0d36GPpeYgudxH/H+SJlLMaBoBXqfvTHCz75+2lxhzQEgOLLLfiHwUxmCphtG
+         vJhJElDbUn/9dLj1kRdYXRbedS1QRd1iP1Pj1DcHor2gOpXm5FEfFcBl+Oc1L+Yfeo+O
+         xztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+lq5gTq+DXRgLABjNz6WUfwqIDwF2OHO2h7zsQQB0NY=;
-        b=IUCdOePgwUUTs6VyFsewH57ZqwU+Gv1XtwUSznkxpb3nc04tyzLGNz0XSHu5p9BwKw
-         gFJg2W7WHCakltng3fjh81uwtqqhUf/aoIG2pI5oAxcRZIpXlDiszGQBFh0STKmMxac+
-         Vk8Dz3Bci6hi7SpWvcNU4Qc7tO0/EP3/x5J7fnGfXhXu5AeEDTcuTXv+llZl4PxBz7a1
-         YXQRIY5BuDkhjFG3Ims8B/CiB52vpFoJU2tdyNnMWBb9jpeIFMFKoFDTRWL8nDUvEJz8
-         fC01nfEXVtkE9vuoQwrlG+rEYRcktJ567gl/dxXGvdECso+U3UJ3Pieooh/TIsIOl64a
-         fWFA==
-X-Gm-Message-State: AOAM5304uUVtfca8CnnxMnbGiGDStUw8v+W2vlxtBduqfnjw/dGeizfA
-	JUvQliwe94HlYK8dZsvoMbKiQxQ83/C2WsfyA0Q=
-X-Google-Smtp-Source: ABdhPJxPPNcNJnWnX0YwPsdDK1xfU6PyDdiHKoGLnAwVo2jl+VH/nV5ZG6UprhMZNyflK+0uNf/IsIpyOnLS0BODJUM=
-X-Received: by 2002:a67:403:: with SMTP id 3mr2814101vse.54.1602575995471;
- Tue, 13 Oct 2020 00:59:55 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oZj6qkIzmFK6rDdr/Ae2ThDUZj1aRMNZT19Rfi7B9Ck=;
+        b=IG+6Wl1wCCR5CgD1WZbN+iU/U6KmZsCW//Fml1BAgjmL8o3wY0vOUQlG6jVCn5Njkk
+         4GqUCfFQUYSm1JMOV/hUU+TG2yuQ4HCWC/r8ycuO4NBIJW9y0XnDo/gYMM2C/l8KXULX
+         5HBEDEJD2RefocWctjG5Hp45X9dxm+gJJ2nmESrBlKlUmMKwegokzMnlCsbPEC/HsGms
+         kj66sRIrTCP0HkyaZh+LIDdVufNyvlOj2PcrtlLqum6YaT2SQ+FTWbaCqUo41vjlhsB7
+         ytDucC7wj/TdaqU1EgeMDNvQ25prsqISu6yEe/6RaLQBaoCjVZ3nyXuY2isbK9Crh5dO
+         nwwg==
+X-Gm-Message-State: AOAM532KCL5np/rZyj/88ecItqHenj/3BipQJbQzv69uzwhQler1FQOG
+	dHSPifaWxJgSwCXkqn8SjsXNFr2f8ZaRUXVs06I=
+X-Google-Smtp-Source: ABdhPJzl91FDWY0vcU4JENuWfut4zadOH5Ik8uS4unSsDSrETVFzY7zAPKfofXzygiT/n+5SoGbf84FzcNpoyZtgp7s=
+X-Received: by 2002:aa7:de06:: with SMTP id h6mr18582686edv.31.1602576675673;
+ Tue, 13 Oct 2020 01:11:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201011234937.1041597-1-alistair@alistair23.me>
- <CANNYZj82hb4PyrQYd_SWQVkbEvitomqBmkiOpecvM4o=rTyQ7w@mail.gmail.com> <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
-In-Reply-To: <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 13 Oct 2020 09:59:44 +0200
-Message-ID: <CANNYZj-zkwn1DrhXZJYZ6-=7AL7U5BLxYpn=dj=BUrJ12Ap97Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] wayland: Set idle-time to zero
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Alistair <alistair@alistair23.me>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ef8b8205b188ccad"
-
---000000000000ef8b8205b188ccad
+References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
+ <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
+ <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com>
+ <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
+ <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
+ <CANNYZj9Mr1VLAY5=ubgdYO08KWWUTPfd50CMqT-jcvZ44rPtMw@mail.gmail.com>
+ <CAHtQpK7T7rqfACB7MSnTh701yPbPy2B51Em924-FueriejFXOA@mail.gmail.com> <CANNYZj_AqswY3JJnVu=vtNQPdgfd=tbE89WgRD4Fxm1O=msFFQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_AqswY3JJnVu=vtNQPdgfd=tbE89WgRD4Fxm1O=msFFQ@mail.gmail.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Tue, 13 Oct 2020 09:11:05 +0100
+Message-ID: <CANPvuR=BkV+=n2rGoNKAHHmiVTCUbSDNgsy-tWisAyuXFYhu=A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Andrey Zhizhikin <andrey.z@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-
-It is however the upstream default, so changing it needs a proper
-explanation. Is it something beneficial for the majority of use cases?
-
-Ale
-
-On Tue 13. Oct 2020 at 1.22, Alistair Francis <alistair23@gmail.com> wrote:
-
-> On Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Why?
->
-> It's really annoying when you are working on something and the screen
-> turns off.
->
-> Alistair
->
-> >
-> > Alex
-> >
-> > On Mon, 12 Oct 2020 at 01:49, Alistair <alistair@alistair23.me> wrote:
-> >>
-> >> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> >> ---
-> >>  meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini
-> b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> >> index b48726d59c..d1532236af 100644
-> >> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-> >> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> >> @@ -5,6 +5,7 @@
-> >>  #shell=desktop-shell.so
-> >>  #gbm-format=xrgb2101010
-> >>  require-input=false
-> >> +idle-time=0
-> >>
-> >>  #[shell]
-> >>  #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
-> >> --
-> >> 2.28.0
-> >>
-> >>
-> >> 
-> >>
->
-
---000000000000ef8b8205b188ccad
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">It is however the upstream default, so changing it needs =
-a proper explanation. Is it something beneficial for the majority of use ca=
-ses?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Ale=C2=A0</div><div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
-e 13. Oct 2020 at 1.22, Alistair Francis &lt;<a href=3D"mailto:alistair23@g=
-mail.com">alistair23@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
-r-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On =
-Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
-in@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Why?<br>
-<br>
-It&#39;s really annoying when you are working on something and the screen =
-turns off.<br>
-<br>
-Alistair<br>
-<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt; On Mon, 12 Oct 2020 at 01:49, Alistair &lt;<a href=3D"mailto:alistair=
-@alistair23.me" target=3D"_blank">alistair@alistair23.me</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair@al=
-istair23.me" target=3D"_blank">alistair@alistair23.me</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +<=
-br>
-&gt;&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini=
- b/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
-&gt;&gt; index b48726d59c..d1532236af 100644<br>
-&gt;&gt; --- a/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
-&gt;&gt; +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
-&gt;&gt; @@ -5,6 +5,7 @@<br>
-&gt;&gt;=C2=A0 #shell=3Ddesktop-shell.so<br>
-&gt;&gt;=C2=A0 #gbm-format=3Dxrgb2101010<br>
-&gt;&gt;=C2=A0 require-input=3Dfalse<br>
-&gt;&gt; +idle-time=3D0<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 #[shell]<br>
-&gt;&gt;=C2=A0 #background-image=3D/usr/share/backgrounds/gnome/Aqua.jpg<b=
-r>
-&gt;&gt; --<br>
-&gt;&gt; 2.28.0<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; <br>
-&gt;&gt;<br>
-</blockquote></div></div>
+Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia segunda,
+12/10/2020 =C3=A0(s) 20:45:
+>
+> On Mon, 12 Oct 2020 at 20:20, Andrey Zhizhikin <andrey.z@gmail.com> wrote=
+:
+>>
+>>
+>> What I meant to point out was - there is a dependency in Vulkan on
+>> glslang, irrespective whether it is compiled standalone or as a
+>> dependency of another package. I believe this Vulkan <- glslang
+>> dependency should be solved first before Vulkan can be included
+>> anywhere further.
+>>
+>> As I know, it is currently solved locally in meta-freescale-distro
+>> layer, hence it was my question on whether it should be moved to
+>> OE-Core to solve the Vulkan dependency altogether?
+>
+>
+> Can you please point to where glslang is used in the vulkan source tree? =
+Is it something recently added, as vulkan bits and examples have been build=
+ing fine without it in oe-core?
 
---000000000000ef8b8205b188ccad--
+I am working on a recipe for 'shaderc' that is needed for build the
+gstreamer vulkan plugin
+
+This recipe needs glslang and spirv-tools.
+I don't have knowledge of the existence of glslang on
+meta-freescale-distro and I created one for myself.
+
+>
+> Alex
+
+
+
+--=20
+best regards,
+Jos=C3=A9 Quaresma
