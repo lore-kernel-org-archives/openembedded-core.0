@@ -1,140 +1,81 @@
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by mx.groups.io with SMTP id smtpd.web12.1057.1602607906854537788
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.851.1602610529198532607
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 09:51:47 -0700
+ Tue, 13 Oct 2020 10:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=SoZt8FhL;
- spf=pass (domain: mg.codeaurora.org, ip: 69.72.42.4, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602607907; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=laB7TFYseQU/Df+UYS5AEjntSbY4urBrInbuCRQNYWg=;
- b=SoZt8FhLDvmmqg0Ib5SD0WkxZSQQqHQe23jnGGZ0ZYpecMw6DryG3BvnRvu5+cOfjQ6d1kjF
- WEJv8wRxUss351U4aouWx7LCkTUp0QuMUYhTs5MQhSSob4Yyi2240hIYtfVXgUSTD3Rxmdd9
- RVAAPsd7J/1L3yldVBkYkRmcdZA=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5f85db204f8cc67c3101a07e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Oct 2020 16:51:44
- GMT
-Sender: sbanerje=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 0C5D2C433F1; Tue, 13 Oct 2020 16:51:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sbanerje)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 12586C433CB;
-	Tue, 13 Oct 2020 16:51:43 +0000 (UTC)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=U7IoKZVm;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id s9so263325wro.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 10:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oLbT/M07HTCF8pvOqgtgiUlL936FaQo3eahYaVGznJA=;
+        b=U7IoKZVmcbUTfqoVZ4erJY59HzJPpaLsugn8DkZpUl+bkrQyomTlT8G0i372HzSShL
+         AGQd5JK1yzNnMmxyYozyZzufxoyN8mRFORkAosrBdwNLNoAGif3FrZRKVoPhijVQCptV
+         BDcj4fBLwo3nq34LVh3N7VDnypx/zt4fGpMaAEEEvpXppuztWDgpjdV1T8bcxmjAeIGk
+         jCtBuktOlOSnalxZnfRH/fXBZAsri8VI3akcqEpJcWQKc5EDJRly2ZHuiUWFbfFHlozV
+         Qsec4/Nz5yK99k0z/vT/A2qrbFqrpkp+6AhmuyrV0VTm1Tjpp9UqYlY+TyKiNA2sVbAq
+         EvkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oLbT/M07HTCF8pvOqgtgiUlL936FaQo3eahYaVGznJA=;
+        b=hj1W2kn9V1/dPeQC9a0jXhsCEn7iwvKRcjJSaF0e84FofnURoHmc6IpvbzBZt+OH50
+         DDZV8Z1Qcm5gEF0GHeRyt2nk321CQEl/2K9fzr8aDVcMIm2nB3rERTJA5cb1rLu9xif/
+         jymsCT3ekIDidKVsqmcZT7c00E+TTnpvQGRuUYO3Gz5I1UZOyjDN02XtTkqNkpjoOS8T
+         uf9peBwlRFZNMpGT9O347IEf2Kgp2pxpd0vmwN3Ai2cLlCOnu6hmRZzxPctCS2NyEVJY
+         kpF9EjL/a4NzDCViwEBgwA0a3paQsKmX/kBWbSyFJMYXIOLILIVAj2V37Z292Jvf7c0N
+         wj7A==
+X-Gm-Message-State: AOAM532kgAk4He9qkYxAzMfC/LNPiIvFTppo6s9+RwO1hqHxJdQOFR+4
+	LkSelq+xwTUna8LBwGCf7+ZxRVudL5h08A==
+X-Google-Smtp-Source: ABdhPJzYQT2YancgCoFcczGWynTib057hldXstaAE2Sa4/7AJi+HPB5f+F1fvF5Gca24Jm9K42l/1A==
+X-Received: by 2002:adf:9069:: with SMTP id h96mr898191wrh.358.1602610527072;
+        Tue, 13 Oct 2020 10:35:27 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id w1sm297412wrp.95.2020.10.13.10.35.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2020 10:35:26 -0700 (PDT)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] add shaderc recipe
+Date: Tue, 13 Oct 2020 18:34:57 +0100
+Message-Id: <20201013173502.2245733-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Date: Tue, 13 Oct 2020 22:21:42 +0530
-From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] layer.conf: fix sanity error for PATH variable in extensible SDK workflow
-In-Reply-To: <70e6251e77a670b27d5f615f17b5e6ade4b9af90.camel@linuxfoundation.org>
-References: <1602403005-20733-1-git-send-email-sbanerje@codeaurora.org>
- <70e6251e77a670b27d5f615f17b5e6ade4b9af90.camel@linuxfoundation.org>
-Message-ID: <9445ff91e98706a197bf917a1cee448e@codeaurora.org>
-X-Sender: sbanerje@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2020-10-13 14:32, Richard Purdie wrote:
-> On Sun, 2020-10-11 at 13:26 +0530, Sourabh Banerjee wrote:
->> Sanity checker reports following error for the PATH variable,
->> when bitbake -e <recipe> command is run in an extensible SDK 
->> workspace.
->>    PATH contains '.', './' or '' (empty element), which will break the 
->> build
->> 
->> In case of extensible SDK, PATH variable is formed with two 
->> consecutive ':'
->> as bb.utils.which(d.getVar('PATH'),'bitbake') call returns an empty 
->> string.
->> 
->> This change adds the ':' only if the 
->> bb.utils.which(d.getVar('PATH'),'bitbake')
->> returns a valid path.
->> 
->> Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
->> ---
->>  meta/conf/layer.conf | 10 +++++++++-
->>  1 file changed, 9 insertions(+), 1 deletion(-)
->> 
->> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->> index 38df0f3..75d2ee0 100644
->> --- a/meta/conf/layer.conf
->> +++ b/meta/conf/layer.conf
->> @@ -102,4 +102,12 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
->>  SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
->> 
->>  # We need to keep bitbake tools in PATH
->> -PATH := 
->> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
->> +# The ':' separator is conditionally added only if 'bitbake' is in 
->> environment.
->> +# In case of extensible SDK, bitbake is not in environment, which 
->> results in
->> +# two consecutive ':'. Sanity checker reports "empty element" error 
->> when it
->> +# encounters two consecutive ':' for PATH variable in the extensible 
->> SDK.
->> +PATH := "\
->> +${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}\
->> +${@(':', '')[bb.utils.which(d.getVar('PATH'),'bitbake') is ""]}\
->> +${HOSTTOOLS_DIR}\
->> +"
-> 
-> I think we need to try and find something a little neater than this.
-> How about:
-> 
-> # Need to avoid empty path entries
-> BITBAKEPATH := 
-> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
-> PATH := "${@'${BITBAKEPATH}:' if ${BITBAKEPATH} is not 
-> ""}${HOSTTOOLS_DIR}"
+This patch series is for addressing an issue on 
+a submited patch serie for update gstreamer from 1.16.3 to 1.18.0
+https://patchwork.openembedded.org/series/26507
+The issue it solves is discussed here:
+https://lists.openembedded.org/g/openembedded-core/topic/77459442#143291
 
-Hi Richard,
+This fix the build of the vulkan plugin in gstreamer-plugin-bad 1.18.0
+To build the vulkan gstreamer plugin there a dependency on a binary
+that there is not present on OE-core. This binary is glslc.
 
-Uploaded patch v3 here 
-https://lists.openembedded.org/g/openembedded-core/message/143292
-I observed following error if I used your suggestion as is.
+It introduces three new receipes and one of then come from the layer
+meta-oe.
 
-		ERROR: Unable to parse 
-/workspace/sbanerje/MASTER/poky/bitbake/lib/bb/data_smart.py
-		Traceback (most recent call last):
-		  File "/workspace/sbanerje/MASTER/poky/bitbake/lib/bb/data_smart.py", 
-line 114, in VariableParse.python_sub(match=<_sre.SRE_Match object; 
-span=(0, 127), 
-match='${@\'/local/mnt/workspace/sbanerje/MASTER/poky/bi>):
-							 varname = '<expansion>'
-			>            codeobj = compile(code.strip(), varname, "eval")
+* spirv-tools:
+move it from meta-oe, add native build and install some extra header files.
 
-		bb.data_smart.ExpansionError: Failure expanding variable PATH[:=], 
-expression was ${@'/workspace/sbanerje/MASTER/poky/bitbake/bin:' if 
-/workspace/sbanerje/MASTER/poky/bitbake/bin is not ""}${HOSTTOOLS_DIR} 
-which triggered exception SyntaxError: invalid syntax (Var <PATH[:=]>, 
-line 1)
+* glslang:
+is the official reference compiler front end for the OpenGL ES and
+OpenGL shading languages.
 
-I figured, only way to get around this is to add 'else'.
+* shaderc:
+A collection of tools, libraries and tests for shader compilation that
+provide the binary glslc need to build the vulkan plugin.
 
-> 
-> Cheers,
-> 
-> Richard
+[PATCH 1/5] spirv-tools: import from meta-oe to OE core
+[PATCH 2/5] spirv-tools: enable native build and install more header
+[PATCH 3/5] glslang: add receipe
+[PATCH 4/5] shaderc: add receipe
+[PATCH 5/5] shaderc: enable only native build as the target is
 
-
--- 
-Regards,
-Sourabh
