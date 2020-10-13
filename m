@@ -1,23 +1,23 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.65])
- by mx.groups.io with SMTP id smtpd.web11.9797.1602588806814930273
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.57])
+ by mx.groups.io with SMTP id smtpd.web11.9798.1602588807348653287
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 04:33:27 -0700
+ Tue, 13 Oct 2020 04:33:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=L7H20GZY;
- spf=pass (domain: arm.com, ip: 40.107.20.65, mailfrom: abdellatif.elkhlifi@arm.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=4nho2Thn;
+ spf=pass (domain: arm.com, ip: 40.107.13.57, mailfrom: abdellatif.elkhlifi@arm.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+5VfBvmaJ7l/rAq5qEZo1iUrWYcAQV/XKDYM2JWQxo=;
- b=L7H20GZYF91aygpVnuZN5BQZxty8uMkQg34rX5VXEz6XoJ/afSiCMi+SwOv4IiTwGgXaqr9Lj7vmFtFAVQDrMvKKS6qnaDoeTYNkKwom9Vh8kSlcScKkiUtRj0I2Vxz8qZdPcrPjeKqlnQbaoZYCVLECkhPEepSwGkKifBL6//A=
-Received: from AM7PR04CA0001.eurprd04.prod.outlook.com (2603:10a6:20b:110::11)
- by VI1PR08MB3742.eurprd08.prod.outlook.com (2603:10a6:803:c3::16) with
+ bh=S1i6DE4SbEruPoN8m3YyIapXW9V985m9n+MpncufYws=;
+ b=4nho2ThnhWGOWTSPCHpveeTT4lAhOYQq6TwANt04WMmcMWcgkNqXv5lwYHaRGScMkeHyRIlbH6davXmryeEhDvqdcpD34o+m2JB2LhFjQdFm9ZdXhwg2WMvnojm4fPMFKshjVfWMPOI8c0muRCARtLinVL2LggjQeuMBRddcDA4=
+Received: from AM6P195CA0081.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:86::22)
+ by AM4PR08MB2660.eurprd08.prod.outlook.com (2603:10a6:205:c::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.27; Tue, 13 Oct
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.28; Tue, 13 Oct
  2020 11:33:23 +0000
-Received: from AM5EUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:110:cafe::16) by AM7PR04CA0001.outlook.office365.com
- (2603:10a6:20b:110::11) with Microsoft SMTP Server (version=TLS1_2,
+Received: from AM5EUR03FT049.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:86:cafe::af) by AM6P195CA0081.outlook.office365.com
+ (2603:10a6:209:86::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20 via Frontend
  Transport; Tue, 13 Oct 2020 11:33:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
@@ -28,35 +28,35 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  63.35.35.123 as permitted sender) receiver=protection.outlook.com;
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM5EUR03FT009.mail.protection.outlook.com (10.152.16.110) with Microsoft SMTP
+ AM5EUR03FT049.mail.protection.outlook.com (10.152.17.130) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.23 via Frontend Transport; Tue, 13 Oct 2020 11:33:23 +0000
-Received: ("Tessian outbound 34b830c8a0ef:v64"); Tue, 13 Oct 2020 11:33:23 +0000
+ 15.20.3455.23 via Frontend Transport; Tue, 13 Oct 2020 11:33:22 +0000
+Received: ("Tessian outbound a0bffebca527:v64"); Tue, 13 Oct 2020 11:33:23 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: b21ed3f7b5b16407
+X-CR-MTA-CID: e4a2b3706c69c1f7
 X-CR-MTA-TID: 64aa7808
-Received: from 0939827b2316.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id C478EDC2-DFD3-43AB-A7B7-CCED2DADE36E.1;
+Received: from 0939827b2316.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id A058574A-CA94-4E71-BBA0-3078B6FA6604.1;
 	Tue, 13 Oct 2020 11:32:45 +0000
 Received: from EUR02-VE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0939827b2316.2
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0939827b2316.1
     (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
     Tue, 13 Oct 2020 11:32:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DoZsjm8D+7mYhh0Uvj0mKkBWJIRFwJO2epFO9Oys0NqLrnF01tWxUo0w5tVnkRBFt6FHzybmDYCKtmhqTcSAe4shv3Up261Ffz+Y/pPesgRHfZyHZw8wqM3yDp0dOw6IBxRo1jJ9T6Ym18RaG6xhi39IAayTkiMkv3d8iGlQji7RJlI5Cp0e54bcZdaT5EgrXlaAtVHESN3QXkThh9tUHbrtKrLGzYs+ADEV4blb5ivxdDstBllzuwL2O7fwKnlUl2+YssoEqIf7yV4YmCNA4w30wvqr52hSuyP2o8k7V6PmsAgrMAWHSQGqJPy5wSixv9u9odoKM2F0npNqfo4c2g==
+ b=MYNjol1rorM87WaUJR0IMJ7Ge/ILsWQ6uN1JbmaWrS4LaXJVUdy03WO+9iS9bZEb7iQZwYi4DbjtW93Y/cvr6B8Sxx3k3NLmoUC74749jD2R+CLVO8X2oF315Z3Q7VrLBcG+ybjXFZNsF28d4Tr/l9Fa9g7wJmKhDjKlFZapPJ8lh3fgG53b1V82um4BnCtcEyRvB9Ltc7JLXjRDfOeY02XggKpClT6BOcoOAGY6E7PzSm7SKSBKtGN0VqjoO+Q4XU/nLndjK7FQG6wRtPx3i0AosUmkpMHpKeJlUv/fWnsbhZ1/EMwpxBiytxrvXd2UlL8JMH+V44589Vg3UlEoOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+5VfBvmaJ7l/rAq5qEZo1iUrWYcAQV/XKDYM2JWQxo=;
- b=MW2EmsaQix6BWoSfe8bPwGk+4ERFiTlYI6eer2SHOTObHio34km2F+wBmpLVIvqH8QgS4tQ98e8r0jn/i9nDXWuCSLZFE6/DY7UXEH1O0DzKooIA7dEgjp3Tp3t3+LMqtHmSiH/6H4ljXen92BWoRd3CQ7WATFWI4Ejv/SSDGi1KmocF/VER2f2D7q8Zv2gbhF3POf3COsHQs8gyltAaARFdF8wUzTGL6bp8VA6BK0qgOI/FRJheKsVNWHaHYvkmj5SzkbStc4fCDLEOuu/CgOPd616jkN8I3Yx66fNvLMcbfqmFNsPJgvRcOESUUud3jVZu6WtiNh9JeLY0qGQZcA==
+ bh=S1i6DE4SbEruPoN8m3YyIapXW9V985m9n+MpncufYws=;
+ b=iyOuPlQFFF6Y3T0GjZCxX03IHiVYSDk4B82w73oJvGZlzBuFpxapqEVEgneZy52r1Un9HjRmflNONR6B9zYgecORBWYpcR+lncjOoPHEOZh1j0acpKM7EhaFyTJ+pxc+Uu/R0TlzApyqiAa27jDqVjhMlbuGGtjD84EXaCV4oEN5Q+lEVG04JG/6NqMtngQzoNafCON+ukYHivp6b1U53wlqSVlMTolAW7mv1ts0Th7NjOSvFZpbRzLj8HJ0muvnRiiCTkmDd8u76kr34558KeB4zrSVhmie/+7XMk6sQGjlixtPRZ8w3QdBte2CSL+c3XBcyor36+wsDIfMBDQAYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+5VfBvmaJ7l/rAq5qEZo1iUrWYcAQV/XKDYM2JWQxo=;
- b=L7H20GZYF91aygpVnuZN5BQZxty8uMkQg34rX5VXEz6XoJ/afSiCMi+SwOv4IiTwGgXaqr9Lj7vmFtFAVQDrMvKKS6qnaDoeTYNkKwom9Vh8kSlcScKkiUtRj0I2Vxz8qZdPcrPjeKqlnQbaoZYCVLECkhPEepSwGkKifBL6//A=
+ bh=S1i6DE4SbEruPoN8m3YyIapXW9V985m9n+MpncufYws=;
+ b=4nho2ThnhWGOWTSPCHpveeTT4lAhOYQq6TwANt04WMmcMWcgkNqXv5lwYHaRGScMkeHyRIlbH6davXmryeEhDvqdcpD34o+m2JB2LhFjQdFm9ZdXhwg2WMvnojm4fPMFKshjVfWMPOI8c0muRCARtLinVL2LggjQeuMBRddcDA4=
 Authentication-Results-Original: lists.openembedded.org; dkim=none (message
  not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=arm.com;
@@ -75,9 +75,9 @@ To: openembedded-core@lists.openembedded.org,
 	Ross.Burton@arm.com
 Cc: nd@arm.com,
 	Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
-Subject: [meta-oe][PATCH 2/2] oeqa/selftest/imagefeatures: adding fitImage testcases for initramfs bundle and boot script
-Date: Tue, 13 Oct 2020 12:32:32 +0100
-Message-Id: <20201013113232.29228-3-abdellatif.elkhlifi@arm.com>
+Subject: [meta-oe][PATCH 1/2] kernel-fitimage: adding support for Initramfs bundle and u-boot script
+Date: Tue, 13 Oct 2020 12:32:31 +0100
+Message-Id: <20201013113232.29228-2-abdellatif.elkhlifi@arm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201013113232.29228-1-abdellatif.elkhlifi@arm.com>
 References: <20201013113232.29228-1-abdellatif.elkhlifi@arm.com>
@@ -87,25 +87,25 @@ X-ClientProxiedBy: LO2P265CA0382.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:10:49::17)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from e121910.arm.com (217.140.99.251) by LO2P265CA0382.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a3::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.27 via Frontend Transport; Tue, 13 Oct 2020 11:32:43 +0000
+Received: from e121910.arm.com (217.140.99.251) by LO2P265CA0382.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a3::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.27 via Frontend Transport; Tue, 13 Oct 2020 11:32:41 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 41cd30d8-7a8b-4b14-4311-08d86f6bcb1e
-X-MS-TrafficTypeDiagnostic: DB6PR0802MB2325:|VI1PR08MB3742:
+X-MS-Office365-Filtering-Correlation-Id: c49d2524-2ee5-484c-623d-08d86f6bcafb
+X-MS-TrafficTypeDiagnostic: DB6PR0802MB2325:|AM4PR08MB2660:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<VI1PR08MB374276B793D3F8F7CD8496ADFD040@VI1PR08MB3742.eurprd08.prod.outlook.com>
+	<AM4PR08MB26607BAD048D64DCF0A087DAFD040@AM4PR08MB2660.eurprd08.prod.outlook.com>
 x-checkrecipientrouted: true
 NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:81;OLM:81;
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;OLM:3383;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam-Untrusted: BCL:0;
 X-Microsoft-Antispam-Message-Info-Original: 
- Q9LQoRP7vOM8gMUw7985xTZO0QkxftKFICZIfyWac93cE7SaDYewqouSgQnf+rfVG+nFtFKIi2+u1U4eh+2huTXbhefCJzWqwcCwqLNbODpWYgzFnI6tWs86oy+nz28GDL01weKnLHfJyJaPef5NEuGcg43xofSOkNPVcHIM0IrQ0DEu3CEzQqOAr0IST0uBB0CvwT2etC1EkEbt2anJaRcjg4cCAF4XFcYsNXuwz+y5QySGN7KO0z1e/Bi1umaHejiN0A2OpplXazi0CcRjnY9SL2E+S74ST8PlFTXdo/cdoIrU3zFcNfo+z4Wrw5Dp
+ TdJHtW5eGxJxGQoJDQRBIsyog2nVLRva2py53I4hok0wk7DUQvqQjoyiFncE910jWzZmpq8UQJAWwMdxV0sP9miMoQRh8hd+YKk2Gaj4QOABu0haPF8WPLTiwqdgj74fmWgSFpGNscvoB3KmOAxNoPJNVW3H/NRixj4dvZR33Be5DOPeSAnFkjPMocC+nQ57pzTEWIutR30PUqtn0i5HHzedZdGQj8QXKpkVYK8V3aBf83QVxKBzRsYnsHOrGCp61vlM1DydEhYXre4WA+D7Ds7AuS5pJFZPzixCXLTMWhKKbnzyrktX+FPRnNc+mXGFx/ZVcMw2cSuPRphsi2I9a+fZ0h262nSckQcLZtB/xtAld/L1uB/2dgCDAqQAEXYMEbcUWts95XaVU8veoP9P1w==
 X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3531.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(36756003)(66946007)(4326008)(66476007)(66556008)(7696005)(8676002)(478600001)(5660300002)(52116002)(6486002)(2616005)(956004)(6666004)(2906002)(26005)(8936002)(1076003)(9686003)(16526019)(186003)(316002)(86362001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3531.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(30864003)(966005)(36756003)(66946007)(4326008)(66476007)(66556008)(7696005)(8676002)(478600001)(5660300002)(52116002)(6486002)(2616005)(956004)(6666004)(2906002)(26005)(8936002)(1076003)(9686003)(16526019)(186003)(316002)(86362001)(83080400001)(83380400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
- kRV0OoGCmfYe8C0rOpEWQhqzzG14xP2SEcTTwVGiNi0obZVMIdu3bznCqBzT863UGY5bp8t5T8LfYdum/GNYWgIg8+8sHu4krBr3kSSEnQmbJJ0kX+4sLCqyiN4vXh5M+wyagxTbpWoZ61kG9SpwggAORUVtcZJC7Xhg6uy0595zKB3XlMo9J+XuN5xBfSowgRekbaDBZKx8D8y2w0wfuvJWiJ0pLv0InTbaJ0zx4wEr1ArEXNathYNI8+0gX3CHwsz/lmjuaBOfE1sE1QimQyGN2s64b5cbAj/I6EozyCZHPovUUOTmle8Eq/e03uSicibNB/53V9G2sb0ERuRlYOo0lv20VZ7hZHQd0kTndVvHEN3jjI1KaKhC2oQEZlzTnu7vexUAcRVNVwx26Wmiv55kMzgpx/N81w2FfOD7quqHQ3Jfmzewu7HevTFs4EVVDdujc/pi+QPcO2C4YucyJgjaxz8FC/HdAQbiXBhOkFHF1H12t1mPXLk/Fcurh3cCdOHxYRwdqZ+wNpIIz3LGENvebwPBioXQWuWQS86zYeayVnJX6zTC+EfghwO/9lB59D8HMI+cDPzO7wyd0n5so1hnM8xrIW5RBsvP49xKhMj6z9e0BM1Rd9snZRZXpwQLhBGwBqWZLBQF/HGHYbiD0A==
+ nQims0Nm/bkNA5TioGLwrDIRwasmonjLjHPrHRbts9TWNlo5VTLDWoJCNDqAejkbmAyFyGMJLTPnUKDNjxUATfQzbPMyaDdyaCZmDbzB8oEo1QV36Ml6Tfv02bmEc6doE8KszQpdffYVLJR9Ipi75izNOVks/UbLZXqFVeQEmi8kbCI2b8++pdKKs9EnjM6tT5qsdDTSHMLbaM7JCL8sEF02G23YXzve1BSJddGG147C8+45JImCfaUDAOhFJVY/Do7vMs9C9UHyuQN/8snJIpbQlLFEbXPnP5++BdNN5xhW2JDvXTiwnPPUm5pnXvEJpYPEG7uRYpkA2tAH3U9Xgn1+gLEg+PVeQ3qGNxjM77n6Xeow2xr6oED49uXjN93RQ1N8yV/bUhmQtuz/hBCOv4t+UOTPht6vCvU9Zh6vHeoc9klD8rhv2fqS+GA8sthPTlOZNwQJNzDpCtvMqgLAYKiFg2Xp+BVtWvGsnqVtxjVKUwSe+uUFYr0qeBEQQXThxesqslC6briyaISP9EyS32vAe29xMtF1pwWaNAulAqfv+m/uyVIfL1ox6j0cdsjGXTdZiosmT2BhI48wrc54I6dC876ipjlgGjOAZKx/x6Cx4k6kcrB/fIIiqlzDXfT3hXWJr5nvOSq7/7tMmTzoyg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0802MB2325
 Original-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
@@ -113,293 +113,371 @@ Original-Authentication-Results: lists.openembedded.org; dkim=none (message not 
 Return-Path: Abdellatif.ElKhlifi@arm.com
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM5EUR03FT009.eop-EUR03.prod.protection.outlook.com
+ AM5EUR03FT049.eop-EUR03.prod.protection.outlook.com
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	cbc10ace-76eb-4c03-2f03-08d86f6bb356
+	66401c77-419e-405b-51a2-08d86f6bb239
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	DY3mtMzEQ/ayWEmkQeejIkYWjpYyvOIBkLUG+fbIAoE03b6Gvphro7pXnQreVM97elIKmfHVMSeKW5UFhAZdtMGNFDvLGsDAD5HINqErg/RN8H90IHOIHCxXRtTI+L6XAgjfphdZ/H3fkyYG5pNN+V/8YcYOzbgZuwdmTXSYJkYt0VmbJFMqb0Ag4pLg+q4tr0aMD1bKmBFJWora9JMqM3Jc4vXRgA+FOTG0AuPvAmkKm1145TKjoWtTrxj5vmexTVmqPbGxyL+1Fv8VFho6Pa6XlDpmec19CCwDXP1qaHkK3egUuRhk5H/62mNwz8Oc+xYnd22psznxCHrdrsQ1akQ/JyxfIh2Vn8pUOOTustMdvy9w0uWuSxY8oki56Vvwf++SHPbizAhYhnH1WDYlbw==
+	ov4a6hOB5U/OdnK3/hJWVstdhOk4AlZAEFRoqsT7B1FINZhcz/SglBdS0AJUIp6NmG1q34ZD03o5PbfLt4RdW39/KbGiJJBqGtTFrY8KtDe3zlAt6OLuDI2FJzZQvcOnEXvlnulKIWTtNnZHdcg8Ek0eXhQB4j9MV+ugHGemI5ErEZixrjCrb74MKheWbrDm3K2E8x7J7ExPK4S8IGbJ6H/wS4l3EFUf6n2TtvgYGcEppEgLdKYzQn1kdlR5vgLOiEv1APkU3nqfYYA4zPRMtU+5gjRQfXcRywzST1dd9tMGef9e16N2f3m8S3oJzysDg1Zxl8FK3wraeF56ewpVTgTrymZOjt+76KJFtQk68yh5ntYA3f8OJSFTHFkUAcaz8d6Su8twxr4coOujOK78zxHQCJ3yVRWrlHJ4FjlNL7kFF5AaJV5XJm05FrK+dUGJit0iRyfDhuH7u3y/g0KcXu7ehtFYkSjk6hFCcehW3PU=
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(46966005)(356005)(8676002)(82740400003)(47076004)(26005)(336012)(186003)(36756003)(956004)(2616005)(9686003)(16526019)(81166007)(478600001)(5660300002)(6486002)(316002)(2906002)(1076003)(6666004)(7696005)(36906005)(86362001)(70586007)(70206006)(82310400003)(4326008)(8936002);DIR:OUT;SFP:1101;
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(39860400002)(396003)(46966005)(47076004)(2616005)(956004)(36756003)(356005)(2906002)(5660300002)(6666004)(8936002)(86362001)(30864003)(83380400001)(8676002)(336012)(82740400003)(316002)(82310400003)(7696005)(83080400001)(478600001)(966005)(4326008)(6486002)(81166007)(36906005)(186003)(16526019)(70586007)(9686003)(70206006)(26005)(1076003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 11:33:23.2087
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 11:33:22.9797
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41cd30d8-7a8b-4b14-4311-08d86f6bcb1e
+X-MS-Exchange-CrossTenant-Network-Message-Id: c49d2524-2ee5-484c-623d-08d86f6bcafb
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM5EUR03FT009.eop-EUR03.prod.protection.outlook.com
+	AM5EUR03FT049.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3742
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR08MB2660
 Content-Type: text/plain
 
 From: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
 
-- This commit allows to test the initramfs bundle feature through a new testcase that  checks
-if FIT image and Image Tree Source (ITS) are built and the Image Tree Source has the correct
-initramfs bundle fields.
-The FIT settings are automatically read from the current machine conf file or from local.conf.
+This commit adds Initramfs bundle support to the FIT image in addition
+to u-boot boot script capability.
 
-This testcase can be run through the following command:
+These new features are selectable.
 
-oe-selftest -r imagefeatures.ImageFeatures.test_signed_fit_image_initramfs
+In case of Initramfs, the kernel is configured to be bundled with the rootfs
+in the same binary (ie: zImage-initramfs-<machine>.bin). When the kernel is
+copied to RAM and executed, it unpacks the Initramfs rootfs.
 
-- This commit also allows to test the u-boot script feature through a new testcase that checks
-if FIT image and Image Tree Source are built and the Image Tree Source has the correct
-uboot script fields.
-The FIT settings are automatically read from the current machine conf file or from local.conf.
+For more information about Initramfs please read:
 
-This testcase can be run through the following command:
+https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt
 
-oe-selftest -r imagefeatures.ImageFeatures.test_signed_fit_image_bootscr
+For more details about the Initramfs bundle and boot script implementation
+please check the kernel-fitimage.bbclass paragraph in Yocto reference
+or mega manual.
 
-Change-Id: I2d4e670ca9cd4971194edccf9fa6c5ede6627f31
+Current limitations:
+
+- Initramfs bundle FIT support has been tested on ARM 32-bit
+- The kernel image type in case of ARM 32-bit is zImage
+
+Change-Id: I901bfd899e8d733c5b9a2b6645b1d4748f4b1fda
 Signed-off-by: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 215 ++++++++++++++++++
- 1 file changed, 215 insertions(+)
+ meta/classes/kernel-fitimage.bbclass | 148 ++++++++++++++++++++++-----
+ 1 file changed, 124 insertions(+), 24 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index f7a2533746..69c4313c5e 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -7,6 +7,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.utils.sshcontrol import SSHControl
- import os
- import json
-+import re
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index bb2f3c4ccc..f94d4d1b3d 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -1,5 +1,7 @@
+ inherit kernel-uboot kernel-artifact-names uboot-sign
  
- class ImageFeatures(OESelftestTestCase):
++KERNEL_IMAGETYPE_REPLACEMENT = ""
++
+ python __anonymous () {
+     kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
+     if 'fitImage' in kerneltypes.split():
+@@ -21,6 +23,8 @@ python __anonymous () {
+         else:
+             replacementtype = "zImage"
  
-@@ -278,6 +279,7 @@ PNBLACKLIST[busybox] = "Don't build this"
-         """
-         config = """
- # Enable creation of fitImage
++        d.setVar("KERNEL_IMAGETYPE_REPLACEMENT", replacementtype)
 +
- KERNEL_IMAGETYPE = "Image"
- KERNEL_IMAGETYPES += " fitImage "
- KERNEL_CLASSES = " kernel-fitimage "
-@@ -337,6 +339,219 @@ UBOOT_ENTRYPOINT = "0x80080000"
-                 "Fields in Image Tree Source File %s did not match, error in finding %s"
-                 % (fitimage_its_path, its_field_check[field_index]))
+         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+         # to kernel.bbclass . We have to override it, since we pack zImage
+         # (at least for now) into the fitImage .
+@@ -45,6 +49,8 @@ python __anonymous () {
+         if d.getVar('UBOOT_SIGN_ENABLE') == "1" and d.getVar('UBOOT_DTB_BINARY'):
+             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+             d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
++            if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
++                d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' %s:do_populate_sysroot' % uboot_pn)
+ }
  
-+    def test_signed_fit_image_initramfs(self):
-+        """
-+        Summary:     Check if FIT image and Image Tree Source (its) are built
-+                     and the Image Tree Source has the correct initramfs bundle fields.
-+                     The FIT settings are automatically read from the current machine
-+                     conf file or from local.conf , no need to set values in this function
-+        Expected:    1. fitImage and fitImage ITS are built with initramfs bundle support
-+                     2. All the fields in the kernel node are as expected (matching the
-+                        conf settings)
-+                     3. The kernel is included in all the available configurations and
-+                        its hash is included in the configuration signature
-+        Usage:      Set the following variables in the machine conf file:
+ # Options for the device tree compiler passed to mkimage '-D' feature:
+@@ -190,6 +196,30 @@ fitimage_emit_section_dtb() {
+ EOF
+ }
+ 
++#
++# Emit the fitImage ITS u-boot script section
++#
++# $1 ... .its filename
++# $2 ... Image counter
++# $3 ... Path to boot script image
++fitimage_emit_section_boot_script() {
 +
-+                    INITRAMFS_IMAGE_BUNDLE = "1"
-+                    INITRAMFS_IMAGE = "<the initramfs image>"
-+                    UBOOT_CONFIG ??= "FIT"
-+                    UBOOT_CONFIG[FIT] = "<machine>_defconfig"
-+                    KERNEL_CLASSES = " kernel-fitimage "
-+                    KERNEL_IMAGETYPES = "fitImage"
-+                    UBOOT_SIGN_ENABLE = "1"
-+                    UBOOT_SIGN_KEYNAME = "<key name>"
-+                    UBOOT_SIGN_KEYDIR ?= "${DEPLOY_DIR_IMAGE}"
-+                    UBOOT_DTB_BINARY = "u-boot.dtb"
-+                    UBOOT_ENTRYPOINT  = "<initramfs bundle address in RAM>"
-+                    UBOOT_LOADADDRESS = "<initramfs bundle address in RAM>"
-+                    UBOOT_DTB_LOADADDRESS = "<DTB address in RAM>"
-+                    UBOOT_ARCH = "arm"
-+                    UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
-+                    UBOOT_EXTLINUX = "0"
-+                    KERNEL_IMAGETYPE_REPLACEMENT = "<the value set in the kernel-fitimage.bbclass>"
-+                    FIT_HASH_ALG = "<sha algorithm>"
++        bootscr_csum="${FIT_HASH_ALG}"
 +
-+        Product:     oe-core
-+        Author:      Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
-+        """
++        cat << EOF >> ${1}
++                bootscr@${2} {
++                        description = "U-boot script";
++                        data = /incbin/("${3}");
++                        type = "script";
++                        arch = "${UBOOT_ARCH}";
++                        compression = "none";
++                        hash@1 {
++                                algo = "${bootscr_csum}";
++                        };
++                };
++EOF
++}
 +
-+        # fitImage is created as part of linux recipe
-+        bitbake("virtual/kernel")
+ #
+ # Emit the fitImage ITS setup section
+ #
+@@ -260,8 +290,9 @@ EOF
+ # $2 ... Linux kernel ID
+ # $3 ... DTB image name
+ # $4 ... ramdisk ID
+-# $5 ... config ID
+-# $6 ... default flag
++# $5 ... u-boot script ID
++# $6 ... config ID
++# $7 ... default flag
+ fitimage_emit_section_config() {
+ 
+ 	conf_csum="${FIT_HASH_ALG}"
+@@ -277,6 +308,7 @@ fitimage_emit_section_config() {
+ 	kernel_line=""
+ 	fdt_line=""
+ 	ramdisk_line=""
++	bootscr_line=""
+ 	setup_line=""
+ 	default_line=""
+ 
+@@ -307,11 +339,17 @@ fitimage_emit_section_config() {
+ 	fi
+ 
+ 	if [ -n "${5}" ]; then
++		conf_desc="${conf_desc}${sep}u-boot script"
++		sep=", "
++		bootscr_line="bootscr = \"bootscr@${5}\";"
++	fi
 +
-+        image_type = get_bb_var('INITRAMFS_IMAGE')
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        machine = get_bb_var('MACHINE')
-+        fitimage_its_path = os.path.join(deploy_dir_image,
-+                    "fitImage-its-%s-%s-%s" % (image_type, machine, machine))
-+        fitimage_path = os.path.join(deploy_dir_image,"fitImage")
++	if [ -n "${6}" ]; then
+ 		conf_desc="${conf_desc}${sep}setup"
+-		setup_line="setup = \"setup@${5}\";"
++		setup_line="setup = \"setup@${6}\";"
+ 	fi
+ 
+-	if [ "${6}" = "1" ]; then
++	if [ "${7}" = "1" ]; then
+ 		# default node is selected based on dtb ID if it is present,
+ 		# otherwise its selected based on kernel ID
+ 		if [ -n "${3}" ]; then
+@@ -324,10 +362,11 @@ fitimage_emit_section_config() {
+ 	cat << EOF >> ${1}
+                 ${default_line}
+                 $conf_node {
+-			description = "${6} ${conf_desc}";
++			description = "${7} ${conf_desc}";
+ 			${kernel_line}
+ 			${fdt_line}
+ 			${ramdisk_line}
++			${bootscr_line}
+ 			${setup_line}
+                         hash@1 {
+                                 algo = "${conf_csum}";
+@@ -355,6 +394,11 @@ EOF
+ 		fi
+ 
+ 		if [ -n "${5}" ]; then
++			sign_line="${sign_line}${sep}\"bootscr\""
++			sep=", "
++		fi
 +
-+        self.assertTrue(os.path.exists(fitimage_its_path),
-+            "%s image tree source doesn't exist" % (fitimage_its_path))
-+        self.assertTrue(os.path.exists(fitimage_path),
-+            "%s FIT image doesn't exist" % (fitimage_path))
++		if [ -n "${6}" ]; then
+ 			sign_line="${sign_line}${sep}\"setup\""
+ 		fi
+ 
+@@ -386,6 +430,7 @@ fitimage_assemble() {
+ 	DTBS=""
+ 	ramdiskcount=${3}
+ 	setupcount=""
++	bootscr_id=""
+ 	rm -f ${1} arch/${ARCH}/boot/${2}
+ 
+ 	fitimage_emit_fit_header ${1}
+@@ -396,7 +441,22 @@ fitimage_assemble() {
+ 	fitimage_emit_section_maint ${1} imagestart
+ 
+ 	uboot_prep_kimage
+-	fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
 +
-+        kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
-+        kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
-+        initramfs_bundle_format = str(get_bb_var('KERNEL_IMAGETYPE_REPLACEMENT'))
-+        uboot_arch = str(get_bb_var('UBOOT_ARCH'))
-+        initramfs_bundle = "arch/" + uboot_arch + "/boot/" + initramfs_bundle_format + ".initramfs"
-+        fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
++	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
++		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
++		if [ -e "${initramfs_bundle_path}" ]; then
 +
-+        its_file = open(fitimage_its_path)
++			#
++			# Include the kernel/rootfs bundle.
++			#
 +
-+        its_lines = [line.strip() for line in its_file.readlines()]
++			fitimage_emit_section_kernel ${1} "${kernelcount}" "${initramfs_bundle_path}" "${linux_comp}"
++		else
++			bbwarn "${initramfs_bundle_path} not found."
++		fi
++	else
++		fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
++	fi
+ 
+ 	#
+ 	# Step 2: Prepare a DTB image section
+@@ -430,7 +490,21 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 3: Prepare a setup section. (For x86)
++	# Step 3: Prepare a u-boot script section
++	#
 +
-+        exp_node_lines = [
-+            'kernel@1 {',
-+            'description = "Linux kernel";',
-+            'data = /incbin/("' + initramfs_bundle + '");',
-+            'type = "kernel";',
-+            'arch = "' + uboot_arch + '";',
-+            'os = "linux";',
-+            'compression = "none";',
-+            'load = <' + kernel_load + '>;',
-+            'entry = <' + kernel_entry + '>;',
-+            'hash@1 {',
-+            'algo = "' + fit_hash_alg +'";',
-+            '};',
-+            '};'
-+        ]
++	if [ -n "${UBOOT_ENV}" ] && [ -d "${STAGING_DIR_HOST}/boot" ]; then
++		if [ -e "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY}" ]; then
++			cp ${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} ${B}
++			bootscr_id="${UBOOT_ENV_BINARY}"
++			fitimage_emit_section_boot_script ${1} "${bootscr_id}" ${UBOOT_ENV_BINARY}
++		else
++			bbwarn "${STAGING_DIR_HOST}/boot/${UBOOT_ENV_BINARY} not found."
++		fi
++	fi
 +
-+        node_str = exp_node_lines[0]
++	#
++	# Step 4: Prepare a setup section. (For x86)
+ 	#
+ 	if [ -e arch/${ARCH}/boot/setup.bin ]; then
+ 		setupcount=1
+@@ -438,9 +512,9 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 4: Prepare a ramdisk section.
++	# Step 5: Prepare a ramdisk section.
+ 	#
+-	if [ "x${ramdiskcount}" = "x1" ] ; then
++	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+ 		# Find and use the first initramfs image archive type we find
+ 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.gz ext2.gz cpio; do
+ 			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
+@@ -461,13 +535,15 @@ fitimage_assemble() {
+ 	fi
+ 
+ 	#
+-	# Step 5: Prepare a configurations section
++	# Step 6: Prepare a configurations section
+ 	#
+ 	fitimage_emit_section_maint ${1} confstart
+ 
+ 	# kernel-fitimage.bbclass currently only supports a single kernel (no less or
+ 	# more) to be added to the FIT image along with 0 or more device trees and
+ 	# 0 or 1 ramdisk.
++        # It is also possible to include an initramfs bundle (kernel and rootfs in one binary)
++        # When the initramfs bundle is used ramdisk is disabled.
+ 	# If a device tree is to be part of the FIT image, then select
+ 	# the default configuration to be used is based on the dtbcount. If there is
+ 	# no dtb present than select the default configuation to be based on
+@@ -479,13 +555,13 @@ fitimage_assemble() {
+ 			if [ "${dtb_ext}" = "dtbo" ]; then
+ 				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
+ 			else
+-				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
++				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${bootscr_id}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
+ 			fi
+ 			i=`expr ${i} + 1`
+ 		done
+ 	else
+ 		defaultconfigcount=1
+-		fitimage_emit_section_config ${1} "${kernelcount}" "" "${ramdiskcount}" "${setupcount}" "${defaultconfigcount}"
++		fitimage_emit_section_config ${1} "${kernelcount}" "" "${ramdiskcount}" "${bootscr_id}"  "${setupcount}" "${defaultconfigcount}"
+ 	fi
+ 
+ 	fitimage_emit_section_maint ${1} sectend
+@@ -493,7 +569,7 @@ fitimage_assemble() {
+ 	fitimage_emit_section_maint ${1} fitend
+ 
+ 	#
+-	# Step 6: Assemble the image
++	# Step 7: Assemble the image
+ 	#
+ 	uboot-mkimage \
+ 		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+@@ -501,7 +577,7 @@ fitimage_assemble() {
+ 		arch/${ARCH}/boot/${2}
+ 
+ 	#
+-	# Step 7: Sign the image and add public key to U-Boot dtb
++	# Step 8: Sign the image and add public key to U-Boot dtb
+ 	#
+ 	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+ 		add_key_to_u_boot=""
+@@ -532,7 +608,11 @@ do_assemble_fitimage_initramfs() {
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+ 		test -n "${INITRAMFS_IMAGE}" ; then
+ 		cd ${B}
+-		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
++		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
++			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage ""
++		else
++			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
++		fi
+ 	fi
+ }
+ 
+@@ -571,22 +651,27 @@ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy_append() {
+ 	# Update deploy directory
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+-		echo "Copying fit-image.its source file..."
+-		install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
+-		ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+ 
+-		echo "Copying linux.bin file..."
+-		install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
+-		ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
++		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
++			echo "Copying fit-image.its source file..."
++			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
++			ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
 +
-+        test_passed = False
++			echo "Copying linux.bin file..."
++			install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}.bin
++			ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
++		fi
+ 
+ 		if [ -n "${INITRAMFS_IMAGE}" ]; then
+ 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+ 			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+ 			ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+ 
+-			echo "Copying fitImage-${INITRAMFS_IMAGE} file..."
+-			install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin"
+-			ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
++			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
++				echo "Copying fitImage-${INITRAMFS_IMAGE} file..."
++				install -m 0644 ${B}/arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin"
++				ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.bin "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
++			fi
+ 		fi
+ 		if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
+ 			# UBOOT_DTB_IMAGE is a realfile, but we can't use
+@@ -596,3 +681,18 @@ kernel_do_deploy_append() {
+ 		fi
+ 	fi
+ }
 +
-+        if node_str in its_lines:
-+            node_start_idx = its_lines.index(node_str)
-+            node = its_lines[node_start_idx:(node_start_idx + len(exp_node_lines))]
-+            if node != exp_node_lines:
-+                self.assertTrue(test_passed == True,"kernel node does not match expectation")
-+
-+        rx_configs = re.compile("^conf@.*")
-+        its_configs = list(filter(rx_configs.match, its_lines))
-+
-+        for cfg_str in its_configs:
-+            cfg_start_idx = its_lines.index(cfg_str)
-+            line_idx = cfg_start_idx + 2
-+            node_end = False
-+            while node_end == False:
-+                if its_lines[line_idx] == "};" and its_lines[line_idx-1] == "};" :
-+                    node_end = True
-+                line_idx = line_idx + 1
-+
-+            node = its_lines[cfg_start_idx:line_idx]
-+            rx_desc_line = re.compile("^description.*1 Linux kernel.*")
-+            if len(list(filter(rx_desc_line.match, node))) != 1:
-+                self.assertTrue(test_passed == True,"kernel keyword not found in the description line")
-+                break
-+
-+            if 'kernel = "kernel@1";' not in node:
-+                self.assertTrue(test_passed == True,"kernel line not found")
-+                break
-+
-+            rx_sign_line = re.compile("^sign-images.*kernel.*")
-+            if len(list(filter(rx_sign_line.match, node))) != 1:
-+                self.assertTrue(test_passed == True,"kernel hash not signed")
-+                break
-+
-+            test_passed = True
-+
-+    def test_signed_fit_image_bootscr(self):
-+        """
-+        Summary:     Check if FIT image and Image Tree Source (its) are built
-+                     and the Image Tree Source has the correct uboot script fields.
-+                     The FIT settings are automatically read from the current machine
-+                     conf file or from local.conf , no need to set values in this function
-+        Expected:    1. fitImage and fitImage ITS are built with uboot script support
-+                     2. All the fields in the uboot script node are as expected (matching the
-+                        conf settings)
-+                     3. The uboot script is included in all the available configurations and
-+                        its hash is included in the configuration signature
-+        Usage:      In addition to the settings related to the FIT, make sure the
-+                    following variables are set in the machine conf file:
-+
-+                    UBOOT_ENV_SUFFIX = "scr"
-+                    UBOOT_ENV_BINARY = "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
-+
-+        Product:     oe-core
-+        Author:      Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
-+        """
-+
-+        # fitImage is created as part of linux recipe
-+        bitbake("virtual/kernel")
-+
-+        image_type = get_bb_var('INITRAMFS_IMAGE')
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        machine = get_bb_var('MACHINE')
-+        fitimage_its_path = os.path.join(deploy_dir_image,
-+                    "fitImage-its-%s-%s-%s" % (image_type, machine, machine))
-+        fitimage_path = os.path.join(deploy_dir_image,"fitImage")
-+
-+        self.assertTrue(os.path.exists(fitimage_its_path),
-+            "%s image tree source doesn't exist" % (fitimage_its_path))
-+        self.assertTrue(os.path.exists(fitimage_path),
-+            "%s FIT image doesn't exist" % (fitimage_path))
-+
-+        uboot_arch = str(get_bb_var('UBOOT_ARCH'))
-+        fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
-+        uboot_env_bin = str(get_bb_var('UBOOT_ENV_BINARY'))
-+
-+        its_file = open(fitimage_its_path)
-+
-+        its_lines = [line.strip() for line in its_file.readlines()]
-+
-+        exp_node_lines = [
-+            'bootscr@' + uboot_env_bin + ' {',
-+            'description = "U-boot script";',
-+            'data = /incbin/("' + uboot_env_bin + '");',
-+            'type = "script";',
-+            'arch = "' + uboot_arch + '";',
-+            'compression = "none";',
-+            'hash@1 {',
-+            'algo = "' + fit_hash_alg +'";',
-+            '};',
-+            '};'
-+        ]
-+
-+        node_str = exp_node_lines[0]
-+
-+        test_passed = False
-+
-+        if node_str in its_lines:
-+            node_start_idx = its_lines.index(node_str)
-+            node = its_lines[node_start_idx:(node_start_idx + len(exp_node_lines))]
-+            if node != exp_node_lines:
-+                self.assertTrue(test_passed == True,"uboot script node does not match expectation")
-+
-+        rx_configs = re.compile("^conf@.*")
-+        its_configs = list(filter(rx_configs.match, its_lines))
-+
-+        for cfg_str in its_configs:
-+            cfg_start_idx = its_lines.index(cfg_str)
-+            line_idx = cfg_start_idx + 2
-+            node_end = False
-+            while node_end == False:
-+                if its_lines[line_idx] == "};" and its_lines[line_idx-1] == "};" :
-+                    node_end = True
-+                line_idx = line_idx + 1
-+
-+            node = its_lines[cfg_start_idx:line_idx]
-+            rx_desc_line = re.compile("^description.*u-boot script.*")
-+            if len(list(filter(rx_desc_line.match, node))) != 1:
-+                self.assertTrue(test_passed == True,"uboot script keyword not found in the description line")
-+                break
-+
-+            if 'bootscr = "bootscr@' + uboot_env_bin + '";' not in node:
-+                self.assertTrue(test_passed == True,"uboot script line not found")
-+                break
-+
-+            rx_sign_line = re.compile("^sign-images.*bootscr.*")
-+            if len(list(filter(rx_sign_line.match, node))) != 1:
-+                self.assertTrue(test_passed == True,"uboot script hash not signed")
-+                break
-+
-+            test_passed = True
-+
-     def test_image_gen_debugfs(self):
-         """
-         Summary:     Check debugfs generation
++# The function below performs the following in case of initramfs bundles:
++# - Removes do_assemble_fitimage. FIT generation is done through
++#   do_assemble_fitimage_initramfs. do_assemble_fitimage is not needed
++#   and should not be part of the tasks to be executed.
++# - Since do_generate_rsa_keys is inserted by default
++#   between do_compile and do_assemble_fitimage, this is
++#   not suitable in case of initramfs bundles.  do_generate_rsa_keys
++#   should be between do_bundle_initramfs and do_assemble_fitimage_initramfs.
++python () {
++    if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
++        bb.build.deltask('do_assemble_fitimage', d)
++        bb.build.deltask('generate_rsa_keys', d)
++        bb.build.addtask('generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
++}
+\ No newline at end of file
 -- 
 2.17.1
 
