@@ -1,85 +1,159 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by mx.groups.io with SMTP id smtpd.web10.1181.1602550148078569114
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
+ by mx.groups.io with SMTP id smtpd.web10.6868.1602575996316409715
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 17:49:08 -0700
+ Tue, 13 Oct 2020 00:59:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=ebgO+xop;
- spf=pass (domain: gmx.com, ip: 212.227.15.15, mailfrom: douglas.royds@gmx.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1602550145;
-	bh=cH9w7QG7nAuguZhXpkBxreTa+24/Q6RxPJ0OSRoRJdI=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ebgO+xopvB9WJYlCUSf+Kw8h3dn7CGh5N9oknhSQSrdzC6NRygQ+weueoH6tqxm+/
-	 G7t5Sg72Bnm17Vu6xdVSdUjP6DVm977qVO40XotIzck5rPL/XLApoqs0aUFDlqDfXX
-	 vaL69Z+bFsD4KYHY729SV3eMNh/dOyoQTPGfw6cg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from acheron.taitradio.net ([202.37.96.2]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MxlzI-1kGMRy30KU-00zGEg; Tue, 13
- Oct 2020 02:49:05 +0200
-From: "Douglas Royds" <douglas.royds@gmx.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Douglas Royds <douglas.royds@taitradio.com>
-Subject: [PATCH v3] externalsrc: No single-task lock if S != B
-Date: Tue, 13 Oct 2020 13:48:56 +1300
-Message-Id: <20201013004856.13388-1-douglas.royds@gmx.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
-References: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
-X-Provags-ID: V03:K1:LN7j5xhI/uqmb7ucuapr+XxNX2OY0QnSvzK4DY71kBeUwvA7JQy
- d2umAz08IRfsOcMQRihhqU9D5QtE6WNtveE0L0Zduq3WLlVcWA4/eaoI/VYyg3y08TXteAr
- StdmnzWr0QIUAycSLl9mSEB4zFaAE3JB384N7k0xh2rClEW8KRbDw3QVYJmj7jMQMMcRlca
- LZkjY5d8hnlDgEb5uPwMw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rJGJvCPkZgQ=:WSMjJytj/PUb1gQbnAI5Wv
- hB7P3ckbiYuuRnG7lsPayGdDN4mxxO+f8KnyTjyi5Ca+8iThZjkojU0x6BCAwZ6NFZMDtSAKs
- WQKbmoazOl3zYm2N+s4qxhI/7tZQjcu9B8VcKxLwh408erjM4GgO9id7Ry3fNw5VRbk8ixC+B
- +vEX3Jvh27M2F6QthwCEM2Vq8F0UKNknI0X8AfUq9FvnA1WoKkzvxcVgc9NBKVIcEAt9NYKW8
- M0JrMgOb7PbAoYdxqBzegQKuRBvw75Pb8tVb3LTyzRZKKRGrePj9U9b0JLKIZm1MzjAGB9z4l
- I7jGgK0LeRHs2Ngj1N/n8kZGc9r2AAwgnwSspxF3x3Edv+9vjF4S3JRqnM6lS3kumzMMz4Hy5
- jTzzf497bhJsMzeOY6oX7v1SSxxtjfJuJvv6sdyMr3l3wDBqxryeMqKxI/4SrTeDV0hS5uHw2
- GpnZqPlZ+ipmzLixeuOuD4nTdlKP6rE6lXYPKQKeLncPJ1H+O2vYO3nRdCp537ME97acow9pQ
- xh1IhasLgeRirGsG8H/cWl6dX0PW5GTo99UixbZq828UjoCP2tuLE97xbX62sWN01dTZSmi1m
- +uyZRXfUr1BBEiXs8QGnzWhnQhdzw6LvjJQWU4WnV3zUKamfrtiqq2reYrNfH4ae9p/E0qkAG
- i0ArOQYyW6ypvFhLtLEktssynyI2DqDJgg6SjXzXV67VgG/K7Vvn5EZsRovzRminbHmIjFgUj
- XZTAjQ15I4UFKhyEZAbZMMa2NLl1zuCtzlw78DtvA4NsVwOC2EJykLJ8aB3H4Fa4NxoNtm3wk
- gqbVf8na/il7jJ0Fsb5XhDef1sYI1y+c3/PjOsWd4CqcOFSbapfk9jy+7IAVqM9vz/5n2Lgv3
- 54sVIrpDHTwdPs71HGEFN3ahRbQlzrXerZHQnHY6LMkV7Mes7QLjna5IkAKq2NPuewFODRyk5
- ZBWadMzbIpTRQq58OGQs2oLWs9jzF2Tpufy6ewpnIOJQWnezYpT17Zk2bcCFaJZ/cPbaIo/WN
- BsX0rGMD3FL4ymhQszHd70xywXFbTkUAuXRKn2ZC9EtjOkl19gXfRK+I9PqkLveLDeqGIJMXd
- CLxMWSVgJOLDJIqqsiKGHG+A4dafdT8pbPse3OlmsReIO3I4094MsiU/GV7hT0+wOBSicNbOi
- xt1IV7JQB7mqEX/5ZQlytmgwypatMcZ4vDdWMH8rxkwiVQB1B8ukXuedv9Ft8Tk6OrvBEbMkK
- BOlj3MyxeZLFHeoe2gPm4jSQaqjYTDyQ7PNAQVA==
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bn+VxdI5;
+ spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f66.google.com with SMTP id l6so9681275vsr.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 00:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+lq5gTq+DXRgLABjNz6WUfwqIDwF2OHO2h7zsQQB0NY=;
+        b=Bn+VxdI5uiRjOOTm9keemEpR5lebmKioTYCki3Ju7y4G8LyOtGWrjhdF6Rfq+pIP0f
+         klmkyDVV0J6tAXF8CgxVXSetHmK5mYXUGhKZhTq5XdAtBrVx9JrGiP/OuyO2jJVaEUkE
+         KHXuRKOatjzFh0qnWQkQV6LKbrjYPI/B62fFxQieq4qgaqMWBuczFv3knvfz+j7g891r
+         v/Xa5pyx76powyy1qkjt2CBt5YMtRqVpv51CzwS3JaK1eVpaPOrfM7VjWyUNH7UDCzcU
+         HcY3mlXBmdDjQP+pzWywgxhnpsbxOXGMVE3+tfhBjKp5YhtxvfjMbvt3wQ4X7Jd81YOp
+         PD5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+lq5gTq+DXRgLABjNz6WUfwqIDwF2OHO2h7zsQQB0NY=;
+        b=IUCdOePgwUUTs6VyFsewH57ZqwU+Gv1XtwUSznkxpb3nc04tyzLGNz0XSHu5p9BwKw
+         gFJg2W7WHCakltng3fjh81uwtqqhUf/aoIG2pI5oAxcRZIpXlDiszGQBFh0STKmMxac+
+         Vk8Dz3Bci6hi7SpWvcNU4Qc7tO0/EP3/x5J7fnGfXhXu5AeEDTcuTXv+llZl4PxBz7a1
+         YXQRIY5BuDkhjFG3Ims8B/CiB52vpFoJU2tdyNnMWBb9jpeIFMFKoFDTRWL8nDUvEJz8
+         fC01nfEXVtkE9vuoQwrlG+rEYRcktJ567gl/dxXGvdECso+U3UJ3Pieooh/TIsIOl64a
+         fWFA==
+X-Gm-Message-State: AOAM5304uUVtfca8CnnxMnbGiGDStUw8v+W2vlxtBduqfnjw/dGeizfA
+	JUvQliwe94HlYK8dZsvoMbKiQxQ83/C2WsfyA0Q=
+X-Google-Smtp-Source: ABdhPJxPPNcNJnWnX0YwPsdDK1xfU6PyDdiHKoGLnAwVo2jl+VH/nV5ZG6UprhMZNyflK+0uNf/IsIpyOnLS0BODJUM=
+X-Received: by 2002:a67:403:: with SMTP id 3mr2814101vse.54.1602575995471;
+ Tue, 13 Oct 2020 00:59:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201011234937.1041597-1-alistair@alistair23.me>
+ <CANNYZj82hb4PyrQYd_SWQVkbEvitomqBmkiOpecvM4o=rTyQ7w@mail.gmail.com> <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 13 Oct 2020 09:59:44 +0200
+Message-ID: <CANNYZj-zkwn1DrhXZJYZ6-=7AL7U5BLxYpn=dj=BUrJ12Ap97Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wayland: Set idle-time to zero
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Alistair <alistair@alistair23.me>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ef8b8205b188ccad"
+
+--000000000000ef8b8205b188ccad
+Content-Type: text/plain; charset="UTF-8"
+
+It is however the upstream default, so changing it needs a proper
+explanation. Is it something beneficial for the majority of use cases?
+
+Ale
+
+On Tue 13. Oct 2020 at 1.22, Alistair Francis <alistair23@gmail.com> wrote:
+
+> On Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > Why?
+>
+> It's really annoying when you are working on something and the screen
+> turns off.
+>
+> Alistair
+>
+> >
+> > Alex
+> >
+> > On Mon, 12 Oct 2020 at 01:49, Alistair <alistair@alistair23.me> wrote:
+> >>
+> >> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> >> ---
+> >>  meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini
+> b/meta/recipes-graphics/wayland/weston-init/weston.ini
+> >> index b48726d59c..d1532236af 100644
+> >> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
+> >> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
+> >> @@ -5,6 +5,7 @@
+> >>  #shell=desktop-shell.so
+> >>  #gbm-format=xrgb2101010
+> >>  require-input=false
+> >> +idle-time=0
+> >>
+> >>  #[shell]
+> >>  #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
+> >> --
+> >> 2.28.0
+> >>
+> >>
+> >> 
+> >>
+>
+
+--000000000000ef8b8205b188ccad
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: Douglas Royds <douglas.royds@taitradio.com>
+<div dir=3D"auto">It is however the upstream default, so changing it needs =
+a proper explanation. Is it something beneficial for the majority of use ca=
+ses?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Ale=C2=A0</div><div=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
+e 13. Oct 2020 at 1.22, Alistair Francis &lt;<a href=3D"mailto:alistair23@g=
+mail.com">alistair23@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
+r-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">On =
+Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
+in@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Why?<br>
+<br>
+It&#39;s really annoying when you are working on something and the screen =
+turns off.<br>
+<br>
+Alistair<br>
+<br>
+&gt;<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; On Mon, 12 Oct 2020 at 01:49, Alistair &lt;<a href=3D"mailto:alistair=
+@alistair23.me" target=3D"_blank">alistair@alistair23.me</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair@al=
+istair23.me" target=3D"_blank">alistair@alistair23.me</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +<=
+br>
+&gt;&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini=
+ b/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
+&gt;&gt; index b48726d59c..d1532236af 100644<br>
+&gt;&gt; --- a/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
+&gt;&gt; +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
+&gt;&gt; @@ -5,6 +5,7 @@<br>
+&gt;&gt;=C2=A0 #shell=3Ddesktop-shell.so<br>
+&gt;&gt;=C2=A0 #gbm-format=3Dxrgb2101010<br>
+&gt;&gt;=C2=A0 require-input=3Dfalse<br>
+&gt;&gt; +idle-time=3D0<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 #[shell]<br>
+&gt;&gt;=C2=A0 #background-image=3D/usr/share/backgrounds/gnome/Aqua.jpg<b=
+r>
+&gt;&gt; --<br>
+&gt;&gt; 2.28.0<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; <br>
+&gt;&gt;<br>
+</blockquote></div></div>
 
-Allow different recipes to build things from the one external source tree =
-in
-parallel, but only if the build is happening outside the source tree.
-
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-=2D--
- meta/classes/externalsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.b=
-bclass
-index d200129987..dd09395788 100644
-=2D-- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -85,7 +85,7 @@ python () {
-             if task.endswith("_setscene"):
-                 # sstate is never going to work for external source trees=
-, disable it
-                 bb.build.deltask(task, d)
--            else:
-+            elif os.path.realpath(d.getVar('S')) =3D=3D os.path.realpath(=
-d.getVar('B')):
-                 # Since configure will likely touch ${S}, ensure only we =
-lock so one task has access at a time
-                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock=
-")
-
-=2D-
-2.17.1
-
+--000000000000ef8b8205b188ccad--
