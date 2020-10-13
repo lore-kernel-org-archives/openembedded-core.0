@@ -1,197 +1,423 @@
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.44])
- by mx.groups.io with SMTP id smtpd.web12.13653.1602600281818728851
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
+ by mx.groups.io with SMTP id smtpd.web10.13704.1602600417957544180
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 07:44:42 -0700
+ Tue, 13 Oct 2020 07:46:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=cVVcgqT6;
- spf=pass (domain: windriver.com, ip: 40.107.76.44, mailfrom: stacy.gaikovaia@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A8CJU/GV6S+AVCPDLOKaHLYajpxoYiNWxquTZQOtytH3eD60yGL71KA1DLskAiZrPe2dBPQ8hJY1j31a0SkMGYG1n9QBgTnGCQOvzVYyOwFKZOltI/F4wcK6KYg1wJyjV6/G9cV4ncHmJ4eT2Kz0zxOfcOjLy5TJRwpcYc+NfOerdx2GVFsf+NGwUFjQSwFWdMVZqVI6QPxJMhO8bzSInaLGqZ2i5p5BiK76whmwhGxYMDOQ9Tv8IyKV9SIIugZ4Z8cvnbplJ3wMfzZCpC7ew99kKgpcJ0sg/tuJIm/3kEI7Y0mJ+hmJZb4Pj0MhNKk6uW5QEUxnl4nbJXSSCG7Egw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Fcz331yvhBHWHVoPIDQTLAh+9Prk+H6+DxSgBRahuc=;
- b=R5YEunIreX3XYfHaWRtYFgKtLea74qpNrWOj6VhUixnBLWd9HcT8ECnOxQu4lvo/gKP0b4oAMrKQ1Q8uiDdCb2PIw1Mo5lhZeERk2WU7jF7jCr7eACMYkyJmEotjYHw6b7eIxRuMlklVirixtdG+X0O5Q8oNuEUook+FQT4G95zapOUci05iv+/9ILV+Ird3Xs9myC/q+4ITMb7PLIWjUHlZw4vJhUfOJqgPtRFGocOusIYjIa69t0Cz/wcDYAZVmTQSpFIevgr0vqIrkl9L21BvbIWWSNDsGN+1sW7E15wU1VOZ2R9Rr/hEms8tNeaU7gOWCVRWJ+ZRPUlclDxQig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=HpX0QL0J;
+ spf=pass (domain: blade-group.com, ip: 209.85.210.66, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-ot1-f66.google.com with SMTP id 32so233624otm.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 07:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Fcz331yvhBHWHVoPIDQTLAh+9Prk+H6+DxSgBRahuc=;
- b=cVVcgqT6vaOftkx5nIAhXSKlWcPLyvIOkoXtxPyaPgVOzlHRWncp/eYTvIpwRRpjcuZjq9hcSzIWJGfgrW/c8f4azVDkY3F0tzkZ6DMV6O5pcswY/Q3Qe7ZcqKwxdo46OWVZkEmkYYCBG0DlF3lgsU/5P4Mm6wsiSzFAaFfpdWY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com (2603:10b6:a03:91::32)
- by BY5PR11MB4417.namprd11.prod.outlook.com (2603:10b6:a03:1c0::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.29; Tue, 13 Oct
- 2020 14:44:40 +0000
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::b1c4:b8ce:3c62:2b94]) by BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::b1c4:b8ce:3c62:2b94%4]) with mapi id 15.20.3455.030; Tue, 13 Oct 2020
- 14:44:40 +0000
-From: "Stacy Gaikovaia" <Stacy.Gaikovaia@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] valgrind: drd: fix pthread intercept test failures
-Date: Tue, 13 Oct 2020 10:44:26 -0400
-Message-ID: <20201013144426.888835-1-stacy.gaikovaia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0121.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::30) To BYAPR11MB3127.namprd11.prod.outlook.com
- (2603:10b6:a03:91::32)
-Return-Path: stacy.gaikovaia@windriver.com
+        d=blade-group.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lINMZVwtWhWhXytJ0rWbDaDaI4bhJFUL6iwGh0rlP6Q=;
+        b=HpX0QL0JgDaj//jtuLVaTSjES0EeYwGvaD46jVvUV95v1umxz5JQ/f5bB5q1QTzh2r
+         H0Us0ptohXNKZxND6xq8th6fYgo8kmfcKaOwmcvYuvZcIsSC3zNF0JU81UDZCxTU7zpi
+         AH96j4iKBemoSPjBELZAK7exk3/3H1MxN0UBPy2aWuLdoYC+7+SUb8l4YfudPW+FpmSH
+         7BW1IhNiC6cZZdi4Cw6g64e/OPuFRiL6uB+fuEAdi+3TrIZWxoebEgkBb4gMtLUha5Gs
+         FAaZt02tpYmrsLe2EtPNwEUJGh620UnovstyBdWWR9TnkB3CuHPl+GLriCXaxOE2OG5S
+         wlOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lINMZVwtWhWhXytJ0rWbDaDaI4bhJFUL6iwGh0rlP6Q=;
+        b=bjG1BeC2mduwKvDdjDzJDs1sCA7aSjlMTMUKTO0VYf5u7Iyw6VhfGSwaj3Kteyf++k
+         Q/WY61Sthzqe2WGGZKD5Tpoc+oxNdF1vVhLK02tO1UaRPPD1BsnP2cJLALdB/M2kl0Wm
+         Oj1VusrJjvg06n2X2JHj9oAiEj/mOBBWYj4QdFpr/3eINl33eRCHY0ACfBHygInIk+YU
+         TrtLtYeaaEHS4tiwzimPDvqQ1bwxOKt4yR1T9ZZ0b5hFQDP6uodgJchQP9YF7rkZtgKk
+         HKOFEgZsEbH9as7Z1dH1r6MiIYvB6DCbXf38Ifow79kgC49CCLwzExkRHgVIh3wlo9iW
+         LOBw==
+X-Gm-Message-State: AOAM530WVORsXLSh3zDRyWY3K0PKHtUHGZgrUVwicvXrYBc8dECpPJhP
+	TaNhrXmUrygDYp3yKzZISpcbsstqrOo019ydchNKVA==
+X-Google-Smtp-Source: ABdhPJw06mW67g6zoTqx7eodyiIINUbcrJ4N4p6RpSmlNMHbG48Ucg4MkThBsPddOQ07RQrXl+VGAlapAcrJ5E+6/r0=
+X-Received: by 2002:a05:6830:1aca:: with SMTP id r10mr21709227otc.336.1602600417286;
+ Tue, 13 Oct 2020 07:46:57 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-sgaikova-lx.wrs.com (128.224.252.2) by YT1PR01CA0121.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22 via Frontend Transport; Tue, 13 Oct 2020 14:44:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05b8f77a-3fa1-46ca-64a7-08d86f86839b
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4417:
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB4417385D71053953F4C4C0CFFD040@BY5PR11MB4417.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:800;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DJJrzTBDCYeFsc29RGqGR5hS3aMbojjgTAPIf5jqsbn0OxvIkwW6mR5fR+EAX+sD5D9wXVd63c93AyNmEip1FCDvGX19lqPaD6T9dHHIFwxrkYTDrwP51UvcKc7N5GdEs7ecYgjLvNKcvSVfuSpuhe83KQJnd3CRyrtwDyhXDJTsawYf+XYroTHNZWXVGfnryWUs5zlsLpNDOJHhLd1pzPm/OsMWLevUUAysZjNgqoF5BZx6x23xDTjWEpj5ccuiQih/l7DoPaG9y41FHmCNFoO1mL2oelUkL0MGAzE1LvSggPO7R2T8awqH4LjyPuVYneSxQ3eoTBwnDR2StfANtweumTcDzk8HZdZ50XsTt5cF3M5WQEsX/k/l8suVM2srS3xxRNHWLfSZkl9gU7CqBw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3127.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39850400004)(86362001)(66946007)(44832011)(83380400001)(966005)(1076003)(6512007)(66476007)(66556008)(36756003)(52116002)(6916009)(6666004)(8676002)(5660300002)(83080400001)(186003)(26005)(16526019)(6506007)(316002)(19627235002)(956004)(2616005)(8936002)(478600001)(2906002)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	b8egZd1sQvAjV2s4VIeSiS8LOTUpPFbjZE3fm/U9ILjMoJray6my13taWXiWccajqZ3GkJ5WNTVwluev65S9l8nTTIaYfJLjnJq0yh7xcoVymyJoGQHNnv/EFen0N2t1UsQkrmL7YeGPLwW2yG4ZOlVrJj7qoxpcrVcn4jcc1o/YtSJknlNSVgsiu9GjnFHztWYHct1NI1RE2MBIrvPFvB7/IHv/zxF9q/alShJdJFJizvpPpwSrrqFFBGXltQev07BQrq3ebY9wtVqaF1tFgz5boOAWdEjL5LZX6u5uEBDWqKYUgZ61oUoZw7f74sP7sJOxVSfK0hOyh422LOAPKoBIE+9pk+2G9InGQYgJSXrcGvhSThHEbENPocoEwj2hHdnzEUNMVPHFsejWgTXZAbp29NLejL+UW0PqyRgoUBEddMy6J26ENaRzSoTeBzWtKm3SI/ulONZSl2qLD6nogk7OyXdSAtcfrPD0Lw2ZHRrXrOHNIYVeF3XHnRbVGkXr49Kz0fvJmctcQsPWgQYml0L3VKNP2wdoxuKz55r1QFYYAhLbbNRWK1fpxKA16nq6nWY/NDApSxnxa/B28hj4k57Egn8+W39KdG+opap2CBsN0v+j2780vjfMuE4u4ALTYCgKQB4OGTmR32oADufYiw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05b8f77a-3fa1-46ca-64a7-08d86f86839b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3127.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 14:44:39.9953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E0sgffRTsegktDnsWxylB0t4gNwPtRi+xTawy79vCTqTr1hlNJ0ws6LaWtr0LPLvtvXTbRN/iO2AFOCoALVDXAjupUd5AaFkyrsXj3S7jQ4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4417
+References: <20201013132109.2588755-1-yann@blade-group.com>
+ <CADkTA4PLQYvpAAauYP1MP3FNNeZQdimMt2j-itVSf28vHarhDg@mail.gmail.com>
+ <CA+4=imZ7DY+UgbSieYFC2iMKTOhyExq-VbNd=vbqa0DhuPsFWg@mail.gmail.com> <CADkTA4PdEovbL92GwCUv6hnOr3ZtnNA8E35DyVfr09sLNUrpOA@mail.gmail.com>
+In-Reply-To: <CADkTA4PdEovbL92GwCUv6hnOr3ZtnNA8E35DyVfr09sLNUrpOA@mail.gmail.com>
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+Date: Tue, 13 Oct 2020 16:46:45 +0200
+Message-ID: <CA+4=imbvST+-gMoKUc9hig+HCiPCRgt7jErGCmpJMrS3+QxLtw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] kernel-yocto.bbclass: fix reporting of config mismatches
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Yann Dirson <yann@blade-group.com>
+Content-Type: multipart/alternative; boundary="00000000000096ee5205b18e7c12"
+
+--00000000000096ee5205b18e7c12
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+Le mar. 13 oct. 2020 =C3=A0 16:10, Bruce Ashfield <bruce.ashfield@gmail.com=
+> a
+=C3=A9crit :
 
-After glibc uprev 2.31 -> 2.32, the following drd ptests
-fail with the error "condition variable has not been initialized".
+> On Tue, Oct 13, 2020 at 9:57 AM Yann Dirson <yann.dirson@blade-group.com=
+>
+> wrote:
+> >
+> >
+> >
+> > Le mar. 13 oct. 2020 =C3=A0 15:34, Bruce Ashfield <bruce.ashfield@gmai=
+l.com>
+> a =C3=A9crit :
+> >>
+> >> On Tue, Oct 13, 2020 at 9:21 AM Yann Dirson <
+> yann.dirson@blade-group.com> wrote:
+> >> >
+> >> > From: Yann Dirson <yann@blade-group.com>
+> >> >
+> >> > The warning was not issued because of a filename error (looking for=
+ a
+> >> > gatesgath-era file in older tree).
+> >> >
+> >> > Before gatesgarth we have two files (one with short list and one wi=
+th
+> >> > more details), whereas starting with gatesgarth we only have a sing=
+le
+> >> > file with all details.  Nevertheless, for consistency with the
+> >> > presentation of "invalid.cfg" we'll just print the contents of the
+> >> > short "mismatch.cfg" and point the user to the more detailed
+> >> > information.
+> >> >
+> >> > Signed-off-by: Yann Dirson <yann@blade-group.com>
+> >> > ---
+> >> >  meta/classes/kernel-yocto.bbclass | 5 +++--
+> >> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >> >
+> >> > This is not applicable to master, where the "mismatch.txt" file exi=
+sts
+> >> > and shows even greater details.  Looks like the change was introduc=
+ed
+> >> > for sumo in 5ef0620b18606fd5749b6e7811d337f26075b86b - would that b=
+e a
+> >> > mismatch with yocto-kernel-tools version ?
+> >> >
+> >> > diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> >> > index cc8bcb909a..771b4d8654 100644
+> >> > --- a/meta/classes/kernel-yocto.bbclass
+> >> > +++ b/meta/classes/kernel-yocto.bbclass
+> >> > @@ -431,12 +431,13 @@ python do_kernel_configcheck() {
+> >> >      bsp_check_visibility =3D int(d.getVar("KCONF_BSP_AUDIT_LEVEL")=
+ or
+> 0)
+> >> >
+> >> >      # if config check visibility is non-zero, report dropped
+> configuration values
+> >> > -    mismatch_file =3D d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
+> >> > +    mismatch_file =3D d.expand("${S}/%s/cfg/mismatch.cfg" % kmeta)
+> >>
+> >> The use of mismatch.txt is completely intentional, and it is populate=
+d
+> >> by hardware tagged options that are detected as being mistmatches.
+> >>
+> >> So no, we don't want to directly expose mismatch.cfg. it shows
+> >> unclassified options.
+> >
+> >
+> > OK, so let's get back to the original problem:
+> >
+> > - I used to have kernel_configcheck report those problems enumerated i=
+n
+> mismatch.cfg / mismatch-all.txt,
+> > but for some time I'm not getting them, and this could be since
+> migration to sumo
+> >
+> > - those files are generated, and seem to contain real issues, whereas
+> there is no mismatch.txt
+> >
+> > What do you see going wrong and how do we move forward ?
+>
+> Is your configuration something that I can set up and reproduce the
+> problem ? I'm seeing what I expect out of the kconfig processing, but
+> there very well could be a bug that isn't showing in the machines that
+> I normally build.
+>
 
-drd/tests/annotate_hb_err
-drd/tests/annotate_sem
-drd/tests/annotate_rwlock
-drd/tests/annotate_order_2
-drd/tests/annotate_smart_pointer
-drd/tests/annotate_spinlock
-drd/tests/monitor_example
-drd/tests/pth_cond_race
-drd/tests/pth_inconsistent_cond_wait
+The problem can be triggered with the default qemu_x86-64 configuration.
+I'm just adding this in local.conf to inject a few options:
 
-In glibc 2.32, the POSIX thread functions are in both
-libc and libpthread, causing valgrind to misinterpert
-test behaviour. This patch tells valgrind to intercept
-both the libc and the libpthread functions, resolving
-these ptest failures.
+SRC_URI_append_pn-linux-yocto +=3D " file://stuff.cfg"
 
-Here are the latest test results on qemux86-64:
-=3D=3D=3D Test Summary =3D=3D=3D
-TOTAL: 728
-PASSED: 688
-FAILED: 1
-SKIPPED: 39
+with this line in stuff.cfg:
 
-The failed test is in helgrind:
-FAIL: helgrind/tests/pth_destroy_cond
+CONFIG_EEEPC_LAPTOP=3Dy
 
-Patch can be removed once we uprev valgrind.
-See valgrind commit 15330adf7c2471fbaa6a0818db07078d81dbff97.
+On master I see:
 
-Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
----
- .../valgrind/0001-drd-Port-to-Fedora-33.patch | 48 +++++++++++++++++++
- .../valgrind/valgrind_3.16.1.bb               |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-t=
-o-Fedora-33.patch
+WARNING: linux-yocto-5.8.9+gitAUTOINC+ffbfe61a19_31fafe701e-r0
+do_kernel_configcheck: [kernel config]: specified values did not make it
+into the kernel's final configuration:
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedor=
-a-33.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedor=
-a-33.patch
-new file mode 100644
-index 0000000000..37f6ea667d
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.pa=
-tch
-@@ -0,0 +1,48 @@
-+From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001
-+From: Bart Van Assche <bvanassche@acm.org>
-+Date: Sat, 19 Sep 2020 08:08:59 -0700
-+Subject: [PATCH] drd: Port to Fedora 33
-+
-+Apparently on Fedora 33 the POSIX thread functions exist in both libc and
-+libpthread. Hence this patch that intercepts the pthread functions in
-+libc. See also https://bugs.kde.org/show_bug.cgi?id=3D426144 .
-+
-+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
-+
-+This patch was imported from the valgrind sourceware server
-+(https://sourceware.org/git/?p=3Dvalgrind.git;a=3Dcommit;h=3D15330adf7c247=
-1fbaa6a0818db07078d81dbff97)
-+It was modified to remove the changes to the valgrind NEWS file,
-+as these are difficult to maintain and don't impact the valgrind=20
-+code itself.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
-+---
-+ drd/drd_pthread_intercepts.c | 9 +++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
-+index 58c45aaec..c2882e5ab 100644
-+--- a/drd/drd_pthread_intercepts.c
-++++ b/drd/drd_pthread_intercepts.c
-+@@ -174,7 +174,16 @@ static int never_true;
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
-+    { return implf argl; }
-+ #else
-++/*
-++ * On Linux, intercept both the libc and the libpthread functions. At
-++ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthread
-++ * functions in both libc and libpthread. Older glibc versions only have =
-an
-++ * implementation of the pthread functions in libpthread.
-++ */
-+ #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
-++   { return implf argl; }                                               \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
-+    { return implf argl; }
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recip=
-es-devtools/valgrind/valgrind_3.16.1.bb
-index d4ca1a7752..7508098b55 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-@@ -40,6 +40,7 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgrind=
--${PV}.tar.bz2 \
-            file://s390x_vec_op_t.patch \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.=
-patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-+           file://0001-drd-Port-to-Fedora-33.patch \
-            "
- SRC_URI[md5sum] =3D "d1b153f1ab17cf1f311705e7a83ef589"
- SRC_URI[sha256sum] =3D "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba=
-918cc6720a33ca"
+    [NOTE]: 'CONFIG_EEEPC_LAPTOP' last val (y) and .config val (m) do not
+match
+    [INFO]: CONFIG_EEEPC_LAPTOP : m ## .config: 4353
+:configs/v5.8/standard/./hibern.cfg (y)
+
+But on dunfell I don't see anything.  CONFIG_EEEPC_LAPTOP is listed in
+mismatch*, though it is just
+one of 127 issues, most of which looking pretty much valid at first
+glance.  Are they not ?
+
+
+> The visibility of the warnings has changed over time (I expose them,
+> there are complaints, I make them less visible, and then the process
+> repeats ..), so there could be something there as well.
+>
+> And as you noticed, I totally rewrote things in master, since
+> maintaining the existing script was just too painful.
+>
+> Cheers,
+>
+> Bruce
+>
+> >
+> >>
+> >> Cheers,
+> >>
+> >> Bruce
+> >>
+> >> >      if os.path.exists(mismatch_file):
+> >> >          if config_check_visibility:
+> >> > +            mismatch_details_file =3D
+> d.expand("${S}/%s/cfg/mismatch-all.txt" % kmeta)
+> >> >              with open (mismatch_file, "r") as myfile:
+> >> >                  results =3D myfile.read()
+> >> > -                bb.warn( "[kernel config]: specified values did no=
+t
+> make it into the kernel's final configuration:\n\n%s" % results)
+> >> > +                bb.warn( "[kernel config]: specified values did no=
+t
+> make it into the kernel's final configuration (see details in %s):\n\n%s=
+" %
+> (mismatch_details_file, results))
+> >> >
+> >> >      if bsp_check_visibility:
+> >> >          invalid_file =3D d.expand("${S}/%s/cfg/invalid.cfg" % kmet=
+a)
+> >> > --
+> >> > 2.28.0
+> >> >
+> >> >
+> >> >=20
+> >> >
+> >>
+> >>
+> >> --
+> >> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> >> thee at its end
+> >> - "Use the force Harry" - Gandalf, Star Trek II
+> >
+> >
+> >
+> > --
+> > Yann Dirson <yann@blade-group.com>
+> > Blade / Shadow -- http://shadow.tech
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+
+
 --=20
-2.25.1
+Yann Dirson <yann@blade-group.com>
+Blade / Shadow -- http://shadow.tech
 
+--00000000000096ee5205b18e7c12
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 13 oct. 2020 =C3=A0=C2=
+=A016:10, Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">b=
+ruce.ashfield@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">On Tue, Oct 13, 2020 at 9:57 AM Yann Di=
+rson &lt;<a href=3D"mailto:yann.dirson@blade-group.com" target=3D"_blank">y=
+ann.dirson@blade-group.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Le mar. 13 oct. 2020 =C3=A0 15:34, Bruce Ashfield &lt;<a href=3D"mail=
+to:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>=
+&gt; a =C3=A9crit :<br>
+&gt;&gt;<br>
+&gt;&gt; On Tue, Oct 13, 2020 at 9:21 AM Yann Dirson &lt;<a href=3D"mailto=
+:yann.dirson@blade-group.com" target=3D"_blank">yann.dirson@blade-group.com=
+</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com=
+" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The warning was not issued because of a filename error (look=
+ing for a<br>
+&gt;&gt; &gt; gatesgath-era file in older tree).<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Before gatesgarth we have two files (one with short list and=
+ one with<br>
+&gt;&gt; &gt; more details), whereas starting with gatesgarth we only have=
+ a single<br>
+&gt;&gt; &gt; file with all details.=C2=A0 Nevertheless, for consistency w=
+ith the<br>
+&gt;&gt; &gt; presentation of &quot;invalid.cfg&quot; we&#39;ll just print=
+ the contents of the<br>
+&gt;&gt; &gt; short &quot;mismatch.cfg&quot; and point the user to the mor=
+e detailed<br>
+&gt;&gt; &gt; information.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Yann Dirson &lt;<a href=3D"mailto:yann@blade-=
+group.com" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt;=C2=A0 meta/classes/kernel-yocto.bbclass | 5 +++--<br>
+&gt;&gt; &gt;=C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; This is not applicable to master, where the &quot;mismatch.t=
+xt&quot; file exists<br>
+&gt;&gt; &gt; and shows even greater details.=C2=A0 Looks like the change =
+was introduced<br>
+&gt;&gt; &gt; for sumo in 5ef0620b18606fd5749b6e7811d337f26075b86b - would=
+ that be a<br>
+&gt;&gt; &gt; mismatch with yocto-kernel-tools version ?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classe=
+s/kernel-yocto.bbclass<br>
+&gt;&gt; &gt; index cc8bcb909a..771b4d8654 100644<br>
+&gt;&gt; &gt; --- a/meta/classes/kernel-yocto.bbclass<br>
+&gt;&gt; &gt; +++ b/meta/classes/kernel-yocto.bbclass<br>
+&gt;&gt; &gt; @@ -431,12 +431,13 @@ python do_kernel_configcheck() {<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 bsp_check_visibility =3D int(d.getVar(&q=
+uot;KCONF_BSP_AUDIT_LEVEL&quot;) or 0)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 # if config check visibility is non-zero=
+, report dropped configuration values<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 mismatch_file =3D d.expand(&quot;${S}/%s/cfg/=
+mismatch.txt&quot; % kmeta)<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 mismatch_file =3D d.expand(&quot;${S}/%s/cfg/=
+mismatch.cfg&quot; % kmeta)<br>
+&gt;&gt;<br>
+&gt;&gt; The use of mismatch.txt is completely intentional, and it is popu=
+lated<br>
+&gt;&gt; by hardware tagged options that are detected as being mistmatches=
+.<br>
+&gt;&gt;<br>
+&gt;&gt; So no, we don&#39;t want to directly expose mismatch.cfg. it show=
+s<br>
+&gt;&gt; unclassified options.<br>
+&gt;<br>
+&gt;<br>
+&gt; OK, so let&#39;s get back to the original problem:<br>
+&gt;<br>
+&gt; - I used to have kernel_configcheck report those problems enumerated =
+in mismatch.cfg / mismatch-all.txt,<br>
+&gt; but for some time I&#39;m not getting them, and this could be since m=
+igration to sumo<br>
+&gt;<br>
+&gt; - those files are generated, and seem to contain real issues, whereas=
+ there is no mismatch.txt<br>
+&gt;<br>
+&gt; What do you see going wrong and how do we move forward ?<br>
+<br>
+Is your configuration something that I can set up and reproduce the<br>
+problem ? I&#39;m seeing what I expect out of the kconfig processing, but<=
+br>
+there very well could be a bug that isn&#39;t showing in the machines that=
+<br>
+I normally build.<br></blockquote><div><br></div><div>The problem can be t=
+riggered with the default qemu_x86-64 configuration.</div><div>I&#39;m just=
+ adding this in local.conf to inject a few options:</div><div><br></div><di=
+v>SRC_URI_append_pn-linux-yocto +=3D &quot; file://stuff.cfg&quot;</div><di=
+v><br></div><div>with this line in stuff.cfg:</div><div><br></div><div>CONF=
+IG_EEEPC_LAPTOP=3Dy</div><div><br></div><div>On master I see:</div><div><br=
+></div><div>WARNING: linux-yocto-5.8.9+gitAUTOINC+ffbfe61a19_31fafe701e-r0 =
+do_kernel_configcheck: [kernel config]: specified values did not make it in=
+to the kernel&#39;s final configuration:<br><br>=C2=A0 =C2=A0 [NOTE]: &#39;=
+CONFIG_EEEPC_LAPTOP&#39; last val (y) and .config val (m) do not match<br>=
+=C2=A0 =C2=A0 [INFO]: CONFIG_EEEPC_LAPTOP : m ## .config: 4353 :configs/v5=
+.8/standard/./hibern.cfg (y) <br></div><div><br></div><div>But on dunfell I=
+ don&#39;t see anything.=C2=A0 CONFIG_EEEPC_LAPTOP is listed in mismatch*, =
+though it is just</div><div>one of 127 issues, most of which looking pretty=
+ much valid at first glance.=C2=A0 Are they not ?<br></div><div><br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+The visibility of the warnings has changed over time (I expose them,<br>
+there are complaints, I make them less visible, and then the process<br>
+repeats ..), so there could be something there as well.<br>
+<br>
+And as you noticed, I totally rewrote things in master, since<br>
+maintaining the existing script was just too painful.<br>
+<br>
+Cheers,<br>
+<br>
+Bruce<br>
+<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Cheers,<br>
+&gt;&gt;<br>
+&gt;&gt; Bruce<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if os.path.exists(mismatch_file):<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if config_check_visibility=
+:<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mismatch_details_=
+file =3D d.expand(&quot;${S}/%s/cfg/mismatch-all.txt&quot; % kmeta)<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open (m=
+ismatch_file, &quot;r&quot;) as myfile:<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 results =3D myfile.read()<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.=
+warn( &quot;[kernel config]: specified values did not make it into the kern=
+el&#39;s final configuration:\n\n%s&quot; % results)<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.=
+warn( &quot;[kernel config]: specified values did not make it into the kern=
+el&#39;s final configuration (see details in %s):\n\n%s&quot; % (mismatch_d=
+etails_file, results))<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if bsp_check_visibility:<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 invalid_file =3D d.expand(=
+&quot;${S}/%s/cfg/invalid.cfg&quot; % kmeta)<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 2.28.0<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; <br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; - Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait<br>
+&gt;&gt; thee at its end<br>
+&gt;&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=3D"_bl=
+ank">yann@blade-group.com</a>&gt;<br>
+&gt; Blade / Shadow -- <a href=3D"http://shadow.tech" rel=3D"noreferrer" t=
+arget=3D"_blank">http://shadow.tech</a><br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
+rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
+=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
+div></div>
+
+--00000000000096ee5205b18e7c12--
