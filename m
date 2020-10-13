@@ -1,179 +1,123 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web12.12865.1602598225944091824
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web11.13559.1602599925009782801
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 07:10:26 -0700
+ Tue, 13 Oct 2020 07:38:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YuTlv4vK;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id 33so21017366edq.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 07:10:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HC4Q2+Ua;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id y16so16860353ila.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 07:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=deraQkIPHNGKNje2s453e3p26n6jeG0qeKZX7wgsPPo=;
-        b=YuTlv4vKQwQXRFZnymRggGypLnutqbTnale8BOLvcUCNIs1bWBffFuCMj9l7DLvrSP
-         VbMVG9LcQSxjaIBN2BFMD3pLAvg57pfWusV8xP+UsyNKexqzIVO+JuQm09L5b8NUq6XH
-         D94hYxeERjO3Zbxqv4ATE13ZbAgtmX2eVW7qRSJGeg7vsX+T1V/7JPBC7aZf1bDPimFf
-         saQqC9cmsmRHZU4bHXiZBRFMWFgAW35YsaoMQsysDZR130Dv0k8nRIIdHQgfdRh3WaJQ
-         y2dBhXYPvpvRe8lrip/m0zvxpcIoDvPRhmsQcnL6nHR1n8BPe1IiR1sRceghVErk0XNY
-         SGNQ==
+        bh=6zuf1WPagkxFYrNkUBMyFi4GQgSJfybj7ieZaA9VmDo=;
+        b=HC4Q2+UaU2PXb9OJgVZElf9EEgOfNoIUdsminfyzaZnGcfvCUoxBGu5mBzw2vWEDjC
+         3W0Lv022vb4kwN/IC4gzh0pWkc97lC2HNh1m6uiKDDbvWjdvRf30euHjbvNFnrAF/4u1
+         UitmdGirzbceBpKJcgHHEUj+tknWYmzbdgXq1HSt0RFregHBB0EKcQ/6lXdQKFmi0YNG
+         U186PD9TDow29nEpgDVQoJj9uQyB3VAa86MeAIibvJLKPJi9bLXYMGiOSTLlYjD22u9a
+         339b0Lriw73QN/8Jx3aCQp3DaHtzPiQ0F20RDOgNX7o6EstCpVYxOa1pfjFqz+bGEXn5
+         qMVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=deraQkIPHNGKNje2s453e3p26n6jeG0qeKZX7wgsPPo=;
-        b=MYPWCdFag9jkM1Nw+w4TbIMUiwSrwfOM5zdgIyO4JW/KDnExtjiBEdX1xzVtYvTsGp
-         Fs95TtA6vvJxfE6gkG5ebwdgu3jAIJ53UWvKZUJLrkGQ8qmVlFji8VTz795CY/hvyeNQ
-         xxWXXNmZizQKmzezBvs2xqB26wSb4ac+fHD7FOpplzb/AfR8OEVsjFF4D+XrfCNPoZEv
-         +4dwkMrcWJluyacpe2Ho3UAtC3tHX8SJZc4lwlyFgEe8U+wrOiUMdTl7wF6Z2S4xLWIf
-         3tA51LKb+Vx0Heu/JdGkrySgou2KdrbQZHjm3HRsKRAUPLTUZnZk8AUzKghX/E7ud/sZ
-         IFhw==
-X-Gm-Message-State: AOAM530/vEHbfSU65AULGIRK65jvt6Q6EKSnctqXbkWB2+Ob+CDqtqyK
-	r90MYzdD0EQyG5hfNQ2wiBiFgrXHig7/FaQleo0=
-X-Google-Smtp-Source: ABdhPJxGVPN328al/w4jPPzk+X3qFEOxjr5328gBZqKWl6uLlvqlxC5R5GsRVGrO7ltjSEO/c0u6VHCtqkj4Z+d7hzM=
-X-Received: by 2002:a50:d94d:: with SMTP id u13mr19779730edj.365.1602598224257;
- Tue, 13 Oct 2020 07:10:24 -0700 (PDT)
+        bh=6zuf1WPagkxFYrNkUBMyFi4GQgSJfybj7ieZaA9VmDo=;
+        b=RPKl2Ao68xAkCZ1+T/6wBoCbnQGRFME+NIoPjwOqsWm8i7UsCwz6aZyNcZ1vqDtVJR
+         W8IJhEKGbQE6EVHgG/Yplh11+rJrHiE5XOMW7ckmtYFk8CSYzIw74DAXYBj2iISRkny1
+         6qNuS9K2eHWU22uQrYrXYLeBsDT0sJRLfjKtw8M0TlMGquqlufPZO1y13Dsn9nY+nxHV
+         1JwosBepFFCLu8W8E4V+XolUzCpo/vtngDzhLnCwkryDRCz/pZesUQumfZ3zP8eWBoI1
+         iQI2ji78mmKp57LwYJc4dbkTSiYT+jnFPul8IboUmBrHk18CtK1FlSNIx2EFNK/5ksUn
+         fBFw==
+X-Gm-Message-State: AOAM530zjNJSU3A5oiO6iOmGFLri9CbLPpkoanZIkuAVBeocP5hDPN8f
+	ksf99LKlio+grY/gwkxJkcXtHmidHeAdCxkFgqU=
+X-Google-Smtp-Source: ABdhPJy3yN4sSYhAgHfp5TtxmLkDifgUxQ9Dse+AUhUN3bg7fnmG8jZOUMWKE5vhFsV8/L0SrqaA7oaVnSRclfMNLI4=
+X-Received: by 2002:a92:cd42:: with SMTP id v2mr190283ilq.65.1602599924328;
+ Tue, 13 Oct 2020 07:38:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201013132109.2588755-1-yann@blade-group.com>
- <CADkTA4PLQYvpAAauYP1MP3FNNeZQdimMt2j-itVSf28vHarhDg@mail.gmail.com> <CA+4=imZ7DY+UgbSieYFC2iMKTOhyExq-VbNd=vbqa0DhuPsFWg@mail.gmail.com>
-In-Reply-To: <CA+4=imZ7DY+UgbSieYFC2iMKTOhyExq-VbNd=vbqa0DhuPsFWg@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 13 Oct 2020 10:10:11 -0400
-Message-ID: <CADkTA4PdEovbL92GwCUv6hnOr3ZtnNA8E35DyVfr09sLNUrpOA@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] kernel-yocto.bbclass: fix reporting of config mismatches
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
+References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
+ <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
+ <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com>
+ <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
+ <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
+ <CANNYZj9Mr1VLAY5=ubgdYO08KWWUTPfd50CMqT-jcvZ44rPtMw@mail.gmail.com>
+ <CAHtQpK7T7rqfACB7MSnTh701yPbPy2B51Em924-FueriejFXOA@mail.gmail.com>
+ <CANNYZj_AqswY3JJnVu=vtNQPdgfd=tbE89WgRD4Fxm1O=msFFQ@mail.gmail.com> <163D7EFF5EFA949A.25724@lists.openembedded.org>
+In-Reply-To: <163D7EFF5EFA949A.25724@lists.openembedded.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Tue, 13 Oct 2020 15:38:34 +0100
+Message-ID: <CANPvuRmeDf9Mmcj95noPET0d=NGtcC33k8qRhBRb95pLOxMQHQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Andrey Zhizhikin <andrey.z@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 13, 2020 at 9:57 AM Yann Dirson <yann.dirson@blade-group.com> w=
-rote:
->
->
->
-> Le mar. 13 oct. 2020 =C3=A0 15:34, Bruce Ashfield <bruce.ashfield@gmail.=
-com> a =C3=A9crit :
->>
->> On Tue, Oct 13, 2020 at 9:21 AM Yann Dirson <yann.dirson@blade-group.co=
-m> wrote:
->> >
->> > From: Yann Dirson <yann@blade-group.com>
->> >
->> > The warning was not issued because of a filename error (looking for a
->> > gatesgath-era file in older tree).
->> >
->> > Before gatesgarth we have two files (one with short list and one with
->> > more details), whereas starting with gatesgarth we only have a single
->> > file with all details.  Nevertheless, for consistency with the
->> > presentation of "invalid.cfg" we'll just print the contents of the
->> > short "mismatch.cfg" and point the user to the more detailed
->> > information.
->> >
->> > Signed-off-by: Yann Dirson <yann@blade-group.com>
->> > ---
->> >  meta/classes/kernel-yocto.bbclass | 5 +++--
->> >  1 file changed, 3 insertions(+), 2 deletions(-)
->> >
->> > This is not applicable to master, where the "mismatch.txt" file exist=
-s
->> > and shows even greater details.  Looks like the change was introduced
->> > for sumo in 5ef0620b18606fd5749b6e7811d337f26075b86b - would that be =
-a
->> > mismatch with yocto-kernel-tools version ?
->> >
->> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-=
-yocto.bbclass
->> > index cc8bcb909a..771b4d8654 100644
->> > --- a/meta/classes/kernel-yocto.bbclass
->> > +++ b/meta/classes/kernel-yocto.bbclass
->> > @@ -431,12 +431,13 @@ python do_kernel_configcheck() {
->> >      bsp_check_visibility =3D int(d.getVar("KCONF_BSP_AUDIT_LEVEL") o=
-r 0)
->> >
->> >      # if config check visibility is non-zero, report dropped configu=
-ration values
->> > -    mismatch_file =3D d.expand("${S}/%s/cfg/mismatch.txt" % kmeta)
->> > +    mismatch_file =3D d.expand("${S}/%s/cfg/mismatch.cfg" % kmeta)
->>
->> The use of mismatch.txt is completely intentional, and it is populated
->> by hardware tagged options that are detected as being mistmatches.
->>
->> So no, we don't want to directly expose mismatch.cfg. it shows
->> unclassified options.
->
->
-> OK, so let's get back to the original problem:
->
-> - I used to have kernel_configcheck report those problems enumerated in =
-mismatch.cfg / mismatch-all.txt,
-> but for some time I'm not getting them, and this could be since migratio=
-n to sumo
->
-> - those files are generated, and seem to contain real issues, whereas th=
-ere is no mismatch.txt
->
-> What do you see going wrong and how do we move forward ?
+I have new 3 recipes for fix the build of the vulkan gstreamer plugin
 
-Is your configuration something that I can set up and reproduce the
-problem ? I'm seeing what I expect out of the kconfig processing, but
-there very well could be a bug that isn't showing in the machines that
-I normally build.
+spirv-tools:
+move it from meta-oe, add native build and install some extra header files=
+.
 
-The visibility of the warnings has changed over time (I expose them,
-there are complaints, I make them less visible, and then the process
-repeats ..), so there could be something there as well.
+glslang:
+is the official reference compiler front end for the OpenGL ES and
+OpenGL shading languages.
 
-And as you noticed, I totally rewrote things in master, since
-maintaining the existing script was just too painful.
+shaderc:
+A collection of tools, libraries and tests for shader compilation that
+provide the binary glslc need to build the vulkan plugin.
 
-Cheers,
+What is the better method to submit this?
+A new patch series with these 3 recipes or a gstreamer patch series v2
+with all the recipes needed.
 
-Bruce
-
+Jose Quaresma via lists.openembedded.org
+<quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
+ter=C3=A7a, 13/10/2020 =C3=A0(s) 09:11:
 >
->>
->> Cheers,
->>
->> Bruce
->>
->> >      if os.path.exists(mismatch_file):
->> >          if config_check_visibility:
->> > +            mismatch_details_file =3D d.expand("${S}/%s/cfg/mismatch=
--all.txt" % kmeta)
->> >              with open (mismatch_file, "r") as myfile:
->> >                  results =3D myfile.read()
->> > -                bb.warn( "[kernel config]: specified values did not =
-make it into the kernel's final configuration:\n\n%s" % results)
->> > +                bb.warn( "[kernel config]: specified values did not =
-make it into the kernel's final configuration (see details in %s):\n\n%s" %=
- (mismatch_details_file, results))
->> >
->> >      if bsp_check_visibility:
->> >          invalid_file =3D d.expand("${S}/%s/cfg/invalid.cfg" % kmeta)
->> > --
->> > 2.28.0
->> >
->> >
->> >=20
->> >
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
+> Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia segunda,
+> 12/10/2020 =C3=A0(s) 20:45:
+> >
+> > On Mon, 12 Oct 2020 at 20:20, Andrey Zhizhikin <andrey.z@gmail.com> wr=
+ote:
+> >>
+> >>
+> >> What I meant to point out was - there is a dependency in Vulkan on
+> >> glslang, irrespective whether it is compiled standalone or as a
+> >> dependency of another package. I believe this Vulkan <- glslang
+> >> dependency should be solved first before Vulkan can be included
+> >> anywhere further.
+> >>
+> >> As I know, it is currently solved locally in meta-freescale-distro
+> >> layer, hence it was my question on whether it should be moved to
+> >> OE-Core to solve the Vulkan dependency altogether?
+> >
+> >
+> > Can you please point to where glslang is used in the vulkan source tre=
+e? Is it something recently added, as vulkan bits and examples have been bu=
+ilding fine without it in oe-core?
+>
+> I am working on a recipe for 'shaderc' that is needed for build the
+> gstreamer vulkan plugin
+>
+> This recipe needs glslang and spirv-tools.
+> I don't have knowledge of the existence of glslang on
+> meta-freescale-distro and I created one for myself.
+>
+> >
+> > Alex
 >
 >
 >
 > --
-> Yann Dirson <yann@blade-group.com>
-> Blade / Shadow -- http://shadow.tech
+> best regards,
+> Jos=C3=A9 Quaresma
+>
+>=20
 >
 
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+best regards,
+Jos=C3=A9 Quaresma
