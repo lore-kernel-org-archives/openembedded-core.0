@@ -1,96 +1,85 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web10.378.1602547597699495538
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by mx.groups.io with SMTP id smtpd.web10.1181.1602550148078569114
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2020 17:06:37 -0700
+ Mon, 12 Oct 2020 17:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qLnq//Oj;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id 140so17597861qko.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2020 17:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rQ7Hf7XyEjB2FbKydqZtGJr106cdAa8m42HLJmNF00E=;
-        b=qLnq//OjN7z+55V3kze/dRBwOqe0HAyUS1vGPcBZQ073NfY/3VUf0x+AggYMun0/Z7
-         4zVs91BOoFVpwXmdsS1M+92/x5ZM0mUFjMCvtLyaA+ozu7kG5iwMl8ymFoBKyA/OD2Cu
-         ZVamQkE1sfIKc4QThV6yS6y3gqruAb+DjAfdgIYhNONYP/rWj+B663mwSiIWtzLI5yAH
-         2hgavCFEgyljSY2Q+/0JMS39TvdHLngb70F3+0ujXLinICF5zjbW1mFjSyxv1291VlTs
-         ehlJup2MfA9IwVg7XTFPUGmdpqKpeNs381NL3OgNuEw1YW8SRLTvLwcFLsXB3D2IMFZ/
-         /4gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rQ7Hf7XyEjB2FbKydqZtGJr106cdAa8m42HLJmNF00E=;
-        b=FDR3HRUxDCtTGAWlqQZBthRLxnaYtrVdZuCD+nLptNVxd6Ha2G3KdYxpOnZq1lHgH1
-         m7LAT8cACm5XRZkcgovwY85tCNcH+gluE0C/4yCQkCOwJ5Ap/ALpkrMZrMLFgvf4wGs+
-         57etogEmS1t2HwYxVBIXde4HXxv7DjaHgjw1vYWArQT+odlzOZ2L8YJeqIfI5dPft9Ap
-         2R8bcKKboYRVX+4BNHJE57TADUew0th/VOPS72vKFgZt5N5ElE976eWcvpKj3wBJ+MyO
-         1hQTUL1AlOJ4eVl4qOYWYNAyyMnmTNr2aA77C1z6VwvIvKEEzY7+ItglibSo5yTjaGaM
-         waDA==
-X-Gm-Message-State: AOAM533vTRbVsKtvXEt82DpiyfaOu+2f5aWDqlVGEcR0DvZlyP0woBuR
-	+E68PAtnS2hZ9Mkl1Rb5dpW6eQ7LiWizNXoZjv8=
-X-Google-Smtp-Source: ABdhPJyFwYxpg2tGL8T2gpkIUMBjaWChK1N7to9BZdjMvQIkM3S0eVpZOPf+2D1OgAH0jIJwHVd+P1JAb7llvpvypwg=
-X-Received: by 2002:a37:4015:: with SMTP id n21mr12574911qka.212.1602547596653;
- Mon, 12 Oct 2020 17:06:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201012123620.2095778-1-quaresma.jose@gmail.com>
- <20201012123620.2095778-5-quaresma.jose@gmail.com> <CANNYZj-gsTcYJjpwxeT7TwAj8QQptQUBSd6N5QmaoNR82JQRUA@mail.gmail.com>
- <CANPvuRmb_GnG0R2+6zRHxWJG0Hu4cAYD_6kKEyZRp+05+9E8Mw@mail.gmail.com>
- <CANNYZj-w+S4Zk0Vjav6KABUNwX3a=jCjDznHDHBch6sLOXpJnA@mail.gmail.com>
- <CAHtQpK5hq5dZVwwwxUq3hvgQ3zUfAibx5Qboh6Ju7VvxWA+n2Q@mail.gmail.com>
- <CANNYZj9Mr1VLAY5=ubgdYO08KWWUTPfd50CMqT-jcvZ44rPtMw@mail.gmail.com>
- <CAHtQpK7T7rqfACB7MSnTh701yPbPy2B51Em924-FueriejFXOA@mail.gmail.com>
- <CANNYZj_AqswY3JJnVu=vtNQPdgfd=tbE89WgRD4Fxm1O=msFFQ@mail.gmail.com> <CAP9ODKpfw=aamn2frhxT9mnUbCyPwG8smZaMLu70n2yrK_1gXQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKpfw=aamn2frhxT9mnUbCyPwG8smZaMLu70n2yrK_1gXQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 12 Oct 2020 17:06:10 -0700
-Message-ID: <CAMKF1som7BPasoOX3Y0dDoYuUN9XitX5evxJpA9vqtm_=Dcy2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/13] gstreamer1.0-plugins-bad: disable vulkan
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Andrey Zhizhikin <andrey.z@gmail.com>, 
-	Jose Quaresma <quaresma.jose@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=ebgO+xop;
+ spf=pass (domain: gmx.com, ip: 212.227.15.15, mailfrom: douglas.royds@gmx.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1602550145;
+	bh=cH9w7QG7nAuguZhXpkBxreTa+24/Q6RxPJ0OSRoRJdI=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ebgO+xopvB9WJYlCUSf+Kw8h3dn7CGh5N9oknhSQSrdzC6NRygQ+weueoH6tqxm+/
+	 G7t5Sg72Bnm17Vu6xdVSdUjP6DVm977qVO40XotIzck5rPL/XLApoqs0aUFDlqDfXX
+	 vaL69Z+bFsD4KYHY729SV3eMNh/dOyoQTPGfw6cg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from acheron.taitradio.net ([202.37.96.2]) by mail.gmx.com (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MxlzI-1kGMRy30KU-00zGEg; Tue, 13
+ Oct 2020 02:49:05 +0200
+From: "Douglas Royds" <douglas.royds@gmx.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Douglas Royds <douglas.royds@taitradio.com>
+Subject: [PATCH v3] externalsrc: No single-task lock if S != B
+Date: Tue, 13 Oct 2020 13:48:56 +1300
+Message-Id: <20201013004856.13388-1-douglas.royds@gmx.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
+References: <CAFimOt5fQ=0JKpteCCAbDg14u-itABV7MEULuQEm3dUTFj89Lg@mail.gmail.com>
+X-Provags-ID: V03:K1:LN7j5xhI/uqmb7ucuapr+XxNX2OY0QnSvzK4DY71kBeUwvA7JQy
+ d2umAz08IRfsOcMQRihhqU9D5QtE6WNtveE0L0Zduq3WLlVcWA4/eaoI/VYyg3y08TXteAr
+ StdmnzWr0QIUAycSLl9mSEB4zFaAE3JB384N7k0xh2rClEW8KRbDw3QVYJmj7jMQMMcRlca
+ LZkjY5d8hnlDgEb5uPwMw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rJGJvCPkZgQ=:WSMjJytj/PUb1gQbnAI5Wv
+ hB7P3ckbiYuuRnG7lsPayGdDN4mxxO+f8KnyTjyi5Ca+8iThZjkojU0x6BCAwZ6NFZMDtSAKs
+ WQKbmoazOl3zYm2N+s4qxhI/7tZQjcu9B8VcKxLwh408erjM4GgO9id7Ry3fNw5VRbk8ixC+B
+ +vEX3Jvh27M2F6QthwCEM2Vq8F0UKNknI0X8AfUq9FvnA1WoKkzvxcVgc9NBKVIcEAt9NYKW8
+ M0JrMgOb7PbAoYdxqBzegQKuRBvw75Pb8tVb3LTyzRZKKRGrePj9U9b0JLKIZm1MzjAGB9z4l
+ I7jGgK0LeRHs2Ngj1N/n8kZGc9r2AAwgnwSspxF3x3Edv+9vjF4S3JRqnM6lS3kumzMMz4Hy5
+ jTzzf497bhJsMzeOY6oX7v1SSxxtjfJuJvv6sdyMr3l3wDBqxryeMqKxI/4SrTeDV0hS5uHw2
+ GpnZqPlZ+ipmzLixeuOuD4nTdlKP6rE6lXYPKQKeLncPJ1H+O2vYO3nRdCp537ME97acow9pQ
+ xh1IhasLgeRirGsG8H/cWl6dX0PW5GTo99UixbZq828UjoCP2tuLE97xbX62sWN01dTZSmi1m
+ +uyZRXfUr1BBEiXs8QGnzWhnQhdzw6LvjJQWU4WnV3zUKamfrtiqq2reYrNfH4ae9p/E0qkAG
+ i0ArOQYyW6ypvFhLtLEktssynyI2DqDJgg6SjXzXV67VgG/K7Vvn5EZsRovzRminbHmIjFgUj
+ XZTAjQ15I4UFKhyEZAbZMMa2NLl1zuCtzlw78DtvA4NsVwOC2EJykLJ8aB3H4Fa4NxoNtm3wk
+ gqbVf8na/il7jJ0Fsb5XhDef1sYI1y+c3/PjOsWd4CqcOFSbapfk9jy+7IAVqM9vz/5n2Lgv3
+ 54sVIrpDHTwdPs71HGEFN3ahRbQlzrXerZHQnHY6LMkV7Mes7QLjna5IkAKq2NPuewFODRyk5
+ ZBWadMzbIpTRQq58OGQs2oLWs9jzF2Tpufy6ewpnIOJQWnezYpT17Zk2bcCFaJZ/cPbaIo/WN
+ BsX0rGMD3FL4ymhQszHd70xywXFbTkUAuXRKn2ZC9EtjOkl19gXfRK+I9PqkLveLDeqGIJMXd
+ CLxMWSVgJOLDJIqqsiKGHG+A4dafdT8pbPse3OlmsReIO3I4094MsiU/GV7hT0+wOBSicNbOi
+ xt1IV7JQB7mqEX/5ZQlytmgwypatMcZ4vDdWMH8rxkwiVQB1B8ukXuedv9Ft8Tk6OrvBEbMkK
+ BOlj3MyxeZLFHeoe2gPm4jSQaqjYTDyQ7PNAQVA==
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2020 at 4:38 PM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
->
-> Em seg., 12 de out. de 2020 =C3=A0s 16:45, Alexander Kanavin
-> <alex.kanavin@gmail.com> escreveu:
-> > On Mon, 12 Oct 2020 at 20:20, Andrey Zhizhikin <andrey.z@gmail.com> wr=
-ote:
-> >>
-> >>
-> >> What I meant to point out was - there is a dependency in Vulkan on
-> >> glslang, irrespective whether it is compiled standalone or as a
-> >> dependency of another package. I believe this Vulkan <- glslang
-> >> dependency should be solved first before Vulkan can be included
-> >> anywhere further.
-> >>
-> >> As I know, it is currently solved locally in meta-freescale-distro
-> >> layer, hence it was my question on whether it should be moved to
-> >> OE-Core to solve the Vulkan dependency altogether?
-> >
-> >
-> > Can you please point to where glslang is used in the vulkan source tre=
-e? Is it something recently added, as vulkan bits and examples have been bu=
-ilding fine without it in oe-core?
->
-> It seems as a good addition to OE-Core as more SoCs require it; this
-> also allow us to drop this from meta-freescale layers :-)
->
+From: Douglas Royds <douglas.royds@taitradio.com>
 
+Allow different recipes to build things from the one external source tree =
+in
+parallel, but only if the build is happening outside the source tree.
 
-seems good to me. Please propose it for 3.3
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+=2D--
+ meta/classes/externalsrc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
->
->=20
->
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.b=
+bclass
+index d200129987..dd09395788 100644
+=2D-- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -85,7 +85,7 @@ python () {
+             if task.endswith("_setscene"):
+                 # sstate is never going to work for external source trees=
+, disable it
+                 bb.build.deltask(task, d)
+-            else:
++            elif os.path.realpath(d.getVar('S')) =3D=3D os.path.realpath(=
+d.getVar('B')):
+                 # Since configure will likely touch ${S}, ensure only we =
+lock so one task has access at a time
+                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock=
+")
+
+=2D-
+2.17.1
+
