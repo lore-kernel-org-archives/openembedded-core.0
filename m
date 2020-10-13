@@ -1,144 +1,204 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web11.7200.1602626608119459380
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.9213.1602632736320951317
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 15:03:28 -0700
+ Tue, 13 Oct 2020 16:45:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=N4SviO17;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id 33so1013611edq.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 15:03:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pTNiybPx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id g12so1466781wrp.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 16:45:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1ugf77IJtPryizVtfx4j3Gsi685TxyKj1AggAT505hU=;
-        b=N4SviO17clo7mx+vCnOmHd3A+VC9M3ottekMMi8Et6gA2nTbiYRbPTXs3UmZc2yfWD
-         y5tIeETRHsIWsjSIPWvYH0XdTQNTLX+UdsCb7GjL/qEKrqF/szFzx4/0z63f/uxfTD2k
-         yH8zwVzTUcAgRnfxlBjbng0i0lwG7D/9dv8WLNx3oktWwVMUe4SpSRTj+9rVSfpomj+y
-         yB70pdGpghNgklqMk1+HnmyBRvueo/b3VMKPrDHAXx+9DQRZHrzsW1tHdNMQIduR5+7d
-         JkC0tGr5nixciz+iu2yydet+Ssmzpq8hiirWVEgWvshAFt2TS6FQF2DnnpHRNNe7DY8k
-         Aa3w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CliKoApzSySZSwxky5VScddvqVFC8M6dlJ7oNzjviuM=;
+        b=pTNiybPxlZZLvo/sjr4pXNdTnvntcNA7Vfqgdelm5ywO5wThnRNEzGmIJVfHAX25LC
+         fs8qnl45BT6Y7GkydS9EfWfW7g2ZM0lzC7iVhuaKZ9Jq3ywcoF1fMjtUO4iNb5lm9MNs
+         5+TqMbdGn2ctNNo9+gY+A6euTCQD6x/v+ExhHYgaiUa+pqIoJFCvLVTs/QMbNNyMxwdo
+         kDT5wtp6pb8s8I3agn5fDCUikdeP4IOLatqnpnbw/he6P13vajV1U1VpZksgDD4mI+/0
+         oyXp6tiwR84ng27RPghYlXMJL3fIH5xvjufO2cXRnyyUCSaTBrQ7AMeu4Oan+G3xBbwe
+         6eYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1ugf77IJtPryizVtfx4j3Gsi685TxyKj1AggAT505hU=;
-        b=s1V6pQ6vvLAmSB0+YW+sxNkFCmm1Yk75qX6WXKMvPBPvDwRU8idkjukv+07YCXaPJt
-         A5MxtyciEdXYcc4uImGoIjMBGpSDrsuzs4O9wPZyfi/HfBmbWmqnvIEHVS2yXD7KlWx0
-         4hBnq8lqQ8YVhibOr+elhHAtojHetw6wx/H7pbqdmXggoeC/qfdwONuIqtJl6T4oLxwG
-         uas14rEdDMDZG3/z1eKP82g8cjorvcmRqiyR25URdZbnspz4hbDgOTPVBT1SBb79kr1s
-         Q+9woQBqg3iu/IWOZd+VOPcI2jmQ8CbSJubYqEguX00HfDKAes5zJYambzjgfbvUjDle
-         trYw==
-X-Gm-Message-State: AOAM5310nJHZtxr5NLHCeMiWxPXwDy52gq1zRefdy6xlAgtSGOdM1dif
-	nXyGD0HA+ed39KFX4ssuoX5hdKwWpbcZ4T9rgtE=
-X-Google-Smtp-Source: ABdhPJxL+9x+xpqsf+o7wdaySBsWWd/lp+rRC2tNl4quAqHhdg9Cl54LwclgK0kw8zo0Xxe+nhesD1f2vRokQogVso8=
-X-Received: by 2002:aa7:c3c7:: with SMTP id l7mr1822959edr.213.1602626606378;
- Tue, 13 Oct 2020 15:03:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013173502.2245733-1-quaresma.jose@gmail.com>
- <20201013173502.2245733-6-quaresma.jose@gmail.com> <CAHtQpK5wRtUgWGfc2dmeu5ousr38TTpn8=zc09KGSF6N8Ok0nA@mail.gmail.com>
- <CANPvuRmkjyrcthy_V4nQmR4eqdyeU6s+QJgTHvC6h9SknBxOVQ@mail.gmail.com>
-In-Reply-To: <CANPvuRmkjyrcthy_V4nQmR4eqdyeU6s+QJgTHvC6h9SknBxOVQ@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CliKoApzSySZSwxky5VScddvqVFC8M6dlJ7oNzjviuM=;
+        b=sZ9uiUzr8yoSPxExFfUWLkynrEFHX1UVzcqXgg14clU2KRFfOQesPzAq1Tpa+WdsMB
+         G7OtOU+xHW/iOTzqfL2LU94tMOfcB+WDMNc4wTzCk7PtYa4Ji5bo71/KnapQPElTUd4O
+         mjoWgw9mMwdQ4ft0BICBIk7xGheS+sD13gDAwNVpxYWukZfwb59JsFi6Xrn4/proI0Wb
+         yD2jinx8/AYLj6sLel+vwMZ302FjEr7Li2uIYqn2FqtKsecpgof6Cc7oF/amhbdmbZMt
+         vextf+o30D3IGpud5KNkv9CjPd0korVarQxg4/qrDMK2bhZ4xDBMwCqH0Baj+bCleEv+
+         F26g==
+X-Gm-Message-State: AOAM531v8/92LssHActhPFz14l8xW8YwGdvt6GeAhDhmzpslhxnDvd/x
+	33x5hXSoi8K6KdXbnHv1zxMZ+aLDnGq/Ji5l
+X-Google-Smtp-Source: ABdhPJy1ELgAtIRmdmcWvGhOv4Y4/OeN7D7KlmPCu1ns5txeZAexd1E1KyN+/i/Lsd+bBtKHN+PN8g==
+X-Received: by 2002:adf:8b15:: with SMTP id n21mr2228990wra.313.1602632734422;
+        Tue, 13 Oct 2020 16:45:34 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id o184sm747718wmo.37.2020.10.13.16.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2020 16:45:33 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Tue, 13 Oct 2020 23:03:16 +0100
-Message-ID: <CANPvuRmSsLXFYm1azE3QkMLCwq2g62+qXeoih9hXiWYkeuNsmA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] shaderc: enable only native build as the target is failing
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH v2 1/4] spirv-tools: import from meta-oe to OE core
+Date: Wed, 14 Oct 2020 00:44:49 +0100
+Message-Id: <20201013234452.2294860-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-I have fixed this!
+This receipe is needed to build the new shaderc
 
-the mistake are:
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++++++
+ ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
+ meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
+ 3 files changed, 120 insertions(+)
+ create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
+ create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+ create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
 
--DEPENDS =3D "spirv-tools-native glslang-native"
-+DEPENDS =3D "spirv-tools glslang"
+diff --git a/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch b/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
+new file mode 100644
+index 0000000000..9b48cdcd09
+--- /dev/null
++++ b/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
+@@ -0,0 +1,50 @@
++From 4fffcd275b50d08b54b0411679ead98970651bad Mon Sep 17 00:00:00 2001
++From: David Neto <dneto@google.com>
++Date: Fri, 27 Dec 2019 12:05:58 -0500
++Subject: [PATCH] Avoid pessimizing std::move (#3124)
++
++Should fix a warning
++
++Upstream-Status: Backport [https://github.com/KhronosGroup/SPIRV-Tools/commit/8aa423930db37e37086665efcc55944d577c06e5]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ test/opt/pass_fixture.h | 9 +++------
++ 1 file changed, 3 insertions(+), 6 deletions(-)
++
++diff --git a/test/opt/pass_fixture.h b/test/opt/pass_fixture.h
++index 53fb206f..64c089d8 100644
++--- a/test/opt/pass_fixture.h
+++++ b/test/opt/pass_fixture.h
++@@ -60,8 +60,7 @@ class PassTest : public TestT {
++   // from pass Process() function.
++   std::tuple<std::vector<uint32_t>, Pass::Status> OptimizeToBinary(
++       Pass* pass, const std::string& original, bool skip_nop) {
++-    context_ =
++-        std::move(BuildModule(env_, consumer_, original, assemble_options_));
+++    context_ = BuildModule(env_, consumer_, original, assemble_options_);
++     EXPECT_NE(nullptr, context()) << "Assembling failed for shader:\n"
++                                   << original << std::endl;
++     if (!context()) {
++@@ -197,8 +196,7 @@ class PassTest : public TestT {
++   // messages.
++   template <typename PassT, typename... Args>
++   void SinglePassRunAndFail(const std::string& original, Args&&... args) {
++-    context_ =
++-        std::move(BuildModule(env_, consumer_, original, assemble_options_));
+++    context_ = BuildModule(env_, consumer_, original, assemble_options_);
++     EXPECT_NE(nullptr, context()) << "Assembling failed for shader:\n"
++                                   << original << std::endl;
++     std::ostringstream errs;
++@@ -235,8 +233,7 @@ class PassTest : public TestT {
++   void RunAndCheck(const std::string& original, const std::string& expected) {
++     assert(manager_->NumPasses());
++ 
++-    context_ =
++-        std::move(BuildModule(env_, nullptr, original, assemble_options_));
+++    context_ = BuildModule(env_, nullptr, original, assemble_options_);
++     ASSERT_NE(nullptr, context());
++ 
++     context()->set_preserve_bindings(OptimizerOptions()->preserve_bindings_);
++-- 
++2.24.1
++
+diff --git a/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch b/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+new file mode 100644
+index 0000000000..5d37da8fe0
+--- /dev/null
++++ b/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+@@ -0,0 +1,35 @@
++From caf59c46ea5dc49e4dbf756c642b03e52c1b5468 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 20 Dec 2019 07:02:24 -0800
++Subject: [PATCH] Respect CMAKE_INSTALL_LIBDIR in installed CMake files
++
++Upstream-Status: Submitted [https://github.com/google/effcee/pull/36]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ CMakeLists.txt        | 1 +
++ effcee/CMakeLists.txt | 4 ++--
++ 2 files changed, 3 insertions(+), 2 deletions(-)
++
++--- a/external/effcee/CMakeLists.txt
+++++ b/external/effcee/CMakeLists.txt
++@@ -27,6 +27,7 @@ endif()
++ 
++ include(cmake/setup_build.cmake)
++ include(cmake/utils.cmake)
+++include(GNUInstallDirs)
++ 
++ add_subdirectory(third_party)
++ add_subdirectory(effcee)
++--- a/external/effcee/effcee/CMakeLists.txt
+++++ b/external/effcee/effcee/CMakeLists.txt
++@@ -14,8 +14,8 @@ install(
++   DESTINATION
++     include/effcee)
++ install(TARGETS effcee
++-  LIBRARY DESTINATION lib
++-  ARCHIVE DESTINATION lib)
+++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++ 
++ if(EFFCEE_BUILD_TESTING)
++   add_executable(effcee-test
+diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recipes-graphics/spir/spirv-tools_git.bb
+new file mode 100644
+index 0000000000..8e8388e8d4
+--- /dev/null
++++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
+@@ -0,0 +1,35 @@
++SUMMARY  = "The SPIR-V Tools project provides an API and commands for \
++processing SPIR-V modules"
++DESCRIPTION = "The project includes an assembler, binary module parser, \
++disassembler, validator, and optimizer for SPIR-V."
++LICENSE  = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
++SECTION = "graphics"
++
++S = "${WORKDIR}/git"
++DEST_DIR = "${S}/external" 
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;name=spirv-tools \
++	git://github.com/KhronosGroup/SPIRV-Headers.git;name=spirv-headers;destsuffix=${DEST_DIR}/spirv-headers \
++	git://github.com/google/effcee.git;name=effcee;destsuffix=${DEST_DIR}/effcee \
++	git://github.com/google/re2.git;name=re2;destsuffix=${DEST_DIR}/re2 \
++	git://github.com/google/googletest.git;name=googletest;destsuffix=${DEST_DIR}/googletest \
++        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch \
++        file://0001-Avoid-pessimizing-std-move-3124.patch \
++"
++SRCREV_spirv-tools = "c413b982c316b14e784f50d941814fc737b55b4a"
++SRCREV_spirv-headers = "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
++SRCREV_effcee = "cd25ec17e9382f99a895b9ef53ff3c277464d07d"
++SRCREV_re2 = "5bd613749fd530b576b890283bfb6bc6ea6246cb"
++SRCREV_googletest = "f2fb48c3b3d79a75a88a99fba6576b25d42ec528"
++
++inherit cmake python3native
++
++EXTRA_OECMAKE += "-DSPIRV_WERROR=OFF"
++
++do_install_append() {
++	install -d ${D}/${includedir}/spirv
++	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/${includedir}/spirv	
++}
++
++FILES_SOLIBSDEV = ""
++FILES_${PN} += "${libdir}/*.so"
+-- 
+2.28.0
 
-I drop this patch on V2
-
-Jose Quaresma <quaresma.jose@gmail.com> escreveu no dia ter=C3=A7a,
-13/10/2020 =C3=A0(s) 21:52:
->
-> Andrey Zhizhikin <andrey.z@gmail.com> escreveu no dia ter=C3=A7a,
-> 13/10/2020 =C3=A0(s) 19:58:
-> >
-> > On Tue, Oct 13, 2020 at 7:35 PM Jose Quaresma <quaresma.jose@gmail.com=
-> wrote:
-> > >
-> > > For now, only the native build its working.
-> > > The target build is failing, when we can build for target
-> > > this commit can be reverted.
-> > >
-> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > > ---
-> > >  .../shaderc/{shaderc_2019.0.bb =3D> shaderc-native_2019.0.bb} | 6 +=
-++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >  rename meta/recipes-graphics/shaderc/{shaderc_2019.0.bb =3D> shader=
-c-native_2019.0.bb} (86%)
-> > >
-> > > diff --git a/meta/recipes-graphics/shaderc/shaderc_2019.0.bb b/meta/=
-recipes-graphics/shaderc/shaderc-native_2019.0.bb
-> > > similarity index 86%
-> > > rename from meta/recipes-graphics/shaderc/shaderc_2019.0.bb
-> > > rename to meta/recipes-graphics/shaderc/shaderc-native_2019.0.bb
-> > > index ac3db09937..4e095e1243 100644
-> > > --- a/meta/recipes-graphics/shaderc/shaderc_2019.0.bb
-> > > +++ b/meta/recipes-graphics/shaderc/shaderc-native_2019.0.bb
-> > > @@ -33,4 +33,8 @@ do_configure_prepend() {
-> > >  EOF
-> > >  }
-> > >
-> > > -BBCLASSEXTEND =3D "native nativesdk"
-> > > +# TODO: for now only the native build its working
-> > > +# the target build is failing, when the target builds
-> > > +# we can drop this inherit and rename the receipe.
-> > > +inherit native
-> > > +#BBCLASSEXTEND =3D "native nativesdk"
-> >
-> > Maybe BBCLASSEXTEND =3D "native" then? Why leave a stale commented cod=
-e here?
->
-> with BBCLASSEXTEND =3D "native" the build fail when i run: bitbake shade=
-rc
->
-> >
-> > More generic: should the failed target build be investigated further
-> > here? Is there any severe technical problem that should be solved
-> > here?
->
-> This commit is only to find some help in building shaderc for the target=
-.
-> If anyone needs to build the gstreamer plugin on the target it will need
-> the shaderc on the target.
->
-> Because of these constraints in building for the target I rename the
-> recipe to only support native build.
-> Some extra pacthes are required to build it for the target and I need
-> some help for this.
->
-> >
-> > > --
-> > > 2.28.0
-> > >
-> > >
-> > >=20
-> > >
-> >
-> >
-> > --
-> > Regards,
-> > Andrey.
->
->
->
-> --
-> best regards,
-> Jos=C3=A9 Quaresma
-
-
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
