@@ -1,266 +1,119 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web12.4777.1602652104570662897
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web10.4934.1602653247530647475
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 22:08:24 -0700
+ Tue, 13 Oct 2020 22:27:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KYTnfCl0;
- spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: akuster808@gmail.com)
-Received: by mail-ot1-f65.google.com with SMTP id e20so2280176otj.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 22:08:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dhoMz2rl;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: alistair23@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id y16so3751327ila.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 22:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id;
-        bh=xjDyT0xeQe5LviTOKmJKjrngXgcm0VlrkSllUho7jXU=;
-        b=KYTnfCl0gzb8uutLvRqnMP1Ra1FckcL8+jcGXw+M+3UxeW167HeNzepoDxkZZtvF7s
-         /nXrQ4Q6E6SfVT1UijMaJbWFZs5Nwv1zaKNx60TLHyjhLVT/km9VB4ajrOFtng7jCJ9+
-         bNgkzLXf8SxsV20AUyGCnRogEJU42cnNMimQD1tOoa+iGfLKeFKA1+9K6iEFgIdbYX88
-         7q+U8zSD4KkrwWOTdh4twd45wrZh8pls5/+rJRmXFZ907z74BfM7RrrPuQn24hBsd4o8
-         9KYKlcOj8rIns/u+MxU0aI2Wj9X8ijirNTt/DMRgJIA8dyqiB5WCzZLKRNaliMUypZpe
-         REBQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CXe6i+dCZlIbxQo9sXJLQ6tF956D0UAhMfq6vurwDi8=;
+        b=dhoMz2rlGBqFqbhRxih0WntPBCYdkwqfF7r6ospb2M/YFdnmGquDtzniIdJI1CLsSj
+         2jweRpCPhaNWpebHcAVXFv/58CvAkNcbSzt4Qacp19sdSYtyocNXoIQniGMfPwjkgSAc
+         VC98NpXyciWBii/AWzEJLGnjw1zF7xyThyDFiYFrgm5UfdyJiCoOmKA7KcfzgOavTjGy
+         LyNucrx7WP8fXyQw8BoaLJursMIdGroY5U71ahUc5Gq9CqhDHxVPmRCMvZrwXS/p/cRW
+         /iy4LcIqL1OhnkjcIEK0mGV51tpCZtF3IahPOwQ4NPnJu7N0Le46qKuHPRz/uVIRwvKs
+         vnCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=xjDyT0xeQe5LviTOKmJKjrngXgcm0VlrkSllUho7jXU=;
-        b=LuCCzfz7zl1ufl8Lx8MLN8GJXLcBvRP9zonFfG25DI+ePkdy1gxPUog8jIT5B2aIau
-         wBfpwWML1WnUnqewi5SqI93np+bOaDWMFpVddtdDx2AmENRO2vrF/D3RsAKFRCZeHTM7
-         zmBDdibv5zYLlARi+ueIis2BV2nMMyw+7k39NtwiinGj9SY7822mIHov6j1Pbw1fGwWa
-         +JPggK9n3Yn237s8LP5+IGv7G5BIKuyxPc1ATdRydVzH1ESRogNnUUk8pJtKYEb+//ZG
-         gT0cviCQdE+gUgPSf4BAJP83zDVPXhv1LGYmE/yjjbKQQdULZocRABoWB3u893RLhmLd
-         Jgjg==
-X-Gm-Message-State: AOAM532g7iJ8x75znVtz7aerAJ3oEM758BPsr+rttgUa3Mby4geUnGGR
-	Xk0JT+9Dk+CJMsSVZ9jx2TpIdEvjWJg=
-X-Google-Smtp-Source: ABdhPJwdjuocfdQ0XyBW2wBsBkcUumaS9lVGD5hecOjxu58K2OviH1ajcOfPhU9FhmLMXgrw1ejKvA==
-X-Received: by 2002:a05:6830:1f22:: with SMTP id e2mr2278342oth.339.1602652103474;
-        Tue, 13 Oct 2020 22:08:23 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:283a:e7e0:f7dd:41c0])
-        by smtp.gmail.com with ESMTPSA id d21sm862149ood.2.2020.10.13.22.08.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 22:08:23 -0700 (PDT)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kea: add init scripts
-Date: Tue, 13 Oct 2020 22:08:21 -0700
-Message-Id: <20201014050821.25233-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CXe6i+dCZlIbxQo9sXJLQ6tF956D0UAhMfq6vurwDi8=;
+        b=lsLOuBoAKI1kSCnBbE4nV9HJOH14YKgiEuUrn5Twjvh6f7WWbdcPikh3C1LxGcc15x
+         Lo09wYeCz/ka2CKqd7qdRiFc7/5BogBJaiNNgaRXZAeWmCysalsCBIKPT3R9+xC/rglL
+         3pDmTNvXNDaF0fMtZxTforY/Xgnp/cYDifN+nbGxviwNgaHeAmNxQwq/fHCjRs8lSAqX
+         Ovx1/PjUBHWnluyxhXrRPBTOVV52Wr0NxvuqSxK/whLQOY3vtBL1YErNP3olsz9gx9g3
+         6JiRKUBuTcotr7LgpR9UCxKaMAE8gBhKEs6N8n/oqb/w/ah0HeWViEX1diE0v/ib9lNY
+         YT3g==
+X-Gm-Message-State: AOAM530eE1Ec0tr74W0O9W+oY7WRyIyrTVAFXpV6NvzmRiWQE0O3loeW
+	0JaGwazIecpUGVxHd+vQaOIHw86YKZhxSA3OLDI=
+X-Google-Smtp-Source: ABdhPJwdDBvr+u5afNgKlOn9FRHgkkfNJ/EgQ1tFUMe6viCWwK7Knq1L7YWw4KX6EyNkIR0PP2EpAfKYo3XaN0qL+LA=
+X-Received: by 2002:a92:bb58:: with SMTP id w85mr2737111ili.40.1602653246877;
+ Tue, 13 Oct 2020 22:27:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201011234937.1041597-1-alistair@alistair23.me>
+ <CANNYZj82hb4PyrQYd_SWQVkbEvitomqBmkiOpecvM4o=rTyQ7w@mail.gmail.com>
+ <CAKmqyKMO_dwh=q5+0kdAPR2a0QhkYSSopvsWbSD-eQMPXybsFw@mail.gmail.com>
+ <CANNYZj-zkwn1DrhXZJYZ6-=7AL7U5BLxYpn=dj=BUrJ12Ap97Q@mail.gmail.com> <CAMKF1soucN5ivo2QVOk9UT8LF=ferEeUEeX77_bDgTmo3gwzKg@mail.gmail.com>
+In-Reply-To: <CAMKF1soucN5ivo2QVOk9UT8LF=ferEeUEeX77_bDgTmo3gwzKg@mail.gmail.com>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Tue, 13 Oct 2020 22:15:49 -0700
+Message-ID: <CAKmqyKNnB=TPTcGUGOU8tdekCJACkVH_Gj0pYMyFQs8rUGwaSg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wayland: Set idle-time to zero
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Alistair <alistair@alistair23.me>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-[ Yocto # 14074 ]
+On Tue, Oct 13, 2020 at 12:38 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+> These is no one answer some use cases it is perhaps to keep it always on eg kiosk kind of devices and for some it may not be eg video player etc
 
-Add init scripts for dhcp4,6 and ddns
+Exactly!
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../kea/files/kea-dhcp-ddns-server            | 46 ++++++++++++++++++
- .../kea/files/kea-dhcp4-server                | 46 ++++++++++++++++++
- .../kea/files/kea-dhcp6-server                | 47 +++++++++++++++++++
- meta/recipes-connectivity/kea/kea_1.7.10.bb   | 13 ++++-
- 4 files changed, 151 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
- create mode 100644 meta/recipes-connectivity/kea/files/kea-dhcp4-server
- create mode 100644 meta/recipes-connectivity/kea/files/kea-dhcp6-server
+Also OE has a few defaults that help debugging. I was thinking along
+the lines of that.
 
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
-new file mode 100644
-index 00000000000..fe19179f290
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
-@@ -0,0 +1,46 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides:          kea-dhcp-ddns-server
-+# Required-Start:    $local_fs $network $remote_fs $syslog
-+# Required-Stop:     $local_fs $network $remote_fs $syslog
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: ISC KEA DHCP IPv6 Server
-+### END INIT INFO
-+
-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
-+DESC="kea-dhcp-ddns-server"
-+NAME=kea-dhcp-ddns
-+DAEMON=/usr/sbin/keactrl
-+DAEMON_ARGS=" -s dhcp_ddns"
-+
-+set -e
-+
-+# Exit if the package is not installed
-+[ -x "$DAEMON" ] || exit 0
-+
-+# Source function library.
-+. /etc/init.d/functions
-+
-+case "$1" in
-+  start)
-+        echo -n "Starting $DESC: "
-+        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
-+        echo "done."
-+        ;;
-+  stop)
-+        echo -n "Stopping $DESC: "
-+        kpid=`pidof $NAME`
-+        kill $kpid
-+        echo "done."
-+        ;;
-+  restart|force-reload)
-+        #
-+        $0 stop
-+        $0 start
-+        ;;
-+  *)
-+        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
-+        exit 1
-+        ;;
-+esac
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp4-server b/meta/recipes-connectivity/kea/files/kea-dhcp4-server
-new file mode 100644
-index 00000000000..59128e530d6
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp4-server
-@@ -0,0 +1,46 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides:          kea-dhcp4-server
-+# Required-Start:    $local_fs $network $remote_fs $syslog
-+# Required-Stop:     $local_fs $network $remote_fs $syslog
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: ISC KEA DHCP IPv6 Server
-+### END INIT INFO
-+
-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
-+DESC="kea-dhcp4-server"
-+NAME=kea-dhcp4
-+DAEMON=/usr/sbin/keactrl
-+DAEMON_ARGS=" -s dhcp4"
-+
-+set -e
-+
-+# Exit if the package is not installed
-+[ -x "$DAEMON" ] || exit 0
-+
-+# Source function library.
-+. /etc/init.d/functions
-+
-+case "$1" in
-+  start)
-+        echo -n "Starting $DESC: "
-+        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
-+        echo "done."
-+        ;;
-+  stop)
-+        echo -n "Stopping $DESC: "
-+        kpid=`pidof $NAME`
-+        kill $kpid
-+        echo "done."
-+        ;;
-+  restart|force-reload)
-+        #
-+        $0 stop
-+        $0 start
-+        ;;
-+  *)
-+        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
-+        exit 1
-+        ;;
-+esac
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp6-server b/meta/recipes-connectivity/kea/files/kea-dhcp6-server
-new file mode 100644
-index 00000000000..e0119d6eb2e
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp6-server
-@@ -0,0 +1,47 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides:          kea-dhcp6-server
-+# Required-Start:    $local_fs $network $remote_fs $syslog
-+# Required-Stop:     $local_fs $network $remote_fs $syslog
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: ISC KEA DHCP IPv6 Server
-+### END INIT INFO
-+
-+# PATH should only include /usr/* if it runs after the mountnfs.sh script
-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
-+DESC="kea-dhcp6-server"
-+NAME=kea-dhcp6
-+DAEMON=/usr/sbin/keactrl
-+DAEMON_ARGS=" -s dhcp6"
-+
-+set -e
-+
-+# Exit if the package is not installed
-+[ -x "$DAEMON" ] || exit 0
-+
-+# Source function library.
-+. /etc/init.d/functions
-+
-+case "$1" in
-+  start)
-+        echo -n "Starting $DESC: "
-+        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
-+        echo "done."
-+        ;;
-+  stop)
-+        echo -n "Stopping $DESC: "
-+        kpid=`pidof $NAME`
-+        kill $kpid
-+        echo "done."
-+        ;;
-+  restart|force-reload)
-+        #
-+        $0 stop
-+        $0 start
-+        ;;
-+  *)
-+        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
-+        exit 1
-+        ;;
-+esac
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-index 2ea4b12758e..15193aeda38 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-@@ -13,11 +13,17 @@ SRC_URI = "\
-     file://kea-dhcp4.service \
-     file://kea-dhcp6.service \
-     file://kea-dhcp-ddns.service \
-+    file://kea-dhcp4-server \
-+    file://kea-dhcp6-server \
-+    file://kea-dhcp-ddns-server \
-     file://fix-multilib-conflict.patch \
- "
- SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
- 
--inherit autotools systemd
-+inherit autotools systemd update-rc.d
-+
-+INITSCRIPT_NAME = "kea-dhcp4-server"
-+INITSCRIPT_PARAMS = "defaults 30"
- 
- SYSTEMD_SERVICE_${PN} = "kea-dhcp4.service kea-dhcp6.service kea-dhcp-ddns.service"
- SYSTEMD_AUTO_ENABLE = "disable"
-@@ -44,8 +50,11 @@ do_configure_prepend() {
- }
- 
- do_install_append() {
-+    install -d ${D}${sysconfdir}/init.d
-     install -d ${D}${systemd_system_unitdir}
-+
-     install -m 0644 ${WORKDIR}/kea-dhcp*service ${D}${systemd_system_unitdir}
-+    install -m 0755 ${WORKDIR}/kea-*-server ${D}${sysconfdir}/init.d
-     sed -i -e 's,@SBINDIR@,${sbindir},g' -e 's,@BASE_BINDIR@,${base_bindir},g' \
-            -e 's,@LOCALSTATEDIR@,${localstatedir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-            ${D}${systemd_system_unitdir}/kea-dhcp*service ${D}${sbindir}/keactrl
-@@ -55,6 +64,8 @@ do_install_append() {
-     rm -rf "${D}${localstatedir}"
- }
- 
-+CONFFILES_${PN} = "${sysconfdir}/kea/keactrl.conf"
-+
- FILES_${PN}-staticdev += "${libdir}/kea/hooks/*.a ${libdir}/hooks/*.a"
- FILES_${PN} += "${libdir}/hooks/*.so"
- 
--- 
-2.17.1
+>
+> A nicer solution would be turn it into a knob with default perhaps to keep it default but an easy way to override it when needed perhaps via packageconfig
 
+Agreed. I'll work on that instead.
+
+Alistair
+
+>
+>
+> On Tue, Oct 13, 2020 at 1:00 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>>
+>> It is however the upstream default, so changing it needs a proper explanation. Is it something beneficial for the majority of use cases?
+>>
+>> Ale
+>>
+>> On Tue 13. Oct 2020 at 1.22, Alistair Francis <alistair23@gmail.com> wrote:
+>>>
+>>> On Mon, Oct 12, 2020 at 2:28 AM Alexander Kanavin
+>>> <alex.kanavin@gmail.com> wrote:
+>>> >
+>>> > Why?
+>>>
+>>> It's really annoying when you are working on something and the screen turns off.
+>>>
+>>> Alistair
+>>>
+>>> >
+>>> > Alex
+>>> >
+>>> > On Mon, 12 Oct 2020 at 01:49, Alistair <alistair@alistair23.me> wrote:
+>>> >>
+>>> >> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+>>> >> ---
+>>> >>  meta/recipes-graphics/wayland/weston-init/weston.ini | 1 +
+>>> >>  1 file changed, 1 insertion(+)
+>>> >>
+>>> >> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
+>>> >> index b48726d59c..d1532236af 100644
+>>> >> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
+>>> >> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
+>>> >> @@ -5,6 +5,7 @@
+>>> >>  #shell=desktop-shell.so
+>>> >>  #gbm-format=xrgb2101010
+>>> >>  require-input=false
+>>> >> +idle-time=0
+>>> >>
+>>> >>  #[shell]
+>>> >>  #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
+>>> >> --
+>>> >> 2.28.0
+>>> >>
+>>> >>
+>>> >>
+>>> >>
+>>
+>>
+>> 
+>>
