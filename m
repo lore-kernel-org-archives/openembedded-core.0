@@ -1,105 +1,160 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.9541.1602633669369019069
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.2308.1602642425320138029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2020 17:01:09 -0700
+ Tue, 13 Oct 2020 19:27:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=UsSWKRCr;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.181, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f181.google.com with SMTP id b69so1369062qkg.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 17:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GvAQRDZ62RQdkfA3v9EjBpX24t994YIpKcpGx410qcM=;
-        b=UsSWKRCrhs/7gVm0zUWm3d5h7qcM74PpNWDwLuiyTOGHiGywWEeMhtyUC4uk/lHCxr
-         2KlImMMqEc2T7T18M3fEcy8q6DpQupBm2rla25avuKPH/quUywD3HTcc1Ue2DPZo/dgo
-         hAkCIAmmb2F4gJdLBLRJGE5wTw21m/P8HPCuqDUb3zAVevRiKoKhS8YEJUvQwUsJCMjk
-         tNEb9xAAoqcv8seB7JN58TXiUz/lOZSyE8pBxZ595OqA2Lgcup9cYjpRztX+Nrw9us5T
-         royaS8e3FMy8yE4IhPidEQGRdnXblbwmPyhRAJHxbyAAuBaFJDgGwaJIDIje/tjZleh5
-         OJMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GvAQRDZ62RQdkfA3v9EjBpX24t994YIpKcpGx410qcM=;
-        b=URCnnIUfEWg/jJADePrsSY82tBFP5zVEZBnxZ2RzXa+f7wSGiFUAKaCUh3y2k0Annk
-         knzvyaXQYEGtmodwztlNifdYsUJYMhqWWEvBIxS2k9R4qPhh6+RuIVT9R4UwRImLmkQn
-         KJmBjE2Osq9K38K5nY3j3YErVCWUnpyKPnzgVfN+swahyFf/99Xn5gBL/Gam/g4YA+7q
-         YNTTWMBa7w1L1sz12dbKU1L3tdvTOSmkHOumfbo8pYit96jnkzncZ5xhQaVROEtu238F
-         YuzWe+rpMTNdkwFRz0oqupaqHo2ABtuIECHqobzLTV1ce8MMVrGrEDyaAs41SBRX8bFS
-         Gq0g==
-X-Gm-Message-State: AOAM533hDJIxbcpevWa3We2ZDi1sSq729y06ushpYuxQI8gzBqTHDLVM
-	q8AeiSladHs27IuatWssYGAAT+sCSiSOYZap
-X-Google-Smtp-Source: ABdhPJzJiIuGqVjJXD6sGRoQBExxvUDi/TSa1oPfLlXlblo8wnkFKaqImFIWne0ncnglGcp6bSD8rQ==
-X-Received: by 2002:a05:620a:570:: with SMTP id p16mr2706739qkp.396.1602633668121;
-        Tue, 13 Oct 2020 17:01:08 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id x75sm620909qka.59.2020.10.13.17.01.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2020 17:01:07 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f172.google.com with SMTP id q63so1397226qkf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2020 17:01:07 -0700 (PDT)
-X-Received: by 2002:a37:9c06:: with SMTP id f6mr2574671qke.197.1602633666854;
- Tue, 13 Oct 2020 17:01:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013234452.2294860-1-quaresma.jose@gmail.com> <20201013234452.2294860-2-quaresma.jose@gmail.com>
-In-Reply-To: <20201013234452.2294860-2-quaresma.jose@gmail.com>
-Date: Tue, 13 Oct 2020 21:00:55 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpoU+3vk8_5VGJ-sGPrht-zbbEbtok9TxVk-SAtcu2UxQ@mail.gmail.com>
-Message-ID: <CAP9ODKpoU+3vk8_5VGJ-sGPrht-zbbEbtok9TxVk-SAtcu2UxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/4] spirv-tools: enable native build and install more header files
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=Q96N5q6a;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pauleg@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1054)
+	id 8AE5720B4907; Tue, 13 Oct 2020 19:27:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8AE5720B4907
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1602642424;
+	bh=OkA0jlZqg5MEvAlkmb108e0XPALK0dpH3v5/Mnmceto=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Q96N5q6a/Pdyv73tg9F3lFWiPrcqzTG5/Uxot3gDs6lpulYPH0gyjhf1DvMOsa661
+	 4GTxcaMDM4cnVIRVHHWepbjoWcyr0sHXqbXBWqF+si+XJCd0lmkRgAimjAJ+8EwND+
+	 R8BLFwJMnpGqAou51NK8tfHYp/Y84xaeVsuL0eq4=
+From: "Paul Eggleton" <paul.eggleton@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH 1/1] classes: add class for retaining build results
+Date: Tue, 13 Oct 2020 19:26:42 -0700
+Message-Id: <805e5f50760610e9d8fc0531c96ec8b74371892b.1602642330.git.paul.eggleton@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1602642330.git.paul.eggleton@linux.microsoft.com>
+References: <cover.1602642330.git.paul.eggleton@linux.microsoft.com>
 
-Em ter., 13 de out. de 2020 =C3=A0s 20:45, Jose Quaresma
-<quaresma.jose@gmail.com> escreveu:
->
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  meta/recipes-graphics/spir/spirv-tools_git.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recipe=
-s-graphics/spir/spirv-tools_git.bb
-> index 8e8388e8d4..89ebd72d31 100644
-> --- a/meta/recipes-graphics/spir/spirv-tools_git.bb
-> +++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
-> @@ -28,8 +28,12 @@ EXTRA_OECMAKE +=3D "-DSPIRV_WERROR=3DOFF"
->
->  do_install_append() {
->         install -d ${D}/${includedir}/spirv
-> -       install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${=
-D}/${includedir}/spirv
-> +       install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${=
-D}/${includedir}/spirv
-> +       install -d ${D}/${includedir}/spirv/unified1
-> +       install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1=
-/* ${D}/${includedir}/spirv/unified1
+From: Paul Eggleton <paul.eggleton@microsoft.com>
 
-Indenting changes; please follow the recipe style.
+If you are running your builds inside an environment where you don't
+have access to the build tree (e.g. an autobuilder where you can only
+download final artifacts such as images), then debugging build failures
+can be difficult - you can't examine log files, the source tree or
+output files. When enabled, this class does two things:
 
->  }
->
->  FILES_SOLIBSDEV =3D ""
->  FILES_${PN} +=3D "${libdir}/*.so"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.28.0
->
->
->=20
->
+1) Triggers on task failure and saves a tarball of the work directory
+   for the task's recipe
+2) Optionally saves tarballs of a list of nominated directories
 
+It puts these tarballs in a configurable location, where they can be
+picked up by a separate process and made available as downloadable
+artifacts.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+---
+ meta/classes/retain.bbclass | 103 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
+ create mode 100644 meta/classes/retain.bbclass
+
+diff --git a/meta/classes/retain.bbclass b/meta/classes/retain.bbclass
+new file mode 100644
+index 0000000..e98765f
+--- /dev/null
++++ b/meta/classes/retain.bbclass
+@@ -0,0 +1,103 @@
++# Creates a tarball of the work directory for a recipe when one of its
++# tasks fails, as well as (optionally) other nominated directories.
++# Useful in cases where the environment in which builds are run is
++# ephemeral or otherwise inaccessible for examination during
++# debugging.
++#
++# To enable, simply add the following to your configuration:
++#
++# INHERIT += "retain"
++#
++# You can also specify extra directories to save at the end of the build
++# upon failure or always (space-separated) e.g.:
++#
++# RETAIN_EXTRADIRS_FAILURE = "${LOG_DIR} ${TMPDIR}/pkgdata"
++# RETAIN_EXTRADIRS_ALWAYS = "${BUILDSTATS_BASE}"
++#
++# If you wish to use a different tarball name prefix you can do so by
++# adding a : followed by the desired prefix (no spaces) e.g. to use
++# "buildlogs" for the tarball of ${LOG_DIR} you would do this:
++#
++# RETAIN_EXTRADIRS_FAILURE = "${LOG_DIR}:buildlogs ${TMPDIR}/pkgdata"
++#
++# Notes:
++# * For this to be useful you also need corresponding logic in your build
++#   orchestration tool to pick up any files written out to RETAIN_OUTDIR
++#   (with the other assumption being that no files are present there at
++#   the start of the build).
++# * Work directories can be quite large, so saving them can take some time
++#   and of course space.
++# * Extra directories must naturally be populated at the time the retain
++#   goes to save them (build completion); to try ensure this for things
++#   that are also saved on build completion (e.g. buildstats), put the
++#   INHERIT += "retain" after the INHERIT += lines for the class that
++#   is writing out the data that you wish to save.
++# * The tarballs have the tarball name as a top-level directory so that
++#   multiple tarballs can be extracted side-by-side easily.
++#
++# Copyright (c) 2020 Microsoft Corporation
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++RETAIN_OUTDIR ?= "${TMPDIR}/retained"
++RETAIN_EXTRADIRS_FAILURE ?= ""
++RETAIN_EXTRADIRS_ALWAYS ?= ""
++RETAIN_ENABLED ?= "1"
++
++
++def retain_retain_dir(desc, tarprefix, path, tarbasepath, d):
++    import datetime
++
++    outdir = d.getVar('RETAIN_OUTDIR')
++    bb.utils.mkdirhier(outdir)
++    tstamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
++    tarname = '%s_%s' % (tarprefix, tstamp)
++    tarfp = os.path.join(outdir, '%s.tar.gz' % tarname)
++    tardir = os.path.relpath(path, tarbasepath)
++    cmdargs = ['tar', 'czf', tarfp]
++    # Prefix paths within the tarball with the tarball name so that
++    # multiple tarballs can be extracted side-by-side
++    cmdargs += ['--transform', 's:^:%s/:' % tarname]
++    cmdargs += [tardir]
++    bb.plain('NOTE: retain: saving %s to %s' % (desc, tarfp))
++    try:
++        bb.process.run(cmdargs, cwd=tarbasepath)
++    except bb.process.ExecutionError as e:
++        # It is possible for other tasks to be writing to the workdir
++        # while we are tarring it up, in which case tar will return 1,
++        # but we don't care in this situation (tar returns 2 for other
++        # errors so we we will see those)
++        if e.exitcode != 1:
++            bb.warn('retain: error saving %s: %s' % (desc, str(e)))
++
++
++addhandler retain_workdir_handler
++retain_workdir_handler[eventmask] = "bb.build.TaskFailed bb.event.BuildCompleted"
++
++python retain_workdir_handler() {
++    if d.getVar('RETAIN_ENABLED') != '1':
++        return
++
++    if isinstance(e, bb.build.TaskFailed):
++        pn = d.getVar('PN')
++        workdir = d.getVar('WORKDIR')
++        base_workdir = d.getVar('BASE_WORKDIR')
++        taskname = d.getVar('BB_CURRENTTASK')
++        desc = 'workdir for failed task %s.do_%s' % (pn, taskname)
++        retain_retain_dir(desc, 'workdir_%s' % pn, workdir, base_workdir, d)
++    elif isinstance(e, bb.event.BuildCompleted):
++        paths = d.getVar('RETAIN_EXTRADIRS_ALWAYS').split()
++        if e._failures:
++            paths += d.getVar('RETAIN_EXTRADIRS_FAILURE').split()
++
++        for path in list(set(paths)):
++            if ':' in path:
++                path, itemname = path.rsplit(':', 1)
++            else:
++                itemname = os.path.basename(path)
++            if os.path.exists(path):
++                retain_retain_dir(itemname, itemname, path, os.path.dirname(path), d)
++            else:
++                bb.warn('retain: extra directory %s does not currently exist' % path)
++}
+-- 
+1.8.3.1
+
