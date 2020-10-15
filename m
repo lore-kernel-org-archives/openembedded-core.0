@@ -1,125 +1,100 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.13089.1602771208396760851
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.13223.1602771329350131077
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 07:13:28 -0700
+ Thu, 15 Oct 2020 07:15:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IYenscJY;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id e2so3845183wme.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 07:13:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gz0DvHpD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id c6so1690890plr.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 07:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NyHtl49BW+v/2TAqNBoOutTCbpMt4UpE1ERc315pkUQ=;
-        b=IYenscJY+f2LjcNWbig08Nmpferccqz9OCjAtl1LKFocw6CiWKT6LMxvhua8CsaUlw
-         QMz6PYbyomfZC2sGPB0cYCu5Plq0IaLL9m9TB4ejqRrVvE6c1FqaGaDzLk1AmMfPsE42
-         vMNp0XZ+lcXe6+MgmfIgNfqhK13YJtsXYGrIMNbHcq4JE2qMfc2zoAZgSAvs8bqB+CUD
-         EiGEVnOodBXBhqNVhxLqZnT7aa+50POr3BxjXYVq+xweGtrVxNDuGJgvA+HsLRtuyuhL
-         lu64QTnt2gtYUEMp1bgUw0D4y2tgtBvPPuyzr0izViRiRXwLBxD8OjnLJoJgx/LXVAMH
-         /npw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=WPgqEYf8UNRDxPmOgLdxfknK2ftv9NNwgqlE5yh1ChU=;
+        b=gz0DvHpDCEjKjnOlc437+M4TPDXxlremb0Czs0by9bObMlrP6J5v7CCby5k0LuuOk0
+         FUUOvxguxUKaQh3waxWt2dvL9UNQREIApRPEOxQFM8pAYiW+pIysHHM4W5dKxJWVCZ7l
+         lpDFf2Ge1U3YnmHc14L3/4oK3G297SuN2kBEYjGK8oUJTDLi8sX59oJkqDQ5WoGGJwDR
+         v2ES8HMTAsUOJ/lk0p8Jl+bcPj8NCzd68Cj9U3cvno6YNRe1e67dBwxdNHzS1ydU5kjM
+         QPwUPGXXKQ4OZXrw2aY8Gmez5V/OAH08Th8Hcgrr4EEZUFOGQwjARydbSNbAiomm2820
+         Luxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NyHtl49BW+v/2TAqNBoOutTCbpMt4UpE1ERc315pkUQ=;
-        b=EIcdFP6fcxKKzLRM3fXH+4o5xVZGNAFSZUTq5pXxWoINDCBrtEb34r+VEYMrv9iWXL
-         /v7h3gJVUaaAlTQqepHXoOEIpYoL6QzKX1Ob0cCMJ53K9dwq1428cTiIjp7HmZOyBUNK
-         kzuWFkVd+rZyLDePy/C3Y1MhZvXzUA/HpUmuA3dbM55pF4MWtRZfDSiOW6gYfMWZoWPi
-         TtZO8TU5pTjJQeF68pSWanrr8CyBX54+QqW7gtxenYwfm2g5fU1/xW5jzAvk+D3XBFbM
-         1FnN1TfniwwS0x6u8LFIQjVby/b5VN2CY+BA+DZ4xQgofAOF8Yf4ibGJlyp4DQGAyJiE
-         PSlQ==
-X-Gm-Message-State: AOAM532O3YSjwx7Wgrz5EsZqdcwfiHF3O+bmbBMdNF2MhApNin+hRPKq
-	3wpTAfRuwZj9ujHrU4x3iV7wGgoZ1GKC3e2lgOY=
-X-Google-Smtp-Source: ABdhPJxVmhx4woIxEAx8iYfhfqt4GSodzfY8dC3qPbzrO3OCKulxWGrAZvP8Ch3Uwf+pco8qcBxz91d/BOooulF78fc=
-X-Received: by 2002:a7b:cb82:: with SMTP id m2mr4524798wmi.56.1602771206783;
- Thu, 15 Oct 2020 07:13:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <163DBD610FCA88DD.13380@lists.openembedded.org> <CAOSpxdYU75NyNxwQ4yomwR1X1VLJuBXnUfvQo0ycUjZGs1XFog@mail.gmail.com>
-In-Reply-To: <CAOSpxdYU75NyNxwQ4yomwR1X1VLJuBXnUfvQo0ycUjZGs1XFog@mail.gmail.com>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Thu, 15 Oct 2020 09:13:15 -0500
-Message-ID: <CAJdd5GZunnLXbpKQL_4X+6E3E05g0gznh5YjpC+Hgmxo+WEyKQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/12] Pull request (cover letter only)
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=WPgqEYf8UNRDxPmOgLdxfknK2ftv9NNwgqlE5yh1ChU=;
+        b=S/Zus128d9Sr/DE1WxYXg1HE2nmeIRoBko5ndvjSHa6Tf2rVjyS38TouvIjCRF2vSO
+         rmP6X4EG2Z0tUXuTpFdvku9W2KSOdCPteheckFeZ6gdr2sFqVfGrnfyjsydUWY4/TFPy
+         WAcaE6gYs2ZTvHcjhwqgf6lBQdR2LDvJ+Fv0RkB3dcH1B+gtVvVARHmF2kR+854FOCnz
+         gAunQnXkSBRekm9h9E2QLs6gyu09XUATVsCBOu4kBw34HPVRLoRLEapO09ClyTzZYEs/
+         i1/TK014JguGbjxzHMM1Ed1PACzUzCuXT3A5368TSV8DdNxkcTF43wWBopZWDu6/qyPz
+         hkXw==
+X-Gm-Message-State: AOAM530zTr7f9+G5Rf43w+xgZIQ2RpYXU1lAPsYCHKZFTOAkpbJhoOr/
+	AbLN/dKgrsH8l5pyNK0WpTpoLb8WAiaT95g6
+X-Google-Smtp-Source: ABdhPJyS0bGh5QC2EofDWHly3CwaYb70u+vA3c7eZ0U19G7B6/ansPZF4ZLUgxvXcZiWollCeSPoVg==
+X-Received: by 2002:a17:902:7298:b029:d4:c71a:357a with SMTP id d24-20020a1709027298b02900d4c71a357amr2031682pll.38.1602771328077;
+        Thu, 15 Oct 2020 07:15:28 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id i9sm3565138pgc.71.2020.10.15.07.15.26
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2020 07:15:27 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/8] Patch review
+Date: Thu, 15 Oct 2020 04:15:04 -1000
+Message-Id: <cover.1602771116.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, Oct 15, 2020 at 9:07 AM Steve Sakoman <steve@sakoman.com> wrote:
->
-> Gentle reminder :-)
->
-> On Tue, Oct 13, 2020 at 5:14 PM Steve Sakoman via
-> lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-> wrote:
-> >
-> > The following changes since commit 552739383321bd9b4780bd0026d6107ece530522:
-> >
-> >   perl: fix ptest test count (2020-10-05 04:29:40 -1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-> >
-> > Bruce Ashfield (4):
-> >   linux-yocto/5.4: fix kprobes build warning
-> >   linux-yocto/5.4: update to v5.4.67
-> >   linux-yocto/5.4: update to v5.4.68
-> >   linux-yocto/5.4: update to v5.4.69
-> >
-> > Joshua Watt (1):
-> >   classes/sanity: Bump minimum python version to 3.5
+Please review this next set of patches for dunfell and have comments back
+by end of day Monday.
 
-I assume since this passed on the AB, that 3.5 is actually the minimum
-tested version of dunfell, and changing on a stable branch won't be a
-problem?
+Passed a-full on autobuilder:
 
-Do we know if anyone is using OE core with 3.4? It seems unlikely
-since bitbake has a minimum version of 3.5.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1478
 
-> >
-> > Marek Vasut (4):
-> >   lttng-modules: update to 2.11.6
-> >   lttng-tools: update to 2.11.5
-> >   lttng-ust: update to 2.11.1
-> >   stress-ng: Upgrade 0.11.01 -> 0.11.17
-> >
-> > Richard Purdie (2):
-> >   glibc: do_stash_locale must not delete files from ${D}
-> >   libtools-cross/shadow-sysroot: Use nopackages inherit
-> >
-> > Steve Sakoman (1):
-> >   Revert "lttng-modules: backport writeback.h changes from 2.12.x to fix
-> >     kernel 5.4.62+"
-> >
-> >  meta/classes/sanity.bbclass                   |   4 +-
-> >  meta/recipes-core/glibc/glibc-package.inc     |   1 -
-> >  .../libtool/libtool-cross_2.4.6.bb            |   2 +
-> >  .../shadow/shadow-sysroot_4.6.bb              |   2 +
-> >  ...ownership-when-installing-example-jo.patch |   2 +-
-> >  ...ess-ng_0.11.01.bb => stress-ng_0.11.17.bb} |   4 +-
-> >  .../linux/linux-yocto-rt_5.4.bb               |   6 +-
-> >  .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
-> >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
-> >  ...ckport-writeback.h-changes-from-2.12.patch | 128 ------------------
-> >  ...ules_2.11.2.bb => lttng-modules_2.11.6.bb} |  11 +-
-> >  ...-tools_2.11.2.bb => lttng-tools_2.11.5.bb} |   4 +-
-> >  ...ttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} |   4 +-
-> >  13 files changed, 36 insertions(+), 162 deletions(-)
-> >  rename meta/recipes-extended/stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.17.bb} (83%)
-> >  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
-> >  rename meta/recipes-kernel/lttng/{lttng-modules_2.11.2.bb => lttng-modules_2.11.6.bb} (81%)
-> >  rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.11.5.bb} (98%)
-> >  rename meta/recipes-kernel/lttng/{lttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} (93%)
-> >
-> > --
-> > 2.17.1
-> >
-> >
-> >
-> >
->
-> 
->
+The following changes since commit 656d2070f8448681cb69a3d43dbae84a681c1a75:
+
+  linux-yocto/5.4: update to v5.4.69 (2020-10-07 13:41:09 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Armin Kuster (1):
+  timezone: update to 2020b
+
+Naoki Hayama (1):
+  uninative: Fix typo in error message
+
+Richard Purdie (2):
+  scripts/oe-build-perf-report: Allow operation with no buildstats
+  oe-build-perf-report: Ensure correct data is shown for multiple branch
+    options
+
+Steve Sakoman (1):
+  Revert "package: get_package_mapping: avoid dependency mapping if
+    renamed package provides original name"
+
+Victor Kamensky (2):
+  qemu: add 34Kf-64tlb fictitious cpu type
+  qemumips: use 34Kf-64tlb CPU emulation
+
+Yoann Congal (1):
+  bitbake-bblayers/create: Make the example recipe print its message
+
+ meta/classes/package.bbclass                  |  16 +--
+ meta/classes/uninative.bbclass                |   2 +-
+ meta/conf/machine/qemumips.conf               |   2 +-
+ meta/lib/bblayers/templates/example.bb        |   4 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...tlb-fictitious-cpu-type-like-34Kf-bu.patch | 118 ++++++++++++++++++
+ meta/recipes-extended/timezone/timezone.inc   |   8 +-
+ meta/recipes-extended/timezone/tzdata.bb      |   8 +-
+ scripts/oe-build-perf-report                  |   6 +-
+ 9 files changed, 137 insertions(+), 28 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-mips-add-34Kf-64tlb-fictitious-cpu-type-like-34Kf-bu.patch
+
+-- 
+2.17.1
+
