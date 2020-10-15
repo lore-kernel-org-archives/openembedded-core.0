@@ -1,92 +1,71 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.11155.1602765895269005946
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.11308.1602766233896617973
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 05:44:55 -0700
+ Thu, 15 Oct 2020 05:50:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qtc96xuD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id a72so3016182wme.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 05:44:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A4D+gqsc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id 13so3066597wmf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 05:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=kk0IBpx0AMbHIYPIeRVWQia/YQWs8pbM8PCLVjtHGek=;
-        b=Qtc96xuDrLI/KNf63XAXt4p6vK5guc2/iJDYsy0YozkxWZss3kf4wUWbEMKOFHTh55
-         EX/mBhiX4b6CQJkW4s/UCx/lqWpVckEEIEAnXsk1xD15xcHZCFqo2CNy6VMxKB2EwdsH
-         iqqXMVxcDr/kVFcbUDXCf5y6nV6p96ms+JpLI=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdJ29CG4JcxXBM53XkR56dAoL4fhcQ4bY+cJrcbw8eY=;
+        b=A4D+gqscFWcwXJkit8D0ZtkDnJdStiUTAT+JXhazMi9FhyH6df6dMhoQRDKfV1cSDL
+         9he658LC05OVFAyXy808DF5wloIF1BQ0TxiDYBegUHQjQuTnbdSKT8hRhifvIzIFMvuu
+         Wfn/meQeE1u6adoMbSMltkv6O53wC6vh5dQbU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=kk0IBpx0AMbHIYPIeRVWQia/YQWs8pbM8PCLVjtHGek=;
-        b=C19uROPfb80FZmHo1vUyneLHln4uRKkubffeCbAXvPwKWO2lYqKWgiIXUhlQuj0UCB
-         vT+S6zjhs43a1VNqXc2yh9JfdKzvvAXcMPTtOBrt3ntvhG0tWcxUOi5jSQurkp7LAlvb
-         P1k4DXLVVOa4qPq/UXh8OdvZlPodwQmtyG7yZW9GPWXP12NR0fB4OgUkLImNJ/BTWcHQ
-         K04HGdR8NS01nLyln+yjVMAWCal3/gbexUglQd8Wb331Mno/ANY0LJx21zBmscMwKRrU
-         OtJrsbaaCaO6wQl1vRT3P8YHNUsiz6WMmjTnZAGoQnxzJcullVFa25NNagYDrr5g2ao8
-         ZzRQ==
-X-Gm-Message-State: AOAM5326npuOKxJSLBjBwmNV9PpdTF56IN/DJycgpNXmgfzbF4fOqeIj
-	AGorqykvk7XkcGrIfjpfJBHQKg==
-X-Google-Smtp-Source: ABdhPJzs2UwqYw8K3y2gwRpqdewWDb01DnkhGaBqWBqD/wJSUicRHbiLg8Za/Y0OVAca4rGCdJhgPA==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr3945592wms.77.1602765892560;
-        Thu, 15 Oct 2020 05:44:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdJ29CG4JcxXBM53XkR56dAoL4fhcQ4bY+cJrcbw8eY=;
+        b=IWyTMi3iA8xQrdtWqZHex4ubCm4HFSI1F5L4nxosJwUDvLjfQOPaBQzyFsXk5vBHJ4
+         n65uP7bHsW2Qh9vozbPtozVp0hgbuiflmYTaG+L7TWRzqNhhPHl46wK74fcvd6shNdSD
+         9SJKKjLAjy3GAKgYHYzh1eCD8974NQNGEvx+mRv6XOuxV1CtDz2jJcF1sqtPmK01fQcQ
+         u8u1eNCogAvleis4CiwTUChzfSpscXOB2H8rGaX72wki769deo8Db5Ddj76MbuBXiClf
+         ZYt2xMYU8uu8+4hnWjLnI2OlimDl94Fav+XC5Z0S2sl0b5nK8jpm004KujAYRDkd1G9N
+         eQqg==
+X-Gm-Message-State: AOAM532JPbqR5kCnTBX/64N89GCbRTHdN5bTfcEAmjui163+4gUvbJ7/
+	UYf48XVlbPM3SsUPkTIC9DGr+9/yoRxHWQ==
+X-Google-Smtp-Source: ABdhPJx8KMkg9kRB5/W7iHk21kc4elQjnlGQREfRj/BWwazaf2x0nQah/x8jDEpdk3Akye1M8PpQLg==
+X-Received: by 2002:a1c:4056:: with SMTP id n83mr3883516wma.186.1602766232155;
+        Thu, 15 Oct 2020 05:50:32 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
-        by smtp.gmail.com with ESMTPSA id t124sm4342031wmg.31.2020.10.15.05.44.51
+Received: from hex.int.rpsys.net (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
+        by smtp.gmail.com with ESMTPSA id n2sm4280799wrt.82.2020.10.15.05.50.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 05:44:51 -0700 (PDT)
-Message-ID: <0c555406c8db939a1e35bc7621166bb2b832fa84.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] waf: explicitly run waf under Python 3
+        Thu, 15 Oct 2020 05:50:31 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <JPEWhacker@gmail.com>, Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Oct 2020 13:44:49 +0100
-In-Reply-To: <CAJdd5GY4QD03+UWP_y-ALi4vE54cf8-DTAYxMNOGrG1BZ-cHUw@mail.gmail.com>
-References: <20201014112620.2244199-1-ross.burton@arm.com>
-	 <CAJdd5GY4QD03+UWP_y-ALi4vE54cf8-DTAYxMNOGrG1BZ-cHUw@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] layer.conf: Switch to gatesgarth only in preparation for release
+Date: Thu, 15 Oct 2020 13:50:31 +0100
+Message-Id: <20201015125031.3493510-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-10-14 at 07:41 -0500, Joshua Watt wrote:
-> 
-> 
-> On Wed, Oct 14, 2020, 6:26 AM Ross Burton <ross@burtonini.com> wrote:
-> > We don't assume Python 2 is on the host and don't expose an unversioned
-> > python in HOSTTOOLS, but waf uses the unversion python binary.
-> > 
-> > Typically this is solved by patching waf (see the glmark2 recipe) but
-> > this can be solved centrally by invoking python3 directly.  All wscripts
-> > that needed Python 2 would have been fixed by now.
-> > 
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/classes/waf.bbclass | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> > index 309f625a40..df6d4d53e8 100644
-> > --- a/meta/classes/waf.bbclass
-> > +++ b/meta/classes/waf.bbclass
-> > @@ -42,7 +42,7 @@ python waf_preconfigure() {
-> >      subsrcdir = d.getVar('S')
-> >      wafbin = os.path.join(subsrcdir, 'waf')
-> >      try:
-> > -        result = subprocess.check_output([wafbin, '--version'], cwd=subsrcdir, stderr=subprocess.STDOUT)
-> > +        result = subprocess.check_output(['python3', wafbin, '--version'], cwd=subsrcdir, stderr=subprocess.STDOUT)
-> 
-> This will break our internal usage... We still use waf 1 which runs under python 2 only :(, although we are working on transitioning
+Update the core layer release series to gatesgarth in readiness for release.
 
-Might I suggest this is parameterised as something like: 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/layer.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-WAFPYTHON = "python3"
-
-then OE-Core can continue on and improve but people with legacy can
-handle it better?
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 75d2ee004e4..1c3bef7ea3e 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -7,7 +7,7 @@ BBFILE_COLLECTIONS += "core"
+ BBFILE_PATTERN_core = "^${LAYERDIR}/"
+ BBFILE_PRIORITY_core = "5"
+ 
+-LAYERSERIES_CORENAMES = "dunfell gatesgarth"
++LAYERSERIES_CORENAMES = "gatesgarth"
+ 
+ # This should only be incremented on significant changes that will
+ # cause compatibility issues with other layers
+-- 
+2.25.1
 
