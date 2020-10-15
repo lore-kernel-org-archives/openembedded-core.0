@@ -1,55 +1,55 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.web11.6187.1602740867071865933
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web10.6231.1602740913965920255
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2020 22:47:47 -0700
+ Wed, 14 Oct 2020 22:48:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Urxpry6E;
- spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: akuster808@gmail.com)
-Received: by mail-oo1-f44.google.com with SMTP id f2so442238ooj.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 22:47:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tgN2VC+I;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: akuster808@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id f10so1868834otb.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 22:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=16MtLeL8LJwX6lFLIvpp1VuP7SM2fr0SqVgl640YwR8=;
-        b=Urxpry6EqiGSgGx0zaMARNmg0H9FWoe96J57NZcfpPD3oJBa3A575uNy2Y99M66BcR
-         1KVK5PCdzE04ips4X2aZ5Es+h2gASlfs/WvryuxZhooVWOpZ3VxW/AgvMIw9y33/MAo/
-         D/mTxI4fbnraH7F5CX+jmMZKk5W+kzDGSIrmaNhReXjoYtkgJMIYlpliyIIBX7AOBbMg
-         7b8xaAJBfM5ws2YhL7EYkIXmjErq3Hh7FK81RgCZn1x0uYL5T8fdjnjk+H5DZ7DRdgKY
-         /mGJRC5wHa0BXvr5GbzfpJpu54jOAVEhh5JilwQi6jcaKb+gesZexdf1INNBpNfe2JjT
-         NCNQ==
+        bh=5N8zc0b9KEAnrk+Fso9tkc/ZQSdXQI8PkCB5jkFG8rk=;
+        b=tgN2VC+I+JcSt+Q/69ldH8TEI/Z86lyWFZaREdfMtC066iyDWrlx4ASdhOUZI6M/FW
+         hqPOZVM4ULlqprrRBc9y/oX8md3f7aTGYviKxjmMByG0Z8VDs5+hw43CcdIsyIsyTAsF
+         qkZb6tKTClJrI87+OgDJ2ZvsB4UFYMnIngXlFH37G0B6Hm+m//FE/O81qIBV92mcslRd
+         +yLIph0AqmiXz/uU+xZRle8CYZVLYF8TucWvm1AUb27Ge9Ae4TTVhx2OXDHsZL/aHjpe
+         fFlCbMChDPcdGmQx+QyGaVinh4HGVrDJNjigoJg3SBko4aSsd0FW6kw5Z/D48u85g4SZ
+         0v8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=16MtLeL8LJwX6lFLIvpp1VuP7SM2fr0SqVgl640YwR8=;
-        b=fe9dTbp7vqyw7mq24wuHRAhNK2rAgnO/3sc02uRdvhci81ze8Z7ZOK4bpovzvuKTRw
-         0yCAP1NH6NuxID1q309LRtUuheG/MfJu7E92po22dOeUUKqCCL3wrmDnYltKL9rFS2Ec
-         ergIfCrG6brDvKDuKvF5Cd5yoxLyHvLeaN4PD3aLNIbnI2u6MMFssCF9UCP1UFbmxVWQ
-         8Nn3WGvIn3ZKwo9I6d2TdnEKKW8e+elVFgpBVIuYhO9NpBuQrq1HJkBDeit1HT8oM1mR
-         8uCK8WHU+8oCB5vGgiLCtM6w8XJjVwAvcXEPzoFt107sKTUrKnwwsMrBWiUGy8+SaZDT
-         6cew==
-X-Gm-Message-State: AOAM531eAsNrKcbXmHzXg05OYCd7/x4/Cwpr7IZSgE75quMU1EmWDvJT
-	zNZDnjb+uPONoqt9ny5yQ+tKcjWPYJc=
-X-Google-Smtp-Source: ABdhPJzsBzTjiHpRQZyEvTfEs8z6t4HoPEOOqe/HJ1F6nsyu8JiMfS+uAy/KOMEBsYyntfsPegTJwQ==
-X-Received: by 2002:a4a:b40a:: with SMTP id y10mr1167937oon.71.1602740866036;
-        Wed, 14 Oct 2020 22:47:46 -0700 (PDT)
+        bh=5N8zc0b9KEAnrk+Fso9tkc/ZQSdXQI8PkCB5jkFG8rk=;
+        b=H8S6dmNwE8UO6tsTOIcTEp/oroipig13EHuAqfzJXnIZgynsXUTi/HxpA7StAsnWUj
+         U/NO35C2qxZMPGSoYpx0huNWoFjfKwVYeiqjaL/jEhKYQ4tlYvcl25fH5ySZ9iZMilHi
+         4n8ok9mLyKUu9pCVXGW++vABLeg7tygSSDyNIKWuRVSn4AXNMqnRDCvwE5KpiNK9WKfn
+         QornSb2zdoPAbEpPaHPuvniyFLX7iA9BoQds2h2YRLUoYhuZRrjHr23TP9oNTQX+0yHu
+         6/AAFYoYjHn4Q+oNaSHP081P9jWtld1C97ETgfWG/VDQVkBWSnHSFWZvQszrUdiPyx2v
+         NwEg==
+X-Gm-Message-State: AOAM531XMfDLBAup660y0/7n4iW4tsNCgkMDKL1HZXPEHEIFnVyzL87d
+	7GB0g+o8WF/Uae2NNz139d//D1qGneE=
+X-Google-Smtp-Source: ABdhPJwZoY0c4fhsMabSE62OYCotEn1S/x6kFxdhZeY37EqJ3RKHy1M/mUsybAY6fmk8XruLG8mW4Q==
+X-Received: by 2002:a9d:8d4:: with SMTP id 78mr1616878otf.65.1602740912899;
+        Wed, 14 Oct 2020 22:48:32 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:20b4:de17:4e9:6126])
-        by smtp.gmail.com with ESMTPSA id s66sm846566oib.16.2020.10.14.22.47.45
+        by smtp.gmail.com with ESMTPSA id d11sm705547oti.69.2020.10.14.22.48.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 22:47:45 -0700 (PDT)
+        Wed, 14 Oct 2020 22:48:32 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: akuster <akuster@kona.kama-aina.net>
+Cc: Armin kuster <akuster808@gmail.com>
 Subject: [V2][PATCH] kea: add init scripts
-Date: Wed, 14 Oct 2020 22:47:44 -0700
-Message-Id: <20201015054744.24608-1-akuster808@gmail.com>
+Date: Wed, 14 Oct 2020 22:48:31 -0700
+Message-Id: <20201015054831.24685-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
 [ Yocto # 14074 ]
 
 Add init scripts for dhcp4,6 and ddns
 
-Signed-off-by: akuster <akuster@kona.kama-aina.net>
+Signed-off-by: Armin kuster <akuster808@gmail.com>
 
 --
 V2]
