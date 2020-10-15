@@ -1,79 +1,89 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.6151.1602740210299608303
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web12.6227.1602740763243725775
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2020 22:36:50 -0700
+ Wed, 14 Oct 2020 22:46:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=syn7LzZm;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id l18so1190625pgg.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 22:36:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UIJetCHB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: akuster808@gmail.com)
+Received: by mail-oi1-f170.google.com with SMTP id 16so1839793oix.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 22:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7WvrvnWkTXVJaSonU/KwOP52Q0U/rTuP7rNAo90Wjwo=;
-        b=syn7LzZmnWXyMNG4yK8nlymD4h6F1PKBGPDKgcm3v6pAnBdi4sIUIwBRVabDExIq2Q
-         MfeFD9CXAiEgeIu6ayQwYkaqJwZdIBqMd3ZsEpYJx0yAKhUi+qchPhXrHVgFjJ/Mn6gC
-         umlSNepMyhy1wRcztjuGPS8KV10JIjEWTGtuylALjOOMC7rb2SVphkv/dsCO/9cBBfih
-         jZ71aaE7loTwAU3CB+xAxEMQpuVrHv1L0TTl9c3TC1ZJ//RgAZ5+uQyZt8ESad9Pp9Uf
-         z01PxbhTV8wL3NRkzF28rPVBnN/Kfp7/mX5ZVMG8vXb2giOf0Tku6mI9r6rSNvUCnCXB
-         QwLA==
+        h=from:to:cc:subject:date:message-id;
+        bh=vJifAO+6K2jXU3iOmubTIWbMzLm1RpYU2yP81VFkGCk=;
+        b=UIJetCHBGKDBlXW4kXylaEmsbG4rHnMUNHh6BcKhu3v98cKyqpiqQTUo3n8DmubNvZ
+         LBpIuW7QMvR9u1pNtyI9sA0iz/uo6RplLQa0WNyP9uK/+l1Mv0wupSW2zCvNi5dgQgVO
+         FyjCmHfwQi0F9fntmI9LKJvbmMsMp+rfvJRWp5pOgC8j3eHDTF8tSSXLu18U3O8a7OU6
+         b5SOGlyWa7bhO+S2s2h961csARp4yfT4UgoSeBsDEoPJ9bYe3j7R1kn6uXz++oocN14q
+         eDRkDxy6tHmWVZlqr5bKoBkhYEPbI4tUMKHAR55zYIHUOciHr38FWtNg5ZUsKyguKieY
+         4F9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7WvrvnWkTXVJaSonU/KwOP52Q0U/rTuP7rNAo90Wjwo=;
-        b=dGXa4SbnmlejIJ/tAmT66uh9FrODcrtBVIbToMKGIuPMJBcQKK8RZ049877moQhxM0
-         k/Yu+/By3iFJcASDMHHyFUfcQZo6+5FSD0PJZPT5T60JQi9YJssxCYfKGeRK0RGdmd3+
-         MYlpkI3I/sYKi3wdZZnQ11AqnGa3qkWI5sjwd1fPvWGwHADzZQXEGmmDwaFQ+rMjBbC4
-         MetkPDh9kuOvZKX8t/mVDr4uxrojq4DjI90aYbeLjw+AseDGIEtUm5I21qD45oPirZTY
-         HefF6WwU+8DcN1cyvKo8uo4uK76PIh4D4CwFNgAqYnWbohikgUIM5L04KAS1M9vIgTre
-         wmNw==
-X-Gm-Message-State: AOAM533UyDiAX6Q1TJrUzxsG88RCREU2HnihiZZvqa9L4nrFMKDKjGHF
-	XxJrRiQQhgFMLB2ONX4P479Yj1Zronm4eA==
-X-Google-Smtp-Source: ABdhPJxhSdJkfijM35fpWTX57GaFMw7BcQBdrkUhn15pvurqARJI6rUvWu9JLstqx3lLzU5orNmLng==
-X-Received: by 2002:a62:ed11:0:b029:155:4bd9:6ade with SMTP id u17-20020a62ed110000b02901554bd96ademr2614393pfh.6.1602740209275;
-        Wed, 14 Oct 2020 22:36:49 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4467])
-        by smtp.gmail.com with ESMTPSA id n12sm1540720pjt.16.2020.10.14.22.36.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=vJifAO+6K2jXU3iOmubTIWbMzLm1RpYU2yP81VFkGCk=;
+        b=pfiAM0MEVUvS6vwOguY78ZaBMgkDRkdFvoBADdaN2F4Fl+H2vjcGnQ7S7Jz0+WRHZN
+         ztPUkFVlCXgFaJ/Bt6khDEEZx400wYDxmHKLewIYuys4o2EqujbG1tY/OxFzgX/tGA7W
+         uh5Y/e+VQ8PSQQJqksGDeKeslXmqdx4Z5tkiOp7mFmDc9EMhhj9tK+XK8TNaJWiL3bBf
+         WXZU4GCshbqTJmtYdLKeBW4rKw1xYmpgblfjW/Jk105juejGyabV+J0OYCZK5eitvw4E
+         yx/lbQ3BkfD/l2wx5pQp816wuZgkXp9FNvnI2FqRLSFCp5Wv2J8eVlO/oxBzZqN4WIxL
+         +Cfw==
+X-Gm-Message-State: AOAM530KrY5Ny1SHCb1vHpTJmE94vTq+eZRBewpzgtLaqnUwUY8WBi4v
+	+peEi6Td5XKOMsjoZbzL7yEiHOx5vr4=
+X-Google-Smtp-Source: ABdhPJziXgBIaIETgdWj5B2vL5cZQn4MGOw700e3fAFDnGzugPJ9c4dHnh6zIdO6OIcN1NJ4qJpfDQ==
+X-Received: by 2002:aca:5f89:: with SMTP id t131mr1072537oib.52.1602740762424;
+        Wed, 14 Oct 2020 22:46:02 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:20b4:de17:4e9:6126])
+        by smtp.gmail.com with ESMTPSA id z25sm937840ood.21.2020.10.14.22.46.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 22:36:48 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Wed, 14 Oct 2020 22:46:01 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] autotools.bbclass: Order CONFIG_SHELL before CACHED_CONFIGUREVARS
-Date: Wed, 14 Oct 2020 22:36:45 -0700
-Message-Id: <20201015053645.654085-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: akuster <akuster@kona.kama-aina.net>,
+	akuster <akuster808@gmail.com>
+Subject: [PATCH] busybox: add rev and pgrep
+Date: Wed, 14 Oct 2020 22:46:00 -0700
+Message-Id: <20201015054600.24514-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-This helps in overriding CACHED_CONFIGUREVARS with wrappers to run
-configure under e.g. for static analysers like scan-build from clang,
-while it should not change the functionality in normal case.
+From: akuster <akuster@kona.kama-aina.net>
 
-Since CONFIG_SHELL was introduced, it silently broke this use case and
-failed running static analyser on autotool based recipes
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: akuster <akuster808@gmail.com>
 ---
- meta/classes/autotools.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox/pgrep.cfg | 1 +
+ meta/recipes-core/busybox/busybox/rev.cfg   | 1 +
+ meta/recipes-core/busybox/busybox_1.32.0.bb | 2 ++
+ 3 files changed, 4 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/pgrep.cfg
+ create mode 100644 meta/recipes-core/busybox/busybox/rev.cfg
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 1f3c771c69..70804b82b4 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -90,7 +90,7 @@ oe_runconf () {
- 	cfgscript=`python3 -c "import os; print(os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.'))"`/$cfgscript_name
- 	if [ -x "$cfgscript" ] ; then
- 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
--		if ! ${CACHED_CONFIGUREVARS} CONFIG_SHELL=/bin/bash $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
-+		if ! CONFIG_SHELL=/bin/bash ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
- 			bbnote "The following config.log files may provide further information."
- 			bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
- 			bbfatal_log "configure failed"
+diff --git a/meta/recipes-core/busybox/busybox/pgrep.cfg b/meta/recipes-core/busybox/busybox/pgrep.cfg
+new file mode 100644
+index 00000000000..775e487d601
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/pgrep.cfg
+@@ -0,0 +1 @@
++CONFIG_PGREP=y
+diff --git a/meta/recipes-core/busybox/busybox/rev.cfg b/meta/recipes-core/busybox/busybox/rev.cfg
+new file mode 100644
+index 00000000000..da008c30cd3
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/rev.cfg
+@@ -0,0 +1 @@
++CONFIG_REV=y
+diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb b/meta/recipes-core/busybox/busybox_1.32.0.bb
+index aeea40fbc15..8e23b0d4a28 100644
+--- a/meta/recipes-core/busybox/busybox_1.32.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.32.0.bb
+@@ -44,6 +44,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+            file://0001-hwclock-make-glibc-2.31-compatible.patch \
++           file://rev.cfg \
++           file://pgrep.cfg \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
 -- 
-2.28.0
+2.17.1
 
