@@ -1,111 +1,70 @@
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.41])
- by mx.groups.io with SMTP id smtpd.web12.6596.1602743383626567798
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web12.6737.1602744442112364098
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2020 23:29:44 -0700
+ Wed, 14 Oct 2020 23:47:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Oad/fUGS;
- spf=pass (domain: windriver.com, ip: 40.107.76.41, mailfrom: yi.zhao@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DGRbsuRbZPsMmokuaNBTHc/g91WOotZhhhfOsByKWwN4aH81vpetA+z+ZyLTLmClx7rtCD/PoTr7B4GHyHvG4wWOVi2W60UABVqzlrt1x9F3zXYJQuM6hpJfB+NMqml2tV9PU2yokn4xmr3c324A8wxZKf15f4UzIIo81hs+LS55FUr+cTvywrDpLMmrfrHyTc2cd9YBXQ6e7wOGKVrOjf9x03eYqe6cr7Cf5g/tPNwPGJwoLCpvQwIiYC/TcsXDCmCKt//HOFmYfyfrUE0KtRZ9avLua+rkvTOxsglO7/61SDliTiVebvLU5kziZ898RdUtzNxFd+h7cvTfC7A4EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xRQDum9CQjdxscRk3ii7wI8b/zzrvrUuuUQ4rlAuik=;
- b=ilpzZttc1lsIENIHjeknTGw64ytme0/3/6r1qY5basLoOJOjZTeahGBRH7AZ2PUl2uWMCpj1yGLa0j2kWkzwWsp5+jmS2BuZ6z8x6LrVZbB0RbsoJR23wIOqfn0gy1Dh8IodX6moPxwWQmhix1WI93oq7q9Vx1yx/Ba0z/2PjXD1+2Z/lvtFA8o/N348i84fSd/gI2zjzRWY8o4SI7w18YhirvdOgpmNQCsC/UtzNLzqIY9/vFHLxy2Be6KOqmLqWWseeYh2aC9169MIXn17qXrZ+W231REMOt8X/i7kIk1YvJgC6eXs3zKoJqsCtvRJyWDCYgDr79TwQ6TGwr9hiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HEpd+0Aq;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: arabishi900@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id gm14so1247999pjb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 23:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xRQDum9CQjdxscRk3ii7wI8b/zzrvrUuuUQ4rlAuik=;
- b=Oad/fUGS0BxXpEsS3WYZ9AgpUVRB0IQLvaUqUuJyhyLKtlrh55DVPL0nwp+PMgH7umHC+/N+7IujAaz1OYs4DWxNwgv39eF2CyzMGVVZqgsFRI31C/5u/OR4Q57g4VgkZCzGrVvq6Zm9PnhGQ0eN/YDRrnIf9bJjmLqhNTQouEQ=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
- by MWHPR11MB2029.namprd11.prod.outlook.com (2603:10b6:300:27::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Thu, 15 Oct
- 2020 06:29:42 +0000
-Received: from CO1PR11MB4867.namprd11.prod.outlook.com
- ([fe80::d844:ac89:6b05:ed98]) by CO1PR11MB4867.namprd11.prod.outlook.com
- ([fe80::d844:ac89:6b05:ed98%6]) with mapi id 15.20.3455.030; Thu, 15 Oct 2020
- 06:29:42 +0000
-From: "Yi Zhao" <yi.zhao@windriver.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=568D8qHQ42IYXPXWsfZ/kQZ94swK/nvR0GDEqJsXY/U=;
+        b=HEpd+0Aqar4m6g+JAQOoNiEjwT6P4V21NviZRPgSE5y5VCTtL3kPhge0Pt+Yt2Wml0
+         Dy9MVjxHxLTAke1hwGrz0qgj+uuiutlxEDDfoQMqD1t7r8kmp6DnQykaEea9JOU7aGmf
+         EvmbrbMI0hNIzX1JaxCxq1zY5aWFnT08yAx4hnN1OHI/KSo/gZktVdgl696pNJ2IYpnO
+         rk09kBrGb8m/hECFJLmknFtNkXmClBQHF0Ynbnwc8A4N/P9SrQusgwlUqCzU8FpoAvTw
+         C3tueK5LVf5Sy+krOR65ieuBNCWNMoT5CxAdvPm7cL6KONLBKC8pBrCKxoQ8osJCrJnw
+         F3gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=568D8qHQ42IYXPXWsfZ/kQZ94swK/nvR0GDEqJsXY/U=;
+        b=graN5NkpZnsVlK63K+As+K4uv6tAWMj2xbRRQoUp8l/UEfacVklpSxD7m/SYEqS5sN
+         MOyB2PxGqwWbGTKguEh4YoQOwDJL6eLvQF2B0/rRpwxuTFAb0pSHpvMFYgm+RSBTg2B9
+         A1OhA2MzXIdqvYjaApUEogZ+lGr8SbO+VWRH+ikClv5Q4pcCtlkq1+yAVQja5q4pK7w8
+         2ikEUHft3lPGP2vqLL/RrNThkqszuIBB0YRkK6kFwvnSJf+xk09kT0cJOtJb7+PcuIJc
+         wx/WnWRfIXGLd6gLsBH1Gfu3Zd3Wwxb0HUpwGBE67OOfu1otbFmMDG+5+e1y4rHoXVwQ
+         tLaw==
+X-Gm-Message-State: AOAM5321/Qpa4Cpj8Fd2q30iFEaTtyVjokHepOn1BORMdR//zOi+2vUa
+	J8dulTdVXKK5rumPzeukH6A6dTQUf+Wjvg==
+X-Google-Smtp-Source: ABdhPJzv4hHQCoRdUM47CedKqbGziuMZVAtEKDVJj4j/hNsXpnY11W6HLoUJBUyB1V0xVfckfEIOxg==
+X-Received: by 2002:a17:90a:db91:: with SMTP id h17mr2905149pjv.94.1602744441365;
+        Wed, 14 Oct 2020 23:47:21 -0700 (PDT)
+Return-Path: <arabishi900@gmail.com>
+Received: from localhost.localdomain (116-220-34-67.rev.home.ne.jp. [116.220.34.67])
+        by smtp.gmail.com with ESMTPSA id r3sm1919886pfl.67.2020.10.14.23.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 23:47:20 -0700 (PDT)
+From: arabishi900@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] dhcpcd: add PACKAGECONFIG for ntp/chrony/ypbind hooks
-Date: Thu, 15 Oct 2020 14:29:29 +0800
-Message-Id: <20201015062929.4318-1-yi.zhao@windriver.com>
+Cc: Akira Shibakawa <arabishi900@gmail.com>
+Subject: [PATCH 1/3] License-Update: attr: Add a lucking file to LIC_FILES_CHKSUM.
+Date: Wed, 14 Oct 2020 23:47:11 -0700
+Message-Id: <20201015064713.4863-1-arabishi900@gmail.com>
 X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: BYAPR06CA0058.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::35) To CO1PR11MB4867.namprd11.prod.outlook.com
- (2603:10b6:303:9a::13)
-Return-Path: yi.zhao@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by BYAPR06CA0058.namprd06.prod.outlook.com (2603:10b6:a03:14b::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.23 via Frontend Transport; Thu, 15 Oct 2020 06:29:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3367f77-618d-4167-bb33-08d870d3b31a
-X-MS-TrafficTypeDiagnostic: MWHPR11MB2029:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB2029998796B51B3116845DFDF9020@MWHPR11MB2029.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9aeMN5Rt5b7ML/IkY+AxPnABe7G0vhuck8J04/+W5sxyDLj/6i26+IPka9oli1882qu9Ncu+7lVfL1RkvL6QoP6HND0Q7KhR3hKwldokkGViXtcOOonIiLxx3rWUKSu6wvdmcl48e4HTJEjpGVVDH3fNdHkuPU+Lfa76sNAWR0DVx1grEQGfDbkD9MtDCrJJCndG/ShMHOqyOqMZ32pdcI0A2iZozaUwZryqz3dixF7Fvb0izR9RALF/YET1urBdqv9MeAugcOORp+0j/5IKcov/iUbRDAMyYBdM22UmvkYhMJW98CrAhbhgm45LzaPmSE/qLTAPAuDWO404s/aJfXx8bcCDd0CBSLZO6+Y9yCRxcKgp2hqTYOl+8UWQNpsQ
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(396003)(366004)(39850400004)(136003)(5660300002)(1076003)(52116002)(6666004)(8936002)(44832011)(6486002)(8676002)(6512007)(36756003)(316002)(478600001)(2906002)(2616005)(956004)(26005)(186003)(6506007)(16526019)(66556008)(86362001)(66946007)(66476007)(34490700002)(6916009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	CqVY0/hcAluOruDpiQ6ftiznBQ391qO1rxWR3HPpEpqG8iewYVV9lUg1EqnkYx9s7jCC1PxjVpzyHckP9S14ToBTxb6FWGTgtf6oNpg+bf+iTEEwwvfMckc0VUXZZCRHq29bgzYzScbr+Tx/e+2iVRSoOB70xGqsDvdmxN/rbe8hXnJ7/Cq4iOaizSsyoJ39lxCvUe+f30shIxzKZyfU7FrEeBAqH08tEP3AQcgsAPwlyC8nLXuVTyHpVq9welD/cBBZDdGBRg/4MEHr3gMbr3D9HxZ7ZGtVN8ekEKaQRmJ6kN4nS655X60aVXOvvo5ULqLe4Hf5L1vJQHqvV5sSw8HsvKO/OVKrza4sZD3nFmTtjnwIoGBuIHV5fktVTSbHMWZDIjSF2KPoiMczyn65B/0GhPTxwkDKDVHumO34KvTukuXXdqNuDUUYtTuCRHLw8IXjYli6AgM7QqAGI0+ZWSqqdhTD/8Xr8toUt2xiO0irKafSIjizl2VQLC9+xAtOdMB30q0UIQjsi1k3DfSWbcu1GW42RWLJWZMbNfUT3KxDJhb+ncLCwqIiV3dqGxVHqtlOQ1S67R+SwXMQ1BV83TFsnSC6aMmnpccqNFH9u0DbfrZLhPIi9csv/5ZFPIZw9P9lvfAJQLgdgawjTbHfww==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3367f77-618d-4167-bb33-08d870d3b31a
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 06:29:42.2111
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z8+G3WdSTVy09WjTZRaWsZhHkZpP4OF9acLiaidwAQyG8tFkrFxazi9kXXlap8OuOeIT9RfNxZ1+VXcspqdnqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB2029
-Content-Type: text/plain
 
-By default, the dhcpcd will search ntp/chrony/ypbind in host path when
-configuring and install the hooks once it find them. Add PACKAGECONFIG
-for these hooks to avoid the host contamination.
+Although attr is licensed under LGPLv2.1 and GPLv2, LIC_FILES_CHKSUM
+does not include license file of LGPLv2.1, COPYING.LGPL.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Akira Shibakawa <arabishi900@gmail.com>
 ---
- meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-support/attr/attr.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-index 4344841b54..13467189b4 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
-@@ -27,10 +27,18 @@ PACKAGECONFIG ?= "udev ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index f13a83a7b4..0c3330a686 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -8,6 +8,7 @@ LICENSE = "LGPLv2.1+ & GPLv2+"
+ LICENSE_${PN} = "GPLv2+"
+ LICENSE_lib${BPN} = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
++                    file://doc/COPYING.LGPL;md5=b8d31f339300bc239d73461d68e77b9c \
+                     file://tools/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
+                     file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
  
- PACKAGECONFIG[udev] = "--with-udev,--without-udev,udev,udev"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
-+# ntp conflicts with chrony
-+PACKAGECONFIG[ntp] = "--with-hook=ntp, , ,ntp"
-+PACKAGECONFIG[chrony] = "--with-hook=ntp, , ,chrony"
-+PACKAGECONFIG[ypbind] = "--with-eghook=yp, , ,ypbind-mt"
- 
- EXTRA_OECONF = "--enable-ipv4 \
-                 --dbdir=${localstatedir}/lib/${BPN} \
-                 --runstatedir=/run \
-+                --enable-privsep \
-+                --privsepuser=dhcpcd \
-+                --with-hooks \
-+                --with-eghooks \
-                "
- 
- USERADD_PACKAGES = "${PN}"
 -- 
 2.17.1
 
