@@ -1,134 +1,109 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web12.13315.1602771638155854039
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web10.15393.1602776325585475365
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 07:20:38 -0700
+ Thu, 15 Oct 2020 08:38:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YwbgeWNW;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.173, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f173.google.com with SMTP id w17so4301694ilg.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 07:20:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=htm9nHmp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id s9so4044821wro.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 08:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NxrhmlFONK2nYKkXXCMw7l5eCJH5xN5A7BmmuSEqT1Y=;
-        b=YwbgeWNWkaBeJWFpMxBIkgnF1fDJNU82IujWJ/ftq9JjYNJmr084BXdjQ97/MWfXYo
-         xKfrRCMAeOV7cggTbz4uxQe4s7ZFJE6+01e0utluLlHHIAb+00vIDf5B5+KPR6BFJtqt
-         +ShGG3tb3GXehdEqalJN+ZAvUWwVTFTtfTpQDn0Wukx58aYrzgX7WmJMX3VxYxOyCrZu
-         koo/UdoGJBRfiY2qTtZMha/mcrA7AYwdFe9U5xv5vNIaCKehEPVBljR4GgsOr/G1Gggp
-         1wkxmniTJL4V0DfNaOmzp4O1NXZwQeGZG/D1YiMhCxXsEqtt95mZj9CzVcJ1cTGt0bm8
-         Kjkw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=2Mt3LR/59WPppOXtgxb4io+HuYWHK3famBOHDxoqutU=;
+        b=htm9nHmpA18onQp0GqjHYbJRA6RWoksqQZCCAgeRt937BIT+SavaLvlDhk+m/kYXEm
+         Tsq6OX0xo2B/biOM0GI9t7I4r/S8o3PfObvDkDWrIUim8qNDcK/YXh9hg4DrmtfwyaDA
+         H3hN3BURqBnit5EuZtcrsABHgu9SV+ntlDRto=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NxrhmlFONK2nYKkXXCMw7l5eCJH5xN5A7BmmuSEqT1Y=;
-        b=hZoXaxfGb4enhx56niMaSEo+Lxpic2PfW3UNT/UUMk23mfSOHCsitLgcNB7HqaXMrL
-         kqx6sol55Pgt9QKvuec4cxDxOPGiEndPPK37J9+eDI4JnXsEpwLfgtcFdHzFUfa8eqOU
-         219xViidu3rxZPO8rHi9ABJh+TEjTGwgF5j8GpbWMNAGRzOYWvSHpiI9rRcJO5bL+oas
-         Tvy4lJ0l60v/Z7RnqAfw1G5XiDqzWeOwyOXuLCN7KEblNbt6o5qzZ4jroLBJyhs9HXDs
-         LCkUblq1wme04jZ1ivg18r4Hk2flwy82he/E0Jlpfqd6I0CGyOoGlRW6/MZ87y10fGnC
-         ciNA==
-X-Gm-Message-State: AOAM530bq101lHcp6QwwKiDb04SeXWmYU7m0Lf50AMnFBu4iXQm60Mk6
-	Q4mTFDWu9TQBRExoUjr+sqNs4wYZKfaml8tAMlB05Q==
-X-Google-Smtp-Source: ABdhPJzK2Kl+Vlh0sZgYVZuCNBNW4CV8Bf9/HbyUKFFIGONdSGAaMoefJi6zBYT113G1YjcDzMWg28dBlQaxLuyBM24=
-X-Received: by 2002:a92:d248:: with SMTP id v8mr3175564ilg.297.1602771637212;
- Thu, 15 Oct 2020 07:20:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <163DBD610FCA88DD.13380@lists.openembedded.org>
- <CAOSpxdYU75NyNxwQ4yomwR1X1VLJuBXnUfvQo0ycUjZGs1XFog@mail.gmail.com> <CAJdd5GZunnLXbpKQL_4X+6E3E05g0gznh5YjpC+Hgmxo+WEyKQ@mail.gmail.com>
-In-Reply-To: <CAJdd5GZunnLXbpKQL_4X+6E3E05g0gznh5YjpC+Hgmxo+WEyKQ@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 15 Oct 2020 04:20:25 -1000
-Message-ID: <CAOSpxdaQYF59hYetU8dA8y=wxFtMM0EKBC7XzqLRGvmPy8qrmQ@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=2Mt3LR/59WPppOXtgxb4io+HuYWHK3famBOHDxoqutU=;
+        b=k+Re1oj71k7Oqdna+6BJrCjmrDXy3NtLzwBTsUAKd15PQe9fOgFd0ai0AoYco4IIVf
+         XuuWHx8EM2l4LN3Pv0MApJ//OpBq4koc/dTpu8YphVFrMaGUGA3CGRmNp+TSyi+gZYCV
+         YUv/XPtHMzj1iKSf3ZeaePGMkY6obkv6xBcp7sKgVQtqso4m2jZUgHWuqTA34W/kXGWe
+         AeSQSrUF63jvjRZmwqtRzxkCm8MDACSjii6oDxiloLtHOkyfje4yumQfyChOI5CTHoU6
+         XrApUAhoIfRPCskW3sT5PpO0HAdbZiqjX5Glg/FR3rmbf0NgdEg7yTx6udVopms/Lp9K
+         o2VQ==
+X-Gm-Message-State: AOAM532bJ0z4fX1n9f5w/aXV0awXnqVgkA0D8GJtkVZGMJMkrKuLAZJ0
+	THEkbr5bkKxEoN04jUFPmxOMJg==
+X-Google-Smtp-Source: ABdhPJwr6YrEBts344BFnUeuhk5rHLKXykYLs3rWXYEyCAqrBC+/kVJP/CDO3e8rdXm39vInXu6kEQ==
+X-Received: by 2002:adf:94e3:: with SMTP id 90mr4701236wrr.380.1602776323927;
+        Thu, 15 Oct 2020 08:38:43 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
+        by smtp.gmail.com with ESMTPSA id u15sm4792742wml.21.2020.10.15.08.38.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2020 08:38:43 -0700 (PDT)
+Message-ID: <bb0f5febd3b110e47a5567225d32c2a9b8eba7a2.camel@linuxfoundation.org>
 Subject: Re: [OE-core][dunfell 00/12] Pull request (cover letter only)
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Oct 2020 16:38:40 +0100
+In-Reply-To: <CAOSpxdaQYF59hYetU8dA8y=wxFtMM0EKBC7XzqLRGvmPy8qrmQ@mail.gmail.com>
+References: <163DBD610FCA88DD.13380@lists.openembedded.org>
+	 <CAOSpxdYU75NyNxwQ4yomwR1X1VLJuBXnUfvQo0ycUjZGs1XFog@mail.gmail.com>
+	 <CAJdd5GZunnLXbpKQL_4X+6E3E05g0gznh5YjpC+Hgmxo+WEyKQ@mail.gmail.com>
+	 <CAOSpxdaQYF59hYetU8dA8y=wxFtMM0EKBC7XzqLRGvmPy8qrmQ@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 15, 2020 at 4:13 AM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> On Thu, Oct 15, 2020 at 9:07 AM Steve Sakoman <steve@sakoman.com> wrote:
-> >
-> > Gentle reminder :-)
-> >
-> > On Tue, Oct 13, 2020 at 5:14 PM Steve Sakoman via
-> > lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+On Thu, 2020-10-15 at 04:20 -1000, Steve Sakoman wrote:
+> On Thu, Oct 15, 2020 at 4:13 AM Joshua Watt <jpewhacker@gmail.com>
+> wrote:
+> > On Thu, Oct 15, 2020 at 9:07 AM Steve Sakoman <steve@sakoman.com>
 > > wrote:
-> > >
-> > > The following changes since commit 552739383321bd9b4780bd0026d6107ece530522:
-> > >
-> > >   perl: fix ptest test count (2020-10-05 04:29:40 -1000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-> > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-> > >
-> > > Bruce Ashfield (4):
-> > >   linux-yocto/5.4: fix kprobes build warning
-> > >   linux-yocto/5.4: update to v5.4.67
-> > >   linux-yocto/5.4: update to v5.4.68
-> > >   linux-yocto/5.4: update to v5.4.69
-> > >
-> > > Joshua Watt (1):
-> > >   classes/sanity: Bump minimum python version to 3.5
->
-> I assume since this passed on the AB, that 3.5 is actually the minimum
-> tested version of dunfell, and changing on a stable branch won't be a
-> problem?
->
-> Do we know if anyone is using OE core with 3.4? It seems unlikely
-> since bitbake has a minimum version of 3.5.
-
-The fact that bitbake has a minimum version of 3.5 is what convinced
-me to include this patch, it seemed silly to have a mismatch between
-oe-core and bitbake.
-
-Steve
-
-
-> > > Marek Vasut (4):
-> > >   lttng-modules: update to 2.11.6
-> > >   lttng-tools: update to 2.11.5
-> > >   lttng-ust: update to 2.11.1
-> > >   stress-ng: Upgrade 0.11.01 -> 0.11.17
-> > >
-> > > Richard Purdie (2):
-> > >   glibc: do_stash_locale must not delete files from ${D}
-> > >   libtools-cross/shadow-sysroot: Use nopackages inherit
-> > >
-> > > Steve Sakoman (1):
-> > >   Revert "lttng-modules: backport writeback.h changes from 2.12.x to fix
-> > >     kernel 5.4.62+"
-> > >
-> > >  meta/classes/sanity.bbclass                   |   4 +-
-> > >  meta/recipes-core/glibc/glibc-package.inc     |   1 -
-> > >  .../libtool/libtool-cross_2.4.6.bb            |   2 +
-> > >  .../shadow/shadow-sysroot_4.6.bb              |   2 +
-> > >  ...ownership-when-installing-example-jo.patch |   2 +-
-> > >  ...ess-ng_0.11.01.bb => stress-ng_0.11.17.bb} |   4 +-
-> > >  .../linux/linux-yocto-rt_5.4.bb               |   6 +-
-> > >  .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
-> > >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
-> > >  ...ckport-writeback.h-changes-from-2.12.patch | 128 ------------------
-> > >  ...ules_2.11.2.bb => lttng-modules_2.11.6.bb} |  11 +-
-> > >  ...-tools_2.11.2.bb => lttng-tools_2.11.5.bb} |   4 +-
-> > >  ...ttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} |   4 +-
-> > >  13 files changed, 36 insertions(+), 162 deletions(-)
-> > >  rename meta/recipes-extended/stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.17.bb} (83%)
-> > >  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-backport-writeback.h-changes-from-2.12.patch
-> > >  rename meta/recipes-kernel/lttng/{lttng-modules_2.11.2.bb => lttng-modules_2.11.6.bb} (81%)
-> > >  rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.11.5.bb} (98%)
-> > >  rename meta/recipes-kernel/lttng/{lttng-ust_2.11.1.bb => lttng-ust_2.11.2.bb} (93%)
-> > >
-> > > --
-> > > 2.17.1
-> > >
-> > >
-> > >
-> > >
-> >
+> > > Gentle reminder :-)
+> > > 
+> > > On Tue, Oct 13, 2020 at 5:14 PM Steve Sakoman via
+> > > lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+> > > wrote:
+> > > > The following changes since commit
+> > > > 552739383321bd9b4780bd0026d6107ece530522:
+> > > > 
+> > > >   perl: fix ptest test count (2020-10-05 04:29:40 -1000)
+> > > > 
+> > > > are available in the Git repository at:
+> > > > 
+> > > >   git://git.openembedded.org/openembedded-core-contrib
+> > > > stable/dunfell-next
+> > > >   
+> > > > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+> > > > 
+> > > > Bruce Ashfield (4):
+> > > >   linux-yocto/5.4: fix kprobes build warning
+> > > >   linux-yocto/5.4: update to v5.4.67
+> > > >   linux-yocto/5.4: update to v5.4.68
+> > > >   linux-yocto/5.4: update to v5.4.69
+> > > > 
+> > > > Joshua Watt (1):
+> > > >   classes/sanity: Bump minimum python version to 3.5
 > > 
-> >
+> > I assume since this passed on the AB, that 3.5 is actually the
+> > minimum
+> > tested version of dunfell, and changing on a stable branch won't be
+> > a
+> > problem?
+> > 
+> > Do we know if anyone is using OE core with 3.4? It seems unlikely
+> > since bitbake has a minimum version of 3.5.
+> 
+> The fact that bitbake has a minimum version of 3.5 is what convinced
+> me to include this patch, it seemed silly to have a mismatch between
+> oe-core and bitbake.
+
+Its effectively a no-op but does clean up the confusion about what out
+minimum version is which is why I was happy enough to see it go to
+dunfell.
+
+I had merged Steve's series but not run "push", sorry :)
+
+Cheers,
+
+Richard
+
