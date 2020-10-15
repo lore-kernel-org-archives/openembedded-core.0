@@ -1,103 +1,116 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web12.13189.1602771333498882211
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.13134.1602771336276777650
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 07:15:33 -0700
+ Thu, 15 Oct 2020 07:15:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=a8Sq2XS2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id h4so2154867pjk.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 07:15:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tZeuna2c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id 144so2120692pfb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 07:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=oDbF/ivg8v3RpThuiP369WvFV5Cw1WSHq05+vBX5Occ=;
-        b=a8Sq2XS2Z4oo0nfg+iKNbxXrzVa5Ra3jM1U5WV1SlYTLX4ynEzK7tyhU98wPmFZi9/
-         Ifxg1z7cnQ9lx/ocGCyGzvXswCLVOw9EU1HGGnPX2x6Ei5T7NrL4eNbyhXABr9zmv3Yb
-         +VDurdVmOJGOMJWslDERGGiSXnwIRZh1xea/GVGooMn+SbIfka0/5/cWLpjwl+zaB583
-         Dib9nb9rNW7VSTdTtJZfnrNLpxe+EXt6amum68mlI2DTnWHPk7K2f5TkCxHUI3Cjlck2
-         VE/3YTRaGmGsKQO/o9Y5HmybTh0Uz0Z+2QWUTA/4zCPsW2Z1w6KUhGVXJBAuN+yFmW7p
-         ncMw==
+        bh=YPAtokz5Lf4CIP9iZcRr3VHiUy5zQgL2X//kvnjKhXc=;
+        b=tZeuna2cGZqQFaJRzVeCwZY0jEAwYWIH7n1oEtxlcZfw560p76wfEom3GHMggbM+hv
+         GGF7AN7jjpT+7kKMOxbxbFPAdE3Dv+IkBII4ndPvn93jNljtdr5bWxGaVPyQ34awPEbk
+         zwurb66vF4PCHrUbWxA9XHblTZtHVZKewPh11678CbJHJPIOa64jdSJZyWVDmQEOXp+I
+         gwDS4ccrs0eIT9YoBTtlD9QhwfTMBV0ULbw1CImGQFjm93dHk9VMBZA/dpAEWe3XFg5J
+         ili1TCV5Wf5dQWPk3H0jwHhOxJVLKFQOZXADBx8+4QmCNLGGu60ZRgv0sVhuWo9X17cN
+         X9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=oDbF/ivg8v3RpThuiP369WvFV5Cw1WSHq05+vBX5Occ=;
-        b=Ct+ix1CNRtrEi3LLce+KIpAkBKzfupOd82eXzPQXSbKDFVfHyfMY6NziGaZcL/hWB9
-         1ozu2CW0HC1PfNee0lTo0rTpB27j+kfJAR2hWeDVipaWX2zq1K4n9tw+FSVQfzNOb6Mc
-         NQ2O1RaGPMI38ZS4ky4s3UTqigFHK+WbLPy1XMBR9vPZ2GfyROund3Ih/QVkp+sWO1oI
-         ygz9UEMl5F1tgMLtW7wlBoxBSKRnY1xdk8Emz7dLWtzmMev1DCGKTvaYntJ7W1ymR3nA
-         QeI7mcjHz3x+RjuAkvhuDpG4cWSBqeETQotHpDaxcN/tipQqxVDMEe/BCXzps38w13vY
-         9axQ==
-X-Gm-Message-State: AOAM5321eZhGE2CTboo8XkhG+omivGUezxzpgHdtGGmBDkvVzbULHtnG
-	ePioMAa7kXcqsN3V1M8VbawqgS4YVJNfIcCG
-X-Google-Smtp-Source: ABdhPJzbeVQ6wfcWmoIa+vDuG2ai0EhxMF82Ti9Uay51BDTATa8hJ61zW3kNGDC1yPI8BlAn0av0Pg==
-X-Received: by 2002:a17:90a:c204:: with SMTP id e4mr4502114pjt.209.1602771332357;
-        Thu, 15 Oct 2020 07:15:32 -0700 (PDT)
+        bh=YPAtokz5Lf4CIP9iZcRr3VHiUy5zQgL2X//kvnjKhXc=;
+        b=YBR7iCgE7E1H5piIpeu+G+EH4WJBcqSX+xiVc8rREThXiWcVsEkQsXP8pAKH5WA9qj
+         sHzMGvSPXb7/+sPoOZD6A0uaEqPifYcj/L6AQyxMPBqwDAZAK5jifhr9uVeppKWliz0n
+         Se0jP9/7IV2TNkzX/SK/s93DL+eTQjWYL5rg8uZzRo4rb9k9T4fKvSJyZj0jW6KwDBuz
+         mSUvkhJfNxd7asMDwtd/2qhIOH0nxx2A4E3Pm+C/Gp8wFCWQFDsODCVd4kNMPf1rg9Zr
+         YmRDKlkh1ToepZHl/Bw/clKS4kNq1dlsirejKH/PW4ATT10INk0J6No/uz2zZOwZcwuB
+         xcxw==
+X-Gm-Message-State: AOAM531JPCmOXgraT0NFfOcPxuNRONKZbQMCm3EQfVKKu7thvbwCS3F6
+	nr6hEKPpwZEHEzpbug+FvjsDPXxJlnURQIgm
+X-Google-Smtp-Source: ABdhPJw90OXMf3GdVwD8LtUizOtNGeOBzmcJ7S7PPzbED+b18PUwTdlI1L3yF6p+hFKZGPNjDDKOVQ==
+X-Received: by 2002:a63:3fc7:: with SMTP id m190mr3444115pga.293.1602771335093;
+        Thu, 15 Oct 2020 07:15:35 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i9sm3565138pgc.71.2020.10.15.07.15.31
+        by smtp.gmail.com with ESMTPSA id i9sm3565138pgc.71.2020.10.15.07.15.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 07:15:31 -0700 (PDT)
+        Thu, 15 Oct 2020 07:15:34 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/8] Revert "package: get_package_mapping: avoid dependency mapping if renamed package provides original name"
-Date: Thu, 15 Oct 2020 04:15:05 -1000
-Message-Id: <aa937d8adc28ea8c278531ebff353d8248f155d7.1602771116.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/8] timezone: update to 2020b
+Date: Thu, 15 Oct 2020 04:15:06 -1000
+Message-Id: <691e2c99d0ed2850adcbfe80973d2b8691829cb5.1602771116.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1602771116.git.steve@sakoman.com>
 References: <cover.1602771116.git.steve@sakoman.com>
 
-Breaks wireguard
+From: Armin Kuster <akuster@mvista.com>
 
-This reverts commit 210ebed1e9c2285d6e457bf03d1f1a1f3ddc7fda.
+For more info see: https://github.com/eggert/tz/blob/master/NEWS
 
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b19bc7ae71a59673bd725e1de3251667c2026ed5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ meta/recipes-extended/timezone/timezone.inc | 8 +++-----
+ meta/recipes-extended/timezone/tzdata.bb    | 8 ++++----
+ 2 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index cc64ddffc3..23ff4772fa 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -535,7 +535,7 @@ def copydebugsources(debugsrcdir, sources, d):
- # Package data handling routines
- #
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 32723f3dec..8eb17c5eaf 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
--def get_package_mapping (pkg, basepkg, d, depversions=None):
-+def get_package_mapping (pkg, basepkg, d):
-     import oe.packagedata
+-PV = "2020a"
++PV = "2020b"
  
-     data = oe.packagedata.read_subpkgdata(pkg, d)
-@@ -546,14 +546,6 @@ def get_package_mapping (pkg, basepkg, d, depversions=None):
-         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
-             and data[key] == basepkg:
-             return pkg
--        if depversions == []:
--            # Avoid returning a mapping if the renamed package rprovides its original name
--            rprovkey = "RPROVIDES_%s" % pkg
--            if rprovkey in data:
--                if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
--                    bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
--                    return pkg
--        # Do map to rewritten package name
-         return data[key]
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,7 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
  
-     return pkg
-@@ -574,10 +566,8 @@ def runtime_mapping_rename (varname, pkg, d):
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
-     new_depends = {}
-     deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
--    for depend, depversions in deps.items():
--        new_depend = get_package_mapping(depend, pkg, d, depversions)
--        if depend != new_depend:
--            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
-+    for depend in deps:
-+        new_depend = get_package_mapping(depend, pkg, d)
-         new_depends[new_depend] = deps[depend]
+-SRC_URI[tzcode.md5sum] = "f87c3477e85a5c4b00df0def6c6a0055"
+-SRC_URI[tzcode.sha256sum] = "7d2af7120ee03df71fbca24031ccaf42404752e639196fe93c79a41b38a6d669"
+-SRC_URI[tzdata.md5sum] = "96a985bb8eeab535fb8aa2132296763a"
+-SRC_URI[tzdata.sha256sum] = "547161eca24d344e0b5f96aff6a76b454da295dc14ed4ca50c2355043fb899a2"
++SRC_URI[tzcode.sha256sum] = "47eff8944de4a64f7629b851e4a32338ab12c9b73edd62063795167ff1fe43da"
++SRC_URI[tzdata.sha256sum] = "9b053f951d245ce89d850b96ee4711d82d833559b1fc96ba19f90bc4d745e809"
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index 1e2b440fb0..e6a0655afe 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -15,18 +15,18 @@ DEFAULT_TIMEZONE ?= "Universal"
+ INSTALL_TIMEZONE_FILE ?= "1"
  
-     d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
+ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
+-         factory etcetera backward systemv \
++         factory etcetera backward \
+         "
+ # pacificnew 
+ 
+ do_compile () {
+         for zone in ${TZONES}; do \
+             ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo -L /dev/null \
+-                -y ${S}/yearistype.sh ${S}/${zone} ; \
++                ${S}/${zone} ; \
+             ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/posix -L /dev/null \
+-                -y ${S}/yearistype.sh ${S}/${zone} ; \
++                ${S}/${zone} ; \
+             ${STAGING_BINDIR_NATIVE}/zic -d ${WORKDIR}${datadir}/zoneinfo/right -L ${S}/leapseconds \
+-                -y ${S}/yearistype.sh ${S}/${zone} ; \
++                ${S}/${zone} ; \
+         done
+ }
+ 
 -- 
 2.17.1
 
