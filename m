@@ -1,74 +1,67 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web11.6683.1602744449398119559
- for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2020 23:47:29 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nT5hniVt;
- spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: arabishi900@gmail.com)
-Received: by mail-pg1-f195.google.com with SMTP id o7so1175214pgv.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2020 23:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ytLfL3ZbPf0qS4xJ7bL+/GCDwnXQaDIUK27BKauvQG8=;
-        b=nT5hniVterPAUqzuzSwO5GB2Sy9YAJ60Lx9MeJqNBoVNV0CbJnKvXBLcJvmdJyYR48
-         bsQP74YHTfM3K4mjBQZ/zyaUpCjOijptrlbjHwn7Xjb0Nko79Z86byUYLUWIOa3tmakJ
-         +PPUAJ8qkwRKkbJ0VFeY5ek0imIj8b8EHSyMGTdYshTR7VGza+MQXtBIjQeCjxhGe/sH
-         JGjNlyjwnn3D73VAczpFbNinCTsY6n9jqwXd8U+wlIgoZXgQN2osYT4kbdUJX+0gdoyV
-         ZH6dJUU0NgAHh7ezjxusGTMCWP4YvN2X6murtWSGjruQij9ll0iOMOiZzSQfX1z/41sr
-         AVTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ytLfL3ZbPf0qS4xJ7bL+/GCDwnXQaDIUK27BKauvQG8=;
-        b=BYtnTPY8nahhi9KIFYbHcbdZwcGl8mzw4jlAQeHOCar8/tkqqiL4qh0BcKtaY11RFC
-         XgKAHkWXn8KwzXe5zNO3vpWjfO9ExycFXXEAi23/OXQtTURrnsJU+j78wiqOh72vUKlb
-         iMwOifp3FV3lcpy9oKXH40iBiy9IlpBiOzS2XNYTxqh3BgydoQH94U0s3NfMYUo+vH/Y
-         JLk3TESDz1Bc6J4xJEyfDvJ5lTxryGSA1Huup1DnEhQgErgu6G39MLwnXWOwAqggLTcz
-         ZC9u9ymkOQPwBLKXMcNcfgHZDl9D7p7SEETANw60Mq9ojwCuU9Ez+wBMbwKdlq6aMsMY
-         Jm+A==
-X-Gm-Message-State: AOAM533P1k6APXfsUgXMX/PblsjhvuvA1oUSgnnPwKlKd4Diuzmy8LxL
-	3vyPKJoC5WY++ZdF58d7pD8hnKwSC4EKjg==
-X-Google-Smtp-Source: ABdhPJz1zM0dO6VLR+rHfGsNro7PvhFhdlCAmmYK0mpi+N1Ptg06XHZ9EspokJ0yiw+EhsVysh5Fnw==
-X-Received: by 2002:a63:b21e:: with SMTP id x30mr2200011pge.396.1602744448775;
-        Wed, 14 Oct 2020 23:47:28 -0700 (PDT)
-Return-Path: <arabishi900@gmail.com>
-Received: from localhost.localdomain (116-220-34-67.rev.home.ne.jp. [116.220.34.67])
-        by smtp.gmail.com with ESMTPSA id r3sm1919886pfl.67.2020.10.14.23.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 23:47:28 -0700 (PDT)
-From: "Akira Shibakawa" <arabishi900@gmail.com>
+Subject: Re: [PATCH] busybox: add rev and pgrep
 To: openembedded-core@lists.openembedded.org
-Cc: Akira Shibakawa <arabishi900@gmail.com>
-Subject: [PATCH 3/3] License-Update: gdk-pixbuf: Fix LICENSE.
-Date: Wed, 14 Oct 2020 23:47:13 -0700
-Message-Id: <20201015064713.4863-3-arabishi900@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201015064713.4863-1-arabishi900@gmail.com>
-References: <20201015064713.4863-1-arabishi900@gmail.com>
+From: "Diego Sueiro" <diego.sueiro@arm.com>
+X-Originating-Location: Texas, US (217.140.99.251)
+X-Originating-Platform: Windows Chrome 85
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 15 Oct 2020 02:07:51 -0700
+References: <20201015054600.24514-1-akuster808@gmail.com>
+In-Reply-To: <20201015054600.24514-1-akuster808@gmail.com>
+Message-ID: <27107.1602752871157273119@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-As README.md says gdk-pixbuf is under not only LGPLv2.1 but also its
-later version, I fixed LICENSE value.
+On Thu, Oct 15, 2020 at 06:46 AM, akuster wrote:
 
-Signed-off-by: Akira Shibakawa <arabishi900@gmail.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> From: akuster <akuster@kona.kama-aina.net>
+>=20
+> Signed-off-by: akuster <akuster808@gmail.com>
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-index 0405fa78b5..3dec5ed052 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-@@ -5,7 +5,7 @@ loading (ie. animated GIFs)"
- HOMEPAGE = "https://wiki.gnome.org/Projects/GdkPixbuf"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/gdk-pixbuf/issues"
- 
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://gdk-pixbuf/gdk-pixbuf.h;endline=26;md5=72b39da7cbdde2e665329fef618e1d6b \
-                     "
--- 
-2.17.1
+Reviewed-by: Diego Sueiro <diego.sueiro@arm.com>
 
+> ---
+>  meta/recipes-core/busybox/busybox/pgrep.cfg | 1 +
+>  meta/recipes-core/busybox/busybox/rev.cfg   | 1 +
+>  meta/recipes-core/busybox/busybox_1.32.0.bb | 2 ++
+>  3 files changed, 4 insertions(+)
+>  create mode 100644 meta/recipes-core/busybox/busybox/pgrep.cfg
+>  create mode 100644 meta/recipes-core/busybox/busybox/rev.cfg
+>=20
+> diff --git a/meta/recipes-core/busybox/busybox/pgrep.cfg
+> b/meta/recipes-core/busybox/busybox/pgrep.cfg
+> new file mode 100644
+> index 00000000000..775e487d601
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox/pgrep.cfg
+> @@ -0,0 +1 @@
+> +CONFIG_PGREP=3Dy
+> diff --git a/meta/recipes-core/busybox/busybox/rev.cfg
+> b/meta/recipes-core/busybox/busybox/rev.cfg
+> new file mode 100644
+> index 00000000000..da008c30cd3
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox/rev.cfg
+> @@ -0,0 +1 @@
+> +CONFIG_REV=3Dy
+> diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb
+> b/meta/recipes-core/busybox/busybox_1.32.0.bb
+> index aeea40fbc15..8e23b0d4a28 100644
+> --- a/meta/recipes-core/busybox/busybox_1.32.0.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.32.0.bb
+> @@ -44,6 +44,8 @@ SRC_URI =3D
+> "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball \
+>             file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+>            
+> file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+>             file://0001-hwclock-make-glibc-2.31-compatible.patch \
+> +           file://rev.cfg \
+> +           file://pgrep.cfg \
+>  "
+>  SRC_URI_append_libc-musl =3D " file://musl.cfg "
+>  
+> --=20
+> 2.17.1
+>=20
+>
