@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.12420.1602843683161759980
+ by mx.groups.io with SMTP id smtpd.web11.12223.1602843683395098785
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A9E0D38C17D3
+	by mail.yoctoproject.org (Postfix) with ESMTP id ABC8F38C168A
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] curl: upgrading to 7.73.0 SUCCEEDED
-Message-ID: <MADEUP.163E71D74EB666BB.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143500
-Content-Type: multipart/mixed; boundary="===============3190869139757199399=="
+Subject: [AUH] debianutils: upgrading to 4.11.2 SUCCEEDED
+Message-ID: <MADEUP.163E71D7507DD571.19966@lists.openembedded.org>
+X-Groupsio-MsgNum: 143501
+Content-Type: multipart/mixed; boundary="===============4373143304077249075=="
 
---===============3190869139757199399==
+--===============4373143304077249075==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *curl* to *7.73.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *debianutils* to *4.11.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-curl-upgrade-7.72.0-7.73.0.patch
+    - apply the patch: git am 0001-debianutils-upgrade-4.11.1-4.11.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,98 +44,72 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3190869139757199399==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/curl (sysroot):
-  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
-  /usr/include/curl/options.h was added
-Changes to packages/x86_64-linux/curl-native (sysroot):
-  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
-  /usr/include/curl/options.h was added
-
---===============3190869139757199399==
+--===============4373143304077249075==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-curl-upgrade-7.72.0-7.73.0.patch"
+ filename="0001-debianutils-upgrade-4.11.1-4.11.2.patch"
 
-From 8f0cf0baa4e6dd79d79b2c2eff70c4b8c909634a Mon Sep 17 00:00:00 2001
+From 9313568f93e3535210c4694688fdf84cf9823926 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 09:57:36 +0000
-Subject: [PATCH] curl: upgrade 7.72.0 -> 7.73.0
+Date: Fri, 16 Oct 2020 10:00:32 +0000
+Subject: [PATCH] debianutils: upgrade 4.11.1 -> 4.11.2
 
 ---
- meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} (97%)
+ .../{debianutils_4.11.1.bb => debianutils_4.11.2.bb}           | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-support/debianutils/{debianutils_4.11.1.bb => debianutils_4.11.2.bb} (94%)
 
-diff --git a/meta/recipes-support/curl/curl_7.72.0.bb b/meta/recipes-support/curl/curl_7.73.0.bb
-similarity index 97%
-rename from meta/recipes-support/curl/curl_7.72.0.bb
-rename to meta/recipes-support/curl/curl_7.73.0.bb
-index 7d0268253d..0f26b0f1af 100644
---- a/meta/recipes-support/curl/curl_7.72.0.bb
-+++ b/meta/recipes-support/curl/curl_7.73.0.bb
-@@ -9,7 +9,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
- "
+diff --git a/meta/recipes-support/debianutils/debianutils_4.11.1.bb b/meta/recipes-support/debianutils/debianutils_4.11.2.bb
+similarity index 94%
+rename from meta/recipes-support/debianutils/debianutils_4.11.1.bb
+rename to meta/recipes-support/debianutils/debianutils_4.11.2.bb
+index 3b1767e5ed..0eeb2954f7 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.11.2.bb
+@@ -8,10 +8,11 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20200929T025235Z/pool/main/
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
  
--SRC_URI[sha256sum] = "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef"
-+SRC_URI[sha256sum] = "cf34fe0b07b800f1c01a499a6e8b2af548f6d0e044dca4a29d88a4bee146d131"
+-SRC_URI[sha256sum] = "8be869f19c55c18d53d9f0414b68bb966a068b2154e9fbbfc6193827d6af983c"
++SRC_URI[sha256sum] = "3b680e81709b740387335fac8f8806d71611dcf60874e1a792e862e48a1650de"
  
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ inherit autotools update-alternatives
+ 
++S = "${WORKDIR}/debianutils"
+ do_configure_prepend() {
+     sed -i -e 's:tempfile.1 which.1:which.1:g' ${S}/Makefile.am
+ }
 -- 
 2.18.4
 
 
---===============3190869139757199399==
+--===============4373143304077249075==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/curl/curl-dbg: PKGSIZE changed from 2624780 to 2666856 (+2%)
-packages/core2-32-poky-linux/curl/curl-dbg: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-dbg: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl-dev: PKGSIZE changed from 228341 to 232569 (+2%)
-packages/core2-32-poky-linux/curl/curl-dev: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-dev: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl-doc: PKGSIZE changed from 1613704 to 1632903 (+1%)
-packages/core2-32-poky-linux/curl/curl-doc: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-doc: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl-locale: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-locale: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl-src: PKGSIZE changed from 3413429 to 3464005 (+1%)
-packages/core2-32-poky-linux/curl/curl-src: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-src: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl-staticdev: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl-staticdev: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/curl: PKGSIZE changed from 173428 to 181620 (+5%)
-packages/core2-32-poky-linux/curl/curl: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/curl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-packages/core2-32-poky-linux/curl/libcurl: PKGSIZE changed from 492972 to 501760 (+2%)
-packages/core2-32-poky-linux/curl/libcurl: PV changed from "7.72.0" to "7.73.0"
-packages/core2-32-poky-linux/curl/libcurl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
-Changes to packages/core2-32-poky-linux/curl (sysroot):
-  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
-  /usr/include/curl/options.h was added
-Changes to packages/x86_64-linux/curl-native (sysroot):
-  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
-  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
-  /usr/include/curl/options.h was added
+packages/core2-32-poky-linux/debianutils/debianutils-dbg: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-dbg: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-dbg: PKGSIZE changed from 71796 to 72228 (+1%)
+packages/core2-32-poky-linux/debianutils/debianutils-dev: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-dev: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-doc: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-doc: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-doc: PKGSIZE changed from 125061 to 125341 (+0%)
+packages/core2-32-poky-linux/debianutils/debianutils-locale: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-locale: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-run-parts: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-run-parts: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-src: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-src: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils-src: PKGSIZE changed from 29549 to 29533 (-0%)
+packages/core2-32-poky-linux/debianutils/debianutils-staticdev: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils-staticdev: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils/debianutils: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils/debianutils: PV changed from "4.11.1" to "4.11.2"
+packages/core2-32-poky-linux/debianutils: PKGV changed from 4.11.1 [default] to 4.11.2 [default]
+packages/core2-32-poky-linux/debianutils: PV changed from "4.11.1" to "4.11.2"
 
---===============3190869139757199399==--
+--===============4373143304077249075==--
