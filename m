@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.12424.1602843683752291991
+ by mx.groups.io with SMTP id smtpd.web12.12526.1602843683674856204
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3E8D338C17C4
+	by mail.yoctoproject.org (Postfix) with ESMTP id 31A9238C17BA
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:23 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] json-glib: upgrading to 1.6.0 FAILED
-Message-ID: <MADEUP.163E71D6EDC580C5.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143465
-Content-Type: multipart/mixed; boundary="===============4481694319003892434=="
+Subject: [AUH] gobject-introspection: upgrading to 1.66.1 FAILED
+Message-ID: <MADEUP.163E71D6EAC52FDA.24086@lists.openembedded.org>
+X-Groupsio-MsgNum: 143466
+Content-Type: multipart/mixed; boundary="===============2900129572461101737=="
 
---===============4481694319003892434==
+--===============2900129572461101737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,7 +24,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *json-glib* to *1.6.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.66.1* has Failed(do_compile).
 
 Detailed error information:
 
@@ -33,7 +33,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-json-glib-upgrade-1.4.4-1.6.0.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.64.1-1.66.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -50,96 +50,14 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4481694319003892434==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-json-glib-upgrade-1.4.4-1.6.0.patch"
-
-From ce189c9a8eea978c4e6d0e0fd6896494aee5e971 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 07:27:29 +0000
-Subject: [PATCH] json-glib: upgrade 1.4.4 -> 1.6.0
-
----
- ...o-instead-of-cast-to-convert-pointer.patch | 33 -------------------
- ...{json-glib_1.4.4.bb => json-glib_1.6.0.bb} |  7 ++--
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
- rename meta/recipes-gnome/json-glib/{json-glib_1.4.4.bb => json-glib_1.6.0.bb} (80%)
-
-diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch b/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
-deleted file mode 100644
-index 2a834b674d..0000000000
---- a/meta/recipes-gnome/json-glib/json-glib/0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From d60fcd5bd5c2675e4342775b910a2ea48ec0eccb Mon Sep 17 00:00:00 2001
--From: Dimitry Andric <dim@FreeBSD.org>
--Date: Wed, 19 Aug 2020 03:35:16 +0000
--Subject: [PATCH] scanner: use macro instead of cast to convert pointer to integer
--
--Clang 11 build failed due to a new warning (part of -Werror=pointer-to-int-cast):
--../json-glib/json-scanner.c:928:13: error: cast to smaller integer type 'GTokenType' from 'gpointer' (aka 'void *') [-Werror,-Wvoid-pointer-to-enum-cast]
--        *token_p = (GTokenType) value_p->v_symbol;
--                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/json-glib/-/commit/8c5fabe962b7337066dac7a697d23fce257a5d64]
--Signed-off-by: Jan Beich <jbeich@FreeBSD.org>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- json-glib/json-scanner.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/json-glib/json-scanner.c b/json-glib/json-scanner.c
--index 0c9919f..59dd29c 100644
----- a/json-glib/json-scanner.c
--+++ b/json-glib/json-scanner.c
--@@ -925,7 +925,7 @@ json_scanner_get_token_i (JsonScanner	*scanner,
--       
--     case G_TOKEN_SYMBOL:
--       if (scanner->config->symbol_2_token)
---	*token_p = (GTokenType) value_p->v_symbol;
--+	*token_p = GPOINTER_TO_INT (value_p->v_symbol);
--       break;
--       
--     case G_TOKEN_BINARY:
---- 
--2.28.0
--
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb
-similarity index 80%
-rename from meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-rename to meta/recipes-gnome/json-glib/json-glib_1.6.0.bb
-index add9ff41a1..8d3153674c 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb
-@@ -14,11 +14,8 @@ DEPENDS = "glib-2.0"
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase lib_package gobject-introspection gtk-doc gettext ptest-gnome manpages upstream-version-is-even
- 
--SRC_URI += "file://run-ptest \
--            file://0001-scanner-use-macro-instead-of-cast-to-convert-pointer.patch \
--"
--SRC_URI[archive.md5sum] = "4d4bb9837f6d31e32d0ce658ae135f68"
--SRC_URI[archive.sha256sum] = "720c5f4379513dc11fd97dc75336eb0c0d3338c53128044d9fabec4374f4bc47"
-+SRC_URI += " file://run-ptest"
-+SRC_URI[archive.sha256sum] = "0d7c67602c4161ea7070fab6c5823afd9bd7f7bc955f652a50d3753b08494e73"
- 
- PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
- 
--- 
-2.18.4
-
-
---===============4481694319003892434==
+--===============2900129572461101737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 Loading cache...done.
-Loaded 1452 entries from dependency cache.
+Loaded 1444 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 785 .bb files complete (784 cached, 1 parsed). 1356 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-32 sysroot...done.
@@ -158,121 +76,304 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:797fba0aa131f0cb894645a10429fca656b2612f"
+meta-yocto-bsp       = "tmp-auh-upgrades:1a29c1f853290a7217240adb675f765114ddd85e"
 workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
 
 Initialising tasks...done.
-Sstate summary: Wanted 218 Found 210 Missed 8 Current 499 (96% match, 98% complete)
+Sstate summary: Wanted 222 Found 208 Missed 14 Current 490 (93% match, 98% complete)
 NOTE: Executing Tasks
+NOTE: Running setscene task 555 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dbusmock_0.19.bb:do_package_setscene)
+NOTE: Running setscene task 560 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycairo_1.19.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 561 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-pycairo-1.19.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-pycairo-1.19.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 672 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycairo_1.19.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 673 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-pycairo-1.19.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-pycairo-1.19.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-dbusmock-0.19-r0: task do_package_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 674 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 675 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 676 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_20.1.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 677 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1016 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_fetch)
+NOTE: Running task 1026 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_fetch)
+NOTE: Running task 1121 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_write_config)
+NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1132 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_write_config)
+NOTE: recipe python3-dbusmock-0.19-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1144 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb:do_fetch)
+NOTE: Running setscene task 678 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dbusmock_0.19.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe mesa-2_20.1.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_fetch: Started
+NOTE: Running task 1285 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb:do_write_config)
+NOTE: recipe cairo-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_fetch: Started
+NOTE: recipe python3-dbusmock-0.19-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_fetch: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_write_config: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1363 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_unpack)
+NOTE: Running task 1364 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1365 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb:do_unpack)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_write_config: Started
+NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fontconfig-2.13.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 679 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 680 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 681 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1367 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_unpack)
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_write_config: Started
+NOTE: recipe python3-dbusmock-0.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_write_config: Succeeded
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_write_config: Succeeded
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe freetype-2.10.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_write_config: Succeeded
+NOTE: recipe pixman-1_0.40.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe fontconfig-2.13.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe mesa-2_20.1.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 682 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.102.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 683 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_20.1.8.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 684 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.18.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 685 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 686 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 687 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 688 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe freetype-2.10.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 690 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.10.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 691 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1398 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb:do_patch)
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.102-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.18.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_20.1.8-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.10.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1399 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_patch)
+NOTE: recipe freetype-2.10.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe mesa-2_20.1.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-pygobject-3.36.1-r0: task do_patch: Succeeded
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 692 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 693 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe wayland-1.18.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 694 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 695 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 696 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.18.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 697 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 698 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 699 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libdrm-2.4.102-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 700 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.102.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 701 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 702 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_patch: Started
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_5.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.18.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxshmfence-1.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxml2-2.9.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.102-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_unpack: Succeeded
+NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running task 1411 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_patch)
+NOTE: recipe xrandr-1_1.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_patch: Succeeded
+NOTE: recipe wayland-1.18.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 1424 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1425 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_populate_lic)
+NOTE: recipe libdrm-2.4.102-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpng-1.6.37-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_5.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 703 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 704 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 705 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 706 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 707 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxml2-2.9.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 708 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_populate_lic: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxfixes-1_5.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxml2-2.9.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxfixes-1_5.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpciaccess-0.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_patch: Succeeded
+NOTE: Running task 1454 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxml2-2.9.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 709 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 712 of 712 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxrender-1_0.9.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1209 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_fetch)
-NOTE: Running task 1493 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_write_config)
-NOTE: recipe json-glib-1.6.0-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1583 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_unpack)
-NOTE: Running task 1584 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe json-glib-1.6.0-r0: task do_write_config: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_write_config: Succeeded
-NOTE: recipe json-glib-1.6.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2233 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_patch)
-NOTE: recipe json-glib-1.6.0-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_patch: Succeeded
-NOTE: Running task 2238 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2239 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_populate_lic)
-NOTE: recipe json-glib-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_populate_lic: Started
-NOTE: recipe json-glib-1.6.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe json-glib-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2240 of 2251 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_configure)
-NOTE: recipe json-glib-1.6.0-r0: task do_configure: Started
-ERROR: json-glib-1.6.0-r0 do_configure: meson failed
-ERROR: json-glib-1.6.0-r0 do_configure: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414' failed with exit code 1:
-gtkdocize: neither configure.ac nor configure.in exist
-The Meson build system
-Version: 0.55.1
-Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/json-glib-1.6.0
-Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build
-Build type: cross build
-Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/share/pkgconfig'
-
-../json-glib-1.6.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the introspection data (requires gobject-introspection)" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-
-A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build/meson-logs/meson-log.txt
-WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414:211 exit 1 from 'exit 1'
-WARNING: Backtrace (BB generated script): 
-	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 211
-	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 175
-	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 160
-	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 215
-
-Backtrace (metadata-relative locations):
-	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/logging.bbclass, line 72
-	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/meson.bbclass, line 138
-	#3: do_configure, autogenerated, line 9
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/log.do_configure.2895414
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.10.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.8.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/prelink/prelink_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.66.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 
- 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.55.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_10.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_5.1.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot', '/home/pok
- ybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['ninja-native', 'python3-native', 'gobject-introspection', 'gobject-introspection-native', 'prelink-native', 'quilt-native', 'pkgconfig-native', 'meson-native', 'gcc-cross-i686', 'gtk-doc-native', 'patch-native', 'glibc', 'glib-2.0', 'qemu-native', 'xz-native', 'gcc-runtime', 'pseudo-native', 'gettext-native', 're2c-native', 'openssl-native', 'libtool-native', 'autoconf-native', 'libnsl2-native', 'sqlite3-native', 'gdbm-native', 'gnu-config-native', 'zlib-native', 'bzip2-native', 'automake-native', 'libtirpc-native', 'readline-native', 'libffi-native', 'util-linux-native', 'zlib', 'opkg-utils', 'python3', 'autoconf-archive', 'libffi', 'glib-2.0-native', 'flex-native', 'binutils-native', 'elfutils-native', 'python3-setuptools-native', 'mpfr-native', 'libmpc-native', 'texinfo-dummy-native', 'binutils-cross-i686', 'linux-libc-headers', 'gmp-native', 'attr-native', 'util-linux', 'bash-completion', 'libpcre', 'dbus', 'gettext-minimal-native'
- , 'libgcc', 'm4-native', 'ncurses-native', 'libpcre2-native', 'libcap-ng-native', 'libnsl2', 'readline', 'sqlite3', 'bzip2', 'libxcrypt', 'openssl', 'gdbm', 'xz', 'libtirpc', 'libpcre-native', 'unzip-native', 'libcap-ng', 'ncurses', 'base-files', 'libx11', 'shadow-sysroot', 'expat', 'initscripts', 'libsm', 'shadow-native', 'update-rc.d', 'shadow', 'base-passwd', 'util-macros', 'xorgproto', 'xtrans', 'libxcb', 'libice', 'attr', 'xcb-proto', 'libxdmcp', 'libpthread-stubs', 'libxau']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| gtkdocize: neither configure.ac nor configure.in exist
-| NOTE: Executing meson -Ddocs=false -Dintrospection=true -Dman=false...
-| The Meson build system
-| Version: 0.55.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/json-glib-1.6.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build
-| Build type: cross build
-| Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/share/pkgconfig'
-| 
-| ../json-glib-1.6.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the introspection data (requires gobject-introspection)" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414:211 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 211
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 175
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 160
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 215
-| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414' failed with exit code 1:
-| gtkdocize: neither configure.ac nor configure.in exist
-| The Meson build system
-| Version: 0.55.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/json-glib-1.6.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build
-| Build type: cross build
-| Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/recipe-sysroot/usr/share/pkgconfig'
-| 
-| ../json-glib-1.6.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the introspection data (requires gobject-introspection)" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/build/meson-logs/meson-log.txt
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414:211 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 211
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 175
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 160
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/json-glib/1.6.0-r0/temp/run.do_configure.2895414, line 215
-| 
-| Backtrace (metadata-relative locations):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/logging.bbclass, line 72
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/meson.bbclass, line 138
-| 	#3: do_configure, autogenerated, line 9
-NOTE: recipe json-glib-1.6.0-r0: task do_configure: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2240 tasks of which 2232 didn't need to be rerun and 1 failed.
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1994 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_configure)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_configure: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_configure: Succeeded
+NOTE: Running task 2215 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_compile)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_compile: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_compile: Succeeded
+NOTE: Running task 2216 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_install)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_install: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_install: Succeeded
+NOTE: Running task 2217 of 2235 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_populate_sysroot)
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_populate_sysroot: Started
+NOTE: recipe gobject-introspection-native-1.66.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2218 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2219 of 2235 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_configure)
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_configure: Started
+ERROR: gobject-introspection-1.66.1-r0 do_configure: QA Issue: gobject-introspection: configure was passed unrecognised options: gi_cross_use_host_gi [unknown-configure-option]
+ERROR: gobject-introspection-1.66.1-r0 do_configure: Fatal QA errors found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gobject-introspection/1.66.1-r0/temp/log.do_configure.2233664
+NOTE: recipe gobject-introspection-1.66.1-r0: task do_configure: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_configure) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 2219 tasks of which 2197 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb:do_configure
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_configure
 Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
 
---===============4481694319003892434==--
+--===============2900129572461101737==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.64.1-1.66.1.patch"
+
+From c9b5b1a2565a9b9273f093fbe4061fb187c5c488 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 07:07:21 +0000
+Subject: [PATCH] gobject-introspection: upgrade 1.64.1 -> 1.66.1
+
+---
+ ...pository-directory-for-native-builds.patch |  2 +-
+ ...ency-for-g-ir-compiler-for-building-.patch | 33 -------------------
+ ...4.1.bb => gobject-introspection_1.66.1.bb} |  4 +--
+ 3 files changed, 2 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.64.1.bb => gobject-introspection_1.66.1.bb} (97%)
+
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 9d6f5dea3c..7eb868c45e 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+@@ -1,4 +1,4 @@
+-From 8dfb44450ca9fffc15977e95eadcb7054ab60a9a Mon Sep 17 00:00:00 2001
++From 4e1ccef87b2b97e7f563a195fc4551eabbd27645 Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
+deleted file mode 100644
+index fc37a5bb96..0000000000
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 56ba5656258b82dbc069ab3a61e597c931a16a83 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 17 Jun 2020 11:43:16 +0200
+-Subject: [PATCH] gir: add a dependency for g-ir-compiler for building .girs
+-
+-meson inserts the dependency if the compiler is used directly, but
+-fails to do so if the compiler is run through a wrapper. This leads
+-to build race errors between building the compiler and using it.
+-
+-Fix provided by Quentin Schulz <quentin.schulz@streamunlimited.com>
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/228]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- gir/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gir/meson.build b/gir/meson.build
+-index b37fdb81..557e5517 100644
+---- a/gir/meson.build
+-+++ b/gir/meson.build
+-@@ -448,7 +448,7 @@ foreach gir : gir_files
+-   typelibs += custom_target('generate-typelib-@0@'.format(gir).underscorify(),
+-     input: gir,
+-     output: '@BASENAME@.typelib',
+--    depends: [gobject_gir, ],
+-+    depends: [gobject_gir, gircompiler, ],
+-     command: gircompiler_command,
+-     install: true,
+-     install_dir: typelibdir,
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb
+similarity index 97%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb
+index 4d80f00e10..30f708ef6d 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.64.1.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb
+@@ -15,11 +15,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
+-           file://0001-gir-add-a-dependency-for-g-ir-compiler-for-building-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "3419dfd086efcf83768e0579ab6abd2b"
+-SRC_URI[sha256sum] = "80beae6728c134521926affff9b2e97125749b38d38744dc901f4010ee3e7fa7"
++SRC_URI[sha256sum] = "dd44a55ee5f426ea22b6b89624708f9e8d53f5cc94e5485c15c87cb30e06161d"
+ 
+ SRC_URI_append_class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+ 
+-- 
+2.18.4
+
+
+--===============2900129572461101737==--
