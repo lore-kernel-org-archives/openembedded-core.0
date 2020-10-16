@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12222.1602843683341884250
+ by mx.groups.io with SMTP id smtpd.web10.12423.1602843683539497299
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 930F138C17A8
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9174038C179A
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0: upgrading to 1.18.0 FAILED
-Message-ID: <MADEUP.163E71D73A675F7C.21580@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============6088189567233843896=="
+Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.18.0 FAILED
+Message-ID: <MADEUP.163E71D73FE3700C.13247@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8363429354918815881=="
 
---===============6088189567233843896==
+--===============8363429354918815881==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,11 +23,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0* to *1.18.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-vaapi* to *1.18.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe gstreamer1.0 failed.
+Running 'devtool upgrade' for recipe gstreamer1.0-vaapi failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -58,7 +58,7 @@ NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.0.tar.xz...
+INFO: Fetching https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.18.0.tar.xz...
 Loading cache...done.
 Loaded 1511 entries from dependency cache.
 Parsing recipes...done.
@@ -89,43 +89,21 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   9% |###                                 | ETA:  0:00:00
-Adding changed files:  18% |######                              | ETA:  0:00:00
-Adding changed files:  28% |##########                          | ETA:  0:00:00
-Adding changed files:  37% |#############                       | ETA:  0:00:00
-Adding changed files:  47% |#################                   | ETA:  0:00:00
-Adding changed files:  56% |####################                | ETA:  0:00:00
-Adding changed files:  66% |#######################             | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
+Adding changed files:  22% |########                            | ETA:  0:00:00
+Adding changed files:  44% |################                    | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 617185f3015f198b69b66f8d1f7c7b93b84c6467' failed:
+WARNING: Command 'git rebase e7ad3c5ed40496e7960c7ed80f2dab18206e292a' failed:
 First, rewinding head to replay your work on top of it...
-Applying: gst/gstpluginloader.c: when env var is set do not fall through to system plugin scanner
-Applying: meson: build gir even when cross-compiling if introspection was enabled explicitly
+Applying: vaapsink: downgrade to marginal
 Using index info to reconstruct a base tree...
-M	meson.build
+M	gst/vaapi/gstvaapi.c
 Falling back to patching base and 3-way merge...
-Auto-merging meson.build
-No changes -- Patch already applied.
-Applying: meson: Add valgrind feature
-Using index info to reconstruct a base tree...
-M	meson.build
-M	meson_options.txt
-Falling back to patching base and 3-way merge...
-Auto-merging meson_options.txt
-Auto-merging meson.build
-Applying: meson: Add option for installed tests
-Using index info to reconstruct a base tree...
-M	meson_options.txt
-M	tests/check/meson.build
-Falling back to patching base and 3-way merge...
-Auto-merging tests/check/meson.build
-CONFLICT (content): Merge conflict in tests/check/meson.build
-Auto-merging meson_options.txt
+Auto-merging gst/vaapi/gstvaapi.c
+CONFLICT (content): Merge conflict in gst/vaapi/gstvaapi.c
 error: Failed to merge in the changes.
-Patch failed at 0004 meson: Add option for installed tests
+Patch failed at 0001 vaapsink: downgrade to marginal
 Use 'git am --show-current-patch' to see the failed patch
 
 Resolve all conflicts manually, mark them as resolved with
@@ -134,8 +112,8 @@ You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gstreamer1.0/gstreamer1.0_1.18.0.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-vaapi
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gstreamer1.0-vaapi/gstreamer1.0-vaapi_1.18.0.bb
 
 
 
@@ -146,4 +124,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6088189567233843896==--
+--===============8363429354918815881==--
