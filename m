@@ -1,78 +1,90 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web10.13497.1602847940157592410
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.17025.1602858500154773303
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 04:32:20 -0700
+ Fri, 16 Oct 2020 07:28:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zq2+ESyo;
- spf=pass (domain: gmail.com, ip: 209.85.216.68, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-pj1-f68.google.com with SMTP id a1so1346849pjd.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 04:32:20 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20150623.gappssmtp.com header.s=20150623 header.b=k8VSYcgx;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.67, mailfrom: narmstrong@baylibre.com)
+Received: by mail-wm1-f67.google.com with SMTP id k18so3161659wmj.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 07:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D9Kt7WkXrCL+IEGLop2IzO61leS4gAEhVrxftypmifE=;
-        b=Zq2+ESyoVnsmxhEm+wuKG/dbDqrtvlc8KMlcDfeXMSo0/wNG4JzhMGBqNhqmudLAyW
-         mR8l1StzRKPC0459Jwh/c67bBtay3ZujFiB8sB26nFkpET0bZ9tZv276kPXcHHTq+18A
-         yev9E76mM9ibhpDRhpe3LvXZutJSwh2SVlVtxM5G9m0LFu4E+Ti4n3rnd5sAaS/iovcd
-         GqseqT9T1fPT3uJyP/PR0XR+P0nS1gWE+ieJmjfUnfPUDMsAWFN/HKS5rXAGS6P4JriO
-         kvp3n52Q4eXalB3Xh+0CzNr21JlaWeIMK3j4zwzw06ENj+tH2bwR7CmWLbhj6KrY01W1
-         cmaA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=HFfGDkL53XFYCiBEhaCX0e7lSfsSpW9Ovfv7mQjalr4=;
+        b=k8VSYcgxcN5SMD1ddJhDdh6qJeEQyFo3PJUVOP1sjKpzspKtwTTaBdkYp4UpgXEO7d
+         vKNAKG7K9alNba4q7iNWj7rDVCzRljI+wpOvdS/ObSx/wB3PcJUxLFBypK8TpIltopzC
+         qbduiBmLQQDXzhe/5LeBznWbue5Pubj8iWq1eOPsV/44pY909VQu35HppGqdY9CG0R79
+         3Icv/6isgwuj5QK22nyNXWp6e9LZwnHeS8xnC2mxCOzvep9kEWcC5/XOAAhDwRMxPFoW
+         F4ls+I3ffs3YrXRnjqlDgr/BQCtsYgJfgb3TEYKBSMrCQW2sVt1SBUja7+ogLUyNWEsj
+         5lyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D9Kt7WkXrCL+IEGLop2IzO61leS4gAEhVrxftypmifE=;
-        b=aZ0Z7jTCcjQYzYANq4T5Rotss3/mnsWM1E7wnP5T077mveCEbGwW6aVAsqiHyqZlD6
-         fAUWhJ6NNte6+hivsmWsVdjVZCZoJ73TmmVsfeeG3SymW6hgBgRMaw4NmKtsP1LXeYVO
-         X3+dt9otUbHpfK5PpH2uksk+aM3GGSZx2k7WUU3IscgkP/TtTsCv9msZhsEwHG5wYHHT
-         v24aChZzi8N7fcdbbjiJ/GSG1Ou5FyjnuoDEXi6QQJihz6Iqy27Pu1/s4MJcXhnbOWiX
-         pft9w7vgiZUSdJA7xMXjR8Ccv0A95nte6AYGBsy4UfJXyw6aEaVytBYPLS4vYutS6KYk
-         4pMg==
-X-Gm-Message-State: AOAM531OA5WjDdbr63bMDIt1rgzQqv9jmW9wt4Yn+McDdpcxjHlJbAl7
-	DRbf6h0oaQGxs02lN7LezpV15ex6fq+dwsSSLNg=
-X-Google-Smtp-Source: ABdhPJxI6XHDb8Tf4oB/YCD8WPXfIHHKrqykOZ37ws2mqpA0KiQ4mCq803khdU4gv2WLPuClmmonLvd2E0quuD20/h0=
-X-Received: by 2002:a17:90b:4a10:: with SMTP id kk16mr3644320pjb.77.1602847939693;
- Fri, 16 Oct 2020 04:32:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201015200842.18834-1-idadelm@gmail.com> <c17959f4b0ac63d56b7b8d2c76d69af8025ae677.camel@linuxfoundation.org>
- <CALbNGRSw_-9XwrsXWt462MeccFKiFCzmVYT4ESLBcitkpFC4Eg@mail.gmail.com> <4721672db9f150456b07f95af172f65a56445a23.camel@linuxfoundation.org>
-In-Reply-To: <4721672db9f150456b07f95af172f65a56445a23.camel@linuxfoundation.org>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Fri, 16 Oct 2020 13:32:07 +0200
-Message-ID: <CALbNGRQPmptZVYWsdPGcUbGvqQ6TsEQq+LBB1VLVdULdOaKZDQ@mail.gmail.com>
-Subject: Re: [OE-core] [poky][PATCH v4] Update license file to match current SPDX names
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Meh Mbeh Ida Delphine <idadelm@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=HFfGDkL53XFYCiBEhaCX0e7lSfsSpW9Ovfv7mQjalr4=;
+        b=L9iDbzf9aW4gThKOH0P0C5Zk90EB/0+csEdJwb7swCuADkzEJdZe0ll3vvfysxQLaa
+         MiNxjlbk+xdJ0Q9CgJVksIsOwBoD2/6n4jPColTM1zmBgQ2qQG3WZcN/V40jYWNS+YwT
+         ebY2W4nWKfVx9OQYGai2LsvjXpua0AMDQoe9vKqw6PDYnOyde1JsyvaAhm3Y8xRCnB1Q
+         8PLZiEGY0A/nRLsZS/Xm87OAcxACTX0BKEfqMWS/y3WvBjfT3VPpB/RXg5ooQEHcW/q5
+         wWKEKTYXGnx4UVW6u6LIWmMIzgIavAyGxv1/YUrKcku2oxURolWLZA3oR2qLaZ4v1wGe
+         3t/A==
+X-Gm-Message-State: AOAM530veyhXBgOT88wdS3126YtxbmnyQxX7poFqRo8j+MT6ibBUkX7p
+	o0s/PNwaLhAL6fmTezB0iXx6Go69LGMTDA==
+X-Google-Smtp-Source: ABdhPJwZ1wrQUfhL3q2yFgRgafXggEDLxks6kQMOaSHHOSwLPAs3rPhLwhFWKQDTil15jqfS+yQYkQ==
+X-Received: by 2002:a7b:c20e:: with SMTP id x14mr3971365wmi.76.1602858498128;
+        Fri, 16 Oct 2020 07:28:18 -0700 (PDT)
+Return-Path: <narmstrong@baylibre.com>
+Received: from localhost.localdomain ([163.172.76.58])
+        by smtp.gmail.com with ESMTPSA id i10sm3893298wrq.27.2020.10.16.07.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 07:28:17 -0700 (PDT)
+From: "Neil Armstrong" <narmstrong@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH] linux-firmware: add Amlogic VDEC firmware package
+Date: Fri, 16 Oct 2020 14:28:14 +0000
+Message-Id: <20201016142814.18879-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, Oct 16, 2020 at 12:55 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-10-16 at 12:54 +0200, Andreas M=C3=BCller wrote:
-> > On Fri, Oct 16, 2020 at 10:42 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Thu, 2020-10-15 at 21:08 +0100, Meh Mbeh Ida Delphine wrote:
-> > > > Updated mappings of license fields of meta/conf/licenses.conf to
-> > > > match latest SPDX naming.
-> > > > Added missing mappings.
-> > > > Renamed license files that were added in license mappings eg from
-> > > > GPL-2.0 to GPL-2.0-only.
-> > Is this intended to go into gatesgarth? As we see from the follow-up
-> > fixes: This is an incompatible change at feature freeze time.
-> > Asking this because up to this point I was happy that all my layers
-> > are working fine on dunfell and master(gatesgarth).
->
-> No, I will hold it until after release at this point, its too late to
-> take a more invasive change like this.
+Add package for the Amlogic VDEC firmwares.
 
-Thanks!
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ .../linux-firmware/linux-firmware_20200817.bb             | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Andreas
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+index ffeb8e6926..5c9d4c3e04 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+@@ -294,6 +294,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
++             ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-whence-license \
+              ${PN}-license \
+              "
+@@ -881,6 +882,12 @@ RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+ 
+ FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+ 
++# For Amlogic VDEC
++LICENSE_${PN}-amlogic-vdec = "Firmware-amlogic_vdec"
++FILES_${PN}-amlogic-vdec-license = "${nonarch_base_libdir}/firmware/LICENSE.amlogic_vdec"
++FILES_${PN}-amlogic-vdec = "${nonarch_base_libdir}/firmware/meson/vdec/*"
++RDEPENDS_${PN}-amlogic-vdec = "${PN}-amlogic-vdec-license"
++
+ # For other firmwares
+ # Maybe split out to separate packages when needed.
+ LICENSE_${PN} = "\
+@@ -888,6 +895,7 @@ LICENSE_${PN} = "\
+     & Firmware-agere \
+     & Firmware-amdgpu \
+     & Firmware-amd-ucode \
++    & Firmware-amlogic_vdec \
+     & Firmware-atmel \
+     & Firmware-ca0132 \
+     & Firmware-cavium \
+-- 
+2.17.1
+
