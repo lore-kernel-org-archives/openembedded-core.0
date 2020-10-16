@@ -1,204 +1,111 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web10.23594.1602874104001525261
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.83])
+ by mx.groups.io with SMTP id smtpd.web11.24953.1602877639922712962
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 11:48:24 -0700
+ Fri, 16 Oct 2020 12:47:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B+weuiW1;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id w5so1499569qvn.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 11:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MXdlGZb96CTi0A2dIlN2AcOuucsSXjTJAcruLKRTbOY=;
-        b=B+weuiW1nXiNT//1fbyq+ENUAp85wmQaOurt3+Nb/M9RRz86h6+Su+AX0kVCJHStJe
-         XbE0Wxd2kQPYLjg6ScMcNOtyY9mBMefqqQjPBJskw/vvBWdLg/3fCSW9abgccK9FY+VX
-         Y+65v58jvrfVf3R+FKtGMzsmSQuwVGnOJnOKJ4ILgIWYZTOLZ7GzUH0JqZmzaZDjXEgo
-         SeGtqBiev1mAH4u9LDbn11LQqneESHLkI4CqGG6pcDmy/2z7qPBqOE88xIt9TXvLLe1v
-         NJB9OH1WOb5sLHsHCV6c/Z9pl7jVDpA0lKSE8iv4DjiZSqaSW1oZPlzsrU6TQIMVoz30
-         CyFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MXdlGZb96CTi0A2dIlN2AcOuucsSXjTJAcruLKRTbOY=;
-        b=Pc8uVi7mrXosz43imyMN1OnOKxguxGR3Edwa1XIGiUM0yItKn4rpYt/D79VEKk1mup
-         eDGlnfq5NtqnJAvgYUhB4qLTRVuaMGoXuGm1iAtRGfk/bXOt2nrcsBHKToJZo7oCFc9M
-         KURJMz6zpM8ccIjaZ5rqMLuOozUqJT7rf9ZW/8R/RP6Ae82twlLoa1rIwlzvv3t5oPFx
-         I1T8ijxvKjgiU7F8bRAQtj6eB3EMn2splJMbKstes5lImNgZIPbX2yI109ozJyiLsklh
-         rIErKRNsi44gdNLVTPIrjXYPiAiOuWGZtogfsMvq7D/1xoHv4FzUpjxM70kkMdE1sBta
-         qWTQ==
-X-Gm-Message-State: AOAM5314z9v97uDFWGfSK5NSSumulKcmvQrXZ/H4FZ4v1jnHC8c52LzM
-	qrcDLy4OjvO+JuPctJagPem2QAeAnqeWCDUDB3o=
-X-Google-Smtp-Source: ABdhPJyzITF7qirs0i+1eCkloAM/i1E5OQ8bZxjMpIffD0FBQopOVyV0w8z2eigtLk5iVZfh/JoOc8c0TSWt4HksqCQ=
-X-Received: by 2002:a05:6214:16d0:: with SMTP id d16mr5603089qvz.38.1602874102894;
- Fri, 16 Oct 2020 11:48:22 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=ooDzVbHx;
+ spf=pass (domain: outlook.com, ip: 40.92.89.83, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XPZaSYOmeG9EOmaHS46J/GbJ8b02B77EAySpYx/oTCBpi1DfPxOMVERX4ymnasHyrmxdHtw2vAkZCg+1O9W1t/Gw2wC+Zbzu1oViTaEehpbBSnjxC9vo/pH+zvX4/kFA0O4HXnyS6MXEAAV4D9evYsG2Afl+Wh3v5iph4pZePPI+Q4XTJdVhKVhVx0TJ0xNddmBfjcPtKok42J9iFA4ZAEFz/suVNTXbkHbXSD3jV6U9CySPwvvwHbQ5G+8L7osioHiFSoUpTGTYvPYEqMS7FdG80s0vfX0N0a6+0xUokFuyJTsyq4giHIYYPYtQ9QLQbDQLXH4mCrquU7Tpu2Vnig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t3CZqDf/0HpxzwQuJu9k8cpNg299T6TPJD6BQlhx8Uw=;
+ b=fuGqyOQD7sGU96GBrc4TxsUE3MdlnpDHk234ErTZEDpLoJWvBijV/YbaG4LqKm+Y4UoPlsodNYcm9qtDF94L0wSwRTgz3ylxrUBT/2MUtDMNSueOEty+zAvxFBQ8cl5iXjiqBE9wEJ0kY8WYV7sYiircZCsHw6xSSB2orqskHcxjXrsFXVY5MI+7GglVluAjkaRggEvWBExG//XNJhoS6Z3+AixzLx0fQrCplZtk+r2x/uawpQXOCQwv1B0QnP5ZxrFoES0dCAktC14OLil+Vv2GVkf+8v7NivpfQv6syRMvkeqrGp8hiAHJYfpR4/nVt/foZ8+6TR1kDoYxmlgAJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t3CZqDf/0HpxzwQuJu9k8cpNg299T6TPJD6BQlhx8Uw=;
+ b=ooDzVbHxgfMv8biFgbCzIx6/BBLudeD50UI9SxE7imtN7ENJyUJvFib8bdAsIHEKKz50kkSTFMtdIKUbeQ7psE+bbvQxgVxVKVZFpunaOOWdJN8+PqpA24PfZaV2AyibS4BIHPkQe2C0MUSjSTftlgO7/rD2xboQ5Y/boQpggDpuOLQ5sMu01jQTNzZB3IebPl5XgbcFdNBlQbH9j/4shkB3B00IUf68/P/PG2DUsipXmlHJyzBnEB9HxG/zAwS8N1pnQG3AYVzQi9rLz34SZ9IpEErhYZnUws6dK0GmqpPkR086s3r1ZK6lzrldu004IBGCk7n+hw2aB8YyGC3+jA==
+Received: from AM6EUR05FT065.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc11::44) by
+ AM6EUR05HT056.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::156)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Fri, 16 Oct
+ 2020 19:46:55 +0000
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2a01:111:e400:fc11::4f) by AM6EUR05FT065.mail.protection.outlook.com
+ (2a01:111:e400:fc11::106) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21 via Frontend
+ Transport; Fri, 16 Oct 2020 19:46:55 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:45027F06E518EE948DEB4A30F31F7792F8CEBAB4B08399C4C81A352541BC5013;UpperCasedChecksum:47C8A34F14C6CF0F76DEF3F6B2D9EFA5A85F34FA4E7E48F09BC29D3004C43344;SizeAsReceived:7329;Count:45
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::a1a8:ed42:7e0f:10dc]) by VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::a1a8:ed42:7e0f:10dc%8]) with mapi id 15.20.3455.030; Fri, 16 Oct 2020
+ 19:46:55 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] lib/oe/rootfs: introduce IMAGE_LOG_CHECK_EXCLUDES
+Date: Fri, 16 Oct 2020 21:46:23 +0200
+Message-ID: <VI1PR01MB6462473C3C85401339E4EDEAA8030@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [uOSeU0F/Wd1iifO7M6RgZS2j9ZNjpI+b]
+X-ClientProxiedBy: AM5PR0601CA0076.eurprd06.prod.outlook.com
+ (2603:10a6:206::41) To VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2603:10a6:800:154::12)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20201016194623.2965167-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-References: <20201016043341.635385-1-raj.khem@gmail.com> <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
-In-Reply-To: <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 16 Oct 2020 11:47:56 -0700
-Message-ID: <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] recipes: Use GPL-2.0-only instead of GPL-2.0 for LIC_FILES_CHKSUM
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (87.141.90.153) by AM5PR0601CA0076.eurprd06.prod.outlook.com (2603:10a6:206::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Fri, 16 Oct 2020 19:46:53 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: e214fa55-d96e-4f05-1503-08d8720c3bbb
+X-MS-Exchange-SLBlob-MailProps: 
+	mBRmoEB1kyLDUsNGcq+XggyIPB5dZzupf4gDAMVpQmrtb2ucvq9piNBy/DeTxJZRY8whA1CB6aAc0c1tEB/g6F36cwiWpTCyUFpVcqJSS+iALfva+ti/PbhXJOK5mK9Md/N7ApzoMmN8r7kYN243Bo9+89pwQ6UXLj4rL2JQsvKx6y2UpVw3x68PINz0AgVyFcddEtVb9qSpKp9q8munDKE/b9zQYxpqMTbNEV3E7pr9kcihYrc6H6xroWqR3dLyxjatFn2XIJJYI34Eu/9mmEeOsgIJKjZGmD9aKnd4tHeEf3UH9+HzVm5fFimIeX0Xpwhty+sDyaZlTwu8fHUgYB26fwGLBMDrd4yQXrTssZRbOsXKSuFN6j/MEkV72TNkuF4wiefUDlyqjYieMbQgwKg3Cqpsu02mn5UAzxeCdgpo+fZqpCH8xtOfxW+1OJKDUUeymKLRbz6V5GKLM5hg4wC7Ia7RZmp/1sPfhFmjSxmjgK2Nn6qbH1lOY9is72q5t7otytm3H7daMF+jgEyL1obWu9P8RtkS8zrrOIwbLmbInGe8VkWsgTwsPgVdruc3GaZD0AyG+i/CHz5e1A3pJnO8jXeV/rDRmM3XizpWS4t98Tfb8nCj/bfBSpt85jJ57C7RM4yGe19iXnsC8u8fhysBZKFCQ+sFDD7kyRCK0b92+FvFSMg4cLHY2r0NJxUaFt3ZPurzZUuCKlsh7CHDjqRIPeSDtp3oFYev5Jnok2Uxx+0yqchjVGT9CBERRyIKQ4cJxfKXp+M=
+X-MS-TrafficTypeDiagnostic: AM6EUR05HT056:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MFrpg57FxquGLjLgKmg0/IZR1tz/Os0hZTUpaGfQxeHGcp5ewWNMruj0yGRGuLHgnzwrLqdzVGwlOih4veLQ81hWi8Hvxc+w+kIlWvVFy5SEpbbt3QC91seDqKjvkc4jwEvNZ4Ny4W10fpK0/bBo9/D7Z65h4tBicft4mstfm92W02JI+MlunJvT2N3oNQsP9cEwBbdlpzkE0qhfy3GXDg==
+X-MS-Exchange-AntiSpam-MessageData: 
+	WGUL7CUON3v6uX+omCPEA5FLS96iBpeDc95lYBiYg4rPWa5mKMrr9q8gPejRCO2z07LjEegGIcAjwMTQ5khWRmWQpIqQfuMacnKeJn3Gxivzuc6FHaJcOrb3XeQKeT3G5W1q7LSYhGnu3CfZyRO14g==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e214fa55-d96e-4f05-1503-08d8720c3bbb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2020 19:46:55.2720
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM6EUR05FT065.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT056
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Oct 16, 2020 at 2:05 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Hi Khem,
->
-> This patch fixes issues introduced by a patch I tested in -next from
-> Meh Mbeh Ida Delphine <idadelm@gmail.com> (cc'd). I have removed it
-> from the queue as it failed testing. This patch may be useful so they
-> can fix their patch though.
->
-> Note the fixes Khem found for glibc-collateral and devicetree.bbclass
-> in addition to the recipes.
+When using rpm as package manager and trying to install a file called
+'/usr/share/doc/What to when an Error occurs.txt'
+log_check falsely errors out on the build, because used regex match on
+'DEBUG:  Removing manifest: /path/usr/share/doc/What
+to when an Error occurs.txt'.
+To handle such cases introduce IMAGE_LOG_CHECK_EXCLUDES, to allow
+user to add custom exclude regex to log_check exclude list
 
-Thanks, other layers also rely on these names. So perhaps this should
-wait till master opens for next release
-and address those layers too.
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oe/rootfs.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
->
-> Cheers,
->
-> Richard
->
-> On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v2: Add devicetree.bbclass and glibc-collateral.inc
-> >
-> >  meta/classes/devicetree.bbclass                              | 2 +-
-> >  meta/recipes-connectivity/connman/connman-conf.bb            | 2 +-
-> >  meta/recipes-core/busybox/busybox-inittab_1.32.0.bb          | 2 +-
-> >  meta/recipes-core/glibc/glibc-collateral.inc                 | 4 ++-
-> > -
-> >  meta/recipes-core/systemd/systemd-serialgetty.bb             | 2 +-
-> >  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb       | 2 +-
-> >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
-> >  7 files changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/meta/classes/devicetree.bbclass
-> > b/meta/classes/devicetree.bbclass
-> > index c772ab2ab9..ece883accf 100644
-> > --- a/meta/classes/devicetree.bbclass
-> > +++ b/meta/classes/devicetree.bbclass
-> > @@ -18,7 +18,7 @@ SECTION ?= "bsp"
-> >  # device trees built with them are at least GPLv2 (and in some cases
-> > dual
-> >  # licensed). Default to GPLv2 if the recipe does not specify a
-> > license.
-> >  LICENSE ?= "GPLv2"
-> > -LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-
-> > 2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-
-> > only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  INHIBIT_DEFAULT_DEPS = "1"
-> >  DEPENDS += "dtc-native"
-> > diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
-> > b/meta/recipes-connectivity/connman/connman-conf.bb
-> > index 9a519ec866..85fee09258 100644
-> > --- a/meta/recipes-connectivity/connman/connman-conf.bb
-> > +++ b/meta/recipes-connectivity/connman/connman-conf.bb
-> > @@ -2,7 +2,7 @@ SUMMARY = "Connman config to setup wired interface on
-> > qemu machines"
-> >  DESCRIPTION = "This is the ConnMan configuration to set up a Wired \
-> >  network interface for a qemu machine."
-> >  LICENSE = "GPLv2"
-> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  inherit systemd
-> >
-> > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > index 61fb8cbad1..2129acd8d3 100644
-> > --- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > +++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > @@ -1,6 +1,6 @@
-> >  SUMMARY = "inittab configuration for BusyBox"
-> >  LICENSE = "GPLv2"
-> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  SRC_URI = "file://inittab"
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc-collateral.inc
-> > b/meta/recipes-core/glibc/glibc-collateral.inc
-> > index 52880791a7..4f81f07da7 100644
-> > --- a/meta/recipes-core/glibc/glibc-collateral.inc
-> > +++ b/meta/recipes-core/glibc/glibc-collateral.inc
-> > @@ -1,7 +1,7 @@
-> >  require glibc-common.inc
-> >
-> > -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-
-> > 2.0;md5=801f80980d171dd6425610833a22dbe6 \
-> > -                     file://${COMMON_LICENSE_DIR}/LGPL-
-> > 2.1;md5=1a6d268fd218675ffea8be556788b780"
-> > +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-
-> > only;md5=801f80980d171dd6425610833a22dbe6 \
-> > +                     file://${COMMON_LICENSE_DIR}/LGPL-2.1-
-> > only;md5=1a6d268fd218675ffea8be556788b780"
-> >
-> >  deltask do_fetch
-> >  deltask do_unpack
-> > diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > index 0cc0dc8c79..9a63c9f0a8 100644
-> > --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > @@ -1,7 +1,7 @@
-> >  SUMMARY = "Serial terminal support for systemd"
-> >  HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
-> >  LICENSE = "GPLv2+"
-> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  PR = "r5"
-> >
-> > diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > index 8781492d47..d95d1a63f5 100644
-> > --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > @@ -1,6 +1,6 @@
-> >  SUMMARY = "Inittab configuration for SysVinit"
-> >  LICENSE = "GPLv2"
-> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  PR = "r10"
-> >
-> > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-
-> > scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-
-> > scripts_1.0.bb
-> > index 1ab248fed5..8a02bc7f48 100644
-> > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > @@ -1,6 +1,6 @@
-> >  SUMMARY = "Build tools needed by external modules"
-> >  LICENSE = "GPLv2"
-> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> >
-> >  inherit kernel-arch
-> >  inherit pkgconfig
-> > 
-> >
->
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 3813f68e8b..4e09eae6b9 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -55,6 +55,8 @@ class Rootfs(object, metaclass=3DABCMeta):
+         excludes =3D [ 'log_check', r'^\+' ]
+         if hasattr(self, 'log_check_expected_regexes'):
+             excludes.extend(self.log_check_expected_regexes)
++        # Insert custom log_check excludes
++        excludes +=3D [x for x in (self.d.getVar("IMAGE_LOG_CHECK_EXCLUDES=
+") or "").split(" ") if x]
+         excludes =3D [re.compile(x) for x in excludes]
+         r =3D re.compile(match)
+         log_path =3D self.d.expand("${T}/log.do_rootfs")
+--=20
+2.25.1
+
