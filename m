@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12219.1602843682980813705
+ by mx.groups.io with SMTP id smtpd.web10.12418.1602843682982633104
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 5A18A38C1760
+	by mail.yoctoproject.org (Postfix) with ESMTP id 6878538C1773
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dmidecode: upgrading to 3.3 SUCCEEDED
-Message-ID: <MADEUP.163E71D67E0485FB.24086@lists.openembedded.org>
-X-Groupsio-MsgNum: 143423
-Content-Type: multipart/mixed; boundary="===============2183756585384445829=="
+Subject: [AUH] go-runtime: upgrading to 1.15.3 SUCCEEDED
+Message-ID: <MADEUP.163E71D687FABE92.13247@lists.openembedded.org>
+X-Groupsio-MsgNum: 143424
+Content-Type: multipart/mixed; boundary="===============7101721143428620159=="
 
---===============2183756585384445829==
+--===============7101721143428620159==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dmidecode* to *3.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *go-runtime* to *1.15.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dmidecode-upgrade-3.2-3.3.patch
+    - apply the patch: git am 0001-go-runtime-upgrade-1.15.2-1.15.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,122 +44,103 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2183756585384445829==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-dmidecode-upgrade-3.2-3.3.patch"
-
-From 02a88468e4a06dcfadbb3456a3b8f9850096344c Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 02:27:22 +0000
-Subject: [PATCH] dmidecode: upgrade 3.2 -> 3.3
-
----
- .../0001-Committing-changes-from-do_unpack_extra.patch   | 9 +++++----
- .../dmidecode/{dmidecode_3.2.bb => dmidecode_3.3.bb}     | 3 +--
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/dmidecode/{dmidecode_3.2.bb => dmidecode_3.3.bb} (82%)
-
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/0001-Committing-changes-from-do_unpack_extra.patch b/meta/recipes-devtools/dmidecode/dmidecode/0001-Committing-changes-from-do_unpack_extra.patch
-index ce9d423104..d082459ca9 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode/0001-Committing-changes-from-do_unpack_extra.patch
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/0001-Committing-changes-from-do_unpack_extra.patch
-@@ -1,20 +1,21 @@
--From 00a3ace35d66e7ae60046e254a4d00f0f9c1abe2 Mon Sep 17 00:00:00 2001
-+From 2c0437f47eaaf565aaccf0c0d150d5fc0fc734f5 Mon Sep 17 00:00:00 2001
- From: OpenEmbedded <oe.patch@oe>
- Date: Thu, 22 Nov 2018 12:05:04 +0000
- Subject: [PATCH] Do not install to /usr/local
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Makefile b/Makefile
--index 77c9310..fc378fd 100644
-+index 7aa729d..e079b18 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -30,7 +30,7 @@ CFLAGS += -O2
-- LDFLAGS =
-+@@ -31,7 +31,7 @@ CFLAGS += -D_FILE_OFFSET_BITS=64
-+ LDFLAGS ?=
-  
-  DESTDIR =
- -prefix  = /usr/local
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-similarity index 82%
-rename from meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-rename to meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-index 63f4061cb7..3fc2b20f22 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-@@ -19,6 +19,5 @@ do_install() {
- 	oe_runmake DESTDIR="${D}" install
- }
- 
--SRC_URI[md5sum] = "9cc2e27e74ade740a25b1aaf0412461b"
--SRC_URI[sha256sum] = "077006fa2da0d06d6383728112f2edef9684e9c8da56752e97cd45a11f838edd"
-+SRC_URI[sha256sum] = "82c737a780614c38a783e8055340d295e332fb12c7f418b5d21a0797d3fb1455"
- 
--- 
-2.18.4
-
-
---===============2183756585384445829==
+--===============7101721143428620159==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/dmidecode/dmidecode-dbg: PKGSIZE changed from 361976 to 311196 (-14%)
+Changes to packages/core2-32-poky-linux/go-runtime (sysroot):
+  /usr/lib/go/src/runtime/internal/atomic/asm_wasm.s was added
+Changes to packages/x86_64-linux/go-cross-core2-32 (sysroot):
+  /usr/lib/i686-poky-linux/go/src/runtime/internal/atomic/asm_wasm.s was added
 
---===============2183756585384445829==
+--===============7101721143428620159==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
 Loading cache...done.
-Loaded 1387 entries from dependency cache.
+Loaded 1391 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 785 .bb files complete (783 cached, 2 parsed). 1356 targets, 61 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-ERROR: Nothing PROVIDES 'dmidecode'
-dmidecode was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+Parsing of 785 .bb files complete (778 cached, 7 parsed). 1356 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+ERROR: Nothing PROVIDES 'go-runtime'
+go-runtime was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
 
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
---===============2183756585384445829==
+--===============7101721143428620159==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-go-runtime-upgrade-1.15.2-1.15.3.patch"
+
+From 09855d998c1758d3f82434a37e6eb6b6273e1dbf Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 03:00:24 +0000
+Subject: [PATCH] go-runtime: upgrade 1.15.2 -> 1.15.3
+
+---
+ meta/recipes-devtools/go/go-1.15.inc        | 4 +++-
+ meta/recipes-devtools/go/go-runtime_1.15.bb | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
+index 97d748b922..9987c8146f 100644
+--- a/meta/recipes-devtools/go/go-1.15.inc
++++ b/meta/recipes-devtools/go/go-1.15.inc
+@@ -17,4 +17,6 @@ SRC_URI += "\
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+ "
+-SRC_URI[main.sha256sum] = "28bf9d0bcde251011caae230a4a05d917b172ea203f2a62f2c2f9533589d4b4d"
++SRC_URI[main.sha256sum] = "896a602570e54c8cdfc2c1348abd4ffd1016758d0bd086ccd9787dbfc9b64888"
++
++PV = "1.15.3"
+diff --git a/meta/recipes-devtools/go/go-runtime_1.15.bb b/meta/recipes-devtools/go/go-runtime_1.15.bb
+index 4eeee65e0c..d6ddb31ed4 100644
+--- a/meta/recipes-devtools/go/go-runtime_1.15.bb
++++ b/meta/recipes-devtools/go/go-runtime_1.15.bb
+@@ -1,3 +1,4 @@
+ export CGO_ENABLED_riscv64 = ""
+ require go-${PV}.inc
+ require go-runtime.inc
++
+-- 
+2.18.4
+
+
+--===============7101721143428620159==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/dmidecode/dmidecode-dbg: PKGSIZE changed from 361976 to 311196 (-14%)
-packages/core2-32-poky-linux/dmidecode/dmidecode-dbg: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-dbg: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode-dev: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-dev: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode-doc: PKGSIZE changed from 26395 to 28360 (+7%)
-packages/core2-32-poky-linux/dmidecode/dmidecode-doc: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-doc: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode-locale: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-locale: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode-src: PKGSIZE changed from 202621 to 209316 (+3%)
-packages/core2-32-poky-linux/dmidecode/dmidecode-src: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-src: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode-staticdev: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode-staticdev: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode/dmidecode: PKGSIZE changed from 178396 to 174300 (-2%)
-packages/core2-32-poky-linux/dmidecode/dmidecode: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode/dmidecode: PKGV changed from 3.2 [default] to 3.3 [default]
-packages/core2-32-poky-linux/dmidecode: PV changed from "3.2" to "3.3"
-packages/core2-32-poky-linux/dmidecode: PKGV changed from 3.2 [default] to 3.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-dbg: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-dbg: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PKGSIZE changed from 135620336 to 135582659 (-0%)
+packages/core2-32-poky-linux/go-runtime/go-runtime-doc: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-doc: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-locale: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-locale: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-src: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-src: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PKGSIZE changed from 63180164 to 63133938 (-0%)
+packages/core2-32-poky-linux/go-runtime/go-runtime: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime/go-runtime: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+packages/core2-32-poky-linux/go-runtime/go-runtime: PKGSIZE changed from 28032888 to 28034192 (+0%)
+packages/core2-32-poky-linux/go-runtime: PV changed from "1.15.2" to "1.15.3"
+packages/core2-32-poky-linux/go-runtime: PKGV changed from 1.15.2 [default] to 1.15.3 [default]
+Changes to packages/core2-32-poky-linux/go-runtime (sysroot):
+  /usr/lib/go/src/runtime/internal/atomic/asm_wasm.s was added
+Changes to packages/x86_64-linux/go-cross-core2-32 (sysroot):
+  /usr/lib/i686-poky-linux/go/src/runtime/internal/atomic/asm_wasm.s was added
 
---===============2183756585384445829==--
+--===============7101721143428620159==--
