@@ -1,118 +1,204 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.23165.1602873034855216300
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web10.23594.1602874104001525261
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 11:30:34 -0700
+ Fri, 16 Oct 2020 11:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W3TY3h6f;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id a200so1959409pfa.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 11:30:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B+weuiW1;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id w5so1499569qvn.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 11:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=spJtdIn/eejuim8z2NXWdNbhPqW82AUFP0ONj2MDbQw=;
-        b=W3TY3h6fKY5zsOpUdhZeBsIuvaEyzIeRBDJw2yP+dFOLPMLDXDn4GJLWAkGqRsTe1h
-         eifFnrO3F2KlJ4Tx+gfpcWKiHJvsaA6t4wug7EDA/PmWWoBf6DGD/nWObl1RqxM4lOUM
-         Tgj67aYNbvwDkGIRJBPksSbJrUUbPaTxzORyQyHKa631c+cbMf0hotWds85Ev8lhyPci
-         J8bK2beDpXJm+ja8UjRD7uBCBSVoz1orJkY2K7AQMTcGWQ5IE2jP22Hqvi4Yo9Xq2Vev
-         c4wF2gFFweUtzXYlJp+ZKQCqj+6SFDyarPa571Gaq0BEj5Wc6Ern1j0aE/KujN/j3jod
-         p4BQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MXdlGZb96CTi0A2dIlN2AcOuucsSXjTJAcruLKRTbOY=;
+        b=B+weuiW1nXiNT//1fbyq+ENUAp85wmQaOurt3+Nb/M9RRz86h6+Su+AX0kVCJHStJe
+         XbE0Wxd2kQPYLjg6ScMcNOtyY9mBMefqqQjPBJskw/vvBWdLg/3fCSW9abgccK9FY+VX
+         Y+65v58jvrfVf3R+FKtGMzsmSQuwVGnOJnOKJ4ILgIWYZTOLZ7GzUH0JqZmzaZDjXEgo
+         SeGtqBiev1mAH4u9LDbn11LQqneESHLkI4CqGG6pcDmy/2z7qPBqOE88xIt9TXvLLe1v
+         NJB9OH1WOb5sLHsHCV6c/Z9pl7jVDpA0lKSE8iv4DjiZSqaSW1oZPlzsrU6TQIMVoz30
+         CyFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=spJtdIn/eejuim8z2NXWdNbhPqW82AUFP0ONj2MDbQw=;
-        b=g2Esk9zdGLQtXadr4K16hMjRpKmGMvhc7TLeVgxLtgYMhTKCr3Cf3+VNsVnd0m3gqX
-         zzIFF0S+e2Yj880BegDt+96n4pM9p0eKXqmc/NV7N/778uUyYdkU13AHUJTK8QYJg4rf
-         3sv0AVyMD05eAG/szBcWQsP0y3+1GPDYbaYNUDsUYQZ1lubY8DRr+LGXEYqbwWpI4rDn
-         H6EmQGC8Xu9M+JBbFBDl3I+z+pcgAuKcByY1ANJ05F1Oc/1Cm6B1Bblcs9j178wP08MU
-         otVOQiyCRERv1e+9Gy4Cuk4LM+yqLUfvzXjqmVnbZHUx+mcAWYQavSF5s94H0Z8HIW8L
-         D0dQ==
-X-Gm-Message-State: AOAM533k1A7ao/Q80/J5f3b9KNJIAepk5MjiqJqdychnpoWdzmwR3heA
-	66T5AITt9iNXVmTc6Hc1iqlZkqE7vXvT/g==
-X-Google-Smtp-Source: ABdhPJzlGFfkK4CAT/e7rwhZLucFlNYbVTnYp8kltP58mDt4Qy35wfKWvDQNVDEO2K0chjxMBWRzZg==
-X-Received: by 2002:a63:531d:: with SMTP id h29mr3871818pgb.301.1602873034057;
-        Fri, 16 Oct 2020 11:30:34 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4467])
-        by smtp.gmail.com with ESMTPSA id g1sm3552209pjs.30.2020.10.16.11.30.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 11:30:33 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] mesa: Fix build on 32bit arches supporting 64bit time_t only
-Date: Fri, 16 Oct 2020 11:30:23 -0700
-Message-Id: <20201016183023.3020816-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201016183023.3020816-1-raj.khem@gmail.com>
-References: <20201016183023.3020816-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MXdlGZb96CTi0A2dIlN2AcOuucsSXjTJAcruLKRTbOY=;
+        b=Pc8uVi7mrXosz43imyMN1OnOKxguxGR3Edwa1XIGiUM0yItKn4rpYt/D79VEKk1mup
+         eDGlnfq5NtqnJAvgYUhB4qLTRVuaMGoXuGm1iAtRGfk/bXOt2nrcsBHKToJZo7oCFc9M
+         KURJMz6zpM8ccIjaZ5rqMLuOozUqJT7rf9ZW/8R/RP6Ae82twlLoa1rIwlzvv3t5oPFx
+         I1T8ijxvKjgiU7F8bRAQtj6eB3EMn2splJMbKstes5lImNgZIPbX2yI109ozJyiLsklh
+         rIErKRNsi44gdNLVTPIrjXYPiAiOuWGZtogfsMvq7D/1xoHv4FzUpjxM70kkMdE1sBta
+         qWTQ==
+X-Gm-Message-State: AOAM5314z9v97uDFWGfSK5NSSumulKcmvQrXZ/H4FZ4v1jnHC8c52LzM
+	qrcDLy4OjvO+JuPctJagPem2QAeAnqeWCDUDB3o=
+X-Google-Smtp-Source: ABdhPJyzITF7qirs0i+1eCkloAM/i1E5OQ8bZxjMpIffD0FBQopOVyV0w8z2eigtLk5iVZfh/JoOc8c0TSWt4HksqCQ=
+X-Received: by 2002:a05:6214:16d0:: with SMTP id d16mr5603089qvz.38.1602874102894;
+ Fri, 16 Oct 2020 11:48:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201016043341.635385-1-raj.khem@gmail.com> <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
+In-Reply-To: <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 16 Oct 2020 11:47:56 -0700
+Message-ID: <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] recipes: Use GPL-2.0-only instead of GPL-2.0 for LIC_FILES_CHKSUM
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Meh Mbeh Ida Delphine <idadelm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes
-../mesa-20.1.8/src/util/futex.h:47:19: error: use of undeclared identifier 'SYS_futex'; did you mean 'sys_futex'?
-   return syscall(SYS_futex, addr1, op, val1, timeout, addr2, val3);
-                  ^~~~~~~~~
-                  sys_futex
+On Fri, Oct 16, 2020 at 2:05 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Khem,
+>
+> This patch fixes issues introduced by a patch I tested in -next from
+> Meh Mbeh Ida Delphine <idadelm@gmail.com> (cc'd). I have removed it
+> from the queue as it failed testing. This patch may be useful so they
+> can fix their patch though.
+>
+> Note the fixes Khem found for glibc-collateral and devicetree.bbclass
+> in addition to the recipes.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...fine-__NR_futex-if-it-does-not-exist.patch | 31 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
+Thanks, other layers also rely on these names. So perhaps this should
+wait till master opens for next release
+and address those layers too.
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch b/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
-new file mode 100644
-index 0000000000..8bedbac669
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
-@@ -0,0 +1,31 @@
-+From 8973e297f2f9b17498b9dc0e37a19481d4bb7df9 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 16 Oct 2020 11:03:47 -0700
-+Subject: [PATCH] futex.h: Define __NR_futex if it does not exist
-+
-+__NR_futex is not defines by newer architectures e.g. arc, riscv32 as
-+they only have 64bit variant of time_t. Glibc defines SYS_futex interface based on
-+__NR_futex, since this is used in applications, such applications start
-+to fail to build for these newer architectures. This patch defines a
-+fallback to alias __NR_futex to __NR_futex_tim64 so SYS_futex keeps
-+working
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/util/futex.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+--- a/src/util/futex.h
-++++ b/src/util/futex.h
-+@@ -34,6 +34,10 @@
-+ #include <sys/syscall.h>
-+ #include <sys/time.h>
-+ 
-++#if !defined(SYS_futex) && defined(SYS_futex_time64)
-++# define SYS_futex SYS_futex_time64
-++#endif
-++
-+ static inline long sys_futex(void *addr1, int op, int val1, const struct timespec *timeout, void *addr2, int val3)
-+ {
-+    return syscall(SYS_futex, addr1, op, val1, timeout, addr2, val3);
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index dd4619a06b..9fc62e95e1 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,6 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
-            file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-+           file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
- 
- SRC_URI[sha256sum] = "df21351494f7caaec5a3ccc16f14f15512e98d2ecde178bba1d134edc899b961"
--- 
-2.28.0
-
+>
+> Cheers,
+>
+> Richard
+>
+> On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v2: Add devicetree.bbclass and glibc-collateral.inc
+> >
+> >  meta/classes/devicetree.bbclass                              | 2 +-
+> >  meta/recipes-connectivity/connman/connman-conf.bb            | 2 +-
+> >  meta/recipes-core/busybox/busybox-inittab_1.32.0.bb          | 2 +-
+> >  meta/recipes-core/glibc/glibc-collateral.inc                 | 4 ++-
+> > -
+> >  meta/recipes-core/systemd/systemd-serialgetty.bb             | 2 +-
+> >  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb       | 2 +-
+> >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+> >  7 files changed, 8 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/meta/classes/devicetree.bbclass
+> > b/meta/classes/devicetree.bbclass
+> > index c772ab2ab9..ece883accf 100644
+> > --- a/meta/classes/devicetree.bbclass
+> > +++ b/meta/classes/devicetree.bbclass
+> > @@ -18,7 +18,7 @@ SECTION ?= "bsp"
+> >  # device trees built with them are at least GPLv2 (and in some cases
+> > dual
+> >  # licensed). Default to GPLv2 if the recipe does not specify a
+> > license.
+> >  LICENSE ?= "GPLv2"
+> > -LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-
+> > 2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-
+> > only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  INHIBIT_DEFAULT_DEPS = "1"
+> >  DEPENDS += "dtc-native"
+> > diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
+> > b/meta/recipes-connectivity/connman/connman-conf.bb
+> > index 9a519ec866..85fee09258 100644
+> > --- a/meta/recipes-connectivity/connman/connman-conf.bb
+> > +++ b/meta/recipes-connectivity/connman/connman-conf.bb
+> > @@ -2,7 +2,7 @@ SUMMARY = "Connman config to setup wired interface on
+> > qemu machines"
+> >  DESCRIPTION = "This is the ConnMan configuration to set up a Wired \
+> >  network interface for a qemu machine."
+> >  LICENSE = "GPLv2"
+> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  inherit systemd
+> >
+> > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > index 61fb8cbad1..2129acd8d3 100644
+> > --- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > +++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > @@ -1,6 +1,6 @@
+> >  SUMMARY = "inittab configuration for BusyBox"
+> >  LICENSE = "GPLv2"
+> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  SRC_URI = "file://inittab"
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc-collateral.inc
+> > b/meta/recipes-core/glibc/glibc-collateral.inc
+> > index 52880791a7..4f81f07da7 100644
+> > --- a/meta/recipes-core/glibc/glibc-collateral.inc
+> > +++ b/meta/recipes-core/glibc/glibc-collateral.inc
+> > @@ -1,7 +1,7 @@
+> >  require glibc-common.inc
+> >
+> > -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-
+> > 2.0;md5=801f80980d171dd6425610833a22dbe6 \
+> > -                     file://${COMMON_LICENSE_DIR}/LGPL-
+> > 2.1;md5=1a6d268fd218675ffea8be556788b780"
+> > +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-
+> > only;md5=801f80980d171dd6425610833a22dbe6 \
+> > +                     file://${COMMON_LICENSE_DIR}/LGPL-2.1-
+> > only;md5=1a6d268fd218675ffea8be556788b780"
+> >
+> >  deltask do_fetch
+> >  deltask do_unpack
+> > diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > index 0cc0dc8c79..9a63c9f0a8 100644
+> > --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > @@ -1,7 +1,7 @@
+> >  SUMMARY = "Serial terminal support for systemd"
+> >  HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
+> >  LICENSE = "GPLv2+"
+> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  PR = "r5"
+> >
+> > diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > index 8781492d47..d95d1a63f5 100644
+> > --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > @@ -1,6 +1,6 @@
+> >  SUMMARY = "Inittab configuration for SysVinit"
+> >  LICENSE = "GPLv2"
+> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  PR = "r10"
+> >
+> > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-
+> > scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-
+> > scripts_1.0.bb
+> > index 1ab248fed5..8a02bc7f48 100644
+> > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > @@ -1,6 +1,6 @@
+> >  SUMMARY = "Build tools needed by external modules"
+> >  LICENSE = "GPLv2"
+> > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> >
+> >  inherit kernel-arch
+> >  inherit pkgconfig
+> > 
+> >
+>
