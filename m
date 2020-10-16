@@ -1,68 +1,73 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.11669.1602841612965849439
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.11795.1602842136599169877
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 02:46:53 -0700
+ Fri, 16 Oct 2020 02:55:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MIy/A4R3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id t9so1975447wrq.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:46:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sm/R7jWN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id l16so1676621eds.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=qrtPb/LC7Lp7KKKF6/oloIQresNq6HG0VOG0N9LWVro=;
-        b=MIy/A4R33QrTtalrHG3h5F3JxaYBcb5t4pzX42g4ejyH9Jc/CCHFs2HigEhCFahiGo
-         8Y6X3JjjsL1ykYWeSWbPmpWVllMUT3StlZ6qdPGpqMkIRmVE8sImxRfSgJaYOjdysmQO
-         XHWYLgseYOGW8YxseYNX1x2JFCkRbdwsHJzgk=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fmFnUSWWT4fo7YuAjiWfBIpnqOLprkEteBKDCGh6izA=;
+        b=sm/R7jWNHCODwWE65C4e1QO8gQbJPDOKkYTCRuP43Mfe29ru/96DKc+fcCYcx14xgu
+         nYqrwvYvUkCupMLzZ5Kqvo9gvCDIXUl8mhOGGTlbUhuUC07F5ATdKUH8Qfav3QeI+nds
+         /tH+zgq5dda25KFthroIEOqGS96ZPDGiQEoMp69oQUr8z5QoWz2uS9ari06JsycXPsW7
+         ajeASRXEVncxVG/zq3RlvRWQ4i1eDYui1mS5mBR9FlARX+r+M86t1eKn98dUQWT8G/mS
+         fHEMDPif4Aqq9nV9Et6rkXrDWpWNlAoBFloo4dAjaqcUjW67X3+npwMDzTQx5XOVNGfU
+         E0DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qrtPb/LC7Lp7KKKF6/oloIQresNq6HG0VOG0N9LWVro=;
-        b=GcSkXcz9Lqn7OG5XPFa21DNQvF96wq7el9z/rjXnTcwWX82zzGJ/TOf05NY8LdQOT8
-         Lp20S33BrJXWc+yKzsTo7v6NvnsCYWQc8niKTiAzf1QOeDGUR8hY2BsjMHAK1J4e/M41
-         2JFDPUt0eK4OjwxIIgb/1QG45P0PRCEdPCG9Y6QaiRmKOzqB3LdgBFIkvR7JG+cKJImB
-         eE0vlycLJsR1Uu7eVH8/WgxajjCzGDQB+jOdZbNp3JdyS+f28JtiOlZMGsn4/micnNn/
-         z8EKQuoa06FSR8Rsj0OBj7mGSJMirQzVLUmD2QbXi+oovyDuqtzWwmFrgPTK8I4lt1f2
-         PzEA==
-X-Gm-Message-State: AOAM5328LhUhecyBoz7VdP2YQK5/q+lKR8GT6BcIToQp3gjAVv+VksiJ
-	/oe/2rcgD9KOXusXIYONZAsHIw==
-X-Google-Smtp-Source: ABdhPJz66q1zDoYeXGyI3OH+pQaFKsJ//4e4FbtvwFWNrkXJxssHjKmM3tZocRYA35GvOATm+oSHPA==
-X-Received: by 2002:a5d:550d:: with SMTP id b13mr2857454wrv.125.1602841611283;
-        Fri, 16 Oct 2020 02:46:51 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
-        by smtp.gmail.com with ESMTPSA id z15sm2834177wrq.24.2020.10.16.02.46.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fmFnUSWWT4fo7YuAjiWfBIpnqOLprkEteBKDCGh6izA=;
+        b=HCngzWShADOSZylLYH88k1YdD4Bmtes8EJPm41ljUt+KxCb4KBs/0U++yyMcUeC2TL
+         sA8OSYWrmadxEzyDbLmyiqnCZ5O6euddDW16a7Fakr6Rd3jE0yM6u5NKvPAgefVCZI/F
+         c9h24GtJs57yYJlGIoHGItl3QXI5fw0hpfMh5f+NDCNT6agokrx9qQs2Ru1a6eGGIAgb
+         WDr3gVHR09UjPUhkMXfKB3nfWPUtKYsjh2FKcnigEebU+PMbXXCJQ7VDqWci1ZUdrcQK
+         Ieq1yAuR4XmMKEw7aSAbRefTCubX/M9PYd2UNiCy8Aces6fGsT9UlUhS+mvruM7yx80G
+         cm8g==
+X-Gm-Message-State: AOAM530rUlwQ47HE1OSRWWH3BRN89q+MikEeMX3o2eOdACIPDutozs8v
+	R18+tY7hN5zXnjiT8iPNd8BaVxOxTqk=
+X-Google-Smtp-Source: ABdhPJzT8TqSPAd8bHomUIZa/JWVsB1yIZ4VvbHnmjZ7Bp7MfApvbUPpmlqWqQ1B+Ye6ih6R/ruwoQ==
+X-Received: by 2002:a05:6402:143:: with SMTP id s3mr2749798edu.267.1602842134814;
+        Fri, 16 Oct 2020 02:55:34 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id y6sm1012499eds.93.2020.10.16.02.55.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 02:46:50 -0700 (PDT)
-Message-ID: <e490a2b55b22dc6b7716ab780a8ec81e739e9a7d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/2] waf: don't assume the waf intepretter is good
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, Ross Burton <ross@burtonini.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Oct 2020 10:46:48 +0100
-In-Reply-To: <CA+chaQdCL8b+rP_RuJxz+Kt2nqL79nqOQU_Oun4xXzG48J5nNQ@mail.gmail.com>
-References: <20201016092122.2002294-1-ross.burton@arm.com>
-	 <CA+chaQdCL8b+rP_RuJxz+Kt2nqL79nqOQU_Oun4xXzG48J5nNQ@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Fri, 16 Oct 2020 02:55:34 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH 1/2] tune-mips64r6.inc: fix typo in mipsisa64r6-nf
+Date: Fri, 16 Oct 2020 11:55:30 +0200
+Message-Id: <20201016095531.140098-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-10-16 at 11:45 +0200, Martin Jansa wrote:
-> should it also inherit ${WAF_PYTHON}native, so that people who need
-> to use python2 don't need to inherit it in the recipe (as python is
-> no longer in HOSTTOOLS) or is python3-native considered unwanted
-> dependency for the default behavior?
-> 
-> I don't personally use waf, so no opinion either way from me.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/tune-mips64r6.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We need python3 for bitbake so I think we don't want to include the
-native python chain here if we can help it...
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/machine/include/tune-mips64r6.inc b/meta/conf/machine/include/tune-mips64r6.inc
+index 4fe3eedf1b..e53239a38b 100644
+--- a/meta/conf/machine/include/tune-mips64r6.inc
++++ b/meta/conf/machine/include/tune-mips64r6.inc
+@@ -24,7 +24,7 @@ AVAILTUNES += "mipsisa64r6-nf mipsisa64r6el-nf"
+ TUNE_FEATURES_tune-mipsisa64r6-nf = "bigendian r6 n64 mipsisa64r6"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6-nf = "${TUNE_ARCH}"
+ BASE_LIB_tune-mipsisa64r6-nf = "lib64"
+-PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf = "mipsisa64r6"
++PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf = "mipsisa64r6-nf"
+ 
+ TUNE_FEATURES_tune-mipsisa64r6el-nf = "r6 n64 mipsisa64r6"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-nf = "${TUNE_ARCH}"
+-- 
+2.25.1
 
