@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.12419.1602843683121280001
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web10.12418.1602843682982633104
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2BF9338C1692
+	by mail.yoctoproject.org (Postfix) with ESMTP id 344F938C16D6
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] netbase: upgrading to 6.2 SUCCEEDED
-Message-ID: <MADEUP.163E71D6724E1C6F.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143415
-Content-Type: multipart/mixed; boundary="===============2174120151827878382=="
+Subject: [AUH] binutils: upgrading to 2.35.1 FAILED
+Message-ID: <MADEUP.163E71D67807FDD9.13247@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3736196658745361767=="
 
---===============2174120151827878382==
+--===============3736196658745361767==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,57 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *netbase* to *6.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *binutils* to *2.35.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-netbase-upgrade-6.1-6.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade binutils -V 2.35.1 -S 7e46a74aa3713c563940960e361e08defda019c2
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1389 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20201016"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:791af5f188a981ab618333cd905d87c51381f2f3"
+workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 560, in upgrade
+    rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 339, in _create_new_recipe
+    scheme, network, path, user, passwd, params = bb.fetch2.decodeurl(entry)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/fetch2/__init__.py", line 357, in decodeurl
+    raise MalformedUrl(url)
+bb.fetch2.MalformedUrl: The URL: '${BINUTILS_GIT_URI}' is invalid and cannot be interpreted
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,64 +81,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2174120151827878382==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment; filename="0001-netbase-upgrade-6.1-6.2.patch"
-
-From c57c9265d0a36ead7d25593f9be67d48dbcf23f3 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 01:42:53 +0000
-Subject: [PATCH] netbase: upgrade 6.1 -> 6.2
-
----
- meta/recipes-core/netbase/{netbase_6.1.bb => netbase_6.2.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-core/netbase/{netbase_6.1.bb => netbase_6.2.bb} (82%)
-
-diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.2.bb
-similarity index 82%
-rename from meta/recipes-core/netbase/netbase_6.1.bb
-rename to meta/recipes-core/netbase/netbase_6.2.bb
-index bc0049c020..4a82b9465e 100644
---- a/meta/recipes-core/netbase/netbase_6.1.bb
-+++ b/meta/recipes-core/netbase/netbase_6.2.bb
-@@ -8,8 +8,7 @@ PE = "1"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
--SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
-+SRC_URI[sha256sum] = "309a24146a06347d654b261e9e07a82fab844b173674a42e223803dd8258541e"
- 
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
- do_install () {
--- 
-2.18.4
-
-
---===============2174120151827878382==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/netbase: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-dbg: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-dbg: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-dev: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-dev: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-doc: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-doc: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-locale: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-locale: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-src: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-src: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase-staticdev: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase-staticdev: PKGV changed from 6.1 [default] to 6.2 [default]
-packages/core2-32-poky-linux/netbase/netbase: PV changed from "6.1" to "6.2"
-packages/core2-32-poky-linux/netbase/netbase: PKGSIZE changed from 18283 to 16785 (-8%)
-packages/core2-32-poky-linux/netbase/netbase: PKGV changed from 6.1 [default] to 6.2 [default]
-
---===============2174120151827878382==--
+--===============3736196658745361767==--
