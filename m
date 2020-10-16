@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.12520.1602843683017164064
+ by mx.groups.io with SMTP id smtpd.web10.12420.1602843683161759980
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 7C25438C1788
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8A11538C1793
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdnf: upgrading to 0.54.2 SUCCEEDED
-Message-ID: <MADEUP.163E71D695FC04E1.21580@lists.openembedded.org>
-X-Groupsio-MsgNum: 143434
-Content-Type: multipart/mixed; boundary="===============4890965822896360300=="
+Subject: [AUH] python3-numpy: upgrading to 1.19.2 SUCCEEDED
+Message-ID: <MADEUP.163E71D69907D383.13247@lists.openembedded.org>
+X-Groupsio-MsgNum: 143435
+Content-Type: multipart/mixed; boundary="===============7471249506593935337=="
 
---===============4890965822896360300==
+--===============7471249506593935337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libdnf* to *0.54.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-numpy* to *1.19.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdnf-upgrade-0.48.0-0.54.2.patch
+    - apply the patch: git am 0001-python3-numpy-upgrade-1.19.1-1.19.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,197 +44,158 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4890965822896360300==
+--===============7471249506593935337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libdnf/libdnf-locale-da: PKGSIZE changed from 659 to 1683 (+155%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fur: PKGSIZE changed from 1630 to 2159 (+32%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hu: PKGSIZE changed from 3215 to 5273 (+64%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-id: PKGSIZE changed from 463 to 1249 (+170%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ja: PKGSIZE changed from 14266 to 23514 (+65%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ru: PKGSIZE changed from 13570 to 27248 (+101%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sv: PKGSIZE changed from 10773 to 21137 (+96%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-tw: PKGSIZE changed from 10312 to 18914 (+83%)
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd was added
 
---===============4890965822896360300==
+--===============7471249506593935337==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-libdnf-upgrade-0.48.0-0.54.2.patch"
+ filename="0001-python3-numpy-upgrade-1.19.1-1.19.2.patch"
 
-From 1194be7e51fe77c0eebbe1e29a631e822825da0a Mon Sep 17 00:00:00 2001
+From 436039d965e7581e8ebde95e548a06ba8617b6b9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 03:19:07 +0000
-Subject: [PATCH] libdnf: upgrade 0.48.0 -> 0.54.2
+Date: Fri, 16 Oct 2020 04:13:29 +0000
+Subject: [PATCH] python3-numpy: upgrade 1.19.1 -> 1.19.2
 
 ---
- .../libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb} (96%)
+ .../python-numpy/python-numpy.inc             |  4 +-
+ .../python-numpy/python3-numpy_1.19.1.bb      |  3 --
+ .../python-numpy/python3-numpy_1.19.2.bb      | 43 +++++++++++++++++++
+ 3 files changed, 45 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
+ create mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-index 37991e6d80..2a05b9f534 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-            file://enable_test_data_dir_set.patch \
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+index 0113f4098d..f91fb933dc 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+@@ -1,14 +1,14 @@
+ SUMMARY = "A sophisticated Numeric Processing Package for Python"
+ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=643d4e90100b7abe468c4db88127b895"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e527e2a94c4584cd192d03ffb1f4a744"
+ 
+ SRCNAME = "numpy"
+ 
+ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
             "
+-SRC_URI[sha256sum] = "1396e6c3d20cbfc119195303b0272e749610b7042cc498be4134f013e9a3215c"
++SRC_URI[sha256sum] = "74d0cf50aa28af81874aca3e67560945afd783b2a006913577d6cddc35a824a6"
  
--SRCREV = "46a28d0cf09277fffc11392e5e362a2eda0d53a8"
-+SRCREV = "c5f20d4f306f4d0f9d479be228bdc474968c8b60"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
+deleted file mode 100644
+index d388e88d25..0000000000
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-inherit setuptools3
+-require python-numpy.inc
+-
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
+new file mode 100644
+index 0000000000..d512eb5041
+--- /dev/null
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
+@@ -0,0 +1,43 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.txt
++# +++ LICENSE.txt
++# @@ -35,22 +35,22 @@
++#  
++#  Name: Numpydoc
++#  Files: doc/sphinxext/numpydoc/*
++# -License: 2-clause BSD
++# +License: BSD-2-Clause
++#    For details, see doc/sphinxext/LICENSE.txt
++#  
++#  Name: scipy-sphinx-theme
++#  Files: doc/scipy-sphinx-theme/*
++# -License: 3-clause BSD, PSF and Apache 2.0
++# +License: BSD-3-Clause AND PSF-2.0 AND Apache-2.0
++#    For details, see doc/scipy-sphinx-theme/LICENSE.txt
++#  
++#  Name: lapack-lite
++#  Files: numpy/linalg/lapack_lite/*
++# -License: 3-clause BSD
++# +License: BSD-3-Clause
++#    For details, see numpy/linalg/lapack_lite/LICENSE.txt
++#  
++#  Name: tempita
++#  Files: tools/npy_tempita/*
++# -License: BSD derived
++# +License: MIT
++#    For details, see tools/npy_tempita/license.txt
++#  
++#  Name: dragon4
++# 
++#
++
++inherit setuptools3
++require python-numpy.inc
++
 -- 
 2.18.4
 
 
---===============4890965822896360300==
+--===============7471249506593935337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libdnf: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-dbg: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-dbg: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-dbg: PKGSIZE changed from 55462452 to 56243736 (+1%)
-packages/core2-32-poky-linux/libdnf/libdnf-dev: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-dev: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-dev: PKGSIZE changed from 202058 to 202702 (+0%)
-packages/core2-32-poky-linux/libdnf/libdnf-doc: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-doc: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-as: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-as: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bg: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bg: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bn-in: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bn-in: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bn: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-bn: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ca: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ca: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-cs: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-cs: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-da: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-da: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-da: PKGSIZE changed from 659 to 1683 (+155%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-de: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-de: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-de: PKGSIZE changed from 11032 to 10939 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-el: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-el: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-es: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-es: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-es: PKGSIZE changed from 10668 to 10564 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-eu: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-eu: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fa: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fa: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fi: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fi: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fil: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fil: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fr: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fr: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fr: PKGSIZE changed from 21569 to 22108 (+2%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fur: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fur: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-fur: PKGSIZE changed from 1630 to 2159 (+32%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-gu: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-gu: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hi: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hi: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hu: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hu: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-hu: PKGSIZE changed from 3215 to 5273 (+64%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ia: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ia: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-id: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-id: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-id: PKGSIZE changed from 463 to 1249 (+170%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-is: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-is: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-it: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-it: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-it: PKGSIZE changed from 10960 to 10867 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ja: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ja: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ja: PKGSIZE changed from 14266 to 23514 (+65%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-kn: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-kn: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ko: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ko: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ko: PKGSIZE changed from 10605 to 10525 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-mai: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-mai: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ml: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ml: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-mr: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-mr: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-nb: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-nb: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-nl: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-nl: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-nl: PKGSIZE changed from 20134 to 20630 (+2%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-or: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-or: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pa: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pa: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pl: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pl: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pl: PKGSIZE changed from 21617 to 22096 (+2%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pt-br: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pt-br: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pt-br: PKGSIZE changed from 10650 to 10535 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pt: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-pt: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ru: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ru: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ru: PKGSIZE changed from 13570 to 27248 (+101%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sk: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sk: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sq: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sq: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sr+latin: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sr+latin: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sr: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sr: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sv: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sv: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-sv: PKGSIZE changed from 10773 to 21137 (+96%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ta: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-ta: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-te: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-te: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-th: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-th: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-tr: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-tr: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-tr: PKGSIZE changed from 20471 to 20936 (+2%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-uk: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-uk: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-uk: PKGSIZE changed from 26929 to 27609 (+3%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-cn: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-cn: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-cn: PKGSIZE changed from 11343 to 11251 (-1%)
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-tw: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-tw: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-locale-zh-tw: PKGSIZE changed from 10312 to 18914 (+83%)
-packages/core2-32-poky-linux/libdnf/libdnf-src: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-src: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf-src: PKGSIZE changed from 7155954 to 7197954 (+1%)
-packages/core2-32-poky-linux/libdnf/libdnf-staticdev: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf-staticdev: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf: PKGV changed from 0.48.0 [default] to 0.54.2 [default]
-packages/core2-32-poky-linux/libdnf/libdnf: PV changed from "0.48.0" to "0.54.2"
-packages/core2-32-poky-linux/libdnf/libdnf: PKGSIZE changed from 5106568 to 5174734 (+1%)
+packages/core2-32-poky-linux/python3-numpy: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 26773972 to 26761720 (-0%)
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 17537242 to 17178319 (-2%)
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGSIZE changed from 254474 to 254470 (-0%)
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+packages/core2-32-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 26446795 to 26471723 (+0%)
+packages/core2-32-poky-linux/python3-numpy/python3-numpy: PV changed from "1.19.1" to "1.19.2"
+packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
+Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info
+  /usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd was added
 
---===============4890965822896360300==--
+--===============7471249506593935337==--
