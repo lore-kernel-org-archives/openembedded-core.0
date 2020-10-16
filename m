@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12219.1602843682980813705
+ by mx.groups.io with SMTP id smtpd.web10.12420.1602843683161759980
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9E85338C17C6
+	by mail.yoctoproject.org (Postfix) with ESMTP id A9E0D38C17D3
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] webkitgtk: upgrading to 2.30.1 FAILED
-Message-ID: <MADEUP.163E71D74E7021C3.21580@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============5294855973560362799=="
+Subject: [AUH] curl: upgrading to 7.73.0 SUCCEEDED
+Message-ID: <MADEUP.163E71D74EB666BB.13247@lists.openembedded.org>
+X-Groupsio-MsgNum: 143500
+Content-Type: multipart/mixed; boundary="===============3190869139757199399=="
 
---===============5294855973560362799==
+--===============3190869139757199399==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,187 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *webkitgtk* to *2.30.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *curl* to *7.73.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-curl-upgrade-7.72.0-7.73.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe webkitgtk failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1513 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20201016"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:43c8cc133897385a53963c9416c13261bbdb6c25"
-workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.30.1.tar.xz...
-Loading cache...done.
-Loaded 1513 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 786 .bb files complete (784 cached, 2 parsed). 1357 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20201016"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:43c8cc133897385a53963c9416c13261bbdb6c25"
-workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:09
-Adding changed files:   2% |                                    | ETA:  0:00:06
-Adding changed files:   3% |#                                   | ETA:  0:00:06
-Adding changed files:   4% |#                                   | ETA:  0:00:06
-Adding changed files:   5% |##                                  | ETA:  0:00:05
-Adding changed files:   6% |##                                  | ETA:  0:00:05
-Adding changed files:   7% |##                                  | ETA:  0:00:05
-Adding changed files:   8% |###                                 | ETA:  0:00:05
-Adding changed files:  10% |###                                 | ETA:  0:00:05
-Adding changed files:  11% |####                                | ETA:  0:00:05
-Adding changed files:  12% |####                                | ETA:  0:00:04
-Adding changed files:  13% |####                                | ETA:  0:00:04
-Adding changed files:  14% |#####                               | ETA:  0:00:05
-Adding changed files:  15% |#####                               | ETA:  0:00:05
-Adding changed files:  16% |######                              | ETA:  0:00:04
-Adding changed files:  17% |######                              | ETA:  0:00:04
-Adding changed files:  19% |######                              | ETA:  0:00:04
-Adding changed files:  20% |#######                             | ETA:  0:00:04
-Adding changed files:  21% |#######                             | ETA:  0:00:04
-Adding changed files:  22% |########                            | ETA:  0:00:04
-Adding changed files:  23% |########                            | ETA:  0:00:04
-Adding changed files:  24% |########                            | ETA:  0:00:04
-Adding changed files:  25% |#########                           | ETA:  0:00:04
-Adding changed files:  26% |#########                           | ETA:  0:00:04
-Adding changed files:  28% |##########                          | ETA:  0:00:04
-Adding changed files:  29% |##########                          | ETA:  0:00:04
-Adding changed files:  30% |##########                          | ETA:  0:00:04
-Adding changed files:  31% |###########                         | ETA:  0:00:04
-Adding changed files:  32% |###########                         | ETA:  0:00:04
-Adding changed files:  33% |############                        | ETA:  0:00:04
-Adding changed files:  34% |############                        | ETA:  0:00:04
-Adding changed files:  35% |############                        | ETA:  0:00:04
-Adding changed files:  37% |#############                       | ETA:  0:00:04
-Adding changed files:  38% |#############                       | ETA:  0:00:03
-Adding changed files:  39% |##############                      | ETA:  0:00:03
-Adding changed files:  40% |##############                      | ETA:  0:00:03
-Adding changed files:  41% |##############                      | ETA:  0:00:03
-Adding changed files:  42% |###############                     | ETA:  0:00:03
-Adding changed files:  43% |###############                     | ETA:  0:00:03
-Adding changed files:  44% |################                    | ETA:  0:00:03
-Adding changed files:  45% |################                    | ETA:  0:00:03
-Adding changed files:  47% |################                    | ETA:  0:00:03
-Adding changed files:  48% |#################                   | ETA:  0:00:03
-Adding changed files:  49% |#################                   | ETA:  0:00:03
-Adding changed files:  50% |##################                  | ETA:  0:00:03
-Adding changed files:  51% |##################                  | ETA:  0:00:03
-Adding changed files:  52% |##################                  | ETA:  0:00:03
-Adding changed files:  53% |###################                 | ETA:  0:00:03
-Adding changed files:  54% |###################                 | ETA:  0:00:02
-Adding changed files:  56% |####################                | ETA:  0:00:02
-Adding changed files:  57% |####################                | ETA:  0:00:02
-Adding changed files:  58% |####################                | ETA:  0:00:02
-Adding changed files:  59% |#####################               | ETA:  0:00:02
-Adding changed files:  60% |#####################               | ETA:  0:00:02
-Adding changed files:  61% |######################              | ETA:  0:00:02
-Adding changed files:  62% |######################              | ETA:  0:00:02
-Adding changed files:  63% |#######################             | ETA:  0:00:02
-Adding changed files:  65% |#######################             | ETA:  0:00:02
-Adding changed files:  66% |#######################             | ETA:  0:00:02
-Adding changed files:  67% |########################            | ETA:  0:00:02
-Adding changed files:  68% |########################            | ETA:  0:00:02
-Adding changed files:  69% |#########################           | ETA:  0:00:02
-Adding changed files:  70% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  72% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  75% |###########################         | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:01
-Adding changed files:  77% |###########################         | ETA:  0:00:01
-Adding changed files:  78% |############################        | ETA:  0:00:01
-Adding changed files:  79% |############################        | ETA:  0:00:01
-Adding changed files:  80% |#############################       | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  82% |#############################       | ETA:  0:00:01
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:06
-WARNING: Command 'git rebase 4f13d883c920249300a2cf6bfe478570d172feb7' failed:
-First, rewinding head to replay your work on top of it...
-Applying: FindGObjectIntrospection.cmake: prefix variables obtained from pkg-config with PKG_CONFIG_SYSROOT_DIR
-Applying: When building introspection files, add CMAKE_C_FLAGS to the compiler flags.
-Applying: OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc disabling when cross-compiling
-Using index info to reconstruct a base tree...
-M	Source/cmake/OptionsGTK.cmake
-Falling back to patching base and 3-way merge...
-Auto-merging Source/cmake/OptionsGTK.cmake
-CONFLICT (content): Merge conflict in Source/cmake/OptionsGTK.cmake
-error: Failed to merge in the changes.
-Patch failed at 0003 OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc disabling when cross-compiling
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/webkitgtk
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/webkitgtk/webkitgtk_2.30.1.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -211,4 +44,98 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5294855973560362799==--
+--===============3190869139757199399==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/curl (sysroot):
+  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
+  /usr/include/curl/options.h was added
+Changes to packages/x86_64-linux/curl-native (sysroot):
+  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
+  /usr/include/curl/options.h was added
+
+--===============3190869139757199399==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-curl-upgrade-7.72.0-7.73.0.patch"
+
+From 8f0cf0baa4e6dd79d79b2c2eff70c4b8c909634a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 09:57:36 +0000
+Subject: [PATCH] curl: upgrade 7.72.0 -> 7.73.0
+
+---
+ meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} (97%)
+
+diff --git a/meta/recipes-support/curl/curl_7.72.0.bb b/meta/recipes-support/curl/curl_7.73.0.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_7.72.0.bb
+rename to meta/recipes-support/curl/curl_7.73.0.bb
+index 7d0268253d..0f26b0f1af 100644
+--- a/meta/recipes-support/curl/curl_7.72.0.bb
++++ b/meta/recipes-support/curl/curl_7.73.0.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef"
++SRC_URI[sha256sum] = "cf34fe0b07b800f1c01a499a6e8b2af548f6d0e044dca4a29d88a4bee146d131"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+-- 
+2.18.4
+
+
+--===============3190869139757199399==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/curl/curl-dbg: PKGSIZE changed from 2624780 to 2666856 (+2%)
+packages/core2-32-poky-linux/curl/curl-dbg: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-dbg: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl-dev: PKGSIZE changed from 228341 to 232569 (+2%)
+packages/core2-32-poky-linux/curl/curl-dev: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-dev: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl-doc: PKGSIZE changed from 1613704 to 1632903 (+1%)
+packages/core2-32-poky-linux/curl/curl-doc: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-doc: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl-locale: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-locale: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl-src: PKGSIZE changed from 3413429 to 3464005 (+1%)
+packages/core2-32-poky-linux/curl/curl-src: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-src: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl-staticdev: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl-staticdev: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/curl: PKGSIZE changed from 173428 to 181620 (+5%)
+packages/core2-32-poky-linux/curl/curl: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/curl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+packages/core2-32-poky-linux/curl/libcurl: PKGSIZE changed from 492972 to 501760 (+2%)
+packages/core2-32-poky-linux/curl/libcurl: PV changed from "7.72.0" to "7.73.0"
+packages/core2-32-poky-linux/curl/libcurl: PKGV changed from 7.72.0 [default] to 7.73.0 [default]
+Changes to packages/core2-32-poky-linux/curl (sysroot):
+  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
+  /usr/include/curl/options.h was added
+Changes to packages/x86_64-linux/curl-native (sysroot):
+  /usr/lib/libcurl.so.4 changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so changed symlink target from libcurl.so.4.6.0 to libcurl.so.4.7.0
+  /usr/lib/libcurl.so.4.6.0 moved to /usr/lib/libcurl.so.4.7.0
+  /usr/include/curl/options.h was added
+
+--===============3190869139757199399==--
