@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12221.1602843683193938299
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.12526.1602843683674856204
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 03:21:23 -0700
+ Fri, 16 Oct 2020 03:21:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 737D138C177C
+	by mail.yoctoproject.org (Postfix) with ESMTP id 7DDCC38C178A
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] help2man: upgrading to 1.47.16 SUCCEEDED
-Message-ID: <MADEUP.163E71D69FEA02AA.24086@lists.openembedded.org>
-X-Groupsio-MsgNum: 143438
-Content-Type: multipart/mixed; boundary="===============5426519628605800279=="
+Subject: [AUH] llvm: upgrading to 11.0.0 FAILED
+Message-ID: <MADEUP.163E71D6A6666ECA.19966@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1325295024843143568=="
 
---===============5426519628605800279==
+--===============1325295024843143568==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,53 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *help2man* to *1.47.16* has Succeeded.
+that the automatic attempt to upgrade the recipe *llvm* to *11.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-help2man-upgrade-1.47.15-1.47.16.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade llvm -V 11.0.0 -S 176249bd6732a8044d457092ed932768724a6f06
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1425 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20201016"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b491746d91f9eaa14fa97f42499e401a95856664"
+workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 553, in upgrade
+    old_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 468, in _extract_licenses
+    with open(os.path.join(srcpath, path), 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/llvm/LICENSE.TXT'
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,64 +77,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5426519628605800279==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-help2man-upgrade-1.47.15-1.47.16.patch"
-
-From ab5e2cec3039356ad518939c7ae8a5804a2b9b5b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 03:09:25 +0000
-Subject: [PATCH] help2man: upgrade 1.47.15 -> 1.47.16
-
----
- .../help2man/{help2man_1.47.15.bb => help2man_1.47.16.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/help2man/{help2man_1.47.15.bb => help2man_1.47.16.bb} (86%)
-
-diff --git a/meta/recipes-devtools/help2man/help2man_1.47.15.bb b/meta/recipes-devtools/help2man/help2man_1.47.16.bb
-similarity index 86%
-rename from meta/recipes-devtools/help2man/help2man_1.47.15.bb
-rename to meta/recipes-devtools/help2man/help2man_1.47.16.bb
-index 6ab9f6cbe7..27a15eb0e2 100644
---- a/meta/recipes-devtools/help2man/help2man_1.47.15.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.47.16.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f1ee762f001dbcd1c"
-+SRC_URI[sha256sum] = "3ef8580c5b86e32ca092ce8de43df204f5e6f714b0cd32bc6237e6cd0f34a8f4"
- 
- inherit autotools
- 
--- 
-2.18.4
-
-
---===============5426519628605800279==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/help2man/help2man-dbg: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-dbg: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man-dev: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-dev: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man-doc: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-doc: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man-doc: PKGSIZE changed from 22143 to 22148 (+0%)
-packages/core2-32-poky-linux/help2man/help2man-locale: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-locale: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man-src: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-src: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man-staticdev: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man-staticdev: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man/help2man: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man/help2man: PV changed from "1.47.15" to "1.47.16"
-packages/core2-32-poky-linux/help2man: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
-packages/core2-32-poky-linux/help2man: PV changed from "1.47.15" to "1.47.16"
-
---===============5426519628605800279==--
+--===============1325295024843143568==--
