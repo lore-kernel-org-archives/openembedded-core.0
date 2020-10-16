@@ -1,90 +1,123 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.17025.1602858500154773303
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.17092.1602858863192830718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 07:28:20 -0700
+ Fri, 16 Oct 2020 07:34:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20150623.gappssmtp.com header.s=20150623 header.b=k8VSYcgx;
- spf=pass (domain: baylibre.com, ip: 209.85.128.67, mailfrom: narmstrong@baylibre.com)
-Received: by mail-wm1-f67.google.com with SMTP id k18so3161659wmj.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 07:28:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DmtotED6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.54, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id cm24so2676871edb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 07:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=HFfGDkL53XFYCiBEhaCX0e7lSfsSpW9Ovfv7mQjalr4=;
-        b=k8VSYcgxcN5SMD1ddJhDdh6qJeEQyFo3PJUVOP1sjKpzspKtwTTaBdkYp4UpgXEO7d
-         vKNAKG7K9alNba4q7iNWj7rDVCzRljI+wpOvdS/ObSx/wB3PcJUxLFBypK8TpIltopzC
-         qbduiBmLQQDXzhe/5LeBznWbue5Pubj8iWq1eOPsV/44pY909VQu35HppGqdY9CG0R79
-         3Icv/6isgwuj5QK22nyNXWp6e9LZwnHeS8xnC2mxCOzvep9kEWcC5/XOAAhDwRMxPFoW
-         F4ls+I3ffs3YrXRnjqlDgr/BQCtsYgJfgb3TEYKBSMrCQW2sVt1SBUja7+ogLUyNWEsj
-         5lyg==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rWVJyRR2EaZQuBVXdRx33hVuP13vY0FB62f5iJfnEOk=;
+        b=DmtotED64vpNxPTwFVP67ssiniGoxobzJk2ptVcPF9/TpF5jsKKcS5q3ir7NLZiub1
+         BS/aQ8UdhnSDwpU3y9clVsIrD3o4gMpUMsFMsoiUKd+BF0LI9MSn7qWSWIN/eI420w+6
+         fzH9aL4+5Gc3DeAWoWZWnrVG2R20BrZ28vErjYvgdtqdKVYQPJRb51Ldr6/1Q46Y6BAr
+         z6NYA15PK0kZOJQeDaYogpteRy1MO+eyRiYexxelehlg95MrsfPCtykat3liv6f8oIkA
+         F24xfr3rtBPiKrTC5LTpKrmWEFGA13Q6Sem1maJ1LAxgzGCZfdCW7thi8cvIT0g+7EfB
+         UuCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=HFfGDkL53XFYCiBEhaCX0e7lSfsSpW9Ovfv7mQjalr4=;
-        b=L9iDbzf9aW4gThKOH0P0C5Zk90EB/0+csEdJwb7swCuADkzEJdZe0ll3vvfysxQLaa
-         MiNxjlbk+xdJ0Q9CgJVksIsOwBoD2/6n4jPColTM1zmBgQ2qQG3WZcN/V40jYWNS+YwT
-         ebY2W4nWKfVx9OQYGai2LsvjXpua0AMDQoe9vKqw6PDYnOyde1JsyvaAhm3Y8xRCnB1Q
-         8PLZiEGY0A/nRLsZS/Xm87OAcxACTX0BKEfqMWS/y3WvBjfT3VPpB/RXg5ooQEHcW/q5
-         wWKEKTYXGnx4UVW6u6LIWmMIzgIavAyGxv1/YUrKcku2oxURolWLZA3oR2qLaZ4v1wGe
-         3t/A==
-X-Gm-Message-State: AOAM530veyhXBgOT88wdS3126YtxbmnyQxX7poFqRo8j+MT6ibBUkX7p
-	o0s/PNwaLhAL6fmTezB0iXx6Go69LGMTDA==
-X-Google-Smtp-Source: ABdhPJwZ1wrQUfhL3q2yFgRgafXggEDLxks6kQMOaSHHOSwLPAs3rPhLwhFWKQDTil15jqfS+yQYkQ==
-X-Received: by 2002:a7b:c20e:: with SMTP id x14mr3971365wmi.76.1602858498128;
-        Fri, 16 Oct 2020 07:28:18 -0700 (PDT)
-Return-Path: <narmstrong@baylibre.com>
-Received: from localhost.localdomain ([163.172.76.58])
-        by smtp.gmail.com with ESMTPSA id i10sm3893298wrq.27.2020.10.16.07.28.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 07:28:17 -0700 (PDT)
-From: "Neil Armstrong" <narmstrong@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH] linux-firmware: add Amlogic VDEC firmware package
-Date: Fri, 16 Oct 2020 14:28:14 +0000
-Message-Id: <20201016142814.18879-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rWVJyRR2EaZQuBVXdRx33hVuP13vY0FB62f5iJfnEOk=;
+        b=kqyZjbLNPiJ2UY6eSjvCFK5f5EPOmpp5d8zs2E10cPq7PTgIWArQfZfEGPfDp0NMbZ
+         XAQqfWVIKcLe2LGFdt1dHnIlQkVuUNUOOE1Ahb3jx2FrQpQmnDutgIwnmUgSEL0fQjJD
+         ORgR1UtJ27ksCRYI7f6BHfAjoMe5+0jDulg2xExjJgDMpe+nlIfeIvGCMNLx/r9J6gvX
+         /GyRAIJjh4UmTII+CSnPjPAzzlwcPQhwtmfTueDhNjqalq85xIc6cVUNflN+00nyc42q
+         KVDK7rfFpqioE6l/H97CMmZwNpH4+keLxJtAFORMR//i9/TVI/IADNlUm9e5dklWa04z
+         6bfw==
+X-Gm-Message-State: AOAM533OrRaD+CudQTrafOIFEl9jidNryJiw+Gj6b1Llt77AYIJQfSBK
+	Zvd49LNHaMquDlqnZDb2R6v0cMJALm5wachipNXp0Q==
+X-Google-Smtp-Source: ABdhPJzMloWDiB+2cLYmrbOk4ExaV8OaEGif9fizcJ7fNk/5CBJhLZ3NEsEqYMIIVxQKd/POT7vzGA4kA72DKNBsNjg=
+X-Received: by 2002:aa7:dc12:: with SMTP id b18mr4257095edu.295.1602858861392;
+ Fri, 16 Oct 2020 07:34:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1602771116.git.steve@sakoman.com> <163E30094343B958.12811@lists.openembedded.org>
+In-Reply-To: <163E30094343B958.12811@lists.openembedded.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Fri, 16 Oct 2020 04:34:10 -1000
+Message-ID: <CAOSpxdbZ9yKWyLkALJctu5BCP77AX=PSNWuBffNa8snxMOEgjw@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 1/8] Revert "package: get_package_mapping: avoid dependency mapping if renamed package provides original name"
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add package for the Amlogic VDEC firmwares.
+I've included this revert patch for comment because I have gotten
+several requests to revert and I'd like wider discussion of the issue.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- .../linux-firmware/linux-firmware_20200817.bb             | 8 ++++++++
- 1 file changed, 8 insertions(+)
+At the moment wireguard is the only known recipe that is failing and
+there are no proposed fixes.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-index ffeb8e6926..5c9d4c3e04 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-@@ -294,6 +294,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
-              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-+             ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-              ${PN}-whence-license \
-              ${PN}-license \
-              "
-@@ -881,6 +882,12 @@ RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
- 
- FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
- 
-+# For Amlogic VDEC
-+LICENSE_${PN}-amlogic-vdec = "Firmware-amlogic_vdec"
-+FILES_${PN}-amlogic-vdec-license = "${nonarch_base_libdir}/firmware/LICENSE.amlogic_vdec"
-+FILES_${PN}-amlogic-vdec = "${nonarch_base_libdir}/firmware/meson/vdec/*"
-+RDEPENDS_${PN}-amlogic-vdec = "${PN}-amlogic-vdec-license"
-+
- # For other firmwares
- # Maybe split out to separate packages when needed.
- LICENSE_${PN} = "\
-@@ -888,6 +895,7 @@ LICENSE_${PN} = "\
-     & Firmware-agere \
-     & Firmware-amdgpu \
-     & Firmware-amd-ucode \
-+    & Firmware-amlogic_vdec \
-     & Firmware-atmel \
-     & Firmware-ca0132 \
-     & Firmware-cavium \
--- 
-2.17.1
+If you are aware of recipes in other layers that are affected, please
+let me know.
 
+And if someone would like to tackle fixing wireguard in
+meta-openembedded that would be much preferred to a revert.
+
+Thanks!
+
+Steve
+
+On Thu, Oct 15, 2020 at 4:15 AM Steve Sakoman via
+lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+wrote:
+>
+> Breaks wireguard
+>
+> This reverts commit 210ebed1e9c2285d6e457bf03d1f1a1f3ddc7fda.
+>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/classes/package.bbclass | 16 +++-------------
+>  1 file changed, 3 insertions(+), 13 deletions(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index cc64ddffc3..23ff4772fa 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -535,7 +535,7 @@ def copydebugsources(debugsrcdir, sources, d):
+>  # Package data handling routines
+>  #
+>
+> -def get_package_mapping (pkg, basepkg, d, depversions=None):
+> +def get_package_mapping (pkg, basepkg, d):
+>      import oe.packagedata
+>
+>      data = oe.packagedata.read_subpkgdata(pkg, d)
+> @@ -546,14 +546,6 @@ def get_package_mapping (pkg, basepkg, d, depversions=None):
+>          if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+>              and data[key] == basepkg:
+>              return pkg
+> -        if depversions == []:
+> -            # Avoid returning a mapping if the renamed package rprovides its original name
+> -            rprovkey = "RPROVIDES_%s" % pkg
+> -            if rprovkey in data:
+> -                if pkg in bb.utils.explode_dep_versions2(data[rprovkey]):
+> -                    bb.note("%s rprovides %s, not replacing the latter" % (data[key], pkg))
+> -                    return pkg
+> -        # Do map to rewritten package name
+>          return data[key]
+>
+>      return pkg
+> @@ -574,10 +566,8 @@ def runtime_mapping_rename (varname, pkg, d):
+>
+>      new_depends = {}
+>      deps = bb.utils.explode_dep_versions2(d.getVar(varname) or "")
+> -    for depend, depversions in deps.items():
+> -        new_depend = get_package_mapping(depend, pkg, d, depversions)
+> -        if depend != new_depend:
+> -            bb.note("package name mapping done: %s -> %s" % (depend, new_depend))
+> +    for depend in deps:
+> +        new_depend = get_package_mapping(depend, pkg, d)
+>          new_depends[new_depend] = deps[depend]
+>
+>      d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
+> --
+> 2.17.1
+>
+>
+> 
+>
