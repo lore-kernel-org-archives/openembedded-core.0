@@ -1,99 +1,168 @@
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.75])
- by mx.groups.io with SMTP id smtpd.web10.8117.1602824357206725579
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web10.8950.1602828975232260502
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 21:59:17 -0700
+ Thu, 15 Oct 2020 23:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=D6KC1Kxv;
- spf=pass (domain: windriver.com, ip: 40.107.76.75, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K0HLa94kwmv8IR9olVQIZBoFzyV/xNEWR+zIN1TMYFx2pS81fWPsEPBdMLDnVb79wPgSZrIEo48nWgM16pWegdRpX7iEhA2HdintaCDH63BpAK/Wmy9s6gNLImibXB1vmuS2WcSByauiG3ZQ6c3yUfjEJeiM0kxLI8TVqayiV0K3YRQ/8hhtjpQ2jqKgse8lpYaOEJ2ZcdwV1gAZSr8v6QeVao9b6MVz7W9A9hYChrEFT1PVlQOUb7o0Mos8hqY1A8POKjRUpmCqmx22sdZWmuv6XctyXSn+8il5i/AvnFS/VLkELZBwftPOmdwF5Qpn5H4CZ7dhVn1z1yOk/2joXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SvGtjDHKq8WU/r8RxJvyHuSQ2PBlplbuJbEtdpklATY=;
- b=YqpzB5649Ha/nI00rQSRxa/M1E+NzA9ep5sUbnP9raemTfssPfw1izN2SvSYX0HRavE6v4IqpDXpA2wp9FdMFLxuThPxOK9fdvUY6Gtvvr41UypVzpJNJEvz2HC6bPNDd7e8ffbZ9Oix2UTtsQQ9M5YHQ5fy2dnflX+9aGtvwnhgov/WDV5vE/eHu0VE/2DFC5pX7XmEVmZwfFHUJXKtheF2H9/wqjqjiv4I6tHZGAf7LDZQLbnCRbbSDM4jEi7o4DZwABNzpQoBJPKI1r+tnqteSrFUn2bQhbEfUdcLQSh1XjM+w1qQI1dxv5Y4nTGB76VoubskB1gJS5y11OLZUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GKe6tI+U;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id z33so971714qth.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 23:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SvGtjDHKq8WU/r8RxJvyHuSQ2PBlplbuJbEtdpklATY=;
- b=D6KC1KxvS/zf8Pctz22hZ+/+giJTpPnN1dd4dUQDSQFUCdWeEOQ2EiO5Q2Cl3qBfM0WdnsEZLh+N8suH2DLfCSY8pWAoAn4gyY7MDiRicnBGN6ng6iY3+EFMJIFxVnznDBPzwqZIkKZnQvir+x9sUqz594MbBNu/L7BOGGkQods=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Fri, 16 Oct
- 2020 04:59:15 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::4c97:65e4:a822:4cc1]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::4c97:65e4:a822:4cc1%7]) with mapi id 15.20.3455.031; Fri, 16 Oct 2020
- 04:59:15 +0000
-From: "Chen Qi" <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V2] cups: use /run instead /var/run in systemd's unit file
-Date: Fri, 16 Oct 2020 12:58:56 +0800
-Message-Id: <20201016045856.5659-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR06CA0017.apcprd06.prod.outlook.com
- (2603:1096:202:2e::29) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0iYGSXesapmmfckhxuqe6V6kLKxgkDKpyt+n5bOm1V8=;
+        b=GKe6tI+UBnrtgQb5XvAOkzki9aHR2nYstIAfBrP7TcENhYsJZ8/BtqkGiv2RjbcUFh
+         sdBqDhm01jVkZGi7+o1NN1GU72L8+jegE5tQjO9UFfopd4INwoIitk16u2jsaf6OGllX
+         NlwD2w3S9axsj2LoY5zx3UncTQ1caGVCFpUb32mPm2DG9Sy8l7plNZdAlQJXLdW/agEH
+         zxURvADkTwA5PFw92BNUZO62CBeYX2bMHp6GTj30ROGSp5+8OAI/eNbfoYyBFlDsWxdL
+         6/O0QJEk8Lwlmka5SrYAUc3Qx59aiW/eogQj15q6yGVv5uWATclRJLDWaWnC8/ZuErgH
+         8SgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0iYGSXesapmmfckhxuqe6V6kLKxgkDKpyt+n5bOm1V8=;
+        b=FjRx9UddhAkQ/0RCHSfGz+80SV1DaChYVdRnJDkU4o9psvuHPOVPevNaJ/GR0UL8v8
+         Z5S85+6OuU5lWGAHsNQL3bj+nYHgK+aiu0Ab/FfoEystO8zwrmjSvLKJ6hkrPQW8lxkT
+         nhvmmMHo/JVO+aHHP13h26DcmZ+9SZTnf6YaBgntxshpw97nDEN0+K6CxYPqOI8voVB4
+         qa+2qVoW8H5pTOLOqv5iZ3geXendJEmCM0BPlts1pZURmKaNnu00yzOoPiYjDfM2wGyW
+         8BeRZ7U+77KxdsdWL6oWmVc9FwpaZYPdJbI2B6GIOTy06y/oL2JhFpw7uBCktPJFz220
+         BE3g==
+X-Gm-Message-State: AOAM530NGydkntcSyZK1Q0ClEdTreZSrqxu2SaNE793r+I3Wz5uzwo9H
+	+07jbuGXyRPiOZ8ATZdF9nXH4mgnKYYH6GiH6/c=
+X-Google-Smtp-Source: ABdhPJzlxFFgZxXHTkcoSw8XkvmPMD+USYMXNTkh1fNwji2+ZScVRyZA00ztBEBFSGAAqzCz2dqCB+yZcFncVJB3EHw=
+X-Received: by 2002:ac8:3975:: with SMTP id t50mr1933735qtb.53.1602828974194;
+ Thu, 15 Oct 2020 23:16:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK2PR06CA0017.apcprd06.prod.outlook.com (2603:1096:202:2e::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20 via Frontend Transport; Fri, 16 Oct 2020 04:59:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9d3e7ca-0b39-4e82-1502-08d871903a8b
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:
-X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB4845239ECFE118E30BF914C0ED030@SJ0PR11MB4845.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:439;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ICZYbsmipl2TlEw2YGcAt33zrcgUBeBt0aCuYJsZNnIgjDVdTuKCbtBn9EwrOTo2guQqE6OOo+rLYGTN88ZLMWmsEpZdZXpoqOoRJI6muZmDKZa/veYgKFDFlgYyEKQAVwD3fuAH+WOCG08gaqMIkd0y8qpZnvKhWjyNNp84ZtY/Aq2yi1oI2Eode36ddvGHmDdGeok1kEQ9XhCrmIJdGzM6bV9I36XMQzLTE/WA7sFanMn3wWWduY7Cx8lAxIoHdEuZ6zqaZ1t3a84+pAKTniE+mpFgeeSxqSy6Qj8r2zx1bB/em5GIw8NgEHdN3qy+M9iJwgSOBv2PnW2uYvoIkfZL16EaOf66+PS6sjeG2GIiwU1RjSjxF3ZCjt0hy5W9
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(396003)(366004)(136003)(39850400004)(6486002)(2906002)(36756003)(34490700002)(2616005)(5660300002)(6506007)(1076003)(52116002)(86362001)(956004)(66946007)(4744005)(6916009)(16526019)(186003)(26005)(66556008)(316002)(6512007)(6666004)(478600001)(8676002)(8936002)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	5BoNINBhO4XiJAibZf4GprezvucDe+NeKtQn0JP8N/aNvUWEnpg+KzooQCCsB0IGLk87lEK90JVf+c/Q6bjtQ6ofrslZ8cRcoX1/pvAw3sEwZj6bmtw4aVY6FkshY/BRCQ3oo/XhX90GPK7DzQOVzYO0XKawEyncwOUKhN0DWSnuXoKrnGL53D+nnPPXl6WybJrUIxwSXdyvVpxcUk7hWsqMl4LPzKOQ+sojeiuuVPxqnRBda6KCXuAAw9TKGmd3QOktNClhMRf5vjbnLuq5QbANhN79yj1NKkD895QUmjr6FRH2ozpslu77P9GaYB0nrURsGF7X8Ygwg4AdM2t8Y9e+i+aOsVg45qLKnshkQbCJTIuHxmTAMsdHElEnLK1nVSFIZ0opRAHKpHa5jOcCQlsZt7rKBmQmf4jnx5zPjyc2l2MGidF1ZipT4/BGV1dj0HmO6P4O7uQlEg86F/nTaol9nJxb/VhlcHq5l8w1a5MBf/9mp7LGMChxwUS5a3VA12HRNDsZKIDwKpym9GtntWW4ZTEuqJyDiE5AThMyTxA06FK5Ddp9O5IuCulV94chI8e2N1OhbFb8aAWx9g43S2bC6AKsUCzqVpG4GggBILFLvIvGYn7WlJ2PwSeZpYo6hQe/PY76WkNlCbptl2OLHQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9d3e7ca-0b39-4e82-1502-08d871903a8b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2020 04:59:14.8505
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4TyvDTbB5A+GiN0+rlLSBIKk/ZmJg7ahaUdV9bcA0960ZhQYhgrQHr2x/NK3cLLN57d3007FKKl4iceH0lzyMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4845
-Content-Type: text/plain
+References: <20201013144426.888835-1-stacy.gaikovaia@windriver.com>
+In-Reply-To: <20201013144426.888835-1-stacy.gaikovaia@windriver.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 15 Oct 2020 23:15:47 -0700
+Message-ID: <CAMKF1spc2tkSxzj1DKwZne8_Q0_2Sef9gqfAToahYLq-ow8P5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] valgrind: drd: fix pthread intercept test failures
+To: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-/var/run has been deprecated by systemd, so use /run instead,
-as suggested by systemd.
+I think this is failing builds on musl see [1]
+perhaps you also need to check for __GLIBC__
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/cups/cups.inc | 1 +
- 1 file changed, 1 insertion(+)
+http://errors.yoctoproject.org/Errors/Details/509767/
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 1765944568..87870e4aba 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -47,6 +47,7 @@ EXTRA_OECONF = " \
-                --enable-debug \
-                --disable-relro \
-                --enable-libusb \
-+               --with-domainsocket=/run/cups/cups.sock \
-                DSOFLAGS='${LDFLAGS}' \
-                "
- 
--- 
-2.17.1
-
+On Tue, Oct 13, 2020 at 7:44 AM Stacy Gaikovaia
+<Stacy.Gaikovaia@windriver.com> wrote:
+>
+> From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+>
+> After glibc uprev 2.31 -> 2.32, the following drd ptests
+> fail with the error "condition variable has not been initialized".
+>
+> drd/tests/annotate_hb_err
+> drd/tests/annotate_sem
+> drd/tests/annotate_rwlock
+> drd/tests/annotate_order_2
+> drd/tests/annotate_smart_pointer
+> drd/tests/annotate_spinlock
+> drd/tests/monitor_example
+> drd/tests/pth_cond_race
+> drd/tests/pth_inconsistent_cond_wait
+>
+> In glibc 2.32, the POSIX thread functions are in both
+> libc and libpthread, causing valgrind to misinterpert
+> test behaviour. This patch tells valgrind to intercept
+> both the libc and the libpthread functions, resolving
+> these ptest failures.
+>
+> Here are the latest test results on qemux86-64:
+> === Test Summary ===
+> TOTAL: 728
+> PASSED: 688
+> FAILED: 1
+> SKIPPED: 39
+>
+> The failed test is in helgrind:
+> FAIL: helgrind/tests/pth_destroy_cond
+>
+> Patch can be removed once we uprev valgrind.
+> See valgrind commit 15330adf7c2471fbaa6a0818db07078d81dbff97.
+>
+> Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+> ---
+>  .../valgrind/0001-drd-Port-to-Fedora-33.patch | 48 +++++++++++++++++++
+>  .../valgrind/valgrind_3.16.1.bb               |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+> new file mode 100644
+> index 0000000000..37f6ea667d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
+> @@ -0,0 +1,48 @@
+> +From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001
+> +From: Bart Van Assche <bvanassche@acm.org>
+> +Date: Sat, 19 Sep 2020 08:08:59 -0700
+> +Subject: [PATCH] drd: Port to Fedora 33
+> +
+> +Apparently on Fedora 33 the POSIX thread functions exist in both libc and
+> +libpthread. Hence this patch that intercepts the pthread functions in
+> +libc. See also https://bugs.kde.org/show_bug.cgi?id=426144 .
+> +
+> +Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> +
+> +This patch was imported from the valgrind sourceware server
+> +(https://sourceware.org/git/?p=valgrind.git;a=commit;h=15330adf7c2471fbaa6a0818db07078d81dbff97)
+> +It was modified to remove the changes to the valgrind NEWS file,
+> +as these are difficult to maintain and don't impact the valgrind
+> +code itself.
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
+> +---
+> + drd/drd_pthread_intercepts.c | 9 +++++++++
+> + 1 file changed, 10 insertions(+)
+> +
+> +diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
+> +index 58c45aaec..c2882e5ab 100644
+> +--- a/drd/drd_pthread_intercepts.c
+> ++++ b/drd/drd_pthread_intercepts.c
+> +@@ -174,7 +174,16 @@ static int never_true;
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
+> +    { return implf argl; }
+> + #else
+> ++/*
+> ++ * On Linux, intercept both the libc and the libpthread functions. At
+> ++ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthread
+> ++ * functions in both libc and libpthread. Older glibc versions only have an
+> ++ * implementation of the pthread functions in libpthread.
+> ++ */
+> + #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
+> ++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
+> ++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
+> ++   { return implf argl; }                                               \
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
+> +    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
+> +    { return implf argl; }
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> index d4ca1a7752..7508098b55 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+> @@ -40,6 +40,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+>             file://s390x_vec_op_t.patch \
+>             file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+>             file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+> +           file://0001-drd-Port-to-Fedora-33.patch \
+>             "
+>  SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
+>  SRC_URI[sha256sum] = "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
+> --
+> 2.25.1
+>
+>
+> 
+>
