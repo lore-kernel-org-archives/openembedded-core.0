@@ -1,82 +1,111 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.12514.1602843974622474798
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.12755.1602845655908697796
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 03:26:14 -0700
+ Fri, 16 Oct 2020 03:54:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q+b+5fz6;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a3so2330274ejy.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:26:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SeGaUzrJ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d6so1049420plo.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eDIVRORszsT5c3I4LKdZtkAUYXCN9Mv53yG+Nc6sQ2o=;
-        b=Q+b+5fz6KY1uuBqDHABf+CxA4sAYW99Sid8jXQ9g7WLuIeq5JmGyyson9VaLDyBkyj
-         2pShNMB69P+XniMh0641kTj7qXmOe0UhF3TQR52ppUcsYfw6j5Ox4sIVKhlsLuYjMFKD
-         HNZuYL15/gUHiHCcGhD7F26+r92d0+ZGZMEECLrwIRxZMowYaO6cZGE2HW+xvjmS/E7F
-         yHUWhUyvViRpqY4VCMFjaVxR0D27eFN9MHQ/GTETkwyPLBeG8Hc6RzorpuyBSGmSn16O
-         hNWjrd1Pu7hGs+l05mOx0+a6Kdx0uEZ2duSuS0OVN0eR43NFxMQv18Kh8+IhsuyXTbh6
-         HCIA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5TbN6eErbPCh2qIo2HYXqNZJvX8rFvKxzDEY8AVBfhE=;
+        b=SeGaUzrJlh7wcE6h031m90o2mxCyUogiYzUOVwnb7sLrBmKQDBYmjbbSVRQfZz1ET2
+         2dmxGyH7c+ArF0VzCJgloDXE4XfuYiIUY3bmHRxXib7PbW2BqwO9XiPCdP6RemXLrcpl
+         SSu2Ieho5Cpx0jYb+qdwi2+pGRWa9EIj6+Z1nMDwIP/x9inREYoXalfgy3ykSAbywUPj
+         Q8E7eR4NzBITzQf+w5420slXdOTH/wAJwccLy+XkaI95Og+6V6fp1jTsQ7HTIjFa6IT1
+         vLQPkXzXN3VClkzynwgwyqK3ehNjQjULHPrpJvu8w06iYMFNsOI7NxAc7lTJj3oL1Xw1
+         49Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eDIVRORszsT5c3I4LKdZtkAUYXCN9Mv53yG+Nc6sQ2o=;
-        b=Q3n5hCXmpm2gCKH70ZBkVkZreh/2hPsIx/WmRp6fCtIWzlgYlEaRhCAcGwBIk+hquH
-         ShRBg8xZ8p1ItjPdOt1G/8q4af8xDQFF8k3kny+R3DgxUlK85vHhBElMAZp92CL5wVBh
-         P1cHp+MCEa4U3fbF4gBs2zoO9vtM8hjNNwqTvwoJIl91ZmdEINLr4gHUuXtXi0MzIh+w
-         UND+5FHMaobpKQa93pfcCFR4GtLyOnzfEqXi/v9tUg73ihYrSIaMy7JOvtdc+OtWQTYT
-         cUKA8S2pWAY4AEb0LNffRfuPl+vDWegxKkLOS6Pi4JKohaZRRiA41wrxb0UAgVNgeRfd
-         Fa3A==
-X-Gm-Message-State: AOAM530awIdu873q75GsGiMh1FNt2Nic44UYBH50K4vnpKP+CQ5Y2Xpy
-	/R2alwa8I8nVJ6wbWzCxVJQ4akNllM0=
-X-Google-Smtp-Source: ABdhPJxQjoNuaRkHZUBcHftvu7FaNBtOaoq68lwuWR2naA3eX3XzySVxHrkNExC7LThcRNR/s/3VAg==
-X-Received: by 2002:a17:907:42a6:: with SMTP id nf6mr3025074ejb.69.1602843972880;
-        Fri, 16 Oct 2020 03:26:12 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id r24sm1068526eds.67.2020.10.16.03.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 03:26:12 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH][RFC] tune-supersparc.inc: remove
-Date: Fri, 16 Oct 2020 12:26:10 +0200
-Message-Id: <20201016102610.914048-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5TbN6eErbPCh2qIo2HYXqNZJvX8rFvKxzDEY8AVBfhE=;
+        b=mf0ymbAaDK/BbpqPlHZTLTgKFDKBzmX1OhCaPkTGHQpKpnAhuY1dA85HcNZ1EomYG5
+         oybZWoWFIjBnwAD/law06zs+oeluHSCpoEh9EKt3aDpDDSI8C4/XcBdHq7bgHpxcFGVX
+         g/gNDEANKv8DFa1MVwmxUTHhPI8k4LROU0EJuWsf+oOJuaqq5gvZjPX+QZzIHgOewYHw
+         zqJed6UQv4ornWCKFMXn5NyyKOOVfYT+VsQVi4G2SXjNt7xJEd+G9gAJLjlG9Bhu7+EN
+         8xEGvFe9dGAnG/UTFoW7FDU74rExaCp83jNP2kRdpysUIt1+ZHo6p+pJp4adb23dLSqY
+         vYLA==
+X-Gm-Message-State: AOAM532L2bqZn9Gt32q0b89Rwz6kp/ZQ/zJN5JBG/u8Jv+9oWkzp+EMM
+	uH5KB4o20EQR2eTFeRePZSOtsZ3sJRrn9MfxEF0=
+X-Google-Smtp-Source: ABdhPJwObPXjiSuUPd0NJgiS3nMHqbaTtMTSP5XMw72kiLS+apDjRuHUTE3o5Cl0+nxjbdGASm6i6WzAyhQDwZ1efGE=
+X-Received: by 2002:a17:902:b601:b029:d3:e6c5:5112 with SMTP id
+ b1-20020a170902b601b02900d3e6c55112mr3423902pls.65.1602845655383; Fri, 16 Oct
+ 2020 03:54:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201015200842.18834-1-idadelm@gmail.com> <c17959f4b0ac63d56b7b8d2c76d69af8025ae677.camel@linuxfoundation.org>
+In-Reply-To: <c17959f4b0ac63d56b7b8d2c76d69af8025ae677.camel@linuxfoundation.org>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Fri, 16 Oct 2020 12:54:03 +0200
+Message-ID: <CALbNGRSw_-9XwrsXWt462MeccFKiFCzmVYT4ESLBcitkpFC4Eg@mail.gmail.com>
+Subject: Re: [OE-core] [poky][PATCH v4] Update license file to match current SPDX names
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Meh Mbeh Ida Delphine <idadelm@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-* it doesn't seem actively used
+On Fri, Oct 16, 2020 at 10:42 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2020-10-15 at 21:08 +0100, Meh Mbeh Ida Delphine wrote:
+> > Updated mappings of license fields of meta/conf/licenses.conf to
+> > match latest SPDX naming.
+> > Added missing mappings.
+> > Renamed license files that were added in license mappings eg from
+> > GPL-2.0 to GPL-2.0-only.
+Is this intended to go into gatesgarth? As we see from the follow-up
+fixes: This is an incompatible change at feature freeze time.
+Asking this because up to this point I was happy that all my layers
+are working fine on dunfell and master(gatesgarth).
 
-* last change in this file was:
-  commit 3a3c69a1bc3cf0b6f6a3b13d86c12ed21798d48e
-  Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-  Date:   Fri Jul 22 15:13:03 2011 +0100
-
-    conf/machine/include: Set TUNE_CCARGS instead of TARGET_CC_ARCH
-
-  but it was probably broken long before that
-
-* it was never migrated to use DEFAULTTUNE mechanism, currently failing with:
-  scripts/tune/log.fake-supersparc:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE}} fake_supersparc) for DEFAULTTUNE (None) does not contain TUNE_PKGARCH (supersparc).Toolchain tunings invalid:
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/tune-supersparc.inc | 4 ----
- 1 file changed, 4 deletions(-)
- delete mode 100644 meta/conf/machine/include/tune-supersparc.inc
-
-diff --git a/meta/conf/machine/include/tune-supersparc.inc b/meta/conf/machine/include/tune-supersparc.inc
-deleted file mode 100644
-index 0faa361f18..0000000000
---- a/meta/conf/machine/include/tune-supersparc.inc
-+++ /dev/null
-@@ -1,4 +0,0 @@
--TUNE_ARCH = "sparc"
--
--TUNE_CCARGS = "-mcpu=supersparc"
--TUNE_PKGARCH = "supersparc"
+Andreas
+> >
+> > Fixes: [YOCTO #13320]
+> >
+> > Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
+> > ---
+> >
+> > Changes in V4:
+> >  * Renamed license files that were added in license mappings eg from
+> > GPL-2.0 to GPL-2.0-only
+> >
+> > Changes in V3:
+> >  * Added missing mappings to meta/conf/licenses.conf
+> >
+> > Changes in V2:
+> >  * Corrected the email subject line.
+>
+> You've sent several versions of this (v5 and v6) however this is the
+> version which is in my view the most correct at the moment. If we do
+> anything with the "or-later" files or variables, it should be in a
+> separate patch to this one.
+>
+> I did put this patch (the v4) in for testing on the autobuilder. As I
+> suspected and hinted at in the previous email, it failed:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2606
+>
+> (see step1b and the errors).
+>
+> Basically the issue is references to the license files you (correctly)
+> renamed. We need to update those references. There look to be three
+> problematic references:
+>
+> step1b: ERROR: sysvinit-inittab-2.88dsf-r10 do_populate_lic: QA Issue: sysvinit-inittab: LIC_FILES_CHKSUM points to an invalid file: /home/pokybuild/yocto-worker/beaglebone/build/meta/files/common-licenses/GPL-2.0 [license-checksum]
+> step1b: ERROR: sysvinit-inittab-2.88dsf-r10 do_populate_lic: Fatal QA errors found, failing task.
+> step1b: ERROR: connman-conf-1.0-r2 do_populate_lic: QA Issue: connman-conf: LIC_FILES_CHKSUM points to an invalid file: /home/pokybuild/yocto-worker/beaglebone/build/meta/files/common-licenses/GPL-2.0 [license-checksum]
+> step1b: ERROR: connman-conf-1.0-r2 do_populate_lic: Fatal QA errors found, failing task.
+> step1b: ERROR: make-mod-scripts-1.0-r0 do_populate_lic: QA Issue: make-mod-scripts: LIC_FILES_CHKSUM points to an invalid file: /home/pokybuild/yocto-worker/beaglebone/build/meta/files/common-licenses/GPL-2.0 [license-checksum]
+> step1b: ERROR: make-mod-scripts-1.0-r0 do_populate_lic: Fatal QA errors found, failing task.
+>
+>
+> Cheers,
+>
+> Richard
+>
+>
+> 
+>
