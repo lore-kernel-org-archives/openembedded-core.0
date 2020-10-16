@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.12422.1602843683509209864
+ by mx.groups.io with SMTP id smtpd.web11.12219.1602843682980813705
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 03:21:26 -0700
+ Fri, 16 Oct 2020 03:21:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 7E24B38C174E
+	by mail.yoctoproject.org (Postfix) with ESMTP id 6EDDC38C16CA
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.12.3 FAILED
-Message-ID: <MADEUP.163E71D71E59317C.21580@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0315084118211619486=="
+Subject: [AUH] libxkbcommon: upgrading to 1.0.1 SUCCEEDED
+Message-ID: <MADEUP.163E71D706A6D5A4.13247@lists.openembedded.org>
+X-Groupsio-MsgNum: 143478
+Content-Type: multipart/mixed; boundary="===============5547230465985936674=="
 
---===============0315084118211619486==
+--===============5547230465985936674==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,118 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-modules* to *2.12.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libxkbcommon* to *1.0.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libxkbcommon-upgrade-0.10.0-1.0.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe lttng-modules failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1511 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20201016"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0b6072557ca45ebd91ea16a5d5661a648606e404"
-workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://lttng.org/files/lttng-modules/lttng-modules-2.12.3.tar.bz2...
-Loading cache...done.
-Loaded 1511 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 786 .bb files complete (784 cached, 2 parsed). 1357 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.47.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.1+snapshot-20201016"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0b6072557ca45ebd91ea16a5d5661a648606e404"
-workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase f5cf149a09a8dad61287714e0f61a3a4cce33da4' failed:
-First, rewinding head to replay your work on top of it...
-Applying: Makefile: Do not fail if CONFIG_TRACEPOINTS is not enabled
-Applying: BUILD_RUNTIME_BUG_ON vs gcc7
-Applying: Kconfig: fix dependency issue when building in-tree without CONFIG_FTRACE
-Using index info to reconstruct a base tree...
-M	Kconfig
-Falling back to patching base and 3-way merge...
-No changes -- Patch already applied.
-Applying: fix: Move mmutrace.h into the mmu/ sub-directory (v5.9)
-Using index info to reconstruct a base tree...
-M	probes/lttng-probe-kvm-x86-mmu.c
-Falling back to patching base and 3-way merge...
-Auto-merging probes/lttng-probe-kvm-x86-mmu.c
-CONFLICT (content): Merge conflict in probes/lttng-probe-kvm-x86-mmu.c
-error: Failed to merge in the changes.
-Patch failed at 0004 fix: Move mmutrace.h into the mmu/ sub-directory (v5.9)
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-
---2020-10-16 09:22:19--  http://downloads.yoctoproject.org/mirror/sources/git2_git.lttng.org.lttng-modules.tar.gz
-Resolving downloads.yoctoproject.org (downloads.yoctoproject.org)... 172.29.10.13
-Connecting to downloads.yoctoproject.org (downloads.yoctoproject.org)|172.29.10.13|:80... connected.
-HTTP request sent, awaiting response... 404 Not Found
-2020-10-16 09:22:19 ERROR 404: Not Found.
-
-Cloning into bare repository '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.lttng.org.lttng-modules'...
-remote: Enumerating objects: 15780, done.        
-remote: Counting objects: 100% (15780/15780), done.        
-remote: Compressing objects: 100% (6024/6024), done.        
-remote: Total 15780 (delta 11708), reused 13411 (delta 9595)        
-Receiving objects: 100% (15780/15780), 2.95 MiB | 5.68 MiB/s, done.
-Resolving deltas: 100% (11708/11708), done.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/lttng-modules
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/lttng-modules/lttng-modules_2.12.3.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -142,4 +44,112 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0315084118211619486==--
+--===============5547230465985936674==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 700124 to 1015060 (+45%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: RRECOMMENDS: added "wayland-dbg libxml2-dbg"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: RRECOMMENDS: added "libxml2-dev"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: FILELIST: added "/usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/bin/xkbcli /usr/libexec/xkbcommon/xkbcli-interactive-wayland /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/libexec/xkbcommon/xkbcli-list /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-how-to-type"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 0 to 6947 (+100%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: FILELIST: added "/usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/bin/xkbcli /usr/libexec/xkbcommon/xkbcli-interactive-wayland /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/libexec/xkbcommon/xkbcli-list /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-how-to-type"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: FILELIST: added "/usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/bin/xkbcli /usr/libexec/xkbcommon/xkbcli-interactive-wayland /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/libexec/xkbcommon/xkbcli-list /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-how-to-type"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1182821 to 1415265 (+20%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: FILELIST: added "/usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/bin/xkbcli /usr/libexec/xkbcommon/xkbcli-interactive-wayland /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/libexec/xkbcommon/xkbcli-list /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-how-to-type"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 318162 to 477317 (+50%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: RDEPENDS: added "libxml2 (['>= 2.9.10']) wayland (['>= 1.18.0'])"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: FILELIST: added "/usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/bin/xkbcli /usr/libexec/xkbcommon/xkbcli-interactive-wayland /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/libexec/xkbcommon/xkbcli-list /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-how-to-type"
+Changes to packages/core2-32-poky-linux/libxkbcommon (sysroot):
+  /usr/include/xkbcommon/xkbregistry.h was added
+  /usr/lib/libxkbregistry.so.0.0.0 was added
+  /usr/lib/libxkbregistry.so.0 was added
+  /usr/lib/libxkbregistry.so was added
+  /usr/lib/pkgconfig/xkbregistry.pc was added
+  /usr/share was added
+
+--===============5547230465985936674==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libxkbcommon-upgrade-0.10.0-1.0.1.patch"
+
+From a4b24d27a8a3d1bb41b8a17af5b8fd136ed2f00a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 09:11:58 +0000
+Subject: [PATCH] libxkbcommon: upgrade 0.10.0 -> 1.0.1
+
+---
+ .../xorg-lib/{libxkbcommon_0.10.0.bb => libxkbcommon_1.0.1.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.10.0.bb => libxkbcommon_1.0.1.bb} (88%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+index 16d9c36eae..4ef20b0721 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+@@ -9,8 +9,7 @@ DEPENDS = "util-macros flex-native bison-native"
+ 
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "2d9ad3a46b317138b5e72a91cf105451"
+-SRC_URI[sha256sum] = "57c3630cdc38fb4734cd57fa349e92244f5ae3862813e533cedbd86721a0b6f2"
++SRC_URI[sha256sum] = "ab68b25341c99f2218d7cf3dad459c1827f411219901ade05bbccbdb856b6c8d"
+ 
+ UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
+ 
+-- 
+2.18.4
+
+
+--===============5547230465985936674==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libxkbcommon: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: RRECOMMENDS: added "wayland-dbg libxml2-dbg"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 700124 to 1015060 (+45%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: RRECOMMENDS: added "libxml2-dev"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 307316 to 335062 (+9%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 0 to 6947 (+100%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1182821 to 1415265 (+20%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PV changed from "0.10.0" to "1.0.1"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: RDEPENDS: added "libxml2 (['>= 2.9.10']) wayland (['>= 1.18.0'])"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-list /usr/libexec/xkbcommon/xkbcli-interactive-evdev /usr/libexec/xkbcommon/xkbcli-compile-keymap /usr/libexec/xkbcommon/xkbcli-how-to-type /usr/bin/xkbcli /usr/lib/libxkbregistry.so.0.0.0 /usr/libexec/xkbcommon/xkbcli-interactive-x11 /usr/lib/libxkbregistry.so.0 /usr/libexec/xkbcommon/xkbcli-interactive-wayland"
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 318162 to 477317 (+50%)
+packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 0.10.0 [default] to 1.0.1 [default]
+Changes to packages/core2-32-poky-linux/libxkbcommon (sysroot):
+  /usr/include/xkbcommon/xkbregistry.h was added
+  /usr/lib/libxkbregistry.so.0.0.0 was added
+  /usr/lib/libxkbregistry.so.0 was added
+  /usr/lib/libxkbregistry.so was added
+  /usr/lib/pkgconfig/xkbregistry.pc was added
+  /usr/share was added
+
+--===============5547230465985936674==--
