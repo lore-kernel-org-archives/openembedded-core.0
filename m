@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.12420.1602843683161759980
+ by mx.groups.io with SMTP id smtpd.web11.12222.1602843683341884250
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 07ECE38C162F
+	by mail.yoctoproject.org (Postfix) with ESMTP id 35AE138C17BF
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:23 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sudo: upgrading to 1.9.3p1 SUCCEEDED
-Message-ID: <MADEUP.163E71D6CF7A5586.21580@lists.openembedded.org>
-X-Groupsio-MsgNum: 143456
-Content-Type: multipart/mixed; boundary="===============7814734542207855306=="
+Subject: [AUH] gtk+3: upgrading to 3.24.23 SUCCEEDED
+Message-ID: <MADEUP.163E71D6D2466A7B.13247@lists.openembedded.org>
+X-Groupsio-MsgNum: 143457
+Content-Type: multipart/mixed; boundary="===============4884532831218361245=="
 
---===============7814734542207855306==
+--===============4884532831218361245==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sudo* to *1.9.3p1* has Succeeded.
+that the automatic attempt to upgrade the recipe *gtk+3* to *3.24.23* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sudo-upgrade-1.9.3-1.9.3p1.patch
+    - apply the patch: git am 0001-gtk-3-upgrade-3.24.22-3.24.23.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,136 +44,377 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7814734542207855306==
+--===============4884532831218361245==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/gtk+3 (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so.0.2404.18 moved to /usr/lib/libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0.2404.18 moved to /usr/lib/libgtk-3.so.0.2404.19
+Changes to packages/x86_64-linux/gtk+3-native (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so.0.2404.18 moved to /usr/lib/libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0.2404.18 moved to /usr/lib/libgtk-3.so.0.2404.19
+
+--===============4884532831218361245==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-sudo-upgrade-1.9.3-1.9.3p1.patch"
+ filename="0001-gtk-3-upgrade-3.24.22-3.24.23.patch"
 
-From a018a172ceb9370743040bc02d883fc3d548c790 Mon Sep 17 00:00:00 2001
+From 7630e227d678e36011b460151372b5f1a1bea3ed Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 06:24:50 +0000
-Subject: [PATCH] sudo: upgrade 1.9.3 -> 1.9.3p1
+Date: Fri, 16 Oct 2020 07:23:36 +0000
+Subject: [PATCH] gtk+3: upgrade 3.24.22 -> 3.24.23
 
 ---
- meta/recipes-extended/sudo/{sudo_1.9.3.bb => sudo_1.9.3p1.bb} | 2 +-
+ meta/recipes-gnome/gtk+/{gtk+3_3.24.22.bb => gtk+3_3.24.23.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.3.bb => sudo_1.9.3p1.bb} (95%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.22.bb => gtk+3_3.24.23.bb} (89%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.3.bb b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
-similarity index 95%
-rename from meta/recipes-extended/sudo/sudo_1.9.3.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.3p1.bb
-index 270625ebe8..08a0fa03a3 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.3.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
-@@ -6,7 +6,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.23.bb
+similarity index 89%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.23.bb
+index 6af2bd94c1..338b7030e1 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.22.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.23.bb
+@@ -8,7 +8,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://link_fribidi.patch \
+            "
+-SRC_URI[sha256sum] = "bf18a4a5dff28a7b02aaef1b949c2d09c96c18387eddab152bb4cd55a5b67dda"
++SRC_URI[sha256sum] = "5d864d248357a2251545b3387b35942de5f66e4c66013f0962eb5cb6f8dae2b1"
  
- PAM_SRC_URI = "file://sudo.pam"
+ S = "${WORKDIR}/gtk+-${PV}"
  
--SRC_URI[sha256sum] = "1d9889cc3b3b15ed8c2c7c3de3aa392a3a726838d020815067c080525c3f5837"
-+SRC_URI[sha256sum] = "dcb9de53e45e1c39042074b847f5e0d8ae1890725dd6a9d9101a81569e6eb49e"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.18.4
 
 
---===============7814734542207855306==
+--===============4884532831218361245==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sudo: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-dbg: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-dbg: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-dbg: PKGSIZE changed from 3495360 to 3497232 (+0%)
-packages/core2-32-poky-linux/sudo/sudo-dev: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-dev: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-doc: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-doc: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-doc: PKGSIZE changed from 633341 to 634034 (+0%)
-packages/core2-32-poky-linux/sudo/sudo-locale-ast: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ast: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-ca: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ca: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-cs: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-cs: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-da: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-da: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-de: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-de: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-el: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-el: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-eo: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-eo: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-es: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-es: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-eu: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-eu: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-fi: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-fi: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-fr: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-fr: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-fur: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-fur: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-gl: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-gl: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-hr: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-hr: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-hu: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-hu: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-it: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-it: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-ja: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ja: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-ko: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ko: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-lt: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-lt: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-nb: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-nb: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-nl: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-nl: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-nn: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-nn: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-pl: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-pl: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-pt: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-pt: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-ro: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ro: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-ru: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-ru: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-sk: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-sk: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-sl: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-sl: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-sr: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-sr: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-sv: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-sv: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-tr: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-tr: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-uk: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-uk: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-vi: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-vi: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-src: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-src: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo-src: PKGSIZE changed from 2271422 to 2272073 (+0%)
-packages/core2-32-poky-linux/sudo/sudo-staticdev: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo-staticdev: PV changed from "1.9.3" to "1.9.3p1"
-packages/core2-32-poky-linux/sudo/sudo: PKGV changed from 1.9.3 [default] to 1.9.3p1 [default]
-packages/core2-32-poky-linux/sudo/sudo: PV changed from "1.9.3" to "1.9.3p1"
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PKGSIZE changed from 23536608 to 23539764 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-demo: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-demo: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PKGSIZE changed from 14252599 to 14253054 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-doc: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-doc: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-af: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-af: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-am: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-am: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-an: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-an: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ang: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ang: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ar: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ar: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-as: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-as: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ast: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ast: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az-ir: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az-ir: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be+latin: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be+latin: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bg: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bg: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn-in: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn-in: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-br: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-br: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bs: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bs: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca+valencia: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca+valencia: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ckb: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ckb: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-crh: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-crh: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cs: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cs: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cy: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cy: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-da: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-da: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-de: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-de: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-dz: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-dz: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-el: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-el: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en+shaw: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en+shaw: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-ca: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-ca: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-gb: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-gb: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eo: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eo: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-es: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-es: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-et: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-et: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eu: PKGSIZE changed from 318233 to 318382 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eu: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eu: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fa: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fa: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fi: PKGSIZE changed from 221392 to 222540 (+1%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fi: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fi: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fur: PKGSIZE changed from 159225 to 171816 (+8%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fur: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fur: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ga: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ga: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gd: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gd: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gl: PKGSIZE changed from 321063 to 321524 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gl: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gl: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gu: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gu: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-he: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-he: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hi: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hi: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hr: PKGSIZE changed from 309799 to 309936 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PKGSIZE changed from 320847 to 321239 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hy: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hy: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ia: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ia: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-id: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-id: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-io: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-io: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-is: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-is: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-it: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-it: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ja: PKGSIZE changed from 272008 to 273568 (+1%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ja: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ja: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ka: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ka: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kg: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kg: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-km: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-km: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kn: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kn: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ko: PKGSIZE changed from 317591 to 317970 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ko: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ko: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ku: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ku: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ky: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ky: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lg: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lg: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-li: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-li: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lt: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lt: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lv: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lv: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mai: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mai: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mi: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mi: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ml: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ml: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mn: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mn: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ms: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ms: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-my: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-my: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nb: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nb: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nds: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nds: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ne: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ne: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PKGSIZE changed from 314358 to 314764 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nn: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nn: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nso: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nso: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-oc: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-oc: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-or: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-or: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pa: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pa: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pl: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pl: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ps: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ps: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt-br: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt-br: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt: PKGSIZE changed from 296689 to 318107 (+7%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ro: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ro: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ru: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ru: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-rw: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-rw: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-si: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-si: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sl: PKGSIZE changed from 310297 to 310445 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sl: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sl: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sq: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sq: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+ije: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+ije: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+latin: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+latin: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr: PKGSIZE changed from 382823 to 383015 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sv: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sv: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ta: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ta: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-te: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-te: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tg: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tg: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-th: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-th: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tt: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tt: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ug: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ug: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ur: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ur: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz+cyrillic: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz+cyrillic: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-vi: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-vi: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-wa: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-wa: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-xh: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-xh: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-yi: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-yi: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-cn: PKGSIZE changed from 270936 to 279969 (+3%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-cn: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-cn: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-hk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-hk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-tw: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-tw: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PKGSIZE changed from 67288884 to 67305985 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3-staticdev: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-staticdev: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk+3: PKGSIZE changed from 11280940 to 11281100 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-am-et: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-am-et: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cedilla: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cedilla: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cyrillic-translit: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cyrillic-translit: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-inuktitut: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-inuktitut: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ipa: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ipa: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-multipress: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-multipress: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-thai: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-thai: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-er: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-er: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-et: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-et: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-viqr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-viqr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-wayland: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-wayland: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-xim: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-xim: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-file: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-file: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-lpr: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-lpr: PV changed from "3.24.22" to "3.24.23"
+packages/core2-32-poky-linux/gtk+3: PKGV changed from 3.24.22 [default] to 3.24.23 [default]
+packages/core2-32-poky-linux/gtk+3: PV changed from "3.24.22" to "3.24.23"
+Changes to packages/core2-32-poky-linux/gtk+3 (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so.0.2404.18 moved to /usr/lib/libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0.2404.18 moved to /usr/lib/libgtk-3.so.0.2404.19
+Changes to packages/x86_64-linux/gtk+3-native (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.18 to libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.18 to libgtk-3.so.0.2404.19
+  /usr/lib/libgdk-3.so.0.2404.18 moved to /usr/lib/libgdk-3.so.0.2404.19
+  /usr/lib/libgtk-3.so.0.2404.18 moved to /usr/lib/libgtk-3.so.0.2404.19
 
---===============7814734542207855306==--
+--===============4884532831218361245==--
