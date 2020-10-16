@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.12420.1602843683161759980
+ by mx.groups.io with SMTP id smtpd.web12.12523.1602843683226428071
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8A11538C1793
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8243738C178D
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-numpy: upgrading to 1.19.2 SUCCEEDED
-Message-ID: <MADEUP.163E71D69907D383.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143435
-Content-Type: multipart/mixed; boundary="===============7471249506593935337=="
+Subject: [AUH] meson: upgrading to 0.55.3 SUCCEEDED
+Message-ID: <MADEUP.163E71D69CFE2367.19966@lists.openembedded.org>
+X-Groupsio-MsgNum: 143436
+Content-Type: multipart/mixed; boundary="===============5676919589729862052=="
 
---===============7471249506593935337==
+--===============5676919589729862052==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-numpy* to *1.19.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *meson* to *0.55.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-numpy-upgrade-1.19.1-1.19.2.patch
+    - apply the patch: git am 0001-meson-upgrade-0.55.1-0.55.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,158 +44,113 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7471249506593935337==
+--===============5676919589729862052==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info
-  /usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd was added
+Changes to packages/core2-32-poky-linux/meson (sysroot):
+  /usr/lib/python3.8/site-packages/meson-0.55.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/meson-0.55.3-py3.8.egg-info
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.8/site-packages/meson-0.55.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/meson-0.55.3-py3.8.egg-info
 
---===============7471249506593935337==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-numpy-upgrade-1.19.1-1.19.2.patch"
-
-From 436039d965e7581e8ebde95e548a06ba8617b6b9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 04:13:29 +0000
-Subject: [PATCH] python3-numpy: upgrade 1.19.1 -> 1.19.2
-
----
- .../python-numpy/python-numpy.inc             |  4 +-
- .../python-numpy/python3-numpy_1.19.1.bb      |  3 --
- .../python-numpy/python3-numpy_1.19.2.bb      | 43 +++++++++++++++++++
- 3 files changed, 45 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
- create mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
-
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-index 0113f4098d..f91fb933dc 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-@@ -1,14 +1,14 @@
- SUMMARY = "A sophisticated Numeric Processing Package for Python"
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=643d4e90100b7abe468c4db88127b895"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e527e2a94c4584cd192d03ffb1f4a744"
- 
- SRCNAME = "numpy"
- 
- SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            "
--SRC_URI[sha256sum] = "1396e6c3d20cbfc119195303b0272e749610b7042cc498be4134f013e9a3215c"
-+SRC_URI[sha256sum] = "74d0cf50aa28af81874aca3e67560945afd783b2a006913577d6cddc35a824a6"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
-deleted file mode 100644
-index d388e88d25..0000000000
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.1.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--inherit setuptools3
--require python-numpy.inc
--
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
-new file mode 100644
-index 0000000000..d512eb5041
---- /dev/null
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.2.bb
-@@ -0,0 +1,43 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.txt
-+# +++ LICENSE.txt
-+# @@ -35,22 +35,22 @@
-+#  
-+#  Name: Numpydoc
-+#  Files: doc/sphinxext/numpydoc/*
-+# -License: 2-clause BSD
-+# +License: BSD-2-Clause
-+#    For details, see doc/sphinxext/LICENSE.txt
-+#  
-+#  Name: scipy-sphinx-theme
-+#  Files: doc/scipy-sphinx-theme/*
-+# -License: 3-clause BSD, PSF and Apache 2.0
-+# +License: BSD-3-Clause AND PSF-2.0 AND Apache-2.0
-+#    For details, see doc/scipy-sphinx-theme/LICENSE.txt
-+#  
-+#  Name: lapack-lite
-+#  Files: numpy/linalg/lapack_lite/*
-+# -License: 3-clause BSD
-+# +License: BSD-3-Clause
-+#    For details, see numpy/linalg/lapack_lite/LICENSE.txt
-+#  
-+#  Name: tempita
-+#  Files: tools/npy_tempita/*
-+# -License: BSD derived
-+# +License: MIT
-+#    For details, see tools/npy_tempita/license.txt
-+#  
-+#  Name: dragon4
-+# 
-+#
-+
-+inherit setuptools3
-+require python-numpy.inc
-+
--- 
-2.18.4
-
-
---===============7471249506593935337==
+--===============5676919589729862052==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-numpy: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 26773972 to 26761720 (-0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 17537242 to 17178319 (-2%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGSIZE changed from 254474 to 254470 (-0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info -> /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info, added "/usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 26446795 to 26471723 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PV changed from "1.19.1" to "1.19.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGV changed from 1.19.1 [default] to 1.19.2 [default]
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.8/site-packages/numpy-1.19.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/numpy-1.19.2-py3.8.egg-info
-  /usr/lib/python3.8/site-packages/numpy/__init__.cython-30.pxd was added
+packages/core2-32-poky-linux/meson: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-dbg: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-dbg: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-dev: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-dev: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-doc: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-doc: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-doc: PKGSIZE changed from 5343 to 5346 (+0%)
+packages/core2-32-poky-linux/meson/meson-locale: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-locale: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-src: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-src: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson-staticdev: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson-staticdev: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson: PV changed from "0.55.1" to "0.55.3"
+packages/core2-32-poky-linux/meson/meson: PKGV changed from 0.55.1 [default] to 0.55.3 [default]
+packages/core2-32-poky-linux/meson/meson: PKGSIZE changed from 4500388 to 4509462 (+0%)
+Changes to packages/core2-32-poky-linux/meson (sysroot):
+  /usr/lib/python3.8/site-packages/meson-0.55.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/meson-0.55.3-py3.8.egg-info
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.8/site-packages/meson-0.55.1-py3.8.egg-info moved to /usr/lib/python3.8/site-packages/meson-0.55.3-py3.8.egg-info
 
---===============7471249506593935337==--
+--===============5676919589729862052==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-meson-upgrade-0.55.1-0.55.3.patch"
+
+From 4b3b0aedc7f52a745825eb5dcb877913fb8f0b09 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 03:50:17 +0000
+Subject: [PATCH] meson: upgrade 0.55.1 -> 0.55.3
+
+---
+ meta/recipes-devtools/meson/meson.inc                         | 2 +-
+ .../meson/meson/0001-Make-CPU-family-warnings-fatal.patch     | 4 ++--
+ .../meson/0002-Support-building-allarch-recipes-again.patch   | 2 +-
+ .../meson/{meson_0.55.1.bb => meson_0.55.3.bb}                | 0
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_0.55.1.bb => meson_0.55.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 004189e36e..aed7414b78 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,7 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+            file://0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch \
+            "
+-SRC_URI[sha256sum] = "3b5741f884e04928bdfa1947467ff06afa6c98e623c25cef75adf71ca39ce080"
++SRC_URI[sha256sum] = "6bed2a25a128bbabe97cf40f63165ebe800e4fcb46db8ab7ef5c2b5789f092a5"
+ 
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index fbc03b8ca0..f030ef1b1c 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From 9311844b6c422479556e83b89a8e675ebcb2056c Mon Sep 17 00:00:00 2001
++From 0476b0ff0310b2d9e06bbdb8fc6e25a4a134d5b9 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -25,7 +25,7 @@ index 219b62e..d1be65b 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index bf09a88..8eabe78 100644
++index 4e002be..4af5bbe 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+ @@ -375,9 +375,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index 2d804740ad..0409c5767e 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From 38f59e256f760aa959c13f4c5713f87ff7addee5 Mon Sep 17 00:00:00 2001
++From 9fb6b5745e5569e4be7a7a49d96da250b3a620f5 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_0.55.1.bb b/meta/recipes-devtools/meson/meson_0.55.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/meson_0.55.1.bb
+rename to meta/recipes-devtools/meson/meson_0.55.3.bb
+-- 
+2.18.4
+
+
+--===============5676919589729862052==--
