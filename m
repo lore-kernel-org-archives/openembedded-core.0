@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12224.1602843683507617570
+ by mx.groups.io with SMTP id smtpd.web10.12421.1602843683351804404
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 94ECC38C17AA
+	by mail.yoctoproject.org (Postfix) with ESMTP id 96AF938C17B6
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hwlatdetect: upgrading to 1.9 SUCCEEDED
-Message-ID: <MADEUP.163E71D744AB9101.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143495
-Content-Type: multipart/mixed; boundary="===============3575127800039287198=="
+Subject: [AUH] rt-tests: upgrading to 1.9 FAILED
+Message-ID: <MADEUP.163E71D746A32B93.13247@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8824171549748164698=="
 
---===============3575127800039287198==
+--===============8824171549748164698==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,66 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *hwlatdetect* to *1.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *rt-tests* to *1.9* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-hwlatdetect-upgrade-1.1-1.9.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe rt-tests failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1512 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20201016"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:56fb0aea4410297878a037f5f27156d7d3605e0a"
+workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+WARNING: Command 'git rebase 21c1df7d2ee199ac619cbb1806a38d15e7e95c09' failed:
+First, rewinding head to replay your work on top of it...
+Applying: gzip with -n for build reproducibilty
+Using index info to reconstruct a base tree...
+M	Makefile
+Falling back to patching base and 3-way merge...
+Auto-merging Makefile
+CONFLICT (content): Merge conflict in Makefile
+error: Failed to merge in the changes.
+Patch failed at 0001 gzip with -n for build reproducibilty
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/rt-tests
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/rt-tests/rt-tests_1.9.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,81 +90,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3575127800039287198==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-doc: PKGSIZE changed from 1998 to 0 (-100%)
-Changes to packages/core2-32-poky-linux/hwlatdetect (sysroot):
-  /usr/share was removed
-
---===============3575127800039287198==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-hwlatdetect-upgrade-1.1-1.9.patch"
-
-From db9a17e376d48e4e67175c04eac6ffe4f5b8ea4b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 09:34:42 +0000
-Subject: [PATCH] hwlatdetect: upgrade 1.1 -> 1.9
-
----
- .../rt-tests/{hwlatdetect_1.1.bb => hwlatdetect_1.9.bb}       | 0
- meta/recipes-rt/rt-tests/rt-tests.inc                         | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-rt/rt-tests/{hwlatdetect_1.1.bb => hwlatdetect_1.9.bb} (100%)
-
-diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb b/meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb
-similarity index 100%
-rename from meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
-rename to meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 6e3afafce4..5093211b1d 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,8 +1,8 @@
- # Version 1.1
--SRCREV = "dff174f994f547a5785d32454865f140daacb0f5"
-+SRCREV = "21c1df7d2ee199ac619cbb1806a38d15e7e95c09"
- PE = "1"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git"
-+SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
- # 1.2 and up seem to be development versions
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.[2-8])(\d+(\.\d+)+))"
- 
--- 
-2.18.4
-
-
---===============3575127800039287198==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-dbg: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-dbg: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-dev: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-dev: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-doc: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-doc: PKGSIZE changed from 1998 to 0 (-100%)
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-doc: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-locale: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-locale: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-src: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-src: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-staticdev: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect-staticdev: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect: PV changed from "1.1" to "1.9"
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect: PKGSIZE changed from 19666 to 20499 (+4%)
-packages/core2-32-poky-linux/hwlatdetect/hwlatdetect: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect: PKGV changed from 1.1 [default] to 1.9 [default]
-packages/core2-32-poky-linux/hwlatdetect: PV changed from "1.1" to "1.9"
-Changes to packages/core2-32-poky-linux/hwlatdetect (sysroot):
-  /usr/share was removed
-
---===============3575127800039287198==--
+--===============8824171549748164698==--
